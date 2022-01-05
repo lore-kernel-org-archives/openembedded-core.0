@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D72DC433FE
-	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 15:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFA3C433F5
+	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 15:19:24 +0000 (UTC)
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
  by mx.groups.io with SMTP id smtpd.web12.1720.1641395941760702382
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jan 2022 07:19:22 -0800
+ Wed, 05 Jan 2022 07:19:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=IkX6RnhV;
+ header.b=OOEdlAmC;
  spf=pass (domain: intel.com, ip: 192.55.52.88,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641395962; x=1672931962;
+  t=1641395964; x=1672931964;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=RomS84L8Lhee+DGoX345mHW6JtencMsY/eK94Z9756k=;
-  b=IkX6RnhVZKJkn2RXTWPW84PSQHgmZpgToCVESMewMniy6YYChaxEWcDd
-   D1UXzgEAvqjzFVVXs3R1IWpgs3AjW0epjnuOY9UUHUk4xucrCmEmFrJcb
-   yLFlQERtOXO4mdl2nxw4kU4hgPh82JuKWClVL2yiAu/1iUM30CCmfmwbB
-   ayhG518xpiCwuWGy7XWDMNQrsx5/TDLf9lp3Cy7JvG4VB3S4O89k25ziJ
-   FvHAPp1+LCw8FLd/uX7nyk1I+zAG2HONVmG/GpSfG62ZCkUltB5dCdx+p
-   fI0W+x29YglWRo1tuLTRkaA9xSo4lU0kZ9W7BRhLxoIhz9lcZpoSLhvuc
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266742833"
+  bh=3Hngvv0DAQgLv0LDcXjNzRGlR6BZCVBfhHWl2WUxPkE=;
+  b=OOEdlAmCAiktdItEGN6w23zjLyMwtYmWmz4Qlta7FgWcbRL+2bB8c9EV
+   wYeS8yEhqhCENMkNLnHNSaZHEgF/WNAStaWovRZXGhPoxstmo7np3TNX5
+   2O3VEoy5e356DD7fsOZQ6OXFSm4OAHBZhsPrJatlXMM5XBYJFlD461OXJ
+   YY9DBDBK0Z1YQuXu53IckIrEY36ocsiyHb1U0zDpbmJHFntGRoBt7MsNK
+   O5aaNCcgKd4dtl1IGykMmnE4oMfM/mrSccGJjggw/NU4HGicRJPcAiAu+
+   0i8txEcwJrKRt8S9uoiCAcsBSCV6OzwMt9J/fs0xZFchgq5U3bBaZIo2z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266742838"
 X-IronPort-AV: E=Sophos;i="5.88,264,1635231600";
-   d="scan'208";a="266742833"
+   d="scan'208";a="266742838"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 07:19:22 -0800
+ 05 Jan 2022 07:19:23 -0800
 X-IronPort-AV: E=Sophos;i="5.88,264,1635231600";
-   d="scan'208";a="668128671"
+   d="scan'208";a="668128679"
 Received: from hanwenlx-mobl1.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.129.44])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 07:19:21 -0800
+ 05 Jan 2022 07:19:22 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 14/24] linux-yocto/5.4: update to v5.4.167
-Date: Wed,  5 Jan 2022 23:18:34 +0800
+Subject: [hardknott][PATCH 15/24] xserver-xorg: fix CVE-2021-4008
+Date: Wed,  5 Jan 2022 23:18:35 +0800
 Message-Id: 
- <e36fce9da011049e25ffbb198ed420e610d78cca.1641395036.git.anuj.mittal@intel.com>
+ <e975b1741209e298c3b6a5b101c93e1c17dbced6.1641395036.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1641395036.git.anuj.mittal@intel.com>
 References: <cover.1641395036.git.anuj.mittal@intel.com>
@@ -52,134 +52,101 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 15:19:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 15:19:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160199
+ https://lists.openembedded.org/g/openembedded-core/message/160200
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+Backport patch to fix CVE-2021-4008 for xserver-xorg.
 
-e8ef940326ef Linux 5.4.167
-c97579584fa8 arm: ioremap: don't abuse pfn_valid() to check if pfn is in RAM
-6026d4032dbb arm: extend pfn_valid to take into account freed memory map alignment
-492f4d3cde95 memblock: ensure there is no overflow in memblock_overlaps_region()
-bdca964781a0 memblock: align freed memory map on pageblock boundaries with SPARSEMEM
-60111b30be0b memblock: free_unused_memmap: use pageblock units instead of MAX_ORDER
-3e8e272805e7 hwmon: (dell-smm) Fix warning on /proc/i8k creation error
-f6f1d1911492 bpf: Fix integer overflow in argument calculation for bpf_map_area_alloc
-b06b1f46306a selinux: fix race condition when computing ocontext SIDs
-2fb8e4267c47 KVM: x86: Ignore sparse banks size for an "all CPUs", non-sparse IPI req
-467359957ad2 tracing: Fix a kmemleak false positive in tracing_map
-fb8cd2b336e4 drm/amd/display: add connector type check for CRC source set
-8fc2f28e3348 drm/amd/display: Fix for the no Audio bug with Tiled Displays
-c0315e93552e net: netlink: af_netlink: Prevent empty skb by adding a check on len.
-7ff666e6fdc0 i2c: rk3x: Handle a spurious start completion interrupt flag
-409ecd029ac5 parisc/agp: Annotate parisc agp init functions with __init
-4233fbd459ac net/mlx4_en: Update reported link modes for 1/10G
-b6158d968b3e drm/msm/dsi: set default num_data_lanes
-d731ecc6f2ea nfc: fix segfault in nfc_genl_dump_devices_done
-c32c40ff8092 Linux 5.4.166
-eb1b5eaaddec netfilter: selftest: conntrack_vrf.sh: fix file permission
+CVE: CVE-2021-4008
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit ebfe803e9545b862416e3a647c7a5e19e9c6acbd)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../xserver-xorg/CVE-2021-4008.patch          | 59 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_1.20.10.bb      |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index f4b3aa114a..8922c0622d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
+new file mode 100644
+index 0000000000..3277be0185
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
+@@ -0,0 +1,59 @@
++Backport patch to fix CVE-2021-4008.
++
++CVE: CVE-2021-4008
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/ebce7e2]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From ebce7e2d80e7c80e1dda60f2f0bc886f1106ba60 Mon Sep 17 00:00:00 2001
++From: Povilas Kanapickas <povilas@radix.lt>
++Date: Tue, 14 Dec 2021 15:00:03 +0200
++Subject: [PATCH] render: Fix out of bounds access in
++ SProcRenderCompositeGlyphs()
++
++ZDI-CAN-14192, CVE-2021-4008
++
++This vulnerability was discovered and the fix was suggested by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Povilas Kanapickas <povilas@radix.lt>
++---
++ render/render.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/render/render.c b/render/render.c
++index c376090ca..456f156d4 100644
++--- a/render/render.c
+++++ b/render/render.c
++@@ -2309,6 +2309,9 @@ SProcRenderCompositeGlyphs(ClientPtr client)
++ 
++         i = elt->len;
++         if (i == 0xff) {
+++            if (buffer + 4 > end) {
+++                return BadLength;
+++            }
++             swapl((int *) buffer);
++             buffer += 4;
++         }
++@@ -2319,12 +2322,18 @@ SProcRenderCompositeGlyphs(ClientPtr client)
++                 buffer += i;
++                 break;
++             case 2:
+++                if (buffer + i * 2 > end) {
+++                    return BadLength;
+++                }
++                 while (i--) {
++                     swaps((short *) buffer);
++                     buffer += 2;
++                 }
++                 break;
++             case 4:
+++                if (buffer + i * 4 > end) {
+++                    return BadLength;
+++                }
++                 while (i--) {
++                     swapl((int *) buffer);
++                     buffer += 4;
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
+index e0551fa999..9a7aa1ed9a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
+@@ -9,6 +9,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
+            file://CVE-2021-3472.patch \
+            file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch \
++           file://CVE-2021-4008.patch \
+            "
+ SRC_URI[sha256sum] = "977420c082450dc808de301ef56af4856d653eea71519a973c3490a780cb7c99"
  
--SRCREV_machine ?= "6a419217887717ae815e47990c4f50540e4486f0"
--SRCREV_meta ?= "c9027edfa2919e0148ba12d56afa7c5a797aad10"
-+SRCREV_machine ?= "2bddc20729f986e46ba5b802fa6ce8716ee34506"
-+SRCREV_meta ?= "ff304dbaec03398dc510602800b19d28b7c82927"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.165"
-+LINUX_VERSION ?= "5.4.167"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 0f97913ebf..a2db551ccb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.165"
-+LINUX_VERSION ?= "5.4.167"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "de76f2a485fb6c73e3978b0138f756afb22e4db4"
--SRCREV_machine ?= "74fb33c678e2cf4cfbf9c6aa3e1fe6b019d10a5e"
--SRCREV_meta ?= "c9027edfa2919e0148ba12d56afa7c5a797aad10"
-+SRCREV_machine_qemuarm ?= "e8825a1df3d08af26acf8fc2ddb140c40aa233f4"
-+SRCREV_machine ?= "b9dbced11f660908cec12d5e1339bbff0ac28d59"
-+SRCREV_meta ?= "ff304dbaec03398dc510602800b19d28b7c82927"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 2b0466789e..78479b37e7 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "abbd99315753c7f8bde10fb6ac5b31d5ab7cdcd6"
--SRCREV_machine_qemuarm64 ?= "ab4c88e094069467cdb4e7d7bbac303e5039bc9f"
--SRCREV_machine_qemumips ?= "b52f600f9157b8107e5318d61f43007efb99c02c"
--SRCREV_machine_qemuppc ?= "5b3b062a7c87b3265274da81dcf675596b90d65b"
--SRCREV_machine_qemuriscv64 ?= "c232ad04fa15d324714799b90b9c4810a5dbe1bc"
--SRCREV_machine_qemux86 ?= "c232ad04fa15d324714799b90b9c4810a5dbe1bc"
--SRCREV_machine_qemux86-64 ?= "c232ad04fa15d324714799b90b9c4810a5dbe1bc"
--SRCREV_machine_qemumips64 ?= "b0057ef25af45fda6ae3ae9274cab8c248b4a70b"
--SRCREV_machine ?= "c232ad04fa15d324714799b90b9c4810a5dbe1bc"
--SRCREV_meta ?= "c9027edfa2919e0148ba12d56afa7c5a797aad10"
-+SRCREV_machine_qemuarm ?= "6669d1a2f103a3275306cde2486a0c133ab288a4"
-+SRCREV_machine_qemuarm64 ?= "0727e136f0c04aac28ee442d1a5b208d41021c00"
-+SRCREV_machine_qemumips ?= "ec2a556c8c4bea3c26d85d9097fcb7bc37d9b470"
-+SRCREV_machine_qemuppc ?= "dc1f229c713f712f3e29a8f3a20e45120aeccf2a"
-+SRCREV_machine_qemuriscv64 ?= "6244469059318276e2ffca54f85ecd3d13cd6756"
-+SRCREV_machine_qemux86 ?= "6244469059318276e2ffca54f85ecd3d13cd6756"
-+SRCREV_machine_qemux86-64 ?= "6244469059318276e2ffca54f85ecd3d13cd6756"
-+SRCREV_machine_qemumips64 ?= "ec66f75ec62c5b2f576b98dcfd7dc870643590da"
-+SRCREV_machine ?= "6244469059318276e2ffca54f85ecd3d13cd6756"
-+SRCREV_meta ?= "ff304dbaec03398dc510602800b19d28b7c82927"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.165"
-+LINUX_VERSION ?= "5.4.167"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
 -- 
 2.33.1
 
