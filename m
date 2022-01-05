@@ -2,46 +2,53 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FC4C433EF
-	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 06:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3C7C433F5
+	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 06:03:11 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
  [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.3561.1641362530286568484
+ by mx.groups.io with SMTP id smtpd.web09.3423.1641362590445249783
  for <openembedded-core@lists.openembedded.org>;
- Tue, 04 Jan 2022 22:02:10 -0800
+ Tue, 04 Jan 2022 22:03:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=VnyVHXTo;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=U7umFes4;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.178.238,
  mailfrom: prvs=80041a28b6=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 2055w4rd028049
-	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jan 2022 06:02:09 GMT
+ 2055st9s022239
+	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jan 2022 06:03:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=R48t17GKmLu5tbiWHdDBqZx7THpZ5rzy6Zlq5cnCukg=;
- b=VnyVHXTomz4NO3mB2+MeGPaKXvx9pVDC5t8bJoUBmyOBQhSCRlQIMIjA8K0pKrQKbnFD
- yMr3I+N47gGIBre7hyp4m29kUI8XBmJimGHDHp90O3AYfEvbY+kzNrNvhsa6l+EnSfue
- /y3E7Wjiy6Iwy/bdjEE+g0LgCs3/qBAkZsJqlXPdmOU0rxw7LC0VW6vm699JxV1TTmZO
- u5hb5gNvc12jZNNskEIiS1yRygNReCMS7UR5iB8y4EMhPFr9Ot7x7XKquS5SpBepW+gw
- 2XfXjgT13YPOQ8BWdSCZdeDe3Kuv4qGeuhUog1CkdYPZVKi3223soeGWUJpid07JquTe vg==
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dc5309258-1
+ h=subject : to : cc
+ : references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=a8IcqVqM76mzo465WvgC0ohfXQin2vGZvdzoJJSoH5Y=;
+ b=U7umFes4iSGxNY9CInZrOZFztO2c1Tsln3bknDaKChQYBO+FdTR6Z7nXBzuoQJYFvp9A
+ npFFuFeV6k3HxACzXGxOj+Rudq3U0TJdkEMwmAD+9Lv4c7Hr2c3BCIXnfXsVgBYbX2aI
+ 1W9pqC3MmeqGjgUKYUUP7L3x44s0qWXcmi8PT1RO6v3HVax2+D6KLvLDQs2uSBVREZnG
+ KFJOS7PdCZ4tR9ZHUlamkMOld+tZw81P1yt7QdQlpqzlL+edJDm1sAiTbXWrfMKWVBw9
+ IFdziyGsG7rKcf0RnhfAtyJTNlq/BJe5pCYJV9S76+ziAjWuPgE82MJyFhs2EwNSrHn/ oQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dc21yh5vt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jan 2022 06:02:09 +0000
+ Wed, 05 Jan 2022 06:03:09 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 205638xI007421
+	for <openembedded-core@lists.openembedded.org>; Wed, 5 Jan 2022 06:03:09 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dc21yh5vr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Jan 2022 06:03:08 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F5H9nQfq0W1ePKe+ovKGhAyPHwoSctGkks6fpqRj+tTccfIjEz1C0xWOZK9jkZadJh7BbRwegp987qLV4juRlxUraM5QT5jI7/dDKkU/s9vHD94JljhRMz5KBmBcX8vr/W5OjVQfWLG+XLRNmy6e8tUUW4/0MadwZVlBtxbYghna/RA0J5D+vlGzGavKcc7Ypa/RZclZbv/jVxI+DGjPdB0MKxyZRSbS80Xh0e4YRKSNVgqchK8r8uaYG3xrDxSMi1koaU9121wHHD404zjv5KCSGG3fDHtFP4ieu+rKK9+qcVPehwtXiJBneXOp+KPhj2iDFeUpEtPgveLIp845LQ==
+ b=guKbF+pftENkzXREYsGnJQmAfrIAB8SbY3OTrKnGK7LPUlnBeq2zdEzSHJZjekmE419z7D5cyvrgVDljx+MPtkylaKS64BAnh0cvIsGL3ETjKaKz9dTaRR3xKblJU+/BeQZGVF7KIag4Imu9jROvqoRyIEylhK44EzYl0r/rduaXKb9zr/za0VCUFi6e7PSVPgsg6BStmIP6gp+q1WGtowsFTxcYA21HHH6MVVvjTW26PBJE9ojtChffqpKkr2Al3quI+mFUfgmSi8joi9/B9RmH09VLluT30q5u7fhiSBVIsztmKdrxbkSxVadJXP7U9aRknzw14ja3LwDF70G5Aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R48t17GKmLu5tbiWHdDBqZx7THpZ5rzy6Zlq5cnCukg=;
- b=SMx+bnClgVzUpoC5+QIhCGllNLYiJ6Y5CnnozsuB/AlYo9lwCelNOHP1CTqz6D8IsZmQvvRQsSuzfJQlO8oVv8NChzpI6J23nL/YQtaUQ19UJsiTBZfd73pWNNnn5kV6CW7zbM8qAqfq/3zvo01AZ7HskiXyFJ1uOPE64KkQv+U6EQHGXpQxXGD+nocq0ydhd792/1W1bmgHzt4filZafQ+MToUcNSIR5M4PoRhRkBJ7C23EgiYC0ggMXBRtU5tC/4bnhBeZlMy52CWdw+sRbWSSr7KUzz9bSevmlzUSWqOa/+EneKs7s/vFIABK4ZL5L4O9e5a6Bn4vI9fph/rTBw==
+ bh=a8IcqVqM76mzo465WvgC0ohfXQin2vGZvdzoJJSoH5Y=;
+ b=A8ZXWt2r9ihpPsJEXKXq83MUWvyPtanAISiNL9gFFCeEhz0jDq/ZFoA5kIVeU4ScVxiZZvWu01k/YR2QjuTbBJ/871qmzzIw9S8TMGYH8KyYztmqaM0GjGQ1K78PiHnL/TVJSj9Euc1wiUx09ndcdOgOnzXza81cJZlhA/jivMovKnnOmDrLy5AOF8ymCOj6GnDqqre6OTYm9D+h2YnIdoXRFYlqYbHE7ntfaXOnFWofCfO4r0rSQreYr37HwFXwvlaukRoOG6yzHumBtIb0S8uyoNHIpoBAB/62Gus7NR6uWQsLiRckLhWBkSuOWhIYvszdkECLAVT6xAWlbamJqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -49,150 +56,140 @@ Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
  by PH0PR11MB5609.namprd11.prod.outlook.com (2603:10b6:510:e0::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.14; Wed, 5 Jan
- 2022 06:02:06 +0000
+ 2022 06:03:07 +0000
 Received: from PH0PR11MB5611.namprd11.prod.outlook.com
  ([fe80::b52c:74ae:e50a:5206]) by PH0PR11MB5611.namprd11.prod.outlook.com
  ([fe80::b52c:74ae:e50a:5206%8]) with mapi id 15.20.4844.016; Wed, 5 Jan 2022
- 06:02:06 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] populate_sdk_base: remove useless dirs such as /dev
-Date: Tue,  4 Jan 2022 22:01:54 -0800
-Message-Id: <20220105060154.68560-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0075.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::20) To PH0PR11MB5611.namprd11.prod.outlook.com
+ 06:03:07 +0000
+Subject: Re: [OE-core][PATCH] core-image-tiny-initramfs: delete populate_sdk
+ task
+To: Ross Burton <ross@burtonini.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20211216050914.90422-1-Qi.Chen@windriver.com>
+ <CAAnfSTus81TLunS18ghDnW_DsX+B01ziUk4m7yBMAKnbkso2wA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <43a0cd4a-33f6-d6c5-811f-df06573fc077@windriver.com>
+Date: Wed, 5 Jan 2022 14:02:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: 
+ <CAAnfSTus81TLunS18ghDnW_DsX+B01ziUk4m7yBMAKnbkso2wA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: HKAPR04CA0011.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::21) To PH0PR11MB5611.namprd11.prod.outlook.com
  (2603:10b6:510:ed::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 921e58e4-c808-42d3-4a21-08d9d010e6b9
+X-MS-Office365-Filtering-Correlation-Id: 09a7cc26-fe1c-42f7-a557-08d9d0110b63
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5609:EE_
 X-Microsoft-Antispam-PRVS: 
-	<PH0PR11MB5609544AB42DCB95C36CDD1BED4B9@PH0PR11MB5609.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+	<PH0PR11MB560985F52022DA365E5149C4ED4B9@PH0PR11MB5609.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	xfx7Zu5ZZChHyXDZxty4isvd2T1ctwZQyIk43HniiqAoX40ToR3j06Ar39yaJJAkpZN2BhKrDdyWx2DguRLZBPNyXqWSIVkNBEIc3PXNIP16DJYK8BeZYMU8Tv+8XnHsOArHQWKRoRDDmgIkCxkk3KK4v470aD63IOHbiBLfG2e7cA7mkF2OfZdWwvLv9eGjxYeSi6yucoHaTx/cO2qiGfXTQ9EqnMIGVZXOlT0Qtc7yLsj2VaWO5nNPwIOzF5uRx02/9J3nnPNuO8YfwXljpAWGgCTkwZNbOYAIo70KbKuTd4WGK4M9k0L3ioJkJpURDEwLkEpHV/5BrciVse8gR3oXBzh4QHQKN3Jyr+rDK59Smr2pKKAJVQ5fipXNzr7cp1tcbgm0lOPAowRWpU1psK5ZPkfkxBjNgW2Va2UBXNEoWyXzq5I+vDTKkU2iVfzJ4NCx0FfSSVm7tJ3CkDJ6VktYoAszzc2XxkaOU5OKbiInDWyAoeiu/Gg2nJUJVZTD6s9gx7yGQE0DD61ae26P574YpRssbcx4g70uSVgHQ9s/uRims733wI70A4s5JNo+Ucq+8UDwSIpDVoLX8yDgpltCbX83CFfrSwLqD+M3ajAoz+3hgiYHVS/KVMfojR92gUcdRh/u82d9wzrTwiCNQB8Z5mrXguD1PwZkhnzGMz8xviqMDXFmJEGb9GE3ddlaG4ro0grRwB1FRX+MXFpeCw==
+	S7mLGr65WjQniFeH2sYkVRJ15aQ71bSKw0vWZO4h8ykaI0CH7L4CJtKGK2EFkb0honSS70sAUKdr0N9EeeMhqOfA70I+XdKqx803bZTPDBnzkN+xR0uMVBpiciR4oMWMo6YnB0Z4jQyWh5pjy9wT0V9UuVTpRK5DY3aV0AI+vo51Wa2V5rGWp1eP4s7sHNSeOS7xdx+UQUrM/yVoIdsGgAdg8YScb5fzBKkfklCu+ohy0KVg0RtbgCVYWk+IuFKqMVu6vgeKcvbCw52n4bm621rS/jybUngcJ3GPWYVkYVQYiLLGIgSAs+/pCbCFDeCkE4e8RW/4e5pgs/qHrf06/rmiivHTY0k5YfIPpzFQBszyEe4YkQtffTc18p4MZdqy/58JopAOUMFA5lTpa9GWvoOajfa/iPSfnNsPuP6jzBnZY4FuahwE6x0VVunaFFv4iR0O/IjW/hqErIdPBKOqje6i/2pKLuYXpppEB9y5mTSzdxKW5QoFFSXT4Cz+MRBfsudnCfEYjDGQCL4ru9fDrqRYHIQhjeDy5mpZ7z8Hev8l5kuxQj9UXWuN9ucayRipzDJI6CHRHb45LC0dXK22Uze7pOszUxpoT2tXAG6DQzwCmpkCAD84qwCAmkeXsdB9oeIkTDg3MVmv0RJ8CkiAkazvm6gf7b2RKd8QpjZ3yCVWly0jLaoqFup8ncnsSdoTZL8UeBf058NWFRe+tr1/FEFb8X8QUrUkN7O4nuDUDVf3FvEG89GRrPYAyPA6wbhEtWWJq9qaW7vVVgzxGSwOGQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(86362001)(8676002)(186003)(5660300002)(6916009)(6506007)(83380400001)(2616005)(508600001)(38350700002)(2906002)(6666004)(38100700002)(36756003)(26005)(6486002)(8936002)(66556008)(52116002)(66476007)(1076003)(6512007)(66946007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(86362001)(31686004)(8676002)(186003)(5660300002)(6916009)(6506007)(53546011)(83380400001)(2616005)(508600001)(38350700002)(2906002)(6666004)(38100700002)(36756003)(26005)(4326008)(31696002)(6486002)(8936002)(66556008)(52116002)(66476007)(6512007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?j0JmqZleXkbtIuSipZcA7fD3rtvRS9KJHFtjGM6jApq0bOA/wJGOaRWjLJNb?=
- =?us-ascii?Q?RbpxyrJ445BcvSGwkZ2G/m3rOzkLj2uiPYEpGB34GMJrdG1i8FeLcz5qdGNy?=
- =?us-ascii?Q?kdAyK9tfazHjtnbTsvtkdDIpNVedGROZVpoFzv9LY9MEzESiyB0p9fXmywiB?=
- =?us-ascii?Q?3VnpL7TVjBrv326n/kESy7Zts7UYgp2SpSRtPdciXb7uifYla+Mz6s0H61Yk?=
- =?us-ascii?Q?5YsJ/Jth1xMmBwIzOKD1uOrIEmBAVup5NnTfeNAim74WjcP5qenJVs0wJQQx?=
- =?us-ascii?Q?7zKdVume1bpF12ONH7jbingweiLpDqn3BCn6dK5z5SRrhJbv4PFxz5G/R9X6?=
- =?us-ascii?Q?tAoomvs4DAVRJmzwetfBZ4MuhAIwqhHHZBEwr/HjYEfbqRxhyZKhjCO/AkUG?=
- =?us-ascii?Q?D5EjBrY3F+V+0xTYyL6ChSabqxFyTd362GZBxABf3Mv9niNmSuu7WeFg68iW?=
- =?us-ascii?Q?dlwP5XpNwVe3fRrlJD5w1InmLvDklpfibqsoiznyUloh2Cajw6wXKw8iF6Xz?=
- =?us-ascii?Q?N7GZUWr4mQX2XejRwjjuUivjkK0DPcs9aC3RM8axJybk1QVCAdSmNvIQvJKd?=
- =?us-ascii?Q?r2MVjILp74zkzPxj9ZSSl2pInYsvuXZ/bFTB8wNi3cmq+sgA9CTH//+JPQZN?=
- =?us-ascii?Q?TInZhwGKho+XZLYwdMQhIPy6uDgLxOn55Vop8/q+bq4PJke6K5AMS/VZ2PXW?=
- =?us-ascii?Q?FOO+UPhKqLODc4VLaxr/4a1zeGl69763Nsn60G116Jjkz5BJCr/zc+o0+lKu?=
- =?us-ascii?Q?F0qsA5Iek1+UA+OvoYyY9VTPk6PBH2imeCHGZmAFPMkgyWAMoBfGF1g9Up2H?=
- =?us-ascii?Q?wQiWjirEIt6if1cfsfFAAdEbuZ7CEIzGGzpjX0WMYWBl5+hMuCaHYjeuzBOu?=
- =?us-ascii?Q?eeA3eBH/3zz2H+iyqcvxN/ATXGwuIz3MQE2Txzsewk/E1et3Zc8xlUsassgo?=
- =?us-ascii?Q?HxU6YRWEPBfsseQDJyQR8ZXwa6ib15ZuMMOuVFvmIYeMx5jsIe3SPiNNOHta?=
- =?us-ascii?Q?Af+0ZNUq2yywuDFSllY4zhqtVferdGTtMgqZcJ13GeusadCROQuD9KW2O+2x?=
- =?us-ascii?Q?CjUyKXWenjeLV0PsFfIZ4ubLHyrs063H4OG16MZw4CwqhboUraU0oQWvAsSi?=
- =?us-ascii?Q?d/G6e2Ju8UM0GEVmyqgiySp6u+0Q215n8r7wwP17a32T+drohf4NWnqVcDt/?=
- =?us-ascii?Q?sGTiAt7u+3kHoCRfUvqyLMlzfgrKtW8WGflZj47UVtQbUzotMia6kM7qtjyg?=
- =?us-ascii?Q?ntMcubCO+yeSjpePR1QFZRR7wioYcGH3hb/s3xU6gZu27h2kzNdbqvY8LpHY?=
- =?us-ascii?Q?nVbT/f9e7nxDWzt4sP2SXlmrrTb/m8Y1pMlWj9AwEAe5I3tqUTAzMS9lPG2N?=
- =?us-ascii?Q?ld8UoGkZL4jHCZxIL2ADga3Vo++TzaYo22+cb9Hx7gUFGWxcWMgpYmreR/7e?=
- =?us-ascii?Q?ax/NphXN+6+afGQsuw8AKLnyXjSXL0iauXNb6/BOwOhgWiolkziAaGVsuNPA?=
- =?us-ascii?Q?guOg6jAkE462XDDslFRRCpF7h/R5NAV+e4MFA8/vqchkzYSoHJguHkUCwFwD?=
- =?us-ascii?Q?itPY1lmqPE1Bvm+/FEy8JyrZlMym8ojUuOn1sct7rHBDYzGxn2hr5udY0CGl?=
- =?us-ascii?Q?AwvQkOGRshby7KOgGd2mP2o=3D?=
+	=?utf-8?B?NFQzNGtvdW50T1hnbjh3RWpDTFlCVk5VbTlHTU1ja1dvaGFsR3RFQU81ZGk1?=
+ =?utf-8?B?bExtSTFzNjRvZHg3RERLSjBpZkhkQzBsaEpUK09hSkxrT1hXVDFJNHN1RGVt?=
+ =?utf-8?B?YVUrb3lXOGdkMnRTY1puVlVsQkw3ZTVMVnh6WEZ5cmx2b2k4UUswV1h2L3ps?=
+ =?utf-8?B?WGlIZnFmdU9hc3BwbGRQYTViSnBvcEgweVI4R1ZKeXVJTUQwWnNYL0JnRnBW?=
+ =?utf-8?B?Ykh0YWdxMDFUSnNGRXJPSXowcGhobjRORHhEeVNmQitGL0tuRmU3K0RPYzRk?=
+ =?utf-8?B?NDZxbkE2STRFaWtJSWc4bGdTaHJLeE5CRERYdjc0L2dNaW8rTWhWVG14VmZm?=
+ =?utf-8?B?b3RZdWh0MWVuVkFicEd5Y0pTSkZ2QUY4N2Q5aldHR2MwQ2NUQWQ0MmRlZkRW?=
+ =?utf-8?B?SDYvcXB6bUlMak1uUTVKZk01di9sUXRXYlljcFF0NnRIcmJIcG0xNDlRT3lM?=
+ =?utf-8?B?ZWZROWJzUzUvUm1jbVhKU1NDbkNqcDhZcVZKQnYyRG9FT2NqODhVZEJvbFM3?=
+ =?utf-8?B?VWRYbm9oZ0YrNFdqZ2Uya0VpazgrRDMxZkJDWndOVEc4MWZSY0pRTUZ5WWhx?=
+ =?utf-8?B?ekRhM1BLUUR3bHY2c29DUnpDY0xFVGgxN0NJSGtrOExJSUF1MjdJTFJXRDd2?=
+ =?utf-8?B?eG02Z3Rwek1ha2x5WlJDM0tnK2dpQzg3emZNd0IxUUYwZlI1VHdoQ2Y0bGFs?=
+ =?utf-8?B?dzRxWW1tb2FmRUs1bVM2QW5HWUlBZW5ONWFEZjNNc29jd1ZRNXFSL2FKNWRP?=
+ =?utf-8?B?QkJ0VjdrdTkyTVFaL21LRnJlcitqdCtoZjE2QVZlM0hNd1YyN09ISnQzWjZl?=
+ =?utf-8?B?S3dUTGQyMXgrRnp6NnBIZ280MEZGUmt4UlQvRVFpZVE1bUhIa0RYc1ZnL05m?=
+ =?utf-8?B?OGkraVZxZ2ZwOFV4bFRBNDlPckpFNUxmZFZwMm9kYy9iRGZkMHR1UnhZb1JF?=
+ =?utf-8?B?MzRpMmZzYTJiYnJoMmk3VW04L0FXY3I2Y08wTE1BTmNCbzR6NERuNXFQVmIy?=
+ =?utf-8?B?aGJDQzQrTUR5VjNsWlpscy9uQ0NUa0lHc2JJaDBoY01jYjBYbTJxd0dUSER1?=
+ =?utf-8?B?R1Jlai9iTWRJbVlLNWQ1VlhWYjhJM09QNC95ZXlkQWZUVnFJcWk1TDZVUjJa?=
+ =?utf-8?B?ZDRmRFlmZTY3RTBaWUorc0lPRE5zY2tDQ2RsUlpLK0hQYi94bWNDOUFxOWJt?=
+ =?utf-8?B?aHFSTTFmY245WXZRTXNmRUFxbTBjc0FERC8ycjRWdnlPMkZLa2tlQTR3Q0Vx?=
+ =?utf-8?B?T0p5aVVpWUorTzVlOTZvNktkMG9EL0xhVzR6T252YWEyQmNtRjVubGdBTmVk?=
+ =?utf-8?B?NXEzR2JZVEY0M3FEeXUwWEZrV2Z6cHEwejZhOFR5NTJ0SnFOMGJkYktUSXpo?=
+ =?utf-8?B?bnA3a3ZicThDSjJuOGJERy9aSzRVUXJkb1NlVUU4aGVOejhkQ2xMQ2t3QWJy?=
+ =?utf-8?B?MEt1YldBSDVxNnA0SytzZXJ1VTJPdndRUHhsWEpZN2ZHcEI2VjNJbjE4VmJZ?=
+ =?utf-8?B?MFlXWWtZdnRVVXY3VjlGY3VmNTJ2KzhwM2FuS2MxT2lYcXlaeEhKcHVIdUZo?=
+ =?utf-8?B?Mml1b0E5bkgxYU1jclQ5NGFac3RCZjY3d3E5U0l5ZHhEUHZMUXdFY25GaVFW?=
+ =?utf-8?B?NXRjM0EvY3Vsa3U3cWJnV25TL0VnM1ZndmpYL2JpNmdjVEVESTNOdGhBV3k0?=
+ =?utf-8?B?R0JWZ1ZwSVB0TmJUYU9Bb0l1VHg5bkNDR05pekZMRjRDcFJJdDJNL0hkaWYv?=
+ =?utf-8?B?SFpxeCtJOE80K0wyRHlzaEFLaTRBbm03aFhUZkZ2SVVFUHFLK0UvV01EMlUw?=
+ =?utf-8?B?Rk84a1FsbTBnYm9BVXJHaUplMnp1WGN6ejBEclQ2eXJONEwyZG5hZG15dURr?=
+ =?utf-8?B?WDhHTlRzcFVXYkt2UFFuNit5OWp2NWdYc2xvTWhqNjZXRFNXMGFGdVhYdjNT?=
+ =?utf-8?B?ekcxTFhudmZJOVUwVExQK2h3UGgzbVU2WVRkRFFTYVk5b1ZkNW9KTHVERjJC?=
+ =?utf-8?B?OWREeVY5U0tGZitzSVR2dm1WUVA1RXlrM0xlME0rMVVKZFVHWEdQdlVkVnd4?=
+ =?utf-8?B?dVM1dkFYaHdkL0pxeE1KVUsrVnBEU3k5cHpTTVhreTExUHBPcnVoTUtBeFZp?=
+ =?utf-8?B?WnhuWmgzVERva1NpWFRReGIzTlo3N2tMa3M0M1Q4VmtrY1dLS2FzenpNQmpO?=
+ =?utf-8?Q?G+Ci5oqoNaFapxtDju/wdU4=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 921e58e4-c808-42d3-4a21-08d9d010e6b9
+ 09a7cc26-fe1c-42f7-a557-08d9d0110b63
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 06:02:06.4373
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 06:03:07.5924
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- pPejH+8ftLHSnUm2v9GvT0blgJxXgLhP8neqR4cgsLa9yRoyOn1tRE6auhXBj8XbXqij3CX8qvXtHm6GsQ3P1w==
+ S0tyaHwWAS7KgF2h5Rh1iTd3nDWSJY/umr9WP+DKIGg584n40sMiUqfIOquKWqGxckEtbJDI8ed/y+2d03Xb1Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5609
-X-Proofpoint-ORIG-GUID: p0NxDRIkuKe2W6RmWGoJDPcp36x_Fcc4
-X-Proofpoint-GUID: p0NxDRIkuKe2W6RmWGoJDPcp36x_Fcc4
+X-Proofpoint-GUID: nXA81G_jtxFyNGzTYV7HUGHh_oFsJARQ
+X-Proofpoint-ORIG-GUID: 8TQsZ4XmD5Wk_5ulfsOiuiTrURcTP22w
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-05_01,2022-01-04_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 mlxscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 spamscore=0 phishscore=0 mlxlogscore=799
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201050041
+ phishscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201050041
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 06:02:11 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 06:03:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160178
+ https://lists.openembedded.org/g/openembedded-core/message/160179
 
-We met a problem that core-image-tiny-initramfs's SDK cannot be
-installed. The error message is like below.
+On 12/29/21 5:36 AM, Ross Burton wrote:
+> On Thu, 16 Dec 2021 at 05:09, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> Currently, if we do `bitbake core-image-tiny-initramfs' and then
+>> install the generated SDK, the following error appears.
+>>
+>>    tar: ./sysroots/core2-64-poky-linux/dev/console: Cannot mknod: Operation not permitted
+>>
+>> The populate_sdk task does not make much sense for this recipe and
+>> considering the fact the its SDK cannot be installed, we'd better just
+>> delete the task.
+> Feels to me that this is working around a problem instead of fixing the problem.
+>
+> This happens for -tiny-initramfs because the root fs contains a
+> populated /dev tree, with device nodes in.  There is no hard
+> association between "has a static /dev" and "SDKs are meaningless", so
+> a better fix would be to remove /dev from the SDK entirely, instead of
+> removing SDKs from one image, when this is a general problem.
+>
+> Ross
 
-  tar: ./sysroots/core2-64-poky-linux/dev/console: Cannot mknod: Operation not permitted
+Hi Ross,
 
-In fact, the '/dev' direcotry is useless for SDK. So remove it.
+I've sent out a new patch to remove '/dev' from SDK.
 
-This patches uses a variable, SDK_USELESS_DIRS, to hold useless dir entries
-so that it could be extended. For example, '/usr/bin' could be added if wanted.
+Regards,
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/populate_sdk_base.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index fafdd96749..d4065b9b13 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -92,6 +92,8 @@ SDK_HOST_MANIFEST = "${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"
- SDK_EXT_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.target.manifest"
- SDK_EXT_HOST_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAINEXT_OUTPUTNAME}.host.manifest"
- 
-+SDK_USELESS_DIRS ?= "/dev"
-+
- python write_target_sdk_manifest () {
-     from oe.sdk import sdk_list_installed_packages
-     from oe.utils import format_pkg_list
-@@ -103,6 +105,12 @@ python write_target_sdk_manifest () {
-         output.write(format_pkg_list(pkgs, 'ver'))
- }
- 
-+delete_useless () {
-+    for d in ${SDK_USELESS_DIRS}; do
-+        rm -rf ${SDK_OUTPUT}${SDKTARGETSYSROOT}$d
-+    done
-+}
-+
- python write_sdk_test_data() {
-     from oe.data import export2json
-     testdata = "%s/%s.testdata.json" % (d.getVar('SDKDEPLOYDIR'), d.getVar('TOOLCHAIN_OUTPUTNAME'))
-@@ -122,8 +130,9 @@ python write_host_sdk_manifest () {
- }
- 
- POPULATE_SDK_POST_TARGET_COMMAND:append = " write_sdk_test_data ; "
--POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk  = " write_target_sdk_manifest ; "
-+POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk  = " write_target_sdk_manifest; delete_useless; "
- POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " write_host_sdk_manifest; "
-+
- SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
- SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; archive_sdk; ${SDK_PACKAGING_COMMAND} "
- 
--- 
-2.33.0
+Qi
 
 
