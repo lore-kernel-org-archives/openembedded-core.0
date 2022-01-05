@@ -1,1637 +1,588 @@
-Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Marta Rybczynska" <rybczynska@gmail.com>
-Subject: [dunfell][PATCH] grub: fix CVE-2020-14372 and CVE-2020-27779
-Date: Wed,  5 Jan 2022 09:40:50 +0100
-Message-Id: <20220105084050.2209866-1-marta.rybczynska@huawei.com>
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 11/24] linux-yocto/5.4: update to v5.4.162
+Date: Wed,  5 Jan 2022 23:18:31 +0800
+Message-Id: <0b6f1b880781be547731ace0b585a90f4a6d5aca.1641395036.git.anuj.mittal@intel.com>
+In-Reply-To: <cover.1641395036.git.anuj.mittal@intel.com>
+References: <cover.1641395036.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com, steve@sakoman.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>, Marta Rybczynska <marta.rybczynska@huawei.com>
+To: openembedded-core@lists.openembedded.org
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fix issues with grub in secure boot mode where an attacker could circumvent
-secure boot by using acpi and cutmem commands. Also include patches fixing
-similar issues.
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
-Most patches are backported directly from grub. One patch
-(no-insmod-on-sb.patch) comes from Debian, as the upstream implementation is
-too complicated to backport.
+9334f48f5673 Linux 5.4.162
+46a8e16fcf2c ALSA: hda: hdac_stream: fix potential locking issue in snd_hdac_stream_assign()
+293385739d68 ALSA: hda: hdac_ext_stream: fix potential locking issues
+201340ca4eb7 hugetlbfs: flush TLBs correctly after huge_pmd_unshare
+e7891b22b251 tlb: mmu_gather: add tlb_flush_*_range APIs
+10e34766d8ac ice: Delete always true check of PF pointer
+101485e566ce usb: max-3421: Use driver data instead of maintaining a list of bound devices
+4e1b3e718f24 ASoC: DAPM: Cover regression by kctl change notification fix
+56a32c82761a batman-adv: Don't always reallocate the fragmentation skb head
+08bceb1e30c2 batman-adv: Reserve needed_*room for fragments
+374c55d416ab batman-adv: Consider fragmentation for needed_headroom
+9eff9854f82d perf/core: Avoid put_page() when GUP fails
+e0122ea133cd Revert "net: mvpp2: disable force link UP during port init procedure"
+4efa2509d3aa drm/amdgpu: fix set scaling mode Full/Full aspect/Center not works on vga and dvi connectors
+c0276de0be48 drm/i915/dp: Ensure sink rate values are always valid
+1c4af56ffbfb drm/nouveau: use drm_dev_unplug() during device removal
+9e98622aa508 drm/udl: fix control-message timeout
+52affc201fc2 cfg80211: call cfg80211_stop_ap when switch from P2P_GO type
+ca9834a1148b parisc/sticon: fix reverse colors
+670f6b3867c8 btrfs: fix memory ordering between normal and ordered work functions
+1c3882215946 udf: Fix crash after seekdir
+f79957d274b0 s390/kexec: fix memory leak of ipl report buffer
+b0e44dfb4e4c x86/hyperv: Fix NULL deref in set_hv_tscchange_cb() if Hyper-V setup fails
+f2e0cd42f198 mm: kmemleak: slob: respect SLAB_NOLEAKTRACE flag
+95de3703a1d0 ipc: WARN if trying to remove ipc object which is absent
+8997bb6d1ecc hexagon: export raw I/O routines for modules
+01a7ecd36d1e tun: fix bonding active backup with arp monitoring
+7c8f778f0a3a arm64: vdso32: suppress error message for 'make mrproper'
+e636f65b3d8f s390/kexec: fix return code handling
+cc093e5a966d perf/x86/intel/uncore: Fix IIO event constraints for Skylake Server
+cc63a789d80d perf/x86/intel/uncore: Fix filter_tid mask for CHA events on Skylake Server
+47a810817823 KVM: PPC: Book3S HV: Use GLOBAL_TOC for kvmppc_h_set_dabr/xdabr()
+307d2e6cebfc NFC: reorder the logic in nfc_{un,}register_device
+da3a87eeb990 drm/nouveau: hdmigv100.c: fix corrupted HDMI Vendor InfoFrame
+e418bb556ff8 NFC: reorganize the functions in nci_request
+bbb8376d58ac i40e: Fix display error code in dmesg
+69e5d27af579 i40e: Fix creation of first queue by omitting it if is not power of two
+5564e9129f1f i40e: Fix ping is lost after configuring ADq on VF
+8509178dc001 i40e: Fix changing previously set num_queue_pairs for PFs
+c30162da9132 i40e: Fix NULL ptr dereference on VSI filter sync
+0a0308af22a5 i40e: Fix correct max_pkt_size on VF RX queue
+fb2dbc124a7f net: virtio_net_hdr_to_skb: count transport header in UFO
+d74ff10ed2d9 net: dpaa2-eth: fix use-after-free in dpaa2_eth_remove
+8b2c66b0f2a0 net: sched: act_mirred: drop dst for the direction from egress to ingress
+edd783162bf2 scsi: core: sysfs: Fix hang when device state is set via sysfs
+446882f216ac platform/x86: hp_accel: Fix an error handling path in 'lis3lv02d_probe()'
+453b5b614b93 mips: lantiq: add support for clk_get_parent()
+477653f3e4e4 mips: bcm63xx: add support for clk_get_parent()
+426fed211b49 MIPS: generic/yamon-dt: fix uninitialized variable error
+67334abd4fb7 iavf: Fix for the false positive ASQ/ARQ errors while issuing VF reset
+98f3badc414f iavf: validate pointers
+92cecf349121 iavf: prevent accidental free of filter structure
+63f032a956ed iavf: Fix failure to exit out from last all-multicast mode
+926e8c83d4c1 iavf: free q_vectors before queues in iavf_disable_vf
+f0222e7eee0c iavf: check for null in iavf_fix_features
+b5638bc64a69 net: bnx2x: fix variable dereferenced before check
+fbba0692ec4b perf tests: Remove bash construct from record+zstd_comp_decomp.sh
+9e0df711f8db perf bench futex: Fix memory leak of perf_cpu_map__new()
+642fc22210a5 perf bpf: Avoid memory leak from perf_env__insert_btf()
+6bf5523090a7 RDMA/netlink: Add __maybe_unused to static inline in C file
+ef82c3716a5a tracing/histogram: Do not copy the fixed-size char array field over the field size
+80b777606925 tracing: Save normal string variables
+8928e31a776a sched/core: Mitigate race cpus_share_cache()/update_top_cache_domain()
+a93a58bae950 mips: BCM63XX: ensure that CPU_SUPPORTS_32BIT_KERNEL is set
+05311b9192be clk: qcom: gcc-msm8996: Drop (again) gcc_aggre1_pnoc_ahb_clk
+ee1317e1f4b0 clk/ast2600: Fix soc revision for AHB
+d6c32b4c83f6 clk: ingenic: Fix bugs with divided dividers
+982d31ba5533 sh: define __BIG_ENDIAN for math-emu
+214cd15d3675 sh: math-emu: drop unused functions
+3d774e776f68 sh: fix kconfig unmet dependency warning for FRAME_POINTER
+7727659e45f8 f2fs: fix up f2fs_lookup tracepoints
+d7c612f6b1f3 maple: fix wrong return value of maple_bus_init().
+9823ba8f17f8 sh: check return code of request_irq
+94292e4577a2 powerpc/dcr: Use cmplwi instead of 3-argument cmpli
+c6d2cefdd05c ALSA: gus: fix null pointer dereference on pointer block
+513543f1eda1 powerpc/5200: dts: fix memory node unit name
+3a9eae47a550 iio: imu: st_lsm6dsx: Avoid potential array overflow in st_lsm6dsx_set_odr()
+a3ecee8a8fd7 scsi: target: Fix alua_tg_pt_gps_count tracking
+14934afd4f5d scsi: target: Fix ordered tag handling
+1ab3b4f4f46f MIPS: sni: Fix the build
+d491c84df5c4 tty: tty_buffer: Fix the softlockup issue in flush_to_ldisc
+80709beddb8d ALSA: ISA: not for M68K
+2f8cda43c415 ARM: dts: ls1021a-tsn: use generic "jedec,spi-nor" compatible for flash
+723c1af01c35 ARM: dts: ls1021a: move thermal-zones node out of soc/
+f98986b7acb4 usb: host: ohci-tmio: check return value after calling platform_get_resource()
+e187c2f3f25e ARM: dts: omap: fix gpmc,mux-add-data type
+3b9d8d3e4af2 firmware_loader: fix pre-allocated buf built-in firmware use
+cc248790bfdc scsi: advansys: Fix kernel pointer leak
+bcc1eac0bd49 ASoC: nau8824: Add DMI quirk mechanism for active-high jack-detect
+c9428e13417d clk: imx: imx6ul: Move csi_sel mux to correct base register
+e5f8c43c8546 ASoC: SOF: Intel: hda-dai: fix potential locking issue
+cb074c00b71a arm64: dts: freescale: fix arm,sp805 compatible string
+a14d7038ea20 arm64: dts: qcom: msm8998: Fix CPU/L2 idle state latency and residency
+30dcfcda8992 usb: typec: tipd: Remove WARN_ON in tps6598x_block_read
+3ee15f1af174 usb: musb: tusb6010: check return value after calling platform_get_resource()
+ba9579f832bd RDMA/bnxt_re: Check if the vlan is valid before reporting
+bf6a633b0736 arm64: dts: hisilicon: fix arm,sp805 compatible string
+16bcbfb56d75 scsi: lpfc: Fix list_add() corruption in lpfc_drain_txq()
+51c94d6aee59 ARM: dts: NSP: Fix mpcore, mmc node names
+1390f32ea964 arm64: zynqmp: Fix serial compatible string
+31df0f0f1882 arm64: zynqmp: Do not duplicate flash partition label property
+5c088fba39af Linux 5.4.161
+b786cb3236e1 erofs: fix unsafe pagevec reuse of hooked pclusters
+83de35ae27a1 erofs: remove the occupied parameter from z_erofs_pagevec_enqueue()
+b37f6da8c3fc PCI: Add MSI masking quirk for Nvidia ION AHCI
+db1390b60e89 PCI/MSI: Deal with devices lying about their MSI mask capability
+49b55a7792ec PCI/MSI: Destroy sysfs before freeing entries
+7186be970c11 parisc/entry: fix trace test in syscall exit path
+258c42a8fb31 fortify: Explicitly disable Clang support
+4f9a3cda1660 scsi: ufs: Fix tm request when non-fatal error happens
+c468f9249d84 ext4: fix lazy initialization next schedule time computation in more granular unit
+307c6f728728 MIPS: Fix assembly error from MIPSr2 code used within MIPS_ISA_ARCH_LEVEL
+7be773a0288e scsi: ufs: Fix interrupt error message for shared interrupts
+e3c97ba4a69e soc/tegra: pmc: Fix imbalanced clock disabling in error code path
+17efa1a44c7f Linux 5.4.160
+66bd28d6be90 selftests/bpf: Fix also no-alu32 strobemeta selftest
+e7ea088cd030 ath10k: fix invalid dma_addr_t token assignment
+20a951afb7d5 SUNRPC: Partial revert of commit 6f9f17287e78
+5b7a0a4f7cbe PCI: Add PCI_EXP_DEVCTL_PAYLOAD_* macros
+256a1e009b9b powerpc/powernv/prd: Unregister OPAL_MSG_PRD2 notifier during module unload
+fe02d37870c9 s390/cio: make ccw_device_dma_* more robust
+8a8d007bae0e s390/tape: fix timer initialization in tape_std_assign()
+5ef14af16629 s390/cio: check the subchannel validity for dev_busid
+b0989ae51d01 video: backlight: Drop maximum brightness override for brightness zero
+66938ba12857 mm, oom: do not trigger out_of_memory from the #PF
+d6648b55ed39 mm, oom: pagefault_out_of_memory: don't force global OOM for dying tasks
+c6f9a5c11a91 powerpc/bpf: Emit stf barrier instruction sequences for BPF_NOSPEC
+453b779d2b8f powerpc/security: Add a helper to query stf_barrier type
+84b3fbfd8ed8 powerpc/bpf: Fix BPF_SUB when imm == 0x80000000
+7edda4bd9eb9 powerpc/bpf: Validate branch ranges
+0347c001c909 powerpc/lib: Add helper to check if offset is within conditional branch range
+c4461ca7a835 ovl: fix deadlock in splice write
+8d750efc8dd6 9p/net: fix missing error check in p9_check_errors
+aba12bb38b10 net, neigh: Enable state migration between NUD_PERMANENT and NTF_USE
+223985fa1b5f f2fs: should use GFP_NOFS for directory inodes
+af73b240e09e irqchip/sifive-plic: Fixup EOI failed when masked
+53014c1c4162 parisc: Fix set_fixmap() on PA1.x CPUs
+645d6dfdcb0b parisc: Fix backtrace to always include init funtion names
+62c4e0a3d81a ARM: 9156/1: drop cc-option fallbacks for architecture selection
+61a5e446bbff ARM: 9155/1: fix early early_iounmap()
+dc3357424610 selftests/net: udpgso_bench_rx: fix port argument
+dd3a418ba5e6 cxgb4: fix eeprom len when diagnostics not implemented
+1800c9eecd5e net/smc: fix sk_refcnt underflow on linkdown and fallback
+b2d1b6624bde vsock: prevent unnecessary refcnt inc for nonblocking connect
+72aca95f958e net: hns3: allow configure ETS bandwidth of all TCs
+07b218db54a4 net/sched: sch_taprio: fix undefined behavior in ktime_mono_to_any
+18f2809441ef bpf: sockmap, strparser, and tls are reusing qdisc_skb_cb and colliding
+180a9b539cf6 arm64: pgtable: make __pte_to_phys/__phys_to_pte_val inline functions
+572599cbf17a nfc: pn533: Fix double free when pn533_fill_fragment_skbs() fails
+c1d5f943bbc3 llc: fix out-of-bound array index in llc_sk_dev_hash()
+bdf94057aae6 perf bpf: Add missing free to bpf_event__print_bpf_prog_info()
+23def86bbf71 zram: off by one in read_block_state()
+d26835de40db mm/zsmalloc.c: close race window between zs_pool_dec_isolated() and zs_unregister_migration()
+46d695e870c4 bonding: Fix a use-after-free problem when bond_sysfs_slave_add() failed
+dce69e0a065d ACPI: PMIC: Fix intel_pmic_regs_handler() read accesses
+700602b662d7 net: vlan: fix a UAF in vlan_dev_real_dev()
+98e0ab88f435 net: davinci_emac: Fix interrupt pacing disable
+70ecaadb49c2 xen-pciback: Fix return in pm_ctrl_init()
+7f57b9bc8ee6 i2c: xlr: Fix a resource leak in the error handling path of 'xlr_i2c_probe()'
+53ad06ff3b4e NFSv4: Fix a regression in nfs_set_open_stateid_locked()
+c9dcb51ae473 scsi: qla2xxx: Turn off target reset during issue_lip
+211f08d1ffc8 scsi: qla2xxx: Fix gnl list corruption
+9b180f3c2d92 ar7: fix kernel builds for compiler test
+59e97c74d159 watchdog: f71808e_wdt: fix inaccurate report in WDIOC_GETTIMEOUT
+162a1cfcd5ca m68k: set a default value for MEMORY_RESERVE
+9770f8c29f81 signal/sh: Use force_sig(SIGKILL) instead of do_group_exit(SIGKILL)
+9e6985190f04 dmaengine: dmaengine_desc_callback_valid(): Check for `callback_result`
+fd1de3590123 netfilter: nfnetlink_queue: fix OOB when mac header was cleared
+15351d5e8bb4 soc: fsl: dpaa2-console: free buffer before returning from dpaa2_console_read
+be832f781dc4 auxdisplay: ht16k33: Fix frame buffer device blanking
+c441943075fd auxdisplay: ht16k33: Connect backlight to fbdev
+1fa9803de9e3 auxdisplay: img-ascii-lcd: Fix lock-up when displaying empty string
+e63507ea4369 dmaengine: at_xdmac: fix AT_XDMAC_CC_PERID() macro
+04317e74745a mtd: core: don't remove debugfs directory if device is in use
+59929f9a573a mtd: spi-nor: hisi-sfc: Remove excessive clk_disable_unprepare()
+a83aaf15077e fs: orangefs: fix error return code of orangefs_revalidate_lookup()
+c79c37c77550 NFS: Fix deadlocks in nfs_scan_commit_list()
+5a893e0eab16 opp: Fix return in _opp_add_static_v2()
+98ac69821650 PCI: aardvark: Fix preserving PCI_EXP_RTCTL_CRSSVE flag on emulated bridge
+819925eff0c5 PCI: aardvark: Don't spam about PIO Response Status
+bab1cfec7ae2 drm/plane-helper: fix uninitialized variable reference
+4b48c6ede329 pnfs/flexfiles: Fix misplaced barrier in nfs4_ff_layout_prepare_ds
+2b2fdb6f4892 rpmsg: Fix rpmsg_create_ept return when RPMSG config is not defined
+bd48bdbfd9c4 apparmor: fix error check
+a7b294764945 power: supply: bq27xxx: Fix kernel crash on IRQ handler register error
+3f698d97f7c5 mips: cm: Convert to bitfield API to fix out-of-bounds access
+fb7b73cd9418 powerpc/44x/fsp2: add missing of_node_put
+d3dd1a057c9a HID: u2fzero: properly handle timeouts in usb_submit_urb
+b216a39b3212 HID: u2fzero: clarify error check and length calculations
+fae0552d83ff serial: xilinx_uartps: Fix race condition causing stuck TX
+818e100c2bf4 phy: qcom-qusb2: Fix a memory leak on probe
+de43e75917bc ASoC: cs42l42: Defer probe if request_threaded_irq() returns EPROBE_DEFER
+f00ff5357b61 ASoC: cs42l42: Correct some register default values
+baf5c1225eb2 ARM: dts: stm32: fix SAI sub nodes register range
+bb74ce1feb36 staging: ks7010: select CRYPTO_HASH/CRYPTO_MICHAEL_MIC
+73aaa6222ac7 RDMA/mlx4: Return missed an error if device doesn't support steering
+20dfad97dbd6 scsi: csiostor: Uninitialized data in csio_ln_vnp_read_cbfn()
+5ead6f4feaa7 power: supply: rt5033_battery: Change voltage values to µV
+fdbe8e8a08bf usb: gadget: hid: fix error code in do_config()
+15355466cded serial: 8250_dw: Drop wrong use of ACPI_PTR()
+d8241e7a2144 video: fbdev: chipsfb: use memset_io() instead of memset()
+e7df004eb14e clk: at91: check pmc node status before registering syscore ops
+44a2dcd146dc memory: fsl_ifc: fix leak of irq and nand_irq in fsl_ifc_ctrl_probe
+03fe35ce9a0e soc/tegra: Fix an error handling path in tegra_powergate_power_up()
+543d85602f9c arm: dts: omap3-gta04a4: accelerometer irq fix
+7cf7d9b83d79 ALSA: hda: Reduce udelay() at SKL+ position reporting
+d1cf71d79e00 JFS: fix memleak in jfs_mount
+56911ee5375f MIPS: loongson64: make CPU_LOONGSON64 depends on MIPS_FP_SUPPORT
+ee49b6598cfb scsi: dc395: Fix error case unwinding
+dd49dee254db ARM: dts: at91: tse850: the emac<->phy interface is rmii
+1df7102f265b arm64: dts: meson-g12a: Fix the pwm regulator supply properties
+681c58f34434 RDMA/bnxt_re: Fix query SRQ failure
+50eca29537b0 ARM: dts: qcom: msm8974: Add xo_board reference clock to DSI0 PHY
+863e71a3afb7 arm64: dts: rockchip: Fix GPU register width for RK3328
+6694960195b7 ARM: s3c: irq-s3c24xx: Fix return value check for s3c24xx_init_intc()
+d27580c1b027 clk: mvebu: ap-cpu-clk: Fix a memory leak in error handling paths
+9212ebb1c6d8 RDMA/rxe: Fix wrong port_cap_flags
+cf234bc5fbd8 ibmvnic: Process crqs after enabling interrupts
+bc4061648176 ibmvnic: don't stop queue in xmit
+a91c8ee2ed84 udp6: allow SO_MARK ctrl msg to affect routing
+9ff14503f498 selftests/bpf: Fix fclose/pclose mismatch in test_progs
+af51aa2b8586 crypto: pcrypt - Delay write to padata->info
+9be9cb2a2be4 net: phylink: avoid mvneta warning when setting pause parameters
+077410c7907c net: amd-xgbe: Toggle PLL settings during rate change
+63a3b1af0474 drm/amdgpu/gmc6: fix DMA mask from 44 to 40 bits
+9ca0d107428b wcn36xx: add proper DMA memory barriers in rx path
+a3256ae45b0d libertas: Fix possible memory leak in probe and disconnect
+427583b93d5a libertas_tf: Fix possible memory leak in probe and disconnect
+2339ff4162a6 KVM: s390: Fix handle_sske page fault handling
+3f3b4054e214 samples/kretprobes: Fix return value if register_kretprobe() failed
+9435b2f9c006 tcp: don't free a FIN sk_buff in tcp_remove_empty_skb()
+a8226599cbab irq: mips: avoid nested irq_enter()
+ae5a24464872 s390/gmap: don't unconditionally call pte_unmap_unlock() in __gmap_zap()
+8fb436d146c7 libbpf: Fix BTF data layout checks and allow empty BTF
+03a818c09677 smackfs: use netlbl_cfg_cipsov4_del() for deleting cipso_v4_doi
+12ccb5737925 drm/msm: Fix potential NULL dereference in DPU SSPP
+dc18f0806297 clocksource/drivers/timer-ti-dm: Select TIMER_OF
+c523474f2a45 PM: hibernate: fix sparse warnings
+0d22f55014d2 nvme-rdma: fix error code in nvme_rdma_setup_ctrl
+67ba6c8e715f phy: micrel: ksz8041nl: do not use power down mode
+ae213c059a8b mwifiex: Send DELBA requests according to spec
+3a781e213164 rsi: stop thread firstly in rsi_91x_init() error handling
+ad4cd0130757 mt76: mt76x02: fix endianness warnings in mt76x02_mac.c
+bdbc9311f10f platform/x86: thinkpad_acpi: Fix bitwise vs. logical warning
+3446e5ecdf91 block: ataflop: fix breakage introduced at blk-mq refactoring
+2918a29fc8ba mmc: mxs-mmc: disable regulator on error and in the remove function
+b631c603b5fb net: stream: don't purge sk_error_queue in sk_stream_kill_queues()
+f27fbff86280 drm/msm: uninitialized variable in msm_gem_import()
+32ac072c24b5 ath10k: fix max antenna gain unit
+218fb43ffff0 hwmon: (pmbus/lm25066) Let compiler determine outer dimension of lm25066_coeff
+8384c4a7bcb3 hwmon: Fix possible memleak in __hwmon_device_register()
+f7fd072039d6 net, neigh: Fix NTF_EXT_LEARNED in combination with NTF_USE
+9498f5272a44 memstick: jmb38x_ms: use appropriate free function in jmb38x_ms_alloc_host()
+5f462b38ce7a memstick: avoid out-of-range warning
+3a7525d5d7bf mmc: sdhci-omap: Fix NULL pointer exception if regulator is not configured
+dc73f7cae11d b43: fix a lower bounds test
+1b6365fdae77 b43legacy: fix a lower bounds test
+c51ac7fd0256 hwrng: mtk - Force runtime pm ops for sleep ops
+52d2cdab5288 crypto: qat - disregard spurious PFVF interrupts
+4d7881430ffb crypto: qat - detect PFVF collision after ACK
+a3d3f9c5dca3 media: dvb-frontends: mn88443x: Handle errors of clk_prepare_enable()
+73dd601bec0d netfilter: nft_dynset: relax superfluous check on set updates
+62f6260f7065 EDAC/amd64: Handle three rank interleaving mode
+f399e650c095 ath9k: Fix potential interrupt storm on queue reset
+843ff688eb83 media: em28xx: Don't use ops->suspend if it is NULL
+e577924b7021 cpuidle: Fix kobject memory leaks in error paths
+18fdbdbecf72 crypto: ecc - fix CRYPTO_DEFAULT_RNG dependency
+a993159a2ad0 kprobes: Do not use local variable when creating debugfs file
+71411bd79e24 media: cx23885: Fix snd_card_free call on null card pointer
+1c2c8030e7eb media: tm6000: Avoid card name truncation
+61266f852fb5 media: si470x: Avoid card name truncation
+4e65b9ec2158 media: radio-wl1273: Avoid card name truncation
+8eeec127d5cf media: mtk-vpu: Fix a resource leak in the error handling path of 'mtk_vpu_probe()'
+2b9ae7bac92e media: TDA1997x: handle short reads of hdmi info frame.
+23b65152a069 media: dvb-usb: fix ununit-value in az6027_rc_query
+e2b2d221a446 media: cxd2880-spi: Fix a null pointer dereference on error handling path
+f46da0c6af3a media: em28xx: add missing em28xx_close_extension
+14f3d77c770d drm/amdgpu: fix warning for overflow check
+465dc8a1b1c1 ath10k: Fix missing frame timestamp for beacon/probe-resp
+7c12c2fe4568 net: dsa: rtl8366rb: Fix off-by-one bug
+674637270edd rxrpc: Fix _usecs_to_jiffies() by using usecs_to_jiffies()
+d4cd7a167c87 crypto: caam - disable pkc for non-E SoCs
+555fe5734d39 Bluetooth: btmtkuart: fix a memleak in mtk_hci_wmt_sync
+8c68d12f1a37 wilc1000: fix possible memory leak in cfg_scan_result()
+1713b856345d cgroup: Make rebind_subsystems() disable v2 controllers all at once
+bd76ec43f14e net: net_namespace: Fix undefined member in key_remove_domain()
+3a37742128ea virtio-gpu: fix possible memory allocation failure
+606c95078a4e drm/v3d: fix wait for TMU write combiner flush
+6a93d8ebb8aa rcu: Fix existing exp request check in sync_sched_exp_online_cleanup()
+6237a1685c28 Bluetooth: fix init and cleanup of sco_conn.timeout_work
+28c1d965622f selftests/bpf: Fix strobemeta selftest regression
+f2c04d46c8de netfilter: conntrack: set on IPS_ASSURED if flows enters internal stream state
+0c2acfede5ac parisc/kgdb: add kgdb_roundup() to make kgdb work with idle polling
+cbe28724277c parisc/unwind: fix unwinder when CONFIG_64BIT is enabled
+a9a411adcac8 task_stack: Fix end_of_stack() for architectures with upwards-growing stack
+c06cf3b1d049 parisc: fix warning in flush_tlb_all
+732441923321 x86/hyperv: Protect set_hv_tscchange_cb() against getting preempted
+ad67a7e2ab13 spi: bcm-qspi: Fix missing clk_disable_unprepare() on error in bcm_qspi_probe()
+a15fc58933aa btrfs: do not take the uuid_mutex in btrfs_rm_device
+aba1db41dde7 net: annotate data-race in neigh_output()
+2f78cb7eccb6 vrf: run conntrack only in context of lower/physdev for locally generated packets
+5919f02e185b ARM: 9136/1: ARMv7-M uses BE-8, not BE-32
+d99f320a1b7e gre/sit: Don't generate link-local addr if addr_gen_mode is IN6_ADDR_GEN_MODE_NONE
+9929b3db46c9 ARM: clang: Do not rely on lr register for stacktrace
+681a426e6ba4 smackfs: use __GFP_NOFAIL for smk_cipso_doi()
+4752a9c3a079 iwlwifi: mvm: disable RX-diversity in powersave
+41e583edb1d2 selftests: kvm: fix mismatched fclose() after popen()
+4411d0d8df2b PM: hibernate: Get block device exclusively in swsusp_check()
+a528d3aac3ef nvme: drop scan_lock and always kick requeue list when removing namespaces
+209c39b3f5e9 nvmet-tcp: fix use-after-free when a port is removed
+81d11e40fdbb nvmet: fix use-after-free when a port is removed
+1ec1ca2be9c6 block: remove inaccurate requeue check
+bfde056402c7 mwl8k: Fix use-after-free in mwl8k_fw_state_machine()
+e4af3e42ba1e tracing/cfi: Fix cmp_entries_* functions signature mismatch
+caeb6bae7553 workqueue: make sysfs of unbound kworker cpumask more clever
+58b4e0c075d5 lib/xz: Validate the value before assigning it to an enum variable
+8cdab20660f0 lib/xz: Avoid overlapping memcpy() with invalid input with in-place decompression
+eb8f087201b5 memstick: r592: Fix a UAF bug when removing the driver
+2226ad031436 leaking_addresses: Always print a trailing newline
+63c3c7b699d2 ACPI: battery: Accept charges over the design capacity as full
+2efb81b22d2d iov_iter: Fix iov_iter_get_pages{,_alloc} page fault return value
+d5fb057f2364 ath: dfs_pattern_detector: Fix possible null-pointer dereference in channel_detector_create()
+e2c27194fcd9 tracefs: Have tracefs directories not set OTH permission bits by default
+ace6e7fe9645 net-sysfs: try not to restart the syscall if it will fail eventually
+d8d1d3540561 media: usb: dvd-usb: fix uninit-value bug in dibusb_read_eeprom_byte()
+382e7b6458e4 media: ipu3-imgu: VIDIOC_QUERYCAP: Fix bus_info
+e5f9be486976 media: ipu3-imgu: imgu_fmt: Handle properly try
+cdf338e1dbf1 ACPICA: Avoid evaluating methods too early during system resume
+9ff00d0b1d35 ipmi: Disable some operations during a panic
+4bba26f89e66 media: rcar-csi2: Add checking to rcsi2_start_receiver()
+c08a655ed938 brcmfmac: Add DMI nvram filename quirk for Cyberbook T116 tablet
+f64551db5299 ia64: don't do IA64_CMPXCHG_DEBUG without CONFIG_PRINTK
+31b784864736 media: mceusb: return without resubmitting URB in case of -EPROTO error.
+e419469adfd4 media: imx: set a media_device bus_info string
+b2b2f9178250 media: s5p-mfc: Add checking to s5p_mfc_probe().
+6b8ab552e24c media: s5p-mfc: fix possible null-pointer dereference in s5p_mfc_probe()
+bc4af8c782eb media: uvcvideo: Set unique vdev name based in type
+7a646855d6a0 media: uvcvideo: Return -EIO for control errors
+ab7fca0eaefb media: uvcvideo: Set capability in s_param
+bff0833e2b7a media: stm32: Potential NULL pointer dereference in dcmi_irq_thread()
+cede36511c3b media: netup_unidvb: handle interrupt properly according to the firmware
+3fe3d04354ae media: mt9p031: Fix corrupted frame after restarting stream
+08743f9c4801 ath10k: high latency fixes for beacon buffer
+fadb4cd750f4 mwifiex: Properly initialize private structure on interface type changes
+7d3e6635c22a mwifiex: Run SET_BSS_MODE when changing from P2P to STATION vif-type
+480c240ab6df x86: Increase exception stack sizes
+91b9c23b6d5b smackfs: Fix use-after-free in netlbl_catmap_walk()
+31df731c8705 net: sched: update default qdisc visibility after Tx queue cnt changes
+a82f379378ab locking/lockdep: Avoid RCU-induced noinstr fail
+f14eca60bf23 MIPS: lantiq: dma: reset correct number of channel
+ca07aff2575d MIPS: lantiq: dma: add small delay after reset
+e5ea3dca9497 platform/x86: wmi: do not fail if disabling fails
+b57df4d6fc13 drm/panel-orientation-quirks: add Valve Steam Deck
+67bd269a84ce Bluetooth: fix use-after-free error in lock_sock_nested()
+d416020f1a9c Bluetooth: sco: Fix lock_sock() blockage by memcpy_from_msg()
+a52bd11b2410 drm: panel-orientation-quirks: Add quirk for the Samsung Galaxy Book 10.6
+e5ca76568a61 drm: panel-orientation-quirks: Add quirk for KD Kurio Smart C15200 2-in-1
+c19cabfa5537 drm: panel-orientation-quirks: Update the Lenovo Ideapad D330 quirk (v2)
+46a25b7a25a0 dma-buf: WARN on dmabuf release with pending attachments
+1bee9e59c67b USB: chipidea: fix interrupt deadlock
+8a643c0f95e8 USB: iowarrior: fix control-message timeouts
+32858116748e USB: serial: keyspan: fix memleak on probe errors
+8ce0bc6962df iio: dac: ad5446: Fix ad5622_write() return value
+f01e16d32495 pinctrl: core: fix possible memory leak in pinctrl_enable()
+270541cbc056 quota: correct error number in free_dqentry()
+10b808307d37 quota: check block number when reading the block in quota file
+a509a515f378 PCI: aardvark: Read all 16-bits from PCIE_MSI_PAYLOAD_REG
+0ea58b9bb9cf PCI: aardvark: Fix return value of MSI domain .alloc() method
+ee9cdca4d61b PCI: aardvark: Fix reporting Data Link Layer Link Active
+6f99c7a51e0a PCI: aardvark: Do not unmask unused interrupts
+d964886327ba PCI: aardvark: Fix checking for link up via LTSSM state
+e0269c0c81b8 PCI: aardvark: Do not clear status bits of masked interrupts
+50b0ce94fbcc PCI: pci-bridge-emul: Fix emulation of W1C bits
+3d995568c9bb xen/balloon: add late_initcall_sync() for initial ballooning done
+3f6255a91bf3 ALSA: mixer: fix deadlock in snd_mixer_oss_set_volume
+6225a31b2eb6 ALSA: mixer: oss: Fix racy access to slots
+e9adf72bdbd5 serial: core: Fix initializing and restoring termios speed
+b535b634645f powerpc/85xx: Fix oops when mpc85xx_smp_guts_ids node cannot be found
+bfefc5d6f953 can: j1939: j1939_can_recv(): ignore messages with invalid source address
+94a3f521e3b6 can: j1939: j1939_tp_cmd_recv(): ignore abort message in the BAM transport
+8e61c799c81e KVM: nVMX: Query current VMCS when determining if MSR bitmaps are in use
+654a8248169e power: supply: max17042_battery: use VFSOC for capacity when no rsns
+11129762e31a power: supply: max17042_battery: Prevent int underflow in set_soc_threshold
+625c3ed247e1 signal/mips: Update (_save|_restore)_fp_context to fail with -EFAULT
+ec5ef8d4d795 signal: Remove the bogus sigkill_pending in ptrace_stop
+28c70d50363d RDMA/qedr: Fix NULL deref for query_qp on the GSI QP
+91a29609bd6f rsi: Fix module dev_oper_mode parameter description
+9defe9b1ab34 rsi: fix rate mask set leading to P2P failure
+2f1f06be3eb5 rsi: fix key enabled check causing unwanted encryption for vap_id > 0
+1fa1da8a60ff rsi: fix occasional initialisation failure with BT coex
+398e7e5add0c wcn36xx: handle connection loss indication
+4a67355383f3 libata: fix checking of DMA state
+6f2f91b9df15 mwifiex: Read a PCI register after writing the TX ring write pointer
+3991cdc40fc1 wcn36xx: Fix HT40 capability for 2Ghz band
+301d33c95441 evm: mark evm_fixmode as __ro_after_init
+e1f71a32899a rtl8187: fix control-message timeouts
+76d2ce7ca9dc PCI: Mark Atheros QCA6174 to avoid bus reset
+3110371c7af6 ath10k: fix division by zero in send path
+2b94d10056f9 ath10k: fix control-message timeout
+cfbe74d8b131 ath6kl: fix control-message timeout
+1a2fe1c3d87f ath6kl: fix division by zero in send path
+78ebff828a33 mwifiex: fix division by zero in fw download path
+08501eb9ff6a EDAC/sb_edac: Fix top-of-high-memory value for Broadwell/Haswell
+a147922924ab regulator: dt-bindings: samsung,s5m8767: correct s5m8767,pmic-buck-default-dvs-idx property
+c9e5a005960b regulator: s5m8767: do not use reset value as DVS voltage if GPIO DVS is disabled
+3baa5886d128 hwmon: (pmbus/lm25066) Add offset coefficients
+98bea923793f ia64: kprobes: Fix to pass correct trampoline address to the handler
+ddb54bf3b764 btrfs: call btrfs_check_rw_degradable only if there is a missing device
+5223324ed1a9 btrfs: fix lost error handling when replaying directory deletes
+c25984fa182f btrfs: clear MISSING device status bit in btrfs_close_one_device
+87a87c82f7f3 net/smc: Correct spelling mistake to TCPF_SYN_RECV
+cc14499b9dde nfp: bpf: relax prog rejection for mtu check through max_pkt_offset
+a62d43084165 vmxnet3: do not stop tx queues after netif_device_detach()
+17dcecf20ce7 r8169: Add device 10ec:8162 to driver r8169
+e84b38e57821 nvmet-tcp: fix header digest verification
+2804181e1b91 drm: panel-orientation-quirks: Add quirk for GPD Win3
+7273488fd373 watchdog: Fix OMAP watchdog early handling
+5ffdddcf28a1 net: multicast: calculate csum of looped-back and forwarded packets
+9420e2496d45 spi: spl022: fix Microwire full duplex mode
+1a667bc32918 nvmet-tcp: fix a memory leak when releasing a queue
+2f3860ba601a xen/netfront: stop tx queues during live migration
+de649ec7ad84 bpf: Prevent increasing bpf_jit_limit above max
+df8665c3983e bpf: Define bpf_jit_alloc_exec_limit for arm64 JIT
+8dd688ba675a drm: panel-orientation-quirks: Add quirk for Aya Neo 2021
+c4282bb80519 mmc: winbond: don't build on M68K
+05f0a97e2ff7 reset: socfpga: add empty driver allowing consumers to probe
+dfa8fb782b52 ARM: dts: sun7i: A20-olinuxino-lime2: Fix ethernet phy-mode
+f09014e8bea8 hyperv/vmbus: include linux/bitops.h
+054fe50d2654 sfc: Don't use netif_info before net_device setup
+82005afbb30b cavium: Fix return values of the probe function
+9f5fd5aab85f scsi: qla2xxx: Fix unmap of already freed sgl
+96183337e97d scsi: qla2xxx: Return -ENOMEM if kzalloc() fails
+8e3a0d28edb6 cavium: Return negative value when pci_alloc_irq_vectors() fails
+58608e80d627 x86/irq: Ensure PI wakeup handler is unregistered before module unload
+7252cb96e410 x86/cpu: Fix migration safety with X86_BUG_NULL_SEL
+e3d4ba338b98 x86/sme: Use #define USE_EARLY_PGTABLE_L5 in mem_encrypt_identity.c
+ccc4e5e60b41 fuse: fix page stealing
+9505d4872188 ALSA: timer: Unconditionally unlink slave instances, too
+2c6446168f07 ALSA: timer: Fix use-after-free problem
+246c6a1fe356 ALSA: synth: missing check for possible NULL after the call to kstrdup
+ce9f7535ec26 ALSA: usb-audio: Add registration quirk for JBL Quantum 400
+7da6f4c5c21c ALSA: line6: fix control and interrupt message timeouts
+4a12e624e597 ALSA: 6fire: fix control and bulk message timeouts
+ab3f823af278 ALSA: ua101: fix division by zero at probe
+a3bb6e0db72b ALSA: hda/realtek: Add quirk for HP EliteBook 840 G7 mute LED
+40243342d297 ALSA: hda/realtek: Add quirk for ASUS UX550VE
+8af6ade7ac5e ALSA: hda/realtek: Add a quirk for Acer Spin SP513-54N
+809416fe0a7a ALSA: hda/realtek: Add quirk for Clevo PC70HS
+638b53d67ffc media: v4l2-ioctl: Fix check_ext_ctrls
+8c11269bd619 media: ir-kbd-i2c: improve responsiveness of hauppauge zilog receivers
+bbd62d2fca94 media: ite-cir: IR receiver stop working after receive overflow
+eef6cb3d3c92 crypto: s5p-sss - Add error handling in s5p_aes_probe()
+d7a5d872b414 firmware/psci: fix application of sizeof to pointer
+18f0fb57a9fe tpm: Check for integer overflow in tpm2_map_response_body()
+f38f3da360a6 parisc: Fix ptrace check on syscall return
+acbc2a08ea7c mmc: dw_mmc: Dont wait for DRTO on Write RSP error
+5ee76475f82a scsi: qla2xxx: Fix use after free in eh_abort path
+cc5b13948838 scsi: qla2xxx: Fix kernel crash when accessing port_speed sysfs file
+617d2fd48da5 ocfs2: fix data corruption on truncate
+c20eb9551c52 libata: fix read log timeout value
+69c2199f49fb Input: i8042 - Add quirk for Fujitsu Lifebook T725
+17ec1c6b45a7 Input: elantench - fix misreporting trackpoint coordinates
+ce4bec0a54a4 Input: iforce - fix control-message timeout
+db39f49ee7d5 binder: use cred instead of task for getsecid
+fc9c470cd519 binder: use cred instead of task for selinux checks
+28a1e470b000 binder: use euid from cred instead of using task
+3e87c4996de1 usb: xhci: Enable runtime-pm by default on AMD Yellow Carp platform
+3fa7efd1fab1 xhci: Fix USB 3.1 enumeration issues by increasing roothub power-on-good delay
 
-CVE-2020-14372 description (from NVD [1]):
-A flaw was found in grub2 in versions prior to 2.06, where it incorrectly
-enables the usage of the ACPI command when Secure Boot is enabled.
-This flaw allows an attacker with privileged access to craft a Secondary
-System Description Table (SSDT) containing code to overwrite the Linux
-kernel lockdown variable content directly into memory. The table is
-further loaded and executed by the kernel, defeating its Secure Boot
-lockdown and allowing the attacker to load unsigned code. The highest
-threat from this vulnerability is to data confidentiality and integrity,
-as well as system availability.
-
-CVE-2020-27779 description (from NVD [2]):
-A flaw was found in grub2 in versions prior to 2.06. The cutmem command
-does not honor secure boot locking allowing an privileged attacker to
-remove address ranges from memory creating an opportunity to circumvent
-SecureBoot protections after proper triage about grub's memory layout.
-The highest threat from this vulnerability is to data confidentiality
-and integrity as well as system availability.
-
-[1] https://nvd.nist.gov/vuln/detail/CVE-2020-14372
-[2] https://nvd.nist.gov/vuln/detail/CVE-2020-27779
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+(cherry picked from commit 638171722cc6bfde01bf71a83af1a7c104ec54aa)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../grub/files/CVE-2020-14372.patch           |  76 +++
- .../grub/files/CVE-2020-14372_1.patch         | 130 ++++++
- .../grub/files/CVE-2020-14372_2.patch         | 431 ++++++++++++++++++
- .../grub/files/CVE-2020-14372_3.patch         |  57 +++
- .../grub/files/CVE-2020-14372_4.patch         |  52 +++
- .../grub/files/CVE-2020-14372_5.patch         | 158 +++++++
- .../grub/files/CVE-2020-27779.patch           |  70 +++
- .../grub/files/CVE-2020-27779_2.patch         | 105 +++++
- .../grub/files/CVE-2020-27779_3.patch         |  37 ++
- .../grub/files/CVE-2020-27779_4.patch         |  35 ++
- .../grub/files/CVE-2020-27779_5.patch         |  62 +++
- .../grub/files/CVE-2020-27779_6.patch         |  61 +++
- .../grub/files/CVE-2020-27779_7.patch         |  65 +++
- .../grub/files/no-insmod-on-sb.patch          | 107 +++++
- meta/recipes-bsp/grub/grub2.inc               |  14 +
- 15 files changed, 1460 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch
- create mode 100644 meta/recipes-bsp/grub/files/no-insmod-on-sb.patch
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372.patch
-new file mode 100644
-index 0000000000..08e7666cde
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372.patch
-@@ -0,0 +1,76 @@
-+From 0d237c0b90f0c6d4a3662c569b2371ae3ed69574 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Mon, 28 Sep 2020 20:08:41 +0200
-+Subject: [PATCH] acpi: Don't register the acpi command when locked down
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The command is not allowed when lockdown is enforced. Otherwise an
-+attacker can instruct the GRUB to load an SSDT table to overwrite
-+the kernel lockdown configuration and later load and execute
-+unsigned code.
-+
-+Fixes: CVE-2020-14372
-+
-+Reported-by: Máté Kukri <km@mkukri.xyz>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3e8e4c0549240fa209acffceb473e1e509b50c95]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi            |  5 +++++
-+ grub-core/commands/acpi.c | 15 ++++++++-------
-+ 2 files changed, 13 insertions(+), 7 deletions(-)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index 0786427..47ac7ff 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -3986,6 +3986,11 @@ Normally, this command will replace the Root System Description Pointer
-+ (RSDP) in the Extended BIOS Data Area to point to the new tables. If the
-+ @option{--no-ebda} option is used, the new tables will be known only to
-+ GRUB, but may be used by GRUB's EFI emulation.
-++
-++Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-++      Otherwise an attacker can instruct the GRUB to load an SSDT table to
-++      overwrite the kernel lockdown configuration and later load and execute
-++      unsigned code.
-+ @end deffn
-+ 
-+ 
-+diff --git a/grub-core/commands/acpi.c b/grub-core/commands/acpi.c
-+index 5a1499a..1215f2a 100644
-+--- a/grub-core/commands/acpi.c
-++++ b/grub-core/commands/acpi.c
-+@@ -27,6 +27,7 @@
-+ #include <grub/mm.h>
-+ #include <grub/memory.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ #ifdef GRUB_MACHINE_EFI
-+ #include <grub/efi/efi.h>
-+@@ -775,13 +776,13 @@ static grub_extcmd_t cmd;
-+ 
-+ GRUB_MOD_INIT(acpi)
-+ {
-+-  cmd = grub_register_extcmd ("acpi", grub_cmd_acpi, 0,
-+-			      N_("[-1|-2] [--exclude=TABLE1,TABLE2|"
-+-			      "--load-only=TABLE1,TABLE2] FILE1"
-+-			      " [FILE2] [...]"),
-+-			      N_("Load host ACPI tables and tables "
-+-			      "specified by arguments."),
-+-			      options);
-++  cmd = grub_register_extcmd_lockdown ("acpi", grub_cmd_acpi, 0,
-++                                       N_("[-1|-2] [--exclude=TABLE1,TABLE2|"
-++                                          "--load-only=TABLE1,TABLE2] FILE1"
-++                                          " [FILE2] [...]"),
-++                                       N_("Load host ACPI tables and tables "
-++                                          "specified by arguments."),
-++                                       options);
-+ }
-+ 
-+ GRUB_MOD_FINI(acpi)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch
-new file mode 100644
-index 0000000000..745f335501
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch
-@@ -0,0 +1,130 @@
-+From fe7a13df6200bda934fcc0246458df249f1ef4f2 Mon Sep 17 00:00:00 2001
-+From: Marco A Benatto <mbenatto@redhat.com>
-+Date: Wed, 23 Sep 2020 11:33:33 -0400
-+Subject: [PATCH] verifiers: Move verifiers API to kernel image
-+
-+Move verifiers API from a module to the kernel image, so it can be
-+used there as well. There are no functional changes in this patch.
-+
-+Signed-off-by: Marco A Benatto <mbenatto@redhat.com>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9e95f45ceeef36fcf93cbfffcf004276883dbc99]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/Makefile.am                    | 1 +
-+ grub-core/Makefile.core.def              | 6 +-----
-+ grub-core/kern/main.c                    | 4 ++++
-+ grub-core/{commands => kern}/verifiers.c | 8 ++------
-+ include/grub/verify.h                    | 9 ++++++---
-+ 5 files changed, 14 insertions(+), 14 deletions(-)
-+ rename grub-core/{commands => kern}/verifiers.c (97%)
-+
-+diff --git a/grub-core/Makefile.am b/grub-core/Makefile.am
-+index 3ea8e7f..375c30d 100644
-+--- a/grub-core/Makefile.am
-++++ b/grub-core/Makefile.am
-+@@ -90,6 +90,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/parser.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/partition.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/term.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/time.h
-++KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/verify.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/mm_private.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/net.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/memory.h
-+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-+index 474a63e..cff02f2 100644
-+--- a/grub-core/Makefile.core.def
-++++ b/grub-core/Makefile.core.def
-+@@ -140,6 +140,7 @@ kernel = {
-+   common = kern/rescue_parser.c;
-+   common = kern/rescue_reader.c;
-+   common = kern/term.c;
-++  common = kern/verifiers.c;
-+ 
-+   noemu = kern/compiler-rt.c;
-+   noemu = kern/mm.c;
-+@@ -942,11 +943,6 @@ module = {
-+   cppflags = '-I$(srcdir)/lib/posix_wrap';
-+ };
-+ 
-+-module = {
-+-  name = verifiers;
-+-  common = commands/verifiers.c;
-+-};
-+-
-+ module = {
-+   name = shim_lock;
-+   common = commands/efi/shim_lock.c;
-+diff --git a/grub-core/kern/main.c b/grub-core/kern/main.c
-+index 9cad0c4..73967e2 100644
-+--- a/grub-core/kern/main.c
-++++ b/grub-core/kern/main.c
-+@@ -29,6 +29,7 @@
-+ #include <grub/command.h>
-+ #include <grub/reader.h>
-+ #include <grub/parser.h>
-++#include <grub/verify.h>
-+ 
-+ #ifdef GRUB_MACHINE_PCBIOS
-+ #include <grub/machine/memory.h>
-+@@ -274,6 +275,9 @@ grub_main (void)
-+   grub_printf ("Welcome to GRUB!\n\n");
-+   grub_setcolorstate (GRUB_TERM_COLOR_STANDARD);
-+ 
-++  /* Init verifiers API. */
-++  grub_verifiers_init ();
-++
-+   grub_load_config ();
-+ 
-+   grub_boot_time ("Before loading embedded modules.");
-+diff --git a/grub-core/commands/verifiers.c b/grub-core/kern/verifiers.c
-+similarity index 97%
-+rename from grub-core/commands/verifiers.c
-+rename to grub-core/kern/verifiers.c
-+index 0dde481..aa3dc7c 100644
-+--- a/grub-core/commands/verifiers.c
-++++ b/grub-core/kern/verifiers.c
-+@@ -217,12 +217,8 @@ grub_verify_string (char *str, enum grub_verify_string_type type)
-+   return GRUB_ERR_NONE;
-+ }
-+ 
-+-GRUB_MOD_INIT(verifiers)
-++void
-++grub_verifiers_init (void)
-+ {
-+   grub_file_filter_register (GRUB_FILE_FILTER_VERIFY, grub_verifiers_open);
-+ }
-+-
-+-GRUB_MOD_FINI(verifiers)
-+-{
-+-  grub_file_filter_unregister (GRUB_FILE_FILTER_VERIFY);
-+-}
-+diff --git a/include/grub/verify.h b/include/grub/verify.h
-+index ea04914..cd129c3 100644
-+--- a/include/grub/verify.h
-++++ b/include/grub/verify.h
-+@@ -64,7 +64,10 @@ struct grub_file_verifier
-+   grub_err_t (*verify_string) (char *str, enum grub_verify_string_type type);
-+ };
-+ 
-+-extern struct grub_file_verifier *grub_file_verifiers;
-++extern struct grub_file_verifier *EXPORT_VAR (grub_file_verifiers);
-++
-++extern void
-++grub_verifiers_init (void);
-+ 
-+ static inline void
-+ grub_verifier_register (struct grub_file_verifier *ver)
-+@@ -78,7 +81,7 @@ grub_verifier_unregister (struct grub_file_verifier *ver)
-+   grub_list_remove (GRUB_AS_LIST (ver));
-+ }
-+ 
-+-grub_err_t
-+-grub_verify_string (char *str, enum grub_verify_string_type type);
-++extern grub_err_t
-++EXPORT_FUNC (grub_verify_string) (char *str, enum grub_verify_string_type type);
-+ 
-+ #endif /* ! GRUB_VERIFY_HEADER */
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch
-new file mode 100644
-index 0000000000..a98b5d0455
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch
-@@ -0,0 +1,431 @@
-+From d8aac4517fef0f0188a60a2a8ff9cafdd9c7ca42 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Mon, 28 Sep 2020 20:08:02 +0200
-+Subject: [PATCH] kern: Add lockdown support
-+
-+When the GRUB starts on a secure boot platform, some commands can be
-+used to subvert the protections provided by the verification mechanism and
-+could lead to booting untrusted system.
-+
-+To prevent that situation, allow GRUB to be locked down. That way the code
-+may check if GRUB has been locked down and further restrict the commands
-+that are registered or what subset of their functionality could be used.
-+
-+The lockdown support adds the following components:
-+
-+* The grub_lockdown() function which can be used to lockdown GRUB if,
-+  e.g., UEFI Secure Boot is enabled.
-+
-+* The grub_is_lockdown() function which can be used to check if the GRUB
-+  was locked down.
-+
-+* A verifier that flags OS kernels, the GRUB modules, Device Trees and ACPI
-+  tables as GRUB_VERIFY_FLAGS_DEFER_AUTH to defer verification to other
-+  verifiers. These files are only successfully verified if another registered
-+  verifier returns success. Otherwise, the whole verification process fails.
-+
-+  For example, PE/COFF binaries verification can be done by the shim_lock
-+  verifier which validates the signatures using the shim_lock protocol.
-+  However, the verification is not deferred directly to the shim_lock verifier.
-+  The shim_lock verifier is hooked into the verification process instead.
-+
-+* A set of grub_{command,extcmd}_lockdown functions that can be used by
-+  code registering command handlers, to only register unsafe commands if
-+  the GRUB has not been locked down.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=578c95298bcc46e0296f4c786db64c2ff26ce2cc]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ conf/Makefile.common        |  2 +
-+ docs/grub-dev.texi          | 27 +++++++++++++
-+ docs/grub.texi              |  8 ++++
-+ grub-core/Makefile.am       |  5 ++-
-+ grub-core/Makefile.core.def |  1 +
-+ grub-core/commands/extcmd.c | 23 +++++++++++
-+ grub-core/kern/command.c    | 24 +++++++++++
-+ grub-core/kern/lockdown.c   | 80 +++++++++++++++++++++++++++++++++++++
-+ include/grub/command.h      |  5 +++
-+ include/grub/extcmd.h       |  7 ++++
-+ include/grub/lockdown.h     | 44 ++++++++++++++++++++
-+ 11 files changed, 225 insertions(+), 1 deletion(-)
-+ create mode 100644 grub-core/kern/lockdown.c
-+ create mode 100644 include/grub/lockdown.h
-+
-+diff --git a/conf/Makefile.common b/conf/Makefile.common
-+index 6cd71cb..2a1a886 100644
-+--- a/conf/Makefile.common
-++++ b/conf/Makefile.common
-+@@ -84,7 +84,9 @@ CPPFLAGS_PARTTOOL_LIST = -Dgrub_parttool_register=PARTTOOL_LIST_MARKER
-+ CPPFLAGS_TERMINAL_LIST = '-Dgrub_term_register_input(...)=INPUT_TERMINAL_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_TERMINAL_LIST += '-Dgrub_term_register_output(...)=OUTPUT_TERMINAL_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_COMMAND_LIST = '-Dgrub_register_command(...)=COMMAND_LIST_MARKER(__VA_ARGS__)'
-++CPPFLAGS_COMMAND_LIST += '-Dgrub_register_command_lockdown(...)=COMMAND_LOCKDOWN_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_COMMAND_LIST += '-Dgrub_register_extcmd(...)=EXTCOMMAND_LIST_MARKER(__VA_ARGS__)'
-++CPPFLAGS_COMMAND_LIST += '-Dgrub_register_extcmd_lockdown(...)=EXTCOMMAND_LOCKDOWN_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_COMMAND_LIST += '-Dgrub_register_command_p1(...)=P1COMMAND_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_FDT_LIST := '-Dgrub_fdtbus_register(...)=FDT_DRIVER_LIST_MARKER(__VA_ARGS__)'
-+ CPPFLAGS_MARKER = $(CPPFLAGS_FS_LIST) $(CPPFLAGS_VIDEO_LIST) \
-+diff --git a/docs/grub-dev.texi b/docs/grub-dev.texi
-+index ee389fd..635ec72 100644
-+--- a/docs/grub-dev.texi
-++++ b/docs/grub-dev.texi
-+@@ -86,6 +86,7 @@ This edition documents version @value{VERSION}.
-+ * PFF2 Font File Format::
-+ * Graphical Menu Software Design::
-+ * Verifiers framework::
-++* Lockdown framework::
-+ * Copying This Manual::         Copying This Manual
-+ * Index::
-+ @end menu
-+@@ -2086,6 +2087,32 @@ Optionally at the end of the file @samp{fini}, if it exists, is called with just
-+ the context. If you return no error during any of @samp{init}, @samp{write} and
-+ @samp{fini} then the file is considered as having succeded verification.
-+ 
-++@node Lockdown framework
-++@chapter Lockdown framework
-++
-++The GRUB can be locked down, which is a restricted mode where some operations
-++are not allowed. For instance, some commands cannot be used when the GRUB is
-++locked down.
-++
-++The function
-++@code{grub_lockdown()} is used to lockdown GRUB and the function
-++@code{grub_is_lockdown()} function can be used to check whether lockdown is
-++enabled or not. When enabled, the function returns @samp{GRUB_LOCKDOWN_ENABLED}
-++and @samp{GRUB_LOCKDOWN_DISABLED} when is not enabled.
-++
-++The following functions can be used to register the commands that can only be
-++used when lockdown is disabled:
-++
-++@itemize
-++
-++@item @code{grub_cmd_lockdown()} registers command which should not run when the
-++GRUB is in lockdown mode.
-++
-++@item @code{grub_cmd_lockdown()} registers extended command which should not run
-++when the GRUB is in lockdown mode.
-++
-++@end itemize
-++
-+ @node Copying This Manual
-+ @appendix Copying This Manual
-+ 
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index 8779507..d778bfb 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -5581,6 +5581,7 @@ environment variables and commands are listed in the same order.
-+ * Using digital signatures::         Booting digitally signed code
-+ * UEFI secure boot and shim::        Booting digitally signed PE files
-+ * Measured Boot::                    Measuring boot components
-++* Lockdown::                         Lockdown when booting on a secure setup
-+ @end menu
-+ 
-+ @node Authentication and authorisation
-+@@ -5794,6 +5795,13 @@ into @file{core.img} in order to avoid a potential gap in measurement between
-+ 
-+ Measured boot is currently only supported on EFI platforms.
-+ 
-++@node Lockdown
-++@section Lockdown when booting on a secure setup
-++
-++The GRUB can be locked down when booted on a secure boot environment, for example
-++if the UEFI secure boot is enabled. On a locked down configuration, the GRUB will
-++be restricted and some operations/commands cannot be executed.
-++
-+ @node Platform limitations
-+ @chapter Platform limitations
-+ 
-+diff --git a/grub-core/Makefile.am b/grub-core/Makefile.am
-+index 375c30d..3096241 100644
-+--- a/grub-core/Makefile.am
-++++ b/grub-core/Makefile.am
-+@@ -79,6 +79,7 @@ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/fs.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/i18n.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/kernel.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/list.h
-++KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/lockdown.h
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/misc.h
-+ if COND_emu
-+ KERNEL_HEADER_FILES += $(top_srcdir)/include/grub/compiler-rt-emu.h
-+@@ -376,8 +377,10 @@ command.lst: $(MARKER_FILES)
-+ 	  b=`basename $$pp .marker`; \
-+ 	  sed -n \
-+ 	    -e "/EXTCOMMAND_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/*\1: $$b/;p;}" \
-++	    -e "/EXTCOMMAND_LOCKDOWN_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/*\1: $$b/;p;}" \
-+ 	    -e "/P1COMMAND_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/*\1: $$b/;p;}" \
-+-	    -e "/COMMAND_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/\1: $$b/;p;}" $$pp; \
-++	    -e "/COMMAND_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/\1: $$b/;p;}" \
-++	    -e "/COMMAND_LOCKDOWN_LIST_MARKER *( *\"/{s/.*( *\"\([^\"]*\)\".*/\1: $$b/;p;}" $$pp; \
-+ 	done) | sort -u > $@
-+ platform_DATA += command.lst
-+ CLEANFILES += command.lst
-+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
-+index cff02f2..651ea2a 100644
-+--- a/grub-core/Makefile.core.def
-++++ b/grub-core/Makefile.core.def
-+@@ -204,6 +204,7 @@ kernel = {
-+   efi = term/efi/console.c;
-+   efi = kern/acpi.c;
-+   efi = kern/efi/acpi.c;
-++  efi = kern/lockdown.c;
-+   i386_coreboot = kern/i386/pc/acpi.c;
-+   i386_multiboot = kern/i386/pc/acpi.c;
-+   i386_coreboot = kern/acpi.c;
-+diff --git a/grub-core/commands/extcmd.c b/grub-core/commands/extcmd.c
-+index 69574e2..90a5ca2 100644
-+--- a/grub-core/commands/extcmd.c
-++++ b/grub-core/commands/extcmd.c
-+@@ -19,6 +19,7 @@
-+ 
-+ #include <grub/mm.h>
-+ #include <grub/list.h>
-++#include <grub/lockdown.h>
-+ #include <grub/misc.h>
-+ #include <grub/extcmd.h>
-+ #include <grub/script_sh.h>
-+@@ -110,6 +111,28 @@ grub_register_extcmd (const char *name, grub_extcmd_func_t func,
-+ 				    summary, description, parser, 1);
-+ }
-+ 
-++static grub_err_t
-++grub_extcmd_lockdown (grub_extcmd_context_t ctxt __attribute__ ((unused)),
-++                      int argc __attribute__ ((unused)),
-++                      char **argv __attribute__ ((unused)))
-++{
-++  return grub_error (GRUB_ERR_ACCESS_DENIED,
-++                     N_("%s: the command is not allowed when lockdown is enforced"),
-++                     ctxt->extcmd->cmd->name);
-++}
-++
-++grub_extcmd_t
-++grub_register_extcmd_lockdown (const char *name, grub_extcmd_func_t func,
-++                               grub_command_flags_t flags, const char *summary,
-++                               const char *description,
-++                               const struct grub_arg_option *parser)
-++{
-++  if (grub_is_lockdown () == GRUB_LOCKDOWN_ENABLED)
-++    func = grub_extcmd_lockdown;
-++
-++  return grub_register_extcmd (name, func, flags, summary, description, parser);
-++}
-++
-+ void
-+ grub_unregister_extcmd (grub_extcmd_t ext)
-+ {
-+diff --git a/grub-core/kern/command.c b/grub-core/kern/command.c
-+index acd7218..4aabcd4 100644
-+--- a/grub-core/kern/command.c
-++++ b/grub-core/kern/command.c
-+@@ -17,6 +17,7 @@
-+  *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-+  */
-+ 
-++#include <grub/lockdown.h>
-+ #include <grub/mm.h>
-+ #include <grub/command.h>
-+ 
-+@@ -77,6 +78,29 @@ grub_register_command_prio (const char *name,
-+   return cmd;
-+ }
-+ 
-++static grub_err_t
-++grub_cmd_lockdown (grub_command_t cmd __attribute__ ((unused)),
-++                   int argc __attribute__ ((unused)),
-++                   char **argv __attribute__ ((unused)))
-++
-++{
-++  return grub_error (GRUB_ERR_ACCESS_DENIED,
-++                     N_("%s: the command is not allowed when lockdown is enforced"),
-++                     cmd->name);
-++}
-++
-++grub_command_t
-++grub_register_command_lockdown (const char *name,
-++                                grub_command_func_t func,
-++                                const char *summary,
-++                                const char *description)
-++{
-++  if (grub_is_lockdown () == GRUB_LOCKDOWN_ENABLED)
-++    func = grub_cmd_lockdown;
-++
-++  return grub_register_command_prio (name, func, summary, description, 0);
-++}
-++
-+ void
-+ grub_unregister_command (grub_command_t cmd)
-+ {
-+diff --git a/grub-core/kern/lockdown.c b/grub-core/kern/lockdown.c
-+new file mode 100644
-+index 0000000..1e56c0b
-+--- /dev/null
-++++ b/grub-core/kern/lockdown.c
-+@@ -0,0 +1,80 @@
-++/*
-++ *  GRUB  --  GRand Unified Bootloader
-++ *  Copyright (C) 2020  Free Software Foundation, Inc.
-++ *
-++ *  GRUB is free software: you can redistribute it and/or modify
-++ *  it under the terms of the GNU General Public License as published by
-++ *  the Free Software Foundation, either version 3 of the License, or
-++ *  (at your option) any later version.
-++ *
-++ *  GRUB is distributed in the hope that it will be useful,
-++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ *  GNU General Public License for more details.
-++ *
-++ *  You should have received a copy of the GNU General Public License
-++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-++ *
-++ */
-++
-++#include <grub/dl.h>
-++#include <grub/file.h>
-++#include <grub/lockdown.h>
-++#include <grub/verify.h>
-++
-++static int lockdown = GRUB_LOCKDOWN_DISABLED;
-++
-++static grub_err_t
-++lockdown_verifier_init (grub_file_t io __attribute__ ((unused)),
-++                    enum grub_file_type type,
-++                    void **context __attribute__ ((unused)),
-++                    enum grub_verify_flags *flags)
-++{
-++  *flags = GRUB_VERIFY_FLAGS_SKIP_VERIFICATION;
-++
-++  switch (type & GRUB_FILE_TYPE_MASK)
-++    {
-++    case GRUB_FILE_TYPE_GRUB_MODULE:
-++    case GRUB_FILE_TYPE_LINUX_KERNEL:
-++    case GRUB_FILE_TYPE_MULTIBOOT_KERNEL:
-++    case GRUB_FILE_TYPE_XEN_HYPERVISOR:
-++    case GRUB_FILE_TYPE_BSD_KERNEL:
-++    case GRUB_FILE_TYPE_XNU_KERNEL:
-++    case GRUB_FILE_TYPE_PLAN9_KERNEL:
-++    case GRUB_FILE_TYPE_NTLDR:
-++    case GRUB_FILE_TYPE_TRUECRYPT:
-++    case GRUB_FILE_TYPE_FREEDOS:
-++    case GRUB_FILE_TYPE_PXECHAINLOADER:
-++    case GRUB_FILE_TYPE_PCCHAINLOADER:
-++    case GRUB_FILE_TYPE_COREBOOT_CHAINLOADER:
-++    case GRUB_FILE_TYPE_EFI_CHAINLOADED_IMAGE:
-++    case GRUB_FILE_TYPE_ACPI_TABLE:
-++    case GRUB_FILE_TYPE_DEVICE_TREE_IMAGE:
-++      *flags = GRUB_VERIFY_FLAGS_DEFER_AUTH;
-++
-++      /* Fall through. */
-++
-++    default:
-++      return GRUB_ERR_NONE;
-++    }
-++}
-++
-++struct grub_file_verifier lockdown_verifier =
-++  {
-++    .name = "lockdown_verifier",
-++    .init = lockdown_verifier_init,
-++  };
-++
-++void
-++grub_lockdown (void)
-++{
-++  lockdown = GRUB_LOCKDOWN_ENABLED;
-++
-++  grub_verifier_register (&lockdown_verifier);
-++}
-++
-++int
-++grub_is_lockdown (void)
-++{
-++  return lockdown;
-++}
-+diff --git a/include/grub/command.h b/include/grub/command.h
-+index eee4e84..2a6f7f8 100644
-+--- a/include/grub/command.h
-++++ b/include/grub/command.h
-+@@ -86,6 +86,11 @@ EXPORT_FUNC(grub_register_command_prio) (const char *name,
-+ 					 const char *summary,
-+ 					 const char *description,
-+ 					 int prio);
-++grub_command_t
-++EXPORT_FUNC(grub_register_command_lockdown) (const char *name,
-++                                             grub_command_func_t func,
-++                                             const char *summary,
-++                                             const char *description);
-+ void EXPORT_FUNC(grub_unregister_command) (grub_command_t cmd);
-+ 
-+ static inline grub_command_t
-+diff --git a/include/grub/extcmd.h b/include/grub/extcmd.h
-+index 19fe592..fe9248b 100644
-+--- a/include/grub/extcmd.h
-++++ b/include/grub/extcmd.h
-+@@ -62,6 +62,13 @@ grub_extcmd_t EXPORT_FUNC(grub_register_extcmd) (const char *name,
-+ 						 const char *description,
-+ 						 const struct grub_arg_option *parser);
-+ 
-++grub_extcmd_t EXPORT_FUNC(grub_register_extcmd_lockdown) (const char *name,
-++                                                          grub_extcmd_func_t func,
-++                                                          grub_command_flags_t flags,
-++                                                          const char *summary,
-++                                                          const char *description,
-++                                                          const struct grub_arg_option *parser);
-++
-+ grub_extcmd_t EXPORT_FUNC(grub_register_extcmd_prio) (const char *name,
-+ 						      grub_extcmd_func_t func,
-+ 						      grub_command_flags_t flags,
-+diff --git a/include/grub/lockdown.h b/include/grub/lockdown.h
-+new file mode 100644
-+index 0000000..40531fa
-+--- /dev/null
-++++ b/include/grub/lockdown.h
-+@@ -0,0 +1,44 @@
-++/*
-++ *  GRUB  --  GRand Unified Bootloader
-++ *  Copyright (C) 2020  Free Software Foundation, Inc.
-++ *
-++ *  GRUB is free software: you can redistribute it and/or modify
-++ *  it under the terms of the GNU General Public License as published by
-++ *  the Free Software Foundation, either version 3 of the License, or
-++ *  (at your option) any later version.
-++ *
-++ *  GRUB is distributed in the hope that it will be useful,
-++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ *  GNU General Public License for more details.
-++ *
-++ *  You should have received a copy of the GNU General Public License
-++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
-++ */
-++
-++#ifndef GRUB_LOCKDOWN_H
-++#define GRUB_LOCKDOWN_H 1
-++
-++#include <grub/symbol.h>
-++
-++#define GRUB_LOCKDOWN_DISABLED       0
-++#define GRUB_LOCKDOWN_ENABLED        1
-++
-++#ifdef GRUB_MACHINE_EFI
-++extern void
-++EXPORT_FUNC (grub_lockdown) (void);
-++extern int
-++EXPORT_FUNC (grub_is_lockdown) (void);
-++#else
-++static inline void
-++grub_lockdown (void)
-++{
-++}
-++
-++static inline int
-++grub_is_lockdown (void)
-++{
-++  return GRUB_LOCKDOWN_DISABLED;
-++}
-++#endif
-++#endif /* ! GRUB_LOCKDOWN_H */
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch
-new file mode 100644
-index 0000000000..93fdd2cb1a
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch
-@@ -0,0 +1,57 @@
-+From bfb9c44298aa202c176fef8dc5ea48f9b0e76e5e Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Tue, 2 Feb 2021 19:59:48 +0100
-+Subject: [PATCH] kern/lockdown: Set a variable if the GRUB is locked down
-+
-+It may be useful for scripts to determine whether the GRUB is locked
-+down or not. Add the lockdown variable which is set to "y" when the GRUB
-+is locked down.
-+
-+Suggested-by: Dimitri John Ledkov <xnox@ubuntu.com>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=d90367471779c240e002e62edfb6b31fc85b4908]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi            | 3 +++
-+ grub-core/kern/lockdown.c | 4 ++++
-+ 2 files changed, 7 insertions(+)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index d778bfb..5e6cace 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -5802,6 +5802,9 @@ The GRUB can be locked down when booted on a secure boot environment, for exampl
-+ if the UEFI secure boot is enabled. On a locked down configuration, the GRUB will
-+ be restricted and some operations/commands cannot be executed.
-+ 
-++The @samp{lockdown} variable is set to @samp{y} when the GRUB is locked down.
-++Otherwise it does not exit.
-++
-+ @node Platform limitations
-+ @chapter Platform limitations
-+ 
-+diff --git a/grub-core/kern/lockdown.c b/grub-core/kern/lockdown.c
-+index 1e56c0b..0bc70fd 100644
-+--- a/grub-core/kern/lockdown.c
-++++ b/grub-core/kern/lockdown.c
-+@@ -18,6 +18,7 @@
-+  */
-+ 
-+ #include <grub/dl.h>
-++#include <grub/env.h>
-+ #include <grub/file.h>
-+ #include <grub/lockdown.h>
-+ #include <grub/verify.h>
-+@@ -71,6 +72,9 @@ grub_lockdown (void)
-+   lockdown = GRUB_LOCKDOWN_ENABLED;
-+ 
-+   grub_verifier_register (&lockdown_verifier);
-++
-++  grub_env_set ("lockdown", "y");
-++  grub_env_export ("lockdown");
-+ }
-+ 
-+ int
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch
-new file mode 100644
-index 0000000000..ac509b63c7
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch
-@@ -0,0 +1,52 @@
-+From 0d809c0979ced9db4d0e500b3e812bba95e52972 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Mon, 28 Sep 2020 20:08:29 +0200
-+Subject: [PATCH] efi: Lockdown the GRUB when the UEFI Secure Boot is enabled
-+
-+If the UEFI Secure Boot is enabled then the GRUB must be locked down
-+to prevent executing code that can potentially be used to subvert its
-+verification mechanisms.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=98b00a403cbf2ba6833d1ac0499871b27a08eb77]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/kern/efi/init.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
-+
-+diff --git a/grub-core/kern/efi/init.c b/grub-core/kern/efi/init.c
-+index 3dfdf2d..db84d82 100644
-+--- a/grub-core/kern/efi/init.c
-++++ b/grub-core/kern/efi/init.c
-+@@ -20,6 +20,7 @@
-+ #include <grub/efi/efi.h>
-+ #include <grub/efi/console.h>
-+ #include <grub/efi/disk.h>
-++#include <grub/lockdown.h>
-+ #include <grub/term.h>
-+ #include <grub/misc.h>
-+ #include <grub/env.h>
-+@@ -39,6 +40,20 @@ grub_efi_init (void)
-+   /* Initialize the memory management system.  */
-+   grub_efi_mm_init ();
-+ 
-++  /*
-++   * Lockdown the GRUB and register the shim_lock verifier
-++   * if the UEFI Secure Boot is enabled.
-++   */
-++  if (grub_efi_secure_boot ())
-++    {
-++      grub_lockdown ();
-++      /* NOTE: Our version does not have the shim_lock_verifier,
-++       * need to update below if added */
-++#if 0
-++      grub_shim_lock_verifier_setup ();
-++#endif
-++    }
-++
-+   efi_call_4 (grub_efi_system_table->boot_services->set_watchdog_timer,
-+ 	      0, 0, 0, NULL);
-+ 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch b/meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch
-new file mode 100644
-index 0000000000..12ec4e1c17
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch
-@@ -0,0 +1,158 @@
-+From 1ad728b08ba2a21573e5f81a565114f74ca33988 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Mon, 28 Sep 2020 20:08:33 +0200
-+Subject: [PATCH] efi: Use grub_is_lockdown() instead of hardcoding a disabled
-+ modules list
-+
-+Now the GRUB can check if it has been locked down and this can be used to
-+prevent executing commands that can be utilized to circumvent the UEFI
-+Secure Boot mechanisms. So, instead of hardcoding a list of modules that
-+have to be disabled, prevent the usage of commands that can be dangerous.
-+
-+This not only allows the commands to be disabled on other platforms, but
-+also properly separate the concerns. Since the shim_lock verifier logic
-+should be only about preventing to run untrusted binaries and not about
-+defining these kind of policies.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=8f73052885892bc0dbc01e297f79d7cf4925e491]
-+CVE: CVE-2020-14372
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi                  | 10 ++++++++++
-+ grub-core/commands/i386/wrmsr.c |  5 +++--
-+ grub-core/commands/iorw.c       | 19 ++++++++++---------
-+ grub-core/commands/memrw.c      | 19 ++++++++++---------
-+ 4 files changed, 33 insertions(+), 20 deletions(-)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index 5e6cace..0786427 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -5256,6 +5256,9 @@ only applies to the particular cpu/core/thread that runs the command.
-+ Also, if you specify a reserved or unimplemented MSR address, it will
-+ cause a general protection exception (which is not currently being handled)
-+ and the system will reboot.
-++
-++Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-++      This is done to prevent subverting various security mechanisms.
-+ @end deffn
-+ 
-+ @node xen_hypervisor
-+@@ -5758,6 +5761,13 @@ security reasons. All above mentioned requirements are enforced by the
-+ shim_lock module. And itself it is a persistent module which means that
-+ it cannot be unloaded if it was loaded into the memory.
-+ 
-++All GRUB modules not stored in the @file{core.img}, OS kernels, ACPI tables,
-++Device Trees, etc. have to be signed, e.g, using PGP. Additionally, the commands
-++that can be used to subvert the UEFI secure boot mechanism, such as @command{iorw}
-++and @command{memrw} will not be available when the UEFI secure boot is enabled.
-++This is done for security reasons and are enforced by the GRUB Lockdown mechanism
-++(@pxref{Lockdown}).
-++
-+ @node Measured Boot
-+ @section Measuring boot components
-+ 
-+diff --git a/grub-core/commands/i386/wrmsr.c b/grub-core/commands/i386/wrmsr.c
-+index 9c5e510..56a29c2 100644
-+--- a/grub-core/commands/i386/wrmsr.c
-++++ b/grub-core/commands/i386/wrmsr.c
-+@@ -24,6 +24,7 @@
-+ #include <grub/env.h>
-+ #include <grub/command.h>
-+ #include <grub/extcmd.h>
-++#include <grub/lockdown.h>
-+ #include <grub/i18n.h>
-+ #include <grub/i386/cpuid.h>
-+ #include <grub/i386/wrmsr.h>
-+@@ -83,8 +84,8 @@ grub_cmd_msr_write (grub_command_t cmd __attribute__ ((unused)), int argc, char
-+ 
-+ GRUB_MOD_INIT(wrmsr)
-+ {
-+-  cmd_write = grub_register_command ("wrmsr", grub_cmd_msr_write, N_("ADDR VALUE"),
-+-				     N_("Write a value to a CPU model specific register."));
-++  cmd_write = grub_register_command_lockdown ("wrmsr", grub_cmd_msr_write, N_("ADDR VALUE"),
-++                                              N_("Write a value to a CPU model specific register."));
-+ }
-+ 
-+ GRUB_MOD_FINI(wrmsr)
-+diff --git a/grub-core/commands/iorw.c b/grub-core/commands/iorw.c
-+index a0c164e..584baec 100644
-+--- a/grub-core/commands/iorw.c
-++++ b/grub-core/commands/iorw.c
-+@@ -23,6 +23,7 @@
-+ #include <grub/env.h>
-+ #include <grub/cpu/io.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -131,17 +132,17 @@ GRUB_MOD_INIT(memrw)
-+ 			  N_("PORT"), N_("Read 32-bit value from PORT."),
-+ 			  options);
-+   cmd_write_byte =
-+-    grub_register_command ("outb", grub_cmd_write,
-+-			   N_("PORT VALUE [MASK]"),
-+-			   N_("Write 8-bit VALUE to PORT."));
-++    grub_register_command_lockdown ("outb", grub_cmd_write,
-++                                    N_("PORT VALUE [MASK]"),
-++                                    N_("Write 8-bit VALUE to PORT."));
-+   cmd_write_word =
-+-    grub_register_command ("outw", grub_cmd_write,
-+-			   N_("PORT VALUE [MASK]"),
-+-			   N_("Write 16-bit VALUE to PORT."));
-++    grub_register_command_lockdown ("outw", grub_cmd_write,
-++                                    N_("PORT VALUE [MASK]"),
-++                                    N_("Write 16-bit VALUE to PORT."));
-+   cmd_write_dword =
-+-    grub_register_command ("outl", grub_cmd_write,
-+-			   N_("ADDR VALUE [MASK]"),
-+-			   N_("Write 32-bit VALUE to PORT."));
-++    grub_register_command_lockdown ("outl", grub_cmd_write,
-++                                    N_("ADDR VALUE [MASK]"),
-++                                    N_("Write 32-bit VALUE to PORT."));
-+ }
-+ 
-+ GRUB_MOD_FINI(memrw)
-+diff --git a/grub-core/commands/memrw.c b/grub-core/commands/memrw.c
-+index 98769ea..d401a6d 100644
-+--- a/grub-core/commands/memrw.c
-++++ b/grub-core/commands/memrw.c
-+@@ -22,6 +22,7 @@
-+ #include <grub/extcmd.h>
-+ #include <grub/env.h>
-+ #include <grub/i18n.h>
-++#include <grub/lockdown.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -133,17 +134,17 @@ GRUB_MOD_INIT(memrw)
-+ 			  N_("ADDR"), N_("Read 32-bit value from ADDR."),
-+ 			  options);
-+   cmd_write_byte =
-+-    grub_register_command ("write_byte", grub_cmd_write,
-+-			   N_("ADDR VALUE [MASK]"),
-+-			   N_("Write 8-bit VALUE to ADDR."));
-++    grub_register_command_lockdown ("write_byte", grub_cmd_write,
-++                                    N_("ADDR VALUE [MASK]"),
-++                                    N_("Write 8-bit VALUE to ADDR."));
-+   cmd_write_word =
-+-    grub_register_command ("write_word", grub_cmd_write,
-+-			   N_("ADDR VALUE [MASK]"),
-+-			   N_("Write 16-bit VALUE to ADDR."));
-++    grub_register_command_lockdown ("write_word", grub_cmd_write,
-++                                    N_("ADDR VALUE [MASK]"),
-++                                    N_("Write 16-bit VALUE to ADDR."));
-+   cmd_write_dword =
-+-    grub_register_command ("write_dword", grub_cmd_write,
-+-			   N_("ADDR VALUE [MASK]"),
-+-			   N_("Write 32-bit VALUE to ADDR."));
-++    grub_register_command_lockdown ("write_dword", grub_cmd_write,
-++                                    N_("ADDR VALUE [MASK]"),
-++                                    N_("Write 32-bit VALUE to ADDR."));
-+ }
-+ 
-+ GRUB_MOD_FINI(memrw)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779.patch
-new file mode 100644
-index 0000000000..c82423b8af
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779.patch
-@@ -0,0 +1,70 @@
-+From 584263eca1546e5cab69ba6fe7b4b07df2630a21 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 14 Oct 2020 16:33:42 +0200
-+Subject: [PATCH] mmap: Don't register cutmem and badram commands when lockdown
-+ is enforced
-+
-+The cutmem and badram commands can be used to remove EFI memory regions
-+and potentially disable the UEFI Secure Boot. Prevent the commands to be
-+registered if the GRUB is locked down.
-+
-+Fixes: CVE-2020-27779
-+
-+Reported-by: Teddy Reed <teddy.reed@gmail.com>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=d298b41f90cbf1f2e5a10e29daa1fc92ddee52c9]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi        |  4 ++++
-+ grub-core/mmap/mmap.c | 13 +++++++------
-+ 2 files changed, 11 insertions(+), 6 deletions(-)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index 47ac7ff..a1aaee6 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -4051,6 +4051,10 @@ this page is to be filtered.  This syntax makes it easy to represent patterns
-+ that are often result of memory damage, due to physical distribution of memory
-+ cells.
-+ 
-++Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-++      This prevents removing EFI memory regions to potentially subvert the
-++      security mechanisms provided by the UEFI secure boot.
-++
-+ @node blocklist
-+ @subsection blocklist
-+ 
-+diff --git a/grub-core/mmap/mmap.c b/grub-core/mmap/mmap.c
-+index 57b4e9a..7ebf32e 100644
-+--- a/grub-core/mmap/mmap.c
-++++ b/grub-core/mmap/mmap.c
-+@@ -20,6 +20,7 @@
-+ #include <grub/memory.h>
-+ #include <grub/machine/memory.h>
-+ #include <grub/err.h>
-++#include <grub/lockdown.h>
-+ #include <grub/misc.h>
-+ #include <grub/mm.h>
-+ #include <grub/command.h>
-+@@ -534,12 +535,12 @@ static grub_command_t cmd, cmd_cut;
-+ 
-+ GRUB_MOD_INIT(mmap)
-+ {
-+-  cmd = grub_register_command ("badram", grub_cmd_badram,
-+-			       N_("ADDR1,MASK1[,ADDR2,MASK2[,...]]"),
-+-			       N_("Declare memory regions as faulty (badram)."));
-+-  cmd_cut = grub_register_command ("cutmem", grub_cmd_cutmem,
-+-				   N_("FROM[K|M|G] TO[K|M|G]"),
-+-				   N_("Remove any memory regions in specified range."));
-++  cmd = grub_register_command_lockdown ("badram", grub_cmd_badram,
-++                                        N_("ADDR1,MASK1[,ADDR2,MASK2[,...]]"),
-++                                        N_("Declare memory regions as faulty (badram)."));
-++  cmd_cut = grub_register_command_lockdown ("cutmem", grub_cmd_cutmem,
-++                                            N_("FROM[K|M|G] TO[K|M|G]"),
-++                                            N_("Remove any memory regions in specified range."));
-+ 
-+ }
-+ 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch
-new file mode 100644
-index 0000000000..e33c96a05b
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch
-@@ -0,0 +1,105 @@
-+From 4ff1dfdf8c4c71bf4b0dd0488d9fa40ff2617f41 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 24 Feb 2021 09:00:05 +0100
-+Subject: [PATCH] commands: Restrict commands that can load BIOS or DT blobs
-+ when locked down
-+
-+There are some more commands that should be restricted when the GRUB is
-+locked down. Following is the list of commands and reasons to restrict:
-+
-+  * fakebios:   creates BIOS-like structures for backward compatibility with
-+                existing OSes. This should not be allowed when locked down.
-+
-+  * loadbios:   reads a BIOS dump from storage and loads it. This action
-+                should not be allowed when locked down.
-+
-+  * devicetree: loads a Device Tree blob and passes it to the OS. It replaces
-+                any Device Tree provided by the firmware. This also should
-+                not be allowed when locked down.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=468a5699b249fe6816b4e7e86c5dc9d325c9b09e]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi                    |  3 +++
-+ grub-core/commands/efi/loadbios.c | 16 ++++++++--------
-+ grub-core/loader/arm/linux.c      |  6 +++---
-+ grub-core/loader/efi/fdt.c        |  4 ++--
-+ 4 files changed, 16 insertions(+), 13 deletions(-)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index a1aaee6..ccf1908 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -4236,6 +4236,9 @@ Load a device tree blob (.dtb) from a filesystem, for later use by a Linux
-+ kernel. Does not perform merging with any device tree supplied by firmware,
-+ but rather replaces it completely.
-+ @ref{GNU/Linux}.
-++
-++Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-++      This is done to prevent subverting various security mechanisms.
-+ @end deffn
-+ 
-+ @node distrust
-+diff --git a/grub-core/commands/efi/loadbios.c b/grub-core/commands/efi/loadbios.c
-+index d41d521..5c7725f 100644
-+--- a/grub-core/commands/efi/loadbios.c
-++++ b/grub-core/commands/efi/loadbios.c
-+@@ -205,14 +205,14 @@ static grub_command_t cmd_fakebios, cmd_loadbios;
-+ 
-+ GRUB_MOD_INIT(loadbios)
-+ {
-+-  cmd_fakebios = grub_register_command ("fakebios", grub_cmd_fakebios,
-+-					0, N_("Create BIOS-like structures for"
-+-					      " backward compatibility with"
-+-					      " existing OS."));
-+-
-+-  cmd_loadbios = grub_register_command ("loadbios", grub_cmd_loadbios,
-+-					N_("BIOS_DUMP [INT10_DUMP]"),
-+-					N_("Load BIOS dump."));
-++  cmd_fakebios = grub_register_command_lockdown ("fakebios", grub_cmd_fakebios,
-++						 0, N_("Create BIOS-like structures for"
-++						       " backward compatibility with"
-++						       " existing OS."));
-++
-++  cmd_loadbios = grub_register_command_lockdown ("loadbios", grub_cmd_loadbios,
-++						 N_("BIOS_DUMP [INT10_DUMP]"),
-++						 N_("Load BIOS dump."));
-+ }
-+ 
-+ GRUB_MOD_FINI(loadbios)
-+diff --git a/grub-core/loader/arm/linux.c b/grub-core/loader/arm/linux.c
-+index d70c174..ed23dc7 100644
-+--- a/grub-core/loader/arm/linux.c
-++++ b/grub-core/loader/arm/linux.c
-+@@ -493,9 +493,9 @@ GRUB_MOD_INIT (linux)
-+ 				     0, N_("Load Linux."));
-+   cmd_initrd = grub_register_command ("initrd", grub_cmd_initrd,
-+ 				      0, N_("Load initrd."));
-+-  cmd_devicetree = grub_register_command ("devicetree", grub_cmd_devicetree,
-+-					  /* TRANSLATORS: DTB stands for device tree blob.  */
-+-					  0, N_("Load DTB file."));
-++  cmd_devicetree = grub_register_command_lockdown ("devicetree", grub_cmd_devicetree,
-++						   /* TRANSLATORS: DTB stands for device tree blob. */
-++						   0, N_("Load DTB file."));
-+   my_mod = mod;
-+   current_fdt = (const void *) grub_arm_firmware_get_boot_data ();
-+   machine_type = grub_arm_firmware_get_machine_type ();
-+diff --git a/grub-core/loader/efi/fdt.c b/grub-core/loader/efi/fdt.c
-+index ee9c559..003d07c 100644
-+--- a/grub-core/loader/efi/fdt.c
-++++ b/grub-core/loader/efi/fdt.c
-+@@ -165,8 +165,8 @@ static grub_command_t cmd_devicetree;
-+ GRUB_MOD_INIT (fdt)
-+ {
-+   cmd_devicetree =
-+-    grub_register_command ("devicetree", grub_cmd_devicetree, 0,
-+-			   N_("Load DTB file."));
-++    grub_register_command_lockdown ("devicetree", grub_cmd_devicetree, 0,
-++				    N_("Load DTB file."));
-+ }
-+ 
-+ GRUB_MOD_FINI (fdt)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch
-new file mode 100644
-index 0000000000..f9a6a73ebc
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch
-@@ -0,0 +1,37 @@
-+From e4f5c16f76e137b3beb6b61a6d2435e54fcb495c Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 24 Feb 2021 22:59:59 +0100
-+Subject: [PATCH] commands/setpci: Restrict setpci command when locked down
-+
-+This command can set PCI devices register values, which makes it dangerous
-+in a locked down configuration. Restrict it so can't be used on this setup.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=58b77d4069823b44c5fa916fa8ddfc9c4cd51e02]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/commands/setpci.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/grub-core/commands/setpci.c b/grub-core/commands/setpci.c
-+index d5bc97d..fa2ba7d 100644
-+--- a/grub-core/commands/setpci.c
-++++ b/grub-core/commands/setpci.c
-+@@ -329,10 +329,10 @@ static grub_extcmd_t cmd;
-+ 
-+ GRUB_MOD_INIT(setpci)
-+ {
-+-  cmd = grub_register_extcmd ("setpci", grub_cmd_setpci, 0,
-+-			      N_("[-s POSITION] [-d DEVICE] [-v VAR] "
-+-				 "REGISTER[=VALUE[:MASK]]"),
-+-			      N_("Manipulate PCI devices."), options);
-++  cmd = grub_register_extcmd_lockdown ("setpci", grub_cmd_setpci, 0,
-++				       N_("[-s POSITION] [-d DEVICE] [-v VAR] "
-++					  "REGISTER[=VALUE[:MASK]]"),
-++				       N_("Manipulate PCI devices."), options);
-+ }
-+ 
-+ GRUB_MOD_FINI(setpci)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch
-new file mode 100644
-index 0000000000..a756f8d1cf
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch
-@@ -0,0 +1,35 @@
-+From 7949671de268ba3116d113778e5d770574e9f9e3 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 24 Feb 2021 12:59:29 +0100
-+Subject: [PATCH] commands/hdparm: Restrict hdparm command when locked down
-+
-+The command can be used to get/set ATA disk parameters. Some of these can
-+be dangerous since change the disk behavior. Restrict it when locked down.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5c97492a29c6063567b65ed1a069f5e6f4e211f0]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/commands/hdparm.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/grub-core/commands/hdparm.c b/grub-core/commands/hdparm.c
-+index d3fa966..2e2319e 100644
-+--- a/grub-core/commands/hdparm.c
-++++ b/grub-core/commands/hdparm.c
-+@@ -436,9 +436,9 @@ static grub_extcmd_t cmd;
-+ 
-+ GRUB_MOD_INIT(hdparm)
-+ {
-+-  cmd = grub_register_extcmd ("hdparm", grub_cmd_hdparm, 0,
-+-			      N_("[OPTIONS] DISK"),
-+-			      N_("Get/set ATA disk parameters."), options);
-++  cmd = grub_register_extcmd_lockdown ("hdparm", grub_cmd_hdparm, 0,
-++				       N_("[OPTIONS] DISK"),
-++				       N_("Get/set ATA disk parameters."), options);
-+ }
-+ 
-+ GRUB_MOD_FINI(hdparm)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch
-new file mode 100644
-index 0000000000..b52273ff50
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch
-@@ -0,0 +1,62 @@
-+From 6993cce7c3a9d15e6573845f455d2f0de424a717 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 24 Feb 2021 15:03:26 +0100
-+Subject: [PATCH] gdb: Restrict GDB access when locked down
-+
-+The gdbstub* commands allow to start and control a GDB stub running on
-+local host that can be used to connect from a remote debugger. Restrict
-+this functionality when the GRUB is locked down.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=508270838998f151a82e9c13e7cb8a470a2dc23d]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/gdb/gdb.c | 32 ++++++++++++++++++--------------
-+ 1 file changed, 18 insertions(+), 14 deletions(-)
-+
-+diff --git a/grub-core/gdb/gdb.c b/grub-core/gdb/gdb.c
-+index 847a1e1..1818cb6 100644
-+--- a/grub-core/gdb/gdb.c
-++++ b/grub-core/gdb/gdb.c
-+@@ -75,20 +75,24 @@ static grub_command_t cmd, cmd_stop, cmd_break;
-+ GRUB_MOD_INIT (gdb)
-+ {
-+   grub_gdb_idtinit ();
-+-  cmd = grub_register_command ("gdbstub", grub_cmd_gdbstub,
-+-			       N_("PORT"), 
-+-			       /* TRANSLATORS: GDB stub is a small part of
-+-				  GDB functionality running on local host
-+-				  which allows remote debugger to
-+-				  connect to it.  */
-+-			       N_("Start GDB stub on given port"));
-+-  cmd_break = grub_register_command ("gdbstub_break", grub_cmd_gdb_break,
-+-				     /* TRANSLATORS: this refers to triggering
-+-					a breakpoint so that the user will land
-+-					into GDB.  */
-+-				     0, N_("Break into GDB"));
-+-  cmd_stop = grub_register_command ("gdbstub_stop", grub_cmd_gdbstop,
-+-				    0, N_("Stop GDB stub"));
-++  cmd = grub_register_command_lockdown ("gdbstub", grub_cmd_gdbstub,
-++					N_("PORT"),
-++					/*
-++					 * TRANSLATORS: GDB stub is a small part of
-++					 * GDB functionality running on local host
-++					 * which allows remote debugger to
-++					 * connect to it.
-++					 */
-++					N_("Start GDB stub on given port"));
-++  cmd_break = grub_register_command_lockdown ("gdbstub_break", grub_cmd_gdb_break,
-++					      /*
-++					       * TRANSLATORS: this refers to triggering
-++					       * a breakpoint so that the user will land
-++					       * into GDB.
-++					       */
-++					      0, N_("Break into GDB"));
-++  cmd_stop = grub_register_command_lockdown ("gdbstub_stop", grub_cmd_gdbstop,
-++					     0, N_("Stop GDB stub"));
-+ }
-+ 
-+ GRUB_MOD_FINI (gdb)
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch
-new file mode 100644
-index 0000000000..474826ade5
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch
-@@ -0,0 +1,61 @@
-+From 73f214761cff76a18a2a867976bdd3a9adb00b67 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Wed, 24 Feb 2021 14:44:38 +0100
-+Subject: [PATCH] loader/xnu: Don't allow loading extension and packages when
-+ locked down
-+
-+The shim_lock verifier validates the XNU kernels but no its extensions
-+and packages. Prevent these to be loaded when the GRUB is locked down.
-+
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=9c5565135f12400a925ee901b25984e7af4442f5]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/loader/xnu.c | 31 +++++++++++++++++--------------
-+ 1 file changed, 17 insertions(+), 14 deletions(-)
-+
-+diff --git a/grub-core/loader/xnu.c b/grub-core/loader/xnu.c
-+index 77d7060..07232d2 100644
-+--- a/grub-core/loader/xnu.c
-++++ b/grub-core/loader/xnu.c
-+@@ -1482,20 +1482,23 @@ GRUB_MOD_INIT(xnu)
-+ 				      N_("Load XNU image."));
-+   cmd_kernel64 = grub_register_command ("xnu_kernel64", grub_cmd_xnu_kernel64,
-+ 					0, N_("Load 64-bit XNU image."));
-+-  cmd_mkext = grub_register_command ("xnu_mkext", grub_cmd_xnu_mkext, 0,
-+-				     N_("Load XNU extension package."));
-+-  cmd_kext = grub_register_command ("xnu_kext", grub_cmd_xnu_kext, 0,
-+-				    N_("Load XNU extension."));
-+-  cmd_kextdir = grub_register_command ("xnu_kextdir", grub_cmd_xnu_kextdir,
-+-				       /* TRANSLATORS: OSBundleRequired is a
-+-					  variable name in xnu extensions
-+-					  manifests. It behaves mostly like
-+-					  GNU/Linux runlevels.
-+-				       */
-+-				       N_("DIRECTORY [OSBundleRequired]"),
-+-				       /* TRANSLATORS: There are many extensions
-+-					  in extension directory.  */
-+-				       N_("Load XNU extension directory."));
-++  cmd_mkext = grub_register_command_lockdown ("xnu_mkext", grub_cmd_xnu_mkext, 0,
-++					      N_("Load XNU extension package."));
-++  cmd_kext = grub_register_command_lockdown ("xnu_kext", grub_cmd_xnu_kext, 0,
-++					     N_("Load XNU extension."));
-++  cmd_kextdir = grub_register_command_lockdown ("xnu_kextdir", grub_cmd_xnu_kextdir,
-++						/*
-++						 * TRANSLATORS: OSBundleRequired is
-++						 * a variable name in xnu extensions
-++						 * manifests. It behaves mostly like
-++						 * GNU/Linux runlevels.
-++						 */
-++						N_("DIRECTORY [OSBundleRequired]"),
-++						/*
-++						 * TRANSLATORS: There are many extensions
-++						 * in extension directory.
-++						 */
-++						N_("Load XNU extension directory."));
-+   cmd_ramdisk = grub_register_command ("xnu_ramdisk", grub_cmd_xnu_ramdisk, 0,
-+    /* TRANSLATORS: ramdisk here isn't identifier. It can be translated.  */
-+ 				       N_("Load XNU ramdisk. "
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch b/meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch
-new file mode 100644
-index 0000000000..e5d372a2b1
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch
-@@ -0,0 +1,65 @@
-+From dcc5a434e59f721b03cc809db0375a24aa2ac6d0 Mon Sep 17 00:00:00 2001
-+From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Sat, 7 Nov 2020 01:03:18 +0100
-+Subject: [PATCH] docs: Document the cutmem command
-+
-+The command is not present in the docs/grub.texi user documentation.
-+
-+Reported-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-+Signed-off-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=f05e79a0143beb2d9a482a3ebf4fe0ce76778122]
-+CVE: CVE-2020-27779
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ docs/grub.texi | 21 +++++++++++++++++++++
-+ 1 file changed, 21 insertions(+)
-+
-+diff --git a/docs/grub.texi b/docs/grub.texi
-+index ccf1908..ae85f55 100644
-+--- a/docs/grub.texi
-++++ b/docs/grub.texi
-+@@ -3892,6 +3892,7 @@ you forget a command, you can run the command @command{help}
-+ * cpuid::                       Check for CPU features
-+ * crc::                         Compute or check CRC32 checksums
-+ * cryptomount::                 Mount a crypto device
-++* cutmem::                      Remove memory regions
-+ * date::                        Display or set current date and time
-+ * devicetree::                  Load a device tree blob
-+ * distrust::                    Remove a pubkey from trusted keys
-+@@ -4051,6 +4052,8 @@ this page is to be filtered.  This syntax makes it easy to represent patterns
-+ that are often result of memory damage, due to physical distribution of memory
-+ cells.
-+ 
-++The command is similar to @command{cutmem} command.
-++
-+ Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-+       This prevents removing EFI memory regions to potentially subvert the
-+       security mechanisms provided by the UEFI secure boot.
-+@@ -4214,6 +4217,24 @@ GRUB suports devices encrypted using LUKS and geli. Note that necessary modules
-+ be used.
-+ @end deffn
-+ 
-++@node cutmem
-++@subsection cutmem
-++
-++@deffn Command cutmem from[K|M|G] to[K|M|G]
-++Remove any memory regions in specified range.
-++@end deffn
-++
-++This command notifies the memory manager that specified regions of RAM ought to
-++be filtered out. This remains in effect after a payload kernel has been loaded
-++by GRUB, as long as the loaded kernel obtains its memory map from GRUB. Kernels
-++that support this include Linux, GNU Mach, the kernel of FreeBSD and Multiboot
-++kernels in general.
-++
-++The command is similar to @command{badram} command.
-++
-++Note: The command is not allowed when lockdown is enforced (@pxref{Lockdown}).
-++      This prevents removing EFI memory regions to potentially subvert the
-++      security mechanisms provided by the UEFI secure boot.
-+ 
-+ @node date
-+ @subsection date
-diff --git a/meta/recipes-bsp/grub/files/no-insmod-on-sb.patch b/meta/recipes-bsp/grub/files/no-insmod-on-sb.patch
-new file mode 100644
-index 0000000000..504352b4e3
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/no-insmod-on-sb.patch
-@@ -0,0 +1,107 @@
-+From b5a6aa7d77439bfeb75f200abffe15c6f685c907 Mon Sep 17 00:00:00 2001
-+From: Matthew Garrett <mjg@redhat.com>
-+Date: Mon, 13 Jan 2014 12:13:09 +0000
-+Subject: Don't permit loading modules on UEFI secure boot
-+
-+Author: Colin Watson <cjwatson@ubuntu.com>
-+Origin: vendor, http://pkgs.fedoraproject.org/cgit/grub2.git/tree/grub-2.00-no-insmod-on-sb.patch
-+Forwarded: no
-+Last-Update: 2013-12-25
-+
-+Patch-Name: no-insmod-on-sb.patch
-+
-+Upstream-Status: Inappropriate [other, https://salsa.debian.org/grub-team/grub/-/blob/debian/2.04-20/debian/patches/no-insmod-on-sb.patch]
-+
-+Backport of a Debian (and Fedora) patch implementing a way to get secure boot status
-+for CVE-2020-14372_4.patch. The upstream solution has too many dependencies to backport.
-+Source: https://salsa.debian.org/grub-team/grub/-/blob/debian/2.04-20/debian/patches/no-insmod-on-sb.patch
-+
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/kern/dl.c      | 13 +++++++++++++
-+ grub-core/kern/efi/efi.c | 28 ++++++++++++++++++++++++++++
-+ include/grub/efi/efi.h   |  1 +
-+ 3 files changed, 42 insertions(+)
-+
-+diff --git a/grub-core/kern/dl.c b/grub-core/kern/dl.c
-+index 48eb5e7b6..074dfc3c6 100644
-+--- a/grub-core/kern/dl.c
-++++ b/grub-core/kern/dl.c
-+@@ -38,6 +38,10 @@
-+ #define GRUB_MODULES_MACHINE_READONLY
-+ #endif
-+ 
-++#ifdef GRUB_MACHINE_EFI
-++#include <grub/efi/efi.h>
-++#endif
-++
-+ 
-+ 
-+ #pragma GCC diagnostic ignored "-Wcast-align"
-+@@ -686,6 +690,15 @@ grub_dl_load_file (const char *filename)
-+   void *core = 0;
-+   grub_dl_t mod = 0;
-+ 
-++#ifdef GRUB_MACHINE_EFI
-++  if (grub_efi_secure_boot ())
-++    {
-++      grub_error (GRUB_ERR_ACCESS_DENIED,
-++		  "Secure Boot forbids loading module from %s", filename);
-++      return 0;
-++    }
-++#endif
-++
-+   grub_boot_time ("Loading module %s", filename);
-+ 
-+   file = grub_file_open (filename, GRUB_FILE_TYPE_GRUB_MODULE);
-+diff --git a/grub-core/kern/efi/efi.c b/grub-core/kern/efi/efi.c
-+index 6e1ceb905..96204e39b 100644
-+--- a/grub-core/kern/efi/efi.c
-++++ b/grub-core/kern/efi/efi.c
-+@@ -273,6 +273,34 @@ grub_efi_get_variable (const char *var, const grub_efi_guid_t *guid,
-+   return NULL;
-+ }
-+ 
-++grub_efi_boolean_t
-++grub_efi_secure_boot (void)
-++{
-++  grub_efi_guid_t efi_var_guid = GRUB_EFI_GLOBAL_VARIABLE_GUID;
-++  grub_size_t datasize;
-++  char *secure_boot = NULL;
-++  char *setup_mode = NULL;
-++  grub_efi_boolean_t ret = 0;
-++
-++  secure_boot = grub_efi_get_variable ("SecureBoot", &efi_var_guid, &datasize);
-++
-++  if (datasize != 1 || !secure_boot)
-++    goto out;
-++
-++  setup_mode = grub_efi_get_variable ("SetupMode", &efi_var_guid, &datasize);
-++
-++  if (datasize != 1 || !setup_mode)
-++    goto out;
-++
-++  if (*secure_boot && !*setup_mode)
-++    ret = 1;
-++
-++ out:
-++  grub_free (secure_boot);
-++  grub_free (setup_mode);
-++  return ret;
-++}
-++
-+ #pragma GCC diagnostic ignored "-Wcast-align"
-+ 
-+ /* Search the mods section from the PE32/PE32+ image. This code uses
-+diff --git a/include/grub/efi/efi.h b/include/grub/efi/efi.h
-+index e90e00dc4..a237952b3 100644
-+--- a/include/grub/efi/efi.h
-++++ b/include/grub/efi/efi.h
-+@@ -82,6 +82,7 @@ EXPORT_FUNC (grub_efi_set_variable) (const char *var,
-+ 				     const grub_efi_guid_t *guid,
-+ 				     void *data,
-+ 				     grub_size_t datasize);
-++grub_efi_boolean_t EXPORT_FUNC (grub_efi_secure_boot) (void);
-+ int
-+ EXPORT_FUNC (grub_efi_compare_device_paths) (const grub_efi_device_path_t *dp1,
-+ 					     const grub_efi_device_path_t *dp2);
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 180e3752f8..db7c23a84a 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -31,6 +31,20 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
-            file://CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
-            file://determinism.patch \
-+           file://no-insmod-on-sb.patch \
-+           file://CVE-2020-14372_1.patch \
-+           file://CVE-2020-14372_2.patch \
-+           file://CVE-2020-14372_3.patch \
-+           file://CVE-2020-14372_4.patch \
-+           file://CVE-2020-14372_5.patch \
-+           file://CVE-2020-14372.patch \
-+           file://CVE-2020-27779.patch \
-+           file://CVE-2020-27779_2.patch \
-+           file://CVE-2020-27779_3.patch \
-+           file://CVE-2020-27779_4.patch \
-+           file://CVE-2020-27779_5.patch \
-+           file://CVE-2020-27779_6.patch \
-+           file://CVE-2020-27779_7.patch \
- "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 6db06b6281..6cd1ede6ea 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "e0b42b387dce06a55169f213efd8796912778abc"
+-SRCREV_meta ?= "8feda7148db44cfaa3bcce84b7fda6dcedbfd443"
++SRCREV_machine ?= "17e5e7a7f94d3d11d9d22fb6de614492596c0a8d"
++SRCREV_meta ?= "51f40ce1f17bfdb31fb7bf4dd81f3b53bfd49fcc"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.159"
++LINUX_VERSION ?= "5.4.162"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index f217718c7b..024ab77d08 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.159"
++LINUX_VERSION ?= "5.4.162"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "7062d2dd2f5e5e7a07616accce62ddc5abb7b570"
+-SRCREV_machine ?= "2494d7c8a13b2ce2a41c7bbc8276b5f4f6e61ac1"
+-SRCREV_meta ?= "8feda7148db44cfaa3bcce84b7fda6dcedbfd443"
++SRCREV_machine_qemuarm ?= "e3cbc4448222038ed98186783b61b099e35ef08d"
++SRCREV_machine ?= "0c97af59c367809671cf25eed595e3fef21eb493"
++SRCREV_meta ?= "51f40ce1f17bfdb31fb7bf4dd81f3b53bfd49fcc"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 85f5eb2549..cbcd167715 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "82eedda0c6efa661eccd57dc542c50bef054cb6f"
+-SRCREV_machine_qemuarm64 ?= "f0a7a9cbc8f42271f953e6a05b63a797620c8331"
+-SRCREV_machine_qemumips ?= "ca5eb4fc25d66165f42348c64c568193fc6407b6"
+-SRCREV_machine_qemuppc ?= "11fb8e44b3ffdc3bd7c8703f85f622265c815e69"
+-SRCREV_machine_qemuriscv64 ?= "74c0ef6fbb42f521a7ce02cf62bf9c54c57034e1"
+-SRCREV_machine_qemux86 ?= "74c0ef6fbb42f521a7ce02cf62bf9c54c57034e1"
+-SRCREV_machine_qemux86-64 ?= "74c0ef6fbb42f521a7ce02cf62bf9c54c57034e1"
+-SRCREV_machine_qemumips64 ?= "02faa48ca76a54e5da6e256b0621c09c7cf03051"
+-SRCREV_machine ?= "74c0ef6fbb42f521a7ce02cf62bf9c54c57034e1"
+-SRCREV_meta ?= "8feda7148db44cfaa3bcce84b7fda6dcedbfd443"
++SRCREV_machine_qemuarm ?= "d787585d276bc42eb17f3b04ed8e1c36d51b3258"
++SRCREV_machine_qemuarm64 ?= "87892857e00d1cdb6802abaea19cf65bee71da55"
++SRCREV_machine_qemumips ?= "4f84fe187ca152aab43fa6008989a5d00cca6bdb"
++SRCREV_machine_qemuppc ?= "4936240e37cfc88fe728add8ff3d9bd548c400ef"
++SRCREV_machine_qemuriscv64 ?= "439da70d7184793365a45e83ec1b816fd0ec0afe"
++SRCREV_machine_qemux86 ?= "439da70d7184793365a45e83ec1b816fd0ec0afe"
++SRCREV_machine_qemux86-64 ?= "439da70d7184793365a45e83ec1b816fd0ec0afe"
++SRCREV_machine_qemumips64 ?= "cef4f9fba704dba2cca97111ead9e579fde115c4"
++SRCREV_machine ?= "439da70d7184793365a45e83ec1b816fd0ec0afe"
++SRCREV_meta ?= "51f40ce1f17bfdb31fb7bf4dd81f3b53bfd49fcc"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.159"
++LINUX_VERSION ?= "5.4.162"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
-2.33.0
+2.33.1
 
