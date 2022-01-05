@@ -2,170 +2,88 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B00DC433F5
-	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 15:19:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CDEC433EF
+	for <webhook@archiver.kernel.org>; Wed,  5 Jan 2022 15:19:04 +0000 (UTC)
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
  by mx.groups.io with SMTP id smtpd.web12.1720.1641395941760702382
  for <openembedded-core@lists.openembedded.org>;
  Wed, 05 Jan 2022 07:19:02 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=WrIQ7S1R;
+ header.b=d+eN5GgU;
  spf=pass (domain: intel.com, ip: 192.55.52.88,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1641395942; x=1672931942;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=olop7ST4+0jHJ8lLfwRTSLl8aD8IdEoDJS3dUkrwdYo=;
-  b=WrIQ7S1RuxzKRyIiD2bfxEKL1tmsMf27TefflHnR3qoyogJFTJF0D/dO
-   s6oBx5sTX3yd2X6Nnu6drscZE4GRtEa+N7vAtUpyO2GJhB1V8NTglyON7
-   bjHXZvi/+wy4+LCw4MVOGmtY/KLB50rzimRqPrRKkYv8xtJZFy2CeVy9x
-   TnhzG1SRCdNoYEEyyDYoUwVtvH4sw2bBk22gFH6jXo5qi97KllrA/gYhK
-   ccYLwqMTTbHU6US4RSsZ6+tc+p1B3alkI4agZcwH0cwp5W6Ffb/4V8Rtq
-   kD9S2pZjyC2vh94KnMPttNU7uOopPDTyupyEA90URDKyqwfIMfNqVPP0d
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266742718"
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=2fQAnPoD6hZIjsVlbrbmCXluX3rlu1U29BZwBWI2KJU=;
+  b=d+eN5GgUo/gi5u4Qw+IjhGtvCzYTgSN5MZCvIvvoBF18gTtEUyaOva1A
+   pvappeW3U5CE541Tcg+l0ut1Go7reGcvSnSVZ1n7nc+zz2K9LpzfLsy7M
+   BIZg8AbHwApOayieWtjUyrB5GepmRHI9oNH707S24BR9AOeWFiwFmC9cV
+   NTF1fvZL8ldfFPJXxMaeAQeTrlSARfJLaGvc2yGJnL/NCDz7TDPDlliY1
+   4+XQ+xnZ3DfwURDlvFFtbo7PxQrTi7Ki11A/XDf7WPH/4tOmRddHyBITL
+   IlS5ekeyYqorv0rgg6R1shF/upwC4s4gPvbYfbjoBFFOiD1XRQzJg/Tsv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="266742720"
 X-IronPort-AV: E=Sophos;i="5.88,264,1635231600";
-   d="scan'208";a="266742718"
+   d="scan'208";a="266742720"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 Jan 2022 07:19:00 -0800
 X-IronPort-AV: E=Sophos;i="5.88,264,1635231600";
-   d="scan'208";a="668128542"
+   d="scan'208";a="668128551"
 Received: from hanwenlx-mobl1.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.129.44])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2022 07:18:57 -0800
+ 05 Jan 2022 07:18:58 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/24] Patch review
-Date: Wed,  5 Jan 2022 23:18:20 +0800
-Message-Id: <cover.1641395036.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 01/24] busybox: upgrade 1.33.1 -> 1.33.2
+Date: Wed,  5 Jan 2022 23:18:21 +0800
+Message-Id: 
+ <0b34671cb9a91419216a532954bd2783d3384ba0.1641395036.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1641395036.git.anuj.mittal@intel.com>
+References: <cover.1641395036.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 15:19:03 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 05 Jan 2022 15:19:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160185
+ https://lists.openembedded.org/g/openembedded-core/message/160186
 
-Next set of changes for hardknott. Please review.
+Bug fix release. 1.33.2 has fixes for hush and ash (parsing fixes) and
+unlzma (fix a case where we could read before beginning of buffer).
 
-One intermittent and unrelated qemu bootup failure seen while testing.
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3081
-
-Thanks,
-
-Anuj
-
-The following changes since commit f6791df317e66b2d3fa88d3a038d888d4512305a:
-
-  libpcre/libpcre2: correct SRC_URI (2021-12-10 12:45:13 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Anuj Mittal (2):
-  busybox: upgrade 1.33.1 -> 1.33.2
-  xserver-xorg: update CVE_PRODUCT
-
-Bruce Ashfield (8):
-  linux-yocto/5.10: update to v5.10.84
-  linux-yocto/5.10: update to v5.10.85
-  linux-yocto/5.10: update to v5.10.87
-  linux-yocto/5.4: update to v5.4.159
-  linux-yocto/5.4: update to v5.4.162
-  linux-yocto/5.4: update to v5.4.163
-  linux-yocto/5.4: update to v5.4.165
-  linux-yocto/5.4: update to v5.4.167
-
-Chaitanya Vadrevu (1):
-  python3-pyelftools: Depend on debugger, pprint
-
-Kai Kang (4):
-  xserver-xorg: fix CVE-2021-4008
-  xserver-xorg: fix CVE-2021-4009
-  xserver-xorg: fix CVE-2021-4010
-  xserver-xorg: fix CVE-2021-4011
-
-Richard Purdie (3):
-  oeqa/selftest/bbtests: Use YP sources mirror instead of GNU
-  webkitgtk: Add reproducibility fix
-  openssl: Add reproducibility fix
-
-Ross Burton (1):
-  vim: upgrade to 8.2 patch 3752
-
-Steve Sakoman (2):
-  selftest: skip virgl test on centos 8 entirely
-  selftest: skip virgl test on fedora 34 entirely
-
-Sundeep KOKKONDA (1):
-  binutils: Fix CVE-2021-45078
-
-pgowda (1):
-  binutils: CVE-2021-42574
-
-wangmy (1):
-  linux-firmware: upgrade 20211027 -> 20211216
-
- meta/lib/oeqa/selftest/cases/bbtests.py       |    2 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |    4 +
- .../openssl/openssl/reproducibility.patch     |   22 +
- .../openssl/openssl_1.1.1l.bb                 |    1 +
- ...ab_1.33.0.bb => busybox-inittab_1.33.2.bb} |    0
- .../{busybox_1.33.1.bb => busybox_1.33.2.bb}  |    2 +-
- .../binutils/binutils-2.36.inc                |    2 +
- .../binutils/0001-CVE-2021-42574.patch        | 2006 +++++++++++++++++
- .../binutils/0001-CVE-2021-45078.patch        |  255 +++
- .../python/python3-pyelftools_0.27.bb         |    2 +
- .../xorg-xserver/xserver-xorg.inc             |    2 +-
- .../xserver-xorg/CVE-2021-4008.patch          |   59 +
- .../xserver-xorg/CVE-2021-4009.patch          |   50 +
- .../xserver-xorg/CVE-2021-4010.patch          |   39 +
- .../xserver-xorg/CVE-2021-4011.patch          |   40 +
- .../xorg-xserver/xserver-xorg_1.20.10.bb      |    4 +
- ...20211027.bb => linux-firmware_20211216.bb} |    4 +-
- .../linux/linux-yocto-rt_5.10.bb              |    6 +-
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |    8 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |   24 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../webkit/webkitgtk/reproducibility.patch    |   22 +
- meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |    1 +
- ...src-Makefile-improve-reproducibility.patch |   13 +-
- .../vim/files/CVE-2021-3778.patch             |   34 -
- .../vim/files/CVE-2021-3872.patch             |   57 -
- ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch |  207 --
- .../vim/files/disable_acl_header_check.patch  |   15 +-
- .../vim/files/no-path-adjust.patch            |    8 +-
- meta/recipes-support/vim/files/racefix.patch  |    6 +-
- ...m-add-knob-whether-elf.h-are-checked.patch |   13 +-
- meta/recipes-support/vim/vim.inc              |   14 +-
- 34 files changed, 2577 insertions(+), 381 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducibility.patch
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../{busybox-inittab_1.33.0.bb => busybox-inittab_1.33.2.bb}    | 0
+ .../busybox/{busybox_1.33.1.bb => busybox_1.33.2.bb}            | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-core/busybox/{busybox-inittab_1.33.0.bb => busybox-inittab_1.33.2.bb} (100%)
  rename meta/recipes-core/busybox/{busybox_1.33.1.bb => busybox_1.33.2.bb} (95%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4009.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4010.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4011.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211027.bb => linux-firmware_20211216.bb} (99%)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
- delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3778.patch
- delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3872.patch
- delete mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
 
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.33.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.33.2.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.33.0.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.33.2.bb
+diff --git a/meta/recipes-core/busybox/busybox_1.33.1.bb b/meta/recipes-core/busybox/busybox_1.33.2.bb
+similarity index 95%
+rename from meta/recipes-core/busybox/busybox_1.33.1.bb
+rename to meta/recipes-core/busybox/busybox_1.33.2.bb
+index 4002d6a5c6..44c83ab83c 100644
+--- a/meta/recipes-core/busybox/busybox_1.33.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.33.2.bb
+@@ -51,4 +51,4 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-SRC_URI[tarball.sha256sum] = "12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28"
++SRC_URI[tarball.sha256sum] = "6843ba7977081e735fa0fdb05893e3c002c8c5ad7c9c80da206e603cc0ac47e7"
 -- 
 2.33.1
 
