@@ -1,124 +1,102 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6270FC433F5
-	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 10:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9606DC433F5
+	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 13:31:26 +0000 (UTC)
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
  [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.7135.1641466586740451779
+ by mx.groups.io with SMTP id smtpd.web11.8577.1641475885660215244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 02:56:27 -0800
+ Thu, 06 Jan 2022 05:31:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=wiY8ltss;
- spf=pass (domain: burtonini.com, ip: 209.85.221.52,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f52.google.com with SMTP id e9so2447905wra.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HSbnlyAd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id a5so831405wrh.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 02:56:26 -0800 (PST)
+ Thu, 06 Jan 2022 05:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rj73pLP4ZcMIPz90xk/7kXdl5BQMVRtL7KkoGuuuBns=;
-        b=wiY8ltss/9ctrUH6YrncW1W54VTX9knZ3bWaaix/CWmS8alpTBWIsHsLfUAaDHpbb4
-         p+Iye61zwQ1bqCMGJEOulnsrF7clwSJ4fC6gQwgK6gMuQlw5JPmvMisGhPgzy8dwJneW
-         9o+vDaOQeHCLPPuBBVygjQuTuROeRpnLJssGBOGcxOGwh2KJt2OxHe0ad+ZRHCrul8aq
-         0FjAIHBn0TTNcLbnTY7ev50n7l7xoi+Um2uoy6ofUdQjYPvQ8brUIkx/3wWvEHJI0+/C
-         04Ru7fOEBFLclIYSSHz7hKpX/19YSuF0xCeE/3n4AAJtZL648EcIretKgVhAqft69VjL
-         +d4w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=5pf3+5lqGHYKBL7/aEkAqwQG/wXB7SrXkJON+o5ZlYE=;
+        b=HSbnlyAdMW7tTvs1JKwh7wij7IQfUYbfA9BP5RMalgAQsmESB3pHhbuw0G669QOqHb
+         Pfe4exOy7BZgUJB2ctD0cw5Aaow9VvhfMxNkFPcTA/GARrxCcd+afBjKElPlmF1qRUkR
+         GuczH7mvfoaE/Wws6kNFPWrA5taRZKc6RpsYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rj73pLP4ZcMIPz90xk/7kXdl5BQMVRtL7KkoGuuuBns=;
-        b=zvZAr3Cy7RBAnTe0oK+lP7bhwqIcps7tyHhPBWkVIVPww3acHboGSAYcIpAEW0z8Eg
-         OuTbKMmXrrhhScx3BduMBWcNehbt3/kHdDP4LotHZU2wV3YcFW5fSgjyoMEg2KfGnYnE
-         WeEmMBNr0lKUqdnF75kpvrOfK6MEKGQfHfPX+8mEH6sf0+H77k9+Wt4K8bDDtF2qYYT+
-         ZqGJ1EalyZMhE3Z8APOjfmr2E6LtMr00cHxXoJ4iwwBpy9L7PbxplanmdPAfHy9SldZU
-         +ZXdSe/+2AXbUwx08rGsPQbGTJmhaMkNCSNv8ZuU+84Faj8f8bO2kexIvP2TL7EMkjjm
-         8wzg==
-X-Gm-Message-State: AOAM5322nU+9LcvCfKAdMi/rllHbKycEmjhPIcWkenFfmxl1MCg3XzvL
-	qKr/aButKgF2/lz86C2A5vIapLz8EUuzIBc9rh+UOQ==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=5pf3+5lqGHYKBL7/aEkAqwQG/wXB7SrXkJON+o5ZlYE=;
+        b=fCxI2e9Nsh72de5FndIaI8rkD4Xlk2euO6WSOjLaCBiUkfPgHG4YFtbxwBcnTpzHsl
+         wMNnAFzQvhWNgH+amH0pLkyqRJCAaZOxZODLj8XwwHUkf2EATIbCqjHnAl6pn1ux0j/H
+         TRku5sPahARmlJZ6IFCBu47f/mDL3ZTUzNGWpW9p1HXSGsEn+wc3lV0Ogm+vBvhhmUC1
+         arRy4jKurThhVGYcSJbl7OlvhNrOkyio4u4/8GvVMmJqYv10H3iC4XrKc5hnNqauY1zS
+         fw6CmCewEo5cUHq76SmrwXkT6tb71KhbUcsyU07LV4taH0Foxm3AvUhjvmBJic6sje2e
+         tYCg==
+X-Gm-Message-State: AOAM531Gs094ZjTv7Cgn9L+zjpXrO83S1tQeTNffnxihIe92PYrNYi2c
+	LvS5pS5POML08knQq72kJD8whQ==
 X-Google-Smtp-Source: 
- ABdhPJy7JNr3o2VrZpFdL2eLPOfk2JkYaSv46J8AcAwKSLOHWprLcBVs6vI5ZY8fSnQpJM5r3PsUBuanwlh1M7nDtBI=
-X-Received: by 2002:a5d:59a8:: with SMTP id p8mr49151228wrr.497.1641466585107;
- Thu, 06 Jan 2022 02:56:25 -0800 (PST)
-MIME-Version: 1.0
-References: 
- <CAA=hcWT5BFAwLfER2ZWnfO9VFAtZ4uo40Q3vGpRNE7+PdhWWBA@mail.gmail.com>
-In-Reply-To: 
- <CAA=hcWT5BFAwLfER2ZWnfO9VFAtZ4uo40Q3vGpRNE7+PdhWWBA@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 6 Jan 2022 10:56:14 +0000
+ ABdhPJzzC8Lvr9UNKWilaZ+YxOVO3RcUGSNbGv09C5h5X3QGHqEoMZnQC8Xp41Ey6WU2xhOO2gbAaA==
+X-Received: by 2002:a5d:430e:: with SMTP id h14mr28152320wrq.99.1641475883754;
+        Thu, 06 Jan 2022 05:31:23 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3191:8101:b589:380f?
+ ([2001:8b0:aba:5f3c:3191:8101:b589:380f])
+        by smtp.gmail.com with ESMTPSA id
+ u11sm6067137wmq.41.2022.01.06.05.31.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 05:31:23 -0800 (PST)
 Message-ID: 
- <CAAnfSTvrEx5tL5Q5C1wYjdA95V1+iUyUR+Egbi-ywngxR_=s9g@mail.gmail.com>
-Subject: Re: [OE-core] Honister wrong date time
-To: JH <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
-	oe-core <openembedded-core@lists.openembedded.org>
+ <35e0b2db53eaf44c64d7505e5b70f983e928cc99.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] grub2: fix CVE-2021-3981
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Liu, Yongxin" <Yongxin.Liu@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "MacLeod, Randy" <Randy.MacLeod@windriver.com>, "Mittal, Anuj"
+	 <anuj.mittal@intel.com>
+Date: Thu, 06 Jan 2022 13:31:22 +0000
+In-Reply-To: 
+ <PH0PR11MB51750B7FDC8104AD362275C4E54C9@PH0PR11MB5175.namprd11.prod.outlook.com>
+References: <16C48A4E435FADD8.12001@lists.openembedded.org>
+	 <PH0PR11MB51750B7FDC8104AD362275C4E54C9@PH0PR11MB5175.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 10:56:28 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 13:31:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160228
+ https://lists.openembedded.org/g/openembedded-core/message/160229
 
-Try reading the journal entries for systemd-timesyncd.service and see
-if it is reporting any issues.
+On Thu, 2022-01-06 at 02:38 +0000, Liu, Yongxin wrote:
+> Hi Richard,
+> 
+> I saw this patch has been merged to master.
+> 
+> Could you help to merge this patch and 
+> 
+> commit 0f528608eb48809955b2610ecc4bd689f1cf8899
+> Author: Alexander Kanavin <alex.kanavin@gmail.com>
+> Date:   2021-06-15 10:12
+> 
+>     grub: upgrade 2.04+2.06~rc1 -> 2.06
+>     
+>     Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> to branch hardknott also? Or do I need to send those patches again for hardknott?
 
-Ross
+Anuj (cc'd) is the hardknott maintainer who would handle this, not me. We
+generally don't do version increments for stable releases unless there is a
+strong pressing need to do so, particularly on a branch which is nearly out of
+it's maintenance window.
 
-On Thu, 6 Jan 2022 at 09:55, JH <jupiter.hce@gmail.com> wrote:
->
-> Hi,
->
-> Strangely, my system built by Honister always has a wrong date despite
-> NTP service being active, has anyone got that issue from Honister?
->
-> # timedatectl status
->                Local time: Wed 2021-08-04 15:17:10 UTC
->            Universal time: Wed 2021-08-04 15:17:10 UTC
->                  RTC time: Thu 1970-01-01 00:06:20
->                 Time zone: UTC (UTC, +0000)
-> System clock synchronized: no
->               NTP service: active
->           RTC in local TZ: no
-> # ping google.com
-> PING google.com (142.250.70.238): 56 data bytes
-> 64 bytes from 142.250.70.238: seq=0 ttl=60 time=9.462 ms
-> 64 bytes from 142.250.70.238: seq=1 ttl=60 time=13.289 ms
-> 64 bytes from 142.250.70.238: seq=2 ttl=60 time=12.869 ms
-> 64 bytes from 142.250.70.238: seq=3 ttl=60 time=13.129 ms
->
-> I have never had date issues built by Zeus:
->
-> ~# date
-> Thu Jan  6 09:26:35 UTC 2022
-> root@solar:~# timedatectl status
->                Local time: Thu 2022-01-06 09:26:45 UTC
->            Universal time: Thu 2022-01-06 09:26:45 UTCk
->                  RTC time: Thu 2022-01-06 09:26:45
->                 Time zone: n/a (UTC, +0000)
-> System clock synchronized: yes
->               NTP service: active
->           RTC in local TZ: no
->
->
-> Thank you.
->
-> Kind regards,
->
-> jh
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160223): https://lists.openembedded.org/g/openembedded-core/message/160223
-> Mute This Topic: https://lists.openembedded.org/mt/88234719/1676615
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Cheers,
+
+Richard
+
 
