@@ -1,184 +1,238 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C9CAC433EF
-	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 14:27:58 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web08.9154.1641479277889723296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35657C433F5
+	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 14:28:46 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web11.9296.1641479325000395783
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 06:27:58 -0800
+ Thu, 06 Jan 2022 06:28:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=OBm/akYU;
- spf=pass (domain: intel.com, ip: 192.55.52.136,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641479277; x=1673015277;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=Ydc7CDcJXQe5Uo0WYx7wrTBURqMXkLd4tA7hSJLYSTg=;
-  b=OBm/akYU3jvw+rlquvWnPbW6cpLCs/Isxm6ajK3wgE74Tr1h+CYl94hG
-   TlQgwzWHuV+NtmOB1PBrpDiVdgdGRxP6vHTSCn73yn4G3bTjKFLbAhsIf
-   U6He0MXFFXGeeLzWUoXMipExsPyjhRkQonqcYDyMEz6xVLUBXpRlimDyS
-   4H8Q/D3Bn1uQkaIMONlkZKsptJd2m0u1tEXWGbjEVpArrEHfU8CMeIEfg
-   swJBHhyxzz55+4F6wTgR/+M9dlSPvId9s72XFtK3qUJo4WeI2qSR26GrS
-   7iOTdSz0jcYjK0Zn3zro3U1jPiXm8K9bvYwiVSkhFUpyFFYLXAUbZKHGA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="222657803"
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600";
-   d="scan'208";a="222657803"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 06:27:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600";
-   d="scan'208";a="574774719"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Jan 2022 06:27:56 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 6 Jan 2022 06:27:56 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Thu, 6 Jan 2022 06:27:56 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Thu, 6 Jan 2022 06:27:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G5m7IJ5FIjcv6yg7WL3ENc51mLp2RQVxUjT9PHw1LCBBBI32SefgbVLR1PTUnh3k4AO07ZAbdIkSHaNAPSd8ZXiXMWJpVB+zWXN7r0HIBW44YgHCrk3wm/1XBXHyW545NFsuPz65fS16GVs8NapitLA4una2ixYqNNH2Z3EK2wcR9FBhoGjL64LnD/ZWJH1LOv1jMj7dXFmbOP9c85TXnWdN0XP6p8AldXw5jd4PsxjbUMjC0ymR2OX4TDDPswalikBeaKrpFiTlvbnf2xDlK553kSfHCZ+IwuQWz8Tk3eAOu5LZgRTL/eLv7RxJQg2OZXYjc8qc/oq6bFv8lnXsZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ydc7CDcJXQe5Uo0WYx7wrTBURqMXkLd4tA7hSJLYSTg=;
- b=L4rOs66Sf+Gj/fI9AZL587cnK/6x+cCJ+HoHiNPWkAxZSZh4RZEszoeSpThDxtrfwPeFbX+xXp4KgozQFPavFoNYEc9uMsLhYA1Mx8kriGrANLtTo2M85rq9hpMM9lljfJ5RlPxuI9qRpH7LHIGbYhrijPUUZSMbgxqH5Yk1b9pUSwKliVDRUs7q8t8AAQItvnAO/UdQUWTayOXWHB3LCxZpOD+tVxgTCVhyP5aUgmUTyOue2uBeNfy/fbeM6qbWUnkO6VIlzCM8iioeq1cku3vH6K2UTUyMeJpxfspilUGl7gInxOVY2BEGFr2ZB00PyIG3NdYgpIBi2lWdDwNeYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
- by BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Thu, 6 Jan
- 2022 14:27:55 +0000
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::a8ab:1ed:c383:c477]) by SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::a8ab:1ed:c383:c477%6]) with mapi id 15.20.4844.017; Thu, 6 Jan 2022
- 14:27:55 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "Liu, Yongxin" <yongxin.liu@windriver.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Randy.MacLeod@windriver.com" <Randy.MacLeod@windriver.com>
-Subject: Re: [OE-core][PATCH] grub2: fix CVE-2021-3981
-Thread-Topic: [OE-core][PATCH] grub2: fix CVE-2021-3981
-Thread-Index: AQHX+u8I+M0X74xWF0aFf0Z/G/RoW6xVVYrQgAC3+wCAAAwNwIAAA78A
-Date: Thu, 6 Jan 2022 14:27:55 +0000
-Message-ID: <d3c895a688c5c44b6dc5e04de245b012b2a17a86.camel@intel.com>
-References: <16C48A4E435FADD8.12001@lists.openembedded.org>
-	 <PH0PR11MB51750B7FDC8104AD362275C4E54C9@PH0PR11MB5175.namprd11.prod.outlook.com>
-	 <35e0b2db53eaf44c64d7505e5b70f983e928cc99.camel@linuxfoundation.org>
-	 <SA2PR11MB51806AD50344C16F1EF667CAE54C9@SA2PR11MB5180.namprd11.prod.outlook.com>
-In-Reply-To: 
- <SA2PR11MB51806AD50344C16F1EF667CAE54C9@SA2PR11MB5180.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.2 (3.42.2-1.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8793a231-54fe-4f0d-33ec-08d9d120bac9
-x-ms-traffictypediagnostic: BYAPR11MB3480:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: 
- <BYAPR11MB3480D504FB207F30CBD6215EF84C9@BYAPR11MB3480.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:626;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- obZDet4KOiLoJLD0VNl0UlkxunOzq5BRE9KmRsAe2Mr6+SneNXLM4KnjUeF+cpVrYaCyH9SBGDy1/SoUEafrTK7zFpDSsSduCvQL3llzItvaZmK9jFo46uxngiZCEJSc2kIkypbdJ4X9RTBTzGu4oC9v1iweIAGH6i0cwdh/E1ZQJBUnWD+4IuoUoaSOnqeeYeOlNQFSlbn44dMIusnpOvr8bCQ1UDWYfABBn794aqSGKfqLEb/53nmdg2DFdJ1tiVXJID770oBuevEwRrPauv+OWIHRL0Y1koMzVKf1OlsP7zrvngPrplHkqDhFtNXunzuz8kzc+6jl3JbkaFwU1BzK6GNhA1IqyvOIgpiNBNGhumZSus4dTGvrhOJppoX0b84xV1UfnlVkn8TN/fYaZMcxEsK+lqy68xrkJmnKRlj4X68tXgGPitc2gQjJd1Sin4xD2kYWg/q4w41mjDQE/UYASF5gXdA3J4VwoOTc12ONR7xsrf1dhI8GnZqyfuCEHiV9yRs7FbS1FX16L4/W9ZTQeo+tLNJbewntG43f8a5txfRcDl75X7pbbrmdzNbwVA7fRnRG9NygCwvzcbazbKfl6XWW/XGTXhDBIlmSWftAGVW0tErFNST6IEO1CQjpVsbsIbRtoNMbSo2WK1MLk8nWpQlr0GHHohcLeq5d7wxcy9v3QYz3tNQQOYCESf1+h6xIRX0huPFTgRDhjmiLWQ==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(110136005)(316002)(38100700002)(4001150100001)(8676002)(186003)(76116006)(36756003)(66556008)(71200400001)(86362001)(2616005)(122000001)(8936002)(38070700005)(6506007)(66446008)(6486002)(64756008)(82960400001)(6512007)(26005)(2906002)(91956017)(66946007)(66476007)(4744005)(4326008)(5660300002)(508600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?UXlYdms1OFdlcVRGdDhoNEU3YndKc1NTRWdxN09SMW9iSWNEblFIUkNhanMr?=
- =?utf-8?B?SDJRcE9GWWZkQkxleHhFTlREcVJtRWxaeGU0cHZRdUg1dnBpTDFsNE5EQk5K?=
- =?utf-8?B?UUcwMnJCTkd0c2hMVzBnUCsxd0txOVI1QzhXK2RlWjZjempDWGg3MXFEVll3?=
- =?utf-8?B?UWdEMDJOV2RYcWFXbnVkQzBVOXZQTlVGUHF0NHkrdnM0MFh6ZDdaUFJKZjNC?=
- =?utf-8?B?aWh6dTl2ZHBqZG8rNDJlclluUktHL28wU1VGQksreFVCQmhiV0RQdW16WjhZ?=
- =?utf-8?B?VzZSN2FmTGZVc0ZGM1pVWVN4UzFLYldmc0Y1U0pOcnhjSk41aEdXWWN0TG9C?=
- =?utf-8?B?Y3dMYnZhRjFITzZtdzY2Y2tYZnZMWGxwSTBUOVVlWlRUYUxGc2ZCaW8vY1Nn?=
- =?utf-8?B?SkNoZm9NbG5ub2d3RHk4YSt5NVdyZVVqR1RhWDZHVFV6cnZweFArWTdHdjRx?=
- =?utf-8?B?eXJqVU9nVG5la1ZaZzZaL0dYUkVDLzhWN2NlbXZ0Zkl0L2w2Nld5VEtwdlVH?=
- =?utf-8?B?TmRTa05INUdLVk1xUGRKUnVnZm9qNW1SeFZwWE1UMVdOVzdFUHdRdFNwYi9M?=
- =?utf-8?B?WmthcjBLS3pTelFhSG5pOFVFTVZhSEVjUFZqNFIyQ0RCMHZPY3A4TEg2YTF0?=
- =?utf-8?B?ZGNzZ0oxTGZseFVuZVRiaU1BckZlSnA5dlVRdUNZa0swWjkyaXEzeGlBT3pB?=
- =?utf-8?B?UDVPdW93dFFuZmM1TWFrUXZyZnNFdmlCZW5kbGlIc0cyUmRhQUtTaFhZeFlN?=
- =?utf-8?B?QWNITzc4Y2ZaQkgxUy9DTFV0K1RldTIxVDRjcHVzOTJPSWtsc3VRa3JuUzly?=
- =?utf-8?B?ZGNKVzI5cFVTQ0F5TytwelU3T3dleTgwM2pqd0NQcGZieWNXNG5CRXBoUnBm?=
- =?utf-8?B?S1J1K1VVUVFPckR5bzBLRFAxcTNGOVhxQW5WV3U1d3l1VXYvT0hFaVBzbFIv?=
- =?utf-8?B?ays3RkZXaWtocllwTElIQTBKVllRdUhEZHc5SHh3MTAzVVNmZlZCdVJLSm5s?=
- =?utf-8?B?ZHQxUjg1QURVRWVvaGdYZVphTWJGS29lWHFsWndQWmF6NGtQNVliZGU0aTJI?=
- =?utf-8?B?YmZhWlkwSVZNeXRlc1gyZ1R5dFZMZGpKMCtUQWxseVdLbU5iR09mUi9zdFV3?=
- =?utf-8?B?WGo2U0IvS2hmTlV5SGZ2c244RFZlejdnekgyaW5YbEZtem95QjhUUHBQOHZu?=
- =?utf-8?B?YkR4dnl5NXBWVm5YaWt1cmgxWVAzQmt3cjYvZGYwVStNYmRGcjJMZk80RUo2?=
- =?utf-8?B?L1JzWld2aEY0N2pESFJXYUdxR1pYNmo2MW9OMDlMMUxSR3RCN2ZxWW81SU5Y?=
- =?utf-8?B?cjV1d2l3cS9XWWxzbE5mOVBzWTR5Qk4xS1R5T2NycGU5TkFMQzgyR0NicDdW?=
- =?utf-8?B?TmlmckFqYlpuSUx6M29KZEd2N0kzS01zVjBBOWE2Um1xaW8xcHQrT2huY1lj?=
- =?utf-8?B?SjgwQk9mOE1STWdiVVJMUHVGVVJIMktNTXZMajdjU1pvVFFyRXFMaVd0d3Va?=
- =?utf-8?B?aDVMMmpwRE8xU2hEVE5IdThjZHZsbTVnMEVPeUVNS3ppYlVIUGszTTNBYXZw?=
- =?utf-8?B?SHJLbHBUUGMvY0QrOHovZHBLZTdCM1VEejMyb2NuUTBVZUc0K3lXYkxvMkRQ?=
- =?utf-8?B?RUgrVlJqcnZ4c25tUmlUaGloTlFjRnhiMG9qdWt6bGE1djFKOW5TQStFVVpJ?=
- =?utf-8?B?SFh5VDJWSmVQMi9SaS9Mdnl2WW1MVzJONkwxc1RMMGwzbDVsMmkvait4TVZq?=
- =?utf-8?B?Y2ZFdjlybUg3YzV1TnJleEx3QUZHSHozb0RtbHo2dGZ3aWJUS3BOZjNoanZx?=
- =?utf-8?B?Qm9pbHVpNkRCb3draE0xRE1UK1NTeHQ4SGk1ZHYrMlIzdUtYUmFxZmRxVVZo?=
- =?utf-8?B?UGsvek9QSDlLZEdDR0I1K0RQSUx1Q09OM0hFYnhQTXRoOGFVQ1U3VXB4MDVi?=
- =?utf-8?B?eXFtWndkTVZHT3lSRlhSWHNiQzFmZnVoS3NDaW9GZ3diYUl1MlZSYjZoWUtS?=
- =?utf-8?B?RTBlRHBCMHd4T0xPYm04WVNQaFNnUW55aGVYajdRdnBKbmtOdjBWNFdVRWM2?=
- =?utf-8?B?UjJrL3lnU09IVnV1WXl0bE9WM0tGbkJnaUV1bkRSdG5ld0dsLy9jMGoyNVNZ?=
- =?utf-8?B?QnNiOFdnVzV4dXVBY0tjSGNxWndYL0JNMnhIdERlZlJUcnJ4TDQ3SVVWb01X?=
- =?utf-8?Q?LcM/xORMyzk9fmylLnVNMk3bvdVuhOHhhUoxe2vUd9ib?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9AB9B8D342DE144E8E89B077B16A3B48@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BdZ4TEf5;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id p1so4548890uap.9
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 06 Jan 2022 06:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fj4pY/IgtesZecFc/SKsT0BPTCq/pxD/QT9wGkBMEPM=;
+        b=BdZ4TEf5TgZNKsRuOVr6i16opZqXWctGQxDarzfltNQCuW3s3ByLlCCHzwnS0vxWEN
+         zXZyOogukaI445RmL0wGHWNQKJwD60DCQtFX2GElt/cw+HwJglxx5+VIxbLUMWikIyXZ
+         VDtQNdjeziEghw32CcgFW9TN+/H6UTvXLuF9166Ck5LE3lP08W/pr3zS8SR2LgpTHnCr
+         CoFfo9mPD1vgujoeY/kcOJNhJ46J+9EDsbnEzH/ehcGieHu19N2wMEGKiONfK+KQ2h7Y
+         3oGd0EsGTPPGqydAMI/gqBlml/n4wWbwSj4md0vNSU7wk4a6e3lY741UgSm1t/z4G7El
+         pAww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fj4pY/IgtesZecFc/SKsT0BPTCq/pxD/QT9wGkBMEPM=;
+        b=dhI42sFdw7I8C5dvWTxkHa9L934MVEM3JhUXn58QwBdJ9XJYHiYQdxrzyXiUYcqiIL
+         z/gvu9tPcgURKhizQ8ROAhDaAM1WNbHEd/+BfUC1HcVw8uMeyPE+ANTo+bGFTO8oguCP
+         KPCAHhW3eYs6g+/b8dgVvX041UCAS46xKD4oaBugZPD+WmVmjvNPHCxWo5ZpXcjgTN/Z
+         nq3/3bD/wkanWBjRgUD1Y5mqL3krJvegptDg2WKHb6kkSOGBdv8xRuLsbzkMVS+yhvIh
+         i+/t7FHNbJ+7o0nlMOJ6Vxo/8mk+pc/FS+IaNmunZKL2RSLNHn9Rng9KKg+dr5dnn9V+
+         Xn+A==
+X-Gm-Message-State: AOAM5304ajJFxgMxRPgDa3raMDfJ0ZxH0XHYXAapol97mJl4aVJBKSpS
+	QnkuRUIh0YIAuRbbevXFr8FQ8omTdeatDJZDL5c=
+X-Google-Smtp-Source: 
+ ABdhPJweB1f6J4/MEn2sao+uq/Qc52wnq3oQ/R0iSoEm+VnD5rzmPCzeyIRfj/Q8F3Zt0wd9AmJicKjgNLCfTt3C58k=
+X-Received: by 2002:a67:f799:: with SMTP id j25mr18385973vso.75.1641479323999;
+ Thu, 06 Jan 2022 06:28:43 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 8793a231-54fe-4f0d-33ec-08d9d120bac9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2022 14:27:55.1761
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- eaO6AfQgmMnG0nm8CLhWV0vPcCIFSHtKunyZZTyPfJH5ln/v8XTMf1JT0nAS7cEpIo77LMa7YLuUpoXHYjhsrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3480
-X-OriginatorOrg: intel.com
+References: <20211221104136.191831-1-pgowda.cve@gmail.com>
+ <CALY49869bb2zvqnNNJVbLi-5BbOYnE_Dt1xsc5khv3H8GBre4g@mail.gmail.com>
+ <c20b76295b096cfbb1c0cd38f0721e59935c241f.camel@intel.com>
+In-Reply-To: <c20b76295b096cfbb1c0cd38f0721e59935c241f.camel@intel.com>
+From: pgowda cve <pgowda.cve@gmail.com>
+Date: Thu, 6 Jan 2022 19:58:34 +0530
+Message-ID: 
+ <CALY4986Em3QVGkHQeXmrXOsGsd9yL77MLkH5bzf8Wmcn8K0ehA@mail.gmail.com>
+Subject: Re: [hardknott][PATCH] AArch64 support for Arm's Neoverse N2 CPU
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	"rwmacleod@gmail.com" <rwmacleod@gmail.com>,
+ "umesh.kalappa0@gmail.com" <umesh.kalappa0@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 14:27:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 14:28:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160234
+ https://lists.openembedded.org/g/openembedded-core/message/160235
 
-T24gVGh1LCAyMDIyLTAxLTA2IGF0IDE0OjE5ICswMDAwLCBMaXUsIFlvbmd4aW4gd3JvdGU6DQo+
-IENvdWxkIHlvdSBoZWxwIHRvIGNoZXJyeSBwaWNrIHRoZSBmb2xsb3dpbmcgcGF0Y2ggZnJvbSBt
-YXN0ZXIgdG8NCj4gYnJhbmNoIGhhcmRrbm90dD8NCj4gDQo+IGNvbW1pdCBiYjU1NGQxNDE0MmY5
-M2MzOWZkMTUxNmEzMTc1NzAwNjUzMWMzNDhmDQo+IEF1dGhvcjogWW9uZ3hpbiBMaXUgPHlvbmd4
-aW4ubGl1QHdpbmRyaXZlci5jb20+DQo+IERhdGU6wqDCoCAyMDIxLTEyLTI3IDE0OjU0DQo+IA0K
-PiDCoMKgwqAgZ3J1YjI6IGZpeCBDVkUtMjAyMS0zOTgxDQo+IMKgwqDCoCANCj4gwqDCoMKgIFNp
-Z25lZC1vZmYtYnk6IFlvbmd4aW4gTGl1IDx5b25neGluLmxpdUB3aW5kcml2ZXIuY29tPg0KPiDC
-oMKgwqAgU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUNCj4gPHJpY2hhcmQucHVyZGllQGxp
-bnV4Zm91bmRhdGlvbi5vcmc+DQoNClllcywgSSB3aWxsIHRha2UgdGhpcy4gRm9yIGZ1dHVyZSBw
-YXRjaGVzLCBpdCB3aWxsIGhlbHAgaWYgeW91IGNvdWxkDQpzZW5kIHRoZSBwYXRjaCB3aXRoIFti
-cmFuY2ggbmFtZV0gdGFnIHNvIGl0J3Mgbm90IG1pc3NlZC4NCg0KVGhhbmtzLA0KDQpBbnVqDQo=
+Hi Anuj,
+
+Thanks very much for the information.
+
+Regards,
+Pgowda
+
+On Thu, Jan 6, 2022 at 7:57 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Thu, 2022-01-06 at 16:11 +0530, pgowda cve wrote:
+> > Hi,
+> >
+> > Gentle ping on this patch.
+> >
+>
+> I will take this and rest of gcc patches in next week's merge request.
+>
+> Thanks,
+>
+> Anuj
+>
+> > Thanks,
+> > Pgowda
+> >
+> > On Tue, Dec 21, 2021 at 4:11 PM pgowda <pgowda.cve@gmail.com> wrote:
+> > >
+> > > The patch backports the AArch64 support for Arm's Neoverse N2 CPU
+> > > Upstream-Status: Backport
+> > > [https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=9428e9267435a62f
+> > > 672e2ba42df46432c021a9cf]
+> > >
+> > > Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> > > ---
+> > >  meta/recipes-devtools/gcc/gcc-10.2.inc        |  1 +
+> > >  .../gcc/0039-arm64-neoverse-n2-support.patch  | 60
+> > > +++++++++++++++++++
+> > >  2 files changed, 61 insertions(+)
+> > >  create mode 100644 meta/recipes-devtools/gcc/gcc/0039-arm64-
+> > > neoverse-n2-support.patch
+> > >
+> > > diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-
+> > > devtools/gcc/gcc-10.2.inc
+> > > index 5626bf20f0..89158258d7 100644
+> > > --- a/meta/recipes-devtools/gcc/gcc-10.2.inc
+> > > +++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
+> > > @@ -74,6 +74,7 @@ SRC_URI = "\
+> > >             file://0002-CVE-2021-35465.patch \
+> > >             file://0003-CVE-2021-35465.patch \
+> > >             file://0004-CVE-2021-35465.patch \
+> > > +           file://0039-arm64-neoverse-n2-support.patch \
+> > >  "
+> > >  SRC_URI[sha256sum] =
+> > > "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+> > >
+> > > diff --git a/meta/recipes-devtools/gcc/gcc/0039-arm64-neoverse-n2-
+> > > support.patch b/meta/recipes-devtools/gcc/gcc/0039-arm64-neoverse-
+> > > n2-support.patch
+> > > new file mode 100644
+> > > index 0000000000..b3e0f396bd
+> > > --- /dev/null
+> > > +++ b/meta/recipes-devtools/gcc/gcc/0039-arm64-neoverse-n2-
+> > > support.patch
+> > > @@ -0,0 +1,60 @@
+> > > +From 9428e9267435a62f672e2ba42df46432c021a9cf Mon Sep 17 00:00:00
+> > > 2001
+> > > +From: Alex Coplan <alex.coplan@arm.com>
+> > > +Date: Tue, 29 Sep 2020 17:09:09 +0100
+> > > +Subject: [PATCH] aarch64: Add support for Neoverse N2 CPU
+> > > +
+> > > +This patch backports the AArch64 support for Arm's Neoverse N2 CPU
+> > > to
+> > > +GCC 10.
+> > > +
+> > > +gcc/ChangeLog:
+> > > +
+> > > +       * config/aarch64/aarch64-cores.def: Add Neoverse N2.
+> > > +       * config/aarch64/aarch64-tune.md: Regenerate.
+> > > +       * doc/invoke.texi: Document AArch64 support for Neoverse
+> > > N2.
+> > > +
+> > > +Upstream-Status: Backport
+> > > [https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=9428e9267435a62f
+> > > 672e2ba42df46432c021a9cf]
+> > > +
+> > > +Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> > > +---
+> > > + gcc/config/aarch64/aarch64-cores.def | 3 +++
+> > > + gcc/config/aarch64/aarch64-tune.md   | 2 +-
+> > > + gcc/doc/invoke.texi                  | 4 ++--
+> > > + 3 files changed, 6 insertions(+), 3 deletions(-)
+> > > +
+> > > +diff --git a/gcc/config/aarch64/aarch64-cores.def
+> > > b/gcc/config/aarch64/aarch64-cores.def
+> > > +--- a/gcc/config/aarch64/aarch64-cores.def     2020-07-22
+> > > 23:35:17.320384289 -0700
+> > > ++++ b/gcc/config/aarch64/aarch64-cores.def     2021-12-21
+> > > 01:08:45.518472342 -0800
+> > > +@@ -135,6 +135,9 @@ AARCH64_CORE("zeus", zeus, cortexa57, 8_
+> > > + /* Qualcomm ('Q') cores. */
+> > > + AARCH64_CORE("saphira",     saphira,    saphira,    8_4A,
+> > > AARCH64_FL_FOR_ARCH8_4 | AARCH64_FL_CRYPTO | AARCH64_FL_RCPC,
+> > > saphira,   0x51, 0xC01, -1)
+> > > +
+> > > ++/* Armv8.5-A Architecture Processors.  */
+> > > ++AARCH64_CORE("neoverse-n2", neoversen2, cortexa57, 8_5A,
+> > > AARCH64_FL_FOR_ARCH8_5 | AARCH64_FL_I8MM | AARCH64_FL_BF16 |
+> > > AARCH64_FL_F16 | AARCH64_FL_SVE | AARCH64_FL_SVE2 |
+> > > AARCH64_FL_SVE2_BITPERM | AARCH64_FL_RNG | AARCH64_FL_MEMTAG,
+> > > neoversen1, 0x41, 0xd49, -1)
+> > > ++
+> > > + /* ARMv8-A big.LITTLE implementations.  */
+> > > +
+> > > + AARCH64_CORE("cortex-a57.cortex-a53",  cortexa57cortexa53,
+> > > cortexa53, 8A,  AARCH64_FL_FOR_ARCH8 | AARCH64_FL_CRC, cortexa57,
+> > > 0x41, AARCH64_BIG_LITTLE (0xd07, 0xd03), -1)
+> > > +diff --git a/gcc/config/aarch64/aarch64-tune.md
+> > > b/gcc/config/aarch64/aarch64-tune.md
+> > > +--- a/gcc/config/aarch64/aarch64-tune.md       2020-07-22
+> > > 23:35:54.684795913 -0700
+> > > ++++ b/gcc/config/aarch64/aarch64-tune.md       2021-12-21
+> > > 01:09:56.829252050 -0800
+> > > +@@ -1,5 +1,5 @@
+> > > + ;; -*- buffer-read-only: t -*-
+> > > + ;; Generated automatically by gentune.sh from aarch64-cores.def
+> > > + (define_attr "tune"
+> > > +-
+> > > "cortexa34,cortexa35,cortexa53,cortexa57,cortexa72,cortexa73,thunde
+> > > rx,thunderxt88p1,thunderxt88,octeontx,octeontxt81,octeontxt83,thund
+> > > erxt81,thunderxt83,emag,xgene1,falkor,qdf24xx,exynosm1,phecda,thund
+> > > erx2t99p1,vulcan,thunderx2t99,cortexa55,cortexa75,cortexa76,cortexa
+> > > 76ae,cortexa77,cortexa65,cortexa65ae,ares,neoversen1,neoversee1,oct
+> > > eontx2,octeontx2t98,octeontx2t96,octeontx2t93,octeontx2f95,octeontx
+> > > 2f95n,octeontx2f95mm,tsv110,thunderx3t110,zeus,saphira,cortexa57cor
+> > > texa53,cortexa72cortexa53,cortexa73cortexa35,cortexa73cortexa53,cor
+> > > texa75cortexa55,cortexa76cortexa55"
+> > > ++
+> > > "cortexa34,cortexa35,cortexa53,cortexa57,cortexa72,cortexa73,thunde
+> > > rx,thunderxt88p1,thunderxt88,octeontx,octeontxt81,octeontxt83,thund
+> > > erxt81,thunderxt83,emag,xgene1,falkor,qdf24xx,exynosm1,phecda,thund
+> > > erx2t99p1,vulcan,thunderx2t99,cortexa55,cortexa75,cortexa76,cortexa
+> > > 76ae,cortexa77,cortexa65,cortexa65ae,ares,neoversen1,neoversee1,oct
+> > > eontx2,octeontx2t98,octeontx2t96,octeontx2t93,octeontx2f95,octeontx
+> > > 2f95n,octeontx2f95mm,tsv110,thunderx3t110,zeus,neoversen2,saphira,c
+> > > ortexa57cortexa53,cortexa72cortexa53,cortexa73cortexa35,cortexa73co
+> > > rtexa53,cortexa75cortexa55,cortexa76cortexa55"
+> > > +       (const (symbol_ref "((enum attr_tune) aarch64_tune)")))
+> > > +diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
+> > > +--- a/gcc/doc/invoke.texi      2021-12-21 00:50:18.345426447 -0800
+> > > ++++ b/gcc/doc/invoke.texi      2021-12-21 01:11:18.547853686 -0800
+> > > +@@ -17010,8 +17010,8 @@ performance of the code.  Permissible va
+> > > + @samp{cortex-a57}, @samp{cortex-a72}, @samp{cortex-a73},
+> > > @samp{cortex-a75},
+> > > + @samp{cortex-a76}, @samp{cortex-a76ae}, @samp{cortex-a77},
+> > > + @samp{cortex-a65}, @samp{cortex-a65ae}, @samp{cortex-a34},
+> > > +-@samp{ares}, @samp{exynos-m1}, @samp{emag}, @samp{falkor},
+> > > +-@samp{neoverse-e1},@samp{neoverse-n1},@samp{qdf24xx},
+> > > @samp{saphira},
+> > > ++@samp{ares}, @samp{exynos-m1}, @samp{emag}, @samp{falkor},
+> > > @samp{neoverse-e1},
+> > > ++@samp{neoverse-n1}, @samp{neoverse-n2}, @samp{qdf24xx},
+> > > @samp{saphira},
+> > > + @samp{phecda}, @samp{xgene1}, @samp{vulcan}, @samp{octeontx},
+> > > + @samp{octeontx81},  @samp{octeontx83},
+> > > + @samp{octeontx2}, @samp{octeontx2t98}, @samp{octeontx2t96}
+> > > --
+> > > 2.31.1
+> > >
+>
 
