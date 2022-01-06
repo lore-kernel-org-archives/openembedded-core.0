@@ -2,131 +2,116 @@ Return-Path: <otavio.salvador@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED5EBC433FE
-	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 00:26:17 +0000 (UTC)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by mx.groups.io with SMTP id smtpd.web11.2153.1641428761985921374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0610C433F5
+	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 00:26:29 +0000 (UTC)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
+ [209.85.221.181])
+ by mx.groups.io with SMTP id smtpd.web10.2127.1641428788816300149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jan 2022 16:26:02 -0800
+ Wed, 05 Jan 2022 16:26:29 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.222.50, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-ua1-f50.google.com with SMTP id c36so1409910uae.13
+ spf=pass (domain: gmail.com, ip: 209.85.221.181, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-vk1-f181.google.com with SMTP id 78so683138vkz.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 05 Jan 2022 16:26:01 -0800 (PST)
+ Wed, 05 Jan 2022 16:26:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U5BFtJK87H3CSWIYq1M1MecHHUGRvhUyQ6QrGKEuJT4=;
-        b=PiqmIiZnmYqg0dmGb+B+RYPdvNC6BEBlLxaMyjRjaZtk0rwk7IhXsKNDJGZsV2NSaa
-         cr5vsPqezjOSjpmfanWZDQhS7fHINwSFPcvS6zPQA4xknW7c7qWLZT0JTzHfinRyo3Re
-         at/o/PhThKO1PXiyGniTZ3jGoeOmG4mZPyzBdtQPfNk62i1A9QI14W7hPz+18ElPQset
-         FRxR2XMTEJHC90KweX8xSsaN0FmrohSZ31FjB4OHPxDq1WiIobNamzG0nDEFF5mi0Zok
-         a5EiI4NpiyvTFv1APFp3lol/qaZ3Plw5inZa/521ji40ua1yeRyDDescA8NnvW/F2Iib
-         WstA==
-X-Gm-Message-State: AOAM531koTvYwsYMdAgd75MUJA/eYYlVdY8MIHAZDypedCyiJOPxzUFZ
-	VhNfrHoMMNA+ISlw95CzCISatE89cgs+NSoq
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=i0KUalcEytlvV0NYGkt5aQMnfXch4/5121n8sd4pOAE=;
+        b=SQlYWCgtKpVUCGKtoKGN2FbWgheFuQcowygdgRs2yH6zavmpTObnNLaUkTzdNBhYnh
+         JpEbmAkze2UZDCoanzCwZNEaDyTtWbT+g0ezUdCUOlqB5kJfpoX+pnGQ6m+sQTsoIfF3
+         ybUjW9H3IUJigYmKvZsuL7YmvVxunTjQwa+le6tJs0Qo5D3dNGHiY6/2uD5sN78YFv8m
+         cr0c52sizza8lUWg1u/VmFmmkHAWrlXsgSZjHT9QxBOqbBllaTZNSaAfxvueFDhliIYZ
+         cf0IYOSHHcBcDnXowAKvfsdH6H1ByVliX/GEMnSbkdkMC3+1qC59SgOXKLHzt7MW+6Up
+         y/1w==
+X-Gm-Message-State: AOAM531I9fGehgvtXpLggwKsKCFc4cipRK3TrmH2IG1X6h0qRjNzFFtB
+	ijgZ1mIY5V4dqRYSBEEz2xk7VLQvx+h0o8yn
 X-Google-Smtp-Source: 
- ABdhPJwAWCOJYsqt3m5MURk51klp0JWw6e3O3krMUDkYk2ooCtEozTZOp8aJoz7X0AKpY+edYkzQGg==
-X-Received: by 2002:a05:6102:3009:: with SMTP id
- s9mr17824772vsa.23.1641428760760;
-        Wed, 05 Jan 2022 16:26:00 -0800 (PST)
+ ABdhPJzRzzEhhR6v+WS5MChv5kgk0Ny00rUhHct396IZ7XKg1SWuiBMMJ9dza+XABM0JB/KzVGE2mA==
+X-Received: by 2002:a1f:2497:: with SMTP id
+ k145mr10438419vkk.21.1641428787689;
+        Wed, 05 Jan 2022 16:26:27 -0800 (PST)
 Received: from localhost (201-34-65-230.user3p.brasiltelecom.net.br.
  [201.34.65.230])
-        by smtp.gmail.com with ESMTPSA id g4sm258323vkd.46.2022.01.05.16.25.59
+        by smtp.gmail.com with ESMTPSA id
+ y13sm289218vsk.30.2022.01.05.16.26.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jan 2022 16:26:00 -0800 (PST)
+        Wed, 05 Jan 2022 16:26:27 -0800 (PST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/3] libxcrypt, libxcrypt-compat: upgrade 4.4.26 -> 4.4.27
-Date: Wed,  5 Jan 2022 21:25:33 -0300
-Message-Id: <20220106002535.658797-1-otavio@ossystems.com.br>
+Subject: [PATCH 2/3] [DNM] python3-setuptools: upgrade 59.5.0 -> 60.2.0
+Date: Wed,  5 Jan 2022 21:25:34 -0300
+Message-Id: <20220106002535.658797-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220106002535.658797-1-otavio@ossystems.com.br>
+References: <20220106002535.658797-1-otavio@ossystems.com.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 00:26:17 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 00:26:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160219
+ https://lists.openembedded.org/g/openembedded-core/message/160220
 
-License-Update: build-aux files updated.
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
+The patch seems to break some native package building due do host
+contamination; I faced it at btrfs-progs, for example.
+
+I need someone which has more intimacy in Python to help on this so I'd
+like to ask for the patch to not be merged as it has known issues.
 
 Changes in v2:
-- fix license checksum error
-- update libxcrypt too
+- remove wrong patch header
 
- .../libxcrypt/files/fix_cflags_handling.patch          | 10 +++++-----
- ...ypt-compat_4.4.26.bb => libxcrypt-compat_4.4.27.bb} |  0
- meta/recipes-core/libxcrypt/libxcrypt.inc              |  4 ++--
- .../{libxcrypt_4.4.26.bb => libxcrypt_4.4.27.bb}       |  0
- 4 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.26.bb => libxcrypt-compat_4.4.27.bb} (100%)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.26.bb => libxcrypt_4.4.27.bb} (100%)
+ ...01-conditionally-do-not-fetch-code-by-easy_install.patch | 6 +++---
+ ...n3-setuptools_59.5.0.bb => python3-setuptools_60.2.0.bb} | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_59.5.0.bb => python3-setuptools_60.2.0.bb} (94%)
 
-diff --git a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
-index 0772998c72..94aa3fed49 100644
---- a/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
-+++ b/meta/recipes-core/libxcrypt/files/fix_cflags_handling.patch
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 5e2ee454da..5d508f759f 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
 @@ -1,4 +1,4 @@
--From fd9a46695594c3cd836ecb7d959f03f605e69a2f Mon Sep 17 00:00:00 2001
-+From 7b2a0cdc281d94a5782c37ef87040c341447b4b4 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 30 Apr 2021 10:35:02 +0100
- Subject: [PATCH] libxcrypt: Update to 4.4.19 release and fix symbol version
-@@ -15,13 +15,13 @@ Upstream-Status: Submitted [https://github.com/besser82/libxcrypt/pull/126]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-From da88c57fe03e4474ba20325edacf519e80c1d7a8 Mon Sep 17 00:00:00 2001
++From 74abf3fae060c87b04e5fb8c382ecc835afc3a50 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -15,10 +15,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
- ---
-- build-aux/compute-symver-floor | 2 ++
-+ build-aux/scripts/compute-symver-floor | 2 ++
-  1 file changed, 2 insertions(+)
- 
--diff --git a/build-aux/compute-symver-floor b/build-aux/compute-symver-floor
-+diff --git a/build-aux/scripts/compute-symver-floor b/build-aux/scripts/compute-symver-floor
- index 4ec82e1..8117342 100644
----- a/build-aux/compute-symver-floor
--+++ b/build-aux/compute-symver-floor
-+--- a/build-aux/scripts/compute-symver-floor
-++++ b/build-aux/scripts/compute-symver-floor
- @@ -36,6 +36,8 @@ sub preprocessor_check {
-          die "C compiler not available\n" unless @CC;
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index fc848d0..c04a5de 100644
++index fb34d10..217fce1 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -642,6 +642,11 @@ class easy_install(Command):
++@@ -649,6 +649,11 @@ class easy_install(Command):
+              os.path.exists(tmpdir) and rmtree(tmpdir)
   
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.26.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.27.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.26.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.27.bb
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 9186c45e18..725965e535 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -3,14 +3,14 @@ DESCRIPTION = "Forked code from glibc libary to extract only crypto part."
- HOMEPAGE = "https://github.com/besser82/libxcrypt"
- SECTION = "libs"
- LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://LICENSING;md5=29c5f9af198623cdce52a77f85695164 \
-+LIC_FILES_CHKSUM = "file://LICENSING;md5=c0a30e2b1502c55a7f37e412cd6c6a4b \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     "
+      def easy_install(self, spec, deps=False):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_60.2.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_60.2.0.bb
+index 878fa08404..8748f91388 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_60.2.0.bb
+@@ -13,7 +13,7 @@ SRC_URI += "\
+     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
+ "
  
- inherit autotools pkgconfig
+-SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
++SRC_URI[sha256sum] = "675fcebecb43c32eb930481abf907619137547f4336206e4d673180242e1a278"
  
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH};protocol=https"
--SRCREV = "8ff7a8c5019cbd50419f7d0a8cd691eb99d6b086"
-+SRCREV = "814e715dd8580ff00344112d7d8383a6a5a5b83d"
- SRCBRANCH ?= "develop"
+ DEPENDS += "${PYTHON_PN}"
  
- SRC_URI += "file://fix_cflags_handling.patch"
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.26.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.27.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.26.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.27.bb
 -- 
 2.34.0
 
