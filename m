@@ -1,162 +1,204 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19CD5C433F5
-	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 19:21:52 +0000 (UTC)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web10.13478.1641496910715040910
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAB7C433F5
+	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 20:13:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web12.14114.1641499988592850690
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 11:21:50 -0800
+ Thu, 06 Jan 2022 12:13:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YxiiFA+U;
- spf=pass (domain: gmail.com, ip: 209.85.222.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id i5so6214852uaq.10
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 11:21:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Nnw+LtAnUgdLQJx9irhOq45joA2EzU9/R3WUHiqA1RY=;
-        b=YxiiFA+U7g/793DV6MuJ15vfJ83OGp0+lu5nkUFTQby/8OK4ZrZj0paevrl5gsGc0x
-         Bwbn6e5hGdr5lg8ZkWofB53JQY78GLMdN43jK40sTybzOxVMVNjTttRKlITeJQMh7WPo
-         kEvkAGC7kjoDcoYgQM++NxB+Fn5W5d3qWmSS16CYqxUazfCqVHnf1oEl831xuxFeNcbC
-         a49YzsO/3eYjCUHmtVDwVe1xQ5+4OJJNBsGLhVgD0tEc7+/3Y3PU3GLsWqy+f6xC78O4
-         vsbHsQY3QCrbs6I+7haYeTEsY6qG2D4fPez32VXpEc01XWMnbXmpyNI3O+e9oMShDzdL
-         D9Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Nnw+LtAnUgdLQJx9irhOq45joA2EzU9/R3WUHiqA1RY=;
-        b=dxoEm1iAXkLcVxMUufXJHm5RBHihIlG2RxGidFZAjteE4ZBBGpFPgKu6qxnNkEs4s+
-         sPhtxX3n3yF/bcUPRK1W969HVz3hVnNI+mxDql2tn9odtpsD4yl1mKm6gsE4NBlnNMOz
-         uahe/mTq9hSUCueZxd3dlAQIvxXyEI3l7mvw18azotSO8EquAsNWSWLnhxI3K4o4Whd9
-         GGUe6eTbJ0Mqdr9WY5eSIRM349ghZva6loXXLPmuJMWkFcp32DFPS4VGa1McW13W6q/y
-         BlmCGGUN/kSVYJmBb4Sy70EMCdqmtYKecHluQrTMNg8pXeIqzAiW9ksxB3Cn9h1upO0g
-         dL3w==
-X-Gm-Message-State: AOAM530brzvRuy+lFBgrZkNMDSdYfMUY59bDxYg5GhsjL9sxRkdNBEhL
-	GxQtnXl1n4kpVOnsVpbcblHxNC4RJynX2qQ/laM=
-X-Google-Smtp-Source: 
- ABdhPJylqrw5Ls0XyLmYJdukx4Xl+TAHtJI0LOyUxo8kQA8dUJaLl0lGHpBRCNR1RATSjTD01zL3pMGU7S//L+wM6LM=
-X-Received: by 2002:ab0:26d2:: with SMTP id
- b18mr18928892uap.100.1641496909895;
- Thu, 06 Jan 2022 11:21:49 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fufZ+liC;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=8005714978=saul.wold@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 206JoZcm030046
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Jan 2022 20:13:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=nykG7QR9eiNGPuCW2VtnWTr7B7xB+QterAjurQxlLkA=;
+ b=fufZ+liC3E3wgGOpjdnRsQdYgdP9cr/OY3x4cq7RrNWXMbNwhdEwRYsVdcld6PTQNgeB
+ dOG97oPjOQz3My9QiovLM33rovF8h9vS1rta3N9ktJmzbTF1TSb3Ulc7Md2bcx6+48OU
+ eHxxN5QIKGhGadQpnMMFQ328Hb5I9rH11/xpAtuHq+7FK1xXQ8IhmkxRGWnsFvosWuvD
+ 3DgUFRTwTfFX/JSzfuxwO6NUJR/86fh6OoY2FMhCFnqDsnGHpia8VfeyGgBPV52II1C0
+ 7P7BoS6Oc5DSGe7+z9k9maUzmVTWcK1B85rsZCioVCEG/FOns+CFka+EkQV6tkBIYO6Z sA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wc03f1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 06 Jan 2022 20:13:07 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 206KD73a017930
+	for <openembedded-core@lists.openembedded.org>; Thu, 6 Jan 2022 20:13:07 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wc03ey-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Jan 2022 20:13:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WXfaqtWJi6C26xery7inXwJxQGZlcqfi8whTquxwnuL//weulfYD86alz3q2kOL4KWI/7sYKjpqW0M7xRl16DTqVKpEuSQddu89gOGZsVX2yvpzScNVWu+x5TOPJ0cY71JXwFaajJxdWXkv2galEwz6jf3KMErc/+PiYkYPNr+Sq33+hJ1L0UHOVCcH14ewxqHTAnQbxwwX4KXYToKk9SOXAFQMugObADwiMCiyyrmI878NKrMiTG+CgfQkqTu3j+ZNr0rCNad2UZZp8yDLI6UJeKSnBKz5Oa1UxSA59uHqSYgNzEhh/Afp4jDwI875hkqvM4E6hJZCVEz1dpVwAiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nykG7QR9eiNGPuCW2VtnWTr7B7xB+QterAjurQxlLkA=;
+ b=kVMdNB79YADxmPxpWxZYo/z1LWjgflpLz4z0Aeow7snWfXNONyq6sgrBQhM88e2OrOGXxprDbiOUO5BtJ2dVeGai8uyicXhlB4Gu426Z+itWrLZyx9f+cgnX7W7JPV8vhtOM1wX2PcDoal+HdTIhNqjQO3PTjlPembRxVhVnH6f3ph/E9w+VJxMkfktqICSgxlV2aRDLe/q42665BUCgu48oQ6hwI2p0dmNZtpuLOlBpWLreulALsDOi0HJdy2HoaWv00vUAw9JKBrHqg1MszwcGkMvVjDbYJ2CZN4lG4D26nEkzJDKsB1DpwSdh2xlr8EC7KK3mCgxDBrC+vQ66dA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5085.namprd11.prod.outlook.com (2603:10b6:a03:2db::10)
+ by BYAPR11MB2903.namprd11.prod.outlook.com (2603:10b6:a03:89::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Thu, 6 Jan
+ 2022 20:12:53 +0000
+Received: from SJ0PR11MB5085.namprd11.prod.outlook.com
+ ([fe80::7c04:e33d:9d46:f854]) by SJ0PR11MB5085.namprd11.prod.outlook.com
+ ([fe80::7c04:e33d:9d46:f854%3]) with mapi id 15.20.4867.009; Thu, 6 Jan 2022
+ 20:12:52 +0000
+From: Saul Wold <saul.wold@windriver.com>
+To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Cc: Saul Wold <Saul.Wold@windriver.com>, Saul Wold <saul.wold@windriver.com>
+Subject: [PATCH v2] perl: Enable threading
+Date: Thu,  6 Jan 2022 12:12:34 -0800
+Message-Id: <20220106201234.159792-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0231.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::26) To SJ0PR11MB5085.namprd11.prod.outlook.com
+ (2603:10b6:a03:2db::10)
 MIME-Version: 1.0
-References: <20220106185443.3522510-1-raj.khem@gmail.com>
- <CALbNGRSOFo5MPmRhHyr2azQHg4X6MJcR5BxygiO3P0niO0ehJg@mail.gmail.com>
-In-Reply-To: 
- <CALbNGRSOFo5MPmRhHyr2azQHg4X6MJcR5BxygiO3P0niO0ehJg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 6 Jan 2022 20:21:38 +0100
-Message-ID: 
- <CANNYZj_5BTK8uFXwvgFemU5CMV1twjsnj-S9W0nS6aJ+qHZeuQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libsdl2: Fix build when libunwind is not used
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000036dafc05d4eec83b"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da3fdaee-38b1-4008-f9f2-08d9d150ea78
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2903:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB29038343602C9853D3D38802EE4C9@BYAPR11MB2903.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	bpw4oNIGeJ2MJUm0j797cSo1c0fHd7IZkGiHW2+XqCEtEzktCet/nqBNHYO2EAMIhRQQXHP0HmDl3QSIiuJe1tx/vu/mG9r1VaKPTYOfs9k1lyDaz8Xd9TqV1UR3ROpDOihfcJ96rKi0pJ3UgAnm/ci7N2/7jGEfeyAqJPBXm1Xb1aOOel061pL8Qn0p3ViED3D8FpM5YhbppRUXLp3Um8Y/PnWBi/mQTNr34cmvJ+7LqHet5RfQ7wfMkB9Q8V+W0O7hBa3CJoMVqnbivM2Xx4GClF8RFpft8aIq1igFmiJzGku3CBkxMJd2vsQuyqWvbmOOKZZ4sT8NlATYqd9xOVxDxSv2DWK/AOP1LOLNZLIM4KXIx1Ixis1pnmKdviKKYWPfHfuJ052Rb9+ldWSKM6Zwqm/ZgzXsTSbiMvUXa1vwljDQUtnrYDr2N9ZUj1uxqzbJ6fEsounXouhCFAZ/6CY/V00KN44wIxBLSCYsfIDtzw3kBe0iy+GsglAEoUa2uRwLdDqU0o3vKJMA4pWIdvmRhVHrGWKL77GrtnyN1r1ALUystyW5JH7y/lAdaucSMWZ1e0ftpIEygV3oomdFsAbxUFFheYgPWnXGl4Lh3HYQOiN8oKZXAzeYmiN6p0tQNaz9sTl9TN7Gvwz7bE1TVQgeYHMzFNWT6xIxZn5n1ovqTcHDH/OwYZbIWvdbiIoJ+OkNb2GNawFGZjtO6pXMxEzGGv8uQXmtuZ4YVCgjSk61UtIGk42GAt/bkGs7TvZfbEtlgiRbuIsvy+1cR9abMXNiyJpKN3AbqLgyJtEKKao=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5085.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(2616005)(26005)(508600001)(966005)(107886003)(6666004)(8936002)(5660300002)(83380400001)(36756003)(6486002)(8676002)(54906003)(66946007)(6506007)(6512007)(66556008)(2906002)(66476007)(1076003)(316002)(52116002)(86362001)(38100700002)(186003)(38350700002)(44832011)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?JSGPD7mx/labrFSDYOgoMFXLQGgDETqUeAsUGl/5eBzaP/EYK9DBoaSiVjbI?=
+ =?us-ascii?Q?P6axWe6Ns4PQXDLG1AAxWWlq60joX28MkZ6OLRIhmM2qnpG59EbUQjO3eB3z?=
+ =?us-ascii?Q?ABwOUy7FomZbCcEqpk8bGZqG31eaBHmxxXaogpQJi9/oVtDiWH7K0nbsTnm3?=
+ =?us-ascii?Q?vCOJyi8Djc5PxMEsEClVIOBuwJHGr0UZFb2sCJFPJTW0YFl39mRPGU3mTuF2?=
+ =?us-ascii?Q?D75NStZPAUnw/Nj8YuxeAew39n04cEnTngpEAZr6ICmdxaFzr1pyq3+FDdam?=
+ =?us-ascii?Q?mHJHFeuSwl61Ys8BjbE55X6PDrz5pdtmd0JWD3YXLq99A9MOlK0Qj+202IrK?=
+ =?us-ascii?Q?IFgrTw8qsbYfaZJwLubl0F4mS7iztGwZSJv2F0Z8xiO1pQwl5trkl+Q7Qy+p?=
+ =?us-ascii?Q?300fQhBphaf2rTy8gOAHj5+lc0wg5Y339lo7MmnUQN52kumKgcGExCAMWEeH?=
+ =?us-ascii?Q?Tvoarkb6PTPTPxgrAgg/0akmNLLLBPwz039cICwFD7sLR+gdpsYqebOxLpKb?=
+ =?us-ascii?Q?0sFWI0uUJ07JaQBsVIkr8i3xaaGcWlyr8kKv/vNaDcA2Mj2eHGBGFncBbsSb?=
+ =?us-ascii?Q?UoKjtiIAv6vwYMwdQMhT7rO7HO9G0aEnZZYhJ6abkqH1/609SBjDgYFlvSLr?=
+ =?us-ascii?Q?tK2HOUsPYM30JntLfU1fqqplDcT/1UAAkBm5Na6jBXhbBsHGSfs94sh6dxvT?=
+ =?us-ascii?Q?cA3lguwNW3HbtOnPHGrxntzBfjFuTMv3m7shUwDXn7i6ELn7YxtL1acjDgzy?=
+ =?us-ascii?Q?OHHlMFhmPSOqfrYaqu6xG0lBFXrBSv3Fg8m4Myp2NvdZoI09kPDTzbZP0FbY?=
+ =?us-ascii?Q?Lex+O7sOrp2C7OSx/5RwIr9P0tzTK0gp9FJF3UKyyYq5+0N1LiV59UDwyEMu?=
+ =?us-ascii?Q?ZEexSDQuluQW/Xc2li0QjMeeBSej1Ln2E2qg2JPEPHeZ9lZ4k5TW6TD7wK/W?=
+ =?us-ascii?Q?2A1wXuZHLWp4dK+7EdqtpW9dIDlgjFjrYYenWrFYU614320/qWuxUWaNhEJJ?=
+ =?us-ascii?Q?0WeysXQf0adHECvjmTnRGbXTre3cOLcG84JPPleyxuzooq72LviUtmPU/tQr?=
+ =?us-ascii?Q?Mx814vlsop5Xu7bI+TdVOM+tEmpNI1JZWS2XmUoHXx/5BP+93jvbpAauW/68?=
+ =?us-ascii?Q?H0hLpVvbq78qMRFEZVTR/HSziiOWlXDM2AuKIs2hEDZ98O+i9SxNLSggVYr9?=
+ =?us-ascii?Q?yUh+yv5qEcx6d+MG40L4Ry71vVQyOWt88mqXbnVBZl7jCVH4DgGCnODsnd6Y?=
+ =?us-ascii?Q?Q7aZbhGrD3obFjf/lR8PgELiuvW1uZGtLfTVLq1Wzbk2fgnEQpbuhOU5d+FI?=
+ =?us-ascii?Q?e2UlSmR1gaP2tPz0D1cxvUSFZds6AkDv2Gzjda/NMYc6WcSmLObveUGy7xZx?=
+ =?us-ascii?Q?z0Z8OYIblinvbKneqahEQYly11/Gi/iXHUw2H4hMi/YcbydEqcbM7/in66+p?=
+ =?us-ascii?Q?pYFQEY5SnM1hjJL5hzF+UfjUp3U9JKbTcvgZ/hWqogMgDfufiSma28CM5PGu?=
+ =?us-ascii?Q?QxlOjGyPyUA5DvoOqRiZ5f7daqXXLJ8TASA3gKmhDwzUUz5mDjwHr9UbQWER?=
+ =?us-ascii?Q?62kuJlItb6U7mF7PNyTLgxC1pmHKFHdOD+plfveHWfOmVzkXGlSV11sPhiVP?=
+ =?us-ascii?Q?CagWm7WqDFBVceOhe4Fd3MI=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ da3fdaee-38b1-4008-f9f2-08d9d150ea78
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5085.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 20:12:51.8359
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 4+PVGORkmMkLo2PDM67kbuI9gOMw/pR1adHDPIW/mRy9MyTysonNxPX1XndRAOcq6YOwJEZlOdJAAJ5g2FavMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2903
+X-Proofpoint-GUID: Ds7VcpjKmuNxnM4Loe6zM_L_brHB1KWy
+X-Proofpoint-ORIG-GUID: ux6nZ6ap2ieDoJSfA-ZGK7rH-90F-Up3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-06_08,2022-01-06_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=941 mlxscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201060128
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 19:21:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 20:13:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160243
+ https://lists.openembedded.org/g/openembedded-core/message/160244
 
---00000000000036dafc05d4eec83b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Saul Wold <Saul.Wold@windriver.com>
 
-Wait, why is this inappropriate? It seems quite suitable for sending
-upstream.
+When the tranisiton to perl-cross occured, the threading define
+seems to have been missed.  The perl tests for threading where
+simply skipped, so there was no direct failures.  This was verified
+by running perl ptest before and after the change to see PASS vs SKIP
+results of threaded related tests.
 
-Alex
+NOTE: Perl officially discourges the use of threads, so this
+functionality maybe depercated in the future [0][1]
 
-On Thu, 6 Jan 2022 at 20:19, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
-wrote:
+v2: adds the usethreads to native and nativesdk. This was tested by
+builing postresql and rrdtool which use perl and automake.
 
-> On Thu, Jan 6, 2022 at 7:54 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > clang provides libunwind.h and cmake adds a check to
-> > find libunwind when this header is detected, which was
-> > not the case with automake. The check however is expecting
-> > specific unwinder implementation which provides libunwind-generic
-> > solib, this is not a standard library that all implementations
-> > will provide, therefore make this check optional.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> Had just started to look into before I saw this. Thanks for taking care.
->
-> Cheers
->
-> Andreas
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160242):
-> https://lists.openembedded.org/g/openembedded-core/message/160242
-> Mute This Topic: https://lists.openembedded.org/mt/88245006/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+[0] https://perldoc.perl.org/5.34.0-RC2/threads#WARNING
+[1] https://perldoc.perl.org/perlpolicy#discouraged
 
---00000000000036dafc05d4eec83b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ meta/recipes-devtools/perl/perl_5.34.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-<div dir=3D"ltr"><div>Wait, why is this inappropriate? It seems quite suita=
-ble for sending upstream.</div><div><br></div><div>Alex<br></div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 6 =
-Jan 2022 at 20:19, Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@=
-gmail.com">schnitzeltony@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">On Thu, Jan 6, 2022 at 7:54 PM Khem Raj &=
-lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.c=
-om</a>&gt; wrote:<br>
-&gt;<br>
-&gt; clang provides libunwind.h and cmake adds a check to<br>
-&gt; find libunwind when this header is detected, which was<br>
-&gt; not the case with automake. The check however is expecting<br>
-&gt; specific unwinder implementation which provides libunwind-generic<br>
-&gt; solib, this is not a standard library that all implementations<br>
-&gt; will provide, therefore make this check optional.<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; Cc: Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmail.com"=
- target=3D"_blank">schnitzeltony@gmail.com</a>&gt;<br>
-Had just started to look into before I saw this. Thanks for taking care.<br=
->
-<br>
-Cheers<br>
-<br>
-Andreas<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#160242): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/160242" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/160242</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88245006/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88245006/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+index a6ae80f07e1..e4bcfe3ce69 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+@@ -53,6 +53,7 @@ do_configure:class-target() {
+     ./configure --prefix=${prefix} --libdir=${libdir} \
+     --target=${TARGET_SYS} \
+     -Duseshrplib \
++    -Dusethreads \
+     -Dsoname=libperl.so.5 \
+     -Dvendorprefix=${prefix} \
+     -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
+@@ -80,6 +81,7 @@ do_configure:class-nativesdk() {
+     ./configure --prefix=${prefix} \
+     --target=${TARGET_SYS} \
+     -Duseshrplib \
++    -Dusethreads \
+     -Dsoname=libperl.so.5 \
+     -Dvendorprefix=${prefix} \
+     -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
+@@ -94,6 +96,7 @@ do_configure:class-native() {
+     ./configure --prefix=${prefix} \
+     -Dbin=${bindir}/perl-native \
+     -Duseshrplib \
++    -Dusethreads \
+     -Dsoname=libperl.so.5 \
+     -Dvendorprefix=${prefix} \
+     -Ui_xlocale \
+-- 
+2.31.1
 
---00000000000036dafc05d4eec83b--
 
