@@ -1,93 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47399C433F5
-	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 15:58:52 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web12.10389.1641484731081625833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A31FCC433F5
+	for <webhook@archiver.kernel.org>; Thu,  6 Jan 2022 16:44:04 +0000 (UTC)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
+ [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web12.11112.1641487443235449114
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 07:58:51 -0800
+ Thu, 06 Jan 2022 08:44:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FPgwCfC/;
- spf=pass (domain: gmail.com, ip: 209.85.221.49,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id e9so4153936wra.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yd293YeU;
+ spf=pass (domain: gmail.com, ip: 209.85.167.172,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f172.google.com with SMTP id u21so4470393oie.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 07:58:50 -0800 (PST)
+ Thu, 06 Jan 2022 08:44:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=m2+nZ8uvuXoU8GXkJfWMJDt5Oz9eeinL5BsTPFInnNw=;
-        b=FPgwCfC/Svw+kKquPw+Ye5BmU42bovtM/Kh4w074dSBnGN0LvhQCtQPvyzBKHAMlqP
-         mtdbHqdXSWyDxEKcVh2T3Lxzdi95xG5864wnq3wvy9l5sD8rCFJMKgGl5dgf0YvfxWkE
-         9KoMUaCcxhwuOjPsFvMava5VET6UwrGKpM2YjIZxmlFOxo3Q++XD8AZ6Fi6fdgWxsmQ5
-         dtj+AE8AU0DcPSVt5OLdhFRJeipbENSIwQ+1GkqYwYd96dUktO0bUTqqz9WgmoGpId3G
-         CDLyc0PQLRhM+MBcnuh9kWYuaK8yq17B2LCl5sf6PI5Xo0a03diZNErr/wEr46IOuJN3
-         y+Bw==
+        bh=hhhRpkNmpNaERfmNoo0KYq+Ut/RiGIxuiVMKArDU29g=;
+        b=Yd293YeUjq9kcVba6+z8VLoJLzWOzxJZbY0BxMzlc6I0nqIN7qqbMou7wK69o6NJLH
+         9jCBo67BmE3SZ1AkJvgphlubqojwu6hWnVR1/qAC8xkoZBUBw3GbBTxkaht4pUsai+PK
+         prYkdqB+DA4yNDYFeJyEQ92KlDGI6DjmxIj95iUXWL29lLhk/ExSFwZBXVWORGVQd2dL
+         iuoIOeU4XGmf8J3Tobkr1ltrZ8EsBObRmZ+5YnNLCJ6RZbY7BhDTXw5Mk1efrrPYpCQ2
+         dM0Tjstf50dNkfAe349/yPo4M5h2n5cBQJ+kpiiG3kkbRXqwM124T7WzpQn13bJd4M6R
+         7C2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=m2+nZ8uvuXoU8GXkJfWMJDt5Oz9eeinL5BsTPFInnNw=;
-        b=UCmIJxFV7bcUaKSDE67J/6iLKOkjSvSLrJS5zUjFZec93K8FyCDRL1pbCBb5Bn1PxL
-         ZGmsMXVPRecamRdlLjoM1UzFRoVbM/rs4FaDCqKbTxpcf9qtB6TYylSwmrO7NaQcFNMY
-         n6xyq5JN2C5jW54lDN/3czCTWGZsoe2/kcAMRa21MQSmlCQADsh0vSqfpJBlh6ZlJagY
-         fSQMTkc7uPfp0GXYAk8vuRqFIQIVTqNJ5BtmMMui6c4Md3ctRp0/tiIGcpgknCAgKkNY
-         k78RpLTbr/HdkEnxP/feLl2VZVsdtjOBfEAyYZYeoswzejh9qn8qu2mlgGs8OZvsYPu2
-         CEgw==
-X-Gm-Message-State: AOAM532lJrF7ruQs17Fj5uCFhVLmA/wO/oroedeQZaFCq+YZruI5VKQZ
-	oP+4s8YJS+HYt81HKvvAaSlXmTu5jpE=
+        bh=hhhRpkNmpNaERfmNoo0KYq+Ut/RiGIxuiVMKArDU29g=;
+        b=LL6xl8giZhhRMyEocW0qkff0hic1PKCmrnf5DD35FP6nT9C8wp4PHcVEBAz+yA6ENB
+         aGWxGiCFThI7qPjSSbu3o7gbVl6zF0bMjNmrNkQtsesFFctS5ziFlaN7ROoppSbUwXoI
+         hKWTY4s+N0Btom489WwEgup5SE1OHRfy3hR9J2xZmhKNigh//4FpQRYFsnxHvBvBBtyL
+         rWup16H3XYCVH+rbNN1PIlLq6VHckIW6Iq7RkX9HcLpg7DYuY140Se7BDCGNk6EQ4I4Z
+         OBRKp8deqoVkCM7uWkMk6h6EMBlb8MSabh9H2qooS8mmbTGri9fKjlv+knGox5Jh6d29
+         UQmQ==
+X-Gm-Message-State: AOAM531veYMUAnEAH/m2lwT1crbfOzPtrI/qNQtxNkWm2wjUdyfmXIFx
+	CRILm3cyurjs7rnYOk1URodnWwxOG1M=
 X-Google-Smtp-Source: 
- ABdhPJxZV32RLyIrTd5V226VkRku5Gns+tNKjgoz5/OJLpujVvTnedaNRr3kBKsMEsPoJQB3e8j4Tw==
-X-Received: by 2002:adf:ea91:: with SMTP id s17mr997469wrm.183.1641484729569;
-        Thu, 06 Jan 2022 07:58:49 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
+ ABdhPJxnNS5fq/HURH5Te01vvfmUWwnNRhlkUF54Ed24481DQfa1XUARlLepJAY1Jdthb9eI7K4JkA==
+X-Received: by 2002:a05:6808:1996:: with SMTP id
+ bj22mr6988094oib.165.1641487442294;
+        Thu, 06 Jan 2022 08:44:02 -0800 (PST)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
         by smtp.gmail.com with ESMTPSA id
- e12sm2462759wrc.104.2022.01.06.07.58.48
+ k20sm429205otb.50.2022.01.06.08.44.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 07:58:49 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Thu, 06 Jan 2022 08:44:01 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] virgl: skip headless test on alma 8
-Date: Thu,  6 Jan 2022 16:58:44 +0100
-Message-Id: <20220106155845.215669-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] selftest: reproducible: Set maximum report size
+Date: Thu,  6 Jan 2022 10:42:36 -0600
+Message-Id: <20220106164236.599621-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 15:58:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 06 Jan 2022 16:44:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160236
+ https://lists.openembedded.org/g/openembedded-core/message/160237
 
-As a centos 8 spinoff, it lacks the same vgem kernel module.
+Diffoscope can end up running for a very long time if there are a lot of
+changes. To put a limit on how long it can run, cap the maximum report
+size at 250 MB by default.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index a90f62bfe1..5637a02451 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -214,7 +214,7 @@ class TestImage(OESelftestTestCase):
-         import subprocess, os
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 2e983d2f17..324b43d454 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -118,8 +118,9 @@ def compare_file(reference, test, diffutils_sysroot):
+     result.status = SAME
+     return result
  
-         distro = oe.lsb.distro_identifier()
--        if distro and distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04']:
-+        if distro and distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04', 'almalinux-8.5']:
-             self.skipTest('virgl headless cannot be tested with %s' %(distro))
+-def run_diffoscope(a_dir, b_dir, html_dir, **kwargs):
+-    return runCmd(['diffoscope', '--no-default-limits', '--exclude-directory-metadata', 'yes', '--html-dir', html_dir, a_dir, b_dir],
++def run_diffoscope(a_dir, b_dir, html_dir, max_report_size=0, **kwargs):
++    return runCmd(['diffoscope', '--no-default-limits', '--max-report-size', str(max_report_size),
++                   '--exclude-directory-metadata', 'yes', '--html-dir', html_dir, a_dir, b_dir],
+                 **kwargs)
  
-         render_hint = """If /dev/dri/renderD* is absent due to lack of suitable GPU, 'modprobe vgem' will create one sutable for mesa llvmpipe sofware renderer."""
+ class DiffoscopeTests(OESelftestTestCase):
+@@ -149,6 +150,9 @@ class ReproducibleTests(OESelftestTestCase):
+ 
+     package_classes = ['deb', 'ipk', 'rpm']
+ 
++    # Maximum report size, in bytes
++    max_report_size = 250 * 1024 * 1024
++
+     # targets are the things we want to test the reproducibility of
+     targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
+     # sstate targets are things to pull from sstate to potentially cut build/debugging time
+@@ -324,7 +328,7 @@ class ReproducibleTests(OESelftestTestCase):
+                 # Copy jquery to improve the diffoscope output usability
+                 self.copy_file(os.path.join(jquery_sysroot, 'usr/share/javascript/jquery/jquery.min.js'), os.path.join(package_html_dir, 'jquery.js'))
+ 
+-                run_diffoscope('reproducibleA', 'reproducibleB', package_html_dir,
++                run_diffoscope('reproducibleA', 'reproducibleB', package_html_dir, max_report_size=self.max_report_size,
+                         native_sysroot=diffoscope_sysroot, ignore_status=True, cwd=package_dir)
+ 
+         if fails:
 -- 
-2.20.1
+2.33.0
 
 
