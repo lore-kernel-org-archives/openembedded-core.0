@@ -1,163 +1,554 @@
-Return-Path: <matt@madison.systems>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF171C433F5
-	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 14:44:43 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web08.7277.1641566682627944800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA01C433EF
+	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 15:09:30 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.7552.1641568169490707397
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 06:44:43 -0800
+ Fri, 07 Jan 2022 07:09:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@madison.systems header.s=google header.b=CDLeUsSZ;
- spf=pass (domain: madison.systems, ip: 209.85.167.48,
- mailfrom: matt@madison.systems)
-Received: by mail-lf1-f48.google.com with SMTP id k21so16390379lfu.0
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 06:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=madison.systems; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CNuF0JqJrN0WUEa/9u7Cx7fRwviR8TBhzhd0erFg2O8=;
-        b=CDLeUsSZ09y+QKc1l1vsujnnJKYhGoTzedzioE6b7RlMOce2K7JPPX0+7yb26N3M8j
-         mQ1a+n7U4Znsspx6X/HqJNZL56Yq13KrDi/gZRwFSKw3XoQuis1Ah4bFiqa6dsP30tpu
-         1ZUdz/OQTrSuRnU96l87vuxSqumBxWTaDMOXGskQx0C26olKlS6JTVUNM37irtaXyW/y
-         hypHvBnp4bHdvyYZpb0oiQUhiB3B1wRtlsk9Pkxz97nM2pEx79yg4xOohy8BDbL7rbK4
-         JOT8HLFMMA6CVNmV3KZ08UZG7gKksQ46ibesF6tUFlPEgP0qTwGAW+hE/NMQi9sT9BWy
-         AUZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CNuF0JqJrN0WUEa/9u7Cx7fRwviR8TBhzhd0erFg2O8=;
-        b=YQAVY6xFyo/aKjP1MHJzkmjUTZKx2ut17TUW9cjJFtuPDxL5ovdNI6yeB+l6oEaZQd
-         0oyRG5SHmgi5rc4I3kMR/DIsKxUGIk1HM+4nDf273K8eY+Y4XNpascYFpgSsKXKyTLVJ
-         wsr754BzXRXpmEgNH0OfFx/EnMjURUEJL0ivnORvoRW0w5rbso5dv+oE2Cc7dK0BKOwK
-         Geo3XOfWTQZebJaPv0Sqey7v9VEHEO58Y9g4LEycEGExZc9q11B4GnIiszWnTMTEQvay
-         3geVjnIORbWlfgJkNbjmn9Mea2nOA+Boprvl7rIMzP5Bm7x5WsZkCqSklvBpdKHRNdnD
-         7dpg==
-X-Gm-Message-State: AOAM532YCdsifoKCLez6hrqyqFdkNgLJ6a+NcQLlf/dFiTrGjDhbZbW/
-	/ckd4CB36HQUab7TMfUKVNHGnwKftGRmSLBkxIfugA==
-X-Google-Smtp-Source: 
- ABdhPJyzfld47mrARdlpDF28c9YR/YsPB0Xa1rPb3UyS7G5KHeMNHxVZxscqeWirf8bxBUC1fi26c8KwNY0HTG0K3wU=
-X-Received: by 2002:a05:6512:32c5:: with SMTP id
- f5mr53166795lfg.550.1641566680572;
- Fri, 07 Jan 2022 06:44:40 -0800 (PST)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 192.103.53.11,
+ mailfrom: kai.kang@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 207F9Sw2001481
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 7 Jan 2022 07:09:28 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 7 Jan 2022 07:09:28 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 7 Jan 2022 07:09:27 -0800
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 7 Jan 2022 07:09:27 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] webkitgtk: fix fix CVE-2021-42762
+Date: Fri, 7 Jan 2022 23:09:24 +0800
+Message-ID: <20220107150924.27718-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20211215201615.536707-1-matt@madison.systems>
- <8d74dd73e03223215a4799df4f7a17bc4b9706eb.camel@linuxfoundation.org>
- <CAGgRHJoyzifLStq3KQfPcHR9HYcQPR+vP=754K5K=3zrBaseqA@mail.gmail.com>
- <16C7FE06BC92B547.9201@lists.openembedded.org>
- <b6e67f9d1c5bff66c5c4ebb792ddf70f6ab3d12a.camel@linuxfoundation.org>
-In-Reply-To: 
- <b6e67f9d1c5bff66c5c4ebb792ddf70f6ab3d12a.camel@linuxfoundation.org>
-From: Matt Madison <matt@madison.systems>
-Date: Fri, 7 Jan 2022 06:44:29 -0800
-Message-ID: 
- <CAGgRHJr1UGOL1-p+242MvitOLaCBZKok2S+xDrCL74vndnZUag@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 14:44:43 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 15:09:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160262
+ https://lists.openembedded.org/g/openembedded-core/message/160263
 
-On Fri, Jan 7, 2022 at 4:56 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2022-01-07 at 12:51 +0000, Richard Purdie via lists.openembedded.org
-> wrote:
-> > On Fri, 2022-01-07 at 04:36 -0800, Matt Madison wrote:
-> > > On Fri, Jan 7, 2022 at 3:19 AM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >
-> > > > On Wed, 2021-12-15 at 12:16 -0800, Matt Madison wrote:
-> > > > > which is introducing task hash changes for some
-> > > > > allarch package builds, and should no longer
-> > > > > be needed with recent versions of qemu.
-> > > > >
-> > > > > Signed-off-by: Matt Madison <matt@madison.systems>
-> > > > > ---
-> > > > >  meta/classes/qemu.bbclass | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> > > > > index 01a7b86ae1..333202b7c4 100644
-> > > > > --- a/meta/classes/qemu.bbclass
-> > > > > +++ b/meta/classes/qemu.bbclass
-> > > > > @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
-> > > > >  # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
-> > > > >  # qemu-arm default CPU supports all required architecture levels.
-> > > > >
-> > > > > -QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> > > > > +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> > > > >  QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
-> > > > >
-> > > > >  QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
-> > > >
-> > > > I've sent a revert for this since the commit message isn't true, this is causing
-> > > > autobuilder failures and there was also a user report of issues with it.
-> > >
-> > > Bummer.  I think this is because our OLDEST_KERNEL setting for aarch64
-> > > (3.14.0) is
-> > > higher than the UNAME_MINIMUM_RELEASE definition in QEMU (3.8.0).
-> > >
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/4559/steps/13/logs/stdio
-> > > > (centos7 aarch64 build)
-> > > >
-> > > > We'll have to find a different way to fix the allarch issue (more details
-> > > > welcome on which package shows the issue).
-> > >
-> > > I ran into the issue with cantarell-fonts and wayland-protocols, but
-> > > any recipe that inherits both allarch and meson should trigger it.
-> > >
-> > > In my case, I have a layer check job for meta-tegra that runs
-> > > yocto-check-layer with the --machines option specifying qemux86 and
-> > > one of the (aarch64) machines in my layer, and that was reporting the
-> > > signature changes between the two architectures.
-> >
-> > I wonder why we don't detect that with our standard tests? :/
-> >
-> > There may be another fix:
-> >
-> > diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-> > index 5bd5c44a276..0aadf7bfba6 100644
-> > --- a/meta/classes/allarch.bbclass
-> > +++ b/meta/classes/allarch.bbclass
-> > @@ -43,6 +43,9 @@ python () {
-> >          d.setVar("TARGET_LDFLAGS", "none")
-> >          d.setVar("POPULATESYSROOTDEPS", "")
-> >
-> > +        if bb.data.inherits_class("meson", d):
-> > +            d.setVar("do_write_config", ":")
-> > +
-> >          # Avoid this being unnecessarily different due to nuances of
-> >          # the target machine that aren't important for "all" arch
-> >          # packages.
-> >
-> >
->
-> Sorry, that isn't quite right. We want to just remove the append to write_config
-> which generates the qemu wrapper which will probably need a little more invasive
-> juggling of the code to make it easier...
+From: Kai Kang <kai.kang@windriver.com>
 
-Your patch to disable the qemu wrapper for allarch looks like a good solution.
-Hopefully, that will work OK across the board.
+Backport and rebase patch to fix CVE-2021-42762 for webkitgtk 2.30.5.
 
-Thanks,
--Matt
+CVE: CVE-2021-42762
 
->
-> Cheers,
->
-> Richard
->
+Ref:
+* https://bugs.webkit.org/show_bug.cgi?id=231479#c8
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../webkit/webkitgtk/CVE-2021-42762.patch     | 468 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.30.5.bb  |   1 +
+ 2 files changed, 469 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2021-42762.patch
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2021-42762.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2021-42762.patch
+new file mode 100644
+index 0000000000..1d012271cb
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2021-42762.patch
+@@ -0,0 +1,468 @@
++Backport and rebase patch to fix CVE-2021-42762 for webkitgtk 2.30.5.
++
++CVE: CVE-2021-42762
++Upstream-Status: Backport [https://trac.webkit.org/changeset/284451/webkit]
++
++Ref:
++* https://bugs.webkit.org/show_bug.cgi?id=231479#c8
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From 035ac439855c7bef0a4525897f783121e4a6055c Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@gnome.org>
++Date: Tue, 19 Oct 2021 14:27:17 +0000
++Subject: [PATCH] Update seccomp filters with latest changes from flatpak
++ https://bugs.webkit.org/show_bug.cgi?id=231479
++
++Patch by Michael Catanzaro <mcatanzaro@gnome.org> on 2021-10-19
++Reviewed by Adrian Perez de Castro.
++
++Additionally, let's fix a minor inconsistency in our error-handling code: all but one of
++our codepaths carefully free and close resources, but the process is about to crash so
++there's not really any reason to do so. The code is slightly simpler if we don't bother.
++
++The seemingly-extraneous include order changes are required to placate the style checker.
++
++* UIProcess/Launcher/glib/BubblewrapLauncher.cpp:
++(WebKit::seccompStrerror):
++(WebKit::setupSeccomp):
++* UIProcess/Launcher/glib/Syscalls.h: Added.
++
++Canonical link: https://commits.webkit.org/243211@main
++git-svn-id: https://svn.webkit.org/repository/webkit/trunk@284451 268f45cc-cd09-0410-ab3c-d52691b4dbfc
++---
++ .../UIProcess/Launcher/glib/BubblewrapLauncher.cpp | 139 +++++++++-----
++ Source/WebKit/UIProcess/Launcher/glib/Syscalls.h   | 200 +++++++++++++++++++++
++ 2 files changed, 293 insertions(+), 46 deletions(-)
++
++diff --git a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp b/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
++index 889388ac..c2f7e502 100644
++--- a/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
+++++ b/Source/WebKit/UIProcess/Launcher/glib/BubblewrapLauncher.cpp
++@@ -25,11 +25,18 @@
++ #include <glib.h>
++ #include <seccomp.h>
++ #include <sys/ioctl.h>
+++#include <sys/mman.h>
++ #include <wtf/FileSystem.h>
++ #include <wtf/glib/GLibUtilities.h>
++ #include <wtf/glib/GRefPtr.h>
++ #include <wtf/glib/GUniquePtr.h>
++ 
+++#if !defined(MFD_ALLOW_SEALING) && HAVE(LINUX_MEMFD_H)
+++#include <linux/memfd.h>
+++#endif
+++
+++#include "Syscalls.h"
+++
++ #if PLATFORM(GTK)
++ #include "WaylandCompositor.h"
++ #endif
++@@ -40,13 +47,7 @@
++ #define BASE_DIRECTORY "wpe"
++ #endif
++ 
++-#include <sys/mman.h>
++-
++-#ifndef MFD_ALLOW_SEALING
++-
++-#if HAVE(LINUX_MEMFD_H)
++-
++-#include <linux/memfd.h>
+++#if !defined(MFD_ALLOW_SEALING) && HAVE(LINUX_MEMFD_H)
++ 
++ // These defines were added in glibc 2.27, the same release that added memfd_create.
++ // But the kernel added all of this in Linux 3.17. So it's totally safe for us to
++@@ -65,9 +66,7 @@ static int memfd_create(const char* name, unsigned flags)
++ {
++     return syscall(__NR_memfd_create, name, flags);
++ }
++-#endif // #if HAVE(LINUX_MEMFD_H)
++-
++-#endif // #ifndef MFD_ALLOW_SEALING
+++#endif // #if !defined(MFD_ALLOW_SEALING) && HAVE(LINUX_MEMFD_H)
++ 
++ namespace WebKit {
++ using namespace WebCore;
++@@ -573,6 +572,28 @@ static void bindSymlinksRealPath(Vector<CString>& args, const char* path)
++     }
++ }
++ 
+++// Translate a libseccomp error code into an error message. libseccomp
+++// mostly returns negative errno values such as -ENOMEM, but some
+++// standard errno values are used for non-standard purposes where their
+++// strerror() would be misleading.
+++static const char* seccompStrerror(int negativeErrno)
+++{
+++    RELEASE_ASSERT_WITH_MESSAGE(negativeErrno < 0, "Non-negative error value from libseccomp?");
+++    RELEASE_ASSERT_WITH_MESSAGE(negativeErrno > INT_MIN, "Out of range error value from libseccomp?");
+++
+++    switch (negativeErrno) {
+++    case -EDOM:
+++        return "Architecture-specific failure";
+++    case -EFAULT:
+++        return "Internal libseccomp failure (unknown syscall?)";
+++    case -ECANCELED:
+++        return "System failure beyond the control of libseccomp";
+++    }
+++
+++    // e.g. -ENOMEM: the result of strerror() is good enough
+++    return g_strerror(-negativeErrno);
+++}
+++
++ static int setupSeccomp()
++ {
++     // NOTE: This is shared code (flatpak-run.c - LGPLv2.1+)
++@@ -600,6 +621,10 @@ static int setupSeccomp()
++     //    in common/flatpak-run.c
++     //  https://git.gnome.org/browse/linux-user-chroot
++     //    in src/setup-seccomp.c
+++    //
+++    // Other useful resources:
+++    // https://github.com/systemd/systemd/blob/HEAD/src/shared/seccomp-util.c
+++    // https://github.com/moby/moby/blob/HEAD/profiles/seccomp/default.json
++ 
++ #if defined(__s390__) || defined(__s390x__) || defined(__CRIS__)
++     // Architectures with CONFIG_CLONE_BACKWARDS2: the child stack
++@@ -613,47 +638,70 @@ static int setupSeccomp()
++     struct scmp_arg_cmp ttyArg = SCMP_A1(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, TIOCSTI);
++     struct {
++         int scall;
+++        int errnum;
++         struct scmp_arg_cmp* arg;
++     } syscallBlockList[] = {
++         // Block dmesg
++-        { SCMP_SYS(syslog), nullptr },
+++        { SCMP_SYS(syslog), EPERM, nullptr },
++         // Useless old syscall.
++-        { SCMP_SYS(uselib), nullptr },
+++        { SCMP_SYS(uselib), EPERM, nullptr },
++         // Don't allow disabling accounting.
++-        { SCMP_SYS(acct), nullptr },
+++        { SCMP_SYS(acct), EPERM, nullptr },
++         // 16-bit code is unnecessary in the sandbox, and modify_ldt is a
++         // historic source of interesting information leaks.
++-        { SCMP_SYS(modify_ldt), nullptr },
+++        { SCMP_SYS(modify_ldt), EPERM, nullptr },
++         // Don't allow reading current quota use.
++-        { SCMP_SYS(quotactl), nullptr },
+++        { SCMP_SYS(quotactl), EPERM, nullptr },
++ 
++         // Don't allow access to the kernel keyring.
++-        { SCMP_SYS(add_key), nullptr },
++-        { SCMP_SYS(keyctl), nullptr },
++-        { SCMP_SYS(request_key), nullptr },
+++        { SCMP_SYS(add_key), EPERM, nullptr },
+++        { SCMP_SYS(keyctl), EPERM, nullptr },
+++        { SCMP_SYS(request_key), EPERM, nullptr },
++ 
++         // Scary VM/NUMA ops 
++-        { SCMP_SYS(move_pages), nullptr },
++-        { SCMP_SYS(mbind), nullptr },
++-        { SCMP_SYS(get_mempolicy), nullptr },
++-        { SCMP_SYS(set_mempolicy), nullptr },
++-        { SCMP_SYS(migrate_pages), nullptr },
+++        { SCMP_SYS(move_pages), EPERM, nullptr },
+++        { SCMP_SYS(mbind), EPERM, nullptr },
+++        { SCMP_SYS(get_mempolicy), EPERM, nullptr },
+++        { SCMP_SYS(set_mempolicy), EPERM, nullptr },
+++        { SCMP_SYS(migrate_pages), EPERM, nullptr },
++ 
++         // Don't allow subnamespace setups:
++-        { SCMP_SYS(unshare), nullptr },
++-        { SCMP_SYS(mount), nullptr },
++-        { SCMP_SYS(pivot_root), nullptr },
++-        { SCMP_SYS(clone), &cloneArg },
+++        { SCMP_SYS(unshare), EPERM, nullptr },
+++        { SCMP_SYS(setns), EPERM, nullptr },
+++        { SCMP_SYS(mount), EPERM, nullptr },
+++        { SCMP_SYS(umount), EPERM, nullptr },
+++        { SCMP_SYS(umount2), EPERM, nullptr },
+++        { SCMP_SYS(pivot_root), EPERM, nullptr },
+++        { SCMP_SYS(chroot), EPERM, nullptr },
+++        { SCMP_SYS(clone), EPERM, &cloneArg },
++ 
++         // Don't allow faking input to the controlling tty (CVE-2017-5226)
++-        { SCMP_SYS(ioctl), &ttyArg },
+++        { SCMP_SYS(ioctl), EPERM, &ttyArg },
+++
+++        // seccomp can't look into clone3()'s struct clone_args to check whether
+++        // the flags are OK, so we have no choice but to block clone3().
+++        // Return ENOSYS so user-space will fall back to clone().
+++        // (GHSA-67h7-w3jq-vh4q; see also https://github.com/moby/moby/commit/9f6b562d)
+++        { SCMP_SYS(clone3), ENOSYS, nullptr },
+++
+++        // New mount manipulation APIs can also change our VFS. There's no
+++        // legitimate reason to do these in the sandbox, so block all of them
+++        // rather than thinking about which ones might be dangerous.
+++        // (GHSA-67h7-w3jq-vh4q)
+++        { SCMP_SYS(open_tree), ENOSYS, nullptr },
+++        { SCMP_SYS(move_mount), ENOSYS, nullptr },
+++        { SCMP_SYS(fsopen), ENOSYS, nullptr },
+++        { SCMP_SYS(fsconfig), ENOSYS, nullptr },
+++        { SCMP_SYS(fsmount), ENOSYS, nullptr },
+++        { SCMP_SYS(fspick), ENOSYS, nullptr },
+++        { SCMP_SYS(mount_setattr), ENOSYS, nullptr },
++ 
++         // Profiling operations; we expect these to be done by tools from outside
++         // the sandbox. In particular perf has been the source of many CVEs.
++-        { SCMP_SYS(perf_event_open), nullptr },
+++        { SCMP_SYS(perf_event_open), EPERM, nullptr },
++         // Don't allow you to switch to bsd emulation or whatnot.
++-        { SCMP_SYS(personality), nullptr },
++-        { SCMP_SYS(ptrace), nullptr }
+++        { SCMP_SYS(personality), EPERM, nullptr },
+++        { SCMP_SYS(ptrace), EPERM, nullptr }
++     };
++ 
++     scmp_filter_ctx seccomp = seccomp_init(SCMP_ACT_ALLOW);
++@@ -661,29 +709,28 @@ static int setupSeccomp()
++         g_error("Failed to init seccomp");
++ 
++     for (auto& rule : syscallBlockList) {
++-        int scall = rule.scall;
++         int r;
++         if (rule.arg)
++-            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 1, *rule.arg);
+++            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(rule.errnum), rule.scall, 1, *rule.arg);
++         else
++-            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(EPERM), scall, 0);
++-        if (r == -EFAULT) {
++-            seccomp_release(seccomp);
++-            g_error("Failed to add seccomp rule");
++-        }
+++            r = seccomp_rule_add(seccomp, SCMP_ACT_ERRNO(rule.errnum), rule.scall, 0);
+++        // EFAULT means "internal libseccomp error", but in practice we get
+++        // this for syscall numbers added via Syscalls.h (flatpak-syscalls-private.h)
+++        // when trying to filter them on a non-native architecture, because
+++        // libseccomp cannot map the syscall number to a name and back to a
+++        // number for the non-native architecture.
+++        if (r == -EFAULT)
+++            g_info("Unable to block syscall %d: syscall not known to libseccomp?", rule.scall);
+++        else if (r < 0)
+++            g_error("Failed to block syscall %d: %s", rule.scall, seccompStrerror(r));
++     }
++ 
++     int tmpfd = memfd_create("seccomp-bpf", 0);
++-    if (tmpfd == -1) {
++-        seccomp_release(seccomp);
+++    if (tmpfd == -1)
++         g_error("Failed to create memfd: %s", g_strerror(errno));
++-    }
++ 
++-    if (seccomp_export_bpf(seccomp, tmpfd)) {
++-        seccomp_release(seccomp);
++-        close(tmpfd);
++-        g_error("Failed to export seccomp bpf");
++-    }
+++    if (int r = seccomp_export_bpf(seccomp, tmpfd))
+++        g_error("Failed to export seccomp bpf: %s", seccompStrerror(r));
++ 
++     if (lseek(tmpfd, 0, SEEK_SET) < 0)
++         g_error("lseek failed: %s", g_strerror(errno));
++diff --git a/Source/WebKit/UIProcess/Launcher/glib/Syscalls.h b/Source/WebKit/UIProcess/Launcher/glib/Syscalls.h
++new file mode 100644
++index 00000000..18dea9a9
++--- /dev/null
+++++ b/Source/WebKit/UIProcess/Launcher/glib/Syscalls.h
++@@ -0,0 +1,200 @@
+++/*
+++ * Copyright 2021 Collabora Ltd.
+++ * SPDX-License-Identifier: LGPL-2.1-or-later
+++ *
+++ * This program is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public
+++ * License as published by the Free Software Foundation; either
+++ * version 2.1 of the License, or (at your option) any later version.
+++ *
+++ * This library is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public
+++ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++// This file is a copy of flatpak-syscalls-private.h, reformatted a bit to placate WebKit's style checker.
+++//
+++// Upstream is here:
+++// https://github.com/flatpak/flatpak/blob/26b12484eb8a6219b9e7aa287b298a894b2f34ca/common/flatpak-syscalls-private.h
+++
+++#pragma once
+++
+++#include <sys/syscall.h>
+++
+++#if defined(_MIPS_SIM)
+++# if _MIPS_SIM == _MIPS_SIM_ABI32
+++#   define FLATPAK_MISSING_SYSCALL_BASE 4000
+++# elif _MIPS_SIM == _MIPS_SIM_ABI64
+++#   define FLATPAK_MISSING_SYSCALL_BASE 5000
+++# elif _MIPS_SIM == _MIPS_SIM_NABI32
+++#   define FLATPAK_MISSING_SYSCALL_BASE 6000
+++# else
+++#   error "Unknown MIPS ABI"
+++# endif
+++#endif
+++
+++#if defined(__ia64__)
+++# define FLATPAK_MISSING_SYSCALL_BASE 1024
+++#endif
+++
+++#if defined(__alpha__)
+++# define FLATPAK_MISSING_SYSCALL_BASE 110
+++#endif
+++
+++#if defined(__x86_64__) && defined(__ILP32__)
+++# define FLATPAK_MISSING_SYSCALL_BASE 0x40000000
+++#endif
+++
+++// FLATPAK_MISSING_SYSCALL_BASE:
+++//
+++// Number to add to the syscall numbers of recently-added syscalls
+++// to get the appropriate syscall for the current ABI.
+++#ifndef FLATPAK_MISSING_SYSCALL_BASE
+++# define FLATPAK_MISSING_SYSCALL_BASE 0
+++#endif
+++
+++#ifndef __NR_open_tree
+++# define __NR_open_tree (FLATPAK_MISSING_SYSCALL_BASE + 428)
+++#endif
+++#ifndef __SNR_open_tree
+++# define __SNR_open_tree __NR_open_tree
+++#endif
+++
+++#ifndef __NR_move_mount
+++# define __NR_move_mount (FLATPAK_MISSING_SYSCALL_BASE + 429)
+++#endif
+++#ifndef __SNR_move_mount
+++# define __SNR_move_mount __NR_move_mount
+++#endif
+++
+++#ifndef __NR_fsopen
+++# define __NR_fsopen (FLATPAK_MISSING_SYSCALL_BASE + 430)
+++#endif
+++#ifndef __SNR_fsopen
+++# define __SNR_fsopen __NR_fsopen
+++#endif
+++
+++#ifndef __NR_fsconfig
+++# define __NR_fsconfig (FLATPAK_MISSING_SYSCALL_BASE + 431)
+++#endif
+++#ifndef __SNR_fsconfig
+++# define __SNR_fsconfig __NR_fsconfig
+++#endif
+++
+++#ifndef __NR_fsmount
+++# define __NR_fsmount (FLATPAK_MISSING_SYSCALL_BASE + 432)
+++#endif
+++#ifndef __SNR_fsmount
+++# define __SNR_fsmount __NR_fsmount
+++#endif
+++
+++#ifndef __NR_fspick
+++# define __NR_fspick (FLATPAK_MISSING_SYSCALL_BASE + 433)
+++#endif
+++#ifndef __SNR_fspick
+++# define __SNR_fspick __NR_fspick
+++#endif
+++
+++#ifndef __NR_pidfd_open
+++# define __NR_pidfd_open (FLATPAK_MISSING_SYSCALL_BASE + 434)
+++#endif
+++#ifndef __SNR_pidfd_open
+++# define __SNR_pidfd_open __NR_pidfd_open
+++#endif
+++
+++#ifndef __NR_clone3
+++# define __NR_clone3 (FLATPAK_MISSING_SYSCALL_BASE + 435)
+++#endif
+++#ifndef __SNR_clone3
+++# define __SNR_clone3 __NR_clone3
+++#endif
+++
+++#ifndef __NR_close_range
+++# define __NR_close_range (FLATPAK_MISSING_SYSCALL_BASE + 436)
+++#endif
+++#ifndef __SNR_close_range
+++# define __SNR_close_range __NR_close_range
+++#endif
+++
+++#ifndef __NR_openat2
+++# define __NR_openat2 (FLATPAK_MISSING_SYSCALL_BASE + 437)
+++#endif
+++#ifndef __SNR_openat2
+++# define __SNR_openat2 __NR_openat2
+++#endif
+++
+++#ifndef __NR_pidfd_getfd
+++# define __NR_pidfd_getfd (FLATPAK_MISSING_SYSCALL_BASE + 438)
+++#endif
+++#ifndef __SNR_pidfd_getfd
+++# define __SNR_pidfd_getfd __NR_pidfd_getfd
+++#endif
+++
+++#ifndef __NR_faccessat2
+++# define __NR_faccessat2 (FLATPAK_MISSING_SYSCALL_BASE + 439)
+++#endif
+++#ifndef __SNR_faccessat2
+++# define __SNR_faccessat2 __NR_faccessat2
+++#endif
+++
+++#ifndef __NR_process_madvise
+++# define __NR_process_madvise (FLATPAK_MISSING_SYSCALL_BASE + 440)
+++#endif
+++#ifndef __SNR_process_madvise
+++# define __SNR_process_madvise __NR_process_madvise
+++#endif
+++
+++#ifndef __NR_epoll_pwait2
+++# define __NR_epoll_pwait2 (FLATPAK_MISSING_SYSCALL_BASE + 441)
+++#endif
+++#ifndef __SNR_epoll_pwait2
+++# define __SNR_epoll_pwait2 __NR_epoll_pwait2
+++#endif
+++
+++#ifndef __NR_mount_setattr
+++# define __NR_mount_setattr (FLATPAK_MISSING_SYSCALL_BASE + 442)
+++#endif
+++#ifndef __SNR_mount_setattr
+++# define __SNR_mount_setattr __NR_mount_setattr
+++#endif
+++
+++#ifndef __NR_quotactl_fd
+++# define __NR_quotactl_fd (FLATPAK_MISSING_SYSCALL_BASE + 443)
+++#endif
+++#ifndef __SNR_quotactl_fd
+++# define __SNR_quotactl_fd __NR_quotactl_fd
+++#endif
+++
+++#ifndef __NR_landlock_create_ruleset
+++# define __NR_landlock_create_ruleset (FLATPAK_MISSING_SYSCALL_BASE + 444)
+++#endif
+++#ifndef __SNR_landlock_create_ruleset
+++# define __SNR_landlock_create_ruleset __NR_landlock_create_ruleset
+++#endif
+++
+++#ifndef __NR_landlock_add_rule
+++# define __NR_landlock_add_rule (FLATPAK_MISSING_SYSCALL_BASE + 445)
+++#endif
+++#ifndef __SNR_landlock_add_rule
+++# define __SNR_landlock_add_rule __NR_landlock_add_rule
+++#endif
+++
+++#ifndef __NR_landlock_restrict_self
+++# define __NR_landlock_restrict_self (FLATPAK_MISSING_SYSCALL_BASE + 446)
+++#endif
+++#ifndef __SNR_landlock_restrict_self
+++# define __SNR_landlock_restrict_self __NR_landlock_restrict_self
+++#endif
+++
+++#ifndef __NR_memfd_secret
+++# define __NR_memfd_secret (FLATPAK_MISSING_SYSCALL_BASE + 447)
+++#endif
+++#ifndef __SNR_memfd_secret
+++# define __SNR_memfd_secret __NR_memfd_secret
+++#endif
+++
+++// Last updated: Linux 5.14, syscall numbers < 448
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+index 1fefc75c49..31cb14aa50 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.30.5.bb
+@@ -21,6 +21,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Extend-atomics-check-to-include-1-byte-CAS-test.patch \
+            file://musl-lower-stack-usage.patch \
+            file://0001-MiniBrowser-Fix-reproduciblity.patch \
++           file://CVE-2021-42762.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "7d0dab08e3c5ae07bec80b2822ef42e952765d5724cac86eb23999bfed5a7f1f"
+-- 
+2.17.1
+
 
