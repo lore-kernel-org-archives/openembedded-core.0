@@ -2,155 +2,103 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 239A6C433EF
-	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 12:56:14 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.6150.1641560173190353454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D74C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 13:53:52 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.6517.1641563631149791301
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 04:56:13 -0800
+ Fri, 07 Jan 2022 05:53:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iARm3V2A;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HlPbmZ7+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id r9so9141478wrg.0
+Received: by mail-wr1-f50.google.com with SMTP id r9so9430914wrg.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 04:56:12 -0800 (PST)
+ Fri, 07 Jan 2022 05:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Aq6rEGjQDmE49KQbjz0gVF0INTwObpTjgFj+iNAsRIc=;
-        b=iARm3V2AM+zzon9a1qaPBQ4aAGc6vq/7ajR4HXsrv6OEYU7eJooN4KXnYJqjiTvw8/
-         XzEPASsTaMuPTAiEAx43rFZWlJC+bFeQv28kW+hV+0ispx3IcsMA6PvyEXwYDTEBMrTp
-         AvkwUos7jgvx+Jn0l8gHuWQNRYYLeExTHnkas=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=m0LglH5/NyzuJzosRegJMEcX9xuOUEdxv23lb2udnTA=;
+        b=HlPbmZ7+RFcPs1p/cu1ZIEzKfWy4P08Bgvli1kzHIb6UQ5OHeNpH+N5MT/0Irtn+pu
+         yHL8reD2uDLg86U1EyzsafKvjCqXaX8+ps1FNC8KyojDuXIFm6kskOhhv/+thd/AwxbV
+         90r6eBZdd5+XNcPFHV5lI+n4ZFfVaIsQpYTL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Aq6rEGjQDmE49KQbjz0gVF0INTwObpTjgFj+iNAsRIc=;
-        b=occjfbPY1h8/SbQksYRQtxceJp/h4pmOqZsODgxS8hkoJdJ5KPG+OIHRvScoOWqa1w
-         bO6ekTOFIEvKoP7ww3QH7dE9lg6FNlqLt/4GZisueE+IjPNXOHwzHgtJ1vvtD3h+hdpt
-         7ph/HVsT9wKDzxaASm7zU3wE2xj3zyp5kvIYgwWhwXyubASEuFvdDd+9oTwEzBq/HlvW
-         ygFUCeaXme4srXhrn2QuUaAxzlezxGft9q5F6NtzjmLKO7oRXOgO2GOf87UfVCX4SysE
-         7YCy+VrFJtllr/+V1CQaCTxf2PaOrbMsfJXMlHDr+SCYM5dDEisINXk7Ai0Ve2by5wmG
-         vw2g==
-X-Gm-Message-State: AOAM532GWDe2WVNxvZkGNirPgJ4iZg6grv7eofmUicso0k/bzYT4lhCe
-	R9P5CPjUQ7i2RmzHVw55Lq8Lnw==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=m0LglH5/NyzuJzosRegJMEcX9xuOUEdxv23lb2udnTA=;
+        b=la+C5q4kFRR//jz3qbHpJUgUwx+Q4S50Px3cy3q3EGjU0hxnFLpm5wf5Bip/NRn1H/
+         Oc2YhV8gujWb9UIF+773P0hSqlMXQRFvK8GuOk17BBj/343SvDWtOws0oolE/Vt9yME0
+         gZ0Vs+XqNuHs1wW3Zq6BpGotLIR+Rbu4Vk9W+AAjLYHdsphYBnnt3bgy+SUt8TGK0Ovt
+         cmeApMODgSd585VFr2s3gncfuDvATOpJs5FsSXBjDHehrlbn0hJs4UcBFu5cjtCHUwGa
+         mU2K2tfdc/IPAl4RHJhltKFpM84Mmv+9gxIMGraRIdbXjgofD10yKeg564oeFVOXqGKU
+         HztQ==
+X-Gm-Message-State: AOAM532llTftpZhKyB8B6gtBJmeskLkTFN+s9owrQe3q39ePgBk7oMIv
+	CMNxrS+fmEgJ8ffQCDbw8QNed4e3OQR+hw==
 X-Google-Smtp-Source: 
- ABdhPJxbB/6B93lqk1xJsgBIqveneljDZ9kOXUuB3lyQzWN37uuC/b75Tm52XAfkea9NVVO+xjMROQ==
-X-Received: by 2002:a05:6000:1e15:: with SMTP id
- bj21mr9696075wrb.118.1641560171727;
-        Fri, 07 Jan 2022 04:56:11 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:df67:6706:4d53:dd6b?
- ([2001:8b0:aba:5f3c:df67:6706:4d53:dd6b])
+ ABdhPJxM8PP9nsm/OmTwhGVmOjrDTqI7grYIm3SwlQqdIFhncWasXSHGEgn1UVEByeLRyL1EjsTAWw==
+X-Received: by 2002:a5d:47c6:: with SMTP id o6mr56398997wrc.326.1641563629628;
+        Fri, 07 Jan 2022 05:53:49 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:df67:6706:4d53:dd6b])
         by smtp.gmail.com with ESMTPSA id
- i15sm4931155wrf.6.2022.01.07.04.56.11
+ m12sm5581776wrp.49.2022.01.07.05.53.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 04:56:11 -0800 (PST)
-Message-ID: 
- <b6e67f9d1c5bff66c5c4ebb792ddf70f6ab3d12a.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
+        Fri, 07 Jan 2022 05:53:49 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Matt Madison <matt@madison.systems>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex@linutronix.de>, Khem Raj <raj.khem@gmail.com>
-Date: Fri, 07 Jan 2022 12:56:10 +0000
-In-Reply-To: <16C7FE06BC92B547.9201@lists.openembedded.org>
-References: <20211215201615.536707-1-matt@madison.systems>
-	 <8d74dd73e03223215a4799df4f7a17bc4b9706eb.camel@linuxfoundation.org>
-	 <CAGgRHJoyzifLStq3KQfPcHR9HYcQPR+vP=754K5K=3zrBaseqA@mail.gmail.com>
-	 <16C7FE06BC92B547.9201@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] gtk-doc/meson: Fix typos
+Date: Fri,  7 Jan 2022 13:53:48 +0000
+Message-Id: <20220107135348.1505019-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220107135348.1505019-1-richard.purdie@linuxfoundation.org>
+References: <20220107135348.1505019-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 12:56:14 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 13:53:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160257
+ https://lists.openembedded.org/g/openembedded-core/message/160259
 
-On Fri, 2022-01-07 at 12:51 +0000, Richard Purdie via lists.openembedded.org
-wrote:
-> On Fri, 2022-01-07 at 04:36 -0800, Matt Madison wrote:
-> > On Fri, Jan 7, 2022 at 3:19 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > 
-> > > On Wed, 2021-12-15 at 12:16 -0800, Matt Madison wrote:
-> > > > which is introducing task hash changes for some
-> > > > allarch package builds, and should no longer
-> > > > be needed with recent versions of qemu.
-> > > > 
-> > > > Signed-off-by: Matt Madison <matt@madison.systems>
-> > > > ---
-> > > >  meta/classes/qemu.bbclass | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> > > > index 01a7b86ae1..333202b7c4 100644
-> > > > --- a/meta/classes/qemu.bbclass
-> > > > +++ b/meta/classes/qemu.bbclass
-> > > > @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path, binary):
-> > > >  # this dance). For others (e.g. arm) a -cpu option is not necessary, since the
-> > > >  # qemu-arm default CPU supports all required architecture levels.
-> > > > 
-> > > > -QEMU_OPTIONS = "-r ${OLDEST_KERNEL} ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> > > > +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
-> > > >  QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
-> > > > 
-> > > >  QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
-> > > 
-> > > I've sent a revert for this since the commit message isn't true, this is causing
-> > > autobuilder failures and there was also a user report of issues with it.
-> > 
-> > Bummer.  I think this is because our OLDEST_KERNEL setting for aarch64
-> > (3.14.0) is
-> > higher than the UNAME_MINIMUM_RELEASE definition in QEMU (3.8.0).
-> > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/4559/steps/13/logs/stdio
-> > > (centos7 aarch64 build)
-> > > 
-> > > We'll have to find a different way to fix the allarch issue (more details
-> > > welcome on which package shows the issue).
-> > 
-> > I ran into the issue with cantarell-fonts and wayland-protocols, but
-> > any recipe that inherits both allarch and meson should trigger it.
-> > 
-> > In my case, I have a layer check job for meta-tegra that runs
-> > yocto-check-layer with the --machines option specifying qemux86 and
-> > one of the (aarch64) machines in my layer, and that was reporting the
-> > signature changes between the two architectures.
-> 
-> I wonder why we don't detect that with our standard tests? :/
-> 
-> There may be another fix:
-> 
-> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-> index 5bd5c44a276..0aadf7bfba6 100644
-> --- a/meta/classes/allarch.bbclass
-> +++ b/meta/classes/allarch.bbclass
-> @@ -43,6 +43,9 @@ python () {
->          d.setVar("TARGET_LDFLAGS", "none")
->          d.setVar("POPULATESYSROOTDEPS", "")
->  
-> +        if bb.data.inherits_class("meson", d):
-> +            d.setVar("do_write_config", ":")
-> +
->          # Avoid this being unnecessarily different due to nuances of
->          # the target machine that aren't important for "all" arch
->          # packages.
-> 
-> 
+Fix a couple of function name typos copy and pasted between the classes.
 
-Sorry, that isn't quite right. We want to just remove the append to write_config
-which generates the qemu wrapper which will probably need a little more invasive
-juggling of the code to make it easier...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/gtk-doc.bbclass | 2 +-
+ meta/classes/meson.bbclass   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
+index 7149bc06c0b..07b46ac8299 100644
+--- a/meta/classes/gtk-doc.bbclass
++++ b/meta/classes/gtk-doc.bbclass
+@@ -63,7 +63,7 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+ GIR_EXTRA_LIBS_PATH=\`find ${B} -name *.so -printf "%h\n"|sort|uniq| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
+ GIR_EXTRA_LIBS_PATH=\`find ${B} -name .libs| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
+ 
+-# meson sets this wrongly (only to libs in build-dir), qemu-wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
++# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+ unset LD_LIBRARY_PATH
+ 
+ if [ -d ".libs" ]; then
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index ffec5f32698..0bfe9458118 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -124,7 +124,7 @@ do_write_config:append:class-target() {
+ # which may then get deleted (or their dependencies) and potentially segfault
+ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+ 
+-# meson sets this wrongly (only to libs in build-dir), qemu-wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
++# meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+ unset LD_LIBRARY_PATH
+ 
+ $qemu_binary "\$@"
+-- 
+2.32.0
 
 
