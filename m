@@ -2,87 +2,101 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7081C433FE
-	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 13:53:52 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.6522.1641563631022630111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74700C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 14:34:48 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.7089.1641566087072790979
  for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 05:53:51 -0800
+ Fri, 07 Jan 2022 06:34:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aDMKvuEI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LBmj3LOz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id q8so11145985wra.12
+Received: by mail-wr1-f53.google.com with SMTP id a5so7460883wrh.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 05:53:50 -0800 (PST)
+ Fri, 07 Jan 2022 06:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IljIFvVV2J3fso+E80n+SGKcxHUQUv94EMOabeApmHk=;
-        b=aDMKvuEIFAb2suMrAdiHEF9pQQSAkQFqQGfeJ0PYFQh1ADJjD9zCOgvb14hQ/c+quS
-         0B4Vl9L9Q/JYd0UkOspK4JUcLNlacutMwdQ3/vbQRKDl+zcu0Qn48V5CzLeuG/sJ9Deu
-         G3lNkPOUAX6jeV7p3UG46udoTDb+z6k5UFomk=
+        bh=yr1Bi8odp4iFmbIbmFFJPOgPnp140YMh0C9J+zPB5kk=;
+        b=LBmj3LOzcvXBVpose3yRKX0YGprTHMsaD8eZ5AKL+pRJa3vMyucyXQr+FbmbMuxaxO
+         JstTuCHZrYMNq+t6GzZu3+zYqSkyMKaU//NFvt+FfyVOVxkYW5hANaA9NhgS2y9yxSB6
+         27KCNMQwCUH6MLsYYLIcCIj0r1fZVSJErsXvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IljIFvVV2J3fso+E80n+SGKcxHUQUv94EMOabeApmHk=;
-        b=Q/S9LEZb+psQawcnsJgLythIwUH5+HfH6PMzg3InG93FL0lfzdiRsXlcLBzGbyqhDx
-         HFKl8LJ/+DU6MhVpf+maFmPwRppcqdB9A9FGAVdzv3y/P7dyX7ZMRcB/DpgiMTJ3Jk1/
-         OmTyz/3kTWktFM7wyjDAg7/tXSmLU4m8OxNlzfEPCyyWwgSAbL1ZvKT2s9nORXIr4j4P
-         VnKBbkwc7XUSJEfOR6gRMVRZNTZM19sJFY31KgBM971DBaXoTg2ERRqV3iX8YbJWzk2Z
-         MNzRbmbvayVzlmmjM5G0Ke9vls7Nu7eW2R6z409xY/2yiyqzrzc8nWCgNnvP7IJK9kxE
-         aEpg==
-X-Gm-Message-State: AOAM532ZkkxOp2M8/MxBI/rIjV6IWHBcKkFQ+d9z5g21+NzqzWXWQyKW
-	kFAGm5trfCcakbpopAhsk4/2dbJqjMsmCg==
+        bh=yr1Bi8odp4iFmbIbmFFJPOgPnp140YMh0C9J+zPB5kk=;
+        b=WufhJwXizH5HEwR1BMAXH+p4JrtUbx4YBgN2BMoqZoF/cr6l9lPDSmQmLVBt2QpecV
+         IcGbPDnhC9VhQLXBzf3L9hKCaL+bgPZkiv0EDL8nwLNd9W4LpO8gc1MwrFuLeTI8zXkG
+         Mxc29K8gN2/zZqonOXqUnZmLtmVKozwqroNqkRlOPNOV2tkMVg5rLOMuQsexzwi444Cw
+         YKiYyKb+6kI1Zit7b644lsbhvPRXC7f5QVA1vfOEDTRNt6ke1RBkVjJRwOSuCZpdanqf
+         VawOj+nj8Ct0JJe4uVd6Iwc0RAVZM77oUUS6i2qUI5nuadwQ/f4VMYIXABM2kqnXpgg6
+         GhEg==
+X-Gm-Message-State: AOAM531RvJca6wJpZrSLtehsFfSQky+tnq+FzqTw5fzpUJl1elaeEuii
+	CloS/R/IXHRSE+KxZoJs7Mm4YkMhIMbdkw==
 X-Google-Smtp-Source: 
- ABdhPJyefFSl9yr56fxIYWDqGgLm2MXpq4Ohf53Zr4YljKxkZa1T3k/DhY9vhMNrdgvd9ZHhVakYYw==
-X-Received: by 2002:adf:f210:: with SMTP id
- p16mr10803653wro.169.1641563629338;
-        Fri, 07 Jan 2022 05:53:49 -0800 (PST)
+ ABdhPJyF4mH+kRAPxXapPfPJmFD+1HkpthisGdkYG0APfGXJ3pXrYUgjBuFzLTtwIlNPV+D1wiPevQ==
+X-Received: by 2002:adf:fc89:: with SMTP id g9mr3282152wrr.619.1641566085384;
+        Fri, 07 Jan 2022 06:34:45 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:df67:6706:4d53:dd6b])
         by smtp.gmail.com with ESMTPSA id
- m12sm5581776wrp.49.2022.01.07.05.53.49
+ h20sm4732289wmq.38.2022.01.07.06.34.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 05:53:49 -0800 (PST)
+        Fri, 07 Jan 2022 06:34:45 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] allarch: Fix interaction with qemu class
-Date: Fri,  7 Jan 2022 13:53:47 +0000
-Message-Id: <20220107135348.1505019-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] libsdl2: Fix X11 configure options
+Date: Fri,  7 Jan 2022 14:34:44 +0000
+Message-Id: <20220107143444.1506525-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 13:53:52 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 14:34:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160258
+ https://lists.openembedded.org/g/openembedded-core/message/160260
 
-The qemu class declares functions which are architecture specific. If a user such
-as meson is used in an allarch recipe, this leads to sstate which is machine
-specific. To fix this, remove the architecture specific part, since there are no
-binaries in allarch classes, this change shouldn't break anything.
+We're seeing various failures where the X11 headers are found on the native
+system but not all libraries are present and hence autoconfiguration of the
+X11 subcomponents fails.
+
+We don't list any of these X11 subcomponents as a dependency so disable
+them by default. Configuration and dependencies can be added if people need
+them.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/allarch.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 5bd5c44a276..a766a654a9b 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -61,3 +61,5 @@ python () {
-         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
- }
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+index 20e49428359..893386343a7 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+@@ -37,7 +37,16 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF -DSDL_ARTS=OFF \
+                  -DSDL_PTHREADS=ON \
+                  -DSDL_RPATH=OFF \
+                  -DSDL_SNDIO=OFF \
+-                "
++                 -DSDL_X11_XVM=OFF \
++                 -DSDL_X11_XCURSOR=OFF \
++                 -DSDL_X11_XINERAMA=OFF \
++                 -DSDL_X11_XDBE=OFF \
++                 -DSDL_X11_XFIXES=OFF \
++                 -DSDL_X11_XINPUT=OFF \
++                 -DSDL_X11_XRANDR=OFF \
++                 -DSDL_X11_XSCRNSAVER=OFF \
++                 -DSDL_X11_XSHAPE=OFF \
++"
  
-+def qemu_wrapper_cmdline(data, rootfs_path, library_paths):
-+    return 'false'
+ # opengl packageconfig factored out to make it easy for distros
+ # and BSP layers to pick either (desktop) opengl, gles2, or no GL
 -- 
 2.32.0
 
