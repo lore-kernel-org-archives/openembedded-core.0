@@ -1,402 +1,215 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3AABC433EF
-	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 02:56:30 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.1911.1641524189209375347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2508C433F5
+	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 07:48:48 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.3860.1641541728131691569
  for <openembedded-core@lists.openembedded.org>;
- Thu, 06 Jan 2022 18:56:29 -0800
+ Thu, 06 Jan 2022 23:48:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Hhdfn0FP;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=8006e34bf1=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 2072s3Ai012470
-	for <openembedded-core@lists.openembedded.org>; Fri, 7 Jan 2022 02:56:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : from :
- to : cc : references : message-id : date : in-reply-to : content-type :
- mime-version; s=PPS06212021;
- bh=EO5YUIZRO1449dG3ZsSSL3dArK6jKBeiO0SI+mXjUTc=;
- b=Hhdfn0FPqsc3DNSwyjcu5VZabjYijWUY6IsVAVhfOV3TYdR9KJGxuldjMIraAOTAC+VW
- zvtliXJshy9TKijchFh43Yxu2/8xVFdJxJEZ8QcGnZZVvLWtih2z097iztjmtO4+AGIl
- 7jsezDVzkhM3W5c1mBgAdqA727pGk4EnLRwiJtKuP0bvB2Ljon0dhJLna+qU4J6E6noA
- DuzStooggoWk0dC0c0YhcaMLLxPjl8XhQfMZ57dIZzsPpYbrLcD0UcfJlujKPszsmq+f
- ZUFRJ2FEWTkCliWIm0+C48iwJuCq6apFASvklEkbupWGeCb1e8uTJKECG4zqSQ8Ycvo9 PA==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wc0a4u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 07 Jan 2022 02:56:27 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sx/s2W/BXCzuV5AvDMAHPLwChek6flmOTdCNiOZ8g3vRN2s+uz3sOp0aK3RxViWG1N/C42OAsfI1F0pjzb2n440PZmjmnKpLFruXw4fqj86VIbxtW28Uz8GzLMCnfSxykMlxUdRRs8KA9Ij7A8BDUnspYasvuWoK7q9TSqLSIiJa0q0YqFBd4VuDmyvn33tW8A7yIoYMxkUtEEAkjFmPRwGIbda0Xlwf9zbQgax8NiDWvqXWHxw2Ege68Uxbg9uqeGh+nvKuM3mGlYsEzIbyJVzGzNpJ2RwuRWrNc9qEnSIv8xPjxGRT8/ApL1R12cKj4NH919shlSZF2ZAlnbvcpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EO5YUIZRO1449dG3ZsSSL3dArK6jKBeiO0SI+mXjUTc=;
- b=UHGfX0jeAMvoP0n/c2trAFI91OlRGG7sUtiyEb1wNb3B6dMzVEMV83eN9Z5Li790QzUtBbJbe0bhtsXI20tCpCzwj1fRuv6TBqcY7nw6IU+uyW9cJbf0mijqoUyl+4ecnIBKY8lPFP24fLZZH+YwDUOSjANdy+tM1RD0dcZgkNJEr0Dhasal7jqSH6NPc4P54srTDvnOuLZcth+qCyLGkJYTbXiotiaRh4I4EO5bw1sBAxXBbL6K09XvIYyCmPBPSEb3wkSHtj/ZordkH9ENvL6hJ7QbMRU8k1UNmst3GGywOM76Md/Zx/MfR9WvqSLSo8T1+naNwvwudTMMkYtFBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB4851.namprd11.prod.outlook.com (2603:10b6:303:9b::13)
- by MW5PR11MB5857.namprd11.prod.outlook.com (2603:10b6:303:19d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Fri, 7 Jan
- 2022 02:56:25 +0000
-Received: from CO1PR11MB4851.namprd11.prod.outlook.com
- ([fe80::39d4:a247:159e:5693]) by CO1PR11MB4851.namprd11.prod.outlook.com
- ([fe80::39d4:a247:159e:5693%5]) with mapi id 15.20.4867.011; Fri, 7 Jan 2022
- 02:56:25 +0000
-Subject: Re: [OE-core] [hardknott][PATCH 1/4] xserver-xorg: fix CVE-2021-4008
-From: Kai <kai.kang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com
-References: <20211229013051.36342-1-kai.kang@windriver.com>
- <16C515AB4535CCA0.27787@lists.openembedded.org>
-Message-ID: <46ba307e-dfba-4074-607f-a9b52bdeca06@windriver.com>
-Date: Fri, 7 Jan 2022 10:56:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <16C515AB4535CCA0.27787@lists.openembedded.org>
-Content-Type: multipart/alternative;
- boundary="------------5909B910BB6312FCF5CD61A3"
-Content-Language: en-US
-X-ClientProxiedBy: SG2P153CA0028.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::15)
- To CO1PR11MB4851.namprd11.prod.outlook.com (2603:10b6:303:9b::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5f9c41b4-3176-4c97-675b-08d9d1894b49
-X-MS-TrafficTypeDiagnostic: MW5PR11MB5857:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MW5PR11MB5857A9A6B460ADB26F1BA7B5954D9@MW5PR11MB5857.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:131;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	MDEg1pfLlHN3EFRHoLgNDOTveavQp4wZfOSo7NHg+6wJ0Q4rorDNFgFRUhTusxYFyImY2StxfZBFNP7qHJYbiNxBZs64tL/sq6HX6pfuKKJKOW3MMUz5QZ6O5s5UNoZrKQQr43np5EAh1Nho22MNrqpKrOdQ5MH64esVrPr35+n/RncuLL39sXkNv2Ahe0p8k00ISAIukdCiQYHcVQFnqZrg7CbhA+KGn+p2mFqYa1CjQl7tL+5CV8yxOpbeTC/QI1oyLP8UPHZoYtH/hZLzQfj08QNjkdRYvPTJtF+yagWIoroLsX7uIvCuhADLF5Z90kDwzXPx9SWmPD2xUIoAxDy4OX4bOTZIqZ6o5/emvZJjCeAxMbwv6sXMDgtYRm3qDJxOi/c1g1Hrp5LILH+2rxz1d7pOGk6gXwZLYPVcSpQefA6fxg4ywafq5F0DXoTAtc/Kgm6MPQdudlkTJ0fHRXaJl7p+X7UMqGw0G9/RbipjuDwX0kQ/aXaZtakjgq1BHyWSndU6fbCn34dvPpfTjivHB/29Dkd6jjKqArWDtFagK9AZnRUmoxyUqgwyWdSNbZUQQxtxhmogGe9nL0FJFij0XyG2i5bBBzcUh36rI85cC72SpqGPfNwbckx7ffLaXa4txcH2H5b0Pt6qXv/O0PuJFoPHtCA0Ebqfi3AC1YSULNl+kR4SUoEtwAVYw+dLrpnfb3O0cwpV0cMXTZqQUeRHfRJzJDefZkiI6ruphCb5IbgCn1JKmXurXHbsezY0hGJTHwGX4BjQjuoIlKEwDGmsYzL5i15ABA251mFnM/F2vH+7Bg88F76thvvr9z8AcdETS0K/iD/ksB8ZxEopC9i6hcNdAuenKzYJkq63wowtPUtjySJ+9HmTafzwh/C32D8JjP4hGOEB5/tikl6BzJK8t1EVuQUbVtVRzEzXD100iv3hD+XrdWYjIQ4Neis4
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4851.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6512007)(66946007)(107886003)(6506007)(8936002)(6486002)(66556008)(8676002)(6666004)(31686004)(52116002)(36756003)(53546011)(66476007)(33964004)(966005)(31696002)(2616005)(508600001)(186003)(38350700002)(6916009)(83380400001)(166002)(316002)(5660300002)(4326008)(26005)(2906002)(86362001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?cDBGWGJ2YTM0R2RYRUJOd0ZHdm9hanBqVWVpNVRPZ2tHbjdXZ1ErUktnM25a?=
- =?utf-8?B?ekNSZjFPSmNsRWgyMFdFWTFLb1hlVGlRSm9NeTVRK1lZNERuUkloeUhOMnNJ?=
- =?utf-8?B?T29YNmIzTEpHTmxxanh5bFNpZGt5dThkVXdkdTdtOVk2WDJWVVVSNlpTNCtU?=
- =?utf-8?B?QXhOMGtZSk5zVUQxY21DSTNGb0JZQTRsWTlKeERVSnoycXM4Z2F5NSt4R3o5?=
- =?utf-8?B?SURJK0Q2UCtURXFhSUpWbjNKaDZkdExzd1NHYk1QYzZ2ckRmdC8zTWQvL0xZ?=
- =?utf-8?B?bmRiME5uWm02MXEzbEtjOXN5ai9nZ3VFZzVTOVdkaWNwTFdPYTkrYmhGbWZX?=
- =?utf-8?B?eUVXOXFCcTlISlU5WWRROGN6cmdKd0E3TmVtRGxzMkpwRzdqdHAvS0k1Wnh5?=
- =?utf-8?B?ZlR2WUJlVXlObGJieFI4L3JIWWgyckRnS1pLckduZGVZT0IwaGhXUFV3aFpu?=
- =?utf-8?B?cnMwNW1RbTkvNVNqajlmY0dUd1JndURiR2FjSXpKb3FLTHF0OERJU1hSSldz?=
- =?utf-8?B?TmZFNjNwSktUYXRScXhMbW5SeXdKTmJWM1lwcXdjL1ZaQldOLzFJN3lLaDNV?=
- =?utf-8?B?V2c3Tnp3aTJzZW0yU3RUUGVkcFBQRFVmNEhJYzJuNDQwZm5CaVl1dHlIVWw3?=
- =?utf-8?B?OTI4b3B2YkJDcEdVbTNWVGp2QVdKeUI1YTNGTW4rZ2pnR2dRM25xRktRT1dR?=
- =?utf-8?B?Q21YUmtQblphTW91TzNLR2hYYVcyRS8zMmNyYndGQzZSYlJYbzRTME94dzMz?=
- =?utf-8?B?UkdZZ1NDOU1FeHJSOFFyTUtDZ1haaVVac1JXVlQwN1V1V3RuR2kwRDh4c05y?=
- =?utf-8?B?VHYxQnFTeHdsZ25aNGhmQmYzWWtmTWlwRWM1STV4eUNMdmZxWmRGS2ZoTlJW?=
- =?utf-8?B?TTN0NkhNWlV0Y1Zma1lQd3lJYzJ6cEJxMHlUeDh3MEdkaE5TallEa1JSalVj?=
- =?utf-8?B?N0pqUFVjMUxwVm9PWmpyb1pYdnhkQ2M2NkhkZERIeC9ENmxnaHV6VFVCaVcw?=
- =?utf-8?B?VE5BY2MyRHFzQ0MvOW00NlRGYy8zdXkxWjlUNERYcVhnRkZ5QjdXakRzaTJI?=
- =?utf-8?B?Qm1FZWpaZ3lvN0FIQUJUdUZhL05HaE5ROUFtR0hzdjR1MkxBdWFXT2cxb1g3?=
- =?utf-8?B?OUEydHZGZURPSVpUS1dYRVhKSFV2VDE0b3RaOW5IekxFYU9ZdE50bUJlbVY4?=
- =?utf-8?B?NmNEeXN0WW9QaDE3VWlQNnRFb0szMWp4TXB5OWRuRjNQQmo4YUZqWWtydW9U?=
- =?utf-8?B?YlltM1ZQYzliVnFKVWpKY29hMXZCNmhYOFdTdUpYT2tYQXBwSUFEdFc0TkJq?=
- =?utf-8?B?S3UwUFZicXBoczZYNW1HZTdnVlc1QUZJUk1XWTNhVVRIUmIxNDVRV0R3SVZs?=
- =?utf-8?B?eUM0TTBRdVBwV1MzTjJ3bWM0YVJ3M1FGd0Nya2lsQ2UyQkd6NUtaT0VmelRQ?=
- =?utf-8?B?dndMK3RwYU4yd3NnUUwvNEw5T1BFTG5DVnVnK1kwUjdiUHkrQmN3S0RZRjNE?=
- =?utf-8?B?QmRLSEtMNkpRZU1vRUpNeE9uL1dhaGU0U1VQcUlZbldWQ21pdk1UNTlZQUk4?=
- =?utf-8?B?aXZtUkRzaVJKUC8vM3NseFlPK2Z5SWx5RlhEYXB6T21JUGk0TmJFeFZpNkc4?=
- =?utf-8?B?eXljSGtEaGZoWHBaRWFpS1ZLYThabUhqS3dYdUMxU0FaWWFSTllVLzlxeVAx?=
- =?utf-8?B?QTBST1BkeFdML0hjUGdtTTZRMTJrWUZ5UmphR2QxQXkzdElSTEl6ZHI3TWdV?=
- =?utf-8?B?N1NsTzRrZ1M4RnVtaE9HTnl5ZEZ2WnhOL09qd0NZZHd3akV4UjBGdVBSZjNG?=
- =?utf-8?B?TFZrR29BZ1Q1M0Q2RHJkYlV4aTcvSVlXY1doYVo4Qkc0UlBFdTVmaXBjbVZG?=
- =?utf-8?B?Y0pHTTFvZ3E1RWxibE5KVjVGN0g5ZkgyNFA0bjNVZ0FpU3JoOENFckszNVh3?=
- =?utf-8?B?UDc1aHcwSFl4SnJCTGxCOElFTGJIOGs2b2ljQ25qNzdUK2ZBdVRaR0lXc00z?=
- =?utf-8?B?bHUzb09lYVpJSi9TSnhGYjNKczZmcTJrUmV4ODNWdWxyNzlTQ2I1a0R5UmNY?=
- =?utf-8?B?c3RwcnB6UGRaZGxUYVJ0UkVBSFg5V0pobUUrRTNTeEV2c0JlT2R0TkFLV1ha?=
- =?utf-8?B?bDE2Ukc0VGlxTFFML0VCNlZraEM2Z29zUlRybHJWaWhoYUREOUxqRWR3U3VQ?=
- =?utf-8?Q?dBrFXOlK1u2FtGUZk+JY2tI=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5f9c41b4-3176-4c97-675b-08d9d1894b49
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4851.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 02:56:25.8161
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- mAqXIchYcbAQ5sWJtbFrOAY58PqNnbWB06+6GJhoRxVGEIczp8CZdDaVuo1Qv2t6RqMyNyxOI1MrZAQvNpUHkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5857
-X-Proofpoint-GUID: 4VRMeEN5FurWHobB4TzumdBRI2u_LFyh
-X-Proofpoint-ORIG-GUID: 4VRMeEN5FurWHobB4TzumdBRI2u_LFyh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-07_01,2022-01-06_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 clxscore=1011 priorityscore=1501 adultscore=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201070018
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D3YvU9Za;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54,
+ mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id
+ l16-20020a17090a409000b001b2e9628c9cso5697090pjg.4
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 06 Jan 2022 23:48:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=NRjj57V7GUnoMoLJLLr1zcYx9J6MRYq+AmCdXeoOqXs=;
+        b=D3YvU9ZanEIp7t3T3cZdbpmwFWJ5v1s1cU3gQ27joRDI7xZzgjbJwRNEG0wHYlLb2w
+         AcN3VFaKz5YSdt0GQIz+EFmUZvqgiMsnTHkwGlwNNNboMnHQA3JDh4xvosaw6lREIyPP
+         8X/so75TlyvTIkCEMGhC0YE+TUgT1u0Njpx4xPNmvms6kZ+d4EbpU8Ag+KEDRJa4ceDr
+         UxdO2thP6s1qm0rt6MiBV8ZTLQIZxpHksujnp+PY5uNr8RaxV/o1ongIL2+RhILDT79a
+         XAQ/1dkdsyy5No3OKDPsJebAYwrlBnlG0e6IDzS3pskr4xeuJwn4RdS24VM4o3DFPJA1
+         FLeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=NRjj57V7GUnoMoLJLLr1zcYx9J6MRYq+AmCdXeoOqXs=;
+        b=cSb9y/lgH1Q0NUNQeD6KZX0RG8mLqdk6NYzSo7gJ0HLhf/c4pNfuHi5VPIPw2QJK3h
+         BLv8WP117iM8oO8qBh7ABJtSLoMzu22Zj6+bXkZpdURSLrw/9rfLz0P3KkOtv11aWq6g
+         tqt8FvIFBZxmqLVOajY4bIwylcSJg/jXVfAitr/TGhHf8CEcs9aR6pLFdlxdEFvp8wr1
+         4tN6LYNfgBie+Q1xjjEatpyV4kMyiZg4yYMRUi1w0qjlF7uEujRh5SAOnG2UXa3NBlb7
+         2wCfs47cIzJxvlmUVzxTlW/d0n6PgHJNqlSl5fHyQGX6YRgbvZQgBt7nenhyvn0b0qb1
+         J4/A==
+X-Gm-Message-State: AOAM531tlqWVQfiSKDBY0Q+XEnhQXGMexDLouWAKFYCnPxwoDYjJ9gKO
+	VQ/Cygbc6LH7GC0hMOtAYtvHVtWcaW5wKw==
+X-Google-Smtp-Source: 
+ ABdhPJzIBHhBeYUgZPpTx96m+vkP1iL+ZUF5goWeBDfWCj9TkCTBzgdGRtnRMUPmWZKcW5IOJjWKFQ==
+X-Received: by 2002:a17:902:db12:b0:149:4b97:5a20 with SMTP id
+ m18-20020a170902db1200b001494b975a20mr61832297plx.103.1641541727255;
+        Thu, 06 Jan 2022 23:48:47 -0800 (PST)
+Received: from localhost.localdomain ([106.193.190.203])
+        by smtp.gmail.com with ESMTPSA id
+ m4sm1481175pjg.40.2022.01.06.23.48.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 23:48:46 -0800 (PST)
+From: virendra thakur <thakur.virendra1810@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	raj.khem@gmail.com
+Cc: akuster808@gmail.com,
+	Virendra Thakur <virendrak@kpit.com>,
+	Virendra Thakur <virendra.thakur@kpit.com>
+Subject: [meta-networking][dunfell][PATCH v2] strongswan: Fix for
+ CVE-2021-41990 and CVE-2021-41991
+Date: Fri,  7 Jan 2022 13:18:31 +0530
+Message-Id: <20220107074831.3065-1-thakur.virendra1810@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 02:56:30 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 07:48:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160247
+ https://lists.openembedded.org/g/openembedded-core/message/160248
 
---------------5909B910BB6312FCF5CD61A3
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Virendra Thakur <virendrak@kpit.com>
 
-On 12/29/21 9:30 AM, kai wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Backport patch to fix CVE-2021-4008 for xserver-xorg.
->
-> CVE: CVE-2021-4008
+Add patch to fix CVE-2021-41990 and CVE-2021-41991
 
-Ping.
-
-Kai
-
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   .../xserver-xorg/CVE-2021-4008.patch          | 59 +++++++++++++++++++
->   .../xorg-xserver/xserver-xorg_1.20.10.bb      |  1 +
->   2 files changed, 60 insertions(+)
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
-> new file mode 100644
-> index 0000000000..3277be0185
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
-> @@ -0,0 +1,59 @@
-> +Backport patch to fix CVE-2021-4008.
-> +
-> +CVE: CVE-2021-4008
-> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/ebce7e2]
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +
-> +From ebce7e2d80e7c80e1dda60f2f0bc886f1106ba60 Mon Sep 17 00:00:00 2001
-> +From: Povilas Kanapickas <povilas@radix.lt>
-> +Date: Tue, 14 Dec 2021 15:00:03 +0200
-> +Subject: [PATCH] render: Fix out of bounds access in
-> + SProcRenderCompositeGlyphs()
-> +
-> +ZDI-CAN-14192, CVE-2021-4008
-> +
-> +This vulnerability was discovered and the fix was suggested by:
-> +Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-> +
-> +Signed-off-by: Povilas Kanapickas <povilas@radix.lt>
-> +---
-> + render/render.c | 9 +++++++++
-> + 1 file changed, 9 insertions(+)
-> +
-> +diff --git a/render/render.c b/render/render.c
-> +index c376090ca..456f156d4 100644
-> +--- a/render/render.c
-> ++++ b/render/render.c
-> +@@ -2309,6 +2309,9 @@ SProcRenderCompositeGlyphs(ClientPtr client)
-> +
-> +         i = elt->len;
-> +         if (i == 0xff) {
-> ++            if (buffer + 4 > end) {
-> ++                return BadLength;
-> ++            }
-> +             swapl((int *) buffer);
-> +             buffer += 4;
-> +         }
-> +@@ -2319,12 +2322,18 @@ SProcRenderCompositeGlyphs(ClientPtr client)
-> +                 buffer += i;
-> +                 break;
-> +             case 2:
-> ++                if (buffer + i * 2 > end) {
-> ++                    return BadLength;
-> ++                }
-> +                 while (i--) {
-> +                     swaps((short *) buffer);
-> +                     buffer += 2;
-> +                 }
-> +                 break;
-> +             case 4:
-> ++                if (buffer + i * 4 > end) {
-> ++                    return BadLength;
-> ++                }
-> +                 while (i--) {
-> +                     swapl((int *) buffer);
-> +                     buffer += 4;
-> +--
-> +GitLab
-> +
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-> index e0551fa999..9a7aa1ed9a 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-> @@ -9,6 +9,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
->              file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
->              file://CVE-2021-3472.patch \
->              file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch \
-> +           file://CVE-2021-4008.patch \
->              "
->   SRC_URI[sha256sum] = "977420c082450dc808de301ef56af4856d653eea71519a973c3490a780cb7c99"
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160043): https://lists.openembedded.org/g/openembedded-core/message/160043
-> Mute This Topic: https://lists.openembedded.org/mt/88007524/3616933
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kai.kang@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
--- 
-Kai Kang
-Wind River Linux
-
-
---------------5909B910BB6312FCF5CD61A3
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 12/29/21 9:30 AM, kai wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:16C515AB4535CCA0.27787@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
-
-Backport patch to fix CVE-2021-4008 for xserver-xorg.
-
-CVE: CVE-2021-4008</pre>
-    </blockquote>
-    <p>Ping.</p>
-    <p>Kai<br>
-    </p>
-    <blockquote type="cite" cite="mid:16C515AB4535CCA0.27787@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">
-
-Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+Signed-off-by: virendra thakur <thakur.virendra1810@gmail.com>
 ---
- .../xserver-xorg/CVE-2021-4008.patch          | 59 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.10.bb      |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
+ .../strongswan/files/CVE-2021-41990.patch     | 62 +++++++++++++++++++
+ .../strongswan/files/CVE-2021-41991.patch     | 41 ++++++++++++
+ .../strongswan/strongswan_5.8.4.bb            |  2 +
+ 3 files changed, 105 insertions(+)
+ create mode 100644 meta-networking/recipes-support/strongswan/files/CVE-2021-41990.patch
+ create mode 100644 meta-networking/recipes-support/strongswan/files/CVE-2021-41991.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
+diff --git a/meta-networking/recipes-support/strongswan/files/CVE-2021-41990.patch b/meta-networking/recipes-support/strongswan/files/CVE-2021-41990.patch
 new file mode 100644
-index 0000000000..3277be0185
+index 000000000..b7118ba1f
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2021-4008.patch
-@@ -0,0 +1,59 @@
-+Backport patch to fix CVE-2021-4008.
++++ b/meta-networking/recipes-support/strongswan/files/CVE-2021-41990.patch
+@@ -0,0 +1,62 @@
++From 423a5d56274a1d343e0d2107dfc4fbf0df2dcca5 Mon Sep 17 00:00:00 2001
++From: Tobias Brunner <tobias@strongswan.org>
++Date: Tue, 28 Sep 2021 17:52:08 +0200
++Subject: [PATCH] Reject RSASSA-PSS params with negative salt length
 +
-+CVE: CVE-2021-4008
-+Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/xorg/xserver/-/commit/ebce7e2">https://gitlab.freedesktop.org/xorg/xserver/-/commit/ebce7e2</a>]
++The `salt_len` member in the struct is of type `ssize_t` because we use
++negative values for special automatic salt lengths when generating
++signatures.
 +
-+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
++Not checking this could lead to an integer overflow.  The value is assigned
++to the `len` field of a chunk (`size_t`), which is further used in
++calculations to check the padding structure and (if that is passed by a
++matching crafted signature value) eventually a memcpy() that will result
++in a segmentation fault.
 +
-+From ebce7e2d80e7c80e1dda60f2f0bc886f1106ba60 Mon Sep 17 00:00:00 2001
-+From: Povilas Kanapickas <a class="moz-txt-link-rfc2396E" href="mailto:povilas@radix.lt">&lt;povilas@radix.lt&gt;</a>
-+Date: Tue, 14 Dec 2021 15:00:03 +0200
-+Subject: [PATCH] render: Fix out of bounds access in
-+ SProcRenderCompositeGlyphs()
++Fixes: a22316520b91 ("signature-params: Add functions to parse/build ASN.1 RSASSA-PSS params")
++Fixes: 7d6b81648b2d ("gmp: Add support for RSASSA-PSS signature verification")
++Fixes: CVE-2021-41990
 +
-+ZDI-CAN-14192, CVE-2021-4008
++Upstream-Status: Backport [https://download.strongswan.org/security/CVE-2021-41990]
++CVE: CVE-2021-41990
 +
-+This vulnerability was discovered and the fix was suggested by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
 +
-+Signed-off-by: Povilas Kanapickas <a class="moz-txt-link-rfc2396E" href="mailto:povilas@radix.lt">&lt;povilas@radix.lt&gt;</a>
 +---
-+ render/render.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
++ src/libstrongswan/credentials/keys/signature_params.c | 6 +++++-
++ src/libstrongswan/plugins/gmp/gmp_rsa_public_key.c    | 2 +-
++ 2 files changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/render/render.c b/render/render.c
-+index c376090ca..456f156d4 100644
-+--- a/render/render.c
-++++ b/render/render.c
-+@@ -2309,6 +2309,9 @@ SProcRenderCompositeGlyphs(ClientPtr client)
++diff --git a/src/libstrongswan/credentials/keys/signature_params.c b/src/libstrongswan/credentials/keys/signature_params.c
++index d89bd2c96bb5..837de8443d43 100644
++--- a/src/libstrongswan/credentials/keys/signature_params.c
+++++ b/src/libstrongswan/credentials/keys/signature_params.c
++@@ -322,7 +322,11 @@ bool rsa_pss_params_parse(chunk_t asn1, int level0, rsa_pss_params_t *params)
++ 			case RSASSA_PSS_PARAMS_SALT_LEN:
++ 				if (object.len)
++ 				{
++-					params->salt_len = (size_t)asn1_parse_integer_uint64(object);
+++					params->salt_len = (ssize_t)asn1_parse_integer_uint64(object);
+++					if (params->salt_len < 0)
+++					{
+++						goto end;
+++					}
++ 				}
++ 				break;
++ 			case RSASSA_PSS_PARAMS_TRAILER:
++diff --git a/src/libstrongswan/plugins/gmp/gmp_rsa_public_key.c b/src/libstrongswan/plugins/gmp/gmp_rsa_public_key.c
++index f9bd1d314dec..3a775090883e 100644
++--- a/src/libstrongswan/plugins/gmp/gmp_rsa_public_key.c
+++++ b/src/libstrongswan/plugins/gmp/gmp_rsa_public_key.c
++@@ -168,7 +168,7 @@ static bool verify_emsa_pss_signature(private_gmp_rsa_public_key_t *this,
++ 	int i;
++ 	bool success = FALSE;
 + 
-+         i = elt-&gt;len;
-+         if (i == 0xff) {
-++            if (buffer + 4 &gt; end) {
-++                return BadLength;
-++            }
-+             swapl((int *) buffer);
-+             buffer += 4;
-+         }
-+@@ -2319,12 +2322,18 @@ SProcRenderCompositeGlyphs(ClientPtr client)
-+                 buffer += i;
-+                 break;
-+             case 2:
-++                if (buffer + i * 2 &gt; end) {
-++                    return BadLength;
-++                }
-+                 while (i--) {
-+                     swaps((short *) buffer);
-+                     buffer += 2;
-+                 }
-+                 break;
-+             case 4:
-++                if (buffer + i * 4 &gt; end) {
-++                    return BadLength;
-++                }
-+                 while (i--) {
-+                     swapl((int *) buffer);
-+                     buffer += 4;
++-	if (!params)
+++	if (!params || params->salt_len < 0)
++ 	{
++ 		return FALSE;
++ 	}
 +-- 
-+GitLab
++2.25.1
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-index e0551fa999..9a7aa1ed9a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.10.bb
-@@ -9,6 +9,7 @@ SRC_URI += <a class="moz-txt-link-rfc2396E" href="file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patfile://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch\file://CVE-2021-3472.patch\file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch\+file://CVE-2021-4008.patch\">&quot;file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://0001-Fix-segfault-on-probing-a-non-PCI-platform-device-on.patch \
-            file://CVE-2021-3472.patch \
-            file://0001-hw-xwayland-Makefile.am-fix-build-without-glx.patch \
-+           file://CVE-2021-4008.patch \
-            &quot;</a>
- SRC_URI[sha256sum] = &quot;977420c082450dc808de301ef56af4856d653eea71519a973c3490a780cb7c99&quot;
+diff --git a/meta-networking/recipes-support/strongswan/files/CVE-2021-41991.patch b/meta-networking/recipes-support/strongswan/files/CVE-2021-41991.patch
+new file mode 100644
+index 000000000..2d898fa5c
+--- /dev/null
++++ b/meta-networking/recipes-support/strongswan/files/CVE-2021-41991.patch
+@@ -0,0 +1,41 @@
++From b667237b3a84f601ef5a707ce8eb861c3a5002d3 Mon Sep 17 00:00:00 2001
++From: Tobias Brunner <tobias@strongswan.org>
++Date: Tue, 28 Sep 2021 19:38:22 +0200
++Subject: [PATCH] cert-cache: Prevent crash due to integer overflow/sign change
++
++random() allocates values in the range [0, RAND_MAX], with RAND_MAX usually
++equaling INT_MAX = 2^31-1.  Previously, values between 0 and 31 were added
++directly to that offset before applying`% CACHE_SIZE` to get an index into
++the cache array.  If the random value was very high, this resulted in an
++integer overflow and a negative index value and, therefore, an out-of-bounds
++access of the array and in turn dereferencing invalid pointers when trying
++to acquire the read lock.  This most likely results in a segmentation fault.
++
++Fixes: 764e8b2211ce ("reimplemented certificate cache")
++Fixes: CVE-2021-41991
++
++Upstream-Status: Backport [https://download.strongswan.org/security/CVE-2021-41991]
++CVE: CVE-2021-41991
++
++Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
++
++---
++ src/libstrongswan/credentials/sets/cert_cache.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/libstrongswan/credentials/sets/cert_cache.c b/src/libstrongswan/credentials/sets/cert_cache.c
++index f1579c60a9bc..ceebb3843725 100644
++--- a/src/libstrongswan/credentials/sets/cert_cache.c
+++++ b/src/libstrongswan/credentials/sets/cert_cache.c
++@@ -151,7 +151,7 @@ static void cache(private_cert_cache_t *this,
++ 	for (try = 0; try < REPLACE_TRIES; try++)
++ 	{
++ 		/* replace a random relation */
++-		offset = random();
+++		offset = random() % CACHE_SIZE;
++ 		for (i = 0; i < CACHE_SIZE; i++)
++ 		{
++ 			rel = &this->relations[(i + offset) % CACHE_SIZE];
++-- 
++2.25.1
++
+diff --git a/meta-networking/recipes-support/strongswan/strongswan_5.8.4.bb b/meta-networking/recipes-support/strongswan/strongswan_5.8.4.bb
+index 8a8809243..b45b8074c 100644
+--- a/meta-networking/recipes-support/strongswan/strongswan_5.8.4.bb
++++ b/meta-networking/recipes-support/strongswan/strongswan_5.8.4.bb
+@@ -11,6 +11,8 @@ SRC_URI = "http://download.strongswan.org/strongswan-${PV}.tar.bz2 \
+            file://fix-funtion-parameter.patch \
+            file://0001-memory.h-Include-stdint.h-for-uintptr_t.patch \
+            file://0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch \
++           file://CVE-2021-41990.patch \
++           file://CVE-2021-41991.patch \
+            "
  
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#160043): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/160043">https://lists.openembedded.org/g/openembedded-core/message/160043</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/88007524/3616933">https://lists.openembedded.org/mt/88007524/3616933</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+ SRC_URI[md5sum] = "0634e7f40591bd3f6770e583c3f27d29"
+-- 
+2.17.1
 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Kai Kang
-Wind River Linux</pre>
-  </body>
-</html>
-
---------------5909B910BB6312FCF5CD61A3--
 
