@@ -2,55 +2,55 @@ Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BF9C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA150C433F5
 	for <webhook@archiver.kernel.org>; Fri,  7 Jan 2022 21:25:06 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
  [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.39.1641590705493466848
+ by mx.groups.io with SMTP id smtpd.web08.44.1641590705501508554
  for <openembedded-core@lists.openembedded.org>;
  Fri, 07 Jan 2022 13:25:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=lIol23D1;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=EkarhGFe;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.166.238,
  mailfrom: prvs=80063e4491=saul.wold@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 207L8hX4031554
+ 207KsOdA032695
 	for <openembedded-core@lists.openembedded.org>;
  Fri, 7 Jan 2022 13:25:04 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=eNp9o2iO8sAczHCnmvNTBLmQv1sOjLFNd1z21kldYqk=;
- b=lIol23D1GZ/mFU3O0dXZce8ODMJHpz3luI4eHH0dtfb5uO8mBjSi9bQ3BO/LxJVGW990
- eYFsoUyPdf//w93AGekChDGHhP2GqVcw2bPM7ubgtGN3I8xpR1P2aZjSPZfp8V2EqKjl
- DNTCrCbga6vNLohrAIQJy2trrH3CAeidzpGiG7Anq2D1GXchsO8ebFyQEO3DcdYiras3
- cBEQIiLJEgxY7t+LJBj6nSNQQ/6FfdScYfMnGdLVJ4Vi4NwOFhZWcA5/MVsjr6WB59qz
- NTfFmsHjcVc0t+ygKNGMdhsJXnT8uCiszzicvMSRaxwFssTtdJBpg8dxv2EskAzrC5CE TQ==
+ bh=OP9i+qQC9YzD3mHiMzwUELBq/oU4T/WCqpEKrXvVh+E=;
+ b=EkarhGFehcSXts0hKO/sk+b3O1Bq/9cFCSRk/DGZYFMFEqiLnep0U0HCVIx2G6JUsppJ
+ vhIGN7xMlE5frMmVMYjG0N8GI/qemExjNpU+7x3Se60Ja7+XipqFzmjUuL74UyT1Nd8T
+ +uyIjwPVMqEePWr2CE9TCDdSEz0uTcCsT7g+z43JnCP8dh49X+azk4zt8cMrJyTc1rIf
+ hHrK9cdemrOIYX7PgaAW2F3aDtwT7YUSqY8g2EM3Y3pNFts3LJJHcQLVpVUjyIDeoizo
+ xUY1ZXwcXBRu8/QzEwDuJfMPX+aFK136KHbM9wfOdd7Wb7OfV+x+u1QwubUsTeXZ0Mmf bg==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wagwad-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wagwab-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
  Fri, 07 Jan 2022 13:25:04 -0800
 Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 207LP3Ov001096
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 207LP3Ot001096
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 7 Jan 2022 13:25:04 -0800
+ Fri, 7 Jan 2022 13:25:03 -0800
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
  (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wagwa5-4
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3de4wagwa5-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Jan 2022 13:25:04 -0800
+	Fri, 07 Jan 2022 13:25:03 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J5ZVs9/wnKmsir9YD8ZELNxPTqaQN06QFj6jH7/J87Y8/mATZ/0OrDOciu+28Om64XOc1gQUJlLZlfHrvk9Oo71DwHYTcB/575GCbBqNAGNcfFrdh+y3U3OigVv/qYphqF9hK9gFh5ncv97JZeuP/Oh/McO7R4Gbs7fvLLVAeXn5xNqOHl6n8KmB/nMORCIxtE93LYn0CYKeF5xzsyaMRgnS4D6GWfn4RtCEFu9U9wfpF5bk5MoF4TNGovFUsc+IBYNDJf0YXyJoS30Ubl1cItD/i6XNXw9yQYEkCbN4HGkrWsXbNtYAiCHzZRRGt+mkyfYOIrMjOviIt9kcoWPE5A==
+ b=MJD664s1npFzBXVK6qxm/YQ36Rm8lTp5Ls5Gup3aL2LspnO70AtHI66Sx+E1x2r4SbZqdL7ySZHMKcLlrVH50dAky3SayD4fIN7FV6jE+9xsTRKyAN5l63erTCjG/v3fCJ+8/miKdFjDxyxCfOPrgEoq+cfkkrmovwhkDX4IceNx633G3l0MnAR0cOPd8g+kV9jrIq/qjNgywL6Q2K4uJq7hHuGfyAPZq+3tfgnUUO7ihXuc/zKVLyscuzcr1YFE7WT9ep5M1/bzOUDWqBhINi8Oq7sbQAs+u4LASdKtnPONk8USGELD4LnLMMKY2Qjn8SebjV7/T+rtjHkrKLVqOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eNp9o2iO8sAczHCnmvNTBLmQv1sOjLFNd1z21kldYqk=;
- b=XTc2NdPKJsgTUMR9YyqU3yR4l+FKEiKN6v7597zih2I70wFhhpLGGTLw1XuGFeEHZNeB5DwB4dVnN60RgofiU6nzwak+FwsR+xlcme/v9aQIuimd2KuI1k0h7bpQCeF5tjmn3NCC1N640SmsBnTa0CCIaWs7QAHocOTJWpesAS5oGj38YLT8Hmb3lJ5Wbaku4zKhyunda3q6bPj1OHzny+lpeGFIa5P9D58cM9iJQLuVfXtG81P0+kPd4egwtko/11noanlSgwpWWWEN8kYzIEEN1JidisEzZFB2AifzShwhcnyqMLbSAGY1Oxw6UKYLw+7Qmnirs09sMyPtbP/duw==
+ bh=OP9i+qQC9YzD3mHiMzwUELBq/oU4T/WCqpEKrXvVh+E=;
+ b=UtI8VMUgF7wAUrW9bcE/qfctnlxOTegEvRxR/zw5M5aBOH0XBZ9zoWtWtyA3If/v70gDdUMvBL8djniFCiQ+8sRjLDaWehJz/REV/f+niT0CuUy5WXQKB/VGcdt0fZYdvU8u6yUdyxzmQ0u1JUNXQFj3h53fh8WigFfKwQHAIVhFxtXundu6jpSAxz/e6SWWgFkxr7zPvkXFqvQ4Hw2hKbmv1FJ47j9+Nl5GY5e1xYPRjueMpM56rmdACyaYlZ8JgrmPwtNKhAdxMh9IvhydzJ4xPzdZ5M6xp9mtQKumtEFGhQUhc4iQ8+66S1MSC1sy6YWtLKxpUzr6jQ069OGPfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -67,9 +67,9 @@ From: Saul Wold <saul.wold@windriver.com>
 To: openembedded-core@lists.openembedded.org, JPEWhacker@gmail.com,
         bruce.ashfield@gmail.com
 Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [RFC PATCH 3/3] package: Add support for kernel stripping
-Date: Fri,  7 Jan 2022 13:24:46 -0800
-Message-Id: <20220107212446.132386-4-saul.wold@windriver.com>
+Subject: [RFC PATCH 2/3] kernel.bbclass: remove do_strip() method
+Date: Fri,  7 Jan 2022 13:24:45 -0800
+Message-Id: <20220107212446.132386-3-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220107212446.132386-1-saul.wold@windriver.com>
 References: <20220107212446.132386-1-saul.wold@windriver.com>
@@ -80,63 +80,63 @@ X-ClientProxiedBy: BY5PR13CA0025.namprd13.prod.outlook.com
  (2603:10b6:303:90::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 705f27f7-b33b-4bfc-1da7-08d9d2242a48
+X-MS-Office365-Filtering-Correlation-Id: c5a6408f-af1f-40e1-2374-08d9d2242a0a
 X-MS-TrafficTypeDiagnostic: MW3PR11MB4602:EE_
 X-Microsoft-Antispam-PRVS: 
-	<MW3PR11MB4602571EAEC2BD3E5676D961EE4D9@MW3PR11MB4602.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
+	<MW3PR11MB46029399580C2E27EC7B22C6EE4D9@MW3PR11MB4602.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	NjSmz45wjokxt0FSyYmAat+IxAjfAnTA9oFXOCEosf3edICCrcQ+Bx/wbRe1oT0gFGlHqBvoW8y5oXKrjqfyTDLH7nGTpeiXbTlvKW1em/O+oYIbm0i6LwCctzTjFhbMT1DrsOg5hIKYOt+U4K/zcZL3BxEXf71BySYk09J6z0LRk6WTJe+iuXZF56n3ZjG1oQ1HuyxwwEi3kPAt5KlLYibQXXkHoSP36xwxjA7c9Mxx80H/Iq1i5PoA5/5hZRAn33UjsIlvKhaZV7sfz8R+PliWuWpHvX+pCvTxT5whGEv26zW5otfsJuTMFtnSqjjzGB6rcgy2s4V5Cg067tiOqcp6pkpikiaw8jSWIX0bWnzFF84M2/PZQqxK6oPkWa2dJEcOt/WNhadG5OK/1pvr6DLqswWtqn/92/5au4wkRPukFTcVxQzPo8UwVcaF6atmD0hKsMTL5nxVEDLGh9S5A33uDH9O80m+rLmxModpI0iIo5ttgcBf6sxzVXVKT58ec6cNpd6T71KPUn3VZ50MbbvP0Dd7x1QmzC5XKm21zwPEmvMnFb7FIFP5puNgP8QE3V5WiQFmoPU8CVWH93IG6qWztcVrNlD0nT1nvySywSU/MfY6m8xuJLH6ml8e9hhaWbUlIJpisvhKXp8AMRUFhMT7Wd3+fh6IC+tzSOdzNUCFFcccRIS6SzOfgGFWYtjbkNlRFwUxUpw3ofxaWcwpsvUwbAcxd9QCGnRdapgygG8=
+	iYrqPTQtq21HMdnRhoEIy2B7ltw8J7R2zIPJqQ/RxaF3I59iGuWa41gQal/8pkO+XiVfoxh82Z0ZTL4D1JNqNfprhgN4Y4kMGaImt/DAWZVfPYAK73SzUUAiwPRbg9Ma1td+lp26OR2s1DZBwlzzs3BzezGdKs5m4FBh6o7Q0naXyQAJAuT1naHCJ20X/tOHaAqAcCDae7W6Lo0RWFoeLW2USymNFcyvU8ZiIDYoVbSNPc6u/LX9XxecHbzkYwasQahatuJ7BTLjGGLyf6Kn5/ENNSqFalEArVP6/rkOWUfekyIg16GfAPmENRgPqGmPZesJCUoYlMN+rVNwHYo2t9jZbFoMMU8JTwuoHCWEYYRaEpHwEMxWIpWdDrLqQ50lRxA18NnOub7cNJaCE9PutM0xB8Ae1nQYV0Key5jagzTAJ1Wwhi3SrO94+TCQF51dmCR8PYKwHYHR1hnhF+GV7sv4AyevjPf43s8bSqGAy2a4eoDNl/Ew1mDzS2NQiJvjGdTuQzKI5gF8Vczni/H+SlW3ZdGvOEran0qn4Y1COmQthkjB9SNwsNMsKy3LTy0EtAagHAmM+tC9FBtO8znlCH27f/tlcxCWZ2ou7O8qb8V9k8nR7hOIJHTsSWqGSzNI3PwIwOqIKEqffXDIwMrH+7Sp3JKqvqHP3ZSuF2TYKESmErI03h/7Qm7xKfEh6VisYqrka3MiGeSWN2V8wiLFww==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(44832011)(66556008)(1076003)(66946007)(508600001)(6666004)(6486002)(8676002)(5660300002)(26005)(6512007)(36756003)(186003)(6506007)(4326008)(38350700002)(52116002)(316002)(83380400001)(86362001)(2616005)(2906002)(107886003)(38100700002)(8936002)(168613001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66476007)(44832011)(66556008)(1076003)(66946007)(508600001)(6666004)(6486002)(8676002)(5660300002)(26005)(6512007)(36756003)(186003)(6506007)(4326008)(38350700002)(52116002)(316002)(83380400001)(86362001)(2616005)(2906002)(107886003)(38100700002)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kLgB9Ydvvvtv6nHc8U4lhh1EYaIlm7DDvcDTMgjTiaJSUtKtIrEVyk9n3e7w?=
- =?us-ascii?Q?k/iWrWyozCIxgeJnF8Pq+o78mgFEsK9UrIWOLZcU3/7VKrlaqqX1nqvjeTam?=
- =?us-ascii?Q?66MjnB3AYuAt3q190zIO8lFpf3+3nzSLXmYVMHOhHYWcCQxpv/gRpvbCEDxB?=
- =?us-ascii?Q?86lyn2MUujPC1JJVEunVFT8okPF2zJyDdwBxg6khpEYZZ91jMq1IDTkXDXbs?=
- =?us-ascii?Q?DS/uCnfGKrkQ/MpJ3nLcfZBcmoy9EZAdo+MMBeLGCCkyToiZrS1SDKELk2/M?=
- =?us-ascii?Q?oft+B7klhgvyHUkYDY5yaefTN21j864FyRTGdBrQV6FTPBV0yHYMb1EsxSg8?=
- =?us-ascii?Q?VOLOpJ8NfCCv9SQKk9Hy+9RTvQTBkD+hHoj9nxlEsgaHrZreABYeRFvKLqap?=
- =?us-ascii?Q?W5hUNo/bXtSAC7zbGvwPJ5UHgJ2JrsKeajHUXTW/7y4SdqvSewtnRboj8F7e?=
- =?us-ascii?Q?T8lNylzjGfEiuf8YjIlogqoxy/B1rcgjSem9U804ZlTmoM9CX+obP1iF24bZ?=
- =?us-ascii?Q?sERfWWGqyYOoG5D97CUSf9f93BlGfI47yzZSP/qA0kymTUGYyodmZE6/jGYn?=
- =?us-ascii?Q?9eLZ1EcoJ0MWK90U0OgDhYNBcgZlostElPlnoE/Beop1sWgfD+cMS/8phZXk?=
- =?us-ascii?Q?zRzZiWJ/fCceWb498b9h/RBMsDxOxxPVAYI7Hyyw7ZSDMG04dzREuQHOEnBu?=
- =?us-ascii?Q?Fv4a1q/c1C6LNWsqvHL1Ev6GF6pRwAEmSCIOXho72BA1jpOLA+qd6j7U1XFa?=
- =?us-ascii?Q?vnDE/erBKXT71rziUvuQEyP2GoZyN+V/Ezpp1YWxlTcp7BOcRN0tJk6fqc+t?=
- =?us-ascii?Q?5mLTU18dLg7L6+bDZWSEm8KGQn46OoVThFWVCbuxZjrENdHG78YzXEeDPfMA?=
- =?us-ascii?Q?R6FyGVRzCf2p7lY/KtJulhKVKdbjHTjj+n7n0iV+nON3n7GbdTUXdyZtcMRR?=
- =?us-ascii?Q?1fW8iE63ovOHJtdh0WfQJRT1bhUUVWMbgj+e2L4SKozV11N8MlUl7hUVl0sO?=
- =?us-ascii?Q?RHduSYUl8jxFY6pJcqLTQXIKZcENBFFCaL0VhuMdfVTx2qKldrYEc3A8SEaI?=
- =?us-ascii?Q?SejBr1pNdeKy1G1dyBtzOwrn2HQPFM7qmiPx8m+eXGfEercAnA1+duArM05R?=
- =?us-ascii?Q?mjv6popMZ7dz+yosc3zwQpmZVImSHjts/k0uSvq4UpDZwOxywtSHJjw9SFBs?=
- =?us-ascii?Q?dRWyQ4dG8HHIMSN5ug1hZJZXFZvpgJiPB91At+r7Msc/+rdU4/qpUhy12wKE?=
- =?us-ascii?Q?vtTAkZMTzq7NHRmxbBiwuGJG/2wGUUPAjJKI+39fkQAE5PMaFNtCmsMdKeia?=
- =?us-ascii?Q?hpB0Pg3pxdocRatjms2GAiuAUxgGCRbvsKfPh6hf8jW7WfnkImymIFffAo7y?=
- =?us-ascii?Q?YslAmY7X70Ye6VEOa1EA2Vansy/AN9+bWkXq3PHTH/dBYaqGu2ywhKgt+H7+?=
- =?us-ascii?Q?C+Cd4+IwINWUoXCWUKEogWElFWB164mTDpV0ia/43R0LxcogMR7Ic0D66Ux1?=
- =?us-ascii?Q?ct1jZXY/6A/VYylzr+pPXsXe9W488ecudxl+JaWO/BbP5gYhqSfSrD/3///7?=
- =?us-ascii?Q?xZ+LKKMxaVJbkZY44iRPqLpuWT0IqItXRPuSjOUHnZdJX1syBK/96RomOp0N?=
- =?us-ascii?Q?khre2gJxOS3Pzg5nQWbM0Gs=3D?=
+	=?us-ascii?Q?7MxaU2p/F75wr/cffOoBqBrtPzl0NRnu2ju2bFTN/Es0gWySTqrdCDsGcEek?=
+ =?us-ascii?Q?2+z0Fti/k2SUtbx0t3uf816liKukbdo3hIb3NNh7cfoaXMtpH1sgYS7lfoOo?=
+ =?us-ascii?Q?JiKjR+bHEpL9n4vRXXBDrmiDXLnx+N6ldPL0+VtC+Ph0iWsgFnuK9kfHqtkk?=
+ =?us-ascii?Q?0NR5ai5YLf56smijqVW1WfM/CzjiBViiquNrmcMsKTabxcGPpiAjvgmqtiCN?=
+ =?us-ascii?Q?yaAnGadBTtrIqZclKLYN0LxWyqnkV2OXe8JgttzSbqJA1lH213YBJRqPl6gT?=
+ =?us-ascii?Q?nWs2wNTOyCGVhhEEf+8gbKKOffHnaxuIo+o9zDhubI5ZTq3I5WuXWnp6kVyx?=
+ =?us-ascii?Q?Igf6rFBr5hk+H4fuXi/Y5m3N8nRuqyQ2L0bYU9t/XN/0nQS8UATUM7LVM0DT?=
+ =?us-ascii?Q?KX/+z5WkUi6D6n5aw5IJCODe9VvA8wxtF8GsR3+cJygGhPXqfNfLE+UbIgE6?=
+ =?us-ascii?Q?A1BOEOVyn5gBSRFy9Sl36PCZ0VCrHyg8+G521FWRTa7G7H4Qk9jonP4JUVcT?=
+ =?us-ascii?Q?+YYeTUEmv7PjJcD9Wc00njf8tXOQGiVP28qA527Btffx0ow4BOa54tQrvgAO?=
+ =?us-ascii?Q?+4U9tMSd+1zkQG/6h+YMpJCn/HtQAFHmHNACNz3bfCwH6ZLcY9e3L+2S1puE?=
+ =?us-ascii?Q?+nbp87FjIPKWp6rn1LuexFpPyCN4b0rnKVv9bcdMLKcCA9HdYZd/Pa+Xoeit?=
+ =?us-ascii?Q?kfKeM8feYHDCQ/yhHCfCen8Pml5GB9XpOghZH4x50PEWZzmyqoWldaXG+16P?=
+ =?us-ascii?Q?K0G4z1Xa6R5MDhv94ercHCAKCCFtzNLpGZxH4gCk2IA471Z+ZyQPttPQAoNs?=
+ =?us-ascii?Q?AjdOrDQpIoL4Og7GZrIMYtoy6/AfHQ3tbnH5MWlhWomITA8tQsXh9puceKPh?=
+ =?us-ascii?Q?dOf3F623jPaJHXJhviOrvp5riHoFJnbi37WCCMq73IST+EWRdAcYPXEFBYsS?=
+ =?us-ascii?Q?FWP4hd5TVVYvU/QVU1LxdzRkICgw2POhnI297WoZDI7ujqmFvn3WpseXiBXE?=
+ =?us-ascii?Q?vzIPdtWB47d5Q+gQGZzZJQ7tZXUnofTGvQe3zTrA2F66KXS4G4WuRRIv5Dpa?=
+ =?us-ascii?Q?L4WhJ4swTS7+lIMqOpRCHLm/7pHQBlFmq3t49J/DE2sSxNP8iBzWEa7DC0rt?=
+ =?us-ascii?Q?rUu6LSddNGJPf4sxWqRqA6kb6C+Rhq5ihTBkQHQxNphSm0jZ+BYADSnaXRPd?=
+ =?us-ascii?Q?hkRuBzNWO9H8gtL7CGL9ZpomiHIaGYTtmqPMudmPvM9d2nbDsqe88R7b6zz5?=
+ =?us-ascii?Q?vKqtBh+C8MQz/6HAh6sPHy/7w5/VD2la13nWoyTjRtNmWp9mBABPul/kViY2?=
+ =?us-ascii?Q?GiqKnw6UzVczI1qtxMOEw3UadMmdNoCUo9tUJHHldngIgOj2HP5dlTlSeQs2?=
+ =?us-ascii?Q?+Molfph09RDgSo4onDsZNe09K/QQHXglnJR1BVfMvfU/bWf5skv7w2An0Pbb?=
+ =?us-ascii?Q?WFyhB2JFJE+vGFqN4TkyHPNmKdsuASIVeKFpGvkPvq6B2B+LIGSBz7Vu1nCj?=
+ =?us-ascii?Q?qUsVa6L1veQiJY2rymM4iU3OLi8aofc2ym8r4Z0SC3IwH8lgQxvFA9TE9y6T?=
+ =?us-ascii?Q?UP+A4LrvxtkB8O13fWNn0/7EX9Zqj7rjCg5pgWjD/6f9+CVVkVFzIs5/X3RT?=
+ =?us-ascii?Q?R2UahQYhQgsBzWyx4OSGz+c=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 705f27f7-b33b-4bfc-1da7-08d9d2242a48
+ c5a6408f-af1f-40e1-2374-08d9d2242a0a
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 21:25:02.0441
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 21:25:01.6692
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- dFEkbnte8Ls6s4WPutPGp4qivXjtfc6PjcHxoh8jsnDC4JktwjmK5eXu6n6zTDU1YayhtVi5swDQImpxga5Rpg==
+ xLby99AuHC7Y2XfCbj/MYhT2HHxfTN8uLalzRzLEYiKQzOWl0qyexOREMdouj7qJbfVqaQAOzVLriZj+bJgCJw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4602
-X-Proofpoint-ORIG-GUID: yQwB46J6HZOtmoT7qQIVRIos9IRlBTyQ
-X-Proofpoint-GUID: OYbTLXUZ2e2VyIlLadx9Yvb16bvNu8eh
+X-Proofpoint-ORIG-GUID: 3xjpqQxn_kglFRCH9bgj1PMI5B9cWwoZ
+X-Proofpoint-GUID: Lwl6NWknukXhg5-X4tKB34__XPNPsQys
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-07_09,2022-01-07_01,2021-12-02_01
@@ -149,111 +149,80 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 21:25:05 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 07 Jan 2022 21:25:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160267
+ https://lists.openembedded.org/g/openembedded-core/message/160269
 
-This moves the KERNEL_IMAGE_STRIP_EXTRA_SECTIONS from kernel.bbclass
-to the split_and_strip_files() flow. Since the multiprocess_launch is
-used here the variable needs to be passed as an argument.
-
-Since is_elf() understands kernel modules there is no need to keep a
-seperate list for kernmodules or hardcode the values to runstrip.
+Move the do_strip() functionality to a more common location in the
+package split_and_strip_files() flow. This makes it possible for the
+extended packaging data to be generated correctly for the kernel and
+kernel modules. The KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is reused in 
+the runstrip() part of package stripping.
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/classes/package.bbclass | 23 ++++++++++++-----------
- meta/lib/oe/package.py       |  7 +++++--
- 2 files changed, 17 insertions(+), 13 deletions(-)
+ meta/classes/kernel.bbclass | 35 +++--------------------------------
+ 1 file changed, 3 insertions(+), 32 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 09cd376f4af..2f6863be7ac 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1122,7 +1122,6 @@ python split_and_strip_files () {
-     #
-     elffiles = {}
-     symlinks = {}
--    kernmods = []
-     staticlibs = []
-     inodes = {}
-     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
-@@ -1145,9 +1144,6 @@ python split_and_strip_files () {
-                 if file in skipfiles:
-                     continue
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 7685c6921fa..30e67abb936 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -421,7 +421,7 @@ do_compile_kernelmodules() {
+ 		bbnote "no modules to compile"
+ 	fi
+ }
+-addtask compile_kernelmodules after do_compile before do_strip
++addtask compile_kernelmodules after do_compile before do_sizecheck
  
--                if file.endswith(".ko") and file.find("/lib/modules/") != -1:
--                    kernmods.append(file)
--                    continue
-                 if oe.package.is_static_lib(file):
-                     staticlibs.append(file)
-                     continue
-@@ -1164,8 +1160,11 @@ python split_and_strip_files () {
-                 if not s:
-                     continue
-                 # Check its an executable
--                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
--                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and (".so" in f or ".node" in f)):
-+                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) \
-+                        or (s[stat.ST_MODE] & stat.S_IXOTH) \
-+                        or ((file.startswith(libdir) or file.startswith(baselibdir)) \
-+                        and (".so" in f or ".node" in f)) \
-+                        or (f.startswith('vmlinux') or ".ko" in f):
+ kernel_do_install() {
+ 	#
+@@ -698,36 +698,7 @@ do_kernel_link_images() {
+ 		ln -sf ../../../vmlinux.64
+ 	fi
+ }
+-addtask kernel_link_images after do_compile before do_strip
+-
+-do_strip() {
+-	if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
+-		if ! (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux"); then
+-			bbwarn "image type(s) will not be stripped (not supported): ${KERNEL_IMAGETYPES}"
+-			return
+-		fi
+-
+-		cd ${B}
+-		headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT_DIR}/vmlinux | \
+-			  grep "^ \{1,\}\[[0-9 ]\{1,\}\] [^ ]" | \
+-			  sed "s/^ \{1,\}\[[0-9 ]\{1,\}\] //" | \
+-			  gawk '{print $1}'`
+-
+-		for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
+-			if ! (echo "$headers" | grep -q "^$str$"); then
+-				bbwarn "Section not found: $str";
+-			fi
+-
+-			"$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT_DIR}/vmlinux
+-		}; done
+-
+-		bbnote "KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is set, stripping sections:" \
+-			"${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}"
+-	fi;
+-}
+-do_strip[dirs] = "${B}"
+-
+-addtask strip before do_sizecheck after do_kernel_link_images
++addtask kernel_link_images after do_compile before do_sizecheck
  
-                     if cpath.islink(file):
-                         checkelflinks[file] = ltarget
-@@ -1310,13 +1309,15 @@ python split_and_strip_files () {
-         sfiles = []
-         for file in elffiles:
-             elf_file = int(elffiles[file])
--            #bb.note("Strip %s" % file)
--            sfiles.append((file, elf_file, strip))
--        for f in kernmods:
--            sfiles.append((f, 16, strip))
-+            bb.note("Strip %s" % file)
-+            extra_sections = d.getVar('KERNEL_IMAGE_STRIP_EXTRA_SECTIONS')
-+            if (extra_sections is not None and file.find('boot/vmlinux')):
-+                sfiles.append((file, elf_file, strip, extra_sections))
-+            else:
-+                sfiles.append((file, elf_file, strip, ''))
-         if (d.getVar('PACKAGE_STRIP_STATIC') == '1' or d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
-             for f in staticlibs:
--                sfiles.append((f, 16, strip))
-+                sfiles.append((f, 16, strip, ''))
+ # Support checking the kernel size since some kernels need to reside in partitions
+ # with a fixed length or there is a limit in transferring the kernel to memory.
+@@ -755,7 +726,7 @@ do_sizecheck() {
+ }
+ do_sizecheck[dirs] = "${B}"
  
-         oe.utils.multiprocess_launch(oe.package.runstrip, sfiles, d)
+-addtask sizecheck before do_install after do_strip
++addtask sizecheck before do_install after do_kernel_link_images
  
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index dd700cbb0c9..47bc85a4266 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -16,7 +16,7 @@ def runstrip(arg):
-     # 8 - shared library
-     # 16 - kernel module
- 
--    (file, elftype, strip) = arg
-+    (file, elftype, strip, extra_strip_sections) = arg
- 
-     newmode = None
-     if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
-@@ -40,6 +40,9 @@ def runstrip(arg):
-     # shared or executable:
-     elif elftype & 8 or elftype & 4:
-         stripcmd.extend(["--remove-section=.comment", "--remove-section=.note"])
-+        if "boot/vmlinux" in file and extra_strip_sections != '':
-+            for section in extra_strip_sections.split():
-+                stripcmd.extend(["--remove-section=" + section])
- 
-     stripcmd.append(file)
-     bb.debug(1, "runstrip: %s" % stripcmd)
-@@ -172,7 +175,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
-     sfiles = []
-     for file in elffiles:
-         elf_file = int(elffiles[file])
--        sfiles.append((file, elf_file, strip_cmd))
-+        sfiles.append((file, elf_file, strip_cmd, ''))
- 
-     oe.utils.multiprocess_launch(runstrip, sfiles, d)
+ inherit kernel-artifact-names
  
 -- 
 2.31.1
