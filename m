@@ -1,41 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A602DC433F5
-	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 13:52:16 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.17882.1641736334853873153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F08DEC433EF
+	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 14:20:24 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.18257.1641738023994267265
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 05:52:15 -0800
+ Sun, 09 Jan 2022 06:20:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ogSx89rB;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@madison.systems header.s=google header.b=fvnGoVYq;
+ spf=pass (domain: madison.systems, ip: 209.85.167.45,
+ mailfrom: matt@madison.systems)
+Received: by mail-lf1-f45.google.com with SMTP id br17so3910713lfb.6
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 09 Jan 2022 06:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1641736335;
-  x=1673272335;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZBw//vKRCDDel+oOBV9XHxTG2F0T5JXNQVzbewrIuRg=;
-  b=ogSx89rBUXVER+GUbFOogWLUfLHoj6XBmugGQJuK1p/VQcyWkfcDETn/
-   yLY53fGmh1H6p6AjNtCEaVbEx4xu1lMWvSL7CBv+snHE858AV2krcgWR7
-   RarzPQIinh5+4QDoQJ15WXvY/3Ob19J0mgc1hamwneC3AJiOtdjD8GYvP
-   87ZJsbMT9WMzuBNOwbnlM2lHKrWuAyYAIbF3zU8meH7JKcGdWRh/GfVRk
-   ecjc3j3FuGT+jCSeXNLFd8Jelrhh0mEXnTdfgTY0iURXasGA+opnm9zJB
-   Kc+lpIlrItwnJests/uqEaIXE0xwnb0MVZbvEIDgqoI6oxOqDoKsJma6J
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Matt Madison <matt@madison.systems>
-CC: Konrad Weihmann <kweihmann@outlook.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, "Patches and discussions about the
- oe-core layer" <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
-Thread-Topic: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
-Thread-Index: 
- AQHX8fC6SPbohUl0KE2uOFP3m49jIKxXfFuAgAAVhoCAABYv7oAADXGAgAGPaoCAAApRAIAAAJWAgAEwxwCAADQrMP//+JmAgAAtTFA=
-Date: Sun, 9 Jan 2022 13:52:11 +0000
-Message-ID: <b38bfc5e76774b3b8a8e81176b5c7bea@axis.com>
+        d=madison.systems; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rphl5w+n4VTks+QyXnmGa3pJzlgg11UOP51mL4we7vA=;
+        b=fvnGoVYqc/ka2+lgMnHGm/KRRVVxSfxUDR8CL6FYMHoE7MgxnfLXCcBGfWPRBNLp5Y
+         BtxPObYgWZLwRgcoi7m94++1IA8Fn0JeiYkhG+E3LdRj4isCJ0EinCy7Q3qjYpW7RCR3
+         x8mdJRbpqu7+CYzw/uOvbfrEk46QmeGPGV7ZUAgLNa4tqGJoTGfwKxd4iPZpQzNow8BN
+         EENeZlEYXeX1nlPDlz+Vw1liHUbky+2Yr75s66nQhKkA+vpEzO/4tR+Cgk5/+PbfFPxM
+         riSh5+GoiMTYZB3gPqIIbxdAVi6L/izyCiK03zXqhly1SGPT//x+3QHP7/t76q3E84Kv
+         7Xxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rphl5w+n4VTks+QyXnmGa3pJzlgg11UOP51mL4we7vA=;
+        b=iMu/dswXUS04I0dcr4H0rvBn6kEt7Rwm1G3h6XfhvmfXacmcrfJ/2j4ietH5SFOGe6
+         o2kkmROuaNKS+031H1bWhh7XuV26lSQycadPyWgKtp5NfynbvIABJ3xbtKKHLcGXdi8M
+         n/xx/M7WC3NgKx2t9LSCOHO1sUe8evfCqZkYylkdO6oycxn2narJXI86HnQ0Ei20n7QN
+         etifzvULinxzYVRJOd5ZjOmNBip0xoRkqjnaqY0SXnumZIDHnKAADC2TnRYmvvFnk5ag
+         xeS3ATZ4Yh+rXw5cknt9VXVmV5x7MICp5RGhPed4T0J+jKYCdnKVKtbH81AT1P1fEoZh
+         B/PA==
+X-Gm-Message-State: AOAM532zi8eX5i5+nTBIaUNvU9L0GgVZGQMyrQlrbJJ7XzTXhrE99VdL
+	ltDHUzdVx7jY2cjFoEjsAB2xe3eQT/22J0lk/HotGQ==
+X-Google-Smtp-Source: 
+ ABdhPJzsFwsK5r7l4U7Z7PJpM6BjSO/wAB6Ia2S7xnvKTeRLhmEvOf7KCls9krzdhNukNRsVctcUY1XdoLl6qnQJrXA=
+X-Received: by 2002:a05:6512:3f17:: with SMTP id
+ y23mr49494027lfa.176.1641738021879;
+ Sun, 09 Jan 2022 06:20:21 -0800 (PST)
+MIME-Version: 1.0
 References: <20211215201615.536707-1-matt@madison.systems>
  <8d74dd73e03223215a4799df4f7a17bc4b9706eb.camel@linuxfoundation.org>
  <CAGgRHJoyzifLStq3KQfPcHR9HYcQPR+vP=754K5K=3zrBaseqA@mail.gmail.com>
@@ -48,150 +58,235 @@ References: <20211215201615.536707-1-matt@madison.systems>
  <AM9PR09MB4642D4D6332DB31362B0B538A84F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
  <bd85fb3c472a46758baaab3d5bc27298@axis.com>
  <CAGgRHJo4xf9sdz2bivRfVCe=BADTWisiQk-==iV-GV-nLmh4tw@mail.gmail.com>
-In-Reply-To: 
- <CAGgRHJo4xf9sdz2bivRfVCe=BADTWisiQk-==iV-GV-nLmh4tw@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+ <b38bfc5e76774b3b8a8e81176b5c7bea@axis.com>
+In-Reply-To: <b38bfc5e76774b3b8a8e81176b5c7bea@axis.com>
+From: Matt Madison <matt@madison.systems>
+Date: Sun, 9 Jan 2022 06:20:10 -0800
+Message-ID: 
+ <CAGgRHJrs9T=_8Lrqm3EpO29TPdxFw7tre=P64m9K-oUsv+LzZQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Konrad Weihmann <kweihmann@outlook.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 13:52:16 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 14:20:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160282
+ https://lists.openembedded.org/g/openembedded-core/message/160283
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXR0IE1hZGlzb24gPG1hdHRA
-bWFkaXNvbi5zeXN0ZW1zPg0KPiBTZW50OiBkZW4gOSBqYW51YXJpIDIwMjIgMTM6MDQNCj4gVG86
-IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzog
-S29ucmFkIFdlaWhtYW5uIDxrd2VpaG1hbm5Ab3V0bG9vay5jb20+OyBSaWNoYXJkIFB1cmRpZQ0K
-PiA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz47IFBhdGNoZXMgYW5kIGRpc2N1
-c3Npb25zIGFib3V0IHRoZQ0KPiBvZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIXSBxZW11
-LmJiY2xhc3M6IGRyb3AgT0xERVNUX0tFUk5FTCByZWZlcmVuY2UNCj4gDQo+IE9uIFN1biwgSmFu
-IDksIDIwMjIgYXQgMzozMiBBTSBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJz
-dGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-IDxvcGVuZW1iZWRkZWQtDQo+ID4gPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJl
-aGFsZiBPZiBLb25yYWQgV2VpaG1hbm4NCj4gPiA+IFNlbnQ6IGRlbiA5IGphbnVhcmkgMjAyMiAx
-MDoyNA0KPiA+ID4gVG86IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
-YXRpb24ub3JnPg0KPiA+ID4gQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBv
-ZS1jb3JlIGxheWVyIDxvcGVuZW1iZWRkZWQtDQo+ID4gPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+DQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIXSBxZW11LmJiY2xhc3M6
-IGRyb3AgT0xERVNUX0tFUk5FTA0KPiByZWZlcmVuY2UNCj4gPiA+DQo+ID4gPiBPbiAwOC4wMS4y
-MiAxNjoxMywgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+ID4gPiA+IE9uIFNhdCwgMjAyMi0wMS0w
-OCBhdCAwNzoxMCAtMDgwMCwgTWF0dCBNYWRpc29uIHdyb3RlOg0KPiA+ID4gPj4gT24gU2F0LCBK
-YW4gOCwgMjAyMiBhdCA2OjM0IEFNIFJpY2hhcmQgUHVyZGllDQo+ID4gPiA+PiA8cmljaGFyZC5w
-dXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQo+ID4gPiA+Pj4NCj4gPiA+ID4+PiBP
-biBGcmksIDIwMjItMDEtMDcgYXQgMDY6NDQgLTA4MDAsIE1hdHQgTWFkaXNvbiB3cm90ZToNCj4g
-PiA+ID4+Pj4gT24gRnJpLCBKYW4gNywgMjAyMiBhdCA0OjU2IEFNIFJpY2hhcmQgUHVyZGllDQo+
-ID4gPiA+Pj4+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToNCj4g
-PiA+ID4+Pj4+DQo+ID4gPiA+Pj4+PiBPbiBGcmksIDIwMjItMDEtMDcgYXQgMTI6NTEgKzAwMDAs
-IFJpY2hhcmQgUHVyZGllIHZpYQ0KPiA+ID4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4g
-Pj4+Pj4gd3JvdGU6DQo+ID4gPiA+Pj4+Pj4gT24gRnJpLCAyMDIyLTAxLTA3IGF0IDA0OjM2IC0w
-ODAwLCBNYXR0IE1hZGlzb24gd3JvdGU6DQo+ID4gPiA+Pj4+Pj4+IE9uIEZyaSwgSmFuIDcsIDIw
-MjIgYXQgMzoxOSBBTSBSaWNoYXJkIFB1cmRpZQ0KPiA+ID4gPj4+Pj4+PiA8cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQo+ID4gPiA+Pj4+Pj4+Pg0KPiA+ID4gPj4+
-Pj4+Pj4gT24gV2VkLCAyMDIxLTEyLTE1IGF0IDEyOjE2IC0wODAwLCBNYXR0IE1hZGlzb24gd3Jv
-dGU6DQo+ID4gPiA+Pj4+Pj4+Pj4gd2hpY2ggaXMgaW50cm9kdWNpbmcgdGFzayBoYXNoIGNoYW5n
-ZXMgZm9yIHNvbWUNCj4gPiA+ID4+Pj4+Pj4+PiBhbGxhcmNoIHBhY2thZ2UgYnVpbGRzLCBhbmQg
-c2hvdWxkIG5vIGxvbmdlcg0KPiA+ID4gPj4+Pj4+Pj4+IGJlIG5lZWRlZCB3aXRoIHJlY2VudCB2
-ZXJzaW9ucyBvZiBxZW11Lg0KPiA+ID4gPj4+Pj4+Pj4+DQo+ID4gPiA+Pj4+Pj4+Pj4gU2lnbmVk
-LW9mZi1ieTogTWF0dCBNYWRpc29uIDxtYXR0QG1hZGlzb24uc3lzdGVtcz4NCj4gPiA+ID4+Pj4+
-Pj4+PiAtLS0NCj4gPiA+ID4+Pj4+Pj4+PiAgIG1ldGEvY2xhc3Nlcy9xZW11LmJiY2xhc3MgfCAy
-ICstDQo+ID4gPiA+Pj4+Pj4+Pj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
-ZGVsZXRpb24oLSkNCj4gPiA+ID4+Pj4+Pj4+Pg0KPiA+ID4gPj4+Pj4+Pj4+IGRpZmYgLS1naXQg
-YS9tZXRhL2NsYXNzZXMvcWVtdS5iYmNsYXNzDQo+ID4gPiBiL21ldGEvY2xhc3Nlcy9xZW11LmJi
-Y2xhc3MNCj4gPiA+ID4+Pj4+Pj4+PiBpbmRleCAwMWE3Yjg2YWUxLi4zMzMyMDJiN2M0IDEwMDY0
-NA0KPiA+ID4gPj4+Pj4+Pj4+IC0tLSBhL21ldGEvY2xhc3Nlcy9xZW11LmJiY2xhc3MNCj4gPiA+
-ID4+Pj4+Pj4+PiArKysgYi9tZXRhL2NsYXNzZXMvcWVtdS5iYmNsYXNzDQo+ID4gPiA+Pj4+Pj4+
-Pj4gQEAgLTU0LDcgKzU0LDcgQEAgZGVmIHFlbXVfcnVuX2JpbmFyeShkYXRhLCByb290ZnNfcGF0
-aCwNCj4gPiA+IGJpbmFyeSk6DQo+ID4gPiA+Pj4+Pj4+Pj4gICAjIHRoaXMgZGFuY2UpLiBGb3Ig
-b3RoZXJzIChlLmcuIGFybSkgYSAtY3B1IG9wdGlvbiBpcyBub3QNCj4gPiA+IG5lY2Vzc2FyeSwg
-c2luY2UgdGhlDQo+ID4gPiA+Pj4+Pj4+Pj4gICAjIHFlbXUtYXJtIGRlZmF1bHQgQ1BVIHN1cHBv
-cnRzIGFsbCByZXF1aXJlZCBhcmNoaXRlY3R1cmUNCj4gPiA+IGxldmVscy4NCj4gPiA+ID4+Pj4+
-Pj4+Pg0KPiA+ID4gPj4+Pj4+Pj4+IC1RRU1VX09QVElPTlMgPSAiLXIgJHtPTERFU1RfS0VSTkVM
-fQ0KPiA+ID4gJHtAZC5nZXRWYXIoIlFFTVVfRVhUUkFPUFRJT05TXyVzIiAlIGQuZ2V0VmFyKCdQ
-QUNLQUdFX0FSQ0gnKSkgb3IgIiJ9Ig0KPiA+ID4gPj4+Pj4+Pj4+ICtRRU1VX09QVElPTlMgPSAi
-JHtAZC5nZXRWYXIoIlFFTVVfRVhUUkFPUFRJT05TXyVzIiAlDQo+ID4gPiBkLmdldFZhcignUEFD
-S0FHRV9BUkNIJykpIG9yICIifSINCj4gPiA+ID4+Pj4+Pj4+PiAgIFFFTVVfT1BUSU9OU1t2YXJk
-ZXBzXSArPQ0KPiAiUUVNVV9FWFRSQU9QVElPTlNfJHtQQUNLQUdFX0FSQ0h9Ig0KPiA+ID4gPj4+
-Pj4+Pj4+DQo+ID4gPiA+Pj4+Pj4+Pj4gICBRRU1VX0VYVFJBT1BUSU9OU19wcGNlNTAwdjIgPSAi
-IC1jcHUgZTUwMHYyIg0KPiA+ID4gPj4+Pj4+Pj4NCj4gPiA+ID4+Pj4+Pj4+IEkndmUgc2VudCBh
-IHJldmVydCBmb3IgdGhpcyBzaW5jZSB0aGUgY29tbWl0IG1lc3NhZ2UgaXNuJ3QNCj4gdHJ1ZSwN
-Cj4gPiA+IHRoaXMgaXMgY2F1c2luZw0KPiA+ID4gPj4+Pj4+Pj4gYXV0b2J1aWxkZXIgZmFpbHVy
-ZXMgYW5kIHRoZXJlIHdhcyBhbHNvIGEgdXNlciByZXBvcnQgb2YNCj4gaXNzdWVzDQo+ID4gPiB3
-aXRoIGl0Lg0KPiA+ID4gPj4+Pj4+Pg0KPiA+ID4gPj4+Pj4+PiBCdW1tZXIuICBJIHRoaW5rIHRo
-aXMgaXMgYmVjYXVzZSBvdXIgT0xERVNUX0tFUk5FTCBzZXR0aW5nIGZvcg0KPiA+ID4gYWFyY2g2
-NA0KPiA+ID4gPj4+Pj4+PiAoMy4xNC4wKSBpcw0KPiA+ID4gPj4+Pj4+PiBoaWdoZXIgdGhhbiB0
-aGUgVU5BTUVfTUlOSU1VTV9SRUxFQVNFIGRlZmluaXRpb24gaW4gUUVNVQ0KPiAoMy44LjApLg0K
-PiA+ID4gPj4+Pj4+Pg0KPiA+ID4gPj4+Pj4+Pj4NCj4gPiA+DQo+IGh0dHBzOi8vYXV0b2J1aWxk
-ZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNDIvYnVpbGRzLzQ1NTkvc3Rl
-DQo+ID4gPiBwcy8xMy9sb2dzL3N0ZGlvDQo+ID4gPiA+Pj4+Pj4+PiAoY2VudG9zNyBhYXJjaDY0
-IGJ1aWxkKQ0KPiA+ID4gPj4+Pj4+Pj4NCj4gPiA+ID4+Pj4+Pj4+IFdlJ2xsIGhhdmUgdG8gZmlu
-ZCBhIGRpZmZlcmVudCB3YXkgdG8gZml4IHRoZSBhbGxhcmNoIGlzc3VlDQo+IChtb3JlDQo+ID4g
-PiBkZXRhaWxzDQo+ID4gPiA+Pj4+Pj4+PiB3ZWxjb21lIG9uIHdoaWNoIHBhY2thZ2Ugc2hvd3Mg
-dGhlIGlzc3VlKS4NCj4gPiA+ID4+Pj4+Pj4NCj4gPiA+ID4+Pj4+Pj4gSSByYW4gaW50byB0aGUg
-aXNzdWUgd2l0aCBjYW50YXJlbGwtZm9udHMgYW5kIHdheWxhbmQtDQo+IHByb3RvY29scywNCj4g
-PiA+IGJ1dA0KPiA+ID4gPj4+Pj4+PiBhbnkgcmVjaXBlIHRoYXQgaW5oZXJpdHMgYm90aCBhbGxh
-cmNoIGFuZCBtZXNvbiBzaG91bGQgdHJpZ2dlcg0KPiBpdC4NCj4gPiA+ID4+Pj4+Pj4NCj4gPiA+
-ID4+Pj4+Pj4gSW4gbXkgY2FzZSwgSSBoYXZlIGEgbGF5ZXIgY2hlY2sgam9iIGZvciBtZXRhLXRl
-Z3JhIHRoYXQgcnVucw0KPiA+ID4gPj4+Pj4+PiB5b2N0by1jaGVjay1sYXllciB3aXRoIHRoZSAt
-LW1hY2hpbmVzIG9wdGlvbiBzcGVjaWZ5aW5nDQo+IHFlbXV4ODYNCj4gPiA+IGFuZA0KPiA+ID4g
-Pj4+Pj4+PiBvbmUgb2YgdGhlIChhYXJjaDY0KSBtYWNoaW5lcyBpbiBteSBsYXllciwgYW5kIHRo
-YXQgd2FzDQo+IHJlcG9ydGluZw0KPiA+ID4gdGhlDQo+ID4gPiA+Pj4+Pj4+IHNpZ25hdHVyZSBj
-aGFuZ2VzIGJldHdlZW4gdGhlIHR3byBhcmNoaXRlY3R1cmVzLg0KPiA+ID4gPj4+Pj4+DQo+ID4g
-PiA+Pj4+Pj4gSSB3b25kZXIgd2h5IHdlIGRvbid0IGRldGVjdCB0aGF0IHdpdGggb3VyIHN0YW5k
-YXJkIHRlc3RzPyA6Lw0KPiA+ID4gPj4+Pj4+DQo+ID4gPiA+Pj4+Pj4gVGhlcmUgbWF5IGJlIGFu
-b3RoZXIgZml4Og0KPiA+ID4gPj4+Pj4+DQo+ID4gPiA+Pj4+Pj4gZGlmZiAtLWdpdCBhL21ldGEv
-Y2xhc3Nlcy9hbGxhcmNoLmJiY2xhc3MNCj4gPiA+IGIvbWV0YS9jbGFzc2VzL2FsbGFyY2guYmJj
-bGFzcw0KPiA+ID4gPj4+Pj4+IGluZGV4IDViZDVjNDRhMjc2Li4wYWFkZjdiZmJhNiAxMDA2NDQN
-Cj4gPiA+ID4+Pj4+PiAtLS0gYS9tZXRhL2NsYXNzZXMvYWxsYXJjaC5iYmNsYXNzDQo+ID4gPiA+
-Pj4+Pj4gKysrIGIvbWV0YS9jbGFzc2VzL2FsbGFyY2guYmJjbGFzcw0KPiA+ID4gPj4+Pj4+IEBA
-IC00Myw2ICs0Myw5IEBAIHB5dGhvbiAoKSB7DQo+ID4gPiA+Pj4+Pj4gICAgICAgICAgIGQuc2V0
-VmFyKCJUQVJHRVRfTERGTEFHUyIsICJub25lIikNCj4gPiA+ID4+Pj4+PiAgICAgICAgICAgZC5z
-ZXRWYXIoIlBPUFVMQVRFU1lTUk9PVERFUFMiLCAiIikNCj4gPiA+ID4+Pj4+Pg0KPiA+ID4gPj4+
-Pj4+ICsgICAgICAgIGlmIGJiLmRhdGEuaW5oZXJpdHNfY2xhc3MoIm1lc29uIiwgZCk6DQo+ID4g
-PiA+Pj4+Pj4gKyAgICAgICAgICAgIGQuc2V0VmFyKCJkb193cml0ZV9jb25maWciLCAiOiIpDQo+
-ID4gPiA+Pj4+Pj4gKw0KPiA+ID4gPj4+Pj4+ICAgICAgICAgICAjIEF2b2lkIHRoaXMgYmVpbmcg
-dW5uZWNlc3NhcmlseSBkaWZmZXJlbnQgZHVlIHRvDQo+IG51YW5jZXMNCj4gPiA+IG9mDQo+ID4g
-PiA+Pj4+Pj4gICAgICAgICAgICMgdGhlIHRhcmdldCBtYWNoaW5lIHRoYXQgYXJlbid0IGltcG9y
-dGFudCBmb3IgImFsbCINCj4gYXJjaA0KPiA+ID4gPj4+Pj4+ICAgICAgICAgICAjIHBhY2thZ2Vz
-Lg0KPiA+ID4gPj4+Pj4+DQo+ID4gPiA+Pj4+Pj4NCj4gPiA+ID4+Pj4+DQo+ID4gPiA+Pj4+PiBT
-b3JyeSwgdGhhdCBpc24ndCBxdWl0ZSByaWdodC4gV2Ugd2FudCB0byBqdXN0IHJlbW92ZSB0aGUg
-YXBwZW5kDQo+IHRvDQo+ID4gPiB3cml0ZV9jb25maWcNCj4gPiA+ID4+Pj4+IHdoaWNoIGdlbmVy
-YXRlcyB0aGUgcWVtdSB3cmFwcGVyIHdoaWNoIHdpbGwgcHJvYmFibHkgbmVlZCBhDQo+IGxpdHRs
-ZQ0KPiA+ID4gbW9yZSBpbnZhc2l2ZQ0KPiA+ID4gPj4+Pj4ganVnZ2xpbmcgb2YgdGhlIGNvZGUg
-dG8gbWFrZSBpdCBlYXNpZXIuLi4NCj4gPiA+ID4+Pj4NCj4gPiA+ID4+Pj4gWW91ciBwYXRjaCB0
-byBkaXNhYmxlIHRoZSBxZW11IHdyYXBwZXIgZm9yIGFsbGFyY2ggbG9va3MgbGlrZSBhDQo+IGdv
-b2QNCj4gPiA+IHNvbHV0aW9uLg0KPiA+ID4gPj4+PiBIb3BlZnVsbHksIHRoYXQgd2lsbCB3b3Jr
-IE9LIGFjcm9zcyB0aGUgYm9hcmQuDQo+ID4gPiA+Pj4NCj4gPiA+ID4+PiBJdCBzZWVtZWQgdG8g
-YmUgc28gSSd2ZSBtZXJnZWQgaXQuIEFtIGhvcGluZyB0aGlzIHJlc29sdmVzIHRoaW5ncyENCj4g
-PiA+ID4+DQo+ID4gPiA+PiBEcmF0LiBVbmZvcnR1bmF0ZWx5LCBpdCBvbmx5IHdvcmtzIGlmIGFs
-bGFyY2ggaXMgaW5oZXJpdGVkIGFmdGVyDQo+IG1lc29uDQo+ID4gPiA+PiAod2hpY2ggaW5oZXJp
-dHMgcWVtdSkuICBTbyBjYW50YXJlbGwtZm9udHMgY2hlY2tzIG91dCBPSywNCj4gPiA+ID4+IGJ1
-dCB3YXlsYW5kLXByb3RvY29scyBkb2Vzbid0LCBzaW5jZSBpdCBpbmhlcml0cyBhbGxhcmNoIGZp
-cnN0Lg0KPiA+ID4gPg0KPiA+ID4gPiBQcm9iYWJseSBlYXN5IHRvIGZpeCBidXQgaGFyZCB0byBz
-cG90IG5ldyBwcm9ibGVtcyA6Lw0KPiA+ID4NCj4gPiA+IHdvdWxkIGFuIGluc2FuZSBjaGVjayBz
-aW1pbGFyIHRvIG5hdGl2ZS1sYXN0IGJlIG9mIGhlbHAgaGVyZT8NCj4gPg0KPiA+IFRoYXQgc2Vl
-bXMgbGlrZSB0aGUgd3Jvbmcgc29sdXRpb24uIEFzIGZhciBhcyBwb3NzaWJsZSwgYmJjbGFzc2Vz
-IHNob3VsZA0KPiA+IGJlIGRlc2lnbmVkIHRvIGJlIGFibGUgdG8gaW5oZXJpdCB0aGVtIGluIGFu
-eSBvcmRlciwgYW5kIGl0IHNob3VsZCBiZQ0KPiBwb3NzaWJsZQ0KPiA+IHRvIHJld3JpdGUgdGhp
-cyBjaGFuZ2Ugc28gdGhhdCBpcyBzdGlsbCBwb3NzaWJsZSB0byBkby4NCj4gDQo+IERvaW5nIHNv
-IHdvdWxkIGJlIGEgYml0IHVnbHksIHNpbmNlIGl0J3MgYSBQeXRob24gZnVuY3Rpb24uIFNvbWV0
-aGluZyBsaWtlDQo+IA0KPiAgICAgaWYgYmIuZGF0YS5pbmhlcml0c19jbGFzcygncWVtdScsIGQp
-Og0KPiAgICAgICAgIGQuc2V0VmFyKCJxZW11X3dyYXBwZXJfY21kbGluZSIsICJkZWYNCj4gcWVt
-dV93cmFwcGVyX2NtZGxpbmUoZGF0YSwgcm9vdGZzX3BhdGgsIGxpYnJhcnlfcGF0aHMpOlxuICAg
-IHJldHVybg0KPiAnZmFsc2UnXG4iKQ0KPiANCj4gaW4gdGhlIGFub255bW91cyBweXRob24gZnVu
-Y3Rpb24gaW4gYWxsYXJjaC5iYmNsYXNzIHdvdWxkIGRvIHRoYXQuDQoNCk9rLCB0aGF0J3MgdWds
-eS4gSG93IGFib3V0IHNvbHZpbmcgaXQgaW4gcWVtdS5iYmNsYXNzIGluc3RlYWQgYnkgZG9pbmc6
-DQoNCmRlZiBxZW11X3dyYXBwZXJfY21kbGluZShkYXRhLCByb290ZnNfcGF0aCwgbGlicmFyeV9w
-YXRocyk6DQogICAgaW1wb3J0IHN0cmluZw0KDQogICAgaWYgYmIuZGF0YS5pbmhlcml0c19jbGFz
-cygnYWxsYXJjaCcsIGRhdGEpOg0KICAgICAgICByZXR1cm4gJ2ZhbHNlJw0KDQogICAgLi4uDQoN
-Cj4gDQo+IC1NYXR0DQo+IA0KPiA+DQo+ID4gPiA+DQo+ID4gPiA+IENoZWVycywNCj4gPiA+ID4N
-Cj4gPiA+ID4gUmljaGFyZA0KPiA+DQo+ID4gLy9QZXRlcg0KDQovL1BldGVyDQoNCg==
+On Sun, Jan 9, 2022 at 5:52 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Matt Madison <matt@madison.systems>
+> > Sent: den 9 januari 2022 13:04
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: Konrad Weihmann <kweihmann@outlook.com>; Richard Purdie
+> > <richard.purdie@linuxfoundation.org>; Patches and discussions about the
+> > oe-core layer <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL reference
+> >
+> > On Sun, Jan 9, 2022 at 3:32 AM Peter Kjellerstedt
+> > <peter.kjellerstedt@axis.com> wrote:
+> > >
+> > > > -----Original Message-----
+> > > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > > core@lists.openembedded.org> On Behalf Of Konrad Weihmann
+> > > > Sent: den 9 januari 2022 10:24
+> > > > To: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > > > core@lists.openembedded.org>
+> > > > Subject: Re: [OE-core][PATCH] qemu.bbclass: drop OLDEST_KERNEL
+> > reference
+> > > >
+> > > > On 08.01.22 16:13, Richard Purdie wrote:
+> > > > > On Sat, 2022-01-08 at 07:10 -0800, Matt Madison wrote:
+> > > > >> On Sat, Jan 8, 2022 at 6:34 AM Richard Purdie
+> > > > >> <richard.purdie@linuxfoundation.org> wrote:
+> > > > >>>
+> > > > >>> On Fri, 2022-01-07 at 06:44 -0800, Matt Madison wrote:
+> > > > >>>> On Fri, Jan 7, 2022 at 4:56 AM Richard Purdie
+> > > > >>>> <richard.purdie@linuxfoundation.org> wrote:
+> > > > >>>>>
+> > > > >>>>> On Fri, 2022-01-07 at 12:51 +0000, Richard Purdie via
+> > > > lists.openembedded.org
+> > > > >>>>> wrote:
+> > > > >>>>>> On Fri, 2022-01-07 at 04:36 -0800, Matt Madison wrote:
+> > > > >>>>>>> On Fri, Jan 7, 2022 at 3:19 AM Richard Purdie
+> > > > >>>>>>> <richard.purdie@linuxfoundation.org> wrote:
+> > > > >>>>>>>>
+> > > > >>>>>>>> On Wed, 2021-12-15 at 12:16 -0800, Matt Madison wrote:
+> > > > >>>>>>>>> which is introducing task hash changes for some
+> > > > >>>>>>>>> allarch package builds, and should no longer
+> > > > >>>>>>>>> be needed with recent versions of qemu.
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> Signed-off-by: Matt Madison <matt@madison.systems>
+> > > > >>>>>>>>> ---
+> > > > >>>>>>>>>   meta/classes/qemu.bbclass | 2 +-
+> > > > >>>>>>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> diff --git a/meta/classes/qemu.bbclass
+> > > > b/meta/classes/qemu.bbclass
+> > > > >>>>>>>>> index 01a7b86ae1..333202b7c4 100644
+> > > > >>>>>>>>> --- a/meta/classes/qemu.bbclass
+> > > > >>>>>>>>> +++ b/meta/classes/qemu.bbclass
+> > > > >>>>>>>>> @@ -54,7 +54,7 @@ def qemu_run_binary(data, rootfs_path,
+> > > > binary):
+> > > > >>>>>>>>>   # this dance). For others (e.g. arm) a -cpu option is not
+> > > > necessary, since the
+> > > > >>>>>>>>>   # qemu-arm default CPU supports all required architecture
+> > > > levels.
+> > > > >>>>>>>>>
+> > > > >>>>>>>>> -QEMU_OPTIONS = "-r ${OLDEST_KERNEL}
+> > > > ${@d.getVar("QEMU_EXTRAOPTIONS_%s" % d.getVar('PACKAGE_ARCH')) or ""}"
+> > > > >>>>>>>>> +QEMU_OPTIONS = "${@d.getVar("QEMU_EXTRAOPTIONS_%s" %
+> > > > d.getVar('PACKAGE_ARCH')) or ""}"
+> > > > >>>>>>>>>   QEMU_OPTIONS[vardeps] +=
+> > "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
+> > > > >>>>>>>>>
+> > > > >>>>>>>>>   QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
+> > > > >>>>>>>>
+> > > > >>>>>>>> I've sent a revert for this since the commit message isn't
+> > true,
+> > > > this is causing
+> > > > >>>>>>>> autobuilder failures and there was also a user report of
+> > issues
+> > > > with it.
+> > > > >>>>>>>
+> > > > >>>>>>> Bummer.  I think this is because our OLDEST_KERNEL setting for
+> > > > aarch64
+> > > > >>>>>>> (3.14.0) is
+> > > > >>>>>>> higher than the UNAME_MINIMUM_RELEASE definition in QEMU
+> > (3.8.0).
+> > > > >>>>>>>
+> > > > >>>>>>>>
+> > > >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/4559/ste
+> > > > ps/13/logs/stdio
+> > > > >>>>>>>> (centos7 aarch64 build)
+> > > > >>>>>>>>
+> > > > >>>>>>>> We'll have to find a different way to fix the allarch issue
+> > (more
+> > > > details
+> > > > >>>>>>>> welcome on which package shows the issue).
+> > > > >>>>>>>
+> > > > >>>>>>> I ran into the issue with cantarell-fonts and wayland-
+> > protocols,
+> > > > but
+> > > > >>>>>>> any recipe that inherits both allarch and meson should trigger
+> > it.
+> > > > >>>>>>>
+> > > > >>>>>>> In my case, I have a layer check job for meta-tegra that runs
+> > > > >>>>>>> yocto-check-layer with the --machines option specifying
+> > qemux86
+> > > > and
+> > > > >>>>>>> one of the (aarch64) machines in my layer, and that was
+> > reporting
+> > > > the
+> > > > >>>>>>> signature changes between the two architectures.
+> > > > >>>>>>
+> > > > >>>>>> I wonder why we don't detect that with our standard tests? :/
+> > > > >>>>>>
+> > > > >>>>>> There may be another fix:
+> > > > >>>>>>
+> > > > >>>>>> diff --git a/meta/classes/allarch.bbclass
+> > > > b/meta/classes/allarch.bbclass
+> > > > >>>>>> index 5bd5c44a276..0aadf7bfba6 100644
+> > > > >>>>>> --- a/meta/classes/allarch.bbclass
+> > > > >>>>>> +++ b/meta/classes/allarch.bbclass
+> > > > >>>>>> @@ -43,6 +43,9 @@ python () {
+> > > > >>>>>>           d.setVar("TARGET_LDFLAGS", "none")
+> > > > >>>>>>           d.setVar("POPULATESYSROOTDEPS", "")
+> > > > >>>>>>
+> > > > >>>>>> +        if bb.data.inherits_class("meson", d):
+> > > > >>>>>> +            d.setVar("do_write_config", ":")
+> > > > >>>>>> +
+> > > > >>>>>>           # Avoid this being unnecessarily different due to
+> > nuances
+> > > > of
+> > > > >>>>>>           # the target machine that aren't important for "all"
+> > arch
+> > > > >>>>>>           # packages.
+> > > > >>>>>>
+> > > > >>>>>>
+> > > > >>>>>
+> > > > >>>>> Sorry, that isn't quite right. We want to just remove the append
+> > to
+> > > > write_config
+> > > > >>>>> which generates the qemu wrapper which will probably need a
+> > little
+> > > > more invasive
+> > > > >>>>> juggling of the code to make it easier...
+> > > > >>>>
+> > > > >>>> Your patch to disable the qemu wrapper for allarch looks like a
+> > good
+> > > > solution.
+> > > > >>>> Hopefully, that will work OK across the board.
+> > > > >>>
+> > > > >>> It seemed to be so I've merged it. Am hoping this resolves things!
+> > > > >>
+> > > > >> Drat. Unfortunately, it only works if allarch is inherited after
+> > meson
+> > > > >> (which inherits qemu).  So cantarell-fonts checks out OK,
+> > > > >> but wayland-protocols doesn't, since it inherits allarch first.
+> > > > >
+> > > > > Probably easy to fix but hard to spot new problems :/
+> > > >
+> > > > would an insane check similar to native-last be of help here?
+> > >
+> > > That seems like the wrong solution. As far as possible, bbclasses should
+> > > be designed to be able to inherit them in any order, and it should be
+> > possible
+> > > to rewrite this change so that is still possible to do.
+> >
+> > Doing so would be a bit ugly, since it's a Python function. Something like
+> >
+> >     if bb.data.inherits_class('qemu', d):
+> >         d.setVar("qemu_wrapper_cmdline", "def
+> > qemu_wrapper_cmdline(data, rootfs_path, library_paths):\n    return
+> > 'false'\n")
+> >
+> > in the anonymous python function in allarch.bbclass would do that.
+>
+> Ok, that's ugly. How about solving it in qemu.bbclass instead by doing:
+>
+> def qemu_wrapper_cmdline(data, rootfs_path, library_paths):
+>     import string
+>
+>     if bb.data.inherits_class('allarch', data):
+>         return 'false'
+
+Unfortunately, that wouldn't fix the problem, since task signatures
+are computed based on the parsed text of the function, which would
+still include the reference to the OLDEST_KERNEL variable.
+
+A somewhat less ugly approach might be to just to do:
+
+    if bb.data.inherits_class('qemu', d):
+        d.setVar('QEMU_OPTIONS', '')
+
+along with all the other variable changes in allarch.bbclass.
+
+-Matt
+
+>
+>     ...
+>
+> >
+> > -Matt
+> >
+> > >
+> > > > >
+> > > > > Cheers,
+> > > > >
+> > > > > Richard
+> > >
+> > > //Peter
+>
+> //Peter
+>
 
