@@ -1,155 +1,119 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0658C433EF
-	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:05:00 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.23930.1641765900009200763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BC2C433F5
+	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:27:54 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.23772.1641767273028350902
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:05:00 -0800
+ Sun, 09 Jan 2022 14:27:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IEWvjS9f;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id e19so3719645plc.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hQ0AN1RJ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id p18so843700wmg.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:04:59 -0800 (PST)
+ Sun, 09 Jan 2022 14:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Ssi1YGS6CogmkGD/uwzSx/Ld5cDtzrZhhFxd5+XTI/w=;
-        b=IEWvjS9fAujiRIatdj36SI+qqgGIL0Bd2RKuNt02je4EVr20EA0BQbPsYpGoNnGdFg
-         fMnX+Hr07+I9r2kcPC1vgCZshDq5pQMBK0avSV73w30N/k1e0vFKutnH90vmDlawADpC
-         qmQ297rQRYEiqI1mtlP/+yA+l7hsPWrWRPNgSdR6FBcJP2tF6kFlRqvcHFAR++KhIxGi
-         XAVZu3jTdm95l9w4byIylq56wPWCrGlo7yq0x0VFDC1WzSuSvxmU8uKCDIApkxbhmhok
-         HXDGlseiaEpo17vpM3U86zDxmw2eSdqCLGz+YULSCB4iYYYZuSXS2pQa2qitjNQyXaz8
-         ZIKA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=t+tDZWBY5+XZvBKxi76jZ4fWxOvSWJv7Ak2kSLRo+FQ=;
+        b=hQ0AN1RJo3vyjkDlDxfEvCa6bGhN694Y1DPVsuCxqUPQ+NR76wbjf1a3FYR3GK7rPa
+         TjtC7cDn7Z6JgEqw6ZcI9maG7U08uHORJdV3rTq/mfxRdGp3NpwPlI3U7jT7dW+SQllM
+         y35skEqqwzWelRWD4GKVIs3jMJL4EdZ8FXBB+cU26G2RjGKhknHxRX001E3fALwRgD4k
+         H1mh4ylwSTZpR96JOSekx4MeBakeVspOcfdrnnWZ2Npvp/1jbKE21iSOIvgSXNVXVYwr
+         MstckO+HiOdGRb4UB8u6sOZxGbP1ui9eI0jZRaQMYls/UMCz+mb2JVi7C2BreOVA6LIN
+         fV4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ssi1YGS6CogmkGD/uwzSx/Ld5cDtzrZhhFxd5+XTI/w=;
-        b=j+PWhd0V3tHRJZetfz1fHAhqzfJoZodJB6NiS34eYALsZGc95ykUWxPvdzAp8q9WcH
-         JDMz1RQnKpK48T2rEVuIY6ciBHMeAIOcp9d+hZKxDGJss6gKliXJxg24YQ94XOE+Qwh4
-         qS02QLNUX8wWzPNWsSncj9J5L6WHEcXaKvYZjTP0XJTn2GpGB/nSpMVvujph+t5LiFu5
-         1ZouFsYScXycQhKDaV2rKgMIOP4/nfy4nux9CS5zUsb3Ep7f6QlZTF3lmG4MqX8UCrd/
-         z/owzREm0Ijh3actYb4Uki4y2k+F3Cf9MUHP3l6Xo0u57+nAdgUFX4olUU0MD42LtBOH
-         n/KQ==
-X-Gm-Message-State: AOAM531FqvGr9vOHDRDfrWZNuatUPL5fG+7VwbwcEhZ50y/P+09jJDFT
-	sDwXuq4xwW9Qg3rr9NZbq0P4veda0eH4aovkeuA=
+        bh=t+tDZWBY5+XZvBKxi76jZ4fWxOvSWJv7Ak2kSLRo+FQ=;
+        b=rqmGHUuJLCS71JPwmSpUfgXjwGlyZVP4Za7sNnxluKCeuodRsU8w9TW4NK3h9qgOpN
+         D6s1H0+hAc9JmDvO8vd94YyKWsxF4DQh9R6WcrC53HP0otNBRtjqQa2vs5L+njD930hI
+         S4ol1bVzXaGhMFgdaZ/9bbabz1crObygtmfa0KTDB7Bpf4wPNIP0ZsrQ8qQMindTpEvZ
+         nIi5V82F/J0JBZJokTPQIEPBeaucW+k38IUQgRI1/x4TSFVp6U5DzfBVlJJxe3WxdfrJ
+         NWlNdd8SKw5OIEsFy7NzOY9fqzxPYh5GLLC9Q+AyADSHbA9r36r7X7WyyIx03cyeYvWO
+         WZnA==
+X-Gm-Message-State: AOAM531UMUKhSL8oKMwA/i6IASkbSglhvS3tUZMKmMONWcMP7RMdMzXV
+	+2DMVbcaqsjWju6tTGuSmCwdUc8eWrU=
 X-Google-Smtp-Source: 
- ABdhPJzJ+cRwe71v/AbcZavijPkBb7Auz1I+GLkThI6nEk5BMJixcej586mZIWa31Mxbh3LX82Kxaw==
-X-Received: by 2002:a17:902:6e01:b0:149:8800:58b7 with SMTP id
- u1-20020a1709026e0100b00149880058b7mr58325992plk.47.1641765899087;
-        Sun, 09 Jan 2022 14:04:59 -0800 (PST)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJzO8DEl4zhk1vcHAHQyqs/ZT73iLSa8nXNdG/di6VwYj4jKoKFjwlgeJ92pI47CwA9Nvl44NQ==
+X-Received: by 2002:a05:600c:510f:: with SMTP id
+ o15mr19496592wms.104.1641767271679;
+        Sun, 09 Jan 2022 14:27:51 -0800 (PST)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k10sm4426150pfi.52.2022.01.09.14.04.57
-        for <openembedded-core@lists.openembedded.org>
+ l6sm6804319wry.18.2022.01.09.14.27.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 14:04:58 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Sun, 09 Jan 2022 14:27:51 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] asciidoc: properly detect and compare Python
- versions >= 3.10
-Date: Sun,  9 Jan 2022 12:04:16 -1000
-Message-Id: 
- <da3bd5e0934b6462ae53225a58305235849b32d5.1641765639.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1641765639.git.steve@sakoman.com>
-References: <cover.1641765639.git.steve@sakoman.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 02/14] ruby: disable rdoc due to non-reproducibility
+Date: Sun,  9 Jan 2022 23:27:20 +0100
+Message-Id: <20220109222732.2252416-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220109222732.2252416-1-alex@linutronix.de>
+References: <20220109222732.2252416-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:05:00 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:27:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160303
+ https://lists.openembedded.org/g/openembedded-core/message/160305
 
-asciidoc.py cannot properly detect versions of Python >= 3.10
+The issue is reported upstream:
+https://bugs.ruby-lang.org/issues/18456
 
-Backport patch from upstream to correct this:
+Otherwise I do not feel that further investigation of rdoc's parser to find
+out the source of non-determinism is worth the time.
 
-https://github.com/asciidoc-py/asciidoc-py/commit/44d2d6095246124c024230f89c1029794491839f
-
-Fixed upstream in version 9.04, so this patch is not required in master.
-
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../asciidoc/detect-python-version.patch      | 42 +++++++++++++++++++
- .../asciidoc/asciidoc_8.6.9.bb                |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py | 3 ---
+ meta/recipes-devtools/ruby/ruby_3.0.3.bb     | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch b/meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch
-new file mode 100644
-index 0000000000..14c1cd806e
---- /dev/null
-+++ b/meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch
-@@ -0,0 +1,42 @@
-+From 44d2d6095246124c024230f89c1029794491839f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
-+Date: Fri, 30 Oct 2020 15:10:35 +0100
-+Subject: [PATCH] Properly detect and compare Python version 3.10+ (#151)
-+
-+Upstream commit: https://github.com/asciidoc-py/asciidoc-py/commit/44d2d6095246124c024230f89c1029794491839f
-+
-+Slightly modified to cleanly apply to asciidoc 8.6.9:
-+- VERSION and MIN_PYTHON_VERSION changed to reflect values in 8.6.9
-+- line numbers corrected to eliminate offset warnings
-+
-+Upstream-Status: Backport
-+Signed-off-by: Steve Sakoman <steve@sakoman.com>
-+
-+---
-+ asciidoc.py | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/asciidoc.py b/asciidoc.py
-+index f960e7d8..42868c4b 100755
-+--- a/asciidoc.py
-++++ b/asciidoc.py
-+@@ -30,7 +30,7 @@
-+ # Used by asciidocapi.py #
-+ VERSION = '8.6.10'           # See CHANGELOG file for version history.
-+ 
-+-MIN_PYTHON_VERSION = '3.4'  # Require this version of Python or better.
-++MIN_PYTHON_VERSION = (3, 4)  # Require this version of Python or better.
-+ 
-+ # ---------------------------------------------------------------------------
-+ # Program constants.
-+@@ -4704,8 +4704,8 @@ def init(self, cmd):
-+         directory.
-+         cmd is the asciidoc command or asciidoc.py path.
-+         """
-+-        if float(sys.version[:3]) < float(MIN_PYTHON_VERSION):
-+-            message.stderr('FAILED: Python %s or better required' % MIN_PYTHON_VERSION)
-++        if sys.version_info[:2] < MIN_PYTHON_VERSION:
-++            message.stderr('FAILED: Python %d.%d or better required' % MIN_PYTHON_VERSION)
-+             sys.exit(1)
-+         if not os.path.exists(cmd):
-+             message.stderr('FAILED: Missing asciidoc command: %s' % cmd)
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-index 932339f739..62738dc8d9 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 35ad0009a8..a0dc76977f 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -17,12 +17,9 @@ import stat
+ import os
+ import datetime
  
- SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=main \
--           file://auto-catalogs.patch"
-+           file://auto-catalogs.patch \
-+           file://detect-python-version.patch"
- SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
- PV .= "+py3-git${SRCPV}"
+-# ruby-ri-docs, meson:
+-#https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210215-0_td9la2/packages/diff-html/
+ # rust-llvm:
+ #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210825-kaihham6/
+ exclude_packages = [
+-	'ruby-ri-docs',
+ 	'rust-llvm-liblto',
+ 	'rust-llvm-staticdev'
+ 	]
+diff --git a/meta/recipes-devtools/ruby/ruby_3.0.3.bb b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
+index 95feb94dd4..5cf0625101 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.0.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
+@@ -21,6 +21,9 @@ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
+ PACKAGECONFIG[gmp] = "--with-gmp=yes, --with-gmp=no, gmp"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
++# rdoc is off by default due to non-reproducibility reported in
++# https://bugs.ruby-lang.org/issues/18456
++PACKAGECONFIG[rdoc] = "--enable-install-rdoc,--disable-install-rdoc,"
  
+ EXTRA_OECONF = "\
+     --disable-versioned-paths \
 -- 
-2.25.1
+2.20.1
 
 
