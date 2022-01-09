@@ -2,61 +2,65 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCD2C433EF
-	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:27:56 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.23774.1641767275951772738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB81C4332F
+	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:27:57 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.23775.1641767276508418069
  for <openembedded-core@lists.openembedded.org>;
  Sun, 09 Jan 2022 14:27:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PP9zMc2u;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lyg0roi2;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id l10so23331664wrh.7
+Received: by mail-wm1-f54.google.com with SMTP id
+ 18-20020a05600c22d200b00347d3a13c7cso3682710wmg.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:27:55 -0800 (PST)
+ Sun, 09 Jan 2022 14:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WdyzQWrisC+GVcswflsasZsRy7zvAfiyx1iZP2PgFTA=;
-        b=PP9zMc2uSOMjUfMirY1kyIdJ0H3KIrApiBCfJI1HRDD/Gp3V25jBct1nDeAmoAFQM/
-         hg4sUIRLpFgOGIsJ/oh+wHffTbCFbuSStlRIwECEXYllb8yiJgDN5FNG5JqqhmHq0WZl
-         DgHuWlG+CkqmIxG/WENjyX01pUzdySnjjELBtToVkC/lmT0sxj2Gv2ScfkSVlD+2cgxb
-         Q6s+n2uOtjMVR2XreGpVPSsImH/NO/5A5QKov7XqGC0QGQRZeHnKjN06iQ6MQ4gGRjyN
-         EansMB1UrIKbhp7lIpa9Bf/pquhQHc5JX9qobSw/LqK9cebnTOZCqoWPagjnf8d/vQTn
-         Yo/g==
+        bh=DPhmsxy5YZ7FdAFZXOY8ExlmTQJYEaaZ/QNrLY03sLc=;
+        b=Lyg0roi2ZRLFvPSy1MNY35bQ6YgGudALBA4lc+XNtnu8GkWnim0QDUB0JmlynfFvP6
+         IS53JqKYULWCN4JDomDOZpITEwMwMpU+TUlYmLmOD0MzinYhH9qvzPkl31aDVsS4FoOy
+         TDOsRPHlW7hncWp8Jx8DUAXDRSPuiaUvzY9Fbs+z6kE/AH0pEk7SC8vyNfeIEu1o14yJ
+         ZJKYlxe4NKng3t10dD3Z1k1IqPLrUSKgNmsklCQAAFqKzbcLQEIZfYAx18IGgGScEZS+
+         RbihPXNio68T5OUq74L30mKgi/+9bdvyKWd4sCJmj4BK01xDp+ofFB8p5qa2/HxKZhVm
+         EtKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WdyzQWrisC+GVcswflsasZsRy7zvAfiyx1iZP2PgFTA=;
-        b=f98odkgGwTGJXIiMUQAbmcHhzDC5OGIy3g28DiS24Z8xsWKfdaAgfRwoJ+QwYuh8ah
-         AsW2VyQ6uNvUGDHab76kYEdH+/+0gpq0ev3Lx/TKYSrWGJWdrx8BNtoYmuQ/PvEREzbY
-         3JAsZxcCciN3UkzktCM7wNuTtB/6lYcF4Tx+qFbvlOT6VhDJm14pq/fQNXdJb1MzBb+b
-         i+vGwSIM2w0LcflOC4G0nvH1eJ7gD2sfgXuqHQnz/iwMW6JSgFPKXRfxDNvxJBB+12D9
-         ZrUc6zObW9TNYNnd1LqNR/kpDExMHbzgDvzEPUXOCS09301A6xWfFwWs2vXl95hL7Cwm
-         oOKQ==
-X-Gm-Message-State: AOAM533OmQnjKSKiUvH5EkTHOzL8DLFFzogDE5EHlJ7tCdvp+WznJF3t
-	lrpQ+RwrcHfHu2svB37X3fSx+r/yoPo=
+        bh=DPhmsxy5YZ7FdAFZXOY8ExlmTQJYEaaZ/QNrLY03sLc=;
+        b=yfIO4ScssbxD0GDChdmFu6qK5+yGfxmyITHHWdjHK9DKGTxOppmyYSs5Inf6izrtrk
+         RgFP/+QUZ3Ahj5eeI740nc3rKHFYhU2t42wf9/5EtJhx1f0DkXkOBMq1EBb0bT0ejyOF
+         IDLfiNH+oj875lo85J0V4pzSp+lc/2vrqvoEWraWocdslQqLnSAtKY6tPnBtRj+eKxan
+         1IJ4JwGH6ERObVhOahaIafRyeFOzvcDZQZ2oBQnmHAYsv5UGlXg0+WtKEluUW4KTuxHk
+         8ZT5RTCGCK1cTJ4Ioc3tpPYw8otvkvMJ15KZrFyzYVY4HDig3+wfYr4pFZWn1nC6mN3F
+         vXdA==
+X-Gm-Message-State: AOAM530oOpDBXsKAJN5re/iSctHU2Qja6GfMNJjcMfT7mkoMNfz483No
+	yFgD5F0fsEkuTJ7LBDWnozPS7DB55tQ=
 X-Google-Smtp-Source: 
- ABdhPJzuPeEA/DwRcvnTG1qXOVA2YkKW8Z7fvLvt69CwrYK1cG/28PdmiHHa2zkjovbkGfDDIWUUaw==
-X-Received: by 2002:adf:f789:: with SMTP id q9mr120175wrp.200.1641767274431;
-        Sun, 09 Jan 2022 14:27:54 -0800 (PST)
+ ABdhPJybe0+dwTlcBB5abN3HRuD204E+CZYGhzjWzxfwNrNX0wPCTyWsm4sReWdnYOYsI4b+G0Uq9A==
+X-Received: by 2002:a05:600c:3b19:: with SMTP id
+ m25mr19462597wms.100.1641767275150;
+        Sun, 09 Jan 2022 14:27:55 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- l6sm6804319wry.18.2022.01.09.14.27.53
+ l6sm6804319wry.18.2022.01.09.14.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 09 Jan 2022 14:27:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/14] python3-numpy: update 1.21.4 -> 1.22.0
-Date: Sun,  9 Jan 2022 23:27:24 +0100
-Message-Id: <20220109222732.2252416-6-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Khem Raj <raj.khem@gmail.com>,
+	"Maxin B . John" <maxin.john@intel.com>
+Subject: [PATCH 07/14] mdadm: update 4.1 -> 4.2
+Date: Sun,  9 Jan 2022 23:27:25 +0100
+Message-Id: <20220109222732.2252416-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220109222732.2252416-1-alex@linutronix.de>
 References: <20220109222732.2252416-1-alex@linutronix.de>
@@ -65,149 +69,198 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:27:56 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:27:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160309
+ https://lists.openembedded.org/g/openembedded-core/message/160310
+
+Drop 0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+(upstream refactored code)
+mdadm-fix-ptest-build-errors.patch
+(upstream fixed the issue)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...1-numpy-core-Define-RISCV-32-support.patch | 40 ++++++++-----------
- ...y-core-setup.py-disable-svml-for-now.patch | 29 ++++++++++++++
- ...umpy_1.21.5.bb => python3-numpy_1.22.0.bb} |  5 ++-
- 3 files changed, 49 insertions(+), 25 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
- rename meta/recipes-devtools/python/{python3-numpy_1.21.5.bb => python3-numpy_1.22.0.bb} (92%)
+ .../recipes-test/images/oe-selftest-image.bb  |  3 +-
+ ...abs-diff-in-a-standard-compliant-way.patch | 31 -------------
+ .../mdadm/files/debian-no-Werror.patch        | 19 +++++---
+ .../files/mdadm-fix-ptest-build-errors.patch  | 43 -------------------
+ .../mdadm/{mdadm_4.1.bb => mdadm_4.2.bb}      |  7 ++-
+ 5 files changed, 17 insertions(+), 86 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
+ rename meta/recipes-extended/mdadm/{mdadm_4.1.bb => mdadm_4.2.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-index b60ca1d216..676bdbb3af 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-@@ -1,4 +1,4 @@
--From dbcf296f84e5cef6a3ff0f1c469a4508f1e0fb15 Mon Sep 17 00:00:00 2001
-+From eb6d6579150bf4684603ce377c51e90ad3bb8109 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 15 Nov 2020 15:32:39 -0800
- Subject: [PATCH] numpy/core: Define RISCV-32 support
-@@ -8,39 +8,33 @@ Helps compile on riscv32
- Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+diff --git a/meta-selftest/recipes-test/images/oe-selftest-image.bb b/meta-selftest/recipes-test/images/oe-selftest-image.bb
+index 5d4d10eef6..e295943ae5 100644
+--- a/meta-selftest/recipes-test/images/oe-selftest-image.bb
++++ b/meta-selftest/recipes-test/images/oe-selftest-image.bb
+@@ -1,6 +1,7 @@
+ SUMMARY = "An image used during oe-selftest tests"
+ 
+-IMAGE_INSTALL = "packagegroup-core-boot dropbear"
++# libudev is needed for deploy mdadm via devtool
++IMAGE_INSTALL = "packagegroup-core-boot dropbear libudev"
+ IMAGE_FEATURES = "debug-tweaks"
+ 
+ IMAGE_LINGUAS = " "
+diff --git a/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch b/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
+deleted file mode 100644
+index 803a59b3ec..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-Compute-abs-diff-in-a-standard-compliant-way.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From b273e892bd6aaafe448f84356abb78a6d463e784 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 7 Dec 2018 17:22:39 -0800
+-Subject: [PATCH] Compute abs diff in a standard compliant way
+-
+-This make it a bit less implementation defined and silences clang
+-warning -Wabsolute-value
+-
+-| super-intel.c:2822:20: error: taking the absolute value of unsigned type 'unsi
+-gned long long' has no effect [-Werror,-Wabsolute-value]
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- super-intel.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/super-intel.c b/super-intel.c
+-index 6438987..10d7218 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -2819,7 +2819,7 @@ static unsigned long long calc_component_size(struct imsm_map *map,
+- 	 * 2048 blocks per each device. If the difference is higher it means
+- 	 * that array size was expanded and num_data_stripes was not updated.
+- 	 */
+--	if ((unsigned int)abs(calc_dev_size - dev_size) >
+-+	if ((unsigned int)abs((int)calc_dev_size - (int)dev_size) >
+- 	    (1 << SECT_PER_MB_SHIFT) * member_disks) {
+- 		component_size = dev_size / member_disks;
+- 		dprintf("Invalid num_data_stripes in metadata; expected=%llu, found=%llu\n",
+diff --git a/meta/recipes-extended/mdadm/files/debian-no-Werror.patch b/meta/recipes-extended/mdadm/files/debian-no-Werror.patch
+index e66a15cd79..fa90647489 100644
+--- a/meta/recipes-extended/mdadm/files/debian-no-Werror.patch
++++ b/meta/recipes-extended/mdadm/files/debian-no-Werror.patch
+@@ -1,5 +1,7 @@
+-From: martin f. krafft <madduck@debian.org>
+-Subject: Remove -Werror from compiler flags
++From adb75f0bdec97dbe4aa15cc988d349775f7995ff Mon Sep 17 00:00:00 2001
++From: "martin f. krafft" <madduck@debian.org>
++Date: Mon, 3 Jan 2022 19:14:12 +0000
++Subject: [PATCH] Remove -Werror from compiler flags
+ 
+ -Werror seems like a bad idea on released/packaged code because a toolchain
+ update (introducing new warnings) could break the build. We'll let upstream
+@@ -8,15 +10,18 @@ use it to beautify the code, but remove it for out builds.
+ Signed-off-by: martin f. krafft <madduck@debian.org>
+ 
+ Upstream-Status: Pending
++
  ---
-- numpy/core/include/numpy/npy_cpu.h    | 9 +++++++--
-+ numpy/core/include/numpy/npy_cpu.h    | 3 +++
-  numpy/core/include/numpy/npy_endian.h | 1 +
-- 2 files changed, 8 insertions(+), 2 deletions(-)
-+ 2 files changed, 4 insertions(+)
- 
- diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
--index 4dbf9d84e..bc41a7eda 100644
-+index 78d229e..04be511 100644
- --- a/numpy/core/include/numpy/npy_cpu.h
- +++ b/numpy/core/include/numpy/npy_cpu.h
--@@ -18,6 +18,7 @@
--  *              NPY_CPU_ARCEL
-+@@ -19,6 +19,7 @@
-   *              NPY_CPU_ARCEB
-   *              NPY_CPU_RISCV64
-+  *              NPY_CPU_LOONGARCH
- + *              NPY_CPU_RISCV32
-   *              NPY_CPU_WASM
-   */
-- #ifndef _NPY_CPUARCH_H_
--@@ -100,8 +101,12 @@
--     #define NPY_CPU_ARCEL
-- #elif defined(__arc__) && defined(__BIG_ENDIAN__)
-+ #ifndef NUMPY_CORE_INCLUDE_NUMPY_NPY_CPU_H_
-+@@ -104,6 +105,8 @@
-      #define NPY_CPU_ARCEB
---#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
---    #define NPY_CPU_RISCV64
--+#elif defined(__riscv)
--+    #if __riscv_xlen == 64
--+	#define NPY_CPU_RISCV64
--+    #elif __riscv_xlen == 32
--+	#define NPY_CPU_RISCV32
--+    #endif
-+ #elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 64
-+     #define NPY_CPU_RISCV64
-++#elif defined(__riscv) && defined(__riscv_xlen) && __riscv_xlen == 32
-++    #define NPY_CPU_RISCV32
-+ #elif defined(__loongarch__)
-+     #define NPY_CPU_LOONGARCH
-  #elif defined(__EMSCRIPTEN__)
--     /* __EMSCRIPTEN__ is defined by emscripten: an LLVM-to-Web compiler */
--     #define NPY_CPU_WASM
- diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
--index aa367a002..d59484573 100644
-+index 5e58a7f..0926212 100644
- --- a/numpy/core/include/numpy/npy_endian.h
- +++ b/numpy/core/include/numpy/npy_endian.h
- @@ -49,6 +49,7 @@
-@@ -48,9 +42,9 @@ index aa367a002..d59484573 100644
-              || defined(NPY_CPU_ARCEL)         \
-              || defined(NPY_CPU_RISCV64)       \
- +            || defined(NPY_CPU_RISCV32)       \
-+             || defined(NPY_CPU_LOONGARCH)     \
-              || defined(NPY_CPU_WASM)
-          #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
--     #elif defined(NPY_CPU_PPC)                \
- -- 
--2.29.2
-+2.20.1
- 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
-new file mode 100644
-index 0000000000..66e322116a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
-@@ -0,0 +1,29 @@
-+From 0f0601e79f9ce7614d157284523e6cd8af2259d5 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 5 Jan 2022 12:12:47 +0100
-+Subject: [PATCH] numpy/core/setup.py: disable svml for now
-+
-+The check really doesn't work in cross compiling,
-+as it is using host python to see what arch we're
-+building on. Issue reported upstream:
-+https://github.com/numpy/numpy/issues/20736
-+
-+Upstream-Status: Inappropriate [needs upstream fix]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ numpy/core/setup.py | 2 +-
+- Makefile |    2 +-
+- 1 files changed, 1 insertions(+), 1 deletions(-)
++ Makefile | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/numpy/core/setup.py b/numpy/core/setup.py
-+index a5f423d..945f2dd 100644
-+--- a/numpy/core/setup.py
-++++ b/numpy/core/setup.py
-+@@ -70,7 +70,7 @@ def can_link_svml():
-+     """
-+     machine = platform.machine()
-+     system = platform.system()
-+-    return "x86_64" in machine and system == "Linux"
-++    return False
-+ 
-+ def check_svml_submodule(svmlpath):
-+     if not os.path.exists(svmlpath + "/README.md"):
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.21.5.bb b/meta/recipes-devtools/python/python3-numpy_1.22.0.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-numpy_1.21.5.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.22.0.bb
-index bdf99b492b..556e2dd5c9 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.21.5.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.22.0.bb
-@@ -11,8 +11,9 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
--"
--SRC_URI[sha256sum] = "1a7ee0ffb35dc7489aebe5185a483f4c43b0d2cf784c3c9940f975a7dde56506"
-+           file://0001-numpy-core-setup.py-disable-svml-for-now.patch \
-+           "
-+SRC_URI[sha256sum] = "f2be14ba396780a6f662b8ba1a24466c9cf18a6a386174f614668e58387a13d7"
  
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
++diff --git a/Makefile b/Makefile
++index 716c97c..40354ea 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -48,7 +48,7 @@ endif
+- 
+- CC ?= $(CROSS_COMPILE)gcc
++@@ -50,7 +50,7 @@ ifeq ($(origin CC),default)
++ CC := $(CROSS_COMPILE)gcc
++ endif
+  CXFLAGS ?= -ggdb
+ -CWFLAGS = -Wall -Werror -Wstrict-prototypes -Wextra -Wno-unused-parameter
+ +CWFLAGS = -Wall -Wstrict-prototypes -Wextra -Wno-unused-parameter
+diff --git a/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch b/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
+deleted file mode 100644
+index 8e2a8a9043..0000000000
+--- a/meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 911f6ea9be0c334885aeff66853b111cbd4066df Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Wed, 10 Feb 2016 17:28:05 +0200
+-Subject: [PATCH] mdadm-fix-ptest-build-errors
+-
+-builds fail with ptest enabled:
+-
+-| restripe.c: In function 'test_stripes':
+-| restripe.c:845:4: error: ignoring return value of 'read', declared with
+-| attribute warn_unused_result [-Werror=unused-result]
+-|     read(source[i], stripes[i], chunk_size);
+-|     ^
+-| cc1: all warnings being treated as errors
+-| Makefile:214: recipe for target 'test_stripe' failed
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+-
+----
+- restripe.c | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/restripe.c b/restripe.c
+-index 31b07e8..592ba5d 100644
+---- a/restripe.c
+-+++ b/restripe.c
+-@@ -864,10 +864,14 @@ int test_stripes(int *source, unsigned long long *offsets,
+- 
+- 	while (length > 0) {
+- 		int disk;
+-+        ssize_t ret;
+- 
+- 		for (i = 0 ; i < raid_disks ; i++) {
+- 			lseek64(source[i], offsets[i]+start, 0);
+--			read(source[i], stripes[i], chunk_size);
+-+			ret = read(source[i], stripes[i], chunk_size);
+-+            if (ret == -1) {
+-+			  printf("Read Failed\n");
+-+            }
+- 		}
+- 		for (i = 0 ; i < data_disks ; i++) {
+- 			int disk = geo_map(i, start/chunk_size, raid_disks,
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+similarity index 93%
+rename from meta/recipes-extended/mdadm/mdadm_4.1.bb
+rename to meta/recipes-extended/mdadm/mdadm_4.2.bb
+index 35535aef86..fa51364283 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -12,11 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
+-           file://mdadm-fix-ptest-build-errors.patch \
+            file://0001-mdadm.h-Undefine-dprintf-before-redefining.patch \
+            file://0001-Fix-the-path-of-corosync-and-dlm-header-files-check.patch \
+            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
+-           file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
+            file://0001-fix-gcc-8-format-truncation-warning.patch \
+            file://debian-no-Werror.patch \
+            file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
+@@ -26,11 +24,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-mdadm-skip-test-11spare-migration.patch \
+            "
+ 
+-SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+-SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
++SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
+ 
+ inherit autotools-brokensep ptest systemd
+ 
++DEPENDS = "udev"
++
+ SYSTEMD_SERVICE:${PN} = "mdmonitor.service"
+ SYSTEMD_AUTO_ENABLE = "disable"
+ 
 -- 
 2.20.1
 
