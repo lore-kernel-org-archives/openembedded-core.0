@@ -2,61 +2,65 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01050C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01CBBC43217
 	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:27:56 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.24046.1641767275282124777
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web12.23874.1641767274475582804
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:27:55 -0800
+ Sun, 09 Jan 2022 14:27:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EiR6oE2V;
- spf=pass (domain: gmail.com, ip: 209.85.221.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DRupfDND;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id l10so23331650wrh.7
+Received: by mail-wm1-f49.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso8222062wmj.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:27:55 -0800 (PST)
+ Sun, 09 Jan 2022 14:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6YPfigs8NsHx4706gHVReR+N4Es/1xB+JYB775pGhZs=;
-        b=EiR6oE2VqYSFldtEh+j9XUMStw9KhBE14vZCgSNGefg+Kkaw7v0zyQCg0x50tdDjRb
-         1p2TjgqSrF5+QADTJ3ASnKDKR+0KGiBySbNVhPZ3XflVgtwnj2uTdil19FrQ1pYy/cT5
-         vJEQjOQTAkgHOE2ky5KioTjq1tkq9Pz+EQsHfoYveXOvev1FZIy8UacbFvyl0qxW8yKB
-         b3BdqOQ7gUIWL0jHD3+I/WBIDef3z5azzrNwfPL+WBvUbVYWNuMfBcBeSEDGHdjeztTq
-         2k8qXho5sw6R580io4mB9kBpCWQnI6Fm3v5EZ1biiWrOoThKu0yztAAOk1J3+6j/Y2Ja
-         oyKg==
+        bh=a876aILdw9evGi/2FoLYQh0QXclYIoBa+Oc7808gI5k=;
+        b=DRupfDNDtFs9wDP0Uj9Jzd0RwOkZXCdg6+Rt7AcjUoY138axMVQrGuXgE+Kppun9uH
+         qK8OsRuQRzL9dioViJ1vn/tFoJYgzxLvp0mY0UTFq4Adhn9uxOanhmX0RUPSLdn2uOwk
+         ViO/l5/fCTOQ9bqaGlWgZRqTfBlfymtLokX+/8wa0YYJXm4Ap1ziziNzrLXiotFD3tpp
+         JoiYVgKF6tUqFSn8AM+28Cb2aFx0GlJGf+4E8HAiGarTadfr18ZiPnrOfm86gWpYSTVF
+         HVOWPajBsNrpeaSsb8T4ONPfCJJ84fa0gNZTiWOeACveAvjoZbjuqd8MuwjZ8mPy0nTU
+         nIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6YPfigs8NsHx4706gHVReR+N4Es/1xB+JYB775pGhZs=;
-        b=W0LuYtoQhqwo4V3kKSK/syAxYwIf8cdgGQWfZftp/DSw5g6dyX0sCHl2TRevUtwNZx
-         wiqXUj6hTPRCm/d0cRl76Rmuwgt9Q2KD0TnTB6KE1VBCtnOVTqM1A3aQkn+BttfsqSxw
-         wiyC4XhqKPVba9zZiL0qP+6Eqla/qB1f4J9tYdEMroIv5CQzNcsMxxA7ZCIZNNjRkogC
-         5uTJZ64Vf8xpUe37QYY8LxfhWM0nDR2qZMEM2/ero/P/FNNSLhhJkh1hiOkd8ww6PU+c
-         iXpz16g8/n1eoh/xCvICddAAA3coorjXmFwpqP/kIZggd+k1tl5XfdNt1dvdyON5sTnT
-         zWHA==
-X-Gm-Message-State: AOAM532LxRR8w7QFxhxueH2cA7CvHxFuSvhEWUjUr8S5opt3Q8khGx3K
-	EaBJpgqUI0OMRZvlqUkh1cd41xl8SxE=
+        bh=a876aILdw9evGi/2FoLYQh0QXclYIoBa+Oc7808gI5k=;
+        b=NokostiPneoEHCCxZFv7YDJzCmttMkbTRtnkoL3F/sNLZO6+tzCHvmWNP8qosHQnyi
+         HeP67m0DVK7gAqjrExgJawixesJOJgJkeysqQdXsmyCkQ0H3QmTnK7iWFW44Z53fEeUO
+         h+rGx6U9A8EUS7VbRecsRviAo5wz9u2jyehB9kI4ME0gzU8YTAVq31l1zdZqrb37hnbU
+         kl7gUzix8jX65whYwGf4xLwc9Cjl5Dbwk/aPDM6Xqn4Kj5q2vzy/7djPvel30JucXVZY
+         pivdCzqwem4Gi2xXxjZsQcsW2aKGn+j89Kdge70HVXQRB4tcBbyg6hyA3J7QFYtX6C/D
+         eMEQ==
+X-Gm-Message-State: AOAM532APbZVw+AYBJFShD4IGTXs9IN8Zkp87Ysuf1l896r1G47czAXe
+	r1RvXkUxa2RuUb/xVI9NdIj5DU8Ykzs=
 X-Google-Smtp-Source: 
- ABdhPJyjM6HraUHlRaBMnUciuG5X6qlr61987b/qX9Efbtw+RFj01RX9GiqpR7ma0PsJOIf6i6KxRA==
-X-Received: by 2002:a5d:5608:: with SMTP id l8mr52039606wrv.587.1641767273692;
+ ABdhPJxq0tKEkG8r0HvfHERnLIZ3LCNRwCVVzvB8DdMtjTXAwWlrCpHOVHOcnoCR+ywwUoHrhPAy3A==
+X-Received: by 2002:a7b:c08c:: with SMTP id
+ r12mr19835905wmh.161.1641767273059;
         Sun, 09 Jan 2022 14:27:53 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- l6sm6804319wry.18.2022.01.09.14.27.53
+ l6sm6804319wry.18.2022.01.09.14.27.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 14:27:53 -0800 (PST)
+        Sun, 09 Jan 2022 14:27:52 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/14] systemd: update 249.7 -> 250.1
-Date: Sun,  9 Jan 2022 23:27:23 +0100
-Message-Id: <20220109222732.2252416-5-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Andrej Valek <andrej.valek@siemens.com>,
+	Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 04/14] busybox: update 1.34.1 -> 1.35.0
+Date: Sun,  9 Jan 2022 23:27:22 +0100
+Message-Id: <20220109222732.2252416-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220109222732.2252416-1-alex@linutronix.de>
 References: <20220109222732.2252416-1-alex@linutronix.de>
@@ -67,163 +71,173 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:27:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160308
+ https://lists.openembedded.org/g/openembedded-core/message/160307
+
+Drop upstreamed patch.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...stemd-boot_249.7.bb => systemd-boot_250.1.bb} |  2 +-
- meta/recipes-core/systemd/systemd.inc            |  4 ++--
- ...install-dependency-links-at-install-tim.patch | 16 ++++++++--------
- ...01-test-parse-argument-Include-signal.h.patch | 14 ++++++--------
- .../{systemd_249.7.bb => systemd_250.1.bb}       |  1 +
- 5 files changed, 18 insertions(+), 19 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_249.7.bb => systemd-boot_250.1.bb} (98%)
- rename meta/recipes-core/systemd/{systemd_249.7.bb => systemd_250.1.bb} (99%)
+ .../0001-mktemp-add-tmpdir-option.patch       | 81 -------------------
+ .../busybox/busybox/fail_on_no_media.patch    | 28 ++++---
+ .../{busybox_1.34.1.bb => busybox_1.35.0.bb}  |  3 +-
+ 3 files changed, 19 insertions(+), 93 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+ rename meta/recipes-core/busybox/{busybox_1.34.1.bb => busybox_1.35.0.bb} (93%)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_249.7.bb b/meta/recipes-core/systemd/systemd-boot_250.1.bb
-similarity index 98%
-rename from meta/recipes-core/systemd/systemd-boot_249.7.bb
-rename to meta/recipes-core/systemd/systemd-boot_250.1.bb
-index b3d4e31e08..23a64bf30d 100644
---- a/meta/recipes-core/systemd/systemd-boot_249.7.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_250.1.bb
-@@ -20,7 +20,7 @@ EOF
- }
- 
- # need to use ${HOST_PREFIX} here, otherwise ld.bfd could be used from HOSTTOOLS_NONFATAL
--EFI_LD = "${HOST_PREFIX}ld.bfd"
-+EFI_LD = "bfd"
- 
- EXTRA_OEMESON += "-Defi=true \
-                   -Dgnu-efi=true \
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index b77f847abd..e416f8d64b 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,8 +14,8 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "d4406e94a32d423d8a73deb7757fb09890afe2c4"
--SRCBRANCH = "v249-stable"
-+SRCREV = "402280118fe082122437638f53a0019c4aea81aa"
-+SRCBRANCH = "v250-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
- "
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-index d3af734e06..330ad492ba 100644
---- a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-@@ -1,4 +1,4 @@
--From 08cd165f5db0e68a499b80c4b1744a4206948259 Mon Sep 17 00:00:00 2001
-+From f9974d7dc289551bfbf823b716fd32b43c54e465 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 21 Feb 2019 16:23:24 +0800
- Subject: [PATCH] binfmt: Don't install dependency links at install time for
-@@ -26,10 +26,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-  3 files changed, 9 insertions(+), 4 deletions(-)
- 
- diff --git a/units/meson.build b/units/meson.build
--index 17e9ead9c1..e5502be620 100644
-+index a9bf28f6d9..11d3644168 100644
- --- a/units/meson.build
- +++ b/units/meson.build
--@@ -59,8 +59,7 @@ units = [
-+@@ -63,8 +63,7 @@ units = [
-          ['poweroff.target',                     '',
-           (with_runlevels ? 'runlevel0.target' : '')],
-          ['printer.target',                      ''],
-@@ -39,14 +39,14 @@ index 17e9ead9c1..e5502be620 100644
-          ['proc-sys-fs-binfmt_misc.mount',       'ENABLE_BINFMT'],
-          ['reboot.target',                       '',
-           'ctrl-alt-del.target' + (with_runlevels ? ' runlevel6.target' : '')],
--@@ -178,8 +177,7 @@ in_units = [
-+@@ -184,8 +183,7 @@ in_units = [
-          ['rescue.service',                       ''],
-          ['serial-getty@.service',                ''],
-          ['systemd-backlight@.service',           'ENABLE_BACKLIGHT'],
- -        ['systemd-binfmt.service',               'ENABLE_BINFMT',
- -         'sysinit.target.wants/'],
- +        ['systemd-binfmt.service',               'ENABLE_BINFMT'],
--         ['systemd-bless-boot.service',           'ENABLE_EFI HAVE_BLKID'],
-+         ['systemd-bless-boot.service',           'HAVE_GNU_EFI HAVE_BLKID'],
-          ['systemd-boot-check-no-failures.service', ''],
-          ['systemd-coredump@.service',            'ENABLE_COREDUMP'],
- diff --git a/units/proc-sys-fs-binfmt_misc.automount b/units/proc-sys-fs-binfmt_misc.automount
-@@ -61,7 +61,7 @@ index 172c8757ab..f65d8930c6 100644
- +[Install]
- +WantedBy=sysinit.target
- diff --git a/units/systemd-binfmt.service.in b/units/systemd-binfmt.service.in
--index fdafce7ff7..4efc05e495 100644
-+index 96f595ad72..7c010bb224 100644
- --- a/units/systemd-binfmt.service.in
- +++ b/units/systemd-binfmt.service.in
- @@ -14,6 +14,7 @@ Documentation=https://www.kernel.org/doc/html/latest/admin-guide/binfmt-misc.htm
-@@ -71,8 +71,8 @@ index fdafce7ff7..4efc05e495 100644
- +Wants=proc-sys-fs-binfmt_misc.automount
-  After=proc-sys-fs-binfmt_misc.automount
-  After=proc-sys-fs-binfmt_misc.mount
-- Before=sysinit.target shutdown.target
--@@ -30,3 +31,6 @@ RemainAfterExit=yes
-+ After=local-fs.target
-+@@ -31,3 +32,6 @@ RemainAfterExit=yes
-  ExecStart={{ROOTLIBEXECDIR}}/systemd-binfmt
-  ExecStop={{ROOTLIBEXECDIR}}/systemd-binfmt --unregister
-  TimeoutSec=90s
-diff --git a/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch b/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
-index 3af1daac9c..898e8af904 100644
---- a/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
-@@ -1,4 +1,4 @@
--From 1adde6721ead386ccee6efe48038d6944b96319a Mon Sep 17 00:00:00 2001
-+From 93c7e482d39cf7765974b3c729d29c1b120a60e3 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 24 May 2021 18:26:27 -0700
- Subject: [PATCH] test-parse-argument: Include signal.h
-@@ -8,22 +8,20 @@ src/test/test-parse-argument.c:49:29: error: use of undeclared identifier 'SIGAB
- 
- Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/19718]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  src/test/test-parse-argument.c | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/src/test/test-parse-argument.c b/src/test/test-parse-argument.c
--index 4081a9f25a..820d69f092 100644
-+index cf3d54288a..15104e5282 100644
- --- a/src/test/test-parse-argument.c
- +++ b/src/test/test-parse-argument.c
--@@ -3,6 +3,7 @@
-+@@ -5,6 +5,7 @@
-  #include "parse-argument.h"
-  #include "stdio-util.h"
-  #include "tests.h"
- +#include <signal.h>
-  
-- static void test_parse_json_argument(void) {
--         log_info("/* %s */", __func__);
---- 
--2.31.1
+diff --git a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+deleted file mode 100644
+index 4a1960dff2..0000000000
+--- a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From ceb378209f953ea745ed93a8645567196380ce3c Mon Sep 17 00:00:00 2001
+-From: Andrej Valek <andrej.valek@siemens.com>
+-Date: Thu, 24 Jun 2021 19:13:22 +0200
+-Subject: [PATCH] mktemp: add tmpdir option
 -
-+ TEST(parse_json_argument) {
-+         JsonFormatFlags flags = JSON_FORMAT_PRETTY;
-diff --git a/meta/recipes-core/systemd/systemd_249.7.bb b/meta/recipes-core/systemd/systemd_250.1.bb
-similarity index 99%
-rename from meta/recipes-core/systemd/systemd_249.7.bb
-rename to meta/recipes-core/systemd/systemd_250.1.bb
-index 53e7f6738d..b05905b764 100644
---- a/meta/recipes-core/systemd/systemd_249.7.bb
-+++ b/meta/recipes-core/systemd/systemd_250.1.bb
-@@ -688,6 +688,7 @@ FILES:udev += "${base_sbindir}/udevd \
-                ${rootlibexecdir}/udev/rules.d/60-serial.rules \
-                ${rootlibexecdir}/udev/rules.d/61-autosuspend-manual.rules \
-                ${rootlibexecdir}/udev/rules.d/64-btrfs.rules \
-+               ${rootlibexecdir}/udev/rules.d/70-camera.rules \
-                ${rootlibexecdir}/udev/rules.d/70-joystick.rules \
-                ${rootlibexecdir}/udev/rules.d/70-memory.rules \
-                ${rootlibexecdir}/udev/rules.d/70-mouse.rules \
+-Make mktemp more compatible with coreutils.
+-- add "--tmpdir" option
+-- add long variants for "d,q,u" options
+-
+-Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2021-June/088932.html]
+-
+-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- coreutils/mktemp.c | 26 ++++++++++++++++++--------
+- 1 file changed, 18 insertions(+), 8 deletions(-)
+-
+-diff --git a/coreutils/mktemp.c b/coreutils/mktemp.c
+-index 5393320a5..05c6d98c6 100644
+---- a/coreutils/mktemp.c
+-+++ b/coreutils/mktemp.c
+-@@ -39,16 +39,17 @@
+- //kbuild:lib-$(CONFIG_MKTEMP) += mktemp.o
+- 
+- //usage:#define mktemp_trivial_usage
+--//usage:       "[-dt] [-p DIR] [TEMPLATE]"
+-+//usage:       "[-dt] [-p DIR, --tmpdir[=DIR]] [TEMPLATE]"
+- //usage:#define mktemp_full_usage "\n\n"
+- //usage:       "Create a temporary file with name based on TEMPLATE and print its name.\n"
+- //usage:       "TEMPLATE must end with XXXXXX (e.g. [/dir/]nameXXXXXX).\n"
+- //usage:       "Without TEMPLATE, -t tmp.XXXXXX is assumed.\n"
+--//usage:     "\n	-d	Make directory, not file"
+--//usage:     "\n	-q	Fail silently on errors"
+--//usage:     "\n	-t	Prepend base directory name to TEMPLATE"
+--//usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
+--//usage:     "\n	-u	Do not create anything; print a name"
+-+//usage:     "\n	-d			Make directory, not file"
+-+//usage:     "\n	-q			Fail silently on errors"
+-+//usage:     "\n	-t			Prepend base directory name to TEMPLATE"
+-+//usage:     "\n	-p DIR, --tmpdir[=DIR]	Use DIR as a base directory (implies -t)"
+-+//usage:     "\n				For --tmpdir is a optional one."
+-+//usage:     "\n	-u			Do not create anything; print a name"
+- //usage:     "\n"
+- //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
+- //usage:
+-@@ -72,13 +73,22 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+- 		OPT_t = 1 << 2,
+- 		OPT_p = 1 << 3,
+- 		OPT_u = 1 << 4,
+-+		OPT_td = 1 << 5,
+- 	};
+- 
+- 	path = getenv("TMPDIR");
+- 	if (!path || path[0] == '\0')
+- 		path = "/tmp";
+- 
+--	opts = getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
+-+	opts = getopt32long(argv, "^"
+-+	       "dqtp:u\0"
+-+	       "?1" /* 1 arg max */,
+-+	       "directory\0" No_argument       "d"
+-+	       "quiet\0"     No_argument       "q"
+-+	       "dry-run\0"   No_argument       "u"
+-+	       "tmpdir\0"    Optional_argument "\xff"
+-+	       , &path, &path
+-+	);
+- 
+- 	chp = argv[optind];
+- 	if (!chp) {
+-@@ -95,7 +105,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+- 		goto error;
+- 	}
+- #endif
+--	if (opts & (OPT_t|OPT_p))
+-+	if (opts & (OPT_t|OPT_p|OPT_td))
+- 		chp = concat_path_file(path, chp);
+- 
+- 	if (opts & OPT_u) {
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
+index 820acc2684..38db52538e 100644
+--- a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
++++ b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
+@@ -1,3 +1,8 @@
++From a35e79002d36cca3c272ba5625aec86d6b7a38a8 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Tue, 9 Apr 2013 23:25:54 -0700
++Subject: [PATCH] busybox: fail on no media
++
+ Upstream-Status: Denied
+ [https://www.mail-archive.com/busybox@busybox.net/msg22354.html]
+ 
+@@ -10,16 +15,18 @@ removed, but that would be harder to accomplish.
+ 
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
++---
++ util-linux/mount.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
+ 
+-Index: busybox-1.20.2/util-linux/mount.c
+-===================================================================
+---- busybox-1.20.2.orig/util-linux/mount.c
+-+++ busybox-1.20.2/util-linux/mount.c
+-@@ -598,7 +598,13 @@ static int mount_it_now(struct mntent *m
+- 				break;
++diff --git a/util-linux/mount.c b/util-linux/mount.c
++index 4e65b6b..9d7a566 100644
++--- a/util-linux/mount.c
+++++ b/util-linux/mount.c
++@@ -746,6 +746,14 @@ static int mount_it_now(struct mntent *mp, unsigned long vfsflags, char *filtero
+  			errno = errno_save;
+  		}
+--
++ 
+ +		/*
+ +		 * Break if there is no media, no point retrying for all
+ +		 * fs types since there is no media available
+@@ -27,6 +34,7 @@ Index: busybox-1.20.2/util-linux/mount.c
+ +		if (rc == -1 && errno == ENOMEDIUM) {
+ +			bb_perror_msg_and_die("mounting %s on %s failed", mp->mnt_fsname, mp->mnt_dir);
+ +		}
+- 		if (!rc || (vfsflags & MS_RDONLY) || (errno != EACCES && errno != EROFS))
+- 			break;
+- 		if (!(vfsflags & MS_SILENT))
+++
++ 		// Should we retry read-only mount?
++ 		if (vfsflags & MS_RDONLY)
++ 			break;		// no, already was tried
+diff --git a/meta/recipes-core/busybox/busybox_1.34.1.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+similarity index 93%
+rename from meta/recipes-core/busybox/busybox_1.34.1.bb
+rename to meta/recipes-core/busybox/busybox_1.35.0.bb
+index 3651c06126..7ce1717046 100644
+--- a/meta/recipes-core/busybox/busybox_1.34.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+@@ -46,8 +46,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+-           file://0001-mktemp-add-tmpdir-option.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
+ 
+-SRC_URI[tarball.sha256sum] = "415fbd89e5344c96acf449d94a6f956dbed62e18e835fc83e064db33a34bd549"
++SRC_URI[tarball.sha256sum] = "faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694"
 -- 
 2.20.1
 
