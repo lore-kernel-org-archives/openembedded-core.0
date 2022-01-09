@@ -2,65 +2,66 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BC2C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 183FEC433FE
 	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:27:54 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.23772.1641767273028350902
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web12.23871.1641767272678434783
  for <openembedded-core@lists.openembedded.org>;
  Sun, 09 Jan 2022 14:27:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hQ0AN1RJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UVpwtRSg;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id p18so843700wmg.4
+Received: by mail-wm1-f43.google.com with SMTP id
+ n19-20020a7bc5d3000000b003466ef16375so8691326wmk.1
         for <openembedded-core@lists.openembedded.org>;
  Sun, 09 Jan 2022 14:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=t+tDZWBY5+XZvBKxi76jZ4fWxOvSWJv7Ak2kSLRo+FQ=;
-        b=hQ0AN1RJo3vyjkDlDxfEvCa6bGhN694Y1DPVsuCxqUPQ+NR76wbjf1a3FYR3GK7rPa
-         TjtC7cDn7Z6JgEqw6ZcI9maG7U08uHORJdV3rTq/mfxRdGp3NpwPlI3U7jT7dW+SQllM
-         y35skEqqwzWelRWD4GKVIs3jMJL4EdZ8FXBB+cU26G2RjGKhknHxRX001E3fALwRgD4k
-         H1mh4ylwSTZpR96JOSekx4MeBakeVspOcfdrnnWZ2Npvp/1jbKE21iSOIvgSXNVXVYwr
-         MstckO+HiOdGRb4UB8u6sOZxGbP1ui9eI0jZRaQMYls/UMCz+mb2JVi7C2BreOVA6LIN
-         fV4Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JzfDvz0+gI/XFy7BRjlIlxyYT7UY0aLhkLQRIBsW3Qc=;
+        b=UVpwtRSgtf/Pvxc191klc71PUm5icPXBR9VSVcfYXmyojJe/UnHtMCOBYh+f4rQHTF
+         jO/8GnJhwuAxMl5rTGFJAiByNxmGXWuw20xPqUgfp6yUuBgyFNmci786Fms1zJE/IWSJ
+         KHqN9BAPCKOpgFDNmEsIxj6k1e1TVhPJiwNGSqOQY942CWLSSCPsZGd8sdK5HyuKRSnA
+         SM69DXa1eylzPtItmL8wtC2VWEIqdeoFrkUAKDFFiD9ErpprkhouTnNBweIka33WR1Qp
+         Q+fuA8F1SQKObj0cGLyPfRv4GJU1EsZqbHUpE9giY/co4mRuBq6o38MYK/VFso3YnXf5
+         66RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=t+tDZWBY5+XZvBKxi76jZ4fWxOvSWJv7Ak2kSLRo+FQ=;
-        b=rqmGHUuJLCS71JPwmSpUfgXjwGlyZVP4Za7sNnxluKCeuodRsU8w9TW4NK3h9qgOpN
-         D6s1H0+hAc9JmDvO8vd94YyKWsxF4DQh9R6WcrC53HP0otNBRtjqQa2vs5L+njD930hI
-         S4ol1bVzXaGhMFgdaZ/9bbabz1crObygtmfa0KTDB7Bpf4wPNIP0ZsrQ8qQMindTpEvZ
-         nIi5V82F/J0JBZJokTPQIEPBeaucW+k38IUQgRI1/x4TSFVp6U5DzfBVlJJxe3WxdfrJ
-         NWlNdd8SKw5OIEsFy7NzOY9fqzxPYh5GLLC9Q+AyADSHbA9r36r7X7WyyIx03cyeYvWO
-         WZnA==
-X-Gm-Message-State: AOAM531UMUKhSL8oKMwA/i6IASkbSglhvS3tUZMKmMONWcMP7RMdMzXV
-	+2DMVbcaqsjWju6tTGuSmCwdUc8eWrU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JzfDvz0+gI/XFy7BRjlIlxyYT7UY0aLhkLQRIBsW3Qc=;
+        b=yD1Klm9PENgJNrZSbVS4V1Gyf1ra5akNgRQGeNvTWXrRASq8umvcNrcQOSzx/s/9MI
+         7adW5N+Ly9xYddmbKGT1v1Lt7xTyY8+SJjzrn8qKFbMiopwkpzuK497OD3KCvkz+ScTz
+         QmQp/nvXg/oM0cvTIHIKa6K1NdI3O48eKDGJRYAyOwR1zWucEkT1RryA410+OiAoS9OU
+         l95vZo9njeK54e0nx53r4SlMRNc7alCTW/+kHACMIZ1jOxlqEg4G3aHm8bU5y7jba8wK
+         hBW5WsRKsbHmVJ1x1jsDBZeong3qqELAboNxUWn+1pvpyhmZrsYpKar0tYKCMQmDHwDh
+         iV5A==
+X-Gm-Message-State: AOAM533+5XyKG1kle4zjkiUkXW44emDscj6K1rYONuI6x/M+Jyn3Y36T
+	LRSA632IPG8zjtZdygFlEOhBYE0n22U=
 X-Google-Smtp-Source: 
- ABdhPJzO8DEl4zhk1vcHAHQyqs/ZT73iLSa8nXNdG/di6VwYj4jKoKFjwlgeJ92pI47CwA9Nvl44NQ==
-X-Received: by 2002:a05:600c:510f:: with SMTP id
- o15mr19496592wms.104.1641767271679;
+ ABdhPJzCQhlZBioCYVr7Lof5Z4cAg1j4tiEq96pFzZ8vqj0Eu/NdNTEgFNht2FGtr3f+zaugnySe6w==
+X-Received: by 2002:a05:600c:34ca:: with SMTP id
+ d10mr19910822wmq.133.1641767271026;
         Sun, 09 Jan 2022 14:27:51 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- l6sm6804319wry.18.2022.01.09.14.27.51
+ l6sm6804319wry.18.2022.01.09.14.27.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 14:27:51 -0800 (PST)
+        Sun, 09 Jan 2022 14:27:50 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/14] ruby: disable rdoc due to non-reproducibility
-Date: Sun,  9 Jan 2022 23:27:20 +0100
-Message-Id: <20220109222732.2252416-2-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Hongxu Jia <hongxu.jia@windriver.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/14] python3: drop unneeded multiprocessing module patch
+Date: Sun,  9 Jan 2022 23:27:19 +0100
+Message-Id: <20220109222732.2252416-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220109222732.2252416-1-alex@linutronix.de>
-References: <20220109222732.2252416-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -68,51 +69,120 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:27:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160305
+ https://lists.openembedded.org/g/openembedded-core/message/160304
 
-The issue is reported upstream:
-https://bugs.ruby-lang.org/issues/18456
+I ran the reproducing sequence on qemux86, qemux86_64 and same targets with musl,
+and it went fine:
 
-Otherwise I do not feel that further investigation of rdoc's parser to find
-out the source of non-determinism is worth the time.
+root@qemux86:~# python3
+Python 3.10.0 (default, Oct  4 2021, 17:55:55) [GCC 11.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import multiprocessing
+>>> pool_sema = multiprocessing.BoundedSemaphore(value=1)
+>>> pool_sema.acquire()
+True
+>>> pool_sema.release()
+>>>
+
+Additionally AB testing revealed no issues, and the description isn't entirely
+clear about where and how the problem occurs, so I can't submit it upsream
+without having that understanding and how to demonstrate the problem.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 3 ---
- meta/recipes-devtools/ruby/ruby_3.0.3.bb     | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ ...ssing-libraries-to-Extension-for-mul.patch | 70 -------------------
+ .../recipes-devtools/python/python3_3.10.1.bb |  1 -
+ 2 files changed, 71 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 35ad0009a8..a0dc76977f 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -17,12 +17,9 @@ import stat
- import os
- import datetime
- 
--# ruby-ri-docs, meson:
--#https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210215-0_td9la2/packages/diff-html/
- # rust-llvm:
- #https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210825-kaihham6/
- exclude_packages = [
--	'ruby-ri-docs',
- 	'rust-llvm-liblto',
- 	'rust-llvm-staticdev'
- 	]
-diff --git a/meta/recipes-devtools/ruby/ruby_3.0.3.bb b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
-index 95feb94dd4..5cf0625101 100644
---- a/meta/recipes-devtools/ruby/ruby_3.0.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
-@@ -21,6 +21,9 @@ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
- PACKAGECONFIG[gmp] = "--with-gmp=yes, --with-gmp=no, gmp"
- PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
-+# rdoc is off by default due to non-reproducibility reported in
-+# https://bugs.ruby-lang.org/issues/18456
-+PACKAGECONFIG[rdoc] = "--enable-install-rdoc,--disable-install-rdoc,"
- 
- EXTRA_OECONF = "\
-     --disable-versioned-paths \
+diff --git a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch b/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
+deleted file mode 100644
+index 374433c68e..0000000000
+--- a/meta/recipes-devtools/python/python3/0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From bad7e6a625436402a01d03021fb9ccd58bc9930f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 9 Jan 2020 17:44:05 +0100
+-Subject: [PATCH] setup.py: pass missing libraries to Extension for
+- multiprocessing module
+-
+-In the following commit:
+-...
+-commit e711cafab13efc9c1fe6c5cd75826401445eb585
+-Author: Benjamin Peterson <benjamin@python.org>
+-Date:   Wed Jun 11 16:44:04 2008 +0000
+-
+-    Merged revisions 64104,64117 via svnmerge from
+-    svn+ssh://pythondev@svn.python.org/python/trunk
+-...
+-(see diff in setup.py)
+-It assigned libraries for multiprocessing module according
+-the host_platform, but not pass it to Extension.
+-
+-In glibc, the following commit caused two definition of
+-sem_getvalue are different.
+-https://sourceware.org/git/?p=glibc.git;a=commit;h=042e1521c794a945edc43b5bfa7e69ad70420524
+-(see diff in nptl/sem_getvalue.c for detail)
+-`__new_sem_getvalue' is the latest sem_getvalue@@GLIBC_2.1
+-and `__old_sem_getvalue' is to compat the old version
+-sem_getvalue@GLIBC_2.0.
+-
+-To build python for embedded Linux systems:
+-http://www.yoctoproject.org/docs/2.3.1/yocto-project-qs/yocto-project-qs.html
+-If not explicitly link to library pthread (-lpthread), it will
+-load glibc's sem_getvalue randomly at runtime.
+-
+-Such as build python on linux x86_64 host and run the python
+-on linux x86_32 target. If not link library pthread, it caused
+-multiprocessing bounded semaphore could not work correctly.
+-...
+->>> import multiprocessing
+->>> pool_sema = multiprocessing.BoundedSemaphore(value=1)
+->>> pool_sema.acquire()
+-True
+->>> pool_sema.release()
+-Traceback (most recent call last):
+-  File "<stdin>", line 1, in <module>
+-ValueError: semaphore or lock released too many times
+-...
+-
+-And the semaphore issue also caused multiprocessing.Queue().put() hung.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- setup.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/setup.py b/setup.py
+-index d92face..f42bcbb 100644
+---- a/setup.py
+-+++ b/setup.py
+-@@ -1836,7 +1836,7 @@ class PyBuildExt(build_ext):
+-             if (sysconfig.get_config_var('HAVE_SEM_OPEN') and not
+-                 sysconfig.get_config_var('POSIX_SEMAPHORES_NOT_ENABLED')):
+-                 multiprocessing_srcs.append('_multiprocessing/semaphore.c')
+--        self.add(Extension('_multiprocessing', multiprocessing_srcs,
+-+        self.add(Extension('_multiprocessing', multiprocessing_srcs, libraries=['pthread'],
+-                            include_dirs=["Modules/_multiprocessing"]))
+- 
+-         if (not MS_WINDOWS and
+diff --git a/meta/recipes-devtools/python/python3_3.10.1.bb b/meta/recipes-devtools/python/python3_3.10.1.bb
+index e7ae687177..d6ac431185 100644
+--- a/meta/recipes-devtools/python/python3_3.10.1.bb
++++ b/meta/recipes-devtools/python/python3_3.10.1.bb
+@@ -25,7 +25,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
+            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
+-           file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-Skip-failing-tests-due-to-load-variability-on-YP-AB.patch \
 -- 
 2.20.1
 
