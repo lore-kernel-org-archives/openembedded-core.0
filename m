@@ -2,174 +2,113 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC10C433F5
-	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:04:31 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.23917.1641765869883727021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F283EC433EF
+	for <webhook@archiver.kernel.org>; Sun,  9 Jan 2022 22:04:37 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web12.23594.1641765877001648699
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:04:30 -0800
+ Sun, 09 Jan 2022 14:04:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=LIhiTtDo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=YEJWUwVa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id h1so10405722pls.11
+Received: by mail-pj1-f41.google.com with SMTP id oa15so10853847pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 14:04:29 -0800 (PST)
+ Sun, 09 Jan 2022 14:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=aA5tMKHnwfUE/7Qp/T87SPnC6Pu8oEYPVal3YqU1rnQ=;
-        b=LIhiTtDoXWOTZgpD2EJbXL3RCWvdYoQoyNWTSYjhCuBSde5Fup5i9ZRdSk/l6y6oqm
-         P5rzgZrerd0FNXNUeN7szIt59KhgvEK+om+iwEmMXH4NwsfG1fFoEzzdgKaylNKX/lp2
-         o47fHyAzS9EEixYiWcpa5g2VDyCJUVfnrZ4HtooKKR6rzocv8p7Q2u6qrnJekL4k5H14
-         BDdlXDI8+y+iksZ8NN9UsLcbX3b0MdHtJHsoPqn0WxLGkg7auva11mQo6OwYrSeQKxmQ
-         7WWtnxc4LUou4nsewhuV0m1H85Bc9AsrDDFqTwermrCIy1g4L1kqmrySauIjkqiGvKce
-         8MxA==
+        bh=7MRIhQv2IMVyCq1Su2FcE5XZU2KDnUD9nYQRvFLVrr8=;
+        b=YEJWUwVaYfIx4sAOa5+xPPKXWXCtOc7Je7USuEe/2v5joGBvjXUyK3SYZEszUr/sl0
+         uL4oaeRrp6lpddBzbuHlvI6K06Nyy9Z/suhtXToaqO9g4Jpc442BjJsUsnTMZvQu5bCn
+         mmnuDJnwhB51M/uJ4CLckflps//NefkJf+8fUhqPxfjffCFQACf2GS6yQDvfv1zicNH/
+         qJKThw68LvVawdvNMuR349Yecc3X6NOAtWCCSm3H1rIE+qNika5mmM+m3bGCjmUzBdM1
+         CooASRocDjPPQh6D/P9f2FSa77LtAE7bGPNP6asFrv+qOIL2YnifeAULIqFxOnehPtdg
+         VZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aA5tMKHnwfUE/7Qp/T87SPnC6Pu8oEYPVal3YqU1rnQ=;
-        b=hqUw6v0RvhM2cYautBzjZIN7iHkODfIisOSgqh2cVU91RL+V9lRPnZ4duQN8L2dLDw
-         nuv7OfY+pUPBnI8x9ilomHtrunkvVn+AOfd1w4XJ8Ch7t9NgD2l4AFMpIKAgv42Wmnv+
-         ABsQIzSfLpeNAVq00BaPmqbOs8jniyLSxmscK9O93yCiYy0Zrec+TOdoCrrSWyDbJyB6
-         92/i3wmvsS25vkNOZcIHzEREeta+GqItXWw6XGRUnPY+eqTDreHS44ubRJ6Chw1isxEl
-         U42KWHA19SauKLDt4MmeikrgirVU7h4j8LrLGTnHrNui9dFO1yu84twMuzDaA2jyH1uN
-         PUVg==
-X-Gm-Message-State: AOAM532vCBLkeUMEl3Uv6PJvdBFQV5mlS4iacEbuETzxX+dT0TeZcpAI
-	lsgQsKyvcnwocv+O2XjDl30GQZFO3bRmZoyLwe0=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7MRIhQv2IMVyCq1Su2FcE5XZU2KDnUD9nYQRvFLVrr8=;
+        b=5jSUK4rE9Ldm5KPfn3hHi/vA5yerCsyFN5+vW++4I6amUiebYp9sP803z80REZoAqq
+         uGShELQVBDq37bA3JpZQkAFrtAaMcKUwT5gUJWw0jkPPsCzCs06zktWfXr+U03XSWfgc
+         n3GzvpNCwk0u5hbUz5fQ5+hmwsBDaVhfXiJVk4vE5uyT7bLDDDdnM690MEQUaml8GzEe
+         tSqSkh8MAfu+SpvzKF5fODPU+j7AIzz726y5gC+tBw8WY0nhV+JcwZ8lkAGZ17BaG67k
+         dxQ2UER4i749Q1O8FOvXAxlDlJZA7vbREbjrjbybUStSOVaIsL0BJxSqnG48VMH0dZ2y
+         P3+w==
+X-Gm-Message-State: AOAM532Ui1Ppvp1wSK+DwZQuQL12Xx3GYRxWaYHPEpT7ZN/cS6+ILKV4
+	N06Vc/TbMktobdn9SKFWf8QMjXO65D8o1fTokoQ=
 X-Google-Smtp-Source: 
- ABdhPJypT5FcYu3OEaawqpeNx2hN32go97Xy+YrscsmnbztaRBknNhbPRnZlToKfIMzHSCI9yBAEbA==
-X-Received: by 2002:a17:90b:2249:: with SMTP id
- hk9mr26697560pjb.246.1641765868569;
-        Sun, 09 Jan 2022 14:04:28 -0800 (PST)
+ ABdhPJyFdOdjLGzsuwi58/+w2IaCWobAYd3NHuyd8Q0HIu3HclUqLPnHTcTPc9fZLFE9NpEwMy7/OQ==
+X-Received: by 2002:a17:902:bd05:b0:148:a2e8:2c3d with SMTP id
+ p5-20020a170902bd0500b00148a2e82c3dmr71434783pls.140.1641765876056;
+        Sun, 09 Jan 2022 14:04:36 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- k10sm4426150pfi.52.2022.01.09.14.04.27
+ k10sm4426150pfi.52.2022.01.09.14.04.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 14:04:27 -0800 (PST)
+        Sun, 09 Jan 2022 14:04:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Sun,  9 Jan 2022 12:04:04 -1000
-Message-Id: <cover.1641765639.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/12] linux-firmware: upgrade 20211027 -> 20211216
+Date: Sun,  9 Jan 2022 12:04:06 -1000
+Message-Id: 
+ <904eb89c0ff22be32209eb0a8a569911f1969673.1641765639.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1641765639.git.steve@sakoman.com>
+References: <cover.1641765639.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:04:31 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 09 Jan 2022 22:04:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160291
+ https://lists.openembedded.org/g/openembedded-core/message/160293
 
-Please review this set of patches for dunfell and have comments back by end
-of day Tuesday.
+From: wangmy <wangmy@fujitsu.com>
 
-Passed a-full on auto builder:
+License-Update: version of license file updated.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3096
-
-with the exception of a known intermmitent autobuilder issue on oe-selftest-fedora,
-which passed on subsequent retest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/3004
-
-The following changes since commit 1ab7aee542589f6b6c76f8515b4230ce870a8678:
-
-  selftest: skip virgl test on fedora 34 entirely (2021-12-23 06:21:37 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  lib/oe/reproducible: correctly set .git location when recursively
-    looking for git repos
-
-Marek Vasut (1):
-  weston: Backport patches to always activate the top-level surface
-
-Marta Rybczynska (1):
-  grub: fix CVE-2020-14372 and CVE-2020-27779
-
-Richard Purdie (4):
-  openssl: Add reproducibility fix
-  oeqa/selftest/bbtests: Use YP sources mirror instead of GNU
-  oeqa/selftest/tinfoil: Update to use test command
-  scripts: Update to use exec_module() instead of load_module()
-
-Steve Sakoman (3):
-  libpcre2: update SRC_URI
-  selftest: skip virgl test on fedora 35
-  asciidoc: properly detect and compare Python versions >= 3.10
-
-Tim Orling (1):
-  scripts/buildhistory-diff: drop use of distutils
-
-wangmy (1):
-  linux-firmware: upgrade 20211027 -> 20211216
-
- meta/lib/oe/reproducible.py                   |   2 +-
- meta/lib/oeqa/selftest/cases/bbtests.py       |   2 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   6 +-
- .../grub/files/CVE-2020-14372.patch           |  76 +++
- .../grub/files/CVE-2020-14372_1.patch         | 130 ++++++
- .../grub/files/CVE-2020-14372_2.patch         | 431 ++++++++++++++++++
- .../grub/files/CVE-2020-14372_3.patch         |  57 +++
- .../grub/files/CVE-2020-14372_4.patch         |  52 +++
- .../grub/files/CVE-2020-14372_5.patch         | 158 +++++++
- .../grub/files/CVE-2020-27779.patch           |  70 +++
- .../grub/files/CVE-2020-27779_2.patch         | 105 +++++
- .../grub/files/CVE-2020-27779_3.patch         |  37 ++
- .../grub/files/CVE-2020-27779_4.patch         |  35 ++
- .../grub/files/CVE-2020-27779_5.patch         |  62 +++
- .../grub/files/CVE-2020-27779_6.patch         |  61 +++
- .../grub/files/CVE-2020-27779_7.patch         |  65 +++
- .../grub/files/no-insmod-on-sb.patch          | 107 +++++
- meta/recipes-bsp/grub/grub2.inc               |  14 +
- .../openssl/openssl/reproducibility.patch     |  22 +
- .../openssl/openssl_1.1.1l.bb                 |   1 +
- .../asciidoc/detect-python-version.patch      |  42 ++
- .../asciidoc/asciidoc_8.6.9.bb                |   3 +-
- ...move-no-op-de-activation-of-the-xdg-.patch |  32 ++
- ...name-gain-lose-keyboard-focus-to-act.patch |  57 +++
- ...bed-keyboard-focus-handle-code-when-.patch |  99 ++++
- meta/recipes-graphics/wayland/weston_8.0.0.bb |   3 +
- ...20211027.bb => linux-firmware_20211216.bb} |   4 +-
- .../recipes-support/libpcre/libpcre2_10.34.bb |   2 +-
- scripts/buildhistory-diff                     |   5 -
- scripts/lib/scriptutils.py                    |   7 +-
- scripts/lib/wic/pluginbase.py                 |   8 +-
- 32 files changed, 1739 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch
- create mode 100644 meta/recipes-bsp/grub/files/no-insmod-on-sb.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducibility.patch
- create mode 100644 meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0002-desktop-shell-Remove-no-op-de-activation-of-the-xdg-.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0003-desktop-shell-Rename-gain-lose-keyboard-focus-to-act.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0004-desktop-shell-Embed-keyboard-focus-handle-code-when-.patch
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 07dc668ddc50de14821aff1b6850d8b4999702bd)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...{linux-firmware_20211027.bb => linux-firmware_20211216.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211027.bb => linux-firmware_20211216.bb} (99%)
 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20211027.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20211027.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
+index 76aed9d443..92b6ff5157 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20211027.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=d627873bd934d7c52b2c8191304a8eb7 \
++                    file://WHENCE;md5=79f477f9d53eedee5a65b45193785963 \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -205,7 +205,7 @@ PE = "1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "bc2657dd8eb82386a9a7ec6df9ccf31c32c7e9073c05d37786c1edc273f9440a"
++SRC_URI[sha256sum] = "eeddb4e6bef31fd1a3757f12ccc324929bbad97855c0b9ec5ed780f74de1837d"
+ 
+ inherit allarch
+ 
 -- 
 2.25.1
 
