@@ -1,124 +1,288 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DF7C433EF
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 09:00:48 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.29336.1641805246352187193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5E3C433EF
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 10:34:21 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web08.29833.1641810857179496570
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 01:00:46 -0800
+ Mon, 10 Jan 2022 02:34:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Oc4GKxxl;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id h10so15193065wrb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cIw+n7vu;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id t187so10226929pfb.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 01:00:46 -0800 (PST)
+ Mon, 10 Jan 2022 02:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6Kuq4H22utUt8EcuvM15VFunQa2to8zAauhccrBKRKo=;
-        b=Oc4GKxxlYwzo1mh/tiqGv97SmeyM8/0nWCzdiD0PdDfDoJra0wDQKpzQB5brQocwy/
-         uyYoFpcT3XnhM6od2vOqjgkvRStdP7/kDyscTQXukYap1UY/PRlsbBXposNYvlAp44lI
-         a1FG25rdqUHNLOIvenBbopwgtDOt7zB8peBgSnHRB/+SoHrvYbbn2nam82/f+j0V3hpU
-         QzHFDRK2sEfVWflmgawJr9fYmnd1n2ZjlAxk8sBqUdEjOx4zgsVXrgoQsse2DBagCyVk
-         dzhvFs4uo7DtikRxJ+wQ34JltFW0OuhEA1mW6Pz1pKRtE6KcL1tGdth0QOWCzj1DWwUu
-         75Kg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tkMI3hdYT7QNfWRtlZtk1OnGeN9HKiIh+oT64MRe7uk=;
+        b=cIw+n7vudFwcxvMn93mvZLt2eQUVkyo0KERv55wWU5NahbGrLA+4TPbNrW8Z+doTdy
+         wt2SbuDIEb5Q9s/FWHzZ1sGhFvdxma2AdafqdH8Ft/3YCxmc2+uEeTPUd7nN7BBtMaLr
+         MMeSW/vq0IGY4vKRRAaL76AzBrvkPi6ymJoMv5YscQuDpyAoZdZz/+Pff+W/g2+qJPzP
+         a1JREvbWh+ivNN58UdD41gCSq/L2BGwKSygP3lH5iXmkZZs/chFxh5ETi3+cytJIG0yP
+         r3+u3gD/Es+PbURIdzugUM64HEQO/fWDVxbQOYpdYOJFqkMHKfqfO6DiMvoGdoU1on+C
+         YlpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6Kuq4H22utUt8EcuvM15VFunQa2to8zAauhccrBKRKo=;
-        b=55YFYLicCTXAoKhWBLE/pr8K9trSMItaBqoVv4LKqUWmRzWrVszRpD08RCFWWmiMu9
-         +mWPm6tUU5qzDvqh8sTJ1nznP9ivFJPUmV4+HpK43uKcQWH1uwH2j+1Jz/FyUQQwKwRW
-         IYCBKTDrpb7jbJmgmVNa7KKtDUQ9B5m9NEvTZMJseKwkhVNemlCgZVY8ZAdc4U/enUD6
-         xmPV9PfazzVzi1RwQaszKy/POT75l13Qg8Tdo3fZIewXvAFuL2yFwl8DNCr5z4s9jTFC
-         +/lkq13wllUk5b6kmX3FTQMopYiWeAvPDTcKMGaDR6GrhNnBS96HsTxuCWkuzkZGYVK4
-         tEuA==
-X-Gm-Message-State: AOAM532JJcBOrtS8avBM4g6ZgrNEWLNl4buU19fwCbbtUnqdFJNWhZl+
-	Z2t9vY2txJW5AXe6UEboPLfeFWaO5vAsGldupOo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tkMI3hdYT7QNfWRtlZtk1OnGeN9HKiIh+oT64MRe7uk=;
+        b=3VrNtKaSmp6K1JFKtcfKQVgZO3hc71+yGEsHIwBC0PII7SgRgfKrG5PHZqCP8QdH/X
+         S7HN5QlEX+NqeN69NpnnoAaZAj4rWPzeC5JZ6Y5uLME+xx6yCkUj7cFH0PalzFR0JzW9
+         vpb63nLUyE5D6lqE4Bjhca/PGvS2wNgPdhxJyv9rcgtHJn7RRjKpgT7wYOb8AXShY6ps
+         Z2pie7wAHylyMkrWVedQ1Obc3oro5LxL6rmtdCDX4uJf1feRxWWBLdRe3aEAlqz+5RYe
+         nxT2mTdocNQ2jK4LKOhgERiCH+SrOTnBq6sP2P3FD4WfFaetRmodcMpPyiLb54ilEJRP
+         HEhQ==
+X-Gm-Message-State: AOAM532T9azc9K+wa39xDWrswVbiz96pubf6KazNcyk6A5E2o0Qb8dZ2
+	5+CM4a9DAmjK5bJEexl5rdWXNWLUn70=
 X-Google-Smtp-Source: 
- ABdhPJz17sdbpdlaWQxEsLcU0o7XZo0Ry34L32+kLuAyfH6AdbuYmzbBpvTsl3BCpN1CH8tvAdof+XLB6xGF7FqpfM0=
-X-Received: by 2002:adf:e84f:: with SMTP id d15mr5327271wrn.15.1641805244901;
- Mon, 10 Jan 2022 01:00:44 -0800 (PST)
+ ABdhPJy4igfJ1vvQHCk987Hx3nfVDussyQcHmra1zCjaMrAh6upk+9TIxvJLsD1X6bDImFNg0aMmnw==
+X-Received: by 2002:a63:f30b:: with SMTP id
+ l11mr65580151pgh.272.1641810856355;
+        Mon, 10 Jan 2022 02:34:16 -0800 (PST)
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
+ [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id
+ q19sm6591000pfk.83.2022.01.10.02.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 02:34:15 -0800 (PST)
+From: pgowda <pgowda.cve@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: anuj.mittal@intel.com,
+	rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda <pgowda.cve@gmail.com>
+Subject: [hardknott][PATCH v2] glibc: Backport fix for CVE-2021-43396
+Date: Mon, 10 Jan 2022 02:34:10 -0800
+Message-Id: <20220110103410.183318-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <cover.1641787452.git.anuj.mittal@intel.com>
- <9c839db1144a8a96f8b848e3e1aad2fd93859abd.1641787452.git.anuj.mittal@intel.com>
-In-Reply-To: 
- <9c839db1144a8a96f8b848e3e1aad2fd93859abd.1641787452.git.anuj.mittal@intel.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 10 Jan 2022 10:00:32 +0100
-Message-ID: 
- <CAApg2=TisC+MZ9ux2aSGt9Py8wokpmtv_Nr6dQ1AAKZmx-dN3w@mail.gmail.com>
-Subject: Re: [OE-core] [honister][PATCH 04/10] grub2: fix CVE-2021-3981
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000069adfe05d53692a3"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 09:00:47 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 10:34:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160340
+ https://lists.openembedded.org/g/openembedded-core/message/160341
 
---00000000000069adfe05d53692a3
-Content-Type: text/plain; charset="UTF-8"
+Backport the fix for CVE-2021-43396. It is disputed that this is a
+security issue.
 
-> diff --git a/meta/recipes-bsp/grub/grub2.inc
-> b/meta/recipes-bsp/grub/grub2.inc
-> index bb791347dc..a72a562c5a 100644
-> --- a/meta/recipes-bsp/grub/grub2.inc
-> +++ b/meta/recipes-bsp/grub/grub2.inc
-> @@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
->             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
->             file://determinism.patch \
->             file://0001-RISC-V-Restore-the-typcast-to-long.patch \
-> +
->  file://CVE-2021-3981-grub-mkconfig-Restore-umask-for-the-grub.cfg.patch \
->  "
->
->  SRC_URI[sha256sum] =
-> "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
->
->
-This one should go to dunfell too. If the original poster would like to
-backport,
-that would be nice, otherwise it is on my list.
+(From OE-Core rev: e8de9b01c6b305b2498c5f942397a49ae2af0cde)
 
-Kind regards,
-Marta
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
+---
+ .../glibc/glibc/0031-CVE-2021-43396.patch     | 182 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.33.bb         |   1 +
+ 2 files changed, 183 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
 
---00000000000069adfe05d53692a3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch b/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
+new file mode 100644
+index 0000000000..72fd68b302
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
+@@ -0,0 +1,182 @@
++From ff012870b2c02a62598c04daa1e54632e020fd7d Mon Sep 17 00:00:00 2001
++From: Nikita Popov <npv1310@gmail.com>
++Date: Tue, 2 Nov 2021 13:21:42 +0500
++Subject: [PATCH] gconv: Do not emit spurious NUL character in ISO-2022-JP-3
++ (bug 28524)
++
++Bugfix 27256 has introduced another issue:
++In conversion from ISO-2022-JP-3 encoding, it is possible
++to force iconv to emit extra NUL character on internal state reset.
++To do this, it is sufficient to feed iconv with escape sequence
++which switches active character set.
++The simplified check 'data->__statep->__count != ASCII_set'
++introduced by the aforementioned bugfix picks that case and
++behaves as if '\0' character has been queued thus emitting it.
++
++To eliminate this issue, these steps are taken:
++* Restore original condition
++'(data->__statep->__count & ~7) != ASCII_set'.
++It is necessary since bits 0-2 may contain
++number of buffered input characters.
++* Check that queued character is not NUL.
++Similar step is taken for main conversion loop.
++
++Bundled test case follows following logic:
++* Try to convert ISO-2022-JP-3 escape sequence
++switching active character set
++* Reset internal state by providing NULL as input buffer
++* Ensure that nothing has been converted.
++
++Signed-off-by: Nikita Popov <npv1310@gmail.com>
++
++CVE: CVE-2021-43396
++Upstream-Status: Backport [ff012870b2c02a62598c04daa1e54632e020fd7d]
++---
++ iconvdata/Makefile        |  5 +++-
++ iconvdata/bug-iconv15.c   | 60 +++++++++++++++++++++++++++++++++++++++
++ iconvdata/iso-2022-jp-3.c | 28 ++++++++++++------
++ 3 files changed, 84 insertions(+), 9 deletions(-)
++ create mode 100644 iconvdata/bug-iconv15.c
++
++diff --git a/iconvdata/bug-iconv15.c b/iconvdata/bug-iconv15.c
++new file mode 100644
++--- /dev/null
+++++ b/iconvdata/bug-iconv15.c
++@@ -0,0 +1,60 @@
+++/* Bug 28524: Conversion from ISO-2022-JP-3 with iconv
+++   may emit spurious NUL character on state reset.
+++   Copyright (C) The GNU Toolchain Authors.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#include <stddef.h>
+++#include <iconv.h>
+++#include <support/check.h>
+++
+++static int
+++do_test (void)
+++{
+++  char in[] = "\x1b(I";
+++  char *inbuf = in;
+++  size_t inleft = sizeof (in) - 1;
+++  char out[1];
+++  char *outbuf = out;
+++  size_t outleft = sizeof (out);
+++  iconv_t cd;
+++
+++  cd = iconv_open ("UTF8", "ISO-2022-JP-3");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++
+++  /* First call to iconv should alter internal state.
+++     Now, JISX0201_Kana_set is selected and
+++     state value != ASCII_set.  */
+++  TEST_VERIFY (iconv (cd, &inbuf, &inleft, &outbuf, &outleft) != (size_t) -1);
+++
+++  /* No bytes should have been added to
+++     the output buffer at this point.  */
+++  TEST_VERIFY (outbuf == out);
+++  TEST_VERIFY (outleft == sizeof (out));
+++
+++  /* Second call shall emit spurious NUL character in unpatched glibc.  */
+++  TEST_VERIFY (iconv (cd, NULL, NULL, &outbuf, &outleft) != (size_t) -1);
+++
+++  /* No characters are expected to be produced.  */
+++  TEST_VERIFY (outbuf == out);
+++  TEST_VERIFY (outleft == sizeof (out));
+++
+++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+++
+++  return 0;
+++}
+++
+++#include <support/test-driver.c>
++diff --git a/iconvdata/iso-2022-jp-3.c b/iconvdata/iso-2022-jp-3.c
++--- a/iconvdata/iso-2022-jp-3.c
+++++ b/iconvdata/iso-2022-jp-3.c
++@@ -1,5 +1,6 @@
++ /* Conversion module for ISO-2022-JP-3.
++    Copyright (C) 1998-2021 Free Software Foundation, Inc.
+++   Copyright (C) The GNU Toolchain Authors.
++    This file is part of the GNU C Library.
++    Contributed by Ulrich Drepper <drepper@cygnus.com>, 1998,
++    and Bruno Haible <bruno@clisp.org>, 2002.
++@@ -81,20 +82,31 @@ enum
++    the output state to the initial state.  This has to be done during the
++    flushing.  */
++ #define EMIT_SHIFT_TO_INIT \
++-  if (data->__statep->__count != ASCII_set)			      \
+++  if ((data->__statep->__count & ~7) != ASCII_set)			      \
++     {									      \
++       if (FROM_DIRECTION)						      \
++ 	{								      \
++-	  if (__glibc_likely (outbuf + 4 <= outend))			      \
+++	  uint32_t ch = data->__statep->__count >> 6;			      \
+++									      \
+++	  if (__glibc_unlikely (ch != 0))				      \
++ 	    {								      \
++-	      /* Write out the last character.  */			      \
++-	      *((uint32_t *) outbuf) = data->__statep->__count >> 6;	      \
++-	      outbuf += sizeof (uint32_t);				      \
++-	      data->__statep->__count = ASCII_set;			\
+++	      if (__glibc_likely (outbuf + 4 <= outend))		      \
+++		{							      \
+++		  /* Write out the last character.  */			      \
+++		  put32u (outbuf, ch);					      \
+++		  outbuf += 4;						      \
+++		  data->__statep->__count &= 7;				      \
+++		  data->__statep->__count |= ASCII_set;			      \
+++		}							      \
+++	      else							      \
+++		/* We don't have enough room in the output buffer.  */	      \
+++		status = __GCONV_FULL_OUTPUT;				      \
++ 	    }								      \
++ 	  else								      \
++-	    /* We don't have enough room in the output buffer.  */	      \
++-	    status = __GCONV_FULL_OUTPUT;				      \
+++	    {								      \
+++	      data->__statep->__count &= 7;				      \
+++	      data->__statep->__count |= ASCII_set;			      \
+++	    }								      \
++ 	}								      \
++       else								      \
++ 	{								      \
++diff --git a/iconvdata/Makefile b/iconvdata/Makefile
++--- a/iconvdata/Makefile
+++++ b/iconvdata/Makefile
++@@ -1,4 +1,5 @@
++ # Copyright (C) 1997-2021 Free Software Foundation, Inc.
+++# Copyright (C) The GNU Toolchain Authors.
++ # This file is part of the GNU C Library.
++ 
++ # The GNU C Library is free software; you can redistribute it and/or
++@@ -74,7 +75,7 @@ ifeq (yes,$(build-shared))
++ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
++ 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
++ 	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
++-	bug-iconv13 bug-iconv14
+++	bug-iconv13 bug-iconv14 bug-iconv15
++ ifeq ($(have-thread-library),yes)
++ tests += bug-iconv3
++ endif
++@@ -324,6 +325,8 @@ $(objpfx)bug-iconv12.out: $(objpfx)gconv
++ 			  $(addprefix $(objpfx),$(modules.so))
++ $(objpfx)bug-iconv14.out: $(objpfx)gconv-modules \
++ 			  $(addprefix $(objpfx),$(modules.so))
+++$(objpfx)bug-iconv15.out: $(addprefix $(objpfx), $(gconv-modules)) \
+++			  $(addprefix $(objpfx),$(modules.so))
++ 
++ $(objpfx)iconv-test.out: run-iconv-test.sh $(objpfx)gconv-modules \
++ 			 $(addprefix $(objpfx),$(modules.so)) \
+diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+index a1e9eb3a16..b7736359b1 100644
+--- a/meta/recipes-core/glibc/glibc_2.33.bb
++++ b/meta/recipes-core/glibc/glibc_2.33.bb
+@@ -56,6 +56,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
+            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
+            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
++           file://0031-CVE-2021-43396.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.31.1
 
-<div dir=3D"ltr"><br><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
-inc<br>
-index bb791347dc..a72a562c5a 100644<br>
---- a/meta/recipes-bsp/grub/grub2.inc<br>
-+++ b/meta/recipes-bsp/grub/grub2.inc<br>
-@@ -20,6 +20,7 @@ SRC_URI =3D &quot;${GNU_MIRROR}/grub/grub-${PV}.tar.gz \<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-grub.d-10_linux.in-ad=
-d-oe-s-kernel-name.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://determinism.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-RISC-V-Restore-the-ty=
-pcast-to-long.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2021-3981-grub-mkconfi=
-g-Restore-umask-for-the-grub.cfg.patch \<br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;23b64b4c741569f9426ed2e3d0e6780796fca081=
-bee4c99f62aa3f53ae803f5f&quot;<br><br></blockquote><div><br></div><div>This=
- one should go to dunfell too. If the original poster would like to backpor=
-t,</div><div>that would be nice, otherwise it is on my list.</div><div><br>=
-</div><div>Kind regards,</div><div>Marta</div><div><br></div></div></div>
-
---00000000000069adfe05d53692a3--
 
