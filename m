@@ -1,82 +1,121 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA87C433EF
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 03:38:56 +0000 (UTC)
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.27291.1641785935582504467
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4CA6C433F5
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 04:09:23 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web12.27324.1641787762773038697
  for <openembedded-core@lists.openembedded.org>;
- Sun, 09 Jan 2022 19:38:55 -0800
+ Sun, 09 Jan 2022 20:09:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 192.103.53.11,
- mailfrom: kai.kang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 20A3cqfp016846
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 9 Jan 2022 19:38:52 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 9 Jan 2022 19:38:52 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 9 Jan 2022 19:38:51 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 9 Jan 2022 19:38:50 -0800
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] xserver-xorg: 21.1.2 -> 21.1.3
-Date: Mon, 10 Jan 2022 11:38:45 +0800
-Message-ID: <20220110033845.15496-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=XCnqP85f;
+ spf=pass (domain: intel.com, ip: 192.55.52.115,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641787762; x=1673323762;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OchHXWO3yBghZMHDHY0m4uViAFdRS0KoAvqLSZipy6k=;
+  b=XCnqP85f0OU99f35AiTMtPxLtBqjAoWdC3Poi9FKkJwFIYskJwA8SldH
+   Vq2rFcg+UwIqoMJxDYr0M2yLIZSFvKbZAJOCDOH9a7vFU8DxQ/3iXwHnF
+   PRXbRdbUlSkgndgxTSUkvIBUBungzNcfVKepCW6fGw9fBEF9W+K1ejYov
+   FYdN7fpm5l/D24CCLvX0XsOAHYoKZUjGqSNvDifaZKq0M30vlp3+ofOuO
+   XGKx3wpGsBBY/d5aQSJD2Tr0VvZQDSn5LEWpx5Wyh/if75Sjj6GXjYHVP
+   IxC/2yz35IcsXf/Glp91AJ4XYtSbm5cV0U6+yUV009guOWUHWz5RxiQ5s
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="243347342"
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600";
+   d="scan'208";a="243347342"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2022 20:09:21 -0800
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600";
+   d="scan'208";a="764402187"
+Received: from bboox-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
+ ([10.213.135.82])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2022 20:09:20 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 00/10] Patch review
+Date: Mon, 10 Jan 2022 12:09:04 +0800
+Message-Id: <cover.1641787452.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 03:38:56 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 04:09:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160320
+ https://lists.openembedded.org/g/openembedded-core/message/160321
 
-From: Kai Kang <kai.kang@windriver.com>
+Next set of changes for honister. No problems seen while testing on
+autobuilder.
 
-Upgrade xserver-xorg from 21.1.2 to 21.1.3. And adjust indent as well.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3092
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../{xserver-xorg_21.1.2.bb => xserver-xorg_21.1.3.bb}      | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.2.bb => xserver-xorg_21.1.3.bb} (84%)
+Thanks,
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.2.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-index 60c18c0a47..3e076ecca7 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.2.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-@@ -1,9 +1,9 @@
- require xserver-xorg.inc
- 
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
--           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
--           "
--SRC_URI[sha256sum] = "c20bf46a9fe8e74bf4e75430637e58d49a02d806609dc161462bceb1ef7e8db0"
-+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-+            "
-+SRC_URI[sha256sum] = "61d6aad5b6b47a116b960bd7f0cba4ee7e6da95d6bb0b127bde75d7d1acdebe5"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+Anuj
+
+The following changes since commit 4e732ef0d3c90952f14804f5fc41ea16304810af:
+
+  xserver-xorg: upgrade 1.20.13 -> 1.20.14 (2021-12-29 09:21:24 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/honister
+
+Anuj Mittal (1):
+  xserver-xorg: update CVE_PRODUCT
+
+Markus Volk (1):
+  vulkan-loader: inherit pkgconfig
+
+Oleksiy Obitotskyy (1):
+  package_manager: ipk: Fix host manifest generation
+
+Richard Purdie (3):
+  openssl: Add reproducibility fix
+  webkitgtk: Add reproducibility fix
+  scripts: Update to use exec_module() instead of load_module()
+
+Ross Burton (1):
+  linux-yocto: add libmpc-native to DEPENDS
+
+Samuli Piippo (1):
+  rpm: remove tmp folder created during install
+
+Tim Orling (1):
+  scripts/buildhistory-diff: drop use of distutils
+
+Yongxin Liu (1):
+  grub2: fix CVE-2021-3981
+
+ meta/lib/oe/sdk.py                            |  4 ++
+ ...onfig-Restore-umask-for-the-grub.cfg.patch | 49 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ .../openssl/openssl/reproducibility.patch     | 22 +++++++++
+ .../openssl/openssl_1.1.1l.bb                 |  1 +
+ meta/recipes-devtools/rpm/rpm_4.16.1.3.bb     |  3 ++
+ .../vulkan/vulkan-loader_1.2.182.0.bb         |  2 +-
+ .../xorg-xserver/xserver-xorg.inc             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  2 +-
+ .../webkit/webkitgtk/reproducibility.patch    | 22 +++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.32.3.bb  |  1 +
+ scripts/buildhistory-diff                     |  5 --
+ scripts/lib/scriptutils.py                    |  7 ++-
+ scripts/lib/wic/pluginbase.py                 |  8 ++-
+ 14 files changed, 117 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3981-grub-mkconfig-Restore-umask-for-the-grub.cfg.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducibility.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+
 -- 
-2.17.1
+2.33.1
 
 
