@@ -1,101 +1,120 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A810C433F5
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:06:09 +0000 (UTC)
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by mx.groups.io with SMTP id smtpd.web11.32203.1641823568678856954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D098C433EF
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:07:26 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web12.31797.1641823645502332177
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 06:06:08 -0800
+ Mon, 10 Jan 2022 06:07:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm3 header.b=kwABT0cG;
- spf=pass (domain: gherzan.com, ip: 64.147.123.25,
- mailfrom: andrei@gherzan.com)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 0357D320024A;
-	Mon, 10 Jan 2022 09:06:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 10 Jan 2022 09:06:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm3; bh=iL1bbp71Ul5sZFMvoDGorsCHv5
-	F/ZllNsdQaXgs2WB0=; b=kwABT0cGrHe1ops3Q6ty315h19E9YkVwCEEGNsbcXY
-	ow6rKNf/jWj+a18Xgppnc7POIlB4aj8YfOAixizBo5d+as0DwMRbxBt2W+S9ZpL9
-	YGILaBInGfEE7HOX34jdKLU08j49sVR7imCyvzfHy3WTUPMXliXAcOwccTUMtsME
-	pm8hD4cTMLuvwzVgkc9N4k91DB4gI74Ylm026k1yEc/LnzxM8TYsH0+wqw/nEzpX
-	OsYgNeTzwzXBWUtjsYhU5OKk6aESRFDKgsRNCLNlSzbV7yOmDYweI72iiF+q6SzS
-	KdKPD3cFTb+5uZZfZFKsKrcTmjmakYs07U1DkNC1glfw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=iL1bbp71Ul5sZFMvo
-	DGorsCHv5F/ZllNsdQaXgs2WB0=; b=UcGKw35yxvtWnaWQr79QvyX33Zr+4v1xq
-	d3ZEU14BPluT59Fxgd6GfrqzrJwJiEKZzyUyb+39tvFRxomiK8FwtPsg/19ziS/T
-	lmOF8kpKa8W+ielnbfbV7aRu6iBrQjk+pvwPHHbQgeSYoJhKSXEHopuZUlgigXqx
-	kp/7vyuUS/zlJTfEprMcf9LvtdMnLzXpdSeVezB4I45Vh+36Gh/pbtaFFWJ1itFK
-	MhjYOA+kvbFgRFk+p/Vw0mCGUOcvSufChd7nvYxr4DKpPcW6ZOEHt2VRm+U103i5
-	JJXM6ddKtPhaosvJLmcLH+QA/TRLw+ctixK1SQWDWok3t5p1f4bNQ==
-X-ME-Sender: <xms:Tz3cYdQaLFfoLUjlDuaAHGmQgCvbkaURiDTvZuVHHk8_tCquvIA3Tw>
-    <xme:Tz3cYWwASJmS068r4yyGbzOwNWDJUSHLDvl-G2Y0Ifro4q90oTIgrlWM-yl9idIdF
-    K3QqDndqs1E7D6Er6A>
-X-ME-Received: 
- <xmr:Tz3cYS2O-fa2g71g5AfqeK0mPafNQ0nV2KwtuYD7ZzMAXgSljgrIxNB2ikoPUL9CM9a5vnQjSkF4g7nPNV-KCk3lQI3dE1dwC0Qho5lVGbsTU0yJHJ2H_3QC>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgfeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
-    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpedvteeutdeutdfhvefggfeifeehve
-    ethfeuffekgeeiiefgkefhheehjeeijeejudenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
-X-ME-Proxy: <xmx:Tz3cYVBjXbr4XEI2FNx8jRIfzcaL_wnBbZ_MJK7etOYBB-n2-Pe3tw>
-    <xmx:Tz3cYWjtAGtMkbZQRNogw35Iwz4uA0xGrg3E1PMdjv96lpr9QHFTqg>
-    <xmx:Tz3cYZohd_HqwF1nGzxwEICgqE0d0WE3pD6Aw8nK_v7iCQbGsj2j_Q>
-    <xmx:Tz3cYaaInyzaonpqqpG4DsSs07RYaECSbKjsZygSsAjmehT-t9yQig>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Jan 2022 09:06:06 -0500 (EST)
-From: Andrei Gherzan <andrei@gherzan.com>
-To: openembedded-core@lists.openembedded.org
-Cc: bernhard.rosenkraenzer.ext@huawei.com,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH 1/1] gcc: Fix typo in linux64.h install patch
-Date: Mon, 10 Jan 2022 15:05:56 +0100
-Message-Id: <20220110140556.2185250-1-andrei@gherzan.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=XrMq6/Ig;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1641823643; i=@fujitsu.com;
+	bh=GDSplXuxmhLiH9DZWBPCbnArcBXD3eg/SoGf6EwaC3A=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=XrMq6/IgO2IDGxgVwsBtrQIeLJOQiOJxTVpfpg5O2mRFFlNA9DKk02pJkL5TGilYw
+	 pv382vh2so3ZCWvYyFg/JWji+b5LrtGb6EtTTqAVOkjcRrDVqYgxGFwaKmXiX4xv9P
+	 MwnU+OZH8fWHDPBt5kMr38e+qsjx91Mr22gBkyViBVQF9EHGsXmUqjnE/rW77zhH2V
+	 RZxemg77G6syOnYkXEZElFDZYpQYrw46Q+yzweXLyy/fUjgQ7CCVXYZMoOxBTEvOBX
+	 Xx+uoenWXwDy7Ov7pulHG4nwG1bQy1C4c4u4njPKJDUQDW2LN/K7pXSZ1gwfdmJ9+6
+	 tTVYzhZkgwWuA==
+Received: from [100.115.64.12] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ EF/D2-06990-B9D3CD16; Mon, 10 Jan 2022 14:07:23 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRWlGSWpSXmKPExsViZ8ORqDvT9k6
+  iwbNVFhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bt/T8YCy5zVny/+YK5gfEGRxcjF4eQwGNG
+  iU3bprF0MXICOeeZJC7+1YBInGCUuPl1GxtIgk1ATWL6rRusXYwcHCICehJX/4mChJkFVCRe/
+  O5hB7GFBSwlTnzoALNZBFQllp2/wApi8wo4SSye2wsWlxBQkJjy8D0zRFxQ4uTMJywQcyQkDr
+  54wQxRoygx+3IzC4RdITFrVhsThK0mcfXcJuYJjPyzkLTPQtK+gJFpFaNdUlFmekZJbmJmjq6
+  hgYGuoaGprpmZrpGRhV5ilW6iXmqpbnJqXklRIlBaL7G8WC+1uFivuDI3OSdFLy+1ZBMjMDRT
+  ip2e7GB83fdT7xCjJAeTkijvE+M7iUJ8SfkplRmJxRnxRaU5qcWHGGU4OJQkeBMsgXKCRanpq
+  RVpmTnAOIFJS3DwKInwaoCkeYsLEnOLM9MhUqcYFaXEeXdbAyUEQBIZpXlwbbDYvMQoKyXMy8
+  jAwCDEU5BalJtZgir/ilGcg1FJmLcAZDxPZl4J3PRXQIuZgBYnc9wGWVySiJCSamA6PuPLhHe
+  +G7Zq2WzUrGXX1Xc89Lo1SDIhIyGxONBZ9fzsdTpzfWP4O3ZLtEpvC0yOUXhwQZjPffkZf906
+  7m35/Urvll1/UDtBs04leM36zqs+5w46vFlWnuqyiPcZV5bcnfw9n6Tul3ZV3Lf0ORM2QfzOo
+  zMdeiezmlf7Nqi6lUbnPX+34OWhG6efimy0L2a/zSvEKhTFt3zN3a+3QzU89p2ZycvP/cT6i+
+  WFG+nnP7Iu2fIlY3+YHZdwxpTKsjarl0cu8R+MTlMxrObfcDvN2ErFkLl21d1NvrrvrrLN4pd
+  N1WW4cf9AO2d/LneHFN+xFx8uGFm9l1nQxfszf6+AxY0Dlw/E50/OMnte26TEUpyRaKjFXFSc
+  CABAL/NoSAMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-8.tower-528.messagelabs.com!1641823641!43285!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 7306 invoked from network); 10 Jan 2022 14:07:21 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-8.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 10 Jan 2022 14:07:21 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 5E19B1001A3
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Jan 2022 14:07:21 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 51279100193
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Jan 2022 14:07:21 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 10 Jan 2022 14:07:07 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] diffoscope: upgrade 196 -> 199
+Date: Mon, 10 Jan 2022 22:07:00 +0800
+Message-ID: <1641823620-62823-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:06:09 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:07:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160362
+ https://lists.openembedded.org/g/openembedded-core/message/160363
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+Changelog:
+=========
+* Support both variants of "odt2txt", including the one provided by unoconv.
+  (Closes: reproducible-builds/diffoscope#298)
 
-The "gcc: Fix compile of gcc plugins" patch had a typo making it a noop.
-This was due to a rework to make it specific to the linux64.h header.
+* Add external tool reference on Arch Linux for xb-tool.
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../gcc/gcc/0001-Fix-install-path-of-linux64.h.patch            | 2 +-
+ .../diffoscope/{diffoscope_196.bb => diffoscope_199.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_196.bb => diffoscope_199.bb} (92%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch b/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
-index 9201538f0e..5bf895d6e7 100644
---- a/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0001-Fix-install-path-of-linux64.h.patch
-@@ -23,7 +23,7 @@ index 9b17d120a..d175ec4e3 100644
-  	  "$(srcdir)"/config/* | "$(srcdir)"/common/config/* \
-  	  | "$(srcdir)"/c-family/* | "$(srcdir)"/*.def ) \
-  	    base=`echo "$$path" | sed -e "s|$$srcdirstrip/||"`;; \
--+	  ./linux64.h ) \
-++	  */linux64.h ) \
- +	    base=`dirname $$path`;;\
-  	  *) base=`basename $$path` ;; \
-  	  esac; \
+diff --git a/meta/recipes-support/diffoscope/diffoscope_196.bb b/meta/recipes-support/diffoscope/diffoscope_199.bb
+similarity index 92%
+rename from meta/recipes-support/diffoscope/diffoscope_196.bb
+rename to meta/recipes-support/diffoscope/diffoscope_199.bb
+index 62a1561a0d..3645ff1e6e 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_196.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_199.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "d31fd0d8ac58d41cc111ef6a3bb0007f5f52543b932bf93584bdd0dfe029e626"
++SRC_URI[sha256sum] = "7b07b8ff34e5fe0e57acc8b02bcb9303ae254c40f357fb7ed805e9f9f7c7686f"
+ 
+ RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ 
 -- 
 2.25.1
 
