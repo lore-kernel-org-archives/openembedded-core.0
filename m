@@ -1,152 +1,263 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <akuster808@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF62C433EF
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:59:57 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.32721.1641826796202238715
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C44C433F5
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 15:09:07 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.32613.1641827346135092041
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 06:59:57 -0800
+ Mon, 10 Jan 2022 07:09:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=docTnwH+;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zk0/B/UI;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48,
+ mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id
+ l10-20020a17090a384a00b001b22190e075so23197355pjf.3
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Jan 2022 07:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1641826796;
-  x=1673362796;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=myBEg/v7xmC9mUzfMpSJV5KNLWe6oYvExZvNxcjKFxM=;
-  b=docTnwH+H3OOJ0l8+RvpWXf3UmF2agseL+3bnH4Nz+GTkvWl+6Zr1tvU
-   ctQ5kTorNMEK1sgMbqXolnWTU1z6J8zcE3WHecFIkip9tcNpcHoSvTnnh
-   uE7QMhYU8X1LEWh8RvToeoUSvgJkYrPqb6GPuHjHB3iM+AiyfVefrDpB7
-   BWAUuUMax+kKuwlxs2Bg70jsI/fWfXKuf6FNE5RdZVR4cUJfgoFjP8fnq
-   FpYCKCFNjn/l1yU/jrJctNVbf7eqHA9ZERMc6N6PPZv4UHAONTdkANB2M
-   p9VhBqGz88smw/kLLKllGvwkXeWd3emTQEAQddkj2roV6e1x/5IeN67FE
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] package.bbclass: Add support for specifying a
- suffix for debug files
-Thread-Topic: [OE-core] [PATCH] package.bbclass: Add support for specifying a
- suffix for debug files
-Thread-Index: AQHX+IqCU/VF+qk+lkGneiBBfzIx/axB19qwgBqa8TA=
-Date: Mon, 10 Jan 2022 14:59:48 +0000
-Message-ID: <e80990ce087045d4bb8c372c4a6894e9@axis.com>
-References: <20211223103617.4172-1-pkj@axis.com>
- <CAMKF1so10sJ0T3GkdxgPLObrArFbw2F=Opqfbt=76KCz=FhT5g@mail.gmail.com>
- <16C3C07CB9211DCE.10157@lists.openembedded.org>
-In-Reply-To: <16C3C07CB9211DCE.10157@lists.openembedded.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=QqFUkvpLiLobM0RReNxmqVj3NA2Egz4UP6NQdZelsZg=;
+        b=Zk0/B/UIBiw+Jc22wqorHlt/79qFvL08a+Qih82D6cyDO6/h9o8+Leo1RhKWj9a7a3
+         gCTSirBAd3CaZ3UwiOslsXBg0M8epZC/4Ak2nI3idoy+pOuIa639MflEq1kiH4C7u5ip
+         pHtNUVIG0kbao2CAxBRm/IkclKYfFdxekJgyIU1tboyaVNtk+y4EgLVCt0ZQqV2t4J9I
+         SjdTzRrmQu+UC7pkDkYvKYz6ZjZxrfTnBEmgxKyx5s4EBrkfXX2+djld00lQajFUiJo6
+         eJoJFt2dKWbfoZmR62JxVyh3FdgyaC67bZmBLv+JjyQuojLApg7NqT8V4rYjIqY5D7dM
+         qz0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=QqFUkvpLiLobM0RReNxmqVj3NA2Egz4UP6NQdZelsZg=;
+        b=OCd2salDdSFXqF8drqanunqIRCH9K6dI7AyVgi5NQQf+KVlyrIQ2RcZapUGd5alMyg
+         L4enYlV+rz7GB9peyt17eHELVwRD0YL7aW+ww7NIpitmzdnlmj94geKdlZFZEtRd49xM
+         cD6U7ClxcWd8lTBAaj7sXGfjEoM53VQ6TA0UYzxoEL0EVPN8G+S26RoLZjUTK5Sn/3lu
+         Ml/zr+mNKbIB8igwNN2P4/yvllcF7Md9yptUUpxtJ4vuh7F0r06Rnn8sbBdpYjHm7AIy
+         //8wvi2luh85oF7lNsweZYGZLPIhgA0If+SSaTGDjrdMRpufaUlwvqvt66yn6tmzO/vK
+         lsQw==
+X-Gm-Message-State: AOAM531vajSLgRBRL2X9QuuBeo+JhrPN+16o7CAFfflKUcZi6nw390kQ
+	xAyrBWZWNo8NlcMEwaukgf0=
+X-Google-Smtp-Source: 
+ ABdhPJz/3YNxxJxDshTtCLb9RGRRDeRg5mEcH8unhrjVIyVHiuxmDi8lnigLhYVSslMdAdjxTY8YiQ==
+X-Received: by 2002:a17:902:8f8f:b0:14a:766:67f1 with SMTP id
+ z15-20020a1709028f8f00b0014a076667f1mr15029303plo.34.1641827345457;
+        Mon, 10 Jan 2022 07:09:05 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:27a2:6de:97d4:82a2?
+ ([2601:202:4180:a5c0:27a2:6de:97d4:82a2])
+        by smtp.gmail.com with ESMTPSA id
+ z12sm7673795pfe.110.2022.01.10.07.09.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jan 2022 07:09:04 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 04/14] busybox: update 1.34.1 -> 1.35.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>,
+ Andrej Valek <andrej.valek@siemens.com>,
+ Peter Marko <peter.marko@siemens.com>
+References: <20220109222732.2252416-1-alex@linutronix.de>
+ <20220109222732.2252416-4-alex@linutronix.de>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <dc859a14-4954-743b-dcb1-3b703e6b887b@gmail.com>
+Date: Mon, 10 Jan 2022 07:09:03 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20220109222732.2252416-4-alex@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:59:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 15:09:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160366
+ https://lists.openembedded.org/g/openembedded-core/message/160367
 
-KnBpbmcqDQoNCi8vUGV0ZXINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
-OiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0
-ZWR0DQo+IFNlbnQ6IGRlbiAyNCBkZWNlbWJlciAyMDIxIDE4OjE5DQo+IFRvOiBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPg0KPiBDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQg
-dGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IEFk
-ZCBzdXBwb3J0IGZvciBzcGVjaWZ5aW5nIGEgc3VmZml4IGZvciBkZWJ1ZyBmaWxlcw0KPiANCj4g
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IEtoZW0gUmFqIDxyYWoua2hl
-bUBnbWFpbC5jb20+DQo+ID4gU2VudDogZGVuIDI0IGRlY2VtYmVyIDIwMjEgMDY6NTMNCj4gPiBU
-bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4g
-Q2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyIDxvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiA+IFN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IEFkZCBzdXBwb3J0IGZvciBzcGVjaWZ5
-aW5nIGEgc3VmZml4IGZvciBkZWJ1ZyBmaWxlcw0KPiA+DQo+ID4gT24gVGh1LCBEZWMgMjMsIDIw
-MjEgYXQgMjozNiBBTSBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gVGhlIHN1ZmZpeCBpcyBhZGRlZCB0byB0aGUgbmFt
-ZXMgb2YgYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9scw0KPiA+ID4gcHJvZHVjZWQgYnkgc3Bs
-aXRfYW5kX3N0cmlwX2ZpbGVzKCkuIEl0IGNhbiBiZSB1c2VkIHRvIG1ha2UgdGhlIGRlYnVnDQo+
-ID4gPiBmaWxlcyBwcm9kdWNlZCBieSBvbmUgcmVjaXBlIHVuaXF1ZSB0byBhdm9pZCB0aGVtIGNv
-bmZsaWN0aW5nIHdpdGgNCj4gPiA+IGlkZW50aWNhbGx5IG5hbWVkIGRlYnVnIGZpbGVzIHByb2R1
-Y2VkIGJ5IGFub3RoZXIgcmVjaXBlLiBUaGlzIG1heSBiZQ0KPiA+ID4gbmVlZGVkIHNpbmNlIHdo
-aWxlIHRoZSB0YXJnZXQgZmlsZXMgbWF5IGJlIHNwbGl0IGluIG11bHRpcGxlIHBhY2thZ2VzLA0K
-PiA+ID4gdGhlIGRlYnVnIGZpbGVzIGZvciBvbmUgcmVjaXBlIGFyZSBhbGwgaW4gb25lIHBhY2th
-Z2UuDQo+ID4gPg0KPiA+DQo+ID4gY2FuIHlvdSBwb2ludCB0byBhbiBleGFtcGxlIHJlY2lwZSBj
-bGFzaCA/DQo+IA0KPiBOb3QgaW4gT0UtQ29yZSBvciBPcGVuRW1iZWRkZWQuIFRoZSBleGFtcGxl
-IHRoYXQgcmVxdWlyZWQgbWUgdG8gaGF2ZSB0byBmaW5kDQo+IGEgc29sdXRpb24gd2FzIHRoYXQg
-d2UgaGF2ZSBvdXIgb3duIGltcGxlbWVudGF0aW9uIG9mIGFuIHNydHAgcGx1Z2luIGZvcg0KPiBH
-U3RyZWFtZXIgdGhhdCBzb21lIG9mIG91ciBwcm9kdWN0cyB1c2UsIHdoaWxlIHNvbWUgb2Ygb3Vy
-IHByb2R1Y3RzIHVzZSB0aGUNCj4gb2ZmaWNpYWwgdmVyc2lvbiBmcm9tIGdzdHJlYW1lcjEuMC1w
-bHVnaW5zLWJhZC4gT3VyIHZlcnNpb24gaXMgYSBkcm9wLWluDQo+IHJlcGxhY2VtZW50IHNvIGl0
-IHByb3ZpZGVzIHRoZSBsaWJnc3RydHNwLnNvIHBsdWdpbiBqdXN0IGxpa2UgdGhlIG9yaWdpbmFs
-DQo+IHBhY2thZ2UgZnJvbSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQgZG9lcy4gVGhpcyBpcyBu
-byBwcm9ibGVtIGZvciB0YXJnZXQgYXMNCj4gdGhlIEdTdHJlYW1lciBwbHVnaW5zIGFyZSBwYWNr
-YWdlZCBvbmUgbW9kdWxlIHBlciBwYWNrYWdlLiBIb3dldmVyLCBhcyB0aGUNCj4gZGVidWcgZmls
-ZXMgYXJlIGFsbCBpbiBvbmUgcGFja2FnZSwgdGhlIGxpYmdzdHJ0c3Auc28gZmlsZSBpbiBvdXIg
-ZGJnIHBhY2thZ2UNCj4gY29uZmxpY3RzIHdpdGggdGhlIGxpYmdzdHJ0c3Auc28gaW4gdGhlIGdz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhZC1kYmcgcGFja2FnZQ0KPiBhbmQgdGhpcyBiZWNvbWVzIGEg
-cHJvYmxlbSBmb3IgYW55IHByb2R1Y3QgdGhhdCB1c2VzIGJvdGggb3VyIHJ0c3AgcGx1Z2luDQo+
-IGFuZCBzb21lIG90aGVyIHBsdWdpbiBmcm9tIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZC4NCj4g
-DQo+IC8vUGV0ZXINCj4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQg
-PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gIG1ldGEvY2xh
-c3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAxMSArKysrKysrKysrKw0KPiA+ID4gIG1ldGEvY29uZi9k
-b2N1bWVudGF0aW9uLmNvbmYgfCAgMSArDQo+ID4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNl
-cnRpb25zKCspDQo+ID4gPg0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdl
-LmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNzDQo+ID4gPiBpbmRleCAwOWNk
-Mzc2ZjRhLi4zZGYxZWRkNGE4IDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2th
-Z2UuYmJjbGFzcw0KPiA+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+
-ID4gQEAgLTYyLDYgKzYyLDE0IEBAIFBBQ0tBR0VfREVQRU5EUyArPSAicnBtLW5hdGl2ZSBkd2Fy
-ZnNyY2ZpbGVzLW5hdGl2ZSINCj4gPiA+ICAjIHRvb2xzIGF0IHJvb3RmcyBidWlsZCB0aW1lLg0K
-PiA+ID4gIFBBQ0tBR0VfV1JJVEVfREVQUyA/Pz0gIiINCj4gPiA+DQo+ID4gPiArIyBUaGlzIHN1
-ZmZpeCBpcyBhZGRlZCB0byB0aGUgbmFtZXMgb2YgYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9s
-cyBwcm9kdWNlZCBieQ0KPiA+ID4gKyMgc3BsaXRfYW5kX3N0cmlwX2ZpbGVzKCkuIEl0IGNhbiBi
-ZSB1c2VkIHRvIG1ha2UgdGhlIGRlYnVnIGZpbGVzIHByb2R1Y2VkIGJ5DQo+ID4gPiArIyBvbmUg
-cmVjaXBlIHVuaXF1ZSB0byBhdm9pZCB0aGVtIGNvbmZsaWN0aW5nIHdpdGggaWRlbnRpY2FsbHkg
-bmFtZWQgZGVidWcgZmlsZXMNCj4gPiA+ICsjIHByb2R1Y2VkIGJ5IGFub3RoZXIgcmVjaXBlLiBU
-aGlzIG1heSBiZSBuZWVkZWQgc2luY2Ugd2hpbGUgdGhlIHRhcmdldCBmaWxlcw0KPiA+ID4gKyMg
-bWF5IGJlIHNwbGl0IGluIG11bHRpcGxlIHBhY2thZ2VzLCB0aGUgZGVidWcgZmlsZXMgZm9yIG9u
-ZSByZWNpcGUgYXJlIGFsbCBpbg0KPiA+ID4gKyMgb25lIHBhY2thZ2UuDQo+ID4gPiArUEFDS0FH
-RV9ERUJVR19GSUxFX1NVRkZJWCA/Pz0gIiINCj4gPiA+ICsNCj4gPiA+ICBkZWYgbGVnaXRpbWl6
-ZV9wYWNrYWdlX25hbWUocyk6DQo+ID4gPiAgICAgICIiIg0KPiA+ID4gICAgICBNYWtlIHN1cmUg
-cGFja2FnZSBuYW1lcyBhcmUgbGVnaXRpbWF0ZSBzdHJpbmdzDQo+ID4gPiBAQCAtMTExNyw2ICsx
-MTI1LDkgQEAgcHl0aG9uIHNwbGl0X2FuZF9zdHJpcF9maWxlcyAoKSB7DQo+ID4gPiAgICAgICAg
-ICBkZWJ1Z3N0YXRpY2xpYmRpciA9ICIiDQo+ID4gPiAgICAgICAgICBkZWJ1Z3NyY2RpciA9ICIv
-dXNyL3NyYy9kZWJ1ZyINCj4gPiA+DQo+ID4gPiArICAgIGRlYnVnYXBwZW5kICs9IGQuZ2V0VmFy
-KCdQQUNLQUdFX0RFQlVHX0ZJTEVfU1VGRklYJykNCj4gPiA+ICsgICAgZGVidWdzdGF0aWNhcHBl
-bmQgKz0gZC5nZXRWYXIoJ1BBQ0tBR0VfREVCVUdfRklMRV9TVUZGSVgnKQ0KPiA+ID4gKw0KPiA+
-ID4gICAgICAjDQo+ID4gPiAgICAgICMgRmlyc3QgbGV0cyBmaWd1cmUgb3V0IGFsbCBvZiB0aGUg
-ZmlsZXMgd2UgbWF5IGhhdmUgdG8gcHJvY2VzcyAuLi4gZG8gdGhpcyBvbmx5IG9uY2UhDQo+ID4g
-PiAgICAgICMNCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25m
-IGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+ID4gaW5kZXggZjYzZjRiMjIzYS4u
-YWQ0OTQxMDI0OSAxMDA2NDQNCj4gPiA+IC0tLSBhL21ldGEvY29uZi9kb2N1bWVudGF0aW9uLmNv
-bmYNCj4gPiA+ICsrKyBiL21ldGEvY29uZi9kb2N1bWVudGF0aW9uLmNvbmYNCj4gPiA+IEBAIC0z
-MTEsNiArMzExLDcgQEAgUEFDS0FHRV9BUkNIW2RvY10gPSAiVGhlIGFyY2hpdGVjdHVyZSBvZiB0
-aGUgcmVzdWx0aW5nIHBhY2thZ2Ugb3IgcGFja2FnZXMuIg0KPiA+ID4gIFBBQ0tBR0VfQVJDSFNb
-ZG9jXSA9ICJBIGxpc3Qgb2YgYXJjaGl0ZWN0dXJlcyBjb21wYXRpYmxlIHdpdGggdGhlIGdpdmVu
-IHRhcmdldCBpbiBvcmRlciBvZiBwcmlvcml0eS4iDQo+ID4gPiAgUEFDS0FHRV9CRUZPUkVfUE5b
-ZG9jXSA9ICJFbmFibGVzIGVhc2lseSBhZGRpbmcgcGFja2FnZXMgdG8gUEFDS0FHRVMgYmVmb3Jl
-ICR7UE59IHNvIHRoYXQgdGhlIHBhY2thZ2VzIGNhbiBwaWNrIHVwIGZpbGVzIHRoYXQgd291bGQg
-bm9ybWFsbHkgYmUgaW5jbHVkZWQgaW4gdGhlIGRlZmF1bHQgcGFja2FnZS4iDQo+ID4gPiAgUEFD
-S0FHRV9DTEFTU0VTW2RvY10gPSAiVGhpcyB2YXJpYWJsZSBzcGVjaWZpZXMgdGhlIHBhY2thZ2Ug
-bWFuYWdlciB0byB1c2Ugd2hlbiBwYWNrYWdpbmcgZGF0YS4gSXQgaXMgc2V0IGluIHRoZSBjb25m
-L2xvY2FsLmNvbmYgZmlsZSBpbiB0aGUgQnVpbGQgRGlyZWN0b3J5LiINCj4gPiA+ICtQQUNLQUdF
-X0RFQlVHX0ZJTEVfU1VGRklYW2RvY10gPSAiVGhpcyBzdWZmaXggaXMgYWRkZWQgdG8gdGhlIG5h
-bWVzIG9mIGFsbCBmaWxlcyB3aXRoIGRlYnVnIHN5bWJvbHMgaW4gdGhlIGRiZyBwYWNrYWdlLiIN
-Cj4gPiA+ICBQQUNLQUdFX0VYQ0xVREVbZG9jXSA9ICJQYWNrYWdlcyB0byBleGNsdWRlIGZyb20g
-dGhlIGluc3RhbGxhdGlvbi4gSWYgYSBsaXN0ZWQgcGFja2FnZSBpcyByZXF1aXJlZCwgYW4gZXJy
-b3IgaXMgZ2VuZXJhdGVkLiINCj4gPiA+ICBQQUNLQUdFX0VYVFJBX0FSQ0hTW2RvY10gPSAiU3Bl
-Y2lmaWVzIHRoZSBsaXN0IG9mIGFyY2hpdGVjdHVyZXMgY29tcGF0aWJsZSB3aXRoIHRoZSBkZXZp
-Y2UgQ1BVLiBUaGlzIHZhcmlhYmxlIGlzIHVzZWZ1bCB3aGVuIHlvdSBidWlsZCBmb3Igc2V2ZXJh
-bCBkaWZmZXJlbnQgZGV2aWNlcyB0aGF0IHVzZSBtaXNjZWxsYW5lb3VzIHByb2Nlc3NvcnMuIg0K
-PiA+ID4gIFBBQ0tBR0VfSU5TVEFMTFtkb2NdID0gIkxpc3Qgb2YgdGhlIHBhY2thZ2VzIHRvIGJl
-IGluc3RhbGxlZCBpbnRvIHRoZSBpbWFnZS4gVGhlIHZhcmlhYmxlIGlzIGdlbmVyYWxseSBub3Qg
-dXNlci1kZWZpbmVkIGFuZCB1c2VzIElNQUdFX0lOU1RBTEwgYXMgcGFydCBvZiB0aGUgbGlzdC4i
-DQoNCg==
+
+
+On 1/9/22 2:27 PM, Alexander Kanavin wrote:
+> Drop upstreamed patch.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../0001-mktemp-add-tmpdir-option.patch       | 81 -------------------
+>  .../busybox/busybox/fail_on_no_media.patch    | 28 ++++---
+>  .../{busybox_1.34.1.bb => busybox_1.35.0.bb}  |  3 +-
+>  3 files changed, 19 insertions(+), 93 deletions(-)
+>  delete mode 100644 meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+>  rename meta/recipes-core/busybox/{busybox_1.34.1.bb => busybox_1.35.0.bb} (93%)
+>
+> diff --git a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch b/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+> deleted file mode 100644
+> index 4a1960dff2..0000000000
+> --- a/meta/recipes-core/busybox/busybox/0001-mktemp-add-tmpdir-option.patch
+> +++ /dev/null
+> @@ -1,81 +0,0 @@
+> -From ceb378209f953ea745ed93a8645567196380ce3c Mon Sep 17 00:00:00 2001
+> -From: Andrej Valek <andrej.valek@siemens.com>
+> -Date: Thu, 24 Jun 2021 19:13:22 +0200
+> -Subject: [PATCH] mktemp: add tmpdir option
+> -
+> -Make mktemp more compatible with coreutils.
+> -- add "--tmpdir" option
+> -- add long variants for "d,q,u" options
+
+Is adding new feature in the scope of Yocto/OE LTS?
+
+-armin
+> -
+> -Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2021-June/088932.html]
+> -
+> -Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> -Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ----
+> - coreutils/mktemp.c | 26 ++++++++++++++++++--------
+> - 1 file changed, 18 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/coreutils/mktemp.c b/coreutils/mktemp.c
+> -index 5393320a5..05c6d98c6 100644
+> ---- a/coreutils/mktemp.c
+> -+++ b/coreutils/mktemp.c
+> -@@ -39,16 +39,17 @@
+> - //kbuild:lib-$(CONFIG_MKTEMP) += mktemp.o
+> - 
+> - //usage:#define mktemp_trivial_usage
+> --//usage:       "[-dt] [-p DIR] [TEMPLATE]"
+> -+//usage:       "[-dt] [-p DIR, --tmpdir[=DIR]] [TEMPLATE]"
+> - //usage:#define mktemp_full_usage "\n\n"
+> - //usage:       "Create a temporary file with name based on TEMPLATE and print its name.\n"
+> - //usage:       "TEMPLATE must end with XXXXXX (e.g. [/dir/]nameXXXXXX).\n"
+> - //usage:       "Without TEMPLATE, -t tmp.XXXXXX is assumed.\n"
+> --//usage:     "\n	-d	Make directory, not file"
+> --//usage:     "\n	-q	Fail silently on errors"
+> --//usage:     "\n	-t	Prepend base directory name to TEMPLATE"
+> --//usage:     "\n	-p DIR	Use DIR as a base directory (implies -t)"
+> --//usage:     "\n	-u	Do not create anything; print a name"
+> -+//usage:     "\n	-d			Make directory, not file"
+> -+//usage:     "\n	-q			Fail silently on errors"
+> -+//usage:     "\n	-t			Prepend base directory name to TEMPLATE"
+> -+//usage:     "\n	-p DIR, --tmpdir[=DIR]	Use DIR as a base directory (implies -t)"
+> -+//usage:     "\n				For --tmpdir is a optional one."
+> -+//usage:     "\n	-u			Do not create anything; print a name"
+> - //usage:     "\n"
+> - //usage:     "\nBase directory is: -p DIR, else $TMPDIR, else /tmp"
+> - //usage:
+> -@@ -72,13 +73,22 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+> - 		OPT_t = 1 << 2,
+> - 		OPT_p = 1 << 3,
+> - 		OPT_u = 1 << 4,
+> -+		OPT_td = 1 << 5,
+> - 	};
+> - 
+> - 	path = getenv("TMPDIR");
+> - 	if (!path || path[0] == '\0')
+> - 		path = "/tmp";
+> - 
+> --	opts = getopt32(argv, "^" "dqtp:u" "\0" "?1"/*1 arg max*/, &path);
+> -+	opts = getopt32long(argv, "^"
+> -+	       "dqtp:u\0"
+> -+	       "?1" /* 1 arg max */,
+> -+	       "directory\0" No_argument       "d"
+> -+	       "quiet\0"     No_argument       "q"
+> -+	       "dry-run\0"   No_argument       "u"
+> -+	       "tmpdir\0"    Optional_argument "\xff"
+> -+	       , &path, &path
+> -+	);
+> - 
+> - 	chp = argv[optind];
+> - 	if (!chp) {
+> -@@ -95,7 +105,7 @@ int mktemp_main(int argc UNUSED_PARAM, char **argv)
+> - 		goto error;
+> - 	}
+> - #endif
+> --	if (opts & (OPT_t|OPT_p))
+> -+	if (opts & (OPT_t|OPT_p|OPT_td))
+> - 		chp = concat_path_file(path, chp);
+> - 
+> - 	if (opts & OPT_u) {
+> --- 
+> -2.11.0
+> -
+> diff --git a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
+> index 820acc2684..38db52538e 100644
+> --- a/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
+> +++ b/meta/recipes-core/busybox/busybox/fail_on_no_media.patch
+> @@ -1,3 +1,8 @@
+> +From a35e79002d36cca3c272ba5625aec86d6b7a38a8 Mon Sep 17 00:00:00 2001
+> +From: Saul Wold <sgw@linux.intel.com>
+> +Date: Tue, 9 Apr 2013 23:25:54 -0700
+> +Subject: [PATCH] busybox: fail on no media
+> +
+>  Upstream-Status: Denied
+>  [https://www.mail-archive.com/busybox@busybox.net/msg22354.html]
+>  
+> @@ -10,16 +15,18 @@ removed, but that would be harder to accomplish.
+>  
+>  Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>  
+> +---
+> + util-linux/mount.c | 8 ++++++++
+> + 1 file changed, 8 insertions(+)
+>  
+> -Index: busybox-1.20.2/util-linux/mount.c
+> -===================================================================
+> ---- busybox-1.20.2.orig/util-linux/mount.c
+> -+++ busybox-1.20.2/util-linux/mount.c
+> -@@ -598,7 +598,13 @@ static int mount_it_now(struct mntent *m
+> - 				break;
+> +diff --git a/util-linux/mount.c b/util-linux/mount.c
+> +index 4e65b6b..9d7a566 100644
+> +--- a/util-linux/mount.c
+> ++++ b/util-linux/mount.c
+> +@@ -746,6 +746,14 @@ static int mount_it_now(struct mntent *mp, unsigned long vfsflags, char *filtero
+>   			errno = errno_save;
+>   		}
+> --
+> + 
+>  +		/*
+>  +		 * Break if there is no media, no point retrying for all
+>  +		 * fs types since there is no media available
+> @@ -27,6 +34,7 @@ Index: busybox-1.20.2/util-linux/mount.c
+>  +		if (rc == -1 && errno == ENOMEDIUM) {
+>  +			bb_perror_msg_and_die("mounting %s on %s failed", mp->mnt_fsname, mp->mnt_dir);
+>  +		}
+> - 		if (!rc || (vfsflags & MS_RDONLY) || (errno != EACCES && errno != EROFS))
+> - 			break;
+> - 		if (!(vfsflags & MS_SILENT))
+> ++
+> + 		// Should we retry read-only mount?
+> + 		if (vfsflags & MS_RDONLY)
+> + 			break;		// no, already was tried
+> diff --git a/meta/recipes-core/busybox/busybox_1.34.1.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+> similarity index 93%
+> rename from meta/recipes-core/busybox/busybox_1.34.1.bb
+> rename to meta/recipes-core/busybox/busybox_1.35.0.bb
+> index 3651c06126..7ce1717046 100644
+> --- a/meta/recipes-core/busybox/busybox_1.34.1.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+> @@ -46,8 +46,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>             file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
+>             file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
+>             file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+> -           file://0001-mktemp-add-tmpdir-option.patch \
+>             "
+>  SRC_URI:append:libc-musl = " file://musl.cfg "
+>  
+> -SRC_URI[tarball.sha256sum] = "415fbd89e5344c96acf449d94a6f956dbed62e18e835fc83e064db33a34bd549"
+> +SRC_URI[tarball.sha256sum] = "faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160307): https://lists.openembedded.org/g/openembedded-core/message/160307
+> Mute This Topic: https://lists.openembedded.org/mt/88311436/3616698
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [akuster808@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
 
