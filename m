@@ -1,95 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C6C1C433F5
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:23:22 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.32247.1641824600581795842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF62C433EF
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:59:57 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.32721.1641826796202238715
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 06:23:20 -0800
+ Mon, 10 Jan 2022 06:59:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SwjzdoxQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id r10so19440248wrc.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 06:23:20 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=docTnwH+;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=V1BZSbqFl4WWw9jxwzqfNfW/zslNve6yNOIHg9jg/w0=;
-        b=SwjzdoxQlEJilkDtO1xUxtnfTgpREQNCVc7VzZb7JIXtQFCl/vF6PenIB6c9ENC0Yk
-         SPVELZcT+CP7gXjUhy7qbzvG0sGsP8+T5pQ11os3+MqqNmPyKp63uWobZ3/SzhNbUhFv
-         QSkEV35XeVyLCYfsLYewgp7TvBdDsv9c5PoaY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=V1BZSbqFl4WWw9jxwzqfNfW/zslNve6yNOIHg9jg/w0=;
-        b=sOpnISRZM6ViAE8MY/8Iv+rAD4G/yfz6SP2LWDl3x9hSjiV1AjpZYSOUD+2mqsv9cS
-         mmcIbEcOSi7x2+AY4e5CIpVIU0iilBPJHnobHnJqOnv1uV6+TCS0z8Hf7h5xZMbDACnB
-         sm6S+brEaAqB6BKhLrRft9BXjbl+iAKxSzOmbSXz5jpXuQBb9KugYxaUp4D+yxNH/p5s
-         FyhBMGvDxq2yN5unp6kz1bERZ1LnY/2K0rn1l2YKClVmrmHeD5BOKlaFA3OoUJzvAPEd
-         +jYfpeaHjojID8TcRdfoo2RX/6WiSj3OobcBDE8aaAQKGO11D+UgM3BgWUf71wp8nVBr
-         G+KQ==
-X-Gm-Message-State: AOAM533vKL8MhUfUFDZm4Tbie/z9zz5oWSiHvEONOHtUETPTQyzM9g7L
-	u59zmoOxOFrq9ZQO+5CVjicNKw==
-X-Google-Smtp-Source: 
- ABdhPJxK0C+3hI/6dEia2swbpTy4O1S1Xb0DlMDzNK5VV7cLBuvh9pmDs9UNN6DV4jLFSjBQy68fXA==
-X-Received: by 2002:adf:f94c:: with SMTP id
- q12mr24537810wrr.166.1641824599020;
-        Mon, 10 Jan 2022 06:23:19 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:988f:80f:f286:3191?
- ([2001:8b0:aba:5f3c:988f:80f:f286:3191])
-        by smtp.gmail.com with ESMTPSA id
- l31sm2040662wms.1.2022.01.10.06.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jan 2022 06:23:18 -0800 (PST)
-Message-ID: 
- <043d4b73d9234292da52175adf6f59483920ced5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/14] python3: drop unneeded multiprocessing
- module patch
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex@linutronix.de>, Hongxu Jia <hongxu.jia@windriver.com>
-Date: Mon, 10 Jan 2022 14:23:17 +0000
-In-Reply-To: 
- <CANNYZj8sah0ehNNcvQqfO9hJaCLq6jx72gpTbqz2cUyLQSdstg@mail.gmail.com>
-References: <20220109222732.2252416-1-alex@linutronix.de>
-	 <4d829edff8abad25269693d4f199b582b5bdf879.camel@linuxfoundation.org>
-	 <CANNYZj8sah0ehNNcvQqfO9hJaCLq6jx72gpTbqz2cUyLQSdstg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1641826796;
+  x=1673362796;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=myBEg/v7xmC9mUzfMpSJV5KNLWe6oYvExZvNxcjKFxM=;
+  b=docTnwH+H3OOJ0l8+RvpWXf3UmF2agseL+3bnH4Nz+GTkvWl+6Zr1tvU
+   ctQ5kTorNMEK1sgMbqXolnWTU1z6J8zcE3WHecFIkip9tcNpcHoSvTnnh
+   uE7QMhYU8X1LEWh8RvToeoUSvgJkYrPqb6GPuHjHB3iM+AiyfVefrDpB7
+   BWAUuUMax+kKuwlxs2Bg70jsI/fWfXKuf6FNE5RdZVR4cUJfgoFjP8fnq
+   FpYCKCFNjn/l1yU/jrJctNVbf7eqHA9ZERMc6N6PPZv4UHAONTdkANB2M
+   p9VhBqGz88smw/kLLKllGvwkXeWd3emTQEAQddkj2roV6e1x/5IeN67FE
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] package.bbclass: Add support for specifying a
+ suffix for debug files
+Thread-Topic: [OE-core] [PATCH] package.bbclass: Add support for specifying a
+ suffix for debug files
+Thread-Index: AQHX+IqCU/VF+qk+lkGneiBBfzIx/axB19qwgBqa8TA=
+Date: Mon, 10 Jan 2022 14:59:48 +0000
+Message-ID: <e80990ce087045d4bb8c372c4a6894e9@axis.com>
+References: <20211223103617.4172-1-pkj@axis.com>
+ <CAMKF1so10sJ0T3GkdxgPLObrArFbw2F=Opqfbt=76KCz=FhT5g@mail.gmail.com>
+ <16C3C07CB9211DCE.10157@lists.openembedded.org>
+In-Reply-To: <16C3C07CB9211DCE.10157@lists.openembedded.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:23:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:59:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160365
+ https://lists.openembedded.org/g/openembedded-core/message/160366
 
-On Mon, 2022-01-10 at 15:21 +0100, Alexander Kanavin wrote:
-> On Mon, 10 Jan 2022 at 14:59, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > Isn't this now working since pthread was merged into the main libc library
-> > and
-> > therefore separate linking for pthread is no longer needed?
-> > 
-> 
-> 
-> Yes, there was a previous discussion with the same point, so this needs a
-> commit message adjustment?
-
-Please as I worry someone would try and backport it with the wrong reasoning.
-
-Cheers,
-
-Richard
-
+KnBpbmcqDQoNCi8vUGV0ZXINCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
+OiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0
+ZWR0DQo+IFNlbnQ6IGRlbiAyNCBkZWNlbWJlciAyMDIxIDE4OjE5DQo+IFRvOiBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPg0KPiBDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQg
+dGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IEFk
+ZCBzdXBwb3J0IGZvciBzcGVjaWZ5aW5nIGEgc3VmZml4IGZvciBkZWJ1ZyBmaWxlcw0KPiANCj4g
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IEtoZW0gUmFqIDxyYWoua2hl
+bUBnbWFpbC5jb20+DQo+ID4gU2VudDogZGVuIDI0IGRlY2VtYmVyIDIwMjEgMDY6NTMNCj4gPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4g
+Q2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyIDxvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KPiA+IFN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IEFkZCBzdXBwb3J0IGZvciBzcGVjaWZ5
+aW5nIGEgc3VmZml4IGZvciBkZWJ1ZyBmaWxlcw0KPiA+DQo+ID4gT24gVGh1LCBEZWMgMjMsIDIw
+MjEgYXQgMjozNiBBTSBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
+LmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gVGhlIHN1ZmZpeCBpcyBhZGRlZCB0byB0aGUgbmFt
+ZXMgb2YgYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9scw0KPiA+ID4gcHJvZHVjZWQgYnkgc3Bs
+aXRfYW5kX3N0cmlwX2ZpbGVzKCkuIEl0IGNhbiBiZSB1c2VkIHRvIG1ha2UgdGhlIGRlYnVnDQo+
+ID4gPiBmaWxlcyBwcm9kdWNlZCBieSBvbmUgcmVjaXBlIHVuaXF1ZSB0byBhdm9pZCB0aGVtIGNv
+bmZsaWN0aW5nIHdpdGgNCj4gPiA+IGlkZW50aWNhbGx5IG5hbWVkIGRlYnVnIGZpbGVzIHByb2R1
+Y2VkIGJ5IGFub3RoZXIgcmVjaXBlLiBUaGlzIG1heSBiZQ0KPiA+ID4gbmVlZGVkIHNpbmNlIHdo
+aWxlIHRoZSB0YXJnZXQgZmlsZXMgbWF5IGJlIHNwbGl0IGluIG11bHRpcGxlIHBhY2thZ2VzLA0K
+PiA+ID4gdGhlIGRlYnVnIGZpbGVzIGZvciBvbmUgcmVjaXBlIGFyZSBhbGwgaW4gb25lIHBhY2th
+Z2UuDQo+ID4gPg0KPiA+DQo+ID4gY2FuIHlvdSBwb2ludCB0byBhbiBleGFtcGxlIHJlY2lwZSBj
+bGFzaCA/DQo+IA0KPiBOb3QgaW4gT0UtQ29yZSBvciBPcGVuRW1iZWRkZWQuIFRoZSBleGFtcGxl
+IHRoYXQgcmVxdWlyZWQgbWUgdG8gaGF2ZSB0byBmaW5kDQo+IGEgc29sdXRpb24gd2FzIHRoYXQg
+d2UgaGF2ZSBvdXIgb3duIGltcGxlbWVudGF0aW9uIG9mIGFuIHNydHAgcGx1Z2luIGZvcg0KPiBH
+U3RyZWFtZXIgdGhhdCBzb21lIG9mIG91ciBwcm9kdWN0cyB1c2UsIHdoaWxlIHNvbWUgb2Ygb3Vy
+IHByb2R1Y3RzIHVzZSB0aGUNCj4gb2ZmaWNpYWwgdmVyc2lvbiBmcm9tIGdzdHJlYW1lcjEuMC1w
+bHVnaW5zLWJhZC4gT3VyIHZlcnNpb24gaXMgYSBkcm9wLWluDQo+IHJlcGxhY2VtZW50IHNvIGl0
+IHByb3ZpZGVzIHRoZSBsaWJnc3RydHNwLnNvIHBsdWdpbiBqdXN0IGxpa2UgdGhlIG9yaWdpbmFs
+DQo+IHBhY2thZ2UgZnJvbSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQgZG9lcy4gVGhpcyBpcyBu
+byBwcm9ibGVtIGZvciB0YXJnZXQgYXMNCj4gdGhlIEdTdHJlYW1lciBwbHVnaW5zIGFyZSBwYWNr
+YWdlZCBvbmUgbW9kdWxlIHBlciBwYWNrYWdlLiBIb3dldmVyLCBhcyB0aGUNCj4gZGVidWcgZmls
+ZXMgYXJlIGFsbCBpbiBvbmUgcGFja2FnZSwgdGhlIGxpYmdzdHJ0c3Auc28gZmlsZSBpbiBvdXIg
+ZGJnIHBhY2thZ2UNCj4gY29uZmxpY3RzIHdpdGggdGhlIGxpYmdzdHJ0c3Auc28gaW4gdGhlIGdz
+dHJlYW1lcjEuMC1wbHVnaW5zLWJhZC1kYmcgcGFja2FnZQ0KPiBhbmQgdGhpcyBiZWNvbWVzIGEg
+cHJvYmxlbSBmb3IgYW55IHByb2R1Y3QgdGhhdCB1c2VzIGJvdGggb3VyIHJ0c3AgcGx1Z2luDQo+
+IGFuZCBzb21lIG90aGVyIHBsdWdpbiBmcm9tIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZC4NCj4g
+DQo+IC8vUGV0ZXINCj4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQg
+PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gIG1ldGEvY2xh
+c3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAxMSArKysrKysrKysrKw0KPiA+ID4gIG1ldGEvY29uZi9k
+b2N1bWVudGF0aW9uLmNvbmYgfCAgMSArDQo+ID4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMiBpbnNl
+cnRpb25zKCspDQo+ID4gPg0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdl
+LmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNzDQo+ID4gPiBpbmRleCAwOWNk
+Mzc2ZjRhLi4zZGYxZWRkNGE4IDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2th
+Z2UuYmJjbGFzcw0KPiA+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+
+ID4gQEAgLTYyLDYgKzYyLDE0IEBAIFBBQ0tBR0VfREVQRU5EUyArPSAicnBtLW5hdGl2ZSBkd2Fy
+ZnNyY2ZpbGVzLW5hdGl2ZSINCj4gPiA+ICAjIHRvb2xzIGF0IHJvb3RmcyBidWlsZCB0aW1lLg0K
+PiA+ID4gIFBBQ0tBR0VfV1JJVEVfREVQUyA/Pz0gIiINCj4gPiA+DQo+ID4gPiArIyBUaGlzIHN1
+ZmZpeCBpcyBhZGRlZCB0byB0aGUgbmFtZXMgb2YgYWxsIGZpbGVzIHdpdGggZGVidWcgc3ltYm9s
+cyBwcm9kdWNlZCBieQ0KPiA+ID4gKyMgc3BsaXRfYW5kX3N0cmlwX2ZpbGVzKCkuIEl0IGNhbiBi
+ZSB1c2VkIHRvIG1ha2UgdGhlIGRlYnVnIGZpbGVzIHByb2R1Y2VkIGJ5DQo+ID4gPiArIyBvbmUg
+cmVjaXBlIHVuaXF1ZSB0byBhdm9pZCB0aGVtIGNvbmZsaWN0aW5nIHdpdGggaWRlbnRpY2FsbHkg
+bmFtZWQgZGVidWcgZmlsZXMNCj4gPiA+ICsjIHByb2R1Y2VkIGJ5IGFub3RoZXIgcmVjaXBlLiBU
+aGlzIG1heSBiZSBuZWVkZWQgc2luY2Ugd2hpbGUgdGhlIHRhcmdldCBmaWxlcw0KPiA+ID4gKyMg
+bWF5IGJlIHNwbGl0IGluIG11bHRpcGxlIHBhY2thZ2VzLCB0aGUgZGVidWcgZmlsZXMgZm9yIG9u
+ZSByZWNpcGUgYXJlIGFsbCBpbg0KPiA+ID4gKyMgb25lIHBhY2thZ2UuDQo+ID4gPiArUEFDS0FH
+RV9ERUJVR19GSUxFX1NVRkZJWCA/Pz0gIiINCj4gPiA+ICsNCj4gPiA+ICBkZWYgbGVnaXRpbWl6
+ZV9wYWNrYWdlX25hbWUocyk6DQo+ID4gPiAgICAgICIiIg0KPiA+ID4gICAgICBNYWtlIHN1cmUg
+cGFja2FnZSBuYW1lcyBhcmUgbGVnaXRpbWF0ZSBzdHJpbmdzDQo+ID4gPiBAQCAtMTExNyw2ICsx
+MTI1LDkgQEAgcHl0aG9uIHNwbGl0X2FuZF9zdHJpcF9maWxlcyAoKSB7DQo+ID4gPiAgICAgICAg
+ICBkZWJ1Z3N0YXRpY2xpYmRpciA9ICIiDQo+ID4gPiAgICAgICAgICBkZWJ1Z3NyY2RpciA9ICIv
+dXNyL3NyYy9kZWJ1ZyINCj4gPiA+DQo+ID4gPiArICAgIGRlYnVnYXBwZW5kICs9IGQuZ2V0VmFy
+KCdQQUNLQUdFX0RFQlVHX0ZJTEVfU1VGRklYJykNCj4gPiA+ICsgICAgZGVidWdzdGF0aWNhcHBl
+bmQgKz0gZC5nZXRWYXIoJ1BBQ0tBR0VfREVCVUdfRklMRV9TVUZGSVgnKQ0KPiA+ID4gKw0KPiA+
+ID4gICAgICAjDQo+ID4gPiAgICAgICMgRmlyc3QgbGV0cyBmaWd1cmUgb3V0IGFsbCBvZiB0aGUg
+ZmlsZXMgd2UgbWF5IGhhdmUgdG8gcHJvY2VzcyAuLi4gZG8gdGhpcyBvbmx5IG9uY2UhDQo+ID4g
+PiAgICAgICMNCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25m
+IGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+ID4gaW5kZXggZjYzZjRiMjIzYS4u
+YWQ0OTQxMDI0OSAxMDA2NDQNCj4gPiA+IC0tLSBhL21ldGEvY29uZi9kb2N1bWVudGF0aW9uLmNv
+bmYNCj4gPiA+ICsrKyBiL21ldGEvY29uZi9kb2N1bWVudGF0aW9uLmNvbmYNCj4gPiA+IEBAIC0z
+MTEsNiArMzExLDcgQEAgUEFDS0FHRV9BUkNIW2RvY10gPSAiVGhlIGFyY2hpdGVjdHVyZSBvZiB0
+aGUgcmVzdWx0aW5nIHBhY2thZ2Ugb3IgcGFja2FnZXMuIg0KPiA+ID4gIFBBQ0tBR0VfQVJDSFNb
+ZG9jXSA9ICJBIGxpc3Qgb2YgYXJjaGl0ZWN0dXJlcyBjb21wYXRpYmxlIHdpdGggdGhlIGdpdmVu
+IHRhcmdldCBpbiBvcmRlciBvZiBwcmlvcml0eS4iDQo+ID4gPiAgUEFDS0FHRV9CRUZPUkVfUE5b
+ZG9jXSA9ICJFbmFibGVzIGVhc2lseSBhZGRpbmcgcGFja2FnZXMgdG8gUEFDS0FHRVMgYmVmb3Jl
+ICR7UE59IHNvIHRoYXQgdGhlIHBhY2thZ2VzIGNhbiBwaWNrIHVwIGZpbGVzIHRoYXQgd291bGQg
+bm9ybWFsbHkgYmUgaW5jbHVkZWQgaW4gdGhlIGRlZmF1bHQgcGFja2FnZS4iDQo+ID4gPiAgUEFD
+S0FHRV9DTEFTU0VTW2RvY10gPSAiVGhpcyB2YXJpYWJsZSBzcGVjaWZpZXMgdGhlIHBhY2thZ2Ug
+bWFuYWdlciB0byB1c2Ugd2hlbiBwYWNrYWdpbmcgZGF0YS4gSXQgaXMgc2V0IGluIHRoZSBjb25m
+L2xvY2FsLmNvbmYgZmlsZSBpbiB0aGUgQnVpbGQgRGlyZWN0b3J5LiINCj4gPiA+ICtQQUNLQUdF
+X0RFQlVHX0ZJTEVfU1VGRklYW2RvY10gPSAiVGhpcyBzdWZmaXggaXMgYWRkZWQgdG8gdGhlIG5h
+bWVzIG9mIGFsbCBmaWxlcyB3aXRoIGRlYnVnIHN5bWJvbHMgaW4gdGhlIGRiZyBwYWNrYWdlLiIN
+Cj4gPiA+ICBQQUNLQUdFX0VYQ0xVREVbZG9jXSA9ICJQYWNrYWdlcyB0byBleGNsdWRlIGZyb20g
+dGhlIGluc3RhbGxhdGlvbi4gSWYgYSBsaXN0ZWQgcGFja2FnZSBpcyByZXF1aXJlZCwgYW4gZXJy
+b3IgaXMgZ2VuZXJhdGVkLiINCj4gPiA+ICBQQUNLQUdFX0VYVFJBX0FSQ0hTW2RvY10gPSAiU3Bl
+Y2lmaWVzIHRoZSBsaXN0IG9mIGFyY2hpdGVjdHVyZXMgY29tcGF0aWJsZSB3aXRoIHRoZSBkZXZp
+Y2UgQ1BVLiBUaGlzIHZhcmlhYmxlIGlzIHVzZWZ1bCB3aGVuIHlvdSBidWlsZCBmb3Igc2V2ZXJh
+bCBkaWZmZXJlbnQgZGV2aWNlcyB0aGF0IHVzZSBtaXNjZWxsYW5lb3VzIHByb2Nlc3NvcnMuIg0K
+PiA+ID4gIFBBQ0tBR0VfSU5TVEFMTFtkb2NdID0gIkxpc3Qgb2YgdGhlIHBhY2thZ2VzIHRvIGJl
+IGluc3RhbGxlZCBpbnRvIHRoZSBpbWFnZS4gVGhlIHZhcmlhYmxlIGlzIGdlbmVyYWxseSBub3Qg
+dXNlci1kZWZpbmVkIGFuZCB1c2VzIElNQUdFX0lOU1RBTEwgYXMgcGFydCBvZiB0aGUgbGlzdC4i
+DQoNCg==
 
