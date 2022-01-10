@@ -2,80 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E174C433F5
-	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:03:01 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.18])
- by mx.groups.io with SMTP id smtpd.web12.31747.1641823380400795106
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 431C6C433EF
+	for <webhook@archiver.kernel.org>; Mon, 10 Jan 2022 14:03:35 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web10.31973.1641823414164851667
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 06:03:00 -0800
+ Mon, 10 Jan 2022 06:03:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=tw3hl5cy;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.18,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=nmFBD2gd;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1641823378; i=@fujitsu.com;
-	bh=9CM9WUw9smd5fM+n42Dt+EydMgJjATB4jEbO3uatjVk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=tw3hl5cyjOiLwbmI8MGZAqZRgP1yCEcZlDi3bkmPJYG3K6kYoaU+DaC4YaRHETkFj
-	 +DY4xrF/3ToyXa3scG9GESm7aWPNv1Og28KPuITONjQsfZnz7F+cvyEVpET1eyBo3d
-	 maIgdJ623lfmQfzOyHjgCP4vCHd9mvbiUK4cjlO8I+Iv0lPwqQ2gJJnrvc2OIiIVYG
-	 LaWBY7otV0SCsIUOEI2xHaUMa/ibhUiL0Kimo/7iW3ihaklXTyus5YE6ak6N5SRxxa
-	 MmoKCnvn2PWKZRzskQ+5/y1uBmoBAjjFzAB3sW56NOz63mHNSr40i8nuq4rTfCOONk
-	 JAPSNCKHduDbw==
-Received: from [100.115.2.51] (using TLSv1.2 with cipher
+	s=170520fj; t=1641823406; i=@fujitsu.com;
+	bh=pZGHfHRxLrW+K4cv8xY0HCdZkSwJWOfax5Kf0p8nqCE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=nmFBD2gdmq6CTJTdYEmPs8WhWpX3Lw1AkaBIaYuvFzZ4tLQLMmPiOdtC9VtjVSTVT
+	 Xzpoi5kAaoWlg2/3SsAQHknL8d1qn5OhVpOoCha4e/6SJC/7pX2NW8PSv8PcfkN1CV
+	 UraHfFf2hucMDg4nAK3ubeN26MAgbeBjD+MiBMm8TiwkM8XWJ6/7e57Snh/NGrJ6Js
+	 RwQ6kZ2j41Yc3clgfHeu9epzN9KuMU7CY2d7l0ldVCXJBmEjGkAB3F6qBTb+YoIS5F
+	 kfRlkQ0NAaA2Iwylj7dDNuNZntAR2XrUKavwtOHzFlgzlxLdkRqp0h1wYdY73Q8kI+
+	 OA3U+x0LqpPGQ==
+Received: from [100.115.70.246] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-west-1.aws.ess.symcld.net id DD/4C-10124-19C3CD16;
- Mon, 10 Jan 2022 14:02:57 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8ORqNtjcyf
-  R4Ml0Pos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPO2afsBde4Krasimpg3MjZxcjFISTwmFGi
-  vecgK4Rznkni3OarzBDOCUaJ7893s3UxcnKwCahJTL91A6iKg0NEQE/i6j9RkDCzgIrEi9897
-  CC2sIC5xIPlO5lBSlgEVCVOb8wBCfMKOEn0XVzKCGJLCChITHn4nhnE5hRwlnjQP5MFpFwIqO
-  bb+3yIckGJkzOfsEBMl5A4+OIFM0SrosTsy80sEHaFxKxZbUwQtprE1XObmCcwCs5C0j4LSfs
-  CRqZVjJZJRZnpGSW5iZk5uoYGBrqGhqa6JrqWxnqJVbqJeqmluuWpxSW6hnqJ5cV6qcXFesWV
-  uck5KXp5qSWbGIHBm1LMEruDcWvfT71DjJIcTEqivE+M7yQK8SXlp1RmJBZnxBeV5qQWH2KU4
-  eBQkuBNsATKCRalpqdWpGXmACMJJi3BwaMkwqsBkuYtLkjMLc5Mh0idYlSUEufltQZKCIAkMk
-  rz4Npg0XuJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjBvAch4nsy8Erjpr4AWMwEtTua4DbK
-  4JBEhJdXAtE3lgtnnKQH5j+b5z55eGvtxdVOJsPXn/TeZr0jcMpe9Utjb6GSg8TMwl6lYwtph
-  HXufcfFLIeaWSpHDBnbrZnTzxl4rdgprM1meeby0u8W1J6dsjV3kyxniwdmMi4JWsxQKyTO/m
-  ed+Y0+ywotwZb6LuyZm2PHNuvHJLjrk3ZFp4r2Gr5wijfPm/g4K9/vd7Plx3fGly2NfcbJNPL
-  Cf3/D9X8WmWS8tpVMSnqvuZ664rWym6VXkWH9365e5Dv/PtK1b/KD+c93BJY0q36+67NkzVXB
-  VX+/3HFOtE77bmAOeiP8piVPeYLJu6afs0Ev5F+dL/ziWdLxf8MFVReUPSuXH1vstZWLexFTZ
-  /P6jEktxRqKhFnNRcSIAPtbpplkDAAA=
+	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ 47/23-07141-EAC3CD16; Mon, 10 Jan 2022 14:03:26 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRWlGSWpSXmKPExsViZ8MxSXedzZ1
+  Eg46TXBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8b0B3uZCuZxVExZdJe1gXElexcjF4eQwGNG
+  iS1PdjFBOOeZJNbu/wDlnGCUODujCaiMk4NNQE1i+q0brF2MHBwiAnoSV/+JgoSZBVQkXvzuY
+  QcJCwuYSJyZyQ8SZhFQlTj8dj8riM0r4CTx590BRhBbQkBBYsrD98wQcUGJkzOfsECMkZA4+O
+  IFM0SNosTsy80sEHaFxKxZbUwQtprE1XObmCcw8s9C0j4LSfsCRqZVjHZJRZnpGSW5iZk5uoY
+  GBrqGhqa65oa6hsbGeolVuol6qaW6yal5JUWJQGm9xPJivdTiYr3iytzknBS9vNSSTYzA0Ewp
+  dm/dwXi576feIUZJDiYlUd4nxncShfiS8lMqMxKLM+KLSnNSiw8xynBwKEnwJlgC5QSLUtNTK
+  9Iyc4BxApOW4OBREuHVAEnzFhck5hZnpkOkTjEqSonz8loDJQRAEhmleXBtsNi8xCgrJczLyM
+  DAIMRTkFqUm1mCKv+KUZyDUUmYtwBkPE9mXgnc9FdAi5mAFidz3AZZXJKIkJJqYHLpjmvyvr7
+  m/st9QQZ+AsHvIr7tuSxwbvGSGRq99n5BCVuvP/sWpbLq1ySeJuVMX4e/LLc//549e+6B2Z+T
+  3m2aHNfp8Xf9Kpa1d3vMshobTZdN1b+qfflY0fJ9k6RiLa19Wb5e3T91NvPBB7+9Wipn+m1br
+  363+I+3adbSvlVX17qGuB/2dQgJWugTYqXNZ2wWx+WRKtOuY3on7tae3Oc76/nk7zs/LH73Xe
+  LGmTUJHk5/4jcpx53bq3RF6ezWC5FrKm+cDzhhP+/ERq1XV4/UPNfLDt9q4MN98MqBiXOyeSP
+  7ptq9fRMh1SAcPSMr+/ydRi+1lzzTF8uf7/ku9t5p/Y7IpWcurVwronSnacpsJZbijERDLeai
+  4kQAYeUGJ0gDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-585.messagelabs.com!1641823371!41842!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-4.tower-545.messagelabs.com!1641823405!5158!1
+X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 919 invoked from network); 10 Jan 2022 14:02:52 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-3.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 10 Jan 2022 14:02:52 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id A4B8F1001AA
+Received: (qmail 22958 invoked from network); 10 Jan 2022 14:03:26 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-4.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 10 Jan 2022 14:03:26 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id B47B7100453
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 14:02:51 +0000 (GMT)
+ Mon, 10 Jan 2022 14:03:25 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 6E1121001A2
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id A779210044F
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 14:02:51 +0000 (GMT)
+ Mon, 10 Jan 2022 14:03:25 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.26; Mon, 10 Jan 2022 14:02:44 +0000
+ (TLS) id 15.0.1497.26; Mon, 10 Jan 2022 14:03:23 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] bluez5: upgrade 5.62 -> 5.63
-Date: Mon, 10 Jan 2022 22:02:29 +0800
-Message-ID: <1641823351-62709-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] ell: upgrade 0.46 -> 0.47
+Date: Mon, 10 Jan 2022 22:03:13 +0800
+Message-ID: <1641823396-62747-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1641823351-62709-1-git-send-email-wangmy@fujitsu.com>
-References: <1641823351-62709-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -85,40 +82,37 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:03:01 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 10 Jan 2022 14:03:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160356
+ https://lists.openembedded.org/g/openembedded-core/message/160357
 
 Changelog:
 =========
-This release is mostly a bug fix release, with fixes to features such as GATT,
-SDP, Daemon, and emulator. It also adds a new MGMT Event for Device Found and
-Device Lost of Advertisement Monitor.
-
-New build options for sanitizers (lsan, asan, ubsan) are added and it may
-require installing additional libraries depending on the distros.
+Fix issue with memory leaking from DHCP leases.
+Fix issue with NULL terminating of Base64 encoding.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../bluez5/{bluez5_5.62.bb => bluez5_5.63.bb}                   | 2 +-
+ meta/recipes-core/ell/{ell_0.46.bb => ell_0.47.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.62.bb => bluez5_5.63.bb} (95%)
+ rename meta/recipes-core/ell/{ell_0.46.bb => ell_0.47.bb} (89%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.62.bb b/meta/recipes-connectivity/bluez5/bluez5_5.63.bb
-similarity index 95%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.62.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.63.bb
-index 411ac8b5a3..34c4767d2b 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.62.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.63.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+diff --git a/meta/recipes-core/ell/ell_0.46.bb b/meta/recipes-core/ell/ell_0.47.bb
+similarity index 89%
+rename from meta/recipes-core/ell/ell_0.46.bb
+rename to meta/recipes-core/ell/ell_0.47.bb
+index 4dea9442af..1db0065a37 100644
+--- a/meta/recipes-core/ell/ell_0.46.bb
++++ b/meta/recipes-core/ell/ell_0.47.bb
+@@ -16,7 +16,7 @@ inherit autotools pkgconfig
  
--SRC_URI[sha256sum] = "38090a5b750e17fc08d3e52178ed8d3254c5f4bd2c48830d5c1955b88e3bc0c2"
-+SRC_URI[sha256sum] = "9349e11e8160bb3d720835d271250d8a7424d3690f5289e6db6fe07cc66c6d76"
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[sha256sum] = "f4fc647eff32f622e21f8851ed0c8b7270f4800149c91be601754e22d82cbb4d"
++SRC_URI[sha256sum] = "4901a0baac4eb24163ceafb44fd448430361d25d8f17d89ff29f8b0b162b3eb9"
  
- # These issues have kernel fixes rather than bluez fixes so exclude here
- CVE_CHECK_WHITELIST += "CVE-2020-12352 CVE-2020-24490"
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.25.1
 
