@@ -2,63 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 422FBC433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:03:08 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web12.12370.1641927787671615326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42CB6C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:03:12 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web08.12264.1641927791465861469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:03:07 -0800
+ Tue, 11 Jan 2022 11:03:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pTR9cAos;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id
- c14-20020a17090a674e00b001b31e16749cso7019081pjm.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=W/B8vbht;
+ spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f53.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so7060714pjj.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:03:07 -0800 (PST)
+ Tue, 11 Jan 2022 11:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=PKEFiw1hj2ORgUMoroOlwILhOrUZq5EyNzSLItZN9+Q=;
-        b=pTR9cAos2IZ47B6MMAiWDUCqGzMV97azmZhvY+ZNPbbRpUgUAK5ibmS5cMiRljhuWn
-         ufH3XN9tj87L9nhP3DnIdlPb0iUaFI+GT7nLGgZ3LJH8GCz//nSwEhc+gFf9jBG639J5
-         STsLWDRsd9uU5CfBaMFWgWwrmjXGm6EmwfN43tgxYqWYxf33KVnmAsHVYc2Nq3Y/0PmP
-         m/a6ikv4gono33lcODiYZ5ypUBi9lvGYuvVfI2DTWLWCcjLocom+ur596Et51AnRRV2U
-         8ooFl8UIdFutA193cdLOPU9YwoDMgvGc40D3OksmEpx/H786V83vBg6vs/BQqz92zeCj
-         iKTw==
+        bh=26qqQh9vvGC50KxITYv7uYQKn9gUX4x6dOagRQaM0a4=;
+        b=W/B8vbht80GWw5krXizJL/FoRZBQXyWUvNntVFkRxwGSwwb0ptDUR6+Rrn+ZknnzmG
+         2QgtxqKwal536pF9kYJKF5nBgh0jSHIA1Zxu+KQl7c4DZAyiFMnF+5A6NATc7GgHuvbh
+         gUMNj+Hui+r7UZQyMX3G0cl0YzpPgidINXHxAEewi6565FGev8Rwz0XAvJnAUc2EEcME
+         j49oNzsPJLSi5R20PYUbCEJeN/9jSBMhcylkmg1qYXMIDB78yD5RkcsYSwDsBxD663DP
+         mZzVrQeXA53ynOMJwWDoJQxnl/D/EzyHL/eRGoZ8KzPJgErDcWF2FO/d0QWzNF9ZM7LU
+         YztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PKEFiw1hj2ORgUMoroOlwILhOrUZq5EyNzSLItZN9+Q=;
-        b=lswmiB4s04dUUqMDVlEKBSymHBRyzsQDjtrz06W0wkQskB1HAvTvpha5Z2UYxWfjBH
-         MZSIvRlnc/1YRRgLSbdXF8QgBdz/d9LuOobEhTvvPwklcCEiws+wy34FthguCt2mN25/
-         OxU9j15JQMaD9qgBNqnHnTAzVwNRKm2/S6y24DwL/6np0ugzRPZ5/Pg9pFbZ7gJ7WsNe
-         bnwfUihVIOWUXsMiGi3IEZkIn3NpDQVOCfSpghe4+sxxdPCUVRr6YF007Tovi2S3EEj3
-         4N8fNTE9Q+xhDAMpaL6nq/t6g/j5Bxaxk3k6G7znhuJ682WmIqIrV2WARZqowHoyWlWZ
-         0Kag==
-X-Gm-Message-State: AOAM5326toJ4/IQzKE1/lquThgevpD4l6Za6TkDabgJ4q1vcAvrofn+1
-	3HJrve4kokGxN80rYYFSV0Z8wZxhTMo=
+        bh=26qqQh9vvGC50KxITYv7uYQKn9gUX4x6dOagRQaM0a4=;
+        b=lJphSYgF9l/SXHSaLsCpRit43pn0ESgu7JkBU6WE1GgxNvMiMSAsSkdQsB7rSMjCqE
+         6xiE9b19q7+ey1ft2BVkMOKgX+jElq7932lxcSIj/mKTnwSwOyMjHx5mGbnkF2eC5Kni
+         n3tP66Ihxh1L7Ax+kvmigPMLBFsHToHuLgCMcHH/Uj7qU1N4Qf3uOsLIW4TIfZAY8lUW
+         fa2bqJRtyB0ABiTvQFz3Ou95eE/bA8AZaIShJN7djekQmKzoGr/TxuvtheOpAidzoMH8
+         //iHdsKS4rEQFfpUhNRbdaKoNkInkJe+XsffpD49InOj5YgGgZ5K5IGoSaegNXXMWDyV
+         XRiA==
+X-Gm-Message-State: AOAM533UAl2k9i5LeowtktoqyFVtRff0ucPt3GcnVAM10gf6qyo0Hfx6
+	hyw4LZfGhx+c6Lb4OHDqau1XnaPCRns=
 X-Google-Smtp-Source: 
- ABdhPJwUPzdsl+Fjqvdk4cGjdKnPiOv+uNohqoK6fN6SO9hPrIiR4kz7kKz6DtvT85kw/ZYkR+muNg==
-X-Received: by 2002:a17:90a:4089:: with SMTP id
- l9mr4662372pjg.14.1641927787000;
-        Tue, 11 Jan 2022 11:03:07 -0800 (PST)
+ ABdhPJwuyr5tQ3ClltDmD6yBelzgoGwlpOJmqN3oHQ67j7Fayhn5giED580fV0RCxpVz+ThsjtJA4A==
+X-Received: by 2002:a05:6a00:b8e:b0:4ba:cbf2:516e with SMTP id
+ g14-20020a056a000b8e00b004bacbf2516emr5801391pfj.72.1641927790760;
+        Tue, 11 Jan 2022 11:03:10 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:9b84:60d5:95c9:ae8b])
         by smtp.gmail.com with ESMTPSA id
- u3sm11509977pfk.82.2022.01.11.11.03.06
+ u3sm11509977pfk.82.2022.01.11.11.03.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:03:06 -0800 (PST)
+        Tue, 11 Jan 2022 11:03:10 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 21/22] python3native.bbclass: distutils -> sysconfig
-Date: Tue, 11 Jan 2022 11:01:30 -0800
+Subject: [PATCH v2 22/22] rootfs_rpm.bbclass: distutils -> sysconfig module
+Date: Tue, 11 Jan 2022 11:01:31 -0800
 Message-Id: 
- <952f37dd06c31b1ddf86afa27d8dcf786e2e312d.1641920605.git.tim.orling@konsulko.com>
+ <ace4f5cf0d2d76f0d77bdad28eff060fae8760e0.1641920605.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1641920605.git.tim.orling@konsulko.com>
 References: <cover.1641920605.git.tim.orling@konsulko.com>
@@ -67,33 +67,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:03:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:03:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160457
+ https://lists.openembedded.org/g/openembedded-core/message/160458
 
-In the comment it says we patch distutils modules, but we now are
-patching sysconfig and not using distutils.
+Change a comment to reference our custom changes to the
+sysconfig module, as dnf no longer uses distutils.
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/classes/python3native.bbclass | 2 +-
+ meta/classes/rootfs_rpm.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-index 13fbaa5f9c7..3783c0c47eb 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -4,7 +4,7 @@ PYTHON="${STAGING_BINDIR_NATIVE}/python3-native/python3"
- EXTRANATIVEPATH += "python3-native"
- DEPENDS:append = " python3-native "
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 3d8d784f792..bec4d63ed6c 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -4,7 +4,7 @@
  
--# python-config and other scripts are using distutils modules
-+# python-config and other scripts are using sysconfig modules
- # which we patch to access these variables
+ ROOTFS_PKGMANAGE = "rpm dnf"
+ 
+-# dnf is using our custom distutils, and so will fail without these
++# dnf is using our custom sysconfig module, and so will fail without these
  export STAGING_INCDIR
  export STAGING_LIBDIR
+ 
 -- 
 2.30.2
 
