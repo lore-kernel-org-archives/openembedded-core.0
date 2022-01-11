@@ -2,110 +2,95 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4422C433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 11:15:57 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.5701.1641899757251408652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EDE6C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 11:18:16 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web12.5654.1641899892222620504
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 03:15:57 -0800
+ Tue, 11 Jan 2022 03:18:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eQ54P8Xk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hRGcC7G2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id o3so32255488wrh.10
+Received: by mail-wm1-f51.google.com with SMTP id c66so10727811wma.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 03:15:57 -0800 (PST)
+ Tue, 11 Jan 2022 03:18:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JbdB0ys52qKKo5HLzRpiXprHbLP4gpm2f6u3ihzsvYI=;
-        b=eQ54P8Xk/cEARp+X0Rdfg6+cHGJk/P97sitClVd+SXEzMfHVyjdWX5XIc9eGJAOsjR
-         5Le5jk0b+6hM+t44K4S46KXYIJySy5M8f1wbEWDt0pfY6MeSTSmNQnKY6F1d2HIgT/MU
-         MsjVQSOjMXeZ+r25KInxMb/nDB0kh8qlD2cUg=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Zsm0LQi2oG/HNGzcDdI0YFDyYvvvUDYa+YEvdxv1jYw=;
+        b=hRGcC7G25Gr9NZc+bz8VMmAFlTBAB1Fr1l9W2O9gPpVZY1OM8Y84EI5TdNorQf9Bzw
+         stbIEU8oK79hWiLgxgsO7aqWi0xxRmOMDGAEHUE4PVwsf8IlPa5yQ/brwW9JiczIpwe0
+         suXhdVVNE9uwzXfoL0JmRQliIsxbxeJ9RXwco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JbdB0ys52qKKo5HLzRpiXprHbLP4gpm2f6u3ihzsvYI=;
-        b=dXWFMsdr3qb9hVHBDEaqvRnU2F2NKfOHjZLfLI3gSCxyY1c/pLiJ8L+s6UOAZXojwI
-         XkqQIF+Ak1KSc/co6zlX50RQ8ico53TlkFuoqjYhEEUg9zAxA6iUVZSqAlIoZWNjW6jX
-         LfKZo3fBNCw/fFBxXiyFW9KGAFXGTtBRoE1eECv0wZGSp/yU/HuqhYb52/kUO+HgwX0r
-         NFXNYDeyHE3YhQzjSEE82i4bEdo7loDa/qpnpEHNqeVll9x1NVO6sR+hVs6yZ5F05msm
-         o7V5T/qGXgG89A9DuvsItkrSoCiH14Zq6cW7qENpuQ/hOItvq5RGDls1kfHSJSohdWSR
-         iyqg==
-X-Gm-Message-State: AOAM532y+upgaB2X1JKhGHJz/grUhAw2tRmxjmMLZMpteFQ/g4K1GXFJ
-	B1i6kZM1xxU+kQnzmd2RkEoYGA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Zsm0LQi2oG/HNGzcDdI0YFDyYvvvUDYa+YEvdxv1jYw=;
+        b=BVKiRDYmdLu9uWAcjRuA9/IfsGTaJgJLg6Z+KpQLRaL+5Dz64wUstnzMbN6jt0no5E
+         DoYdWqYdsff8REfFyJih2nB52Ae2ZOwaJq1qANpqnH9Y0tlC0SICJuMHN4UOcokE9J5j
+         9W2DyggOYT/xL4xJhlU186dfZeRmh7gqrSMTKw2JlpMxF0gwc9ygEl298LFTaSS0Cw7q
+         /VwoW1M1Fxqt4KYoz5uG4imSYhfpY7k9rgdyxDkobqFR1OEddpgMFjplLd3ZV8f7xjzU
+         bEpFCBFOpWxHTUUvBQZ2D23/yXGdqpYt6q0M74bFxFERfGqMwJW6dC1orGVTu2QJbUqm
+         sNwg==
+X-Gm-Message-State: AOAM5328dVtAjoaOt6oni1fhX7lGxdhstioAiq3AP8luivQwQnEvqj/N
+	sKg3BVVgpWFlXUffMGA7+CCK4dx9feY2Lw==
 X-Google-Smtp-Source: 
- ABdhPJyE+OWmUD7dgXkvTDmQMVVY684VWR8xNQtueEAxStkVkiglvX20XRX0f4ogr1qfyqGznwLjFg==
-X-Received: by 2002:adf:9d8a:: with SMTP id p10mr3345574wre.351.1641899755721;
-        Tue, 11 Jan 2022 03:15:55 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:895c:c4eb:1cfa:d3e4?
- ([2001:8b0:aba:5f3c:895c:c4eb:1cfa:d3e4])
+ ABdhPJxKY3G759PYjkXaMBVlc04VZBW9rxgo7aljZAokPyARfnJVFo2OmQZMwGnddH5XydBQ3PpCfQ==
+X-Received: by 2002:a05:600c:20d3:: with SMTP id
+ y19mr1993294wmm.151.1641899890601;
+        Tue, 11 Jan 2022 03:18:10 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:895c:c4eb:1cfa:d3e4])
         by smtp.gmail.com with ESMTPSA id
- g12sm5501994wrm.109.2022.01.11.03.15.55
+ m39sm1553215wms.33.2022.01.11.03.18.10
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 03:15:55 -0800 (PST)
-Message-ID: 
- <52590086d0002815ca1f78ae27e6696a63ffe7d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 13/14] connman: do nothing in qemu, do not
- touch eth0
+        Tue, 11 Jan 2022 03:18:10 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Tue, 11 Jan 2022 11:15:54 +0000
-In-Reply-To: 
- <CANNYZj97rvKykUrrnbuzD8w77-AEo+kaFLdC=HqC0mhLd79krA@mail.gmail.com>
-References: <20220109222732.2252416-1-alex@linutronix.de>
-	 <20220109222732.2252416-13-alex@linutronix.de>
-	 <b13cebc769646dffce33ee9b675375d4c22ef7bc.camel@linuxfoundation.org>
-	 <CANNYZj9jRkc32Xm7PevLuFEgLOxTdaq7bYGu9=_gU3PitT7_-A@mail.gmail.com>
-	 <8993e498bf8d266832f911b7b2c7263ccaf418e7.camel@linuxfoundation.org>
-	 <CANNYZj97rvKykUrrnbuzD8w77-AEo+kaFLdC=HqC0mhLd79krA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] sstatetests: Add OLDEST_KERNEL to allarch tests
+Date: Tue, 11 Jan 2022 11:18:08 +0000
+Message-Id: <20220111111809.1633613-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 11:15:57 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 11:18:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160395
+ https://lists.openembedded.org/g/openembedded-core/message/160396
 
-On Tue, 2022-01-11 at 12:10 +0100, Alexander Kanavin wrote:
-> On Tue, 11 Jan 2022 at 12:08, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > The data above is inserted into /etc/default/connman in the connman package
-> > itself. That package is installed into deploy/XXX/<tunearch>/connman.YYY.
-> > That
-> > is not the machine specific package directory.
-> > 
-> > Or in different words, if I build connmand for a qemu machine, then build
-> > connman for a machine with the same tune that isn't qemu, command rebuilds
-> > but
-> > installs the package to the same location. This is not allowed.
-> > 
-> > Machine specific data (in this case qemu specific) shouldn't be in general
-> > packages. This goes against yocto-check-layer and YP-Compatibility.
-> > 
-> 
-> 
-> Right, I can fix this, but is there a testing gap then? This prompted no
-> warnings on either local builds or in a-full.
+Some architectures vary OLDEST_KERNEL and this shouldn't change the allarch
+signatures but in current OE-Core can/does. Add differing values to the
+test configs to ensure we catch this in future (we want to keep a 32 and
+64 bit machine here to test that as well).
 
-The autobuilder is not definitive as it does not have 100% test coverage much as
-I wish it were.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Yes, there is clearly a gap in testing here :(
-
-We don't really have a machine with an identical tune to a qemu target that
-isn't qemu which we run sstate sigs tests against.
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 2be96f1781b..70ef10cda53 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -342,10 +342,12 @@ TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86-64\"
+ BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
++        #OLDEST_KERNEL is arch specific so set to a different value here for testing
+         configB = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ TCLIBCAPPEND = \"\"
+ MACHINE = \"qemuarm\"
++OLDEST_KERNEL = \"3.3.0\"
+ BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
+         self.sstate_allarch_samesigs(configA, configB)
+-- 
+2.32.0
 
 
