@@ -2,202 +2,148 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDD6C433EF
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 07:49:56 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web12.4152.1641887395189013563
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF51C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 07:55:26 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.4232.1641887725792307136
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 23:49:55 -0800
+ Mon, 10 Jan 2022 23:55:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DBJqUoUf;
- spf=pass (domain: gmail.com, ip: 209.85.222.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qTiEPrq+;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id g2so363196qkp.1
+Received: by mail-qt1-f173.google.com with SMTP id v7so14413258qtw.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 23:49:55 -0800 (PST)
+ Mon, 10 Jan 2022 23:55:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cmcc5xiR5J6l7zBktXLVNGkVZjFLOQcsOcQopeGms0s=;
-        b=DBJqUoUflVwYTYG0KBtEg3qiJV+azMKdaUpXcUlepHw7iX3fCQGoFSXmMB16L7DQo1
-         V4oC9DJyrtCruQf4XFI1QyCnzW3bdT2fOq3RvViDAUXUuP6E0uBTxPjl35Ud7S1C30z2
-         xa115KG4BjJT0tW25r+HLZUgk9LIh3hQLA//pkChzxFKpJ+VRY2Q2iQakGoeVxPlK7vM
-         pdWKL+bWufLvEcdKqctxEFG85/Oq2LS8qP6KeTdHEImbTXByyM67NuRgvuHE0wgQW+Ta
-         1krzxECdkvFh7fxR1yv+xcM+UQK6FIanWVNs+G5SXsZ9qBSRqytnYd0Wets7/v57Tj+V
-         4etw==
+        bh=OZ43CoGiyHhZgq97Jmrrvbtkf9vaMFol203CbyelRL8=;
+        b=qTiEPrq+dovgkiOrYPTzTDk9AlfZaj5BYBsJ0A5spqttbmSLS+qaXhuKWW6mKno243
+         woRE6UfAtwXmiYFS79pBN1hlEOTxBdXwfI6XBjsROjMT2hrZQgNqQKQYSnVoyC377Cbo
+         l4++o0m0bAeOZC2oHybiv03RMverLU6+Ms6Vh8QzNRqHG1Fu/Q47rn5thFFQgotsKEaF
+         huJAntoOKW4np9JxjArS44AapWXNLgaxS/xqN6kSIrDZXCIawbJkQMIbWkyUR3U1ITfk
+         CXqlRdODONQvs8hKxJwvEcg9hJfrsHsYcpgExC4Ool5Fo5E20AcmUIw/LSDmeKdlx4fC
+         rqEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cmcc5xiR5J6l7zBktXLVNGkVZjFLOQcsOcQopeGms0s=;
-        b=ZQ2QQPnoT88BqWaZCs5pIsNYLWB7TXgRh6efIkUDBea9sJyyuQ19H1G7zqJZ5X+o5S
-         HuRYBPDVj1xhOC5mVVnNovGZQrfPJSB0WoxMpQqUDNPjeyh3O1436gd6Uo4FlzQgRlBg
-         DZVtHOjsUl9kfZSrtyC3qSmW9D/78M0WN54pAUHjvkZZqhbITs7IGu2c1kw9yqr0GC3+
-         tTEFkKvgW13EY4P/xfVodN21HKrXTurCsH6QAHoxxe51zLgE+fSVq0SsTCFd6zOfVJZH
-         Kx0iRjVKu+xJ0IwGbQIz2BMu2VB8RpWwj1OpDUIpZaU3Y3/EbMB9S+fP62YFAMJS3Ouq
-         5R2Q==
-X-Gm-Message-State: AOAM53043QaXtX9iF9af7aVucPB8uNCaJlipF79Uk1p4ozEbLepWh9ZC
-	NB6D20hKrzzMolFXp9bf/J6rL6VL15v9D0zheKA=
+        bh=OZ43CoGiyHhZgq97Jmrrvbtkf9vaMFol203CbyelRL8=;
+        b=U6dmew03/R5bsDdsCZZrE9sRzu3mVsQYVAVtXo38Pk6yWXOjdqQRxMOdtUAstI5xh5
+         cGzYYp+SA+t4uFEbtE7pRCPEF872PrhjgT2EJqw7Bi2NhOxMY216RJpXXgRI9qFU47UH
+         EPZ6mAI0tCZ3EXciDePnyFWeSsbgnEYeTet4vaL7wQ1cB3Y4ZeboYYFXqJW1WgW3MU8y
+         /xT7lHL+l/d15Z111Ba0V7LSoIQPp0deIhyI1MX4MTuxaPitDPgWiTi3jQj+91s/gBTn
+         HrSaN6ZFP7uA5zomeAui0uj8bUQ/xDA36xH+mz5WC1z58mJJbV3+harW7c5CHvKgeZMR
+         ttYA==
+X-Gm-Message-State: AOAM5310200KhQWqeZ5s+wSnrhwGF6P9+M4KnKK9K11AexKOqhd6Cmz4
+	/qw+oYTSeaFvfO2nBetjOYGQfGr1cIUsyeZD0I4=
 X-Google-Smtp-Source: 
- ABdhPJwbN289zAtqfEAtO7GzjK4jG/27EM8B3IfTy9uzBq4UDhNetOPOf69QRP4ZYPNe4qV+EJQ88bi4o+Ll4YJ5sqc=
-X-Received: by 2002:a05:620a:f06:: with SMTP id
- v6mr2381998qkl.149.1641887394052;
- Mon, 10 Jan 2022 23:49:54 -0800 (PST)
+ ABdhPJzc+Ed7JGqHZghwKYFOtZRDWzu32/KgsOMSO9iGFMMuYUlkpEJqBXWvD6rHyYkwmCXqn4QDIH8eYF6UQgztOZs=
+X-Received: by 2002:a05:622a:48c:: with SMTP id
+ p12mr2790903qtx.532.1641887724661;
+ Mon, 10 Jan 2022 23:55:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20220109222732.2252416-1-alex@linutronix.de>
- <20220109222732.2252416-10-alex@linutronix.de>
- <CAMKF1sqW2NaY+=49oWG24=6mrrLjM_jam375tbHS_yo8xD2+hA@mail.gmail.com>
- <CANNYZj8jt-Wh4nyBNdXm5ykPjOkK1nvoLH7vcJwgZpPnxn=NeQ@mail.gmail.com>
- <CAMKF1sr4VpWwTqER4h4tYUm4p2v_di8BcmcE_As8GFkiEJO6kQ@mail.gmail.com>
- <CANNYZj9e6DDGBEL7_bcSdU=6z-faXOEjCnDcsJ-rAtEqK_aVrQ@mail.gmail.com>
- <CAMKF1sp3ujr7iaktTzxH0bSXT8MKJ5c06t4ObUro8m5zCczD5Q@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sp3ujr7iaktTzxH0bSXT8MKJ5c06t4ObUro8m5zCczD5Q@mail.gmail.com>
+References: <20220111025030.1428488-1-alejandro@enedino.org>
+In-Reply-To: <20220111025030.1428488-1-alejandro@enedino.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Jan 2022 23:49:28 -0800
+Date: Mon, 10 Jan 2022 23:54:58 -0800
 Message-ID: 
- <CAMKF1srFMGqOXKSiU_J-D04g2-E45OGVY7kgeXwdXf0MgPKxmQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 10/14] epiphany: make libportal optional, and
- move it to meta-oe
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+ <CAMKF1sqnEYZn4j722Wm-UvLBNZMQu8qHWr8Xo_Q4WNZNXXpu-g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc-cross-canadian: Fix cross canadian compiler
+ for baremetal targets
+To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 07:49:56 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 07:55:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160387
+ https://lists.openembedded.org/g/openembedded-core/message/160388
 
-On Mon, Jan 10, 2022 at 12:54 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Mon, Jan 10, 2022 at 6:50 PM Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
 >
-> On Mon, Jan 10, 2022 at 11:18 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > For epiphany you also need the oe-core patch. Nautilus should switch to an optional dependency via PACKAGECONFIG, similar to epiphany.
+> While building GCC it checks whether the include directory exists,
+> if it doesnt it throws an error and exits:
 >
-> I might have missed the OE-core patch perhaps, I will rebuild with
-> latest master-next perhaps and see if that helps
-
-digging a bit deeper reveals this
-
-../nautilus-41.1/src/nautilus-files-view.c:95:10: fatal error:
-'libportal/portal-gtk3.h' file not found
-#include <libportal/portal-gtk3.h>
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-1 error generated.
-
-but libportal is staging it in
-
-% find ../ -name portal-gtk3.h
-../recipe-sysroot/usr/include/libportal-gtk3/portal-gtk3.h
-
-and this is happening with 0.5 upgrade of libportal. I guess nautilus
-needs to be patches perhaps.
-
+> | The directory that should contain system headers does not exist:
+> | tmp/work/x86_64-nativesdk-pokysdk-linux/gcc-cross-canadian-riscv32/
+>     11.2.0-r0/recipe-sysroot/usr/include/
+> | make[1]: *** [Makefile:3257: stmp-fixinc] Error 1
 >
-> >
-> > Alex
-> >
-> > On Mon, 10 Jan 2022 at 19:57, Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> On Mon, Jan 10, 2022 at 10:49 AM Alexander Kanavin
-> >> <alex.kanavin@gmail.com> wrote:
-> >> >
-> >> > Was this patch included in the build?
-> >>
-> >> I had included the meta-oe patch that you posted for sure. I am also
-> >> seeing failing build with similar errors for nautilus see
-> >> https://errors.yoctoproject.org/Errors/Details/621931/
-> >>
-> >> >
-> >> > Alex
-> >> >
-> >> > On Mon, 10 Jan 2022 at 19:43, Khem Raj <raj.khem@gmail.com> wrote:
-> >> >>
-> >> >> seeing this error
-> >> >>
-> >> >> https://errors.yoctoproject.org/Errors/Details/621908/
-> >> >>
-> >> >> On Sun, Jan 9, 2022 at 2:28 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> >> >> >
-> >> >> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> >> >> > ---
-> >> >> >  meta/conf/distro/include/maintainers.inc      |  1 -
-> >> >> >  meta/recipes-gnome/epiphany/epiphany_41.0.bb  |  2 +-
-> >> >> >  meta/recipes-gnome/libportal/libportal_0.5.bb | 17 -----------------
-> >> >> >  3 files changed, 1 insertion(+), 19 deletions(-)
-> >> >> >  delete mode 100644 meta/recipes-gnome/libportal/libportal_0.5.bb
-> >> >> >
-> >> >> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> >> >> > index 0af6974a3d..ab7915482a 100644
-> >> >> > --- a/meta/conf/distro/include/maintainers.inc
-> >> >> > +++ b/meta/conf/distro/include/maintainers.inc
-> >> >> > @@ -369,7 +369,6 @@ RECIPE_MAINTAINER:pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
-> >> >> >  RECIPE_MAINTAINER:pn-libpcre2 = "Unassigned <unassigned@yoctoproject.org>"
-> >> >> >  RECIPE_MAINTAINER:pn-libpipeline = "Wang Mingyu <wangmy@fujitsu.com>"
-> >> >> >  RECIPE_MAINTAINER:pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
-> >> >> > -RECIPE_MAINTAINER:pn-libportal = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >> >> >  RECIPE_MAINTAINER:pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
-> >> >> >  RECIPE_MAINTAINER:pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >> >> >  RECIPE_MAINTAINER:pn-libptytty = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >> >> > diff --git a/meta/recipes-gnome/epiphany/epiphany_41.0.bb b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-> >> >> > index 8f3bd87340..a64cdefd86 100644
-> >> >> > --- a/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-> >> >> > +++ b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
-> >> >> > @@ -15,7 +15,6 @@ DEPENDS = " \
-> >> >> >            libarchive \
-> >> >> >            libdazzle \
-> >> >> >            libhandy \
-> >> >> > -          libportal \
-> >> >> >            glib-2.0-native \
-> >> >> >            "
-> >> >> >
-> >> >> > @@ -37,6 +36,7 @@ PACKAGECONFIG ??= "${PACKAGECONFIG_SOUP}"
-> >> >> >  PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
-> >> >> >  PACKAGECONFIG[soup2] = "-Dsoup2=enabled,-Dsoup2=disabled,libsoup-2.4,,,soup3"
-> >> >> >  PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
-> >> >> > +PACKAGECONFIG[libportal] = "-Dlibportal=enabled,-Dlibportal=disabled,libportal"
-> >> >> >
-> >> >> >  FILES:${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
-> >> >> >  RDEPENDS:${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-> >> >> > diff --git a/meta/recipes-gnome/libportal/libportal_0.5.bb b/meta/recipes-gnome/libportal/libportal_0.5.bb
-> >> >> > deleted file mode 100644
-> >> >> > index 67f63fea68..0000000000
-> >> >> > --- a/meta/recipes-gnome/libportal/libportal_0.5.bb
-> >> >> > +++ /dev/null
-> >> >> > @@ -1,17 +0,0 @@
-> >> >> > -SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
-> >> >> > -DESCRIPTION = "It provides simple asynchronous wrappers for most Flatpak portals \
-> >> >> > -with a familiar GObject API along side the D-Bus API"
-> >> >> > -HOMEPAGE = "https://github.com/flatpak/libportal"
-> >> >> > -BUGTRACKER = "https://github.com/flatpak/libportal/issues"
-> >> >> > -LICENSE = "LGPLv3"
-> >> >> > -LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
-> >> >> > -
-> >> >> > -SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https;branch=master"
-> >> >> > -SRCREV = "467a397fd7996557f837cdc26ac07c01c62810e5"
-> >> >> > -S = "${WORKDIR}/git"
-> >> >> > -
-> >> >> > -inherit meson gtk-doc gobject-introspection
-> >> >> > -
-> >> >> > -DEPENDS += "glib-2.0 glib-2.0-native gtk+3"
-> >> >> > -
-> >> >> > -EXTRA_OEMESON = "-Dbackends=gtk3 -Dvapi=false"
-> >> >> > --
-> >> >> > 2.20.1
-> >> >> >
-> >> >> >
-> >> >> > -=-=-=-=-=-=-=-=-=-=-=-
-> >> >> > Links: You receive all messages sent to this group.
-> >> >> > View/Reply Online (#160313): https://lists.openembedded.org/g/openembedded-core/message/160313
-> >> >> > Mute This Topic: https://lists.openembedded.org/mt/88311445/1997914
-> >> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> >> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> >> >> > -=-=-=-=-=-=-=-=-=-=-=-
-> >> >> >
+> Even though for the baremetal toolchain not having this directory
+> does make sense.
+>
+> We overcame this by removing the --with-sysroot=/not/exist argument
+> for baremetal toolchains (via TARGET_OS override), however, the
+> newlib toolchain does have headers and an includedir, hence by fixing
+> the baremetal toolchain we broke the newlib one since it uses the same
+> TARGET_OS as baremetal, causing for example (on newlib):
+>
+> /sdk/sysroots/x86_64-pokysdk-linux/usr/lib/riscv32-poky-elf/gcc/
+>     riscv32-poky-elf/11.2.0/include/stdint.h:9:16:
+> fatal error: stdint.h: No such file or directory
+>
+> | # include_next <stdint.h>
+>                  ^~~~~~~~~~
+> compilation terminated.
+>
+> By creating a dummy includedir, and removing the previous fix we
+> allow GCC to be built the same way, unifying the cross compiler
+> for all targets.
+>
+> After this fix both TCLIBC=baremetal and TCLIBC=newlib SDKs work
+> properly.
+>
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 495dd9070b..168486bd4e 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -45,6 +45,9 @@ export WINDRES_FOR_TARGET = "${TARGET_PREFIX}windres"
+>  export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET}"
+>
+>  do_configure () {
+> +        if [ ! -d ${RECIPE_SYSROOT}/${target_includedir} ]; then
+> +            mkdir -p ${RECIPE_SYSROOT}/${target_includedir}
+> +        fi
+
+this looks ok from looks of it. Can you check what changes in
+buildhistory when doing this for baremetal ( non-newlib ) build ?
+
+>         export CC_FOR_BUILD="${BUILD_CC}"
+>         export CXX_FOR_BUILD="${BUILD_CXX}"
+>         export CFLAGS_FOR_BUILD="${BUILD_CFLAGS}"
+> @@ -180,9 +183,6 @@ SYSTEMLIBS = "${target_base_libdir}/"
+>  SYSTEMLIBS1 = "${target_libdir}/"
+>
+>  EXTRA_OECONF += "--enable-poison-system-directories"
+> -EXTRA_OECONF:remove:elf = "--with-sysroot=/not/exist"
+> -EXTRA_OECONF:remove:eabi = "--with-sysroot=/not/exist"
+> -EXTRA_OECONF:append:elf = " --without-headers --with-newlib"
+> -EXTRA_OECONF:append:eabi = " --without-headers --with-newlib"
+> +
+>  # gcc 4.7 needs -isystem
+>  export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET} -isystem=${target_includedir}"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160383): https://lists.openembedded.org/g/openembedded-core/message/160383
+> Mute This Topic: https://lists.openembedded.org/mt/88341227/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
