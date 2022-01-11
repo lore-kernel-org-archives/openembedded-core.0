@@ -1,127 +1,111 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2710C433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 11:10:52 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web08.5566.1641899451705243569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4422C433F5
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 11:15:57 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.5701.1641899757251408652
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 03:10:51 -0800
+ Tue, 11 Jan 2022 03:15:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hq0ETgNs;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id x33so27630938uad.12
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eQ54P8Xk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id o3so32255488wrh.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 03:10:51 -0800 (PST)
+ Tue, 11 Jan 2022 03:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E6G9GN/UwfedgUpUqw0rWgDhirXNauepsA9spGNqHRM=;
-        b=hq0ETgNsjwgqoeveClZW5o03QxlrC6g7wA0wKUT4ebg/T83hRaa6qNwoEaLJ398fKw
-         AZQuUQxHH1MYCesc5hgPGAG7CqRyv9XNZuOTviWF/J69X0bq+ULzAzkKU9qY7tviXNoW
-         EKKRE5V5O5SUQyobZyuN6JYPB/9tCvedVcZ8FNGOeWTi68jL+N9gtVq7q/a/OVKrAuEY
-         kx+gxRBgEKtT2sd9Q4aZ8Oc/g2gcVJ/DaLo2DQhuFT538CBfIH3UcPN0ABiQMnHSDGV6
-         HGmDk5MKA+0P8dC5c3zbMgEWJoXrRef1BGmkmU/eKAVcbCpWDK7wGWlpJzdPEHhbIZI3
-         DBDA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=JbdB0ys52qKKo5HLzRpiXprHbLP4gpm2f6u3ihzsvYI=;
+        b=eQ54P8Xk/cEARp+X0Rdfg6+cHGJk/P97sitClVd+SXEzMfHVyjdWX5XIc9eGJAOsjR
+         5Le5jk0b+6hM+t44K4S46KXYIJySy5M8f1wbEWDt0pfY6MeSTSmNQnKY6F1d2HIgT/MU
+         MsjVQSOjMXeZ+r25KInxMb/nDB0kh8qlD2cUg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E6G9GN/UwfedgUpUqw0rWgDhirXNauepsA9spGNqHRM=;
-        b=glhNvc4fFdDzaqSC02b1vr4VRzAyFU9zy1f2KIc90W03LeihB0XX/6JgFIJbfcywEp
-         VK/59wzZcaqhdM0HJQA6dGRu6BmdJZEkHpgJJ3VX7ma102xOybF40sLdgc17WaVNexUx
-         GoC9OMjkfpGtPhTvn83gEHUDyvXJTQTT+ExxuQS1ENPjHg1Tdt6icbWD9E0byinxa+WK
-         +i3uy+gvgg8T60WuL0i5epKEzT0CMvVK6K+xhUpFJdgcGmqxKYRcWg+eED2n2Uzn5z5H
-         Q8N7LvyAO+REfKc/94pdzijWW94v+FYMF8vGJIttjE22oJF5wVkLE42suekEmFdOBJyt
-         B0kQ==
-X-Gm-Message-State: AOAM531TB3Vm7nMX4G2z81ksEpcJGGqDA22c3QjjotoLBEJSnpQR1RwX
-	AVVEWQuQWXNBHlG9dMCXZvGWQUZNvGvNhCpJ/Lc=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=JbdB0ys52qKKo5HLzRpiXprHbLP4gpm2f6u3ihzsvYI=;
+        b=dXWFMsdr3qb9hVHBDEaqvRnU2F2NKfOHjZLfLI3gSCxyY1c/pLiJ8L+s6UOAZXojwI
+         XkqQIF+Ak1KSc/co6zlX50RQ8ico53TlkFuoqjYhEEUg9zAxA6iUVZSqAlIoZWNjW6jX
+         LfKZo3fBNCw/fFBxXiyFW9KGAFXGTtBRoE1eECv0wZGSp/yU/HuqhYb52/kUO+HgwX0r
+         NFXNYDeyHE3YhQzjSEE82i4bEdo7loDa/qpnpEHNqeVll9x1NVO6sR+hVs6yZ5F05msm
+         o7V5T/qGXgG89A9DuvsItkrSoCiH14Zq6cW7qENpuQ/hOItvq5RGDls1kfHSJSohdWSR
+         iyqg==
+X-Gm-Message-State: AOAM532y+upgaB2X1JKhGHJz/grUhAw2tRmxjmMLZMpteFQ/g4K1GXFJ
+	B1i6kZM1xxU+kQnzmd2RkEoYGA==
 X-Google-Smtp-Source: 
- ABdhPJwl6v8gd/Dshgq5O2J9oPoyCCqa1srerFoX+Ig+DiqRVvNCwXuTnyTbr0gjN6MyrJFGGJIqLChCjqCftYh1/to=
-X-Received: by 2002:a67:c81c:: with SMTP id u28mr1639079vsk.38.1641899450824;
- Tue, 11 Jan 2022 03:10:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20220109222732.2252416-1-alex@linutronix.de>
- <20220109222732.2252416-13-alex@linutronix.de>
- <b13cebc769646dffce33ee9b675375d4c22ef7bc.camel@linuxfoundation.org>
- <CANNYZj9jRkc32Xm7PevLuFEgLOxTdaq7bYGu9=_gU3PitT7_-A@mail.gmail.com>
- <8993e498bf8d266832f911b7b2c7263ccaf418e7.camel@linuxfoundation.org>
-In-Reply-To: 
- <8993e498bf8d266832f911b7b2c7263ccaf418e7.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 11 Jan 2022 12:10:39 +0100
+ ABdhPJyE+OWmUD7dgXkvTDmQMVVY684VWR8xNQtueEAxStkVkiglvX20XRX0f4ogr1qfyqGznwLjFg==
+X-Received: by 2002:adf:9d8a:: with SMTP id p10mr3345574wre.351.1641899755721;
+        Tue, 11 Jan 2022 03:15:55 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:895c:c4eb:1cfa:d3e4?
+ ([2001:8b0:aba:5f3c:895c:c4eb:1cfa:d3e4])
+        by smtp.gmail.com with ESMTPSA id
+ g12sm5501994wrm.109.2022.01.11.03.15.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 03:15:55 -0800 (PST)
 Message-ID: 
+ <52590086d0002815ca1f78ae27e6696a63ffe7d1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 13/14] connman: do nothing in qemu, do not
+ touch eth0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Tue, 11 Jan 2022 11:15:54 +0000
+In-Reply-To: 
  <CANNYZj97rvKykUrrnbuzD8w77-AEo+kaFLdC=HqC0mhLd79krA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 13/14] connman: do nothing in qemu,
- do not touch eth0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="00000000000085fe3305d54c8110"
+References: <20220109222732.2252416-1-alex@linutronix.de>
+	 <20220109222732.2252416-13-alex@linutronix.de>
+	 <b13cebc769646dffce33ee9b675375d4c22ef7bc.camel@linuxfoundation.org>
+	 <CANNYZj9jRkc32Xm7PevLuFEgLOxTdaq7bYGu9=_gU3PitT7_-A@mail.gmail.com>
+	 <8993e498bf8d266832f911b7b2c7263ccaf418e7.camel@linuxfoundation.org>
+	 <CANNYZj97rvKykUrrnbuzD8w77-AEo+kaFLdC=HqC0mhLd79krA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 11:10:52 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 11:15:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160394
+ https://lists.openembedded.org/g/openembedded-core/message/160395
 
---00000000000085fe3305d54c8110
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2022-01-11 at 12:10 +0100, Alexander Kanavin wrote:
+> On Tue, 11 Jan 2022 at 12:08, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > The data above is inserted into /etc/default/connman in the connman package
+> > itself. That package is installed into deploy/XXX/<tunearch>/connman.YYY.
+> > That
+> > is not the machine specific package directory.
+> > 
+> > Or in different words, if I build connmand for a qemu machine, then build
+> > connman for a machine with the same tune that isn't qemu, command rebuilds
+> > but
+> > installs the package to the same location. This is not allowed.
+> > 
+> > Machine specific data (in this case qemu specific) shouldn't be in general
+> > packages. This goes against yocto-check-layer and YP-Compatibility.
+> > 
+> 
+> 
+> Right, I can fix this, but is there a testing gap then? This prompted no
+> warnings on either local builds or in a-full.
 
-On Tue, 11 Jan 2022 at 12:08, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+The autobuilder is not definitive as it does not have 100% test coverage much as
+I wish it were.
 
-> The data above is inserted into /etc/default/connman in the connman package
-> itself. That package is installed into deploy/XXX/<tunearch>/connman.YYY.
-> That
-> is not the machine specific package directory.
->
-> Or in different words, if I build connmand for a qemu machine, then build
-> connman for a machine with the same tune that isn't qemu, command rebuilds
-> but
-> installs the package to the same location. This is not allowed.
->
-> Machine specific data (in this case qemu specific) shouldn't be in general
-> packages. This goes against yocto-check-layer and YP-Compatibility.
->
+Yes, there is clearly a gap in testing here :(
 
-Right, I can fix this, but is there a testing gap then? This prompted no
-warnings on either local builds or in a-full.
+We don't really have a machine with an identical tune to a qemu target that
+isn't qemu which we run sstate sigs tests against.
 
-Alex
+Cheers,
 
---00000000000085fe3305d54c8110
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 11 Jan 2022 at 12:08, Richard Purdie &lt;<a href=3D"mailto:r=
-ichard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-The data above is inserted into /etc/default/connman in the connman package=
-<br>
-itself. That package is installed into deploy/XXX/&lt;tunearch&gt;/connman.=
-YYY. That<br>
-is not the machine specific package directory.<br>
-<br>
-Or in different words, if I build connmand for a qemu machine, then build<b=
-r>
-connman for a machine with the same tune that isn&#39;t qemu, command rebui=
-lds but<br>
-installs the package to the same location. This is not allowed.<br>
-<br>
-Machine specific data (in this case qemu specific) shouldn&#39;t be in gene=
-ral<br>
-packages. This goes against yocto-check-layer and YP-Compatibility.<br></bl=
-ockquote><div><br></div>Right, I can fix this, but is there a testing gap t=
-hen? This prompted no warnings on either local builds or in a-full.</div><d=
-iv class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></div=
-></div>
-
---00000000000085fe3305d54c8110--
 
