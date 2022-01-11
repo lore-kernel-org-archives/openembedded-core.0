@@ -2,62 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBEDC433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F78FC433F5
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:55 +0000 (UTC)
 Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
  [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web12.12365.1641927770378582847
+ by mx.groups.io with SMTP id smtpd.web09.12235.1641927774030752858
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:50 -0800
+ Tue, 11 Jan 2022 11:02:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LrOjsI7I;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=B/+jy3vb;
  spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: ticotimo@gmail.com)
 Received: by mail-pj1-f53.google.com with SMTP id
- i8-20020a17090a138800b001b3936fb375so7071986pja.1
+ r16-20020a17090a0ad000b001b276aa3aabso7132261pje.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:50 -0800 (PST)
+ Tue, 11 Jan 2022 11:02:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=F+bIrLjlR+wIVxK/k4JzjU1SdleRY9gHiUEdxG8buJw=;
-        b=LrOjsI7IdT4zcS6hOK6r+bVD0P96POHcTJp6W64pWpqpZ0gxDNArqS567LRh0dxGxT
-         efzjS6qKhye4sDiiybpc+kY0Tc/Y78QTdMSlFeO+PQSvkz/0cGO13JyvtkHHrunreUtS
-         Af7HhN//ZolJ+sMVp3sOwFosw2J+7OHbMKytPHn8/knzKgR5CjK8akNvSmbXzEH4popu
-         j7z6nmAeuvDTBx4K4RbW6WU1lIfOUkdKZdNOikfInt3OJXEtnR3XRf3k1lKNKpHdfTJV
-         FgGJzV6YxidUOcAY/H6D9T11ok5dOPsOd76v1oXiwBvcNnYHdW5hNQDHnrfVC4Mhpvao
-         q0UQ==
+        bh=CGdJRAR8rUZmM2Q9UsoPWiavUTGi9YNOk5OXTR3PqzQ=;
+        b=B/+jy3vbd5RLgd8pTbum8Sj9E2HO7xMRmydLUXzA3QTXMORDTBDxDrlIotOGudV2L1
+         mEXjA80PzCWj7RKwFka4ua0AlaVUNCWXelaNYd/8PlE6zR+syBECJYIowCHSKkYE5CUu
+         Z6i/T/Q/XU45aPw495+nat/fev+eKgHAVXpsH0vZzMJ17S2MF7EKtPmK2toZq+uxyC3f
+         FHB7mVTr520lo4WP9ShifvBosofaU6KQfI9R/tj0GtLmHWfEUIGeh6P+H+6/iWyeJ086
+         +DdaV7/WULfhOGQ5D1kOC2jtYMn21vU2vidCtKvqqWfvziVlrrNoMPejVfgO6LREkcoU
+         EFiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=F+bIrLjlR+wIVxK/k4JzjU1SdleRY9gHiUEdxG8buJw=;
-        b=Q5fplb/pVH23oHx2+Es2bmseczj8C2IpU//zn0mzBG+ggS7jhLWpW0EvLocZZ/gsN8
-         406q/v4J7rgKwPXQaNHUAg79As/fr/5X0sSQ/0gnRAOnvP1v2tBK+vSZO6wES7rYMKbz
-         A1tk2sVacqliQ3ici79o4GpoHG1jLCnDjPCJo4p8nZZl6i02J2356OEJnkArGgnuGaGC
-         psBiCa3LiU1SQWheaVtzMghF2bwOFz999j+Kfs7nZkvj3/kopHj8podIv04WofNaxoBR
-         OnPTrNWXaD5IcqZWbPc0/IGliQuAIKhXDDX18NSMbUoaGKf2O84VwS2YcGZcTO2qWhLT
-         nvQw==
-X-Gm-Message-State: AOAM532sxr23SxS+dH63pSuck3y9NY1Tj7LDq2fdparFiuPpR9XS7M09
-	WOxcHF+whOAnoZ9dPuuiFVrKv5wjrAs=
+        bh=CGdJRAR8rUZmM2Q9UsoPWiavUTGi9YNOk5OXTR3PqzQ=;
+        b=2swue8Il/AHTd9qSEDQ358z/96KBb/b3rbqDgsaBx6IDrfmgapoZDAtf+b1efLfJ4L
+         WTu81LtEsDExCv5KNv5NiCi5p3Zfjt4WW0X79IKfu3+ziVrsU/kTGM1z+q5s0his7NUG
+         10AuOq052whXC6sEQQ5KPXp2l6TNxcuxbcTfcfrLEipAb6Vax2BwJ3T2dE+gc15rRsdh
+         lxZMVR7SyTgNA8FRxLFHVDtmS/0JC9BLS+LhsUMQbK5kxdnVPlFWlOVYrW28RkU7IE/q
+         iwAQbAZnLDgkzADh0oWVaQn/r2V3+szP80If96mihLQbzl+dsGO9UiNYItbKI4EA+SaS
+         zVtQ==
+X-Gm-Message-State: AOAM532QueOdTWygwwSIs1MoOyj+YT6GG4xnH0XnXmWm0en0EIwRFa1I
+	LeAeEscjzRibJsxfaWuMVA08M+Nk42I=
 X-Google-Smtp-Source: 
- ABdhPJyvBMezuAhyUD0UATlU6dKaDiNunx+XPmH/qW4VEhzl0tNNzMk+8VmkVbHfP74Htli6i7ArkA==
-X-Received: by 2002:a63:b509:: with SMTP id y9mr5233028pge.31.1641927769582;
-        Tue, 11 Jan 2022 11:02:49 -0800 (PST)
+ ABdhPJwY/g+vKuqSD8ZWNxgbQ3+FOcNKYbcL/TjfTaehC75dCBz/pjX7OWnrZCev6Kv8ihykELUw7w==
+X-Received: by 2002:a17:902:bb87:b0:148:a2e7:fb52 with SMTP id
+ m7-20020a170902bb8700b00148a2e7fb52mr6029294pls.147.1641927773272;
+        Tue, 11 Jan 2022 11:02:53 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:9b84:60d5:95c9:ae8b])
         by smtp.gmail.com with ESMTPSA id
- u3sm11509977pfk.82.2022.01.11.11.02.49
+ u3sm11509977pfk.82.2022.01.11.11.02.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:02:49 -0800 (PST)
+        Tue, 11 Jan 2022 11:02:52 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 16/22] python3-setuptools: do not depend on distutils
-Date: Tue, 11 Jan 2022 11:01:25 -0800
+Subject: [PATCH v2 17/22] gstreamer1.0-python: inherit setuptools3-base
+Date: Tue, 11 Jan 2022 11:01:26 -0800
 Message-Id: 
- <e05e60a272cab07a533a57ae3f146320d1d5e73f.1641920605.git.tim.orling@konsulko.com>
+ <e21a3e85b59b4c13649bb56390b2f54f59ddd0a9.1641920605.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1641920605.git.tim.orling@konsulko.com>
 References: <cover.1641920605.git.tim.orling@konsulko.com>
@@ -66,32 +67,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160452
+ https://lists.openembedded.org/g/openembedded-core/message/160453
 
-No longer depend on python3-distutils, current versions of setuptools
-vendor as _distutils.
+Drop distutils3-base usage as it is now deprecated.
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-setuptools_59.5.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-index 878fa084045..33ca928c3e5 100644
---- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-@@ -22,7 +22,6 @@ RDEPENDS:${PN} = "\
-     ${PYTHON_PN}-compile \
-     ${PYTHON_PN}-compression \
-     ${PYTHON_PN}-ctypes \
--    ${PYTHON_PN}-distutils \
-     ${PYTHON_PN}-email \
-     ${PYTHON_PN}-html \
-     ${PYTHON_PN}-json \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
+index 045aea44099..1dd7d0d09a3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
+@@ -23,4 +23,4 @@ EXTRA_OEMESON += "-Dlibpython-dir=${libdir}"
+ REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
+ GIR_MESON_OPTION = ""
+ 
+-inherit meson pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
++inherit meson pkgconfig setuptools3-base upstream-version-is-even gobject-introspection features_check
 -- 
 2.30.2
 
