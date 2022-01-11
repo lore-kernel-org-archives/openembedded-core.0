@@ -2,63 +2,62 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB64C433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:44 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.12519.1641927763609088811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED2DC433F5
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:48 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.12362.1641927767050964291
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:43 -0800
+ Tue, 11 Jan 2022 11:02:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Sj9Wz1cc;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id
- 59-20020a17090a09c100b001b34a13745eso6997217pjo.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=M0xr7B3z;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so7058468pjj.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:43 -0800 (PST)
+ Tue, 11 Jan 2022 11:02:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=AhH0PTUVL9olpOJailmQmd5pQSxbHS3yDbdPAvzlK5E=;
-        b=Sj9Wz1ccpC23p3rKlJZ0YdFO3z0RPs0ShrueujxmXr3kU+ybtJvKB2VIjJTQgfM+Um
-         zeAoVa51j+3EiaqI169ExkIycQyJbnM5mPxN3yUOx8wCVW5OZBGUsiGHKfEHV4cQyqQx
-         vzpPJBOMMZnkcEgUetoy+jgobXB22tYVf8/lMNNAd79HiSKjl1i/NR7MKlgqbbZcVH23
-         KHuB5xAqnID9tiZFKumwSAoqVAQklOsq4GmBo/cg8qEslr4G9mOcQDUS7/GRCJWz/kNz
-         GkiZMAfLK7l3skyfcV8CtT0jJx82dCWC0/xeNMEbi9Cj3AYSZFQXB6vnv+RHNDBqcDNF
-         6dQg==
+        bh=SXsgz2/fxmwHky1OOFxFCBGxirCCsi8nxz6Udvo4L44=;
+        b=M0xr7B3zhSrrTjXaImjBPcZFk0EjV8zQpM/U1EyITTN/8JjvhJThEz8zF3OdHsx0/G
+         fXJqigJHHXPD2kDY/vJa9ZNIldQnCfJ4USdtjhcLl8vcH8L73Q/bXAVkAUqsUrGWQbkV
+         UlF6IGFjbxnviXUPrQQrtMfhf8XqBeH3+zT5w0/43ZUepDP9WeVsUJLXVy8ON0Uer2Cw
+         dHutwDvTlxsQaDawowdzM99eU30lu+1iUN9jIyZsJNLTPmRbXYXiXwc45iqlrr59V80S
+         O9B8Ry7h72ApDbT9sKH28y4nlI4y5P4f0vCmCs8b90Ooi1WlWLruxv3SVhPOcEYKO+Qr
+         qE1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AhH0PTUVL9olpOJailmQmd5pQSxbHS3yDbdPAvzlK5E=;
-        b=ARFhXF1GODSezsGjYNXDhb+hJI6SqryMapsbq7ccaYcXCXbHB9BdYdgQy0upqixRYM
-         egpAPApzi/ZYRNJrX470Lnp/NFVUJ/UfjrcRKeh75TjddjBfMEUhWV+in+Na5joV7vX5
-         HdmDfqM1zC8VXLC4gnC9H7YJVVDGbBGSsHZPGDbqYPifsQIDunXNua/pDdkjLyDncZnZ
-         EQyXOPME5BzBBUznsBLq6ewf4eDAMKFO81PxCuS1GtDpN+Q0euq7vkRiU+j23+oDLs68
-         GA9P3ABVPkXKdES1wdoBe1H9ZwZaSJEGQO0i2hDAfRgepRcfGFRG8WwjP5zjwh3jhYtQ
-         maiA==
-X-Gm-Message-State: AOAM533cV7XSM++Hee746EhLXMJbf1nUAFO4kacy1k4/FfVqQFtXZYdH
-	i9M49ALbX/iMuQw/byImCtAoSGICW+I=
+        bh=SXsgz2/fxmwHky1OOFxFCBGxirCCsi8nxz6Udvo4L44=;
+        b=b3UHA0qfG5BgTvoMJX1WlQwE+DtWHdTYMVbrrVAWMCzYcAU35ZeaIeUu4Id1JBJqFY
+         XtmEafUmbOOaukEtVjuTa6re/eUgsw00L8PH3sK2RF/7U3EyCDgasb8tU8689tc18BiK
+         Wd1vkmEb6k05EgzZQCFiarN4e86gBQb2XGMe3RTwpvDS1FWzajjmgjuqKF7NAuKezjUn
+         3xcsrAuQUCTzIWQDlM6VbmhbCyk65hnRnPCXHmih8wk37ZD/xLvVlv45HovjVStHTqr2
+         fDEvBNah4ZiNLtyTWaR7UaioPj4Bvjyhc3ha7QzTYEhWbika6KBRakTCIERO6beqyoFE
+         ZNzA==
+X-Gm-Message-State: AOAM532PZKOycNoBnienlStQe2tVT4XPfX0YQ/lu3tH/cK9ANApPvzkp
+	SkHI2sFtQz8+EF39Qnzm74umgq6UjoQ=
 X-Google-Smtp-Source: 
- ABdhPJwvJYeT2yp52X6WLcFN+H8q8cEAGQupfkj13K/rcoui+dl+dbSAk14COi6TMveqkzjXhIvYzg==
-X-Received: by 2002:a17:90b:384f:: with SMTP id
- nl15mr4613934pjb.91.1641927762866;
-        Tue, 11 Jan 2022 11:02:42 -0800 (PST)
+ ABdhPJx3IWD6V187ueQewc9pPVr2Mu2FqevWZ65Nw/znOgIqYW0OrG1XfxgeCYq5VN5s0wo+plnC/A==
+X-Received: by 2002:a63:3f03:: with SMTP id m3mr1972023pga.470.1641927766308;
+        Tue, 11 Jan 2022 11:02:46 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:9b84:60d5:95c9:ae8b])
         by smtp.gmail.com with ESMTPSA id
- u3sm11509977pfk.82.2022.01.11.11.02.42
+ u3sm11509977pfk.82.2022.01.11.11.02.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:02:42 -0800 (PST)
+        Tue, 11 Jan 2022 11:02:46 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 14/22] python3-pygobject: setuptools instead of distuils
-Date: Tue, 11 Jan 2022 11:01:23 -0800
+Subject: [PATCH v2 15/22] bind: inherit setuptools3-base instead of distutils
+Date: Tue, 11 Jan 2022 11:01:24 -0800
 Message-Id: 
- <ed31c35fbd7c87335fc69f9ed34a6758dc3dc215.1641920605.git.tim.orling@konsulko.com>
+ <786af969f1550020fff1e89eae50e02902b55487.1641920605.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1641920605.git.tim.orling@konsulko.com>
 References: <cover.1641920605.git.tim.orling@konsulko.com>
@@ -67,30 +66,30 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:44 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160450
+ https://lists.openembedded.org/g/openembedded-core/message/160451
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-pygobject_3.42.0.bb | 2 +-
+ meta/recipes-connectivity/bind/bind_9.16.24.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-index b07969c5efb..74318337bad 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.42.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- GNOMEBASEBUILDCLASS = "meson"
- GIR_MESON_OPTION = ""
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.24.bb b/meta/recipes-connectivity/bind/bind_9.16.24.bb
+index c9e6f79dba8..ef5fd42ef85 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.24.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.24.bb
+@@ -46,7 +46,7 @@ EXTRA_OECONF = " --with-libtool --disable-devpoll --disable-auto-validation --en
+                "
+ LDFLAGS:append = " -lz"
  
--inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
-+inherit gnomebase setuptools3-base gobject-introspection upstream-version-is-even
+-inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native distutils3-base', '', d)}
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native setuptools3-base', '', d)}
  
- DEPENDS += "python3 glib-2.0"
- 
+ # dhcp needs .la so keep them
+ REMOVE_LIBTOOL_LA = "0"
 -- 
 2.30.2
 
