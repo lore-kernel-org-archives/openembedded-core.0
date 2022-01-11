@@ -1,294 +1,162 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF0CC433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 22:14:51 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.15203.1641939290281117462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69648C433F5
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 22:18:55 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web12.15258.1641939534428807290
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 14:14:50 -0800
+ Tue, 11 Jan 2022 14:18:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TRScrq6/;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id v6so780719wra.8
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=6RDZnvCH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id pf13so1508667pjb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 14:14:50 -0800 (PST)
+ Tue, 11 Jan 2022 14:18:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hbSrex4+MgkqLa4MkqEzJTnY9nDsAr6C5wDQeg/MCkY=;
-        b=TRScrq6/4G/+LTvaMO5EgrN3GoYj99VQwgttFQ7nDWkx9Wfc0IQkO9a59uFMM1reaC
-         IRujwn7fKAO3KtO1q8TL7iav2eInE79AeAo6PpjE/qQFevjCL8w9D9xxGEU+TuHzsoeF
-         ype3HVrld9JMDyKtXBKVRzhBZUsDjRtogyFZlkQlR4/XFs+NfG1wY5++jIxOpPnkva2a
-         WvOVy8n+9XlqtUX7S/ZhjJ4chBhIjmjXx497BsIxLgSjAZVFmN8BkIIGYU/Js6c8fteB
-         EwTqhPyq7ufEyd9nyfWusI16D+VBwTFaURcqAnGHfz8TjSVcQsghe8fc0boVxxU3iGJ8
-         Dv4w==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zLOeSbtT4HQBxq/ImsPMynkMdhStafN0IdQ+iveau4c=;
+        b=6RDZnvCHmkXbugj6oy8NJZs9KOXsWsTp6UKqBGJ7LTHTbbxRvvyLHj2/WOEE1Vwcyp
+         mnS6Oj2CO1i3XMljAWob1dM3mDRKrNRm8ZD+BYnyExHtjqL9xKtZBmZqHQGyUZkD0Zj5
+         2T/XrIFB2QXSLStsxZKpvhzi4Nc2MKJKKLrLD7bWqZ9cKnuLLhSVImuyvb145Zi4IPZz
+         p+g1CgAb7SOXmcaHqQV9HNx8NYwDqYyIfUQKi0PtwVb8iuQdmIP4H3ctHwD97iCgbIHQ
+         cSlVDrORaYQaVgWGahvw71vHJJ3tYoJwqmsDEpwPqqkZzQpl39lLJcYWesbWSLUdqr5T
+         fc8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hbSrex4+MgkqLa4MkqEzJTnY9nDsAr6C5wDQeg/MCkY=;
-        b=7sjPgUYuq587mkYnmlahNUcQdVH5s5Fnf39/y5PVycRFDeFaRpQhfdjwd+3jSmMp1G
-         CJox8E2j+xbYvZxF602yTjRfwHjToUa1YPLecsDQttiBP8rEkbu0hKPQsfY1ZC6tTn2E
-         o5Pimas+KUeHdQFZ4SljK3rQBiVzViTJ8+dFjli9LOM1qDK7LhalOoocedIqB9RatrZP
-         2+yuHc7cyyshGHZ6Y/5MUKucUOBU8DVvegQHVBJvrZvFQKitWPBxnvsoc4qxylZKIqWQ
-         +yy6mCpUHnkN3eJMXXn1wq44idBicYIudGFgdAxujhwfK+vVH1bBZzFTWTQTOgHs0Znk
-         9szQ==
-X-Gm-Message-State: AOAM533moiXNkUOacxHum4SRdhh7IFzmUC3t1c1hkQxFdMabcqamM7cP
-	pgHtAItMh2QR0ujxkMKYGAUsFx7mjJo=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zLOeSbtT4HQBxq/ImsPMynkMdhStafN0IdQ+iveau4c=;
+        b=izf7+E/4ZaBmrONHCEz3oH7vR7bSDQEkB7reSIQnOLWPyA/WQuWppygTdphfFkUR0t
+         6tars+mu/DRy0yjyxu1Nwz51+IbDxxvfbJS30BZhdPZfWvCGfVvRKLKgLge9L+wXtjKu
+         ZLaF2tm6LsGIYLJ7XWlCKePfw/cPRIJICkWBZjvPMRrHOgV5dllkax5wqBLyp5hgh9ev
+         JGSfEKzQTJhnvuvakMEA1mlb6YHIZrDwJx7MMJ4FT+J+aCKPAoX8AmG95uPbMP2rlB84
+         OUW+4W7O7l2heS/hHSYhKSizIEHuxTxe0Gl17dXQoPCgYNHItGXvrYAdR5FzMd11NAIl
+         rc9Q==
+X-Gm-Message-State: AOAM531Y29GUp4LpahIXOl2Mg4Q2HPPQjAIRbT4l8L5q1Ees8OlIkOyp
+	a8LOe4pBhdUKF72ncZc+8YIbJWQntF0QU43M0/w=
 X-Google-Smtp-Source: 
- ABdhPJwXd2qL32jYxoT08/ZVWVQTfONtDuc2AQLSjwRje4BtwoXyq0XCGjxUsdQ7WaHPBUe9BB1Xcw==
-X-Received: by 2002:adf:d23b:: with SMTP id k27mr5872505wrh.517.1641939288805;
-        Tue, 11 Jan 2022 14:14:48 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id f5sm356997wri.52.2022.01.11.14.14.48
+ ABdhPJydW1MIeMPEiPG2X5zLToiSHZtA4MtSFeC2S6bnahYmB0I9vbssC+AkOtS6Za7Q1805zYT5Zg==
+X-Received: by 2002:a63:a744:: with SMTP id w4mr5889381pgo.142.1641939533284;
+        Tue, 11 Jan 2022 14:18:53 -0800 (PST)
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id e3sm320736pgl.59.2022.01.11.14.18.52
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 14:14:48 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Tue, 11 Jan 2022 14:18:52 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] ruby: update 3.0.3 -> 3.1.0
-Date: Tue, 11 Jan 2022 23:14:40 +0100
-Message-Id: <20220111221440.3867495-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220111221440.3867495-1-alex@linutronix.de>
-References: <20220111221440.3867495-1-alex@linutronix.de>
+Subject: [OE-core][dunfell 00/12] Pull request (cover letter only)
+Date: Tue, 11 Jan 2022 12:18:33 -1000
+Message-Id: <cover.1641939388.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 22:14:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 22:18:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160469
+ https://lists.openembedded.org/g/openembedded-core/message/160470
 
-Turn on "link external modules statically" option
-as otherwise ruby installer tries to do additional
-building inside installed module directories in do_install
-which fails horribly.
+The following changes since commit 1ab7aee542589f6b6c76f8515b4230ce870a8678:
 
-License-Update: additional MIT/BSD items
+  selftest: skip virgl test on fedora 34 entirely (2021-12-23 06:21:37 -1000)
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-devtools/ruby/ruby.inc           |  9 +---
- .../0006-Make-gemspecs-reproducible.patch     | 41 ++++++++++++-------
- .../ruby/ruby/remove_has_include_macros.patch |  8 ++--
- .../ruby/{ruby_3.0.3.bb => ruby_3.1.0.bb}     | 16 ++++++--
- 4 files changed, 44 insertions(+), 30 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_3.0.3.bb => ruby_3.1.0.bb} (78%)
+are available in the Git repository at:
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 2b5caf35f5..20ae15bd7a 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -10,7 +10,7 @@ LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPLv2 | ISC | MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-                     file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
-                     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://LEGAL;md5=cfe5b0bc9f051b58c7e78db882ca5f9b \
-+                    file://LEGAL;md5=f260190bc1e92e363f0ee3c0463d4c7c \
-                     "
- 
- DEPENDS = "ruby-native zlib openssl libyaml gdbm readline libffi"
-@@ -23,7 +23,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
--inherit autotools ptest
-+inherit autotools ptest pkgconfig
- 
- 
- # This snippet lets compiled extensions which rely on external libraries,
-@@ -37,8 +37,3 @@ do_configure:prepend() {
-     sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
-     rm -rf ${S}/ruby/
- }
--
--# Disable openssl extension until it becomes compatible with openssl 3
--do_configure:prepend() {
--    rm -rf ${S}/ext/openssl/extconf.rb
--}
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index 504893b4b4..de8d4f04cc 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -1,6 +1,7 @@
-+From 6e1dc610724a7aa8368cbcddf4bbe21cccc0f731 Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
--Subject: Make gemspecs reproducible
-+Subject: [PATCH] Make gemspecs reproducible
- 
- Without an explicit date, they will get the current date and make the
- build unreproducible
-@@ -10,34 +11,40 @@ Upstream-Status: Backport [debian]
- ---
-  ext/bigdecimal/bigdecimal.gemspec | 1 +
-  ext/fiddle/fiddle.gemspec         | 1 +
-- ext/io/console/io-console.gemspec | 2 +-
-+ ext/io/console/io-console.gemspec | 1 +
-  lib/ipaddr.gemspec                | 1 +
-  lib/rdoc/rdoc.gemspec             | 1 +
-- 5 files changed, 5 insertions(+), 1 deletion(-)
-+ 5 files changed, 5 insertions(+)
- 
-+diff --git a/ext/bigdecimal/bigdecimal.gemspec b/ext/bigdecimal/bigdecimal.gemspec
-+index fd49c1b..5b8bb00 100644
- --- a/ext/bigdecimal/bigdecimal.gemspec
- +++ b/ext/bigdecimal/bigdecimal.gemspec
--@@ -6,6 +6,7 @@
-+@@ -4,6 +4,7 @@ Gem::Specification.new do |s|
-    s.name          = "bigdecimal"
--   s.version       = bigdecimal_version
-+   s.version       = "3.1.1"
-    s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo Kobayashi"]
- +  s.date          = RUBY_RELEASE_DATE
-    s.email         = ["mrkn@mrkn.jp"]
--
-+ 
-    s.summary       = "Arbitrary-precision decimal floating-point number library."
-+diff --git a/ext/fiddle/fiddle.gemspec b/ext/fiddle/fiddle.gemspec
-+index a9c0ec4..89da078 100644
- --- a/ext/fiddle/fiddle.gemspec
- +++ b/ext/fiddle/fiddle.gemspec
--@@ -8,6 +8,7 @@
-+@@ -8,6 +8,7 @@ end
-  Gem::Specification.new do |spec|
-    spec.name          = "fiddle"
-    spec.version       = version_module::Fiddle::VERSION
- +  spec.date          = RUBY_RELEASE_DATE
-    spec.authors       = ["Aaron Patterson", "SHIBATA Hiroshi"]
-    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
--
-+ 
-+diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-console.gemspec
-+index 36beda7..e932d83 100644
- --- a/ext/io/console/io-console.gemspec
- +++ b/ext/io/console/io-console.gemspec
--@@ -4,6 +4,7 @@
-+@@ -4,6 +4,7 @@ _VERSION = "0.5.10"
-  Gem::Specification.new do |s|
-    s.name = "io-console"
-    s.version = _VERSION
-@@ -45,23 +52,27 @@ Upstream-Status: Backport [debian]
-    s.summary = "Console interface"
-    s.email = "nobu@ruby-lang.org"
-    s.description = "add console capabilities to IO instances."
-+diff --git a/lib/ipaddr.gemspec b/lib/ipaddr.gemspec
-+index 36e2300..06dc888 100644
- --- a/lib/ipaddr.gemspec
- +++ b/lib/ipaddr.gemspec
--@@ -6,6 +6,7 @@
-+@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-  Gem::Specification.new do |spec|
-    spec.name          = "ipaddr"
--   spec.version       = "1.2.2"
-+   spec.version       = "1.2.3"
- +  spec.date          = RUBY_RELEASE_DATE
-    spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
-    spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
--
-+ 
-+diff --git a/lib/rdoc/rdoc.gemspec b/lib/rdoc/rdoc.gemspec
-+index 525a15f..f6d0e22 100644
- --- a/lib/rdoc/rdoc.gemspec
- +++ b/lib/rdoc/rdoc.gemspec
--@@ -7,6 +7,7 @@
--
-+@@ -7,6 +7,7 @@ end
-+ 
-  Gem::Specification.new do |s|
-    s.name = "rdoc"
- +  s.date = RUBY_RELEASE_DATE
-    s.version = RDoc::VERSION
--
-+ 
-    s.authors = [
-diff --git a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-index 6e90a8ee77..b78e3db892 100644
---- a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-+++ b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-@@ -1,4 +1,4 @@
--From 303fe0d20184203f1ac86d2a77b1447d47c8c29d Mon Sep 17 00:00:00 2001
-+From e74b57febec9bd806e29025e6eeb8091e7021d75 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 26 Jan 2020 11:27:40 -0800
- Subject: [PATCH] Filter out __has_include* compiler defines
-@@ -21,12 +21,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 2 insertions(+)
- 
- diff --git a/common.mk b/common.mk
--index 7633050..422aa9c 100644
-+index 664f750..3b8fbe6 100644
- --- a/common.mk
- +++ b/common.mk
--@@ -233,6 +233,8 @@ $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time: probes.h vm.$(OBJE
-+@@ -238,6 +238,8 @@ $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time: probes.h vm.$(OBJE
-  	$(ECHO) building $(@F:.time=.h)
-- 	$(MINIRUBY) $(tooldir)/mjit_tabs.rb "$(MJIT_TABS)" \
-+ 	$(Q)$(MINIRUBY) $(tooldir)/mjit_tabs.rb "$(MJIT_TABS)" \
-  		$(CPP) -DMJIT_HEADER $(MJIT_HEADER_FLAGS) $(CFLAGS) $(XCFLAGS) $(CPPFLAGS) $(srcdir)/vm.c $(CPPOUTFLAG)$(@F:.time=.h).new
- +	$(Q)sed -i -e "/#define __has_include __has_include/d" $(@F:.time=.h).new
- +	$(Q)sed -i -e "/#define __has_include_next __has_include_next/d" $(@F:.time=.h).new
-diff --git a/meta/recipes-devtools/ruby/ruby_3.0.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-similarity index 78%
-rename from meta/recipes-devtools/ruby/ruby_3.0.3.bb
-rename to meta/recipes-devtools/ruby/ruby_3.1.0.bb
-index 5cf0625101..7183c93d45 100644
---- a/meta/recipes-devtools/ruby/ruby_3.0.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-            file://0006-Make-gemspecs-reproducible.patch \
-            "
- 
--SRC_URI[sha256sum] = "3586861cb2df56970287f0fd83f274bd92058872d830d15570b36def7f1a92ac"
-+SRC_URI[sha256sum] = "50a0504c6edcb4d61ce6b8cfdbddaa95707195fab0ecd7b5e92654b2a9412854"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
-@@ -32,6 +32,7 @@ EXTRA_OECONF = "\
-     --enable-shared \
-     --enable-load-relative \
-     --with-pkg-config=pkg-config \
-+    --with-static-linked-ext \
- "
- 
- EXTRA_OECONF:append:libc-musl = "\
-@@ -67,6 +68,8 @@ do_install:append:class-target () {
-     sed -i -e 's|${DEBUG_PREFIX_MAP}||g' \
-         ${D}${libdir}/pkgconfig/*.pc
- 
-+    # logs that may contain host-specific paths
-+    find ${D} -name gem_make.out -delete
- }
- 
- do_install_ptest () {
-@@ -78,9 +81,14 @@ do_install_ptest () {
-     cp -r ${S}/lib/did_you_mean ${S}/lib/rdoc ${D}${PTEST_PATH}/lib
- 
-     # install test-binaries
--    find $(find ./.ext -path '*/-test-') -name '*.so' -print0 \
--        | tar --no-recursion --null -T - --no-same-owner --preserve-permissions -cf - \
--        | tar -C ${D}${libdir}/ruby/${SHRT_VER}.0/ --no-same-owner --preserve-permissions --strip-components=2 -xf -
-+    # These .so files have sporadic reproducibility fails as seen here:
-+    # https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20220107-rm1diuww/packages/diff-html/
-+    # As they are needed only in ruby-ptest, and that is currently altogether disabled, let's take them out.
-+    # If someone wants to look at where the non-determinism comes from, one possible reason is use of
-+    # -rdynamic -Wl,-export-dynamic
-+    #find $(find ./.ext -path '*/-test-') -name '*.so' -print0 \
-+    #    | tar --no-recursion --null -T - --no-same-owner --preserve-permissions -cf - \
-+    #    | tar -C ${D}${libdir}/ruby/${SHRT_VER}.0/ --no-same-owner --preserve-permissions --strip-components=2 -xf -
-     # adjust path to not assume build directory layout
-     sed -e 's|File.expand_path(.*\.\./bin/erb[^)]*|File.expand_path("${bindir}/erb"|g' \
-         -i ${D}${PTEST_PATH}/test/erb/test_erb_command.rb
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (1):
+  lib/oe/reproducible: correctly set .git location when recursively
+    looking for git repos
+
+Marek Vasut (1):
+  weston: Backport patches to always activate the top-level surface
+
+Marta Rybczynska (1):
+  grub: fix CVE-2020-14372 and CVE-2020-27779
+
+Richard Purdie (4):
+  openssl: Add reproducibility fix
+  oeqa/selftest/bbtests: Use YP sources mirror instead of GNU
+  oeqa/selftest/tinfoil: Update to use test command
+  scripts: Update to use exec_module() instead of load_module()
+
+Steve Sakoman (3):
+  libpcre2: update SRC_URI
+  selftest: skip virgl test on fedora 35
+  asciidoc: properly detect and compare Python versions >= 3.10
+
+Tim Orling (1):
+  scripts/buildhistory-diff: drop use of distutils
+
+wangmy (1):
+  linux-firmware: upgrade 20211027 -> 20211216
+
+ meta/lib/oe/reproducible.py                   |   2 +-
+ meta/lib/oeqa/selftest/cases/bbtests.py       |   2 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |   6 +-
+ .../grub/files/CVE-2020-14372.patch           |  76 +++
+ .../grub/files/CVE-2020-14372_1.patch         | 130 ++++++
+ .../grub/files/CVE-2020-14372_2.patch         | 431 ++++++++++++++++++
+ .../grub/files/CVE-2020-14372_3.patch         |  57 +++
+ .../grub/files/CVE-2020-14372_4.patch         |  52 +++
+ .../grub/files/CVE-2020-14372_5.patch         | 158 +++++++
+ .../grub/files/CVE-2020-27779.patch           |  70 +++
+ .../grub/files/CVE-2020-27779_2.patch         | 105 +++++
+ .../grub/files/CVE-2020-27779_3.patch         |  37 ++
+ .../grub/files/CVE-2020-27779_4.patch         |  35 ++
+ .../grub/files/CVE-2020-27779_5.patch         |  62 +++
+ .../grub/files/CVE-2020-27779_6.patch         |  61 +++
+ .../grub/files/CVE-2020-27779_7.patch         |  65 +++
+ .../grub/files/no-insmod-on-sb.patch          | 107 +++++
+ meta/recipes-bsp/grub/grub2.inc               |  14 +
+ .../openssl/openssl/reproducibility.patch     |  22 +
+ .../openssl/openssl_1.1.1l.bb                 |   1 +
+ .../asciidoc/detect-python-version.patch      |  42 ++
+ .../asciidoc/asciidoc_8.6.9.bb                |   3 +-
+ ...move-no-op-de-activation-of-the-xdg-.patch |  32 ++
+ ...name-gain-lose-keyboard-focus-to-act.patch |  57 +++
+ ...bed-keyboard-focus-handle-code-when-.patch |  99 ++++
+ meta/recipes-graphics/wayland/weston_8.0.0.bb |   3 +
+ ...20211027.bb => linux-firmware_20211216.bb} |   4 +-
+ .../recipes-support/libpcre/libpcre2_10.34.bb |   2 +-
+ scripts/buildhistory-diff                     |   5 -
+ scripts/lib/scriptutils.py                    |   7 +-
+ scripts/lib/wic/pluginbase.py                 |   8 +-
+ 32 files changed, 1739 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_1.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_2.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_3.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_4.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14372_5.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_2.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_3.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_4.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_5.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_6.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-27779_7.patch
+ create mode 100644 meta/recipes-bsp/grub/files/no-insmod-on-sb.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducibility.patch
+ create mode 100644 meta/recipes-extended/asciidoc/asciidoc/detect-python-version.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/0002-desktop-shell-Remove-no-op-de-activation-of-the-xdg-.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/0003-desktop-shell-Rename-gain-lose-keyboard-focus-to-act.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/0004-desktop-shell-Embed-keyboard-focus-handle-code-when-.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211027.bb => linux-firmware_20211216.bb} (99%)
+
 -- 
-2.20.1
+2.25.1
 
 
