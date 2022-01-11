@@ -1,195 +1,203 @@
-Return-Path: <mikko.rapeli@bmw.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB640C433EF
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 07:34:33 +0000 (UTC)
-Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com
- [207.54.72.34])
- by mx.groups.io with SMTP id smtpd.web11.4159.1641886471474608712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDD6C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 07:49:56 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web12.4152.1641887395189013563
  for <openembedded-core@lists.openembedded.org>;
- Mon, 10 Jan 2022 23:34:32 -0800
+ Mon, 10 Jan 2022 23:49:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
- header.b=iCbDRF8D;
- spf=pass (domain: bmw.de, ip: 207.54.72.34,
- mailfrom: prvs=0031a2844=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DBJqUoUf;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id g2so363196qkp.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 10 Jan 2022 23:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1641886471; x=1673422471;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=IXHsq/RLpJXYKjIQH2uZT4L7c7svFx+6S0uPdMgUmV8=;
-  b=iCbDRF8D4Ix57d+OcIP0otdJoOnrA3s02X4rpOIH6p1dsApEOohbdjt2
-   TLg1idHlsrIu0mlK2WLytstXPQO3vqU4MaP+H/TQ+tB4tGrRrGfhlh3FC
-   J6suspKY3slJOK7gM4sLyDYyqNTaGhCj4eumhqF2X6p2gRm8xcwUy2b81
-   8=;
-IronPort-SDR: 
- hzJauN+PiscT/+o6ci8U5M5uRahfgYLHQKuV/Wc3WCzKcGoR+uzzg4OhwqoMMTfZyBLDWdvBXp
- aDxU+ZlnxZm2wB/gOsrm6qHG7Gt3Yevwlk48YmbKAd9aKS7HwaxidBHlV8gmwS7FA9VPEmG+0+
- 05CHYGQf037mUSWO5yOF5tdqcQobEq9O6VQ4k6jrlm/9zt77sAnUAPaWq8J8jPLdgsih+kC2+7
- huCnVy0n4pzSSqX8EFGs985nunNU/o5AFDVFxjub2VHTg1hAuh/qlxcHklW2xS6fpwPdqRZX7b
- jYbpuXaYOSoP4ysbIjhYcEzW
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Jan 2022 08:34:28 +0100
-Received: from esabb4.muc ([160.50.100.33])  by esagw1.muc with ESMTP/TLS;
- 11 Jan 2022 08:34:28 +0100
-Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp)
- ([160.46.167.67])
- by esabb4.muc with ESMTP/TLS; 11 Jan 2022 08:34:28 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
- smucm33k.europe.bmw.corp
- (160.46.167.67) with Microsoft SMTP Server (TLS;
- Tue, 11 Jan 2022 08:34:27 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Tue,
- 11 Jan 2022 08:34:27 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <steve@sakoman.com>
-CC: <Akash.Hadke@kpit.com>, <raj.khem@gmail.com>,
-	<openembedded-core@lists.openembedded.org>, <ranjitsinh.rathod@kpit.com>,
-	<hadkeakash4@gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH] glibc: Add fix for data races in
- pthread_create and TLS access
-Thread-Topic: [OE-core] [poky][dunfell][PATCH] glibc: Add fix for data races
- in pthread_create and TLS access
-Thread-Index: AQHX+LMJJPOwZF+MWEyQKZTdPgcNxKxBw1qAgBu1zYA=
-Date: Tue, 11 Jan 2022 07:34:27 +0000
-Message-ID: <Yd0zAZUFQNz4+yR4@korppu>
-References: <1640342548-4520-1-git-send-email-akash.hadke@kpit.com>
- <CAOSpxdbAzun=edOR9fjNfG01upta+N5oFukCPW1MNSmSHsed_A@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbAzun=edOR9fjNfG01upta+N5oFukCPW1MNSmSHsed_A@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <F7E425E38986E64182E37CC4E469B2DD@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cmcc5xiR5J6l7zBktXLVNGkVZjFLOQcsOcQopeGms0s=;
+        b=DBJqUoUflVwYTYG0KBtEg3qiJV+azMKdaUpXcUlepHw7iX3fCQGoFSXmMB16L7DQo1
+         V4oC9DJyrtCruQf4XFI1QyCnzW3bdT2fOq3RvViDAUXUuP6E0uBTxPjl35Ud7S1C30z2
+         xa115KG4BjJT0tW25r+HLZUgk9LIh3hQLA//pkChzxFKpJ+VRY2Q2iQakGoeVxPlK7vM
+         pdWKL+bWufLvEcdKqctxEFG85/Oq2LS8qP6KeTdHEImbTXByyM67NuRgvuHE0wgQW+Ta
+         1krzxECdkvFh7fxR1yv+xcM+UQK6FIanWVNs+G5SXsZ9qBSRqytnYd0Wets7/v57Tj+V
+         4etw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cmcc5xiR5J6l7zBktXLVNGkVZjFLOQcsOcQopeGms0s=;
+        b=ZQ2QQPnoT88BqWaZCs5pIsNYLWB7TXgRh6efIkUDBea9sJyyuQ19H1G7zqJZ5X+o5S
+         HuRYBPDVj1xhOC5mVVnNovGZQrfPJSB0WoxMpQqUDNPjeyh3O1436gd6Uo4FlzQgRlBg
+         DZVtHOjsUl9kfZSrtyC3qSmW9D/78M0WN54pAUHjvkZZqhbITs7IGu2c1kw9yqr0GC3+
+         tTEFkKvgW13EY4P/xfVodN21HKrXTurCsH6QAHoxxe51zLgE+fSVq0SsTCFd6zOfVJZH
+         Kx0iRjVKu+xJ0IwGbQIz2BMu2VB8RpWwj1OpDUIpZaU3Y3/EbMB9S+fP62YFAMJS3Ouq
+         5R2Q==
+X-Gm-Message-State: AOAM53043QaXtX9iF9af7aVucPB8uNCaJlipF79Uk1p4ozEbLepWh9ZC
+	NB6D20hKrzzMolFXp9bf/J6rL6VL15v9D0zheKA=
+X-Google-Smtp-Source: 
+ ABdhPJwbN289zAtqfEAtO7GzjK4jG/27EM8B3IfTy9uzBq4UDhNetOPOf69QRP4ZYPNe4qV+EJQ88bi4o+Ll4YJ5sqc=
+X-Received: by 2002:a05:620a:f06:: with SMTP id
+ v6mr2381998qkl.149.1641887394052;
+ Mon, 10 Jan 2022 23:49:54 -0800 (PST)
 MIME-Version: 1.0
+References: <20220109222732.2252416-1-alex@linutronix.de>
+ <20220109222732.2252416-10-alex@linutronix.de>
+ <CAMKF1sqW2NaY+=49oWG24=6mrrLjM_jam375tbHS_yo8xD2+hA@mail.gmail.com>
+ <CANNYZj8jt-Wh4nyBNdXm5ykPjOkK1nvoLH7vcJwgZpPnxn=NeQ@mail.gmail.com>
+ <CAMKF1sr4VpWwTqER4h4tYUm4p2v_di8BcmcE_As8GFkiEJO6kQ@mail.gmail.com>
+ <CANNYZj9e6DDGBEL7_bcSdU=6z-faXOEjCnDcsJ-rAtEqK_aVrQ@mail.gmail.com>
+ <CAMKF1sp3ujr7iaktTzxH0bSXT8MKJ5c06t4ObUro8m5zCczD5Q@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sp3ujr7iaktTzxH0bSXT8MKJ5c06t4ObUro8m5zCczD5Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 10 Jan 2022 23:49:28 -0800
+Message-ID: 
+ <CAMKF1srFMGqOXKSiU_J-D04g2-E45OGVY7kgeXwdXf0MgPKxmQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 10/14] epiphany: make libportal optional, and
+ move it to meta-oe
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 07:34:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 07:49:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160386
+ https://lists.openembedded.org/g/openembedded-core/message/160387
 
-On Fri, Dec 24, 2021 at 06:24:43AM -1000, Steve Sakoman wrote:
-> On Fri, Dec 24, 2021 at 12:42 AM akash hadke via
-> lists.openembedded.org <akash.hadke=3Dkpit.com@lists.openembedded.org>
-> wrote:
+On Mon, Jan 10, 2022 at 12:54 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Mon, Jan 10, 2022 at 11:18 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
 > >
-> > Inconsistency detected by ld.so: dl-tls.c: 493: _dl_allocate_tls_init: =
-Assertion `listp->slotinfo[cnt].gen <=3D _rtld_local._dl_tls_generation' fa=
-iled!
-> > caused by dlopen (in _dl_add_to_slotinfo and in dl_open_worker) doing
-> >   listp->slotinfo[idx].gen =3D GL(dl_tls_generation) + 1;
-> >   //...
-> >   if (any_tls && __builtin_expect (++GL(dl_tls_generation) =3D=3D 0, 0)=
-)
-> > while pthread_create (in _dl_allocate_tls_init) concurrently doing
-> >   assert (listp->slotinfo[cnt].gen <=3D GL(dl_tls_generation));
-> >
-> > Backported below patch that can fix the following bugs with a lock
-> > that prevents DTV setup running concurrently with dlopen or dlclose.
-> >
-> > Bug 19329: https://sourceware.org/bugzilla/show_bug.cgi?id=3D19329
-> > Bug 27111: https://sourceware.org/bugzilla/show_bug.cgi?id=3D27111
-> >
-> > Patch: 0031-elf-Fix-data-races-in-pthread_create-and-TLS-access-BZ-1932=
-9.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D1387ad622=
-5c2222f027790e3f460e31aa5dd2c54
-> >
-> > It requires a supporting patch
-> > 0030-elf-Refactor_dl_update-slotinfo-to-avoid-use-after-free.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Dc0669ae1a=
-629e16b536bf11cdd0865e0dbcf4bee
-> >
-> > After adding the above fix there is a number of racy read accesses
-> > to globals that will be changed to relaxed MO atomics in follow-up
-> > patch given below.
-> >
-> > This fixes the regressions and avoids cluttering the main part
-> > of the fix.
-> >
-> > 0032-elf-Use-relaxed-atomics-for-racy-accesses-BZ-19329.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Df4f8f4d4e=
-0f92488431b268c8cd9555730b9afe9
-> >
-> > Backported the below patch to add the test to check the added fix.
-> > 0033-elf-Add-test-case-for-BZ-19329.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D9d0e30329=
-c23b5ad736fda3f174208c25970dbce
-> >
-> > Previously modids were never resused for a
-> > different module, but after dlopen failure all gaps are reused
-> > not just the ones caused by the unfinished dlopened.
-> >
-> > The code has to handle reused modids already which seems to
-> > work, however the data races at thread creation and tls access
-> > (see bug 19329 and bug 27111) may be more severe if slots are
-> > reused. Fixing the races are not simpler if reuse is disallowed
-> > and reuse has other benefits so upstream added fix
-> > https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D572bd547d57a39=
-b6cf0ea072545dc4048921f4c3
-> > for the following bug.
-> >
-> > Bug 27135: https://sourceware.org/bugzilla/show_bug.cgi?id=3D27135
-> >
-> > But in glibc upstream the commit 572bd547d57a was reverted as the
-> > issue with 572bd547d57a patch was the DTV entry only updated on
-> > dl_open_worker() with the update_tls_slotinfo() call after all
-> > dependencies are being processed by _dl_map_object_deps(). However
-> > _dl_map_object_deps() itself might call _dl_next_tls_modid(),
-> > and since the _dl_tls_dtv_slotinfo_list::map was not yet set the
-> > entry can be wrongly reused.
-> >
-> > So added below patch to fix Bug 27135.
-> > 0034-elf-Fix-DTV-gap-reuse-logic-BZ-27135.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Dba33937be=
-210da5d07f7f01709323743f66011ce
-> >
-> > Not all TLS access related data races got fixed by adding
-> > 0031-elf-Fix-data-races-in-pthread_create-and-TLS-access-BZ-19329.patch=
-,
-> > there are additional races at lazy tlsdesc relocations.
-> > Bug 27137: https://sourceware.org/bugzilla/show_bug.cgi?id=3D27137
-> >
-> > Backported below patches to fix this issue.
-> >
-> > 0035-x86_64-Avoid-lazy-relocation-of-tlsdesc-BZ-27137.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D8f7e09f4d=
-bdb5c815a18b8285fbc5d5d7bc17d86
-> >
-> > 0036-i386-Avoid-lazy-relocation-of-tlsdesc-BZ-27137.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Dddcacd91c=
-c10ff92d6201eda87047d029c14158d
-> >
-> > The fix 0031-elf-Fix-data-races-in-pthread_create-and-TLS-access-BZ-193=
-29.patch
-> > for bug 19329 caused a regression such that pthread_create can
-> > deadlock when concurrent ctors from dlopen are waiting for it
-> > to finish.
-> > Bug 28357: https://sourceware.org/bugzilla/show_bug.cgi?id=3D28357
-> >
-> > Backported below patch to fix this issue.
-> > 0037-Avoid-deadlock-between-pthread_create-and-ctors.patch
-> > Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D024a7640a=
-b9ecea80e527f4e4d7f7a1868e952c5
-> >
-> > Signed-off-by: Akash Hadke <akash.hadke@kpit.com>
-> > Signed-off-by: Akash Hadke <hadkeakash4@gmail.com>
->=20
-> This is a quite extensive change set.  I'd like to get Khem's opinion
-> as glibc maintainer.  Thoughts, Khem?
+> > For epiphany you also need the oe-core patch. Nautilus should switch to an optional dependency via PACKAGECONFIG, similar to epiphany.
+>
+> I might have missed the OE-core patch perhaps, I will rebuild with
+> latest master-next perhaps and see if that helps
 
-If not clear, this fixes a rare crash in dlopen(). Saw this in automated te=
-sting
-but it is quite rare and non-trivial to hit.
+digging a bit deeper reveals this
 
--Mikko=
+../nautilus-41.1/src/nautilus-files-view.c:95:10: fatal error:
+'libportal/portal-gtk3.h' file not found
+#include <libportal/portal-gtk3.h>
+        ^~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+but libportal is staging it in
+
+% find ../ -name portal-gtk3.h
+../recipe-sysroot/usr/include/libportal-gtk3/portal-gtk3.h
+
+and this is happening with 0.5 upgrade of libportal. I guess nautilus
+needs to be patches perhaps.
+
+>
+> >
+> > Alex
+> >
+> > On Mon, 10 Jan 2022 at 19:57, Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> On Mon, Jan 10, 2022 at 10:49 AM Alexander Kanavin
+> >> <alex.kanavin@gmail.com> wrote:
+> >> >
+> >> > Was this patch included in the build?
+> >>
+> >> I had included the meta-oe patch that you posted for sure. I am also
+> >> seeing failing build with similar errors for nautilus see
+> >> https://errors.yoctoproject.org/Errors/Details/621931/
+> >>
+> >> >
+> >> > Alex
+> >> >
+> >> > On Mon, 10 Jan 2022 at 19:43, Khem Raj <raj.khem@gmail.com> wrote:
+> >> >>
+> >> >> seeing this error
+> >> >>
+> >> >> https://errors.yoctoproject.org/Errors/Details/621908/
+> >> >>
+> >> >> On Sun, Jan 9, 2022 at 2:28 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> >> >> >
+> >> >> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> >> >> > ---
+> >> >> >  meta/conf/distro/include/maintainers.inc      |  1 -
+> >> >> >  meta/recipes-gnome/epiphany/epiphany_41.0.bb  |  2 +-
+> >> >> >  meta/recipes-gnome/libportal/libportal_0.5.bb | 17 -----------------
+> >> >> >  3 files changed, 1 insertion(+), 19 deletions(-)
+> >> >> >  delete mode 100644 meta/recipes-gnome/libportal/libportal_0.5.bb
+> >> >> >
+> >> >> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> >> >> > index 0af6974a3d..ab7915482a 100644
+> >> >> > --- a/meta/conf/distro/include/maintainers.inc
+> >> >> > +++ b/meta/conf/distro/include/maintainers.inc
+> >> >> > @@ -369,7 +369,6 @@ RECIPE_MAINTAINER:pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
+> >> >> >  RECIPE_MAINTAINER:pn-libpcre2 = "Unassigned <unassigned@yoctoproject.org>"
+> >> >> >  RECIPE_MAINTAINER:pn-libpipeline = "Wang Mingyu <wangmy@fujitsu.com>"
+> >> >> >  RECIPE_MAINTAINER:pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
+> >> >> > -RECIPE_MAINTAINER:pn-libportal = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> >> >> >  RECIPE_MAINTAINER:pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
+> >> >> >  RECIPE_MAINTAINER:pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> >> >> >  RECIPE_MAINTAINER:pn-libptytty = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> >> >> > diff --git a/meta/recipes-gnome/epiphany/epiphany_41.0.bb b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
+> >> >> > index 8f3bd87340..a64cdefd86 100644
+> >> >> > --- a/meta/recipes-gnome/epiphany/epiphany_41.0.bb
+> >> >> > +++ b/meta/recipes-gnome/epiphany/epiphany_41.0.bb
+> >> >> > @@ -15,7 +15,6 @@ DEPENDS = " \
+> >> >> >            libarchive \
+> >> >> >            libdazzle \
+> >> >> >            libhandy \
+> >> >> > -          libportal \
+> >> >> >            glib-2.0-native \
+> >> >> >            "
+> >> >> >
+> >> >> > @@ -37,6 +36,7 @@ PACKAGECONFIG ??= "${PACKAGECONFIG_SOUP}"
+> >> >> >  PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+> >> >> >  PACKAGECONFIG[soup2] = "-Dsoup2=enabled,-Dsoup2=disabled,libsoup-2.4,,,soup3"
+> >> >> >  PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
+> >> >> > +PACKAGECONFIG[libportal] = "-Dlibportal=enabled,-Dlibportal=disabled,libportal"
+> >> >> >
+> >> >> >  FILES:${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+> >> >> >  RDEPENDS:${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+> >> >> > diff --git a/meta/recipes-gnome/libportal/libportal_0.5.bb b/meta/recipes-gnome/libportal/libportal_0.5.bb
+> >> >> > deleted file mode 100644
+> >> >> > index 67f63fea68..0000000000
+> >> >> > --- a/meta/recipes-gnome/libportal/libportal_0.5.bb
+> >> >> > +++ /dev/null
+> >> >> > @@ -1,17 +0,0 @@
+> >> >> > -SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
+> >> >> > -DESCRIPTION = "It provides simple asynchronous wrappers for most Flatpak portals \
+> >> >> > -with a familiar GObject API along side the D-Bus API"
+> >> >> > -HOMEPAGE = "https://github.com/flatpak/libportal"
+> >> >> > -BUGTRACKER = "https://github.com/flatpak/libportal/issues"
+> >> >> > -LICENSE = "LGPLv3"
+> >> >> > -LIC_FILES_CHKSUM = "file://COPYING;md5=3000208d539ec061b899bce1d9ce9404"
+> >> >> > -
+> >> >> > -SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https;branch=master"
+> >> >> > -SRCREV = "467a397fd7996557f837cdc26ac07c01c62810e5"
+> >> >> > -S = "${WORKDIR}/git"
+> >> >> > -
+> >> >> > -inherit meson gtk-doc gobject-introspection
+> >> >> > -
+> >> >> > -DEPENDS += "glib-2.0 glib-2.0-native gtk+3"
+> >> >> > -
+> >> >> > -EXTRA_OEMESON = "-Dbackends=gtk3 -Dvapi=false"
+> >> >> > --
+> >> >> > 2.20.1
+> >> >> >
+> >> >> >
+> >> >> > -=-=-=-=-=-=-=-=-=-=-=-
+> >> >> > Links: You receive all messages sent to this group.
+> >> >> > View/Reply Online (#160313): https://lists.openembedded.org/g/openembedded-core/message/160313
+> >> >> > Mute This Topic: https://lists.openembedded.org/mt/88311445/1997914
+> >> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> >> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> >> >> > -=-=-=-=-=-=-=-=-=-=-=-
+> >> >> >
 
