@@ -2,63 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 388DFC433EF
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377F4C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:12 +0000 (UTC)
 Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
  [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web09.12219.1641927727442605352
+ by mx.groups.io with SMTP id smtpd.web08.12242.1641927731869588030
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:07 -0800
+ Tue, 11 Jan 2022 11:02:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MHznoeMd;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OHal+wkM;
  spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: ticotimo@gmail.com)
 Received: by mail-pj1-f49.google.com with SMTP id
- lr15-20020a17090b4b8f00b001b19671cbebso569026pjb.1
+ y16-20020a17090a6c9000b001b13ffaa625so7055383pjj.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:02:07 -0800 (PST)
+ Tue, 11 Jan 2022 11:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=S0P7ggYgInUTT3Q/asQs6A1qn53tQ+YNUClZRnm/zEs=;
-        b=MHznoeMdPsvncWln2jJE53uQtIRcK7EgoJkB99irEkIbvoLwakCU11WZYgk3iHNGpV
-         zK1uccmo+htU8gdPd1JV3o+HCIydeSzMgdw063IQLVpcLuZokIlKHqk1wWTTzSu9bymb
-         qhmJHYuWQ+Nouyt1G8/HwkpycQ6vC5jpmpuSEIYTCQ+ZUh+baz9a31r0HzcFciHCTnWL
-         rRq6tOCOar6EBXHFGvETBXrPy3C4j0HWVOg069ZOfZ1YTEedEZ1UPcJx7ekpNXNBSeHw
-         oTV8352+OV6UQu7m0/pJCmV1/3I567ICGXJG2xD2fvNP00jkHrqFjrzgBqYvGijJ9dnh
-         8W6w==
+        bh=C1CEOSvjkX8zhs4YBAvjgrKvEDMbMvq4g97OjpeTR6o=;
+        b=OHal+wkMT+ExJUTo+CwRjwjf9PZpbgzlySoUpxJF6Z78l/pZ2YQAsNGZrT5pkJmXtf
+         YRQqxiyqhBOJjqYS0LsUkeig154P4r6WCkF4FQIS7eGs9NjKJoYiRwkIWTSDgtB1QZEO
+         HfkUsbHdCbH7QXZzTZOMikDOHzs8gn6HsXRzzNRt5ocgxgqkuEfdv/nifsiYfUa72cRN
+         Tsfraae5zV3fZL7YWVPWxPJ5tiFGt84JmVBY6lSCb5F/ETCc9prscKOZxBvJTParkbKX
+         JfVyMEuMqf8bhMBKI81LPW+hdBXFiMTAl/Ye7/0hNhMVGJnnlxACijJObqdd4MoE5hoc
+         lHOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S0P7ggYgInUTT3Q/asQs6A1qn53tQ+YNUClZRnm/zEs=;
-        b=K7pSghp0h0tPsADr6IY4cYDBkGhrTncrzWs+i42SNpY9BXtCZOw7nUBXrJ/aVuwqFU
-         SoleN4wkfjn9JN9pMz0riyM0rm466PGr/VsvDleTNfBo/7JGhARZXtBzWEPpIx/KiOK8
-         q3UBXpgcxfZN9U45kOGvlXg0VPFEsk639+nGR3mFxWPMuBAJO49akpTqSWnN/ENx+7+J
-         iykJ14no9v5XpYlrtOQo93IqI56bxjfKruHD2+nVuaMFAPaEQxstJdhxYjat5BVhr29t
-         y89jbmAoM7N6gaes+ssbr5bDxeqMm20ciNjACCRUa32PIdyfzQkjN3tyqQnFP46C1k7G
-         Rryg==
-X-Gm-Message-State: AOAM532OHrci0zrNhTq8BdVO82aKLoqXBfsVAGGBVFrlnxa/kh1xm4RU
-	7f8ooGVPxmHyJ+2bDiQaM6da8yFA03w=
+        bh=C1CEOSvjkX8zhs4YBAvjgrKvEDMbMvq4g97OjpeTR6o=;
+        b=PjsINHR95YhNfsuOq6udO0LevfvH232OgM64AAt1IddGbzGx0Np7RpcAlaZEbCwopv
+         PPuHF8w1jU4vDbVbMzax4mGi2kesFxsjkReEcwYuke+PDq/HlWCafhaTkxsYM7nZeABe
+         5EZFIDmxboMNrZVPbhBNKmS9NrJJ/3ps2xH3IRoAGmyXiK/lSors4QeUy6scHqlVBmNX
+         ukXHdQl4aw9Nap7rcTzfCro9qhHhMagbpugredcXnCxi15CX5HMM8m5rIQWHcgt0rKp9
+         jULBIBcJm3rbXCUh4Op/SvWn0tpRecuk8UG757JuMpLR/9ib1MZo4SwJoZSHYqSEmEyj
+         U3rA==
+X-Gm-Message-State: AOAM5308eW5UmEPWEGD9uQF08JZ7u7lmlSu/jgqGAUGvhbEc6TtdbSR1
+	LjIuS0fsOP/iejmHtdYnJhU0ib4acW4=
 X-Google-Smtp-Source: 
- ABdhPJwuR4MI16k/C5ufSY9yp1QmG8WOPQ1yQt6mt8ZjSIrEs8OCLaroHzMfarnvH9vd2SivKp95gQ==
-X-Received: by 2002:aa7:96bd:0:b0:4c1:232c:818a with SMTP id
- g29-20020aa796bd000000b004c1232c818amr331045pfk.35.1641927726592;
-        Tue, 11 Jan 2022 11:02:06 -0800 (PST)
+ ABdhPJyQVksYZsI6dVEsGQdXiz+WiQII24dLR8uexEjaGMI5PztmQwM/tUvlJ+0CZ41Tit5ZI8D5jQ==
+X-Received: by 2002:a17:903:124c:b0:149:b16d:917e with SMTP id
+ u12-20020a170903124c00b00149b16d917emr6140219plh.91.1641927731097;
+        Tue, 11 Jan 2022 11:02:11 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:9b84:60d5:95c9:ae8b])
         by smtp.gmail.com with ESMTPSA id
- u3sm11509977pfk.82.2022.01.11.11.02.06
+ u3sm11509977pfk.82.2022.01.11.11.02.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:02:06 -0800 (PST)
+        Tue, 11 Jan 2022 11:02:10 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 04/22] dnf: inherit setuptools3-base instead of distutils
-Date: Tue, 11 Jan 2022 11:01:13 -0800
+Subject: [PATCH v2 05/22] libdnf: inherit setuptools3-base not distutils
+Date: Tue, 11 Jan 2022 11:01:14 -0800
 Message-Id: 
- <9e23004c0421d4ded29c74192866ab2c303081b8.1641920605.git.tim.orling@konsulko.com>
+ <43bc44b6c51fa856629a70265c28ff5acd5f5f15.1641920605.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1641920605.git.tim.orling@konsulko.com>
 References: <cover.1641920605.git.tim.orling@konsulko.com>
@@ -67,30 +67,30 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:08 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160439
+ https://lists.openembedded.org/g/openembedded-core/message/160440
 
 [YOCTO #14610]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/dnf/dnf_4.10.0.bb | 2 +-
+ meta/recipes-devtools/libdnf/libdnf_0.65.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dnf/dnf_4.10.0.bb b/meta/recipes-devtools/dnf/dnf_4.10.0.bb
-index cef2c03e4e2..6ff2a6b1e6f 100644
---- a/meta/recipes-devtools/dnf/dnf_4.10.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.10.0.bb
-@@ -23,7 +23,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb
+index fbda7769c07..81da04c9ca1 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb
+@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
  
- S = "${WORKDIR}/git"
+ DEPENDS = "glib-2.0 libsolv libcheck librepo rpm gtk-doc libmodulemd json-c swig-native"
  
--inherit cmake gettext bash-completion distutils3-base systemd
-+inherit cmake gettext bash-completion setuptools3-base systemd
+-inherit gtk-doc gobject-introspection cmake pkgconfig distutils3-base
++inherit gtk-doc gobject-introspection cmake pkgconfig setuptools3-base
  
- DEPENDS += "libdnf librepo libcomps python3-iniparse"
- 
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DWITH_MAN=OFF -DPYTHON_DESIRED=3 \
+                   ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DWITH_GIR=ON', '-DWITH_GIR=OFF', d)} \
 -- 
 2.30.2
 
