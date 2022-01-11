@@ -2,62 +2,61 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570A8C433EF
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 18:00:10 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web09.11301.1641924009047117184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52708C433F5
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 18:00:11 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+ [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web09.11302.1641924010243369255
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 10:00:09 -0800
+ Tue, 11 Jan 2022 10:00:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e80fJY8u;
- spf=pass (domain: gmail.com, ip: 209.85.219.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=liqvelVd;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 15so77434qvp.12
+Received: by mail-qv1-f45.google.com with SMTP id p12so108656qvj.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 10:00:08 -0800 (PST)
+ Tue, 11 Jan 2022 10:00:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dq5hCDvBjA0koFk/tPP3xdFlkKbpIcHaMUQp133Weko=;
-        b=e80fJY8ujex8Qe6PViuySLNEDpeBeYKnv9XCCr4O2GyaVQ6obTPHBPjV+0CX9WbT+Q
-         RPXv8cV26BY6rcU23hsykPu3aLTXA+KpA+Uu3JsrvfjJ7lFYrR6wTQDPaSD4yZGSloO4
-         JCi89lS9B2aumwEUB9ay6feBb3M9wmGm9WHChpVrd+sVWUDP2ISXgLlZJLb8mlEJDJr1
-         YPtZ69RV5SoEKzFbWsCBgvTKyAzpff4S3GOsu74f+dYeTJk2zochKRf8avb/bwS6V0p4
-         gw8aywSGu1zU5lQPkOKZOSUy3IZJz3PIivfQL0E/PSVr2Kzw3N5l05hgR6jlTvSArRwE
-         7eiw==
+        bh=C6Rqg2UB0hMhA6XmAhUmlJrGY5A/lsfuWoVTFVgfLMc=;
+        b=liqvelVdkO5cn9zVtIbtVMbruxBYZ2vzXQgW8QxhXH8s2a8ATAHplKsBJJiwEzYlTO
+         j6XE24rt0fvpsWtQiKxIwOgVwCfKgJbh5R7AG78nNPbKyxocHYfXua/bU9VG3dmo0CIl
+         jFKy4xF8BF7BWoNudu7t1ECVduLvQYqVWk/hzxpX7NGT27sJPpP2IbhkD63AIMJt9JrG
+         mu6yC3om1HbaACtsUwmvmbdZumU8JUFD8d46j273xxw8OAJYXFyJsqojll1sWkO59WyP
+         udkXsq/1tFKScY9vGqwrPMVaGFotGd4ThNCQ1Y1PqGWsnwE4CEPrG/6DnIUR77qgjxe/
+         Kj8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dq5hCDvBjA0koFk/tPP3xdFlkKbpIcHaMUQp133Weko=;
-        b=fMku2ltuw0yryaEfzg1e/n+s1gtxtknSpjmILDo6Zpp4/TzLEDZ4g1EtRo3tLosg6T
-         uAojD3I9bZVKpHFqRBw9xI7Byf60eqHGexNSsRuWAU7Xo5tAmHL72RKAQp2TIFlMIMyd
-         g56cMUpyA3bjCUjL1MxSjTbf8SIEki1uAw45XcJQbvArAj6AIKBxe0gaKHTeZeY4o+vN
-         YLq3SKqKDbglY2mFh9KxdTli1ye9sKi7B75+YEj/nMI7FM+vSUv3y0En2KJjVX2Tl66B
-         saAlMB/LmcSZE6VPvHUTTIXLfseUUkvj2BSGYrr8iIucwRekRHy47BFBS9fqGXCu2/Bf
-         gMxg==
-X-Gm-Message-State: AOAM5318Z55fVUg8L4XhuosDq5j4Wb90G2pE8lc3nYBokr5tkPQrCdfN
-	AeFArZEmmPpAtxWFTm41Zss=
+        bh=C6Rqg2UB0hMhA6XmAhUmlJrGY5A/lsfuWoVTFVgfLMc=;
+        b=bH6epzOghHdhcp0hho83t1jfoN4QJD/UdATmPMgsbHqxUc+MtFAVzaJvaMwUbBxrCu
+         oLLmZWp89rBLLS4dBs3ZaIKLF71TGFzuASJRnwMnI/TbSnkIKMhW+rSsBHHQ42sUHz4A
+         hz1ktU5rqJaVXG2F7DTGNIi3yKfPJJXQ71Ap8u7/YTMfPY0vkMmVJu4rqQWiarkYj5Qw
+         UZkUr/c9gLItmaftP+FA0ubuVt3/pKYBb9t6o/ATrBD+umnMVuLqw59JlICgVAgIyVrI
+         znjNiGP7YkxmSG4jgJBAeoXMml3UqP0k9pme9bqjsLD9XTUAr15sw5+qXEV3YcM5p/yf
+         cTdw==
+X-Gm-Message-State: AOAM531oYwohQPBPHChDKd6a8eCEBsa+myrQ7VwN9tyYCfgsJlsXgm44
+	GD4XY1K6kz6S+9snUqVgC7Oc4CxpndCQOQ==
 X-Google-Smtp-Source: 
- ABdhPJyDljVidByMo5aiGlYyRZ5WxRMJArvwztydxPAAmlFE8S6QUrUbc4CTTV3oy7XJjhSJk5Z3Cg==
-X-Received: by 2002:a05:6214:c4f:: with SMTP id
- r15mr4876296qvj.116.1641924007548;
-        Tue, 11 Jan 2022 10:00:07 -0800 (PST)
+ ABdhPJyKLmPAaE1DupH1WdUM5CFYKDVGqvV8T0rOBI1GJjnp33rrQDF0Xwv/L3bm0d8xoE85AjekLA==
+X-Received: by 2002:ad4:5961:: with SMTP id eq1mr4859426qvb.110.1641924009414;
+        Tue, 11 Jan 2022 10:00:09 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
         by smtp.gmail.com with ESMTPSA id
- x7sm7360749qkp.128.2022.01.11.10.00.06
+ x7sm7360749qkp.128.2022.01.11.10.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 10:00:07 -0800 (PST)
+        Tue, 11 Jan 2022 10:00:08 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/10] linux-yocto/5.10: update to v5.10.90
-Date: Tue, 11 Jan 2022 12:59:56 -0500
+Subject: [PATCH 10/10] conf/machine: bump qemu preferred versions to 5.15
+Date: Tue, 11 Jan 2022 12:59:58 -0500
 Message-Id: 
- <5a6e60b884e93d4b98606747388ad8ba277b628d.1641923694.git.bruce.ashfield@gmail.com>
+ <8441d36eae02be3d4cb359bb6302befe5b5700d6.1641923694.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1641923693.git.bruce.ashfield@gmail.com>
 References: <cover.1641923693.git.bruce.ashfield@gmail.com>
@@ -66,160 +65,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 18:00:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 18:00:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160431
+ https://lists.openembedded.org/g/openembedded-core/message/160432
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.10 to the latest korg -stable release that comprises
-the following commits:
-
-d3e491a20d15 Linux 5.10.90
-8c15bfb36a44 bpf: Add kconfig knob for disabling unpriv bpf by default
-d8a5b1377bf6 perf script: Fix CPU filtering of a script's switch events
-2386e81a1d27 net: fix use-after-free in tw_timer_handler
-34087cf96046 Input: spaceball - fix parsing of movement data packets
-9f329d0d6c91 Input: appletouch - initialize work before device registration
-2a4f551dec1a scsi: vmw_pvscsi: Set residual data length conditionally
-1cb8444f3114 binder: fix async_free_space accounting for empty parcels
-a6e26251dd3a usb: mtu3: set interval of FS intr and isoc endpoint
-3b6efe0b7ba0 usb: mtu3: fix list_head check warning
-f10b01c48f85 usb: mtu3: add memory barrier before set GPD's HWO
-1c4ace3e6b85 usb: gadget: f_fs: Clear ffs_eventfd in ffs_data_clear.
-1933fe8ce712 xhci: Fresco FL1100 controller should not have BROKEN_MSI quirk set.
-b8553330a077 drm/amdgpu: add support for IP discovery gc_info table v2
-28863ffe21ff drm/amdgpu: When the VCN(1.0) block is suspended, powergating is explicitly enabled
-a0f3ac399ef5 uapi: fix linux/nfc.h userspace compilation errors
-818c9e0a04df nfc: uapi: use kernel size_t to fix user-space builds
-8d31cbab4c29 i2c: validate user data in compat ioctl
-51c94d8fbd09 fsl/fman: Fix missing put_device() call in fman_port_probe
-920932b20e0c net/ncsi: check for error return from call to nla_put_u32
-610af55f9fbe selftests/net: udpgso_bench_tx: fix dst ip argument
-78503589b1e0 net/mlx5e: Fix wrong features assignment in case of error
-61146008087a ionic: Initialize the 'lif->dbid_inuse' bitmap
-b7c9a1427b32 igc: Fix TX timestamp support for non-MSI-X platforms
-e8a5988a85c7 net/smc: fix kernel panic caused by race of smc_sock
-97c87c1db9ff net/smc: don't send CDC/LLC message if link not ready
-99f19566b1c4 net/smc: improved fix wait on already cleared link
-e553265ea564 NFC: st21nfca: Fix memory leak in device probe and remove
-8d70dc0eecf0 net: lantiq_xrx200: fix statistics of received bytes
-7ef89bd1e8f1 net: ag71xx: Fix a potential double free in error handling paths
-40d36186913b net: usb: pegasus: Do not drop long Ethernet frames
-a67becdaa8ad net/smc: fix using of uninitialized completions
-769d14abd35e sctp: use call_rcu to free endpoint
-13c1bf43b674 selftests: Calculate udpgso segment count without header adjustment
-abe74fb43378 udp: using datalen to cap ipv6 udp max gso segments
-5e6ad649e927 net/mlx5e: Fix ICOSQ recovery flow for XSK
-73665165b64a net/mlx5e: Wrap the tx reporter dump callback to extract the sq
-4cd1da02f0c3 net/mlx5: DR, Fix NULL vs IS_ERR checking in dr_domain_init_resources
-fcb32eb3d04d scsi: lpfc: Terminate string in lpfc_debugfs_nvmeio_trc_write()
-4833ad4908a1 selinux: initialize proto variable in selinux_ip_postroute_compat()
-ec941a2277a1 recordmcount.pl: fix typo in s390 mcount regex
-a0e82d5ef992 memblock: fix memblock_phys_alloc() section mismatch error
-7da855e93964 platform/x86: apple-gmux: use resource_size() with res
-d01e9ce1af61 parisc: Clear stale IIR value on instruction access rights trap
-0643d9175dc6 tomoyo: use hwight16() in tomoyo_domain_quota_is_ok()
-e2048a1f9186 tomoyo: Check exceeded quota early in tomoyo_domain_quota_is_ok().
-210c7c6908f3 Input: i8042 - enable deferred probe quirk for ASUS UM325UA
-bb672eff7447 Input: i8042 - add deferred probe support
+5.14 has been removed from the active kernel list, so we make
+5.15 the new default.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ meta/conf/machine/include/x86/x86-base.inc | 2 +-
+ meta/conf/machine/qemuarmv5.conf           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index dd8326e92c..52ba3b9f61 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
+index 44e4b4ec46..e76251ea2b 100644
+--- a/meta/conf/machine/include/x86/x86-base.inc
++++ b/meta/conf/machine/include/x86/x86-base.inc
+@@ -18,7 +18,7 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
+ # kernel-related variables
+ #
+ PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ??= "5.14%"
++PREFERRED_VERSION_linux-yocto ??= "5.15%"
  
--SRCREV_machine ?= "301346d30bcaccedc71da8d5f78bd262063d4ba7"
--SRCREV_meta ?= "fdabd97ceceb2e3e74a132332c875f68b47b755b"
-+SRCREV_machine ?= "e137d5d92c05530840f2e191ec471f8f0ea2d62e"
-+SRCREV_meta ?= "65d66ac9789372923b42be0683a87955e52705a5"
+ #
+ # XSERVER subcomponents, used to build the XSERVER variable
+diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+index 3c2c4997b9..2dad504c99 100644
+--- a/meta/conf/machine/qemuarmv5.conf
++++ b/meta/conf/machine/qemuarmv5.conf
+@@ -15,7 +15,7 @@ QB_MACHINE = "-machine versatilepb"
+ QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
+ QB_GRAPHICS = "-device virtio-gpu-pci"
+ QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+-PREFERRED_VERSION_linux-yocto ??= "5.14%"
++PREFERRED_VERSION_linux-yocto ??= "5.15%"
+ QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.10.89"
-+LINUX_VERSION ?= "5.10.90"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 9d2bbc010c..d0166f6c4f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.10.89"
-+LINUX_VERSION ?= "5.10.90"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine:qemuarm ?= "913d41ebe409dfd03c49fafd1923f8663df2a4ff"
--SRCREV_machine ?= "5575e67330fb6d979ed1cd2e9e64400b4c21b595"
--SRCREV_meta ?= "fdabd97ceceb2e3e74a132332c875f68b47b755b"
-+SRCREV_machine:qemuarm ?= "c0774ebd6bc1c7541deb4f9a649a1a6bfa42853f"
-+SRCREV_machine ?= "ab201bf6e3f9d187c7c26a0ec6537fadb41de918"
-+SRCREV_meta ?= "65d66ac9789372923b42be0683a87955e52705a5"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 50fa1fb281..43274a318f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,17 +13,17 @@ KBRANCH:qemux86  ?= "v5.10/standard/base"
- KBRANCH:qemux86-64 ?= "v5.10/standard/base"
- KBRANCH:qemumips64 ?= "v5.10/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "b0dfabc86c3b6e1fb2ddb153664961e107bedfa9"
--SRCREV_machine:qemuarm64 ?= "fea23aa594ce16a15564f991e14868dd255674cf"
--SRCREV_machine:qemumips ?= "0ec16d85647a337f392ae358db3dcc200d958938"
--SRCREV_machine:qemuppc ?= "a6a07d8acd8991883464bd3034beabb9ee23f11a"
--SRCREV_machine:qemuriscv64 ?= "d59202c85b0f96b7a928ec594021a38e80c35a46"
--SRCREV_machine:qemuriscv32 ?= "d59202c85b0f96b7a928ec594021a38e80c35a46"
--SRCREV_machine:qemux86 ?= "d59202c85b0f96b7a928ec594021a38e80c35a46"
--SRCREV_machine:qemux86-64 ?= "d59202c85b0f96b7a928ec594021a38e80c35a46"
--SRCREV_machine:qemumips64 ?= "29cb56446b0b66b7a15d2577773e69c4e813bfd7"
--SRCREV_machine ?= "d59202c85b0f96b7a928ec594021a38e80c35a46"
--SRCREV_meta ?= "fdabd97ceceb2e3e74a132332c875f68b47b755b"
-+SRCREV_machine:qemuarm ?= "d9597fe71e155c5a96452d23694188d6d4091673"
-+SRCREV_machine:qemuarm64 ?= "210fcd9ee603afb731beaa5833e7e3f1d1918786"
-+SRCREV_machine:qemumips ?= "8688d3707cea38bd7ed115a12005079c2215f77d"
-+SRCREV_machine:qemuppc ?= "933b47667b7549bb36a809cca90bc372a7182620"
-+SRCREV_machine:qemuriscv64 ?= "2a2f4a19d9d77ad40b9d079be860f736846f5d55"
-+SRCREV_machine:qemuriscv32 ?= "2a2f4a19d9d77ad40b9d079be860f736846f5d55"
-+SRCREV_machine:qemux86 ?= "2a2f4a19d9d77ad40b9d079be860f736846f5d55"
-+SRCREV_machine:qemux86-64 ?= "2a2f4a19d9d77ad40b9d079be860f736846f5d55"
-+SRCREV_machine:qemumips64 ?= "25fcfe4f5c4be9bbb67498f09b2dd088f8bb6dfd"
-+SRCREV_machine ?= "2a2f4a19d9d77ad40b9d079be860f736846f5d55"
-+SRCREV_meta ?= "65d66ac9789372923b42be0683a87955e52705a5"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE:qemuarm ?= "qemuarma15"
-@@ -32,7 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.10.89"
-+LINUX_VERSION ?= "5.10.90"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ KMACHINE:qemuarmv5 = "qemuarm"
 -- 
 2.19.1
 
