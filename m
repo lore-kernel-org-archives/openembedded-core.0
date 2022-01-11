@@ -2,63 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B551C433F5
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:00 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web12.12339.1641927719484885025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 388DFC433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 19:02:08 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.12219.1641927727442605352
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:01:59 -0800
+ Tue, 11 Jan 2022 11:02:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VFhzmLur;
- spf=pass (domain: gmail.com, ip: 209.85.214.174,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id c3so219290pls.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MHznoeMd;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id
+ lr15-20020a17090b4b8f00b001b19671cbebso569026pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 11:01:59 -0800 (PST)
+ Tue, 11 Jan 2022 11:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Vzk+k1yPnTgxfrdI7ptFaCwPWlrXb2jGmCZY2tUXdbE=;
-        b=VFhzmLur+CdZHDMDYkpvZca/aZTC9XhapCNuop0kJL7B/VetzliQVVawWFLKuV0rWL
-         pYnwGnABKbCs1tRaP7wZCCyM/zjDI4Mt5OaJPyVAi+kdiO1RgvL+Pg/zDRvY5K8RN1K+
-         SxORrPn+JuOUkMRv8WXfmIKebxEvlN0zi7Qg7+haRVt6i5IpT/FcYnbaMkJfJZrMl5q5
-         R1PhR2+3RkWlD2eLTkAJKpUQ5KmuGD4VO7GubpPjwFh7JEmL85iw/vSfgt8gLnxSzvN4
-         G+gZnMf3O++dyDSR8WYsKo4a6M1nbNCjiykCxuCXVKJBGjPoYjClAF/XhlneMH5c/hig
-         /coQ==
+        bh=S0P7ggYgInUTT3Q/asQs6A1qn53tQ+YNUClZRnm/zEs=;
+        b=MHznoeMdPsvncWln2jJE53uQtIRcK7EgoJkB99irEkIbvoLwakCU11WZYgk3iHNGpV
+         zK1uccmo+htU8gdPd1JV3o+HCIydeSzMgdw063IQLVpcLuZokIlKHqk1wWTTzSu9bymb
+         qhmJHYuWQ+Nouyt1G8/HwkpycQ6vC5jpmpuSEIYTCQ+ZUh+baz9a31r0HzcFciHCTnWL
+         rRq6tOCOar6EBXHFGvETBXrPy3C4j0HWVOg069ZOfZ1YTEedEZ1UPcJx7ekpNXNBSeHw
+         oTV8352+OV6UQu7m0/pJCmV1/3I567ICGXJG2xD2fvNP00jkHrqFjrzgBqYvGijJ9dnh
+         8W6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vzk+k1yPnTgxfrdI7ptFaCwPWlrXb2jGmCZY2tUXdbE=;
-        b=22vj4GD1zCKG4g+SJGNrCc+YvoIg428iQjFfCcedS0cHSx9Fqm0bgGbBz3ow9ufCrg
-         7459BifqAr357WQqB8IFVIQHuxsnVUAHwF5BWbu0aBNgz1eDqfeQZaFIFp8naGgYjie0
-         Up0e1CxPL0qyBUvEcFjDcbRVx67n4O+QC08awnp6xnPq3hRNF2AsoJK/RdJYRxBYXhG2
-         /3126Q8jgUt6CGd1B1pT3Jzih8miQFX6mf4pPNjtVpl50LYTGnhoxp0+ZSWXyFdudFKc
-         KQ0EFiaB/1ey7P7sD6O6Esrd8VzqQq9UA9LSQXtglBlZe0oR8sNmJsTgFkqTww231Ho3
-         ZwUQ==
-X-Gm-Message-State: AOAM533sg1imoQDe6NlDTUYeAhWrBL7yc5MnmRLi495Z/HRra8axUlBC
-	NW8sNzD2PbP+nFdQ+VqgwkxgB6t5N6s=
+        bh=S0P7ggYgInUTT3Q/asQs6A1qn53tQ+YNUClZRnm/zEs=;
+        b=K7pSghp0h0tPsADr6IY4cYDBkGhrTncrzWs+i42SNpY9BXtCZOw7nUBXrJ/aVuwqFU
+         SoleN4wkfjn9JN9pMz0riyM0rm466PGr/VsvDleTNfBo/7JGhARZXtBzWEPpIx/KiOK8
+         q3UBXpgcxfZN9U45kOGvlXg0VPFEsk639+nGR3mFxWPMuBAJO49akpTqSWnN/ENx+7+J
+         iykJ14no9v5XpYlrtOQo93IqI56bxjfKruHD2+nVuaMFAPaEQxstJdhxYjat5BVhr29t
+         y89jbmAoM7N6gaes+ssbr5bDxeqMm20ciNjACCRUa32PIdyfzQkjN3tyqQnFP46C1k7G
+         Rryg==
+X-Gm-Message-State: AOAM532OHrci0zrNhTq8BdVO82aKLoqXBfsVAGGBVFrlnxa/kh1xm4RU
+	7f8ooGVPxmHyJ+2bDiQaM6da8yFA03w=
 X-Google-Smtp-Source: 
- ABdhPJxBY1lhxW8ULKUkm+saAFoVBjXQkRDLU6HiBRVtlZQ3AiU8Hs+LeT9D6mDAlk8OP7KKRlkJZg==
-X-Received: by 2002:a05:6a00:1a86:b0:4c1:3039:16a6 with SMTP id
- e6-20020a056a001a8600b004c1303916a6mr93062pfv.5.1641927718672;
-        Tue, 11 Jan 2022 11:01:58 -0800 (PST)
+ ABdhPJwuR4MI16k/C5ufSY9yp1QmG8WOPQ1yQt6mt8ZjSIrEs8OCLaroHzMfarnvH9vd2SivKp95gQ==
+X-Received: by 2002:aa7:96bd:0:b0:4c1:232c:818a with SMTP id
+ g29-20020aa796bd000000b004c1232c818amr331045pfk.35.1641927726592;
+        Tue, 11 Jan 2022 11:02:06 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:9b84:60d5:95c9:ae8b])
         by smtp.gmail.com with ESMTPSA id
- u3sm11509977pfk.82.2022.01.11.11.01.58
+ u3sm11509977pfk.82.2022.01.11.11.02.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 11:01:58 -0800 (PST)
+        Tue, 11 Jan 2022 11:02:06 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 02/22] setuptools3: refactor for no distutils bbclasses
-Date: Tue, 11 Jan 2022 11:01:11 -0800
+Subject: [PATCH v2 04/22] dnf: inherit setuptools3-base instead of distutils
+Date: Tue, 11 Jan 2022 11:01:13 -0800
 Message-Id: 
- <4f7e847bc47da7d1f57ff42a0774ae228d6391a1.1641920605.git.tim.orling@konsulko.com>
+ <9e23004c0421d4ded29c74192866ab2c303081b8.1641920605.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1641920605.git.tim.orling@konsulko.com>
 References: <cover.1641920605.git.tim.orling@konsulko.com>
@@ -67,140 +67,29 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 19:02:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160438
+ https://lists.openembedded.org/g/openembedded-core/message/160439
 
-Add setuptools3-base.bbclass as a re-usable starting point similar to
-what used to be distutils-common-base.bbclass and disutils3-base.bbclass.
-
-We no longer need to support python2, so no need for a
-setuptools-common-base.bbclass.
-
-Refactor setuptools3.bbclass to use setuptools3-base.bbclass instead of
-the distulis*.bbclasses.
+[YOCTO #14610]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Changes in v2:
-  - Drop distutils_do_configure task dependency (copy paste
-    error)
+ meta/recipes-devtools/dnf/dnf_4.10.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/classes/setuptools3-base.bbclass | 31 +++++++++++++
- meta/classes/setuptools3.bbclass      | 66 ++++++++++++++++++++++++++-
- 2 files changed, 96 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/setuptools3-base.bbclass
-
-diff --git a/meta/classes/setuptools3-base.bbclass b/meta/classes/setuptools3-base.bbclass
-new file mode 100644
-index 00000000000..5098ae9d64e
---- /dev/null
-+++ b/meta/classes/setuptools3-base.bbclass
-@@ -0,0 +1,31 @@
-+DEPENDS:append:class-target = " ${PYTHON_PN}-native ${PYTHON_PN}"
-+DEPENDS:append:class-nativesdk = " ${PYTHON_PN}-native ${PYTHON_PN}"
-+RDEPENDS:${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' == 'class-target']}"
-+
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
-+
-+# LDSHARED is the ld *command* used to create shared library
-+export LDSHARED  = "${CCLD} -shared"
-+# LDXXSHARED is the ld *command* used to create shared library of C++
-+# objects
-+export LDCXXSHARED  = "${CXX} -shared"
-+# CCSHARED are the C *flags* used to create objects to go into a shared
-+# library (module)
-+export CCSHARED  = "-fPIC -DPIC"
-+# LINKFORSHARED are the flags passed to the $(CC) command that links
-+# the python executable
-+export LINKFORSHARED = "${SECURITY_CFLAGS} -Xlinker -export-dynamic"
-+
-+FILES:${PN} += "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
-+
-+FILES:${PN}-staticdev += "\
-+  ${PYTHON_SITEPACKAGES_DIR}/*.a \
-+"
-+FILES:${PN}-dev += "\
-+  ${datadir}/pkgconfig \
-+  ${libdir}/pkgconfig \
-+  ${PYTHON_SITEPACKAGES_DIR}/*.la \
-+"
-+inherit python3native python3targetconfig
-+
-diff --git a/meta/classes/setuptools3.bbclass b/meta/classes/setuptools3.bbclass
-index 8ca66ee708e..fd8499d26c7 100644
---- a/meta/classes/setuptools3.bbclass
-+++ b/meta/classes/setuptools3.bbclass
-@@ -1,4 +1,68 @@
--inherit distutils3
-+inherit setuptools3-base
+diff --git a/meta/recipes-devtools/dnf/dnf_4.10.0.bb b/meta/recipes-devtools/dnf/dnf_4.10.0.bb
+index cef2c03e4e2..6ff2a6b1e6f 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.10.0.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.10.0.bb
+@@ -23,7 +23,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
-+B = "${WORKDIR}/build"
-+
-+SETUPTOOLS_BUILD_ARGS ?= ""
-+SETUPTOOLS_INSTALL_ARGS ?= "--root=${D} \
-+    --prefix=${prefix} \
-+    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-+    --install-data=${datadir}"
-+
-+SETUPTOOLS_PYTHON = "python3"
-+SETUPTOOLS_PYTHON:class-native = "nativepython3"
-+
-+SETUPTOOLS_SETUP_PATH ?= "${S}"
-+
-+setuptools3_do_configure() {
-+    :
-+}
-+
-+setuptools3_do_compile() {
-+        cd ${SETUPTOOLS_SETUP_PATH}
-+        NO_FETCH_BUILD=1 \
-+        STAGING_INCDIR=${STAGING_INCDIR} \
-+        STAGING_LIBDIR=${STAGING_LIBDIR} \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-+        build --build-base=${B} ${SETUPTOOLS_BUILD_ARGS} || \
-+        bbfatal_log "'${PYTHON_PN} setup.py build ${SETUPTOOLS_BUILD_ARGS}' execution failed."
-+}
-+setuptools3_do_compile[vardepsexclude] = "MACHINE"
-+
-+setuptools3_do_install() {
-+        cd ${SETUPTOOLS_SETUP_PATH}
-+        install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-+        STAGING_INCDIR=${STAGING_INCDIR} \
-+        STAGING_LIBDIR=${STAGING_LIBDIR} \
-+        PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-+        ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-+        build --build-base=${B} install --skip-build ${SETUPTOOLS_INSTALL_ARGS} || \
-+        bbfatal_log "'${PYTHON_PN} setup.py install ${SETUPTOOLS_INSTALL_ARGS}' execution failed."
-+
-+        # support filenames with *spaces*
-+        find ${D} -name "*.py" -exec grep -q ${D} {} \; \
-+                               -exec sed -i -e s:${D}::g {} \;
-+
-+        for i in ${D}${bindir}/* ${D}${sbindir}/*; do
-+            if [ -f "$i" ]; then
-+                sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${SETUPTOOLS_PYTHON}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-+            fi
-+        done
-+
-+        rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
-+
-+        #
-+        # FIXME: Bandaid against wrong datadir computation
-+        #
-+        if [ -e ${D}${datadir}/share ]; then
-+            mv -f ${D}${datadir}/share/* ${D}${datadir}/
-+            rmdir ${D}${datadir}/share
-+        fi
-+}
-+setuptools3_do_install[vardepsexclude] = "MACHINE"
-+
-+EXPORT_FUNCTIONS do_configure do_compile do_install
-+
-+export LDSHARED="${CCLD} -shared"
- DEPENDS += "python3-setuptools-native"
+ S = "${WORKDIR}/git"
+ 
+-inherit cmake gettext bash-completion distutils3-base systemd
++inherit cmake gettext bash-completion setuptools3-base systemd
+ 
+ DEPENDS += "libdnf librepo libcomps python3-iniparse"
  
 -- 
 2.30.2
