@@ -1,194 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F31C433FE
-	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 16:28:47 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web10.9997.1641918526096183360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D45C3C433EF
+	for <webhook@archiver.kernel.org>; Tue, 11 Jan 2022 17:04:35 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web08.10436.1641920674825203449
  for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 08:28:46 -0800
+ Tue, 11 Jan 2022 09:04:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GHXMVIpT;
- spf=pass (domain: gmail.com, ip: 209.85.222.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id g2so1713163qkp.1
+ dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
+ header.s=20210112 header.b=Mz9KCWvT;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
+ ip: 209.85.167.51, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lf1-f51.google.com with SMTP id o12so58719363lfk.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 11 Jan 2022 08:28:45 -0800 (PST)
+ Tue, 11 Jan 2022 09:04:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Yp0ARQ8Ad/vMLcLPThXmG5gMKBZksWh1+CI4vgUQMk0=;
-        b=GHXMVIpTZiOSJg1lc1l+y7fr12bWLTZelyD7PR+8lTKs65dyTo0d/pQREANNXRpaR9
-         M/B6kRrZxKmsjC6H5gjE5wCCu/oqgRLbzkSsIZHpjtE1WSChpKSQAgFnzn6P1/9geJcR
-         o0llICxTH66NmjHCejIn8XVNcK0YKBiUqDY+rv/NsA+fZJAq098MB1281E68QSVoTHHc
-         Iyjbxl9ZJrsLRsVbXU5scx84oMORrPKD2gSUUJB9YfltfviahNycwMnCzKek+nuH3zb9
-         SJTc8V22i+yd5hnjVx/95DDRryHJgAxLVwbO7IOqo2GDj3mA4wV26wwwej+AGbBQ+gZT
-         k/Ww==
+        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T/arFpAYMywMEZldPT4BYnfSBTAdrYTP4tIGinZWF3g=;
+        b=Mz9KCWvTm4yl/IUvH1iUO7uDeWSv+Li0XNEALAmsIKJMs1GquUhABB0ar95YQqdBBt
+         ZMuBFhdoHvbNIWocmWk/hWdkbFWgmH8G01yMtpFENY/gcDyk7NcR+UUOQvGxnaS+r/RS
+         srllQQ3PfCkDqql60wrs62FdIeXHoFyF3xtHrWAu/IZ/J+4q7tmL8AtJ/25ltj8sUPZF
+         K5Bm/0Q5w5HvSj6HcQhNuYrQdihfVyKxcNWnLmCv6qqg0N0DQpcrS6eWNY86a9eVbg3O
+         2JauU5NL7stMBtmHGwP1HCqg94hYC0YixC5v3HK3YJ9Tslht7i2t5bmAWod6xg+Bwzjv
+         a7vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Yp0ARQ8Ad/vMLcLPThXmG5gMKBZksWh1+CI4vgUQMk0=;
-        b=VXIMuIfBUFP3D7n8E5z69RHvvMO/dZdbDXIugvBBjG+0tPXX6XFXjQ65nzbeBsgVF8
-         +OYopXrxmsxNiVNJTcBmaRNH+cIyrDuxRqcz2NG8+cJuEtV8mVieR26MJ2eQfZzIWqNv
-         IlYYm0DSTOVPj0sXlhUnWdMqqGXvBDoHpyYTGZU7gOwpsrxZBI7SrZVhSEk+stId6azj
-         8xeHbNgGyCtbnMCACppc2D3bGgz5jgUWpAyYzqjp58uPl7nDbKt950nunjQdOZSWyXTT
-         v51WdsZdGhc0ibdGhLKDy/kcPFYwSEUqTQtqU2STwbLnZw8MnEnVORh9zXyOc7BK2+mA
-         RyAA==
-X-Gm-Message-State: AOAM5325wMarlvuS91+KpzouOMHBDroovQLbHGG6+PN+1tqikjy8f5Kc
-	yJ7CevS1fzY+Is/s+tFpr/LltlcEkW0fOiwq/Y1ywHCLSXo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T/arFpAYMywMEZldPT4BYnfSBTAdrYTP4tIGinZWF3g=;
+        b=tWxHKORUnItUTgl4iXiHRIRHEpRnATVsf+20rx92WhvX/Qrfs16aFdyNsJf32OmRxp
+         loUKCxUsDz/UD+VT/nOKXskEjoGDCgHFKMO1LIa7z8Zyw/OpY3PAwgEPSDuFCECFLL2x
+         IrXg9nFjnwTzGpWZz56BnhI6FM17/BH+6y0tW2aHpVwQa2bYr6bq21zKxV7GiB3a/VYl
+         16VmhVOs2l6xOXGgXlzUIxdc7gkrhEIGaGXjsJaeXQGnmFjo6nBqIJ+NlN1nfqUJj6SW
+         W8IxWdogzigxXqs1PMpoZkmy/B5o/Wm2KzTxOhkzwkHggpX6aXlLBFtOHBD75m9HX+KR
+         kNZQ==
+X-Gm-Message-State: AOAM532o5Bqzy+wG/oFM7CnyQkCFV1wamM6ejDCy6P2Q9sKP7xAFoUVu
+	y33PCGu4hSQg9FAtTKvjwJ8rSBhwUZC5+jQn
 X-Google-Smtp-Source: 
- ABdhPJz/clUJIu1O4B7MpOtEfaLOby0pxmxAKR+8RIyhwfaiFte5QAZDpOtEstkH05pwLENU7+7Z+yxcZUzerPP/fqA=
-X-Received: by 2002:a05:620a:1496:: with SMTP id
- w22mr3587339qkj.463.1641918525115;
- Tue, 11 Jan 2022 08:28:45 -0800 (PST)
+ ABdhPJzUSvXT3GmTji/hToxVe9pGurB9M6zECcwDJ5KmGDgqwVRPY/nC9PnBrpEFbMJMpwGmJ4ns+Q==
+X-Received: by 2002:a05:6512:2350:: with SMTP id
+ p16mr3983426lfu.107.1641920672448;
+        Tue, 11 Jan 2022 09:04:32 -0800 (PST)
+Received: from localhost.localdomain ([78.82.24.121])
+        by smtp.gmail.com with ESMTPSA id
+ h3sm1390348lfu.65.2022.01.11.09.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 09:04:31 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ofono: update to 1.34
+Date: Tue, 11 Jan 2022 18:04:22 +0100
+Message-Id: <20220111170422.1904561-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220111162327.33864-1-nishaparrakat@gmail.com>
-In-Reply-To: <20220111162327.33864-1-nishaparrakat@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Jan 2022 08:28:34 -0800
-Message-ID: 
- <CAMKF1soAvWcenT3k1sab3iBM3AdrL7f_jwRSzABRQJaogk8BHQ@mail.gmail.com>
-Subject: Re: [meta-oe][master][PATCH] nodejs_16.11.1.bb: only handle npm if
- configured
-To: Nisha Parrakat <nishaparrakat@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000708fba05d550f20e"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 16:28:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 11 Jan 2022 17:04:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160420
+ https://lists.openembedded.org/g/openembedded-core/message/160421
 
---000000000000708fba05d550f20e
-Content-Type: text/plain; charset="UTF-8"
+Changelog:
+- Fix issue with handling device info of Quectel modems.
+- Fix issue with handling callback for RIL dial manager.
 
-This needs to go into openembedded-devel mailing list so it can be picked
-by lore and other tools
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../recipes-connectivity/ofono/{ofono_1.33.bb => ofono_1.34.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.33.bb => ofono_1.34.bb} (95%)
 
-On Tue, Jan 11, 2022 at 8:23 AM Nisha Parrakat <nishaparrakat@gmail.com>
-wrote:
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.33.bb b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+similarity index 95%
+rename from meta/recipes-connectivity/ofono/ofono_1.33.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.34.bb
+index 1fab90c08e..24369b3ba5 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.33.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.34.bb
+@@ -13,7 +13,7 @@ SRC_URI = "\
+     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+     file://0002-mbim-Fix-build-with-ell-0.39-by-restoring-unlikely-m.patch \
+ "
+-SRC_URI[sha256sum] = "e4591c5353ad2069cb9c0861fad3f1bf655137f9785fc5f16151d509e49ba708"
++SRC_URI[sha256sum] = "c0b96d3013447ec2bcb74579bef90e4e59c68dbfa4b9c6fbce5d12401a43aac7"
+ 
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ 
+-- 
+2.25.1
 
-> npm-cli.js should be symlinked only when the file is present
-> the file may not be available if the configure option is --without-npm
->
-> Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
-> ---
->  meta-oe/recipes-devtools/nodejs/nodejs_16.11.1.bb | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/meta-oe/recipes-devtools/nodejs/nodejs_16.11.1.bb
-> b/meta-oe/recipes-devtools/nodejs/nodejs_16.11.1.bb
-> index 11034420a..c8d942538 100644
-> --- a/meta-oe/recipes-devtools/nodejs/nodejs_16.11.1.bb
-> +++ b/meta-oe/recipes-devtools/nodejs/nodejs_16.11.1.bb
-> @@ -175,8 +175,9 @@ do_install:append:class-native() {
->      # /usr/bin/npm is symlink to /usr/lib/node_modules/npm/bin/npm-cli.js
->      # use sed on npm-cli.js because otherwise symlink is replaced with
-> normal file and
->      # npm-cli.js continues to use old shebang
-> -    sed "1s^.*^#\!/usr/bin/env node^g" -i
-> ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js
-> -
-> +    if [[ -f "${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js" ]];
-> then
-> +        sed "1s^.*^#\!/usr/bin/env node^g" -i
-> ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js
-> +    fi
->      # Install the native binaries to provide it within sysroot for the
-> target compilation
->      install -d ${D}${bindir}
->      install -m 0755 ${S}/out/Release/torque ${D}${bindir}/torque
-> @@ -189,7 +190,9 @@ do_install:append:class-native() {
->  }
->
->  do_install:append:class-target() {
-> -    sed "1s^.*^#\!${bindir}/env node^g" -i
-> ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js
-> +    if [[ -f "${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js" ]];
-> then
-> +        sed "1s^.*^#\!${bindir}/env node^g" -i
-> ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js
-> +    fi
->  }
->
->  PACKAGES =+ "${PN}-npm"
-> --
-> 2.17.1
->
->
-
---000000000000708fba05d550f20e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">This needs to go into openembedded-devel mailing list so =
-it can be picked by lore and other tools=C2=A0</div><div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 11, 2022 at =
-8:23 AM Nisha Parrakat &lt;<a href=3D"mailto:nishaparrakat@gmail.com">nisha=
-parrakat@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">n=
-pm-cli.js should be symlinked only when the file is present<br>
-the file may not be available if the configure option is --without-npm<br>
-<br>
-Signed-off-by: Nisha Parrakat &lt;<a href=3D"mailto:nishaparrakat@gmail.com=
-" target=3D"_blank">nishaparrakat@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta-oe/recipes-devtools/nodejs/<a href=3D"http://nodejs_16.11.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">nodejs_16.11.1.bb</a> | 9 ++++++---<br=
->
-=C2=A01 file changed, 6 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta-oe/recipes-devtools/nodejs/<a href=3D"http://nodejs_16.11=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">nodejs_16.11.1.bb</a> b/meta-oe=
-/recipes-devtools/nodejs/<a href=3D"http://nodejs_16.11.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">nodejs_16.11.1.bb</a><br>
-index 11034420a..c8d942538 100644<br>
---- a/meta-oe/recipes-devtools/nodejs/<a href=3D"http://nodejs_16.11.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">nodejs_16.11.1.bb</a><br>
-+++ b/meta-oe/recipes-devtools/nodejs/<a href=3D"http://nodejs_16.11.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">nodejs_16.11.1.bb</a><br>
-@@ -175,8 +175,9 @@ do_install:append:class-native() {<br>
-=C2=A0 =C2=A0 =C2=A0# /usr/bin/npm is symlink to /usr/lib/node_modules/npm/=
-bin/npm-cli.js<br>
-=C2=A0 =C2=A0 =C2=A0# use sed on npm-cli.js because otherwise symlink is re=
-placed with normal file and<br>
-=C2=A0 =C2=A0 =C2=A0# npm-cli.js continues to use old shebang<br>
--=C2=A0 =C2=A0 sed &quot;1s^.*^#\!/usr/bin/env node^g&quot; -i ${D}${exec_p=
-refix}/lib/node_modules/npm/bin/npm-cli.js<br>
--<br>
-+=C2=A0 =C2=A0 if [[ -f &quot;${D}${exec_prefix}/lib/node_modules/npm/bin/n=
-pm-cli.js&quot; ]]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed &quot;1s^.*^#\!/usr/bin/env node^g&quot; -=
-i ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js<br>
-+=C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0# Install the native binaries to provide it within sysr=
-oot for the target compilation<br>
-=C2=A0 =C2=A0 =C2=A0install -d ${D}${bindir}<br>
-=C2=A0 =C2=A0 =C2=A0install -m 0755 ${S}/out/Release/torque ${D}${bindir}/t=
-orque<br>
-@@ -189,7 +190,9 @@ do_install:append:class-native() {<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install:append:class-target() {<br>
--=C2=A0 =C2=A0 sed &quot;1s^.*^#\!${bindir}/env node^g&quot; -i ${D}${exec_=
-prefix}/lib/node_modules/npm/bin/npm-cli.js<br>
-+=C2=A0 =C2=A0 if [[ -f &quot;${D}${exec_prefix}/lib/node_modules/npm/bin/n=
-pm-cli.js&quot; ]]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed &quot;1s^.*^#\!${bindir}/env node^g&quot; =
--i ${D}${exec_prefix}/lib/node_modules/npm/bin/npm-cli.js<br>
-+=C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
-<br>
-=C2=A0PACKAGES =3D+ &quot;${PN}-npm&quot;<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000708fba05d550f20e--
 
