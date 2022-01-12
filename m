@@ -2,58 +2,58 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC030C433EF
-	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 14:21:35 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.23561.1641997293936621930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD7FC433EF
+	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 14:30:20 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.23724.1641997819590413871
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 06:21:34 -0800
+ Wed, 12 Jan 2022 06:30:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n4i4tZLZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EsS43ybL;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 30so10680058edv.3
+Received: by mail-ed1-f53.google.com with SMTP id a18so10716636edj.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 06:21:33 -0800 (PST)
+ Wed, 12 Jan 2022 06:30:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BZCI67Z0iH2fHyn0rBhNAO8wQevfBzLa+Y6vhij0UOY=;
-        b=n4i4tZLZjp9pn2tofgcemq5ydvrO4AE7aCg75ncx1hzYMzE2OFNDjJ9Dx2t5ldsAw1
-         NuyWIDhbJ6WBYZzz1GUmbkSlmu1bvKPbVCNc7HoqcbrSA/k2KtvebOvOYMb3HjRA4XoD
-         jeiSB/4TGGZ24jJz577f2hk4FQ1E1j+e14ZkATXiBbBiwhAVdTjxvr9B+Kyuyzw03y8g
-         tuove51yQevJLzfgVKLIhCeo0BGUoo2OA35qg8eIYm498HKx0ijTPw1lFEiQfspH9Y+l
-         tJ/hnFntD/rPiHDwk+phcM+tKrEhGnwQxjBEJd2CtEs8ZR/FJg8BdiTu1LdRNJxgsbO5
-         +iNA==
+        bh=ir2P+rO5rN+s8ujbe244j6XqgszdVouYC18tl4Dsw78=;
+        b=EsS43ybLhOVdjKC5lOSuiaI+fHtyBVhoxnFa0Pd4uTBPe18WRDTTtNVqIVhPBT1arI
+         UyI8Si3LzEI4fZ5sC1XmEuI1DE5FhtPoF49b0zAeMtopiPYsfg3+9T/qLN5+Y1cNxYuW
+         M4DZU9eax7Hcmg010C1xXFfIbtZnQbyhGA25FomUKg4JQoctIqyjuigkAG6I+c+erUIK
+         WzXOP3CHE9boBk6iaOIIKB8KIk3yn9cO3xwsu9Hq6M+acVMba2Bx99eA/lrrkg/S+Iyl
+         4/nYzkVXNnXsiya7jA09QlrIRm1LC8jgeVIstVa/NL3CGkpbPcJfUqvR/QiKoHDCrhqv
+         qaxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BZCI67Z0iH2fHyn0rBhNAO8wQevfBzLa+Y6vhij0UOY=;
-        b=vaC+Qt/W2N/91AUHhd5lv6hA6I77xonnSEIuzNWyG1OptVcpdjQWL5sIF8QR1e8z6i
-         IBOTPQqtgLzuoJo9Zks5+qfudDA7V7CWYzk35+P6nrPsrkoqrqCqzsk4ubs5hpSig43F
-         V1udcPyZb6CQVcPYweT4hN03Y4UzvUxkavRZRj6KKHG7vC9dZxT0uaC/sCL8hVWWtER/
-         LP1sQnUvxmdieSjQlfJeqrZat395MbmzHQK7sWFn54dE613wP2ZDXlHH9/iV+Td7WnGD
-         22VhzviYiDVC3hNxZJ7WJt7lH+S7CHNOUxFk7pdjMPl1QnGo6r0rLZJ+s0c9DAz0kWo2
-         eOsw==
-X-Gm-Message-State: AOAM533waJF2kHHChNCSsMz9ZdtNkoNOmW7QD21XlxmoCIcicpwHizRv
-	RrwGSHSlIo23CsLshSGn9IwnYm0uZcOXmQvuMc4=
+        bh=ir2P+rO5rN+s8ujbe244j6XqgszdVouYC18tl4Dsw78=;
+        b=pYGXpMZxYeY3+3qs0wNRLabgwX3iLPZNx4X84FCqHYqAdLk4jOuN/fLJndHJ0AM7p5
+         MK7fvXQI6xQURRExFIBvRC5jquP1kYO+YuYn4NFb9hyEQ27QErDQT1r/hucSWHWM7bfY
+         z9yrCHTR4v1p5oHPZSHtncL3HJN2sJk4FMvGsjZ2EE2OtPQKuYEP/qV2brGu5wB/9Np7
+         4uybUUpkntyXXvViILaMyr3xJ0YTqANcEWwwYQuVRcnMpMvIOG7M/+1FeySN/pUVZpwB
+         sxNjCLZ6DxnjXsIT6BYqsQstS8ESNlScIAEAex3OdP8BUxXNoNtk7O1VhWqCtBabFZMq
+         +VXg==
+X-Gm-Message-State: AOAM5329V3O17rTdqTk60lSyt5Y1hHAGPHwz+A88UgkNt4gSX0gMojvr
+	iRiLgLmZm5a6IHDmR7TD5djdyzmTbpaDj7N73JU=
 X-Google-Smtp-Source: 
- ABdhPJwNF7I6lePtUjJ6VLK8fa9SAh5bT6ktEQd0pDSTBq64mVSZUkaNjAGywLdHv8zjFL3+AXkYyz++lLMgKbJr2l0=
-X-Received: by 2002:a17:906:5048:: with SMTP id
- e8mr7857906ejk.651.1641997292088;
- Wed, 12 Jan 2022 06:21:32 -0800 (PST)
+ ABdhPJzYZl7kJX/R0WT76UqU1nyPialxuKqvd3ZO6VaPudw4XEdRWetIgp5qIf9XxS/RxUr9sWEMxZJlpjsHpVJqT7w=
+X-Received: by 2002:a17:907:b13:: with SMTP id
+ h19mr7647048ejl.391.1641997817743;
+ Wed, 12 Jan 2022 06:30:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20220111235840.81471-1-saul.wold@windriver.com>
- <20220111235840.81471-3-saul.wold@windriver.com>
-In-Reply-To: <20220111235840.81471-3-saul.wold@windriver.com>
+ <20220111235840.81471-4-saul.wold@windriver.com>
+In-Reply-To: <20220111235840.81471-4-saul.wold@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 12 Jan 2022 09:21:20 -0500
+Date: Wed, 12 Jan 2022 09:30:06 -0500
 Message-ID: 
- <CADkTA4P=tHSB9HL8YT0yuGyvLYu8TtVcUpKVDe8bCtkhKhmo0Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] package: Add support for kernel stripping
+ <CADkTA4N7koctbLfOXDdTqXTPJt6_SUr+u1evLgCFgijCFk8dag@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/3] kernel.bbclass: use common strip()
 To: Saul Wold <saul.wold@windriver.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
@@ -62,138 +62,107 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 14:21:35 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 14:30:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160481
+ https://lists.openembedded.org/g/openembedded-core/message/160482
 
 On Tue, Jan 11, 2022 at 6:59 PM Saul Wold <saul.wold@windriver.com> wrote:
 >
-> Extend runstrip() to accept additional argument to enable
-> sharing it with the kernel do_strip() to that
-> KERNEL_IMAGE_STRIP_EXTRA_SECTIONS can be passed.
->
-> Since is_elf() understands kernel modules there is no need to keep a
-> seperate list for kernmodules or hardcode the values to runstrip.
+> Re-use the runstrip() code from oe.packaging, for the kernel
+> stripping process. Since runstrip() is python the kernel do_strip()
+> need to be converted to Python also. The stripped kernel image
+> will be used for deployment in do_deploy(). This will allow the
+> package.bbclass to split an unstripped kernel binary for the debug
+> information and extended packagedata. The extended package data is
+> used by create-spdx.
 >
 > Signed-off-by: Saul Wold <saul.wold@windriver.com>
 > ---
->  meta/classes/package.bbclass | 21 +++++++--------------
->  meta/lib/oe/package.py       |  7 +++++--
->  2 files changed, 12 insertions(+), 16 deletions(-)
+>  meta/classes/kernel.bbclass | 44 ++++++++++++++++---------------------
+>  1 file changed, 19 insertions(+), 25 deletions(-)
 >
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 09cd376f4af..794996e6d6d 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -390,10 +390,6 @@ def splitdebuginfo(file, dvar, debugdir, debuglibdir, debugappend, debugsrcdir,
->      dvar = d.getVar('PKGD')
->      objcopy = d.getVar("OBJCOPY")
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 7685c6921fa..b2f9e3c8071 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -700,30 +700,19 @@ do_kernel_link_images() {
+>  }
+>  addtask kernel_link_images after do_compile before do_strip
 >
-> -    # We ignore kernel modules, we don't generate debug info files.
-> -    if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
-> -        return (file, sources)
+> -do_strip() {
+> -       if [ -n "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}" ]; then
+> -               if ! (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux"); then
+> -                       bbwarn "image type(s) will not be stripped (not supported): ${KERNEL_IMAGETYPES}"
+> -                       return
+> -               fi
 > -
->      newmode = None
->      if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
->          origmode = os.stat(file)[stat.ST_MODE]
-> @@ -1122,7 +1118,6 @@ python split_and_strip_files () {
->      #
->      elffiles = {}
->      symlinks = {}
-> -    kernmods = []
->      staticlibs = []
->      inodes = {}
->      libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir"))
-> @@ -1145,9 +1140,6 @@ python split_and_strip_files () {
->                  if file in skipfiles:
->                      continue
->
-> -                if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-> -                    kernmods.append(file)
-> -                    continue
->                  if oe.package.is_static_lib(file):
->                      staticlibs.append(file)
->                      continue
-> @@ -1164,8 +1156,11 @@ python split_and_strip_files () {
->                  if not s:
->                      continue
->                  # Check its an executable
-> -                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
-> -                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and (".so" in f or ".node" in f)):
-> +                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) \
-> +                        or (s[stat.ST_MODE] & stat.S_IXOTH) \
-> +                        or ((file.startswith(libdir) or file.startswith(baselibdir)) \
-> +                        and (".so" in f or ".node" in f)) \
-> +                        or (f.startswith('vmlinux') or ".ko" in f):
->
->                      if cpath.islink(file):
->                          checkelflinks[file] = ltarget
-> @@ -1311,12 +1306,10 @@ python split_and_strip_files () {
->          for file in elffiles:
->              elf_file = int(elffiles[file])
->              #bb.note("Strip %s" % file)
-> -            sfiles.append((file, elf_file, strip))
-> -        for f in kernmods:
-> -            sfiles.append((f, 16, strip))
-> +            sfiles.append((file, elf_file, strip, ''))
->          if (d.getVar('PACKAGE_STRIP_STATIC') == '1' or d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') == '1'):
->              for f in staticlibs:
-> -                sfiles.append((f, 16, strip))
-> +                sfiles.append((f, 16, strip, ''))
->
->          oe.utils.multiprocess_launch(oe.package.runstrip, sfiles, d)
->
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index dd700cbb0c9..7842a614e9f 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -16,7 +16,7 @@ def runstrip(arg):
->      # 8 - shared library
->      # 16 - kernel module
->
-> -    (file, elftype, strip) = arg
-> +    (file, elftype, strip, extra_strip_sections) = arg
->
->      newmode = None
->      if not os.access(file, os.W_OK) or os.access(file, os.R_OK):
-> @@ -40,6 +40,9 @@ def runstrip(arg):
->      # shared or executable:
->      elif elftype & 8 or elftype & 4:
->          stripcmd.extend(["--remove-section=.comment", "--remove-section=.note"])
-> +        if file.find("boot/vmlinux") != -1 and extra_strip_sections != '':
-> +            for section in extra_strip_sections.split():
-> +                stripcmd.extend(["--remove-section=" + section])
+> -               cd ${B}
+> -               headers=`"$CROSS_COMPILE"readelf -S ${KERNEL_OUTPUT_DIR}/vmlinux | \
+> -                         grep "^ \{1,\}\[[0-9 ]\{1,\}\] [^ ]" | \
+> -                         sed "s/^ \{1,\}\[[0-9 ]\{1,\}\] //" | \
+> -                         gawk '{print $1}'`
+> -
+> -               for str in ${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}; do {
+> -                       if ! (echo "$headers" | grep -q "^$str$"); then
+> -                               bbwarn "Section not found: $str";
+> -                       fi
 
-One thought that came to mind when reading this, is does that really
-need to be restricted to boot/vmlinux ? The code would be simplified
-by just testing for 'if extra_strip_sections:' .. and then the
-sections are only passed for the kernel components that need it.
+We are losing this warning in the relocated / common routine. It looks
+like something we could continue to detect and warn on, no ?
 
-The more broadly available functionality obviously isn't used (or
-maybe ever needed), but it does simplify things.  But I'm only looking
-at the diff, so maybe I'm missing a nuance.
+> -
+> -                       "$CROSS_COMPILE"strip -s -R $str ${KERNEL_OUTPUT_DIR}/vmlinux
+> -               }; done
+> -
+> -               bbnote "KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is set, stripping sections:" \
+> -                       "${KERNEL_IMAGE_STRIP_EXTRA_SECTIONS}"
+> -       fi;
+> +python do_strip() {
+> +    import shutil
+> +
+> +    strip = d.getVar('STRIP')
+> +    extra_sections = d.getVar('KERNEL_IMAGE_STRIP_EXTRA_SECTIONS')
+> +    kernel_image = d.getVar('B') + "/" + d.getVar('KERNEL_OUTPUT_DIR') + "/vmlinux"
+> +
+> +    if (extra_sections is not None and kernel_image.find('boot/vmlinux') != -1):
 
+Minor 'nit .. I'd probably just write that as: if extra_sections
+(versus the is not None) .. but maybe you have it that way due to that
+check not working.
+
+> +        kernel_image_stripped = kernel_image + ".stripped"
+> +        shutil.copy2(kernel_image, kernel_image_stripped)
+> +        oe.package.runstrip((kernel_image_stripped, 8, strip, extra_sections))
+> +        bb.note ("KERNEL_IMAGE_STRIP_EXTRA_SECTIONS is set, stripping sections: " + \
+> +            extra_sections)
+
+In theory, we could move the debug log to the common routine when it
+detects the extra section argument
+
+>  }
+>  do_strip[dirs] = "${B}"
 >
->      stripcmd.append(file)
->      bb.debug(1, "runstrip: %s" % stripcmd)
-> @@ -172,7 +175,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
->      sfiles = []
->      for file in elffiles:
->          elf_file = int(elffiles[file])
-> -        sfiles.append((file, elf_file, strip_cmd))
-> +        sfiles.append((file, elf_file, strip_cmd, ''))
+> @@ -768,7 +757,12 @@ kernel_do_deploy() {
+>
+>         for imageType in ${KERNEL_IMAGETYPES} ; do
+>                 baseName=$imageType-${KERNEL_IMAGE_NAME}
+> -               install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$baseName${KERNEL_IMAGE_BIN_EXT}
+> +
+> +               if [ -s ${KERNEL_OUTPUT_DIR}/$imageType.stripped ] ; then
+> +                       install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType.stripped $deployDir/$baseName${KERNEL_IMAGE_BIN_EXT}
+> +               else
+> +                       install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$baseName${KERNEL_IMAGE_BIN_EXT}
+> +               fi
 
-Rather than needing to add the '' to all of the appends, isn't there a
-way that the oe util runstrip could just check the length of args and
-assign a default if there isn't a 4th argument ? That routine is
-already assigning specifically to variables to checking the length
-wouldn't be adding any specific knowledge to a generic routine.
+Is there a scenario when the ".stripped" image isn't available ?
+Wouldn't that already be an error, and so the deploy should just be an
+error, versus copying the non-stripped one ?
 
 Bruce
 
->
->      oe.utils.multiprocess_launch(runstrip, sfiles, d)
->
+>                 if [ -n "${KERNEL_IMAGE_LINK_NAME}" ] ; then
+>                         ln -sf $baseName${KERNEL_IMAGE_BIN_EXT} $deployDir/$imageType-${KERNEL_IMAGE_LINK_NAME}${KERNEL_IMAGE_BIN_EXT}
+>                 fi
 > --
 > 2.31.1
 >
