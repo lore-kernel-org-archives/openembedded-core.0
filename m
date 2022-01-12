@@ -1,110 +1,106 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C880AC433EF
-	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 15:07:54 +0000 (UTC)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web08.24232.1642000073581502332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9BFAC433F5
+	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 15:28:17 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.24531.1642001295806714283
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 07:07:53 -0800
+ Wed, 12 Jan 2022 07:28:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=qLoJzmgS;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.174,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f174.google.com with SMTP id m2so2749758qkd.8
+ dkim=pass header.i=@linaro.org header.s=google header.b=T2t+/8+V;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50,
+ mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id e3so6634492lfc.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 07:07:53 -0800 (PST)
+ Wed, 12 Jan 2022 07:28:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8fHjbohtH0fCqEXm9Nc7tcAKhhjpmnd/I04l1IputOs=;
-        b=qLoJzmgSyCqXMjqtYh5zF2UtjVfH8ruHb06vOdIOjERKo+lr7HXCl37kkr088cTpF3
-         UqhS4oKZgRv7haLS2gkd7PJSvq5ubDbpiZvqpXZiOCJAFANbXOKPuxhrYE7pyAssQTyz
-         2E7IiCKmbk/L/0qMy6lMINHailaXf1N9d8XQl2T5fxIupanqvIrKzr0mr24xF2UiuLbh
-         JGgobgYPHqFrkYy9zXrY0odcXGglk45El5ZJW4QUJ2uRsk8HJ9/E7gWm/fzzN4zEASsm
-         s7KWkiNFQK3K980iDIVljyskd9EFvt5I3aocX/ZKlbABsaM7do1nye09wc7jVRHmo0Rt
-         iuNw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZKr88TvzKvSfsPHYt6yzgwgSvG9006TbQYI/FAtbXq0=;
+        b=T2t+/8+V/VkoxfZYd9tMzteNCEklpjdQhjrkdbbySjcHMMyfjINzKKVh83hsdnLPHE
+         wQIJitDAsrllHQdadxkrw9Xg8XEtZ/fgzwZZ4lPoq2RJVV/fb7iAmc3xJ04hGLjKYD6/
+         a0ywHKS5PxmyZL+TyvCWzq+uFPFBnuxjxaPGPkWLA98poRuoAVUr0m4JsPmWRBXYc+pY
+         TEVpyENqYcc6FJGdAhdqDtMbJ8NhJWFYw1qUL+G0KzjHyC7wYop5T+g+I1MvGQmLHBkR
+         goTgZEm+8ozS58rt/z6cpU8zQQLyGOcSK82ctLMhoudCmRHp27ii25rOqZwVORcPaY9X
+         YeCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8fHjbohtH0fCqEXm9Nc7tcAKhhjpmnd/I04l1IputOs=;
-        b=cpstR2F1fKS/WJV6rox+u1waJganukcfT+MrUftoDdzSsqqSHj4JIjle40ZXsJezj6
-         TelYRSwSXqdAZ6JPC/kAoDC9BeWaWj71+Aw8B5T5v8cgUMumsI/zhTFKzojNL6qrN8Vv
-         yJD+LFJWw0dfVzkCWJWC2H7sSEzArfV0Pjsp1GdNxlDyNzP3YBrd+fQwD3kOf5vLr44B
-         sVci1y48gkQHYWZD162aTFP/YyT+PRzq5LOq+ADaVsXT5Ns/SVFOW9bza3r8RBmMtS94
-         /FwsabT5V0AM3/x1HOOdBI6t4UBXuMyxJf3APqLSRxdU4LsnVgbJL5Ppvs3z03Fvwzpr
-         pWjg==
-X-Gm-Message-State: AOAM533pE3vBP4/f38MRYzBhrzsXjKlHPrCs3+bL9h+HvK8jzChoaEhx
-	+LEmsUR9skoaKisKt0FblypBoJrilKz+m2V3
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZKr88TvzKvSfsPHYt6yzgwgSvG9006TbQYI/FAtbXq0=;
+        b=holPNyNPNdotBvuDFtiB7U5cuHX8cX9KSGDvgJGyll51RmI10JTkITsO5Z2KNtCC6X
+         wpQW/i7Yt2BWQ9X3NwL+t2a1+oV6VStidKY9t6vu2GbImN5OSHn8FAOi0T+KFQDjvuDJ
+         k5FBfm6wcb/DTDeTLvnMZfJ4SOf3rzv5sv2Oal5TQJosgkIkVk5YSUndAxF+Xhe5Qj6f
+         r7z2LAt94t93mHy2OyPMlKk3u9WrqfUx1jBXj0G8GpdCuJvX742IyuEe1sDLW4xupuRV
+         1YhZh2+kTGMbwV/6kl56VvJiKbh/ads7OEg+Xl0F5eLNs2QZ7tUKygNAEoSPIN2uq5aq
+         /U+Q==
+X-Gm-Message-State: AOAM5321o6imdMaZ5EmCS1EJAbddSstQXtDp549Pzgjtxpt1YGUVG3Co
+	c+/rrYkTmKt16/Lt3yCvIR3zHi2CmgUmvA==
 X-Google-Smtp-Source: 
- ABdhPJw/Z407ofVBNI4TWl4k8wCxRn6LfswuqKAn+K4VondJYYTxsTVi3bm5sRsVAmf0M9vS+MUPCw==
-X-Received: by 2002:a05:620a:4251:: with SMTP id
- w17mr87503qko.284.1642000072306;
-        Wed, 12 Jan 2022 07:07:52 -0800 (PST)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com.
- [209.85.160.178])
+ ABdhPJxMDVAOHVYDfmUVn1uaMRUtJUb7btAZhfzipSgaB57KguqANynVCIlRqINNILnIhzX/HHOlqg==
+X-Received: by 2002:a2e:b5c1:: with SMTP id g1mr43949ljn.494.1642001293510;
+        Wed, 12 Jan 2022 07:28:13 -0800 (PST)
+Received: from umbar.lan ([37.153.55.125])
         by smtp.gmail.com with ESMTPSA id
- t18sm9145325qkp.84.2022.01.12.07.07.51
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jan 2022 07:07:51 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f178.google.com with SMTP id b14so395129qtb.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 07:07:51 -0800 (PST)
-X-Received: by 2002:ac8:57cc:: with SMTP id w12mr8117553qta.82.1642000071575;
- Wed, 12 Jan 2022 07:07:51 -0800 (PST)
+ f31sm18457lfv.148.2022.01.12.07.28.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 07:28:13 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] go-runtime: fix building without SECURITY_LDFLAGS
+Date: Wed, 12 Jan 2022 18:28:06 +0300
+Message-Id: <20220112152806.1754604-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220101112959.1866747-1-alex@linutronix.de>
- <20220101112959.1866747-3-alex@linutronix.de>
- <CALT56yMfCmtcbzxs+j=R0NJZZLAMtVenZgbj0rzR0+gzXnpLvw@mail.gmail.com>
- <CANNYZj9rFvsK-tBr+0_H_69=1peh4HkH9nqwj6o168x0G5u23w@mail.gmail.com>
- <CALT56yNhE3T3yqmFDiAvX2yOYX5LgdcYcuF07GX_-1-AnXPC6w@mail.gmail.com>
- <CANNYZj9x0C0tsdMYQSbGSptQ3fNsCuyS6bkmsB-icL-VnFh5Tg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9x0C0tsdMYQSbGSptQ3fNsCuyS6bkmsB-icL-VnFh5Tg@mail.gmail.com>
-Date: Wed, 12 Jan 2022 12:07:40 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKq-Z4s5MrUq598sHM7Ofy36NK098AaesKHJAtHogAyASA@mail.gmail.com>
-Message-ID: 
- <CAP9ODKq-Z4s5MrUq598sHM7Ofy36NK098AaesKHJAtHogAyASA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/6] go: correctly set debug-prefix-map and
- build directory
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 15:07:54 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 15:28:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160488
+ https://lists.openembedded.org/g/openembedded-core/message/160489
 
-Em qua., 12 de jan. de 2022 =C3=A0s 12:01, Alexander Kanavin
-<alex.kanavin@gmail.com> escreveu:
-> I'm not immediately sure how to solve this though. We do want to keep tho=
-se flags when they're defined.
->
-> Ideas? Perhaps they could be defined empty in some place which is present=
- in all distributions?
+Commit 9985b17a30bb ("go: correctly set debug-prefix-map and build
+directory") has changed CGO_LDFLAGS to the manually crafted version of
+LDFLAGS to strip out DEBUG_PREFIX_MAP contents.
 
-I believe it does make sense; it ought to have a default.
-https://github.com/openembedded/openembedded-core/blob/master/meta/conf/dis=
-tro/include/default-distrovars.inc
-sounds like the right place.
+However this manually crafted version includes ${SECURITY_LDFLAGS}.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+If security_flags.inc is not included, the variable is not defined, thus
+CGO_LDFLAGS will include the '${SECURITY_LDFLAGS}' literally. When
+building the recipe, the build would break with the follwing message:
+
+aarch64-linaro-linux-gcc: error: ${SECURITY_LDFLAGS}: No such file or directory
+
+So, instead of manually specifying variable contents, perform the
+expected action: filter offending arguments out of LDFLAGS.
+
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meta/recipes-devtools/go/go-runtime.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index a08d44dd3a8c..ccb86d4fe9a6 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -10,7 +10,8 @@ DEBUG_PREFIX_MAP = "\
+ export CGO_CFLAGS = "${CFLAGS}"
+ export CGO_CPPFLAGS = "${CPPFLAGS}"
+ export CGO_CXXFLAGS = "${CXXFLAGS}"
+-export CGO_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURITY_LDFLAGS}"
++# Filter out -fdebug-prefix-map options as they clash with the GO's build system
++export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-prefix-map'), d.getVar('LDFLAGS').split())) }"
+ export GOCACHE = "${B}/.cache"
+ 
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
+-- 
+2.30.2
+
 
