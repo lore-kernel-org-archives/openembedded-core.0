@@ -2,48 +2,48 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0949CC433F5
-	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 14:47:19 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web08.23953.1641998837970810124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6631AC433F5
+	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 14:56:09 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.24042.1641999368372319117
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 06:47:18 -0800
+ Wed, 12 Jan 2022 06:56:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gZyd5oQk;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EuxBAO1k;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44,
  mailfrom: dbaryshkov@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id c71so10929356edf.6
+Received: by mail-ed1-f44.google.com with SMTP id w16so10966098edc.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 06:47:17 -0800 (PST)
+ Wed, 12 Jan 2022 06:56:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=tM6ChqQqAcpsR2PY5McpBPyjFKSlIIcy7lf/fO3Eago=;
-        b=gZyd5oQkkHeDCL+VJD+xXcgUVBgXqNwNCLiDDE8xrLCKGVUBcts6+t6caL7nBjODFp
-         OwaK2cXDzLtYPTDp23grMj4NAuWE0Yn+ZA1K66whvjfcL3UJWxaENeDo8wqdl/Mc4a0t
-         0OsDHq5jFCTB3AgDikIdE9exAcvoA+VXfojGMFthob2rT+JblThtFvQZIPos3WWcG5h2
-         QInPQnJIgEeBFAMVR+3Y7a3V4xI6IZZg6DpP5xRLTq1aPf5zv4+uIPrmUOxu3jkAvc1X
-         A4uumckh+nqCHukbzX0ZQely5oqfyXEygKem+5sQfqtRvoj5OGolEcpLmmHsZKkhKNVu
-         blmg==
+        bh=qg+woLHur2jcnefEePtRUWsdPEDtMuZPkzNgK6LEiqM=;
+        b=EuxBAO1ktCHk8XbBLBoEEjSePvv6dPCh/ULMjB68YQ4BtsxhkyZy/HlThs26POqj9d
+         CH44K75wrJn8fR4velhEWrNwQek079XVPTdlCadf2+RQTxvEWYKywXulMNsq0RJCVgNF
+         mOvAbULnIZA3ejRnGgaIVry0zMIlbT0+6x4EdGuz+SGYCk0Y1P91BI+zKP8iN/C0dd0t
+         Cyxfk9nmPT7R2tiiZhyBnPM7hj2L8ydtjkQbZsYAa8AZF4JrngmUiTgJOM68vg+Ms8LA
+         cN3Trc5oG3HIDEHSK+3rlxcPnT4PGyDeTyeJuGDzLCwjpuUAsNzEU+24LhnOD00K/Yhm
+         r3eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tM6ChqQqAcpsR2PY5McpBPyjFKSlIIcy7lf/fO3Eago=;
-        b=kbPaCH8PUHJTxwYfj1yq6LS2wtY/OMeTay6WXWusIRU6rS7CJwB8AkVsMispfAmu4c
-         2E2mYbYIkNdFF+EpaXRHAxHASFWTsgRHOG8IJ6Siqei0bkH5EK+CzJkKvpajWVvJMhXW
-         wp1++NRaPKaGViwIAv6zwv8lJPvdlX4qglDOm7p8ZEo7eMVSnGrGfJnyWrmvi2snW3pj
-         E8Jhr7QX74ctiB7T8607Gxqp9clO5UY034FK/PIw2bIQEj1X25GL7CNUYUP9HkpFHHzS
-         3CrsCt72bxd+VfQGKYLYnq7f5ZgH31Rvqx8FJDLKieh3MbopgA0BQlOq2fVPxVYrwjks
-         VKVQ==
-X-Gm-Message-State: AOAM530odyilQcBkrg7IW+3O2h9AdQ2qj93zhhPPFR//eE0vJrzRM98x
-	JPnSy2ACwFn99kPXq054FczmuCKatyQ8+SElKN0=
+        bh=qg+woLHur2jcnefEePtRUWsdPEDtMuZPkzNgK6LEiqM=;
+        b=11Lm8lHuVE1MS8EjY+uRNlNWxLA6KDnfNTr2eUO0+d7sNCQkcCHrngLN61gncOYULA
+         7yS343aQ/4Mz4oP7FYssNmAZjqiIlPxGUB7EsJMrATshC06+djopp6SEpACdheGzRtDE
+         ZjK/zJIvhnPSadLxengab5ws05/LM7KF4pY+fxAAiCmz/k69FwYNsUCS1x01/UcHiz+Y
+         9pqemE83+MqtHvBTi82+cvrF0kVRYVU/PY1ORv3F09+DCnCvJVY4ugzD1ET8dzvRdv2i
+         a4AXgBqfa2Gz3R5fP2eI9WT1ZNI0MrVjo8bI5zrc4JQKuZ4nZr6szwWJdQvHtOa1pkJc
+         MAbg==
+X-Gm-Message-State: AOAM532IdURcpn13vxLpRvAREaEVns2JiRwfS9j+XiWIFLvgAtvasV3i
+	VJXSpFAuWgt9ddk0AB9s+f2mAnlxz9sOiZnJ+Wc=
 X-Google-Smtp-Source: 
- ABdhPJznbNbzhPabJIzHk8heps91hFriYHI40GMLgyS0RnYJMnBky1/C6Yy4TzkLDBvm1VZAolDn5UqHHvJ58CrF9Qo=
-X-Received: by 2002:aa7:d74b:: with SMTP id a11mr17849eds.214.1641998836311;
- Wed, 12 Jan 2022 06:47:16 -0800 (PST)
+ ABdhPJycd5zzxQNObLAJCZ+kimOGZzwlpWFXQnUXfdkz4aJhO4NvoRn11NnqsilvonxAmD8derpkH0XBhBXwp4rY6EE=
+X-Received: by 2002:aa7:d74b:: with SMTP id a11mr48733eds.214.1641999366414;
+ Wed, 12 Jan 2022 06:56:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20220101112959.1866747-1-alex@linutronix.de>
  <20220101112959.1866747-3-alex@linutronix.de>
@@ -52,9 +52,9 @@ References: <20220101112959.1866747-1-alex@linutronix.de>
 In-Reply-To: 
  <CANNYZj9rFvsK-tBr+0_H_69=1peh4HkH9nqwj6o168x0G5u23w@mail.gmail.com>
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Wed, 12 Jan 2022 17:47:05 +0300
+Date: Wed, 12 Jan 2022 17:55:55 +0300
 Message-ID: 
- <CALT56yOKzS1D=XJUEJMS_i+A1viKUJO_=v4TKW=gPJCECrbM6w@mail.gmail.com>
+ <CALT56yNhE3T3yqmFDiAvX2yOYX5LgdcYcuF07GX_-1-AnXPC6w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 3/6] go: correctly set debug-prefix-map and
  build directory
 To: Alexander Kanavin <alex.kanavin@gmail.com>
@@ -66,9 +66,9 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 14:47:19 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 14:56:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160484
+ https://lists.openembedded.org/g/openembedded-core/message/160485
 
 =D0=BF=D0=BD, 10 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 11:08, Alexander K=
 anavin <alex.kanavin@gmail.com>:
@@ -79,10 +79,30 @@ ectory
 > You need to find out why the variable isn't expanded. 'bitbake -e go-runt=
 ime' may help.
 
-The distro I was using here (rpb if that matters) does not use
-security_flags.inc, so SECURITY_LDFLAGS are not defined.
-Please remove such dependency. We can not expect that every distro
-would include security_flags.inc
+For the reference:
+
+# $CGO_LDFLAGS [2 operations]
+#   exported /home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembed=
+ded-core/meta/recipes-devtools/go/go-runtime.inc:13
+#     [export] "1"
+#   set /home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-c=
+ore/meta/recipes-devtools/go/go-runtime.inc:13
+#     "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURITY_LDFLAGS}"
+# pre-expansion value:
+#   "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURITY_LDFLAGS}"
+export CGO_LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
+\${SECURITY_LDFLAGS}"
+
+Quoting bitbake manual:
+
+If the variable expansion syntax is used on a variable that does not
+exist, the string is kept as is. For example, given the following
+assignment, BAR expands to the literal string "${FOO}" as long as FOO
+does not exist.
+
+     BAR =3D "${FOO}"
+
+
 
 >
 > Alex
