@@ -1,61 +1,79 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1B3C433F5
-	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 15:07:32 +0000 (UTC)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web12.24612.1642000051655040628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C880AC433EF
+	for <webhook@archiver.kernel.org>; Wed, 12 Jan 2022 15:07:54 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web08.24232.1642000073581502332
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 07:07:31 -0800
+ Wed, 12 Jan 2022 07:07:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qrcc+BBP;
- spf=pass (domain: gmail.com, ip: 209.85.222.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id m90so5394351uam.2
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=qLoJzmgS;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.174,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f174.google.com with SMTP id m2so2749758qkd.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 07:07:31 -0800 (PST)
+ Wed, 12 Jan 2022 07:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zix8mrD8VzuNIduJCjfr47Buf8tO9FdA02S5JD3tbeg=;
-        b=Qrcc+BBPntF6DJK6kUmdeBOXj4s98sPotSDeS/GjQz9wupoP9sgfZcNNfxAQP8SnoG
-         FqdxdZA7nglnkkyk/oOqLrIn6CKRDfhLDBngo71nZeL4cOEh7lCHTgeyIhUuY5W8ys85
-         coIHaxFXPozB2uIcQkEM6K83WM8z5NSN441rcFW4jvTuIPHCCaFQJJcsKm1Ny57lIuso
-         MqepfZqjPz0VPdzauAXmz6rg1jiWzY5Fbcao3D0ln7fEcjugIuxXi49NPQhmpKZXW/+D
-         EOv8uEBhHf2/520eiQhsvc/znHr14A9OAE7hOhtM7RXCK4su7IUIyMOvldKIch5UkjMv
-         fL3w==
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8fHjbohtH0fCqEXm9Nc7tcAKhhjpmnd/I04l1IputOs=;
+        b=qLoJzmgSyCqXMjqtYh5zF2UtjVfH8ruHb06vOdIOjERKo+lr7HXCl37kkr088cTpF3
+         UqhS4oKZgRv7haLS2gkd7PJSvq5ubDbpiZvqpXZiOCJAFANbXOKPuxhrYE7pyAssQTyz
+         2E7IiCKmbk/L/0qMy6lMINHailaXf1N9d8XQl2T5fxIupanqvIrKzr0mr24xF2UiuLbh
+         JGgobgYPHqFrkYy9zXrY0odcXGglk45El5ZJW4QUJ2uRsk8HJ9/E7gWm/fzzN4zEASsm
+         s7KWkiNFQK3K980iDIVljyskd9EFvt5I3aocX/ZKlbABsaM7do1nye09wc7jVRHmo0Rt
+         iuNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zix8mrD8VzuNIduJCjfr47Buf8tO9FdA02S5JD3tbeg=;
-        b=CC0QnGwhBp9ZLP1piiqwYOjVjof63x7iPFFKYARtQfC5hYWlQ17r658r6Ivj3ERVnl
-         7BEj3OJ2zMKsE+yZAOxx1W25g9oGyZmb9DnAgsIh8atFzYlw8hAsSHQ40kcYFZXbOvZw
-         X1dFhl7hFQjdPWUOCwfVxvhVsWFVBKpo8kibjR8aXd8TeLdhUo/G3gFIEJvG5i90eizK
-         muwMtjIarQi6T7Bl5mXvD4tPn7Jf+t+Tk4Eg2UhCH4zmqHYMn9RAvQKZUjk4ZncJUq71
-         e06S63StIiojBb1sAQkpzebRoqBWMLaZCt6J1UZ+YEoR1VqUS9cmneK5EjCb4d5vAKkl
-         uPKg==
-X-Gm-Message-State: AOAM53395AGEcaobNAo2t2gVBr9A9jTs9J2g3BbjK6gIzZYjXXjJuBmc
-	wUq20OZmN7+XE4D0fXUcClLD129EPSw7lT6WdlU=
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8fHjbohtH0fCqEXm9Nc7tcAKhhjpmnd/I04l1IputOs=;
+        b=cpstR2F1fKS/WJV6rox+u1waJganukcfT+MrUftoDdzSsqqSHj4JIjle40ZXsJezj6
+         TelYRSwSXqdAZ6JPC/kAoDC9BeWaWj71+Aw8B5T5v8cgUMumsI/zhTFKzojNL6qrN8Vv
+         yJD+LFJWw0dfVzkCWJWC2H7sSEzArfV0Pjsp1GdNxlDyNzP3YBrd+fQwD3kOf5vLr44B
+         sVci1y48gkQHYWZD162aTFP/YyT+PRzq5LOq+ADaVsXT5Ns/SVFOW9bza3r8RBmMtS94
+         /FwsabT5V0AM3/x1HOOdBI6t4UBXuMyxJf3APqLSRxdU4LsnVgbJL5Ppvs3z03Fvwzpr
+         pWjg==
+X-Gm-Message-State: AOAM533pE3vBP4/f38MRYzBhrzsXjKlHPrCs3+bL9h+HvK8jzChoaEhx
+	+LEmsUR9skoaKisKt0FblypBoJrilKz+m2V3
 X-Google-Smtp-Source: 
- ABdhPJz8rRKm3CIt3c3gsvZfqixlXg+TwJqReI9I+wYF7MpMx5AcE8hx6kk/mWz026LIbPqg5OQ9K8rW5rvXqkAD+p0=
-X-Received: by 2002:a67:c81c:: with SMTP id u28mr63913vsk.38.1642000050684;
- Wed, 12 Jan 2022 07:07:30 -0800 (PST)
+ ABdhPJw/Z407ofVBNI4TWl4k8wCxRn6LfswuqKAn+K4VondJYYTxsTVi3bm5sRsVAmf0M9vS+MUPCw==
+X-Received: by 2002:a05:620a:4251:: with SMTP id
+ w17mr87503qko.284.1642000072306;
+        Wed, 12 Jan 2022 07:07:52 -0800 (PST)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com.
+ [209.85.160.178])
+        by smtp.gmail.com with ESMTPSA id
+ t18sm9145325qkp.84.2022.01.12.07.07.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jan 2022 07:07:51 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f178.google.com with SMTP id b14so395129qtb.12
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 12 Jan 2022 07:07:51 -0800 (PST)
+X-Received: by 2002:ac8:57cc:: with SMTP id w12mr8117553qta.82.1642000071575;
+ Wed, 12 Jan 2022 07:07:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20220101112959.1866747-1-alex@linutronix.de>
  <20220101112959.1866747-3-alex@linutronix.de>
  <CALT56yMfCmtcbzxs+j=R0NJZZLAMtVenZgbj0rzR0+gzXnpLvw@mail.gmail.com>
  <CANNYZj9rFvsK-tBr+0_H_69=1peh4HkH9nqwj6o168x0G5u23w@mail.gmail.com>
  <CALT56yNhE3T3yqmFDiAvX2yOYX5LgdcYcuF07GX_-1-AnXPC6w@mail.gmail.com>
- <16C98DFE7ACD4942.29114@lists.openembedded.org>
-In-Reply-To: <16C98DFE7ACD4942.29114@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Jan 2022 16:07:18 +0100
+ <CANNYZj9x0C0tsdMYQSbGSptQ3fNsCuyS6bkmsB-icL-VnFh5Tg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj9x0C0tsdMYQSbGSptQ3fNsCuyS6bkmsB-icL-VnFh5Tg@mail.gmail.com>
+Date: Wed, 12 Jan 2022 12:07:40 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKq-Z4s5MrUq598sHM7Ofy36NK098AaesKHJAtHogAyASA@mail.gmail.com>
 Message-ID: 
- <CANNYZj-dVtN_X2wpyUXGym4UkYzMCb=VUdfUHfaxKYJYdnMi+g@mail.gmail.com>
+ <CAP9ODKq-Z4s5MrUq598sHM7Ofy36NK098AaesKHJAtHogAyASA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 3/6] go: correctly set debug-prefix-map and
  build directory
 To: Alexander Kanavin <alex.kanavin@gmail.com>
@@ -63,563 +81,30 @@ Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
 	Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
 	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000be08c005d563ed6d"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 15:07:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 12 Jan 2022 15:07:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160487
+ https://lists.openembedded.org/g/openembedded-core/message/160488
 
---000000000000be08c005d563ed6d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Em qua., 12 de jan. de 2022 =C3=A0s 12:01, Alexander Kanavin
+<alex.kanavin@gmail.com> escreveu:
+> I'm not immediately sure how to solve this though. We do want to keep tho=
+se flags when they're defined.
+>
+> Ideas? Perhaps they could be defined empty in some place which is present=
+ in all distributions?
 
-One experiment that can be tried is unsetting DEBUG_PREFIX_MAP in the go
-recipe though, but it may make things non-reproducible again.
+I believe it does make sense; it ought to have a default.
+https://github.com/openembedded/openembedded-core/blob/master/meta/conf/dis=
+tro/include/default-distrovars.inc
+sounds like the right place.
 
-On Wed, 12 Jan 2022 at 16:01, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
-
-> I'm not immediately sure how to solve this though. We do want to keep
-> those flags when they're defined.
->
-> Ideas? Perhaps they could be defined empty in some place which is present
-> in all distributions?
->
-> Alex
->
-> On Wed, 12 Jan 2022 at 15:56, Dmitry Baryshkov <dbaryshkov@gmail.com>
-> wrote:
->
->> =D0=BF=D0=BD, 10 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 11:08, Alexande=
-r Kanavin <alex.kanavin@gmail.com>:
->> >
->> > aarch64-linaro-linux-gcc: error: ${SECURITY_LDFLAGS}: No such file or
->> directory
->> >
->> > You need to find out why the variable isn't expanded. 'bitbake -e
->> go-runtime' may help.
->>
->> For the reference:
->>
->> # $CGO_LDFLAGS [2 operations]
->> #   exported
->> /home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-core/m=
-eta/recipes-devtools/go/go-runtime.inc:13
->> #     [export] "1"
->> #   set
->> /home/lumag/Projects/RPB/build-rpb/conf/../../layers/openembedded-core/m=
-eta/recipes-devtools/go/go-runtime.inc:13
->> #     "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURITY_LDFLAGS}=
-"
->> # pre-expansion value:
->> #   "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURITY_LDFLAGS}"
->> export CGO_LDFLAGS=3D"-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed
->> \${SECURITY_LDFLAGS}"
->>
->> Quoting bitbake manual:
->>
->> If the variable expansion syntax is used on a variable that does not
->> exist, the string is kept as is. For example, given the following
->> assignment, BAR expands to the literal string "${FOO}" as long as FOO
->> does not exist.
->>
->>      BAR =3D "${FOO}"
->>
->>
->>
->> >
->> > Alex
->> >
->> > On Mon, 10 Jan 2022 at 05:34, Dmitry Baryshkov <dbaryshkov@gmail.com>
->> wrote:
->> >>
->> >> =D1=81=D0=B1, 1 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 14:30, Alexan=
-der Kanavin <alex.kanavin@gmail.com
->> >:
->> >> >
->> >> > Go has its own system for creating temporary build
->> >> > sub-directories with randomized names, and setting
->> >> > up debug-prefix-map on the fly to prevent those
->> >> > directories leaking into target binaries. OE's own
->> >> > settings were clashing with it, so this change
->> >> > carefully avoids the two stepping on each other.
->> >> >
->> >> > Additionally, the top level build directory cannot
->> >> > be named 'go-something'.
->> >> >
->> >> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->> >>
->> >> This patch breaks the build here, with the following error messages
->> >> (full log attached):
->> >>
->> >> | HASH[build go/importer]
->> >> | HASH[build go/importer]: "go1.17.5"
->> >> | HASH[build go/importer]: "compile\n"
->> >> | HASH[build go/importer]: "goos linux goarch arm64\n"
->> >> | HASH[build go/importer]: "import \"go/importer\"\n"
->> >> | HASH[build go/importer]: "omitdebug false standard true local false
->> >> prefix \"\"\n"
->> >> | HASH[build go/importer]: "modinfo \"\"\n"
->> >> | HASH[build go/importer]: "compile compile version go1.17.5 [] []\n"
->> >> | HASH[build go/importer]: "=3D\n"
->> >> | HASH
->> /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linaro-linu=
-x/go-runtime/1.17.5-r0/go/src/go/importer/importer.go:
->> >> 030536f1a71bcd0c3615684f4b94373b4136a282de9e6cd9d283e454704be386
->> >> | HASH[build go/importer]: "file importer.go AwU28acbzQw2FWhPS5Q3\n"
->> >> | HASH[build go/importer]: "import go/build XGXQDTt1BQjYRjE7nFi7\n"
->> >> | HASH[build go/importer]: "import go/internal/gccgoimporter
->> >> MqGIqtLxk8pkuc9XENIo\n"
->> >> | HASH[build go/importer]: "import go/internal/gcimporter
->> >> U16uHUOXrDggYRgVMENf\n"
->> >> | HASH[build go/importer]: "import go/internal/srcimporter
->> >> vtV3UGYK55GaAj4JI8MN\n"
->> >> | HASH[build go/importer]: "import go/token 36MC7EMX8CqyCcPmrSmS\n"
->> >> | HASH[build go/importer]: "import go/types EyjwGzDrQ1CtOXxe_UYb\n"
->> >> | HASH[build go/importer]: "import io A3HnNVYVSU1F06BuLR5o\n"
->> >> | HASH[build go/importer]: "import runtime TtpuHdFJwA5GfsHmM2LT\n"
->> >> | HASH[build go/importer]:
->> >> b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51e0fa35b86a7d
->> >> | HASH subkey
->> b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51e0fa35b86a7d
->> >> "srcfiles" =3D
->> e6f8fcd87c2dd28b3381ad27b9938048b5b3bde6a19db4a4837e184ef9cef82a
->> >> | HASH subkey
->> b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51e0fa35b86a7d
->> >> "stdout" =3D
->> 3cb42089ec7038a91addcc400ee71ea90feee998a35e992b699729f04ae85c1a
->> >> | go tool dist: FAILED:
->> >>
->> /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linaro-linu=
-x/go-runtime/1.17.5-r0/go/pkg/tool/native_native/go_bootstrap
->> >> install -gcflags=3Dall=3D -ldflags=3Dall=3D std: exit status 2
->> >> | WARNING:
->> /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linaro-linu=
-x/go-runtime/1.17.5-r0/temp/run.do_compile.2219939:175
->> >> exit 2 from './make.bash --target-only --no-banner std'
->> >> | WARNING: Backtrace (BB generated script):
->> >> | #1: do_compile,
->> >>
->> /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linaro-linu=
-x/go-runtime/1.17.5-r0/temp/run.do_compile.2219939,
->> >> line 175
->> >> | #2: main,
->> /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linaro-linu=
-x/go-runtime/1.17.5-r0/temp/run.do_compile.2219939,
->> >> line 185
->> >>
->> >>
->> >> > ---
->> >> >  meta/classes/go.bbclass                 |  2 +-
->> >> >  meta/recipes-devtools/go/go-common.inc  |  2 +-
->> >> >  meta/recipes-devtools/go/go-runtime.inc |  7 ++++++-
->> >> >  meta/recipes-devtools/go/go-target.inc  | 10 ++++++++++
->> >> >  4 files changed, 18 insertions(+), 3 deletions(-)
->> >> >
->> >> > diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
->> >> > index 5c1fdd7d5f..9c4c92bffd 100644
->> >> > --- a/meta/classes/go.bbclass
->> >> > +++ b/meta/classes/go.bbclass
->> >> > @@ -67,7 +67,7 @@ GO_INSTALL_FILTEROUT ?=3D "${GO_IMPORT}/vendor/"
->> >> >
->> >> >  B =3D "${WORKDIR}/build"
->> >> >  export GOPATH =3D "${B}"
->> >> > -export GOTMPDIR ?=3D "${WORKDIR}/go-tmp"
->> >> > +export GOTMPDIR ?=3D "${WORKDIR}/build-tmp"
->> >> >  GOTMPDIR[vardepvalue] =3D ""
->> >> >
->> >> >  python go_do_unpack() {
->> >> > diff --git a/meta/recipes-devtools/go/go-common.inc
->> b/meta/recipes-devtools/go/go-common.inc
->> >> > index 5bbf35b787..83f8db7b39 100644
->> >> > --- a/meta/recipes-devtools/go/go-common.inc
->> >> > +++ b/meta/recipes-devtools/go/go-common.inc
->> >> > @@ -23,7 +23,7 @@ INHIBIT_PACKAGE_DEBUG_SPLIT =3D "1"
->> >> >  SSTATE_SCAN_CMD =3D "true"
->> >> >
->> >> >  export GOROOT_OVERRIDE =3D "1"
->> >> > -export GOTMPDIR ?=3D "${WORKDIR}/go-tmp"
->> >> > +export GOTMPDIR ?=3D "${WORKDIR}/build-tmp"
->> >> >  GOTMPDIR[vardepvalue] =3D ""
->> >> >  export CGO_ENABLED =3D "1"
->> >> >
->> >> > diff --git a/meta/recipes-devtools/go/go-runtime.inc
->> b/meta/recipes-devtools/go/go-runtime.inc
->> >> > index 617e6b5414..a08d44dd3a 100644
->> >> > --- a/meta/recipes-devtools/go/go-runtime.inc
->> >> > +++ b/meta/recipes-devtools/go/go-runtime.inc
->> >> > @@ -2,10 +2,15 @@ DEPENDS =3D "virtual/${TUNE_PKGARCH}-go go-native=
-"
->> >> >  DEPENDS:class-nativesdk =3D "virtual/${TARGET_PREFIX}go-crosssdk"
->> >> >  PROVIDES =3D "virtual/${TARGET_PREFIX}go-runtime"
->> >> >
->> >> > +DEBUG_PREFIX_MAP =3D "\
->> >> > +                     -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
->> >> > +                     -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D=
- \
->> >> > +"
->> >> > +
->> >> >  export CGO_CFLAGS =3D "${CFLAGS}"
->> >> >  export CGO_CPPFLAGS =3D "${CPPFLAGS}"
->> >> >  export CGO_CXXFLAGS =3D "${CXXFLAGS}"
->> >> > -export CGO_LDFLAGS =3D "${LDFLAGS}"
->> >> > +export CGO_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEED=
-ED}
->> ${SECURITY_LDFLAGS}"
->> >> >  export GOCACHE =3D "${B}/.cache"
->> >> >
->> >> >  GO_EXTLDFLAGS ?=3D "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}=
-"
->> >> > diff --git a/meta/recipes-devtools/go/go-target.inc
->> b/meta/recipes-devtools/go/go-target.inc
->> >> > index 47b4411d54..51f1b79cc3 100644
->> >> > --- a/meta/recipes-devtools/go/go-target.inc
->> >> > +++ b/meta/recipes-devtools/go/go-target.inc
->> >> > @@ -1,6 +1,16 @@
->> >> >  DEPENDS =3D "virtual/${TUNE_PKGARCH}-go go-native"
->> >> >  DEPENDS:class-nativesdk =3D "virtual/${TARGET_PREFIX}go-crosssdk
->> go-native"
->> >> >
->> >> > +DEBUG_PREFIX_MAP =3D "\
->> >> > +                     -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
->> >> > +                     -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D=
- \
->> >> > +"
->> >> > +
->> >> > +export CGO_CFLAGS =3D "${CFLAGS}"
->> >> > +export CGO_CPPFLAGS =3D "${CPPFLAGS}"
->> >> > +export CGO_CXXFLAGS =3D "${CXXFLAGS}"
->> >> > +export CGO_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEED=
-ED}
->> ${SECURITY_LDFLAGS}"
->> >> > +
->> >> >  export GOCACHE =3D "${B}/.cache"
->> >> >  GO_LDFLAGS =3D ""
->> >> >  GO_LDFLAGS:class-nativesdk =3D "-linkmode external"
->> >> > --
->> >> > 2.20.1
->> >> >
->> >> >
->> >> >
->> >> >
->> >>
->> >>
->> >> --
->> >> With best wishes
->> >> Dmitry
->>
->>
->>
->> --
->> With best wishes
->> Dmitry
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160486):
-> https://lists.openembedded.org/g/openembedded-core/message/160486
-> Mute This Topic: https://lists.openembedded.org/mt/88071320/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000be08c005d563ed6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">One experiment that can be tried is unsetting DEBUG_PREFIX=
-_MAP in the go recipe though, but it may make things non-reproducible again=
-.<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Wed, 12 Jan 2022 at 16:01, Alexander Kanavin via <a href=3D"http://=
-lists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a hr=
-ef=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex"><div dir=3D"ltr"><div>I&#39;m not immediately sure how to solve this th=
-ough. We do want to keep those flags when they&#39;re defined. <br></div><d=
-iv><br></div><div>Ideas? Perhaps they could be defined empty in some place =
-which is present in all distributions?<br></div><div><br></div><div>Alex<br=
-></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 12 Jan 2022 at 15:56, Dmitry Baryshkov &lt;<a href=3D"mailto=
-:dbaryshkov@gmail.com" target=3D"_blank">dbaryshkov@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=D0=BF=D0=BD, =
-10 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 11:08, Alexander Kanavin &lt;<a =
-href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail=
-.com</a>&gt;:<br>
-&gt;<br>
-&gt; aarch64-linaro-linux-gcc: error: ${SECURITY_LDFLAGS}: No such file or =
-directory<br>
-&gt;<br>
-&gt; You need to find out why the variable isn&#39;t expanded. &#39;bitbake=
- -e go-runtime&#39; may help.<br>
-<br>
-For the reference:<br>
-<br>
-# $CGO_LDFLAGS [2 operations]<br>
-#=C2=A0 =C2=A0exported /home/lumag/Projects/RPB/build-rpb/conf/../../layers=
-/openembedded-core/meta/recipes-devtools/go/go-runtime.inc:13<br>
-#=C2=A0 =C2=A0 =C2=A0[export] &quot;1&quot;<br>
-#=C2=A0 =C2=A0set /home/lumag/Projects/RPB/build-rpb/conf/../../layers/open=
-embedded-core/meta/recipes-devtools/go/go-runtime.inc:13<br>
-#=C2=A0 =C2=A0 =C2=A0&quot;-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${=
-SECURITY_LDFLAGS}&quot;<br>
-# pre-expansion value:<br>
-#=C2=A0 =C2=A0&quot;-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${SECURIT=
-Y_LDFLAGS}&quot;<br>
-export CGO_LDFLAGS=3D&quot;-Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed<b=
-r>
-\${SECURITY_LDFLAGS}&quot;<br>
-<br>
-Quoting bitbake manual:<br>
-<br>
-If the variable expansion syntax is used on a variable that does not<br>
-exist, the string is kept as is. For example, given the following<br>
-assignment, BAR expands to the literal string &quot;${FOO}&quot; as long as=
- FOO<br>
-does not exist.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0BAR =3D &quot;${FOO}&quot;<br>
-<br>
-<br>
-<br>
-&gt;<br>
-&gt; Alex<br>
-&gt;<br>
-&gt; On Mon, 10 Jan 2022 at 05:34, Dmitry Baryshkov &lt;<a href=3D"mailto:d=
-baryshkov@gmail.com" target=3D"_blank">dbaryshkov@gmail.com</a>&gt; wrote:<=
-br>
-&gt;&gt;<br>
-&gt;&gt; =D1=81=D0=B1, 1 =D1=8F=D0=BD=D0=B2. 2022 =D0=B3. =D0=B2 14:30, Ale=
-xander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_bla=
-nk">alex.kanavin@gmail.com</a>&gt;:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Go has its own system for creating temporary build<br>
-&gt;&gt; &gt; sub-directories with randomized names, and setting<br>
-&gt;&gt; &gt; up debug-prefix-map on the fly to prevent those<br>
-&gt;&gt; &gt; directories leaking into target binaries. OE&#39;s own<br>
-&gt;&gt; &gt; settings were clashing with it, so this change<br>
-&gt;&gt; &gt; carefully avoids the two stepping on each other.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Additionally, the top level build directory cannot<br>
-&gt;&gt; &gt; be named &#39;go-something&#39;.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@l=
-inutronix.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; This patch breaks the build here, with the following error message=
-s<br>
-&gt;&gt; (full log attached):<br>
-&gt;&gt;<br>
-&gt;&gt; | HASH[build go/importer]<br>
-&gt;&gt; | HASH[build go/importer]: &quot;go1.17.5&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;compile\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;goos linux goarch arm64\n&quot;<b=
-r>
-&gt;&gt; | HASH[build go/importer]: &quot;import \&quot;go/importer\&quot;\=
-n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;omitdebug false standard true loc=
-al false<br>
-&gt;&gt; prefix \&quot;\&quot;\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;modinfo \&quot;\&quot;\n&quot;<br=
->
-&gt;&gt; | HASH[build go/importer]: &quot;compile compile version go1.17.5 =
-[] []\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;=3D\n&quot;<br>
-&gt;&gt; | HASH /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8=
-a-linaro-linux/go-runtime/1.17.5-r0/go/src/go/importer/importer.go:<br>
-&gt;&gt; 030536f1a71bcd0c3615684f4b94373b4136a282de9e6cd9d283e454704be386<b=
-r>
-&gt;&gt; | HASH[build go/importer]: &quot;file importer.go AwU28acbzQw2FWhP=
-S5Q3\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/build XGXQDTt1BQjYRjE7n=
-Fi7\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/internal/gccgoimporter<=
-br>
-&gt;&gt; MqGIqtLxk8pkuc9XENIo\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/internal/gcimporter<br>
-&gt;&gt; U16uHUOXrDggYRgVMENf\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/internal/srcimporter<br=
->
-&gt;&gt; vtV3UGYK55GaAj4JI8MN\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/token 36MC7EMX8CqyCcPmr=
-SmS\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import go/types EyjwGzDrQ1CtOXxe_=
-UYb\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import io A3HnNVYVSU1F06BuLR5o\n&=
-quot;<br>
-&gt;&gt; | HASH[build go/importer]: &quot;import runtime TtpuHdFJwA5GfsHmM2=
-LT\n&quot;<br>
-&gt;&gt; | HASH[build go/importer]:<br>
-&gt;&gt; b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51e0fa35b86a7d<b=
-r>
-&gt;&gt; | HASH subkey b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51=
-e0fa35b86a7d<br>
-&gt;&gt; &quot;srcfiles&quot; =3D e6f8fcd87c2dd28b3381ad27b9938048b5b3bde6a=
-19db4a4837e184ef9cef82a<br>
-&gt;&gt; | HASH subkey b98eef9d67666fef158497b06bd4a9793d63af81f5e9e5008e51=
-e0fa35b86a7d<br>
-&gt;&gt; &quot;stdout&quot; =3D 3cb42089ec7038a91addcc400ee71ea90feee998a35=
-e992b699729f04ae85c1a<br>
-&gt;&gt; | go tool dist: FAILED:<br>
-&gt;&gt; /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linar=
-o-linux/go-runtime/1.17.5-r0/go/pkg/tool/native_native/go_bootstrap<br>
-&gt;&gt; install -gcflags=3Dall=3D -ldflags=3Dall=3D std: exit status 2<br>
-&gt;&gt; | WARNING: /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/a=
-rmv8a-linaro-linux/go-runtime/1.17.5-r0/temp/run.do_compile.2219939:175<br>
-&gt;&gt; exit 2 from &#39;./make.bash --target-only --no-banner std&#39;<br=
->
-&gt;&gt; | WARNING: Backtrace (BB generated script):<br>
-&gt;&gt; | #1: do_compile,<br>
-&gt;&gt; /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/armv8a-linar=
-o-linux/go-runtime/1.17.5-r0/temp/run.do_compile.2219939,<br>
-&gt;&gt; line 175<br>
-&gt;&gt; | #2: main, /home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/=
-armv8a-linaro-linux/go-runtime/1.17.5-r0/temp/run.do_compile.2219939,<br>
-&gt;&gt; line 185<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 meta/classes/go.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/go/go-common.inc=C2=A0 |=C2=A0 2 =
-+-<br>
-&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/go/go-runtime.inc |=C2=A0 7 +++++=
-+-<br>
-&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/go/go-target.inc=C2=A0 | 10 +++++=
-+++++<br>
-&gt;&gt; &gt;=C2=A0 4 files changed, 18 insertions(+), 3 deletions(-)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclas=
-s<br>
-&gt;&gt; &gt; index 5c1fdd7d5f..9c4c92bffd 100644<br>
-&gt;&gt; &gt; --- a/meta/classes/go.bbclass<br>
-&gt;&gt; &gt; +++ b/meta/classes/go.bbclass<br>
-&gt;&gt; &gt; @@ -67,7 +67,7 @@ GO_INSTALL_FILTEROUT ?=3D &quot;${GO_IMPORT=
-}/vendor/&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 B =3D &quot;${WORKDIR}/build&quot;<br>
-&gt;&gt; &gt;=C2=A0 export GOPATH =3D &quot;${B}&quot;<br>
-&gt;&gt; &gt; -export GOTMPDIR ?=3D &quot;${WORKDIR}/go-tmp&quot;<br>
-&gt;&gt; &gt; +export GOTMPDIR ?=3D &quot;${WORKDIR}/build-tmp&quot;<br>
-&gt;&gt; &gt;=C2=A0 GOTMPDIR[vardepvalue] =3D &quot;&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 python go_do_unpack() {<br>
-&gt;&gt; &gt; diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/re=
-cipes-devtools/go/go-common.inc<br>
-&gt;&gt; &gt; index 5bbf35b787..83f8db7b39 100644<br>
-&gt;&gt; &gt; --- a/meta/recipes-devtools/go/go-common.inc<br>
-&gt;&gt; &gt; +++ b/meta/recipes-devtools/go/go-common.inc<br>
-&gt;&gt; &gt; @@ -23,7 +23,7 @@ INHIBIT_PACKAGE_DEBUG_SPLIT =3D &quot;1&quo=
-t;<br>
-&gt;&gt; &gt;=C2=A0 SSTATE_SCAN_CMD =3D &quot;true&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 export GOROOT_OVERRIDE =3D &quot;1&quot;<br>
-&gt;&gt; &gt; -export GOTMPDIR ?=3D &quot;${WORKDIR}/go-tmp&quot;<br>
-&gt;&gt; &gt; +export GOTMPDIR ?=3D &quot;${WORKDIR}/build-tmp&quot;<br>
-&gt;&gt; &gt;=C2=A0 GOTMPDIR[vardepvalue] =3D &quot;&quot;<br>
-&gt;&gt; &gt;=C2=A0 export CGO_ENABLED =3D &quot;1&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/r=
-ecipes-devtools/go/go-runtime.inc<br>
-&gt;&gt; &gt; index 617e6b5414..a08d44dd3a 100644<br>
-&gt;&gt; &gt; --- a/meta/recipes-devtools/go/go-runtime.inc<br>
-&gt;&gt; &gt; +++ b/meta/recipes-devtools/go/go-runtime.inc<br>
-&gt;&gt; &gt; @@ -2,10 +2,15 @@ DEPENDS =3D &quot;virtual/${TUNE_PKGARCH}-g=
-o go-native&quot;<br>
-&gt;&gt; &gt;=C2=A0 DEPENDS:class-nativesdk =3D &quot;virtual/${TARGET_PREF=
-IX}go-crosssdk&quot;<br>
-&gt;&gt; &gt;=C2=A0 PROVIDES =3D &quot;virtual/${TARGET_PREFIX}go-runtime&q=
-uot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; +DEBUG_PREFIX_MAP =3D &quot;\<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \<br>
-&gt;&gt; &gt; +&quot;<br>
-&gt;&gt; &gt; +<br>
-&gt;&gt; &gt;=C2=A0 export CGO_CFLAGS =3D &quot;${CFLAGS}&quot;<br>
-&gt;&gt; &gt;=C2=A0 export CGO_CPPFLAGS =3D &quot;${CPPFLAGS}&quot;<br>
-&gt;&gt; &gt;=C2=A0 export CGO_CXXFLAGS =3D &quot;${CXXFLAGS}&quot;<br>
-&gt;&gt; &gt; -export CGO_LDFLAGS =3D &quot;${LDFLAGS}&quot;<br>
-&gt;&gt; &gt; +export CGO_LDFLAGS =3D &quot;-Wl,-O1 ${TARGET_LINK_HASH_STYL=
-E} ${ASNEEDED} ${SECURITY_LDFLAGS}&quot;<br>
-&gt;&gt; &gt;=C2=A0 export GOCACHE =3D &quot;${B}/.cache&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 GO_EXTLDFLAGS ?=3D &quot;${HOST_CC_ARCH}${TOOLCHAIN_OPT=
-IONS} ${LDFLAGS}&quot;<br>
-&gt;&gt; &gt; diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/re=
-cipes-devtools/go/go-target.inc<br>
-&gt;&gt; &gt; index 47b4411d54..51f1b79cc3 100644<br>
-&gt;&gt; &gt; --- a/meta/recipes-devtools/go/go-target.inc<br>
-&gt;&gt; &gt; +++ b/meta/recipes-devtools/go/go-target.inc<br>
-&gt;&gt; &gt; @@ -1,6 +1,16 @@<br>
-&gt;&gt; &gt;=C2=A0 DEPENDS =3D &quot;virtual/${TUNE_PKGARCH}-go go-native&=
-quot;<br>
-&gt;&gt; &gt;=C2=A0 DEPENDS:class-nativesdk =3D &quot;virtual/${TARGET_PREF=
-IX}go-crosssdk go-native&quot;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; +DEBUG_PREFIX_MAP =3D &quot;\<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0-fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \<br>
-&gt;&gt; &gt; +&quot;<br>
-&gt;&gt; &gt; +<br>
-&gt;&gt; &gt; +export CGO_CFLAGS =3D &quot;${CFLAGS}&quot;<br>
-&gt;&gt; &gt; +export CGO_CPPFLAGS =3D &quot;${CPPFLAGS}&quot;<br>
-&gt;&gt; &gt; +export CGO_CXXFLAGS =3D &quot;${CXXFLAGS}&quot;<br>
-&gt;&gt; &gt; +export CGO_LDFLAGS =3D &quot;-Wl,-O1 ${TARGET_LINK_HASH_STYL=
-E} ${ASNEEDED} ${SECURITY_LDFLAGS}&quot;<br>
-&gt;&gt; &gt; +<br>
-&gt;&gt; &gt;=C2=A0 export GOCACHE =3D &quot;${B}/.cache&quot;<br>
-&gt;&gt; &gt;=C2=A0 GO_LDFLAGS =3D &quot;&quot;<br>
-&gt;&gt; &gt;=C2=A0 GO_LDFLAGS:class-nativesdk =3D &quot;-linkmode external=
-&quot;<br>
-&gt;&gt; &gt; --<br>
-&gt;&gt; &gt; 2.20.1<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; <br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; With best wishes<br>
-&gt;&gt; Dmitry<br>
-<br>
-<br>
-<br>
--- <br>
-With best wishes<br>
-Dmitry<br>
-</blockquote></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#160486): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/160486" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/160486</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88071320/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88071320/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000be08c005d563ed6d--
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
