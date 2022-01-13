@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 889E5C433EF
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:54 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web08.9624.1642084673932389002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88ED6C433EF
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:57 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web12.9636.1642084676405928440
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:54 -0800
+ Thu, 13 Jan 2022 06:37:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=pgVfMoHN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181,
+ header.b=r/GrfamS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id a5so39659pfo.5
+Received: by mail-pl1-f177.google.com with SMTP id i6so10363054pla.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:53 -0800 (PST)
+ Thu, 13 Jan 2022 06:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ghFLEjoxXIaM6xsUmpag/f+fkPOPH4+x5c4gHQLCq3s=;
-        b=pgVfMoHNXnC5rs8JwdovqYZfpfje7Pw3iXBLgRGlSxQsiE5P05/6wZ4rSnnemkAYGQ
-         ZMty0hVCnL3SMPkJ0fs/CBtdTWS0lpwMocGwVsV70PvQWVX6rhzDMm+MoET9XtKwvBNd
-         uHzT5MLi9cc7veKNlpSO6P2bSSWsImJjkcUok+oN4mu1wcnji8p6k2cdffHyjmK7XTtn
-         e1aaa0Qesr7oIx/7z95VDmmyLnp7BSWl04ooN1CZktdk7L1yxzBH77B94K4DZEjrktJH
-         oSfCfxBNrOEOmfOL46k8r8EE0pjzYYbv7fO18hWp54wMIhJ8pe4wsqKpatEW66MVwf4/
-         /x5A==
+        bh=qU/PIAmjla0Ou+9OfNEiZOI+/5xPXiYOl6iCfatP1Tc=;
+        b=r/GrfamSB2PfUaNlp+jEoplHdfpHv8KXaMQwjlgxAUz3Maw0oy6kukf8GEA7PXlDp7
+         kL2eHGyU6yDu2OyZF8E17GLi4qbcS1EJKxJawP18CWRCggCL6Dt0jkncYx/m1unMCwjD
+         HgpLjg01FaEl34XxAqoaasPuCYzgU/+zPUh/F45pjJU+vO0vX4SYnsY0wa9PDQFlpQzR
+         Bj02ZVNFhWXWwXeMNVaEz6jweuOu9vy5VHfwWG8quAkUS5DWmib744qwJxjOGJbPTOUM
+         Jc0sKw6Uti939h3OrMmyZTwv/rxvMkiI5MHpBoi+FSMMdv4BZz1SnvtW04wIhYui8MP1
+         ap8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ghFLEjoxXIaM6xsUmpag/f+fkPOPH4+x5c4gHQLCq3s=;
-        b=qGWvdWzGiAqk0iJvUbn/iTU6xqyShCGd43dLxZXRJUSGH41LgncK7UV+3gAWTHgled
-         6Dj4pCjjBvQju1jnyqkDJFjrFEPZDj9fiJzaxorvbHa9BupCAG+zG0VDZzLwhpkuFwYL
-         w/qyOoKTg4uibnqYV0nI2gtbSLPUNCGFoCo3UFrDgZfsQ0tKmMCvEUlXI3FPQEC8iRyB
-         U3EPWvRjInWxxAJEYaQgUM+0hWlYR2lU9BJOjCGEATP6TZSSyCJlVbGdmYjJMq4Czdhm
-         FQEOt2YNhphNtuDLD/UT3ukZ3iCs5+R5w89IUG8VTPvKFihJ4s85U3ZQSt0cOCsZqh0Y
-         Mhzg==
-X-Gm-Message-State: AOAM533o1oN3+klGzFiWtDBhazWVJDgA8dkpFtRgSG0GwZZaQdiVTug3
-	e4BsykOD0//EwzGgTvI9Q6JXiYg1BHHBa8hAIAM=
+        bh=qU/PIAmjla0Ou+9OfNEiZOI+/5xPXiYOl6iCfatP1Tc=;
+        b=ClSa8ePR40nvZOITau6jdwyJoEVGi+Jj/WRJorG43vBA7mgBdtGRRyNT5OXciPhAF+
+         4Cc9QlJGqogyzV/fQqd16qxFGgc7xQaqhGJSfZAwTf92JTUjOZwbWbk8fCOO8y6ivZY3
+         HQYNdd4jx2qUTrKqc9bqWajDmGHhqt7n+Vimws0eAijZao1xW3YdHDFU2eOvnRs/ho8s
+         BZs2FCQK7MQg3whnerzIlKcyfypONUL2cd/Bcd/URnxz2XdnBJ0fNSwORkFIkmWhMxrR
+         B8F4b2R23mMtwrpW3kEgGCC+XNvdZmfs0R78A1FCm0leqvXYXpgmzi+0i08JWWwGHE4F
+         ARJw==
+X-Gm-Message-State: AOAM533U98k9pu4zqUcfXdtcL1/5FklSyXuZ/3RSxAiEiwUtPRTzj0HR
+	VF7SGFZ0QPmlY/91SDtkkB03W9Fy7Osg/3VAGK8=
 X-Google-Smtp-Source: 
- ABdhPJyZgJctG/b/3CRVu6F2Q43oup/BN2zp6Ku8Mq74WwqjmALgnntXFtihLmWQkJzv9hUn3SsQGw==
-X-Received: by 2002:a63:3d8a:: with SMTP id
- k132mr4150045pga.577.1642084672736;
-        Thu, 13 Jan 2022 06:37:52 -0800 (PST)
+ ABdhPJxgV5apGrGRidPkRsqg9C/J40YlxdArpqcvtC/a4dFujnshO1u5F8VO6gOxwrFeQZ6TlDDNNw==
+X-Received: by 2002:a17:90a:d904:: with SMTP id
+ c4mr14669388pjv.77.1642084675390;
+        Thu, 13 Jan 2022 06:37:55 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- g11sm2541544pgn.26.2022.01.13.06.37.50
+ g11sm2541544pgn.26.2022.01.13.06.37.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 06:37:51 -0800 (PST)
+        Thu, 13 Jan 2022 06:37:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/11] expat: Update HOMEPAGE to current url
-Date: Thu, 13 Jan 2022 04:37:12 -1000
+Subject: [OE-core][dunfell 09/11] xserver-xorg: whitelist two CVEs
+Date: Thu, 13 Jan 2022 04:37:13 -1000
 Message-Id: 
- <022750aaa128189f23063b741bf8396a527713d7.1642083419.git.steve@sakoman.com>
+ <c477e35d01e7b8443b680f6456ac92a15fbfeaa2.1642083419.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1642083419.git.steve@sakoman.com>
 References: <cover.1642083419.git.steve@sakoman.com>
@@ -67,33 +67,44 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:54 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160519
+ https://lists.openembedded.org/g/openembedded-core/message/160520
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
 
-Upstream pointed out we were using an old url for HOMEPAGE. Update it to the
-current url.
+CVE-2011-4613 is specific to Debian/Ubuntu.
 
+CVE-2020-25697 is a non-trivial attack that may not actually be feasible
+considering the default behaviour for clients is to exit if the
+connection is lost.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f3a7e2ba247efe72154c263d1d680aaf3da5b609)
+(cherry picked from commit afa2e6c31a79f75ff4113d53f618bbb349cd6c17)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/expat/expat_2.2.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
-index a2df7ac492..4b63ec89db 100644
---- a/meta/recipes-core/expat/expat_2.2.9.bb
-+++ b/meta/recipes-core/expat/expat_2.2.9.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "A stream-oriented XML parser library"
- DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
--HOMEPAGE = "http://expat.sourceforge.net/"
-+HOMEPAGE = "https://github.com/libexpat/libexpat"
- SECTION = "libs"
- LICENSE = "MIT"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 02daafc098..c891211c40 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -19,6 +19,14 @@ XORG_PN = "xorg-server"
+ SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+ 
+ CVE_PRODUCT = "xorg-server x_server"
++# This is specific to Debian's xserver-wrapper.c
++CVE_CHECK_WHITELIST += "CVE-2011-4613"
++# As per upstream, exploiting this flaw is non-trivial and it requires exact
++# timing on the behalf of the attacker. Many graphical applications exit if their
++# connection to the X server is lost, so a typical desktop session is either
++# impossible or difficult to exploit. There is currently no upstream patch
++# available for this flaw.
++CVE_CHECK_WHITELIST += "CVE-2020-25697"
+ 
+ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
 -- 
 2.25.1
