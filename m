@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B13C433EF
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:46 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.9655.1642084666192339384
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D79BC433F5
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:49 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web12.9633.1642084668475312573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:46 -0800
+ Thu, 13 Jan 2022 06:37:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=QGVrKEyV;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169,
+ header.b=J1+b6J0R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id t18so10227000plg.9
+Received: by mail-pl1-f178.google.com with SMTP id e19so10221060plc.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:46 -0800 (PST)
+ Thu, 13 Jan 2022 06:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=sPsZpm0679vWB7IyH7Kp3GyZaZyUf9RfRXjHOY099oI=;
-        b=QGVrKEyVPBTPEYNkXhP+cMtn6f6QMjDWQC+6m6BYmhzWPfA44X9086KoFiMI6fXR1M
-         n8hG0pw3/0VmtvKsKu6wCFDqc3vRRaS0ECUizoporcZX4wAI6E1e9j/NJLNcwY6cuhmk
-         dS4qpx82R/VJVZ/86HFrmaaAJ1UU2jFAWIABEUBcOY2U1ulnM2qlgggOpqCpqVNUXqDn
-         kC/CjAYUzO1mmEdOAcPgG92DJWDYmrccLcqPIm3/Y2J6IrJa2CulrF8HVrdm8lzClSxm
-         RcDzsXkwoDqH07bEqR3ENeIsM2pnw/tjydgMJiNwaMgJmSQ9IfrQnDWZjSALGVTAGL+L
-         RJMw==
+        bh=1daHS/7DeWHSRA7SFVOGPq87+Wa/gq0Xukrn+Te6S9k=;
+        b=J1+b6J0RW6k45r07+mPVI74D8KuBiz78PI/6bxBpbvdJcfPgahhAJ6jk1hdz6rdCXX
+         kOwGfdMDPRpL/dy3uyulfQqD5rhQnxdgdAnrH7gv0PqxwBo5VYaMSAksk6b+KOvdDa14
+         CYXo51xuUZjRY+di3S6LTwfi9YkKry6J6bLXgQtv1u4r4hEsv7ZJzfvuZDnUJGQ8PEZ/
+         k6boe6hlwe37DShGzs3krYjz+OcPYmJtiyBIuxFzvHJ7jvyPDlKLREQYTVlNHsTqBbeX
+         sTPXd3RSZAreWXuMULuIVH2zoo8IaghjXV9Puy0pythz3U3jchfX+9waQVP/FjEjMX2h
+         sXtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sPsZpm0679vWB7IyH7Kp3GyZaZyUf9RfRXjHOY099oI=;
-        b=YWCDoM8Fa39r4pGnVCmIYyHxMvItPkWl+kA99rEnrktNcsTfsWroIylKQYlTLS6Xt7
-         k7BUS4SPWhfVuDt2v2Ith2HTIT6ZCw0uqGHiYmXqrCYgkQq2qvZgLVcbm/GQmGc17luC
-         rxmpz80l/prQqJXcYroOR04HNA9APoCdOdh4D5h1cr2uNhfcQco3BP1l3GVXG9lKae1h
-         bkyuJjt4VCIr/Vc0HAonv19wAFdvNnv+FvN+Pb1D+Z4pxmRjkgM1JAiNy+j/poismgSu
-         /Dpq3vaV+32lFfoTht9fmBHZP5WDQ9YQmxKWBFcgunTw+T6f9tovUrjUBQSkzpanZngh
-         NIdQ==
-X-Gm-Message-State: AOAM532DZkBGsYhhbziBdYwmktbQTYHxBQaNe7GvSCDwdqZTB6AX4HmR
-	Dfo64N1NGYFiBVurdqA8WVZHNSRVoiKr9oYnKSQ=
+        bh=1daHS/7DeWHSRA7SFVOGPq87+Wa/gq0Xukrn+Te6S9k=;
+        b=mOvhVTwh2fPRr4Z/ouCu5WOkKpdJCdwpKFwKZ63Mg9gtNtqwLiuLy5EzC1cG3E+S1v
+         +DIcrNs2jEW+ul18I5oveORHwVPRGjPfS14WXwA45APRlm8hNqBgAjtR5pYO03pSuzGM
+         m1qJ3htvIKdUUdAmKECt+oK6Cp820cn1z96zn6xemSR/AyblOhJCWE7sYTZOxyF3OAhn
+         F52/2AU+oPsEak2sNGLx7Zv1x5L+ydapMbcUisaJu/tG7bFgjubzU0UFigdaTyXLcHQk
+         v30UuGsv2aFqLOZf9iyhvkXoZKk3/RGqTDUduZ/FlOyVlr3R/nAmTK+SZDR6eBe2s1j0
+         rFWw==
+X-Gm-Message-State: AOAM532XVMNxadFYPVUv4oA3PzLu+fQPtQvqCobTCi3JVdzeOA6Cox38
+	/2GrDyRW/J+XudnVBshv5EvcpzahP0bVRQT98a4=
 X-Google-Smtp-Source: 
- ABdhPJyEEHTj1eKW36B9K3TaWPPwLOncl8u28lO9hSVNtBAYw4FezETtXfinZrHCNGx3teVLjeliqg==
-X-Received: by 2002:a17:90a:bd01:: with SMTP id
- y1mr14843934pjr.33.1642084665234;
-        Thu, 13 Jan 2022 06:37:45 -0800 (PST)
+ ABdhPJzGEOWgifszQrUVzOFEcXNEIFMKLy+yDTiNUT9FydUbXWRbHnbGk16OB4LsvPo3z0+dXuO8Aw==
+X-Received: by 2002:a17:902:7149:b0:149:c123:a983 with SMTP id
+ u9-20020a170902714900b00149c123a983mr4584607plm.79.1642084667538;
+        Thu, 13 Jan 2022 06:37:47 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- g11sm2541544pgn.26.2022.01.13.06.37.43
+ g11sm2541544pgn.26.2022.01.13.06.37.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 06:37:44 -0800 (PST)
+        Thu, 13 Jan 2022 06:37:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/11] xserver-xorg: update CVE_PRODUCT
-Date: Thu, 13 Jan 2022 04:37:09 -1000
+Subject: [OE-core][dunfell 06/11] wic: misc: Do not find for executables in
+ ASSUME_PROVIDED
+Date: Thu, 13 Jan 2022 04:37:10 -1000
 Message-Id: 
- <183a62e7de1ded1f271d8ba4d1b149a85159f4bd.1642083419.git.steve@sakoman.com>
+ <eab485069809c991433b9e1b8e4223a555e4d7f9.1642083419.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1642083419.git.steve@sakoman.com>
 References: <cover.1642083419.git.steve@sakoman.com>
@@ -67,35 +68,63 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160516
+ https://lists.openembedded.org/g/openembedded-core/message/160517
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
-Some of the CVEs have x_server as the product name.
+Executables like tar won't be available on the native sysroot, as they
+are part of the ASSUME_PROVIDED variable.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Cc: Paul Barker <pbarker@konsulko.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4d5d63cf8605515bb659b6b732683d7fe6540728)
+(cherry picked from commit 2f574d535f8665b26dab65c14668cf8fc7b751c0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/misc.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index b4f0760176..02daafc098 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -18,7 +18,7 @@ INC_PR = "r8"
- XORG_PN = "xorg-server"
- SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
+diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+index 8fb508dd39..57c042c503 100644
+--- a/scripts/lib/wic/misc.py
++++ b/scripts/lib/wic/misc.py
+@@ -46,7 +46,8 @@ NATIVE_RECIPES = {"bmaptool": "bmap-tools",
+                   "parted": "parted",
+                   "sfdisk": "util-linux",
+                   "sgdisk": "gptfdisk",
+-                  "syslinux": "syslinux"
++                  "syslinux": "syslinux",
++                  "tar": "tar"
+                  }
  
--CVE_PRODUCT = "xorg-server"
-+CVE_PRODUCT = "xorg-server x_server"
+ def runtool(cmdln_or_args):
+@@ -113,6 +114,15 @@ def exec_cmd(cmd_and_args, as_shell=False):
+     """
+     return _exec_cmd(cmd_and_args, as_shell)[1]
  
- S = "${WORKDIR}/${XORG_PN}-${PV}"
++def find_executable(cmd, paths):
++    recipe = cmd
++    if recipe in NATIVE_RECIPES:
++        recipe =  NATIVE_RECIPES[recipe]
++    provided = get_bitbake_var("ASSUME_PROVIDED")
++    if provided and "%s-native" % recipe in provided:
++        return True
++
++    return spawn.find_executable(cmd, paths)
  
+ def exec_native_cmd(cmd_and_args, native_sysroot, pseudo=""):
+     """
+@@ -141,7 +151,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, pseudo=""):
+     logger.debug("exec_native_cmd: %s", native_cmd_and_args)
+ 
+     # If the command isn't in the native sysroot say we failed.
+-    if spawn.find_executable(args[0], native_paths):
++    if find_executable(args[0], native_paths):
+         ret, out = _exec_cmd(native_cmd_and_args, True)
+     else:
+         ret = 127
 -- 
 2.25.1
 
