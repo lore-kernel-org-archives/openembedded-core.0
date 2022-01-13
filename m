@@ -2,12 +2,12 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723C0C433F5
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 03:44:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B49D0C4332F
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 09:00:57 +0000 (UTC)
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.4421.1642045483051606657
+ by mx.groups.io with SMTP id smtpd.web09.6569.1642064456104300896
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 19:44:43 -0800
+ Thu, 13 Jan 2022 01:00:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
@@ -16,67 +16,91 @@ Authentication-Results: mx.groups.io;
  mailfrom: changqing.li@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 20D3ifLH031544
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 20D90siT012248
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 19:44:41 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ Thu, 13 Jan 2022 01:00:54 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 12 Jan 2022 19:44:40 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 12 Jan 2022 19:44:40 -0800
+ 15.1.2242.12; Thu, 13 Jan 2022 01:00:54 -0800
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 12 Jan 2022 19:44:39 -0800
+ 15.1.2242.12 via Frontend Transport; Thu, 13 Jan 2022 01:00:53 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] nghttp2: fix for multilib support
-Date: Thu, 13 Jan 2022 11:44:39 +0800
-Message-ID: <20220113034439.19018-1-changqing.li@windriver.com>
+Subject: [hardknott][PATCH] libsndfile1: fix CVE-2021-4156
+Date: Thu, 13 Jan 2022 17:00:52 +0800
+Message-ID: <20220113090052.26179-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 03:44:43 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 09:00:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160506
+ https://lists.openembedded.org/g/openembedded-core/message/160507
 
 From: Changqing Li <changqing.li@windriver.com>
 
-correct the package name
-
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-support/nghttp2/nghttp2_1.46.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libsndfile1/CVE-2021-4156.patch           | 32 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb          |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-index 972ff2d60a..a5f0be856f 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-@@ -19,7 +19,7 @@ PACKAGECONFIG[manpages] = ""
- # first place
- EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=OFF -DENABLE_HPACK_TOOLS=OFF"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
+new file mode 100644
+index 0000000000..b0ff1a0885
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
+@@ -0,0 +1,32 @@
++From 5adbc377cd90aa40f0cd56ae325ca70065a8aa19 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 13 Jan 2022 16:45:59 +0800
++Subject: [PATCH] flac: Fix improper buffer reusing
++
++CVE: CVE-2021-4156.patch
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/issues/731]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ src/flac.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/src/flac.c b/src/flac.c
++index 0be82ac..6548bba 100644
++--- a/src/flac.c
+++++ b/src/flac.c
++@@ -952,7 +952,11 @@ flac_read_loop (SF_PRIVATE *psf, unsigned len)
++ 	/* Decode some more. */
++ 	while (pflac->pos < pflac->len)
++ 	{	if (FLAC__stream_decoder_process_single (pflac->fsd) == 0)
+++		{	psf_log_printf (psf, "FLAC__stream_decoder_process_single returned false\n") ;
+++			/* Current frame is busted, so NULL the pointer. */
+++			pflac->frame = NULL ;
++ 			break ;
+++                }
++ 		state = FLAC__stream_decoder_get_state (pflac->fsd) ;
++ 		if (state >= FLAC__STREAM_DECODER_END_OF_STREAM)
++ 		{	psf_log_printf (psf, "FLAC__stream_decoder_get_state returned %s\n", FLAC__StreamDecoderStateString [state]) ;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 044881a859..8eb007884e 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2017-12562.patch \
+            file://CVE-2018-19758.patch \
+            file://CVE-2019-3832.patch \
++           file://CVE-2021-4156.patch \
+           "
  
--PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
-+PACKAGES =+ "lib${BPN} ${PN}-client ${PN}-proxy ${PN}-server"
- 
- RDEPENDS:${PN} = "${PN}-client (>= ${PV}) ${PN}-proxy (>= ${PV}) ${PN}-server (>= ${PV})"
- RDEPENDS:${PN}:class-native = ""
-@@ -27,7 +27,7 @@ RDEPENDS:${PN}-proxy = "openssl python3-core python3-io python3-shell"
- 
- ALLOW_EMPTY:${PN} = "1"
- FILES:${PN} = ""
--FILES:lib${PN} = "${libdir}/*${SOLIBS}"
-+FILES:${MLPREFIX}lib${BPN} = "${libdir}/*${SOLIBS}"
- FILES:${PN}-client = "${bindir}/h2load ${bindir}/nghttp"
- FILES:${PN}-proxy = "${bindir}/nghttpx ${datadir}/${BPN}/fetch-ocsp-response"
- FILES:${PN}-server = "${bindir}/nghttpd"
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.17.1
 
