@@ -2,255 +2,192 @@ Return-Path: <kexin.hao@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51391C433EF
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 13:42:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E1EC433EF
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 13:49:08 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
  [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.8946.1642081375034015878
+ by mx.groups.io with SMTP id smtpd.web12.9006.1642081747239524725
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 05:42:55 -0800
+ Thu, 13 Jan 2022 05:49:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=JUwK3STV;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fxNjlNE2;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.166.238,
  mailfrom: prvs=80122df73f=kexin.hao@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 20DBnQ0U017124
+ 20DCK3mc000998
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 05:42:54 -0800
+ Thu, 13 Jan 2022 05:49:06 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=date : from : to :
- cc : subject : message-id : references : content-type : in-reply-to :
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
  mime-version; s=PPS06212021;
- bh=tgmH0HHxcva2NLEX3nmJrotptdy2kLXOy2dtVwk5DrQ=;
- b=JUwK3STVqRznrAkGxp+wXcEdNdVbLyNF3g1ao1BnBZE/9viXlj9prIJ7XQKt82A6MWvx
- WBtK/Epr6SImR7ETm7+PkTCdtjjM+QPbqWgP0pJW00xX2gJXLy8sGCa+AOklBZxYE9HO
- xSHrdsaTyE9vq8u06AbbzAKcTF9fG7YsXjx2l7HwCheG2y5B/7IWYgs/QXvTw1aZ967m
- lV1Vh1KplbcGWrMhAKGqpIFWuHHpuNs5csbvSP1F/P9euNXSPz6HQ20b/3GRsd8+HDaz
- RsT6CNszi4DhxOVofW9VMlsgsWtWqmMrrdHUWsY0YMa4ctlWNtXypcqncjCdlYbnO3Kn 8Q==
+ bh=v1p13RpZJV+E6XzdRLOph6aBDLSt7Ki1ijwhJ9l0sGM=;
+ b=fxNjlNE2rW3xeYrdvGtvhi7S3UQCMbAgIIYLbBF2pzpWZfYJ8GcsJUIrFTIIpwvo6Uks
+ svcvF1X+5EJ8RKFtkqOu0UtNSzO85FLWac86VD0/NUlk5aaqFnFC5TVB2V/6JQIRnoJy
+ wJTt/dzGpzG1e86lZI3HnMpfX931neUVNWWZlLegOCdTog/WZVX4DL1nwxzf5ZY5RKZ4
+ bV2WqkgX9Yv2ojV26yDYKugmH+axssczYk8Cs3fgubkthXqZ9edNUuAWd9V4AAjAktIj
+ AFg6MpvKoSFNebFLPRylW3VmN5sF11L0FKES+Yn7uU+vWlYlyI/lry9UOEEjlGvPAMN9 5Q==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dhy078u3x-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dhyvtgsxu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 05:42:54 -0800
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 20DDcb53018128
+ Thu, 13 Jan 2022 05:49:06 -0800
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 20DDn5rG006502
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 05:42:53 -0800
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dhy078u3v-1
+ Thu, 13 Jan 2022 05:49:06 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dhyvtgsxs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Jan 2022 05:42:53 -0800
+	Thu, 13 Jan 2022 05:49:05 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gwMXqGNcvDwOxaWFCy0SG8vi4ZOo6FE0ZGDxWfWV7ePA1uqWfUpp78BbGAA17xEz4Bg9+tJTqNm5j/vyN2gCJdl6GAUfJUazwbDsSVcTfVBRcV5mgx05hOOIKJtWy6L/TnKzgqyA802sqTkrXvtFVqGNR6MbSAXOGIC3KUlEEJHqBdsrBIZm/LCUh2FFunOT+fKa3v6wHRbaW5pfjYE5XhOuDH4xxoSPCOObv4eJanYZJM9Fy1HrLXUuGN/L48rgFN5LX2nnQINJ/JrXxTzT/EOzgiAJfzbDnsSOP1uGQguLQnHBefcRRcKh932/KD6jJRdnXq1DYPLlmnYJPuvEyg==
+ b=Ykvr5zRuxRXWcD5gpRA74whphZmIqioXaY1LIZdBcUPMlQgsLqXpnzVUwX15dtdtvofe8ei23JJLVVgSIe+NHyByNIOIohOJ3l8Nn3YtYkA2KplTC80lFEfpsSlkTPnColOp+xukmpjoUPoINo06AVz6j1iaURD2X8lOrDggth5E6Oyy2IKwqC8oCIIBTZSnHFIltImdTW14+s/YHEXpgovVjfVPxeka4O2eQG8FvNMuvH6Px3IQiG5uX01WjGgiDijmYu3cxiCgWRDpdnPIJNsbAt7ypK4k42d7faqk0wpbOCxUty43qfpP4MZoy1ZWy4rEp9wRCWq3sukZ/sNSFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tgmH0HHxcva2NLEX3nmJrotptdy2kLXOy2dtVwk5DrQ=;
- b=PA4WK9pEZVq2ygbxRl0LiWnC4eXRhLnEcp14iICPsmhe/TzymEs8rgUqsIL3hHViP+RQeC5J/j/wtC1tsQ32rW4g9dTiQC2V98M3VxFG73c/Btvl39jAZXe2fjZnZbTucv8CmVZKB/DYBaRDtCi4Wr58YFyTAvqdtOfARI8yOwjG3berFV4KPQUsd2vUtwIX/DSObjWhoVd6OJ+yQ0prxFgNNvwJWbTWfCR2G3ztu0Q4TAdtyUWKj1YPRDFTMaw2zZsxc/UVYEJU5wkeW+aW9PLp6ccqQGQtPPvnHiuBfsWoBg6jSSqxzLPeY3qM0scwDHmtJUhxm+K83eHDwCkLNA==
+ bh=v1p13RpZJV+E6XzdRLOph6aBDLSt7Ki1ijwhJ9l0sGM=;
+ b=TVjMy+8+Z9bpBSsN43SPFDEVn7mZd3ZQfQW+BPt5AUGaHEcPGA0efmkU5YTa6z/FNp+JxSLVnDSjpiSlm+9p6cxErEqnSDutsXizu/yp0qf09+aoakkcQPXZPQwjHA8AbaNH9910kZC51JGSXlfVjSUJ4aJa0kt8/6pNGXoNHsCUzsnN+uECniIzCNLPyFyRdYKpEAlD5DcIo/xhOyMxfo9VW4dXsaqPCxreN9+p9AvBHpv/x0xO1PbVeW+z03+Rq8XC7aD0PFhptLUnm4FXDiAOCJdYeBBa0lPskC/P4ryxap8hPg2sfU9xVaw7RR7AVIihNJddfTR2o8gul367wA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from SA1PR11MB5899.namprd11.prod.outlook.com (2603:10b6:806:22a::18)
- by MN2PR11MB4221.namprd11.prod.outlook.com (2603:10b6:208:18d::14) with
+ by PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Thu, 13 Jan
- 2022 13:42:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.11; Thu, 13 Jan
+ 2022 13:49:02 +0000
 Received: from SA1PR11MB5899.namprd11.prod.outlook.com
  ([fe80::ec6a:319f:6956:24ce]) by SA1PR11MB5899.namprd11.prod.outlook.com
  ([fe80::ec6a:319f:6956:24ce%8]) with mapi id 15.20.4888.009; Thu, 13 Jan 2022
- 13:42:48 +0000
-Date: Thu, 13 Jan 2022 21:42:40 +0800
+ 13:49:02 +0000
 From: Kevin Hao <kexin.hao@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] tune-cortexa72: Enable the crc extension by
- default for cortexa72
-Message-ID: <YeAsUO/+g7Y6qkam@pek-khao-d2>
-References: <20220112090708.1597301-1-kexin.hao@windriver.com>
- <CAPoiz9wdB1z_mC5Td6RpN63ED_7Mm+7vBmDQtf=XoRmYLwCrVA@mail.gmail.com>
- <bc571d45ac0dc66bb9a3409b1215815ca369283f.camel@linuxfoundation.org>
- <CAMKF1soTS_EkdEf4ZzHd_QJjcs=161+L=Vq+btm4A4EYKpcXDg@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YoT4i8HClSNqlOzl"
-Content-Disposition: inline
-In-Reply-To: 
- <CAMKF1soTS_EkdEf4ZzHd_QJjcs=161+L=Vq+btm4A4EYKpcXDg@mail.gmail.com>
-X-ClientProxiedBy: SJ0PR13CA0074.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::19) To SA1PR11MB5899.namprd11.prod.outlook.com
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] tune-cortexa72: Drop the redundant cortexa72-crc tune
+Date: Thu, 13 Jan 2022 21:45:23 +0800
+Message-Id: <20220113134523.3997945-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR04CA0083.apcprd04.prod.outlook.com
+ (2603:1096:202:15::27) To SA1PR11MB5899.namprd11.prod.outlook.com
  (2603:10b6:806:22a::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a869369-6bbd-4ad2-5f4a-08d9d69a960e
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4221:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3891c15-835f-4d06-db14-08d9d69b7518
+X-MS-TrafficTypeDiagnostic: PH0PR11MB4855:EE_
 X-Microsoft-Antispam-PRVS: 
-	<MN2PR11MB4221A633E34100B1A01F3348E2539@MN2PR11MB4221.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+	<PH0PR11MB4855766D20E1FE23B301D870E2539@PH0PR11MB4855.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	PZwSQGqRl1wchxf8X+hH7oCh6rixMOtA3+umwkoFjyfuPXDT344WM0wzAwO0sqhHtHCLVTv5JkNNqOIYvLEsfSr4BceMlQVkWfloBl7nAZq64k/Sga6qjjGE+2JsIDFWi6zxJltck+ZO+yDKyPyiuXyRf61yqHpraXK8ygcDBShp8jUYr0QlXgQTqiA+2B2SGr8Nkn6gUja152/saXTRq4hyoRXYbtzLb72qn3qlYnVziSwl8aMkFB/a8vDlzUrBFsbsKROVqUHQIe4zSpzqAX0BohJqxFt64foPtZvvLU8v+Ue028unxdmXD1v9WjsPKNulFYtScjS6aXI4eWwbixJxb1Ipdh3n/mRvW3Slr0LSQ/Tc9ZBHZyz/mEZO/R8JNDqlwYx0IyE4UprFSDeXhT8eNVlw78vABNz/v3rFTNhwC8laUd2/zE/Hnfgh5EyGcAnhCsYx8f7zIXGXPF8pvhqGvkVsmavs3lhraXTpSbbxSb4qDONfZXFKefOCmKdDygXK9xA6twPusTFV4bOVYPBUVEwFqfVQkXZmjqe4ZIGawHua6pb99uBL4TtCge3cNs1eUO3eULZy0aBzYQT+IQ0AvF+EIPC7HZ/ztbDXoOrsBznEWHlFwLWddTwDPS/0ZXGJxRC7oDelDyu4knjGkfs7oAy6irfGGidGGuQ20TxH39erX5BpkEWvtBBuJh1GJtHjOi1PkczBB3lphyjAuKJ27HyzPg8MBX5q8CzvkFmCV1iy8qGcW2rEQRKqHl2kQChmBTCpasU6sJnrWT/28KSJKJRGflbSBmm8rctavRgXWS793L5Te6zqirykuE8Rvsil/1YgdfWQWpzJgAXxPSvGALI/73fTFdZ4JQneG2M=
+	fZmcwpQt5byd+cgzan9wefu4qfgDrQJx3qE46Kcio8YpW/7HrlPH7uXVamogShClI/iCbx3Abegn4fNnPP8px43k//a8UCHQf9cUZjFDujCqJ/uIMRzjsXpP6kNq6m9regdlUeABxyEsK7XWU6pm0/0IVB8hqKxe0qedVLj/gKsRUuk5g2zX5kfCgYbAmf55j6mjf/agQjRnuW6xr8DgTY4/aXJKw+PcfiG9UGgLUp66gdrHSlqm36IQyzhcUQ0/3zxBWTbZ0dxPQmLMlClqVZ+exhuzGCvi6lWAGXUkSN07ECPyT+anetaY4CUw4a399CcZapqGeQiC8RDyQq3unTpN8ZpFF9ftLBDqlQ/DSQdF8MISmSS70u9899icj5GYrnCwJP2KXE5z6Q/jpVuy6OWJaPm9cZkMhiEAJa3fmMvMb4BKq6qnJdyBNK8y+S7ius+/RLacNEqxyFm0wmSEQE8p8Z16tK7Y/2/U0FoKdCp+mpkV2byHkhVJ0kqFtGX4R1Hyg0U+wr5G2feVcuSVxt1tSJJEAZooMK/GEQw0XWKo8DWDlV5sQDn/NAxMOWCC2Ax81/IKQm0BE1yrfyJu5wtoxvHH5v0qjQ38yCdYjupjKlSUMLexAWjhX67/oAQ67xJbHoZVqulga3wQQoQ9tYM/Dugw6LHG8mCs3xRWEOyv7jFCKaJ54tJe1XBKh3Mi+6dNKD0FQt7ii49xzrn3EQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB5899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(4636009)(366004)(6486002)(8936002)(83380400001)(2906002)(9686003)(38100700002)(38350700002)(6512007)(8676002)(508600001)(6666004)(5660300002)(4326008)(52116002)(21480400003)(54906003)(66476007)(53546011)(44144004)(186003)(966005)(316002)(6506007)(66946007)(86362001)(33964004)(6916009)(66556008)(26005)(33716001)(2700100001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB5899.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6512007)(186003)(86362001)(2616005)(4326008)(36756003)(5660300002)(83380400001)(38350700002)(38100700002)(6916009)(6486002)(66556008)(66476007)(316002)(66946007)(6506007)(52116002)(1076003)(26005)(508600001)(2906002)(8676002)(6666004)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Qk9JWmVtN3NDVUh2STF4QmVvNDU2N3VTMUswTi9zMXJnWnZ0QXd0eS90eXZy?=
- =?utf-8?B?R3hsUE0zazd4TWhVcTFMenRaaUpCeUNPT2k5YVdLVmFVVjkrU08rUUhadFRL?=
- =?utf-8?B?YWNNNExVS2pBZnN4VGF5TjFyWHo2SEFpeUhNMUJaRUZnTjBOTkw5NnVzM0Rm?=
- =?utf-8?B?OTkvOU81QmM4dTIra0dsYVppQ0hITk9xdDZUak9HNmxqZHZ6UVZZY0tpT3NY?=
- =?utf-8?B?VXBaNDgvT3Uxb3ZIZldMT3FlZzM1SzNuVy9ETzZVUzE0MlIrS2V5T0pKaTA5?=
- =?utf-8?B?UWNpZUh4Nit6OGpYWS9nTDB2NHhOb2pqaFhXV0J5VnZhQnp3am9KT1ZwNlo1?=
- =?utf-8?B?RThIYVhuYkxYL2JENXVKc2l4ZXRJUzVMSk9YYTZEQnoxVHg3NnBhN2wrOWlO?=
- =?utf-8?B?VFNKaFdFMTBNUm5taWZhTUVNSUhyZUNGbWJGVUhNUWJmSFQ5OWZqRURMcjBm?=
- =?utf-8?B?MkVQeStZYjZ0eE5WUWNuVFNiYkM3VkxMVDRiQWlsQzF6VHArMnB1aUVycjlu?=
- =?utf-8?B?cmNHYmJBQk1JUnRGWU9lbjUxNnZOZ0gvR21CSUR2dXlpYjcxcHNaV1RXZEYr?=
- =?utf-8?B?cU8zclZHSnRENlQxQU5henNiamVPVW1QbHZCTm1KeEx6WjNCeUZEOGFWMlBG?=
- =?utf-8?B?VzhYRHJRTGcra2Q5N0NwSDdubHNMSVRUMTFWbVFUc0ppVmZLTUZOTTA1Tlc1?=
- =?utf-8?B?blB2L2hIUU1wMzR4aEFQWHR2YUg5TTNhSmpJQWdVNXhTQ0dJV2NrZ2pQN2VU?=
- =?utf-8?B?MktxbFlsbmFodlFib0cxMExrV1VLbkUxZkFDeWl4VzNWRE55bm9uTXlPYjVr?=
- =?utf-8?B?NFZSR2Q0SkY5Uk5aS00wMWphUEtpYStQbVBCZHhyVHpSOUVXTUNQZnJWUkw3?=
- =?utf-8?B?TFczN2tSRmZNVnpuLy91QkNxQVAwMFIvNE4xMjhtMUh4NGM1VWVIT0YwM1NU?=
- =?utf-8?B?ZXh0QStrb2NTNlJnYmpHaDRKa0k2aUJ5aG9na0xwQklsblhHdDNnUGN5bHps?=
- =?utf-8?B?azA3cUlFUitCemhUM0tHZXVFQkxSYXZKSktHUm92QXdDUE55QUpEeDBiMkk2?=
- =?utf-8?B?RFM3cjNlVFVWOWg4WDBRYTJNcUhXM0pkbU02cmFZVEdhQjRGaGdqOUtVWXMz?=
- =?utf-8?B?UENhQ2t4dlBpYUVlNmpjaENwYkNPRVU2TkZtSjQ5ZUxHWnl5QXV2bnhKMUdY?=
- =?utf-8?B?WlJlZG5qMXdGSDhmNmRSY2NuRnFwMzA4TWZWMjAyY0ZCSHR2S1F6dXVUb2xH?=
- =?utf-8?B?eFB1bXFzQzNudUlidThNemFucGZIS0tGc2Y5YUlQTjM4VWdjVTJTRGpuMG40?=
- =?utf-8?B?RHZwOHZLMGFpYUFFQWJCYUNRNW5RSTIwVmhkUG9QbVVPV3FqdU9qUitpaWEz?=
- =?utf-8?B?VzNPUHorVVgxaDEwT3ZWS2g1THYrbTFjSHNWTHBXNDBuT0VWaUN2OWZJUmVv?=
- =?utf-8?B?d0VxcFZrNTlEcGlrUlNzRFVBUTFUNjFyK2ZOSTJwaE9iRnEwSDlMdVB6SlVl?=
- =?utf-8?B?RHkrQ1ZCQXEvdWhWR1JnMCsyS2dpL2NUNlh6czRuQlBpWnBuV0NXajJmclZz?=
- =?utf-8?B?SExTaUxzR0doREtjWUp5R3JkR0xjWHJFQVdqajVhbEZ1TExKekpybHJwNzh6?=
- =?utf-8?B?a2U2TkRmQWJnaVlNUmlybTBFRWdYMVNoMG1abkEzN3FsMzhKeURMeUY0b0lS?=
- =?utf-8?B?NVorcytBRTlNNUJpSTVnRm90R2JEc2FIYTFqVlJnMFFZdDhxOXF4M0ZBdjdt?=
- =?utf-8?B?VjBObkFMVTQxM0MraHNKaTFHSnR5MUhGcHhiejVLYWRjc0swbGY2eHdLWEg5?=
- =?utf-8?B?bllnaXZpVHpqdlhXMlRZMzF4eDdGMVdBWXFoZlJKSWlPUVllVVBabk1uZk5Y?=
- =?utf-8?B?dW1vZDZZMFlSbWMrc05mcVNCTW9RMWN0dFRSQUVaWDJvemlzQWNmYnZVbWYr?=
- =?utf-8?B?Rk9yblJHb3h6eFM4ZjZ6T1BQQ28yVTR0ZG1OYjdkMnExK2JMdW5rY3FXUHRl?=
- =?utf-8?B?eEx2TVNSaGJYSHJ1TU93c1VzZ2hUVGFNL1dPRmZmLzJyNXFuWkpqRUYvZ2NH?=
- =?utf-8?B?Q0FFWXlNeGs2M3JtZUk2N1p5MUlVWThoNnArSCs2ZFRPV0V0aTF2KytUSHk5?=
- =?utf-8?B?Mk9qMnh6bnNSYjNoeWVTa1B5ajQreDEzREdHM3hHU0hwWDZvU1BxL2FnRVVv?=
- =?utf-8?Q?LG1NDzSYt64rZAnIDp/ZX6s=3D?=
+	=?us-ascii?Q?SiMggRVkekgejAZOsW4ewnmxvFy2rFYDUfRfst5pQiAEKdzUgl/7BoOKrpAZ?=
+ =?us-ascii?Q?27CsfDbYa3E1WcodIWt2hRjObmfOcNCA08wnotYs+9ekdG6ZaLMJrp+Kcv82?=
+ =?us-ascii?Q?oZZ8G2uvb7HXqWpZuQvlM1gEqCvUE/GJrzKeLE9sNlVPOip4g4NUN2Rwt9M3?=
+ =?us-ascii?Q?438oxN35BB92rlF569uYyke9c3pgIXzpBRGTNxlGgtiSm3opJvS9lzIVyIRq?=
+ =?us-ascii?Q?SDwCsUy6ulWkRPSUPOFaS4cvnhNvssUfzpr1zFe1Tfeunb5NbhuEO+c+u4GQ?=
+ =?us-ascii?Q?zM1JRpI6+5tM6jzkkSwA5zxTZPq6Pbqqp7cuNK2twiQOUcZRwudNB+5zlBiB?=
+ =?us-ascii?Q?xMj7/tSdMljLZf6xaV5BQWi5caKZErzqfC+dzJxnmaEOK8aatjt9DDBJvLvh?=
+ =?us-ascii?Q?IQRWbIb3kGjNIaQqVNLuOiOG1rZNGwqlUWYnWs29erhb9cZcH5H+91mk91U6?=
+ =?us-ascii?Q?MR4P/1VcBkH+8wUcjzr320tLrMWal1LxT0b8ty83gQDLmdOhAY7dhuVNTk3y?=
+ =?us-ascii?Q?Biob0lspnbfo+kEdyXP2q8Hxmv0Hx20gJWlTDPWVLblVaG15WfR1WMCuNlLT?=
+ =?us-ascii?Q?Q7tLtaJ4IoPkgysmnr4UurvZpbQYQCohBPK6u/PCpfevnC3OrXSMB0k44MlE?=
+ =?us-ascii?Q?sqNokenuYgd12hjSpUFhzjDVix9wKPQTTCYy2/4wAyfrVpK4B95mZ4B+K8hI?=
+ =?us-ascii?Q?sZeLqPCpDpEAwAk/AyGnd1dQO3geGHcf9wFq9wkCfXsbbC7j5LrZyzak1EG9?=
+ =?us-ascii?Q?DLxCMJUxDPFsXVAGmKMdkZ7XBDYGNpseEGJXzqWmb+Wor9bdCksAUOO9vdK7?=
+ =?us-ascii?Q?d78ei23mVODztTkUjvLpKBZGP+x7IushdsGYnbD8WjAIgxrXwGvW8Mwv6mMT?=
+ =?us-ascii?Q?s3Pf0pwfK4aWPHC/SeWUiLcPOygAkTxSauOM0ZQV3E5F3R6K4qn2T5teYDoR?=
+ =?us-ascii?Q?DPJB6ha2cdnL5FoSva/zXBOgLhVih9QNCdlMbGLr7DFWy5qWfRuFTE4VGMfV?=
+ =?us-ascii?Q?O0DHNmNCqAYT6FewgcyqR2VFikykBmnXo4ThlO9XehvtUIVWBiJ+ZlMhrtMi?=
+ =?us-ascii?Q?2O2YIZgzDtvqHiRG3QZG65UQyvUoH/EXyUZ6G4u0mOMvBfuuDtSCd2GCTPLe?=
+ =?us-ascii?Q?qzlLMxqTCzHWFsNtd2OwF0MgUIEhhdUGayFCPT9k0/i7lqRDM6TUvPLJc9Zw?=
+ =?us-ascii?Q?yHpCu1bBMXrz8iJDKwxA8fldJiKVFOcq9QkKfvls/2ZDiDwUz0CYovqbD1ED?=
+ =?us-ascii?Q?ixNmwwYBdAuA31Evpe5mWS/HUsmx6YztFwu53SO3a6tt0K8QJTU9JaY/akLB?=
+ =?us-ascii?Q?nPMInWbjSOhKpRQFEge1v6LW6kyw8KdUFaHBvX9+7UgsEV/l7joJIyOiusbe?=
+ =?us-ascii?Q?qDD+oqk19s8c4CjO2D9HpBb7v/DEsEdZi+EZBJ9FMEi1k7vdFIVqe13pyocE?=
+ =?us-ascii?Q?X9eecunuoM7mK9rQUyqiwe76KLF7OXXhxaneueknfqelStC5uVs/zNk9nUka?=
+ =?us-ascii?Q?1icZvovpyRyyKwytkavXgqC41f472PHB5ryV7cRfmYwPRm5H6FWGYv+c+8u8?=
+ =?us-ascii?Q?ij+npG+f7ukMFDdkxG82+9L65hpeF4oNfsyI+RBlrLF8L8uwrD6gdiOSUe0w?=
+ =?us-ascii?Q?oLXo49i+baX+mG2E96yatWI=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 3a869369-6bbd-4ad2-5f4a-08d9d69a960e
+ a3891c15-835f-4d06-db14-08d9d69b7518
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB5899.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 13:42:48.3435
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2022 13:49:02.4192
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- LM/xhJI/L4Gu54L7sNCnpe/SO+nwspltIMqaHiSnE4//qPjyfADfgL6RJOGnwR7ObDcPJs497a4KjfrKipicnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4221
-X-Proofpoint-GUID: rh6Gbmdc9U7d5GkCPuti_8veBhe-dK4K
-X-Proofpoint-ORIG-GUID: E513joCw4gcHUeDpLJl6CnEzw8WMSGaa
+ EEHhXHPhMVSQNi9T7zhgVHSRBqLywpwDM9m1XzEXhLGn1WyzLcKzBggPt2rW8G3JCacg4SMlw7b7VDALb4j6fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4855
+X-Proofpoint-ORIG-GUID: gi0jnpD7mJ5Ft3W9BFw_AFj6kECMv54A
+X-Proofpoint-GUID: WoPsHq4oFwguG6Sr0RjCdGkrUvvpp_6g
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-13_04,2022-01-13_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 spamscore=0 mlxscore=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201130083
+ clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 adultscore=0
+ mlxlogscore=564 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201130084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 13:42:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 13:49:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160509
+ https://lists.openembedded.org/g/openembedded-core/message/160510
 
---YoT4i8HClSNqlOzl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We have enabled the crc extension by default for cortexa72 in patch
+("tune-cortexa72: Enable the crc extension by default for cortexa72"),
+then the cortexa72-crc seems redundant. So drop it. We also rename the
+cortexa72-crc-crypto to cortexa72-crypto. With these changes, it will
+break the BSPs which used these two tunes, but it should be easy to fix.
 
-On Wed, Jan 12, 2022 at 04:14:36PM -0800, Khem Raj wrote:
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
->=20
->=20
->=20
-> On Wed, Jan 12, 2022 at 1:58 PM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->=20
->     On Wed, 2022-01-12 at 14:23 -0500, Jon Mason wrote:
->     > On Wed, Jan 12, 2022 at 4:11 AM Kevin Hao <kexin.hao@windriver.com>
->     wrote:
->     > >
->     > > The crc extension is optional for the ARMv8.0 but is mandatory fo=
-r the
->     > > cortexa72, so there is no reason not to enable it for the cortexa=
-72
->     > > tune. With this change, the cortexa72-crc seems redundant. But we
->     > > had better to keep it to be compatible with the BSP which already=
- used
->     > > that tune.
->     > >
->     > > Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
->     >
->     > Acked-by: Jon Mason <jdmason@kudzu.us>
->     >
->     > From the GCC sources, it's hard coded for A34, A35, A53, A57, A72,
->     > A73, and almost all of the others listed.  I can patch the rest.
->=20
->     I did wonder if we should just drop the duplicate tune too. It will c=
-ause
->     an
->     error but it is an error that should be quickly/easily fixed...
->=20
->=20
-> I am good with that problem is only for bsp layers which support multiple
-> releases with a single branch but I guess that=E2=80=99s something less o=
-f a concern
-> for me=20
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ .../machine/include/arm/armv8a/tune-cortexa72.inc  | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-OK, I will send a add-on patch to drop the cortexa72-crc tune.
+diff --git a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+index 4c9add32f5f5..1a20b04483d9 100644
+--- a/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
++++ b/meta/conf/machine/include/arm/armv8a/tune-cortexa72.inc
+@@ -6,16 +6,12 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=corte
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
+ # Little Endian base configs
+-AVAILTUNES += "cortexa72 cortexa72-crc cortexa72-crc-crypto"
++AVAILTUNES += "cortexa72 cortexa72-crypto"
+ ARMPKGARCH:tune-cortexa72             = "cortexa72"
+-ARMPKGARCH:tune-cortexa72-crc         = "cortexa72"
+-ARMPKGARCH:tune-cortexa72-crc-crypto  = "cortexa72"
++ARMPKGARCH:tune-cortexa72-crypto      = "cortexa72"
+ TUNE_FEATURES:tune-cortexa72          = "${TUNE_FEATURES:tune-armv8a-crc} cortexa72"
+-TUNE_FEATURES:tune-cortexa72-crc      = "${TUNE_FEATURES:tune-cortexa72}"
+-TUNE_FEATURES:tune-cortexa72-crc-crypto   = "${TUNE_FEATURES:tune-cortexa72} crypto"
++TUNE_FEATURES:tune-cortexa72-crypto   = "${TUNE_FEATURES:tune-cortexa72} crypto"
+ PACKAGE_EXTRA_ARCHS:tune-cortexa72        = "${PACKAGE_EXTRA_ARCHS:tune-armv8-crc} cortexa72"
+-PACKAGE_EXTRA_ARCHS:tune-cortexa72-crc    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc} cortexa72"
+-PACKAGE_EXTRA_ARCHS:tune-cortexa72-crc-crypto    = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crc-crypto"
++PACKAGE_EXTRA_ARCHS:tune-cortexa72-crypto = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa72 cortexa72-crypto"
+ BASE_LIB:tune-cortexa72            = "lib64"
+-BASE_LIB:tune-cortexa72-crc        = "lib64"
+-BASE_LIB:tune-cortexa72-crc-crypto = "lib64"
++BASE_LIB:tune-cortexa72-crypto     = "lib64"
+-- 
+2.31.1
 
-Thanks,
-Kevin
-
->=20
->=20
->=20
->     Cheers,
->=20
->     Richard
->=20
->=20
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#160501): https://lists.openembedded.org/g/
->     openembedded-core/message/160501
->     Mute This Topic: https://lists.openembedded.org/mt/88369540/1997914
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [
->     raj.khem@gmail.com]
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
->=20
-
---YoT4i8HClSNqlOzl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEHc6qFoLCZqgJD98Zk1jtMN6usXEFAmHgLFAACgkQk1jtMN6u
-sXHnRAf/cRbDEphah0zohw7uLIVtGETrajo873iRvi/SQaNOELSb4HegjFvjW0FP
-CQYcNIcxSwkx6JFlSxXzvqLe0yt9aM9LngUmtHATlrw0f3a8ir6vD/wbu4BQP981
-YX5bOzPOLjxWp0sUKh6jGjmbfYoKcraz01PlPQZzUTNVdHY8BRTuD/13SH4YE1iB
-7yHnZ2JvzAPCHcUgElM+0fgyVnfZj0/5QF8OZJnDAkOh9XVmwq3uHUuJHOtLCy+z
-/LLqbcxP+M5kvCSi4ZaGnR2oLl+8WnsOfTuYd1aGktgGBev1xTXjYF6d5+WGAC+g
-BLjJTfrpaHHvTO5H7658CDps5BCGHw==
-=eQV+
------END PGP SIGNATURE-----
-
---YoT4i8HClSNqlOzl--
 
