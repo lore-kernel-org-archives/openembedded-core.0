@@ -1,110 +1,127 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 235DBC433F5
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 15:26:16 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.10280.1642087575307672393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9EA3C433EF
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 15:44:34 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web09.10509.1642088673325974488
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 07:26:15 -0800
+ Thu, 13 Jan 2022 07:44:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=THNMJsdQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id o3so10732589wrh.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bPKre2GL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id x22so20851109lfd.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 07:26:15 -0800 (PST)
+ Thu, 13 Jan 2022 07:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=N3/i+K2mN1sAjlscQ97oj0uAq/Ry/Q59DeGZUD4mWVA=;
-        b=THNMJsdQc5CD6blnmmTd85abC8QNC6lO5BljYju37s31e2GQaszWbPkddiIrq9GITP
-         2DdnQZOGD2+ijZPei+ZY+YalhUJCuwEnGU82W1IEkm1XWv558wTaCHncypp4/q844zVv
-         1gcEQb4R9nfbhlpUK+W0YMFEXjmSRYAVDlYjU=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject;
+        bh=SKZGZQUHUJYO+glgWQO64N+J+jbqEG/I8jLeEh9xV3Y=;
+        b=bPKre2GLCBbA2w1nQlphMaae3zmjbgFSCI4lSDcekXwUgDwMZeHHpxA+MHYqgh01cy
+         hKO2i9dIBkSsxQzIxGuuda+LbFXncUwpg78anILU9QiN0bZt4Ul7CwW2eAz0RBhHdOd6
+         d3oiGyfZpToAc4bFocq43c1Z8Jyx35Iu0XBFBLfSwukCsZO6Qo55Ymvhih94egVjbcEu
+         cxLmgvQ3cTRczlD1HjI8Kh+Vdbk9mZcbHSxI4hoMuLE7KT/m4DYkeXRPoEwVU0bQDkUq
+         35OZZDyEr0OcdK2ChlEHAmQcA3xDSVRzLSeXiJBWDfYYwWGMIC0HiG9TpiPzKM/pJ0cq
+         w0HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=N3/i+K2mN1sAjlscQ97oj0uAq/Ry/Q59DeGZUD4mWVA=;
-        b=t/tAGcRcUrqFQjxtt8YK6fHrZsRfe0W5Bifs2qstQHDSzvV2Zb8Bw3zgo40V1gWh2y
-         fPf3mjKAkVmgfAETeJyE+/Tz7o73w8HB6oM3wgoOxT+AVLEfn3V7iPh8e81029J+nVab
-         8iOJU7q/KqcO4WJ9JboOoJrxV+iyklt6Z7EcdO9353/0BN0mymKT+Ff6Xz3Z/8GfhJE7
-         f7eJt9trneqgxVczy7si8M0oaMfKUqmYzuHb5nJ1M4gcydn2NSsbEg74GzV/NMn8f3f2
-         3AWP0ueDes9DxE4DQDhkJSusC3M/gWw3THRRzK4l/pncDqJuDjvKR5xK7pmEzvXxGkVL
-         vOXQ==
-X-Gm-Message-State: AOAM5335VB7F6XxDoBUgtq77xJC2y62znXRVyL7tyqxcBlhIPhrpD6Gy
-	48wtA0+QNYdVHKwplVTsTxDf5A==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject;
+        bh=SKZGZQUHUJYO+glgWQO64N+J+jbqEG/I8jLeEh9xV3Y=;
+        b=4bDV4xnBeddidr2cAxDSuXKcoczgar4fwnNP6dlzmMJof9Yk7CwzaZUiudf7YQ0wnm
+         SKhGUcJ6gjWedJKp5S3P/QGIzx4FAIXBTwOGh3hk6ysNnQo/BxtYyiYeON+KLKra4uY6
+         XrU/Pf8Bv8GXjohJxiox8+U64f/05lsJKsiJdEXSYHL1G6WJU96JDaMZn/Dclb6QzClK
+         xtpqU/FwK4yAe7mT3UZnA4JrQwj4b4ETIP1ySp9So2TRnCagUnP14h5drND4cgwMtj+3
+         Dowi/JRUAkX8SCgGhRCYRgSdfQb4RczZK/IvedpmW/K8LQCtEwCYbpbZJpI+wDVmS92q
+         OO3Q==
+X-Gm-Message-State: AOAM531MiywaNbHquZC8sES0rRPUIoy9fQlQONYIctcn+9oqxcdrVFxF
+	+0RheAJfZ42rLRr+s4jTFnMIfmcBAfc=
 X-Google-Smtp-Source: 
- ABdhPJwroIgGT9qbwuNhY8ap//bep/bgwcT/ZOsTCkzlRbzIqsLg8Tw4aTTw3bX3e1b1WvG3WCqNiA==
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr4414274wrr.237.1642087573576;
-        Thu, 13 Jan 2022 07:26:13 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5c73:f637:3634:b28d?
- ([2001:8b0:aba:5f3c:5c73:f637:3634:b28d])
+ ABdhPJxDLzdUU+wnvvR9vecuyAn17lxhLCYPbu7jaq3Samj/D1Gzcz4oK5+d7mCJ2LI9Mn8GUKSu9g==
+X-Received: by 2002:a05:6512:acd:: with SMTP id
+ n13mr2790864lfu.283.1642088671301;
+        Thu, 13 Jan 2022 07:44:31 -0800 (PST)
+Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ [37.247.29.68])
         by smtp.gmail.com with ESMTPSA id
- u16sm2771162wrn.24.2022.01.13.07.26.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 07:26:13 -0800 (PST)
-Message-ID: 
- <ba495e2870d62f9445d0c5f43da51cc2aba41527.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] nghttp2: fix for multilib support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jan 2022 15:26:12 +0000
-In-Reply-To: <20220113034439.19018-1-changqing.li@windriver.com>
-References: <20220113034439.19018-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ x22sm301104ljp.128.2022.01.13.07.44.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jan 2022 07:44:30 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------uNIhd319SC6He1N9KQxgSybW"
+Message-ID: <f914d2c4-b3eb-f52b-6010-0447ac874fb5@gmail.com>
+Date: Thu, 13 Jan 2022 16:44:29 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Subject: Zero umask when unpacking sstate packages
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 15:26:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 15:44:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160524
+ https://lists.openembedded.org/g/openembedded-core/message/160525
 
-On Thu, 2022-01-13 at 11:44 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> correct the package name
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-support/nghttp2/nghttp2_1.46.0.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-> index 972ff2d60a..a5f0be856f 100644
-> --- a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-> +++ b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
-> @@ -19,7 +19,7 @@ PACKAGECONFIG[manpages] = ""
->  # first place
->  EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=OFF -DENABLE_HPACK_TOOLS=OFF"
->  
-> -PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
-> +PACKAGES =+ "lib${BPN} ${PN}-client ${PN}-proxy ${PN}-server"
->  
->  RDEPENDS:${PN} = "${PN}-client (>= ${PV}) ${PN}-proxy (>= ${PV}) ${PN}-server (>= ${PV})"
->  RDEPENDS:${PN}:class-native = ""
-> @@ -27,7 +27,7 @@ RDEPENDS:${PN}-proxy = "openssl python3-core python3-io python3-shell"
->  
->  ALLOW_EMPTY:${PN} = "1"
->  FILES:${PN} = ""
-> -FILES:lib${PN} = "${libdir}/*${SOLIBS}"
-> +FILES:${MLPREFIX}lib${BPN} = "${libdir}/*${SOLIBS}"
->  FILES:${PN}-client = "${bindir}/h2load ${bindir}/nghttp"
->  FILES:${PN}-proxy = "${bindir}/nghttpx ${datadir}/${BPN}/fetch-ocsp-response"
->  FILES:${PN}-server = "${bindir}/nghttpd"
+This is a multi-part message in MIME format.
+--------------uNIhd319SC6He1N9KQxgSybW
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This doesn't look correct, particularly using with MLPREFIX in one location and
-not in the other...
+Hi,
 
-Cheers,
+I often see this diff churn in my buildistory for shadow-native (and
+similar issues with icedtea7-native from meta-java):
 
-Richard
+-drwxr-xr-x -          -                  40 ./var/spool/mail
++drwxrwxr-x -          -                  40 ./var/spool/mail
+
+One can reproduce it with:
+
+# bitbake -c cleansstate shadow-native && \
+  bitbake shadow-native && \
+  bitbake -c clean shadow-native && \
+  bitbake shadow-native
+
+I see that the sstate package contains the correct permissions for
+'mail', 775. So it would seem to me that it is the unpacking from sstate
+that strips the group write permission.
+
+Testing with the attached patch and the problem goes away.
+
+Is something like this the correct solution ?
+
+Jacob
+--------------uNIhd319SC6He1N9KQxgSybW
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-sstate.bbclass-Zero-umask-when-unpacking-from-sstate.patch"
+Content-Disposition: attachment;
+ filename*0="0001-sstate.bbclass-Zero-umask-when-unpacking-from-sstate.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSBkY2ViZjI5NzdjYjZiZGM1MTk4YWIxMzI3MmNmMzU4YzllY2Q2YjMyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBKYWNvYiBLcm9vbiA8amFjb2Iua3Jvb25AZ21haWwu
+Y29tPgpEYXRlOiBUaHUsIDEzIEphbiAyMDIyIDE2OjMxOjQ3ICswMTAwClN1YmplY3Q6IFtQ
+QVRDSF0gc3N0YXRlLmJiY2xhc3M6IFplcm8gdW1hc2sgd2hlbiB1bnBhY2tpbmcgZnJvbSBz
+c3RhdGUgY2FjaGUKClNpZ25lZC1vZmYtYnk6IEphY29iIEtyb29uIDxqYWNvYi5rcm9vbkBn
+bWFpbC5jb20+Ci0tLQogbWV0YS9jbGFzc2VzL3NzdGF0ZS5iYmNsYXNzIHwgMiArKwogMSBm
+aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nl
+cy9zc3RhdGUuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9zc3RhdGUuYmJjbGFzcwppbmRleCA2
+NDUzNzdmZGQ4Li4wYzMyMzg3ZjQzIDEwMDY0NAotLS0gYS9tZXRhL2NsYXNzZXMvc3N0YXRl
+LmJiY2xhc3MKKysrIGIvbWV0YS9jbGFzc2VzL3NzdGF0ZS5iYmNsYXNzCkBAIC03OTMsNyAr
+NzkzLDkgQEAgcHN0YWdpbmdfZmV0Y2hbdmFyZGVwc2V4Y2x1ZGVdICs9ICJTUkNQViIKIAog
+ZGVmIHNzdGF0ZV9zZXRzY2VuZShkKToKICAgICBzaGFyZWRfc3RhdGUgPSBzc3RhdGVfc3Rh
+dGVfZnJvbXZhcnMoZCkKKyAgICBvbWFzayA9IG9zLnVtYXNrKDApCiAgICAgYWNjZWxlcmF0
+ZSA9IHNzdGF0ZV9pbnN0YWxscGtnKHNoYXJlZF9zdGF0ZSwgZCkKKyAgICBvcy51bWFzayhv
+bWFzaykKICAgICBpZiBub3QgYWNjZWxlcmF0ZToKICAgICAgICAgYmIuZmF0YWwoIk5vIHN1
+aXRhYmxlIHN0YWdpbmcgcGFja2FnZSBmb3VuZCIpCiAK
+--------------uNIhd319SC6He1N9KQxgSybW--
 
 
