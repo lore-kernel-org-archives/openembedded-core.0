@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B049C433F5
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:37 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web09.9579.1642084656854434164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98DD9C433EF
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:39 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.9338.1642084659047412001
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:37 -0800
+ Thu, 13 Jan 2022 06:37:39 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=pa+vjD85;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170,
+ header.b=LU7ZqzlK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id i129so38384pfe.13
+Received: by mail-pj1-f45.google.com with SMTP id
+ l16-20020a17090a409000b001b2e9628c9cso11389340pjg.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:36 -0800 (PST)
+ Thu, 13 Jan 2022 06:37:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=BGiwPqTshkR5TFPXFhWfwTbXXgW1IJ0TdGrNYPbEWg8=;
-        b=pa+vjD85Mvj2XSAowcbst6/YdRX3AlDHDK86i9MQVqKBfDzidtxxh7BVH0mthaFLN5
-         vfLE4sbn80cyxaG1mpoNmbqHTnrAmtlxhc+eLcJH8VzYULrwJnsLjxEWaXunttfZ66Es
-         8S6yt8NFYPJbR0GxaosfAOa3UYIaFuVt9ku+XJkUil2QYhoxQe1jHwzJkhOri6sK13zT
-         hXBZb+MrF6swyOK5mGqY0OBtF3dh9yrkIklJ9FuR59XlK2vlW0NjOfBsmiYQkQh9B9EK
-         k5giE7/Dd9GGbYCEd2nScgYdPIyk+S6+ySsB9KmJ2D/L3w7i/JkGi51kZoYLzgm4/lxg
-         1IMg==
+        bh=DAqWE+22OqK9+BPG3DkvYZh3Q8pAxYX4dozCaGolQWc=;
+        b=LU7ZqzlKButJI0tclR+yqwWhx9/NLeRp/nLTsVd0Wu3Pu0Ew6jwlA+BQEA7whdz8r/
+         6t+TXMZwaZbrDkCEe7/Kv7/wGv4qfDpJ4PipZWpVBI6xVGhX30E4+1EdYML4c+Y4cK3W
+         TQzRIdvByNeeC7dqjtcdSEK7X4gjLwF2PaeGdJ6wZWSWv6mFhcFAF2MfoiQrjrvQ4pL7
+         rftkeTB5Hx5qIw3UI+L/8tQX4qgLZS3nL3bUYtyOoJYfi4kcZh8M3FlP0l8SCSgM1lOy
+         xcE2lwmMYCDl+XAupmL9fXLazKZBSj2Hxi7p2oL1UaM5Q4iZs3krXBAb3lhk5JVo8hzP
+         Q+Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BGiwPqTshkR5TFPXFhWfwTbXXgW1IJ0TdGrNYPbEWg8=;
-        b=blbFZtOf80q1lXv/dQunkThD3MOZuneJO4M14WkZCg3GM59MN2pZsZ8enMNQJ6yi+u
-         PSmDDDuWnO0i5mUlZIJLt9Y7ofvmfUBxR5U4spjr5hx3ivWD0lmLFZkbNfybaYvA1CqA
-         RppLj6TMICLVbGJbGh53LuY9AqGLZpsns8JDW6/Hd/+9UVjfuj5PR25ZHxL+xNiD5Zn4
-         DhQxa8VxQDBM7Xv3jN2cIHD/XdAYe8xW+qNJVIP6Hdol/7eaziYWhSmt8Lr52TW45G4e
-         XYZ4cHmvuW/lPW2OxH5Ro/z3xyQkFwNdw7+MC2c0eJ3skaTGLlvGFYPxO1NVli9U97Ju
-         CS3g==
-X-Gm-Message-State: AOAM531XbokgoaicaqSUho0nKDi/56NTkYFmvttQW5e9lF8TfcUwsYFm
-	RTcmzB628ipFxb/SH8D623ypE/FkzVUiBY88KcU=
+        bh=DAqWE+22OqK9+BPG3DkvYZh3Q8pAxYX4dozCaGolQWc=;
+        b=eBCy/Td0USSAJ0pXhysC72f5yJ15i7RlB2dD9IpmWIRa7qjlYmTNfikVrNQpH5tg1l
+         zNtHMZ+3DOslcN44Iafs8XjjnMZ0QzxFElqILYU9lkoJFFeh1OYDlkevcWofJs3Ja72g
+         goXHxx4ybUzZYjBZpVU5splkhgNcWaWTgx+76+n6YH1wF1z7OZ3slIibNmLWGLObkHeQ
+         4EEDIWIr3cPq8HM2IyB0a7Gd7u2Qd64i4+9TWv0Q53WZ2BUzpCF1bbJdixISV1K4cwF+
+         5qac2gCqR1YXYd8eAeD2e77hELo9enMvydagT+HbS0h3IHn5k43MFu8nDUGwuXBkRquo
+         MBJA==
+X-Gm-Message-State: AOAM532BGSzcuhOs58Wnp84xtvgmuXHG+Jt8WUNdU0DTKr8I+fRhhoqP
+	z63EBM9J8ryFMvPanHX3/NuQhOzciFmlsr1aFlk=
 X-Google-Smtp-Source: 
- ABdhPJyvnOavBHkvGiubV4/kzZYktKwDm1hMDVnsRRUxiEZiyFk/GPnSLQSk16jqycLWwwi5QCxy1Q==
-X-Received: by 2002:aa7:81cf:0:b0:4c0:6242:c14e with SMTP id
- c15-20020aa781cf000000b004c06242c14emr4427811pfn.83.1642084655676;
-        Thu, 13 Jan 2022 06:37:35 -0800 (PST)
+ ABdhPJzMMB/Vwg/SnVvfUhgCpk4sCvijqpApTw/yGOyYCO7nlXF7gQ3fJ3o2IC7dWLhctV0CZCpTzw==
+X-Received: by 2002:a17:902:a982:b0:149:60fc:9ddd with SMTP id
+ bh2-20020a170902a98200b0014960fc9dddmr4652247plb.110.1642084658006;
+        Thu, 13 Jan 2022 06:37:38 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- g11sm2541544pgn.26.2022.01.13.06.37.34
+ g11sm2541544pgn.26.2022.01.13.06.37.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 06:37:35 -0800 (PST)
+        Thu, 13 Jan 2022 06:37:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/11] valgrind: skip flakey ptest
- (gdbserver_tests/hginfo)
-Date: Thu, 13 Jan 2022 04:37:05 -1000
+Subject: [OE-core][dunfell 02/11] oeqa/selftest/cases/tinfoil.py: increase
+ timeout 60->120s test_wait_event
+Date: Thu, 13 Jan 2022 04:37:06 -1000
 Message-Id: 
- <ead8809ab3182cda04495915551cf3f9b4f5d1f6.1642083419.git.steve@sakoman.com>
+ <f8e726479d5f4d89f9a7cf8babfe25fd5c73f66e.1642083419.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1642083419.git.steve@sakoman.com>
 References: <cover.1642083419.git.steve@sakoman.com>
@@ -68,41 +69,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160512
+ https://lists.openembedded.org/g/openembedded-core/message/160513
 
-This ptest was already disabled in master branch with: valgrind: skip
-broken ptests for glibc 2.34
-
-https://git.openembedded.org/openembedded-core/commit/?id=c177c7f9ef6f90ca49074f003accb8e9a1a645aa
+The test is timing out on fedora autobuilder workers
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 | 1 +
- meta/recipes-devtools/valgrind/valgrind/remove-for-all     | 1 +
- 2 files changed, 2 insertions(+)
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-index 93bfd45a4e..afa6a94825 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-@@ -120,6 +120,7 @@ drd/tests/tc19_shadowmem
- drd/tests/tc21_pthonce
- drd/tests/tc22_exit_w_lock
- drd/tests/tc23_bogus_condwait
-+gdbserver_tests/hginfo
- helgrind/tests/annotate_rwlock
- helgrind/tests/annotate_smart_pointer
- helgrind/tests/bar_bad
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-all b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
-index d6a85c4735..9b8db093df 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-for-all
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
-@@ -1,2 +1,3 @@
- drd/tests/bar_bad
- drd/tests/bar_bad_xml
-+gdbserver_tests/hginfo
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index 0204537d49..4fcbe594c9 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -100,9 +100,9 @@ class TinfoilTests(OESelftestTestCase):
+             eventreceived = False
+             commandcomplete = False
+             start = time.time()
+-            # Wait for maximum 60s in total so we'd detect spurious heartbeat events for example
++            # Wait for maximum 120s in total so we'd detect spurious heartbeat events for example
+             while (not (eventreceived == True and commandcomplete == True) 
+-                    and (time.time() - start < 60)):
++                    and (time.time() - start < 120)):
+                 # if we received both events (on let's say a good day), we are done  
+                 event = tinfoil.wait_event(1)
+                 if event:
 -- 
 2.25.1
 
