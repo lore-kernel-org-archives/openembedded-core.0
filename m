@@ -1,76 +1,83 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7271CC433EF
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 03:18:57 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.4003.1642043936192722269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 723C0C433F5
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 03:44:43 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web09.4421.1642045483051606657
  for <openembedded-core@lists.openembedded.org>;
- Wed, 12 Jan 2022 19:18:57 -0800
+ Wed, 12 Jan 2022 19:44:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=olYy2pJJ;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1642043936;
-  x=1673579936;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ryQLGd9AVOP/TMvIY53+n9aDTRTLJSMzXmTOPvYE2mk=;
-  b=olYy2pJJCWKrEetFMQkOpMoPeR687NelT+xQjnyMWBjG+AoC8AxZB45M
-   X8cKSIOiaSzgu6gJ3i2pU8Vl2+Zo6QX2oBEE8i4XEdM2L9Vzbo2r2MC5r
-   /4xC5TnKItzTw/en/b9Agh0Ki+P0+A4tocD2bJK5DKnHZvDD6PbE8hEHI
-   or9S8t+AyIN1F6apd+JRoR+k/Udti3AJejRFRjnBfquOcGi4Zokw7zoJS
-   rHeS0wW6BXFN3Ds4iGAYctYetE1+jQIEb1sVC7nFUzRJMaKSWsHpc9uft
-   oij1vZSCGJ8rSqfVOBGlk21RKgqOQQDgA1ucsYI5HC/149k6fYpcb+HVg
-   g==;
-From: Peter Kjellerstedt <pkj@axis.com>
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 192.103.53.11,
+ mailfrom: changqing.li@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 20D3ifLH031544
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 12 Jan 2022 19:44:41 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 12 Jan 2022 19:44:40 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 12 Jan 2022 19:44:40 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Wed, 12 Jan 2022 19:44:39 -0800
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] systemd: Avoid a Python deprecation warning
-Date: Thu, 13 Jan 2022 04:18:50 +0100
-Message-ID: <20220113031850.3350-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
+Subject: [PATCH] nghttp2: fix for multilib support
+Date: Thu, 13 Jan 2022 11:44:39 +0800
+Message-ID: <20220113034439.19018-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 03:18:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 03:44:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160505
+ https://lists.openembedded.org/g/openembedded-core/message/160506
 
-This avoids the following warning:
+From: Changqing Li <changqing.li@windriver.com>
 
-  WARNING: .../meta/recipes-core/systemd/systemd_250.1.bb: Var
-  <do_install>:1: DeprecationWarning: invalid escape sequence \$
+correct the package name
 
-seen when doing `devtool finish --force-patch-refresh systemd meta`.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
+ meta/recipes-support/nghttp2/nghttp2_1.46.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have no idea why the warning is only seen when doing `devtool 
-finish`...
-
- meta/recipes-core/systemd/systemd_250.1.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_250.1.bb b/meta/recipes-core/systemd/systemd_250.1.bb
-index b05905b764..4dd668833a 100644
---- a/meta/recipes-core/systemd/systemd_250.1.bb
-+++ b/meta/recipes-core/systemd/systemd_250.1.bb
-@@ -297,8 +297,9 @@ do_install() {
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
+index 972ff2d60a..a5f0be856f 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.46.0.bb
+@@ -19,7 +19,7 @@ PACKAGECONFIG[manpages] = ""
+ # first place
+ EXTRA_OECMAKE = "-DENABLE_EXAMPLES=OFF -DENABLE_APP=OFF -DENABLE_HPACK_TOOLS=OFF"
  
- 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
- 	# for existence else it fails
--	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
--		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
-+	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ] &&
-+	   ! ${@bb.utils.contains('PACKAGECONFIG', 'networkd', 'true', 'false', d)}; then
-+		echo 'd /run/systemd/netif/links 0755 root root -' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
- 	fi
- 	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
- 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+-PACKAGES =+ "lib${PN} ${PN}-client ${PN}-proxy ${PN}-server"
++PACKAGES =+ "lib${BPN} ${PN}-client ${PN}-proxy ${PN}-server"
+ 
+ RDEPENDS:${PN} = "${PN}-client (>= ${PV}) ${PN}-proxy (>= ${PV}) ${PN}-server (>= ${PV})"
+ RDEPENDS:${PN}:class-native = ""
+@@ -27,7 +27,7 @@ RDEPENDS:${PN}-proxy = "openssl python3-core python3-io python3-shell"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+ FILES:${PN} = ""
+-FILES:lib${PN} = "${libdir}/*${SOLIBS}"
++FILES:${MLPREFIX}lib${BPN} = "${libdir}/*${SOLIBS}"
+ FILES:${PN}-client = "${bindir}/h2load ${bindir}/nghttp"
+ FILES:${PN}-proxy = "${bindir}/nghttpx ${datadir}/${BPN}/fetch-ocsp-response"
+ FILES:${PN}-server = "${bindir}/nghttpd"
+-- 
+2.17.1
+
 
