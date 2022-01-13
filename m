@@ -2,62 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EAA7C433EF
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:51 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web08.9623.1642084671159191440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 889E5C433EF
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:54 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web08.9624.1642084673932389002
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:51 -0800
+ Thu, 13 Jan 2022 06:37:54 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=l/zxXpYE;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=pgVfMoHN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id t32so37989pgm.7
+Received: by mail-pf1-f181.google.com with SMTP id a5so39659pfo.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:51 -0800 (PST)
+ Thu, 13 Jan 2022 06:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=V8+GkmlnccS/U8LpL5o0s9jLPTKIG63qo4DutjImI6c=;
-        b=l/zxXpYEJe4sB6sQh9rf/7t9GaChmQPN1Lwb8nZGRXvqC6gtNcOliQcERB1tbQTjys
-         D5h2hnYZuVn9gCFdesXuyxxxvScjP2gNstRKmtxfMbYryjAr29fbXhpK9/r+P13SIHa0
-         LKxR0NQP1BjkywSZ5/H7ciDH6OuF4I+d1AeeMRUWjKickBMB02W6PYT9kKi0TsZQCzUJ
-         6KPntWkfdclGtd9uhA4QQZhBLlmnhR46Ei+UHmZQi3Vrpi7DU7bPX1ORPfnfW53f5ND1
-         GBsx94GcaqAu2UbvyTiOyrPcDzpmFCWGlsbbbBRoTnJ6Oc1o3NLBwesAjjh9kr88aRzT
-         1VnQ==
+        bh=ghFLEjoxXIaM6xsUmpag/f+fkPOPH4+x5c4gHQLCq3s=;
+        b=pgVfMoHNXnC5rs8JwdovqYZfpfje7Pw3iXBLgRGlSxQsiE5P05/6wZ4rSnnemkAYGQ
+         ZMty0hVCnL3SMPkJ0fs/CBtdTWS0lpwMocGwVsV70PvQWVX6rhzDMm+MoET9XtKwvBNd
+         uHzT5MLi9cc7veKNlpSO6P2bSSWsImJjkcUok+oN4mu1wcnji8p6k2cdffHyjmK7XTtn
+         e1aaa0Qesr7oIx/7z95VDmmyLnp7BSWl04ooN1CZktdk7L1yxzBH77B94K4DZEjrktJH
+         oSfCfxBNrOEOmfOL46k8r8EE0pjzYYbv7fO18hWp54wMIhJ8pe4wsqKpatEW66MVwf4/
+         /x5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V8+GkmlnccS/U8LpL5o0s9jLPTKIG63qo4DutjImI6c=;
-        b=iaiq+0tQnVUhYN7zCaUKjC1Py2ITSgiO4esCLe1UVsrHxRTqaP5ayPJ2eUXxE9YAry
-         fAIle1I0D3tcN8FnsEzSt6DJw521g4dFo1dIVA988ulJCt9NxBZ8OPCIXRVLwmWZz1kh
-         PnmwMk30AImS1pV7ZzVX5D5IYkH6HmGjMZDtuRImtb95cFU7xKTYa5WUgDwtwwNqouFg
-         IvcLgbCQCVkkI245gEOELON4On3suMGmmHSHRWxVPPeGa8Ie6z8xl7tWxRzhB3TmH8Di
-         gRsW226Wzwb167HlqyXfWu1Ovt67aLKWJBnOMYIUwdCKaUGZTtAqqSk/2JQXEKUMxy0k
-         IqvQ==
-X-Gm-Message-State: AOAM530nniR5O1pVzO8cSTnQhAMP5gDEqioKeV/0xEXYMQ/yxe1+YnCI
-	/KCO9N++PefcyNphAZQCiJ3SSCrBdycKeL3vsvI=
+        bh=ghFLEjoxXIaM6xsUmpag/f+fkPOPH4+x5c4gHQLCq3s=;
+        b=qGWvdWzGiAqk0iJvUbn/iTU6xqyShCGd43dLxZXRJUSGH41LgncK7UV+3gAWTHgled
+         6Dj4pCjjBvQju1jnyqkDJFjrFEPZDj9fiJzaxorvbHa9BupCAG+zG0VDZzLwhpkuFwYL
+         w/qyOoKTg4uibnqYV0nI2gtbSLPUNCGFoCo3UFrDgZfsQ0tKmMCvEUlXI3FPQEC8iRyB
+         U3EPWvRjInWxxAJEYaQgUM+0hWlYR2lU9BJOjCGEATP6TZSSyCJlVbGdmYjJMq4Czdhm
+         FQEOt2YNhphNtuDLD/UT3ukZ3iCs5+R5w89IUG8VTPvKFihJ4s85U3ZQSt0cOCsZqh0Y
+         Mhzg==
+X-Gm-Message-State: AOAM533o1oN3+klGzFiWtDBhazWVJDgA8dkpFtRgSG0GwZZaQdiVTug3
+	e4BsykOD0//EwzGgTvI9Q6JXiYg1BHHBa8hAIAM=
 X-Google-Smtp-Source: 
- ABdhPJz3sR4KAkBRuwWVcTwTwuLlBPNIZP8FwcDLyB+ZxFeaKqjdnkzxRVMUKTxmp+PzKrEqCOvj3w==
-X-Received: by 2002:a63:7d4e:: with SMTP id m14mr4190332pgn.514.1642084670079;
-        Thu, 13 Jan 2022 06:37:50 -0800 (PST)
+ ABdhPJyZgJctG/b/3CRVu6F2Q43oup/BN2zp6Ku8Mq74WwqjmALgnntXFtihLmWQkJzv9hUn3SsQGw==
+X-Received: by 2002:a63:3d8a:: with SMTP id
+ k132mr4150045pga.577.1642084672736;
+        Thu, 13 Jan 2022 06:37:52 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- g11sm2541544pgn.26.2022.01.13.06.37.48
+ g11sm2541544pgn.26.2022.01.13.06.37.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 06:37:49 -0800 (PST)
+        Thu, 13 Jan 2022 06:37:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/11] wic: use shutil.which
-Date: Thu, 13 Jan 2022 04:37:11 -1000
+Subject: [OE-core][dunfell 08/11] expat: Update HOMEPAGE to current url
+Date: Thu, 13 Jan 2022 04:37:12 -1000
 Message-Id: 
- <488815681466d5e4c7640df5281fa6e1f9b4c75e.1642083419.git.steve@sakoman.com>
+ <022750aaa128189f23063b741bf8396a527713d7.1642083419.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1642083419.git.steve@sakoman.com>
 References: <cover.1642083419.git.steve@sakoman.com>
@@ -66,114 +67,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160518
+ https://lists.openembedded.org/g/openembedded-core/message/160519
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Use shutil.which to find the executable instead to silence the below warning:
- $ cat tmp/work/intel_x86_64-poky-linux/core-image-base/1.0-r5/temp/log.do_image_wic
- [snip]
- DEBUG: Executing shell function do_image_wic
- /path/layers/oe-core/scripts/wic:27: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
-  from distutils import spawn
- INFO: Creating image(s)...
- [snip]
+Upstream pointed out we were using an old url for HOMEPAGE. Update it to the
+current url.
 
-[RP: Added conversion for missed function reference]
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3966cbf5c8a2dbc3a4f0f3eefdbeeb83f522bf87)
+(cherry picked from commit f3a7e2ba247efe72154c263d1d680aaf3da5b609)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/engine.py | 6 +++---
- scripts/lib/wic/misc.py   | 4 ++--
- scripts/wic               | 4 ++--
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-core/expat/expat_2.2.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 9ff4394757..7dbde85696 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -19,10 +19,10 @@ import os
- import tempfile
- import json
- import subprocess
-+import shutil
- import re
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index a2df7ac492..4b63ec89db 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "A stream-oriented XML parser library"
+ DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
+-HOMEPAGE = "http://expat.sourceforge.net/"
++HOMEPAGE = "https://github.com/libexpat/libexpat"
+ SECTION = "libs"
+ LICENSE = "MIT"
  
- from collections import namedtuple, OrderedDict
--from distutils.spawn import find_executable
- 
- from wic import WicError
- from wic.filemap import sparse_copy
-@@ -245,7 +245,7 @@ class Disk:
-             for path in pathlist.split(':'):
-                 self.paths = "%s%s:%s" % (native_sysroot, path, self.paths)
- 
--        self.parted = find_executable("parted", self.paths)
-+        self.parted = shutil.which("parted", path=self.paths)
-         if not self.parted:
-             raise WicError("Can't find executable parted")
- 
-@@ -283,7 +283,7 @@ class Disk:
-                     "resize2fs", "mkswap", "mkdosfs", "debugfs"):
-             aname = "_%s" % name
-             if aname not in self.__dict__:
--                setattr(self, aname, find_executable(name, self.paths))
-+                setattr(self, aname, shutil.which(name, path=self.paths))
-                 if aname not in self.__dict__ or self.__dict__[aname] is None:
-                     raise WicError("Can't find executable '{}'".format(name))
-             return self.__dict__[aname]
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 57c042c503..3e11822996 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -16,9 +16,9 @@ import logging
- import os
- import re
- import subprocess
-+import shutil
- 
- from collections import defaultdict
--from distutils import spawn
- 
- from wic import WicError
- 
-@@ -122,7 +122,7 @@ def find_executable(cmd, paths):
-     if provided and "%s-native" % recipe in provided:
-         return True
- 
--    return spawn.find_executable(cmd, paths)
-+    return shutil.which(cmd, path=paths)
- 
- def exec_native_cmd(cmd_and_args, native_sysroot, pseudo=""):
-     """
-diff --git a/scripts/wic b/scripts/wic
-index a741aed364..6547abe0e9 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -22,9 +22,9 @@ import sys
- import argparse
- import logging
- import subprocess
-+import shutil
- 
- from collections import namedtuple
--from distutils import spawn
- 
- # External modules
- scripts_path = os.path.dirname(os.path.realpath(__file__))
-@@ -47,7 +47,7 @@ if os.environ.get('SDKTARGETSYSROOT'):
-             break
-         sdkroot = os.path.dirname(sdkroot)
- 
--bitbake_exe = spawn.find_executable('bitbake')
-+bitbake_exe = shutil.which('bitbake')
- if bitbake_exe:
-     bitbake_path = scriptpath.add_bitbake_lib_path()
-     import bb
 -- 
 2.25.1
 
