@@ -2,12 +2,12 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BE3C433F5
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 23:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4C9C43217
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 23:36:21 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.309.1642116977438612583
+ by mx.groups.io with SMTP id smtpd.web09.292.1642116981291723154
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 15:36:18 -0800
+ Thu, 13 Jan 2022 15:36:21 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
@@ -15,124 +15,209 @@ Authentication-Results: mx.groups.io;
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: sakib.sajal@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20DNaFfR003716
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20DNaFRa003719
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 15:36:15 -0800
+ Thu, 13 Jan 2022 15:36:21 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20DNa6vo003925
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20DNa6vp003925
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
  Thu, 13 Jan 2022 15:36:15 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 13 Jan 2022 15:36:10 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 13 Jan 2022 15:36:10 -0800
+ 15.1.2242.12; Thu, 13 Jan 2022 15:36:11 -0800
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 13 Jan 2022 15:36:10 -0800
+ 15.1.2242.12 via Frontend Transport; Thu, 13 Jan 2022 15:36:11 -0800
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 7/8] qemu: CVE-2021-3930
-Date: Thu, 13 Jan 2022 18:35:50 -0500
-Message-ID: <20220113233551.36855-7-sakib.sajal@windriver.com>
+Subject: [hardknott][PATCH 8/8] qemu: CVE-2021-20196
+Date: Thu, 13 Jan 2022 18:35:51 -0500
+Message-ID: <20220113233551.36855-8-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220113233551.36855-1-sakib.sajal@windriver.com>
 References: <20220113233551.36855-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 20DNaFRa003719
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 23:36:18 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 23:36:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160543
+ https://lists.openembedded.org/g/openembedded-core/message/160545
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3930.patch             | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2021-20196_1.patch          | 54 +++++++++++++++
+ .../qemu/qemu/CVE-2021-20196_2.patch          | 67 +++++++++++++++++++
+ 3 files changed, 123 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patc=
+h
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patc=
+h
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7648ce9a38..4a5379893c 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 4a5379893c..3401fd7194 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -79,6 +79,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3594.patch \
+@@ -80,6 +80,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
             file://CVE-2021-3713.patch \
             file://CVE-2021-3748.patch \
-+           file://CVE-2021-3930.patch \
+            file://CVE-2021-3930.patch \
++           file://CVE-2021-20196_1.patch \
++           file://CVE-2021-20196_2.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch b/met=
+a/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch
 new file mode 100644
-index 0000000000..368bd12704
+index 0000000000..bc513277ac
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
-@@ -0,0 +1,53 @@
-+From cdca50eff9c38367be54f92839734ab490c8b0f7 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Thu, 4 Nov 2021 17:31:38 +0100
-+Subject: [PATCH 10/12] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
-+ SELECT commands
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch
+@@ -0,0 +1,54 @@
++From e907ff3d4cb7fd20d402f45355059e67d0dc93e7 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Wed, 24 Nov 2021 17:15:34 +0100
++Subject: [PATCH 11/12] hw/block/fdc: Extract blk_create_empty_drive()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+This avoids an off-by-one read of 'mode_sense_valid' buffer in
-+hw/scsi/scsi-disk.c:mode_sense_page().
++We are going to re-use this code in the next commit,
++so extract it as a new blk_create_empty_drive() function.
 +
-+Fixes: CVE-2021-3930
-+Cc: qemu-stable@nongnu.org
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
-+Fixes: #546
-+Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Inspired-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Message-id: 20211124161536.631563-2-philmd@redhat.com
++Signed-off-by: John Snow <jsnow@redhat.com>
 +
 +Upstream-Status: Backport
-+CVE: CVE-2021-3930
++CVE: CVE-2021-20196
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/scsi/scsi-disk.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ hw/block/fdc.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-+index 90841ad79..5b44ed7d8 100644
-+--- a/hw/scsi/scsi-disk.c
-++++ b/hw/scsi/scsi-disk.c
-+@@ -1100,6 +1100,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-+     uint8_t *p = *p_outbuf + 2;
-+     int length;
-+ 
-++    assert(page < ARRAY_SIZE(mode_sense_valid));
-+     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
-+         return -1;
-+     }
-+@@ -1441,6 +1442,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
-+         return -1;
-+     }
-+ 
-++    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
-++    if (page == MODE_PAGE_ALLS) {
-++        return -1;
-++    }
++diff --git a/hw/block/fdc.c b/hw/block/fdc.c
++index 4c2c35e22..854b4f172 100644
++--- a/hw/block/fdc.c
+++++ b/hw/block/fdc.c
++@@ -61,6 +61,12 @@
++     } while (0)
++=20
++=20
+++/* Anonymous BlockBackend for empty drive */
+++static BlockBackend *blk_create_empty_drive(void)
+++{
+++    return blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
+++}
 ++
-+     p = mode_current;
-+     memset(mode_current, 0, inlen + 2);
-+     len = mode_sense_page(s, page, &p, 0);
-+-- 
++ /********************************************************/
++ /* qdev floppy bus                                      */
++=20
++@@ -543,8 +549,7 @@ static void floppy_drive_realize(DeviceState *qdev, =
+Error **errp)
++     }
++=20
++     if (!dev->conf.blk) {
++-        /* Anonymous BlockBackend for an empty drive */
++-        dev->conf.blk =3D blk_new(qemu_get_aio_context(), 0, BLK_PERM_A=
+LL);
+++        dev->conf.blk =3D blk_create_empty_drive();
++         ret =3D blk_attach_dev(dev->conf.blk, qdev);
++         assert(ret =3D=3D 0);
++=20
++--=20
 +2.31.1
 +
--- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch b/met=
+a/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch
+new file mode 100644
+index 0000000000..1e39ed81b1
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch
+@@ -0,0 +1,67 @@
++From 1d48445a951fd5504190a38abeda70ea9372cf77 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Wed, 24 Nov 2021 17:15:35 +0100
++Subject: [PATCH 12/12] hw/block/fdc: Kludge missing floppy drive to fix
++ CVE-2021-20196
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Guest might select another drive on the bus by setting the
++DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
++The current controller model doesn't expect a BlockBackend
++to be NULL. A simple way to fix CVE-2021-20196 is to create
++an empty BlockBackend when it is missing. All further
++accesses will be safely handled, and the controller state
++machines keep behaving correctly.
++
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2021-20196
++Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
++Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Message-id: 20211124161536.631563-3-philmd@redhat.com
++BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
++Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Signed-off-by: John Snow <jsnow@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2021-20196
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/block/fdc.c | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/hw/block/fdc.c b/hw/block/fdc.c
++index 854b4f172..a736c4d14 100644
++--- a/hw/block/fdc.c
+++++ b/hw/block/fdc.c
++@@ -1365,7 +1365,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
++=20
++ static FDrive *get_cur_drv(FDCtrl *fdctrl)
++ {
++-    return get_drv(fdctrl, fdctrl->cur_drv);
+++    FDrive *cur_drv =3D get_drv(fdctrl, fdctrl->cur_drv);
+++
+++    if (!cur_drv->blk) {
+++        /*
+++         * Kludge: empty drive line selected. Create an anonymous
+++         * BlockBackend to avoid NULL deref with various BlockBackend
+++         * API calls within this model (CVE-2021-20196).
+++         * Due to the controller QOM model limitations, we don't
+++         * attach the created to the controller device.
+++         */
+++        cur_drv->blk =3D blk_create_empty_drive();
+++    }
+++    return cur_drv;
++ }
++=20
++ /* Status A register : 0x00 (read-only) */
++--=20
++2.31.1
++
+--=20
 2.33.0
 
 
