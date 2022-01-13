@@ -2,148 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D6BC433F5
-	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:32 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web08.9618.1642084652135250693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B049C433F5
+	for <webhook@archiver.kernel.org>; Thu, 13 Jan 2022 14:37:37 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web09.9579.1642084656854434164
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:32 -0800
+ Thu, 13 Jan 2022 06:37:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=43AlQq/X;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=pa+vjD85;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id p37so38696pfh.4
+Received: by mail-pf1-f170.google.com with SMTP id i129so38384pfe.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 06:37:32 -0800 (PST)
+ Thu, 13 Jan 2022 06:37:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=0UqUq9DKIiYLzknB9hCE/m4F+oiWLpxkAj1fg1YJrHU=;
-        b=43AlQq/XjbkPvv6h/mPScIQuDtxJKvbTo9sZm/yTysVlYFoldRErpQ2XSg3z/LLalo
-         VwdLQI9IIZX+6bwG8VvZLs+NSWyj6cmb9uJOVJKfHdziMCbZ0ICSwJEGDtO/Z9JJ/f7w
-         eI4H6br8J/QWwO6/kMvr8ku/Jh7fuk5ED8MJ8exqpAKOVXGq2/LE/zVkT6Ul758T0Kgl
-         W5PVGjeG5V4pDIWvczDP56VRSCaPoisjx5xGoxdz/lZMjAKHuzJXh+jNm/s40Pamw+l4
-         4Y+ot79md0IQzovzDVd3rUQ71JPJykEKr9ez/naOfrn5l1veq3cm/CWWnTotQzuL/+mf
-         P5Nw==
+        bh=BGiwPqTshkR5TFPXFhWfwTbXXgW1IJ0TdGrNYPbEWg8=;
+        b=pa+vjD85Mvj2XSAowcbst6/YdRX3AlDHDK86i9MQVqKBfDzidtxxh7BVH0mthaFLN5
+         vfLE4sbn80cyxaG1mpoNmbqHTnrAmtlxhc+eLcJH8VzYULrwJnsLjxEWaXunttfZ66Es
+         8S6yt8NFYPJbR0GxaosfAOa3UYIaFuVt9ku+XJkUil2QYhoxQe1jHwzJkhOri6sK13zT
+         hXBZb+MrF6swyOK5mGqY0OBtF3dh9yrkIklJ9FuR59XlK2vlW0NjOfBsmiYQkQh9B9EK
+         k5giE7/Dd9GGbYCEd2nScgYdPIyk+S6+ySsB9KmJ2D/L3w7i/JkGi51kZoYLzgm4/lxg
+         1IMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0UqUq9DKIiYLzknB9hCE/m4F+oiWLpxkAj1fg1YJrHU=;
-        b=harHFSmEBbDiN5OzrdWUKD4dhKQS0JFoMlr6FHFhhwTUEnUJKf/7sP1YoK46NYxFzI
-         572C5Kyk9N3jE4B9jW1/NTsXyOcOD81X+icdLhoS1Wf48QEV1I2sEPt90Z7JX0cgl8iE
-         D+9YlVv1zLJRsFAY2snxJvcG6qCZNcpAN0ATE/3nSv/gzkx3M7i6NGe9DAPSFOn7j2UG
-         RmlpoBlfmY97fvsHjzLpB1c3KP4hebw0xX2+VMx5uFy5aCa44xtKd9aRiGJzhTa+Lhyl
-         lj2VMEeWRUHh8VRPxquB8ac1dhtjLJC5guFcmQW4YIJ1mUHr8+YgoQj4yHkVTdUhUV5l
-         V9tQ==
-X-Gm-Message-State: AOAM530DGkfF1renaO700zl0FW+uxzyUyNvwR+GjJWR90X2GgmBh9wmI
-	nRuVKkmtNPB2CJ5+u/8eGzuReqxZUtvWPicbCwY=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BGiwPqTshkR5TFPXFhWfwTbXXgW1IJ0TdGrNYPbEWg8=;
+        b=blbFZtOf80q1lXv/dQunkThD3MOZuneJO4M14WkZCg3GM59MN2pZsZ8enMNQJ6yi+u
+         PSmDDDuWnO0i5mUlZIJLt9Y7ofvmfUBxR5U4spjr5hx3ivWD0lmLFZkbNfybaYvA1CqA
+         RppLj6TMICLVbGJbGh53LuY9AqGLZpsns8JDW6/Hd/+9UVjfuj5PR25ZHxL+xNiD5Zn4
+         DhQxa8VxQDBM7Xv3jN2cIHD/XdAYe8xW+qNJVIP6Hdol/7eaziYWhSmt8Lr52TW45G4e
+         XYZ4cHmvuW/lPW2OxH5Ro/z3xyQkFwNdw7+MC2c0eJ3skaTGLlvGFYPxO1NVli9U97Ju
+         CS3g==
+X-Gm-Message-State: AOAM531XbokgoaicaqSUho0nKDi/56NTkYFmvttQW5e9lF8TfcUwsYFm
+	RTcmzB628ipFxb/SH8D623ypE/FkzVUiBY88KcU=
 X-Google-Smtp-Source: 
- ABdhPJypIRh/REtdsH6cAFEeuDOVuEsXO97L65vkMuHxgIFYG638EA4tEoOUHayralJ0an5yuaDVqQ==
-X-Received: by 2002:a63:6a82:: with SMTP id
- f124mr4104001pgc.515.1642084651054;
-        Thu, 13 Jan 2022 06:37:31 -0800 (PST)
+ ABdhPJyvnOavBHkvGiubV4/kzZYktKwDm1hMDVnsRRUxiEZiyFk/GPnSLQSk16jqycLWwwi5QCxy1Q==
+X-Received: by 2002:aa7:81cf:0:b0:4c0:6242:c14e with SMTP id
+ c15-20020aa781cf000000b004c06242c14emr4427811pfn.83.1642084655676;
+        Thu, 13 Jan 2022 06:37:35 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- g11sm2541544pgn.26.2022.01.13.06.37.29
+ g11sm2541544pgn.26.2022.01.13.06.37.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 06:37:30 -0800 (PST)
+        Thu, 13 Jan 2022 06:37:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/11] Patch review
-Date: Thu, 13 Jan 2022 04:37:04 -1000
-Message-Id: <cover.1642083419.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/11] valgrind: skip flakey ptest
+ (gdbserver_tests/hginfo)
+Date: Thu, 13 Jan 2022 04:37:05 -1000
+Message-Id: 
+ <ead8809ab3182cda04495915551cf3f9b4f5d1f6.1642083419.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1642083419.git.steve@sakoman.com>
+References: <cover.1642083419.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:32 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 13 Jan 2022 14:37:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160511
+ https://lists.openembedded.org/g/openembedded-core/message/160512
 
-Please review this set of patches for dunfell and have comments back by end
-of day Monday.
+This ptest was already disabled in master branch with: valgrind: skip
+broken ptests for glibc 2.34
 
-Passed a-full on autobuilder:
+https://git.openembedded.org/openembedded-core/commit/?id=c177c7f9ef6f90ca49074f003accb8e9a1a645aa
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3112
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 | 1 +
+ meta/recipes-devtools/valgrind/valgrind/remove-for-all     | 1 +
+ 2 files changed, 2 insertions(+)
 
-The following changes since commit da3bd5e0934b6462ae53225a58305235849b32d5:
-
-  asciidoc: properly detect and compare Python versions >= 3.10 (2022-01-09 06:49:29 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Akash Hadke (1):
-  glibc: Add fix for data races in pthread_create and TLS access
-
-Alexander Kanavin (1):
-  parselogs: add a couple systemd false positives
-
-Anuj Mittal (1):
-  xserver-xorg: update CVE_PRODUCT
-
-Konrad Weihmann (1):
-  cve-check: add lockfile to task
-
-Mingli Yu (1):
-  wic: use shutil.which
-
-Ricardo Ribalda Delgado (1):
-  wic: misc: Do not find for executables in ASSUME_PROVIDED
-
-Richard Purdie (1):
-  expat: Update HOMEPAGE to current url
-
-Ross Burton (2):
-  cve-update-db-native: use fetch task
-  xserver-xorg: whitelist two CVEs
-
-Steve Sakoman (2):
-  valgrind: skip flakey ptest (gdbserver_tests/hginfo)
-  oeqa/selftest/cases/tinfoil.py: increase timeout 60->120s
-    test_wait_event
-
- meta/classes/cve-check.bbclass                |   3 +-
- meta/lib/oeqa/runtime/cases/parselogs.py      |   2 +
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   4 +-
- meta/recipes-core/expat/expat_2.2.9.bb        |   2 +-
- ...ate-slotinfo-to-avoid-use-after-free.patch |  66 +++++
- ...hread_create-and-TLS-access-BZ-19329.patch | 191 ++++++++++++
- ...d-atomics-for-racy-accesses-BZ-19329.patch | 206 +++++++++++++
- .../0033-elf-Add-test-case-for-BZ-19329.patch | 144 +++++++++
- ...elf-Fix-DTV-gap-reuse-logic-BZ-27135.patch | 180 ++++++++++++
- ...-lazy-relocation-of-tlsdesc-BZ-27137.patch |  56 ++++
- ...-lazy-relocation-of-tlsdesc-BZ-27137.patch | 124 ++++++++
- ...ock-between-pthread_create-and-ctors.patch | 276 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   8 +
- .../recipes-core/meta/cve-update-db-native.bb |   9 +-
- .../valgrind/valgrind/remove-for-aarch64      |   1 +
- .../valgrind/valgrind/remove-for-all          |   1 +
- .../xorg-xserver/xserver-xorg.inc             |  10 +-
- scripts/lib/wic/engine.py                     |   6 +-
- scripts/lib/wic/misc.py                       |  16 +-
- scripts/wic                                   |   4 +-
- 20 files changed, 1292 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/0030-elf-Refactor_dl_update-slotinfo-to-avoid-use-after-free.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0031-elf-Fix-data-races-in-pthread_create-and-TLS-access-BZ-19329.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0032-elf-Use-relaxed-atomics-for-racy-accesses-BZ-19329.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0033-elf-Add-test-case-for-BZ-19329.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0034-elf-Fix-DTV-gap-reuse-logic-BZ-27135.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0035-x86_64-Avoid-lazy-relocation-of-tlsdesc-BZ-27137.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0036-i386-Avoid-lazy-relocation-of-tlsdesc-BZ-27137.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0037-Avoid-deadlock-between-pthread_create-and-ctors.patch
-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+index 93bfd45a4e..afa6a94825 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+@@ -120,6 +120,7 @@ drd/tests/tc19_shadowmem
+ drd/tests/tc21_pthonce
+ drd/tests/tc22_exit_w_lock
+ drd/tests/tc23_bogus_condwait
++gdbserver_tests/hginfo
+ helgrind/tests/annotate_rwlock
+ helgrind/tests/annotate_smart_pointer
+ helgrind/tests/bar_bad
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-all b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
+index d6a85c4735..9b8db093df 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-for-all
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-all
+@@ -1,2 +1,3 @@
+ drd/tests/bar_bad
+ drd/tests/bar_bad_xml
++gdbserver_tests/hginfo
 -- 
 2.25.1
 
