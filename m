@@ -2,12 +2,12 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A81DC433F5
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 00:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76EBBC4332F
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 00:06:47 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.664.1642118805619993665
+ by mx.groups.io with SMTP id smtpd.web09.637.1642118806676433435
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 16:06:45 -0800
+ Thu, 13 Jan 2022 16:06:46 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
@@ -15,194 +15,213 @@ Authentication-Results: mx.groups.io;
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: sakib.sajal@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20E06j2s005742
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20E06kFE005745
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 16:06:45 -0800
+ Thu, 13 Jan 2022 16:06:46 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20E06iSQ006917
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20E06kUd006920
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 16:06:45 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ Thu, 13 Jan 2022 16:06:46 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 13 Jan 2022 16:06:44 -0800
+ 15.1.2242.12; Thu, 13 Jan 2022 16:06:45 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 16:06:45 -0800
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 13 Jan 2022 16:06:44 -0800
+ 15.1.2242.12 via Frontend Transport; Thu, 13 Jan 2022 16:06:45 -0800
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 6/8] qemu: CVE-2021-3748
-Date: Thu, 13 Jan 2022 19:06:39 -0500
-Message-ID: <20220114000641.33969-6-sakib.sajal@windriver.com>
+Subject: [hardknott][PATCH 8/8] qemu: CVE-2021-20196
+Date: Thu, 13 Jan 2022 19:06:41 -0500
+Message-ID: <20220114000641.33969-8-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220114000641.33969-1-sakib.sajal@windriver.com>
 References: <20220114000641.33969-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 20E06kFE005745
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 00:06:46 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 00:06:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160549
+ https://lists.openembedded.org/g/openembedded-core/message/160550
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-3748.patch             | 127 ++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2021-20196_1.patch          | 54 +++++++++++++++
+ .../qemu/qemu/CVE-2021-20196_2.patch          | 67 +++++++++++++++++++
+ 3 files changed, 123 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patc=
+h
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patc=
+h
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 970aa96608..7648ce9a38 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 4a5379893c..3401fd7194 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -78,6 +78,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3595_2.patch \
-            file://CVE-2021-3594.patch \
+@@ -80,6 +80,8 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
             file://CVE-2021-3713.patch \
-+           file://CVE-2021-3748.patch \
+            file://CVE-2021-3748.patch \
+            file://CVE-2021-3930.patch \
++           file://CVE-2021-20196_1.patch \
++           file://CVE-2021-20196_2.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch b/met=
+a/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch
 new file mode 100644
-index 0000000000..a8f57c30b6
+index 0000000000..bc513277ac
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
-@@ -0,0 +1,127 @@
-+From bacc200f623647632258f7efc0f098ac30dd4225 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Thu, 2 Sep 2021 13:44:12 +0800
-+Subject: [PATCH 09/12] virtio-net: fix use after unmap/free for sg
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch
+@@ -0,0 +1,54 @@
++From e907ff3d4cb7fd20d402f45355059e67d0dc93e7 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Wed, 24 Nov 2021 17:15:34 +0100
++Subject: [PATCH 11/12] hw/block/fdc: Extract blk_create_empty_drive()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+When mergeable buffer is enabled, we try to set the num_buffers after
-+the virtqueue elem has been unmapped. This will lead several issues,
-+E.g a use after free when the descriptor has an address which belongs
-+to the non direct access region. In this case we use bounce buffer
-+that is allocated during address_space_map() and freed during
-+address_space_unmap().
++We are going to re-use this code in the next commit,
++so extract it as a new blk_create_empty_drive() function.
 +
-+Fixing this by storing the elems temporarily in an array and delay the
-+unmap after we set the the num_buffers.
-+
-+This addresses CVE-2021-3748.
-+
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Fixes: fbe78f4f55c6 ("virtio-net support")
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
++Inspired-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Message-id: 20211124161536.631563-2-philmd@redhat.com
++Signed-off-by: John Snow <jsnow@redhat.com>
 +
 +Upstream-Status: Backport
-+CVE: CVE-2021-3748
++CVE: CVE-2021-20196
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
-+ 1 file changed, 32 insertions(+), 7 deletions(-)
++ hw/block/fdc.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index 9179013ac..df1d30e2c 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -1665,10 +1665,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+     VirtIONet *n = qemu_get_nic_opaque(nc);
-+     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-++    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
-++    size_t lens[VIRTQUEUE_MAX_SIZE];
-+     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
-+     struct virtio_net_hdr_mrg_rxbuf mhdr;
-+     unsigned mhdr_cnt = 0;
-+-    size_t offset, i, guest_offset;
-++    size_t offset, i, guest_offset, j;
-++    ssize_t err;
-+ 
-+     if (!virtio_net_can_receive(nc)) {
-+         return -1;
-+@@ -1699,6 +1702,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+ 
-+         total = 0;
-+ 
-++        if (i == VIRTQUEUE_MAX_SIZE) {
-++            virtio_error(vdev, "virtio-net unexpected long buffer chain");
-++            err = size;
-++            goto err;
-++        }
++diff --git a/hw/block/fdc.c b/hw/block/fdc.c
++index 4c2c35e22..854b4f172 100644
++--- a/hw/block/fdc.c
+++++ b/hw/block/fdc.c
++@@ -61,6 +61,12 @@
++     } while (0)
++=20
++=20
+++/* Anonymous BlockBackend for empty drive */
+++static BlockBackend *blk_create_empty_drive(void)
+++{
+++    return blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
+++}
 ++
-+         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
-+         if (!elem) {
-+             if (i) {
-+@@ -1710,7 +1719,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                              n->guest_hdr_len, n->host_hdr_len,
-+                              vdev->guest_features);
-+             }
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         if (elem->in_num < 1) {
-+@@ -1718,7 +1728,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                          "virtio-net receive queue contains no in buffers");
-+             virtqueue_detach_element(q->rx_vq, elem, 0);
-+             g_free(elem);
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         sg = elem->in_sg;
-+@@ -1755,12 +1766,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+         if (!n->mergeable_rx_bufs && offset < size) {
-+             virtqueue_unpop(q->rx_vq, elem, total);
-+             g_free(elem);
-+-            return size;
-++            err = size;
-++            goto err;
-+         }
-+ 
-+-        /* signal other side */
-+-        virtqueue_fill(q->rx_vq, elem, total, i++);
-+-        g_free(elem);
-++        elems[i] = elem;
-++        lens[i] = total;
-++        i++;
++ /********************************************************/
++ /* qdev floppy bus                                      */
++=20
++@@ -543,8 +549,7 @@ static void floppy_drive_realize(DeviceState *qdev, =
+Error **errp)
 +     }
-+ 
-+     if (mhdr_cnt) {
-+@@ -1770,10 +1782,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
-+     }
-+ 
-++    for (j = 0; j < i; j++) {
-++        /* signal other side */
-++        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
-++        g_free(elems[j]);
-++    }
-++
-+     virtqueue_flush(q->rx_vq, i);
-+     virtio_notify(vdev, q->rx_vq);
-+ 
-+     return size;
-++
-++err:
-++    for (j = 0; j < i; j++) {
-++        g_free(elems[j]);
-++    }
-++
-++    return err;
-+ }
-+ 
-+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
-+-- 
++=20
++     if (!dev->conf.blk) {
++-        /* Anonymous BlockBackend for an empty drive */
++-        dev->conf.blk =3D blk_new(qemu_get_aio_context(), 0, BLK_PERM_A=
+LL);
+++        dev->conf.blk =3D blk_create_empty_drive();
++         ret =3D blk_attach_dev(dev->conf.blk, qdev);
++         assert(ret =3D=3D 0);
++=20
++--=20
 +2.31.1
 +
--- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch b/met=
+a/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch
+new file mode 100644
+index 0000000000..1e39ed81b1
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch
+@@ -0,0 +1,67 @@
++From 1d48445a951fd5504190a38abeda70ea9372cf77 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Philippe=3D20Mathieu-Daud=3DC3=3DA9?=3D <philmd@redhat=
+.com>
++Date: Wed, 24 Nov 2021 17:15:35 +0100
++Subject: [PATCH 12/12] hw/block/fdc: Kludge missing floppy drive to fix
++ CVE-2021-20196
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Guest might select another drive on the bus by setting the
++DRIVE_SEL bit of the DIGITAL OUTPUT REGISTER (DOR).
++The current controller model doesn't expect a BlockBackend
++to be NULL. A simple way to fix CVE-2021-20196 is to create
++an empty BlockBackend when it is missing. All further
++accesses will be safely handled, and the controller state
++machines keep behaving correctly.
++
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2021-20196
++Reported-by: Gaoning Pan (Ant Security Light-Year Lab) <pgn@zju.edu.cn>
++Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Message-id: 20211124161536.631563-3-philmd@redhat.com
++BugLink: https://bugs.launchpad.net/qemu/+bug/1912780
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/338
++Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Hanna Reitz <hreitz@redhat.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++Signed-off-by: John Snow <jsnow@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2021-20196
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/block/fdc.c | 14 +++++++++++++-
++ 1 file changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/hw/block/fdc.c b/hw/block/fdc.c
++index 854b4f172..a736c4d14 100644
++--- a/hw/block/fdc.c
+++++ b/hw/block/fdc.c
++@@ -1365,7 +1365,19 @@ static FDrive *get_drv(FDCtrl *fdctrl, int unit)
++=20
++ static FDrive *get_cur_drv(FDCtrl *fdctrl)
++ {
++-    return get_drv(fdctrl, fdctrl->cur_drv);
+++    FDrive *cur_drv =3D get_drv(fdctrl, fdctrl->cur_drv);
+++
+++    if (!cur_drv->blk) {
+++        /*
+++         * Kludge: empty drive line selected. Create an anonymous
+++         * BlockBackend to avoid NULL deref with various BlockBackend
+++         * API calls within this model (CVE-2021-20196).
+++         * Due to the controller QOM model limitations, we don't
+++         * attach the created to the controller device.
+++         */
+++        cur_drv->blk =3D blk_create_empty_drive();
+++    }
+++    return cur_drv;
++ }
++=20
++ /* Status A register : 0x00 (read-only) */
++--=20
++2.31.1
++
+--=20
 2.33.0
 
 
