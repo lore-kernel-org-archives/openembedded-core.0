@@ -1,195 +1,131 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD32C433F5
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 17:50:34 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web12.10557.1642182633310609188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE7AFC433EF
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 18:03:29 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web10.10608.1642183408739438054
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 09:50:33 -0800
+ Fri, 14 Jan 2022 10:03:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=c22cthyD;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id o12so15932314lfu.12
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 09:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=eZHH/OK5dV+Ah7ZuvlGrvJTNZ7hWsgOdqQJBB1QFHEk=;
-        b=c22cthyD9DsZ4RGADTXmwixda2TzMSoTgLLsPnUoqKfVrNAPjHopyaBOwBDcJyKSJJ
-         tqYvgzURzzkY/s924XpZpCrtqOOxllqI8Vj2xpNLG3EbWxx8Q8LEfmm0e1C5u0qnQcyc
-         dsRZ3UO3piRVzjcHk3TJUbjqSuwy0RqH3GvzbJNm7VYbLorYQ2uNrX3pcBiU4XRlUAVC
-         iHOj2MBf7BlL1jOiOsArtEXBdqz0W/iPvo+3m+Q62UX/2PK9Esy49ItLRSH03nCXMr8A
-         SGZPjBetmsqNsL78Ewh4EZANtFAO7u42ROdwn6ovNE7AY3JZcacLGVMeyf3lUeob9qrI
-         mqgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=eZHH/OK5dV+Ah7ZuvlGrvJTNZ7hWsgOdqQJBB1QFHEk=;
-        b=hPptRNvOnSu+2H6erSzt6FK6VeWecaEbhEv7F+2GOdV8Uu22TxXhJsVoHH/DirwUsG
-         f4HKiN7HFKmFbiDLLuP6hOG4uZcCEnnXIAiQZFEby6++F6ExsjmEUpjFEK7hZw9IJw+z
-         iqowg4dFMathjuaPj/hjb22MnFC3pzIHK5syTpL2V84sL2G/xtIdHD2PkqXGQ3oyu+RF
-         FjVL/NnRJgIsI4VTAIC5f6fEiaW+3gu66SdAr9rU/oXLkZg93u7IIvRfmxlhSa8EyQlG
-         JpX5vKlwsHnEAIohEKhQaCOC/OZdJiVwlj9ri4Eer46W7/dKYP00mhpjHqmyS9LirQMm
-         pxEA==
-X-Gm-Message-State: AOAM533bFS7gBfG76r7e8H1LEx+AyTIfejh1tvCbXNmy3o0V3K2/QE+G
-	DFKkuyZw4nnBxtAQmPUoVJU=
-X-Google-Smtp-Source: 
- ABdhPJxMUePMmHVlxT6UMVV2+sB27oWxFKbDc2jAxAGurqMtAJ0WP7xWboyCVYRMi6fXo8S8i0rCtg==
-X-Received: by 2002:a19:f001:: with SMTP id p1mr7478566lfc.465.1642182631419;
-        Fri, 14 Jan 2022 09:50:31 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- l5sm192996ljc.103.2022.01.14.09.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jan 2022 09:50:30 -0800 (PST)
-Message-ID: <86120c6d-a092-432c-a0fe-26ca5c57792c@gmail.com>
-Date: Fri, 14 Jan 2022 18:50:30 +0100
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: sakib.sajal@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20EI3RfK024201
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 14 Jan 2022 10:03:28 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20EI3RSU010188
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 14 Jan 2022 10:03:27 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 14 Jan 2022 10:03:27 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 14 Jan 2022 10:03:27 -0800
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 14 Jan 2022 10:03:26 -0800
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH 4/8] qemu: fix CVE-2021-3594
+Date: Fri, 14 Jan 2022 13:03:16 -0500
+Message-ID: <20220114180320.3526-4-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220114180320.3526-1-sakib.sajal@windriver.com>
+References: <20220114180320.3526-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [OE-core][RFC] classes/native: Propagate dependencies to outhash
-Content-Language: en-US
-To: Joshua Watt <JPEWhacker@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org
-References: <20220114171222.1788462-1-JPEWhacker@gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <20220114171222.1788462-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 20EI3RfK024201
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 17:50:34 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 18:03:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160573
+ https://lists.openembedded.org/g/openembedded-core/message/160576
 
-On 1/14/22 18:12, Joshua Watt wrote:
-> Native task outputs are directly run on the target (host) system after
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3594.patch             | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3594.patch
 
-"target" or "host" ? the latter i suppose
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 811bdff426..4198d3a52c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -76,6 +76,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://CVE-2021-3593.patch \
+            file://CVE-2021-3595_1.patch \
+            file://CVE-2021-3595_2.patch \
++           file://CVE-2021-3594.patch \
+            "
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3594.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2021-3594.patch
+new file mode 100644
+index 0000000000..c99ba7a7cc
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3594.patch
+@@ -0,0 +1,40 @@
++From 7a5ffd5475f2cbfe3cf91d9584893f1a4b3b4dff Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Marc-Andr=3DC3=3DA9=3D20Lureau?=3D <marcandre.lureau@r=
+edhat.com>
++Date: Fri, 4 Jun 2021 16:40:23 +0400
++Subject: [PATCH 07/12] udp: check upd_input buffer size
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Fixes: CVE-2021-3594
++Fixes: https://gitlab.freedesktop.org/slirp/libslirp/-/issues/47
++
++Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++
++Upstream-Status: Backport [74572be49247c8c5feae7c6e0b50c4f569ca9824]
++CVE: CVE-2021-3594
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ slirp/src/udp.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/slirp/src/udp.c b/slirp/src/udp.c
++index 0ad44d7c0..18b4acdfa 100644
++--- a/slirp/src/udp.c
+++++ b/slirp/src/udp.c
++@@ -93,7 +93,10 @@ void udp_input(register struct mbuf *m, int iphlen)
++     /*
++      * Get IP and UDP header together in first mbuf.
++      */
++-    ip =3D mtod(m, struct ip *);
+++    ip =3D mtod_check(m, iphlen + sizeof(struct udphdr));
+++    if (ip =3D=3D NULL) {
+++        goto bad;
+++    }
++     uh =3D (struct udphdr *)((char *)ip + iphlen);
++=20
++     /*
++--=20
++2.31.1
++
+--=20
+2.33.0
 
-> being built. Even if the output of a native recipe doesn't change, a
-> change in one of its dependencies may cause a change in the output it
-> generates (e.g. rpm output depends on the output of its dependent zstd
-> library).
-> 
-> This can cause poor interactions with hash equivalence, since this
-> recipes output-changing dependency is "hidden" and downstream task only
-> see that this recipe has the same outhash and therefore is equivalent.
-> This can result in different output in different cases.
-> 
-> To resolve this, unhide the output-changing dependency by adding it's
-> unihash to this tasks outhash calculation. Unfortunately, don't know
-> specifically know which dependencies are output-changing, so we have to
-> add all of them.
-> 
-
-"don't know specifically know which.."
-
-> [YOCTO #14685]
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/native.bbclass | 31 +++++++++++++++++++++++++++++++
->  meta/lib/oe/sstatesig.py    | 10 +++++++---
->  2 files changed, 38 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-> index 76a599bc15..fc7422c5d7 100644
-> --- a/meta/classes/native.bbclass
-> +++ b/meta/classes/native.bbclass
-> @@ -195,3 +195,34 @@ USE_NLS = "no"
->  
->  RECIPERDEPTASK = "do_populate_sysroot"
->  do_populate_sysroot[rdeptask] = "${RECIPERDEPTASK}"
-> +
-> +#
-> +# Native task outputs are directly run on the target (host) system after being
-
-see above
-
-> +# built. Even if the output of this recipe doesn't change, a change in one of
-> +# its dependencies may cause a change in the output it generates (e.g. rpm
-> +# output depends on the output of its dependent zstd library).
-> +#
-> +# This can cause poor interactions with hash equivalence, since this recipes
-> +# output-changing dependency is "hidden" and downstream task only see that this
-> +# recipe has the same outhash and therefore is equivalent. This can result in
-> +# different output in different cases.
-> +#
-> +# To resolve this, unhide the output-changing dependency by adding its unihash
-> +# to this tasks outhash calculation. Unfortunately, don't know specifically
-> +# know which dependencies are output-changing, so we have to add all of them.
-> +#
-
-see above
-
-> +python native_add_do_populate_sysroot_deps () {
-> +    current_task = "do_" + d.getVar("BB_CURRENTTASK")
-> +    if current_task != "do_populate_sysroot":
-> +        return
-> +
-> +    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
-> +    pn = d.getVar("PN")
-> +    deps = {
-> +        dep[0]:dep[6] for dep in taskdepdata.values() if
-> +            dep[1] == current_task and dep[0] != pn
-> +    }
-> +
-> +    d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
-> +}
-> +SSTATECREATEFUNCS += "native_add_do_populate_sysroot_deps"
-> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> index 038404e377..abcd96231e 100644
-> --- a/meta/lib/oe/sstatesig.py
-> +++ b/meta/lib/oe/sstatesig.py
-> @@ -491,7 +491,8 @@ def OEOuthashBasic(path, sigfile, task, d):
->      if task == "package":
->          include_timestamps = True
->          include_root = False
-> -    extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
-> +    hash_version = d.getVar('HASHEQUIV_HASH_VERSION')
-> +    extra_sigdata = d.getVar("HASHEQUIV_EXTRA_SIGDATA")
->  
->      filemaps = {}
->      for m in (d.getVar('SSTATE_HASHEQUIV_FILEMAP') or '').split():
-> @@ -506,8 +507,11 @@ def OEOuthashBasic(path, sigfile, task, d):
->          basepath = os.path.normpath(path)
->  
->          update_hash("OEOuthashBasic\n")
-> -        if extra_content:
-> -            update_hash(extra_content + "\n")
-> +        if hash_version:
-> +            update_hash(hash_version + "\n")
-> +
-> +        if extra_sigdata:
-> +            update_hash(extra_sigdata + "\n")
->  
->          # It is only currently useful to get equivalent hashes for things that
->          # can be restored from sstate. Since the sstate object is named using
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160571): https://lists.openembedded.org/g/openembedded-core/message/160571
-> Mute This Topic: https://lists.openembedded.org/mt/88425608/4454410
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jacob.kroon@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-Sounds to me like something we should do.
-
-Jacob
 
