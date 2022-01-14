@@ -1,133 +1,211 @@
-Return-Path: <chanho61.park@samsung.com>
+Return-Path: <jatedev@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8475DC433F5
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 01:14:01 +0000 (UTC)
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by mx.groups.io with SMTP id smtpd.web11.1315.1642122839646155092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80426C433FE
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 01:36:16 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.1552.1642124175891172312
  for <openembedded-core@lists.openembedded.org>;
- Thu, 13 Jan 2022 17:14:00 -0800
+ Thu, 13 Jan 2022 17:36:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=orCPPJJq;
- spf=pass (domain: samsung.com, ip: 203.254.224.24,
- mailfrom: chanho61.park@samsung.com)
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20220114011356epoutp01ab7095babbb8903003fb0e876da42b13~J-gT4-yPp0457004570epoutp01Q
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 01:13:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20220114011356epoutp01ab7095babbb8903003fb0e876da42b13~J-gT4-yPp0457004570epoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1642122836;
-	bh=1g/ZdMya5PqHm6LXVRU4UMIccuP/0ZgG1y35KuYZPrU=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=orCPPJJqrMpsyxET6js717u/8PjEw4aI46Z8JgbsmWpqUCKM1ZfnLrQPfdAXJc9IT
-	 9OjFndYk0W82sZsuBhFaHKGbzEkyfT1MASqRbDJV9dEcJHZmiuFMERknKYFBM8jrjh
-	 uezhOGPiV3fyaNGV48d2MzpdFXF6+RuqYOO81cm0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-	20220114011356epcas2p458f77c5a9351738fc7e29a4f2b432571~J-gTopITc1228412284epcas2p4Z;
-	Fri, 14 Jan 2022 01:13:56 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.36.101]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4JZjxF4w2mz4x9Q0; Fri, 14 Jan
-	2022 01:13:53 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-	epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	58.8F.51767.E4EC0E16; Fri, 14 Jan 2022 10:13:50 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
-	20220114011350epcas2p16efb8acbdc4d9edceee83569e10cc359~J-gOIUNfo0916009160epcas2p12;
-	Fri, 14 Jan 2022 01:13:50 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20220114011350epsmtrp23bc6a14cf78d94e46f11871d42d7c32d~J-gOHuZJz3149231492epsmtrp2k;
-	Fri, 14 Jan 2022 01:13:50 +0000 (GMT)
-X-AuditID: b6c32a45-447ff7000000ca37-76-61e0ce4eeace
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C6.6B.08738.E4EC0E16; Fri, 14 Jan 2022 10:13:50 +0900 (KST)
-Received: from KORCO082417 (unknown [10.229.8.121]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20220114011350epsmtip1ecb5fbc6477aa5ec0cb3a9bdafee4198~J-gN833Vv1276212762epsmtip1B;
-	Fri, 14 Jan 2022 01:13:49 +0000 (GMT)
-From: "Chanho Park" <chanho61.park@samsung.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Cc: <richard.purdie@linuxfoundation.org>, <steve@sakoman.com>
-Subject: Question of Yocto dunfell LTS period
-Date: Fri, 14 Jan 2022 10:13:49 +0900
-Message-ID: <000801d808e3$fcea94e0$f6bfbea0$@samsung.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=A0AF36aN;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: jatedev@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id
+ l6-20020a17090a4d4600b001b44bb75a8bso478386pjh.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 13 Jan 2022 17:36:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FTr63O3DCnf0V12YRZbNr5119KmIXTQv14nqaoik0ts=;
+        b=A0AF36aNVsMEUyJuuiEkyZQv0MrYejyBVjNjAIRfBTe0vpG8v9amlRKf7t93DvsK/Y
+         8tNPuegejq/qw3rc3XrCQmz/R3qHfm477sSuHPJ2eeiIrzz4A8UUTZnX1hlKHgK/9utz
+         By2iwr+htjoXJqTuDAUUfZGAe89Y0IsG08vrMkm5JC1Pej3Yamo9zS+kazb1SkmnWpBB
+         DgphvySkN4Ia0v3AvnYFhYlXv1cNSe0Zq93KhCuNRgWliwJAUNsGZb6mZLk7tYCSHhnI
+         SZV5koOYR0ZrBw/sj3144JZpYrq1GAYYStySbOcsHWV86OBDuFPkUss5lr9ZAb1Jv5lU
+         i2Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FTr63O3DCnf0V12YRZbNr5119KmIXTQv14nqaoik0ts=;
+        b=pz5TCoTpYVdcYup5pgMqARtiufImsQizDFO+RNfrB22L7lsCf1KPEjemFoxT6ptOJM
+         L6gx8Xltv+bx+huhM/leAbU3DYnEWuQNf0XTSiZBBeibvaVNvMgFdhBivihJC3jy8rID
+         /FXx6reAEX033g0wytnXbW0kF2ECu91xLbjd+eYdBboVBC4rel2CxLx801eR794Pxmsy
+         0fxBz4v4gYT16DvI91ccgvnxDJKme9zq+LLVehByn9IvXGr55O5bX8GN9+gknxve/bqz
+         i/x5RCcs3pa6TuM7vKFzlHG53ikxS0gTYtczx0XOZcUiwWAhjlmkOOhGy/GTeTgVTvSs
+         RVtg==
+X-Gm-Message-State: AOAM530L4hF0JlqfArsa9gjE76zmpSoa/2zjN1XyXb1xf+URAz1kXG/e
+	m1uPtDDwfQJCtAXViOI2cvMurQNCYQuL1RWI6PA=
+X-Google-Smtp-Source: 
+ ABdhPJy2k6IemzQ4YKyVfdxU/rG/5411CbTAuM8fw8S+qaEe0gRC1RT8kh/jtZGfCS3o4iXpPxw9LZgj/XKfn3JwQg4=
+X-Received: by 2002:a17:902:e80b:b0:14a:67fc:a40 with SMTP id
+ u11-20020a170902e80b00b0014a67fc0a40mr7028260plg.102.1642124175231; Thu, 13
+ Jan 2022 17:36:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdgI4yUt5Jh1eqcPSly31MHmvpdyrQ==
-Content-Language: ko
-X-Brightmail-Tracker: 
- H4sIAAAAAAAAA+NgFmpkk+LIzCtJLcpLzFFi42LZdljTQtfv3INEg8N7tC3u/HzHbvHj2URW
-	i9PbZCw2drxjdGDx2D93DbvHuY0rGD1mnnrE7LHl8Wu2AJaobJuM1MSU1CKF1Lzk/JTMvHRb
-	Je/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoJVKCmWJOaVAoYDE4mIlfTubovzSklSF
-	jPziElul1IKUnALzAr3ixNzi0rx0vbzUEitDAwMjU6DChOyMe8sSC94zV+x50sjawDiXuYuR
-	k0NCwERiwoPL7F2MXBxCAjsYJTZPWMYM4XxilJjzaS1U5jOjxPq9k1lhWi7fWcsCkdjFKHH6
-	9RpWCOcFo8Tahg2MIFVsAvoSLzu2ASU4OEQEAiT+r0kACTML2Eo8PzmVBcQWFtCV+N+2gx3E
-	ZhFQlZjbcg7M5hWwlJg15TkLhC0ocXLmExaIXnmJ7W/nQN2tIPHz6TKwg0QE9CSWTF/BBFEj
-	IjG7sw3sBQmBW+wSK2ZtBbtBQsBFondFDUSvsMSr41vYIWwpic/v9rJB1HczSkx6eRcqMYNR
-	4t3NHAjbWGLWs3ZGkDnMApoS63fpQ4xUljhyC+o0PomOw3/ZIcK8Eh1tQhCN6hIHtk9ngbBl
-	JbrnfIYGoYfE24t/WCYwKs5C8uQsJE/OQvLMLIS9CxhZVjGKpRYU56anFhsVGMKjOjk/dxMj
-	OC1que5gnPz2g94hRiYOxkOMEhzMSiK8/UX3E4V4UxIrq1KL8uOLSnNSiw8xmgKDfSKzlGhy
-	PjAx55XEG5pYGpiYmRmaG5kamCuJ83qlbEgUEkhPLEnNTk0tSC2C6WPi4JRqYIpbttDD40A6
-	m9Gv53+sXLtuB95/NTXw5DNpr89JUe8myJSxZxvP4Gz6V7xY6/PirYobb15euK/NK+zRysQL
-	D6elHbr2+WPQ8qnrr9qHd2+S+XGM3UG6cEXHE+3oQ/vOpH9vfvd3l1XQxpd+Nq8XKTmKbV64
-	bIfzxkX6xpceqTue+Dc/JkV0m3TtkkdvFHdqnfix5/qPplPZkhMn7jjSr39MTETuiLP//XmG
-	s3a+f9gXeeTwtyvGcsusJvqbvtmfkL1ukc3P13FPVd4lsF1UejcvoGblAtN1Jk3bjujm7T8S
-	XH7oo1GMmtShIsV5XxYmOJ+cL3nefsPTv2kqXK/mTJwkM7/BTeR45Xqe/77bNu90X6rEUpyR
-	aKjFXFScCABV53tiFAQAAA==
-X-Brightmail-Tracker: 
- H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsWy7bCSnK7fuQeJBo9v8Frc+fmO3eLHs4ms
-	Fqe3yVhs7HjH6MDisX/uGnaPcxtXMHrMPPWI2WPL49dsASxRXDYpqTmZZalF+nYJXBn3liUW
-	vGeu2POkkbWBcS5zFyMnh4SAicTlO2tZuhi5OIQEdjBKzLt4iAUiISvx7N0OdghbWOJ+yxFW
-	iKJnjBKL5ywDK2IT0Jd42bENKMHBISIQIPF/TQJImFnAXuLrgj+sILawgK7E/zaIOSwCqhJz
-	W86B2bwClhKzpjxngbAFJU7OfMIC0asnsX79HEYIW15i+9s5UIcqSPx8ugxspghQzZLpK5gg
-	akQkZne2MU9gFJyFZNQsJKNmIRk1C0nLAkaWVYySqQXFuem5xYYFRnmp5XrFibnFpXnpesn5
-	uZsYwSGvpbWDcc+qD3qHGJk4GA8xSnAwK4nw9hfdTxTiTUmsrEotyo8vKs1JLT7EKM3BoiTO
-	e6HrZLyQQHpiSWp2ampBahFMlomDU6qBiddjfZBKSOi5FTmbG1qv2x0+yP3nuu/23Z93b/4e
-	sXT+Y2PvTdX7Ts2tfsC/cI+Zx70VH5sK/xxT5FtTax+2r16e49fZczNq7KxPHZI2OWRT9P+c
-	F7vSs9el26bllHQ5X0qT32MdKb2p7+wWlzlpdndDys5NUihb94lp20XjB+d+1qvLTb3+/ot+
-	Q57NPuurUd2a25UOTXR6tFB3y4kfE2OvvPFg4EuzWWLo0el4NCbudM/m7XLazsIqh3RnP4nY
-	0RL3P4hFVXcey9QIfuFUieSWm6+XvGueIHRhQ9+/3udZPd/d92U8Vt+QHrtD7lXQ/7pvu1Jv
-	s+qvm+vyoThL2PqUNOuX59ka9SsVJO7ZpCixFGckGmoxFxUnAgCTPXWk6AIAAA==
-X-CMS-MailID: 20220114011350epcas2p16efb8acbdc4d9edceee83569e10cc359
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220114011350epcas2p16efb8acbdc4d9edceee83569e10cc359
 References: 
  <CGME20220114011350epcas2p16efb8acbdc4d9edceee83569e10cc359@epcas2p1.samsung.com>
+ <000801d808e3$fcea94e0$f6bfbea0$@samsung.com>
+In-Reply-To: <000801d808e3$fcea94e0$f6bfbea0$@samsung.com>
+From: Jate Sujjavanich <jatedev@gmail.com>
+Date: Thu, 13 Jan 2022 20:36:04 -0500
+Message-ID: 
+ <CAPphmgbonScBvk-DC1Zvv5ydYSDpiRMFGevZ1Pkr9hAcgWrjgA@mail.gmail.com>
+Subject: Re: [OE-core] Question of Yocto dunfell LTS period
+To: chanho61.park@samsung.com
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, steve@sakoman.com,
+	yocto@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000244f9005d580d4b7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 01:14:01 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 01:36:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160552
+ https://lists.openembedded.org/g/openembedded-core/message/160553
 
-Dear folks,
+--000000000000244f9005d580d4b7
+Content-Type: text/plain; charset="UTF-8"
 
-I found the lts period of Yocto dunfell has been extended from 2022.04 to
-2024.04[1].
-AFAIK, a Yocto LTS version has 2 years period. I tried to find any notice
-regarding this but I just found Richard's e-mail[2] in last year.
-Can I find any thread or notice regarding this extension?
+I received the answer to this question in IRC on 10/29/2021.
 
-[1]: https://wiki.yoctoproject.org/wiki/Releases
-[2]:
-https://lore.kernel.org/yocto/3878e27fb895718b8c5d65f444fea443a56e0587.camel
-@linuxfoundation.org/
+16:06 <https://libera.irclog.whitequark.org/yocto/2021-10-29#31083490> <
+jatedev> I saw a wiki edit that said dunfell's LTS period is now through
+April 2024, but I've seen no announcements. Any truth to this rumor?
+16:20 <https://libera.irclog.whitequark.org/yocto/2021-10-29#31083555> <
+smurray> jatedev: it was announced on one of the technical calls a few
+weeks back, so yes AFAIK
+16:25 <https://libera.irclog.whitequark.org/yocto/2021-10-29#31083577> <RP>
+jatedev: definitely true. I wish we could sort out the project advocacy
+side of things :(
 
-Best Regards,
-Chanho Park
+Let this email serve as a little advocacy.
 
+
+-Jate S.
+
+On Thu, Jan 13, 2022 at 8:14 PM Chanho Park via lists.openembedded.org
+<chanho61.park=samsung.com@lists.openembedded.org> wrote:
+
+> Dear folks,
+>
+> I found the lts period of Yocto dunfell has been extended from 2022.04 to
+> 2024.04[1].
+> AFAIK, a Yocto LTS version has 2 years period. I tried to find any notice
+> regarding this but I just found Richard's e-mail[2] in last year.
+> Can I find any thread or notice regarding this extension?
+>
+> [1]: https://wiki.yoctoproject.org/wiki/Releases
+> [2]:
+>
+> https://lore.kernel.org/yocto/3878e27fb895718b8c5d65f444fea443a56e0587.camel
+> @linuxfoundation.org/
+>
+> Best Regards,
+> Chanho Park
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160552):
+> https://lists.openembedded.org/g/openembedded-core/message/160552
+> Mute This Topic: https://lists.openembedded.org/mt/88411698/3616919
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> jatedev@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000244f9005d580d4b7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">I received the answer to this question in IRC on 10/29/20=
+21.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"talk o=
+p-msg" id=3D"31083490" style=3D"font-family:Menlo,Monaco,monospace;font-siz=
+e:14px;color:rgb(0,0,0)" dir=3D"auto"><a class=3D"timestamp" href=3D"https:=
+//libera.irclog.whitequark.org/yocto/2021-10-29#31083490" style=3D"text-dec=
+oration:none;font-family:Menlo,Monaco,monospace;color:rgb(119,119,119)">16:=
+06</a>=C2=A0&lt;<span class=3D"nick nick-4" style=3D"font-family:Menlo,Mona=
+co,monospace;color:rgb(180,167,0)">jatedev</span>&gt; I saw a wiki edit tha=
+t said dunfell&#39;s LTS period is now through April 2024, but I&#39;ve see=
+n no announcements. Any truth to this rumor?=C2=A0<br></div><div class=3D"t=
+alk op-msg" id=3D"31083555" style=3D"font-family:Menlo,Monaco,monospace;fon=
+t-size:14px;color:rgb(0,0,0)" dir=3D"auto"><a class=3D"timestamp" href=3D"h=
+ttps://libera.irclog.whitequark.org/yocto/2021-10-29#31083555" style=3D"tex=
+t-decoration:none;font-family:Menlo,Monaco,monospace;color:rgb(119,119,119)=
+">16:20</a>=C2=A0&lt;<span class=3D"nick nick-5" style=3D"font-family:Menlo=
+,Monaco,monospace;color:rgb(137,189,59)">smurray</span>&gt; jatedev: it was=
+ announced on one of the technical calls a few weeks back, so yes AFAIK=C2=
+=A0<br></div><div class=3D"talk op-msg" id=3D"31083577" style=3D"font-famil=
+y:Menlo,Monaco,monospace;font-size:14px;color:rgb(0,0,0)" dir=3D"auto"><a c=
+lass=3D"timestamp" href=3D"https://libera.irclog.whitequark.org/yocto/2021-=
+10-29#31083577" style=3D"text-decoration:none;font-family:Menlo,Monaco,mono=
+space;color:rgb(119,119,119)">16:25</a>=C2=A0&lt;<span class=3D"nick nick-1=
+4" style=3D"font-family:Menlo,Monaco,monospace;color:rgb(122,68,122)">RP</s=
+pan>&gt; jatedev: definitely true. I wish we could sort out the project adv=
+ocacy side of things :(=C2=A0</div><div class=3D"talk op-msg" id=3D"3108357=
+7" style=3D"font-family:Menlo,Monaco,monospace;font-size:14px;color:rgb(0,0=
+,0)" dir=3D"auto"><br></div><div class=3D"talk op-msg" id=3D"31083577" styl=
+e=3D"font-family:Menlo,Monaco,monospace;font-size:14px;color:rgb(0,0,0)" di=
+r=3D"auto">Let this email serve as a little advocacy.</div><div class=3D"ta=
+lk op-msg" id=3D"31083577" style=3D"font-family:Menlo,Monaco,monospace;font=
+-size:14px;color:rgb(0,0,0)" dir=3D"auto"><br></div><div class=3D"talk op-m=
+sg" id=3D"31083577" style=3D"font-family:Menlo,Monaco,monospace;font-size:1=
+4px;color:rgb(0,0,0)" dir=3D"auto"><br></div><div class=3D"talk op-msg" id=
+=3D"31083577" style=3D"font-family:Menlo,Monaco,monospace;font-size:14px;co=
+lor:rgb(0,0,0)" dir=3D"auto">-Jate S.</div></div><div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 13, 2022 at 8:1=
+4 PM Chanho Park via <a href=3D"http://lists.openembedded.org">lists.openem=
+bedded.org</a> &lt;chanho61.park=3D<a href=3D"mailto:samsung.com@lists.open=
+embedded.org">samsung.com@lists.openembedded.org</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb=
+(204,204,204)">Dear folks,<br>
+<br>
+I found the lts period of Yocto dunfell has been extended from 2022.04 to<b=
+r>
+2024.04[1].<br>
+AFAIK, a Yocto LTS version has 2 years period. I tried to find any notice<b=
+r>
+regarding this but I just found Richard&#39;s e-mail[2] in last year.<br>
+Can I find any thread or notice regarding this extension?<br>
+<br>
+[1]: <a href=3D"https://wiki.yoctoproject.org/wiki/Releases" rel=3D"norefer=
+rer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Releases</a><br>
+[2]:<br>
+<a href=3D"https://lore.kernel.org/yocto/3878e27fb895718b8c5d65f444fea443a5=
+6e0587.camel" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/=
+yocto/3878e27fb895718b8c5d65f444fea443a56e0587.camel</a><br>
+@<a href=3D"http://linuxfoundation.org/" rel=3D"noreferrer" target=3D"_blan=
+k">linuxfoundation.org/</a><br>
+<br>
+Best Regards,<br>
+Chanho Park<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160552): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/160552" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/160552</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88411698/3616=
+919" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88411698/3616919</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:jatedev@gmail.com" target=
+=3D"_blank">jatedev@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000244f9005d580d4b7--
 
