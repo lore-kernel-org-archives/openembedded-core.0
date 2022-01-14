@@ -1,173 +1,278 @@
-Return-Path: <paul.barker@sancloud.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E29C433FE
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 14:39:06 +0000 (UTC)
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com
- (GBR01-LO2-obe.outbound.protection.outlook.com [40.107.10.96])
- by mx.groups.io with SMTP id smtpd.web09.7860.1642171145137639890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352F1C433EF
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 14:42:47 +0000 (UTC)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+ [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web08.8056.1642171366571353661
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 06:39:05 -0800
+ Fri, 14 Jan 2022 06:42:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sancloud.onmicrosoft.com
- header.s=selector2-sancloud-onmicrosoft-com header.b=YWycqKu0;
- spf=pass (domain: sancloud.com, ip: 40.107.10.96,
- mailfrom: paul.barker@sancloud.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LY15PZyCjlyKQ3aQdlfm7bOYQcsdgIoXE+Jk4iLkCJgwKWRorJd1KV89igKWwJ+z7nz1mvO+98pUbsEsdY0xN41FfAiyV7CoDKt/twzg77H2xMDkfGD7afxCwRZWWn+1dft6itXciyVEC3v8ByOBLDjg/ucKYb6Zw5ioUbBuzSPeA3I9FRtigxYNdl9HTzKpbW1kZOuMa9UmMGuD1e4BLcf/abvZJN+FfIFDYGZGDHANrBTw8Zv+DQylYARUJsjnqSBlg+2qftEDC/RUL37rNh32hvNoVnyu4+bTW9FVyoKyeM2SCtad1/AM9kZpJL67SrMP6/bZX4x/kSk1xnhssQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EE7EuuH3d05z2zznrrwjhtilOQpmeP60D4KcQAPgKBk=;
- b=hTaMOZPEq8oRelr+zQYMFtO7EYMRYPR8PQbBK25tNfkfUQpZYX1bXmoOxF7LFw+aZmoEAHguCwfRaNtCHbtx3LvtN/7PE4KKNWMeECRI9UG7q4CWjUqXoD1qLjHKP9Qika0B6gVVVRQL0IMx5Vu/ruth3f7BxXmlytTGGOxMSRsedNgcpz0P7qK4GhJJqXqgnunco7ZzsC/e2dqk/TgoUKft3quMk3QXG+ku+vHUWu9b66xkEnUpHob8eNxFO+dvKx8TpI3sq32YmisAbW9VkycSBQwJ0uO2E2xUE8mXS9sbbHMGrpfuhFijOUVLFGamCss6Hawj/gssfMTi3QLQMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sancloud.com; dmarc=pass action=none header.from=sancloud.com;
- dkim=pass header.d=sancloud.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n4fM4uxe;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id f24so6691257ioc.0
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 14 Jan 2022 06:42:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sancloud.onmicrosoft.com; s=selector2-sancloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EE7EuuH3d05z2zznrrwjhtilOQpmeP60D4KcQAPgKBk=;
- b=YWycqKu06Ohc6UxPA9/VAG4lHlEJ4nGim4tiWHoFMRiq69xftghiQTzJ4rRxPCl7TdOOq3rdrzBWOMy0zggKGoF7lMcZOE3mF8jfVZZSFhwB/yhBdTMAcWzhH+3TUxDj8KGA+9tJF9bdMEOVWJgb0yLIho7MU55C2fsnr+lNuek=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=sancloud.com;
-Received: from CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:61::19)
- by CWLP123MB4339.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:e0::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Fri, 14 Jan
- 2022 14:39:02 +0000
-Received: from CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM
- ([fe80::4ce0:d9e3:cb2f:7992]) by CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM
- ([fe80::4ce0:d9e3:cb2f:7992%5]) with mapi id 15.20.4888.012; Fri, 14 Jan 2022
- 14:39:01 +0000
-Message-ID: <87262ad4-ba0b-3d22-deab-ffff56ca1b84@sancloud.com>
-Date: Fri, 14 Jan 2022 14:39:00 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20211014202630.2927426-1-richard.purdie@linuxfoundation.org>
-From: Paul Barker <paul.barker@sancloud.com>
-Subject: Re: [PATCH 1/2] kernel: Rework kernel make flag to variable mappings
-In-Reply-To: <20211014202630.2927426-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LNXP265CA0055.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5d::19) To CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:401:61::19)
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2RMBuhypo2gEXLbf++R6n/gzrsLCSdKojm8f5kflohg=;
+        b=n4fM4uxe5S2y3WOAarqylO15Nsk+OvEUJfPd+iEj5Br3wA+7NWarbkgM9JKGt3ir9p
+         QbFGJgED3YOwLlnaJMkACj4wzqbY/R7bRpZqTyccXdPgKm2l1XOahH/i+nKQHBVCsZZy
+         RCylQSyj6H/ej5c9AeINDZCIVRPUc7Bx4/alGfC0KUsj53AjLHPjzoxPWnLjZeWCzWhA
+         CRB1FBZMaNdmAruzaUTCNxJZTP+9BdDAwbFjLXVCXwAS7/IEdRgXUfvxZMpsNDFNXkJR
+         +r0+SBG8smPFR6bRZH0Uno4QO0FiDLbr4yT8aocJESlvkiVvAv8NDTgJm2jPtnRzDn7X
+         N88g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2RMBuhypo2gEXLbf++R6n/gzrsLCSdKojm8f5kflohg=;
+        b=Sq4BvKOBF1XHyW8dUpaDuJNLYiSPww/RmnYX0f7fUtV/NAvG7BHIzTf24UsWN5BKO3
+         nEKmLSCWuk8SgdY971Y91IN5ASoFRuOQ7LbeJL9QpHxj5wgyGkak/xXBjb0J1+KmiUq9
+         gj1XVSoufaPaNdmSeSf5Bn6ZiC+M0Az70ocsZ2uJPYaM57lNtmSK1R5T7hLbQfOnniQa
+         X3gId03UkxQE3+hGZcQYQl9Xzvt+Sl0/MeEkE16WjhIk8H3Tf+t50XPNMBmi8fTbCIYL
+         AgcwP9/62ru5YiGS+QzdyfUIQ0WZhdJSIx1v4Pqc4ZHKWVsbps2rKxKcHd0GjXdyzIv1
+         vcWQ==
+X-Gm-Message-State: AOAM530Q8tnP031nP8Nnv7kNxzQcanuVrhkJBCay39f+ZhpurEggDJ+V
+	Wm8Lj2lP3MZaZwk6UthvvvYsRyxZubLbxd5rMIU=
+X-Google-Smtp-Source: 
+ ABdhPJzLD5b9SbwwH3ZBYawKSWV6TIoZV3QYdvQU4PGH+Y0SfWg2kqYPfKY32E5TgtETtwusVnqku5f7av5qyXR2bMk=
+X-Received: by 2002:a5d:91c7:: with SMTP id k7mr4466290ior.151.1642171365887;
+ Fri, 14 Jan 2022 06:42:45 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 801090bf-0e5e-4655-8bb3-08d9d76b9b5e
-X-MS-TrafficTypeDiagnostic: CWLP123MB4339:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CWLP123MB43397A378B7F1042758D900493549@CWLP123MB4339.GBRP123.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	nsgaXkOL9EQjRN26w/thj2TLwbO+KC5yrGP17xcS/uL7640xGbAtg1uuTTblJg+j6eSDqAOlyWe5XEUOJWkwuDaqdkDxvz2BR0xo1OFSMwLjzVfhhzvptzEOmFsBeyhdkggtOSwAsMPBpUgJRzomLzQoOXFXodc1iLbE6+GG/7+HPKa9PpMa5GD46M5cq92FXjjt1AbqY5LXbmAbL1uchzcY4CJHNjp8SjGtfw+f0nbvuBqJ84ZSBmYcFPwrhZyGQ4hbUqL+Jf3ioFdIbiDtoVYKE7Ovno4Z0+Exh7ZsAWd5jNuJAPyxdGD5C1Yesse0DPS3o40921tpFv3Nj+9PNxLO0kej95XJIROOMSQts/urUXsrJr7KxxOEadj3N6TOOJ7Os+MiQjxsCr/yXtgMhA1bdQb9FU4QNJz4tZZeQYzZmGiqZtJ5pKqjY9YIatcgk9GHuPl7qAQMrk0gc6hOVUR9kf6lu+z9kLqp+vdN7yJ+51MvVNQUrVJtNnjqDhgXzYXKyMqxCRbL/bdAUkhc175QRoJLUktSz3viDpXBVY9nLfBGTKXMnOQisOteQW4dWNKZWfqTwcL9JZTeEgCZNykvyiM6goaHtjh9VnXxplZzlUpAdU739D7gMAIvDZE9oye14cHtJSsfnbisnnHC1xl9SZjXL3cWr3SorvnRmx5NMR7DsYYoR3Q+P7KraoMQZctCMCSS+AoQE0y2faHXC1NyD7tNKiUSs+aYxYnDx5n6OZIcFMWmBGw9DHdwN0J4dM3pELLvmSh6uC+yypJrARQ2B642pcNOYozXdi76gg5qT0ABgxX1N/GTYow0BYpKeZaQ6aGCvTRzS3bLPn9g6A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(366004)(136003)(396003)(376002)(346002)(39830400003)(2616005)(316002)(44832011)(31686004)(508600001)(83380400001)(66476007)(6506007)(36756003)(53546011)(966005)(38100700002)(38350700002)(26005)(66946007)(8676002)(2906002)(31696002)(6486002)(6512007)(5660300002)(8936002)(52116002)(66556008)(186003)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ODJReGg3RzVPaHpqOUVOekxnd2thQWg4WWlEWXJJL0piSW90NG1kemc3eW4r?=
- =?utf-8?B?K2JCWVZYSUI4SWZ4bWdGZm5lMnNzeWFSOUFiZzRkd1FOd1JBM296OTI1ZzNj?=
- =?utf-8?B?VUt6K1ljeWFDaWNydkZ3eHcya3JvQnovcmVtQllvSGttaWJ5ejFUQTFPRnFD?=
- =?utf-8?B?MWlGQWZ5Y1plQ24zMkk0d1RlZUdnTi94T0F0Rnl5RUF2SzMwWVkwUllkWERk?=
- =?utf-8?B?WGIyVXBMVDRPSEVQK2NBdDZ1UGVoWDdrNHNQY3ArU3NUNXVvTHF4SjBOUWtu?=
- =?utf-8?B?L2srSloyWUR4bmhtaEVjN09teEplTUcxUHFNZkVEa0dCMjV0UVhYMytSa0cr?=
- =?utf-8?B?eXVxYWlhenVxSFlqMjltdEZ1MUNGcFU5YTNjU3JtaG9ZZnFWRUVMUFp0TUw0?=
- =?utf-8?B?OHYzbm82VTlWVXFLYUZxZkhyYmR4SWI0N2lreDYzS1J3RVJOZmdoRWIwUmpv?=
- =?utf-8?B?RFVzUXRkSTFiRXFPdVR6YmFTMEpiVEVybXIzU2lXVDZZQzVyTXQya0Z5bi9M?=
- =?utf-8?B?c244K3JoT3ZWNW4zRXk2bGl3bDIvMDhVVTQ0dk5KRDRFa2JJbjNEYkdaeERS?=
- =?utf-8?B?dmZKZTM2czFiYUxlejVUQlhqVElWR1lNanExY2JTNlhhazBmcVg3eDNDZmNP?=
- =?utf-8?B?TVd1VmRnS2ZlOGhhR1Y4N0h0M3NvRkZyWE5SdUxJY0M2VWcvc0FWR2Z4NGtW?=
- =?utf-8?B?RFgrYWpWSklXak4yYnl6RnNjVDNsdGV2M1IxRE42eVpyekREdmFKbTBYWG1D?=
- =?utf-8?B?T0dIZExLRjdQdjNkdStxQzlHZjJteGJ6OUdST3VPemdyVitnL1BrZ0ROWGY4?=
- =?utf-8?B?L0J4NjJYQ2RhWnVRYUNFd3hTZnRSQ3JYUTdpcnZQb2hBYW50Qlk2S0lBOXph?=
- =?utf-8?B?Q3JZWkYvb0N2S1owWnZzM0pMRjRYQmMvR1JIZWljQ2VCNnNIaDhMclVrM1Rq?=
- =?utf-8?B?bjJlakxUWlNJQ2hvNVdVUE5DZlpyZTRoSStzWWxtd3dtS2pveGhMMWRlMWJN?=
- =?utf-8?B?TjVsQS96LzEvcGczV0tHRWhveTU3YlBVdWZHZEtVT24xd1A5azFZeGRvMUhs?=
- =?utf-8?B?SVMyelgvUmhDdGF4N05yR3JyN25rU3JCQU1iZDArL0VVcEsvOTJaR2xvdC82?=
- =?utf-8?B?TXQ2d0Jramw1K3RNSmI5M3Y4MytIZm1CNG9YZ2F3OUQ4MjhEb0NNbEtaeEZX?=
- =?utf-8?B?VGw4SFFSbmZaeVlkalNIb1FWZmMvM1ZGMjNNMHR5dXhyWUNWQ1N1VWNBQzh1?=
- =?utf-8?B?WFB1aXhzeE1FQ2IrbHJxVUczWE1mbDI0Z0xwM3FHN1M5SWdzekFzRVZCdHlG?=
- =?utf-8?B?dnpuWnROY3dCOTluZDdjYmIzOXlCQ2gwZUNnUkNhMDlNNDB1eE8wYzVQaWVU?=
- =?utf-8?B?SVJaSzZvbjNFaDZ3VkhMT0FDY0hSemQ5eE5vK2NMM1YyL25FRVdaNlFEVGdG?=
- =?utf-8?B?am8rVGZFNzVPR05jRzI3MjMzK2lGSW5JSDVpRG9qWXc1YVgydmxQOXRlSEpC?=
- =?utf-8?B?cThPKzJPNGx0K3JoRU9DdkRzNy9DL04xTk56c1NKaHhFbjlOR1JJcHJYak9D?=
- =?utf-8?B?OEJkVEVjdWV1QVdlYUZuYVEzdUVzY29qazNpQkVoNjdTWndrR3VzbEJxMWl0?=
- =?utf-8?B?QXJxbm9jaTgreUpjRUx4UittbEc0R3Q1U3FZWXJmNnFvbGVDa0JHNTFXcjZX?=
- =?utf-8?B?cTFYOXlnYTBYSjQ4UWxnUTFTSDE3ZWtqdzhab0xDdDZ0R3JDVEV3c1VMbUMr?=
- =?utf-8?B?MjRiQlRhdm1lcG1DSEMwckNCMXpmM2R2YkE5UWtpTGRTN2tQaVo3dHlKY0Jh?=
- =?utf-8?B?RjcxbFFEcDJFd09LOGU3NVMzTEVRR29aOUY2TFA0WVB6NGRTWFJSVWU0ejV0?=
- =?utf-8?B?OHNNVTZ2OTgvU2JGZzNsZ0R5dTNnNzFRdktpRUsrZkFmUlFEcXoyaXgyMkxY?=
- =?utf-8?B?Rnh4UzFvV3hhMHBUNlZOSFh4UCtlQnhrMGJSbks2RHgzbjZXbkJ2ai85K3lE?=
- =?utf-8?B?T1J3cDhkUnhUYmxhbXcrdjE3ZXk0V1VyMDluM3J4YS81dnRWaGhXY0Q2VU1s?=
- =?utf-8?B?N1d4eGFHVXV2a1JOUUxRd05sMlJuM0F2NEFGeVBER2NzeXYxa1FHUzFNR3JU?=
- =?utf-8?B?OEdTM25zZWVWK0JwcDhLM1YrcWJndTU5MlVDZW1zVEU0ZFdwQXJVbUhSZ3g0?=
- =?utf-8?B?M1Z5SldBdWIxVVVhcy9NT1dDVERGMjk2WUsrU2ttWlAwTzNydkQ1Vlo0VFA1?=
- =?utf-8?B?aVVhZDFQK09qM2xFbEl5QjNUT1RnPT0=?=
-X-OriginatorOrg: sancloud.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 801090bf-0e5e-4655-8bb3-08d9d76b9b5e
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB2241.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2022 14:39:01.9179
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 840be37c-244a-450e-9bcc-2064862de1f4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- byTbXPKs/Kc/SfA9H0ur7RGbETof63zvYbfNmhGVQtwGbNyQ2eQbOFjU+drHGys0eh9liqzSzEGv4hN0GxtVAtcoZM1LR+aIc+ivjLmXncA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB4339
+References: 
+ <CAL1ChxrincK92a9tFxq=O6j8wNpccdebywqoeYMS+He1ED4tTA@mail.gmail.com>
+In-Reply-To: 
+ <CAL1ChxrincK92a9tFxq=O6j8wNpccdebywqoeYMS+He1ED4tTA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Jan 2022 15:42:34 +0100
+Message-ID: 
+ <CANNYZj_z2RsfGLaAaJHEBb+P5JT3CNikobgrq00FW9fkGH6UgQ@mail.gmail.com>
+Subject: Re: [OE-core] [rust] error: the crate panic_abort does not have the
+ panic strategy abort
+To: Francesco Pham <pham.francesco@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ec916105d58bd00e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 14:39:05 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 14:42:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160569
+ https://lists.openembedded.org/g/openembedded-core/message/160570
 
-On 14/10/2021 21:26, Richard Purdie wrote:
-> In 2017 we added changes to pass the BUILD_CFLAGS into the kernel
-> via BUILD_CC. This isn't really correct and the upstream kernel now has
-> places to pass build cflags, ldflags and more. Update our kernel
-> make flags to correctly use the kernel's variables. This addresses
-> concerns raised by kernel developers.
-> 
-> If this breaks some usecase please report it so we can work out how
-> to fix it properly.
+--000000000000ec916105d58bd00e
+Content-Type: text/plain; charset="UTF-8"
 
-FYI, this change back in Oct broke the build for Linux 5.10.y, 5.4.y, 
-4.19.y & 4.4.y kernels where CONFIG_UNWINDER_ORC=y (which is set by the 
-in-tree defconfig for x86-64). The build failures sat on my backburner 
-for a long time due to other commitments but I finally tracked them down 
-to this commit and looked for solutions.
+Perhaps you could look at how this is handled in mozjs recipe in meta-oe, I
+vaguely remember it forces panic strategy to something incompatible and I
+patched it to match..
 
-For 5.10.y, 5.4.y & 4.19.y there is an upstream kernel patch which can 
-be backported which will address this. See 
-https://lore.kernel.org/stable/04598430-7383-b725-2f5f-3f2b16aaca36@sancloud.com/ 
-and replies for more info. Hopefully these branches will be fixed with 
-the next round of stable kernel releases now the backport has been 
-requested.
+Alex
 
-For 4.14.y there is no trivial fix upstream. The backport I did for the 
-other branches depends on the KBUILD_HOSTLDFLAGS variable being set in 
-the kernel Makefile which was added after 4.14.y. Personally, I'm happy 
-to leave 4.14.y broken in this case and workaround the issue in 
-meta-linux-mainline by disabling CONFIG_UNWINDER_ORC for this series.
+On Fri, 14 Jan 2022 at 15:21, Francesco Pham <pham.francesco@gmail.com>
+wrote:
 
-I don't think any changes are needed in oe-core, the info is now here in 
-case it affects others though.
+> Hi,
+> the following error appears when trying to build a simple rust hello
+> world that uses panic set to abort mode.
+>
+> > | DEBUG: Executing shell function do_compile
+> > | NOTE: cargo =
+> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot-native/usr/bin/cargo
+> > | NOTE: rustc =
+> > | NOTE: cargo build -v --target x86_64-poky-linux --release
+> --manifest-path=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git//Cargo.toml
+> > |    Compiling rust-hello-world v0.0.1
+> (/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git)
+> > |     Building [                             ] 0/1: rust-hello-world(bin)
+> > |      Running `rustc --crate-name rust_hello_world --edition=2018 src/
+> main.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type
+> bin --emit=dep-info,link -C opt-level=3 -C panic=abort -C lto -C
+> metadata=38cc6f415494c65c -C extra-filename=-38cc6f415494c65c --out-dir
+> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
+> --target x86_64-poky-linux -C
+> linker=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld
+> -L
+> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
+> -L
+> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps
+> -L
+> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/usr/lib/rust
+> --remap-path-prefix=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=/usr/src/debug/rust-panic-test/git-r0`
+> > | error: the crate `panic_abort` does not have the panic strategy `abort`
+> > |
+> > | error: aborting due to previous error
+> > |
+> > | error: could not compile `rust-hello-world`
+> > |
+> > | Caused by:
+> > |   process didn't exit successfully: `rustc --crate-name
+> rust_hello_world --edition=2018 src/main.rs --error-format=json
+> --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C
+> opt-level=3 -C panic=abort -C lto -C metadata=38cc6f415494c65c -C
+> extra-filename=-38cc6f415494c65c --out-dir
+> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
+> --target x86_64-poky-linux -C
+> linker=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld
+> -L
+> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
+> -L
+> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps
+> -L
+> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/usr/lib/rust
+> --remap-path-prefix=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=/usr/src/debug/rust-panic-test/git-r0`
+> (exit status: 1)
+> > | WARNING: exit code 101 from a shell command.
+>
+> A similar error also appears when the panic strategy is set to unwind
+> The recipe, generated using cargo bitbake, is as follows:
+>
+> > inherit cargo
+> > SRC_URI += "git://
+> git@github.com/frankplus/rust-hello-world.git;protocol=https;branch=master
+> "
+> > SRCREV = "68b7f7ee7df6e08a0411ba7157761145c43baf5d"
+> > S = "${WORKDIR}/git"
+> > SUMMARY = "rust-hello-world"
+> > HOMEPAGE = "https://github.com/frankplus/rust-hello-world"
+> > LICENSE = "MIT | Apache-2.0"
+> > LIC_FILES_CHKSUM =
+> "file://COPYRIGHT;md5=e6b2207ac3740d2d01141c49208c2147"
+>
+> Version: honister @ f286eef, master @ f9f3e1
+> Component: meta/recipes-devtools/rust
+> Relate-to: https://github.com/meta-rust/meta-rust/issues/343
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160568):
+> https://lists.openembedded.org/g/openembedded-core/message/160568
+> Mute This Topic: https://lists.openembedded.org/mt/88421290/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-Thanks,
+--000000000000ec916105d58bd00e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Paul Barker
-Principal Software Engineer
-SanCloud Ltd
+<div dir=3D"ltr"><div>Perhaps you could look at how this is handled in mozj=
+s recipe in meta-oe, I vaguely remember it forces panic strategy to somethi=
+ng incompatible and I patched it to match..</div><div><br></div><div>Alex<b=
+r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Fri, 14 Jan 2022 at 15:21, Francesco Pham &lt;<a href=3D"mailto:=
+pham.francesco@gmail.com">pham.francesco@gmail.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
+the following error appears when trying to build a simple rust hello<br>
+world that uses panic set to abort mode.<br>
+<br>
+&gt; | DEBUG: Executing shell function do_compile<br>
+&gt; | NOTE: cargo =3D /home/francesco/Desktop/poky/build/tmp/work/core2-64=
+-poky-linux/rust-panic-test/git-r0/recipe-sysroot-native/usr/bin/cargo<br>
+&gt; | NOTE: rustc =3D<br>
+&gt; | NOTE: cargo build -v --target x86_64-poky-linux --release --manifest=
+-path=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rus=
+t-panic-test/git-r0/git//Cargo.toml<br>
+&gt; |=C2=A0 =C2=A0 Compiling rust-hello-world v0.0.1 (/home/francesco/Desk=
+top/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git)<br>
+&gt; |=C2=A0 =C2=A0 =C2=A0Building [=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0] 0/1: ru=
+st-hello-world(bin)<br>
+&gt; |=C2=A0 =C2=A0 =C2=A0 Running `rustc --crate-name rust_hello_world --e=
+dition=3D2018 src/<a href=3D"http://main.rs" rel=3D"noreferrer" target=3D"_=
+blank">main.rs</a> --error-format=3Djson --json=3Ddiagnostic-rendered-ansi =
+--crate-type bin --emit=3Ddep-info,link -C opt-level=3D3 -C panic=3Dabort -=
+C lto -C metadata=3D38cc6f415494c65c -C extra-filename=3D-38cc6f415494c65c =
+--out-dir /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/r=
+ust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps --target =
+x86_64-poky-linux -C linker=3D/home/francesco/Desktop/poky/build/tmp/work/c=
+ore2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld -L depen=
+dency=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rus=
+t-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps -L dependen=
+cy=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-p=
+anic-test/git-r0/build/target/release/deps -L /home/francesco/Desktop/poky/=
+build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/us=
+r/lib/rust --remap-path-prefix=3D/home/francesco/Desktop/poky/build/tmp/wor=
+k/core2-64-poky-linux/rust-panic-test/git-r0=3D/usr/src/debug/rust-panic-te=
+st/git-r0`<br>
+&gt; | error: the crate `panic_abort` does not have the panic strategy `abo=
+rt`<br>
+&gt; |<br>
+&gt; | error: aborting due to previous error<br>
+&gt; |<br>
+&gt; | error: could not compile `rust-hello-world`<br>
+&gt; |<br>
+&gt; | Caused by:<br>
+&gt; |=C2=A0 =C2=A0process didn&#39;t exit successfully: `rustc --crate-nam=
+e rust_hello_world --edition=3D2018 src/<a href=3D"http://main.rs" rel=3D"n=
+oreferrer" target=3D"_blank">main.rs</a> --error-format=3Djson --json=3Ddia=
+gnostic-rendered-ansi --crate-type bin --emit=3Ddep-info,link -C opt-level=
+=3D3 -C panic=3Dabort -C lto -C metadata=3D38cc6f415494c65c -C extra-filena=
+me=3D-38cc6f415494c65c --out-dir /home/francesco/Desktop/poky/build/tmp/wor=
+k/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux=
+/release/deps --target x86_64-poky-linux -C linker=3D/home/francesco/Deskto=
+p/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/ta=
+rget-rust-ccld -L dependency=3D/home/francesco/Desktop/poky/build/tmp/work/=
+core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/r=
+elease/deps -L dependency=3D/home/francesco/Desktop/poky/build/tmp/work/cor=
+e2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps -L /home/=
+francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/g=
+it-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=3D/home/francesco/Des=
+ktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=3D/usr/=
+src/debug/rust-panic-test/git-r0` (exit status: 1)<br>
+&gt; | WARNING: exit code 101 from a shell command.<br>
+<br>
+A similar error also appears when the panic strategy is set to unwind<br>
+The recipe, generated using cargo bitbake, is as follows:<br>
+<br>
+&gt; inherit cargo<br>
+&gt; SRC_URI +=3D &quot;git://<a href=3D"http://git@github.com/frankplus/ru=
+st-hello-world.git;protocol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" tar=
+get=3D"_blank">git@github.com/frankplus/rust-hello-world.git;protocol=3Dhtt=
+ps;branch=3Dmaster</a>&quot;<br>
+&gt; SRCREV =3D &quot;68b7f7ee7df6e08a0411ba7157761145c43baf5d&quot;<br>
+&gt; S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; SUMMARY =3D &quot;rust-hello-world&quot;<br>
+&gt; HOMEPAGE =3D &quot;<a href=3D"https://github.com/frankplus/rust-hello-=
+world" rel=3D"noreferrer" target=3D"_blank">https://github.com/frankplus/ru=
+st-hello-world</a>&quot;<br>
+&gt; LICENSE =3D &quot;MIT | Apache-2.0&quot;<br>
+&gt; LIC_FILES_CHKSUM =3D &quot;file://COPYRIGHT;md5=3De6b2207ac3740d2d0114=
+1c49208c2147&quot;<br>
+<br>
+Version: honister @ f286eef, master @ f9f3e1<br>
+Component: meta/recipes-devtools/rust<br>
+Relate-to: <a href=3D"https://github.com/meta-rust/meta-rust/issues/343" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/meta-rust/meta-rust/i=
+ssues/343</a><br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160568): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/160568" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/160568</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88421290/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88421290/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
-e: paul.barker@sancloud.com
-w: https://sancloud.co.uk/
+--000000000000ec916105d58bd00e--
 
