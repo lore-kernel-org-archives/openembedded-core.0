@@ -1,212 +1,132 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD320C433F5
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 18:03:29 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web08.10934.1642183409253996023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A53C433EF
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 18:04:32 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.10891.1642183472273845689
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 10:03:29 -0800
+ Fri, 14 Jan 2022 10:04:32 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: sakib.sajal@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20EI3S8e024204
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69EBDED1
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 10:03:29 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20EI3Sv7010191
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+ Fri, 14 Jan 2022 10:04:31 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13E873F766
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 10:03:28 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 14 Jan 2022 10:03:28 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 14 Jan 2022 10:03:28 -0800
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 14 Jan 2022 10:03:27 -0800
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 6/8] qemu: fix CVE-2021-3748
-Date: Fri, 14 Jan 2022 13:03:18 -0500
-Message-ID: <20220114180320.3526-6-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220114180320.3526-1-sakib.sajal@windriver.com>
-References: <20220114180320.3526-1-sakib.sajal@windriver.com>
+ Fri, 14 Jan 2022 10:04:30 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] systemtap: fix vsprintf errors
+Date: Fri, 14 Jan 2022 18:04:28 +0000
+Message-Id: <20220114180428.320817-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 18:03:29 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 18:04:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160577
+ https://lists.openembedded.org/g/openembedded-core/message/160579
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+In some configurations (such as 32-bit arm), using printf() causes
+gcc errors.  Backport a patch from upstream to fix this.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-3748.patch             | 127 ++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+ ...ing-tweak-for-sprintf-precision-para.patch | 45 +++++++++++++++++++
+ .../systemtap/systemtap_git.inc               |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-PR28778-=
+gcc-warning-tweak-for-sprintf-precision-para.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 970aa96608..7648ce9a38 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -78,6 +78,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3595_2.patch \
-            file://CVE-2021-3594.patch \
-            file://CVE-2021-3713.patch \
-+           file://CVE-2021-3748.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-PR28778-gcc-war=
+ning-tweak-for-sprintf-precision-para.patch b/meta/recipes-kernel/systemt=
+ap/systemtap/0001-PR28778-gcc-warning-tweak-for-sprintf-precision-para.pa=
+tch
 new file mode 100644
-index 0000000000..4765f24739
+index 00000000000..0801cb57ece
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
-@@ -0,0 +1,127 @@
-+From bacc200f623647632258f7efc0f098ac30dd4225 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Thu, 2 Sep 2021 13:44:12 +0800
-+Subject: [PATCH 09/12] virtio-net: fix use after unmap/free for sg
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-PR28778-gcc-warning-tw=
+eak-for-sprintf-precision-para.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
-+When mergeable buffer is enabled, we try to set the num_buffers after
-+the virtqueue elem has been unmapped. This will lead several issues,
-+E.g a use after free when the descriptor has an address which belongs
-+to the non direct access region. In this case we use bounce buffer
-+that is allocated during address_space_map() and freed during
-+address_space_unmap().
++From b0422e9e5a539164af75cddcaeb01bceca56bf12 Mon Sep 17 00:00:00 2001
++From: "Frank Ch. Eigler" <fche@redhat.com>
++Date: Thu, 13 Jan 2022 18:33:15 -0500
++Subject: [PATCH] PR28778: gcc warning tweak for sprintf precision parame=
+ter
 +
-+Fixing this by storing the elems temporarily in an array and delay the
-+unmap after we set the the num_buffers.
++A precision=3D-1 sentinel value got interpreted as UINT_MAX in a
++context, leading to diagnostics like:
 +
-+This addresses CVE-2021-3748.
++/usr/share/systemtap/runtime/vsprintf.c:341:23: error: 'strnlen' specifi=
+ed bound 4294967295 may exceed maximum object size 2147483647 [-Werror=3D=
+stringop-overread]
 +
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Fixes: fbe78f4f55c6 ("virtio-net support")
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+Upstream-Status: Backport [bedd7e93d01961fcb16a97ae45d93acf357e11f6]
-+CVE: CVE-2021-3748
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++Adding a clamp_t() around the parameter field to keep it limited to
++STP_BUFFER_SIZE (8K by default), which is apprx. the limit for a
++single printf.
 +---
-+ hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
-+ 1 file changed, 32 insertions(+), 7 deletions(-)
++ runtime/vsprintf.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index 9179013ac..df1d30e2c 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -1665,10 +1665,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+     VirtIONet *n = qemu_get_nic_opaque(nc);
-+     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-++    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
-++    size_t lens[VIRTQUEUE_MAX_SIZE];
-+     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
-+     struct virtio_net_hdr_mrg_rxbuf mhdr;
-+     unsigned mhdr_cnt = 0;
-+-    size_t offset, i, guest_offset;
-++    size_t offset, i, guest_offset, j;
-++    ssize_t err;
-+ 
-+     if (!virtio_net_can_receive(nc)) {
-+         return -1;
-+@@ -1699,6 +1702,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+ 
-+         total = 0;
-+ 
-++        if (i == VIRTQUEUE_MAX_SIZE) {
-++            virtio_error(vdev, "virtio-net unexpected long buffer chain");
-++            err = size;
-++            goto err;
-++        }
-++
-+         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
-+         if (!elem) {
-+             if (i) {
-+@@ -1710,7 +1719,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                              n->guest_hdr_len, n->host_hdr_len,
-+                              vdev->guest_features);
-+             }
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         if (elem->in_num < 1) {
-+@@ -1718,7 +1728,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                          "virtio-net receive queue contains no in buffers");
-+             virtqueue_detach_element(q->rx_vq, elem, 0);
-+             g_free(elem);
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         sg = elem->in_sg;
-+@@ -1755,12 +1766,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+         if (!n->mergeable_rx_bufs && offset < size) {
-+             virtqueue_unpop(q->rx_vq, elem, total);
-+             g_free(elem);
-+-            return size;
-++            err = size;
-++            goto err;
-+         }
-+ 
-+-        /* signal other side */
-+-        virtqueue_fill(q->rx_vq, elem, total, i++);
-+-        g_free(elem);
-++        elems[i] = elem;
-++        lens[i] = total;
-++        i++;
-+     }
-+ 
-+     if (mhdr_cnt) {
-+@@ -1770,10 +1782,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
-+     }
-+ 
-++    for (j = 0; j < i; j++) {
-++        /* signal other side */
-++        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
-++        g_free(elems[j]);
-++    }
-++
-+     virtqueue_flush(q->rx_vq, i);
-+     virtio_notify(vdev, q->rx_vq);
-+ 
-+     return size;
-++
-++err:
-++    for (j = 0; j < i; j++) {
-++        g_free(elems[j]);
-++    }
-++
-++    return err;
-+ }
-+ 
-+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
-+-- 
-+2.31.1
++diff --git a/runtime/vsprintf.c b/runtime/vsprintf.c
++index cd31a938b..606f685e8 100644
++--- a/runtime/vsprintf.c
+++++ b/runtime/vsprintf.c
++@@ -338,7 +338,7 @@ _stp_vsprint_memory(char * str, char * end, const ch=
+ar * ptr,
++ 	if (format =3D=3D 's') {
++ 		if ((unsigned long)ptr < PAGE_SIZE)
++ 			ptr =3D "<NULL>";
++-		len =3D strnlen(ptr, precision);
+++		len =3D strnlen(ptr, clamp_t(size_t, precision, 0, STP_BUFFER_SIZE));=
+               =20
++ 	}
++ 	else if (precision > 0)
++ 		len =3D precision;
++@@ -410,7 +410,7 @@ _stp_vsprint_memory_size(const char * ptr, int width=
+, int precision,
++ 	if (format =3D=3D 's') {
++ 		if ((unsigned long)ptr < PAGE_SIZE)
++ 			ptr =3D "<NULL>";
++-		len =3D strnlen(ptr, precision);
+++		len =3D strnlen(ptr, clamp_t(size_t, precision, 0, STP_BUFFER_SIZE));
++ 	}
++ 	else if (precision > 0)
++ 		len =3D precision;
++--=20
++2.25.1
 +
--- 
-2.33.0
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recip=
+es-kernel/systemtap/systemtap_git.inc
+index 22b07f15165..36c934c2fa7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -7,6 +7,7 @@ SRC_URI =3D "git://sourceware.org/git/systemtap.git;branc=
+h=3Dmaster \
+            file://0001-Do-not-let-configure-write-a-python-location-into=
+-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.pat=
+ch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-ro=
+ot.patch \
++           file://0001-PR28778-gcc-warning-tweak-for-sprintf-precision-p=
+ara.patch \
+            "
+=20
+ COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips)=
+.*-linux'
+--=20
+2.25.1
 
 
