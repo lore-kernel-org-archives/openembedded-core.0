@@ -1,149 +1,102 @@
-Return-Path: <matt@madison.systems>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1164EC433F5
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 10:31:44 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web09.5534.1642156303306379329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E71C433FE
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 13:04:14 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web12.6788.1642165452924592201
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 02:31:43 -0800
+ Fri, 14 Jan 2022 05:04:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@madison.systems header.s=google header.b=XHfMB5sd;
- spf=pass (domain: madison.systems, ip: 209.85.167.41,
- mailfrom: matt@madison.systems)
-Received: by mail-lf1-f41.google.com with SMTP id m1so28840426lfq.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Mv0P1OF4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id l25so15446541wrb.13
         for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 02:31:42 -0800 (PST)
+ Fri, 14 Jan 2022 05:04:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=madison.systems; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dYrQITdTWv1kbGr34ZVO15ViDkiCWXsgI2Evq495VaU=;
-        b=XHfMB5sd7nuddjdsBID1yqA9cyMKS+BZLtWBfBMqp2q9ftc/1CGKZlg9dvi16xWuRB
-         fuUGiPMy8/0CStw88y12tQhNfHzzdPDRyRXIIKNK6RTbm5mt8TxM/1P2rcSQUVZdlY2t
-         pbMeG+yD5V1farUXXmeHTb+xWHs82SqNFWk1P1tG/DfszFz9EKWh0k01EHEYk7CLx7Xf
-         jVmhQpUeH1zu4+NngenzjStx5TlpkTq7Qfx2WiYQWmfGS/Wn0SqFEqmi29DT3aaBGOTV
-         C5clMnScB5MqGXgV0ZcstyPZMSrTchTizOP6ADp0pntjedVuFESyziLdkLcfGO4Ba7D6
-         eGfQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=WDiKEuCGE1aOuvsiU7ZwRHoJuQZNZH1KVKu6X1yXZgs=;
+        b=Mv0P1OF4XiI6R0O8TVD0UwaAUH5zXrdlrxo9Byd1t/llpQTwH5Nr4wULrvy4oPWbur
+         9IAoJvjiSh3MzqZaw/ENs1JuHWvIGptcdd4FLN1PW7/UOYLWxHy+zmGmxidz4xy1ddGX
+         I5wJAPHlErQD24nVHltcjKI3MfFPJcEGxIu+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dYrQITdTWv1kbGr34ZVO15ViDkiCWXsgI2Evq495VaU=;
-        b=O/EGIh+vBJ4RUtTpmdH6os6neh7hFnBsvMfTv2bcPgZyweAIUqPV82Ynm7LRJuRQTL
-         p9CrBj/KNDXQoHPhCvMSdvkGkuYoFvNHivkofq5nY7V57zW7gFSuxQ07eUzO3ju6cWn2
-         +dW+2MecduNQRDLkDNMZo/dTmdLC26i3mARmj20T0Icm8ZgT0l3tHIcPA8WxuczGUOZx
-         AoH1U5pLEF3+Uec6fUiwbVIGouoQ8L0et+yY8qig336vuoZftpCY02JZ6TTxVOT7gNth
-         NKafo2EkLx08NqOGAk8JVIby9WFumRck37FWxHL6Mhrlc0vRSVUYvhegQjt6+BUXDhyU
-         /qVw==
-X-Gm-Message-State: AOAM532FJabR+yNyOtTWcOLKisHQP6y0G9vl0Aejq2HfV5NEub3TiZXY
-	IIgxRFCBzGxcYyu5DD4pwwtfueUP32HIMnjCAYfdBA==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=WDiKEuCGE1aOuvsiU7ZwRHoJuQZNZH1KVKu6X1yXZgs=;
+        b=SAqXcfEbVh2xFFpkElk/bAuPr1mhJmPZbaxYllD4gPNyQuunlkCPIPGNjFqNQBGslX
+         Qp/CN5FH1OLS7cobdFHD5jhPYMMgHTqcZKm4H0y0zRIBVbZKm9XEUZdzJ9y69Unb9L4M
+         Jk4WglE+aNbgoRzVEut4lPhKKicfFeGW99Ws24ibm9qyxVWCLSdB744wIN0r1ip4uecu
+         wSqJm/u4imLsLw2JM1Wvu3w1YJoyTErdez2AwzxdjY4p0QxFjb1bNIr9OHM6s10SR2gN
+         8CMV6hlvBf90S6KmD0InQKP3+OiqE6Go69AI9DdbCMCxXVjnXgFtYLyD8Cl3uMnzq5sS
+         oNRw==
+X-Gm-Message-State: AOAM531+JvUyt7Yk0nY0OhAPvJPl0LdWTOx9CoDSwZ+wyk9hXjx5DIs/
+	LnQpWlztxq4fCbsS9+mxaBTt3A==
 X-Google-Smtp-Source: 
- ABdhPJwYoLwoGG4ejt6tKxUxBOxhg3mnASYxYSP6MmBNmFzub5FBdVHNbSgwGNNB4MhA6x+Ld4hWZOYMK4iA1cvCYIs=
-X-Received: by 2002:a2e:9787:: with SMTP id y7mr6241274lji.213.1642156301290;
- Fri, 14 Jan 2022 02:31:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20211217153630.1746217-1-matt@madison.systems>
- <100ff0ce-72e1-b3b3-ff1e-2a56e0742624@sancloud.com>
- <7b0757495eff0e466dc84cb82f597e4c28256061.camel@linuxfoundation.org>
- <015ba052-f4ce-5eb3-4b91-5d7d9eac981b@sancloud.com>
- <16C2D7CF44733347.22520@lists.openembedded.org>
-In-Reply-To: <16C2D7CF44733347.22520@lists.openembedded.org>
-From: Matt Madison <matt@madison.systems>
-Date: Fri, 14 Jan 2022 02:31:30 -0800
+ ABdhPJyyV+gcKDzFX9SbFT2+o+4X/KY4IV8/euWtmJr3cQ/mi+5mxoGKbKvMdlxREDWVXOWCxDePKQ==
+X-Received: by 2002:a5d:47a3:: with SMTP id 3mr8209419wrb.583.1642165451482;
+        Fri, 14 Jan 2022 05:04:11 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b80b:58a:dabd:3794?
+ ([2001:8b0:aba:5f3c:b80b:58a:dabd:3794])
+        by smtp.gmail.com with ESMTPSA id
+ w12sm6046662wrm.36.2022.01.14.05.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 05:04:11 -0800 (PST)
 Message-ID: 
- <CAGgRHJrzK87MBuaz1NRi+F4tvn=BFJDMZTECE0f06a3J0RPxOA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Move crate fetcher to OE_IMPORTS
-To: Matt Madison <matt@madison.systems>
-Cc: Paul Barker <paul.barker@sancloud.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Joshua Watt <jpewhacker@gmail.com>
+ <779116463c2179c139f3aec318a45fbcab3ed8e2.camel@linuxfoundation.org>
+Subject: Re: AW: [yocto] Question of Yocto dunfell LTS period
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Matthias Klein <matthias.klein@optimeas.de>, "chanho61.park@samsung.com"
+	 <chanho61.park@samsung.com>, "yocto@lists.yoctoproject.org"
+	 <yocto@lists.yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "steve@sakoman.com" <steve@sakoman.com>
+Date: Fri, 14 Jan 2022 13:04:08 +0000
+In-Reply-To: 
+ <AM0PR10MB3107F4F770A4DDDDAAD009A099549@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+	<CGME20220114011350epcas2p16efb8acbdc4d9edceee83569e10cc359@epcas2p1.samsung.com>
+	 <000801d808e3$fcea94e0$f6bfbea0$@samsung.com>
+	 <AM0PR10MB3107F4F770A4DDDDAAD009A099549@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 10:31:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 13:04:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160562
+ https://lists.openembedded.org/g/openembedded-core/message/160564
 
-On Tue, Dec 21, 2021 at 10:15 AM Matt Madison via
-lists.openembedded.org <matt=madison.systems@lists.openembedded.org>
-wrote:
->
-> On Tue, Dec 21, 2021 at 6:07 AM Paul Barker <paul.barker@sancloud.com> wrote:
-> >
-> > On 20/12/2021 22:34, Richard Purdie wrote:
-> > > On Mon, 2021-12-20 at 17:01 +0000, Paul Barker wrote:
-> > >> On 17/12/2021 15:36, Matt Madison wrote:
-> > >>> This patch series switches to using the OE_IMPORTS mechanism
-> > >>> for installing the crate fetcher. This simplifies the addition
-> > >>> and clears up issues with interactions between SRCPV and
-> > >>> the shared-state fetching logic.
-> > >>>
-> > >>> Matt Madison (4):
-> > >>>     lib/crate.py: install crate fetcher on import
-> > >>>     base.bbclass: add crate to OE_IMPORTS
-> > >>>     cargo_common.bbclass: remove inherit of crate-fetch
-> > >>>     classes: remove crate-fetch.bbclass
-> > >>>
-> > >>>    meta/classes/base.bbclass         |  2 +-
-> > >>>    meta/classes/cargo_common.bbclass |  2 --
-> > >>>    meta/classes/crate-fetch.bbclass  | 28 ----------------------------
-> > >>>    meta/lib/crate.py                 |  2 ++
-> > >>>    4 files changed, 3 insertions(+), 31 deletions(-)
-> > >>>    delete mode 100644 meta/classes/crate-fetch.bbclass
-> > >>>
-> > >>
-> > >> Would a better solution here be to move the crate fetcher into
-> > >> lib/bb/fetch2/ in bitbake?
-> > >
-> > > I've been wondering about this too.
-> > >
-> > > Does anyone remember how the fetcher lines up against the general fetcher
-> > > requirements we have and is there a list of anything that remained to be done
-> > > before it could be added to bitbake?
-> >
-> > If I remember correctly, it just needed some test cases writing. The
-> > crate fetcher is a subclass of the wget fetcher with changes to how
-> > urldata is set up and how unpack is handled, so it should integrate well
-> > into bitbake.
->
-> One thing I see that's a bit worrisome is that it disables
-> recommends_checksum for the downloaded files,
-> and populates metadata for use (I assume) by cargo with the calculated
-> SHA256 on the download.
+On Fri, 2022-01-14 at 07:14 +0000, Matthias Klein wrote:
+> Hello together,
+> 
+> I would like to add a question to the topic:
+> 
+> Why was the LTS period for dunfell extended?
+> Can we expect the same for kirstone?
 
-Any other thoughts on this?  I've modified my distro to work around
-the problem that led me to propose these patches, but something needs
-to be fixed here. crate-fetch.bbclass should not be setting SRCPV.
+The project members agreed to fun an extension to the lifetime of dunfell from 2
+years to 4 years. There should have been some announcements about this but we
+lack people on the advocacy side of the project with time to make that happen.
+That saddens me a lot and I think it is a missed opportunity but there isn't
+much I can do about it beyond what I've already tried.
 
-Thanks,
--Matt
+Extending Dunfell is an experiment so we would base a decision on how well the
+dunfell extension is working out. Extending an LTS like this requires a
+financial commitment from the project. At this point in time the project cannot
+commit to extending kirkstone as we can't guarantee the finances. 
 
->
-> -Matt
->
-> >
-> > Thanks,
-> >
-> > --
-> > Paul Barker
-> > Principal Software Engineer
-> > SanCloud Ltd
-> >
-> > e: paul.barker@sancloud.com
-> > w: https://sancloud.co.uk/
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#159928): https://lists.openembedded.org/g/openembedded-core/message/159928
-> Mute This Topic: https://lists.openembedded.org/mt/87791267/3618418
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [matt@madison.systems]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Cheers,
+
+Richard
+
+
+
 
