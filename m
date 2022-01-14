@@ -1,278 +1,165 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 352F1C433EF
-	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 14:42:47 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web08.8056.1642171366571353661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B7BC433EF
+	for <webhook@archiver.kernel.org>; Fri, 14 Jan 2022 17:12:27 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web08.10252.1642180346381043384
  for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 06:42:46 -0800
+ Fri, 14 Jan 2022 09:12:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n4fM4uxe;
- spf=pass (domain: gmail.com, ip: 209.85.166.44,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id f24so6691257ioc.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qzwwjzB+;
+ spf=pass (domain: gmail.com, ip: 209.85.161.44,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f44.google.com with SMTP id
+ w15-20020a4a9d0f000000b002c5cfa80e84so2737635ooj.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 14 Jan 2022 06:42:46 -0800 (PST)
+ Fri, 14 Jan 2022 09:12:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2RMBuhypo2gEXLbf++R6n/gzrsLCSdKojm8f5kflohg=;
-        b=n4fM4uxe5S2y3WOAarqylO15Nsk+OvEUJfPd+iEj5Br3wA+7NWarbkgM9JKGt3ir9p
-         QbFGJgED3YOwLlnaJMkACj4wzqbY/R7bRpZqTyccXdPgKm2l1XOahH/i+nKQHBVCsZZy
-         RCylQSyj6H/ej5c9AeINDZCIVRPUc7Bx4/alGfC0KUsj53AjLHPjzoxPWnLjZeWCzWhA
-         CRB1FBZMaNdmAruzaUTCNxJZTP+9BdDAwbFjLXVCXwAS7/IEdRgXUfvxZMpsNDFNXkJR
-         +r0+SBG8smPFR6bRZH0Uno4QO0FiDLbr4yT8aocJESlvkiVvAv8NDTgJm2jPtnRzDn7X
-         N88g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbxMn4CjavlUK/6wy45iAGDzen89r3nnr/BsKCuvdPM=;
+        b=qzwwjzB+a5d8RF+W/Y1QmwZJUNyYkhpzs9Ukot0HuiwNf/xKNNdT3DU5/pqefXD7sL
+         32llu6VHaYaKp5DmBbxMQndB+WNE1avdSJjlVvGEg1qL4X0DbptaixMCriMZis6YbvMW
+         7Sj558O+l0oPSzI04sDyXysDI4VrepwPXTfjh1hGeaESt9TPIF6d8fcOCTfhDbxCASOG
+         6vLMQAv6WkB4AK1uiYLal8y/u7VxsePluPBgrGU6V6TjfihQ9dIA2S+KbF3oyZio4Ozo
+         zZHZmbSnpIQZWB4lxLlSeeTMl6qEJa/xGNG4xEmMmxKemgtrUiM9FnmGotcFOy5QjwSc
+         nyzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2RMBuhypo2gEXLbf++R6n/gzrsLCSdKojm8f5kflohg=;
-        b=Sq4BvKOBF1XHyW8dUpaDuJNLYiSPww/RmnYX0f7fUtV/NAvG7BHIzTf24UsWN5BKO3
-         nEKmLSCWuk8SgdY971Y91IN5ASoFRuOQ7LbeJL9QpHxj5wgyGkak/xXBjb0J1+KmiUq9
-         gj1XVSoufaPaNdmSeSf5Bn6ZiC+M0Az70ocsZ2uJPYaM57lNtmSK1R5T7hLbQfOnniQa
-         X3gId03UkxQE3+hGZcQYQl9Xzvt+Sl0/MeEkE16WjhIk8H3Tf+t50XPNMBmi8fTbCIYL
-         AgcwP9/62ru5YiGS+QzdyfUIQ0WZhdJSIx1v4Pqc4ZHKWVsbps2rKxKcHd0GjXdyzIv1
-         vcWQ==
-X-Gm-Message-State: AOAM530Q8tnP031nP8Nnv7kNxzQcanuVrhkJBCay39f+ZhpurEggDJ+V
-	Wm8Lj2lP3MZaZwk6UthvvvYsRyxZubLbxd5rMIU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbxMn4CjavlUK/6wy45iAGDzen89r3nnr/BsKCuvdPM=;
+        b=ZTytbaQVLmLBxRhXW4W2It/cC8Hibfz3LjcAyCzkAPynKHjzmL5geEITa8iNzjl8kp
+         hgJkef+CQX/c99qmz80rbaUOCGtX8vSlsg9r1dk50Aigst39+Lq25ktL6zR8r4UJ7mP4
+         Y1Q1VsDC6jhqsdrRjQflzhJ/air/HsLW7otgP4OLKaeVzxQDFjsCvwPhHrhEhnwIyB16
+         tT4Z9DFxvpUzrcwtjlxZk4Hn46p8Qt525VPmHktfH80BZwfkdjAmGcvDvSTbe6JqY24r
+         PyjbMhe7kk7ym0ND+L1mb913bMwC6OHjfMg0N3QW1/wBvVe0WeZcgnvhU+jpiPOwvMez
+         HB+w==
+X-Gm-Message-State: AOAM532gPm4qfxJJyTYGjMkr1WOZ7avwxYjisXosiowc8o4uF8KYD0TY
+	+qh63etgCUzulWQeHnmWnuEuBCj5Z1I=
 X-Google-Smtp-Source: 
- ABdhPJzLD5b9SbwwH3ZBYawKSWV6TIoZV3QYdvQU4PGH+Y0SfWg2kqYPfKY32E5TgtETtwusVnqku5f7av5qyXR2bMk=
-X-Received: by 2002:a5d:91c7:: with SMTP id k7mr4466290ior.151.1642171365887;
- Fri, 14 Jan 2022 06:42:45 -0800 (PST)
+ ABdhPJx2Fe+i0rjJ5RoQE3eUtrkqFp7fMD5eOyS173N0DU4atuM2Ca0O4cpXVUhO6Q2OF03wSBh/CA==
+X-Received: by 2002:a4a:5403:: with SMTP id t3mr7009564ooa.72.1642180345303;
+        Fri, 14 Jan 2022 09:12:25 -0800 (PST)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id
+ be11sm2261874oib.43.2022.01.14.09.12.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 09:12:24 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][RFC] classes/native: Propagate dependencies to outhash
+Date: Fri, 14 Jan 2022 11:12:22 -0600
+Message-Id: <20220114171222.1788462-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: 
- <CAL1ChxrincK92a9tFxq=O6j8wNpccdebywqoeYMS+He1ED4tTA@mail.gmail.com>
-In-Reply-To: 
- <CAL1ChxrincK92a9tFxq=O6j8wNpccdebywqoeYMS+He1ED4tTA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Jan 2022 15:42:34 +0100
-Message-ID: 
- <CANNYZj_z2RsfGLaAaJHEBb+P5JT3CNikobgrq00FW9fkGH6UgQ@mail.gmail.com>
-Subject: Re: [OE-core] [rust] error: the crate panic_abort does not have the
- panic strategy abort
-To: Francesco Pham <pham.francesco@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ec916105d58bd00e"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 14:42:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 14 Jan 2022 17:12:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160570
+ https://lists.openembedded.org/g/openembedded-core/message/160571
 
---000000000000ec916105d58bd00e
-Content-Type: text/plain; charset="UTF-8"
+Native task outputs are directly run on the target (host) system after
+being built. Even if the output of a native recipe doesn't change, a
+change in one of its dependencies may cause a change in the output it
+generates (e.g. rpm output depends on the output of its dependent zstd
+library).
 
-Perhaps you could look at how this is handled in mozjs recipe in meta-oe, I
-vaguely remember it forces panic strategy to something incompatible and I
-patched it to match..
+This can cause poor interactions with hash equivalence, since this
+recipes output-changing dependency is "hidden" and downstream task only
+see that this recipe has the same outhash and therefore is equivalent.
+This can result in different output in different cases.
 
-Alex
+To resolve this, unhide the output-changing dependency by adding it's
+unihash to this tasks outhash calculation. Unfortunately, don't know
+specifically know which dependencies are output-changing, so we have to
+add all of them.
 
-On Fri, 14 Jan 2022 at 15:21, Francesco Pham <pham.francesco@gmail.com>
-wrote:
+[YOCTO #14685]
 
-> Hi,
-> the following error appears when trying to build a simple rust hello
-> world that uses panic set to abort mode.
->
-> > | DEBUG: Executing shell function do_compile
-> > | NOTE: cargo =
-> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot-native/usr/bin/cargo
-> > | NOTE: rustc =
-> > | NOTE: cargo build -v --target x86_64-poky-linux --release
-> --manifest-path=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git//Cargo.toml
-> > |    Compiling rust-hello-world v0.0.1
-> (/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git)
-> > |     Building [                             ] 0/1: rust-hello-world(bin)
-> > |      Running `rustc --crate-name rust_hello_world --edition=2018 src/
-> main.rs --error-format=json --json=diagnostic-rendered-ansi --crate-type
-> bin --emit=dep-info,link -C opt-level=3 -C panic=abort -C lto -C
-> metadata=38cc6f415494c65c -C extra-filename=-38cc6f415494c65c --out-dir
-> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
-> --target x86_64-poky-linux -C
-> linker=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld
-> -L
-> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
-> -L
-> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps
-> -L
-> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/usr/lib/rust
-> --remap-path-prefix=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=/usr/src/debug/rust-panic-test/git-r0`
-> > | error: the crate `panic_abort` does not have the panic strategy `abort`
-> > |
-> > | error: aborting due to previous error
-> > |
-> > | error: could not compile `rust-hello-world`
-> > |
-> > | Caused by:
-> > |   process didn't exit successfully: `rustc --crate-name
-> rust_hello_world --edition=2018 src/main.rs --error-format=json
-> --json=diagnostic-rendered-ansi --crate-type bin --emit=dep-info,link -C
-> opt-level=3 -C panic=abort -C lto -C metadata=38cc6f415494c65c -C
-> extra-filename=-38cc6f415494c65c --out-dir
-> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
-> --target x86_64-poky-linux -C
-> linker=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld
-> -L
-> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps
-> -L
-> dependency=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps
-> -L
-> /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/usr/lib/rust
-> --remap-path-prefix=/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=/usr/src/debug/rust-panic-test/git-r0`
-> (exit status: 1)
-> > | WARNING: exit code 101 from a shell command.
->
-> A similar error also appears when the panic strategy is set to unwind
-> The recipe, generated using cargo bitbake, is as follows:
->
-> > inherit cargo
-> > SRC_URI += "git://
-> git@github.com/frankplus/rust-hello-world.git;protocol=https;branch=master
-> "
-> > SRCREV = "68b7f7ee7df6e08a0411ba7157761145c43baf5d"
-> > S = "${WORKDIR}/git"
-> > SUMMARY = "rust-hello-world"
-> > HOMEPAGE = "https://github.com/frankplus/rust-hello-world"
-> > LICENSE = "MIT | Apache-2.0"
-> > LIC_FILES_CHKSUM =
-> "file://COPYRIGHT;md5=e6b2207ac3740d2d01141c49208c2147"
->
-> Version: honister @ f286eef, master @ f9f3e1
-> Component: meta/recipes-devtools/rust
-> Relate-to: https://github.com/meta-rust/meta-rust/issues/343
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160568):
-> https://lists.openembedded.org/g/openembedded-core/message/160568
-> Mute This Topic: https://lists.openembedded.org/mt/88421290/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/native.bbclass | 31 +++++++++++++++++++++++++++++++
+ meta/lib/oe/sstatesig.py    | 10 +++++++---
+ 2 files changed, 38 insertions(+), 3 deletions(-)
 
---000000000000ec916105d58bd00e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 76a599bc15..fc7422c5d7 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -195,3 +195,34 @@ USE_NLS = "no"
+ 
+ RECIPERDEPTASK = "do_populate_sysroot"
+ do_populate_sysroot[rdeptask] = "${RECIPERDEPTASK}"
++
++#
++# Native task outputs are directly run on the target (host) system after being
++# built. Even if the output of this recipe doesn't change, a change in one of
++# its dependencies may cause a change in the output it generates (e.g. rpm
++# output depends on the output of its dependent zstd library).
++#
++# This can cause poor interactions with hash equivalence, since this recipes
++# output-changing dependency is "hidden" and downstream task only see that this
++# recipe has the same outhash and therefore is equivalent. This can result in
++# different output in different cases.
++#
++# To resolve this, unhide the output-changing dependency by adding its unihash
++# to this tasks outhash calculation. Unfortunately, don't know specifically
++# know which dependencies are output-changing, so we have to add all of them.
++#
++python native_add_do_populate_sysroot_deps () {
++    current_task = "do_" + d.getVar("BB_CURRENTTASK")
++    if current_task != "do_populate_sysroot":
++        return
++
++    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++    pn = d.getVar("PN")
++    deps = {
++        dep[0]:dep[6] for dep in taskdepdata.values() if
++            dep[1] == current_task and dep[0] != pn
++    }
++
++    d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
++}
++SSTATECREATEFUNCS += "native_add_do_populate_sysroot_deps"
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 038404e377..abcd96231e 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -491,7 +491,8 @@ def OEOuthashBasic(path, sigfile, task, d):
+     if task == "package":
+         include_timestamps = True
+         include_root = False
+-    extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
++    hash_version = d.getVar('HASHEQUIV_HASH_VERSION')
++    extra_sigdata = d.getVar("HASHEQUIV_EXTRA_SIGDATA")
+ 
+     filemaps = {}
+     for m in (d.getVar('SSTATE_HASHEQUIV_FILEMAP') or '').split():
+@@ -506,8 +507,11 @@ def OEOuthashBasic(path, sigfile, task, d):
+         basepath = os.path.normpath(path)
+ 
+         update_hash("OEOuthashBasic\n")
+-        if extra_content:
+-            update_hash(extra_content + "\n")
++        if hash_version:
++            update_hash(hash_version + "\n")
++
++        if extra_sigdata:
++            update_hash(extra_sigdata + "\n")
+ 
+         # It is only currently useful to get equivalent hashes for things that
+         # can be restored from sstate. Since the sstate object is named using
+-- 
+2.33.0
 
-<div dir=3D"ltr"><div>Perhaps you could look at how this is handled in mozj=
-s recipe in meta-oe, I vaguely remember it forces panic strategy to somethi=
-ng incompatible and I patched it to match..</div><div><br></div><div>Alex<b=
-r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Fri, 14 Jan 2022 at 15:21, Francesco Pham &lt;<a href=3D"mailto:=
-pham.francesco@gmail.com">pham.francesco@gmail.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
-the following error appears when trying to build a simple rust hello<br>
-world that uses panic set to abort mode.<br>
-<br>
-&gt; | DEBUG: Executing shell function do_compile<br>
-&gt; | NOTE: cargo =3D /home/francesco/Desktop/poky/build/tmp/work/core2-64=
--poky-linux/rust-panic-test/git-r0/recipe-sysroot-native/usr/bin/cargo<br>
-&gt; | NOTE: rustc =3D<br>
-&gt; | NOTE: cargo build -v --target x86_64-poky-linux --release --manifest=
--path=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rus=
-t-panic-test/git-r0/git//Cargo.toml<br>
-&gt; |=C2=A0 =C2=A0 Compiling rust-hello-world v0.0.1 (/home/francesco/Desk=
-top/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/git)<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0Building [=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0] 0/1: ru=
-st-hello-world(bin)<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0 Running `rustc --crate-name rust_hello_world --e=
-dition=3D2018 src/<a href=3D"http://main.rs" rel=3D"noreferrer" target=3D"_=
-blank">main.rs</a> --error-format=3Djson --json=3Ddiagnostic-rendered-ansi =
---crate-type bin --emit=3Ddep-info,link -C opt-level=3D3 -C panic=3Dabort -=
-C lto -C metadata=3D38cc6f415494c65c -C extra-filename=3D-38cc6f415494c65c =
---out-dir /home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/r=
-ust-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps --target =
-x86_64-poky-linux -C linker=3D/home/francesco/Desktop/poky/build/tmp/work/c=
-ore2-64-poky-linux/rust-panic-test/git-r0/wrapper/target-rust-ccld -L depen=
-dency=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rus=
-t-panic-test/git-r0/build/target/x86_64-poky-linux/release/deps -L dependen=
-cy=3D/home/francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-p=
-anic-test/git-r0/build/target/release/deps -L /home/francesco/Desktop/poky/=
-build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/recipe-sysroot/us=
-r/lib/rust --remap-path-prefix=3D/home/francesco/Desktop/poky/build/tmp/wor=
-k/core2-64-poky-linux/rust-panic-test/git-r0=3D/usr/src/debug/rust-panic-te=
-st/git-r0`<br>
-&gt; | error: the crate `panic_abort` does not have the panic strategy `abo=
-rt`<br>
-&gt; |<br>
-&gt; | error: aborting due to previous error<br>
-&gt; |<br>
-&gt; | error: could not compile `rust-hello-world`<br>
-&gt; |<br>
-&gt; | Caused by:<br>
-&gt; |=C2=A0 =C2=A0process didn&#39;t exit successfully: `rustc --crate-nam=
-e rust_hello_world --edition=3D2018 src/<a href=3D"http://main.rs" rel=3D"n=
-oreferrer" target=3D"_blank">main.rs</a> --error-format=3Djson --json=3Ddia=
-gnostic-rendered-ansi --crate-type bin --emit=3Ddep-info,link -C opt-level=
-=3D3 -C panic=3Dabort -C lto -C metadata=3D38cc6f415494c65c -C extra-filena=
-me=3D-38cc6f415494c65c --out-dir /home/francesco/Desktop/poky/build/tmp/wor=
-k/core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux=
-/release/deps --target x86_64-poky-linux -C linker=3D/home/francesco/Deskto=
-p/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0/wrapper/ta=
-rget-rust-ccld -L dependency=3D/home/francesco/Desktop/poky/build/tmp/work/=
-core2-64-poky-linux/rust-panic-test/git-r0/build/target/x86_64-poky-linux/r=
-elease/deps -L dependency=3D/home/francesco/Desktop/poky/build/tmp/work/cor=
-e2-64-poky-linux/rust-panic-test/git-r0/build/target/release/deps -L /home/=
-francesco/Desktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/g=
-it-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=3D/home/francesco/Des=
-ktop/poky/build/tmp/work/core2-64-poky-linux/rust-panic-test/git-r0=3D/usr/=
-src/debug/rust-panic-test/git-r0` (exit status: 1)<br>
-&gt; | WARNING: exit code 101 from a shell command.<br>
-<br>
-A similar error also appears when the panic strategy is set to unwind<br>
-The recipe, generated using cargo bitbake, is as follows:<br>
-<br>
-&gt; inherit cargo<br>
-&gt; SRC_URI +=3D &quot;git://<a href=3D"http://git@github.com/frankplus/ru=
-st-hello-world.git;protocol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" tar=
-get=3D"_blank">git@github.com/frankplus/rust-hello-world.git;protocol=3Dhtt=
-ps;branch=3Dmaster</a>&quot;<br>
-&gt; SRCREV =3D &quot;68b7f7ee7df6e08a0411ba7157761145c43baf5d&quot;<br>
-&gt; S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; SUMMARY =3D &quot;rust-hello-world&quot;<br>
-&gt; HOMEPAGE =3D &quot;<a href=3D"https://github.com/frankplus/rust-hello-=
-world" rel=3D"noreferrer" target=3D"_blank">https://github.com/frankplus/ru=
-st-hello-world</a>&quot;<br>
-&gt; LICENSE =3D &quot;MIT | Apache-2.0&quot;<br>
-&gt; LIC_FILES_CHKSUM =3D &quot;file://COPYRIGHT;md5=3De6b2207ac3740d2d0114=
-1c49208c2147&quot;<br>
-<br>
-Version: honister @ f286eef, master @ f9f3e1<br>
-Component: meta/recipes-devtools/rust<br>
-Relate-to: <a href=3D"https://github.com/meta-rust/meta-rust/issues/343" re=
-l=3D"noreferrer" target=3D"_blank">https://github.com/meta-rust/meta-rust/i=
-ssues/343</a><br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#160568): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/160568" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/160568</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88421290/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88421290/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000ec916105d58bd00e--
 
