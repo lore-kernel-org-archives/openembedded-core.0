@@ -1,57 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <0d85a02855799b6b26757e4e189f7b8b301bbe26.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [hardknott 1/2] tune-cortexa72: remove crypto for the default cortex-a72
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Sun, 16 Jan 2022 12:01:16 +0000
-In-Reply-To: <0062bdc2f2df9661d30b142d00eae710a9afbee1.camel@intel.com>
-References: <20220115023747.1154635-1-kexin.hao@windriver.com>
-	 <20220115023747.1154635-2-kexin.hao@windriver.com>
-	 <0062bdc2f2df9661d30b142d00eae710a9afbee1.camel@intel.com>
+From: "Tim Orling" <ticotimo@gmail.com>
+Subject: [PATCH] python3-hypothesis: upgrade 6.34.1 -> 6.35.0
+Date: Sun, 16 Jan 2022 10:04:11 -0800
+Message-Id: <20220116180411.3284995-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Anuj Mittal <anuj.mittal@intel.com>, "kexin.hao@windriver.com" <kexin.hao@windriver.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, "ross.burton@arm.com" <ross.burton@arm.com>, "jdmason@kudzu.us" <jdmason@kudzu.us>
-Cc: "Randy.MacLeod@windriver.com" <Randy.MacLeod@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
 
-On Sat, 2022-01-15 at 02:53 +0000, Anuj Mittal wrote:
-> On Sat, 2022-01-15 at 10:37 +0800, Kevin Hao wrote:
-> > From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-> > 
-> > The cryptographic unit is optional for the Cortex-A72, but it was
-> > included by default previously.  This breaks building systems that
-> > lack this functionality when using tune-cortexa72.inc.
-> > 
-> > To correct this, add a crypto entry in the tune file.  Since CRC is
-> > optional for ARMv8.0, do the same thing while we're at it.
-> > 
-> > For platforms that had been happily using tune-cortexa72.inc, a
-> > slight
-> > degradation of performance will occur using the default.  To correct
-> > this, simply add:
-> > DEFAULTTUNE = "cortexa72-crc-crypto"
-> > 
-> 
-> I am not very familiar with ARM tunes but it sounds like you are
-> changing behaviour for people who might already be using these tunes
-> with these two patches ... That might not be suitable for stable
-> branches.
-> 
-> Perhaps Ross, Jon or others can comment if this is something that
-> should be merged in stable branches.
+6.35.0 - 2022-01-08¶
+This release disallows using typing.ClassVar with from_type() and register_type_strategy().
 
-You're right to be nervous of the change, I was with master. Having looked into
-the issue, it is a serious one and probably should be fixed.
+Why? Because ClassVar can only be used during class definition. We don’t generate class attributes.
 
-That said, I think there is perhaps a patch missing from this series, the one
-which removes the cortexa72-crc tune. I think this is fine even for a stable
-series since the patch adding it is also in this series. The patches do make
-more sense once looked at as a whole, we just didn't get this quite right for
-master at first.
+It also does not make sense as a runtime type on its own.
 
-Cheers,
+6.34.2 - 2022-01-05¶
+This patch updates our vendored list of top-level domains, which is used by the provisional domains() strategy.
 
-Richard
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...ython3-hypothesis_6.34.1.bb => python3-hypothesis_6.35.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.34.1.bb => python3-hypothesis_6.35.0.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.34.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.35.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.34.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.35.0.bb
+index eebca576315..246ff84f61a 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.34.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.35.0.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "5002ce1f27fd94b53b0046ac7d20dab17fd74ebc6c90d401979588eadc46f84e"
++SRC_URI[sha256sum] = "ce3961fff61e7353d022608788cbc9876c293d2468749eeba27511adc9565131"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.30.2
 
