@@ -1,113 +1,167 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB94C433F5
-	for <webhook@archiver.kernel.org>; Mon, 17 Jan 2022 11:58:54 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.10229.1642420733827387684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A45C433F5
+	for <webhook@archiver.kernel.org>; Mon, 17 Jan 2022 14:30:41 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.1])
+ by mx.groups.io with SMTP id smtpd.web08.11745.1642429840440960635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jan 2022 03:58:54 -0800
+ Mon, 17 Jan 2022 06:30:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gbn0jI10;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id
- 25-20020a05600c231900b003497473a9c4so23767139wmo.5
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jan 2022 03:58:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=qMn/WVCrAj+CceCZEv1HHSoNhF2LGtoJ4TSXFSgyc4o=;
-        b=gbn0jI10QR9ZW/Uec9yHV9l+4lNs3RuuwwpO+gTEOmiVzAp/b6Sz7NZFjeVBzaGzYb
-         OEbCpQb35fDM42hfZqRUnb9UDPTk76va6HulexpCPCYSx/A6VaURyPhdE0ZN3noy9cyJ
-         PzbhwVZxGmxcSEgikqRClp4qOJejFuP+wcmT0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qMn/WVCrAj+CceCZEv1HHSoNhF2LGtoJ4TSXFSgyc4o=;
-        b=C/dqdLOKYy85gZY69whMp1YjCLvMgUAuz+ekLYo5zsTwrzRi4z26x6p1C2zDY/gUsj
-         lk5sW2gfnH02kXzt84Y566Tu2r0zQQ9ZWAg5GOug+V7CtbZ+1/JxTlzympPm3+5WKYsl
-         FlReOsRh5mpjY2ItHjmyGM8vV3JrWNc0Zm0stpUlVT6oMoTnMvenVq+a1earvjVxTQKr
-         anJFBrDgWEmCVqCqS6WSX/DASbPlV2foEiOVEPPkPmgwQYCdARuHVidTtPUwCIoNap6p
-         KDYqXvXGEwacBL7b67+7C6Do9ci/vchFuZpRBZBHiR+ds2RuvMPLD5qszNkvdV+VBKC/
-         PeCQ==
-X-Gm-Message-State: AOAM531n8kPzwaPtdXb1ngK1peP1/t7WqQG4P11LfibNz0H583mq6Z5f
-	pwfJWvXx56g3yl8J/Bvzixbijg==
-X-Google-Smtp-Source: 
- ABdhPJwF3vKbYEB9vU9CsaP/JQTBUfn0qfWYQ5at+9yC7f8BgCCBnXtZDrMuvNzdZ8m90oKtHuCO5A==
-X-Received: by 2002:a05:6000:2a9:: with SMTP id
- l9mr10230048wry.110.1642420732308;
-        Mon, 17 Jan 2022 03:58:52 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:aebb:d0f1:6c03:5e36?
- ([2001:8b0:aba:5f3c:aebb:d0f1:6c03:5e36])
-        by smtp.gmail.com with ESMTPSA id
- o13sm5637329wrc.5.2022.01.17.03.58.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jan 2022 03:58:51 -0800 (PST)
-Message-ID: 
- <e2e42bce092c256054de37491276ff955c916709.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] kernel: Rework kernel make flag to variable mappings
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul.barker@sancloud.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jan 2022 11:58:50 +0000
-In-Reply-To: <87262ad4-ba0b-3d22-deab-ffff56ca1b84@sancloud.com>
-References: <20211014202630.2927426-1-richard.purdie@linuxfoundation.org>
-	 <87262ad4-ba0b-3d22-deab-ffff56ca1b84@sancloud.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1 
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=d4MFH1Z4;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1642429838; i=@fujitsu.com;
+	bh=O61sIqi4LkF2AZZzYBZhUyIyYBOFwEfrU8OQfr0YOEA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=d4MFH1Z4NkRLLit0djAhjdemFFIo4c4aosshwicAPuIereDLE3zeBewpI/qsOv+zp
+	 KgyC9Ru8XGIKAvhZ21gSkOQEnD8s2XoGFsHgmNo1DFOCyR3C/+G0Y1fSSdRD44PZ07
+	 0i4T/smOWzmx20qi7xMtpz+fM+V2OiqcV7nAhsBdj8x26ktQRUTu/dQSfMTjxPIef1
+	 85hQNf3bZJ0ayhcNRjKy4kbtK3LxnTRZtV8u7youTZx5JlBKVi0iGtfLPG9Qix9/BI
+	 c3upaCUx4+nRotaHkxbS+F5FcVLDaUXubEgO0ooStbL+gPjX3Sqvq8fZtXI4JSxMk9
+	 ZbMHwaA+W6Ivw==
+Received: from [100.115.32.207] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-1.bemta.az-a.eu-west-2.aws.ess.symcld.net id E8/B7-28974-E8D75E16;
+ Mon, 17 Jan 2022 14:30:38 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRWlGSWpSXmKPExsViZ8MxSbe39mm
+  iwdK/VhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bj0aMsBfMlKybduMPWwDhLrIuRi0NI4DGj
+  RMODv6wQznkmia2LpjJBOCcYJRYtW8zWxcjJwSagJjH91g2gKg4OEQE9iav/REHCzAIqEi9+9
+  7CD2MICdhL7tu5gArFZBFQl2jetA2vlFXCSuPVoGiOILSGgIDHl4XtmiLigxMmZT1gg5khIHH
+  zxghmiRlFi9uVmFgi7QmLWrDYmCFtN4uq5TcwTGPlnIWmfhaR9ASPTKkbrpKLM9IyS3MTMHF1
+  DAwNdQ0NTXWNjXUNzS73EKt1EvdRS3fLU4hJdI73E8mK91OJiveLK3OScFL281JJNjMCwTClW
+  3LyDceLKn3qHGCU5mJREeTnDniYK8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuBVzwTKCRalpqdWp
+  GXmAGMEJi3BwaMkwmtVA5TmLS5IzC3OTIdInWIM53izdskiZo63YLLt3l0g2Q4mZy44uJqZYx
+  aYvN9+CEg+AJFCLHn5ealS4rxcIOMEQMZllObBLYOlgEuMslLCvIwMDAxCPAWpRbmZJajyrxj
+  FORiVhHktQabwZOaVwN30CuhcJqBzV318BHJuSSJCSqqBKfarrnzDrfS1uZeFH8nd0DGbbZa2
+  fJe0401Hjetreq32vndeZnbII/666A7NK83xnBwmEusqr58rZp5f9YnbyKd3pdSrK+cDc3xuf
+  xVPPHN/xte0p7fKTzQvDcy6t32Ta0xcQNeKgpUbNfwXHFUSXHbr/+xaFWsvf49e1tndz6u0u2
+  YfCFWZGWeV/8h1+fw+UY8/HnV3POtf3H4nu3PZzlrnN/t31/YcfLB4rrQiZ2pXwpGJplcOLBd
+  sb5ssNaf0dvvtow+eLIsPO3fJrl625s6slXEz8ne4Kv3L3XG64MRz2fq18/UCfkadiLzdJbRC
+  VneO8YGQz2bcMw0vpuadaWZ/Zdbq+U5yCbf2qq+b7yqxFGckGmoxFxUnAgDYSyygfAMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-20.tower-548.messagelabs.com!1642429837!1120!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 18283 invoked from network); 17 Jan 2022 14:30:37 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-20.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 17 Jan 2022 14:30:37 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 83324100466
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 17 Jan 2022 14:30:37 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 761C710044D
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 17 Jan 2022 14:30:37 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Mon, 17 Jan 2022 14:30:15 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] btrfs-tools: upgrade 5.15.1 -> 5.16
+Date: Mon, 17 Jan 2022 22:30:03 +0800
+Message-ID: <1642429806-13814-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 17 Jan 2022 11:58:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 17 Jan 2022 14:30:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160642
+ https://lists.openembedded.org/g/openembedded-core/message/160645
 
-On Fri, 2022-01-14 at 14:39 +0000, Paul Barker wrote:
-> On 14/10/2021 21:26, Richard Purdie wrote:
-> > In 2017 we added changes to pass the BUILD_CFLAGS into the kernel
-> > via BUILD_CC. This isn't really correct and the upstream kernel now has
-> > places to pass build cflags, ldflags and more. Update our kernel
-> > make flags to correctly use the kernel's variables. This addresses
-> > concerns raised by kernel developers.
-> > 
-> > If this breaks some usecase please report it so we can work out how
-> > to fix it properly.
-> 
-> FYI, this change back in Oct broke the build for Linux 5.10.y, 5.4.y, 
-> 4.19.y & 4.4.y kernels where CONFIG_UNWINDER_ORC=y (which is set by the 
-> in-tree defconfig for x86-64). The build failures sat on my backburner 
-> for a long time due to other commitments but I finally tracked them down 
-> to this commit and looked for solutions.
-> 
-> For 5.10.y, 5.4.y & 4.19.y there is an upstream kernel patch which can 
-> be backported which will address this. See 
-> https://lore.kernel.org/stable/04598430-7383-b725-2f5f-3f2b16aaca36@sancloud.com/ 
-> and replies for more info. Hopefully these branches will be fixed with 
-> the next round of stable kernel releases now the backport has been 
-> requested.
-> 
-> For 4.14.y there is no trivial fix upstream. The backport I did for the 
-> other branches depends on the KBUILD_HOSTLDFLAGS variable being set in 
-> the kernel Makefile which was added after 4.14.y. Personally, I'm happy 
-> to leave 4.14.y broken in this case and workaround the issue in 
-> meta-linux-mainline by disabling CONFIG_UNWINDER_ORC for this series.
-> 
-> I don't think any changes are needed in oe-core, the info is now here in 
-> case it affects others though.
+Changelog:
+=========
+ - rescue: new subcommand clear-uuid-tree to fix failed mount due to bad uuid
+   subvolume keys, caught by tree-checker
+ - fi du: skip inaccessible files
+ - prop: properly resolve to symlink targets
+ - send, receive: fix crash after parent subvolume lookup errors
+ - build:
+   fix build on 5.12+ kernels due to changes in linux/kernel.h
+   fix build on musl with old kernel headers
+ - other:
+   error handling fixes, cleanups, refactoring
+   extent tree v2 preparatory work
+   lots of RST documentation updates (last release with asciidoc sources),
+   https://btrfs.readthedocs.io
 
-Thanks for sharing that info, it is useful to know which versions have the issue
-and what people's options are if they run into it.
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...ools-include-linux-const.h-to-fix-build-with-.patch | 10 ++++------
+ .../{btrfs-tools_5.15.1.bb => btrfs-tools_5.16.bb}     |  2 +-
+ 2 files changed, 5 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.15.1.bb => btrfs-tools_5.16.bb} (98%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+index be942388a5..bd69bfc9cd 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch
+@@ -1,4 +1,4 @@
+-From 3d19b0fb882c5e195362a9f0909c474e60070ca0 Mon Sep 17 00:00:00 2001
++From 1c9cc81ec72876a5351e3083552b9985eeb6c091 Mon Sep 17 00:00:00 2001
+ From: Bruce Ashfield <bruce.ashfield@gmail.com>
+ Date: Fri, 18 Jun 2021 11:10:36 -0400
+ Subject: [PATCH] btrfs-progs: include linux/const.h to fix build with 5.12+
+@@ -21,22 +21,20 @@ exists, and is valid to include.
+ Upstream-Status: Inappropriate [mips64 + musl + libc-headers]
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++
+ ---
+  kerncompat.h | 1 +
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/kerncompat.h b/kerncompat.h
+-index df167fe6..254235bd 100644
++index 6ca1526e..15995bb4 100644
+ --- a/kerncompat.h
+ +++ b/kerncompat.h
+ @@ -30,6 +30,7 @@
+  #include <linux/types.h>
+- #include <linux/kernel.h>
++ #include <linux/const.h>
+  #include <stdint.h>
+ +#include <linux/const.h>
+  
+  #include <features.h>
+  
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb
+index 3cf216724e..4c358a248b 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.15.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb
+@@ -19,7 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;b
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            file://0001-btrfs-tools-include-linux-const.h-to-fix-build-with-.patch \
+            "
+-SRCREV = "c0ad9bde429196db7e8710ea1abfab7a2bca2e43"
++SRCREV = "8ad326b2f28c044cb6ed9016d7c3285e23b673c8"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
+-- 
+2.25.1
 
 
