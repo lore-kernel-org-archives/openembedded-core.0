@@ -2,62 +2,62 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B03C6C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF44AC433FE
 	for <webhook@archiver.kernel.org>; Mon, 17 Jan 2022 19:58:16 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
- [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.2605.1642449495417821198
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web10.2606.1642449496265534400
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jan 2022 11:58:15 -0800
+ Mon, 17 Jan 2022 11:58:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RRYDcsun;
- spf=pass (domain: gmail.com, ip: 209.85.222.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KOcr9twG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id h2so142068qkp.10
+Received: by mail-qk1-f180.google.com with SMTP id z10so16301918qkf.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Jan 2022 11:58:15 -0800 (PST)
+ Mon, 17 Jan 2022 11:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3b8K9fC4ociABAnJmnnz9LsJ1ft07pWu08R6joW10HI=;
-        b=RRYDcsunfW8C2hL5g3v8hOTCSyQfnUmdCBAfqkPNZDuz+kgbY0lvpccigAdagbBfDM
-         rxJ6XuA+qXUIkQwAYefDD5b1eb715ZTygy8LUb3hkiUzUkW5KJOdHSbg3x6B4wlPAb1Q
-         Wp0rp+ZsdQ6tBgrD3OOYLs7dCWFdJBXswhFd+cj2REW921ik1ptOwjN2q43I+vVdt1z5
-         U/szeJfuVT1m6MjydPu0661GH46oNN05bJN889wANe38HiSnH/RZRZ8un6R8CWAPZ5yl
-         W+FjS2y6x7WqY6+bYu+II7eHTnIbZ1sTcdJLBA1SRGp93A1iSaEIofykAEPGSXNw70d4
-         zUiQ==
+        bh=3PZ6FBxqXXqUQJGmD6Juk3KTqpPtO7aK641W8An/wbc=;
+        b=KOcr9twGSJ6oR2iPQ+d/4pH5cJSo5xjAlQcX8YSSQYc9ooyfpfOTZlSj/jW4LHIQgE
+         pielubBF7TMm0QP0a3y3FmZfVT+Wb00LdJfaxjyXAuQJYHkGkMDSeYLncCag0HjnXWpj
+         uYwD9GL0+z8hqSiyyMyP9hGCt0x4xAQjpFlphuR9w7CUtZMEmnIfWZjV0FL/S38URM2f
+         pMF+x32QtwS9+f2CXsUTfDWrfA5NJt1xhf5X7cikWNXIe1aBxo03Kmz8sanFa1eVQfdT
+         5aN0cFCw/GqU4xHcGNSMVSO2TyIQhJ/bEeYYzdh9L3HWf9LbKGnbT6SfiZWgG1bAhCJl
+         qC+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3b8K9fC4ociABAnJmnnz9LsJ1ft07pWu08R6joW10HI=;
-        b=xpj80of5TXypwHooqzYy0hNgKIaEVn1xB9/0Hfw4gK7Azkjlg06ucl0bl0Xog8fR7Z
-         D3eCSGl5OHcbHeqXpQGGRkN687yVRSCVJP+RHZhfIkGKvmi1t5gpGCN5jYR/IiUScAh+
-         1obNuTOFzVBPBVU403sFqacpjBZikUn45iF1vhuPqA9rHanmavFnF/QbvgY9K+HJuZ5y
-         62wtX5RBT5GgJavuj2cQaQdzO82pswKKgFY0xwfMuluZPg+etadCgfWnL10NXd40Bg93
-         csOZy+8NHGM1Y55KZFpzn/1ikqDV6EZeJKV7jEPEp/PA370d8UUErIf2bcy+j2JRxk2w
-         G1vA==
-X-Gm-Message-State: AOAM5325JJdDg3rCt9yFATg7CvWspf5/QiiMME8sjWNO9nkXXQCHZNF1
-	wtWqrrYKfpar7Asfe5dEzmUXdhpDtSucTQ==
+        bh=3PZ6FBxqXXqUQJGmD6Juk3KTqpPtO7aK641W8An/wbc=;
+        b=R7n04krRcUWc1Bs4dmrcdSvvq5qCvqgIasCzzRHRf+gGEg0lhfAakRycfiVJIi5GTg
+         4o/rPeYwWbdlzAX96GafGNh9D12VEhS30hENITuKnLRshR3ReaCgbFn12qVOkqGFKtH7
+         uE8eCLFa0rW7n91o4yf5uH6MoYZRHPE26pUoq3l1CKehRSyvyvh4Iy/5+t2p//KypaY1
+         41fJyQPH3SGO7wFaA3hdZc63EnRiJVxQ1jFd3MtEzU9wUEi2HmoelSokamRy4fZgPVcn
+         mB/95zobK+g+zcqXKMGe1I5gWFRH2k070prDex+PXHY9m0O0rgqJYxhtb21YHgRn9HuN
+         ZaEg==
+X-Gm-Message-State: AOAM532WDHq40TT+Z58qhO5RGRHk2EZ5U5/acs/xMu28YqU2ue7Lqj+m
+	GcZp651OUTbfkW9piqw6y+8=
 X-Google-Smtp-Source: 
- ABdhPJzWN24HbLmHSt+A1MdvBPJXurYS5h13eLb6ZkAiTNiyuc7+I//LqQ47AdAJCH09i3udYJjAXA==
-X-Received: by 2002:a05:620a:2016:: with SMTP id
- c22mr11925348qka.508.1642449494513;
-        Mon, 17 Jan 2022 11:58:14 -0800 (PST)
+ ABdhPJymkaVfdChadD49AnOVco9Jfa4ZQM3xPu5ym8FdvvH4KoyncgK1K+3RMuE1DNpKp9/ZhSOZYA==
+X-Received: by 2002:a05:620a:13b9:: with SMTP id
+ m25mr10300693qki.156.1642449495398;
+        Mon, 17 Jan 2022 11:58:15 -0800 (PST)
 Received: from build.lan
  (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
         by smtp.gmail.com with ESMTPSA id
- o6sm8851203qtr.83.2022.01.17.11.58.13
+ o6sm8851203qtr.83.2022.01.17.11.58.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jan 2022 11:58:13 -0800 (PST)
+        Mon, 17 Jan 2022 11:58:14 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: steve@sakoman.com,
 	richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4][dunfell] linux-yocto/5.4: update to v5.4.171
-Date: Mon, 17 Jan 2022 14:58:09 -0500
-Message-Id: <20220117195810.30114-3-bruce.ashfield@gmail.com>
+Subject: [PATCH 4/4][dunfell] linux-yocto/5.4: update to v5.4.172
+Date: Mon, 17 Jan 2022 14:58:10 -0500
+Message-Id: <20220117195810.30114-4-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20220117195810.30114-1-bruce.ashfield@gmail.com>
 References: <20220117195810.30114-1-bruce.ashfield@gmail.com>
@@ -68,48 +68,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 17 Jan 2022 19:58:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160659
+ https://lists.openembedded.org/g/openembedded-core/message/160660
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 Updating linux-yocto/5.4 to the latest korg -stable release that comprises
 the following commits:
 
-    0a4ce4977bbe Linux 5.4.171
-    0101f118529d mISDN: change function names to avoid conflicts
-    34821931e18e atlantic: Fix buff_ring OOB in aq_ring_rx_clean
-    44065cc11797 net: udp: fix alignment problem in udp4_seq_show()
-    0ad45baead37 ip6_vti: initialize __ip6_tnl_parm struct in vti6_siocdevprivate
-    8b36aa5af4da scsi: libiscsi: Fix UAF in iscsi_conn_get_param()/iscsi_conn_teardown()
-    6a3ffcc9ffd0 usb: mtu3: fix interval value for intr and isoc
-    f0e57098243c ipv6: Do cleanup if attribute validation fails in multipath route
-    c94999cfbbbe ipv6: Continue processing multipath route even if gateway attribute is invalid
-    2a6a811a45fd phonet: refcount leak in pep_sock_accep
-    db0c834abbc1 rndis_host: support Hytera digital radios
-    72eb522ae6f1 power: reset: ltc2952: Fix use of floating point literals
-    159eaafee69b power: supply: core: Break capacity loop
-    102af6edfd3a xfs: map unwritten blocks in XFS_IOC_{ALLOC,FREE}SP just like fallocate
-    10f2c336929d net: phy: micrel: set soft_reset callback to genphy_soft_reset for KSZ8081
-    c0db2e1e60c6 sch_qfq: prevent shift-out-of-bounds in qfq_init_qdisc
-    bcbfc7780047 batman-adv: mcast: don't send link-local multicast to mcast routers
-    76936ddb4913 lwtunnel: Validate RTA_ENCAP_TYPE attribute length
-    2ebd777513d9 ipv6: Check attribute length for RTA_GATEWAY when deleting multipath route
-    a02d2be7eb48 ipv6: Check attribute length for RTA_GATEWAY in multipath route
-    34224e936a9d ipv4: Check attribute length for RTA_FLOW in multipath route
-    125d91f07233 ipv4: Check attribute length for RTA_GATEWAY in multipath route
-    1f46721836ee i40e: Fix incorrect netdev's real number of RX/TX queues
-    f98acd3b4dcf i40e: Fix for displaying message regarding NVM version
-    c340d45148c4 i40e: fix use-after-free in i40e_sync_filters_subtask()
-    38fbb1561d66 mac80211: initialize variable have_higher_than_11mbit
-    7646a340b25b RDMA/uverbs: Check for null return of kmalloc_array
-    5eb5d9c6591d RDMA/core: Don't infoleak GRH fields
-    415fc3f59595 iavf: Fix limit of total number of queues to active queues of VF
-    23ebe9cfda5e ieee802154: atusb: fix uninit value in atusb_set_extended_addr
-    aa171d748a36 tracing: Tag trace_percpu_buffer as a percpu pointer
-    db50ad6eec87 tracing: Fix check for trace_percpu_buffer validity in get_trace_buf()
-    cbbed1338d76 selftests: x86: fix [-Wstringop-overread] warn in test_process_vm_readv()
-    6904679c8400 Input: touchscreen - Fix backport of a02dcde595f7cbd240ccd64de96034ad91cffc40
-    6e80d2ee44c6 f2fs: quota: fix potential deadlock
+    b7f70762d158 Linux 5.4.172
+    f415409551b0 staging: greybus: fix stack size warning with UBSAN
+    65c2e7176f77 drm/i915: Avoid bitwise vs logical OR warning in snb_wm_latency_quirk()
+    86ded7a6cf40 staging: wlan-ng: Avoid bitwise vs logical OR warning in hfa384x_usb_throttlefn()
+    a459686f986c media: Revert "media: uvcvideo: Set unique vdev name based in type"
+    7e07bedae159 random: fix crash on multiple early calls to add_bootloader_randomness()
+    517ab153f503 random: fix data race on crng init time
+    90ceecdaa062 random: fix data race on crng_node_pool
+    a4fa4377c91b can: gs_usb: gs_can_start_xmit(): zero-initialize hf->{flags,reserved}
+    e90a7524b5c8 can: gs_usb: fix use of uninitialized variable, detach device on reception of invalid USB data
+    9e9241d3345a drivers core: Use sysfs_emit and sysfs_emit_at for show(device *...) functions
+    ada3805f1423 mfd: intel-lpss: Fix too early PM enablement in the ACPI ->probe()
+    d08a0a88db88 veth: Do not record rx queue hint in veth_xmit
+    a6722b497401 mmc: sdhci-pci: Add PCI ID for Intel ADL
+    1199f0928488 USB: Fix "slab-out-of-bounds Write" bug in usb_hcd_poll_rh_status
+    43aac50196f3 USB: core: Fix bug in resuming hub's handling of wakeup requests
+    ed5c2683b67b Bluetooth: bfusb: fix division by zero in send path
+    784e873af3dc Bluetooth: btusb: fix memory leak in btusb_mtk_submit_wmt_recv_urb()
+    ad07b60837b2 workqueue: Fix unbind_workers() VS wq_worker_running() race
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
@@ -119,36 +103,36 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
  3 files changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 9832de5880..6b1a10476c 100644
+index 6b1a10476c..9e8281c7a1 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
 @@ -11,13 +11,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "693f365a839705814228d4d7a9fb362285af3542"
--SRCREV_meta ?= "3ff7377107711b2670620aac2be36b3edefe7f37"
-+SRCREV_machine ?= "2e96217d85f653d79f1e691c84aaf178931550a7"
-+SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
+-SRCREV_machine ?= "2e96217d85f653d79f1e691c84aaf178931550a7"
+-SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
++SRCREV_machine ?= "e92d76afe6d8592917c0e7b948912c085e661df2"
++SRCREV_meta ?= "98cce1c95fcc9a26965cbc5f038fd71d53c387c8"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
  
--LINUX_VERSION ?= "5.4.170"
-+LINUX_VERSION ?= "5.4.171"
+-LINUX_VERSION ?= "5.4.171"
++LINUX_VERSION ?= "5.4.172"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index c5e6e16357..80d260cf88 100644
+index 80d260cf88..a75570df93 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
 @@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "5.4.170"
-+LINUX_VERSION ?= "5.4.171"
+-LINUX_VERSION ?= "5.4.171"
++LINUX_VERSION ?= "5.4.172"
  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
@@ -156,43 +140,43 @@ index c5e6e16357..80d260cf88 100644
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "f0f037abc011fc633c51f9557471babb368668f3"
--SRCREV_machine ?= "0c76d34c0744a8f3d8b4a41860fc9f12624b082a"
--SRCREV_meta ?= "3ff7377107711b2670620aac2be36b3edefe7f37"
-+SRCREV_machine_qemuarm ?= "59c50d08a8c111c9941b53cc3903cafc7b9339f0"
-+SRCREV_machine ?= "da1b138e527f276887038d0091980ec5bfbd0824"
-+SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
+-SRCREV_machine_qemuarm ?= "59c50d08a8c111c9941b53cc3903cafc7b9339f0"
+-SRCREV_machine ?= "da1b138e527f276887038d0091980ec5bfbd0824"
+-SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
++SRCREV_machine_qemuarm ?= "10b4756eee78aa43ff9ed64da700ec6e8d97ff22"
++SRCREV_machine ?= "6ab93fdc53b64e146e4f16363375c1beb37b82e4"
++SRCREV_meta ?= "98cce1c95fcc9a26965cbc5f038fd71d53c387c8"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index d7af5fe1cb..2d7703ec0e 100644
+index 2d7703ec0e..2d7f7559e5 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
 @@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
  KBRANCH_qemux86-64 ?= "v5.4/standard/base"
  KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "2ee0677973f1c676d52c6864c0a227b8d0a91a3d"
--SRCREV_machine_qemuarm64 ?= "205b919a1a53a5c46ff432cfc7292cbf688f34ce"
--SRCREV_machine_qemumips ?= "ff59072d3f2b8189e65f1006357d003ef68ec03b"
--SRCREV_machine_qemuppc ?= "bd68bc38761902dea6a823853f6044f6688751ca"
--SRCREV_machine_qemuriscv64 ?= "d4f5a7cecc479dcfff63bd7e92507521956fb8b8"
--SRCREV_machine_qemux86 ?= "d4f5a7cecc479dcfff63bd7e92507521956fb8b8"
--SRCREV_machine_qemux86-64 ?= "d4f5a7cecc479dcfff63bd7e92507521956fb8b8"
--SRCREV_machine_qemumips64 ?= "8aa05337ebd7798187b81f2561de15f2074a5eca"
--SRCREV_machine ?= "d4f5a7cecc479dcfff63bd7e92507521956fb8b8"
--SRCREV_meta ?= "3ff7377107711b2670620aac2be36b3edefe7f37"
-+SRCREV_machine_qemuarm ?= "c961afa9250955e8bc4e286fba5942181cdfce45"
-+SRCREV_machine_qemuarm64 ?= "0408baf57ccb7975ea0291418f44c1bf241b9792"
-+SRCREV_machine_qemumips ?= "1e20719de0a733cf6c9f1f5467a16e8449dd1eb3"
-+SRCREV_machine_qemuppc ?= "40c08791a68abb946948e1aea7532dc156e9eaa5"
-+SRCREV_machine_qemuriscv64 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
-+SRCREV_machine_qemux86 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
-+SRCREV_machine_qemux86-64 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
-+SRCREV_machine_qemumips64 ?= "31c53aae874ab1a677be38ffe29dc0e7084a08f4"
-+SRCREV_machine ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
-+SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
+-SRCREV_machine_qemuarm ?= "c961afa9250955e8bc4e286fba5942181cdfce45"
+-SRCREV_machine_qemuarm64 ?= "0408baf57ccb7975ea0291418f44c1bf241b9792"
+-SRCREV_machine_qemumips ?= "1e20719de0a733cf6c9f1f5467a16e8449dd1eb3"
+-SRCREV_machine_qemuppc ?= "40c08791a68abb946948e1aea7532dc156e9eaa5"
+-SRCREV_machine_qemuriscv64 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
+-SRCREV_machine_qemux86 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
+-SRCREV_machine_qemux86-64 ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
+-SRCREV_machine_qemumips64 ?= "31c53aae874ab1a677be38ffe29dc0e7084a08f4"
+-SRCREV_machine ?= "3889c10487e465acf5a2ecf182be8a9adb8ce863"
+-SRCREV_meta ?= "17ac54a7a0b472a035fea8aacd1f31c1fa322ff0"
++SRCREV_machine_qemuarm ?= "8de1da3dc354dedef2e435e694eec6d6e72c9822"
++SRCREV_machine_qemuarm64 ?= "eed7c0a64f3a7a91a130bc2e507304dc8b446a31"
++SRCREV_machine_qemumips ?= "996a9660e4fab70db5cecec9c831141cd03c3d36"
++SRCREV_machine_qemuppc ?= "0197cf5754b1bd4eb035c342af9cc27e8c3339ca"
++SRCREV_machine_qemuriscv64 ?= "c6b015510134942076c0e111e56357656acf3dd5"
++SRCREV_machine_qemux86 ?= "c6b015510134942076c0e111e56357656acf3dd5"
++SRCREV_machine_qemux86-64 ?= "c6b015510134942076c0e111e56357656acf3dd5"
++SRCREV_machine_qemumips64 ?= "fe2769a7c268ed224ec70fd2aaab850e4eef70dc"
++SRCREV_machine ?= "c6b015510134942076c0e111e56357656acf3dd5"
++SRCREV_meta ?= "98cce1c95fcc9a26965cbc5f038fd71d53c387c8"
  
  # remap qemuarm to qemuarma15 for the 5.4 kernel
  # KMACHINE_qemuarm ?= "qemuarma15"
@@ -200,8 +184,8 @@ index d7af5fe1cb..2d7703ec0e 100644
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.170"
-+LINUX_VERSION ?= "5.4.171"
+-LINUX_VERSION ?= "5.4.171"
++LINUX_VERSION ?= "5.4.172"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
