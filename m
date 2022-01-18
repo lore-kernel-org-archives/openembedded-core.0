@@ -1,157 +1,158 @@
-Return-Path: <marex@denx.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A43C433EF
-	for <webhook@archiver.kernel.org>; Tue, 18 Jan 2022 18:50:56 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web10.1213.1642531853807732432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFA7C433F5
+	for <webhook@archiver.kernel.org>; Tue, 18 Jan 2022 18:55:11 +0000 (UTC)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web09.1297.1642532110239444933
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jan 2022 10:50:55 -0800
+ Tue, 18 Jan 2022 10:55:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de
- header.s=phobos-20191101 header.b=WBLEZYMw;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 9A29D8309D;
-	Tue, 18 Jan 2022 19:50:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1642531850;
-	bh=KqwTA7N0xzO5ISyeczteYVh6XG3gWRRtw+luzg9AQa4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WBLEZYMwm8zcY6PcC0XN/l8OpgYVrHhUvx1TRMDM48awuhKbJnhdMhvr0vtUpAwGk
-	 4yduJXk7zd7wsHqNbIogWb6TQKQpe90drLeh5PFr/01U57NE5IyEb3yLuYxcQXEaY3
-	 iwd+/MjtUSBoSCDu2y7rebua1ZVEY5nU1XkkXmTFeTQGIuXliNpiGsHoOKYtunjRPd
-	 mCnVHQIs/9Lxb8xr+PEKmgq3mb5ChpjBdsEoBwgSYgKVMDK9DzRGvQjSi0CR8sXCGE
-	 6aGGpIGVTdPGMSeF6eNY+Hs4bdrwdd9PYyuCtRiW1gHfEaNvlBdiYCd57xtLezfME1
-	 WCF29QwAo6sLQ==
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] ffmpeg: Update from 4.4.1 to 5.0
-Date: Tue, 18 Jan 2022 19:50:43 +0100
-Message-Id: <20220118185043.1778569-1-marex@denx.de>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=apbRLTdr;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id y17so23176458qtx.9
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 18 Jan 2022 10:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0ml8xN7hMmQvb9b/gJ9tR25L9xxKrAYLIFT+n6ZAaS4=;
+        b=apbRLTdrgPm5rMZxh1CygK0kGt+HI+PQdLqlPNTphqxD99p6fGfvSlfTvNz5tBQrtZ
+         OA9VfqaTjWVamr9Mhmo/eg20tQHkY8ReN/XQsdjaZk6hpaGsz2pqj9kO8fBRppSPaZ5s
+         vXcEhdmmvW++pajtWcTbSMNchOxn69/9G/XBMWZtANGkyytSlJKCsjE/AnnWulubvrhH
+         GSMvmezznDKH2hNd41q70wduNcItjidfJEBlVa/7Q7z7rhfNN1KLuhgCUbHrqbW12qcj
+         U/UYtAZVOYe4C7/WgwRiFFTNBLuWotuuToavzA0TgCx7Nhj1C4i9KdSn0utmmYtRu3FE
+         prtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0ml8xN7hMmQvb9b/gJ9tR25L9xxKrAYLIFT+n6ZAaS4=;
+        b=tQCAicQZVSTANaHYscb2UO8FYQx9x08cSBFgQhE426kDe+mD+giYne/nrCXDiy+Rv2
+         qhtWLJSrAoNhODpWbTEHwQnmz6pCdP9pxIea0zLnQzwU3TiwnTarDFz1h4Ty0hhbsIPF
+         T3wF0vDgC1Up5iuTVQcEH5OS5a0SsqHhwWjR8tTY38QpttCjudJMKVazXvCl18/qY1lV
+         sVrRMVwoGNJBBMK1SpdylFgMDaSAz0hpQ3trqb9OouoR9tOBOGlfKFy0Z8giC1M7OW59
+         vuPIgUQibf7lNt9xQJAUoEbY5KiSbml8RFrA6aHqVFFktNMvnAx2r8Y/fsnull0it8ew
+         fQfg==
+X-Gm-Message-State: AOAM532LUGSNcFdaHj0xwCcuNHWhKj1JF7Akc2FiyQAk94HWS9Smut+F
+	K6Cn+UQjwwPQ8CJXjOlwAIa0baCw4gTfI8kQsDA=
+X-Google-Smtp-Source: 
+ ABdhPJwcd/P0wiLkhIuX7aXDZrICQsgdazBpWJFcMi9ker1zG9HQQomIeY6H67ehDsrgfCFiIbcoLW2qudGWLC5+xg4=
+X-Received: by 2002:a05:622a:144f:: with SMTP id
+ v15mr7164958qtx.634.1642532109164;
+ Tue, 18 Jan 2022 10:55:09 -0800 (PST)
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+References: <20220118013139.62641-1-changhyeok.bae@gmail.com>
+In-Reply-To: <20220118013139.62641-1-changhyeok.bae@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 18 Jan 2022 10:54:43 -0800
+Message-ID: 
+ <CAMKF1srwct2MrLnRnL=vfUJDpZ_wjsGKWpWjX_V0G+UpTbTWoA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH] iproute2: update 5.15.0 to 5.16.0
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Jan 2022 18:50:56 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Jan 2022 18:55:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160676
+ https://lists.openembedded.org/g/openembedded-core/message/160677
 
-Update ffmpeg to 5.0 , release notes and changelog below:
-https://git.ffmpeg.org/gitweb/ffmpeg.git/blob/refs/heads/release/5.0:/REL=
-EASE_NOTES
-https://git.ffmpeg.org/gitweb/ffmpeg.git/shortlog/n5.0
+On Mon, Jan 17, 2022 at 5:31 PM Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
+>
+> 0001-lib-fix-ax25.h-include-for-musl.patch is the fix for musl and comes
+> from upstream.
+>
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+> ---
+>  ...0001-lib-fix-ax25.h-include-for-musl.patch | 37 +++++++++++++++++++
+>  ...{iproute2_5.15.0.bb => iproute2_5.16.0.bb} |  3 +-
+>  2 files changed, 39 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-lib-fix-ax25.h-include-for-musl.patch
+>  rename meta/recipes-connectivity/iproute2/{iproute2_5.15.0.bb => iproute2_5.16.0.bb} (64%)
+>
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-lib-fix-ax25.h-include-for-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-lib-fix-ax25.h-include-for-musl.patch
+> new file mode 100644
+> index 0000000000..338def399e
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/iproute2/iproute2/0001-lib-fix-ax25.h-include-for-musl.patch
+> @@ -0,0 +1,37 @@
+> +From 8bced38a941a181f1468fa39541e872e51b6022f Mon Sep 17 00:00:00 2001
+> +From: Sam James <sam@gentoo.org>
+> +Date: Thu, 13 Jan 2022 08:14:13 +0000
+> +Subject: [PATCH] lib: fix ax25.h include for musl
+> +
+> +ax25.h isn't guaranteed to be avilable in netax25/*;
+> +it's dependent on our choice of libc (it's not available
+> +on musl at least) [0].
+> +
+> +Let's use the version from linux-headers.
+> +
+> +[0] https://sourceware.org/glibc/wiki/Synchronizing_Headers
+> +Bug: https://bugs.gentoo.org/831102
+> +
+> +Signed-off-by: Sam James <sam@gentoo.org>
+> +Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+> +
+> +Upstream-Status: Backport
 
-The avresample has been removed before 5.0 release in ffmpeg commit
-420cedd497 ("libavresample: Remove deprecated library")
+please mention https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/commit/?id=8bced38a941a181f1468fa39541e872e51b6022f
+here to point to backport link from upstream
 
-The ffmpeg 5.0 might be an LTS release, see:
-http://www.jbkempf.com/blog/post/2022/FFmpeg-5.0
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Kanavin <alex@linutronix.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../ffmpeg/{ffmpeg_4.4.1.bb =3D> ffmpeg_5.0.bb}            | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.4.1.bb =3D> ffmpeg_5.0.b=
-b} (95%)
-
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb b/meta/recipe=
-s-multimedia/ffmpeg/ffmpeg_5.0.bb
-similarity index 95%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-index 3ba07c31d6..4ba5ff4537 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-@@ -11,7 +11,6 @@ LICENSE:libavcodec =3D "${@bb.utils.contains('PACKAGECO=
-NFIG', 'gpl', 'GPLv2+', 'LG
- LICENSE:libavdevice =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'G=
-PLv2+', 'LGPLv2.1+', d)}"
- LICENSE:libavfilter =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'G=
-PLv2+', 'LGPLv2.1+', d)}"
- LICENSE:libavformat =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'G=
-PLv2+', 'LGPLv2.1+', d)}"
--LICENSE:libavresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', =
-'GPLv2+', 'LGPLv2.1+', d)}"
- LICENSE:libavutil =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPL=
-v2+', 'LGPLv2.1+', d)}"
- LICENSE:libpostproc =3D "GPLv2+"
- LICENSE:libswresample =3D "${@bb.utils.contains('PACKAGECONFIG', 'gpl', =
-'GPLv2+', 'LGPLv2.1+', d)}"
-@@ -26,7 +25,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee=
-4d69f5fce4486a80fdaf4a4263 \
- SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://0001-libavutil-include-assembly-with-full-path-from-so=
-urc.patch \
-            "
--SRC_URI[sha256sum] =3D "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d=
-68569a4651e30e02"
-+SRC_URI[sha256sum] =3D "51e919f7d205062c0fd4fae6243a84850391115104ccf1ef=
-c451733bc0ac7298"
-=20
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/s=
-how_bug.cgi?id=3D7717
- ARM_INSTRUCTION_SET:armv4 =3D "arm"
-@@ -41,7 +40,7 @@ DEPENDS =3D "nasm-native"
-=20
- inherit autotools pkgconfig
-=20
--PACKAGECONFIG ??=3D "avdevice avfilter avcodec avformat swresample swsca=
-le postproc avresample \
-+PACKAGECONFIG ??=3D "avdevice avfilter avcodec avformat swresample swsca=
-le postproc \
-                    alsa bzlib lzma pic pthreads shared theora zlib \
-                    ${@bb.utils.contains('AVAILTUNES', 'mips32r2', 'mips3=
-2r2', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xc=
-b', '', d)}"
-@@ -54,7 +53,6 @@ PACKAGECONFIG[avformat] =3D "--enable-avformat,--disabl=
-e-avformat"
- PACKAGECONFIG[swresample] =3D "--enable-swresample,--disable-swresample"
- PACKAGECONFIG[swscale] =3D "--enable-swscale,--disable-swscale"
- PACKAGECONFIG[postproc] =3D "--enable-postproc,--disable-postproc"
--PACKAGECONFIG[avresample] =3D "--enable-avresample,--disable-avresample"
-=20
- # features to support
- PACKAGECONFIG[alsa] =3D "--enable-alsa,--disable-alsa,alsa-lib"
-@@ -153,7 +151,6 @@ PACKAGES =3D+ "libavcodec \
-              libavdevice \
-              libavfilter \
-              libavformat \
--             libavresample \
-              libavutil \
-              libpostproc \
-              libswresample \
-@@ -163,7 +160,6 @@ FILES:libavcodec =3D "${libdir}/libavcodec${SOLIBS}"
- FILES:libavdevice =3D "${libdir}/libavdevice${SOLIBS}"
- FILES:libavfilter =3D "${libdir}/libavfilter${SOLIBS}"
- FILES:libavformat =3D "${libdir}/libavformat${SOLIBS}"
--FILES:libavresample =3D "${libdir}/libavresample${SOLIBS}"
- FILES:libavutil =3D "${libdir}/libavutil${SOLIBS}"
- FILES:libpostproc =3D "${libdir}/libpostproc${SOLIBS}"
- FILES:libswresample =3D "${libdir}/libswresample${SOLIBS}"
-@@ -175,7 +171,6 @@ INSANE_SKIP:${MLPREFIX}libavdevice =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libavfilter =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libavformat =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libavutil =3D "textrel"
--INSANE_SKIP:${MLPREFIX}libavresample =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libswscale =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libswresample =3D "textrel"
- INSANE_SKIP:${MLPREFIX}libpostproc =3D "textrel"
---=20
-2.34.1
-
+> +---
+> + lib/ax25_ntop.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/lib/ax25_ntop.c b/lib/ax25_ntop.c
+> +index cfd0e04b..3a72a43e 100644
+> +--- a/lib/ax25_ntop.c
+> ++++ b/lib/ax25_ntop.c
+> +@@ -2,7 +2,7 @@
+> +
+> + #include <errno.h>
+> + #include <sys/socket.h>
+> +-#include <netax25/ax25.h>
+> ++#include <linux/ax25.h>
+> +
+> + #include "utils.h"
+> +
+> +--
+> +2.32.0 (Apple Git-132)
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
+> similarity index 64%
+> rename from meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb
+> rename to meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
+> index 99a743391a..871f8d8fb7 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb
+> +++ b/meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
+> @@ -2,9 +2,10 @@ require iproute2.inc
+>
+>  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+>             file://0001-libc-compat.h-add-musl-workaround.patch \
+> +           file://0001-lib-fix-ax25.h-include-for-musl.patch \
+>             "
+>
+> -SRC_URI[sha256sum] = "38e3e4a5f9a7f5575c015027a10df097c149111eeb739993128e5b2b35b291ff"
+> +SRC_URI[sha256sum] = "c064b66f6b001c2a35aa5224b5b1ac8aa4bee104d7dce30d6f10a84cb8b01e2f"
+>
+>  # CFLAGS are computed in Makefile and reference CCOPTS
+>  #
+> --
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160668): https://lists.openembedded.org/g/openembedded-core/message/160668
+> Mute This Topic: https://lists.openembedded.org/mt/88500407/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
