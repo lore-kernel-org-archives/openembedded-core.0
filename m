@@ -1,68 +1,69 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9EE6C433F5
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 14:25:48 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web10.6756.1642602348332720107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A62C433F5
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 15:58:13 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web11.8077.1642607891760348252
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 06:25:48 -0800
+ Wed, 19 Jan 2022 07:58:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
-	by mailout05.t-online.de (Postfix) with SMTP id 9E89C1991E
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 15:25:31 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.163.47.73]) by fwd77.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nABtz-1kZICg0; Wed, 19 Jan 2022 15:25:31 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [meta-oe][PATCH 2/2] gspell: inherit vala
-Date: Wed, 19 Jan 2022 15:24:57 +0100
-Message-Id: <20220119142457.2974185-2-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220119142457.2974185-1-f_l_k@t-online.de>
-References: <20220119142457.2974185-1-f_l_k@t-online.de>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=o1oUQvdV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.45,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f45.google.com with SMTP id p12so14117982edq.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 19 Jan 2022 07:58:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=fSvu0rnGx3G5V9vD8O3m8u7eNhxdSTDBgQhdu3sOE6k=;
+        b=o1oUQvdV56FsU0Q6IQfwmMTpy4sJvHNP04O2sqLb3ouOPiaDVhrwd+aIllvKjPFlcP
+         S/zEXWacYrRtbIR+U5jrZwE+nCbNi2IBjFJno9YInDdIFHxfQdfuQNvGXWY/Pp9P/+S8
+         5VugTGML/Ra+a2yP/aEKK7LUEuyFAccZp0wydnTFkxIcp+opsDy340fsBQyHNedFy3ov
+         3UNfiNdlpEKW//xSqlLTna/j2NEM3dYBLTbLTURuhIzcdUQUsdZ5pAPoVyndVDLBoN/S
+         nqdL28m3SM8LHxECWdYKjQmd/f7/ApxqYC92MHiPr//7O3xQgpvPIuf9+S9LTYVC9K0+
+         6RuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=fSvu0rnGx3G5V9vD8O3m8u7eNhxdSTDBgQhdu3sOE6k=;
+        b=t+K31OKEdr/ARd3+gGd0gMyNTlSoGHRzcM7D97fMJAyoYmgMYU9E33R+uY5vT3SZi8
+         5ngINBuk1CmHQ0fHGXcmLq5w5L25U9apqfSdSlvr60w1J5hclH0r4pzykFRZ2g2Zb5VJ
+         L9aXhoElyx6EXNUocivH0K+5q5NdZ/iNCRN9tHTRd7GwXqguDe1NgkD0ljNoHfM5WNrE
+         jzIWQYfTxs3kHvGehdqvhFWh5pU0/KPssBj+XkaBTQNbbZQNsACa2IQQN3lKx7rbRDyF
+         +pRD5DivbezUVYvsSjz9pgqyRqjdFyN2uVaN/VPxQjGK6/FDDoF/Q5rZNcqaRWiZlGc4
+         84ug==
+X-Gm-Message-State: AOAM532gzQoNRndyVYqkA5PcF3ZCYGOeLRPRBS8K6ZxUKLAkY7VlXk2p
+	Yt7Ym2FAofcdsz8ilm01S6TyucH0izEZmJDQSY62RdDWxcUtvSkDq9c=
+X-Google-Smtp-Source: 
+ ABdhPJziohYUFIv7o/vVjHoxSESmAM3tpqWK2/b7iJV0WQWj3wKruvl6R5KUJPfUh6dxkkiWFipJnjUC1rqTjXxF7SQ=
+X-Received: by 2002:a17:907:6e25:: with SMTP id
+ sd37mr24490259ejc.246.1642607889392;
+ Wed, 19 Jan 2022 07:58:09 -0800 (PST)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1642602331-0001606D-9534D256/0/0 CLEAN NORMAL
-X-TOI-MSGID: 8b682ead-d2fd-47eb-9561-80cfdb8b6fb0
-Content-Transfer-Encoding: quoted-printable
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 19 Jan 2022 05:57:58 -1000
+Message-ID: 
+ <CAOSpxdYPJFUwvuzdyeKL_uNAit1-oOCCs+w6+1ggkdFF69H5WQ@mail.gmail.com>
+Subject: [OE-core][dunfell] expat CVE "heads up"
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 14:25:48 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 15:58:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160739
+ https://lists.openembedded.org/g/openembedded-core/message/160740
 
-This is needed to get the vala gir files created (needed e.g. to build ge=
-ary).
+I currently have CVE fixes under test for expat CVE-2021-45960,
+CVE-2021-46143, and CVE-2022-22822 through CVE-2022-22827
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta-gnome/recipes-gnome/gspell/gspell_1.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just wanted to make sure no one else wastes time working on these!
 
-diff --git a/meta-gnome/recipes-gnome/gspell/gspell_1.9.1.bb b/meta-gnome=
-/recipes-gnome/gspell/gspell_1.9.1.bb
-index d6de146b1..aba9be87a 100644
---- a/meta-gnome/recipes-gnome/gspell/gspell_1.9.1.bb
-+++ b/meta-gnome/recipes-gnome/gspell/gspell_1.9.1.bb
-@@ -5,6 +5,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8c2e1ec1540fb3=
-e0beb68361344cba7e"
-=20
- DEPENDS =3D "gtk+3 iso-codes enchant2"
-=20
--inherit gnomebase gettext gobject-introspection
-+inherit gnomebase gettext gobject-introspection vala
-=20
- SRC_URI[archive.sha256sum] =3D "dcbb769dfdde8e3c0a8ed3102ce7e661abbf7ddf=
-85df08b29915e92cd723abdd"
---=20
-2.25.1
-
+Steve
 
