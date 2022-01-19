@@ -1,69 +1,101 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A62C433F5
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 15:58:13 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.8077.1642607891760348252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D92DC433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 16:49:00 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.264.1642610938898006442
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 07:58:12 -0800
+ Wed, 19 Jan 2022 08:48:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=o1oUQvdV;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.45,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f45.google.com with SMTP id p12so14117982edq.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dpndc+7j;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id w26so6371417wmi.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 07:58:11 -0800 (PST)
+ Wed, 19 Jan 2022 08:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=fSvu0rnGx3G5V9vD8O3m8u7eNhxdSTDBgQhdu3sOE6k=;
-        b=o1oUQvdV56FsU0Q6IQfwmMTpy4sJvHNP04O2sqLb3ouOPiaDVhrwd+aIllvKjPFlcP
-         S/zEXWacYrRtbIR+U5jrZwE+nCbNi2IBjFJno9YInDdIFHxfQdfuQNvGXWY/Pp9P/+S8
-         5VugTGML/Ra+a2yP/aEKK7LUEuyFAccZp0wydnTFkxIcp+opsDy340fsBQyHNedFy3ov
-         3UNfiNdlpEKW//xSqlLTna/j2NEM3dYBLTbLTURuhIzcdUQUsdZ5pAPoVyndVDLBoN/S
-         nqdL28m3SM8LHxECWdYKjQmd/f7/ApxqYC92MHiPr//7O3xQgpvPIuf9+S9LTYVC9K0+
-         6RuA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=R8Dk89HbduXF6T1j0Q0LsHyWgq+FtC4i2tFvKU3qawo=;
+        b=Dpndc+7jsxOGWT5loZEEwnQJx30mCt9i0/eKqn1Kzzsnyc2E7HmzfH+dmdXmmxQXK9
+         Xj0yvVwIr1aIyM2zEPbiazy7fVWdp5tNx/C3k+ODdxzMlm4KcfxWQ7k29rqrBBhG/kjL
+         A77IXV2UVYlkvq0qttgRoDHhPjXqF3AF65x1I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=fSvu0rnGx3G5V9vD8O3m8u7eNhxdSTDBgQhdu3sOE6k=;
-        b=t+K31OKEdr/ARd3+gGd0gMyNTlSoGHRzcM7D97fMJAyoYmgMYU9E33R+uY5vT3SZi8
-         5ngINBuk1CmHQ0fHGXcmLq5w5L25U9apqfSdSlvr60w1J5hclH0r4pzykFRZ2g2Zb5VJ
-         L9aXhoElyx6EXNUocivH0K+5q5NdZ/iNCRN9tHTRd7GwXqguDe1NgkD0ljNoHfM5WNrE
-         jzIWQYfTxs3kHvGehdqvhFWh5pU0/KPssBj+XkaBTQNbbZQNsACa2IQQN3lKx7rbRDyF
-         +pRD5DivbezUVYvsSjz9pgqyRqjdFyN2uVaN/VPxQjGK6/FDDoF/Q5rZNcqaRWiZlGc4
-         84ug==
-X-Gm-Message-State: AOAM532gzQoNRndyVYqkA5PcF3ZCYGOeLRPRBS8K6ZxUKLAkY7VlXk2p
-	Yt7Ym2FAofcdsz8ilm01S6TyucH0izEZmJDQSY62RdDWxcUtvSkDq9c=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=R8Dk89HbduXF6T1j0Q0LsHyWgq+FtC4i2tFvKU3qawo=;
+        b=5xGDZMZsyMJTW+Hel8u78QGqxGS/rD0htAACCRjnI95+yh7QmjolncLrMk3umBhMgN
+         9sk2RiLYzPqXiImOtu6LAPMXLiiZ1OzESvgI0LCWsZf7Zcb33ypu359OfJnApjqDHhPW
+         TKaoH0Lj9yFNuuKzzq8isc19mw+A7B07fSuXJ1oS7YJ0sSMd7FeE/SZCWMLreoKmOZ/n
+         KlE9YV1jZC7WxvINI7Rl8vlFG9HEiL4ZzeLyVmjxupRc89x6V0QjO8SvuqB1wklYUB9e
+         ifRKK6uOV1mf88qVayipr0oJJuVh8CZJCfvra6Cfw32KUCaCv9panqJZQngjCUKQgGwc
+         LOPA==
+X-Gm-Message-State: AOAM530wFXG65OxJmQnPcawTtLlqQTIafb1zRnpt4iSK/HPbxhr+CYHB
+	6+eoexw4NcEvFi9YvalRN+f8MA==
 X-Google-Smtp-Source: 
- ABdhPJziohYUFIv7o/vVjHoxSESmAM3tpqWK2/b7iJV0WQWj3wKruvl6R5KUJPfUh6dxkkiWFipJnjUC1rqTjXxF7SQ=
-X-Received: by 2002:a17:907:6e25:: with SMTP id
- sd37mr24490259ejc.246.1642607889392;
- Wed, 19 Jan 2022 07:58:09 -0800 (PST)
-MIME-Version: 1.0
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 19 Jan 2022 05:57:58 -1000
+ ABdhPJzqfnDooAKN/J/HWyA0qLc8IihXk/ivvJz5WKUN0MOfMJjrzKk/jmztyRsK0acnj6NCUDYnrg==
+X-Received: by 2002:a05:6000:2c8:: with SMTP id
+ o8mr19300392wry.366.1642610937157;
+        Wed, 19 Jan 2022 08:48:57 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4e1a:65bf:4ced:cc2d?
+ ([2001:8b0:aba:5f3c:4e1a:65bf:4ced:cc2d])
+        by smtp.gmail.com with ESMTPSA id
+ g189sm6838806wme.18.2022.01.19.08.48.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jan 2022 08:48:56 -0800 (PST)
 Message-ID: 
- <CAOSpxdYPJFUwvuzdyeKL_uNAit1-oOCCs+w6+1ggkdFF69H5WQ@mail.gmail.com>
-Subject: [OE-core][dunfell] expat CVE "heads up"
-To: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ <59f559e8a8f7a1ec6fccb9de63002c781cbe7acf.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] kernel: add missing path to search for debug
+ files
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	openembedded-core@lists.openembedded.org
+Cc: saul.wold@windriver.com
+Date: Wed, 19 Jan 2022 16:48:54 +0000
+In-Reply-To: <20220119115759.1390792-1-andrej.valek@siemens.com>
+References: <20220119115759.1390792-1-andrej.valek@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 15:58:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 16:49:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160740
+ https://lists.openembedded.org/g/openembedded-core/message/160741
 
-I currently have CVE fixes under test for expat CVE-2021-45960,
-CVE-2021-46143, and CVE-2022-22822 through CVE-2022-22827
+On Wed, 2022-01-19 at 12:57 +0100, Andrej Valek wrote:
+> Since explicit debug package creation via ${KERNEL_PACKAGE_NAME}-dbg has
+> been added to kernel, it has to cover all PACKAGE_DEBUG_SPLIT_STYLE
+> options. For ex. when the variable "debug-file-directory" package search
+> path has to be set explicitly, otherwise it will not find any files.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>  meta/classes/kernel.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 473e28be47..9ea201c936 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -647,6 +647,7 @@ FILES:${KERNEL_PACKAGE_NAME}-image = ""
+>  FILES:${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+>  FILES:${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+>  FILES:${KERNEL_PACKAGE_NAME}-modules = ""
+> +FILES:${KERNEL_PACKAGE_NAME}-dbg = "/usr/lib/debug /usr/src/debug"
 
-Just wanted to make sure no one else wastes time working on these!
+This seems to highlight that we have no tests for KERNEL_PACKAGE_NAME. At the
+very least we need a bugzilla entry for creating some...
 
-Steve
+Cheers,
+
+Richard
+
 
