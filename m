@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0238EC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2373C433F5
 	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:53 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.4645.1642588912247713194
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web12.4646.1642588912968389627
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:52 -0800
+ Wed, 19 Jan 2022 02:41:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OgD4hokC;
- spf=pass (domain: gmail.com, ip: 209.85.128.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f8FAdIe/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso1675128wmf.1
+Received: by mail-wm1-f51.google.com with SMTP id
+ f202-20020a1c1fd3000000b0034dd403f4fbso1675166wmf.1
         for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Jan 2022 02:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XCT4nfzyGd3OxfDFEdDMhNvPxyJKPc0fOTgdNFTibJQ=;
-        b=OgD4hokC6gY2kFz7EmteWt4k/OjZjcRU6UZZjZgSuXdOI4Joow9M6tNlhgsb/VuhAG
-         /QsLoZZa4oKcKWyEbwRpqEhfrhG150MND0T9KHpmk0Mhxcy9FMumYRrMaaLSdTJ/A0o7
-         wr2xLG2wvzNGZqMQwBiZmgM61hh7PcCujka3KVvFhY7Wcjamrzxboq2muVg/TnwxIGVp
-         XjRVL4R3B/KIvCu00nFl5mB23ygtzfhHwJMfxnkJgzpRQbl79CZMRmoGf44y6eAqzeSn
-         9gVnjhbcvPb42w8oDsYNa2Y3REXi73AyiLVd62BYV4xcaDsKVh2HIEpJ2J98tXJFWx1G
-         F9tQ==
+        bh=r5FsQnCcrfbsdMmxjr9hISMXW9KNi6q2JSzduzYnqQM=;
+        b=f8FAdIe/BQABPEayqrzlgXtNAuJq6OWhnzVDnyVtL/CjUCnkHXfNL6yIyxQYMYlMNu
+         ZYdrrYaeThBK+6gKYob5VqRsz+zkFCnB5ySAn3xlX4lZIGY1NB0rOftDJEjbOnbJ2r8j
+         tgpMOR1DdE2+T99fwsepQMDW1pz7L3uymInW1eHKBPJmnKrHtbZsaGREfyI5/ndKBD19
+         8IemVfEEPcgZg8FHeXrBtkYcipv7b+K166kaDO4GBsjP20QuIrLHD584zlMPO2+cNArc
+         8iXuWF0YJqDa9aB7ksnY4c1W0rSyfXjm301el2fNONbD2efwmhVjPpOHPrLV1CQpgF4z
+         fWNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XCT4nfzyGd3OxfDFEdDMhNvPxyJKPc0fOTgdNFTibJQ=;
-        b=xP4xDgY6V3SR6ksu9jDTT5BgLQHWp0lJeAwZPtKxhWlpK56tGK0pgOTMb530mXenVg
-         xmuJ8ViAr9vGY9zGdcW8y8TZmX8aaGLSlpVOOkj06ApdI3pCelehYcV21SNfbp1SGhHd
-         tdtDnTRvsUpAJX2hR0aCeCX5XRwoxEExatKiO9FmjU/ohul9IcXo2+49lSWvFP0iCcuK
-         3BCJQioDtUR9NjxCptBtLOXZggu7Acb+1EEx9bbfPjjqYjEnpqpmx7oHAajP1sxISLik
-         do9X3gzVT3zx2L797NZiYL0lZa3a3H2SICSUxYCggkvHA02yXgEpXHqwkRo8nKBvlX7M
-         lFnw==
-X-Gm-Message-State: AOAM533NSE22xdp4h22/ffJUQP9IGDqZ9d8JenfZOxZtD30qDGcVxc3x
-	zt07qDKPo0nvvSCVdKVUyJn8aJFhWSs=
+        bh=r5FsQnCcrfbsdMmxjr9hISMXW9KNi6q2JSzduzYnqQM=;
+        b=19go2Le0s6a8V6mbwW5Htk9FzFUG5BRzaSEdsePvbtaf81Kgm0qk1izWV9SIG1lGfI
+         XiVa8BCthR5dQ5PTXxPLUIkYfDo+Z574PQCLDWi0GgVI1ceK+QYwcPEc3aGbF8NSJagX
+         AFt3qTjUatwKS+bEhZpOm1qv5ul+HXemXXY/lo0XVumfSQb6wDPMeND4IBfTSQatL/5B
+         cKikrXV948RO9tjgvBfPvk6lM6MFt+bB7ozcOUNFZLMGMgHzmXK/gjPmI8AY4wjDzWSC
+         pw8pRf8RTdmtjmSE7dvHv8S+P6oPQtApz/+xISc8s8h9x685kjoc6D4bTb3hIcY+cby3
+         YIgA==
+X-Gm-Message-State: AOAM532RGTGuFJDZjyoEIeESC61/gOE+tlP7APD6bgk0C2CF6GKTB3pV
+	XnaiqxjdSKj9bepmo38Zty2trlv5KXY=
 X-Google-Smtp-Source: 
- ABdhPJyj+3adOUggHAwelW5RTE4uRdN17EMQjTdPJy4KHpHN4aSPz03UQeBbBdD582lY9tdfAVCCJw==
-X-Received: by 2002:adf:fe8e:: with SMTP id
- l14mr14482172wrr.678.1642588910900;
-        Wed, 19 Jan 2022 02:41:50 -0800 (PST)
+ ABdhPJyN0AmbCmPXpBDjZusJBj9uWaQK6cRdozQfI1tjE7R/00gUh4RwXWyvGI36fGoAQxAssGMiHg==
+X-Received: by 2002:adf:dd88:: with SMTP id x8mr29011458wrl.586.1642588911603;
+        Wed, 19 Jan 2022 02:41:51 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  o5sm4667956wmc.39.2022.01.19.02.41.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 02:41:50 -0800 (PST)
+        Wed, 19 Jan 2022 02:41:51 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 34/39] webkitgtk: upgrade 2.34.2 -> 2.34.3
-Date: Wed, 19 Jan 2022 11:41:12 +0100
-Message-Id: <20220119104117.2120127-34-alex@linutronix.de>
+Subject: [PATCH 35/39] diffoscope: upgrade 199 -> 200
+Date: Wed, 19 Jan 2022 11:41:13 +0100
+Message-Id: <20220119104117.2120127-35-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220119104117.2120127-1-alex@linutronix.de>
 References: <20220119104117.2120127-1-alex@linutronix.de>
@@ -69,31 +68,31 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160726
+ https://lists.openembedded.org/g/openembedded-core/message/160727
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../webkit/{webkitgtk_2.34.2.bb => webkitgtk_2.34.3.bb}         | 2 +-
+ .../diffoscope/{diffoscope_199.bb => diffoscope_200.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.34.2.bb => webkitgtk_2.34.3.bb} (98%)
+ rename meta/recipes-support/diffoscope/{diffoscope_199.bb => diffoscope_200.bb} (92%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.3.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.34.3.bb
-index aa07139522..4b3d89ad82 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.34.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.34.3.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://reproducibility.patch \
-            "
+diff --git a/meta/recipes-support/diffoscope/diffoscope_199.bb b/meta/recipes-support/diffoscope/diffoscope_200.bb
+similarity index 92%
+rename from meta/recipes-support/diffoscope/diffoscope_199.bb
+rename to meta/recipes-support/diffoscope/diffoscope_200.bb
+index 3645ff1e6e..4239b34d9d 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_199.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_200.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRC_URI[sha256sum] = "584677d6e7cae12e27cdcc8e05b4cf73b54849a24afc3d7a40cec91016deff00"
-+SRC_URI[sha256sum] = "0d2f37aa32e21a36e4dd5a5ce7ae5ce27435c29d6803b962b8c90cb0cc49c52d"
+ inherit pypi setuptools3
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+-SRC_URI[sha256sum] = "7b07b8ff34e5fe0e57acc8b02bcb9303ae254c40f357fb7ed805e9f9f7c7686f"
++SRC_URI[sha256sum] = "2fadac87b41cd5238fad7a624bab47ff5cd4c1f70c523e4e9cf6706c9d1a5e53"
+ 
+ RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
  
 -- 
 2.20.1
