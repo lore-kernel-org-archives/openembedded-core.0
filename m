@@ -1,140 +1,134 @@
-Return-Path: <jupiter.hce@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D2CC433F5
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 01:45:56 +0000 (UTC)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
- [209.85.221.175])
- by mx.groups.io with SMTP id smtpd.web09.846.1642556755810736605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 878F4C433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 02:35:53 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web09.1332.1642559751461712423
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jan 2022 17:45:56 -0800
+ Tue, 18 Jan 2022 18:35:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KswaQHKy;
- spf=pass (domain: gmail.com, ip: 209.85.221.175,
- mailfrom: jupiter.hce@gmail.com)
-Received: by mail-vk1-f175.google.com with SMTP id 191so565908vkc.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Jan 2022 17:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Uh9iUZ1/ygq6R73wQwriTQfc12b1ldB6Gj/DHQIA78Q=;
-        b=KswaQHKySJA3k/fpEvPXlYXw1eI1baljamkUwKN4cUKLhqtW5FiU3yK8/W1R4c22NI
-         Lbb16MCNOP3ppEn1QlLx1PgXAxr22a99SmhKz5YWcGQcRxAtIX4444MFDp4Twa/bXlh2
-         O0BjdXxkZwlDCrdkVy2Ltfh9VSq6/gKCXArlJt0iVvrfCHJaJOTSmED/cIgh3to4EiC+
-         JNLdeTBYs3ZCt851cKaBMhj9HkHZrILJjhVPc6fc1CDmDa9P66lQGTjq9uXoGIOiNrSj
-         S+b3ubHSiBGhgr1lrP7MeojJ0xvC+UTk+rwer03xCIIZLDBPC6rKgeY39D3Hhfvz8Sb7
-         MDeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Uh9iUZ1/ygq6R73wQwriTQfc12b1ldB6Gj/DHQIA78Q=;
-        b=OSKzKDWfVMWuO0v94Vqoz9lWkXONSANcgpmUD0tMT2pFr4XsC5VyNC/JNpb7d6tj4p
-         MnpjM5plAbhgwz+5GPE8LwNOASZYTSUNhE1Xmyt9cw5v1ql7AFaAGxp9+xD1MZKEvLLa
-         on2TKsg3jr6KKjKuK1RqYu1VJwVdpxTLZvSAcbqszmOid9Sqx3/C1rLXfAEyraUEF4AB
-         wrIFWNYyv64CToNoSW6d//bZm9+m/vqVVf1nMhS8cFGgCvc14njkjpMxs9BVgWgBcu0D
-         sb49wXLzW6HQQ5CqAZhDr68gkG9Bekwg8JUYqsC03VqkvqcnY+9/6IoJz6Exp231OlfA
-         AM/w==
-X-Gm-Message-State: AOAM531XWYImx3UP9bVbMe0YEVinSKg26QfBn7NKyC/RvHAOleJfkr0v
-	rHBHawvDkC86YdzF/6eXM5/xWvEeBBf4kn/kIORt9NAI
-X-Google-Smtp-Source: 
- ABdhPJxBQuyVITY29JYtN/He2OTwk+zKrisX9M8vpeC+9Qz0yDSROM4hM7W0WEcV2SPYBDVyGHMWmnskfjyEXURLeGs=
-X-Received: by 2002:a05:6122:98d:: with SMTP id
- g13mr9671514vkd.11.1642556754885;
- Tue, 18 Jan 2022 17:45:54 -0800 (PST)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=X5A8L8wI;
+ spf=pass (domain: intel.com, ip: 134.134.136.65,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642559751; x=1674095751;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tUEvKfKDOlh9BCQhKyM4IppHDLgigdUs+pPM+uSPPjE=;
+  b=X5A8L8wIpMkjXzGWXB4TBH17x6xCvoPGSsc4xfu0dDgN61sVMhz1b5Ad
+   gq0x+Dnr1VEf48Ls0Yyz702zM3zLNYti/bNuL073bDt7n54J8z4iHJJ+M
+   B3qMRsIJPIyEvWB/oLZpCQCOLL49FgSM3v74e38LzavzAMoalLT/9uajx
+   Ov6lhwN1U6XBnUG9sq2sIyFHcVTj5u8NlKi4diW6LykXpz0TwPI3dx0H2
+   cBmll0Vuq3I7lHogu8kjoXb+xefbci2bqNK909RYFOXA/s7v22oeFhtWN
+   ogrrdoW6lVEa++XBmyOqHd5CA8goOUaH99NvVtuvJUflHQ9EYhDptLCHN
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10231"; a="244924341"
+X-IronPort-AV: E=Sophos;i="5.88,298,1635231600";
+   d="scan'208";a="244924341"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 18:35:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,298,1635231600";
+   d="scan'208";a="625721149"
+Received: from ailoonta-mobl1.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.215.232.248])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2022 18:35:49 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: [honister][PATCH 00/12] Pull request (cover letter only)
+Date: Wed, 19 Jan 2022 10:35:41 +0800
+Message-Id: <cover.1642559611.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: 
- <CAA=hcWQrFmWJMPizbeug6TPYsecWHttk4gM7netpGDiFv8N+Dg@mail.gmail.com>
- <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
-In-Reply-To: 
- <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
-From: Jupiter <jupiter.hce@gmail.com>
-Date: Wed, 19 Jan 2022 12:45:18 +1100
-Message-ID: 
- <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
-Subject: Re: [yocto] Honister broken WiFi communication
-To: Rudolf Streif <rudolf.streif@ibeeto.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
-	oe-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 01:45:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 02:35:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160686
+ https://lists.openembedded.org/g/openembedded-core/message/160687
 
-Hi Rudolf,
+The following changes since commit 298222353584776afc1dfe17abc5916b4ada40de:
 
-Thanks for your response and comments.
+  scripts/buildhistory-diff: drop use of distutils (2022-01-12 10:10:57 +0800)
 
-> If you run ifconfig -a does your WiFi interface show up? If not there is an
-> issue with the driver. Use dmesg and filter for the driver. Often a driver
-> cannot load the firmware. What is your WiFi hardware?
+are available in the Git repository at:
 
-Not that bad, the WiFi interfaces was fine, but it could not get dhcp
-response and IP address so an automatic private IP address 169.254 was
-assigned
+  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
 
-mlan0     Link encap:Ethernet  HWaddr D4:CA:6E:A4:E8:B4
-          inet addr:169.254.193.101  Bcast:169.254.255.255  Mask:255.255.0.0
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:2 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:56 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:330 (330.0 B)  TX bytes:16392 (16.0 KiB)
+Alexander Kanavin (1):
+  lib/oe/reproducible: correctly set .git location when recursively
+    looking for git repos
 
-I could see WiFi information well, it is not a major problem, but the
-subtle issues are connman and wpa_supplicant did not set up the WiFi
-driver correctly.
+Bruce Ashfield (4):
+  linux-yocto/5.10: update to v5.10.89
+  linux-yocto/5.14: fix arm 32bit -rt warnings
+  linux-yocto/5.10/cfg: add kcov feature fragment
+  linux-yocto/5.10: update to v5.10.90
 
-Connected to 34:08:04:12:b1:a2 (on mlan0)
-        SSID: JupiterIoT
-        freq: 2437
-        RX: 660 bytes (4 packets)
-        TX: 46622 bytes (129 packets)
-        signal: -57 dBm
-        rx bitrate: 1.0 MBit/s
-        tx bitrate: 72.2 MBit/s MCS 7 short GI
+Changqing Li (1):
+  libsndfile1: fix CVE-2021-4156
 
-        bss flags:      short-slot-time
-        dtim period:    1
-        beacon int:     100
+Khairul Rohaizzat Jamaluddin (1):
+  epiphany: Update 40.3 -> 40.6
 
-> Did you install the regulatory database?
+Konrad Weihmann (1):
+  cve-check: add lockfile to task
 
-Did you mean to enable CONFIG_CFG80211_INTERNAL_REGDB? No, I did not
-install it in the Zeus version either so I don't see that could be an
-issue.
+Peter Kjellerstedt (1):
+  rootfs-postcommands.bbclass: Make two comments use the new variable
+    syntax
 
-> What error messages are you seeing when attempting to connect to a WiFi
-> network? Did you look at the connman logs?
+Richard Purdie (1):
+  oeqa/sstate: Fix allarch samesigs test
 
-No error in connman, I don't think it is connman or wpa_supplicant
-issue, my suspicion is something missing in Honister built image to
-prevent connman and wpa_supplicant to set up the WiFi driver
-correctly.
+Ross Burton (1):
+  xserver-xorg: whitelist two CVEs
 
-It is not the first time I have the WiFi setup trouble to get WiFi
-169.254 address, when I upgraded from Thud to Zeus, I got the exactly
-the same problem that WiFi was assigned by a 169.254 address, no dhcp
-response, at time, I was totally convinced it was connman issue, I
-spend several months to debug connman and wpa_supplicant without any
-results, then after waiting several months to pull updated Zeus again,
-that problem was disappeared miraculous, that is why I suspect the
-same problem in oe-core and bitbake in Honister as well.
+Sakib Sajal (1):
+  go: upgrade 1.16.10 -> 1.16.13
 
-Are there anyone in oe-core and bitbake tested connman, wpa_supplicant
-for the current Honister branch? I can help to test and to debug it if
-more advanced people in oe-core, bitbake, kernel, WiFi driver mwifiex
-can provide me more information.
+ meta/classes/cve-check.bbclass                |  1 +
+ meta/classes/rootfs-postcommands.bbclass      |  4 +--
+ meta/lib/oe/reproducible.py                   |  2 +-
+ meta/lib/oeqa/selftest/cases/sstatetests.py   | 13 ++++++--
+ .../go/{go-1.16.10.inc => go-1.16.13.inc}     |  4 +--
+ ...1.16.10.bb => go-binary-native_1.16.13.bb} |  4 +--
+ ....16.10.bb => go-cross-canadian_1.16.13.bb} |  0
+ ...o-cross_1.16.10.bb => go-cross_1.16.13.bb} |  0
+ ...ssdk_1.16.10.bb => go-crosssdk_1.16.13.bb} |  0
+ ...native_1.16.10.bb => go-native_1.16.13.bb} |  0
+ ...ntime_1.16.10.bb => go-runtime_1.16.13.bb} |  0
+ .../go/{go_1.16.10.bb => go_1.16.13.bb}       |  0
+ .../{epiphany_40.3.bb => epiphany_40.6.bb}    |  2 +-
+ .../xorg-xserver/xserver-xorg.inc             |  8 +++++
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++--
+ .../linux/linux-yocto-rt_5.14.bb              |  2 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 ++---
+ .../linux/linux-yocto-tiny_5.14.bb            |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++-------
+ meta/recipes-kernel/linux/linux-yocto_5.14.bb |  2 +-
+ .../libsndfile1/CVE-2021-4156.patch           | 32 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb          |  1 +
+ 22 files changed, 82 insertions(+), 33 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.16.10.inc => go-1.16.13.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.10.bb => go-binary-native_1.16.13.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.10.bb => go-cross-canadian_1.16.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.10.bb => go-cross_1.16.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.10.bb => go-crosssdk_1.16.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.10.bb => go-native_1.16.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.10.bb => go-runtime_1.16.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.10.bb => go_1.16.13.bb} (100%)
+ rename meta/recipes-gnome/epiphany/{epiphany_40.3.bb => epiphany_40.6.bb} (93%)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
 
-Thank you.
+-- 
+2.34.1
 
-Kind regards,
-
-- jupiter
 
