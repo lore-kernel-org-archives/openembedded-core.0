@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DF6C433F5
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:55 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web09.4798.1642588914600541848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D69C433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:56 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.4649.1642588916081961809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:54 -0800
+ Wed, 19 Jan 2022 02:41:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=G3IEy2rk;
- spf=pass (domain: gmail.com, ip: 209.85.128.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Fc/aqFXH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so4943843wms.3
+Received: by mail-wm1-f52.google.com with SMTP id
+ az27-20020a05600c601b00b0034d2956eb04so4913498wmb.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:54 -0800 (PST)
+ Wed, 19 Jan 2022 02:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=I2uzGb6SE6hb8gu+v4i35bWOET+aGy+IFj4860M1dQM=;
-        b=G3IEy2rkyJFdK3MROYm6k9nStuZqaGITRXE8xEa8hzlmqDYDf2Wn7QWGq2WZs5vnSO
-         8C33iC3ZE/FklZZXEtsFltO50RKi5qEwHV90NTWg5p+ytBG4MZN6mSTgZx1gEtKXtOOb
-         70MugNv85p1iR10gcSDCbSpehnms9YWO1j5U9YK82QjKkpzhMgZL3dA+ejZeigDCAlHu
-         z2/M2/fjA8kFxY4EVcs02ShlsaH/TMkaLK1tGVwGSV4p/mmSe3Lj8PS47H5LLQv6rZFi
-         Xf+sRsCl4adrVH4zHMY7PCvSbELlLrE/d2JbY/Z3gz6/WCyJ4uPK1Dk+SUBvBX6RfnzT
-         p0iA==
+        bh=U7x3w3m+oPsfzzIWtDBIev6yaIqZPb2s430JDqAXAqs=;
+        b=Fc/aqFXH6Ao+tnugtN38XsMNunijp8+6hIr1bpnlnwXao5eiY0x6En8VMYfzjh3tMb
+         SyW6TVdiWFKKDRXHod6XWRHPPOfJ2Ns+2EQt0S1UgXjYKJgR0D8YLPsQzN0+1zCPa8vy
+         dJIP0WKwdkouv9I2uBw/howSAFiEaXuRk0yQjMPgKGQMm5f5Uv+Zx7dLMrZyakxkZvd8
+         vHni7MUqrovtNmG4ChzlA3S3xvJ6nP8zD2Cveo/R3vjNDhgMX0YRoHd4moBzrevFezJF
+         zs9r7/td7C0E3q36Ss2YRkfDpFexDJxH5tEhtYFJYND1OGUp93z0x4wMHEDWVgV9ptuq
+         ngRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I2uzGb6SE6hb8gu+v4i35bWOET+aGy+IFj4860M1dQM=;
-        b=LsQ78hwEMetw+DPizJXucqsyGigqD+FaDfdkGA8eLe8V6LAXsztc7I9DgKcSOXEJkx
-         0+mBDZVesLaXYjZX+KYVOHJxNHBBL0pwez2+ts/+V1UHWvJKNxusoQYKy4vgQVo2bZQp
-         Z/RJjgVYWubklG7jxFiZCFzqEkJHQ5Vw1LiIxlWoZOewarzTRyEFZKWUkktrZJqM9P5N
-         6Ve9vXeczocXXH2WUmOEVriIHndtWsdmI/mFM2Www31lZCmiX4PsrumD/o/K4o9TI1XR
-         045viTH+GIWCGJ3tlIvGykgI2PXyl8SLpgL7bHB/55BkmKwQCMKVndFuh4DABoTxXGJn
-         /04g==
-X-Gm-Message-State: AOAM533j2L7dsQt7JAWzVyamuR0VrI8CU0ixGAP5M+jJjaPx52RHf8Ym
-	u+XAhfLNn4cNnA0iYmw8+c+HxVPPqfM=
+        bh=U7x3w3m+oPsfzzIWtDBIev6yaIqZPb2s430JDqAXAqs=;
+        b=CciajwcZmfHaozrFMAtJ8k9QqIYMoSwPcJzeoH1PioUPxe/VGeHizzfFkKAggJAKrM
+         DRA67bu02cTU284OLcP89Ax4gDMkKKRdtCDNb5Tg2nf6aoi9CZFHj4fUf3do1FueDYNC
+         WDIoJgEUSuJveFmANs3lDn32X/Yxp4/IrdMVf8ccopKQP0F25PshLFfI0p1C6Q4HHSdr
+         aDqJiLJ+dtwm4EIj34faYVav2j8AP+HX8/6UXwyu0Ay6Qb6xIA0KyO2FcqPQFguQuN9o
+         Qk1EriOeNB21OJVsEzial8db/cHDKKrLoEDSn0neC4isJrwjv00XAOEZmvKV2erGk0Ua
+         oIgA==
+X-Gm-Message-State: AOAM531S2szmjTLvyazCXr/p6olXSB0zBi0glZvTuQkqpVE5oxnMln24
+	cpClzgKItyzU+NFcd2MVeGISXRt8U9s=
 X-Google-Smtp-Source: 
- ABdhPJzmzFxw+0TzioZEz1Jw9NhYUfSHTckuAVEa8NPhd+ygCAwYa+nJoRatugeMvd8P9IXpzlwjng==
-X-Received: by 2002:a5d:550d:: with SMTP id b13mr6157459wrv.86.1642588913191;
-        Wed, 19 Jan 2022 02:41:53 -0800 (PST)
+ ABdhPJyO+5QP0SbZ7PG1L4nb0pEXVZexF5daYx59BxUL5oRhnw/R0L3BkrUU8ycdIaz2lkWX+oZRTQ==
+X-Received: by 2002:a5d:6e8b:: with SMTP id
+ k11mr27602024wrz.102.1642588914754;
+        Wed, 19 Jan 2022 02:41:54 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- o5sm4667956wmc.39.2022.01.19.02.41.52
+ o5sm4667956wmc.39.2022.01.19.02.41.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 02:41:52 -0800 (PST)
+        Wed, 19 Jan 2022 02:41:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 37/39] liburcu: upgrade 0.13.0 -> 0.13.1
-Date: Wed, 19 Jan 2022 11:41:15 +0100
-Message-Id: <20220119104117.2120127-37-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 39/39] p11-kit: update 0.24.0 -> 0.24.1
+Date: Wed, 19 Jan 2022 11:41:17 +0100
+Message-Id: <20220119104117.2120127-39-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220119104117.2120127-1-alex@linutronix.de>
 References: <20220119104117.2120127-1-alex@linutronix.de>
@@ -66,35 +67,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:55 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160729
+ https://lists.openembedded.org/g/openembedded-core/message/160731
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../liburcu/{liburcu_0.13.0.bb => liburcu_0.13.1.bb}           | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/liburcu/{liburcu_0.13.0.bb => liburcu_0.13.1.bb} (86%)
+ .../p11-kit/{p11-kit_0.24.0.bb => p11-kit_0.24.1.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.24.0.bb => p11-kit_0.24.1.bb} (96%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.13.0.bb b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-similarity index 86%
-rename from meta/recipes-support/liburcu/liburcu_0.13.0.bb
-rename to meta/recipes-support/liburcu/liburcu_0.13.1.bb
-index aba8d070ed..7e53e1cf7b 100644
---- a/meta/recipes-support/liburcu/liburcu_0.13.0.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.13.1.bb
-@@ -12,8 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+similarity index 96%
+rename from meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+index 7fe3c37fde..59cbb67961 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.24.0.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+@@ -11,7 +11,7 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
+ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ SRC_URI = "git://github.com/p11-glue/p11-kit;branch=master;protocol=https"
+-SRCREV = "34826623f58399b24c21f1788e2cdaea34521b7b"
++SRCREV = "dd0590d4e583f107e3e9fafe9ed754149da335d0"
+ S = "${WORKDIR}/git"
  
--SRC_URI[md5sum] = "8cb75dbb05774c03e66c63cb3186dd59"
--SRC_URI[sha256sum] = "cbb20dbe1a892c2a4d8898bac4316176e585392693d498766ccbbc68cf20ba20"
-+SRC_URI[sha256sum] = "3213f33d2b8f710eb920eb1abb279ec04bf8ae6361f44f2513c28c20d3363083"
- 
- S = "${WORKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
+ PACKAGECONFIG ??= ""
 -- 
 2.20.1
 
