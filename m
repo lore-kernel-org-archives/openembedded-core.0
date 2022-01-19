@@ -2,280 +2,394 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39181C433EF
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:16:12 +0000 (UTC)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
- [209.85.222.53])
- by mx.groups.io with SMTP id smtpd.web09.4606.1642587371241078221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 057F9C433F5
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:29 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web09.4788.1642588887530781929
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:16:11 -0800
+ Wed, 19 Jan 2022 02:41:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XCeUYvlr;
- spf=pass (domain: gmail.com, ip: 209.85.222.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ONN+H6a+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f53.google.com with SMTP id u6so3682048uaq.0
+Received: by mail-wm1-f50.google.com with SMTP id n8so4468256wmk.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:16:11 -0800 (PST)
+ Wed, 19 Jan 2022 02:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8QXDUjgwKzRFNzGBuesdj2cYu3jzL+3KAxeS2ohTrUg=;
-        b=XCeUYvlreKsKG5/W8WqVChfrJYN4bEEw+sxMf3IYWtoJxtU/DL9AnGf7+QlgApZ8Qb
-         LOMUSO0AdIHHRIJZB3xVDAh9925Tc2eYuGpy1Xz9ekV5UXiDb56m+414smI/CSAwgYmY
-         CE9ssLlC6V7ManpKS7plxhxfEBFEFNcH7aZwPTNFwuIXIOt9GeZr0znQ9YvLXjkHaC0j
-         wv+133eG+sXWDrcTheK5mcmj72aXiwVMo/CPewpy9UCB96RLMeIKKuZ45K4ec6tN+trm
-         3Txh2NM18E+J7WB1wUEeWxbxFdKd9SX9UNEvcCQqL5gc7mnv0PSFiTuzonNdLiG7yzJt
-         +XMw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Ou6Ka/QHG9Fo4oqWU/QjvwTMcL7dB9foG1WaQGdUmmY=;
+        b=ONN+H6a+W1ySu1yHrXg09Ra7ovT/6VnK58JZ+2u4MIq3Yvr1KmZfq4oxxywAW4RI7x
+         JfQrY/tU+zn/mcouOuE1YxRa9e4GvOxEifzPSdm2oOgj2OyCq2bta1KoSRuYWdj7S0Yz
+         31SZHyQucVBDRM+1HdvT5HskCaJsAbvnqREuW/uVdD+ys8TYhx/1+4B8yRF1Saq7jy48
+         UuxOM+kqTNG4PkXCmhiLHAbxEkl7VJJxVwH14wDB2rPhdgZQzhkhDT1DHFaJNw7QJ72h
+         PaH7+jgb9GB+takgvan6aaavRDvHf/wr4+fw/yfViS0EcFxazB0ixF+63KP+I7pGztCM
+         KKOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8QXDUjgwKzRFNzGBuesdj2cYu3jzL+3KAxeS2ohTrUg=;
-        b=5N2iFSuD9bNAVshjAMsg07zg9Q5UwQmRjovLfLkvWWQMQtquvB93F9t29VVKAS2zsX
-         I+ptWnYPVhgowUjFSpfbJoQJswOxv3QLxFUWfsGu6QLULF9X9lTom4RVCDj60a+I4eCx
-         KDz8gr73VZOad1JloI2VePsx4DvolTQAuDzKqxemaczySLqzAsnya3nrTv1r2cWNVlfv
-         3tdN0Oy9fG55RK6ruCN/pcqKoUk1UtHMFSQ3jpM3NyZZ8ZbMfm9zsjHCTe4rGA+CTMjy
-         aceDBBS6Tr24IYVYEU205OSNGkEFmm79bc9i+37NYcjuu9y95OolQOeBtb9j0S4ipKOK
-         lzJA==
-X-Gm-Message-State: AOAM5314cJgMTIYKw8D08qng0IyD7JJrr/On6Ok+0jZ7/Bx1Mquh3wH0
-	2TYgl1TXVWHaX/8f/6WMvmc7+QcncCJuyoqs2zM1+j7u
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Ou6Ka/QHG9Fo4oqWU/QjvwTMcL7dB9foG1WaQGdUmmY=;
+        b=gC3G6BzLOaNuv4JJ3Eam9dmIId/k2N8NfVQ3lphHJQGSNiSHxUccYZTXroZpGSN3Y9
+         U52Y24fjl44OCAl+dupD6+HarCbg4Cj71Q7jY7gPGCgi2QhLz6QqWYclUi59wjHbeskQ
+         puFUI6gcHmuGmx6SyhZzg23CHgzdheqbbK8Nj2YnS7Mp5oIJ08iz/TPumylCZ+Bich7n
+         Ai3FiUzeAR+GsDOE8K5sp1Wp/z3+GekWI3bTLUzZa3fZ8I0UAiFr2E96KPFf+6F8fCNW
+         4YwKweYx9hf4LHCAPOdjdqgx3FnaP4iarqw+bkDnXUYyCPpyoUZ5wG4WI5uaViLBa1uS
+         AzPg==
+X-Gm-Message-State: AOAM532aCMxZtySZGk3c0gOR9vTqdzp4MDsDtTz4ywA/DI/RC7WLDleH
+	FGVPct/98XAZpgpg3Iu96VkW3wyWlIM=
 X-Google-Smtp-Source: 
- ABdhPJwIA+rR9XMhpNgRpDvW01ipFexHOaUWD+uo17DtC0qs4XNecLx1vqlSF8bewnQ9UzhXD3pQHyyxICkYjrNJdec=
-X-Received: by 2002:a67:e95a:: with SMTP id p26mr7078045vso.38.1642587370218;
- Wed, 19 Jan 2022 02:16:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20220119030655.3484026-1-hongxu.jia@windriver.com>
-In-Reply-To: <20220119030655.3484026-1-hongxu.jia@windriver.com>
+ ABdhPJx0gQwyu+/J2AZUoGoWdXIr7TiyeCNtQ5TbdEAlZpqIC24+1e/QhYiW67oo7tQ5g0I4K3JBpw==
+X-Received: by 2002:adf:fe8e:: with SMTP id
+ l14mr14480537wrr.678.1642588886119;
+        Wed, 19 Jan 2022 02:41:26 -0800 (PST)
+Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
+ [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ o5sm4667956wmc.39.2022.01.19.02.41.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jan 2022 02:41:25 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Jan 2022 11:15:59 +0100
-Message-ID: 
- <CANNYZj_07b452gHNi_PhSZPGxQUWqcAZeCejTDzkMzfj4Bo+xA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package_manager/rpm: conditional remove package
- manager database
-To: hongxu <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Robert Yang <liezhi.yang@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000b6e7a305d5ecaca6"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 02/39] meson: fold nativesdk into the main recipe
+Date: Wed, 19 Jan 2022 11:40:40 +0100
+Message-Id: <20220119104117.2120127-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220119104117.2120127-1-alex@linutronix.de>
+References: <20220119104117.2120127-1-alex@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:16:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160691
+ https://lists.openembedded.org/g/openembedded-core/message/160693
 
---000000000000b6e7a305d5ecaca6
-Content-Type: text/plain; charset="UTF-8"
+This allows automated version updates when possible, and reduces friction in manual ones.
 
-Apologies, but please no. This adds complexity, isn't possible to disable
-and is difficult to understand. You can simply remove the unneeded files
-from ROOTFS_POSTPROCESS_COMMAND in your image class.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/distro/include/maintainers.inc      |   1 -
+ meta/recipes-devtools/meson/meson.inc         |  37 -----
+ meta/recipes-devtools/meson/meson_0.60.3.bb   | 135 +++++++++++++++++-
+ .../meson/nativesdk-meson_0.60.3.bb           | 104 --------------
+ 4 files changed, 133 insertions(+), 144 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson.inc
+ delete mode 100644 meta/recipes-devtools/meson/nativesdk-meson_0.60.3.bb
 
-Alex
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 55ec826249..ae25287c11 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -524,7 +524,6 @@ RECIPE_MAINTAINER:pn-nasm = "Richard Purdie <richard.purdie@linuxfoundation.org>
+ RECIPE_MAINTAINER:pn-nativesdk-buildtools-perl-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-nativesdk-icecc-toolchain = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER:pn-nativesdk-libtool = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+-RECIPE_MAINTAINER:pn-nativesdk-meson = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-nativesdk-qemu-helper = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-nativesdk-sdk-provides-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+deleted file mode 100644
+index 042cf130e4..0000000000
+--- a/meta/recipes-devtools/meson/meson.inc
++++ /dev/null
+@@ -1,37 +0,0 @@
+-HOMEPAGE = "http://mesonbuild.com"
+-SUMMARY = "A high performance build system"
+-DESCRIPTION = "Meson is a build system designed to increase programmer \
+-productivity. It does this by providing a fast, simple and easy to use \
+-interface for modern software development tools and practices."
+-
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-
+-SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz \
+-           file://0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch \
+-           file://0001-python-module-do-not-manipulate-the-environment-when.patch \
+-           file://disable-rpath-handling.patch \
+-           file://0001-Make-CPU-family-warnings-fatal.patch \
+-           file://0002-Support-building-allarch-recipes-again.patch \
+-           file://0001-is_debianlike-always-return-False.patch \
+-           "
+-SRC_URI[sha256sum] = "87ca5fa9358a01864529392bd64e027158eb94afca7c7766b1866ef27eccb98e"
+-
+-UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
+-UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
+-
+-inherit setuptools3
+-
+-RDEPENDS:${PN} = "ninja python3-modules python3-pkg-resources"
+-
+-FILES:${PN} += "${datadir}/polkit-1"
+-
+-do_install:append () {
+-	# As per the same issue in the python recipe itself:
+-	# Unfortunately the following pyc files are non-deterministc due to 'frozenset'
+-	# being written without strict ordering, even with PYTHONHASHSEED = 0
+-	# Upstream is discussing ways to solve the issue properly, until then let's
+-	# just not install the problematic files.
+-	# More info: http://benno.id.au/blog/2013/01/15/python-determinism
+-	rm ${D}${libdir}/python*/site-packages/mesonbuild/dependencies/__pycache__/mpi.cpython*
+-}
+diff --git a/meta/recipes-devtools/meson/meson_0.60.3.bb b/meta/recipes-devtools/meson/meson_0.60.3.bb
+index de9b905c12..62ca09465b 100644
+--- a/meta/recipes-devtools/meson/meson_0.60.3.bb
++++ b/meta/recipes-devtools/meson/meson_0.60.3.bb
+@@ -1,4 +1,135 @@
+-include meson.inc
++HOMEPAGE = "http://mesonbuild.com"
++SUMMARY = "A high performance build system"
++DESCRIPTION = "Meson is a build system designed to increase programmer \
++productivity. It does this by providing a fast, simple and easy to use \
++interface for modern software development tools and practices."
+ 
+-BBCLASSEXTEND = "native"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
++SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz \
++           file://0001-gtkdoc-fix-issues-that-arise-when-cross-compiling.patch \
++           file://0001-python-module-do-not-manipulate-the-environment-when.patch \
++           file://disable-rpath-handling.patch \
++           file://0001-Make-CPU-family-warnings-fatal.patch \
++           file://0002-Support-building-allarch-recipes-again.patch \
++           file://0001-is_debianlike-always-return-False.patch \
++           "
++SRC_URI[sha256sum] = "87ca5fa9358a01864529392bd64e027158eb94afca7c7766b1866ef27eccb98e"
++
++UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
++UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
++
++inherit setuptools3
++
++RDEPENDS:${PN} = "ninja python3-modules python3-pkg-resources"
++
++FILES:${PN} += "${datadir}/polkit-1"
++
++do_install:append () {
++	# As per the same issue in the python recipe itself:
++	# Unfortunately the following pyc files are non-deterministc due to 'frozenset'
++	# being written without strict ordering, even with PYTHONHASHSEED = 0
++	# Upstream is discussing ways to solve the issue properly, until then let's
++	# just not install the problematic files.
++	# More info: http://benno.id.au/blog/2013/01/15/python-determinism
++	rm ${D}${libdir}/python*/site-packages/mesonbuild/dependencies/__pycache__/mpi.cpython*
++}
++
++BBCLASSEXTEND = "native nativesdk"
++
++inherit meson-routines
++
++SRC_URI:append:class-nativesdk = " file://meson-setup.py \
++                                     file://meson-wrapper"
++
++# The cross file logic is similar but not identical to that in meson.bbclass,
++# since it's generating for an SDK rather than a cross-compile. Important
++# differences are:
++# - We can't set vars like CC, CXX, etc. yet because they will be filled in with
++#   real paths by meson-setup.sh when the SDK is extracted.
++# - Some overrides aren't needed, since the SDK injects paths that take care of
++#   them.
++def var_list2str(var, d):
++    items = d.getVar(var).split()
++    return items[0] if len(items) == 1 else ', '.join(repr(s) for s in items)
++
++def generate_native_link_template(d):
++    val = ['-L@{OECORE_NATIVE_SYSROOT}${libdir_native}',
++           '-L@{OECORE_NATIVE_SYSROOT}${base_libdir_native}',
++           '-Wl,-rpath-link,@{OECORE_NATIVE_SYSROOT}${libdir_native}',
++           '-Wl,-rpath-link,@{OECORE_NATIVE_SYSROOT}${base_libdir_native}',
++           '-Wl,--allow-shlib-undefined'
++        ]
++    build_arch = d.getVar('BUILD_ARCH')
++    if 'x86_64' in build_arch:
++        loader = 'ld-linux-x86-64.so.2'
++    elif 'i686' in build_arch:
++        loader = 'ld-linux.so.2'
++    elif 'aarch64' in build_arch:
++        loader = 'ld-linux-aarch64.so.1'
++    elif 'ppc64le' in build_arch:
++        loader = 'ld64.so.2'
++
++    if loader:
++        val += ['-Wl,--dynamic-linker=@{OECORE_NATIVE_SYSROOT}${base_libdir_native}/' + loader]
++
++    return repr(val)
++
++do_install:append:class-nativesdk() {
++    install -d ${D}${datadir}/meson
++
++    cat >${D}${datadir}/meson/meson.native.template <<EOF
++[binaries]
++c = ${@meson_array('BUILD_CC', d)}
++cpp = ${@meson_array('BUILD_CXX', d)}
++ar = ${@meson_array('BUILD_AR', d)}
++nm = ${@meson_array('BUILD_NM', d)}
++strip = ${@meson_array('BUILD_STRIP', d)}
++readelf = ${@meson_array('BUILD_READELF', d)}
++pkgconfig = 'pkg-config-native'
++
++[built-in options]
++c_args = ['-isystem@{OECORE_NATIVE_SYSROOT}${includedir_native}' , ${@var_list2str('BUILD_OPTIMIZATION', d)}]
++c_link_args = ${@generate_native_link_template(d)}
++cpp_args = ['-isystem@{OECORE_NATIVE_SYSROOT}${includedir_native}' , ${@var_list2str('BUILD_OPTIMIZATION', d)}]
++cpp_link_args = ${@generate_native_link_template(d)}
++[properties]
++sys_root = '@OECORE_NATIVE_SYSROOT'
++EOF
++
++    cat >${D}${datadir}/meson/meson.cross.template <<EOF
++[binaries]
++c = @CC
++cpp = @CXX
++ar = @AR
++nm = @NM
++strip = @STRIP
++pkgconfig = 'pkg-config'
++
++[built-in options]
++c_args = @CFLAGS
++c_link_args = @LDFLAGS
++cpp_args = @CPPFLAGS
++cpp_link_args = @LDFLAGS
++
++[properties]
++needs_exe_wrapper = true
++sys_root = @OECORE_TARGET_SYSROOT
++
++[host_machine]
++system = '${SDK_OS}'
++cpu_family = '${@meson_cpu_family("SDK_ARCH", d)}'
++cpu = '${SDK_ARCH}'
++endian = '${@meson_endian("SDK", d)}'
++EOF
++
++    install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d
++    install -m 0755 ${WORKDIR}/meson-setup.py ${D}${SDKPATHNATIVE}/post-relocate-setup.d/
++
++    # We need to wrap the real meson with a thin env setup wrapper.
++    mv ${D}${bindir}/meson ${D}${bindir}/meson.real
++    install -m 0755 ${WORKDIR}/meson-wrapper ${D}${bindir}/meson
++}
++
++FILES:${PN}:append:class-nativesdk = "${datadir}/meson ${SDKPATHNATIVE}"
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.60.3.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.60.3.bb
+deleted file mode 100644
+index 7b77041c7e..0000000000
+--- a/meta/recipes-devtools/meson/nativesdk-meson_0.60.3.bb
++++ /dev/null
+@@ -1,104 +0,0 @@
+-include meson.inc
+-
+-inherit meson-routines
+-inherit nativesdk
+-
+-SRC_URI += "file://meson-setup.py \
+-            file://meson-wrapper"
+-
+-# The cross file logic is similar but not identical to that in meson.bbclass,
+-# since it's generating for an SDK rather than a cross-compile. Important
+-# differences are:
+-# - We can't set vars like CC, CXX, etc. yet because they will be filled in with
+-#   real paths by meson-setup.sh when the SDK is extracted.
+-# - Some overrides aren't needed, since the SDK injects paths that take care of
+-#   them.
+-def var_list2str(var, d):
+-    items = d.getVar(var).split()
+-    return items[0] if len(items) == 1 else ', '.join(repr(s) for s in items)
+-
+-def generate_native_link_template(d):
+-    val = ['-L@{OECORE_NATIVE_SYSROOT}${libdir_native}',
+-           '-L@{OECORE_NATIVE_SYSROOT}${base_libdir_native}',
+-           '-Wl,-rpath-link,@{OECORE_NATIVE_SYSROOT}${libdir_native}',
+-           '-Wl,-rpath-link,@{OECORE_NATIVE_SYSROOT}${base_libdir_native}',
+-           '-Wl,--allow-shlib-undefined'
+-        ]
+-    build_arch = d.getVar('BUILD_ARCH')
+-    if 'x86_64' in build_arch:
+-        loader = 'ld-linux-x86-64.so.2'
+-    elif 'i686' in build_arch:
+-        loader = 'ld-linux.so.2'
+-    elif 'aarch64' in build_arch:
+-        loader = 'ld-linux-aarch64.so.1'
+-    elif 'ppc64le' in build_arch:
+-        loader = 'ld64.so.2'
+-
+-    if loader:
+-        val += ['-Wl,--dynamic-linker=@{OECORE_NATIVE_SYSROOT}${base_libdir_native}/' + loader]
+-
+-    return repr(val)
+-
+-do_install:append() {
+-    install -d ${D}${datadir}/meson
+-
+-    cat >${D}${datadir}/meson/meson.native.template <<EOF
+-[binaries]
+-c = ${@meson_array('BUILD_CC', d)}
+-cpp = ${@meson_array('BUILD_CXX', d)}
+-ar = ${@meson_array('BUILD_AR', d)}
+-nm = ${@meson_array('BUILD_NM', d)}
+-strip = ${@meson_array('BUILD_STRIP', d)}
+-readelf = ${@meson_array('BUILD_READELF', d)}
+-pkgconfig = 'pkg-config-native'
+-
+-[built-in options]
+-c_args = ['-isystem@{OECORE_NATIVE_SYSROOT}${includedir_native}' , ${@var_list2str('BUILD_OPTIMIZATION', d)}]
+-c_link_args = ${@generate_native_link_template(d)}
+-cpp_args = ['-isystem@{OECORE_NATIVE_SYSROOT}${includedir_native}' , ${@var_list2str('BUILD_OPTIMIZATION', d)}]
+-cpp_link_args = ${@generate_native_link_template(d)}
+-[properties]
+-sys_root = '@OECORE_NATIVE_SYSROOT'
+-EOF
+-
+-    cat >${D}${datadir}/meson/meson.cross.template <<EOF
+-[binaries]
+-c = @CC
+-cpp = @CXX
+-ar = @AR
+-nm = @NM
+-strip = @STRIP
+-pkgconfig = 'pkg-config'
+-
+-[built-in options]
+-c_args = @CFLAGS
+-c_link_args = @LDFLAGS
+-cpp_args = @CPPFLAGS
+-cpp_link_args = @LDFLAGS
+-
+-[properties]
+-needs_exe_wrapper = true
+-sys_root = @OECORE_TARGET_SYSROOT
+-
+-[host_machine]
+-system = '${SDK_OS}'
+-cpu_family = '${@meson_cpu_family("SDK_ARCH", d)}'
+-cpu = '${SDK_ARCH}'
+-endian = '${@meson_endian("SDK", d)}'
+-EOF
+-
+-    install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d
+-    install -m 0755 ${WORKDIR}/meson-setup.py ${D}${SDKPATHNATIVE}/post-relocate-setup.d/
+-
+-    # We need to wrap the real meson with a thin env setup wrapper.
+-    mv ${D}${bindir}/meson ${D}${bindir}/meson.real
+-    install -m 0755 ${WORKDIR}/meson-wrapper ${D}${bindir}/meson
+-}
+-
+-RDEPENDS:${PN} += "\
+-    nativesdk-ninja \
+-    nativesdk-python3 \
+-    nativesdk-python3-setuptools \
+-    "
+-
+-FILES:${PN} += "${datadir}/meson ${SDKPATHNATIVE}"
+-- 
+2.20.1
 
-On Wed, 19 Jan 2022 at 04:07, hongxu <hongxu.jia@windriver.com> wrote:
-
-> In order to save spaces in target rootfs, the user wants to remove dnf and
-> keep rpm, in this situation, we should remove dnf database only
->
-> If rpm was installed, keep rpm database, after applying this commit:
->
-> Edit conf/local.conf
-> ...
-> IMAGE_FEATURES:remove = "package-management"
-> IMAGE_INSTALL:append= " rpm"
-> ...
->
-> Build image and boot, run rpm -qa on target:
-> Without this commit
-> ...
-> root@intel-x86-64:~# rpm -qa | wc -l
-> 0
-> ...
->
-> Apply this commit
-> ...
-> root@intel-x86-64:~# rpm -qa | wc -l
-> 1865
-> ...
->
-> With this commit, the rpm -qa works as expected.
->
-> It does not make sense to keep dnf and remove rpm, so this commit
-> does not consider the scenario
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/lib/oe/package_manager/rpm/__init__.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager/rpm/__init__.py
-> b/meta/lib/oe/package_manager/rpm/__init__.py
-> index b392581069..dce5912329 100644
-> --- a/meta/lib/oe/package_manager/rpm/__init__.py
-> +++ b/meta/lib/oe/package_manager/rpm/__init__.py
-> @@ -80,7 +80,9 @@ class RpmPM(PackageManager):
->          self.saved_packaging_data =
-> self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
->          if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
->              bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
-> -        self.packaging_data_dirs = ['etc/rpm', 'etc/rpmrc', 'etc/dnf',
-> 'var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
-> +        self.packaging_data_rpm_dirs = ['etc/rpm', 'etc/rpmrc',
-> 'var/lib/rpm']
-> +        self.packaging_data_dnf_dirs = ['etc/dnf', 'var/lib/dnf',
-> 'var/cache/dnf']
-> +        self.packaging_data_dirs = self.packaging_data_rpm_dirs +
-> self.packaging_data_dnf_dirs
->          self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
->                                                 self.task_name)
->          if not os.path.exists(self.d.expand('${T}/saved')):
-> @@ -237,8 +239,11 @@ class RpmPM(PackageManager):
->          self._invoke_dnf(["autoremove"])
->
->      def remove_packaging_data(self):
-> +        remove_packaging_data_dirs = self.packaging_data_dnf_dirs
-> +        if "rpm" not in self.list_installed():
-> +            remove_packaging_data_dirs += self.packaging_data_rpm_dirs
->          self._invoke_dnf(["clean", "all"])
-> -        for dir in self.packaging_data_dirs:
-> +        for dir in remove_packaging_data_dirs:
->              bb.utils.remove(oe.path.join(self.target_rootfs, dir), True)
->
->      def backup_packaging_data(self):
-> --
-> 2.27.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160688):
-> https://lists.openembedded.org/g/openembedded-core/message/160688
-> Mute This Topic: https://lists.openembedded.org/mt/88527238/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000b6e7a305d5ecaca6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Apologies, but please no. This adds complexity, isn&#=
-39;t possible to disable and is difficult to understand. You can simply rem=
-ove the unneeded files from ROOTFS_POSTPROCESS_COMMAND in your image class.=
-</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 19 Jan 2022 at 04:07, hongx=
-u &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.jia@windriver.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I=
-n order to save spaces in target rootfs, the user wants to remove dnf and<b=
-r>
-keep rpm, in this situation, we should remove dnf database only<br>
-<br>
-If rpm was installed, keep rpm database, after applying this commit:<br>
-<br>
-Edit conf/local.conf<br>
-...<br>
-IMAGE_FEATURES:remove =3D &quot;package-management&quot;<br>
-IMAGE_INSTALL:append=3D &quot; rpm&quot;<br>
-...<br>
-<br>
-Build image and boot, run rpm -qa on target:<br>
-Without this commit<br>
-...<br>
-root@intel-x86-64:~# rpm -qa | wc -l<br>
-0<br>
-...<br>
-<br>
-Apply this commit<br>
-...<br>
-root@intel-x86-64:~# rpm -qa | wc -l<br>
-1865<br>
-...<br>
-<br>
-With this commit, the rpm -qa works as expected.<br>
-<br>
-It does not make sense to keep dnf and remove rpm, so this commit<br>
-does not consider the scenario<br>
-<br>
-Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
-arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/package_manager/rpm/__init__.py | 9 +++++++--<br>
-=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/pack=
-age_manager/rpm/__init__.py<br>
-index b392581069..dce5912329 100644<br>
---- a/meta/lib/oe/package_manager/rpm/__init__.py<br>
-+++ b/meta/lib/oe/package_manager/rpm/__init__.py<br>
-@@ -80,7 +80,9 @@ class RpmPM(PackageManager):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.saved_packaging_data =3D self.d.expa=
-nd(&#39;${T}/saved_packaging_data/%s&#39; % self.task_name)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.exists(self.d.expand(&#39;=
-${T}/saved_packaging_data&#39;)):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(self.d.e=
-xpand(&#39;${T}/saved_packaging_data&#39;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.packaging_data_dirs =3D [&#39;etc/rpm&#39=
-;, &#39;etc/rpmrc&#39;, &#39;etc/dnf&#39;, &#39;var/lib/rpm&#39;, &#39;var/=
-lib/dnf&#39;, &#39;var/cache/dnf&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.packaging_data_rpm_dirs =3D [&#39;etc/rpm=
-&#39;, &#39;etc/rpmrc&#39;, &#39;var/lib/rpm&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.packaging_data_dnf_dirs =3D [&#39;etc/dnf=
-&#39;, &#39;var/lib/dnf&#39;, &#39;var/cache/dnf&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.packaging_data_dirs =3D self.packaging_da=
-ta_rpm_dirs + self.packaging_data_dnf_dirs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.solution_manifest =3D self.d.expand(=
-&#39;${T}/saved/%s_solution&#39; %<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 self.task_name)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.exists(self.d.expand(&#39;=
-${T}/saved&#39;)):<br>
-@@ -237,8 +239,11 @@ class RpmPM(PackageManager):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._invoke_dnf([&quot;autoremove&quot;]=
-)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def remove_packaging_data(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 remove_packaging_data_dirs =3D self.packaging_=
-data_dnf_dirs<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;rpm&quot; not in self.list_installed(=
-):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remove_packaging_data_dirs +=3D =
-self.packaging_data_rpm_dirs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._invoke_dnf([&quot;clean&quot;, &quo=
-t;all&quot;])<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dir in self.packaging_data_dirs:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for dir in remove_packaging_data_dirs:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(oe.path.joi=
-n(self.target_rootfs, dir), True)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def backup_packaging_data(self):<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#160688): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/160688" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/160688</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88527238/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88527238/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000b6e7a305d5ecaca6--
 
