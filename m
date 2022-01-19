@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0227FC4332F
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:36 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.4667.1642588894937164638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF9FC433F5
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:39 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.4711.1642588897658532320
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:35 -0800
+ Wed, 19 Jan 2022 02:41:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AHCYUGlU;
- spf=pass (domain: gmail.com, ip: 209.85.128.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RfKHsi0r;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id p18so4457016wmg.4
+Received: by mail-wm1-f51.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso13461177wmj.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:34 -0800 (PST)
+ Wed, 19 Jan 2022 02:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kc9vyXRBkPfOCLSa7dHiyVeyR2bxMuts0xdoxrpQ8jU=;
-        b=AHCYUGlUqPO6sFekVTWD2/LwYmOm+q05XzlZ5JUlv/S6HloYAwgiM0hVvnGGyOscm4
-         jYDAH2F/2oAoxP0ce5IusTrZWPKPj/ao1BRpTNhTqSUXeTNTR2WVqi41NtoLxaegPvCS
-         dLexm/q4dvP89xcLfK9+1M2Py8zANAZJ6blePPOJshxhTN5uWBbYWaqpsC5vK7NQPwa0
-         3MKA9THRq/o8yzpZCQ9CbH/sTxSTsECceOuft6/gArZkstJgb7F5efYzYqYVXOw7K2N1
-         LJcGXv7qHDYCaGrMuu2Ak9HxPKrMbMdislduI3BhALda0BpuikLnIgsJRJF7bPUtt/+x
-         K0kA==
+        bh=CWcYDptwqlK8jrzlL1ny64XgNPMdQScQqt2VlLuX614=;
+        b=RfKHsi0rwSKhFNN2qdhUPhgikW1/yo/nAh9KqoN81qAqAh2xH2YHIUc3BrYTx+KQXV
+         nbwph0Xj/TSSw0+cM3NqX36lN7b9zCi+KyUpTyQAksRYjdtnnWnC+/pE7EB1UdmX+Cow
+         o4RbADShOdubLWH699YAVlDojFFGWx7JZ5idlq4RoX2W6Ix9sr/rTQCQ6+mLUVXhAmy2
+         nhGdj8OsmUvniVoPAtkZD4v/+fqzSTCRcP0qHZkUweglgquWIwTE+G6PomGS30Zp8jmL
+         322ebpCf+4yEb5e0Zeh+jhPF8fQ9deHdp7vNkQ+ODX7VtJWPcQJKe7WVl7RbO1d6U+NH
+         u76w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kc9vyXRBkPfOCLSa7dHiyVeyR2bxMuts0xdoxrpQ8jU=;
-        b=mZ6gYvH1R03NS0Vl2c9md+zeG65AsbF9Vm5HYOUIWrjWJeEM0PyBB88Cw0xsmq36HJ
-         WoM3h7j8kdqvQjo3tn/JpuuRuLDA9eAro/d3HhPo8x7djt1LjhunGRrC19K6+hqP4kea
-         F5KSvg9emyvo7cHuxqKKes19+sBzKEo/oJLvsBepE16R0TIqGBUbq2ZuUTPdK5n+Jq8t
-         Rsf6k12iBJRU3rI5JooIrvCRCKy6BMXZqnS4KBHwAGH295chP0DOimLZP6J3heqyEmMR
-         G0umVfQwv+SIvcS340iA1rEW+hYKTskgCFkBgUphUKvjYFiSwycBjj2uXoaeYeYjQZBj
-         4JIw==
-X-Gm-Message-State: AOAM533HnvQKsVzQECgrRwsg5/zRKYMHdlyHuWlWSbAgFoIpCoOzYE/3
-	CsbSi8opdDyYw4Is/U/Vlnv3jlTy9CA=
+        bh=CWcYDptwqlK8jrzlL1ny64XgNPMdQScQqt2VlLuX614=;
+        b=oAZdVfJlORN8T8R3b+hQbGhNlQjsSb4CH/TusO1eiI1fGhWf9MDXuxjaILK9JOMEBV
+         tK4ozYjxSqwsdSmkWqCM8dQHdm7nJOuUgZGVP5NlqFR9BLEniAxr3Vcn75agzFnlAw8U
+         omX/Jf5Lk2p0SHDzb9XW/CuX8BGM9J4gRoFqUcA5giHnHMhYD9XVxl0vzIvXWVyqmVZ5
+         JPm+Zthnvbja92sQJunp45M9XjEOo6ZrFCNRpNtxF+0j9HSJDKBAwa2bofJ9k5wwW9hg
+         flOhRbWAE/pPvjX1thcKYqL0YnoX8X9KnfN2Eso47Zi2M5iptizkIzxMATDqjChGg506
+         0utg==
+X-Gm-Message-State: AOAM530l8xZKY3y1nToET3KNSJ5QFD8FwTQM15Wd/K91xGXOjsNoGroI
+	Hdo1k+t/p+BwgbUNOJIrkolw5c177v8=
 X-Google-Smtp-Source: 
- ABdhPJxeq/8An4E7AIPxJ9nYPdGnmF9RLE+z1QbMbMxMyjP1hQH/4Mwh/BTwiG+6VntjQ3hyQoU2fg==
-X-Received: by 2002:a7b:c34b:: with SMTP id l11mr2952644wmj.56.1642588893528;
-        Wed, 19 Jan 2022 02:41:33 -0800 (PST)
+ ABdhPJyCl2IhcdB5FoqBsf22eatnw+OTmXGl7Dls1RwsZCaK2LXpMo7d4EeNmwsWvRJyFkFjpmO5UA==
+X-Received: by 2002:a05:600c:4f93:: with SMTP id
+ n19mr2839036wmq.64.1642588896296;
+        Wed, 19 Jan 2022 02:41:36 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- o5sm4667956wmc.39.2022.01.19.02.41.32
+ o5sm4667956wmc.39.2022.01.19.02.41.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 02:41:33 -0800 (PST)
+        Wed, 19 Jan 2022 02:41:35 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 11/39] libunistring: update 0.9.10 -> 1.0
-Date: Wed, 19 Jan 2022 11:40:49 +0100
-Message-Id: <20220119104117.2120127-11-alex@linutronix.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 15/39] readline: upgrade 8.1 -> 8.1.2
+Date: Wed, 19 Jan 2022 11:40:53 +0100
+Message-Id: <20220119104117.2120127-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220119104117.2120127-1-alex@linutronix.de>
 References: <20220119104117.2120127-1-alex@linutronix.de>
@@ -66,156 +67,64 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:35 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160702
+ https://lists.openembedded.org/g/openembedded-core/message/160706
 
-Delete patches, as one is a backport, another patches code that upstream removed.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-License-Update: license changed to gplv2+
-https://git.savannah.gnu.org/gitweb/?p=libunistring.git;a=commitdiff;h=87f797a50b854a4a2231203c25adbcec4f0dcd05
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...IT_PACKAGE-work-with-Automake-1.16.4.patch | 57 -------------------
- ...charset_alias-when-building-for-musl.patch | 30 ----------
- ...nistring_0.9.10.bb => libunistring_1.0.bb} | 14 ++---
- 3 files changed, 5 insertions(+), 96 deletions(-)
- delete mode 100644 meta/recipes-support/libunistring/libunistring/0001-Make-gl_INIT_PACKAGE-work-with-Automake-1.16.4.patch
- delete mode 100644 meta/recipes-support/libunistring/libunistring/0001-Unset-need_charset_alias-when-building-for-musl.patch
- rename meta/recipes-support/libunistring/{libunistring_0.9.10.bb => libunistring_1.0.bb} (63%)
+ .../readline/{readline-8.1 => files}/rl-native.map         | 0
+ .../{readline-8.1 => readline}/configure-fix.patch         | 0
+ .../readline/{readline-8.1 => readline}/norpath.patch      | 0
+ meta/recipes-core/readline/readline_8.1.2.bb               | 7 +++++++
+ meta/recipes-core/readline/readline_8.1.bb                 | 7 -------
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-core/readline/{readline-8.1 => files}/rl-native.map (100%)
+ rename meta/recipes-core/readline/{readline-8.1 => readline}/configure-fix.patch (100%)
+ rename meta/recipes-core/readline/{readline-8.1 => readline}/norpath.patch (100%)
+ create mode 100644 meta/recipes-core/readline/readline_8.1.2.bb
+ delete mode 100644 meta/recipes-core/readline/readline_8.1.bb
 
-diff --git a/meta/recipes-support/libunistring/libunistring/0001-Make-gl_INIT_PACKAGE-work-with-Automake-1.16.4.patch b/meta/recipes-support/libunistring/libunistring/0001-Make-gl_INIT_PACKAGE-work-with-Automake-1.16.4.patch
+diff --git a/meta/recipes-core/readline/readline-8.1/rl-native.map b/meta/recipes-core/readline/files/rl-native.map
+similarity index 100%
+rename from meta/recipes-core/readline/readline-8.1/rl-native.map
+rename to meta/recipes-core/readline/files/rl-native.map
+diff --git a/meta/recipes-core/readline/readline-8.1/configure-fix.patch b/meta/recipes-core/readline/readline/configure-fix.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-8.1/configure-fix.patch
+rename to meta/recipes-core/readline/readline/configure-fix.patch
+diff --git a/meta/recipes-core/readline/readline-8.1/norpath.patch b/meta/recipes-core/readline/readline/norpath.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-8.1/norpath.patch
+rename to meta/recipes-core/readline/readline/norpath.patch
+diff --git a/meta/recipes-core/readline/readline_8.1.2.bb b/meta/recipes-core/readline/readline_8.1.2.bb
+new file mode 100644
+index 0000000000..787f7e734a
+--- /dev/null
++++ b/meta/recipes-core/readline/readline_8.1.2.bb
+@@ -0,0 +1,7 @@
++require readline.inc
++
++SRC_URI += "file://configure-fix.patch \
++           file://norpath.patch \
++           "
++
++SRC_URI[archive.sha256sum] = "7589a2381a8419e68654a47623ce7dfcb756815c8fee726b98f90bf668af7bc6"
+diff --git a/meta/recipes-core/readline/readline_8.1.bb b/meta/recipes-core/readline/readline_8.1.bb
 deleted file mode 100644
-index d8424f28d4..0000000000
---- a/meta/recipes-support/libunistring/libunistring/0001-Make-gl_INIT_PACKAGE-work-with-Automake-1.16.4.patch
+index 0786a08163..0000000000
+--- a/meta/recipes-core/readline/readline_8.1.bb
 +++ /dev/null
-@@ -1,57 +0,0 @@
--From 15e4365267e316f15222b8bf9f0a7cd0db231e9c Mon Sep 17 00:00:00 2001
--From: Bruno Haible <bruno@clisp.org>
--Date: Sun, 8 Aug 2021 01:58:42 +0200
--Subject: [PATCH] Make gl_INIT_PACKAGE work with Automake >= 1.16.4.
+@@ -1,7 +0,0 @@
+-require readline.inc
 -
--Reported and analyzed by Nicole Mazzuca <mazzucan@outlook.com> in
--<https://lists.gnu.org/archive/html/bug-libunistring/2021-08/msg00002.html>.
+-SRC_URI += "file://configure-fix.patch \
+-            file://norpath.patch"
 -
--* m4/init-package-version.m4 (gl_INIT_PACKAGE): Use a new macro
--gl_INIT_EMPTY.
--(gl_INIT_DUMMY): Expand to empty in two steps, via a new macro
--gl_INIT_DUMMY2.
--
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- ChangeLog                  | 10 ++++++++++
-- m4/init-package-version.m4 | 12 ++++++++----
-- 2 files changed, 18 insertions(+), 4 deletions(-)
--
--diff --git a/m4/init-package-version.m4 b/m4/init-package-version.m4
--index f131a84..a26b1ab 100644
----- a/m4/init-package-version.m4
--+++ b/m4/init-package-version.m4
--@@ -1,5 +1,5 @@
---# init-package-version.m4 serial 1 (gettext-0.18)
---dnl Copyright (C) 1992-2009 Free Software Foundation, Inc.
--+# init-package-version.m4 serial 2
--+dnl Copyright (C) 1992-2021 Free Software Foundation, Inc.
-- dnl This file is free software, distributed under the terms of the GNU
-- dnl General Public License.  As a special exception to the GNU General
-- dnl Public License, this file may be distributed as part of a program
--@@ -77,7 +77,7 @@ AC_DEFUN([gl_INIT_PACKAGE],
--             m4_bpatsubst(m4_dquote(
--                 m4_defn([AM_INIT_AUTOMAKE])),
--               [AC_PACKAGE_NAME], [gl_INIT_DUMMY])),
---          [AC_PACKAGE_TARNAME], [gl_INIT_DUMMY])),
--+          [AC_PACKAGE_TARNAME], [gl_INIT_EMPTY])),
--       [AC_PACKAGE_VERSION], [gl_INIT_DUMMY])
--     [AC_SUBST([PACKAGE], [$1])
--      AC_SUBST([VERSION], [$2])
--@@ -85,7 +85,11 @@ AC_DEFUN([gl_INIT_PACKAGE],
--   m4_define([AM_INIT_AUTOMAKE],
--     m4_defn([gl_RPL_INIT_AUTOMAKE]))
-- ])
---m4_define([gl_INIT_DUMMY], [])
--+m4_define([gl_INIT_EMPTY], [])
--+dnl Automake 1.16.4 no longer accepts an empty value for gl_INIT_DUMMY.
--+dnl But a macro that later expands to empty works.
--+m4_define([gl_INIT_DUMMY], [gl_INIT_DUMMY2])
--+m4_define([gl_INIT_DUMMY2], [])
-- AC_DEFUN([gl_RPL_INIT_AUTOMAKE], [
--   m4_ifval([$2],
--     [m4_fatal([After gl_INIT_PACKAGE, the two-argument form of AM_INIT_AUTOMAKE cannot be used.])])
---- 
--2.20.1
--
-diff --git a/meta/recipes-support/libunistring/libunistring/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-support/libunistring/libunistring/0001-Unset-need_charset_alias-when-building-for-musl.patch
-deleted file mode 100644
-index 2aeacb868e..0000000000
---- a/meta/recipes-support/libunistring/libunistring/0001-Unset-need_charset_alias-when-building-for-musl.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 17:02:13 -0700
--Subject: [PATCH] Unset need_charset_alias when building for musl
--
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/gnulib.mk | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--Index: libunistring-0.9.4/lib/Makefile.gnulib
--===================================================================
----- libunistring-0.9.4.orig/lib/Makefile.gnulib
--+++ libunistring-0.9.4/lib/Makefile.gnulib
--@@ -380,7 +380,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
-diff --git a/meta/recipes-support/libunistring/libunistring_0.9.10.bb b/meta/recipes-support/libunistring/libunistring_1.0.bb
-similarity index 63%
-rename from meta/recipes-support/libunistring/libunistring_0.9.10.bb
-rename to meta/recipes-support/libunistring/libunistring_1.0.bb
-index 0692bbcb44..31c84cb790 100644
---- a/meta/recipes-support/libunistring/libunistring_0.9.10.bb
-+++ b/meta/recipes-support/libunistring/libunistring_1.0.bb
-@@ -13,19 +13,15 @@ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
- 
- HOMEPAGE = "http://www.gnu.org/software/libunistring/"
- SECTION = "devel"
--LICENSE = "LGPLv3+ | GPLv2"
-+LICENSE = "LGPLv3+ | GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
--                    file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
--                    file://doc/libunistring.texi;md5=287fa6075f78a3c85c1a52b0a92547cd \
-+                    file://README;beginline=45;endline=65;md5=3a896a943b4da2c551e6be1af27eff8d \
-+                    file://doc/libunistring.texi;md5=266e4297d7c18f197be3d9622ba99685 \
-                    "
- DEPENDS = "gperf-native"
- 
--SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
--           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
--           file://0001-Make-gl_INIT_PACKAGE-work-with-Automake-1.16.4.patch \
--"
--SRC_URI[md5sum] = "0d3274e9838396b12200f8b54ddaf43b"
--SRC_URI[sha256sum] = "a82e5b333339a88ea4608e4635479a1cfb2e01aafb925e1290b65710d43f610b"
-+SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz"
-+SRC_URI[sha256sum] = "3c0184c0e492d7c208ce31d25dd1d2c58f0c3ed6cbbe032c5b248cddad318544"
- 
- inherit autotools texinfo
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[archive.md5sum] = "e9557dd5b1409f5d7b37ef717c64518e"
+-SRC_URI[archive.sha256sum] = "f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02"
 -- 
 2.20.1
 
