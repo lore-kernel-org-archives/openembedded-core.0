@@ -2,63 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04EBAC43217
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:37 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.4709.1642588896144137966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0195EC433EF
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 10:41:36 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web12.4636.1642588895497400986
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 02:41:36 -0800
+ Wed, 19 Jan 2022 02:41:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BoPP4zwz;
- spf=pass (domain: gmail.com, ip: 209.85.128.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ck+G6h5d;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id
- e9-20020a05600c4e4900b0034d23cae3f0so4989142wmq.2
+Received: by mail-wm1-f48.google.com with SMTP id v123so4508298wme.2
         for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Jan 2022 02:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=08fWo6NEx8AXr4GBASZvppMHemmMJmwbO15b5x4Modw=;
-        b=BoPP4zwzGelnIHY+aOSuGp5umahM/iA1gTs1eXkCGRu1NS6NJg22It3T2AmqSEKApt
-         /0G7ppaQtT2Tgtwyt5YUTn/C7UIQ42a66YuJA812tXcDm+darL5TPixXcLhu4MlfwvVG
-         5Xw8h01IvFfTYxgIdxxD+Q5Uocjkxt1KsvX31tPMViMHFPg9nu4oQbaP3HKqnlMEFPI3
-         IPVCqTR0aKtyAKQgG3MsIL4lRo5CEouXvOJ5cxZ8uUiutS+V8pEE3V8Q2DGcrHl0t8JV
-         +lutE+qVb/lKukD7ffbeqZBXAjYdJbZk3q0th0ES5gCA0PFEiPWn8LF8niBukANu0Oct
-         v3PQ==
+        bh=2ETRvalpC8D0NikRa+/DyFH9y9nDqPdMU9UT+wKgo0w=;
+        b=ck+G6h5d6AfVH7/4Kb4jzYblOXdnWoIvxdZGG59pSWpfcpIUBVWaN+60XK93bR+Nbx
+         tayt50mLZ+3NvwJZenyUHlmz1On78frB/UyTUfYbug00CioEGuBdL5X5ZYi2ijO4U38s
+         7fdfiVQp1/YNf69JJD1CEBD2USl4xHIv11l/jSQ9pjFutZJPpldQ7u+PiuiNp+QzFgl/
+         xmmjYPlYqrZMKFGI8cNfuirk47tCUQ0UHP/6MxHyiPwzzRW/d/b64sM5ua7N0HDWiSGt
+         mx5cC0W9Jscr2kCL1dxab0/wzHtKGvmvLU43SwQDsBnOu+JpQgH17MS/roouzYvA2gay
+         QViA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=08fWo6NEx8AXr4GBASZvppMHemmMJmwbO15b5x4Modw=;
-        b=irzP/XvJ1i1MWnd43hwupwx/gwmzs/eQXvUKYr1rqkffvZckMeGM4Kxf9epWUTglVj
-         T4i6+JKbMjF5891D0vD29BPWfJW+mGrsp4dlU7+xFuJ2cQJzZkaNvRoPn7DwONsUNbwG
-         5/dkM1zuWEcqH7qKZGiW7XbwW/A8T4GwkTMLCmUaX48mGhc5rRilfs5lv4yTGHNH/fTI
-         ShU4qXvbYUHuC6MwJ/vFto0FSliCvD70oM4OrB18NUedbGS0Cj51Ce9vMS8+GsG1UMQ8
-         2e/bSxdPQt4f5khjwUq3RRFVyaRYfsQBNBuHR3I25ORwDwasTpSjj2LHV3QaXbTwU6Ap
-         5kSA==
-X-Gm-Message-State: AOAM531oG14ukGenWn8n/zvcjSeESpJZD2GMJe+W2IccEiT4WYvgqybG
-	8vI/AT7HIYhHqPde33o+XgZgSKxbTQA=
+        bh=2ETRvalpC8D0NikRa+/DyFH9y9nDqPdMU9UT+wKgo0w=;
+        b=NxpyZJcLhKNs/v6yLud2Ie4NVIK5QWm42ZxOC5hJCr7kxjnpTxgWgP/wK3zxZ8g77l
+         OTmKLQkzz6VDlFfUnas2Bou2LamISpUlCJKgMyoVcAJsWrSr7Y5cAZLOKifhdHVbX/xk
+         FHa9pYPBNtMuW2skrb2IpdwRWCa7CY5Gw1xPNJE+Tf9Yd/r1x135Tmw/1bRp/kHEg8BW
+         2MYsadJBNRYiLdyKAYML79LOv6EErdEqp0rLurRagvRsi7s3++Y8uZWaWsNkhQ8TavvL
+         kF8vYUYRM96b7NiW+X/vgnSlbDeS51fF9hF8thQNpjk9yJQk/agFopWbGTPqJX76198l
+         XcTQ==
+X-Gm-Message-State: AOAM533pfnJEsN5HTmJO17eCyIacEMjTyh1d6MnLH8yABnmRto8HgFUw
+	eehA0y3QDMJ3w+WibOWInYmb10IvFaM=
 X-Google-Smtp-Source: 
- ABdhPJxt7ftruBh9aKi8tecPW53cWU5ejtSAF23S4DrPvLHVKJ5bUhf4UWvnS7GaIzHinhNxBH5gDg==
-X-Received: by 2002:a05:600c:3d86:: with SMTP id
- bi6mr2910912wmb.1.1642588894775;
+ ABdhPJw6q4ZHtpImY0u9opYmIXyUTubSHOmyyuqO3dHOC5sFo/Cn++D1BZGdSidhYpUKBulgTa801Q==
+X-Received: by 2002:a1c:4d09:: with SMTP id o9mr2889332wmh.22.1642588894153;
         Wed, 19 Jan 2022 02:41:34 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- o5sm4667956wmc.39.2022.01.19.02.41.34
+ o5sm4667956wmc.39.2022.01.19.02.41.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 02:41:34 -0800 (PST)
+        Wed, 19 Jan 2022 02:41:33 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/39] iproute2: upgrade 5.15.0 -> 5.16.0
-Date: Wed, 19 Jan 2022 11:40:51 +0100
-Message-Id: <20220119104117.2120127-13-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 12/39] sqlite: update 3.37.1 -> 3.37.2
+Date: Wed, 19 Jan 2022 11:40:50 +0100
+Message-Id: <20220119104117.2120127-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220119104117.2120127-1-alex@linutronix.de>
 References: <20220119104117.2120127-1-alex@linutronix.de>
@@ -67,80 +65,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:37 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 10:41:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160704
+ https://lists.openembedded.org/g/openembedded-core/message/160703
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...d38a941a181f1468fa39541e872e51b6022f.patch | 35 +++++++++++++++++++
- ...{iproute2_5.15.0.bb => iproute2_5.16.0.bb} |  3 +-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/8bced38a941a181f1468fa39541e872e51b6022f.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_5.15.0.bb => iproute2_5.16.0.bb} (63%)
+ .../sqlite/{sqlite3_3.37.1.bb => sqlite3_3.37.2.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.37.1.bb => sqlite3_3.37.2.bb} (77%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/8bced38a941a181f1468fa39541e872e51b6022f.patch b/meta/recipes-connectivity/iproute2/iproute2/8bced38a941a181f1468fa39541e872e51b6022f.patch
-new file mode 100644
-index 0000000000..289712683e
---- /dev/null
-+++ b/meta/recipes-connectivity/iproute2/iproute2/8bced38a941a181f1468fa39541e872e51b6022f.patch
-@@ -0,0 +1,35 @@
-+From 8bced38a941a181f1468fa39541e872e51b6022f Mon Sep 17 00:00:00 2001
-+From: Sam James <sam@gentoo.org>
-+Date: Thu, 13 Jan 2022 08:14:13 +0000
-+Subject: [PATCH] lib: fix ax25.h include for musl
-+
-+ax25.h isn't guaranteed to be avilable in netax25/*;
-+it's dependent on our choice of libc (it's not available
-+on musl at least) [0].
-+
-+Let's use the version from linux-headers.
-+
-+[0] https://sourceware.org/glibc/wiki/Synchronizing_Headers
-+Bug: https://bugs.gentoo.org/831102
-+
-+Signed-off-by: Sam James <sam@gentoo.org>
-+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/ax25_ntop.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/ax25_ntop.c b/lib/ax25_ntop.c
-+index cfd0e04b0..3a72a43e9 100644
-+--- a/lib/ax25_ntop.c
-++++ b/lib/ax25_ntop.c
-+@@ -2,7 +2,7 @@
-+ 
-+ #include <errno.h>
-+ #include <sys/socket.h>
-+-#include <netax25/ax25.h>
-++#include <linux/ax25.h>
-+ 
-+ #include "utils.h"
-+ 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
-similarity index 63%
-rename from meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
-index 99a743391a..46c1b045c1 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_5.15.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_5.16.0.bb
-@@ -2,9 +2,10 @@ require iproute2.inc
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.37.1.bb b/meta/recipes-support/sqlite/sqlite3_3.37.2.bb
+similarity index 77%
+rename from meta/recipes-support/sqlite/sqlite3_3.37.1.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.37.2.bb
+index a13cca633a..56364b4828 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.37.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.37.2.bb
+@@ -3,8 +3,8 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
-+           file://8bced38a941a181f1468fa39541e872e51b6022f.patch \
-            "
+-SRC_URI = "http://www.sqlite.org/2021/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "40f22a13bf38bbcd4c7ac79bcfb42a72d5aa40930c1f3f822e30ccce295f0f2e"
++SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[sha256sum] = "4089a8d9b467537b3f246f217b84cd76e00b1d1a971fe5aca1e30e230e46b2d8"
  
--SRC_URI[sha256sum] = "38e3e4a5f9a7f5575c015027a10df097c149111eeb739993128e5b2b35b291ff"
-+SRC_URI[sha256sum] = "c064b66f6b001c2a35aa5224b5b1ac8aa4bee104d7dce30d6f10a84cb8b01e2f"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
 -- 
 2.20.1
 
