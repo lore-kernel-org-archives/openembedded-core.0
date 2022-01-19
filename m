@@ -1,138 +1,223 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4584FC433EF
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 23:07:23 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web08.4255.1642633642155841040
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A38C433F5
+	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 23:18:18 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web10.4342.1642634297015661495
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 15:07:22 -0800
+ Wed, 19 Jan 2022 15:18:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ExPaVkK+;
- spf=pass (domain: gmail.com, ip: 209.85.128.45,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id
- e9-20020a05600c4e4900b0034d23cae3f0so9106646wmq.2
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 15:07:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bCwf2JK0sNPkGja3X20oK8sn+p68Z+SxEQXL9ByC21g=;
-        b=ExPaVkK+VKSQHUPBgSN38Pyo7e0wlAwMc/EcgMKV4p9bmjRN675nw/yyBcehi2R0tO
-         ocdc65/SGne5qDT3/stjTlRMl8XZ2GxXcjQHDqZkjCBC8YgVD1dhpq5Tbsu2CfbO+/R3
-         43qcTuFuLlwCqgajrASUkn1m/ZJZ24sv54KHRmZjvmCJNCdzY13x5ym1WW8j1C+7hjp2
-         83rRA+gyDr01Wm4zXH6nT9ol+C4xKrWyNlaUrgTM2XG0/BWSsf+r588jbI+Yc59OaNar
-         +BVhUz6a9/5pTons0geTCq8nFvplfBVGo4CvcNKQogoILO+gHUGKNX4W1i1GMdyOgnMJ
-         EX7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bCwf2JK0sNPkGja3X20oK8sn+p68Z+SxEQXL9ByC21g=;
-        b=Kd4KTcBugPmEmC1abod2gRPswaMDFJLfH40iSf0yK/ZV4pCxc6kpZMHwVK0jTi8fgE
-         hJaZ4cY6Cjfx/AxVEOl4xRlS5EADZAIzTmvpFtFUr520JEu3icp6VqUl2rfKS3D2IKaf
-         0PWSVyTqBkHyTBEBLdp60sjUeqLhKjuFTLHlnmAV/7SNuD5JUYriTpAehGUrj4tSkYbO
-         MEpUuLvzNRaIMRFU9ZY4YyrOSJvprsPLvjc3MboUlka/GzzRF13EevYfRG1Jr7t0t/td
-         gmj8OQlci6wuZQEGDdDMI+IARU+yQDg8JrEXRc3MUgBIyvswb5PVupgL9ttIap7daNLC
-         Y05A==
-X-Gm-Message-State: AOAM531yYR+nD8DATfh+gbcfllkBJGT+V7U2FoXtUBe7hASW311odyZY
-	tJbVzOX8zH5LMVMOITc5BbYfix2l41k=
-X-Google-Smtp-Source: 
- ABdhPJzq8a7+7rMJTeQGAGiEbwfnRcgK23ZD4CY7S1+PEa8jj15aeOJ0JsHeIt0iWffN7HN32TvMow==
-X-Received: by 2002:a7b:ce94:: with SMTP id q20mr5878442wmj.5.1642633640322;
-        Wed, 19 Jan 2022 15:07:20 -0800 (PST)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id
- f13sm1047500wrp.105.2022.01.19.15.07.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jan 2022 15:07:19 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@denx.de
+ header.s=phobos-20191101 header.b=qXzP1SXO;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id A2A95832DA;
+	Thu, 20 Jan 2022 00:18:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1642634294;
+	bh=m2ECb7WRzJBZnUNrWiQlz7e1KamUi1w1hQJzyCay7V4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qXzP1SXOHsVTLFiQOjJUFb48bv0IRQrgRBF9JfvKKIxDwLkZZ1KCv37v/SYh5nlMU
+	 +K49xxKc6IP9LlXbthrTTilPBRDmVyd7gRgA3xIQp0+ljAl2/BpaPAtlqQ+PMWzgaJ
+	 xSZFx2R/PDnVY6oOly3iS7kbrYLhjJPYqNHhGeW93GuE9unU5kWPKiAOmOU958T6eD
+	 fJ8WOicvjz8yW58svsp7t4Nom3jJQC2blTwaQlIBHKoAW40evCukpdKlnxjAzXd/x6
+	 ehK3vk+v15B7gr7QIbQI4TPCU/3VNrGL/INqmRuq9f8xtMklRWBupARyRp6TP4OVAU
+	 4DSePdyaBU6rQ==
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] icecc.bbclass: replace deprecated bash command substitution
-Date: Wed, 19 Jan 2022 23:07:12 +0000
-Message-Id: <20220119230712.1158697-1-quaresma.jose@gmail.com>
+Cc: Marek Vasut <marex@denx.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Joshua Watt <JPEWhacker@gmail.com>,
+	Pavel Zhukov <pavel.zhukov@huawei.com>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH] [dunfell] Revert "weston: Use systemd notify,"
+Date: Thu, 20 Jan 2022 00:17:55 +0100
+Message-Id: <20220119231755.20960-1-marex@denx.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 23:07:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 23:18:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160744
+ https://lists.openembedded.org/g/openembedded-core/message/160745
 
-- build some packages with icecc enabled is not supported
-  because of the folling that disables the icecc:
+Commit 4efdcc1090 ("weston: Use systemd notify,") has non-trivial to
+backport dependencies without which it cannot work, revert backport.
 
-  DEBUG: while parsing set_icecc_env, unable to handle non-literal command '$ICECC_CC'
+In oe-core dunfell, weston is still started using /usr/bin/weston-start
+script in meta/recipes-graphics/wayland/weston-init/weston@.service .
+Since 76ed534267 ("weston-init: Use weston-launch when starting weston
+as the first windowing system"), the weston-start script starts weston
+using weston-launch executable in case $DISPLAY is not set, i.e. when
+weston is started as the primary compositor.
 
-- it can be replicated with:
+When weston is started via weston-launch, the notification to systemd
+is not delivered, and weston service fails to start with the following:
+"
+weston@root.service: start operation timed out. Terminating.
+"
 
- bitbake make && bitbake make -c cleansstate && bitbake make -DD
- grep ICECC_CC tmp/log/cooker/qemux86-64/console-latest.log
+The weston systemd service has been reworked considerably since oe-core
+dunfell in commit c21fa5a291 ("weston-init: Redefine weston service and
+add socket activation option"), which replaced the use of weston-start
+in weston@.service with plain weston, and has been further improved in
+commit dd83fb40f7 ("weston-init: Stop running weston as root") . The
+commit reverted here, oe-core/master commit c8aa0222ce ("weston: wrapper
+for weston modules argument"), landed only with the two aforementioned
+reworks already in place, therefore the commit could have never been
+tested with weston started via weston-launch executable and the timeout
+at delivering systemd notification could not have happened in master.
 
-- bash command substitution backquote deprecated
+Both c21fa5a291 ("weston-init: Redefine weston service and add socket
+activation option") and dd83fb40f7 ("weston-init: Stop running weston
+as root") are large feature patches and thus unsuitable for stable
+backports, hence this revert seems to be the least problematic way.
 
- https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html
- https://mywiki.wooledge.org/BashFAQ/082
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>
+Cc: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/icecc.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../wayland/weston-init/weston-start                 | 12 ------------
+ .../wayland/weston-init/weston@.service              |  6 ------
+ .../wayland/weston/systemd-notify.weston-start       |  9 ---------
+ .../wayland/weston/xwayland.weston-start             |  3 ++-
+ meta/recipes-graphics/wayland/weston_8.0.0.bb        |  6 ------
+ 5 files changed, 2 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.w=
+eston-start
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 794e9930ad..3bbd2645af 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -309,7 +309,7 @@ wait_for_file() {
-     local TIMEOUT=$2
-     until [ -f "$FILE_TO_TEST" ]
-     do
--        TIME_ELAPSED=`expr $TIME_ELAPSED + 1`
-+        TIME_ELAPSED=$(expr $TIME_ELAPSED + 1)
-         if [ $TIME_ELAPSED -gt $TIMEOUT ]
-         then
-             return 1
-@@ -362,8 +362,8 @@ set_icecc_env() {
-         return
-     fi
- 
--    ICE_VERSION=`$ICECC_CC -dumpversion`
--    ICECC_VERSION=`echo ${ICECC_VERSION} | sed -e "s/@VERSION@/$ICE_VERSION/g"`
-+    ICE_VERSION="$($ICECC_CC -dumpversion)"
-+    ICECC_VERSION=$(echo ${ICECC_VERSION} | sed -e "s/@VERSION@/$ICE_VERSION/g")
-     if [ ! -x "${ICECC_ENV_EXEC}" ]
-     then
-         bbwarn "Cannot use icecc: invalid ICECC_ENV_EXEC"
-@@ -390,18 +390,18 @@ set_icecc_env() {
-         chmod 775 $ICE_PATH/$compiler
-     done
- 
--    ICECC_AS="`${ICECC_CC} -print-prog-name=as`"
-+    ICECC_AS="$(${ICECC_CC} -print-prog-name=as)"
-     # for target recipes should return something like:
-     # /OE/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/arm920tt-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.8.2/as
-     # and just "as" for native, if it returns "as" in current directory (for whatever reason) use "as" from PATH
--    if [ "`dirname "${ICECC_AS}"`" = "." ]
-+    if [ "$(dirname "${ICECC_AS}")" = "." ]
-     then
-         ICECC_AS="${ICECC_WHICH_AS}"
-     fi
- 
-     if [ ! -f "${ICECC_VERSION}.done" ]
-     then
--        mkdir -p "`dirname "${ICECC_VERSION}"`"
-+        mkdir -p "$(dirname "${ICECC_VERSION}")"
- 
-         # the ICECC_VERSION generation step must be locked by a mutex
-         # in order to prevent race conditions
--- 
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/met=
+a/recipes-graphics/wayland/weston-init/weston-start
+index 97471df80d..ccc7093425 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -23,15 +23,6 @@ add_openvt_argument() {
+ 	openvt_args=3D"$openvt_args $1"
+ }
+=20
+-## Add module to --modules argument
+-add_weston_module() {
+-	if [ -z "${weston_modules}" ]; then
+-		weston_modules=3D"--modules "
+-	fi;
+-	weston_modules=3D"${weston_modules}${1},"
+-}
+-
+-
+ if [ -n "$WAYLAND_DISPLAY" ]; then
+ 	echo "ERROR: A Wayland compositor is already running, nested Weston ins=
+tance is not supported yet."
+ 	exit 1
+@@ -74,9 +65,6 @@ if [ -d "$modules_dir" ]; then
+ 		# process module
+ 		. $m
+ 	done
+-	if [ -n "${weston_modules}" ]; then
+-		add_weston_argument "${weston_modules} "
+-	fi;
+ fi
+=20
+ if test -z "$XDG_RUNTIME_DIR"; then
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/=
+meta/recipes-graphics/wayland/weston-init/weston@.service
+index 70c706d75c..39e193014a 100644
+--- a/meta/recipes-graphics/wayland/weston-init/weston@.service
++++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
+@@ -1,7 +1,3 @@
+-# SPDX-FileCopyrightText: Huawei Inc.
+-#
+-# SPDX-License-Identifier: Apache-2.0
+-
+ [Unit]
+ Description=3DWeston Wayland Compositor
+ RequiresMountsFor=3D/run
+@@ -9,8 +5,6 @@ Conflicts=3Dplymouth-quit.service
+ After=3Dsystemd-user-sessions.service plymouth-quit-wait.service
+=20
+ [Service]
+-Type=3Dnotify
+-NotifyAccess=3Dall
+ User=3D%i
+ PAMName=3Dlogin
+ EnvironmentFile=3D-/etc/default/weston
+diff --git a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-s=
+tart b/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+deleted file mode 100644
+index fdb48cb609..0000000000
+--- a/meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-
+-# SPDX-FileCopyrightText: Huawei Inc.
+-# SPDX-License-Identifier: Apache-2.0
+-
+-
+-if [[ -x "/usr/lib/weston/systemd-notify.so" ]]; then
+-	add_weston_module "systemd-notify.so"
+-fi
+diff --git a/meta/recipes-graphics/wayland/weston/xwayland.weston-start b=
+/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+index 22984f50a4..b483c97cf1 100644
+--- a/meta/recipes-graphics/wayland/weston/xwayland.weston-start
++++ b/meta/recipes-graphics/wayland/weston/xwayland.weston-start
+@@ -2,5 +2,6 @@
+=20
+ if type Xwayland  >/dev/null 2>/dev/null; then
+ 	mkdir -p /tmp/.X11-unix
+-	add_weston_module "xwayland.so"
++
++	add_weston_argument "--modules=3Dxwayland.so"
+ fi
+diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes=
+-graphics/wayland/weston_8.0.0.bb
+index e647fbc686..5e4e2032c9 100644
+--- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
+@@ -5,11 +5,9 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd79ee9e66bb0f95d3386a7acae780=
+b70 \
+                     file://libweston/compositor.c;endline=3D27;md5=3D6c5=
+3bbbd99273f4f7c4affa855c33c0a"
+=20
+-
+ SRC_URI =3D "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.x=
+z \
+            file://weston.png \
+            file://weston.desktop \
+-           file://systemd-notify.weston-start \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-does=
+n-t.patch \
+            file://0002-desktop-shell-Remove-no-op-de-activation-of-the-x=
+dg-.patch \
+@@ -106,10 +104,6 @@ do_install_append() {
+ 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston=
+-start/xwayland
+ 	fi
+=20
+-	if [ "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'yes', 'no', d)}=
+" =3D "yes" ]; then
+-	        install -Dm 644 ${WORKDIR}/systemd-notify.weston-start ${D}${da=
+tadir}/weston-start/systemd-notify
+-	fi
+-
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}"=
+ =3D "yes" ]; then
+ 		chmod u+s ${D}${bindir}/weston-launch
+ 	fi
+--=20
 2.34.1
 
 
