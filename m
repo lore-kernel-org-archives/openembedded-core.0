@@ -1,35 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <2fd0eb95185feb18e75c4570a4f71bb6188ee3f1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] security_flags.inc: don't default to PIE if image-prelink is enabled
+Message-ID: <d7ec24b683844c38a85c14ed2d0595390ded0ee0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ruby: disable libruby.so
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Thu, 20 Jan 2022 20:43:07 +0000
-In-Reply-To: <CAFrQVPMvR0QnLan+=bdi0ZmgTpCxmz=-SZQxyTuEcm6=OTDmmw@mail.gmail.com>
-References: <20220120033045.1098738-1-bkylerussell@gmail.com>
-	 <CANNYZj9TtSZmzNJ8Jjsoa86WUEzKcBgMMEn2=OBrwyYj+dmxQg@mail.gmail.com>
-	 <CAFrQVPMvR0QnLan+=bdi0ZmgTpCxmz=-SZQxyTuEcm6=OTDmmw@mail.gmail.com>
+Date: Thu, 20 Jan 2022 22:55:34 +0000
+In-Reply-To: <20220120222256.1697929-1-alex@linutronix.de>
+References: <20220120222256.1697929-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: bkylerussell@gmail.com, Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
 
-On Thu, 2022-01-20 at 12:41 -0500, bkylerussell@gmail.com wrote:
-> Yes, we do use prelink.  I think our use case primarily benefits from CoW
-> memory savings, rather than load times.  Of course, GCCPIE can be overridden
-> in the distro layer, but seeing as image-prelink.bbclass still exists
-> upstream, the default definition should support configurations that choose to
-> enable it.  
+On Thu, 2022-01-20 at 23:22 +0100, Alexander Kanavin wrote:
+> It was found to cause races in make install, as observed in
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14695
+> 
+> [YOCTO #14695]
+> 
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-devtools/ruby/ruby_3.1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/ruby/ruby_3.1.0.bb b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
+> index 7183c93d45..128e4527e1 100644
+> --- a/meta/recipes-devtools/ruby/ruby_3.1.0.bb
+> +++ b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
+> @@ -29,7 +29,7 @@ EXTRA_OECONF = "\
+>      --disable-versioned-paths \
+>      --disable-rpath \
+>      --disable-dtrace \
+> -    --enable-shared \
+> +    --disable-shared \
+>      --enable-load-relative \
+>      --with-pkg-config=pkg-config \
+>      --with-static-linked-ext \
 
-It would seem that glibc plan to remove prelink support in 2.36. If anyone wants
-it to stick around they need to convince the glibc developers not to do that as
-I don't think we'd be able to sustain it if it is removed there.
+Disabling shared libraries because there is a makefile bug doesn't seem like the
+right solution :(. 
 
-I'm seriously considering removing prelink from OE-Core before the LTS at this
-point given the position glibc has and the lack of maintenance prelink clearly
-has in OE :(.
+Better might be disabling parallelism in make install. It raises questions about
+why it is linking/relinking a library in the install step too of course...
 
 Cheers,
 
