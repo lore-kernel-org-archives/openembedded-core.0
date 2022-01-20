@@ -1,320 +1,531 @@
-Return-Path: <rudolf.streif@ibeeto.com>
+Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A023C433FE
-	for <webhook@archiver.kernel.org>; Thu, 20 Jan 2022 01:01:18 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web12.5530.1642640477336742597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BEC4C433F5
+	for <webhook@archiver.kernel.org>; Thu, 20 Jan 2022 02:54:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.6659.1642647250751734981
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 17:01:17 -0800
+ Wed, 19 Jan 2022 18:54:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ibeeto-com.20210112.gappssmtp.com header.s=20210112
- header.b=M7T9DitW;
- spf=neutral (domain: ibeeto.com, ip: 209.85.214.179,
- mailfrom: rudolf.streif@ibeeto.com)
-Received: by mail-pl1-f179.google.com with SMTP id u11so3789858plh.13
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 17:01:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ibeeto-com.20210112.gappssmtp.com; s=20210112;
-        h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
-         :mime-version:in-reply-to;
-        bh=7IB8ERElYcg4/Vr702NgjOm/zNx+ryl+xFjUaFsznCQ=;
-        b=M7T9DitWcsjiyFO5/cbk6ips6GW36UcaK3rmNsjiEcDArUuBMzxfSBmgG487C+PWtF
-         bakLPS3gJc921xoM4hVpGPg7S2tFkeAnIyp9lsmqp737dmnxe2w++hcPTUuxROSyZAJ/
-         vTG0pOE9aNA1seELLAxX4weIaK8mlzC30ql8Q7q+ZcU6ykB6QPRGrn1FdTkhg1MU7cod
-         /Z0SB5gWytGjo9uqSqw7hCpWU9FXvWt5B0/eeeBrjxvk7W/SSSjd5/86nWfES/CaIvfS
-         tyiBK71BUo6rX0assbuxEXNbOJYju098FW21uP/7PWtIhCESrOa5IFdeiqAiN8CI43XC
-         eoow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:references:from:autocrypt:subject
-         :message-id:date:user-agent:mime-version:in-reply-to;
-        bh=7IB8ERElYcg4/Vr702NgjOm/zNx+ryl+xFjUaFsznCQ=;
-        b=IRPoZ9wtozaVmzuZi3S3M36nB+tSL8ZrCgclwUz4j9OOkf6bQEOzcq53AHZ65x9BRc
-         B/k4rz0wQJszpzx4YGtL3wnXaEKVH+PF1QZTRvPmVVqsuTsjYy67OYWSYDN2nffcHUq9
-         fkvikm+aee66t7/ZisXFjtHu7YINCx8mS+E0d8mLZpFtEv0GdTqmciIESWSI2nOQC3kl
-         2zZQjafkZWrhM7ORX7u1QNkYHG1pCbkigGHR6cnmhaicvtg3i/TyJA7kjK9n0oLquRbL
-         3NhhycIa+wqY7MJ6KIejj5/6kneQnPBoMy+610UcZu8BZfJ1fEETL4C6ebo4qIWOJI6Q
-         3cwQ==
-X-Gm-Message-State: AOAM530EX+bW4NpI6GVsFoWPGzLBscDMmU2oH2QT1nPoVSInDCuiin7R
-	o/TwHl1mx6CwbNz2pvfGTnH3D1tLUrKyNg==
-X-Google-Smtp-Source: 
- ABdhPJwoFvmXeTg8X94/Wvj81aCA8e06b79TvRVxPivZSC8hG4thhsTnCvLIc2tmcB6agInmevFtGQ==
-X-Received: by 2002:a17:902:b70a:b0:149:9840:3fa1 with SMTP id
- d10-20020a170902b70a00b0014998403fa1mr35038889pls.74.1642640475952;
-        Wed, 19 Jan 2022 17:01:15 -0800 (PST)
-Received: from ?IPv6:2600:8801:8d2a:a304:93dc:834e:6555:ccaa?
- ([2600:8801:8d2a:a304:93dc:834e:6555:ccaa])
-        by smtp.gmail.com with ESMTPSA id
- p20sm657092pgm.88.2022.01.19.17.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Jan 2022 17:01:14 -0800 (PST)
-To: Jupiter <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
- oe-core <openembedded-core@lists.openembedded.org>
-References: 
- <CAA=hcWQrFmWJMPizbeug6TPYsecWHttk4gM7netpGDiFv8N+Dg@mail.gmail.com>
- <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
- <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
-From: Rudolf J Streif <rudolf.streif@ibeeto.com>
-Autocrypt: addr=rudolf.streif@ibeeto.com; keydata=
- xsBNBFhQFAQBCACa5/X8dcYC25ELsL2exFTaf9QV24fFIn64+rXFqDNKuk7xed5kafscejvD
- Qpe+Co1EPSU4ybklzYlvbMvzxKfwLDADKh+HsqmUYrd/l43hbqrPLxfDUhg87WVEhjm0qyYQ
- /Qymy+7Cbh+pVNNlHULUQttkXPl3D+UOMz9se0Ook/HngDIOCyQF4rTyPnGNvd8NJmAng969
- cQD/S9LNndnK5GGrmDDOuMYwoG4qDqWvWEChncgqHfmWK/Z1AvYKdYWe9uh1N4Qb/P5AZxTM
- 3sPiHrF+Y2HTdK7j7lWgtu8YzluBHdvzhC+4jUnAKjh8P/N/H6JlE3UC3dwHPOaRsnXBABEB
- AAHNKlJ1ZG9sZiBKIFN0cmVpZiA8cnVkb2xmLnN0cmVpZkBpYmVldG8uY29tPsLAdwQTAQgA
- IQUCWFAUBAIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRCNjKgpJzObdabzB/4lFMf0
- 3GsVMG6C5QOLaPx6rOgj5qexCH3rfYeI3xkbGuR0a+YByzvSiCc6Ukh7YNn4UwRs6cY0fYBk
- txioE384/51QTIfCmW8ZG5X0cMC5d38LFvd/dj3KBA74HW4GoLt0cIyzy38CCOFmClTNE8xl
- lpeOfKQD3wn99w5dzXYhvajXCWwAjjpWrR84ww6xromQCDj0AubLA6xyk3t8bzFNsRCCFx+w
- Xl7keSggn6ld3f3ySIQyEK2GgZDdw+zQmgVMq4x5LZhUhGYoqbYwNy9imoBkUAZkbbViNOtX
- zaTHX/RzRHErvq56HOVqceJZIpkDnfvB1aXvfvmBhjVLmLHvzsBNBFhQFAQBCADXoLKCuF48
- 5eCWhnty44o9IZJuOSiX+uVJTgVGNWkZOF61Hs2pieIOmTqk3fb9+Ao6C6IliC9ZRXyAVLD/
- RSGoLiTnWLc1uaK4P/XCM3HZfsi9ueBuNufR8yMy8/8ZqbFwRIFpPBpxHRrZnDdEd5IKsy+z
- w6QChvhpmssZy+UaKfWHILroAoS/7bKGzHo5F/dEJhxVDjgxDUDspJSHWMBh0OMKDeBik5wl
- svtV2yw7ezwWJLRsbaa8TUXd79ZJYYc3FIi0K5aXkMySh+QaQ/bE2Y5A/mCBCZ+IKhBQR36v
- tUAsTCuUAOREwSdPDVwfuoI5gfVxGyz/zrERfnXF4viHABEBAAHCwF8EGAEIAAkFAlhQFAQC
- GwwACgkQjYyoKSczm3W3fgf+NSdojthWWEqfWwym3VHK8955SeOy12xQA4ird2Ca2LYUpLNj
- s4qVFEqXSXZk4rmpGCFlMWwOjcCJOXJLR0ATfmWlvZxp1QL4res/R+SPFEyheu7TTpJ9MbyE
- fxaMSn2xRMA1V2KVJSfDoMacImVRchFclaNU31cEu6tEnNRwVcsWdTlGdA5a1ASGl4CiP8Tz
- Yf9m2KOWGjOmVgGFcIJ2QfIlMglU875YHE3W4u3YOWwUbPEr2Seyb176MvO74CUL/Nlouvce
- P41tsC5daxZnrLBQ3nw4xe4RJSzdPPkY7iF0N5R9NvBJ7WX3dwjMO4EMvdlFuNCQ2ALli/AN
- ROZj4g==
-Subject: Re: [yocto] Honister broken WiFi communication
-Message-ID: <253a4247-8314-be3f-afa0-0d604c81ba77@ibeeto.com>
-Date: Wed, 19 Jan 2022 17:01:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=pmiFI8br;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=8019138f82=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 20K2lKcQ013690
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 02:54:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=/eEGQPX7/D3R+/OjWe2Cg1v61bvpHYNzLhQWu4wvFf0=;
+ b=pmiFI8brEaTIKlb4qT6TAhDxDFmEfH0FwcckVVPgw7yuM/sqFR957ZPyai4OOgalX86y
+ 1RlUVKf1KCcPHNCg8K1NGT9kAHpaLsEgHCIYfykQp3dvQ3wtg8pM6QMmy9NE7dc31XqX
+ CwOc8MyYq4j40pPLLpaXeJWynFQgM7S0FNlJ8fBLmVuP2JosdtK7Zvm/LMfXtwxCE31A
+ 2RmI0+t1DShZ9JON1vKtwmJoNvC0Jw5BI+P7/AOaXSnIaaTrCesVDAsU4zqBUYXtyPCh
+ DOlcCHfoIk+dzUpk6S7erkdN+k0UMILbi7rv/FONdc2JGFjcYoYjAqJ8aaUaBiDvRNj5 Rg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dpsfk86a9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 20 Jan 2022 02:54:09 +0000
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 20K2s8Wl023631
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 02:54:08 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08lp2047.outbound.protection.outlook.com [104.47.73.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dpsfk86a8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jan 2022 02:54:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JxcVFEjtNZ1u3psSv3TCpECvzNPGFZjD7mq6KxF8rJ+mh01qc1TQ7A7aaSGuVtmb3e+B0eI39SjXFMNEYJFxJ2FEXRaHZK4AcfRUqUKhWPZzlubybKJJwmTPMfVSVhHHn+hBJdkqMpdaZUfPZrooRgYICMqkNpEkEDAMRIFefKcjCWqWVc5ekUaGeebf4Kw3KJWoakJZTNZLXAp6F9tm9dn06k4UaW+85wp5LxJTOwG/DSSLZ3IH7NL/0m9x+H52/UGGk68bZoEDg6BQcSkvKsFvfcqqqyrQhBqTw7MWusrID2n6/bzKVwJwmwUyRrid1jB2onZMWZXDOsnGYKvrmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/eEGQPX7/D3R+/OjWe2Cg1v61bvpHYNzLhQWu4wvFf0=;
+ b=jRFt/QxgVrhjP8SQiydZXhmxL5v3A3Bh3IdfP7RsNnG0SaEPq5OBY8cTxyMg3siX5HCZKMBNZL0UGs1Ikqy73t8or04kuyNxj0KAH2Cqcxj0hXE+T7lIsyZA6JnYfbJsFwPc+vrc4zI6YUmU4DkPeUp/TPfyc29YhEjHAkWXekYBBICVJv1EQHJ85rDdgHsYXFK6mmvQEG8p28I45LeNE58l0N22XRhXpPwidwbP6d9VuY+r34Tr/P9JyDTa/BVQY79M2JfRftbFnhj/inHB0CJ/HD/teS89Oqm1EJBNZer2V13rXS7acL2oNqOSI6GM7mvhmTgDmizZq5UTeV0Bfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9)
+ by MWHPR11MB1582.namprd11.prod.outlook.com (2603:10b6:301:c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Thu, 20 Jan
+ 2022 02:54:06 +0000
+Received: from MW3PR11MB4633.namprd11.prod.outlook.com
+ ([fe80::e8dc:b06e:73c8:d95e]) by MW3PR11MB4633.namprd11.prod.outlook.com
+ ([fe80::e8dc:b06e:73c8:d95e%6]) with mapi id 15.20.4909.008; Thu, 20 Jan 2022
+ 02:54:06 +0000
+From: "Jia, Hongxu" <Hongxu.Jia@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>,
+        "Yang, Liezhi"
+	<Liezhi.Yang@windriver.com>
+Subject: Re: [OE-core] [PATCH] package_manager/rpm: conditional remove package
+ manager database
+Thread-Topic: [OE-core] [PATCH] package_manager/rpm: conditional remove
+ package manager database
+Thread-Index: AQHYDOGgc5anNC1K0EqAyuwF52D3t6xqIViAgAEWpDI=
+Date: Thu, 20 Jan 2022 02:54:06 +0000
+Message-ID: 
+ <MW3PR11MB463344722993C35052B97B86945A9@MW3PR11MB4633.namprd11.prod.outlook.com>
+References: <20220119030655.3484026-1-hongxu.jia@windriver.com>
+ <CANNYZj_07b452gHNi_PhSZPGxQUWqcAZeCejTDzkMzfj4Bo+xA@mail.gmail.com>
 In-Reply-To: 
- <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu"
+ <CANNYZj_07b452gHNi_PhSZPGxQUWqcAZeCejTDzkMzfj4Bo+xA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: 8a4e35a0-162d-f9d4-80a0-35d368e9c01b
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d5c11529-1ccc-40ce-bfba-08d9dbc01fe7
+x-ms-traffictypediagnostic: MWHPR11MB1582:EE_
+x-microsoft-antispam-prvs: 
+ <MWHPR11MB15822906AF2FA267A8D204E1945A9@MWHPR11MB1582.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ gJqmxztE7g42aU5487cttnGcfIcTiehewAKDofb/bOq6Rn+C9FNWglziqy7jLLc+jNnv6ZBzN72yQx9A2SVdzXlo3e/aGE/C5VcPlA2jjqLglOmmbSivSsURWDI/LvsJ1YYhQCyVp7xbDt5N5y7l0hzzp05sTAheedvFxwAzXcJ49sgeKIqNpYfyE8ceFhzlVkX91QdkC4hFkmC9fCq/+xUdAYOQIFD4Tt9uJ9AEen24LT+D3dRSJT449ZP79FhaBJLt4EbSQxJS7WHIT2lwj3bTcU4rguxm2j02n/Ak0iYBDh7Lm92XXJkTTfe7kecljeg5Hjg6Lhyrk4K/UbzgorUMshNs9m9AyKjkDXr679k0RogljnFXsyTfnLmMgUeKqueV3bjxBF6nW1Z23N6feepSsoPzcGwIbvx3hea6ba3x7cFy8aRKaXvPlc0CZVOcHWHUF6/4z81aP0fvTLVadnVflEtl2fxKUgXfEqUpTk/OAzxsT7OzLKWCFH4rF2hUTYRp6Qm0Td+K23k2aNtiPmH5OKuiVtVM56dr8Yfdd9P8ChL/HlHc8BfkNh9esScSnC98cQtSW5LKkVmvZEcCNhScfTMnoztF77tVDj4tWfFwTPYyAzozeb+AsmUZgPMLoAJeyUG2xeMrD4UH2R32QbU7AKWBc9FdvE3oJ7gNKFo4JaT2WMGFbOPX5SYrow7XNeqCgzxuKrBRYfrf8QFdhJTBzVIapwwQ1SE/XJPNcFicDumLMgzuuwbbNeKxDXvVoDjZudD6IH2zHQNiICLWnxmQD7l1ety2L/7ZqHp/KPMS1e3BBJ8E45bAsw+CxkKCv705rsmwqM/8l8LejSnZzvdV6HI1v75dKhDTzWW4rJ2sVyPSM73FiApzW3C7fV5t
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4633.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(966005)(66476007)(2906002)(64756008)(66556008)(66446008)(54906003)(55016003)(53546011)(6506007)(71200400001)(186003)(33656002)(8936002)(166002)(7696005)(38100700002)(26005)(66946007)(6916009)(91956017)(316002)(76116006)(107886003)(4326008)(5660300002)(86362001)(38070700005)(9686003)(83380400001)(19627405001)(122000001)(8676002)(52536014)(508600001)(130980200001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?rbqWhyavLuFPi3l0sHaFm5d3iGNivLZZRXoq+CSdvRa+oOnw42cFSy9e2MAo?=
+ =?us-ascii?Q?Wu8T0VFEvPM8Yw6ROxDiZixzEVeMwOqCZpch5EPgyRBndQbmpVHK18mEBKKt?=
+ =?us-ascii?Q?ohPuuD0KiUhzDvxMYdz3zC7hIGBa12dPXSmwk0bemEN6SifHQV4k4flSNzMi?=
+ =?us-ascii?Q?xVr6G2RqBN5Xt0bj4FmBmxVeX9ebvUM9LHWvKmftclrWjhYfo4Ws3Y7Ko4jb?=
+ =?us-ascii?Q?vokA4954hiHhU4PdF4QccRTps213dTVeKZFdkHSn+r77GnskGs5Q42pMsB0p?=
+ =?us-ascii?Q?ktewCkWjquHSEWC2v4y7t6iL2+ck5k5jBtPz9p9qhj0Q1EnWzi+Hbab2u1Zx?=
+ =?us-ascii?Q?/3sy+djjGM4cL5oAoeyGyooxpNTHnbk02ixldR6dbv+GyyyHXVN1MjXPVcgB?=
+ =?us-ascii?Q?rx/0J8qzNT88KADSQG8becuvHdc4bxum2V/Z4tBKHS5GzkkDylpjxUC2SNME?=
+ =?us-ascii?Q?ZCtkr83DGIaALWJOBIMPxPsGyStXEm5jUJpvevPZ06tyjNH48PA9KvG94ExL?=
+ =?us-ascii?Q?/DdjR8Kp1kxE/eIYbiHn/KrDuM144coKhJCMGcqlA/lRdQAyPCPrhV9zLiwI?=
+ =?us-ascii?Q?Cf4znMO3tSFOJUGwcgMPJHAgfOam6qTzaJhtbJzkxE/ouszcN0Viz3MNgthT?=
+ =?us-ascii?Q?GqbJBEW0nXYWj4pEdiI7M2swCMMnuDmxLKiPh9XBMYiGUavMgcqvzTjK1wqR?=
+ =?us-ascii?Q?+wlZrH8RebTMwUZmMiUcUyDxkpt4tcfdFPLxvImzbFMvibL6PcpmPyozATAl?=
+ =?us-ascii?Q?TqwYsQailsCdGR7adjs4szSO3bNvx89zOevsFHhOL7qxr2l0uPnUkt8xpnWB?=
+ =?us-ascii?Q?gVDW2WFqdkok/1lZBkUWrR8MA3ZEFdOduetPYpF6VUpV7OiQ7xp7JBKAwtpM?=
+ =?us-ascii?Q?2dZdwz1BLOBuquRKN1nzecTLF6XDyeEL/MTSRFQofxeZ1W9nRAMg2KW8ibAi?=
+ =?us-ascii?Q?09bo2ag5qEUxukOvgZil4/yPolILcD8eW7vxXiRgdAbqvSh91oL6Az+Oui/w?=
+ =?us-ascii?Q?Ou0Og8GHSo/dbNqRfucaEDEPiuJpk/BvbscbjSI/YRj8M3affVgaJ3IsmH9i?=
+ =?us-ascii?Q?/IX/l/jMLxcSsOPcQneDSw08O5X8JfUjilBevN1dh9BXXXdFOW73foe9nM1f?=
+ =?us-ascii?Q?1LqR+oIos8aqXl3Vs2kMb1UV3ufmjjmHdoCz77xL7UXniwLrl415mETipVhQ?=
+ =?us-ascii?Q?4zZBUtznMvtWzUNbSmL1NbhkTQEgKOaE8NSGdSHch7YmZhhaJ6d4IisTp+ag?=
+ =?us-ascii?Q?q6PVl1l2UJdUojXI8ipByKxx/XupBpeE5H6sC6hpcK2mY32r2sQ0OqsbcUJQ?=
+ =?us-ascii?Q?Se67gOafVJH8VZl6AbM1wvub3REjiYYly2sliu8GfOb4j+yxlvB64RhFD9Ka?=
+ =?us-ascii?Q?x3ajp8WRVQBF199mfZSXVMvAsDn2Zt7HNKUuMXkLJgv1k+XKtmhwmR5FRun6?=
+ =?us-ascii?Q?MReDzMcMiHy3xAIxd3zn5hGByvP5y/1FPUWRF9dM90EcZlBggHSuWikjkIBm?=
+ =?us-ascii?Q?Vc2vqc11vopTfIMLo5azP+1bc95zyp19ysPrDEvNUh0iIlbKofizE1DOZwhM?=
+ =?us-ascii?Q?tIcT1073bfk8zZ+twRlEMdkBlVBvxTAx+qLsozAea6DHtzy0Rds4cIBEdRSV?=
+ =?us-ascii?Q?/aQdG6pM0Ca1JXM7ca+QKqP8g3+24XbOrhiUKUdFmxNN7FppG4siAT6VKOeP?=
+ =?us-ascii?Q?ptUObQ=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_MW3PR11MB463344722993C35052B97B86945A9MW3PR11MB4633namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4633.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ d5c11529-1ccc-40ce-bfba-08d9dbc01fe7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2022 02:54:06.3246
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ ztCsxRE547WkmBBqTIDo7vWfhJi0J8F88rf2xWDrOzNciBHaVaNU6YRrCbhx+wYr/ybnJ50+tW00BqLwH72zjaRAyfH3N72J7zA1+vgMfQg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1582
+X-Proofpoint-GUID: a3pTd0LKh7kI8mkHpns17PtwTRbycpjE
+X-Proofpoint-ORIG-GUID: sNUNHDwjhUGMmw2wJHubvdEgd86JkXSs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-19_12,2022-01-19_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ spamscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 malwarescore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201200015
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 01:01:18 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 02:54:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160747
+ https://lists.openembedded.org/g/openembedded-core/message/160748
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu
-Content-Type: multipart/mixed; boundary="Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V";
- protected-headers="v1"
-From: Rudolf J Streif <rudolf.streif@ibeeto.com>
-To: Jupiter <jupiter.hce@gmail.com>
-Cc: yocto <yocto@lists.yoctoproject.org>,
- oe-core <openembedded-core@lists.openembedded.org>
-Message-ID: <253a4247-8314-be3f-afa0-0d604c81ba77@ibeeto.com>
-Subject: Re: [yocto] Honister broken WiFi communication
-References: <CAA=hcWQrFmWJMPizbeug6TPYsecWHttk4gM7netpGDiFv8N+Dg@mail.gmail.com>
- <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
- <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
-In-Reply-To: <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
-
---Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V
-Content-Type: multipart/mixed;
- boundary="------------2CC34A4E6A93E060BE6503F2"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------2CC34A4E6A93E060BE6503F2
-Content-Type: text/plain; charset=utf-8; format=flowed
+--_000_MW3PR11MB463344722993C35052B97B86945A9MW3PR11MB4633namp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi JH,
-
-On 1/18/22 5:45 PM, Jupiter wrote:
-> Hi Rudolf,
->
-> Thanks for your response and comments.
->
->> If you run ifconfig -a does your WiFi interface show up? If not there =
-is an
->> issue with the driver. Use dmesg and filter for the driver. Often a dr=
-iver
->> cannot load the firmware. What is your WiFi hardware?
-> Not that bad, the WiFi interfaces was fine, but it could not get dhcp
-> response and IP address so an automatic private IP address 169.254 was
-> assigned
->
-> mlan0     Link encap:Ethernet  HWaddr D4:CA:6E:A4:E8:B4
->            inet addr:169.254.193.101  Bcast:169.254.255.255  Mask:255.2=
-55.0.0
->            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->            RX packets:2 errors:0 dropped:0 overruns:0 frame:0
->            TX packets:56 errors:0 dropped:0 overruns:0 carrier:0
->            collisions:0 txqueuelen:1000
->            RX bytes:330 (330.0 B)  TX bytes:16392 (16.0 KiB)
-
-This would typically mean that you are actually connected to a wifi=20
-network but the interface did not receive a DHCP lease for the IP=20
-address. the 169.254. is local IPv4 IP address which the interface would =
-
-typically get if the DHCP client times out.
-
-> I could see WiFi information well, it is not a major problem, but the
-> subtle issues are connman and wpa_supplicant did not set up the WiFi
-> driver correctly.
->
-> Connected to 34:08:04:12:b1:a2 (on mlan0)
->          SSID: JupiterIoT
->          freq: 2437
->          RX: 660 bytes (4 packets)
->          TX: 46622 bytes (129 packets)
->          signal: -57 dBm
->          rx bitrate: 1.0 MBit/s
->          tx bitrate: 72.2 MBit/s MCS 7 short GI
->
->          bss flags:      short-slot-time
->          dtim period:    1
->          beacon int:     100
-
-I don't think that this is a wpa_supplicant issue. However, you can use=20
-connmanctl to manually connect to a wifi network:
-
-$ connmanctl
-connmanctl> enable wifi
-connmanctl> scan wifi
-San completed for wifi
-connmanctl> services
-[service list follows]
-connmanctl> agent on
-Agent registered
-connmanctl> connect wifi_xxxxxx
-Agent RequestInput wifi_xxxxx
- =C2=A0=C2=A0 Passphrase =3D [ Type=3Dpsk, Requirement=3Dmandatory ]
-Passphrase? ********
-Connected wifi_xxxxxx
-conmanctl> quit
-
-If that works the wifi authentication is OK.
-
->> Did you install the regulatory database?
-> Did you mean to enable CONFIG_CFG80211_INTERNAL_REGDB? No, I did not
-> install it in the Zeus version either so I don't see that could be an
-> issue.
-Only a wag on my side. Should be ok since the wifi driver is working.
->> What error messages are you seeing when attempting to connect to a WiF=
-i
->> network? Did you look at the connman logs?
-> No error in connman, I don't think it is connman or wpa_supplicant
-> issue, my suspicion is something missing in Honister built image to
-> prevent connman and wpa_supplicant to set up the WiFi driver
-> correctly.
->
-> It is not the first time I have the WiFi setup trouble to get WiFi
-> 169.254 address, when I upgraded from Thud to Zeus, I got the exactly
-> the same problem that WiFi was assigned by a 169.254 address, no dhcp
-> response, at time, I was totally convinced it was connman issue, I
-> spend several months to debug connman and wpa_supplicant without any
-> results, then after waiting several months to pull updated Zeus again,
-> that problem was disappeared miraculous, that is why I suspect the
-> same problem in oe-core and bitbake in Honister as well.
-
-Well, ok then it looks like a dhcp issue. Did you attempt to set a=20
-static IP to test connectivity?
-
-Eventually it could be a router issue. Maybe the router blocks unknown=20
-devices?
-
-> Are there anyone in oe-core and bitbake tested connman, wpa_supplicant
-> for the current Honister branch? I can help to test and to debug it if
-> more advanced people in oe-core, bitbake, kernel, WiFi driver mwifiex
-> can provide me more information.
-Honestly, I don't think the issue is related to connman or=20
-wpa_supplicant at all but on the dhcp level.
-> Thank you.
->
-> Kind regards,
->
-> - jupiter
-
---=20
-Rudolf J Streif
-CEO/CTO ibeeto
-+1.855.442.3386 x700
+I am afraid doing remove operation in ROOTFS_POSTPROCESS_COMMAND could not =
+satisfy this case
 
 
---------------2CC34A4E6A93E060BE6503F2
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x8D8CA82927339B75.asc"
+The background is in order to save spaces in embedded device, user do not i=
+nstall
+
+package dnf which introduces python3, and use rpm to manage package on targ=
+et
+
+
+In oe-core, the dnf, rpm and pkg database are introduced by package-managem=
+ent of IMAGE_FEATURES,
+
+if package-management in IMAGE_FEATURES, we could remove unused pkg data in
+
+ROOTFS_POSTPROCESS_COMMAND as you suggested, but we could not uninstall
+
+dnf and all related depend(such as python3) gracefully;
+
+if package-management not in IMAGE_FEATURES, the pkg data will be removed
+
+before ROOTFS_POSTPROCESS_COMMAND, that's why this commit are trying to res=
+olve
+
+
+The root cause maybe dnf is too heavy for disk sensitive device
+
+
+//Hongxu
+
+________________________________
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Sent: Wednesday, January 19, 2022 6:15 PM
+To: Jia, Hongxu <Hongxu.Jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>; Yang, Liezhi <Liezh=
+i.Yang@windriver.com>
+Subject: Re: [OE-core] [PATCH] package_manager/rpm: conditional remove pack=
+age manager database
+
+
+[Please note: This e-mail is from an EXTERNAL e-mail address]
+
+Apologies, but please no. This adds complexity, isn't possible to disable a=
+nd is difficult to understand. You can simply remove the unneeded files fro=
+m ROOTFS_POSTPROCESS_COMMAND in your image class.
+
+Alex
+
+On Wed, 19 Jan 2022 at 04:07, hongxu <hongxu.jia@windriver.com<mailto:hongx=
+u.jia@windriver.com>> wrote:
+In order to save spaces in target rootfs, the user wants to remove dnf and
+keep rpm, in this situation, we should remove dnf database only
+
+If rpm was installed, keep rpm database, after applying this commit:
+
+Edit conf/local.conf
+...
+IMAGE_FEATURES:remove =3D "package-management"
+IMAGE_INSTALL:append=3D " rpm"
+...
+
+Build image and boot, run rpm -qa on target:
+Without this commit
+...
+root@intel-x86-64:~# rpm -qa | wc -l
+0
+...
+
+Apply this commit
+...
+root@intel-x86-64:~# rpm -qa | wc -l
+1865
+...
+
+With this commit, the rpm -qa works as expected.
+
+It does not make sense to keep dnf and remove rpm, so this commit
+does not consider the scenario
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com<mailto:hongxu.jia@windr=
+iver.com>>
+---
+ meta/lib/oe/package_manager/rpm/__init__.py<https://urldefense.com/v3/__ht=
+tp://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li=
+0GFTZf07eaSBP1gIDKvdp1Putv$> | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oe/package_manager/rpm/__init__.py<https://urldefense=
+.com/v3/__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNK=
+pv_Yrm-v87Li0GFTZf07eaSBP1gIDKvdp1Putv$> b/meta/lib/oe/package_manager/rpm/=
+__init__.py<https://urldefense.com/v3/__http://__init__.py__;!!AjveYdw8EvQ!=
+JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvdp1Putv$>
+index b392581069..dce5912329 100644
+--- a/meta/lib/oe/package_manager/rpm/__init__.py<https://urldefense.com/v3=
+/__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-=
+v87Li0GFTZf07eaSBP1gIDKvdp1Putv$>
++++ b/meta/lib/oe/package_manager/rpm/__init__.py<https://urldefense.com/v3=
+/__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-=
+v87Li0GFTZf07eaSBP1gIDKvdp1Putv$>
+@@ -80,7 +80,9 @@ class RpmPM(PackageManager):
+         self.saved_packaging_data =3D self.d.expand('${T}/saved_packaging_=
+data/%s' % self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+             bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
+-        self.packaging_data_dirs =3D ['etc/rpm', 'etc/rpmrc', 'etc/dnf', '=
+var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
++        self.packaging_data_rpm_dirs =3D ['etc/rpm', 'etc/rpmrc', 'var/lib=
+/rpm']
++        self.packaging_data_dnf_dirs =3D ['etc/dnf', 'var/lib/dnf', 'var/c=
+ache/dnf']
++        self.packaging_data_dirs =3D self.packaging_data_rpm_dirs + self.p=
+ackaging_data_dnf_dirs
+         self.solution_manifest =3D self.d.expand('${T}/saved/%s_solution' =
+%
+                                                self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved')):
+@@ -237,8 +239,11 @@ class RpmPM(PackageManager):
+         self._invoke_dnf(["autoremove"])
+
+     def remove_packaging_data(self):
++        remove_packaging_data_dirs =3D self.packaging_data_dnf_dirs
++        if "rpm" not in self.list_installed():
++            remove_packaging_data_dirs +=3D self.packaging_data_rpm_dirs
+         self._invoke_dnf(["clean", "all"])
+-        for dir in self.packaging_data_dirs:
++        for dir in remove_packaging_data_dirs:
+             bb.utils.remove(oe.path.join(self.target_rootfs, dir), True)
+
+     def backup_packaging_data(self):
+--
+2.27.0
+
+
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#160688): https://lists.openembedded.org/g/openembedded-=
+core/message/160688<https://urldefense.com/v3/__https://lists.openembedded.=
+org/g/openembedded-core/message/160688__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb=
+186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvQbTscth$>
+Mute This Topic: https://lists.openembedded.org/mt/88527238/1686489<https:/=
+/urldefense.com/v3/__https://lists.openembedded.org/mt/88527238/1686489__;!=
+!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvc=
+Ar3fEL$>
+Group Owner: openembedded-core+owner@lists.openembedded.org<mailto:openembe=
+dded-core%2Bowner@lists.openembedded.org>
+Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub<https=
+://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-core/u=
+nsub__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSB=
+P1gIDKvd7bfWZw$> [alex.kanavin@gmail.com<mailto:alex.kanavin@gmail.com>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+
+--_000_MW3PR11MB463344722993C35052B97B86945A9MW3PR11MB4633namp_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: OpenPGP public key
-Content-Disposition: attachment;
- filename="OpenPGP_0x8D8CA82927339B75.asc"
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<p>I am afraid doing remove operation in ROOTFS_POSTPROCESS_COMMAND could n=
+ot satisfy this case</p>
+<p><br>
+</p>
+<p>The background is in order to save spaces in embedded device, user do no=
+t install</p>
+<p>package dnf which introduces python3, and use rpm to manage package on t=
+arget</p>
+<p><br>
+</p>
+<p>In oe-core, the dnf, rpm and pkg database are introduced by package-mana=
+gement of IMAGE_FEATURES,</p>
+<p>if package-management in IMAGE_FEATURES, we could remove unused pkg data=
+ in</p>
+<p>ROOTFS_POSTPROCESS_COMMAND as you suggested, but we could not uninstall<=
+/p>
+<p>dnf and all related depend(such as python3) gracefully;</p>
+<p>if package-management not in IMAGE_FEATURES, the pkg data will be remove=
+d</p>
+<p>before ROOTFS_POSTPROCESS_COMMAND, that's why this commit are trying to =
+resolve<br>
+</p>
+<p><br>
+</p>
+<p>The root cause maybe dnf is too heavy for disk sensitive device</p>
+<p><br>
+</p>
+<p>//Hongxu</p>
+<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexander Kanavin &lt=
+;alex.kanavin@gmail.com&gt;<br>
+<b>Sent:</b> Wednesday, January 19, 2022 6:15 PM<br>
+<b>To:</b> Jia, Hongxu &lt;Hongxu.Jia@windriver.com&gt;<br>
+<b>Cc:</b> OE-core &lt;openembedded-core@lists.openembedded.org&gt;; Yang, =
+Liezhi &lt;Liezhi.Yang@windriver.com&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] package_manager/rpm: conditional remo=
+ve package manager database</font>
+<div>&nbsp;</div>
+</div>
+<div>
+<p></p>
+<div style=3D"border:solid #9C6500 1.0pt; padding:2.0pt 2.0pt 2.0pt 2.0pt">
+<p class=3D"x_MsoNormal" style=3D"line-height:12.0pt; background:#FFEB9C"><=
+b><span style=3D"font-size:10.0pt; color:#9C6500"></span></b><span style=3D=
+"font-size:10.0pt; color:red">[Please note: This e-mail is from an EXTERNAL=
+ e-mail address]</span></p>
+</div>
+<div>
+<div dir=3D"ltr">
+<div>Apologies, but please no. This adds complexity, isn't possible to disa=
+ble and is difficult to understand. You can simply remove the unneeded file=
+s from ROOTFS_POSTPROCESS_COMMAND in your image class.</div>
+<div><br>
+</div>
+<div>Alex<br>
+</div>
+</div>
+<br>
+<div class=3D"x_gmail_quote">
+<div dir=3D"ltr" class=3D"x_gmail_attr">On Wed, 19 Jan 2022 at 04:07, hongx=
+u &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.jia@windriver.com<=
+/a>&gt; wrote:<br>
+</div>
+<blockquote class=3D"x_gmail_quote" style=3D"margin:0px 0px 0px 0.8ex; bord=
+er-left:1px solid rgb(204,204,204); padding-left:1ex">
+In order to save spaces in target rootfs, the user wants to remove dnf and<=
+br>
+keep rpm, in this situation, we should remove dnf database only<br>
+<br>
+If rpm was installed, keep rpm database, after applying this commit:<br>
+<br>
+Edit conf/local.conf<br>
+...<br>
+IMAGE_FEATURES:remove =3D &quot;package-management&quot;<br>
+IMAGE_INSTALL:append=3D &quot; rpm&quot;<br>
+...<br>
+<br>
+Build image and boot, run rpm -qa on target:<br>
+Without this commit<br>
+...<br>
+root@intel-x86-64:~# rpm -qa | wc -l<br>
+0<br>
+...<br>
+<br>
+Apply this commit<br>
+...<br>
+root@intel-x86-64:~# rpm -qa | wc -l<br>
+1865<br>
+...<br>
+<br>
+With this commit, the rpm -qa works as expected.<br>
+<br>
+It does not make sense to keep dnf and remove rpm, so this commit<br>
+does not consider the scenario<br>
+<br>
+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" t=
+arget=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
+---<br>
+&nbsp;meta/lib/oe/package_manager/rpm/<a href=3D"https://urldefense.com/v3/=
+__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v=
+87Li0GFTZf07eaSBP1gIDKvdp1Putv$">__init__.py</a> | 9 +++++++--<br>
+&nbsp;1 file changed, 7 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oe/package_manager/rpm/<a href=3D"https://urldefense.=
+com/v3/__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKp=
+v_Yrm-v87Li0GFTZf07eaSBP1gIDKvdp1Putv$">__init__.py</a> b/meta/lib/oe/packa=
+ge_manager/rpm/<a href=3D"https://urldefense.com/v3/__http://__init__.py__;=
+!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKv=
+dp1Putv$">__init__.py</a><br>
+index b392581069..dce5912329 100644<br>
+--- a/meta/lib/oe/package_manager/rpm/<a href=3D"https://urldefense.com/v3/=
+__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v=
+87Li0GFTZf07eaSBP1gIDKvdp1Putv$">__init__.py</a><br>
++++ b/meta/lib/oe/package_manager/rpm/<a href=3D"https://urldefense.com/v3/=
+__http://__init__.py__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v=
+87Li0GFTZf07eaSBP1gIDKvdp1Putv$">__init__.py</a><br>
+@@ -80,7 +80,9 @@ class RpmPM(PackageManager):<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.saved_packaging_data =3D self.d.expa=
+nd('${T}/saved_packaging_data/%s' % self.task_name)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if not os.path.exists(self.d.expand('${T}=
+/saved_packaging_data')):<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.utils.mkdirhier(self.d.e=
+xpand('${T}/saved_packaging_data'))<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; self.packaging_data_dirs =3D ['etc/rpm', 'etc/=
+rpmrc', 'etc/dnf', 'var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; self.packaging_data_rpm_dirs =3D ['etc/rpm', '=
+etc/rpmrc', 'var/lib/rpm']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; self.packaging_data_dnf_dirs =3D ['etc/dnf', '=
+var/lib/dnf', 'var/cache/dnf']<br>
++&nbsp; &nbsp; &nbsp; &nbsp; self.packaging_data_dirs =3D self.packaging_da=
+ta_rpm_dirs + self.packaging_data_dnf_dirs<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self.solution_manifest =3D self.d.expand(=
+'${T}/saved/%s_solution' %<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; self.task_name)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if not os.path.exists(self.d.expand('${T}=
+/saved')):<br>
+@@ -237,8 +239,11 @@ class RpmPM(PackageManager):<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self._invoke_dnf([&quot;autoremove&quot;]=
+)<br>
+<br>
+&nbsp; &nbsp; &nbsp;def remove_packaging_data(self):<br>
++&nbsp; &nbsp; &nbsp; &nbsp; remove_packaging_data_dirs =3D self.packaging_=
+data_dnf_dirs<br>
++&nbsp; &nbsp; &nbsp; &nbsp; if &quot;rpm&quot; not in self.list_installed(=
+):<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; remove_packaging_data_dirs +=3D =
+self.packaging_data_rpm_dirs<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;self._invoke_dnf([&quot;clean&quot;, &quo=
+t;all&quot;])<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; for dir in self.packaging_data_dirs:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; for dir in remove_packaging_data_dirs:<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bb.utils.remove(oe.path.joi=
+n(self.target_rootfs, dir), True)<br>
+<br>
+&nbsp; &nbsp; &nbsp;def backup_packaging_data(self):<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160688): <a href=3D"https://urldefense.com/v3/__https:/=
+/lists.openembedded.org/g/openembedded-core/message/160688__;!!AjveYdw8EvQ!=
+JHTMzGi0-aiMoNjIt7Jb186B-p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvQbTscth$" rel=
+=3D"noreferrer" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/160688</a><br>
+Mute This Topic: <a href=3D"https://urldefense.com/v3/__https://lists.opene=
+mbedded.org/mt/88527238/1686489__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-p8=
+VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvcAr3fEL$" rel=3D"noreferrer" target=3D"_b=
+lank">
+https://lists.openembedded.org/mt/88527238/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">
+openembedded-core+owner@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://urldefense.com/v3/__https://lists.openembed=
+ded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!JHTMzGi0-aiMoNjIt7Jb186B-=
+p8VNKpv_Yrm-v87Li0GFTZf07eaSBP1gIDKvd7bfWZw$" rel=3D"noreferrer" target=3D"=
+_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<=
+br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote>
+</div>
+</div>
+</div>
+</body>
+</html>
 
-xsBNBFhQFAQBCACa5/X8dcYC25ELsL2exFTaf9QV24fFIn64+rXFqDNKuk7xed5kafscejvDQ=
-pe+
-Co1EPSU4ybklzYlvbMvzxKfwLDADKh+HsqmUYrd/l43hbqrPLxfDUhg87WVEhjm0qyYQ/Qymy=
-+7C
-bh+pVNNlHULUQttkXPl3D+UOMz9se0Ook/HngDIOCyQF4rTyPnGNvd8NJmAng969cQD/S9LNn=
-dnK
-5GGrmDDOuMYwoG4qDqWvWEChncgqHfmWK/Z1AvYKdYWe9uh1N4Qb/P5AZxTM3sPiHrF+Y2HTd=
-K7j
-7lWgtu8YzluBHdvzhC+4jUnAKjh8P/N/H6JlE3UC3dwHPOaRsnXBABEBAAHNKlJ1ZG9sZiBKI=
-FN0
-cmVpZiA8cnVkb2xmLnN0cmVpZkBpYmVldG8uY29tPsLAdwQTAQgAIQUCWFAUBAIbAwULCQgHA=
-gYV
-CAkKCwIEFgIDAQIeAQIXgAAKCRCNjKgpJzObdabzB/4lFMf03GsVMG6C5QOLaPx6rOgj5qexC=
-H3r
-fYeI3xkbGuR0a+YByzvSiCc6Ukh7YNn4UwRs6cY0fYBktxioE384/51QTIfCmW8ZG5X0cMC5d=
-38L
-Fvd/dj3KBA74HW4GoLt0cIyzy38CCOFmClTNE8xllpeOfKQD3wn99w5dzXYhvajXCWwAjjpWr=
-R84
-ww6xromQCDj0AubLA6xyk3t8bzFNsRCCFx+wXl7keSggn6ld3f3ySIQyEK2GgZDdw+zQmgVMq=
-4x5
-LZhUhGYoqbYwNy9imoBkUAZkbbViNOtXzaTHX/RzRHErvq56HOVqceJZIpkDnfvB1aXvfvmBh=
-jVL
-mLHvzsBNBFhQFAQBCADXoLKCuF485eCWhnty44o9IZJuOSiX+uVJTgVGNWkZOF61Hs2pieIOm=
-Tqk
-3fb9+Ao6C6IliC9ZRXyAVLD/RSGoLiTnWLc1uaK4P/XCM3HZfsi9ueBuNufR8yMy8/8ZqbFwR=
-IFp
-PBpxHRrZnDdEd5IKsy+zw6QChvhpmssZy+UaKfWHILroAoS/7bKGzHo5F/dEJhxVDjgxDUDsp=
-JSH
-WMBh0OMKDeBik5wlsvtV2yw7ezwWJLRsbaa8TUXd79ZJYYc3FIi0K5aXkMySh+QaQ/bE2Y5A/=
-mCB
-CZ+IKhBQR36vtUAsTCuUAOREwSdPDVwfuoI5gfVxGyz/zrERfnXF4viHABEBAAHCwF8EGAEIA=
-AkF
-AlhQFAQCGwwACgkQjYyoKSczm3W3fgf+NSdojthWWEqfWwym3VHK8955SeOy12xQA4ird2Ca2=
-LYU
-pLNjs4qVFEqXSXZk4rmpGCFlMWwOjcCJOXJLR0ATfmWlvZxp1QL4res/R+SPFEyheu7TTpJ9M=
-byE
-fxaMSn2xRMA1V2KVJSfDoMacImVRchFclaNU31cEu6tEnNRwVcsWdTlGdA5a1ASGl4CiP8TzY=
-f9m
-2KOWGjOmVgGFcIJ2QfIlMglU875YHE3W4u3YOWwUbPEr2Seyb176MvO74CUL/NlouvceP41ts=
-C5d
-axZnrLBQ3nw4xe4RJSzdPPkY7iF0N5R9NvBJ7WX3dwjMO4EMvdlFuNCQ2ALli/ANROZj4g=3D=
-=3D
-=3DLHwf
------END PGP PUBLIC KEY BLOCK-----
-
---------------2CC34A4E6A93E060BE6503F2--
-
---Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V--
-
---sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEVg4uKeQrdCNuC2kVjYyoKSczm3UFAmHotFkFAwAAAAAACgkQjYyoKSczm3U6
-4Af/bUVv6IrWnQfzc9wp5ZCMbaCVxw7BH9B2/oFPwAIJN6Ru74iNblQ1m7J4jvIm6q9KbYHwWudC
-dx+WAEz6xugFLFHL7zJDzLWkUZSWbnwCa8mFKeh1itD3xTlkKTyQFplHU83//kf/2fISudtg/rm3
-tVBMpeBinl8vOKKjCnYUK+YfXgYkjpnij2JCK3zk6Ew+isdGTSGx6uHKTRyAC22462q5wc4CXfLe
-cAvgdrIb8BrzJZY/zS1/RrZBlb0v4WO/k+NtjlZFhF1LPcDGtAxUSAj5HYWSG5gOiFyYXAOqLnop
-Vv/VzZOxvse0ve/zIaFZL7AwzpDZjXys/o8L6crE2g==
-=4A6X
------END PGP SIGNATURE-----
-
---sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu--
+--_000_MW3PR11MB463344722993C35052B97B86945A9MW3PR11MB4633namp_--
 
