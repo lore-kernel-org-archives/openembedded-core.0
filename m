@@ -1,97 +1,62 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40791C433F5
-	for <webhook@archiver.kernel.org>; Thu, 20 Jan 2022 22:23:09 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web09.3527.1642717388400473996
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 383B0C433F5
+	for <webhook@archiver.kernel.org>; Thu, 20 Jan 2022 23:41:49 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web09.4573.1642722108126296241
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jan 2022 14:23:08 -0800
+ Thu, 20 Jan 2022 15:41:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LUUKGl+F;
- spf=pass (domain: gmail.com, ip: 209.85.128.44,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id
- f202-20020a1c1fd3000000b0034dd403f4fbso14041901wmf.1
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Jan 2022 14:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0xSNuiHR+4JxrfXjeXrwI3+vRiLKE3WsX/4qUq4x4Iw=;
-        b=LUUKGl+FpEYajWnh2D6LeAACnLrGNx5vYY2Wcgv+KpwETI25+oK5WOeraAgz5abzeN
-         0/8GNtRXo/lL8kCpi4epe30FBpiTf4NziA0jHNHFWZ0+IUmIPIXiqxmEdZNCc8xy3LqM
-         +Lo7C5SIVVmvNhH2EOYqvw/e/olUze12+TAH2MhPrAvpisF4O1vULgAZJcjmhEszvtbR
-         oMObwCFjwfvDwyIgYYWsURESO98gU98uN+ODXP2X3Pb+pxUxDyT6GLz50GprTR/YYOkJ
-         fPIQ8tOLQQBMq8SLJDxgvFlI6LqcNayey25fjb6gzpkQNSFiMcgkDTNyeNUVVxhqGjRA
-         j5+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0xSNuiHR+4JxrfXjeXrwI3+vRiLKE3WsX/4qUq4x4Iw=;
-        b=UzHvn2SpvYUXh1Ou+a+5XiHzTZqvVidveKKLpasZ+IaTlBE+APGGieRWHDL/CS0VQJ
-         VL90exSK+x3nYbAeqsL3WEQR02a0Gv7Faztr2+i3lkVxLjlnt/SQ66uDuik+VFdEb0lu
-         xFnrhvm3t8QmWqCqifQ1YEm3n7SAgMFHEw5eF7uvYmTh+ud/v7beJZUWWzi3rwQ9YwpO
-         DXKVssqxy0uJ5s8LeRbU3pZpmYuZHWH5sxbRrQEE2Xl6Eu5nESIqFQ3ubTfL8JGmOsXo
-         02BfKqyaFl/ZWasmIG0DwmHqgavfsAW30MvHkpTZFRUhIxvqg9DC0AFewOZvlOdvjkcv
-         1GAw==
-X-Gm-Message-State: AOAM533VxLe8vGQABdU7rNDhltF5H+3NTFBhIKjkSWFB4DSEmS+SyBH0
-	TFegdJaoJHjyeHMxb418LovGxpxTZxY=
-X-Google-Smtp-Source: 
- ABdhPJwKUQIZ9+bG9UsTb+1DjFe+k434B974zh/ogTlje/juR57NvNLwP6yW2z0nBh/7MKiaNoxVLA==
-X-Received: by 2002:a1c:4c0e:: with SMTP id z14mr905068wmf.11.1642717386608;
-        Thu, 20 Jan 2022 14:23:06 -0800 (PST)
-Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
- [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- p2sm3364349wmc.33.2022.01.20.14.23.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jan 2022 14:23:06 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout06.t-online.de (Postfix) with SMTP id 4DB621555E
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 21 Jan 2022 00:41:46 +0100 (CET)
+Received: from localhost.localdomain ([84.163.38.111]) by fwd79.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1nAh3p-23eohV0; Fri, 21 Jan 2022 00:41:45 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] ruby: disable libruby.so
-Date: Thu, 20 Jan 2022 23:22:56 +0100
-Message-Id: <20220120222256.1697929-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [OE-core][PATCH 1/2] python3-dbusmock: add BBCLASSEXTEND = "native
+ nativesdk"
+Date: Fri, 21 Jan 2022 00:41:28 +0100
+Message-Id: <20220120234129.4160546-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1642722105-00010BFA-EA3F474B/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4ef6a82f-2b12-4d85-956b-793f9f47185a
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 22:23:09 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 23:41:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160802
+ https://lists.openembedded.org/g/openembedded-core/message/160804
 
-It was found to cause races in make install, as observed in
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14695
+Gnome 'folks' backends depend on python3-dbusmock-native
 
-[YOCTO #14695]
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-devtools/ruby/ruby_3.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.0.bb b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-index 7183c93d45..128e4527e1 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-@@ -29,7 +29,7 @@ EXTRA_OECONF = "\
-     --disable-versioned-paths \
-     --disable-rpath \
-     --disable-dtrace \
--    --enable-shared \
-+    --disable-shared \
-     --enable-load-relative \
-     --with-pkg-config=pkg-config \
-     --with-static-linked-ext \
--- 
-2.20.1
+diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb b/me=
+ta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
+index e64e343a1e..44f85d50d5 100644
+--- a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
++++ b/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
+@@ -16,3 +16,5 @@ RDEPENDS:${PN} +=3D "\
+     ${PYTHON_PN}-unittest \
+     ${PYTHON_PN}-xml \
+     "
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.25.1
 
 
