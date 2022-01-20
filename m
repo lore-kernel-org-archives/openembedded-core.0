@@ -1,145 +1,320 @@
-Return-Path: <tom.hochstein@nxp.com>
+Return-Path: <rudolf.streif@ibeeto.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E1FC433EF
-	for <webhook@archiver.kernel.org>; Wed, 19 Jan 2022 23:49:30 +0000 (UTC)
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
- (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.81])
- by mx.groups.io with SMTP id smtpd.web11.4678.1642636168477702579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A023C433FE
+	for <webhook@archiver.kernel.org>; Thu, 20 Jan 2022 01:01:18 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web12.5530.1642640477336742597
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Jan 2022 15:49:29 -0800
+ Wed, 19 Jan 2022 17:01:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nxp.com header.s=selector2 header.b=oZkdsWmK;
- spf=pass (domain: nxp.com, ip: 40.107.2.81, mailfrom: tom.hochstein@nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YH88szbI+RbWI8t9nK3xYRrWUpa8o+yqB/28rbAKo9H2SMl1hjJlol1w7hhcw5no3FavN7jWLpN8vzOEs2YxHx5txrFGRvdeTB/Khj9uunlch0j5nmLUi7LHOLUSUY3Tq9Oo7IRi7aQhKiuOiBU9PLKrTqc3j2jbtu1wOl3dF4hlqDvvlcof/WrRyCmsVSDj1fh3fs5eGs+IlI3nkldYWy5AY4Y43q2bTz7eNx84lxs1lyIR0pEkeHbcuawpWoO/1dYJAHJkZNhJjAMnUyqzH9Qg3O4x6/vCyraHk1lEfg1R29ixKh4pKAJ6bwItz2mgWxEYqLaxtZrQlcAIGd1Q3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5s2eTim6BJoF6JSbMx0PS3QSj1rWf3KF3otXBLpQ8mA=;
- b=EDShwtQaaZQaKocMXGJj0RIy+SkItAMlRza5FCBXXL2L24rhJdYSlayolEoYn0iUNSEA4sHWD+IsSI40YJ893p3II9BlEBX8WZgnGSktaA8fKqtWC4lYZZJICiyh/p95RE4CDLNdW3xUrxqeJl7tdtdXVIRhqOW+s0YMtJSFKNQEi//RAB2GaHxgXvMLlWdLNdm5E6/oifCaiiH3DYZ8o7DV5j3o8tT+074HpShx/fuM05xCrxoYzoVBLXgHlFXbqImjZb5fpHl87K1HCR8NJkwGIA+86A9jZODQD0GiYBlR2O5+yGr3xq6bykgouQ0HQR6I/wTVQtBRNRZ/KKHxoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5s2eTim6BJoF6JSbMx0PS3QSj1rWf3KF3otXBLpQ8mA=;
- b=oZkdsWmKFYF1yPXK96d5C1oh52ctA5u8ggA8Qvba39hIL8yF9CQy/sByGIUaYWTzLkzFqVbCs5xbamIxigzorZ+ce3LPYpSGnXySK2ZaravPNEDCLjV6V03bdVzE88Zs3Ouh+7DLDAnNEmMNWzh12cIzmdMhhNrtUC+AQO7phUc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from GV1PR04MB9053.eurprd04.prod.outlook.com (2603:10a6:150:1c::8)
- by VI1PR04MB4655.eurprd04.prod.outlook.com (2603:10a6:803:72::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.12; Wed, 19 Jan
- 2022 23:49:25 +0000
-Received: from GV1PR04MB9053.eurprd04.prod.outlook.com
- ([fe80::d862:4f37:b34a:f4c9]) by GV1PR04MB9053.eurprd04.prod.outlook.com
- ([fe80::d862:4f37:b34a:f4c9%9]) with mapi id 15.20.4888.014; Wed, 19 Jan 2022
- 23:49:25 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH] xwayland: Add xkbcomp runtime dependency
-Date: Wed, 19 Jan 2022 17:48:52 -0600
-Message-Id: <20220119234852.22999-1-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR16CA0009.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::22) To GV1PR04MB9053.eurprd04.prod.outlook.com
- (2603:10a6:150:1c::8)
+ dkim=pass header.i=@ibeeto-com.20210112.gappssmtp.com header.s=20210112
+ header.b=M7T9DitW;
+ spf=neutral (domain: ibeeto.com, ip: 209.85.214.179,
+ mailfrom: rudolf.streif@ibeeto.com)
+Received: by mail-pl1-f179.google.com with SMTP id u11so3789858plh.13
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 19 Jan 2022 17:01:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ibeeto-com.20210112.gappssmtp.com; s=20210112;
+        h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
+         :mime-version:in-reply-to;
+        bh=7IB8ERElYcg4/Vr702NgjOm/zNx+ryl+xFjUaFsznCQ=;
+        b=M7T9DitWcsjiyFO5/cbk6ips6GW36UcaK3rmNsjiEcDArUuBMzxfSBmgG487C+PWtF
+         bakLPS3gJc921xoM4hVpGPg7S2tFkeAnIyp9lsmqp737dmnxe2w++hcPTUuxROSyZAJ/
+         vTG0pOE9aNA1seELLAxX4weIaK8mlzC30ql8Q7q+ZcU6ykB6QPRGrn1FdTkhg1MU7cod
+         /Z0SB5gWytGjo9uqSqw7hCpWU9FXvWt5B0/eeeBrjxvk7W/SSSjd5/86nWfES/CaIvfS
+         tyiBK71BUo6rX0assbuxEXNbOJYju098FW21uP/7PWtIhCESrOa5IFdeiqAiN8CI43XC
+         eoow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:to:cc:references:from:autocrypt:subject
+         :message-id:date:user-agent:mime-version:in-reply-to;
+        bh=7IB8ERElYcg4/Vr702NgjOm/zNx+ryl+xFjUaFsznCQ=;
+        b=IRPoZ9wtozaVmzuZi3S3M36nB+tSL8ZrCgclwUz4j9OOkf6bQEOzcq53AHZ65x9BRc
+         B/k4rz0wQJszpzx4YGtL3wnXaEKVH+PF1QZTRvPmVVqsuTsjYy67OYWSYDN2nffcHUq9
+         fkvikm+aee66t7/ZisXFjtHu7YINCx8mS+E0d8mLZpFtEv0GdTqmciIESWSI2nOQC3kl
+         2zZQjafkZWrhM7ORX7u1QNkYHG1pCbkigGHR6cnmhaicvtg3i/TyJA7kjK9n0oLquRbL
+         3NhhycIa+wqY7MJ6KIejj5/6kneQnPBoMy+610UcZu8BZfJ1fEETL4C6ebo4qIWOJI6Q
+         3cwQ==
+X-Gm-Message-State: AOAM530EX+bW4NpI6GVsFoWPGzLBscDMmU2oH2QT1nPoVSInDCuiin7R
+	o/TwHl1mx6CwbNz2pvfGTnH3D1tLUrKyNg==
+X-Google-Smtp-Source: 
+ ABdhPJwoFvmXeTg8X94/Wvj81aCA8e06b79TvRVxPivZSC8hG4thhsTnCvLIc2tmcB6agInmevFtGQ==
+X-Received: by 2002:a17:902:b70a:b0:149:9840:3fa1 with SMTP id
+ d10-20020a170902b70a00b0014998403fa1mr35038889pls.74.1642640475952;
+        Wed, 19 Jan 2022 17:01:15 -0800 (PST)
+Received: from ?IPv6:2600:8801:8d2a:a304:93dc:834e:6555:ccaa?
+ ([2600:8801:8d2a:a304:93dc:834e:6555:ccaa])
+        by smtp.gmail.com with ESMTPSA id
+ p20sm657092pgm.88.2022.01.19.17.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jan 2022 17:01:14 -0800 (PST)
+To: Jupiter <jupiter.hce@gmail.com>
+Cc: yocto <yocto@lists.yoctoproject.org>,
+ oe-core <openembedded-core@lists.openembedded.org>
+References: 
+ <CAA=hcWQrFmWJMPizbeug6TPYsecWHttk4gM7netpGDiFv8N+Dg@mail.gmail.com>
+ <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
+ <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
+From: Rudolf J Streif <rudolf.streif@ibeeto.com>
+Autocrypt: addr=rudolf.streif@ibeeto.com; keydata=
+ xsBNBFhQFAQBCACa5/X8dcYC25ELsL2exFTaf9QV24fFIn64+rXFqDNKuk7xed5kafscejvD
+ Qpe+Co1EPSU4ybklzYlvbMvzxKfwLDADKh+HsqmUYrd/l43hbqrPLxfDUhg87WVEhjm0qyYQ
+ /Qymy+7Cbh+pVNNlHULUQttkXPl3D+UOMz9se0Ook/HngDIOCyQF4rTyPnGNvd8NJmAng969
+ cQD/S9LNndnK5GGrmDDOuMYwoG4qDqWvWEChncgqHfmWK/Z1AvYKdYWe9uh1N4Qb/P5AZxTM
+ 3sPiHrF+Y2HTdK7j7lWgtu8YzluBHdvzhC+4jUnAKjh8P/N/H6JlE3UC3dwHPOaRsnXBABEB
+ AAHNKlJ1ZG9sZiBKIFN0cmVpZiA8cnVkb2xmLnN0cmVpZkBpYmVldG8uY29tPsLAdwQTAQgA
+ IQUCWFAUBAIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRCNjKgpJzObdabzB/4lFMf0
+ 3GsVMG6C5QOLaPx6rOgj5qexCH3rfYeI3xkbGuR0a+YByzvSiCc6Ukh7YNn4UwRs6cY0fYBk
+ txioE384/51QTIfCmW8ZG5X0cMC5d38LFvd/dj3KBA74HW4GoLt0cIyzy38CCOFmClTNE8xl
+ lpeOfKQD3wn99w5dzXYhvajXCWwAjjpWrR84ww6xromQCDj0AubLA6xyk3t8bzFNsRCCFx+w
+ Xl7keSggn6ld3f3ySIQyEK2GgZDdw+zQmgVMq4x5LZhUhGYoqbYwNy9imoBkUAZkbbViNOtX
+ zaTHX/RzRHErvq56HOVqceJZIpkDnfvB1aXvfvmBhjVLmLHvzsBNBFhQFAQBCADXoLKCuF48
+ 5eCWhnty44o9IZJuOSiX+uVJTgVGNWkZOF61Hs2pieIOmTqk3fb9+Ao6C6IliC9ZRXyAVLD/
+ RSGoLiTnWLc1uaK4P/XCM3HZfsi9ueBuNufR8yMy8/8ZqbFwRIFpPBpxHRrZnDdEd5IKsy+z
+ w6QChvhpmssZy+UaKfWHILroAoS/7bKGzHo5F/dEJhxVDjgxDUDspJSHWMBh0OMKDeBik5wl
+ svtV2yw7ezwWJLRsbaa8TUXd79ZJYYc3FIi0K5aXkMySh+QaQ/bE2Y5A/mCBCZ+IKhBQR36v
+ tUAsTCuUAOREwSdPDVwfuoI5gfVxGyz/zrERfnXF4viHABEBAAHCwF8EGAEIAAkFAlhQFAQC
+ GwwACgkQjYyoKSczm3W3fgf+NSdojthWWEqfWwym3VHK8955SeOy12xQA4ird2Ca2LYUpLNj
+ s4qVFEqXSXZk4rmpGCFlMWwOjcCJOXJLR0ATfmWlvZxp1QL4res/R+SPFEyheu7TTpJ9MbyE
+ fxaMSn2xRMA1V2KVJSfDoMacImVRchFclaNU31cEu6tEnNRwVcsWdTlGdA5a1ASGl4CiP8Tz
+ Yf9m2KOWGjOmVgGFcIJ2QfIlMglU875YHE3W4u3YOWwUbPEr2Seyb176MvO74CUL/Nlouvce
+ P41tsC5daxZnrLBQ3nw4xe4RJSzdPPkY7iF0N5R9NvBJ7WX3dwjMO4EMvdlFuNCQ2ALli/AN
+ ROZj4g==
+Subject: Re: [yocto] Honister broken WiFi communication
+Message-ID: <253a4247-8314-be3f-afa0-0d604c81ba77@ibeeto.com>
+Date: Wed, 19 Jan 2022 17:01:13 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9c8ecb52-febc-4437-6747-08d9dba6529d
-X-MS-TrafficTypeDiagnostic: VI1PR04MB4655:EE_
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR04MB4655A92B1D6522E538FAA6A8E2599@VI1PR04MB4655.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:494;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	YpCD/cuSdOCcQVyDIITXFsc1je8kY0IK69tAHcy1UuG4kUr8krBOQvMUZs4CS2TWxKBTckwQ6++3awhbAq9Dvie4ICNEa+4dCNJixQii5RlHO2jy7R3w1x4zPI+F7BPbyLwvEG2EIdwY48bRQ4bLjIJHJw7kem5rhgi7yLk9ziaTWRuBolfPrV8wMaNaVBgKfp3QtjkYgmkefzQSx5xv8BcaYCzpU0BQ2MhC65CfJPAsvSEhqW2EpuIrD31eYzNpzR+zquqfXQeWuO057CDiQ02Y5VztmeF3UsXQqWjkv2zjgdKFiRQxpnQvx211zeR9vZ34fOuPzqQVU7enn6w7kk+HS91eOdX4usoeZE/XFLzNYIPlP9MbJkPrJiVqu/CD7VLtAUgchd5NnnFQhPSGgs21kFI46T4aSRPEiMke4t/R/d6MQfVSt4xNFKJI0Jg7G8V9wIoKLonpU2yeort1l+5CB/ntlItv922m3iUAgDtdYXE0PsuRYexDWf8batcKcMqQQUcJ2eHpqPgTyGaqYWRlV+tX5dqVkCoikRLze8rJX8M+XRX5zoRVnqkPCJ2RIAa9aPvWJFHH3SB7OKYF/wW9pK/Vny7ksH/TkSrpPSkUBLBX3jG4hz2t7hIEDUxm0gYRUEx1OteObzYhNIbc6CkhtuXD1XiiGIqa+n03yRcfkzsiVRUy1rlnLhM66aXryLgeESZzHUAOqFhBpbh3bCBr4ogtWqrDXbL1WhXScHlUFLWr2WpJIE1bOGbR5Lyzj1okq8AoV+lCy8RyrNPIm/7OYj2EZ0VdWCnFeDSsDK7gPl0QdQs3zlUKfDtyrMcXwPBxT6l204z7d0TIHQ8znw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR04MB9053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(38100700002)(38350700002)(316002)(36756003)(966005)(5660300002)(86362001)(44832011)(4326008)(6486002)(8676002)(6512007)(2616005)(6506007)(66556008)(2906002)(6666004)(6916009)(26005)(8936002)(52116002)(66946007)(66476007)(186003)(508600001)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?sh5l90P2T9yDnuNy0Wry6wpbjyQ7+k4ojVJv40ZLMvv0UTaMGCgDNQSdGQCs?=
- =?us-ascii?Q?S/5+yxxFd+/ZMn/A2KgrTHJ9eYmrlI+fJ0VE4MWBbnnhTzULecaCwNLneXuv?=
- =?us-ascii?Q?y+gx8C+J1S9/0uF/3C74OZktk9XoGIlEB/8e53CLbmVlDmZnt3ChodVT9TCQ?=
- =?us-ascii?Q?weUDUuEVSWiQnVq9LThVplZebMjLaKcDgE8XIoYuL9xmrRGAMxqyGAqrnJzT?=
- =?us-ascii?Q?xJjSSRSY0is8tPC3+KKaO0c1+oSZJXbZNj8oB3ejrz+SXMQIRkKWrcVgL9YY?=
- =?us-ascii?Q?M1nagirejrHItRzjmx3KeJLh3XY2AeYGJ56F1bp30dKSIXLjXwqKnT3KfaLe?=
- =?us-ascii?Q?AnxireR9pdbpFTiNpoe5MwzPKdWSo4/EODBzYIkDV3EzxCJGCmuUVB/YH06p?=
- =?us-ascii?Q?ih4JaIo3EO3pKmGtlR7+wL3WAk/U7igvkbieH738DADsRghAv8FaNfKFhQww?=
- =?us-ascii?Q?r0gm8vpwgIep+1boDbtgPUSV7DULH9asZrGwkLghz3OpnOj6ddmUAulffQaz?=
- =?us-ascii?Q?Mh9UdYwRsrVEQT0JZ8Um7Tfs4PcDa679hOEzlgdx17DmYFHvo8CzO5KFDEtH?=
- =?us-ascii?Q?Suo0qBsKUFDXoP+h4t5FbtL4r2xzVfPwGFN/aleV0EHbIG70TsVYUOEX2QTC?=
- =?us-ascii?Q?hw9/dSpzdtYuGdH8qaqdb0JxwW28hmBTutpPOzxI7f7IFevg4p4rxNVtu5xa?=
- =?us-ascii?Q?zv7Z2zlA6M/3tP331m5W+RrggosyTqaJN/rzNlODWMCSrV0XZkI2exTfuLwU?=
- =?us-ascii?Q?l88eOIFhV+zn+1oGGMIUtw0yLpzAThqiw8BkasZ5mjIbngH9W/XIHTToJprQ?=
- =?us-ascii?Q?HR673bMvgKfqJTMY2j38DndMK+RtLiLMh4nwSt2fyb6lPhi+bRwr/PHYyl1g?=
- =?us-ascii?Q?thxdEMCrfpTMuduzNL/ybQ62yVhNpoRIFA+60CVapQayXBWjD4J7mhTflnp0?=
- =?us-ascii?Q?X10q3cK3uJl7z3HrCx29DbGqC36jjV0vBheCOyhiwwwQJ9gX0S466caKBMs+?=
- =?us-ascii?Q?txBEukthvGjvYpynOZoBV3u2BVMWv2Cp7tvNPzy8HNedAOo56hE6FJfj/YAe?=
- =?us-ascii?Q?aEGuIY9bJ8RQYGczmL2R/pS2JEfhVp+9rDcvRe76DSYEMIiK53aa/UIozmye?=
- =?us-ascii?Q?y8nvQZMIxopWQ5S/uh7EWxDJTLgSVFy0izNv3BWoCFGok2vsdEc8t2ECfau8?=
- =?us-ascii?Q?vtZTHaB8KFmi0hKHk16gX5UX42ucdroi/B0b/XiXUCJqpjrIfuvvb75IEAjg?=
- =?us-ascii?Q?QE2C/vMdKASfOiApv4Rwfy4HC1wss1hWsV46OoHXlWjQ9AXJN2FyAcINuyOc?=
- =?us-ascii?Q?VswzPhzkmKYvbJOnJFBp2NkbpSjwPz780b/wNMIuMdh9SFS9K0UPTYMSrjvV?=
- =?us-ascii?Q?t7Pr5FImxRRGpbUN+DtVB1zHlbJopqrL3BYg3gjhCe4ESSNPIpxL5cJJXTBo?=
- =?us-ascii?Q?Y+gQkXafNUp90ITvxs/pz0nRn6gZRFILiKL8LqhTvrJzKcam01Geo+t5UDZn?=
- =?us-ascii?Q?4q07tIbD/WvcpOIK/pi815HHSBL8CYcfXvtgt2M/fczZVpHZbUEfsPeHf003?=
- =?us-ascii?Q?AGCprndusyqzcMBXct34E9UhlrC5mh1qt/jOqxeunkviqLvS1BGycSQI1rUs?=
- =?us-ascii?Q?igJMUTk/gTWn9y+tqzLx++g=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9c8ecb52-febc-4437-6747-08d9dba6529d
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR04MB9053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2022 23:49:25.1872
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- TBcNC4wXuJY/JcE4ULSfaQPzvKd0SjbTQ81iEju31+MoOsjsKxxTJOVmPC2CXI7XGDjimdtv9k9LzQVzXiVt6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4655
+In-Reply-To: 
+ <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Jan 2022 23:49:30 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Jan 2022 01:01:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160746
+ https://lists.openembedded.org/g/openembedded-core/message/160747
 
-Trying to run an xterm fails with the error:
-xterm: Xt error: Can't open display: :0
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu
+Content-Type: multipart/mixed; boundary="Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V";
+ protected-headers="v1"
+From: Rudolf J Streif <rudolf.streif@ibeeto.com>
+To: Jupiter <jupiter.hce@gmail.com>
+Cc: yocto <yocto@lists.yoctoproject.org>,
+ oe-core <openembedded-core@lists.openembedded.org>
+Message-ID: <253a4247-8314-be3f-afa0-0d604c81ba77@ibeeto.com>
+Subject: Re: [yocto] Honister broken WiFi communication
+References: <CAA=hcWQrFmWJMPizbeug6TPYsecWHttk4gM7netpGDiFv8N+Dg@mail.gmail.com>
+ <CAPxNcnfb1z4fZfGGxEkyK3Hwa2fAwEGMRKP3_PrJc9Fmd4LS+Q@mail.gmail.com>
+ <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
+In-Reply-To: <CAA=hcWQM-eZicZGUt0gNQWoC0Ui5D2=08KgLyPs34Pw5Z-ZZwQ@mail.gmail.com>
 
-Checking systemctl status weston shows an error:
-Jan 19 21:24:16 imx8mq-evk weston[396]: sh: line 1: /usr/bin/xkbcomp: No such file or directory
+--Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V
+Content-Type: multipart/mixed;
+ boundary="------------2CC34A4E6A93E060BE6503F2"
+Content-Language: en-US
 
-Adding xkbcomp to the rootfs fixes these errors. Checking the history
-one finds that the runtime dependency for the old xserver was
-removed because it wasn't in the correct location [1], then restored
-because it was still needed [2].
+This is a multi-part message in MIME format.
+--------------2CC34A4E6A93E060BE6503F2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://github.com/openembedded/openembedded-core/commit/bdcc5e8f1286d288baf410458efc39a59b68d751
-[2] https://github.com/openembedded/openembedded-core/commit/f2330ebc3071d780cbc6d1ddab5c54bfadf8fffc
+Hi JH,
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- meta/recipes-graphics/xwayland/xwayland_21.1.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 1/18/22 5:45 PM, Jupiter wrote:
+> Hi Rudolf,
+>
+> Thanks for your response and comments.
+>
+>> If you run ifconfig -a does your WiFi interface show up? If not there =
+is an
+>> issue with the driver. Use dmesg and filter for the driver. Often a dr=
+iver
+>> cannot load the firmware. What is your WiFi hardware?
+> Not that bad, the WiFi interfaces was fine, but it could not get dhcp
+> response and IP address so an automatic private IP address 169.254 was
+> assigned
+>
+> mlan0     Link encap:Ethernet  HWaddr D4:CA:6E:A4:E8:B4
+>            inet addr:169.254.193.101  Bcast:169.254.255.255  Mask:255.2=
+55.0.0
+>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+>            RX packets:2 errors:0 dropped:0 overruns:0 frame:0
+>            TX packets:56 errors:0 dropped:0 overruns:0 carrier:0
+>            collisions:0 txqueuelen:1000
+>            RX bytes:330 (330.0 B)  TX bytes:16392 (16.0 KiB)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb b/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
-index 5d083e8ada..7ea40d9486 100644
---- a/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_21.1.3.bb
-@@ -42,3 +42,4 @@ do_install:append() {
- 
- FILES:${PN} += "${libdir}/xorg/protocol.txt"
- 
-+RDEPENDS:${PN} += "xkbcomp"
--- 
-2.17.1
+This would typically mean that you are actually connected to a wifi=20
+network but the interface did not receive a DHCP lease for the IP=20
+address. the 169.254. is local IPv4 IP address which the interface would =
 
+typically get if the DHCP client times out.
+
+> I could see WiFi information well, it is not a major problem, but the
+> subtle issues are connman and wpa_supplicant did not set up the WiFi
+> driver correctly.
+>
+> Connected to 34:08:04:12:b1:a2 (on mlan0)
+>          SSID: JupiterIoT
+>          freq: 2437
+>          RX: 660 bytes (4 packets)
+>          TX: 46622 bytes (129 packets)
+>          signal: -57 dBm
+>          rx bitrate: 1.0 MBit/s
+>          tx bitrate: 72.2 MBit/s MCS 7 short GI
+>
+>          bss flags:      short-slot-time
+>          dtim period:    1
+>          beacon int:     100
+
+I don't think that this is a wpa_supplicant issue. However, you can use=20
+connmanctl to manually connect to a wifi network:
+
+$ connmanctl
+connmanctl> enable wifi
+connmanctl> scan wifi
+San completed for wifi
+connmanctl> services
+[service list follows]
+connmanctl> agent on
+Agent registered
+connmanctl> connect wifi_xxxxxx
+Agent RequestInput wifi_xxxxx
+ =C2=A0=C2=A0 Passphrase =3D [ Type=3Dpsk, Requirement=3Dmandatory ]
+Passphrase? ********
+Connected wifi_xxxxxx
+conmanctl> quit
+
+If that works the wifi authentication is OK.
+
+>> Did you install the regulatory database?
+> Did you mean to enable CONFIG_CFG80211_INTERNAL_REGDB? No, I did not
+> install it in the Zeus version either so I don't see that could be an
+> issue.
+Only a wag on my side. Should be ok since the wifi driver is working.
+>> What error messages are you seeing when attempting to connect to a WiF=
+i
+>> network? Did you look at the connman logs?
+> No error in connman, I don't think it is connman or wpa_supplicant
+> issue, my suspicion is something missing in Honister built image to
+> prevent connman and wpa_supplicant to set up the WiFi driver
+> correctly.
+>
+> It is not the first time I have the WiFi setup trouble to get WiFi
+> 169.254 address, when I upgraded from Thud to Zeus, I got the exactly
+> the same problem that WiFi was assigned by a 169.254 address, no dhcp
+> response, at time, I was totally convinced it was connman issue, I
+> spend several months to debug connman and wpa_supplicant without any
+> results, then after waiting several months to pull updated Zeus again,
+> that problem was disappeared miraculous, that is why I suspect the
+> same problem in oe-core and bitbake in Honister as well.
+
+Well, ok then it looks like a dhcp issue. Did you attempt to set a=20
+static IP to test connectivity?
+
+Eventually it could be a router issue. Maybe the router blocks unknown=20
+devices?
+
+> Are there anyone in oe-core and bitbake tested connman, wpa_supplicant
+> for the current Honister branch? I can help to test and to debug it if
+> more advanced people in oe-core, bitbake, kernel, WiFi driver mwifiex
+> can provide me more information.
+Honestly, I don't think the issue is related to connman or=20
+wpa_supplicant at all but on the dhcp level.
+> Thank you.
+>
+> Kind regards,
+>
+> - jupiter
+
+--=20
+Rudolf J Streif
+CEO/CTO ibeeto
++1.855.442.3386 x700
+
+
+--------------2CC34A4E6A93E060BE6503F2
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x8D8CA82927339B75.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0x8D8CA82927339B75.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFhQFAQBCACa5/X8dcYC25ELsL2exFTaf9QV24fFIn64+rXFqDNKuk7xed5kafscejvDQ=
+pe+
+Co1EPSU4ybklzYlvbMvzxKfwLDADKh+HsqmUYrd/l43hbqrPLxfDUhg87WVEhjm0qyYQ/Qymy=
++7C
+bh+pVNNlHULUQttkXPl3D+UOMz9se0Ook/HngDIOCyQF4rTyPnGNvd8NJmAng969cQD/S9LNn=
+dnK
+5GGrmDDOuMYwoG4qDqWvWEChncgqHfmWK/Z1AvYKdYWe9uh1N4Qb/P5AZxTM3sPiHrF+Y2HTd=
+K7j
+7lWgtu8YzluBHdvzhC+4jUnAKjh8P/N/H6JlE3UC3dwHPOaRsnXBABEBAAHNKlJ1ZG9sZiBKI=
+FN0
+cmVpZiA8cnVkb2xmLnN0cmVpZkBpYmVldG8uY29tPsLAdwQTAQgAIQUCWFAUBAIbAwULCQgHA=
+gYV
+CAkKCwIEFgIDAQIeAQIXgAAKCRCNjKgpJzObdabzB/4lFMf03GsVMG6C5QOLaPx6rOgj5qexC=
+H3r
+fYeI3xkbGuR0a+YByzvSiCc6Ukh7YNn4UwRs6cY0fYBktxioE384/51QTIfCmW8ZG5X0cMC5d=
+38L
+Fvd/dj3KBA74HW4GoLt0cIyzy38CCOFmClTNE8xllpeOfKQD3wn99w5dzXYhvajXCWwAjjpWr=
+R84
+ww6xromQCDj0AubLA6xyk3t8bzFNsRCCFx+wXl7keSggn6ld3f3ySIQyEK2GgZDdw+zQmgVMq=
+4x5
+LZhUhGYoqbYwNy9imoBkUAZkbbViNOtXzaTHX/RzRHErvq56HOVqceJZIpkDnfvB1aXvfvmBh=
+jVL
+mLHvzsBNBFhQFAQBCADXoLKCuF485eCWhnty44o9IZJuOSiX+uVJTgVGNWkZOF61Hs2pieIOm=
+Tqk
+3fb9+Ao6C6IliC9ZRXyAVLD/RSGoLiTnWLc1uaK4P/XCM3HZfsi9ueBuNufR8yMy8/8ZqbFwR=
+IFp
+PBpxHRrZnDdEd5IKsy+zw6QChvhpmssZy+UaKfWHILroAoS/7bKGzHo5F/dEJhxVDjgxDUDsp=
+JSH
+WMBh0OMKDeBik5wlsvtV2yw7ezwWJLRsbaa8TUXd79ZJYYc3FIi0K5aXkMySh+QaQ/bE2Y5A/=
+mCB
+CZ+IKhBQR36vtUAsTCuUAOREwSdPDVwfuoI5gfVxGyz/zrERfnXF4viHABEBAAHCwF8EGAEIA=
+AkF
+AlhQFAQCGwwACgkQjYyoKSczm3W3fgf+NSdojthWWEqfWwym3VHK8955SeOy12xQA4ird2Ca2=
+LYU
+pLNjs4qVFEqXSXZk4rmpGCFlMWwOjcCJOXJLR0ATfmWlvZxp1QL4res/R+SPFEyheu7TTpJ9M=
+byE
+fxaMSn2xRMA1V2KVJSfDoMacImVRchFclaNU31cEu6tEnNRwVcsWdTlGdA5a1ASGl4CiP8TzY=
+f9m
+2KOWGjOmVgGFcIJ2QfIlMglU875YHE3W4u3YOWwUbPEr2Seyb176MvO74CUL/NlouvceP41ts=
+C5d
+axZnrLBQ3nw4xe4RJSzdPPkY7iF0N5R9NvBJ7WX3dwjMO4EMvdlFuNCQ2ALli/ANROZj4g=3D=
+=3D
+=3DLHwf
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------2CC34A4E6A93E060BE6503F2--
+
+--Sgx5HWNRaY3XiPxYy6sFcIdOW0R25TX4V--
+
+--sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEVg4uKeQrdCNuC2kVjYyoKSczm3UFAmHotFkFAwAAAAAACgkQjYyoKSczm3U6
+4Af/bUVv6IrWnQfzc9wp5ZCMbaCVxw7BH9B2/oFPwAIJN6Ru74iNblQ1m7J4jvIm6q9KbYHwWudC
+dx+WAEz6xugFLFHL7zJDzLWkUZSWbnwCa8mFKeh1itD3xTlkKTyQFplHU83//kf/2fISudtg/rm3
+tVBMpeBinl8vOKKjCnYUK+YfXgYkjpnij2JCK3zk6Ew+isdGTSGx6uHKTRyAC22462q5wc4CXfLe
+cAvgdrIb8BrzJZY/zS1/RrZBlb0v4WO/k+NtjlZFhF1LPcDGtAxUSAj5HYWSG5gOiFyYXAOqLnop
+Vv/VzZOxvse0ve/zIaFZL7AwzpDZjXys/o8L6crE2g==
+=4A6X
+-----END PGP SIGNATURE-----
+
+--sT9a84Xmsyr1L6V8aOJrLctkaVQ5quHvu--
 
