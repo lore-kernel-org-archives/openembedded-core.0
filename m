@@ -2,229 +2,260 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8706DC433F5
-	for <webhook@archiver.kernel.org>; Fri, 21 Jan 2022 19:35:44 +0000 (UTC)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
- [209.85.222.45])
- by mx.groups.io with SMTP id smtpd.web12.564.1642793743920045931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6EF8C433EF
+	for <webhook@archiver.kernel.org>; Fri, 21 Jan 2022 21:41:42 +0000 (UTC)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by mx.groups.io with SMTP id smtpd.web11.616.1642801301834698609
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jan 2022 11:35:44 -0800
+ Fri, 21 Jan 2022 13:41:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XSOslapU;
- spf=pass (domain: gmail.com, ip: 209.85.222.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bvfNjAev;
+ spf=pass (domain: gmail.com, ip: 209.85.221.178,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f45.google.com with SMTP id c36so18683486uae.13
+Received: by mail-vk1-f178.google.com with SMTP id b77so6350350vka.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jan 2022 11:35:43 -0800 (PST)
+ Fri, 21 Jan 2022 13:41:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FMZPKdCW2P4cjLw8UQ1mSE6V0e8++upHa0wAP7ZqlgU=;
-        b=XSOslapUbm4GRIE5noRqYmNRMYhy+Yzq2XvNxCqbv0UDUxTY/2tdyd68UfTPwPtWl9
-         eu1F+z1aext2mp1OnjrRKMuOacjF3ShaZcIoJzr3+qHA9OKMw38Bbp16C4T/FxnQCcSC
-         YNUEP/FvD1UNzIeuylADj1DfHPif7F0863l/pEt54bxOrpTl3Isog2/KyjvVbnxslHjW
-         dRHAsN8hrAi0mCFOowi9RvVBFc/of2lo9NlK8lGgerHMbw53+LVraOqWyI4NDSC3N0IC
-         BaWeiyo0cg3VsDyKnPFUgmu8pJz0BezMBlwN9JWEQG94ZvSo+CzWqcdkmUi9fqWhWv45
-         KkWQ==
+        bh=aTqIFkFv9OQ1dESEsO7ZPwcMVhsqNS6TvJRAmrtz4iM=;
+        b=bvfNjAevzhcLoguPgdXfydujevGyqbmBK0pFj/WQJGtI6frjukJ8HiNEZ63RzFSgwq
+         35FVeof40RrOgrbp3j7vb4cyepda/+vbFfSVxDZCazf5s+D5EbDxjS+LFtE4Dp99kg3f
+         wn8914lhZIJ6/MIXZ62ENAiREn7B8KI5mfLGD1zXXhT1OTMGuO/FqrBxWOEhHBrOImsI
+         CcFIhQhMMgJRqln+sWFRtMusaSBmqSgEt1Zy/dv2mm6HN+n2CFrWFQtFz5sHvG4nJ3kb
+         pVut1dnwsl+Hrzu8SKvhZKk5ZYlb520akJCnPmwkD9VqhRDx4Ag9clVua0jvekwEKI8Z
+         f76Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FMZPKdCW2P4cjLw8UQ1mSE6V0e8++upHa0wAP7ZqlgU=;
-        b=pxyplXI3RY0+6bUYetIgHr5J7lUNgjhgFPI0DMnyG3RqvjroJu5zYi9KM59tcr/mSh
-         PhWBn8cZHgV28ef6kAS+/mAQ9HIrHM2rp5KN/bWiabm1/dffZ3FCJLXdgTLQPNvBV6Oo
-         PpuhqoiQeKYPV8FR332ldhp9MdeY5Pg1hhbVmxfjjcMyxa7331u/19s0BB8UEUK7MFbv
-         gMbz78FSylBBwdzE7pQZ+mLN2zJyp/lH42Y+US7ZLR5xMX73BAGa/lvDBU5W2Pbj8mxR
-         XiUFOU7V7CxFfa/aoKU2yvv3euooCovlJ9z7iK/8MDldC+G5xeoDb3Fv6NIUdqdmcx0r
-         MS7A==
-X-Gm-Message-State: AOAM533NR25F5fE58l72wJI3IP8pFlCIkDziQuyXc1s7fQ7vcY4WkWgl
-	B/v9j/B5hlRpE0hr/io2+oNNCoM7bi/0/05A6hI=
+        bh=aTqIFkFv9OQ1dESEsO7ZPwcMVhsqNS6TvJRAmrtz4iM=;
+        b=M0YVmBZBS9GDgQB6Ns5+bG8hh6s1n4dmBaiwgMFA/vDccTB1Ajxvw/39C64xrRCJ6+
+         bvSuhZPe339XCf9jswaeoYnY/GJblp/spNEhpuykR4vAeWsY8gLoS2B1d6WD9Xy3fpGa
+         nDeAf2A5hNKB75GaFAvF3kGfQdUaI/8nnVstafNPM68O123tqECNYAhrDZ9YEyBoxQvO
+         xPpLRl+pqoq0ZFN3u9apP8zPoQk/rpRxrk6s+IwJO+itycmbvhOSnmcqwHwDsm4FlAhr
+         CTKF3Sp6N4oFPwyBA4MqE9OF7HqW8effs5qc08ur3AIeq1EnSdyvoLVCUyfLo10HHba5
+         AEMQ==
+X-Gm-Message-State: AOAM532Vj4T7Sw5Qn4bkuZFP5ih3yatsrVPnES4LxoK1A2mppNRU8NwL
+	8f0XYpzWUfTvUxmv+ZAa8grUYdMJC1ilfmvY3Es=
 X-Google-Smtp-Source: 
- ABdhPJz2yA6+QMaQviuzEmjvXExpU21sOqOWjjBhB76gYf5fFyHDS0CpBrOd0rsPc1GqLT5whZLsjxYmS12BmE6y200=
-X-Received: by 2002:a9f:3763:: with SMTP id a32mr2367782uae.93.1642793741585;
- Fri, 21 Jan 2022 11:35:41 -0800 (PST)
+ ABdhPJyhcOL0BLQfUJsCCoHNG88zsF2JhuwM+MupsCDUfJrFKTwxHmLiYMWqlKdGsrrWdqT9+N3oKAPv7BDiNu7MgY0=
+X-Received: by 2002:a05:6122:513:: with SMTP id
+ x19mr2545084vko.30.1642801300885;
+ Fri, 21 Jan 2022 13:41:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20220118185043.1778569-1-marex@denx.de>
  <CANNYZj8mJNZW=N-cgSzGGR8Av7Lij=NFzpK6cLWpyMjyHP2Oww@mail.gmail.com>
  <CAMKF1srtAJi+xvqJ1qNoi9rnCKpeN226r76o6AY=CMXe3x24Lg@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srtAJi+xvqJ1qNoi9rnCKpeN226r76o6AY=CMXe3x24Lg@mail.gmail.com>
+ <16CC6034E1AC2CBC.18829@lists.openembedded.org>
+In-Reply-To: <16CC6034E1AC2CBC.18829@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 21 Jan 2022 20:35:30 +0100
+Date: Fri, 21 Jan 2022 22:41:29 +0100
 Message-ID: 
- <CANNYZj_d3VqM6=Rw-TB5XwpUT0=RYeyHsGJ6TnyRyzb-Z8pqcg@mail.gmail.com>
+ <CANNYZj__YkGHmwzk_P5p1uhi1yqdnUpXFWYmkedddA42jJtc5g@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] ffmpeg: Update from 4.4.1 to 5.0
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Marek Vasut <marex@denx.de>,
- OE-core <openembedded-core@lists.openembedded.org>,
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Marek Vasut <marex@denx.de>,
+	OE-core <openembedded-core@lists.openembedded.org>,
 	Alexander Kanavin <alex@linutronix.de>,
  Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000068114e05d61cb9cd"
+Content-Type: multipart/alternative; boundary="000000000000f9d4ce05d61e7bbe"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jan 2022 19:35:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jan 2022 21:41:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160850
+ https://lists.openembedded.org/g/openembedded-core/message/160851
 
---00000000000068114e05d61cb9cd
+--000000000000f9d4ce05d61e7bbe
 Content-Type: text/plain; charset="UTF-8"
 
-I'm working on these now.
+I have now sent out the meson 0.61 fixes for meta-oe. They're all of the
+same type, and could be done quickly.
+
+The remaining failures from the list are:
+- folks (not in meta-oe layers)
+- minidlna, libvncserver, mpd, opencv (ffmpeg 5.0 api errors, each recipe
+needs individual attention)
 
 Alex
 
+On Fri, 21 Jan 2022 at 20:35, Alexander Kanavin via lists.openembedded.org
+<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
 
-On Thu, 20 Jan 2022 at 21:15, Khem Raj <raj.khem@gmail.com> wrote:
+> I'm working on these now.
+>
+> Alex
+>
+>
+> On Thu, 20 Jan 2022 at 21:15, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> there are bunch of failures in meta-openembedded as well  see
+>>
+>> https://errors.yoctoproject.org/Errors/Build/138784/
+>>
+>> On Tue, Jan 18, 2022 at 12:48 PM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>> >
+>> > This update breaks gst-libav, and I have a patch in the works that
+>> fixes that too :)
+>> >
+>> > Alex
+>> >
+>> > On Tue, 18 Jan 2022 at 19:50, Marek Vasut <marex@denx.de> wrote:
+>> >>
+>> >> Update ffmpeg to 5.0 , release notes and changelog below:
+>> >>
+>> https://git.ffmpeg.org/gitweb/ffmpeg.git/blob/refs/heads/release/5.0:/RELEASE_NOTES
+>> >> https://git.ffmpeg.org/gitweb/ffmpeg.git/shortlog/n5.0
+>> >>
+>> >> The avresample has been removed before 5.0 release in ffmpeg commit
+>> >> 420cedd497 ("libavresample: Remove deprecated library")
+>> >>
+>> >> The ffmpeg 5.0 might be an LTS release, see:
+>> >> http://www.jbkempf.com/blog/post/2022/FFmpeg-5.0
+>> >>
+>> >> Signed-off-by: Marek Vasut <marex@denx.de>
+>> >> Cc: Alexander Kanavin <alex@linutronix.de>
+>> >> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> >> ---
+>> >>  .../ffmpeg/{ffmpeg_4.4.1.bb => ffmpeg_5.0.bb}            | 9
+>> ++-------
+>> >>  1 file changed, 2 insertions(+), 7 deletions(-)
+>> >>  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.4.1.bb =>
+>> ffmpeg_5.0.bb} (95%)
+>> >>
+>> >> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
+>> b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
+>> >> similarity index 95%
+>> >> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
+>> >> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
+>> >> index 3ba07c31d6..4ba5ff4537 100644
+>> >> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
+>> >> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
+>> >> @@ -11,7 +11,6 @@ LICENSE:libavcodec =
+>> "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LG
+>> >>  LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >>  LICENSE:libavfilter = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >>  LICENSE:libavformat = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >> -LICENSE:libavresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >>  LICENSE:libavutil = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >>  LICENSE:libpostproc = "GPLv2+"
+>> >>  LICENSE:libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
+>> 'GPLv2+', 'LGPLv2.1+', d)}"
+>> >> @@ -26,7 +25,7 @@ LIC_FILES_CHKSUM =
+>> "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>> >>  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+>> >>
+>>  file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
+>> >>             "
+>> >> -SRC_URI[sha256sum] =
+>> "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
+>> >> +SRC_URI[sha256sum] =
+>> "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298"
+>> >>
+>> >>  # Build fails when thumb is enabled:
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+>> >>  ARM_INSTRUCTION_SET:armv4 = "arm"
+>> >> @@ -41,7 +40,7 @@ DEPENDS = "nasm-native"
+>> >>
+>> >>  inherit autotools pkgconfig
+>> >>
+>> >> -PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample
+>> swscale postproc avresample \
+>> >> +PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample
+>> swscale postproc \
+>> >>                     alsa bzlib lzma pic pthreads shared theora zlib \
+>> >>                     ${@bb.utils.contains('AVAILTUNES', 'mips32r2',
+>> 'mips32r2', '', d)} \
+>> >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv
+>> xcb', '', d)}"
+>> >> @@ -54,7 +53,6 @@ PACKAGECONFIG[avformat] =
+>> "--enable-avformat,--disable-avformat"
+>> >>  PACKAGECONFIG[swresample] = "--enable-swresample,--disable-swresample"
+>> >>  PACKAGECONFIG[swscale] = "--enable-swscale,--disable-swscale"
+>> >>  PACKAGECONFIG[postproc] = "--enable-postproc,--disable-postproc"
+>> >> -PACKAGECONFIG[avresample] = "--enable-avresample,--disable-avresample"
+>> >>
+>> >>  # features to support
+>> >>  PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
+>> >> @@ -153,7 +151,6 @@ PACKAGES =+ "libavcodec \
+>> >>               libavdevice \
+>> >>               libavfilter \
+>> >>               libavformat \
+>> >> -             libavresample \
+>> >>               libavutil \
+>> >>               libpostproc \
+>> >>               libswresample \
+>> >> @@ -163,7 +160,6 @@ FILES:libavcodec = "${libdir}/libavcodec${SOLIBS}"
+>> >>  FILES:libavdevice = "${libdir}/libavdevice${SOLIBS}"
+>> >>  FILES:libavfilter = "${libdir}/libavfilter${SOLIBS}"
+>> >>  FILES:libavformat = "${libdir}/libavformat${SOLIBS}"
+>> >> -FILES:libavresample = "${libdir}/libavresample${SOLIBS}"
+>> >>  FILES:libavutil = "${libdir}/libavutil${SOLIBS}"
+>> >>  FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
+>> >>  FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
+>> >> @@ -175,7 +171,6 @@ INSANE_SKIP:${MLPREFIX}libavdevice = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libavfilter = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libavformat = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
+>> >> -INSANE_SKIP:${MLPREFIX}libavresample = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
+>> >>  INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
+>> >> --
+>> >> 2.34.1
+>> >>
+>> >>
+>> >>
+>> >>
+>> >
+>> >
+>> >
+>>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160850):
+> https://lists.openembedded.org/g/openembedded-core/message/160850
+> Mute This Topic: https://lists.openembedded.org/mt/88516624/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-> there are bunch of failures in meta-openembedded as well  see
->
-> https://errors.yoctoproject.org/Errors/Build/138784/
->
-> On Tue, Jan 18, 2022 at 12:48 PM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > This update breaks gst-libav, and I have a patch in the works that fixes
-> that too :)
-> >
-> > Alex
-> >
-> > On Tue, 18 Jan 2022 at 19:50, Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> Update ffmpeg to 5.0 , release notes and changelog below:
-> >>
-> https://git.ffmpeg.org/gitweb/ffmpeg.git/blob/refs/heads/release/5.0:/RELEASE_NOTES
-> >> https://git.ffmpeg.org/gitweb/ffmpeg.git/shortlog/n5.0
-> >>
-> >> The avresample has been removed before 5.0 release in ffmpeg commit
-> >> 420cedd497 ("libavresample: Remove deprecated library")
-> >>
-> >> The ffmpeg 5.0 might be an LTS release, see:
-> >> http://www.jbkempf.com/blog/post/2022/FFmpeg-5.0
-> >>
-> >> Signed-off-by: Marek Vasut <marex@denx.de>
-> >> Cc: Alexander Kanavin <alex@linutronix.de>
-> >> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >> ---
-> >>  .../ffmpeg/{ffmpeg_4.4.1.bb => ffmpeg_5.0.bb}            | 9 ++-------
-> >>  1 file changed, 2 insertions(+), 7 deletions(-)
-> >>  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.4.1.bb =>
-> ffmpeg_5.0.bb} (95%)
-> >>
-> >> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-> b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-> >> similarity index 95%
-> >> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-> >> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-> >> index 3ba07c31d6..4ba5ff4537 100644
-> >> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.4.1.bb
-> >> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-> >> @@ -11,7 +11,6 @@ LICENSE:libavcodec =
-> "${@bb.utils.contains('PACKAGECONFIG', 'gpl', 'GPLv2+', 'LG
-> >>  LICENSE:libavdevice = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >>  LICENSE:libavfilter = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >>  LICENSE:libavformat = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >> -LICENSE:libavresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >>  LICENSE:libavutil = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >>  LICENSE:libpostproc = "GPLv2+"
-> >>  LICENSE:libswresample = "${@bb.utils.contains('PACKAGECONFIG', 'gpl',
-> 'GPLv2+', 'LGPLv2.1+', d)}"
-> >> @@ -26,7 +25,7 @@ LIC_FILES_CHKSUM =
-> "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> >>  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-> >>
->  file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
-> >>             "
-> >> -SRC_URI[sha256sum] =
-> "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
-> >> +SRC_URI[sha256sum] =
-> "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298"
-> >>
-> >>  # Build fails when thumb is enabled:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
-> >>  ARM_INSTRUCTION_SET:armv4 = "arm"
-> >> @@ -41,7 +40,7 @@ DEPENDS = "nasm-native"
-> >>
-> >>  inherit autotools pkgconfig
-> >>
-> >> -PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample
-> swscale postproc avresample \
-> >> +PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample
-> swscale postproc \
-> >>                     alsa bzlib lzma pic pthreads shared theora zlib \
-> >>                     ${@bb.utils.contains('AVAILTUNES', 'mips32r2',
-> 'mips32r2', '', d)} \
-> >>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv
-> xcb', '', d)}"
-> >> @@ -54,7 +53,6 @@ PACKAGECONFIG[avformat] =
-> "--enable-avformat,--disable-avformat"
-> >>  PACKAGECONFIG[swresample] = "--enable-swresample,--disable-swresample"
-> >>  PACKAGECONFIG[swscale] = "--enable-swscale,--disable-swscale"
-> >>  PACKAGECONFIG[postproc] = "--enable-postproc,--disable-postproc"
-> >> -PACKAGECONFIG[avresample] = "--enable-avresample,--disable-avresample"
-> >>
-> >>  # features to support
-> >>  PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-> >> @@ -153,7 +151,6 @@ PACKAGES =+ "libavcodec \
-> >>               libavdevice \
-> >>               libavfilter \
-> >>               libavformat \
-> >> -             libavresample \
-> >>               libavutil \
-> >>               libpostproc \
-> >>               libswresample \
-> >> @@ -163,7 +160,6 @@ FILES:libavcodec = "${libdir}/libavcodec${SOLIBS}"
-> >>  FILES:libavdevice = "${libdir}/libavdevice${SOLIBS}"
-> >>  FILES:libavfilter = "${libdir}/libavfilter${SOLIBS}"
-> >>  FILES:libavformat = "${libdir}/libavformat${SOLIBS}"
-> >> -FILES:libavresample = "${libdir}/libavresample${SOLIBS}"
-> >>  FILES:libavutil = "${libdir}/libavutil${SOLIBS}"
-> >>  FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
-> >>  FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
-> >> @@ -175,7 +171,6 @@ INSANE_SKIP:${MLPREFIX}libavdevice = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libavfilter = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libavformat = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
-> >> -INSANE_SKIP:${MLPREFIX}libavresample = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
-> >>  INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >>
-> >>
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#160678):
-> https://lists.openembedded.org/g/openembedded-core/message/160678
-> > Mute This Topic: https://lists.openembedded.org/mt/88516624/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
-
---00000000000068114e05d61cb9cd
+--000000000000f9d4ce05d61e7bbe
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div dir=3D"ltr"><div>I&#39;m working on these now.</=
-div><div><br></div><div>Alex<br></div></div><br></div><div><br></div><div>O=
-n Thu, 20 Jan 2022 at 21:15, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.=
-com">raj.khem@gmail.com</a>&gt; wrote:</div><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">there are bunch of failures i=
-n meta-openembedded as well=C2=A0 see<br>
+<div dir=3D"ltr"><div>I have now sent out the meson 0.61 fixes for meta-oe.=
+ They&#39;re all of the same type, and could be done quickly.</div><div><br=
+></div><div>The remaining failures from the list are:</div><div>- folks (no=
+t in meta-oe layers)</div><div>- minidlna, libvncserver, mpd, opencv (ffmpe=
+g 5.0 api errors, each recipe needs individual attention)</div><div><br></d=
+iv><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Fri, 21 Jan 2022 at 20:35, Alexander Kanavin via <=
+a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ale=
+x.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@l=
+ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex"><div dir=3D"ltr"><div><div dir=3D"ltr"><div>I&#39;m wo=
+rking on these now.</div><div><br></div><div>Alex<br></div></div><br></div>=
+<div><br></div><div>On Thu, 20 Jan 2022 at 21:15, Khem Raj &lt;<a href=3D"m=
+ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrot=
+e:</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">there are bunch of failures in meta-openembedded as well=C2=A0 s=
+ee<br>
 <br>
 <a href=3D"https://errors.yoctoproject.org/Errors/Build/138784/" rel=3D"nor=
 eferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Build/138=
@@ -412,24 +443,28 @@ r>
 &gt;&gt;<br>
 &gt;&gt;<br>
 &gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#160678): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/160678" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/160678</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88516624=
-/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/88516624/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" t=
-arget=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
 &gt;<br>
 </blockquote></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160850): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/160850" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/160850</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88516624/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88516624/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
---00000000000068114e05d61cb9cd--
+--000000000000f9d4ce05d61e7bbe--
 
