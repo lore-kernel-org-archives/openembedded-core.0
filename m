@@ -2,49 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6B0CC433F5
-	for <webhook@archiver.kernel.org>; Fri, 21 Jan 2022 14:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DF7C433EF
+	for <webhook@archiver.kernel.org>; Fri, 21 Jan 2022 14:51:24 +0000 (UTC)
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
  by mx.groups.io with SMTP id smtpd.web11.12868.1642776670242435373
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Jan 2022 06:51:22 -0800
+ Fri, 21 Jan 2022 06:51:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=fKuRjXsg;
+ header.b=NGANSm02;
  spf=pass (domain: intel.com, ip: 192.55.52.115,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642776682; x=1674312682;
+  t=1642776684; x=1674312684;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=w0LdF/yjadfV/InyPVnUaQP9twmMPG8MPEbWCLwoMpo=;
-  b=fKuRjXsgazsTXfRQWsu6ACMP0+ULYOy2U77PY8ZNqC5ugc4YyqNyxmKz
-   EOKLFysrwjsF9jfhxxYMxqt6/4BIak38P/nLW7BDS5ZmdEx9ReevTKN16
-   7NloLQrJFMJivJmy8HOMcYuZvv8P7GfO/vnwVnGDcdQW1r7pkBosC7K9f
-   K30/A+WywTFxE0n5myt+sQSvE7c2MLWIuOzO1H48sWpyWKDKsUvtgbXLT
-   qxNRMu3JtlJdAw9hN2ZCo1i7m8dV+QlOgXtg5pu0kRlwvO9mi5e6FduT8
-   hAsqMRvd0dJ+CpiWvWQXjG+TuFgfq0uN6Wzpi496tYkl9Sf8KQfVnmWY6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245886065"
+  bh=C8wwKzWcnfLQkXKMOgARaA1/3Q0PApKpOV+WltHXrOs=;
+  b=NGANSm02TRTTNiQxND8xbapvzhmJ2pMhXwJNQIDnNGRlPNOvueIESybu
+   yLlsSWE4MJqA5JTGnJOYyJ5r3B7QlB0GIA1/P5Tidecjhi2MNfAdnGMBp
+   4NRyqAwczUeSzaEeH68C9iRUOaoWH+DvD9CPdYc1Om4Yd74I+owSsLrpm
+   3vGn9aUFQdXjcZVDACJCIXkvbDqg8UC/EebinNIyoDYnmLQqxfAbpTqVq
+   3wcIOYPpoYXj3o9SP9te5ynnFr7Ifje50TtyonmtoTT73UzbmcJpVo7ih
+   tsD+Aj3ve9RFOgmwkHkSSUwkTR38BGkzvx/UluyDZpb9W1lMztWxYjGNK
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10233"; a="245886069"
 X-IronPort-AV: E=Sophos;i="5.88,304,1635231600";
-   d="scan'208";a="245886065"
+   d="scan'208";a="245886069"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 06:51:22 -0800
+ 21 Jan 2022 06:51:23 -0800
 X-IronPort-AV: E=Sophos;i="5.88,304,1635231600";
-   d="scan'208";a="623336735"
+   d="scan'208";a="623336749"
 Received: from gordonyx-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.131.118])
   by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2022 06:51:20 -0800
+ 21 Jan 2022 06:51:22 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 07/15] selftest: reproducible: Set maximum report
- size
-Date: Fri, 21 Jan 2022 22:50:55 +0800
+Subject: [hardknott][PATCH 08/15] xserver-xorg: whitelist two CVEs
+Date: Fri, 21 Jan 2022 22:50:56 +0800
 Message-Id: 
- <12c4da7e9986ae8a6207bcc3a4aa787579d7b863.1642736951.git.anuj.mittal@intel.com>
+ <f82c65b3c69738401ecdac354ed65308929cc20f.1642736951.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1642736950.git.anuj.mittal@intel.com>
 References: <cover.1642736950.git.anuj.mittal@intel.com>
@@ -53,59 +52,45 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Jan 2022 14:51:23 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Jan 2022 14:51:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160838
+ https://lists.openembedded.org/g/openembedded-core/message/160839
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Ross Burton <ross@burtonini.com>
 
-Diffoscope can end up running for a very long time if there are a lot of
-changes. To put a limit on how long it can run, cap the maximum report
-size at 250 MB by default.
+CVE-2011-4613 is specific to Debian/Ubuntu.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+CVE-2020-25697 is a non-trivial attack that may not actually be feasible
+considering the default behaviour for clients is to exit if the
+connection is lost.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 52d5f76f54eac384f9480dffe96df089d9ee8f33)
+(cherry picked from commit afa2e6c31a79f75ff4113d53f618bbb349cd6c17)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index a62757399b..546dc91120 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -114,8 +114,9 @@ def compare_file(reference, test, diffutils_sysroot):
-     result.status = SAME
-     return result
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 497515a04a..d83cb94317 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -18,6 +18,14 @@ XORG_PN = "xorg-server"
+ SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.bz2"
  
--def run_diffoscope(a_dir, b_dir, html_dir, **kwargs):
--    return runCmd(['diffoscope', '--no-default-limits', '--exclude-directory-metadata', 'yes', '--html-dir', html_dir, a_dir, b_dir],
-+def run_diffoscope(a_dir, b_dir, html_dir, max_report_size=0, **kwargs):
-+    return runCmd(['diffoscope', '--no-default-limits', '--max-report-size', str(max_report_size),
-+                   '--exclude-directory-metadata', 'yes', '--html-dir', html_dir, a_dir, b_dir],
-                 **kwargs)
+ CVE_PRODUCT = "xorg-server x_server"
++# This is specific to Debian's xserver-wrapper.c
++CVE_CHECK_WHITELIST += "CVE-2011-4613"
++# As per upstream, exploiting this flaw is non-trivial and it requires exact
++# timing on the behalf of the attacker. Many graphical applications exit if their
++# connection to the X server is lost, so a typical desktop session is either
++# impossible or difficult to exploit. There is currently no upstream patch
++# available for this flaw.
++CVE_CHECK_WHITELIST += "CVE-2020-25697"
  
- class DiffoscopeTests(OESelftestTestCase):
-@@ -145,6 +146,9 @@ class ReproducibleTests(OESelftestTestCase):
+ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
-     package_classes = ['deb', 'ipk', 'rpm']
- 
-+    # Maximum report size, in bytes
-+    max_report_size = 250 * 1024 * 1024
-+
-     # targets are the things we want to test the reproducibility of
-     targets = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline', 'core-image-weston', 'world']
-     # sstate targets are things to pull from sstate to potentially cut build/debugging time
-@@ -321,7 +325,7 @@ class ReproducibleTests(OESelftestTestCase):
-                 # Copy jquery to improve the diffoscope output usability
-                 self.copy_file(os.path.join(jquery_sysroot, 'usr/share/javascript/jquery/jquery.min.js'), os.path.join(package_html_dir, 'jquery.js'))
- 
--                run_diffoscope('reproducibleA', 'reproducibleB', package_html_dir,
-+                run_diffoscope('reproducibleA', 'reproducibleB', package_html_dir, max_report_size=self.max_report_size,
-                         native_sysroot=diffoscope_sysroot, ignore_status=True, cwd=package_dir)
- 
-         if fails:
 -- 
 2.34.1
 
