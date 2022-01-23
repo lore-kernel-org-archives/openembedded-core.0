@@ -1,133 +1,150 @@
-Return-Path: <marex@denx.de>
+Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A310AC433F5
-	for <webhook@archiver.kernel.org>; Sun, 23 Jan 2022 02:30:33 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web12.5009.1642905031441589251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2244FC433EF
+	for <webhook@archiver.kernel.org>; Sun, 23 Jan 2022 07:55:40 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.7108.1642924539204121302
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Jan 2022 18:30:32 -0800
+ Sat, 22 Jan 2022 23:55:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de
- header.s=phobos-20191101 header.b=LImoRbfI;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 788D0810EC;
-	Sun, 23 Jan 2022 03:30:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1642905028;
-	bh=4W0TalHgw4tyvfPkm3AIDPliUth6EufKJFU9uD2Jfew=;
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com
+ header.s=default header.b=bUZ+nDIZ;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: alhe@linux.microsoft.com)
+Received: from alsamon-xub.lan (cpe-70-112-59-126.austin.res.rr.com
+ [70.112.59.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CBB7720B6C61;
+	Sat, 22 Jan 2022 23:55:37 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CBB7720B6C61
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1642924538;
+	bh=0BKpIox3BWQu/wS2EvcL+UjWKtxF9iL+TaHJehOz3K4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=LImoRbfIy7ucLN5G9kjwC4tl/ocEzL/SBV+S/G3wmA8YAbekI4cJEsB4VxX+KNAol
-	 oUsTBOt8JmHJFyj6xX0UyDJYZ6VYrl9MIPqj+3slxqW9NKDTT5UknzxODupRow8pP3
-	 Kks5cVjyrnG9Brh0q9VjT3u5eX61330sco+SUGgGIDuw+v6qs/cl8vf7JtQomBQ1MF
-	 MTD3ghQ8Pf1DLW5WBi3g81prxVIYzHOJxYkL+d7Mi74iYofPO0mtsk2L1zP6ODCpGS
-	 PurN7hQz79RV4cRR6OS5kWWK9/4v6XtgFMf7zk/WdXtmH6OfWNgb8pYwDfJcE34do0
-	 xH9f0B8iGz3/g==
-From: Marek Vasut <marex@denx.de>
+	b=bUZ+nDIZjszGCXwtaOo5Od5z3BqOgbGoFavF7zfJMBS2ZVM/FFSluBjVyR27jtOAJ
+	 CdPrEQgdJDWQI8HvNTkdU/U3sTE5nh9vrZq8noQsUC7fynJ1wSem7Bd1krYPftZJg/
+	 Fjnc7vrYQP6wUoJ9QCh0hswlQHS43aDCXud1hCzk=
+From: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH] [dunfell] binutils: Backport Include members in the variable
- table used when resolving DW_AT_specification tags.
-Date: Sun, 23 Jan 2022 03:30:05 +0100
-Message-Id: <20220123023005.212994-1-marex@denx.de>
-X-Mailer: git-send-email 2.34.1
+Cc: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+Subject: [PATCH] kernel.bbclass: Allow initramfs to be built from a separate
+ multiconfig
+Date: Sun, 23 Jan 2022 00:55:25 -0700
+Message-Id: <20220123075525.2649373-1-alhe@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Jan 2022 02:30:33 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Jan 2022 07:55:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160861
+ https://lists.openembedded.org/g/openembedded-core/message/160862
 
-Backport binutils upstream patch fixing sporadic link errors in c++ code.
-This triggers at least on arm32 and aarch64 with qt5 based applications.
+There may be a case where we want to build an initramfs image
+that doesnt inherit the same DISTRO_FEATURES (or others) from
+the main image being built.
 
-The ChangeLog part of the patch as well as space change is omitted.
+For example we may want our initramfs not to inherit a certain
+conf or feature, say we want to use musl for a smaller footprint,
+but if we are using TCLIBC=3Dglibc for our DISTRO (and inherently
+our main image), the initramfs image would inherit that conf and
+be forced to use glibc, growing in size as a side effect, currently
+avoiding this is not supported.
 
-Binutils bug report for this problem is here:
-https://sourceware.org/bugzilla/show_bug.cgi?id=3D26520
+Allow the kernel class to create a multiconfig dependency
+(mcdepends) vs depends for do_bundle_initramfs and define
+our INITRAMFS_IMAGE from a separate multiconfig via two
+new variables:
+INITRAMFS_MULTICONFIG and INITRAMFS_DEPLOY_DIR_IMAGE which
+define the multiconfig where the initramfs image should be
+coming from and its deploy directory respectively, these two
+keep a default definition which preserves current behavior
+(do_bundle_initramfs uses depends).
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>
+Example usage:
+- Create and use multiconfig initramfscfg.conf and set
+  TCLIBC=3Dmusl there, along with its TMPDIR.
+- Add the following to our DISTRO.conf:
+  INITRAMFS_MULTICONFIG =3D "initramfscfg"
+
+  and set
+  INITRAMFS_DEPLOY_DIR_IMAGE to the DEPLOY_DIR_IMAGE of the
+  initramfscfg multiconfig (hence our main kernel will be
+  able to grab it from there and bundle it).
+
+This will result in our musl based initramfs bundled in our
+main kernel and our main image to be glibc based.
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsof=
+t.com>
 ---
- .../binutils/binutils-2.34.inc                |  1 +
- ...in-the-variable-table-used-when-reso.patch | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Include-=
-members-in-the-variable-table-used-when-reso.patch
+ meta/classes/kernel.bbclass | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.34.inc
-index 6104bec591..903b9d7b01 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -42,6 +42,7 @@ SRC_URI =3D "\
-      file://0015-sync-with-OE-libtool-changes.patch \
-      file://0016-Check-for-clang-before-checking-gcc-version.patch \
-      file://0017-binutils-drop-redundant-program_name-definition-fno-.pa=
-tch \
-+     file://0018-Include-members-in-the-variable-table-used-when-reso.pa=
-tch \
-      file://CVE-2020-0551.patch \
-      file://0001-gas-improve-reproducibility-for-stabs-debugging-data.pa=
-tch \
-      file://CVE-2020-16592.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils/0018-Include-members=
--in-the-variable-table-used-when-reso.patch b/meta/recipes-devtools/binut=
-ils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.pa=
-tch
-new file mode 100644
-index 0000000000..dc1e09d46b
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the=
--variable-table-used-when-reso.patch
-@@ -0,0 +1,32 @@
-+From bf2252dca8c76e4c1f1c2dbf98dab7ffc9f5e5af Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Sat, 29 Aug 2020 08:03:15 +0100
-+Subject: [PATCH] Include members in the variable table used when resolvi=
-ng
-+ DW_AT_specification tags.
-+
-+	PR 26520
-+	* dwarf2.c (scan_unit_for_symbols): Add member entries to the
-+	variable table.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbin=
-utils-gdb.git;h=3De6f04d55f681149a69102a73937d0987719c3f16]
-+---
-+ bfd/dwarf2.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index dd3568a8532..ef2f6a3c63c 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -3248,7 +3248,8 @@ scan_unit_for_symbols (struct comp_unit *unit)
-+       else
-+ 	{
-+ 	  func =3D NULL;
-+-	  if (abbrev->tag =3D=3D DW_TAG_variable)
-++	  if (abbrev->tag =3D=3D DW_TAG_variable
-++	      || abbrev->tag =3D=3D DW_TAG_member)
-+ 	    {
-+ 	      bfd_size_type amt =3D sizeof (struct varinfo);
-+ 	      var =3D (struct varinfo *) bfd_zalloc (abfd, amt);
-+--=20
-+2.34.1
-+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 473e28be47..880ee61406 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -30,6 +30,8 @@ INITRAMFS_IMAGE ?=3D ""
+ INITRAMFS_IMAGE_NAME ?=3D "${@['${INITRAMFS_IMAGE}-${MACHINE}', ''][d.ge=
+tVar('INITRAMFS_IMAGE') =3D=3D '']}"
+ INITRAMFS_TASK ?=3D ""
+ INITRAMFS_IMAGE_BUNDLE ?=3D ""
++INITRAMFS_DEPLOY_DIR_IMAGE ?=3D "${DEPLOY_DIR_IMAGE}"
++INITRAMFS_MULTICONFIG ?=3D ""
+=20
+ # KERNEL_VERSION is extracted from source code. It is evaluated as
+ # None for the first parsing, since the code has not been fetched.
+@@ -133,7 +135,10 @@ set -e
+     # the do_bundle_initramfs does nothing, but the INITRAMFS_IMAGE is b=
+uilt
+     # standalone for use by wic and other tools.
+     if image:
+-        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_=
+IMAGE}:do_image_complete')
++        if d.getVar('INITRAMFS_MULTICONFIG'):
++            d.appendVarFlag('do_bundle_initramfs', 'mcdepends', ' mc::${=
+INITRAMFS_MULTICONFIG}:${INITRAMFS_IMAGE}:do_image_complete')
++        else:
++            d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRA=
+MFS_IMAGE}:do_image_complete')
+     if image and bb.utils.to_boolean(d.getVar('INITRAMFS_IMAGE_BUNDLE'))=
+:
+         bb.build.addtask('do_transform_bundled_initramfs', 'do_deploy', =
+'do_bundle_initramfs', d)
+=20
+@@ -240,8 +245,8 @@ copy_initramfs() {
+ 	# Find and use the first initramfs image archive type we find
+ 	rm -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 	for img in cpio cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst; d=
+o
+-		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]; then
+-			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/usr/.
++		if [ -e "${INITRAMFS_DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img" ]=
+; then
++			cp ${INITRAMFS_DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img ${B}/us=
+r/.
+ 			case $img in
+ 			*gz)
+ 				echo "gzip decompressing image"
+@@ -278,7 +283,7 @@ copy_initramfs() {
+ 		fi
+ 	done
+ 	# Verify that the above loop found a initramfs, fail otherwise
+-	[ -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio ] && echo "Finished copy of =
+initramfs into ./usr" || die "Could not find any ${DEPLOY_DIR_IMAGE}/${IN=
+ITRAMFS_IMAGE_NAME}.cpio{.gz|.lz4|.lzo|.lzma|.xz|.zst) for bundling; INIT=
+RAMFS_IMAGE_NAME might be wrong."
++	[ -f ${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio ] && echo "Finished copy of =
+initramfs into ./usr" || die "Could not find any ${INITRAMFS_DEPLOY_DIR_I=
+MAGE}/${INITRAMFS_IMAGE_NAME}.cpio{.gz|.lz4|.lzo|.lzma|.xz|.zst) for bund=
+ling; INITRAMFS_IMAGE_NAME might be wrong."
+ }
+=20
+ do_bundle_initramfs () {
 --=20
-2.34.1
+2.25.1
 
 
