@@ -2,321 +2,170 @@ Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B405C433EF
-	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 08:17:34 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.74])
- by mx.groups.io with SMTP id smtpd.web11.1016.1643012252998455338
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8963CC433EF
+	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 08:19:47 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.57])
+ by mx.groups.io with SMTP id smtpd.web12.993.1643012386205093376
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 00:17:33 -0800
+ Mon, 24 Jan 2022 00:19:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@siemens.com
- header.s=selector2 header.b=A1DkwpaW;
- spf=pass (domain: siemens.com, ip: 40.107.7.74,
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=I1gG1E0a;
+ spf=pass (domain: siemens.com, ip: 40.107.20.57,
  mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I7PZkvFL0FZdWLjr5DGkrnCwRbto3N0ZLE97voUqrhVBcXBXLYha3h3ICSKKhF6Sc418X6ZJYduPDla2S8ZFT02ZGUn/Go7sxFbpBlLUNSvENXmWaYtd0B0a7JO1AuUd9eYnQuaddzROEBIkTUoy5yS/+d9+Np3yjqQG+9f22/D4PrEg8HV0+9w5+gfD5oelJPYUWJMWxushTuv3Uu1giIOH3e9hba4sH7UftMx3XUptnS5SZauIxhaFXXfRhIVAybsDeBIQipgUWZncQ8a20oJf0A07IXT0mogv0GyvYl8jdog8u4YvIZeIAbgwpjr9G932Hh0g4BVl3a1NuPdsqQ==
+ b=g1dfn5et0CDKE67Ic+4bCBjkHmKvX7C1QBlf79PEyeHpIEFx3DX86jfyiJiUIceoHjQWcrQZiAWSoJ8KX8+hUWNpD4bIa8HqBZwSci0Prn4aQVbalxqQfpfDuyo40TAepTMhujNlVUnMqwPAwciKGmeLSOgb5JDLT7Zo0jw1NGMnjfIHBl1DvolYgqVjaCc8kBSEiHvhesW94qv6AEKsrPlFXGStE0cEHfwV6gkJrIPe6cbyS7YXRBLmMz9LaBLDwybJxz1mHB3XU5hocrCgTTZZjAvy2qZTBtYFHOqODygyPOTRux3JbUpYTGJ48rwliK/Kn5VnZDj+g2GVn0/Isw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XrlJwr0AWzQSTp5egKxCdVYtfJUhJv6tbXXmCpzREj8=;
- b=n3d+Fc3LcQThEGTpNKWT6GUcMC1dM9IrZi/AhIjJwSPvghUjgcwGLCb1ASPXNDRLpkak8vPD4SzOv0/ov88tlP4Nbc1V+NhKnslAKhmq/5eXfbwR9DD3Sjxl7UnQWPoNy/wUrzSEd/CcvvwdAz2E0dFU/PUZJcVRKtGp0yial0p5Wor440Jl08EGP0Q4gvmf5Wghm8RTu7TAjCq3sSzSyofS1ugYFjurQkNTlvOplENixbq2Vf8nUxGAE2AQ484HRM2GSrCUQHxfiVOmPwNxFFQ/DO/jZ/u3ufr5ehlKm7FlhxSiBDDFk0l5L50JqeGdyTWKWBY3gTVoTg0mJ5MXuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 194.138.21.72) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=siemens.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=siemens.com; dkim=none (message not signed); arc=none
+ bh=2b6oxqAMUG4+2mYqr0+CIk8FYRkvu6jtvPaFb2eXlRs=;
+ b=Qx/8utMlMzfmgs5dZu/Hm2bf7IMH9N0prP8MVD9XQPCFqbpWNEBdxeWp3fpIqxoR+940O4WqJtnYkxUXVSiFwfK+tAw+5hzuFK9hfqMuJFo5KXfpbrdyKLTiibmcb6hxpHToC1fYEQ7k2jMYlPZfgivEp582zljumdy8UW7XTR1NIQKJdjWgRSAv1C6sJzrtflOu5SdCmQQ1ShLhh7Uos0UZMjfoxeZeN0Rlu7PyGZyn+ioVyRixjbAKYCEyy2/SWjDwsXmQl4NZV2SbJcYI3P1j6BxGv35YK6YMRn/5s/IRJrPQoTJc0Wg+dnrwZ3bFAb4fQzoJWh5RvC67HS+ebQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XrlJwr0AWzQSTp5egKxCdVYtfJUhJv6tbXXmCpzREj8=;
- b=A1DkwpaWCsH4mlHH23y0Q0pI4hVIXNJc6qt09SX2EsTiOGiKRnnF3uGR+skakgrCN8haRbMPzkoRksGnLb6SA33lWj93FaDHoJFfenzBuDKmolERmH6CxYDy5YvzIiIK7upyHyypZtrdHWvXyQ5amiWC7z8DQF6hcQwFRSVfOut1FneL74hY0K5qlXV8VHJRJ4v985Wy7rAgfgg2pIUSHbclzl+XmqgPmOtok3H4zLDZDzLfr2oqgdOVHI2Dj9i8MA2dbL6g2IbFo441TDb9Rtb3S/BX8kh4jcJlCO/Nk4H15gSBkAaC4mnkjf5GVdyIQyBOOwN9NpDaoY4+QxlhPQ==
-Received: from DB9PR02CA0001.eurprd02.prod.outlook.com (2603:10a6:10:1d9::6)
- by AM7PR10MB3159.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:10a::19) with
+ bh=2b6oxqAMUG4+2mYqr0+CIk8FYRkvu6jtvPaFb2eXlRs=;
+ b=I1gG1E0acqoo/9llcNoWqaSmTQzaBqHfnjIl06Hy1TUdS3AlIe+QJwb+GLEF+2mkYOvdkkHACcT989PQk+IrasX2R9IMwxDRRQeljahSFGjsUDumoEMNlK8AbHr9/ZjCtOtGDhGetKWkW9MCVVGIJ4Uraeb575cSNYWu8mOp1KpsTkYNqSTKEZakle7cA8BA5XGBytCJGiMWf7rs2ugXk0l7iPVaWuC1pdpT8hz1Vj5A70c74H2kIXxITb3SfOzhWB4wCx9AkV88dljUYvH7S1cL7pGxEGtYbwVx4QEbxpIPu7QaJsJpdLWTSemZcjsFcCJxTwm+Vt396AA9ceel+Q==
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by PRAPR10MB5398.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:292::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.10; Mon, 24 Jan
- 2022 08:17:30 +0000
-Received: from DB5EUR01FT054.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:10:1d9:cafe::35) by DB9PR02CA0001.outlook.office365.com
- (2603:10a6:10:1d9::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.17 via Frontend
- Transport; Mon, 24 Jan 2022 08:17:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.72)
- smtp.mailfrom=siemens.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=siemens.com;
-Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
- 194.138.21.72 as permitted sender) receiver=protection.outlook.com;
- client-ip=194.138.21.72; helo=hybrid.siemens.com;
-Received: from hybrid.siemens.com (194.138.21.72) by
- DB5EUR01FT054.mail.protection.outlook.com (10.152.5.133) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4909.7 via Frontend Transport; Mon, 24 Jan 2022 08:17:29 +0000
-Received: from DEMCHDC89YA.ad011.siemens.net (139.25.226.104) by
- DEMCHDC9SMA.ad011.siemens.net (194.138.21.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 24 Jan 2022 09:17:28 +0100
-Received: from md3hr6tc.ad001.com (167.87.0.192) by
- DEMCHDC89YA.ad011.siemens.net (139.25.226.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.17; Mon, 24 Jan 2022 09:17:27 +0100
-From: Andrej Valek <andrej.valek@siemens.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH] busybox: refresh defconfig
-Date: Mon, 24 Jan 2022 09:17:12 +0100
-Message-ID: <20220124081712.303592-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Mon, 24 Jan
+ 2022 08:19:44 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::111a:bb31:64aa:3088]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::111a:bb31:64aa:3088%4]) with mapi id 15.20.4909.017; Mon, 24 Jan 2022
+ 08:19:43 +0000
+From: "Valek, Andrej" <andrej.valek@siemens.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "michael.opdenacker@bootlin.com"
+	<michael.opdenacker@bootlin.com>, "saul.wold@windriver.com"
+	<saul.wold@windriver.com>
+Subject: Re: [OE-core][PATCH] kernel: add missing path to search for debug
+ files
+Thread-Topic: [OE-core][PATCH] kernel: add missing path to search for debug
+ files
+Thread-Index: AQHYDSvbMbSu3cRT3kyq2iUrLp2vLaxqjosAgAKm4QCABKaDgA==
+Date: Mon, 24 Jan 2022 08:19:43 +0000
+Message-ID: <485a964c58cf3b4f0c91167dd5906c95f4d20594.camel@siemens.com>
+References: <20220119115759.1390792-1-andrej.valek@siemens.com>
+	 <59f559e8a8f7a1ec6fccb9de63002c781cbe7acf.camel@linuxfoundation.org>
+	 <9d5cf8f9-e2db-0d25-4e6f-cab32111b0ee@bootlin.com>
+In-Reply-To: <9d5cf8f9-e2db-0d25-4e6f-cab32111b0ee@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3970fe2d-b853-41e8-b28b-08d9df1246bf
+x-ms-traffictypediagnostic: PRAPR10MB5398:EE_
+x-microsoft-antispam-prvs: 
+ <PRAPR10MB5398DAA67AE263A1E5781A13925E9@PRAPR10MB5398.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ UyKLaeXHXigef0SpYIhp+p7eSJj6xlCam26gTBHd72dtkDI2lv2ofnd9+cVX2tx46gvbpmu9qPYDkDKYJw7gC1c6eMdVGmsZOiFdBFC56WwISLrFHO7WcTAIcA97d52k4OhkX4TVpLp2MEvTA2HS3PFyMQFsc2Wg48ZxXVpIdZCpwRH2VEgNKk9vNT8Fm3gtqF1KIYyAq3D0ZHUIotfeYHFxbXGAd7Ar6upFknExH9bG9agnk3Nvvb+1PHf3WogFU03b2zoMFyhy+oKseBs3QQbrB6RUm9bR8EN/yRA42E+RgrNRqWB6AxDjLcLWpm7INDz9H29ugmDMJ5zqmGRB7yLKlPRMHJTHd2SK4xQelop4He1yqZJ15RXHvk/EVs5tpB7TWRbq28Yji6ft+KUsj+Sd3s21ydXEd3EF89y7iKG5bJ8SpCP+Kt1L9Y72lRx9KQogFZ42qaQx6c8vfD/rIsI4dQmmWjqgbhRBVXLgD83URUfWsMW0eswELqIM2pjixAxlguSrZRlwLrhm1XotmYDEb8r7nFiadMdnvC8BEzAtozrJSZfXsymIq4nvxwWlpGcew6cQn+nXlnDBRxn5kUWU5PgLvFqqCTyPUJRjAt6/yUgYGGwz5lxTQtIixKtyMeuBB+CCvKiQ0UdQHMJliFVYxFUdX/8CTPTKkl/wp/PRmeUyX/FN9GnvBnZm4WupDLGPDV1IWkP8QOBD5yadn3Bw4kZaNVuWLM8wQtvEBZ8Cjfkn37fc6ndBthQXZuxQ/2NW/aB+gd+MRG/FpfzDDQqj5CGz1dZJp3K4eTsoVwI=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(6512007)(2906002)(8676002)(2616005)(8936002)(966005)(508600001)(82960400001)(6486002)(36756003)(53546011)(4326008)(38070700005)(6506007)(122000001)(316002)(26005)(86362001)(186003)(6916009)(71200400001)(66946007)(91956017)(54906003)(76116006)(5660300002)(66556008)(66446008)(64756008)(66476007)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bEtOclFLZGMrSHRENGFSME9GRmw2MVhQYXF5dFNLV2doVlJ5dnlMZHRJVnZz?=
+ =?utf-8?B?VEN6UGhYZThHTkNhbndvYmF1Yk80MVN2bWVUSWcxaXR0b1AvOTNPNlNpUlo3?=
+ =?utf-8?B?cDNzTDM2TTBaN0dmU3pZdzFIUXZ1cjR5c0x6SVV1enFhalNyZEZ0RDR3VTlr?=
+ =?utf-8?B?cUxnd2RKU09KNlVqK2lwV3VvYUxQRFJ4QUJ1eUpXQktPQzZ0K3Y3NEhXSzlr?=
+ =?utf-8?B?RFU4eThJZW51Tk5MWUlaZ0wrQlhBaHE3V2pLa1VEU1RwbnpmbXZMRjBZQVhD?=
+ =?utf-8?B?dnVrVVpEeWx3c2xKZ2Y0a1A4bHVSNmY3Zkdra0ZHZ2UrU3hQa015NkRLRXJt?=
+ =?utf-8?B?eXE5SXNZMFd1cWovVE9tUkxDbDJLV1Q3eEZsaU1sUnA1RGIrRGxzN3owZ0Zh?=
+ =?utf-8?B?dUp2UjU5U2NUejhIRmZMaFJjeW5Za3pVbU41TkVtZFhhb08rbnFDaGdHZTA5?=
+ =?utf-8?B?eGc1SVRldFIrYU5TYW9pY1lhdTZlaS9lOXdXZHI1U04vTTR6ZEY0Tm1qTDNu?=
+ =?utf-8?B?WjBEUk5LTHFGby9CSlBMa1ArNndCNTFCUVNRR1pWSVIrWTBPTnJ0YndaYU9z?=
+ =?utf-8?B?QTR5bkthTFVSRnVqUHRyektONDNoZERxQUcrVmVrZ1VTVkgrVitjbXNwcGhj?=
+ =?utf-8?B?SUR2dHB4MmRUTTVaV01WSWxmVEcrdXlpZkRYTXJiRVQzVjhuaWZjRUxlaEpz?=
+ =?utf-8?B?UWU2REg4c0U3bVA1RFNyTGtSRm5hOHFCRjViakltdGdxbmJZZFA3TnVYUThT?=
+ =?utf-8?B?UFF0dzVxMm16UjdLcjQ4bVptQlN1NDZ4aTdkK0xGT1l0bkZwUUNkMDJ1UEpE?=
+ =?utf-8?B?bTl0d1RrV3FKd0k3SnhQU3BOdElOMFhkUjN4blZoaGV6TzZDZFVKL2xoM2dD?=
+ =?utf-8?B?WEFtdmgxbXRQSVNvSEk3YWgwdkc5b21sMzNSbWg0ZjIxcjFXMFlsWXRIczBT?=
+ =?utf-8?B?dkx1bVFNTnRMYlJtaldNNVJNZVpuQjM0TjlTdVJqM282czVxMGhubm16WW5n?=
+ =?utf-8?B?d3grV1oxVTliNHVGV2c1eWErY3JVbld1ZGdSTHYyVEJTazB5Y01UVWdlWkZI?=
+ =?utf-8?B?V0h4RUpQYnBvWEUxSy80dHd4U1BiOERRSC90dWJuWmNLRXJObGNqclhnMDBW?=
+ =?utf-8?B?WFNOcnRKUkpFRmdoTnU3U1JHQ05VbHVMd0w5YzVqd1B3bGM1L0FVektjaFdH?=
+ =?utf-8?B?V1dEMnRKd0NjcjV5WCsrR2xoemwwYXdOVjdNQlFWNlI4V3FOakhIc3ZZOXdN?=
+ =?utf-8?B?bWdLZ1FZWWdSUU5QV2VVd2xLTHhubFRsMEVrVFVLbjExY1hod1RHdTM3eEpQ?=
+ =?utf-8?B?T2hOaXdmb2daYXJwV1FjclV6QUdyRVVrakFYZkxzclh1RkJjMVB1MjFFTnhG?=
+ =?utf-8?B?WnFBZGZkT3RhM3MxYnUrNnNSa044eTBtSEc0RVo0a2ZxaGRITTg4cjFIRTZJ?=
+ =?utf-8?B?NFRtbTVZOTlDNlg3ZllvaWFVRUU0cG9XL1drd3pZTktYRDhJa2IwUm00Uk40?=
+ =?utf-8?B?QkpTeDBWN1VMVzdsN2Zyc1Z2NlhwZzg0R1hmUDM1azRIS3lGWGxmdVNhbFpS?=
+ =?utf-8?B?V3YrRXBScWZ6ektWS1hDaVZ0YzlUcE5PdjJHT0t0dVBpRzJuU3YyeWEzSjBq?=
+ =?utf-8?B?SDgxVXAwRUlvQ2dkbDhMWU1VaGFXejFReWlEWlU4cjhCUUgxMGpYRVVZOTIz?=
+ =?utf-8?B?NFpBYnBldHQrdG5RZzREeUNBZlZvNU5SOFlHU1dpYXNyU0Y2c3F2bHpTYXRk?=
+ =?utf-8?B?QjQ1cXlIUTJveG9lSlJnWTNXQktLSXlya3VQRXBHY1ozUndxaTk5bXNJU2R1?=
+ =?utf-8?B?SElwZjk4ZzZDNnJpUlNUOWNDQlBXamdOWm9tbGhFWDRXYzVEcVhnSTdCNFR3?=
+ =?utf-8?B?cTlGS1dRN0tHQmI1VTVJalpaaFhJNHFIK2VxdUlwdi94WHY0eWVwRktJV1ZH?=
+ =?utf-8?B?L1krd1NtY3BabFJDOWo3YVYvdmd5QTAvTXJoQjB5Y0hQaXUyV2J5Zm5TZndk?=
+ =?utf-8?B?QWx6RjR3TjNaZmhuM05NRUJRdC9ML3oyd254SUI1bVhuZWd2SkRiekh2eUZQ?=
+ =?utf-8?B?aWNZTjBzc1M4cXRGSXJpQ1BJOVJJc3F5SllZLzU2SitYZStQZGFPdHVtSXQv?=
+ =?utf-8?B?SGl3Uzlua2IrZVZpNVpsT0dGTHQ1ek16ak1nYmRqcWhxbTJCVFdKUlNyc1h5?=
+ =?utf-8?B?VDZxeHBoWHl5d2plcHk2MlVaRWZjY2RQYTQwdFdhaDdEbmNCZGVvY2VOUXZr?=
+ =?utf-8?Q?zexu3+6R6mGqTA6OIOR6aq8HjvMiAWsUI/O7kwoiYk=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C99E9B3E69EAE7489EA91DE75B228A4F@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [167.87.0.192]
-X-ClientProxiedBy: DEMCHDC8A1A.ad011.siemens.net (139.25.226.107) To
- DEMCHDC89YA.ad011.siemens.net (139.25.226.104)
-X-TM-AS-Product-Ver: SMEX-14.0.0.3080-8.6.1018-26672.006
-X-TM-AS-Result: No-10--12.295300-8.000000
-X-TMASE-MatchedRID: cFv5M0vAhes4qtoWYvR/HsvFqi5bA4IwNpVxLDUyqbYD2WXLXdz+AdoK
-	fgOoKJc2EtCbBUchW2t3y7kSqxRZ38spjO0Eu0H1NDvBpTZyM4HKHLBzDotzpeNI3Mct2lzal9d
-	CEvBzOP9QnnYsWF8zq2SGAX1shjsasUAaGm+KM59cjCFpN+0K2+0CmUdmZL7Gx5sgyUhLCNuSWR
-	Hh+i64gX/oHRvX+qYBcyMNy4iDClXtY7iYMzdzB5tZWJXSJ40RU82qMWBUBVDBe89zsi5D0GDm3
-	C/FJwHx8RsuC1Kvz98y5PBtqoQlk9ARIXbHOKudZu9naehun3j5NyYCsjiQWu7KTDtx8CggjkDr
-	BOJwwnQoXGX2RAqibeMqy4MfQ6clOok4E3sM9ujRl2x5voGCF8YJy+ad65B1LXh7qHsqP9HGYno
-	F/CTeZYpLyz8UyqY4Gg+MZizHm81QkZ5L78DxRJXBiw7NP4CJ4pvYKoNgTXWeAiCmPx4NwBnUJ0
-	Ek6yhjxEHRux+uk8h+ICquNi0WJPv6ggnCISqN9sFSr86bTq4dIEG+tBkUzzx/IgZ6wE4aftwZ3
-	X11IV0=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--12.295300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3080-8.6.1018-26672.006
-X-TM-SNTS-SMTP: 
- 71AC94B5A80AA03B79D40B4D377B50941330A86EBBFEAE6B76DDFF9961B0E3C12000:8
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7877ff3a-d67a-414e-ea68-08d9df11f6cd
-X-MS-TrafficTypeDiagnostic: AM7PR10MB3159:EE_
-X-Microsoft-Antispam-PRVS: 
-	<AM7PR10MB315946207DC1ACDE05353C9F925E9@AM7PR10MB3159.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	7kDCGZXPyuK7tLzTfsJblXFCE50Ihakv092NjMRmhgDyvNjh9I6Neb/rH/pr1QGT1PzHFHlTUoHuRqtX5Z0pArpX/UOHkPGlvvxsw0hO1kws7IZzbf/PCk452Id2zjPMoyOj+oh+0t98Ont0R/mdl0XwGJvLVrXGu8mbN//sNhM42UNfF1WDFoxgQtyH1Ee6fz/lGIXMJ+L6OiD5RlqcYwDMuzuWRxJKk5OHnSah2p/MJZsQy8HozcO4mn6P3A9lZNiaQfFH+BxOkW6uWnuhIVOvLAratuE4+WazT4QMVMzK9sYOmqWVha6CDnvpv4hC6iRVb3U/8yK92ZvwV3eAWcE2nh+tk9+z+K67bebFLk0Q+G0L+knYEUwSV40P4G9X+KAzV5gNGDZwiLT6riCrcRBoDbX5ObQylgVfz+In0RSD0RPDSkMfB98TuNouljHVmunpGvcu1XGEf5+AXb+5yg9K3xJVMpY4i1DHatonJSs/KTp8iZQNhWt11A7UtTih6GOx+LE1ozkCL7VH/DhFS+SlcGMHjB78JJTSCMN+81wfuE9KmEe/gnwd866iNb893BXsn6aCV7/8GpzNZ84tdIy7+/sWJf4MXnm6KxzLzJ/XcN/bJFCIkUKkV8Wfd0HFit+bxO9aWxJWC4Djv6d+hv2ds3IEJ74LMLMA1a0e61g7xUAdCFxMld8CYhd2YZHZJ6IgOH47BM/BNLuDN7Y4M+QJsJySgfQyNEA1c1Gsjxl95AnoyF8aVhfZLXQlUmnInMwbR/LIca9LIbr5Q1vCdkVtsTKQIi0QcEohmVMj+rE=
-X-Forefront-Antispam-Report: 
-	CIP:194.138.21.72;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700004)(81166007)(82960400001)(1076003)(956004)(6666004)(44832011)(36860700001)(26005)(2616005)(8936002)(4326008)(316002)(8676002)(40460700003)(47076005)(36756003)(107886003)(70586007)(83380400001)(336012)(82310400004)(6916009)(2906002)(5660300002)(508600001)(16526019)(86362001)(70206006)(186003)(356005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 08:17:29.6982
- (UTC)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 7877ff3a-d67a-414e-ea68-08d9df11f6cd
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.72];Helo=[hybrid.siemens.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR01FT054.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3159
+ 3970fe2d-b853-41e8-b28b-08d9df1246bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2022 08:19:43.7447
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ c62enA+8BVRrP1BaBJ+EpAAaUKcxTazdP4SjmM+mOafeM3l2MqAIQV5vRUZuY0uD68spYWV1HNOu2xiWnA33vLR2UHlQ9migUjvDmNXyc9I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAPR10MB5398
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 08:17:34 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 08:19:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160871
+ https://lists.openembedded.org/g/openembedded-core/message/160872
 
-- extend find command
-- disable rootfs skip
-- busybox-inittab_1.34.1 -> busybox-inittab_1.35.0
-
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- ...ab_1.34.1.bb =3D> busybox-inittab_1.35.0.bb} |  0
- meta/recipes-core/busybox/busybox/defconfig   | 70 +++++++++++--------
- 2 files changed, 39 insertions(+), 31 deletions(-)
- rename meta/recipes-core/busybox/{busybox-inittab_1.34.1.bb =3D> busybox-i=
-nittab_1.35.0.bb} (100%)
-
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.34.1.bb b/meta/rec=
-ipes-core/busybox/busybox-inittab_1.35.0.bb
-similarity index 100%
-rename from meta/recipes-core/busybox/busybox-inittab_1.34.1.bb
-rename to meta/recipes-core/busybox/busybox-inittab_1.35.0.bb
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-cor=
-e/busybox/busybox/defconfig
-index 16c61a84b2..5e1e1f5638 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -1,7 +1,7 @@
- #
- # Automatically generated make config: don't edit
--# Busybox version: 1.34.0
--# Wed Aug 23 09:07:25 2021
-+# Busybox version: 1.35.0
-+# Sun Dec 26 16:55:55 2021
- #
- CONFIG_HAVE_DOT_CONFIG=3Dy
-=20
-@@ -94,9 +94,12 @@ CONFIG_FEATURE_BUFFERS_USE_MALLOC=3Dy
- CONFIG_PASSWORD_MINLEN=3D6
- CONFIG_MD5_SMALL=3D1
- CONFIG_SHA3_SMALL=3D1
--CONFIG_FEATURE_FAST_TOP=3Dy
--# CONFIG_FEATURE_ETC_NETWORKS is not set
--# CONFIG_FEATURE_ETC_SERVICES is not set
-+CONFIG_FEATURE_NON_POSIX_CP=3Dy
-+# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
-+CONFIG_FEATURE_USE_SENDFILE=3Dy
-+CONFIG_FEATURE_COPYBUF_KB=3D4
-+CONFIG_MONOTONIC_SYSCALL=3Dy
-+CONFIG_IOCTL_HEX2STR_ERROR=3Dy
- CONFIG_FEATURE_EDITING=3Dy
- CONFIG_FEATURE_EDITING_MAX_LEN=3D1024
- # CONFIG_FEATURE_EDITING_VI is not set
-@@ -120,14 +123,6 @@ CONFIG_UNICODE_WIDE_WCHARS=3Dy
- # CONFIG_UNICODE_BIDI_SUPPORT is not set
- # CONFIG_UNICODE_NEUTRAL_TABLE is not set
- # CONFIG_UNICODE_PRESERVE_BROKEN is not set
--CONFIG_FEATURE_NON_POSIX_CP=3Dy
--# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
--CONFIG_FEATURE_USE_SENDFILE=3Dy
--CONFIG_FEATURE_COPYBUF_KB=3D4
--CONFIG_FEATURE_SKIP_ROOTFS=3Dy
--CONFIG_MONOTONIC_SYSCALL=3Dy
--CONFIG_IOCTL_HEX2STR_ERROR=3Dy
--CONFIG_FEATURE_HWIB=3Dy
-=20
- #
- # Applets
-@@ -162,6 +157,8 @@ CONFIG_FEATURE_BZIP2_DECOMPRESS=3Dy
- CONFIG_CPIO=3Dy
- # CONFIG_FEATURE_CPIO_O is not set
- # CONFIG_FEATURE_CPIO_P is not set
-+# CONFIG_FEATURE_CPIO_IGNORE_DEVNO is not set
-+# CONFIG_FEATURE_CPIO_RENUMBER_INODES is not set
- # CONFIG_DPKG is not set
- # CONFIG_DPKG_DEB is not set
- CONFIG_GZIP=3Dy
-@@ -197,6 +194,22 @@ CONFIG_FEATURE_UNZIP_CDF=3Dy
- #
- # Coreutils
- #
-+CONFIG_FEATURE_VERBOSE=3Dy
-+
-+#
-+# Common options for date and touch
-+#
-+# CONFIG_FEATURE_TIMEZONE is not set
-+
-+#
-+# Common options for cp and mv
-+#
-+# CONFIG_FEATURE_PRESERVE_HARDLINKS is not set
-+
-+#
-+# Common options for df, du, ls
-+#
-+CONFIG_FEATURE_HUMAN_READABLE=3Dy
- CONFIG_BASENAME=3Dy
- CONFIG_CAT=3Dy
- CONFIG_FEATURE_CATN=3Dy
-@@ -225,6 +238,7 @@ CONFIG_FEATURE_DD_SIGNAL_HANDLING=3Dy
- # CONFIG_FEATURE_DD_STATUS is not set
- CONFIG_DF=3Dy
- # CONFIG_FEATURE_DF_FANCY is not set
-+# CONFIG_FEATURE_SKIP_ROOTFS is not set
- CONFIG_DIRNAME=3Dy
- # CONFIG_DOS2UNIX is not set
- # CONFIG_UNIX2DOS is not set
-@@ -343,21 +357,6 @@ CONFIG_USERS=3Dy
- CONFIG_WHOAMI=3Dy
- CONFIG_YES=3Dy
-=20
--#
--# Common options
--#
--CONFIG_FEATURE_VERBOSE=3Dy
--
--#
--# Common options for cp and mv
--#
--# CONFIG_FEATURE_PRESERVE_HARDLINKS is not set
--
--#
--# Common options for df, du, ls
--#
--CONFIG_FEATURE_HUMAN_READABLE=3Dy
--
- #
- # Console Utilities
- #
-@@ -448,7 +447,11 @@ CONFIG_FEATURE_ALLOW_EXEC=3Dy
- CONFIG_FIND=3Dy
- CONFIG_FEATURE_FIND_PRINT0=3Dy
- CONFIG_FEATURE_FIND_MTIME=3Dy
-+CONFIG_FEATURE_FIND_ATIME=3Dy
-+CONFIG_FEATURE_FIND_CTIME=3Dy
- CONFIG_FEATURE_FIND_MMIN=3Dy
-+CONFIG_FEATURE_FIND_AMIN=3Dy
-+CONFIG_FEATURE_FIND_CMIN=3Dy
- CONFIG_FEATURE_FIND_PERM=3Dy
- CONFIG_FEATURE_FIND_TYPE=3Dy
- CONFIG_FEATURE_FIND_EXECUTABLE=3Dy
-@@ -456,6 +459,7 @@ CONFIG_FEATURE_FIND_XDEV=3Dy
- CONFIG_FEATURE_FIND_MAXDEPTH=3Dy
- CONFIG_FEATURE_FIND_NEWER=3Dy
- # CONFIG_FEATURE_FIND_INUM is not set
-+CONFIG_FEATURE_FIND_SAMEFILE=3Dy
- CONFIG_FEATURE_FIND_EXEC=3Dy
- CONFIG_FEATURE_FIND_EXEC_PLUS=3Dy
- CONFIG_FEATURE_FIND_USER=3Dy
-@@ -851,6 +855,9 @@ CONFIG_FEATURE_IPV6=3Dy
- # CONFIG_FEATURE_UNIX_LOCAL is not set
- CONFIG_FEATURE_PREFER_IPV4_ADDRESS=3Dy
- # CONFIG_VERBOSE_RESOLUTION_ERRORS is not set
-+# CONFIG_FEATURE_ETC_NETWORKS is not set
-+# CONFIG_FEATURE_ETC_SERVICES is not set
-+CONFIG_FEATURE_HWIB=3Dy
- # CONFIG_FEATURE_TLS_SHA1 is not set
- # CONFIG_ARP is not set
- # CONFIG_ARPING is not set
-@@ -1024,17 +1031,19 @@ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS=3D"-R -b"
- #
- # Mail Utilities
- #
-+CONFIG_FEATURE_MIME_CHARSET=3D""
- # CONFIG_MAKEMIME is not set
- # CONFIG_POPMAILDIR is not set
- # CONFIG_FEATURE_POPMAILDIR_DELIVERY is not set
- # CONFIG_REFORMIME is not set
- # CONFIG_FEATURE_REFORMIME_COMPAT is not set
- # CONFIG_SENDMAIL is not set
--CONFIG_FEATURE_MIME_CHARSET=3D""
-=20
- #
- # Process Utilities
- #
-+CONFIG_FEATURE_FAST_TOP=3Dy
-+# CONFIG_FEATURE_SHOW_THREADS is not set
- CONFIG_FREE=3Dy
- CONFIG_FUSER=3Dy
- # CONFIG_IOSTAT is not set
-@@ -1073,7 +1082,6 @@ CONFIG_FEATURE_TOP_CPU_GLOBAL_PERCENTS=3Dy
- CONFIG_UPTIME=3Dy
- # CONFIG_FEATURE_UPTIME_UTMP_SUPPORT is not set
- CONFIG_WATCH=3Dy
--# CONFIG_FEATURE_SHOW_THREADS is not set
-=20
- #
- # Runit Utilities
-@@ -1138,8 +1146,8 @@ CONFIG_ASH_CMDCMD=3Dy
- # CONFIG_SHELL_HUSH is not set
- # CONFIG_HUSH_BASH_COMPAT is not set
- # CONFIG_HUSH_BRACE_EXPANSION is not set
--# CONFIG_HUSH_LINENO_VAR is not set
- # CONFIG_HUSH_BASH_SOURCE_CURDIR is not set
-+# CONFIG_HUSH_LINENO_VAR is not set
- # CONFIG_HUSH_INTERACTIVE is not set
- # CONFIG_HUSH_SAVEHISTORY is not set
- # CONFIG_HUSH_JOB is not set
---=20
-2.34.1
-
+SGVsbG8gUmljaGFyZCwNCg0KRmluZSwgdGhhdCB3ZSBoYXZlIGl0LCBidXQgYXJlIHlvdSBnb2lu
+ZyB0byB0YWtlIGEgbG9vayBvbiB0aGUgcGF0Y2ggOikNCj8NCg0KUmVnYXJkcywNCkFuZHJlag0K
+DQpPbiBGcmksIDIwMjItMDEtMjEgYXQgMTA6MTggKzAxMDAsIE1pY2hhZWwgT3BkZW5hY2tlciB3
+cm90ZToNCj4gDQo+IE9uIDEvMTkvMjIgNTo0OCBQTSwgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+
+ID4gT24gV2VkLCAyMDIyLTAxLTE5IGF0IDEyOjU3ICswMTAwLCBBbmRyZWogVmFsZWsgd3JvdGU6
+DQo+ID4gPiBTaW5jZSBleHBsaWNpdCBkZWJ1ZyBwYWNrYWdlIGNyZWF0aW9uIHZpYSAke0tFUk5F
+TF9QQUNLQUdFX05BTUV9LQ0KPiA+ID4gZGJnIGhhcw0KPiA+ID4gYmVlbiBhZGRlZCB0byBrZXJu
+ZWwsIGl0IGhhcyB0byBjb3ZlciBhbGwNCj4gPiA+IFBBQ0tBR0VfREVCVUdfU1BMSVRfU1RZTEUN
+Cj4gPiA+IG9wdGlvbnMuIEZvciBleC4gd2hlbiB0aGUgdmFyaWFibGUgImRlYnVnLWZpbGUtZGly
+ZWN0b3J5IiBwYWNrYWdlDQo+ID4gPiBzZWFyY2gNCj4gPiA+IHBhdGggaGFzIHRvIGJlIHNldCBl
+eHBsaWNpdGx5LCBvdGhlcndpc2UgaXQgd2lsbCBub3QgZmluZCBhbnkNCj4gPiA+IGZpbGVzLg0K
+PiA+ID4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0Bz
+aWVtZW5zLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gwqBtZXRhL2NsYXNzZXMva2VybmVsLmJiY2xh
+c3MgfCAxICsNCj4gPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+ID4gPiAN
+Cj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MNCj4gPiA+IGIv
+bWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQo+ID4gPiBpbmRleCA0NzNlMjhiZTQ3Li45ZWEy
+MDFjOTM2IDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQo+
+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MNCj4gPiA+IEBAIC02NDcsNiAr
+NjQ3LDcgQEAgRklMRVM6JHtLRVJORUxfUEFDS0FHRV9OQU1FfS1pbWFnZSA9ICIiDQo+ID4gPiDC
+oEZJTEVTOiR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0tZGV2ID0gIi9ib290L1N5c3RlbS5tYXAqDQo+
+ID4gPiAvYm9vdC9Nb2R1bGUuc3ltdmVycyogL2Jvb3QvY29uZmlnKiAke0tFUk5FTF9TUkNfUEFU
+SH0NCj4gPiA+ICR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbW9kdWxlcy8ke0tFUk5FTF9WRVJTSU9O
+fS9idWlsZCINCj4gPiA+IMKgRklMRVM6JHtLRVJORUxfUEFDS0FHRV9OQU1FfS12bWxpbnV4ID0g
+Ii9ib290L3ZtbGludXgtDQo+ID4gPiAke0tFUk5FTF9WRVJTSU9OX05BTUV9Ig0KPiA+ID4gwqBG
+SUxFUzoke0tFUk5FTF9QQUNLQUdFX05BTUV9LW1vZHVsZXMgPSAiIg0KPiA+ID4gK0ZJTEVTOiR7
+S0VSTkVMX1BBQ0tBR0VfTkFNRX0tZGJnID0gIi91c3IvbGliL2RlYnVnDQo+ID4gPiAvdXNyL3Ny
+Yy9kZWJ1ZyINCj4gPiBUaGlzIHNlZW1zIHRvIGhpZ2hsaWdodCB0aGF0IHdlIGhhdmUgbm8gdGVz
+dHMgZm9yDQo+ID4gS0VSTkVMX1BBQ0tBR0VfTkFNRS4gQXQgdGhlDQo+ID4gdmVyeSBsZWFzdCB3
+ZSBuZWVkIGEgYnVnemlsbGEgZW50cnkgZm9yIGNyZWF0aW5nIHNvbWUuLi4NCj4gDQo+IA0KPiBE
+b25lOiBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTE0
+NzAwDQo+IENoZWVycw0KPiBNaWNoYWVsDQo+IA0KDQo=
 
