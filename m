@@ -2,104 +2,102 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A68C1C4332F
-	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 19:49:24 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web08.829.1643053764097370341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF88C433F5
+	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 19:49:30 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.808.1643053769773042763
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 11:49:24 -0800
+ Mon, 24 Jan 2022 11:49:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jCGaE3sJ;
- spf=pass (domain: gmail.com, ip: 209.85.214.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SUKb7e84;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id x11so11085486plg.6
+Received: by mail-pg1-f180.google.com with SMTP id p125so16358219pga.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 11:49:24 -0800 (PST)
+ Mon, 24 Jan 2022 11:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=04BS3HEBzOxQBg7wO3x2pbuthhlW6/5cL9frocPcqAw=;
-        b=jCGaE3sJ6vVMVTsir8NzvqlgbVNmu0qM7vuor4+bSacwUv8m9Af5Djdv6DuZXfHwx0
-         SZf5PfN4sCz3d1b5nU2Ug2cNgmH4gLsGroxnRExdxDpKcYUr2qWdZzSd3KYdMd0+7wH5
-         Q5yu9i0fZTzPWnD8Y6k5iVZIES+IdO2JvoocZ3CXohsixeEHQqEN02SnF0/nV5Pq1Qjp
-         ItfXCgwWHZO8ypGu/BkQzRWS5gmiKI1XgT0c0zuwOOQnYPk1OKJ/sTPOXA662VKBVN84
-         Y5bURxZXyKiIZ12BFU4qC2m5zkBTWqHp9L8jim0pX450orr0Gqh/QxYZoDKf6P2Wi25n
-         NptA==
+        bh=178pGrljoJpJ0GF8RIsBzQYHXYKgxxeB+JibSijNIOw=;
+        b=SUKb7e846fbv9wgkhQxuOeOQDig7pU+5pqnjoxRSfiRwbuABk+0Ri3+SZcaqcSXNZV
+         ZROkRzZp27tXIk87pSsoRMsuU7rtTaCKzBk4HmXfLdpgxGeG7iGWa/xLfzYL3fw59PSF
+         sxAm47V9hvtNlqAJycuKVzG4nTCUA2/Fm1QwQo8Aukybzp9BK4mqgSD/6SY1bZib2liY
+         SEFxpmpmM5bTR8UWkjX3JupAs56M4aWCS0sleS5vBpXbd3Sk/nE/rK4JwQtXL+WPQlJ5
+         HCzz0q/BR2sS3KT9ViiWgxZgvnzqhOob/xbVuAvsYxi/FNkRgA4qjDW8EJOYrFQfXBco
+         SDyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=04BS3HEBzOxQBg7wO3x2pbuthhlW6/5cL9frocPcqAw=;
-        b=iSDsWpCvjarsVQxEm5Q56TrTYqs2rxGVnAswPvJTNAuwS1NutZa4/6Y0ZlSTIThY3F
-         ZCeQLTHO0A7Yfp4CKLuK5EmSuP/d1vM01QBpbA5YfenE+81DOj38w3L23YYM4d58ifo/
-         Rg03TYPa32Y75t+03FRQebdJoNaPerN1JUWPewq4j3QL3TxTInVwLkgBXnJJPOru9t3j
-         rVzCB2W9Vrtl6CYg2SPqz0n3v2mN6jjGXx7ExHgeWGD/iokvsyhKHTzFDj7LQIuh+wJa
-         Gon+2kIOYA9/5mhDk8S1EjXgkGP8ro1uI1tPc75yCoeu47qszHXf7Gt88ts09qx9BlwY
-         2hAw==
-X-Gm-Message-State: AOAM532DykrZ+MwGe53USHJXnB6NNd7ungRmVGcU1JEYvRvLgdZ4YPGh
-	BJFemQoYk+0rN062OYRpQh4iGkPlEr+c9w==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=178pGrljoJpJ0GF8RIsBzQYHXYKgxxeB+JibSijNIOw=;
+        b=SK0qbHa3USZpVhGht0sS+yGypcQfQtSxIgD6FMspyj1ZC7Zr/KjoT9l0Sj0mpehxuK
+         kX/khuLH2OCrCIuei8+kE7n+JGENB/IzBC6hahLAzgMJAnGr7SPh7m15mqdzM/QhlkJk
+         BArcR5UWBDhzrxL63wpgUPFSI6Mz/NSeMZHhrKYq8XT1mu+T5TR6QEiK6YMP8b6ooYkB
+         0SiiL6aYBlGm/4kOWCD7jqmSY0lT+V4xkPeHiG8rt6kDHrNvVywNG2vCqmGKm51O6eWx
+         XI0bqMZm3pSUVYf2RjaLRlgPIpon/FNeWPZdJ8NZHmFIOA4XiNs6DreKeMtC+sBn93Y8
+         Yxbg==
+X-Gm-Message-State: AOAM5300Nx86NPZRiYjNPyShGTLKX4kmwkAS3k3kUq8bRMqKkANV+f6m
+	3r1QPluVceR+dqramrcNybzRRPI/SurdMg==
 X-Google-Smtp-Source: 
- ABdhPJzwSLA1IAdJmaYBu8FmXZ+9IbSBezkkvAXNsNCMDeIBEYWZMDa6G77nK8InjDf5RgoYO0nmmg==
-X-Received: by 2002:a17:90a:e7c8:: with SMTP id
- kb8mr3435519pjb.35.1643053763110;
-        Mon, 24 Jan 2022 11:49:23 -0800 (PST)
+ ABdhPJwxDtkScPN2yuwLp4qsPnEU4JinYIa8vQd9pwYvehkL9phmTGXBR7mtMCxbe5R/nu3Js+puDQ==
+X-Received: by 2002:a63:1157:: with SMTP id 23mr12675088pgr.12.1643053768957;
+        Mon, 24 Jan 2022 11:49:28 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:f265:5b05:90c1:d910])
         by smtp.gmail.com with ESMTPSA id
- t2sm17617202pfj.170.2022.01.24.11.49.22
+ t2sm17617202pfj.170.2022.01.24.11.49.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 11:49:22 -0800 (PST)
+        Mon, 24 Jan 2022 11:49:28 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] AUH python3-* upgrades
-Date: Mon, 24 Jan 2022 11:49:04 -0800
-Message-Id: <cover.1643053417.git.tim.orling@konsulko.com>
+Subject: [PATCH 2/4] python3-importlib-metadata: upgrade 4.10.0 -> 4.10.1
+Date: Mon, 24 Jan 2022 11:49:06 -0800
+Message-Id: 
+ <c8a7376395d64afdfbcbe2289aee40dcdb0ed5e6.1643053417.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1643053417.git.tim.orling@konsulko.com>
+References: <cover.1643053417.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 19:49:24 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 19:49:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160897
+ https://lists.openembedded.org/g/openembedded-core/message/160899
 
-Upgrades with the help of AUH for:
-* python3-hypothesis
-* python3-importlib-metadata
-* python3-pyparsing
-* python3-setuptools-scm
+v4.10.1
+* 361: Avoid potential REDoS in EntryPoint.pattern.
 
-The following changes since commit 27ff420543f0195dab024698d804aca33f2ae139:
+References:
+https://github.com/python/importlib_metadata/issues/361
 
-  build-appliance-image: Update to master head revision (2022-01-22 11:28:56 +0000)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/git/poky-contrib timo/auh-upgrades-2022-01-24
-  http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=timo/auh-upgrades-2022-01-24
-
-Tim Orling (4):
-  python3-hypothesis: upgrade 6.35.0 -> 6.36.0
-  python3-importlib-metadata: upgrade 4.10.0 -> 4.10.1
-  python3-setuptools-scm: upgrade 6.3.2 -> 6.4.2
-  python3-pyparsing: upgrade 3.0.6 -> 3.0.7
-
- ...othesis_6.35.0.bb => python3-hypothesis_6.36.0.bb} |  2 +-
- ...4.10.0.bb => python3-importlib-metadata_4.10.1.bb} |  2 +-
- ...-pyparsing_3.0.6.bb => python3-pyparsing_3.0.7.bb} | 11 +++++++++--
- ...s-scm_6.3.2.bb => python3-setuptools-scm_6.4.2.bb} |  2 +-
- 4 files changed, 12 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.35.0.bb => python3-hypothesis_6.36.0.bb} (91%)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...-metadata_4.10.0.bb => python3-importlib-metadata_4.10.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-devtools/python/{python3-importlib-metadata_4.10.0.bb => python3-importlib-metadata_4.10.1.bb} (88%)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.0.6.bb => python3-pyparsing_3.0.7.bb} (47%)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_6.3.2.bb => python3-setuptools-scm_6.4.2.bb} (89%)
 
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_4.10.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_4.10.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_4.10.0.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_4.10.1.bb
+index ea19afc0c23..ff40def563f 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_4.10.0.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_4.10.1.bb
+@@ -8,7 +8,7 @@ inherit pypi setuptools3
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
+-SRC_URI[sha256sum] = "92a8b58ce734b2a4494878e0ecf7d79ccd7a128b5fc6014c401e0b61f006f0f6"
++SRC_URI[sha256sum] = "951f0d8a5b7260e9db5e41d429285b5f451e928479f19d80818878527d36e95e"
+ 
+ S = "${WORKDIR}/importlib_metadata-${PV}"
+ 
 -- 
 2.30.2
 
