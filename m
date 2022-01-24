@@ -2,9 +2,9 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Khem Raj" <raj.khem@gmail.com>
-Subject: [PATCH] systemd: Forward port musl patches
-Date: Fri, 21 Jan 2022 23:05:26 -0800
-Message-Id: <20220122070526.2481934-1-raj.khem@gmail.com>
+Subject: [PATCH v2] systemd: Forward port musl patches
+Date: Mon, 24 Jan 2022 11:11:43 -0800
+Message-Id: <20220124191143.3330224-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -16,6 +16,8 @@ Redo the header include patch and add fixes for new code.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Fix build with musl/mips
+
  .../0001-Adjust-for-musl-headers.patch        | 453 ++++++++++++++++++
  ...ass-correct-parameters-to-getdents64.patch |  50 ++
  .../0002-Add-sys-stat.h-for-S_IFDIR.patch     |  29 ++
@@ -36,9 +38,9 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  .../0021-test-json.c-define-M_PIl.patch       |   6 +-
  ...-not-disable-buffer-in-writing-files.patch | 222 +++++----
  .../systemd/0026-Handle-missing-gshadow.patch |  14 +-
- ...l.h-Define-MIPS-ABI-defines-for-musl.patch |  10 +-
+ ...l.h-Define-MIPS-ABI-defines-for-musl.patch |  20 +-
  meta/recipes-core/systemd/systemd_250.3.bb    |   4 +-
- 22 files changed, 799 insertions(+), 772 deletions(-)
+ 22 files changed, 809 insertions(+), 772 deletions(-)
  create mode 100644 meta/recipes-core/systemd/systemd/0001-Adjust-for-musl-headers.patch
  create mode 100644 meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
  create mode 100644 meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
@@ -2708,7 +2710,7 @@ index e9b7c1c078f..2d06ab84a25 100644
   
                           r = nss_group_to_group_record(gr, r >= 0 ? &sgrp : NULL, ret);
 diff --git a/meta/recipes-core/systemd/systemd/0028-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch b/meta/recipes-core/systemd/systemd/0028-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
-index b7fd3cddbb3..700a04a2644 100644
+index b7fd3cddbb3..f4a71be7cc9 100644
 --- a/meta/recipes-core/systemd/systemd/0028-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
 +++ b/meta/recipes-core/systemd/systemd/0028-missing_syscall.h-Define-MIPS-ABI-defines-for-musl.patch
 @@ -15,8 +15,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
@@ -2720,7 +2722,7 @@ index b7fd3cddbb3..700a04a2644 100644
  --- a/src/basic/missing_syscall.h
  +++ b/src/basic/missing_syscall.h
  @@ -20,6 +20,12 @@
-@@ -24,11 +22,11 @@ index 9e3a165857..4d59b3e7b0 100644
+@@ -24,11 +22,21 @@ index 9e3a165857..4d59b3e7b0 100644
   #endif
   
  +#ifndef _MIPS_SIM_ABI32
@@ -2736,6 +2738,16 @@ index b7fd3cddbb3..700a04a2644 100644
   #include "missing_keyctl.h"
   #include "missing_stat.h"
 - #include "missing_syscall_def.h"
++--- a/src/shared/base-filesystem.c
+++++ b/src/shared/base-filesystem.c
++@@ -19,6 +19,7 @@
++ #include "string-util.h"
++ #include "umask-util.h"
++ #include "user-util.h"
+++#include "missing_syscall.h"
++ 
++ typedef struct BaseFilesystem {
++         const char *dir;      /* directory or symlink to create */
 diff --git a/meta/recipes-core/systemd/systemd_250.3.bb b/meta/recipes-core/systemd/systemd_250.3.bb
 index 4dd668833a7..de16a4d78dc 100644
 --- a/meta/recipes-core/systemd/systemd_250.3.bb
