@@ -1,506 +1,65 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <thomas@hax.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD12CC433EF
-	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 13:10:53 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.3321.1643029852699828286
- for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 05:10:52 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QY98dZ0/;
- spf=pass (domain: gmail.com, ip: 209.85.215.173,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id z131so4322295pgz.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 05:10:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PSRbSmCrcQqsayJIRmR6EWfw4Ec1iFqCUOqxw7hmJaQ=;
-        b=QY98dZ0/YA8hRJ2Dy9M4VSa27Yb4wgmh3jPEZlKgRKcq40pgNKNyk916uhAQHHKrXf
-         /wuUKxSg4DWCUjsF+4sxP6NlOFM5srbSsiA6xJ3gZJPWFx8UUofp06J8et9IhRmgZuK2
-         lW3pLAD8rbJHINXf6tozjYznb6j9M9wNVX2uzEtfInQpBnJDWDLeB23lfCDdt5LyUOaG
-         Zcs4raFe4i9rdNRQwWl7WD4V3krh5KSYuk2+Yyl/IvL37egbay7V7wgcFTZ1mE5Mt2d0
-         6VsUo35dZFDxBcws8+6bOWI+bGagRzNahchT3qCAgaY6Ev7E4lNyddD1sjvzo1Sx9vXl
-         mDMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PSRbSmCrcQqsayJIRmR6EWfw4Ec1iFqCUOqxw7hmJaQ=;
-        b=BbZEX2dU7/sLUVhsI2LBXAZdyWKZaqQeABGMKQ/EtBcx9vtmcbMyr8exhyKBu5qGmL
-         7geo3iffmdC33i/VT2iSC0mreHnhyaeX6kDjKmWPCQ6Z6Wc+SmuxJ4e9IGVgm1pJi5kS
-         lNEWL46w6zU5KvxwxoksofXHZU2fWsPW0HHMzbl9UTDKFbZulpURy/souos9biZGzNSQ
-         uHGkQ4d+EQc+cXX3om7jcwuBPKo+FHMbjmIJvLlRJZQ28A17ltHWi+3du18DuhYVduJ6
-         8JOgItlDUXOXzw08/eJGkvTFNIjvo1DkAFfQ2FDtyCc61drrV4KnmpY0L6DQ9GlkAIDh
-         8L4w==
-X-Gm-Message-State: AOAM530DEKj8HODKKXHjFFUx1MvRF4dNM2js4cES7PgOIiNQyWNWJvjL
-	glWdRnF23goI8f0Lt2riScRSVp4rDeYW7A==
-X-Google-Smtp-Source: 
- ABdhPJwYbuZ3pVftVXNEUBPdWSPVHFjVZM2+YGqQztPTyPqCI+0mSeOKksrGCVIERyG1bUU0FmiZYQ==
-X-Received: by 2002:a63:3704:: with SMTP id e4mr11662905pga.8.1643029851802;
-        Mon, 24 Jan 2022 05:10:51 -0800 (PST)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
-        by smtp.gmail.com with ESMTPSA id
- a1sm12179539pgg.18.2022.01.24.05.10.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 05:10:51 -0800 (PST)
-From: pgowda <pgowda.cve@gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A06C433EF
+	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 13:21:20 +0000 (UTC)
+Subject: dvb.ko for Miraclebox mbultra broken
 To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH 2/2] glibc : Fix CVE-2021-3999
-Date: Mon, 24 Jan 2022 05:10:43 -0800
-Message-Id: <20220124131043.194795-2-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220124131043.194795-1-pgowda.cve@gmail.com>
-References: <20220124131043.194795-1-pgowda.cve@gmail.com>
+From: =?UTF-8?B?VGhvbWFzIFTDtnJuYmxvbQ==?= <thomas@hax.se>
+X-Originating-Location: Uppsala, Uppsala County, SE (85.224.37.203)
+X-Originating-Platform: Mac Firefox 96
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 24 Jan 2022 05:21:20 -0800
+Message-ID: <YDnw.1643030480077058242.aXcT@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="d4UIuYE05XpTI72BdiWa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 13:10:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 13:21:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160876
+ https://lists.openembedded.org/g/openembedded-core/message/160877
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=8c8a71c85f2ed5cc90d08d82ce645513fc907cb6]
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=472e799a5f2102bc0c3206dbd5a801765fceb39c]
+--d4UIuYE05XpTI72BdiWa
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
----
- .../glibc/glibc/0001-CVE-2021-3999.patch      |  36 ++
- .../glibc/glibc/0002-CVE-2021-3999.patch      | 357 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.34.bb         |   2 +
- 3 files changed, 395 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
+I'm the owner of two Miraclebox mbultra boxes on which I run OpenATV 6.4.
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
-new file mode 100644
-index 0000000000..64749390b5
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
-@@ -0,0 +1,36 @@
-+From 8c8a71c85f2ed5cc90d08d82ce645513fc907cb6 Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Mon, 24 Jan 2022 10:57:09 +0530
-+Subject: [PATCH] tst-realpath-toolong: Fix hurd build
-+
-+Define PATH_MAX to a constant if it isn't already defined, like in hurd.
-+
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+(cherry picked from commit 976db046bc3a3738f69255ae00b0a09b8e77fd9c)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=8c8a71c85f2ed5cc90d08d82ce645513fc907cb6]
-+CVE: CVE-2021-3999
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ stdlib/tst-realpath-toolong.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/stdlib/tst-realpath-toolong.c b/stdlib/tst-realpath-toolong.c
-+index 8bed772460..4388890294 100644
-+--- a/stdlib/tst-realpath-toolong.c
-++++ b/stdlib/tst-realpath-toolong.c
-+@@ -29,6 +29,10 @@
-+ 
-+ #define BASENAME "tst-realpath-toolong."
-+ 
-++#ifndef PATH_MAX
-++# define PATH_MAX 1024
-++#endif
-++
-+ int
-+ do_test (void)
-+ {
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch b/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
-new file mode 100644
-index 0000000000..ef3a504fdf
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
-@@ -0,0 +1,357 @@
-+From 472e799a5f2102bc0c3206dbd5a801765fceb39c Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Fri, 21 Jan 2022 23:32:56 +0530
-+Subject: [PATCH] getcwd: Set errno to ERANGE for size == 1 (CVE-2021-3999)
-+
-+No valid path returned by getcwd would fit into 1 byte, so reject the
-+size early and return NULL with errno set to ERANGE.  This change is
-+prompted by CVE-2021-3999, which describes a single byte buffer
-+underflow and overflow when all of the following conditions are met:
-+
-+- The buffer size (i.e. the second argument of getcwd) is 1 byte
-+- The current working directory is too long
-+- '/' is also mounted on the current working directory
-+
-+Sequence of events:
-+
-+- In sysdeps/unix/sysv/linux/getcwd.c, the syscall returns ENAMETOOLONG
-+  because the linux kernel checks for name length before it checks
-+  buffer size
-+
-+- The code falls back to the generic getcwd in sysdeps/posix
-+
-+- In the generic func, the buf[0] is set to '\0' on line 250
-+
-+- this while loop on line 262 is bypassed:
-+
-+    while (!(thisdev == rootdev && thisino == rootino))
-+
-+  since the rootfs (/) is bind mounted onto the directory and the flow
-+  goes on to line 449, where it puts a '/' in the byte before the
-+  buffer.
-+
-+- Finally on line 458, it moves 2 bytes (the underflowed byte and the
-+  '\0') to the buf[0] and buf[1], resulting in a 1 byte buffer overflow.
-+
-+- buf is returned on line 469 and errno is not set.
-+
-+This resolves BZ #28769.
-+
-+Reviewed-by: Andreas Schwab <schwab@linux-m68k.org>
-+Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-+Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+(cherry picked from commit 23e0e8f5f1fb5ed150253d986ecccdc90c2dcd5e)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=472e799a5f2102bc0c3206dbd5a801765fceb39c]
-+CVE: CVE-2021-3999
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ NEWS                                          |   6 +
-+ sysdeps/posix/getcwd.c                        |   7 +
-+ sysdeps/unix/sysv/linux/Makefile              |   7 +-
-+ .../unix/sysv/linux/tst-getcwd-smallbuff.c    | 241 ++++++++++++++++++
-+ 4 files changed, 260 insertions(+), 1 deletion(-)
-+ create mode 100644 sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+
-+diff --git a/NEWS b/NEWS
-+index b4f81c2668..8d7467d2c1 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -214,6 +214,12 @@ Security related changes:
-+   function could result in a memory leak and potential access of
-+   uninitialized memory.  Reported by Qualys.
-+ 
-++  CVE-2021-3999: Passing a buffer of size exactly 1 byte to the getcwd
-++  function may result in an off-by-one buffer underflow and overflow
-++  when the current working directory is longer than PATH_MAX and also
-++  corresponds to the / directory through an unprivileged mount
-++  namespace.  Reported by Qualys.
-++
-+ The following bugs are resolved with this release:
-+ 
-+   [4737] libc: fork is not async-signal-safe
-+diff --git a/sysdeps/posix/getcwd.c b/sysdeps/posix/getcwd.c
-+index 13680026ff..b6984a382c 100644
-+--- a/sysdeps/posix/getcwd.c
-++++ b/sysdeps/posix/getcwd.c
-+@@ -187,6 +187,13 @@ __getcwd_generic (char *buf, size_t size
-+   size_t allocated = size;
-+   size_t used;
-+ 
-++  /* A size of 1 byte is never useful.  */
-++  if (allocated == 1)
-++    {
-++      __set_errno (ERANGE);
-++      return NULL;
-++    }
-++
-+ #if HAVE_MINIMALLY_WORKING_GETCWD
-+   /* If AT_FDCWD is not defined, the algorithm below is O(N**2) and
-+      this is much slower than the system getcwd (at least on
-+diff --git a/sysdeps/unix/sysv/linux/Makefile b/sysdeps/unix/sysv/linux/Makefile
-+index 76ad06361c..9380d3848d 100644
-+--- a/sysdeps/unix/sysv/linux/Makefile
-++++ b/sysdeps/unix/sysv/linux/Makefile
-+@@ -331,7 +331,12 @@ sysdep_routines += xstatconv internal_st
-+ 
-+ sysdep_headers += bits/fcntl-linux.h
-+ 
-+-tests += tst-fallocate tst-fallocate64 tst-o_path-locks
-++tests += \
-++  tst-fallocate \
-++  tst-fallocate64 \
-++  tst-getcwd-smallbuff \
-++  tst-o_path-locks \
-++# tests
-+ endif
-+ 
-+ ifeq ($(subdir),elf)
-+diff --git a/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c b/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+new file mode 100644
-+index 0000000000..d460d6e766
-+--- /dev/null
-++++ b/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+@@ -0,0 +1,241 @@
-++/* Verify that getcwd returns ERANGE for size 1 byte and does not underflow
-++   buffer when the CWD is too long and is also a mount target of /.  See bug
-++   #28769 or CVE-2021-3999 for more context.
-++   Copyright The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <errno.h>
-++#include <fcntl.h>
-++#include <intprops.h>
-++#include <limits.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <sys/mount.h>
-++#include <sys/stat.h>
-++#include <sys/types.h>
-++#include <sys/wait.h>
-++
-++#include <sys/socket.h>
-++#include <sys/un.h>
-++#include <support/check.h>
-++#include <support/temp_file.h>
-++#include <support/xsched.h>
-++#include <support/xunistd.h>
-++
-++static char *base;
-++#define BASENAME "tst-getcwd-smallbuff"
-++#define MOUNT_NAME "mpoint"
-++static int sockfd[2];
-++
-++static void
-++do_cleanup (void)
-++{
-++  support_chdir_toolong_temp_directory (base);
-++  TEST_VERIFY_EXIT (rmdir (MOUNT_NAME) == 0);
-++  free (base);
-++}
-++
-++static void
-++send_fd (const int sock, const int fd)
-++{
-++  struct msghdr msg = {0};
-++  union
-++    {
-++      struct cmsghdr hdr;
-++      char buf[CMSG_SPACE (sizeof (int))];
-++    } cmsgbuf = {0};
-++  struct cmsghdr *cmsg;
-++  struct iovec vec;
-++  char ch = 'A';
-++  ssize_t n;
-++
-++  msg.msg_control = &cmsgbuf.buf;
-++  msg.msg_controllen = sizeof (cmsgbuf.buf);
-++
-++  cmsg = CMSG_FIRSTHDR (&msg);
-++  cmsg->cmsg_len = CMSG_LEN (sizeof (int));
-++  cmsg->cmsg_level = SOL_SOCKET;
-++  cmsg->cmsg_type = SCM_RIGHTS;
-++  memcpy (CMSG_DATA (cmsg), &fd, sizeof (fd));
-++
-++  vec.iov_base = &ch;
-++  vec.iov_len = 1;
-++  msg.msg_iov = &vec;
-++  msg.msg_iovlen = 1;
-++
-++  while ((n = sendmsg (sock, &msg, 0)) == -1 && errno == EINTR);
-++
-++  TEST_VERIFY_EXIT (n == 1);
-++}
-++
-++static int
-++recv_fd (const int sock)
-++{
-++  struct msghdr msg = {0};
-++  union
-++    {
-++      struct cmsghdr hdr;
-++      char buf[CMSG_SPACE(sizeof(int))];
-++    } cmsgbuf = {0};
-++  struct cmsghdr *cmsg;
-++  struct iovec vec;
-++  ssize_t n;
-++  char ch = '\0';
-++  int fd = -1;
-++
-++  vec.iov_base = &ch;
-++  vec.iov_len = 1;
-++  msg.msg_iov = &vec;
-++  msg.msg_iovlen = 1;
-++
-++  msg.msg_control = &cmsgbuf.buf;
-++  msg.msg_controllen = sizeof (cmsgbuf.buf);
-++
-++  while ((n = recvmsg (sock, &msg, 0)) == -1 && errno == EINTR);
-++  if (n != 1 || ch != 'A')
-++    return -1;
-++
-++  cmsg = CMSG_FIRSTHDR (&msg);
-++  if (cmsg == NULL)
-++    return -1;
-++  if (cmsg->cmsg_type != SCM_RIGHTS)
-++    return -1;
-++  memcpy (&fd, CMSG_DATA (cmsg), sizeof (fd));
-++  if (fd < 0)
-++    return -1;
-++  return fd;
-++}
-++
-++static int
-++child_func (void * const arg)
-++{
-++  xclose (sockfd[0]);
-++  const int sock = sockfd[1];
-++  char ch;
-++
-++  TEST_VERIFY_EXIT (read (sock, &ch, 1) == 1);
-++  TEST_VERIFY_EXIT (ch == '1');
-++
-++  if (mount ("/", MOUNT_NAME, NULL, MS_BIND | MS_REC, NULL))
-++    FAIL_EXIT1 ("mount failed: %m\n");
-++  const int fd = xopen ("mpoint",
-++			O_RDONLY | O_PATH | O_DIRECTORY | O_NOFOLLOW, 0);
-++
-++  send_fd (sock, fd);
-++  xclose (fd);
-++
-++  TEST_VERIFY_EXIT (read (sock, &ch, 1) == 1);
-++  TEST_VERIFY_EXIT (ch == 'a');
-++
-++  xclose (sock);
-++  return 0;
-++}
-++
-++static void
-++update_map (char * const mapping, const char * const map_file)
-++{
-++  const size_t map_len = strlen (mapping);
-++
-++  const int fd = xopen (map_file, O_WRONLY, 0);
-++  xwrite (fd, mapping, map_len);
-++  xclose (fd);
-++}
-++
-++static void
-++proc_setgroups_write (const long child_pid, const char * const str)
-++{
-++  const size_t str_len = strlen(str);
-++
-++  char setgroups_path[sizeof ("/proc//setgroups") + INT_STRLEN_BOUND (long)];
-++
-++  snprintf (setgroups_path, sizeof (setgroups_path),
-++	    "/proc/%ld/setgroups", child_pid);
-++
-++  const int fd = open (setgroups_path, O_WRONLY);
-++
-++  if (fd < 0)
-++    {
-++      TEST_VERIFY_EXIT (errno == ENOENT);
-++      FAIL_UNSUPPORTED ("/proc/%ld/setgroups not found\n", child_pid);
-++    }
-++
-++  xwrite (fd, str, str_len);
-++  xclose(fd);
-++}
-++
-++static char child_stack[1024 * 1024];
-++
-++int
-++do_test (void)
-++{
-++  base = support_create_and_chdir_toolong_temp_directory (BASENAME);
-++
-++  xmkdir (MOUNT_NAME, S_IRWXU);
-++  atexit (do_cleanup);
-++
-++  TEST_VERIFY_EXIT (socketpair (AF_UNIX, SOCK_STREAM, 0, sockfd) == 0);
-++  pid_t child_pid = xclone (child_func, NULL, child_stack,
-++			    sizeof (child_stack),
-++			    CLONE_NEWUSER | CLONE_NEWNS | SIGCHLD);
-++
-++  xclose (sockfd[1]);
-++  const int sock = sockfd[0];
-++
-++  char map_path[sizeof ("/proc//uid_map") + INT_STRLEN_BOUND (long)];
-++  char map_buf[sizeof ("0  1") + INT_STRLEN_BOUND (long)];
-++
-++  snprintf (map_path, sizeof (map_path), "/proc/%ld/uid_map",
-++	    (long) child_pid);
-++  snprintf (map_buf, sizeof (map_buf), "0 %ld 1", (long) getuid());
-++  update_map (map_buf, map_path);
-++
-++  proc_setgroups_write ((long) child_pid, "deny");
-++  snprintf (map_path, sizeof (map_path), "/proc/%ld/gid_map",
-++	    (long) child_pid);
-++  snprintf (map_buf, sizeof (map_buf), "0 %ld 1", (long) getgid());
-++  update_map (map_buf, map_path);
-++
-++  TEST_VERIFY_EXIT (send (sock, "1", 1, MSG_NOSIGNAL) == 1);
-++  const int fd = recv_fd (sock);
-++  TEST_VERIFY_EXIT (fd >= 0);
-++  TEST_VERIFY_EXIT (fchdir (fd) == 0);
-++
-++  static char buf[2 * 10 + 1];
-++  memset (buf, 'A', sizeof (buf));
-++
-++  /* Finally, call getcwd and check if it resulted in a buffer underflow.  */
-++  char * cwd = getcwd (buf + sizeof (buf) / 2, 1);
-++  TEST_VERIFY (cwd == NULL);
-++  TEST_VERIFY (errno == ERANGE);
-++
-++  for (int i = 0; i < sizeof (buf); i++)
-++    if (buf[i] != 'A')
-++      {
-++	printf ("buf[%d] = %02x\n", i, (unsigned int) buf[i]);
-++	support_record_failure ();
-++      }
-++
-++  TEST_VERIFY_EXIT (send (sock, "a", 1, MSG_NOSIGNAL) == 1);
-++  xclose (sock);
-++  TEST_VERIFY_EXIT (xwaitpid (child_pid, NULL, 0) == child_pid);
-++
-++  return 0;
-++}
-++
-++#define CLEANUP_HANDLER do_cleanup
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-index 304cbf7ba3..f67ef7818c 100644
---- a/meta/recipes-core/glibc/glibc_2.34.bb
-+++ b/meta/recipes-core/glibc/glibc_2.34.bb
-@@ -59,6 +59,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0002-CVE-2022-23219.patch \
-            file://0001-CVE-2021-3998.patch \
-            file://0002-CVE-2021-3998.patch \
-+           file://0001-CVE-2021-3999.patch \
-+           file://0002-CVE-2021-3999.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.31.1
+Both of them have one DVB-S2 and one DVB-T/DVB-T2 tuners installed.
 
+Since many years the driver /lib/modules/3.14.2/extra/dvb.ko has issues wit=
+h a few DVB-T2 channels in Sweden and I have had to replace file with an ol=
+der one from an old openmb distro every time I upgrade to a newer OpenATV v=
+ersion.
+
+Would it be possible to have you bundle that older module instead of the br=
+oken one you are distributing now? I can provide the module in case you hav=
+e difficulty finding a working one.
+
+The build date on the working module is: Feb 20 2014
+
+The build date on the broken one you ship is: Aug 22 2014
+
+Thanks,
+Thomas
+
+--d4UIuYE05XpTI72BdiWa
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+I'm the owner of two Miraclebox mbultra boxes on which I run OpenATV 6.4.<b=
+r /><br />Both of them have one DVB-S2 and one DVB-T/DVB-T2 tuners installe=
+d.<br /><br />Since many years the driver /lib/modules/3.14.2/extra/dvb.ko =
+has issues with a few DVB-T2 channels in Sweden and I have had to replace f=
+ile with an older one from an old openmb distro every time I upgrade to a n=
+ewer OpenATV version.<br /><br />Would it be possible to have you bundle th=
+at older module instead of the broken one you are distributing now? I can p=
+rovide the module in case you have difficulty finding a working one.<br /><=
+br />The build date on the working module is: Feb 20 2014 <br /><br />The b=
+uild date on the broken one you ship is: Aug 22 2014 <br /><br />Thanks,<br=
+ />Thomas
+
+--d4UIuYE05XpTI72BdiWa--
 
