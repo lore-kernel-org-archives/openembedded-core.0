@@ -1,99 +1,135 @@
-Return-Path: <nishaparrakat@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 978ECC433F5
-	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 21:17:32 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.2081.1643059051431580774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 098ACC433FE
+	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 22:32:36 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.3193.1643063554479456011
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 13:17:31 -0800
+ Mon, 24 Jan 2022 14:32:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CbCepZ2l;
- spf=pass (domain: gmail.com, ip: 209.85.128.43,
- mailfrom: nishaparrakat@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id
- bg19-20020a05600c3c9300b0034565e837b6so9928wmb.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=UHynm5CS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id c3so17294860pls.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 13:17:31 -0800 (PST)
+ Mon, 24 Jan 2022 14:32:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=hWItkA1hEBGK9SMa9DMUmcX87aDippEdmrZAAWomq+g=;
-        b=CbCepZ2lUskA4Z43PYR8Z1UxKZGVPYn+vK6wDKqFlknpBGoiaBY3BEfceYqISEmpMg
-         MQNIAD9QP+NaJsMK93F5gE3Xbfk9w6wPWx4c4gwGG1F7ZXLxYj/SC/QBc4PLe1gJhNWb
-         M8+dedFuwC8p/fo6L35QqUkfsKvJxgqHcY5LO+Q1kEYyBHmdKE2F0tbPl1xL5P+FR/Mr
-         Uc3lMnXKZBnYjNdRbM4s3a07afi1C+KY91n/r8klJNWTYYFTZOhWSw8Uuj8Kalyb2zl8
-         x+YvFMmLxp+ncwE9YNHnDphejPFiQjtwWTW7caJkL7sGKmqdnP8ZashgtR7Fp28KEXQx
-         H1oQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tkFdrzmhb5OLstw9aCQWGhdIPN+ucg1iQp7ng72MCUg=;
+        b=UHynm5CSeQ0s3d6pig9Hpo5oDDTvUdhbKWFU3ztOuuCBVf7kHYAmFsAtITQ+iDznvG
+         FbPMmu3Pasi/eL5sjUNUD7UUErg2A+R496rxF6YVBC9nLOBlDsTnde3hbJgvnV5WgndV
+         jV5FHLX4FNNdlG667hzFgX8SlUlgmPQgBF7wWmBYW5Akr8IgXQbGCjIIKE+PKIODOSlX
+         ioK9sc0qeev2CFeggbAQMdQhFhmB+d1U4JFI5oQuUdnNwfqQPjhKVeCSYgtgBpIJAMyp
+         /87zH1tJI8vNAQU3qMWHtkY+4mFdWPmiMU52BwLIFamddRfXh9imUEHZU1ThyamYWVm2
+         llAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=hWItkA1hEBGK9SMa9DMUmcX87aDippEdmrZAAWomq+g=;
-        b=m0wMfEQkawQydX1GvIbrk5aB8fhagcUdF6KC/QsnXXbE1c7rlnQaT4ihKy8oLkcAu0
-         CAH3/THndOMJDINhhBKEB/jaPSpdYjAMJ5OgYuo+NWlLUKvrCMf4neYAaHmiz6Xw57W1
-         UvBFSUsWN8pYTyNEeVYUsQ+jlJ+ksecRXJ7tknmuFc0V3xbCJUViKrvvd6fQDGq+0IKW
-         b0IK07wwaxn7V/ZipyHGwgvVtAPAy3zriYQ6Um/eKpG24fAfK814WxiTVVTgKqlHtOku
-         hhxINC6NuAku4j2jYrsRrb8Us+v7N1noCBRQQu8/wcO0WjSa5UY4Fx5S/xE02x1wtXDM
-         CO1g==
-X-Gm-Message-State: AOAM530YLepNiitP353TKRA1aYrnYURhavbEvTUPyJZMUfKqBnJTSbFs
-	T+39y61TNhZpVao0tC4mRVyFbna+1fo=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tkFdrzmhb5OLstw9aCQWGhdIPN+ucg1iQp7ng72MCUg=;
+        b=dCAR200hOCUfcMsB3HOs1Y8vvEIEabUKd+8ZFY8ElTXfMbS3lcceckozNS3YUkAaLa
+         MMrPrWjJSY4jIljMrUwwQBvwMiEz6p0KdfgiFEWyBxjK4sOHH3vF85s4pcQt/Rm0SFqF
+         SxpzegFlXkkjXvdyIRsXWGKhLxGDEJwhTesyr16csMHyA9UYd45uzGlTEvuGtl6OiqPT
+         BqxuRw2dK05w/tzO/uD3yihn599OHz3MG7kuh92pRgbWocMP1IT492dcW4DBIEjo71SI
+         LgG6G0zjJEFWBZtua+g48Xu2ph/qmxyWGjgKsr/BVDNjpydq+cL+Q6ZGJnetsgPNGicW
+         RP+Q==
+X-Gm-Message-State: AOAM533/gmGUNw1nOoEJIZkl2ZV9gnaaWXBxd/nMILl89OzPUpokWaX6
+	C4Vo93wXoLCgJR6bvD2aN0bCmwpOte1njH7WhSE=
 X-Google-Smtp-Source: 
- ABdhPJz3bmmwFKd7xbDSsUUbRXw7I6oMUw6m0AIpftnY3auokxhTPGiG9bzR800jdslbtULs1zAmsA==
-X-Received: by 2002:a05:600c:1c1c:: with SMTP id
- j28mr174902wms.138.1643059049854;
-        Mon, 24 Jan 2022 13:17:29 -0800 (PST)
-Received: from nishap-at-office.bmw-carit.intra ([212.118.206.70])
-        by smtp.googlemail.com with ESMTPSA id
- b2sm7506061wrd.64.2022.01.24.13.17.29
+ ABdhPJxpI7izdxMTiGA3mvv/6BnGGn719ODtYQNgrvuSwQR2CZyqCkyGkMIGiVgvBQRBvhO1trL9xA==
+X-Received: by 2002:a17:902:f549:b0:14b:4b27:48d1 with SMTP id
+ h9-20020a170902f54900b0014b4b2748d1mr7271799plf.52.1643063553022;
+        Mon, 24 Jan 2022 14:32:33 -0800 (PST)
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id
+ y42sm8874753pfw.157.2022.01.24.14.32.31
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 13:17:29 -0800 (PST)
-From: Nisha Parrakat <nishaparrakat@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: Joshua Watt <JPEWhacker@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][dunfell][PATCH] libcap: Use specific BSD license variant
-Date: Mon, 24 Jan 2022 22:17:20 +0100
-Message-Id: <20220124211720.33078-1-nishaparrakat@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 24 Jan 2022 14:32:32 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
+Date: Mon, 24 Jan 2022 12:32:24 -1000
+Message-Id: <cover.1643063455.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 21:17:32 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 22:32:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160902
+ https://lists.openembedded.org/g/openembedded-core/message/160903
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+The following changes since commit 01f256bc72fb45c80b6a6c77506bc4c375965a3a:
 
-Make the license more accurate by specifying the specific variant of BSD
-license instead of the generic one. This helps with SPDX license
-attribution as "BSD" is not a valid SPDX license.
+  glibc: Add fix for data races in pthread_create and TLS access (2022-01-12 04:37:31 -1000)
 
-(From OE-Core rev: 9e8b2bc55792932e23d3b053b393b7ff88bffd6b)
+are available in the Git repository at:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
----
- meta/recipes-support/libcap/libcap_2.32.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-diff --git a/meta/recipes-support/libcap/libcap_2.32.bb b/meta/recipes-support/libcap/libcap_2.32.bb
-index 325fa87a1b..d67babb5e9 100644
---- a/meta/recipes-support/libcap/libcap_2.32.bb
-+++ b/meta/recipes-support/libcap/libcap_2.32.bb
-@@ -4,7 +4,7 @@ These allow giving various kinds of specific privileges to individual \
- users, without giving them full root permissions."
- HOMEPAGE = "http://sites.google.com/site/fullycapable/"
- # no specific GPL version required
--LICENSE = "BSD | GPLv2"
-+LICENSE = "BSD-3-Clause | GPLv2"
- LIC_FILES_CHKSUM = "file://License;md5=3f84fd6f29d453a56514cb7e4ead25f1"
- 
- DEPENDS = "hostperl-runtime-native gperf-native"
+Bruce Ashfield (5):
+  linux-yocto/5.4: update to v5.4.169
+  linux-yocto/5.4: update to v5.4.170
+  linux-yocto/5.4: update to v5.4.171
+  linux-yocto/5.4: update to v5.4.172
+  kernel: introduce python3-dtschema-wrapper
+
+Kai Kang (1):
+  speex: fix CVE-2020-23903
+
+Marek Vasut (1):
+  Revert "weston: Use systemd notify,"
+
+Richard Purdie (1):
+  lttng-tools: Add missing DEPENDS on bison-native
+
+Steve Sakoman (3):
+  expat fix CVE-2022-22822 through CVE-2022-22827
+  expat: fix CVE-2021-45960
+  expat: fix CVE-2021-46143
+
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../expat/expat/CVE-2021-45960.patch          |  65 +++++
+ .../expat/expat/CVE-2021-46143.patch          |  43 +++
+ .../expat/expat/CVE-2022-22822-27.patch       | 257 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        |   3 +
+ .../wayland/weston-init/weston-start          |  12 -
+ .../wayland/weston-init/weston@.service       |   6 -
+ .../weston/systemd-notify.weston-start        |   9 -
+ .../wayland/weston/xwayland.weston-start      |   3 +-
+ meta/recipes-graphics/wayland/weston_8.0.0.bb |   6 -
+ .../python3-dtschema-wrapper/dt-doc-validate  |  20 ++
+ .../dtc/python3-dtschema-wrapper/dt-mk-schema |  20 ++
+ .../dtc/python3-dtschema-wrapper/dt-validate  |  20 ++
+ .../dtc/python3-dtschema-wrapper_2021.10.bb   |  17 ++
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../lttng/lttng-tools_2.11.5.bb               |   2 +-
+ .../speex/speex/CVE-2020-23903.patch          |  30 ++
+ meta/recipes-multimedia/speex/speex_1.2.0.bb  |   4 +-
+ 20 files changed, 500 insertions(+), 54 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2021-45960.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2021-46143.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-22822-27.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
+ create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
+ create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
+
 -- 
-2.17.1
+2.25.1
 
 
