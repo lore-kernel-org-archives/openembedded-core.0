@@ -1,134 +1,113 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 098ACC433FE
-	for <webhook@archiver.kernel.org>; Mon, 24 Jan 2022 22:32:36 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.3193.1643063554479456011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A7D0C433F5
+	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 00:12:12 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web12.604.1643069530810088900
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 14:32:34 -0800
+ Mon, 24 Jan 2022 16:12:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=UHynm5CS;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id c3so17294860pls.5
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Jan 2022 14:32:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tkFdrzmhb5OLstw9aCQWGhdIPN+ucg1iQp7ng72MCUg=;
-        b=UHynm5CSeQ0s3d6pig9Hpo5oDDTvUdhbKWFU3ztOuuCBVf7kHYAmFsAtITQ+iDznvG
-         FbPMmu3Pasi/eL5sjUNUD7UUErg2A+R496rxF6YVBC9nLOBlDsTnde3hbJgvnV5WgndV
-         jV5FHLX4FNNdlG667hzFgX8SlUlgmPQgBF7wWmBYW5Akr8IgXQbGCjIIKE+PKIODOSlX
-         ioK9sc0qeev2CFeggbAQMdQhFhmB+d1U4JFI5oQuUdnNwfqQPjhKVeCSYgtgBpIJAMyp
-         /87zH1tJI8vNAQU3qMWHtkY+4mFdWPmiMU52BwLIFamddRfXh9imUEHZU1ThyamYWVm2
-         llAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tkFdrzmhb5OLstw9aCQWGhdIPN+ucg1iQp7ng72MCUg=;
-        b=dCAR200hOCUfcMsB3HOs1Y8vvEIEabUKd+8ZFY8ElTXfMbS3lcceckozNS3YUkAaLa
-         MMrPrWjJSY4jIljMrUwwQBvwMiEz6p0KdfgiFEWyBxjK4sOHH3vF85s4pcQt/Rm0SFqF
-         SxpzegFlXkkjXvdyIRsXWGKhLxGDEJwhTesyr16csMHyA9UYd45uzGlTEvuGtl6OiqPT
-         BqxuRw2dK05w/tzO/uD3yihn599OHz3MG7kuh92pRgbWocMP1IT492dcW4DBIEjo71SI
-         LgG6G0zjJEFWBZtua+g48Xu2ph/qmxyWGjgKsr/BVDNjpydq+cL+Q6ZGJnetsgPNGicW
-         RP+Q==
-X-Gm-Message-State: AOAM533/gmGUNw1nOoEJIZkl2ZV9gnaaWXBxd/nMILl89OzPUpokWaX6
-	C4Vo93wXoLCgJR6bvD2aN0bCmwpOte1njH7WhSE=
-X-Google-Smtp-Source: 
- ABdhPJxpI7izdxMTiGA3mvv/6BnGGn719ODtYQNgrvuSwQR2CZyqCkyGkMIGiVgvBQRBvhO1trL9xA==
-X-Received: by 2002:a17:902:f549:b0:14b:4b27:48d1 with SMTP id
- h9-20020a170902f54900b0014b4b2748d1mr7271799plf.52.1643063553022;
-        Mon, 24 Jan 2022 14:32:33 -0800 (PST)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- y42sm8874753pfw.157.2022.01.24.14.32.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 14:32:32 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/11] Pull request (cover letter only)
-Date: Mon, 24 Jan 2022 12:32:24 -1000
-Message-Id: <cover.1643063455.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=dYeSGG7Z;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1643069528; i=@fujitsu.com;
+	bh=PyBkumg6IlkNRVtSr1BE//rVnNgfmT+3711yxNdDy/o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=dYeSGG7ZmMo3AF96ELT79uU/GPhpw9NSxBIDrNy28Ccww2QR5IL8YyelERba94iFI
+	 6rchCc85ME9cPgc1d4dczPLJpmDxtZ80q9jEuAQpJ8Vdnddtgl8idfFataEWEvtB4x
+	 AJZQc/g/IPNQeC2eRc5xEXn/UBCYdAJW620Hxa7OOSHRKnGYLP65V1Pehyk09HzQ/U
+	 GaLikWtp6TlckvAkpQCJMo1ns+MXgFhgRn4AZBeZD0pYMyCNZjvf6GSlOcCurPhzwW
+	 pTwskRX+2Ix25qVRKDiULlw53jG2sJhwTXDMdkZEdlLVLSHb55HaB4VVCZy0QtYh0e
+	 gCjXrhDhMyPNA==
+Received: from [100.115.3.74] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id CA/23-02280-8504FE16;
+ Tue, 25 Jan 2022 00:12:08 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8MxSTfC4X2
+  iwbt33BZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bz+xbmgkbOih/T97A2MPZwdDFycQgJPGaU
+  eLtjMSuEc55J4t3N3+wQzglGiUe3PgNlODnYBNQkpt+6AWRzcIgI6Elc/ScKEmYWUJF48buHH
+  cQWFjCSmD+vA8xmEVCVeHJsJwuIzSvgKLHj020wW0JAQWLKw/fMEHFBiZMzn7BAzJGQOPjiBT
+  NEjaLE7MvNUPUVErNmtTFB2GoSV89tYp7AyD8LSfssJO0LGJlWMVolFWWmZ5TkJmbm6BoaGOg
+  aGprqGuoaGZrrJVbpJuqlluqWpxaX6BrqJZYX66UWF+sVV+Ym56To5aWWbGIEBmVKMePNHYyt
+  fT/1DjFKcjApifIaW71PFOJLyk+pzEgszogvKs1JLT7EKMPBoSTBe9wGKCdYlJqeWpGWmQOME
+  Ji0BAePkgjvSTugNG9xQWJucWY6ROoUo6KUOG+XIVBCACSRUZoH1waLykuMslLCvIwMDAxCPA
+  WpRbmZJajyrxjFORiVhHk5QMbzZOaVwE1/BbSYCWjx7/PvQBaXJCKkpBqYgia9ORq8SF6fVz3
+  5TrxnsKvydp6olZ43peYxapjY5Ju85tnl9PtuHqfmDpOFNvPfv9mWnnXqZ5pR8RdL600NkV5v
+  l5bdSZhuns4q4HEkmWmdf5NyStfZq055q2//nzD5hPCeEjZ93VOH953cYrKjasfsxX2dt/zu7
+  zh7rPhoir/FP/tw/sVXFu+IM+k9Mu3b4zutOc1f7u2MTA74uEqR8dDvA698P7dO+VQqn+f9cn
+  FtOuPd67ntl1p5TJo6X2rs9tJ5tfDS5tiPYopKN+W4X3Xxbqs+fE/jx3zn1gfP1gfmhx8705M
+  nI1GTr+jPnnV84ZcdE7c7XdyW9bzlwqmNd7WX5Cq2VwRcU1m2/hTTQyWW4oxEQy3mouJEAK2X
+  OtJFAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-27.tower-587.messagelabs.com!1643069527!43385!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 425 invoked from network); 25 Jan 2022 00:12:08 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-27.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 25 Jan 2022 00:12:08 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id AB2DA100352
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 25 Jan 2022 00:12:07 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 9EA8D1000FC
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 25 Jan 2022 00:12:07 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.26; Tue, 25 Jan 2022 00:11:45 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libwebp: 1.2.1 -> 1.2.2
+Date: Tue, 25 Jan 2022 08:11:33 +0800
+Message-ID: <1643069496-5684-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Jan 2022 22:32:36 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 00:12:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160903
+ https://lists.openembedded.org/g/openembedded-core/message/160905
 
-The following changes since commit 01f256bc72fb45c80b6a6c77506bc4c375965a3a:
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../webp/{libwebp_1.2.1.bb => libwebp_1.2.2.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/webp/{libwebp_1.2.1.bb => libwebp_1.2.2.bb} (95%)
 
-  glibc: Add fix for data races in pthread_create and TLS access (2022-01-12 04:37:31 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Bruce Ashfield (5):
-  linux-yocto/5.4: update to v5.4.169
-  linux-yocto/5.4: update to v5.4.170
-  linux-yocto/5.4: update to v5.4.171
-  linux-yocto/5.4: update to v5.4.172
-  kernel: introduce python3-dtschema-wrapper
-
-Kai Kang (1):
-  speex: fix CVE-2020-23903
-
-Marek Vasut (1):
-  Revert "weston: Use systemd notify,"
-
-Richard Purdie (1):
-  lttng-tools: Add missing DEPENDS on bison-native
-
-Steve Sakoman (3):
-  expat fix CVE-2022-22822 through CVE-2022-22827
-  expat: fix CVE-2021-45960
-  expat: fix CVE-2021-46143
-
- meta/conf/distro/include/maintainers.inc      |   1 +
- .../expat/expat/CVE-2021-45960.patch          |  65 +++++
- .../expat/expat/CVE-2021-46143.patch          |  43 +++
- .../expat/expat/CVE-2022-22822-27.patch       | 257 ++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.9.bb        |   3 +
- .../wayland/weston-init/weston-start          |  12 -
- .../wayland/weston-init/weston@.service       |   6 -
- .../weston/systemd-notify.weston-start        |   9 -
- .../wayland/weston/xwayland.weston-start      |   3 +-
- meta/recipes-graphics/wayland/weston_8.0.0.bb |   6 -
- .../python3-dtschema-wrapper/dt-doc-validate  |  20 ++
- .../dtc/python3-dtschema-wrapper/dt-mk-schema |  20 ++
- .../dtc/python3-dtschema-wrapper/dt-validate  |  20 ++
- .../dtc/python3-dtschema-wrapper_2021.10.bb   |  17 ++
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../lttng/lttng-tools_2.11.5.bb               |   2 +-
- .../speex/speex/CVE-2020-23903.patch          |  30 ++
- meta/recipes-multimedia/speex/speex_1.2.0.bb  |   4 +-
- 20 files changed, 500 insertions(+), 54 deletions(-)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2021-45960.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2021-46143.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-22822-27.patch
- delete mode 100644 meta/recipes-graphics/wayland/weston/systemd-notify.weston-start
- create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-doc-validate
- create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-mk-schema
- create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper/dt-validate
- create mode 100644 meta/recipes-kernel/dtc/python3-dtschema-wrapper_2021.10.bb
- create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
-
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.2.1.bb b/meta/recipes-multimedia/webp/libwebp_1.2.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/webp/libwebp_1.2.1.bb
+rename to meta/recipes-multimedia/webp/libwebp_1.2.2.bb
+index d634e02180..281cff1bf2 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.2.1.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.2.2.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
+ 
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "808b98d2f5b84e9b27fdef6c5372dac769c3bda4502febbfa5031bd3c4d7d018"
++SRC_URI[sha256sum] = "7656532f837af5f4cec3ff6bafe552c044dc39bf453587bd5b77450802f4aee6"
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ 
 -- 
 2.25.1
 
