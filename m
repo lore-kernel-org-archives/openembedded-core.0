@@ -2,62 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C3CC433EF
-	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 12:08:34 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.6115.1643112513208316153
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C366FC433EF
+	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 12:15:38 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.6253.1643112937733683363
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 04:08:33 -0800
+ Tue, 25 Jan 2022 04:15:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DhlKVhzH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VOucMDke;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id
- o30-20020a05600c511e00b0034f4c3186f4so1451417wms.3
+Received: by mail-wr1-f45.google.com with SMTP id s18so19501275wrv.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 04:08:32 -0800 (PST)
+ Tue, 25 Jan 2022 04:15:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=N6iFISxcgPQM1eDv1V7m4YMzlaA/WyXOrAH58IfqQd8=;
-        b=DhlKVhzHOjKBN/pUpk1nrwnyy4ToED2nmIwlRNLMg694cym14ciSTzBJdPPLOY+6S4
-         nBZasOppA/E49dv7B4ATCA+FZGeEikiwRu8ZBjiAe5Rujt//VKGh6lnCk8zLAyHA+cT/
-         UIFdd0M/PyW27JP2qF0siQ9nEO/8gVYN/1hHU=
+        bh=CIf6RhDgtcSdsU056Ofo+15LYzF/Wrvl+lAbL7NJMiE=;
+        b=VOucMDke2Ufmq+N2oOIt5acHIGFOH8gGlGvdEfcNXOqN3FxMcxdK3JzVdKkgRrkQu2
+         UTOidFFtXrSrPcnF00s5Yf0Tz3lmFuqU6NS9RP8UtGSzBs9Joce6Ufi4TcSJ+5gn8/kZ
+         nen5yEdPoDikGgkMZe98KWlzyM6dzIRWSgWyQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=N6iFISxcgPQM1eDv1V7m4YMzlaA/WyXOrAH58IfqQd8=;
-        b=mrX45blGbACon/lpB/cthAq+Ow3ofVPyDMXU63zWUD+ygBhji4YXh7UIZx/2t59mE7
-         CNIAy/RTTOtHnsAsuoWYoOz+DbMhYlZeojouSVVNfuN1FfywIGTQTdJDtN3DXbr+hKBl
-         itdGRypHvxZUPNCLDxa4OptP1528eVYewYl93O1v8/QZMKsoD5QbBUfZYwnWGlhsuJG5
-         UYuYUSyfBsnay9VJ3gQCTos0yOhVtJ+l+6kc5PPwUnyRjMfaVkyEa+SU+HU30JMzPPFM
-         bBnGATIDNLx9OqFLpM4wSzYniwOKywuYZjXr1HNhhuqQ5Tb9H3vHZ4nt1T6ky/QkPj8d
-         LIgQ==
-X-Gm-Message-State: AOAM532HIELRMR1H17eCbzfTyEDWJ5E0wSfGRpREXivJ3F2o04a7EEBQ
-	jNszOgm/B+3iCf+BhMvtKK2f4A==
+        bh=CIf6RhDgtcSdsU056Ofo+15LYzF/Wrvl+lAbL7NJMiE=;
+        b=Iv1eHM7UG6TVdJCaXnJFB8rksXwrDVoQSLY0NbTrL/cBxpF5geYw5R+4zgQgGva+eA
+         5t3F7cInS2t1AIMJepPScH2o6zQmbz9fBX0ByDliZ+MoBNEojm9TJotdqeT9K2gQrtjJ
+         VEy4PyiVIn3bInTLW6SoWA1t7Z3hjBsb0ymFrPf2gFJBjn4kkq/EtoH6W+4tiU6IGCP0
+         ARNDm74TJq3+Df/9hMiilfeP3vuaLvoOwHKScyaArifCq2UNb0HaLugz7wAsC3CCvXOz
+         6K3uoTleg8lyAfRomahD9kk+1Wl30A/ho5udBlDVr9k8I+Dnd2gZhb2bq/NcHSavHU4d
+         TXkg==
+X-Gm-Message-State: AOAM5335pVYB10zVf4OH+FQ7p/yPWSaUBfulnoR44ZY5EsVE8ZNV2SHb
+	KrPgAqOQnkAqqUxIu9DgxgFlcg==
 X-Google-Smtp-Source: 
- ABdhPJwyY1xOlYvByrDbwa5k39bi44cuhAqc/krIFzqFDTdxI6giJF5TO+M+HOujlqx/Z8QveNJD/w==
-X-Received: by 2002:a1c:cc07:: with SMTP id h7mr2759863wmb.50.1643112511284;
-        Tue, 25 Jan 2022 04:08:31 -0800 (PST)
+ ABdhPJw1/PsitGmLfcANr8PYaM6jggKg3guLEHSGQCZtWKGbx7VyHprGWrlwsm+ikEGjjiGNqdp52A==
+X-Received: by 2002:a5d:4988:: with SMTP id r8mr12656429wrq.59.1643112936062;
+        Tue, 25 Jan 2022 04:15:36 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:6b0a:3d41:67d:ed83?
  ([2001:8b0:aba:5f3c:6b0a:3d41:67d:ed83])
-        by smtp.gmail.com with ESMTPSA id a9sm183422wmm.32.2022.01.25.04.08.30
+        by smtp.gmail.com with ESMTPSA id
+ h1sm16452111wrq.82.2022.01.25.04.15.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 04:08:30 -0800 (PST)
+        Tue, 25 Jan 2022 04:15:35 -0800 (PST)
 Message-ID: 
- <8f5b7c60d42151f7673e22d87930bf1ca68eac7f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-dbusmock: Add native recipe
+ <b2c92c71b8bd17554d087a7fdc7f28f7827c7acc.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] python: prevent build failure when pycache
+ files missing
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jan 2022 12:08:26 +0000
-In-Reply-To: <b1c00ec1-86e2-b24c-4b80-25b2938ca2d0@t-online.de>
-References: <20220124181219.2764108-1-raj.khem@gmail.com>
-	 <CAAnfSTvR3oeghGh8aDJmGkM2eWvgGqeAyYtvZSd8uOJ0KiYGuQ@mail.gmail.com>
-	 <16CD6DAF232F9743.31937@lists.openembedded.org>
-	 <b1c00ec1-86e2-b24c-4b80-25b2938ca2d0@t-online.de>
+To: Athanasios Oikonomou <athoik@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jan 2022 12:15:34 +0000
+In-Reply-To: <20220122171546.30099-1-athoik@gmail.com>
+References: <20220122171546.30099-1-athoik@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
@@ -65,19 +64,38 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 12:08:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 12:15:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160917
+ https://lists.openembedded.org/g/openembedded-core/message/160918
 
-On Tue, 2022-01-25 at 07:25 +0100, Markus Volk wrote:
-> The python3-dbusmock dependency could be dropped if folks is build with
-> EXTRA_OEMESON += "-Dtests=false"
+On Sat, 2022-01-22 at 19:15 +0200, Athanasios Oikonomou wrote:
+> Building a patched version of python3 with byte-code files saved to their
+> legacy locations and names causes the following errors:
+> 
+> > rm: cannot remove '/.../build/tmp/work/x86_64-linux/python3-native/3.9.9-
+> > r0/recipe-sysroot-
+> > native/usr/lib/python3.9/test/__pycache__/test_range.cpython*': No such file
+> > or directory
+> > rm: cannot remove '/.../build/tmp/work/x86_64-linux/meson-native/0.57.1-
+> > r1/recipe-sysroot-native/usr/lib/python*/site-
+> > packages/mesonbuild/dependencies/__pycache__/mpi.cpython*': No such file or
+> > directory
+> 
+> Force remove pycache files, preventing build failure in case they are absent.
+> 
+> Python3 patched with legacy byte-code locations in order to create a
+> sourceless .pyc deployment for small flash boxes. Unappropriate for upstream.
 
-What you can often do is make it a PACKAGECONFIG and then change the
-PACKAGECONFIG for the native version of the recipe to something more minimal?
+Do people commonly patch python to build with legacy byte-code locations? If you
+do that aren't files generated at a different location and hence break
+reproduciblity? This seems to be a rather niche requirement?
+
+I'm a little worried we add the -f and then if files change location, we don't
+realise...
 
 Cheers,
 
 Richard
+
 
 
