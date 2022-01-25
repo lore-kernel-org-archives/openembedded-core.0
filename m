@@ -1,149 +1,209 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 162A2C433F5
-	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 14:57:50 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web11.7980.1643122668586284949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3158C433EF
+	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 15:10:23 +0000 (UTC)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
+ [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.web12.8345.1643123422926102664
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 06:57:49 -0800
+ Tue, 25 Jan 2022 07:10:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd73.dcpf.telekom.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout07.t-online.de (Postfix) with SMTP id C1355FE98
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 15:57:46 +0100 (CET)
-Received: from [192.168.178.83] ([84.163.43.159]) by fwd73.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nCNGU-0ipFJ30; Tue, 25 Jan 2022 15:57:46 +0100
-Message-ID: <d2450098-12aa-d0c4-2699-614dc72cc8da@t-online.de>
-Date: Tue, 25 Jan 2022 15:57:45 +0100
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qZm9hxQ7;
+ spf=pass (domain: gmail.com, ip: 209.85.222.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f42.google.com with SMTP id b37so20235265uad.12
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 25 Jan 2022 07:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DBq4BQAttruMPgGugjnNLAjUe0dGui6QVmar47JCqTE=;
+        b=qZm9hxQ7pIVElqle8iKeQ1hVV4oTxSozwhblYU3C160LtxcfC7lcz7/qxvzgHNkuHP
+         AKetBaPYhHlqd/ACGLT/Jgg8AtHjDGAL5fm3DSfZ3TNHiV2yJk0YIbpUsZ3HCnAiM13B
+         9rIWEEuSzJlIn1T2lserV3AbE2R811IePPVkvGVqMjKBJrC9wTU+jLKM/NluRoaiMRlI
+         ioGmxnmewdfUc0HXs1roWAaEfIndbIKYFGuOGxXwXRhoOAW3S+i9LObEmWNzzedowigf
+         B7buG6hklFdFgRDfv3Dh7wua7UvonlVXYMVf6I9ziY1J4kwiuaKMjK+/+mEijq+2Pglp
+         wg2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DBq4BQAttruMPgGugjnNLAjUe0dGui6QVmar47JCqTE=;
+        b=KaYAfgyRk/ZB00FDL25sSqouMU7t98mwTWQLooOBTWoF96TN4TJen2kopllEZG/1uu
+         pVU8aBV1G4CUbkgHwWQ0fBjTXOoBh0nKi1iekZSNkdrX8ZrTc59Vy0Rlz3FeXyVoFRtH
+         cqKdB4nR/EYdSOVqerpWOJRkksQ/nC6pczT9NCsvvMsuVTj5cpP9q0F083RspvczktvK
+         IO7rx52mNdMSdhAROOCl6jVk820+hvxHbSmANBFSpjhouKeqsH9/IX24BzO11pnviw3A
+         SdQ6b1RNREKqRV/6awWSgPOX07zzDzvZifwKRPPjGYBrOaCl7c71GTYeR1nVM3BPijC6
+         CMHQ==
+X-Gm-Message-State: AOAM531F2FK3MXdZ2E1hNt7OYYah4VoExbW/klEWcb+NgqPhRnXtPnb0
+	ScdcdD6xKxsv3NJGfEy573k7WgiE26FaasWEjpQ=
+X-Google-Smtp-Source: 
+ ABdhPJzdXLuT3c2uxoL2+W3BeDzfb+kSE+KmdN5WraV/eLulhou5VyvTsuRzs704+ZPFCKqtREo+bl3/2AtqREI/HNc=
+X-Received: by 2002:a67:d90a:: with SMTP id t10mr2844759vsj.42.1643123421887;
+ Tue, 25 Jan 2022 07:10:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core][PATCHv2] libical: build gobject and vala introspection
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <20220121035639.230863-1-f_l_k@t-online.de>
- <52c9f0d2a60594c1d450955ae63b2557e07c02ba.camel@linuxfoundation.org>
- <16CD89B5CB08D4EF.25271@lists.openembedded.org>
- <16CD8A5888719680.6761@lists.openembedded.org>
-From: Markus Volk <f_l_k@t-online.de>
-In-Reply-To: <16CD8A5888719680.6761@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TOI-EXPURGATEID: 150726::1643122666-0000C4DD-B7A069DD/0/0 CLEAN NORMAL
-X-TOI-MSGID: 17efb3e5-37ce-402a-b907-fd6f99922426
-Content-Transfer-Encoding: quoted-printable
+References: <20220124181156.3921311-1-ross.burton@arm.com>
+ <20220124181156.3921311-2-ross.burton@arm.com>
+In-Reply-To: <20220124181156.3921311-2-ross.burton@arm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 25 Jan 2022 16:10:10 +0100
+Message-ID: 
+ <CANNYZj9b+1BgqGEtqyjiY7JFmh0moHweEN9O1Qj8iv90NNd8pA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] core-image-sato-sdk: allocate more memory
+ when in qemu
+To: Ross Burton <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e241b905d6697b43"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 14:57:50 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 15:10:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160938
+ https://lists.openembedded.org/g/openembedded-core/message/160939
 
-but with this no gir files are created at all
+--000000000000e241b905d6697b43
+Content-Type: text/plain; charset="UTF-8"
 
-Am 25.01.22 um 15:39 schrieb Markus Volk:
-> it also compiles here like this:
+Seems to not work on arm(32):
+
+Central error: [    5.282955] vmap allocation for size 1052672 failed:
+use vmalloc=<size> to increase size
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/3528/steps/13/logs/stdio
+
+Alex
+
+
+On Mon, 24 Jan 2022 at 19:12, Ross Burton <ross@burtonini.com> wrote:
+
+> Compiling code is memory-intensive, especially kernel modules like the
+> SystemTap probes, so give the VM 1GB of RAM.
 >
-> EXTRA_OECMAKE:class-target +=3D=20
-> "-DGObjectIntrospection_COMPILER=3D${STAGING_BINDIR}/g-ir-compiler-wrap=
-per"
-> EXTRA_OECMAKE:class-target +=3D=20
-> "-DGObjectIntrospection_SCANNER=3D${STAGING_BINDIR}/g-ir-scanner-wrappe=
-r=20
-> -DICAL_BUILD_DOCS=3Dfalse"
+> Hopefully this solves the intermittent failures caused by OOMs during
+> the SystemTap test.
 >
-> no idea why i have to explicitly disable ICAL_BUILD_DOCS or it'll fail=20
-> with linker error. But nevertheless. This may also help
+> [ YOCTO #14673 ]
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-sato/images/core-image-sato-sdk.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb
+> b/meta/recipes-sato/images/core-image-sato-sdk.bb
+> index b52de0def02..7df8d00971c 100644
+> --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
+> +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+> @@ -10,3 +10,6 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk \
+>
+>  IMAGE_INSTALL += "kernel-devsrc"
+>
+> +# Compiling stuff, specifically SystemTap probes, can require lots of
+> memory
+> +# See https://bugzilla.yoctoproject.org/show_bug.cgi?id=14673
+> +QB_MEM = '-m 1024'
+> --
+> 2.25.1
 >
 >
-> Am 25.01.22 um 15:27 schrieb Markus Volk:
->> it doesn't break on my machine but according to the log it fails at=20
->> trying to create gir for native.=C2=A0 Does this line help solving the=
- issue?
->>
->> EXTRA_OECMAKE:class-native +=3D "-DGOBJECT_INTROSPECTION=3DOFF=20
->> -DICAL_BUILD_DOCS=3Dfalse"
->>
->> Am 25.01.22 um 14:31 schrieb Richard Purdie:
->>> On Fri, 2022-01-21 at 04:56 +0100, Markus Volk wrote:
->>>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
->>>> ---
->>>> =C2=A0 meta/recipes-support/libical/libical_3.0.12.bb | 7 ++++++-
->>>> =C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-support/libical/libical_3.0.12.bb=20
->>>> b/meta/recipes-support/libical/libical_3.0.12.bb
->>>> index b2b2211b9b..614a76ba5b 100644
->>>> --- a/meta/recipes-support/libical/libical_3.0.12.bb
->>>> +++ b/meta/recipes-support/libical/libical_3.0.12.bb
->>>> @@ -16,7 +16,7 @@ SRC_URI =3D=20
->>>> "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar=
-.g
->>>> =C2=A0 SRC_URI[sha256sum] =3D=20
->>>> "35095a4cc1a061a3de0f332c2dc728226cf127fa0baa818e9f8856cee6d35830"
->>>> =C2=A0 UPSTREAM_CHECK_URI =3D "https://github.com/libical/libical/re=
-leases"
->>>> =C2=A0 -inherit cmake pkgconfig
->>>> +inherit cmake pkgconfig gobject-introspection vala
->>>> =C2=A0 =C2=A0 DEPENDS +=3D "libical-native"
->>>> =C2=A0 @@ -32,6 +32,11 @@ EXTRA_OECMAKE +=3D=20
->>>> "-DPERL_EXECUTABLE=3D${HOSTTOOLS_DIR}/perl"
->>>> =C2=A0 EXTRA_OECMAKE +=3D "-DLIBICAL_BUILD_TESTING=3Dfalse"
->>>> =C2=A0 # doc build fails with linker error (??) for libical-glib so=20
->>>> disable it
->>>> =C2=A0 EXTRA_OECMAKE +=3D "-DICAL_BUILD_DOCS=3Dfalse"
->>>> +# gobject-introspection
->>>> +EXTRA_OECMAKE +=3D=20
->>>> "-DGObjectIntrospection_COMPILER=3D${STAGING_BINDIR}/g-ir-compiler-w=
-rapper"
->>>> +EXTRA_OECMAKE +=3D=20
->>>> "-DGObjectIntrospection_SCANNER=3D${STAGING_BINDIR}/g-ir-scanner-wra=
-pper"=20
->>>>
->>>> +EXTRA_OECMAKE +=3D "-DVAPIGEN=3D${STAGING_BINDIR_NATIVE}/vapigen"
->>>> +EXTRA_OECMAKE +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True',=
-=20
->>>> '-DGOBJECT_INTROSPECTION=3DON -DICAL_GLIB_VAPI=3DON',=20
->>>> '-DGOBJECT_INTROSPECTION=3DOFF', d)}"
->>>> =C2=A0 =C2=A0 # Tell the cross-libical where the tool it needs to bu=
-ild is
->>>> =C2=A0 EXTRA_OECMAKE:append:class-target =3D "=20
->>>> -DIMPORT_ICAL_GLIB_SRC_GENERATOR=3D${STAGING_LIBDIR_NATIVE}/cmake/Li=
-bIcal/IcalGlibSrcGenerator.cmake"
->>>
->>> Looks like this breaks libical-native:
->>>
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/461=
-8
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/464=
-5
->>>
->>> and many more in that build.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>>
->>
->>
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#160936): https://lists.openembedded.org/g/openembed=
-ded-core/message/160936
-> Mute This Topic: https://lists.openembedded.org/mt/88576745/3618223
+> View/Reply Online (#160890):
+> https://lists.openembedded.org/g/openembedded-core/message/160890
+> Mute This Topic: https://lists.openembedded.org/mt/88653349/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-f_l_k@t-online.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
+>
+
+--000000000000e241b905d6697b43
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Seems to not work on arm(32):</div><div><pre class=3D=
+"gmail-row gmail-log" style=3D"height:926.317px;overflow-y:auto;display:blo=
+ck"><span class=3D"gmail-ng-scope"><div style=3D"height:18px"><span style=
+=3D"font-family:arial,sans-serif"><span class=3D"gmail-no-wrap gmail-log_o =
+gmail-ng-binding"><span class=3D"gmail-">Central error: [    5.282955] vmap=
+ allocation for size 1052672 failed: use vmalloc=3D&lt;size&gt; to increase=
+ size</span></span></span></div><div style=3D"height:18px"><span class=3D"g=
+mail-no-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-"><br></spa=
+n></span></div><div style=3D"height:18px"><span style=3D"font-family:arial,=
+sans-serif"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"><spa=
+n class=3D"gmail-"><a href=3D"https://autobuilder.yoctoproject.org/typhoon/=
+#/builders/110/builds/3528/steps/13/logs/stdio">https://autobuilder.yoctopr=
+oject.org/typhoon/#/builders/110/builds/3528/steps/13/logs/stdio</a></span>=
+</span></span></div><div style=3D"height:18px"><span style=3D"font-family:a=
+rial,sans-serif"><span class=3D"gmail-no-wrap gmail-log_o gmail-ng-binding"=
+><span class=3D"gmail-"><br></span></span></span></div><div style=3D"height=
+:18px"><span style=3D"font-family:arial,sans-serif"><span class=3D"gmail-no=
+-wrap gmail-log_o gmail-ng-binding"><span class=3D"gmail-">Alex<br></span><=
+/span></span></div></span></pre></div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 24 Jan 2022 at 19:12, Ross Bu=
+rton &lt;<a href=3D"mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Compiling =
+code is memory-intensive, especially kernel modules like the<br>
+SystemTap probes, so give the VM 1GB of RAM.<br>
+<br>
+Hopefully this solves the intermittent failures caused by OOMs during<br>
+the SystemTap test.<br>
+<br>
+[ YOCTO #14673 ]<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a> | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk=
+.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a> b/meta=
+/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" rel=3D"noref=
+errer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
+index b52de0def02..7df8d00971c 100644<br>
+--- a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
++++ b/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
+@@ -10,3 +10,6 @@ IMAGE_FEATURES +=3D &quot;dev-pkgs tools-sdk \<br>
+<br>
+=C2=A0IMAGE_INSTALL +=3D &quot;kernel-devsrc&quot;<br>
+<br>
++# Compiling stuff, specifically SystemTap probes, can require lots of memo=
+ry<br>
++# See <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14673=
+" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/sh=
+ow_bug.cgi?id=3D14673</a><br>
++QB_MEM =3D &#39;-m 1024&#39;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160890): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/160890" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/160890</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88653349/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88653349/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000e241b905d6697b43--
 
