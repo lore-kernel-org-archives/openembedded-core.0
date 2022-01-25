@@ -1,93 +1,155 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4BC2C433EF
-	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 16:00:25 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.9177.1643126424457308648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3614BC433F5
+	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 16:24:47 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web10.9430.1643127886108940799
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 08:00:24 -0800
+ Tue, 25 Jan 2022 08:24:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=QvP4LTaY;
- spf=pass (domain: burtonini.com, ip: 209.85.128.48,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f48.google.com with SMTP id
- j5-20020a05600c1c0500b0034d2e956aadso2183780wms.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zvq0H3Bm;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id y17so24177988qtx.9
         for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 08:00:24 -0800 (PST)
+ Tue, 25 Jan 2022 08:24:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iELClxPNSmEYcsDdCMI3NQhCFK0JLhbNQZ9AvxlY20M=;
-        b=QvP4LTaYub2so323aI6ZaCDS79SBQg4vqQCZdSaZZkFQUh0Dh5rRRQsblDnMYkD4VK
-         Y/guBlYxk8D9DxF3PIvpeteNlpcUi9lt1OXDLIgxv6UscU5EUer4cSLu3+qAvIqQo8BL
-         GQxDAM78BioNcI2/2IX68a8OeGJIMB7ApARbA55qBKE/3ovgsIk+Xf9naM5zUpPeRYVo
-         g+T1H6JBxnhEvbW1bL1AAvyNw/kBIgasuzD5bqjv5vdhhrHzTWZGFTCm7YOArXhIzIZY
-         KSqwQNut9HH0gygBKXTwPLeO0PqE89U759DZyIOHBLo/QigW5Y8j7tX69wfwVz7Vmmih
-         Q69w==
+         :cc;
+        bh=mQMSq6afD7vgxErhCbvEnb/B3kLkIH92zinoR4AHmxU=;
+        b=Zvq0H3BmLDcSq/YWTs1N721vJI3YCHerwb3MoAlrftdoWCJBGt7n9H0h1o+CMNT5Tx
+         +3y2Dsu55CYlzixfg/KiSPfU+uHFNuQZcU2vMGvG7ihsmiF2jNaacDcy4CV0t6EwWGM4
+         WgB1uCK/IcNbF66WeawJ3qTrNMzKdzWpm9+ZUGBr5rDGu7FoVDBeA9BNzVqJVv/cPX9Y
+         b7eAN39H8GfAjQR7H+uIbqQgkUY3QWifXyW1GdXJHTM9DLc6k7KMuzU/n2fjgtzVguRH
+         hhiVPZ5ohKqf5UjYn7Pu+Wh/dmcICmBAxlg3/IyZ5HEyMlBYrmtpVP3o1S9fdENIMIqV
+         mGqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iELClxPNSmEYcsDdCMI3NQhCFK0JLhbNQZ9AvxlY20M=;
-        b=gSFC3LcEKf4FW69qC6u3/ZKLuAcEEd9C5YR3+a7MXhiC7AZqPXDoDr1xq8WKYN0I9A
-         mjvIk83s4t5tWByksFUVssCUif3kdfHkVsYhQgJrePVmLzpz0J/E8rWxRoEVVm6/1KE7
-         rH2kVBS5QPNzbTX4wMgh7+dXYw0Utm/WcO99YGYEs9auW1VBA84djIVwBrqPDUfByocZ
-         iD3xjWpbJHqH93EzQX5cyDXRRFj8m+Df3Gtf6oUj2EuIMYDUgkUUGJqC7wUr/7wFNRaB
-         5AdkEK0L+d/3Z89glVeKjcUaN1udpFzQvrtSB8p7n2/v9GoQ+1z9QrWRzdvUD9ivCJOQ
-         G9ww==
-X-Gm-Message-State: AOAM532c+FtRF21VsdsYmaxIZb5t15COUZsZIR61KkcNTgn8cDjerzrH
-	08HVJfAoslCatPbI2W8zTmTY3UPshZ/p2kTjNPLIXg==
+         :message-id:subject:to:cc;
+        bh=mQMSq6afD7vgxErhCbvEnb/B3kLkIH92zinoR4AHmxU=;
+        b=PqKQG1rbAH3o7Tu+kyRRZAuweOuN18VlrPzDty13dz+ifgTvBHC70A0Wob9S3ptS0F
+         K7D671vC6LISP7pPY6eQKmgJcOHDZg5Zl3k2zJf/WCziEyeobE0i1DmCiPe9Fa0vb4mL
+         L9ptmprqM+qkMqX6cFe89lt5MyjdWjXXs1H4XvULfEUrm57UgW4xhn8zz3Q1B4CLXYQN
+         WzbUvS2zhLzr+HgplYtzCR3viGzoZ5FF5IEPauArfYU5olVtJv5NB2qSOO0/kkTkO40F
+         r3p+hSITsUDPygF2yDgVfUngk51ZoNamlmQ7gi61yaA2Md/4Qxkz+SJ3WVHZvjksnAGm
+         5p1A==
+X-Gm-Message-State: AOAM530u33W5tufOiq5BntXOKwdU1kfKD48ok+tFcihaP4zIJ28O38zJ
+	3/UxMtBcD279B4x5SMu7J9iJVjtilhGd56dG9xk=
 X-Google-Smtp-Source: 
- ABdhPJyPgMxJsOT4glkNaRm0z5wn7L4JsrxiY6UXCCtSuZwO7MCBcZrBlHxZMDDhg06QaOKGN+E2kxjrCNF5Zoq1F/I=
-X-Received: by 2002:a7b:ce04:: with SMTP id m4mr3582941wmc.157.1643126422456;
- Tue, 25 Jan 2022 08:00:22 -0800 (PST)
+ ABdhPJx1R8YqTF3oGWtjIGFh2s5FP8xkyT7Pt+lvaV/0wv2C7F3mdj86diP3aHLF1MRhjNmNsISfwd+xFrje2JfOHFs=
+X-Received: by 2002:a05:622a:553:: with SMTP id
+ m19mr232258qtx.229.1643127885089;
+ Tue, 25 Jan 2022 08:24:45 -0800 (PST)
 MIME-Version: 1.0
-References: 
- <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
- <CAB=6tBSszdZEjyKPvMd88HFKZiszcVuGEt4BH6w8YsS0Ew=gNA@mail.gmail.com>
+References: <20220124181219.2764108-1-raj.khem@gmail.com>
+ <CAAnfSTvR3oeghGh8aDJmGkM2eWvgGqeAyYtvZSd8uOJ0KiYGuQ@mail.gmail.com>
+ <16CD6DAF232F9743.31937@lists.openembedded.org>
+ <b1c00ec1-86e2-b24c-4b80-25b2938ca2d0@t-online.de>
+ <8f5b7c60d42151f7673e22d87930bf1ca68eac7f.camel@linuxfoundation.org>
 In-Reply-To: 
- <CAB=6tBSszdZEjyKPvMd88HFKZiszcVuGEt4BH6w8YsS0Ew=gNA@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Tue, 25 Jan 2022 16:00:11 +0000
+ <8f5b7c60d42151f7673e22d87930bf1ca68eac7f.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Jan 2022 08:24:34 -0800
 Message-ID: 
- <CAAnfSTthW4_OK-wSPnqP2eXV1hg8eqB86MWwRs8dDitCu09qmw@mail.gmail.com>
-Subject: Re: [oe] [OE-core] Inclusive Language Proposal for YP/OE
-To: Chuck Wolber <chuckwolber@gmail.com>
-Cc: Jon Mason <jdmason@kudzu.us>, yocto <yocto@lists.yoctoproject.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAMKF1so3wMpeXAs9uTwtcY1UGubFBC9E59H_qiz04iBPQ5hUAw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-dbusmock: Add native recipe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e950dc05d66a85ae"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 16:00:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 16:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160944
+ https://lists.openembedded.org/g/openembedded-core/message/160945
 
-On Tue, 25 Jan 2022 at 15:50, Chuck Wolber <chuckwolber@gmail.com> wrote:
->> Branch Names
->> The =E2=80=9Cmaster=E2=80=9D branches on the relevant OpenEmbedded and Y=
-octo Project
->> git trees will be changed to an alternative name at some point in the
->> future.  The current preferred name is =E2=80=9Cdevel=E2=80=9D.
+--000000000000e950dc05d66a85ae
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, Jan 25, 2022 at 4:08 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Tue, 2022-01-25 at 07:25 +0100, Markus Volk wrote:
+> > The python3-dbusmock dependency could be dropped if folks is build with
+> > EXTRA_OEMESON += "-Dtests=false"
+>
+> What you can often do is make it a PACKAGECONFIG and then change the
+> PACKAGECONFIG for the native version of the recipe to something more
+> minimal?
+
+
+Still having a native variant will be required to enable them so this patch
+should definitely help in that case
+
 >
 >
-> Why devel instead of main [1]?
+> Cheers,
 >
-> [1] https://lore.kernel.org/git/pull.656.v4.git.1593009996.gitgitgadget@g=
-mail.com/
+> Richard
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#160917):
+> https://lists.openembedded.org/g/openembedded-core/message/160917
+> Mute This Topic: https://lists.openembedded.org/mt/88653359/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-Personally, the only advantage of 'main' is muscle memory of m[tab].
+--000000000000e950dc05d66a85ae
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Semantically it's not the 'main' branch, it's the active development
-branch.  Thus, devel.
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jan 25, 2022 at 4:08 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2022-=
+01-25 at 07:25 +0100, Markus Volk wrote:<br>
+&gt; The python3-dbusmock dependency could be dropped if folks is build wit=
+h<br>
+&gt; EXTRA_OEMESON +=3D &quot;-Dtests=3Dfalse&quot;<br>
+<br>
+What you can often do is make it a PACKAGECONFIG and then change the<br>
+PACKAGECONFIG for the native version of the recipe to something more minima=
+l?</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Still having a=
+ native variant will be required to enable them so this patch should defini=
+tely help in that case=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"a=
+uto"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#160917): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/160917" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/160917</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88653359/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88653359/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Ross
+--000000000000e950dc05d66a85ae--
 
