@@ -1,132 +1,149 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 189CFC2BA4C
-	for <webhook@archiver.kernel.org>; Wed, 26 Jan 2022 18:43:34 +0000 (UTC)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by mx.groups.io with SMTP id smtpd.web12.16830.1643222613624778140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41243C433EF
+	for <webhook@archiver.kernel.org>; Wed, 26 Jan 2022 23:48:20 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web11.21675.1643240898843298742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jan 2022 10:43:33 -0800
+ Wed, 26 Jan 2022 15:48:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KjRJ4MUE;
- spf=pass (domain: gmail.com, ip: 209.85.222.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f54.google.com with SMTP id n15so425292uaq.5
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jan 2022 10:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rWJDZThP6df4R5hDuLQI5NuwzWGaAZTTI0hJ9Ri6XfU=;
-        b=KjRJ4MUEeepuGla01SlyAxHV0YWOMnJrchWx1w1OFd+41dZ8wLtEQe7rRqMZYNgQSa
-         FBxqZlxg8qSF4P2sAvkXr0Ig3v3Vh4F1D0nSy5Agsi/X6P4DTn581ZcMeevoCdJ7TnBj
-         CF+AhyUveQnJDN8hhcO1tQz6ZxNDGd4Fr7PhQabWVcTx58Z5ajAeQi48cJZSjQH+8MGj
-         YUHgICKCAZ+ZCsG9MbrR+cJtQJIMAbALMN/eFeB3gLN764gs4wOd7SA+g0kECpjVy87J
-         7IoljDHUqiWqA2J1rsj1SatKvFR93DQ3ki0xSgSj5gkXzRRcQIpjpev66g0Tb+qfLgwE
-         3miw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rWJDZThP6df4R5hDuLQI5NuwzWGaAZTTI0hJ9Ri6XfU=;
-        b=5zZuRCv/nDVgz18yZLMh/Z6U2wnHTTNv1g1ZCPXzrPn3qiifR3+kF04CDcX13swcOf
-         oYiK6hSYrgQRlEI53lYfJ1ggzQk0J3zS2yQ1DNSOrhhF0a157R+qARz3HUr+j1wkIJwx
-         ctHzj+kkrckWKqNqubYUy1DQMTZQyYgUJZsfjxVYG53SfbkPU7N2rWc5w1cH0WCAXxN5
-         E54lzJjkn0Pvnag74/CPg3uTeTvhFGfBtRQHWsq6ybzYpeT40wm0pR57zq8PW/9t4RbE
-         T0vVVzwKGG8BdpZKMWDgoGdGIFRTq0I1LIQqEjZzQcztFmf4afp8rmy1obO3axE/wv8U
-         jijA==
-X-Gm-Message-State: AOAM531vJXF8gwrJfmjYq4YvcURX8o2w0bpCokT67RAhWX4Lvm+uPSfM
-	x6VHJUlQe/ZgJmoECk6fyRYdohltYuXDN7tY0jw=
-X-Google-Smtp-Source: 
- ABdhPJwJxHy0sfYKxQXDFtr0IRDI1YAPEOfqLT7Avjr64SxMdZdN32Hfb+V66lb1CK/Ntt8Hpktp3W56G6mkvwsdO1k=
-X-Received: by 2002:a9f:308b:: with SMTP id j11mr263018uab.100.1643222612796;
- Wed, 26 Jan 2022 10:43:32 -0800 (PST)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=lJEjrYn0;
+ spf=pass (domain: intel.com, ip: 192.55.52.136,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643240899; x=1674776899;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DeEH1jpf1CHZ4rpKTAoXFkO7viiGYyeS3YsPv4bUENU=;
+  b=lJEjrYn00UUbfxHt7xCk9YGSk/2QlcsxgRlrae1sAAhYYoQ9e1Lr8TwW
+   IjC81MKuZ5h8qwolsVwm06bH1O/XTC4UY4mVpoE6G+2dtsx3ZoYGFpRD/
+   6oNGGNnqBMKU1WLtxNH0NnNilNTFo7oaTXKAdWBXXJeCtaNFu59PmzVUp
+   Gmi/bPn60I5wBLsRfRhaj+jftPxzV2LFx09wxCyXqBjyizm910hyLCP4d
+   1W2lF/p+/NE40tYgF5tbIceVL305Ufo13FmnDJl5KzA08sCpnRGSagqIe
+   OgJBp34v4Q37qXicbZYTomNIx3u/vqZ/J/8dP1lm/qOubnYK1syayr84q
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="226667863"
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600";
+   d="scan'208";a="226667863"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 15:48:05 -0800
+X-IronPort-AV: E=Sophos;i="5.88,319,1635231600";
+   d="scan'208";a="495528005"
+Received: from fadliham-mobl1.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.213.136.122])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2022 15:48:04 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 00/13] Pull request (cover letter only)
+Date: Thu, 27 Jan 2022 07:48:00 +0800
+Message-Id: <cover.1643240790.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220126102814.4173943-1-ch@denx.de>
- <CANPvuR=bCzgv+R3kHQgDOh4CSst7CP0y+uy+9L_my4oVQrdm1A@mail.gmail.com>
- <CANNYZj93yXZHz8Yyobey6srn27h1sLSV+zbXkdsHiZqreE5E+w@mail.gmail.com>
- <d9982093-1923-e9ec-1b7c-5edecdafe1d3@denx.de>
- <16CDD21A9A152F83.12885@lists.openembedded.org>
-In-Reply-To: <16CDD21A9A152F83.12885@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 26 Jan 2022 19:43:21 +0100
-Message-ID: 
- <CANNYZj9MqeNuSYPDbaK3m=2=WKScq+yCho9zEfzb+48qrBbo2Q@mail.gmail.com>
-Subject: Re: [OE-core][RFC PATCH 00/12] Update to gstreamer 1.20 for kirkstone
-To: Claudius Heine <ch@denx.de>, Jose Quaresma <quaresma.jose@gmail.com>,
- Marek Vasut <marex@denx.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000001f6a4f05d680946d"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jan 2022 18:43:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jan 2022 23:48:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160994
+ https://lists.openembedded.org/g/openembedded-core/message/160995
 
---0000000000001f6a4f05d680946d
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit 5a904f0fd02613664aa8c03d6d4935a68c01bf35:
 
-On Wed, 26 Jan 2022 at 13:34, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+  go: upgrade 1.16.10 -> 1.16.13 (2022-01-14 16:05:51 +0800)
 
-> There you go:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3161
->
-> Your choice is to watch the ongoing builds with trepidation, or come back
-> in 3 hours-ish (most of the builds should be complete by then) and see how
-> many fails you got :)
->
-> Test configurations are defined here:
-> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
->
+are available in the Git repository at:
 
-There is a ptest fail on x86:
-https://autobuilder.yocto.io/pub/non-release/20220126-15/testresults/qemux86-64-ptest/gstreamer1.0.log
+  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
 
-The same ptest has no issues on aarch64:
-https://autobuilder.yocto.io/pub/non-release/20220126-15/testresults/qemuarm64-ptest/gstreamer1.0.log
+Bruce Ashfield (2):
+  linux-yocto/5.10: amdgpu: updates for CVE-2021-42327
+  linux-yocto/5.10: update to v5.10.91
 
-Other than that, looks pretty good. armhost fail is unrelated.
+Changqing Li (1):
+  pigz: fix one failure of command "unpigz -l"
 
-Alex
+Kai Kang (1):
+  speex: fix CVE-2020-23903
 
---0000000000001f6a4f05d680946d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Marek Vasut (1):
+  bootchart2: Add missing python3-math dependency
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 26 Jan 2022 at 13:34, Alexander Kanavin via <a href=3D"http:=
-//lists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a =
-href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedd=
-ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div dir=3D"ltr">There you go:<div><a href=3D"https://autobuilder.yoc=
-toproject.org/typhoon/#/builders/83/builds/3161" target=3D"_blank">https://=
-autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3161</a></div><di=
-v><br></div><div>Your choice is to watch the ongoing builds with trepidatio=
-n, or come back in 3 hours-ish (most of the builds should be complete by th=
-en) and see how many fails you got :)</div><div><br></div><div>Test configu=
-rations are defined here:</div><div><a href=3D"https://git.yoctoproject.org=
-/yocto-autobuilder-helper/tree/config.json" target=3D"_blank">https://git.y=
-octoproject.org/yocto-autobuilder-helper/tree/config.json</a></div></div></=
-blockquote><div><br></div>There is a ptest fail on x86:</div><div class=3D"=
-gmail_quote"><a href=3D"https://autobuilder.yocto.io/pub/non-release/202201=
-26-15/testresults/qemux86-64-ptest/gstreamer1.0.log">https://autobuilder.yo=
-cto.io/pub/non-release/20220126-15/testresults/qemux86-64-ptest/gstreamer1.=
-0.log</a></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quo=
-te">The same ptest has no issues on aarch64:</div><div class=3D"gmail_quote=
-"><a href=3D"https://autobuilder.yocto.io/pub/non-release/20220126-15/testr=
-esults/qemuarm64-ptest/gstreamer1.0.log">https://autobuilder.yocto.io/pub/n=
-on-release/20220126-15/testresults/qemuarm64-ptest/gstreamer1.0.log</a></di=
-v><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Other tha=
-n that, looks pretty good. armhost fail is unrelated.<br></div><div class=
-=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></div><div cl=
-ass=3D"gmail_quote"><br></div></div>
+Mingli Yu (1):
+  socat: update SRC_URI
 
---0000000000001f6a4f05d680946d--
+Richard Purdie (1):
+  expat: Upgrade 2.4.2 -> 2.4.3
+
+Ross Burton (3):
+  vim: upgrade to 8.2 patch 3752
+  vim: update to include latest CVE fixes
+  lighttpd: backport a fix for CVE-2022-22707
+
+Sundeep KOKKONDA (2):
+  glibc : Fix CVE-2022-23218
+  glibc : Fix CVE-2022-23219
+
+wangmy (1):
+  expat: upgrade 2.4.1 -> 2.4.2
+
+ .../socat/socat_1.7.4.1.bb                    |   2 +-
+ .../expat/{expat_2.4.1.bb => expat_2.4.3.bb}  |   2 +-
+ .../glibc/glibc/0001-CVE-2022-23218.patch     | 178 +++++++++++++++
+ .../glibc/glibc/0001-CVE-2022-23219.patch     |  55 +++++
+ .../glibc/glibc/0002-CVE-2022-23218.patch     | 126 +++++++++++
+ .../glibc/glibc/0002-CVE-2022-23219.patch     |  89 ++++++++
+ meta/recipes-core/glibc/glibc_2.34.bb         |   4 +
+ .../bootchart2/bootchart2_0.14.9.bb           |   2 +-
+ ...ix-out-of-bounds-OOB-write-fixes-313.patch |  97 ++++++++
+ .../lighttpd/lighttpd_1.4.59.bb               |   1 +
+ ...0001-Fix-bug-when-combining-l-with-d.patch |  50 +++++
+ meta/recipes-extended/pigz/pigz_2.6.bb        |   3 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ .../speex/speex/CVE-2020-23903.patch          |  30 +++
+ meta/recipes-multimedia/speex/speex_1.2.0.bb  |   4 +-
+ ...1-reading-character-past-end-of-line.patch |  62 ------
+ ...src-Makefile-improve-reproducibility.patch |  13 +-
+ ...28-using-freed-memory-when-replacing.patch |  83 -------
+ ...eading-uninitialized-memory-when-giv.patch |  63 ------
+ ...rash-when-using-CTRL-W-f-without-fin.patch |  92 --------
+ ...llegal-memory-access-if-buffer-name-.patch |  86 --------
+ ...ml_get-error-after-search-with-range.patch |  72 ------
+ ...nvalid-memory-access-when-scrolling-.patch |  97 --------
+ .../vim/files/CVE-2021-3778.patch             |  61 ------
+ ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ------------------
+ .../vim/files/disable_acl_header_check.patch  |  15 +-
+ .../vim/files/no-path-adjust.patch            |   8 +-
+ meta/recipes-support/vim/files/racefix.patch  |   6 +-
+ ...m-add-knob-whether-elf.h-are-checked.patch |  13 +-
+ meta/recipes-support/vim/vim.inc              |  18 +-
+ 32 files changed, 685 insertions(+), 892 deletions(-)
+ rename meta/recipes-core/expat/{expat_2.4.1.bb => expat_2.4.3.bb} (91%)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2022-23218.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2022-23219.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2022-23218.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2022-23219.patch
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
+ create mode 100644 meta/recipes-extended/pigz/files/0001-Fix-bug-when-combining-l-with-d.patch
+ create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
+ delete mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-character-past-end-of-line.patch
+ delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memory-when-replacing.patch
+ delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
+ delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
+ delete mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
+ delete mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-after-search-with-range.patch
+ delete mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
+ delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3778.patch
+ delete mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
+
+-- 
+2.34.1
+
 
