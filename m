@@ -1,352 +1,1311 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44733C5DF62
-	for <webhook@archiver.kernel.org>; Tue, 25 Jan 2022 23:07:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.5104.1643152042390132983
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE93CC5AC75
+	for <webhook@archiver.kernel.org>; Wed, 26 Jan 2022 01:13:21 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.6596.1643159600702206889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Jan 2022 15:07:22 -0800
+ Tue, 25 Jan 2022 17:13:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=hC+eNeBS;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=802412c067=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 20PMtElY001506;
-	Tue, 25 Jan 2022 23:07:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=ULN+3AO1uQbta+BrOtVm51ksgqxSEYG5eaHHtPUVXLY=;
- b=hC+eNeBSyCgcrpXLMrbISwRTMHKzlDS2XBlwj7tdnXJyniHN4JOBtNcHtLZFZphtgZNy
- ok2J75Te7lV4ZWX2Fg+yQyiSZF3YJqnGHu2RK/6tjsLNlpE65Z1dB/UNrDM3pbzamenM
- tiFKXGoSA18bLEbxZXO88zXwbBLUCvIkoJg7k4pbXcQVkmZjyLkbnkiTLBNXZfMHc0ka
- D5l6MKA1G+l8UWiKhqsjOFcTx8OgGHQYk8lOkbNmjIy3qzhPYMeEVOMzAKFwrR1pHosK
- H41qidgCq+zU1KwQFhJS4klLmAvHipza2Eb6fAADFHGFmba1Qqser9yYHmO/Nk77O0q8 zw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dsqcvhg0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jan 2022 23:07:21 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 20PN7KbI029071;
-	Tue, 25 Jan 2022 23:07:20 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3dsqcvhg0q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jan 2022 23:07:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fIl79kXqIXTbQEg2U94zboWCzkN6qIoYFaU4N8gbETCQouy8t/5MySiGSrZ/qI0vPDsN7uA6cRKn11UeS+khIo7CXbyuiEtwrAF5aX2y5/2KaTQ9X/8Ra23gqclw4Os3f/MnlLb0cbC2b1zpq+9SDNx5U0g9TiwLPCaIPID6gcMNhEQeoKXuvJ8ADGxcLYNx1WmcRDiG2bQMDIMvvwJaTr7WDN++/synjZgODzDlNUNK8lb2P6XL0h3dyWJ0qOscFObuD+YICFpskh0Z4UD217Q+yE5ysFUe4ib4csHYuSC7kvS6OU5ZYn9V2ZjyAtSfCIfUoO5OM7LnsdNAQrOesw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ULN+3AO1uQbta+BrOtVm51ksgqxSEYG5eaHHtPUVXLY=;
- b=XtxOQ4GRAzesdMBgJjMr1UEFxom3U+cWkQnI90dXMbuxJA609IBq3VUhDurZkOs7DS8I7tj0A2Gr4QnsdHSKrRGGkdmbcCi7yYOesMLqsqTlt5Pn9hw34DFvGXzssPw14KMeH+1HEtl9/3b7NWeMXwsqEoSH2h829bYRee0E3B7zP5OeGy7k2lqkqxvE8Rae7zlQ5NN/fYKuZL5ikhtE0BqWFxM8IUTdPO+MU8vqQH41oYfzLON+gcDMXMjbclOt5a2hD+n5r2UgYQm0xsOXfSiMhBYdCcfqT9nSoqpSShTt2bauRLlzHf3pd36gVDNYZ8sE39FDCOKyolcy/NBLoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by DM5PR11MB1387.namprd11.prod.outlook.com (2603:10b6:3:7::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4909.8; Tue, 25 Jan 2022 23:07:18 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::f4ad:a867:7f2:8958]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::f4ad:a867:7f2:8958%6]) with mapi id 15.20.4930.015; Tue, 25 Jan 2022
- 23:07:18 +0000
-Message-ID: <028eb842-5749-2f0c-a028-8717dc948821@windriver.com>
-Date: Tue, 25 Jan 2022 18:07:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] Inclusive Language Proposal for YP/OE
-Content-Language: en-CA
-To: Jon Mason <jdmason@kudzu.us>, yocto@lists.yoctoproject.org,
-        Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-        OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-References: 
- <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: 
- <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: BY5PR20CA0012.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::25) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GWwAzsRP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id u130so17033105pfc.2
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 25 Jan 2022 17:13:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lHQI4JRdYRSVJIFTww4AmsLFatkku8kHg/6NUxOaEe4=;
+        b=GWwAzsRPXanSYwJfP/55okKyxRO/zm6Xes5Ld6U0zIRrQv0BH7Vj5k4elsEisASGN2
+         x8t8i4iTIX5PZYZASA3R+p2gT35xHCcdaJxFpYAfF7sFxi6GnjtExJXMccXR9FJU9rX+
+         gCMOrAwgyiGfdAQoaL0yHCT1qhFbxVPz6qYpopZOIGvYkY1uLyGchQgLh38kA10eqtlJ
+         S5wmDojAsV3MvdYCVpdW8NJB8SkbiHnaILGOquWkwjAvrhAw49PrV9OaDEo5ywATB4hG
+         xwTnwi2DWAavtnG9M3uqGI9+PLx4ySMt7cxW7dXeWXGqxzuy1EIlhLxHs+x8Mo8lj25H
+         AZPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lHQI4JRdYRSVJIFTww4AmsLFatkku8kHg/6NUxOaEe4=;
+        b=dDCmdCiFi/XCLdPe1D+WIA4QBvvE3ddzH1HbIZNwOP8BZ783ZgWF2FUWjyxfpMWezE
+         T0nae7PyM5+Nxl8xyL+i7xRaqJVRO018efVkQJ5t+Roaz1TB7j5mEwiSOAUT4/yHo63f
+         xYeiE1/PadPHhdvk433eoB8Xsgcd+YhuMCF8CVRkyRzK4qUUk1TaHdTvaHwotdjHMqkV
+         JO9SHxbkIUKux5VqxKKCeGXxRC+OMFPozpOP9tIEPF9AlxBsgjhzyNP84NOUTyZ6etcA
+         5Kq8Z18Nf2M11XgjvjJsJa+E7cKacRm7ch3NuTTpGR5KXZW4GUV8sQQHimvkVSmydS7e
+         QilQ==
+X-Gm-Message-State: AOAM532is3I0bjPUdod2wcxGpl0cd09o6X3ZQ1e6uqQHIppHd0GG9nP2
+	6d4wLM3XYlrBsl7vpg5Po9T16CAH9fjNdA==
+X-Google-Smtp-Source: 
+ ABdhPJxo3ekIO8CkYPEug/Ht3Rp5GjAsvKFgEV1JFhiSm85HV8Ff//Mls7wbww0MPu4IgI3ymv8vgA==
+X-Received: by 2002:a63:5408:: with SMTP id i8mr16272680pgb.470.1643159598038;
+        Tue, 25 Jan 2022 17:13:18 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b5e3])
+        by smtp.gmail.com with ESMTPSA id f2sm112554pfj.6.2022.01.25.17.13.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jan 2022 17:13:17 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] libstd-rs: Apply patches to right version of libc
+Date: Tue, 25 Jan 2022 17:13:14 -0800
+Message-Id: <20220126011314.1477380-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8eaefb46-c174-4d24-f89c-08d9e0576f03
-X-MS-TrafficTypeDiagnostic: DM5PR11MB1387:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR11MB138767464FBAD3F770655B3AF85F9@DM5PR11MB1387.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	veGliB8Du2atSJQvnPC5t+ePoMl3KvS+D/9o0rAQOpZP6dih2UZmLoMfZV2WoS4YaXD3RB1xthAV5qaQ3sM2orFr3NyqSQTe5Syt5RMJY42eAKT5v8y+EIL5B2F//S+dWl/Bxjb9G6b4OKKEH5n0tMkHJQr4wFLO1uz4SO+6qYkicEuVGSvUkaAPhqG8S7oxn/5B6XnfoucG75pTlVHjJ4QekXqiCuufZkzEQXFKO14oi7+TNhhkMZGEwWLUzwsc478NH4YyCDtiWByKSb0o5LEiw/qsD6nslHgj7wpVjgWUQgtDAtKepz35EVCls/qoO/QgYagcO7s88cigu2A/dgg+Vpopm8O0NdjigE3emsxqlM663Fd7kic62HagAVB2xMW4ftrifCG+rcR/IGf3qPQ6osBJC7LkwdJiMaBugJWpVNnaLTkiDdxFs3WJUEa513QPumkbFJ8RutN8JaDaKv5AwvX3qnHztzdHOaQPHXLLRlQ8uEG9f3HpU4ZnI22URifzW7LxTwy/WojiTxu0CwE5VUgUIC4Cm3mByQVomnNCFeEGDGPDxUh7xgZIVPFJlC7dnQcFqIEJmfv+bsLVGGde5SYSPbdCRsb+Ux//zQgohplyuBt0dpD6VCWUSq3kOOynAY1BFKmCUkc7ZJTG2y+wmTvNZdJzi8lrauo4DFqQjZMG++O1Lqyp57Es4oaIhFIUolbwEXaCEOx+cRIQH5CCrbcYpQj1LkMJBjJHWdCY4KBcp0NA6K5d8O/MbYsjdXP5TUOEhrPIsSBGwmRL9/FpeOyi+jqGVNgIGesZqbIDRreKalk0QyhwXvT2iZUgtD+RUjJ+XyVZxXqygt6X6Cb+u0kpV2h5hci6p5jIZkYF3H6dEak4yhI1+K1Wgb2xPszG7Z53xGY3Z47+IlbuOs0cd+Mtk5CKK5AJs0Po6gU=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(966005)(66556008)(66946007)(66476007)(186003)(38350700002)(52116002)(6512007)(36756003)(38100700002)(8676002)(6666004)(2906002)(26005)(6486002)(8936002)(5660300002)(86362001)(508600001)(31686004)(6506007)(110136005)(316002)(31696002)(53546011)(2616005)(21314003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?TTNOUmcxcWYyUURHZGlCaHBkejBJYnJDT0ppSzJ6aFpZd1Rzd3ljM1NTOU92?=
- =?utf-8?B?elFhRjRENXZmVzZEUHFIK1JJNGV3R2hmRWtMbERiK1Z3MVFBVFpteld3Vmcy?=
- =?utf-8?B?Y01kZGtZVXhvdit0b1NXWm4xSzdtTll5VDkrZTcwcUNuTTZjTGZZTDlJUENJ?=
- =?utf-8?B?U1JiSlhpSUdad1pTcG56QjBLTWkvZ3p4L2RaQkZ5UU45Wk1xczNidndnbFBm?=
- =?utf-8?B?N2d1aytrb1FqTHdnMXkwR0gyMHc5MzVKZ2NKUmNvZ2dydXYzMGhnTTd1SXhx?=
- =?utf-8?B?cU0vaFJVSG9JUXNGcWhSd3lwejFyMkhEWlBsMHVoODBJSjJMc0tpVnVlNWpF?=
- =?utf-8?B?SjFWNVdJeGxKbEI2N0g2c0RCVDhBYmRod1FxamdGM3pMdytxYXprMTdTUXli?=
- =?utf-8?B?T0Q4VCtXTVA1TnVacjh6NnVrWWZKelVJanBqOU9EdmVUdW0zVG12SVRDRG0y?=
- =?utf-8?B?Q2VEQ2JPZlUwblUzbStMS3lBdE1rNUhNandVY3BWaXY2cFlYVVpzM0xKN1RZ?=
- =?utf-8?B?NklVMjBTSEVxemtiSStqWmNMVTR5Q1dXSVNrb2s2Q3hpaHVVZUNiYVFGYzNz?=
- =?utf-8?B?SjVUa3VsbnlGY3hUczJUSzhFNVVUbU9VN3hhekxDUk5NbnJnTHpjVFBkc05P?=
- =?utf-8?B?NDVSdWpQUkFYRDNQNmVYdUM5amx0TWNwYkpibzJXS1h5bi9PeWFnckszTnhO?=
- =?utf-8?B?QjVKTktVRTgxUTU1bGVHV0NnNkIxTC9zNmxqQWtSWis2NklFS0ZJcFZpT3dT?=
- =?utf-8?B?UXhYTCtCc2xMWUg0STRucjNSdzZYajliSkpTUUZzR01WWE5ETFVKeWhnZWhi?=
- =?utf-8?B?NzVCODVhZ2gzYmUrY1I1Z0ZQZzR1T0Y5UnpPUGdvRlYvQXBHVFdKZ0lKUnll?=
- =?utf-8?B?M1A5K1JTUjlITXBURmZPaGdqaVVHU2o0NmgrWjRCbEdpSU5xVzlnV25VRCsy?=
- =?utf-8?B?bjdWcjlFREphenpMRXhFdGhybm9vUGtBY1NXUmpQUGNRcHFqTWpZUG90cUtS?=
- =?utf-8?B?MWlIbEVCeDJjdGE1MnV3eDliMlhQUWthUDBieUN2ZjltMzB1VUMwK3dSYXlx?=
- =?utf-8?B?N0FOTzdOa3kzVlg3NHY1MHhCMnNNQytva2orV0hPZFlYUHBKYzc1OW80dkZi?=
- =?utf-8?B?Q3hYKzJ3Yy9vc2tnWFdBMFdvTHFQOU10anJLSG5TUW9SRlFUZFRHakZBZTMy?=
- =?utf-8?B?K2FCbENPT1JUUExwZDBqZDFmQWtGdUQrWHhycDFCbXUwY0ZyVmJpbGF4ZzA1?=
- =?utf-8?B?U1VPbk9WbnFTUkpWUVhiODY0cWs0QTVlcitTWXJwckJ5aGhxd05rUldtc3pM?=
- =?utf-8?B?amFnWFpkcDBFcWRLYU95aXhVZitPdWN5Tnl4VXpJU0RXcXpUVDArTm1YMjYx?=
- =?utf-8?B?OE54UjVoQVArcGM0N0JVZmVROTZ5aGthVkt0VjNMa1czNHlrNTVNVmZQbm1F?=
- =?utf-8?B?RmpDeHkydENlWURBbzhWbnU0SHNpL0lMOHNGbjlpbUc1ajlzOWZIQW9YK0FF?=
- =?utf-8?B?T0hpemdualA4eVRnaEZlRUF2OHJockl6QktseVd2eVdhRzJZZ2swamdnY1pZ?=
- =?utf-8?B?eGY0RGt6YU1UYndFbFRWdVNWT3pQSTBhUjl2SzkzNmxtOUpSbGx4eG9rR2o4?=
- =?utf-8?B?SEdTNmJoaGtXeTdrZXlHcGVYSEZnOHloNGMzTlY2R05mMWN6Zm1wSlBkUVlD?=
- =?utf-8?B?R25GL3JmbUVZL0RHKzZobUE1RkNlcUxNVXNMWlkyY1VGaVRvZ2RETzBRSGFD?=
- =?utf-8?B?YXpic25CdTJvYWZPNGIrOVNqWDNyeGhOU3lwbUJXVlVlM1c1Ti83czljRFk4?=
- =?utf-8?B?STFPSWdEclZvUTJzdVlmVktFZHkzN29jdVVYd2VkWnJKUElXOG5xUVpybURM?=
- =?utf-8?B?Y3IvcmtJajcvd3pKKzdqU2oyVlhoVUpVM3hOVDlwdUhweFFpalZRWDlGNGNK?=
- =?utf-8?B?T1hkQU9ySVlUcXIrQlRjV0FwSFZLTnVFeExWeXR5alJzaXZrYTlGVDdpSnY3?=
- =?utf-8?B?Smp4Ym9IYy8xVWE0bmZxN0o0SXlVUjRpSDYvWHlnaFhaa3UvU3FzNERSbThm?=
- =?utf-8?B?eTlXaUhnV2UwM1A4cVpQbFQ1WlAwTnE2ZHdaR29Hd0RGRm9nVGFwaWxOY2Jm?=
- =?utf-8?B?aFl6eVk4SWJyNjJKeVlUZDJyOE15Nm1YYXZIYWkwVDZUVjVyV3NmZlVWbWRJ?=
- =?utf-8?B?TWFrakR5TXBVT1pyOXZFeWMxSFRqbU50WW11MCtGcm1xTVhLU3hpa2JycmQ2?=
- =?utf-8?Q?ApL0JxM1Ml+gglK++fG4+CoRKla0xhCKkYY3yJxdi0=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 8eaefb46-c174-4d24-f89c-08d9e0576f03
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2022 23:07:18.2537
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- VriXkSRMIDgKc5wRFubyb0AkACw4J+nahMqWH+tkMHhhVOv0pSsXffpGuzFvmikfBJux3OfG4ni1RFx41mbjCYG9smaX9gp/rddOwkAZcAI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1387
-X-Proofpoint-ORIG-GUID: AgmJ3mAE-DqtQHik2zVZuXFWi4gPQpSX
-X-Proofpoint-GUID: FtMLbgSTRx66v3YYkwJlLGMtls7E9jY_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-25_06,2022-01-25_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 malwarescore=0
- mlxlogscore=999 phishscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
- adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2201250140
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-0064b401.pphosted.com id 20PMtElY001506
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Jan 2022 23:07:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jan 2022 01:13:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160952
+ https://lists.openembedded.org/g/openembedded-core/message/160953
 
-On 2022-01-24 11:17, Jon Mason wrote:
->>From the beginning, OpenEmbedded and The Yocto Project have always
-> strived to be as inclusive as possible to all races, sexes,
-> orientations, religions, nationalities, and any other thing which
-> might divide people.  As continuation of this striving, there are
-> suggested changes below that are being proposed to make the projects
-> more inclusive and show the community as the professional, friendly,
-> and welcoming group that it is.   There are words in use by the
-> projects directly or one of its derivative layers that could be
-> offensive to some.  For more information on which words we selected
-> and why, please consult
-> https://inclusivenaming.org/word-lists/overview/
->=20
-> In the process of changing these, we are using this opportunity to
-> make the terms more obvious and useful, as well as removing cruft and
-> other unused code.  This is the pure definition of a win-win solution.
->=20
-> With this in mind, a group of people have tried to identify issues and
-> come up with a plan to address these.   We=E2=80=99ve divided the tasks=
- into 3
-> areas: bitbake variables, oe-core variables, and everything else.
+1.58 rust libstd is locked to use 0.2.106, therefore patch the correct
+version. once we start using 0.2.108+ these patches will not be required
+as the port is available then on.
 
-Jon,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...dd-base-definitions-for-riscv64-musl.patch | 20 ++++++-------------
+ ...x-musl-mod.rs-add-riscv64-to-b64-set.patch |  8 ++++----
+ ...UP-Correct-definitions-to-match-musl.patch |  6 +++---
+ ...hecksums-for-modified-files-for-rust.patch | 15 +++++---------
+ 4 files changed, 18 insertions(+), 31 deletions(-)
 
-I've looked over all the changes and agree with Ross on his one suggestio=
-n
-and that the rest of the changes are fine.
-
-
-The new terms are equally or in some cases more clear so hopefully that=20
-will
-result in less confusion and a better experience for everyone at the=20
-one-time
-cost of a hopefully not too bumpy transition.
-
-Thanks!
-
-../Randy
-
-
-
-
->=20
-> Bitbake Variables
-> Taking issues in turn, for bitbake:
->=20
-> For BB_DISKMON_DIRS, the actions "ABORT, STOPTASKS and WARN" would
-> become "HALT, NO_NEW_TASKS and "WARN".
->=20
-> BB_ENV_WHITELIST -> BB_ENV_PASSTHROUGH
-> BB_ENV_EXTRAWHITE -> BB_ENV_PASSTHROUGH_ADDITIONS
->=20
-> BB_HASHCONFIG_WHITELIST -> BB_HASHCONFIG_IGNORE_VARS
-> BB_SETSCENE_ENFORCE_WHITELIST -> BB_SETSCENE_ENFORCE_IGNORE_TASKS
-> BB_HASHBASE_WHITELIST -> BB_BASEHASH_IGNORE_VARS
-> MULTI_PROVIDER_WHITELIST -> BB_MULTI_PROVIDER_ALLOWED
-> BB_STAMP_WHITELIST and BB_STAMP_POLICY -> delete the code (already merg=
-ed)
->=20
-> basewhitelist and taskwhitelist as used in sigdata/siginfo will need
-> to be renamed and older file usage of the variables renamed at import
-> for backwards compatibility. The variables in bitbake along with usage
-> of abort will be renamed as appropriate.
->=20
-> For most variables, errors will be shown to the user if the old
-> variable names are set. Mostly this can be done in event hooks but
-> some like the BB_ENV changes will need special handling.
->=20
-> These changes hopefully improve consistency (e.g. a consistent BB_
-> prefix and BASHHASH as terminology used elsewhere) and also improve
-> the description of the variables to be more understandable to users.
->=20
-> OE-Core Variables
-> For OE-Core, the proposals are:
->=20
-> For blacklist.bbclass, the proposal is to add the functionality to the
-> anonymous Python in base.bbclass instead. PNBLACKLIST[xxx] would
-> become SKIP_RECIPE[xxx]. INHERIT_BLACKLIST would simply be dropped.
->=20
-> SSTATE_DUPWHITELIST -> SSTATE_ALLOW_OVERLAP_FILES
-> CVE_CHECK_PN_WHITELIST -> CVE_CHECK_SKIPRECIPE
-> CVE_CHECK_WHITELIST -> CVE_CHECK_IGNORECVE
-> SYSROOT_DIRS_BLACKLIST -> SYSROOT_DIRS_IGNORE
-> LICENSE_FLAGS_WHITELIST -> LICENSE_FLAGS_ACCEPTED
-> UNKNOWN_CONFIGURE_WHITELIST -> UNKNOWN_CONFIGURE_OPT_IGNORE
-> SDK_LOCAL_CONF_BLACKLIST -> ESDK_LOCALCONF_REMOVE
-> SDK_LOCAL_CONF_WHITELIST -> ESDK_LOCALCONF_ALLOW
-> SDK_INHERIT_BLACKLIST -> ESDK_CLASS_INHERIT_DISABLE
-> TUNEABI_WHITELIST - already removed as obsolete
->=20
-> For the ICECC_USER_XXX and ICECC_SYSTEM_XXX, we think these can likely
-> be merged into single variables:
->=20
-> ICECC_USER_CLASS_BL -> ICECC_CLASS_DISABLE
-> ICECC_SYSTEM_CLASS_BL -> ICECC_CLASS_DISABLE
-> ICECC_USER_PACKAGE_WL -> ICECC_RECIPE_ENABLE
-> ICECC_USER_PACKAGE_BL -> ICECC_RECIPE_DISABLE
-> ICECC_SYSTEM_PACKAGE_BL -> ICECC_RECIPE_DISABLE
->=20
-> For license handling, we=E2=80=99d use the opportunity to clean up the
-> WHITELIST_(ANY LICENSE) syntax and replace it with a
-> INCOMPATIBLE_LICENSE_ALLOWED_RECIPES, which would be a list of recipes
-> which are of a blocked the INCOMPATIBLE_LICENSE list.
->=20
-> Everything else
-> The migration plan includes writing a script to assist with the
-> migration. In many cases it can likely make the translation. In cases
-> where that isn=E2=80=99t possible, it will aim to list the areas the us=
-er
-> needs to fix references.
->=20
-> A warning mechanism will be added to bitbake to detect usage of old
-> variable names (post parsing), except for BB_ENV issues which will
-> likely need special handling. A (limited) conversion script will be
-> created to help with the migration. For those instances where a 1-1
-> mapping is not achievable, a list of the occurrences and what it
-> should be changed to will occur.
->=20
->=20
-> Patch files in OE to be renamed:
-> 11_tcpd_blacklist.patch -> 11_tcpd_blocklist.patch
-> mount.blacklist -> mount.disallow
-> 0001-lxdm.conf.in-blacklist-root-for-release-images.patch ->
-> 0001-lxdm.conf.in-deny-root-for-release-images.patch
-> 022-RH-Remove-the-property-blacklist-exception-builtin.patch ->
-> 022-RH-Remove-the-default-property-exception-builtin.patch
-> 0001-Cargo.toml-do-not-abort-on-panic.patch ->
-> 0001-Cargo.toml-do-not-exit-on-panic.patch
-> 0004-Cargo.toml-do-not-abort-on-panic.patch ->
-> 0004-Cargo.toml-do-not-exit-on-panic.patch
-> Also, there are a few others outside of OE that should probably be patc=
-hed too.
->=20
-> Branch Names
-> The =E2=80=9Cmaster=E2=80=9D branches on the relevant OpenEmbedded and =
-Yocto Project
-> git trees will be changed to an alternative name at some point in the
-> future.  The current preferred name is =E2=80=9Cdevel=E2=80=9D.  There =
-is no time
-> table for this currently, and there is no obligation or requirement to
-> change the branch name for any downstream project which is beyond the
-> project=E2=80=99s remit.
->=20
-> Similarly, there is no need to change any recipes that are using a
-> =E2=80=9Cmaster=E2=80=9D branch as part of the SRC_URI.  Those are outs=
-ide the scope
-> of YP/OE and this effort.
->=20
-> Note
-> These changes are only to bitbake and OE-Core.  There is no
-> requirement to change any other layers but we=E2=80=99d note consistenc=
-y is
-> encouraged and helpful to users.
->=20
-> Helping
-> If you would like to help, please put your name by the items in
-> question on the inclusive language wiki page.
-> https://wiki.yoctoproject.org/wiki/Inclusive_language
->=20
-> Thanks
-> Special thanks to Richard Purdie, Michael Opdenacker. Marta
-> Rybczynska, Scott Murray, Jan-Simon Moeller, Saul Wold, and Armin
-> Kuster for providing their time, technical details, text, and feedback
-> on this task.
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160881): https://lists.openembedded.org/g/openembed=
-ded-core/message/160881
-> Mute This Topic: https://lists.openembedded.org/mt/88650128/3616765
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-randy.macleod@windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
+diff --git a/meta/recipes-devtools/rust/libstd-rs/0001-Add-base-definitions=
+-for-riscv64-musl.patch b/meta/recipes-devtools/rust/libstd-rs/0001-Add-bas=
+e-definitions-for-riscv64-musl.patch
+index b1cd45d1dcf..5a36fefd21e 100644
+--- a/meta/recipes-devtools/rust/libstd-rs/0001-Add-base-definitions-for-ri=
+scv64-musl.patch
++++ b/meta/recipes-devtools/rust/libstd-rs/0001-Add-base-definitions-for-ri=
+scv64-musl.patch
+@@ -3,21 +3,19 @@ From: Ralf Anton Beier <ralf_beier@me.com>
+ Date: Sun, 8 Aug 2021 11:05:06 +0200
+ Subject: [PATCH 1/4] Add base definitions for riscv64 + musl
+=20
+-https://github.com/rust-lang/libc/pull/1994/commits/030a07761f61f3293d5375=
+2e60edbd330a9d718d
++https://github.com/rust-lang/libc-0.2.106/pull/1994/commits/030a07761f61f3=
+293d53752e60edbd330a9d718d
+=20
+-Upstream-Status: Submitted [https://github.com/rust-lang/libc/pull/2537]
++Upstream-Status: Submitted [https://github.com/rust-lang/libc-0.2.106/pull=
+/2537]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Ralf Anton Beier <ralf_beier@me.com>
+ ---
+  .../src/unix/linux_like/linux/musl/b64/mod.rs |   3 +
+  .../linux_like/linux/musl/b64/riscv64/mod.rs  | 832 ++++++++++++++++++
+  2 files changed, 835 insertions(+)
+- create mode 100644 vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64=
+/mod.rs
++ create mode 100644 vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64=
+/riscv64/mod.rs
+=20
+-diff --git a/vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs b/vendo=
+r/libc/src/unix/linux_like/linux/musl/b64/mod.rs
+-index cfcdaaecf..7261b95d2 100644
+---- a/vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs
+-+++ b/vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs
++--- a/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/mod.rs
+++++ b/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/mod.rs
+ @@ -163,6 +163,9 @@ cfg_if! {
+      } else if #[cfg(any(target_arch =3D "x86_64"))] {
+          mod x86_64;
+@@ -28,11 +26,8 @@ index cfcdaaecf..7261b95d2 100644
+      } else {
+          // Unknown target_arch
+      }
+-diff --git a/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs=
+ b/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+-new file mode 100644
+-index 000000000..c656189c4
+ --- /dev/null
+-+++ b/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+++++ b/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+ @@ -0,0 +1,832 @@
+ +//! RISC-V-specific definitions for 64-bit linux-like values
+ +
+@@ -866,6 +861,3 @@ index 000000000..c656189c4
+ +pub const SYS_process_madvise: ::c_long =3D 440;
+ +pub const SYS_epoll_pwait2: ::c_long =3D 441;
+ +pub const SYS_mount_setattr: ::c_long =3D 442;
+---=20
+-2.20.1
+-
+diff --git a/meta/recipes-devtools/rust/libstd-rs/0002-FIXUP-linux-musl-mod=
+.rs-add-riscv64-to-b64-set.patch b/meta/recipes-devtools/rust/libstd-rs/000=
+2-FIXUP-linux-musl-mod.rs-add-riscv64-to-b64-set.patch
+index 0f159c60254..ad321d14bb1 100644
+--- a/meta/recipes-devtools/rust/libstd-rs/0002-FIXUP-linux-musl-mod.rs-add=
+-riscv64-to-b64-set.patch
++++ b/meta/recipes-devtools/rust/libstd-rs/0002-FIXUP-linux-musl-mod.rs-add=
+-riscv64-to-b64-set.patch
+@@ -9,13 +9,13 @@ Upstream-Status: Submitted [https://github.com/rust-lang/=
+libc/pull/2537]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Ralf Anton Beier <ralf_beier@me.com>
+ ---
+- vendor/libc/src/unix/linux_like/linux/musl/mod.rs | 3 ++-
++ vendor/libc-0.2.106/src/unix/linux_like/linux/musl/mod.rs | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+=20
+-diff --git a/vendor/libc/src/unix/linux_like/linux/musl/mod.rs b/vendor/li=
+bc/src/unix/linux_like/linux/musl/mod.rs
++diff --git a/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/mod.rs b/v=
+endor/libc-0.2.106/src/unix/linux_like/linux/musl/mod.rs
+ index df596e968..1ab13a712 100644
+---- a/vendor/libc/src/unix/linux_like/linux/musl/mod.rs
+-+++ b/vendor/libc/src/unix/linux_like/linux/musl/mod.rs
++--- a/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/mod.rs
+++++ b/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/mod.rs
+ @@ -765,7 +765,8 @@ cfg_if! {
+                   target_arch =3D "aarch64",
+                   target_arch =3D "mips64",
+diff --git a/meta/recipes-devtools/rust/libstd-rs/0003-FIXUP-Correct-defini=
+tions-to-match-musl.patch b/meta/recipes-devtools/rust/libstd-rs/0003-FIXUP=
+-Correct-definitions-to-match-musl.patch
+index 288f4c5286d..de6b73eb5cf 100644
+--- a/meta/recipes-devtools/rust/libstd-rs/0003-FIXUP-Correct-definitions-t=
+o-match-musl.patch
++++ b/meta/recipes-devtools/rust/libstd-rs/0003-FIXUP-Correct-definitions-t=
+o-match-musl.patch
+@@ -12,10 +12,10 @@ Signed-off-by: Ralf Anton Beier <ralf_beier@me.com>
+  .../linux_like/linux/musl/b64/riscv64/mod.rs  | 655 +++++++++---------
+  1 file changed, 312 insertions(+), 343 deletions(-)
+=20
+-diff --git a/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs=
+ b/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
++diff --git a/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/riscv6=
+4/mod.rs b/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/riscv64/m=
+od.rs
+ index c656189c4..1799539c2 100644
+---- a/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+-+++ b/vendor/libc/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
++--- a/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+++++ b/vendor/libc-0.2.106/src/unix/linux_like/linux/musl/b64/riscv64/mod.rs
+ @@ -191,351 +191,8 @@ s! {
+          pub l_len: ::off64_t,
+          pub l_pid: ::pid_t,
+diff --git a/meta/recipes-devtools/rust/libstd-rs/0004-Update-checksums-for=
+-modified-files-for-rust.patch b/meta/recipes-devtools/rust/libstd-rs/0004-=
+Update-checksums-for-modified-files-for-rust.patch
+index 6f0e3315f9b..6e242db68f8 100644
+--- a/meta/recipes-devtools/rust/libstd-rs/0004-Update-checksums-for-modifi=
+ed-files-for-rust.patch
++++ b/meta/recipes-devtools/rust/libstd-rs/0004-Update-checksums-for-modifi=
+ed-files-for-rust.patch
+@@ -6,17 +6,12 @@ Subject: [PATCH 4/4] Update checksums for modified files =
+for rust
+ Upstream-Status: Inappropriate [previous patches need to be upstreamed]
+ Signed-off-by: Ralf Anton Beier <ralf_beier@me.com>
+ ---
+- vendor/libc/.cargo-checksum.json | 2 +-
++ vendor/libc-0.2.106/.cargo-checksum.json | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+-diff --git a/vendor/libc/.cargo-checksum.json b/vendor/libc/.cargo-checksu=
+m.json
+-index 8cf4eba1b..333cb7cf9 100644
+---- a/vendor/libc/.cargo-checksum.json
+-+++ b/vendor/libc/.cargo-checksum.json
++--- a/vendor/libc-0.2.106/.cargo-checksum.json
+++++ b/vendor/libc-0.2.106/.cargo-checksum.json
+ @@ -1 +1 @@
+--{"files":{"CONTRIBUTING.md":"752eea5a703d11b485c6b5f195f51bd2c79aa5159b61=
+9ce09555c779e1fb586b","Cargo.toml":"d6f6253f05d207b6c676e5647b31ad0ca3f05da=
+3ac05db47f81d4ebd901ba22f","LICENSE-APACHE":"a60eea817514531668d7e007657314=
+49fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"a8d47ff51ca256f56a8932db=
+a07660672dbfe3004257ca8de708aac1415937a1","README.md":"8228847944f1332882fb=
+b00275b6f30e4a8aad08a13569c25d52cac012cc2a47","build.rs":"a71b92db5077b33af=
+4ee6f1de33574ac33c2b292840eddbe3f7cce37f1fb16b9","rustfmt.toml":"eaa2ea84fc=
+1ba0359b77680804903e07bb38d257ab11986b95b158e460f787b2","src/fixed_width_in=
+ts.rs":"34c60f12ec5eeb90f13ec3b954427532111c2446e69617616a97aefc1086a9f1","=
+src/fuchsia/aarch64.rs":"378776a9e40766154a54c94c2a7b4675b5c302a38e6e42da99=
+e67bfbaee60e56","src/fuchsia/align.rs":"ae1cf8f011a99737eabeb14ffff768e60f1=
+3b13363d7646744dbb0f443dab3d6","src/fuchsia/mod.rs":"520300ff260d377930f2f4=
+56135ec9a3ac7740a949ce7bf5269c0dc60d56c0df","src/fuchsia/no_align.rs":"303f=
+3f1b255e0088b5715094353cf00476131d8e94e6aebb3f469557771c8b8a","src/fuchsia/=
+x86_64.rs":"93a3632b5cf67d2a6bcb7dc0a558605252d5fe689e0f38d8aa2ec5852255ac8=
+7","src/hermit/aarch64.rs":"86048676e335944c37a63d0083d0f368ae10ceccefeed9d=
+ebb3bbe08777fc682","src/hermit/mod.rs":"d3bfce41e4463d4be8020a2d063c9bfa8b6=
+65f45f1cc6cbf3163f5d01e7cb21f","src/hermit/x86_64.rs":"ab832b7524e5fb15c49f=
+f7431165ab1a37dc4667ae0b58e8306f4c539bfa110c","src/lib.rs":"e92c56b42f1bd1b=
+9e66be2a9b73aca6ba29024b9bd17c16f327dfbe8831e3f86","src/macros.rs":"c1a299d=
+5327ba033f079388f8ac8a44848f9aeff6a72e9be6dfa70f4769cc619","src/psp.rs":"dd=
+31aabd46171d474ec5828372e28588935120e7355c90c105360d8fa9264c1c","src/sgx.rs=
+":"16a95cdefc81c5ee00d8353a60db363c4cc3e0f75abcd5d0144723f2a306ed1b","src/s=
+olid/aarch64.rs":"8cdae0cc37c43dabd4253a534e700bec6b6a57293c0c8e36c9ce16675=
+d16799a","src/solid/arm.rs":"852b58a0837fde089cb9b5af131bf653daeb8c726f7540=
+032756db8b7d4f8149","src/solid/mod.rs":"98dc29c3e5773318ba258a4a2b7407f25aa=
+52d40885a0024fbe43676fe54d14b","src/switch.rs":"9da3dd39b3de45a7928789926e8=
+572d00e1e11a39e6f7289a1349aadce90edba","src/unix/align.rs":"2cdc7c826ef7ae6=
+1f5171c5ae8c445a743d86f1a7f2d9d7e4ceeec56d6874f65","src/unix/bsd/apple/b32/=
+align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c=
+","src/unix/bsd/apple/b32/mod.rs":"2546ad3eb6aecb95f916648bc63264117c92b4b4=
+859532b34cb011e4c75a5a72","src/unix/bsd/apple/b64/aarch64/align.rs":"f0c321=
+265dd7671f16106b84951ac7dd77ed2e65c6623cbf2d29e76531984770","src/unix/bsd/a=
+pple/b64/aarch64/mod.rs":"44c217a4f263afe7a97435de9323d20a96c37836f899ca092=
+5306d4b7e073c27","src/unix/bsd/apple/b64/align.rs":"ec833a747866fe19ca2d9b4=
+d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/mod.rs":=
+"f5e278a1af7fb358891d1c9be4eb7e815aaca0c5cb738d0c3604ba2208a856f7","src/uni=
+x/bsd/apple/b64/x86_64/align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf=
+4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/x86_64/mod.rs":"8c87c58550=
+38aae5d433c8f5eb3b29b0a175879a0245342b3bfd83bdf4cfd936","src/unix/bsd/apple=
+/mod.rs":"96f101bdab46a9f0a5249a8143d4a9def055284a0c2bd62bce15532a5bed428c"=
+,"src/unix/bsd/freebsdlike/dragonfly/errno.rs":"8295b8bb0dfd38d2cdb4d9192cd=
+eeb534cc6c3b208170e64615fa3e0edb3e578","src/unix/bsd/freebsdlike/dragonfly/=
+mod.rs":"6ea4129eb5d6da5c09f8cf3692b5e7716f058b48d1e8c61115691709eda7ce51",=
+"src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"2a215bd6136b8617aacedf9be738=
+ccee94da9d29b418e9a78101d6291c182352","src/unix/bsd/freebsdlike/freebsd/arm=
+.rs":"59d6a670eea562fb87686e243e0a84603d29a2028a3d4b3f99ccc01bd04d2f47","sr=
+c/unix/bsd/freebsdlike/freebsd/freebsd11/b64.rs":"9808d152c1196aa647f1b0f0c=
+f84dac8c930da7d7f897a44975545e3d9d17681","src/unix/bsd/freebsdlike/freebsd/=
+freebsd11/mod.rs":"bf0a994e2079b8aad9da5efd3a3b9a7194a53ae60887a25c57964fb6=
+8499e847","src/unix/bsd/freebsdlike/freebsd/freebsd12/b64.rs":"61cbe45f8499=
+bedb168106b686d4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsd=
+like/freebsd/freebsd12/mod.rs":"295b3e3b67394f731d4e88d169e3d3d1d80026b9989=
+8745cd0d1d163f085ff61","src/unix/bsd/freebsdlike/freebsd/freebsd12/x86_64.r=
+s":"2df36a7f122f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/=
+unix/bsd/freebsdlike/freebsd/freebsd13/b64.rs":"61cbe45f8499bedb168106b686d=
+4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsdlike/freebsd/fr=
+eebsd13/mod.rs":"98f6af2021b434f9c3197094312b457774381220f31a22c3b15b1fe8a6=
+0cb365","src/unix/bsd/freebsdlike/freebsd/freebsd13/x86_64.rs":"2df36a7f122=
+f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/unix/bsd/freebs=
+dlike/freebsd/mod.rs":"6b825079ffe3f9aec6e78ea6b50acedcb91a4e1312d721105b7f=
+8b1555f254df","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"9ca3f82f88974e=
+6db5569f2d76a5a3749b248a31747a6c0da5820492bdfeca42","src/unix/bsd/freebsdli=
+ke/freebsd/powerpc64.rs":"2dae3ecc87eac3b11657aa98915def55fc4b5c0de11fe26aa=
+e23329a54628a9a","src/unix/bsd/freebsdlike/freebsd/x86.rs":"c5005e3249eb7c9=
+3cfbac72a9e9272320d80ce7983da990ceb05a447f59a02c5","src/unix/bsd/freebsdlik=
+e/freebsd/x86_64/align.rs":"0e1f69a88fca1c32874b1daf5db3d446fefbe518dca497f=
+096cc9168c39dde70","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"c3a011=
+1252e201c172b99e7d9cbee4cf088d3dd47995110e819f04276bccd198","src/unix/bsd/f=
+reebsdlike/mod.rs":"98d322b22050a80636841287d9ed12549a2004a9dbe151763e5b127=
+0f5e73ea3","src/unix/bsd/mod.rs":"2fed08973739d7f6a7412b204724af64b1a915c71=
+2689c250cf9a08263ba05ff","src/unix/bsd/netbsdlike/mod.rs":"4e9da54e541773c7=
+ad4cca9dade1df00f28f2fdac3f8df5957f4c74b7e082344","src/unix/bsd/netbsdlike/=
+netbsd/aarch64.rs":"65dcb58d11e8d8028401a9d07ca3eb4cb4f053e04249cc877353449=
+d84ccc4cb","src/unix/bsd/netbsdlike/netbsd/arm.rs":"58cdbb70b0d6f536551f0f3=
+bb3725d2d75c4690db12c26c034e7d6ec4a924452","src/unix/bsd/netbsdlike/netbsd/=
+mod.rs":"f6de6981382af87518e4a5b6d26c2ea551ed74640dd7166107a824af30ced243",=
+"src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"ee7ff5d89d0ed22f531237b5059aa6=
+69df93a3b5c489fa641465ace8d405bf41","src/unix/bsd/netbsdlike/netbsd/sparc64=
+.rs":"9489f4b3e4566f43bb12dfb92238960613dac7f6a45cc13068a8d152b902d7d9","sr=
+c/unix/bsd/netbsdlike/netbsd/x86.rs":"20692320e36bfe028d1a34d16fe12ca77aa90=
+9cb02bda167376f98f1a09aefe7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"1a=
+fe5ef46b14397cdd68664b5b232e4f5b035b6db1d4cf411c899d51ebca9f30","src/unix/b=
+sd/netbsdlike/openbsd/aarch64.rs":"dd91931d373b7ecaf6e2de25adadee10d16fa9b1=
+2c2cbacdff3eb291e1ba36af","src/unix/bsd/netbsdlike/openbsd/mod.rs":"47aaab2=
+bd8238e937112ff17e8262945c8e5865d5e696f218b11c1da59830808","src/unix/bsd/ne=
+tbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e8374a532a3ba491b424=
+ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.rs":"6f7f5c4fde2a=
+2259eb547890cbd86570cea04ef85347d7569e94e679448bec87","src/unix/bsd/netbsdl=
+ike/openbsd/x86_64.rs":"d31db31630289c85af3339dbe357998a21ca584cbae31607448=
+fe2cf7675a4e1","src/unix/haiku/b32.rs":"69ae47fc52c6880e85416b4744500d5655c=
+9ec6131cb737f3b649fceaadce15a","src/unix/haiku/b64.rs":"73e64db09275a8da8d5=
+0a13cce2cfa2b136036ddf3a930d2939f337fc995900b","src/unix/haiku/mod.rs":"80a=
+6cfb58acbbc471dbd412dd76a41f372befc8f217fb1671ed4ce8d391dced0","src/unix/ha=
+iku/native.rs":"44855f52906f607de137fc4baa8c6b1b9a26baaa666f25d5f7a7ec5e017=
+c8be6","src/unix/haiku/x86_64.rs":"3ec3aeeb7ed208b8916f3e32d42bfd085ff5e169=
+36a1a35d9a52789f043b7237","src/unix/hermit/aarch64.rs":"86048676e335944c37a=
+63d0083d0f368ae10ceccefeed9debb3bbe08777fc682","src/unix/hermit/mod.rs":"85=
+9814f5df89e28fd4b345db399d181e11e7ed413841b6ff703a1fcbdbf013ae","src/unix/h=
+ermit/x86_64.rs":"ab832b7524e5fb15c49ff7431165ab1a37dc4667ae0b58e8306f4c539=
+bfa110c","src/unix/linux_like/android/b32/arm.rs":"433c1530f602cc5ed26610c5=
+8055dde0c4ceea5e00150063b24ddc60768332a4","src/unix/linux_like/android/b32/=
+mod.rs":"d971b98530a96f5892f98e1edc3133cf278d1b3939d77ab0a27a6323e0961715",=
+"src/unix/linux_like/android/b32/x86/align.rs":"812914e4241df82e32b12375ca3=
+374615dc3a4bdd4cf31f0423c5815320c0dab","src/unix/linux_like/android/b32/x86=
+/mod.rs":"8388bd3a0fcb5636bf965eee6dc95ae6860b85a2b555b387c868aa4d4e01ec89"=
+,"src/unix/linux_like/android/b64/aarch64/align.rs":"2179c3b1608fa4bf688404=
+82bfc2b2fa3ee2faf6fcae3770f9e505cddca35c7b","src/unix/linux_like/android/b6=
+4/aarch64/mod.rs":"8fe667d2b14abc5ac8aad32e16c3da24350471d8156eaea9ab4989f7=
+3dd9f9fc","src/unix/linux_like/android/b64/mod.rs":"d7bbbadafdb2cb2ff8e9cde=
+3d89a03b9facaabb6b2d45705225d3ece1c5cce37","src/unix/linux_like/android/b64=
+/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed306dc0720ffc1b21696c=
+9951e3c6","src/unix/linux_like/android/b64/x86_64/mod.rs":"06b22dc184e85a98=
+8ab969c75cadc52b9878faeab0eb9d21215878c95fe07c19","src/unix/linux_like/andr=
+oid/mod.rs":"07cebaa8d953446b8df5cb7c5de3932ae85b04d9e9993e3a3a126ff8f15111=
+a4","src/unix/linux_like/emscripten/align.rs":"86c95cbed7a7161b1f23ee06843e=
+7b0e2340ad92b2cb86fe2a8ef3e0e8c36216","src/unix/linux_like/emscripten/mod.r=
+s":"b71d37106750f57bc2dae4e9bcb473ff098ef48235827e41a1687a39825f0aa4","src/=
+unix/linux_like/emscripten/no_align.rs":"0128e4aa721a9902754828b61b5ec7d8a8=
+6619983ed1e0544a85d35b1051fad6","src/unix/linux_like/linux/align.rs":"213e7=
+0ebed2703e14a9cf17666b21ecbf180b7bff7fa22fdbb36dbbd52df326d","src/unix/linu=
+x_like/linux/arch/generic/mod.rs":"1618634d37348032f5ce1dc9df1aaa1f1681bca4=
+a275f23d41f42098c4d3b423","src/unix/linux_like/linux/arch/mips/mod.rs":"dac=
+02cd01dbd3b222286887c64d398c031afc08d38850c2b3ce2fe7158d888e0","src/unix/li=
+nux_like/linux/arch/mod.rs":"466a29622e47c6c7f1500682b2eb17f5566dd81b322cd6=
+348f0fdd355cec593a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"1789eb=
+5b41f75c29239795124a4a7cdcf7c8d213b88cf581b2f5bda08d7cf15b","src/unix/linux=
+_like/linux/arch/sparc/mod.rs":"e7139d3bfb291a283c767e6201eac8bbb58c91839a3=
+6fa56bfe500fcb3aa754a","src/unix/linux_like/linux/gnu/align.rs":"e4a3c27fe2=
+0a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_lik=
+e/linux/gnu/b32/arm/align.rs":"3fed009dc9af3cc81be7087da9d2d7d1f39845e4497e=
+290259c5cdbae25f039d","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"5e40c=
+273b767c369a46c3315c7cfde97379944ed63c74735e98d4dae2c49d414","src/unix/linu=
+x_like/linux/gnu/b32/mips/align.rs":"429fb5e005cb7143602d430098b6ebfb7d3606=
+85b194f333dfd587472ae954ee","src/unix/linux_like/linux/gnu/b32/mips/mod.rs"=
+:"20b4c897fb3f63e31a04849b348ec8e6e6405ce9463048d411114f8c9dbabd8a","src/un=
+ix/linux_like/linux/gnu/b32/mod.rs":"794dbcbae7dae8fd6b0b814573243197ceb532=
+b56ef0772ad86b4b401478fcd9","src/unix/linux_like/linux/gnu/b32/powerpc.rs":=
+"0cd7348badb9c4f8a0db31a2503b30c456a2bfcc7a0e5919762b1e12f912c5ad","src/uni=
+x/linux_like/linux/gnu/b32/riscv32/mod.rs":"ee5145a383386b716605a8d1ff3df21=
+2d418aae1aa1f37d2307d4f9cd1a08e99","src/unix/linux_like/linux/gnu/b32/sparc=
+/align.rs":"21adbed27df73e2d1ed934aaf733a643003d7baf2bde9c48ea440895bcca6d4=
+1","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"a2c4ae8f31a74e4843b8ff=
+4b6507419f403b52713169fcee9b1b24eb2324162a","src/unix/linux_like/linux/gnu/=
+b32/x86/align.rs":"e4bafdc4a519a7922a81b37a62bbfd1177a2f620890eef8f1fbc4716=
+2e9eb413","src/unix/linux_like/linux/gnu/b32/x86/mod.rs":"525ee4917b54790ce=
+fc1298ec1015cea6332d818d9c7475434e94d06afdd59c0","src/unix/linux_like/linux=
+/gnu/b64/aarch64/align.rs":"2179c3b1608fa4bf68840482bfc2b2fa3ee2faf6fcae377=
+0f9e505cddca35c7b","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"21=
+a21503ef2e095f4371044915d4bfb07a8578011cb5c713cd9f45947b0b5730","src/unix/l=
+inux_like/linux/gnu/b64/aarch64/lp64.rs":"e78c3cd197f44832338b414d1a9bc0d19=
+4f44c74db77bd7bf830c1fff62b2690","src/unix/linux_like/linux/gnu/b64/aarch64=
+/mod.rs":"d179cbb462c451ff8805029b2b922c4bf90e35f667e80d716d5064f563aebc52"=
+,"src/unix/linux_like/linux/gnu/b64/mips64/align.rs":"7169d07a9fd4716f75127=
+19aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/gnu=
+/b64/mips64/mod.rs":"7d456da436017cb388b65b2c4b626c83b489cbb19a591673b9c627=
+a608d53cfc","src/unix/linux_like/linux/gnu/b64/mod.rs":"6336065423c26b59681=
+fd2ce77f1117ea36af13e163fdadaefd108bd8191e8c8","src/unix/linux_like/linux/g=
+nu/b64/powerpc64/align.rs":"e29c4868bbecfa4a6cd8a2ad06193f3bbc78a468cc1dc9d=
+f83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/powerpc64/mod.rs":"db=
+b8905e363ed4a2dfb984554ad9b6389d27f6a2d599ec2d80e38a6c7551a019","src/unix/l=
+inux_like/linux/gnu/b64/riscv64/mod.rs":"5b982c41097f4f91adcb0968290afeccb2=
+7dce1695a261c964d34ef85df87cf4","src/unix/linux_like/linux/gnu/b64/s390x.rs=
+":"fce37140468f8914411eed0b25a882e60e1b54bcffcd33d6263a91b57d04f6c1","src/u=
+nix/linux_like/linux/gnu/b64/sparc64/align.rs":"e29c4868bbecfa4a6cd8a2ad061=
+93f3bbc78a468cc1dc9df83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/s=
+parc64/mod.rs":"518ef78da0d81fe74cec30be411145d763fdfd249de4d108602fd099578=
+1f590","src/unix/linux_like/linux/gnu/b64/x86_64/align.rs":"7169d07a9fd4716=
+f7512719aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/lin=
+ux/gnu/b64/x86_64/mod.rs":"76cba0a3f9456a968d2ae6ea587162b2ff04278dc5250cb1=
+76395c936579771b","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.rs":"f7=
+75ac2b754f90b63053fe22afe1d19d306b5404995568d6805baa9249fb617f","src/unix/l=
+inux_like/linux/gnu/b64/x86_64/x32.rs":"4ba1b58468f55254717366f50fdfd3e4114=
+fde6dc442a56681926c4d7e5b6b0d","src/unix/linux_like/linux/gnu/mod.rs":"af35=
+90c392bd06394cb307ccb993e66f53de7e2a0211c689dbb1845220475445","src/unix/lin=
+ux_like/linux/gnu/no_align.rs":"9cd223135de75315840ff9c3fd5441ba1cb632b96b5=
+c85a76f8316c86653db25","src/unix/linux_like/linux/mod.rs":"88ce2c4105c07c12=
+62495e0ff1bd53f3ceec99adba9c20c612439838b4dbfdd6","src/unix/linux_like/linu=
+x/musl/b32/arm/align.rs":"3e8ac052c1043764776b54c93ba4260e061df998631737a89=
+7d9d47d54f7b80c","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"6255abe2e=
+e04986832d12b7b2190589580f2a43e9bfb285b32b5747227f62727","src/unix/linux_li=
+ke/linux/musl/b32/hexagon.rs":"10067cde5706e1173aa8e0a3a364cf44fe5b7a9f8b71=
+cb086c653be71af00564","src/unix/linux_like/linux/musl/b32/mips/align.rs":"4=
+29fb5e005cb7143602d430098b6ebfb7d360685b194f333dfd587472ae954ee","src/unix/=
+linux_like/linux/musl/b32/mips/mod.rs":"b9e9ff42363ebbb884ddf6445129ec41644=
+71df45846874fc08f5f458e659254","src/unix/linux_like/linux/musl/b32/mod.rs":=
+"8ede3985e6243882814ce91e8ce543e7edbafc0cee5932816072b6f14207a671","src/uni=
+x/linux_like/linux/musl/b32/powerpc.rs":"4592dc5f1f2fe888dfef85fa862d42d168=
+e73a2c6f4fc052b58287d0f4d4ffcd","src/unix/linux_like/linux/musl/b32/x86/ali=
+gn.rs":"08e77fbd7435d7dec2ff56932433bece3f02e47ce810f89004a275a86d39cbe1","=
+src/unix/linux_like/linux/musl/b32/x86/mod.rs":"a19a8decfab185af3cebd34aae4=
+b15082e7552be573904b8c1a3f0c0e493ef34","src/unix/linux_like/linux/musl/b64/=
+aarch64/align.rs":"798a9229d70ce235394f2dd625f6c4c1e10519a94382dc5b091952b6=
+38ae2928","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"a73035c6d9b7=
+76f13b839008e15c04c2c53455571efd06664affcb047e457112","src/unix/linux_like/=
+linux/musl/b64/mips64.rs":"2744895451f3a777fbe54f7f2695be53310b965fd62084c9=
+b7e9121c7fe28346","src/unix/linux_like/linux/musl/b64/mod.rs":"d18abc0aeba2=
+e26342bf3416a4dba0836db2bb0ee013b0a39629475cf8640289","src/unix/linux_like/=
+linux/musl/b64/powerpc64.rs":"e5a55525b42493923956d668f978fb45e22d51deea00c=
+e5edbfddf76ff19c741","src/unix/linux_like/linux/musl/b64/s390x.rs":"03dfec6=
+794d93cb31a7c52b2d53a0973755168f91f8fa437cc5dbd54882c8ee7","src/unix/linux_=
+like/linux/musl/b64/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed3=
+06dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/musl/b64/x86_64/mod=
+.rs":"0dd168f5a6881f32e5239fb312b23cf137b800d0ff323286a92c8a2c382b5456","sr=
+c/unix/linux_like/linux/musl/mod.rs":"55ccd71342276ccb4c441a4bc2772aebfd163=
+af299669b658c6c8c6add331ec3","src/unix/linux_like/linux/no_align.rs":"5ed04=
+c53bf9d27da9b4d65ba7625c6ac53330162683d1b3df98950caafa3507b","src/unix/linu=
+x_like/linux/uclibc/align.rs":"9ed16138d8e439bd90930845a65eafa7ebd67366e6bf=
+633936d44014f6e4c959","src/unix/linux_like/linux/uclibc/arm/align.rs":"e4a3=
+c27fe20a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/lin=
+ux_like/linux/uclibc/arm/mod.rs":"1e3bf809508b5872949136859bf48ddf58b7d24ae=
+9f0b663e79f0efd1aaeb6a6","src/unix/linux_like/linux/uclibc/arm/no_align.rs"=
+:"9cd223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/un=
+ix/linux_like/linux/uclibc/mips/mips32/align.rs":"e4a3c27fe20a57b8d612c34cb=
+05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_like/linux/uclibc/=
+mips/mips32/mod.rs":"fa4102d9a596d90de604ce2962b0e64f184dfbf10552a4c3ecf28f=
+12d4704379","src/unix/linux_like/linux/uclibc/mips/mips32/no_align.rs":"9cd=
+223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/unix/li=
+nux_like/linux/uclibc/mips/mips64/align.rs":"a7bdcb18a37a2d91e64d5fad83ea3e=
+dc78f5412adb28f77ab077dbb26dd08b2d","src/unix/linux_like/linux/uclibc/mips/=
+mips64/mod.rs":"e3085ba56cfbc528d7c3c55065880603238c333b6047ef51c58177508a4=
+87fcd","src/unix/linux_like/linux/uclibc/mips/mips64/no_align.rs":"4a18e387=
+5698c85229599225ac3401a2a40da87e77b2ad4ef47c6fcd5a24ed30","src/unix/linux_l=
+ike/linux/uclibc/mips/mod.rs":"a2877679fef0f14f54a89ccbc41fb02f0c25bf6e536f=
+9eb2cb2fa437e1d3f739","src/unix/linux_like/linux/uclibc/mod.rs":"82d504d3aa=
+12cb0f7933980f81c4708fa6e070d4c57efdf407f2de05b71bc06d","src/unix/linux_lik=
+e/linux/uclibc/no_align.rs":"3f28637046524618adaa1012e26cb7ffe94b9396e6b518=
+cccdc69d59f274d709","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"024e=
+ba5753e852dbdd212427351affe7e83f9916c1864bce414d7aa2618f192e","src/unix/lin=
+ux_like/linux/uclibc/x86_64/mod.rs":"66e8f5b7509a6e638b8b904906f89badbab0da=
+8fb5b602d07ebd88649c4b961a","src/unix/linux_like/linux/uclibc/x86_64/other.=
+rs":"42c3f71e58cabba373f6a55a623f3c31b85049eb64824c09c2b082b3b2d6a0a8","src=
+/unix/linux_like/mod.rs":"ffce98bdd208fd9d335c65feafbf0d9742bea67c7eec1ee48=
+657f292132ec3f0","src/unix/mod.rs":"b72f18e053cca0ade0f0606f1848a773fcf1885=
+c72cbb31889275e8195f060bd","src/unix/newlib/aarch64/mod.rs":"bb269c1468a967=
+6442554600e87417079a787fe6220dfc23b3109639259e8710","src/unix/newlib/align.=
+rs":"28aaf87fafbc6b312622719d472d8cf65f9e5467d15339df5f73e66d8502b28a","src=
+/unix/newlib/arm/mod.rs":"c71be856bfd7f576b2db28af9f680211cbe6c1cac7d537bbc=
+8020b39591af07c","src/unix/newlib/espidf/mod.rs":"c198cb4beccdab483be61c102=
+da74dc51ac80f766797e33021f3110394ed5a3d","src/unix/newlib/mod.rs":"d7271c13=
+748be08305d36f9af6f41f6950a7a1d6d4382149194a35d5fe2090de","src/unix/newlib/=
+no_align.rs":"e0743b2179495a9514bc3a4d1781e492878c4ec834ee0085d0891dd1712e8=
+2fb","src/unix/newlib/powerpc/mod.rs":"2d0f7af28b47f7a2a6c210ebd1c1f33ed8ea=
+c62e56b5af2b856de2ad3fdc5187","src/unix/no_align.rs":"c06e95373b9088266e0b1=
+4bba0954eef95f93fb2b01d951855e382d22de78e53","src/unix/redox/mod.rs":"cc479=
+4afa4fbed9d6612894ea476228f9d8533950162d6416fc4d16073e1dac4","src/unix/sola=
+rish/compat.rs":"b07a5bfac925eb012003a459ba6bddbd3bfa9c44b3394da2ac5a602e54=
+beae9c","src/unix/solarish/illumos.rs":"7d8f47fd37880715b449723688aaee56878=
+5325a46f1c360a05bdca13252278e","src/unix/solarish/mod.rs":"ea9dd1c1d6892740=
+8342762ee8998a9628838974c91089f620c867910c29adba","src/unix/solarish/solari=
+s.rs":"65b005453aefa9b9d4fc860fe77cfec80d8c97a51342b15daf55fc3e808bb384","s=
+rc/unix/solarish/x86_64.rs":"9d761573bdccbdd1ac61da571f7e96b5374df70241d9b7=
+2d45a069611f495085","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed6=
+737585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4=
+abdf39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"aea=
+3da66f2140f2a82dfc9c58f6e6531d2dd9c15ea696e0f95a0d4a2a187b5b6","src/vxworks=
+/powerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788=
+e88","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dc=
+e7a9d4941d08c437762b99","src/vxworks/x86.rs":"552f007f38317620b23889cb7c49d=
+1d115841252439060122f52f434fbc6e5ba","src/vxworks/x86_64.rs":"018d92be3ad62=
+8a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98ed6b514a","src/wasi.rs":"44ce561=
+83380d18aedea9b7bec2edc5819e8529302c913bfe5d01f760155b82a","src/windows/gnu=
+/align.rs":"b2c13ec1b9f3b39a75c452c80c951dff9d0215e31d77e883b4502afb3179464=
+7","src/windows/gnu/mod.rs":"3c8c7edb7cdf5d0c44af936db2a94869585c69dfabeef3=
+0571b4f4e38375767a","src/windows/mod.rs":"1cd9223293255b994814487e28d9979fb=
+8ebef4538a236c1aa47fdc166a149cc","src/windows/msvc/mod.rs":"c068271e00fca6b=
+62bc4bf44bcf142cfc38caeded9b6c4e01d1ceef3ccf986f4","tests/const_fn.rs":"cb7=
+5a1f0864f926aebe79118fc34d51a0d1ade2c20a394e7774c7e545f21f1f4"},"package":"=
+fbe5e23404da5b4f555ef85ebed98fb4083e55a00c317800bc2a50ede9f3d219"}
++-{"files":{"CONTRIBUTING.md":"752eea5a703d11b485c6b5f195f51bd2c79aa5159b61=
+9ce09555c779e1fb586b","Cargo.toml":"cef5103f1c20b2e9090a6bbc9b1d9d44746851f=
+60a8ed69b94d52e64133eb98a","LICENSE-APACHE":"a60eea817514531668d7e007657314=
+49fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"a8d47ff51ca256f56a8932db=
+a07660672dbfe3004257ca8de708aac1415937a1","README.md":"8228847944f1332882fb=
+b00275b6f30e4a8aad08a13569c25d52cac012cc2a47","build.rs":"8e0e8d33cc9e7c25c=
+de75c2b502420f943266a681024169f94084774b422681d","rustfmt.toml":"eaa2ea84fc=
+1ba0359b77680804903e07bb38d257ab11986b95b158e460f787b2","src/fixed_width_in=
+ts.rs":"34c60f12ec5eeb90f13ec3b954427532111c2446e69617616a97aefc1086a9f1","=
+src/fuchsia/aarch64.rs":"378776a9e40766154a54c94c2a7b4675b5c302a38e6e42da99=
+e67bfbaee60e56","src/fuchsia/align.rs":"ae1cf8f011a99737eabeb14ffff768e60f1=
+3b13363d7646744dbb0f443dab3d6","src/fuchsia/mod.rs":"520300ff260d377930f2f4=
+56135ec9a3ac7740a949ce7bf5269c0dc60d56c0df","src/fuchsia/no_align.rs":"303f=
+3f1b255e0088b5715094353cf00476131d8e94e6aebb3f469557771c8b8a","src/fuchsia/=
+x86_64.rs":"93a3632b5cf67d2a6bcb7dc0a558605252d5fe689e0f38d8aa2ec5852255ac8=
+7","src/hermit/aarch64.rs":"86048676e335944c37a63d0083d0f368ae10ceccefeed9d=
+ebb3bbe08777fc682","src/hermit/mod.rs":"d3bfce41e4463d4be8020a2d063c9bfa8b6=
+65f45f1cc6cbf3163f5d01e7cb21f","src/hermit/x86_64.rs":"ab832b7524e5fb15c49f=
+f7431165ab1a37dc4667ae0b58e8306f4c539bfa110c","src/lib.rs":"4cf1ca3940157ca=
+a735a5cdb478c450d1648669a87d7311cd7c4928c273bd273","src/macros.rs":"7844312=
+c233a6889fa15395fe3106f6a8f6229211104a92f33ea3c9536eef763","src/psp.rs":"dd=
+31aabd46171d474ec5828372e28588935120e7355c90c105360d8fa9264c1c","src/sgx.rs=
+":"16a95cdefc81c5ee00d8353a60db363c4cc3e0f75abcd5d0144723f2a306ed1b","src/s=
+olid/aarch64.rs":"8cdae0cc37c43dabd4253a534e700bec6b6a57293c0c8e36c9ce16675=
+d16799a","src/solid/arm.rs":"852b58a0837fde089cb9b5af131bf653daeb8c726f7540=
+032756db8b7d4f8149","src/solid/mod.rs":"98dc29c3e5773318ba258a4a2b7407f25aa=
+52d40885a0024fbe43676fe54d14b","src/switch.rs":"9da3dd39b3de45a7928789926e8=
+572d00e1e11a39e6f7289a1349aadce90edba","src/unix/align.rs":"2cdc7c826ef7ae6=
+1f5171c5ae8c445a743d86f1a7f2d9d7e4ceeec56d6874f65","src/unix/bsd/apple/b32/=
+align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c=
+","src/unix/bsd/apple/b32/mod.rs":"2546ad3eb6aecb95f916648bc63264117c92b4b4=
+859532b34cb011e4c75a5a72","src/unix/bsd/apple/b64/aarch64/align.rs":"f0c321=
+265dd7671f16106b84951ac7dd77ed2e65c6623cbf2d29e76531984770","src/unix/bsd/a=
+pple/b64/aarch64/mod.rs":"44c217a4f263afe7a97435de9323d20a96c37836f899ca092=
+5306d4b7e073c27","src/unix/bsd/apple/b64/align.rs":"ec833a747866fe19ca2d9b4=
+d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/mod.rs":=
+"f5e278a1af7fb358891d1c9be4eb7e815aaca0c5cb738d0c3604ba2208a856f7","src/uni=
+x/bsd/apple/b64/x86_64/align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf=
+4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/x86_64/mod.rs":"8c87c58550=
+38aae5d433c8f5eb3b29b0a175879a0245342b3bfd83bdf4cfd936","src/unix/bsd/apple=
+/mod.rs":"15560099a9ee54cd97b3485c4e5a380af5352373b952a876aeb9476f2acdad04"=
+,"src/unix/bsd/freebsdlike/dragonfly/errno.rs":"8295b8bb0dfd38d2cdb4d9192cd=
+eeb534cc6c3b208170e64615fa3e0edb3e578","src/unix/bsd/freebsdlike/dragonfly/=
+mod.rs":"d07c9769835178783820f48e00312f215ee9fa4c62c54000280c52c9906c63c2",=
+"src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"2a215bd6136b8617aacedf9be738=
+ccee94da9d29b418e9a78101d6291c182352","src/unix/bsd/freebsdlike/freebsd/arm=
+.rs":"59d6a670eea562fb87686e243e0a84603d29a2028a3d4b3f99ccc01bd04d2f47","sr=
+c/unix/bsd/freebsdlike/freebsd/freebsd11/b64.rs":"9808d152c1196aa647f1b0f0c=
+f84dac8c930da7d7f897a44975545e3d9d17681","src/unix/bsd/freebsdlike/freebsd/=
+freebsd11/mod.rs":"bf0a994e2079b8aad9da5efd3a3b9a7194a53ae60887a25c57964fb6=
+8499e847","src/unix/bsd/freebsdlike/freebsd/freebsd12/b64.rs":"61cbe45f8499=
+bedb168106b686d4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsd=
+like/freebsd/freebsd12/mod.rs":"295b3e3b67394f731d4e88d169e3d3d1d80026b9989=
+8745cd0d1d163f085ff61","src/unix/bsd/freebsdlike/freebsd/freebsd12/x86_64.r=
+s":"2df36a7f122f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/=
+unix/bsd/freebsdlike/freebsd/freebsd13/b64.rs":"61cbe45f8499bedb168106b686d=
+4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsdlike/freebsd/fr=
+eebsd13/mod.rs":"df003cfb7794fe4ee8df224fbc62e6427969ec369cd7cfda0b448d5bcb=
+c1e228","src/unix/bsd/freebsdlike/freebsd/freebsd13/x86_64.rs":"2df36a7f122=
+f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/unix/bsd/freebs=
+dlike/freebsd/mod.rs":"527fd23d6087af6131f2f4001b86f464b08b6255c5f9139f2c3a=
+28de24301e72","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"9ca3f82f88974e=
+6db5569f2d76a5a3749b248a31747a6c0da5820492bdfeca42","src/unix/bsd/freebsdli=
+ke/freebsd/powerpc64.rs":"2dae3ecc87eac3b11657aa98915def55fc4b5c0de11fe26aa=
+e23329a54628a9a","src/unix/bsd/freebsdlike/freebsd/x86.rs":"c5005e3249eb7c9=
+3cfbac72a9e9272320d80ce7983da990ceb05a447f59a02c5","src/unix/bsd/freebsdlik=
+e/freebsd/x86_64/align.rs":"0e1f69a88fca1c32874b1daf5db3d446fefbe518dca497f=
+096cc9168c39dde70","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"c3a011=
+1252e201c172b99e7d9cbee4cf088d3dd47995110e819f04276bccd198","src/unix/bsd/f=
+reebsdlike/mod.rs":"cd435ad58e743a9e83c6c91f9ed3f4c4c31e587d39e0d8ee5cc905f=
+513623835","src/unix/bsd/mod.rs":"2fed08973739d7f6a7412b204724af64b1a915c71=
+2689c250cf9a08263ba05ff","src/unix/bsd/netbsdlike/mod.rs":"4e9da54e541773c7=
+ad4cca9dade1df00f28f2fdac3f8df5957f4c74b7e082344","src/unix/bsd/netbsdlike/=
+netbsd/aarch64.rs":"65dcb58d11e8d8028401a9d07ca3eb4cb4f053e04249cc877353449=
+d84ccc4cb","src/unix/bsd/netbsdlike/netbsd/arm.rs":"58cdbb70b0d6f536551f0f3=
+bb3725d2d75c4690db12c26c034e7d6ec4a924452","src/unix/bsd/netbsdlike/netbsd/=
+mod.rs":"e4b0dfd3004b3a5b4fc4def43a6a389bae11a3ac8a3c604c2fa09ee1c8ae7030",=
+"src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"ee7ff5d89d0ed22f531237b5059aa6=
+69df93a3b5c489fa641465ace8d405bf41","src/unix/bsd/netbsdlike/netbsd/sparc64=
+.rs":"9489f4b3e4566f43bb12dfb92238960613dac7f6a45cc13068a8d152b902d7d9","sr=
+c/unix/bsd/netbsdlike/netbsd/x86.rs":"20692320e36bfe028d1a34d16fe12ca77aa90=
+9cb02bda167376f98f1a09aefe7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"1a=
+fe5ef46b14397cdd68664b5b232e4f5b035b6db1d4cf411c899d51ebca9f30","src/unix/b=
+sd/netbsdlike/openbsd/aarch64.rs":"dd91931d373b7ecaf6e2de25adadee10d16fa9b1=
+2c2cbacdff3eb291e1ba36af","src/unix/bsd/netbsdlike/openbsd/mod.rs":"ea4a056=
+a0b78a4d73d359d44454ad96a4465872a916bd2a19b955fbc9070ca29","src/unix/bsd/ne=
+tbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e8374a532a3ba491b424=
+ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.rs":"6f7f5c4fde2a=
+2259eb547890cbd86570cea04ef85347d7569e94e679448bec87","src/unix/bsd/netbsdl=
+ike/openbsd/x86_64.rs":"d31db31630289c85af3339dbe357998a21ca584cbae31607448=
+fe2cf7675a4e1","src/unix/haiku/b32.rs":"69ae47fc52c6880e85416b4744500d5655c=
+9ec6131cb737f3b649fceaadce15a","src/unix/haiku/b64.rs":"73e64db09275a8da8d5=
+0a13cce2cfa2b136036ddf3a930d2939f337fc995900b","src/unix/haiku/mod.rs":"f02=
+19c43860134e3134361477a202e6c561d6543899377fbdbc86f442bc2415f","src/unix/ha=
+iku/native.rs":"44855f52906f607de137fc4baa8c6b1b9a26baaa666f25d5f7a7ec5e017=
+c8be6","src/unix/haiku/x86_64.rs":"3ec3aeeb7ed208b8916f3e32d42bfd085ff5e169=
+36a1a35d9a52789f043b7237","src/unix/hermit/aarch64.rs":"86048676e335944c37a=
+63d0083d0f368ae10ceccefeed9debb3bbe08777fc682","src/unix/hermit/mod.rs":"85=
+9814f5df89e28fd4b345db399d181e11e7ed413841b6ff703a1fcbdbf013ae","src/unix/h=
+ermit/x86_64.rs":"ab832b7524e5fb15c49ff7431165ab1a37dc4667ae0b58e8306f4c539=
+bfa110c","src/unix/linux_like/android/b32/arm.rs":"433c1530f602cc5ed26610c5=
+8055dde0c4ceea5e00150063b24ddc60768332a4","src/unix/linux_like/android/b32/=
+mod.rs":"d971b98530a96f5892f98e1edc3133cf278d1b3939d77ab0a27a6323e0961715",=
+"src/unix/linux_like/android/b32/x86/align.rs":"812914e4241df82e32b12375ca3=
+374615dc3a4bdd4cf31f0423c5815320c0dab","src/unix/linux_like/android/b32/x86=
+/mod.rs":"8388bd3a0fcb5636bf965eee6dc95ae6860b85a2b555b387c868aa4d4e01ec89"=
+,"src/unix/linux_like/android/b64/aarch64/align.rs":"2179c3b1608fa4bf688404=
+82bfc2b2fa3ee2faf6fcae3770f9e505cddca35c7b","src/unix/linux_like/android/b6=
+4/aarch64/mod.rs":"8fe667d2b14abc5ac8aad32e16c3da24350471d8156eaea9ab4989f7=
+3dd9f9fc","src/unix/linux_like/android/b64/mod.rs":"d7bbbadafdb2cb2ff8e9cde=
+3d89a03b9facaabb6b2d45705225d3ece1c5cce37","src/unix/linux_like/android/b64=
+/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed306dc0720ffc1b21696c=
+9951e3c6","src/unix/linux_like/android/b64/x86_64/mod.rs":"06b22dc184e85a98=
+8ab969c75cadc52b9878faeab0eb9d21215878c95fe07c19","src/unix/linux_like/andr=
+oid/mod.rs":"7066335e80984db42a80f56abdbda048f0773f0bdeb72f530e989d683d61ad=
+8d","src/unix/linux_like/emscripten/align.rs":"86c95cbed7a7161b1f23ee06843e=
+7b0e2340ad92b2cb86fe2a8ef3e0e8c36216","src/unix/linux_like/emscripten/mod.r=
+s":"b71d37106750f57bc2dae4e9bcb473ff098ef48235827e41a1687a39825f0aa4","src/=
+unix/linux_like/emscripten/no_align.rs":"0128e4aa721a9902754828b61b5ec7d8a8=
+6619983ed1e0544a85d35b1051fad6","src/unix/linux_like/linux/align.rs":"213e7=
+0ebed2703e14a9cf17666b21ecbf180b7bff7fa22fdbb36dbbd52df326d","src/unix/linu=
+x_like/linux/arch/generic/mod.rs":"ff1fe8fad4ea15d9bec3db25efcfcb4939190c51=
+89f86cfa4d05825aa8c10956","src/unix/linux_like/linux/arch/mips/mod.rs":"e4a=
+980b002105aaa057eb6568e1e2c6168ade5c00e13a31ef67e316ddffdb900","src/unix/li=
+nux_like/linux/arch/mod.rs":"466a29622e47c6c7f1500682b2eb17f5566dd81b322cd6=
+348f0fdd355cec593a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"1789eb=
+5b41f75c29239795124a4a7cdcf7c8d213b88cf581b2f5bda08d7cf15b","src/unix/linux=
+_like/linux/arch/sparc/mod.rs":"ded708124ee610267d011dee31fb02d1ec697c334aa=
+822776ec95a7ddf6fc541","src/unix/linux_like/linux/gnu/align.rs":"e4a3c27fe2=
+0a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_lik=
+e/linux/gnu/b32/arm/align.rs":"3fed009dc9af3cc81be7087da9d2d7d1f39845e4497e=
+290259c5cdbae25f039d","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"07adf=
+9f4b96854062db518aaf08521fde0ad4a21a5c049efccba437bd97b2b5a","src/unix/linu=
+x_like/linux/gnu/b32/mips/align.rs":"429fb5e005cb7143602d430098b6ebfb7d3606=
+85b194f333dfd587472ae954ee","src/unix/linux_like/linux/gnu/b32/mips/mod.rs"=
+:"1cb5c0c9df3af2bbe131a91593583259fac9118931744c8435e197a394eb0462","src/un=
+ix/linux_like/linux/gnu/b32/mod.rs":"794dbcbae7dae8fd6b0b814573243197ceb532=
+b56ef0772ad86b4b401478fcd9","src/unix/linux_like/linux/gnu/b32/powerpc.rs":=
+"0cd7348badb9c4f8a0db31a2503b30c456a2bfcc7a0e5919762b1e12f912c5ad","src/uni=
+x/linux_like/linux/gnu/b32/riscv32/mod.rs":"ee5145a383386b716605a8d1ff3df21=
+2d418aae1aa1f37d2307d4f9cd1a08e99","src/unix/linux_like/linux/gnu/b32/sparc=
+/align.rs":"21adbed27df73e2d1ed934aaf733a643003d7baf2bde9c48ea440895bcca6d4=
+1","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"1bcec269a8416ccc48a384=
+ca5765eaaa23f30f39f32311f50008ef4eeadafb2f","src/unix/linux_like/linux/gnu/=
+b32/x86/align.rs":"e4bafdc4a519a7922a81b37a62bbfd1177a2f620890eef8f1fbc4716=
+2e9eb413","src/unix/linux_like/linux/gnu/b32/x86/mod.rs":"5317dbf2323577b89=
+370bbee3894882b89d8333176db4f7b271ddc2f036ef43c","src/unix/linux_like/linux=
+/gnu/b64/aarch64/align.rs":"2179c3b1608fa4bf68840482bfc2b2fa3ee2faf6fcae377=
+0f9e505cddca35c7b","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"21=
+a21503ef2e095f4371044915d4bfb07a8578011cb5c713cd9f45947b0b5730","src/unix/l=
+inux_like/linux/gnu/b64/aarch64/lp64.rs":"e78c3cd197f44832338b414d1a9bc0d19=
+4f44c74db77bd7bf830c1fff62b2690","src/unix/linux_like/linux/gnu/b64/aarch64=
+/mod.rs":"c3730792dabcc166d8fd22929ef2633d49bc626875382dfcd401e8e125fb7a84"=
+,"src/unix/linux_like/linux/gnu/b64/mips64/align.rs":"7169d07a9fd4716f75127=
+19aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/gnu=
+/b64/mips64/mod.rs":"68bcb71bbfccb4e8648948e494366d94767ce96f36daab9c132937=
+5cdd32a459","src/unix/linux_like/linux/gnu/b64/mod.rs":"6336065423c26b59681=
+fd2ce77f1117ea36af13e163fdadaefd108bd8191e8c8","src/unix/linux_like/linux/g=
+nu/b64/powerpc64/align.rs":"e29c4868bbecfa4a6cd8a2ad06193f3bbc78a468cc1dc9d=
+f83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/powerpc64/mod.rs":"db=
+b8905e363ed4a2dfb984554ad9b6389d27f6a2d599ec2d80e38a6c7551a019","src/unix/l=
+inux_like/linux/gnu/b64/riscv64/mod.rs":"5b982c41097f4f91adcb0968290afeccb2=
+7dce1695a261c964d34ef85df87cf4","src/unix/linux_like/linux/gnu/b64/s390x.rs=
+":"a9484dfd3c7ca1174537957bef997c3ba7ea41989cdf61ede22b1bbc45a667bf","src/u=
+nix/linux_like/linux/gnu/b64/sparc64/align.rs":"e29c4868bbecfa4a6cd8a2ad061=
+93f3bbc78a468cc1dc9df83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/s=
+parc64/mod.rs":"26fda11bdce99372c2c246e60866b56d98beb9fb49a2f6b69347ecfd03d=
+18255","src/unix/linux_like/linux/gnu/b64/x86_64/align.rs":"7169d07a9fd4716=
+f7512719aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/lin=
+ux/gnu/b64/x86_64/mod.rs":"5a5ce7c5c92f60d8900dce63d363a38f3126aaf5be981710=
+e172bec96ef95ac6","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.rs":"f7=
+75ac2b754f90b63053fe22afe1d19d306b5404995568d6805baa9249fb617f","src/unix/l=
+inux_like/linux/gnu/b64/x86_64/x32.rs":"4ba1b58468f55254717366f50fdfd3e4114=
+fde6dc442a56681926c4d7e5b6b0d","src/unix/linux_like/linux/gnu/mod.rs":"af35=
+90c392bd06394cb307ccb993e66f53de7e2a0211c689dbb1845220475445","src/unix/lin=
+ux_like/linux/gnu/no_align.rs":"9cd223135de75315840ff9c3fd5441ba1cb632b96b5=
+c85a76f8316c86653db25","src/unix/linux_like/linux/mod.rs":"d4d754e571d864b3=
+56a9f7d04b378ba491ccc6281f01ae3da5a1c052dae67554","src/unix/linux_like/linu=
+x/musl/b32/arm/align.rs":"3e8ac052c1043764776b54c93ba4260e061df998631737a89=
+7d9d47d54f7b80c","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"6255abe2e=
+e04986832d12b7b2190589580f2a43e9bfb285b32b5747227f62727","src/unix/linux_li=
+ke/linux/musl/b32/hexagon.rs":"a8811791809672be8338e6e27d1c4fcf383c2f26585b=
+e8bf9ab2923b219de032","src/unix/linux_like/linux/musl/b32/mips/align.rs":"4=
+29fb5e005cb7143602d430098b6ebfb7d360685b194f333dfd587472ae954ee","src/unix/=
+linux_like/linux/musl/b32/mips/mod.rs":"b9e9ff42363ebbb884ddf6445129ec41644=
+71df45846874fc08f5f458e659254","src/unix/linux_like/linux/musl/b32/mod.rs":=
+"8ede3985e6243882814ce91e8ce543e7edbafc0cee5932816072b6f14207a671","src/uni=
+x/linux_like/linux/musl/b32/powerpc.rs":"4592dc5f1f2fe888dfef85fa862d42d168=
+e73a2c6f4fc052b58287d0f4d4ffcd","src/unix/linux_like/linux/musl/b32/x86/ali=
+gn.rs":"08e77fbd7435d7dec2ff56932433bece3f02e47ce810f89004a275a86d39cbe1","=
+src/unix/linux_like/linux/musl/b32/x86/mod.rs":"a19a8decfab185af3cebd34aae4=
+b15082e7552be573904b8c1a3f0c0e493ef34","src/unix/linux_like/linux/musl/b64/=
+aarch64/align.rs":"798a9229d70ce235394f2dd625f6c4c1e10519a94382dc5b091952b6=
+38ae2928","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"a73035c6d9b7=
+76f13b839008e15c04c2c53455571efd06664affcb047e457112","src/unix/linux_like/=
+linux/musl/b64/mips64.rs":"2744895451f3a777fbe54f7f2695be53310b965fd62084c9=
+b7e9121c7fe28346","src/unix/linux_like/linux/musl/b64/mod.rs":"d18abc0aeba2=
+e26342bf3416a4dba0836db2bb0ee013b0a39629475cf8640289","src/unix/linux_like/=
+linux/musl/b64/powerpc64.rs":"e5a55525b42493923956d668f978fb45e22d51deea00c=
+e5edbfddf76ff19c741","src/unix/linux_like/linux/musl/b64/s390x.rs":"03dfec6=
+794d93cb31a7c52b2d53a0973755168f91f8fa437cc5dbd54882c8ee7","src/unix/linux_=
+like/linux/musl/b64/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed3=
+06dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/musl/b64/x86_64/mod=
+.rs":"0dd168f5a6881f32e5239fb312b23cf137b800d0ff323286a92c8a2c382b5456","sr=
+c/unix/linux_like/linux/musl/mod.rs":"55ccd71342276ccb4c441a4bc2772aebfd163=
+af299669b658c6c8c6add331ec3","src/unix/linux_like/linux/no_align.rs":"5ed04=
+c53bf9d27da9b4d65ba7625c6ac53330162683d1b3df98950caafa3507b","src/unix/linu=
+x_like/linux/uclibc/align.rs":"9ed16138d8e439bd90930845a65eafa7ebd67366e6bf=
+633936d44014f6e4c959","src/unix/linux_like/linux/uclibc/arm/align.rs":"e4a3=
+c27fe20a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/lin=
+ux_like/linux/uclibc/arm/mod.rs":"1e3bf809508b5872949136859bf48ddf58b7d24ae=
+9f0b663e79f0efd1aaeb6a6","src/unix/linux_like/linux/uclibc/arm/no_align.rs"=
+:"9cd223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/un=
+ix/linux_like/linux/uclibc/mips/mips32/align.rs":"e4a3c27fe20a57b8d612c34cb=
+05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_like/linux/uclibc/=
+mips/mips32/mod.rs":"fa4102d9a596d90de604ce2962b0e64f184dfbf10552a4c3ecf28f=
+12d4704379","src/unix/linux_like/linux/uclibc/mips/mips32/no_align.rs":"9cd=
+223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/unix/li=
+nux_like/linux/uclibc/mips/mips64/align.rs":"a7bdcb18a37a2d91e64d5fad83ea3e=
+dc78f5412adb28f77ab077dbb26dd08b2d","src/unix/linux_like/linux/uclibc/mips/=
+mips64/mod.rs":"e3085ba56cfbc528d7c3c55065880603238c333b6047ef51c58177508a4=
+87fcd","src/unix/linux_like/linux/uclibc/mips/mips64/no_align.rs":"4a18e387=
+5698c85229599225ac3401a2a40da87e77b2ad4ef47c6fcd5a24ed30","src/unix/linux_l=
+ike/linux/uclibc/mips/mod.rs":"a2877679fef0f14f54a89ccbc41fb02f0c25bf6e536f=
+9eb2cb2fa437e1d3f739","src/unix/linux_like/linux/uclibc/mod.rs":"82d504d3aa=
+12cb0f7933980f81c4708fa6e070d4c57efdf407f2de05b71bc06d","src/unix/linux_lik=
+e/linux/uclibc/no_align.rs":"3f28637046524618adaa1012e26cb7ffe94b9396e6b518=
+cccdc69d59f274d709","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"024e=
+ba5753e852dbdd212427351affe7e83f9916c1864bce414d7aa2618f192e","src/unix/lin=
+ux_like/linux/uclibc/x86_64/mod.rs":"66e8f5b7509a6e638b8b904906f89badbab0da=
+8fb5b602d07ebd88649c4b961a","src/unix/linux_like/linux/uclibc/x86_64/other.=
+rs":"42c3f71e58cabba373f6a55a623f3c31b85049eb64824c09c2b082b3b2d6a0a8","src=
+/unix/linux_like/mod.rs":"ffce98bdd208fd9d335c65feafbf0d9742bea67c7eec1ee48=
+657f292132ec3f0","src/unix/mod.rs":"6b2b57833e37cd3231944696c8216eb587a2a68=
+069346150cf321153eaf04d03","src/unix/newlib/aarch64/mod.rs":"bb269c1468a967=
+6442554600e87417079a787fe6220dfc23b3109639259e8710","src/unix/newlib/align.=
+rs":"28aaf87fafbc6b312622719d472d8cf65f9e5467d15339df5f73e66d8502b28a","src=
+/unix/newlib/arm/mod.rs":"c71be856bfd7f576b2db28af9f680211cbe6c1cac7d537bbc=
+8020b39591af07c","src/unix/newlib/espidf/mod.rs":"c198cb4beccdab483be61c102=
+da74dc51ac80f766797e33021f3110394ed5a3d","src/unix/newlib/mod.rs":"d7271c13=
+748be08305d36f9af6f41f6950a7a1d6d4382149194a35d5fe2090de","src/unix/newlib/=
+no_align.rs":"e0743b2179495a9514bc3a4d1781e492878c4ec834ee0085d0891dd1712e8=
+2fb","src/unix/newlib/powerpc/mod.rs":"2d0f7af28b47f7a2a6c210ebd1c1f33ed8ea=
+c62e56b5af2b856de2ad3fdc5187","src/unix/no_align.rs":"c06e95373b9088266e0b1=
+4bba0954eef95f93fb2b01d951855e382d22de78e53","src/unix/redox/mod.rs":"cc479=
+4afa4fbed9d6612894ea476228f9d8533950162d6416fc4d16073e1dac4","src/unix/sola=
+rish/compat.rs":"b07a5bfac925eb012003a459ba6bddbd3bfa9c44b3394da2ac5a602e54=
+beae9c","src/unix/solarish/illumos.rs":"7d8f47fd37880715b449723688aaee56878=
+5325a46f1c360a05bdca13252278e","src/unix/solarish/mod.rs":"bf2cb449b8a690fc=
+1fa31c3b22c4db80075270a88d63123d18ca305317e53b2e","src/unix/solarish/solari=
+s.rs":"65b005453aefa9b9d4fc860fe77cfec80d8c97a51342b15daf55fc3e808bb384","s=
+rc/unix/solarish/x86_64.rs":"9d761573bdccbdd1ac61da571f7e96b5374df70241d9b7=
+2d45a069611f495085","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed6=
+737585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4=
+abdf39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"aea=
+3da66f2140f2a82dfc9c58f6e6531d2dd9c15ea696e0f95a0d4a2a187b5b6","src/vxworks=
+/powerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788=
+e88","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dc=
+e7a9d4941d08c437762b99","src/vxworks/x86.rs":"552f007f38317620b23889cb7c49d=
+1d115841252439060122f52f434fbc6e5ba","src/vxworks/x86_64.rs":"018d92be3ad62=
+8a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98ed6b514a","src/wasi.rs":"2c945bc=
+e3ddd26bf20ff03fb4192c9c3f625f1308a479c5cb4bd4510a892629a","src/windows/gnu=
+/align.rs":"b2c13ec1b9f3b39a75c452c80c951dff9d0215e31d77e883b4502afb3179464=
+7","src/windows/gnu/mod.rs":"3c8c7edb7cdf5d0c44af936db2a94869585c69dfabeef3=
+0571b4f4e38375767a","src/windows/mod.rs":"1cd9223293255b994814487e28d9979fb=
+8ebef4538a236c1aa47fdc166a149cc","src/windows/msvc/mod.rs":"860dc98245039bc=
+3aa5782ef2b5798d009ea6655bd27a63f244be2206d2cb47f","src/windows/msvc/x86_64=
+/align.rs":"648cf422b5a9c38eeb91754833780fd1f7aebca241c0391f1198ae2b286fde6=
+5","src/windows/msvc/x86_64/mod.rs":"a1f20fd9ed4eb6cddea3f0ebe70d791cdf00ed=
+55ae10e23047e6b31c36c00c57","tests/const_fn.rs":"cb75a1f0864f926aebe79118fc=
+34d51a0d1ade2c20a394e7774c7e545f21f1f4"},"package":"a60553f9a9e039a333b4e9b=
+20573b9e9b9c0bb3a11e201ccc48ef4283456d673"}
+ \ No newline at end of file
+-+{"files":{"CONTRIBUTING.md":"752eea5a703d11b485c6b5f195f51bd2c79aa5159b61=
+9ce09555c779e1fb586b","Cargo.toml":"d6f6253f05d207b6c676e5647b31ad0ca3f05da=
+3ac05db47f81d4ebd901ba22f","LICENSE-APACHE":"a60eea817514531668d7e007657314=
+49fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"a8d47ff51ca256f56a8932db=
+a07660672dbfe3004257ca8de708aac1415937a1","README.md":"8228847944f1332882fb=
+b00275b6f30e4a8aad08a13569c25d52cac012cc2a47","build.rs":"a71b92db5077b33af=
+4ee6f1de33574ac33c2b292840eddbe3f7cce37f1fb16b9","rustfmt.toml":"eaa2ea84fc=
+1ba0359b77680804903e07bb38d257ab11986b95b158e460f787b2","src/fixed_width_in=
+ts.rs":"34c60f12ec5eeb90f13ec3b954427532111c2446e69617616a97aefc1086a9f1","=
+src/fuchsia/aarch64.rs":"378776a9e40766154a54c94c2a7b4675b5c302a38e6e42da99=
+e67bfbaee60e56","src/fuchsia/align.rs":"ae1cf8f011a99737eabeb14ffff768e60f1=
+3b13363d7646744dbb0f443dab3d6","src/fuchsia/mod.rs":"520300ff260d377930f2f4=
+56135ec9a3ac7740a949ce7bf5269c0dc60d56c0df","src/fuchsia/no_align.rs":"303f=
+3f1b255e0088b5715094353cf00476131d8e94e6aebb3f469557771c8b8a","src/fuchsia/=
+x86_64.rs":"93a3632b5cf67d2a6bcb7dc0a558605252d5fe689e0f38d8aa2ec5852255ac8=
+7","src/hermit/aarch64.rs":"86048676e335944c37a63d0083d0f368ae10ceccefeed9d=
+ebb3bbe08777fc682","src/hermit/mod.rs":"d3bfce41e4463d4be8020a2d063c9bfa8b6=
+65f45f1cc6cbf3163f5d01e7cb21f","src/hermit/x86_64.rs":"ab832b7524e5fb15c49f=
+f7431165ab1a37dc4667ae0b58e8306f4c539bfa110c","src/lib.rs":"e92c56b42f1bd1b=
+9e66be2a9b73aca6ba29024b9bd17c16f327dfbe8831e3f86","src/macros.rs":"c1a299d=
+5327ba033f079388f8ac8a44848f9aeff6a72e9be6dfa70f4769cc619","src/psp.rs":"dd=
+31aabd46171d474ec5828372e28588935120e7355c90c105360d8fa9264c1c","src/sgx.rs=
+":"16a95cdefc81c5ee00d8353a60db363c4cc3e0f75abcd5d0144723f2a306ed1b","src/s=
+olid/aarch64.rs":"8cdae0cc37c43dabd4253a534e700bec6b6a57293c0c8e36c9ce16675=
+d16799a","src/solid/arm.rs":"852b58a0837fde089cb9b5af131bf653daeb8c726f7540=
+032756db8b7d4f8149","src/solid/mod.rs":"98dc29c3e5773318ba258a4a2b7407f25aa=
+52d40885a0024fbe43676fe54d14b","src/switch.rs":"9da3dd39b3de45a7928789926e8=
+572d00e1e11a39e6f7289a1349aadce90edba","src/unix/align.rs":"2cdc7c826ef7ae6=
+1f5171c5ae8c445a743d86f1a7f2d9d7e4ceeec56d6874f65","src/unix/bsd/apple/b32/=
+align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c=
+","src/unix/bsd/apple/b32/mod.rs":"2546ad3eb6aecb95f916648bc63264117c92b4b4=
+859532b34cb011e4c75a5a72","src/unix/bsd/apple/b64/aarch64/align.rs":"f0c321=
+265dd7671f16106b84951ac7dd77ed2e65c6623cbf2d29e76531984770","src/unix/bsd/a=
+pple/b64/aarch64/mod.rs":"44c217a4f263afe7a97435de9323d20a96c37836f899ca092=
+5306d4b7e073c27","src/unix/bsd/apple/b64/align.rs":"ec833a747866fe19ca2d9b4=
+d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/mod.rs":=
+"f5e278a1af7fb358891d1c9be4eb7e815aaca0c5cb738d0c3604ba2208a856f7","src/uni=
+x/bsd/apple/b64/x86_64/align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf=
+4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/x86_64/mod.rs":"8c87c58550=
+38aae5d433c8f5eb3b29b0a175879a0245342b3bfd83bdf4cfd936","src/unix/bsd/apple=
+/mod.rs":"96f101bdab46a9f0a5249a8143d4a9def055284a0c2bd62bce15532a5bed428c"=
+,"src/unix/bsd/freebsdlike/dragonfly/errno.rs":"8295b8bb0dfd38d2cdb4d9192cd=
+eeb534cc6c3b208170e64615fa3e0edb3e578","src/unix/bsd/freebsdlike/dragonfly/=
+mod.rs":"6ea4129eb5d6da5c09f8cf3692b5e7716f058b48d1e8c61115691709eda7ce51",=
+"src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"2a215bd6136b8617aacedf9be738=
+ccee94da9d29b418e9a78101d6291c182352","src/unix/bsd/freebsdlike/freebsd/arm=
+.rs":"59d6a670eea562fb87686e243e0a84603d29a2028a3d4b3f99ccc01bd04d2f47","sr=
+c/unix/bsd/freebsdlike/freebsd/freebsd11/b64.rs":"9808d152c1196aa647f1b0f0c=
+f84dac8c930da7d7f897a44975545e3d9d17681","src/unix/bsd/freebsdlike/freebsd/=
+freebsd11/mod.rs":"bf0a994e2079b8aad9da5efd3a3b9a7194a53ae60887a25c57964fb6=
+8499e847","src/unix/bsd/freebsdlike/freebsd/freebsd12/b64.rs":"61cbe45f8499=
+bedb168106b686d4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsd=
+like/freebsd/freebsd12/mod.rs":"295b3e3b67394f731d4e88d169e3d3d1d80026b9989=
+8745cd0d1d163f085ff61","src/unix/bsd/freebsdlike/freebsd/freebsd12/x86_64.r=
+s":"2df36a7f122f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/=
+unix/bsd/freebsdlike/freebsd/freebsd13/b64.rs":"61cbe45f8499bedb168106b686d=
+4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsdlike/freebsd/fr=
+eebsd13/mod.rs":"98f6af2021b434f9c3197094312b457774381220f31a22c3b15b1fe8a6=
+0cb365","src/unix/bsd/freebsdlike/freebsd/freebsd13/x86_64.rs":"2df36a7f122=
+f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/unix/bsd/freebs=
+dlike/freebsd/mod.rs":"6b825079ffe3f9aec6e78ea6b50acedcb91a4e1312d721105b7f=
+8b1555f254df","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"9ca3f82f88974e=
+6db5569f2d76a5a3749b248a31747a6c0da5820492bdfeca42","src/unix/bsd/freebsdli=
+ke/freebsd/powerpc64.rs":"2dae3ecc87eac3b11657aa98915def55fc4b5c0de11fe26aa=
+e23329a54628a9a","src/unix/bsd/freebsdlike/freebsd/x86.rs":"c5005e3249eb7c9=
+3cfbac72a9e9272320d80ce7983da990ceb05a447f59a02c5","src/unix/bsd/freebsdlik=
+e/freebsd/x86_64/align.rs":"0e1f69a88fca1c32874b1daf5db3d446fefbe518dca497f=
+096cc9168c39dde70","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"c3a011=
+1252e201c172b99e7d9cbee4cf088d3dd47995110e819f04276bccd198","src/unix/bsd/f=
+reebsdlike/mod.rs":"98d322b22050a80636841287d9ed12549a2004a9dbe151763e5b127=
+0f5e73ea3","src/unix/bsd/mod.rs":"2fed08973739d7f6a7412b204724af64b1a915c71=
+2689c250cf9a08263ba05ff","src/unix/bsd/netbsdlike/mod.rs":"4e9da54e541773c7=
+ad4cca9dade1df00f28f2fdac3f8df5957f4c74b7e082344","src/unix/bsd/netbsdlike/=
+netbsd/aarch64.rs":"65dcb58d11e8d8028401a9d07ca3eb4cb4f053e04249cc877353449=
+d84ccc4cb","src/unix/bsd/netbsdlike/netbsd/arm.rs":"58cdbb70b0d6f536551f0f3=
+bb3725d2d75c4690db12c26c034e7d6ec4a924452","src/unix/bsd/netbsdlike/netbsd/=
+mod.rs":"f6de6981382af87518e4a5b6d26c2ea551ed74640dd7166107a824af30ced243",=
+"src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"ee7ff5d89d0ed22f531237b5059aa6=
+69df93a3b5c489fa641465ace8d405bf41","src/unix/bsd/netbsdlike/netbsd/sparc64=
+.rs":"9489f4b3e4566f43bb12dfb92238960613dac7f6a45cc13068a8d152b902d7d9","sr=
+c/unix/bsd/netbsdlike/netbsd/x86.rs":"20692320e36bfe028d1a34d16fe12ca77aa90=
+9cb02bda167376f98f1a09aefe7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"1a=
+fe5ef46b14397cdd68664b5b232e4f5b035b6db1d4cf411c899d51ebca9f30","src/unix/b=
+sd/netbsdlike/openbsd/aarch64.rs":"dd91931d373b7ecaf6e2de25adadee10d16fa9b1=
+2c2cbacdff3eb291e1ba36af","src/unix/bsd/netbsdlike/openbsd/mod.rs":"47aaab2=
+bd8238e937112ff17e8262945c8e5865d5e696f218b11c1da59830808","src/unix/bsd/ne=
+tbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e8374a532a3ba491b424=
+ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.rs":"6f7f5c4fde2a=
+2259eb547890cbd86570cea04ef85347d7569e94e679448bec87","src/unix/bsd/netbsdl=
+ike/openbsd/x86_64.rs":"d31db31630289c85af3339dbe357998a21ca584cbae31607448=
+fe2cf7675a4e1","src/unix/haiku/b32.rs":"69ae47fc52c6880e85416b4744500d5655c=
+9ec6131cb737f3b649fceaadce15a","src/unix/haiku/b64.rs":"73e64db09275a8da8d5=
+0a13cce2cfa2b136036ddf3a930d2939f337fc995900b","src/unix/haiku/mod.rs":"80a=
+6cfb58acbbc471dbd412dd76a41f372befc8f217fb1671ed4ce8d391dced0","src/unix/ha=
+iku/native.rs":"44855f52906f607de137fc4baa8c6b1b9a26baaa666f25d5f7a7ec5e017=
+c8be6","src/unix/haiku/x86_64.rs":"3ec3aeeb7ed208b8916f3e32d42bfd085ff5e169=
+36a1a35d9a52789f043b7237","src/unix/hermit/aarch64.rs":"86048676e335944c37a=
+63d0083d0f368ae10ceccefeed9debb3bbe08777fc682","src/unix/hermit/mod.rs":"85=
+9814f5df89e28fd4b345db399d181e11e7ed413841b6ff703a1fcbdbf013ae","src/unix/h=
+ermit/x86_64.rs":"ab832b7524e5fb15c49ff7431165ab1a37dc4667ae0b58e8306f4c539=
+bfa110c","src/unix/linux_like/android/b32/arm.rs":"433c1530f602cc5ed26610c5=
+8055dde0c4ceea5e00150063b24ddc60768332a4","src/unix/linux_like/android/b32/=
+mod.rs":"d971b98530a96f5892f98e1edc3133cf278d1b3939d77ab0a27a6323e0961715",=
+"src/unix/linux_like/android/b32/x86/align.rs":"812914e4241df82e32b12375ca3=
+374615dc3a4bdd4cf31f0423c5815320c0dab","src/unix/linux_like/android/b32/x86=
+/mod.rs":"8388bd3a0fcb5636bf965eee6dc95ae6860b85a2b555b387c868aa4d4e01ec89"=
+,"src/unix/linux_like/android/b64/aarch64/align.rs":"2179c3b1608fa4bf688404=
+82bfc2b2fa3ee2faf6fcae3770f9e505cddca35c7b","src/unix/linux_like/android/b6=
+4/aarch64/mod.rs":"8fe667d2b14abc5ac8aad32e16c3da24350471d8156eaea9ab4989f7=
+3dd9f9fc","src/unix/linux_like/android/b64/mod.rs":"d7bbbadafdb2cb2ff8e9cde=
+3d89a03b9facaabb6b2d45705225d3ece1c5cce37","src/unix/linux_like/android/b64=
+/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed306dc0720ffc1b21696c=
+9951e3c6","src/unix/linux_like/android/b64/x86_64/mod.rs":"06b22dc184e85a98=
+8ab969c75cadc52b9878faeab0eb9d21215878c95fe07c19","src/unix/linux_like/andr=
+oid/mod.rs":"07cebaa8d953446b8df5cb7c5de3932ae85b04d9e9993e3a3a126ff8f15111=
+a4","src/unix/linux_like/emscripten/align.rs":"86c95cbed7a7161b1f23ee06843e=
+7b0e2340ad92b2cb86fe2a8ef3e0e8c36216","src/unix/linux_like/emscripten/mod.r=
+s":"b71d37106750f57bc2dae4e9bcb473ff098ef48235827e41a1687a39825f0aa4","src/=
+unix/linux_like/emscripten/no_align.rs":"0128e4aa721a9902754828b61b5ec7d8a8=
+6619983ed1e0544a85d35b1051fad6","src/unix/linux_like/linux/align.rs":"213e7=
+0ebed2703e14a9cf17666b21ecbf180b7bff7fa22fdbb36dbbd52df326d","src/unix/linu=
+x_like/linux/arch/generic/mod.rs":"1618634d37348032f5ce1dc9df1aaa1f1681bca4=
+a275f23d41f42098c4d3b423","src/unix/linux_like/linux/arch/mips/mod.rs":"dac=
+02cd01dbd3b222286887c64d398c031afc08d38850c2b3ce2fe7158d888e0","src/unix/li=
+nux_like/linux/arch/mod.rs":"466a29622e47c6c7f1500682b2eb17f5566dd81b322cd6=
+348f0fdd355cec593a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"1789eb=
+5b41f75c29239795124a4a7cdcf7c8d213b88cf581b2f5bda08d7cf15b","src/unix/linux=
+_like/linux/arch/sparc/mod.rs":"e7139d3bfb291a283c767e6201eac8bbb58c91839a3=
+6fa56bfe500fcb3aa754a","src/unix/linux_like/linux/gnu/align.rs":"e4a3c27fe2=
+0a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_lik=
+e/linux/gnu/b32/arm/align.rs":"3fed009dc9af3cc81be7087da9d2d7d1f39845e4497e=
+290259c5cdbae25f039d","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"5e40c=
+273b767c369a46c3315c7cfde97379944ed63c74735e98d4dae2c49d414","src/unix/linu=
+x_like/linux/gnu/b32/mips/align.rs":"429fb5e005cb7143602d430098b6ebfb7d3606=
+85b194f333dfd587472ae954ee","src/unix/linux_like/linux/gnu/b32/mips/mod.rs"=
+:"20b4c897fb3f63e31a04849b348ec8e6e6405ce9463048d411114f8c9dbabd8a","src/un=
+ix/linux_like/linux/gnu/b32/mod.rs":"794dbcbae7dae8fd6b0b814573243197ceb532=
+b56ef0772ad86b4b401478fcd9","src/unix/linux_like/linux/gnu/b32/powerpc.rs":=
+"0cd7348badb9c4f8a0db31a2503b30c456a2bfcc7a0e5919762b1e12f912c5ad","src/uni=
+x/linux_like/linux/gnu/b32/riscv32/mod.rs":"ee5145a383386b716605a8d1ff3df21=
+2d418aae1aa1f37d2307d4f9cd1a08e99","src/unix/linux_like/linux/gnu/b32/sparc=
+/align.rs":"21adbed27df73e2d1ed934aaf733a643003d7baf2bde9c48ea440895bcca6d4=
+1","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"a2c4ae8f31a74e4843b8ff=
+4b6507419f403b52713169fcee9b1b24eb2324162a","src/unix/linux_like/linux/gnu/=
+b32/x86/align.rs":"e4bafdc4a519a7922a81b37a62bbfd1177a2f620890eef8f1fbc4716=
+2e9eb413","src/unix/linux_like/linux/gnu/b32/x86/mod.rs":"525ee4917b54790ce=
+fc1298ec1015cea6332d818d9c7475434e94d06afdd59c0","src/unix/linux_like/linux=
+/gnu/b64/aarch64/align.rs":"2179c3b1608fa4bf68840482bfc2b2fa3ee2faf6fcae377=
+0f9e505cddca35c7b","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"21=
+a21503ef2e095f4371044915d4bfb07a8578011cb5c713cd9f45947b0b5730","src/unix/l=
+inux_like/linux/gnu/b64/aarch64/lp64.rs":"e78c3cd197f44832338b414d1a9bc0d19=
+4f44c74db77bd7bf830c1fff62b2690","src/unix/linux_like/linux/gnu/b64/aarch64=
+/mod.rs":"d179cbb462c451ff8805029b2b922c4bf90e35f667e80d716d5064f563aebc52"=
+,"src/unix/linux_like/linux/gnu/b64/mips64/align.rs":"7169d07a9fd4716f75127=
+19aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/gnu=
+/b64/mips64/mod.rs":"7d456da436017cb388b65b2c4b626c83b489cbb19a591673b9c627=
+a608d53cfc","src/unix/linux_like/linux/gnu/b64/mod.rs":"6336065423c26b59681=
+fd2ce77f1117ea36af13e163fdadaefd108bd8191e8c8","src/unix/linux_like/linux/g=
+nu/b64/powerpc64/align.rs":"e29c4868bbecfa4a6cd8a2ad06193f3bbc78a468cc1dc9d=
+f83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/powerpc64/mod.rs":"db=
+b8905e363ed4a2dfb984554ad9b6389d27f6a2d599ec2d80e38a6c7551a019","src/unix/l=
+inux_like/linux/gnu/b64/riscv64/mod.rs":"5b982c41097f4f91adcb0968290afeccb2=
+7dce1695a261c964d34ef85df87cf4","src/unix/linux_like/linux/gnu/b64/s390x.rs=
+":"fce37140468f8914411eed0b25a882e60e1b54bcffcd33d6263a91b57d04f6c1","src/u=
+nix/linux_like/linux/gnu/b64/sparc64/align.rs":"e29c4868bbecfa4a6cd8a2ad061=
+93f3bbc78a468cc1dc9df83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/s=
+parc64/mod.rs":"518ef78da0d81fe74cec30be411145d763fdfd249de4d108602fd099578=
+1f590","src/unix/linux_like/linux/gnu/b64/x86_64/align.rs":"7169d07a9fd4716=
+f7512719aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/lin=
+ux/gnu/b64/x86_64/mod.rs":"76cba0a3f9456a968d2ae6ea587162b2ff04278dc5250cb1=
+76395c936579771b","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.rs":"f7=
+75ac2b754f90b63053fe22afe1d19d306b5404995568d6805baa9249fb617f","src/unix/l=
+inux_like/linux/gnu/b64/x86_64/x32.rs":"4ba1b58468f55254717366f50fdfd3e4114=
+fde6dc442a56681926c4d7e5b6b0d","src/unix/linux_like/linux/gnu/mod.rs":"af35=
+90c392bd06394cb307ccb993e66f53de7e2a0211c689dbb1845220475445","src/unix/lin=
+ux_like/linux/gnu/no_align.rs":"9cd223135de75315840ff9c3fd5441ba1cb632b96b5=
+c85a76f8316c86653db25","src/unix/linux_like/linux/mod.rs":"88ce2c4105c07c12=
+62495e0ff1bd53f3ceec99adba9c20c612439838b4dbfdd6","src/unix/linux_like/linu=
+x/musl/b32/arm/align.rs":"3e8ac052c1043764776b54c93ba4260e061df998631737a89=
+7d9d47d54f7b80c","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"6255abe2e=
+e04986832d12b7b2190589580f2a43e9bfb285b32b5747227f62727","src/unix/linux_li=
+ke/linux/musl/b32/hexagon.rs":"10067cde5706e1173aa8e0a3a364cf44fe5b7a9f8b71=
+cb086c653be71af00564","src/unix/linux_like/linux/musl/b32/mips/align.rs":"4=
+29fb5e005cb7143602d430098b6ebfb7d360685b194f333dfd587472ae954ee","src/unix/=
+linux_like/linux/musl/b32/mips/mod.rs":"b9e9ff42363ebbb884ddf6445129ec41644=
+71df45846874fc08f5f458e659254","src/unix/linux_like/linux/musl/b32/mod.rs":=
+"8ede3985e6243882814ce91e8ce543e7edbafc0cee5932816072b6f14207a671","src/uni=
+x/linux_like/linux/musl/b32/powerpc.rs":"4592dc5f1f2fe888dfef85fa862d42d168=
+e73a2c6f4fc052b58287d0f4d4ffcd","src/unix/linux_like/linux/musl/b32/x86/ali=
+gn.rs":"08e77fbd7435d7dec2ff56932433bece3f02e47ce810f89004a275a86d39cbe1","=
+src/unix/linux_like/linux/musl/b32/x86/mod.rs":"a19a8decfab185af3cebd34aae4=
+b15082e7552be573904b8c1a3f0c0e493ef34","src/unix/linux_like/linux/musl/b64/=
+aarch64/align.rs":"798a9229d70ce235394f2dd625f6c4c1e10519a94382dc5b091952b6=
+38ae2928","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"a73035c6d9b7=
+76f13b839008e15c04c2c53455571efd06664affcb047e457112","src/unix/linux_like/=
+linux/musl/b64/mips64.rs":"2744895451f3a777fbe54f7f2695be53310b965fd62084c9=
+b7e9121c7fe28346","src/unix/linux_like/linux/musl/b64/mod.rs":"d18abc0aeba2=
+e26342bf3416a4dba0836db2bb0ee013b0a39629475cf8640289","src/unix/linux_like/=
+linux/musl/b64/powerpc64.rs":"e5a55525b42493923956d668f978fb45e22d51deea00c=
+e5edbfddf76ff19c741","src/unix/linux_like/linux/musl/b64/s390x.rs":"03dfec6=
+794d93cb31a7c52b2d53a0973755168f91f8fa437cc5dbd54882c8ee7","src/unix/linux_=
+like/linux/musl/b64/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed3=
+06dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/musl/b64/x86_64/mod=
+.rs":"0dd168f5a6881f32e5239fb312b23cf137b800d0ff323286a92c8a2c382b5456","sr=
+c/unix/linux_like/linux/musl/mod.rs":"55ccd71342276ccb4c441a4bc2772aebfd163=
+af299669b658c6c8c6add331ec3","src/unix/linux_like/linux/no_align.rs":"5ed04=
+c53bf9d27da9b4d65ba7625c6ac53330162683d1b3df98950caafa3507b","src/unix/linu=
+x_like/linux/uclibc/align.rs":"9ed16138d8e439bd90930845a65eafa7ebd67366e6bf=
+633936d44014f6e4c959","src/unix/linux_like/linux/uclibc/arm/align.rs":"e4a3=
+c27fe20a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/lin=
+ux_like/linux/uclibc/arm/mod.rs":"1e3bf809508b5872949136859bf48ddf58b7d24ae=
+9f0b663e79f0efd1aaeb6a6","src/unix/linux_like/linux/uclibc/arm/no_align.rs"=
+:"9cd223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/un=
+ix/linux_like/linux/uclibc/mips/mips32/align.rs":"e4a3c27fe20a57b8d612c34cb=
+05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_like/linux/uclibc/=
+mips/mips32/mod.rs":"fa4102d9a596d90de604ce2962b0e64f184dfbf10552a4c3ecf28f=
+12d4704379","src/unix/linux_like/linux/uclibc/mips/mips32/no_align.rs":"9cd=
+223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/unix/li=
+nux_like/linux/uclibc/mips/mips64/align.rs":"a7bdcb18a37a2d91e64d5fad83ea3e=
+dc78f5412adb28f77ab077dbb26dd08b2d","src/unix/linux_like/linux/uclibc/mips/=
+mips64/mod.rs":"e3085ba56cfbc528d7c3c55065880603238c333b6047ef51c58177508a4=
+87fcd","src/unix/linux_like/linux/uclibc/mips/mips64/no_align.rs":"4a18e387=
+5698c85229599225ac3401a2a40da87e77b2ad4ef47c6fcd5a24ed30","src/unix/linux_l=
+ike/linux/uclibc/mips/mod.rs":"a2877679fef0f14f54a89ccbc41fb02f0c25bf6e536f=
+9eb2cb2fa437e1d3f739","src/unix/linux_like/linux/uclibc/mod.rs":"82d504d3aa=
+12cb0f7933980f81c4708fa6e070d4c57efdf407f2de05b71bc06d","src/unix/linux_lik=
+e/linux/uclibc/no_align.rs":"3f28637046524618adaa1012e26cb7ffe94b9396e6b518=
+cccdc69d59f274d709","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"024e=
+ba5753e852dbdd212427351affe7e83f9916c1864bce414d7aa2618f192e","src/unix/lin=
+ux_like/linux/uclibc/x86_64/mod.rs":"66e8f5b7509a6e638b8b904906f89badbab0da=
+8fb5b602d07ebd88649c4b961a","src/unix/linux_like/linux/uclibc/x86_64/other.=
+rs":"42c3f71e58cabba373f6a55a623f3c31b85049eb64824c09c2b082b3b2d6a0a8","src=
+/unix/linux_like/mod.rs":"ffce98bdd208fd9d335c65feafbf0d9742bea67c7eec1ee48=
+657f292132ec3f0","src/unix/mod.rs":"b72f18e053cca0ade0f0606f1848a773fcf1885=
+c72cbb31889275e8195f060bd","src/unix/newlib/aarch64/mod.rs":"bb269c1468a967=
+6442554600e87417079a787fe6220dfc23b3109639259e8710","src/unix/newlib/align.=
+rs":"28aaf87fafbc6b312622719d472d8cf65f9e5467d15339df5f73e66d8502b28a","src=
+/unix/newlib/arm/mod.rs":"c71be856bfd7f576b2db28af9f680211cbe6c1cac7d537bbc=
+8020b39591af07c","src/unix/newlib/espidf/mod.rs":"c198cb4beccdab483be61c102=
+da74dc51ac80f766797e33021f3110394ed5a3d","src/unix/newlib/mod.rs":"d7271c13=
+748be08305d36f9af6f41f6950a7a1d6d4382149194a35d5fe2090de","src/unix/newlib/=
+no_align.rs":"e0743b2179495a9514bc3a4d1781e492878c4ec834ee0085d0891dd1712e8=
+2fb","src/unix/newlib/powerpc/mod.rs":"2d0f7af28b47f7a2a6c210ebd1c1f33ed8ea=
+c62e56b5af2b856de2ad3fdc5187","src/unix/no_align.rs":"c06e95373b9088266e0b1=
+4bba0954eef95f93fb2b01d951855e382d22de78e53","src/unix/redox/mod.rs":"cc479=
+4afa4fbed9d6612894ea476228f9d8533950162d6416fc4d16073e1dac4","src/unix/sola=
+rish/compat.rs":"b07a5bfac925eb012003a459ba6bddbd3bfa9c44b3394da2ac5a602e54=
+beae9c","src/unix/solarish/illumos.rs":"7d8f47fd37880715b449723688aaee56878=
+5325a46f1c360a05bdca13252278e","src/unix/solarish/mod.rs":"ea9dd1c1d6892740=
+8342762ee8998a9628838974c91089f620c867910c29adba","src/unix/solarish/solari=
+s.rs":"65b005453aefa9b9d4fc860fe77cfec80d8c97a51342b15daf55fc3e808bb384","s=
+rc/unix/solarish/x86_64.rs":"9d761573bdccbdd1ac61da571f7e96b5374df70241d9b7=
+2d45a069611f495085","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed6=
+737585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4=
+abdf39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"aea=
+3da66f2140f2a82dfc9c58f6e6531d2dd9c15ea696e0f95a0d4a2a187b5b6","src/vxworks=
+/powerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788=
+e88","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dc=
+e7a9d4941d08c437762b99","src/vxworks/x86.rs":"552f007f38317620b23889cb7c49d=
+1d115841252439060122f52f434fbc6e5ba","src/vxworks/x86_64.rs":"018d92be3ad62=
+8a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98ed6b514a","src/wasi.rs":"44ce561=
+83380d18aedea9b7bec2edc5819e8529302c913bfe5d01f760155b82a","src/windows/gnu=
+/align.rs":"b2c13ec1b9f3b39a75c452c80c951dff9d0215e31d77e883b4502afb3179464=
+7","src/windows/gnu/mod.rs":"3c8c7edb7cdf5d0c44af936db2a94869585c69dfabeef3=
+0571b4f4e38375767a","src/windows/mod.rs":"1cd9223293255b994814487e28d9979fb=
+8ebef4538a236c1aa47fdc166a149cc","src/windows/msvc/mod.rs":"c068271e00fca6b=
+62bc4bf44bcf142cfc38caeded9b6c4e01d1ceef3ccf986f4","tests/const_fn.rs":"cb7=
+5a1f0864f926aebe79118fc34d51a0d1ade2c20a394e7774c7e545f21f1f4"},"package":"=
+fbe5e23404da5b4f555ef85ebed98fb4083e55a00c317800bc2a50ede9f3d219"}
+---=20
+-2.20.1
+-
+++{"files":{"CONTRIBUTING.md":"752eea5a703d11b485c6b5f195f51bd2c79aa5159b61=
+9ce09555c779e1fb586b","Cargo.toml":"cef5103f1c20b2e9090a6bbc9b1d9d44746851f=
+60a8ed69b94d52e64133eb98a","LICENSE-APACHE":"a60eea817514531668d7e007657314=
+49fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"a8d47ff51ca256f56a8932db=
+a07660672dbfe3004257ca8de708aac1415937a1","README.md":"8228847944f1332882fb=
+b00275b6f30e4a8aad08a13569c25d52cac012cc2a47","build.rs":"8e0e8d33cc9e7c25c=
+de75c2b502420f943266a681024169f94084774b422681d","rustfmt.toml":"eaa2ea84fc=
+1ba0359b77680804903e07bb38d257ab11986b95b158e460f787b2","src/fixed_width_in=
+ts.rs":"34c60f12ec5eeb90f13ec3b954427532111c2446e69617616a97aefc1086a9f1","=
+src/fuchsia/aarch64.rs":"378776a9e40766154a54c94c2a7b4675b5c302a38e6e42da99=
+e67bfbaee60e56","src/fuchsia/align.rs":"ae1cf8f011a99737eabeb14ffff768e60f1=
+3b13363d7646744dbb0f443dab3d6","src/fuchsia/mod.rs":"520300ff260d377930f2f4=
+56135ec9a3ac7740a949ce7bf5269c0dc60d56c0df","src/fuchsia/no_align.rs":"303f=
+3f1b255e0088b5715094353cf00476131d8e94e6aebb3f469557771c8b8a","src/fuchsia/=
+x86_64.rs":"93a3632b5cf67d2a6bcb7dc0a558605252d5fe689e0f38d8aa2ec5852255ac8=
+7","src/hermit/aarch64.rs":"86048676e335944c37a63d0083d0f368ae10ceccefeed9d=
+ebb3bbe08777fc682","src/hermit/mod.rs":"d3bfce41e4463d4be8020a2d063c9bfa8b6=
+65f45f1cc6cbf3163f5d01e7cb21f","src/hermit/x86_64.rs":"ab832b7524e5fb15c49f=
+f7431165ab1a37dc4667ae0b58e8306f4c539bfa110c","src/lib.rs":"4cf1ca3940157ca=
+a735a5cdb478c450d1648669a87d7311cd7c4928c273bd273","src/macros.rs":"7844312=
+c233a6889fa15395fe3106f6a8f6229211104a92f33ea3c9536eef763","src/psp.rs":"dd=
+31aabd46171d474ec5828372e28588935120e7355c90c105360d8fa9264c1c","src/sgx.rs=
+":"16a95cdefc81c5ee00d8353a60db363c4cc3e0f75abcd5d0144723f2a306ed1b","src/s=
+olid/aarch64.rs":"8cdae0cc37c43dabd4253a534e700bec6b6a57293c0c8e36c9ce16675=
+d16799a","src/solid/arm.rs":"852b58a0837fde089cb9b5af131bf653daeb8c726f7540=
+032756db8b7d4f8149","src/solid/mod.rs":"98dc29c3e5773318ba258a4a2b7407f25aa=
+52d40885a0024fbe43676fe54d14b","src/switch.rs":"9da3dd39b3de45a7928789926e8=
+572d00e1e11a39e6f7289a1349aadce90edba","src/unix/align.rs":"2cdc7c826ef7ae6=
+1f5171c5ae8c445a743d86f1a7f2d9d7e4ceeec56d6874f65","src/unix/bsd/apple/b32/=
+align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c=
+","src/unix/bsd/apple/b32/mod.rs":"2546ad3eb6aecb95f916648bc63264117c92b4b4=
+859532b34cb011e4c75a5a72","src/unix/bsd/apple/b64/aarch64/align.rs":"f0c321=
+265dd7671f16106b84951ac7dd77ed2e65c6623cbf2d29e76531984770","src/unix/bsd/a=
+pple/b64/aarch64/mod.rs":"44c217a4f263afe7a97435de9323d20a96c37836f899ca092=
+5306d4b7e073c27","src/unix/bsd/apple/b64/align.rs":"ec833a747866fe19ca2d9b4=
+d3c9ff0385faba5edf4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/mod.rs":=
+"f5e278a1af7fb358891d1c9be4eb7e815aaca0c5cb738d0c3604ba2208a856f7","src/uni=
+x/bsd/apple/b64/x86_64/align.rs":"ec833a747866fe19ca2d9b4d3c9ff0385faba5edf=
+4bd0d15fa68884c40b0e26c","src/unix/bsd/apple/b64/x86_64/mod.rs":"8c87c58550=
+38aae5d433c8f5eb3b29b0a175879a0245342b3bfd83bdf4cfd936","src/unix/bsd/apple=
+/mod.rs":"15560099a9ee54cd97b3485c4e5a380af5352373b952a876aeb9476f2acdad04"=
+,"src/unix/bsd/freebsdlike/dragonfly/errno.rs":"8295b8bb0dfd38d2cdb4d9192cd=
+eeb534cc6c3b208170e64615fa3e0edb3e578","src/unix/bsd/freebsdlike/dragonfly/=
+mod.rs":"d07c9769835178783820f48e00312f215ee9fa4c62c54000280c52c9906c63c2",=
+"src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"2a215bd6136b8617aacedf9be738=
+ccee94da9d29b418e9a78101d6291c182352","src/unix/bsd/freebsdlike/freebsd/arm=
+.rs":"59d6a670eea562fb87686e243e0a84603d29a2028a3d4b3f99ccc01bd04d2f47","sr=
+c/unix/bsd/freebsdlike/freebsd/freebsd11/b64.rs":"9808d152c1196aa647f1b0f0c=
+f84dac8c930da7d7f897a44975545e3d9d17681","src/unix/bsd/freebsdlike/freebsd/=
+freebsd11/mod.rs":"bf0a994e2079b8aad9da5efd3a3b9a7194a53ae60887a25c57964fb6=
+8499e847","src/unix/bsd/freebsdlike/freebsd/freebsd12/b64.rs":"61cbe45f8499=
+bedb168106b686d4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsd=
+like/freebsd/freebsd12/mod.rs":"295b3e3b67394f731d4e88d169e3d3d1d80026b9989=
+8745cd0d1d163f085ff61","src/unix/bsd/freebsdlike/freebsd/freebsd12/x86_64.r=
+s":"2df36a7f122f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/=
+unix/bsd/freebsdlike/freebsd/freebsd13/b64.rs":"61cbe45f8499bedb168106b686d=
+4f8239472f25c7553b069eec2afe197ff2df6","src/unix/bsd/freebsdlike/freebsd/fr=
+eebsd13/mod.rs":"df003cfb7794fe4ee8df224fbc62e6427969ec369cd7cfda0b448d5bcb=
+c1e228","src/unix/bsd/freebsdlike/freebsd/freebsd13/x86_64.rs":"2df36a7f122=
+f6d6e5753cfb4d22e915cc80f6bc91c0161b3daae55a481bfd052","src/unix/bsd/freebs=
+dlike/freebsd/mod.rs":"527fd23d6087af6131f2f4001b86f464b08b6255c5f9139f2c3a=
+28de24301e72","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"9ca3f82f88974e=
+6db5569f2d76a5a3749b248a31747a6c0da5820492bdfeca42","src/unix/bsd/freebsdli=
+ke/freebsd/powerpc64.rs":"2dae3ecc87eac3b11657aa98915def55fc4b5c0de11fe26aa=
+e23329a54628a9a","src/unix/bsd/freebsdlike/freebsd/x86.rs":"c5005e3249eb7c9=
+3cfbac72a9e9272320d80ce7983da990ceb05a447f59a02c5","src/unix/bsd/freebsdlik=
+e/freebsd/x86_64/align.rs":"0e1f69a88fca1c32874b1daf5db3d446fefbe518dca497f=
+096cc9168c39dde70","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"c3a011=
+1252e201c172b99e7d9cbee4cf088d3dd47995110e819f04276bccd198","src/unix/bsd/f=
+reebsdlike/mod.rs":"cd435ad58e743a9e83c6c91f9ed3f4c4c31e587d39e0d8ee5cc905f=
+513623835","src/unix/bsd/mod.rs":"2fed08973739d7f6a7412b204724af64b1a915c71=
+2689c250cf9a08263ba05ff","src/unix/bsd/netbsdlike/mod.rs":"4e9da54e541773c7=
+ad4cca9dade1df00f28f2fdac3f8df5957f4c74b7e082344","src/unix/bsd/netbsdlike/=
+netbsd/aarch64.rs":"65dcb58d11e8d8028401a9d07ca3eb4cb4f053e04249cc877353449=
+d84ccc4cb","src/unix/bsd/netbsdlike/netbsd/arm.rs":"58cdbb70b0d6f536551f0f3=
+bb3725d2d75c4690db12c26c034e7d6ec4a924452","src/unix/bsd/netbsdlike/netbsd/=
+mod.rs":"e4b0dfd3004b3a5b4fc4def43a6a389bae11a3ac8a3c604c2fa09ee1c8ae7030",=
+"src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"ee7ff5d89d0ed22f531237b5059aa6=
+69df93a3b5c489fa641465ace8d405bf41","src/unix/bsd/netbsdlike/netbsd/sparc64=
+.rs":"9489f4b3e4566f43bb12dfb92238960613dac7f6a45cc13068a8d152b902d7d9","sr=
+c/unix/bsd/netbsdlike/netbsd/x86.rs":"20692320e36bfe028d1a34d16fe12ca77aa90=
+9cb02bda167376f98f1a09aefe7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"1a=
+fe5ef46b14397cdd68664b5b232e4f5b035b6db1d4cf411c899d51ebca9f30","src/unix/b=
+sd/netbsdlike/openbsd/aarch64.rs":"dd91931d373b7ecaf6e2de25adadee10d16fa9b1=
+2c2cbacdff3eb291e1ba36af","src/unix/bsd/netbsdlike/openbsd/mod.rs":"ea4a056=
+a0b78a4d73d359d44454ad96a4465872a916bd2a19b955fbc9070ca29","src/unix/bsd/ne=
+tbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e8374a532a3ba491b424=
+ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.rs":"6f7f5c4fde2a=
+2259eb547890cbd86570cea04ef85347d7569e94e679448bec87","src/unix/bsd/netbsdl=
+ike/openbsd/x86_64.rs":"d31db31630289c85af3339dbe357998a21ca584cbae31607448=
+fe2cf7675a4e1","src/unix/haiku/b32.rs":"69ae47fc52c6880e85416b4744500d5655c=
+9ec6131cb737f3b649fceaadce15a","src/unix/haiku/b64.rs":"73e64db09275a8da8d5=
+0a13cce2cfa2b136036ddf3a930d2939f337fc995900b","src/unix/haiku/mod.rs":"f02=
+19c43860134e3134361477a202e6c561d6543899377fbdbc86f442bc2415f","src/unix/ha=
+iku/native.rs":"44855f52906f607de137fc4baa8c6b1b9a26baaa666f25d5f7a7ec5e017=
+c8be6","src/unix/haiku/x86_64.rs":"3ec3aeeb7ed208b8916f3e32d42bfd085ff5e169=
+36a1a35d9a52789f043b7237","src/unix/hermit/aarch64.rs":"86048676e335944c37a=
+63d0083d0f368ae10ceccefeed9debb3bbe08777fc682","src/unix/hermit/mod.rs":"85=
+9814f5df89e28fd4b345db399d181e11e7ed413841b6ff703a1fcbdbf013ae","src/unix/h=
+ermit/x86_64.rs":"ab832b7524e5fb15c49ff7431165ab1a37dc4667ae0b58e8306f4c539=
+bfa110c","src/unix/linux_like/android/b32/arm.rs":"433c1530f602cc5ed26610c5=
+8055dde0c4ceea5e00150063b24ddc60768332a4","src/unix/linux_like/android/b32/=
+mod.rs":"d971b98530a96f5892f98e1edc3133cf278d1b3939d77ab0a27a6323e0961715",=
+"src/unix/linux_like/android/b32/x86/align.rs":"812914e4241df82e32b12375ca3=
+374615dc3a4bdd4cf31f0423c5815320c0dab","src/unix/linux_like/android/b32/x86=
+/mod.rs":"8388bd3a0fcb5636bf965eee6dc95ae6860b85a2b555b387c868aa4d4e01ec89"=
+,"src/unix/linux_like/android/b64/aarch64/align.rs":"2179c3b1608fa4bf688404=
+82bfc2b2fa3ee2faf6fcae3770f9e505cddca35c7b","src/unix/linux_like/android/b6=
+4/aarch64/mod.rs":"8fe667d2b14abc5ac8aad32e16c3da24350471d8156eaea9ab4989f7=
+3dd9f9fc","src/unix/linux_like/android/b64/mod.rs":"d7bbbadafdb2cb2ff8e9cde=
+3d89a03b9facaabb6b2d45705225d3ece1c5cce37","src/unix/linux_like/android/b64=
+/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed306dc0720ffc1b21696c=
+9951e3c6","src/unix/linux_like/android/b64/x86_64/mod.rs":"06b22dc184e85a98=
+8ab969c75cadc52b9878faeab0eb9d21215878c95fe07c19","src/unix/linux_like/andr=
+oid/mod.rs":"7066335e80984db42a80f56abdbda048f0773f0bdeb72f530e989d683d61ad=
+8d","src/unix/linux_like/emscripten/align.rs":"86c95cbed7a7161b1f23ee06843e=
+7b0e2340ad92b2cb86fe2a8ef3e0e8c36216","src/unix/linux_like/emscripten/mod.r=
+s":"b71d37106750f57bc2dae4e9bcb473ff098ef48235827e41a1687a39825f0aa4","src/=
+unix/linux_like/emscripten/no_align.rs":"0128e4aa721a9902754828b61b5ec7d8a8=
+6619983ed1e0544a85d35b1051fad6","src/unix/linux_like/linux/align.rs":"213e7=
+0ebed2703e14a9cf17666b21ecbf180b7bff7fa22fdbb36dbbd52df326d","src/unix/linu=
+x_like/linux/arch/generic/mod.rs":"ff1fe8fad4ea15d9bec3db25efcfcb4939190c51=
+89f86cfa4d05825aa8c10956","src/unix/linux_like/linux/arch/mips/mod.rs":"e4a=
+980b002105aaa057eb6568e1e2c6168ade5c00e13a31ef67e316ddffdb900","src/unix/li=
+nux_like/linux/arch/mod.rs":"466a29622e47c6c7f1500682b2eb17f5566dd81b322cd6=
+348f0fdd355cec593a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"1789eb=
+5b41f75c29239795124a4a7cdcf7c8d213b88cf581b2f5bda08d7cf15b","src/unix/linux=
+_like/linux/arch/sparc/mod.rs":"ded708124ee610267d011dee31fb02d1ec697c334aa=
+822776ec95a7ddf6fc541","src/unix/linux_like/linux/gnu/align.rs":"e4a3c27fe2=
+0a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_lik=
+e/linux/gnu/b32/arm/align.rs":"3fed009dc9af3cc81be7087da9d2d7d1f39845e4497e=
+290259c5cdbae25f039d","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"07adf=
+9f4b96854062db518aaf08521fde0ad4a21a5c049efccba437bd97b2b5a","src/unix/linu=
+x_like/linux/gnu/b32/mips/align.rs":"429fb5e005cb7143602d430098b6ebfb7d3606=
+85b194f333dfd587472ae954ee","src/unix/linux_like/linux/gnu/b32/mips/mod.rs"=
+:"1cb5c0c9df3af2bbe131a91593583259fac9118931744c8435e197a394eb0462","src/un=
+ix/linux_like/linux/gnu/b32/mod.rs":"794dbcbae7dae8fd6b0b814573243197ceb532=
+b56ef0772ad86b4b401478fcd9","src/unix/linux_like/linux/gnu/b32/powerpc.rs":=
+"0cd7348badb9c4f8a0db31a2503b30c456a2bfcc7a0e5919762b1e12f912c5ad","src/uni=
+x/linux_like/linux/gnu/b32/riscv32/mod.rs":"ee5145a383386b716605a8d1ff3df21=
+2d418aae1aa1f37d2307d4f9cd1a08e99","src/unix/linux_like/linux/gnu/b32/sparc=
+/align.rs":"21adbed27df73e2d1ed934aaf733a643003d7baf2bde9c48ea440895bcca6d4=
+1","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"1bcec269a8416ccc48a384=
+ca5765eaaa23f30f39f32311f50008ef4eeadafb2f","src/unix/linux_like/linux/gnu/=
+b32/x86/align.rs":"e4bafdc4a519a7922a81b37a62bbfd1177a2f620890eef8f1fbc4716=
+2e9eb413","src/unix/linux_like/linux/gnu/b32/x86/mod.rs":"5317dbf2323577b89=
+370bbee3894882b89d8333176db4f7b271ddc2f036ef43c","src/unix/linux_like/linux=
+/gnu/b64/aarch64/align.rs":"2179c3b1608fa4bf68840482bfc2b2fa3ee2faf6fcae377=
+0f9e505cddca35c7b","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"21=
+a21503ef2e095f4371044915d4bfb07a8578011cb5c713cd9f45947b0b5730","src/unix/l=
+inux_like/linux/gnu/b64/aarch64/lp64.rs":"e78c3cd197f44832338b414d1a9bc0d19=
+4f44c74db77bd7bf830c1fff62b2690","src/unix/linux_like/linux/gnu/b64/aarch64=
+/mod.rs":"c3730792dabcc166d8fd22929ef2633d49bc626875382dfcd401e8e125fb7a84"=
+,"src/unix/linux_like/linux/gnu/b64/mips64/align.rs":"7169d07a9fd4716f75127=
+19aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/gnu=
+/b64/mips64/mod.rs":"68bcb71bbfccb4e8648948e494366d94767ce96f36daab9c132937=
+5cdd32a459","src/unix/linux_like/linux/gnu/b64/mod.rs":"6336065423c26b59681=
+fd2ce77f1117ea36af13e163fdadaefd108bd8191e8c8","src/unix/linux_like/linux/g=
+nu/b64/powerpc64/align.rs":"e29c4868bbecfa4a6cd8a2ad06193f3bbc78a468cc1dc9d=
+f83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/powerpc64/mod.rs":"db=
+b8905e363ed4a2dfb984554ad9b6389d27f6a2d599ec2d80e38a6c7551a019","src/unix/l=
+inux_like/linux/gnu/b64/riscv64/mod.rs":"5b982c41097f4f91adcb0968290afeccb2=
+7dce1695a261c964d34ef85df87cf4","src/unix/linux_like/linux/gnu/b64/s390x.rs=
+":"a9484dfd3c7ca1174537957bef997c3ba7ea41989cdf61ede22b1bbc45a667bf","src/u=
+nix/linux_like/linux/gnu/b64/sparc64/align.rs":"e29c4868bbecfa4a6cd8a2ad061=
+93f3bbc78a468cc1dc9df83f002f1268130d9","src/unix/linux_like/linux/gnu/b64/s=
+parc64/mod.rs":"26fda11bdce99372c2c246e60866b56d98beb9fb49a2f6b69347ecfd03d=
+18255","src/unix/linux_like/linux/gnu/b64/x86_64/align.rs":"7169d07a9fd4716=
+f7512719aec9fda5d8bed306dc0720ffc1b21696c9951e3c6","src/unix/linux_like/lin=
+ux/gnu/b64/x86_64/mod.rs":"5a5ce7c5c92f60d8900dce63d363a38f3126aaf5be981710=
+e172bec96ef95ac6","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.rs":"f7=
+75ac2b754f90b63053fe22afe1d19d306b5404995568d6805baa9249fb617f","src/unix/l=
+inux_like/linux/gnu/b64/x86_64/x32.rs":"4ba1b58468f55254717366f50fdfd3e4114=
+fde6dc442a56681926c4d7e5b6b0d","src/unix/linux_like/linux/gnu/mod.rs":"af35=
+90c392bd06394cb307ccb993e66f53de7e2a0211c689dbb1845220475445","src/unix/lin=
+ux_like/linux/gnu/no_align.rs":"9cd223135de75315840ff9c3fd5441ba1cb632b96b5=
+c85a76f8316c86653db25","src/unix/linux_like/linux/mod.rs":"d4d754e571d864b3=
+56a9f7d04b378ba491ccc6281f01ae3da5a1c052dae67554","src/unix/linux_like/linu=
+x/musl/b32/arm/align.rs":"3e8ac052c1043764776b54c93ba4260e061df998631737a89=
+7d9d47d54f7b80c","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"6255abe2e=
+e04986832d12b7b2190589580f2a43e9bfb285b32b5747227f62727","src/unix/linux_li=
+ke/linux/musl/b32/hexagon.rs":"a8811791809672be8338e6e27d1c4fcf383c2f26585b=
+e8bf9ab2923b219de032","src/unix/linux_like/linux/musl/b32/mips/align.rs":"4=
+29fb5e005cb7143602d430098b6ebfb7d360685b194f333dfd587472ae954ee","src/unix/=
+linux_like/linux/musl/b32/mips/mod.rs":"b9e9ff42363ebbb884ddf6445129ec41644=
+71df45846874fc08f5f458e659254","src/unix/linux_like/linux/musl/b32/mod.rs":=
+"8ede3985e6243882814ce91e8ce543e7edbafc0cee5932816072b6f14207a671","src/uni=
+x/linux_like/linux/musl/b32/powerpc.rs":"4592dc5f1f2fe888dfef85fa862d42d168=
+e73a2c6f4fc052b58287d0f4d4ffcd","src/unix/linux_like/linux/musl/b32/x86/ali=
+gn.rs":"08e77fbd7435d7dec2ff56932433bece3f02e47ce810f89004a275a86d39cbe1","=
+src/unix/linux_like/linux/musl/b32/x86/mod.rs":"a19a8decfab185af3cebd34aae4=
+b15082e7552be573904b8c1a3f0c0e493ef34","src/unix/linux_like/linux/musl/b64/=
+aarch64/align.rs":"798a9229d70ce235394f2dd625f6c4c1e10519a94382dc5b091952b6=
+38ae2928","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"a73035c6d9b7=
+76f13b839008e15c04c2c53455571efd06664affcb047e457112","src/unix/linux_like/=
+linux/musl/b64/mips64.rs":"2744895451f3a777fbe54f7f2695be53310b965fd62084c9=
+b7e9121c7fe28346","src/unix/linux_like/linux/musl/b64/mod.rs":"d847206d9f2d=
+594c8febe780a938cdccf40d985dafc11e90f235947735a09bac","src/unix/linux_like/=
+linux/musl/b64/powerpc64.rs":"e5a55525b42493923956d668f978fb45e22d51deea00c=
+e5edbfddf76ff19c741","src/unix/linux_like/linux/musl/b64/s390x.rs":"03dfec6=
+794d93cb31a7c52b2d53a0973755168f91f8fa437cc5dbd54882c8ee7","src/unix/linux_=
+like/linux/musl/b64/x86_64/align.rs":"7169d07a9fd4716f7512719aec9fda5d8bed3=
+06dc0720ffc1b21696c9951e3c6","src/unix/linux_like/linux/musl/b64/x86_64/mod=
+.rs":"0dd168f5a6881f32e5239fb312b23cf137b800d0ff323286a92c8a2c382b5456","sr=
+c/unix/linux_like/linux/musl/mod.rs":"ac08dd0891304a0e6f478a38bffa4fe8e6b27=
+ad79094b2f7139c7a95082c3a18","src/unix/linux_like/linux/no_align.rs":"5ed04=
+c53bf9d27da9b4d65ba7625c6ac53330162683d1b3df98950caafa3507b","src/unix/linu=
+x_like/linux/uclibc/align.rs":"9ed16138d8e439bd90930845a65eafa7ebd67366e6bf=
+633936d44014f6e4c959","src/unix/linux_like/linux/uclibc/arm/align.rs":"e4a3=
+c27fe20a57b8d612c34cb05bc70646edb5cec7251957315afa53a7b9f936","src/unix/lin=
+ux_like/linux/uclibc/arm/mod.rs":"1e3bf809508b5872949136859bf48ddf58b7d24ae=
+9f0b663e79f0efd1aaeb6a6","src/unix/linux_like/linux/uclibc/arm/no_align.rs"=
+:"9cd223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/un=
+ix/linux_like/linux/uclibc/mips/mips32/align.rs":"e4a3c27fe20a57b8d612c34cb=
+05bc70646edb5cec7251957315afa53a7b9f936","src/unix/linux_like/linux/uclibc/=
+mips/mips32/mod.rs":"fa4102d9a596d90de604ce2962b0e64f184dfbf10552a4c3ecf28f=
+12d4704379","src/unix/linux_like/linux/uclibc/mips/mips32/no_align.rs":"9cd=
+223135de75315840ff9c3fd5441ba1cb632b96b5c85a76f8316c86653db25","src/unix/li=
+nux_like/linux/uclibc/mips/mips64/align.rs":"a7bdcb18a37a2d91e64d5fad83ea3e=
+dc78f5412adb28f77ab077dbb26dd08b2d","src/unix/linux_like/linux/uclibc/mips/=
+mips64/mod.rs":"e3085ba56cfbc528d7c3c55065880603238c333b6047ef51c58177508a4=
+87fcd","src/unix/linux_like/linux/uclibc/mips/mips64/no_align.rs":"4a18e387=
+5698c85229599225ac3401a2a40da87e77b2ad4ef47c6fcd5a24ed30","src/unix/linux_l=
+ike/linux/uclibc/mips/mod.rs":"a2877679fef0f14f54a89ccbc41fb02f0c25bf6e536f=
+9eb2cb2fa437e1d3f739","src/unix/linux_like/linux/uclibc/mod.rs":"82d504d3aa=
+12cb0f7933980f81c4708fa6e070d4c57efdf407f2de05b71bc06d","src/unix/linux_lik=
+e/linux/uclibc/no_align.rs":"3f28637046524618adaa1012e26cb7ffe94b9396e6b518=
+cccdc69d59f274d709","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"024e=
+ba5753e852dbdd212427351affe7e83f9916c1864bce414d7aa2618f192e","src/unix/lin=
+ux_like/linux/uclibc/x86_64/mod.rs":"66e8f5b7509a6e638b8b904906f89badbab0da=
+8fb5b602d07ebd88649c4b961a","src/unix/linux_like/linux/uclibc/x86_64/other.=
+rs":"42c3f71e58cabba373f6a55a623f3c31b85049eb64824c09c2b082b3b2d6a0a8","src=
+/unix/linux_like/mod.rs":"ffce98bdd208fd9d335c65feafbf0d9742bea67c7eec1ee48=
+657f292132ec3f0","src/unix/mod.rs":"6b2b57833e37cd3231944696c8216eb587a2a68=
+069346150cf321153eaf04d03","src/unix/newlib/aarch64/mod.rs":"bb269c1468a967=
+6442554600e87417079a787fe6220dfc23b3109639259e8710","src/unix/newlib/align.=
+rs":"28aaf87fafbc6b312622719d472d8cf65f9e5467d15339df5f73e66d8502b28a","src=
+/unix/newlib/arm/mod.rs":"c71be856bfd7f576b2db28af9f680211cbe6c1cac7d537bbc=
+8020b39591af07c","src/unix/newlib/espidf/mod.rs":"c198cb4beccdab483be61c102=
+da74dc51ac80f766797e33021f3110394ed5a3d","src/unix/newlib/mod.rs":"d7271c13=
+748be08305d36f9af6f41f6950a7a1d6d4382149194a35d5fe2090de","src/unix/newlib/=
+no_align.rs":"e0743b2179495a9514bc3a4d1781e492878c4ec834ee0085d0891dd1712e8=
+2fb","src/unix/newlib/powerpc/mod.rs":"2d0f7af28b47f7a2a6c210ebd1c1f33ed8ea=
+c62e56b5af2b856de2ad3fdc5187","src/unix/no_align.rs":"c06e95373b9088266e0b1=
+4bba0954eef95f93fb2b01d951855e382d22de78e53","src/unix/redox/mod.rs":"cc479=
+4afa4fbed9d6612894ea476228f9d8533950162d6416fc4d16073e1dac4","src/unix/sola=
+rish/compat.rs":"b07a5bfac925eb012003a459ba6bddbd3bfa9c44b3394da2ac5a602e54=
+beae9c","src/unix/solarish/illumos.rs":"7d8f47fd37880715b449723688aaee56878=
+5325a46f1c360a05bdca13252278e","src/unix/solarish/mod.rs":"bf2cb449b8a690fc=
+1fa31c3b22c4db80075270a88d63123d18ca305317e53b2e","src/unix/solarish/solari=
+s.rs":"65b005453aefa9b9d4fc860fe77cfec80d8c97a51342b15daf55fc3e808bb384","s=
+rc/unix/solarish/x86_64.rs":"9d761573bdccbdd1ac61da571f7e96b5374df70241d9b7=
+2d45a069611f495085","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed6=
+737585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4=
+abdf39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"aea=
+3da66f2140f2a82dfc9c58f6e6531d2dd9c15ea696e0f95a0d4a2a187b5b6","src/vxworks=
+/powerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788=
+e88","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dc=
+e7a9d4941d08c437762b99","src/vxworks/x86.rs":"552f007f38317620b23889cb7c49d=
+1d115841252439060122f52f434fbc6e5ba","src/vxworks/x86_64.rs":"018d92be3ad62=
+8a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98ed6b514a","src/wasi.rs":"2c945bc=
+e3ddd26bf20ff03fb4192c9c3f625f1308a479c5cb4bd4510a892629a","src/windows/gnu=
+/align.rs":"b2c13ec1b9f3b39a75c452c80c951dff9d0215e31d77e883b4502afb3179464=
+7","src/windows/gnu/mod.rs":"3c8c7edb7cdf5d0c44af936db2a94869585c69dfabeef3=
+0571b4f4e38375767a","src/windows/mod.rs":"1cd9223293255b994814487e28d9979fb=
+8ebef4538a236c1aa47fdc166a149cc","src/windows/msvc/mod.rs":"860dc98245039bc=
+3aa5782ef2b5798d009ea6655bd27a63f244be2206d2cb47f","src/windows/msvc/x86_64=
+/align.rs":"648cf422b5a9c38eeb91754833780fd1f7aebca241c0391f1198ae2b286fde6=
+5","src/windows/msvc/x86_64/mod.rs":"a1f20fd9ed4eb6cddea3f0ebe70d791cdf00ed=
+55ae10e23047e6b31c36c00c57","tests/const_fn.rs":"cb75a1f0864f926aebe79118fc=
+34d51a0d1ade2c20a394e7774c7e545f21f1f4"},"package":"a60553f9a9e039a333b4e9b=
+20573b9e9b9c0bb3a11e201ccc48ef4283456d673"}
 --=20
-# Randy MacLeod
-# Wind River Linux
+2.35.0
 
 
