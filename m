@@ -1,226 +1,94 @@
-Return-Path: <abeltran@linux.microsoft.com>
+Return-Path: <rudolf.streif@ibeeto.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3AC9C28CF5
-	for <webhook@archiver.kernel.org>; Wed, 26 Jan 2022 18:17:00 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.16965.1643221020026027672
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C54EC2BA4C
+	for <webhook@archiver.kernel.org>; Wed, 26 Jan 2022 18:39:09 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.16935.1643222348336993315
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jan 2022 10:17:00 -0800
+ Wed, 26 Jan 2022 10:39:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=AliybMXD;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
- mailfrom: abeltran@linux.microsoft.com)
-Received: from
- abeltran-ubuntu18-dev.memva0x40hnu5lyn52qddymqwe.xx.internal.cloudapp.net
- (unknown [20.94.235.175])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5438920B6C61;
-	Wed, 26 Jan 2022 10:16:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5438920B6C61
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1643221019;
-	bh=OCpkmVEvYqrzkbG9mFcfadRY8RRZ3N+61/CAQgT+Wok=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AliybMXDBLi+j8HCiiaob4EwZ+geF4N9HLVs3pA6GQ8bdvmaK2AnEWPIHZnoYaPna
-	 tnXh+L4nqcTXK+uCquZ0L+59bQkAVpxC8nVX/L544r2D8pbUBU5WS/kQtgp6yn8iXb
-	 agBkfDB6vhViIwjXInuZnkKbRBkLZ/kNtlJq+Aas=
-From: Andres Beltran <abeltran@linux.microsoft.com>
+ dkim=pass header.i=@ibeeto-com.20210112.gappssmtp.com header.s=20210112
+ header.b=0eQmYVkR;
+ spf=neutral (domain: ibeeto.com, ip: 209.85.216.43,
+ mailfrom: rudolf.streif@ibeeto.com)
+Received: by mail-pj1-f43.google.com with SMTP id d5so480321pjk.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 26 Jan 2022 10:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ibeeto-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H9Xytv8mGA+Nljcg8swAn/jUUpiDUi9CB3L8ioGIJ28=;
+        b=0eQmYVkRkO84l8+q/80KSlCXNuezNZl82JtxaC2HTz6SYRDhqsHbEJXCaGt1QTi7el
+         I4Grj+bN4aQREpewNelRDUUBgLM8yNhRhqAMihQCmAT9i+rDPIAZ86AeYBmrlLR5bNLk
+         0deOiOHn2CF6Bq2SB+7AiBAz3FnGz+y5F3uxQkbSRs4sy+qMolk8pbcIES+YbqYVHjpY
+         gP0q6iopcmhKnTHTxYRwrIBeeCY9W77R+e+7bMXvvBh8P9SFp3Z3GvO0oluz8q12ToFz
+         9M9K2nNhlkcKyzdhZ7XKiSRcc7kDLk/25q6Wes5vYWoSVppAgupGjL4srVdtuUV6ctGt
+         rRwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H9Xytv8mGA+Nljcg8swAn/jUUpiDUi9CB3L8ioGIJ28=;
+        b=RxTBK4/KIaSQFhcvw713TtkKFOjXi8GSkR/WRXadpWGTx1LJcawfEEgAogWA8inEFB
+         VO29UPbdo52tI3rfTZqiihK9VdICRIxHZMKPn6CyaPGSpm5ofa+jZgP6zmL5W/VDhUlt
+         wCzkIQbbYqN55OwT6YiZsGq2Izrlz8dJkv4ec2gOC78yIp6pnNJu6DzbLVKoErc5L1yv
+         kh0+b4089CMPMyMrWhCqhIiM7E2WnA45G2SCGzqx1qo5ec4Ge1EAUn7GCZUPPLTFxFcE
+         KSNHJe4WigWX9lSiodNIWtkpz0j+pUBiKB65WCTGzuDMzc0N2W27GZikKgBUetjDV7Vd
+         4Chg==
+X-Gm-Message-State: AOAM531X/wqEkox5i7twIZm7MtIz8U0ZKP6Rihlpaev0QGDBikOH05LI
+	vfIrCLxg8P9wSArArFmfA7YSXsWqUVlLrcZT
+X-Google-Smtp-Source: 
+ ABdhPJxKNe86kO2PggAgrgCPbQJgepEjdNO23p82w4xxzHrSb3jqUzeDX65WU4cBXLuz51vb+COyiQ==
+X-Received: by 2002:a17:90a:c301:: with SMTP id
+ g1mr10048832pjt.132.1643222347386;
+        Wed, 26 Jan 2022 10:39:07 -0800 (PST)
+Received: from threaddy.. ([2600:8801:8d2a:a304:93dc:834e:6555:ccaa])
+        by smtp.gmail.com with ESMTPSA id
+ f16sm2976836pfa.147.2022.01.26.10.39.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 10:39:06 -0800 (PST)
+From: Rudolf J Streif <rudolf.streif@ibeeto.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andres Beltran <abeltran@linux.microsoft.com>
-Subject: [PATCH v2] create-spdx: add support for SDKs
-Date: Wed, 26 Jan 2022 18:16:48 +0000
-Message-Id: <20220126181648.20864-1-abeltran@linux.microsoft.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Rudolf J Streif <rudolf.streif@ibeeto.com>
+Subject: [PATCH] Add CLM blob to linux-firmware-bcm4373 package
+Date: Wed, 26 Jan 2022 10:39:00 -0800
+Message-Id: <20220126183900.2657513-1-rudolf.streif@ibeeto.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Jan 2022 18:17:00 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Jan 2022 18:39:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/160992
+ https://lists.openembedded.org/g/openembedded-core/message/160993
 
-Currently, SPDX SBOMs are only created for images. Add support for
-SDKs. Fix json indent when outputting SBOMs for better readability.
+The Country Local Matrix (CLM) blob brcmfmac4373-sdio.clm_blob was not
+included with the files for the linux-firmware-bcm4373 package
+but instead packaged with linux-firmware.
 
-Signed-off-by: Andres Beltran <abeltran@linux.microsoft.com>
+Signed-off-by: Rudolf J Streif <rudolf.streif@ibeeto.com>
 ---
- meta/classes/create-spdx.bbclass | 88 ++++++++++++++++++++++----------
- meta/lib/oe/sbom.py              |  4 ++
- 2 files changed, 64 insertions(+), 28 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index eb9535069a4..8bae1359ac2 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -560,7 +560,7 @@ python do_create_spdx() {
-             oe.sbom.write_doc(d, package_doc, "packages")
- }
- # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
--addtask do_create_spdx after do_package do_packagedata do_unpack before do_build do_rm_work
-+addtask do_create_spdx after do_package do_packagedata do_unpack before do_populate_sdk do_build do_rm_work
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
+index 65bfda1d9f..5f1b696092 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20211216.bb
+@@ -751,6 +751,7 @@ FILES:${PN}-bcm4356-pcie = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-pc
+ FILES:${PN}-bcm4373 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.bin \
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373.bin \
+   ${nonarch_base_libdir}/firmware/cypress/cyfmac4373-sdio.bin \
++  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.clm_blob \
+ "
  
- SSTATETASKS += "do_create_spdx"
- do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
-@@ -792,28 +792,77 @@ def spdx_get_src(d):
- do_rootfs[recrdeptask] += "do_create_spdx do_create_runtime_spdx"
- 
- ROOTFS_POSTUNINSTALL_COMMAND =+ "image_combine_spdx ; "
-+
-+do_populate_sdk[recrdeptask] += "do_create_spdx do_create_runtime_spdx"
-+POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " sdk_host_combine_spdx; "
-+POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk = " sdk_target_combine_spdx; "
-+
- python image_combine_spdx() {
-+    import os
-+    import oe.sbom
-+    from pathlib import Path
-+    from oe.rootfs import image_list_installed_packages
-+
-+    image_name = d.getVar("IMAGE_NAME")
-+    image_link_name = d.getVar("IMAGE_LINK_NAME")
-+    imgdeploydir = Path(d.getVar("IMGDEPLOYDIR"))
-+    img_spdxid = oe.sbom.get_image_spdxid(image_name)
-+    packages = image_list_installed_packages(d)
-+
-+    combine_spdx(d, image_name, imgdeploydir, img_spdxid, packages)
-+
-+    if image_link_name:
-+        image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
-+        image_spdx_link = imgdeploydir / (image_link_name + ".spdx.json")
-+        image_spdx_link.symlink_to(os.path.relpath(image_spdx_path, image_spdx_link.parent))
-+
-+    def make_image_link(target_path, suffix):
-+        if image_link_name:
-+            link = imgdeploydir / (image_link_name + suffix)
-+            link.symlink_to(os.path.relpath(target_path, link.parent))
-+
-+    spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
-+    make_image_link(spdx_tar_path, ".spdx.tar.zst")
-+    spdx_index_path = imgdeploydir / (image_name + ".spdx.index.json")
-+    make_image_link(spdx_index_path, ".spdx.index.json")
-+}
-+
-+python sdk_host_combine_spdx() {
-+    sdk_combine_spdx(d, "host")
-+}
-+
-+python sdk_target_combine_spdx() {
-+    sdk_combine_spdx(d, "target")
-+}
-+
-+def sdk_combine_spdx(d, sdk_type):
-+    import oe.sbom
-+    from pathlib import Path
-+    from oe.sdk import sdk_list_installed_packages
-+
-+    sdk_name = d.getVar("SDK_NAME") + "-" + sdk_type
-+    sdk_deploydir = Path(d.getVar("SDKDEPLOYDIR"))
-+    sdk_spdxid = oe.sbom.get_sdk_spdxid(sdk_name)
-+    sdk_packages = sdk_list_installed_packages(d, sdk_type == "target")
-+    combine_spdx(d, sdk_name, sdk_deploydir, sdk_spdxid, sdk_packages)
-+
-+def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
-     import os
-     import oe.spdx
-     import oe.sbom
-     import io
-     import json
--    from oe.rootfs import image_list_installed_packages
-     from datetime import timezone, datetime
-     from pathlib import Path
-     import tarfile
-     import bb.compress.zstd
- 
-     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
--    image_name = d.getVar("IMAGE_NAME")
--    image_link_name = d.getVar("IMAGE_LINK_NAME")
--
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
--    imgdeploydir = Path(d.getVar("IMGDEPLOYDIR"))
-     source_date_epoch = d.getVar("SOURCE_DATE_EPOCH")
- 
-     doc = oe.spdx.SPDXDocument()
--    doc.name = image_name
-+    doc.name = rootfs_name
-     doc.documentNamespace = get_doc_namespace(d, doc)
-     doc.creationInfo.created = creation_time
-     doc.creationInfo.comment = "This document was created by analyzing the source of the Yocto recipe during the build."
-@@ -825,14 +874,12 @@ python image_combine_spdx() {
-     image = oe.spdx.SPDXPackage()
-     image.name = d.getVar("PN")
-     image.versionInfo = d.getVar("PV")
--    image.SPDXID = oe.sbom.get_image_spdxid(image_name)
-+    image.SPDXID = rootfs_spdxid
- 
-     doc.packages.append(image)
- 
-     spdx_package = oe.spdx.SPDXPackage()
- 
--    packages = image_list_installed_packages(d)
--
-     for name in sorted(packages.keys()):
-         pkg_spdx_path = deploy_dir_spdx / "packages" / (name + ".spdx.json")
-         pkg_doc, pkg_doc_sha1 = oe.sbom.read_doc(pkg_spdx_path)
-@@ -869,22 +916,18 @@ python image_combine_spdx() {
-             comment="Runtime dependencies for %s" % name
-         )
- 
--    image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
-+    image_spdx_path = rootfs_deploydir / (rootfs_name + ".spdx.json")
- 
-     with image_spdx_path.open("wb") as f:
-         doc.to_json(f, sort_keys=True)
- 
--    if image_link_name:
--        image_spdx_link = imgdeploydir / (image_link_name + ".spdx.json")
--        image_spdx_link.symlink_to(os.path.relpath(image_spdx_path, image_spdx_link.parent))
--
-     num_threads = int(d.getVar("BB_NUMBER_THREADS"))
- 
-     visited_docs = set()
- 
-     index = {"documents": []}
- 
--    spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
-+    spdx_tar_path = rootfs_deploydir / (rootfs_name + ".spdx.tar.zst")
-     with bb.compress.zstd.open(spdx_tar_path, "w", num_threads=num_threads) as f:
-         with tarfile.open(fileobj=f, mode="w|") as tar:
-             def collect_spdx_document(path):
-@@ -946,17 +989,6 @@ python image_combine_spdx() {
- 
-             tar.addfile(info, fileobj=index_str)
- 
--    def make_image_link(target_path, suffix):
--        if image_link_name:
--            link = imgdeploydir / (image_link_name + suffix)
--            link.symlink_to(os.path.relpath(target_path, link.parent))
--
--    make_image_link(spdx_tar_path, ".spdx.tar.zst")
--
--    spdx_index_path = imgdeploydir / (image_name + ".spdx.index.json")
-+    spdx_index_path = rootfs_deploydir / (rootfs_name + ".spdx.index.json")
-     with spdx_index_path.open("w") as f:
-         json.dump(index, f, sort_keys=True)
--
--    make_image_link(spdx_index_path, ".spdx.index.json")
--}
--
-diff --git a/meta/lib/oe/sbom.py b/meta/lib/oe/sbom.py
-index 848812c0b7d..3372f13a9db 100644
---- a/meta/lib/oe/sbom.py
-+++ b/meta/lib/oe/sbom.py
-@@ -28,6 +28,10 @@ def get_image_spdxid(img):
-     return "SPDXRef-Image-%s" % img
- 
- 
-+def get_sdk_spdxid(sdk):
-+    return "SPDXRef-SDK-%s" % sdk
-+
-+
- def write_doc(d, spdx_doc, subdir, spdx_deploy=None):
-     from pathlib import Path
- 
+ LICENSE:${PN}-bcm-0bb4-0306 = "Firmware-cypress"
 -- 
-2.17.1
+2.34.1
 
 
