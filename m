@@ -2,113 +2,226 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CEBC433F5
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 17:59:49 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web12.1419.1643306388501334514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B4A8C433EF
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:09:30 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web10.1570.1643306969487815517
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 09:59:48 -0800
+ Thu, 27 Jan 2022 10:09:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=duYD+62w;
- spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Abg76BQv;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id k14so3137489qtq.10
+Received: by mail-qk1-f174.google.com with SMTP id g145so3389389qke.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 09:59:48 -0800 (PST)
+ Thu, 27 Jan 2022 10:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qa5tAA5PpvQreaDtLcuu5nuYsFsv6jgOvyOBl5XMGTo=;
-        b=duYD+62wr55t8lJ/hcjYRpLhDOrqQC25aRHBGXEgZml1K+VWiY5aEmu4WFT+2NHUl2
-         0AvTwJ+eGSZ41V6mWAT79hpm+0EgJ/chC4XLHOjGgVwFUbuzdMqv6voqy0yZ0iIYSELz
-         5BU3RuxsNEAovBccuMwxYtP1OYq9shHMgZwbPXM61ugepZOixFuSGtB7haB7XGwGq/i0
-         Bf78a1+xbUrnfgDxfFQMbaBqywu3NY0pgg1Wcfho22olOzIKO/M9xbcLsT6dtrgyksVW
-         W+exdF4/zAmaZ5AFJOTA8Yoh4mpS10Vde0Jzsp2PgjBCo2f9I3xqQPnapyxNdzLnHGzx
-         3roQ==
+         :cc:content-transfer-encoding;
+        bh=ccozF2vUyfP0iOqUlqb3W8ziQaYTEUqeUpcxlRIattc=;
+        b=Abg76BQvBPCgJBf9HcstETXcuVEWc/7WQHuBMoPQG1aAZambwAmbsNeBcgZysyICiu
+         xPoxGedRlnRl6mS3a3TmmW3zqrrWSYpUq3FEkGmAlOxb7gZVAdYnXzVKPuuXEqxfgyjX
+         rMesuae31pPKsDy7wEspc9xG29ISrzGR3/wtF11HflLuhIEbGsw+vLZ0TrpG2C3C4pYl
+         MOwXeSaYHVYasge+B38FErF721DvKsaFtsbmopuNbZ3QAJ1B73AIaJ70rJd9oI27hrN2
+         V2iUQdsSCnYJNWHY7Y3akUC6i7qKylsKCC68iAqx8a4xfH/0lesnSIasm/HOlFkFYUdn
+         RtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qa5tAA5PpvQreaDtLcuu5nuYsFsv6jgOvyOBl5XMGTo=;
-        b=HBttIatlI+W1Jo/Ek+SqrGXcUv7pPpkCo0eGhdnIh6eqlYK5Le71Ac4WoLiTuHaYSR
-         evzCzIclmddfubN1IBFnv+vhccnB7FV3TgDlWjjMigz8R4Qqfzt3bOTbOqc3a5TB7MVM
-         IRvk+AQkmhaFbUKO5cp86+LNW1yr6Pv0PGob5WBMMAl91RxXAM1mNpXQrZEzIoUn+9wg
-         V9dbgIqjDT3XujynWl2z/oH4JSuwzlkk9qAZ5VpE2dKeoDfv59UH7/BXBdO85iG0VAo6
-         7USE25IxEqWNQ8VnJARmHRZ1JSj5dRaiVpYn8j3mtoU80kKR3QCbArnhVLAp/mEjdcia
-         6PiQ==
-X-Gm-Message-State: AOAM533uv4c8qE8OBIvGX/1mVENK6tF5okmR65EF7SHvuZugiWPqkpyJ
-	56CSQESmHoKgIvUUMURU+uSkLF9OaYoWLz2MkjE=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ccozF2vUyfP0iOqUlqb3W8ziQaYTEUqeUpcxlRIattc=;
+        b=IHoTiaIozoqGNYINNytyItYMlc17M3tM8mvUIxTSkjfZksiKawIQu7jXGDCmTj5u0T
+         +x8TTBjc3/4LxtdraXX52onFwAajpTq9KqMYimCTdthecEVEAnjD6cBx5ExIxP0nUl24
+         yLFWEMV9RiGE4W42JgPOUCmY8L6AafJEMY8S89gSLgh65N3Onz5myV/QIbgvP08mBIZR
+         oYfNe+cXvia4gUyaP9feF7kEmevUZ1/hQn6APjbTNGhCAAITvox2v2RJ4S37MdOC/o82
+         LQXMRWzvqHYZd3Hu/zaU+haoLGyy2DJ+zsqSlf3nw1to+YecKAcXtEkEawVUUm4OS8wI
+         4yow==
+X-Gm-Message-State: AOAM532dT86fTgRBP6APJ4oW66NpYnc80eFVTDMQxgjyJKZsG2zNtHZ8
+	n5D7F8hHtEBHJceF5klbw5iHUomjjFMoo6Jv9a8hBFGADtY=
 X-Google-Smtp-Source: 
- ABdhPJx55fT9yYFsTS5wHJNlyRk5PJ4zapD4LxcjXcb7ujdb4CgrwwOX90eLZM/e8XerQAs94aF+lUrEAErXwUG52wk=
-X-Received: by 2002:a05:622a:15ce:: with SMTP id
- d14mr3765813qty.330.1643306387471;
- Thu, 27 Jan 2022 09:59:47 -0800 (PST)
+ ABdhPJyPA2DiyANNCxbhe3eSaTx3Sx8zJGjoA+xD6JGZRBLN8Y+STLlpgmdQbWtBaJgwVxKNtO8pcdyoQKuZz04zwxk=
+X-Received: by 2002:a37:63cf:: with SMTP id x198mr3673281qkb.72.1643306968412;
+ Thu, 27 Jan 2022 10:09:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20220126044142.2409754-1-raj.khem@gmail.com>
- <f94b3d48518c00276d36321d76ecc1b27019f0ab.camel@linuxfoundation.org>
-In-Reply-To: 
- <f94b3d48518c00276d36321d76ecc1b27019f0ab.camel@linuxfoundation.org>
+References: <20220127102005.3050843-1-alex@linutronix.de>
+ <20220127102005.3050843-17-alex@linutronix.de>
+In-Reply-To: <20220127102005.3050843-17-alex@linutronix.de>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Jan 2022 09:59:21 -0800
+Date: Thu, 27 Jan 2022 10:09:02 -0800
 Message-ID: 
- <CAMKF1spdssgQrsO0_bRuPN4B_Fepd7FYwsir+b6fO-Hhyj2UzQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ruby: Fix build on riscv/musl
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+ <CAMKF1soS8r7zEf7MVMwJ_QBd8jEYDg_kBvAVy61CTNwGuWHiUQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 17/17] gobject-introspection: replace
+ prelink-rtld with objdump -p
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 17:59:49 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:09:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161043
+ https://lists.openembedded.org/g/openembedded-core/message/161044
 
-On Thu, Jan 27, 2022 at 2:03 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Jan 27, 2022 at 2:21 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> On Tue, 2022-01-25 at 20:41 -0800, Khem Raj wrote:
-> > This fixes a build issue that started with 3.1 upgrade
-> > Fixes
-> > > ../ruby-3.1.0/vm_dump.c:916:38: error: use of undeclared identifier 'REG_S1'
-> > >         dump_machine_register(mctx->__gregs[REG_S1], "s1");
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  ...ine-REG_S1-and-REG_S2-for-musl-riscv.patch | 30 +++++++++++++++++++
-> >  meta/recipes-devtools/ruby/ruby_3.1.0.bb      |  9 +-----
-> >  2 files changed, 31 insertions(+), 8 deletions(-)
-> >  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-> >
-> > diff --git a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-> > new file mode 100644
-> > index 00000000000..8821325c0fe
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-> > @@ -0,0 +1,30 @@
-> > +From dfb22e4d6662bf72879eda806eaa78c7b52b519e Mon Sep 17 00:00:00 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Tue, 25 Jan 2022 20:29:14 -0800
-> > +Subject: [PATCH] vm_dump.c: Define REG_S1 and REG_S2 for musl/riscv
-> > +
-> > +Upstream-Status: Inappropriate [musl bug]
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> g-i internally processes the output with regexes, and seems
+> happy with what objdump is printing. It only needs to resolve
+> the library name as passed to the linker to the library file name.
+> Also recursive resolution (that ldd is doing and objdump is not)
+> is not necessary.
 >
-> Is there something open on the musl side to resolve this?
 
-I have discussed a potential patch on musl IRC
-https://github.com/kraj/musl/commit/383656460aa3f2ad1e7b66762f5a7d1949d419b7
+thanks for doing this, it further unbolts prelink from core metaddata.
+Objdump -p is good, does it use it from binutils-cross ?
 
-the feedback is to include complete set. I dont want to apply half
-cooked patch to musl in OE
-since it then becomes sort of API for OE, so until this gets fixed in
-musl in whatever form, its better to carry the ruby patch.
-
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes/gobject-introspection.bbclass    |  2 +-
+>  ...-error-return-codes-from-ldd-wrapper.patch | 28 -------------------
+>  .../gobject-introspection_1.70.0.bb           | 14 ++--------
+>  3 files changed, 3 insertions(+), 41 deletions(-)
+>  delete mode 100644 meta/recipes-gnome/gobject-introspection/gobject-intr=
+ospection/0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch
 >
-> Cheers,
+> diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/go=
+bject-introspection.bbclass
+> index 4db1b362d9..7bf9feb0d6 100644
+> --- a/meta/classes/gobject-introspection.bbclass
+> +++ b/meta/classes/gobject-introspection.bbclass
+> @@ -29,7 +29,7 @@ EXTRA_OEMESON:prepend:class-nativesdk =3D "${@['', '${G=
+IRMESONBUILD}'][d.getVar('G
 >
-> Richard
+>  # Generating introspection data depends on a combination of native and t=
+arget
+>  # introspection tools, and qemu to run the target tools.
+> -DEPENDS:append:class-target =3D " gobject-introspection gobject-introspe=
+ction-native qemu-native prelink-native"
+> +DEPENDS:append:class-target =3D " gobject-introspection gobject-introspe=
+ction-native qemu-native"
+>
+>  # Even though introspection is disabled on -native, gobject-introspectio=
+n package is still
+>  # needed for m4 macros.
+> diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
+on/0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch b/meta/r=
+ecipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-ign=
+ore-error-return-codes-from-ldd-wrapper.patch
+> deleted file mode 100644
+> index b484b5e9e6..0000000000
+> --- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001=
+-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From f742da8b3913f4818d3f419117076afe62f4dbf4 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Wed, 5 Sep 2018 16:46:52 +0200
+> -Subject: [PATCH] giscanner: ignore error return codes from ldd-wrapper
+> -
+> -prelink-rtld, which we use instead of ldd returns 127 when it can't find=
+ a library.
+> -It is not an error per se, but it breaks subprocess.check_output().
+> -
+> -Upstream-Status: Inappropriate [oe-core specific]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -
+> ----
+> - giscanner/shlibs.py | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/giscanner/shlibs.py b/giscanner/shlibs.py
+> -index d67df95..80352a6 100644
+> ---- a/giscanner/shlibs.py
+> -+++ b/giscanner/shlibs.py
+> -@@ -102,7 +102,7 @@ def _resolve_non_libtool(options, binary, libraries)=
+:
+> -             args.extend(['otool', '-L', binary.args[0]])
+> -         else:
+> -             args.extend(['ldd', binary.args[0]])
+> --        output =3D subprocess.check_output(args)
+> -+        output =3D subprocess.run(args, check=3DFalse, stdout=3Dsubproc=
+ess.PIPE).stdout
+> -         if isinstance(output, bytes):
+> -             output =3D output.decode("utf-8", "replace")
+> -
+> diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
+on_1.70.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspecti=
+on_1.70.0.bb
+> index d4ee03d33c..4f72a33bfa 100644
+> --- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.70=
+.0.bb
+> +++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.70=
+.0.bb
+> @@ -14,7 +14,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc434e8128a68=
+bedd59b80b2ac1eb1c4a \
+>                      "
+>
+>  SRC_URI =3D "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)=
+}/${BPN}-${PV}.tar.xz \
+> -           file://0001-giscanner-ignore-error-return-codes-from-ldd-wrap=
+per.patch \
+>             file://0001-build-Avoid-the-doctemplates-hack.patch \
+>             "
+>
+> @@ -33,9 +32,7 @@ DEPENDS +=3D " libffi zlib glib-2.0 python3 flex-native=
+ bison-native autoconf-arch
+>  # target build needs qemu to run temporary introspection binaries create=
+d
+>  # on the fly by g-ir-scanner and a native version of itself to run
+>  # native versions of its own tools during build.
+> -# Also prelink-rtld is used to find out library dependencies of introspe=
+ction binaries
+> -# (standard ldd doesn't work when cross-compiling).
+> -DEPENDS:append:class-target =3D " gobject-introspection-native qemu-nati=
+ve prelink-native"
+> +DEPENDS:append:class-target =3D " gobject-introspection-native qemu-nati=
+ve"
+>
+>  # needed for writing out the qemu wrapper script
+>  export STAGING_DIR_HOST
+> @@ -55,13 +52,6 @@ EXTRA_OEMESON:class-target =3D " \
+>      ${@'-Dgir_dir_prefix=3D${libdir}' if d.getVar('MULTILIBS') else ''} =
+\
+>  "
+>
+> -# Need to ensure ld.so.conf exists so prelink-native works
+> -# both before we build and if we install from sstate
+> -do_configure[prefuncs] +=3D "gobject_introspection_preconfigure"
+> -python gobject_introspection_preconfigure () {
+> -    oe.utils.write_ld_so_conf(d)
+> -}
+> -
+>  do_configure:prepend:class-native() {
+>          # Tweak the native python scripts so that they don't refer to th=
+e
+>          # full path of native python binary (the solution is taken from =
+glib-2.0 recipe)
+> @@ -113,7 +103,7 @@ EOF
+>          # for a different architecture
+>          cat > ${B}/g-ir-scanner-lddwrapper << EOF
+>  #!/bin/sh
+> -prelink-rtld --root=3D$STAGING_DIR_HOST "\$@"
+> +$OBJDUMP -p "\$@"
+>  EOF
+>          chmod +x ${B}/g-ir-scanner-lddwrapper
+>
+> --
+> 2.20.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161039): https://lists.openembedded.org/g/openembedde=
+d-core/message/161039
+> Mute This Topic: https://lists.openembedded.org/mt/88718372/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
