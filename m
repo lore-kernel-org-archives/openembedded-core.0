@@ -2,61 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCF6C433F5
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 10:20:25 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.26490.1643278814012516738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D81F0C433EF
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 10:20:28 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web08.26425.1643278827476801357
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 02:20:14 -0800
+ Thu, 27 Jan 2022 02:20:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FMA4SwPu;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D3TllLck;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id e2so3849643wra.2
+Received: by mail-wr1-f48.google.com with SMTP id m14so3570391wrg.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 02:20:13 -0800 (PST)
+ Thu, 27 Jan 2022 02:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RDaOvx5Fpswi5HoDvzyuPIvIBneWRo0+M8qBEwLGlp0=;
-        b=FMA4SwPuSPdMZTzsfe9GOoMwMEJ0+K8ngRtXWOuTtMBcDTxNimvE1UjVy3963b/ejT
-         OHeiDAEZHZLw/XNg7Y8OXQ9fNuIM+Yc9Qgp304u5ItoNgRl2RJbVqJVr1JFxU7f+bxiB
-         ZbuiA4FopltnJZj236oilv/CJrNSesvB9vjxO093k/spyZtXjUeFLXmy4Ael7BDAEC3/
-         NudWqZ8o7228mCk0z3GPNXpAUG0YSN67qI314wMeDjrWWJNTmxcz/EZYSACQCyinNTnw
-         mkV72IedUI8421QTMoJBscBpkMff/mfPlVbh0x8yMHzoNiNAb0t8AeNaMaAvjxp+FdJV
-         lNbA==
+        bh=TjfCihZMFvh1qLaLtyoN7Ct+9+X96up6fs9MV10gktI=;
+        b=D3TllLckG6c15zem6cpPTPs/lStG2tyj6PJKjHrvd2axDueZrO2sN7NSy6lbdR9bnd
+         xyMf5WtyrzfFSDF7L6VMKyqhtj56v6Rqp8YJWFx0dkuyC8B/I2knY2TZebqgbqto3q2G
+         ZMsk7zaJgEttSLlii0/gsHoca6qwSCPiEwOdJvzcEyJO+B/MTOQHwpsezraaBria5dQ0
+         UuZAiFTFS5ukGzWEKLKizibDY2akFIlncE/KxGT61gtn8tnwAP3OJSm4v8vDKnFPCbKI
+         d6DRzId5W7B7Uulh4rQiSMdb0XGRkXx4mOLjqLrZdSNm2oTmBnHwtHaegImrw7Xj5yCj
+         kyxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RDaOvx5Fpswi5HoDvzyuPIvIBneWRo0+M8qBEwLGlp0=;
-        b=hBBl7Kc1EV9fYRLXZqd3F62MfcizEjck+y0ADy4u/IH5s/avgzluws+xv5TgkvG7rb
-         HLvQHgg/w6eDjD1p1EbCB1NaZ4FNacgA7wo5VyuOI7+2GgtOUKlzrjJX2vuhX7Js833d
-         +PCTfmM3ztc+0qWAFIIqeaoDo4+kufsp4JrYs2c0TLqJXiUz7sHL/+DHzLwGRqFlXZBw
-         reUVQ/ez2Hdptb9A3rybAmqk//8K/bu8nF4w1phn5SW/YgH/9S5nFojQJRybHlooY94x
-         0PQ+u1CuzH4BJ/yM4vOzQkm5v/se+vL22ThjzILU1mT4lx3bSAPIGsBW4PVmT7cnxxaA
-         8MpA==
-X-Gm-Message-State: AOAM5303DwSoUEMhXFNYBMa+OOa0G/SxnDlyMfiUV1jUYYFMlggEZB0E
-	Lc0HyvsOym1FZU4Wfm6NI6zmApSsKuc=
+        bh=TjfCihZMFvh1qLaLtyoN7Ct+9+X96up6fs9MV10gktI=;
+        b=geZkB2aQJlOA2Au6EGtobaBV5Rl5pf0FRUJuANFU5pU3lrpIot8g1QLD4zbqrB59px
+         0mkCpllj5WAKdalgt5g336e8+PSFEO8JjEWiLdXpGNtmcnzCjCW+WlffTP3+9jMzm15s
+         BR6NmnkIVEYZa5IghzdB88wzOw+2QwOIAl+cVV81fOndV/nasV6GJxOt2zRAdlRXKUnq
+         czSjNijUaeBpXhApLf6/OU5f9riy81NSBvKz3z1si78GeupkHFBwkgnDYiAahojDJVA+
+         FU7oJtxNZaHF0zEG0OA8j1Etp7MUgdqQgAAg1/xoqbDpAWJPBpLXja/gllcM2pgV797w
+         UfSg==
+X-Gm-Message-State: AOAM530EC52V9GadrqXbWeGdcXdRBYELT9oClNcLW6nynPZbApnOh2I9
+	TQb6XRI7ohvsZjsbSHIQ/goky9UI37k=
 X-Google-Smtp-Source: 
- ABdhPJzSgE4bHzPa1npwLrYNpM8jQJvPqspMDVeq/SMN8GMav4wbVBpZ6GPXhP0di1F89Uf5iTo+9Q==
-X-Received: by 2002:a5d:5846:: with SMTP id i6mr2464963wrf.4.1643278812533;
-        Thu, 27 Jan 2022 02:20:12 -0800 (PST)
+ ABdhPJyXsnGN+qp8hjB3AaoPZy8o8oBGP1P2X7WTU4uwufmmO6Ef4fnYjbwuptqThmf4GqI7lB8VOA==
+X-Received: by 2002:adf:e489:: with SMTP id i9mr2392296wrm.107.1643278826083;
+        Thu, 27 Jan 2022 02:20:26 -0800 (PST)
 Received: from nereus.lab.linutronix.de. (b2b-109-90-143-203.unitymedia.biz.
  [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- t14sm4060849wmq.43.2022.01.27.02.20.10
+ t14sm4060849wmq.43.2022.01.27.02.20.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 02:20:12 -0800 (PST)
+        Thu, 27 Jan 2022 02:20:25 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/17] bind: upgrade 9.16.24 -> 9.16.25
-Date: Thu, 27 Jan 2022 11:19:50 +0100
-Message-Id: <20220127102005.3050843-2-alex@linutronix.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 06/17] debianutils: upgrade 5.5 -> 5.7
+Date: Thu, 27 Jan 2022 11:19:54 +0100
+Message-Id: <20220127102005.3050843-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220127102005.3050843-1-alex@linutronix.de>
 References: <20220127102005.3050843-1-alex@linutronix.de>
@@ -65,99 +66,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 10:20:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 10:20:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161024
+ https://lists.openembedded.org/g/openembedded-core/message/161028
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-License-Update: copyright years
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch             | 0
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
- .../bind/{bind-9.16.24 => bind-9.16.25}/bind9                 | 0
- .../bind/{bind-9.16.24 => bind-9.16.25}/conf.patch            | 0
- .../bind/{bind-9.16.24 => bind-9.16.25}/generate-rndc-key.sh  | 0
- .../init.d-add-support-for-read-only-rootfs.patch             | 0
- .../make-etc-initd-bind-stop-work.patch                       | 0
- .../bind/{bind-9.16.24 => bind-9.16.25}/named.service         | 0
- .../bind/{bind_9.16.24.bb => bind_9.16.25.bb}                 | 4 ++--
- 10 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.24 => bind-9.16.25}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.24.bb => bind_9.16.25.bb} (96%)
+ .../debianutils/{debianutils_5.5.bb => debianutils_5.7.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/debianutils/{debianutils_5.5.bb => debianutils_5.7.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.25/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.25/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.25/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/bind9 b/meta/recipes-connectivity/bind/bind-9.16.25/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.25/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.25/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.25/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.25/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.25/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.25/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.25/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.24/named.service b/meta/recipes-connectivity/bind/bind-9.16.25/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.24/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.25/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.24.bb b/meta/recipes-connectivity/bind/bind_9.16.25.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.16.24.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.25.bb
-index ef5fd42ef8..27a1683a5c 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.24.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.25.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
- SECTION = "console/network"
- 
- LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=ef10b4de6371115dcecdc38ca2af4561"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e7b3c52170a348459a4ff3f5ce95e37"
- 
- DEPENDS = "openssl libcap zlib libuv"
- 
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-support/debianutils/debianutils_5.5.bb b/meta/recipes-support/debianutils/debianutils_5.7.bb
+similarity index 97%
+rename from meta/recipes-support/debianutils/debianutils_5.5.bb
+rename to meta/recipes-support/debianutils/debianutils_5.7.bb
+index 6eea86f6d3..cc61b4394f 100644
+--- a/meta/recipes-support/debianutils/debianutils_5.5.bb
++++ b/meta/recipes-support/debianutils/debianutils_5.7.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94
+ SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
             "
  
--SRC_URI[sha256sum] = "5582f3734bd6232284f93f14206b8a46d1f819dea4797ae157066f6963b08507"
-+SRC_URI[sha256sum] = "9fa328850f82843ef8b7bf1ff5322cb68b110273a33f375ba41f35270f5e1ff3"
+-SRCREV = "4c420893485ad07d771c327ef899819d4846408f"
++SRCREV = "de14223e5bffe15e374a441302c528ffc1cbed57"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
+ inherit autotools update-alternatives
+ 
 -- 
 2.20.1
 
