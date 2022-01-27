@@ -1,152 +1,411 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B00F0C433F5
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:32:01 +0000 (UTC)
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web08.1840.1643308320148603276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C06C0C433EF
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:56:59 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.2208.1643309819091073537
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:32:00 -0800
+ Thu, 27 Jan 2022 10:56:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OMufB8aW;
- spf=pass (domain: gmail.com, ip: 209.85.166.173,
- mailfrom: uvv.mail@gmail.com)
-Received: by mail-il1-f173.google.com with SMTP id 15so3253217ilg.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NU6xke86;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id s6so3657156qvv.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:32:00 -0800 (PST)
+ Thu, 27 Jan 2022 10:56:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=OtDJTShnGklRZ0qbWUEe9PgzJ1MC0BES7Grdmrysi8Y=;
-        b=OMufB8aWeAt0hpLTrBiMKXQg8ZN8PtjOe9dG/84ndfVNeFFX+iUKuAI4RjXJIl9Uo9
-         jUtnVrr5wpErmMQHmNrU3yXiHwa2MArYbBvEmk0u1Ub3hJQKmZP25OJuzGe7Ar31asbP
-         ZDCm2C9zydiVP9yuW2AiUpYWbnqHoMg3/tlJic/VQdl6NZwSCmPWcZrZ7dRCir42DEV7
-         Rx4L7/xnGCb9D8MxIQVWHMI6EO9SJQV71FU1LnI2T9A0I11bDipL9pLgXS1woquOLgyD
-         OHi8ViekAqwcYu60nT+frtIbTaFPRPJNpD60D8rb+8fLQV6Oqw23KOYnZuteXCBZP7Vm
-         SjFg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LpXjuTLYNSonPGGBhMea7p5M4O7GXtPyegT3xGy2jkI=;
+        b=NU6xke86i5noDTqx9cqRmcLERRVDDEYuxE/M3m+8uRGGcqHeQgO5FFU6/xzPh+3Ldf
+         6T3ESzASwbRZ4ivA8nsDpI/RaT3yqPyhfWFnt41vz8ehuBh5KZFRZncvO+j3dnxJeqv0
+         2CHxP3Blyq3h7zOjZCBGpNNNXPE2D/P2ZrvBl6Y6jUmdvwsb5pXXd1or38s1TJ/DBm+5
+         uUtLtTbSFrTQTfznpzDxCoCrc+BU1FDHXkJqSAW0xju9YnvwINuPZwFD6fDflapki/zu
+         UkpMCCgUbU33z9ir8nvJcXRrn9/4rEiah76uXRwuLz7ObJNTrLqu5MNvM56RrPFX4B8z
+         b5LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=OtDJTShnGklRZ0qbWUEe9PgzJ1MC0BES7Grdmrysi8Y=;
-        b=PdZQ152NmAuYJ8VA9jKks6GWZUhdEFBlW/HaovHqOIuhpYpqZhxyB59CsYZpDtGlyl
-         YM6zQRtQpHoBa3NtBy2y1+uIvL82XBZzPc37NB1t08qZWwALXQhk7KwStp+ifWT6X6Il
-         r6HZfbm1CszqkkEzaE6Z6GJE/Ntp4OM4oQHNQzeVKd3CwS0qvd0jKEoDCjy3C2fdOh1v
-         XG5lrrJufUb8OxpqvvE4683gJUWr/y5xrxSwbz+8UXsNRdQ+MUVgNX++RH9cg/eIaIM1
-         NQRr0qW4oRjiIO7BemOLiJOT8oshaOLJ7+g4tpUwdPCnS4yTbFTEGGFYp32/zCtTPhEB
-         +JRw==
-X-Gm-Message-State: AOAM530lFhnpZFAKgT2HsNsELdn2QJJbJ8Gt/Ay2xQFhsbUXifMIdFXw
-	Q3+GhrrXfZ9tejb1A8w6Trk=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LpXjuTLYNSonPGGBhMea7p5M4O7GXtPyegT3xGy2jkI=;
+        b=0PO8TZ7EiRcogrATfunBucQrEdnHjYNxK2zlIdhPZx4IwY1EZoYea4k7H0LFZg+kc/
+         ZIAo22tsb8vCWLEOzE4EEB8TxASIq49Q6AH5ad9ylMbkXFZvkWRBZcnQGdg0s6mu6kjk
+         75SQIUbSsPxSyOlwWlBlBT6CiXdaOKHsfMTIghkvLOmYYutGbz56taDo3P2hTgnVOZJ4
+         SppQb/LUmhwpYtv1lxoPJtR8JB1Qtm+GaLKlH4L1pBKBY+s4Tbk+q/iPEe4AuDzhhVU4
+         z4nqOMPsShfLE465Nhop5C1h6o/dFBRgcz2qaRN9rW6b66U5IkvoILp898Uln7YMEVDh
+         Cycg==
+X-Gm-Message-State: AOAM533PcMXXbV+aghWZfjBJ7pZVViw1U/irJTPIvnUbFqTDV05VMCjK
+	IvWlAUhqbR60K3hnovCDl06/ExGgLHaukE0p1w8=
 X-Google-Smtp-Source: 
- ABdhPJx/llXwn5atpBgNvWsNWQz/e4FmEi3LMpM3WR0495Sz37Hz6s3EPkBvMsk7VNAV08j4ghQkWg==
-X-Received: by 2002:a05:6e02:20ce:: with SMTP id
- 14mr3498922ilq.261.1643308319461;
-        Thu, 27 Jan 2022 10:31:59 -0800 (PST)
-Received: from [10.128.88.142] ([72.10.162.5])
-        by smtp.gmail.com with ESMTPSA id
- k8sm5003636ilo.45.2022.01.27.10.31.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Jan 2022 10:31:59 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------q0RfMk2E4lGZUqC5yffVcjT6"
-Message-ID: <7e42c014-6ccc-7323-ddea-ec8181711b7d@gmail.com>
-Date: Thu, 27 Jan 2022 19:31:55 +0100
+ ABdhPJyEkdM1txoCCwCul077qc+mSIGJDUE8Uxtyyr6t44bTosLvzakW/nkmo1FLaVmRg+nXrnnJOg6xA8H4NQwSopk=
+X-Received: by 2002:a05:6214:27e8:: with SMTP id
+ jt8mr4916469qvb.110.1643309817987;
+ Thu, 27 Jan 2022 10:56:57 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.1
-Subject: Re: [OE-core] [PATCH] initramfs-framework: Add overlayroot module
-Content-Language: en-US
-To: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>,
- Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <20220127102005.3050843-1-alex@linutronix.de>
+ <20220127102005.3050843-11-alex@linutronix.de>
+In-Reply-To: <20220127102005.3050843-11-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 27 Jan 2022 10:56:32 -0800
+Message-ID: 
+ <CAMKF1sq7fqtf8ShGYhu7MnyYMuNse6wx29xo2WzzheawKJ0fSQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/17] zstd: update 1.5.0 -> 1.5.2
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20220126072231.1749903-1-alhe@linux.microsoft.com>
- <CADkTA4OjQsH5hJPt9RuEVaVHCPf6YXOb5U+LkRqV_V7KEHcEPg@mail.gmail.com>
- <3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com>
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>, Joshua Watt <JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:32:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:56:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161046
+ https://lists.openembedded.org/g/openembedded-core/message/161047
 
-This is a multi-part message in MIME format.
---------------q0RfMk2E4lGZUqC5yffVcjT6
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+quick look shows that size of zstd package reduces quite a bit, I wonder why
 
-On 26.01.2022 19:09, Alejandro Hernandez Samaniego wrote:
-> Oops! completely forgot!, I'll add it.
+  -4720   KiB zstd
+  +2932   KiB zstd
+
+small is ofcourse better, but I wonder what could reduce it so much
+between 1.5.0 and 1.5.2
+
+On Thu, Jan 27, 2022 at 2:20 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> This is loosely based on the overlay-etc.bbclass the difference is that
-> the class only works for overlaying /etc and it doesnt require an
-> initramfs, but, while its possible to tinker it in such a way that it
-> overlays /, its not possible to access the original (RO) / after booting the
-> system, this is the reason  why this has to be done from initramfs and why
-> this doesnt patch the overlay-etc.bbclass instead.
+> Drop patches merged upstream.
 >
-> I believe Ubuntu has this feature, coming from the cloud-initramfs
-> package, functionally it should be similar although no code was borrowed
-> from there.
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...rt-all-wildcard-file-list-expansions.patch |  81 --------
+>  .../zstd/zstd/0001-MinGW-Build-Fixes.patch    | 193 ------------------
+>  .../zstd/{zstd_1.5.0.bb => zstd_1.5.2.bb}     |   7 +-
+>  3 files changed, 2 insertions(+), 279 deletions(-)
+>  delete mode 100644 meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
+>  delete mode 100644 meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
+>  rename meta/recipes-extended/zstd/{zstd_1.5.0.bb => zstd_1.5.2.bb} (86%)
 >
-> I'll add a note about the overlay-etc class though.
-
-I missed this part when I answered to your first email this morning. I 
-generally against expanding the scope of overlayfs (i.e. using it for 
-the whole / ), because it creates a bigger migration effort when you 
-need to update the files on a persistent partition. I see the only 
-difference in your code is that you provide access to original lower 
-layer fs. Why would you want to do that?
-
-Thanks,
-Vyacheslav
---------------q0RfMk2E4lGZUqC5yffVcjT6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 26.01.2022 19:09, Alejandro
-      Hernandez Samaniego wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <pre>Oops! completely forgot!, I'll add it.
-
-This is loosely based on the overlay-etc.bbclass the difference is that
-the class only works for overlaying /etc and it doesnt require an
-initramfs, but, while its possible to tinker it in such a way that it
-overlays /, its not possible to access the original (RO) / after booting the
-system, this is the reason  why this has to be done from initramfs and why
-this doesnt patch the overlay-etc.bbclass instead.
-
-I believe Ubuntu has this feature, coming from the cloud-initramfs
-package, functionally it should be similar although no code was borrowed
-from there.
-
-I'll add a note about the overlay-etc class though.</pre>
-    </blockquote>
-    <br>
-    I missed this part when I answered to your first email this morning.
-    I generally against expanding the scope of overlayfs (i.e. using it
-    for the whole / ), because it creates a bigger migration effort when
-    you need to update the files on a persistent partition. I see the
-    only difference in your code is that you provide access to original
-    lower layer fs. Why would you want to do that?<br>
-    <br>
-    Thanks,<br>
-    Vyacheslav<br>
-  </body>
-</html>
-
---------------q0RfMk2E4lGZUqC5yffVcjT6--
+> diff --git a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch b/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
+> deleted file mode 100644
+> index 3d23648f5b..0000000000
+> --- a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
+> +++ /dev/null
+> @@ -1,81 +0,0 @@
+> -From 77c7963c7a0f1c455f20520d5c7b1ec9b17a44fb Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Wed, 23 Dec 2020 19:14:32 +0100
+> -Subject: [PATCH] Makefile: sort all wildcard file list expansions
+> -
+> -Otherwise the order is non-deterministic and breaks
+> -reproducible builds.
+> -
+> -Upstream-Status: Submitted [https://github.com/facebook/zstd/pull/2895]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -
+> ----
+> - programs/Makefile   | 10 +++++-----
+> - tests/Makefile      |  4 ++--
+> - tests/fuzz/Makefile |  2 +-
+> - 3 files changed, 8 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/programs/Makefile b/programs/Makefile
+> -index 599fb02f..2c416467 100644
+> ---- a/programs/Makefile
+> -+++ b/programs/Makefile
+> -@@ -74,11 +74,11 @@ ZSTDLEGACY_DIR := $(ZSTDDIR)/legacy
+> -
+> - vpath %.c $(ZSTDLIB_COMMON) $(ZSTDLIB_COMPRESS) $(ZSTDLIB_DECOMPRESS) $(ZDICT_DIR) $(ZSTDLEGACY_DIR)
+> -
+> --ZSTDLIB_COMMON_C := $(wildcard $(ZSTDLIB_COMMON)/*.c)
+> --ZSTDLIB_COMPRESS_C := $(wildcard $(ZSTDLIB_COMPRESS)/*.c)
+> --ZSTDLIB_DECOMPRESS_C := $(wildcard $(ZSTDLIB_DECOMPRESS)/*.c)
+> -+ZSTDLIB_COMMON_C := $(sort $(wildcard $(ZSTDLIB_COMMON)/*.c))
+> -+ZSTDLIB_COMPRESS_C := $(sort $(wildcard $(ZSTDLIB_COMPRESS)/*.c))
+> -+ZSTDLIB_DECOMPRESS_C := $(sort $(wildcard $(ZSTDLIB_DECOMPRESS)/*.c))
+> - ZSTDLIB_CORE_SRC := $(ZSTDLIB_DECOMPRESS_C) $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C)
+> --ZDICT_SRC := $(wildcard $(ZDICT_DIR)/*.c)
+> -+ZDICT_SRC := $(sort $(wildcard $(ZDICT_DIR)/*.c))
+> -
+> - ZSTD_LEGACY_SUPPORT ?= 5
+> - ZSTDLEGACY_SRC :=
+> -@@ -93,7 +93,7 @@ ZSTDLIB_FULL_SRC = $(sort $(ZSTDLIB_CORE_SRC) $(ZSTDLEGACY_SRC) $(ZDICT_SRC))
+> - ZSTDLIB_LOCAL_SRC = $(notdir $(ZSTDLIB_FULL_SRC))
+> - ZSTDLIB_LOCAL_OBJ := $(ZSTDLIB_LOCAL_SRC:.c=.o)
+> -
+> --ZSTD_CLI_SRC := $(wildcard *.c)
+> -+ZSTD_CLI_SRC := $(sort $(wildcard *.c))
+> - ZSTD_CLI_OBJ := $(ZSTD_CLI_SRC:.c=.o)
+> -
+> - ZSTD_ALL_SRC = $(ZSTDLIB_LOCAL_SRC) $(ZSTD_CLI_SRC)
+> -diff --git a/tests/Makefile b/tests/Makefile
+> -index 85553007..b71cdba8 100644
+> ---- a/tests/Makefile
+> -+++ b/tests/Makefile
+> -@@ -49,7 +49,7 @@ ZSTDDECOMP_FILES := $(ZSTDDIR)/decompress/*.c
+> - ZSTD_FILES  := $(ZSTDDECOMP_FILES) $(ZSTDCOMMON_FILES) $(ZSTDCOMP_FILES)
+> - ZDICT_FILES := $(ZSTDDIR)/dictBuilder/*.c
+> -
+> --ZSTD_F1 := $(wildcard $(ZSTD_FILES))
+> -+ZSTD_F1 := $(sort $(wildcard $(ZSTD_FILES)))
+> - ZSTD_OBJ1 := $(subst $(ZSTDDIR)/common/,zstdm_,$(ZSTD_F1))
+> - ZSTD_OBJ2 := $(subst $(ZSTDDIR)/compress/,zstdc_,$(ZSTD_OBJ1))
+> - ZSTD_OBJ3 := $(subst $(ZSTDDIR)/decompress/,zstdd_,$(ZSTD_OBJ2))
+> -@@ -202,7 +202,7 @@ bigdict: $(ZSTDMT_OBJECTS) $(PRGDIR)/datagen.c bigdict.c
+> - invalidDictionaries : $(ZSTD_OBJECTS) invalidDictionaries.c
+> -
+> - legacy : CPPFLAGS += -I$(ZSTDDIR)/legacy -DZSTD_LEGACY_SUPPORT=4
+> --legacy : $(ZSTD_FILES) $(wildcard $(ZSTDDIR)/legacy/*.c) legacy.c
+> -+legacy : $(ZSTD_FILES) $(sort $(wildcard $(ZSTDDIR)/legacy/*.c)) legacy.c
+> -
+> - decodecorpus : LDLIBS += -lm
+> - decodecorpus : $(filter-out zstdc_zstd_compress.o, $(ZSTD_OBJECTS)) $(ZDICT_FILES) $(PRGDIR)/util.c $(PRGDIR)/timefn.c decodecorpus.c
+> -diff --git a/tests/fuzz/Makefile b/tests/fuzz/Makefile
+> -index ccb574b7..b1cb2935 100644
+> ---- a/tests/fuzz/Makefile
+> -+++ b/tests/fuzz/Makefile
+> -@@ -62,7 +62,7 @@ FUZZ_SRC       := \
+> -       $(ZSTDCOMP_SRC) \
+> -       $(ZSTDDICT_SRC) \
+> -       $(ZSTDLEGACY_SRC)
+> --FUZZ_SRC := $(wildcard $(FUZZ_SRC))
+> -+FUZZ_SRC := $(sort $(wildcard $(FUZZ_SRC)))
+> -
+> - FUZZ_D_OBJ1 := $(subst $(ZSTDDIR)/common/,d_lib_common_,$(FUZZ_SRC))
+> - FUZZ_D_OBJ2 := $(subst $(ZSTDDIR)/compress/,d_lib_compress_,$(FUZZ_D_OBJ1))
+> diff --git a/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch b/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
+> deleted file mode 100644
+> index a0e00dca03..0000000000
+> --- a/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
+> +++ /dev/null
+> @@ -1,193 +0,0 @@
+> -From ab9a34c92eec815ef214470c927ddbe2e950e7e5 Mon Sep 17 00:00:00 2001
+> -From: Joshua Watt <JPEWhacker@gmail.com>
+> -Date: Wed, 26 May 2021 09:15:40 -0500
+> -Subject: [PATCH] MinGW Build Fixes
+> -
+> -Fixes building on MinGW by
+> - 1) Exporting the OS variable so that it is visible to sub-make
+> -    invocations
+> - 2) Fixing the extension handling so that make correctly identifies when
+> -    targets need to be rebuilt. Without the correct handling, make would
+> -    rebuild the executable targets when running `make install` because
+> -    it couldn't find them with the correct extension.
+> -
+> -Upstream-Status: Submitted [https://github.com/facebook/zstd/pull/2685]
+> -Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ----
+> - Makefile          |  1 +
+> - programs/Makefile | 74 +++++++++++++++++++++++------------------------
+> - 2 files changed, 38 insertions(+), 37 deletions(-)
+> -
+> -diff --git a/Makefile b/Makefile
+> -index c1908f0a..f9ce9504 100644
+> ---- a/Makefile
+> -+++ b/Makefile
+> -@@ -29,6 +29,7 @@ VOID = /dev/null
+> - # fail on other tested distros (ubuntu, debian) even
+> - # without manually specifying the TARGET_SYSTEM.
+> - TARGET_SYSTEM ?= $(OS)
+> -+export OS
+> -
+> - ifneq (,$(filter Windows%,$(TARGET_SYSTEM)))
+> -   EXT =.exe
+> -diff --git a/programs/Makefile b/programs/Makefile
+> -index 599fb02f..79b45c83 100644
+> ---- a/programs/Makefile
+> -+++ b/programs/Makefile
+> -@@ -209,37 +209,37 @@ SET_CACHE_DIRECTORY = \
+> -
+> -
+> - .PHONY: all
+> --all: zstd
+> -+all: zstd$(EXT)
+> -
+> - .PHONY: allVariants
+> --allVariants: zstd zstd-compress zstd-decompress zstd-small zstd-nolegacy zstd-dictBuilder
+> -+allVariants: zstd$(EXT) zstd-compress$(EXT) zstd-decompress$(EXT) zstd-small$(EXT) zstd-nolegacy$(EXT) zstd-dictBuilder$(EXT)
+> -
+> - .PHONY: zstd  # must always be run
+> --zstd : CPPFLAGS += $(THREAD_CPP) $(ZLIBCPP) $(LZMACPP) $(LZ4CPP)
+> --zstd : LDFLAGS += $(THREAD_LD) $(DEBUGFLAGS_LD)
+> --zstd : LDLIBS += $(ZLIBLD) $(LZMALD) $(LZ4LD)
+> --zstd : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
+> -+zstd$(EXT) : CPPFLAGS += $(THREAD_CPP) $(ZLIBCPP) $(LZMACPP) $(LZ4CPP)
+> -+zstd$(EXT) : LDFLAGS += $(THREAD_LD) $(DEBUGFLAGS_LD)
+> -+zstd$(EXT) : LDLIBS += $(ZLIBLD) $(LZMALD) $(LZ4LD)
+> -+zstd$(EXT) : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
+> - ifneq (,$(filter Windows%,$(OS)))
+> --zstd : $(RES_FILE)
+> -+zstd$(EXT) : $(RES_FILE)
+> - endif
+> -
+> - ifndef BUILD_DIR
+> - # generate BUILD_DIR from flags
+> -
+> --zstd:
+> -+zstd$(EXT):
+> -       $(SET_CACHE_DIRECTORY)
+> -
+> - else
+> - # BUILD_DIR is defined
+> -
+> - ZSTD_OBJ := $(addprefix $(BUILD_DIR)/, $(ZSTD_ALL_OBJ))
+> --$(BUILD_DIR)/zstd : $(ZSTD_OBJ)
+> -+$(BUILD_DIR)/zstd$(EXT) : $(ZSTD_OBJ)
+> -       @echo "$(THREAD_MSG)"
+> -       @echo "$(ZLIB_MSG)"
+> -       @echo "$(LZMA_MSG)"
+> -       @echo "$(LZ4_MSG)"
+> -       @echo LINK $@
+> --      $(CC) $(FLAGS) $^ $(LDLIBS) -o $@$(EXT)
+> -+      $(CC) $(FLAGS) $^ $(LDLIBS) -o $@
+> -
+> - ifeq ($(HAVE_HASH),1)
+> - SRCBIN_HASH = $(shell cat $(BUILD_DIR)/zstd 2> $(VOID) | $(HASH) | cut -f 1 -d " ")
+> -@@ -249,7 +249,7 @@ else
+> - BIN_ISDIFFERENT = 1
+> - endif
+> -
+> --zstd : $(BUILD_DIR)/zstd
+> -+zstd$(EXT) : $(BUILD_DIR)/zstd$(EXT)
+> -       if [ $(BIN_ISDIFFERENT) -eq 1 ]; then \
+> -               cp -f $< $@; \
+> -               echo zstd build completed; \
+> -@@ -263,46 +263,46 @@ endif  # BUILD_DIR
+> - .PHONY: zstd-release
+> - zstd-release: DEBUGFLAGS := -DBACKTRACE_ENABLE=0
+> - zstd-release: DEBUGFLAGS_LD :=
+> --zstd-release: zstd
+> -+zstd-release: zstd$(EXT)
+> -
+> --zstd32 : CPPFLAGS += $(THREAD_CPP)
+> --zstd32 : LDFLAGS  += $(THREAD_LD)
+> --zstd32 : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
+> -+zstd32$(EXT) : CPPFLAGS += $(THREAD_CPP)
+> -+zstd32$(EXT) : LDFLAGS  += $(THREAD_LD)
+> -+zstd32$(EXT) : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
+> - ifneq (,$(filter Windows%,$(OS)))
+> --zstd32 : $(RES32_FILE)
+> -+zstd32$(EXT) : $(RES32_FILE)
+> - endif
+> --zstd32 : $(ZSTDLIB_FULL_SRC) $(ZSTD_CLI_SRC)
+> --      $(CC) -m32 $(FLAGS) $^ -o $@$(EXT)
+> -+zstd32$(EXT) : $(ZSTDLIB_FULL_SRC) $(ZSTD_CLI_SRC)
+> -+      $(CC) -m32 $(FLAGS) $^ -o $@
+> -
+> - ## zstd-nolegacy: same scope as zstd, with just support of legacy formats removed
+> --zstd-nolegacy : LDFLAGS += $(THREAD_LD) $(ZLIBLD) $(LZMALD) $(LZ4LD) $(DEBUGFLAGS_LD)
+> --zstd-nolegacy : $(ZSTDLIB_CORE_SRC) $(ZDICT_SRC) $(ZSTD_CLI_OBJ)
+> --      $(CC) $(FLAGS) $^ -o $@$(EXT) $(LDFLAGS)
+> -+zstd-nolegacy$(EXT) : LDFLAGS += $(THREAD_LD) $(ZLIBLD) $(LZMALD) $(LZ4LD) $(DEBUGFLAGS_LD)
+> -+zstd-nolegacy$(EXT) : $(ZSTDLIB_CORE_SRC) $(ZDICT_SRC) $(ZSTD_CLI_OBJ)
+> -+      $(CC) $(FLAGS) $^ -o $@ $(LDFLAGS)
+> -
+> - .PHONY: zstd-nomt
+> - zstd-nomt : THREAD_CPP :=
+> - zstd-nomt : THREAD_LD  :=
+> - zstd-nomt : THREAD_MSG := - multi-threading disabled
+> --zstd-nomt : zstd
+> -+zstd-nomt : zstd$(EXT)
+> -
+> - .PHONY: zstd-nogz
+> - zstd-nogz : ZLIBCPP :=
+> - zstd-nogz : ZLIBLD  :=
+> - zstd-nogz : ZLIB_MSG := - gzip support is disabled
+> --zstd-nogz : zstd
+> -+zstd-nogz : zstd$(EXT)
+> -
+> - .PHONY: zstd-noxz
+> - zstd-noxz : LZMACPP :=
+> - zstd-noxz : LZMALD  :=
+> - zstd-noxz : LZMA_MSG := - xz/lzma support is disabled
+> --zstd-noxz : zstd
+> -+zstd-noxz : zstd$(EXT)
+> -
+> - ## zstd-dll: zstd executable linked to dynamic library libzstd (must have same version)
+> - .PHONY: zstd-dll
+> - zstd-dll : LDFLAGS+= -L$(ZSTDDIR)
+> - zstd-dll : LDLIBS += -lzstd
+> - zstd-dll : ZSTDLIB_LOCAL_SRC = xxhash.c
+> --zstd-dll : zstd
+> -+zstd-dll : zstd$(EXT)
+> -
+> -
+> - ## zstd-pgo: zstd executable optimized with PGO.
+> -@@ -321,23 +321,23 @@ zstd-pgo :
+> -       $(MAKE) zstd MOREFLAGS=-fprofile-use
+> -
+> - ## zstd-small: minimal target, supporting only zstd compression and decompression. no bench. no legacy. no other format.
+> --zstd-small: CFLAGS = -Os -s
+> --zstd-frugal zstd-small: $(ZSTDLIB_CORE_SRC) zstdcli.c util.c timefn.c fileio.c
+> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE $^ -o $@$(EXT)
+> -+zstd-small$(EXT): CFLAGS = -Os -s
+> -+zstd-frugal$(EXT) zstd-small$(EXT): $(ZSTDLIB_CORE_SRC) zstdcli.c util.c timefn.c fileio.c
+> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE $^ -o $@
+> -
+> --zstd-decompress: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_DECOMPRESS_C) zstdcli.c util.c timefn.c fileio.c
+> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOCOMPRESS -DZSTD_NOTRACE $^ -o $@$(EXT)
+> -+zstd-decompress$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_DECOMPRESS_C) zstdcli.c util.c timefn.c fileio.c
+> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOCOMPRESS -DZSTD_NOTRACE $^ -o $@
+> -
+> --zstd-compress: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) zstdcli.c util.c timefn.c fileio.c
+> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NODECOMPRESS -DZSTD_NOTRACE $^ -o $@$(EXT)
+> -+zstd-compress$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) zstdcli.c util.c timefn.c fileio.c
+> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NODECOMPRESS -DZSTD_NOTRACE $^ -o $@
+> -
+> - ## zstd-dictBuilder: executable supporting dictionary creation and compression (only)
+> --zstd-dictBuilder: CPPFLAGS += -DZSTD_NOBENCH -DZSTD_NODECOMPRESS -DZSTD_NOTRACE
+> --zstd-dictBuilder: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) $(ZDICT_SRC) zstdcli.c util.c timefn.c fileio.c dibio.c
+> --      $(CC) $(FLAGS) $^ -o $@$(EXT)
+> -+zstd-dictBuilder$(EXT): CPPFLAGS += -DZSTD_NOBENCH -DZSTD_NODECOMPRESS -DZSTD_NOTRACE
+> -+zstd-dictBuilder$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) $(ZDICT_SRC) zstdcli.c util.c timefn.c fileio.c dibio.c
+> -+      $(CC) $(FLAGS) $^ -o $@
+> -
+> --zstdmt: zstd
+> --      ln -sf zstd zstdmt
+> -+zstdmt$(EXT): zstd$(EXT)
+> -+      ln -sf zstd$(EXT) zstdmt$(EXT)
+> -
+> - .PHONY: generate_res
+> - generate_res: $(RES64_FILE) $(RES32_FILE)
+> ---
+> -2.31.1
+> -
+> diff --git a/meta/recipes-extended/zstd/zstd_1.5.0.bb b/meta/recipes-extended/zstd/zstd_1.5.2.bb
+> similarity index 86%
+> rename from meta/recipes-extended/zstd/zstd_1.5.0.bb
+> rename to meta/recipes-extended/zstd/zstd_1.5.2.bb
+> index 51305d0562..71f439ef57 100644
+> --- a/meta/recipes-extended/zstd/zstd_1.5.0.bb
+> +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
+> @@ -9,12 +9,9 @@ LICENSE = "BSD-3-Clause & GPLv2"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=c7f0b161edbe52f5f345a3d1311d0b32 \
+>                      file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0"
+>
+> -SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https \
+> -           file://0001-Makefile-sort-all-wildcard-file-list-expansions.patch \
+> -           file://0001-MinGW-Build-Fixes.patch \
+> -           "
+> +SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https"
+>
+> -SRCREV = "a488ba114ec17ea1054b9057c26a046fc122b3b6"
+> +SRCREV = "e47e674cd09583ff0503f0f6defd6d23d8b718d3"
+>  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+>
+>  CVE_PRODUCT = "zstandard"
+> --
+> 2.20.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161033): https://lists.openembedded.org/g/openembedded-core/message/161033
+> Mute This Topic: https://lists.openembedded.org/mt/88718362/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
