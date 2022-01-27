@@ -1,540 +1,152 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4610C433F5
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:12:57 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web10.1621.1643307176845086296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B00F0C433F5
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:32:01 +0000 (UTC)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+ [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web08.1840.1643308320148603276
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:12:57 -0800
+ Thu, 27 Jan 2022 10:32:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DxxINOmR;
- spf=pass (domain: gmail.com, ip: 209.85.160.176,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id k14so3172717qtq.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OMufB8aW;
+ spf=pass (domain: gmail.com, ip: 209.85.166.173,
+ mailfrom: uvv.mail@gmail.com)
+Received: by mail-il1-f173.google.com with SMTP id 15so3253217ilg.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:12:56 -0800 (PST)
+ Thu, 27 Jan 2022 10:32:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iYimE9ALV+vLe7gi7dho9uemChHDtz228YWqAKQ5TpI=;
-        b=DxxINOmRkx9PLgZPV2SWxadFQZFTdbm9aQxIXNjeyWl0SoS3eoeseNVIgweutFwnXS
-         m3pOMc3qBJMOLvsdvkE/bTSF2fG/uxqbVgs6XPEv8XTCaPgCb4+nbpex2t1t0BtRkPMk
-         /orWKBaMRL3h8rZ8Tkpe4QQxPDulorkSeo0RPirjwwDuumr8VhFXo67PMIHtviIGwEsY
-         7D+cF9sGLv2JPrDhhPajQIkIURt8cItV66nVeWKU8ptZ2efDOdOZcFEmSuQS1Q4cjzQG
-         FQdWm8FrzKBVCLettOC2iNRfi8JsEC8w1PNC5MUl1B7tHKvcJF1zV+RmUc9ZCgsah1Kf
-         gYlw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to;
+        bh=OtDJTShnGklRZ0qbWUEe9PgzJ1MC0BES7Grdmrysi8Y=;
+        b=OMufB8aWeAt0hpLTrBiMKXQg8ZN8PtjOe9dG/84ndfVNeFFX+iUKuAI4RjXJIl9Uo9
+         jUtnVrr5wpErmMQHmNrU3yXiHwa2MArYbBvEmk0u1Ub3hJQKmZP25OJuzGe7Ar31asbP
+         ZDCm2C9zydiVP9yuW2AiUpYWbnqHoMg3/tlJic/VQdl6NZwSCmPWcZrZ7dRCir42DEV7
+         Rx4L7/xnGCb9D8MxIQVWHMI6EO9SJQV71FU1LnI2T9A0I11bDipL9pLgXS1woquOLgyD
+         OHi8ViekAqwcYu60nT+frtIbTaFPRPJNpD60D8rb+8fLQV6Oqw23KOYnZuteXCBZP7Vm
+         SjFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iYimE9ALV+vLe7gi7dho9uemChHDtz228YWqAKQ5TpI=;
-        b=RKsneWJHT0ZeyYfVevsV2RsHJ69/5mojKdS3jkpjzsv3/9/NfQeT1USF0xq0Fv23m9
-         7Szm0zbrQy4NB9pFnYfZy1mzwu4Sk5PtaaZY6TPmWPIh35OV4tpqotF2vDt2NYgEfr0q
-         sfzRWMYqg6dRrhyvjDKzdKgVGlSdhDjP97gv0qzsaNeCmLwlyMUPg5fq7M0E8OBmGqhO
-         0/gB6dTkZzPX3RP8xI9SapTNBO508NjgMumdw6tqAzW4bpJ9u4+xa5k37sEOfaOVcBe6
-         ugskN9oqieXF6ho1XOIZ5RAh/lr4hwmczZ//ikl6krHIFPYOaIaffTGvsGfKfhxydFBZ
-         KiAQ==
-X-Gm-Message-State: AOAM5307kG9SBwInwVXzllo8DZlN7BjDgKbTvZox27WnenULiS/meEC9
-	71UJHpECoF3RuA8DaB2mLfS6nKENapW0zvShJ0w=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to;
+        bh=OtDJTShnGklRZ0qbWUEe9PgzJ1MC0BES7Grdmrysi8Y=;
+        b=PdZQ152NmAuYJ8VA9jKks6GWZUhdEFBlW/HaovHqOIuhpYpqZhxyB59CsYZpDtGlyl
+         YM6zQRtQpHoBa3NtBy2y1+uIvL82XBZzPc37NB1t08qZWwALXQhk7KwStp+ifWT6X6Il
+         r6HZfbm1CszqkkEzaE6Z6GJE/Ntp4OM4oQHNQzeVKd3CwS0qvd0jKEoDCjy3C2fdOh1v
+         XG5lrrJufUb8OxpqvvE4683gJUWr/y5xrxSwbz+8UXsNRdQ+MUVgNX++RH9cg/eIaIM1
+         NQRr0qW4oRjiIO7BemOLiJOT8oshaOLJ7+g4tpUwdPCnS4yTbFTEGGFYp32/zCtTPhEB
+         +JRw==
+X-Gm-Message-State: AOAM530lFhnpZFAKgT2HsNsELdn2QJJbJ8Gt/Ay2xQFhsbUXifMIdFXw
+	Q3+GhrrXfZ9tejb1A8w6Trk=
 X-Google-Smtp-Source: 
- ABdhPJxrf8tFIMULhT25EbUuJ4q36Owbld9ul1MnKl9Y60jqszU50owYKpCES6EC8EYGlgLWaXgkuuO3OvY7KE9IEqA=
-X-Received: by 2002:a05:622a:1a99:: with SMTP id
- s25mr3708422qtc.634.1643307175752;
- Thu, 27 Jan 2022 10:12:55 -0800 (PST)
+ ABdhPJx/llXwn5atpBgNvWsNWQz/e4FmEi3LMpM3WR0495Sz37Hz6s3EPkBvMsk7VNAV08j4ghQkWg==
+X-Received: by 2002:a05:6e02:20ce:: with SMTP id
+ 14mr3498922ilq.261.1643308319461;
+        Thu, 27 Jan 2022 10:31:59 -0800 (PST)
+Received: from [10.128.88.142] ([72.10.162.5])
+        by smtp.gmail.com with ESMTPSA id
+ k8sm5003636ilo.45.2022.01.27.10.31.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jan 2022 10:31:59 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------q0RfMk2E4lGZUqC5yffVcjT6"
+Message-ID: <7e42c014-6ccc-7323-ddea-ec8181711b7d@gmail.com>
+Date: Thu, 27 Jan 2022 19:31:55 +0100
 MIME-Version: 1.0
-References: <20220127102005.3050843-1-alex@linutronix.de>
- <20220127102005.3050843-13-alex@linutronix.de>
-In-Reply-To: <20220127102005.3050843-13-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Jan 2022 10:12:29 -0800
-Message-ID: 
- <CAMKF1srcECtYMWHJV=41Bi=Oe=6QJ=XMRbvadjfxMvMPoxM=xA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 13/17] gdb: update 11.1 -> 11.2
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [OE-core] [PATCH] initramfs-framework: Add overlayroot module
+Content-Language: en-US
+To: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ <openembedded-core@lists.openembedded.org>
+References: <20220126072231.1749903-1-alhe@linux.microsoft.com>
+ <CADkTA4OjQsH5hJPt9RuEVaVHCPf6YXOb5U+LkRqV_V7KEHcEPg@mail.gmail.com>
+ <3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:12:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:32:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161045
+ https://lists.openembedded.org/g/openembedded-core/message/161046
 
-On Thu, Jan 27, 2022 at 2:20 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Simplyfy .inc structure: merge gdb.inc into gdb_11.2.bb, rename
-> gdb-${PV}.inc to gdb.inc. This will allow easier automatic updates.
+This is a multi-part message in MIME format.
+--------------q0RfMk2E4lGZUqC5yffVcjT6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-this looks ok.
+On 26.01.2022 19:09, Alejandro Hernandez Samaniego wrote:
+> Oops! completely forgot!, I'll add it.
+>
+> This is loosely based on the overlay-etc.bbclass the difference is that
+> the class only works for overlaying /etc and it doesnt require an
+> initramfs, but, while its possible to tinker it in such a way that it
+> overlays /, its not possible to access the original (RO) / after booting the
+> system, this is the reason  why this has to be done from initramfs and why
+> this doesnt patch the overlay-etc.bbclass instead.
+>
+> I believe Ubuntu has this feature, coming from the cloud-initramfs
+> package, functionally it should be similar although no code was borrowed
+> from there.
+>
+> I'll add a note about the overlay-etc class though.
 
->
-> Drop upstreamed patch.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-devtools/gdb/gdb-11.1.inc        |  19 --
->  ...ian_11.1.bb => gdb-cross-canadian_11.2.bb} |   2 +-
->  .../{gdb-cross_11.1.bb => gdb-cross_11.2.bb}  |   2 +-
->  meta/recipes-devtools/gdb/gdb.inc             |  27 +-
->  ...erver-register-set-selection-dynamic.patch | 317 ------------------
->  .../gdb/{gdb_11.1.bb => gdb_11.2.bb}          |  13 +-
->  6 files changed, 31 insertions(+), 349 deletions(-)
->  delete mode 100644 meta/recipes-devtools/gdb/gdb-11.1.inc
->  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_11.1.bb => gdb-cross-canadian_11.2.bb} (71%)
->  rename meta/recipes-devtools/gdb/{gdb-cross_11.1.bb => gdb-cross_11.2.bb} (50%)
->  delete mode 100644 meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
->  rename meta/recipes-devtools/gdb/{gdb_11.1.bb => gdb_11.2.bb} (80%)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb-11.1.inc b/meta/recipes-devtools/gdb/gdb-11.1.inc
-> deleted file mode 100644
-> index 5364a880e3..0000000000
-> --- a/meta/recipes-devtools/gdb/gdb-11.1.inc
-> +++ /dev/null
-> @@ -1,19 +0,0 @@
-> -LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> -                   file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-> -                   file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-> -                   file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
-> -
-> -SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-> -           file://0001-make-man-install-relative-to-DESTDIR.patch \
-> -           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-> -           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-> -           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> -           file://0006-use-asm-sgidefs.h.patch \
-> -           file://0007-Change-order-of-CFLAGS.patch \
-> -           file://0008-resolve-restrict-keyword-conflict.patch \
-> -           file://0009-Fix-invalid-sigprocmask-call.patch \
-> -           file://0010-gdbserver-ctrl-c-handling.patch \
-> -           file://0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch \
-> -           "
-> -SRC_URI[sha256sum] = "cccfcc407b20d343fb320d4a9a2110776dd3165118ffd41f4b1b162340333f94"
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
-> similarity index 71%
-> rename from meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
-> index 301035940c..4ab2b7156d 100644
-> --- a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb
-> +++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
-> @@ -1,3 +1,3 @@
->  require gdb-common.inc
->  require gdb-cross-canadian.inc
-> -require gdb-${PV}.inc
-> +require gdb.inc
-> diff --git a/meta/recipes-devtools/gdb/gdb-cross_11.1.bb b/meta/recipes-devtools/gdb/gdb-cross_11.2.bb
-> similarity index 50%
-> rename from meta/recipes-devtools/gdb/gdb-cross_11.1.bb
-> rename to meta/recipes-devtools/gdb/gdb-cross_11.2.bb
-> index 50cf159fdb..3b654a2f0d 100644
-> --- a/meta/recipes-devtools/gdb/gdb-cross_11.1.bb
-> +++ b/meta/recipes-devtools/gdb/gdb-cross_11.2.bb
-> @@ -1,2 +1,2 @@
->  require gdb-cross.inc
-> -require gdb-${PV}.inc
-> +require gdb.inc
-> diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-> index 2c95ed3ca0..cf801b192b 100644
-> --- a/meta/recipes-devtools/gdb/gdb.inc
-> +++ b/meta/recipes-devtools/gdb/gdb.inc
-> @@ -1,11 +1,18 @@
-> -require gdb-common.inc
-> -
-> -inherit gettext pkgconfig
-> -
-> -#LDFLAGS:append = " -s"
-> -#export CFLAGS:append=" -L${STAGING_LIBDIR}"
-> -
-> -# cross-canadian must not see this
-> -PACKAGES =+ "gdbserver"
-> -FILES:gdbserver = "${bindir}/gdbserver"
-> +LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> +                   file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
-> +                   file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
-> +                   file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
->
-> +SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-> +           file://0001-make-man-install-relative-to-DESTDIR.patch \
-> +           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-> +           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
-> +           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
-> +           file://0006-use-asm-sgidefs.h.patch \
-> +           file://0007-Change-order-of-CFLAGS.patch \
-> +           file://0008-resolve-restrict-keyword-conflict.patch \
-> +           file://0009-Fix-invalid-sigprocmask-call.patch \
-> +           file://0010-gdbserver-ctrl-c-handling.patch \
-> +           "
-> +SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-> diff --git a/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch b/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
-> deleted file mode 100644
-> index 6fc1859391..0000000000
-> --- a/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
-> +++ /dev/null
-> @@ -1,317 +0,0 @@
-> -From eb79b2318066cafb75ffdce310e3bbd44f7c79e3 Mon Sep 17 00:00:00 2001
-> -From: Luis Machado <luis.machado@linaro.org>
-> -Date: Fri, 29 Oct 2021 14:54:36 -0300
-> -Subject: [PATCH] [AArch64] Make gdbserver register set selection dynamic
-> -
-> -The current register set selection mechanism for AArch64 is static, based
-> -on a pre-populated array of register sets.
-> -
-> -This means that we might potentially probe register sets that are not
-> -available. This is OK if the kernel errors out during ptrace, but probing the
-> -tag_ctl register, for example, does not result in a ptrace error if the kernel
-> -supports the tagged address ABI but not MTE (PR 28355).
-> -
-> -Making the register set selection dynamic, based on feature checks, solves
-> -this and simplifies the code a bit. It allows us to list all of the register
-> -sets only once, and pick and choose based on HWCAP/HWCAP2 or other properties.
-> -
-> -gdb/ChangeLog:
-> -
-> -2021-11-03  Luis Machado  <luis.machado@linaro.org>
-> -
-> -       PR gdb/28355
-> -
-> -       * arch/aarch64.h (struct aarch64_features): New struct.
-> -
-> -gdbserver/ChangeLog:
-> -
-> -2021-11-03  Luis Machado  <luis.machado@linaro.org>
-> -
-> -       PR gdb/28355
-> -
-> -       * linux-aarch64-low.cc (is_sve_tdesc): Remove.
-> -       (aarch64_target::low_arch_setup): Rework to adjust the register sets.
-> -       (aarch64_regsets): Update to list all register sets.
-> -       (aarch64_regsets_info, regs_info_aarch64): Replace NULL with nullptr.
-> -       (aarch64_sve_regsets, aarch64_sve_regsets_info)
-> -       (regs_info_aarch64_sve): Remove.
-> -       (aarch64_adjust_register_sets): New.
-> -       (aarch64_target::get_regs_info): Remove references to removed structs.
-> -       (initialize_low_arch): Likewise.
-> -
-> -[ChangeLog entry stripped so that patch applies cleanly]
-> -Upstream-Status: Accepted
-> ----
-> -
-> -diff --git a/gdb/arch/aarch64.h b/gdb/arch/aarch64.h
-> -index 0eb702c5b5e..95edb664b55 100644
-> ---- a/gdb/arch/aarch64.h
-> -+++ b/gdb/arch/aarch64.h
-> -@@ -22,6 +22,15 @@
-> -
-> - #include "gdbsupport/tdesc.h"
-> -
-> -+/* Holds information on what architectural features are available.  This is
-> -+   used to select register sets.  */
-> -+struct aarch64_features
-> -+{
-> -+  bool sve = false;
-> -+  bool pauth = false;
-> -+  bool mte = false;
-> -+};
-> -+
-> - /* Create the aarch64 target description.  A non zero VQ value indicates both
-> -    the presence of SVE and the Vector Quotient - the number of 128bit chunks in
-> -    an SVE Z register.  HAS_PAUTH_P indicates the presence of the PAUTH
-> -diff --git a/gdbserver/linux-aarch64-low.cc b/gdbserver/linux-aarch64-low.cc
-> -index daccfef746e..9a8cb4169a7 100644
-> ---- a/gdbserver/linux-aarch64-low.cc
-> -+++ b/gdbserver/linux-aarch64-low.cc
-> -@@ -196,16 +196,6 @@ is_64bit_tdesc (void)
-> -   return register_size (regcache->tdesc, 0) == 8;
-> - }
-> -
-> --/* Return true if the regcache contains the number of SVE registers.  */
-> --
-> --static bool
-> --is_sve_tdesc (void)
-> --{
-> --  struct regcache *regcache = get_thread_regcache (current_thread, 0);
-> --
-> --  return tdesc_contains_feature (regcache->tdesc, "org.gnu.gdb.aarch64.sve");
-> --}
-> --
-> - static void
-> - aarch64_fill_gregset (struct regcache *regcache, void *buf)
-> - {
-> -@@ -680,40 +670,6 @@ aarch64_target::low_new_fork (process_info *parent,
-> -   *child->priv->arch_private = *parent->priv->arch_private;
-> - }
-> -
-> --/* Matches HWCAP_PACA in kernel header arch/arm64/include/uapi/asm/hwcap.h.  */
-> --#define AARCH64_HWCAP_PACA (1 << 30)
-> --
-> --/* Implementation of linux target ops method "low_arch_setup".  */
-> --
-> --void
-> --aarch64_target::low_arch_setup ()
-> --{
-> --  unsigned int machine;
-> --  int is_elf64;
-> --  int tid;
-> --
-> --  tid = lwpid_of (current_thread);
-> --
-> --  is_elf64 = linux_pid_exe_is_elf_64_file (tid, &machine);
-> --
-> --  if (is_elf64)
-> --    {
-> --      uint64_t vq = aarch64_sve_get_vq (tid);
-> --      unsigned long hwcap = linux_get_hwcap (8);
-> --      unsigned long hwcap2 = linux_get_hwcap2 (8);
-> --      bool pauth_p = hwcap & AARCH64_HWCAP_PACA;
-> --      /* MTE is AArch64-only.  */
-> --      bool mte_p = hwcap2 & HWCAP2_MTE;
-> --
-> --      current_process ()->tdesc
-> --      = aarch64_linux_read_description (vq, pauth_p, mte_p);
-> --    }
-> --  else
-> --    current_process ()->tdesc = aarch32_linux_read_description ();
-> --
-> --  aarch64_linux_get_debug_reg_capacity (lwpid_of (current_thread));
-> --}
-> --
-> - /* Wrapper for aarch64_sve_regs_copy_to_reg_buf.  */
-> -
-> - static void
-> -@@ -730,21 +686,36 @@ aarch64_sve_regs_copy_from_regcache (struct regcache *regcache, void *buf)
-> -   return aarch64_sve_regs_copy_from_reg_buf (regcache, buf);
-> - }
-> -
-> -+/* Array containing all the possible register sets for AArch64/Linux.  During
-> -+   architecture setup, these will be checked against the HWCAP/HWCAP2 bits for
-> -+   validity and enabled/disabled accordingly.
-> -+
-> -+   Their sizes are set to 0 here, but they will be adjusted later depending
-> -+   on whether each register set is available or not.  */
-> - static struct regset_info aarch64_regsets[] =
-> - {
-> -+  /* GPR registers.  */
-> -   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_PRSTATUS,
-> --    sizeof (struct user_pt_regs), GENERAL_REGS,
-> -+    0, GENERAL_REGS,
-> -     aarch64_fill_gregset, aarch64_store_gregset },
-> -+  /* Floating Point (FPU) registers.  */
-> -   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_FPREGSET,
-> --    sizeof (struct user_fpsimd_state), FP_REGS,
-> -+    0, FP_REGS,
-> -     aarch64_fill_fpregset, aarch64_store_fpregset
-> -   },
-> -+  /* Scalable Vector Extension (SVE) registers.  */
-> -+  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_SVE,
-> -+    0, EXTENDED_REGS,
-> -+    aarch64_sve_regs_copy_from_regcache, aarch64_sve_regs_copy_to_regcache
-> -+  },
-> -+  /* PAC registers.  */
-> -   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_PAC_MASK,
-> --    AARCH64_PAUTH_REGS_SIZE, OPTIONAL_REGS,
-> --    NULL, aarch64_store_pauthregset },
-> -+    0, OPTIONAL_REGS,
-> -+    nullptr, aarch64_store_pauthregset },
-> -+  /* Tagged address control / MTE registers.  */
-> -   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_TAGGED_ADDR_CTRL,
-> --    AARCH64_LINUX_SIZEOF_MTE, OPTIONAL_REGS, aarch64_fill_mteregset,
-> --    aarch64_store_mteregset },
-> -+    0, OPTIONAL_REGS,
-> -+    aarch64_fill_mteregset, aarch64_store_mteregset },
-> -   NULL_REGSET
-> - };
-> -
-> -@@ -752,47 +723,95 @@ static struct regsets_info aarch64_regsets_info =
-> -   {
-> -     aarch64_regsets, /* regsets */
-> -     0, /* num_regsets */
-> --    NULL, /* disabled_regsets */
-> -+    nullptr, /* disabled_regsets */
-> -   };
-> -
-> - static struct regs_info regs_info_aarch64 =
-> -   {
-> --    NULL, /* regset_bitmap */
-> --    NULL, /* usrregs */
-> -+    nullptr, /* regset_bitmap */
-> -+    nullptr, /* usrregs */
-> -     &aarch64_regsets_info,
-> -   };
-> -
-> --static struct regset_info aarch64_sve_regsets[] =
-> -+/* Given FEATURES, adjust the available register sets by setting their
-> -+   sizes.  A size of 0 means the register set is disabled and won't be
-> -+   used.  */
-> -+
-> -+static void
-> -+aarch64_adjust_register_sets (const struct aarch64_features &features)
-> - {
-> --  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_PRSTATUS,
-> --    sizeof (struct user_pt_regs), GENERAL_REGS,
-> --    aarch64_fill_gregset, aarch64_store_gregset },
-> --  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_SVE,
-> --    SVE_PT_SIZE (AARCH64_MAX_SVE_VQ, SVE_PT_REGS_SVE), EXTENDED_REGS,
-> --    aarch64_sve_regs_copy_from_regcache, aarch64_sve_regs_copy_to_regcache
-> --  },
-> --  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_PAC_MASK,
-> --    AARCH64_PAUTH_REGS_SIZE, OPTIONAL_REGS,
-> --    NULL, aarch64_store_pauthregset },
-> --  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_TAGGED_ADDR_CTRL,
-> --    AARCH64_LINUX_SIZEOF_MTE, OPTIONAL_REGS, aarch64_fill_mteregset,
-> --    aarch64_store_mteregset },
-> --  NULL_REGSET
-> --};
-> -+  struct regset_info *regset;
-> -
-> --static struct regsets_info aarch64_sve_regsets_info =
-> --  {
-> --    aarch64_sve_regsets, /* regsets.  */
-> --    0, /* num_regsets.  */
-> --    NULL, /* disabled_regsets.  */
-> --  };
-> -+  for (regset = aarch64_regsets; regset->size >= 0; regset++)
-> -+    {
-> -+      switch (regset->nt_type)
-> -+      {
-> -+      case NT_PRSTATUS:
-> -+        /* General purpose registers are always present.  */
-> -+        regset->size = sizeof (struct user_pt_regs);
-> -+        break;
-> -+      case NT_FPREGSET:
-> -+        /* This is unavailable when SVE is present.  */
-> -+        if (!features.sve)
-> -+          regset->size = sizeof (struct user_fpsimd_state);
-> -+        break;
-> -+      case NT_ARM_SVE:
-> -+        if (features.sve)
-> -+          regset->size = SVE_PT_SIZE (AARCH64_MAX_SVE_VQ, SVE_PT_REGS_SVE);
-> -+        break;
-> -+      case NT_ARM_PAC_MASK:
-> -+        if (features.pauth)
-> -+          regset->size = AARCH64_PAUTH_REGS_SIZE;
-> -+        break;
-> -+      case NT_ARM_TAGGED_ADDR_CTRL:
-> -+        if (features.mte)
-> -+          regset->size = AARCH64_LINUX_SIZEOF_MTE;
-> -+        break;
-> -+      default:
-> -+        gdb_assert_not_reached ("Unknown register set found.");
-> -+      }
-> -+    }
-> -+}
-> -
-> --static struct regs_info regs_info_aarch64_sve =
-> --  {
-> --    NULL, /* regset_bitmap.  */
-> --    NULL, /* usrregs.  */
-> --    &aarch64_sve_regsets_info,
-> --  };
-> -+/* Matches HWCAP_PACA in kernel header arch/arm64/include/uapi/asm/hwcap.h.  */
-> -+#define AARCH64_HWCAP_PACA (1 << 30)
-> -+
-> -+/* Implementation of linux target ops method "low_arch_setup".  */
-> -+
-> -+void
-> -+aarch64_target::low_arch_setup ()
-> -+{
-> -+  unsigned int machine;
-> -+  int is_elf64;
-> -+  int tid;
-> -+
-> -+  tid = lwpid_of (current_thread);
-> -+
-> -+  is_elf64 = linux_pid_exe_is_elf_64_file (tid, &machine);
-> -+
-> -+  if (is_elf64)
-> -+    {
-> -+      struct aarch64_features features;
-> -+
-> -+      uint64_t vq = aarch64_sve_get_vq (tid);
-> -+      features.sve = (vq > 0);
-> -+      /* A-profile PAC is 64-bit only.  */
-> -+      features.pauth = linux_get_hwcap (8) & AARCH64_HWCAP_PACA;
-> -+      /* A-profile MTE is 64-bit only.  */
-> -+      features.mte = linux_get_hwcap2 (8) & HWCAP2_MTE;
-> -+
-> -+      current_process ()->tdesc
-> -+      = aarch64_linux_read_description (vq, features.pauth, features.mte);
-> -+
-> -+      /* Adjust the register sets we should use for this particular set of
-> -+       features.  */
-> -+      aarch64_adjust_register_sets (features);
-> -+    }
-> -+  else
-> -+    current_process ()->tdesc = aarch32_linux_read_description ();
-> -+
-> -+  aarch64_linux_get_debug_reg_capacity (lwpid_of (current_thread));
-> -+}
-> -
-> - /* Implementation of linux target ops method "get_regs_info".  */
-> -
-> -@@ -802,9 +821,7 @@ aarch64_target::get_regs_info ()
-> -   if (!is_64bit_tdesc ())
-> -     return &regs_info_aarch32;
-> -
-> --  if (is_sve_tdesc ())
-> --    return &regs_info_aarch64_sve;
-> --
-> -+  /* AArch64 64-bit registers.  */
-> -   return &regs_info_aarch64;
-> - }
-> -
-> -@@ -3294,5 +3311,4 @@ initialize_low_arch (void)
-> -   initialize_low_arch_aarch32 ();
-> -
-> -   initialize_regsets_info (&aarch64_regsets_info);
-> --  initialize_regsets_info (&aarch64_sve_regsets_info);
-> - }
-> ---
-> -2.27.0
-> -
-> diff --git a/meta/recipes-devtools/gdb/gdb_11.1.bb b/meta/recipes-devtools/gdb/gdb_11.2.bb
-> similarity index 80%
-> rename from meta/recipes-devtools/gdb/gdb_11.1.bb
-> rename to meta/recipes-devtools/gdb/gdb_11.2.bb
-> index e73e3a2c5c..9c6db4ca2c 100644
-> --- a/meta/recipes-devtools/gdb/gdb_11.1.bb
-> +++ b/meta/recipes-devtools/gdb/gdb_11.2.bb
-> @@ -1,5 +1,15 @@
-> +require gdb-common.inc
-> +
-> +inherit gettext pkgconfig
-> +
-> +#LDFLAGS:append = " -s"
-> +#export CFLAGS:append=" -L${STAGING_LIBDIR}"
-> +
-> +# cross-canadian must not see this
-> +PACKAGES =+ "gdbserver"
-> +FILES:gdbserver = "${bindir}/gdbserver"
-> +
->  require gdb.inc
-> -require gdb-${PV}.inc
->
->  inherit python3-dir
->
-> @@ -26,3 +36,4 @@ EOF
->                 chmod +x ${WORKDIR}/python
->         fi
->  }
-> +
-> --
-> 2.20.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#161035): https://lists.openembedded.org/g/openembedded-core/message/161035
-> Mute This Topic: https://lists.openembedded.org/mt/88718367/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I missed this part when I answered to your first email this morning. I 
+generally against expanding the scope of overlayfs (i.e. using it for 
+the whole / ), because it creates a bigger migration effort when you 
+need to update the files on a persistent partition. I see the only 
+difference in your code is that you provide access to original lower 
+layer fs. Why would you want to do that?
+
+Thanks,
+Vyacheslav
+--------------q0RfMk2E4lGZUqC5yffVcjT6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 26.01.2022 19:09, Alejandro
+      Hernandez Samaniego wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:3954c194-7d7f-9dd2-a1f2-54b088396009@linux.microsoft.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <pre>Oops! completely forgot!, I'll add it.
+
+This is loosely based on the overlay-etc.bbclass the difference is that
+the class only works for overlaying /etc and it doesnt require an
+initramfs, but, while its possible to tinker it in such a way that it
+overlays /, its not possible to access the original (RO) / after booting the
+system, this is the reason  why this has to be done from initramfs and why
+this doesnt patch the overlay-etc.bbclass instead.
+
+I believe Ubuntu has this feature, coming from the cloud-initramfs
+package, functionally it should be similar although no code was borrowed
+from there.
+
+I'll add a note about the overlay-etc class though.</pre>
+    </blockquote>
+    <br>
+    I missed this part when I answered to your first email this morning.
+    I generally against expanding the scope of overlayfs (i.e. using it
+    for the whole / ), because it creates a bigger migration effort when
+    you need to update the files on a persistent partition. I see the
+    only difference in your code is that you provide access to original
+    lower layer fs. Why would you want to do that?<br>
+    <br>
+    Thanks,<br>
+    Vyacheslav<br>
+  </body>
+</html>
+
+--------------q0RfMk2E4lGZUqC5yffVcjT6--
 
