@@ -2,49 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5E5C433EF
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 05:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F9BC433EF
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 05:10:33 +0000 (UTC)
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web09.24368.1643260217446113039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Jan 2022 21:10:27 -0800
+ Wed, 26 Jan 2022 21:10:32 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=RxZRK3Y+;
+ header.b=TIo75JMp;
  spf=pass (domain: intel.com, ip: 192.55.52.120,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643260227; x=1674796227;
+  t=1643260232; x=1674796232;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=ix41XEJv2VFBVuiPDDyGrn8rb36BNQC0wEOsspbRBRs=;
-  b=RxZRK3Y+fR8BsCbq/3wT+imfpOI5dPk7lUFuouudr7fImzIKvGyrjqx3
-   /3V/glxIhblw3sYY9cnv9s5npEiTpWYzLauLQBDwcwavVOuSb8Xb14iBC
-   RQGhUu3CO3323zWncN/zSF4My1rwfXf3wvk2IpnCnlTbcxap4oNyPSA1I
-   CPAT7gq2mNwU8wWZMhfM+hf5vZAcCR0uoltJOs0up2SX4AxwKRiZ/fgvT
-   wIQSCQ2M//BJQ0q/j7VgCOU3zPo5+HoB1U4B/FITC986wZifgukTxnFF8
-   XTPObOi/COE3r3/jBEuEN4cx8pF6v2Mk3hKs4E0XNjWUByVUqeuRsc11V
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="245590331"
+  bh=Jl2F8X7+fZtZgsCydJi6+FMp+yxTQFhqxN76gDGLzBE=;
+  b=TIo75JMpftXv8K1iEwz1Wok6QdQ4M5kUV+ZY7AMK20RW+3ah14Ug0MIm
+   FV9SjSCn1Pqy8UmvgepcFBRiqwvj6czHDGYKlYzlsxvOm3XMvJMYYGgzh
+   xLSFntmCq3TBsES7FKXjLm8qP5cNXknssppQs950Cp7pOlo6Auw1eD4Az
+   wXJBeilhAVolv2qzdHSyksHz+u+nntUgrsOQrupQestde3UtNyTBOw5ji
+   EAsnEb27VZBnPZY0txDM/aWgkDtdM+DIm644Y2r1yV5E+ryNE5SJZa7Q5
+   Y/ZVp3ZH/J4CsgId33jykCaImFXqPQVfIlKGm2EO5EpSsMYceT6zUHKWX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10239"; a="245590341"
 X-IronPort-AV: E=Sophos;i="5.88,320,1635231600";
-   d="scan'208";a="245590331"
+   d="scan'208";a="245590341"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 21:10:27 -0800
+ 26 Jan 2022 21:10:31 -0800
 X-IronPort-AV: E=Sophos;i="5.88,320,1635231600";
-   d="scan'208";a="618209007"
+   d="scan'208";a="618209032"
 Received: from huiyinkx-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.134.201])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2022 21:10:25 -0800
+ 26 Jan 2022 21:10:30 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/17] binutils: upgrade binutils-2.36 to latest
- version
-Date: Thu, 27 Jan 2022 13:09:59 +0800
+Subject: [hardknott][PATCH 08/17] glibc: upgrade glibc-2.33 to latest version
+Date: Thu, 27 Jan 2022 13:10:01 +0800
 Message-Id: 
- <ea7fed669193a20587adfe7b0bcb5b1f7594cc0a.1643259953.git.anuj.mittal@intel.com>
+ <f658889952dcccbd2eea415764b3e89ac738cde9.1643259953.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643259953.git.anuj.mittal@intel.com>
 References: <cover.1643259953.git.anuj.mittal@intel.com>
@@ -53,628 +52,236 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 05:10:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 05:10:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161009
+ https://lists.openembedded.org/g/openembedded-core/message/161011
 
-From: Pgowda <pgowda.cve@gmail.com>
+From: pgowda <pgowda.cve@gmail.com>
 
-binutils-2.36 in Hardknott branch has been upgraded to latest version
-that includes many bug fixes.
-Regression tested on X86-64, Arm and Aarch64 without any new issues.
+glibc-2.33 has been upgraded to latest version that includes many CVE and
+other bug fixes.
 
 Signed-off-by: pgowda <pgowda.cve@gmail.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../binutils/binutils-2.36.inc                |   5 +-
- .../binutils/0001-CVE-2021-20197.patch        | 201 ------------------
- .../binutils/0001-CVE-2021-42574.patch        |   4 +-
- .../binutils/0002-CVE-2021-20197.patch        | 170 ---------------
- .../binutils/0003-CVE-2021-20197.patch        | 171 ---------------
- 5 files changed, 3 insertions(+), 548 deletions(-)
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch
- delete mode 100644 meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch
+ meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+ .../glibc/glibc/0031-CVE-2021-43396.patch     | 182 ------------------
+ meta/recipes-core/glibc/glibc_2.33.bb         |   1 -
+ 3 files changed, 1 insertion(+), 184 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.36.inc b/meta/recipes-devtools/binutils/binutils-2.36.inc
-index 9574ddb6e1..fa28358c2d 100644
---- a/meta/recipes-devtools/binutils/binutils-2.36.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.36.inc
-@@ -24,7 +24,7 @@ BRANCH ?= "binutils-2_36-branch"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 4d69187961..63241ee951 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.33/master"
+ PV = "2.33"
+-SRCREV_glibc ?= "6090cf1330faf2deb17285758f327cb23b89ebf1"
++SRCREV_glibc ?= "55b99e9ed07688019609bd4dcd17d3ebf4572948"
+ SRCREV_localedef ?= "bd644c9e6f3e20c5504da1488448173c69c56c28"
  
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
--SRCREV ?= "7651a4871c225925ffdfda0a8c91a6ed370cd9a1"
-+SRCREV ?= "a281816c8aeb12619d34eec8959a43dfa5c6b4ec"
- BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${BRANCH};protocol=git"
- SRC_URI = "\
-      ${BINUTILS_GIT_URI} \
-@@ -41,9 +41,6 @@ SRC_URI = "\
-      file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
-      file://0015-sync-with-OE-libtool-changes.patch \
-      file://0016-Check-for-clang-before-checking-gcc-version.patch \
--     file://0001-CVE-2021-20197.patch \
--     file://0002-CVE-2021-20197.patch \
--     file://0003-CVE-2021-20197.patch \
-      file://0017-CVE-2021-3530.patch \
-      file://0018-CVE-2021-3530.patch \
-      file://0001-CVE-2021-42574.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch b/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
 deleted file mode 100644
-index 2b4eaba26d..0000000000
---- a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-20197.patch
+index 72fd68b302..0000000000
+--- a/meta/recipes-core/glibc/glibc/0031-CVE-2021-43396.patch
 +++ /dev/null
-@@ -1,201 +0,0 @@
--From 8e03235147a9e774d3ba084e93c2da1aa94d1cec Mon Sep 17 00:00:00 2001
--From: Siddhesh Poyarekar <siddhesh@gotplt.org>
--Date: Mon, 22 Feb 2021 20:45:50 +0530
--Subject: [PATCH] binutils: Avoid renaming over existing files
+@@ -1,182 +0,0 @@
+-From ff012870b2c02a62598c04daa1e54632e020fd7d Mon Sep 17 00:00:00 2001
+-From: Nikita Popov <npv1310@gmail.com>
+-Date: Tue, 2 Nov 2021 13:21:42 +0500
+-Subject: [PATCH] gconv: Do not emit spurious NUL character in ISO-2022-JP-3
+- (bug 28524)
 -
--Renaming over existing files needs additional care to restore
--permissions and ownership, which may not always succeed.
--Additionally, other properties of the file such as extended attributes
--may be lost, making the operation flaky.
+-Bugfix 27256 has introduced another issue:
+-In conversion from ISO-2022-JP-3 encoding, it is possible
+-to force iconv to emit extra NUL character on internal state reset.
+-To do this, it is sufficient to feed iconv with escape sequence
+-which switches active character set.
+-The simplified check 'data->__statep->__count != ASCII_set'
+-introduced by the aforementioned bugfix picks that case and
+-behaves as if '\0' character has been queued thus emitting it.
 -
--For predictable results, resort to rename() only if the file does not
--exist, otherwise copy the file contents into the existing file.  This
--ensures that no additional tricks are needed to retain file
--properties.
+-To eliminate this issue, these steps are taken:
+-* Restore original condition
+-'(data->__statep->__count & ~7) != ASCII_set'.
+-It is necessary since bits 0-2 may contain
+-number of buffered input characters.
+-* Check that queued character is not NUL.
+-Similar step is taken for main conversion loop.
 -
--This also allows dropping of the redundant set_times on the tmpfile in
--objcopy/strip since now we no longer rename over existing files.
+-Bundled test case follows following logic:
+-* Try to convert ISO-2022-JP-3 escape sequence
+-switching active character set
+-* Reset internal state by providing NULL as input buffer
+-* Ensure that nothing has been converted.
 -
--binutils/
+-Signed-off-by: Nikita Popov <npv1310@gmail.com>
 -
--	* ar.c (write_archive): Adjust call to SMART_RENAME.
--	* arsup.c (ar_save): Likewise.
--	* objcopy (strip_main): Don't set times on temporary file and
--	adjust call to SMART_RENAME.
--	(copy_main): Likewise.
--	* rename.c [!S_ISLNK]: Remove definitions.
--	(try_preserve_permissions): Remove function.
--	(smart_rename): Replace PRESERVE_DATES argument with
--	TARGET_STAT.  Use rename system call only if TO does not exist.
--	* bucomm.h (smart_rename): Adjust declaration.
--
--(cherry picked from commit 3685de750e6a091663a0abe42528cad29e960e35)
--
--Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=8e03235147a9e774d3ba084e93c2da1aa94d1cec]
--CVE: CVE-2021-20197
--Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+-CVE: CVE-2021-43396
+-Upstream-Status: Backport [ff012870b2c02a62598c04daa1e54632e020fd7d]
 ----
-- binutils/ar.c      |  2 +-
-- binutils/arsup.c   |  2 +-
-- binutils/bucomm.h  |  3 ++-
-- binutils/objcopy.c |  8 ++-----
-- binutils/rename.c  | 55 +++++++++-------------------------------------
-- 6 files changed, 29 insertions(+), 54 deletions(-)
+- iconvdata/Makefile        |  5 +++-
+- iconvdata/bug-iconv15.c   | 60 +++++++++++++++++++++++++++++++++++++++
+- iconvdata/iso-2022-jp-3.c | 28 ++++++++++++------
+- 3 files changed, 84 insertions(+), 9 deletions(-)
+- create mode 100644 iconvdata/bug-iconv15.c
 -
--diff --git a/binutils/ar.c b/binutils/ar.c
--index 45a34e3a6cf..3a91708b51c 100644
----- a/binutils/ar.c
--+++ b/binutils/ar.c
--@@ -1308,7 +1308,7 @@ write_archive (bfd *iarch)
--   /* We don't care if this fails; we might be creating the archive.  */
--   bfd_close (iarch);
-- 
---  if (smart_rename (new_name, old_name, 0) != 0)
--+  if (smart_rename (new_name, old_name, NULL) != 0)
--     xexit (1);
--   free (old_name);
--   free (new_name);
--diff --git a/binutils/arsup.c b/binutils/arsup.c
--index 5403a0c5d74..0a1f63f6456 100644
----- a/binutils/arsup.c
--+++ b/binutils/arsup.c
--@@ -351,7 +351,7 @@ ar_save (void)
-- 
--       bfd_close (obfd);
-- 
---      smart_rename (ofilename, real_name, 0);
--+      smart_rename (ofilename, real_name, NULL);
--       obfd = 0;
--       free (ofilename);
--     }
--diff --git a/binutils/bucomm.h b/binutils/bucomm.h
--index 91f6a5b228f..aa7e33d8cd1 100644
----- a/binutils/bucomm.h
--+++ b/binutils/bucomm.h
--@@ -71,7 +71,8 @@ extern void print_version (const char *);
-- /* In rename.c.  */
-- extern void set_times (const char *, const struct stat *);
-- 
---extern int smart_rename (const char *, const char *, int);
--+extern int smart_rename (const char *, const char *, struct stat *);
+-diff --git a/iconvdata/bug-iconv15.c b/iconvdata/bug-iconv15.c
+-new file mode 100644
+---- /dev/null
+-+++ b/iconvdata/bug-iconv15.c
+-@@ -0,0 +1,60 @@
+-+/* Bug 28524: Conversion from ISO-2022-JP-3 with iconv
+-+   may emit spurious NUL character on state reset.
+-+   Copyright (C) The GNU Toolchain Authors.
+-+   This file is part of the GNU C Library.
 -+
-- 
-- /* In libiberty.  */
-- void *xmalloc (size_t);
--diff --git a/binutils/objcopy.c b/binutils/objcopy.c
--index eab3b6db585..07a872b5a80 100644
----- a/binutils/objcopy.c
--+++ b/binutils/objcopy.c
--@@ -4861,12 +4861,10 @@ strip_main (int argc, char *argv[])
-- 		 output_target, NULL);
--       if (status == 0)
-- 	{
---	  if (preserve_dates)
---	    set_times (tmpname, &statbuf);
-- 	  if (output_file != tmpname)
-- 	    status = (smart_rename (tmpname,
-- 				    output_file ? output_file : argv[i],
---				    preserve_dates) != 0);
--+				    preserve_dates ? &statbuf : NULL) != 0);
-- 	  if (status == 0)
-- 	    status = hold_status;
-- 	}
--@@ -5931,11 +5929,9 @@ copy_main (int argc, char *argv[])
-- 	     output_target, input_arch);
--   if (status == 0)
--     {
---      if (preserve_dates)
---	set_times (tmpname, &statbuf);
--       if (tmpname != output_filename)
-- 	status = (smart_rename (tmpname, input_filename,
---				preserve_dates) != 0);
--+				preserve_dates ? &statbuf : NULL) != 0);
--     }
--   else
--     unlink_if_ordinary (tmpname);
--diff --git a/binutils/rename.c b/binutils/rename.c
--index 65ad5bf52c4..f471b45fd3f 100644
----- a/binutils/rename.c
--+++ b/binutils/rename.c
--@@ -122,20 +122,13 @@ set_times (const char *destination, const struct stat *statbuf)
--     non_fatal (_("%s: cannot set time: %s"), destination, strerror (errno));
-- }
-- 
---#ifndef S_ISLNK
---#ifdef S_IFLNK
---#define S_ISLNK(m) (((m) & S_IFMT) == S_IFLNK)
---#else
---#define S_ISLNK(m) 0
---#define lstat stat
---#endif
---#endif
---
---/* Rename FROM to TO, copying if TO is a link.
---   Return 0 if ok, -1 if error.  */
--+/* Rename FROM to TO, copying if TO exists.  TARGET_STAT has the file status
--+   that, if non-NULL, is used to fix up timestamps after rename.  Return 0 if
--+   ok, -1 if error.  */
-- 
-- int
---smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNUSED)
--+smart_rename (const char *from, const char *to,
--+	      struct stat *target_stat ATTRIBUTE_UNUSED)
-- {
--   bfd_boolean exists;
--   struct stat s;
--@@ -158,38 +151,10 @@ smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNU
--       unlink (from);
--     }
-- #else
---  /* Use rename only if TO is not a symbolic link and has
---     only one hard link, and we have permission to write to it.  */
---  if (! exists
---      || (!S_ISLNK (s.st_mode)
---	  && S_ISREG (s.st_mode)
---	  && (s.st_mode & S_IWUSR)
---	  && s.st_nlink == 1)
---      )
--+  /* Avoid a full copy and use rename if TO does not exist.  */
--+  if (!exists)
--     {
---      ret = rename (from, to);
---      if (ret == 0)
---	{
---	  if (exists)
---	    {
---	      /* Try to preserve the permission bits and ownership of
---		 TO.  First get the mode right except for the setuid
---		 bit.  Then change the ownership.  Then fix the setuid
---		 bit.  We do the chmod before the chown because if the
---		 chown succeeds, and we are a normal user, we won't be
---		 able to do the chmod afterward.  We don't bother to
---		 fix the setuid bit first because that might introduce
---		 a fleeting security problem, and because the chown
---		 will clear the setuid bit anyhow.  We only fix the
---		 setuid bit if the chown succeeds, because we don't
---		 want to introduce an unexpected setuid file owned by
---		 the user running objcopy.  */
---	      chmod (to, s.st_mode & 0777);
---	      if (chown (to, s.st_uid, s.st_gid) >= 0)
---		chmod (to, s.st_mode & 07777);
---	    }
---	}
---      else
--+      if ((ret = rename (from, to)) != 0)
-- 	{
-- 	  /* We have to clean up here.  */
-- 	  non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
--@@ -202,8 +167,8 @@ smart_rename (const char *from, const char *to, int preserve_dates ATTRIBUTE_UNU
--       if (ret != 0)
-- 	non_fatal (_("unable to copy file '%s'; reason: %s"), to, strerror (errno));
-- 
---      if (preserve_dates)
---	set_times (to, &s);
--+      if (target_stat != NULL)
--+	set_times (to, target_stat);
--       unlink (from);
--     }
-- #endif /* _WIN32 && !__CYGWIN32__ */
---- 
--2.31.1
--
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
-index c93fd770b3..6adc438b5c 100644
---- a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
-+++ b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-42574.patch
-@@ -50,9 +50,9 @@ diff --git a/binutils/ChangeLog b/binutils/ChangeLog
- +	* testsuite/binutils-all/objdump.highlight.unicode
- +	* testsuite/binutils-all/readelf.invalid.unicode
- +
-- 2021-02-09  Alan Modra  <amodra@gmail.com>
-+ 2021-04-15  Alan Modra  <amodra@gmail.com>
-  
-- 	PR 27382
-+ 	PR 27456
- diff --git a/binutils/doc/binutils.texi b/binutils/doc/binutils.texi
- --- a/binutils/doc/binutils.texi	2021-12-23 03:23:38.441843395 -0800
- +++ b/binutils/doc/binutils.texi	2021-12-23 03:30:31.094968942 -0800
-diff --git a/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch
-deleted file mode 100644
-index 3771f571eb..0000000000
---- a/meta/recipes-devtools/binutils/binutils/0002-CVE-2021-20197.patch
-+++ /dev/null
-@@ -1,170 +0,0 @@
--From d3edaa91d4cf7202ec14342410194841e2f67f12 Mon Sep 17 00:00:00 2001
--From: Alan Modra <amodra@gmail.com>
--Date: Fri, 26 Feb 2021 11:30:32 +1030
--Subject: [PATCH] Reinstate various pieces backed out from smart_rename changes
--
--In the interests of a stable release various last minute smart_rename
--patches were backed out of the 2.36 branch.  The main reason to
--reinstate some of those backed out changes here is to make necessary
--followup fixes to commit 8e03235147a9 simple cherry-picks from
--mainline.  A secondary reason is that ar -M support isn't fixed for
--pr26945 without this patch.
--
--	PR 26945
--	* ar.c: Don't include libbfd.h.
--	(write_archive): Replace xmalloc+strcpy with xstrdup.
--	* arsup.c (temp_name, real_ofd): New static variables.
--	(ar_open): Use make_tempname and bfd_fdopenw.
--	(ar_save): Adjust to suit ar_open changes.
--	* objcopy.c: Don't include libbfd.h.
--	* rename.c: Rename and reorder variables.
--
--(cherry picked from commit 95b91a043aeaeb546d2fea556d84a2de1e917770)
--
--Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=d3edaa91d4cf7202ec14342410194841e2f67f12]
--CVE: CVE-2021-20197
--Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-----
-- binutils/ar.c      |  4 +---
-- binutils/arsup.c   | 37 +++++++++++++++++++++++++------------
-- binutils/objcopy.c |  1 -
-- binutils/rename.c  |  6 +++---
-- 5 files changed, 42 insertions(+), 19 deletions(-)
--
--diff --git a/binutils/ar.c b/binutils/ar.c
--index 3a91708b51c..44df48c5c67 100644
----- a/binutils/ar.c
--+++ b/binutils/ar.c
--@@ -25,7 +25,6 @@
-- 
-- #include "sysdep.h"
-- #include "bfd.h"
---#include "libbfd.h"
-- #include "libiberty.h"
-- #include "progress.h"
-- #include "getopt.h"
--@@ -1255,8 +1254,7 @@ write_archive (bfd *iarch)
--   bfd *contents_head = iarch->archive_next;
--   int ofd = -1;
-- 
---  old_name = (char *) xmalloc (strlen (bfd_get_filename (iarch)) + 1);
---  strcpy (old_name, bfd_get_filename (iarch));
--+  old_name = xstrdup (bfd_get_filename (iarch));
--   new_name = make_tempname (old_name, &ofd);
-- 
--   if (new_name == NULL)
--diff --git a/binutils/arsup.c b/binutils/arsup.c
--index 0a1f63f6456..f7ce8f0bc82 100644
----- a/binutils/arsup.c
--+++ b/binutils/arsup.c
--@@ -42,6 +42,8 @@ extern int deterministic;
-- 
-- static bfd *obfd;
-- static char *real_name;
--+static char *temp_name;
--+static int real_ofd;
-- static FILE *outfile;
-- 
-- static void
--@@ -149,27 +151,24 @@ maybequit (void)
-- void
-- ar_open (char *name, int t)
-- {
---  char *tname;
---  const char *bname = lbasename (name);
---  real_name = name;
--+  real_name = xstrdup (name);
--+  temp_name = make_tempname (real_name, &real_ofd);
-- 
---  /* Prepend tmp- to the beginning, to avoid file-name clashes after
---     truncation on filesystems with limited namespaces (DOS).  */
---  if (asprintf (&tname, "%.*stmp-%s", (int) (bname - name), name, bname) == -1)
--+  if (temp_name == NULL)
--     {
---      fprintf (stderr, _("%s: Can't allocate memory for temp name (%s)\n"),
--+      fprintf (stderr, _("%s: Can't open temporary file (%s)\n"),
-- 	       program_name, strerror(errno));
--       maybequit ();
--       return;
--     }
-- 
---  obfd = bfd_openw (tname, NULL);
--+  obfd = bfd_fdopenw (temp_name, NULL, real_ofd);
-- 
--   if (!obfd)
--     {
--       fprintf (stderr,
-- 	       _("%s: Can't open output archive %s\n"),
---	       program_name,  tname);
--+	       program_name, temp_name);
-- 
--       maybequit ();
--     }
--@@ -344,16 +343,30 @@ ar_save (void)
--     }
--   else
--     {
---      char *ofilename = xstrdup (bfd_get_filename (obfd));
--+      struct stat target_stat;
-- 
--       if (deterministic > 0)
--         obfd->flags |= BFD_DETERMINISTIC_OUTPUT;
-- 
--       bfd_close (obfd);
-- 
---      smart_rename (ofilename, real_name, NULL);
--+      if (stat (real_name, &target_stat) != 0)
--+	{
--+	  /* The temp file created in ar_open has mode 0600 as per mkstemp.
--+	     Create the real empty output file here so smart_rename will
--+	     update the mode according to the process umask.  */
--+	  obfd = bfd_openw (real_name, NULL);
--+	  if (obfd != NULL)
--+	    {
--+	      bfd_set_format (obfd, bfd_archive);
--+	      bfd_close (obfd);
--+	    }
--+	}
+-+   The GNU C Library is free software; you can redistribute it and/or
+-+   modify it under the terms of the GNU Lesser General Public
+-+   License as published by the Free Software Foundation; either
+-+   version 2.1 of the License, or (at your option) any later version.
 -+
--+      smart_rename (temp_name, real_name, NULL);
--       obfd = 0;
---      free (ofilename);
--+      free (temp_name);
--+      free (real_name);
--     }
-- }
-- 
--diff --git a/binutils/objcopy.c b/binutils/objcopy.c
--index 07a872b5a80..73aa8bc2514 100644
----- a/binutils/objcopy.c
--+++ b/binutils/objcopy.c
--@@ -20,7 +20,6 @@
-- 
-- #include "sysdep.h"
-- #include "bfd.h"
---#include "libbfd.h"
-- #include "progress.h"
-- #include "getopt.h"
-- #include "libiberty.h"
--diff --git a/binutils/rename.c b/binutils/rename.c
--index f471b45fd3f..2ff092ee22b 100644
----- a/binutils/rename.c
--+++ b/binutils/rename.c
--@@ -130,11 +130,11 @@ int
-- smart_rename (const char *from, const char *to,
-- 	      struct stat *target_stat ATTRIBUTE_UNUSED)
-- {
---  bfd_boolean exists;
---  struct stat s;
--   int ret = 0;
--+  struct stat to_stat;
--+  bfd_boolean exists;
-- 
---  exists = lstat (to, &s) == 0;
--+  exists = lstat (to, &to_stat) == 0;
-- 
-- #if defined (_WIN32) && !defined (__CYGWIN32__)
--   /* Win32, unlike unix, will not erase `to' in `rename(from, to)' but
---- 
--2.31.1
--
-diff --git a/meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch b/meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch
-deleted file mode 100644
-index 082b28b29c..0000000000
---- a/meta/recipes-devtools/binutils/binutils/0003-CVE-2021-20197.patch
-+++ /dev/null
-@@ -1,171 +0,0 @@
--From 8b69e61d4be276bb862698aaafddc3e779d23c8f Mon Sep 17 00:00:00 2001
--From: Alan Modra <amodra@gmail.com>
--Date: Tue, 23 Feb 2021 09:37:39 +1030
--Subject: [PATCH] PR27456, lstat in rename.c on MinGW
--
--	PR 27456
--	* rename.c: Tidy throughout.
--	(smart_rename): Always copy.  Remove windows specific code.
--
--(cherry picked from commit cca8873dd5a6015d5557ea44bc1ea9c252435a29)
--
--Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=8b69e61d4be276bb862698aaafddc3e779d23c8f]
--CVE: CVE-2021-20197
--Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-----
-- binutils/rename.c  | 111 ++++++++++++++-------------------------------
-- 2 files changed, 40 insertions(+), 76 deletions(-)
--
--diff --git a/binutils/rename.c b/binutils/rename.c
--index 2ff092ee22b..72a9323d72c 100644
----- a/binutils/rename.c
--+++ b/binutils/rename.c
--@@ -24,14 +24,9 @@
-- 
-- #ifdef HAVE_GOOD_UTIME_H
-- #include <utime.h>
---#else /* ! HAVE_GOOD_UTIME_H */
---#ifdef HAVE_UTIMES
--+#elif defined HAVE_UTIMES
-- #include <sys/time.h>
---#endif /* HAVE_UTIMES */
---#endif /* ! HAVE_GOOD_UTIME_H */
---
---#if ! defined (_WIN32) || defined (__CYGWIN32__)
---static int simple_copy (const char *, const char *);
--+#endif
-- 
-- /* The number of bytes to copy at once.  */
-- #define COPY_BUF 8192
--@@ -82,7 +77,6 @@ simple_copy (const char *from, const char *to)
--     }
--   return 0;
-- }
---#endif /* __CYGWIN32__ or not _WIN32 */
-- 
-- /* Set the times of the file DESTINATION to be the same as those in
--    STATBUF.  */
--@@ -91,87 +85,52 @@ void
-- set_times (const char *destination, const struct stat *statbuf)
-- {
--   int result;
---
---  {
-- #ifdef HAVE_GOOD_UTIME_H
---    struct utimbuf tb;
---
---    tb.actime = statbuf->st_atime;
---    tb.modtime = statbuf->st_mtime;
---    result = utime (destination, &tb);
---#else /* ! HAVE_GOOD_UTIME_H */
---#ifndef HAVE_UTIMES
---    long tb[2];
---
---    tb[0] = statbuf->st_atime;
---    tb[1] = statbuf->st_mtime;
---    result = utime (destination, tb);
---#else /* HAVE_UTIMES */
---    struct timeval tv[2];
---
---    tv[0].tv_sec = statbuf->st_atime;
---    tv[0].tv_usec = 0;
---    tv[1].tv_sec = statbuf->st_mtime;
---    tv[1].tv_usec = 0;
---    result = utimes (destination, tv);
---#endif /* HAVE_UTIMES */
---#endif /* ! HAVE_GOOD_UTIME_H */
---  }
--+  struct utimbuf tb;
+-+   The GNU C Library is distributed in the hope that it will be useful,
+-+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+   Lesser General Public License for more details.
 -+
--+  tb.actime = statbuf->st_atime;
--+  tb.modtime = statbuf->st_mtime;
--+  result = utime (destination, &tb);
--+#elif defined HAVE_UTIMES
--+  struct timeval tv[2];
+-+   You should have received a copy of the GNU Lesser General Public
+-+   License along with the GNU C Library; if not, see
+-+   <https://www.gnu.org/licenses/>.  */
 -+
--+  tv[0].tv_sec = statbuf->st_atime;
--+  tv[0].tv_usec = 0;
--+  tv[1].tv_sec = statbuf->st_mtime;
--+  tv[1].tv_usec = 0;
--+  result = utimes (destination, tv);
--+#else
--+  long tb[2];
+-+#include <stddef.h>
+-+#include <iconv.h>
+-+#include <support/check.h>
 -+
--+  tb[0] = statbuf->st_atime;
--+  tb[1] = statbuf->st_mtime;
--+  result = utime (destination, tb);
--+#endif
+-+static int
+-+do_test (void)
+-+{
+-+  char in[] = "\x1b(I";
+-+  char *inbuf = in;
+-+  size_t inleft = sizeof (in) - 1;
+-+  char out[1];
+-+  char *outbuf = out;
+-+  size_t outleft = sizeof (out);
+-+  iconv_t cd;
+-+
+-+  cd = iconv_open ("UTF8", "ISO-2022-JP-3");
+-+  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+-+
+-+  /* First call to iconv should alter internal state.
+-+     Now, JISX0201_Kana_set is selected and
+-+     state value != ASCII_set.  */
+-+  TEST_VERIFY (iconv (cd, &inbuf, &inleft, &outbuf, &outleft) != (size_t) -1);
+-+
+-+  /* No bytes should have been added to
+-+     the output buffer at this point.  */
+-+  TEST_VERIFY (outbuf == out);
+-+  TEST_VERIFY (outleft == sizeof (out));
+-+
+-+  /* Second call shall emit spurious NUL character in unpatched glibc.  */
+-+  TEST_VERIFY (iconv (cd, NULL, NULL, &outbuf, &outleft) != (size_t) -1);
+-+
+-+  /* No characters are expected to be produced.  */
+-+  TEST_VERIFY (outbuf == out);
+-+  TEST_VERIFY (outleft == sizeof (out));
+-+
+-+  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+-+
+-+  return 0;
+-+}
+-+
+-+#include <support/test-driver.c>
+-diff --git a/iconvdata/iso-2022-jp-3.c b/iconvdata/iso-2022-jp-3.c
+---- a/iconvdata/iso-2022-jp-3.c
+-+++ b/iconvdata/iso-2022-jp-3.c
+-@@ -1,5 +1,6 @@
+- /* Conversion module for ISO-2022-JP-3.
+-    Copyright (C) 1998-2021 Free Software Foundation, Inc.
+-+   Copyright (C) The GNU Toolchain Authors.
+-    This file is part of the GNU C Library.
+-    Contributed by Ulrich Drepper <drepper@cygnus.com>, 1998,
+-    and Bruno Haible <bruno@clisp.org>, 2002.
+-@@ -81,20 +82,31 @@ enum
+-    the output state to the initial state.  This has to be done during the
+-    flushing.  */
+- #define EMIT_SHIFT_TO_INIT \
+--  if (data->__statep->__count != ASCII_set)			      \
+-+  if ((data->__statep->__count & ~7) != ASCII_set)			      \
+-     {									      \
+-       if (FROM_DIRECTION)						      \
+- 	{								      \
+--	  if (__glibc_likely (outbuf + 4 <= outend))			      \
+-+	  uint32_t ch = data->__statep->__count >> 6;			      \
+-+									      \
+-+	  if (__glibc_unlikely (ch != 0))				      \
+- 	    {								      \
+--	      /* Write out the last character.  */			      \
+--	      *((uint32_t *) outbuf) = data->__statep->__count >> 6;	      \
+--	      outbuf += sizeof (uint32_t);				      \
+--	      data->__statep->__count = ASCII_set;			\
+-+	      if (__glibc_likely (outbuf + 4 <= outend))		      \
+-+		{							      \
+-+		  /* Write out the last character.  */			      \
+-+		  put32u (outbuf, ch);					      \
+-+		  outbuf += 4;						      \
+-+		  data->__statep->__count &= 7;				      \
+-+		  data->__statep->__count |= ASCII_set;			      \
+-+		}							      \
+-+	      else							      \
+-+		/* We don't have enough room in the output buffer.  */	      \
+-+		status = __GCONV_FULL_OUTPUT;				      \
+- 	    }								      \
+- 	  else								      \
+--	    /* We don't have enough room in the output buffer.  */	      \
+--	    status = __GCONV_FULL_OUTPUT;				      \
+-+	    {								      \
+-+	      data->__statep->__count &= 7;				      \
+-+	      data->__statep->__count |= ASCII_set;			      \
+-+	    }								      \
+- 	}								      \
+-       else								      \
+- 	{								      \
+-diff --git a/iconvdata/Makefile b/iconvdata/Makefile
+---- a/iconvdata/Makefile
+-+++ b/iconvdata/Makefile
+-@@ -1,4 +1,5 @@
+- # Copyright (C) 1997-2021 Free Software Foundation, Inc.
+-+# Copyright (C) The GNU Toolchain Authors.
+- # This file is part of the GNU C Library.
 - 
--   if (result != 0)
--     non_fatal (_("%s: cannot set time: %s"), destination, strerror (errno));
-- }
+- # The GNU C Library is free software; you can redistribute it and/or
+-@@ -74,7 +75,7 @@ ifeq (yes,$(build-shared))
+- tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
+- 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
+- 	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
+--	bug-iconv13 bug-iconv14
+-+	bug-iconv13 bug-iconv14 bug-iconv15
+- ifeq ($(have-thread-library),yes)
+- tests += bug-iconv3
+- endif
+-@@ -324,6 +325,8 @@ $(objpfx)bug-iconv12.out: $(objpfx)gconv
+- 			  $(addprefix $(objpfx),$(modules.so))
+- $(objpfx)bug-iconv14.out: $(objpfx)gconv-modules \
+- 			  $(addprefix $(objpfx),$(modules.so))
+-+$(objpfx)bug-iconv15.out: $(addprefix $(objpfx), $(gconv-modules)) \
+-+			  $(addprefix $(objpfx),$(modules.so))
 - 
---/* Rename FROM to TO, copying if TO exists.  TARGET_STAT has the file status
---   that, if non-NULL, is used to fix up timestamps after rename.  Return 0 if
---   ok, -1 if error.  */
--+/* Copy FROM to TO.  TARGET_STAT has the file status that, if non-NULL,
--+   is used to fix up timestamps.  Return 0 if ok, -1 if error.
--+   At one time this function renamed files, but file permissions are
--+   tricky to update given the number of different schemes used by
--+   various systems.  So now we just copy.  */
-- 
-- int
-- smart_rename (const char *from, const char *to,
---	      struct stat *target_stat ATTRIBUTE_UNUSED)
--+	      struct stat *target_stat)
-- {
---  int ret = 0;
---  struct stat to_stat;
---  bfd_boolean exists;
---
---  exists = lstat (to, &to_stat) == 0;
---
---#if defined (_WIN32) && !defined (__CYGWIN32__)
---  /* Win32, unlike unix, will not erase `to' in `rename(from, to)' but
---     fail instead.  Also, chown is not present.  */
---
---  if (exists)
---    remove (to);
--+  int ret;
-- 
---  ret = rename (from, to);
--+  ret = simple_copy (from, to);
--   if (ret != 0)
---    {
---      /* We have to clean up here.  */
---      non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
---      unlink (from);
---    }
---#else
---  /* Avoid a full copy and use rename if TO does not exist.  */
---  if (!exists)
---    {
---      if ((ret = rename (from, to)) != 0)
---	{
---	  /* We have to clean up here.  */
---	  non_fatal (_("unable to rename '%s'; reason: %s"), to, strerror (errno));
---	  unlink (from);
---	}
---    }
---  else
---    {
---      ret = simple_copy (from, to);
---      if (ret != 0)
---	non_fatal (_("unable to copy file '%s'; reason: %s"), to, strerror (errno));
--+    non_fatal (_("unable to copy file '%s'; reason: %s"),
--+	       to, strerror (errno));
-- 
---      if (target_stat != NULL)
---	set_times (to, target_stat);
---      unlink (from);
---    }
---#endif /* _WIN32 && !__CYGWIN32__ */
--+  if (target_stat != NULL)
--+    set_times (to, target_stat);
--+  unlink (from);
-- 
--   return ret;
-- }
---- 
--2.31.1
--
+- $(objpfx)iconv-test.out: run-iconv-test.sh $(objpfx)gconv-modules \
+- 			 $(addprefix $(objpfx),$(modules.so)) \
+diff --git a/meta/recipes-core/glibc/glibc_2.33.bb b/meta/recipes-core/glibc/glibc_2.33.bb
+index b7736359b1..a1e9eb3a16 100644
+--- a/meta/recipes-core/glibc/glibc_2.33.bb
++++ b/meta/recipes-core/glibc/glibc_2.33.bb
+@@ -56,7 +56,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
+            file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
+            file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
+-           file://0031-CVE-2021-43396.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.34.1
 
