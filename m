@@ -1,411 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C06C0C433EF
-	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 18:56:59 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web11.2208.1643309819091073537
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 607E2C433EF
+	for <webhook@archiver.kernel.org>; Thu, 27 Jan 2022 19:11:41 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.2432.1643310699984165089
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:56:59 -0800
+ Thu, 27 Jan 2022 11:11:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NU6xke86;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id s6so3657156qvv.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pilZqYb6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id e8so6659538wrc.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Jan 2022 10:56:58 -0800 (PST)
+ Thu, 27 Jan 2022 11:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LpXjuTLYNSonPGGBhMea7p5M4O7GXtPyegT3xGy2jkI=;
-        b=NU6xke86i5noDTqx9cqRmcLERRVDDEYuxE/M3m+8uRGGcqHeQgO5FFU6/xzPh+3Ldf
-         6T3ESzASwbRZ4ivA8nsDpI/RaT3yqPyhfWFnt41vz8ehuBh5KZFRZncvO+j3dnxJeqv0
-         2CHxP3Blyq3h7zOjZCBGpNNNXPE2D/P2ZrvBl6Y6jUmdvwsb5pXXd1or38s1TJ/DBm+5
-         uUtLtTbSFrTQTfznpzDxCoCrc+BU1FDHXkJqSAW0xju9YnvwINuPZwFD6fDflapki/zu
-         UkpMCCgUbU33z9ir8nvJcXRrn9/4rEiah76uXRwuLz7ObJNTrLqu5MNvM56RrPFX4B8z
-         b5LQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZPPvZFtgyy0UQH6QXUj2XE/z5QnWem7nJ4aoR3pfuNQ=;
+        b=pilZqYb6VRIyoocD2mxNOBBjfX5TNEfIdplZRTarugKO7uq8hORFJt9sb3KR6IR7Ld
+         mCsUM1B5Ay9VR+y39+q2jQGCqeN9aUhrUZ90g60oidGgjvOotEmxNwDktOA/rYOczCr9
+         G+CtPcH1MIEpNzsWhbQxtHhSoN8jBalqsKv9nDC/fD0cvVz17+9V9T6aA9W7KLOW8c1t
+         OVji4BReJqGnvDxMc7kp9smLSPXA53sGZpKXZnP/1nTwAe0cLUAQCfz/xJhnZK173969
+         U99N0FdI9RxH5kV8q3TlOZDxjREVj/zQaB73YHiLgmErzGWU/RZZQuOlawsf2bPb3lfm
+         H5Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LpXjuTLYNSonPGGBhMea7p5M4O7GXtPyegT3xGy2jkI=;
-        b=0PO8TZ7EiRcogrATfunBucQrEdnHjYNxK2zlIdhPZx4IwY1EZoYea4k7H0LFZg+kc/
-         ZIAo22tsb8vCWLEOzE4EEB8TxASIq49Q6AH5ad9ylMbkXFZvkWRBZcnQGdg0s6mu6kjk
-         75SQIUbSsPxSyOlwWlBlBT6CiXdaOKHsfMTIghkvLOmYYutGbz56taDo3P2hTgnVOZJ4
-         SppQb/LUmhwpYtv1lxoPJtR8JB1Qtm+GaLKlH4L1pBKBY+s4Tbk+q/iPEe4AuDzhhVU4
-         z4nqOMPsShfLE465Nhop5C1h6o/dFBRgcz2qaRN9rW6b66U5IkvoILp898Uln7YMEVDh
-         Cycg==
-X-Gm-Message-State: AOAM533PcMXXbV+aghWZfjBJ7pZVViw1U/irJTPIvnUbFqTDV05VMCjK
-	IvWlAUhqbR60K3hnovCDl06/ExGgLHaukE0p1w8=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZPPvZFtgyy0UQH6QXUj2XE/z5QnWem7nJ4aoR3pfuNQ=;
+        b=sSl0pf40YYdSRcimE4hbqZiCJ26ZhUd83wJmkx02BLj6SCPVPG98GfcZs5NF577txY
+         g5WgW4/TtCYM8TwvXt1WiE9HmopLAk41lIxnzMNQ6F9XRpt3zxa/VHt0WJOrHScn6tKH
+         gLbb3B7mapfOgWdYQV+O03sFyMSSYUKCRtC/fPyfrJ3UDhHZSqKQeagcxNEJjGGqlm4U
+         m4WeAux8ZJBwjWdprE5/4TAUjrcwNvYxBZLwTqyqJRZDV41HnvJ47xra2IGysNCklUHu
+         SodJ6DKL4doY2uQvgp40rMh0A0nrgluS6QALscBOzloGx81V4rh/AXlmbJUuNbxAHDUT
+         symg==
+X-Gm-Message-State: AOAM530lxlG084BWLhrqBzGzYCeF/gQFUf+0Z2FHgIjbM+BQMe17GhpE
+	SdK7ebPSP4/u0pFxybnqSC2XdzdCqA4=
 X-Google-Smtp-Source: 
- ABdhPJyEkdM1txoCCwCul077qc+mSIGJDUE8Uxtyyr6t44bTosLvzakW/nkmo1FLaVmRg+nXrnnJOg6xA8H4NQwSopk=
-X-Received: by 2002:a05:6214:27e8:: with SMTP id
- jt8mr4916469qvb.110.1643309817987;
- Thu, 27 Jan 2022 10:56:57 -0800 (PST)
+ ABdhPJzLg0xzWxVtE5JwVq83rNl/4mgw+wBP02cRUDl8A3aly12R69+Kd7Ib/hFm42DVya1h7HKUhA==
+X-Received: by 2002:adf:e951:: with SMTP id m17mr4298026wrn.347.1643310698080;
+        Thu, 27 Jan 2022 11:11:38 -0800 (PST)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id o27sm152154wms.4.2022.01.27.11.11.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 11:11:37 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 1/2] spirv-headers: bump to b42ba6
+Date: Thu, 27 Jan 2022 19:11:30 +0000
+Message-Id: <20220127191131.2533049-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.35.0
 MIME-Version: 1.0
-References: <20220127102005.3050843-1-alex@linutronix.de>
- <20220127102005.3050843-11-alex@linutronix.de>
-In-Reply-To: <20220127102005.3050843-11-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Jan 2022 10:56:32 -0800
-Message-ID: 
- <CAMKF1sq7fqtf8ShGYhu7MnyYMuNse6wx29xo2WzzheawKJ0fSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 11/17] zstd: update 1.5.0 -> 1.5.2
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>, Joshua Watt <JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 18:56:59 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Jan 2022 19:11:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161047
+ https://lists.openembedded.org/g/openembedded-core/message/161048
 
-quick look shows that size of zstd package reduces quite a bit, I wonder why
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/recipes-graphics/spir/spirv-headers_1.5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  -4720   KiB zstd
-  +2932   KiB zstd
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb b/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+index 522708618e..3144b1eb42 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+ 
+-SRCREV = "814e728b30ddd0f4509233099a3ad96fd4318c07"
++SRCREV = "b42ba6d92faf6b4938e6f22ddd186dbdacc98d78"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=master"
+ UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
+ S = "${WORKDIR}/git"
+-- 
+2.35.0
 
-small is ofcourse better, but I wonder what could reduce it so much
-between 1.5.0 and 1.5.2
-
-On Thu, Jan 27, 2022 at 2:20 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Drop patches merged upstream.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...rt-all-wildcard-file-list-expansions.patch |  81 --------
->  .../zstd/zstd/0001-MinGW-Build-Fixes.patch    | 193 ------------------
->  .../zstd/{zstd_1.5.0.bb => zstd_1.5.2.bb}     |   7 +-
->  3 files changed, 2 insertions(+), 279 deletions(-)
->  delete mode 100644 meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
->  delete mode 100644 meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
->  rename meta/recipes-extended/zstd/{zstd_1.5.0.bb => zstd_1.5.2.bb} (86%)
->
-> diff --git a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch b/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
-> deleted file mode 100644
-> index 3d23648f5b..0000000000
-> --- a/meta/recipes-extended/zstd/zstd/0001-Makefile-sort-all-wildcard-file-list-expansions.patch
-> +++ /dev/null
-> @@ -1,81 +0,0 @@
-> -From 77c7963c7a0f1c455f20520d5c7b1ec9b17a44fb Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 23 Dec 2020 19:14:32 +0100
-> -Subject: [PATCH] Makefile: sort all wildcard file list expansions
-> -
-> -Otherwise the order is non-deterministic and breaks
-> -reproducible builds.
-> -
-> -Upstream-Status: Submitted [https://github.com/facebook/zstd/pull/2895]
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> -
-> ----
-> - programs/Makefile   | 10 +++++-----
-> - tests/Makefile      |  4 ++--
-> - tests/fuzz/Makefile |  2 +-
-> - 3 files changed, 8 insertions(+), 8 deletions(-)
-> -
-> -diff --git a/programs/Makefile b/programs/Makefile
-> -index 599fb02f..2c416467 100644
-> ---- a/programs/Makefile
-> -+++ b/programs/Makefile
-> -@@ -74,11 +74,11 @@ ZSTDLEGACY_DIR := $(ZSTDDIR)/legacy
-> -
-> - vpath %.c $(ZSTDLIB_COMMON) $(ZSTDLIB_COMPRESS) $(ZSTDLIB_DECOMPRESS) $(ZDICT_DIR) $(ZSTDLEGACY_DIR)
-> -
-> --ZSTDLIB_COMMON_C := $(wildcard $(ZSTDLIB_COMMON)/*.c)
-> --ZSTDLIB_COMPRESS_C := $(wildcard $(ZSTDLIB_COMPRESS)/*.c)
-> --ZSTDLIB_DECOMPRESS_C := $(wildcard $(ZSTDLIB_DECOMPRESS)/*.c)
-> -+ZSTDLIB_COMMON_C := $(sort $(wildcard $(ZSTDLIB_COMMON)/*.c))
-> -+ZSTDLIB_COMPRESS_C := $(sort $(wildcard $(ZSTDLIB_COMPRESS)/*.c))
-> -+ZSTDLIB_DECOMPRESS_C := $(sort $(wildcard $(ZSTDLIB_DECOMPRESS)/*.c))
-> - ZSTDLIB_CORE_SRC := $(ZSTDLIB_DECOMPRESS_C) $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C)
-> --ZDICT_SRC := $(wildcard $(ZDICT_DIR)/*.c)
-> -+ZDICT_SRC := $(sort $(wildcard $(ZDICT_DIR)/*.c))
-> -
-> - ZSTD_LEGACY_SUPPORT ?= 5
-> - ZSTDLEGACY_SRC :=
-> -@@ -93,7 +93,7 @@ ZSTDLIB_FULL_SRC = $(sort $(ZSTDLIB_CORE_SRC) $(ZSTDLEGACY_SRC) $(ZDICT_SRC))
-> - ZSTDLIB_LOCAL_SRC = $(notdir $(ZSTDLIB_FULL_SRC))
-> - ZSTDLIB_LOCAL_OBJ := $(ZSTDLIB_LOCAL_SRC:.c=.o)
-> -
-> --ZSTD_CLI_SRC := $(wildcard *.c)
-> -+ZSTD_CLI_SRC := $(sort $(wildcard *.c))
-> - ZSTD_CLI_OBJ := $(ZSTD_CLI_SRC:.c=.o)
-> -
-> - ZSTD_ALL_SRC = $(ZSTDLIB_LOCAL_SRC) $(ZSTD_CLI_SRC)
-> -diff --git a/tests/Makefile b/tests/Makefile
-> -index 85553007..b71cdba8 100644
-> ---- a/tests/Makefile
-> -+++ b/tests/Makefile
-> -@@ -49,7 +49,7 @@ ZSTDDECOMP_FILES := $(ZSTDDIR)/decompress/*.c
-> - ZSTD_FILES  := $(ZSTDDECOMP_FILES) $(ZSTDCOMMON_FILES) $(ZSTDCOMP_FILES)
-> - ZDICT_FILES := $(ZSTDDIR)/dictBuilder/*.c
-> -
-> --ZSTD_F1 := $(wildcard $(ZSTD_FILES))
-> -+ZSTD_F1 := $(sort $(wildcard $(ZSTD_FILES)))
-> - ZSTD_OBJ1 := $(subst $(ZSTDDIR)/common/,zstdm_,$(ZSTD_F1))
-> - ZSTD_OBJ2 := $(subst $(ZSTDDIR)/compress/,zstdc_,$(ZSTD_OBJ1))
-> - ZSTD_OBJ3 := $(subst $(ZSTDDIR)/decompress/,zstdd_,$(ZSTD_OBJ2))
-> -@@ -202,7 +202,7 @@ bigdict: $(ZSTDMT_OBJECTS) $(PRGDIR)/datagen.c bigdict.c
-> - invalidDictionaries : $(ZSTD_OBJECTS) invalidDictionaries.c
-> -
-> - legacy : CPPFLAGS += -I$(ZSTDDIR)/legacy -DZSTD_LEGACY_SUPPORT=4
-> --legacy : $(ZSTD_FILES) $(wildcard $(ZSTDDIR)/legacy/*.c) legacy.c
-> -+legacy : $(ZSTD_FILES) $(sort $(wildcard $(ZSTDDIR)/legacy/*.c)) legacy.c
-> -
-> - decodecorpus : LDLIBS += -lm
-> - decodecorpus : $(filter-out zstdc_zstd_compress.o, $(ZSTD_OBJECTS)) $(ZDICT_FILES) $(PRGDIR)/util.c $(PRGDIR)/timefn.c decodecorpus.c
-> -diff --git a/tests/fuzz/Makefile b/tests/fuzz/Makefile
-> -index ccb574b7..b1cb2935 100644
-> ---- a/tests/fuzz/Makefile
-> -+++ b/tests/fuzz/Makefile
-> -@@ -62,7 +62,7 @@ FUZZ_SRC       := \
-> -       $(ZSTDCOMP_SRC) \
-> -       $(ZSTDDICT_SRC) \
-> -       $(ZSTDLEGACY_SRC)
-> --FUZZ_SRC := $(wildcard $(FUZZ_SRC))
-> -+FUZZ_SRC := $(sort $(wildcard $(FUZZ_SRC)))
-> -
-> - FUZZ_D_OBJ1 := $(subst $(ZSTDDIR)/common/,d_lib_common_,$(FUZZ_SRC))
-> - FUZZ_D_OBJ2 := $(subst $(ZSTDDIR)/compress/,d_lib_compress_,$(FUZZ_D_OBJ1))
-> diff --git a/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch b/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
-> deleted file mode 100644
-> index a0e00dca03..0000000000
-> --- a/meta/recipes-extended/zstd/zstd/0001-MinGW-Build-Fixes.patch
-> +++ /dev/null
-> @@ -1,193 +0,0 @@
-> -From ab9a34c92eec815ef214470c927ddbe2e950e7e5 Mon Sep 17 00:00:00 2001
-> -From: Joshua Watt <JPEWhacker@gmail.com>
-> -Date: Wed, 26 May 2021 09:15:40 -0500
-> -Subject: [PATCH] MinGW Build Fixes
-> -
-> -Fixes building on MinGW by
-> - 1) Exporting the OS variable so that it is visible to sub-make
-> -    invocations
-> - 2) Fixing the extension handling so that make correctly identifies when
-> -    targets need to be rebuilt. Without the correct handling, make would
-> -    rebuild the executable targets when running `make install` because
-> -    it couldn't find them with the correct extension.
-> -
-> -Upstream-Status: Submitted [https://github.com/facebook/zstd/pull/2685]
-> -Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ----
-> - Makefile          |  1 +
-> - programs/Makefile | 74 +++++++++++++++++++++++------------------------
-> - 2 files changed, 38 insertions(+), 37 deletions(-)
-> -
-> -diff --git a/Makefile b/Makefile
-> -index c1908f0a..f9ce9504 100644
-> ---- a/Makefile
-> -+++ b/Makefile
-> -@@ -29,6 +29,7 @@ VOID = /dev/null
-> - # fail on other tested distros (ubuntu, debian) even
-> - # without manually specifying the TARGET_SYSTEM.
-> - TARGET_SYSTEM ?= $(OS)
-> -+export OS
-> -
-> - ifneq (,$(filter Windows%,$(TARGET_SYSTEM)))
-> -   EXT =.exe
-> -diff --git a/programs/Makefile b/programs/Makefile
-> -index 599fb02f..79b45c83 100644
-> ---- a/programs/Makefile
-> -+++ b/programs/Makefile
-> -@@ -209,37 +209,37 @@ SET_CACHE_DIRECTORY = \
-> -
-> -
-> - .PHONY: all
-> --all: zstd
-> -+all: zstd$(EXT)
-> -
-> - .PHONY: allVariants
-> --allVariants: zstd zstd-compress zstd-decompress zstd-small zstd-nolegacy zstd-dictBuilder
-> -+allVariants: zstd$(EXT) zstd-compress$(EXT) zstd-decompress$(EXT) zstd-small$(EXT) zstd-nolegacy$(EXT) zstd-dictBuilder$(EXT)
-> -
-> - .PHONY: zstd  # must always be run
-> --zstd : CPPFLAGS += $(THREAD_CPP) $(ZLIBCPP) $(LZMACPP) $(LZ4CPP)
-> --zstd : LDFLAGS += $(THREAD_LD) $(DEBUGFLAGS_LD)
-> --zstd : LDLIBS += $(ZLIBLD) $(LZMALD) $(LZ4LD)
-> --zstd : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
-> -+zstd$(EXT) : CPPFLAGS += $(THREAD_CPP) $(ZLIBCPP) $(LZMACPP) $(LZ4CPP)
-> -+zstd$(EXT) : LDFLAGS += $(THREAD_LD) $(DEBUGFLAGS_LD)
-> -+zstd$(EXT) : LDLIBS += $(ZLIBLD) $(LZMALD) $(LZ4LD)
-> -+zstd$(EXT) : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
-> - ifneq (,$(filter Windows%,$(OS)))
-> --zstd : $(RES_FILE)
-> -+zstd$(EXT) : $(RES_FILE)
-> - endif
-> -
-> - ifndef BUILD_DIR
-> - # generate BUILD_DIR from flags
-> -
-> --zstd:
-> -+zstd$(EXT):
-> -       $(SET_CACHE_DIRECTORY)
-> -
-> - else
-> - # BUILD_DIR is defined
-> -
-> - ZSTD_OBJ := $(addprefix $(BUILD_DIR)/, $(ZSTD_ALL_OBJ))
-> --$(BUILD_DIR)/zstd : $(ZSTD_OBJ)
-> -+$(BUILD_DIR)/zstd$(EXT) : $(ZSTD_OBJ)
-> -       @echo "$(THREAD_MSG)"
-> -       @echo "$(ZLIB_MSG)"
-> -       @echo "$(LZMA_MSG)"
-> -       @echo "$(LZ4_MSG)"
-> -       @echo LINK $@
-> --      $(CC) $(FLAGS) $^ $(LDLIBS) -o $@$(EXT)
-> -+      $(CC) $(FLAGS) $^ $(LDLIBS) -o $@
-> -
-> - ifeq ($(HAVE_HASH),1)
-> - SRCBIN_HASH = $(shell cat $(BUILD_DIR)/zstd 2> $(VOID) | $(HASH) | cut -f 1 -d " ")
-> -@@ -249,7 +249,7 @@ else
-> - BIN_ISDIFFERENT = 1
-> - endif
-> -
-> --zstd : $(BUILD_DIR)/zstd
-> -+zstd$(EXT) : $(BUILD_DIR)/zstd$(EXT)
-> -       if [ $(BIN_ISDIFFERENT) -eq 1 ]; then \
-> -               cp -f $< $@; \
-> -               echo zstd build completed; \
-> -@@ -263,46 +263,46 @@ endif  # BUILD_DIR
-> - .PHONY: zstd-release
-> - zstd-release: DEBUGFLAGS := -DBACKTRACE_ENABLE=0
-> - zstd-release: DEBUGFLAGS_LD :=
-> --zstd-release: zstd
-> -+zstd-release: zstd$(EXT)
-> -
-> --zstd32 : CPPFLAGS += $(THREAD_CPP)
-> --zstd32 : LDFLAGS  += $(THREAD_LD)
-> --zstd32 : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
-> -+zstd32$(EXT) : CPPFLAGS += $(THREAD_CPP)
-> -+zstd32$(EXT) : LDFLAGS  += $(THREAD_LD)
-> -+zstd32$(EXT) : CPPFLAGS += -DZSTD_LEGACY_SUPPORT=$(ZSTD_LEGACY_SUPPORT)
-> - ifneq (,$(filter Windows%,$(OS)))
-> --zstd32 : $(RES32_FILE)
-> -+zstd32$(EXT) : $(RES32_FILE)
-> - endif
-> --zstd32 : $(ZSTDLIB_FULL_SRC) $(ZSTD_CLI_SRC)
-> --      $(CC) -m32 $(FLAGS) $^ -o $@$(EXT)
-> -+zstd32$(EXT) : $(ZSTDLIB_FULL_SRC) $(ZSTD_CLI_SRC)
-> -+      $(CC) -m32 $(FLAGS) $^ -o $@
-> -
-> - ## zstd-nolegacy: same scope as zstd, with just support of legacy formats removed
-> --zstd-nolegacy : LDFLAGS += $(THREAD_LD) $(ZLIBLD) $(LZMALD) $(LZ4LD) $(DEBUGFLAGS_LD)
-> --zstd-nolegacy : $(ZSTDLIB_CORE_SRC) $(ZDICT_SRC) $(ZSTD_CLI_OBJ)
-> --      $(CC) $(FLAGS) $^ -o $@$(EXT) $(LDFLAGS)
-> -+zstd-nolegacy$(EXT) : LDFLAGS += $(THREAD_LD) $(ZLIBLD) $(LZMALD) $(LZ4LD) $(DEBUGFLAGS_LD)
-> -+zstd-nolegacy$(EXT) : $(ZSTDLIB_CORE_SRC) $(ZDICT_SRC) $(ZSTD_CLI_OBJ)
-> -+      $(CC) $(FLAGS) $^ -o $@ $(LDFLAGS)
-> -
-> - .PHONY: zstd-nomt
-> - zstd-nomt : THREAD_CPP :=
-> - zstd-nomt : THREAD_LD  :=
-> - zstd-nomt : THREAD_MSG := - multi-threading disabled
-> --zstd-nomt : zstd
-> -+zstd-nomt : zstd$(EXT)
-> -
-> - .PHONY: zstd-nogz
-> - zstd-nogz : ZLIBCPP :=
-> - zstd-nogz : ZLIBLD  :=
-> - zstd-nogz : ZLIB_MSG := - gzip support is disabled
-> --zstd-nogz : zstd
-> -+zstd-nogz : zstd$(EXT)
-> -
-> - .PHONY: zstd-noxz
-> - zstd-noxz : LZMACPP :=
-> - zstd-noxz : LZMALD  :=
-> - zstd-noxz : LZMA_MSG := - xz/lzma support is disabled
-> --zstd-noxz : zstd
-> -+zstd-noxz : zstd$(EXT)
-> -
-> - ## zstd-dll: zstd executable linked to dynamic library libzstd (must have same version)
-> - .PHONY: zstd-dll
-> - zstd-dll : LDFLAGS+= -L$(ZSTDDIR)
-> - zstd-dll : LDLIBS += -lzstd
-> - zstd-dll : ZSTDLIB_LOCAL_SRC = xxhash.c
-> --zstd-dll : zstd
-> -+zstd-dll : zstd$(EXT)
-> -
-> -
-> - ## zstd-pgo: zstd executable optimized with PGO.
-> -@@ -321,23 +321,23 @@ zstd-pgo :
-> -       $(MAKE) zstd MOREFLAGS=-fprofile-use
-> -
-> - ## zstd-small: minimal target, supporting only zstd compression and decompression. no bench. no legacy. no other format.
-> --zstd-small: CFLAGS = -Os -s
-> --zstd-frugal zstd-small: $(ZSTDLIB_CORE_SRC) zstdcli.c util.c timefn.c fileio.c
-> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE $^ -o $@$(EXT)
-> -+zstd-small$(EXT): CFLAGS = -Os -s
-> -+zstd-frugal$(EXT) zstd-small$(EXT): $(ZSTDLIB_CORE_SRC) zstdcli.c util.c timefn.c fileio.c
-> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE $^ -o $@
-> -
-> --zstd-decompress: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_DECOMPRESS_C) zstdcli.c util.c timefn.c fileio.c
-> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOCOMPRESS -DZSTD_NOTRACE $^ -o $@$(EXT)
-> -+zstd-decompress$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_DECOMPRESS_C) zstdcli.c util.c timefn.c fileio.c
-> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOCOMPRESS -DZSTD_NOTRACE $^ -o $@
-> -
-> --zstd-compress: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) zstdcli.c util.c timefn.c fileio.c
-> --      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NODECOMPRESS -DZSTD_NOTRACE $^ -o $@$(EXT)
-> -+zstd-compress$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) zstdcli.c util.c timefn.c fileio.c
-> -+      $(CC) $(FLAGS) -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NODECOMPRESS -DZSTD_NOTRACE $^ -o $@
-> -
-> - ## zstd-dictBuilder: executable supporting dictionary creation and compression (only)
-> --zstd-dictBuilder: CPPFLAGS += -DZSTD_NOBENCH -DZSTD_NODECOMPRESS -DZSTD_NOTRACE
-> --zstd-dictBuilder: $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) $(ZDICT_SRC) zstdcli.c util.c timefn.c fileio.c dibio.c
-> --      $(CC) $(FLAGS) $^ -o $@$(EXT)
-> -+zstd-dictBuilder$(EXT): CPPFLAGS += -DZSTD_NOBENCH -DZSTD_NODECOMPRESS -DZSTD_NOTRACE
-> -+zstd-dictBuilder$(EXT): $(ZSTDLIB_COMMON_C) $(ZSTDLIB_COMPRESS_C) $(ZDICT_SRC) zstdcli.c util.c timefn.c fileio.c dibio.c
-> -+      $(CC) $(FLAGS) $^ -o $@
-> -
-> --zstdmt: zstd
-> --      ln -sf zstd zstdmt
-> -+zstdmt$(EXT): zstd$(EXT)
-> -+      ln -sf zstd$(EXT) zstdmt$(EXT)
-> -
-> - .PHONY: generate_res
-> - generate_res: $(RES64_FILE) $(RES32_FILE)
-> ---
-> -2.31.1
-> -
-> diff --git a/meta/recipes-extended/zstd/zstd_1.5.0.bb b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> similarity index 86%
-> rename from meta/recipes-extended/zstd/zstd_1.5.0.bb
-> rename to meta/recipes-extended/zstd/zstd_1.5.2.bb
-> index 51305d0562..71f439ef57 100644
-> --- a/meta/recipes-extended/zstd/zstd_1.5.0.bb
-> +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> @@ -9,12 +9,9 @@ LICENSE = "BSD-3-Clause & GPLv2"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=c7f0b161edbe52f5f345a3d1311d0b32 \
->                      file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0"
->
-> -SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https \
-> -           file://0001-Makefile-sort-all-wildcard-file-list-expansions.patch \
-> -           file://0001-MinGW-Build-Fixes.patch \
-> -           "
-> +SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https"
->
-> -SRCREV = "a488ba114ec17ea1054b9057c26a046fc122b3b6"
-> +SRCREV = "e47e674cd09583ff0503f0f6defd6d23d8b718d3"
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
->
->  CVE_PRODUCT = "zstandard"
-> --
-> 2.20.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#161033): https://lists.openembedded.org/g/openembedded-core/message/161033
-> Mute This Topic: https://lists.openembedded.org/mt/88718362/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
