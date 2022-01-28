@@ -2,69 +2,66 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56943C433F5
-	for <webhook@archiver.kernel.org>; Fri, 28 Jan 2022 08:39:06 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.4688.1643359144783345010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5EDBC433F5
+	for <webhook@archiver.kernel.org>; Fri, 28 Jan 2022 08:54:54 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web09.5016.1643360093487243907
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jan 2022 00:39:05 -0800
+ Fri, 28 Jan 2022 00:54:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OVp58vnx;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Jc1T3uY8;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: flowergom@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id d10so13507877eje.10
+Received: by mail-ej1-f50.google.com with SMTP id me13so13625130ejb.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jan 2022 00:39:04 -0800 (PST)
+ Fri, 28 Jan 2022 00:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id;
-        bh=/gr7LWbhVj/ovtOQIFKNhRXu5O5CTAinZly1IAM+wRI=;
-        b=OVp58vnxGP7kZYEjPDa0Fe9RNi80KtErWRUz/hhC19W74CL+gjM4iMPkH77g7EHb+p
-         d1aSuO6QhrmEnwUwfotPd7Bhags8ZTpWST3DQyxSg69Ub2in0MlFuoFSEnZPgJJPqsAv
-         HU2i9Hyom3/NTisM6sq6oewFgxJL1VIiLry6t4Tt2fS0IQTRl85FnlpFVhy0EgX2i31A
-         cSsEvS06l6mDhmQw1sKjEU+5hfrfHwIi9dt3s6CzzQjRmHej1Hs1f4O5rFnvwiq4xGIq
-         fcBZxd9bQgOVfLvWz5ETRuR9MuSnXh8HcR0kQ8voDjklE1VDP7+L4XY2CQMUZCDg1QfQ
-         Ydxg==
+        bh=Si+Uj32RgL0zy9n1xvm0+nFvNGCqbt4/0D0+5MmFos0=;
+        b=Jc1T3uY8ZMXIYHTizRsFdFqkb3Rnubj1jxYpllMDK0Bi77xN2jcX0QCpLSWki1UgvP
+         6Mj2TOGlQrKQgxXXCun7CK089NCzssX1m3kZSTooFlqnHScAm8Fyihg/mBkaHpgrDabJ
+         cG5TJMCoZz2vKPWXZI5gsAASTG9x7emijqBSNguIsQbSECEFXEhDF0nlIrwbiPcNNUPu
+         azDl/ESBQ8ORjEmyFJtJTzfvLtjPuj7ETvEQf7rfgEhr8rxPZi8c+QXwbSwJC5l61r76
+         pxxyFtzsEbNzRZuiBvEWIhqeUpv5JpfZZ3RJbn2eF2sKTH6ImJbekN41ycv+q4OFthDm
+         ZniQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/gr7LWbhVj/ovtOQIFKNhRXu5O5CTAinZly1IAM+wRI=;
-        b=gmWh214jMwrnETDE3Kphx2Xvib2PvKLqtkHzB38B7arZnIG0+2c7pPZCE5F4xC03+M
-         9Rbswi0QgIwIGLWLfbu/UaCwPubfr80FoE+gp4zA0yzcBON09I+VxnwwuiZXquDZFQ2y
-         BbaghhpNNEIYhDbk93BkSLWMqJ6eQJKWOcC7VdL5L0KO4VcrnTPqyJlIGwydoM2kuV4v
-         6Y9FIbQpGPR2S9Fr928/UbXbmcVPteUegE+2g75vKyPQriXs6gqcpKN+UipqaGEiDNhw
-         ieBp2YV3p1cbni1Wn5i5WMlJoOZ/5hxYPPdn6W5B8VVJCI+bsC1qClIe8M4g3LouWY3y
-         xC6Q==
-X-Gm-Message-State: AOAM533DSduNL+sMWqvEE1V+S7Tmb09WSqRQdKSIupIW+einahjzFqxM
-	m/7ABgk8BIwCr5DKnSOzJdSqn43oazNV/dql
+        bh=Si+Uj32RgL0zy9n1xvm0+nFvNGCqbt4/0D0+5MmFos0=;
+        b=2f4t6Fltm8DOKkf/r/jEdMKB1JNTLq3pUFvbiOt0w1hb/PQEObNskf1zAc2zcx+Qmy
+         wJdRV1RmgcxjgZoBw4ucGaSj6KFP9zdF94ZV9YbACTp45/4WjVPKt4LfpOtu7HvGvAEo
+         TNTJpJ/+eGMTCmyv58jO7bQie8Jk2jJgnahX+O4N4S3OHKBsLNYXygD/Yxq8I7ABkf/B
+         9Yww/3LLQfqnXTHBSt4zBSxNDLWGJdJq9HII44CP25QaIiZoGBaiIucjvZ8AKQ+4cf1a
+         kgQFHdf/UlCM7f9Hsj4llLaCheDStzpQnGLgDdQWCNqQoFrecGluilGaMLGRv1Bj4zrN
+         wSqg==
+X-Gm-Message-State: AOAM531MOHyEoYgLHbfGHclFsBEZqgXKJ2TIeDrY5GLFLS7knl35Gx2o
+	ECbWOr5xra17dImWoLEhY81Jdo/23uREQjpa
 X-Google-Smtp-Source: 
- ABdhPJxkaoszCdeBPAPqgK4MWL5TC+Ijh3D9LuxLAGwRNhjxKfywsMfBeU76WLNO/LafUFv+NFpW6w==
-X-Received: by 2002:a17:907:7ea5:: with SMTP id
- qb37mr5874145ejc.573.1643359142847;
-        Fri, 28 Jan 2022 00:39:02 -0800 (PST)
+ ABdhPJwm7tPYVh4O/YmP5S5EDUPL3CAD7avPSjTyYPLtmF2WMtodbtUWXzQVMWyLS+cIsDQNNxJFvA==
+X-Received: by 2002:a17:907:d0f:: with SMTP id
+ gn15mr5990366ejc.43.1643360091449;
+        Fri, 28 Jan 2022 00:54:51 -0800 (PST)
 Received: from localhost.localdomain (p54b54585.dip0.t-ipconnect.de.
  [84.181.69.133])
         by smtp.gmail.com with ESMTPSA id
- cf24sm9606146ejb.133.2022.01.28.00.39.01
+ ee26sm10472839edb.53.2022.01.28.00.54.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 00:39:02 -0800 (PST)
+        Fri, 28 Jan 2022 00:54:51 -0800 (PST)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <mj.kim@daimler.com>,
-	Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH v3] ghostscript: fix CVE-2021-45949
-Date: Fri, 28 Jan 2022 08:38:55 +0000
-Message-Id: <20220128083855.87640-1-flowergom@gmail.com>
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH v4] ghostscript: fix CVE-2021-45949
+Date: Fri, 28 Jan 2022 08:54:45 +0000
+Message-Id: <20220128085445.87893-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jan 2022 08:39:06 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jan 2022 08:54:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161071
-
-From: Minjae Kim <mj.kim@daimler.com>
+ https://lists.openembedded.org/g/openembedded-core/message/161072
 
 Ghostscript GhostPDL 9.50 through 9.54.0 has a heap-based buffer overflow in sampled_data_finish
 (called from sampled_data_continue and interp).
