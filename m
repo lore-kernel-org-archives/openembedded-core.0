@@ -1,227 +1,160 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5EDBC433F5
-	for <webhook@archiver.kernel.org>; Fri, 28 Jan 2022 08:54:54 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web09.5016.1643360093487243907
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA57C433EF
+	for <webhook@archiver.kernel.org>; Fri, 28 Jan 2022 09:07:24 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web08.4820.1643360842820645152
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jan 2022 00:54:53 -0800
+ Fri, 28 Jan 2022 01:07:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Jc1T3uY8;
- spf=pass (domain: gmail.com, ip: 209.85.218.50,
- mailfrom: flowergom@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id me13so13625130ejb.12
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jan 2022 00:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=Si+Uj32RgL0zy9n1xvm0+nFvNGCqbt4/0D0+5MmFos0=;
-        b=Jc1T3uY8ZMXIYHTizRsFdFqkb3Rnubj1jxYpllMDK0Bi77xN2jcX0QCpLSWki1UgvP
-         6Mj2TOGlQrKQgxXXCun7CK089NCzssX1m3kZSTooFlqnHScAm8Fyihg/mBkaHpgrDabJ
-         cG5TJMCoZz2vKPWXZI5gsAASTG9x7emijqBSNguIsQbSECEFXEhDF0nlIrwbiPcNNUPu
-         azDl/ESBQ8ORjEmyFJtJTzfvLtjPuj7ETvEQf7rfgEhr8rxPZi8c+QXwbSwJC5l61r76
-         pxxyFtzsEbNzRZuiBvEWIhqeUpv5JpfZZ3RJbn2eF2sKTH6ImJbekN41ycv+q4OFthDm
-         ZniQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Si+Uj32RgL0zy9n1xvm0+nFvNGCqbt4/0D0+5MmFos0=;
-        b=2f4t6Fltm8DOKkf/r/jEdMKB1JNTLq3pUFvbiOt0w1hb/PQEObNskf1zAc2zcx+Qmy
-         wJdRV1RmgcxjgZoBw4ucGaSj6KFP9zdF94ZV9YbACTp45/4WjVPKt4LfpOtu7HvGvAEo
-         TNTJpJ/+eGMTCmyv58jO7bQie8Jk2jJgnahX+O4N4S3OHKBsLNYXygD/Yxq8I7ABkf/B
-         9Yww/3LLQfqnXTHBSt4zBSxNDLWGJdJq9HII44CP25QaIiZoGBaiIucjvZ8AKQ+4cf1a
-         kgQFHdf/UlCM7f9Hsj4llLaCheDStzpQnGLgDdQWCNqQoFrecGluilGaMLGRv1Bj4zrN
-         wSqg==
-X-Gm-Message-State: AOAM531MOHyEoYgLHbfGHclFsBEZqgXKJ2TIeDrY5GLFLS7knl35Gx2o
-	ECbWOr5xra17dImWoLEhY81Jdo/23uREQjpa
-X-Google-Smtp-Source: 
- ABdhPJwm7tPYVh4O/YmP5S5EDUPL3CAD7avPSjTyYPLtmF2WMtodbtUWXzQVMWyLS+cIsDQNNxJFvA==
-X-Received: by 2002:a17:907:d0f:: with SMTP id
- gn15mr5990366ejc.43.1643360091449;
-        Fri, 28 Jan 2022 00:54:51 -0800 (PST)
-Received: from localhost.localdomain (p54b54585.dip0.t-ipconnect.de.
- [84.181.69.133])
-        by smtp.gmail.com with ESMTPSA id
- ee26sm10472839edb.53.2022.01.28.00.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 00:54:51 -0800 (PST)
-From: Minjae Kim <flowergom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH v4] ghostscript: fix CVE-2021-45949
-Date: Fri, 28 Jan 2022 08:54:45 +0000
-Message-Id: <20220128085445.87893-1-flowergom@gmail.com>
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: changqing.li@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 20S97LxR003535
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 28 Jan 2022 01:07:22 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 20S97Kgt019865
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 28 Jan 2022 01:07:21 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 28 Jan 2022 01:07:20 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 28 Jan 2022 01:07:19 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 28 Jan 2022 01:07:19 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] mdadm: fix testcase 00multipath failure
+Date: Fri, 28 Jan 2022 17:07:18 +0800
+Message-ID: <20220128090718.35339-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Jan 2022 08:54:54 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Jan 2022 09:07:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161072
+ https://lists.openembedded.org/g/openembedded-core/message/161073
 
-Ghostscript GhostPDL 9.50 through 9.54.0 has a heap-based buffer overflow in sampled_data_finish
-(called from sampled_data_continue and interp).
+From: Changqing Li <changqing.li@windriver.com>
 
-To apply this CVE-2021-45959 patch,
-the check-stack-limits-after-function-evalution.patch should be applied first.
+After upgrade to 4.2, mdadm's testcase 00multipath failed,
+because a bug in 4.2 makes "-r" not work in manage mode.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2021-45949
-
-Signed-off-by: Minjae Kim <flowergom@gmail.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../ghostscript/CVE-2021-45949.patch          | 65 +++++++++++++++++++
- ...tack-limits-after-function-evalution.patch | 51 +++++++++++++++
- .../ghostscript/ghostscript_9.52.bb           |  2 +
- 3 files changed, 118 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
+ ...parsing-of-r-in-monitor-manager-mode.patch | 74 +++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-Fix-parsing-of-r-in-monitor-manager-mode.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
+diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-parsing-of-r-in-monitor-manager-mode.patch b/meta/recipes-extended/mdadm/files/0001-Fix-parsing-of-r-in-monitor-manager-mode.patch
 new file mode 100644
-index 0000000000..f312f89e04
+index 0000000000..3fb46cc60a
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
-@@ -0,0 +1,65 @@
-+From 6643ff0cb837db3eade489ffff21e3e92eee2ae0 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Fri, 28 Jan 2022 08:21:19 +0000
-+Subject: [PATCH] [PATCH] Bug 703902: Fix op stack management in
-+ sampled_data_continue()
++++ b/meta/recipes-extended/mdadm/files/0001-Fix-parsing-of-r-in-monitor-manager-mode.patch
+@@ -0,0 +1,74 @@
++From 969fbb35e40100f599d4a9781911251f21792698 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 27 Jan 2022 17:53:01 +0800
++Subject: [PATCH] Fix parsing of "-r" in monitor/manager mode
 +
-+Replace pop() (which does no checking, and doesn't handle stack extension
-+blocks) with ref_stack_pop() which does do all that.
++This revert commit 546047688e1 [mdadm: fix coredump of mdadm --monitor
++-r], and fix the coredump issue of 'mdadm --monitor -r'.
 +
-+We still use pop() in one case (it's faster), but we have to later use
-+ref_stack_pop() before calling sampled_data_sample() which also accesses the
-+op stack.
++commit 546047688e1 make -r not work in manager mode, and testcase
++00multipath failed.
 +
-+Fixes:
-+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=34675
++Upstream-Status: Submitted [send to maintainer jsorensen@fb.com]
 +
-+Upstream-Status: Backported [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=2a3129365d3bc0d4a41f107ef175920d1505d1f7]
-+CVE: CVE-2021-45949
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++
 +---
-+ psi/zfsample.c | 13 ++++++++-----
-+ 1 file changed, 8 insertions(+), 5 deletions(-)
++ ReadMe.c | 8 +++++---
++ mdadm.c  | 2 ++
++ mdadm.h  | 1 +
++ 3 files changed, 8 insertions(+), 3 deletions(-)
 +
-+diff --git a/psi/zfsample.c b/psi/zfsample.c
-+index 0023fa4..f84671f 100644
-+--- a/psi/zfsample.c
-++++ b/psi/zfsample.c
-+@@ -534,14 +534,17 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
-+             data_ptr[bps * i + j] = (byte)(cv >> ((bps - 1 - j) * 8));	/* MSB first */
-+     }
-+     pop(num_out);		    /* Move op to base of result values */
-+-
-++    /* From here on, we have to use ref_stack_pop() rather than pop()
-++       so that it handles stack extension blocks properly, before calling
-++       sampled_data_sample() which also uses the op stack.
-++    */
-+     /* Check if we are done collecting data. */
++diff --git a/ReadMe.c b/ReadMe.c
++index 8139976..070eea5 100644
++--- a/ReadMe.c
+++++ b/ReadMe.c
++@@ -81,11 +81,13 @@ char Version[] = "mdadm - v" VERSION " - " VERS_DATE EXTRAVERSION "\n";
++  *     found, it is started.
++  */
 + 
-+     if (increment_cube_indexes(params, penum->indexes)) {
-+         if (stack_depth_adjust == 0)
-+-            pop(O_STACK_PAD);	    /* Remove spare stack space */
-++	    ref_stack_pop(&o_stack, O_STACK_PAD);         /* Remove spare stack space */
-+         else
-+-            pop(stack_depth_adjust - num_out);
-++            ref_stack_pop(&o_stack, stack_depth_adjust - num_out);
-+         /* Execute the closing procedure, if given */
-+         code = 0;
-+         if (esp_finish_proc != 0)
-+@@ -554,11 +557,11 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
-+             if ((O_STACK_PAD - stack_depth_adjust) < 0) {
-+                 stack_depth_adjust = -(O_STACK_PAD - stack_depth_adjust);
-+                 check_op(stack_depth_adjust);
-+-                pop(stack_depth_adjust);
-++		ref_stack_pop(&o_stack, stack_depth_adjust);
-+             }
-+             else {
-+                 check_ostack(O_STACK_PAD - stack_depth_adjust);
-+-                push(O_STACK_PAD - stack_depth_adjust);
-++		ref_stack_push(&o_stack, O_STACK_PAD - stack_depth_adjust);
-+                 for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
-+                     make_null(op - i);
-+             }
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch b/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
-new file mode 100644
-index 0000000000..722bab4ddb
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
-@@ -0,0 +1,51 @@
-+From 7861fcad13c497728189feafb41cd57b5b50ea25 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Fri, 12 Feb 2021 10:34:23 +0000
-+Subject: [PATCH] oss-fuzz 30715: Check stack limits after function evaluation.
-+
-+During function result sampling, after the callout to the Postscript
-+interpreter, make sure there is enough stack space available before pushing
-+or popping entries.
-+
-+In thise case, the Postscript procedure for the "function" is totally invalid
-+(as a function), and leaves the op stack in an unrecoverable state (as far as
-+function evaluation is concerned). We end up popping more entries off the
-+stack than are available.
-+
-+To cope, add in stack limit checking to throw an appropriate error when this
-+happens.
-+
-+Upstream-Status: Backported [https://git.ghostscript.com/?p=ghostpdl.git;a=patch;h=7861fcad13c497728189feafb41cd57b5b50ea25]
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+---
-+ psi/zfsample.c | 14 +++++++++++---
-+ 1 file changed, 11 insertions(+), 3 deletions(-)
-+
-+diff --git a/psi/zfsample.c b/psi/zfsample.c
-+index 290809405..652ae02c6 100644
-+--- a/psi/zfsample.c
-++++ b/psi/zfsample.c
-+@@ -551,9 +551,17 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
-+     } else {
-+         if (stack_depth_adjust) {
-+             stack_depth_adjust -= num_out;
-+-            push(O_STACK_PAD - stack_depth_adjust);
-+-            for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
-+-                make_null(op - i);
-++            if ((O_STACK_PAD - stack_depth_adjust) < 0) {
-++                stack_depth_adjust = -(O_STACK_PAD - stack_depth_adjust);
-++                check_op(stack_depth_adjust);
-++                pop(stack_depth_adjust);
-++            }
-++            else {
-++                check_ostack(O_STACK_PAD - stack_depth_adjust);
-++                push(O_STACK_PAD - stack_depth_adjust);
-++                for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
-++                    make_null(op - i);
-++            }
-+         }
-+     }
-+
-+--
-+2.25.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-index 32346e6811..ac3d0dca43 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-@@ -39,6 +39,8 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://ghostscript-9.21-prevent_recompiling.patch \
-            file://cups-no-gcrypt.patch \
-            file://CVE-2020-15900.patch \
-+           file://check-stack-limits-after-function-evalution.patch \
-+           file://CVE-2021-45949.patch \
++-char short_options[]="-ABCDEFGIQhVXYWZ:vqbc:i:l:p:m:r:n:x:u:c:d:z:U:N:safRSow1tye:k";
+++char short_options[]="-ABCDEFGIQhVXYWZ:vqbc:i:l:p:m:n:x:u:c:d:z:U:N:sarfRSow1tye:k:";
++ char short_bitmap_options[]=
++-		"-ABCDEFGIQhVXYWZ:vqb:c:i:l:p:m:r:n:x:u:c:d:z:U:N:sarfRSow1tye:k:";
+++			"-ABCDEFGIQhVXYWZ:vqb:c:i:l:p:m:n:x:u:c:d:z:U:N:sarfRSow1tye:k:";
++ char short_bitmap_auto_options[]=
++-		"-ABCDEFGIQhVXYWZ:vqb:c:i:l:p:m:r:n:x:u:c:d:z:U:N:sa:rfRSow1tye:k:";
+++			"-ABCDEFGIQhVXYWZ:vqb:c:i:l:p:m:n:x:u:c:d:z:U:N:sa:rfRSow1tye:k:";
+++char short_increment_options[]=
+++			"-ABCDEFGIQhVXYWZ:vqbc:i:l:r:p:m:n:x:u:c:d:z:U:N:safRSow1tye:k:";
++ 
++ struct option long_options[] = {
++     {"manage",    0, 0, ManageOpt},
++diff --git a/mdadm.c b/mdadm.c
++index 26299b2..2a3b2ee 100644
++--- a/mdadm.c
+++++ b/mdadm.c
++@@ -227,6 +227,7 @@ int main(int argc, char *argv[])
++ 			shortopt = short_bitmap_auto_options;
++ 			break;
++ 		case 'F': newmode = MONITOR;
+++			shortopt = short_increment_options;
++ 			break;
++ 		case 'G': newmode = GROW;
++ 			shortopt = short_bitmap_options;
++@@ -268,6 +269,7 @@ int main(int argc, char *argv[])
++ 
++ 		case NoSharing:
++ 			newmode = MONITOR;
+++			shortopt = short_increment_options;
++ 			break;
++ 		}
++ 		if (mode && newmode == mode) {
++diff --git a/mdadm.h b/mdadm.h
++index ecfc137..42148dd 100644
++--- a/mdadm.h
+++++ b/mdadm.h
++@@ -421,6 +421,7 @@ enum mode {
++ extern char short_options[];
++ extern char short_bitmap_options[];
++ extern char short_bitmap_auto_options[];
+++extern char short_increment_options[];
++ extern struct option long_options[];
++ extern char Version[], Usage[], Help[], OptionHelp[],
++ 	*mode_help[],
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+index fa51364283..e3bbb4cf33 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            file://include_sysmacros.patch \
+            file://0001-mdadm-skip-test-11spare-migration.patch \
++           file://0001-Fix-parsing-of-r-in-monitor-manager-mode.patch \
             "
  
- SRC_URI_class-native = "${SRC_URI_BASE} \
+ SRC_URI[sha256sum] = "461c215670864bb74a4d1a3620684aa2b2f8296dffa06743f26dda5557acf01d"
 -- 
 2.17.1
 
