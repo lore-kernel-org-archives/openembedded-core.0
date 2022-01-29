@@ -1,117 +1,97 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <open.source@oleksandr-kravchuk.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97867C433F5
-	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 15:20:54 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web11.6954.1643469653265236396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E755C433EF
+	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 17:12:05 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.8405.1643476324540792226
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Jan 2022 07:20:53 -0800
+ Sat, 29 Jan 2022 09:12:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=klL/ltjr;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.43,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f43.google.com with SMTP id u18so16524512edt.6
+ dkim=pass header.i=@oleksandr-kravchuk-com.20210112.gappssmtp.com
+ header.s=20210112 header.b=fisgQMT2;
+ spf=none, err=permanent DNS error (domain: oleksandr-kravchuk.com,
+ ip: 209.85.208.173, mailfrom: open.source@oleksandr-kravchuk.com)
+Received: by mail-lj1-f173.google.com with SMTP id bx31so1817673ljb.0
         for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Jan 2022 07:20:52 -0800 (PST)
+ Sat, 29 Jan 2022 09:12:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZW7BLlQEnzCViCBUFCaSyiLOKt9J62XfriIiqBTeiWk=;
-        b=klL/ltjrhd1CsM7uQxJF4cGC4yQGiKWItNQxeYHUFYyP4GdtkrthSkQ7+bk2mti4rL
-         ON/v3mwO/81I+e1l6tSQ6KwzlGxbdzX0/aGfCoS3DMEJ3pJFNnnaj1ylfoJMvAodDrJo
-         fbQdCBKSWtAMhCcHhrD2SQSk1Az+tjpeNJNpG6KH2VFC27/1ciPbLMSAJYBTLII8L+8S
-         pRFSUcwDFi8RWh5hbotFFr1bBQWXO71k64vYRLCuien14pjv+PmWUyXJrN6C16Z7gDhC
-         i0c7YRL0pcdpTL1/PkbBY++0gdGfK1HM0hDlkEEqrm8+NeikaM3SNbqCzMJ/sFH+uZXK
-         26IA==
+        d=oleksandr-kravchuk-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NZH4fl6FHjdXkDqHRotlESJHQDG20AtWpIUxNUDGF8I=;
+        b=fisgQMT2Yez525WyA4QdpYIJBX0+gMesLKZzm7KE6k7H6OaHkorNAVGkULxTOBA4QW
+         +BTL1ueKLEen7VM+hZkmc1YeYv3A43Oku9U2BUU2h2m7GXrF6vjke9QtDFxleWBS9BCv
+         p/e3/p9fq6359/k1WfzFw6D0AF+p4x+cjzsibLGT9shLpZ+wi+MuPdcfq11BunEWl3pL
+         coxaUDGF5jDIYLLkTAbpmpWWlM7gfEh8DMad//n2cVyW++KCl1q+U7ZffChqlb2uwGLd
+         mPX1/aYwuLxh+bHRoNwfdelriWqDLhonVigY2pGxy1Z95+imdwoIXCqqXN9FhbOYbEYW
+         ex0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZW7BLlQEnzCViCBUFCaSyiLOKt9J62XfriIiqBTeiWk=;
-        b=aEPRc38wzQ+O5f6At7xnDLzXILzqOCz9v3NAv1CIydtT/MKClvbIxg1q4jhgDMRakf
-         6PWSleBm8KD8o9cXVYeXmPsWS2m0MfwdZbEHfz9Ze9JFtfuBrn2pjc+s69ftnjWBAZ4n
-         WLDNhaZ0hhF1esChSoNITgFgaF3iSUaa/5HP/lfeTjFVEA8FmBrYnk+OAr9c6r7YHbYp
-         Hl/RdmkmUfTfeRcAhOlCfqaaMFSVFTy56l/f3iFn2xKTcpHIY5IDiesOXK8uiAX8ONmG
-         Kut27y6K632M8T1iiEzQwUwpj11iRWoR/nylr39OJQEEd2HcOaIySnsOlAICaEUYfd0f
-         m1KQ==
-X-Gm-Message-State: AOAM533tAe+Xa/MclcSNj9v2t+T0Tr5kbKPkrzIPiLCG6o3xnvQL6jXf
-	G3WsSCbdJP4bz8Enf9fk0rJA4Jyl/cEcSvinYFoTOg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NZH4fl6FHjdXkDqHRotlESJHQDG20AtWpIUxNUDGF8I=;
+        b=csXwl4FBo+TANvveubEdbIToQva0TrPd4zx7uPaH4L9LlPbwtiYbPRv18tHeXVM7df
+         KCas0MAHoDSqW3u0dNf++A2ULF7kDFscayVH6fXubcn7n6+uDg+r7c9tWVdcjvHrVnsR
+         P85eUTdeq5gTB1RDgHKrPOSAdDRkl0Z4UjJWy1m6MKi5dFMyactl1Ap/hidZG6Egwy7T
+         0i1pHkbDeBnMajbu275PpanaDJ2uYEoETN/a68HpOwYPz6LtPirscWvyQO/V+5JPy4Wx
+         YjPf148bwUuicJYmJgalvJXcLxy5S7YLAo2F7TjyPK4lD1iGqoLHR63EODHaV1itqy2d
+         arKQ==
+X-Gm-Message-State: AOAM530pfQtBphB6nFv4LAwfZ2nwDQCDdbiWAuhSjPXuXrCdtsKN5ZwO
+	FC2VqfY8n6vmxTfUUBcUfQhZhEbuThux/kFF
 X-Google-Smtp-Source: 
- ABdhPJyn5MnJ8Lfe3zp6QkqSvp80dkxDNE5BL53RHRXeGqhb5J8Xe+OkcbTOqZpNAtZtc7WbzDZ4fSfVUS2Y5ImMQAI=
-X-Received: by 2002:a05:6402:1d49:: with SMTP id
- dz9mr13087506edb.238.1643469651286;
- Sat, 29 Jan 2022 07:20:51 -0800 (PST)
+ ABdhPJy+csHvP+STMdvX3C76Cbl5/udyLb3tFmcG1XRS/hssnZYbPS1wh652LTpFYs62Lt8fj5y2Kw==
+X-Received: by 2002:a2e:5810:: with SMTP id m16mr8697816ljb.261.1643476321994;
+        Sat, 29 Jan 2022 09:12:01 -0800 (PST)
+Received: from localhost.localdomain
+ (c-7918524e.023-160-67626725.bbcust.telenor.se. [78.82.24.121])
+        by smtp.gmail.com with ESMTPSA id t8sm2309051ljj.0.2022.01.29.09.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Jan 2022 09:12:01 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ell: update to 0.48
+Date: Sat, 29 Jan 2022 18:11:56 +0100
+Message-Id: <20220129171156.410519-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220124171609.20282-1-nishaparrakat@gmail.com>
-In-Reply-To: <20220124171609.20282-1-nishaparrakat@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sat, 29 Jan 2022 05:20:40 -1000
-Message-ID: 
- <CAOSpxdbZhtqPNpPyqbk1KHD--sqDzLK83=hEo-Rtn7m2AjZx9A@mail.gmail.com>
-Subject: Re: [OE-core] [poky][dunfell][PATCH 1/6] lsof: correct LICENSE
-To: Nisha Parrakat <nishaparrakat@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
-	Ross Burton <ross@burtonini.com>, Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 15:20:54 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 17:12:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161100
+ https://lists.openembedded.org/g/openembedded-core/message/161101
 
-On Mon, Jan 24, 2022 at 7:16 AM Nisha Parrakat <nishaparrakat@gmail.com> wrote:
->
-> From: Ross Burton <ross@burtonini.com>
->
-> The lsof LICENSE is superficially BSD-like, but it isn't BSD.  Now that
-> we have the full SPDX license set in oe-core, use Spencer-94.
+Changelog:
+- Fix issue with memory leaking from ICMPv6 RA.
 
-Results in following warning:
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-core/ell/{ell_0.47.bb => ell_0.48.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.47.bb => ell_0.48.bb} (89%)
 
-WARNING: build-appliance-image-15.0.0-r0 do_rootfs: The license listed
-Spencer-94 was not in the licenses collected for recipe lsof
+diff --git a/meta/recipes-core/ell/ell_0.47.bb b/meta/recipes-core/ell/ell_0.48.bb
+similarity index 89%
+rename from meta/recipes-core/ell/ell_0.47.bb
+rename to meta/recipes-core/ell/ell_0.48.bb
+index 1db0065a37..737302a444 100644
+--- a/meta/recipes-core/ell/ell_0.47.bb
++++ b/meta/recipes-core/ell/ell_0.48.bb
+@@ -16,7 +16,7 @@ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[sha256sum] = "4901a0baac4eb24163ceafb44fd448430361d25d8f17d89ff29f8b0b162b3eb9"
++SRC_URI[sha256sum] = "9894943042a5d6165d3e5cc354f92274fb1304004d02b4bee682ab6067cdbbd5"
+ 
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
+-- 
+2.25.1
 
-Steve
->
-> (From OE-Core rev: 5c1d61d1d4dfacb643a366285c0392e6a31087ed)
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Nisha Parrakat <nishaparrakat@gmail.com>
-> ---
->  meta/recipes-extended/lsof/lsof_4.91.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/lsof/lsof_4.91.bb b/meta/recipes-extended/lsof/lsof_4.91.bb
-> index b3adfd57af..7c85bf23fc 100644
-> --- a/meta/recipes-extended/lsof/lsof_4.91.bb
-> +++ b/meta/recipes-extended/lsof/lsof_4.91.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Lsof is a Unix-specific diagnostic tool. \
->  Its name stands for LiSt Open Files, and it does just that."
->  HOMEPAGE = "http://people.freebsd.org/~abe/"
->  SECTION = "devel"
-> -LICENSE = "BSD"
-> +LICENSE = "Spencer-94"
->  LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429ba3b39dbb9f205172a"
->
->  # Upstream lsof releases are hosted on an ftp server which times out download
-> --
-> 2.17.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#160883): https://lists.openembedded.org/g/openembedded-core/message/160883
-> Mute This Topic: https://lists.openembedded.org/mt/88651664/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
