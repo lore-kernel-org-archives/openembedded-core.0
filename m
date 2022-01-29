@@ -1,106 +1,80 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <crg7475@mailbox.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D5AC433EF
-	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 03:30:05 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.2025.1643427003158462864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F14C433EF
+	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 04:19:20 +0000 (UTC)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by mx.groups.io with SMTP id smtpd.web12.2319.1643429957850414991
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Jan 2022 19:30:04 -0800
+ Fri, 28 Jan 2022 20:19:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=nir76nkx;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1643427003;
-  x=1674963003;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=D6WPU7HVp3mLPzpBFIpe8jedxZuXz8X/PI3F8/RVfrI=;
-  b=nir76nkxfYyqFQKgmKS6ukVllce5sAHnxW6jiQEC2enrGMBNR+eyizAm
-   fPraGDQzAk3sd94g8NatWzfRA/vGsHTeCcWHTXqMLfUTbVlvR/xmx9LW6
-   sQpBsloYOImTLAhxPIEjhOwCUzPgBEcDwYoaw6/l89NfJqScXaAPV/VEl
-   R194zwwlcnB9JTW1ePCaeearGR3xKez2a5r7zKMiy0CHZLGdmJ7+xys7g
-   62JZ+Si4X7TiqREsfv63198dui+fAqJzzU1gWvb4rTqYzG+Ocf6Db3D03
-   quiVjP7fQUiJFC2ZGixaOuptelOTCHI/zJ7bELy4jsHxFkF9Z4DlLBOzV
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jon Mason <jdmason@kudzu.us>, "yocto@lists.yoctoproject.org"
-	<yocto@lists.yoctoproject.org>, "Patches and discussions about the oe-core
- layer" <openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>
-Subject: RE: [oe] Inclusive Language Proposal for YP/OE
-Thread-Topic: [oe] Inclusive Language Proposal for YP/OE
-Thread-Index: AQHYET39iiSkLP06BkO8OVsLd9UEG6x5Udyg
-Date: Sat, 29 Jan 2022 03:30:00 +0000
-Message-ID: <14f6714d84944cba85099cb1d0ed24cf@axis.com>
-References: 
- <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
-In-Reply-To: 
- <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=fail reason="body hash did not verify" header.i=@mailbox.org
+ header.s=mail20150812 header.b=ZHQqVtQ4;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.151,
+ mailfrom: crg7475@mailbox.org)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:105:465:1:2:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Jm1LB3d7lz9sR5
+	for <openembedded-core@lists.openembedded.org>;
+ Sat, 29 Jan 2022 05:19:14 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812;
+	t=1643429952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8CbYHKrSLdDNg1HTgj6vwheotxm2ZvmqwLPSs3V8nxQ=;
+	b=ZHQqVtQ4mGzMXpFwakThHuYj6aEh/wG1s8wtWQVwBjYHlIUo0UihP7c48K6Gf+Y8MgEm8X
+	xqFr0qPT8TdMkL7jJ5UBNupCVZHisNpRI0NCdD6jofen3V753k31bpvfova0fale+64+xO
+	oX6jYnbV13IZ5iJfsdH35ZbKHUJI0OXHHrDp6gJjq5g/WikEvgoVUEt/wi1zoHWNG/x+kF
+	dcgXE7WefgUeziRgYegW85PLZPLir59cvxwoijSEFHlt8yFXXnbqCE34y+kT2Do1hSOCke
+	tIjfQIoD/g2e8X7UGOih3xTgW2aqFKYChCmZVmchCNhAjkO2jiCST47Pvw8oXg==
+Message-ID: <7d9d9223-77bf-eea7-2f8f-b4e7855e40b3@mailbox.org>
+Date: Sat, 29 Jan 2022 05:19:07 +0100
 MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+Subject: How to properly enable PAM integration - docs no longer valid?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 03:30:05 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 04:19:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161096
+ https://lists.openembedded.org/g/openembedded-core/message/161097
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtZGV2ZWxA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBkZXZlbEBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgSm9uIE1hc29uDQo+IFNlbnQ6IGRlbiAyNCBqYW51
-YXJpIDIwMjIgMTc6MTgNCj4gVG86IHlvY3RvQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc7IFBhdGNo
-ZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS0NCj4gY29yZSBsYXllciA8b3BlbmVtYmVk
-ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IE9wZW5FbWJlZGRlZCBEZXZlbA0KPiBM
-aXN0IDxvcGVuZW1iZWRkZWQtZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gU3ViamVj
-dDogW29lXSBJbmNsdXNpdmUgTGFuZ3VhZ2UgUHJvcG9zYWwgZm9yIFlQL09FDQoNCltjdXRdDQoN
-Cj4gRm9yIGxpY2Vuc2UgaGFuZGxpbmcsIHdl4oCZZCB1c2UgdGhlIG9wcG9ydHVuaXR5IHRvIGNs
-ZWFuIHVwIHRoZQ0KPiBXSElURUxJU1RfKEFOWSBMSUNFTlNFKSBzeW50YXggYW5kIHJlcGxhY2Ug
-aXQgd2l0aCBhDQo+IElOQ09NUEFUSUJMRV9MSUNFTlNFX0FMTE9XRURfUkVDSVBFUywgd2hpY2gg
-d291bGQgYmUgYSBsaXN0IG9mIA0KPiByZWNpcGVzIHdoaWNoIGFyZSBvZiBhIGJsb2NrZWQgdGhl
-IElOQ09NUEFUSUJMRV9MSUNFTlNFIGxpc3QuDQoNCkkgYW0gbm90IHNvIHN1cmUgYWJvdXQgdGhp
-cyBuYW1lLiBOb3Qgb25seSBpcyBpdCBleHRyZW1lbHkgbG9uZywgDQpidXQgYXQgbGVhc3QgSSB3
-b3VsZCBsaWtlIHRvIHJldmlzZSB0aGUgZW50aXJlIHN5c3RlbSBvZiBob3cgDQpsaWNlbnNlcyBh
-cmUgaGFuZGxlZC4gVGhlIG1ham9yIHJlYXNvbiBmb3IgdGhpcyBpcyB0aGF0IG91ciANCmxlZ2Fs
-IGRlcGFydG1lbnQgcmVxdWlyZXMgdXMgdG8gaGF2ZSBhIGxpc3Qgb2YgYWxsb3dlZCBsaWNlbnNl
-cyANCnJhdGhlciB0aGFuIGEgbGlzdCBvZiBkaXNhbGxvd2VkIGxpY2Vuc2VzLiBUaHVzIHdlIGhh
-dmUgYSANCkNPTVBBVElCTEVfTElDRU5TRVMgdmFyaWFibGUuIFdlIHRoZW4gc2V0IElOQ09NUEFU
-SUJMRV9MSUNFTlNFIA0KdG8gQVZBSUxBQkxFX0xJQ0VOU0VTIC0gQ09NUEFUSUJMRV9MSUNFTlNF
-Uy4gSG93ZXZlciwgYWZ0ZXIgdGhlIA0KaW50cm9kdWN0aW9uIG9mIGFsbCBvZmZpY2lhbCBTUERY
-IGxpY2Vuc2VzIGludG8gT0UtQ29yZSBhIHdoaWxlIA0KYWdvIHRoaXMgYmVjYW1lIHByb2JsZW1h
-dGljIGFzIHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9uIHdpbGwgDQpnbyB0aHJvdWdoIGFsbCBs
-aWNlbnNlcyBzcGVjaWZpZWQgaW4gSU5DT01QQVRJQkxFX0xJQ0VOU0UgbWFueSwgDQptYW55IHRp
-bWVzIGR1cmluZyByZWNpcGUgcGFyc2luZywgd2hpY2ggY2F1c2VkIHRoZSB0aW1lIHRvIHBhcnNl
-IA0KYWxsIHJlY2lwZXMgdG8gaW5jcmVhc2UgdGhyZWUgdGltZXMgZm9yIHVzLiBUaHVzIEkgd291
-bGQgbGlrZSB0byANCmltcGxlbWVudCBwcm9wZXIgc3VwcG9ydCBmb3IgQ09NUEFUSUJMRV9MSUNF
-TlNFUyBpbiBhZGRpdGlvbiB0byANCnRoZSBJTkNPTVBBVElBQkxFX0xJQ0VOU0UgdmFyaWFibGUg
-dG8gYWxsb3cgY2hvb3NpbmcgdGhlIG9wdGlvbiANCnRoYXQgc3VpdHMgdGhlIHNpdHVhdGlvbiBi
-ZXN0Lg0KDQpIb3dldmVyLCBpbiBlaXRoZXIgY2FzZSB0aGVyZSB3b3VsZCBzdGlsbCBuZWVkIHRv
-IGJlIGEgd2F5IHRvIA0Kc3BlY2lmeSBleGNlcHRpb25zIHRvIHRoZSBpbmNvbXBhdGlibGUgbGlj
-ZW5zZXMsIHdoaWNoIGlzIHdoeSBJIA0Kd291bGQgcHJlZmVyIHRoYXQgdGhlIG5hbWUgaXMgbm90
-IGxvY2tlZCB0byB0aGUgDQpJTkNPTVBBVElCTEVfTElDRU5TRSB2YXJpYWJsZS4gSGVyZSBhcmUg
-YSBjb3VwbGUgb2YgYWx0ZXJuYXRpdmVzOg0KDQoqIExJQ0VOU0VfRVhDRVBUSU9OUw0KKiBBTExP
-V0VEX1JFQ0lQRVMNCiogTElDRU5TRV9BTExPV0VEX1JFQ0lQRVMNCg0KSXQgaXMgYWxzbyB0aGF0
-IHRoZSBXSElURUxJU1QgdmFyaWFibGVzIGhhdmUgdHdvIHVzZSBjYXNlcyB0b2RheSwgDQpvbmUg
-aXMgdG8gYWxsb3cgYSBfcmVjaXBlXyB0byBiZSBidWlsdCBhbmQgdGhlIG90aGVyIGlzIHRvIGFs
-bG93IA0KYSBfcGFja2FnZV8gdG8gYmUgYWRkZWQgdG8gYW4gaW1hZ2UgZXZlbiBpZiBpdCBoYXMg
-YW4gaW5jb21wYXRpYmxlIA0KbGljZW5zZS4gVGhlIGZpcnN0IHVzZSBjYXNlIGNhbiBqdXN0IGFz
-IGVhc2lseSBiZSBhY2hpZXZlZCBieSANCnNldHRpbmcgSU5DT01QQVRJQkxFX0xJQ0VOU0U6cG4t
-Zm9vID0gIiIgZm9yIGEgcmVjaXBlIGZvbyB0aGF0IA0Kc2hhbGwgYmUgYWxsb3dlZCB0byBiZSBi
-dWlsdCBldmVuIGlmIGl0IGhhcyBhbiBpbmNvbXBhdGlibGUgDQpsaWNlbnNlLiBXaXRoIHRoaXMg
-aW4gbWluZCwgbWF5YmUgdGhlIHZhcmlhYmxlIHNob3VsZCBhY3R1YWxseSBiZSANCmFuIGltYWdl
-IHZhcmlhYmxlIGFuZCBzcGVjaWZ5IGEgbGlzdCBvZiBhbGxvd2VkIHBhY2thZ2VzIGluc3RlYWQs
-IA0KZS5nLiwgSU1BR0VfQUxMT1dFRF9QQUNLQUdFUy4gV2hldGhlciB0aGUgdmFyaWFibGUgd2l0
-aCBhIGxpc3Qgb2YgDQphbGxvd2VkIHJlY2lwZXMgaXMgdGhlbiBzdGlsbCBuZWVkZWQgb3IgaWYg
-aXQgaXMgZW5vdWdoIHRvIA0KbWFuaXB1bGF0ZSBJTkNPTVBBVElCTEVfTElDRU5TRSBhcyBwZXIg
-YWJvdmUgY2FuIGJlIGRpc2N1c3NlZC4NCg0KLy9QZXRlcg0KDQo=
+According to this document:
+
+ =C2=A0 https://wiki.yoctoproject.org/wiki/PAM_Integration
+
+PAM can be enabled by adding this line to local.conf:
+
+ =C2=A0 DISTRO_FEATURES_append +=3D " pam"
+
+In newer Yocto versions, this would be:
+
+ =C2=A0 DISTRO_FEATURES:append +=3D " pam"
+
+and this works. I *had* to use "+=3D" instead of "=3D" here, otherwise pa=
+m=20
+would not be added correctly.
+
+But, then I get this warning:
+
+ =C2=A0 WARNING: DISTRO_FEATURES:append +=3D is not a recommended operato=
+r=20
+combination, please replace it
+
+So, how am I supposed to enable PAM in local.conf if I need to enable it=20
+quickly for a test by using poky and can't set up my own distro right now=
+?
+
 
