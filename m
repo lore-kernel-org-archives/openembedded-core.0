@@ -2,35 +2,35 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2889C433EF
-	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 21:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC5DC433EF
+	for <webhook@archiver.kernel.org>; Sat, 29 Jan 2022 22:07:45 +0000 (UTC)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.11628.1643492697366055185
+ by mx.groups.io with SMTP id smtpd.web11.12022.1643494058991439403
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Jan 2022 13:44:58 -0800
+ Sat, 29 Jan 2022 14:07:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=l3GWdewi;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=W/KvZjJ+;
  spf=pass (domain: axis.com, ip: 195.60.68.18,
  mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1643492698;
-  x=1675028698;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1643494059;
+  x=1675030059;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=dKstCj2Klm/5wgrdqO4RDxvDXKFTBX4/lfpMyS5GnRw=;
-  b=l3GWdewiuECCv8PUpb/V+g6iREES6e6yCepdMMTFXHeYSZFS43kCUq0W
-   baEDGiE8elKkaaXvRNUtNfhWPOJ4Bze3eyX4cBc58enWL3UWAMoYcbYBO
-   ZCUsb20XHBVz7QnOtKos81DK5F0nTvJwRC1T4W04rao4bqN8+IsXmBYja
-   adhvVTuq7wh3drlOMzkubwGY3V7ZxFARhf5hWbjsenCOKDHm1gTqgc/kp
-   Mgirh9fegUpRKzjbewo66maqLsAWkhhUVLCukIgc3gQnqlwwz1nbgKqXF
-   v42U0aGa+7atNmJQgGtq2cjEE25iZxSrExrBWRgbCW+HEbHFHQM8WLyk2
+  bh=PTmhJAipj0HXUSZl0dwObp8eg585Wb4orlmCqSnRPxo=;
+  b=W/KvZjJ+X5LuPh+jyipoULFa8KKsyXZT8tC4Hobka6G1KcW9M9uRUHZy
+   O7kdMv44UIIvnsX3fzgt4zflxgJXjOZi022Ee5vk+nH6kHXx/3bA4PI7d
+   poBvai8nLAnQqPNPhjoFogtJv7toDuBePXi0ek5Kpxv81xYbm/PskMIQP
+   kkLgf2Y0jO0VFbdpqlhlBMkKd8mVieCnA1AQDRWPIdjfRPBf3SZgOfY4X
+   PsQgtbau4g9GdcBZxJBLppBNdRtG0m3t9Vg5KXVTPJBR1mllS68L50et+
+   Q4jKodzxvii6qasWVxy0huPC0vFslmDBJH7ZEmuPRlhaZzLWMDtsvmgub
    Q==;
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [honister][PATCH] sstate: A third fix for for touching files inside
+Subject: [dunfell][PATCH] sstate: A third fix for for touching files inside
  pseudo
-Date: Sat, 29 Jan 2022 22:44:53 +0100
-Message-ID: <20220129214453.393-1-pkj@axis.com>
+Date: Sat, 29 Jan 2022 23:07:32 +0100
+Message-ID: <20220129220732.6734-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -38,13 +38,13 @@ Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 21:44:58 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Jan 2022 22:07:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161104
+ https://lists.openembedded.org/g/openembedded-core/message/161105
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This continues where commit676757f "sstate: fix touching files inside
+This continues where commit 676757f "sstate: fix touching files inside
 pseudo" and commit 29fc8599 "sstate: another fix for touching files
 inside pseudo" left off.
 
@@ -60,6 +60,7 @@ exists, it is overwritten with the new sstate file. Also change it so
 that the temporary file that is used is always removed, even if ln
 fails to link the sstate file to it.
 
+Change-Id: I3800f98d0f2a0dd076352df85fad7c81460e733d
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
@@ -67,10 +68,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ba2c9fee35..566a58dafb 100644
+index c2720cde92..00a0e8fbd7 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -852,14 +852,18 @@ sstate_create_package () {
+@@ -841,14 +841,18 @@ sstate_create_package () {
  	fi
  	chmod 0664 $TFILE
  	# Skip if it was already created by some other process
@@ -93,7 +94,7 @@ index ba2c9fee35..566a58dafb 100644
  }
  
  python sstate_sign_package () {
-@@ -889,7 +893,7 @@ python sstate_report_unihash() {
+@@ -878,7 +882,7 @@ python sstate_report_unihash() {
  sstate_unpack_package () {
  	tar -xvzf ${SSTATE_PKG}
  	# update .siginfo atime on local/NFS mirror if it is a symbolic link
