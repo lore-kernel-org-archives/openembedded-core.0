@@ -1,154 +1,185 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F163C433F5
-	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 08:13:39 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web12.45517.1643703217698932254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F24ACC433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 13:31:02 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.48462.1643722261866189593
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Feb 2022 00:13:38 -0800
+ Tue, 01 Feb 2022 05:31:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XtZ3+3Yi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id l25so30211972wrb.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ar33XQsv;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id p15so54178438ejc.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Feb 2022 00:13:37 -0800 (PST)
+ Tue, 01 Feb 2022 05:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=XSbgGWBAZ2VspXJmyotAGbZfR07cPHCrEDWypdLy2TQ=;
-        b=XtZ3+3YiDw9r8XUoV+zOtH+R7qrs5Q+pcPp5fsdGsq1bxhikwPGTnu92+P71cmnRcy
-         yo1uwNRkmMdyXw8FTatIy0vjQHwG7XFhJypEHN+sL/nv/eD7vUDfoVECsy6klKCEoe1B
-         PvVmjbzRkpnuuwPakqJzwmnPW2WgjoX50NObw=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GDcYeG6VcxcbpiJSfFWS/PzITTF/tyciyP9jTschMCw=;
+        b=ar33XQsv/Fk5qfq03m+e5hs41O8QFnpXS8R2hTd+GEHx/NePAR9HayRdYFMQrC73Rv
+         HjM4t9jZ7GqA6T4QJGegAQeRvoRs3Yp6uCdXWYKfCCcOIJJ42Q7pdKq8en/JW2wqwOcK
+         EHNC5aS0/HaspUK4kJQHVqlYoCJsnGf60IsB9dRzwdVWIOx4DTvdYU9pj2/DCOeqvj3T
+         FZgdKM7D4O8/wAz1/sozlXT4B4pE1EWlLmyGtGtMqjxhwEXZU2r4MnuAXfc/WybzG9FS
+         qdNWPorF/ucKw3NmBgiIXpfnTc6qCt3GCrju2IoMSrYkwLgvi1Ryahze/PF+b2X/eyHP
+         chrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=XSbgGWBAZ2VspXJmyotAGbZfR07cPHCrEDWypdLy2TQ=;
-        b=e23mXBC0dAVr/7Q5xzf1dOYdTlQjx+beD/gaYRkIjqDhtagx+cG+oIN6sfvPYzj8bB
-         sa6+HsJ2tL17i5OrICHXC8LFg9QqguBqzDjeq1yjMneNO5uatzlT2vxAxqEPifTGB5gV
-         V1nA0W8k1jvZaoQ/5cIpMBKqcQRmk81EWa8zA3ol4B4TRpeXmDaeQXJeLu7PxDrMfe9k
-         nXxCBr4H+nt54X5wXaO9/sNGO6bVadewMKHBHDL+74jVyKpzKoPyxr967n2lBpEFrE1p
-         Es8eMWwF0d7fOR7PsC6wluingAmD9meDeSTzJlFryk7voN1FALfcPmoMXNRkq+MfwARD
-         2F4Q==
-X-Gm-Message-State: AOAM533o/pMF+5TaeSzPe+xu8WQiFy5ptsFTHfWat2lqYI9aUtX1UdZ1
-	CGPNp+I3MG8RBUGD+SD4wRJ8Ag==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GDcYeG6VcxcbpiJSfFWS/PzITTF/tyciyP9jTschMCw=;
+        b=VGuuHWpnaYVzqxTAQgNIRzHqZf3bZEFrlXTA9zRejNPCEh4VXzP0hnE93guklWVGc+
+         PKSmiZDLonvK5okDn+FlWBwXJgtCn9XlMfgx9NMz4sHvwZAcUYhiq4HwtUN3QsNgjMmW
+         DPC92rbZGTUtgwTZ4DtRQbTcl9ffnLT/vcbrulzuI4iLVrrjsiVTD4ew3XWvXfhMPrdC
+         wLeUjJePxJ/XRVk7yvXiDEofBXXuuXQXQc5XxJjkEsmq9J/20tSEnHhk1EiI/s8wm1f1
+         +L/TU3xVqihPf4IntglqzqtkEE8GiFoEv6p5fYODHjDa39bhCvai5rOh0IUF4CLi9DFR
+         Fung==
+X-Gm-Message-State: AOAM530vXq8XAcGxBxKJWPzxvRARhmegtjBJkygfPgfEJ4v4MrvlF/yI
+	94zPZoyGEsOPiJMAAcorX1sXBP3BVXI=
 X-Google-Smtp-Source: 
- ABdhPJwpuZYuu8VztVlxEEhkxQS0M1nGSg/CtR8V0NjqQuG9BEeBFWKr8+Dww3HtIybFZCi6JVYMCg==
-X-Received: by 2002:adf:f08b:: with SMTP id n11mr20639976wro.7.1643703215843;
-        Tue, 01 Feb 2022 00:13:35 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:687d:5e4e:cf88:f9f9?
- ([2001:8b0:aba:5f3c:687d:5e4e:cf88:f9f9])
+ ABdhPJyVSIW78xd1185aekjFJ32jWewV60hPLBrx1iEORLVPa2HemvIsobOQvKN+IOwKEDYI5BZ5Gg==
+X-Received: by 2002:a17:906:58cc:: with SMTP id
+ e12mr21368401ejs.162.1643722260233;
+        Tue, 01 Feb 2022 05:31:00 -0800 (PST)
+Received: from nereus.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- p2sm1326017wmc.33.2022.02.01.00.13.35
+ n6sm19599739edy.87.2022.02.01.05.30.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Feb 2022 00:13:35 -0800 (PST)
-Message-ID: 
- <e3f9fe7be1baadc146cab552f12f2e4add65698f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] packages.bbclass: Break out the debug
- info styles to bitbake variables
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 01 Feb 2022 08:13:34 +0000
-In-Reply-To: <20220131213954.29887-2-pkj@axis.com>
-References: <20220131213954.29887-1-pkj@axis.com>
-	 <20220131213954.29887-2-pkj@axis.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Tue, 01 Feb 2022 05:30:59 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [RFC PATCH 1/2] seatd: add recipe
+Date: Tue,  1 Feb 2022 14:30:53 +0100
+Message-Id: <20220201133054.3265186-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 08:13:39 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 13:31:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161154
+ https://lists.openembedded.org/g/openembedded-core/message/161155
 
-On Mon, 2022-01-31 at 22:39 +0100, Peter Kjellerstedt wrote:
-> Break out the hardcoded values for the various debug info styles from
-> split_and_strip_files() into bitbake variables. This allows the debug
-> info styles to be adopted, and also allows new styles to be added
-> (within the limits of the available variables).
-> 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/package.bbclass | 95 ++++++++++++++++++++++--------------
->  1 file changed, 58 insertions(+), 37 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 4927fb99ff..a5358d5851 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1065,6 +1065,51 @@ python fixup_perms () {
->                      fix_perms(each_file, fs_perms_table[dir].fmode, fs_perms_table[dir].fuid, fs_perms_table[dir].fgid, dir)
->  }
->  
-> +# Debug info
-> +PACKAGE_DEBUG_APPEND = "${@d.getVarFlag('PACKAGE_DEBUG_APPEND', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_STATICAPPEND = "${@d.getVarFlag('PACKAGE_DEBUG_STATICAPPEND', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_DIR = "${@d.getVarFlag('PACKAGE_DEBUG_DIR', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_STATICDIR = "${@d.getVarFlag('PACKAGE_DEBUG_STATICDIR', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_LIBDIR = "${@d.getVarFlag('PACKAGE_DEBUG_LIBDIR', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_STATICLIBDIR = "${@d.getVarFlag('PACKAGE_DEBUG_STATICLIBDIR', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +PACKAGE_DEBUG_SRCDIR = "${@d.getVarFlag('PACKAGE_DEBUG_SRCDIR', d.getVar('PACKAGE_DEBUG_SPLIT_STYLE'))}"
-> +
-> +# Original OE-core, a.k.a. ".debug", style debug info
-> +PACKAGE_DEBUG_APPEND[.debug] = ""
-> +PACKAGE_DEBUG_STATICAPPEND[.debug] = ""
-> +PACKAGE_DEBUG_DIR[.debug] = "/.debug"
-> +PACKAGE_DEBUG_STATICDIR[.debug] = "/.debug-static"
-> +PACKAGE_DEBUG_LIBDIR[.debug] = ""
-> +PACKAGE_DEBUG_STATICLIBDIR[.debug] = ""
-> +PACKAGE_DEBUG_SRCDIR[.debug] = "/usr/src/debug"
-> +
-> +# Single debug-file-directory style debug info
-> +PACKAGE_DEBUG_APPEND[debug-file-directory] = ".debug"
-> +PACKAGE_DEBUG_STATICAPPEND[debug-file-directory] = ""
-> +PACKAGE_DEBUG_DIR[debug-file-directory] = ""
-> +PACKAGE_DEBUG_STATICDIR[debug-file-directory] = ""
-> +PACKAGE_DEBUG_LIBDIR[debug-file-directory] = "/usr/lib/debug"
-> +PACKAGE_DEBUG_STATICLIBDIR[debug-file-directory] = "/usr/lib/debug-static"
-> +PACKAGE_DEBUG_SRCDIR[debug-file-directory] = "/usr/src/debug"
-> +
-> +# Debug info without sources in /usr/src/debug
-> +PACKAGE_DEBUG_APPEND[debug-without-src] = ""
-> +PACKAGE_DEBUG_STATICAPPEND[debug-without-src] = ""
-> +PACKAGE_DEBUG_DIR[debug-without-src] = "/.debug"
-> +PACKAGE_DEBUG_STATICDIR[debug-without-src] = "/.debug-static"
-> +PACKAGE_DEBUG_LIBDIR[debug-without-src] = ""
-> +PACKAGE_DEBUG_STATICLIBDIR[debug-without-src] = ""
-> +PACKAGE_DEBUG_SRCDIR[debug-without-src] = ""
-> +
-> +# Debug info with separate -src packages
-> +PACKAGE_DEBUG_APPEND[debug-with-srcpkg] = ""
-> +PACKAGE_DEBUG_STATICAPPEND[debug-with-srcpkg] = ""
-> +PACKAGE_DEBUG_DIR[debug-with-srcpkg] = "/.debug"
-> +PACKAGE_DEBUG_STATICDIR[debug-with-srcpkg] = "/.debug-static"
-> +PACKAGE_DEBUG_LIBDIR[debug-with-srcpkg] = ""
-> +PACKAGE_DEBUG_STATICLIBDIR[debug-with-srcpkg] = ""
-> +PACKAGE_DEBUG_SRCDIR[debug-with-srcpkg] = "/usr/src/debug"
-> +
->  python split_and_strip_files () {
->      import stat, errno
->      import subprocess
+This is needed to run weston properly as non-root in the absence
+of systemd-logind, and other compositors will likely require seatd
+as well.
 
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/distro/include/maintainers.inc |  1 +
+ meta/recipes-core/seatd/seatd/init       | 45 ++++++++++++++++++++++++
+ meta/recipes-core/seatd/seatd_0.6.3.bb   | 29 +++++++++++++++
+ 3 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-core/seatd/seatd/init
+ create mode 100644 meta/recipes-core/seatd/seatd_0.6.3.bb
 
-I can see what you've done and why but I'm not really sure this is an
-improvement, it adds a ton of "global" variables which are only every used in a
-very specific use case. I'm also particularly not keen on mapping the flags into
-the real variables with online python. It isn't going to help our overall
-parsing performance in the long run.
-
-I'm torn on it but at least wanted to share my first thoughts looking at it...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index ae25287c11..cb289a0eee 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -684,6 +684,7 @@ RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-seatd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
+diff --git a/meta/recipes-core/seatd/seatd/init b/meta/recipes-core/seatd/seatd/init
+new file mode 100644
+index 0000000000..0589c765ac
+--- /dev/null
++++ b/meta/recipes-core/seatd/seatd/init
+@@ -0,0 +1,45 @@
++#!/bin/sh
++#
++### BEGIN INIT INFO
++# Provides: seatd
++# Required-Start: $local_fs $remote_fs
++# Required-Stop: $local_fs $remote_fs
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++### END INIT INFO
++
++killproc() {
++        pid=`/bin/pidof $1`
++        [ "$pid" != "" ] && kill $pid
++}
++
++case "$1" in
++  start)
++        seatd -g video -n 1 > /tmp/seatd-start-notify &
++        [ -s /tmp/seatd-start-notify ] && exit 0
++        sleep 0.1
++        [ -s /tmp/seatd-start-notify ] && exit 0
++        sleep 0.5
++        [ -s /tmp/seatd-start-notify ] && exit 0
++        sleep 5
++        [ -s /tmp/seatd-start-notify ] && exit 0
++        exit 1
++  ;;
++
++  stop)
++        echo "Stopping seatd"
++        killproc seatd
++  ;;
++
++  restart)
++	$0 stop
++        sleep 1
++        $0 start
++  ;;
++
++  *)
++        echo "usage: $0 { start | stop | restart }"
++  ;;
++esac
++
++exit 0
+diff --git a/meta/recipes-core/seatd/seatd_0.6.3.bb b/meta/recipes-core/seatd/seatd_0.6.3.bb
+new file mode 100644
+index 0000000000..0e1a79dddf
+--- /dev/null
++++ b/meta/recipes-core/seatd/seatd_0.6.3.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "A minimal seat management daemon, and a universal seat management library."
++DESCRIPTION = "Seat management takes care of mediating access to shared devices (graphics, input), without requiring the applications needing access to be root."
++HOMEPAGE = "https://git.sr.ht/~kennylevinsen/seatd"
++
++LICENSE = "MIT"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=715a99d2dd552e6188e74d4ed2914d5a"
++
++SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
++           file://init"
++SRCREV = "88db55f6068c1c01d85b61aa6adff0a6b2a8dce8"
++S = "${WORKDIR}/git"
++
++inherit meson pkgconfig update-rc.d
++
++PACKAGECONFIG ?= "libseat-builtin"
++
++PACKAGECONFIG[libseat-builtin] = "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
++
++do_install:append() {
++        if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
++                install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd
++        fi
++}
++
++INITSCRIPT_NAME = "seatd"
++INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
++INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
++
+-- 
+2.20.1
 
 
