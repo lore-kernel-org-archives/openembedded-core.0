@@ -1,91 +1,293 @@
-Return-Path: <changhyeok.bae@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD465C4332F
-	for <webhook@archiver.kernel.org>; Mon, 31 Jan 2022 22:43:48 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.40864.1643669027562964888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D50D9C433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 02:29:15 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web08.42900.1643682545868811587
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jan 2022 14:43:47 -0800
+ Mon, 31 Jan 2022 18:29:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ZLUcGdbT;
- spf=pass (domain: gmail.com, ip: 209.85.218.49,
- mailfrom: changhyeok.bae@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id ah7so47557821ejc.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L/4dQwft;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id l13so5529649plg.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jan 2022 14:43:47 -0800 (PST)
+ Mon, 31 Jan 2022 18:29:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=/IISsivAPCTToAOo3yj1MBRcc14NPUDocL1AO5kN3Nk=;
-        b=ZLUcGdbTmkbo4J7IOeE7t+K5rHd1lzSKOX4LvysXtE7YGTFUbZgw+tXaDMieQid/DU
-         eKFC5LCap1oM+INEpi1eHEmIcTjogdNHtzfcBcbdEuKNhH42cDKkzEn7oyP72WqjzN3Q
-         Qkg0Nym8upvX15hOT7/NA4ePh6aVs3E0BUKlnVcw/z9QDeTdh5RND0GWITh7K4V6KGCH
-         +vvq82IuI76oJCWmZH5EQL91XPSLMO3Kea4bOAH+KTAzumWbePVX3FHUrysQnoTnZN8i
-         uukqwSnLjp++y7g9OcgBXvGGr7RQbRC1KYcEyWTXRWTbhmvfoVQfKbyWa8/g/04M5sxT
-         v6VQ==
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index:importance;
+        bh=RntEQ6CD5yNM/bUgYwrsaMajF6lTXNqA9frx2EUdLmY=;
+        b=L/4dQwftahBDvmfi0d6UdkIjxXk+2gu3MXzH384JPwidKs6DrRRGAf1cgOiK9WIMjU
+         jtakfu813hGvrHgm+RT99LD16aOHYOUV4ULwgiaEctBaV76/NEaphc9B5Gj0cBvVgg9I
+         46rLQwHJAktwqarAYMoRF5n9dPVjNrWLR632fpJ3WGLoyubkVQHJ2mQDSWM9x/myDevO
+         sChVayqgc2Rwk+y+31xaouKTwBVNZnrVbkiU317MHKfYkfewSIoz+50nq3hha3xifNTz
+         gzzvfyMPx2HQie06ns90EkvBJCpsL2m1FqR2s2Aq4fuUrGFQXy50TN8G8E7mue8axpQP
+         A+zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/IISsivAPCTToAOo3yj1MBRcc14NPUDocL1AO5kN3Nk=;
-        b=k5RcQFs9NOHQB5LtPBCzPIme0q5fCwzPYS8Leb0uXTnIYs5U/ZdZVsYc/7lmXMnzq7
-         UvXPn0eJgTVZWTxmGqn4PrXHLTVxFGOY4euqjw5IUFZQ+RB4dwdbbKzSBiuQAMOLDCOp
-         QaaEO5U2/gTFtyqzUOxTcqFpE3ok5JtVkZw5WlDjUE025Uds6RB3FVj50a8zm5jc9/zI
-         FVXogxOsqqDnxi6j6gXj91Qfqr2wxmZAq2ycjX5eBAySuH4c4VgwUK4lYVUpK1rdxdgC
-         ggLMdeX2FY21ApgVkmuLgl9xCUUT2/pqyMFRLrR51rLjX70PpNOQ6tGEY502YCAJmTUP
-         yeLg==
-X-Gm-Message-State: AOAM532gp7lqaxUGD/ESPaeRcugdYnG7a9CPO2tckZvEY1sKct2m2dwL
-	tJMzzHi7lwV0R6flZ8NWiEX7PIBWmTGVgw==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index:importance;
+        bh=RntEQ6CD5yNM/bUgYwrsaMajF6lTXNqA9frx2EUdLmY=;
+        b=BwEVG/1/pcmpZE+h3nLp4/58uGkMzQzIQSgguYT3XHN7MrWcZSIPFQu1xKJnUog0vN
+         gSLQVVQ4Qo5QbCqZHZRTffSdvvoJ2egHu6Cvl8gUpsIIFWnLiHXlo6iTVOqPmnaqlMCV
+         f0VtVpQ1Z3Oh1pFRuG1w4Rwrd8Hkf4xRKxTE5EC+Oco1eROtWisaHUENvpKRo0cc6O5c
+         wUs+MxHGxmcnTnJZsQe3n08rmRXI0PXyE5BYDs8DvN80GNvTWkNIKgIPT8ptPfcmt+vX
+         3ZlJLGC03e78P0Hd7cvZJUMkVuMDdGIn67KWn6rzEIU8C29RDa26CDPVx0eiYdTCmWxF
+         MrMQ==
+X-Gm-Message-State: AOAM533EFbPVzZrVCEtcpyx/oYDLP14NlTFruM68M+phQzhC6En5l7g6
+	kGEprQs3d67b17M43O+WqGaicoa5Kls=
 X-Google-Smtp-Source: 
- ABdhPJwNpa7Scr7qgMFTrzvUkjoB25cNunn9l1Am8ThQcsf1kHkU2yVqcQI6NHJoy6Tq63zYsmcTqA==
-X-Received: by 2002:a17:906:1d14:: with SMTP id
- n20mr18714168ejh.714.1643669025640;
-        Mon, 31 Jan 2022 14:43:45 -0800 (PST)
-Received: from localhost.localdomain (ip5f5aec99.dynamic.kabel-deutschland.de.
- [95.90.236.153])
+ ABdhPJxLcNzYKBWhP5IjOKtC/Lgq5/PQkeN1OPnEtko/4lq1yZUdxxUB49g2R5w/VraixFll00qjKA==
+X-Received: by 2002:a17:90b:4d81:: with SMTP id
+ oj1mr27569981pjb.216.1643682544831;
+        Mon, 31 Jan 2022 18:29:04 -0800 (PST)
+Received: from skjolley (125.sub-72-111-56.myvzw.com. [72.111.56.125])
         by smtp.gmail.com with ESMTPSA id
- s12sm13764364ejx.184.2022.01.31.14.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 14:43:45 -0800 (PST)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
-Subject: [OE-Core][PATCH] connman: update 1.40 -> 1.41
-Date: Mon, 31 Jan 2022 22:43:39 +0000
-Message-Id: <20220131224339.54855-1-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ f15sm19844763pfv.189.2022.01.31.18.29.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 31 Jan 2022 18:29:04 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on
+ the first Tuesday (PDT) 
+Date: Mon, 31 Jan 2022 19:29:04 -0700
+Message-ID: <0c7401d81713$7ba6b510$72f41f30$@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0C75_01D816D8.CF47DD10"
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQHQS48fcm73rrlPPEYw2KuE8gXqnA==
+Importance: High
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Jan 2022 22:43:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 02:29:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161141
+ https://lists.openembedded.org/g/openembedded-core/message/161142
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- .../connman/{connman_1.40.bb => connman_1.41.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/connman/{connman_1.40.bb => connman_1.41.bb} (85%)
+This is a multipart message in MIME format.
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.40.bb b/meta/recipes-connectivity/connman/connman_1.41.bb
-similarity index 85%
-rename from meta/recipes-connectivity/connman/connman_1.40.bb
-rename to meta/recipes-connectivity/connman/connman_1.41.bb
-index edb23a1267..736b78eaeb 100644
---- a/meta/recipes-connectivity/connman/connman_1.40.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.41.bb
-@@ -9,7 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+------=_NextPart_000_0C75_01D816D8.CF47DD10
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
  
- SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+
+Just a reminder we will hold the monthly Yocto Project Technical Meeting at
+8am PST tomorrow. (2/1)  
+
  
--SRC_URI[sha256sum] = "1a57ae7ce234aa3a1744aac3be5c2121d98dce999440ef8ab9cc4edfd5edcb12"
-+SRC_URI[sha256sum] = "79fb40f4fdd5530c45aa8e592fb16ba23d3674f3a98cf10b89a6576f198de589"
+
+Yocto Project Technical Team Meeting: We encourage people attending the
+meeting to logon and announce themselves on the Yocto Project IRC chancel
+during the meeting (optional):
+
+Yocto IRC: https://web.libera.chat/#yocto 
+
+Wiki: https://www.yoctoproject.org/public-virtual-meetings/
+
  
- RRECOMMENDS:${PN} = "connman-conf"
- RCONFLICTS:${PN} = "networkmanager"
--- 
-2.17.1
+
+When            Monthly from 8am to 9am on the first Tuesday Pacific Time
+
+Where           Zoom Meeting:
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+
+ 
+
+We are tracking the minutes at:
+https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
+DH4/edit?pli=1 Please request access if you want to assist in editing them.
+The world should have view access. 
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0C75_01D816D8.CF47DD10
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0AC3_01D800B6.E53F5310";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>All,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
+reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
+PST tomorrow. (2/1)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
+Project Technical Team Meeting: We encourage people attending the =
+meeting to logon and announce themselves on the Yocto Project IRC =
+chancel during the meeting (optional):</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p><span =
+style=3D'color:#1F497D'>Yocto IRC: </span><a =
+href=3D"https://web.libera.chat/#yocto">https://web.libera.chat/#yocto</a=
+><span style=3D'color:#1F497D'>&nbsp;</span><o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Wiki: </span><a =
+href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
+w.yoctoproject.org/public-virtual-meetings/</a><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
+Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
+New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; Zoom Meeting: <a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
+<o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
+tracking the minutes at: </span><a =
+href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
+wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
+4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
+style=3D'color:#1F497D'> Please request access if you want to assist in =
+editing them.&nbsp; The world should have view access. </span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>&nbsp;</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><span =
+style=3D'color:#1F497D'>Thanks,</span><span =
+style=3D'font-size:12.0pt;font-family:"Times New =
+Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0C75_01D816D8.CF47DD10--
 
 
