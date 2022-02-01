@@ -1,150 +1,100 @@
-Return-Path: <denis@denix.org>
+Return-Path: <nishaparrakat@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF43C433F5
-	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 03:16:57 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web09.43664.1643685415829502594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B3CAC433EF
+	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 07:28:49 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.45559.1643700528562688730
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jan 2022 19:16:56 -0800
+ Mon, 31 Jan 2022 23:28:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
- mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id CF95640C5D;
-	Tue,  1 Feb 2022 03:16:54 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SxGDR0_FwjZ0; Tue,  1 Feb 2022 03:16:54 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
- [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B21AF40A28;
-	Tue,  1 Feb 2022 03:16:53 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id D560F17471A;
-	Mon, 31 Jan 2022 22:16:52 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jziGIQN4;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ mailfrom: nishaparrakat@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id s9so30063470wrb.6
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 31 Jan 2022 23:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=yxio9zOUar0O9Qn9eMBw1BLpf0OjnwnYHKDwz/E+USc=;
+        b=jziGIQN4e4ZtpqI1Xxivcfq+a3JuHQpaHMhCmTnfXRpbEC8L2sNTSdpJ9x1wYj9Jm7
+         9U4bbAfCFnNGB21kJMPZN/hEPaBci5ZkcyZSC65n9XZjJ4RVko9D/ouaHxNyP2q0PUkz
+         9HfyXwTJMSYosLSvAqzj0JNPEUINm4/zGlE20H/SvzxptpIY72lXQUKipYYR0EQcV7Rp
+         VBsWmDzGA+sw4JkNJPMMaGbcqqA2BN3pGdDiXbxYp1Wtdg93jqnjTeVfj6K8QJk3NMv7
+         RgcoiaB2kjwv+ChhAW5fzC4mZdlbI33Ug8FXgd1aiK1oaZ+k+gx9UwuMzyHAjPnvUebZ
+         Om1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=yxio9zOUar0O9Qn9eMBw1BLpf0OjnwnYHKDwz/E+USc=;
+        b=XUK7eYZV9lXZtMneMUYrU2toJw+A5cv9wk7OM5HB9uX5TIpAoKJMKWYWk2oPpo+6zL
+         chS/HAO4rATMfGsj/13u9svDryy00RTIz0Ly7I/UQYcTQLpM27EBof9AP119o3JrJCGI
+         yxwU829mcaohqfFdL1XjLvBeq5izBVCdxEtT3dPnKJqeUXSkq946XVta2z+5nc/SiHUv
+         VB27kNbize6QbaeIF4YvHpY5hWNxkF5cnWUmNIdbWuai2IXPRJnJ24brLeYnRZgsKByk
+         kCKcT8naJ+QgmNuEFrGzJ5McOF759GvIuuDEInYOJ75AsEvaFB18Lop/M2K6gR2CYKcT
+         TaNQ==
+X-Gm-Message-State: AOAM533+vkId+D0Z3LD8E7ixCqez7C9nVmdXExBgo6OJ5+TkdQ6PX3DQ
+	thWN4y+vC764Oyqynv01b/+2UbZTMn8=
+X-Google-Smtp-Source: 
+ ABdhPJwlhpIm0gZ8BAQZ+nWWLZBCbk+tmpHF++aZg/mYWsmPvEA8FYLOLq0or7rUdDJAoK/JS+6O3A==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr20137759wrt.581.1643700527068;
+        Mon, 31 Jan 2022 23:28:47 -0800 (PST)
+Received: from nishap-at-office.bmw-carit.intra ([212.118.206.70])
+        by smtp.googlemail.com with ESMTPSA id
+ n18sm13667370wrm.47.2022.01.31.23.28.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jan 2022 23:28:46 -0800 (PST)
+From: Nisha Parrakat <nishaparrakat@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH] yocto-check-layer: add ability to perform tests from a global
- bbclass
-Date: Mon, 31 Jan 2022 22:16:42 -0500
-Message-Id: <1643685402-43865-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+Cc: Ross Burton <ross@burtonini.com>,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Nisha Parrakat <nisha.m.parrakat@bmw.de>
+Subject: [poky][dunfell][PATCH 2/8] lsof: correct LICENSE
+Date: Tue,  1 Feb 2022 08:28:25 +0100
+Message-Id: <20220201072831.34695-2-nishaparrakat@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220201072831.34695-1-nishaparrakat@gmail.com>
+References: <20220201072831.34695-1-nishaparrakat@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 03:16:57 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 07:28:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161145
+ https://lists.openembedded.org/g/openembedded-core/message/161146
 
-This is useful when needing to test layer's recipes, where this special
-bbclass can define a global python function that gets called on each
-recipe parsing during "bitbake -S none world" signature dump and be able
-to fail layer's check accordingly.
+From: Ross Burton <ross@burtonini.com>
 
-First test being added is to detect recipes skipping "installed-vs-shipped"
-QA check. As "installed-vs-shipped" is a packaging QA check, it happens very
-late in the build process and failing it could mean some potential issues
-with packaging, especially when recipe uses BBCLASSEXTEND="nativesdk" and
-resulting package is used in an SDK.
+The lsof LICENSE is superficially BSD-like, but it isn't BSD.  Now that
+we have the full SPDX license set in oe-core, use Spencer-94.
 
-In OE-Core failing this QA check leads to an error, but other layers can
-suppress it or change it to a warning. Detecting weird packaging problems
-with SDKs is quite difficult and time consuming. Also, waiting for the
-actual "installed-vs-shipped" packaging QA check to fail means that all
-recipes in the layer under test have to run through all standard tasks in
-the build chain, equivalent to a multi-hour world-build.
+(From OE-Core rev: 5c1d61d1d4dfacb643a366285c0392e6a31087ed)
 
-Hence yocto-check-layer takes a shortcut and only detects a mere attempt
-at skipping "installed-vs-shipped" QA check in the INSANE_SKIP list during
-initial parsing when dumping the signature information for the layer.
-
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Nisha Parrakat <nisha.m.parrakat@bmw.de>
 ---
- meta/classes/yocto-check-layer.bbclass | 16 ++++++++++++++++
- scripts/lib/checklayer/__init__.py     |  5 ++++-
- scripts/lib/checklayer/cases/common.py | 15 +++++++++++++++
- 3 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/yocto-check-layer.bbclass
+ meta/recipes-extended/lsof/lsof_4.91.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/yocto-check-layer.bbclass b/meta/classes/yocto-check-layer.bbclass
-new file mode 100644
-index 0000000..329d3f8
---- /dev/null
-+++ b/meta/classes/yocto-check-layer.bbclass
-@@ -0,0 +1,16 @@
-+#
-+# This class is used by yocto-check-layer script for additional per-recipe tests
-+# The first test ensures that the layer has no recipes skipping 'installed-vs-shipped' QA checks
-+#
-+
-+WARN_QA:remove = "installed-vs-shipped"
-+ERROR_QA:append = " installed-vs-shipped"
-+
-+python () {
-+    packages = set((d.getVar('PACKAGES') or '').split())
-+    for package in packages:
-+        skip = set((d.getVar('INSANE_SKIP') or "").split() +
-+                   (d.getVar('INSANE_SKIP:' + package) or "").split())
-+        if 'installed-vs-shipped' in skip:
-+            oe.qa.handle_error("installed-vs-shipped", 'Package %s is skipping "installed-vs-shipped" QA test.' % package, d)
-+}
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index e69a10f..9186160 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -261,7 +261,7 @@ def check_command(error_msg, cmd, cwd=None):
-         raise RuntimeError(msg)
-     return output
+diff --git a/meta/recipes-extended/lsof/lsof_4.91.bb b/meta/recipes-extended/lsof/lsof_4.91.bb
+index b3adfd57af..7c85bf23fc 100644
+--- a/meta/recipes-extended/lsof/lsof_4.91.bb
++++ b/meta/recipes-extended/lsof/lsof_4.91.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Lsof is a Unix-specific diagnostic tool. \
+ Its name stands for LiSt Open Files, and it does just that."
+ HOMEPAGE = "http://people.freebsd.org/~abe/"
+ SECTION = "devel"
+-LICENSE = "BSD"
++LICENSE = "Spencer-94"
+ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429ba3b39dbb9f205172a"
  
--def get_signatures(builddir, failsafe=False, machine=None):
-+def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
-     import re
- 
-     # some recipes needs to be excluded like meta-world-pkgdata
-@@ -273,6 +273,9 @@ def get_signatures(builddir, failsafe=False, machine=None):
-     tune2tasks = {}
- 
-     cmd = 'BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE BB_SIGNATURE_HANDLER" BB_SIGNATURE_HANDLER="OEBasicHash" '
-+    if extravars:
-+        cmd += extravars
-+        cmd += ' '
-     if machine:
-         cmd += 'MACHINE=%s ' % machine
-     cmd += 'bitbake '
-diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
-index 9f15e05..318cda1 100644
---- a/scripts/lib/checklayer/cases/common.py
-+++ b/scripts/lib/checklayer/cases/common.py
-@@ -54,6 +54,21 @@ class CommonCheckLayer(OECheckLayerTestCase):
-         '''
-         get_signatures(self.td['builddir'], failsafe=False)
- 
-+    def test_world_inherit_class(self):
-+        '''
-+        This also does "bitbake -S none world" along with inheriting "yocto-check-layer"
-+        class, which can do additional per-recipe test cases.
-+        '''
-+        msg = []
-+        try:
-+            get_signatures(self.td['builddir'], failsafe=False, machine=None, extravars='BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE INHERIT" INHERIT="yocto-check-layer"')
-+        except RuntimeError as ex:
-+            msg.append(str(ex))
-+        if msg:
-+            msg.insert(0, 'Layer %s failed additional checks from yocto-check-layer.bbclass\nSee below log for specific recipe parsing errors:\n' % \
-+                self.tc.layer['name'])
-+            self.fail('\n'.join(msg))
-+
-     def test_signatures(self):
-         if self.tc.layer['type'] == LayerType.SOFTWARE and \
-            not self.tc.test_software_layer_signatures:
+ # Upstream lsof releases are hosted on an ftp server which times out download
 -- 
-2.7.4
+2.17.1
 
 
