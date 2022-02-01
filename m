@@ -1,296 +1,150 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA79C433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 02:38:15 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web09.43294.1643683094574292131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF43C433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Feb 2022 03:16:57 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web09.43664.1643685415829502594
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jan 2022 18:38:14 -0800
+ Mon, 31 Jan 2022 19:16:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cp1zmGrh;
- spf=pass (domain: gmail.com, ip: 209.85.215.169,
- mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id f8so14007280pgf.8
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Jan 2022 18:38:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=z6T3udlqFAnjuoHKsDf5qgHrGg/sX3v0MHtP4TV/sFo=;
-        b=cp1zmGrhtLZNLCwn1Qx71itC59MLCKLXYMOgX51nOX9g39RkdbrIvZZqDCB4ly4qka
-         1IqQEjjXkE89xOJYhtsDdIv9NRBSwO4KckYc8bGE2M4Cly0SBCGV+IWQKmLIeKllUUL4
-         DrAgsovPg69gCfdCQ1tftDJr9hDl6j02uSEqrZHhz/D72duhSNajduxWppwBHtBSD3TY
-         gQy2xyXACtPP/RSU1q9YygMeHPozqyBIM0rCrXsxnZuXlAXTWs+hStHiX3TEooCouaib
-         1oAOdLNk4wo5jQtJERSoujVyE5lFqTx/hKO165l/x79OD/ap/HlWmccMDYC1MyGA9Co6
-         yJMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=z6T3udlqFAnjuoHKsDf5qgHrGg/sX3v0MHtP4TV/sFo=;
-        b=ZA4x/EXwYuHeTvceWjuv+czoZBHiQNmjCa28h4B6PqdDV9YsiRlPpvdCKGgaxIu6jc
-         LxydBmKOfp54aPwfFZu5w+eCfNTCfpRys1t5j0Lyc8rJxR72E6qF0ecnlzf8xhbSxXHT
-         VmNaqWYn7iEXEEEm9XaofGKQ0BQpZOZpMyInZXweXOmtgmpxMfkPN8iQT2AsQ+PXKotk
-         +lfV+Bv2V/hYM2oU0Ld5Ad203uMJYaljnxqj3EAIRY1dua8v/qBdf60bmzAE7Z8dTM0g
-         0fYFD5qHyyHFVP0iIaHBTb1yFn1oLkMchkcsvhqEocG/9cvhSNXoKuAlAbWVSuek0STl
-         68NQ==
-X-Gm-Message-State: AOAM532mXEeKZj95LskP/PfPEg/4PGO6javVZRHm3zg5Vew47ERnRrTD
-	M2thyA+/FLCn88FxG/PhKqY=
-X-Google-Smtp-Source: 
- ABdhPJy+UbZVz7//JJ2xh3fZ1wg3+3X/sGLUQqgdqPyYaU95Z3XN9owAQ0ouctWBLrcADSrxoysmRg==
-X-Received: by 2002:a05:6a02:19c:: with SMTP id
- bj28mr4905029pgb.385.1643683094113;
-        Mon, 31 Jan 2022 18:38:14 -0800 (PST)
-Received: from skjolley (125.sub-72-111-56.myvzw.com. [72.111.56.125])
-        by smtp.gmail.com with ESMTPSA id
- d32sm30964421pgb.46.2022.01.31.18.38.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 31 Jan 2022 18:38:13 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@lists.yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 31 Jan 2022 19:38:13 -0700
-Message-ID: <0c8c01d81714$c31c0d90$495428b0$@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0C8D_01D816DA.16BF7F80"
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQMMtV4sdZNKVx3o5pvBpCHqLFFlxg==
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
+ mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CF95640C5D;
+	Tue,  1 Feb 2022 03:16:54 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SxGDR0_FwjZ0; Tue,  1 Feb 2022 03:16:54 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+ [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B21AF40A28;
+	Tue,  1 Feb 2022 03:16:53 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id D560F17471A;
+	Mon, 31 Jan 2022 22:16:52 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Denys Dmytriyenko <denis@denix.org>
+Subject: [PATCH] yocto-check-layer: add ability to perform tests from a global
+ bbclass
+Date: Mon, 31 Jan 2022 22:16:42 -0500
+Message-Id: <1643685402-43865-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 02:38:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Feb 2022 03:16:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161144
+ https://lists.openembedded.org/g/openembedded-core/message/161145
 
-This is a multipart message in MIME format.
+This is useful when needing to test layer's recipes, where this special
+bbclass can define a global python function that gets called on each
+recipe parsing during "bitbake -S none world" signature dump and be able
+to fail layer's check accordingly.
 
-------=_NextPart_000_0C8D_01D816DA.16BF7F80
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+First test being added is to detect recipes skipping "installed-vs-shipped"
+QA check. As "installed-vs-shipped" is a packaging QA check, it happens very
+late in the build process and failing it could mean some potential issues
+with packaging, especially when recipe uses BBCLASSEXTEND="nativesdk" and
+resulting package is used in an SDK.
 
-All,
+In OE-Core failing this QA check leads to an error, but other layers can
+suppress it or change it to a warning. Detecting weird packaging problems
+with SDKs is quite difficult and time consuming. Also, waiting for the
+actual "installed-vs-shipped" packaging QA check to fail means that all
+recipes in the layer under test have to run through all standard tasks in
+the build chain, equivalent to a multi-hour world-build.
 
+Hence yocto-check-layer takes a shortcut and only detects a mere attempt
+at skipping "installed-vs-shipped" QA check in the INSANE_SKIP list during
+initial parsing when dumping the signature information for the layer.
+
+Signed-off-by: Denys Dmytriyenko <denis@denix.org>
+---
+ meta/classes/yocto-check-layer.bbclass | 16 ++++++++++++++++
+ scripts/lib/checklayer/__init__.py     |  5 ++++-
+ scripts/lib/checklayer/cases/common.py | 15 +++++++++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes/yocto-check-layer.bbclass
+
+diff --git a/meta/classes/yocto-check-layer.bbclass b/meta/classes/yocto-check-layer.bbclass
+new file mode 100644
+index 0000000..329d3f8
+--- /dev/null
++++ b/meta/classes/yocto-check-layer.bbclass
+@@ -0,0 +1,16 @@
++#
++# This class is used by yocto-check-layer script for additional per-recipe tests
++# The first test ensures that the layer has no recipes skipping 'installed-vs-shipped' QA checks
++#
++
++WARN_QA:remove = "installed-vs-shipped"
++ERROR_QA:append = " installed-vs-shipped"
++
++python () {
++    packages = set((d.getVar('PACKAGES') or '').split())
++    for package in packages:
++        skip = set((d.getVar('INSANE_SKIP') or "").split() +
++                   (d.getVar('INSANE_SKIP:' + package) or "").split())
++        if 'installed-vs-shipped' in skip:
++            oe.qa.handle_error("installed-vs-shipped", 'Package %s is skipping "installed-vs-shipped" QA test.' % package, d)
++}
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index e69a10f..9186160 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -261,7 +261,7 @@ def check_command(error_msg, cmd, cwd=None):
+         raise RuntimeError(msg)
+     return output
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+-def get_signatures(builddir, failsafe=False, machine=None):
++def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
+     import re
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 398
-unassigned or newcomer bugs.
-
+     # some recipes needs to be excluded like meta-world-pkgdata
+@@ -273,6 +273,9 @@ def get_signatures(builddir, failsafe=False, machine=None):
+     tune2tasks = {}
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now,  "3.5, "3.6", "3.99" and "Future", the more pressing/urgent
-issues being in "3.4" and then "3.5".
-
+     cmd = 'BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE BB_SIGNATURE_HANDLER" BB_SIGNATURE_HANDLER="OEBasicHash" '
++    if extravars:
++        cmd += extravars
++        cmd += ' '
+     if machine:
+         cmd += 'MACHINE=%s ' % machine
+     cmd += 'bitbake '
+diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+index 9f15e05..318cda1 100644
+--- a/scripts/lib/checklayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -54,6 +54,21 @@ class CommonCheckLayer(OECheckLayerTestCase):
+         '''
+         get_signatures(self.td['builddir'], failsafe=False)
  
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0C8D_01D816DA.16BF7F80
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0E23_01D8115D.EF9E4F70";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 398 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &nbsp;&#8220;3.5, =
-&#8220;3.6&#8221;, &quot;3.99&quot; and &quot;Future&quot;, the more =
-pressing/urgent issues being in &quot;3.4&quot; and then =
-&#8220;3.5&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Please review this link and if a bug is =
-something you would be able to help with either take ownership of the =
-bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-------=_NextPart_000_0C8D_01D816DA.16BF7F80--
++    def test_world_inherit_class(self):
++        '''
++        This also does "bitbake -S none world" along with inheriting "yocto-check-layer"
++        class, which can do additional per-recipe test cases.
++        '''
++        msg = []
++        try:
++            get_signatures(self.td['builddir'], failsafe=False, machine=None, extravars='BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE INHERIT" INHERIT="yocto-check-layer"')
++        except RuntimeError as ex:
++            msg.append(str(ex))
++        if msg:
++            msg.insert(0, 'Layer %s failed additional checks from yocto-check-layer.bbclass\nSee below log for specific recipe parsing errors:\n' % \
++                self.tc.layer['name'])
++            self.fail('\n'.join(msg))
++
+     def test_signatures(self):
+         if self.tc.layer['type'] == LayerType.SOFTWARE and \
+            not self.tc.test_software_layer_signatures:
+-- 
+2.7.4
 
 
