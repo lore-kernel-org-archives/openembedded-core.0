@@ -1,149 +1,385 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F320FC433F5
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 11:32:22 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.63104.1643801541423745399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1180EC433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 11:33:43 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web10.63232.1643801621979037933
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 03:32:22 -0800
+ Wed, 02 Feb 2022 03:33:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=dUTebjF9;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hHH7flcI;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id w21so18492458uan.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 02 Feb 2022 03:33:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1643801541;
-  x=1675337541;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=Q62qvouyjFvcC8jYXyVmzZPSC2D6+T6Ilow+zGkF0sU=;
-  b=dUTebjF9S7mnWsT3KflohLhNU4WgesjZP6IR9OJqxsnQQS8lg1iivQF0
-   RRhpa0AR44+QZHp/H39xpSWbGApGE6vZenLh5ctEf3bgRMNJ2J0+/+Rsh
-   RiSzP0PJ3jBP5Nzgvp2KF71mUl7Es4KNsabBW4o2yxayV8cLAETwS0aCQ
-   lVrtvFeiZTyGieEor52GjY41/sf2MIPVbt3XaxYG7uQ2OqggvlYpGG9NW
-   V1QI3SBgTn14FnwQ4KsVA4ygW9EK9o6jBT20F3afiEfR2+jhmHA6oDRi0
-   gUIgC5gBjiR8MbaS7hLDE4Qj04U9ZlhwUtOvIE/Yc6DaaWFTTM7qq4Wkc
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Saul Wold <Saul.Wold@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "JPEWhacker@gmail.com"
-	<JPEWhacker@gmail.com>
-Subject: RE: [OE-core] [PATCH] create-spdx: Get SPDX-License-Identifier from
- source
-Thread-Topic: [OE-core] [PATCH] create-spdx: Get SPDX-License-Identifier from
- source
-Thread-Index: AQHYF8gm4Gy2vLoAz0aBsqX7auIT/6x/iEBwgAAMFoCAAIrf4A==
-Date: Wed, 2 Feb 2022 11:32:18 +0000
-Message-ID: <f6d4658eae34413b840508a184e21f05@axis.com>
-References: <20220202000148.1462-1-saul.wold@windriver.com>
- <f7190e1f3a454459b0d5ffc2202f9626@axis.com>
- <4fbd26c0-e5f8-e9f1-5933-4e2c0d7c3da6@windriver.com>
-In-Reply-To: <4fbd26c0-e5f8-e9f1-5933-4e2c0d7c3da6@windriver.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pDm2ZIIulcxPveVL4Np1NAYux01Zldp21KdFZ5sr9TA=;
+        b=hHH7flcIwPtYmD0xp54VajzxfAiqqE+OaLTNy9e18eWfrUcC5td/IPg3VxDYju6mTG
+         ZdGKEI2ELiS6v/b6Bfzsvg9brP7yh/HEsJgp1jYkpoJE3C7SauH3obGm4f7UK7/ElwAI
+         uAXppokqvJqIIHwmTrWL2aAmRdPRPNXGvCuJjtj7bon9C1M6niCjGmn3XTwPCh0AeHKh
+         x4Ux9c65Ssmd+7yoB4vVJ91nI6eAE6ryVtJQsSatD4xUh05vHCQOu2kSdAQGAI+WXNmx
+         tNWVg8wlfBshmgrYnBgmU9K7T1XuIEaTqnROdS3iZZ8hVHD+1hqJmwldVLSSjElmBM5d
+         d+1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pDm2ZIIulcxPveVL4Np1NAYux01Zldp21KdFZ5sr9TA=;
+        b=TZURhYYTjafwf11d1nrLUnZpxOjA0QvcdHrbWy5O23TUm4wZU5fVjEfvZ7yk0//0eP
+         D8+64kFJj+6N3/SEyBeTWQGcgM8/9HBlxqPlCOg6/65ae54Sxpk0gVUDBOt9Ry2LVxHd
+         YbdbrEYlemtQLKDyIjG6jzkPj8o5+9f0QeisdSeDuzKFZGGBei2NUbm5grY0wU/ibfiK
+         q6W8Msfyfq0I6GYjPmSeXzzTjiXRwiR00OdfscsdAUwJi5OUI95p4Ut7L9r2sBUhBuRJ
+         zwkG4NEBLV+zSzi+BJH0o1GCBXV11nG2SYd73IA57sETvMD/tmbh7lTgUp8tkbbn0Lbj
+         zeAw==
+X-Gm-Message-State: AOAM532JPKr5qidOgQcuhOKeGYqDfFvCABEcswzbJnl7aTDKaq/E8AvT
+	P3w5yY8MFuuo6zUkwrCeuGw9/WCVR9wkqsP30ZE=
+X-Google-Smtp-Source: 
+ ABdhPJy1SAc9xWvDA2gzSl1CTWLuQbghynUj7LcBjRLTjiwh8/7fI6LjRVfD6ZCvUIiBvcl28U6fir1XSSJGshAK2+o=
+X-Received: by 2002:a05:6102:22d1:: with SMTP id
+ a17mr10028320vsh.42.1643801620963;
+ Wed, 02 Feb 2022 03:33:40 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1643766962.git.pkj@axis.com>
+ <CANNYZj-2w5J+WrjW+jFiY0Z25iP0iJCtFzvRnCTU=qR_fPoeUQ@mail.gmail.com>
+ <b1056c7cb7e64f53a36c8119ef43453d@axis.com>
+In-Reply-To: <b1056c7cb7e64f53a36c8119ef43453d@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 2 Feb 2022 12:33:29 +0100
+Message-ID: 
+ <CANNYZj-Je9avbcScAE9MuTpcUkdvgXxKSz_A3jCjSkNLrqT=tw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/3] Split split_and_strip_files()
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b2e54405d707633b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 11:32:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 11:33:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161190
+ https://lists.openembedded.org/g/openembedded-core/message/161191
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBTYXVsIFdvbGQgPFNhdWwuV29s
-ZEB3aW5kcml2ZXIuY29tPg0KPiBTZW50OiBkZW4gMiBmZWJydWFyaSAyMDIyIDA1OjA3DQo+IFRv
-OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IG9wZW5l
-bWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBKUEVXaGFja2VyQGdtYWls
-LmNvbQ0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gY3JlYXRlLXNwZHg6IEdldCBT
-UERYLUxpY2Vuc2UtSWRlbnRpZmllcg0KPiBmcm9tIHNvdXJjZQ0KPiANCj4gT24gMi8xLzIyIDE5
-OjIxLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQo+ID4+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcgPG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhh
-bGYgT2YgU2F1bCBXb2xkDQo+ID4+IFNlbnQ6IGRlbiAyIGZlYnJ1YXJpIDIwMjIgMDE6MDINCj4g
-Pj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IEpQRVdoYWNr
-ZXJAZ21haWwuY29tDQo+ID4+IENjOiBTYXVsIFdvbGQgPHNhdWwud29sZEB3aW5kcml2ZXIuY29t
-Pg0KPiA+PiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIXSBjcmVhdGUtc3BkeDogR2V0IFNQRFgt
-TGljZW5zZS1JZGVudGlmaWVyDQo+IGZyb20gc291cmNlDQo+ID4+DQo+ID4+IFRoaXMgcGF0Y2gg
-d2lsbCByZWFkIHRoZSBiZWdpbmluZyBvZiBzb3VyY2UgZmlsZXMgYW5kIHRyeSB0byBmaW5kDQo+
-ID4+IHRoZSBTUERYLUxpY2Vuc2UtSWRlbnRpZmllciB0byBwb3B1bGF0ZSB0aGUgbGljZW5zZUlu
-Zm9JbkZpbGVzDQo+ID4+IGZpZWxkIGZvciBlYWNoIHNvdXJjZSBmaWxlLiBUaGlzIGRvZXMgbm90
-IHBvcHVsYXRlIGxpY2Vuc2VDb25jdWxlZA0KPiA+DQo+ID4gSSBhc3N1bWUgdGhhdCBzaG91bGQg
-YmUgImxpY2Vuc2VDb25jbHVkZWQiLg0KPiANCj4gV2VsbCB0aGF0IGRlcGVuZHMgb24gaWYgIndl
-IiB3YW50IHRvIHRha2Ugc29tZSAib3duZXJzaGlwIiBvZiB0aGUNCj4gY29uY2x1c2lvbiBhcyB0
-aGUgInByZXBhcmVyIi4gIEhvdyB3b3VsZCB3ZSBoYW5kbGUgdGhlIGNhc2Ugb2YgMg0KPiBTUERY
-LUxpY2Vuc2UtSWRlbnRpZmllcnMgdGFncyBpbiBhIGZpbGUsIGlzIGl0IGFuICJBTkQiIG9yIGFu
-ICJPUiI/DQo+IFNpbXBsZSBleGFtcGxlLg0KPiANCj4gVGhlIGRlc2NyaXB0aW9uIG9mIGxpY2Vu
-c2VDb25jbHVkZWQgaXM6DQo+IA0KPiAiTGljZW5zZSBleHByZXNzaW9uIGZvciBsaWNlbnNlQ29u
-Y2x1ZGVkLiAgVGhlIGxpY2Vuc2luZyB0aGF0IHRoZQ0KPiBwcmVwYXJlciBvZiB0aGlzIFNQRFgg
-ZG9jdW1lbnQgaGFzIGNvbmNsdWRlZCwgYmFzZWQgb24gdGhlIGV2aWRlbmNlLA0KPiBhY3R1YWxs
-eSBhcHBsaWVzIHRvIHRoZSBwYWNrYWdlLiINCj4gDQo+IEF0IHNvbWVwb2ludCB3ZSBtaWdodCBi
-ZSBhYmxlIHRvIGZpbGwgaW4gdGhhdCBmaWVsZCwgYnV0IGZvciBub3cgSSB0aGluaw0KPiB3ZSBs
-ZWF2ZSBpdCBhcyBOT0FTU0VSVElPTi4NCj4gDQo+IFNhdSENCg0KU29ycnksIHlvdSBtaXN1bmRl
-cnN0b29kLiBTaW5jZSBJIGRvIG5vdCBrbm93IHRoZSBzcGVjaWZpY2F0aW9uLCBJIGNvdWxkIA0K
-b25seSBhc3N1bWUgdGhhdCB0aGUgZmllbGQgeW91IGludGVuZGVkIHRvIHJlZmVyIHRvIHdhcyBh
-Y3R1YWxseSBuYW1lZCANCiJsaWNlbnNlQ29uY2x1ZGVkIiByYXRoZXIgdGhhbiAibGljZW5zZUNv
-bmN1bGVkIi4NCg0KLy9QZXRlcg0KDQo+ID4+IGF0IHRoaXMgdGltZSwgbm9yIHJvbGxzIGl0IHVw
-IHRvIHBhY2thZ2UgbGV2ZWwuDQo+ID4+DQo+ID4+IFdlIHJlYWQgYXMgYmluYXJ5IHRvIHNpbmNl
-IHNvbWUgc291cmNlIGNvZGUgc2VlbSB0byBoYXZlIHNvbWUNCj4gPg0KPiA+IHRvIC0+IHRvbw0K
-PiA+DQo+ID4+IGJpbmFyeSBjaGFyYWN0ZXJzLCB0aGUgbGljZW5zZSBpcyB0aGVuIGNvbnZlcnRl
-ZCB0byBhc2NpaSBzdHJpbmdzLg0KPiA+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBTYXVsIFdvbGQg
-PHNhdWwud29sZEB3aW5kcml2ZXIuY29tPg0KPiA+PiAtLS0NCj4gPj4gTWVyZ2UgYWZ0ZXIgSm9z
-aHVhJ3MgcGF0Y2ggKHNwZHg6IEFkZCBzZXQgaGVscGVyIGZvciBsaXN0IHByb3BlcnRpZXMpDQo+
-ID4+IG1lcmdlcw0KPiA+Pg0KPiA+PiAgIG1ldGEvY2xhc3Nlcy9jcmVhdGUtc3BkeC5iYmNsYXNz
-IHwgMjMgKysrKysrKysrKysrKysrKysrKysrKysNCj4gPj4gICAxIGZpbGUgY2hhbmdlZCwgMjMg
-aW5zZXJ0aW9ucygrKQ0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2NyZWF0
-ZS1zcGR4LmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvY3JlYXRlLQ0KPiBzcGR4LmJiY2xhc3MNCj4g
-Pj4gaW5kZXggOGI0MjAzZmRiNWQuLjU4ODQ4OWNjMmIwIDEwMDY0NA0KPiA+PiAtLS0gYS9tZXRh
-L2NsYXNzZXMvY3JlYXRlLXNwZHguYmJjbGFzcw0KPiA+PiArKysgYi9tZXRhL2NsYXNzZXMvY3Jl
-YXRlLXNwZHguYmJjbGFzcw0KPiA+PiBAQCAtMzcsNiArMzcsMjQgQEAgU1BEWF9TVVBQTElFUltk
-b2NdID0gIlRoZSBTUERYIFBhY2thZ2VTdXBwbGllciBmaWVsZA0KPiBmb3IgU1BEWCBwYWNrYWdl
-cyBjcmVhdGVkIGYNCj4gPj4NCj4gPj4gICBkb19pbWFnZV9jb21wbGV0ZVtkZXBlbmRzXSA9ICJ2
-aXJ0dWFsL2tlcm5lbDpkb19jcmVhdGVfc3BkeCINCj4gPj4NCj4gPj4gK2RlZiBleHRyYWN0X2xp
-Y2Vuc2VzKGZpbGVuYW1lKToNCj4gPj4gKyAgICBpbXBvcnQgcmUNCj4gPj4gKyAgICBpbXBvcnQg
-b2Uuc3BkeA0KPiA+DQo+ID4gWW91IGRvIG5vdCB1c2Ugb2Uuc3BkeCBpbiB0aGlzIGZ1bmN0aW9u
-Lg0KPiA+DQo+ID4+ICsNCj4gPj4gKyAgICBsaWNfcmVnZXggPSByZS5jb21waWxlKGInU1BEWC1M
-aWNlbnNlLUlkZW50aWZpZXI6XHMrKFstQS1aYS16XGQuDQo+IF0rKVsgfFxufFxyXG5dKj8nKQ0K
-PiA+DQo+ID4gSSBhc3N1bWUgeW91IG1lYW50Og0KPiA+DQo+ID4gICAgICBsaWNfcmVnZXggPSBy
-ZS5jb21waWxlKGInU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6XHMrKFstQS1aYS16XGQuDQo+IF0r
-KSg/OiB8XG58XHJcbikqPycpDQo+ID4NCj4gPiBOb3QgdGhhdCBpdCByZWFsbHkgbWF0dGVycyB0
-aG91Z2gsIGFzIGl0IHdpbGwgeWllbGQgdGhlIHNhbWUgcmVzdWx0IGFzOg0KPiA+DQo+ID4gICAg
-ICBsaWNfcmVnZXggPSByZS5jb21waWxlKGInU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6XHMrKFst
-QS1aYS16XGQuDQo+IF0rKScpDQo+ID4NCj4gPiBIb3dldmVyLCBuZWl0aGVyIG9mIHRoZSBleHBy
-ZXNzaW9ucyBhYm92ZSB3aWxsIGNvcnJlY3RseSBtYXRjaCBhbGwgdGhlDQo+ID4gU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXIgZXhhbXBsZXMgYXQgaHR0cHM6Ly9zcGR4LmRldi9pZHMvI2hvdy4NCj4g
-Pg0KPiA+IFVzZSB0aGlzIGluc3RlYWQ6DQo+ID4NCj4gPiAgICAgIGxpY19yZWdleCA9IHJlLmNv
-bXBpbGUoYideXFcqU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6XHMqKFsNCj4gXHdcZC4oKSstXSs/
-KSg/OlxzK1xXKik/JCcsIHJlLk1VTFRJTElORSkNCj4gPg0KPiA+PiArDQo+ID4+ICsgICAgdHJ5
-Og0KPiA+PiArICAgICAgICB3aXRoIG9wZW4oZmlsZW5hbWUsICdyYicpIGFzIGY6DQo+ID4+ICsg
-ICAgICAgICAgICBzaXplID0gbWluKDE1MDAwLCBvcy5zdGF0KGZpbGVuYW1lKS5zdF9zaXplKQ0K
-PiA+PiArICAgICAgICAgICAgdHh0ID0gZi5yZWFkKHNpemUpDQo+ID4+ICsgICAgICAgICAgICBs
-aWNlbnNlcyA9IHJlLmZpbmRhbGwobGljX3JlZ2V4LCB0eHQpDQo+ID4+ICsgICAgICAgICAgICBp
-ZiBsaWNlbnNlczoNCj4gPj4gKyAgICAgICAgICAgICAgICBhc2NpaV9saWNlbnNlcyA9IFtsaWMu
-ZGVjb2RlKCdhc2NpaScpIGZvciBsaWMgaW4NCj4gbGljZW5zZXNdDQo+ID4+ICsgICAgICAgICAg
-ICAgICAgcmV0dXJuIGFzY2lpX2xpY2Vuc2VzDQo+ID4+ICsgICAgZXhjZXB0IEV4Y2VwdGlvbiBh
-cyBlOg0KPiA+PiArICAgICAgICBiYi53YXJuKGYiRXhjZXB0aW9uIHJlYWRpbmcge2ZpbGVuYW1l
-fToge2V9IikNCj4gPj4gKyAgICByZXR1cm4gTm9uZQ0KPiA+PiArDQo+ID4+ICAgZGVmIGdldF9k
-b2NfbmFtZXNwYWNlKGQsIGRvYyk6DQo+ID4+ICAgICAgIGltcG9ydCB1dWlkDQo+ID4+ICAgICAg
-IG5hbWVzcGFjZV91dWlkID0gdXVpZC51dWlkNSh1dWlkLk5BTUVTUEFDRV9ETlMsDQo+IGQuZ2V0
-VmFyKCJTUERYX1VVSURfTkFNRVNQQUNFIikpDQo+ID4+IEBAIC0yMzIsNiArMjUwLDExIEBAIGRl
-ZiBhZGRfcGFja2FnZV9maWxlcyhkLCBkb2MsIHNwZHhfcGtnLCB0b3BkaXIsDQo+IGdldF9zcGR4
-aWQsIGdldF90eXBlcywgKiwgYXJjaGl2DQo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Y2hlY2tzdW1WYWx1ZT1iYi51dGlscy5zaGEyNTZfZmlsZShmaWxlcGF0aCksDQo+ID4+ICAgICAg
-ICAgICAgICAgICAgICAgICApKQ0KPiA+Pg0KPiA+PiArICAgICAgICAgICAgICAgIGlmICJTT1VS
-Q0UiIGluIHNwZHhfZmlsZS5maWxlVHlwZXM6DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgIGV4
-dHJhY3RlZF9saWNzID0gZXh0cmFjdF9saWNlbnNlcyhmaWxlcGF0aCkNCj4gPj4gKyAgICAgICAg
-ICAgICAgICAgICAgaWYgZXh0cmFjdGVkX2xpY3M6DQo+ID4+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICBzcGR4X2ZpbGUubGljZW5zZUluZm9JbkZpbGVzID0gZXh0cmFjdGVkX2xpY3MNCj4gPj4g
-Kw0KPiA+PiAgICAgICAgICAgICAgICAgICBkb2MuZmlsZXMuYXBwZW5kKHNwZHhfZmlsZSkNCj4g
-Pj4gICAgICAgICAgICAgICAgICAgZG9jLmFkZF9yZWxhdGlvbnNoaXAoc3BkeF9wa2csICJDT05U
-QUlOUyIsIHNwZHhfZmlsZSkNCj4gPj4gICAgICAgICAgICAgICAgICAgc3BkeF9wa2cuaGFzRmls
-ZXMuYXBwZW5kKHNwZHhfZmlsZS5TUERYSUQpDQo+ID4+IC0tDQo+ID4+IDIuMzEuMQ0KPiA+DQo+
-ID4gLy9QZXRlcg0KPiA+DQo+IA0KPiAtLQ0KPiBTYXUhDQo=
+--000000000000b2e54405d707633b
+Content-Type: text/plain; charset="UTF-8"
+
+Right, the patchset is good for maintainability, my comment was more about
+whether it's easier to just package files in a way that doesn't clash in
+do_rootfs, then rearrange them in rootfs postprocessing.
+
+Alex
+
+On Wed, 2 Feb 2022 at 12:20, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+wrote:
+
+> Why do you consider splitting a huge function heavy? Honestly, I would
+> like to split it even further to make it more manageable.
+>
+>
+>
+> //Peter
+>
+>
+>
+> *From:* Alexander Kanavin <alex.kanavin@gmail.com>
+> *Sent:* den 2 februari 2022 09:54
+> *To:* Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> *Cc:* OE-core <openembedded-core@lists.openembedded.org>
+> *Subject:* Re: [OE-core] [PATCH 0/3] Split split_and_strip_files()
+>
+>
+>
+> Sorry Peter, but this still strikes me as rather heavy handed for what is
+> a niche use case. Is it possible to simply do what needs to be done from a
+> ROOTFS_POSTPROCESS hook?
+>
+>
+>
+> Alex
+>
+>
+>
+> On Wed, 2 Feb 2022 at 03:00, Peter Kjellerstedt <
+> peter.kjellerstedt@axis.com> wrote:
+>
+> This is my third attempt to make it possible for me to hook into the
+> split_and_strip_files() function. We need this to be able to rename
+> the debug files for some packages to avoid conflicts when installing
+> them.
+>
+> In this version, the first patch splits out the part of
+> split_and_strip_files() that is responsible for setting up the
+> variables used to implement the various debug splitting methods
+> specified by PACKAGE_DEBUG_SPLIT_STYLE into a new function,
+> package_debug_vars(). This I believe to be a good thing in itself as
+> that function is way too long anyway.
+>
+> The second and third patch are not needed to allow me to hook into the
+> split_and_strip_files() function, but they simplify the APIs used for
+> passing the variables returned by package_debug_vars() around.
+>
+> With these patches in place, I can now wrap the package_debug_vars()
+> function with the following local wrapper package.bbclass:
+>
+> require ${COREBASE}/meta/classes/package.bbclass
+>
+> PACKAGE_DEBUG_FILE_SUFFIX ??= ""
+>
+> # Provide the original package_debug_vars() as org_package_debug_vars().
+> org_package_debug_vars := "${@d.getVar('package_debug_vars',
+> False).replace('package_debug_vars', 'org_package_debug_vars')}"
+> python () {
+>     bb.methodpool.insert_method("", d.getVar("org_package_debug_vars",
+> False), "<code>", 0)
+> }
+>
+> # This version of package_debug_vars() wraps the original
+> package_debug_vars()
+> # by calling org_package_debug_vars() and then appends
+> PACKAGE_DEBUG_FILE_SUFFIX
+> # to dv["append"] and dv["staticappend"].
+> def package_debug_vars(d):
+>     dv = org_package_debug_vars(d)
+>
+>     dv["append"] += d.getVar('PACKAGE_DEBUG_FILE_SUFFIX')
+>     dv["staticappend"] += d.getVar('PACKAGE_DEBUG_FILE_SUFFIX')
+>
+>     return dv
+>
+> The definition of the org_package_debug_vars() function is not very
+> pretty, but it seems to work, and this solution means a heck of a lot
+> less maintenance than to try to maintain a backported version of the
+> over 250 lines long split_and_strip_files() function (as it was before
+> my changes).
+>
+> //Peter
+>
+> The following changes since commit
+> 74a8a74a553a33dc5f41939f8070d75e6d57d3da:
+>
+>   busybox: Add shell arithmetic to work with poky-tiny (2022-02-01
+> 07:32:08 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib pkj/package_debug_vars
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/package_debug_vars
+>
+> Peter Kjellerstedt (3):
+>   package.bbclass: Split out package_debug_vars from
+>     split_and_strip_files
+>   package.bbclass: Make package_debug_vars() return a dict
+>   package.bbclass: Pass dv (debug_vars) around instead of individual
+>     vars
+>
+>  meta/classes/package.bbclass | 127 +++++++++++++++++++----------------
+>  1 file changed, 70 insertions(+), 57 deletions(-)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161174):
+> https://lists.openembedded.org/g/openembedded-core/message/161174
+> Mute This Topic: https://lists.openembedded.org/mt/88849297/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b2e54405d707633b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Right, the patchset is good for maintainability, my c=
+omment was more about whether it&#39;s easier to just package files in a wa=
+y that doesn&#39;t clash in do_rootfs, then rearrange them in rootfs postpr=
+ocessing.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 2 Feb 2022 at 12:2=
+0, Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">pe=
+ter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+
+
+
+
+
+<div style=3D"overflow-wrap: break-word;" lang=3D"SV">
+<div class=3D"gmail-m_8983766580117225852WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
+Why do you consider splitting a huge function heavy? Honestly, I would like=
+ to split it even further to make it more manageable.<u></u><u></u></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
+<u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
+//Peter<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:rgb(148,54,52)" lang=3D"EN-US">=
+<u></u>=C2=A0<u></u></span></p>
+<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bord=
+er-style:none none none solid;border-width:medium medium medium 1.5pt;paddi=
+ng:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;borde=
+r-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm"=
+>
+<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
+=3D"EN-US"> Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
+ target=3D"_blank">alex.kanavin@gmail.com</a>&gt;
+<br>
+<b>Sent:</b> den 2 februari 2022 09:54<br>
+<b>To:</b> Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis=
+.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
+<b>Cc:</b> OE-core &lt;<a href=3D"mailto:openembedded-core@lists.openembedd=
+ed.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;<=
+br>
+<b>Subject:</b> Re: [OE-core] [PATCH 0/3] Split split_and_strip_files()<u><=
+/u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Sorry Peter, but this still strikes me as rather hea=
+vy handed for what is a niche use case. Is it possible to simply do what ne=
+eds to be done from a ROOTFS_POSTPROCESS hook?<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Alex<u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Wed, 2 Feb 2022 at 03:00, Peter Kjellerstedt &lt;=
+<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjel=
+lerstedt@axis.com</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-color:currentcolor currentcolor currentcolor rg=
+b(204,204,204);border-style:none none none solid;border-width:medium medium=
+ medium 1pt;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">This is my third attemp=
+t to make it possible for me to hook into the<br>
+split_and_strip_files() function. We need this to be able to rename<br>
+the debug files for some packages to avoid conflicts when installing<br>
+them.<br>
+<br>
+In this version, the first patch splits out the part of<br>
+split_and_strip_files() that is responsible for setting up the<br>
+variables used to implement the various debug splitting methods<br>
+specified by PACKAGE_DEBUG_SPLIT_STYLE into a new function,<br>
+package_debug_vars(). This I believe to be a good thing in itself as<br>
+that function is way too long anyway.<br>
+<br>
+The second and third patch are not needed to allow me to hook into the<br>
+split_and_strip_files() function, but they simplify the APIs used for<br>
+passing the variables returned by package_debug_vars() around.<br>
+<br>
+With these patches in place, I can now wrap the package_debug_vars()<br>
+function with the following local wrapper package.bbclass:<br>
+<br>
+require ${COREBASE}/meta/classes/package.bbclass<br>
+<br>
+PACKAGE_DEBUG_FILE_SUFFIX ??=3D &quot;&quot;<br>
+<br>
+# Provide the original package_debug_vars() as org_package_debug_vars().<br=
+>
+org_package_debug_vars :=3D &quot;<a href=3D"mailto:$%7b@d.getVar(&#39;pack=
+age_debug_vars&#39;,%20False).replace(&#39;package_debug_vars&#39;,%20&#39;=
+org_package_debug_vars&#39;)%7d" target=3D"_blank">${@d.getVar(&#39;package=
+_debug_vars&#39;, False).replace(&#39;package_debug_vars&#39;, &#39;org_pac=
+kage_debug_vars&#39;)}</a>&quot;<br>
+python () {<br>
+=C2=A0 =C2=A0 bb.methodpool.insert_method(&quot;&quot;, d.getVar(&quot;org_=
+package_debug_vars&quot;, False), &quot;&lt;code&gt;&quot;, 0)<br>
+}<br>
+<br>
+# This version of package_debug_vars() wraps the original package_debug_var=
+s()<br>
+# by calling org_package_debug_vars() and then appends PACKAGE_DEBUG_FILE_S=
+UFFIX<br>
+# to dv[&quot;append&quot;] and dv[&quot;staticappend&quot;].<br>
+def package_debug_vars(d):<br>
+=C2=A0 =C2=A0 dv =3D org_package_debug_vars(d)<br>
+<br>
+=C2=A0 =C2=A0 dv[&quot;append&quot;] +=3D d.getVar(&#39;PACKAGE_DEBUG_FILE_=
+SUFFIX&#39;)<br>
+=C2=A0 =C2=A0 dv[&quot;staticappend&quot;] +=3D d.getVar(&#39;PACKAGE_DEBUG=
+_FILE_SUFFIX&#39;)<br>
+<br>
+=C2=A0 =C2=A0 return dv<br>
+<br>
+The definition of the org_package_debug_vars() function is not very<br>
+pretty, but it seems to work, and this solution means a heck of a lot<br>
+less maintenance than to try to maintain a backported version of the<br>
+over 250 lines long split_and_strip_files() function (as it was before<br>
+my changes).<br>
+<br>
+//Peter<br>
+<br>
+The following changes since commit 74a8a74a553a33dc5f41939f8070d75e6d57d3da=
+:<br>
+<br>
+=C2=A0 busybox: Add shell arithmetic to work with poky-tiny (2022-02-01 07:=
+32:08 +0000)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.yoctoproject.org/poky-contrib" target=3D=
+"_blank">git.yoctoproject.org/poky-contrib</a> pkj/package_debug_vars<br>
+=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
+=3Dpkj/package_debug_vars" target=3D"_blank">
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpkj/package_debu=
+g_vars</a><br>
+<br>
+Peter Kjellerstedt (3):<br>
+=C2=A0 package.bbclass: Split out package_debug_vars from<br>
+=C2=A0 =C2=A0 split_and_strip_files<br>
+=C2=A0 package.bbclass: Make package_debug_vars() return a dict<br>
+=C2=A0 package.bbclass: Pass dv (debug_vars) around instead of individual<b=
+r>
+=C2=A0 =C2=A0 vars<br>
+<br>
+=C2=A0meta/classes/package.bbclass | 127 +++++++++++++++++++---------------=
+-<br>
+=C2=A01 file changed, 70 insertions(+), 57 deletions(-)<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#161174): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/161174" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/message/161174</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88849297/1686=
+489" target=3D"_blank">
+https://lists.openembedded.org/mt/88849297/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">
+openembedded-core+owner@lists.openembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" target=3D"_blank">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"ma=
+ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<=
+br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div>
+
+--000000000000b2e54405d707633b--
 
