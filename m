@@ -2,78 +2,88 @@ Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 000EFC433EF
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 22:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324D2C433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 22:59:21 +0000 (UTC)
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web09.1592.1643842462931328620
+ by mx.groups.io with SMTP id smtpd.web11.1545.1643842759403602282
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 14:54:23 -0800
+ Wed, 02 Feb 2022 14:59:19 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
  mailfrom: denis@denix.org)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 5FD9340C82;
-	Wed,  2 Feb 2022 22:54:22 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B912A40C82;
+	Wed,  2 Feb 2022 22:59:18 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QT7ohurVX6xL; Wed,  2 Feb 2022 22:54:22 +0000 (UTC)
+	with ESMTP id 1hoLqEIvg_Ij; Wed,  2 Feb 2022 22:59:18 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
  [100.15.86.127])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 4D53340AB7;
-	Wed,  2 Feb 2022 22:54:21 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 9C36440AB7;
+	Wed,  2 Feb 2022 22:59:16 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id 219CF174738; Wed,  2 Feb 2022 17:54:21 -0500 (EST)
-Date: Wed, 2 Feb 2022 17:54:21 -0500
+	id 65047174738; Wed,  2 Feb 2022 17:59:16 -0500 (EST)
+Date: Wed, 2 Feb 2022 17:59:16 -0500
 From: Denys Dmytriyenko <denis@denix.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 28/33] lttng-tools: upgrade 2.13.2 -> 2.13.4
-Message-ID: <20220202225421.GG26229@denix.org>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 04/33] connman: update 1.40 -> 1.41
+Message-ID: <20220202225916.GH26229@denix.org>
 References: <20220202182758.919991-1-alex@linutronix.de>
- <20220202182758.919991-28-alex@linutronix.de>
+ <20220202182758.919991-4-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220202182758.919991-28-alex@linutronix.de>
+In-Reply-To: <20220202182758.919991-4-alex@linutronix.de>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 22:54:23 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 22:59:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161263
+ https://lists.openembedded.org/g/openembedded-core/message/161264
 
-https://git.openembedded.org/openembedded-core/commit/?id=7de004c74447b3075abb9641843254a7a5c7233b
+https://git.openembedded.org/openembedded-core/commit/?id=54c896c76ba5955990f27ed1ec5dd81d2f9d09e2
 
 
-On Wed, Feb 02, 2022 at 07:27:53PM +0100, Alexander Kanavin wrote:
-> From: Alexander Kanavin <alex.kanavin@gmail.com>
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+On Wed, Feb 02, 2022 at 07:27:29PM +0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  .../lttng/{lttng-tools_2.13.2.bb => lttng-tools_2.13.4.bb}      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-kernel/lttng/{lttng-tools_2.13.2.bb => lttng-tools_2.13.4.bb} (98%)
+>  .../0002-resolve-musl-does-not-implement-res_ninit.patch        | 2 +-
+>  .../connman/{connman_1.40.bb => connman_1.41.bb}                | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-connectivity/connman/{connman_1.40.bb => connman_1.41.bb} (85%)
 > 
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> similarity index 98%
-> rename from meta/recipes-kernel/lttng/lttng-tools_2.13.2.bb
-> rename to meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> index d6ce2c7e32..98b91270ba 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.13.2.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> @@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->             file://disable-tests.patch \
->             "
+> diff --git a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+> index 9dca21a02f..63a8fa81b1 100644
+> --- a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+> +++ b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
+> @@ -1,4 +1,4 @@
+> -From 01974865e4d331eeaf25248bee1bb96539c450d9 Mon Sep 17 00:00:00 2001
+> +From f2e6254a48fc0bb41b1617b7832aed4977230cf9 Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Mon, 6 Apr 2015 23:02:21 -0700
+>  Subject: [PATCH] resolve: musl does not implement res_ninit
+> diff --git a/meta/recipes-connectivity/connman/connman_1.40.bb b/meta/recipes-connectivity/connman/connman_1.41.bb
+> similarity index 85%
+> rename from meta/recipes-connectivity/connman/connman_1.40.bb
+> rename to meta/recipes-connectivity/connman/connman_1.41.bb
+> index edb23a1267..736b78eaeb 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.40.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.41.bb
+> @@ -9,7 +9,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
 >  
-> -SRC_URI[sha256sum] = "ced2ba00020da77fd17ac92b5a53825502409a07e3aeca28f9515d4a844fd7bd"
-> +SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
+>  SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
 >  
->  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+> -SRC_URI[sha256sum] = "1a57ae7ce234aa3a1744aac3be5c2121d98dce999440ef8ab9cc4edfd5edcb12"
+> +SRC_URI[sha256sum] = "79fb40f4fdd5530c45aa8e592fb16ba23d3674f3a98cf10b89a6576f198de589"
 >  
+>  RRECOMMENDS:${PN} = "connman-conf"
+>  RCONFLICTS:${PN} = "networkmanager"
 > -- 
 > 2.20.1
 > 
