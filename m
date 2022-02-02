@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB18C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 423ABC4332F
 	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:09 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web12.2281.1643826488631826780
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.2243.1643826487887804885
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Feb 2022 10:28:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HO7pJsW1;
- spf=pass (domain: gmail.com, ip: 209.85.208.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oAgTKF8N;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id u24so355365eds.11
+Received: by mail-ej1-f53.google.com with SMTP id ah7so263843ejc.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:08 -0800 (PST)
+ Wed, 02 Feb 2022 10:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ewpstx3ul7uNud0I1bAZYhhFk75Zor0SywQkyHy6Jws=;
-        b=HO7pJsW1aFtNkeNZ+n+mJb24HOUF8oBhkdFd+/JA4W73BIBObTnuePX8lBIzNwYGbp
-         NJoTIBtAfD1e3oBVZAovaBHn6Df6MbchQO+XRvOswczXFro1kHiH9hNZ/1zjLV1Vzys3
-         homEhOi0p4HlNZ0eO8G46RseylPylayVM9LmbIpnJfiF9JDP1Vs1+vR7846Po5PphYib
-         9aRD+E/H1/DVdy2WTrbOwt8szI5TMWJSb37/eVIeuYNcltT5rflVSn+PJuqz8BlOvCcC
-         d+YTqY4qeZBNuLy7PwTP6ct44Imss0hX8tGtsutIJLFks6RaZSHDMAsJxI7fkreEmRjJ
-         OHmw==
+        bh=NpQ00nsZVkrpMEAU36ZYLtZ31poX9KxmZih7IzWYKzA=;
+        b=oAgTKF8N9cRN3LA88U8HoecV3Lec/qDrrVubwjQ5YhDz3u7UZc5g92cWoziLr6hqC3
+         jn3ifGkAYYQr9sWlRCUS6UpZF3oWPKC3vvMtCF34B0bzWgWWa7Tk9Bv+OOoN46iG9Q5d
+         rN/BvShkxL2l21kl3JuabnnBaZL9Gcn1F+HH+VFe+4bIY4diXU33VnrqGI9FDTpG+rwY
+         vCQGFr0OK6+lKm03MR4NG/dF0E8hpwypBo2sPhhXHydpTZEiPK/0H/ZnkOtNRRScVDMG
+         E6cpo2YpYj+UKe4YNmh5AL/qrJT8Osk/hwbzlQxEuIBe4sKxMyyAn7s7WaqxVaRfEyzJ
+         FsEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ewpstx3ul7uNud0I1bAZYhhFk75Zor0SywQkyHy6Jws=;
-        b=q83CUxewFv08AqCiHlBXTvsMnCERziM0OWaEoJPW1guqSviwv6GME8gcDVwNGVrK7q
-         zzptzpqN1bFDW0zKL5XQ9KSS8WlOxc3hRPWkdua92pcHQ2PEOKTjzxGmr2TAcJAjJJqg
-         nd5i3OkuUNICmXM6Mf8pEPqPOce68+k7mccrrE2mixpTxqvs5qdjAbIs3yrYptZoio8K
-         Haq5JTkWRrd5dBcBPJPX+kBBLBptbDCQWr4zXl6DHUmxXcYNqZ28obxam9CNYpuOcfwi
-         fv44hgnBSgwRy96o6HlBFiZP8GZto5b241P31XhcYuiTcr7av0QHysfdtdja1V5m82dI
-         ugDg==
-X-Gm-Message-State: AOAM5336X/rZ+hZ9Un7nJQ/6CJehwGjB38U7RJEH77BLuppSptZLhwaA
-	NYG3dVCFH+QCsQ5YA4xjJmWEFLrC41w=
+        bh=NpQ00nsZVkrpMEAU36ZYLtZ31poX9KxmZih7IzWYKzA=;
+        b=mX/EsIWG28gHfx3QFHeBBxSaKRMXLxo1sFFsQvk64Bz5iVhMurk4OeT+I2rbJMzylJ
+         tdMjMRen28xFaFrnEWDxi5gaiLzLrK3w5nmd4pY6+6wCD1e1S/LK7GuPcQVeonjRNwzU
+         41xMfG62bzRcmvbgd0CxqLnP1r5GHWfJH6ayvywJNeSc8JZ/L5nRUyhhtMqay2+eVPbY
+         K5Lp34H7K51z1N/74+xhahV37nP5pxfvu2a2P95Q7HQvzShVYweTPlDC6BcGtHHWCFKi
+         yejnmABBeoEGqy0y71ji63MMYtZeP7VKR0VCOCH7AbixZGnstydbBsiQxLxLjLSr3Eb2
+         j+LQ==
+X-Gm-Message-State: AOAM532XmTVqlRgVHVGziUrXMOWMVAvCGlkhd5ZiICg86lyHby3BZXMw
+	zZSeZVfysDf2fqZiXCuDZh31uAjRLdQ=
 X-Google-Smtp-Source: 
- ABdhPJyZpneGZ4yZOr/VXKWl04fhUW1gg3fVoNJwg3q0FT7YZJFXFRWsQg0J+E0ifWLCrbabFECROQ==
-X-Received: by 2002:a05:6402:5147:: with SMTP id
- n7mr31452289edd.2.1643826487219;
-        Wed, 02 Feb 2022 10:28:07 -0800 (PST)
+ ABdhPJwBxGVYXojFKfl9T55kMTV0WGLRdBw5iY4z5jJW8SRzcPoUx1O47zBQUNnliATgbtNbAVvmcQ==
+X-Received: by 2002:a17:907:6d83:: with SMTP id
+ sb3mr26701906ejc.21.1643826486191;
+        Wed, 02 Feb 2022 10:28:06 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- i12sm15644203ejy.43.2022.02.02.10.28.06
+ i12sm15644203ejy.43.2022.02.02.10.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 10:28:06 -0800 (PST)
+        Wed, 02 Feb 2022 10:28:05 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/33] cmake: update 3.22.1 -> 3.22.2
-Date: Wed,  2 Feb 2022 19:27:31 +0100
-Message-Id: <20220202182758.919991-6-alex@linutronix.de>
+Subject: [PATCH 05/33] util-linux: update 2.37.2 -> 2.37.3
+Date: Wed,  2 Feb 2022 19:27:30 +0100
+Message-Id: <20220202182758.919991-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
 References: <20220202182758.919991-1-alex@linutronix.de>
@@ -68,38 +68,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161231
+ https://lists.openembedded.org/g/openembedded-core/message/161230
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cmake/{cmake-native_3.22.1.bb => cmake-native_3.22.2.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.22.1.bb => cmake_3.22.2.bb} | 0
+ ...til-linux-libuuid_2.37.2.bb => util-linux-libuuid_2.37.3.bb} | 0
+ meta/recipes-core/util-linux/util-linux.inc                     | 2 +-
+ .../util-linux/{util-linux_2.37.2.bb => util-linux_2.37.3.bb}   | 0
  3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.22.1.bb => cmake-native_3.22.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.22.1.bb => cmake_3.22.2.bb} (100%)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.37.2.bb => util-linux-libuuid_2.37.3.bb} (100%)
+ rename meta/recipes-core/util-linux/{util-linux_2.37.2.bb => util-linux_2.37.3.bb} (100%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.37.2.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.37.3.bb
 similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.22.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 628734ac73..9276db3c56 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.37.2.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.37.3.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1e3cd28801..0309332722 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -37,4 +37,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://avoid_parallel_tests.patch \
+            "
  
--SRC_URI[sha256sum] = "0e998229549d7b3f368703d20e248e7ee1f853910d42704aa87918c213ea82c0"
-+SRC_URI[sha256sum] = "3c1c478b9650b107d452c5bd545c72e2fad4e37c09b89a1984b9a2f46df6aced"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.22.1.bb b/meta/recipes-devtools/cmake/cmake_3.22.2.bb
+-SRC_URI[sha256sum] = "6a0764c1aae7fb607ef8a6dd2c0f6c47d5e5fd27aa08820abaad9ec14e28e9d9"
++SRC_URI[sha256sum] = "590c592e58cd6bf38519cb467af05ce6a1ab18040e3e3418f24bcfb2f55f9776"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.37.2.bb b/meta/recipes-core/util-linux/util-linux_2.37.3.bb
 similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.22.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.22.2.bb
+rename from meta/recipes-core/util-linux/util-linux_2.37.2.bb
+rename to meta/recipes-core/util-linux/util-linux_2.37.3.bb
 -- 
 2.20.1
 
