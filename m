@@ -2,99 +2,118 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 455BDC433FE
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:34 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.2288.1643826513410161740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 574B9C433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:29:29 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web12.2308.1643826568611673512
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:33 -0800
+ Wed, 02 Feb 2022 10:29:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ijEqHCdt;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=c3+XeAqW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id s13so275714ejy.3
+Received: by mail-ua1-f49.google.com with SMTP id u76so826188uau.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:33 -0800 (PST)
+ Wed, 02 Feb 2022 10:29:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AnuSxB4O3//kYhrbQfWXeT8VKGFV/k+FtVWHWzsPtKc=;
-        b=ijEqHCdtxBNY19CTb9llwblQomHpcL4kzlo+pTY4z7cPuKzTGsPUnZYU3TQjLqKnJx
-         F3YnZndtL6Ec2WhXgFtaROIMCIBnbKJ/jNcg4ZOf9ogWy3L1uSJOI8V0HNHHL183yU7Z
-         DbUyoO5rNvyfUAIEqAl9IA4TSZ+KRwiFcSJCzLIV0er0MA3KjExNebYmwbrEnccGYmFp
-         UWfqmvFjnApajjI43KIW1lEpIL/rrCRJenRnMLVJqLyCdt3XxeQE2PogYdxBLsDm/fcJ
-         6sRP4Q/zjePzaOTVfy0cjhanhGjfQOFfQlU0MZVAEwmVFgpa8dt+EVzOr1fIanuGMV73
-         suig==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fDIHSakP9cd5ss6hzfNoxAVUSsqNFVEMSBtsr0tzLCw=;
+        b=c3+XeAqWu9Jg6xQsWUVlBiI4OdrEGxrZIDwU4v13YUBQAQqnSMYukYBWsjoISmk9AI
+         eH0p7x6MFG4zyBfL0QeBlTZFzA1xHZ2k+PqisfJEuFfUW/jsSIrKInPpOrNkBYuUizvC
+         +/BflPPEEJQpao8djhOElfujVDa+tpyNLI8NA31j+YVCq7bpfdJn2Kyg74ZPj5ytEvnH
+         qTg8+F54EJjcSPdw6J5v3UaoyzTZEfGzVS+Glhel+K7ZdFI+wkfCfGmJEJPB0WjYXS7Q
+         iJwZTIgY0FuNlS3wXKa0OWK7O703LTMASmewfci3b9o+1fH6sPcUG9YKL6S5sxOFKoMX
+         yOqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AnuSxB4O3//kYhrbQfWXeT8VKGFV/k+FtVWHWzsPtKc=;
-        b=wPI+cQsM4fqc65TayBsWrMbDRjtZwPu10bpD57ubQyLrhhhLZRDL6SjV/aOKYVZIgy
-         L7JtrwEmEUEzAZr4E7FNHE8icegDlf8Ncp7fo1GzJfypgEMc3ydyRV7AI9GMdw50Y3xx
-         GsSifkGmLZrDEJt8fzOiAeWWkP8bvh+lyCHxeR4FvBbi+hld+B17TMrS0Y3WX2FJp7F3
-         VO4oPPn64nMACByEoJ01TftBkuiC4Ey4BuI5OHyah0AroxI3QjeIU+8fHnH3azgK22+E
-         pwm6FcY9DMuqpv3H1AgEcdLSxtsLMAOmEJfXXfGYcmsMAsnxAyRCnY/+ya3A6JUewn+J
-         SAcw==
-X-Gm-Message-State: AOAM531GeKkxL0PvAFgm2Y+cvz6opTxWCf50c7O6B9aXAzMZnkyh0yHL
-	vmlPBGFDTqWCd+PrVJsQ8zX1Iu+gQZ8=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fDIHSakP9cd5ss6hzfNoxAVUSsqNFVEMSBtsr0tzLCw=;
+        b=0L7ylBXxqqt6A3H/0uwr820QRMu64X1RUms/bciLq29DJgnhq23MaTjre97+4gvRze
+         CFoGyu+/+FXKj05b3epdWDYXxhsspoIR5gbNRs0VIUSFAhn5h0gKbHq49fL8xR1HxagU
+         4kqXsQndClBMSvmgye9RbB6tT5Gw/OvIgEOzJPoJVJg7LbbkrIWkZrJL2TQDyslNqbYu
+         IhQ7xgjNzO24Da2qbzqi3mejwIoKakZO/sjqZG22/0nVjhI/rKb50be++ibFrYbfsSf2
+         vbasVrBIjtTPgLmcd/g+Bigu+nS3MeUdk67FWeiPo4hvOwTlgOSxl2PNs9vlXzMrX3uW
+         uZRA==
+X-Gm-Message-State: AOAM532o59Ykd8TfltYjLmeAU8xJX180wsfXBoE6L6HFius+2iPDAScU
+	uXaKL3o6xcdDiBQZN1VPFexM2ceiygL1V7F+dfw=
 X-Google-Smtp-Source: 
- ABdhPJyYukKlLui9kZ1fqu2h5lA5j1HOs41CZqc3zPmg+e4BN1exHw1qFTXCLyQVEppIAeFcGwpjAw==
-X-Received: by 2002:a17:907:3e27:: with SMTP id
- hp39mr27024871ejc.761.1643826511973;
-        Wed, 02 Feb 2022 10:28:31 -0800 (PST)
-Received: from nereus.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- i12sm15644203ejy.43.2022.02.02.10.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 10:28:31 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 33/33] re2c: upgrade 2.2 -> 3.0
-Date: Wed,  2 Feb 2022 19:27:58 +0100
-Message-Id: <20220202182758.919991-33-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
-References: <20220202182758.919991-1-alex@linutronix.de>
+ ABdhPJyctNWYixvfdh9gzjjBQ+Gu0aUxdEPeH2lR6fBXqQiiMFpzt8ckWbrM0NRv4i+uH+TgMeAMMOgivY0mEzIZ3vE=
+X-Received: by 2002:a05:6102:c50:: with SMTP id
+ y16mr12317156vss.45.1643826567665;
+ Wed, 02 Feb 2022 10:29:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220201133054.3265186-1-alex@linutronix.de>
+ <20220201133054.3265186-2-alex@linutronix.de>
+ <16CFB8EC2EFE6F03.7982@lists.openembedded.org>
+ <20220202002708.GB26229@denix.org>
+In-Reply-To: <20220202002708.GB26229@denix.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 2 Feb 2022 19:29:15 +0100
+Message-ID: 
+ <CANNYZj8PrFPWpFrGE4L39jG3z3_Nxh+xn-9_Eyr2vKA3W_3TkQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 2/2] weston: upgrade 9.0.0 -> 10.0.0
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>,
+ Marius Vlad <marius.vlad@collabora.com>,
+	Daniel Stone <daniel.stone@collabora.com>, Chen Qi <Qi.Chen@windriver.com>,
+	Denys Dmytriyenko <denys@konsulko.com>,
+ Tom Hochstein <tom.hochstein@nxp.com>,
+	Jussi Kukkonen <jussi.kukkonen@intel.com>, Ming Liu <ming.liu@toradex.com>
+Content-Type: multipart/alternative; boundary="000000000000a35fc905d70d32b9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:29:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161258
+ https://lists.openembedded.org/g/openembedded-core/message/161259
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+--000000000000a35fc905d70d32b9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-support/re2c/{re2c_2.2.bb => re2c_3.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/re2c/{re2c_2.2.bb => re2c_3.0.bb} (91%)
+On Wed, 2 Feb 2022 at 01:27, Denys Dmytriyenko <denis@denix.org> wrote:
 
-diff --git a/meta/recipes-support/re2c/re2c_2.2.bb b/meta/recipes-support/re2c/re2c_3.0.bb
-similarity index 91%
-rename from meta/recipes-support/re2c/re2c_2.2.bb
-rename to meta/recipes-support/re2c/re2c_3.0.bb
-index 9a0968a984..ab047601ae 100644
---- a/meta/recipes-support/re2c/re2c_2.2.bb
-+++ b/meta/recipes-support/re2c/re2c_3.0.bb
-@@ -8,7 +8,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
- 
- SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "0fc45e4130a8a555d68e230d1795de0216dfe99096b61b28e67c86dfd7d86bda"
-+SRC_URI[sha256sum] = "b3babbbb1461e13fe22c630a40c43885efcfbbbb585830c6f4c0d791cf82ba0b"
- UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.20.1
+>
+> BTW, the final 10.0.0 just got released earlier today:
+>
+> https://lists.freedesktop.org/archives/wayland-devel/2022-February/042103.html
+>
+> Alex,
+>
+> Would it be possible to includue the link above with the full Changelog in
+> the
+> commit message? Thanks.
+>
 
+Yes; I just sent the final update in the latest patchset.
+
+Alex
+
+--000000000000a35fc905d70d32b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 2 Feb 2022 at 01:27, Denys Dmytriyenko &lt;<a href=3D"mailto=
+:denis@denix.org">denis@denix.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+BTW, the final 10.0.0 just got released earlier today:<br>
+<a href=3D"https://lists.freedesktop.org/archives/wayland-devel/2022-Februa=
+ry/042103.html" rel=3D"noreferrer" target=3D"_blank">https://lists.freedesk=
+top.org/archives/wayland-devel/2022-February/042103.html</a><br>
+<br>
+Alex,<br>
+<br>
+Would it be possible to includue the link above with the full Changelog in =
+the <br>
+commit message? Thanks.<br></blockquote><div><br></div>Yes; I just sent the=
+ final update in the latest patchset.</div><div class=3D"gmail_quote"><br><=
+/div><div class=3D"gmail_quote">Alex<br></div></div>
+
+--000000000000a35fc905d70d32b9--
 
