@@ -2,64 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B93C433F5
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:15 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web09.2290.1643826494075136021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53453C43219
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:17 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web10.2250.1643826495801463229
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:14 -0800
+ Wed, 02 Feb 2022 10:28:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pxUR1Zrz;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kKHm30td;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id k25so252950ejp.5
+Received: by mail-ej1-f46.google.com with SMTP id p15so226679ejc.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:13 -0800 (PST)
+ Wed, 02 Feb 2022 10:28:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p+3wY2xZGcC/mj6wEwfrI2whSezoSgRnaqLjzBgMKN0=;
-        b=pxUR1ZrzS9JWQ7E+4jxmVN0DhVsNAMz30w+YtQB+v2GqlpcSgnHCollQ0pzvH1sC2w
-         MQAnLVp61yYGn8t4tyNXBv33+RguhvHd7KoupE/BRfw0DJmvcXMIdrrS8gh2j/aFB+Dv
-         UJYLdAoMr0+spQxoXKRtC5lDe7PsAAbgNtAAtC9xSZbp6GtuDJjy6zbuXRpo+yEdIqzO
-         rLbc7CfxwpNrX6XGOYzfYy4k6Q7erijP8dMAeI1jwBtUueiuiRDbtfDrUAYRkvUUBa0F
-         W/TF/tvWOwMtq4ZrdubMu6qFZbGPh7tV9AS+ieD9M8QervTYk2DW7gbmEOBxdtUspu7g
-         FQ5Q==
+        bh=D1hiM2MJuI2QFCJVTRXeajJOQgIVGMoF3r/NQdymTYg=;
+        b=kKHm30tdMiRpdreG/EfUAX8tn1jg7F/Fqp4nNX+ej+KVZWTrJQFsNy2z0rxowFMOZp
+         qiBSxv7lBtavod2JJmobF/mI0EPrKQkS1aPGwTROO/l4x15dOelhfkTIKVcyM6EGuESP
+         leOUlf5L3wPmZ/wrPBj8RX9XSOobdgpeLwKMd4SQdcSrV+kVEKmaSnBPLc4FSoHrFf9/
+         Q30CLVywj+f7ZaIVuaflIU/vmNwmx6lnAHkrz8Yz+ZJVUmU7TK7WJ9HAO8dfbcrNBRQY
+         pFVNmdpRVwfNTrPCBLl4bNzVQYMvfC6SLisdxpm9rklIXjSzjQYC8epd/tJnk/fjvLb2
+         yyLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p+3wY2xZGcC/mj6wEwfrI2whSezoSgRnaqLjzBgMKN0=;
-        b=0XxFhePcezGnZCZg0kYMyFhO3IKJCwXkjJ5EOSNar04O0cH93b8xHsBT+ypsvlq3Ko
-         8rCKCZ1VHcWFokDY5IFBEjmdJW/A6p0drenVt4/CC/B6FBm/IP3VnwSUsvYxKqpNGiPT
-         ahu2+liU07F2xeL6BUQrP+2fPbTXFMW92XCnGXL8B/ZT3wRH/YYakJ1CMlrJVXL/Gxmi
-         xYuTazxeEKoCFbtAfJv6thoMu13ELYkdJ6HLpWaxdZLLZdh6w/asP4//BL+BguZMheYq
-         d9uMNY1Yi66Dz4F55ch1yZZJgqlvefyBwJkLjLZUeRblViJFfVjEsh6L2QkmW1knB+tE
-         hlCw==
-X-Gm-Message-State: AOAM530SRHFAPLfZPUvoVK6j5Ro5IcP4yggL/rgg8vALUCoSIaU9JS6U
-	vjOJ3MSfKigP6ie0dQKMIjHZM969Tks=
+        bh=D1hiM2MJuI2QFCJVTRXeajJOQgIVGMoF3r/NQdymTYg=;
+        b=Mjrtaz+41F42XqU4lmMZbpCU6aR1/qhxWQEVH5nuEdCtRRfnhtPtUr9yNGP1rc/mNo
+         RE7UZUDJGTwtrULMo54fUGdSG8vf4571ekY3LC+DvHqX9cOEDR0j22fBGs0PNfPLPcCs
+         9iET/RI0eJi3X/BDSS8bQnJG7H18VouOkE/zY5kuHvaanFLjtljSUEzJNrUYnda59aM6
+         mDkyA7HoMzERfcE/CzpZuSYrEnFQF1afEPDnshbAijQ2DQHnizQNYin3mjYlXubmwh8Y
+         v2jPuzmGcyuNfZ479MjWbI+VhdgCDDXtGQk4RkGBIyY1/C787CD95GxtaFU7n/eojem3
+         u+ug==
+X-Gm-Message-State: AOAM53015D02MwHuTwuQ+/V4X9AbV8Xpa+06aUxsndBFTH15aOCFX5NE
+	fIn8DQMrNMuFJIPEgwXsR9xysWKsldI=
 X-Google-Smtp-Source: 
- ABdhPJx4E/2plkJNrpSbK3KMqJwli41o3tylcuDc54gq7zJlGG8Hf2tlMwxncLMUjec7g8hhdb7PQg==
-X-Received: by 2002:a17:906:30c9:: with SMTP id
- b9mr26812687ejb.377.1643826492533;
-        Wed, 02 Feb 2022 10:28:12 -0800 (PST)
+ ABdhPJz8M+DIZwkwKpuFAYLgv8VUIxQPGPjz3xqeZL74jM/9LByCQ5Di9mwoXKsSsKmsJ0lcpsjdZA==
+X-Received: by 2002:a17:907:1b11:: with SMTP id
+ mp17mr26032167ejc.541.1643826494415;
+        Wed, 02 Feb 2022 10:28:14 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- i12sm15644203ejy.43.2022.02.02.10.28.11
+ i12sm15644203ejy.43.2022.02.02.10.28.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 10:28:12 -0800 (PST)
+        Wed, 02 Feb 2022 10:28:13 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>,
-	Scott Garman <scott.a.garman@intel.com>,
-	Chen Qi <Qi.Chen@windriver.com>
-Subject: [PATCH 11/33] at: update 3.2.2 -> 3.2.4
-Date: Wed,  2 Feb 2022 19:27:36 +0100
-Message-Id: <20220202182758.919991-11-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 13/33] xf86-input-libinput: update 1.2.0 -> 1.2.1
+Date: Wed,  2 Feb 2022 19:27:38 +0100
+Message-Id: <20220202182758.919991-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
 References: <20220202182758.919991-1-alex@linutronix.de>
@@ -68,117 +66,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161236
-
-Drop patch for issue fixed upstream.
-
-Change additional source copying to be a part of do_configure
-to allow automated upgrades.
+ https://lists.openembedded.org/g/openembedded-core/message/161238
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../at/at/fix_parallel_build_error.patch      | 37 -------------------
- .../at/{at_3.2.2.bb => at_3.2.4.bb}           | 24 ++++++------
- 2 files changed, 11 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-extended/at/at/fix_parallel_build_error.patch
- rename meta/recipes-extended/at/{at_3.2.2.bb => at_3.2.4.bb} (81%)
+ ...86-input-libinput_1.2.0.bb => xf86-input-libinput_1.2.1.bb} | 3 ++-
+ meta/recipes-graphics/xorg-driver/xorg-driver-common.inc       | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_1.2.0.bb => xf86-input-libinput_1.2.1.bb} (67%)
 
-diff --git a/meta/recipes-extended/at/at/fix_parallel_build_error.patch b/meta/recipes-extended/at/at/fix_parallel_build_error.patch
-deleted file mode 100644
-index e4f32b82b6..0000000000
---- a/meta/recipes-extended/at/at/fix_parallel_build_error.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 24ef2a6544f9c7ec01bc7ae73dffa2974a1e251d Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Wed, 5 Dec 2018 09:46:22 +0800
--Subject: [PATCH] fix parallel build error
--
--make -j was failing sometimesa like this
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/home/nitin/build/build0/tmp/sysroots/i586-poky-linux -I. -fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types -o atd atd.o daemon.o  -lfl  -lpam -Wl,-O1 -Wl,--as-needed
--| parsetime.l:5:19: fatal error: y.tab.h: No such file or directory
--| compilation terminated.
--| make: *** [lex.yy.o] Error 1
--| make: *** Waiting for unfinished jobs....
--
--Fixed the issue by adding a dependency in the makefile.
--Nitin <nitin.a.kamble@intel.com>
--2010/09/02
--
--Upstream-Status: Pending
--
--Signed-off-by: Scott Garman <scott.a.garman@intel.com>
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- Makefile.in | 2 ++
-- 1 file changed, 2 insertions(+)
--
--Index: at-3.2.1/Makefile.in
--===================================================================
----- at-3.2.1.orig/Makefile.in
--+++ at-3.2.1/Makefile.in
--@@ -83,6 +83,8 @@ y.tab.c y.tab.h: parsetime.y
-- lex.yy.c: parsetime.l
-- 	$(LEX) -i parsetime.l
-- 
--+parsetime.l: y.tab.h
--+
-- atd.service: atd.service.in
-- 	cat $< | sed -e 's![@]sbindir[@]!$(sbindir)!g' | sed -e 's![@]atjobdir[@]!$(atjobdir)!g' > $@
-- 
-diff --git a/meta/recipes-extended/at/at_3.2.2.bb b/meta/recipes-extended/at/at_3.2.4.bb
-similarity index 81%
-rename from meta/recipes-extended/at/at_3.2.2.bb
-rename to meta/recipes-extended/at/at_3.2.4.bb
-index 14b9dace2a..af8c3d6b4c 100644
---- a/meta/recipes-extended/at/at_3.2.2.bb
-+++ b/meta/recipes-extended/at/at_3.2.4.bb
-@@ -23,21 +23,20 @@ RCONFLICTS:${PN} = "atd"
- RREPLACES:${PN} = "atd"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
+similarity index 67%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
+index b0168df8d1..e1c47aa5e7 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a22925127bd3c827c384cedd23ed2309"
  
- SRC_URI = "http://software.calhariz.com/at/${BPN}_${PV}.orig.tar.gz \
--    file://fix_parallel_build_error.patch \
--    file://posixtm.c \
--    file://posixtm.h \
--    file://file_replacement_with_gplv2.patch \
--    file://atd.init \
--    file://atd.service \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
--    file://makefile-fix-parallel.patch \
--    file://0001-remove-glibc-assumption.patch \
--    "
-+           file://posixtm.c \
-+           file://posixtm.h \
-+           file://file_replacement_with_gplv2.patch \
-+           file://atd.init \
-+           file://atd.service \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-+           file://makefile-fix-parallel.patch \
-+           file://0001-remove-glibc-assumption.patch \
-+           "
+ DEPENDS += "libinput"
  
- PAM_SRC_URI = "file://pam.conf.patch \
-                file://configure-add-enable-pam.patch"
+-SRC_URI[sha256sum] = "f80da3c514fe1cbf57fa1b1bd6ff97f6b0a1f87466ad89247bac59cd0a5869f6"
++XORG_DRIVER_COMPRESSOR = ".tar.xz"
++SRC_URI[sha256sum] = "8151db5b9ddb317c0ce92dcb62da9a8db5079e5b8a95b60abc854da21e7e971b"
  
--SRC_URI[sha256sum] = "2211da14914fde1f9cc83592838fb6385a32fb11fcecb7816c77700df6559088"
-+SRC_URI[sha256sum] = "76990cbb6f4b9bfedb926637904fdcc0d4fa20b6596b9c932117a49a0624c684"
+ FILES:${PN} += "${datadir}/X11/xorg.conf.d"
+diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+index 65c5e3c48a..0b1df44fe0 100644
+--- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+@@ -8,7 +8,8 @@ PE = "2"
  
- EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
-                  --with-daemon_username=root \
-@@ -53,10 +52,9 @@ INITSCRIPT_PARAMS = "defaults"
+ DEPENDS = "virtual/xserver xorgproto util-macros"
  
- SYSTEMD_SERVICE:${PN} = "atd.service"
+-SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}.tar.bz2"
++XORG_DRIVER_COMPRESSOR ?= ".tar.bz2"
++SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}${XORG_DRIVER_COMPRESSOR}"
  
--copy_sources() {
-+do_configure:prepend() {
- 	cp -f ${WORKDIR}/posixtm.[ch] ${S}
- }
--do_patch[postfuncs] += "copy_sources"
+ FILES:${PN} += " ${libdir}/xorg/modules/drivers/*.so"
  
- do_install () {
- 	oe_runmake -e "IROOT=${D}" install
 -- 
 2.20.1
 
