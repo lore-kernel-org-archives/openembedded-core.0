@@ -2,63 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D47C433FE
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:12 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web09.2288.1643826490761447500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470C0C433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:14 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web12.2283.1643826492967011366
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:11 -0800
+ Wed, 02 Feb 2022 10:28:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AOUPZqsb;
- spf=pass (domain: gmail.com, ip: 209.85.208.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g93zmz6Q;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id u18so399308edt.6
+Received: by mail-ej1-f48.google.com with SMTP id o12so166096eju.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:10 -0800 (PST)
+ Wed, 02 Feb 2022 10:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xWcDtGlg/ahRDF+kHUVWLDwiJX0FoUoElxpKQAeQedA=;
-        b=AOUPZqsbRSh8iq59iKIeRN6PhwDwvqFn3agaQFgVwh4d4Cnqq0s2Dw8r6YXRSaqKlI
-         T6+fAy+C9AJDG9Kpk75N4m8b8jZSQBY2li0L+3QFllAPYXqSs9ooUoJiOk78c99JM8hG
-         64rqFWTUex8yLH+9HJJzqLdrGLw0Iv39FOFcPeLHfKAaZP8JcwOnIBEtPkkmA8Qn6fdo
-         08E4nTVBMdosu7Z0snGBHj1HUqQLCx+HYGT2f5wdyoCa/BOQZGG0yuj7LBCyKC/uNkz+
-         r7t3AURnFn0t3lPiQBVceUfnj+BFwoYVgXWlnPQOQ3gQ+xU5EbFuGWh8xjbpJc7PKFt3
-         3VgA==
+        bh=WHn7yE0AYbcLRzVbyWfQ8dZPYpZG6Rycgj784s4DQ3s=;
+        b=g93zmz6QswIaYQJs1iPkZKkkuDLVUd77U0zWypbrg5LFz6aj5HYdI2r/swjK6e+i4g
+         3WiFmj+ySP3SWmvKl4unzGIYYyA+uNu9hTS2FTTFfCxIv9kSIjXFiFPHBkvESyyjs0he
+         /1fCypNEFC3qpFCPbN2X9k3wJsZZB7FrHnM66VL59SJd9Vt4Sk3lt38KEYSLqbVHAlD/
+         mlRvgpCex+HN1XR3qlxwQSqDtw7lnKiyHISyu1jgF7hiB5tqlHz0/HN0o4/yYYtlQBf1
+         Gxws7FwmSKacxdFeWTeBD2cvmGOnX+vpIlg3d4nuoR4Ad+LMkXFWYJak2ckWDS0Dzkl/
+         Stjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xWcDtGlg/ahRDF+kHUVWLDwiJX0FoUoElxpKQAeQedA=;
-        b=x7sya1gTfnNSzb+D/wfpaJe+r5JdgDBsS6VU2lFh/L4e+CWpC6pKY4sy/Q3IjD4ZLb
-         71jaGCXZGPeZBL9CDpMuuM4nwD/3Ef9Ji8k37a0nt3IZkO2q3M4N5FWk86firoMwHnLe
-         oqtyCp5SHQCU9eVtnHa1oS7hLNMp58n2LrmB56tnqClAxYY9wmk03ese1cv51Q7Za7Pk
-         TkxJPCI1v8223VSHRPTqNT+5w5Wm5oaL+f+/AoyvPx4EulNGEuyIZQyfhAo86Etr1QSz
-         tQN+I0ph95vU0uf6oOc1iSrnjUaE1AXg2d771Z0BJPH80q7tK+uHZ1rL7A97xSIE816J
-         fB7w==
-X-Gm-Message-State: AOAM531tsH3LIw7dTv0DlAKVyBVIWW8gLr+TxWykx0CjAuNlzaB0u09f
-	tk0SMKgnmjMiFqQSLoF0jCb25zsA+rc=
+        bh=WHn7yE0AYbcLRzVbyWfQ8dZPYpZG6Rycgj784s4DQ3s=;
+        b=0ot88cLob3DeJSIKM9yLf2czFF36O3vRk61uwhCBY0fV+hNaiTQDQTwo5htxuK8jQs
+         g4oc+55DkQFnJnGgsvXOxMtvSgAwfNDwbYp7+xmnpOgMJfhwmctd4Jn9FG7TQAea0/3k
+         mj6yEG2p8jH5Y/u4jjq2GHcOdBU8LLoBp2bbN8wjenjxkvMdFnA/d3yEktAj5zIWhJlW
+         2nheXHXmCPFz02/WNjuZpXvWWlvGOIJKAM1AIogbgRGpRK1rlkUcBbDsnoI/Lyq/G8x4
+         FR8D+Jk9x5ZcyIEJLnuchOqPkSI9g+KKrm7KOhY/1KNcdndAm12AMFkXosIAlAP0wR8A
+         8lKw==
+X-Gm-Message-State: AOAM530gXI5ZFkcL1sTui7Moq47P8whTthArkV62XhDcklXiGrUynufp
+	DWBUBqYSs3ctutPw8dS1sUIpymEBRYY=
 X-Google-Smtp-Source: 
- ABdhPJwkpIH2g6OOgMSh+2ZLuFqkPE46eH77M2ODuOP0m2Bamk8msADreMmoHpBvkdW7aVkq1oY4jA==
-X-Received: by 2002:a05:6402:26d6:: with SMTP id
- x22mr31422696edd.366.1643826489389;
-        Wed, 02 Feb 2022 10:28:09 -0800 (PST)
+ ABdhPJywI4RS7AR1x4+sid7w61R/sm6xenfsJdq/O+JJ+TbM2lpzkfJXZYfXuDJiyUOC8oSqsTDFDw==
+X-Received: by 2002:a17:906:730a:: with SMTP id
+ di10mr26451279ejc.489.1643826491582;
+        Wed, 02 Feb 2022 10:28:11 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- i12sm15644203ejy.43.2022.02.02.10.28.08
+ i12sm15644203ejy.43.2022.02.02.10.28.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 10:28:08 -0800 (PST)
+        Wed, 02 Feb 2022 10:28:10 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/33] git: build manpages from source subject to manpages
- PACKAGECONFIG
-Date: Wed,  2 Feb 2022 19:27:33 +0100
-Message-Id: <20220202182758.919991-8-alex@linutronix.de>
+Subject: [PATCH 10/33] python3-pycryptodome: update 3.12.0 -> 3.14.0
+Date: Wed,  2 Feb 2022 19:27:35 +0100
+Message-Id: <20220202182758.919991-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
 References: <20220202182758.919991-1-alex@linutronix.de>
@@ -67,80 +66,72 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161233
-
-This allows automated updates, and better aligns with how
-documentation is handled in oe-core.
+ https://lists.openembedded.org/g/openembedded-core/message/161235
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/git/git_2.34.1.bb | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/python/python-pycryptodome.inc         | 2 +-
+ meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb  | 5 -----
+ meta/recipes-devtools/python/python3-pycryptodome_3.14.0.bb  | 5 +++++
+ ...cryptodomex_3.12.0.bb => python3-pycryptodomex_3.14.0.bb} | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.14.0.bb
+ rename meta/recipes-devtools/python/{python3-pycryptodomex_3.12.0.bb => python3-pycryptodomex_3.14.0.bb} (69%)
 
-diff --git a/meta/recipes-devtools/git/git_2.34.1.bb b/meta/recipes-devtools/git/git_2.34.1.bb
-index a762ebac99..71ff6d444c 100644
---- a/meta/recipes-devtools/git/git_2.34.1.bb
-+++ b/meta/recipes-devtools/git/git_2.34.1.bb
-@@ -8,7 +8,6 @@ DEPENDS = "openssl curl zlib expat"
- PROVIDES:append:class-native = " git-replacement-native"
+diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
+index 071af557ea..29fe80d224 100644
+--- a/meta/recipes-devtools/python/python-pycryptodome.inc
++++ b/meta/recipes-devtools/python/python-pycryptodome.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=29242a70410a4eeff488a28164e7ab93"
  
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
--           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-            file://fixsort.patch \
- "
+ inherit pypi
  
-@@ -21,6 +20,7 @@ CVE_PRODUCT = "git-scm:git"
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[cvsserver] = ""
- PACKAGECONFIG[svn] = ""
-+PACKAGECONFIG[manpages] = ",,asciidoc-native xmlto-native"
+-PYPI_PACKAGE_EXT = "zip"
++PYPI_PACKAGE_EXT = "tar.gz"
  
- EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 		--without-tcltk \
-@@ -29,7 +29,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- EXTRA_OECONF:append:class-nativesdk = " --with-gitconfig=/etc/gitconfig "
- 
- # Needs brokensep as this doesn't use automake
--inherit autotools-brokensep perlnative bash-completion
-+inherit autotools-brokensep perlnative bash-completion manpages
- 
- EXTRA_OEMAKE = "NO_PYTHON=1 CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
- EXTRA_OEMAKE += "'PERL_PATH=/usr/bin/env perl'"
-@@ -40,19 +40,22 @@ do_compile:prepend () {
- 	# Remove perl/perl.mak to fix the out-of-date perl.mak error
- 	# during rebuild
- 	rm -f perl/perl.mak
-+
-+        if [ "${@bb.utils.filter('PACKAGECONFIG', 'manpages', d)}" ]; then
-+            oe_runmake man
-+        fi
- }
- 
- do_install () {
- 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
- 		template_dir=${datadir}/git-core/templates
- 
--	for section in man1 man5 man7; do
--		install -d ${D}/${mandir}/$section
--		install -t ${D}/${mandir}/$section ${WORKDIR}/$section/*
--	done
+ RDEPENDS:${PN} += " \
+     ${PYTHON_PN}-io \
+diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
+deleted file mode 100644
+index a732441a7a..0000000000
+--- a/meta/recipes-devtools/python/python3-pycryptodome_3.12.0.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require python-pycryptodome.inc
+-inherit setuptools3
 -
- 	install -d ${D}/${datadir}/bash-completion/completions/
- 	install -m 644 ${S}/contrib/completion/git-completion.bash ${D}/${datadir}/bash-completion/completions/git
+-SRC_URI[sha256sum] = "12c7343aec5a3b3df5c47265281b12b611f26ec9367b6129199d67da54b768c1"
+-
+diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.14.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.14.0.bb
+new file mode 100644
+index 0000000000..fb2f8d5ff0
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pycryptodome_3.14.0.bb
+@@ -0,0 +1,5 @@
++require python-pycryptodome.inc
++inherit setuptools3
 +
-+        if [ "${@bb.utils.filter('PACKAGECONFIG', 'manpages', d)}" ]; then
-+            oe_runmake install-man DESTDIR="${D}"
-+        fi
- }
++SRC_URI[sha256sum] = "ceea92a4b8ba6c50d8d70f2efbb4ea14b002dac4160ce4dda33f1b7442f8158a"
++
+diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.14.0.bb
+similarity index 69%
+rename from meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb
+rename to meta/recipes-devtools/python/python3-pycryptodomex_3.14.0.bb
+index 5f88419ce4..b83549840d 100644
+--- a/meta/recipes-devtools/python/python3-pycryptodomex_3.12.0.bb
++++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.14.0.bb
+@@ -1,7 +1,7 @@
+ require python-pycryptodome.inc
+ inherit setuptools3
  
- perl_native_fixup () {
-@@ -146,4 +149,3 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
- EXTRA_OEMAKE += "NO_GETTEXT=1"
+-SRC_URI[sha256sum] = "922e9dac0166e4617e5c7980d2cff6912a6eb5cb5c13e7ece222438650bd7f66"
++SRC_URI[sha256sum] = "2d8bda8f949b79b78b293706aa7fc1e5c171c62661252bfdd5d12c70acd03282"
  
- SRC_URI[tarball.sha256sum] = "fc4eb5ecb9299db91cdd156c06cdeb41833f53adc5631ddf8c0cb13eaa2911c1"
--SRC_URI[manpages.sha256sum] = "220f1ed68582caeddf79c4db15e4eaa4808ec01fd11889e19232f0a74d7f31b0"
+ FILES:${PN}-tests = " \
+     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
 -- 
 2.20.1
 
