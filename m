@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53453C43219
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:17 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.2250.1643826495801463229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49053C43217
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:28:16 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.2248.1643826494847417601
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:16 -0800
+ Wed, 02 Feb 2022 10:28:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kKHm30td;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QukvorTg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id p15so226679ejc.7
+Received: by mail-ed1-f44.google.com with SMTP id j2so384141edj.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:28:15 -0800 (PST)
+ Wed, 02 Feb 2022 10:28:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=D1hiM2MJuI2QFCJVTRXeajJOQgIVGMoF3r/NQdymTYg=;
-        b=kKHm30tdMiRpdreG/EfUAX8tn1jg7F/Fqp4nNX+ej+KVZWTrJQFsNy2z0rxowFMOZp
-         qiBSxv7lBtavod2JJmobF/mI0EPrKQkS1aPGwTROO/l4x15dOelhfkTIKVcyM6EGuESP
-         leOUlf5L3wPmZ/wrPBj8RX9XSOobdgpeLwKMd4SQdcSrV+kVEKmaSnBPLc4FSoHrFf9/
-         Q30CLVywj+f7ZaIVuaflIU/vmNwmx6lnAHkrz8Yz+ZJVUmU7TK7WJ9HAO8dfbcrNBRQY
-         pFVNmdpRVwfNTrPCBLl4bNzVQYMvfC6SLisdxpm9rklIXjSzjQYC8epd/tJnk/fjvLb2
-         yyLw==
+        bh=BfiFfEZX0VXSHpfmALr93RMZE9fhizl6S4rs9Arn/sU=;
+        b=QukvorTgd6H8wyURQ3Cq4fqKBdAMOGhrl/yaCaoqt1XRWldd2/0G1wZRkZO1FLpDvc
+         LAqA8iT+2K7yLfCLgJx/X8aK6rxvD4CsZH39CZJewjwOMOgMwnXknOgUtbmKyGbMI3tn
+         p3RaWInwzFLsqqOR9l81qWhiadPbr1Qt+2SL2HTiSmS+/lvFduxOVLckxBDwTGr1xuZH
+         wHTgXFYIFWLdwKxLRX8xqUlPxFm6qiHBAPFrh6X3rYfAq0m04S1HhkZQEOwDZSEBk+tz
+         YmzRhO9GdG2V5rqOSWFddOGJZsfNPk3dgB19/3loPeuJuRJhBDeg+UFPelySlhkcprYj
+         LnUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=D1hiM2MJuI2QFCJVTRXeajJOQgIVGMoF3r/NQdymTYg=;
-        b=Mjrtaz+41F42XqU4lmMZbpCU6aR1/qhxWQEVH5nuEdCtRRfnhtPtUr9yNGP1rc/mNo
-         RE7UZUDJGTwtrULMo54fUGdSG8vf4571ekY3LC+DvHqX9cOEDR0j22fBGs0PNfPLPcCs
-         9iET/RI0eJi3X/BDSS8bQnJG7H18VouOkE/zY5kuHvaanFLjtljSUEzJNrUYnda59aM6
-         mDkyA7HoMzERfcE/CzpZuSYrEnFQF1afEPDnshbAijQ2DQHnizQNYin3mjYlXubmwh8Y
-         v2jPuzmGcyuNfZ479MjWbI+VhdgCDDXtGQk4RkGBIyY1/C787CD95GxtaFU7n/eojem3
-         u+ug==
-X-Gm-Message-State: AOAM53015D02MwHuTwuQ+/V4X9AbV8Xpa+06aUxsndBFTH15aOCFX5NE
-	fIn8DQMrNMuFJIPEgwXsR9xysWKsldI=
+        bh=BfiFfEZX0VXSHpfmALr93RMZE9fhizl6S4rs9Arn/sU=;
+        b=D46mWtF6sAQDd42iFj/JXxd25Fd0zFxUK1xRr9TbND/76Dl8gc5dyZSXWvpVZrw8B0
+         qUEI56ZAgW905v9PHrpiX4GBwGRJ1b+/Mh95qrdbzkPkp7WtrjkoYvBBH+kgorh1/b3l
+         chEMlzk0aWnA1HmlD7y26tXg72nmRePS90fysKaExMppW45rKIJimFO0OYhNG04mZiXR
+         HrV9qSi1/lCUDJ6JPvpNz/n9AM3MDxY45KqPveeZNTaGJu/3+8/0983ibAbp6Tg/JCYb
+         fxuEYWqCKmisxs7UUcy6IaF+4pnHa4BcSlNwgdWMe16yd2epRdiVbKoPJGu63bqGO2N6
+         dP7Q==
+X-Gm-Message-State: AOAM530I+OAHDZUC1Lv37mpsXh2FLYoP1qaffXuOx0rDG5fbuyKWQSdF
+	84yb085jaJmcDzrLWXNbOERBOanAF+c=
 X-Google-Smtp-Source: 
- ABdhPJz8M+DIZwkwKpuFAYLgv8VUIxQPGPjz3xqeZL74jM/9LByCQ5Di9mwoXKsSsKmsJ0lcpsjdZA==
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr26032167ejc.541.1643826494415;
-        Wed, 02 Feb 2022 10:28:14 -0800 (PST)
+ ABdhPJyu7F5co9wF145+bRtne3l69pnbK8Keeu9YRES4R1TFHOCvLA5XyV09E9ZhRsJbg86ww77yGA==
+X-Received: by 2002:a05:6402:894:: with SMTP id
+ e20mr31754961edy.267.1643826493425;
+        Wed, 02 Feb 2022 10:28:13 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- i12sm15644203ejy.43.2022.02.02.10.28.13
+ i12sm15644203ejy.43.2022.02.02.10.28.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Feb 2022 10:28:13 -0800 (PST)
+        Wed, 02 Feb 2022 10:28:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/33] xf86-input-libinput: update 1.2.0 -> 1.2.1
-Date: Wed,  2 Feb 2022 19:27:38 +0100
-Message-Id: <20220202182758.919991-13-alex@linutronix.de>
+Subject: [PATCH 12/33] sudo: update 1.9.8p2 -> 1.9.9
+Date: Wed,  2 Feb 2022 19:27:37 +0100
+Message-Id: <20220202182758.919991-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
 References: <20220202182758.919991-1-alex@linutronix.de>
@@ -66,47 +66,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:17 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:28:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161238
+ https://lists.openembedded.org/g/openembedded-core/message/161237
+
+License-Update: markdown conversion, copyright years
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...86-input-libinput_1.2.0.bb => xf86-input-libinput_1.2.1.bb} | 3 ++-
- meta/recipes-graphics/xorg-driver/xorg-driver-common.inc       | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_1.2.0.bb => xf86-input-libinput_1.2.1.bb} (67%)
+ meta/recipes-extended/sudo/sudo.inc                           | 2 +-
+ meta/recipes-extended/sudo/{sudo_1.9.8p2.bb => sudo_1.9.9.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.8p2.bb => sudo_1.9.9.bb} (96%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
-similarity index 67%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
-index b0168df8d1..e1c47aa5e7 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.2.1.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a22925127bd3c827c384cedd23ed2309"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 82040de8aa..05d030c2e9 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=b969d389e79703121cbffc9f3ea18a8b \
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=16cf60b466f3a0606427a7b624a3a670 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.8p2.bb b/meta/recipes-extended/sudo/sudo_1.9.9.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.8p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.9.bb
+index b2afd1f98c..f1c0339bb3 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.8p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.9.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- DEPENDS += "libinput"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[sha256sum] = "f80da3c514fe1cbf57fa1b1bd6ff97f6b0a1f87466ad89247bac59cd0a5869f6"
-+XORG_DRIVER_COMPRESSOR = ".tar.xz"
-+SRC_URI[sha256sum] = "8151db5b9ddb317c0ce92dcb62da9a8db5079e5b8a95b60abc854da21e7e971b"
+-SRC_URI[sha256sum] = "9e3b8b8da7def43b6e60c257abe80467205670fd0f7c081de1423c414b680f2d"
++SRC_URI[sha256sum] = "6d6ee863a3bc26c87661093a74ec63e10fd031ceba714642d21636dfe25e3e00"
  
- FILES:${PN} += "${datadir}/X11/xorg.conf.d"
-diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-index 65c5e3c48a..0b1df44fe0 100644
---- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-+++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-@@ -8,7 +8,8 @@ PE = "2"
- 
- DEPENDS = "virtual/xserver xorgproto util-macros"
- 
--SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}.tar.bz2"
-+XORG_DRIVER_COMPRESSOR ?= ".tar.bz2"
-+SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}${XORG_DRIVER_COMPRESSOR}"
- 
- FILES:${PN} += " ${libdir}/xorg/modules/drivers/*.so"
- 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.20.1
 
