@@ -2,10 +2,10 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB38C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701C3C433FE
 	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 15:47:35 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web11.66128.1643816854011578685
+ by mx.groups.io with SMTP id smtpd.web12.65904.1643816854185117083
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Feb 2022 07:47:34 -0800
 Authentication-Results: mx.groups.io;
@@ -15,120 +15,367 @@ Authentication-Results: mx.groups.io;
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: sakib.sajal@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 212FlWCt024557
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 212FlVYP024543
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 2 Feb 2022 07:47:33 -0800
+ Wed, 2 Feb 2022 07:47:32 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 212FlQXj023439
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 212FlQXd023439
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 2 Feb 2022 07:47:32 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ Wed, 2 Feb 2022 07:47:31 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 2 Feb 2022 07:47:28 -0800
+ 15.1.2242.12; Wed, 2 Feb 2022 07:47:26 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Wed, 2 Feb 2022 07:47:25 -0800
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 2 Feb 2022 07:47:28 -0800
+ 15.1.2242.12 via Frontend Transport; Wed, 2 Feb 2022 07:47:25 -0800
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 7/8] qemu: fix CVE-2021-3930
-Date: Wed, 2 Feb 2022 10:47:19 -0500
-Message-ID: <20220202154720.18976-7-sakib.sajal@windriver.com>
+Subject: [hardknott][PATCH 1/8] qemu: fix CVE-2021-3592
+Date: Wed, 2 Feb 2022 10:47:13 -0500
+Message-ID: <20220202154720.18976-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220202154720.18976-1-sakib.sajal@windriver.com>
-References: <20220202154720.18976-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 212FlVYP024543
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 15:47:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161211
+ https://lists.openembedded.org/g/openembedded-core/message/161217
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3930.patch             | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
+ meta/recipes-devtools/qemu/qemu.inc           |   3 +
+ .../qemu/qemu/CVE-2021-3592_1.patch           |  58 ++++++
+ .../qemu/qemu/CVE-2021-3592_2.patch           | 165 ++++++++++++++++++
+ .../qemu/qemu/CVE-2021-3592_3.patch           |  40 +++++
+ 4 files changed, 266 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3592_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3592_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3592_3.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7648ce9a38..4a5379893c 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 463339e42b..6c00bf274b 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -79,6 +79,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3594.patch \
-            file://CVE-2021-3713.patch \
-            file://CVE-2021-3748.patch \
-+           file://CVE-2021-3930.patch \
+@@ -70,6 +70,9 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://CVE-2021-3607.patch \
+            file://CVE-2021-3608.patch \
+            file://CVE-2021-3682.patch \
++           file://CVE-2021-3592_1.patch \
++           file://CVE-2021-3592_2.patch \
++           file://CVE-2021-3592_3.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_1.patch b/meta=
+/recipes-devtools/qemu/qemu/CVE-2021-3592_1.patch
 new file mode 100644
-index 0000000000..bfbe5cee33
+index 0000000000..e374959594
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
-@@ -0,0 +1,53 @@
-+From cdca50eff9c38367be54f92839734ab490c8b0f7 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Thu, 4 Nov 2021 17:31:38 +0100
-+Subject: [PATCH 10/12] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
-+ SELECT commands
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_1.patch
+@@ -0,0 +1,58 @@
++From 0123c625aed2ed0679fa8c084104699d918c1da6 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Marc-Andr=3DC3=3DA9=3D20Lureau?=3D <marcandre.lureau@r=
+edhat.com>
++Date: Fri, 4 Jun 2021 15:58:25 +0400
++Subject: [PATCH 01/12] Add mtod_check()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+This avoids an off-by-one read of 'mode_sense_valid' buffer in
-+hw/scsi/scsi-disk.c:mode_sense_page().
++Recent security issues demonstrate the lack of safety care when casting
++a mbuf to a particular structure type. At least, it should check that
++the buffer is large enough. The following patches will make use of this
++function.
 +
-+Fixes: CVE-2021-3930
-+Cc: qemu-stable@nongnu.org
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
-+Fixes: #546
-+Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 +
-+Upstream-Status: Backport [b3af7fdf9cc537f8f0dd3e2423d83f5c99a457e8]
-+CVE: CVE-2021-3930
++Upstream-Status: Backport [93e645e72a056ec0b2c16e0299fc5c6b94e4ca17]
++CVE: CVE-2021-3592
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/scsi/scsi-disk.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ slirp/src/mbuf.c | 11 +++++++++++
++ slirp/src/mbuf.h |  1 +
++ 2 files changed, 12 insertions(+)
 +
-+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-+index 90841ad79..5b44ed7d8 100644
-+--- a/hw/scsi/scsi-disk.c
-++++ b/hw/scsi/scsi-disk.c
-+@@ -1100,6 +1100,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
-+     uint8_t *p = *p_outbuf + 2;
-+     int length;
-+ 
-++    assert(page < ARRAY_SIZE(mode_sense_valid));
-+     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
-+         return -1;
-+     }
-+@@ -1441,6 +1442,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
-+         return -1;
-+     }
-+ 
-++    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
-++    if (page == MODE_PAGE_ALLS) {
-++        return -1;
++diff --git a/slirp/src/mbuf.c b/slirp/src/mbuf.c
++index 54ec721eb..cb2e97108 100644
++--- a/slirp/src/mbuf.c
+++++ b/slirp/src/mbuf.c
++@@ -222,3 +222,14 @@ struct mbuf *dtom(Slirp *slirp, void *dat)
++=20
++     return (struct mbuf *)0;
++ }
+++
+++void *mtod_check(struct mbuf *m, size_t len)
+++{
+++    if (m->m_len >=3D len) {
+++        return m->m_data;
 ++    }
 ++
-+     p = mode_current;
-+     memset(mode_current, 0, inlen + 2);
-+     len = mode_sense_page(s, page, &p, 0);
-+-- 
+++    DEBUG_ERROR("mtod failed");
+++
+++    return NULL;
+++}
++diff --git a/slirp/src/mbuf.h b/slirp/src/mbuf.h
++index 546e7852c..2015e3232 100644
++--- a/slirp/src/mbuf.h
+++++ b/slirp/src/mbuf.h
++@@ -118,6 +118,7 @@ void m_inc(struct mbuf *, int);
++ void m_adj(struct mbuf *, int);
++ int m_copy(struct mbuf *, struct mbuf *, int, int);
++ struct mbuf *dtom(Slirp *, void *);
+++void *mtod_check(struct mbuf *, size_t len);
++=20
++ static inline void ifs_init(struct mbuf *ifm)
++ {
++--=20
 +2.31.1
 +
--- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_2.patch b/meta=
+/recipes-devtools/qemu/qemu/CVE-2021-3592_2.patch
+new file mode 100644
+index 0000000000..799a95417e
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_2.patch
+@@ -0,0 +1,165 @@
++From fc2a4797f55016e78f2cde4806b05368fa5b7a97 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Marc-Andr=3DC3=3DA9=3D20Lureau?=3D <marcandre.lureau@r=
+edhat.com>
++Date: Fri, 4 Jun 2021 19:25:28 +0400
++Subject: [PATCH 02/12] bootp: limit vendor-specific area to input packet
++ memory buffer
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++sizeof(bootp_t) currently holds DHCP_OPT_LEN. Remove this optional field
++from the structure, to help with the following patch checking for
++minimal header size. Modify the bootp_reply() function to take the
++buffer boundaries and avoiding potential buffer overflow.
++
++Related to CVE-2021-3592.
++
++https://gitlab.freedesktop.org/slirp/libslirp/-/issues/44
++
++Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++
++Upstream-Status: Backport [f13cad45b25d92760bb0ad67bec0300a4d7d5275]
++CVE: CVE-2021-3592
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ slirp/src/bootp.c | 26 +++++++++++++++-----------
++ slirp/src/bootp.h |  2 +-
++ slirp/src/mbuf.c  |  5 +++++
++ slirp/src/mbuf.h  |  1 +
++ 4 files changed, 22 insertions(+), 12 deletions(-)
++
++diff --git a/slirp/src/bootp.c b/slirp/src/bootp.c
++index 46e96810a..e0db8d196 100644
++--- a/slirp/src/bootp.c
+++++ b/slirp/src/bootp.c
++@@ -92,21 +92,22 @@ found:
++     return bc;
++ }
++=20
++-static void dhcp_decode(const struct bootp_t *bp, int *pmsg_type,
+++static void dhcp_decode(const struct bootp_t *bp,
+++                        const uint8_t *bp_end,
+++                        int *pmsg_type,
++                         struct in_addr *preq_addr)
++ {
++-    const uint8_t *p, *p_end;
+++    const uint8_t *p;
++     int len, tag;
++=20
++     *pmsg_type =3D 0;
++     preq_addr->s_addr =3D htonl(0L);
++=20
++     p =3D bp->bp_vend;
++-    p_end =3D p + DHCP_OPT_LEN;
++     if (memcmp(p, rfc1533_cookie, 4) !=3D 0)
++         return;
++     p +=3D 4;
++-    while (p < p_end) {
+++    while (p < bp_end) {
++         tag =3D p[0];
++         if (tag =3D=3D RFC1533_PAD) {
++             p++;
++@@ -114,10 +115,10 @@ static void dhcp_decode(const struct bootp_t *bp, =
+int *pmsg_type,
++             break;
++         } else {
++             p++;
++-            if (p >=3D p_end)
+++            if (p >=3D bp_end)
++                 break;
++             len =3D *p++;
++-            if (p + len > p_end) {
+++            if (p + len > bp_end) {
++                 break;
++             }
++             DPRINTF("dhcp: tag=3D%d len=3D%d\n", tag, len);
++@@ -144,7 +145,9 @@ static void dhcp_decode(const struct bootp_t *bp, in=
+t *pmsg_type,
++     }
++ }
++=20
++-static void bootp_reply(Slirp *slirp, const struct bootp_t *bp)
+++static void bootp_reply(Slirp *slirp,
+++                        const struct bootp_t *bp,
+++                        const uint8_t *bp_end)
++ {
++     BOOTPClient *bc =3D NULL;
++     struct mbuf *m;
++@@ -157,7 +160,7 @@ static void bootp_reply(Slirp *slirp, const struct b=
+ootp_t *bp)
++     uint8_t client_ethaddr[ETH_ALEN];
++=20
++     /* extract exact DHCP msg type */
++-    dhcp_decode(bp, &dhcp_msg_type, &preq_addr);
+++    dhcp_decode(bp, bp_end, &dhcp_msg_type, &preq_addr);
++     DPRINTF("bootp packet op=3D%d msgtype=3D%d", bp->bp_op, dhcp_msg_ty=
+pe);
++     if (preq_addr.s_addr !=3D htonl(0L))
++         DPRINTF(" req_addr=3D%08" PRIx32 "\n", ntohl(preq_addr.s_addr))=
+;
++@@ -179,9 +182,10 @@ static void bootp_reply(Slirp *slirp, const struct =
+bootp_t *bp)
++         return;
++     }
++     m->m_data +=3D IF_MAXLINKHDR;
+++    m_inc(m, sizeof(struct bootp_t) + DHCP_OPT_LEN);
++     rbp =3D (struct bootp_t *)m->m_data;
++     m->m_data +=3D sizeof(struct udpiphdr);
++-    memset(rbp, 0, sizeof(struct bootp_t));
+++    memset(rbp, 0, sizeof(struct bootp_t) + DHCP_OPT_LEN);
++=20
++     if (dhcp_msg_type =3D=3D DHCPDISCOVER) {
++         if (preq_addr.s_addr !=3D htonl(0L)) {
++@@ -235,7 +239,7 @@ static void bootp_reply(Slirp *slirp, const struct b=
+ootp_t *bp)
++     rbp->bp_siaddr =3D saddr.sin_addr; /* Server IP address */
++=20
++     q =3D rbp->bp_vend;
++-    end =3D (uint8_t *)&rbp[1];
+++    end =3D rbp->bp_vend + DHCP_OPT_LEN;
++     memcpy(q, rfc1533_cookie, 4);
++     q +=3D 4;
++=20
++@@ -364,6 +368,6 @@ void bootp_input(struct mbuf *m)
++     struct bootp_t *bp =3D mtod(m, struct bootp_t *);
++=20
++     if (bp->bp_op =3D=3D BOOTP_REQUEST) {
++-        bootp_reply(m->slirp, bp);
+++        bootp_reply(m->slirp, bp, m_end(m));
++     }
++ }
++diff --git a/slirp/src/bootp.h b/slirp/src/bootp.h
++index a57fa51bc..31ce5fd33 100644
++--- a/slirp/src/bootp.h
+++++ b/slirp/src/bootp.h
++@@ -114,7 +114,7 @@ struct bootp_t {
++     uint8_t bp_hwaddr[16];
++     uint8_t bp_sname[64];
++     char bp_file[128];
++-    uint8_t bp_vend[DHCP_OPT_LEN];
+++    uint8_t bp_vend[];
++ };
++=20
++ typedef struct {
++diff --git a/slirp/src/mbuf.c b/slirp/src/mbuf.c
++index cb2e97108..0c1a530f1 100644
++--- a/slirp/src/mbuf.c
+++++ b/slirp/src/mbuf.c
++@@ -233,3 +233,8 @@ void *mtod_check(struct mbuf *m, size_t len)
++=20
++     return NULL;
++ }
+++
+++void *m_end(struct mbuf *m)
+++{
+++    return m->m_data + m->m_len;
+++}
++diff --git a/slirp/src/mbuf.h b/slirp/src/mbuf.h
++index 2015e3232..a9752a36e 100644
++--- a/slirp/src/mbuf.h
+++++ b/slirp/src/mbuf.h
++@@ -119,6 +119,7 @@ void m_adj(struct mbuf *, int);
++ int m_copy(struct mbuf *, struct mbuf *, int, int);
++ struct mbuf *dtom(Slirp *, void *);
++ void *mtod_check(struct mbuf *, size_t len);
+++void *m_end(struct mbuf *);
++=20
++ static inline void ifs_init(struct mbuf *ifm)
++ {
++--=20
++2.31.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_3.patch b/meta=
+/recipes-devtools/qemu/qemu/CVE-2021-3592_3.patch
+new file mode 100644
+index 0000000000..f07a0faeb7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3592_3.patch
+@@ -0,0 +1,40 @@
++From d175694c607273b6c8f09717de9c455891d6765d Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Marc-Andr=3DC3=3DA9=3D20Lureau?=3D <marcandre.lureau@r=
+edhat.com>
++Date: Fri, 4 Jun 2021 16:15:14 +0400
++Subject: [PATCH 03/12] bootp: check bootp_input buffer size
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Fixes: CVE-2021-3592
++Fixes: https://gitlab.freedesktop.org/slirp/libslirp/-/issues/44
++
++Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++
++Upstream-Status: Backport [2eca0838eee1da96204545e22cdaed860d9d7c6c]
++CVE: CVE-2021-3592
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ slirp/src/bootp.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/slirp/src/bootp.c b/slirp/src/bootp.c
++index e0db8d196..cafa1eb1f 100644
++--- a/slirp/src/bootp.c
+++++ b/slirp/src/bootp.c
++@@ -365,9 +365,9 @@ static void bootp_reply(Slirp *slirp,
++=20
++ void bootp_input(struct mbuf *m)
++ {
++-    struct bootp_t *bp =3D mtod(m, struct bootp_t *);
+++    struct bootp_t *bp =3D mtod_check(m, sizeof(struct bootp_t));
++=20
++-    if (bp->bp_op =3D=3D BOOTP_REQUEST) {
+++    if (bp && bp->bp_op =3D=3D BOOTP_REQUEST) {
++         bootp_reply(m->slirp, bp, m_end(m));
++     }
++ }
++--=20
++2.31.1
++
+--=20
 2.33.0
 
 
