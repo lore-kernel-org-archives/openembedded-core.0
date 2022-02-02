@@ -2,10 +2,10 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE9AC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB38C4321E
 	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 15:47:35 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web08.65533.1643816854007913695
+ by mx.groups.io with SMTP id smtpd.web11.66128.1643816854011578685
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Feb 2022 07:47:34 -0800
 Authentication-Results: mx.groups.io;
@@ -15,13 +15,13 @@ Authentication-Results: mx.groups.io;
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: sakib.sajal@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 212FlWnv024554
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 212FlWCt024557
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 2 Feb 2022 07:47:32 -0800
+ Wed, 2 Feb 2022 07:47:33 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 212FlQXi023439
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 212FlQXj023439
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 2 Feb 2022 07:47:32 -0800 (PST)
@@ -31,12 +31,12 @@ Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  15.1.2242.12; Wed, 2 Feb 2022 07:47:28 -0800
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 2 Feb 2022 07:47:27 -0800
+ 15.1.2242.12 via Frontend Transport; Wed, 2 Feb 2022 07:47:28 -0800
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 6/8] qemu: fix CVE-2021-3748
-Date: Wed, 2 Feb 2022 10:47:18 -0500
-Message-ID: <20220202154720.18976-6-sakib.sajal@windriver.com>
+Subject: [hardknott][PATCH 7/8] qemu: fix CVE-2021-3930
+Date: Wed, 2 Feb 2022 10:47:19 -0500
+Message-ID: <20220202154720.18976-7-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220202154720.18976-1-sakib.sajal@windriver.com>
 References: <20220202154720.18976-1-sakib.sajal@windriver.com>
@@ -48,157 +48,83 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 15:47:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161214
+ https://lists.openembedded.org/g/openembedded-core/message/161211
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2021-3748.patch             | 127 ++++++++++++++++++
- 2 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3930.patch             | 53 +++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 970aa96608..7648ce9a38 100644
+index 7648ce9a38..4a5379893c 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -78,6 +78,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3595_2.patch \
+@@ -79,6 +79,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2021-3594.patch \
             file://CVE-2021-3713.patch \
-+           file://CVE-2021-3748.patch \
+            file://CVE-2021-3748.patch \
++           file://CVE-2021-3930.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
 new file mode 100644
-index 0000000000..4765f24739
+index 0000000000..bfbe5cee33
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
-@@ -0,0 +1,127 @@
-+From bacc200f623647632258f7efc0f098ac30dd4225 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Thu, 2 Sep 2021 13:44:12 +0800
-+Subject: [PATCH 09/12] virtio-net: fix use after unmap/free for sg
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
+@@ -0,0 +1,53 @@
++From cdca50eff9c38367be54f92839734ab490c8b0f7 Mon Sep 17 00:00:00 2001
++From: Mauro Matteo Cascella <mcascell@redhat.com>
++Date: Thu, 4 Nov 2021 17:31:38 +0100
++Subject: [PATCH 10/12] hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE
++ SELECT commands
 +
-+When mergeable buffer is enabled, we try to set the num_buffers after
-+the virtqueue elem has been unmapped. This will lead several issues,
-+E.g a use after free when the descriptor has an address which belongs
-+to the non direct access region. In this case we use bounce buffer
-+that is allocated during address_space_map() and freed during
-+address_space_unmap().
++This avoids an off-by-one read of 'mode_sense_valid' buffer in
++hw/scsi/scsi-disk.c:mode_sense_page().
 +
-+Fixing this by storing the elems temporarily in an array and delay the
-+unmap after we set the the num_buffers.
-+
-+This addresses CVE-2021-3748.
-+
-+Reported-by: Alexander Bulekov <alxndr@bu.edu>
-+Fixes: fbe78f4f55c6 ("virtio-net support")
++Fixes: CVE-2021-3930
 +Cc: qemu-stable@nongnu.org
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Fixes: a8f4bbe2900 ("scsi-disk: store valid mode pages in a table")
++Fixes: #546
++Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
++Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 +
-+Upstream-Status: Backport [bedd7e93d01961fcb16a97ae45d93acf357e11f6]
-+CVE: CVE-2021-3748
++Upstream-Status: Backport [b3af7fdf9cc537f8f0dd3e2423d83f5c99a457e8]
++CVE: CVE-2021-3930
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
-+ 1 file changed, 32 insertions(+), 7 deletions(-)
++ hw/scsi/scsi-disk.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index 9179013ac..df1d30e2c 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -1665,10 +1665,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+     VirtIONet *n = qemu_get_nic_opaque(nc);
-+     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-++    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
-++    size_t lens[VIRTQUEUE_MAX_SIZE];
-+     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
-+     struct virtio_net_hdr_mrg_rxbuf mhdr;
-+     unsigned mhdr_cnt = 0;
-+-    size_t offset, i, guest_offset;
-++    size_t offset, i, guest_offset, j;
-++    ssize_t err;
++diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
++index 90841ad79..5b44ed7d8 100644
++--- a/hw/scsi/scsi-disk.c
+++++ b/hw/scsi/scsi-disk.c
++@@ -1100,6 +1100,7 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
++     uint8_t *p = *p_outbuf + 2;
++     int length;
 + 
-+     if (!virtio_net_can_receive(nc)) {
+++    assert(page < ARRAY_SIZE(mode_sense_valid));
++     if ((mode_sense_valid[page] & (1 << s->qdev.type)) == 0) {
 +         return -1;
-+@@ -1699,6 +1702,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+ 
-+         total = 0;
-+ 
-++        if (i == VIRTQUEUE_MAX_SIZE) {
-++            virtio_error(vdev, "virtio-net unexpected long buffer chain");
-++            err = size;
-++            goto err;
-++        }
-++
-+         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
-+         if (!elem) {
-+             if (i) {
-+@@ -1710,7 +1719,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                              n->guest_hdr_len, n->host_hdr_len,
-+                              vdev->guest_features);
-+             }
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         if (elem->in_num < 1) {
-+@@ -1718,7 +1728,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                          "virtio-net receive queue contains no in buffers");
-+             virtqueue_detach_element(q->rx_vq, elem, 0);
-+             g_free(elem);
-+-            return -1;
-++            err = -1;
-++            goto err;
-+         }
-+ 
-+         sg = elem->in_sg;
-+@@ -1755,12 +1766,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+         if (!n->mergeable_rx_bufs && offset < size) {
-+             virtqueue_unpop(q->rx_vq, elem, total);
-+             g_free(elem);
-+-            return size;
-++            err = size;
-++            goto err;
-+         }
-+ 
-+-        /* signal other side */
-+-        virtqueue_fill(q->rx_vq, elem, total, i++);
-+-        g_free(elem);
-++        elems[i] = elem;
-++        lens[i] = total;
-++        i++;
++     }
++@@ -1441,6 +1442,11 @@ static int scsi_disk_check_mode_select(SCSIDiskState *s, int page,
++         return -1;
 +     }
 + 
-+     if (mhdr_cnt) {
-+@@ -1770,10 +1782,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
-+                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
-+     }
-+ 
-++    for (j = 0; j < i; j++) {
-++        /* signal other side */
-++        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
-++        g_free(elems[j]);
+++    /* MODE_PAGE_ALLS is only valid for MODE SENSE commands */
+++    if (page == MODE_PAGE_ALLS) {
+++        return -1;
 ++    }
 ++
-+     virtqueue_flush(q->rx_vq, i);
-+     virtio_notify(vdev, q->rx_vq);
-+ 
-+     return size;
-++
-++err:
-++    for (j = 0; j < i; j++) {
-++        g_free(elems[j]);
-++    }
-++
-++    return err;
-+ }
-+ 
-+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
++     p = mode_current;
++     memset(mode_current, 0, inlen + 2);
++     len = mode_sense_page(s, page, &p, 0);
 +-- 
 +2.31.1
 +
