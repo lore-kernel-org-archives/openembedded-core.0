@@ -1,187 +1,906 @@
-Return-Path: <andrej.valek@siemens.com>
+Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 017B8C433F5
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 06:51:23 +0000 (UTC)
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.43])
- by mx.groups.io with SMTP id smtpd.web11.61100.1643784681553241668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50762C433F5
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 06:58:30 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.60559.1643785108979314514
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Feb 2022 22:51:22 -0800
+ Tue, 01 Feb 2022 22:58:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=dg1fGv2Q;
- spf=pass (domain: siemens.com, ip: 40.107.3.43,
- mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DeLKrXEkoosJqkMKrqk1YijbiUIHz3zUHTaL0rIwv2GlbW/+tlXW7o/1sKR5I9UnM0P+SZGyPHLTE40bt0edQNAxdEP8VcOad96etNua4wwDmYeXbB/QopsaSLi0Y2w1d/6i0WN2QsKY1tp2cDf/fCWGHtYogLYOvCq3AMkrGj48qPqRN3J5Gbod+8Qc74hB+0hdqqQfNwJALJ4YLAP1EpLXUcmss2fvsmNZvY8csKA94NYoSkLhAXFW/0RzxKIIng9x49gjXOuw9dwWylaeZgsbpZEodFZFfTN4cg4xtIcvy7DwXN4YQKg/8dJw0PjxzXlOzNuSWWLF/nYbRk1ewA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vrOYIwZhk/nM75iTBR8VdIPsg0TWx7kCySu34pSHWG8=;
- b=Q9htgp6NSG+DJoeQyKWIwofldg0Jr2X4jxDcd+qJTWgL9pCyxKtTZwcXeXE3UtrwxNZtulzbV+qwKv3m7Q4UUZliwu8v9+mCthj3EFNCQvcczhmt0y2o2MB7uywppFIizibpsItYRTYHjEUJMoxgeaJ7bNU6D4/qJrZqZ8cXGXOgUaeZc58+BvYPLnbbd2y20V4N7FPhdDsndEwCcW+NZOidkAdPcR6+/vdV2R6XD/bsjbQOzHeikdcTLrCYOa58ClCdhOTpJLGm2FFBSqjV6PXyO44fitToUx+pWr9C76GpmeVhNuSxDykTp39qpYjrvdJfW0N5aC5SD9fPX8xqKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vrOYIwZhk/nM75iTBR8VdIPsg0TWx7kCySu34pSHWG8=;
- b=dg1fGv2Quhol5J8XIIUesnHcKpZQAcB5X7jum6dkRJaOmKn7M/uMOIe5RZ3x0D0bIu9/4cVY5DftWTp/VGEmfrJFImDaUboEZqFOYf7OpmaqeJJhK8Tl3W7hTn+XaJZmA3d6e9Jk2BXijRDorseJpZqx70go1fIME4pYcCtUAHYI5vlmQFdhRhBoVkU9jolsdfaNdbhHf9ycxtn38dbDYrzUNVZ9CeDPHPsWYgEDpDFvNbbzTM4z9k2i1sYb0evgrfS95GcmvK9cagoSDS38GX428AfnlxlKQDW5oO+j9mXeyclWIS0Ui8UzmdQzMOdkVJgrG9yxjqDbOYsxNW0+aQ==
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
- by AS1PR10MB5368.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4a0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Wed, 2 Feb
- 2022 06:51:18 +0000
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a891:c3c5:9b77:c2da]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a891:c3c5:9b77:c2da%3]) with mapi id 15.20.4930.022; Wed, 2 Feb 2022
- 06:51:18 +0000
-From: "Valek, Andrej" <andrej.valek@siemens.com>
-To: "marex@denx.de" <marex@denx.de>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "peter.kjellerstedt@axis.com"
-	<peter.kjellerstedt@axis.com>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Revert "featimage: refactor style"
-Thread-Topic: [OE-core] [PATCH] Revert "featimage: refactor style"
-Thread-Index: 
- AQHYFKdFKazkG8IFIU+R02wKcIxavqx5L5cAgAAJAoCAAAZAgIAACdGAgANu4YCAACwJgIAC9awA
-Date: Wed, 2 Feb 2022 06:51:18 +0000
-Message-ID: <613436ece6c481bbd5efda1774bb45be2960988e.camel@siemens.com>
-References: <20220129002907.84534-1-marex@denx.de>
-	 <93bb78f01d7c44c1b5918e1576f2a804@axis.com>
-	 <315161c5-6b68-2b4c-37fc-3d10459fdbf8@denx.de>
-	 <53514b34002e424584e20150b6b725a7@axis.com>
-	 <cd82c692-f11c-0e1d-4b53-950121e0b3bc@denx.de>
-	 <c864b18a0e354116059c25ddf03096c90cf8bbca.camel@siemens.com>
-	 <251fe11a-7348-086f-364b-b9940fff3d68@denx.de>
-In-Reply-To: <251fe11a-7348-086f-364b-b9940fff3d68@denx.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 629763e4-1c8d-4f71-3483-08d9e6186a6a
-x-ms-traffictypediagnostic: AS1PR10MB5368:EE_
-x-microsoft-antispam-prvs: 
- <AS1PR10MB53680CE29531D26F65494C1492279@AS1PR10MB5368.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- zdAHX91ujbULig2zjBt9Mpzx5JhrkNWk2GOWnjyjExFyvIjhTUhsco6GqAKGhCbU58taqCIxUJFKpPUY4TxJ2q9zm7a+ltEV5VjKxvC1hF2l5TvBDSPCWm2c/lq1zPLvDK7lGAAzEtrluvVh1EIAy7JgG8Kkq3ldPjjc1dkBXJjp37/mM6HYlbkPJnLpXwXnde2no6o29EQHN8bJ+WXLq0P3x+TFze2xOLlhYHEDMuylCNYSwQ03IZmpl4iYJ1YEtUuyXDyWwm84JQXKFryRdzbHbPC/1nU685rdl7Dd9mqvGsDZbMLirHestJ4HrfCpnLWbmxGTqWAWFoSZCqtOH9BQyQS8rH2FhTW2CC7VVubZCotHI3Ia58R8Uivk4r2jF6CZURP5AMs7xMWUH6acoqUqo5v/SempkYCiXHp3tiJYwyK63WJWif4bAhTnAL7tpxKNcBhGozdLF58jVjAJtdOevHrVq5ZFSd55KWJ0MPy6QWeRKtDmnYTx9qJhai2avDLZ2G73QCckQ/CIeNqHFz6KiwAdx3U7qr4KWcgDxffwpkIJ8OX7hZBTg0aB1n34fYC92VTJavuJ30P5L3G2jW0aKjhut4uVnfFIIrhpwZ81yw2zj1rO0+DcrVYTR9ORbIUsRjFngJ24E++lSRTseVenqRyL8vVM/ljqz4rfxdZUYRZ/ZnhL0jHK8sZwWu6mbIniWYvOSC869kZWhlAvNg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(8936002)(64756008)(66446008)(66476007)(66556008)(4326008)(86362001)(76116006)(6486002)(66946007)(36756003)(316002)(110136005)(91956017)(71200400001)(6512007)(38070700005)(53546011)(122000001)(82960400001)(508600001)(6506007)(38100700002)(2906002)(2616005)(5660300002)(26005)(186003)(83380400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?STZJWWxBNUNWVUFlaWdvbzJBRThaWDRNSVc1YjdmSHhjQ2hqRkkvakE3QU5q?=
- =?utf-8?B?ckd6WGJjME9CV0pMaDNNdTMyOFhNR3BXNWUxMDhSRVBlSi8yWHJtRXhUdFZ4?=
- =?utf-8?B?c20zUGdvZHFjL1lzVXZyMmtBRmtNVkJLMTFKR2dBS2RPeU9rL1ZseSt2ZnYw?=
- =?utf-8?B?VXUyNXFNeGJVZ0cwTGN2c090QjZWZEZ4d29QKzJFYzFTQzcxU3pNWkFVMHMx?=
- =?utf-8?B?MTZjM3lqWnJOQTlsNUdRYnVwYWwxeTdlVERXY3M1NGJPZ3dwQ2ZTVk81VFhu?=
- =?utf-8?B?cnpnckh1eUV0QmNjSEJpaUxJVUJ2K2FtQXM4d2ZNOStTRlhaU0JCUkVxVk04?=
- =?utf-8?B?VFFQbkt1MGNKTWJTRGc5Q3diYnZYQ3RQTUkxYTluS1FIRFl0YXdmVWpwclp6?=
- =?utf-8?B?M1lURG1ENzlmLzdUYnFHMElzMmVWN2YzNldjZ3JUTkZDS2FIVHA0MTFoeUV3?=
- =?utf-8?B?Y2VoT1ZqTzNHMElQbUVPNDVHWklRV2NMVldxRWdaV05kTUlpS0VXOHY4Mndy?=
- =?utf-8?B?TDJGcnlWcjgvQWNMaFBNN3BHZmN2dGhuK1ByYS9Kam83NHI1TlgxcXVzdUo2?=
- =?utf-8?B?RjRYdXMvZWVDcmdVZzV2ZE4waVlLb1JXcThXdGt1REkxS0RGbWJ5M3VCemdZ?=
- =?utf-8?B?VjVTMkl0cCtlVktUWTQ2aXJtbTIyY2JiN0cxRlY3Z3A5amJZVCtBMzFOVXNV?=
- =?utf-8?B?M0RsV05CRzloNlNKNENIK2VxdWJJaVBCT3krNTJWOWZWZTdJYVpTa1RuaWdS?=
- =?utf-8?B?TUMzdW9Mam8vUlZjKzlEY1hrOE1tNjl1K1ZuVnUzazBNMU50Vm1rbkdXOGtI?=
- =?utf-8?B?N2U1U2I0ZEVGckFNNUEwR3BIZmswcGRBWUdMRTY0dDJ6OWF3UnNMcjVsaWk1?=
- =?utf-8?B?UGpuK05EKy9RTStUR2RGZlQ2TjdLT01qT082RHNPTUw1OGplWkVMaXN3NmVs?=
- =?utf-8?B?OE1MbHd5SkxER3lONG9uTkFrMUttTDhVbzhJZThyR2duVGw0YTR3YURIRlV0?=
- =?utf-8?B?aCsvZGYxbFVPV2x4R0c0RDQ4NUVJalZ3dkhBcjdmTGxqdUNnaDJRRzlWRlFq?=
- =?utf-8?B?aXFtOVFLUzlmZHQ2Z3Q0cG5sc3VnWHB5ZWhQUVRmcE5DQzJoL0dxdklqQ0pW?=
- =?utf-8?B?MmVuTXJUcWlCeU9lR00wTHNQbU8yam1iSkEyb1lxWHF5b1V6a0Z2VTNDVFc5?=
- =?utf-8?B?eGppNFdwRUZFTW82eGE5QXh5ZGhEamxFbXRQam9CV1gwSGNtTFJvWDNSMjVD?=
- =?utf-8?B?MlFxUTZmaXRnZGtuT2g2L1U2SlFyUXYzNzVreXBQR1pyZWsrQTkwS0l4Umd0?=
- =?utf-8?B?eWFtM3lOa2FEU0JjYnZTdFhRb0ZJZEJiMERoZTR0eG1KRHFGcHdqUXVwcjZC?=
- =?utf-8?B?ZTh4Nlp6aXlkNTFqSjdXODJkQVJJdWF1YTB3K1lXWW9kNE5ZcW1EUFBtRmhR?=
- =?utf-8?B?OEhyZHdqTzNvSnlFNXF0NUduMnVwY2NrVWg0VmlCZG9WckRpR2ZhZGxMZ2Nl?=
- =?utf-8?B?NlI1eFF6eVVJbWtSUGwvLzRTTHpFR3dtSm03bGk2L0hxdm44Rlc5dE1Pa3Jx?=
- =?utf-8?B?UUdzR0tJYkhLTWl4ZUJ5YmtVWlppQTdWZERoaFdCODVqMFBva2tvaTNNN2ti?=
- =?utf-8?B?LzBQQWhoVUkwMHVzTXRteXRWaytrazRiZ3B5QkNWeFpZckxlRFRKYlZsNXRL?=
- =?utf-8?B?OXp6d3ZaMlh0TGdUNkhxZ25kZnJQUm1nZEE0TTZsWjROQzBsdVFENHNsN29N?=
- =?utf-8?B?VmE4SE1ZQklHRDhBN29odDVVS0pFbHpVdFZsNjhKOFhpR0pxVGF3MU1EaVEy?=
- =?utf-8?B?djJWTFlaM0xHeUp3Z0ZKaGJ5eDM0WWgrbVRpaHAySisrci9MMStCU2x3Y29O?=
- =?utf-8?B?U0EvcisrOHo3V0QzN0RGQlB6VGlNcUFXRWZuVEVneEUra2J1UGlOV2IxOWYv?=
- =?utf-8?B?TjZIOU5vc1RNenhaWmVyNlRFbXhSQjg2NU5xb2tQSkxacWxUeW5la0UrL0RE?=
- =?utf-8?B?RjczamlRQXBtTnRyYmRsREFhUkp5cDJlNGZaYVEzK1ArV3hQSUFtRENGMWQ3?=
- =?utf-8?B?T0lJY1l0SXVlbFlsdW9DcXMrdVV5VE9lRWIva1RMNVZ5cW5KUE5XV3V0UW8r?=
- =?utf-8?B?SXRuMHBBaHZ3U3F1dmgrN3JRQ2JnNXJCODcrV2JjTmZPajR4NWhlcUNjSFAr?=
- =?utf-8?B?M0J1K0ZHWFprMEhZeUM1OGJUOEJtaWdDVklXYmZHbE1DSmE3TUhIRDU5WWZi?=
- =?utf-8?Q?TVtPuLjurIvib2JOcjFu/xeLZHZFNL+y9qmCoNwBw4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AA3093018037CC42BBEAAF95346F5BB6@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com
+ header.s=default header.b=VX8K6zvD;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.8.233] (cpe-70-112-59-126.austin.res.rr.com
+ [70.112.59.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id F360B20B6C61;
+	Tue,  1 Feb 2022 22:58:26 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F360B20B6C61
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1643785108;
+	bh=q9OQ+cCAYmJF1jOdgxbpw+y/8K2gwvOTp6N2PzaFA3c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VX8K6zvDanodVxvJOL9b+H+T+nsdrnCBw1lb4Qz6xgcz/sySsqVmVzWgGNg5jlxdN
+	 BU2JjTJGtdjQuXOyAmzAVxEemiuytHaAO0Rq8WGrOgg/ibLlLdAauYLNKO9YjMz5Ho
+	 UCA6KWLY5IoBMVQUxlvEjqzmLnArCKrlhg94J7C8=
+Content-Type: multipart/alternative;
+ boundary="------------dp0f2AqYVuGVpOt0JeJ5sQOO"
+Message-ID: <ecaf8435-71db-8c51-e3c8-71172d0788f8@linux.microsoft.com>
+Date: Wed, 2 Feb 2022 06:58:14 +0000
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 629763e4-1c8d-4f71-3483-08d9e6186a6a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2022 06:51:18.7959
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- WvkGU2mW1znFs8NtZZhCFzIQSjrYYa2qzR82kPaaIHS4pg3dNmlSsa9+wZaWiT7Sb46NdJ84AgKk1zHWSLdfttnJre4WM4ovGDqBNA/2sqQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5368
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [OE-core] [PATCH v2] initramfs-framework: Add overlayroot module
+Content-Language: en-US
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: bruce.ashfield@gmail.com
+References: <20220129194839.3280002-1-alhe@linux.microsoft.com>
+ <10c1ea08-3b69-aeef-6052-41ad98f37ce6@gmail.com>
+From: Alejandro Hernandez <alhe@linux.microsoft.com>
+In-Reply-To: <10c1ea08-3b69-aeef-6052-41ad98f37ce6@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 06:51:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 06:58:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161178
+ https://lists.openembedded.org/g/openembedded-core/message/161179
 
-TWFyZWssDQoNClNvcnJ5LCBidXQgdGhlc2UgYXJlIHN0aWxsIG5vdCBhbiBhcmd1bWVudHMsIHdo
-eSB0byBkbyB0aGF0Lg0KDQpPbiBNb24sIDIwMjItMDEtMzEgYXQgMTA6MzkgKzAxMDAsIE1hcmVr
-IFZhc3V0IHdyb3RlOg0KPiBPbiAxLzMxLzIyIDA4OjAxLCBWYWxlaywgQW5kcmVqIHdyb3RlOg0K
-PiA+IEhpLA0KPiANCj4gSGVsbG8gQW5kcmVqLA0KPiANCj4gKHBsZWFzZSBhdm9pZCB0b3AtcG9z
-dGluZykNCj4gDQo+ID4gU29ycnksIGJ1dCBwZXJzb25hbGx5IEkgZG9uJ3QgbGlrZSB5b3VyIGlk
-ZWEuIFdoYXQncyB0aGUgYmVuZWZpdCBvZg0KPiA+IHJldmVydGluZyB0aGlzPyBJIHdvdWxkIGtl
-ZXAgdGhlICR7fSBmb3IgYml0YmFrZSBhbmQgJCBmb3Igc2hlbGwuIFRoZQ0KPiA+IHt9IGhhcyB0
-byBiZSBwbGFjZWQgb25seSBmb3IgdmFyaWFibGVzIGxpa2UgJGEke2J9Yy4NCj4gDQo+IFRoYXQn
-cyBleGFjdGx5IHRoZSBiZW5lZml0IG9mIHVzaW5nICR7fSBpbiBzaGVsbCBzY3JpcHRzIGNvbnNp
-c3RlbnRseSAtDQo+IC0gDQo+IHlvdSBkb24ndCBoYXZlIHRvIHdvcnJ5IGFib3V0IHZhcmlhYmxl
-IG5hbWVzIGJlaW5nIGFjY2lkZW50YWxseSANCj4gY29uZmxhdGVkIHdpdGggc3Vycm91bmRpbmcg
-c3RyaW5ncywgZWl0aGVyIGR1ZSB0byB5b3VyIG93biBtaXN0YWtlLCBvciANCj4gc29tZSBhdXRv
-bWF0ZWQgdHJhbnNmb3JtYXRpb24gdGhhdCB3YXMgYXBwbGllZCBpbmNvcnJlY3RseSAuDQo+IA0K
-PiA+IFdlIHNob3VsZCByZXNwZWN0IHRoZSB3b3JrZmxvdyBvbiBhbGwgcmVjaXBlcyBvdGhlcndp
-c2Ugd2UncmUgYnJha2luZw0KPiA+IHRoZSAidW53cml0dGVuIiBydWxlcy4NCj4gDQo+IFRoZSB3
-b3JrZmxvdyBvbiBhbGwgcmVjaXBlcyA/IFdoYXQgZG9lcyB0aGlzIG1lYW4gPw0KPiANCj4gYnJv
-a2VuIGJ5IHBlb3BsZS4gQmV0dGVyIHVwZGF0ZSB0aGUgZG9jdW1lbnRhdGlvbi4NCj4gDQo+IFRo
-ZXJlIGlzIG9uZSB0ZWNobmljYWwgY291bnRlci1hcmd1bWVudCB0byB0aGlzIHJldmVydCBmcm9t
-IFBldGVyLA0KPiBxdW90ZToNCj4gIg0KPiBUaGVyZSBpcyBhY3R1YWxseSBhIHRlY2huaWNhbCBy
-ZWFzb24gdG8gbm90IHVzZSAke2Zvb30gZm9yIHNoZWxsDQo+IHZhcmlhYmxlcyB1bmxlc3MgbmVj
-ZXNzYXJ5IGluIGJpdGJha2UgZmlsZXMgYW5kIGl0IGlzIGJlY2F1c2UNCj4gYml0YmFrZSB3aWxs
-IHRyZWF0IHRoZW0gYWxsIGFzIHBvdGVudGlhbCBiaXRiYWtlIHZhcmlhYmxlcy4gVGhpcw0KPiBt
-ZWFucyB0aGV5IGFyZSB1bm5lY2Vzc2FyaWx5IGluY2x1ZGVkIGluIHRoZSB0YXNraGFzaGVzIHRo
-YXQNCj4gYml0YmFrZSBjYWxjdWxhdGVzLg0KPiAiDQo+IA0KPiBCdXQgdGhlIHBhdGNoIGJlaW5n
-IHJldmVydGVkIGhlcmUgYWRkcmVzc2VzIHRoZSBwcm9ibGVtIG9ubHkgcGFydGx5LCANCj4gYmVj
-YXVzZSBpdCBzdGlsbCBjb250YWlucyByZW1uYW50cyBsaWtlIHRoaXM6DQo+ICINCj4gY29uZl9k
-ZXNjPSIkY29uZl9kZXNjJHtzZXB9c2V0dXAiDQo+ICINCkp1c3QgZm9yIHlvdXIgaW5mb3JtYXRp
-b24sIHRoaXMgaXMgbm90IHJlbW5hbnRzLCB0aGlzIGlzIGV4YWN0bHkgdGhlDQpyaWdodCB7fSB1
-c2FnZS4gSWYgeW91IGRpZG4ndCBwbGFjZSB0aGUge30sIGl0IHdpbGwgYmUNCmNvbmZfZGVzYz0i
-JGNvbmZfZGVzYyRzZXBzZXR1cCIsIHdoaWNoIGRvZXNuJ3QgIG1ha2UgYW55IHNlbnNlLg0KPiAN
-Cj4gWy4uLl0NCj4gDQo+ID4gPiA+ID4gdGhpcmQgYWx0ZXJuYXRpdmUgPyBJIG1lYW4sIGJlc2lk
-ZXMgcmV3cml0aW5nIHRoZSBmaXRpbWFnZQ0KPiA+ID4gPiA+IGdlbmVyYXRpb24gaW50byBweXRo
-b24sIHdoaWNoIG1pZ2h0IG1ha2UgaXQgbW9yZSBmbGV4aWJsZSB0b28uDQo+ID4gPiA+IA0KPiA+
-ID4gPiBSZXBsYWNpbmcgc2hlbGwgY29kZSB0aGF0IGhhcyBncm93biBiZXlvbmQgYSBjb3VwbGUg
-b2YgaHVuZHJlZA0KPiA+ID4gPiAodGVucz8pIGxpbmVzIHdpdGggc29tZXRoaW5nIHdyaXR0ZW4g
-aW4gYSBiZXR0ZXIgbGFuZ3VhZ2UgaXMNCj4gPiA+ID4gYWxtb3N0IGFsd2F5cyBhIGdvb2QgaWRl
-YS4NCj4gPiA+IA0KPiA+ID4gSXQncyBncm93biB0byBhbG1vc3QgODAwIExvQywgc28gbWF5YmUg
-aXQgaXMgdGltZSB0byByZWV2YWx1YXRlIHRoZQ0KPiA+ID4gcHl0aG9uIGNvbnZlcnNpb24gdGhl
-bi4NCj4gDQo+IFNvIGEgcmV3cml0ZSBpbnRvIHNvbWV0aGluZyBtb3JlIHN1aXRhYmxlIG1pZ2h0
-IGJlIGEgZ29vZCBpZGVhIF4gLCANCj4gcHJvYmFibHkgcHl0aG9uIGluIHRoaXMgY2FzZS4NCg0K
-QnV0IGFueXdheSwgaWYgeW91IHdhbnQgdG8gZG8gdGhhdCwgdGhlbiBkbyBub3QgZm9yZ2V0IGZv
-ciBvdGhlciBrZXJuZWwNCmNsYXNzZXMsIHdoZXJlIHRoZSBzYW1lIGNvbW1pdHMgaGF2ZSBiZWVu
-IGFwcGxpZWQgYnkgc29tZW9uZSBlbHNlLg0KDQpTbyBmcm9tIG15IHBvaW50IG9mIHZpZXcsIGl0
-IGhhcyB0byBzdGF5IGxpa2UgaXQgaXMuDQoNCkNoZWVycywNCkFuZHJlag0KDQo=
+This is a multi-part message in MIME format.
+--------------dp0f2AqYVuGVpOt0JeJ5sQOO
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Hey Vyacheslav,
+
+Yes, in this case it is different and its specifically required if we=20
+want to overlay the entire rootfs, also like it says in the commit=20
+message and in the comments giving credit to the overlay-etc class I=20
+definitely tried extending the overlay-etc class but it simply does not=20
+work for this, since the rootfs becomes inaccessible once the system has=20
+booted, hence why this has to be done inside initramfs, this isn't meant=20
+to replace the overlay-etc class in any way, just to provide an=20
+alternative if it fits the user needs better.
+
+Also, my apologies, your reply to my v1 somehow slipped through my=20
+filter and I hadn't seen it.
+
+I think they are simply two different scenarios, I can see the potential=20
+the overlay-etc class has to be extended for other directories for=20
+example, but it is a different use case and boot flow so I believe both=20
+can co-exist for different workflows depending on the user needs.
+
+Cheers,
+
+Alejandro
+
+On 1/31/22 20:36, Vyacheslav Yurkov wrote:
+> Hi Alejandro,
+> Thanks for the v2, but my questions from v1 are still left unanswered.
+>
+> 1. Do you really need the whole rootfs to be in overlay? Perhaps you=20
+> have another use case in mind, but the more scope overlay has, the=20
+> more migration effort you need in order to update upper layer on image=20
+> upgrade.
+> 2. I was thinking if perhaps that would be better to extend=20
+> files/overlayfs-etc-preinit.sh.in to suit your needs and re-use common=20
+> parts rather then having a good part of it copied to initramfs-framewor=
+k?
+>
+> Cheers,
+> Vyacheslav
+>
+> On 29.01.2022 20:48, Alejandro Hernandez Samaniego wrote:
+>> When installed, this module mounts a read-write (RW) overlay on
+>> top of a root filesystem, which is kept read-only (RO), free
+>> from modifications by the user, this might prove to be useful
+>> if we want to access or restore the original unmodified rootfs.
+>>
+>> The existing overlay-etc.bbclass does something similar, it
+>> mounts an overlay on top of the /etc directory, however doing
+>> the same for root causes the original root to be inaccessible
+>> once the system is booted, hence why this module is added to
+>> the initramfs boot flow, allowing us to mount the RW overlay,
+>> while keeping the original rootfs mounted at /rofs once the
+>> system finishes booting. This script is loosely based on that
+>> class.
+>>
+>> This module requires rootrw=3D<foo> to be passed as a kernel
+>> parameter to specify the device/partition to be used as RW by the
+>> overlay and has a dependency on overlayfs support being present
+>> in the running kernel.
+>>
+>> It does not require the read-only IMAGE_FEATURE to be enabled.
+>>
+>> The module needs to be executed after the initramfs-module-rootfs
+>> since it relies on it to mount the filesystem at initramfs startup
+>> but before the finish module which normally switches root.
+>> After overlayroot is executed the usual boot flow continues from
+>> the real init process.
+>>
+>> If something goes wrong while running this module, the rootfs
+>> is still mounted RO (with no overlay) and the finish module is
+>> executed to continue booting normally.
+>>
+>> Its worth noting that, on purpose, this isnt installed by default
+>> on any images that use initramfs-framework to keep the boot flow
+>> unmodified, only when a user manually requests to install it,
+>> then it becomes functional.
+>>
+>> Signed-off-by: Alejandro Enedino Hernandez Samaniego=20
+>> <alhe@linux.microsoft.com>
+>> ---
+>> =C2=A0 .../initramfs-framework/overlayroot=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 112 ++++++++++++++++++
+>> =C2=A0 .../initrdscripts/initramfs-framework_1.0.bb=C2=A0 |=C2=A0=C2=A0=
+ 9 ++
+>> =C2=A0 2 files changed, 121 insertions(+)
+>> =C2=A0 create mode 100644=20
+>> meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+>>
+>> diff --git=20
+>> a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot=20
+>> b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+>> new file mode 100644
+>> index 0000000000..d40342dc59
+>> --- /dev/null
+>> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+>> @@ -0,0 +1,112 @@
+>> +#!/bin/sh
+>> +
+>> +# SPDX-License-Identifier: MIT
+>> +#
+>> +# Copyright 2022 (C), Microsoft Corporation
+>> +
+>> +# Simple initramfs module intended to mount a read-write (RW)
+>> +# overlayfs on top of /, keeping the original root filesystem
+>> +# as read-only (RO), free from modifications by the user.
+>> +#
+>> +# NOTE: The read-only IMAGE_FEATURE is not required for this to work
+>> +#
+>> +# This script is based on the overlay-etc.bbclass, which sets up
+>> +# an overlay on top of the /etc directory, but in this case allows
+>> +# accessing the original, unmodified rootfs at /rofs after boot.
+>> +#
+>> +# It relies on the initramfs-module-rootfs to mount the original
+>> +# root filesystem, and requires 'rootrw=3D<foo>' to be passed as a
+>> +# kernel parameter, specifying the device/partition intended to
+>> +# use as RW.
+>> +#
+>> +# This module needs to be executed after the initramfs-module-rootfs
+>> +# since it relies on it to mount the filesystem at initramfs startup
+>> +# but before the finish module which normally switches root.
+>> +# After overlayroot is executed the usual boot flow continues from
+>> +# the real init process.
+>> +#
+>> +# If something goes wrong while running this module, the rootfs
+>> +# is still mounted RO (with no overlay) and the finish module is
+>> +# executed to continue booting normally.
+>> +#
+>> +# It also has a dependency on overlayfs being enabled in the
+>> +# running kernel via KERNEL_FEATURES (kmeta) or any other means.
+>> +
+>> +
+>> +PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
+>> +
+>> +# We get OLDROOT from the rootfs module
+>> +OLDROOT=3D"/rootfs"
+>> +
+>> +NEWROOT=3D"${RWMOUNT}/root"
+>> +RWMOUNT=3D"/overlay"
+>> +ROMOUNT=3D"${RWMOUNT}/rofs"
+>> +UPPER_DIR=3D"${RWMOUNT}/upper"
+>> +WORK_DIR=3D"${RWMOUNT}/work"
+>> +
+>> +MODULES_DIR=3D/init.d
+>> +
+>> +# Something went wrong, make sure / is mounted as read only anyway.
+>> +exit_gracefully() {
+>> +=C2=A0=C2=A0=C2=A0 echo $1 >/dev/console
+>> +=C2=A0=C2=A0=C2=A0 echo >/dev/console
+>> +=C2=A0=C2=A0=C2=A0 echo "OverlayRoot mounting failed, starting system=
+ as read-only"=20
+>> >/dev/console
+>> +=C2=A0=C2=A0=C2=A0 echo >/dev/console
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # The following is borrowed from rootfs-postcomman=
+ds.bbclass
+>> +=C2=A0=C2=A0=C2=A0 # This basically looks at the real rootfs mounting=
+ options and
+>> +=C2=A0=C2=A0=C2=A0 # replaces them with "ro"
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # Tweak the mount option and fs_passno for rootfs =
+in fstab
+>> +=C2=A0=C2=A0=C2=A0 if [ -f ${OLDROOT}/etc/fstab ]; then
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i -e=20
+>> '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]=
+]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}'=20
+>> ${OLDROOT}/etc/fstab
+>> +=C2=A0=C2=A0=C2=A0 fi
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # Tweak the "mount -o remount,rw /" command in bus=
+ybox-inittab=20
+>> inittab
+>> +=C2=A0=C2=A0=C2=A0 if [ -f ${OLDROOT}/etc/inittab ]; then
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i 's|/bin/mount -o re=
+mount,rw /|/bin/mount -o=20
+>> remount,ro /|' ${OLDROOT}/etc/inittab
+>> +=C2=A0=C2=A0=C2=A0 fi
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # Continue as if the overlayroot module didn't exi=
+st to continue=20
+>> booting
+>> +=C2=A0=C2=A0=C2=A0 . $MODULES_DIR/99-finish
+>> +=C2=A0=C2=A0=C2=A0 eval "finish_run"
+>> +}
+>> +
+>> +
+>> +if [ -z "$bootparam_rootrw" ]; then
+>> +=C2=A0=C2=A0=C2=A0 exit_gracefully "rootrw=3D kernel parameter doesn'=
+t exist and its=20
+>> required to mount the overlayfs"
+>> +fi
+>> +
+>> +mkdir -p ${RWMOUNT}
+>> +
+>> +# Mount RW device
+>> +if mount -n -t ${bootparam_rootfstype:-ext4} -o=20
+>> ${bootparam_rootflags:-defaults} ${bootparam_rootrw} ${RWMOUNT}
+>> +then
+>> +=C2=A0=C2=A0=C2=A0 # Set up overlay directories
+>> +=C2=A0=C2=A0=C2=A0 mkdir -p ${UPPER_DIR}
+>> +=C2=A0=C2=A0=C2=A0 mkdir -p ${WORK_DIR}
+>> +=C2=A0=C2=A0=C2=A0 mkdir -p ${NEWROOT}
+>> +=C2=A0=C2=A0=C2=A0 mkdir -p ${ROMOUNT}
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # Remount OLDROOT as read-only
+>> +=C2=A0=C2=A0=C2=A0 mount -o bind ${OLDROOT} ${ROMOUNT}
+>> +=C2=A0=C2=A0=C2=A0 mount -o remount,ro ${ROMOUNT}
+>> +
+>> +=C2=A0=C2=A0=C2=A0 # Mount RW overlay
+>> +=C2=A0=C2=A0=C2=A0 mount -t overlay overlay -o=20
+>> lowerdir=3D${ROMOUNT},upperdir=3D${UPPER_DIR},workdir=3D${WORK_DIR}=20
+>> ${NEWROOT} || exit_gracefully "initramfs-overlayroot: Mounting=20
+>> overlay failed"
+>> +else
+>> +=C2=A0=C2=A0=C2=A0 exit_gracefully "initramfs-overlayroot: Mounting R=
+W device failed"
+>> +fi
+>> +
+>> +# Set up filesystems on overlay
+>> +mkdir -p ${NEWROOT}/proc
+>> +mkdir -p ${NEWROOT}/dev
+>> +mkdir -p ${NEWROOT}/sys
+>> +mkdir -p ${NEWROOT}/rofs
+>> +
+>> +mount -n --move ${ROMOUNT} ${NEWROOT}/rofs
+>> +mount -n --move /proc ${NEWROOT}/proc
+>> +mount -n --move /sys ${NEWROOT}/sys
+>> +mount -n --move /dev ${NEWROOT}/dev
+>> +
+>> +exec chroot ${NEWROOT}/ ${bootparam_init:-/sbin/init} ||=20
+>> exit_gracefully "Couldn't chroot into overlay"
+>> diff --git=20
+>> a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb=20
+>> b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> index 9e8c1dc3ab..4e76e20026 100644
+>> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> @@ -18,6 +18,7 @@ SRC_URI =3D "file://init \
+>> file://e2fs \
+>> file://debug \
+>> file://lvm \
+>> + file://overlayroot \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+>> =C2=A0 =C2=A0 S =3D "${WORKDIR}"
+>> @@ -49,6 +50,9 @@ do_install() {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # lvm
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -m 0755 ${WORKDIR}/lvm ${D}/ini=
+t.d/09-lvm
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 # overlayroot needs to run after rootfs mod=
+ule but before finish
+>> +=C2=A0=C2=A0=C2=A0 install -m 0755 ${WORKDIR}/overlayroot ${D}/init.d=
+/91-overlayroot
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Create device nodes expected by some =
+kernels in initramfs
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # before even executing /init.
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -d ${D}/dev
+>> @@ -64,6 +68,7 @@ PACKAGES =3D "${PN}-base \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 initramfs-module-rootfs \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 initramfs-module-debug \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 initramfs-module-lvm \
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in=
+itramfs-module-overlayroot \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ "
+>> =C2=A0 =C2=A0 FILES:${PN}-base =3D "/init /init.d/99-finish /dev"
+>> @@ -107,3 +112,7 @@ FILES:initramfs-module-debug =3D "/init.d/00-debug=
+"
+>> =C2=A0 SUMMARY:initramfs-module-lvm =3D "initramfs lvm rootfs support"
+>> =C2=A0 RDEPENDS:initramfs-module-lvm =3D "${PN}-base"
+>> =C2=A0 FILES:initramfs-module-lvm =3D "/init.d/09-lvm"
+>> +
+>> +SUMMARY:initramfs-module-overlayroot =3D "initramfs support for=20
+>> mounting a RW overlay on top of a RO root filesystem"
+>> +RDEPENDS:initramfs-module-overlayroot =3D "${PN}-base=20
+>> initramfs-module-rootfs"
+>> +FILES:initramfs-module-overlayroot =3D "/init.d/91-overlayroot"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161137):https://lists.openembedded.org/g/openembedd=
+ed-core/message/161137
+> Mute This Topic:https://lists.openembedded.org/mt/88773634/4354175
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [=
+alhe@linux.microsoft.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+--------------dp0f2AqYVuGVpOt0JeJ5sQOO
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><font face=3D"Courier New, Courier, monospace">Hey Vyacheslav,</fo=
+nt></p>
+    <p><font face=3D"Courier New, Courier, monospace">Yes, in this case i=
+t
+        is different and its specifically required if we want to overlay
+        the entire rootfs, also like it says in the commit message and
+        in the comments giving credit to the overlay-etc class I
+        definitely tried extending the overlay-etc class but it simply
+        does not work for this, since the rootfs becomes inaccessible
+        once the system has booted, hence why this has to be done inside
+        initramfs, this isn't meant to replace the overlay-etc class in
+        any way, just to provide an alternative if it fits the user
+        needs better.<br>
+      </font></p>
+    <p><font face=3D"Courier New, Courier, monospace">Also, my apologies,
+        your reply to my v1 somehow slipped through my filter and I
+        hadn't seen it.<br>
+      </font></p>
+    <p><font face=3D"Courier New, Courier, monospace">I think they are
+        simply two different scenarios, I can see the potential the
+        overlay-etc class has to be extended for other directories for
+        example, but it is a different use case and boot flow so I
+        believe both can co-exist for different workflows depending on
+        the user needs.<br>
+      </font></p>
+    <p><font face=3D"Courier New, Courier, monospace">Cheers,<br>
+      </font></p>
+    <p><font face=3D"Courier New, Courier, monospace">Alejandro</font><br=
+>
+    </p>
+    <div class=3D"moz-cite-prefix">On 1/31/22 20:36, Vyacheslav Yurkov
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:10c1ea08-3b69-aeef-6052-41ad98f37ce6@gmail.com">Hi
+      Alejandro,
+      <br>
+      Thanks for the v2, but my questions from v1 are still left
+      unanswered.
+      <br>
+      <br>
+      1. Do you really need the whole rootfs to be in overlay? Perhaps
+      you have another use case in mind, but the more scope overlay has,
+      the more migration effort you need in order to update upper layer
+      on image upgrade.
+      <br>
+      2. I was thinking if perhaps that would be better to extend
+      files/overlayfs-etc-preinit.sh.in to suit your needs and re-use
+      common parts rather then having a good part of it copied to
+      initramfs-framework?
+      <br>
+      <br>
+      Cheers,
+      <br>
+      Vyacheslav
+      <br>
+      <br>
+      On 29.01.2022 20:48, Alejandro Hernandez Samaniego wrote:
+      <br>
+      <blockquote type=3D"cite">When installed, this module mounts a
+        read-write (RW) overlay on
+        <br>
+        top of a root filesystem, which is kept read-only (RO), free
+        <br>
+        from modifications by the user, this might prove to be useful
+        <br>
+        if we want to access or restore the original unmodified rootfs.
+        <br>
+        <br>
+        The existing overlay-etc.bbclass does something similar, it
+        <br>
+        mounts an overlay on top of the /etc directory, however doing
+        <br>
+        the same for root causes the original root to be inaccessible
+        <br>
+        once the system is booted, hence why this module is added to
+        <br>
+        the initramfs boot flow, allowing us to mount the RW overlay,
+        <br>
+        while keeping the original rootfs mounted at /rofs once the
+        <br>
+        system finishes booting. This script is loosely based on that
+        <br>
+        class.
+        <br>
+        <br>
+        This module requires rootrw=3D&lt;foo&gt; to be passed as a kerne=
+l
+        <br>
+        parameter to specify the device/partition to be used as RW by
+        the
+        <br>
+        overlay and has a dependency on overlayfs support being present
+        <br>
+        in the running kernel.
+        <br>
+        <br>
+        It does not require the read-only IMAGE_FEATURE to be enabled.
+        <br>
+        <br>
+        The module needs to be executed after the
+        initramfs-module-rootfs
+        <br>
+        since it relies on it to mount the filesystem at initramfs
+        startup
+        <br>
+        but before the finish module which normally switches root.
+        <br>
+        After overlayroot is executed the usual boot flow continues from
+        <br>
+        the real init process.
+        <br>
+        <br>
+        If something goes wrong while running this module, the rootfs
+        <br>
+        is still mounted RO (with no overlay) and the finish module is
+        <br>
+        executed to continue booting normally.
+        <br>
+        <br>
+        Its worth noting that, on purpose, this isnt installed by
+        default
+        <br>
+        on any images that use initramfs-framework to keep the boot flow
+        <br>
+        unmodified, only when a user manually requests to install it,
+        <br>
+        then it becomes functional.
+        <br>
+        <br>
+        Signed-off-by: Alejandro Enedino Hernandez Samaniego
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:alhe@linux.micr=
+osoft.com">&lt;alhe@linux.microsoft.com&gt;</a>
+        <br>
+        ---
+        <br>
+        =C2=A0 .../initramfs-framework/overlayroot=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 112
+        ++++++++++++++++++
+        <br>
+        =C2=A0 .../initrdscripts/initramfs-framework_1.0.bb=C2=A0 |=C2=A0=
+=C2=A0 9 ++
+        <br>
+        =C2=A0 2 files changed, 121 insertions(+)
+        <br>
+        =C2=A0 create mode 100644
+        meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+        <br>
+        <br>
+        diff --git
+        a/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+        <br>
+        new file mode 100644
+        <br>
+        index 0000000000..d40342dc59
+        <br>
+        --- /dev/null
+        <br>
+        +++
+        b/meta/recipes-core/initrdscripts/initramfs-framework/overlayroot
+        <br>
+        @@ -0,0 +1,112 @@
+        <br>
+        +#!/bin/sh
+        <br>
+        +
+        <br>
+        +# SPDX-License-Identifier: MIT
+        <br>
+        +#
+        <br>
+        +# Copyright 2022 (C), Microsoft Corporation
+        <br>
+        +
+        <br>
+        +# Simple initramfs module intended to mount a read-write (RW)
+        <br>
+        +# overlayfs on top of /, keeping the original root filesystem
+        <br>
+        +# as read-only (RO), free from modifications by the user.
+        <br>
+        +#
+        <br>
+        +# NOTE: The read-only IMAGE_FEATURE is not required for this to
+        work
+        <br>
+        +#
+        <br>
+        +# This script is based on the overlay-etc.bbclass, which sets
+        up
+        <br>
+        +# an overlay on top of the /etc directory, but in this case
+        allows
+        <br>
+        +# accessing the original, unmodified rootfs at /rofs after
+        boot.
+        <br>
+        +#
+        <br>
+        +# It relies on the initramfs-module-rootfs to mount the
+        original
+        <br>
+        +# root filesystem, and requires 'rootrw=3D&lt;foo&gt;' to be
+        passed as a
+        <br>
+        +# kernel parameter, specifying the device/partition intended to
+        <br>
+        +# use as RW.
+        <br>
+        +#
+        <br>
+        +# This module needs to be executed after the
+        initramfs-module-rootfs
+        <br>
+        +# since it relies on it to mount the filesystem at initramfs
+        startup
+        <br>
+        +# but before the finish module which normally switches root.
+        <br>
+        +# After overlayroot is executed the usual boot flow continues
+        from
+        <br>
+        +# the real init process.
+        <br>
+        +#
+        <br>
+        +# If something goes wrong while running this module, the rootfs
+        <br>
+        +# is still mounted RO (with no overlay) and the finish module
+        is
+        <br>
+        +# executed to continue booting normally.
+        <br>
+        +#
+        <br>
+        +# It also has a dependency on overlayfs being enabled in the
+        <br>
+        +# running kernel via KERNEL_FEATURES (kmeta) or any other
+        means.
+        <br>
+        +
+        <br>
+        +
+        <br>
+        +PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
+        <br>
+        +
+        <br>
+        +# We get OLDROOT from the rootfs module
+        <br>
+        +OLDROOT=3D"/rootfs"
+        <br>
+        +
+        <br>
+        +NEWROOT=3D"${RWMOUNT}/root"
+        <br>
+        +RWMOUNT=3D"/overlay"
+        <br>
+        +ROMOUNT=3D"${RWMOUNT}/rofs"
+        <br>
+        +UPPER_DIR=3D"${RWMOUNT}/upper"
+        <br>
+        +WORK_DIR=3D"${RWMOUNT}/work"
+        <br>
+        +
+        <br>
+        +MODULES_DIR=3D/init.d
+        <br>
+        +
+        <br>
+        +# Something went wrong, make sure / is mounted as read only
+        anyway.
+        <br>
+        +exit_gracefully() {
+        <br>
+        +=C2=A0=C2=A0=C2=A0 echo $1 &gt;/dev/console
+        <br>
+        +=C2=A0=C2=A0=C2=A0 echo &gt;/dev/console
+        <br>
+        +=C2=A0=C2=A0=C2=A0 echo "OverlayRoot mounting failed, starting s=
+ystem as
+        read-only" &gt;/dev/console
+        <br>
+        +=C2=A0=C2=A0=C2=A0 echo &gt;/dev/console
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # The following is borrowed from
+        rootfs-postcommands.bbclass
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # This basically looks at the real rootfs mou=
+nting options
+        and
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # replaces them with "ro"
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Tweak the mount option and fs_passno for ro=
+otfs in fstab
+        <br>
+        +=C2=A0=C2=A0=C2=A0 if [ -f ${OLDROOT}/etc/fstab ]; then
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i -e
+'/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)=
+\([[:space:]]*\)[[:digit:]]$/\1\20/}'
+        ${OLDROOT}/etc/fstab
+        <br>
+        +=C2=A0=C2=A0=C2=A0 fi
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Tweak the "mount -o remount,rw /" command i=
+n
+        busybox-inittab inittab
+        <br>
+        +=C2=A0=C2=A0=C2=A0 if [ -f ${OLDROOT}/etc/inittab ]; then
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sed -i 's|/bin/mount =
+-o remount,rw /|/bin/mount -o
+        remount,ro /|' ${OLDROOT}/etc/inittab
+        <br>
+        +=C2=A0=C2=A0=C2=A0 fi
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Continue as if the overlayroot module didn'=
+t exist to
+        continue booting
+        <br>
+        +=C2=A0=C2=A0=C2=A0 . $MODULES_DIR/99-finish
+        <br>
+        +=C2=A0=C2=A0=C2=A0 eval "finish_run"
+        <br>
+        +}
+        <br>
+        +
+        <br>
+        +
+        <br>
+        +if [ -z "$bootparam_rootrw" ]; then
+        <br>
+        +=C2=A0=C2=A0=C2=A0 exit_gracefully "rootrw=3D kernel parameter d=
+oesn't exist and
+        its required to mount the overlayfs"
+        <br>
+        +fi
+        <br>
+        +
+        <br>
+        +mkdir -p ${RWMOUNT}
+        <br>
+        +
+        <br>
+        +# Mount RW device
+        <br>
+        +if mount -n -t ${bootparam_rootfstype:-ext4} -o
+        ${bootparam_rootflags:-defaults} ${bootparam_rootrw} ${RWMOUNT}
+        <br>
+        +then
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Set up overlay directories
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mkdir -p ${UPPER_DIR}
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mkdir -p ${WORK_DIR}
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mkdir -p ${NEWROOT}
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mkdir -p ${ROMOUNT}
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Remount OLDROOT as read-only
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mount -o bind ${OLDROOT} ${ROMOUNT}
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mount -o remount,ro ${ROMOUNT}
+        <br>
+        +
+        <br>
+        +=C2=A0=C2=A0=C2=A0 # Mount RW overlay
+        <br>
+        +=C2=A0=C2=A0=C2=A0 mount -t overlay overlay -o
+        lowerdir=3D${ROMOUNT},upperdir=3D${UPPER_DIR},workdir=3D${WORK_DI=
+R}
+        ${NEWROOT} || exit_gracefully "initramfs-overlayroot: Mounting
+        overlay failed"
+        <br>
+        +else
+        <br>
+        +=C2=A0=C2=A0=C2=A0 exit_gracefully "initramfs-overlayroot: Mount=
+ing RW device
+        failed"
+        <br>
+        +fi
+        <br>
+        +
+        <br>
+        +# Set up filesystems on overlay
+        <br>
+        +mkdir -p ${NEWROOT}/proc
+        <br>
+        +mkdir -p ${NEWROOT}/dev
+        <br>
+        +mkdir -p ${NEWROOT}/sys
+        <br>
+        +mkdir -p ${NEWROOT}/rofs
+        <br>
+        +
+        <br>
+        +mount -n --move ${ROMOUNT} ${NEWROOT}/rofs
+        <br>
+        +mount -n --move /proc ${NEWROOT}/proc
+        <br>
+        +mount -n --move /sys ${NEWROOT}/sys
+        <br>
+        +mount -n --move /dev ${NEWROOT}/dev
+        <br>
+        +
+        <br>
+        +exec chroot ${NEWROOT}/ ${bootparam_init:-/sbin/init} ||
+        exit_gracefully "Couldn't chroot into overlay"
+        <br>
+        diff --git
+        a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+        b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+        <br>
+        index 9e8c1dc3ab..4e76e20026 100644
+        <br>
+        --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+        <br>
+        +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+        <br>
+        @@ -18,6 +18,7 @@ SRC_URI =3D "<a class=3D"moz-txt-link-freetext"=
+ href=3D"file://init">file://init</a> \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a class=3D"moz-txt-link-freetext" href=3D"file://e2fs">file://e2f=
+s</a> \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a class=3D"moz-txt-link-freetext" href=3D"file://debug">file://de=
+bug</a> \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 <a class=3D"moz-txt-link-freetext" href=3D"file://lvm">file://lvm<=
+/a> \
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <a =
+class=3D"moz-txt-link-freetext" href=3D"file://overlayroot">file://overla=
+yroot</a> \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ "
+        <br>
+        =C2=A0 =C2=A0 S =3D "${WORKDIR}"
+        <br>
+        @@ -49,6 +50,9 @@ do_install() {
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # lvm
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -m 0755 ${WORKDIR}/lvm ${D=
+}/init.d/09-lvm
+        <br>
+        =C2=A0 +=C2=A0=C2=A0=C2=A0 # overlayroot needs to run after rootf=
+s module but before
+        finish
+        <br>
+        +=C2=A0=C2=A0=C2=A0 install -m 0755 ${WORKDIR}/overlayroot
+        ${D}/init.d/91-overlayroot
+        <br>
+        +
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Create device nodes expected by =
+some kernels in
+        initramfs
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # before even executing /init.
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -d ${D}/dev
+        <br>
+        @@ -64,6 +68,7 @@ PACKAGES =3D "${PN}-base \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 initramfs-module-rootfs \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 initramfs-module-debug \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 initramfs-module-lvm \
+        <br>
+        +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ initramfs-module-overlayroot \
+        <br>
+        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 "
+        <br>
+        =C2=A0 =C2=A0 FILES:${PN}-base =3D "/init /init.d/99-finish /dev"
+        <br>
+        @@ -107,3 +112,7 @@ FILES:initramfs-module-debug =3D
+        "/init.d/00-debug"
+        <br>
+        =C2=A0 SUMMARY:initramfs-module-lvm =3D "initramfs lvm rootfs sup=
+port"
+        <br>
+        =C2=A0 RDEPENDS:initramfs-module-lvm =3D "${PN}-base"
+        <br>
+        =C2=A0 FILES:initramfs-module-lvm =3D "/init.d/09-lvm"
+        <br>
+        +
+        <br>
+        +SUMMARY:initramfs-module-overlayroot =3D "initramfs support for
+        mounting a RW overlay on top of a RO root filesystem"
+        <br>
+        +RDEPENDS:initramfs-module-overlayroot =3D "${PN}-base
+        initramfs-module-rootfs"
+        <br>
+        +FILES:initramfs-module-overlayroot =3D "/init.d/91-overlayroot"
+        <br>
+      </blockquote>
+      <br>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#161137): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/161137">https:/=
+/lists.openembedded.org/g/openembedded-core/message/161137</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/88773634/4354175">https://lists.openembedded.org/mt/=
+88773634/4354175</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:alhe@linux.microsoft.com">alhe@linux.microsoft.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------dp0f2AqYVuGVpOt0JeJ5sQOO--
 
