@@ -1,183 +1,80 @@
-Return-Path: <alhe@linux.microsoft.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C85C433F5
-	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 18:35:27 +0000 (UTC)
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web09.2409.1643826927305220649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D6AC433F5
+	for <webhook@archiver.kernel.org>; Wed,  2 Feb 2022 22:52:14 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.1558.1643842333743930752
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Feb 2022 10:35:27 -0800
+ Wed, 02 Feb 2022 14:52:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=RNTp6FIs;
- spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
- mailfrom: alhe@linux.microsoft.com)
-Received: from [192.168.8.233] (cpe-70-112-59-126.austin.res.rr.com
- [70.112.59.126])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8996120B6C61;
-	Wed,  2 Feb 2022 10:35:25 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8996120B6C61
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1643826926;
-	bh=fxLijVEBsU/ldXEHRk8i3UgKn+rEVbtY1zA98yceu+0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RNTp6FIsF1dLz03FnKxWk8Un7rh9k1cLEFDqdHRF3KEKTEb4iExhrDFTN20LVExN1
-	 sCt2Vywab5l88NRS+P5QGLZKb3vAVad5L72xtrCjFhxAxIngP/M9rwAjSokbwV8Bwc
-	 RPsy6y+5OG5kaZxZfKGl0uWVBHEA1Im6bzpi+Q1g=
-Content-Type: multipart/alternative;
- boundary="------------CXoX0FXB2EDzpFhHkgQJvWMO"
-Message-ID: <30ead24a-3da4-351d-a4b8-edce9622651b@linux.microsoft.com>
-Date: Wed, 2 Feb 2022 18:35:17 +0000
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64,
+ mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E80C040C82;
+	Wed,  2 Feb 2022 22:52:12 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id z75GWmx8_oDj; Wed,  2 Feb 2022 22:52:12 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+ [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CC90440AB7;
+	Wed,  2 Feb 2022 22:52:11 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 01CDA174738; Wed,  2 Feb 2022 17:52:11 -0500 (EST)
+Date: Wed, 2 Feb 2022 17:52:10 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 27/33] wayland-protocols: upgrade 1.24 -> 1.25
+Message-ID: <20220202225210.GE26229@denix.org>
+References: <20220202182758.919991-1-alex@linutronix.de>
+ <20220202182758.919991-27-alex@linutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH v2] initramfs-framework: Add overlayroot module
-Content-Language: en-US
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: bruce.ashfield@gmail.com
-References: <20220129194839.3280002-1-alhe@linux.microsoft.com>
- <10c1ea08-3b69-aeef-6052-41ad98f37ce6@gmail.com>
- <ecaf8435-71db-8c51-e3c8-71172d0788f8@linux.microsoft.com>
- <193aad3a-ef93-fb74-7a9e-a6fe799d5778@gmail.com>
-From: Alejandro Hernandez <alhe@linux.microsoft.com>
-In-Reply-To: <193aad3a-ef93-fb74-7a9e-a6fe799d5778@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202182758.919991-27-alex@linutronix.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 18:35:27 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Feb 2022 22:52:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161260
+ https://lists.openembedded.org/g/openembedded-core/message/161261
 
-This is a multi-part message in MIME format.
---------------CXoX0FXB2EDzpFhHkgQJvWMO
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 2/2/22 08:15, Vyacheslav Yurkov wrote:
-> Hi Alejandro
->
-> On 02.02.2022 07:58, Alejandro Hernandez wrote:
->>
->> Hey Vyacheslav,
->>
->> ...I definitely tried extending the overlay-etc class but it simply 
->> does not work for this, since the rootfs becomes inaccessible once 
->> the system has booted, ...
->>
->
-> That's what I meant. What if we added another parameter, let's say 
-> OVERLAY_OLDROOT_MOUNT. If it's set, then lower layer can bind mounted 
-> to that mount point. In that case -etc part of overlayfs-etc has to be 
-> changed for something else, of course, to make it more general purpose 
-> class. Perhaps overlayfs.bbclass can be renamed to 
-> overlayfs-systemd.bbclass then?
-> What do you think?
->
-This is precisely the way I implemented it first, I wanted to use the 
-overlay-etc class as general purpose, but sadly that doesn't work for 
-this flow as its explained in the script comments, using it in that way, 
-the / overlay can be mounted, however its impossible to access its 
-original contents once we chroot in the overlay, hence why this belongs 
-in initramfs-framework as a separate feature from the class, the 
-intention is not to replace the class which provides different 
-functionality.
+https://git.openembedded.org/openembedded-core/commit/?id=66dc75cf5e6b741ef7ba011841cd5ceeebf17b36
 
 
->> ... but it is a different use case and boot flow so I believe both 
->> can co-exist for different workflows depending on the user needs...
->
-> My concern here is code duplication :) If we find an issue in one 
-> place, we would need to change it in two places.
->
-> Thanks,
-> Vyacheslav
->
->> Cheers,
->>
->> Alejandro
->>
->
---------------CXoX0FXB2EDzpFhHkgQJvWMO
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2/2/22 08:15, Vyacheslav Yurkov
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:193aad3a-ef93-fb74-7a9e-a6fe799d5778@gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div class="moz-cite-prefix">Hi Alejandro<br>
-        <br>
-        On 02.02.2022 07:58, Alejandro Hernandez wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:ecaf8435-71db-8c51-e3c8-71172d0788f8@linux.microsoft.com">
-        <meta http-equiv="Content-Type" content="text/html;
-          charset=UTF-8">
-        <p><font face="Courier New, Courier, monospace">Hey Vyacheslav,</font></p>
-        <p><font face="Courier New, Courier, monospace">...I definitely
-            tried extending the overlay-etc class but it simply does not
-            work for this, since the rootfs becomes inaccessible once
-            the system has booted, ...<br>
-          </font></p>
-      </blockquote>
-      <br>
-      That's what I meant. What if we added another parameter, let's say
-      OVERLAY_OLDROOT_MOUNT. If it's set, then lower layer can bind
-      mounted to that mount point. In that case -etc part of
-      overlayfs-etc has to be changed for something else, of course, to
-      make it more general purpose class. Perhaps overlayfs.bbclass can
-      be renamed to overlayfs-systemd.bbclass then?<br>
-      What do you think?<br>
-      <br>
-    </blockquote>
-    <p>This is precisely the way I implemented it first, I wanted to use
-      the overlay-etc class as general purpose, but sadly that doesn't
-      work for this flow as its explained in the script comments, using
-      it in that way, the / overlay can be mounted, however its
-      impossible to access its original contents once we chroot in the
-      overlay, hence why this belongs in initramfs-framework as a
-      separate feature from the class, the intention is not to replace
-      the class which provides different functionality.<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:193aad3a-ef93-fb74-7a9e-a6fe799d5778@gmail.com">
-      <blockquote type="cite"
-        cite="mid:ecaf8435-71db-8c51-e3c8-71172d0788f8@linux.microsoft.com">
-        <p><font face="Courier New, Courier, monospace"> </font></p>
-        <font face="Courier New, Courier, monospace">... but it is a
-          different use case and boot flow so I believe both can
-          co-exist for different workflows depending on the user
-          needs...<br>
-        </font></blockquote>
-      <br>
-      My concern here is code duplication :) If we find an issue in one
-      place, we would need to change it in two places.<br>
-      <br>
-      Thanks,<br>
-      Vyacheslav<br>
-      <br>
-      <blockquote type="cite"
-        cite="mid:ecaf8435-71db-8c51-e3c8-71172d0788f8@linux.microsoft.com"><font
-          face="Courier New, Courier, monospace"> </font>
-        <p><font face="Courier New, Courier, monospace">Cheers,<br>
-          </font></p>
-        <p><font face="Courier New, Courier, monospace">Alejandro</font><br>
-        </p>
-      </blockquote>
-      <br>
-    </blockquote>
-  </body>
-</html>
-
---------------CXoX0FXB2EDzpFhHkgQJvWMO--
+On Wed, Feb 02, 2022 at 07:27:52PM +0100, Alexander Kanavin wrote:
+> From: Alexander Kanavin <alex.kanavin@gmail.com>
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../{wayland-protocols_1.24.bb => wayland-protocols_1.25.bb}    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-graphics/wayland/{wayland-protocols_1.24.bb => wayland-protocols_1.25.bb} (91%)
+> 
+> diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.24.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.25.bb
+> similarity index 91%
+> rename from meta/recipes-graphics/wayland/wayland-protocols_1.24.bb
+> rename to meta/recipes-graphics/wayland/wayland-protocols_1.25.bb
+> index 0cfdb90b68..074801b22d 100644
+> --- a/meta/recipes-graphics/wayland/wayland-protocols_1.24.bb
+> +++ b/meta/recipes-graphics/wayland/wayland-protocols_1.25.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+>  
+>  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+>             "
+> -SRC_URI[sha256sum] = "bff0d8cffeeceb35159d6f4aa6bab18c807b80642c9d50f66cba52ecf7338bc2"
+> +SRC_URI[sha256sum] = "f1ff0f7199d0a0da337217dd8c99979967808dc37731a1e759e822b75b571460"
+>  
+>  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+>  
+> -- 
+> 2.20.1
+> 
 
