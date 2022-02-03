@@ -2,63 +2,62 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C78C433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:09 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.2872.1643917868675256465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 265E3C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:12 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.2839.1643917870943633188
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:08 -0800
+ Thu, 03 Feb 2022 11:51:11 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=iuOG8nzL;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
+ header.b=ZHP7hZCs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id x3so3131650pll.3
+Received: by mail-pg1-f172.google.com with SMTP id h23so3127220pgk.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:08 -0800 (PST)
+ Thu, 03 Feb 2022 11:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=7+ms8K/kMH8R4pX4uaQ/k0GmpST4r721Us70wKYMpPk=;
-        b=iuOG8nzL+80Hsr65BucG/yFZt/BrOXx3rAaEE4ahMG/Er92n7D3Nnfe83jLGj/GiN+
-         Vyx1+9aeCz/wxU897TS0/r4c7eCC37xA3Jn9JBWcmJ7/hLP187tmCpA8FEiMCoSjTFzi
-         BxX8R9Fj3A7tdKFAM1Qp0ZdbCl48yYX+G/Yo0r4yzSg/eSUgaAVuKB/iFjs7owTZGrFK
-         D8pZ4eVBh7J8J728bKk8x1frKhfrIybCYB7HmxZZZ0opPAKBueLNwIlj9ETUEbl+1JMe
-         JNEO7KLY2hD+ZKoIdTp/7/h1mzw+ZkfS/gKIrtcbkperHOzUZrmQ3Ve6UDTB8EbfpPp1
-         T+UQ==
+        bh=bfJGUstaah8rXcXBMTvnSd+za9eta5uZfW8LioNAy54=;
+        b=ZHP7hZCsmFLEtJclkBMMOvM3fXWJy6l+5MphSDDRujdNigMogxA25+YVRuKMNrhZNZ
+         epPIdo6PjFOeq7Vv3VyvTPx24PKe4RrHxqFwb0nx1f5E3UlI7gxnFam5AfCIHqwOluuY
+         T1IUFmWcaa2pM1cR26cDo7HUELVmy0ZC8gcEt1AYzobv7gMhfh91KEI3aIDNOWoHVI6i
+         Cs+mhYeHn1Xzc7gfX3T/Fc02cb6Y+pbnUjSQSpG2pd2R57mQ084Lyw7Bse6uH4FjhHLh
+         GIFQsFgWLAIc3ZN69R9KkXsA6+ccQYh26ez/Gao3wp+mnkuDAAACA1Csl85QgTHAifUx
+         RtYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7+ms8K/kMH8R4pX4uaQ/k0GmpST4r721Us70wKYMpPk=;
-        b=ELudF6vQHkOpGLpbSzYuXpdsV57SNvRuptIu4GHm1Qor0SzqjhbDtCtUs+G+z447re
-         DKdYrTdPBJbK/NnOPk9sgUYZHpwGZcOG632vqxA0F6+zZ6CwQ7OeCZbvHkvCdXjmwu8u
-         38KcLpxVmHcuELvNxMrTJ+iMeM7KPXUBNJ/Zpa3uDpTGb5Yz25IA3jaoLf0rDWi9i7OD
-         pBfCi/WatY5XA6O5V8JradPvIHoFrdVxdJ7nl4WmjgZAi3+YeI8AJIyRJWith99L9nzJ
-         Os/1AieLySJCVOe3Us/vuVvcg8SRgo1fDzn56iVM1SZjSouNit55GDHNg1peeVEJDESf
-         y6Rg==
-X-Gm-Message-State: AOAM531xX5lUEa3bKhimPVc72AcAL5E2F8areIWa9O0t3jt6KH181mlP
-	nlPjlmDSy7cqih94D8jo2DXCiDI1Pav3Mcth
+        bh=bfJGUstaah8rXcXBMTvnSd+za9eta5uZfW8LioNAy54=;
+        b=M/yGt5jRVggpTLCClbaxySGUm5D1YESOE8gzeJZ0qJvvnvhjFTg6Lmp9YqmLplcqxQ
+         RiX400Gy18gRZxPIlllhZNmAQ82/LukdNr3zHOHhKCn9kyzqFzcCKyh4MawRlOryVAZq
+         KHFr6alPM1NQfVzYMRTaEbSJYPHlBb4QhDqpOAoxVL1b/PkGnQzT5jaksIikKMo+Q83x
+         q9gWD8OsajEPd2Ksq83kWrdxpKwt6TUqvkLeyvN3mMkTic+X7JEonR76oVIlWKARZ9q1
+         GmileGKRs0NS3+ZlY0tlYlywZ56kQ86/xmT3r3vzYlHhstr8zz/iCSUPmeXtL0PxWeoy
+         E43A==
+X-Gm-Message-State: AOAM533Iz1Auk9XOr3Gq2aWH/cTXnHcLbl3VMzdMf4BfzmBKIcMnWfrd
+	lgjdA9uYHvjgWFRLxxUJA7TVRBBPt0vWl8hJ
 X-Google-Smtp-Source: 
- ABdhPJywevaaul8u1AQM1KHgs9TnMM+UynU6V/HSczYcB9lNe5j3zkRpwass+dzU73lICu9zhZ6JIQ==
-X-Received: by 2002:a17:903:1210:: with SMTP id
- l16mr34801899plh.63.1643917867510;
-        Thu, 03 Feb 2022 11:51:07 -0800 (PST)
+ ABdhPJxHOdvtRDersW4Zj/RC48QHQlFZ7cDMF4ST6SmIDwBDG1M+Nn0M1W/Azy99iUZOIyKkWI/s8g==
+X-Received: by 2002:a63:af08:: with SMTP id w8mr29887065pge.1.1643917869842;
+        Thu, 03 Feb 2022 11:51:09 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s4sm27762216pgg.80.2022.02.03.11.51.06
+ s4sm27762216pgg.80.2022.02.03.11.51.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 11:51:06 -0800 (PST)
+        Thu, 03 Feb 2022 11:51:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/20] grub: add a fix for CVE-2020-25632
-Date: Thu,  3 Feb 2022 09:50:27 -1000
+Subject: [OE-core][dunfell 04/20] grub: add a fix for CVE-2020-25647
+Date: Thu,  3 Feb 2022 09:50:28 -1000
 Message-Id: 
- <3ccb5fdde9aef8a2ebc23611d7764fb689e1f402.1643917717.git.steve@sakoman.com>
+ <de2ebd49331ae22f6cc92bb9cb0376a34bf58cb9.1643917717.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1643917717.git.steve@sakoman.com>
 References: <cover.1643917717.git.steve@sakoman.com>
@@ -67,138 +66,167 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:09 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161298
+ https://lists.openembedded.org/g/openembedded-core/message/161299
 
 From: Marta Rybczynska <rybczynska@gmail.com>
 
-Fix grub issue with module dereferencing. From the official description
-from NVD [1]:
+Fix a grub issue with incorrect values from an usb device. From the official
+description from NVD [1]:
 
-   The rmmod implementation allows the unloading of a module used as
-   a dependency without checking if any other dependent module is still
-   loaded leading to a use-after-free scenario. This could allow
-   arbitrary code to be executed or a bypass of Secure Boot protections.
+  During USB device initialization, descriptors are read with very little
+  bounds checking and assumes the USB device is providing sane values.
+  If properly exploited, an attacker could trigger memory corruption leading
+  to arbitrary code execution allowing a bypass of the Secure Boot mechanism.
 
 This patch is a part of a bigger security collection for grub [2].
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2020-25632
+[1] https://nvd.nist.gov/vuln/detail/CVE-2020-25647
 [2] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2020-25632.patch           | 90 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-25632.patch
+ .../grub/files/CVE-2020-25647.patch           | 119 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ 2 files changed, 120 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-25647.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-25632.patch b/meta/recipes-bsp/grub/files/CVE-2020-25632.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2020-25647.patch b/meta/recipes-bsp/grub/files/CVE-2020-25647.patch
 new file mode 100644
-index 0000000000..0b37c72f0f
+index 0000000000..cb77fd4772
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-25632.patch
-@@ -0,0 +1,90 @@
-+From 7630ec5397fe418276b360f9011934b8c034936c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/CVE-2020-25647.patch
+@@ -0,0 +1,119 @@
++From 128c16a682034263eb519c89bc0934eeb6fa8cfa Mon Sep 17 00:00:00 2001
 +From: Javier Martinez Canillas <javierm@redhat.com>
-+Date: Tue, 29 Sep 2020 14:08:55 +0200
-+Subject: [PATCH] dl: Only allow unloading modules that are not dependencies
++Date: Fri, 11 Dec 2020 19:19:21 +0100
++Subject: [PATCH] usb: Avoid possible out-of-bound accesses caused by malicious
++ devices
 +
-+When a module is attempted to be removed its reference counter is always
-+decremented. This means that repeated rmmod invocations will cause the
-+module to be unloaded even if another module depends on it.
++The maximum number of configurations and interfaces are fixed but there is
++no out-of-bound checking to prevent a malicious USB device to report large
++values for these and cause accesses outside the arrays' memory.
 +
-+This may lead to a use-after-free scenario allowing an attacker to execute
-+arbitrary code and by-pass the UEFI Secure Boot protection.
++Fixes: CVE-2020-25647
 +
-+While being there, add the extern keyword to some function declarations in
-+that header file.
-+
-+Fixes: CVE-2020-25632
-+
-+Reported-by: Chris Coulson <chris.coulson@canonical.com>
++Reported-by: Joseph Tartaro <joseph.tartaro@ioactive.com>
++Reported-by: Ilja Van Sprundel <ivansprundel@ioactive.com>
 +Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7630ec5397fe418276b360f9011934b8c034936c]
-+CVE: CVE-2020-25632
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=128c16a682034263eb519c89bc0934eeb6fa8cfa]
++CVE: CVE-2020-25647
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/commands/minicmd.c | 7 +++++--
-+ grub-core/kern/dl.c          | 9 +++++++++
-+ include/grub/dl.h            | 8 +++++---
-+ 3 files changed, 19 insertions(+), 5 deletions(-)
++ grub-core/bus/usb/usb.c | 15 ++++++++++++---
++ include/grub/usb.h      | 10 +++++++---
++ 2 files changed, 19 insertions(+), 6 deletions(-)
 +
-+diff --git a/grub-core/commands/minicmd.c b/grub-core/commands/minicmd.c
-+index 6bbce3128..fa498931e 100644
-+--- a/grub-core/commands/minicmd.c
-++++ b/grub-core/commands/minicmd.c
-+@@ -140,8 +140,11 @@ grub_mini_cmd_rmmod (struct grub_command *cmd __attribute__ ((unused)),
-+   if (grub_dl_is_persistent (mod))
-+     return grub_error (GRUB_ERR_BAD_ARGUMENT, "cannot unload persistent module");
-+ 
-+-  if (grub_dl_unref (mod) <= 0)
-+-    grub_dl_unload (mod);
-++  if (grub_dl_ref_count (mod) > 1)
-++    return grub_error (GRUB_ERR_BAD_ARGUMENT, "cannot unload referenced module");
-++
-++  grub_dl_unref (mod);
-++  grub_dl_unload (mod);
-+ 
-+   return 0;
-+ }
-+diff --git a/grub-core/kern/dl.c b/grub-core/kern/dl.c
-+index 48eb5e7b6..48f8a7907 100644
-+--- a/grub-core/kern/dl.c
-++++ b/grub-core/kern/dl.c
-+@@ -549,6 +549,15 @@ grub_dl_unref (grub_dl_t mod)
-+   return --mod->ref_count;
-+ }
-+ 
-++int
-++grub_dl_ref_count (grub_dl_t mod)
-++{
-++  if (mod == NULL)
-++    return 0;
-++
-++  return mod->ref_count;
-++}
-++
-+ static void
-+ grub_dl_flush_cache (grub_dl_t mod)
++diff --git a/grub-core/bus/usb/usb.c b/grub-core/bus/usb/usb.c
++index 8da5e4c74..7cb3cc230 100644
++--- a/grub-core/bus/usb/usb.c
+++++ b/grub-core/bus/usb/usb.c
++@@ -75,6 +75,9 @@ grub_usb_controller_iterate (grub_usb_controller_iterate_hook_t hook,
++ grub_usb_err_t
++ grub_usb_clear_halt (grub_usb_device_t dev, int endpoint)
 + {
-+diff --git a/include/grub/dl.h b/include/grub/dl.h
-+index f03c03561..b3753c9ca 100644
-+--- a/include/grub/dl.h
-++++ b/include/grub/dl.h
-+@@ -203,9 +203,11 @@ grub_dl_t EXPORT_FUNC(grub_dl_load) (const char *name);
-+ grub_dl_t grub_dl_load_core (void *addr, grub_size_t size);
-+ grub_dl_t EXPORT_FUNC(grub_dl_load_core_noinit) (void *addr, grub_size_t size);
-+ int EXPORT_FUNC(grub_dl_unload) (grub_dl_t mod);
-+-void grub_dl_unload_unneeded (void);
-+-int EXPORT_FUNC(grub_dl_ref) (grub_dl_t mod);
-+-int EXPORT_FUNC(grub_dl_unref) (grub_dl_t mod);
-++extern void grub_dl_unload_unneeded (void);
-++extern int EXPORT_FUNC(grub_dl_ref) (grub_dl_t mod);
-++extern int EXPORT_FUNC(grub_dl_unref) (grub_dl_t mod);
-++extern int EXPORT_FUNC(grub_dl_ref_count) (grub_dl_t mod);
+++  if (endpoint >= GRUB_USB_MAX_TOGGLE)
+++    return GRUB_USB_ERR_BADDEVICE;
 ++
-+ extern grub_dl_t EXPORT_VAR(grub_dl_head);
++   dev->toggle[endpoint] = 0;
++   return grub_usb_control_msg (dev, (GRUB_USB_REQTYPE_OUT
++ 				     | GRUB_USB_REQTYPE_STANDARD
++@@ -134,10 +137,10 @@ grub_usb_device_initialize (grub_usb_device_t dev)
++     return err;
++   descdev = &dev->descdev;
 + 
-+ #ifndef GRUB_UTIL
++-  for (i = 0; i < 8; i++)
+++  for (i = 0; i < GRUB_USB_MAX_CONF; i++)
++     dev->config[i].descconf = NULL;
++ 
++-  if (descdev->configcnt == 0)
+++  if (descdev->configcnt == 0 || descdev->configcnt > GRUB_USB_MAX_CONF)
++     {
++       err = GRUB_USB_ERR_BADDEVICE;
++       goto fail;
++@@ -172,6 +175,12 @@ grub_usb_device_initialize (grub_usb_device_t dev)
++       /* Skip the configuration descriptor.  */
++       pos = dev->config[i].descconf->length;
++ 
+++      if (dev->config[i].descconf->numif > GRUB_USB_MAX_IF)
+++        {
+++          err = GRUB_USB_ERR_BADDEVICE;
+++          goto fail;
+++        }
+++
++       /* Read all interfaces.  */
++       for (currif = 0; currif < dev->config[i].descconf->numif; currif++)
++ 	{
++@@ -217,7 +226,7 @@ grub_usb_device_initialize (grub_usb_device_t dev)
++ 
++  fail:
++ 
++-  for (i = 0; i < 8; i++)
+++  for (i = 0; i < GRUB_USB_MAX_CONF; i++)
++     grub_free (dev->config[i].descconf);
++ 
++   return err;
++diff --git a/include/grub/usb.h b/include/grub/usb.h
++index 512ae1dd0..6475c552f 100644
++--- a/include/grub/usb.h
+++++ b/include/grub/usb.h
++@@ -23,6 +23,10 @@
++ #include <grub/usbdesc.h>
++ #include <grub/usbtrans.h>
++ 
+++#define GRUB_USB_MAX_CONF    8
+++#define GRUB_USB_MAX_IF      32
+++#define GRUB_USB_MAX_TOGGLE  256
+++
++ typedef struct grub_usb_device *grub_usb_device_t;
++ typedef struct grub_usb_controller *grub_usb_controller_t;
++ typedef struct grub_usb_controller_dev *grub_usb_controller_dev_t;
++@@ -167,7 +171,7 @@ struct grub_usb_configuration
++   struct grub_usb_desc_config *descconf;
++ 
++   /* Interfaces associated to this configuration.  */
++-  struct grub_usb_interface interf[32];
+++  struct grub_usb_interface interf[GRUB_USB_MAX_IF];
++ };
++ 
++ struct grub_usb_hub_port
++@@ -191,7 +195,7 @@ struct grub_usb_device
++   struct grub_usb_controller controller;
++ 
++   /* Device configurations (after opening the device).  */
++-  struct grub_usb_configuration config[8];
+++  struct grub_usb_configuration config[GRUB_USB_MAX_CONF];
++ 
++   /* Device address.  */
++   int addr;
++@@ -203,7 +207,7 @@ struct grub_usb_device
++   int initialized;
++ 
++   /* Data toggle values (used for bulk transfers only).  */
++-  int toggle[256];
+++  int toggle[GRUB_USB_MAX_TOGGLE];
++ 
++   /* Used by libusb wrapper.  Schedulded for removal. */
++   void *data;
 +-- 
 +2.33.0
 +
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index db7c23a84a..6a17940afb 100644
+index 6a17940afb..9b20e1c09b 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -45,6 +45,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://CVE-2020-27779_5.patch \
+@@ -46,6 +46,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://CVE-2020-27779_6.patch \
             file://CVE-2020-27779_7.patch \
-+           file://CVE-2020-25632.patch \
+            file://CVE-2020-25632.patch \
++           file://CVE-2020-25647.patch \
  "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
