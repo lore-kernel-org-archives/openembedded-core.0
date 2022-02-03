@@ -1,191 +1,112 @@
-Return-Path: <ch@denx.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 380A6C433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 12:55:29 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web09.8641.1643892927262347448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF66AC433F5
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 13:07:33 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.8762.1643893652412590554
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 04:55:28 -0800
+ Thu, 03 Feb 2022 05:07:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=Qsdk/rfs;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
-Received: from [10.88.0.104]
- (dslb-002-205-233-038.002.205.pools.vodafone-ip.de [2.205.233.38])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: ch@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 21EAB81F7E;
-	Thu,  3 Feb 2022 13:55:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1643892924;
-	bh=onPe2I29HMIpHflvGgw4M0o36v3QFjf4lNJiEo0tHL4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qsdk/rfswa8U4qwBwGGXlBxu+iV7r2ZJd7bmv9MeiWmIUNgGnfH2GyI10LDRy3d8s
-	 N2SKczTWrjuj75u/LIHwvhshDtm/1XULL4DXBePKyiiNYIQkqD8XiUrBFUlEvn12rt
-	 uZGfx3S9NjVcC+ogE8QYx3IXocuXFdaKcSfzWO/1r2LuQLGq/DLf08ZW2kxfwIayLL
-	 3wZC31sJWB30jrfBVMK6GijWoRj216ev7h8dr4f/uTSSjgHJuNjZSXPgSPOUhpp8Yw
-	 Xqv2UKdMZR8sFTkYhrt479pOsxaem7FjZnQdkKEUb+PxYAKewAHAlWsJKq4Krk+Uto
-	 GBhFST/mMpDNQ==
-Message-ID: <8f129c19-a070-e1fe-d868-960fee2b77e6@denx.de>
-Date: Thu, 3 Feb 2022 13:55:23 +0100
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PJup3QAq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id k18so4907294wrg.11
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 03 Feb 2022 05:07:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=81lDavu/qx2vhdBjTu7iZMsbKWooc4AoimtQ9aDjI0Q=;
+        b=PJup3QAqxZ2wodjOds41XupaQyO+JiGjcTNLBh19/S+UwLQsgU7Y9i4ateA1gTSdW0
+         ruBjmMtgjm6zEFjcLlrDZ0xe037S/mGQ9e6rlYa29NTLDwoYYiEMqrTFxHc1w5knOhUo
+         D/cBceF/eVMicfG1Jc+J4m7nqJGHNDTVlnAJw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=81lDavu/qx2vhdBjTu7iZMsbKWooc4AoimtQ9aDjI0Q=;
+        b=C85AVIKjGTQz85lQT+TGQdv+iOwQFmiMk492hekAhsaqKZ9LmHcXko5I6Ed/ltLD1q
+         x20hBxu+A2V2xaiJ3BAsD5eGZymZbHlimFj4coxBAUvcAvUOClhMWqA0WgWGoOSB4W3X
+         Q71eyaMesAd8RazmK4u1LT+ZmB9lBfxRocjM1B/YXZdlDajtlwmZELSoDSmM3nzBDHlR
+         +BAfYUGu9ail6j6oOCOO+A0QIROCnrmpBIa7fqLdg2guhIwEoBDLABg5I6qQHK8FgBSW
+         a0itH0tnbpe6B7IZcMpGL7hcFxhtfpbzd/qZ6FvFdzHb1aebs78q9bRJ81xNgopCjZoP
+         QhAA==
+X-Gm-Message-State: AOAM531+y/Wq/l0oZU88Lekp08rDo/sZmkMDV2gaYjxqpDkRJkiaaqF8
+	ExS1t7jIqG4iZOV7Z596o7oB5A==
+X-Google-Smtp-Source: 
+ ABdhPJx+sZPrcXEm3qHJjHrWzH1udk0ul4EIrYqukcsjfLHDCGzgXyxVegQjBTyAYu1Lb6XvSsbPLQ==
+X-Received: by 2002:a5d:598c:: with SMTP id n12mr3091570wri.463.1643893650850;
+        Thu, 03 Feb 2022 05:07:30 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e772:7635:2207:1103?
+ ([2001:8b0:aba:5f3c:e772:7635:2207:1103])
+        by smtp.gmail.com with ESMTPSA id
+ m6sm23377430wrw.54.2022.02.03.05.07.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 05:07:30 -0800 (PST)
+Message-ID: 
+ <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
+Subject: Re: [RFC] support for multi project toolchain-cmake
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tobias Neumann <tobias@neumann-web.eu>,
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 03 Feb 2022 13:07:28 +0000
+In-Reply-To: <1540523266.294149.1643372553712@office.mailbox.org>
+References: <1540523266.294149.1643372553712@office.mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [OE-core] [PATCH 01/33] seatd: add recipe
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20220202182758.919991-1-alex@linutronix.de>
-From: Claudius Heine <ch@denx.de>
-Organization: Denx Software Engineering
-In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 12:55:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 13:07:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161277
+ https://lists.openembedded.org/g/openembedded-core/message/161278
 
-Hi Alexander,
+Hi,
 
-On 2022-02-02 19:27, Alexander Kanavin wrote:
-> This is needed to run weston properly as non-root in the absence
-> of systemd-logind, and other compositors will likely require seatd
-> as well.
+On Fri, 2022-01-28 at 13:22 +0100, Tobias Neumann wrote:
+> regarding my bug report
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14703 I was
+> forwarded to here to discuss requirements for a proper fix.
 > 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->   meta/conf/distro/include/maintainers.inc |  1 +
->   meta/recipes-core/seatd/seatd/init       | 45 ++++++++++++++++++++++++
->   meta/recipes-core/seatd/seatd_0.6.3.bb   | 29 +++++++++++++++
->   3 files changed, 75 insertions(+)
->   create mode 100644 meta/recipes-core/seatd/seatd/init
->   create mode 100644 meta/recipes-core/seatd/seatd_0.6.3.bb
+> In the report, I already mentioned a non-generic workaround for that.
+> By extending the CMAKE_FIND_ROOT_PATH with CMAKE_INSTALL_PREFIX.
+> However this probably doesn't cover all ways a toolchain can be used.
 > 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index ae25287c11..cb289a0eee 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -684,6 +684,7 @@ RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
->   RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
->   RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
->   RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
-> +RECIPE_MAINTAINER:pn-seatd = "Alexander Kanavin <alex.kanavin@gmail.com>"
->   RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
->   RECIPE_MAINTAINER:pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
->   RECIPE_MAINTAINER:pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
-> diff --git a/meta/recipes-core/seatd/seatd/init b/meta/recipes-core/seatd/seatd/init
-> new file mode 100644
-> index 0000000000..0589c765ac
-> --- /dev/null
-> +++ b/meta/recipes-core/seatd/seatd/init
-> @@ -0,0 +1,45 @@
-> +#!/bin/sh
-> +#
-> +### BEGIN INIT INFO
-> +# Provides: seatd
-> +# Required-Start: $local_fs $remote_fs
-> +# Required-Stop: $local_fs $remote_fs
-> +# Default-Start:     2 3 4 5
-> +# Default-Stop:      0 1 6
-> +### END INIT INFO
-> +
-> +killproc() {
-> +        pid=`/bin/pidof $1`
-> +        [ "$pid" != "" ] && kill $pid
-> +}
-> +
-> +case "$1" in
-> +  start)
-> +        seatd -g video -n 1 > /tmp/seatd-start-notify &
-> +        [ -s /tmp/seatd-start-notify ] && exit 0
-> +        sleep 0.1
-> +        [ -s /tmp/seatd-start-notify ] && exit 0
-> +        sleep 0.5
-> +        [ -s /tmp/seatd-start-notify ] && exit 0
-> +        sleep 5
-> +        [ -s /tmp/seatd-start-notify ] && exit 0
-> +        exit 1
-> +  ;;
-> +
-> +  stop)
-> +        echo "Stopping seatd"
-> +        killproc seatd
-> +  ;;
-> +
-> +  restart)
-> +	$0 stop
-> +        sleep 1
-> +        $0 start
-> +  ;;
-> +
-> +  *)
-> +        echo "usage: $0 { start | stop | restart }"
-> +  ;;
-> +esac
-> +
-> +exit 0
-> diff --git a/meta/recipes-core/seatd/seatd_0.6.3.bb b/meta/recipes-core/seatd/seatd_0.6.3.bb
-> new file mode 100644
-> index 0000000000..0e1a79dddf
-> --- /dev/null
-> +++ b/meta/recipes-core/seatd/seatd_0.6.3.bb
-> @@ -0,0 +1,29 @@
-> +SUMMARY = "A minimal seat management daemon, and a universal seat management library."
-> +DESCRIPTION = "Seat management takes care of mediating access to shared devices (graphics, input), without requiring the applications needing access to be root."
-> +HOMEPAGE = "https://git.sr.ht/~kennylevinsen/seatd"
-> +
-> +LICENSE = "MIT"
-> +
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=715a99d2dd552e6188e74d4ed2914d5a"
-> +
-> +SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
-> +           file://init"
-> +SRCREV = "88db55f6068c1c01d85b61aa6adff0a6b2a8dce8"
-> +S = "${WORKDIR}/git"
-> +
-> +inherit meson pkgconfig update-rc.d
-> +
-> +PACKAGECONFIG ?= "libseat-builtin"
-> +
-> +PACKAGECONFIG[libseat-builtin] = "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
-> +
-> +do_install:append() {
-> +        if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
-> +                install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd
-> +        fi
-> +}
-> +
-> +INITSCRIPT_NAME = "seatd"
-> +INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
-> +INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
-> +
+> Another solution could be to respect the user provided path and
+> instead of overwriting the CMAKE_FIND_ROOT_PATH variable, to only
+> extent it by the toolchains location.
+> This however would make it quite easy for a toolchain build to break
+> isolation, when wrong user input is set. I don't know how strong your
+> requirements regarding that would be.
 > 
+> So feedback how a fix should look like and what requirements it needs
+> to fulfill would be appreciated.
 
-I was looking into seatd as well, in my recipe I split it up a bit:
+Firstly, I'm a little unclear on your exact use case. Just to be really clear,
+are you using cmake within a bitbake build or are we talking about using cmake
+from within an SDK or eSDK external to the project?
 
-```
-PACKAGES =+ "${PN}-launch libseat libseat-dev"
+I'm guessing this is probably an SDK question but you never mention the SDK
+anywhere so I wasn't entirely sure. I'll assume that in my next comment.
 
-FILES:${PN} = "${bindir}/seatd"
-FILES:${PN}-launch = "${bindir}/seatd-launch"
-FILES:libseat = "${libdir}/lib*${SOLIBS}"
-FILES:libseat-dev = " \
-        ${includedir} ${FILES_SOLIBSDEV} \
-        ${libdir}/pkgconfig"
+With the SDK, if you have two projects, one of which depends on the other, I
+have to wonder where the first is being installed to? Usually I'd have expected
+it to go into the target sysroot that the SDK toolchain is using, then it should
+be found by the second build? We don't support multiple sysroots for building
+things with the SDK.
 
-RDEPENDS:${PN} = "libseat (= ${EXTENDPKGV})"
-RDEPENDS:${PN}-launch = "${PN} (= ${EXTENDPKGV})"
-RDEPENDS:libseat-dev = "libseat (= ${EXTENDPKGV})"
-```
+I'm therefore still a bit puzzled about exactly what the issue is here so
+perhaps you could give a little more detail on the above?
 
-regards,
-Claudius
+Cheers,
+
+Richard
+
 
