@@ -1,112 +1,427 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF66AC433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 13:07:33 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web08.8762.1643893652412590554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA76BC433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 13:28:58 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web09.8945.1643894938027529252
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 05:07:32 -0800
+ Thu, 03 Feb 2022 05:28:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PJup3QAq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id k18so4907294wrg.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YBkeCa2N;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id m90so5193030uam.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 05:07:32 -0800 (PST)
+ Thu, 03 Feb 2022 05:28:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=81lDavu/qx2vhdBjTu7iZMsbKWooc4AoimtQ9aDjI0Q=;
-        b=PJup3QAqxZ2wodjOds41XupaQyO+JiGjcTNLBh19/S+UwLQsgU7Y9i4ateA1gTSdW0
-         ruBjmMtgjm6zEFjcLlrDZ0xe037S/mGQ9e6rlYa29NTLDwoYYiEMqrTFxHc1w5knOhUo
-         D/cBceF/eVMicfG1Jc+J4m7nqJGHNDTVlnAJw=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mNKzJv6xG30l8qlp6tT9iLXTYgPimqot3UHIQUOPUU8=;
+        b=YBkeCa2NX9V8fJ+jDqr4Q3zo9cjGEkkStL1B5BxPjfHMVWD8/qcOroqLRONATvyc4W
+         zZkj3gahI62Tv+9cS/gHShu8cl7pudi3Y8IKV4ilfJSMKG3atxhdU5VJRlKnrPKjxPAK
+         kJDdFK3Y6g58BZyRq+HPS5DOzgRADYceGIYtVWFrCyqVhhz1zDPWcAMxlDmL4ZZl1ZWv
+         C6CBT0/WSXFlxZMjkc3yQGsYRVspbWiTYr/tKlIBgE1YZQbqt1ruj79hWZlRiudVNQHM
+         /YXd6HlzFZXhoDYKX8qpHJLVJZlNBTjfpd4xRDCEISHHdCrWKzd4kpGrf9s6w7ZRLQzZ
+         k4lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=81lDavu/qx2vhdBjTu7iZMsbKWooc4AoimtQ9aDjI0Q=;
-        b=C85AVIKjGTQz85lQT+TGQdv+iOwQFmiMk492hekAhsaqKZ9LmHcXko5I6Ed/ltLD1q
-         x20hBxu+A2V2xaiJ3BAsD5eGZymZbHlimFj4coxBAUvcAvUOClhMWqA0WgWGoOSB4W3X
-         Q71eyaMesAd8RazmK4u1LT+ZmB9lBfxRocjM1B/YXZdlDajtlwmZELSoDSmM3nzBDHlR
-         +BAfYUGu9ail6j6oOCOO+A0QIROCnrmpBIa7fqLdg2guhIwEoBDLABg5I6qQHK8FgBSW
-         a0itH0tnbpe6B7IZcMpGL7hcFxhtfpbzd/qZ6FvFdzHb1aebs78q9bRJ81xNgopCjZoP
-         QhAA==
-X-Gm-Message-State: AOAM531+y/Wq/l0oZU88Lekp08rDo/sZmkMDV2gaYjxqpDkRJkiaaqF8
-	ExS1t7jIqG4iZOV7Z596o7oB5A==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mNKzJv6xG30l8qlp6tT9iLXTYgPimqot3UHIQUOPUU8=;
+        b=vBWY9myTmH0WGi5cDuDv/pEz6S0nM/Rvzqm3R8KskW7xueM4WdG9XcO+mfKHy63vbv
+         Fh4vhFVN7o9uvdPrIR4GtcR+4f/nqCbI2afGOjK+aeZbaAlk3krxSLBloMuSC8kRvZQ3
+         h/CHp9srOho9aDsBHwjET6HiPzyS2co7ryACQ3gLPaYuQYvKfBxhzrEdg0vPdWkQbwTb
+         BQmFQADced6RuOIj/fm32/1SuYDNYMNUguSNIUkYOPLmnNpn6unGKBz0QbDy7zsCR17/
+         Xd9gQpRrGRzl/FM5qWAD07OiNixN6HY/ohrfQn/IxUeaD187fqdWuX+q6Ch1lQbiXRPH
+         jcqw==
+X-Gm-Message-State: AOAM533Py8IXzP3ShtNXPMNQGeQdxx/qvzR0ZMPnkufRUjsE+JnnjWhn
+	dNZ9tcy183fJBeLVPK0RzmMkfCb6rhPDzLiHAWM=
 X-Google-Smtp-Source: 
- ABdhPJx+sZPrcXEm3qHJjHrWzH1udk0ul4EIrYqukcsjfLHDCGzgXyxVegQjBTyAYu1Lb6XvSsbPLQ==
-X-Received: by 2002:a5d:598c:: with SMTP id n12mr3091570wri.463.1643893650850;
-        Thu, 03 Feb 2022 05:07:30 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e772:7635:2207:1103?
- ([2001:8b0:aba:5f3c:e772:7635:2207:1103])
-        by smtp.gmail.com with ESMTPSA id
- m6sm23377430wrw.54.2022.02.03.05.07.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 05:07:30 -0800 (PST)
-Message-ID: 
- <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
-Subject: Re: [RFC] support for multi project toolchain-cmake
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tobias Neumann <tobias@neumann-web.eu>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Feb 2022 13:07:28 +0000
-In-Reply-To: <1540523266.294149.1643372553712@office.mailbox.org>
-References: <1540523266.294149.1643372553712@office.mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJz7hEz/SpUAUB3C/bxb6Y1zY7HHURHpSqu0mEqO7DVvlCTMNNvAb/fj2NB7CqwCJIG6TnqFh2gWZcmzGOxEJRg=
+X-Received: by 2002:a05:6102:c50:: with SMTP id
+ y16mr13596119vss.45.1643894937069;
+ Thu, 03 Feb 2022 05:28:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220202182758.919991-1-alex@linutronix.de>
+ <8f129c19-a070-e1fe-d868-960fee2b77e6@denx.de>
+In-Reply-To: <8f129c19-a070-e1fe-d868-960fee2b77e6@denx.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 3 Feb 2022 14:28:45 +0100
+Message-ID: 
+ <CANNYZj9u_a17B1R+ufNCQe=jao6sExGrGWdAb_5t7_T2y-a4GA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/33] seatd: add recipe
+To: Claudius Heine <ch@denx.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000c5b13305d71d1de2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 13:07:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 13:28:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161278
+ https://lists.openembedded.org/g/openembedded-core/message/161279
 
-Hi,
+--000000000000c5b13305d71d1de2
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2022-01-28 at 13:22 +0100, Tobias Neumann wrote:
-> regarding my bug report
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14703 I was
-> forwarded to here to discuss requirements for a proper fix.
-> 
-> In the report, I already mentioned a non-generic workaround for that.
-> By extending the CMAKE_FIND_ROOT_PATH with CMAKE_INSTALL_PREFIX.
-> However this probably doesn't cover all ways a toolchain can be used.
-> 
-> Another solution could be to respect the user provided path and
-> instead of overwriting the CMAKE_FIND_ROOT_PATH variable, to only
-> extent it by the toolchains location.
-> This however would make it quite easy for a toolchain build to break
-> isolation, when wrong user input is set. I don't know how strong your
-> requirements regarding that would be.
-> 
-> So feedback how a fix should look like and what requirements it needs
-> to fulfill would be appreciated.
+As far as I understand the library is not useful without the daemon, so
+there is no point in packaging them separately. -dev stuff is split
+automatically.
 
-Firstly, I'm a little unclear on your exact use case. Just to be really clear,
-are you using cmake within a bitbake build or are we talking about using cmake
-from within an SDK or eSDK external to the project?
+Alex
 
-I'm guessing this is probably an SDK question but you never mention the SDK
-anywhere so I wasn't entirely sure. I'll assume that in my next comment.
+On Thu, 3 Feb 2022 at 13:55, Claudius Heine <ch@denx.de> wrote:
 
-With the SDK, if you have two projects, one of which depends on the other, I
-have to wonder where the first is being installed to? Usually I'd have expected
-it to go into the target sysroot that the SDK toolchain is using, then it should
-be found by the second build? We don't support multiple sysroots for building
-things with the SDK.
+> Hi Alexander,
+>
+> On 2022-02-02 19:27, Alexander Kanavin wrote:
+> > This is needed to run weston properly as non-root in the absence
+> > of systemd-logind, and other compositors will likely require seatd
+> > as well.
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >   meta/conf/distro/include/maintainers.inc |  1 +
+> >   meta/recipes-core/seatd/seatd/init       | 45 ++++++++++++++++++++++++
+> >   meta/recipes-core/seatd/seatd_0.6.3.bb   | 29 +++++++++++++++
+> >   3 files changed, 75 insertions(+)
+> >   create mode 100644 meta/recipes-core/seatd/seatd/init
+> >   create mode 100644 meta/recipes-core/seatd/seatd_0.6.3.bb
+> >
+> > diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc
+> > index ae25287c11..cb289a0eee 100644
+> > --- a/meta/conf/distro/include/maintainers.inc
+> > +++ b/meta/conf/distro/include/maintainers.inc
+> > @@ -684,6 +684,7 @@ RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <
+> unassigned@yoctoproject.org>"
+> >   RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <
+> ross.burton@arm.com>"
+> >   RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
+> >   RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+> > +RECIPE_MAINTAINER:pn-seatd = "Alexander Kanavin <alex.kanavin@gmail.com
+> >"
+> >   RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+> >   RECIPE_MAINTAINER:pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
+> >   RECIPE_MAINTAINER:pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
+> > diff --git a/meta/recipes-core/seatd/seatd/init
+> b/meta/recipes-core/seatd/seatd/init
+> > new file mode 100644
+> > index 0000000000..0589c765ac
+> > --- /dev/null
+> > +++ b/meta/recipes-core/seatd/seatd/init
+> > @@ -0,0 +1,45 @@
+> > +#!/bin/sh
+> > +#
+> > +### BEGIN INIT INFO
+> > +# Provides: seatd
+> > +# Required-Start: $local_fs $remote_fs
+> > +# Required-Stop: $local_fs $remote_fs
+> > +# Default-Start:     2 3 4 5
+> > +# Default-Stop:      0 1 6
+> > +### END INIT INFO
+> > +
+> > +killproc() {
+> > +        pid=`/bin/pidof $1`
+> > +        [ "$pid" != "" ] && kill $pid
+> > +}
+> > +
+> > +case "$1" in
+> > +  start)
+> > +        seatd -g video -n 1 > /tmp/seatd-start-notify &
+> > +        [ -s /tmp/seatd-start-notify ] && exit 0
+> > +        sleep 0.1
+> > +        [ -s /tmp/seatd-start-notify ] && exit 0
+> > +        sleep 0.5
+> > +        [ -s /tmp/seatd-start-notify ] && exit 0
+> > +        sleep 5
+> > +        [ -s /tmp/seatd-start-notify ] && exit 0
+> > +        exit 1
+> > +  ;;
+> > +
+> > +  stop)
+> > +        echo "Stopping seatd"
+> > +        killproc seatd
+> > +  ;;
+> > +
+> > +  restart)
+> > +     $0 stop
+> > +        sleep 1
+> > +        $0 start
+> > +  ;;
+> > +
+> > +  *)
+> > +        echo "usage: $0 { start | stop | restart }"
+> > +  ;;
+> > +esac
+> > +
+> > +exit 0
+> > diff --git a/meta/recipes-core/seatd/seatd_0.6.3.bb
+> b/meta/recipes-core/seatd/seatd_0.6.3.bb
+> > new file mode 100644
+> > index 0000000000..0e1a79dddf
+> > --- /dev/null
+> > +++ b/meta/recipes-core/seatd/seatd_0.6.3.bb
+> > @@ -0,0 +1,29 @@
+> > +SUMMARY = "A minimal seat management daemon, and a universal seat
+> management library."
+> > +DESCRIPTION = "Seat management takes care of mediating access to shared
+> devices (graphics, input), without requiring the applications needing
+> access to be root."
+> > +HOMEPAGE = "https://git.sr.ht/~kennylevinsen/seatd"
+> > +
+> > +LICENSE = "MIT"
+> > +
+> > +LIC_FILES_CHKSUM = "file://LICENSE;md5=715a99d2dd552e6188e74d4ed2914d5a"
+> > +
+> > +SRC_URI = "git://
+> git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
+> > +           file://init"
+> > +SRCREV = "88db55f6068c1c01d85b61aa6adff0a6b2a8dce8"
+> > +S = "${WORKDIR}/git"
+> > +
+> > +inherit meson pkgconfig update-rc.d
+> > +
+> > +PACKAGECONFIG ?= "libseat-builtin"
+> > +
+> > +PACKAGECONFIG[libseat-builtin] =
+> "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
+> > +
+> > +do_install:append() {
+> > +        if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+> > +                install -Dm755 ${WORKDIR}/init
+> ${D}/${sysconfdir}/init.d/seatd
+> > +        fi
+> > +}
+> > +
+> > +INITSCRIPT_NAME = "seatd"
+> > +INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+> > +INHIBIT_UPDATERCD_BBCLASS =
+> "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1',
+> '', d)}"
+> > +
+> >
+>
+> I was looking into seatd as well, in my recipe I split it up a bit:
+>
+> ```
+> PACKAGES =+ "${PN}-launch libseat libseat-dev"
+>
+> FILES:${PN} = "${bindir}/seatd"
+> FILES:${PN}-launch = "${bindir}/seatd-launch"
+> FILES:libseat = "${libdir}/lib*${SOLIBS}"
+> FILES:libseat-dev = " \
+>         ${includedir} ${FILES_SOLIBSDEV} \
+>         ${libdir}/pkgconfig"
+>
+> RDEPENDS:${PN} = "libseat (= ${EXTENDPKGV})"
+> RDEPENDS:${PN}-launch = "${PN} (= ${EXTENDPKGV})"
+> RDEPENDS:libseat-dev = "libseat (= ${EXTENDPKGV})"
+> ```
+>
+> regards,
+> Claudius
+>
 
-I'm therefore still a bit puzzled about exactly what the issue is here so
-perhaps you could give a little more detail on the above?
+--000000000000c5b13305d71d1de2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div>As far as I understand the library is not useful with=
+out the daemon, so there is no point in packaging them separately. -dev stu=
+ff is split automatically.</div><div><br></div><div>Alex<br></div></div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 3=
+ Feb 2022 at 13:55, Claudius Heine &lt;<a href=3D"mailto:ch@denx.de">ch@den=
+x.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Hi Alexander,<br>
+<br>
+On 2022-02-02 19:27, Alexander Kanavin wrote:<br>
+&gt; This is needed to run weston properly as non-root in the absence<br>
+&gt; of systemd-logind, and other compositors will likely require seatd<br>
+&gt; as well.<br>
+&gt; <br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
+.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/conf/distro/include/maintainers.inc |=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A0meta/recipes-core/seatd/seatd/init=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 45 ++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-core/seatd/<a href=3D"http://seatd_0.6.3.bb" =
+rel=3D"noreferrer" target=3D"_blank">seatd_0.6.3.bb</a>=C2=A0 =C2=A0| 29 ++=
++++++++++++++<br>
+&gt;=C2=A0 =C2=A03 files changed, 75 insertions(+)<br>
+&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-core/seatd/seatd/init<br>
+&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-core/seatd/<a href=3D"http=
+://seatd_0.6.3.bb" rel=3D"noreferrer" target=3D"_blank">seatd_0.6.3.bb</a><=
+br>
+&gt; <br>
+&gt; diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/dist=
+ro/include/maintainers.inc<br>
+&gt; index ae25287c11..cb289a0eee 100644<br>
+&gt; --- a/meta/conf/distro/include/maintainers.inc<br>
+&gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
+&gt; @@ -684,6 +684,7 @@ RECIPE_MAINTAINER:pn-rxvt-unicode =3D &quot;Unassi=
+gned &lt;<a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">u=
+nassigned@yoctoproject.org</a>&gt;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-sato-screenshot =3D &quot;Ross Burton=
+ &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@a=
+rm.com</a>&gt;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-sbc =3D &quot;Unassigned &lt;<a href=
+=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctop=
+roject.org</a>&gt;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-screen =3D &quot;Anuj Mittal &lt;<a h=
+ref=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.co=
+m</a>&gt;&quot;<br>
+&gt; +RECIPE_MAINTAINER:pn-seatd =3D &quot;Alexander Kanavin &lt;<a href=3D=
+"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a=
+>&gt;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-sed =3D &quot;Chen Qi &lt;<a href=3D"=
+mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&g=
+t;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-serf =3D &quot;Anuj Mittal &lt;<a hre=
+f=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com<=
+/a>&gt;&quot;<br>
+&gt;=C2=A0 =C2=A0RECIPE_MAINTAINER:pn-setserial =3D &quot;Yi Zhao &lt;<a hr=
+ef=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com=
+</a>&gt;&quot;<br>
+&gt; diff --git a/meta/recipes-core/seatd/seatd/init b/meta/recipes-core/se=
+atd/seatd/init<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..0589c765ac<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-core/seatd/seatd/init<br>
+&gt; @@ -0,0 +1,45 @@<br>
+&gt; +#!/bin/sh<br>
+&gt; +#<br>
+&gt; +### BEGIN INIT INFO<br>
+&gt; +# Provides: seatd<br>
+&gt; +# Required-Start: $local_fs $remote_fs<br>
+&gt; +# Required-Stop: $local_fs $remote_fs<br>
+&gt; +# Default-Start:=C2=A0 =C2=A0 =C2=A02 3 4 5<br>
+&gt; +# Default-Stop:=C2=A0 =C2=A0 =C2=A0 0 1 6<br>
+&gt; +### END INIT INFO<br>
+&gt; +<br>
+&gt; +killproc() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pid=3D`/bin/pidof $1`<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ &quot;$pid&quot; !=3D &quot;&quot; ] &a=
+mp;&amp; kill $pid<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +case &quot;$1&quot; in<br>
+&gt; +=C2=A0 start)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 seatd -g video -n 1 &gt; /tmp/seatd-start=
+-notify &amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -s /tmp/seatd-start-notify ] &amp;&amp;=
+ exit 0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sleep 0.1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -s /tmp/seatd-start-notify ] &amp;&amp;=
+ exit 0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sleep 0.5<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -s /tmp/seatd-start-notify ] &amp;&amp;=
+ exit 0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sleep 5<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -s /tmp/seatd-start-notify ] &amp;&amp;=
+ exit 0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit 1<br>
+&gt; +=C2=A0 ;;<br>
+&gt; +<br>
+&gt; +=C2=A0 stop)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;Stopping seatd&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 killproc seatd<br>
+&gt; +=C2=A0 ;;<br>
+&gt; +<br>
+&gt; +=C2=A0 restart)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0$0 stop<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sleep 1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 $0 start<br>
+&gt; +=C2=A0 ;;<br>
+&gt; +<br>
+&gt; +=C2=A0 *)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;usage: $0 { start | stop | res=
+tart }&quot;<br>
+&gt; +=C2=A0 ;;<br>
+&gt; +esac<br>
+&gt; +<br>
+&gt; +exit 0<br>
+&gt; diff --git a/meta/recipes-core/seatd/<a href=3D"http://seatd_0.6.3.bb"=
+ rel=3D"noreferrer" target=3D"_blank">seatd_0.6.3.bb</a> b/meta/recipes-cor=
+e/seatd/<a href=3D"http://seatd_0.6.3.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">seatd_0.6.3.bb</a><br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..0e1a79dddf<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-core/seatd/<a href=3D"http://seatd_0.6.3.bb" rel=3D=
+"noreferrer" target=3D"_blank">seatd_0.6.3.bb</a><br>
+&gt; @@ -0,0 +1,29 @@<br>
+&gt; +SUMMARY =3D &quot;A minimal seat management daemon, and a universal s=
+eat management library.&quot;<br>
+&gt; +DESCRIPTION =3D &quot;Seat management takes care of mediating access =
+to shared devices (graphics, input), without requiring the applications nee=
+ding access to be root.&quot;<br>
+&gt; +HOMEPAGE =3D &quot;<a href=3D"https://git.sr.ht/~kennylevinsen/seatd"=
+ rel=3D"noreferrer" target=3D"_blank">https://git.sr.ht/~kennylevinsen/seat=
+d</a>&quot;<br>
+&gt; +<br>
+&gt; +LICENSE =3D &quot;MIT&quot;<br>
+&gt; +<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D715a99d2dd552e6188e74=
+d4ed2914d5a&quot;<br>
+&gt; +<br>
+&gt; +SRC_URI =3D &quot;git://<a href=3D"http://git.sr.ht/~kennylevinsen/se=
+atd;protocol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">=
+git.sr.ht/~kennylevinsen/seatd;protocol=3Dhttps;branch=3Dmaster</a> \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://init&quot;<br>
+&gt; +SRCREV =3D &quot;88db55f6068c1c01d85b61aa6adff0a6b2a8dce8&quot;<br>
+&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt; +<br>
+&gt; +inherit meson pkgconfig update-rc.d<br>
+&gt; +<br>
+&gt; +PACKAGECONFIG ?=3D &quot;libseat-builtin&quot;<br>
+&gt; +<br>
+&gt; +PACKAGECONFIG[libseat-builtin] =3D &quot;-Dlibseat-builtin=3Denabled,=
+-Dlibseat-builtin=3Ddisabled&quot;<br>
+&gt; +<br>
+&gt; +do_install:append() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${VIRTUAL-RUNTIME_init_manager=
+}&quot; !=3D &quot;systemd&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -Dm75=
+5 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +INITSCRIPT_NAME =3D &quot;seatd&quot;<br>
+&gt; +INITSCRIPT_PARAMS =3D &quot;start 9 5 2 . stop 20 0 1 6 .&quot;<br>
+&gt; +INHIBIT_UPDATERCD_BBCLASS =3D &quot;${@oe.utils.conditional(&#39;VIRT=
+UAL-RUNTIME_init_manager&#39;, &#39;systemd&#39;, &#39;1&#39;, &#39;&#39;, =
+d)}&quot;<br>
+&gt; +<br>
+&gt; <br>
+<br>
+I was looking into seatd as well, in my recipe I split it up a bit:<br>
+<br>
+```<br>
+PACKAGES =3D+ &quot;${PN}-launch libseat libseat-dev&quot;<br>
+<br>
+FILES:${PN} =3D &quot;${bindir}/seatd&quot;<br>
+FILES:${PN}-launch =3D &quot;${bindir}/seatd-launch&quot;<br>
+FILES:libseat =3D &quot;${libdir}/lib*${SOLIBS}&quot;<br>
+FILES:libseat-dev =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${includedir} ${FILES_SOLIBSDEV} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${libdir}/pkgconfig&quot;<br>
+<br>
+RDEPENDS:${PN} =3D &quot;libseat (=3D ${EXTENDPKGV})&quot;<br>
+RDEPENDS:${PN}-launch =3D &quot;${PN} (=3D ${EXTENDPKGV})&quot;<br>
+RDEPENDS:libseat-dev =3D &quot;libseat (=3D ${EXTENDPKGV})&quot;<br>
+```<br>
+<br>
+regards,<br>
+Claudius<br>
+</blockquote></div>
 
-Richard
-
+--000000000000c5b13305d71d1de2--
 
