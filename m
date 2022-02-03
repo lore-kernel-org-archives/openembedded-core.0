@@ -2,62 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E2BC433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:42 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web09.2922.1643917901378617881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25AE1C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:44 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.2856.1643917903862011863
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:41 -0800
+ Thu, 03 Feb 2022 11:51:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=MtTdVArG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
+ header.b=EWz7Pfuw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id e28so3108230pfj.5
+Received: by mail-pj1-f47.google.com with SMTP id
+ s61-20020a17090a69c300b001b4d0427ea2so10991863pjj.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:41 -0800 (PST)
+ Thu, 03 Feb 2022 11:51:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=nfhVau904lFdonh1+aQ04j0dUx0LAnyS99ID3a2Msn0=;
-        b=MtTdVArG8TJPDCTui6bnW5j/4LbOZLbPplk+CzZiCw/Wr45UjlBMRI1R2O0IPi+3k9
-         EcGdRERZEXf4mxblQlTRfT2WVgtK5yHv7n4MpNhb6wiQjuzv6lXUfI/SlqFxxLx9Gy3Z
-         O5gFE63RuNzs6yPEsudxecpsaRUtYDXv+S6zCoeXF0oilN1mKAdul9NcMGidZzHxvOqL
-         lCFEEmmsBT+9f9CwjH1iV1q1j5dYa/dZC4eph4Z/X8BEp2FgmUaQ2GmjjM3xGgkGXK1E
-         /8cFBKuQkRNfMNYRXzVDGJpsk1DApXeLrGDolCsCEPEBc79wR2JkeXyOfGIkGh+6pgqV
-         wLwQ==
+        bh=ffCrmA2ZQK/mtp0CiDPtA9SNW4YxOEQ9g+1g/Q6TCFo=;
+        b=EWz7PfuweWeng87YDBo4CjHDVjBSxfvWdu67R8Eb/XOf6XqwtAduGE8sJDThYEHQLX
+         w4d28tkOmFl5LdM2hquo1JCPPJJRnEBFKDz+NBrISSPQhs13Rlp2Xp4dwN2NRJIilN+A
+         KBMViPIl6gI1oFUuvDKvp2xePVMaj+1UIirnlRqYzwSnAHy80Dvla6F0CmbrE61K7bwk
+         PMl+zare5VyBNTK0PFEweeQKdTUsRpNUNUuE3Dg8KKyPqAyJJCYryoKcCmdH4z+6+sOd
+         9FX8jQRJDAeSDvjlhpf2G+RUA+9D5jnOt9x6eFrhRNWKaGBg3igHK56OQzphEl2reNBP
+         GuMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nfhVau904lFdonh1+aQ04j0dUx0LAnyS99ID3a2Msn0=;
-        b=UsXq9XP1TrPhoNWGMJRFprBxi6U23p19aFjiuHQTCXSqHptW2d3bENiGLBgrXhtGsL
-         3NgvtbroGugdCg2aueRs+D719umKwr5Os5qenitvFr2wknA7nMbhzrRwD80sJlnzeSu4
-         L4t0QjYJCOPLRPjYIRVhOZwWub3N0h8eREC3kVeYu+o2A5bro85tzTlDnzEXRbenvpNI
-         vk2J3KTcub99wabKaXwIXPuaIEjmhgKg7BZzbdlDVksw9rfpcf62RtNBJ7JcfhuguyZq
-         FtecbvvnW2PHtpWM3J8vnbAkJ3stjVL7Fkcb4V9DtjN0IqKv2/BdIDFwiHCfigvDnPL2
-         s+4w==
-X-Gm-Message-State: AOAM5301I/T0P7YdG0lSNtsikBFpIxmth5rhbVLlc4Lm1yfGU+ivy17a
-	lR5+WkHNQfTfaxcko/GPlxhXUFi1RbrNKWt/
+        bh=ffCrmA2ZQK/mtp0CiDPtA9SNW4YxOEQ9g+1g/Q6TCFo=;
+        b=KpLQcOFjAzFvTmKSJubBPXRWO/AC2Yqxxp2U5kNk/Eit2L5geSH3mRMETJkwwbfF42
+         ITzSO3diZSfcjcvWjCSyb3MCbNIT1O59dI0s5BfeSoY8KwfMS3kttSlA887HR5BHSAKu
+         aWMcD1jYzBCkSe4hjWzzmQT4u5wFdyXd8vfYRi9+IyAj1jXtC3leCcWNuQBuVnmjshOs
+         229xLhCiHSif6VrvVCniK91f3CR08b+5Z5ybs0VgNVlz4Q8EW9on9ecCwjDzAa+SYFrr
+         pDt5/ft/Z7n5Q0e5/QtqI0ZVZh2BzUHxe0uVjpSw9+L/CpUMPnqBsyv2hIvIkR6/YZ+3
+         8epw==
+X-Gm-Message-State: AOAM530wfhJMVPkwMyE/6lBu4c0Ey9ZJFrSB3Czq0puR4efwpUh4tbIs
+	NKChS0H0QQkWiM2VErkWpdKwHFP/XQwHUxkR
 X-Google-Smtp-Source: 
- ABdhPJwKgq+CmEzw0S1DEhd/9+oRDlChKobF5Qh0uNTipnK2f8PDNBu/wP4nYJzmcvmHqevWTowZag==
-X-Received: by 2002:aa7:85c6:: with SMTP id z6mr35866041pfn.45.1643917900355;
-        Thu, 03 Feb 2022 11:51:40 -0800 (PST)
+ ABdhPJxYYpKbFM+gi6Jfazh/rifrHsUyG0ZCp+36wTqKoVHgDHkYSpobcEiToIvZHyGjzW/1o0UmQw==
+X-Received: by 2002:a17:902:c10a:: with SMTP id
+ 10mr37546940pli.108.1643917902772;
+        Thu, 03 Feb 2022 11:51:42 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s4sm27762216pgg.80.2022.02.03.11.51.38
+ s4sm27762216pgg.80.2022.02.03.11.51.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 11:51:39 -0800 (PST)
+        Thu, 03 Feb 2022 11:51:41 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/20] shadow-sysroot: sync license with shadow
-Date: Thu,  3 Feb 2022 09:50:41 -1000
+Subject: [OE-core][dunfell 18/20] libcap: Use specific BSD license variant
+Date: Thu,  3 Feb 2022 09:50:42 -1000
 Message-Id: 
- <9cc84297f6a1de54cb7fdcd772e5f32f697c522f.1643917717.git.steve@sakoman.com>
+ <94aae176545b4005e0607cc9acf386e8f7adb558.1643917717.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1643917717.git.steve@sakoman.com>
 References: <cover.1643917717.git.steve@sakoman.com>
@@ -66,39 +68,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:42 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161312
+ https://lists.openembedded.org/g/openembedded-core/message/161313
 
-From: Ross Burton <ross@burtonini.com>
+From: Joshua Watt <JPEWhacker@gmail.com>
 
-This recipe is just a single data file from shadow, but as we can't
-easily tell what license that specific file is under just copy the full
-license statement.
+Make the license more accurate by specifying the specific variant of BSD
+license instead of the generic one. This helps with SPDX license
+attribution as "BSD" is not a valid SPDX license.
 
-(From OE-Core rev: f0e2f3b1f855ea6e184bd1d8d796279fedcbfa33)
+(From OE-Core rev: 9e8b2bc55792932e23d3b053b393b7ff88bffd6b)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Nisha Parrakat <nisha.m.parrakat@bmw.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/shadow/shadow-sysroot_4.6.bb | 2 +-
+ meta/recipes-support/libcap/libcap_2.32.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-index 5f7ea00bf1..4e68f826c6 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Shadow utils requirements for useradd.bbclass"
- HOMEPAGE = "http://github.com/shadow-maint/shadow"
- BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
- SECTION = "base utils"
--LICENSE = "BSD | Artistic-1.0"
-+LICENSE = "BSD-3-Clause | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;md5=25e2f2de4dfc8f966ac5cdfce45cd7d5"
+diff --git a/meta/recipes-support/libcap/libcap_2.32.bb b/meta/recipes-support/libcap/libcap_2.32.bb
+index 325fa87a1b..d67babb5e9 100644
+--- a/meta/recipes-support/libcap/libcap_2.32.bb
++++ b/meta/recipes-support/libcap/libcap_2.32.bb
+@@ -4,7 +4,7 @@ These allow giving various kinds of specific privileges to individual \
+ users, without giving them full root permissions."
+ HOMEPAGE = "http://sites.google.com/site/fullycapable/"
+ # no specific GPL version required
+-LICENSE = "BSD | GPLv2"
++LICENSE = "BSD-3-Clause | GPLv2"
+ LIC_FILES_CHKSUM = "file://License;md5=3f84fd6f29d453a56514cb7e4ead25f1"
  
- DEPENDS = "base-passwd"
+ DEPENDS = "hostperl-runtime-native gperf-native"
 -- 
 2.25.1
 
