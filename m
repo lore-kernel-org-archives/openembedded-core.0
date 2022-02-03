@@ -1,626 +1,194 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF78EC433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 16:52:11 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.285.1643907130985895200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC13BC433F5
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 17:07:44 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web12.561.1643908062988563315
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 08:52:11 -0800
+ Thu, 03 Feb 2022 09:07:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OmGiQgcn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id e8so6307418wrc.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 08:52:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Z9kKwgYCspnSrJNGuUqn6nWSCgDCOpQ99SAc70SC2k=;
-        b=OmGiQgcnGTbXVXL3jKzhYZP/eLW1Mut5NpApxqOUXMXqhvFeHVtG/NDYeKAsNkAa2Y
-         agcbwvUV5KpRawAX7lqbVZMb5pm+fn8LBPPIZPUV+cHcANNN3RnHM9EdNOGFPPVsL4JM
-         IFpHfR7Rzi1FWodL6tAZV6F+M14KG+yWi4uuU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Z9kKwgYCspnSrJNGuUqn6nWSCgDCOpQ99SAc70SC2k=;
-        b=eYSLEXb8wuiKyYkkb0Wb1xtuslkmy8l3/bJMevS2bIEJn0ENH+gXmATMkBmDO5d2NM
-         N85pZfeQMg0dmYaYLXQrGVS6J6H37kYqfa7itz2ck/tx+OYdALitHMxT+bAbaxLgyoY2
-         2NJOxizBiy1c6mZS85aOpWKBRP4gCNRGtI5piCgv1qLEk7OYlI+Tgp63ws73/s1OFBh2
-         2aWPPUbnu+xeV0Q9wbXt7xGzZKxXKgBVmsLdXJHjrC1qV5kB5PZ8XQE1pnvf0Lggl5ow
-         HzMFEMhghD87FqoT9ItVW0qh36LXHqi0syOZ3S3EKRbrV/a8EksbASUWdSfqf93qqM1T
-         Z3GQ==
-X-Gm-Message-State: AOAM530adswLkEySB8eND/5K0lB6Fb+7sCTGpe8TQIkUsv+RZ342Mib7
-	cCeEyvQr7g0YEegaf0+S3QQwvPTPZGxweg==
-X-Google-Smtp-Source: 
- ABdhPJzE3NHv+sUYSHxySlwxkm4wKP+h/96oIzinnnCboYON7gO6fCG0diEipAkW/JRgJ7PoLdE/YA==
-X-Received: by 2002:a5d:67cd:: with SMTP id
- n13mr30559558wrw.351.1643907128568;
-        Thu, 03 Feb 2022 08:52:08 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e772:7635:2207:1103])
-        by smtp.gmail.com with ESMTPSA id
- i13sm21089185wrf.3.2022.02.03.08.52.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 08:52:08 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] prelink: Drop support for it
-Date: Thu,  3 Feb 2022 16:52:06 +0000
-Message-Id: <20220203165207.2401847-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Ufdrhw4S;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=90331aff7d=saul.wold@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 213EpMH5032434
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Feb 2022 17:07:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=0indfwTqivuPWN1tcqIbEY4uwdAPAG9bqewdYHtFm9w=;
+ b=Ufdrhw4S6kPtKEeEpLWK7WczMuE4EwQTys5w3AxNEoKo8QPXapZ1iXw3ADqUeY8vx0jD
+ QRoEYepYkkFOHgGcPl7JIZ9g11HC4M2eMx6bHlI/H5+qtuAivNEUSi853AzVCRP1/Hd6
+ Q4YEacbOw57R7EHIKqLFLTlq6DZ+9baa3ARFMAHUlHyO5f1XMICB7YjZ5+CIN7+RGJAL
+ QrLNQJwf9xVNCZkkFa3K7adPtB0hdOFuC/48H6ZbN8N3h2j70DLhtgfbZ9dlGMJA6Ac2
+ vdzDa5OJYpW5QOmk+h+icwU//86B13WJQSfsxX4AI22yI20MNZgIICCOrxuthekwiJH4 3w==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e03e78jbe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 03 Feb 2022 17:07:42 +0000
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 213H7fW2004352
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Feb 2022 17:07:41 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e03e78jbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Feb 2022 17:07:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GARNEF0uUjDzgQsfMlZxP26S9romUyoFMaGY8YrDJLhlAyRmkr7v5m7dX6UtkUwijEKFV4xP5+Sv+EuvGfC4xJKA80muh7yA3+AylhFdJUZajtNXY+LuQk+gHV1XnVxNSp/fdMMLKk7xbexlVBarNQC9jj/Z7FWWnXcc2bQ68kx/NYmoXqemaxQ4HYuE5cZiR2EzLtTh1v5zhq8BTkHL4dD3y8P08PoInppxUXxFg0BsYjoeWN3wqp49CzxZFPVJ8pZnsZYUukyvV3li+JLcW0aqa6qmIdnWnPyay65/n8qFWcK/+P+8KjXfTgK7iA9ZQm46XlFACzCaEVY8+M4gug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0indfwTqivuPWN1tcqIbEY4uwdAPAG9bqewdYHtFm9w=;
+ b=Qxh4INeKLmDpPY7oxQaAVuOkRj8ONCTWE1XfAMsoOSA3ZFyEN/Sd23pjzrPknYqy1WkC6IDRAitPxu4lHseu6RvXiN4mipKcQxdbLCx07uLB0prv/mfXnpyGOzhFBUH/U4zD5vuvp0gh6L0rvwkDSOIu1mCmJfZmn4lrvBbbBdHRPuzBiR94wGGecGYaFFaSiPMwQLPFUdj0JQRg37ozUO4vVtQc3rf5h5UJxi8vrInkxLHqLNiKaBjMby5syNmffTwBq1t9ZFV4tQaCaEOec8YrMtz7SDyR07qFLkiFfDWFGEXN0I8E9r0rSCz9RmP+u5BfKg9NvCEuLBTe+hwd2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by MW3PR11MB4745.namprd11.prod.outlook.com (2603:10b6:303:5e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 3 Feb
+ 2022 17:07:38 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::2027:9b43:472b:13ac]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::2027:9b43:472b:13ac%4]) with mapi id 15.20.4951.012; Thu, 3 Feb 2022
+ 17:07:38 +0000
+From: Saul Wold <saul.wold@windriver.com>
+To: openembedded-core@lists.openembedded.org, ticotimo@gmail.com
+Subject: [PATCH] recipetool/create: Scan for SDPX-License-Identifier
+Date: Thu,  3 Feb 2022 09:07:24 -0800
+Message-Id: <20220203170724.1319808-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CO1PR15CA0102.namprd15.prod.outlook.com
+ (2603:10b6:101:21::22) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d0ffef36-c4fb-4388-a0f7-08d9e737ae64
+X-MS-TrafficTypeDiagnostic: MW3PR11MB4745:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MW3PR11MB4745CAB8CBDABEB8C0A3C5EAEE289@MW3PR11MB4745.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	OqFuKcwprOeoaS2EOvn7wVJsmBe0iMqdz+P0KfikKeDO7eKe+2ymQfdv/ft7o4xOXF9ONh5x+MUljsaKnc31QAwcnEuMBpNh1FtlGdNkqHTQa2iwUXtUJSwGud0ttIwqL22pruVDeyPrAUwvuwW8xTpBrzqiWDxz1q07Q4xzoOJvjd47jtkwHvYCrj8fxtI3FQvrb6NJYyeJs3Y8Kf8kAErkAwsTSsgIbXbnd9RD5pVTL9a2Etb/zZ3iv9DCg0Rg2KzFDM9Okla/o1J/inO2fKchpkhhAkVaGlBw0thmPCZ+JRoxaLCIbxQ8z6WKkPHv6HUCYzqWpgIlYbct9O2Vk5An5KGiHSvq16/vlU6O/HVABARu6S/aNIGVyrWUZsJGAEXwhr9F4qZMTcUfQaFY4M0e9yy8JHAZ4/dTyikGIvRcXknNHPuTBmh8beGeY5W0bfXhArfX4sR8YpmG+TXzr2IzSPNys1gOPa29eOBP82Cilxt5RMnbeTyedJF8SMY0dQs6DdZRdaBO0dHw5CNN+WPbOKipbHWlM629HsInhIiItVGLxaVIhGBlxDslttYeUchcz8Sq77UhexQsJTBmQurDBTqJy04OnOWMuLEdDItynkcN2sf3iUJj9QXwPgHoiqiHOtLb9JUzMeJscHeF9ORpY06ceLz671JHxSDQJh+AjJ9uoRylFm02tH06uMTkQgDHOUFawDlOCNIKNc4yNQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(38350700002)(36756003)(38100700002)(316002)(6486002)(508600001)(66556008)(44832011)(66476007)(8936002)(83380400001)(6666004)(8676002)(52116002)(6506007)(26005)(1076003)(66946007)(186003)(2906002)(6512007)(5660300002)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zDv+aTiBRAtE2pryQFGejt9sj6GaQcJR60Kr1WKMeMEMbTwTyYGm8BXtH0RO?=
+ =?us-ascii?Q?5CA5UfoOie0jDwCubnTnwe+8wGRP7sY0QPkDmpzYz9En2XKibRn55GqpBdnz?=
+ =?us-ascii?Q?zKbEyQPbXPxE6/abaljGUhVa58lEHMasp4evY97IxSNooHCQcw/cRw4i3cxR?=
+ =?us-ascii?Q?DohDvLK3sISk3f8SqhirFuDVgu520Qnr7ksrpYHA7M4ybTM8UGo9w6ORHWx3?=
+ =?us-ascii?Q?7dBu8zATNNAE8m6E0WCCbEHfAfO1FXwkx/pacbQYJWRXd3/Dvn/gOf9KnJnJ?=
+ =?us-ascii?Q?4bkRKeBvbfTALoBHwcdAauqE5dESIGDp2GNSIA/Sz1yCmughzwuDetv4dr3k?=
+ =?us-ascii?Q?fnhDVEO3FEKTT2O0FU5izJMMWDK8Wjj+aVtZiC6yxF0U6Yl6DhN1cQjuVQv6?=
+ =?us-ascii?Q?biXXJbeYYm/pFtf7NmKQXU+bGf6aRvBnUwJJboX2fMebPcGBgax5kOOl2Lkk?=
+ =?us-ascii?Q?XGxnj9oXw5lu3PyUfpmWqfFp8oKP2xQBQFSMe+nON86o/X8cekG05IOMjH6b?=
+ =?us-ascii?Q?CW25a/KIZVuiPQCX6ThB3aApRnx+z4NHKabJH3ywJvfdUh+BcVfqDcGtWKRG?=
+ =?us-ascii?Q?ugBxxsbhLLvl5widnlh1aOng9VcLGD0PG+ENkWn+MuHd3HEMJSWkdwr7LwBS?=
+ =?us-ascii?Q?JhlfajdBvpshYvn0seMsQngoxcfv6qkVvcTWQ7spe2H1Id0vGlc1Pc+2HJ4R?=
+ =?us-ascii?Q?2reCRSH0DGUHLFGlgBuxQMlmczMW/zw37bWB9X9AI/KAheLOyjh1AB1GL94l?=
+ =?us-ascii?Q?g+1jvSTp3WTwxSA7fNAwzUUBbdFrkKVYnt04HNSLoQHKhU5dWovetl9WEv6r?=
+ =?us-ascii?Q?mGKCM8OiRf9ocjvYMBht3Z99yZDvAcqfB7Va53pr6pOE4mktG0pHPnIVnZRu?=
+ =?us-ascii?Q?TH3WRIfheHYzdRfOlkunp0i/ZgMnmXBUVY3jEYVBpAZ1o4lNBibjMpjr2C77?=
+ =?us-ascii?Q?dZL+D97NupOZXVB5hVCssjUPS4Ompa4xrQmoDXqbEMTUBwJJeq81VMIVz7CA?=
+ =?us-ascii?Q?xNMQJh7cngFDG2e72cJmgqPXDzDSLfCjiPCzX8740EC12Uj6QyhDjhZm2yoT?=
+ =?us-ascii?Q?js7LYn2dsrNAHxAjFYvSdDaxUdnU0573nKf+IidmLhhhkHYTLQGbTB/L+5j3?=
+ =?us-ascii?Q?EHO089x0W/YQ0CH71rYJbEv5SczU/z9nzkH3y8EtUtwuGvn+BDPlOIuG9RZZ?=
+ =?us-ascii?Q?Kgns/g15hkczTNZlVvQdje2mnTvbnOTNOqEI6yeLGJm5EjdQuKCgWDBdPpAg?=
+ =?us-ascii?Q?bIpik2Mog93s4OBKZ36WgKpOErZ/kIhVwKpeBpeQcgTumQBpNllVgdlHlxdd?=
+ =?us-ascii?Q?+XSRrx8uxrzMEizrUD4lwMGNNGLXH2ZZJWIKOi5sUa7F4k6N6TeuX23c23KC?=
+ =?us-ascii?Q?wMeYi/53wYu+Y9bOnJK2HJZ6bqT6oJxBy71rBjEDns9oZ7XNeETVFZuOvdXd?=
+ =?us-ascii?Q?WCEeRmBVnkts0N90NnQE3cmgHHuA6dVXS3ntIxaZV1xA0h0+brvoaeV64O6T?=
+ =?us-ascii?Q?u1o9QOBiit1WLMTyGp+44DzbhqQM78ExIpHRVRRD3UWIJeGhntl5kuIcOs8+?=
+ =?us-ascii?Q?ygPRUAxrQ17SWpYWjRRUPCTFiHsQ+/CeqgZ3l5dCCwAEiq/IJhfOJqa1vPb5?=
+ =?us-ascii?Q?PvEdxENOeve9cKfOEyecDak=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ d0ffef36-c4fb-4388-a0f7-08d9e737ae64
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2022 17:07:38.5933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ fpuFwCtmovnp6kQfAPiCiCxY0EU+NWnYaFBroOo6zFIDBWjtC95rw4bygbLSPcI2UXyC6CoP17dH+0KemlzyHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4745
+X-Proofpoint-GUID: jFrWywy8tSIQz17eWnHVoUfvqsIXf2xM
+X-Proofpoint-ORIG-GUID: 5ZiE1MVFq2HamK59qRH4yMTkoQiGoDok
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-02-03_06,2022-02-03_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202030104
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 16:52:11 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 17:07:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161290
+ https://lists.openembedded.org/g/openembedded-core/message/161291
 
-Prelink is being dropped by glibc in 2.36. It already causes issues with
-binary corruption, has a number of open bugs and is of questionable benefit
-without disabling load address randomization and PIE executables.
+When a file can not be identified by checksum and they contain an SPDX
+License-Identifier tag, use it as the found license.
 
-We disabled it by default a while back but left people able to use it.
-We would be unable to maintain it alone without glibc support so remove
-the remaining pieces.
+[YOCTO #14529]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Tested with LICENSE files that contain 1 or more SPDX-License-Identifier tags
+
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/conf/distro/include/maintainers.inc      |   1 -
- meta/lib/oe/package_manager/ipk/rootfs.py     |  37 ----
- meta/lib/oe/utils.py                          |  11 --
- .../0001-Add-MIPS-gnu-hash-support.patch      | 110 -----------
- .../prelink/prelink/macros.prelink            |   5 -
- .../prelink/prelink/prelink.conf              |  18 --
- .../prelink/prelink/prelink.cron.daily        |  40 ----
- .../prelink/prelink/prelink.default           |  22 ---
- meta/recipes-devtools/prelink/prelink_git.bb  | 185 ------------------
- scripts/sstate-sysroot-cruft.sh               |  12 --
- 10 files changed, 441 deletions(-)
- delete mode 100644 meta/recipes-devtools/prelink/prelink/0001-Add-MIPS-gnu-hash-support.patch
- delete mode 100644 meta/recipes-devtools/prelink/prelink/macros.prelink
- delete mode 100644 meta/recipes-devtools/prelink/prelink/prelink.conf
- delete mode 100644 meta/recipes-devtools/prelink/prelink/prelink.cron.daily
- delete mode 100644 meta/recipes-devtools/prelink/prelink/prelink.default
- delete mode 100644 meta/recipes-devtools/prelink/prelink_git.bb
+ scripts/lib/recipetool/create.py | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index cb289a0eee9..32ec391eb9e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -577,7 +577,6 @@ RECIPE_MAINTAINER:pn-popt = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-powertop = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-ppp = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER:pn-prelink = "Mark Hatle <mark.hatle@kernel.crashing.org>"
- RECIPE_MAINTAINER:pn-procps = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-pseudo = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/package_manager/ipk/rootfs.py
-index 26dbee6f6ac..10a831994ee 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -145,51 +145,14 @@ class PkgRootfs(DpkgOpkgRootfs):
-             self.pm.recover_packaging_data()
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 507a230511..9149c2d94f 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -1221,14 +1221,20 @@ def guess_license(srctree, d):
+     for licfile in sorted(licfiles):
+         md5value = bb.utils.md5_file(licfile)
+         license = md5sums.get(md5value, None)
++        license_list = []
+         if not license:
+             license, crunched_md5, lictext = crunch_license(licfile)
+             if lictext and not license:
+-                license = 'Unknown'
+-                logger.info("Please add the following line for '%s' to a 'lib/recipetool/licenses.csv' " \
+-                    "and replace `Unknown` with the license:\n" \
+-                    "%s,Unknown" % (os.path.relpath(licfile, srctree), md5value))
+-        if license:
++                spdx_re = re.compile('SPDX-License-Identifier:\s+([-A-Za-z\d. ]+)[ |\n|\r\n]*?')
++                license_list = re.findall(spdx_re, "\n".join(lictext))
++                if not license_list:
++                    license_list.append('Unknown')
++                    logger.info("Please add the following line for '%s' to a 'lib/recipetool/licenses.csv' " \
++                        "and replace `Unknown` with the license:\n" \
++                        "%s,Unknown" % (os.path.relpath(licfile, srctree), md5value))
++        else:
++            license_list.append(license)
++        for license in license_list:
+             licenses.append((license, os.path.relpath(licfile, srctree), md5value))
  
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS'), True)
--
--    def _prelink_file(self, root_dir, filename):
--        bb.note('prelink %s in %s' % (filename, root_dir))
--        prelink_cfg = oe.path.join(root_dir,
--                                   self.d.expand('${sysconfdir}/prelink.conf'))
--        if not os.path.exists(prelink_cfg):
--            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
--                        prelink_cfg)
--
--        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
--        self._exec_shell_cmd([cmd_prelink,
--                              '--root',
--                              root_dir,
--                              '-amR',
--                              '-N',
--                              '-c',
--                              self.d.expand('${sysconfdir}/prelink.conf')])
--
-     '''
-     Compare two files with the same key twice to see if they are equal.
-     If they are not equal, it means they are duplicated and come from
-     different packages.
--    1st: Comapre them directly;
--    2nd: While incremental image creation is enabled, one of the
--         files could be probaly prelinked in the previous image
--         creation and the file has been changed, so we need to
--         prelink the other one and compare them.
-     '''
-     def _file_equal(self, key, f1, f2):
--
--        # Both of them are not prelinked
-         if filecmp.cmp(f1, f2):
-             return True
--
--        if bb.data.inherits_class('image-prelink', self.d):
--            if self.image_rootfs not in f1:
--                self._prelink_file(f1.replace(key, ''), f1)
--
--            if self.image_rootfs not in f2:
--                self._prelink_file(f2.replace(key, ''), f2)
--
--            # Both of them are prelinked
--            if filecmp.cmp(f1, f2):
--                return True
--
-         # Not equal
-         return False
- 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 136650e6f74..84790b7dffa 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -537,17 +537,6 @@ class ThreadedPool:
-         for worker in self.workers:
-             worker.join()
- 
--def write_ld_so_conf(d):
--    # Some utils like prelink may not have the correct target library paths
--    # so write an ld.so.conf to help them
--    ldsoconf = d.expand("${STAGING_DIR_TARGET}${sysconfdir}/ld.so.conf")
--    if os.path.exists(ldsoconf):
--        bb.utils.remove(ldsoconf)
--    bb.utils.mkdirhier(os.path.dirname(ldsoconf))
--    with open(ldsoconf, "w") as f:
--        f.write(d.getVar("base_libdir") + '\n')
--        f.write(d.getVar("libdir") + '\n')
--
- class ImageQAFailed(Exception):
-     def __init__(self, description, name=None, logfile=None):
-         self.description = description
-diff --git a/meta/recipes-devtools/prelink/prelink/0001-Add-MIPS-gnu-hash-support.patch b/meta/recipes-devtools/prelink/prelink/0001-Add-MIPS-gnu-hash-support.patch
-deleted file mode 100644
-index da0275bfcdf..00000000000
---- a/meta/recipes-devtools/prelink/prelink/0001-Add-MIPS-gnu-hash-support.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From 05240e13668422c4f9118f2cde953ec875d0d68f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 14 Jan 2020 01:37:22 -0800
--Subject: [PATCH] Add MIPS gnu hash support
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/arch-mips.c | 1 +
-- src/prelink.c   | 1 +
-- src/prelink.h   | 5 +++++
-- 3 files changed, 7 insertions(+)
--
----- a/src/arch-mips.c
--+++ b/src/arch-mips.c
--@@ -324,6 +324,7 @@ mips_adjust_dyn (DSO *dso, int n, GElf_D
--     case DT_MIPS_BASE_ADDRESS:
--     case DT_MIPS_RLD_MAP:
--     case DT_MIPS_OPTIONS:
--+    case DT_MIPS_XHASH:
--       if (dyn->d_un.d_ptr >= start)
-- 	dyn->d_un.d_ptr += adjust;
--       return 1;
----- a/src/prelink.c
--+++ b/src/prelink.c
--@@ -425,6 +425,7 @@ prelink_prepare (DSO *dso)
-- 	  {
-- 	  case SHT_HASH:
-- 	  case SHT_GNU_HASH:
--+	  case SHT_MIPS_XHASH:
-- 	  case SHT_DYNSYM:
-- 	  case SHT_REL:
-- 	  case SHT_RELA:
----- a/src/prelink.h
--+++ b/src/prelink.h
--@@ -114,6 +114,11 @@ typedef uint8_t Elf64_Byte;
-- #define SHT_MIPS_ABIFLAGS       0x7000002a
-- #endif
-- 
--+#ifndef SHT_MIPS_XHASH
--+#define DT_MIPS_XHASH	    0x70000036
--+#define SHT_MIPS_XHASH       0x7000002b
--+#endif
--+
-- #ifndef RSS_UNDEF
-- #define RSS_UNDEF              0
-- #endif
----- a/src/dso.c
--+++ b/src/dso.c
--@@ -109,6 +109,11 @@ read_dynamic (DSO *dso)
-- 		    dso->info_DT_GNU_HASH = dyn.d_un.d_val;
-- 		    dso->info_set_mask |= (1ULL << DT_GNU_HASH_BIT);
-- 		  }
--+		else if (dyn.d_tag == DT_MIPS_XHASH)
--+		  {
--+		    dso->info_DT_GNU_HASH = dyn.d_un.d_val;
--+		    dso->info_set_mask |= (1ULL << DT_GNU_HASH_BIT);
--+		  }
-- 		else if (dyn.d_tag == DT_TLSDESC_PLT)
-- 		  {
-- 		    dso->info_DT_TLSDESC_PLT = dyn.d_un.d_val;
--@@ -1463,6 +1468,7 @@ adjust_dso (DSO *dso, GElf_Addr start, G
-- 	  break;
-- 	case SHT_HASH:
-- 	case SHT_GNU_HASH:
--+	case SHT_MIPS_XHASH:
-- 	case SHT_NOBITS:
-- 	case SHT_STRTAB:
-- 	  break;
----- a/src/space.c
--+++ b/src/space.c
--@@ -61,6 +61,7 @@ print_sections (DSO *dso, GElf_Ehdr *ehd
--       { SHT_GNU_versym, "VERSYM" },
--       { SHT_GNU_LIBLIST, "LIBLIST" },
--       { SHT_GNU_HASH, "GNU_HASH" },
--+      { SHT_MIPS_XHASH, "MIPS_XHASH" },
--       { 0, NULL }
--     };
-- 
--@@ -183,6 +184,7 @@ readonly_is_movable (DSO *dso, GElf_Ehdr
--     {
--     case SHT_HASH:
--     case SHT_GNU_HASH:
--+    case SHT_MIPS_XHASH:
--     case SHT_DYNSYM:
--     case SHT_REL:
--     case SHT_RELA:
--@@ -558,6 +560,7 @@ find_readonly_space (DSO *dso, GElf_Shdr
-- 		    {
-- 		    case SHT_HASH:
-- 		    case SHT_GNU_HASH:
--+		    case SHT_MIPS_XHASH:
-- 		    case SHT_DYNSYM:
-- 		    case SHT_STRTAB:
-- 		    case SHT_GNU_verdef:
----- a/src/exec.c
--+++ b/src/exec.c
--@@ -65,7 +65,11 @@ update_dynamic_tags (DSO *dso, GElf_Shdr
-- 	  || (dynamic_info_is_set (dso, DT_GNU_HASH_BIT)
-- 	      && dso->info_DT_GNU_HASH == old_shdr[j].sh_addr
-- 	      && old_shdr[j].sh_type == SHT_GNU_HASH
---	      && set_dynamic (dso, DT_GNU_HASH, shdr[i].sh_addr, 1)))
--+	      && set_dynamic (dso, DT_GNU_HASH, shdr[i].sh_addr, 1))
--+	  || (dynamic_info_is_set (dso, DT_GNU_HASH_BIT)
--+	      && dso->info_DT_GNU_HASH == old_shdr[j].sh_addr
--+	      && old_shdr[j].sh_type == SHT_MIPS_XHASH
--+	      && set_dynamic (dso, DT_MIPS_XHASH, shdr[i].sh_addr, 1)))
-- 	return 1;
--     }
-- 
-diff --git a/meta/recipes-devtools/prelink/prelink/macros.prelink b/meta/recipes-devtools/prelink/prelink/macros.prelink
-deleted file mode 100644
-index cb166958850..00000000000
---- a/meta/recipes-devtools/prelink/prelink/macros.prelink
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# rpm-4.1 verifies prelinked libraries using a prelink undo helper.
--#       Note: The 2nd token is used as argv[0] and "library" is a
--#       placeholder that will be deleted and replaced with the appropriate
--#       library file path.
--%__prelink_undo_cmd     /usr/sbin/prelink prelink -y library
-diff --git a/meta/recipes-devtools/prelink/prelink/prelink.conf b/meta/recipes-devtools/prelink/prelink/prelink.conf
-deleted file mode 100644
-index 562f23c59d2..00000000000
---- a/meta/recipes-devtools/prelink/prelink/prelink.conf
-+++ /dev/null
-@@ -1,18 +0,0 @@
--# This config file contains a list of directories both with binaries
--# and libraries prelink should consider by default.
--# If a directory name is prefixed with `-l ', the directory hierarchy
--# will be walked as long as filesystem boundaries are not crossed.
--# If a directory name is prefixed with `-h ', symbolic links in a
--# directory hierarchy are followed.
---l /usr/local/sbin
---l /sbin
---l /usr/sbin
---l /usr/local/bin
---l /bin
---l /usr/bin
---l /usr/X11R6/bin
---l /usr/games
---l /usr/local/lib{,32,64,x32}
---l /lib{,32,64,x32}
---l /usr/lib{,32,64,x32}
---l /usr/X11R6/lib{,32,64,x32}
-diff --git a/meta/recipes-devtools/prelink/prelink/prelink.cron.daily b/meta/recipes-devtools/prelink/prelink/prelink.cron.daily
-deleted file mode 100644
-index 0b3c07322c7..00000000000
---- a/meta/recipes-devtools/prelink/prelink/prelink.cron.daily
-+++ /dev/null
-@@ -1,40 +0,0 @@
--#!/bin/sh
--
--. /etc/default/prelink
--
--renice +19 -p $$ >/dev/null 2>&1
--
--if [ "$PRELINKING" != yes ]; then
--  if [ -f /etc/prelink.cache ]; then
--    echo /usr/sbin/prelink -uav > /var/log/prelink.log
--    /usr/sbin/prelink -uav >> /var/log/prelink.log 2>&1
--    rm -f /etc/prelink.cache
--    # Restart init if needed
--    [ -n "$(find `ldd /sbin/init | awk '{ print $3 }'` /sbin/init -ctime -1 2>/dev/null )" ] && /sbin/telinit u
--  fi
--  exit 0
--fi
--
--if [ ! -f /etc/prelink.cache -o -f /var/lib/misc/prelink.force ] \
--   || grep -q '^prelink-ELF0.[0-2]' /etc/prelink.cache; then
--  # If cache does not exist or is from older prelink versions or
--  # if we were asked to explicitely, force full prelinking
--  rm -f /etc/prelink.cache /var/lib/misc/prelink.force
--  PRELINK_OPTS="$PRELINK_OPTS -f"
--  date > /var/lib/misc/prelink.full
--elif [ -n "$PRELINK_FULL_TIME_INTERVAL" \
--       -a "`find /var/lib/misc/prelink.full -mtime -${PRELINK_FULL_TIME_INTERVAL} 2>/dev/null`" \
--	  = /var/lib/misc/prelink.full ]; then
--  # If prelink without -q has been run in the last
--  # PRELINK_FULL_TIME_INTERVAL days, just use quick mode
--  PRELINK_OPTS="$PRELINK_OPTS -q"
--else
--  date > /var/lib/misc/prelink.full
--fi
--
--echo /usr/sbin/prelink -av $PRELINK_OPTS > /var/log/prelink.log
--/usr/sbin/prelink -av $PRELINK_OPTS >> /var/log/prelink.log 2>&1
--# Restart init if needed
--[ -n "$(find `ldd /sbin/init | awk '{ print $3 }'` /sbin/init -ctime -1 2>/dev/null )" ] && /sbin/telinit u
--
--exit 0
-diff --git a/meta/recipes-devtools/prelink/prelink/prelink.default b/meta/recipes-devtools/prelink/prelink/prelink.default
-deleted file mode 100644
-index d8802f820ae..00000000000
---- a/meta/recipes-devtools/prelink/prelink/prelink.default
-+++ /dev/null
-@@ -1,22 +0,0 @@
--# Set this to no to disable prelinking altogether
--# or to yes to enable it.
--# (if you change this from yes to no prelink -ua
--# will be run next night to undo prelinking)
--PRELINKING=yes
--
--# Options to pass to prelink
--# -m	Try to conserve virtual memory by allowing overlapping
--#	assigned virtual memory slots for libraries which
--#	never appear together in one binary
--# -R	Randomize virtual memory slot assignments for libraries.
--#	This makes it slightly harder for various buffer overflow
--#	attacks, since library addresses will be different on each
--#	host using -R.
--PRELINK_OPTS=-mR
--
--# How often should full prelink be run (in days)
--# Normally, prelink will be run in quick mode, every
--# $PRELINK_FULL_TIME_INTERVAL days it will be run
--# in normal mode.  Comment this line out if prelink 
--# should be run in normal mode always.
--PRELINK_FULL_TIME_INTERVAL=14
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-deleted file mode 100644
-index 24713b61f84..00000000000
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ /dev/null
-@@ -1,185 +0,0 @@
--SECTION = "devel"
--# Need binutils for libiberty.a
--# Would need transfig-native for documentation if it wasn't disabled
--DEPENDS = "elfutils binutils"
--SUMMARY = "An ELF prelinking utility"
--HOMEPAGE = "http://git.yoctoproject.org/cgit.cgi/prelink-cross/about/"
--DESCRIPTION = "The prelink package contains a utility which modifies ELF shared libraries \
--and executables, so that far fewer relocations need to be resolved at \
--runtime and thus programs come up faster."
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "f9975537dbfd9ade0fc813bd5cf5fcbe41753a37"
--PV = "1.0+git${SRCPV}"
--
--#
--# The cron script attempts to re-prelink the system daily -- on
--# systems where users are adding applications, this might be reasonable
--# but for embedded, we should be re-running prelink -a after an update.
--#
--# Default is prelinking is enabled.
--#
--SUMMARY:${PN}-cron = "Cron scripts to control automatic prelinking"
--DESCRIPTION:${PN}-cron = "Cron scripts to control automatic prelinking.  \
--See: ${sysconfdir}/cron.daily/prelink for configuration information."
--
--FILES:${PN}-cron = "${sysconfdir}/cron.daily ${sysconfdir}/default"
--
--PACKAGES =+ "${PN}-cron"
--
--SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink_staging \
--           file://0001-Add-MIPS-gnu-hash-support.patch \
--           file://prelink.conf \
--           file://prelink.cron.daily \
--           file://prelink.default \
--           file://macros.prelink \
--           "
--UPSTREAM_CHECK_COMMITS = "1"
--
--# error: error.h: No such file or directory
--COMPATIBLE_HOST:libc-musl = 'null'
--
--TARGET_OS_ORIG := "${TARGET_OS}"
--OVERRIDES:append = ":${TARGET_OS_ORIG}"
--
--S = "${WORKDIR}/git"
--
--inherit autotools 
--
--BBCLASSEXTEND = "native"
--
--EXTRA_OECONF = "--with-pkgversion=${PV}-${PR} \
--	--with-bugurl=http://bugzilla.yoctoproject.org/"
--
--PACKAGECONFIG ??= ""
--PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
--
--#
--# For target prelink we need to ensure paths match the lib path layout
--# including for any configured multilibs
--#
--python do_linkerpaths () {
--    values = all_multilib_tune_list(["TUNE_ARCH", "baselib", "ABIEXTENSION"], d)
--
--    arches = values["TUNE_ARCH"]
--    baselibs = values["baselib"]
--    abis = values["ABIEXTENSION"]
--
--    def replace_lines(f, search, replacement, d, firstonly = False, secondonly = False):
--        f = d.expand(f)
--        if search == replacement:
--            return
--        bb.debug(2, "Replacing %s with %s in %s" % (search, replacement, f))
--        with open(f, "r") as data:
--            lines = data.readlines()
--        with open(f, "w") as data:
--            for line in lines:
--                if not secondonly and not firstonly:
--                    line = line.replace(search, replacement)
--                elif secondonly and search in line:
--                    secondonly = False
--                elif firstonly and search and search in line:
--                    line = line.replace(search, replacement)
--                    search = None
--                data.write(line)
--
--    def replace_lines_rtld(f, search, replacement, section, d):
--        f = d.expand(f)
--        bb.debug(2, "Replacing %s with %s in %s" % (search, replacement, f))
--        with open(f, "r") as data:
--            lines = data.readlines()
--        found = False
--        found2 = False
--        with open(f, "w") as data:
--            for line in lines:
--                if section in line:
--                    if section == "else" and "if" in line:
--                        found = False
--                    else:
--                        found = True
--                if found and "dst_LIB =" in line:
--                    found2 = True
--                elif "}" in line:
--                    found = False
--                    found2 = False
--                if found2:
--                    line = line.replace(search, replacement)
--                data.write(line)
--
--    for i, arch in enumerate(arches):
--        tune_baselib = baselibs[i]
--        abi = abis[i]
--
--        bits = 32
--        if arch == "powerpc":
--            replace_lines("${S}/src/arch-ppc.c", "/lib/ld.so.1", "/" + tune_baselib + "/ld.so.1", d)
--        elif arch == "powerpc64":
--            replace_lines("${S}/src/arch-ppc64.c", "/lib64/ld64.so.1", "/" + tune_baselib + "/ld64.so.1", d)
--            bits = 64
--        elif arch == "x86_64":
--            if abi == "x32":
--                replace_lines("${S}/src/arch-x86_64.c", "/libx32/ld-linux-x32.so.2", "/" + tune_baselib + "/ld-linux-x32.so.2", d)
--            else:
--                replace_lines("${S}/src/arch-x86_64.c", "/lib64/ld-linux-x86-64.so.2", "/" + tune_baselib + "/ld-linux-x86-64.so.2", d)
--            bits = 64
--        elif arch == "arm":
--            replace_lines("${S}/src/arch-arm.c", "/lib/ld-linux.so.3", "/" + tune_baselib + "/ld-linux.so.3", d)
--            replace_lines("${S}/src/arch-arm.c", "/lib/ld-linux-armhf.so.3", "/" + tune_baselib + "/ld-linux-armhf.so.3", d)
--        elif arch == "mips" or arch == "mipsel":
--            replace_lines("${S}/src/arch-mips.c", "/lib/ld.so.1", "/" + tune_baselib + "/ld.so.1", d, firstonly=True)
--            replace_lines("${S}/src/arch-mips.c", "/lib32/ld.so.1", "/" + tune_baselib + "/ld.so.1", d)
--        elif arch == "mips64" or arch == "mips64el":
--            replace_lines("${S}/src/arch-mips.c", "/lib/ld.so.1", "/" + tune_baselib + "/ld.so.1", d, secondonly=True)
--            replace_lines("${S}/src/arch-mips.c", "/lib64/ld.so.1", "/" + tune_baselib + "/ld.so.1", d)
--            bits = 64
--        elif arch.endswith("86"):
--            replace_lines("${S}/src/arch-i386.c", "/lib/ld-linux.so.2", "/" + tune_baselib + "/ld-linux.so.2", d)
--        if bits == 32 and tune_baselib != "lib":
--            replace_lines_rtld("${S}/src/rtld/rtld.c", "lib", tune_baselib, "else", d)
--        if bits == 64 and tune_baselib != "lib64":
--            replace_lines_rtld("${S}/src/rtld/rtld.c", "lib64", tune_baselib, "use_64bit", d)
--}
--
--python () {
--    overrides = d.getVar("OVERRIDES").split(":")
--    if "class-target" in overrides:
--        bb.build.addtask('do_linkerpaths', 'do_configure', 'do_patch', d)
--}
--
--do_configure:prepend () {
--        # Disable documentation!
--        echo "all:" > ${S}/doc/Makefile.am
--}
--
--do_install:append () {
--	install -d ${D}${sysconfdir}/cron.daily ${D}${sysconfdir}/default ${D}${sysconfdir}/rpm
--	install -m 0644 ${WORKDIR}/prelink.conf ${D}${sysconfdir}/prelink.conf
--	install -m 0644 ${WORKDIR}/prelink.cron.daily ${D}${sysconfdir}/cron.daily/prelink
--	install -m 0644 ${WORKDIR}/prelink.default ${D}${sysconfdir}/default/prelink
--	install -m 0644 ${WORKDIR}/macros.prelink ${D}${sysconfdir}/rpm/macros.prelink
--}
--
--# If we ae doing a cross install, we want to avoid prelinking.
--# Prelinking during a cross install should be handled by the image-prelink
--# bbclass.  If the user desires this to run on the target at first boot
--# they will need to create a custom boot script.
--pkg_postinst:prelink() {
--#!/bin/sh
--
--if [ "x$D" != "x" ]; then
--  exit 0
--fi
--
--prelink -a
--}
--
--pkg_prerm:prelink() {
--#!/bin/sh
--
--if [ "x$D" != "x" ]; then
--  exit 1
--fi
--
--prelink -au
--}
--
-diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
-index fbf1ca3c431..9c948e932de 100755
---- a/scripts/sstate-sysroot-cruft.sh
-+++ b/scripts/sstate-sysroot-cruft.sh
-@@ -145,18 +145,6 @@ WHITELIST="${WHITELIST} \
-   .*/var/cache/fontconfig/ \
- "
- 
--# created by oe.utils.write_ld_so_conf which is used from few bbclasses and recipes:
--# meta/classes/image-prelink.bbclass:    oe.utils.write_ld_so_conf(d)
--# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
--# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
--# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:    oe.utils.write_ld_so_conf(d)
--# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:        oe.utils.write_ld_so_conf(d)
--# introduced in oe-core commit 7fd1d7e639c2ed7e0699937a5cb245c187b7c811
--# and more visible since added to gobject-introspection in 10e0c1a3a452baa05d160a92a54b2e33cf0fd061
--WHITELIST="${WHITELIST} \
--  [^/]*/etc/ld.so.conf \
--"
--
- SYSROOTS="`readlink -f ${tmpdir}`/sysroots/"
- 
- mkdir ${OUTPUT}
+     # FIXME should we grab at least one source file with a license header and add that too?
 -- 
-2.32.0
+2.25.1
 
 
