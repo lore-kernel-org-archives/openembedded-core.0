@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28132C433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:24 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.2879.1643917883014660330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D32FC433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:26 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web12.2880.1643917885189689521
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:23 -0800
+ Thu, 03 Feb 2022 11:51:25 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=hLZWQule;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174,
+ header.b=YxD+83pq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id v3so3166185pgc.1
+Received: by mail-pg1-f180.google.com with SMTP id 77so316140pgc.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:22 -0800 (PST)
+ Thu, 03 Feb 2022 11:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WouBtHh1zoOsKRzb1Xewz7A5jk2TXGgTfBO5fGrfn9k=;
-        b=hLZWQule5vJwsoCjTa2Ct5uzl8+xKuj/MF7YSVo3Lo7unDenstL/pgH/ULK6XkfYnn
-         51ywTEHiCfXkaTLvdjrsMls+zourjZbat1YjXd9dy5CJ+0tvlPtEJDlvqIP5Fw59Ekr2
-         qDQ9CLCYfVXcZjePfLJ56wstzOcXSc2MrhIma0CLvp+nrQNlP1WLzhxkbZOhtmsaieqN
-         /FV+7/iioQIoD7/YnbkheB3KxP9XTug9TOnT0tchjULVo+WNSgey0iufD6JFR59APGiw
-         QDGqUO2Lanyjta3S3fxQldsLy7GvpNEPj8AOwohiM75tuKB4rKjF2H8ToMaSoLb1AHlq
-         F9Nw==
+        bh=Ao3tQsjw6N1FwyW0LTPg32N8vZR4WpZeax48N2Lz8e0=;
+        b=YxD+83pqeOx4/5ndLDRhdK5jLp0rqkeozXL3Chxu63qDrC4F6FxZr7Tg1rXrp2xyGx
+         8IRDWMD1L9UfAQarOhRr9NIiQY5VAex2QgCVeUzFImVVoejj4WInzUtGNP+XYKOVrUtk
+         9Lx7bRB5VptSvCDSe/mlXGBAkdX5De3MpAXn8F0plrq76WPbmPXhoOwcHu7bLa51z5CS
+         fDocNvl96URa98g9e4/2KXAPHtcYj44bgMEVSuYYjvEVYo63nFiw1y4LSfj5umfhAS8O
+         VgrxO26hTp0nRAgilXJ+KHJmwOpmfkM5H6SvLSTmAM1hJOqvZv60Q+Oe/Ztv+k/inDHr
+         E5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WouBtHh1zoOsKRzb1Xewz7A5jk2TXGgTfBO5fGrfn9k=;
-        b=A0QwWr8w5L4o6i265Oo3FUtu0rklAp5u+KMnBGlHH3VaV0z8UWYn7s/W1tfg1Z6IsK
-         wfnFm3cQPsM/5WBiw1HqLwBLYtc91x5OyQNPBfLxZHeipWw4Ec4MrlGvikwCjuJoLTSN
-         jEURmFiNCvYC9uPfA4f3UhLhQuISZN4VhorbiB7GNO5i5h6kkIdP6PLRvfcbaXf9xy5K
-         hsX2pOIzRpd07c0jYNXJNhfGKhRDLffXZYIIvQkr7KoZ3mUGLCx4dWUEm494Dfis45+3
-         oR3kupkNim76e5UiY5UAcdGyQj7mUkxgJfeJB7GUC1gAO3bJzjLphOGNcTwqdDpposgy
-         LcPQ==
-X-Gm-Message-State: AOAM5323K+ufy3qTVGqd2d2GScAzK9mawoHfwgLNe2AtR5EDxYSR3q1i
-	xbBaj7hO8OjIhnvwPAWXyz01I0JuPG9ckK/U
+        bh=Ao3tQsjw6N1FwyW0LTPg32N8vZR4WpZeax48N2Lz8e0=;
+        b=xpe9icznMws1DXeejaYPg9YL5iCLKVJR5ztUKm/AiyN1L7PE+NfL5QRuGZyzNmUb50
+         SMPo3EaydmkpMklzooW8fVjRxx+xKkHi0amPya9dLE0VBo0xrd6R7XSM8NMG16HYyJFU
+         w2ePIpVlLOHRytiyUB4QOeW4ZYu6O/UUwLDMAEFPI1vSaB6ACxmnZlUSfui81GLrZO8y
+         ldsBf2eXn19aOPRWiFQ3ihqt6Qv/lGIjzc2K2rhwcXxtibXhaBxuYbHmVX7UWmsWf4tL
+         q88IeyYk9L13CNouuuydpDrvkqoAavOtpVWDq70rhnu2shkqwBuPWh4MVH5Fri7JdU4p
+         iVTQ==
+X-Gm-Message-State: AOAM533GPOr5ntrd1vk0n1Sg4a6vgce2KV/tXhwChNJFa/VpbTC4IkLA
+	N2yrGX0gr9xqP37Yjd81FRJjcTujjjIvm6Xi
 X-Google-Smtp-Source: 
- ABdhPJw4UQjKGIzLThRyN2Yye2CtIZ88MqL+hEKexskq0LyCOrM5l5R0O7qlYMBaGwn3lkMbMkWZiQ==
-X-Received: by 2002:a63:6342:: with SMTP id
- x63mr29433073pgb.148.1643917881930;
-        Thu, 03 Feb 2022 11:51:21 -0800 (PST)
+ ABdhPJxhvud7poikW/wt04mN3MTmzepWF9es59X+GdTYl9qF4bp5S6yAn7gQLWYDBALggxmeBCghJA==
+X-Received: by 2002:a63:5f52:: with SMTP id
+ t79mr29077065pgb.177.1643917884066;
+        Thu, 03 Feb 2022 11:51:24 -0800 (PST)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
  [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- s4sm27762216pgg.80.2022.02.03.11.51.19
+ s4sm27762216pgg.80.2022.02.03.11.51.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 11:51:21 -0800 (PST)
+        Thu, 03 Feb 2022 11:51:23 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/20] binutils: Backport Include members in the
- variable table used when resolving DW_AT_specification tags.
-Date: Thu,  3 Feb 2022 09:50:33 -1000
+Subject: [OE-core][dunfell 10/20] sstate: A third fix for for touching files
+ inside pseudo
+Date: Thu,  3 Feb 2022 09:50:34 -1000
 Message-Id: 
- <ea0ed611b6440008fc711ed63c0fbbd299adb86f.1643917717.git.steve@sakoman.com>
+ <912d8a8f7424305cdc30ab568847c023b1b6e390.1643917717.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1643917717.git.steve@sakoman.com>
 References: <cover.1643917717.git.steve@sakoman.com>
@@ -68,80 +68,72 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:24 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161304
+ https://lists.openembedded.org/g/openembedded-core/message/161305
 
-From: Marek Vasut <marex@denx.de>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Backport binutils upstream patch fixing sporadic link errors in c++ code.
-This triggers at least on arm32 and aarch64 with qt5 based applications.
+This continues where commit 676757f "sstate: fix touching files inside
+pseudo" and commit 29fc8599 "sstate: another fix for touching files
+inside pseudo" left off.
 
-The ChangeLog part of the patch as well as space change is omitted.
+The previous changes switched from trying to check if the sstate file is
+writable before touching it, to always touching the sstate file and
+ignoring any errors. However, if the sstate file is actually a symbolic
+link that links to nothing, this would actually result in an empty
+sstate file being created. And this in turn leads to that future
+setscene tasks will fail when they try to unpack the empty file.
 
-Binutils bug report for this problem is here:
-https://sourceware.org/bugzilla/show_bug.cgi?id=26520
+Change the code so that if an sstate file linking to nothing already
+exists, it is overwritten with the new sstate file. Also change it so
+that the temporary file that is used is always removed, even if ln
+fails to link the sstate file to it.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>
+Change-Id: I3800f98d0f2a0dd076352df85fad7c81460e733d
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.34.inc                |  1 +
- ...in-the-variable-table-used-when-reso.patch | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.patch
+ meta/classes/sstate.bbclass | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index 6104bec591..903b9d7b01 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -42,6 +42,7 @@ SRC_URI = "\
-      file://0015-sync-with-OE-libtool-changes.patch \
-      file://0016-Check-for-clang-before-checking-gcc-version.patch \
-      file://0017-binutils-drop-redundant-program_name-definition-fno-.patch \
-+     file://0018-Include-members-in-the-variable-table-used-when-reso.patch \
-      file://CVE-2020-0551.patch \
-      file://0001-gas-improve-reproducibility-for-stabs-debugging-data.patch \
-      file://CVE-2020-16592.patch \
-diff --git a/meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.patch b/meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.patch
-new file mode 100644
-index 0000000000..dc1e09d46b
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.patch
-@@ -0,0 +1,32 @@
-+From bf2252dca8c76e4c1f1c2dbf98dab7ffc9f5e5af Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Sat, 29 Aug 2020 08:03:15 +0100
-+Subject: [PATCH] Include members in the variable table used when resolving
-+ DW_AT_specification tags.
-+
-+	PR 26520
-+	* dwarf2.c (scan_unit_for_symbols): Add member entries to the
-+	variable table.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e6f04d55f681149a69102a73937d0987719c3f16]
-+---
-+ bfd/dwarf2.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index dd3568a8532..ef2f6a3c63c 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -3248,7 +3248,8 @@ scan_unit_for_symbols (struct comp_unit *unit)
-+       else
-+ 	{
-+ 	  func = NULL;
-+-	  if (abbrev->tag == DW_TAG_variable)
-++	  if (abbrev->tag == DW_TAG_variable
-++	      || abbrev->tag == DW_TAG_member)
-+ 	    {
-+ 	      bfd_size_type amt = sizeof (struct varinfo);
-+ 	      var = (struct varinfo *) bfd_zalloc (abfd, amt);
-+-- 
-+2.34.1
-+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index c2720cde92..00a0e8fbd7 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -841,14 +841,18 @@ sstate_create_package () {
+ 	fi
+ 	chmod 0664 $TFILE
+ 	# Skip if it was already created by some other process
+-	if [ ! -e ${SSTATE_PKG} ]; then
++	if [ -h ${SSTATE_PKG} ] && [ ! -e ${SSTATE_PKG} ]; then
++		# There is a symbolic link, but it links to nothing.
++		# Forcefully replace it with the new file.
++		ln -f $TFILE ${SSTATE_PKG} || true
++	elif [ ! -e ${SSTATE_PKG} ]; then
+ 		# Move into place using ln to attempt an atomic op.
+ 		# Abort if it already exists
+-		ln $TFILE ${SSTATE_PKG} && rm $TFILE
++		ln $TFILE ${SSTATE_PKG} || true
+ 	else
+-		rm $TFILE
++		touch ${SSTATE_PKG} 2>/dev/null || true
+ 	fi
+-	touch ${SSTATE_PKG} 2>/dev/null || true
++	rm $TFILE
+ }
+ 
+ python sstate_sign_package () {
+@@ -878,7 +882,7 @@ python sstate_report_unihash() {
+ sstate_unpack_package () {
+ 	tar -xvzf ${SSTATE_PKG}
+ 	# update .siginfo atime on local/NFS mirror if it is a symbolic link
+-	[ ! -h ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
++	[ ! -h ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
+ 	# update each symbolic link instead of any referenced file
+ 	touch --no-dereference ${SSTATE_PKG} 2>/dev/null || true
+ 	[ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig 2>/dev/null || true
 -- 
 2.25.1
 
