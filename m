@@ -1,124 +1,191 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <ch@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A400C433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 12:35:22 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.8480.1643891721584368975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 380A6C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 12:55:29 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web09.8641.1643892927262347448
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 04:35:21 -0800
+ Thu, 03 Feb 2022 04:55:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EkmldNnw;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id s10so2204888wra.5
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 04:35:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gE+YEr0YUApxg7xAR03prvRtlDFCmUXRGPVEvA323lg=;
-        b=EkmldNnwHN+fhd+X9kZFsvKpnNrfNKvHqJwZ5iiDVJyKA6I4A+Qttl9LfdrxC1T2m/
-         4v2ci4l960lAMCuu9MzrAapp5fjawOsLJxEpPmpY8kAlVmOyhiyi/N4pXcuQ144U+wZ2
-         e4GSUJ1Euxyv3B+LhN5nulaPPUabmMPkV+2CIS2v4aXPaElbBnWzqz62m2EtOmcX7cbU
-         wdseVYGWRr0Ck/e6TXUjhkA5/oEYpHm+JCzKIWn0Jnm7/FqXQrn0eNKStwVs5h1KQRNz
-         nDOy4CoCD4s065sHXoPStdH08dco2nFPzS67lOweZ4xvtrcjvD2IV7nczNJ3gaSE1m/2
-         95XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gE+YEr0YUApxg7xAR03prvRtlDFCmUXRGPVEvA323lg=;
-        b=m+ebt3+riYH+ayrgTEs1vFLWl5DvRA5g8+5T7fMfCncOHwXGvLOG1yIQziyIR4xAgl
-         T56cGdaYGLWbTv6rUWsZHBRIBOXcfEZRTjCdmwevoF9OUsToNZhYdfEgJfCHd10WBFd4
-         dm4Lx2jv+va0k2ZCzYgZHYGt8iJlO5RWu+gCNr3qY6zSZQG3+CkCJshwHSWbjUEbP914
-         Nvj5rJoFmh5jycnRFglB0NPLY8qdSoUAQWqOPbBOyiS0Y2ERvNtMXqefSp5bBDTjb1jU
-         YwUuqcXtzv6vE9zojqW8llfJ7TsafTPZxjz4hq04BN83Km1cXG1iF8l84/Pp+nb5s3+i
-         Q4Dw==
-X-Gm-Message-State: AOAM532V1x5IRrQ+xj43AOzyJpy2UWgtORvqaoxB19bNroTXgnNT1Roy
-	8J0hbbondiscUJSGhSAERpw4BK32tGwqpv8qW1M=
-X-Google-Smtp-Source: 
- ABdhPJx2fsvqK6651uVfSrQfw8qNAashTflvr9rql3G7yuMYvWeKJ63wQv8O1id1J4VG/SbsVidLYUNT9OhUIBhGnxc=
-X-Received: by 2002:a5d:430f:: with SMTP id h15mr8177797wrq.15.1643891720041;
- Thu, 03 Feb 2022 04:35:20 -0800 (PST)
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=Qsdk/rfs;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
+Received: from [10.88.0.104]
+ (dslb-002-205-233-038.002.205.pools.vodafone-ip.de [2.205.233.38])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: ch@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 21EAB81F7E;
+	Thu,  3 Feb 2022 13:55:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1643892924;
+	bh=onPe2I29HMIpHflvGgw4M0o36v3QFjf4lNJiEo0tHL4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Qsdk/rfswa8U4qwBwGGXlBxu+iV7r2ZJd7bmv9MeiWmIUNgGnfH2GyI10LDRy3d8s
+	 N2SKczTWrjuj75u/LIHwvhshDtm/1XULL4DXBePKyiiNYIQkqD8XiUrBFUlEvn12rt
+	 uZGfx3S9NjVcC+ogE8QYx3IXocuXFdaKcSfzWO/1r2LuQLGq/DLf08ZW2kxfwIayLL
+	 3wZC31sJWB30jrfBVMK6GijWoRj216ev7h8dr4f/uTSSjgHJuNjZSXPgSPOUhpp8Yw
+	 Xqv2UKdMZR8sFTkYhrt479pOsxaem7FjZnQdkKEUb+PxYAKewAHAlWsJKq4Krk+Uto
+	 GBhFST/mMpDNQ==
+Message-ID: <8f129c19-a070-e1fe-d868-960fee2b77e6@denx.de>
+Date: Thu, 3 Feb 2022 13:55:23 +0100
 MIME-Version: 1.0
-References: <16CD7B14CA920DD3.31937@lists.openembedded.org>
-In-Reply-To: <16CD7B14CA920DD3.31937@lists.openembedded.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Thu, 3 Feb 2022 13:35:08 +0100
-Message-ID: 
- <CAApg2=RhczFO-Q5nn9K_kmqhjMz9xBro-dOXKwEQPT8a+Yz0Pw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check: add json format
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, ross.burton@arm.com,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000005bbd805d71c5e6d"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [OE-core] [PATCH 01/33] seatd: add recipe
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+References: <20220202182758.919991-1-alex@linutronix.de>
+From: Claudius Heine <ch@denx.de>
+Organization: Denx Software Engineering
+In-Reply-To: <20220202182758.919991-1-alex@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 12:35:22 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 12:55:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161276
+ https://lists.openembedded.org/g/openembedded-core/message/161277
 
---00000000000005bbd805d71c5e6d
-Content-Type: text/plain; charset="UTF-8"
+Hi Alexander,
 
-On Tue, Jan 25, 2022 at 10:59 AM Marta Rybczynska via lists.openembedded.org
-<rybczynska=gmail.com@lists.openembedded.org> wrote:
+On 2022-02-02 19:27, Alexander Kanavin wrote:
+> This is needed to run weston properly as non-root in the absence
+> of systemd-logind, and other compositors will likely require seatd
+> as well.
+> 
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>   meta/conf/distro/include/maintainers.inc |  1 +
+>   meta/recipes-core/seatd/seatd/init       | 45 ++++++++++++++++++++++++
+>   meta/recipes-core/seatd/seatd_0.6.3.bb   | 29 +++++++++++++++
+>   3 files changed, 75 insertions(+)
+>   create mode 100644 meta/recipes-core/seatd/seatd/init
+>   create mode 100644 meta/recipes-core/seatd/seatd_0.6.3.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index ae25287c11..cb289a0eee 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -684,6 +684,7 @@ RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+> +RECIPE_MAINTAINER:pn-seatd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>   RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
+> diff --git a/meta/recipes-core/seatd/seatd/init b/meta/recipes-core/seatd/seatd/init
+> new file mode 100644
+> index 0000000000..0589c765ac
+> --- /dev/null
+> +++ b/meta/recipes-core/seatd/seatd/init
+> @@ -0,0 +1,45 @@
+> +#!/bin/sh
+> +#
+> +### BEGIN INIT INFO
+> +# Provides: seatd
+> +# Required-Start: $local_fs $remote_fs
+> +# Required-Stop: $local_fs $remote_fs
+> +# Default-Start:     2 3 4 5
+> +# Default-Stop:      0 1 6
+> +### END INIT INFO
+> +
+> +killproc() {
+> +        pid=`/bin/pidof $1`
+> +        [ "$pid" != "" ] && kill $pid
+> +}
+> +
+> +case "$1" in
+> +  start)
+> +        seatd -g video -n 1 > /tmp/seatd-start-notify &
+> +        [ -s /tmp/seatd-start-notify ] && exit 0
+> +        sleep 0.1
+> +        [ -s /tmp/seatd-start-notify ] && exit 0
+> +        sleep 0.5
+> +        [ -s /tmp/seatd-start-notify ] && exit 0
+> +        sleep 5
+> +        [ -s /tmp/seatd-start-notify ] && exit 0
+> +        exit 1
+> +  ;;
+> +
+> +  stop)
+> +        echo "Stopping seatd"
+> +        killproc seatd
+> +  ;;
+> +
+> +  restart)
+> +	$0 stop
+> +        sleep 1
+> +        $0 start
+> +  ;;
+> +
+> +  *)
+> +        echo "usage: $0 { start | stop | restart }"
+> +  ;;
+> +esac
+> +
+> +exit 0
+> diff --git a/meta/recipes-core/seatd/seatd_0.6.3.bb b/meta/recipes-core/seatd/seatd_0.6.3.bb
+> new file mode 100644
+> index 0000000000..0e1a79dddf
+> --- /dev/null
+> +++ b/meta/recipes-core/seatd/seatd_0.6.3.bb
+> @@ -0,0 +1,29 @@
+> +SUMMARY = "A minimal seat management daemon, and a universal seat management library."
+> +DESCRIPTION = "Seat management takes care of mediating access to shared devices (graphics, input), without requiring the applications needing access to be root."
+> +HOMEPAGE = "https://git.sr.ht/~kennylevinsen/seatd"
+> +
+> +LICENSE = "MIT"
+> +
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=715a99d2dd552e6188e74d4ed2914d5a"
+> +
+> +SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
+> +           file://init"
+> +SRCREV = "88db55f6068c1c01d85b61aa6adff0a6b2a8dce8"
+> +S = "${WORKDIR}/git"
+> +
+> +inherit meson pkgconfig update-rc.d
+> +
+> +PACKAGECONFIG ?= "libseat-builtin"
+> +
+> +PACKAGECONFIG[libseat-builtin] = "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
+> +
+> +do_install:append() {
+> +        if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+> +                install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/seatd
+> +        fi
+> +}
+> +
+> +INITSCRIPT_NAME = "seatd"
+> +INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+> +INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
+> +
+> 
 
-> Add an option to output the CVE check in a JSON-based format.
-> This format is easier to parse in software than the original
-> text-based one and allows post-processing by other tools.
->
-> Output formats are now handed by CVE_CHECK_FORMAT_TEXT and
-> CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.
->
-> The JSON output format gets generated in a similar way to the
-> text format with the exception of the manifest: appending to
-> JSON arrays requires parsing the file. Because of that we
-> first write JSON fragments and then assemble them in one pass
-> at the end.
->
->
-Any comments on this approach? It is also building a foundation
-for adding also per-package statistics and easier post-processing.
-For example, I do have a script processing the JSON to get a CSV
-spreadsheet.
+I was looking into seatd as well, in my recipe I split it up a bit:
 
-Kind regards,
-Marta
+```
+PACKAGES =+ "${PN}-launch libseat libseat-dev"
 
---00000000000005bbd805d71c5e6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+FILES:${PN} = "${bindir}/seatd"
+FILES:${PN}-launch = "${bindir}/seatd-launch"
+FILES:libseat = "${libdir}/lib*${SOLIBS}"
+FILES:libseat-dev = " \
+        ${includedir} ${FILES_SOLIBSDEV} \
+        ${libdir}/pkgconfig"
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 25, 2022 at 10:59 AM Mart=
-a Rybczynska via <a href=3D"http://lists.openembedded.org">lists.openembedd=
-ed.org</a> &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openembedded.=
-org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">Add an option to output the CVE check =
-in a JSON-based format.<br>
-This format is easier to parse in software than the original<br>
-text-based one and allows post-processing by other tools.<br>
-<br>
-Output formats are now handed by CVE_CHECK_FORMAT_TEXT and<br>
-CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.<br>
-<br>
-The JSON output format gets generated in a similar way to the<br>
-text format with the exception of the manifest: appending to<br>
-JSON arrays requires parsing the file. Because of that we<br>
-first write JSON fragments and then assemble them in one pass<br>
-at the end.<br>
-<br></blockquote><div><br></div><div>Any comments on this approach? It is a=
-lso building a foundation</div><div>for adding also per-package statistics =
-and easier post-processing.</div><div>For example, I do have a script proce=
-ssing the JSON to get a CSV</div><div>spreadsheet.</div><div><br></div><div=
->Kind regards,</div><div>Marta<br></div></div></div>
+RDEPENDS:${PN} = "libseat (= ${EXTENDPKGV})"
+RDEPENDS:${PN}-launch = "${PN} (= ${EXTENDPKGV})"
+RDEPENDS:libseat-dev = "libseat (= ${EXTENDPKGV})"
+```
 
---00000000000005bbd805d71c5e6d--
+regards,
+Claudius
 
