@@ -1,108 +1,140 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2756DC433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 19:51:49 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web08.2939.1643917908537109324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2974C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Feb 2022 20:02:08 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web09.3092.1643918528142649106
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:48 -0800
+ Thu, 03 Feb 2022 12:02:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=W02TdkkF;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id i17so3074648pfq.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CW9GshYX;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id
+ h20-20020a17090adb9400b001b518bf99ffso11039251pjv.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 11:51:48 -0800 (PST)
+ Thu, 03 Feb 2022 12:02:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ziZTb+dbzV3S1A1Hi4QoX+bgroZE0kCDbOc9uV4GQrs=;
-        b=W02TdkkFzbiCar336IQlPW7ou0L1Fm7FhN3g+RQBICcjhIPhbVKoQp+IuGdQp7soXO
-         figMQATI9hdlxkWqULRzPcK23pEKpyKazWWb4DU7+9BBtcufrognyDwA+AnLEnhsoU4l
-         mcnWgvAfGT+hXDAW2xUi5BU3oSUKbZsbuHTaLRbn0sIAiutw2+oXMPxQa3/CCJkyn4mU
-         sFRDfBqKMTk2MD7JvsjOc8p+GARkttf4lAyKULc0kNIvEgDJOgZuzoTaTc1UXIb+Rk5D
-         gzNLI1r6J/lK4i8++UyPQSPVgZy5FyiIHbCxP+R7gRA83kmszM9X+M4VMw3POjMOk4Wv
-         5Vlw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WrnsW/0XKRFy0AyPwUMgzwrimhLY+1i2c+wg/ycL1gw=;
+        b=CW9GshYXpuQhMNFb+m6x/DmEDep4+vKqP/lWF3jyVuFuzPXmLuOqrdoT6G9LHBkQC7
+         MQc2+pmaT8giFDWRaNbGrcFCCREXWGn7E2ptsn9x4MULhI6r4Ocglw7Bq/Yw7JoiWd6O
+         ZKFkQ8OBYRBkxElR6TkMDqYg/C8laUnZylHiZE7wCriAcHF3dd3TWZ/iWD2A9X6iUyic
+         NbyyluLmGIEa9dznTjEnu6N6JSxc8yRo7WpyjYVE5Z/VRzwGq3hCZWrT5/xEgmVEc1R/
+         zegRJDQEz2K0glTc4O0f2v9QASkvRSw5LyniqWBeXQqx2U2ECcFndt5mvZiLIE7vcejV
+         RSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ziZTb+dbzV3S1A1Hi4QoX+bgroZE0kCDbOc9uV4GQrs=;
-        b=L7LodkIwXoodc4r0ZJ98cV/0LtU1irxEuAvbRzBmm3N+oVy41OwkrRPz2reAE3AFfC
-         dUFFbPfat0MzdVmOvWAwDqrbOYeWMmSU2vYbETE/h0iDXj8aGAU+6DYmlvXxdLfci+nL
-         0EidxD305vClO/Fab/ss144YoJaZUU3PUGA/KttNOGE3W/teEmVUS845+W25Bqi8d4/x
-         IZALa5oGECJ5pMFV2H6I5kTlIhQAl1+2KUzkMfs4Ltjbvs6erdZ1OUApQ4c2tUwkhC9R
-         CJGHZTOzndU9pPqh88WVMSqHLhpNZ1n2PMGAoKPVpxkrp5neXn9pQ5TmxHO0+wJnXqRZ
-         Noug==
-X-Gm-Message-State: AOAM533ESaoLGdNmy4crW18fpF91mnveUWPC4GPwwJstpNJYR/kPpPqy
-	OCw0l+OhUXzjzdQR6GfMdTKXqldoetChinr3
+        bh=WrnsW/0XKRFy0AyPwUMgzwrimhLY+1i2c+wg/ycL1gw=;
+        b=oduLE0ym2QIyAvjsWryr7e4JluRZnEqcRpiCFKvKjAASRlSVbhMmkwUVaqnhU5iR2F
+         qxcUAWbgxJrl8pdYLmvijWoYEOb+sBydggRHBR6gTn7509NT1cX3qmrTu+Pwu5uQU8Xw
+         qlCa/kQKjwvlGWhpvaUgC/ROsh5RCszSiT1dd2OAzsghkK+e1IdyC6xiPkw47QhoyH3P
+         XXS9AYB5Zj8dWGly/gcIv91RWWa6sPyZAAyn4uwkKFqb5GL3rilJ89FovKqyXHCdPUIm
+         jwwSKVR6bcZJVcEULeFYYKTLSrzmn8+B+6JvrirtDxFVEl361oBkl7tTy2auGV982m9v
+         ntGg==
+X-Gm-Message-State: AOAM530aNOFznTv4UsOPq/awYrRGir1HhoGOPdd1AUK8+xAOjBwCVy5+
+	6vaCnM191JIWjuZed7mOnKWfSVAkq7ne7w==
 X-Google-Smtp-Source: 
- ABdhPJwtuVhuuyGfFvvRLt0P+RLr0zAqCSU3nIx9X67PHbA8YxPCZNfPd9hn472u3bB0LxOxQyS0/Q==
-X-Received: by 2002:aa7:9acb:: with SMTP id x11mr34860018pfp.82.1643917907535;
-        Thu, 03 Feb 2022 11:51:47 -0800 (PST)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJwLQgobhmnXe1uUupA+s6OfTry9DpAuQ4CBFptW92mM2DrDb1NLf2BT9t9zxWQNualcxQTA7g==
+X-Received: by 2002:a17:902:6f10:: with SMTP id
+ w16mr10985949plk.142.1643918527391;
+        Thu, 03 Feb 2022 12:02:07 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::fb6e])
         by smtp.gmail.com with ESMTPSA id
- s4sm27762216pgg.80.2022.02.03.11.51.45
-        for <openembedded-core@lists.openembedded.org>
+ ck21sm10235963pjb.51.2022.02.03.12.02.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Feb 2022 11:51:46 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Thu, 03 Feb 2022 12:02:06 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/20] libusb1: correct SRC_URI
-Date: Thu,  3 Feb 2022 09:50:44 -1000
-Message-Id: 
- <0dee7ab265d0c02bb63f17db10a3c246a37297c2.1643917717.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1643917717.git.steve@sakoman.com>
-References: <cover.1643917717.git.steve@sakoman.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] meta: Remove libsegfault and catchsegv
+Date: Thu,  3 Feb 2022 12:02:03 -0800
+Message-Id: <20220203200203.3703888-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220203200203.3703888-1-raj.khem@gmail.com>
+References: <20220203200203.3703888-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 19:51:49 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Feb 2022 20:02:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161315
+ https://lists.openembedded.org/g/openembedded-core/message/161316
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Glibc has dropped them starting with 2.35 see [1]
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d4c37ca1f1e97d53045521e9894dc9ed5b1c22a1)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=65ccd641bacea33be23d51da737c2de7543d0f5e
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libusb/libusb1_1.0.22.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/tclibc-glibc.inc | 2 +-
+ meta/recipes-core/glibc/glibc-package.inc | 5 +----
+ meta/recipes-core/musl/musl_git.bb        | 2 +-
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.22.bb b/meta/recipes-support/libusb/libusb1_1.0.22.bb
-index a4fe4de2cb..ffa8f0320c 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.22.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.22.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Userspace library to access USB (version 1.0)"
- DESCRIPTION = "A cross-platform library to access USB devices from Linux, \
- macOS, Windows, OpenBSD/NetBSD, Haiku and Solaris userspace."
--HOMEPAGE = "http://libusb.sf.net"
-+HOMEPAGE = "https://libusb.info"
- BUGTRACKER = "http://www.libusb.org/report"
- SECTION = "libs"
+diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+index 32464909972..f4855dce111 100644
+--- a/meta/conf/distro/include/tclibc-glibc.inc
++++ b/meta/conf/distro/include/tclibc-glibc.inc
+@@ -16,7 +16,7 @@ PREFERRED_PROVIDER_virtual/libc-locale ?= "glibc-locale"
  
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ CXXFLAGS += "-fvisibility-inlines-hidden"
  
- BBCLASSEXTEND = "native nativesdk"
+-LIBC_DEPENDENCIES = "libsegfault \
++LIBC_DEPENDENCIES = "\
+ 		     glibc \
+ 		     glibc-dbg \
+ 		     glibc-dev \
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index d854d918594..90dec6735f8 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -1,6 +1,6 @@
+ INHIBIT_SYSROOT_STRIP = "1"
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-+SRC_URI = "https://github.com/libusb/libusb/releases/download/v${PV}/libusb-${PV}.tar.bz2 \
-            file://no-dll.patch \
-            file://run-ptest \
-           "
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldconfig ldd tzcode glibc-thread-db ${PN}-pic libmemusage malloc-debug libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc ${PN}-src"
++PACKAGES = "${PN}-dbg sln nscd ldconfig ldd tzcode glibc-thread-db ${PN}-pic libmemusage malloc-debug libnss-db ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc ${PN}-src"
+ 
+ # The ld.so in this glibc supports the GNU_HASH
+ RPROVIDES:${PN} = "eglibc rtld(GNU_HASH)"
+@@ -29,7 +29,6 @@ FILES:${PN} = "${libc_baselibs} ${bindir}/ld.so ${libexecdir}/* ${sysconfdir}/ld
+ RRECOMMENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)}"
+ FILES:ldconfig = "${base_sbindir}/ldconfig"
+ FILES:ldd = "${bindir}/ldd"
+-FILES:libsegfault = "${base_libdir}/libSegFault*"
+ FILES:libmemusage = "${base_libdir}/libmemusage.so"
+ FILES:malloc-debug = "${base_libdir}/libc_malloc_debug.so.0"
+ FILES:libnss-db = "${base_libdir}/libnss_db.so.* ${base_libdir}/libnss_db-*.so ${localstatedir}/db/Makefile ${localstatedir}/db/makedbs.sh"
+@@ -47,8 +46,6 @@ FILES:nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_system_unitdi
+ FILES:${PN}-mtrace = "${bindir}/mtrace"
+ FILES:tzcode = "${bindir}/tzselect ${sbindir}/zic ${bindir}/zdump"
+ FILES:${PN}-utils = "${bindir}/* ${sbindir}/*"
+-FILES:catchsegv = "${bindir}/catchsegv"
+-RDEPENDS:catchsegv = "libsegfault"
+ FILES:${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES:glibc-thread-db = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+ RPROVIDES:${PN}-dev += "libc-dev"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 34f4c1e98d6..1e33ad5317b 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -78,7 +78,7 @@ FILES:${PN}-dev =+ "${libdir}/libcrypt.a ${libdir}/libdl.a ${libdir}/libm.a \
+ 
+ RDEPENDS:${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared-staticdev"
+ RPROVIDES:${PN}-dev += "libc-dev virtual-libc-dev"
+-RPROVIDES:${PN} += "ldd libsegfault rtld(GNU_HASH)"
++RPROVIDES:${PN} += "ldd rtld(GNU_HASH)"
+ 
+ LEAD_SONAME = "libc.so"
+ INSANE_SKIP:${PN}-dev = "staticdev"
 -- 
-2.25.1
+2.35.1
 
 
