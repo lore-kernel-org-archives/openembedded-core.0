@@ -1,310 +1,117 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED00C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:13:18 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web08.9481.1643983972820228964
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC3BC433FE
+	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:16:32 +0000 (UTC)
+Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
+ by mx.groups.io with SMTP id smtpd.web12.9609.1643984188399336716
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 06:13:17 -0800
+ Fri, 04 Feb 2022 06:16:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=Att9vaFf;
- spf=pass (domain: intel.com, ip: 134.134.136.65,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643983996; x=1675519996;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=0UPC+7w6mv3lAPJoqkyNhS/MWNB6J5ZHJ3Hvo5QC85o=;
-  b=Att9vaFfA5rxIovA8PNa42S6zHsVEh8R6QXPgO9LJ5U1OfeNpVVV513W
-   FXedB+Q+ZNUKufmH6/zZsv7V77QkR/pLtcNS8mEKJP5xixltJgM60MJzz
-   xvi/kl+0whDtSYj3ZOIRPHTLCssWN6Mdqubf820FoAqzzGA76qG0m029Q
-   mS+rHEZZxrfDj9IlHcJnN2Slyds7kasmnPU4+EYvARgrgrI/vPw4+wwf9
-   Vn2TeoPTXyuruUhg1WIpoYNydeiwRnXwxi3ioTN6oUvkxLhqHGoR02mVb
-   QFkniYC2qnahQwNEAS36AMKRqQVqCpBmHUohBO68hQG4/fWEa2AB/dWo9
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="248321677"
-X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="248321677"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:13:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="566750123"
-Received: from raajloka-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.215.235.116])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:13:15 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 17/17] libxml2: Backport python3-lxml workaround
- patch
-Date: Fri,  4 Feb 2022 22:12:43 +0800
-Message-Id: 
- <3e40efa0a05bbe9f9c3a5a2553319ce6a5f1b123.1643983711.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1643983711.git.anuj.mittal@intel.com>
-References: <cover.1643983711.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@sigma-chemnitz.de header.s=v2012061000 header.b=kT0zZJK/;
+ spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67,
+ mailfrom: enrico.scholz@sigma-chemnitz.de)
+Received: from mail-mta-3.intern.sigma-chemnitz.de
+ (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
+	by mail-out-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
+ 214EGOZV112849
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Fri, 4 Feb 2022 15:16:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1643984184;
+	bh=Fy90ePUx5awPrlFmrxFMuG0AVkccSPaMEIQg7P3UBsQ=; l=1537;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To;
+	b=kT0zZJK/wQZvFt7hpF519m1Yqng/u8n7EVj0Tgc6JCYudo8awMx0Lv1TgFv7XQI9N
+	 RUjgMM3MmxZaNUecdEltMI1UNbDw4cGyTDkOdK3tHkL6ey6TQ3ilZmfjhfpgHu6fPP
+	 cgl1ltP5TlYNUzjtWfVHMf8jpUvQtLj0OA9/YAMs=
+Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local
+ [192.168.16.32])
+	by mail-mta-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id
+ 214EGMlJ347180;
+	Fri, 4 Feb 2022 15:16:22 +0100
+Received: from mail-msa-2.intern.sigma-chemnitz.de ( [192.168.12.72]) by
+ reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 267511B75FC; Fri, 4 Feb 2022 15:16:18 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+ (ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
+ 214EGI6r110941
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Fri, 4 Feb 2022 15:16:18 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+ 4.94.2)
+	(envelope-from <ensc@sigma-chemnitz.de>)
+	id 1nFzNq-00HHfN-6E; Fri, 04 Feb 2022 15:16:18 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Jon Mason <jdmason@kudzu.us>,
+        Yocto-mailing-list
+ <yocto@lists.yoctoproject.org>,
+        Patches and discussions about the oe-core
+ layer <openembedded-core@lists.openembedded.org>,
+        OpenEmbedded Devel List
+ <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] [OE-core] Inclusive Language Proposal for YP/OE
+References: 
+ <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
+	<lyiltukbsk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CANNYZj9wOzJ-gp+HVP-915AQp9d-D_PN4GrgPqaC0ZLVvzbgqg@mail.gmail.com>
+Date: Fri, 04 Feb 2022 15:16:18 +0100
+In-Reply-To: 
+ <CANNYZj9wOzJ-gp+HVP-915AQp9d-D_PN4GrgPqaC0ZLVvzbgqg@mail.gmail.com>
+	(Alexander Kanavin's message of "Fri, 4 Feb 2022 14:58:34 +0100")
+Message-ID: <lyee4ik98t.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:13:18 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:16:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161364
+ https://lists.openembedded.org/g/openembedded-core/message/161365
 
-From: Carlos Rafael Giani <crg7475@mailbox.org>
+Alexander Kanavin <alex.kanavin@gmail.com> writes:
 
-This is a workaround for the following issue that affects python3-lxml:
+>> > For BB_DISKMON_DIRS, the actions "ABORT, STOPTASKS and WARN" would
+>> > become "HALT, NO_NEW_TASKS and "WARN".
+>>
+>> I am not an native english speaker, but for "HALT" I will have to
+>> think twice whether it will pause the operation or abort it.  I would
+>> stay at "ABORT" because it makes much more clear what happens.
+>
+> I'm not taking a stand here, but just providing the context for where
+> the push for avoidance of 'abort' comes from:
+> https://inclusivenaming.org/word-lists/tier-1/
+>
+> Keep in mind that for non-native english speakers none of these words
+> are emotionally charged; they're just terms.
 
-https://gitlab.gnome.org/GNOME/libxml2/-/issues/255
+Yes; these are terms.  But it should be possible to understand the
+meaning of these terms without using a special "inclusivenaming"
+dictionary.  Else, we could just use "A", "B" and "C" for the actions
+above and explain these "terms" in some documentation later.
 
-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2f52be7c42ea37243f9aea1898ef7052904f9290)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../0002-Work-around-lxml-API-abuse.patch     | 213 ++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.12.bb    |   1 +
- 2 files changed, 214 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch b/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
-new file mode 100644
-index 0000000000..f09ce9707a
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
-@@ -0,0 +1,213 @@
-+From 85b1792e37b131e7a51af98a37f92472e8de5f3f Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Tue, 18 May 2021 20:08:28 +0200
-+Subject: [PATCH] Work around lxml API abuse
-+
-+Make xmlNodeDumpOutput and htmlNodeDumpFormatOutput work with corrupted
-+parent pointers. This used to work with the old recursive code but the
-+non-recursive rewrite required parent pointers to be set correctly.
-+
-+Unfortunately, lxml relies on the old behavior and passes subtrees with
-+a corrupted structure. Fall back to a recursive function call if an
-+invalid parent pointer is detected.
-+
-+Fixes #255.
-+
-+Upstream-Status: Backport [85b1792e37b131e7a51af98a37f92472e8de5f3f]
-+---
-+ HTMLtree.c | 46 ++++++++++++++++++++++++++++------------------
-+ xmlsave.c  | 31 +++++++++++++++++++++----------
-+ 2 files changed, 49 insertions(+), 28 deletions(-)
-+
-+diff --git a/HTMLtree.c b/HTMLtree.c
-+index 24434d45..bdd639c7 100644
-+--- a/HTMLtree.c
-++++ b/HTMLtree.c
-+@@ -744,7 +744,7 @@ void
-+ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+ 	                 xmlNodePtr cur, const char *encoding ATTRIBUTE_UNUSED,
-+                          int format) {
-+-    xmlNodePtr root;
-++    xmlNodePtr root, parent;
-+     xmlAttrPtr attr;
-+     const htmlElemDesc * info;
-+ 
-+@@ -755,6 +755,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+     }
-+ 
-+     root = cur;
-++    parent = cur->parent;
-+     while (1) {
-+         switch (cur->type) {
-+         case XML_HTML_DOCUMENT_NODE:
-+@@ -762,13 +763,25 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+             if (((xmlDocPtr) cur)->intSubset != NULL) {
-+                 htmlDtdDumpOutput(buf, (xmlDocPtr) cur, NULL);
-+             }
-+-            if (cur->children != NULL) {
-++            /* Always validate cur->parent when descending. */
-++            if ((cur->parent == parent) && (cur->children != NULL)) {
-++                parent = cur;
-+                 cur = cur->children;
-+                 continue;
-+             }
-+             break;
-+ 
-+         case XML_ELEMENT_NODE:
-++            /*
-++             * Some users like lxml are known to pass nodes with a corrupted
-++             * tree structure. Fall back to a recursive call to handle this
-++             * case.
-++             */
-++            if ((cur->parent != parent) && (cur->children != NULL)) {
-++                htmlNodeDumpFormatOutput(buf, doc, cur, encoding, format);
-++                break;
-++            }
-++
-+             /*
-+              * Get specific HTML info for that node.
-+              */
-+@@ -817,6 +830,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+                     (cur->name != NULL) &&
-+                     (cur->name[0] != 'p')) /* p, pre, param */
-+                     xmlOutputBufferWriteString(buf, "\n");
-++                parent = cur;
-+                 cur = cur->children;
-+                 continue;
-+             }
-+@@ -825,9 +839,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+                 (info != NULL) && (!info->isinline)) {
-+                 if ((cur->next->type != HTML_TEXT_NODE) &&
-+                     (cur->next->type != HTML_ENTITY_REF_NODE) &&
-+-                    (cur->parent != NULL) &&
-+-                    (cur->parent->name != NULL) &&
-+-                    (cur->parent->name[0] != 'p')) /* p, pre, param */
-++                    (parent != NULL) &&
-++                    (parent->name != NULL) &&
-++                    (parent->name[0] != 'p')) /* p, pre, param */
-+                     xmlOutputBufferWriteString(buf, "\n");
-+             }
-+ 
-+@@ -842,9 +856,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+                 break;
-+             if (((cur->name == (const xmlChar *)xmlStringText) ||
-+                  (cur->name != (const xmlChar *)xmlStringTextNoenc)) &&
-+-                ((cur->parent == NULL) ||
-+-                 ((xmlStrcasecmp(cur->parent->name, BAD_CAST "script")) &&
-+-                  (xmlStrcasecmp(cur->parent->name, BAD_CAST "style"))))) {
-++                ((parent == NULL) ||
-++                 ((xmlStrcasecmp(parent->name, BAD_CAST "script")) &&
-++                  (xmlStrcasecmp(parent->name, BAD_CAST "style"))))) {
-+                 xmlChar *buffer;
-+ 
-+                 buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
-+@@ -902,13 +916,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+                 break;
-+             }
-+ 
-+-            /*
-+-             * The parent should never be NULL here but we want to handle
-+-             * corrupted documents gracefully.
-+-             */
-+-            if (cur->parent == NULL)
-+-                return;
-+-            cur = cur->parent;
-++            cur = parent;
-++            /* cur->parent was validated when descending. */
-++            parent = cur->parent;
-+ 
-+             if ((cur->type == XML_HTML_DOCUMENT_NODE) ||
-+                 (cur->type == XML_DOCUMENT_NODE)) {
-+@@ -939,9 +949,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-+                     (cur->next != NULL)) {
-+                     if ((cur->next->type != HTML_TEXT_NODE) &&
-+                         (cur->next->type != HTML_ENTITY_REF_NODE) &&
-+-                        (cur->parent != NULL) &&
-+-                        (cur->parent->name != NULL) &&
-+-                        (cur->parent->name[0] != 'p')) /* p, pre, param */
-++                        (parent != NULL) &&
-++                        (parent->name != NULL) &&
-++                        (parent->name[0] != 'p')) /* p, pre, param */
-+                         xmlOutputBufferWriteString(buf, "\n");
-+                 }
-+             }
-+diff --git a/xmlsave.c b/xmlsave.c
-+index 61a40459..aedbd5e7 100644
-+--- a/xmlsave.c
-++++ b/xmlsave.c
-+@@ -847,7 +847,7 @@ htmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+ static void
-+ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+     int format = ctxt->format;
-+-    xmlNodePtr tmp, root, unformattedNode = NULL;
-++    xmlNodePtr tmp, root, unformattedNode = NULL, parent;
-+     xmlAttrPtr attr;
-+     xmlChar *start, *end;
-+     xmlOutputBufferPtr buf;
-+@@ -856,6 +856,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+     buf = ctxt->buf;
-+ 
-+     root = cur;
-++    parent = cur->parent;
-+     while (1) {
-+         switch (cur->type) {
-+         case XML_DOCUMENT_NODE:
-+@@ -868,7 +869,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+             break;
-+ 
-+         case XML_DOCUMENT_FRAG_NODE:
-+-            if (cur->children != NULL) {
-++            /* Always validate cur->parent when descending. */
-++            if ((cur->parent == parent) && (cur->children != NULL)) {
-++                parent = cur;
-+                 cur = cur->children;
-+                 continue;
-+             }
-+@@ -887,7 +890,18 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+             break;
-+ 
-+         case XML_ELEMENT_NODE:
-+-	    if ((cur != root) && (ctxt->format == 1) && (xmlIndentTreeOutput))
-++            /*
-++             * Some users like lxml are known to pass nodes with a corrupted
-++             * tree structure. Fall back to a recursive call to handle this
-++             * case.
-++             */
-++            if ((cur->parent != parent) && (cur->children != NULL)) {
-++                xmlNodeDumpOutputInternal(ctxt, cur);
-++                break;
-++            }
-++
-++	    if ((ctxt->level > 0) && (ctxt->format == 1) &&
-++                (xmlIndentTreeOutput))
-+ 		xmlOutputBufferWrite(buf, ctxt->indent_size *
-+ 				     (ctxt->level > ctxt->indent_nr ?
-+ 				      ctxt->indent_nr : ctxt->level),
-+@@ -942,6 +956,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+                 xmlOutputBufferWrite(buf, 1, ">");
-+                 if (ctxt->format == 1) xmlOutputBufferWrite(buf, 1, "\n");
-+                 if (ctxt->level >= 0) ctxt->level++;
-++                parent = cur;
-+                 cur = cur->children;
-+                 continue;
-+             }
-+@@ -1058,13 +1073,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-+                 break;
-+             }
-+ 
-+-            /*
-+-             * The parent should never be NULL here but we want to handle
-+-             * corrupted documents gracefully.
-+-             */
-+-            if (cur->parent == NULL)
-+-                return;
-+-            cur = cur->parent;
-++            cur = parent;
-++            /* cur->parent was validated when descending. */
-++            parent = cur->parent;
-+ 
-+             if (cur->type == XML_ELEMENT_NODE) {
-+                 if (ctxt->level > 0) ctxt->level--;
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.12.bb b/meta/recipes-core/libxml/libxml2_2.9.12.bb
-index c387587dfd..a7939c9713 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.12.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.12.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-            file://fix-execution-of-ptests.patch \
-            file://remove-fuzz-from-ptests.patch \
-+           file://0002-Work-around-lxml-API-abuse.patch \
-            "
- 
- SRC_URI[libtar.sha256sum] = "c8d6681e38c56f172892c85ddc0852e1fd4b53b4209e7f4ebf17f7e2eae71d92"
--- 
-2.34.1
+>> > BB_HASHCONFIG_WHITELIST -> BB_HASHCONFIG_IGNORE_VARS
+>> > BB_SETSCENE_ENFORCE_WHITELIST -> BB_SETSCENE_ENFORCE_IGNORE_TASKS
+>> > BB_HASHBASE_WHITELIST -> BB_BASEHASH_IGNORE_VARS
+>> > MULTI_PROVIDER_WHITELIST -> BB_MULTI_PROVIDER_ALLOWED
+>>
+>> The new variable names sound like boolean flags, not like lists.
+>
+> I'd say the context should make it clear that they are lists
 
+It is bad when a context is required to understand the meaning of a
+variable.
+
+And where do you see a context when local.conf contains
+
+| BB_HASHCONFIG_IGNORE_VARS = "true"
+
+
+
+Enrico
 
