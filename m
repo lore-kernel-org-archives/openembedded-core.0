@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B33C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:13:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B33C433EF
+	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:13:16 +0000 (UTC)
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  by mx.groups.io with SMTP id smtpd.web08.9481.1643983972820228964
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 06:13:11 -0800
+ Fri, 04 Feb 2022 06:13:15 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=Kt9N4dvk;
+ header.b=ZklhDA2F;
  spf=pass (domain: intel.com, ip: 134.134.136.65,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643983991; x=1675519991;
+  t=1643983995; x=1675519995;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=07P2QSXuVccqJDuv1/6ZvoJU5My8Gpe9r6f3p7FQDew=;
-  b=Kt9N4dvk8oWwOQAj6qbrI6WtCRZWQOISvZ1Q/UEko5F3sOVSRiwUnBiP
-   TEBCancNmq7Qz71joi/ce4ZCMKE1knR3styRln9BWd0xJP4BRWJ4i89C8
-   lz0VwDvt8zoz+PC7q+tIl2WHlIV9qWzgAhnzIWkugnF6f0ceXp9behktO
-   WxcUMqWM0x3SzC0TtxfMVETSfo8BdZbXux6hPu19kTqOExtpyvixYN/kV
-   K4QhERcof0nE/d36xJ4QRM2Xe8eHg9QVYdqGU58vjyQ1fpCc2JUVANvmo
-   RKWkNS193BAcQFn0C7V1vJHAUZSP2QkWlOu+pYI9hmImwpcXBL7UHPdwJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="248321648"
+  bh=mGvBn6cQI9Gtr4V2TIhABgjGdiB07pLF/yVCawZ8VNY=;
+  b=ZklhDA2Fk6SqyuMP9C4jwWnImqAsXtL0KHtEkMIdgeKhyGKaN/6mhuuZ
+   OMkgpzWAf/Z286EfL1KtLiWW0sENCH6T8UgqrQFVNoWbJINghoy3cmXeW
+   gm6rj87iUDS4XZ5ZXX0nkHLX6DQa9+NjTL2mdIke1huW+R9tQeZ5CRsv/
+   bijE+an1AiDWXCE9fV4w8VtrPkLd7iyDadI4Qjq7gq2gbCBKBIerKDFwe
+   1p9tFRXR7mG3/O7KAjWLakchXeSu7G56oROVPGoIB2A2RBdN+D03sqQwu
+   oW6KqFROpNuPw1oNiwgAP4QuW6zYzaoM+ly4brF4iBw0wWQT9z8dZ3aXy
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="248321661"
 X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="248321648"
+   d="scan'208";a="248321661"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:13:11 -0800
+ 04 Feb 2022 06:13:14 -0800
 X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="566750101"
+   d="scan'208";a="566750113"
 Received: from raajloka-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.235.116])
   by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:13:10 -0800
+ 04 Feb 2022 06:13:12 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 13/17] libusb1: correct SRC_URI
-Date: Fri,  4 Feb 2022 22:12:39 +0800
+Subject: [honister][PATCH 15/17] vim: upgrade to patch 4269
+Date: Fri,  4 Feb 2022 22:12:41 +0800
 Message-Id: 
- <0fccab0724769a862e31e635ffa1db3ba2f37312.1643983711.git.anuj.mittal@intel.com>
+ <61dcaeda02fe1136610f1cf4d4ec271f16dacfcf.1643983711.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643983711.git.anuj.mittal@intel.com>
 References: <cover.1643983711.git.anuj.mittal@intel.com>
@@ -52,47 +52,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:13:12 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:13:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161360
+ https://lists.openembedded.org/g/openembedded-core/message/161362
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ross Burton <ross@burtonini.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Upgrade to the latest patch release to fix the following CVEs:
+
+- CVE-2022-0261
+- CVE-2022-0318
+- CVE-2022-0319
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d4c37ca1f1e97d53045521e9894dc9ed5b1c22a1)
+(cherry picked from commit 96442e681c3acd82b09e3becd78e902709945f1f)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/libusb/libusb1_1.0.24.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.24.bb b/meta/recipes-support/libusb/libusb1_1.0.24.bb
-index 95a20958a1..e70021f4f7 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.24.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.24.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Userspace library to access USB (version 1.0)"
- DESCRIPTION = "A cross-platform library to access USB devices from Linux, \
- macOS, Windows, OpenBSD/NetBSD, Haiku and Solaris userspace."
--HOMEPAGE = "http://libusb.sf.net"
-+HOMEPAGE = "https://libusb.info"
- BUGTRACKER = "http://www.libusb.org/report"
- SECTION = "libs"
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index d68fade26a..6c70bb7529 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -20,8 +20,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
  
-@@ -10,10 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+-PV .= ".4118"
+-SRCREV = "0023f82a76cf43a12b41e71f97a2e860d0444e1b"
++PV .= ".4269"
++SRCREV = "48a604845e33399893d6bf293e71bcd2a412800d"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-+SRC_URI = "https://github.com/libusb/libusb/releases/download/v${PV}/libusb-${PV}.tar.bz2 \
-            file://run-ptest \
-           "
- 
-+UPSTREAM_CHECK_URI = "https://github.com/libusb/libusb/releases"
-+
- SRC_URI[sha256sum] = "7efd2685f7b327326dcfb85cee426d9b871fd70e22caa15bb68d595ce2a2b12a"
- 
- S = "${WORKDIR}/libusb-${PV}"
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
 2.34.1
 
