@@ -1,221 +1,190 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E991C433FE
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 02:57:03 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.4510.1643943421305158194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8018DC433EF
+	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 03:03:03 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web08.4722.1643943782615343202
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Feb 2022 18:57:02 -0800
+ Thu, 03 Feb 2022 19:03:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n1CKwXlI;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: ticotimo@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id w25so10268659edt.7;
-        Thu, 03 Feb 2022 18:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oyT4qpN7w4ni/k3TVnQtiUYsOxEEf5tVJioBwNQGyh8=;
-        b=n1CKwXlIpRo3e5G7fEP6AXCn1Sq5uS6YVYPEwqjdAoJwIwk0bqGC+0ib0cw99KlQ3Z
-         Yt65ooPpNZAWGNyoUZpNSaQtA4RCsvQ285YvrjQOBU8e2rBURfPbNNV3beMQWEp6qpwL
-         PcqzExR+OVaJtTSL6fVvBo5jvjBoc0Bl96ayesS6/A+Y2cZzeJOR9CLLVfSm7cpZ4oo5
-         kVmYbWpK2hEqlyBG/dB1GjPQBWROE6g51W+vUFg4ffPwbsK5G2kEY+KS2TxTlJLoBQb5
-         xSdWNpY0tNeLJlsVOAYjuMJEn9HnTiJnv2pOdEqlhovE+G9yxB7HrxKhTFqIcTqh3YIA
-         jSXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oyT4qpN7w4ni/k3TVnQtiUYsOxEEf5tVJioBwNQGyh8=;
-        b=Mgqb/oWZIsxo8AdcZduBIa/nV86bAGTf3y2yRPgeN7ZmL9+5FMI3aSjviHsITylCt8
-         zDeFTmJKjtiyJgu2eNXVJMuv6g18CXpShW6BEeivkWWXseGAACoW3IsFe/fV8GxkCBsY
-         Df77wOQKSAOJw4nurtTTzXkkL8qHRkw5F9A98GHnO3Pzy+EKEG9+QK10o8clvcSAQXuZ
-         eRqNJEbEouA2b5wrX0099fwpyVcYzxn/3JuKOW58wqKZeFzsdnitlfW4LuVcbQim9TmW
-         Re0UoRvR/8gSgRvnIge/8LcMYubR7mZsBX9TKX+/VtuGZjEEjKGRQIFkiyr6mPBOgoYR
-         STRg==
-X-Gm-Message-State: AOAM533mmBA/9scAIKa7DGcu0kX+viQ8r72RgQmbBMxtWxX95i+Hh5L0
-	TKMo6QskM/jyuJgvf5xIc1CSJQClnmgeLiwxM3c=
-X-Google-Smtp-Source: 
- ABdhPJzoKmJL1Vr6NV3jvUCLW4NOt/HMwl/kKLeWLDOOdrbdZ1/fwEOtKHVfO3oc1lXSoX++o4kwJpDME6bWm0qTtTQ=
-X-Received: by 2002:a05:6402:1703:: with SMTP id
- y3mr1034611edu.239.1643943419448;
- Thu, 03 Feb 2022 18:56:59 -0800 (PST)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=E7VpJnt+;
+ spf=pass (domain: intel.com, ip: 192.55.52.88,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643943782; x=1675479782;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=XgXLZ+4JK18KbbDLtff8XILgbJNBl7qejomxLuY8PzU=;
+  b=E7VpJnt+mkMKUKKb2psLsCmDg3xJ8lsx/rMFEnpyztK4gxqlHmRMqbke
+   /wDNrKFUpdu+Wy+ypVNuElNK3hHN5wdtxoYLenrPP/9pOGBHh4J0+gC3+
+   4ch+nWKKjbQVV5JOBcLWuUI6Fh3ORSnxeiBv9/QXXVKWSc/HjU5KboTC0
+   RQm+keq0fLWIfOQmxexcD/qaRyqU+vKC3vwzxjBpkgBY94/jKg/njoHjT
+   SbQ8i4V155mx98u4YwqHZ1T3HSqTBnWu97hjJFQN/tbUtc9FIthtUSCrW
+   Ty9CsEjrBs2dninTm3QhNost44lmtZcMg+DwtXro3Ok85jUXShLQ8dG19
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="272799804"
+X-IronPort-AV: E=Sophos;i="5.88,341,1635231600";
+   d="scan'208";a="272799804"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2022 19:03:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,341,1635231600";
+   d="scan'208";a="483481425"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga006.jf.intel.com with ESMTP; 03 Feb 2022 19:03:01 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 3 Feb 2022 19:03:00 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Thu, 3 Feb 2022 19:03:00 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.173)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Thu, 3 Feb 2022 19:03:00 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iUwYJhhnHedwFwzox+ZGYUjt3TkXJbE5NsWtBDl0cKKCjyfJkC6zHvfpJudohPafb23iqypCEW4YenFFZKZTqN8hPx6Q1onZU9oKHacUY8zBv/aCxO0LaihmugDXv92wGj1C25TKWJ0m4ruc3ZcKor8YS8P7Vc9ffFgv+HQCHCh5A/3xxt04knIXbg8sOSdKIGhRoWBjoVjt8OU7wDF+dp4zxBIYXxR1+Uiu/8JUzmlREBXDVVu8de3wO4n0XEmJqmd//DDUefhk81UBUx+H964lmklvLelF2I9IIre/i4reTaAWbbtn3PDjQxhv7IYTtfVDFCtmun/neTc/NeJntw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XgXLZ+4JK18KbbDLtff8XILgbJNBl7qejomxLuY8PzU=;
+ b=dUFkMbZFu3V0FRi5MwzbJpEGcJtvEm0JhuE3oM0ZLUF1avi+Ll0xcNeKuuOoxYqRHWO83Cpu8x0fICcoXImFrb3AOz2IMYTfib2NYEh+fQ04RwDfAEjOEWxkJ8VhRFChZMPhb1OZrWnAk9S7Z6PrexQdItCrOAjmdAROdmj4h9ByRila4zx8A/9zlixdbf/tRU+dS7E0Znb92ogsiyYbVu6fkA3J7PxFWmlJ4Z6/rYFpvf4wYQoDqjA0us6/Ns7t8IegOJ3jjkJbIy3S4okc3Sv+qa6pwfdh9K/1hEh3HARonvG3JssLnVmol6E/XaX3Ip500KuJ01sVxMjS8vp5Nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
+ by BL0PR11MB3474.namprd11.prod.outlook.com (2603:10b6:208:67::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.19; Fri, 4 Feb
+ 2022 03:02:59 +0000
+Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::a8ab:1ed:c383:c477]) by SJ0PR11MB4896.namprd11.prod.outlook.com
+ ([fe80::a8ab:1ed:c383:c477%7]) with mapi id 15.20.4930.022; Fri, 4 Feb 2022
+ 03:02:59 +0000
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "paul.barker@sancloud.com"
+	<paul.barker@sancloud.com>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+Subject: Re: [honister PATCH] kernel: introduce python3-dtschema-wrapper
+Thread-Topic: [honister PATCH] kernel: introduce python3-dtschema-wrapper
+Thread-Index: AQHYFpb5baYG4yLw70mDs4P6/2IvlqyCuj4A
+Date: Fri, 4 Feb 2022 03:02:58 +0000
+Message-ID: <44b3a7846aba52792811963540e3d5877bb7b25e.camel@intel.com>
+References: <20220114132150.2604-1-paul.barker@sancloud.com>
+	 <20df8397-23e1-cc7c-afa3-fee12998d6c7@sancloud.com>
+In-Reply-To: <20df8397-23e1-cc7c-afa3-fee12998d6c7@sancloud.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bc46074a-5793-4660-585c-08d9e78ad97f
+x-ms-traffictypediagnostic: BL0PR11MB3474:EE_
+x-microsoft-antispam-prvs: 
+ <BL0PR11MB347482A4F8375739F73E5437F8299@BL0PR11MB3474.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ b6h07WIPrfLw7OlzuvW2hAlaR8nyED4HP7WDmkGoOXq1XKAKkn3zdAToLXT4/KYzr3zXO95xqZ5FIu/Cywmq7BBfv0Ppx8YCMdlvhILxlHEMDFpS7If+S6AkgnqWHN6tGRV9hCXy5qrUI3v5oeX4eT+rIp0lxvbvTXQo5QezPLq5xZ9UKtqwAve0jMfkxNcMZpZIbtlsrPzKi5u7XR9PxBB70DnxaHsF6OEAPiFWsDH66ODcIpl3cGimkHhd0OegMLWprA1As1BFb6XIxIpZUjxymxn8tdAIkftL3VcP4ItBmzQSnnMi/eU7h+plXGzHGdWa07EcIs7NbfPkP5xcfpv0rO7PoEmR2etK0NT3F0BXF7xWxlyawQTernmwTiHURYM9zJQBYZe8JLoQYBs7rPrONmz7PlO9En5h2oEadzf+qtfw2fVVsmlHVsY3EJdAipl+LMl8ncYUm5v0x/tH3WZ/C03Ksu7j+hJ2cg3cQySSGfypeDGJphHRgyTgzBVAwitiMtVocBMyOSm2vHmieojl4SQo6Bn2dfuuY795bGu3b6fCX+SLs0d0bx3WskZOr2VwHa4LDkEzoXxmejt+zEAle917kSJn3hxK649HMXZqai57CZ5v8AolQdRvDHEAmfQh7xiEkRPZxF8iH3zpbnVSTm1gVxJlB7YMPwibqsAYTbXFXo11tzNRcH4Yyg7O/dzzx6crogZCwdTXtd8Q9g==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(4326008)(64756008)(82960400001)(91956017)(66446008)(66946007)(66476007)(122000001)(8676002)(110136005)(54906003)(8936002)(6506007)(6512007)(76116006)(66556008)(86362001)(38070700005)(53546011)(186003)(71200400001)(38100700002)(5660300002)(2906002)(6486002)(316002)(26005)(36756003)(508600001)(2616005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?emtuWEZITUVnK0luME5TMDZCbktYTm16eTRPYStuU1BoZGp3Z1ZUdDdKWk5i?=
+ =?utf-8?B?Z2RsVnNiRmFCMlZnZXB0RDRDd2NNZEQzSDRrMVJsMHhsYkJNRXZMNndpYzMr?=
+ =?utf-8?B?N1RnN3hPdHFkZ3VSRXJlb2RsaXluUHl3UStTK0o3cng1V2dWelI4QlM3eEdk?=
+ =?utf-8?B?TSsvalhheWllL0NrWFp0OVR0b1p6RE0yVVdMaEdyTDVVZnBNci9vU3d2Zk5N?=
+ =?utf-8?B?QjR2YTcvYnpueVpwdzNndHkrcXRrYnJtb3JVL0QrR21ZU3RzRk1uWjhSZTl2?=
+ =?utf-8?B?bmc1cGRLUlk2S2JTRW5nR21mSFQzS2hNZ1gwcXFVTGQ0VXUzQ3dRenN2WXRV?=
+ =?utf-8?B?ZkFvWnZXU2ZsdTluMjB2T1NLcUZlZ0NGUzZYK0tzZHRKc0lOWXZNZnQwUnE0?=
+ =?utf-8?B?YmdvM2FBcEw2aXRRUVZtWEZqTmZyQkN4NHpMZE1hd25OVTJvYmxSaVdkbmlP?=
+ =?utf-8?B?M0w1VEJ4YXZqMjZQeUxzY09BNkNPQzhxdVFMZ1RhS1VBc2lHbWZ3VVZMT1ow?=
+ =?utf-8?B?bElsWnNiUEFRRlFHTHJQdXo0VU83Y1RVTkd3NlZKR0d4dm9zMS9nemhha2Zl?=
+ =?utf-8?B?SDZXdXByWmNyV3FaWTAydFd5bGJRMDRuOHlCcnVyclptOC90RkhMQ3dLU2NQ?=
+ =?utf-8?B?U0VRUk16RkFUL0JPMkVZY0JlemY3dW5zSjdQZnlBZGVvUkg2aVJPYlB4S0o1?=
+ =?utf-8?B?NmFNa3pIaVBHTmg5RUJ1WFI1Y2JaQTNYaFZHZUJhRm9qcnY1VDJpK3FTRWdQ?=
+ =?utf-8?B?VHJYKzlzOHMwNmVtdlVCc3hldUgyRWRXeGxvdno2NFhhdnV3TUdtMEZKUXZM?=
+ =?utf-8?B?WDNaRDVSZlMzQkNFNTFnZmUzYng2aVNxR2tKRWxyN3NaQms1VHpjZFlPL3lz?=
+ =?utf-8?B?d21kbU1YVjV6UTUvUm1GNXpJSnhLV1FBZzQ0ZlNONzBhRzlxS2FXRnRBYUdR?=
+ =?utf-8?B?cjdjZUpaT1Nxb0pOekRtaytvUkptbmw1YWc1cWxud1dybmVxOStiVGsyZENO?=
+ =?utf-8?B?Zi8wUnVsWGk4L0s1VGIrbTNRbEVLVEoyQXFRWEFjZzJRNldkc3A3NkNqNnZL?=
+ =?utf-8?B?R0ZjaTl0dzVwcENhOTd0ZzJCeElVYXQ2YXVOV3hWUGRZOGhqUGNVZzJvQlA0?=
+ =?utf-8?B?L2Fob255bDZRcU82NUFXNU9SU0hsSGhNUytCclhNdGZjZnZVTTEzNjdyaS8r?=
+ =?utf-8?B?OExaYkNPZkhkWjNXamRQYVZ4Yjk0UlNFcjQ3TFRQeExjRnkzdjZyVDRiYzAx?=
+ =?utf-8?B?MWg4eVd1VTB1alc2bUYwVnlFTVlGTmdFRXh4MUdPajBEQjZUTnZ4c1pYRUFy?=
+ =?utf-8?B?UG9acllGb0JjMUlaYUpWTmNsSHpPd2l1ci91NUFsRmhMM3RkNVl2eno3akRL?=
+ =?utf-8?B?NDRsSHpvRlBQcGU4cjhZYXJ1Ymg4ekwreHBtMG8zcWQ2d3hVTzBOdEJ3a2h4?=
+ =?utf-8?B?ekswQ2t5UmM2cEJ0Q0kxL01vTGIzaDZMMXdFNnBNUDB0bzU5NloxTHJHWEh5?=
+ =?utf-8?B?SXI5T1RMUzREaDNwUjRnUTdjWkx3Z09ZOFF3bHhJV1pxVGVzdGJyZU80c0Yr?=
+ =?utf-8?B?S3NqRmpycmRSMGR4Qk5QUGVUbVlLWFRvLzBoUlZYVDNtcVlqck5JZGZ6RjNZ?=
+ =?utf-8?B?cmJuWlVLclFSWDRQNitoNXY0ZFlrSWtuQjZzNEJ6UUE5UkNUeDVpVkZyQmVR?=
+ =?utf-8?B?SnRTaWh0dkNxM3BPSUh5eHFjOGo2OXRwVFA0enV6Nzk4a3U1WHVjUnVmeFFi?=
+ =?utf-8?B?ZmZ5UFU4bHNsaXBCS29TSEJmWlNoc3ZXNGs0ZllpeE03Sm9qMFNGTmZtTktN?=
+ =?utf-8?B?bFByTHEyOVNKVGlIYS8xeExReTZ2T25vMG1XVmRrTFlFb2tlTGEveVFmT1pF?=
+ =?utf-8?B?aUJLNHdURzg3OXNHT2EzbSt2UXdQbXBCTzJxakVaSFJSamNxaXk2anpReUk2?=
+ =?utf-8?B?VmoyTmM2bE1OWmdnYTNvNEVyRjZtUndvNDdzNDNOclBqSFM0SXVyMytIZzVm?=
+ =?utf-8?B?d1lkS1RQeFpzY0VxK0tia0EyVW0ra2xQbkMrSnM5cXJMbkRyM1oydDhzaTMr?=
+ =?utf-8?B?aDlXMzhLMUtZbXM0em51aVVrSnlvVlBMcldMUEh3bWd1RnJQNndMNXFqR1Fk?=
+ =?utf-8?B?ZSt3SGxRWFJxSHM3Wkc4ZlhEalhSc2o3YmN4cUMvYjdDYWdmcEtJS21OZ2NQ?=
+ =?utf-8?Q?s8T+z7RdX+YDdy2Z/va/iroL7cRZjYCEpPrCw2R27Fz6?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9243023FF036D04C9CDEDCF30D997ECE@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: 
- <CAPoiz9xdMynAdLjHMoG76kiny4CUbvj6n7DxHR6HYecuLxcVwg@mail.gmail.com>
-In-Reply-To: 
- <CAPoiz9xdMynAdLjHMoG76kiny4CUbvj6n7DxHR6HYecuLxcVwg@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 3 Feb 2022 18:56:48 -0800
-Message-ID: 
- <CANx9H-DydV_-353nU4E=rJakU7GVi37sH5CTVe8Dxdtyae852A@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] Inclusive Language Proposal for YP/OE
- folllow-up
-To: Jon Mason <jdmason@kudzu.us>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	bitbake-devel@lists.openembedded.org,
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
-	yocto@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000008c11d605d72867e0"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ bc46074a-5793-4660-585c-08d9e78ad97f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2022 03:02:58.9359
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ mOgZpFHE7WKHm6idEElThyCOFSM4gqZTrXAIa+1v1hgphYP4gyM9ZcVNHP8QxEmC67dGqMddd2e+nQESWu49MA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3474
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 02:57:03 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 03:03:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161330
+ https://lists.openembedded.org/g/openembedded-core/message/161331
 
---0000000000008c11d605d72867e0
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Feb 3, 2022 at 6:31 PM Jon Mason <jdmason@kudzu.us> wrote:
-
-> This is a follow up to the Inclusive Language email I sent out on
-> January 24 (see
->
-> https://lore.kernel.org/yocto/CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com/
-> ).
-> I'm adding a couple of additional mailing lists to this email that
-> were not on the original distribution, in case there are developers
-> for those areas which didn't see the original email.
->
-> I really appreciate the positive feedback received on this.  I've
-> updated the wiki with the suggested changes by Ross (acked by Randy)
-> and Mikko, and extrapolated that to be the following list:
->
-> CVE_CHECK_PN_WHITELIST ->
-> CVE_CHECK_SKIPRECIPE ->
-> CVE_CHECK_SKIP_RECIPE
->
-> CVE_CHECK_WHITELIST ->
-> CVE_CHECK_IGNORECVE ->
-> CVE_CHECK_IGNORE
->
-> INHERIT_BLACKLIST ->
-> INHERIT_RECIPESKIP ->
-> INHERIT_RECIPE_SKIP
->
-> SDK_LOCAL_CONF_BLACKLIST ->
-> ESDK_LOCALCONF_REMOVE ->
-> ESDK_LOCAL_CONF_REMOVE
->
-> If anyone wants to nack the changes above, please let me know (or
-> modify https://wiki.yoctoproject.org/wiki/Inclusive_language).
-> Similarly, I've added all of the proposed names to the "approved name"
-> column.
->
-> On the same wiki, I've changed the tables to now have a volunteer
-> developer column (from the "Assigned Developer" name) to make it more
-> clear that we need help in doing these tasks.  If there is anything
-> you are interested in, please feel free to put your name down there
-> and have at it.
->
-
-This looks to be in good shape. Thank you to the reviewers for some
-excellent variable names.
-
-
-> Thanks,
-> Jon
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#1450):
-> https://lists.openembedded.org/g/openembedded-architecture/message/1450
-> Mute This Topic: https://lists.openembedded.org/mt/88899288/924729
-> Group Owner: openembedded-architecture+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-architecture/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000008c11d605d72867e0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Feb 3, 2022 at 6:31 PM Jon Mason &lt;<a href=3D"mai=
-lto:jdmason@kudzu.us">jdmason@kudzu.us</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">This is a follow up to the Inclusive Language email I se=
-nt out on<br>
-January 24 (see<br>
-<a href=3D"https://lore.kernel.org/yocto/CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0-=
--WZF7An071cx6sr_A@mail.gmail.com/" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://lore.kernel.org/yocto/CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6s=
-r_A@mail.gmail.com/</a>).<br>
-I&#39;m adding a couple of additional mailing lists to this email that<br>
-were not on the original distribution, in case there are developers<br>
-for those areas which didn&#39;t see the original email.<br>
-<br>
-I really appreciate the positive feedback received on this.=C2=A0 I&#39;ve<=
-br>
-updated the wiki with the suggested changes by Ross (acked by Randy)<br>
-and Mikko, and extrapolated that to be the following list:<br>
-<br>
-CVE_CHECK_PN_WHITELIST -&gt;<br>
-CVE_CHECK_SKIPRECIPE -&gt;<br>
-CVE_CHECK_SKIP_RECIPE<br>
-<br>
-CVE_CHECK_WHITELIST -&gt;<br>
-CVE_CHECK_IGNORECVE -&gt;<br>
-CVE_CHECK_IGNORE<br>
-<br>
-INHERIT_BLACKLIST -&gt;<br>
-INHERIT_RECIPESKIP -&gt;<br>
-INHERIT_RECIPE_SKIP<br>
-<br>
-SDK_LOCAL_CONF_BLACKLIST -&gt;<br>
-ESDK_LOCALCONF_REMOVE -&gt;<br>
-ESDK_LOCAL_CONF_REMOVE<br>
-<br>
-If anyone wants to nack the changes above, please let me know (or<br>
-modify <a href=3D"https://wiki.yoctoproject.org/wiki/Inclusive_language" re=
-l=3D"noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Inclu=
-sive_language</a>).<br>
-Similarly, I&#39;ve added all of the proposed names to the &quot;approved n=
-ame&quot;<br>
-column.<br>
-<br>
-On the same wiki, I&#39;ve changed the tables to now have a volunteer<br>
-developer column (from the &quot;Assigned Developer&quot; name) to make it =
-more<br>
-clear that we need help in doing these tasks.=C2=A0 If there is anything<br=
->
-you are interested in, please feel free to put your name down there<br>
-and have at it.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This looks to be=
- in good shape. Thank you to the reviewers for some excellent variable name=
-s.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Thanks,<br>
-Jon<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#1450): <a href=3D"https://lists.openembedded.org/g/open=
-embedded-architecture/message/1450" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://lists.openembedded.org/g/openembedded-architecture/message/1450</a><b=
-r>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88899288/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-88899288/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-architecture%2Bowner@lists.open=
-embedded.org" target=3D"_blank">openembedded-architecture+owner@lists.opene=
-mbedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-archi=
-tecture/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/g/openembedded-architecture/unsub</a> [<a href=3D"mailto:ticotimo@g=
-mail.com" target=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000008c11d605d72867e0--
+T24gTW9uLCAyMDIyLTAxLTMxIGF0IDExOjM3ICswMDAwLCBQYXVsIEJhcmtlciB3cm90ZToNCj4g
+T24gMTQvMDEvMjAyMiAxMzoyMSwgUGF1bCBCYXJrZXIgd3JvdGU6DQo+ID4gRnJvbTogQnJ1Y2Ug
+QXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4NCj4gPiANCj4gPiBUaGUgNS4xNiBr
+ZXJuZWwgaW50cm9kdWNlZCBtYW5kYXRvcnkgc2NoZW1hIGNoZWNraW5nIG9uIGFueSBkdGINCj4g
+PiBmaWxlDQo+ID4gYnVpbHQgdGhyb3VnaCB0aGUga2VybmVsLg0KPiA+IA0KPiA+IFRoYXQgZnVu
+Y2lvbmFsaXR5IGlzIHByb3ZpZGVkIHZpYSBweXRob24zLWR0LXNjaGVtYS4NCj4gPiANCj4gPiBU
+aGUgZGVwZW5kZW5jaWVzIHRvIGVuYWJsZSB0aGF0IGZ1bmN0aW9uYWxpdHkgaXMgbm90IHNtYWxs
+LCBhbmQgbWF5DQo+ID4gbm90IGFsd2F5cyBiZSBkZXNpcmVkIChpbiBwYXJ0aWN1bGFyIG9uIGFy
+Y2hpdGVjdHVyZXMgdGhhdCBkbyBub3QNCj4gPiBzdXBwb3J0IGR0YnMsIG9yIGluIGRldmVsb3Bt
+ZW50IGN5Y2xlcykuIEl0IG1heSBhbHNvIGJlIHVzZWZ1bCBmb3INCj4gPiBhbGxvd2luZyBhIG5v
+bi1jb25mb3JtYW50IGR0cyB0byBiZSBjb21waWxlZC4NCj4gPiANCj4gPiBUaGlzIGNvbW1pdCBp
+bnRyb2R1Y2VzIGEgc2V0IG9mIHdyYXBwZXIgc2NyaXB0cyB0aGF0IHdoZW4gYWRkZWQNCj4gPiBh
+cyBhIGRlcGVuZW5jeSB0byB0aGUga2VybmVsLCBjYW4gcGFzcyBib3RoIHRoZSB2YWxpZGF0aW9u
+IHRlc3RpbmcNCj4gPiBhbmQgdmFsaWRhdGlvbiBzdGVwcyBvZiBhIGR0cy4NCj4gPiANCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZv
+dW5kYXRpb24ub3JnPg0KPiA+IA0KPiA+IEJhY2twb3J0ZWQgZnJvbSBvZS1jb3JlIGNvbW1pdCAy
+NTY2NTYzYWQ0OWQuDQo+ID4gU2lnbmVkLW9mZi1ieTogUGF1bCBCYXJrZXIgPHBhdWwuYmFya2Vy
+QHNhbmNsb3VkLmNvbT4NCj4gDQo+IEknbSBzZW5kaW5nIGEgZ2VudGxlIHBpbmcgb24gdGhpcyBh
+cyBJIGhhdmVuJ3QgaGVhcmQgYW55IHJlcGx5IG9yDQo+IHNlZW4gDQo+IHRoaXMgbGFuZCBpbiBo
+b25pc3RlciB5ZXQuIEFueSBmZWVkYmFjaz8NCg0KSSBzb21laG93IG1pc3NlZCBpdCBlYXJsaWVy
+LiBJdCdzIGluIG15IHF1ZXVlIG5vdyBmb3IgdGVzdGluZy4NCg0KVGhhbmtzLA0KDQpBbnVqDQo=
 
