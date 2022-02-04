@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD3BC433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 273E7C433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 14:13:03 +0000 (UTC)
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  by mx.groups.io with SMTP id smtpd.web08.9481.1643983972820228964
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 06:13:01 -0800
+ Fri, 04 Feb 2022 06:13:02 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=bk53sdfj;
+ header.b=i4ABhb0b;
  spf=pass (domain: intel.com, ip: 134.134.136.65,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643983981; x=1675519981;
+  t=1643983982; x=1675519982;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=HHalPp0TOwoq7SiNvjKdUyzC7Jt2Hff1HK+ZV+Be2Xc=;
-  b=bk53sdfjrMGMg/4OGKUOPwkvfRwuyB6bAyzuew87CBgiCYAf4eU1aT6h
-   AcIJHtb1iGFnKsnITkgw9iFX6KektCyiRcsibZdH1QAgU4JM+U8MaOi/f
-   eWbhEAFf6rlvyfua2i25SjRDsXfESRmLMdSiajawzzRoowb6U/UWXaHXG
-   v5W47yLEvuKtU0R3H8D0EVAvx1vAd8ogozvTvfx6LtAGIMJcRvKfmqTxT
-   pjaQQnvV/KONvR3ek6uOxXAPmCQh9HGhETIQ3mS5o6eQeEFSzHIrSLSVs
-   oagcmvA/g8wCxzpHcAEkhipOPBmB9pHNsxUYVQRTQDvFAAhAu5Zc5qS9W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="248321607"
+  bh=BSYI98KiQMyMW7XS2DsiQyEjaKwfV8m17DD6/MVP9Kc=;
+  b=i4ABhb0boUHQNN4teBjRrpcRAXkUrSTqiszd9NMd1lmGlNOJZivNNPeS
+   dvkzXDrL3L/hTiD6vDATh6iQ5U4iK7Tq8WcLIx4VXd8nh25cU+XPbz8cu
+   QlYmZ3pD6RIp6ZnYyz9DR/3Y9bfqkVbdCyBHKqNDFtUn9qP20lPflx5o8
+   ohvomrl395kKrGmyuYnyzf0g7z0rX9LO6b47JDZu6J6inZyvN8G9xiGsw
+   rWfEAanpCUOCOavIdjLDhuH39HwQJ4R2NsBCE2oOdMK9646qv2Xddac29
+   rY98tLJtm0LxytYzEtn97i8aJc0ScoYwuye9i0tdjvo6RkHckem9l9Yrz
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10247"; a="248321610"
 X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="248321607"
+   d="scan'208";a="248321610"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:13:01 -0800
+ 04 Feb 2022 06:13:02 -0800
 X-IronPort-AV: E=Sophos;i="5.88,342,1635231600";
-   d="scan'208";a="566750046"
+   d="scan'208";a="566750063"
 Received: from raajloka-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.235.116])
   by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2022 06:12:59 -0800
+ 04 Feb 2022 06:13:01 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 06/17] glibc : Fix CVE-2021-3999
-Date: Fri,  4 Feb 2022 22:12:32 +0800
+Subject: [honister][PATCH 07/17] icu: fix make_icudata dependencies
+Date: Fri,  4 Feb 2022 22:12:33 +0800
 Message-Id: 
- <62de1f71d54a3474c687db95b6a36119f53feda8.1643983711.git.anuj.mittal@intel.com>
+ <18a43fe970b691250fbf48f39ed5f4f7ad121b75.1643983711.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643983711.git.anuj.mittal@intel.com>
 References: <cover.1643983711.git.anuj.mittal@intel.com>
@@ -52,445 +52,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:13:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 14:13:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161353
+ https://lists.openembedded.org/g/openembedded-core/message/161354
 
-From: Pgowda <pgowda.cve@gmail.com>
+From: Kory Maincent <kory.maincent@bootlin.com>
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=8c8a71c85f2ed5cc90d08d82ce645513fc907cb6]
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=472e799a5f2102bc0c3206dbd5a801765fceb39c]
+The make_icudata task is set before the configure task then the
+dependencies for this task are not populate yet.
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
+Fixed it by adding do_prepare_recipe_sysroot task dependency to the
+make_icudata task.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e9532134b86211801206ff540c4c284f43006f7b)
+(cherry picked from commit c134f62062a6359d2d5831ba4cb9694035e4f25a)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../glibc/glibc/0001-CVE-2021-3999.patch      |  36 ++
- .../glibc/glibc/0002-CVE-2021-3999.patch      | 357 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.34.bb         |   2 +
- 3 files changed, 395 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
+ meta/recipes-support/icu/icu_69.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch b/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
-new file mode 100644
-index 0000000000..64749390b5
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0001-CVE-2021-3999.patch
-@@ -0,0 +1,36 @@
-+From 8c8a71c85f2ed5cc90d08d82ce645513fc907cb6 Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Mon, 24 Jan 2022 10:57:09 +0530
-+Subject: [PATCH] tst-realpath-toolong: Fix hurd build
-+
-+Define PATH_MAX to a constant if it isn't already defined, like in hurd.
-+
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+(cherry picked from commit 976db046bc3a3738f69255ae00b0a09b8e77fd9c)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=8c8a71c85f2ed5cc90d08d82ce645513fc907cb6]
-+CVE: CVE-2021-3999
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ stdlib/tst-realpath-toolong.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/stdlib/tst-realpath-toolong.c b/stdlib/tst-realpath-toolong.c
-+index 8bed772460..4388890294 100644
-+--- a/stdlib/tst-realpath-toolong.c
-++++ b/stdlib/tst-realpath-toolong.c
-+@@ -29,6 +29,10 @@
-+ 
-+ #define BASENAME "tst-realpath-toolong."
-+ 
-++#ifndef PATH_MAX
-++# define PATH_MAX 1024
-++#endif
-++
-+ int
-+ do_test (void)
-+ {
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch b/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
-new file mode 100644
-index 0000000000..ef3a504fdf
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0002-CVE-2021-3999.patch
-@@ -0,0 +1,357 @@
-+From 472e799a5f2102bc0c3206dbd5a801765fceb39c Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Fri, 21 Jan 2022 23:32:56 +0530
-+Subject: [PATCH] getcwd: Set errno to ERANGE for size == 1 (CVE-2021-3999)
-+
-+No valid path returned by getcwd would fit into 1 byte, so reject the
-+size early and return NULL with errno set to ERANGE.  This change is
-+prompted by CVE-2021-3999, which describes a single byte buffer
-+underflow and overflow when all of the following conditions are met:
-+
-+- The buffer size (i.e. the second argument of getcwd) is 1 byte
-+- The current working directory is too long
-+- '/' is also mounted on the current working directory
-+
-+Sequence of events:
-+
-+- In sysdeps/unix/sysv/linux/getcwd.c, the syscall returns ENAMETOOLONG
-+  because the linux kernel checks for name length before it checks
-+  buffer size
-+
-+- The code falls back to the generic getcwd in sysdeps/posix
-+
-+- In the generic func, the buf[0] is set to '\0' on line 250
-+
-+- this while loop on line 262 is bypassed:
-+
-+    while (!(thisdev == rootdev && thisino == rootino))
-+
-+  since the rootfs (/) is bind mounted onto the directory and the flow
-+  goes on to line 449, where it puts a '/' in the byte before the
-+  buffer.
-+
-+- Finally on line 458, it moves 2 bytes (the underflowed byte and the
-+  '\0') to the buf[0] and buf[1], resulting in a 1 byte buffer overflow.
-+
-+- buf is returned on line 469 and errno is not set.
-+
-+This resolves BZ #28769.
-+
-+Reviewed-by: Andreas Schwab <schwab@linux-m68k.org>
-+Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-+Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+(cherry picked from commit 23e0e8f5f1fb5ed150253d986ecccdc90c2dcd5e)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=472e799a5f2102bc0c3206dbd5a801765fceb39c]
-+CVE: CVE-2021-3999
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ NEWS                                          |   6 +
-+ sysdeps/posix/getcwd.c                        |   7 +
-+ sysdeps/unix/sysv/linux/Makefile              |   7 +-
-+ .../unix/sysv/linux/tst-getcwd-smallbuff.c    | 241 ++++++++++++++++++
-+ 4 files changed, 260 insertions(+), 1 deletion(-)
-+ create mode 100644 sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+
-+diff --git a/NEWS b/NEWS
-+index b4f81c2668..8d7467d2c1 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -214,6 +214,12 @@ Security related changes:
-+   function could result in a memory leak and potential access of
-+   uninitialized memory.  Reported by Qualys.
-+ 
-++  CVE-2021-3999: Passing a buffer of size exactly 1 byte to the getcwd
-++  function may result in an off-by-one buffer underflow and overflow
-++  when the current working directory is longer than PATH_MAX and also
-++  corresponds to the / directory through an unprivileged mount
-++  namespace.  Reported by Qualys.
-++
-+ The following bugs are resolved with this release:
-+ 
-+   [4737] libc: fork is not async-signal-safe
-+diff --git a/sysdeps/posix/getcwd.c b/sysdeps/posix/getcwd.c
-+index 13680026ff..b6984a382c 100644
-+--- a/sysdeps/posix/getcwd.c
-++++ b/sysdeps/posix/getcwd.c
-+@@ -187,6 +187,13 @@ __getcwd_generic (char *buf, size_t size
-+   size_t allocated = size;
-+   size_t used;
-+ 
-++  /* A size of 1 byte is never useful.  */
-++  if (allocated == 1)
-++    {
-++      __set_errno (ERANGE);
-++      return NULL;
-++    }
-++
-+ #if HAVE_MINIMALLY_WORKING_GETCWD
-+   /* If AT_FDCWD is not defined, the algorithm below is O(N**2) and
-+      this is much slower than the system getcwd (at least on
-+diff --git a/sysdeps/unix/sysv/linux/Makefile b/sysdeps/unix/sysv/linux/Makefile
-+index 76ad06361c..9380d3848d 100644
-+--- a/sysdeps/unix/sysv/linux/Makefile
-++++ b/sysdeps/unix/sysv/linux/Makefile
-+@@ -331,7 +331,12 @@ sysdep_routines += xstatconv internal_st
-+ 
-+ sysdep_headers += bits/fcntl-linux.h
-+ 
-+-tests += tst-fallocate tst-fallocate64 tst-o_path-locks
-++tests += \
-++  tst-fallocate \
-++  tst-fallocate64 \
-++  tst-getcwd-smallbuff \
-++  tst-o_path-locks \
-++# tests
-+ endif
-+ 
-+ ifeq ($(subdir),elf)
-+diff --git a/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c b/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+new file mode 100644
-+index 0000000000..d460d6e766
-+--- /dev/null
-++++ b/sysdeps/unix/sysv/linux/tst-getcwd-smallbuff.c
-+@@ -0,0 +1,241 @@
-++/* Verify that getcwd returns ERANGE for size 1 byte and does not underflow
-++   buffer when the CWD is too long and is also a mount target of /.  See bug
-++   #28769 or CVE-2021-3999 for more context.
-++   Copyright The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <errno.h>
-++#include <fcntl.h>
-++#include <intprops.h>
-++#include <limits.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <sys/mount.h>
-++#include <sys/stat.h>
-++#include <sys/types.h>
-++#include <sys/wait.h>
-++
-++#include <sys/socket.h>
-++#include <sys/un.h>
-++#include <support/check.h>
-++#include <support/temp_file.h>
-++#include <support/xsched.h>
-++#include <support/xunistd.h>
-++
-++static char *base;
-++#define BASENAME "tst-getcwd-smallbuff"
-++#define MOUNT_NAME "mpoint"
-++static int sockfd[2];
-++
-++static void
-++do_cleanup (void)
-++{
-++  support_chdir_toolong_temp_directory (base);
-++  TEST_VERIFY_EXIT (rmdir (MOUNT_NAME) == 0);
-++  free (base);
-++}
-++
-++static void
-++send_fd (const int sock, const int fd)
-++{
-++  struct msghdr msg = {0};
-++  union
-++    {
-++      struct cmsghdr hdr;
-++      char buf[CMSG_SPACE (sizeof (int))];
-++    } cmsgbuf = {0};
-++  struct cmsghdr *cmsg;
-++  struct iovec vec;
-++  char ch = 'A';
-++  ssize_t n;
-++
-++  msg.msg_control = &cmsgbuf.buf;
-++  msg.msg_controllen = sizeof (cmsgbuf.buf);
-++
-++  cmsg = CMSG_FIRSTHDR (&msg);
-++  cmsg->cmsg_len = CMSG_LEN (sizeof (int));
-++  cmsg->cmsg_level = SOL_SOCKET;
-++  cmsg->cmsg_type = SCM_RIGHTS;
-++  memcpy (CMSG_DATA (cmsg), &fd, sizeof (fd));
-++
-++  vec.iov_base = &ch;
-++  vec.iov_len = 1;
-++  msg.msg_iov = &vec;
-++  msg.msg_iovlen = 1;
-++
-++  while ((n = sendmsg (sock, &msg, 0)) == -1 && errno == EINTR);
-++
-++  TEST_VERIFY_EXIT (n == 1);
-++}
-++
-++static int
-++recv_fd (const int sock)
-++{
-++  struct msghdr msg = {0};
-++  union
-++    {
-++      struct cmsghdr hdr;
-++      char buf[CMSG_SPACE(sizeof(int))];
-++    } cmsgbuf = {0};
-++  struct cmsghdr *cmsg;
-++  struct iovec vec;
-++  ssize_t n;
-++  char ch = '\0';
-++  int fd = -1;
-++
-++  vec.iov_base = &ch;
-++  vec.iov_len = 1;
-++  msg.msg_iov = &vec;
-++  msg.msg_iovlen = 1;
-++
-++  msg.msg_control = &cmsgbuf.buf;
-++  msg.msg_controllen = sizeof (cmsgbuf.buf);
-++
-++  while ((n = recvmsg (sock, &msg, 0)) == -1 && errno == EINTR);
-++  if (n != 1 || ch != 'A')
-++    return -1;
-++
-++  cmsg = CMSG_FIRSTHDR (&msg);
-++  if (cmsg == NULL)
-++    return -1;
-++  if (cmsg->cmsg_type != SCM_RIGHTS)
-++    return -1;
-++  memcpy (&fd, CMSG_DATA (cmsg), sizeof (fd));
-++  if (fd < 0)
-++    return -1;
-++  return fd;
-++}
-++
-++static int
-++child_func (void * const arg)
-++{
-++  xclose (sockfd[0]);
-++  const int sock = sockfd[1];
-++  char ch;
-++
-++  TEST_VERIFY_EXIT (read (sock, &ch, 1) == 1);
-++  TEST_VERIFY_EXIT (ch == '1');
-++
-++  if (mount ("/", MOUNT_NAME, NULL, MS_BIND | MS_REC, NULL))
-++    FAIL_EXIT1 ("mount failed: %m\n");
-++  const int fd = xopen ("mpoint",
-++			O_RDONLY | O_PATH | O_DIRECTORY | O_NOFOLLOW, 0);
-++
-++  send_fd (sock, fd);
-++  xclose (fd);
-++
-++  TEST_VERIFY_EXIT (read (sock, &ch, 1) == 1);
-++  TEST_VERIFY_EXIT (ch == 'a');
-++
-++  xclose (sock);
-++  return 0;
-++}
-++
-++static void
-++update_map (char * const mapping, const char * const map_file)
-++{
-++  const size_t map_len = strlen (mapping);
-++
-++  const int fd = xopen (map_file, O_WRONLY, 0);
-++  xwrite (fd, mapping, map_len);
-++  xclose (fd);
-++}
-++
-++static void
-++proc_setgroups_write (const long child_pid, const char * const str)
-++{
-++  const size_t str_len = strlen(str);
-++
-++  char setgroups_path[sizeof ("/proc//setgroups") + INT_STRLEN_BOUND (long)];
-++
-++  snprintf (setgroups_path, sizeof (setgroups_path),
-++	    "/proc/%ld/setgroups", child_pid);
-++
-++  const int fd = open (setgroups_path, O_WRONLY);
-++
-++  if (fd < 0)
-++    {
-++      TEST_VERIFY_EXIT (errno == ENOENT);
-++      FAIL_UNSUPPORTED ("/proc/%ld/setgroups not found\n", child_pid);
-++    }
-++
-++  xwrite (fd, str, str_len);
-++  xclose(fd);
-++}
-++
-++static char child_stack[1024 * 1024];
-++
-++int
-++do_test (void)
-++{
-++  base = support_create_and_chdir_toolong_temp_directory (BASENAME);
-++
-++  xmkdir (MOUNT_NAME, S_IRWXU);
-++  atexit (do_cleanup);
-++
-++  TEST_VERIFY_EXIT (socketpair (AF_UNIX, SOCK_STREAM, 0, sockfd) == 0);
-++  pid_t child_pid = xclone (child_func, NULL, child_stack,
-++			    sizeof (child_stack),
-++			    CLONE_NEWUSER | CLONE_NEWNS | SIGCHLD);
-++
-++  xclose (sockfd[1]);
-++  const int sock = sockfd[0];
-++
-++  char map_path[sizeof ("/proc//uid_map") + INT_STRLEN_BOUND (long)];
-++  char map_buf[sizeof ("0  1") + INT_STRLEN_BOUND (long)];
-++
-++  snprintf (map_path, sizeof (map_path), "/proc/%ld/uid_map",
-++	    (long) child_pid);
-++  snprintf (map_buf, sizeof (map_buf), "0 %ld 1", (long) getuid());
-++  update_map (map_buf, map_path);
-++
-++  proc_setgroups_write ((long) child_pid, "deny");
-++  snprintf (map_path, sizeof (map_path), "/proc/%ld/gid_map",
-++	    (long) child_pid);
-++  snprintf (map_buf, sizeof (map_buf), "0 %ld 1", (long) getgid());
-++  update_map (map_buf, map_path);
-++
-++  TEST_VERIFY_EXIT (send (sock, "1", 1, MSG_NOSIGNAL) == 1);
-++  const int fd = recv_fd (sock);
-++  TEST_VERIFY_EXIT (fd >= 0);
-++  TEST_VERIFY_EXIT (fchdir (fd) == 0);
-++
-++  static char buf[2 * 10 + 1];
-++  memset (buf, 'A', sizeof (buf));
-++
-++  /* Finally, call getcwd and check if it resulted in a buffer underflow.  */
-++  char * cwd = getcwd (buf + sizeof (buf) / 2, 1);
-++  TEST_VERIFY (cwd == NULL);
-++  TEST_VERIFY (errno == ERANGE);
-++
-++  for (int i = 0; i < sizeof (buf); i++)
-++    if (buf[i] != 'A')
-++      {
-++	printf ("buf[%d] = %02x\n", i, (unsigned int) buf[i]);
-++	support_record_failure ();
-++      }
-++
-++  TEST_VERIFY_EXIT (send (sock, "a", 1, MSG_NOSIGNAL) == 1);
-++  xclose (sock);
-++  TEST_VERIFY_EXIT (xwaitpid (child_pid, NULL, 0) == child_pid);
-++
-++  return 0;
-++}
-++
-++#define CLEANUP_HANDLER do_cleanup
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.34.bb b/meta/recipes-core/glibc/glibc_2.34.bb
-index 3504cf45a9..6ceb677731 100644
---- a/meta/recipes-core/glibc/glibc_2.34.bb
-+++ b/meta/recipes-core/glibc/glibc_2.34.bb
-@@ -65,6 +65,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0002-CVE-2022-23219.patch \
-            file://0001-CVE-2021-3998.patch \
-            file://0002-CVE-2021-3998.patch \
-+           file://0001-CVE-2021-3999.patch \
-+           file://0002-CVE-2021-3999.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+diff --git a/meta/recipes-support/icu/icu_69.1.bb b/meta/recipes-support/icu/icu_69.1.bb
+index 4daf0fe82e..848ae9ab19 100644
+--- a/meta/recipes-support/icu/icu_69.1.bb
++++ b/meta/recipes-support/icu/icu_69.1.bb
+@@ -147,4 +147,4 @@ do_make_icudata() {
+     :
+ }
+ 
+-addtask make_icudata before do_configure after do_patch
++addtask make_icudata before do_configure after do_patch do_prepare_recipe_sysroot
 -- 
 2.34.1
 
