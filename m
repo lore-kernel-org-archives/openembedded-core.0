@@ -2,65 +2,65 @@ Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F44C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B979BC433EF
 	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 17:02:14 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
  [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.11862.1643994123734065672
+ by mx.groups.io with SMTP id smtpd.web09.11590.1643994123195167652
  for <openembedded-core@lists.openembedded.org>;
  Fri, 04 Feb 2022 09:02:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=n1Ks+hAD;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Q0XxC1L/;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.166.238,
  mailfrom: prvs=903448d3ab=saul.wold@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 214GOe1m023764
+ 214GOe1l023764
 	for <openembedded-core@lists.openembedded.org>;
  Fri, 4 Feb 2022 09:02:03 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=9BFx9rRXtyWPiA3n6meOoG2VpPlWruYKPk+jmxDuFsQ=;
- b=n1Ks+hADIkyhmTs7ASIGHqFwCGW9gdq7AMgjANfhQ9OVyv0eAYxmao2XsteQ6hlOjfA7
- B0Hirb4zYnPIIdIjnI3ivySK/NkJfQHJy8KW7KLqBmqfUH7FEdIpUnBqtkqRgfA9Bgxu
- IMSl9g6aQCp9C0D1tdqWcOt+8txSw+n8Le0Zi+4TE4J8jn07d1rNIWn9taid9xNsVz9t
- 2h3kRGxbPvOjqouXTHVs1ziETD0U/f3IzrcU7D8fDwd7jhssgcpxosIdtANtMB4qi2Gr
- UgRmFmhEaXNS8FuGft6rMGkke9ONIpmoqcrcsEslaXha1omcRuZXibrcTbUZaj8p/IN7 dw==
+ bh=0lvj7B3FfmBLY+C0jzUZ08FjMZ7jD2X3vx6i0AM0dOI=;
+ b=Q0XxC1L/05/twGh9K1iXsX5WK1y1deW9POBXuuzhpHvaj6eqlFkWR9W1duFXj4mB0f/3
+ jYXkbJVu/AbvL1pV+osTQj8maO6rKHumRjRhggO9mmEjyChcbhqVbbqa0bojtPkcSQ+e
+ 3KT7HUtrsD7D6VRy4dSDP65ksSDZmfVB/3O1TPtYyrLMwZz1ro9splHF1P8P8VQ+aNWw
+ mT7vFXEp/XfUWnAhS9brLVwP+QOXd7i1FAaSRKl6BN2a8llj3xy8VLbk1nvlcvBXmgWj
+ UXTmU1yGzHO+fPU1dbFqi4Rl3C019Qww6jFRo5VjfIkCmSmQuCkZWH9sCe4EeSxeVD8v RA==
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e0jpgguu6-3
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e0jpgguu6-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 09:02:03 -0800
+ Fri, 04 Feb 2022 09:02:02 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KRROIx8/rXN5C+gmkCutrXM8DB5xkGWh8LznLYbf4QnLdjGVbSoRKaKyAYQLq1mhF34mvn+rfyTUwsRFNgvRknOIPacAFNaOLL3uSE/clXCMxMZYMEnwHkye4NK/6aDkcSfkFZLDxT5QZxcfxlM8GSwbVnZgtX8ZQgOuNLqLcrTGJKq2sAJQgDhFyKJqstkAdYlfrLQNoq+gWjDhtflzhwUtaMwyev4ftNRDSmAm5r1Xj+FMAzPWLt0d5ca9MH7Bpx5JUR3oFE8AE34ZhOPByo4W785X9JKgkLfE+cvc8ofNJ+dli+uppEw6nzvuPAWISaWPFIys12LSZVaJVH0DWg==
+ b=Kb2YiNEAFFT53zJ/XcfMkJsCdNOt1dkqZ7VGYgKWmE5AGWQ/NAJKYEHaBhg8kFlswz9NgeMKLJ5AdM6j2nsvvKjwx7yOFJ1Vht3hqfoDg7lNPxKtJdZo6GYAeYIqQDmeYUiKTUZiZ+S6oi888GlGW0kZ66X+Dy/rv/7V/WGAECY6ppv0DijcPtapqlVZ5adkxGGM5DJWFpI+2vbHCbsj+9fnYH/gJt/vOj5p0ABA+1EtOgzJvGGCbE1EXOBOAcbDwJ/uXAsX/wuY6bdefoyDS3KOEmL2qy35/QTBqUSkBzrHPvt146QGLw2Pke+EXAJIl/AIWGFp1BK4ZqtUETLDWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BFx9rRXtyWPiA3n6meOoG2VpPlWruYKPk+jmxDuFsQ=;
- b=gRGwufRWwAmBlGlFk6b0GZ2KqL4zWd81Qlq/siNeMrGyWm6UzDhpxZy1ak/CE59eRluXzczYBLOILUMSCrMXxfYuyvT7HvTpCSMJiKxK3yJsOYtQfNsS4xyXIzDFY6yPjvMXd0X3XPf5ioqdhzKbcbpCyJCtNuMFUXrQWnR3q35sQpZW1/Z6eS4EnVILQ1afATW8FA+ryz59m1iYtJN/toTrZmd5dlDDzdvKB1v7q4LQjGvA5r8ONIug1iImvMMdxBVvfRKBRuqVQe8GIWPROFkqjmtSlchWF43H6oFAgyFC8QGiGBJg48Oo+OsQ8tc+CGFs7Hb+75Zgiv3Th+NGCA==
+ bh=0lvj7B3FfmBLY+C0jzUZ08FjMZ7jD2X3vx6i0AM0dOI=;
+ b=GLQipN+QzRAUWEZhB7hi+NrhqVY1/Z9eqNe85vUKS86DKL5IgiK1kVIwBJ0hukJirMSBOFER0B1bkD8Vyz6VWLv9Kw03GSYUlTmHtgH9gsdtcEvxPQX63lrPHSQ/CQuBYQuUthXsNjhykNlXZeuw0pdjvfTf6X27pI6SLFDzXJAZ4PgGdkTqm//GXyI4camKKSMyL3AmAUhqBnNY8c8MDmUQhQg6iEQzoraNqWnRDJoU0LDHa3igR0EVagJIoZqwEvv7ykidm+YulEHZV7lufchoH2/c/ktx6utZjgXMK2JYhxQ2n/8Ty2Y8ck8VLDEFErPXj2Q8AZxyzcASh711wA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
  by CO1PR11MB5042.namprd11.prod.outlook.com (2603:10b6:303:99::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.11; Fri, 4 Feb
- 2022 17:02:02 +0000
+ 2022 17:02:01 +0000
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::2027:9b43:472b:13ac]) by CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::2027:9b43:472b:13ac%4]) with mapi id 15.20.4951.017; Fri, 4 Feb 2022
- 17:02:02 +0000
+ 17:02:01 +0000
 From: Saul Wold <saul.wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [PATCH 2/5] imagefeatures: selftest: Change variable to be more
- descriptive
-Date: Fri,  4 Feb 2022 09:01:41 -0800
-Message-Id: <20220204170144.105536-3-saul.wold@windriver.com>
+Subject: [PATCH 1/5] skip_recipe: remove old class and rename VarFlag to
+ SKIP_RECIPE
+Date: Fri,  4 Feb 2022 09:01:40 -0800
+Message-Id: <20220204170144.105536-2-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220204170144.105536-1-saul.wold@windriver.com>
 References: <20220204170144.105536-1-saul.wold@windriver.com>
@@ -71,63 +71,63 @@ X-ClientProxiedBy: BYAPR04CA0011.namprd04.prod.outlook.com
  (2603:10b6:303:90::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3344f15a-2869-4304-1392-08d9e8001041
+X-MS-Office365-Filtering-Correlation-Id: 40a31f63-7778-4de3-cc65-08d9e8000ff4
 X-MS-TrafficTypeDiagnostic: CO1PR11MB5042:EE_
 X-Microsoft-Antispam-PRVS: 
-	<CO1PR11MB5042A3CD75DE3EEE3EDD078EEE299@CO1PR11MB5042.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:334;
+	<CO1PR11MB504254AF1F37C59A4E7A2B3CEE299@CO1PR11MB5042.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	aFed3kPkJfj0cdg464yutVpeB8deVdmd6vysJf4FRYhO0zgt3EiHG5u/831egWUnKma+qjYyV1xryRyZgitzthOGByUSqPuamL7StU5bcggejSajxuuW5gEDvYQbncfT/jdthtUFo1Cy4dcI5kujJU1sx7RGxfoyMd5iWPByGKHDy7dr6wt9fVuetBPzME6av3kGATE2db27FDa39cnl2xdyDOAMQA/GfdMxQdeeN6nAM32qBd13X9zyQSaIeXU352McpQJ61bXvbLO9W64UiRzM5mQ9xS2JAhFqWnCb2bf2tPLcCC1PdqGTkeWNoAJbvz6ugCLr36H7OrPid/PTBaVpOQBLAAgLeEJTw5EungvchEIFqHUbfFCnSqDOqwJQjBKYXchUrXcVPK0T8nwh/2uGMflwA/WmDrSmctKgN40VreU/7mttFRkVLZwnUJ0EhAh0aAMcYur2jOj1x3uzad5FE0ZM5pQ3wtOXoEuA/H7zx57wlpr5+fOvLKDeaLHYlIiZLguc76UjQXBH6L0KqXyDMGPq4viVFgVlTKDm2UyH0mQSOfT76T1wVVVhq7nG9R7TNiSQWYU5H481dQs5atJ/GgXFHeCIgOFl8XwE5rqC/ezHq8gqiAPNRIOZmYzo1PX/glsC/3nm/cKi9JyUOvV1fQ7AECIoBqW0IDHH9oAdMlH9icq9vfuO6jiRUslkNZsf3G9af3lsIU8uR04dgw==
+	t77eQUQbNGMXsvM4UhVzfBel0rbCSO6na01Rf7/gvBDOI/vgLi29UMF3WRxk7w4Onky/aQFt6izcwfRzmOUo8gL/3AnRLSfnSjQ1dRmLWOKgOjQq4bVjsPXaOfNCtP0enIiCSflgExBRGUTXTwa2s+EceL6CQbrah+/ZZUh8prXLpVLOM+7Q8wdFQq7pXqvIaiPrLpP2HN/hUD6IjsN/FZVDecxKJ5LfdQOxpRTk9lIEUKWF+K2NjdvvKICliYNO/qMaDUpU1lA+6gTiqQSG0sdOxK5+Pxeh3LEX4JkWp9aNIf9TH3aiO++sfwsNT+yVg41LuAUvpnBb02l+QLoDkWz69cYvijl++UYL3suXTRB4LTqi7fbgfJ3pc5DWZ8pFdTL59+CbJDMNun04QtwWhD8vOOqJa+7gdyOhAYDQ0cDtQhFRngz0gZTUSQb5i5e5bQWUDbcBwJHbS96TGM0mauOlt7F6g0fYAzxFy75Xa4eg2zEe+6CB/ablDnWdoy10VKy2WI3vPyFMfSIwVV8Yy4jswWlwfxDa09wEJJmkNtKhGbm7FzqGD8TFml8HeQzVPJVqlEIpn1sw+ieNz4PeYLG5KHxOtZ3V7xakByPTA26Pr9GZD7y6RDc5grzHfr7TvIyyaUAiXsokF9FHfLhetivSXkyZcZES5BjxoT+Fp1bZIShHT4VL0jdBnySUX3/R/KoIM13DncX2e0BirDCnZg==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(8676002)(8936002)(4326008)(66476007)(66556008)(107886003)(66946007)(83380400001)(5660300002)(6512007)(26005)(2616005)(186003)(1076003)(36756003)(52116002)(6666004)(6506007)(508600001)(86362001)(316002)(6916009)(6486002)(44832011)(38350700002)(38100700002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6IAXmxIkaTwl6vXlSuuYhy5K9Z4VY307v05w+84KgAI9o0v4gtFipjeOQx09?=
- =?us-ascii?Q?v/kKXntfyX4z32bDebPCAUcase16IXHFiXH4KZ7HecyWD7n3Hmf1vQNZlDmt?=
- =?us-ascii?Q?QciVGtNurEYl37+lykuHQKUHC8TCF9J7BnWAddLbJYeBXmNw0QEX2s3j5Ojv?=
- =?us-ascii?Q?KIW9LsA9d9ZinGC87v6LhP9CGgxLQGXA9r60SZbATFcIfEPHj3ulhDWui0L5?=
- =?us-ascii?Q?yZRUdh9CPDbPthGUuLDyG3+fOUWUV8YOu+iVf6wylWGFpefet3fLFCFj+gTV?=
- =?us-ascii?Q?KbKDr4AqzacsDAk2jQ+eMEIPa51Y3SzuJJmp9wglym3MdVk8kts4lL0mZlLj?=
- =?us-ascii?Q?8rLhiJ/SNfWiQeUeSgKnpBUMWmKfcUClc/hWrih5dKtsI5BTh7FOUIFjbYJB?=
- =?us-ascii?Q?GDJyg3dgOdilOEpreuJyzoQx7H4xHQO0+B0qywk+E/+rRCOEE9Yp2wwpjKtc?=
- =?us-ascii?Q?YZKK7a0K3TxjCj/XP//JXMFqB9/tLiBfZYneYnAonBFWi295br/GYhNSx4lu?=
- =?us-ascii?Q?qlPgcTp6SaLVxh4FRRkGgPp8ojlJdPpalwGxBUYk+YxeS9gBJGr22vPmhhLg?=
- =?us-ascii?Q?pTDnPmmYLCvsWjrSvL5wE6gMOIk7MbYdcQQSKkUIPvWdxxH0MSpT0tVUsl+F?=
- =?us-ascii?Q?tB7C+l07zli+vH5eXA62dx8Rr3rpi8gxZbWQNpNUdEFJAtLiGSU07v+azYuM?=
- =?us-ascii?Q?S6iLWlKtCvv+ECcFqK1sLo6Fzv+W8RU4FM7CZevImDzoWWYMkE4TlZ3z8BfV?=
- =?us-ascii?Q?3ENYHUJZgpWulVIObcW97HpEyWEDAFCOKi5fVGCoAxdwPcaGAtbyPqFTFsxe?=
- =?us-ascii?Q?TE/LBqupjMIPg/5nYMtO4ZwO5mOrSkR73WpV4asOpkWTqG33ephZhoNVXWIr?=
- =?us-ascii?Q?FufxNGolMMZRIo79hP81LBqVreuAy0Aofu5UN+rM6vYVLKtaXL5X+YBhNeCV?=
- =?us-ascii?Q?rFmeeAb5PUQV9VfHJ0f1a6R71NqN4BVCwYUlYKzM/9U7+UrAiEFNp86j/1+C?=
- =?us-ascii?Q?2vYlJl2HpN0QHTkceaaaCju4EBvHVbKgC8fX4SAJNKSGaQYrjYJqNMIIAGrf?=
- =?us-ascii?Q?OcLED2Hd/B9wQUPKroBPuX1p6Kyu2WgCDcKoglZUcQguNU5Ss1kn+jixsHgh?=
- =?us-ascii?Q?FaVH61v55FTYGggezAhw7vq0KKvT9aN3VbVLz54ArYi3lxw/6Maw6ct50PLD?=
- =?us-ascii?Q?kr6uv3a9ft5jDhoM9aHHPjj8c+04H7MpNcoRY7tFqe/QRepFOsmzhRj52NOl?=
- =?us-ascii?Q?CsXPS6IScixPwmUTwvAWdVlpNpJd3/KjBApc2Rn3826XxG0ht1+s4yeQ6AiW?=
- =?us-ascii?Q?zXDT5j6PVbKCC6/SVpxd0bPRSuKQKpluo3T7qVlQ+4Z6U8Ti0UezSn3xHoSm?=
- =?us-ascii?Q?TIO8cYahFtGZi3PsFzxGETkK/RC5v+GQDe8Y+N12fPvbqQ58W+vkYu9p/aDR?=
- =?us-ascii?Q?MbD0VZJh0E6pg2sFCUGv4u/DBDCk6v2Rl+3neQeFFlBUaFH+Sw4EQF5IHksa?=
- =?us-ascii?Q?1/oghEUhGafJaCE1cM1fE3bSpVoMd1vloSuZTjHJLY90J+ziqFPCjO+C3egB?=
- =?us-ascii?Q?vCZ0AJHUE8WI9l5JpmuBCn/KDMO78bOloWo5XIs6lT9lJJkC5XZUiLOoZoA8?=
- =?us-ascii?Q?suqhLYi/pbS+fLNdHuTN6I8=3D?=
+	=?us-ascii?Q?uUQNs1+f1/SaHQJzHuqgq+2N8wfWlDT1iMFEVj1fTtOzJzudPNUnhXTGxgRY?=
+ =?us-ascii?Q?PscEcE5yll+HF7V4I2QEOVbZ7+Gj4ph6rFCjH+QX6GaiY8ZgDdrriXxEk8Qu?=
+ =?us-ascii?Q?U6Fa2oOYroOA/QOh5jtyr8sLkJMAh29BQelqwISD4Cocn+fqmzLLEHU3KvoG?=
+ =?us-ascii?Q?n50gWrhiOqZsQkujoZNBae3uynDezuWktMAvlqCwtWcC3Us+8JEixrP0ErVx?=
+ =?us-ascii?Q?vaaKwyfdfC6jAkr8kKjVGSFI/n2DwWbbG7QIxCQGoBZ908DEzVbV3FHsxfUV?=
+ =?us-ascii?Q?hrMomIh7CXjYY6hn/J3uGgEQmFC/BuylAbpDGLU5GgU4GLvIoOM3IOd0CWsC?=
+ =?us-ascii?Q?u8jyFjuCX+WEE5+03fsSFj5YvXN7rAxlIomRbFs8fKYIoTwdYqHa6hub8Sqq?=
+ =?us-ascii?Q?AQFyS1CI22HVHa/pDatlmwZ7FVZ6G1GgDgQ9kS1u3bBPCGQ/hnqLX/OD7Fia?=
+ =?us-ascii?Q?eYvCDX9IW29mC8vtTrj+cMvrH3epUGIFk3rKVpboPNAYf6uLBQFArtEY1yfN?=
+ =?us-ascii?Q?d2tYESUepzwU7KDxDzGa73c9Biz15D0GDZcDYCX3bQEMWh0pjSxazYyqCxSk?=
+ =?us-ascii?Q?xueLu97hsDD5ok2Au2073490J8tnv0T05MKifYr6vx5yDMxzuFMSyzyeczo1?=
+ =?us-ascii?Q?YHH09RgLoCDpStAFHWhs6LaVe1r2hk58FlTTEXiBC1VdLEoJUjHj1L4nuGnC?=
+ =?us-ascii?Q?9qtiPGnQprcI6o8QkvewmFCDXXzX04tH82J0oPR2LKljbulVI7Zaun/Vupwi?=
+ =?us-ascii?Q?/8jF0FEJTPvbRJey9WrjPIIieWbmq95GGpd18RRlFUzfv4WNbvWF7hT/kVJY?=
+ =?us-ascii?Q?jjjZLMXnXj9jlQAtRt0zOo0aqZ3lXazAMzmZmfiiyu5HUk1fJeI5OlE6YCkN?=
+ =?us-ascii?Q?BDRVTXmoh10ka7Q6qeyd6sJru0Y1jbalTIYnfyq69t97GKdBtucS3J1X0Rkp?=
+ =?us-ascii?Q?1aovtmDTQr5TZ8miip5uVheucW9Tgo0Ca+KvbIcDd0KBXw8BeZrvPv7E6a8l?=
+ =?us-ascii?Q?S4CJIowQZUi//bjkJYpsZj2mSg2aeTNlyNSQ/RZLvBncXHtRfojmlXEFE8XJ?=
+ =?us-ascii?Q?yz/6q6BWHReckHiTomO5RsaxikifH78yjGfGXdi14FyrzDFzIxd4YUs2pKLf?=
+ =?us-ascii?Q?BfpirHBJdtUHxZzo25L1HoZWDiyl2nqhZJkV1hYJaZfiR7n7AhUQBg/AlQl/?=
+ =?us-ascii?Q?pEG4pLQusEjZkDpkH6AVBHypjhpw5rbccR1+qn8X5GNvOhGUlZzmFpNDJF6r?=
+ =?us-ascii?Q?QYfsV8i15JLRb3mVnaJHF6NPQb6xBouyVxE7yPHET0RlV/sAQQZ7k0y67Gta?=
+ =?us-ascii?Q?xbxmIWyNz1KigHQxAbARkEfnWz46TDdSUz+kGkp5BehNYI0dcnfZNIaPpQ3d?=
+ =?us-ascii?Q?KPXtR53jvRY2BXVU2CbPw/XzuLcYjKG1dDhKmZudqrwt9+IKsOBP0S/vPwOg?=
+ =?us-ascii?Q?nwmsnClxpxdmJAeCDKWxj71lLm9CMpXJVnQ1bBA10eYT8rsClNVGbYJOibik?=
+ =?us-ascii?Q?J5NQzEcF3vYWcZIciuPj4NJmazAYeKubFOU9btCr5k6Yp9WMCvDZobpFaoIt?=
+ =?us-ascii?Q?79O88VWQe4ZW2xRyRjGSRfcGBreuTv0cjYHBAyYIUgFdptVFwdcO8I1SaLa5?=
+ =?us-ascii?Q?avi4u22Q/ZRX9qyDkimmCZY=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 3344f15a-2869-4304-1392-08d9e8001041
+ 40a31f63-7778-4de3-cc65-08d9e8000ff4
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 17:02:02.1386
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 17:02:01.7480
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- ouIVWtsJRmBIVNdghXTBdouhtq9tnYo2OU410DkE+ixT1qdpesCpKCrqx908WFD9xfJyCwTomW6ll3aMlwyPaQ==
+ ktgfPVIvUFt7gt6TlhsTV/vrWC7VLYdRUtIN4anEqRy0/ABKm20eSuFX+dSKA2pnBdjBk6NTYk6dDsK7xypwLQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5042
-X-Proofpoint-GUID: KX7EbntSrPkWo3P4BnEadbCbAHgPMxYg
-X-Proofpoint-ORIG-GUID: KX7EbntSrPkWo3P4BnEadbCbAHgPMxYg
+X-Proofpoint-GUID: WdvPyMTwuq9AxynR0lDKM7qzYJ4OFsP5
+X-Proofpoint-ORIG-GUID: WdvPyMTwuq9AxynR0lDKM7qzYJ4OFsP5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-04_07,2022-02-03_01,2021-12-02_01
@@ -142,42 +142,83 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 17:02:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161372
+ https://lists.openembedded.org/g/openembedded-core/message/161371
 
-This changes a couple of variables to be more representive of
-their usage.
+This change better describes what the VarFlag is doing since it
+is implemeted with the SkipRecipe() function.
+
+By moving this into base.bbclass we simplify the distro inherit.
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/base.bbclass          | 10 ++++++++++
+ meta/classes/blacklist.bbclass     | 20 --------------------
+ meta/conf/distro/defaultsetup.conf |  3 +--
+ 3 files changed, 11 insertions(+), 22 deletions(-)
+ delete mode 100644 meta/classes/blacklist.bbclass
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 18f37c6d7d9..d36d45c5516 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -198,8 +198,8 @@ class ImageFeatures(OESelftestTestCase):
-         image_name = 'core-image-minimal'
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 5f4956a1d31..854d14d8a51 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -438,6 +438,16 @@ python () {
+     if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("B")):
+         d.appendVar("PSEUDO_IGNORE_PATHS", ",${B}")
  
-         all_image_types = set(get_bb_var("IMAGE_TYPES", image_name).split())
--        blacklist = set(('container', 'elf', 'f2fs', 'multiubi', 'tar.zst', 'wic.zst'))
--        img_types = all_image_types - blacklist
-+        skip_image_types = set(('container', 'elf', 'f2fs', 'multiubi', 'tar.zst', 'wic.zst'))
-+        img_types = all_image_types - skip_image_types
++    # To add a recipe to the skip list , set:
++    #   SKIP_RECIPE[pn] = "message"
++    pn = d.getVar('PN')
++    if d.getVarFlag('PNBLACKLIST', pn) is not None:
++        bb.error("PNBLACKLIST is deprecated, please convert to SKIP_RECIPE[%s]" % (pn))
++    skip_msg = d.getVarFlag('SKIP_RECIPE', pn)
++    if skip_msg:
++        bb.debug(1, "Skipping %s %s" % (pn, skip_msg))
++        raise bb.parse.SkipRecipe("Recipe will be skipped because: %s" % (skip_msg))
++
+     # Handle PACKAGECONFIG
+     #
+     # These take the form:
+diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
+deleted file mode 100644
+index dc794228ffe..00000000000
+--- a/meta/classes/blacklist.bbclass
++++ /dev/null
+@@ -1,20 +0,0 @@
+-# anonymous support class from originally from angstrom
+-# 
+-# To use the blacklist, a distribution should include this
+-# class in the INHERIT_DISTRO
+-#
+-# No longer use ANGSTROM_BLACKLIST, instead use a table of
+-# recipes in PNBLACKLIST
+-#
+-# Features:
+-#
+-# * To add a package to the blacklist, set:
+-#   PNBLACKLIST[pn] = "message"
+-#
+-
+-python () {
+-    blacklist = d.getVarFlag('PNBLACKLIST', d.getVar('PN'))
+-
+-    if blacklist:
+-        raise bb.parse.SkipRecipe("Recipe is blacklisted: %s" % (blacklist))
+-}
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index b36a4ffffe5..f6894f3ab56 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -14,9 +14,8 @@ TMPDIR .= "${TCLIBCAPPEND}"
  
-         config = 'IMAGE_FSTYPES += "%s"\n'\
-                  'MKUBIFS_ARGS ?= "-m 2048 -e 129024 -c 2047"\n'\
-@@ -245,8 +245,8 @@ VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
- VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
- VIRTUAL-RUNTIME_base-utils-syslog = ""
+ USER_CLASSES ?= ""
+ PACKAGE_CLASSES ?= "package_ipk"
+-INHERIT_BLACKLIST = "blacklist"
+ INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
+-INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
++INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO}"
  
--# Blacklist busybox
--PNBLACKLIST[busybox] = "Don't build this"
-+# Skip busybox
-+SKIP_RECIPE[busybox] = "Don't build this"
- """
-         self.write_config(config)
- 
+ INIT_MANAGER ??= "none"
+ require conf/distro/include/init-manager-${INIT_MANAGER}.inc
 -- 
 2.31.1
 
