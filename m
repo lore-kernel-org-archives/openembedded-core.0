@@ -2,44 +2,39 @@ Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D16CC433EF
-	for <webhook@archiver.kernel.org>; Sat,  5 Feb 2022 20:12:15 +0000 (UTC)
-Received: from forward107o.mail.yandex.net (forward107o.mail.yandex.net
- [37.140.190.210])
- by mx.groups.io with SMTP id smtpd.web10.868.1644091932639739168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53975C433F5
+	for <webhook@archiver.kernel.org>; Sat,  5 Feb 2022 20:34:27 +0000 (UTC)
+Received: from forward104j.mail.yandex.net (forward104j.mail.yandex.net
+ [5.45.198.247])
+ by mx.groups.io with SMTP id smtpd.web10.1111.1644093260902397702
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Feb 2022 12:12:14 -0800
+ Sat, 05 Feb 2022 12:34:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
- header.s=mail header.b=HvExMfT/;
- spf=pass (domain: zhukoff.net, ip: 37.140.190.210,
- mailfrom: pavel@zhukoff.net)
-Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net
- [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
-	by forward107o.mail.yandex.net (Yandex) with ESMTP id B92986AF84AE;
-	Sat,  5 Feb 2022 23:12:08 +0300 (MSK)
-Received: from vla1-0c91d72e5963.qloud-c.yandex.net
- (vla1-0c91d72e5963.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3a21:0:640:c91:d72e])
-	by forward101q.mail.yandex.net (Yandex) with ESMTP id A9B9D13E80002;
-	Sat,  5 Feb 2022 23:12:08 +0300 (MSK)
-Received: from vla5-3832771863b8.qloud-c.yandex.net
- (vla5-3832771863b8.qloud-c.yandex.net [2a02:6b8:c18:3417:0:640:3832:7718])
-	by vla1-0c91d72e5963.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- PT5vyYv0bM-C8c8qUCt;
-	Sat, 05 Feb 2022 23:12:08 +0300
+ header.s=mail header.b=ATMgW1FF;
+ spf=pass (domain: zhukoff.net, ip: 5.45.198.247, mailfrom: pavel@zhukoff.net)
+Received: from sas2-5b46325ecb6a.qloud-c.yandex.net
+ (sas2-5b46325ecb6a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:251e:0:640:5b46:325e])
+	by forward104j.mail.yandex.net (Yandex) with ESMTP id 4B5A92F98698;
+	Sat,  5 Feb 2022 23:34:17 +0300 (MSK)
+Received: from sas2-e7f6fb703652.qloud-c.yandex.net
+ (sas2-e7f6fb703652.qloud-c.yandex.net [2a02:6b8:c14:4fa6:0:640:e7f6:fb70])
+	by sas2-5b46325ecb6a.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ U4CMjIcWwF-YGeS6RIx;
+	Sat, 05 Feb 2022 23:34:17 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1644091928;
-	bh=Y5m+/ewQzJoZhAM0b0F84pXWMq0H/ZEV7qWGa8BPpZs=;
-	h=Date:Subject:To:From:Message-Id:Cc;
-	b=HvExMfT/uUDweRo56surriX7JCCNi2NIGXd7KwJDHzl6yMQbroyw4vSeDfc/PAvNz
-	 nyt+Q0HgMKFcW1xJtFsZt+1nZbiHOueqh3K/OWhKYsJhA06kRJ6dxjoTk/UBbQ3uoJ
-	 jUxD1LvkjAKkaZ+ycXZYKBxoD2cK42Za7gCH68js=
-Authentication-Results: vla1-0c91d72e5963.qloud-c.yandex.net;
+ t=1644093257;
+	bh=b1gfKq2Hd4PtJsNpNTRTr4wL0rEc6GMaW0JA+W5CDSs=;
+	h=In-Reply-To:References:Date:Subject:To:From:Message-Id:Cc;
+	b=ATMgW1FF8IinVI+10hvpWw8oYPU823xQqcTfElPfCRbc/nK3ngP19ZHKuj7bTCFkq
+	 VnMepq0f5D0cGfYCyX3G482FUTCKFsa8k/8en7s3w89GiNLzC8wT15EDsMtoUg1zAy
+	 3EtXyOpgAW2jxmXT8QAC0D88wKaWa39ozPcBLq4Q=
+Authentication-Results: sas2-5b46325ecb6a.qloud-c.yandex.net;
  dkim=pass header.i=@zhukoff.net
-Received: by vla5-3832771863b8.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id Sp8exbqGXy-C6HG8H6f;
-	Sat, 05 Feb 2022 23:12:07 +0300
+Received: by sas2-e7f6fb703652.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id gKq2ZSxdGU-YFHu7qim;
+	Sat, 05 Feb 2022 23:34:16 +0300
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(Client certificate not present)
 X-Yandex-Fwd: 2
@@ -47,19 +42,21 @@ From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
 Cc: pavel@zhukoff.net,
 	Pavel Zhukov <pavel.zhukov@huawei.com>
-Subject: [PATCH] systemd: enable KeepConfiguration= when running on network
+Subject: [PATCHv2] systemd: enable KeepConfiguration= when running on network
  filesystem
-Date: Sat,  5 Feb 2022 21:11:12 +0100
-Message-Id: <20220205201111.14420-1-pavel@zhukoff.net>
+Date: Sat,  5 Feb 2022 21:33:22 +0100
+Message-Id: <20220205203320.25459-1-pavel@zhukoff.net>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <16D0FCE7625EB2B9.20549@lists.openembedded.org>
+References: <16D0FCE7625EB2B9.20549@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Feb 2022 20:12:15 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Feb 2022 20:34:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161390
+ https://lists.openembedded.org/g/openembedded-core/message/161391
 
 This fix boot from NFS for systemd enabled systems. Previously
 systemd-networkd dropped network configuration on exit from initrd even
@@ -79,7 +76,7 @@ diff --git a/meta/recipes-core/systemd/systemd/0029-network-enable-KeepCo=
 nfiguration-when-running-on-net.patch b/meta/recipes-core/systemd/systemd=
 /0029-network-enable-KeepConfiguration-when-running-on-net.patch
 new file mode 100644
-index 0000000000..4943a0fe5c
+index 0000000000..782b9645cb
 --- /dev/null
 +++ b/meta/recipes-core/systemd/systemd/0029-network-enable-KeepConfigura=
 tion-when-running-on-net.patch
@@ -92,8 +89,9 @@ twork
 + filesystem
 +Cc: pavel@zhukoff.net
 +
-+Upstream-Status: Pending
-+Upstream-Url: https://github.com/systemd/systemd/pull/22383/commits
++Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/2238=
+3]
++[YOCTO #14708]
 +
 +network-generator: rename DHCP_TYPE_DHCP -> DHCP_TYPE_DHCP4
 +
