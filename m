@@ -1,263 +1,258 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9653C433F5
-	for <webhook@archiver.kernel.org>; Fri,  4 Feb 2022 21:30:58 +0000 (UTC)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web08.15500.1644010257614002067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32639C433EF
+	for <webhook@archiver.kernel.org>; Sat,  5 Feb 2022 00:06:53 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.1270.1644019611722449555
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 13:30:57 -0800
+ Fri, 04 Feb 2022 16:06:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eG3Z+uQq;
- spf=pass (domain: gmail.com, ip: 209.85.222.49,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id f13so708589uab.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=a8P8xz2g;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
+ mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id p15so23834325ejc.7
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Feb 2022 13:30:57 -0800 (PST)
+ Fri, 04 Feb 2022 16:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7kf1pzcOwpJ9Xh00WxxJ/7ktPDcENN2w/Htb7MXdI38=;
-        b=eG3Z+uQqRMAzTrmSpsV/o8LBtPOwK6JDmpiUEb80ADmqep+ZNgrw0RKIHH0a6Annwx
-         JWO+exBEv173QldVOxeIrdn3E/bVRATdwRn65yoxklOD36kixuGnzXkkU75AHdZE8rXO
-         ypuhcsx0MA5LzOM72REXCq2s4+41tq7oxJqXiIEZdrunoDVY+vGK1qeOZ9Z2e9TleuoB
-         UCCIdtKU8IC/NAUE9/tieecB6VPWLhsFcJdZZ0DTMM0dX7lN0LHkVcP46GTUoKaVzn74
-         7sVrz8qJJs+IYeI+6zAqqjKrBR5jnLAGtirD9bx2WjiznK1UusbTB1We5ZA72YCMISOz
-         7wUQ==
+        bh=Zh3R7Q1Lu4e12mLwgM0/19OeS4K2Cm/eJYBFCDHEmAw=;
+        b=a8P8xz2gNKAqQR+3ZMpXoTMhdj40YDXFIv9jqYdMD/Y+4Z+U2NjFh6F24/C2I60L7m
+         BcxsC4SJeXwzY5tPMg4rD+gdEbDt7Idibfs6A1XArUnljvZrX3DnGSA4sEHF8pCjqrkO
+         9hlwwnDNtbXOYjN60aA+1jJePwcSjEmlEFBMoY5DCNVcsBvwHMvaHKp3HWW4hKdydMeo
+         MCWaRApu0O1RBGqyIX6D5/GrCKJ2VoaImwKnojER324wTZm17F2HuPHZPSB19YJ5uPTj
+         lZrP3VIQ3EV5Y8UjpV2ug4oBDaXrXSBpkaqJz5436KSCsV2pQn2rkQ+2YRexfPkYgl7X
+         nfsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7kf1pzcOwpJ9Xh00WxxJ/7ktPDcENN2w/Htb7MXdI38=;
-        b=TQyr04sfrfsVA+w8W7afCdqzjqDwF4Asw17hrUjm8m7CqmKyi4lLgkjvPU6EktnpMR
-         KV3hz+0UwfKZprviOosFkZ/p4cP5liAYZg8ouuAemM/664n4appZ3P7jJwcHDZcj+DhC
-         /+5piXRsZu7cAEV6obM+bvGrlI2AVJi7j4mrPaCbNVqnA8OuVMYGzdzS/OK8Vlp2k6+R
-         jp8ZelpEhT3wFpH/2Av5Y4nH4TK3+u2Xg0Pt6n4x5S/1C69mMuzDWqqVyq5321sdQIqR
-         qp+8C3bedULx+F9IaFYd6Eki3ltYzVXM/1pVhBiuay0oFnZ7U/jyKon2TZCOFRuGCiqu
-         RYfw==
-X-Gm-Message-State: AOAM531o+JkOkL1eZk6AdUALiKg0T7Kty88z4hvyxFRYAT2AVXgxaFR+
-	dI6r09EdfW5YUZUuMLHGt1z5T1uzWO4089+3X0g=
+        bh=Zh3R7Q1Lu4e12mLwgM0/19OeS4K2Cm/eJYBFCDHEmAw=;
+        b=oynixERzreKyiW3epDI7zfpgHs+kyZgRpGosHbHY7BBL6DL3goBYxdaBDDSFYzeuEw
+         kZV2g8Pl0f3Nwqcc0jUw45AZw8sN90r2uhWzkAa+jDz8d0xlAM+euAuievzwZdIhX1gY
+         buMpMQWdnn3xiWpINMvi3Lz0qqGYo7eVOttHTAqJDjsv1b5CcUjJ+TwB8iI/volDoeig
+         jEQzFTaTNpc2e797n5C+AVpgoJZ1FDOfwuiUjV7YGfXoNQk/k+Fia3E3r9k18FjTAp6g
+         gTIVZ6+IUFSTO/rCPpatZ767p4WQJnWovDcDh/2qaiCmZBRaWxdMc4iD8Iv0pTpc1XaJ
+         oRSw==
+X-Gm-Message-State: AOAM531N7RiybslUiAOCW7KjSLKnwpam+gRyn3X6tvvSu13egnViqcxH
+	7JleTvB+/g96zcjAMbMjK21FkBv1WkcUFwmXm0U=
 X-Google-Smtp-Source: 
- ABdhPJx5lH2rbYaLVuyXJL4ZBCa3n2CBntdR8TBCiadLTWpNKOu76mYN57vZ6QbEtzA1pn5CSH11vMeE71kPEUCmx/k=
-X-Received: by 2002:a67:b241:: with SMTP id s1mr1558086vsh.73.1644010256668;
- Fri, 04 Feb 2022 13:30:56 -0800 (PST)
+ ABdhPJwoqa9K3ZW129Sl4HW4xDfZQV1Svlcl5fFNSiXGFR+vP9nL5692jUKKAe2rPhoPgr3x9G36LNdZNp1zeGzCOtg=
+X-Received: by 2002:a17:906:71c2:: with SMTP id
+ i2mr1142521ejk.409.1644019610047;
+ Fri, 04 Feb 2022 16:06:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20220204204027.2323845-1-alex@linutronix.de>
- <CABcZANmbN3PFXY1VWqgYY=p3emwWGWGDTRt9WOEPav3D9vK2zA@mail.gmail.com>
+References: <cover.1643917717.git.steve@sakoman.com>
+ <8785405a214b5af5da0b5deae559539531b1c237.1643917717.git.steve@sakoman.com>
 In-Reply-To: 
- <CABcZANmbN3PFXY1VWqgYY=p3emwWGWGDTRt9WOEPav3D9vK2zA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 4 Feb 2022 22:30:45 +0100
+ <8785405a214b5af5da0b5deae559539531b1c237.1643917717.git.steve@sakoman.com>
+From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+Date: Sat, 5 Feb 2022 05:36:37 +0530
 Message-ID: 
- <CANNYZj8pCH+ytocLzzTERfeLDjOuYMTZq8g4PbWy7aAhMA4a3Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when host
- gl drivers are in use
-To: Christopher Larson <kergoth@gmail.com>
+ <CACpMEhNHsdTARC6GvPJmhPR5p0TL-NLqupJNc91XFuN_vm+r1A@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 01/20] glibc: update to lastest 2.31 release
+ HEAD
+To: Steve Sakoman <steve@sakoman.com>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="0000000000005b1c6805d737f77b"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000dc5a5d05d73a24fe"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Feb 2022 21:30:58 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Feb 2022 00:06:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161385
+ https://lists.openembedded.org/g/openembedded-core/message/161386
 
---0000000000005b1c6805d737f77b
+--000000000000dc5a5d05d73a24fe
 Content-Type: text/plain; charset="UTF-8"
 
-The dynamic loader will print an error about missing libraries, but will
-execute the binary regardless.
+It seems in commit message you have mentioned 2 times CVE-2022-23218
+instead of CVE-2022-23218 and CVE-2022-23219.
 
-Alex
+On Fri, 4 Feb, 2022, 1:21 am Steve Sakoman, <steve@sakoman.com> wrote:
 
-On Fri, 4 Feb 2022 at 22:17, Christopher Larson <kergoth@gmail.com> wrote:
-
-> What will this do if uninative isn't enabled?
+> Includes the following fixes:
 >
-> On Fri, Feb 4, 2022 at 1:40 PM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
+> 3ef8be9b89 CVE-2022-23218: Buffer overflow in sunrpc svcunix_create (bug
+> 28768)
+> e5c8da9826 <shlib-compat.h>: Support compat_symbol_reference for _ISOMAC
+> 412aaf1522 sunrpc: Test case for clnt_create "unix" buffer overflow (bug
+> 22542)
+> c4c833d3dd CVE-2022-23219: Buffer overflow in sunrpc clnt_create for
+> "unix" (bug 22542)
+> 547b63bf6d socket: Add the __sockaddr_un_set function
+> b061e95277 Revert "Fix __minimal_malloc segfaults in __mmap due to
+> stack-protector"
+> 95e206b67f Fix __minimal_malloc segfaults in __mmap due to stack-protector
+> e26a2db141 gconv: Do not emit spurious NUL character in ISO-2022-JP-3 (bug
+> 28524)
+> 094618d401 x86_64: Remove unneeded static PIE check for undefined weak
+> diagnostic
 >
->> Some of the host distributions build the drivers in a way (RPATH/RUNPATH)
->> that tricks uninative loader into loading pieces of the host libc, if
->> the same pieces haven't been previously loaded by native binaries. Mixing
->> the two libc versions leads to failures.
->>
->> This change ensures that the correct (uninative) versions are always in
->> use.
->>
->> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->> ---
->>  meta/classes/qemuboot.bbclass | 2 +-
->>  scripts/runqemu               | 4 ++++
->>  2 files changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
->> index cc1cbce69d..229bd88527 100644
->> --- a/meta/classes/qemuboot.bbclass
->> +++ b/meta/classes/qemuboot.bbclass
->> @@ -109,7 +109,7 @@ def qemuboot_vars(d):
->>      build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
->>                  'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
->>                  'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
->> -                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
->> +                'STAGING_DIR_HOST', 'SERIAL_CONSOLES',
->> 'UNINATIVE_LOADER']
->>      return build_vars + [k for k in d.keys() if k.startswith('QB_')]
->>
->>  do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index 4e05c1bb15..7d1f85f357 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -460,6 +460,10 @@ class BaseConfig(object):
->>          except subprocess.CalledProcessError as e:
->>              raise RunQemuError("Could not determine the path to dri
->> drivers on the host via pkg-config.\nPlease install Mesa development files
->> (particularly, dri.pc) on the host machine.")
->>          os.environ['LIBGL_DRIVERS_PATH'] =
->> dripath.decode('utf-8').strip()
->> +        uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
->> +        preload_items = ['libdl.so.2', 'librt.so.1', 'libpthread.so.0']
->> +        preload_paths = [os.path.join(uninative_path, i) for i in
->> preload_items]
->> +        os.environ['LD_PRELOAD'] = " ".join(preload_paths)
->>
->>      def check_args(self):
->>          for debug in ("-d", "--debug"):
->> --
->> 2.20.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#161382):
->> https://lists.openembedded.org/g/openembedded-core/message/161382
->> Mute This Topic: https://lists.openembedded.org/mt/88916306/3617123
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> kergoth@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->>
+> Also add CVE-2022-23218 and CVE-2022-23218 to ignore list since they are
+> fixed
+> by the above changes.
 >
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  meta/recipes-core/glibc/glibc_2.31.bb     | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc
+> b/meta/recipes-core/glibc/glibc-version.inc
+> index aac0d9b3bf..68efd09ece 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?= "release/2.31/master"
+>  PV = "2.31+git${SRCPV}"
+> -SRCREV_glibc ?= "4f0a61f75385c9a5879cbe7202042e88f692a3c8"
+> +SRCREV_glibc ?= "3ef8be9b89ef98300951741f381eb79126ac029f"
+>  SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
+>
+>  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+> diff --git a/meta/recipes-core/glibc/glibc_2.31.bb
+> b/meta/recipes-core/glibc/glibc_2.31.bb
+> index 4a545cb97d..0c37467fe4 100644
+> --- a/meta/recipes-core/glibc/glibc_2.31.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.31.bb
+> @@ -3,6 +3,7 @@ require glibc-version.inc
+>
+>  CVE_CHECK_WHITELIST += "CVE-2020-10029 CVE-2020-6096 CVE-2016-10228
+> CVE-2020-1751 CVE-2020-1752 \
+>                          CVE-2021-27645 CVE-2021-3326 CVE-2020-27618
+> CVE-2020-29562 CVE-2019-25013 \
+> +                        CVE-2022-23218 CVE-2022-23219 \
+>  "
+>
+>  # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022
 > --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161296):
+> https://lists.openembedded.org/g/openembedded-core/message/161296
+> Mute This Topic: https://lists.openembedded.org/mt/88891348/6360406
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ranjitsinhrathod1991@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 >
 
---0000000000005b1c6805d737f77b
+--000000000000dc5a5d05d73a24fe
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>The dynamic loader will print an error about missing =
-libraries, but will execute the binary regardless.</div><div><br></div><div=
->Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, 4 Feb 2022 at 22:17, Christopher Larson &lt;<a href=
-=3D"mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">What will t=
-his do if uninative isn&#39;t enabled?</div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 4, 2022 at 1:40 PM Alexan=
-der Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank"=
->alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Some of the host distributions build the drivers in =
-a way (RPATH/RUNPATH)<br>
-that tricks uninative loader into loading pieces of the host libc, if<br>
-the same pieces haven&#39;t been previously loaded by native binaries. Mixi=
-ng<br>
-the two libc versions leads to failures.<br>
+<div dir=3D"auto"><div>It seems in commit message you have mentioned 2 time=
+s CVE-2022-23218 instead of CVE-2022-23218 and CVE-2022-23219.<br><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 4 Feb, =
+2022, 1:21 am Steve Sakoman, &lt;<a href=3D"mailto:steve@sakoman.com">steve=
+@sakoman.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Include=
+s the following fixes:<br>
 <br>
-This change ensures that the correct (uninative) versions are always in use=
-.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;<br>
----<br>
-=C2=A0meta/classes/qemuboot.bbclass | 2 +-<br>
-=C2=A0scripts/runqemu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 4 ++++<br>
-=C2=A02 files changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass<=
+3ef8be9b89 CVE-2022-23218: Buffer overflow in sunrpc svcunix_create (bug 28=
+768)<br>
+e5c8da9826 &lt;shlib-compat.h&gt;: Support compat_symbol_reference for _ISO=
+MAC<br>
+412aaf1522 sunrpc: Test case for clnt_create &quot;unix&quot; buffer overfl=
+ow (bug 22542)<br>
+c4c833d3dd CVE-2022-23219: Buffer overflow in sunrpc clnt_create for &quot;=
+unix&quot; (bug 22542)<br>
+547b63bf6d socket: Add the __sockaddr_un_set function<br>
+b061e95277 Revert &quot;Fix __minimal_malloc segfaults in __mmap due to sta=
+ck-protector&quot;<br>
+95e206b67f Fix __minimal_malloc segfaults in __mmap due to stack-protector<=
 br>
-index cc1cbce69d..229bd88527 100644<br>
---- a/meta/classes/qemuboot.bbclass<br>
-+++ b/meta/classes/qemuboot.bbclass<br>
-@@ -109,7 +109,7 @@ def qemuboot_vars(d):<br>
-=C2=A0 =C2=A0 =C2=A0build_vars =3D [&#39;MACHINE&#39;, &#39;TUNE_ARCH&#39;,=
- &#39;DEPLOY_DIR_IMAGE&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;KERNEL_I=
-MAGETYPE&#39;, &#39;IMAGE_NAME&#39;, &#39;IMAGE_LINK_NAME&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;STAGING_=
-DIR_NATIVE&#39;, &#39;STAGING_BINDIR_NATIVE&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;STAGING_DIR_H=
-OST&#39;, &#39;SERIAL_CONSOLES&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;STAGING_DIR_H=
-OST&#39;, &#39;SERIAL_CONSOLES&#39;, &#39;UNINATIVE_LOADER&#39;]<br>
-=C2=A0 =C2=A0 =C2=A0return build_vars + [k for k in d.keys() if k.startswit=
-h(&#39;QB_&#39;)]<br>
+e26a2db141 gconv: Do not emit spurious NUL character in ISO-2022-JP-3 (bug =
+28524)<br>
+094618d401 x86_64: Remove unneeded static PIE check for undefined weak diag=
+nostic<br>
 <br>
-=C2=A0do_write_qemuboot_conf[vardeps] +=3D &quot;${@&#39; &#39;.join(qemubo=
-ot_vars(d))}&quot;<br>
-diff --git a/scripts/runqemu b/scripts/runqemu<br>
-index 4e05c1bb15..7d1f85f357 100755<br>
---- a/scripts/runqemu<br>
-+++ b/scripts/runqemu<br>
-@@ -460,6 +460,10 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except subprocess.CalledProcessError as e=
-:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise RunQemuError(&quot;Co=
-uld not determine the path to dri drivers on the host via pkg-config.\nPlea=
-se install Mesa development files (particularly, dri.pc) on the host machin=
-e.&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.environ[&#39;LIBGL_DRIVERS_PATH&#39;] =
-=3D dripath.decode(&#39;utf-8&#39;).strip()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uninative_path =3D os.path.dirname(self.get(&q=
-uot;UNINATIVE_LOADER&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 preload_items =3D [&#39;libdl.so.2&#39;, &#39;=
-librt.so.1&#39;, &#39;libpthread.so.0&#39;]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 preload_paths =3D [os.path.join(uninative_path=
-, i) for i in preload_items]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.environ[&#39;LD_PRELOAD&#39;] =3D &quot; &q=
-uot;.join(preload_paths)<br>
+Also add CVE-2022-23218 and CVE-2022-23218 to ignore list since they are fi=
+xed<br>
+by the above changes.<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0def check_args(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for debug in (&quot;-d&quot;, &quot;--deb=
-ug&quot;):<br>
+Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" targe=
+t=3D"_blank" rel=3D"noreferrer">steve@sakoman.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/glibc/glibc-version.inc | 2 +-<br>
+=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.31.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.31.bb</a>=C2=A0 =C2=A0 =C2=A0| =
+1 +<br>
+=C2=A02 files changed, 2 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/=
+glibc/glibc-version.inc<br>
+index aac0d9b3bf..68efd09ece 100644<br>
+--- a/meta/recipes-core/glibc/glibc-version.inc<br>
++++ b/meta/recipes-core/glibc/glibc-version.inc<br>
+@@ -1,6 +1,6 @@<br>
+=C2=A0SRCBRANCH ?=3D &quot;release/2.31/master&quot;<br>
+=C2=A0PV =3D &quot;2.31+git${SRCPV}&quot;<br>
+-SRCREV_glibc ?=3D &quot;4f0a61f75385c9a5879cbe7202042e88f692a3c8&quot;<br>
++SRCREV_glibc ?=3D &quot;3ef8be9b89ef98300951741f381eb79126ac029f&quot;<br>
+=C2=A0SRCREV_localedef ?=3D &quot;cd9f958c4c94a638fa7b2b4e21627364f1a1a655&=
+quot;<br>
+<br>
+=C2=A0GLIBC_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.org/git/g=
+libc.git" rel=3D"noreferrer noreferrer" target=3D"_blank">sourceware.org/gi=
+t/glibc.git</a>&quot;<br>
+diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.31.bb" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">glibc_2.31.bb</a> b/meta/recip=
+es-core/glibc/<a href=3D"http://glibc_2.31.bb" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">glibc_2.31.bb</a><br>
+index 4a545cb97d..0c37467fe4 100644<br>
+--- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.31.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.31.bb</a><br>
++++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.31.bb" rel=3D"noref=
+errer noreferrer" target=3D"_blank">glibc_2.31.bb</a><br>
+@@ -3,6 +3,7 @@ require glibc-version.inc<br>
+<br>
+=C2=A0CVE_CHECK_WHITELIST +=3D &quot;CVE-2020-10029 CVE-2020-6096 CVE-2016-=
+10228 CVE-2020-1751 CVE-2020-1752 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0CVE-2021-27645 CVE-2021-3326 CVE-2020-27618 CVE-2020-29562=
+ CVE-2019-25013 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 CVE-2022-23218 CVE-2022-23219 \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0# glibc <a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=
+=3DCVE-2019-1010022" rel=3D"noreferrer noreferrer" target=3D"_blank">https:=
+//web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-1010022</a><br>
 -- <br>
-2.20.1<br>
+2.25.1<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#161382): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/161382" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/161382</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88916306/3617=
-123" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88916306/3617123</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+View/Reply Online (#161296): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/161296" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/161296</a><=
 br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88891348/6360=
+406" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/mt/88891348/6360406</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:kergoth@gmail.com" target=
-=3D"_blank">kergoth@gmail.com</a>]<br>
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:ranjitsinhratho=
+d1991@gmail.com" target=3D"_blank" rel=3D"noreferrer">ranjitsinhrathod1991@=
+gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gm=
-ail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Softwa=
-re Engineer, Mentor Graphics</div></div></div></div>
-</blockquote></div>
+</blockquote></div></div></div>
 
---0000000000005b1c6805d737f77b--
+--000000000000dc5a5d05d73a24fe--
 
