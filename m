@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B07C43217
-	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 21:53:25 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.14364.1644184404484068360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7890C4321E
+	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 21:53:26 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web09.14366.1644184405285969411
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 13:53:24 -0800
+ Sun, 06 Feb 2022 13:53:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fytxugYe;
- spf=pass (domain: gmail.com, ip: 209.85.208.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=d4LnGHqd;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id cz16so7664461edb.8
+Received: by mail-ej1-f50.google.com with SMTP id og43so12519245ejc.0
         for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 13:53:24 -0800 (PST)
+ Sun, 06 Feb 2022 13:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bGJuodjA8v4dDLiMdV5+f4n+JdNhtoj0NwYzxyKQVm0=;
-        b=fytxugYeoA3MihhGwkdwgD3dK3fNWTqFIig1AMMyyHwnaGKpgJU6MwPPDFb9i4Tt2y
-         ZxMzKGTFcgNT8RPuyPPozqKAs6HKVGCLMWLa/fneKpY2ogECWOwXn416GhiRxNz1Yjj9
-         aAY9ABuLCtHwdLpULP2551rjuNGkQ8vAuaYKpVxdbkz7pVrTZtmRT6e0le6mX1aQJQV7
-         l/trtlNSt08bKKAUyDfREq4pvNFvXR6u8E1AhHd5cfgk1Fc7lrypUh/ai6gpCrJcaZy/
-         OhBmfIjrxz5Qjft5q6WVTrO2CbdY7hzFC6TDZXqAsatoC4k8kXmYp21koNM/VH77yUM8
-         wDOA==
+        bh=pQU8DYNZ7xjQxdMFYZDNqNdvCM+07b5LD8ImkErQ6qo=;
+        b=d4LnGHqdt2gmV9/XJs+FM+S3ZbdTy3LbCbKiBDHszAtmU7xt16XtqBB+kilQ9F9gBK
+         k41ngT6iEX/TFlrLq+H7Bx2XCstDyASMjPGRKo/6pW25CvsgWE94wo8QP7L5YlsyB6BB
+         Ycx1oD8HvAzLscKrW8aZlsUbZ7RKUcN+bU5J21Fx/X9u35wSLH+doLtCFM26GQuIGnL8
+         px+iX/NWyfsgBByPsQ4tzjxVsz+/JI+90i1nYOl14v93w6VxP42WJ9nhCR/g0pu4j2+T
+         4B+Am0O08uLdCSUc95NyjWFtBc0PCkvbqzbw+LTE85I41I9pCFqnJk8tcYfyQhYfnt5A
+         4dIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bGJuodjA8v4dDLiMdV5+f4n+JdNhtoj0NwYzxyKQVm0=;
-        b=xEP7e/cLffepy/7N37PMnuSJRQXkQxi5CJ5ivu5cbTLdL5IID4HSeGHc+0aPw3BN9f
-         2UBn1l6AJypwTPLSzKoHPIkOJt7BSikHiORg6bHtCTu1EXjIIuB9KkbSGzGBOKRF6MWn
-         GFRhkErEMcBet/AXEm+/t3FRPxPZIwRbjZgbvssbx063p8M0ePjsm1hQtT5c9M7cC0n0
-         zA7wfecX6K63j8yDR5zU+lE58lOVtlS/tg87r1emZnUgC7Zuk4P76RP9uF5SZ8ORM4wX
-         YOPqcDspgRsEXGqSQa5uINDHDpUq1/+X+jGiD/KwMAhYEPzKKrUiHK9MxLHjuvh0KNo4
-         b39w==
-X-Gm-Message-State: AOAM532cuJsPz9MXIxx3CCsAaNinJ/tpWIfzbea0vsEp/nN5Y6Un+ecj
-	lGjhD4L3uYivXXJckDdRJHFd1yBNFcA=
+        bh=pQU8DYNZ7xjQxdMFYZDNqNdvCM+07b5LD8ImkErQ6qo=;
+        b=nnN1oyOSVneyMQLvmoLTIIe/HzHrxyX36k0pBU34gvgr8cj6ONeCVs26yGNQl7vDIS
+         4f65pNPXI8REMCV1MIwUlCz5CgWXSD0b7lCo2MTkdVCgEiAUda6I8SUBsxTEfpxtMbCW
+         45XYQe8tHiuR9n6kLVQkOyZSSL17+yVFlsm+432BrBWfUslNBUFQ9w2h7c+dT2XRabom
+         rhdfM6zy/+9++5JuJd79OmFfv/Z7ISPPHsJc6fJNfxCUXy+S9xINvCcsE1FDUs4y3mWG
+         xmv9PdxnVXiwCsqKNaZwGzJiCYKCxrNeuANjMwwefyKZsqTGq0OqP+888uzOa6HICME3
+         L5Bw==
+X-Gm-Message-State: AOAM5331ZMY36mYbbr68lDe4H1/KQh2YOAjoLVEG/wG+sYNhwXAWVoNU
+	20vuuRpz2Z4laUJkWs9qngI7vuaT6OM=
 X-Google-Smtp-Source: 
- ABdhPJyYS/p9YAEZDV7eH1n7tNqby0yqG1M2eR3tGOD5tUr/Y7lJeBFrmlQIuFRnTYrxAglWRMTffA==
-X-Received: by 2002:a05:6402:2747:: with SMTP id
- z7mr10620186edd.227.1644184403124;
+ ABdhPJyoOv+ehXsQ8e4JKrKFuKGmIz5DQZ5Pla+BC460gF6r1H2cWowGEoYnsOHVEihgd2ajAs/QsA==
+X-Received: by 2002:a17:907:1b1a:: with SMTP id
+ mp26mr7503633ejc.450.1644184403854;
         Sun, 06 Feb 2022 13:53:23 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- j11sm1191927ejb.110.2022.02.06.13.53.22
+ j11sm1191927ejb.110.2022.02.06.13.53.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Feb 2022 13:53:22 -0800 (PST)
+        Sun, 06 Feb 2022 13:53:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 5/8] python3-numpy: update 1.22.1 -> 1.22.2
-Date: Sun,  6 Feb 2022 22:53:13 +0100
-Message-Id: <20220206215316.367469-5-alex@linutronix.de>
+Subject: [PATCH 6/8] runqemu: preload uninative libraries when host gl drivers
+ are in use
+Date: Sun,  6 Feb 2022 22:53:14 +0100
+Message-Id: <20220206215316.367469-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220206215316.367469-1-alex@linutronix.de>
 References: <20220206215316.367469-1-alex@linutronix.de>
@@ -66,84 +67,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 21:53:25 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 21:53:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161417
+ https://lists.openembedded.org/g/openembedded-core/message/161418
 
-Replace an ad hoc fix via patch with an upstream one.
+Some of the host distributions build the drivers in a way (RPATH/RUNPATH)
+that tricks uninative loader into loading pieces of the host libc, if
+the same pieces haven't been previously loaded by native binaries. Mixing
+the two libc versions leads to failures.
+
+This change ensures that the correct (uninative) versions are always in use.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...y-core-setup.py-disable-svml-for-now.patch | 29 -------------------
- ...umpy_1.22.1.bb => python3-numpy_1.22.2.bb} |  7 +++--
- 2 files changed, 5 insertions(+), 31 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
- rename meta/recipes-devtools/python/{python3-numpy_1.22.1.bb => python3-numpy_1.22.2.bb} (93%)
+ meta/classes/qemuboot.bbclass | 2 +-
+ scripts/runqemu               | 8 ++++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
-deleted file mode 100644
-index 66e322116a..0000000000
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-setup.py-disable-svml-for-now.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 0f0601e79f9ce7614d157284523e6cd8af2259d5 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Wed, 5 Jan 2022 12:12:47 +0100
--Subject: [PATCH] numpy/core/setup.py: disable svml for now
--
--The check really doesn't work in cross compiling,
--as it is using host python to see what arch we're
--building on. Issue reported upstream:
--https://github.com/numpy/numpy/issues/20736
--
--Upstream-Status: Inappropriate [needs upstream fix]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- numpy/core/setup.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/numpy/core/setup.py b/numpy/core/setup.py
--index a5f423d..945f2dd 100644
----- a/numpy/core/setup.py
--+++ b/numpy/core/setup.py
--@@ -70,7 +70,7 @@ def can_link_svml():
--     """
--     machine = platform.machine()
--     system = platform.system()
---    return "x86_64" in machine and system == "Linux"
--+    return False
-- 
-- def check_svml_submodule(svmlpath):
--     if not os.path.exists(svmlpath + "/README.md"):
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.22.1.bb b/meta/recipes-devtools/python/python3-numpy_1.22.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-numpy_1.22.1.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.22.2.bb
-index b79ce61fbf..ba0a777551 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.22.1.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.22.2.bb
-@@ -11,9 +11,8 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
--           file://0001-numpy-core-setup.py-disable-svml-for-now.patch \
-            "
--SRC_URI[sha256sum] = "dd1968402ae20dfd59b34acd799b494be340c774f6295e9bf1c2b9842a5e416d"
-+SRC_URI[sha256sum] = "093d513a460fd94f94c16193c3ef29b2d69a33e482071e3d6d6e561a700587a6"
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index cc1cbce69d..229bd88527 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -109,7 +109,7 @@ def qemuboot_vars(d):
+     build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
+                 'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
+                 'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
+-                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
++                'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
+     return build_vars + [k for k in d.keys() if k.startswith('QB_')]
  
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-@@ -26,6 +25,10 @@ S = "${WORKDIR}/numpy-${PV}"
+ do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 4e05c1bb15..d60cb2e152 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -461,6 +461,14 @@ class BaseConfig(object):
+             raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
+         os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
  
- CLEANBROKEN = "1"
- 
-+do_compile:prepend() {
-+    export NPY_DISABLE_SVML=1
-+}
++        # This preloads uninative libc pieces and therefore ensures that RPATH/RUNPATH
++        # in host mesa drivers doesn't trick uninative into loading host libc.
++        preload_items = ['libdl.so.2', 'librt.so.1', 'libpthread.so.0']
++        uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
++        if os.path.exists(uninative_path):
++            preload_paths = [os.path.join(uninative_path, i) for i in preload_items]
++            os.environ['LD_PRELOAD'] = " ".join(preload_paths)
 +
- FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
- 
- # install what is needed for numpy.test()
+     def check_args(self):
+         for debug in ("-d", "--debug"):
+             if debug in sys.argv:
 -- 
 2.20.1
 
