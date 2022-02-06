@@ -1,50 +1,34 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E69C433EF
-	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 17:43:18 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
- [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web10.11433.1644169396306264893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F86C433F5
+	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 19:07:53 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.12304.1644174471977265548
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 09:43:16 -0800
+ Sun, 06 Feb 2022 11:07:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=J7Jip81U;
- spf=pass (domain: gmail.com, ip: 209.85.222.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id b37so19367749uad.12
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 09:43:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4Zv7ck0PCxe6dm2bW4m90EIJ3zHPWFoFUXSjPGnRRFo=;
-        b=J7Jip81Ug4TMC8GsWN/u6ZLLfPyyDtHXx7JVM/dZVQZ7qTKkl5dDY82wLK4WxCj8kY
-         8YfK+4mk+4Fpqg7zb/b+HrsapFClxXUsCDKUfa5q2uYs0J516f52t+nMDM2oT8FGeRpS
-         DXhkW2oqOva4bSq0wSIXLHBACIWFpTfJBnlZ7gi9CHgeB6BabtiuxLCeeRWkpgFcQmV3
-         FDP1leJtoi2/BPBtKedy7TplbZIsQQ5IdxSKbYXe8YZE9zEF04X9mlOCejbtxIsHaaSD
-         WfX5+Ot9ZBoEqsmEALGXUdKuR4iqCWkrmCgEhxnVc5cVMwSu689BJZM40KUVT8EEXN8Z
-         9Byg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4Zv7ck0PCxe6dm2bW4m90EIJ3zHPWFoFUXSjPGnRRFo=;
-        b=X39N2nNx+W8y7mWXiw8X4Z5s2bVW+Grqg/Ojs31TF1Sm8w6Mwlwjj35s769kqO0ChT
-         30cqJyp7mm7zO0AI+3hsTVBPT5wMcUP4sc/PpQvB5JvBxs9j6IAM48AjK1e1JCDG3nJs
-         vknxXaEuP8JdZPyGZqGUqyAL8Frwu7UqCKlBbzli8ct03R6M388dUS+DFKcW+dri9UJB
-         8pL2P80HDxQFudkqXlpBf+Owg7zXuhuD8LRZLfsWtoCbBcOgl/3o11fqpIEIJojgrlgf
-         AAx5zkjXr/wQ1ZjXWf3eggtdOqc1e6lFgIKbkc0u10ew5g0Ff+Jb4JV6PJy9wzDKXqyw
-         pBuA==
-X-Gm-Message-State: AOAM5325QeBHjctnXjWqqVjrMA9vESwj0N6pFtl26xC07ZFSjNnTgB7v
-	PiGEPDCnANrvVru3Wb8jvK1r7/XJHFgcJ09sHIM=
-X-Google-Smtp-Source: 
- ABdhPJyTosPqyeJZkWTS68QF9ysPE9dIHiRr8/CO4rxqbKecGdmQUfjITjAA3wOPI7DDvEntuNq1vL8kubXJUfEo6+Y=
-X-Received: by 2002:ab0:2705:: with SMTP id s5mr2314612uao.22.1644169395471;
- Sun, 06 Feb 2022 09:43:15 -0800 (PST)
+ dkim=missing;
+ spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57,
+ mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.107] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 216J5jto006089;
+	Sun, 6 Feb 2022 13:05:45 -0600
+Message-ID: <50aaf17e-9588-6d97-9d97-8f20769404d2@kernel.crashing.org>
+Date: Sun, 6 Feb 2022 13:05:44 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.0
+Subject: Re: [OE-core] [PATCH v2 3/3] systemd: Minimize udev package size if
+ DISTRO_FEATURES contains systemd
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>,
+        Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
+        OE-core <openembedded-core@lists.openembedded.org>,
+        Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 References: <20220202073525.3413-1-stefan.herbrechtsmeier-oss@weidmueller.com>
  <20220202073525.3413-3-stefan.herbrechtsmeier-oss@weidmueller.com>
  <4cd9f1953e5a5a3287325f4cbec5c2a9e9aa84fb.camel@linuxfoundation.org>
@@ -52,100 +36,106 @@ References: <20220202073525.3413-1-stefan.herbrechtsmeier-oss@weidmueller.com>
  <d59a9eeb-4d7a-3050-bcdf-9cbdb284bdb6@kernel.crashing.org>
  <CANNYZj_sSHo29iDkJTndnyuXu57z=V976WGH6ii_T9OEAmKGxg@mail.gmail.com>
  <a5d6e75cafe701420bb355392870ffd412ac7f1f.camel@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 In-Reply-To: 
  <a5d6e75cafe701420bb355392870ffd412ac7f1f.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 6 Feb 2022 18:43:04 +0100
-Message-ID: 
- <CANNYZj-VtPqwA7-viNb4TmKFxzcC5N2dpGbXV2FUxDU=neJ9ag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] systemd: Minimize udev package size if
- DISTRO_FEATURES contains systemd
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Mark Hatle <mark.hatle@kernel.crashing.org>,
-	Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Content-Type: multipart/alternative; boundary="000000000000c4863705d75d044e"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id
+ 216J5jto006089
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 17:43:18 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 19:07:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161409
+ https://lists.openembedded.org/g/openembedded-core/message/161410
 
---000000000000c4863705d75d044e
-Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 6 Feb 2022 at 18:35, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
 
-> > Selection of init manager is a distro setting, it can be used by
-> component
-> > recipes to make decisions, and overriding it from images is neither
-> tested nor
-> > supported.
->
-> There is a hybrid where you can enable sysvinit and systemd at the same
-> time and
-> use them in different situations. We do test that and it is that test which
+On 2/6/22 11:35 AM, Richard Purdie wrote:
+> On Sun, 2022-02-06 at 18:31 +0100, Alexander Kanavin wrote:
+>> On Sun, 6 Feb 2022 at 18:27, Mark Hatle <mark.hatle@kernel.crashing.or=
+g>
+>> wrote:
+>>> It definitely works in Honister (I'm actively using it.)
+>>>
+>>> We produce a single package set, then allow for multiple image recipe=
+s to
+>>> select
+>>> which init manager to use.=C2=A0 This simplifies the eSDK, sstate-cac=
+he and
+>>> binary
+>>> package feed -- while still giving the end user the ability to switch.
+>>>
+>>
+>>
+>> Selection of init manager is a distro setting, it can be used by compo=
+nent
+>> recipes to make decisions, and overriding it from images is neither te=
+sted nor
+>> supported.
+>=20
+> There is a hybrid where you can enable sysvinit and systemd at the same=
+ time and
+> use them in different situations. We do test that and it is that test w=
+hich
 > showed issues on the autobuilder with this patch.
->
-> It isn't as easy as pick and chose either in a given image but handy for
+>=20
+> It isn't as easy as pick and chose either in a given image but handy fo=
+r
 > initramfs and some other uses.
->
 
-I believe what we test is this:
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n1034
+I've got the following in my distro:
 
-It only enables both systemd and sysvinit distro features, but does not
-redefine init managers on the image level - it remains systemd everywhere
-as explicitly set in the test (with ability to load legacy sysvinit scripts
-added to it).
+# Create packages that support both systemd and sysvinit
+# but only on arm/arm64 systems, microblaze is sysvinit only
+DISTRO_FEATURES_BACKFILL_CONSIDERED:remove:arm =3D "sysvinit systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED:remove:aarch64 =3D "sysvinit systemd"
+DISTRO_FEATURES_BACKFILL:append:arm =3D " systemd"
+DISTRO_FEATURES_BACKFILL:append:aarch64 =3D " systemd=E2=80=9D
 
-Hybrid initramfs case should be helped by the recent multiconfig patch:
+INIT_MANAGER_DEFAULT =3D "systemd"
+INIT_MANAGER_DEFAULT:microblaze =3D "sysvinit"
+INIT_MANAGER_DEFAULT:zynq =3D "sysvinit"
 
-    kernel.bbclass: Allow initramfs to be built from a separate multiconfig
+INIT_MANAGER ?=3D "${INIT_MANAGER_DEFAULT}"
 
-Alex
+Then a few configurations change the INIT_MANAGER, and (almost) all of th=
+e=20
+sstate is re-usable and things don't need to be re-built.
 
---000000000000c4863705d75d044e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The issue I have, microblaze if the filesystem is over about 80mb it does=
+n't fit=20
+into memory.  On Arm, some devices are memory limited the same way microb=
+laze=20
+is, while some have full access to flash storage and thus can use systemd=
+.  And=20
+on aarch64 - most defined (but not all) have flash storage.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, 6 Feb 2022 at 18:35, Richard Purdie &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; Se=
-lection of init manager is a distro setting, it can be used by component<br=
->
-&gt; recipes to make decisions, and overriding it from images is neither te=
-sted nor<br>
-&gt; supported.<br>
-<br>
-There is a hybrid where you can enable sysvinit and systemd at the same tim=
-e and<br>
-use them in different situations. We do test that and it is that test which=
-<br>
-showed issues on the autobuilder with this patch.<br>
-<br>
-It isn&#39;t as easy as pick and chose either in a given image but handy fo=
-r<br>
-initramfs and some other uses.<br></blockquote></div><div class=3D"gmail_qu=
-ote"><br></div><div class=3D"gmail_quote">I believe what we test is this:</=
-div><div class=3D"gmail_quote"><a href=3D"https://git.yoctoproject.org/yoct=
-o-autobuilder-helper/tree/config.json#n1034">https://git.yoctoproject.org/y=
-octo-autobuilder-helper/tree/config.json#n1034</a></div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">It only enables both systemd a=
-nd sysvinit distro features, but does not redefine init managers on the ima=
-ge level - it remains systemd everywhere as explicitly set in the test (wit=
-h ability to load legacy sysvinit scripts added to it).<br></div><div class=
-=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Hybrid initramfs case=
- should be helped by the recent multiconfig patch:</div><div class=3D"gmail=
-_quote"><br></div><div class=3D"gmail_quote">=C2=A0 =C2=A0 kernel.bbclass: =
-Allow initramfs to be built from a separate multiconfig<br></div><div class=
-=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
+This is all about sstate-cache re-use (time to build the image) and abili=
+ty to=20
+have a SINGLE binary distribution that supports the image size requiremen=
+ts of=20
+the user.
 
---000000000000c4863705d75d044e--
+--Mark
+
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161408): https://lists.openembedded.org/g/openembed=
+ded-core/message/161408
+> Mute This Topic: https://lists.openembedded.org/mt/88853822/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+mark.hatle@kernel.crashing.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
