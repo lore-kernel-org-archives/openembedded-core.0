@@ -1,344 +1,529 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D348C433EF
-	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 21:19:58 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.13810.1644182396623820437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A869AC433F5
+	for <webhook@archiver.kernel.org>; Sun,  6 Feb 2022 21:53:23 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.14430.1644184402408701962
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 13:19:57 -0800
+ Sun, 06 Feb 2022 13:53:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TJpts9B8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id s18so21500044wrv.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bpFSRNTZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id da4so3928363edb.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 13:19:56 -0800 (PST)
+ Sun, 06 Feb 2022 13:53:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=8BhhZERJRkbKY+rpkcwLe0zdkFvRmI68wKQbT61rFuU=;
-        b=TJpts9B81FPQ0S0+ENe5JW26VHinuq9FNTh/oGzcYA4C/m0RxwxdkQxjlWFptECVHR
-         6BmqV/XCiePyzlpYCqiy3510om0oSudZtjvvF7DS9eDpfXOaeiwTtRjKN05YqUua4Y0Z
-         NCVR8FLh4kPb2E6FLUI9gpTBDf1uwNRSLQq9w=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Oz6lB3aefLz4NSlN76l56rKqVUNqPJxx8upxS07zDJ0=;
+        b=bpFSRNTZRKRZ5Ja4+P/6Zs2FWC4U/FouMxtA4D37f8KiHw6mD+DRqqsuT7H7TNIEaG
+         +8ZYn8YvFKQdQL13M+Kk4RD1h6s+w4pTBr6Su+PwEsUpkHTJpHFcEac0irjFjxlvS3OL
+         GuY44m33mYvGGdvB2FSw5OJcJ37pZ/1VTQYqGTW0Nvpm3e2nNekGlYxHzD0/BuXtlP3r
+         oj+KWQI7S/VvRwkyG1+HZ3KftJiYs88gNU8/Awm8YBl5Vh953Hh5SDHMkFOJBNb84p1L
+         MDJLNTVyu71JQNPGNj2EOxH7IIdzj4tFIuXn2fCcI5+Xl+e3EtmQKhnqzhHwRZHfXBVm
+         v8uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8BhhZERJRkbKY+rpkcwLe0zdkFvRmI68wKQbT61rFuU=;
-        b=NmiJxzLp5zH1hjnHa1nSzbyYOInzsL2364yDxUAlX+PTRFvTyRHotgJDPTVDEMd5Cg
-         pOaKuWQfgro1uXawQcnxH6iq2oK1fdm+ySykUWYjy9PgTou2LMGlxXdmCWx97uVw87MZ
-         Hh2wBtTa/brXP2z0/wDeTroFmQLUvntH7umphC+OPXYVdVq6VoHIZL7wG6A6HWI+lTqs
-         JGz/M6drKtGqpwKNp02zfBf1tdwz8Mmvy8JC93aoVSIJzLRYZQXlJqL7WqHpyCNK2kn6
-         dTzCR21jI/OyYKtPS2ZftO5/SLzUIRPaNLIQ6HgMY7zkFibCK54xu+Z+f1mDkrKVPUQ1
-         2pbg==
-X-Gm-Message-State: AOAM532xG0Ui+2DCgTtVwizy7XCBUgnqcKWTdOtYYizNOS6t5Vk+JNNa
-	ZT15qC3No9V8BjSraaLpG7jeZ7cYaoGI0A==
+        bh=Oz6lB3aefLz4NSlN76l56rKqVUNqPJxx8upxS07zDJ0=;
+        b=we8l740LK2Qr5f1oH7ydkuOBIJ4dAG4Newwk1hMffINujaKGhv/pFn0Earb8KacUXc
+         q1PHHDbsp85kXv6tOsPoniQDvCVDQMWcGbBerWbfTLuCn8FHU9Nr2A23MRye+H+5EGhE
+         ZRSb5gMf22QMdHSEL3/YFjvzDVDl84hZvO6QljiSZIDG8soEdwG09r/zF0WfpDYXqtV9
+         ibWgXTeb30R5r3Nq68+3AY2I1Si+9qIQLH7lE1ZID1nHnqACruAmMDXice6DhCpyh5AO
+         PeOi/MCEoSK0fXix0hiJgzH/GL4CYlEm5PSJiQEJSAmjzJNedM/LO65pHrcEW29kGTvf
+         bGFA==
+X-Gm-Message-State: AOAM530hA3DWTk3JdykkEaaZBfqJ2skjXEJ4NK/1XE+DCECw7kdM5IND
+	sywaEnuGQ05fqtBYlnt52R65fsHpqU0=
 X-Google-Smtp-Source: 
- ABdhPJyEFop7ce4LmKzc5P0OA7BBhXyXimlwU0p9n1ONkIvFT8ECsEC/nOHIBcb56afW3sy18DLnuQ==
-X-Received: by 2002:a05:6000:16cb:: with SMTP id
- h11mr7373165wrf.594.1644182394848;
-        Sun, 06 Feb 2022 13:19:54 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:aabf:a020:d9fb:13aa])
+ ABdhPJwuILMgKA6L04bNMg9CdWf/lNoXFsbmoJsDWd0ixfwlSOiXB3ZBu3JMWPHFqY8gH4t0824ghg==
+X-Received: by 2002:a05:6402:910:: with SMTP id
+ g16mr2013134edz.245.1644184400842;
+        Sun, 06 Feb 2022 13:53:20 -0800 (PST)
+Received: from nereus.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- u17sm16594281wmq.41.2022.02.06.13.19.54
-        for <openembedded-core@lists.openembedded.org>
+ j11sm1191927ejb.110.2022.02.06.13.53.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Feb 2022 13:19:54 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Sun, 06 Feb 2022 13:53:20 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] binutils: Add fix for CVE-2021-45078
-Date: Sun,  6 Feb 2022 21:19:52 +0000
-Message-Id: <20220206211952.2523894-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220206211952.2523894-1-richard.purdie@linuxfoundation.org>
-References: <20220206211952.2523894-1-richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/8] gdb: update 11.1 -> 11.2
+Date: Sun,  6 Feb 2022 22:53:10 +0100
+Message-Id: <20220206215316.367469-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220206215316.367469-1-alex@linutronix.de>
+References: <20220206215316.367469-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 21:19:58 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Feb 2022 21:53:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161412
+ https://lists.openembedded.org/g/openembedded-core/message/161414
 
-Backport a fix for CVE-2021-45078.
+Simplyfy .inc structure: merge gdb.inc into gdb_11.2.bb, rename
+gdb-${PV}.inc to gdb.inc. This will allow easier automatic updates.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Drop upstreamed patch.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../binutils/binutils-2.37.inc                |   1 +
- ...87d12167b1e36193385485c1f6ce92f74f02.patch | 247 ++++++++++++++++++
- 2 files changed, 248 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/161e87d12167b1e36193385485c1f6ce92f74f02.patch
+ meta/recipes-devtools/gdb/gdb-11.1.inc        |  19 --
+ ...ian_11.1.bb => gdb-cross-canadian_11.2.bb} |   2 +-
+ .../{gdb-cross_11.1.bb => gdb-cross_11.2.bb}  |   2 +-
+ meta/recipes-devtools/gdb/gdb.inc             |  27 +-
+ ...erver-register-set-selection-dynamic.patch | 317 ------------------
+ .../gdb/{gdb_11.1.bb => gdb_11.2.bb}          |  13 +-
+ 6 files changed, 31 insertions(+), 349 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb-11.1.inc
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_11.1.bb => gdb-cross-canadian_11.2.bb} (71%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_11.1.bb => gdb-cross_11.2.bb} (50%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
+ rename meta/recipes-devtools/gdb/{gdb_11.1.bb => gdb_11.2.bb} (80%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.37.inc b/meta/recipes-devtools/binutils/binutils-2.37.inc
-index 043f7f8235a..bc6eef0fbb4 100644
---- a/meta/recipes-devtools/binutils/binutils-2.37.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.37.inc
-@@ -34,5 +34,6 @@ SRC_URI = "\
-      file://0017-bfd-Close-the-file-descriptor-if-there-is-no-archive.patch \
-      file://0001-elf-Discard-input-.note.gnu.build-id-sections.patch \
-      file://0001-CVE-2021-42574.patch \
-+     file://161e87d12167b1e36193385485c1f6ce92f74f02.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/161e87d12167b1e36193385485c1f6ce92f74f02.patch b/meta/recipes-devtools/binutils/binutils/161e87d12167b1e36193385485c1f6ce92f74f02.patch
-new file mode 100644
-index 00000000000..8a655af06c7
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/161e87d12167b1e36193385485c1f6ce92f74f02.patch
-@@ -0,0 +1,247 @@
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 15 Dec 2021 01:18:42 +0000 (+1030)
-+Subject: PR28694, Out-of-bounds write in stab_xcoff_builtin_type
-+CVE: CVE-2021-45078
+diff --git a/meta/recipes-devtools/gdb/gdb-11.1.inc b/meta/recipes-devtools/gdb/gdb-11.1.inc
+deleted file mode 100644
+index 5364a880e3..0000000000
+--- a/meta/recipes-devtools/gdb/gdb-11.1.inc
++++ /dev/null
+@@ -1,19 +0,0 @@
+-LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
+-		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+-
+-SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+-           file://0001-make-man-install-relative-to-DESTDIR.patch \
+-           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
+-           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
+-           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
+-           file://0006-use-asm-sgidefs.h.patch \
+-           file://0007-Change-order-of-CFLAGS.patch \
+-           file://0008-resolve-restrict-keyword-conflict.patch \
+-           file://0009-Fix-invalid-sigprocmask-call.patch \
+-           file://0010-gdbserver-ctrl-c-handling.patch \
+-           file://0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch \
+-           "
+-SRC_URI[sha256sum] = "cccfcc407b20d343fb320d4a9a2110776dd3165118ffd41f4b1b162340333f94"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
+similarity index 71%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
+index 301035940c..4ab2b7156d 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.1.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
+@@ -1,3 +1,3 @@
+ require gdb-common.inc
+ require gdb-cross-canadian.inc
+-require gdb-${PV}.inc
++require gdb.inc
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_11.1.bb b/meta/recipes-devtools/gdb/gdb-cross_11.2.bb
+similarity index 50%
+rename from meta/recipes-devtools/gdb/gdb-cross_11.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_11.2.bb
+index 50cf159fdb..3b654a2f0d 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross_11.1.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross_11.2.bb
+@@ -1,2 +1,2 @@
+ require gdb-cross.inc
+-require gdb-${PV}.inc
++require gdb.inc
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 2c95ed3ca0..cf801b192b 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -1,11 +1,18 @@
+-require gdb-common.inc
+-
+-inherit gettext pkgconfig
+-
+-#LDFLAGS:append = " -s"
+-#export CFLAGS:append=" -L${STAGING_LIBDIR}"
+-
+-# cross-canadian must not see this
+-PACKAGES =+ "gdbserver"
+-FILES:gdbserver = "${bindir}/gdbserver"
++LICENSE = "GPLv2 & GPLv3 & LGPLv2 & LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
++		    file://COPYING3;md5=d32239bcb673463ab874e80d47fae504 \
++		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
++		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+ 
++SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
++           file://0001-make-man-install-relative-to-DESTDIR.patch \
++           file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
++           file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
++           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
++           file://0006-use-asm-sgidefs.h.patch \
++           file://0007-Change-order-of-CFLAGS.patch \
++           file://0008-resolve-restrict-keyword-conflict.patch \
++           file://0009-Fix-invalid-sigprocmask-call.patch \
++           file://0010-gdbserver-ctrl-c-handling.patch \
++           "
++SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
+diff --git a/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch b/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
+deleted file mode 100644
+index 6fc1859391..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0011-AArch64-Make-gdbserver-register-set-selection-dynamic.patch
++++ /dev/null
+@@ -1,317 +0,0 @@
+-From eb79b2318066cafb75ffdce310e3bbd44f7c79e3 Mon Sep 17 00:00:00 2001
+-From: Luis Machado <luis.machado@linaro.org>
+-Date: Fri, 29 Oct 2021 14:54:36 -0300
+-Subject: [PATCH] [AArch64] Make gdbserver register set selection dynamic
+-
+-The current register set selection mechanism for AArch64 is static, based
+-on a pre-populated array of register sets.
+-
+-This means that we might potentially probe register sets that are not
+-available. This is OK if the kernel errors out during ptrace, but probing the
+-tag_ctl register, for example, does not result in a ptrace error if the kernel
+-supports the tagged address ABI but not MTE (PR 28355).
+-
+-Making the register set selection dynamic, based on feature checks, solves
+-this and simplifies the code a bit. It allows us to list all of the register
+-sets only once, and pick and choose based on HWCAP/HWCAP2 or other properties.
+-
+-gdb/ChangeLog:
+-
+-2021-11-03  Luis Machado  <luis.machado@linaro.org>
+-
+-	PR gdb/28355
+-
+-	* arch/aarch64.h (struct aarch64_features): New struct.
+-
+-gdbserver/ChangeLog:
+-
+-2021-11-03  Luis Machado  <luis.machado@linaro.org>
+-
+-	PR gdb/28355
+-
+-	* linux-aarch64-low.cc (is_sve_tdesc): Remove.
+-	(aarch64_target::low_arch_setup): Rework to adjust the register sets.
+-	(aarch64_regsets): Update to list all register sets.
+-	(aarch64_regsets_info, regs_info_aarch64): Replace NULL with nullptr.
+-	(aarch64_sve_regsets, aarch64_sve_regsets_info)
+-	(regs_info_aarch64_sve): Remove.
+-	(aarch64_adjust_register_sets): New.
+-	(aarch64_target::get_regs_info): Remove references to removed structs.
+-	(initialize_low_arch): Likewise.
+-
+-[ChangeLog entry stripped so that patch applies cleanly]
+-Upstream-Status: Accepted
+----
+-
+-diff --git a/gdb/arch/aarch64.h b/gdb/arch/aarch64.h
+-index 0eb702c5b5e..95edb664b55 100644
+---- a/gdb/arch/aarch64.h
+-+++ b/gdb/arch/aarch64.h
+-@@ -22,6 +22,15 @@
+- 
+- #include "gdbsupport/tdesc.h"
+- 
+-+/* Holds information on what architectural features are available.  This is
+-+   used to select register sets.  */
+-+struct aarch64_features
+-+{
+-+  bool sve = false;
+-+  bool pauth = false;
+-+  bool mte = false;
+-+};
+-+
+- /* Create the aarch64 target description.  A non zero VQ value indicates both
+-    the presence of SVE and the Vector Quotient - the number of 128bit chunks in
+-    an SVE Z register.  HAS_PAUTH_P indicates the presence of the PAUTH
+-diff --git a/gdbserver/linux-aarch64-low.cc b/gdbserver/linux-aarch64-low.cc
+-index daccfef746e..9a8cb4169a7 100644
+---- a/gdbserver/linux-aarch64-low.cc
+-+++ b/gdbserver/linux-aarch64-low.cc
+-@@ -196,16 +196,6 @@ is_64bit_tdesc (void)
+-   return register_size (regcache->tdesc, 0) == 8;
+- }
+- 
+--/* Return true if the regcache contains the number of SVE registers.  */
+--
+--static bool
+--is_sve_tdesc (void)
+--{
+--  struct regcache *regcache = get_thread_regcache (current_thread, 0);
+--
+--  return tdesc_contains_feature (regcache->tdesc, "org.gnu.gdb.aarch64.sve");
+--}
+--
+- static void
+- aarch64_fill_gregset (struct regcache *regcache, void *buf)
+- {
+-@@ -680,40 +670,6 @@ aarch64_target::low_new_fork (process_info *parent,
+-   *child->priv->arch_private = *parent->priv->arch_private;
+- }
+- 
+--/* Matches HWCAP_PACA in kernel header arch/arm64/include/uapi/asm/hwcap.h.  */
+--#define AARCH64_HWCAP_PACA (1 << 30)
+--
+--/* Implementation of linux target ops method "low_arch_setup".  */
+--
+--void
+--aarch64_target::low_arch_setup ()
+--{
+--  unsigned int machine;
+--  int is_elf64;
+--  int tid;
+--
+--  tid = lwpid_of (current_thread);
+--
+--  is_elf64 = linux_pid_exe_is_elf_64_file (tid, &machine);
+--
+--  if (is_elf64)
+--    {
+--      uint64_t vq = aarch64_sve_get_vq (tid);
+--      unsigned long hwcap = linux_get_hwcap (8);
+--      unsigned long hwcap2 = linux_get_hwcap2 (8);
+--      bool pauth_p = hwcap & AARCH64_HWCAP_PACA;
+--      /* MTE is AArch64-only.  */
+--      bool mte_p = hwcap2 & HWCAP2_MTE;
+--
+--      current_process ()->tdesc
+--	= aarch64_linux_read_description (vq, pauth_p, mte_p);
+--    }
+--  else
+--    current_process ()->tdesc = aarch32_linux_read_description ();
+--
+--  aarch64_linux_get_debug_reg_capacity (lwpid_of (current_thread));
+--}
+--
+- /* Wrapper for aarch64_sve_regs_copy_to_reg_buf.  */
+- 
+- static void
+-@@ -730,21 +686,36 @@ aarch64_sve_regs_copy_from_regcache (struct regcache *regcache, void *buf)
+-   return aarch64_sve_regs_copy_from_reg_buf (regcache, buf);
+- }
+- 
+-+/* Array containing all the possible register sets for AArch64/Linux.  During
+-+   architecture setup, these will be checked against the HWCAP/HWCAP2 bits for
+-+   validity and enabled/disabled accordingly.
+-+
+-+   Their sizes are set to 0 here, but they will be adjusted later depending
+-+   on whether each register set is available or not.  */
+- static struct regset_info aarch64_regsets[] =
+- {
+-+  /* GPR registers.  */
+-   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_PRSTATUS,
+--    sizeof (struct user_pt_regs), GENERAL_REGS,
+-+    0, GENERAL_REGS,
+-     aarch64_fill_gregset, aarch64_store_gregset },
+-+  /* Floating Point (FPU) registers.  */
+-   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_FPREGSET,
+--    sizeof (struct user_fpsimd_state), FP_REGS,
+-+    0, FP_REGS,
+-     aarch64_fill_fpregset, aarch64_store_fpregset
+-   },
+-+  /* Scalable Vector Extension (SVE) registers.  */
+-+  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_SVE,
+-+    0, EXTENDED_REGS,
+-+    aarch64_sve_regs_copy_from_regcache, aarch64_sve_regs_copy_to_regcache
+-+  },
+-+  /* PAC registers.  */
+-   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_PAC_MASK,
+--    AARCH64_PAUTH_REGS_SIZE, OPTIONAL_REGS,
+--    NULL, aarch64_store_pauthregset },
+-+    0, OPTIONAL_REGS,
+-+    nullptr, aarch64_store_pauthregset },
+-+  /* Tagged address control / MTE registers.  */
+-   { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_TAGGED_ADDR_CTRL,
+--    AARCH64_LINUX_SIZEOF_MTE, OPTIONAL_REGS, aarch64_fill_mteregset,
+--    aarch64_store_mteregset },
+-+    0, OPTIONAL_REGS,
+-+    aarch64_fill_mteregset, aarch64_store_mteregset },
+-   NULL_REGSET
+- };
+- 
+-@@ -752,47 +723,95 @@ static struct regsets_info aarch64_regsets_info =
+-   {
+-     aarch64_regsets, /* regsets */
+-     0, /* num_regsets */
+--    NULL, /* disabled_regsets */
+-+    nullptr, /* disabled_regsets */
+-   };
+- 
+- static struct regs_info regs_info_aarch64 =
+-   {
+--    NULL, /* regset_bitmap */
+--    NULL, /* usrregs */
+-+    nullptr, /* regset_bitmap */
+-+    nullptr, /* usrregs */
+-     &aarch64_regsets_info,
+-   };
+- 
+--static struct regset_info aarch64_sve_regsets[] =
+-+/* Given FEATURES, adjust the available register sets by setting their
+-+   sizes.  A size of 0 means the register set is disabled and won't be
+-+   used.  */
+-+
+-+static void
+-+aarch64_adjust_register_sets (const struct aarch64_features &features)
+- {
+--  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_PRSTATUS,
+--    sizeof (struct user_pt_regs), GENERAL_REGS,
+--    aarch64_fill_gregset, aarch64_store_gregset },
+--  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_SVE,
+--    SVE_PT_SIZE (AARCH64_MAX_SVE_VQ, SVE_PT_REGS_SVE), EXTENDED_REGS,
+--    aarch64_sve_regs_copy_from_regcache, aarch64_sve_regs_copy_to_regcache
+--  },
+--  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_PAC_MASK,
+--    AARCH64_PAUTH_REGS_SIZE, OPTIONAL_REGS,
+--    NULL, aarch64_store_pauthregset },
+--  { PTRACE_GETREGSET, PTRACE_SETREGSET, NT_ARM_TAGGED_ADDR_CTRL,
+--    AARCH64_LINUX_SIZEOF_MTE, OPTIONAL_REGS, aarch64_fill_mteregset,
+--    aarch64_store_mteregset },
+--  NULL_REGSET
+--};
+-+  struct regset_info *regset;
+- 
+--static struct regsets_info aarch64_sve_regsets_info =
+--  {
+--    aarch64_sve_regsets, /* regsets.  */
+--    0, /* num_regsets.  */
+--    NULL, /* disabled_regsets.  */
+--  };
+-+  for (regset = aarch64_regsets; regset->size >= 0; regset++)
+-+    {
+-+      switch (regset->nt_type)
+-+	{
+-+	case NT_PRSTATUS:
+-+	  /* General purpose registers are always present.  */
+-+	  regset->size = sizeof (struct user_pt_regs);
+-+	  break;
+-+	case NT_FPREGSET:
+-+	  /* This is unavailable when SVE is present.  */
+-+	  if (!features.sve)
+-+	    regset->size = sizeof (struct user_fpsimd_state);
+-+	  break;
+-+	case NT_ARM_SVE:
+-+	  if (features.sve)
+-+	    regset->size = SVE_PT_SIZE (AARCH64_MAX_SVE_VQ, SVE_PT_REGS_SVE);
+-+	  break;
+-+	case NT_ARM_PAC_MASK:
+-+	  if (features.pauth)
+-+	    regset->size = AARCH64_PAUTH_REGS_SIZE;
+-+	  break;
+-+	case NT_ARM_TAGGED_ADDR_CTRL:
+-+	  if (features.mte)
+-+	    regset->size = AARCH64_LINUX_SIZEOF_MTE;
+-+	  break;
+-+	default:
+-+	  gdb_assert_not_reached ("Unknown register set found.");
+-+	}
+-+    }
+-+}
+- 
+--static struct regs_info regs_info_aarch64_sve =
+--  {
+--    NULL, /* regset_bitmap.  */
+--    NULL, /* usrregs.  */
+--    &aarch64_sve_regsets_info,
+--  };
+-+/* Matches HWCAP_PACA in kernel header arch/arm64/include/uapi/asm/hwcap.h.  */
+-+#define AARCH64_HWCAP_PACA (1 << 30)
+-+
+-+/* Implementation of linux target ops method "low_arch_setup".  */
+-+
+-+void
+-+aarch64_target::low_arch_setup ()
+-+{
+-+  unsigned int machine;
+-+  int is_elf64;
+-+  int tid;
+-+
+-+  tid = lwpid_of (current_thread);
+-+
+-+  is_elf64 = linux_pid_exe_is_elf_64_file (tid, &machine);
+-+
+-+  if (is_elf64)
+-+    {
+-+      struct aarch64_features features;
+-+
+-+      uint64_t vq = aarch64_sve_get_vq (tid);
+-+      features.sve = (vq > 0);
+-+      /* A-profile PAC is 64-bit only.  */
+-+      features.pauth = linux_get_hwcap (8) & AARCH64_HWCAP_PACA;
+-+      /* A-profile MTE is 64-bit only.  */
+-+      features.mte = linux_get_hwcap2 (8) & HWCAP2_MTE;
+-+
+-+      current_process ()->tdesc
+-+	= aarch64_linux_read_description (vq, features.pauth, features.mte);
+-+
+-+      /* Adjust the register sets we should use for this particular set of
+-+	 features.  */
+-+      aarch64_adjust_register_sets (features);
+-+    }
+-+  else
+-+    current_process ()->tdesc = aarch32_linux_read_description ();
+-+
+-+  aarch64_linux_get_debug_reg_capacity (lwpid_of (current_thread));
+-+}
+- 
+- /* Implementation of linux target ops method "get_regs_info".  */
+- 
+-@@ -802,9 +821,7 @@ aarch64_target::get_regs_info ()
+-   if (!is_64bit_tdesc ())
+-     return &regs_info_aarch32;
+- 
+--  if (is_sve_tdesc ())
+--    return &regs_info_aarch64_sve;
+--
+-+  /* AArch64 64-bit registers.  */
+-   return &regs_info_aarch64;
+- }
+- 
+-@@ -3294,5 +3311,4 @@ initialize_low_arch (void)
+-   initialize_low_arch_aarch32 ();
+- 
+-   initialize_regsets_info (&aarch64_regsets_info);
+--  initialize_regsets_info (&aarch64_sve_regsets_info);
+- }
+--- 
+-2.27.0
+-
+diff --git a/meta/recipes-devtools/gdb/gdb_11.1.bb b/meta/recipes-devtools/gdb/gdb_11.2.bb
+similarity index 80%
+rename from meta/recipes-devtools/gdb/gdb_11.1.bb
+rename to meta/recipes-devtools/gdb/gdb_11.2.bb
+index e73e3a2c5c..9c6db4ca2c 100644
+--- a/meta/recipes-devtools/gdb/gdb_11.1.bb
++++ b/meta/recipes-devtools/gdb/gdb_11.2.bb
+@@ -1,5 +1,15 @@
++require gdb-common.inc
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=161e87d12167b1e36193385485c1f6ce92f74f02]
++inherit gettext pkgconfig
 +
-+PR28694, Out-of-bounds write in stab_xcoff_builtin_type
++#LDFLAGS:append = " -s"
++#export CFLAGS:append=" -L${STAGING_LIBDIR}"
 +
-+	PR 28694
-+	* stabs.c (stab_xcoff_builtin_type): Make typenum unsigned.
-+	Negate typenum earlier, simplifying bounds checking.  Correct
-+	off-by-one indexing.  Adjust switch cases.
-+---
++# cross-canadian must not see this
++PACKAGES =+ "gdbserver"
++FILES:gdbserver = "${bindir}/gdbserver"
 +
-+diff --git a/binutils/stabs.c b/binutils/stabs.c
-+index 274bfb0e7fa..83ee3ea5fa4 100644
-+--- a/binutils/stabs.c
-++++ b/binutils/stabs.c
-+@@ -202,7 +202,7 @@ static debug_type stab_find_type (void *, struct stab_handle *, const int *);
-+ static bool stab_record_type
-+   (void *, struct stab_handle *, const int *, debug_type);
-+ static debug_type stab_xcoff_builtin_type
-+-  (void *, struct stab_handle *, int);
-++  (void *, struct stab_handle *, unsigned int);
-+ static debug_type stab_find_tagged_type
-+   (void *, struct stab_handle *, const char *, int, enum debug_type_kind);
-+ static debug_type *stab_demangle_argtypes
-+@@ -3496,166 +3496,167 @@ stab_record_type (void *dhandle ATTRIBUTE_UNUSED, struct stab_handle *info,
-+ 
-+ static debug_type
-+ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
-+-			 int typenum)
-++			 unsigned int typenum)
-+ {
-+   debug_type rettype;
-+   const char *name;
-+ 
-+-  if (typenum >= 0 || typenum < -XCOFF_TYPE_COUNT)
-++  typenum = -typenum - 1;
-++  if (typenum >= XCOFF_TYPE_COUNT)
-+     {
-+-      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), typenum);
-++      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), -typenum - 1);
-+       return DEBUG_TYPE_NULL;
-+     }
-+-  if (info->xcoff_types[-typenum] != NULL)
-+-    return info->xcoff_types[-typenum];
-++  if (info->xcoff_types[typenum] != NULL)
-++    return info->xcoff_types[typenum];
-+ 
-+-  switch (-typenum)
-++  switch (typenum)
-+     {
-+-    case 1:
-++    case 0:
-+       /* The size of this and all the other types are fixed, defined
-+ 	 by the debugging format.  */
-+       name = "int";
-+       rettype = debug_make_int_type (dhandle, 4, false);
-+       break;
-+-    case 2:
-++    case 1:
-+       name = "char";
-+       rettype = debug_make_int_type (dhandle, 1, false);
-+       break;
-+-    case 3:
-++    case 2:
-+       name = "short";
-+       rettype = debug_make_int_type (dhandle, 2, false);
-+       break;
-+-    case 4:
-++    case 3:
-+       name = "long";
-+       rettype = debug_make_int_type (dhandle, 4, false);
-+       break;
-+-    case 5:
-++    case 4:
-+       name = "unsigned char";
-+       rettype = debug_make_int_type (dhandle, 1, true);
-+       break;
-+-    case 6:
-++    case 5:
-+       name = "signed char";
-+       rettype = debug_make_int_type (dhandle, 1, false);
-+       break;
-+-    case 7:
-++    case 6:
-+       name = "unsigned short";
-+       rettype = debug_make_int_type (dhandle, 2, true);
-+       break;
-+-    case 8:
-++    case 7:
-+       name = "unsigned int";
-+       rettype = debug_make_int_type (dhandle, 4, true);
-+       break;
-+-    case 9:
-++    case 8:
-+       name = "unsigned";
-+       rettype = debug_make_int_type (dhandle, 4, true);
-+       break;
-+-    case 10:
-++    case 9:
-+       name = "unsigned long";
-+       rettype = debug_make_int_type (dhandle, 4, true);
-+       break;
-+-    case 11:
-++    case 10:
-+       name = "void";
-+       rettype = debug_make_void_type (dhandle);
-+       break;
-+-    case 12:
-++    case 11:
-+       /* IEEE single precision (32 bit).  */
-+       name = "float";
-+       rettype = debug_make_float_type (dhandle, 4);
-+       break;
-+-    case 13:
-++    case 12:
-+       /* IEEE double precision (64 bit).  */
-+       name = "double";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 14:
-++    case 13:
-+       /* This is an IEEE double on the RS/6000, and different machines
-+ 	 with different sizes for "long double" should use different
-+ 	 negative type numbers.  See stabs.texinfo.  */
-+       name = "long double";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 15:
-++    case 14:
-+       name = "integer";
-+       rettype = debug_make_int_type (dhandle, 4, false);
-+       break;
-+-    case 16:
-++    case 15:
-+       name = "boolean";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 17:
-++    case 16:
-+       name = "short real";
-+       rettype = debug_make_float_type (dhandle, 4);
-+       break;
-+-    case 18:
-++    case 17:
-+       name = "real";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 19:
-++    case 18:
-+       /* FIXME */
-+       name = "stringptr";
-+       rettype = NULL;
-+       break;
-+-    case 20:
-++    case 19:
-+       /* FIXME */
-+       name = "character";
-+       rettype = debug_make_int_type (dhandle, 1, true);
-+       break;
-+-    case 21:
-++    case 20:
-+       name = "logical*1";
-+       rettype = debug_make_bool_type (dhandle, 1);
-+       break;
-+-    case 22:
-++    case 21:
-+       name = "logical*2";
-+       rettype = debug_make_bool_type (dhandle, 2);
-+       break;
-+-    case 23:
-++    case 22:
-+       name = "logical*4";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 24:
-++    case 23:
-+       name = "logical";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 25:
-++    case 24:
-+       /* Complex type consisting of two IEEE single precision values.  */
-+       name = "complex";
-+       rettype = debug_make_complex_type (dhandle, 8);
-+       break;
-+-    case 26:
-++    case 25:
-+       /* Complex type consisting of two IEEE double precision values.  */
-+       name = "double complex";
-+       rettype = debug_make_complex_type (dhandle, 16);
-+       break;
-+-    case 27:
-++    case 26:
-+       name = "integer*1";
-+       rettype = debug_make_int_type (dhandle, 1, false);
-+       break;
-+-    case 28:
-++    case 27:
-+       name = "integer*2";
-+       rettype = debug_make_int_type (dhandle, 2, false);
-+       break;
-+-    case 29:
-++    case 28:
-+       name = "integer*4";
-+       rettype = debug_make_int_type (dhandle, 4, false);
-+       break;
-+-    case 30:
-++    case 29:
-+       /* FIXME */
-+       name = "wchar";
-+       rettype = debug_make_int_type (dhandle, 2, false);
-+       break;
-+-    case 31:
-++    case 30:
-+       name = "long long";
-+       rettype = debug_make_int_type (dhandle, 8, false);
-+       break;
-+-    case 32:
-++    case 31:
-+       name = "unsigned long long";
-+       rettype = debug_make_int_type (dhandle, 8, true);
-+       break;
-+-    case 33:
-++    case 32:
-+       name = "logical*8";
-+       rettype = debug_make_bool_type (dhandle, 8);
-+       break;
-+-    case 34:
-++    case 33:
-+       name = "integer*8";
-+       rettype = debug_make_int_type (dhandle, 8, false);
-+       break;
-+@@ -3664,9 +3665,7 @@ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
-+     }
-+ 
-+   rettype = debug_name_type (dhandle, name, rettype);
-+-
-+-  info->xcoff_types[-typenum] = rettype;
-+-
-++  info->xcoff_types[typenum] = rettype;
-+   return rettype;
-+ }
-+ 
+ require gdb.inc
+-require gdb-${PV}.inc
+ 
+ inherit python3-dir
+ 
+@@ -26,3 +36,4 @@ EOF
+ 		chmod +x ${WORKDIR}/python
+ 	fi
+ }
++
 -- 
-2.32.0
+2.20.1
 
 
