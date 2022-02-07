@@ -1,126 +1,69 @@
-Return-Path: <yoctoproject@neumann-web.eu>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBDAC433F5
-	for <webhook@archiver.kernel.org>; Mon,  7 Feb 2022 15:30:14 +0000 (UTC)
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by mx.groups.io with SMTP id smtpd.web08.273.1644247813193367797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A77C433F5
+	for <webhook@archiver.kernel.org>; Mon,  7 Feb 2022 17:29:08 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web08.2182.1644254947338674196
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Feb 2022 07:30:13 -0800
+ Mon, 07 Feb 2022 09:29:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: neumann-web.eu, ip: 80.241.56.172,
- mailfrom: yoctoproject@neumann-web.eu)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
- server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Jsqp93zgtz9sQR;
-	Mon,  7 Feb 2022 16:30:09 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Date: Mon, 7 Feb 2022 16:30:02 +0100 (CET)
-From: yoctoproject@neumann-web.eu
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Message-ID: <1170434594.46461.1644247802042@office.mailbox.org>
-In-Reply-To: 
- <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
-References: <1540523266.294149.1643372553712@office.mailbox.org>
- <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
-Subject: Re: [RFC] support for multi project toolchain-cmake
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=U3RQF4Av;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f50.google.com with SMTP id og43so20190973ejc.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 07 Feb 2022 09:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=azq7pil+CpXRnhWr2JFFb1j4ClvIGiaHnqYmaQKoDJg=;
+        b=U3RQF4AvSoPA6VZkl8Ovgf2AmAFngmvL5D3dF8MBAuTw8wbYhBCS8jG36t1IgbG1lp
+         Vu1MGZIEYixQrHDXxD8Skg/pv93vEtyDM9kgqSlBCF3meQRArZslGbAqA5+AA0FyoUyF
+         vpm+KVsSrWwfgSCKzJ0bD/C6DHleU/OCycGc/67aOCJXVdgbzOeOIMqCD0QBTeeZz+NR
+         lAW1dBd/usoEA76HLIRHc+BVv/8NsHGwmT5C+b0lhlfSxbTLfyP3nM7WnYJYt+8OK+RB
+         FQhE0sXGXNgLKU5gTkZMkFbm3AZc2t4IdOfq2WIuyy+W4mcha9wNh5yrHoXJPuI2Z/jI
+         ZBmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=azq7pil+CpXRnhWr2JFFb1j4ClvIGiaHnqYmaQKoDJg=;
+        b=xqo40pdxSrdSxO/CyimpaT8B2inU9jSAl0MOrO1N6mIPNEBvjsla4mOA8UTrCj9vTq
+         n75YfqgAeR7Nt/NAPjL6zegjjVAb9D88D+1WmfWMHUPHqvak41wJ96Bs5BbB0l3PCc0d
+         rPTDbyJG5i1YO0oH+FyM0b4qLjmbSZ5KN+Ct7GcLz2R1TFhfot1Ui3JlhH5iyLiQnIj+
+         XOHEHYYxt+C/ywDyaMGpJXuYYlleSJHLoHfiZiazf6n3Q+aHKBeuF8j8NuQ3JVOsORhp
+         mfzBXwlT+jCyt0YOHOJ97EuheH8Rfy4KXiLXZNB4CLUjLY+v6MsJaOa7wRiEUvhUjiE5
+         AASg==
+X-Gm-Message-State: AOAM532RTN99X1dSmI43FThrOnMxris0w1NTKWwpve71MSR8VXUDwDZq
+	NiriVMZC0tin0gwvTXQIJ9kDVozOp5Wl5btIgp4IYTTgrpD/J+Fg
+X-Google-Smtp-Source: 
+ ABdhPJxzylqRVwHybZsX6JIqKKBwZcv1+DHn/CM2kT8IlahZr40YRsSGBREe8/M5kL+Q2v7VfEDIVDP8jL+oAfzeKao=
+X-Received: by 2002:a17:907:c14:: with SMTP id
+ ga20mr586725ejc.243.1644254945163;
+ Mon, 07 Feb 2022 09:29:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 7 Feb 2022 07:28:54 -1000
+Message-ID: 
+ <CAOSpxdbBsjWT_HGDQEQ8MZygKXuYje5nss_tCDSxt=FxRGuNpg@mail.gmail.com>
+Subject: dunfell CVE "heads up"
+To: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Feb 2022 15:30:14 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Feb 2022 17:29:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161461
+ https://lists.openembedded.org/g/openembedded-core/message/161462
 
-> Richard Purdie <richard.purdie@linuxfoundation.org> hat am 03.02.2022 14:07 geschrieben:
-> 
-> Hi,
-> 
-> On Fri, 2022-01-28 at 13:22 +0100, Tobias Neumann wrote:
-> > regarding my bug report
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14703 I was
-> > forwarded to here to discuss requirements for a proper fix.
-> > 
-> > In the report, I already mentioned a non-generic workaround for that.
-> > By extending the CMAKE_FIND_ROOT_PATH with CMAKE_INSTALL_PREFIX.
-> > However this probably doesn't cover all ways a toolchain can be used.
-> > 
-> > Another solution could be to respect the user provided path and
-> > instead of overwriting the CMAKE_FIND_ROOT_PATH variable, to only
-> > extent it by the toolchains location.
-> > This however would make it quite easy for a toolchain build to break
-> > isolation, when wrong user input is set. I don't know how strong your
-> > requirements regarding that would be.
-> > 
-> > So feedback how a fix should look like and what requirements it needs
-> > to fulfill would be appreciated.
-> Firstly, I'm a little unclear on your exact use case. Just to be really clear,
-> are you using cmake within a bitbake build or are we talking about using cmake
-> from within an SDK or eSDK external to the project?
-> 
-> I'm guessing this is probably an SDK question but you never mention the SDK
-> anywhere so I wasn't entirely sure. I'll assume that in my next comment.
-> 
-> With the SDK, if you have two projects, one of which depends on the other, I
-> have to wonder where the first is being installed to? Usually I'd have expected
-> it to go into the target sysroot that the SDK toolchain is using, then it should
-> be found by the second build? We don't support multiple sysroots for building
-> things with the SDK.
-> 
-> I'm therefore still a bit puzzled about exactly what the issue is here so
-> perhaps you could give a little more detail on the above?
-> 
-> Cheers,
-> 
-> Richard
+I'm currently testing a number of CVE fixes for dunfell, so please
+check here first so you don't duplicate work!
 
-Hi Richard,
+https://git.yoctoproject.org/poky-contrib/log/?h=stable/dunfell-nut
 
-thank you for your reply and please excuse that I didn't clarify my intent
-correctly in my first mail. Your assumption, that I meant the cmake of the SDK
-is correct. And your assumption regarding that the install path is different to
-the sysroot of the SDK toolchain is also correct.
-
-If your statement, that multiple sysroots for building with the SDK aren't
-supported, is final, this discussion can be stopped here and we have to
-maintain extensions for that workflow in our setup. But I would like to explain
-our use case and why we require 2 sysroots for an SDK build.
-
----
-
-We have a set of hardware platforms which are operated by a distribution
-generated by openembedded. This is maintained by a few developers. The hardware
-is used in several different projects. For the project specific development
-we're using the SDK with will be installed readonly below /opt. The software
-for these different projects can be developed without knowledge that
-openembedded was used underneath. For that we have tools that abstract the
-correct SDK selection, the environment sourcing and packaging of the final
-compilation. And then tools which handle the deployment on the hardware.
-
-Because a SDK is specific for a hardware platform, but not for a project using
-that hardware platform, it is readonly and can be used for all projects with
-this hardware. This however requires that the compiled libraries generated with
-this SDK during the user side build process will be installed at a different
-location, which would be the second sysroot.
-
-Until now we only build a cmake project with external dependencies to the
-installed SDK using this workflow. Further external libraries, not contained in
-the SDK, had to be integrated in this cmake build, either as subdirectory or
-via external builds (using e.g. cmake-superbuilds). We now want to extend this
-workflow by supporting multiple cmake projects with dependencies to each other,
-thus the need for this second sysroot in the build.
-
-best regards
-Tobias
+Steve
 
