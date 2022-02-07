@@ -1,105 +1,126 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09576C433EF
-	for <webhook@archiver.kernel.org>; Mon,  7 Feb 2022 10:03:35 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web09.20386.1644228213748674943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CFAC433EF
+	for <webhook@archiver.kernel.org>; Mon,  7 Feb 2022 11:04:48 +0000 (UTC)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
+ [209.85.221.172])
+ by mx.groups.io with SMTP id smtpd.web10.20855.1644231887524403787
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Feb 2022 02:03:34 -0800
+ Mon, 07 Feb 2022 03:04:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bP/cIrpM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id f17so23757897wrx.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OlSesXF+;
+ spf=pass (domain: gmail.com, ip: 209.85.221.172,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f172.google.com with SMTP id w17so7544675vko.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Feb 2022 02:03:33 -0800 (PST)
+ Mon, 07 Feb 2022 03:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=1KacVYH6Ruj9HDhtP7t5v/9i9XXqsq78B21DSPEFwy0=;
-        b=bP/cIrpMHHHjBARw4ULUKHZc8DY8gV5ZVksjIbOtRvzE+dlHTFiO7yghX2nDWIbJ4c
-         InuqGHZhZNRQO8hMp1pjNXem/rQjftOdoxFqQtdYsohSZUX8ovYlffTQuTUEkKZ06KWO
-         7M3W+/uP7OZPemfzk/cQTnqZnDVUf5c5RXfTw=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Oj2bENzAXb/7mpMuealahfLRy3oKYew+dvfXGdnb6RU=;
+        b=OlSesXF+RlJBolHtcE046090h8OG2iAB1mIUijeDj0p35gZ+C82SGhiOZRWU/UFu8r
+         2pLhT2SMyaQe9ypZyJrfUdcXdwZCrVf9vH3oldCR2nAk5PfMNC2ujcOyzvlkjkQAwfwC
+         xczFTQE0GXD+ctwq5qZBr8/QVasUe3aJ7bDGSD7Fewrp5JjBn8V63WrKGkHu3jN2wfCu
+         9xktYWfX2E3CAOpnbY+vVsD1Ag4hPheK+n+s/9ScEroZgJYyEKyOSRLCYb+3kAd/zSbY
+         tUKdl41P8HTPlcGVQxbtej+KBmmZqzVuVXc44quedTrYjcj6V56dxx/WQwbQwcjWbSdI
+         eeHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=1KacVYH6Ruj9HDhtP7t5v/9i9XXqsq78B21DSPEFwy0=;
-        b=jyaL1JnGXlJWGnnlYNhlHe9eIoe3EJHv9b4ZPQGtI1WAtN9PAjam3NH7pl5bK5P0YA
-         nCxhaWFOUbJypwSRshplsiSrMdHL44hc+fMF/k2uDWo5GaOny9Q0LvtwG/IxYazXXRfS
-         AU5t2Ms/CWdg8Qh+Nt29mBjfb3MlsVWsbcOYp/daNOLQ+25Nkkfax8V1zh+vJbzeXdSx
-         9ANo2Oppq5mZNnIH9UZr6RZVD4Yh4X0zNFdGu0AMW52goFC7rYuLeb6C8dwzEYD/u1O2
-         IGlMOnVw3I6o4i9EvceGFNq1eCFUiIRKRhmshQKBoB2WLycEIGR//eynVdioeVokWueb
-         0qyQ==
-X-Gm-Message-State: AOAM5302R5Y0clszmyjJb+lu7zXsknxOQaJA01TM8bdXU4TmO2xcSAQo
-	7/6orKt/IryBe0dYMWwdlrIn/Q==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Oj2bENzAXb/7mpMuealahfLRy3oKYew+dvfXGdnb6RU=;
+        b=moxmnsD5q7QhaWqQmN+tUMg8XfidfyJpycaINq0rLsUQhErrj7KRMpzS/DopssKYHb
+         diTw/ujP5kMhJzDxdFwGJGmg3Khb3wbF5Ge35VfMQtb3jKF6wAcE+o2b7NSLW/aVDoJs
+         SgyGtKDKG++1OOP0VJruMPai8uFSEkiTqOlUsusVv4EcCFOkWo5ak73BWL5gVN/MA9eg
+         Q7ju52IP1TxukIji5ktUNirio5b0dwWtlD8Ln5bZiDPIl4hyOKvd0lnEKtANqSIPrJ6S
+         PLklyjoqHjni7EClugeEjZd8O42bG7cjs8OnBQ4rqf6gQ8tqzBez6w97sRjZmSIhkiDi
+         OcAA==
+X-Gm-Message-State: AOAM533v1iSXHwjDuhdnaVyavA6XOEFjkUkWvw1qq+ReLSBaIJ+eSsqU
+	2CMSGRMZnDD+BEmRQ+a3nc3dc7a+o+3GhwpLJr8=
 X-Google-Smtp-Source: 
- ABdhPJzUHKx43zN9JoJR1C2IDuelF/xB1Ukh6O7cz0Ik8Oo70N8LTvNIk4sPDTT+f/FnXxGlJT/n2g==
-X-Received: by 2002:a5d:6a0e:: with SMTP id m14mr3735287wru.167.1644228211876;
-        Mon, 07 Feb 2022 02:03:31 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6244:607e:d5da:d0fc?
- ([2001:8b0:aba:5f3c:6244:607e:d5da:d0fc])
-        by smtp.gmail.com with ESMTPSA id
- i6sm9786876wry.33.2022.02.07.02.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 02:03:31 -0800 (PST)
-Message-ID: 
- <318d02584b3de93e9f4be79ac001e0577f125639.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] git: restore reproducibility on centos 7
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Mon, 07 Feb 2022 10:03:29 +0000
-In-Reply-To: <20220207091621.756173-1-alex@linutronix.de>
-References: <20220207091621.756173-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJzROz3zi0Et+/uOK+BH6kgizfEyrBPeCl0KhRwqYsVc3oTgLS7epLkXfFOqFw2ywwoRpjEkwcJ9o/wUaH/VKwM=
+X-Received: by 2002:a1f:ab56:: with SMTP id u83mr4677700vke.30.1644231881727;
+ Mon, 07 Feb 2022 03:04:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220207091621.756173-1-alex@linutronix.de>
+ <318d02584b3de93e9f4be79ac001e0577f125639.camel@linuxfoundation.org>
+In-Reply-To: 
+ <318d02584b3de93e9f4be79ac001e0577f125639.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 7 Feb 2022 12:04:30 +0100
+Message-ID: 
+ <CANNYZj9401A5sxSA=fB=FcriiLFaM3Le-kEmEv-V8N1jda9wQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] git: restore reproducibility on centos 7
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="0000000000003d214705d76b9148"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Feb 2022 10:03:35 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Feb 2022 11:04:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161457
+ https://lists.openembedded.org/g/openembedded-core/message/161458
 
-On Mon, 2022-02-07 at 10:16 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...-do-not-force-RHEL-7-specific-build-.patch | 30 +++++++++++++++++++
->  meta/recipes-devtools/git/git_2.35.1.bb       |  3 +-
->  2 files changed, 32 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-> 
-> diff --git a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-> new file mode 100644
-> index 0000000000..e0f702f327
-> --- /dev/null
-> +++ b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-> @@ -0,0 +1,30 @@
-> +From 3b2505435bc6f982226eff84bad6bf9a36381573 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex@linutronix.de>
-> +Date: Mon, 7 Feb 2022 10:13:15 +0100
-> +Subject: [PATCH] config.mak.uname: do not force RHEL-7 specific build settings
-> +
-> +This breaks reproducibility as git builds on centos 7 use
-> +different flags than git builds on other host distros.
-> +
-> +Upstream-Status: Inappropriate [upstream needs to check compiler and component versions properly]
+--0000000000003d214705d76b9148
+Content-Type: text/plain; charset="UTF-8"
 
-I'm struggling a bit with the Inappropriate patch status. I can't help wonder if
-we should have something like "NeedsRework" to illustrate something where the
-patch itself isn't appropriate but the issue itself should be handled upstream?
+On Mon, 7 Feb 2022 at 11:03, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Cheers,
+> > +This breaks reproducibility as git builds on centos 7 use
+> > +different flags than git builds on other host distros.
+> > +
+> > +Upstream-Status: Inappropriate [upstream needs to check compiler and
+> component versions properly]
+>
+> I'm struggling a bit with the Inappropriate patch status. I can't help
+> wonder if
+> we should have something like "NeedsRework" to illustrate something where
+> the
+> patch itself isn't appropriate but the issue itself should be handled
+> upstream?
+>
 
-Richard
+I'm ok with that status if it also has a link to the upstream ticket. Git
+upstream's way of bug reporting is "send a mail to our mailing list without
+subscribing, and you'll be CCd in replies" which is not particularly
+reassuring, but I'll do it now. Then we can do the corrections once I have
+a link (which probably won't happen immediately due to list pre-moderation).
 
+Alex
 
+--0000000000003d214705d76b9148
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 7 Feb 2022 at 11:03, Richard Purdie &lt;<a href=3D"mailto:ri=
+chard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; +T=
+his breaks reproducibility as git builds on centos 7 use<br>
+&gt; +different flags than git builds on other host distros.<br>
+&gt; +<br>
+&gt; +Upstream-Status: Inappropriate [upstream needs to check compiler and =
+component versions properly]<br>
+<br>
+I&#39;m struggling a bit with the Inappropriate patch status. I can&#39;t h=
+elp wonder if<br>
+we should have something like &quot;NeedsRework&quot; to illustrate somethi=
+ng where the<br>
+patch itself isn&#39;t appropriate but the issue itself should be handled u=
+pstream?<br></blockquote><div><br></div>I&#39;m ok with that status if it a=
+lso has a link to the upstream ticket. Git upstream&#39;s way of bug report=
+ing is &quot;send a mail to our mailing list without subscribing, and you&#=
+39;ll be CCd in replies&quot; which is not particularly reassuring, but I&#=
+39;ll do it now. Then we can do the corrections once I have a link (which p=
+robably won&#39;t happen immediately due to list pre-moderation).<br></div>=
+<div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></d=
+iv></div>
+
+--0000000000003d214705d76b9148--
 
