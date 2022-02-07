@@ -2,59 +2,59 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D6BC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 298C7C4332F
 	for <webhook@archiver.kernel.org>; Mon,  7 Feb 2022 01:08:57 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.16549.1644196133544033487
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.16551.1644196135917638675
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 17:08:53 -0800
+ Sun, 06 Feb 2022 17:08:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qzpWsdYz;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mrqq6xkB;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id u15so22024445wrt.3
+Received: by mail-wr1-f44.google.com with SMTP id c19so7224717wrb.10
         for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Feb 2022 17:08:53 -0800 (PST)
+ Sun, 06 Feb 2022 17:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1wWArqytppgxHn89E+aMvs8YSGCMWSj3xnKXrnXNyF4=;
-        b=qzpWsdYzwF583t8GQ11aFem2tY8eWgsDO7kplVM39LyLTz9woad69a96jHDjOJ6WRz
-         Zf0kbYavrjJygTFwwmXqYPtuJvx3eVbhYazIFSpKUzJsb+LOHlzrnlomELWVWdS5snw7
-         M2j6DieybkB8gIBj+v8t+qVeYdiPjKTpVk4mQarJUbAl2VDgw/9IZiG43BtTIZojilV+
-         hAw3wp4wWlsuUeWt173zu1VAIlJHv+CM+hzhsj7wVgaSclSEY0n05o6vw96wdnLDgsqX
-         O11sApaPUn4SzBgr4Tm1mMluBi7zCcFJf4PlfmrlkzjK2vE+3TTpSAUiVWWyDb++WOWS
-         ZnDA==
+        bh=Rw3R50D7OtxZO21YDDYuDbBIV7LSfSGRXAnCtMwy2W8=;
+        b=mrqq6xkBqRka8ggF/X/f3sEWZN/tcmR5nFakLB0V5KlClr/MbK6a/d28V05Tlefqbv
+         V41j3SJFbibRdBM34rD2EVHuFn9DXjQsbzdQRmDxcjhhhCF0uVH9W+f8C1axe5abap4T
+         zKJ5+CD0vqnzJ7Wx/PyVngyjpYszKZbZ7Q5Eo4EJPgBKbhHTk2kdNRg+DhOj38rahjiR
+         jxNeE1N6HMCaStbSc+ZueajQnTMPsOIBpZmjiWWj4BqKQ8sz39XgjOGTslRz8tOuRFFM
+         KnWZVGW0x2PE1KAybVCRItLVmcx0Cibn+y5FNzte+toRtlkqC0w+Gf5h1Ec4jJ5Ce0iO
+         cuDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1wWArqytppgxHn89E+aMvs8YSGCMWSj3xnKXrnXNyF4=;
-        b=Y0n4auVGYW7THIMolrVYBRkqYSgkaLqXBzIr8cVBJUz8zDzbvaXJ7IWdzAsJJ8JLu+
-         o/pgZafPv5vZEztZeLb+xRe2kAPrFOgTo2PgW1XmVbM5QskQvdDCo8By30quP0GdOWAe
-         PCE5D0mkd7b72Elpx2j5rLF4eFRFXc8FTWIchVJ9zsC2U3LZ9asUCgrOLwMpad3P5J/2
-         +qmNkB5ciJEMCgQjSl7RQotkjoqo2kP9EF4cyceO2kV0YQwAuGvmHsUPk1RNWqvKLzfy
-         oIGlovT3fsC3gBYas+PsEDObgGFNXnxgfGinEAx8v4/wvTqx43FRUaN+ar7PSQDMi5sf
-         K92w==
-X-Gm-Message-State: AOAM532q6NrCIDy+DEYRgbS41Yx076mDPmPmbJMl+yGcdnhCXsX6cCub
-	2VEaUo5AJGGFV49Xrm6TemEdD5XOLl4=
+        bh=Rw3R50D7OtxZO21YDDYuDbBIV7LSfSGRXAnCtMwy2W8=;
+        b=ZGcQCjqvzBRgU+eF+SA+ugPqArTvM0QOE5MZfxRid4wyKAlPBiWdo7LLrE5VufeH4k
+         m2GbrPpVFIEBX142mXJYXnnwColD9B2Euqctufyca1N3pHLer/Uo0hmNe39GvaoEkLHv
+         8Q81uoWg2T1deEZjve1T7Byobi1tmfIv4bf+hICnkdl88yYifL7xdnk8Yxqv6RIDERCX
+         R12xo9NL6h1Phku0eEu5QZ2bpJxgLcLfYDNj99yS3K9qIoVOAOZDJk39mX6dECO2/88t
+         qVEgMkF8YEcFk2tHEjRy4ewLk3M3Zu+9ocPIPgiUaWLkT70HRSgYRYzICSZtnbwLw4Ex
+         sPkw==
+X-Gm-Message-State: AOAM530K/Ca+1xzFuzVjRkpTBpCrQmOoPQTliMccZ1q4AML4gTt+RPTL
+	hb0nqh5zNdmC8gs8wrsJ2ObFCgNAyfA=
 X-Google-Smtp-Source: 
- ABdhPJxvgeaFD2Bq/TLDfb8Xq17uFrhivcGPFrsf4qcc7gk+Wa6Y9bVYi0ei45s/C4lEPXBSQ3z3bQ==
-X-Received: by 2002:a5d:64e9:: with SMTP id g9mr7880641wri.341.1644196131968;
-        Sun, 06 Feb 2022 17:08:51 -0800 (PST)
+ ABdhPJyWMKyfNnunxtDPdSJgCHtfp/YtXntn2jk3LcGrIeUyE+TlLGbAxV5SzQySUuaSDqIFIFXgoQ==
+X-Received: by 2002:adf:e5cf:: with SMTP id a15mr7804547wrn.452.1644196134315;
+        Sun, 06 Feb 2022 17:08:54 -0800 (PST)
 Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- o22sm3903556wmh.13.2022.02.06.17.08.51
+ o22sm3903556wmh.13.2022.02.06.17.08.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Feb 2022 17:08:51 -0800 (PST)
+        Sun, 06 Feb 2022 17:08:53 -0800 (PST)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 14/17] gstreamer1.0-vaapi: upgrade 1.18.5 -> 1.20.0
-Date: Mon,  7 Feb 2022 01:08:20 +0000
-Message-Id: <20220207010823.143664-14-quaresma.jose@gmail.com>
+Subject: [PATCH 16/17] gstreamer1.0-python: upgrade 1.18.5 -> 1.20.0
+Date: Mon,  7 Feb 2022 01:08:22 +0000
+Message-Id: <20220207010823.143664-16-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220207010823.143664-1-quaresma.jose@gmail.com>
 References: <20220207010823.143664-1-quaresma.jose@gmail.com>
@@ -65,30 +65,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Feb 2022 01:08:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161434
+ https://lists.openembedded.org/g/openembedded-core/message/161436
+
+- Add new meson options
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...streamer1.0-vaapi_1.18.5.bb => gstreamer1.0-vaapi_1.20.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.18.5.bb => gstreamer1.0-vaapi_1.20.0.bb} (95%)
+ ...1.0-python_1.18.5.bb => gstreamer1.0-python_1.20.0.bb} | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.18.5.bb => gstreamer1.0-python_1.20.0.bb} (82%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-index 9a68a3fadf..ce7fbde0df 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
+similarity index 82%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
+index 1dd7d0d09a..3399b6f9d7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "533685871305959d6db89507f3b3aa6c765c2f2b0dacdc32c5a6543e72e5bc52"
++SRC_URI[sha256sum] = "8f67bdc5606ba33606c6bc896e89de7dcd8cf4fca459f71389b1b6fe075b5e54"
  
--SRC_URI[sha256sum] = "4a460fb95559f41444eb24864ad2d9e37922b6eea941510310319fc3e0ba727b"
-+SRC_URI[sha256sum] = "f79a47346dfd5e585e063e77078e5fc498b06dee895bfcbf47d8863fcac9ea32"
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+@@ -17,7 +17,11 @@ PNREAL = "gst-python"
  
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+-EXTRA_OEMESON += "-Dlibpython-dir=${libdir}"
++EXTRA_OEMESON += "\
++    -Dtests=disabled \
++    -Dplugin=enabled \
++    -Dlibpython-dir=${libdir} \
++"
+ 
+ # gobject-introspection is mandatory and cannot be configured
+ REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
 -- 
 2.35.1
 
