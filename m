@@ -1,122 +1,210 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4F7C433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 10:27:15 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web12.9437.1644316033259742826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5687FC433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 10:30:41 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.9463.1644316240254824899
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 02:27:14 -0800
+ Tue, 08 Feb 2022 02:30:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Ym/gKMh3;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1644316031; i=@fujitsu.com;
-	bh=GmpwwUFxz5DMN+/a7UzhjzF8+cxBOoRpuWcyh5PIaqo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=Ym/gKMh3ptPf+O67QpMgdArNGocVCDaKkwmsS02bWc5ox55GKz2zH2mVkTfR4f92P
-	 tDdHrxjvfWGiYUdQ2kCifqdWZB5Relfgo+/fnDh/6gTHeQ6MdVmB3Q5V4IagAYtbxp
-	 D0diB/nSnPDtaSnkGz0X5CvRfJXdlLdqWhIAH+2FOvoj26FeSNScwrLIRInKwCE7/9
-	 c01XW9Hb/CS8p3xgfQeuVVCyHXZ99Xw2WJk7jG4Fg+IZ0z+5tH++YUVbWkjmFfb0qZ
-	 i2R/UQDRzAUX3uY0x3aagrSjjmAq12yTiVnb8hABi9G/I3521D1aS3gTBZuJNv/l1+
-	 AhitYPSyTE71Q==
-Received: from [100.115.34.36] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-west-2.aws.ess.symcld.net id 6C/B4-14616-F7542026;
- Tue, 08 Feb 2022 10:27:11 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRWlGSWpSXmKPExsViZ8MxSbfOlSn
-  JYOkBA4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPh20VsBfe5Kh4vnMjWwPiEs4uRi0NI4DGj
-  xPcba5khnPNMEu+vvGKDcI4zSvS/2MbaxcjJwSagJjH91g0gm4NDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAo8TxljcsIDYLUHzJ602MIDYvUHzjnEfMILaEgILElIfvwWxOASeJ+zuegdULAdV83L
-  WSFaJeUOLkzCcsEPMlJA6+eAHVqygx+3IzC4RdITFrVhsThK0mcfXcJuYJjIKzkLTPQtK+gJF
-  pFaN1UlFmekZJbmJmjq6hgYGuoaGprrGlrpGBgV5ilW6iXmqpbnlqcYmukV5iebFeanGxXnFl
-  bnJOil5easkmRmAYpxSrn9jB+HTlT71DjJIcTEqivEmqTElCfEn5KZUZicUZ8UWlOanFhxhlO
-  DiUJHitXYBygkWp6akVaZk5wJiCSUtw8CiJ8K4GSfMWFyTmFmemQ6ROMSpKifPKgCQEQBIZpX
-  lwbbA4vsQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmNcFZApPZl4J3PRXQIuZgBZ/XfQvEWh
-  xSSJCSqqBaZNZeNOOg2VTV3/XuVffzx0TLtZWln+y75NkyUlx1iX2dWLRpe/C992+Hzbj5Q4H
-  Se0tU1M/vly3xf/Gi6o3H+6neRx8ZPTaouVn7PHnUW0eGQu/hN0JXR5jZyTeFZu//K7c7Jfbr
-  S4E8PF4i1RLb0tY8W9LmIwP663rHjofAw8EpjFqvWgJenm2fpHLwg9fJPXrIpcve1isq7f1hu
-  LkW+u/OYuExfR3eolKTnYxM9jPvHGfrl/Vya6KlPYrmu9UCvLf75AtW77I/kvEnKWLXj/aaH/
-  R/KOCZnph8eXzqTMm5mvHKjXPzmJSd00/o9kfv1nr8lqLcwGiJ3av/Sq+OERK7c/sK4vLe7X2
-  5jqYKLEUZyQaajEXFScCACGCW4xeAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-15.tower-548.messagelabs.com!1644316030!8255!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 19722 invoked from network); 8 Feb 2022 10:27:10 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-15.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 8 Feb 2022 10:27:10 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 6F86D100453
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  8 Feb 2022 10:27:10 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 535CC100451
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  8 Feb 2022 10:27:10 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Tue, 8 Feb 2022 10:26:57 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-pytest: upgrade 6.2.5 -> 7.0.0
-Date: Tue, 8 Feb 2022 18:26:40 +0800
-Message-ID: <1644316000-5853-5-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1644316000-5853-1-git-send-email-wangmy@fujitsu.com>
-References: <1644316000-5853-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hUKVdVJi;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id i17so6318625lfg.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 08 Feb 2022 02:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hdzd73JbQKzwm1IxpqIDUfAMt1oyj44+yrnmlp2OVe8=;
+        b=hUKVdVJipvp9zzTL/N7IinEoM2OlBJ7Gwx8dmFMEwWu3iuE3f00fBGou0IGFuPb7kp
+         MrKGJru6SBGl+p8SwiyfrkgO2F0dT5OYS4XDVtIaQ3tvyUwCzPCVm/i1uKn7ljfoF9WW
+         0LFPY81J5fcTNXLx0uWtFLfMtUr1bJofA40IbAV+SDF65rxJvlF6L71nG7lK30zyy2to
+         HWO7vzI720HxKNTEwpD6bB2h/kr29e8HxGXoghgNQYL7LcjmNCfuczYhD3ICpR2KeW+S
+         UqO9xhjD4ZVkryOeGXGUtRQ1plVV/9MGLh816pB4+ijEMivq3jdIV4hXP0fzlz/KKTMM
+         4IBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hdzd73JbQKzwm1IxpqIDUfAMt1oyj44+yrnmlp2OVe8=;
+        b=Hy4Tuu0dsXfLpyIp91VfcZgIW7LHvZgtSor0gV0e+Ma+ToFIdX9SYRlqFjhI7v37im
+         UdXib43t2LZnL1rrt1tc94Ll7jZosQGw1xH7EZzPdwIy5IQHbOlcuJrvFWjARaMa3Q8L
+         zw0OGly4am9p3aPsApKRqMPRiBKWGwR6/O25xhDQngkDNKg4bM5yoMgzXLEMGIgsXIET
+         rakMCk6ByOAm4Q2OuJaxxkbCtXAB4L/bo55OsWBqCHd/u29RIjRicotanVfnmMh2NCtv
+         tizTi5xzZH649ciNVZuDTnzAMU3ZUk0MLU7txnZajDDrTAebC+1xrC4PuCTDgtPXGxhA
+         RKng==
+X-Gm-Message-State: AOAM532McTrs+bnhFsq4ypu1ThRAQkAxJNhM918+ZD3lEXmAGzxiDJdj
+	y5fgBtwDTfpKjmXI3UXWh2ycMAA+PGXSZYpaiW4=
+X-Google-Smtp-Source: 
+ ABdhPJwg/PbeYWAg6+6J7ANwzBp2gegi0Vk9vVgFqpBjQU2Yq0tR86ovd1XWHddmC7Pmq2NOjOURaFmvIMcRMPc9uE0=
+X-Received: by 2002:a05:6512:332a:: with SMTP id
+ l10mr2520392lfe.94.1644316238471;
+ Tue, 08 Feb 2022 02:30:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <20220208035000.400632-1-bkylerussell@gmail.com>
+In-Reply-To: <20220208035000.400632-1-bkylerussell@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 8 Feb 2022 10:30:27 +0000
+Message-ID: 
+ <CANPvuRmgE1RknD3qB8q0-D0uTTSFCOd1BA76TTmRJrMMbhXRHQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] devtool: get hooks directory path from git
+ rev-parse
+To: bkylerussell@gmail.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004ae47a05d77f3564"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 10:27:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 10:30:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161492
+ https://lists.openembedded.org/g/openembedded-core/message/161496
 
-License-Update: year from "2004-2020" changed to "2004".
+--0000000000004ae47a05d77f3564
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../{python3-pytest_6.2.5.bb => python3-pytest_7.0.0.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pytest_6.2.5.bb => python3-pytest_7.0.0.bb} (87%)
+Hi,
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_6.2.5.bb b/meta/recipes-devtools/python/python3-pytest_7.0.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-pytest_6.2.5.bb
-rename to meta/recipes-devtools/python/python3-pytest_7.0.0.bb
-index 0d8fdf6373..a68b452a0a 100644
---- a/meta/recipes-devtools/python/python3-pytest_6.2.5.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_7.0.0.bb
-@@ -3,9 +3,9 @@ HOMEPAGE = "https://pypi.org/project/pytest/"
- DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scales to support complex functional testing for applications and libraries."
- 
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
- 
--SRC_URI[sha256sum] = "131b36680866a76e6781d13f101efb86cf674ebb9762eb70d3082b6f29889e89"
-+SRC_URI[sha256sum] = "dad48ffda394e5ad9aa3b7d7ddf339ed502e5e365b1350e0af65f4a602344b11"
- 
- DEPENDS = "python3-setuptools-scm-native"
- 
--- 
-2.25.1
+<bkylerussell@gmail.com> escreveu no dia ter=C3=A7a, 8/02/2022 =C3=A0(s) 03=
+:50:
 
+> Ask git rev-parse to provide the path to the repo's hooks directory.
+>
+> This allows devtool to support git submodules, where only the
+> superproject contains a .git directory.
+>
+> git submodules contain .git files pointing to their parent repo,
+> which confuses devtool when it tries to modify the commit hooks by
+> a manually constructed path.
+>
+
++Signed-off-by: your@mail
+
+
+> ---
+>  meta/lib/oe/patch.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index 950fe723dc..976a966083 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -510,7 +510,7 @@ class GitApplyTree(PatchTree):
+>          reporoot =3D (runcmd("git rev-parse --show-toplevel".split(),
+> self.dir) or '').strip()
+>          if not reporoot:
+>              raise Exception("Cannot get repository root for directory %s=
+"
+> % self.dir)
+> -        hooks_dir =3D os.path.join(reporoot, '.git', 'hooks')
+> +        hooks_dir =3D runcmd("git rev-parse --git-path hooks".split())
+>
+
+This assumes that the git will run inside the self.dir but this is not
+guaranteed so adding self.dir to the runcmd is safer.
+
+
+>          hooks_dir_backup =3D hooks_dir + '.devtool-orig'
+>          if os.path.lexists(hooks_dir_backup):
+>              raise Exception("Git hooks backup directory already exists:
+> %s" % hooks_dir_backup)
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161473):
+> https://lists.openembedded.org/g/openembedded-core/message/161473
+> Mute This Topic: https://lists.openembedded.org/mt/88989924/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000004ae47a05d77f3564
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">&lt;<a href=3D"mailto:bkylerussell@gmail.com">bkyl=
+erussell@gmail.com</a>&gt; escreveu no dia ter=C3=A7a, 8/02/2022 =C3=A0(s) =
+03:50:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ask git r=
+ev-parse to provide the path to the repo&#39;s hooks directory.<br>
+<br>
+This allows devtool to support git submodules, where only the<br>
+superproject contains a .git directory.<br>
+<br>
+git submodules contain .git files pointing to their parent repo,<br>
+which confuses devtool when it tries to modify the commit hooks by<br>
+a manually constructed path.<br></blockquote><div><br></div><div>+Signed-of=
+f-by: your@mail<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+---<br>
+=C2=A0meta/lib/oe/patch.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py<br>
+index 950fe723dc..976a966083 100644<br>
+--- a/meta/lib/oe/patch.py<br>
++++ b/meta/lib/oe/patch.py<br>
+@@ -510,7 +510,7 @@ class GitApplyTree(PatchTree):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reporoot =3D (runcmd(&quot;git rev-parse =
+--show-toplevel&quot;.split(), self.dir) or &#39;&#39;).strip()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not reporoot:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Exception(&quot;Canno=
+t get repository root for directory %s&quot; % self.dir)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks_dir =3D os.path.join(reporoot, &#39;.git=
+&#39;, &#39;hooks&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks_dir =3D runcmd(&quot;git rev-parse --git=
+-path hooks&quot;.split())<br></blockquote><div><br></div><div>This assumes=
+ that the git will run inside the self.dir but this is not guaranteed so ad=
+ding self.dir to the runcmd=C2=A0is safer.</div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hooks_dir_backup =3D hooks_dir + &#39;.de=
+vtool-orig&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.lexists(hooks_dir_backup):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Exception(&quot;Git h=
+ooks backup directory already exists: %s&quot; % hooks_dir_backup)<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#161473): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/161473" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/161473</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88989924/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/88989924/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--0000000000004ae47a05d77f3564--
 
