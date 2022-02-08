@@ -1,138 +1,299 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bevenson@melinkcorp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6718AC433EF
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 16:59:05 +0000 (UTC)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
- [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web09.13995.1644339544965481784
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2A2C433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 20:36:36 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.122])
+ by mx.groups.io with SMTP id smtpd.web10.17024.1644352594468777658
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 08:59:05 -0800
+ Tue, 08 Feb 2022 12:36:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gZYST0KG;
- spf=pass (domain: gmail.com, ip: 209.85.217.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id f6so4108672vsa.5
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 08:59:04 -0800 (PST)
+ dkim=pass header.i=@melink.onmicrosoft.com
+ header.s=selector1-melink-onmicrosoft-com header.b=mt5+0D/V;
+ spf=pass (domain: melinkcorp.com, ip: 40.107.94.122,
+ mailfrom: bevenson@melinkcorp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WAcvjVjseb4XYUusRe2svbQR0gU33pDbYjsqoc0gbgz2GpO4gyRIhEQPoAOfcRYidMoSRqhIJ6yHOJvYTUv2DkWiIHyv14yGiZkvl+S1gJfvOY3UgiqeRuDKJu1T9ldtb7E7YI8UArdwH7fb7RAD6tBJAXEugETwEkIDJE541HS/ezWOXm13ZS5GWsuHMzKpmH3HHmZFdSJkRfLJBN5RN3Lm2A5cjd4CgNglY2KfAoAX+VKrVaXaDyf5FVlqWmPIk0kmEFZIRvdfFbGSt9Bqp0wQYk2ABX0L/FOBhbTAi5AOSIHJsOHE8Fkrqn9wAxh24YvXHzvKn80O/NlkprcDbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vsO6E1i6qTfACJP4jSwJYgz+Dx3zxQ6GcnMwxKlvv98=;
+ b=FSVUFl64tDGRgbePsySBBaP0yRtPnFChv726idy7TI3eoBsqpShwuFKQdRNy1XTqzY1WAQvo4LJrMKVYBm8JjcHBjq1o8LTVmxr7lZD4JvZ89EetHzj82LGc62WIuvmfSa28bJR046Y4do8QbXyXcuu6nWnXLUsKkTRMLuoU5mDG0mKtNEERJCvDRopetX957iQ9/OJ61E6DBcYdGG9rxo8uTx8TdnIr06/HU19rucnt4afcVmT9i4s1I/s7e/1unEkz2eHSihZeub/tGind6XbBv7Vo0okSysootFRmDlRXQECm1PQTFVaRvcCDmEI61x0rMLtlmmGUEez7ue90WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d4gvXraAr51pAN1YwPMZrHOQlNjYfdNTpA/WzQuHnBA=;
-        b=gZYST0KGmdKDjkx9+8t1OUy+NdBzYgptfdZwcfqyI6EgrEC7sus0X0sSoKAm+KUrSl
-         qs9VYcj77zTA/G0yA2q2ZuDX5e66VHg+Qmzy6UiBJmH2VCkTJdk8ZYyLG/pgi1sM9/Gd
-         Mr7gVTtMdKLimm3NnUd8SPxS1LONA0X7ymY2L8nUragB/jcOF2G8QEZXa5kGKolSjX1v
-         HbXXi7ICHBzGIHXAs1usQk8ulVncp9Fi32GanRYa+Iq+E3sKUIQNxneBSMXX3YvL7Ucp
-         BXzfWAO5k2DOHNv++cDlN/YKUaAN4Xrj7sl+c/dJR2DsS4SjVfUdV3RANWOD+g7iMVnC
-         qLHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d4gvXraAr51pAN1YwPMZrHOQlNjYfdNTpA/WzQuHnBA=;
-        b=Gk8CTzT7jfF8h9lPdxiy4ra9tI3lAbFjgXdMOI9kIo1tYfS6tAlc9980qKfmGbGkQK
-         mSVe+3kQKcnKW8bp7kOKu8yU37aH1jMNrlwqWCxy28M8YV631AlH3Zm7Aae6yidqux8H
-         +uB73y3esjsQTDvb2V02M0CwguMQstx+o6NQktLrAYd9eTjUUNF6M39/Y2Z6gOKP6JXU
-         keqw2FItuSGHRE9UcTb6t90+xWdXKZBu6LvDMip1QL9mvk5hW8PjTmpCldJFgpKVlDPg
-         Dvp8tZ6Ozq62J8QIhZ0bAmcWgFcnYwHccfvM6Y1RD2I8PhBU+NPYEBsC4Ov3xjUyyFHd
-         HLWA==
-X-Gm-Message-State: AOAM533WQQHyjvQpTKoRKF2CqpcBqlfOF/e7pREAfwYEa1A+Qwfm+k4d
-	2wlGNOa7yjJ1W8h8lThK+HDkZ285KOmyi8VOkffutnI8
-X-Google-Smtp-Source: 
- ABdhPJx4uzX4B46hCgW3URkcsRaB53Zq/NuadzuK6yA3jKs+ztRIVRlXZnXK5/i29J4DJ//WjvrzKSkeLqC6QYbG6Cc=
-X-Received: by 2002:a67:a401:: with SMTP id n1mr1661807vse.38.1644339544077;
- Tue, 08 Feb 2022 08:59:04 -0800 (PST)
-MIME-Version: 1.0
+ d=Melink.onmicrosoft.com; s=selector1-Melink-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vsO6E1i6qTfACJP4jSwJYgz+Dx3zxQ6GcnMwxKlvv98=;
+ b=mt5+0D/VjusF5UiFTRTkgJ5A3EO53RkiZ2/C171nwZR02Q88MfPzJdcfylkIQd2Ux1/MWkCAf6dgJKMcfs0qSnHS5xNEZjz6Mobhhw7g9y9qpe/qHgoUqWPmJwnZ2Y8Y1WlJRtpSlivQzT49Mm0wA03kIGCdlLC1HwjZUVuz0H9yx7AFG1y9LpsTt4hdKJX3DkohYfd0mFLShKhAuxoxE0zSg0SpYJNJiOM6Cy5vVaLvyflN7FKbu/SD0uo2H1sXkTpl/Dpz3Lr2HJirAsp1EK+Fahhxk2c5rHLB7eKbT0LA2ngf96SzIb3Dld9WjFekk65OZRuJmzN13RZ1gamCcw==
+Received: from CH0PR20MB3948.namprd20.prod.outlook.com (2603:10b6:610:c6::22)
+ by DM6PR20MB3003.namprd20.prod.outlook.com (2603:10b6:5:1d2::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.18; Tue, 8 Feb
+ 2022 20:36:32 +0000
+Received: from CH0PR20MB3948.namprd20.prod.outlook.com
+ ([fe80::b805:3743:bea:e7d]) by CH0PR20MB3948.namprd20.prod.outlook.com
+ ([fe80::b805:3743:bea:e7d%5]) with mapi id 15.20.4951.018; Tue, 8 Feb 2022
+ 20:36:32 +0000
+From: Bryan Evenson <bevenson@melinkcorp.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] gio-querymodules: error while loading shared libraries:
+ libffi.so.6: cannot open shared object file
+Thread-Topic: [OE-core] gio-querymodules: error while loading shared
+ libraries: libffi.so.6: cannot open shared object file
+Thread-Index: AdgcTEk/yTwxPrPGTJaVV/RKLvaNJQACGOWAACSkBfAACXpSAAAGhO3g
+Date: Tue, 8 Feb 2022 20:36:32 +0000
+Message-ID: 
+ <CH0PR20MB3948F3D57A8F78D131B9B246BB2D9@CH0PR20MB3948.namprd20.prod.outlook.com>
 References: 
  <CH0PR20MB3948AC26096D485ED45706F6BB2C9@CH0PR20MB3948.namprd20.prod.outlook.com>
  <CANNYZj9_bX2BLzXWM6f+OZL9dsjDrycc8TWrZkQMkW0MznYfgg@mail.gmail.com>
  <CH0PR20MB39480F83C8949247D7968800BB2D9@CH0PR20MB3948.namprd20.prod.outlook.com>
-In-Reply-To: 
- <CH0PR20MB39480F83C8949247D7968800BB2D9@CH0PR20MB3948.namprd20.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Feb 2022 17:58:52 +0100
-Message-ID: 
  <CANNYZj8FiA8==JdmsV-ws=q+0W8hQQRPM6o0+OsGrrjpRo+gXg@mail.gmail.com>
-Subject: Re: [OE-core] gio-querymodules: error while loading shared libraries:
- libffi.so.6: cannot open shared object file
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006a394f05d784a2e4"
+In-Reply-To: 
+ <CANNYZj8FiA8==JdmsV-ws=q+0W8hQQRPM6o0+OsGrrjpRo+gXg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-bromium-msgid: 1f6ae610-a4fc-4368-80b9-0c259699a988
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=melinkcorp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6eab0c6a-d1ec-409a-abd0-08d9eb42b154
+x-ms-traffictypediagnostic: DM6PR20MB3003:EE_
+x-microsoft-antispam-prvs: 
+ <DM6PR20MB30031E8D8C66B8FED8DDBFABBB2D9@DM6PR20MB3003.namprd20.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ zYcVHaLUa/McKJVpNqC7eVuFFur9p4amXYo/qunJv/x/LBKNAhM7MdA03eu4DqFWlMlDhhLGAq5WJtsYGxH4CeWjJsU2oCRpaRB3gcJ/DrhyR2E8F6BfAjJNFkz4AmB2Y84fjvvWe8wb+aINE2IDLsnPYAquakGaB+5rdkn0u4+BlpaA40l+sQbutmVB0z5LcBaWGynvo4BP+dVUMWs+HTuhR1NsFspOh8wIw94yMAuuPTPIszkCDFb0Ay/26eONa6robF1Ob5xkD7wt4jD6XQviLpqS9VHXByhO5NOk9JgpME4Z+M+X7Vlqb3Bt0ndtdi2AMynja0FTGnnTw8pyg7xCY/RNZ01T/+Y5UvnZF/Adrg4+FL6ewOEr2dPXXvF0c7bfh1rxGCHQZBFpuZHL+ELvEU+ZQxjW3Q5tFF3PuQaQlTjwmgjZypwCY3zCItfRYzd1Qq+7373mpuYYAa+AX+J+BDw6TIpwtnSp52awpqRP24Qs2OP2pySJ5vLf5BPdvKDUxBa8RT98cxDQAOM0b78j0xA5LBxBNBYv4IA9tfi/jdPWlNjbTix1Uuc541YRHkG3laD6WmCRFkMn4kJBHafdaHK6LVFGxy7U0Gp+pDFxis+hg1tSefI8WPBxWA/SQzOYbgCzApfwTMVWFFrDBgQWlxhReFrR0DbR9CIdf5XN2WMOCycca3wnV5WHI95gwavS0RqGoPXWh23TzWVPmQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR20MB3948.namprd20.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(346002)(39840400004)(396003)(376002)(136003)(6506007)(7696005)(8676002)(76116006)(8936002)(316002)(2906002)(66476007)(55016003)(71200400001)(5660300002)(53546011)(52536014)(86362001)(38100700002)(64756008)(66446008)(33656002)(122000001)(508600001)(4326008)(66946007)(66556008)(9686003)(6916009)(38070700005)(186003)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?aGRUbHhxRDlyUkl3TDZvTVlOOUdWMDBabXRsY1pySDlJbzdGWW81aXljUUtD?=
+ =?utf-8?B?ejlGTXRVTHdIMlMybUN0c3kweC94SzU4L0EzUUtPOExRTHlXT2JKMS9vc1BT?=
+ =?utf-8?B?Rk1La1k5bTZmZHhvN0tqMDdCNTVPU2xiTUd3bTRuRkkwM1NUbjBERTBpU0ZK?=
+ =?utf-8?B?NGxZMUoreDJvN3Izd3Z4eGZ1ZkNYRUVQaHAyaEJqREJhUVExeDhJQlV2L1lE?=
+ =?utf-8?B?R0xxUEczQXcvOTZsQzZIWGtZQmtWeEczZnhSb3BHUmE3aFhqd2pSRGRHUXRI?=
+ =?utf-8?B?NGhiSkNITjRlQnBwL3dZcFFSNzU2Q09EQnd4NHlGbEdiQ0ZEMmpFY0hqR1Vv?=
+ =?utf-8?B?bGo1RDVKSmVSRktINWoxQTBnZENKSzZOLytUa3luWVMrZ01JaUNPcEdoU1hW?=
+ =?utf-8?B?NDJTY2krVllqcFY5a0ZUYys5d0p4bnRYSTBSZEZtUjZEbEV2eDJVK04zY0Yv?=
+ =?utf-8?B?OWtPSXpmakpEWEl3VEZ3Vk9FZGtoQWFsc3VoTThpa1hPQmlkZEJ6NlB2L0py?=
+ =?utf-8?B?MVJMcTZjSUdWQ28rNHlGOUdLcG9ZYVJxVjV0OEppQXdpRzEveWp3elpzWG9m?=
+ =?utf-8?B?QkJpSG5IZXIrUkF2MXR0MGRESnMvbHdYL0twVDlSUC9XT0FWL3VxTVFwMlI5?=
+ =?utf-8?B?SGhFcnJlSUpRRGxDQkxsYmRaaXZIMUpudFlYQlp3emQ1QlBMN3RyRW9JNVFa?=
+ =?utf-8?B?NmpSVkREZHM2OGlOMlMxWVdmTnAvVk42SjNoTkxqSk9FQ1k5VUlxby8vZk95?=
+ =?utf-8?B?dFBhM0xmb0k5SGpDeXFaRUdqUnJJZi9vamlNVHJqU0V4SElsOUU1ZWxaNU1J?=
+ =?utf-8?B?blBEMzRSVW1NdXBRL3pFVzRsNUdNS0RRMlAxRk5YblRZbi9kNndRSTZ1c1VC?=
+ =?utf-8?B?R1BkMFJuN3htR2ExNkhDOGZENzNoZFBQemJrZXBIRFZacHloZEVvVVRwdjJK?=
+ =?utf-8?B?dzNCS1NKVnRJdmdaK1hlRDJSaGdDa0NKMUh4RnRuWStQNFRUK1VBZkpvYTN0?=
+ =?utf-8?B?aFRGeUpmMXBTdlRScWdJb0tHODFuZDUwUy9paUZXdlh5ditNMzBxVWFheDAy?=
+ =?utf-8?B?VHJtQ09uMlY0MkZlY1E3TFAyaHZHR0p1SFlEeWZPS2NNekhUL3luNUdLa0lO?=
+ =?utf-8?B?QXU0YUFZT29UdUg5Ny9HdDdybU5zWE91ZGNpZGZoNEpNcXpQdFg0SE0wSnJl?=
+ =?utf-8?B?RW9nM21rZkZpbDRMdGFFY0dSbVh5UlFrZ0tMbEpwL3MydVJFck9HazhIci9D?=
+ =?utf-8?B?dTlZYkFFY043MGRLN291Nys2TmdNaFY5VHlzM1QweHNqcFEyTTBFYzVFcTFN?=
+ =?utf-8?B?Q0FhVkhlcVdlWVlEa2JSQnFxUWlzZC9NeDJSWUd0UG50ZXVFN0tpczlpWklG?=
+ =?utf-8?B?cXBhRWQ4eXlVaEszWFB1T3I5MWlLemJWOHVIRUprM3I2QlZQNmZlSEtzNnlT?=
+ =?utf-8?B?NHVxOHBBZ1ROYkNiN1llOTFxMjNzQlFHaklBY1VPSnRFaThBQXNhREVVeDZR?=
+ =?utf-8?B?Y2hJL2sxUHphNldETXI0cmJJMXlMZ3dLZkc0ckxPVTN1Z0RRUklkc1pDTlVh?=
+ =?utf-8?B?cXZIOGI3S1R3Z0xYYzFIV0FWVVZidjFZRE40Q3pWVG44NVdWRHBIWHJsOHZ3?=
+ =?utf-8?B?eTZ5emhZSTlJQWhHM2hVa3I0L1d5UUJOZ2cwbFU4MHI2RkR5Sm1lbnpyRUlT?=
+ =?utf-8?B?NmNsRzFwZERTR1NKeUZ2NHlxeThoOEJYeGVzRk0yUlFWWEJ6WTJFVFlUTGN5?=
+ =?utf-8?B?VGhMWm1YaFdtaWZ0NmlsTzQ5L0hWbG9VNitKSlJaeFJ3UEFGN3Z6NWE5Mzda?=
+ =?utf-8?B?YzM4cEs2SUY3QkhjZHFXditRZElHZHJmL2dHN0FaeWlKelNRbnFHMHBPaW1O?=
+ =?utf-8?B?dHJnY0Fvemoxb3RELzJQOFFwTzB6b3I3WmdjYlM2alJnTVhyZjRPeWlqbENH?=
+ =?utf-8?B?dlBFK2RrSnBYY0VKWEdBRms2anlHY0F1U1hTNUpHNU1GYk0rVmRqMTIrVHJJ?=
+ =?utf-8?B?WXpvNXZqUEhkVnN5MXI5K1l1MmRoVFdobUkwblo0c0hPdXVQcVROTnM0K2Vk?=
+ =?utf-8?B?bmo3aS84dTlRMTRhYndzMVNIdkVHd3hWMHBkZnlKZW94aHdYcTkrdSs2aGpS?=
+ =?utf-8?B?SjhEc2JxYXFpRlFGWnJmYXoxbHBsVWUrdlNpZ1AvbEwxekxzK1NhaHhGdmN1?=
+ =?utf-8?B?cUc4aFhNaS9oMXdieCt3T05FU2cxamEzdzVVYU41QkVWdzVOM2pXK2pXSDE1?=
+ =?utf-8?Q?sDDrAwtK8YGbdnF5BHkVq+EBl1ks3PIjdslaDfQPzs=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_CH0PR20MB3948F3D57A8F78D131B9B246BB2D9CH0PR20MB3948namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: melinkcorp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR20MB3948.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 6eab0c6a-d1ec-409a-abd0-08d9eb42b154
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2022 20:36:32.3558
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d06db0f9-efcc-42b5-9f8c-c934a01c9bfd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ yEC8VfDFd6lARpYDe34rJINdIvH38pA2WT+okoFWBs3g+PAlv66wHssFf2IHkktcfVucVo66nH/vomlXnl53TA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR20MB3003
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 16:59:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 20:36:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161524
+ https://lists.openembedded.org/g/openembedded-core/message/161525
 
---0000000000006a394f05d784a2e4
-Content-Type: text/plain; charset="UTF-8"
+--_000_CH0PR20MB3948F3D57A8F78D131B9B246BB2D9CH0PR20MB3948namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 8 Feb 2022 at 16:25, Bryan Evenson <bevenson@melinkcorp.com> wrote:
+QWxleCwNCg0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
+DQpTZW50OiBUdWVzZGF5LCBGZWJydWFyeSA4LCAyMDIyIDExOjU5IEFNDQpUbzogQnJ5YW4gRXZl
+bnNvbiA8YmV2ZW5zb25AbWVsaW5rY29ycC5jb20+DQpDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lv
+bnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIGdpby1xdWVyeW1vZHVsZXM6IGVy
+cm9yIHdoaWxlIGxvYWRpbmcgc2hhcmVkIGxpYnJhcmllczogbGliZmZpLnNvLjY6IGNhbm5vdCBv
+cGVuIHNoYXJlZCBvYmplY3QgZmlsZQ0KDQpPbiBUdWUsIDggRmViIDIwMjIgYXQgMTY6MjUsIEJy
+eWFuIEV2ZW5zb24gPGJldmVuc29uQG1lbGlua2NvcnAuY29tPG1haWx0bzpiZXZlbnNvbkBtZWxp
+bmtjb3JwLmNvbT4+IHdyb3RlOg0KSSB0cmFjZWQgYmFjayBhbmQgSSBzZWUgdGhlIGdpby1xdWVy
+eW1vZHVsZXMgY2FsbCBpcyBpbnNlcnRlZCBpbiB0aGUgcG9zdHJtIGJ5IGdpby1tb2R1bGUtY2xh
+c3MuYmJjbGFzcy4gIEJhc2VkIG9uIHRoZSBjb21taXQgbm90ZXMsIHRoZSBwb3N0cm0gYW5kIHBv
+c3RpbnN0IHN0ZXBzIGFyZSBhbiBvcHRpbWl6YXRpb24gYW5kIGFyZSBub3QgcmVxdWlyZWQgdG8g
+c3VjY2VlZC4gIFRoZXJlZm9yZSBJJ2QgYXJndWUgdGhpcyBzaG91bGQgZmFpbCBncmFjZWZ1bGx5
+OyBqdXN0IGJlY2F1c2Ugd2UgaGF2ZW4ndCB5ZXQgc2VlbiB0aGlzIGZhaWwgZHVyaW5nIG1pbm9y
+IHVwZ3JhZGUgYXR0ZW1wdHMgZG9lc24ndCBtZWFuIGl0IGNhbid0LiAgSSdkIHByb3Bvc2UgY2hh
+bmdpbmcgdGhlIGxpbmU6DQoNCiAgICAke2xpYmV4ZWNkaXJ9LyR7TUxQUkVGSVh9Z2lvLXF1ZXJ5
+bW9kdWxlcyAke2xpYmRpcn0vZ2lvL21vZHVsZXMvDQoNCmluIGdpby1tb2R1bGUtY2FjaGUuYmJj
+bGFzcyB0bzoNCg0KICAgICR7bGliZXhlY2Rpcn0vJHtNTFBSRUZJWH1naW8tcXVlcnltb2R1bGVz
+ICR7bGliZGlyfS9naW8vbW9kdWxlcy8gfHwgdHJ1ZQ0KDQpJIHRlc3RlZCB0aGlzIGNoYW5nZSBh
+bmQgaXQgZml4ZWQgbXkgdXBncmFkZSBpc3N1ZS4gIEkgc3RpbGwgc2F3IHRoZSBlcnJvciBtZXNz
+YWdlIGJ1dCBsaWJnbGliLTIuMCBjb21wbGV0ZWQgaXRzIHVwZ3JhZGUgc3VjY2Vzc2Z1bGx5LiAg
+SWYgeW91IGRvbid0IHNlZSBhbnkgaXNzdWVzIHdpdGggdGhpcyBjaGFuZ2UsIEknbGwgc2VuZCBh
+IHBhdGNoIG91dCBsYXRlciB0b2RheS4NCg0KVGhpcyBjaGFuZ2Ugd2lsbCBtYXNrIGFsbCBmYWls
+dXJlcyB0aGF0IGhhcHBlbiBmb3IgYW55IHJlYXNvbiwgbm90IGp1c3QgdGhlIG9uZSB5b3Ugc2F3
+LCBzbyBJIGFtIG5vdCBnb2luZyB0byBhY2NlcHQgaXQuIFRoZSBjb3JyZWN0IGZpeCBpcyB0byBm
+aWd1cmUgb3V0IHdoYXQgd291bGQgYmUgdGhlIGNvcnJlY3Qgb3JkZXIgb2YgdXBkYXRpbmcgYW5k
+IHdoeSBvcGtnIGlzbid0IGFibGUgdG8gcGVyZm9ybSB0aGUgbWFzcy11cGRhdGUgaW4gdGhhdCBv
+cmRlci4NCg0KQWxleA0KDQpBcyBiZXN0IEkgY2FuIHRlbGwsIHRoaXMgaXMgYnJlYWtpbmcgYmVj
+YXVzZSBsaWJmZmkgdXBncmFkZWQgZnJvbSBsaWJmZmk2IHRvIGxpYmZmaTcuICBUaGUgb2xkIHZl
+cnNpb24gb2YgZ2xpYi0yLjAgZGVwZW5kcyBvbiBsaWJmZmk2IGFuZCB0aGUgbmV3IHZlcnNpb24g
+b2YgZ2xpYi0yLjAgZGVwZW5kcyBvbiBsaWJmZmk3LiAgT3BrZyBzdGFydHMgdG8gdXBncmFkZSBn
+bGliLTIuMCwgYnV0IGl0IGZpcnN0IHVwZ3JhZGVzIHRoZSBkZXBlbmRlbnQgcGFja2FnZXMuICBU
+aGlzIHJlbW92ZXMgbGliZmZpNiBhbmQgaW5zdGFsbHMgbGliZmZpNy4gIFRoZW4sIHRoZSBwb3N0
+cm0gc2NyaXB0IHJ1bnMgZm9yIGdsaWItMi4wIHVzaW5nIHRoZSBvbGQgYmluYXJpZXMuICBUaGUg
+Z2lvLXF1ZXJ5bW9kdWxlcyBjYWxsIHRoZW4gZmFpbHMgYmVjYXVzZSBpdCB0cmllcyB0byBsb2Fk
+IGxpYmZmaTYgd2hpY2ggbm8gbG9uZ2VyIGV4aXN0cy4gIEV2ZW4gaWYgSSB3YXMgYWJsZSB0byBk
+ZWZlciB1cGdyYWRpbmcgbGliZmZpIGZyb20gbGliZmZpNiB0byBsaWJmZmk3IHVudGlsIGFmdGVy
+IGdsaWItMi4wIHVwZ3JhZGVzLCBJ4oCZZCB0aGVuIHJ1biBpbnRvIGEgc2ltaWxhciBwcm9ibGVt
+IHdpdGggdGhlIHBvc3RpbnN0IHNjcmlwdC4gIEluIHRoYXQgY2FzZSwgZ2lvLXF1ZXJ5bW9kdWxl
+cyB3b3VsZCBmYWlsIGJlY2F1c2UgaXQgd291bGQgdHJ5IHRvIGxvYWQgbGliZmZpNyB3aGljaCB3
+b3VsZCBub3QgYmUgaW5zdGFsbGVkIHlldC4NCg0KSSB1bmRlcnN0YW5kIHRoYXQgeW91IGRvbuKA
+mXQgd2FudCBlcnJvcnMgdG8gZ28gdGhyb3VnaCB1bmRldGVjdGVkLiAgV291bGQgYW4gYXBwcm9w
+cmlhdGUgZXJyb3IgbWVzc2FnZSwgc3VjaCBhczoNCg0KICAgICR7bGliZXhlY2Rpcn0vJHtNTFBS
+RUZJWH1naW8tcXVlcnltb2R1bGVzICR7bGliZGlyfS9naW8vbW9kdWxlcy8gfHwgZWNobyDigJxH
+SU8gbW9kdWxlIGNhY2hpbmcgZmFpbGVkLiAgWW91IG1heSBuZWVkIHRvIG1hbnVhbGx5IHVwZGF0
+ZSB0aGUgR0lPIG1vZHVsZSBjYWNoZS7igJ0NCg0KV29yayBmb3IgeW91Pw0KDQpUaGFua3MsDQpC
+cnlhbg0K
 
-> I traced back and I see the gio-querymodules call is inserted in the
-> postrm by gio-module-class.bbclass.  Based on the commit notes, the postrm
-> and postinst steps are an optimization and are not required to succeed.
-> Therefore I'd argue this should fail gracefully; just because we haven't
-> yet seen this fail during minor upgrade attempts doesn't mean it can't.
-> I'd propose changing the line:
->
->     ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modules/
->
-> in gio-module-cache.bbclass to:
->
->     ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modules/ ||
-> true
->
-> I tested this change and it fixed my upgrade issue.  I still saw the error
-> message but libglib-2.0 completed its upgrade successfully.  If you don't
-> see any issues with this change, I'll send a patch out later today.
->
+--_000_CH0PR20MB3948F3D57A8F78D131B9B246BB2D9CH0PR20MB3948namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This change will mask all failures that happen for any reason, not just the
-one you saw, so I am not going to accept it. The correct fix is to figure
-out what would be the correct order of updating and why opkg isn't able to
-perform the mass-update in that order.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
+OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOQ0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
+bC1jb21wb3NlOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOndp
+bmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7
+DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24x
+DQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13
+cmFwOmJyZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPkFsZXgsPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNv
+bGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6
+My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+RnJvbTo8L2I+IEFs
+ZXhhbmRlciBLYW5hdmluICZsdDthbGV4LmthbmF2aW5AZ21haWwuY29tJmd0OyA8YnI+DQo8Yj5T
+ZW50OjwvYj4gVHVlc2RheSwgRmVicnVhcnkgOCwgMjAyMiAxMTo1OSBBTTxicj4NCjxiPlRvOjwv
+Yj4gQnJ5YW4gRXZlbnNvbiAmbHQ7YmV2ZW5zb25AbWVsaW5rY29ycC5jb20mZ3Q7PGJyPg0KPGI+
+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciAm
+bHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5T
+dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBnaW8tcXVlcnltb2R1bGVzOiBlcnJvciB3aGlsZSBs
+b2FkaW5nIHNoYXJlZCBsaWJyYXJpZXM6IGxpYmZmaS5zby42OiBjYW5ub3Qgb3BlbiBzaGFyZWQg
+b2JqZWN0IGZpbGU8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwgOCBGZWIgMjAyMiBhdCAxNjoyNSwgQnJ5YW4gRXZlbnNv
+biAmbHQ7PGEgaHJlZj0ibWFpbHRvOmJldmVuc29uQG1lbGlua2NvcnAuY29tIj5iZXZlbnNvbkBt
+ZWxpbmtjb3JwLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8Ymxv
+Y2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBw
+dDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdo
+dDowaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSB0cmFjZWQgYmFjayBhbmQgSSBzZWUgdGhl
+IGdpby1xdWVyeW1vZHVsZXMgY2FsbCBpcyBpbnNlcnRlZCBpbiB0aGUgcG9zdHJtIGJ5IGdpby1t
+b2R1bGUtY2xhc3MuYmJjbGFzcy4mbmJzcDsgQmFzZWQgb24gdGhlIGNvbW1pdCBub3RlcywgdGhl
+IHBvc3RybSBhbmQgcG9zdGluc3Qgc3RlcHMgYXJlIGFuIG9wdGltaXphdGlvbiBhbmQgYXJlIG5v
+dCByZXF1aXJlZCB0byBzdWNjZWVkLiZuYnNwOyBUaGVyZWZvcmUgSSdkIGFyZ3VlDQogdGhpcyBz
+aG91bGQgZmFpbCBncmFjZWZ1bGx5OyBqdXN0IGJlY2F1c2Ugd2UgaGF2ZW4ndCB5ZXQgc2VlbiB0
+aGlzIGZhaWwgZHVyaW5nIG1pbm9yIHVwZ3JhZGUgYXR0ZW1wdHMgZG9lc24ndCBtZWFuIGl0IGNh
+bid0LiZuYnNwOyBJJ2QgcHJvcG9zZSBjaGFuZ2luZyB0aGUgbGluZTo8YnI+DQo8YnI+DQombmJz
+cDsgJm5ic3A7ICR7bGliZXhlY2Rpcn0vJHtNTFBSRUZJWH1naW8tcXVlcnltb2R1bGVzICR7bGli
+ZGlyfS9naW8vbW9kdWxlcy88YnI+DQo8YnI+DQppbiBnaW8tbW9kdWxlLWNhY2hlLmJiY2xhc3Mg
+dG86PGJyPg0KPGJyPg0KJm5ic3A7ICZuYnNwOyAke2xpYmV4ZWNkaXJ9LyR7TUxQUkVGSVh9Z2lv
+LXF1ZXJ5bW9kdWxlcyAke2xpYmRpcn0vZ2lvL21vZHVsZXMvIHx8IHRydWU8YnI+DQo8YnI+DQpJ
+IHRlc3RlZCB0aGlzIGNoYW5nZSBhbmQgaXQgZml4ZWQgbXkgdXBncmFkZSBpc3N1ZS4mbmJzcDsg
+SSBzdGlsbCBzYXcgdGhlIGVycm9yIG1lc3NhZ2UgYnV0IGxpYmdsaWItMi4wIGNvbXBsZXRlZCBp
+dHMgdXBncmFkZSBzdWNjZXNzZnVsbHkuJm5ic3A7IElmIHlvdSBkb24ndCBzZWUgYW55IGlzc3Vl
+cyB3aXRoIHRoaXMgY2hhbmdlLCBJJ2xsIHNlbmQgYSBwYXRjaCBvdXQgbGF0ZXIgdG9kYXkuPG86
+cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPlRoaXMgY2hhbmdlIHdpbGwgbWFzayBhbGwgZmFpbHVyZXMgdGhhdCBoYXBwZW4g
+Zm9yIGFueSByZWFzb24sIG5vdCBqdXN0IHRoZSBvbmUgeW91IHNhdywgc28gSSBhbSBub3QgZ29p
+bmcgdG8gYWNjZXB0IGl0LiBUaGUgY29ycmVjdCBmaXggaXMgdG8gZmlndXJlIG91dCB3aGF0IHdv
+dWxkIGJlIHRoZSBjb3JyZWN0IG9yZGVyIG9mIHVwZGF0aW5nIGFuZCB3aHkgb3BrZyBpc24ndCBh
+YmxlIHRvIHBlcmZvcm0gdGhlDQogbWFzcy11cGRhdGUgaW4gdGhhdCBvcmRlci48bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QWxleDxvOnA+PC9v
+OnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj5BcyBiZXN0IEkgY2FuIHRlbGwsIHRoaXMgaXMgYnJlYWtpbmcgYmVj
+YXVzZSBsaWJmZmkgdXBncmFkZWQgZnJvbSBsaWJmZmk2IHRvIGxpYmZmaTcuJm5ic3A7IFRoZSBv
+bGQgdmVyc2lvbiBvZiBnbGliLTIuMCBkZXBlbmRzIG9uIGxpYmZmaTYgYW5kIHRoZSBuZXcgdmVy
+c2lvbiBvZiBnbGliLTIuMCBkZXBlbmRzIG9uIGxpYmZmaTcuJm5ic3A7IE9wa2cgc3RhcnRzIHRv
+IHVwZ3JhZGUgZ2xpYi0yLjAsIGJ1dCBpdCBmaXJzdCB1cGdyYWRlcw0KIHRoZSBkZXBlbmRlbnQg
+cGFja2FnZXMuJm5ic3A7IFRoaXMgcmVtb3ZlcyBsaWJmZmk2IGFuZCBpbnN0YWxscyBsaWJmZmk3
+LiZuYnNwOyBUaGVuLCB0aGUgcG9zdHJtIHNjcmlwdCBydW5zIGZvciBnbGliLTIuMCB1c2luZyB0
+aGUgb2xkIGJpbmFyaWVzLiZuYnNwOyBUaGUgZ2lvLXF1ZXJ5bW9kdWxlcyBjYWxsIHRoZW4gZmFp
+bHMgYmVjYXVzZSBpdCB0cmllcyB0byBsb2FkIGxpYmZmaTYgd2hpY2ggbm8gbG9uZ2VyIGV4aXN0
+cy4mbmJzcDsgRXZlbiBpZiBJIHdhcyBhYmxlIHRvIGRlZmVyDQogdXBncmFkaW5nIGxpYmZmaSBm
+cm9tIGxpYmZmaTYgdG8gbGliZmZpNyB1bnRpbCBhZnRlciBnbGliLTIuMCB1cGdyYWRlcywgSeKA
+mWQgdGhlbiBydW4gaW50byBhIHNpbWlsYXIgcHJvYmxlbSB3aXRoIHRoZSBwb3N0aW5zdCBzY3Jp
+cHQuJm5ic3A7IEluIHRoYXQgY2FzZSwgZ2lvLXF1ZXJ5bW9kdWxlcyB3b3VsZCBmYWlsIGJlY2F1
+c2UgaXQgd291bGQgdHJ5IHRvIGxvYWQgbGliZmZpNyB3aGljaCB3b3VsZCBub3QgYmUgaW5zdGFs
+bGVkIHlldC48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSB1bmRlcnN0YW5kIHRoYXQgeW91IGRv
+buKAmXQgd2FudCBlcnJvcnMgdG8gZ28gdGhyb3VnaCB1bmRldGVjdGVkLiZuYnNwOyBXb3VsZCBh
+biBhcHByb3ByaWF0ZSBlcnJvciBtZXNzYWdlLCBzdWNoIGFzOjxvOnA+PC9vOnA+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj4mbmJzcDsgJm5ic3A7ICR7bGliZXhlY2Rpcn0vJHtNTFBSRUZJWH1naW8tcXVlcnltb2R1
+bGVzICR7bGliZGlyfS9naW8vbW9kdWxlcy8gfHwgZWNobyDigJxHSU8gbW9kdWxlIGNhY2hpbmcg
+ZmFpbGVkLiZuYnNwOyBZb3UgbWF5IG5lZWQgdG8gbWFudWFsbHkgdXBkYXRlIHRoZSBHSU8gbW9k
+dWxlIGNhY2hlLuKAnTxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Xb3JrIGZvciB5b3U/PG86cD48
+L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPlRoYW5rcyw8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPkJyeWFuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Alex
-
---0000000000006a394f05d784a2e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 8 Feb 2022 at 16:25, Bryan Evenson &lt;<a href=3D"mailto:bev=
-enson@melinkcorp.com">bevenson@melinkcorp.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">I traced back and I see the gi=
-o-querymodules call is inserted in the postrm by gio-module-class.bbclass.=
-=C2=A0 Based on the commit notes, the postrm and postinst steps are an opti=
-mization and are not required to succeed.=C2=A0 Therefore I&#39;d argue thi=
-s should fail gracefully; just because we haven&#39;t yet seen this fail du=
-ring minor upgrade attempts doesn&#39;t mean it can&#39;t.=C2=A0 I&#39;d pr=
-opose changing the line:<br>
-<br>
-=C2=A0 =C2=A0 ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modul=
-es/<br>
-<br>
-in gio-module-cache.bbclass to:<br>
-<br>
-=C2=A0 =C2=A0 ${libexecdir}/${MLPREFIX}gio-querymodules ${libdir}/gio/modul=
-es/ || true<br>
-<br>
-I tested this change and it fixed my upgrade issue.=C2=A0 I still saw the e=
-rror message but libglib-2.0 completed its upgrade successfully.=C2=A0 If y=
-ou don&#39;t see any issues with this change, I&#39;ll send a patch out lat=
-er today.<br></blockquote><div><br></div></div><div class=3D"gmail_quote">T=
-his change will mask all failures that happen for any reason, not just the =
-one you saw, so I am not going to accept it. The correct fix is to figure o=
-ut what would be the correct order of updating and why opkg isn&#39;t able =
-to perform the mass-update in that order.<br></div><div class=3D"gmail_quot=
-e"><br></div><div class=3D"gmail_quote">Alex<br></div><div class=3D"gmail_q=
-uote"><br></div></div>
-
---0000000000006a394f05d784a2e4--
+--_000_CH0PR20MB3948F3D57A8F78D131B9B246BB2D9CH0PR20MB3948namp_--
 
