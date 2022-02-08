@@ -1,210 +1,161 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5687FC433EF
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 10:30:41 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.9463.1644316240254824899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8424C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 11:32:50 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.9823.1644319969273078784
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 02:30:40 -0800
+ Tue, 08 Feb 2022 03:32:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hUKVdVJi;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id i17so6318625lfg.11
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=G1xKB4pH;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.47,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f47.google.com with SMTP id
+ l123-20020a1c2581000000b0037b9d960079so1158032wml.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 02:30:39 -0800 (PST)
+ Tue, 08 Feb 2022 03:32:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Hdzd73JbQKzwm1IxpqIDUfAMt1oyj44+yrnmlp2OVe8=;
-        b=hUKVdVJipvp9zzTL/N7IinEoM2OlBJ7Gwx8dmFMEwWu3iuE3f00fBGou0IGFuPb7kp
-         MrKGJru6SBGl+p8SwiyfrkgO2F0dT5OYS4XDVtIaQ3tvyUwCzPCVm/i1uKn7ljfoF9WW
-         0LFPY81J5fcTNXLx0uWtFLfMtUr1bJofA40IbAV+SDF65rxJvlF6L71nG7lK30zyy2to
-         HWO7vzI720HxKNTEwpD6bB2h/kr29e8HxGXoghgNQYL7LcjmNCfuczYhD3ICpR2KeW+S
-         UqO9xhjD4ZVkryOeGXGUtRQ1plVV/9MGLh816pB4+ijEMivq3jdIV4hXP0fzlz/KKTMM
-         4IBA==
+        bh=GCy5tyCkvn2vUo8Z9QC87g20i3p/jP7p0PMGRqZLIuA=;
+        b=G1xKB4pHvPf1CV7ZOK/9mKegbw85IfkUalyB/RC4PrjwYcYonF9PdPEP+rB1bP5l3B
+         CYVPOLQ/RI4rVObYSja7SoSplgnOSIiRl9enDGtoAYhtjCW3h4yzRlIyq0/4160vm1lI
+         sNBlvplqX1nHyE3GA+/tn9xVUJDgQZMUVmx5x9set+ufJk361x9/A4n2qbPrWK6TZtDN
+         6oo6pjhoz3z/uNKW1gaeMIVqCuAaDHk8pZ9/IvAHz+Hixfor1Us6Af638UY6G4pFkokc
+         sDpiycPch7UT3kwz5YBFJayS4OnOzIflmvemZOv7QULhri+6V9baJAcn0EpLvVNTEm2l
+         3pDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Hdzd73JbQKzwm1IxpqIDUfAMt1oyj44+yrnmlp2OVe8=;
-        b=Hy4Tuu0dsXfLpyIp91VfcZgIW7LHvZgtSor0gV0e+Ma+ToFIdX9SYRlqFjhI7v37im
-         UdXib43t2LZnL1rrt1tc94Ll7jZosQGw1xH7EZzPdwIy5IQHbOlcuJrvFWjARaMa3Q8L
-         zw0OGly4am9p3aPsApKRqMPRiBKWGwR6/O25xhDQngkDNKg4bM5yoMgzXLEMGIgsXIET
-         rakMCk6ByOAm4Q2OuJaxxkbCtXAB4L/bo55OsWBqCHd/u29RIjRicotanVfnmMh2NCtv
-         tizTi5xzZH649ciNVZuDTnzAMU3ZUk0MLU7txnZajDDrTAebC+1xrC4PuCTDgtPXGxhA
-         RKng==
-X-Gm-Message-State: AOAM532McTrs+bnhFsq4ypu1ThRAQkAxJNhM918+ZD3lEXmAGzxiDJdj
-	y5fgBtwDTfpKjmXI3UXWh2ycMAA+PGXSZYpaiW4=
+        bh=GCy5tyCkvn2vUo8Z9QC87g20i3p/jP7p0PMGRqZLIuA=;
+        b=7IE9XqAcoi0Em2MjpyrxYpV60JJFOvmFc/Nx7Q+NHh7udnZRP2ebp64OBATlpoBek2
+         V2Nd/Iur+JD7Tm9gvT56lxJ/Z1mFkopz0lLcAAjsGUzePl8mNaw+AKr4eMxw7JQWQSJd
+         TJwCEzLauPkHGcQ/+2KOkj44qYimJNIgeZB8P9M0mObjAod7W52pO+mFBG01W9PbtGtY
+         1d+q5ursm/rP8WedjuyFXMsUQ9AI31s4UfMFHrMLm3HFussr+k6f9qpGSUVLxhbUSP6Q
+         v5SuAfF3GxSygPyRryMm7d4S0CiuxZEEpEHn/cpRHXG1RPXNiT8b/+LYVxiBgMaMHeC7
+         d2YA==
+X-Gm-Message-State: AOAM5317gMt0/oN1P959subGYSPemW3375vTX9yN/Li4CawushTxPIPM
+	SiBT1qYkzTLwW8tBj712WdROVIG/2dZwyGpwnl81UQ==
 X-Google-Smtp-Source: 
- ABdhPJwg/PbeYWAg6+6J7ANwzBp2gegi0Vk9vVgFqpBjQU2Yq0tR86ovd1XWHddmC7Pmq2NOjOURaFmvIMcRMPc9uE0=
-X-Received: by 2002:a05:6512:332a:: with SMTP id
- l10mr2520392lfe.94.1644316238471;
- Tue, 08 Feb 2022 02:30:38 -0800 (PST)
+ ABdhPJzU72gafuCPh5QYdTkyUABhXdyLLwoIJmOL/Wzq1B6mla3ZPD5WYOdEpU1Tt9/H/hNsgGfdK7sEGpO+GN6ZJjM=
+X-Received: by 2002:a05:600c:4fc7:: with SMTP id
+ o7mr745417wmq.184.1644319967478;
+ Tue, 08 Feb 2022 03:32:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20220208035000.400632-1-bkylerussell@gmail.com>
-In-Reply-To: <20220208035000.400632-1-bkylerussell@gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 8 Feb 2022 10:30:27 +0000
+References: <20220128014022.3144694-1-alejandro@enedino.org>
+In-Reply-To: <20220128014022.3144694-1-alejandro@enedino.org>
+From: Ross Burton <ross@burtonini.com>
+Date: Tue, 8 Feb 2022 11:32:36 +0000
 Message-ID: 
- <CANPvuRmgE1RknD3qB8q0-D0uTTSFCOd1BA76TTmRJrMMbhXRHQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] devtool: get hooks directory path from git
- rev-parse
-To: bkylerussell@gmail.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004ae47a05d77f3564"
+ <CAAnfSTseymNVH6KbfuL02kXSAcm_qPviimu8oW-2Sz36_DrijA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] newlib: Upgrade 4.1.0 -> 4.2.0
+To: alejandro@enedino.org
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 10:30:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 11:32:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161496
+ https://lists.openembedded.org/g/openembedded-core/message/161497
 
---0000000000004ae47a05d77f3564
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is causing license errors for me:
 
-Hi,
+ERROR: newlib-4.2.0-r0 do_populate_lic: QA Issue: newlib: The
+LIC_FILES_CHKSUM does not match for
+file://COPYING.NEWLIB;md5=b8dda70da54e0efb49b1074f349d7749
+newlib: The new md5 checksum is 8bb75595dbcc7d45e5c0d116d7bdf6ce
+newlib: Here is the selected license text:
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+The newlib subdirectory is a collection of software from several sources.
+Each file may have its own copyright/license that is embedded in the source
+file.  Unless otherwise noted in the body of the source file(s), the
+following copyright
+notices will apply to the contents of the newlib subdirectory:
+(1) Red Hat Incorporated
+Copyright (c) 1994-2009  Red Hat, Inc. All rights reserved.
+...
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+newlib: Check if the license information has changed in
+/builds/engineering/yocto/meta-arm/work/build/tmp/work/cortexm33e-fpv5-spd16-poky-eabi/newlib/4.2.0-r0/newlib-4.2.0.20211231/COPYING.NEWLIB
+to verify that the LICENSE value "GPLv2 & LGPLv3 & GPLv3 & LGPLv2 &
+BSD-2-Clause & tcl" remains valid [license-checksum]
 
-<bkylerussell@gmail.com> escreveu no dia ter=C3=A7a, 8/02/2022 =C3=A0(s) 03=
-:50:
+Ross
 
-> Ask git rev-parse to provide the path to the repo's hooks directory.
+On Fri, 28 Jan 2022 at 01:40, Alejandro Hernandez Samaniego
+<alejandro@enedino.org> wrote:
 >
-> This allows devtool to support git submodules, where only the
-> superproject contains a .git directory.
->
-> git submodules contain .git files pointing to their parent repo,
-> which confuses devtool when it tries to modify the commit hooks by
-> a manually constructed path.
->
-
-+Signed-off-by: your@mail
-
-
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
 > ---
->  meta/lib/oe/patch.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../newlib/{libgloss_4.1.0.bb => libgloss_4.2.0.bb}  |  0
+>  meta/recipes-core/newlib/newlib.inc                  | 12 +++++++++---
+>  .../newlib/{newlib_4.1.0.bb => newlib_4.2.0.bb}      |  0
+>  3 files changed, 9 insertions(+), 3 deletions(-)
+>  rename meta/recipes-core/newlib/{libgloss_4.1.0.bb => libgloss_4.2.0.bb} (100%)
+>  rename meta/recipes-core/newlib/{newlib_4.1.0.bb => newlib_4.2.0.bb} (100%)
 >
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 950fe723dc..976a966083 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -510,7 +510,7 @@ class GitApplyTree(PatchTree):
->          reporoot =3D (runcmd("git rev-parse --show-toplevel".split(),
-> self.dir) or '').strip()
->          if not reporoot:
->              raise Exception("Cannot get repository root for directory %s=
-"
-> % self.dir)
-> -        hooks_dir =3D os.path.join(reporoot, '.git', 'hooks')
-> +        hooks_dir =3D runcmd("git rev-parse --git-path hooks".split())
+> diff --git a/meta/recipes-core/newlib/libgloss_4.1.0.bb b/meta/recipes-core/newlib/libgloss_4.2.0.bb
+> similarity index 100%
+> rename from meta/recipes-core/newlib/libgloss_4.1.0.bb
+> rename to meta/recipes-core/newlib/libgloss_4.2.0.bb
+> diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
+> index 23cd172008..5e488d0848 100644
+> --- a/meta/recipes-core/newlib/newlib.inc
+> +++ b/meta/recipes-core/newlib/newlib.inc
+> @@ -15,13 +15,19 @@ LIC_FILES_CHKSUM = " \
+>                 file://newlib/libc/sys/linux/linuxthreads/LICENSE;md5=73640207fbc79b198c7ffd4ad4d97aa0 \
+>                 "
 >
-
-This assumes that the git will run inside the self.dir but this is not
-guaranteed so adding self.dir to the runcmd is safer.
-
-
->          hooks_dir_backup =3D hooks_dir + '.devtool-orig'
->          if os.path.lexists(hooks_dir_backup):
->              raise Exception("Git hooks backup directory already exists:
-> %s" % hooks_dir_backup)
+> -SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
+> -SRC_URI[sha256sum] = "f296e372f51324224d387cc116dc37a6bd397198756746f93a2b02e9a5d40154"
+> +# Newlib maintainers sometimes publish the source
+> +# from a specific snapshot, after an upgrade we can
+> +# delete the following line and keep the empty default
+> +NEWLIB_SNAPSHOT = ".20211231"
+> +NEWLIB_SNAPSHOT ?= ""
+> +SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}${NEWLIB_SNAPSHOT}.tar.gz"
+> +SRC_URI[sha256sum] = "c3a0e8b63bc3bef1aeee4ca3906b53b3b86c8d139867607369cb2915ffc54435"
+> +
+>
+>  INHIBIT_DEFAULT_DEPS = "1"
+>  DEPENDS = "virtual/${TARGET_PREFIX}gcc"
+>
+> -S = "${WORKDIR}/newlib-${PV}"
+> +S = "${WORKDIR}/newlib-${PV}${NEWLIB_SNAPSHOT}"
+>  B = "${WORKDIR}/build"
+>
+>  ## disable stdlib
+> diff --git a/meta/recipes-core/newlib/newlib_4.1.0.bb b/meta/recipes-core/newlib/newlib_4.2.0.bb
+> similarity index 100%
+> rename from meta/recipes-core/newlib/newlib_4.1.0.bb
+> rename to meta/recipes-core/newlib/newlib_4.2.0.bb
 > --
 > 2.25.1
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#161473):
-> https://lists.openembedded.org/g/openembedded-core/message/161473
-> Mute This Topic: https://lists.openembedded.org/mt/88989924/5052612
+> View/Reply Online (#161064): https://lists.openembedded.org/g/openembedded-core/message/161064
+> Mute This Topic: https://lists.openembedded.org/mt/88736577/1676615
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000004ae47a05d77f3564
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">&lt;<a href=3D"mailto:bkylerussell@gmail.com">bkyl=
-erussell@gmail.com</a>&gt; escreveu no dia ter=C3=A7a, 8/02/2022 =C3=A0(s) =
-03:50:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ask git r=
-ev-parse to provide the path to the repo&#39;s hooks directory.<br>
-<br>
-This allows devtool to support git submodules, where only the<br>
-superproject contains a .git directory.<br>
-<br>
-git submodules contain .git files pointing to their parent repo,<br>
-which confuses devtool when it tries to modify the commit hooks by<br>
-a manually constructed path.<br></blockquote><div><br></div><div>+Signed-of=
-f-by: your@mail<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
----<br>
-=C2=A0meta/lib/oe/patch.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py<br>
-index 950fe723dc..976a966083 100644<br>
---- a/meta/lib/oe/patch.py<br>
-+++ b/meta/lib/oe/patch.py<br>
-@@ -510,7 +510,7 @@ class GitApplyTree(PatchTree):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reporoot =3D (runcmd(&quot;git rev-parse =
---show-toplevel&quot;.split(), self.dir) or &#39;&#39;).strip()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not reporoot:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Exception(&quot;Canno=
-t get repository root for directory %s&quot; % self.dir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks_dir =3D os.path.join(reporoot, &#39;.git=
-&#39;, &#39;hooks&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks_dir =3D runcmd(&quot;git rev-parse --git=
--path hooks&quot;.split())<br></blockquote><div><br></div><div>This assumes=
- that the git will run inside the self.dir but this is not guaranteed so ad=
-ding self.dir to the runcmd=C2=A0is safer.</div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hooks_dir_backup =3D hooks_dir + &#39;.de=
-vtool-orig&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.lexists(hooks_dir_backup):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Exception(&quot;Git h=
-ooks backup directory already exists: %s&quot; % hooks_dir_backup)<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#161473): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/161473" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/161473</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/88989924/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/88989924/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000004ae47a05d77f3564--
 
