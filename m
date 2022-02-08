@@ -1,129 +1,120 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <mikko.rapeli@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CE8C433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 08:29:19 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web11.8695.1644308957894367371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C98C433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 09:07:47 +0000 (UTC)
+Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com
+ [207.54.68.121])
+ by mx.groups.io with SMTP id smtpd.web08.8992.1644311265069956456
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 00:29:18 -0800
+ Tue, 08 Feb 2022 01:07:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=GDbnUoZN;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1644308956; i=@fujitsu.com;
-	bh=UKAm+RLULlqlPXkjdwOrBgO8iVWz/kairVDuskGNF50=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=GDbnUoZNjG2xIkgXeUWC+j9GdUUjheZCBprO9ywoX5EIXB7o/pLpcsXvoF2wH3NO5
-	 5H9MFLzgSzdWWUiMPE5VrP1IO9B6Kj4bfhMyOeYYgiXqHBzbRA/+k1yLVABXWdxexL
-	 d7DGvM4OCZUVPsJA5NBuUutUXBSvCvllW0Gqodmk3nA8tzGHP+pZx8XxNiVaCn/j/x
-	 i8xAPIzXRAMgpVK4vHqXQbrtG+PfQCU+6J9zKDfTxAEIxu/74/FHo562e3S68IsRtr
-	 Hn+uo+Gfp/TezNLqcjXO974qOK16b4ZGm0/n7NPgYNX74ZvZgdgiLqS0liMt0ZGL6F
-	 TY6Lf3uEQZ7eQ==
-Received: from [100.115.69.41] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-2.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- FE/19-30582-CD922026; Tue, 08 Feb 2022 08:29:16 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKIsWRWlGSWpSXmKPExsViZ8ORqHtDkyn
-  JoO2gkMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmjF3z3TWgqX8FZM3zGdtYJzA28XIxSEk8JhR
-  Yt/ifSwQznkmiWU3JjNDOMcZJbbfPszWxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvf
-  vewg9jCAlYSxz+vZwEpYQGKdx1XAgnzCjhKHDgzjxXElhBQkJjy8D0zRFxQ4uTMJywQYyQkDr
-  54wQxRoygx+3IzC4RdITFrVhsThK0mcfXcJuYJjPyzkLTPQtK+gJFpFaNdUlFmekZJbmJmjq6
-  hgYGuoaGprpmZrqGpqV5ilW6iXmqpbnJqXklRIlBaL7G8WC+1uFivuDI3OSdFLy+1ZBMjMDRT
-  ip1m72Dc0fdT7xCjJAeTkihvkipTkhBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3jPiQDnBotT01
-  Iq0zBxgnMCkJTh4lER4v2kApXmLCxJzizPTIVKnGBWlxHkngCQEQBIZpXlwbbDYvMQoKyXMy8
-  jAwCDEU5BalJtZgir/ilGcg1FJmPccyBSezLwSuOmvgBYzAS3+uuhfItDikkSElFQDk5DhSbZ
-  Fpil/Pi2YyhfzZsu0dZXrz7WXJhqLbnSe+1Ot2+bm61VCD7zrbwtP2rJ87xm52yZ2DxQ9S0Uj
-  rxztnH5sTnh6ybF4cfGKxXZ+LxjWTH3SICYncvj80qaJum6TtZ3T/py3arFtf3Rf8oy28J6Oy
-  RUCeoGq9rUvhGsu5mzLsZl4sKLYxyvshrtSzb/5E9eHiUqe5PS6rDp1Y92UsoRvflF7M3hT+T
-  c8S5x67tvLwzm5Ul0sMYY15QcPcfu3GvS/b2Da8TK79aDl3kPWfhLL1NO/2+06tirKJcimIqJ
-  q5aynre+023mC/q5czrLhaOQfplLDyYtVpWYbSX730vrenxkgzP/0yuYAyQMMSizFGYmGWsxF
-  xYkA1WusRkgDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-6.tower-528.messagelabs.com!1644308952!1922!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 28916 invoked from network); 8 Feb 2022 08:29:12 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-6.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 8 Feb 2022 08:29:12 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id C3873100193
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  8 Feb 2022 08:29:11 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id B61B3100185
-	for <openembedded-core@lists.openembedded.org>;
- Tue,  8 Feb 2022 08:29:11 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Tue, 8 Feb 2022 08:28:49 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] man-db: upgrade 2.9.4 -> 2.10.0
-Date: Tue, 8 Feb 2022 16:28:41 +0800
-Message-ID: <1644308922-5558-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=K5El7Kp3;
+ spf=pass (domain: bmw.de, ip: 207.54.68.121,
+ mailfrom: prvs=031a76740=mikko.rapeli@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1644311265; x=1675847265;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=pUjLKHhM90bzGAUWU+Qff/bdqYaBHXAzQk2BITZ/8F8=;
+  b=K5El7Kp3QrNIaiMIAQ4PWit0pakJuZJouRW8+OhDHfBXxi+HL+P+GyVw
+   IU7tWTBJVt17/aj9hWSkWhAm9Gol1zgyGaxPbGHe+vxYG00NNn1ccj694
+   6LgQFQz3Sit52Z9PGE8vCjILNxmR9itUwx4xGVnAzq/WlVTgYstEDOCLC
+   k=;
+IronPort-SDR: 
+ FkIxJE5llpEt0EwinxQiQRer+4My+vkUyvhXOkA+GIQj8Y6ZlSGk5JTAdWrqpWyuRE8+1afdwV
+ +VyBT3AazWuAAdFAlnZjK5PZDK7qaT+7NsDAOKBh7mlQ4+RMHleUWWOQTUFncgvqxiKCUFddcM
+ OnI6Dh7MB0tsr2CIvdUp5g0IQw46IVoM5Kb+hxpFkpvoYUbG5HMYRiROb/kB+0ZBmRROnqRAhR
+ 9yJt+n6dDjgMbZYszZygduxC/krjRIvkqFjinljz0d1VkKheToTdQdG3L2WmcSRnZpPmXE27Ri
+ kD+L+P1d6xuUZ+Zfye1X+FX9
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+ esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 08 Feb 2022 10:07:41 +0100
+Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
+ 08 Feb 2022 10:07:42 +0100
+Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp)
+ ([160.46.167.69])
+ by esabb3.muc with ESMTP/TLS; 08 Feb 2022 10:07:42 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
+ smucm33m.europe.bmw.corp
+ (160.46.167.69) with Microsoft SMTP Server (TLS;
+ Tue, 8 Feb 2022 10:07:41 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Tue,
+ 8 Feb 2022 10:07:41 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <jeanbouch418@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Package revision
+Thread-Topic: [OE-core] Package revision
+Thread-Index: AQHYHHkIyFqaRhlPnEaa9Vu99E4c0ayJTO6A
+Date: Tue, 8 Feb 2022 09:07:41 +0000
+Message-ID: <YgIy25oxLbkTU7eZ@korppu>
+References: <HSvl.1644275900393526587.WGPn@lists.openembedded.org>
+In-Reply-To: <HSvl.1644275900393526587.WGPn@lists.openembedded.org>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4FD524CB9DF220459D25051CDEF0DCF9@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 08:29:19 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 09:07:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161485
+ https://lists.openembedded.org/g/openembedded-core/message/161486
 
-License-Update:
-==============
- COPYING : "GNU Library" changed to "GNU Lesser"
-         format changed
- COPYING.LIB : "51 Franklin St" changed to "51 Franklin Street"
-               format changed
+Hi,
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../man-db/{man-db_2.9.4.bb => man-db_2.10.0.bb}            | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/man-db/{man-db_2.9.4.bb => man-db_2.10.0.bb} (90%)
+On Mon, Feb 07, 2022 at 03:18:20PM -0800, jbouchard wrote:
+> I was wondering why the package revision are not increasing when a patch =
+is apply to other project source, like this commit https://git.openembedded=
+.org/openembedded-core/commit/?h=3Dhonister&id=3D2d3c5b078feb34cb729902292d=
+2805c9288ebc4c. Most distribution tend to increase the package revision whe=
+n such changes occur. This help to track vulnerability and bugs. I know CVE=
+_CHECK can deal with CVE, but it is hard to track with external software.
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.9.4.bb b/meta/recipes-extended/man-db/man-db_2.10.0.bb
-similarity index 90%
-rename from meta/recipes-extended/man-db/man-db_2.9.4.bb
-rename to meta/recipes-extended/man-db/man-db_2.10.0.bb
-index f97974abb8..6a8ac2e3e3 100644
---- a/meta/recipes-extended/man-db/man-db_2.9.4.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.10.0.bb
-@@ -2,13 +2,13 @@ SUMMARY = "An implementation of the standard Unix documentation system accessed
- HOMEPAGE = "http://man-db.nongnu.org/"
- DESCRIPTION = "man-db is an implementation of the standard Unix documentation system accessed using the man command. It uses a Berkeley DB database in place of the traditional flat-text whatis databases."
- LICENSE = "LGPLv2.1 & GPLv2"
--LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
--                    file://docs/COPYING;md5=eb723b61539feef013de476e68b5c50a"
-+LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-+                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://99_mandb \
-            file://man_db.conf-avoid-multilib-install-file-conflict.patch"
--SRC_URI[sha256sum] = "b66c99edfad16ad928c889f87cf76380263c1609323c280b3a9e6963fdb16756"
-+SRC_URI[sha256sum] = "0a8629022f7117dc7fc6473c6fdb14913b24b106059bb056abee87dbd6070c79"
- 
- # remove at next version upgrade or when output changes
- PR = "r1"
--- 
-2.25.1
+Yocto is different from other Linux distributions. There is no binary compa=
+tibility
+between binary packages. Every single yocto build can break everything in c=
+ompatibility.
+Thus recipe version numbers don't matter that much, and it's not important =
+to update
+them as long as the major version number is matching to the SW component wh=
+ich is used.
 
+As user of yocto, you can configure yocto build system to produce unique an=
+d monotonically
+increasing binary package version numbers using prserv. This will update PR=
+ when ever recipes
+are recompiled.
+
+https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#work=
+ing-with-a-pr-service
+
+For CVE checks, the metadata in CVE patches marks the issues as patched whe=
+n yocto internal
+CVE checker is used. External CVE security issue detection tooling must tak=
+e into account
+the patches which have already been applied. Any tooling will be useless if=
+ they don't take
+this into account. For security analysis work, it is best to follow what yo=
+cto upstream
+maintainers do and use the same tooling as the basis, then maybe add your c=
+ustom stuff
+on top, or in best case contribute things back to the project. It's quite a=
+ bit of work
+to maintain a large yocto based Linux distro well so you are better off if =
+you work
+with the community and maintainers there.
+
+Cheers,
+
+-Mikko=
 
