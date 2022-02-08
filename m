@@ -1,120 +1,104 @@
-Return-Path: <mikko.rapeli@bmw.de>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C98C433EF
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 09:07:47 +0000 (UTC)
-Received: from esa3.hc324-48.eu.iphmx.com (esa3.hc324-48.eu.iphmx.com
- [207.54.68.121])
- by mx.groups.io with SMTP id smtpd.web08.8992.1644311265069956456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E71C433F5
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 09:44:17 +0000 (UTC)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+ [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web11.9158.1644313455933307868
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 01:07:46 -0800
+ Tue, 08 Feb 2022 01:44:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=K5El7Kp3;
- spf=pass (domain: bmw.de, ip: 207.54.68.121,
- mailfrom: prvs=031a76740=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BuR3FWty;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179,
+ mailfrom: uvv.mail@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id o10so13475370ilh.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 08 Feb 2022 01:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1644311265; x=1675847265;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=pUjLKHhM90bzGAUWU+Qff/bdqYaBHXAzQk2BITZ/8F8=;
-  b=K5El7Kp3QrNIaiMIAQ4PWit0pakJuZJouRW8+OhDHfBXxi+HL+P+GyVw
-   IU7tWTBJVt17/aj9hWSkWhAm9Gol1zgyGaxPbGHe+vxYG00NNn1ccj694
-   6LgQFQz3Sit52Z9PGE8vCjILNxmR9itUwx4xGVnAzq/WlVTgYstEDOCLC
-   k=;
-IronPort-SDR: 
- FkIxJE5llpEt0EwinxQiQRer+4My+vkUyvhXOkA+GIQj8Y6ZlSGk5JTAdWrqpWyuRE8+1afdwV
- +VyBT3AazWuAAdFAlnZjK5PZDK7qaT+7NsDAOKBh7mlQ4+RMHleUWWOQTUFncgvqxiKCUFddcM
- OnI6Dh7MB0tsr2CIvdUp5g0IQw46IVoM5Kb+hxpFkpvoYUbG5HMYRiROb/kB+0ZBmRROnqRAhR
- 9yJt+n6dDjgMbZYszZygduxC/krjRIvkqFjinljz0d1VkKheToTdQdG3L2WmcSRnZpPmXE27Ri
- kD+L+P1d6xuUZ+Zfye1X+FX9
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
- esa3.hc324-48.eu.iphmx.com with ESMTP/TLS; 08 Feb 2022 10:07:41 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
- 08 Feb 2022 10:07:42 +0100
-Received: from smucm33m.bmwgroup.net (HELO smucm33m.europe.bmw.corp)
- ([160.46.167.69])
- by esabb3.muc with ESMTP/TLS; 08 Feb 2022 10:07:42 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
- smucm33m.europe.bmw.corp
- (160.46.167.69) with Microsoft SMTP Server (TLS;
- Tue, 8 Feb 2022 10:07:41 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Tue,
- 8 Feb 2022 10:07:41 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <jeanbouch418@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Package revision
-Thread-Topic: [OE-core] Package revision
-Thread-Index: AQHYHHkIyFqaRhlPnEaa9Vu99E4c0ayJTO6A
-Date: Tue, 8 Feb 2022 09:07:41 +0000
-Message-ID: <YgIy25oxLbkTU7eZ@korppu>
-References: <HSvl.1644275900393526587.WGPn@lists.openembedded.org>
-In-Reply-To: <HSvl.1644275900393526587.WGPn@lists.openembedded.org>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4FD524CB9DF220459D25051CDEF0DCF9@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=d8rXaLwRNEfdVwtz3v1vOTPS1fPXYhciV47Q3xPg32g=;
+        b=BuR3FWtyfaR1H9DsNnUB3IIOzjtaE1D3yVCugDNdv3OVEpqyLlcCnpVfziq9q4Y0jh
+         ZELN0+DyiWGhGlIFEBjPbQfhU3ICzgFrSc9Xa+7iFohrq8PEJWad1gH/W5LmmQAwNwzj
+         TE9aTMbvwzitadiBKEHlI+TV42sKO92DauVEED4YHLLYs7pvA56QHfbmGvG9PP1KShaD
+         ehugFYkr6st431EnuxrNwgsrqNEjbt4aL2GWNE45Gh0TRbrCagoy+ZkrwC92Ja/lBiCg
+         nB+gFMi9n7MudCShruknQo9z1W0PApjWO3KLfdAT4m9tKoQwIOIcKhw20k9MroDclHYk
+         NJ0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=d8rXaLwRNEfdVwtz3v1vOTPS1fPXYhciV47Q3xPg32g=;
+        b=zrsxwj9bTQtxYExfnWKK7tA6GyM4UAjvO7QAy4K8896/gIbp2kYhhhiTEj5QCfnjWZ
+         LjVBFoQ9MlE4QO+XhVcA5AwfewNIZvL8GL7UGbgQjKZLZr2KOF7it1OtIu54rfHPXEDf
+         KnBZDBGX5PdElfmJsqAKcmptAQVbmMLESZxdD8UsTxn3CLK10F8T7dbo0ka/Hlifllbt
+         YmK5hwDzk3dOEHQjjaXjZVAMDALAOGqJovczF5D9EDA62KIssrfyxyuZaok+ex229ekp
+         R2rHdchr7eLNjRLzBXAffnFkzJrs2tag3LUFyxctHijB24gMlUsxN5n9XDDIotoXmaaP
+         u1fA==
+X-Gm-Message-State: AOAM532QvBeH+Vogi4gvGoyJT1xxgVmdBLmidCEqStB2J9C5FLMCOsMv
+	vFbe9Hcggr2WgkzMEih5cXM=
+X-Google-Smtp-Source: 
+ ABdhPJyBz9BldAYUw3UL0fn9fEVXwIA+uhtN/zCNxr2w0KFSGYjIyqoQanryCWhdsawbChR9uZtAzA==
+X-Received: by 2002:a92:a001:: with SMTP id e1mr1800036ili.108.1644313455247;
+        Tue, 08 Feb 2022 01:44:15 -0800 (PST)
+Received: from [10.128.91.32] ([72.10.162.6])
+        by smtp.gmail.com with ESMTPSA id
+ j14sm7004338ilc.62.2022.02.08.01.44.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Feb 2022 01:44:14 -0800 (PST)
+Message-ID: <6a7d2321-7d84-a052-2657-924d0779b738@gmail.com>
+Date: Tue, 8 Feb 2022 10:44:11 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [OE-core] [RFC] support for multi project toolchain-cmake
+Content-Language: en-US
+To: Tobias Neumann <yoctoproject@neumann-web.eu>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <1540523266.294149.1643372553712@office.mailbox.org>
+ <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
+ <1170434594.46461.1644247802042@office.mailbox.org>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <1170434594.46461.1644247802042@office.mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 09:07:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 09:44:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161486
+ https://lists.openembedded.org/g/openembedded-core/message/161487
 
-Hi,
+On 07.02.2022 16:30, Tobias Neumann wrote:
+>
+> Because a SDK is specific for a hardware platform, but not for a project using
+> that hardware platform, it is readonly and can be used for all projects with
+> this hardware. This however requires that the compiled libraries generated with
+> this SDK during the user side build process will be installed at a different
+> location, which would be the second sysroot.
+>
+> Until now we only build a cmake project with external dependencies to the
+> installed SDK using this workflow. Further external libraries, not contained in
+> the SDK, had to be integrated in this cmake build, either as subdirectory or
+> via external builds (using e.g. cmake-superbuilds). We now want to extend this
+> workflow by supporting multiple cmake projects with dependencies to each other,
+> thus the need for this second sysroot in the build.
+>
+> best regards
+> Tobias
 
-On Mon, Feb 07, 2022 at 03:18:20PM -0800, jbouchard wrote:
-> I was wondering why the package revision are not increasing when a patch =
-is apply to other project source, like this commit https://git.openembedded=
-.org/openembedded-core/commit/?h=3Dhonister&id=3D2d3c5b078feb34cb729902292d=
-2805c9288ebc4c. Most distribution tend to increase the package revision whe=
-n such changes occur. This help to track vulnerability and bugs. I know CVE=
-_CHECK can deal with CVE, but it is hard to track with external software.
-
-Yocto is different from other Linux distributions. There is no binary compa=
-tibility
-between binary packages. Every single yocto build can break everything in c=
-ompatibility.
-Thus recipe version numbers don't matter that much, and it's not important =
-to update
-them as long as the major version number is matching to the SW component wh=
-ich is used.
-
-As user of yocto, you can configure yocto build system to produce unique an=
-d monotonically
-increasing binary package version numbers using prserv. This will update PR=
- when ever recipes
-are recompiled.
-
-https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#work=
-ing-with-a-pr-service
-
-For CVE checks, the metadata in CVE patches marks the issues as patched whe=
-n yocto internal
-CVE checker is used. External CVE security issue detection tooling must tak=
-e into account
-the patches which have already been applied. Any tooling will be useless if=
- they don't take
-this into account. For security analysis work, it is best to follow what yo=
-cto upstream
-maintainers do and use the same tooling as the basis, then maybe add your c=
-ustom stuff
-on top, or in best case contribute things back to the project. It's quite a=
- bit of work
-to maintain a large yocto based Linux distro well so you are better off if =
-you work
-with the community and maintainers there.
+Hi Tobias,
+Any reason you set SDK to be read-only? Perhaps your use case can be 
+covered by extensible SDK? I mean if you have some shared libraries 
+between project, isn't that enough to extend your SDK to solve the 
+original problem?
 
 Cheers,
-
--Mikko=
+Vyacheslav
 
