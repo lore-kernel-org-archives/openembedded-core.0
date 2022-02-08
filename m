@@ -1,210 +1,121 @@
-Return-Path: <purushottamchoudhary29@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAA7C433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 07:41:19 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.8355.1644306078959728957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57742C433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 08:26:00 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web09.8815.1644308757988117699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Feb 2022 23:41:19 -0800
+ Tue, 08 Feb 2022 00:25:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rmwy1tQr;
- spf=pass (domain: gmail.com, ip: 209.85.210.177,
- mailfrom: purushottamchoudhary29@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id v74so17472877pfc.1
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Feb 2022 23:41:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=3mVdP+8IoLfst02TvRhpwIFZBfv429gNmJ2M7vT87K0=;
-        b=Rmwy1tQrqAGYy2M75MTfvYFZ61he08PLAV2ymIB69sbzHvwyKaWUVLX6Ka4hU0fm+B
-         ssZRaSf/9ME5TqOit3ZHOrdMBdBHuXluRsZ7jLCZSXFb0aK7O01uGgXsv3JmCikImD5l
-         5KI3USSwbo1mfbMBIqHY5jBqtPH4nEtKlQ2nJLhEZQyN7+w0qp3BZxLM9ndOY40JuuCa
-         TGaP9chL5tBrPhT3SLZ6P79FaUPn+pfqgAReAZwuGOw9P4IaCEcleh8TFu0NoxmuqTy+
-         bxh91HrbAcV02l6TtEj3MWNuL/t4IoEe2l/iGmvstZSBFi465UKVi+5wLky7tirrdPg/
-         L2UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=3mVdP+8IoLfst02TvRhpwIFZBfv429gNmJ2M7vT87K0=;
-        b=IjOhlh50RTXPogOVHKp2K+AHoy46cceSNbdc6v/q2u8wnT308JrVIOV4PjgupoTF1I
-         4qUPIRKEshoJU4RQjk/gePI3MENRAx3b6AaGykpIb56DvkV4sMygDH72o+m7ygovWCJQ
-         gt5hJM5NHygccaQw8fyYhFIpXf24E/FPpjOjez50LB5H+IXeiVNudLk7H4Jpky2dAq2e
-         XNNHvkFsmLwa4rBZ6WY77sg/hV9WUQIIe/ob9vCVg9mmPaRtNchcYAt45eC4oYblUTgP
-         vj75ovlIvbunZGGmFNcenIgIW4K6bJnRbZKPXoxeXZqIMOeWWh/9VC0vlMq0uirqNB2I
-         bhwQ==
-X-Gm-Message-State: AOAM530we9Vwg58ll/2L7fTAdXwhYT4xEJMo3a0Ajf6SRC68o1xZ/OP3
-	sgUREtiwIW9uC6Diq5PCynS6tsPN5huZJabE
-X-Google-Smtp-Source: 
- ABdhPJwYTDdAN0e4Sb88g078qQQVFs3V6IclWZ0gzf4HWPbeOJt1oH7DuAlzP9UStWvHgYPtmwX5uw==
-X-Received: by 2002:a63:2b49:: with SMTP id r70mr2522724pgr.111.1644306077422;
-        Mon, 07 Feb 2022 23:41:17 -0800 (PST)
-Received: from localhost.localdomain
- ([2405:201:a410:a06c:6022:4998:4b07:5aa1])
-        by smtp.gmail.com with ESMTPSA id
- n3sm13601820pfu.84.2022.02.07.23.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 23:41:16 -0800 (PST)
-From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross@burtonini.com>,
-	Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Anuj Mittal <anuj.mittal@intel.com>,
-	Purushottam Choudhary <purushottam.choudhary@kpit.com>
-Subject: [OE-core][dunfell][PATCH] lighttpd: backport a fix for CVE-2022-22707
-Date: Tue,  8 Feb 2022 13:10:42 +0530
-Message-Id: <20220208074042.9234-1-purushottamchoudhary29@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=G7ITn81n;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1644308756; i=@fujitsu.com;
+	bh=kXxYe2znY41x+62SOrGTYFNqbcqj+accbibi0wcxsPI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=G7ITn81nTYeRHG+EGLzG5JjDCeXSA3KDPX3U04ZARDsA7sFRM6f8TrNHjN+sC7kml
+	 1uJxfWmi/tBtqdsiILWnOdULyND7dP/D6nTk3d4yy8fXx3GBuml7BgPWofe7zKW9p7
+	 KQshFUiOiSzPQdV8Ghti5Mr/MrNYxVSrKw4d6BAA+Yz2n7sZUPjGC2O9rFCWDDjFAW
+	 YJhUoCws1vMKGk3QzxJKPHiueAA1bRu65Bqu/S5qHUExype0OZmxfs9DW/6RRBI38S
+	 rtH5kbwyoZAK8vSy3wLBFcJlJBsbHvC04Xl+NkMm+LfLyoyZgMQ+qkjPAcPG4OKxcC
+	 JolvECNF8pzGA==
+Received: from [100.115.34.36] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-4.bemta.az-a.eu-west-2.aws.ess.symcld.net id 0F/93-29321-31922026;
+ Tue, 08 Feb 2022 08:25:55 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRWlGSWpSXmKPExsViZ8ORqCusyZR
+  ksOOpisWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmjFlwUymgk+cFSdnzGBvYGzm7GLk5BASeMwo
+  8eWMcxcjF5B9nkmivX0pM4RznFHiwvI9jCBVbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHid
+  w87SFhYwFri3PwSkDALUPjuw7MsIDavgKPEoTtLWEFsCQEFiSkP3zOD2JwCThKH/l1lgbjBUa
+  LrEsQmXgFBiZMzn7BAjJeQOPjiBTNEr6LE7MvNLBB2hcSsWW1MELaaxNVzm5gnMArOQtI+C0n
+  7AkamVYzWSUWZ6RkluYmZObqGBga6hoamusbmuoZmRnqJVbqJeqmluuWpxSW6QG55sV5qcbFe
+  cWVuck6KXl5qySZGYAinFKsu2sG4f9VPvUOMkhxMSqK8SapMSUJ8SfkplRmJxRnxRaU5qcWHG
+  GU4OJQkeM+IA+UEi1LTUyvSMnOA8QSTluDgURLhPa4OlOYtLkjMLc5Mh0idYlSUEudNBkkIgC
+  QySvPg2mAxfIlRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMO9NkCk8mXklcNNfAS1mAlr8ddG
+  /RKDFJYkIKakGJq36udc9IqWrdm2bfDrHdm+Vr1DMVacFjZWZ2gXFNeKPXi7c1nHArfacH5fc
+  QVdhpfXq0xYfVGuX+C70//rfpbEepxRl/+5cP1Wcf9WVa9xx6wP/uTaY1l7qFCjPPPp2Si9vg
+  fHjYpY58yO/T812XzC7sPJZTlPQfMa7hRscF6V+uC64xodT/iTjvPcXHh56ceBat7VYt1dbyL
+  w0Fv/VmmF2U/r4p5dyr+S8p7xz49wnFn4KnvsNnn7usA/MXXl6zYRUmVBnOZZKyz8+D+zX9M/
+  6tu6a6qLGso1L0tv85RPnNv+Vf5HV8PN0xnN/Axf94NMGJp7ZN3fqddzJmDxldbbdj+ksD9zz
+  xNPnNv58qcRSnJFoqMVcVJwIAMuqKk1cAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-3.tower-548.messagelabs.com!1644308755!1557!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 19462 invoked from network); 8 Feb 2022 08:25:55 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-3.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 8 Feb 2022 08:25:55 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 2BBCE10018E
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  8 Feb 2022 08:25:55 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 121C710019C
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  8 Feb 2022 08:25:55 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.28; Tue, 8 Feb 2022 08:25:51 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] harfbuzz: upgrade 3.3.1 -> 3.3.2
+Date: Tue, 8 Feb 2022 16:25:25 +0800
+Message-ID: <1644308725-5262-4-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1644308725-5262-1-git-send-email-wangmy@fujitsu.com>
+References: <1644308725-5262-1-git-send-email-wangmy@fujitsu.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 07:41:19 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 08:26:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161475
+ https://lists.openembedded.org/g/openembedded-core/message/161479
 
-From: Ross Burton <ross@burtonini.com>
+Changelog:
+=========
+Revert splitting of pair positioning values introduced in 3.3.0 as it proved problematic
 
-Backport the fix for CVE-2022-22707, a buffer overflow in mod_extforward.
-
-(From OE-Core rev: d54d7e7b43da621be8e6fcca34feb7b3d49b8160)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7758596613cc442f647fd4625b36532f30e6129f)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7695d11dd09b1e9e87d6741135d0b28e82672f0a)
-Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ix-out-of-bounds-OOB-write-fixes-313.patch | 100 ++++++++++++++++++
- .../lighttpd/lighttpd_1.4.55.bb               |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
+ .../harfbuzz/{harfbuzz_3.3.1.bb => harfbuzz_3.3.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_3.3.1.bb => harfbuzz_3.3.2.bb} (95%)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
-new file mode 100644
-index 0000000000..da59b7297a
---- /dev/null
-+++ b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
-@@ -0,0 +1,100 @@
-+From 27103f3f8b1a2857aa45b889e775435f7daf141f Mon Sep 17 00:00:00 2001
-+From: povcfe <povcfe@qq.com>
-+Date: Wed, 5 Jan 2022 11:11:09 +0000
-+Subject: [PATCH] [mod_extforward] fix out-of-bounds (OOB) write (fixes #3134)
-+
-+(thx povcfe)
-+
-+(edited: gstrauss)
-+
-+There is a potential remote denial of service in lighttpd mod_extforward
-+under specific, non-default and uncommon 32-bit lighttpd mod_extforward
-+configurations.
-+
-+Under specific, non-default and uncommon lighttpd mod_extforward
-+configurations, a remote attacker can trigger a 4-byte out-of-bounds
-+write of value '-1' to the stack. This is not believed to be exploitable
-+in any way beyond triggering a crash of the lighttpd server on systems
-+where the lighttpd server has been built 32-bit and with compiler flags
-+which enable a stack canary -- gcc/clang -fstack-protector-strong or
-+-fstack-protector-all, but bug not visible with only -fstack-protector.
-+
-+With standard lighttpd builds using -O2 optimization on 64-bit x86_64,
-+this bug has not been observed to cause adverse behavior, even with
-+gcc/clang -fstack-protector-strong.
-+
-+For the bug to be reachable, the user must be using a non-default
-+lighttpd configuration which enables mod_extforward and configures
-+mod_extforward to accept and parse the "Forwarded" header from a trusted
-+proxy. At this time, support for RFC7239 Forwarded is not common in CDN
-+providers or popular web server reverse proxies. It bears repeating that
-+for the user to desire to configure lighttpd mod_extforward to accept
-+"Forwarded", the user must also be using a trusted proxy (in front of
-+lighttpd) which understands and actively modifies the "Forwarded" header
-+sent to lighttpd.
-+
-+lighttpd natively supports RFC7239 "Forwarded"
-+hiawatha natively supports RFC7239 "Forwarded"
-+
-+nginx can be manually configured to add a "Forwarded" header
-+https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/
-+
-+A 64-bit build of lighttpd on x86_64 (not known to be affected by bug)
-+in front of another 32-bit lighttpd will detect and reject a malicious
-+"Forwarded" request header, thereby thwarting an attempt to trigger
-+this bug in an upstream 32-bit lighttpd.
-+
-+The following servers currently do not natively support RFC7239 Forwarded:
-+nginx
-+apache2
-+caddy
-+node.js
-+haproxy
-+squid
-+varnish-cache
-+litespeed
-+
-+Given the general dearth of support for RFC7239 Forwarded in popular
-+CDNs and web server reverse proxies, and given the prerequisites in
-+lighttpd mod_extforward needed to reach this bug, the number of lighttpd
-+servers vulnerable to this bug is estimated to be vanishingly small.
-+Large systems using reverse proxies are likely running 64-bit lighttpd,
-+which is not known to be adversely affected by this bug.
-+
-+In the future, it is desirable for more servers to implement RFC7239
-+Forwarded.  lighttpd developers would like to thank povcfe for reporting
-+this bug so that it can be fixed before more CDNs and web servers
-+implement RFC7239 Forwarded.
-+
-+x-ref:
-+  "mod_extforward plugin has out-of-bounds (OOB) write of 4-byte -1"
-+  https://redmine.lighttpd.net/issues/3134
-+  (not yet written or published)
-+  CVE-2022-22707
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-22707
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-+Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
-+---
-+ src/mod_extforward.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/mod_extforward.c b/src/mod_extforward.c
-+index ba957e04..fdaef7f6 100644
-+--- a/src/mod_extforward.c
-++++ b/src/mod_extforward.c
-+@@ -715,7 +715,7 @@ static handler_t mod_extforward_Forwarded (request_st * const r, plugin_data * c
-+         while (s[i] == ' ' || s[i] == '\t') ++i;
-+         if (s[i] == ';') { ++i; continue; }
-+         if (s[i] == ',') {
-+-            if (j >= (int)(sizeof(offsets)/sizeof(int))) break;
-++            if (j >= (int)(sizeof(offsets)/sizeof(int))-1) break;
-+             offsets[++j] = -1; /*("offset" separating params from next proxy)*/
-+             ++i;
-+             continue;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-index 737d6ebf7c..357a269015 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
-@@ -14,6 +14,7 @@ RRECOMMENDS_${PN} = "lighttpd-module-access \
-                      lighttpd-module-accesslog"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_3.3.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_3.3.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_3.3.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_3.3.2.bb
+index 656b556d29..9eaa14c56f 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_3.3.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_3.3.2.bb
+@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.xz \
-+        file://0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch \
-         file://index.html.lighttpd \
-         file://lighttpd.conf \
-         file://lighttpd \
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "8c083384838f39f4a4856a6584def595b10cc071754a08d5e999293462b34296"
++SRC_URI[sha256sum] = "1c13bca136c4f66658059853e2c1253f34c88f4b5c5aba6050aba7b5e0ce2503"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+ 
 -- 
-2.17.1
+2.25.1
 
 
