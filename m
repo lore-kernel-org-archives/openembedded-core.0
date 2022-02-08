@@ -1,132 +1,155 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DEFC433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 13:22:04 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.10893.1644326523925734776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3F1C433F5
+	for <webhook@archiver.kernel.org>; Tue,  8 Feb 2022 13:35:08 +0000 (UTC)
+Received: from esa7.hc324-48.eu.iphmx.com (esa7.hc324-48.eu.iphmx.com
+ [207.54.71.126])
+ by mx.groups.io with SMTP id smtpd.web12.11099.1644327306699179251
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 05:22:04 -0800
+ Tue, 08 Feb 2022 05:35:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ebFz8e9S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id
- l35-20020a05600c1d2300b0034d477271c1so1617296wms.3
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Feb 2022 05:22:03 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
+ header.b=qig+2oe7;
+ spf=pass (domain: bmw.de, ip: 207.54.71.126,
+ mailfrom: prvs=031a76740=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ZxRV4TjlPqJ3FPEQysufzpdMOeamewFNqocDGJlwFN8=;
-        b=ebFz8e9SEaDe5V+OUOrPDCcQuTtEHe4Yvol74Jodi3u5CHeA8VMS1crRhcj1SxA9CK
-         zzd7dwjIw1oBOwu8lHPvGb3hKhF58wD5kPDUXqUB0lql2Z40oNyh8XBH/KsMfdkB1//B
-         5bX2+id65xPJ63Q0WBq3r4UkgEQ04Y620B/pY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ZxRV4TjlPqJ3FPEQysufzpdMOeamewFNqocDGJlwFN8=;
-        b=hgptjwCE1XBcKzk2ywVl3pOhFKVy40CQKSQIfKVEawKOscMBbjkbdHNiNacx4HSvmC
-         ihN689gw+C5zhA5f03j9lZcgm6HmiWZZcYML47MXrv5nAvvKbwOvzlnIhchs8h21GQbH
-         Jjxk0927TjjAfuMDGrBwZQu6p7u+hWMDBtUtEp81gSyWKQbz6vjpfTg7B98/Nfh4rCIj
-         qzlKT428DS5b+zJMne6b2bpFjjk2C8id3j1+kUjcnMIZ95mEUdLoF17F7jWUdwCCNxyM
-         C0QqhbAylqYZyiCeNGf1NLQw3yd21+5b61uCJqpm+IppRQJVSF3GInepU5pqSYkeG8vl
-         4Q5A==
-X-Gm-Message-State: AOAM530Ywm7n9LvfpLrYQm90cH4x8bceGaiUUZ+YyLFXoudejVQRT1AX
-	R0TGnwQmwLlacxTxlG9KRL9tEw==
-X-Google-Smtp-Source: 
- ABdhPJxXYUpH5C2pXLac/YeUhl7yx3BZSoUaQKrhH50DzH9ZcwC3XLn/sJdLN9eoRzsj/TwVcaP2Ig==
-X-Received: by 2002:a1c:cc07:: with SMTP id h7mr1168127wmb.50.1644326522320;
-        Tue, 08 Feb 2022 05:22:02 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cc51:2893:39:c757?
- ([2001:8b0:aba:5f3c:cc51:2893:39:c757])
-        by smtp.gmail.com with ESMTPSA id 3sm5980616wrz.86.2022.02.08.05.22.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 05:22:01 -0800 (PST)
-Message-ID: 
- <f59870ac746e69df1b05ac00c9db0025561e473b.camel@linuxfoundation.org>
-Subject: Re: [RFC] support for multi project toolchain-cmake
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yoctoproject@neumann-web.eu, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Feb 2022 13:21:58 +0000
-In-Reply-To: <1170434594.46461.1644247802042@office.mailbox.org>
-References: <1540523266.294149.1643372553712@office.mailbox.org>
-	 <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
-	 <1170434594.46461.1644247802042@office.mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1644327306; x=1675863306;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=k17z5P2hCCvOe/8q3EBFUiAlu9fIgex5jc0aXIhH/m0=;
+  b=qig+2oe7QAfadZ2Oy3RaUnudtNsY/eCJncu9JQpOpvQWIiTiuSBKhZTg
+   ClU/cFNLdfsSZ0IzZ4aJ6PxipfA7HjdLBrtmMgQ2fAyd76YWjb/MiW/WU
+   wG9Llylbx+0GpKUAR92hD9OEEqeAafUaWfa7jwI9FWp226c/acHYxq4yy
+   0=;
+IronPort-SDR: 
+ bdIgMQmtaxb9LmnC1c/M77oHUIxmkriC7rTNn7RcSSdw3A4LIROuSt2jbgodb8YU8oHs6u2XwJ
+ K51BvBebyvZyHzUuRBnd/Y4t3bJVzeJccMssjiDtOeUagpHx0uc+3H0BgHSkL1HeedVMYYxqER
+ 9uSFucZ2zdCzbPE3v3PA+N9rFOXrGuN23GEguel0AOAWtpleOFhv/VBp89XlLHV/k0QB4oJa/P
+ MBPofwezQIibxdASEVsT8v7fAdnqlJBgJLGS67wAhzHlgi03nxjSR+QBhP/RudldD5k9JgCPAZ
+ Pwy/rNpYPDXFvvm68HIKFrCe
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa7.hc324-48.eu.iphmx.com with ESMTP/TLS; 08 Feb 2022 14:35:03 +0100
+Received: from esabb2.muc ([160.50.100.34])  by esagw6.muc with ESMTP/TLS;
+ 08 Feb 2022 14:35:02 +0100
+Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp)
+ ([160.46.167.67])
+ by esabb2.muc with ESMTP/TLS; 08 Feb 2022 14:35:02 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
+ smucm33k.europe.bmw.corp
+ (160.46.167.67) with Microsoft SMTP Server (TLS;
+ Tue, 8 Feb 2022 14:35:01 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Tue,
+ 8 Feb 2022 14:35:01 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <dl9pf@gmx.de>
+CC: <openembedded-core@lists.openembedded.org>, <jpew.hacker@gmail.com>,
+	<scott.murray@konsulko.com>
+Subject: Re: [OE-core] [PATCH v2] create-spdx: Get SPDX-License-Identifier
+ from source
+Thread-Topic: [OE-core] [PATCH v2] create-spdx: Get SPDX-License-Identifier
+ from source
+Thread-Index: AQHYHFkf3G/nj2q2P0O6oEPhrjIqO6yIemyAgAAAroCAAAbCAIABEcmAgAAEOwA=
+Date: Tue, 8 Feb 2022 13:35:01 +0000
+Message-ID: <YgJxhJCQZLrkpgON@korppu>
+References: <20220207192915.70095-1-saul.wold@windriver.com>
+ <2e636f2e-dba9-e336-8060-9e8cce40cedb@gmail.com>
+ <dc177cfd-50c2-33e2-bd3c-b33d65ee35@spiteful.org>
+ <2518421.NRruQZ00Rg@monster>
+In-Reply-To: <2518421.NRruQZ00Rg@monster>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9FA9CCC290A744408503C21CE7147550@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 13:22:04 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Feb 2022 13:35:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161507
+ https://lists.openembedded.org/g/openembedded-core/message/161508
 
-On Mon, 2022-02-07 at 16:30 +0100, yoctoproject@neumann-web.eu wrote:
-> 
-> thank you for your reply and please excuse that I didn't clarify my intent
-> correctly in my first mail. Your assumption, that I meant the cmake of the SDK
-> is correct. And your assumption regarding that the install path is different
-> to the sysroot of the SDK toolchain is also correct.
-> 
-> If your statement, that multiple sysroots for building with the SDK aren't
-> supported, is final, this discussion can be stopped here and we have to
-> maintain extensions for that workflow in our setup. But I would like to
-> explain our use case and why we require 2 sysroots for an SDK build.
+Hi,
 
-We definitely don't support that usage scenario since it would be highly build
-system specific and would work in some cases but not others. I do have a
-suggestion of a different approach though.
+On Tue, Feb 08, 2022 at 02:19:51PM +0100, Jan-Simon M=F6ller wrote:
+> Hi all
+>=20
+> > > Can you given an overview of what meta-spdxscanner does? I'm not quit=
+e
+> > > clear what extra processing would be required here.
+> >
+> > Jan-Simon can talk to it better, as he's done some dev work on the laye=
+r
+> > and done tests with it against AGL (and the subsequent Fossology instan=
+ce
+> > experimentation), but AFAIK for the actual scanning scancode-toolkit
+> > does pattern matching based license detection, so in theory it'll catch
+> > excerpts of or slightly modified versions of the licenses in its
+> > database, as opposed to just searching for SPDX-License-Identifier
+> > declarations.  If everyone else is happy with the latter, I'm willing t=
+o
+> > believe I'm offbase in my concerns, but either way I do think the
+> > limitations are going to need to be documented so users (and their
+> > lawyers) are aware of them.
+>=20
+> TLDR: meta-spdxscanner integrates with scanning tools. Either with fossol=
+ogy
+> or scancode-tk. An upload to blackduck is also possible meanwhile.
+>=20
+> Let's focus on fossology and scancode-tk.
+>=20
+> a) fossology
+>=20
+> Here we essentially integrate in the task chain and archive the sources a=
+fter
+> patching to upload them to a fossology instance. All the scanning/process=
+ing
+> happens then on the server and after some time (a lot ! ;) ) we get a SPD=
+X
+> report back that we store alongside the package. This is a result of a sc=
+an,
+> so it might catch licenses of files deep in the source tree that may not =
+be
+> declared in the recipe and so on.
+>=20
+> Also, fossology offers then a webinterface for manual inspection and revi=
+ew.
+> So this is a thorough but quite manual process. More for release work tha=
+n
+> daily or occasional stuff.
+>=20
+>=20
+> b) scancode-tk
+> scancode on the contrary will run on your host during the build and gathe=
+r the
+> data.  It will write the spdx file out as well.
+>=20
+>=20
+> I think for us the interesting part would be to compare e.g. the scancode=
+-tk
+> scan from b) with what we have declared in the recipe.
 
-> We have a set of hardware platforms which are operated by a distribution
-> generated by openembedded. This is maintained by a few developers. The
-> hardware
-> is used in several different projects. For the project specific development
-> we're using the SDK with will be installed readonly below /opt. The software
-> for these different projects can be developed without knowledge that
-> openembedded was used underneath. For that we have tools that abstract the
-> correct SDK selection, the environment sourcing and packaging of the final
-> compilation. And then tools which handle the deployment on the hardware.
-> 
-> Because a SDK is specific for a hardware platform, but not for a project using
-> that hardware platform, it is readonly and can be used for all projects with
-> this hardware. This however requires that the compiled libraries generated
-> with
-> this SDK during the user side build process will be installed at a different
-> location, which would be the second sysroot.
-> 
-> Until now we only build a cmake project with external dependencies to the
-> installed SDK using this workflow. Further external libraries, not contained
-> in
-> the SDK, had to be integrated in this cmake build, either as subdirectory or
-> via external builds (using e.g. cmake-superbuilds). We now want to extend this
-> workflow by supporting multiple cmake projects with dependencies to each
-> other,
-> thus the need for this second sysroot in the build.
+I guess reports from both will be a superset of used licenses (and possibly=
+ copyright
+statements too) since the list of source files which are actually compiled =
+is not
+known to these services.
 
-Have you considered creating a sysroot per project with a copy of the sysroot
-files?
-
-This sounds like a crazy idea at first but with hardlinks for the files it is
-fast and efficient to create these sysroot file trees. This is exactly what
-OpenEmbedded does internally and how we handle this in our builds.
+Currently the source recipes which have multiple licenses including problem=
+atic ones,
+are not cleaned up for license compliance scan. E.g. GPLv3 licensed source =
+code are not
+deleted at do_patch() time. Thus reports need to be manually adjusted.
 
 Cheers,
 
-Richard
-
-
-
-
-
-
-
-
+-Mikko=
 
