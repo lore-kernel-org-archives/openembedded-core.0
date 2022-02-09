@@ -1,78 +1,114 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 668D6C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 19:09:54 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.31211.1644433792735167324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B1AC433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 19:13:34 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web09.31657.1644434013645523031
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 11:09:53 -0800
+ Wed, 09 Feb 2022 11:13:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=hD4Hwl3O;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aH9cIUH4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id f17so5799213wrx.1
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 09 Feb 2022 11:13:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1644433793;
-  x=1675969793;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=PwJnzUo5a0jnt09Ntwtn10LkZpPepGa6cXBqER3/INM=;
-  b=hD4Hwl3OLMv77mRDyl99HIqS79Oo8DVVrETc+liJCnECgVEX8n+lYLRC
-   cjw/XmieSmND4nLa5yhujvm4ePzMLrmdfD6PjKk/Ww7HiARCfu5MX5Wvr
-   iXWAv06Q6QPFh/Q5EyLUJxLmTwnQ1M7VcxMmgTETHbk6OI9AfYPFVhsVs
-   rQCd75kjJ0ul6N3MVw+fEaTWz6bt8dMmosYodO0D0f8tMthGKvnDNYqjX
-   yiTGLr8BoEtsL4kL8/yVBjxn/v5vtR1vu+wNdXFwGBsnoU1uD6zv/Q3KL
-   3bCFDjQiiPHx1+ce3n07Cxneia6Ukv2ZkDGpxWa9d4OpZAgYwvN5owPNv
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Jose Quaresma <quaresma.jose@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
-Thread-Topic: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
-Thread-Index: AQHYG79tJgBWxo/iOkaUvfBvB9yosqyLlVvA
-Date: Wed, 9 Feb 2022 19:09:50 +0000
-Message-ID: <dcb645fd99ba4e2ebdda348373486076@axis.com>
-References: <20220207010823.143664-1-quaresma.jose@gmail.com>
- <20220207010823.143664-7-quaresma.jose@gmail.com>
-In-Reply-To: <20220207010823.143664-7-quaresma.jose@gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=1nBetqtYIfd61PG5651aEZXzm1UBmQryLbv4JdEe2tU=;
+        b=aH9cIUH4fID+dJZvvGejQ4PbX8T6tQGYorZ8ukyyi5Wiuhr9KUX5XagW9MjTvnuLuN
+         ANVtL3qCJsKISohvgfR2XecXakgJnnAfJeosyo40YiB6zq26/2Nj8n+NG3IpJncJQjQc
+         NIjULsH60CtNuUyWJDklsfyiFz0dNbOwPS3Bc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=1nBetqtYIfd61PG5651aEZXzm1UBmQryLbv4JdEe2tU=;
+        b=VcEhAt0n0WTHsVBdkv/6BrwvG1inGKANCdpghgPrD10aF2sH1lv0MkcW3L1i/b0bBP
+         Lt8EWwqgLn1JpuXL0vK9EZlnUaidPXfDw7Qy2tuC6u9lFrxsjVMX+kFqjBWKBi0qFUZO
+         ykLPue3cWYA+944eFInJ1LZQjNNMjgOGxwTG6JxyFRdrtI/ppYi+lKGo3v5Q0i3xlQoK
+         DfZgQZr432Ja0RRIZTpd1DcI2Yt1xllMLu9VaATJ3+ucJi0mnvaoU/ScY/ZIvXB49YcK
+         eoWZQjEV9nsMQfD+bFPJ7BGh6WJdMpFbh/EClluRZSg4PaQ4jY3pDOUglStHpwrzF1Qg
+         Hkog==
+X-Gm-Message-State: AOAM533aTfbVXuCWwcGXjNmVNSPwopXDx/b9lcVlDpbYcktopk4xAUrX
+	onkko+L8S8RQ/uF+yaZh9IlMGw==
+X-Google-Smtp-Source: 
+ ABdhPJxnCnKMhNyjlJYLUYr+fBHAVYSaY3Cygx10bVOeyFUz0FeApDf9UcQ2O4tZSRAx/I4DKv6PZA==
+X-Received: by 2002:a05:6000:85:: with SMTP id
+ m5mr3232560wrx.75.1644434012124;
+        Wed, 09 Feb 2022 11:13:32 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2250:1cae:83bc:d91f?
+ ([2001:8b0:aba:5f3c:2250:1cae:83bc:d91f])
+        by smtp.gmail.com with ESMTPSA id
+ m14sm20542744wrp.4.2022.02.09.11.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 11:13:31 -0800 (PST)
+Message-ID: 
+ <43fe0dbf3548f549d1c0161d2a55f633a9c27122.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] kernel-module-split: modules should
+ recommend the kernel image
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Ross Burton
+ <ross.burton@arm.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 09 Feb 2022 19:13:30 +0000
+In-Reply-To: 
+ <CADkTA4NG8wAoMQtpwbvf2hia23JnGsbboERY4H61GxMpyms5JQ@mail.gmail.com>
+References: <20220209173036.3823144-1-ross.burton@arm.com>
+	 <20220209173036.3823144-2-ross.burton@arm.com>
+	 <CADkTA4NG8wAoMQtpwbvf2hia23JnGsbboERY4H61GxMpyms5JQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 19:09:54 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 19:13:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161586
+ https://lists.openembedded.org/g/openembedded-core/message/161587
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Jose Quaresma
-> Sent: den 7 februari 2022 02:08
-> To: openembedded-core@lists.openembedded.org
-> Cc: Jose Quaresma <quaresma.jose@gmail.com>
-> Subject: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
->=20
-> - License update:
->   The code actually is LGPLv2.1 but the COPYING file is wrong.
->   https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d157b23fb0c=
-e175b167611a4cb019599d9017042
+On Wed, 2022-02-09 at 12:36 -0500, Bruce Ashfield wrote:
+> On Wed, Feb 9, 2022 at 12:30 PM Ross Burton <ross.burton@arm.com> wrote:
+> > 
+> > Currently each split-out kernel module RDEPENDS on the top-level kernel
+> > package (e.g. kernel-5.15-yocto-standard). Whilst at first this seems
+> > correct, as modules obviously need their matching kernel, there are many
+> > situations where the kernel is provided out-of-band and forcing the
+> > kernel in via RDEPENDS in the wrong thing to do, for example an
+> > initramfs really shouldn't contain a kernel image, but can contain
+> > kernel modules.
+> > 
+> > Change the module splitting logic to use RRECOMMENDS instead of
+> > RDEPENDS, and tighten the dependency to kernel-image instead of kernel
+> > to pull in just the image, which also means PACKAGE_EXCLUDE =
+> > "kernel-image-*" is sufficient to ensure the image doesn't get pulled
+> > into an image.
+> > 
+> 
+> As much as I hate to suggest it, I think the strength of the image
+> dependency needs to be configurable. I know of situations were
+> rrecommends are disabled AND they use quite a few out of tree
+> modules. While I can't say that they are counting on RDEPENDS
+> heavily in this situation, I also can't rule it out .. so this is a breaking
+> change in behaviour for those configurations.
+> 
+> That being said, if RP doesn't want/like a conditional at this particular
+> spot, I can understand that as well .. and am happy to be ignored
+> in that case :)
 
-Since the COPYING file for the GStreamer sub-projects now states=20
-that the used license is LGPL-2.1, shouldn't the LICENSE for these=20
-recipes be updated to say "LGPL-2.1-or-later"?
+Isn't there a case where the main kernel "image" package is empty so you just
+have to break the dependency at the main image level rather than messing with
+the modules? or am I half remembering something badly?
 
-As for -bad and -ugly, they should really have individual LICENSE:foo=20
-for each generated package, so that only the packages that are affected=20
-by the GPL license includes it, and the others only specify LGPL.
+Cheers,
 
-//Peter
+Richard
 
 
