@@ -2,258 +2,161 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4538C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 08:36:41 +0000 (UTC)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
- [209.85.217.45])
- by mx.groups.io with SMTP id smtpd.web08.24076.1644395801034037863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A12C433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 09:11:38 +0000 (UTC)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+ [209.85.222.48])
+ by mx.groups.io with SMTP id smtpd.web08.24304.1644397897638632741
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 00:36:41 -0800
+ Wed, 09 Feb 2022 01:11:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b6MQIMxI;
- spf=pass (domain: gmail.com, ip: 209.85.217.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TCHjnrHj;
+ spf=pass (domain: gmail.com, ip: 209.85.222.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f45.google.com with SMTP id w6so1339480vsf.3
+Received: by mail-ua1-f48.google.com with SMTP id g18so958685uak.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 00:36:40 -0800 (PST)
+ Wed, 09 Feb 2022 01:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QUIH+FUkScDlo0usXFZSzIGJwvCTOiZTZ/FEdhzt/7Y=;
-        b=b6MQIMxIADyqnHarZdswFt3xAgZ7XiRXqr1lhYPDusp2kX7U74Vb+Nr4uhf6Z1egkJ
-         0imuKec0wu+OsCmem96iiF6jtDg+ujNReX8Hr4WEBehq9fTodu0Zqf45X45bl67yWFw6
-         tmt8uFy9HKirk60KGSXxpzKR8CCuWmtCJryGMOFyU9qczt2G+brpS6saVdx9sSrRuY26
-         68XHXFxLqFR8ftFzOa/RRlriNTPYI03yYn5CIJ0LeW+2FE2lB10wppL8tUR2/Jw8qWPV
-         A5QAwSteZtRYTP4KiY7Kg4hMuPrOtcCTSoJlWrvx53ZeM5Art8JTgA972WfWZfwXyAap
-         3jHg==
+        bh=INr5pEtTgSZ4FUn8lgWROsQaGLPwQ/JAbS0erIAtukM=;
+        b=TCHjnrHjcLpWUkwCuw9Pr89OT6U2Ggp5bcBfO3qSuGq5nF9Pm5JKAOefDil1kZUHTl
+         qg5nwOVnWOU0+Ibn5K+ZuepWLmtoMA1Lg5o2HobHe8M1V82I/wsB+eZLuchW4F21+AfM
+         x/B1hycqkNFMf+jYGtyx4fwFY8J1ZnyRY2uLwgOr7qxiq7BI8lB/MbDUv1pQwASl4EfS
+         O8xwhzM8a8rpiJHHcsNHj4Oyf3Tl6Pukx/8bKT8dARBFfLznWc9QGNLYg+uo3pJVjW52
+         DSFPUvjZDBgosEtgu1uhYoKOetGL2p9/rmi6pNnII8KbWOxA4mb61Q64mX/eX8zbHcLZ
+         YJpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QUIH+FUkScDlo0usXFZSzIGJwvCTOiZTZ/FEdhzt/7Y=;
-        b=ZHe81WeTWmUN8C6fMX0JZhob2bM01ChPsLW4hdIORCzoxW5pRwghZ2XDFgusja/8Xv
-         v3MyMMYKD8i2kXf11tYiRxRKhGTFVco4uDZGpFb9leK0vYISoE8Fc41u0J1ZKnOK4WGN
-         MDJdD+3M9VJssfNTKY0S0NxcmWH9YxrldfZYB6klAMC/M9GM2c5epTskxqiZaqBJ9Ujd
-         PPvaXE6T6QGvQVvJB3Y7Lu/PVOboijbXVgFhca1KZhQ7vlzL4WYkoTG5qggBoXcO8Rd9
-         Jjf6pyeg5pwMEIe2eRd6RLC4Puh3ky4iFUsDIfRCyQYKvVwRYw46r6eHCIsVZFJiUjc8
-         J+XQ==
-X-Gm-Message-State: AOAM532QN8F4oqqWiVyMuxEk26ow8sQHLMWbJj1JWhZyQt0zGmZiBRdb
-	ZNRLnpHCHblGO2Ad82ETG/fTWgSomXswvaQLDqpdYDuw
+        bh=INr5pEtTgSZ4FUn8lgWROsQaGLPwQ/JAbS0erIAtukM=;
+        b=2oHV03yeSSIq22lRL2WTBZE64+Df6iFnURhwoyO5X/zy6LXiO1zAmDisCaGx7vqzxu
+         vG2XjEvPJuh6To7u1agzqctSvBnzYrxRyS3x6+fe5Wne1RTqxY6WZJTGx2pQACLAKx/7
+         XtWFjXB8F7nph85P4yEZarKbpcYgQ4F8Z1s0pv2Rkxc7z2QWjzGrogBraq/Cm9ctnJ66
+         4+dnAsnPZcB0tu/5CzhM0XEcMFyfEF14FkPLfGTSAyn5MaFFlohf1rFGIozmQ27uGDf3
+         d0kHbd3WQakt4iHGA2NB18aq87EI5hdOVdDwP9KJiB57z4AiuFXk53NxO6nduqVxWiXk
+         2mjA==
+X-Gm-Message-State: AOAM530w4kA4IAPP5hV1Cu6fZsNwNItMeMMKAKshnZQ0/qVtOvV1CdL4
+	hZnmNNTAB91S+/VkThw0BU5Hvt1r8zt4jLFYI0E=
 X-Google-Smtp-Source: 
- ABdhPJyGAlFhBVSKoUV8e9MVKgWr/LY11TTd/ivjgQNnimAWSVq3+b1gD+jv2km88U2cGskBRw1OypQresK+FXDJGIc=
-X-Received: by 2002:a67:4384:: with SMTP id q126mr321433vsa.81.1644395800171;
- Wed, 09 Feb 2022 00:36:40 -0800 (PST)
+ ABdhPJyaxFEZJ+fRykGtFdE5jwJNi9BOotg+Z0OlpxxiqxYJypYeRblZGaHavnYCO4JeChgVfTRKnPgz/M11psntC94=
+X-Received: by 2002:ab0:1d03:: with SMTP id j3mr461252uak.100.1644397896689;
+ Wed, 09 Feb 2022 01:11:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20220209080906.20759-1-sanakazisk19@gmail.com>
-In-Reply-To: <20220209080906.20759-1-sanakazisk19@gmail.com>
+References: <20220209051544.3280726-1-raj.khem@gmail.com>
+In-Reply-To: <20220209051544.3280726-1-raj.khem@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 9 Feb 2022 09:36:28 +0100
+Date: Wed, 9 Feb 2022 10:11:24 +0100
 Message-ID: 
- <CANNYZj8atqujFs5+WtOGPnoJ=Vc=so3Rd5yDZnAohX4oivCj_Q@mail.gmail.com>
-Subject: Re: [OE-core] [poky][master][PATCH 1/2] buildhistory.bbclass: Enable
- exporting more recipe and package data
-To: sana kazi <sanakazisk19@gmail.com>
+ <CANNYZj94Kp=DF2Y6sSF8jF8zJajOjNS1mLWNZ0oJ3OyrDCSxkA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4] perl: Help resolving WNOHANG and _exit in
+ Posix module
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 08:36:41 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 09:11:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161542
+ https://lists.openembedded.org/g/openembedded-core/message/161543
 
-I think what is set in poky.conf should be set directly in the class.
-Not everyone uses poky as a distro, and buildhistory should work for
-all.
+Please submit upstream:
+https://github.com/jib/ipc-cmd
 
 Alex
 
-On Wed, 9 Feb 2022 at 09:11, sana kazi <sanakazisk19@gmail.com> wrote:
+On Wed, 9 Feb 2022 at 06:15, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> Used BUILDHISTORY_EXPORT_RECIPE_VARIABLES and
-> BUILDHISTORY_EXPORT_PACKAGE_VARIABLES to export recipe and package
-> data to the latest file of buildhistory and sorted it alphabetically.
->
-> This makes extending data in buildhistory git tree simple and avoids
-> patches to it for users who care about things like SRC_URI and like
-> to track it in buildhistory git tree.
->
-> Now we can add additional information as per our requirement to the
-> buildhistory like LICENSE, SRC_URI AND MAINTAINER to the buildhistory
-> by appending them in a recipe or distro specific conf file as follows:
->
-> BUILDHISTORY_EXPORT_RECIPE_VARIABLES += "MAINTAINER"
-> BUILDHISTORY_EXPORT_PACKAGE_VARIABLES += "MAINTAINER"
->
-> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta-poky/conf/distro/poky.conf   |   2 +
->  meta/classes/buildhistory.bbclass | 106 +++++++++++++++++++-----------
->  2 files changed, 70 insertions(+), 38 deletions(-)
+> v4: Fix filepaths in release tarballs which are different than git repo
 >
-> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-> index 2dc3606ae5..c382493dbc 100644
-> --- a/meta-poky/conf/distro/poky.conf
-> +++ b/meta-poky/conf/distro/poky.conf
-> @@ -72,3 +72,5 @@ INHERIT += "uninative"
+>  ...01-ipc-force-POSIX-WNOHANG-resolving.patch | 52 +++++++++++++++++++
+>  meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
+>  2 files changed, 53 insertions(+)
+>  create mode 100644 meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch
 >
->  BB_SIGNATURE_HANDLER ?= "OEEquivHash"
->  BB_HASHSERVE ??= "auto"
-> +BUILDHISTORY_EXPORT_RECIPE_VARIABLES ?= "PR PV PE LAYER DEPENDS PACKAGES SRC_URI LICENSE CONFIG"
-> +BUILDHISTORY_EXPORT_PACKAGE_VARIABLES ?= "PE PV PR PKG PKGE PKGV PKGR RPROVIDES RDEPENDS RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS PKGSIZE FILES FILELIST"
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index daa96f3b63..04837cafc4 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -264,12 +264,11 @@ python buildhistory_emit_pkghistory() {
->      rcpinfo.pe = pe
->      rcpinfo.pv = pv
->      rcpinfo.pr = pr
-> -    rcpinfo.depends = sortlist(oe.utils.squashspaces(d.getVar('DEPENDS') or ""))
->      rcpinfo.packages = packages
->      rcpinfo.layer = layer
-> -    rcpinfo.license = license
->      rcpinfo.config = sortlist(oe.utils.squashspaces(d.getVar('PACKAGECONFIG') or ""))
-> -    rcpinfo.src_uri = oe.utils.squashspaces(d.getVar('SRC_URI') or "")
-> +    export_recipe_variables = d.getVar('BUILDHISTORY_EXPORT_RECIPE_VARIABLES') or ''
-> +    rcpinfo.export_recipe_variables = export_recipe_variables
->      write_recipehistory(rcpinfo, d)
->
->      bb.build.exec_func("read_subpackage_metadata", d)
-> @@ -323,6 +322,9 @@ python buildhistory_emit_pkghistory() {
->
->          pkginfo.size = int(localdata.getVar('PKGSIZE') or '0')
->
-> +        export_package_variables = d.getVar('BUILDHISTORY_EXPORT_PACKAGE_VARIABLES') or ''
-> +        pkginfo.export_package_variables = export_package_variables
+> diff --git a/meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch b/meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch
+> new file mode 100644
+> index 00000000000..3df15d4f08c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch
+> @@ -0,0 +1,52 @@
+> +From 0d8c411ef7e8b4452007c77eee3d83d227b86bb4 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Tue, 8 Feb 2022 14:05:22 -0800
+> +Subject: [PATCH] ipc: force POSIX::WNOHANG resolving
 > +
->          write_pkghistory(pkginfo, d)
->
->      oe.qa.exit_if_errors(d)
-> @@ -370,17 +372,22 @@ def write_recipehistory(rcpinfo, d):
->      pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
->
->      infofile = os.path.join(pkghistdir, "latest")
-> +    export_recipe_variables = set(rcpinfo.export_recipe_variables.split())
-> +    ret = []
->      with open(infofile, "w") as f:
-> -        if rcpinfo.pe != "0":
-> -            f.write(u"PE = %s\n" %  rcpinfo.pe)
-> -        f.write(u"PV = %s\n" %  rcpinfo.pv)
-> -        f.write(u"PR = %s\n" %  rcpinfo.pr)
-> -        f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
-> -        f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
-> -        f.write(u"LAYER = %s\n" %  rcpinfo.layer)
-> -        f.write(u"LICENSE = %s\n" %  rcpinfo.license)
-> -        f.write(u"CONFIG = %s\n" %  rcpinfo.config)
-> -        f.write(u"SRC_URI = %s\n" %  rcpinfo.src_uri)
-> +        for var in export_recipe_variables:
-> +            if var == "PE":
-> +                if rcpinfo.pe != "0":
-> +                    ret.append("%s = %s" % (var, rcpinfo.pe))
-> +            elif var == "LAYER":
-> +                ret.append("%s = %s" % (var, rcpinfo.layer))
-> +            elif var == "CONFIG":
-> +                ret.append("%s = %s" % (var, rcpinfo.config))
-> +            else:
-> +                ret.append("%s = %s" % (var," ".join((str(d.getVar(var)).split()))))
-> +        ret.sort()
-> +        for element in ret:
-> +            f.write(element + "\n")
->
->      write_latest_srcrev(d, pkghistdir)
->
-> @@ -394,32 +401,55 @@ def write_pkghistory(pkginfo, d):
->          bb.utils.mkdirhier(pkgpath)
->
->      infofile = os.path.join(pkgpath, "latest")
-> +    export_package_variables = set(pkginfo.export_package_variables.split())
-> +    ret = []
->      with open(infofile, "w") as f:
-> -        if pkginfo.pe != "0":
-> -            f.write(u"PE = %s\n" %  pkginfo.pe)
-> -        f.write(u"PV = %s\n" %  pkginfo.pv)
-> -        f.write(u"PR = %s\n" %  pkginfo.pr)
-> -
-> -        if pkginfo.pkg != pkginfo.name:
-> -            f.write(u"PKG = %s\n" % pkginfo.pkg)
-> -        if pkginfo.pkge != pkginfo.pe:
-> -            f.write(u"PKGE = %s\n" % pkginfo.pkge)
-> -        if pkginfo.pkgv != pkginfo.pv:
-> -            f.write(u"PKGV = %s\n" % pkginfo.pkgv)
-> -        if pkginfo.pkgr != pkginfo.pr:
-> -            f.write(u"PKGR = %s\n" % pkginfo.pkgr)
-> -        f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
-> -        f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
-> -        f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
-> -        if pkginfo.rsuggests:
-> -            f.write(u"RSUGGESTS = %s\n" %  pkginfo.rsuggests)
-> -        if pkginfo.rreplaces:
-> -            f.write(u"RREPLACES = %s\n" %  pkginfo.rreplaces)
-> -        if pkginfo.rconflicts:
-> -            f.write(u"RCONFLICTS = %s\n" %  pkginfo.rconflicts)
-> -        f.write(u"PKGSIZE = %d\n" %  pkginfo.size)
-> -        f.write(u"FILES = %s\n" %  pkginfo.files)
-> -        f.write(u"FILELIST = %s\n" %  pkginfo.filelist)
-> +        for var in export_package_variables:
-> +            if var == "PE":
-> +                if pkginfo.pe != "0":
-> +                    ret.append("%s = %s" % (var, pkginfo.pe))
-> +            elif var == "PV":
-> +                ret.append("%s = %s" % (var, pkginfo.pv))
-> +            elif var == "PR":
-> +                ret.append("%s = %s" % (var, pkginfo.pr))
-> +            elif var == "RPROVIDES":
-> +                ret.append("%s = %s" % (var, pkginfo.rprovides))
-> +            elif var == "RDEPENDS":
-> +                ret.append("%s = %s" % (var, pkginfo.rdepends))
-> +            elif var == "RRECOMMENDS":
-> +                ret.append("%s = %s" % (var, pkginfo.rrecommends))
-> +            elif var == "PKGSIZE":
-> +                ret.append("%s = %s" % (var, pkginfo.size))
-> +            elif var == "FILES":
-> +                ret.append("%s = %s" % (var, pkginfo.files))
-> +            elif var == "FILELIST":
-> +                ret.append("%s = %s" % (var, pkginfo.filelist))
-> +            elif var == "RSUGGESTS":
-> +                if pkginfo.rsuggests:
-> +                    ret.append(u"RSUGGESTS = %s" %  pkginfo.rsuggests)
-> +            elif var == "RREPLACES":
-> +                if pkginfo.rreplaces:
-> +                    ret.append(u"RREPLACES = %s" %  pkginfo.rreplaces)
-> +            elif var == "RCONFLICTS":
-> +                if pkginfo.rconflicts:
-> +                    ret.append(u"RCONFLICTS = %s" %  pkginfo.rconflicts)
-> +            elif var == "PKG":
-> +                if pkginfo.pkg != pkginfo.name:
-> +                    ret.append(u"PKG = %s" % pkginfo.pkg)
-> +            elif var == "PKGE":
-> +                if pkginfo.pkge != pkginfo.pe :
-> +                    ret.append(u"PKGE = %s" % pkginfo.pkge)
-> +            elif var == "PKGV":
-> +                if pkginfo.pkgv != pkginfo.pv:
-> +                    ret.append(u"PKGV = %s" % pkginfo.pkgv)
-> +            elif var == "PKGR":
-> +                if pkginfo.pkgr != pkginfo.pr:
-> +                    ret.append(u"PKGR = %s" % pkginfo.pkgr)
-> +            else:
-> +                ret.append("%s = %s" % (var, d.getVar(var)))
-> +        ret.sort()
-> +        for element in ret:
-> +            f.write(element + "\n")
->
->      for filevar in pkginfo.filevars:
->          filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
+> +It seems POSIX module is special and may not have autovivified (resolved) WNOHANG.
+> +see [1]
+> +
+> +Fixes
+> + Bareword "POSIX::WNOHANG" not allowed while "strict subs"
+> +
+> +[1] https://redmine.lighttpd.net/projects/lighttpd/repository/14/revisions/78eb0e39454ab3ca8e7ef77f1d014b50b3632fb9
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + cpan/IPC-Cmd/lib/IPC/Cmd.pm | 8 ++++----
+> + 1 file changed, 4 insertions(+), 4 deletions(-)
+> +
+> +--- a/cpan/IPC-Cmd/lib/IPC/Cmd.pm
+> ++++ b/cpan/IPC-Cmd/lib/IPC/Cmd.pm
+> +@@ -499,7 +499,7 @@ sub kill_gently {
+> +         next;
+> +     }
+> +
+> +-    my $waitpid = waitpid($pid, POSIX::WNOHANG);
+> ++    my $waitpid = waitpid($pid, POSIX::WNOHANG());
+> +
+> +     if ($waitpid eq -1) {
+> +         $child_finished = 1;
+> +@@ -619,10 +619,10 @@ sub open3_run {
+> +           #
+> +           kill(-9, $$);
+> +
+> +-          POSIX::_exit 1;
+> ++          POSIX::_exit(1);
+> +         }
+> +
+> +-        my $waitpid = waitpid($pid, POSIX::WNOHANG);
+> ++        my $waitpid = waitpid($pid, POSIX::WNOHANG());
+> +
+> +         # child finished, catch it's exit status
+> +         if ($waitpid ne 0 && $waitpid ne -1) {
+> +@@ -1005,7 +1005,7 @@ sub run_forked {
+> +           $child_finished = 1;
+> +         }
+> +
+> +-        my $waitpid = waitpid($pid, POSIX::WNOHANG);
+> ++        my $waitpid = waitpid($pid, POSIX::WNOHANG());
+> +
+> +         # child finished, catch it's exit status
+> +         if ($waitpid ne 0 && $waitpid ne -1) {
+> diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
+> index e4bcfe3ce69..48d755744fe 100644
+> --- a/meta/recipes-devtools/perl/perl_5.34.0.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
+> @@ -20,6 +20,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+>             file://aacd2398e766500cb5d83c4d76b642fcf31d997a.patch \
+>             file://ea57297a58b8f10ab885c19eec48ea076116cc1f.patch \
+>             file://5bc1e5fdd87aa205011512cd1e6cc655bcf677fd.patch \
+> +           file://0001-ipc-force-POSIX-WNOHANG-resolving.patch \
+>             "
+>  SRC_URI:append:class-native = " \
+>             file://perl-configpm-switch.patch \
 > --
-> 2.17.1
+> 2.35.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#161538): https://lists.openembedded.org/g/openembedded-core/message/161538
-> Mute This Topic: https://lists.openembedded.org/mt/89017596/1686489
+> View/Reply Online (#161535): https://lists.openembedded.org/g/openembedded-core/message/161535
+> Mute This Topic: https://lists.openembedded.org/mt/89016040/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
