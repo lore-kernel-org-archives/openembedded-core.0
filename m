@@ -1,205 +1,70 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <c2d76693b74d961e97ef38470dad1f60c425f889.camel@linuxfoundation.org>
+Message-ID: <3909a8bd81a99f80cbcafa66b68c2601b4a2235e.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable exporting more recipe and package data
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 09 Feb 2022 12:23:39 +0000
-In-Reply-To: <20220209092947.25677-1-sanakazisk19@gmail.com>
+Date: Wed, 09 Feb 2022 13:40:22 +0000
+In-Reply-To: <YgPBUKU8qutnuI8I@korppu>
 References: <20220209092947.25677-1-sanakazisk19@gmail.com>
+	 <c2d76693b74d961e97ef38470dad1f60c425f889.camel@linuxfoundation.org>
+	 <YgPBUKU8qutnuI8I@korppu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: sana kazi <sanakazisk19@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: ranjitsinh.rathod@kpit.com
+To: Mikko.Rapeli@bmw.de
+Cc: sanakazisk19@gmail.com, openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com
 
-On Wed, 2022-02-09 at 14:59 +0530, sana kazi wrote:
-> Used BUILDHISTORY_EXPORT_RECIPE_VARIABLES and
-> BUILDHISTORY_EXPORT_PACKAGE_VARIABLES to export recipe and package
-> data to the latest file of buildhistory and sorted it alphabetically.
+On Wed, 2022-02-09 at 13:27 +0000, Mikko.Rapeli@bmw.de wrote:
+> Hi,
 > 
-> This makes extending data in buildhistory git tree simple and avoids
-> patches to it for users who care about things like SRC_URI and like
-> to track it in buildhistory git tree.
+> On Wed, Feb 09, 2022 at 12:23:39PM +0000, Richard Purdie wrote:
+> > People have requested changes like this before and I rejected it as I'm worried
+> > that allowing people to customise this code will just fork the project into many
+> > different directions. 
 > 
-> Now we can add additional information as per our requirement to the
-> buildhistory like LICENSE, SRC_URI AND MAINTAINER to the buildhistory
-> by appending them in a recipe or distro specific conf file as follows:
-> 
-> BUILDHISTORY_EXPORT_RECIPE_VARIABLES += "MAINTAINER"
-> BUILDHISTORY_EXPORT_PACKAGE_VARIABLES += "MAINTAINER"
-> 
-> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 111 ++++++++++++++++++++----------
->  1 file changed, 73 insertions(+), 38 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index daa96f3b63..377b325518 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -69,6 +69,11 @@ BUILDHISTORY_PRESERVE = "latest latest_srcrev sysroot"
->  PATCH_GIT_USER_EMAIL ?= "buildhistory@oe"
->  PATCH_GIT_USER_NAME ?= "OpenEmbedded"
->  
-> +# Set BUILDHISTORY_EXPORT_RECIPE_VARIABLES and BUILDHISTORY_EXPORT_PACKAGE_VARIABLES
-> +# to export recipe and package data to the latest file of buildhistory
-> +BUILDHISTORY_EXPORT_RECIPE_VARIABLES ?= "PR PV PE LAYER DEPENDS PACKAGES SRC_URI LICENSE CONFIG"
-> +BUILDHISTORY_EXPORT_PACKAGE_VARIABLES ?= "PE PV PR PKG PKGE PKGV PKGR RPROVIDES RDEPENDS RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS PKGSIZE FILES FILELIST"
-> +
->  #
->  # Write out the contents of the sysroot
->  #
-> @@ -264,12 +269,11 @@ python buildhistory_emit_pkghistory() {
->      rcpinfo.pe = pe
->      rcpinfo.pv = pv
->      rcpinfo.pr = pr
-> -    rcpinfo.depends = sortlist(oe.utils.squashspaces(d.getVar('DEPENDS') or ""))
->      rcpinfo.packages = packages
->      rcpinfo.layer = layer
-> -    rcpinfo.license = license
->      rcpinfo.config = sortlist(oe.utils.squashspaces(d.getVar('PACKAGECONFIG') or ""))
-> -    rcpinfo.src_uri = oe.utils.squashspaces(d.getVar('SRC_URI') or "")
-> +    export_recipe_variables = d.getVar('BUILDHISTORY_EXPORT_RECIPE_VARIABLES') or ''
-> +    rcpinfo.export_recipe_variables = export_recipe_variables
->      write_recipehistory(rcpinfo, d)
->  
->      bb.build.exec_func("read_subpackage_metadata", d)
-> @@ -323,6 +327,9 @@ python buildhistory_emit_pkghistory() {
->  
->          pkginfo.size = int(localdata.getVar('PKGSIZE') or '0')
->  
-> +        export_package_variables = d.getVar('BUILDHISTORY_EXPORT_PACKAGE_VARIABLES') or ''
-> +        pkginfo.export_package_variables = export_package_variables
-> +
->          write_pkghistory(pkginfo, d)
->  
->      oe.qa.exit_if_errors(d)
-> @@ -370,17 +377,22 @@ def write_recipehistory(rcpinfo, d):
->      pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
->  
->      infofile = os.path.join(pkghistdir, "latest")
-> +    export_recipe_variables = set(rcpinfo.export_recipe_variables.split())
-> +    ret = []
->      with open(infofile, "w") as f:
-> -        if rcpinfo.pe != "0":
-> -            f.write(u"PE = %s\n" %  rcpinfo.pe)
-> -        f.write(u"PV = %s\n" %  rcpinfo.pv)
-> -        f.write(u"PR = %s\n" %  rcpinfo.pr)
-> -        f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
-> -        f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
-> -        f.write(u"LAYER = %s\n" %  rcpinfo.layer)
-> -        f.write(u"LICENSE = %s\n" %  rcpinfo.license)
-> -        f.write(u"CONFIG = %s\n" %  rcpinfo.config)
-> -        f.write(u"SRC_URI = %s\n" %  rcpinfo.src_uri)
-> +        for var in export_recipe_variables:
-> +            if var == "PE":
-> +                if rcpinfo.pe != "0":
-> +                    ret.append("%s = %s" % (var, rcpinfo.pe))
-> +            elif var == "LAYER":
-> +                ret.append("%s = %s" % (var, rcpinfo.layer))
-> +            elif var == "CONFIG":
-> +                ret.append("%s = %s" % (var, rcpinfo.config))
-> +            else:
-> +                ret.append("%s = %s" % (var," ".join((str(d.getVar(var)).split()))))
-> +        ret.sort()
-> +        for element in ret:
-> +            f.write(element + "\n")
->  
->      write_latest_srcrev(d, pkghistdir)
->  
-> @@ -394,32 +406,55 @@ def write_pkghistory(pkginfo, d):
->          bb.utils.mkdirhier(pkgpath)
->  
->      infofile = os.path.join(pkgpath, "latest")
-> +    export_package_variables = set(pkginfo.export_package_variables.split())
-> +    ret = []
->      with open(infofile, "w") as f:
-> -        if pkginfo.pe != "0":
-> -            f.write(u"PE = %s\n" %  pkginfo.pe)
-> -        f.write(u"PV = %s\n" %  pkginfo.pv)
-> -        f.write(u"PR = %s\n" %  pkginfo.pr)
-> -
-> -        if pkginfo.pkg != pkginfo.name:
-> -            f.write(u"PKG = %s\n" % pkginfo.pkg)
-> -        if pkginfo.pkge != pkginfo.pe:
-> -            f.write(u"PKGE = %s\n" % pkginfo.pkge)
-> -        if pkginfo.pkgv != pkginfo.pv:
-> -            f.write(u"PKGV = %s\n" % pkginfo.pkgv)
-> -        if pkginfo.pkgr != pkginfo.pr:
-> -            f.write(u"PKGR = %s\n" % pkginfo.pkgr)
-> -        f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
-> -        f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
-> -        f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
-> -        if pkginfo.rsuggests:
-> -            f.write(u"RSUGGESTS = %s\n" %  pkginfo.rsuggests)
-> -        if pkginfo.rreplaces:
-> -            f.write(u"RREPLACES = %s\n" %  pkginfo.rreplaces)
-> -        if pkginfo.rconflicts:
-> -            f.write(u"RCONFLICTS = %s\n" %  pkginfo.rconflicts)
-> -        f.write(u"PKGSIZE = %d\n" %  pkginfo.size)
-> -        f.write(u"FILES = %s\n" %  pkginfo.files)
-> -        f.write(u"FILELIST = %s\n" %  pkginfo.filelist)
-> +        for var in export_package_variables:
-> +            if var == "PE":
-> +                if pkginfo.pe != "0":
-> +                    ret.append("%s = %s" % (var, pkginfo.pe))
-> +            elif var == "PV":
-> +                ret.append("%s = %s" % (var, pkginfo.pv))
-> +            elif var == "PR":
-> +                ret.append("%s = %s" % (var, pkginfo.pr))
-> +            elif var == "RPROVIDES":
-> +                ret.append("%s = %s" % (var, pkginfo.rprovides))
-> +            elif var == "RDEPENDS":
-> +                ret.append("%s = %s" % (var, pkginfo.rdepends))
-> +            elif var == "RRECOMMENDS":
-> +                ret.append("%s = %s" % (var, pkginfo.rrecommends))
-> +            elif var == "PKGSIZE":
-> +                ret.append("%s = %s" % (var, pkginfo.size))
-> +            elif var == "FILES":
-> +                ret.append("%s = %s" % (var, pkginfo.files))
-> +            elif var == "FILELIST":
-> +                ret.append("%s = %s" % (var, pkginfo.filelist))
-> +            elif var == "RSUGGESTS":
-> +                if pkginfo.rsuggests:
-> +                    ret.append(u"RSUGGESTS = %s" %  pkginfo.rsuggests)
-> +            elif var == "RREPLACES":
-> +                if pkginfo.rreplaces:
-> +                    ret.append(u"RREPLACES = %s" %  pkginfo.rreplaces)
-> +            elif var == "RCONFLICTS":
-> +                if pkginfo.rconflicts:
-> +                    ret.append(u"RCONFLICTS = %s" %  pkginfo.rconflicts)
-> +            elif var == "PKG":
-> +                if pkginfo.pkg != pkginfo.name:
-> +                    ret.append(u"PKG = %s" % pkginfo.pkg)
-> +            elif var == "PKGE":
-> +                if pkginfo.pkge != pkginfo.pe :
-> +                    ret.append(u"PKGE = %s" % pkginfo.pkge)
-> +            elif var == "PKGV":
-> +                if pkginfo.pkgv != pkginfo.pv:
-> +                    ret.append(u"PKGV = %s" % pkginfo.pkgv)
-> +            elif var == "PKGR":
-> +                if pkginfo.pkgr != pkginfo.pr:
-> +                    ret.append(u"PKGR = %s" % pkginfo.pkgr)
-> +            else:
-> +                ret.append("%s = %s" % (var, d.getVar(var)))
-> +        ret.sort()
-> +        for element in ret:
-> +            f.write(element + "\n")
+> It's the other way round. There are a lot of needs to extract metadata from
+> build system into something where reports can be generated.
 
+I don't doubt that however buildhistory was written for a specific purpose and
+if we start adding the ability to customise it heavily we lose the ability for
+comparisions to be made, or sstate reuse and so on.
 
-People have requested changes like this before and I rejected it as I'm worried
-that allowing people to customise this code will just fork the project into many
-different directions. 
+I'm partly channelling the original author's views on this since they had some
+very specific thoughts on this change. I do sometimes wonder if I should
+continue doing that though :/.
 
-The elif block above illustrates part of my concern since it still isn't scaling
-well and just potentially makes every buildhistory output difference (even with
-different ordering). There are reasons the data is taken from pkginfo rather
-than getVar too and I think this could introduce subtle bugs in the future.
+>  I'd prefer this to be buildhistory as it also tracks progress across releases and 
+> versions and custom builds if the setup has been done correctly. If this change isn't 
+> going to be accepted, projects need to continue with their custom patches on top of 
+> current buildhistory bbclass in poky.
+> 
+> > The elif block above illustrates part of my concern since it still isn't scaling
+> > well and just potentially makes every buildhistory output difference (even with
+> > different ordering). There are reasons the data is taken from pkginfo rather
+> > than getVar too and I think this could introduce subtle bugs in the future.
+> 
+> The elif block is just for backwards compatibility. Changing the order of fields would
+> be annoying in buildhistory. The new ones will be in alphabetical order so I don't
+> think this is so bad. It is possibly to completely rewrite and simplify buildhistory
+> but this would be annoying for users who actually track the changes.
+>
+> > Which variables are you actually interested in when changing this?
+> 
+> LICENSE, CVE_PRODUCT, SRC_URI, MAINTAINER and some project specific variables too.
+> It is very useful to have these tracked in buildhistory git repo where differences
+> between releases can easily be seen.
 
-Which variables are you actually interested in when changing this?
+The trouble is this turns it into a "metadata difference" tool rather than a
+build output difference tool which is different to the design. It also makes it
+much harder to write the buildhistory analysis tool since all of a sudden we're
+dealing with any variable rather than package specific ones and we can no longer
+assume any particular output would be present (and it is no longer just based
+upon packagedata).
+
+I guess we can see what others think, but I am concerned about letting people
+remove existing output from it too.
 
 Cheers,
 
