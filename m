@@ -2,59 +2,58 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7F2C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 17:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43867C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 18:00:00 +0000 (UTC)
 Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
  [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web11.30061.1644429503036689551
+ by mx.groups.io with SMTP id smtpd.web08.30357.1644429599553205457
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:58:23 -0800
+ Wed, 09 Feb 2022 09:59:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Gly1gDNu;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e/xYiPpq;
  spf=pass (domain: gmail.com, ip: 209.85.222.174,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id o12so2282756qke.5
+Received: by mail-qk1-f174.google.com with SMTP id b35so2287772qkp.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:58:22 -0800 (PST)
+ Wed, 09 Feb 2022 09:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/tE1saSLdsJ/z23/IZAFnlujX5/vdQq+nGTloY3IUUY=;
-        b=Gly1gDNuJhiHN52Bg37ziRHzlj5zlZ4iOj9tJrG3n9mPWarXeUj136JVH27UaHBalF
-         IJH4ylRW0Ocb0BMNVP8wKSHpsxp69WUSsWgvy01eb+JFdlsOXRtSkcFqFBQ1Q27cvmMy
-         V4Ob8dikZsa2WNP4NQilwNCD/F4xpr5nQxyiw9fqocivdPFWaR0SvXl3we2OoeaYNFLI
-         aE3ZfRC5aEWGd3EKkUDskQesBF00+RxyMTY8TVaPxggoD1XmWdqKwWBZk5siJGYqjU2x
-         LJ9d/IIp6cqjJR6VmqV7SdcEbgsdaqOHF+gsnbrLZfKySYxWGT+v6yMJj8gHL4wqRkZ9
-         SK+Q==
+        bh=PcRbSAGqY1BNXJvVbzaSPuGFf6cVhRd00cMnjNkkxvc=;
+        b=e/xYiPpqFqjVTEi8Y8GrKHmQRV/M+TOZPgs75mWKeT/vBTc8bzkbL2z3tX0QQ0cyxY
+         RtyoN9nNLhuxdaImmGJAvcw1BZynN2KXRgBOt8DuG6DxZmdSoDdtmhqYox/F7Zbfjk7A
+         L+m6E8ghr66AEXpzWSD7OHwo6vIPBUgGjfvmK7wGkGImRHmVnVkFiT30C3cnKFVjaCna
+         x7FaOmw9wu2iu9JfGFo72wmEiwisIXVbev1KDwe17V9OpsB/GIKq6+u20BQ2biZROemp
+         bCshmIirEX1LhsnP9s82OfGm2U2jZZIA15Y9sNCCpZcO9aoooNFZOZax8R3HN2wNFxB6
+         Zm9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/tE1saSLdsJ/z23/IZAFnlujX5/vdQq+nGTloY3IUUY=;
-        b=gdhDJxzYSmS8ixMGyY4g1GhLuJNGCJOytYTs9ih8+aQjkz3Uy6z2JwOaoW1eZJ/kC+
-         DQQDVScH6/+1ok1CGNqujIR3ogywQCVvqncHd/U8YNcH1D/GzG+qDYkM4HlQG99YcLl1
-         XExIQd7eDpmqh8AN0RcCDtI/8T5ogKPnXrVvvpaDElB1hbgkkRtqkoAq70v/KySi4MLN
-         iNathShK9RXmg0szEGVnEohjkVTs0clLvc8VrzT1/iq1E2jF1ALvCwz8YlhGmQcLND23
-         tE00/QTQcqi/ShWkLlROTyBtkXyOC/rwJXfZL9Ixz0c/ozXAwR0I5plwOQiliiRg+nNk
-         PP+w==
-X-Gm-Message-State: AOAM530/BT5eK+WvISWa/dYwH4udQ2WPpZGqYlTJK+VuEdnkVum8U7N7
-	g2RdOXjxjeinzYIM3nl4Wzla6ibN4+tUJtr1jOE=
+        bh=PcRbSAGqY1BNXJvVbzaSPuGFf6cVhRd00cMnjNkkxvc=;
+        b=JEAjlBnQjEqLBHNSmMRGzmgEzvSl2MhbINgIXxJzvds8AAeuInn4mFwVG+x58h72iY
+         2HjBxcsa5PsVnTYYTxRFaWF0NMY3P/b01TXjWA5W3oyKnBuPDcg+w4Y13P2MnxX6smug
+         IpZDnyo8XdiTkDIfq8oQ0TsyvkJzO/J7mHaXgvT+iPt/PIa7KS9Q2jjgPgd+OT/1ZRtZ
+         0oY9uKfW4Bs4nXEtuV6acR3ZxMBABDr+RoNiAPxLNllNzbSub8sEa+BEu6v1rX/03l6U
+         1Bcrf71R+aSRIrnPLq6xYpeim6C6tohgStLdD4ytCF8NOem4QbUsCsVGH3UmNCDk5YFx
+         NpBQ==
+X-Gm-Message-State: AOAM5325a/dRXTR/fvBb50s7W/eDlKG7rYqKVJGIatPIGKuTEvZYtyZO
+	y7SonbAXOE7VUW8ZAkv+Qp+HL+aJRceDKiKDtMy17WoLAQU=
 X-Google-Smtp-Source: 
- ABdhPJxONW/W7CV+L2G3aGms0U+QcnxBnldW/ot9OjRuF6E158/6DAqaT+xRWYLiwhRuS6qqsmLMrEP0Ef1O8M1oGeQ=
-X-Received: by 2002:a05:620a:2010:: with SMTP id
- c16mr1795101qka.149.1644429501994;
- Wed, 09 Feb 2022 09:58:21 -0800 (PST)
+ ABdhPJzQYd7x5hMWCBIvGDSjEmc5JKKAlcjKMDRmvCYIPBSD3x+53YIsG/+GW1qXBthVVXHbpxMOhIPoFRy5AqmIUk4=
+X-Received: by 2002:a37:63cf:: with SMTP id x198mr1805865qkb.72.1644429598544;
+ Wed, 09 Feb 2022 09:59:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20220209173014.1389378-1-jdmason@kudzu.us>
- <20220209173014.1389378-6-jdmason@kudzu.us>
-In-Reply-To: <20220209173014.1389378-6-jdmason@kudzu.us>
+ <20220209173014.1389378-5-jdmason@kudzu.us>
+In-Reply-To: <20220209173014.1389378-5-jdmason@kudzu.us>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Feb 2022 09:57:56 -0800
+Date: Wed, 9 Feb 2022 09:59:32 -0800
 Message-ID: 
- <CAMKF1sppTrtazYKeNscLgttP-dekm=uqvygGFfx-2PLdjkhPDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] poky-tiny: enable qemuarmv5/qemuarm64 and
- cleanups
+ <CAMKF1spbOiDZgS+jYNYR8FgH_ywMckc7+K-aprMOwR+NM36x1w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/5] qemuarmv5: use arm-versatile-926ejs
+ KMACHINE and add more virtio devices
 To: Jon Mason <jdmason@kudzu.us>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
@@ -62,60 +61,73 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 17:58:24 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 18:00:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161583
+ https://lists.openembedded.org/g/openembedded-core/message/161584
 
 On Wed, Feb 9, 2022 at 9:30 AM Jon Mason <jdmason@kudzu.us> wrote:
 >
-> Add support for qemuarmv5 and qemuarm64, and remove qemuarm specific
-> entries, as it should be generic now.
+> Use the Arm Versatile 926 kernel configs and round out all of the virtio
+> interfaces to match other QEMU machines.
 >
 > Signed-off-by: Jon Mason <jdmason@kudzu.us>
 > ---
->  meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  meta/conf/machine/qemuarm64.conf |  8 ++++----
+>  meta/conf/machine/qemuarmv5.conf | 11 +++++++++--
+>  2 files changed, 13 insertions(+), 6 deletions(-)
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-> index 2c81e3c00506..e146ecddceb9 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-> @@ -1,5 +1,4 @@
->  KBRANCH ?= "v5.15/standard/tiny/base"
-> -KBRANCH:qemuarm  ?= "v5.15/standard/tiny/arm-versatile-926ejs"
->
->  LINUX_KERNEL_TYPE = "tiny"
->  KCONFIG_MODE = "--allnoconfig"
-> @@ -15,16 +14,16 @@ DEPENDS += "openssl-native util-linux-native"
->  KMETA = "kernel-meta"
->  KCONF_BSP_AUDIT_LEVEL = "2"
->
-> -SRCREV_machine:qemuarm ?= "67b4c868eafbd63c437d0e79523c3bdc5f3aa834"
->  SRCREV_machine ?= "f46816a75d738acbe4b1211153badf2f8e412780"
->  SRCREV_meta ?= "26e884f8c2d22607e97900d22ad52a290f555fd7"
->
+> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+> index f24515216838..ffc51c803fa7 100644
+> --- a/meta/conf/machine/qemuarm64.conf
+> +++ b/meta/conf/machine/qemuarm64.conf
+> @@ -23,9 +23,9 @@ QB_GRAPHICS = "-device virtio-gpu-pci"
+>  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+>  # Virtio Networking support
+>  QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+> -QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+> +QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+>  # Virtio block device
+> -QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
+> +QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-pci,drive=disk0"
+>  # Virtio serial console
+> -QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+> -QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+> +QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+> +QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+> diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+> index 2dad504c9932..863379ff4961 100644
+> --- a/meta/conf/machine/qemuarmv5.conf
+> +++ b/meta/conf/machine/qemuarmv5.conf
+> @@ -13,9 +13,16 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
+>  QB_SYSTEM_NAME = "qemu-system-arm"
+>  QB_MACHINE = "-machine versatilepb"
+>  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
+> +# For graphics to work we need to define the VGA device as well as the necessary USB devices
+>  QB_GRAPHICS = "-device virtio-gpu-pci"
+>  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+> -PREFERRED_VERSION_linux-yocto ??= "5.15%"
+
+is this intentional change ?
+
+> +# Virtio Networking support
+> +QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+> +QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+> +# Virtio serial console
+> +QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+> +QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
 > +
-
-spurious line :)
-
->  PV = "${LINUX_VERSION}+git${SRCPV}"
+>  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
 >
->  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
->             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
->
-> -COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
-> +COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5"
->
->  # Functionality flags
->  KERNEL_FEATURES = ""
+> -KMACHINE:qemuarmv5 = "qemuarm"
+> +KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
 > --
 > 2.30.2
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#161574): https://lists.openembedded.org/g/openembedded-core/message/161574
-> Mute This Topic: https://lists.openembedded.org/mt/89026732/1997914
+> View/Reply Online (#161573): https://lists.openembedded.org/g/openembedded-core/message/161573
+> Mute This Topic: https://lists.openembedded.org/mt/89026731/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
