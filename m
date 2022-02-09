@@ -1,92 +1,74 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mans.zigher@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF638C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 13:48:05 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.26459.1644414484743238485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032E4C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 13:50:40 +0000 (UTC)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web08.26568.1644414638813380634
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:48:05 -0800
+ Wed, 09 Feb 2022 05:50:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pywl1w/l;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id r131so1526399wma.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=A+qo6OjY;
+ spf=pass (domain: gmail.com, ip: 209.85.217.52,
+ mailfrom: mans.zigher@gmail.com)
+Received: by mail-vs1-f52.google.com with SMTP id j21so2623821vsg.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:48:04 -0800 (PST)
+ Wed, 09 Feb 2022 05:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=jK55uPgztxVNleZ5TBB8ZxkEbjX9MBlj45xiZ3aAjUU=;
-        b=Pywl1w/lM3ntWiLjUr5UKmgK+ZRLPap8T9W4iI9U44WqvCHX1YH74+wxtUorHh969t
-         OwXYcNZND5xh4AZpJ3cfCaKFIfS3suWCuV3NRqHXgHMY8g1IUSaKWJwQ2Iv8J/Z6gDID
-         vfjuQSy5fQtQgNb0cdNCw+zkTYTeM0KJOda+o=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=/wVkVsOpFi5Ft5KRDWKIh7aQzS1SVAjGrP2gtDFcgTM=;
+        b=A+qo6OjYbG1JJ+tRsQtKx5a6Bhg2NwulieKIzCFiwIaIlnebb/4+EMFBXdA7es15Jn
+         Asn7LvNjZbEcas5UFYharZIjTgK3+fypHkp26A4muK4PpnsoARrswM/Uy5rhaG5yyLn9
+         0X/dHUTl+L9D4GQL5wfnVw3niVsFFxmLdmZZmlGXVsZBKiqahu4vPOY01RXr4iR45ppa
+         T3O+z7whaQCeVtVetBuw9N6IO3NRrVKCi+n9riwyZDpM0j5QrEcsEp3EZCRW++RfJ5aq
+         HXeGDGR/0/VV6eaiiPLa7fPZvtCCg37lfdLQbtYOymBm4+TuscIlGnsAQfQw6yBK37M7
+         Ja/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=jK55uPgztxVNleZ5TBB8ZxkEbjX9MBlj45xiZ3aAjUU=;
-        b=tcRJDpnRm2ocBXjhArDaOBMeu0wX+oXSNWOeaonTL6UJvrQMV34eCbS0R2/oMicDgu
-         eOd/quZpPQKSyDa1dZgb78/g8YpdoZGOUPNMUr12g6j7fb+7cyX5/FMj8L6ma6XgVaa/
-         ePOkpzDQ2Xu/oLq/oxbi9R/Otyaq/8H0UqWGRPG5ZEHlNs0GcO1kPl1fVLq3Gq7FXKzd
-         vAisVaiLSW4ZuTGZU2sFPKgb1m3D4FX60RqtLEj4GbspE5KwG/Fsgo9UaJI4l6wEbGAy
-         wkdoSiYcuNUdE4RGVLSVzAlTRG9F+3Em+Xbp2ijQLjvJmKCl9vI6fAXTHOExkLQFw7li
-         KnJw==
-X-Gm-Message-State: AOAM5318bQ+Aq7dD8DqWfdobTUHRELr90g/458zWeT+WMmpKgx1pQd+w
-	mJx2oI1WCn8bdHKHwtrjX/qmyA==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=/wVkVsOpFi5Ft5KRDWKIh7aQzS1SVAjGrP2gtDFcgTM=;
+        b=Kfy0v/QKpknEkUw6PE/8eXEggqnlgsVPruGYjlKOkHv86Bm3Rlbj9asWETpSwInzWD
+         WY1lK00IIClVX2thrODlFpENI4bHBazzEvSrOQwIYqEyXuiy66v6WrVihVEY52+YgkRo
+         bJUWU/g/sSd018HN7Q5QLcZ+TB8Yi9rxownUkHv1obd3DpbNvHjismuPFe57eSV74ZER
+         48bvpkd7o+DboKtwQekDgtX3R4i1Cm5ndsOorl24I4P7pBi+DYqrOMp2cKI+Kp0Kn5nf
+         BLbvpKkxBXaiiCV+v6Dm76GG/X99Q3rut8YVE3wA7QAUmCDBDOxuORqQGwFFQmOx1cBG
+         98RA==
+X-Gm-Message-State: AOAM531E0MCiDg61e3Wn5MMsQgap11+pnOZK64aiY7b3ws6rQEAPeiVM
+	MWUyYj9nbb5t/9bTXi3l+bCAL1Bm92cUgglmk10J3Vjo1rg=
 X-Google-Smtp-Source: 
- ABdhPJyRN/VfcPyOnDIQBfpD8wrvcY0YM5S+0HJXU5OOzlJtiDzAKZVNurLs+FsnjD2kd8q5bkucNQ==
-X-Received: by 2002:a05:600c:4195:: with SMTP id
- p21mr2582492wmh.130.1644414483302;
-        Wed, 09 Feb 2022 05:48:03 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2250:1cae:83bc:d91f?
- ([2001:8b0:aba:5f3c:2250:1cae:83bc:d91f])
-        by smtp.gmail.com with ESMTPSA id
- r2sm18716633wrz.76.2022.02.09.05.48.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 05:48:02 -0800 (PST)
-Message-ID: 
- <038723a3f16f3260abafc5e6f60bc780f91b5328.camel@linuxfoundation.org>
-Subject: Re: [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 09 Feb 2022 13:48:01 +0000
-In-Reply-To: <20220208225310.1685131-1-raj.khem@gmail.com>
-References: <20220208225310.1685131-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJw93OyD0Mj9+NSQqCZzRgNz8bGrcE4w/xHTLtcVuz42DAVJ5rLMaeLpkR8ciLksh1Qs2aaY2QOHGk9LM/1XHaA=
+X-Received: by 2002:a67:7185:: with SMTP id m127mr37533vsc.4.1644414637544;
+ Wed, 09 Feb 2022 05:50:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?TcOlbnM=?= <mans.zigher@gmail.com>
+Date: Wed, 9 Feb 2022 14:50:26 +0100
+Message-ID: 
+ <CAEhQi8kj1kqd6cdG-1LOrmVJ75nR4W47wsa3b5r0RkwmyQho3g@mail.gmail.com>
+Subject: Missing python.h when building ntpsec
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 13:48:05 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 13:50:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161561
+ https://lists.openembedded.org/g/openembedded-core/message/161562
 
-On Tue, 2022-02-08 at 14:53 -0800, Khem Raj wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> Package /usr/bin/ld.so in a separate package
-> 
-> ld.so is a new tool which is added as a symlink to original dynamic
-> linker so make it available with same name across architectures which is
-> useful to leveral features like  --preload, --audit, and --list-diagnostics
-> more accessible to end users
-> 
+Hi,
 
-There is still a QA error with this for multilib:
+I am trying to backport ntpsec from master to Thud but I have
+encountered an issue where python.h is missing in the sysroot for the
+ntpsec so the configuration task is failing. The ntpsec recipe has
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/4735/steps/11/logs/stdio
+DEPENDS += "bison-native \
+            openssl \
+            python3"
 
-Cheers,
+So should that not result in python.h being included to the sysroot
+for the ntpsec? Any hints on what to look for?
 
-Richard
-
-
-
-
+Thanks,
 
