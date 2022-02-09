@@ -1,111 +1,91 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A87C433FE
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 17:30:21 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web08.29854.1644427820387340433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7286C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 17:30:46 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.29732.1644427845846956676
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:30:20 -0800
+ Wed, 09 Feb 2022 09:30:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=rPQp+ilj;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.175,
- mailfrom: jdmason@kudzu.us)
-Received: by mail-qt1-f175.google.com with SMTP id k25so2443241qtp.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:30:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=bjrGkXIZy7nx60JzEzxstww5xDXP1XGZueIXt5zX560=;
-        b=rPQp+iljDc1M9I2Qw9wpXxSthHvKNZrSo36I+TZqkgOSDm55AzZwb/T0ycvQCNEGHb
-         nU1CDkEi8vNl9srA376nFxRIXAhrVesjkVCvCHFfYKe+VkwyaIODlJp12rfZtlJ8fNzC
-         ENxFy0h2m3GtUMLP2aUQuy6IzXZEy2YE5D+KntXf4HV4DqTuEwkNhjjt7JJ7jdsngP4W
-         1ahbXNMDielAkHg6SmP++V/fZ9fj2/ns71ZiWbwgU8n7SC4+0ei1B39hf8uH3d+rZftP
-         w0chIQAqystH4zRb2OVzl8u9iGOPmqh+NkKJCFWYpeK7kJpQQwq5wcrkb7iBg12Kz8Cx
-         GKGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bjrGkXIZy7nx60JzEzxstww5xDXP1XGZueIXt5zX560=;
-        b=aMKIJunSKgBncuBCK5Ty4wBVMABEbrDxJ+cQWtArBoczCzKSzUeSdfHLU0UU9cVSVU
-         hu2QPZgpuiWjesyKTfcVmZEYucA/utrco+lmeP77HVnt3G+3ezyU2V6w9cZgYxAc2d6s
-         EZ4ouXro0hUyetWO1taDX817jy6rAJc64gzCjESbLa9kvPftkqXWadg8t8Eqgv8pzOEz
-         llOSOzujOQxdjDHqvXVx/rHfb9y2J6UVC2OKyRY9Dt+qDN87k2+wxwdJYhuVPG4IeHUu
-         tbMFaj1+0KmvFn08e1OW+8J6gHcyGH4J4X6OnMTAXftTDRNyiHBCU32yMbnCxFu4t3ym
-         2LFw==
-X-Gm-Message-State: AOAM532y2G1Svtyy+SB5ic+9EwoyX9veo6Zs+zVY1M/qTZkUS3iN0Usi
-	uBc0iky7F9P8Ex7OJUEX7C7ivx+VmPiWvQ==
-X-Google-Smtp-Source: 
- ABdhPJwXZ7wf9eOnAkQuhF+IksK9/f2O078HzOtmRUtgWie9i5W+3UZAYj1FVLhaCULGn0j6km6Yzw==
-X-Received: by 2002:ac8:4e89:: with SMTP id 9mr2170118qtp.484.1644427819382;
-        Wed, 09 Feb 2022 09:30:19 -0800 (PST)
-Received: from localhost ([2605:a601:a63c:b500:6f2:2f18:c3b:979f])
-        by smtp.gmail.com with ESMTPSA id
- s34sm9503266qtc.88.2022.02.09.09.30.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 09:30:19 -0800 (PST)
-From: Jon Mason <jdmason@kudzu.us>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23C65ED1;
+	Wed,  9 Feb 2022 09:30:45 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F5633F73B;
+	Wed,  9 Feb 2022 09:30:44 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] poky-tiny: enable qemuarmv5/qemuarm64 and cleanups
-Date: Wed,  9 Feb 2022 12:30:14 -0500
-Message-Id: <20220209173014.1389378-6-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220209173014.1389378-1-jdmason@kudzu.us>
-References: <20220209173014.1389378-1-jdmason@kudzu.us>
+Cc: bruce.ashfield@gmail.com
+Subject: [PATCH 1/2] package: add extra_recommends to do_split_package()
+Date: Wed,  9 Feb 2022 17:30:35 +0000
+Message-Id: <20220209173036.3823144-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 17:30:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 17:30:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161574
+ https://lists.openembedded.org/g/openembedded-core/message/161575
 
-Add support for qemuarmv5 and qemuarm64, and remove qemuarm specific
-entries, as it should be generic now.
+It may be preferrable to add RRECOMMENDS instead of RDEPENDS to each of
+the split packages, so add extra_recommends to do this.
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/classes/package.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 2c81e3c00506..e146ecddceb9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -1,5 +1,4 @@
- KBRANCH ?= "v5.15/standard/tiny/base"
--KBRANCH:qemuarm  ?= "v5.15/standard/tiny/arm-versatile-926ejs"
- 
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
-@@ -15,16 +14,16 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine:qemuarm ?= "67b4c868eafbd63c437d0e79523c3bdc5f3aa834"
- SRCREV_machine ?= "f46816a75d738acbe4b1211153badf2f8e412780"
- SRCREV_meta ?= "26e884f8c2d22607e97900d22ad52a290f555fd7"
- 
-+
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
--COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5"
- 
- # Functionality flags
- KERNEL_FEATURES = ""
--- 
-2.30.2
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index f4a661ba25a..2143abca0d1 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -79,7 +79,7 @@ def legitimize_package_name(s):
+     # Remaining package name validity fixes
+     return s.lower().replace('_', '-').replace('@', '+').replace(',', '+=
+').replace('/', '-')
+=20
+-def do_split_packages(d, root, file_regex, output_pattern, description, =
+postinst=3DNone, recursive=3DFalse, hook=3DNone, extra_depends=3DNone, au=
+x_files_pattern=3DNone, postrm=3DNone, allow_dirs=3DFalse, prepend=3DFals=
+e, match_path=3DFalse, aux_files_pattern_verbatim=3DNone, allow_links=3DF=
+alse, summary=3DNone):
++def do_split_packages(d, root, file_regex, output_pattern, description, =
+postinst=3DNone, recursive=3DFalse, hook=3DNone, extra_depends=3DNone, ex=
+tra_recommends=3DNone, aux_files_pattern=3DNone, postrm=3DNone, allow_dir=
+s=3DFalse, prepend=3DFalse, match_path=3DFalse, aux_files_pattern_verbati=
+m=3DNone, allow_links=3DFalse, summary=3DNone):
+     """
+     Used in .bb files to split up dynamically generated subpackages of a
+     given package, usually plugins or modules.
+@@ -108,6 +108,8 @@ def do_split_packages(d, root, file_regex, output_pat=
+tern, description, postinst
+                       all packages. The default value of None causes a
+                       dependency on the main package (${PN}) - if you do
+                       not want this, pass '' for this parameter.
++    extra_recommends -- extra runtime recommends (RRECOMMENDS) to be set=
+ for
++                      all packages. By default no recommends are added.
+     aux_files_pattern -- extra item(s) to be added to FILES for each
+                       package. Can be a single string item or a list of
+                       strings for multiple items.  Must include %s.
+@@ -222,6 +224,8 @@ def do_split_packages(d, root, file_regex, output_pat=
+tern, description, postinst
+             d.setVar('FILES:' + pkg, oldfiles + " " + newfile)
+         if extra_depends !=3D '':
+             d.appendVar('RDEPENDS:' + pkg, ' ' + extra_depends)
++        if extra_recommends:
++            d.appendVar('RRECOMMENDS:' + pkg, ' ' + extra_recommends)
+         if not d.getVar('DESCRIPTION:' + pkg):
+             d.setVar('DESCRIPTION:' + pkg, description % on)
+         if not d.getVar('SUMMARY:' + pkg):
+--=20
+2.25.1
 
 
