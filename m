@@ -1,164 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoctoproject@neumann-web.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7379C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 10:56:17 +0000 (UTC)
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
- [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.web09.25149.1644404176984205339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D5BC433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 11:02:26 +0000 (UTC)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by mx.groups.io with SMTP id smtpd.web12.25141.1644404545100333125
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 02:56:17 -0800
+ Wed, 09 Feb 2022 03:02:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CkVMEkcG;
- spf=pass (domain: gmail.com, ip: 209.85.217.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id w6so1675371vsf.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 02:56:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HjDvBn6cgcXkJp4mILX7xMFj1/DDlCldbX2WuvZUHfc=;
-        b=CkVMEkcGRqx12lH4jFPoeUpTzwrW+ynaAMZrz1VkZRbAHFjhTnkpaBbdTXaosK1AE0
-         eV3+M+zTglRWd2K+oJOs+/XheDCEYzLlcwgDGdEElFrlj5djdIj+K8haGpamtdeNBS+S
-         bIhEIHCUGxT5B63+55zN44JK43+UjDgq+JS+ZBmalRUSoBR9o3C/R79+chgsf+762hyt
-         h+cubDgK4k/a5t3BIzDyst9ElmF9Ro+HjHcntss8L7JglO92mSP9zI2jn5RkQRXRJoes
-         eeX3J3ocNlEWQjvghp4CjykeJayX1hXvSrZ5BnPN3o73hbDc5o2ySqvqX9e3wyAS0niB
-         y9/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HjDvBn6cgcXkJp4mILX7xMFj1/DDlCldbX2WuvZUHfc=;
-        b=N3O3WBe/qqGBMCE9aM3qCxV+W9EdfhqK/+SSyKKCHtgr1LUWtKJF9o5mjnFuSpM8Wz
-         ujjhTA/9D7/YP/E8Wr2rkuBS6ifPo6vehIEwm7oCHJ+YWhgC1rOJAVSVjYBfuZEh67+7
-         v6gxy3dHC+wrEAIa87m2RPylIoaeXpF8MqgYq773LoOEW1TeEYs5v6eD7eQCeHt5mm7i
-         z+KBCb3JppsvnVCWlcyNRSJXE99gASF6II3EfIRXArR3WqITV2Q1nO/AU+2w/tFwE/St
-         8kDstdZ8oHgxfKEFv1gcgQg3aNVCe4UMgtFQYlDvxQCrH8bSUxLBYu6sgT+66Ug3gOG+
-         dQvQ==
-X-Gm-Message-State: AOAM532lbVbY0pmR2IADZu6m86k7tMvfpQGwryBPpBa5wMdIP/vfxOKB
-	donSDihWTyx4jdrEPgSeTG2Dk3bYqxYCDzlB/wY=
-X-Google-Smtp-Source: 
- ABdhPJzCZO0gIXtEIH3fM7HvUh1GZMC33RI6WG0p0cqYBHv4PtgF+EqQv/X+m15Ho+T2a4D+lqHlOAIHG99k5Z0C0ck=
-X-Received: by 2002:a05:6102:22d1:: with SMTP id
- a17mr464619vsh.42.1644404176096;
- Wed, 09 Feb 2022 02:56:16 -0800 (PST)
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: neumann-web.eu, ip: 80.241.56.172,
+ mailfrom: yoctoproject@neumann-web.eu)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:105:465:1:3:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4JtxmF57gcz9snN;
+	Wed,  9 Feb 2022 12:02:21 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Date: Wed, 9 Feb 2022 12:02:17 +0100 (CET)
+From: yoctoproject@neumann-web.eu
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"uvv.mail@gmail.com" <uvv.mail@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <914805773.15925.1644404537217@office.mailbox.org>
+In-Reply-To: 
+ <f59870ac746e69df1b05ac00c9db0025561e473b.camel@linuxfoundation.org>
+References: <1540523266.294149.1643372553712@office.mailbox.org>
+ <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
+ <1170434594.46461.1644247802042@office.mailbox.org>
+ <f59870ac746e69df1b05ac00c9db0025561e473b.camel@linuxfoundation.org>
+Subject: Re: [RFC] support for multi project toolchain-cmake
 MIME-Version: 1.0
-References: <20220209095307.4080727-1-zboszor@pr.hu>
- <CANNYZj8c6brrf_ApjKD8Hj4DpSpAx7Xp+DAbWbz0aYR8eEufng@mail.gmail.com>
- <03140b0b-29cb-8f5e-e40c-f1df7d92d728@pr.hu>
-In-Reply-To: <03140b0b-29cb-8f5e-e40c-f1df7d92d728@pr.hu>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 9 Feb 2022 11:56:04 +0100
-Message-ID: 
- <CANNYZj9aphxFcy=2TVM6F-97T77VzAvNJwFkr4yDBcJk_KJk7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemuboot: Fix NoneType error in
- do_write_qemuboot_conf
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 10:56:17 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 11:02:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161551
+ https://lists.openembedded.org/g/openembedded-core/message/161552
 
-Right, but this might be fixing the symptom, and not the problem.
+Hello Vyacheslav and Richard,
 
-Alex
+thank you both for your feedback,
 
-On Wed, 9 Feb 2022 at 11:53, B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszo=
-r@pr.hu> wrote:
->
-> (Resending from the address I am subscribed with.)
->
-> I have no idea.
->
-> It was working a week ago for me but today after "repo sync"
-> the image build failed on me with the quoted error.
->
-> With this fix, the image is built with the expected contents.
->
-> The change with "if val.startswith()" was from 2017,
-> something around it must have changed very recently.
->
-> Zolt=C3=A1n
->
-> 2022. 02. 09. 11:35 keltez=C3=A9ssel, Alexander Kanavin =C3=ADrta:
-> > Wait, why val is none in the first place? Why aren't others seeing it?
-> >
-> > Alex
-> >
-> > On Wed, 9 Feb 2022 at 10:53, Zoltan Boszormenyi via
-> > lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
-> >>
-> >> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> >>
-> >> I got this error on current master:
-> >>
-> >> File: 'exec_func_python() autogenerated', lineno: 2, function: <module=
->
-> >>       0001:
-> >>   *** 0002:do_write_qemuboot_conf(d)
-> >>       0003:
-> >> File: '.../layers/openembedded-core/meta/classes/qemuboot.bbclass', li=
-neno: 141, function: do_write_qemuboot_conf
-> >>       0137:        else:
-> >>       0138:            val =3D d.getVar(k)
-> >>       0139:        # we only want to write out relative paths so that =
-we can relocate images
-> >>       0140:        # and still run them
-> >>   *** 0141:        if val.startswith(topdir):
-> >>       0142:            val =3D os.path.relpath(val, finalpath)
-> >>       0143:        cf.set('config_bsp', k, '%s' % val)
-> >>       0144:
-> >>       0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the =
-name of a symlink
-> >> Exception: AttributeError: 'NoneType' object has no attribute 'startsw=
-ith'
-> >>
-> >> Do nothing if "val" is None.
-> >>
-> >> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.c=
-om>
-> >> ---
-> >>   meta/classes/qemuboot.bbclass | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbc=
-lass
-> >> index 229bd88527..755d49acd6 100644
-> >> --- a/meta/classes/qemuboot.bbclass
-> >> +++ b/meta/classes/qemuboot.bbclass
-> >> @@ -136,6 +136,8 @@ python do_write_qemuboot_conf() {
-> >>                                  'qemu-helper-native/1.0-r1/recipe-sys=
-root-native/usr/bin/')
-> >>           else:
-> >>               val =3D d.getVar(k)
-> >> +        if val is None:
-> >> +            continue
-> >>           # we only want to write out relative paths so that we can re=
-locate images
-> >>           # and still run them
-> >>           if val.startswith(topdir):
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#161547): https://lists.openembedded.org/g/openembe=
-dded-core/message/161547
-> >> Mute This Topic: https://lists.openembedded.org/mt/89018458/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alex.kanavin@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
->
+On Mon, 2022-02-08 at 10:44, Vyacheslav Yurkov wrote:
+> Any reason you set SDK to be read-only? Perhaps your use case can be covered
+> by extensible SDK? I mean if you have some shared libraries between project,
+> isn't that enough to extend your SDK to solve the original problem?
+
+While we indeed do have shared libraries between projects, they are not
+necessary of the same version. In general we don't want to enforce restrictions
+on shared code between the projects (e.g. hinder different patch sets or
+enforce specific versions), appart from the base distribution that is generated
+with OpenEmbedded. If libraries mature enough that they can be considered to be
+(mostly) stable, we have different processes to share it between projects.
+
+On Mon, 2022-02-08 at 14:22, Richard Purdie wrote:
+> We definitely don't support that usage scenario since it would be highly build
+> system specific and would work in some cases but not others. I do have a
+> suggestion of a different approach though.
+
+After your first reply, I've expected this. The Bug report #14703 can then also
+be closed, however I can only set it to RESOLVED and not something like
+REJECTED, hence I would asked somebody else to reject the report.
+
+> Have you considered creating a sysroot per project with a copy of the sysroot
+> files?
+> 
+> This sounds like a crazy idea at first but with hardlinks for the files it is
+> fast and efficient to create these sysroot file trees. This is exactly what
+> OpenEmbedded does internally and how we handle this in our builds.
+
+That sounds like an interesting alternative solution. We haven't thought about
+it yet, but it will be something we're going to look into.
+
+best regards
+Tobias
 
