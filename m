@@ -1,74 +1,176 @@
-Return-Path: <mans.zigher@gmail.com>
+Return-Path: <mikko.rapeli@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 032E4C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 13:50:40 +0000 (UTC)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
- [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web08.26568.1644414638813380634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EEFDC433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 14:27:59 +0000 (UTC)
+Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com
+ [207.54.72.34])
+ by mx.groups.io with SMTP id smtpd.web10.26945.1644416877702721587
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:50:39 -0800
+ Wed, 09 Feb 2022 06:27:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A+qo6OjY;
- spf=pass (domain: gmail.com, ip: 209.85.217.52,
- mailfrom: mans.zigher@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id j21so2623821vsg.6
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:50:38 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
+ header.b=kCiNSK0e;
+ spf=pass (domain: bmw.de, ip: 207.54.72.34,
+ mailfrom: prvs=03290f32f=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=/wVkVsOpFi5Ft5KRDWKIh7aQzS1SVAjGrP2gtDFcgTM=;
-        b=A+qo6OjYbG1JJ+tRsQtKx5a6Bhg2NwulieKIzCFiwIaIlnebb/4+EMFBXdA7es15Jn
-         Asn7LvNjZbEcas5UFYharZIjTgK3+fypHkp26A4muK4PpnsoARrswM/Uy5rhaG5yyLn9
-         0X/dHUTl+L9D4GQL5wfnVw3niVsFFxmLdmZZmlGXVsZBKiqahu4vPOY01RXr4iR45ppa
-         T3O+z7whaQCeVtVetBuw9N6IO3NRrVKCi+n9riwyZDpM0j5QrEcsEp3EZCRW++RfJ5aq
-         HXeGDGR/0/VV6eaiiPLa7fPZvtCCg37lfdLQbtYOymBm4+TuscIlGnsAQfQw6yBK37M7
-         Ja/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=/wVkVsOpFi5Ft5KRDWKIh7aQzS1SVAjGrP2gtDFcgTM=;
-        b=Kfy0v/QKpknEkUw6PE/8eXEggqnlgsVPruGYjlKOkHv86Bm3Rlbj9asWETpSwInzWD
-         WY1lK00IIClVX2thrODlFpENI4bHBazzEvSrOQwIYqEyXuiy66v6WrVihVEY52+YgkRo
-         bJUWU/g/sSd018HN7Q5QLcZ+TB8Yi9rxownUkHv1obd3DpbNvHjismuPFe57eSV74ZER
-         48bvpkd7o+DboKtwQekDgtX3R4i1Cm5ndsOorl24I4P7pBi+DYqrOMp2cKI+Kp0Kn5nf
-         BLbvpKkxBXaiiCV+v6Dm76GG/X99Q3rut8YVE3wA7QAUmCDBDOxuORqQGwFFQmOx1cBG
-         98RA==
-X-Gm-Message-State: AOAM531E0MCiDg61e3Wn5MMsQgap11+pnOZK64aiY7b3ws6rQEAPeiVM
-	MWUyYj9nbb5t/9bTXi3l+bCAL1Bm92cUgglmk10J3Vjo1rg=
-X-Google-Smtp-Source: 
- ABdhPJw93OyD0Mj9+NSQqCZzRgNz8bGrcE4w/xHTLtcVuz42DAVJ5rLMaeLpkR8ciLksh1Qs2aaY2QOHGk9LM/1XHaA=
-X-Received: by 2002:a67:7185:: with SMTP id m127mr37533vsc.4.1644414637544;
- Wed, 09 Feb 2022 05:50:37 -0800 (PST)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1644416877; x=1675952877;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=m08SMwqY6I2yjrRJGmxgBGYRWpFm+uUYocRK/5UjUsM=;
+  b=kCiNSK0etMUTeXolB0TYC/Yt2dl5EO4hs/mklQ/I4+nznHZ6/HtKwCo1
+   GBgtYgLn2z2GXaE94o0ZAkRKBfsD0Lf2xXMYd1tcuhyA9tnFj4rPM7IOm
+   r3Su3twnTiYWSl+CRzyaHOttnrzEGGoVCGQUhL2RoDi4pmOjI5nK6gD1v
+   A=;
+IronPort-SDR: 
+ ZMdKiMlqPK3VijP0SgXAioI8d3X1O6iLZvEcaCCXeznZR52Xzm9YY+UfltU9eebEM3VUJGjSrQ
+ dRw8Qx33ueaPc/zyZhJS+cNEAiuUCrXQE1DJUeOfbc9g7TuFUx8hpD5pBAn5dYIWzNCSSsUOiR
+ bzheop39I79oYhZi97ZgQEDGngX+Qp4Fu9l6HtodA7b0tkpI/u8a06eRhCabP/arJqpBfcK5rs
+ oI83ic3lT9DJimwbCUkZaWfKI4XU+kd8R1c522M3vG2gjCCcbjmrb9nqXUEQYu6yACJ1kvBF6O
+ 36ScTQaerqdqdWRN4NZxW65/
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 09 Feb 2022 15:27:54 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw5.muc with ESMTP/TLS;
+ 09 Feb 2022 15:27:55 +0100
+Received: from smucm33l.bmwgroup.net (HELO smucm33l.europe.bmw.corp)
+ ([160.46.167.68])
+ by esabb5.muc with ESMTP/TLS; 09 Feb 2022 15:27:55 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
+ smucm33l.europe.bmw.corp
+ (160.46.167.68) with Microsoft SMTP Server (TLS;
+ Wed, 9 Feb 2022 15:27:54 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Wed,
+ 9 Feb 2022 15:27:54 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+CC: <sanakazisk19@gmail.com>, <openembedded-core@lists.openembedded.org>,
+	<ranjitsinh.rathod@kpit.com>
+Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable
+ exporting more recipe and package data
+Thread-Topic: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable
+ exporting more recipe and package data
+Thread-Index: AQHYHZe441HnQYeLLEqDuYqPBGkeZayLE8mAgAAR5wCAAAOIAIAADUeA
+Date: Wed, 9 Feb 2022 14:27:54 +0000
+Message-ID: <YgPPaRecZGTG2MF9@korppu>
+References: <20220209092947.25677-1-sanakazisk19@gmail.com>
+ <c2d76693b74d961e97ef38470dad1f60c425f889.camel@linuxfoundation.org>
+ <YgPBUKU8qutnuI8I@korppu>
+ <3909a8bd81a99f80cbcafa66b68c2601b4a2235e.camel@linuxfoundation.org>
+In-Reply-To: 
+ <3909a8bd81a99f80cbcafa66b68c2601b4a2235e.camel@linuxfoundation.org>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <B93C6BE72FE02043B2320BC3720B0B56@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-From: =?UTF-8?B?TcOlbnM=?= <mans.zigher@gmail.com>
-Date: Wed, 9 Feb 2022 14:50:26 +0100
-Message-ID: 
- <CAEhQi8kj1kqd6cdG-1LOrmVJ75nR4W47wsa3b5r0RkwmyQho3g@mail.gmail.com>
-Subject: Missing python.h when building ntpsec
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 13:50:40 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 14:27:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161562
+ https://lists.openembedded.org/g/openembedded-core/message/161563
 
-Hi,
+On Wed, Feb 09, 2022 at 01:40:22PM +0000, Richard Purdie wrote:
+> On Wed, 2022-02-09 at 13:27 +0000, Mikko.Rapeli@bmw.de wrote:
+> > Hi,
+> >=20
+> > On Wed, Feb 09, 2022 at 12:23:39PM +0000, Richard Purdie wrote:
+> > > People have requested changes like this before and I rejected it as I=
+'m worried
+> > > that allowing people to customise this code will just fork the projec=
+t into many
+> > > different directions.=A0
+> >=20
+> > It's the other way round. There are a lot of needs to extract metadata =
+from
+> > build system into something where reports can be generated.
+>=20
+> I don't doubt that however buildhistory was written for a specific purpos=
+e and
+> if we start adding the ability to customise it heavily we lose the abilit=
+y for
+> comparisions to be made, or sstate reuse and so on.
+>=20
+> I'm partly channelling the original author's views on this since they had=
+ some
+> very specific thoughts on this change. I do sometimes wonder if I should
+> continue doing that though :/.
 
-I am trying to backport ntpsec from master to Thud but I have
-encountered an issue where python.h is missing in the sysroot for the
-ntpsec so the configuration task is failing. The ntpsec recipe has
+Then how should yocto users export CVE_NAME, LICENSE, PN, PV, SRC_URI etc f=
+rom
+the build system to generate SW bill of materials (BOM) for their product
+and track progress?
 
-DEPENDS += "bison-native \
-            openssl \
-            python3"
+Yes, SPDX can be the other answer but I don't find that human readable or w=
+orking
+out of the box atm.
 
-So should that not result in python.h being included to the sysroot
-for the ntpsec? Any hints on what to look for?
+> >  I'd prefer this to be buildhistory as it also tracks progress across r=
+eleases and=A0
+> > versions and custom builds if the setup has been done correctly. If thi=
+s change isn't=A0
+> > going to be accepted, projects need to continue with their custom patch=
+es on top of=A0
+> > current buildhistory bbclass in poky.
+> >=20
+> > > The elif block above illustrates part of my concern since it still is=
+n't scaling
+> > > well and just potentially makes every buildhistory output difference =
+(even with
+> > > different ordering). There are reasons the data is taken from pkginfo=
+ rather
+> > > than getVar too and I think this could introduce subtle bugs in the f=
+uture.
+> >=20
+> > The elif block is just for backwards compatibility. Changing the order =
+of fields would
+> > be annoying in buildhistory. The new ones will be in alphabetical order=
+ so I don't
+> > think this is so bad. It is possibly to completely rewrite and simplify=
+ buildhistory
+> > but this would be annoying for users who actually track the changes.
+> >
+> > > Which variables are you actually interested in when changing this?
+> >=20
+> > LICENSE, CVE_PRODUCT, SRC_URI, MAINTAINER and some project specific var=
+iables too.
+> > It is very useful to have these tracked in buildhistory git repo where =
+differences
+> > between releases can easily be seen.
+>=20
+> The trouble is this turns it into a "metadata difference" tool rather tha=
+n a
+> build output difference tool which is different to the design. It also ma=
+kes it
+> much harder to write the buildhistory analysis tool since all of a sudden=
+ we're
+> dealing with any variable rather than package specific ones and we can no=
+ longer
+> assume any particular output would be present (and it is no longer just b=
+ased
+> upon packagedata).
 
-Thanks,
+What tool or feature from yocto should we use then?
+
+> I guess we can see what others think, but I am concerned about letting pe=
+ople
+> remove existing output from it too.
+
+Well buildhistory can have defaults. It can be extended. I don't see your r=
+easons
+for limiting the output to a few variables which you care about.
+
+I frequently debug issues by looking at buildhistory data about images, bin=
+ary
+packages and recipes. It is a very useful tool.
+
+-Mikko=
 
