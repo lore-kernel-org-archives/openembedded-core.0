@@ -1,78 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3909a8bd81a99f80cbcafa66b68c2601b4a2235e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable exporting more recipe and package data
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 09 Feb 2022 13:40:22 +0000
-In-Reply-To: <YgPBUKU8qutnuI8I@korppu>
-References: <20220209092947.25677-1-sanakazisk19@gmail.com>
-	 <c2d76693b74d961e97ef38470dad1f60c425f889.camel@linuxfoundation.org>
-	 <YgPBUKU8qutnuI8I@korppu>
+Message-ID: <159025bd-e7a9-09a1-2315-68d99bf72ad8@pr.hu>
+Date: Wed, 9 Feb 2022 15:55:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [OE-core] [PATCH] qemuboot: Fix NoneType error in do_write_qemuboot_conf
+References: <20220209095307.4080727-1-zboszor@pr.hu>
+ <CANNYZj8c6brrf_ApjKD8Hj4DpSpAx7Xp+DAbWbz0aYR8eEufng@mail.gmail.com>
+ <03140b0b-29cb-8f5e-e40c-f1df7d92d728@pr.hu>
+ <CANNYZj9aphxFcy=2TVM6F-97T77VzAvNJwFkr4yDBcJk_KJk7w@mail.gmail.com>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+In-Reply-To: <CANNYZj9aphxFcy=2TVM6F-97T77VzAvNJwFkr4yDBcJk_KJk7w@mail.gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Mikko.Rapeli@bmw.de
-Cc: sanakazisk19@gmail.com, openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
 
-On Wed, 2022-02-09 at 13:27 +0000, Mikko.Rapeli@bmw.de wrote:
-> Hi,
+I have added a bb.error line to print the value of "k".
+It's "UNINATIVE_LOADER".
+
+I am not touching this variable in my custom distro layer. Should I?
+
+Zoltán
+
+2022. 02. 09. 11:56 keltezéssel, Alexander Kanavin írta:
+> Right, but this might be fixing the symptom, and not the problem.
 > 
-> On Wed, Feb 09, 2022 at 12:23:39PM +0000, Richard Purdie wrote:
-> > People have requested changes like this before and I rejected it as I'm worried
-> > that allowing people to customise this code will just fork the project into many
-> > different directions. 
+> Alex
 > 
-> It's the other way round. There are a lot of needs to extract metadata from
-> build system into something where reports can be generated.
-
-I don't doubt that however buildhistory was written for a specific purpose and
-if we start adding the ability to customise it heavily we lose the ability for
-comparisions to be made, or sstate reuse and so on.
-
-I'm partly channelling the original author's views on this since they had some
-very specific thoughts on this change. I do sometimes wonder if I should
-continue doing that though :/.
-
->  I'd prefer this to be buildhistory as it also tracks progress across releases and 
-> versions and custom builds if the setup has been done correctly. If this change isn't 
-> going to be accepted, projects need to continue with their custom patches on top of 
-> current buildhistory bbclass in poky.
-> 
-> > The elif block above illustrates part of my concern since it still isn't scaling
-> > well and just potentially makes every buildhistory output difference (even with
-> > different ordering). There are reasons the data is taken from pkginfo rather
-> > than getVar too and I think this could introduce subtle bugs in the future.
-> 
-> The elif block is just for backwards compatibility. Changing the order of fields would
-> be annoying in buildhistory. The new ones will be in alphabetical order so I don't
-> think this is so bad. It is possibly to completely rewrite and simplify buildhistory
-> but this would be annoying for users who actually track the changes.
->
-> > Which variables are you actually interested in when changing this?
-> 
-> LICENSE, CVE_PRODUCT, SRC_URI, MAINTAINER and some project specific variables too.
-> It is very useful to have these tracked in buildhistory git repo where differences
-> between releases can easily be seen.
-
-The trouble is this turns it into a "metadata difference" tool rather than a
-build output difference tool which is different to the design. It also makes it
-much harder to write the buildhistory analysis tool since all of a sudden we're
-dealing with any variable rather than package specific ones and we can no longer
-assume any particular output would be present (and it is no longer just based
-upon packagedata).
-
-I guess we can see what others think, but I am concerned about letting people
-remove existing output from it too.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
+> On Wed, 9 Feb 2022 at 11:53, Böszörményi Zoltán <zboszor@pr.hu> wrote:
+>>
+>> (Resending from the address I am subscribed with.)
+>>
+>> I have no idea.
+>>
+>> It was working a week ago for me but today after "repo sync"
+>> the image build failed on me with the quoted error.
+>>
+>> With this fix, the image is built with the expected contents.
+>>
+>> The change with "if val.startswith()" was from 2017,
+>> something around it must have changed very recently.
+>>
+>> Zoltán
+>>
+>> 2022. 02. 09. 11:35 keltezéssel, Alexander Kanavin írta:
+>>> Wait, why val is none in the first place? Why aren't others seeing it?
+>>>
+>>> Alex
+>>>
+>>> On Wed, 9 Feb 2022 at 10:53, Zoltan Boszormenyi via
+>>> lists.openembedded.org <zboszor=pr.hu@lists.openembedded.org> wrote:
+>>>>
+>>>> From: Zoltán Böszörményi <zboszor@gmail.com>
+>>>>
+>>>> I got this error on current master:
+>>>>
+>>>> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>>>>        0001:
+>>>>    *** 0002:do_write_qemuboot_conf(d)
+>>>>        0003:
+>>>> File: '.../layers/openembedded-core/meta/classes/qemuboot.bbclass', lineno: 141, function: do_write_qemuboot_conf
+>>>>        0137:        else:
+>>>>        0138:            val = d.getVar(k)
+>>>>        0139:        # we only want to write out relative paths so that we can relocate images
+>>>>        0140:        # and still run them
+>>>>    *** 0141:        if val.startswith(topdir):
+>>>>        0142:            val = os.path.relpath(val, finalpath)
+>>>>        0143:        cf.set('config_bsp', k, '%s' % val)
+>>>>        0144:
+>>>>        0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
+>>>> Exception: AttributeError: 'NoneType' object has no attribute 'startswith'
+>>>>
+>>>> Do nothing if "val" is None.
+>>>>
+>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+>>>> ---
+>>>>    meta/classes/qemuboot.bbclass | 2 ++
+>>>>    1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+>>>> index 229bd88527..755d49acd6 100644
+>>>> --- a/meta/classes/qemuboot.bbclass
+>>>> +++ b/meta/classes/qemuboot.bbclass
+>>>> @@ -136,6 +136,8 @@ python do_write_qemuboot_conf() {
+>>>>                                   'qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/')
+>>>>            else:
+>>>>                val = d.getVar(k)
+>>>> +        if val is None:
+>>>> +            continue
+>>>>            # we only want to write out relative paths so that we can relocate images
+>>>>            # and still run them
+>>>>            if val.startswith(topdir):
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>>
+>>>> 
+>>>>
+>>
 
