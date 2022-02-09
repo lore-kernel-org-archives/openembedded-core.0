@@ -2,60 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9DBDC433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 13:44:32 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.26675.1644414271332150562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF638C433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 13:48:05 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.26459.1644414484743238485
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:44:31 -0800
+ Wed, 09 Feb 2022 05:48:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cGjPt48B;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pywl1w/l;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id q7so4067304wrc.13
+Received: by mail-wm1-f52.google.com with SMTP id r131so1526399wma.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 05:44:31 -0800 (PST)
+ Wed, 09 Feb 2022 05:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=T0Y9OaaxXsb70rwQplvv8156d/BP9UV+bq2pdjCnzAw=;
-        b=cGjPt48BView+E4TVTvYmADY4TnbWKpeUP5703M9XyteFfaJymGHWgSqmyj8wR6Lko
-         aIHcBc1FjkLw9GAgrnXJz9Hu2ag0RqpfHCRPACWSQ7ses3uyU+WYBPqfG7q8aCilXACd
-         rdFFKnu9x7zornBsOEyZWH/3MCKUMoq8ZAP9I=
+        bh=jK55uPgztxVNleZ5TBB8ZxkEbjX9MBlj45xiZ3aAjUU=;
+        b=Pywl1w/lM3ntWiLjUr5UKmgK+ZRLPap8T9W4iI9U44WqvCHX1YH74+wxtUorHh969t
+         OwXYcNZND5xh4AZpJ3cfCaKFIfS3suWCuV3NRqHXgHMY8g1IUSaKWJwQ2Iv8J/Z6gDID
+         vfjuQSy5fQtQgNb0cdNCw+zkTYTeM0KJOda+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=T0Y9OaaxXsb70rwQplvv8156d/BP9UV+bq2pdjCnzAw=;
-        b=Qqk+MZFZGNHZJJiqI8EWn0WtXaaUHCLK3VApNaCzc45L6V2dMD0qxUU2e9YZzizdS0
-         1nyez29im1qe85+/DeoQqyVMhEbdjiEmWV40ofLwCS+rfGE1ly4M4fXwi1G/G0MbHxFG
-         fdzOabrjjPx+CXpJ+kKaeS4LjZ1RixMAHqWem1Ef+jcjY24RaGYt7Fq3Z3W9jvNeM0IG
-         tSaM+XyzkdF7R+fGHtNP4lLIS9cyRYRAxp7ggZBef2FYJl8ABsSQQVBVAq9Rg7bVukh1
-         zo+YC+W7yPhc35nf4BfXIVHnfFTqWSb+4RSLNaTV0xfNmBWrAj1PmseNPwwvTk58RF3G
-         vw6Q==
-X-Gm-Message-State: AOAM533QCWrpqOpKQUmSUb2o6kpu4t9HL+9JHrgmJ3iO3L57WhPNLKXR
-	CYrthZwKAmYkd0VvVrPKnfgts2KojiN8Ig==
+        bh=jK55uPgztxVNleZ5TBB8ZxkEbjX9MBlj45xiZ3aAjUU=;
+        b=tcRJDpnRm2ocBXjhArDaOBMeu0wX+oXSNWOeaonTL6UJvrQMV34eCbS0R2/oMicDgu
+         eOd/quZpPQKSyDa1dZgb78/g8YpdoZGOUPNMUr12g6j7fb+7cyX5/FMj8L6ma6XgVaa/
+         ePOkpzDQ2Xu/oLq/oxbi9R/Otyaq/8H0UqWGRPG5ZEHlNs0GcO1kPl1fVLq3Gq7FXKzd
+         vAisVaiLSW4ZuTGZU2sFPKgb1m3D4FX60RqtLEj4GbspE5KwG/Fsgo9UaJI4l6wEbGAy
+         wkdoSiYcuNUdE4RGVLSVzAlTRG9F+3Em+Xbp2ijQLjvJmKCl9vI6fAXTHOExkLQFw7li
+         KnJw==
+X-Gm-Message-State: AOAM5318bQ+Aq7dD8DqWfdobTUHRELr90g/458zWeT+WMmpKgx1pQd+w
+	mJx2oI1WCn8bdHKHwtrjX/qmyA==
 X-Google-Smtp-Source: 
- ABdhPJxY4GOyiLHnyIXYqnp2V1rg3ob9rPOttsn13mbjET5AgkckmtvK5vhsP+XS/WPwWJxmnxy3EA==
-X-Received: by 2002:a5d:64a7:: with SMTP id m7mr2198549wrp.80.1644414269860;
-        Wed, 09 Feb 2022 05:44:29 -0800 (PST)
+ ABdhPJyRN/VfcPyOnDIQBfpD8wrvcY0YM5S+0HJXU5OOzlJtiDzAKZVNurLs+FsnjD2kd8q5bkucNQ==
+X-Received: by 2002:a05:600c:4195:: with SMTP id
+ p21mr2582492wmh.130.1644414483302;
+        Wed, 09 Feb 2022 05:48:03 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:2250:1cae:83bc:d91f?
  ([2001:8b0:aba:5f3c:2250:1cae:83bc:d91f])
         by smtp.gmail.com with ESMTPSA id
- j6sm4405186wrt.70.2022.02.09.05.44.29
+ r2sm18716633wrz.76.2022.02.09.05.48.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 05:44:29 -0800 (PST)
+        Wed, 09 Feb 2022 05:48:02 -0800 (PST)
 Message-ID: 
- <0b8c7bdb2015d519d32cb79130fd8e1b3d65699b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] perl: Help resolving WNOHANG and _exit in
- Posix module
+ <038723a3f16f3260abafc5e6f60bc780f91b5328.camel@linuxfoundation.org>
+Subject: Re: [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 09 Feb 2022 13:44:28 +0000
-In-Reply-To: <20220209051544.3280726-1-raj.khem@gmail.com>
-References: <20220209051544.3280726-1-raj.khem@gmail.com>
+Date: Wed, 09 Feb 2022 13:48:01 +0000
+In-Reply-To: <20220208225310.1685131-1-raj.khem@gmail.com>
+References: <20220208225310.1685131-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
@@ -63,29 +63,30 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 13:44:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 13:48:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161560
+ https://lists.openembedded.org/g/openembedded-core/message/161561
 
-On Tue, 2022-02-08 at 21:15 -0800, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v4: Fix filepaths in release tarballs which are different than git repo
+On Tue, 2022-02-08 at 14:53 -0800, Khem Raj wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
 > 
->  ...01-ipc-force-POSIX-WNOHANG-resolving.patch | 52 +++++++++++++++++++
->  meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
->  2 files changed, 53 insertions(+)
->  create mode 100644 meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch
+> Package /usr/bin/ld.so in a separate package
+> 
+> ld.so is a new tool which is added as a symlink to original dynamic
+> linker so make it available with same name across architectures which is
+> useful to leveral features like  --preload, --audit, and --list-diagnostics
+> more accessible to end users
+> 
 
-As I hinted at originally, this papers over a crack and doesn't solve the real
-error:
+There is still a QA error with this for multilib:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5042/steps/12/logs/stdio
-
-What the real error is remains unclear too :(
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/4735/steps/11/logs/stdio
 
 Cheers,
 
 Richard
+
+
+
 
 
