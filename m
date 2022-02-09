@@ -1,119 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 531B8C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 20:38:52 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web12.770.1644439131431152097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 427BAC433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 21:21:20 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.1384.1644441678977728524
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 12:38:51 -0800
+ Wed, 09 Feb 2022 13:21:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CoEFPGjv;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id a28so2794694qvb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BNfQZ2oz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id p24so10780943ejo.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 12:38:51 -0800 (PST)
+ Wed, 09 Feb 2022 13:21:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3g644IISTAAQs5EyLwOiV+5RKYT5knKxs+dIWQaulyE=;
-        b=CoEFPGjvXIbItCtAfcnbKJQOvTwU9uEMaHHmi6nbxUJ4176ByuK6HBsOJjwVjQLOn4
-         FpHNztGZVrcFM+OJdwzn3GSDXlKyBilc2bBZ9fY4XNqZ82i9e87sn/L2zEM7OIiCcX+5
-         /WpO/lPyscLbGLgG0kHaNkx82AwOHW5Vy6pWjjXbbE4wIbTUxZUSPFY487+NRpT2vmAI
-         aXW0owB+EWLl10Mp6QSukjsMSZMpqvFMdqTw7dVl7AWIpfo7spwNsvTFHQiC6IHFpKIP
-         JCB+Pq9MjLaYj3f2SxEl8x5leqsp4XBQpz0dYYO/wlN3sRjk4gnSKrI3JaELSCw0uswk
-         JaRA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ySe6B7CM0dnCLF4ItpAqpIhRMnphmv43RHp6VptNVKs=;
+        b=BNfQZ2ozB8Qwmy1N1qOLH5ZUIdHLRAh3ioMZ/YMcETR8qi5M47BCLwIRGajh4bb1e6
+         CZOoAEPtQ6CPc6AKPT2uFsDPXxdsF8r+Ir0eF3xRTc/RGWFwmRWYD9Hz5d2o69zJNl+t
+         dXDAftg2pcgwphGeMitRwe7LvwVrEtf5GFZeQiOUVTHvyQSh+NsJXFUi6pucStVHF8z+
+         HzKSpShRA8WsqyMXLqJpOIj0v2398jjgyxkqIXqhcKv6oCbf9g+pGS61LRColdcPhboE
+         NQkYpKQnRZ0Wqh2TE8cThnI8chA3ca7NYPjcfwtZpDdSpNoIWSy47hYxThixpQdBNSCN
+         fEfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3g644IISTAAQs5EyLwOiV+5RKYT5knKxs+dIWQaulyE=;
-        b=DVsbgfvmrVZtovprxlawBsn/XHMdDG93MalaN0fadrhYkbUTm5+vfijSn2Q14+2/N1
-         ePutYkhsrw9LO54x5etlqHF6Bj7CoPU7Gb75BO06HaiDoYBj9og3S/CJR3vNSTiITcmV
-         9gKxIgdWXL/eI1PLUulOaO4VM7jt8nHxMztm6N8LU/sdpqx1kaN+qIzcRvt6JUL3wr3q
-         RgPBB2wfKwpeq16DLkVtKbLWxrgj6JIRoleCZ3v+E6nAX9HislO6BYpU8K33QEc/IhhY
-         7BXqocDg1VorvQKjQeBaS/2Ft8EV4wiZy8phqZhi6wVzMdUXmTwsoWIoVXlIzFg4IdIt
-         qm+Q==
-X-Gm-Message-State: AOAM530TJNkLhV8tlaQ+9NjvBw3OUVcRHAezPzfxVoiOS4JiGgjH5mTq
-	W5Tl9Abr0I2coEjbnLAbvN+snTzaq3tnPOj/YHY=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ySe6B7CM0dnCLF4ItpAqpIhRMnphmv43RHp6VptNVKs=;
+        b=AOCWy2zCEWU6cohGqwKX1AtRy/aCx6Yw5OHZ5xznhYLLzUHRUQfshZ8hlxRZ0MJSLS
+         W34qJM7wEU9fM8tNTenDA/auBagxfqkwH8HqDvQMcjtR+3nq9TXLX3wiB5wrkVZG75U7
+         IL256W+PsIc9SMMyq+z8e7tATBf7jDYjIGxA5vAbWA2UsQ3+9Txv5lpL2IBvQhoAtF15
+         pox9le3oo4x0/4FZHL5mlykptzRluMH7iJvHVdUsPXV3+cHnYlbH0288ohK/yvk7tlTS
+         bJvIxBizwOdh7+ikkgljUxlPpHSAR8sGqPPwKiUdw2iIFJP7a06jWdeE7sVtIS9wGGfh
+         H13g==
+X-Gm-Message-State: AOAM5305d8ghZEPN0puEm3ltpueC8xHkpQZDI3QRw9Z0h0S1HGoedHTR
+	AhZSb4a1Xp53dxeB7sn7Oy/oTonRAtU=
 X-Google-Smtp-Source: 
- ABdhPJyW8UNqsW2e6aV9Geo+tVsTDAv+iM5JWQyCEossER2kxOJR7oxUjNnl/HHqa7I5Wu36JQ/i43CfR+VCuWG2aEo=
-X-Received: by 2002:ad4:576f:: with SMTP id r15mr2893410qvx.16.1644439130453;
- Wed, 09 Feb 2022 12:38:50 -0800 (PST)
+ ABdhPJxlh6hiQpsFR2jiJbIcYPss7r3eIREoUJ4LODaAeNcr1cc6RRCN5yyyhP3EoUjwu0/GCK9Bmg==
+X-Received: by 2002:a17:906:e8b:: with SMTP id
+ p11mr3706845ejf.237.1644441677299;
+        Wed, 09 Feb 2022 13:21:17 -0800 (PST)
+Received: from nereus.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ n25sm5331026eds.89.2022.02.09.13.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 13:21:16 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] wget.py: use a longer timeout in checkstatus()
+Date: Wed,  9 Feb 2022 22:21:09 +0100
+Message-Id: <20220209212109.363516-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1644308922-5558-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1644308922-5558-1-git-send-email-wangmy@fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Feb 2022 12:38:23 -0800
-Message-ID: 
- <CAMKF1spW5Go=vUSje2h+V+G9wGFTe3ypax9gg6f2uNkDqAViZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] man-db: upgrade 2.9.4 -> 2.10.0
-To: wangmy <wangmy@fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 20:38:52 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 21:21:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161589
+ https://lists.openembedded.org/g/openembedded-core/message/161590
 
-This is failing on musl see
-https://errors.yoctoproject.org/Errors/Details/624476/
+The addition of 30 second timeout is recent [1], and has
+proved not long enough with the AB server when mass-checking
+for sstate item availability, resulting in timeout errors with
+extensible SDKs[2].
 
-On Tue, Feb 8, 2022 at 12:29 AM wangmy <wangmy@fujitsu.com> wrote:
->
-> License-Update:
-> ==============
->  COPYING : "GNU Library" changed to "GNU Lesser"
->          format changed
->  COPYING.LIB : "51 Franklin St" changed to "51 Franklin Street"
->                format changed
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../man-db/{man-db_2.9.4.bb => man-db_2.10.0.bb}            | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-extended/man-db/{man-db_2.9.4.bb => man-db_2.10.0.bb} (90%)
->
-> diff --git a/meta/recipes-extended/man-db/man-db_2.9.4.bb b/meta/recipes-extended/man-db/man-db_2.10.0.bb
-> similarity index 90%
-> rename from meta/recipes-extended/man-db/man-db_2.9.4.bb
-> rename to meta/recipes-extended/man-db/man-db_2.10.0.bb
-> index f97974abb8..6a8ac2e3e3 100644
-> --- a/meta/recipes-extended/man-db/man-db_2.9.4.bb
-> +++ b/meta/recipes-extended/man-db/man-db_2.10.0.bb
-> @@ -2,13 +2,13 @@ SUMMARY = "An implementation of the standard Unix documentation system accessed
->  HOMEPAGE = "http://man-db.nongnu.org/"
->  DESCRIPTION = "man-db is an implementation of the standard Unix documentation system accessed using the man command. It uses a Berkeley DB database in place of the traditional flat-text whatis databases."
->  LICENSE = "LGPLv2.1 & GPLv2"
-> -LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-> -                    file://docs/COPYING;md5=eb723b61539feef013de476e68b5c50a"
-> +LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-> +                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->
->  SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
->             file://99_mandb \
->             file://man_db.conf-avoid-multilib-install-file-conflict.patch"
-> -SRC_URI[sha256sum] = "b66c99edfad16ad928c889f87cf76380263c1609323c280b3a9e6963fdb16756"
-> +SRC_URI[sha256sum] = "0a8629022f7117dc7fc6473c6fdb14913b24b106059bb056abee87dbd6070c79"
->
->  # remove at next version upgrade or when output changes
->  PR = "r1"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#161485): https://lists.openembedded.org/g/openembedded-core/message/161485
-> Mute This Topic: https://lists.openembedded.org/mt/88992456/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+[1]
+https://git.yoctoproject.org/poky/commit/?id=2c46245f449d2716566ef668da0bf48f2109643a
+[2]
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/4710/steps/16/logs/stdio
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ bitbake/lib/bb/fetch2/wget.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bitbake/lib/bb/fetch2/wget.py b/bitbake/lib/bb/fetch2/wget.py
+index 253cabce75..2a7592ae5f 100644
+--- a/bitbake/lib/bb/fetch2/wget.py
++++ b/bitbake/lib/bb/fetch2/wget.py
+@@ -366,7 +366,7 @@ class Wget(FetchMethod):
+                 except (TypeError, ImportError, IOError, netrc.NetrcParseError):
+                     pass
+ 
+-                with opener.open(r, timeout=30) as response:
++                with opener.open(r, timeout=300) as response:
+                     pass
+             except urllib.error.URLError as e:
+                 if try_again:
+-- 
+2.20.1
+
 
