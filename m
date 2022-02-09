@@ -1,135 +1,61 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <4f0d115b-0fd7-877e-39be-08f1dd760ee6@pr.hu>
-Date: Wed, 9 Feb 2022 16:27:45 +0100
+Message-ID: <6b2b59da15e0889c58c2a79515870994aa29a5c8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable exporting more recipe and package data
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Wed, 09 Feb 2022 15:34:16 +0000
+In-Reply-To: <YgPPaRecZGTG2MF9@korppu>
+References: <20220209092947.25677-1-sanakazisk19@gmail.com>
+	 <c2d76693b74d961e97ef38470dad1f60c425f889.camel@linuxfoundation.org>
+	 <YgPBUKU8qutnuI8I@korppu>
+	 <3909a8bd81a99f80cbcafa66b68c2601b4a2235e.camel@linuxfoundation.org>
+	 <YgPPaRecZGTG2MF9@korppu>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] qemuboot: Fix NoneType error in do_write_qemuboot_conf
-References: <20220209095307.4080727-1-zboszor@pr.hu>
- <CANNYZj8c6brrf_ApjKD8Hj4DpSpAx7Xp+DAbWbz0aYR8eEufng@mail.gmail.com>
- <03140b0b-29cb-8f5e-e40c-f1df7d92d728@pr.hu>
- <CANNYZj9aphxFcy=2TVM6F-97T77VzAvNJwFkr4yDBcJk_KJk7w@mail.gmail.com>
- <16D225F453B8EF12.12172@lists.openembedded.org>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-In-Reply-To: <16D225F453B8EF12.12172@lists.openembedded.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+To: Mikko.Rapeli@bmw.de
+Cc: sanakazisk19@gmail.com, openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com
 
-I guess this commit below is what broke the image build for me,
-as it added UNINATIVE_LOADER handling to qemuboot.bbclass.
-
-commit 39c10816d5ec9d9c7952d786d7a3f942d25d0c27
-Author: Alexander Kanavin <alex@linutronix.de>
-Date:   Fri Feb 4 20:59:43 2022 +0100
-
-     runqemu: preload uninative libraries when host gl drivers are in use
-
-     Some of the host distributions build the drivers in a way (RPATH/RUNPATH)
-     that tricks uninative loader into loading pieces of the host libc, if
-     the same pieces haven't been previously loaded by native binaries. Mixing
-     the two libc versions leads to failures.
-
-     This change ensures that the correct (uninative) versions are always in use.
-
-     Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-
-Zoltán
-
-2022. 02. 09. 15:55 keltezéssel, Zoltan Boszormenyi via lists.openembedded.org írta:
-> I have added a bb.error line to print the value of "k".
-> It's "UNINATIVE_LOADER".
+On Wed, 2022-02-09 at 14:27 +0000, Mikko.Rapeli@bmw.de wrote:
+> On Wed, Feb 09, 2022 at 01:40:22PM +0000, Richard Purdie wrote:
+> > On Wed, 2022-02-09 at 13:27 +0000, Mikko.Rapeli@bmw.de wrote:
+> > > Hi,
+> > > 
+> > > On Wed, Feb 09, 2022 at 12:23:39PM +0000, Richard Purdie wrote:
+> > > > People have requested changes like this before and I rejected it as I'm worried
+> > > > that allowing people to customise this code will just fork the project into many
+> > > > different directions. 
+> > > 
+> > > It's the other way round. There are a lot of needs to extract metadata from
+> > > build system into something where reports can be generated.
+> > 
+> > I don't doubt that however buildhistory was written for a specific purpose and
+> > if we start adding the ability to customise it heavily we lose the ability for
+> > comparisions to be made, or sstate reuse and so on.
+> > 
+> > I'm partly channelling the original author's views on this since they had some
+> > very specific thoughts on this change. I do sometimes wonder if I should
+> > continue doing that though :/.
 > 
-> I am not touching this variable in my custom distro layer. Should I?
+> Then how should yocto users export CVE_NAME, LICENSE, PN, PV, SRC_URI etc from
+> the build system to generate SW bill of materials (BOM) for their product
+> and track progress?
 > 
-> Zoltán
-> 
-> 2022. 02. 09. 11:56 keltezéssel, Alexander Kanavin írta:
->> Right, but this might be fixing the symptom, and not the problem.
->>
->> Alex
->>
->> On Wed, 9 Feb 2022 at 11:53, Böszörményi Zoltán <zboszor@pr.hu> wrote:
->>>
->>> (Resending from the address I am subscribed with.)
->>>
->>> I have no idea.
->>>
->>> It was working a week ago for me but today after "repo sync"
->>> the image build failed on me with the quoted error.
->>>
->>> With this fix, the image is built with the expected contents.
->>>
->>> The change with "if val.startswith()" was from 2017,
->>> something around it must have changed very recently.
->>>
->>> Zoltán
->>>
->>> 2022. 02. 09. 11:35 keltezéssel, Alexander Kanavin írta:
->>>> Wait, why val is none in the first place? Why aren't others seeing it?
->>>>
->>>> Alex
->>>>
->>>> On Wed, 9 Feb 2022 at 10:53, Zoltan Boszormenyi via
->>>> lists.openembedded.org <zboszor=pr.hu@lists.openembedded.org> wrote:
->>>>>
->>>>> From: Zoltán Böszörményi <zboszor@gmail.com>
->>>>>
->>>>> I got this error on current master:
->>>>>
->>>>> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->>>>>        0001:
->>>>>    *** 0002:do_write_qemuboot_conf(d)
->>>>>        0003:
->>>>> File: '.../layers/openembedded-core/meta/classes/qemuboot.bbclass', lineno: 141, 
->>>>> function: do_write_qemuboot_conf
->>>>>        0137:        else:
->>>>>        0138:            val = d.getVar(k)
->>>>>        0139:        # we only want to write out relative paths so that we can 
->>>>> relocate images
->>>>>        0140:        # and still run them
->>>>>    *** 0141:        if val.startswith(topdir):
->>>>>        0142:            val = os.path.relpath(val, finalpath)
->>>>>        0143:        cf.set('config_bsp', k, '%s' % val)
->>>>>        0144:
->>>>>        0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
->>>>> Exception: AttributeError: 'NoneType' object has no attribute 'startswith'
->>>>>
->>>>> Do nothing if "val" is None.
->>>>>
->>>>> Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
->>>>> ---
->>>>>    meta/classes/qemuboot.bbclass | 2 ++
->>>>>    1 file changed, 2 insertions(+)
->>>>>
->>>>> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
->>>>> index 229bd88527..755d49acd6 100644
->>>>> --- a/meta/classes/qemuboot.bbclass
->>>>> +++ b/meta/classes/qemuboot.bbclass
->>>>> @@ -136,6 +136,8 @@ python do_write_qemuboot_conf() {
->>>>>                                   
->>>>> 'qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/')
->>>>>            else:
->>>>>                val = d.getVar(k)
->>>>> +        if val is None:
->>>>> +            continue
->>>>>            # we only want to write out relative paths so that we can relocate images
->>>>>            # and still run them
->>>>>            if val.startswith(topdir):
->>>>> -- 
->>>>> 2.34.1
->>>>>
->>>>>
->>>>>
->>>>>
->>>
-> 
-> 
-> 
-> 
-> 
+> Yes, SPDX can be the other answer but I don't find that human readable or working
+> out of the box atm.
+
+buildhistory was not intended for SBOM generation, that is what create-spdx is
+being developed for. They have two quite different intentions and trying to turn
+one into the other is why I have concerns about this patch.
+
+For example, of we did go this way, next, we may need to either write a
+converter of buildhistory to SPDX format, or change buildhistory to use SPDX
+format so that it has a standard SBOM output form. This is not the direction we
+want/need to go.
+
+Cheers,
+
+Richard
 
