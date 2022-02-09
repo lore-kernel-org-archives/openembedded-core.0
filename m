@@ -2,101 +2,115 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BFDC433FE
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 17:39:34 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
- [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web12.29917.1644428373069989453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D06AC433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 17:45:22 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.30122.1644428721672135542
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:39:33 -0800
+ Wed, 09 Feb 2022 09:45:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EJe4NwH+;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id k4so2397463qvt.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GM1HX/Aq;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id y8so2819092pfa.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 09:39:32 -0800 (PST)
+ Wed, 09 Feb 2022 09:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wX5oag7xCKGZ9oUrReHJdE/8SMg/rPujDNbVoha1wes=;
-        b=EJe4NwH+91/ZbMIPqUVhjhhKauQj2BOWcjR4eP2WlCuDp2054R9bvafD6GchMNrL8P
-         RNAQok7lmCZ/xGHkAHpzRbbMHUUhkaUklMfGMA4A+qXOFkNmGEDHa0/6TpeR58JteZeD
-         ZA4WM42bnGbDNoBJJB7nIXVp0HQkoZAKovW+eQi6JlkVZa3obwCwWVqYARm7DDjgfj6X
-         cHLoRYhS4iFW6e2Lj0tK5x3MtOdvmqZwTKq9QYb5toF4S42mnhpRCcjgzIltsi8Ttw67
-         HXaiMHmCCEZRWQYf6iGe5AJiHaCyYLpDWl17KBPJzCtaqUUgtKtFC337h1eE22veKDzq
-         xRQQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=82aSlzP6f1rZKT7Fimmv1dcopt7c/CDovUHiVLzcXc0=;
+        b=GM1HX/AqMdUB/pHeAVonRjbJUJRiW+SOMfUYbE2aIQTl9lJas11pBTk2aarqRClgdf
+         2qin/I6CNScEu75bHVziCk2xkrAyke4MN8DKcyedwVE/I4pq5s4ozD1/AiWKvEtRPVtP
+         +Vxpjrl555xYmyzCdMQoE2TrHz94Q6DCUADJ7RU4O4ykxN4d++/Bwqdi2HbwxCxZRXOU
+         NB8v8UXGMFt2fgZNq9F+p1Wmy+3y8DtOBX/bA55y/nV/eQ6vboYB5+bIqV1b3twVMZ0c
+         x9ZhbpYO3Tzx5ziu91A6AsnghEqse2WGcBPbS/GSIm2u4TrOl+ff/OMPupzESPHBAAQs
+         3hDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wX5oag7xCKGZ9oUrReHJdE/8SMg/rPujDNbVoha1wes=;
-        b=3TXJHauBEkwfAldo13PfBg3qGRzqFGBwXFqFtl0Tax7a39TZzxpRetFZYT2ktghe/u
-         BVXhzxmxZupR9eNFZT0MGMqOWtywrbZzAC1wrvlu/QeETvmwbRnprPsC/kALtPD7eFBV
-         LbSjACQKGtqPyR5FHL+d5pPaaeH4zxM3G0EtojzeH10Ef6HY+41D4OXLAnubiQLSYf7M
-         rG1vFCRNZZB/QfYSbeWA/o9PMWWdMiWHRlNJ89pvsU/np4xPSjD44tjuk3cYKpUxqprg
-         V4z/UDiehojJnY/MB/CrStRbex9ghV+gGkqirkUJ5Ro9E/R28goQurODzmJzG+4TN2Ai
-         gjpA==
-X-Gm-Message-State: AOAM5307QKkpitIDQOCyK7r83ieha8ijs2L5SU7Zma39iI5zFPZZveb0
-	LBICs79z8lNRhrdbITnK+GpvOJXIX6KI2xySrEcZ6q5N0jj3Bg==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=82aSlzP6f1rZKT7Fimmv1dcopt7c/CDovUHiVLzcXc0=;
+        b=49aclARUOCLeSakEWKRk9e02ky8Qrb9Bd0M0VNuw3kJrxWKVYPknV/026Da7heV20V
+         JBAJDx2blFEUypeN76ZlRQKavXXZHxE1hVFbB+v/k2YBUlBpuDs6BMyY8WYymPErjBNk
+         Yg2eb0gu0egcdhUpxOcN5GNECy5q+NbH3PwqLGSy5IvzqTIh5f18Wb9rV042CblYTcoT
+         6ZikG3NwWqOpdCS9fstWx9L1nrSrVf5S6iMV7nk06nbFkCrfDLPjTzisZDFhII+wHa/T
+         xkgn/RxIzCYf9VE0UphAeAl4QWpYsls2MIW/BDafs1W0M0ef7cyyvH5W2PQcW/OD+ncQ
+         QrKw==
+X-Gm-Message-State: AOAM533jMa4Ue0H3pUJr8kbCk2fBoDlIt//hRNMgzc/SBR1fX+E4ayu7
+	B248yLpH2fldEReqV2Rmh3PXQZBXtRUZ7A==
 X-Google-Smtp-Source: 
- ABdhPJxGG0bmuZO0EyqNWZrhQUti23huRXjXjbAF/SF8Z7g7YIUvybcgswD0Irz8+njEPRlpZzff2d4DD3xrIPwHQxk=
-X-Received: by 2002:ad4:576f:: with SMTP id r15mr2359077qvx.16.1644428372158;
- Wed, 09 Feb 2022 09:39:32 -0800 (PST)
+ ABdhPJzSPKTRkj4RJCVTjX0vTbVBKPO56C0PRVTcXY8HzPuoe3jkuag4gFX1nF3JuhW6tloQiN+/pw==
+X-Received: by 2002:a63:1664:: with SMTP id 36mr2701908pgw.332.1644428720939;
+        Wed, 09 Feb 2022 09:45:20 -0800 (PST)
+Received: from ?IPV6:2601:646:9200:a0f0:b8cb:a55c:1806:a3de?
+ ([2601:646:9200:a0f0:b8cb:a55c:1806:a3de])
+        by smtp.gmail.com with ESMTPSA id
+ q13sm20284423pfj.44.2022.02.09.09.45.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 09:45:20 -0800 (PST)
+Message-ID: <1fa6164c-8a8b-e706-2385-d9c04ace1c5e@gmail.com>
+Date: Wed, 9 Feb 2022 09:45:19 -0800
 MIME-Version: 1.0
-References: <20220209051544.3280726-1-raj.khem@gmail.com>
- <0b8c7bdb2015d519d32cb79130fd8e1b3d65699b.camel@linuxfoundation.org>
-In-Reply-To: 
- <0b8c7bdb2015d519d32cb79130fd8e1b3d65699b.camel@linuxfoundation.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.5.1
+Subject: Re: [OE-core] [PATCH] cmake: stop FetchContent from fetching content
+Content-Language: en-US
+To: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
+References: <20220209125315.3177811-1-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Feb 2022 09:39:06 -0800
-Message-ID: 
- <CAMKF1sq2ZvscM69UTK7onB2Cyi9f_tuKW1qBGiM5Hwxj7cc91Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4] perl: Help resolving WNOHANG and _exit in
- Posix module
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: HIMVIS LLC
+In-Reply-To: <20220209125315.3177811-1-ross.burton@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 17:39:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 17:45:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161579
+ https://lists.openembedded.org/g/openembedded-core/message/161580
 
-On Wed, Feb 9, 2022 at 5:44 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2022-02-08 at 21:15 -0800, Khem Raj wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v4: Fix filepaths in release tarballs which are different than git repo
-> >
-> >  ...01-ipc-force-POSIX-WNOHANG-resolving.patch | 52 +++++++++++++++++++
-> >  meta/recipes-devtools/perl/perl_5.34.0.bb     |  1 +
-> >  2 files changed, 53 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/perl/files/0001-ipc-force-POSIX-WNOHANG-resolving.patch
->
-> As I hinted at originally, this papers over a crack and doesn't solve the real
-> error:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5042/steps/12/logs/stdio
->
-> What the real error is remains unclear too :(
 
-right, I was attempting to test if module importing/resolving was the
-issue but it seems it
-is not really the issue as I see below in your new logs, it means its
-being resolved ok.
 
-| Attempt to reload POSIX.pm aborted.
+On 2/9/22 4:53 AM, Ross Burton wrote:
+> CMake includes a FetchContent module, which will download further
+> source code at configure time.  With the network isolation this will now
+> fail, but as not all environments support network isolation we can tell
+> cmake to not download either for extra safety.
+> 
 
-so I guess we still are at loss here.
+what is cmake's default ? I think it could become a constant source of 
+pain if it is not default. Since many cmake based packages might start 
+to depend on it indirectly in future.
 
->
-> Cheers,
->
-> Richard
->
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>   meta/classes/cmake.bbclass | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 92b9197c487..fac7bbca7a3 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -189,6 +189,7 @@ cmake_do_configure() {
+>   	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
+>   	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
+>   	  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
+> +	  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
+>   	  ${EXTRA_OECMAKE} \
+>   	  -Wno-dev
+>   }
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161554): https://lists.openembedded.org/g/openembedded-core/message/161554
+> Mute This Topic: https://lists.openembedded.org/mt/89020454/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
