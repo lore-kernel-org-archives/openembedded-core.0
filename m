@@ -1,122 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2344C433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 11:45:02 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.9008.1644493501689918338
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2BDAC433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 11:45:58 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web10.9021.1644493553315750173
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 03:45:02 -0800
+ Thu, 10 Feb 2022 03:45:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LqNY5On4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id r131so3280292wma.1
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=t8dq212e;
+ spf=pass (domain: burtonini.com, ip: 209.85.160.170,
+ mailfrom: ross@burtonini.com)
+Received: by mail-qt1-f170.google.com with SMTP id z1so4851789qto.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 03:45:01 -0800 (PST)
+ Thu, 10 Feb 2022 03:45:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=hmShjgFUHIneWlGhO7cVBJ1zcYGVMmyEWOgHcPn7PaM=;
-        b=LqNY5On4cvPlkVS900MuKFhUB7EqGJk6oCntzMumycKbQTNyu23d/UVCwDpHQD7n+q
-         vOynU+xGMUQnctprCuHXqG+jd/yDmIydWLO4N5wPyfwHzZZxAMW0OiKPTH6BQXYzxkdu
-         jMZ0kKddWqKTvl1g3ctlw5Ra8wCYi6724Q7bk=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uzMSvHy4rjVm9GYchMpPwVyzAqMVr6LB5GsXTkrHNXE=;
+        b=t8dq212eR1FN+98MpBvZ59H2lsee3Ci3ityDsdF88HVSMb7iafafpBdEEdKTlrhgIn
+         UeINNgim49h5AmkyXpr5308auO4VIMgSQOsj5syjNk1NGPach9DIV7kpeGJChnAuh79c
+         p4QD8gLzCOoozwMGnTcxzu15SJOcECSKtLZ7IGBkhUI38aFRtOLEIi3l8WXkW3TiFtNG
+         XAsJyzEvJlmP06LYcbEmNuhKfh4Cry6LZe5cYAM43KyODqWLDTLszgGnl6jUTS6WVVWB
+         k+oNTX9ofkalSuITngUEHK4Bdqi247eKonJdJ1FNTGFv8n2Ofq/W2cdDV112EBDbmw8K
+         FYHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=hmShjgFUHIneWlGhO7cVBJ1zcYGVMmyEWOgHcPn7PaM=;
-        b=nt0Kl8yvxvT6zrfqiOnIQPQsfqLrYbh6GEBncp8KGbDxRyGdL6Eg6SAsH0a4I7BzOX
-         CQqzCnzJh2p7LoPJJL0lQd/UvdkE92uj2fuugm6NUefMiAs2ZTzG3oBU/Yc+IuJmihfA
-         Xq/TeuxJhN3+tLxQ0Ut3ItM9hXMNCS2X1anBQh82CUMohNZT9eHYyHdalELaQyvSAPs2
-         D6H8qEBNupHG9JOl/F1Uhd5JMib6LqFc2j9iGD9g0zvf0IuscTFwcuKQnEPt8p086bnO
-         vMqyc6WGHI9b+U01oomaxOOTWQOUt0qFyHeZqjBfY6vtujsUa6VWV7BOpuJEUfNcrXdB
-         stmA==
-X-Gm-Message-State: AOAM533HPg9Sc+rCwOs5LUQPAn/RQTjBe3fBBFTVYBMP7eL1ijcM9pJS
-	/zdVp7L2UcW9/rJr1ve9c2cQqQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uzMSvHy4rjVm9GYchMpPwVyzAqMVr6LB5GsXTkrHNXE=;
+        b=dAv8vApLv/nDFAJRkyEPrMLcGpf4hmvtOLKsTFZU9DlvC/uX6wEcwekC8+ntRObomn
+         B2KB4lbBnYYn66moRp20Q4+gKTGgSLBmAXUTG15228qI9ALRklDU1PxNc6MrUCjOjYXE
+         1nPv5oXiiDQmRA+fWef67F+OuzsgEKq3lfNXDJ8YM41B5sPibSHKHYHyqcOleRzxxiwF
+         MpOCYHk4yDxSAa86Yro95w18siAPT2RwyUHZ7NoY4oHXefzzb/nKaoZSrido4Gh3Sx3A
+         wgbdxOXxvLlfUoXPpv8MdNZ6UGF5KwjFryleuPr1mvNu1sSWPYEwrEZ4Bl3UDhJEGUF/
+         TrFQ==
+X-Gm-Message-State: AOAM530kWRi1jlzBaEvhYsBhvm9dYi3oyBWPwVj5PJCige5XxtwSJBy4
+	s9PefmJFTngnk29git9TFqE8CMbT/f96Xp9P8wOYtw==
 X-Google-Smtp-Source: 
- ABdhPJwCH1Ji7Ncm2retDyXpNH+sAjZ1cJR1uaYfVGHZ8nnhPRsy1DfVXs/GMb0RqnlUMyMJntgiKg==
-X-Received: by 2002:a1c:a550:: with SMTP id o77mr1796653wme.121.1644493500178;
-        Thu, 10 Feb 2022 03:45:00 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7dcb:9837:5409:449e?
- ([2001:8b0:aba:5f3c:7dcb:9837:5409:449e])
-        by smtp.gmail.com with ESMTPSA id
- a13sm1148078wmq.28.2022.02.10.03.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 03:44:59 -0800 (PST)
-Message-ID: 
- <07741fd637b02441dc5f8a5e61913d2c388513ad.camel@linuxfoundation.org>
-Subject: Re: [RFC] support for multi project toolchain-cmake
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yoctoproject@neumann-web.eu, "uvv.mail@gmail.com" <uvv.mail@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Feb 2022 11:44:58 +0000
-In-Reply-To: <914805773.15925.1644404537217@office.mailbox.org>
-References: <1540523266.294149.1643372553712@office.mailbox.org>
-	 <0c0df739719f528922ef60b1f6e553e3a1d114cf.camel@linuxfoundation.org>
-	 <1170434594.46461.1644247802042@office.mailbox.org>
-	 <f59870ac746e69df1b05ac00c9db0025561e473b.camel@linuxfoundation.org>
-	 <914805773.15925.1644404537217@office.mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJyoWwT2hQI4szjBDelHuss6oZW+rH5+PpWxe8x4DhRHSZ5zDmhmALh+wNIvLbAs/Nui8R58g8SLdUjN9ehs1/w=
+X-Received: by 2002:ac8:5854:: with SMTP id h20mr4497769qth.22.1644493552077;
+ Thu, 10 Feb 2022 03:45:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220209173036.3823144-1-ross.burton@arm.com>
+ <20220209173036.3823144-2-ross.burton@arm.com>
+ <CADkTA4NG8wAoMQtpwbvf2hia23JnGsbboERY4H61GxMpyms5JQ@mail.gmail.com>
+ <43fe0dbf3548f549d1c0161d2a55f633a9c27122.camel@linuxfoundation.org>
+ <CADkTA4Ms8yb5Jn3K8N2BZktLYHtfDwp0ym_OVke16G4ER_739w@mail.gmail.com>
+ <CAAnfSTvsN7DSuiGvSfLF2OgJXNW7QEZK+LZdNuvTcrYk3eUMvA@mail.gmail.com>
+ <c54b8a5fbe59b21a862d5b6519e4f8872458f694.camel@linuxfoundation.org>
+In-Reply-To: 
+ <c54b8a5fbe59b21a862d5b6519e4f8872458f694.camel@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
+Date: Thu, 10 Feb 2022 11:45:41 +0000
+Message-ID: 
+ <CAAnfSTujoz8v_+Cddjut2mO5d2FNDYBZtnXR87j8Ych_wYoEnA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] kernel-module-split: modules should
+ recommend the kernel image
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 11:45:02 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 11:45:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161609
+ https://lists.openembedded.org/g/openembedded-core/message/161610
 
-On Wed, 2022-02-09 at 12:02 +0100, yoctoproject@neumann-web.eu wrote:
-> Hello Vyacheslav and Richard,
-> 
-> thank you both for your feedback,
-> 
-> On Mon, 2022-02-08 at 10:44, Vyacheslav Yurkov wrote:
-> > Any reason you set SDK to be read-only? Perhaps your use case can be covered
-> > by extensible SDK? I mean if you have some shared libraries between project,
-> > isn't that enough to extend your SDK to solve the original problem?
-> 
-> While we indeed do have shared libraries between projects, they are not
-> necessary of the same version. In general we don't want to enforce restrictions
-> on shared code between the projects (e.g. hinder different patch sets or
-> enforce specific versions), appart from the base distribution that is generated
-> with OpenEmbedded. If libraries mature enough that they can be considered to be
-> (mostly) stable, we have different processes to share it between projects.
-> 
-> On Mon, 2022-02-08 at 14:22, Richard Purdie wrote:
-> > We definitely don't support that usage scenario since it would be highly build
-> > system specific and would work in some cases but not others. I do have a
-> > suggestion of a different approach though.
-> 
-> After your first reply, I've expected this. The Bug report #14703 can then also
-> be closed, however I can only set it to RESOLVED and not something like
-> REJECTED, hence I would asked somebody else to reject the report.
+On Thu, 10 Feb 2022 at 10:54, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> > Obviously this won't work in the situations where you want a normal
+> > image with a kernel but also a initramfs with a kernel module in it,
+> > as that behaviour isn't machine specific but image specific.
+> >
+> > If this was a recommends then it could be removed via PACKAGE_EXCLUDE,
+> > but we'd need to be sure that nothing from the kernel ended up getting
+> > pulled in via a single module.
+>
+> I think making this a RRECOMMENDS and doing that may enable more workflows and
+> make things easier all around. Can you check and see if it does pull other
+> unwanted stuff in? I'm hoping it doesn't.
 
-I've marked it as "resolved WONTFIX" and added a comment summarising the
-discussion here.
+Tested.  Our initramfs pulls in a kernel module, and
+PACKAGE_EXCLUDE=kernel-image-* stops the image itself being pulled in.
+It does pull in the kernel-5.15-yocto-standard package, but that just
+contains a few module config files.
 
-> 
-> > Have you considered creating a sysroot per project with a copy of the sysroot
-> > files?
-> > 
-> > This sounds like a crazy idea at first but with hardlinks for the files it is
-> > fast and efficient to create these sysroot file trees. This is exactly what
-> > OpenEmbedded does internally and how we handle this in our builds.
-> 
-> That sounds like an interesting alternative solution. We haven't thought about
-> it yet, but it will be something we're going to look into.
+Patch incoming!
 
-I think/hope it should solve your probably and give you a relatively powerful
-solution that isn't cmake specific.
-
-Cheers,
-
-Richard
-
+Ross
 
