@@ -1,93 +1,149 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <mans.zigher@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1FA1C433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 11:40:14 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web12.9167.1644493213490355966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B661AC433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 11:40:58 +0000 (UTC)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
+ [209.85.221.179])
+ by mx.groups.io with SMTP id smtpd.web09.8946.1644493257304550640
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 03:40:13 -0800
+ Thu, 10 Feb 2022 03:40:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=mHZkW3aD;
- spf=pass (domain: burtonini.com, ip: 209.85.160.169,
- mailfrom: ross@burtonini.com)
-Received: by mail-qt1-f169.google.com with SMTP id k25so4842712qtp.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rd7C0Tms;
+ spf=pass (domain: gmail.com, ip: 209.85.221.179,
+ mailfrom: mans.zigher@gmail.com)
+Received: by mail-vk1-f179.google.com with SMTP id n14so2870170vkk.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 03:40:12 -0800 (PST)
+ Thu, 10 Feb 2022 03:40:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pXx+HSM0J503qalN5yohs2Y/xzurQu7K9PKZKAYGu/I=;
-        b=mHZkW3aDooGlOBFmeKJq6xsy/+3yxbvk5an+J2MxUU2HyjtMkqry0YLrCNxOvZsibo
-         IHTqnfT1grKsQWRrPVarNi8C87uN1r4WE6O1J+xnZxudxEy2Xzrt21vJZkChPiTmgD9X
-         amLirJdHclMp4LXA+2mon39PTbR8pc+XiIvk2/qrdBrY9n89mA6+ILb6gqoLgbLM0OtO
-         M6jBoA3UZDsZZdAat0BssQZ+0YPxrYX1ukDSyXDE7Ma51QlsYLmxF3Wyy2Jqi8hGDVbB
-         UDTlio7rC08v88MZoWDPaPiAuVTQnnD20a2ic/nqBdVQ6RIqzjIvYnIZ0ZFSGU2QtQmY
-         VuzA==
+        bh=YOwuHYBiuPTotmvTDdH1BD4EGpS6k2mwbAU3Tp9POpU=;
+        b=Rd7C0Tms2YKOKCDs/5DZeOCERYXx1Gy5iKaMmcHhqiFmfuk/Kjm41XtAREFquwrgfM
+         zWmHBHIJtO0bAu2RLDOepOh36ykLZPB2jXNXZgxStqiUupq2H4m//MfyTwydSfcFVEp2
+         bHKxFgzT+j0OT0lULAYz6YKR3Kou0LY0ziHEjoVeLj1BrV9NV6UmT1jCpHI3VWG8W1mO
+         zQSwRO3YrIXV8FZqDmMb49SrGDWdkis8pcSOP5tHTzKH3oTKSTQV00PzUXXtHAE6Crpp
+         VxVXPQJ1lGIVhukroyWh5BUoGWBM+mi0VO3XGpyfeP7/mFCsV2jgZyS0fhXEsrpcseVG
+         /Q9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pXx+HSM0J503qalN5yohs2Y/xzurQu7K9PKZKAYGu/I=;
-        b=T7pT8tLE/n9/cn5UOKlhs4XAO/QPy89XAD6gtNIEVczW1UhJJe6ZL8YMQTF2d8WjdR
-         nHwTle7HQW+Cyphqd/tongyte0eRAdar4yYf7AZWiwDF/Oi7xKaod85tFq/qQtKzPDw2
-         zdDmQKsAXJGrqdemWiZGQHxRJPV5B4+1xbi7/1n2vh+6EybJ5MNYru36j5MWiO5p+W5q
-         ZdMRJsRM4eflXcQBqzNGPMiup3YOlSdtqQAAcRIicAE59Ms58vOfbEi0UCQ9AHM4XqXn
-         3nfppfk3w5pSuBNjw1QpjZyBi/Bmq1adxJWpKHDoD5UQpeN+q+ZlrJTykEFlqfuTleov
-         hX9g==
-X-Gm-Message-State: AOAM530tGbOhvF6CZYz/0pTxiUqzkpsj/NJbfwH0cdmYG33aSs1mTrD7
-	a8OOAJlfB6Lgf81AQaztf+Tok6a6WFOICi8oUns275F16LPcWg==
+        bh=YOwuHYBiuPTotmvTDdH1BD4EGpS6k2mwbAU3Tp9POpU=;
+        b=1FPAjwa2MWpPnCX2AgNT2znVmj2Ibc6DUoGO/gYx40xjqqGkFUBQfhRtG/8cDf80ad
+         bgrWV1Sn5QOs4n7fXZ3+tkj18XYPVueQHTKShWD9TRtXviQUHRXofweBZ2KQ5g/tInhG
+         wG9FHGkHYKAtQlh405fak6l6fTh2vH93cw4fviGb0ln/piU8XMhJE0m/EYJddNwVvagq
+         MrYdA5Ms8y7mTu7cMm3FKueODt1wlAhqpqjwTd90yaOZlcyyICVv6usDy5GgqjoASW5C
+         Q0lIfw7pbu/lETQe4dizB7cT3hMHCDUiFYvOtSKt3opjX8YFCoIfVYEYQ0aTPGJJcC+J
+         kE3g==
+X-Gm-Message-State: AOAM531Iej9MvrAVCWb8MNuJPnHpEltvYuSH+hJPDfDtu10/wr/QamAd
+	gNsT7Z+CmJhk0/oZDAF+7NyC4nryDul9QwbIzcU=
 X-Google-Smtp-Source: 
- ABdhPJxj3DQfLiLzg/1xvXEqK1hdqmqIlaFtMGL8T335gpf8dNKULZtY7JVnrDQ2H2Nn/hnP8O2ULWv5ifV3lPnPfXQ=
-X-Received: by 2002:ac8:5854:: with SMTP id h20mr4486184qth.22.1644493211202;
- Thu, 10 Feb 2022 03:40:11 -0800 (PST)
+ ABdhPJwUNFkCBB4zAZILK3sZucswCXKsz0T+v2WCXvlR/5gR+qMbqspgmt1YBk8Sh/vBLtODpgeEudriCHZdvCqQ5PQ=
+X-Received: by 2002:a05:6122:883:: with SMTP id
+ 3mr2470775vkf.38.1644493256304;
+ Thu, 10 Feb 2022 03:40:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20220209125315.3177811-1-ross.burton@arm.com>
- <1fa6164c-8a8b-e706-2385-d9c04ace1c5e@gmail.com>
- <5c62a8c54a42a51c039712d3741bc60606959c82.camel@vaisala.com>
-In-Reply-To: <5c62a8c54a42a51c039712d3741bc60606959c82.camel@vaisala.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 10 Feb 2022 11:40:00 +0000
+References: 
+ <CAEhQi8kj1kqd6cdG-1LOrmVJ75nR4W47wsa3b5r0RkwmyQho3g@mail.gmail.com>
+ <CAMKF1sqBH1K0syKq+nNeM_ppsVC6qpbivvpzz286ez_2Yb=Lfg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sqBH1K0syKq+nNeM_ppsVC6qpbivvpzz286ez_2Yb=Lfg@mail.gmail.com>
+From: =?UTF-8?B?TcOlbnM=?= <mans.zigher@gmail.com>
+Date: Thu, 10 Feb 2022 12:40:44 +0100
 Message-ID: 
- <CAAnfSTuSr0pVBu7A+gKY87nAtA4Wrwf_T=ySqUsMCaKd6MXbEw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake: stop FetchContent from fetching content
-To: Eero Aaltonen <eero.aaltonen@vaisala.com>
-Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+ <CAEhQi8=aNJpbocsYBJJ=RNbTVDxns6ZTPPcf0MCq9h0kgm=LMw@mail.gmail.com>
+Subject: Re: [OE-core] Missing python.h when building ntpsec
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 11:40:14 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 11:40:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161607
+ https://lists.openembedded.org/g/openembedded-core/message/161608
 
-On Thu, 10 Feb 2022 at 10:13, Eero Aaltonen <eero.aaltonen@vaisala.com> wrote:
-> > what is cmake's default ? I think it could become a constant source
-> > of pain if it is not default. Since many cmake based packages might
-> > start to depend on it indirectly in future.
+Hi,
+
+So Python.h does actually exist. It was just me that was looking for
+the wrong file python.h but the issue is that ntpsec is not able to
+find the h-file
+
+['arm-oe-linux-gnueabi-gcc', '-march=armv7-a', '-mfpu=neon',
+'-mfloat-abi=hard', '-fstack-protector-strong', '-pie', '-fPIE',
+'-D_FORTIFY_SOURCE=2', '-Wa,--noexecstack', '-Wformat',
+'-Wformat-security', '-Werror=format-security',
+'--sysroot=/home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/recipe-sysroot',
+'-DUNITY_EXCLUDE_FLOAT_PRINT', '-fstack-protector-all', '-Wshadow',
+'-Wpacked', '-Wcast-qual', '-Wmissing-declarations',
+'-Wdisabled-optimization', '-Wimplicit-function-declaration',
+'-Winvalid-pch', '-Wpointer-arith', '-Wwrite-strings', '-Winit-self',
+'-Wfloat-equal', '-Wformat', '-Wformat-signedness',
+'-Wformat-security', '-Wsuggest-attribute=noreturn', '-fPIC', '-O1',
+'-Wall', '-Wextra', '-Wmissing-prototypes', '-Wstrict-prototypes',
+'-Wundef', '-Wunused', '-g', '-O2', '-Wa,--noexecstack',
+'-fexpensive-optimizations', '-frename-registers', '-ftree-vectorize',
+'-finline-functions', '-finline-limit=64',
+'-Wno-error=maybe-uninitialized', '-Wno-error=unused-result',
+'-fno-omit-frame-pointer', '-DTARGET_ION_ABI_VERSION=2',
+'-I${PYTHON_INCLUDE_DIR}', '-fPIC', '../../test.c', '-c',
+'-o/home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/ntpsec-1.2.1/build/.conf_check_d3b505aa7ab58576b6d76a2fc3091b1f/testbuild/main/test.c.1.o']
+err: ../../test.c:2:10: fatal error: Python.h: No such file or directory
+ #include <Python.h>
+          ^~~~~~~~~~
+compilation terminated.
+
+from /home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/ntpsec-1.2.1/pylib:
+Test does not build: Traceback (most recent call last):
+  File "/home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/ntpsec-1.2.1/.waf-2.0.20-36f5354d605298f6a89c09e0c7ef6c1d/waflib/Configure.py",
+line 335, in run_build
+    bld.compile()
+  File "/home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/ntpsec-1.2.1/.waf-2.0.20-36f5354d605298f6a89c09e0c7ef6c1d/waflib/Build.py",
+line 176, in compile
+    raise Errors.BuildError(self.producer.error)
+BuildError: Build failed
+ -> task in 'testprog' failed with exit status 1 (run with -v to
+display more information)
+
+Could not build python extensions
+from /home/extmzigher/Workspace/2016platform/python_product/builds/python/tmp-glibc/work/armv7ahf-neon-oe-linux-gnueabi/ntpsec/1.2.1-r0/ntpsec-1.2.1/pylib
+
+So something is not correct with the include path. But thanks for your help
+
+Thanks,
+
+
+Den ons 9 feb. 2022 kl 18:51 skrev Khem Raj <raj.khem@gmail.com>:
 >
-> CMake's default is to allow downloads.
+> On Wed, Feb 9, 2022 at 5:50 AM Mans Zigher <mans.zigher@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > I am trying to backport ntpsec from master to Thud but I have
+> > encountered an issue where python.h is missing in the sysroot for the
+> > ntpsec so the configuration task is failing. The ntpsec recipe has
+> >
+> > DEPENDS += "bison-native \
+> >             openssl \
+> >             python3"
+> >
+> > So should that not result in python.h being included to the sysroot
+> > for the ntpsec? Any hints on what to look for?
+> >
 >
-> It's possible to write CMake projects so that they try find_package
-> first and then fall back to downloading. I think
-> FETCHCONTENT_FULLY_DISCONNECTED might be a helpful flag so that the
-> build can then simply report if a required dependency has the wrong
-> version or so.
+> what happens if you change python3 to python in depends
 >
-> CMake projects that use _only_ FetchContent will likely need heavier
-> patching.
-
-The reasoning for this patch is that with the network isolation change
-the FetchContents will fail, but as in some environments the network
-isolation doesn't work (eg Docker containers) we can disable
-FetchContent explicitly too.
-
-Yes, projects which just use FetchContent are a pain.  Lets guess why
-I wrote this patch. :)
-
-Ross
+> > Thanks,
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#161562): https://lists.openembedded.org/g/openembedded-core/message/161562
+> > Mute This Topic: https://lists.openembedded.org/mt/89021393/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
