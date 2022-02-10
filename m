@@ -1,412 +1,197 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A4B8C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Feb 2022 23:37:15 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web08.3187.1644449834760889829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56654C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 01:07:07 +0000 (UTC)
+Received: from esa20.fujitsucc.c3s2.iphmx.com (esa20.fujitsucc.c3s2.iphmx.com
+ [216.71.158.65])
+ by mx.groups.io with SMTP id smtpd.web10.4208.1644455225673651970
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 15:37:15 -0800
+ Wed, 09 Feb 2022 17:07:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=kYAUinWo;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=90399e5faa=joe.slater@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 219Mn85G010613
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 9 Feb 2022 15:37:14 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=HuHpisb3QYhB7IN/d+3Tw3u7H7gImv3SzO1Z7Ngi/DM=;
- b=kYAUinWooI9atrpZCBUqrFtr52C8+N6Q0OK4qx/Hskoh5SA8cOvojLFUnInHNA1dEC7C
- RgAN/PGp4TKeV0g33Jdr6va/hH24k138zeftg3IXKO+NyFb9YDFjjpslNNStN5UfyiUs
- FaoNhl6J8vx7osTM6bOD3pa0mxdC7v5QHPk3T6zMszasz2wavTSzECXAcoCH2OAMFP2Z
- W5b2ZCmjYJgpifn2J05CU7B8DbT6agU3aic8qDZq34pXslzNBrsgfiaVRpIlVW+YwHyY
- snj9o8YzyFKSWICQmwLUKNsip0yNazZEj4/OQjrGSyMD12bAc1lf9AAm8siZvCFsVKan Gw==
-Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam07lp2041.outbound.protection.outlook.com [104.47.56.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e3575t7wn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Feb 2022 15:37:14 -0800
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=BHTaT/l7;
+ spf=neutral (domain: fujitsu.com, ip: 216.71.158.65,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1644455226; x=1675991226;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=tSJI4yTAriFkthCcYzYfbSOKQH8dlWvTT6qIIK7Jm3I=;
+  b=BHTaT/l7aO+ySFo8RNm44phucoyzgPbIdOMfMRXWs5LPi3a5bsGTPrk4
+   LKV5BUYx7GUrAh2lL3eAg4/VAIyzWvdmT4TvoH/6ul1LLYN5n/D94mi4f
+   F3gBuld88G4yBXO0K1MHwy+ihnZfXCROkfp7S1C/CHnzhi7aylgved056
+   ogeJr9YyBL/MedxfTuvRVMwIp21NM67pY4zJKeEkdW1olch1MVUPzfJKA
+   UnJwaflgsJIb9nJ83+Aa6Hi5AN6YTBgaZGLTnlKkgwna6ll9G8aYRZx7N
+   qqv61pQUTXHUSTtpBd8DXIDKQhVi0UQDOItctNk4VSzY2AT2KdkwVS9+7
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="49416144"
+X-IronPort-AV: E=Sophos;i="5.88,357,1635174000";
+   d="scan'208";a="49416144"
+Received: from mail-tycjpn01lp2177.outbound.protection.outlook.com (HELO
+ JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.177])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2022 10:07:03 +0900
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KynmEqNGpIkA3CB7kZuCZx8nwtfxh7qfoNTHP1NowINq2scpJYiR9MSRcuKaTwWgu6r1qUJVRBhbQNQHsFMdB34xqWkpXZ7BhJKmUsM1Lj3lhFkn/dM83iXbnJHrnZ0HJ6L7IBeEaSxpLjMJhX7J2ofOFqurQurBftlrFc29hmHuXkAOiXAwZLbAkS4CjaLKX6V464fy6ZtmVf21t9kcv9GnV97/YcAPqtn2ZiiC+fbozLWDqz5cQILODbWNod9Rzy/IymkPgv7nDjdpOowNUCvSs8AiTyif7vmvRbrXlPFLq/+9FGjxK6WmRp8karlnYGjM8qA6+XtubFIjzuTPrw==
+ b=PihWPQbrza3iiCIaeS4T8Xs45H4IsDmxIF4//nCjVzP6AipdorSdEkQQ2AGow8Pwole5q0wNgAxkjY3KJf0kEG62cNq1vmOGUb7qnSKDjO3sST83tyXgfQNhedDxVeQYZ4I5X6pLHUnWVCj5Q7DlPjUuWSfDCinMVVcclrHdWL5aY1W5tsunIT9T3yItebpYlUeqZlHIEA3u/uzRkzRFaaOKiJzqPXCtdF1vPLq9K5hiX2mBgqsDtoe31dEmKEA/cC4kc5hvfQhlLrzclInXkMvER1UME6Y6hzbZWhYncrAMx7tNFcmflyrT+Hr+e7H5umy2NCi0srqSmDYRvbNiXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HuHpisb3QYhB7IN/d+3Tw3u7H7gImv3SzO1Z7Ngi/DM=;
- b=YAn/K49FPD/mzBFZ8I+/Jxde3r5VfvB+Eoyj6N3dKg6zKZT3vUFGjaHjBz1zDmrvxX8aH7AKp5iVi10sJ4Ho3xfQtXgeXGSaioaEKznTWfzrMF7PPaiWqsTrdNAzNRmucXSkExnubNQ+fE/r+0y16eWeo3ebxq+DYkNTNXaXmSZoFvRtOnh8de63CJviXsYLTQoiCvgu4cQRwgx8Y1nFrXAv/Y36DTEIx10FytY18Ui0YLUSOdsl/OkhyhS8KUCw8z+9nNFP/vg2Hkr4W9C6KBfpAxVdVYjLxZQ0y4IGrgVhYpwNyu/4dI0dvTurGcA6RFNW//5eDL5SGc+VowBddQ==
+ bh=tSJI4yTAriFkthCcYzYfbSOKQH8dlWvTT6qIIK7Jm3I=;
+ b=Rn0CJ5ttCjV/WZGUytJ8bWz0BQTJ9sPVCsf688WXeG+LKLl7RrIiP6fih0LIDsbQlJ/k2vkbaAsbXwzZCiR/bRAqX2cEu1J6OMHwRwWNMC5BdzeAwSACPxEmOcd48uPD8AX7kcwNZVDwh1xGcPoQ21lV4U+zavqvsZRNggY27AMpS4xHk2/LTotxpvCd6qyUcQz85RCvl5UdjLmdgHsDK7aXA4bry6a5ag/8BfiQNjJnZTESxlMvTcVtwZmo9kXePzCgwAISkUS+iaEJRHQWz53WV/6ayci1Za40kYHQijV6BWdQ5AQ6CypXEjVvqiXoqovz1YR2abnhkFA+n/2iZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by MWHPR11MB1936.namprd11.prod.outlook.com (2603:10b6:300:111::7) with
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tSJI4yTAriFkthCcYzYfbSOKQH8dlWvTT6qIIK7Jm3I=;
+ b=f5Cxws8aciawf19toIq3THKsq8bWQ5hDaxk6nzUT5z+Pl9ei58l/nYT3/FLM89B+RQkS7UWOMWZpLcl5n78FHcOR/VcqKCMhK9+PMLdGy4w5zfhgA+0KAbXKePjXDPHkerw54A4FmAdV84oHIvMI61BGct61+YUS3x8dpE7YL70=
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com (2603:1096:603:5::13)
+ by TY2PR01MB4921.jpnprd01.prod.outlook.com (2603:1096:404:11b::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Wed, 9 Feb
- 2022 23:37:11 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::5417:1a37:dec1:13ff]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::5417:1a37:dec1:13ff%4]) with mapi id 15.20.4951.019; Wed, 9 Feb 2022
- 23:37:11 +0000
-From: Joe Slater <joe.slater@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: joe.slater@windriver.com, randy.macleod@windriver.com
-Subject: [oe-core][PATCH 1/1] virglrenderer: fix CVE-2022-0135 and -0175
-Date: Wed,  9 Feb 2022 15:36:50 -0800
-Message-Id: <20220209233650.3901-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.24.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0121.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::6) To BY5PR11MB3992.namprd11.prod.outlook.com
- (2603:10b6:a03:188::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Thu, 10 Feb
+ 2022 01:07:00 +0000
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::41fc:8534:c1e2:7cd9]) by OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::41fc:8534:c1e2:7cd9%5]) with mapi id 15.20.4975.011; Thu, 10 Feb 2022
+ 01:07:00 +0000
+From: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] ed: upgrade 1.17 -> 1.18
+Thread-Topic: [OE-core] [PATCH] ed: upgrade 1.17 -> 1.18
+Thread-Index: AQHYHMWAyfl/FS7w9UOCLsbskS4rEKyJcr8AgAJ9IUA=
+Date: Thu, 10 Feb 2022 01:06:59 +0000
+Message-ID: 
+ <OSBPR01MB18458CD72151816CE89F4962DC2F9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+References: <1644308725-5262-1-git-send-email-wangmy@fujitsu.com>
+ <CANNYZj8X+Ryn4Jo5U=j=FcAjfff8o-J+TqZpr3HdGSA40amRVA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8X+Ryn4Jo5U=j=FcAjfff8o-J+TqZpr3HdGSA40amRVA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3e7b8cb1-341f-4c3c-5ee4-08d9ec31a416
+x-ms-traffictypediagnostic: TY2PR01MB4921:EE_
+x-microsoft-antispam-prvs: 
+ <TY2PR01MB492132BA697C095A6E50EF96DC2F9@TY2PR01MB4921.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ m1EX4538u2VQT/GzCVs5kJfXb2tVROpYVw42qy6DTDS0wx4n1/jWeDWMi1vKvny6wi1oRj+WuSMNwQXOJWz9AU7Ee11X982zp3HYEalTX79EKyGMFQ69j1bcXkXsK0ufNE4vGrhqOno4BZmCyQD/2ZdrlQyuMBOKDcwviKElXJP4nR7f0+6+OXI7XVXtkoSaw6L2n5O3mSUOD8D1cUS1opf98Y4fu06JcquAH296tpNGg7xjdlh3TaziO57EK5iFBUR4BaBnA5avI52On2pcozAzrLpqwTw7IAQ8vGj+cbkudpRcnBvakH/bzMU2TSjaPuCVsXRr6Lv2JFD8RdGnBvYPF9uVb6bau+swh8eW9UgAJVU2bw8voyFOWvV60nllthNrFT6sNnNbiwxVQJtF/PAB5aB9WUbLqiUXGK4nEh6Xt6QYdc/i4BD2hBU57+zebHf4H74dk2YGkvNE8A0hLk5fZPZp7s4UggE0gwDzKU8gbUvMc0NYaJrzxluo6OyxUBubEQ++zf6zD0v/TdpyuYGuUGQjbTYz9+cmTV4cQqO2ElYRlqq6iEQrZeN2kdthSWDpLZR6po7JP4JdOcAu9Yf1zPi5Z2/K+FIjMVF+yB2y4BhnRXY9NHjBDYAfk1PwS+RAIaziCPG1Jn6GF2CYyMIubLiC63hzE52i8M8Af48euMowzZLe9Df3MGY+bKX5syjE2hkofMhQV7ZrvSkSHQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB1845.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(71200400001)(85182001)(66556008)(53546011)(5660300002)(186003)(86362001)(8936002)(7696005)(83380400001)(33656002)(52536014)(6506007)(66476007)(26005)(38100700002)(76116006)(8676002)(9686003)(66946007)(4326008)(66446008)(316002)(64756008)(2906002)(508600001)(6916009)(122000001)(38070700005)(82960400001)(55016003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?RFZLWHFxczJhYVo3dDdybGtNOG9OTWk3a0pJWlYzNHRIRUJYRnBkaERxb1lH?=
+ =?utf-8?B?Rk0yRVBFaWQvRGFrSGNoWUUzbkNHS2VIa1RoVGU1dFRMN2ZWa2RsTUV2dWxK?=
+ =?utf-8?B?WVpRbDFwc3U5b0UvMkU0ekVlTGJINndyL3hmWFBSRE1reVBUVU5ybTNhUWRs?=
+ =?utf-8?B?bmNYbFpJRzJWdXVyVUtsbGsxdFF2MnUwSVluMkdoR1F2ZTlucktmN20wYnRT?=
+ =?utf-8?B?ZmxRZU1CQ1B2S1RHRlBBaTEvYkgwN3FjSDZjT2l3bHVuQStNcVRnMWhBZGJz?=
+ =?utf-8?B?K2pPdldNb0diYnVydnozdUV3TEVtdFE0UU1VWGdZNFVtWHdzVlZHR2hlYnVW?=
+ =?utf-8?B?bWxkczNRVVFjYzU1QjlaakhRZVpOSy96cFord3h3Q1FqMHh5bEdWVFRjazJW?=
+ =?utf-8?B?REVVM2txQXNudEkwNWdpK3pKU1R0R3Y5eVMrL25IVW1DelRaRG96TWN3UEp1?=
+ =?utf-8?B?THlMTDRLRXVWeStwVW4rZXAyUXcyWkhsSXNRdjN4a2tJcW1NdUVxb2cyQjBr?=
+ =?utf-8?B?K0JBaHZ2czFocjNKRlVKN0pmMDhtMVFOM0ZBa2FIaVhzT2Q2U05QRnNVcmh3?=
+ =?utf-8?B?Y2QvMmlsMDd4L3FJbkd1MlZGejE2UXFtVGJremQ0bk4wdmlHSWtKdEZ4UVJQ?=
+ =?utf-8?B?UTJQRGVWdWgrRisrd0NLNURmOU5KWGtwcnMyZ2RMRW1sbDdlMWZyM0o5RlVE?=
+ =?utf-8?B?VytVM01Ja2FHWE40ODFHekhPdGMxcVQwVEVGblR1TFJGNG1JWUdsWWl5QzhV?=
+ =?utf-8?B?eTQ5dFdHdTM5b3FEb1RpamphTnpTTUlhaURFMjd1dGpLTll4dmEwQVowOFVv?=
+ =?utf-8?B?VytmcVRsaTZDbWt0NzlnSThPZEU1Q2I5b0lKQ2NmWkJydVJ6engzZEJOemlT?=
+ =?utf-8?B?SDJ0RzJLL25pcGZmQTIrdnc5d0puKytFUHhTUmxHeElueFBSUlhaZlFZQ2hL?=
+ =?utf-8?B?K2laT3p1b2VJTmtNYTNhTjk4L0UyM3dVeGxXcEpXOUxyUHNob2JaeVM5amdy?=
+ =?utf-8?B?NnhyRE5IVU5KLzNOajh4SUE1RmlZd2FSeGp4V1M2ZThyMGF6SHorS01rdzky?=
+ =?utf-8?B?RlRsbkNMdm84KzA3V01sZG1MeElOV0oyYXBYOUpsamVlKzRTS2N5Si9vQWVO?=
+ =?utf-8?B?UTFmNGNsdmN0eUliMC94Q0tzT1dpT1B6K3ZaQmFLaHRGL2tuSFAzM3dNeFhQ?=
+ =?utf-8?B?QW0zNmdrMXJxTTdqelpXRnZpSDVKaG1rSmpRaTBRR1RwQW9udWVlVTFmYUFL?=
+ =?utf-8?B?N3VZM2U5UDRualZRbUJrakdyUXFrQ01aN3BRMEJURjcrOGYxY2lZSFpEb3pl?=
+ =?utf-8?B?aGJDS2dmckNzVlF6STAzV0JmVUlnTGRqZjhBTVRVc0VOZGtyclQrVXIwdThq?=
+ =?utf-8?B?bzZ3a25CM0hGby9qb1piWkc3M3NTOGlaZi9KYXNyZkc5V0g3aXVBT21pdkZQ?=
+ =?utf-8?B?d1hpMWVnVGxUU3pzTFlSMWlVNXhTTGFBTnRuWEtkWVNOWGNncktnRk5ScTk2?=
+ =?utf-8?B?RFVNd1Q5SnJnblB5OXp0U3RHbzI0Z1dRelBsT2FrT0hhT3dhSzNCQnB6aDF5?=
+ =?utf-8?B?ektINVJwTmh3WGVsVDFuL2tOMFRaQ0s0M0xGU3FoTDRySG1teHMyVk5IVzJh?=
+ =?utf-8?B?SkcwU0NtNFlvWE5BMkRVTkZ2cEphWU1BVTBSUVhPQ1JUbENJV2hzVHQ1alYy?=
+ =?utf-8?B?UlpxVE40VHVoV1JmUVlRelZCRzBIL1AxS0pqdHE5amNDQThuY29NNzRNcnk3?=
+ =?utf-8?B?NTg0a1RvRkgyMys4UDc1aExqVzJ0dXpEUHBvRE9qUkdURUxLVWpXSklHU3Zr?=
+ =?utf-8?B?N29yOE5VZGNsNXNSckFoTU0wa2lkSHBiQm5oaDBqV1ZjalZKN21sNWNUM2tN?=
+ =?utf-8?B?ODUxdGtkT2FVaEtXRUdtOGRvODdvWXdyZzY1ZHdmMGcwQ0VGblFlQXpMZ2tI?=
+ =?utf-8?B?bk8wN1c4K1FuTkNEbG9uYnMrclQwczREM1F5Ym1PUTg2ODc5VnlVWHdsUllH?=
+ =?utf-8?B?Q2dEUW5GQXROVDlvUEw3QmdQbm1MVjhsTUtzUXhmRW5CUm5OYnJSUlQ0aURv?=
+ =?utf-8?B?cUNCYnVuVURraXcxc0M3NzFJazdLU1pUZlFiQUVGTEhrQTY1YUgvVnA1anRm?=
+ =?utf-8?B?blR6WEFxZDZDbUFMbE9VcWFXZDFaZ1FMOXplSE5Ga2JJVUVLRURzN09uR3ZD?=
+ =?utf-8?Q?jXye0aWtgKRgl+dKvau88TE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13174697-3845-4e6e-fcea-08d9ec251849
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1936:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB193687A8D1C192D4FBD33CF6882E9@MWHPR11MB1936.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:226;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4QmWv5W2NvKpofuL2Aexzb/Aeoz6NPQjiZEMiF6ktUUXuOsNQMNOYbuGtb4B35bDu1Pd1psJuTvUsM1iC1e1HIglN+kKYBqwxdAxHyeOnvNM5JmXZ8oCLZfl/62hIFX7TcgnJyeZB/Zc1XRst4LlvRccxhMZq8Q5HKK/yp8KN4XmB5XIGjD27Z9ud+prnsmu+CBY/reElIJ48MuwpSFow7qwN8mo6tqj4cjHmJQtT6nrxQOAnRf5+3C7WzoCWJxCu+G+Sm/tBj2EUHn3hASOh33ooj0VH+/jWVzaEnIs3w5HwLe/hz6voGavoZjEBGykalbIvl6rf3QrbyPowxFtMuMkeuEi4IiSqmdHEDuSY8Z4z3RSecbrtx3NU6zC62FFrGqOYpJv6Ext57wrU94dKAdnNZEB49j3AHgTjqACC4PB524+KA+u1fuzy/71J5bFYRUsWAdY5oENFnci8nIXbGNOYWY57bKRwq6H6QmdwCuXqjKyaKxZK/H7JMUFBAgpfl168+3KMwFSK+WnRWDclms3/NNiTpoZ0v2Wu41UoRv817z45+dvv2iPoNtFjahsQz55XvL07mZITmYHWq8Jot8V9yqQ/eilVHy5foa6yiy/CyrbrL7q0jGkiHqSeQrx7URwRrM56NYypCVs86eNndArSZYIB3+J923rywsJrCMXwAYErT1HqEFOId06+kk6mo3OKSIpTWTZKh9GGo8xVA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(508600001)(38350700002)(966005)(6666004)(86362001)(316002)(6916009)(84970400001)(6506007)(6512007)(6486002)(8676002)(107886003)(1076003)(186003)(2616005)(36756003)(38100700002)(83380400001)(52116002)(2906002)(5660300002)(44832011)(4326008)(8936002)(66476007)(66946007)(66556008)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?nX6jZxusuazjUaRZamTgY2kKqH6NetX+AnYwnq0M8ioZ6snYItdOqX5ZQdeZ?=
- =?us-ascii?Q?lQiCn0K/C5N1mo8yLEb9HYRGVdPNjqRddTfjSSvVPUjN9yEeEBYs9PdHY8Kh?=
- =?us-ascii?Q?KJGw18eFIUK98YsMqE5dmvqKqAtGnk1tY7TE4K8jM3Ncd2qB3XFLGE2pLrGk?=
- =?us-ascii?Q?fj7Z5Act9RR/nyGQ2Mgu+4te4JM5gQiv1cBq8SY9ZhEURk7QurcOz80LhwRI?=
- =?us-ascii?Q?FyjvZ3jmNMNKKmG9XogVtEG/9w3tsYS0Go98IPAs11G+DB237Vj71agxLZ3G?=
- =?us-ascii?Q?czQzDE0ZbPU/W9BNSNDvBY6aFKUSZGcHwv5ropgftS3lncSm4PZrCHUHXVqb?=
- =?us-ascii?Q?5rkRGOLeP4SIrf3LunzOC28Mi3y+s9QoAI54mRFshbKDYNGYNdFhakvjXOy/?=
- =?us-ascii?Q?F2gYBi7IwYfhuwc/cbBGs4JM2Si43UHGrbfbs1Z/ORejfnlphZRtH0NovSeP?=
- =?us-ascii?Q?jf30KSBKkf63/R2S7ek4FExsKzyMdIua0a4tJy8hkxYUBHXAXMhkCZYcNWqd?=
- =?us-ascii?Q?SEqr+38uBEVi1onKz7svDpjh7ayzGxWLouNUI6ocpWtC6R3XryIV98NH97IE?=
- =?us-ascii?Q?Ll+A4cCrIDE7BfScFKANgeV3dj9I6ewV4d+Bx5PllGIjzj3xdpmh5KjileOH?=
- =?us-ascii?Q?tC6brpvUYvOvFTxaeWbYj76WFD4aaUaebJ6Uga6EsLxyxRc8xU62Uli99rN/?=
- =?us-ascii?Q?m+6y5hBXo5RuYADIBYaa2PKoiNW0K6EM+0VSq+xeeAYsRMij26zTVmE5Mbgu?=
- =?us-ascii?Q?aMRd0zGSytGlO98x7ym89J1kamocC4Q5ipSy5jdkaiGGMqV2ri7JwhI90MI5?=
- =?us-ascii?Q?BBx1hL77ttQ+Z6W/VI/TtkN1KNtuYkV/ecFAhRIB8va5rEQhF/tdgyF0EdKe?=
- =?us-ascii?Q?zUej4hlRBQnDChMtzcKeAliXN2ZjktBHkPycn7QE+fmvA5oWuM7MvL1yaEvJ?=
- =?us-ascii?Q?CwXfChflUdm+ECNdJ1Ts6Qbdiu3Nq4Tvj3CBpURcqgLvtfOmJCIp/rHA9pgX?=
- =?us-ascii?Q?oPuKgHxFvwGmea2lKYA7ZzcV6UgvwqKauVv7DX6qHqGuHM72u5FWaDmjghyg?=
- =?us-ascii?Q?/loCDC25yty3uGlsS1eXNn5TE7KYWeCPtKgjJ5+GIVd0i7knrnTnjoUu3ZO5?=
- =?us-ascii?Q?R4dR+RyVOgVMFl8sy1pyWfWb9Dpth13C4zuNU93/qNk6vleK59hH66J2Z4nh?=
- =?us-ascii?Q?7KdQyPWF3cTU3npEPu3yocyzBBAEcGLaAVxmi+XeJtst8uGMkcIBlFyCvESD?=
- =?us-ascii?Q?u0z9Cg5m2eobSPIYaEEcs2/vBMRcoy1KEvK9ouuF99kRwRWxqROFmF8Gv5em?=
- =?us-ascii?Q?cUetDe9Aznzyt4ziZ4Le5PO6E74RkSQIpr9hlwvky+W4c4XEtBs/7wIc7imp?=
- =?us-ascii?Q?yte+dz90/ivX4PEVcnIgbZAoKJRtmXh6XF4Eg55qDGdEfUoFoa9qEUoRhAxR?=
- =?us-ascii?Q?DLl3RoHiEw8jxstEEvIsN2x7yOphI8xvCE5ii1rQAtnhi82b5lgHLCNB5lj5?=
- =?us-ascii?Q?B3UyJxzZNGPlMOodszcQxP226+c7K3fFTDyBwd1282E1KV77zpDf/PXvUjDJ?=
- =?us-ascii?Q?mWLmjBNLtvKonbOZlKCcWBNJxAOel1WYTzBhm+SAup1dTGChFf826Wt3rkuN?=
- =?us-ascii?Q?/OTlekLbwDM2jZOBdOLZdYjIpYVB/v8keBLB+aRFJSzkwgKQ9uzDn0IhuqQF?=
- =?us-ascii?Q?DO5FkQlizn97ol4yfPxqOHR79hY=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 13174697-3845-4e6e-fcea-08d9ec251849
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
+X-OriginatorOrg: fujitsu.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2022 23:37:11.8520
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB1845.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 3e7b8cb1-341f-4c3c-5ee4-08d9ec31a416
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2022 01:06:59.9493
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- xLrYSKglUipQZIJkdmaQuMctMT+IxsUIj3r2YpCyIzK2OV0lcrngJDOxg/HEyLMGsblHrVdycDkbfOz9v4FX4VfY0zEQ0YyfZXQMi13bYBk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1936
-X-Proofpoint-ORIG-GUID: XFKBp5J6pKPPe9kRDCHfXw2TeQDneNl1
-X-Proofpoint-GUID: XFKBp5J6pKPPe9kRDCHfXw2TeQDneNl1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-09_12,2022-02-09_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- mlxlogscore=493 clxscore=1011 adultscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202090123
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ YGpjvd+BuM73pECR2RZXK94FqNiEXfE25aYfco1swyLwG4VtNH8V+gcJXUnBQGXnsNmnY0p9SSakB/3eJD4dEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4921
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Feb 2022 23:37:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 01:07:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161595
+ https://lists.openembedded.org/g/openembedded-core/message/161596
 
-CVE-2022-0135 concerns out-of-bounds writes in read_transfer_data().
-CVE-2022-0175 concerns using malloc() instead of calloc().
-
-We "cherry-pick" from upstream.  The actual cherry-picks are from
-upstream master to branch-0.9.1 and are the patches entered here.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../virglrenderer/cve-2022-0135.patch         | 117 ++++++++++++++++++
- .../virglrenderer/cve-2022-0175.patch         | 107 ++++++++++++++++
- .../virglrenderer/virglrenderer_0.9.1.bb      |   2 +
- 3 files changed, 226 insertions(+)
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
-
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
-new file mode 100644
-index 0000000000..ae42dc8f6c
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
-@@ -0,0 +1,117 @@
-+From 63aee871365f9c9e7fa9125672302a0fb250d34d Mon Sep 17 00:00:00 2001
-+From: Gert Wollny <gert.wollny@collabora.com>
-+Date: Tue, 30 Nov 2021 09:16:24 +0100
-+Subject: [PATCH 2/2] vrend: propperly check whether the shader image range is
-+ correct
-+
-+Also add a test to check the integer underflow.
-+
-+Closes: #251
-+Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-+
-+cherry-pick from anongit.freedesktop.org/virglrenderer
-+commit 2aed5d4...
-+
-+CVE: CVE-2022-0135
-+Upstream-Status: Backport
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+ src/vrend_decode.c          |  3 +-
-+ tests/test_fuzzer_formats.c | 57 +++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 59 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/vrend_decode.c b/src/vrend_decode.c
-+index 91f5f24..6771b10 100644
-+--- a/src/vrend_decode.c
-++++ b/src/vrend_decode.c
-+@@ -1249,8 +1249,9 @@ static int vrend_decode_set_shader_images(struct vrend_context *ctx, const uint3
-+    if (num_images < 1) {
-+       return 0;
-+    }
-++
-+    if (start_slot > PIPE_MAX_SHADER_IMAGES ||
-+-       start_slot > PIPE_MAX_SHADER_IMAGES - num_images)
-++       start_slot + num_images > PIPE_MAX_SHADER_IMAGES)
-+       return EINVAL;
-+ 
-+    for (uint32_t i = 0; i < num_images; i++) {
-+diff --git a/tests/test_fuzzer_formats.c b/tests/test_fuzzer_formats.c
-+index 154a2e5..e32caf0 100644
-+--- a/tests/test_fuzzer_formats.c
-++++ b/tests/test_fuzzer_formats.c
-+@@ -958,6 +958,61 @@ static void test_vrend_set_signle_abo_heap_overflow() {
-+     virgl_renderer_submit_cmd((void *) cmd, ctx_id, 0xde);
-+ }
-+ 
-++static void test_vrend_set_shader_images_overflow()
-++{
-++    uint32_t num_shaders = PIPE_MAX_SHADER_IMAGES + 1;
-++    uint32_t size = num_shaders * VIRGL_SET_SHADER_IMAGE_ELEMENT_SIZE + 3;
-++    uint32_t cmd[size];
-++    int i = 0;
-++    cmd[i++] = ((size - 1)<< 16) | 0 << 8 | VIRGL_CCMD_SET_SHADER_IMAGES;
-++    cmd[i++] = PIPE_SHADER_FRAGMENT;
-++    memset(&cmd[i], 0, size - i);
-++
-++    virgl_renderer_submit_cmd((void *) cmd, ctx_id, size);
-++}
-++
-++/* Test adapted from yaojun8558363@gmail.com:
-++ * https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/250
-++*/
-++static void test_vrend_3d_resource_overflow() {
-++
-++    struct virgl_renderer_resource_create_args resource;
-++    resource.handle = 0x4c474572;
-++    resource.target = PIPE_TEXTURE_2D_ARRAY;
-++    resource.format = VIRGL_FORMAT_Z24X8_UNORM;
-++    resource.nr_samples = 2;
-++    resource.last_level = 0;
-++    resource.array_size = 3;
-++    resource.bind = VIRGL_BIND_SAMPLER_VIEW;
-++    resource.depth = 1;
-++    resource.width = 8;
-++    resource.height = 4;
-++    resource.flags = 0;
-++
-++    virgl_renderer_resource_create(&resource, NULL, 0);
-++    virgl_renderer_ctx_attach_resource(ctx_id, resource.handle);
-++
-++    uint32_t size = 0x400;
-++    uint32_t cmd[size];
-++    int i = 0;
-++    cmd[i++] = (size - 1) << 16 | 0 << 8 | VIRGL_CCMD_RESOURCE_INLINE_WRITE;
-++    cmd[i++] = resource.handle;
-++    cmd[i++] = 0; // level
-++    cmd[i++] = 0; // usage
-++    cmd[i++] = 0; // stride
-++    cmd[i++] = 0; // layer_stride
-++    cmd[i++] = 0; // x
-++    cmd[i++] = 0; // y
-++    cmd[i++] = 0; // z
-++    cmd[i++] = 8; // w
-++    cmd[i++] = 4; // h
-++    cmd[i++] = 3; // d
-++    memset(&cmd[i], 0, size - i);
-++
-++    virgl_renderer_submit_cmd((void *) cmd, ctx_id, size);
-++}
-++
-++
-+ int main()
-+ {
-+    initialize_environment();
-+@@ -980,6 +1035,8 @@ int main()
-+    test_cs_nullpointer_deference();
-+    test_vrend_set_signle_abo_heap_overflow();
-+ 
-++   test_vrend_set_shader_images_overflow();
-++   test_vrend_3d_resource_overflow();
-+ 
-+    virgl_renderer_context_destroy(ctx_id);
-+    virgl_renderer_cleanup(&cookie);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
-new file mode 100644
-index 0000000000..7fbab75091
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
-@@ -0,0 +1,107 @@
-+From 5ca7aca001092c557f0b6fc1ba3db7dcdab860b7 Mon Sep 17 00:00:00 2001
-+From: Gert Wollny <gert.wollny@collabora.com>
-+Date: Tue, 30 Nov 2021 09:29:42 +0100
-+Subject: [PATCH 1/2] vrend: clear memory when allocating a host-backed memory
-+ resource
-+
-+Closes: #249
-+Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-+
-+cherry-pick from anongit.freedesktop.org/virglrenderer
-+commit b05bb61...
-+
-+CVE: CVE-2022-0175
-+Upstream-Status: Backport
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+ src/vrend_renderer.c        |  2 +-
-+ tests/test_virgl_transfer.c | 51 +++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 52 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-+index b8b2a36..2650cf2 100644
-+--- a/src/vrend_renderer.c
-++++ b/src/vrend_renderer.c
-+@@ -6788,7 +6788,7 @@ vrend_resource_alloc_buffer(struct vrend_resource *gr, uint32_t flags)
-+    if (bind == VIRGL_BIND_CUSTOM) {
-+       /* use iovec directly when attached */
-+       gr->storage_bits |= VREND_STORAGE_HOST_SYSTEM_MEMORY;
-+-      gr->ptr = malloc(size);
-++      gr->ptr = calloc(1, size);
-+       if (!gr->ptr)
-+          return -ENOMEM;
-+    } else if (bind == VIRGL_BIND_STAGING) {
-+diff --git a/tests/test_virgl_transfer.c b/tests/test_virgl_transfer.c
-+index bf7f438..3c53c3d 100644
-+--- a/tests/test_virgl_transfer.c
-++++ b/tests/test_virgl_transfer.c
-+@@ -952,6 +952,56 @@ START_TEST(virgl_test_transfer_near_res_bounds_with_stride_succeeds)
-+ }
-+ END_TEST
-+ 
-++START_TEST(test_vrend_host_backed_memory_no_data_leak)
-++{
-++   struct iovec iovs[1];
-++   int niovs = 1;
-++
-++   struct virgl_context ctx = {0};
-++
-++   int ret = testvirgl_init_ctx_cmdbuf(&ctx);
-++
-++   struct virgl_renderer_resource_create_args res;
-++   res.handle = 0x400;
-++   res.target = PIPE_BUFFER;
-++   res.format = VIRGL_FORMAT_R8_UNORM;
-++   res.nr_samples = 0;
-++   res.last_level = 0;
-++   res.array_size = 1;
-++   res.bind = VIRGL_BIND_CUSTOM;
-++   res.depth = 1;
-++   res.width = 32;
-++   res.height = 1;
-++   res.flags = 0;
-++
-++   uint32_t size = 32;
-++   uint8_t* data = calloc(1, size);
-++   memset(data, 1, 32);
-++   iovs[0].iov_base = data;
-++   iovs[0].iov_len = size;
-++
-++   struct pipe_box box = {0,0,0, size, 1,1};
-++
-++   virgl_renderer_resource_create(&res, NULL, 0);
-++   virgl_renderer_ctx_attach_resource(ctx.ctx_id, res.handle);
-++
-++   ret = virgl_renderer_transfer_read_iov(res.handle, ctx.ctx_id, 0, 0, 0,
-++                                          (struct virgl_box *)&box, 0, iovs, niovs);
-++
-++   ck_assert_int_eq(ret, 0);
-++
-++   for (int i = 0; i < 32; ++i)
-++      ck_assert_int_eq(data[i], 0);
-++
-++   virgl_renderer_ctx_detach_resource(1, res.handle);
-++
-++   virgl_renderer_resource_unref(res.handle);
-++   free(data);
-++
-++}
-++END_TEST
-++
-++
-+ static Suite *virgl_init_suite(void)
-+ {
-+   Suite *s;
-+@@ -981,6 +1031,7 @@ static Suite *virgl_init_suite(void)
-+   tcase_add_test(tc_core, virgl_test_transfer_buffer_bad_strides);
-+   tcase_add_test(tc_core, virgl_test_transfer_2d_array_bad_layer_stride);
-+   tcase_add_test(tc_core, virgl_test_transfer_2d_bad_level);
-++  tcase_add_test(tc_core, test_vrend_host_backed_memory_no_data_leak);
-+ 
-+   tcase_add_loop_test(tc_core, virgl_test_transfer_res_read_valid, 0, PIPE_MAX_TEXTURE_TYPES);
-+   tcase_add_loop_test(tc_core, virgl_test_transfer_res_write_valid, 0, PIPE_MAX_TEXTURE_TYPES);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-index 65bd1af942..c18018759b 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-@@ -12,6 +12,8 @@ DEPENDS = "libdrm virtual/libgl virtual/libgbm libepoxy"
- SRCREV = "363915595e05fb252e70d6514be2f0c0b5ca312b"
- SRC_URI = "git://anongit.freedesktop.org/virglrenderer;branch=branch-0.9.1 \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
-+           file://cve-2022-0135.patch \
-+           file://cve-2022-0175.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.24.1
-
+QXMgeW91IGNhbiBzZWUgdGhlIENoYW5nZUxvZyBzaG93biBiZWxvdywgaW4gdmVyc2lvbiAxLjUg
+dGhlIG1haW50YWluZXIgbWlzdGFrZW5seSBjaGFuZ2VkIHRoZSBjb3B5cmlnaHQgaG9sZGVyIGZy
+b20gQW5kcmV3IE1vb3JlIHRvIHRoZSBGU0YuIEluIHZlcnNpb25zIDEuNiBhbmQgMS4xMSBoZSB0
+cmllZCB0byBmaXggdGhlIG1pc3Rha2UsIGJ1dCBoZSBmb3Jnb3QgdG8gcmVzdG9yZSB0aGUgb3Jp
+Z2luYWwgQ09QWUlORywgd2hpY2ggaGUgaGF2ZSBkb25lIG5vdyBpbiAxLjE4Lg0KDQpUaGVyZWZv
+cmUsIGluIGFkZGl0aW9uIHRvIGNoYW5naW5nIHRoZSBMSUNFTlNFIGZpZWxkIGZyb20gR1BMdjMg
+KyB0byBHUEx2MiAsIHNob3VsZCBJIGFkZCByZWxldmFudCBpbmZvcm1hdGlvbiBpbiB0aGUgY29t
+bWl0Pw0KDQoyMDEwLTA4LTMwICBBbnRvbmlvIERpYXogRGlheiAgPGFudF9kaWF6QHRlbGVsaW5l
+LmVzPg0KICAgICAgICAqIFZlcnNpb24gMS41IHJlbGVhc2VkLg0KICAgICAgICAqIENoYW5nZSBj
+b3B5cmlnaHQgaG9sZGVyIGZyb20gQW5kcmV3LCBBbnRvbmlvIHRvIHRoZSBGU0YuDQogICAgICAg
+ICAgKFRoaXMgY2hhbmdlIHdhcyBsYXRlciBkaXNjb3ZlcmVkIHRvIGJlIHdyb25nLiBTZWUgMS42
+IGFuZCAxLjExKS4NCg0KMjAxMi0wMS0wMSAgQW50b25pbyBEaWF6IERpYXogIDxhbnRfZGlhekB0
+ZWxlbGluZS5lcz4NCg0KICAgICAgICAqIFZlcnNpb24gMS42IHJlbGVhc2VkLg0KICAgICAgICAq
+IFJlc3RvcmUgY29weXJpZ2h0IG5vdGljZXMgb2YgQW5kcmV3IEwuIE1vb3JlLiBJdCBzZWVtcyBB
+bmRyZXcNCiAgICAgICAgICBncmFudGVkIHNvbWUgcGVybWlzc2lvbnMgYnV0IG5ldmVyIGFzc2ln
+bmVkIGNvcHlyaWdodCB0byB0aGUgRlNGLg0KDQoyMDE1LTAzLTMwICBBbnRvbmlvIERpYXogRGlh
+eiAgPGFudG9uaW9AZ251Lm9yZz4NCg0KICAgICAgICAqIFZlcnNpb24gMS4xMSByZWxlYXNlZC4N
+CiAgICAgICAgKiBSZXN0b3JlIG9yaWdpbmFsIGNvcHlyaWdodCBhbmQgbGljZW5zZSBub3RpY2Vz
+IGluIHRoZSBjb2RlLiBJDQogICAgICAgICAgYXNzaWduZWQgdG8gdGhlIEZTRiB0aGUgY29weXJp
+Z2h0IG9uIGNoYW5nZXMgbWFkZSB0byB0aGUgcGFydCBvZiBlZA0KICAgICAgICAgIGFscmVhZHkg
+Y29weXJpZ2h0ZWQgYnkgdGhlIEZTRiwgd2hpY2ggc2VlbXMgdG8gYmUganVzdCB0aGUgbWFudWFs
+Lg0KDQoyMDIyLTAyLTA0ICBBbnRvbmlvIERpYXogRGlheiAgPGFudG9uaW9AZ251Lm9yZz4NCiAg
+ICAgICAgKiBWZXJzaW9uIDEuMTggcmVsZWFzZWQuDQogICAgICAgICogQ09QWUlORzogUmVzdG9y
+ZWQuIChJIGZvcmdvdCB0byBkbyBpdCBpbiAxLjExKS4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4NCj4gU2VudDogVHVlc2RheSwgRmVicnVhcnkgOCwgMjAyMiA2OjI1IFBNDQo+IFRvOiBXYW5n
+LCBNaW5neXUv546LIOm4o+eRnCA8d2FuZ215QGZ1aml0c3UuY29tPg0KPiBDYzogT0UtY29yZSA8
+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gU3ViamVjdDogUmU6
+IFtPRS1jb3JlXSBbUEFUQ0hdIGVkOiB1cGdyYWRlIDEuMTcgLT4gMS4xOA0KPiANCj4gT24gVHVl
+LCA4IEZlYiAyMDIyIGF0IDA5OjI2LCB3YW5nbXkgPHdhbmdteUBmdWppdHN1LmNvbT4gd3JvdGU6
+DQo+IA0KPiA+IExpY2Vuc2UtVXBkYXRlOg0KPiA+IHllYXIgdXBkYXRlZCB0byAyMDIyLg0KPiA+
+IGxpY2Vuc2UgY2hhbmdlZCBmcm9tIEdOVTMgdG8gR05VMi4NCj4gPiAgTElDRU5TRSA9ICJHUEx2
+MysiDQo+ID4gLUxJQ19GSUxFU19DSEtTVU0gPQ0KPiAiZmlsZTovL0NPUFlJTkc7bWQ1PTBjNzA1
+MWFlZjkyMTlkYzcyMzdmMjA2YzVjNDE3OWE3IFwNCj4gPiAtDQo+IGZpbGU6Ly9lZC5oO2VuZGxp
+bmU9MjA7bWQ1PWI3MmFhNWVhYWZlZjMxOGM2YmZjMzdmODU4NDY5MTEzIFwNCj4gPiAtDQo+IGZp
+bGU6Ly9tYWluLmM7ZW5kbGluZT0xNzttZDU9MmM5M2UyNGY0ZGIzNTI4YTAwYTI0YzdkZjU2MThl
+NDEgXA0KPiA+ICtMSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly9DT1BZSU5HO21kNT03NmQ2
+ZTMwMGZmZDhmYjlkMThiZDliMTM2YTliYmExMyBcDQo+ID4gKw0KPiBmaWxlOi8vZWQuaDtlbmRs
+aW5lPTIwO21kNT02ZTZhODE4YjA1OTNmOTM3ZmM2M2JhMDhkNWUzMTRiZiBcDQo+ID4gKw0KPiA+
+ICtmaWxlOi8vbWFpbi5jO2VuZGxpbmU9MTc7bWQ1PTg0MTlhMDhiYjEyOTM2ZjMyMzg0YTBkMWMw
+ZjllNzRjIFwNCj4gDQo+IA0KPiBJZiB0aGUgbGljZW5zZSBjaGFuZ2VkLCB5b3UgbmVlZCB0byB1
+cGRhdGUgdGhlIExJQ0VOU0UgZmllbGQuIEFsc28gYSBiaXQNCj4gbW9yZSByZXNlYXJjaCB3b3Vs
+ZCBiZSBhcHByZWNpYXRlZDogY2FuIHlvdSBmaW5kIGFuZCBsaW5rIHRoZSBjb21taXQNCj4gd2hl
+cmUgdGhlIGNoYW5nZSBvY2N1cnJlZD8NCj4gDQo+IEFsZXgNCg==
 
