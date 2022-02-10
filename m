@@ -1,118 +1,143 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27703C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 08:05:04 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.7491.1644480302997620758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032B8C433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 08:53:40 +0000 (UTC)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
+ [209.85.222.53])
+ by mx.groups.io with SMTP id smtpd.web11.7844.1644483218673703402
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 00:05:03 -0800
+ Thu, 10 Feb 2022 00:53:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=kVKbV6fK;
- spf=pass (domain: intel.com, ip: 192.55.52.120,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644480303; x=1676016303;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=noRZ14LKzzFw+V4Gt/CQp+xroTJww3/96Bvumch7ops=;
-  b=kVKbV6fKBMutysURRLFODA3YthDLmN+XfKIs1x3NjSlJiAmg8a4sw9jD
-   uAtb5zZqtbi2tN6rJ36lxaDWCF5b/x+mSgdW82mqzvCeOCCijy4FaV9ez
-   sISpesTco7mldJtZ4OZ9nHX6IJFw7cuqhHmtaAy3KZPqp1g4Er9IyxyPl
-   IsTbeDgStszIbS4cT1BfptODRyRzQEhA7bFFmUW+TijtJQabWKwVnNbb+
-   OQP9y27R3VMfIm3wmCY1/XTMrcXq1D4BrlToaO711E6y6yrdPWNJyRd1T
-   c6HnOLrYdj698KPJT5DN8QmxP0EyvNiIN2OzNRZVCcEIS01KSTTHn1zb7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10253"; a="248269161"
-X-IronPort-AV: E=Sophos;i="5.88,358,1635231600";
-   d="scan'208";a="248269161"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 00:05:02 -0800
-X-IronPort-AV: E=Sophos;i="5.88,358,1635231600";
-   d="scan'208";a="585880102"
-Received: from cchong-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.237.102])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2022 00:05:01 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/12] Pull request (cover letter only)
-Date: Thu, 10 Feb 2022 16:04:51 +0800
-Message-Id: <cover.1644480182.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eOFX8Awc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.53,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f53.google.com with SMTP id d22so2666703uaw.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 10 Feb 2022 00:53:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hr7D1H7scdZYiGUVSW892LhX4+yQMIymUhHKxrloyc4=;
+        b=eOFX8AwcZ/YtNLMq4M7LXqtJolOm/fvcKpPW9+I3C/W9nYSQrHAAaggaygtkx/ZLfl
+         lg/Bdv0d7DRMM8OynupEuSBzeFHA76Umm015PSipARfNw84AoiGiJj9hURCMBsxf7V70
+         SzcHtE6Tpzl5su9nAziuI4+zlDIbYy5StcwtPpBytf6jy7+EMsRAGneqOI4DuNxpP/wz
+         ajHOeJU3jggyErRy6uj2uLir0cckPW5MPA5GqG9MFzK+XS+yoAyKJwBtcvyJKp71K61W
+         novttBvSSJAvQook6uiVEkSqVFN3edP8+NDpEISWG4LTmNzf6SIkjjqb9KoRUX/Udju7
+         PI2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hr7D1H7scdZYiGUVSW892LhX4+yQMIymUhHKxrloyc4=;
+        b=wcmoEZZSIpIOY0oUqhglsWo4msEUlWklj+TYMVlciv4MLbQOSZEgCNojhWM3dlBG7U
+         1GQdpjZFSmxRufVnzgd2RKPeEJ0fXr2f8nAbkgNWjpiCX9Qy4n/IanrzY6rHAMgowtzA
+         PfzBqsKRid2cSbOtOiw/kcnVv2WS3ZI/2jsdhz6NCYUFai+MLrCrUMjoIjnVIhqCyE6c
+         nAXPtkK+di9tuqnb0Uy4oC06lv41AuH+OKSea0fjBrw0Qa7xtreYfX+tmkCbcWiH7SvV
+         yVjwWvWdmwVb+rYCszs8vh5F+KVqFOl7Sx2je8354nIFzwBtAyUH8AEF8VzEMTqswdVx
+         ulOQ==
+X-Gm-Message-State: AOAM532bPzOzmUppgzsdV4kmfFd8kKk+G4+dMy6fkoBxUyGybfeIa31h
+	ldxrOf1EYdQkl6+m+oM2NdBQf61srjO+gjz7fsE=
+X-Google-Smtp-Source: 
+ ABdhPJw6yLUSTLAj5J5QS+JFwfLlHBu2H958oDlrqlHaFWGm27tDeu5+C43InXUEsaCIpkveFRx3vbj9G78YlZX2M88=
+X-Received: by 2002:ab0:1d03:: with SMTP id j3mr2276635uak.100.1644483217410;
+ Thu, 10 Feb 2022 00:53:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1644308725-5262-1-git-send-email-wangmy@fujitsu.com>
+ <CANNYZj8X+Ryn4Jo5U=j=FcAjfff8o-J+TqZpr3HdGSA40amRVA@mail.gmail.com>
+ <OSBPR01MB18458CD72151816CE89F4962DC2F9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+In-Reply-To: 
+ <OSBPR01MB18458CD72151816CE89F4962DC2F9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 10 Feb 2022 09:53:26 +0100
+Message-ID: 
+ <CANNYZj8RdXuJ1nreTZxOC_dZdbfO6xibW7CzO5Zkq98F5cC_xQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ed: upgrade 1.17 -> 1.18
+To: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 08:05:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 08:53:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161601
+ https://lists.openembedded.org/g/openembedded-core/message/161602
 
-The following changes since commit d54d7e7b43da621be8e6fcca34feb7b3d49b8160:
+Thanks for the research. Yes, please do add this to commit and resend.
 
-  lighttpd: backport a fix for CVE-2022-22707 (2022-01-26 11:40:00 +0800)
+Alex
 
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Alexander Kanavin (1):
-  libusb1: correct SRC_URI
-
-Bruce Ashfield (2):
-  linux-yocto/5.10: update to v5.10.92
-  linux-yocto/5.10: update to v5.10.93
-
-Peter Kjellerstedt (1):
-  sstate: A third fix for for touching files inside pseudo
-
-Ross Burton (1):
-  yocto-check-layer: add debug output for the layers that were found
-
-Rudolf J Streif (1):
-  linux-firmware: Add CLM blob to linux-firmware-bcm4373 package
-
-Sakib Sajal (4):
-  qemu: fix CVE-2021-3713
-  qemu: fix CVE-2021-3748
-  qemu: fix CVE-2021-3930
-  qemu: fix CVE-2021-20196
-
-Steve Sakoman (2):
-  expat: fix CVE-2022-23852
-  expat: add missing Upstream-status, CVE tag and sign-off to
-    CVE-2021-46143.patch
-
- meta/classes/sstate.bbclass                   |  14 +-
- .../expat/expat/CVE-2021-46143.patch          |   6 +
- .../expat/expat/CVE-2022-23852.patch          |  33 +++++
- meta/recipes-core/expat/expat_2.2.10.bb       |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   5 +
- .../qemu/qemu/CVE-2021-20196_1.patch          |  54 ++++++++
- .../qemu/qemu/CVE-2021-20196_2.patch          |  67 +++++++++
- .../qemu/qemu/CVE-2021-3713.patch             |  68 ++++++++++
- .../qemu/qemu/CVE-2021-3748.patch             | 127 ++++++++++++++++++
- .../qemu/qemu/CVE-2021-3930.patch             |  53 ++++++++
- .../linux-firmware/linux-firmware_20211216.bb |   1 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 ++--
- meta/recipes-support/libusb/libusb1_1.0.24.bb |   6 +-
- scripts/yocto-check-layer                     |  13 ++
- 16 files changed, 460 insertions(+), 26 deletions(-)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-23852.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-20196_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3713.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3748.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3930.patch
-
--- 
-2.34.1
-
+On Thu, 10 Feb 2022 at 02:07, wangmy@fujitsu.com <wangmy@fujitsu.com> wrote=
+:
+>
+> As you can see the ChangeLog shown below, in version 1.5 the maintainer m=
+istakenly changed the copyright holder from Andrew Moore to the FSF. In ver=
+sions 1.6 and 1.11 he tried to fix the mistake, but he forgot to restore th=
+e original COPYING, which he have done now in 1.18.
+>
+> Therefore, in addition to changing the LICENSE field from GPLv3 + to GPLv=
+2 , should I add relevant information in the commit?
+>
+> 2010-08-30  Antonio Diaz Diaz  <ant_diaz@teleline.es>
+>         * Version 1.5 released.
+>         * Change copyright holder from Andrew, Antonio to the FSF.
+>           (This change was later discovered to be wrong. See 1.6 and 1.11=
+).
+>
+> 2012-01-01  Antonio Diaz Diaz  <ant_diaz@teleline.es>
+>
+>         * Version 1.6 released.
+>         * Restore copyright notices of Andrew L. Moore. It seems Andrew
+>           granted some permissions but never assigned copyright to the FS=
+F.
+>
+> 2015-03-30  Antonio Diaz Diaz  <antonio@gnu.org>
+>
+>         * Version 1.11 released.
+>         * Restore original copyright and license notices in the code. I
+>           assigned to the FSF the copyright on changes made to the part o=
+f ed
+>           already copyrighted by the FSF, which seems to be just the manu=
+al.
+>
+> 2022-02-04  Antonio Diaz Diaz  <antonio@gnu.org>
+>         * Version 1.18 released.
+>         * COPYING: Restored. (I forgot to do it in 1.11).
+>
+> > -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Tuesday, February 8, 2022 6:25 PM
+> > To: Wang, Mingyu/=E7=8E=8B =E9=B8=A3=E7=91=9C <wangmy@fujitsu.com>
+> > Cc: OE-core <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] ed: upgrade 1.17 -> 1.18
+> >
+> > On Tue, 8 Feb 2022 at 09:26, wangmy <wangmy@fujitsu.com> wrote:
+> >
+> > > License-Update:
+> > > year updated to 2022.
+> > > license changed from GNU3 to GNU2.
+> > >  LICENSE =3D "GPLv3+"
+> > > -LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D0c7051aef9219dc7237f206c5c4179a7 \
+> > > -
+> > file://ed.h;endline=3D20;md5=3Db72aa5eaafef318c6bfc37f858469113 \
+> > > -
+> > file://main.c;endline=3D17;md5=3D2c93e24f4db3528a00a24c7df5618e41 \
+> > > +LIC_FILES_CHKSUM =3D
+> > "file://COPYING;md5=3D76d6e300ffd8fb9d18bd9b136a9bba13 \
+> > > +
+> > file://ed.h;endline=3D20;md5=3D6e6a818b0593f937fc63ba08d5e314bf \
+> > > +
+> > > +file://main.c;endline=3D17;md5=3D8419a08bb12936f32384a0d1c0f9e74c \
+> >
+> >
+> > If the license changed, you need to update the LICENSE field. Also a bi=
+t
+> > more research would be appreciated: can you find and link the commit
+> > where the change occurred?
+> >
+> > Alex
 
