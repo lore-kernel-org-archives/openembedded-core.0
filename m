@@ -1,106 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C68CDC433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 10:54:08 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.8732.1644490447528647437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1FA1C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Feb 2022 11:40:14 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web12.9167.1644493213490355966
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 02:54:07 -0800
+ Thu, 10 Feb 2022 03:40:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RnkP+BdE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id v129so3191534wme.2
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=mHZkW3aD;
+ spf=pass (domain: burtonini.com, ip: 209.85.160.169,
+ mailfrom: ross@burtonini.com)
+Received: by mail-qt1-f169.google.com with SMTP id k25so4842712qtp.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 02:54:07 -0800 (PST)
+ Thu, 10 Feb 2022 03:40:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+zG0xR/p4//JF+H3OqB6mJgCpj7GTuMmNFz9zhR2vk0=;
-        b=RnkP+BdE2SgUpx6Ky0hTRKP/ThxV9/UVxRaVKDjdGfYxch/DPPPo1hLBBifYlnkW9G
-         P1iFZps9GqyWFQfZWsB54Y+Y32DIsDoOeVIZ4GXzoijEceu2xNwu9dPGl128LYCK81Yt
-         KQU2GwaFwVP7QAX3hfTn97IRcD3t+3Xi6Pz7s=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pXx+HSM0J503qalN5yohs2Y/xzurQu7K9PKZKAYGu/I=;
+        b=mHZkW3aDooGlOBFmeKJq6xsy/+3yxbvk5an+J2MxUU2HyjtMkqry0YLrCNxOvZsibo
+         IHTqnfT1grKsQWRrPVarNi8C87uN1r4WE6O1J+xnZxudxEy2Xzrt21vJZkChPiTmgD9X
+         amLirJdHclMp4LXA+2mon39PTbR8pc+XiIvk2/qrdBrY9n89mA6+ILb6gqoLgbLM0OtO
+         M6jBoA3UZDsZZdAat0BssQZ+0YPxrYX1ukDSyXDE7Ma51QlsYLmxF3Wyy2Jqi8hGDVbB
+         UDTlio7rC08v88MZoWDPaPiAuVTQnnD20a2ic/nqBdVQ6RIqzjIvYnIZ0ZFSGU2QtQmY
+         VuzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+zG0xR/p4//JF+H3OqB6mJgCpj7GTuMmNFz9zhR2vk0=;
-        b=b9DNvPOBvcBK0QgkuhBOzFZ2A8+khW0RL+cZ341f+fD6A7mXiGAqM9h3NuMciqq9ZZ
-         WpN2H8kw1QQZeIoPowDISDKepFp05VhNLt2AgUPRypw2lvh74DzU5/nC7OLfiHra9CeF
-         9vRDauSou1GasV/5PgJ6dw+S/tXZ9CWom/eR+mKoC5mA89RVjMfmkxLOY+FTS/qEH/V/
-         NhpRSUb/B4W81hO144Rg0220eZk9l29lklH2kgN7yGG3uI3870FlufmkwL72MpkSU55k
-         FILHFM6xRQu0JTNLLSt0CXulP7RkmFTVghPeQNgGBx73AK/FPAVtrdvNCiUdImywW6DD
-         8Qxg==
-X-Gm-Message-State: AOAM531Sk8R3fcAaZol738OPC47yha+tdfZyou9Q09SkEnoVmP2OWVU8
-	Y8CRBs3Oh2Af6FwWoGJdqQs3IQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pXx+HSM0J503qalN5yohs2Y/xzurQu7K9PKZKAYGu/I=;
+        b=T7pT8tLE/n9/cn5UOKlhs4XAO/QPy89XAD6gtNIEVczW1UhJJe6ZL8YMQTF2d8WjdR
+         nHwTle7HQW+Cyphqd/tongyte0eRAdar4yYf7AZWiwDF/Oi7xKaod85tFq/qQtKzPDw2
+         zdDmQKsAXJGrqdemWiZGQHxRJPV5B4+1xbi7/1n2vh+6EybJ5MNYru36j5MWiO5p+W5q
+         ZdMRJsRM4eflXcQBqzNGPMiup3YOlSdtqQAAcRIicAE59Ms58vOfbEi0UCQ9AHM4XqXn
+         3nfppfk3w5pSuBNjw1QpjZyBi/Bmq1adxJWpKHDoD5UQpeN+q+ZlrJTykEFlqfuTleov
+         hX9g==
+X-Gm-Message-State: AOAM530tGbOhvF6CZYz/0pTxiUqzkpsj/NJbfwH0cdmYG33aSs1mTrD7
+	a8OOAJlfB6Lgf81AQaztf+Tok6a6WFOICi8oUns275F16LPcWg==
 X-Google-Smtp-Source: 
- ABdhPJwA/ShgxO7aHYctBbFDjfdnjPzDc/F/4A/HoYVihH/5YXAD0uPraNTRUq/InNJs8rfYG9XnlA==
-X-Received: by 2002:a7b:c184:: with SMTP id y4mr1653627wmi.117.1644490446092;
-        Thu, 10 Feb 2022 02:54:06 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7dcb:9837:5409:449e?
- ([2001:8b0:aba:5f3c:7dcb:9837:5409:449e])
-        by smtp.gmail.com with ESMTPSA id
- z3sm1383058wmp.42.2022.02.10.02.54.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 02:54:05 -0800 (PST)
-Message-ID: 
- <c54b8a5fbe59b21a862d5b6519e4f8872458f694.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] kernel-module-split: modules should
- recommend the kernel image
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, Bruce Ashfield
- <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Feb 2022 10:54:04 +0000
-In-Reply-To: 
- <CAAnfSTvsN7DSuiGvSfLF2OgJXNW7QEZK+LZdNuvTcrYk3eUMvA@mail.gmail.com>
-References: <20220209173036.3823144-1-ross.burton@arm.com>
-	 <20220209173036.3823144-2-ross.burton@arm.com>
-	 <CADkTA4NG8wAoMQtpwbvf2hia23JnGsbboERY4H61GxMpyms5JQ@mail.gmail.com>
-	 <43fe0dbf3548f549d1c0161d2a55f633a9c27122.camel@linuxfoundation.org>
-	 <CADkTA4Ms8yb5Jn3K8N2BZktLYHtfDwp0ym_OVke16G4ER_739w@mail.gmail.com>
-	 <CAAnfSTvsN7DSuiGvSfLF2OgJXNW7QEZK+LZdNuvTcrYk3eUMvA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJxj3DQfLiLzg/1xvXEqK1hdqmqIlaFtMGL8T335gpf8dNKULZtY7JVnrDQ2H2Nn/hnP8O2ULWv5ifV3lPnPfXQ=
+X-Received: by 2002:ac8:5854:: with SMTP id h20mr4486184qth.22.1644493211202;
+ Thu, 10 Feb 2022 03:40:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220209125315.3177811-1-ross.burton@arm.com>
+ <1fa6164c-8a8b-e706-2385-d9c04ace1c5e@gmail.com>
+ <5c62a8c54a42a51c039712d3741bc60606959c82.camel@vaisala.com>
+In-Reply-To: <5c62a8c54a42a51c039712d3741bc60606959c82.camel@vaisala.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Thu, 10 Feb 2022 11:40:00 +0000
+Message-ID: 
+ <CAAnfSTuSr0pVBu7A+gKY87nAtA4Wrwf_T=ySqUsMCaKd6MXbEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cmake: stop FetchContent from fetching content
+To: Eero Aaltonen <eero.aaltonen@vaisala.com>
+Cc: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 10:54:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Feb 2022 11:40:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161606
+ https://lists.openembedded.org/g/openembedded-core/message/161607
 
-On Thu, 2022-02-10 at 10:52 +0000, Ross Burton wrote:
-> On Wed, 9 Feb 2022 at 20:10, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > I've always just used this (from kernel.bbclass):
-> > 
-> > # Allow machines to override this dependency if kernel image files are
-> > # not wanted in images as standard
-> > RDEPENDS:${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image
-> > (= ${EXTENDPKGV})"
-> > 
-> > Maybe that's the one you are remembering ?
-> 
-> Obviously this won't work in the situations where you want a normal
-> image with a kernel but also a initramfs with a kernel module in it,
-> as that behaviour isn't machine specific but image specific.
-> 
-> If this was a recommends then it could be removed via PACKAGE_EXCLUDE,
-> but we'd need to be sure that nothing from the kernel ended up getting
-> pulled in via a single module.
+On Thu, 10 Feb 2022 at 10:13, Eero Aaltonen <eero.aaltonen@vaisala.com> wrote:
+> > what is cmake's default ? I think it could become a constant source
+> > of pain if it is not default. Since many cmake based packages might
+> > start to depend on it indirectly in future.
+>
+> CMake's default is to allow downloads.
+>
+> It's possible to write CMake projects so that they try find_package
+> first and then fall back to downloading. I think
+> FETCHCONTENT_FULLY_DISCONNECTED might be a helpful flag so that the
+> build can then simply report if a required dependency has the wrong
+> version or so.
+>
+> CMake projects that use _only_ FetchContent will likely need heavier
+> patching.
 
-I think making this a RRECOMMENDS and doing that may enable more workflows and
-make things easier all around. Can you check and see if it does pull other
-unwanted stuff in? I'm hoping it doesn't.
+The reasoning for this patch is that with the network isolation change
+the FetchContents will fail, but as in some environments the network
+isolation doesn't work (eg Docker containers) we can disable
+FetchContent explicitly too.
 
-Cheers,
+Yes, projects which just use FetchContent are a pain.  Lets guess why
+I wrote this patch. :)
 
-Richard
-
+Ross
 
