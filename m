@@ -1,94 +1,78 @@
-Return-Path: <purushottamchoudhary29@gmail.com>
+Return-Path: <martin.beeger@online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D71EC433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 12:48:54 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.6765.1644583733655595059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3886C433F5
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 12:57:34 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+ by mx.groups.io with SMTP id smtpd.web08.6757.1644584253801643061
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 04:48:53 -0800
+ Fri, 11 Feb 2022 04:57:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IAUxQ9bS;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: purushottamchoudhary29@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id u12so4578461plf.13
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 04:48:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=pqq0sMj7VbZcjZuwpJCLV7snXxpM6y5GIO3znCaRerY=;
-        b=IAUxQ9bSVrO6Yz2EHIlm6GEg5fP4fHuUwvIViQwy+8MH32sthPqJ7Wjj7CGQYm8vog
-         yDQxPB4um5koYxtiUxqEX1T4XUD9t8UYUzfvGPqvFwvWW2pWG4v+qsNupg/wSCmpF+J6
-         FP8P/U69cdqxxjNIIV+5ZvElHRLIYZcDv8nXvRt1SIK36OS8xpN/bX0cPsOo5cesKBVA
-         RY9qRBzTD4uBNiJ8ja0m5tnJbFpDXs9vQC/udpA5r1H2rnlOA+AWxKmv0XVLX6BEUT66
-         18k0/UWm6DbrF11Cv9UxfStRfE2vg5w4HB3NwL0v9KkIzxbXYrULp3FOC3RAwBObUFzq
-         MMHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=pqq0sMj7VbZcjZuwpJCLV7snXxpM6y5GIO3znCaRerY=;
-        b=SwCE3AstOCk4MvEtTWV4WlFzremAh/ikH1oYtBv+DHMp9Ht7OmFIevmDbw3ieQf971
-         RVIm1CzgYywCOgRHCnhyE8Yv5wIJ7MXDPO4jCgFemUfbeKZXhWFhGanAXPULApAdWfiP
-         +clCZ/E6zguZ07MU5H9LDd0wFMu69uLyiBuFKvhTCALFMLGd1h58MTa0vKmFp68pY+TC
-         kyFet+/huXr/t5t6LJ8WPw+uNYV3kgLHZSZzIQXiddyh4AgliesPLI34AzCLPgtIeaXt
-         JrUi4txb7jx/Ju9BercSSXu1MLdYYO8rAw0Pv+WO4T9R5E4+73g8EQ1QHXNC5h67EnT0
-         nFxg==
-X-Gm-Message-State: AOAM533BfhyEi8YSHQoIl6a3qJnkHEqgr4R11tIw0IZORGkVoJy8TkZy
-	viRREAvHCx5Lzhf0TKKLCE2ecF3UAtujUw==
-X-Google-Smtp-Source: 
- ABdhPJwi7sXzX1aCWq0XmNmcqfp6Yu1oxJ1F2+RK5/afwYEdOjrttbQY14VhW9zSSEC95WIozqRL2Q==
-X-Received: by 2002:a17:90b:1c01:: with SMTP id
- oc1mr175419pjb.161.1644583732202;
-        Fri, 11 Feb 2022 04:48:52 -0800 (PST)
-Received: from localhost.localdomain
- ([2405:201:a410:a06c:9d54:8ba4:3c36:8927])
-        by smtp.gmail.com with ESMTPSA id
- lk15sm5566821pjb.31.2022.02.11.04.48.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 04:48:51 -0800 (PST)
-From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+ dkim=missing;
+ spf=pass (domain: online.de, ip: 212.227.17.24, mailfrom: martin.beeger@online.de)
+Received: from perlenbacher.bvd.indurad.x ([194.8.217.178]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MN5W7-1nZCta2Wij-00J3RV; Fri, 11 Feb 2022 13:57:31 +0100
+From: Martin Beeger <martin.beeger@online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-Subject: [OE-core][dunfell][PATCH] freetype: add missing CVE tag
- CVE-2020-15999
-Date: Fri, 11 Feb 2022 18:18:24 +0530
-Message-Id: <20220211124824.20911-1-purushottamchoudhary29@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Martin Beeger <martin.beeger@online.de>
+Subject: [PATCH] cmake: remove bogus CMAKE_LDFLAGS_FLAGS definition from
+ toolchain file
+Date: Fri, 11 Feb 2022 13:57:14 +0100
+Message-Id: <20220211125714.3831-1-martin.beeger@online.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XtT2zxL2J028IRzbUQNKRP3YMjSEwSETtIVq7rvjTX2xweTeXfZ
+ EA4QxmziVUKVIcj0mfhkoCgY4Pk2YmG4+wupzPPApw/t6EJ+IKGkqAJy7sllfqn1OoeM+5W
+ 2hD/lCP52Vp+y0iqjj+R42AXi+cy1syJBXsm2FUYWgdmOEr3J85DOvx+JVN4/0YZzLNGYCf
+ Lqnx4WgSSj6PEdQnzCXNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UbavQBkqSbs=:DnvOYJzMlbkhT4WwrBT/Ff
+ XZTDkVkfY/BLCMav9V3+Yx7RvqMCAjBf/HboJPDt7iObkey2nKeE9qppKhkvEb0qtRYT82Tra
+ ZnsyNlue7ZE3ci35uk7JdXEmfSW1pa3R7UmAGRyumdYOYbxVY5EMeDPD3LCNEc38PhQFDuQ4U
+ E71Qk6rn4DCELFk4kWLCDMj0WVCRzhdrstOuljopXl3SLDXcfvYgeOCjnxNpGCTXmboTVGtrG
+ uJ8sM7RwARGjiC/8RQR4LgOeRtAWznHptoyhj+jnSpOR7wKeAjXjKgL/0RymYyOyGVYr6SeGN
+ cZAjO6t7N2BSVqEDtYuYPuuPER/gV+Zu6pfeS91Tjad2KjHi5/YFovdoyTVhWIRPB2EGQcUS0
+ hp+ms6HMFL50cMr1zoePq30o+zPFqpJDo1n0s7oJ8eXRtmRNqOdH11HqlCUKv19BNYCJ7qJjn
+ Ov09vjfm1wtpvC9FNCLStU9FgA9UUSE4WW4Gp+gLvBkjLnHh3WgBejq6Z15xozm/t5I5QN/+1
+ BvX9gSFYHDb0++ZczmA2VzfeYpOPGxJ0U+yWYcl6bJcrYgSB/6CgddGvDgfyiqp9irhCQL+ft
+ JOA6XLgQakPvaCaIECT5AtWSooGv73MozMXK9u71s98Hk4xn1FbzmlUwhPOlconPOex5iIhIi
+ F5eEMG/QwtGZYKTZZKyg9PjljtbEt6jI/k9R7fB+EtwUnYs3UH2blHwTUqblx76MqfLumBKHx
+ MpXM7WNq6iyBqksE
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 12:48:54 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 12:57:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161647
+ https://lists.openembedded.org/g/openembedded-core/message/161648
 
-Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+As discussion in [YOCTO #14717] cmake contains a OEToolchainConfig.cmake
+file to configure the toolchain correctly in cross-compile build for recipes
+using cmake. The variable CMAKE_LDFLAGS_FLAGS is spelled incorrectly, cmake expects
+CMAKE_SHARED_LINKER_FLAGS, CMAKE_STATIC_LINKER_FLAGS, CMAKE_EXE_LINKER_FLAGS and
+CMAKE_MODULE_LINKER_FLAGS to be set instead. As cmake already correctly initializes
+these from environment there is no need to specify the linker flags in the toolchain
+file at all. So this just removes the variable, as its value was also set wrong.
+
+Signed-off-by: Martin Beeger <martin.beeger@online.de>
 ---
- .../freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch    | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-index fa8a29b798..31f9e32dc2 100644
---- a/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-+++ b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-@@ -6,10 +6,13 @@ Subject: [PATCH] [sfnt] Fix heap buffer overflow (#59308).
- This is CVE-2020-15999.
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index 8f6f3a272d..86446c3ace 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -2,7 +2,6 @@ set( CMAKE_SYSTEM_NAME Linux )
+ set( CMAKE_C_FLAGS $ENV{CFLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_CXX_FLAGS $ENV{CXXFLAGS}  CACHE STRING "" FORCE )
+ set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+-set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_SYSROOT $ENV{OECORE_TARGET_SYSROOT} )
  
- * src/sfnt/pngshim.c (Load_SBit_Png): Test bitmap size earlier.
-+CVE: CVE-2020-15999
- 
- Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=a3bab162b2ae616074c8877a04556932998aeacd]
- 
- Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-+Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
- ---
-  src/sfnt/pngshim.c | 14 +++++++-------
-  1 file changed, 7 insertions(+), 7 deletions(-)
+ set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} )
 -- 
-2.17.1
+2.20.1
 
 
