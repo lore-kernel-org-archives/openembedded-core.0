@@ -2,76 +2,76 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED4AC433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 01:12:14 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web08.1532.1644541932459218561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AEE4C433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 02:17:41 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.1])
+ by mx.groups.io with SMTP id smtpd.web11.2294.1644545859170589306
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Feb 2022 17:12:13 -0800
+ Thu, 10 Feb 2022 18:17:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=mF5+g7JR;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=SR9B1157;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1644541930; i=@fujitsu.com;
+	s=170520fj; t=1644545856; i=@fujitsu.com;
 	bh=IVraIppuk2xKZluwGoc+N24PZMBWlFm00UT5L40qNPs=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=mF5+g7JRGNK97fvkurZv5ALjEkyPCWQSJu3t+gjGdO2KoLW9kHhKJtt7yPGj4mxIx
-	 1Lkr2gtxIH8Zhb+xv4tZ8dvyWqJFZcDc6bOogMKJZjvKxscdIpCS6Z4jApvcP29KJN
-	 cufSmZRmBF5KKxo8QPqJHdN4cmYiB/1MAXlJelx/7gihfoChQocgekCQph9I9IPXIf
-	 nRIZUAR4XZXs6xobKP3Zroxq1gx160rGg414xzssMPO9COixbsVLRzJdv7HQOBu3Uj
-	 OYYRT15ydoynOtyaPWWiYykd7NPgRwvRfKeyzW2webWucLw4zpD+MVUR9++ELTRlgt
-	 S95vlk2xONOzw==
-Received: from [100.115.2.51] (using TLSv1.2 with cipher
+	b=SR9B1157eB7cU8gaKs6c/Gpntj+ApSQ/AliM4K+9xMuQtlFYIfp5HJIwQiMipP2vn
+	 7nfB6ck+LRSclIQjgE9QkyTbD4AIcxVdYWiaHzdtIP3YdFjO1y00FuQp5EkmCVh9BC
+	 HErG4ajS9GEMLFWHKKox+g8XcjjTZmshU74iP9ewKRXWONq25baQMgmqw2lKIDOb8H
+	 ORtSU7Cs3//1yK7UQjWsCSjeEgsPEM499cT1juQtGwXkJd8MGa5LXhs9CfTA171uhg
+	 /3+a2qzBXocva+5PCDiceioRhVNIiDOg64IdkXhxxUtOuho4z+18/hnlomOFtGVZ84
+	 inwZYHEboxbzQ==
+Received: from [100.115.37.16] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 7F/6B-00700-AE7B5026;
- Fri, 11 Feb 2022 01:12:10 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8ORqPtqO2u
-  SwcejTBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aFv3uYC75LVGw72sDSwLhOtIuRi0NI4DGj
-  xLRpp9kgnPNMEreermOBcE4wSkxevQPI4eRgE1CTmH7rBmsXIweHiICexNV/oiBhZgEViRe/e
-  9hBbGEBY4nT346A2SwCqhInrh8Ca+UVcJJomn+RDcSWEFCQmPLwPTNEXFDi5MwnLBBzJCQOvn
-  jBDFGjKDH7cjMLhF0hMWtWGxOErSZx9dwm5gmM/LOQtM9C0r6AkWkVo1VSUWZ6RkluYmaOrqG
-  Bga6hoamuia6RsaVeYpVuol5qqW55anGJrqFeYnmxXmpxsV5xZW5yTopeXmrJJkZgUKYUs7zf
-  wdjU91PvEKMkB5OSKG+1M2uSEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQleqS1AOcGi1PTUirTMH
-  GCEwKQlOHiURHizlgCleYsLEnOLM9MhUqcYFaXEeeO3ASUEQBIZpXlwbbCovMQoKyXMy8jAwC
-  DEU5BalJtZgir/ilGcg1FJmDcdZDtPZl4J3PRXQIuZgBZvm84EsrgkESEl1cBkcf7NXN6lERy
-  eN/7df3sg05FxcYexxfuOsrRb59cvydBNuqbUsvJLXL7AHvG8s6tlHq/pa8jyfHWQ+cx+4Xym
-  Fwvi3BsK3D6Ux968+OmYQ2WZze/JUW800rTETcVeXPey8V/w/06mdLSo/bXl077ss7H9tuuyx
-  bbYk07zpgiEeGanP789vejlxc+qfG8vvM3UvHu6LMqF+aDXxU7lIJvD68KTdr2ps2E34NvZrH
-  np+8N/VbI2AdLKAr3uS/oUm94d+r1wSejL/s8r+asZjunyWiXzTf6RGut7t+vhUlk2tdOX/rm
-  +fWK2775Uyv8Vet8nd76x99vnW3w6RuLUwoxvB6c0pS1m3z9RSOf5yv92SizFGYmGWsxFxYkA
-  CVB7u0UDAAA=
+	by server-1.bemta.az-a.eu-west-2.aws.ess.symcld.net id B6/39-14616-047C5026;
+ Fri, 11 Feb 2022 02:17:36 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRWlGSWpSXmKPExsViZ8ORqOtwnDX
+  JYFIjh8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnHh7x7mgu8SFduONrA0MK4T7WLk4hASeMwo
+  8XHuUVYI5zyTxKKz8xkhnBOMEuv+zQJyODnYBNQkpt+6AVTFwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBMYt/P60wgNouAqsT5w1tYQWxeASeJM/PXs4HYEgIKElMevmeGiAtKnJz5hAVijoTEwR
+  cvmCFqFCVmX25mgbArJGbNamOCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYrROKspMzyjJTczM0TU
+  0MNA1NDTVNTbWNTS31Eus0k3USy3VLU8tLtE10kssL9ZLLS7WK67MTc5J0ctLLdnECAzLlGLF
+  zTsYJ678qXeIUZKDSUmUt9qZNUmILyk/pTIjsTgjvqg0J7X4EKMMB4eSBG/OMaCcYFFqempFW
+  mYOMEZg0hIcPEoivHVHgdK8xQWJucWZ6RCpU4yKUuK8e0D6BEASGaV5cG2wuLzEKCslzMvIwM
+  AgxFOQWpSbWYIq/4pRnINRSZjXAWQKT2ZeCdz0V0CLmYAWb5vOBLK4JBEhJdXAVO61OXs7Q/e
+  WPRYHrx5j8zZjDv2weqH0Np+G3R5v1obOep88WV/+49aHb7NDbq//+fbJyyUWYS5scc5/mg6L
+  /HjQaq1pPsd4acgNjUmTj7CvcN7rylJ/4dIRp+e7vr4VqNi7V+7/x5k7Vmsw3v6eOmXSn3ZGH
+  0lnhQLzG8bhQiJLBCslLzi3fVRsT/LU2v9shV9GjuZ7twj5GIsCuf2OgmaMl7ds/fDoUcSz39
+  +yTVMzrKP2sBw78sNF0s/ht0DJ01MOAvfeWbP5iBxzv+PyzWC6j+c7N7ajy9jmdZQcPasYvzH
+  rmHHOX9ZrC29x1BZMcvwWmD9N5qDo+Q12/DNUmUwertT8ZrxqzePfC0utBZRYijMSDbWYi4oT
+  ASFhYuBGAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-8.tower-591.messagelabs.com!1644541929!52579!1
+X-Msg-Ref: server-2.tower-548.messagelabs.com!1644545855!56934!1
 X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1241 invoked from network); 11 Feb 2022 01:12:10 -0000
+Received: (qmail 21356 invoked from network); 11 Feb 2022 02:17:36 -0000
 Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-8.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 11 Feb 2022 01:12:10 -0000
+  by server-2.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 11 Feb 2022 02:17:36 -0000
 Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 90DA710018A
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id BCE6A1001A3
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 01:12:09 +0000 (GMT)
+ Fri, 11 Feb 2022 02:17:35 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 84B77100186
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id B0147100198
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 01:12:09 +0000 (GMT)
+ Fri, 11 Feb 2022 02:17:35 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Fri, 11 Feb 2022 01:11:48 +0000
+ (TLS) id 15.0.1497.28; Fri, 11 Feb 2022 02:17:16 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] ed: upgrade 1.17 -> 1.18
-Date: Fri, 11 Feb 2022 09:11:39 +0800
-Message-ID: <1644541899-13114-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] ed: upgrade 1.17 -> 1.18
+Date: Fri, 11 Feb 2022 10:17:08 +0800
+Message-ID: <1644545828-13298-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -82,9 +82,9 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 01:12:14 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 02:17:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161631
+ https://lists.openembedded.org/g/openembedded-core/message/161632
 
 License-Update:
 year updated to 2022.
