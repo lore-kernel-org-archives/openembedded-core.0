@@ -1,137 +1,123 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE0BC433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 19:36:31 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web09.453.1644608189585017464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 286A3C433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 23:24:01 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.3161.1644621840022051226
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 11:36:30 -0800
+ Fri, 11 Feb 2022 15:24:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=V4NCeesW;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id x15so1328515lfu.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RegYBqbr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id v12so17662571wrv.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 11:36:29 -0800 (PST)
+ Fri, 11 Feb 2022 15:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=tK/6IJAC0DVlYHPdo8uZWE+GgZ1j6BB/NN4AoMisxTE=;
-        b=V4NCeesWm5LfIBNVWjZSZATZbjTLIrUOUVJffnHjM/rhp0t3DVHclOjk8bbevQc4iz
-         RVEEluAwTn8wHLikouYux74uta2gY+rtrZfL7MW9vRwfPkV5SZFlzGJM+RciwdgqpyaP
-         MghzauQAhQSErhpeK7KGUKg5H1UDvACfd3Iqt/sjbnU6i8VubMBzetms9sMbzkLpsn4d
-         UgBeAhZYxBCFHf+gU+bt7jA0ru4s4wY1BQzeZk2BgEGB9h10I1KtaxEEy99u3ZDamdrl
-         z0rgxN8CGC3fHwOaTjT8CO5D0WKSh1HnNtnwn6BNzdTAqrxRchRh94eZNJO0IgLdxf3X
-         Hutg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=VV+dwXxTyhYAgtKbfWod8p4ajYAeUDwS2W8hlBkt5n8=;
+        b=RegYBqbrfAq1FL+1gMVtGH/cZ+IZzHoC3aIl4TLib5ab/jp1OQ5/2rjPSfc99a241a
+         GG8Xg6jpNaA+xORP9+FXbC7wc6euewA8BVtJ2WW7igY8U5JR9Bk1aJ2G7eDGk5pBUeCE
+         wHjz5nSv6aZkvlcetWDyJGShLGx83SIVuEL3g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=tK/6IJAC0DVlYHPdo8uZWE+GgZ1j6BB/NN4AoMisxTE=;
-        b=KrpNTMFzfFxlpS/kKqc79sLURIBdMMUBGC+6Yzw83/bLbuHzigLs3CYM4jCygmWysJ
-         8edStbQpV9lmZqwZ0SClWx/zhudcsCcy9LQTJhu1rcOu1fwVHGcYAWumNhelw8TkMQak
-         a217TNdhK6US+KxYQFR3so4A8FfTr4GBsmVwO+GkoNDejTuTKJNhnxcNqXj0xq5TGWx0
-         6w+u9fgVtlY0+wHffLPK9gjnWfJJPpI6tIDjrSErNs3t9xRHaWNsaiLvJu78fTWzOZgC
-         xJ7WaZG/GRMnctVQ5c6zblYuKaS9lwvEDGCxBhzLdIPQTHtXXegwvDpt7Uga8CRj0tMl
-         4xXA==
-X-Gm-Message-State: AOAM532Liv7CI1M3F0F4mvgZCgYFRbJByebe7/JuzF85SuAaerPznZr5
-	wg4UlDQFCxltuKKr6Ft9X/I=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VV+dwXxTyhYAgtKbfWod8p4ajYAeUDwS2W8hlBkt5n8=;
+        b=N21hUbKCiO8slCSa4oXV3KXFYWiHWi2yozgb2MF7WUMta+jzHXjZ1xq5Eio56ok3WV
+         xDu8hv0vLELXnelgAr5zMphddjv5JzjNALf8mWT/RzemdKFx33OmhzWv/JOmNjYSZxcw
+         zx3uHWwf8jyOFL5zvpTokKavQE3Q+jwvK8y6vCtEzFNIR5HvFx55lZEIFJtgCltZMwO8
+         QlLxLibjsOMXNovs8LaF46rkmOYjrHHJnaIHvm7rGXzAD9XZwSi6oFiFWenxTWJfDIqb
+         T1dQb84ymBdZbr44iBnWC01YVe7wlc6uLAbqN3TZR6f2PISsfNvjIA/k9SSo02SAdJMb
+         jY5Q==
+X-Gm-Message-State: AOAM532xovnD73Gz0dM0E2KWHEgo92sfgCyCqToG9BWolDLFemF+CSe+
+	TvqAnhAB0XVZf6Xbnwkxv3t+Pg==
 X-Google-Smtp-Source: 
- ABdhPJwKR1gQsvfdf9CnlJD4CSbPIr9defJXiu/jZTRiPbEp4fAdVPQNds/v3d4bs5r3v3jf2c60Aw==
-X-Received: by 2002:a05:6512:139e:: with SMTP id
- p30mr2293659lfa.502.1644608187763;
-        Fri, 11 Feb 2022 11:36:27 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
+ ABdhPJxyg3UjkUNiju5s8w3G7Z38FCiE2RLrYRqoleD/LoTNn44yJtoo3W3imxT1kO+nQbq76UDfaA==
+X-Received: by 2002:a05:6000:168c:: with SMTP id
+ y12mr3063540wrd.593.1644621838548;
+        Fri, 11 Feb 2022 15:23:58 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8ec5:268f:bfc7:dcae?
+ ([2001:8b0:aba:5f3c:8ec5:268f:bfc7:dcae])
         by smtp.gmail.com with ESMTPSA id
- u12sm686068lfo.117.2022.02.11.11.36.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 11:36:27 -0800 (PST)
-Message-ID: <b5070bcc-c01b-6011-2788-2b5e15397e6c@gmail.com>
-Date: Fri, 11 Feb 2022 20:36:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH] default-distrovars.inc: Switch connectivity
- check to a yoctoproject.org page
-Content-Language: en-US
-To: Ross Burton <ross@burtonini.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20220211174613.2732343-1-richard.purdie@linuxfoundation.org>
- <CAAnfSTvhtTsY1SjWrSdf=3LydUS_RrGnjc1xkM+vQ_Jh3h9Etw@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
+ s7sm6033368wrw.71.2022.02.11.15.23.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 15:23:57 -0800 (PST)
+Message-ID: 
+ <cc48a1cbe0f346f6cb1857ff71269315ccaa54fc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] gio-querymodules: error while loading shared
+ libraries: libffi.so.6: cannot open shared object file
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bryan Evenson <bevenson@melinkcorp.com>, Alexander Kanavin
+	 <alex.kanavin@gmail.com>, Alex Stewart <alex.stewart@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Feb 2022 23:23:56 +0000
 In-Reply-To: 
- <CAAnfSTvhtTsY1SjWrSdf=3LydUS_RrGnjc1xkM+vQ_Jh3h9Etw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ <CH0PR20MB3948B7386896646FACB9798EBB309@CH0PR20MB3948.namprd20.prod.outlook.com>
+References: 
+	<CH0PR20MB3948AC26096D485ED45706F6BB2C9@CH0PR20MB3948.namprd20.prod.outlook.com>
+	 <CANNYZj9_bX2BLzXWM6f+OZL9dsjDrycc8TWrZkQMkW0MznYfgg@mail.gmail.com>
+	 <CH0PR20MB39480F83C8949247D7968800BB2D9@CH0PR20MB3948.namprd20.prod.outlook.com>
+	 <CANNYZj8FiA8==JdmsV-ws=q+0W8hQQRPM6o0+OsGrrjpRo+gXg@mail.gmail.com>
+	 <CH0PR20MB3948F3D57A8F78D131B9B246BB2D9@CH0PR20MB3948.namprd20.prod.outlook.com>
+	 <CANNYZj80JaZqGQQyYPB_8S7gejDKSc0fpYCmY-2=Z+=YoqKtMA@mail.gmail.com>
+	 <CH0PR20MB39483D12D0719FB606E87560BB309@CH0PR20MB3948.namprd20.prod.outlook.com>
+	 <CANNYZj9zbHH7oef1KeVk+TRBbm6kyur9Ao+hkqTJycv5UcxEzA@mail.gmail.com>
+	 <CH0PR20MB3948B7386896646FACB9798EBB309@CH0PR20MB3948.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 19:36:31 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 23:24:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161663
+ https://lists.openembedded.org/g/openembedded-core/message/161664
 
-fwiw, +1 from me too
-
-On 2/11/22 20:27, Ross Burton wrote:
-> +1
+On Fri, 2022-02-11 at 15:41 +0000, Bryan Evenson wrote:
+> Alex,
 > 
-> On Fri, 11 Feb 2022 at 17:46, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->>
->> example.com is proving unreliable at present so switch to our own connectivity
->> page instead. That page is very simple avoiding app overhead on our web server
->> which was an original reason for switching to example.com.
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>  meta/classes/sanity.bbclass                     | 2 +-
->>  meta/conf/distro/include/default-distrovars.inc | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index f288b4c84c9..773902e619d 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -353,7 +353,7 @@ def check_connectivity(d):
->>                  msg += "    Please ensure your host's network is configured correctly.\n"
->>                  msg += "    If your ISP or network is blocking the above URL,\n"
->>                  msg += "    try with another domain name, for example by setting:\n"
->> -                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.yoctoproject.org/\""
->> +                msg += "    CONNECTIVITY_CHECK_URIS = \"https://www.example.com/\""
->>                  msg += "    You could also set BB_NO_NETWORK = \"1\" to disable network\n"
->>                  msg += "    access if all required sources are on local disk.\n"
->>              retval = msg
->> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
->> index fb0f1097da9..3bba651a776 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -54,4 +54,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
->>  # fetch from the network (and warn you if not). To disable the test set
->>  # the variable to be empty.
->>  # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=master;branch=master
->> -CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
->> +CONNECTIVITY_CHECK_URIS ?= "https://yoctoproject.org/connectivity.html"
->> --
->> 2.32.0
->>
->>
->>
->>
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#161662): https://lists.openembedded.org/g/openembedded-core/message/161662
->> Mute This Topic: https://lists.openembedded.org/mt/89077055/4454410
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jacob.kroon@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+> > -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Friday, February 11, 2022 10:06 AM
+> > To: Bryan Evenson <bevenson@melinkcorp.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: Re: [OE-core] gio-querymodules: error while loading shared
+> > libraries: libffi.so.6: cannot open shared object file
+> > 
+> > On Fri, 11 Feb 2022 at 14:46, Bryan Evenson <bevenson@melinkcorp.com>
+> > wrote:
+> > 
+> > > However, I still think that a package upgrade should have a way to exit
+> > gracefully for something that is an optimization and not required for
+> > operation.  In my case, my device isn't even using the GIO library and the gio-
+> > querymodules serves no purpose.  I don't know enough about the entire
+> > Glib package to know If there is a way to make this functionality optional or
+> > not.  If there isn't, then I will continue with my own out-of-tree changes to fix
+> > the operational problems I am seeing on my device.
+> > 
+> > Thanks, does rpm do something similar to debian? This does look as a
+> > shortcoming in opkg design; what would help you is perhaps a comman line
+> > option for opkg, --ignore-scriptlet-failures or similar.
+> 
+> From what I have read, it appears RPM functions very similar to Debian.  The
+> new package files are installed prior to postrm, with the old files
+> temporarily backed up and removed later.  I'll look at some of the other opkg
+> options to see if there are some ignore options that I haven't tried yet.
+
+I think this would be worth raising with the opkg maintainer as this does sound
+like an issue with opkg :/.
+
+Cheers,
+
+Richard
+
 
