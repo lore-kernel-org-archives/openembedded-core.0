@@ -1,136 +1,167 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6D8C433EF
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 08:04:23 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web08.4755.1644566661438829321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B421C433F5
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 08:44:54 +0000 (UTC)
+Received: from forward101p.mail.yandex.net (forward101p.mail.yandex.net
+ [77.88.28.101])
+ by mx.groups.io with SMTP id smtpd.web10.4965.1644569087877023191
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 00:04:21 -0800
+ Fri, 11 Feb 2022 00:44:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I1ZFjjkJ;
- spf=pass (domain: gmail.com, ip: 209.85.208.172,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id t14so11394754ljh.8
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 00:04:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hMhxFQG9aXbud3BcPcKFWy6DgC6jul6zGIGP+lPhUNc=;
-        b=I1ZFjjkJip6YvhjYfWDceFQSCTjEWIdUjCgYyaCNRHxDG6+Cw6M4dDQ85fLZBkbwHm
-         8i6hyg11oRq0zVgF7TiweS6BFUcDJuY6PQlE1yA+39ExE2ZaskI7x159hdfaispo+iNq
-         AYguZz3sOzpSVIUZabU2cf7ww2vp6+kEo0g8YBUMn2k/EmQeJ/xY1r1Dyepfh9PQcxSD
-         WwLAKtKsCd+WWQ1grXVuXlmLZfUBkOWNkA8Iuyf9Lmy4MwGzjc4v1Og8kG0s2Y18kP9D
-         am1Y4HznVTJF2ttqGdCMeyidPCRRc4KHeNC/QLlcibo/lFqswxshuCW8ZQCMM0cykPGG
-         3pLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hMhxFQG9aXbud3BcPcKFWy6DgC6jul6zGIGP+lPhUNc=;
-        b=1WENaY//24yf/OOo2et/xDD9cjB4JFIxGAwYR0gmoh3vl7BIrLso0qtkqIYXy+FDz/
-         J5q1Ksr7WRvjPM2CxjfWYtwT+mCA8T65WYB5nvtQHOZDSLMSms6lPSrcT2xtLwc0qGld
-         TMvCE0UUldJIAV544lQewI5q/eAYKCPqeFeAmOUn8L4CQEWwuSGFlcbVSozbWTYstEH8
-         BnTskQv4dnr55NUgmUbhHhkcV5OdzERwMpDb6tSzK0Q4yYHTyUfP/0OVxOsAH2JeHv2w
-         I74vyJLu56PVLHLuZsjKX3zudPtnRAG75GDT8V4+z2BN4X5YMLkwm8OiuozkaUf9E600
-         T4FQ==
-X-Gm-Message-State: AOAM533JeMiOnrdTt1pXULr7H82zE3oGuO8hWgqWWDbtkJbnbK/VUMgv
-	CkD2i+wGijQPRd2G3qTDH4o=
-X-Google-Smtp-Source: 
- ABdhPJxM+OvrUG3Xv/cUzgSoZ8BtLrT8rNDM8JKelCLKejmgn58xMHt5+nmZW0bS0itqgg+pv9S9fg==
-X-Received: by 2002:a2e:b7d5:: with SMTP id p21mr320774ljo.522.1644566659455;
-        Fri, 11 Feb 2022 00:04:19 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- g26sm3059851lfj.176.2022.02.11.00.04.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 00:04:18 -0800 (PST)
-Message-ID: <4dfb7861-35e7-3e5b-3339-4a25c8166a2c@gmail.com>
-Date: Fri, 11 Feb 2022 09:04:17 +0100
+ dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
+ header.s=mail header.b=OWi84XRG;
+ spf=pass (domain: zhukoff.net, ip: 77.88.28.101, mailfrom: pavel@zhukoff.net)
+Received: from myt6-93965afc2133.qloud-c.yandex.net
+ (myt6-93965afc2133.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:5525:0:640:9396:5afc])
+	by forward101p.mail.yandex.net (Yandex) with ESMTP id C2AA359CEF23;
+	Fri, 11 Feb 2022 11:44:43 +0300 (MSK)
+Received: from myt6-016ca1315a73.qloud-c.yandex.net
+ (myt6-016ca1315a73.qloud-c.yandex.net [2a02:6b8:c12:4e0e:0:640:16c:a131])
+	by myt6-93965afc2133.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ fPGubgvnPc-ihdGHwbG;
+	Fri, 11 Feb 2022 11:44:43 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
+ t=1644569083;
+	bh=oIBeRlUWmuSqFnN5mnc3Xm87NLbaJNT3WiiO9ZhUe2k=;
+	h=Date:Subject:To:From:Message-Id:Cc;
+	b=OWi84XRGfmgs+r5cIGaN/MNJlHMXQZMSOAmRCuIapM/9nAdO7Ho5hVIRbCzn5lV3P
+	 kj34nAv5n3WS6kwfABDVWfxXbUDh6OduTnqtXEafTg514ZVQsbR76T6omTqmwboQsG
+	 toNoSaNfJHMA+JWTYu7edDL5f6iVwRCHQRL+7hHw=
+Authentication-Results: myt6-93965afc2133.qloud-c.yandex.net;
+ dkim=pass header.i=@zhukoff.net
+Received: by myt6-016ca1315a73.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id xm0cXdqYTm-igI8sXsw;
+	Fri, 11 Feb 2022 11:44:42 +0300
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client certificate not present)
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: openembedded-core@lists.openembedded.org
+Cc: pavel@zhukoff.net,
+	Pavel Zhukov <pavel.zhukov@huawei.com>
+Subject: [PATCH] sanity.class: Add possibility to configure networking check
+Date: Fri, 11 Feb 2022 09:44:34 +0100
+Message-Id: <20220211084433.10614-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable
- exporting more recipe and package data
-Content-Language: en-US
-To: Mikko Rapeli <mikko.rapeli@bmw.de>, bluelightning@bluelightning.org
-Cc: openembedded-core@lists.openembedded.org, sanakazisk19@gmail.com,
- ranjitsinh.rathod@kpit.com, richard.purdie@linuxfoundation.org
-References: <20220209092947.25677-1-sanakazisk19@gmail.com>
- <YgPPaRecZGTG2MF9@korppu>
- <6b2b59da15e0889c58c2a79515870994aa29a5c8.camel@linuxfoundation.org>
- <1811908.CQOukoFCf9@linc> <YgYXl34nOhA1c7Ea@korppu>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: <YgYXl34nOhA1c7Ea@korppu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 08:04:23 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 08:44:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161636
+ https://lists.openembedded.org/g/openembedded-core/message/161637
 
-On 2/11/22 09:00, Mikko Rapeli wrote:
-> Hi,
-> 
-> On Fri, Feb 11, 2022 at 04:49:21PM +1300, Paul Eggleton wrote:
->> FWIW I'll just chime in here as the original author[1] and say I agree with 
->> Richard. If folks are needing an alternative SBOM generation mechanism to 
->> SPDX, or have other use cases for extracting build information, then I'd 
->> prefer we take a step back and design such a thing properly. The original idea 
->> was (1) to expose changes in the output that might not readily apparent 
->> otherwise, and (2) expose selected "input" values that would (or could) 
->> materially influence the output, so you hopefully have a ready explanation for 
->> why an image / package increased in size or dependencies got added etc. 
-> 
-> First of all, thanks for buildhistory, Paul!
-> 
->> I will accept that over time buildhistory has added things here and there that 
->> further the idea of using it for SBOM, folks no doubt have been using these 
->> for such purposes, and I'm not 100% opposed to making small additions where 
->> they make sense. However, even with this proposed extension, buildhistory is 
->> still not capable of recording sufficient information that (I believe) is 
->> expected in a modern SBOM - for example, the list of patches applied / CVEs 
->> resolved as a result - and I don't think it would be wise to extend it to do 
->> so. We certainly don't want to give folks the idea that buildhistory is good 
->> enough to resolve their SBOM requirements when we haven't designed it to do 
->> so, particularly as for many folks there are legal and regulatory concerns 
->> involved.
-> 
-> Maybe I'm "abusing" buildhistory then. The way it enables to have a git repo
-> view with full history of releases on metadata available in SW builds is
-> really invaluable. We seem to be abusing it to export various bitbake recipe
-> variables from product configuration so that we can later on do some QA checks
-> on them and record the details in nice git history view.
-> 
-> There could be other ways to implement the same use cases. We could have real
-> QA checks in the bitbake builds which make sure certain recipe variables
-> are correctly filled. We could export them into image manifest files or even SDPX
-> to record the details per release. Then we could manually diff the files between
-> releases to check for delta. Or a custom data format, maybe in json.
-> 
-> Yocto CVE checker uses a custom text format, a bit similar to buildhistory as output.
-> There is the json patch from Microsoft in review.
-> 
-> Currently I don't see SPDX output replacing buildhistory and CVE checker output completely.
-> 
-> Then there is the current discussion about ABI dumps and how to store and export them
-> and buildhistory was at least initially mentioned there.
-> 
-> Gah, now I thought about saving SPDX, CVE checker and ABI dump output in buildhistory too.
-> Would actually be nice. Sorry, yet another use case where easy access build metadata
-> to compare over time and releases would be really handy. This never ends.
-> You've created a monster :)
-> 
+Previously sanity checker required all uri listed in
+CONNECTIVITY_CHECK_URIS to be available for networking check. It caused
+selftests failures due to temprorary example.com unavailability.
+Add CONNECTIVITY_CHECK_ALL variable to change this behaviour and check
+for any host from the list to be available it allows to specify
+"failover" uri and/or speed checker up if few uris have been specified.
 
-I want to add file checksums to that wishlist.
+Default value is set to "1" for backward compatibility.
 
-Jacob
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+---
+ meta/classes/sanity.bbclass                   | 44 ++++++++++++-------
+ .../distro/include/default-distrovars.inc     |  5 ++-
+ 2 files changed, 32 insertions(+), 17 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index f288b4c84c..695776bba3 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -326,6 +326,7 @@ def check_connectivity(d):
+     # using the same syntax as for SRC_URI. If the variable is not set
+     # the check is skipped
+     test_uris =3D (d.getVar('CONNECTIVITY_CHECK_URIS') or "").split()
++    check_all =3D (d.getVar('CONNECTIVITY_CHECK_ALL') or "1") =3D=3D "1"
+     retval =3D ""
+=20
+     bbn =3D d.getVar('BB_NO_NETWORK')
+@@ -341,22 +342,33 @@ def check_connectivity(d):
+         data =3D bb.data.createCopy(d)
+         data.delVar('PREMIRRORS')
+         data.delVar('MIRRORS')
+-        try:
+-            fetcher =3D bb.fetch2.Fetch(test_uris, data)
+-            fetcher.checkstatus()
+-        except Exception as err:
+-            # Allow the message to be configured so that users can be
+-            # pointed to a support mechanism.
+-            msg =3D data.getVar('CONNECTIVITY_CHECK_MSG') or ""
+-            if len(msg) =3D=3D 0:
+-                msg =3D "%s.\n" % err
+-                msg +=3D "    Please ensure your host's network is confi=
+gured correctly.\n"
+-                msg +=3D "    If your ISP or network is blocking the abo=
+ve URL,\n"
+-                msg +=3D "    try with another domain name, for example =
+by setting:\n"
+-                msg +=3D "    CONNECTIVITY_CHECK_URIS =3D \"https://www.=
+yoctoproject.org/\""
+-                msg +=3D "    You could also set BB_NO_NETWORK =3D \"1\"=
+ to disable network\n"
+-                msg +=3D "    access if all required sources are on loca=
+l disk.\n"
+-            retval =3D msg
++        err =3D None
++        for uri in test_uris:
++            try:
++                if check_all:
++                    fetcher =3D bb.fetch2.Fetch(test_uris, data)
++                else:
++                    fetcher =3D bb.fetch2.Fetch([uri], data)
++                fetcher.checkstatus()
++                return retval
++            except Exception as e:
++                err =3D "{} \n {}".format(err, e)
++                if check_all:
++                    break
++
++
++        # Allow the message to be configured so that users can be
++        # pointed to a support mechanism.
++        msg =3D data.getVar('CONNECTIVITY_CHECK_MSG') or ""
++        if len(msg) =3D=3D 0:
++            msg =3D "%s.\n" % err
++            msg +=3D "    Please ensure your host's network is configure=
+d correctly.\n"
++            msg +=3D "    If your ISP or network is blocking the above U=
+RL,\n"
++            msg +=3D "    try with another domain name, for example by s=
+etting:\n"
++            msg +=3D "    CONNECTIVITY_CHECK_URIS =3D \"https://www.yoct=
+oproject.org/\""
++            msg +=3D "    You could also set BB_NO_NETWORK =3D \"1\" to =
+disable network\n"
++            msg +=3D "    access if all required sources are on local di=
+sk.\n"
++        retval =3D msg
+=20
+     return retval
+=20
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
+distro/include/default-distrovars.inc
+index fb0f1097da..867d694146 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -54,4 +54,7 @@ KERNEL_IMAGETYPES ??=3D "${KERNEL_IMAGETYPE}"
+ # fetch from the network (and warn you if not). To disable the test set
+ # the variable to be empty.
+ # Git example url: git://git.yoctoproject.org/yocto-firewall-test;protoc=
+ol=3Dgit;rev=3Dmaster;branch=3Dmaster
+-CONNECTIVITY_CHECK_URIS ?=3D "https://www.example.com/"
++CONNECTIVITY_CHECK_URIS ?=3D "https://www.example.com/ https://www.yocto=
+project.org"
++# Define is all CONNECTIVITY_CHECK_URIS are required to be available or =
+it's enough to have some
++# of them reachable for networking check
++CONNECTIVITY_CHECK_ALL ?=3D "0"
+--=20
+2.34.1
+
 
