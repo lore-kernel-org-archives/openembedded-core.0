@@ -1,104 +1,86 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5800C433EF
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 11:23:07 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.5955.1644578586687808797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62587C433F5
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 11:39:59 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.6149.1644579597711959744
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 03:23:07 -0800
+ Fri, 11 Feb 2022 03:39:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RDNKIvt7;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id z19so15810688lfq.13
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=LFukBIGA;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.54,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f54.google.com with SMTP id u1so983143wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 03:23:06 -0800 (PST)
+ Fri, 11 Feb 2022 03:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=n6LpWRuQAdhgM8e56Y6VR6FPwvxQSdxRfAdngJV31FE=;
-        b=RDNKIvt7/a2W6w4So59vRV5H+GTCmx0/7H7++44VCYVcQ4tE+/7ZaWpXYnxnqJNM81
-         Yy/ddk9Nwp8fMoUXhAOab3nBQcfzoF6w/rWxmNnPEjAFVNQllu4VE4DRF/3vnrqn37GE
-         /eiUJEy8tyJP1j9MBd2ycHbhTVQkZYsBPu0kay86LZGmHucKpFaFg36opnxYD36fcRFH
-         BGKenWYnjUlv1JZRDF4oAZuRcnnNNj9pj/7uVVvqEz4Yg2M3leQNI788CXBerpp8s1ys
-         gb89jXxAc1MASZVEzLUwW77UAZlAI5nPf4lWIshZa5zkZRrXA1Wo+jAjth09XktLZOLC
-         HuyQ==
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=ymQItRlOl80AXUv87KbNVqUO3m77Nnj0dhAJX4hiv00=;
+        b=LFukBIGAKwGbmHFy1IpclhDS95v/8VSNi+EVZRlVsNy6giabg4FXgpmHWnssFk2Svb
+         Gnsb/bEJWfgfQ9RnFHOIiFzUWoDz5hipN6qFEjucjVW9kXw0VF2T3SfN/Vs2q1WYYy6T
+         eJnjKAye1vVnYuqSE6E/WmCZo97LHKayYO4+ij6wYxYfB8YA6W7VjIeW9+hAMMyJBdSh
+         N4reJ78iiaJ6NXEo1dvrLlKMlO8Op/0QZMRN5r2UhcEGaa+7mGx2VQqhxfVcM8PGEoyQ
+         FbEDBiG9fCB9OzIWsKfU1Er0DRO3rjT4vWP+bkYiuniVlnsXHsdkHuzFvTyzVr4EYn1q
+         4tCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=n6LpWRuQAdhgM8e56Y6VR6FPwvxQSdxRfAdngJV31FE=;
-        b=VMELd1+lMPM7Y0sdusXaOYMdfuyyzlMGqjgFYe48hz90jEd5FoLQUslmmotrcJcxEM
-         zAP6luUXvAZljw+rUur5Z2e14OrQ+P8PaJlZPrns/n8Nu5f+NeYlBHP/nLfPnE0TumcR
-         2YyygLsIjfZawfL8boBKssM5pjRjcW3eDqONVv2kAbF2GcGsvxKbqEh6EpTxLZUZnEQZ
-         TNg7S9gxzAoTKIDtXdjq5sDScOqIx0kBPcO13YW/wTKyjC2TVEEu1sohYjsb+xzvFrst
-         cBxtpy1sugiCemz0k7QCDmH3UPlrrFw9FG9ZEjbN/aJv4d7EkqMdagurIFIp5VDIQgvD
-         J4FA==
-X-Gm-Message-State: AOAM5305NH2NHwd53mJ4fEUCxD5n8ZCWyNqMyxUxFbN099fF8O80Mt+7
-	himxybxMXCYbqm5VYY4Q1co=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=ymQItRlOl80AXUv87KbNVqUO3m77Nnj0dhAJX4hiv00=;
+        b=DHG1SmzyvUYjnPGmKTpHb6POUSwG0i2vf/xD2ZKZVuaCb0hJ7WK9fdxDE5hKJJWx4R
+         YhS9b7/LVvcy/BibOxI6EsDSD4hZKIE2lLEpcsNltaaEUgGHY5VOJeobTcwWrCRZLiQU
+         I1xV9dW0w0x7txXGjFqJfRmXIq7pR7K8l2AQr58tIyjoSr9BrMg3+8cX/wNL+zkfWH6B
+         4oO7zEuF2h3bWeYk8eg9tQT8rvHYLzQB5ofE0wXenbwpUWKiny9GSvEj+UWuP14PiWFv
+         w6lzngB2STF1JvPHpGkFYSNW/K2rUQTO+6gktXsZBpT204B6iuB/CcZHJ4y0Zj6s+gZd
+         wNuA==
+X-Gm-Message-State: AOAM530ZGE9tPgOxxA5VtsN02bKz5paMno19/OjxN5exUw/g1lFVgizk
+	5JMp1H+Se2xSm1s3tmsVWropFvHDXqhsAnOYrYuDFURqgDOKuYLQ
 X-Google-Smtp-Source: 
- ABdhPJzOdei5KdgMLBOGgmd+NmyNjRXF/JKbCi0qk/+cE+pSF7R5Wau9NbSjgzAfB8Tf77cxAucCEg==
-X-Received: by 2002:a05:6512:308b:: with SMTP id
- z11mr915947lfd.512.1644578584509;
-        Fri, 11 Feb 2022 03:23:04 -0800 (PST)
-Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
- [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id
- d24sm3120066lfj.110.2022.02.11.03.23.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Feb 2022 03:23:04 -0800 (PST)
-Message-ID: <be3113b8-81a1-ca3a-32d2-4fa6783bfec2@gmail.com>
-Date: Fri, 11 Feb 2022 12:23:03 +0100
+ ABdhPJz+LeqONlgroq1p3PsoimrwevfLoGfus3iLoKklgX02ahAb2jczuAht8vJtTAeLrErKU15G43Lghi6d7qoyG60=
+X-Received: by 2002:a5d:6da2:: with SMTP id u2mr1054990wrs.620.1644579595641;
+ Fri, 11 Feb 2022 03:39:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH] sanity.class: Add possibility to configure
- networking check
-Content-Language: en-US
-To: Ross Burton <ross@burtonini.com>, Pavel Zhukov <pavel@zhukoff.net>
-Cc: openembedded-core@lists.openembedded.org
 References: <20220211084433.10614-1-pavel@zhukoff.net>
  <CAAnfSTsvaGZ2khtFLNdkqbMRK_Yx_CmOLtSj_Jt4PSJZOb970g@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: 
- <CAAnfSTsvaGZ2khtFLNdkqbMRK_Yx_CmOLtSj_Jt4PSJZOb970g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <be3113b8-81a1-ca3a-32d2-4fa6783bfec2@gmail.com>
+In-Reply-To: <be3113b8-81a1-ca3a-32d2-4fa6783bfec2@gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Fri, 11 Feb 2022 11:39:44 +0000
+Message-ID: 
+ <CAAnfSTt==tDAVW7DaGKKDwwJvwGbTQPw26-Oc2dDpeQf263Wsw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity.class: Add possibility to configure
+ networking check
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 11:23:07 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 11:39:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161642
+ https://lists.openembedded.org/g/openembedded-core/message/161644
 
-On 2/11/22 12:18, Ross Burton wrote:
-> On Fri, 11 Feb 2022 at 08:44, Pavel Zhukov <pavel@zhukoff.net> wrote:
->> +        for uri in test_uris:
->> +            try:
->> +                if check_all:
->> +                    fetcher = bb.fetch2.Fetch(test_uris, data)
->> +                else:
->> +                    fetcher = bb.fetch2.Fetch([uri], data)
->> +                fetcher.checkstatus()
->> +                return retval
-> 
-> This seems like it's overcomplicating things to me.  example.com was
-> having uptime issues, and we can change it to www.yoctoproject.org so
-> that we know in advance of expected downtime, and have direct contact
-> with the people responsible for keeping it up. So let's just change
-> the URL to www.yoctoproject.org instead of adding more variables and
-> non-trivial logic.
-> 
+On Fri, 11 Feb 2022 at 11:23, Jacob Kroon <jacob.kroon@gmail.com> wrote:
+> I vote for removing the check altogether.
+>
+> As I understand it, the check was added in order to prevent
+> hard-to-interpret error messages when network failed. I can live with that.
 
-I vote for removing the check altogether.
+I think the check should remain, and example.com has served well for
+some time now (since 2016 in
+423a2645377bff2cd7292e1dc9796eeb3595e937).
 
-As I understand it, the check was added in order to prevent
-hard-to-interpret error messages when network failed. I can live with that.
+We moved to example.com to speed up the check: the old tests were for
+two yoctoproject.org URLs and it downloads the entire page, so that
+took time.
 
-Jacob
+If we can get a minimal page added to yoctoproject.org that doesn't
+involve hitting WordPress, then we can own the URL and have fast
+responses.
+
+Ross
 
