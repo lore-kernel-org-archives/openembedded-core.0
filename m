@@ -1,393 +1,367 @@
-Return-Path: <ceggers@arri.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6814EC433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 09:58:35 +0000 (UTC)
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
- (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.129])
- by mx.groups.io with SMTP id smtpd.web10.5472.1644573512259371585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C23C433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 10:22:39 +0000 (UTC)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by mx.groups.io with SMTP id smtpd.web11.5583.1644574958505568358
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 01:58:35 -0800
+ Fri, 11 Feb 2022 02:22:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arrigroup.onmicrosoft.com
- header.s=selector1-arrigroup-onmicrosoft-com header.b=Vx0l4/jY;
- spf=pass (domain: arri.de, ip: 40.107.0.129, mailfrom: ceggers@arri.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YMcmrbjSoCYMxUH4Zc1wR7JBVQ+OKVQp6IGcf6L9GsX/qdR7yD6u0U5K2JFQJzxyU2AqXQm3z1EnRlNQbE9rNbfkaFbZZbBXcuLgZm7GqkI1WKddwKm+zj2Swy/jo8p+nIh8UI505k+UuAFIv+RDAYoVQusKvyv2Yf9GIb2exiaanMo/xp7l4me9iRugCkt8eadtDXZ9YJ5m34oeq48LkVUteddncyZP3A1/zxty1j5n94qRNmJbiKjSHQbqFtGikH9UrwBbYs/04wjK3p66XBOnE6APlWSY20Zy8YhHR1TW2t/T6sN/yyCtfufezXl3f05Ye7BDbxA4O9SCXuPQ3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGC0HX/Y85W9NjjLOMZANJSLkHRymM6LyiMoFoXdULk=;
- b=GI6A/NyUYLrAO9tkddozcv5Qp03WCzNnqLUoNPajQgWbPys0Ca1zJCe8UK8d0qfK+r7QYk+0451syd8ROESJS+E5kC39YzW17rWCr/inXb+4gQILzHsDPGNxTSYm1zspsliy83YyIPoInXvGMsGW62S1cRbrnQm7KS4jLvyQRrW2cLJWTIQW0BB4mz+AjKX8c/AQ6v/6YzpyHLUbG+eFnQJvrLXpZXwfzv1k/vV15PcRyoBCMSsjpwlZAPsKh8DcnUPI7/wReDelu5sxKBBoJWZZYVlQTkCKXR8H17YsedmSoyIgdPEYiKQkmpiYkowCMIPYP2ZV5o2tqRaHl9M1Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 104.40.229.156) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=arri.de; dmarc=none action=none header.from=arri.de; dkim=none
- (message not signed); arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=n+rxsMYO;
+ spf=pass (domain: gmail.com, ip: 209.85.221.177,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f177.google.com with SMTP id l14so4648873vko.12
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 11 Feb 2022 02:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGC0HX/Y85W9NjjLOMZANJSLkHRymM6LyiMoFoXdULk=;
- b=Vx0l4/jY1E9nNIM88SK6fheHRzk4qaZJNJz4oNO8wLNyIYu2cKVLdEeqqDzx/tLyO37Q9XZhklUncK1TuHCUqWS5FAN4OzhtOMlTvDQmxmm47IdCbCxsfo2oCtu3S4K7av8fF8+r1Dg+b+7aIr69dI+FoXw+rNI1Yt3XtrwGWjY=
-Received: from AM6P193CA0103.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:88::44)
- by PAXPR07MB8400.eurprd07.prod.outlook.com (2603:10a6:102:2ba::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.8; Fri, 11 Feb
- 2022 09:58:28 +0000
-Received: from AM5EUR02FT040.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:209:88:cafe::bb) by AM6P193CA0103.outlook.office365.com
- (2603:10a6:209:88::44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
- Transport; Fri, 11 Feb 2022 09:58:28 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
- 104.40.229.156) smtp.mailfrom=arri.de; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arri.de;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of arri.de: DNS Timeout)
-Received: from eu1.smtp.exclaimer.net (104.40.229.156) by
- AM5EUR02FT040.mail.protection.outlook.com (10.152.9.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4975.11 via Frontend Transport; Fri, 11 Feb 2022 09:58:26 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (104.47.18.112)
-	 by eu1.smtp.exclaimer.net (104.40.229.156) with Exclaimer Signature Manager
-	 ESMTP Proxy eu1.smtp.exclaimer.net (tlsversion=TLS12,
-	 tlscipher=TLS_ECDHE_WITH_AES256_SHA384); Fri, 11 Feb 2022 09:58:26 +0000
-X-ExclaimerHostedSignatures-MessageProcessed: true
-X-ExclaimerProxyLatency: 8999335
-X-ExclaimerImprintLatency: 3066446
-X-ExclaimerImprintAction: 0febcbc10b6740f495fef23a1d5d6f96
-Content-Type: multipart/related;
-	boundary="----_=_NextPart_6c7dea66-0bd1-4297-b5b5-7d9f15675c0a"
-Received: from AS9P194CA0013.EURP194.PROD.OUTLOOK.COM (2603:10a6:20b:46d::17)
- by DB7PR07MB5370.eurprd07.prod.outlook.com (2603:10a6:10:34::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.10; Fri, 11 Feb
- 2022 09:58:23 +0000
-Received: from VE1EUR02FT008.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:20b:46d:cafe::1b) by AS9P194CA0013.outlook.office365.com
- (2603:10a6:20b:46d::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11 via Frontend
- Transport; Fri, 11 Feb 2022 09:58:23 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
- smtp.mailfrom=arri.de; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arri.de;
-Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
- designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=217.111.95.7; helo=mta.arri.de;
-Received: from mta.arri.de (217.111.95.7) by
- VE1EUR02FT008.mail.protection.outlook.com (10.152.12.72) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4975.11 via Frontend Transport; Fri, 11 Feb 2022 09:58:22 +0000
-Received: from MucEx01.arri.de (10.10.18.25) by MucEx01.arri.de (10.10.18.25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7; Fri, 11 Feb
- 2022 10:58:22 +0100
-Received: from CASHUB3.arri.de (192.168.100.104) by MucEx01.arri.de
- (10.10.18.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.7 via Frontend
- Transport; Fri, 11 Feb 2022 10:58:22 +0100
-Received: from localhost.de (192.168.55.18) by mta.arri.de (192.168.100.104)
- with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 11 Feb 2022 10:58:21
- +0100
-From: Christian Eggers <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Oleksiy Obitotskyy <oobitots@cisco.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Anuj Mittal <anuj.mittal@intel.com>
-Subject: [hardknott][PATCH] package_manager: ipk: Fix host manifest generation
-Date: Fri, 11 Feb 2022 10:58:06 +0100
-Message-ID: <20220211095806.4360-1-ceggers@arri.de>
-X-Mailer: git-send-email 2.34.1
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CMmL7QPwFch4EGqVl9TLNo0a1Flpu23s+fsS48GE3ok=;
+        b=n+rxsMYOdZ7wfG04/w9NGYlan6Cpk/YQAAx84T+4OppWKIYdIqEPm0cMAxgLB9YZrD
+         qefHrWqJsbnNyn0ay2t3CvaiRX7WJCCUvqI7X7xKL6YjD4F2GDIdnEQ3fFLyKSEhoHZd
+         Tc/yL1F28QE72KQ2jVsvDqx3sN9m/cjHUu3plByjEW1nvNriV6p3VNfLWnTls0Ki6/bH
+         xB+FfTIF/yAs9Qyb9Fq8NSDOZXhk0QgkLLkyiT5iGaUMOK5e4KsMR7XQZeEnz7QzVL0L
+         e1lQApclQDV4fB802FeeJ4KfRuPxWdw6G966YLQej0ku9Er+6aQOc8GYp7a6rKJF3FRH
+         e1cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CMmL7QPwFch4EGqVl9TLNo0a1Flpu23s+fsS48GE3ok=;
+        b=XDx2jOgFENPgHdydziCNY8k6E2EJCK5rdMVIcmykH5HVWinPs9Ts/z4+g4/NXo9DLH
+         VZurLOlvmJflOt/Nzx/ozo9AQIucnwZ3hwRaTEcogAK72oHy8bth+B/MiKZPVaLcSTtL
+         jlCaKG7Dhz7G/ctz6jheDu8yMdChHKA4oFMDMa3scORcq98s+yN2khkC3cbRCuX7iw/Z
+         VB3Q9dU+ohYu2w3mzNrozp+wPW+UgawYuGXEv3Tg3lS2NWG5uwV9wY3G57TmsGxxWUR2
+         obmDQJitzEulWc9LuqPx99wmESq+2jRaIt9cwg/cwdxBnwyuov0q4uKg04YDnMc4YL05
+         qoaA==
+X-Gm-Message-State: AOAM532nDi/Xs8qMGw9S3ezp0ZAvnW6nwRrDEkNDu72RMyniZNp8uYrI
+	oQRYAJ7IuaPUMa/rQbkHRUCEL0LclHAntsmUOzs=
+X-Google-Smtp-Source: 
+ ABdhPJzXG9dlnVxXj135o3RmQ/nCUhV6Q59ap8L+XHkt9XljLoCiQ8TbZTbuC+G31ZuWYVjq1XqfEjK5DIatWs7jVb8=
+X-Received: by 2002:a05:6122:218f:: with SMTP id
+ j15mr238307vkd.20.1644574957547;
+ Fri, 11 Feb 2022 02:22:37 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.55.18]
-X-EOPAttributedMessage: 1
-X-MS-Office365-Filtering-Correlation-Id: 775c113e-8d1f-468a-ff90-08d9ed450c91
-X-MS-TrafficTypeDiagnostic: 
-	DB7PR07MB5370:EE_|AM5EUR02FT040:EE_|PAXPR07MB8400:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PAXPR07MB8400E982F15CB7FA83461903BF309@PAXPR07MB8400.eurprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:126;OLM:103;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- S/dCalVNAEwGOA10tZ9dSk7LGJ3WJZ2+Yh7NbE7rak5hzsvdHgMOkIYbg9n9J0Pb1lgR0caSBBBlKi8Imo7QzyPh+46c8X2NV1735vf516e7nUwHCOGr1reYFI7me06T/u/yJmoocoGUwLZrqwBYZMW+ZTMqWzz2w78g/z+HI/gXW+m8SMtJPaVl8mXz3q2SQZYvx4ZRaupoHu2aa8fOPKThT8d4nUwp4D38B+gtXWRtHEhpygUDsdQ1Gxl+frDSsSawY05yKtsMzhM7V2/wMECAbtE+erXrASLBahipNtlokslrizaNuKRu76m09Y7sA84EidhwgG/wNTKwFxt+GAq70y93K63QS+16iNHTX3oCp4ChhKF33F8/TBKQTX4MJDz2V6w+PrcuLK3S1MPO0D4kHJLF+fIwUZX0pZwEFGSMfMy8ky9ZBFflTpXYg9OiZvpLKRKoLjQccGUpdCZ/ztdbL5uCF23agAA6h96k4dQGw2xhDjVtAZ8ncliZOuGrni/sZOUTpN9LN8TgJMHE7mmCEZTdRFqOddzzAaXuEp14+XitvcsrU9zMEr9XuZzSQ410M0CfteZWWeWXBHMean7TaXTKdMVp9K6RxV9kR5KggHN7akQWxc9Luo2ffazK1GJRpItK7yo5L4G9M6hQZXgvgVAL0ni4QXIWoS/4mDsgDhJrf674+HqQ6yBHE8R6JOfc3QDwfea3bQGBNnRQgSgRZeiaRA+yiOA2vNOQ2yo=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(4326008)(1076003)(2616005)(70586007)(8676002)(426003)(82310400004)(86362001)(316002)(54906003)(6916009)(8936002)(2906002)(70206006)(5660300002)(36860700001)(36756003)(356005)(26005)(47076005)(6666004)(508600001)(186003)(16526019)(81166007)(336012)(36900700001);DIR:OUT;SFP:1102;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR07MB5370
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM5EUR02FT040.eop-EUR02.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	7c5076d7-fd49-482d-06cd-08d9ed450a2b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	WIPEJzV3ygBfKO4fdf+G5WHVlGaNVimoOYSMddfVVzKuPJeyjX1BhFYM88RhzqlGRWgOgSdRPijRlH0G60ZE37oP1hlb7W7/gV++2BZxTnWbvTfAX5qu+DCWmw2rRKrQMK9WiZGwiYXzW02Q3qI4tumF2XAoR2akFPRCJ3lA2sTMZlZ87NdYjnkUrlEv4cQvPHbHNJKcNReXxQhFw/3rkQXRC4suqT5UZtBfkmr70VhJnXeIvQoP385ALp3hywZIQGH2qJEN8NvAWEGfYlHyy9ltI2LtzKAK8Px4lcSfmRcalW0UPzPTbDPL8ep8tytTAbhaZcCZkfBgO0Q/zpQPJFp6f/u8+j3o5+JFSGSqFW/927UZvSyGKVq8tB1MNXlG1AxucOk9CHNX1BdWxR4reNWfPIWWNeMAlhURjrgegt69DJMOv04d3GI9eYNcFisZ6Qtu+IilhwmKrZS1gQtwTUuvLjD5Ch3TwoeobYMSUXj2XoT0f/xRgapcZLdNRfddXvOV1AOflse0sQ7QSMb50QCuMdsQVYedghIg69M0b40NtJU+RU3BWCHL5AbxDysUgwOgY9L7LLGdJMwHBe1uROhNFpCcmEeRNc1bKsy670EZdLwIamMFKduRtTElaTSMJZZJJwMadoSh4lUmhpgK8J66wHDVBnKWY6oAdao65+uE8KMZ+uoGsRVOiySMFj30h7wvgyxUJnfkGxLr0eV9kzNapB0MYQCBxRVU766/RRvBRQj+AonQVvV+i44x978gZqnVUmHbwKA+hJAiD7Le4SRvwOhAsjFFOoRiLzf6axs=
-X-Forefront-Antispam-Report: 
-	CIP:104.40.229.156;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu1.smtp.exclaimer.net;PTR:eu1.smtp.exclaimer.net;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(316002)(426003)(166002)(47076005)(508600001)(82310400004)(7636003)(86362001)(6916009)(40460700003)(7596003)(36860700001)(33964004)(6666004)(16526019)(1076003)(54906003)(2906002)(26005)(7066003)(8676002)(5660300002)(63350400001)(2616005)(4326008)(15974865002)(70206006)(336012)(36756003)(186003)(8936002)(70586007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: arri.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 09:58:26.2963
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 775c113e-8d1f-468a-ff90-08d9ed450c91
-X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[104.40.229.156];Helo=[eu1.smtp.exclaimer.net]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM5EUR02FT040.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR07MB8400
+References: <20220211095806.4360-1-ceggers@arri.de>
+In-Reply-To: <20220211095806.4360-1-ceggers@arri.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 11 Feb 2022 11:22:25 +0100
+Message-ID: 
+ <CANNYZj-oUps-VnKy04E2FCSUNdV4Wjp7TNAnZuepOzxhtxsEZg@mail.gmail.com>
+Subject: Re: [OE-core] [hardknott][PATCH] package_manager: ipk: Fix host
+ manifest generation
+To: Christian Eggers <ceggers@arri.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Oleksiy Obitotskyy <oobitots@cisco.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Anuj Mittal <anuj.mittal@intel.com>
+Content-Type: multipart/related; boundary="00000000000026cd5205d7bb72bc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 09:58:35 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 10:22:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161638
+ https://lists.openembedded.org/g/openembedded-core/message/161639
 
-This is a multi-part message in MIME format.
+--00000000000026cd5205d7bb72bc
+Content-Type: multipart/alternative; boundary="00000000000026cd5105d7bb72bb"
 
-------_=_NextPart_6c7dea66-0bd1-4297-b5b5-7d9f15675c0a
-Content-Type: multipart/alternative;
-	boundary="----_=_NextPart_77832015-de90-4cbb-92c6-a0e183c49f2e"
-
-------_=_NextPart_77832015-de90-4cbb-92c6-a0e183c49f2e
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-From: Oleksiy Obitotskyy <oobitots@cisco.com>
-
-Since honister host manifest stopped to generate, i.e.
-manifest file is empty but all ipks/files into sdk is
-ok.
-
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 79a2392f5d2a4cb6509a83afb40bca01bac59914)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/lib/oe/sdk.py | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 37b59afd1a99..27347667e846 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -115,6 +115,10 @@ def sdk_list_installed_packages(d, target, rootfs_dir=
-=3DNone):
- 
-         rootfs_dir =3D [sdk_output, os.path.join(sdk_output, target_path)]=
-[target is True]
- 
-+    if target is False:
-+        ipkgconf_sdk_target =3D d.getVar("IPKGCONF_SDK")
-+        d.setVar("IPKGCONF_TARGET", ipkgconf_sdk_target)
-+
-     img_type =3D d.getVar('IMAGE_PKGTYPE')
-     import importlib
-     cls =3D importlib.import_module('oe.package_manager.' + img_type)
--- 
-2.34.1
-
-
-_______________________________________________________
-Christian 
-Eggers
-Software Engineer
-=E2=80=8B
-ARRI
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG 
-Arriweg 17, 
-83071 
-Stephanskirchen
-www.arri.com 
-
-+49 8036 3009-3118
-CEggers@arri.de
-
-=E2=80=8B
-Get all the latest information from www.arri.com, Facebook, Twitter, Instag=
-ram and YouTube.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
-
-=E2=80=8B
-
-------_=_NextPart_77832015-de90-4cbb-92c6-a0e183c49f2e
-Content-Type: text/html;
-	charset=utf-8
+--00000000000026cd5105d7bb72bb
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3Dutf-8" /></head><body><div>From: Oleksiy Obitotskyy &lt;oobitots@cisco.c=
-om&gt;<br /><br />Since honister host manifest stopped to generate, i.e.<br=
- />manifest file is empty but all ipks/files into sdk is<br />ok.<br /><br =
-/>Signed-off-by: Oleksiy Obitotskyy &lt;oobitots@cisco.com&gt;<br />Signed-=
-off-by: Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;<br />(che=
-rry picked from commit 79a2392f5d2a4cb6509a83afb40bca01bac59914)<br />Signe=
-d-off-by: Anuj Mittal &lt;anuj.mittal@intel.com&gt;<br />---<br /> meta/lib=
-/oe/sdk.py | 4 ++++<br /> 1 file changed, 4 insertions(+)<br /><br />diff -=
--git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py<br />index 37b59afd1a99..273=
-47667e846 100644<br />--- a/meta/lib/oe/sdk.py<br />+++ b/meta/lib/oe/sdk.p=
-y<br />@@ -115,6 +115,10 @@ def sdk_list_installed_packages(d, target, root=
-fs_dir=3DNone):<br /> <br />         rootfs_dir =3D [sdk_output, os.path.jo=
-in(sdk_output, target_path)][target is True]<br /> <br />+    if target is =
-False:<br />+        ipkgconf_sdk_target =3D d.getVar(&quot;IPKGCONF_SDK&qu=
-ot;)<br />+        d.setVar(&quot;IPKGCONF_TARGET&quot;, ipkgconf_sdk_targe=
-t)<br />+<br />     img_type =3D d.getVar(&#39;IMAGE_PKGTYPE&#39;)<br />   =
-  import importlib<br />     cls =3D importlib.import_module(&#39;oe.packag=
-e_manager.&#39; + img_type)<br />-- <br />2.34.1<br /><br /></div><div dir=
-=3D"ltr" style=3D"mso-line-height-rule:exactly;-webkit-text-size-adjust:100=
-%;direction:ltr;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" s=
-tyle=3D"width:100%;"><tr style=3D"font-size:0;"><td align=3D"left" style=
-=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=
-=3D"0" style=3D"font-size:0;"><tr style=3D"font-size:0;"><td align=3D"left"=
- style=3D"padding:0;vertical-align:top;"><table cellpadding=3D"0" cellspaci=
-ng=3D"0" border=3D"0" style=3D"width:100%;font-size:0;"><tr style=3D"font-s=
-ize:14.67px;color:#7F7F7F;font-style:normal;font-weight:400;white-space:now=
-rap;"><td align=3D"left" style=3D"vertical-align:top;font-family:Calibri,Ar=
-ial,sans-serif;">_______________________________________________________<sp=
-an style=3D"font-family:remialcxesans;font-size:1px;color:#FFFFFF;line-heig=
-ht:1px;">&#8203;</span></td></tr><tr style=3D"font-size:0;"><td align=3D"le=
-ft" style=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0=
-" border=3D"0" style=3D"font-size:0;"><tr style=3D"font-size:0;"><td align=
-=3D"left" style=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacin=
-g=3D"0" border=3D"0" style=3D"font-size:0;color:#7F7F7F;font-style:normal;f=
-ont-weight:400;white-space:nowrap;"><tr style=3D"font-size:14.67px;"><td al=
-ign=3D"left" style=3D"vertical-align:top;font-family:Calibri,Arial,sans-ser=
-if;">Christian</td><td align=3D"left" style=3D"vertical-align:top;color:#00=
-0001;font-family:Calibri,Arial,sans-serif;">&nbsp;<br /></td><td align=3D"l=
-eft" style=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif;">Egg=
-ers</td></tr></table></td></tr><tr style=3D"font-size:0;"><td align=3D"left=
-" style=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" =
-border=3D"0" style=3D"font-size:0;color:#7F7F7F;font-style:normal;font-weig=
-ht:400;white-space:nowrap;"><tr style=3D"font-size:14.67px;"><td align=3D"l=
-eft" style=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif;">Sof=
-tware&nbsp;Engineer</td></tr><tr style=3D"font-size:14.67px;color:#000001;"=
-><td align=3D"left" style=3D"vertical-align:top;font-family:Calibri,Arial,s=
-ans-serif;">&#8203;</td></tr></table></td></tr></table></td></tr><tr style=
-=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:top;"><table c=
-ellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font-size:0;"><tr =
-style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-align:top;"><ta=
-ble cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"font-size:0;c=
-olor:#0E50AD;font-style:normal;font-weight:400;white-space:nowrap;"><tr sty=
-le=3D"font-size:13.33px;"><td align=3D"left" style=3D"vertical-align:top;fo=
-nt-family:&#39;Arial Black&#39;;">ARRI</td></tr><tr style=3D"font-size:10.6=
-7px;color:#7F7F7F;"><td align=3D"left" style=3D"vertical-align:top;font-fam=
-ily:Arial;"><span style=3D"font-size:11px;">Arnold&nbsp;&amp;&nbsp;Richter&=
-nbsp;Cine&nbsp;Technik&nbsp;GmbH&nbsp;&amp;&nbsp;Co.&nbsp;Betriebs&nbsp;KG<=
-/span>&nbsp;<br /></td></tr></table></td></tr><tr style=3D"font-size:0;"><t=
-d align=3D"left" style=3D"vertical-align:top;"><table cellpadding=3D"0" cel=
-lspacing=3D"0" border=3D"0" style=3D"font-size:0;color:#7F7F7F;font-style:n=
-ormal;font-weight:400;white-space:nowrap;"><tr style=3D"font-size:10.67px;"=
-><td align=3D"left" style=3D"vertical-align:top;font-family:Arial;">Arriweg=
-&nbsp;17</td><td align=3D"left" style=3D"vertical-align:top;font-family:Ari=
-al;">,&nbsp;<br /></td><td align=3D"left" style=3D"vertical-align:middle;fo=
-nt-family:Arial;">83071</td><td align=3D"left" style=3D"vertical-align:midd=
-le;font-family:Arial;">&nbsp;<br /></td><td align=3D"left" style=3D"vertica=
-l-align:middle;font-family:Arial;">Stephanskirchen</td></tr></table></td></=
-tr></table></td></tr><tr style=3D"font-size:0;"><td align=3D"left" style=
-=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=
-=3D"0" style=3D"font-size:0;"><tr style=3D"font-size:0;"><td align=3D"left"=
- style=3D"vertical-align:top;"><table cellpadding=3D"0" cellspacing=3D"0" b=
-order=3D"0" style=3D"font-size:0;color:#1532B9;font-style:normal;font-weigh=
-t:400;white-space:nowrap;"><tr style=3D"font-size:11px;"><td align=3D"left"=
- style=3D"vertical-align:top;font-family:Arial;"><span style=3D"text-decora=
-tion:underline;"><a href=3D"http://www.arri.com/" target=3D"_blank" id=3D"L=
-Plnk689713" style=3D"text-decoration:underline;color:#1532B9;"><strong styl=
-e=3D"font-weight:400;">www.arri.com&nbsp;<br /><br /></strong></a></span></=
-td></tr><tr style=3D"font-size:0;"><td align=3D"left" style=3D"vertical-ali=
-gn:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"f=
-ont-size:0;color:#858080;font-style:normal;font-weight:400;line-height:norm=
-al;white-space:nowrap;"><tr style=3D"font-size:14.67px;"><td align=3D"left"=
- style=3D"padding:0;vertical-align:top;font-size:0;"><img src=3D"cid:image3=
-99736.png@97B31873.E027788D" width=3D"20" border=3D"0" alt=3D"" style=3D"wi=
-dth:20px;min-width:20px;max-width:20px;font-size:0;" /></td><td align=3D"le=
-ft" style=3D"padding:0;vertical-align:top;font-family:Calibri,Arial,sans-se=
-rif;"><a href=3D"tel:+49%208036%203009-3118" target=3D"_blank" id=3D"LPlnk6=
-89713" style=3D"text-decoration:none;color:#858080;"><strong style=3D"font-=
-weight:400;">+49&nbsp;8036&nbsp;3009-3118</strong></a></td></tr><tr style=
-=3D"font-size:0;"><td align=3D"left" style=3D"padding:0;vertical-align:top;=
-"></td><td align=3D"left" style=3D"padding:0;vertical-align:top;"></td></tr=
-><tr style=3D"font-size:0;"><td align=3D"left" style=3D"padding:0;vertical-=
-align:top;"></td><td align=3D"left" style=3D"padding:0;vertical-align:top;"=
-></td></tr><tr style=3D"font-size:14.67px;"><td align=3D"left" style=3D"pad=
-ding:0;vertical-align:top;font-size:0;"><img src=3D"cid:image200984.png@D72=
-085D6.9877A823" width=3D"20" border=3D"0" alt=3D"" style=3D"width:20px;min-=
-width:20px;max-width:20px;font-size:0;" /></td><td align=3D"left" style=3D"=
-padding:0;vertical-align:top;font-family:Calibri,Arial,sans-serif;"><a href=
-=3D"mailto:CEggers@arri.de" target=3D"_blank" id=3D"LPlnk689713" style=3D"t=
-ext-decoration:none;color:#858080;"><strong style=3D"font-weight:400;">CEgg=
-ers@arri.de</strong></a></td></tr></table></td></tr></table></td></tr></tab=
-le></td></tr><tr style=3D"font-size:14.67px;color:#000001;font-style:normal=
-;font-weight:400;white-space:nowrap;"><td align=3D"left" style=3D"vertical-=
-align:top;font-family:Calibri,Arial,sans-serif;"><br />&#8203;</td></tr></t=
-able></td></tr><tr style=3D"font-size:0;line-height:normal;"><td align=3D"l=
-eft" style=3D"padding:0;vertical-align:top;"><a href=3D"https://www.arri.co=
-m/en/lighting/led/orbiter-accessories/orbiter-dockingring/" target=3D"_blan=
-k" id=3D"LPlnk689713" style=3D"text-decoration:none;"><img src=3D"https://a=
-ssets.arri.com/media/sign/2022_Orbiter_Docking-Ring_E-mail-Signature_650x95=
-=2Ejpg" border=3D"0" title=3D"Orbiter Docking Ring" alt=3D"Orbiter Docking =
-Ring" style=3D"font-size:12px;" /></a></td></tr><tr style=3D"font-size:13px=
-;color:#7F7F7F;font-style:normal;font-weight:400;white-space:nowrap;"><td a=
-lign=3D"left" style=3D"padding:0;vertical-align:top;font-family:Calibri,Ari=
-al,sans-serif;">Get&nbsp;all&nbsp;the&nbsp;latest&nbsp;information&nbsp;fro=
-m&nbsp;<span style=3D"text-decoration:underline;"><a href=3D"http://www.arr=
-i.com/" target=3D"_blank" id=3D"LPlnk689713" title=3D"www.arri.com" style=
-=3D"text-decoration:underline;color:#7F7F7F;"><strong style=3D"font-weight:=
-400;">www.arri.com</strong></a></span>,&nbsp;<span style=3D"text-decoration=
-:underline;"><a href=3D"https://www.facebook.com/TeamARRI" target=3D"_blank=
-" id=3D"LPlnk689713" style=3D"text-decoration:underline;color:#7F7F7F;"><st=
-rong style=3D"font-weight:400;">Facebook</strong></a></span>,&nbsp;<span st=
-yle=3D"text-decoration:underline;"><a href=3D"https://twitter.com/ARRIChann=
-el" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-decoration:underline=
-;color:#7F7F7F;"><strong style=3D"font-weight:400;">Twitter</strong></a></s=
-pan>,&nbsp;<span style=3D"text-decoration:underline;"><a href=3D"http://ins=
-tagram.com/arri" target=3D"_blank" id=3D"LPlnk689713" style=3D"text-decorat=
-ion:underline;color:#7F7F7F;"><strong style=3D"font-weight:400;">Instagram<=
-/strong></a></span>&nbsp;and&nbsp;<span style=3D"text-decoration:underline;=
-"><a href=3D"http://www.youtube.com/user/ARRIChannel" target=3D"_blank" id=
-=3D"LPlnk689713" style=3D"text-decoration:underline;color:#7F7F7F;"><strong=
- style=3D"font-weight:400;">YouTube</strong></a></span>.<br /></td></tr><tr=
- style=3D"font-size:0;"><td align=3D"left" style=3D"padding:0;vertical-alig=
-n:top;"><table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"fo=
-nt-size:0;color:#6A6A6A;font-style:normal;font-weight:400;white-space:nowra=
-p;"><tr style=3D"font-size:10px;"><td align=3D"left" style=3D"vertical-alig=
-n:top;font-family:Arial;"><br />Arnold&nbsp;&amp;&nbsp;Richter&nbsp;Cine&nb=
-sp;Technik&nbsp;GmbH&nbsp;&amp;&nbsp;Co.&nbsp;Betriebs&nbsp;KG<br />Sitz:&n=
-bsp;M&#252;nchen&nbsp;=E2=80=91&nbsp;Registergericht:&nbsp;Amtsgericht&nbsp=
-;M&#252;nchen&nbsp;=E2=80=91&nbsp;Handelsregisternummer:&nbsp;HRA&nbsp;5791=
-8<br />Pers&#246;nlich&nbsp;haftender&nbsp;Gesellschafter:&nbsp;Arnold&nbsp=
-;&amp;&nbsp;Richter&nbsp;Cine&nbsp;Technik&nbsp;GmbH<br />Sitz:&nbsp;M&#252=
-;nchen&nbsp;=E2=80=91&nbsp;Registergericht:&nbsp;Amtsgericht&nbsp;M&#252;nc=
-hen&nbsp;=E2=80=91&nbsp;Handelsregisternummer:&nbsp;HRB&nbsp;54477<br />Ges=
-ch&#228;ftsf&#252;hrer:&nbsp;Dr.&nbsp;Michael&nbsp;Neuh&#228;user;&nbsp;Ste=
-phan&nbsp;Schenk;&nbsp;Walter&nbsp;Trauninger;&nbsp;Markus&nbsp;Zeiler<br /=
-></td></tr><tr style=3D"font-size:14.67px;color:#000001;"><td align=3D"left=
-" style=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif;"><br />=
-&#8203;<br /></td></tr></table></td></tr></table></td></tr></table></div></=
-body></html>
-------_=_NextPart_77832015-de90-4cbb-92c6-a0e183c49f2e--
+Looks like your mail system broke the indentation?
 
-------_=_NextPart_6c7dea66-0bd1-4297-b5b5-7d9f15675c0a
-Content-Type: image/png;
-	name="image399736.png"
+Alex
+
+On Fri, 11 Feb 2022 at 10:58, Christian Eggers <ceggers@arri.de> wrote:
+
+> From: Oleksiy Obitotskyy <oobitots@cisco.com>
+>
+> Since honister host manifest stopped to generate, i.e.
+> manifest file is empty but all ipks/files into sdk is
+> ok.
+>
+> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 79a2392f5d2a4cb6509a83afb40bca01bac59914)
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+> meta/lib/oe/sdk.py | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+> index 37b59afd1a99..27347667e846 100644
+> --- a/meta/lib/oe/sdk.py
+> +++ b/meta/lib/oe/sdk.py
+> @@ -115,6 +115,10 @@ def sdk_list_installed_packages(d, target,
+> rootfs_dir=3DNone):
+>
+> rootfs_dir =3D [sdk_output, os.path.join(sdk_output, target_path)][target=
+ is
+> True]
+>
+> + if target is False:
+> + ipkgconf_sdk_target =3D d.getVar("IPKGCONF_SDK")
+> + d.setVar("IPKGCONF_TARGET", ipkgconf_sdk_target)
+> +
+> img_type =3D d.getVar('IMAGE_PKGTYPE')
+> import importlib
+> cls =3D importlib.import_module('oe.package_manager.' + img_type)
+> --
+> 2.34.1
+>
+> _______________________________________________________=E2=80=8B
+> Christian
+> Eggers
+> Software Engineer
+> =E2=80=8B
+> ARRI
+> Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+> Arriweg 17 ,
+> 83071
+> Stephanskirchen
+>
+>
+> *www.arri.com * <http://www.arri.com/>
+> *+49 8036 3009-3118* <+49%208036%203009-3118>
+> *CEggers@arri.de* <CEggers@arri.de>
+>
+> =E2=80=8B
+> [image: Orbiter Docking Ring]
+> <https://www.arri.com/en/lighting/led/orbiter-accessories/orbiter-docking=
+ring/>
+> Get all the latest information from *www.arri.com* <http://www.arri.com/>
+> , *Facebook* <https://www.facebook.com/TeamARRI>, *Twitter*
+> <https://twitter.com/ARRIChannel>, *Instagram* <http://instagram.com/arri=
+>
+>  and *YouTube* <http://www.youtube.com/user/ARRIChannel>.
+>
+> Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+>
+> Sitz: M=C3=BCnchen =E2=80=91 Registergericht: Amtsgericht M=C3=BCnchen =
+=E2=80=91 Handelsregisternummer: HRA 57918
+> Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik G=
+mbH
+>
+> Sitz: M=C3=BCnchen =E2=80=91 Registergericht: Amtsgericht M=C3=BCnchen =
+=E2=80=91 Handelsregisternummer: HRB 54477
+>
+> Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Wa=
+lter Trauninger; Markus Zeiler
+>
+> =E2=80=8B
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161638):
+> https://lists.openembedded.org/g/openembedded-core/message/161638
+> Mute This Topic: https://lists.openembedded.org/mt/89068016/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--00000000000026cd5105d7bb72bb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Looks like your mail system broke the indentation?</d=
+iv><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Fri, 11 Feb 2022 at 10:58, Christia=
+n Eggers &lt;<a href=3D"mailto:ceggers@arri.de">ceggers@arri.de</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div>Fr=
+om: Oleksiy Obitotskyy &lt;<a href=3D"mailto:oobitots@cisco.com" target=3D"=
+_blank">oobitots@cisco.com</a>&gt;<br><br>Since honister host manifest stop=
+ped to generate, i.e.<br>manifest file is empty but all ipks/files into sdk=
+ is<br>ok.<br><br>Signed-off-by: Oleksiy Obitotskyy &lt;<a href=3D"mailto:o=
+obitots@cisco.com" target=3D"_blank">oobitots@cisco.com</a>&gt;<br>Signed-o=
+ff-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.=
+org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>(cherr=
+y picked from commit 79a2392f5d2a4cb6509a83afb40bca01bac59914)<br>Signed-of=
+f-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_b=
+lank">anuj.mittal@intel.com</a>&gt;<br>---<br> meta/lib/oe/sdk.py | 4 ++++<=
+br> 1 file changed, 4 insertions(+)<br><br>diff --git a/meta/lib/oe/sdk.py =
+b/meta/lib/oe/sdk.py<br>index 37b59afd1a99..27347667e846 100644<br>--- a/me=
+ta/lib/oe/sdk.py<br>+++ b/meta/lib/oe/sdk.py<br>@@ -115,6 +115,10 @@ def sd=
+k_list_installed_packages(d, target, rootfs_dir=3DNone):<br> <br>         r=
+ootfs_dir =3D [sdk_output, os.path.join(sdk_output, target_path)][target is=
+ True]<br> <br>+    if target is False:<br>+        ipkgconf_sdk_target =3D=
+ d.getVar(&quot;IPKGCONF_SDK&quot;)<br>+        d.setVar(&quot;IPKGCONF_TAR=
+GET&quot;, ipkgconf_sdk_target)<br>+<br>     img_type =3D d.getVar(&#39;IMA=
+GE_PKGTYPE&#39;)<br>     import importlib<br>     cls =3D importlib.import_=
+module(&#39;oe.package_manager.&#39; + img_type)<br>-- <br>2.34.1<br><br></=
+div><div dir=3D"ltr" style=3D"direction:ltr"><table style=3D"width:100%" ce=
+llspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=3D"font-siz=
+e:0px"><td style=3D"vertical-align:top" align=3D"left"><table style=3D"font=
+-size:0px" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr styl=
+e=3D"font-size:0px"><td style=3D"padding:0px;vertical-align:top" align=3D"l=
+eft"><table style=3D"width:100%;font-size:0px" cellspacing=3D"0" cellpaddin=
+g=3D"0" border=3D"0"><tbody><tr style=3D"font-size:14.67px;color:rgb(127,12=
+7,127);font-style:normal;font-weight:400;white-space:nowrap"><td style=3D"v=
+ertical-align:top;font-family:Calibri,Arial,sans-serif" align=3D"left">____=
+___________________________________________________<span style=3D"font-fami=
+ly:remialcxesans;font-size:1px;color:rgb(255,255,255);line-height:1px">=E2=
+=80=8B</span></td></tr><tr style=3D"font-size:0px"><td style=3D"vertical-al=
+ign:top" align=3D"left"><table style=3D"font-size:0px" cellspacing=3D"0" ce=
+llpadding=3D"0" border=3D"0"><tbody><tr style=3D"font-size:0px"><td style=
+=3D"vertical-align:top" align=3D"left"><table style=3D"font-size:0px;color:=
+rgb(127,127,127);font-style:normal;font-weight:400;white-space:nowrap" cell=
+spacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=3D"font-size:=
+14.67px"><td style=3D"vertical-align:top;font-family:Calibri,Arial,sans-ser=
+if" align=3D"left">Christian</td><td style=3D"vertical-align:top;color:rgb(=
+0,0,1);font-family:Calibri,Arial,sans-serif" align=3D"left">=C2=A0<br></td>=
+<td style=3D"vertical-align:top;font-family:Calibri,Arial,sans-serif" align=
+=3D"left">Eggers</td></tr></tbody></table></td></tr><tr style=3D"font-size:=
+0px"><td style=3D"vertical-align:top" align=3D"left"><table style=3D"font-s=
+ize:0px;color:rgb(127,127,127);font-style:normal;font-weight:400;white-spac=
+e:nowrap" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=
+=3D"font-size:14.67px"><td style=3D"vertical-align:top;font-family:Calibri,=
+Arial,sans-serif" align=3D"left">Software=C2=A0Engineer</td></tr><tr style=
+=3D"font-size:14.67px;color:rgb(0,0,1)"><td style=3D"vertical-align:top;fon=
+t-family:Calibri,Arial,sans-serif" align=3D"left">=E2=80=8B</td></tr></tbod=
+y></table></td></tr></tbody></table></td></tr><tr style=3D"font-size:0px"><=
+td style=3D"vertical-align:top" align=3D"left"><table style=3D"font-size:0p=
+x" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=3D"fon=
+t-size:0px"><td style=3D"vertical-align:top" align=3D"left"><table style=3D=
+"font-size:0px;color:rgb(14,80,173);font-style:normal;font-weight:400;white=
+-space:nowrap" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr =
+style=3D"font-size:13.33px"><td style=3D"vertical-align:top;font-family:&qu=
+ot;Arial Black&quot;" align=3D"left">ARRI</td></tr><tr style=3D"font-size:1=
+0.67px;color:rgb(127,127,127)"><td style=3D"vertical-align:top;font-family:=
+Arial" align=3D"left"><span style=3D"font-size:11px">Arnold=C2=A0&amp;=C2=
+=A0Richter=C2=A0Cine=C2=A0Technik=C2=A0GmbH=C2=A0&amp;=C2=A0Co.=C2=A0Betrie=
+bs=C2=A0KG</span>=C2=A0<br></td></tr></tbody></table></td></tr><tr style=3D=
+"font-size:0px"><td style=3D"vertical-align:top" align=3D"left"><table styl=
+e=3D"font-size:0px;color:rgb(127,127,127);font-style:normal;font-weight:400=
+;white-space:nowrap" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbod=
+y><tr style=3D"font-size:10.67px"><td style=3D"vertical-align:top;font-fami=
+ly:Arial" align=3D"left">Arriweg=C2=A017</td><td style=3D"vertical-align:to=
+p;font-family:Arial" align=3D"left">,=C2=A0<br></td><td style=3D"vertical-a=
+lign:middle;font-family:Arial" align=3D"left">83071</td><td style=3D"vertic=
+al-align:middle;font-family:Arial" align=3D"left">=C2=A0<br></td><td style=
+=3D"vertical-align:middle;font-family:Arial" align=3D"left">Stephanskirchen=
+</td></tr></tbody></table></td></tr></tbody></table></td></tr><tr style=3D"=
+font-size:0px"><td style=3D"vertical-align:top" align=3D"left"><table style=
+=3D"font-size:0px" cellspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody>=
+<tr style=3D"font-size:0px"><td style=3D"vertical-align:top" align=3D"left"=
+><table style=3D"font-size:0px;color:rgb(21,50,185);font-style:normal;font-=
+weight:400;white-space:nowrap" cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0"><tbody><tr style=3D"font-size:11px"><td style=3D"vertical-align:top;=
+font-family:Arial" align=3D"left"><span style=3D"text-decoration:underline"=
+><a href=3D"http://www.arri.com/" id=3D"gmail-m_6195521162510029733LPlnk689=
+713" style=3D"text-decoration:underline;color:rgb(21,50,185)" target=3D"_bl=
+ank"><strong style=3D"font-weight:400">www.arri.com=C2=A0<br><br></strong><=
+/a></span></td></tr><tr style=3D"font-size:0px"><td style=3D"vertical-align=
+:top" align=3D"left"><table style=3D"font-size:0px;color:rgb(133,128,128);f=
+ont-style:normal;font-weight:400;line-height:normal;white-space:nowrap" cel=
+lspacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=3D"font-size=
+:14.67px"><td style=3D"padding:0px;vertical-align:top;font-size:0px" align=
+=3D"left"><img src=3D"cid:17ee84d74fcc355a4bd1" alt=3D"" style=3D"width: 20=
+px; min-width: 20px; max-width: 20px; font-size: 0px;" width=3D"20" border=
+=3D"0"></td><td style=3D"padding:0px;vertical-align:top;font-family:Calibri=
+,Arial,sans-serif" align=3D"left"><a href=3D"tel:+49%208036%203009-3118" id=
+=3D"gmail-m_6195521162510029733LPlnk689713" style=3D"text-decoration:none;c=
+olor:rgb(133,128,128)" target=3D"_blank"><strong style=3D"font-weight:400">=
++49=C2=A08036=C2=A03009-3118</strong></a></td></tr><tr style=3D"font-size:0=
+px"><td style=3D"padding:0px;vertical-align:top" align=3D"left"></td><td st=
+yle=3D"padding:0px;vertical-align:top" align=3D"left"></td></tr><tr style=
+=3D"font-size:0px"><td style=3D"padding:0px;vertical-align:top" align=3D"le=
+ft"></td><td style=3D"padding:0px;vertical-align:top" align=3D"left"></td><=
+/tr><tr style=3D"font-size:14.67px"><td style=3D"padding:0px;vertical-align=
+:top;font-size:0px" align=3D"left"><img src=3D"cid:17ee84d74fe63f23b592" al=
+t=3D"" style=3D"width: 20px; min-width: 20px; max-width: 20px; font-size: 0=
+px;" width=3D"20" border=3D"0"></td><td style=3D"padding:0px;vertical-align=
+:top;font-family:Calibri,Arial,sans-serif" align=3D"left"><a href=3D"mailto=
+:CEggers@arri.de" id=3D"gmail-m_6195521162510029733LPlnk689713" style=3D"te=
+xt-decoration:none;color:rgb(133,128,128)" target=3D"_blank"><strong style=
+=3D"font-weight:400">CEggers@arri.de</strong></a></td></tr></tbody></table>=
+</td></tr></tbody></table></td></tr></tbody></table></td></tr><tr style=3D"=
+font-size:14.67px;color:rgb(0,0,1);font-style:normal;font-weight:400;white-=
+space:nowrap"><td style=3D"vertical-align:top;font-family:Calibri,Arial,san=
+s-serif" align=3D"left"><br>=E2=80=8B</td></tr></tbody></table></td></tr><t=
+r style=3D"font-size:0px;line-height:normal"><td style=3D"padding:0px;verti=
+cal-align:top" align=3D"left"><a href=3D"https://www.arri.com/en/lighting/l=
+ed/orbiter-accessories/orbiter-dockingring/" id=3D"gmail-m_6195521162510029=
+733LPlnk689713" style=3D"text-decoration:none" target=3D"_blank"><img src=
+=3D"https://assets.arri.com/media/sign/2022_Orbiter_Docking-Ring_E-mail-Sig=
+nature_650x95.jpg" title=3D"Orbiter Docking Ring" alt=3D"Orbiter Docking Ri=
+ng" style=3D"font-size: 12px;" border=3D"0"></a></td></tr><tr style=3D"font=
+-size:13px;color:rgb(127,127,127);font-style:normal;font-weight:400;white-s=
+pace:nowrap"><td style=3D"padding:0px;vertical-align:top;font-family:Calibr=
+i,Arial,sans-serif" align=3D"left">Get=C2=A0all=C2=A0the=C2=A0latest=C2=A0i=
+nformation=C2=A0from=C2=A0<span style=3D"text-decoration:underline"><a href=
+=3D"http://www.arri.com/" id=3D"gmail-m_6195521162510029733LPlnk689713" tit=
+le=3D"www.arri.com" style=3D"text-decoration:underline;color:rgb(127,127,12=
+7)" target=3D"_blank"><strong style=3D"font-weight:400">www.arri.com</stron=
+g></a></span>,=C2=A0<span style=3D"text-decoration:underline"><a href=3D"ht=
+tps://www.facebook.com/TeamARRI" id=3D"gmail-m_6195521162510029733LPlnk6897=
+13" style=3D"text-decoration:underline;color:rgb(127,127,127)" target=3D"_b=
+lank"><strong style=3D"font-weight:400">Facebook</strong></a></span>,=C2=A0=
+<span style=3D"text-decoration:underline"><a href=3D"https://twitter.com/AR=
+RIChannel" id=3D"gmail-m_6195521162510029733LPlnk689713" style=3D"text-deco=
+ration:underline;color:rgb(127,127,127)" target=3D"_blank"><strong style=3D=
+"font-weight:400">Twitter</strong></a></span>,=C2=A0<span style=3D"text-dec=
+oration:underline"><a href=3D"http://instagram.com/arri" id=3D"gmail-m_6195=
+521162510029733LPlnk689713" style=3D"text-decoration:underline;color:rgb(12=
+7,127,127)" target=3D"_blank"><strong style=3D"font-weight:400">Instagram</=
+strong></a></span>=C2=A0and=C2=A0<span style=3D"text-decoration:underline">=
+<a href=3D"http://www.youtube.com/user/ARRIChannel" id=3D"gmail-m_619552116=
+2510029733LPlnk689713" style=3D"text-decoration:underline;color:rgb(127,127=
+,127)" target=3D"_blank"><strong style=3D"font-weight:400">YouTube</strong>=
+</a></span>.<br></td></tr><tr style=3D"font-size:0px"><td style=3D"padding:=
+0px;vertical-align:top" align=3D"left"><table style=3D"font-size:0px;color:=
+rgb(106,106,106);font-style:normal;font-weight:400;white-space:nowrap" cell=
+spacing=3D"0" cellpadding=3D"0" border=3D"0"><tbody><tr style=3D"font-size:=
+10px"><td style=3D"vertical-align:top;font-family:Arial" align=3D"left"><br=
+>Arnold=C2=A0&amp;=C2=A0Richter=C2=A0Cine=C2=A0Technik=C2=A0GmbH=C2=A0&amp;=
+=C2=A0Co.=C2=A0Betriebs=C2=A0KG<br>Sitz:=C2=A0M=C3=BCnchen=C2=A0=E2=80=91=
+=C2=A0Registergericht:=C2=A0Amtsgericht=C2=A0M=C3=BCnchen=C2=A0=E2=80=91=C2=
+=A0Handelsregisternummer:=C2=A0HRA=C2=A057918<br>Pers=C3=B6nlich=C2=A0hafte=
+nder=C2=A0Gesellschafter:=C2=A0Arnold=C2=A0&amp;=C2=A0Richter=C2=A0Cine=C2=
+=A0Technik=C2=A0GmbH<br>Sitz:=C2=A0M=C3=BCnchen=C2=A0=E2=80=91=C2=A0Registe=
+rgericht:=C2=A0Amtsgericht=C2=A0M=C3=BCnchen=C2=A0=E2=80=91=C2=A0Handelsreg=
+isternummer:=C2=A0HRB=C2=A054477<br>Gesch=C3=A4ftsf=C3=BChrer:=C2=A0Dr.=C2=
+=A0Michael=C2=A0Neuh=C3=A4user;=C2=A0Stephan=C2=A0Schenk;=C2=A0Walter=C2=A0=
+Trauninger;=C2=A0Markus=C2=A0Zeiler<br></td></tr><tr style=3D"font-size:14.=
+67px;color:rgb(0,0,1)"><td style=3D"vertical-align:top;font-family:Calibri,=
+Arial,sans-serif" align=3D"left"><br>=E2=80=8B<br></td></tr></tbody></table=
+></td></tr></tbody></table></td></tr></tbody></table></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#161638): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/161638" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/161638</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89068016/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/89068016/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000026cd5105d7bb72bb--
+
+--00000000000026cd5205d7bb72bc
+Content-Type: image/png; name="image399736.png"
+Content-Disposition: inline; filename="image399736.png"
 Content-Transfer-Encoding: base64
-Content-ID: <image399736.png@97B31873.E027788D>
-Content-Description: image399736.png
-Content-Disposition: inline;
-	creation-date="Fri, 11 Feb 2022 09:58:26 +0000";
-	filename=image399736.png;
-	modification-date="Fri, 11 Feb 2022 09:58:26 +0000";
-	size=528
+Content-ID: <17ee84d74fcc355a4bd1>
+X-Attachment-Id: 17ee84d74fcc355a4bd1
 
 iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGlSURBVDhP1ZOxSgNBEIZ3o6QSSWGRwiJFCl9A
@@ -399,18 +373,12 @@ LmGaktyjTDSGsSxphMjV89khyqGx7yG96rC3r7g5S5vGNHaJsrb7LI3RwPw6btQDv8f0NGRwTWYT
 Wlch/eo+Mc5gPoWPfu9tpVgqrbGIHkoIVHOLQ5qAQVOmuNqVHma8guDK9jVkisY029aOQ/JhcYU9
 wbLPRaoBiX2p1+utu1rtqpDPV9FKHVQziiqH5fETzMr40yHe68hcfPaJRnHyI5L+K5T6BsZ9gKi6
 xb3hAAAAAElFTkSuQmCC
-
-------_=_NextPart_6c7dea66-0bd1-4297-b5b5-7d9f15675c0a
-Content-Type: image/png;
-	name="image200984.png"
+--00000000000026cd5205d7bb72bc
+Content-Type: image/png; name="image200984.png"
+Content-Disposition: inline; filename="image200984.png"
 Content-Transfer-Encoding: base64
-Content-ID: <image200984.png@D72085D6.9877A823>
-Content-Description: image200984.png
-Content-Disposition: inline;
-	creation-date="Fri, 11 Feb 2022 09:58:26 +0000";
-	filename=image200984.png;
-	modification-date="Fri, 11 Feb 2022 09:58:26 +0000";
-	size=824
+Content-ID: <17ee84d74fe63f23b592>
+X-Attachment-Id: 17ee84d74fe63f23b592
 
 iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
 jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALNSURBVDhPtZQ/SNVRFMfv1Z/S4PCGBoeg1Uih
@@ -427,6 +395,5 @@ XgxF4iyr8Is5zJ6hZyg08TY5XCDY3WbnzgTnMnKEz5FeBgN/ijG5gW1fSKLh7tr5pnOGguaPUjXQ
 93l6GhlddlsYl13gmfZzVTXNbTB5NAfp8a5a/Vjq6flO0JsM6yD3sspaf1utruu77qy3WDzeWyo9
 4T6HKO8bPunsBuximIHs+kfRo1eThA1KrHM46/w8pV/nzyNrZo6GATNwBRqjPtgeRK2H7i6MJEk+
 Nv8ZxvwBPgIhrepF7fMAAAAASUVORK5CYII=
-
-------_=_NextPart_6c7dea66-0bd1-4297-b5b5-7d9f15675c0a--
+--00000000000026cd5205d7bb72bc--
 
