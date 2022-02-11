@@ -1,159 +1,136 @@
-Return-Path: <mikko.rapeli@bmw.de>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD01C433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 08:00:30 +0000 (UTC)
-Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com
- [207.54.71.69])
- by mx.groups.io with SMTP id smtpd.web08.4733.1644566428798953341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6D8C433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Feb 2022 08:04:23 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web08.4755.1644566661438829321
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Feb 2022 00:00:30 -0800
+ Fri, 11 Feb 2022 00:04:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
- header.b=nhlretLL;
- spf=pass (domain: bmw.de, ip: 207.54.71.69,
- mailfrom: prvs=034b4490f=mikko.rapeli@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I1ZFjjkJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id t14so11394754ljh.8
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 11 Feb 2022 00:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1644566428; x=1676102428;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=oGVZpmehhNXWANTod2lUgxIZPZpSJRSoYWBKgyi3kds=;
-  b=nhlretLLnvxARtDBlfBD1QRdxBpJgTr0CSp88vjNwqjqcOmNrL8OHs6P
-   DukdNx51eQRoLf5BF+GhhKtM5m8K9S6wBnITYwxub3CbInUBMP0cPyh0O
-   BEPEgKIgpbXyWLw6dHNtbDwSbWUnaa5mLavzyEtKObZlsBZiSxg0yhhEE
-   8=;
-IronPort-SDR: 
- XmyQDEZu8znhjGtnViX7XcBVMtSXYXOr2bT+HMTouB9aKTJSo58DQMjX2fCKF056za8YCHQNXl
- Tp+CV391N1b302Eslyckggsikn61NvtTpPmR8Ho1XMIOJmtgGsHYXEQW+geLy1gV7A0GRcsv6K
- 81XDYC/K5EZDdE4WpJjW3peKy9dEGQ7qLnvh43kJP+B6lbSdpmDVVI/uGO/qRdqjMFF7oy6/FX
- R5FDaCwl4QZnqkJ+m17UukY7bpOYfPX3d+N4anlqb+CZsfc9rv4WXsZihV8GbnUafYAnKceaxb
- H213kkQLYYlw8O6eENWFSK47
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
- esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Feb 2022 09:00:25 +0100
-Received: from esabb4.muc ([160.50.100.33])  by esagw5.muc with ESMTP/TLS;
- 11 Feb 2022 09:00:25 +0100
-Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp)
- ([160.46.167.67])
- by esabb4.muc with ESMTP/TLS; 11 Feb 2022 09:00:25 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
- smucm33k.europe.bmw.corp
- (160.46.167.67) with Microsoft SMTP Server (TLS;
- Fri, 11 Feb 2022 09:00:25 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Fri,
- 11 Feb 2022 09:00:25 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <bluelightning@bluelightning.org>
-CC: <openembedded-core@lists.openembedded.org>, <sanakazisk19@gmail.com>,
-	<ranjitsinh.rathod@kpit.com>, <richard.purdie@linuxfoundation.org>
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=hMhxFQG9aXbud3BcPcKFWy6DgC6jul6zGIGP+lPhUNc=;
+        b=I1ZFjjkJip6YvhjYfWDceFQSCTjEWIdUjCgYyaCNRHxDG6+Cw6M4dDQ85fLZBkbwHm
+         8i6hyg11oRq0zVgF7TiweS6BFUcDJuY6PQlE1yA+39ExE2ZaskI7x159hdfaispo+iNq
+         AYguZz3sOzpSVIUZabU2cf7ww2vp6+kEo0g8YBUMn2k/EmQeJ/xY1r1Dyepfh9PQcxSD
+         WwLAKtKsCd+WWQ1grXVuXlmLZfUBkOWNkA8Iuyf9Lmy4MwGzjc4v1Og8kG0s2Y18kP9D
+         am1Y4HznVTJF2ttqGdCMeyidPCRRc4KHeNC/QLlcibo/lFqswxshuCW8ZQCMM0cykPGG
+         3pLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hMhxFQG9aXbud3BcPcKFWy6DgC6jul6zGIGP+lPhUNc=;
+        b=1WENaY//24yf/OOo2et/xDD9cjB4JFIxGAwYR0gmoh3vl7BIrLso0qtkqIYXy+FDz/
+         J5q1Ksr7WRvjPM2CxjfWYtwT+mCA8T65WYB5nvtQHOZDSLMSms6lPSrcT2xtLwc0qGld
+         TMvCE0UUldJIAV544lQewI5q/eAYKCPqeFeAmOUn8L4CQEWwuSGFlcbVSozbWTYstEH8
+         BnTskQv4dnr55NUgmUbhHhkcV5OdzERwMpDb6tSzK0Q4yYHTyUfP/0OVxOsAH2JeHv2w
+         I74vyJLu56PVLHLuZsjKX3zudPtnRAG75GDT8V4+z2BN4X5YMLkwm8OiuozkaUf9E600
+         T4FQ==
+X-Gm-Message-State: AOAM533JeMiOnrdTt1pXULr7H82zE3oGuO8hWgqWWDbtkJbnbK/VUMgv
+	CkD2i+wGijQPRd2G3qTDH4o=
+X-Google-Smtp-Source: 
+ ABdhPJxM+OvrUG3Xv/cUzgSoZ8BtLrT8rNDM8JKelCLKejmgn58xMHt5+nmZW0bS0itqgg+pv9S9fg==
+X-Received: by 2002:a2e:b7d5:: with SMTP id p21mr320774ljo.522.1644566659455;
+        Fri, 11 Feb 2022 00:04:19 -0800 (PST)
+Received: from [192.168.10.175] (37-247-29-68.customers.ownit.se.
+ [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id
+ g26sm3059851lfj.176.2022.02.11.00.04.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Feb 2022 00:04:18 -0800 (PST)
+Message-ID: <4dfb7861-35e7-3e5b-3339-4a25c8166a2c@gmail.com>
+Date: Fri, 11 Feb 2022 09:04:17 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Subject: Re: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable
  exporting more recipe and package data
-Thread-Topic: [OE-core] [poky][master][PATCHv2] buildhistory.bbclass: Enable
- exporting more recipe and package data
-Thread-Index: 
- AQHYHZe441HnQYeLLEqDuYqPBGkeZayLE8mAgAAR5wCAAAOIAIAADUeAgAASjACAAl+2gIAARiOA
-Date: Fri, 11 Feb 2022 08:00:25 +0000
-Message-ID: <YgYXl34nOhA1c7Ea@korppu>
+Content-Language: en-US
+To: Mikko Rapeli <mikko.rapeli@bmw.de>, bluelightning@bluelightning.org
+Cc: openembedded-core@lists.openembedded.org, sanakazisk19@gmail.com,
+ ranjitsinh.rathod@kpit.com, richard.purdie@linuxfoundation.org
 References: <20220209092947.25677-1-sanakazisk19@gmail.com>
  <YgPPaRecZGTG2MF9@korppu>
  <6b2b59da15e0889c58c2a79515870994aa29a5c8.camel@linuxfoundation.org>
- <1811908.CQOukoFCf9@linc>
-In-Reply-To: <1811908.CQOukoFCf9@linc>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <BBC8EBA13579DD4E8BFAD6AA890E28A6@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+ <1811908.CQOukoFCf9@linc> <YgYXl34nOhA1c7Ea@korppu>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: <YgYXl34nOhA1c7Ea@korppu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 08:00:30 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Feb 2022 08:04:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161635
+ https://lists.openembedded.org/g/openembedded-core/message/161636
 
-Hi,
+On 2/11/22 09:00, Mikko Rapeli wrote:
+> Hi,
+> 
+> On Fri, Feb 11, 2022 at 04:49:21PM +1300, Paul Eggleton wrote:
+>> FWIW I'll just chime in here as the original author[1] and say I agree with 
+>> Richard. If folks are needing an alternative SBOM generation mechanism to 
+>> SPDX, or have other use cases for extracting build information, then I'd 
+>> prefer we take a step back and design such a thing properly. The original idea 
+>> was (1) to expose changes in the output that might not readily apparent 
+>> otherwise, and (2) expose selected "input" values that would (or could) 
+>> materially influence the output, so you hopefully have a ready explanation for 
+>> why an image / package increased in size or dependencies got added etc. 
+> 
+> First of all, thanks for buildhistory, Paul!
+> 
+>> I will accept that over time buildhistory has added things here and there that 
+>> further the idea of using it for SBOM, folks no doubt have been using these 
+>> for such purposes, and I'm not 100% opposed to making small additions where 
+>> they make sense. However, even with this proposed extension, buildhistory is 
+>> still not capable of recording sufficient information that (I believe) is 
+>> expected in a modern SBOM - for example, the list of patches applied / CVEs 
+>> resolved as a result - and I don't think it would be wise to extend it to do 
+>> so. We certainly don't want to give folks the idea that buildhistory is good 
+>> enough to resolve their SBOM requirements when we haven't designed it to do 
+>> so, particularly as for many folks there are legal and regulatory concerns 
+>> involved.
+> 
+> Maybe I'm "abusing" buildhistory then. The way it enables to have a git repo
+> view with full history of releases on metadata available in SW builds is
+> really invaluable. We seem to be abusing it to export various bitbake recipe
+> variables from product configuration so that we can later on do some QA checks
+> on them and record the details in nice git history view.
+> 
+> There could be other ways to implement the same use cases. We could have real
+> QA checks in the bitbake builds which make sure certain recipe variables
+> are correctly filled. We could export them into image manifest files or even SDPX
+> to record the details per release. Then we could manually diff the files between
+> releases to check for delta. Or a custom data format, maybe in json.
+> 
+> Yocto CVE checker uses a custom text format, a bit similar to buildhistory as output.
+> There is the json patch from Microsoft in review.
+> 
+> Currently I don't see SPDX output replacing buildhistory and CVE checker output completely.
+> 
+> Then there is the current discussion about ABI dumps and how to store and export them
+> and buildhistory was at least initially mentioned there.
+> 
+> Gah, now I thought about saving SPDX, CVE checker and ABI dump output in buildhistory too.
+> Would actually be nice. Sorry, yet another use case where easy access build metadata
+> to compare over time and releases would be really handy. This never ends.
+> You've created a monster :)
+> 
 
-On Fri, Feb 11, 2022 at 04:49:21PM +1300, Paul Eggleton wrote:
-> FWIW I'll just chime in here as the original author[1] and say I agree wi=
-th=20
-> Richard. If folks are needing an alternative SBOM generation mechanism to=
-=20
-> SPDX, or have other use cases for extracting build information, then I'd=
-=20
-> prefer we take a step back and design such a thing properly. The original=
- idea=20
-> was (1) to expose changes in the output that might not readily apparent=20
-> otherwise, and (2) expose selected "input" values that would (or could)=20
-> materially influence the output, so you hopefully have a ready explanatio=
-n for=20
-> why an image / package increased in size or dependencies got added etc.=20
+I want to add file checksums to that wishlist.
 
-First of all, thanks for buildhistory, Paul!
-
-> I will accept that over time buildhistory has added things here and there=
- that=20
-> further the idea of using it for SBOM, folks no doubt have been using the=
-se=20
-> for such purposes, and I'm not 100% opposed to making small additions whe=
-re=20
-> they make sense. However, even with this proposed extension, buildhistory=
- is=20
-> still not capable of recording sufficient information that (I believe) is=
-=20
-> expected in a modern SBOM - for example, the list of patches applied / CV=
-Es=20
-> resolved as a result - and I don't think it would be wise to extend it to=
- do=20
-> so. We certainly don't want to give folks the idea that buildhistory is g=
-ood=20
-> enough to resolve their SBOM requirements when we haven't designed it to =
-do=20
-> so, particularly as for many folks there are legal and regulatory concern=
-s=20
-> involved.
-
-Maybe I'm "abusing" buildhistory then. The way it enables to have a git rep=
-o
-view with full history of releases on metadata available in SW builds is
-really invaluable. We seem to be abusing it to export various bitbake recip=
-e
-variables from product configuration so that we can later on do some QA che=
-cks
-on them and record the details in nice git history view.
-
-There could be other ways to implement the same use cases. We could have re=
-al
-QA checks in the bitbake builds which make sure certain recipe variables
-are correctly filled. We could export them into image manifest files or eve=
-n SDPX
-to record the details per release. Then we could manually diff the files be=
-tween
-releases to check for delta. Or a custom data format, maybe in json.
-
-Yocto CVE checker uses a custom text format, a bit similar to buildhistory =
-as output.
-There is the json patch from Microsoft in review.
-
-Currently I don't see SPDX output replacing buildhistory and CVE checker ou=
-tput completely.
-
-Then there is the current discussion about ABI dumps and how to store and e=
-xport them
-and buildhistory was at least initially mentioned there.
-
-Gah, now I thought about saving SPDX, CVE checker and ABI dump output in bu=
-ildhistory too.
-Would actually be nice. Sorry, yet another use case where easy access build=
- metadata
-to compare over time and releases would be really handy. This never ends.
-You've created a monster :)
-
--Mikko=
+Jacob
 
