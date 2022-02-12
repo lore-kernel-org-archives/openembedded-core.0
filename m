@@ -1,100 +1,86 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7802C433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Feb 2022 13:18:34 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web10.8657.1644671910516678108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B951C433F5
+	for <webhook@archiver.kernel.org>; Sat, 12 Feb 2022 13:22:51 +0000 (UTC)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web12.8861.1644672169676342416
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 05:18:34 -0800
+ Sat, 12 Feb 2022 05:22:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sigma-chemnitz.de header.s=v2012061000 header.b=RNCyfgpA;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67,
- mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-3.intern.sigma-chemnitz.de
- (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
-	by mail-out-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
- 21CDIPlr192079
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 14:18:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1644671905;
-	bh=05TWPSYAw2nvPRIl3kpXyNqHY022Se++ASWyickSjRs=; l=1128;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=RNCyfgpA0SV0uGvnjmTTx1pUvJ0/OTngRWcgR6VWpoEG7UntZV/J/tTe3gbLyzAsd
-	 TtKa0pHraAzhr2jGnHBh8dHObochThtU8eQzK0FYxqq+paBHhJodd93RLQDXbMfzdL
-	 dlNZjp3X+EVD0npncymQzFNPT5Kfmq9/I7rZfWfk=
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local
- [192.168.16.32])
-	by mail-mta-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id
- 21CDINrI529505
-	for <openembedded-core@lists.openembedded.org> from
- enrico.scholz@sigma-chemnitz.de; Sat, 12 Feb 2022 14:18:23 +0100
-Received: from mail-msa-2.intern.sigma-chemnitz.de ( [192.168.12.72]) by
- reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 71FC89B9728; Sat, 12 Feb 2022 14:18:21 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
- (ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
- 21CDIKWZ185333
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sat, 12 Feb 2022 14:18:20 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
- 4.94.2)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1nIsI7-000MFD-4F; Sat, 12 Feb 2022 14:18:19 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-        Alexander Kanavin
- <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when
- host gl drivers are in use
-References: <20220204204027.2323845-1-alex@linutronix.de>
-Date: Sat, 12 Feb 2022 14:18:19 +0100
-In-Reply-To: <20220204204027.2323845-1-alex@linutronix.de> (Alexander
-	Kanavin's message of "Fri, 4 Feb 2022 21:40:27 +0100")
-Message-ID: <lywni0cjfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VUtxSk3g;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id r20so13685489vsn.0
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 12 Feb 2022 05:22:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6zOlrwsZXOIvkPP0fBVbx0oRcN0d6VSPQQL7QAQRWvc=;
+        b=VUtxSk3gkUqxqPcyGaldbqlFMb04e/ZutEqfPiMinsSYIi+rGOXYK/+BMWlTvAgWhq
+         ZXu8XU5tEibV5rRMZdDj8PbKv6rxVM77BGZMP8w9eFu+TtcK2IaWB6Vo60LoeTMs1pnK
+         2Z0mux/elG27NU+ng9htltUPRZSWgMkEtKrDEQ6Zpj6478djksJYB3tYCg4gUaXb09Pu
+         tkHwl4mw9GsbCc06AeDhpq78NGO7YlkyPZ5Is8tiq/FCxBwTcYdfOrhx4Gz9MwhmXvnH
+         mwFokWmzHuxeJKcsMZ+nw7KSwOKSO+hCq6hLgET3+enGUTXgIxN7RC593iPMmSeQ2q7W
+         m4Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6zOlrwsZXOIvkPP0fBVbx0oRcN0d6VSPQQL7QAQRWvc=;
+        b=UtdwYF/I8734VMez4wx7OIOUWfDHbRh+Bj+86RA74woTedQ1bif5dj3dkawfWZsQMi
+         2R6+s4+E14rjAUtkdmpACpqIfH/vw3qHmX7etzjcxzcQxNFWgE3uDwHUzwvZYgHNHcPS
+         PcvQdNqSJszT+lfeA2wEwewL741gzKNfr4757RJsLddIA9kXKWMyCBa6oYaxKg8/OiWq
+         xO5x8TpX4vB8mLNukvdM3oxTfa9jpkQmCMS+9JE+6EgukdttEwTfLaSvwkh5O39Gqck2
+         fSvU04iLo4VrHb3k5uOjE6VgUbzJ/EI4qNio66zx/SCG8O0/q0b0IhQgEfrMeTn4BeJ8
+         WRWQ==
+X-Gm-Message-State: AOAM531E7RaLXmnd/kBXhx0Axg7tuBqFz38+M0XortHJ6yBclTixkyIm
+	FIQOMH8iuEWfwpzncCDZmy27BiaVttDRAL0A0Aw=
+X-Google-Smtp-Source: 
+ ABdhPJyGLj6b0hYzsK3t8rwAPwM7ZjzUbNo6dfBPBIsyLFmg3NnEeOMF1GWEPy+hENdd4tQjhO3g2MsSWMvwgahEVR4=
+X-Received: by 2002:a05:6102:3707:: with SMTP id
+ s7mr55098vst.42.1644672168781;
+ Sat, 12 Feb 2022 05:22:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+References: <20220204204027.2323845-1-alex@linutronix.de>
+ <lywni0cjfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lywni0cjfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 12 Feb 2022 14:22:37 +0100
+Message-ID: 
+ <CANNYZj-DCa5Pwz9eNDKgiCBOKGxe9wbDDrFcEg23=jK5DZXQQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when host
+ gl drivers are in use
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Feb 2022 13:18:34 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Feb 2022 13:22:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161670
+ https://lists.openembedded.org/g/openembedded-core/message/161671
 
-"Alexander Kanavin" <alex.kanavin@gmail.com> writes:
+On Sat, 12 Feb 2022 at 14:18, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+> | File: '.../meta/classes/qemuboot.bbclass', lineno: 141, function: do_write_qemuboot_conf
+> |      0137:        else:
+> |      0138:            val = d.getVar(k)
+> |      0139:        # we only want to write out relative paths so that we can relocate images
+> |      0140:        # and still run them
+> |  *** 0141:        if val.startswith(topdir):
+> |      0142:            val = os.path.relpath(val, finalpath)
+> |      0143:        cf.set('config_bsp', k, '%s' % val)
+> |      0144:
+> |      0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
+> | Exception: AttributeError: 'NoneType' object has no attribute 'startswith'
 
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -109,7 +109,7 @@ def qemuboot_vars(d):
->      build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
->                  'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
->                  'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
-> -                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
-> +                'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
->      return build_vars + [k for k in d.keys() if k.startswith('QB_')]
+Fix is in master-next.
 
-Build without uninative fails now with
-
-| File: '.../meta/classes/qemuboot.bbclass', lineno: 141, function: do_write_qemuboot_conf
-|      0137:        else:
-|      0138:            val = d.getVar(k)
-|      0139:        # we only want to write out relative paths so that we can relocate images
-|      0140:        # and still run them
-|  *** 0141:        if val.startswith(topdir):
-|      0142:            val = os.path.relpath(val, finalpath)
-|      0143:        cf.set('config_bsp', k, '%s' % val)
-|      0144:
-|      0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
-| Exception: AttributeError: 'NoneType' object has no attribute 'startswith'
-
-
-
-Enrico
+Alex
 
