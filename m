@@ -1,86 +1,95 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B951C433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Feb 2022 13:22:51 +0000 (UTC)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
- [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web12.8861.1644672169676342416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ABAC433EF
+	for <webhook@archiver.kernel.org>; Sat, 12 Feb 2022 13:27:16 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.8727.1644672435255469643
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 05:22:49 -0800
+ Sat, 12 Feb 2022 05:27:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VUtxSk3g;
- spf=pass (domain: gmail.com, ip: 209.85.217.41,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id r20so13685489vsn.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZFb/temt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id k41so5865558wms.0
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 05:22:49 -0800 (PST)
+ Sat, 12 Feb 2022 05:27:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6zOlrwsZXOIvkPP0fBVbx0oRcN0d6VSPQQL7QAQRWvc=;
-        b=VUtxSk3gkUqxqPcyGaldbqlFMb04e/ZutEqfPiMinsSYIi+rGOXYK/+BMWlTvAgWhq
-         ZXu8XU5tEibV5rRMZdDj8PbKv6rxVM77BGZMP8w9eFu+TtcK2IaWB6Vo60LoeTMs1pnK
-         2Z0mux/elG27NU+ng9htltUPRZSWgMkEtKrDEQ6Zpj6478djksJYB3tYCg4gUaXb09Pu
-         tkHwl4mw9GsbCc06AeDhpq78NGO7YlkyPZ5Is8tiq/FCxBwTcYdfOrhx4Gz9MwhmXvnH
-         mwFokWmzHuxeJKcsMZ+nw7KSwOKSO+hCq6hLgET3+enGUTXgIxN7RC593iPMmSeQ2q7W
-         m4Dw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=rS0+qeNTVeW38NCBG2I2MN43GRCket7MwuQZEFNctnI=;
+        b=ZFb/temtLYZmDuz28fuNGguiQr2gypv+dPvc35SuJ6/kd9FXKIVTy3v9j0FTVAwaw7
+         GbFe7Qr0GscefXQB1r0I5RyBsYdLTyyLQm7Ewl7BCmK1mbp2ZLypLc09jARMRLiHQITM
+         wQyKakkD4v0s7lFPwS2tjuQKbiiti92TKpMkE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6zOlrwsZXOIvkPP0fBVbx0oRcN0d6VSPQQL7QAQRWvc=;
-        b=UtdwYF/I8734VMez4wx7OIOUWfDHbRh+Bj+86RA74woTedQ1bif5dj3dkawfWZsQMi
-         2R6+s4+E14rjAUtkdmpACpqIfH/vw3qHmX7etzjcxzcQxNFWgE3uDwHUzwvZYgHNHcPS
-         PcvQdNqSJszT+lfeA2wEwewL741gzKNfr4757RJsLddIA9kXKWMyCBa6oYaxKg8/OiWq
-         xO5x8TpX4vB8mLNukvdM3oxTfa9jpkQmCMS+9JE+6EgukdttEwTfLaSvwkh5O39Gqck2
-         fSvU04iLo4VrHb3k5uOjE6VgUbzJ/EI4qNio66zx/SCG8O0/q0b0IhQgEfrMeTn4BeJ8
-         WRWQ==
-X-Gm-Message-State: AOAM531E7RaLXmnd/kBXhx0Axg7tuBqFz38+M0XortHJ6yBclTixkyIm
-	FIQOMH8iuEWfwpzncCDZmy27BiaVttDRAL0A0Aw=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=rS0+qeNTVeW38NCBG2I2MN43GRCket7MwuQZEFNctnI=;
+        b=SaLGZB8vnZdRVE8dVPCVEyq8wwVZP8MJ26B3ttp+DI9C878WoJ6qhbXpKkt1XVkfqR
+         GpmowFbNnzRsu5XvtioiXXxlZ/DywCsxyPbLx1gkDcbxoVNU4yOPSv3Af6ia3TaUvhMt
+         IyjsgqakcBY4eLyi1rG2L+bMLsChBJSw9lAkkT0SVtygEaawTxYo7f/G0dpjHnThL1Uz
+         R07kKfS7LAeubC7cm3vp+helVhL+1a7kIzueNnJoJLwq+ndjKkvPnupLy9I5vS8GHyJj
+         h1uhRIvex9x7zh/Uzk29fPNDQx1BuizbFfb3XHLO/W3tqKjJPq/Wl3lLUWhTZEj1M3ci
+         JhTg==
+X-Gm-Message-State: AOAM532kzmvYEL4mB+yVWyuPQ/I0DAL39hhWOqM3MlkMdS9vEQF1q3Jy
+	1a4nn9heoV20Ss5jyHK/0BF/fQ==
 X-Google-Smtp-Source: 
- ABdhPJyGLj6b0hYzsK3t8rwAPwM7ZjzUbNo6dfBPBIsyLFmg3NnEeOMF1GWEPy+hENdd4tQjhO3g2MsSWMvwgahEVR4=
-X-Received: by 2002:a05:6102:3707:: with SMTP id
- s7mr55098vst.42.1644672168781;
- Sat, 12 Feb 2022 05:22:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20220204204027.2323845-1-alex@linutronix.de>
- <lywni0cjfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lywni0cjfo.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 12 Feb 2022 14:22:37 +0100
+ ABdhPJxtnWd1Yaz/OdEU4DOHDLcmEkuIivIeIXiGe5ki/+G1ICCFZ+itw8AQP9Dn7rnjRmpWPEoA1A==
+X-Received: by 2002:a7b:c184:: with SMTP id y4mr4170934wmi.117.1644672433562;
+        Sat, 12 Feb 2022 05:27:13 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8ec5:268f:bfc7:dcae?
+ ([2001:8b0:aba:5f3c:8ec5:268f:bfc7:dcae])
+        by smtp.gmail.com with ESMTPSA id
+ u7sm12164698wrm.15.2022.02.12.05.27.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Feb 2022 05:27:12 -0800 (PST)
 Message-ID: 
- <CANNYZj-DCa5Pwz9eNDKgiCBOKGxe9wbDDrFcEg23=jK5DZXQQQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when host
- gl drivers are in use
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
+ <708e70534079e11e5db614f43e314aef62587a3c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] binutils: Upgrade to 2.38 release
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 12 Feb 2022 13:27:09 +0000
+In-Reply-To: <20220210183719.3213809-1-raj.khem@gmail.com>
+References: <20220210183719.3213809-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Feb 2022 13:22:51 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Feb 2022 13:27:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161671
+ https://lists.openembedded.org/g/openembedded-core/message/161672
 
-On Sat, 12 Feb 2022 at 14:18, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> | File: '.../meta/classes/qemuboot.bbclass', lineno: 141, function: do_write_qemuboot_conf
-> |      0137:        else:
-> |      0138:            val = d.getVar(k)
-> |      0139:        # we only want to write out relative paths so that we can relocate images
-> |      0140:        # and still run them
-> |  *** 0141:        if val.startswith(topdir):
-> |      0142:            val = os.path.relpath(val, finalpath)
-> |      0143:        cf.set('config_bsp', k, '%s' % val)
-> |      0144:
-> |      0145:    # QB_DEFAULT_KERNEL's value of KERNEL_IMAGETYPE is the name of a symlink
-> | Exception: AttributeError: 'NoneType' object has no attribute 'startswith'
+On Thu, 2022-02-10 at 10:37 -0800, Khem Raj wrote:
+> Release Notes are here [1]
+> 
+> [1] https://lists.gnu.org/archive/html/info-gnu/2022-02/msg00009.html
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-Fix is in master-next.
+So far there was a mingw failure:
 
-Alex
+https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/4729
+
+and a qemuppc kernel build issue:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/4688
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/2632
+
+The build is:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3220
+
+and the meta-aws issue is known about and not related.
+
+Cheers,
+
+Richard
+
 
