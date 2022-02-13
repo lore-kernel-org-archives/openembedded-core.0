@@ -1,94 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C20C433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Feb 2022 17:37:54 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web12.11708.1644687473440316413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A5FC433F5
+	for <webhook@archiver.kernel.org>; Sun, 13 Feb 2022 01:23:48 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web12.16536.1644715426976335681
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 09:37:53 -0800
+ Sat, 12 Feb 2022 17:23:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjPHvJVh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- k3-20020a1ca103000000b0037bdea84f9cso8251661wme.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FHaKDdPl;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id y8so12444515qtn.8
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Feb 2022 09:37:53 -0800 (PST)
+ Sat, 12 Feb 2022 17:23:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1b5CdF8GJnEzJ6T746EgWMBza0x5CFY7GzDxWC4dJdg=;
-        b=bjPHvJVhHtvfjbmysj0mNerewwEdJVDK6n8GvbCcIhMYNSpIVmYUJN+hFHBZfQe+pa
-         OjKIDLlHw6ho+1l9xTPW0Ta4keROadx2fOznNDj9DqcKI6LNWVv599D2UVVkx5dxFhwy
-         jp3otsX4rnpY0K3cNIlOT+bgDmin90NqlnAw4=
+        bh=gZvmOUwjQtS6xEaNpunuzAVHfPoqO4Sl1QIqwwyKpO4=;
+        b=FHaKDdPlaiGsDVdNIrWLcIHpdeWwoQMBFDZXxzNkhY1wH5YS7O3U1e/fo2USbzxcFe
+         pZvSIxGHN2k2C/lOjz/tJlfBsU+xezC7tLSc5/vdIQXpNsSkj+TitvZ6lbzztjq3C4MO
+         tVRFErDw7Qey03sg2d0SCXotoKKc7aoDYk6bB8MIVFgMk6+PPcQOdvFmWsKUt6574IUD
+         y6wk/8resFqILOsUhcRljm2SPDCXrHI72UKdrshS9ZIS55rfzu30WWpw7yleAnYOmrPt
+         u2E3CU5ap+EGmKIEemOBWCslSAvXvJLQkaI5r8HenA4FtBK8EXwzm1mgy+z/AasaBSL9
+         KmjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1b5CdF8GJnEzJ6T746EgWMBza0x5CFY7GzDxWC4dJdg=;
-        b=0UB4NADk+QhGX3wgyAnWPhZZTvtMUYWl9n8B0mDhDjmzylRmnWRA6mVcbyzhk5Y1BF
-         TCsVp8yTCNuXh857v3QLlfHK6ZY6FhQWdRTzqjZw9SFCv39eD/t8fp0lL6ZV8dwihdUD
-         9SSzQz8zKi/nuP1d/nbL4qaE2Hd+YguFTCR2bqzEycZq+M1nEmXWVQTER720jwzrp7p4
-         Rc1E3kCYXwUG+Ya0rphBwL5Yz9EpExts+BfseAZ/4Wo+4Rzkn0yCz8PlHpwDUB01x6BB
-         AxgBgkecR5VAbcuZu0p1qDCWrItwz7Cdqy6fjnhxWQQ4lh/ATc8yuw4KoksRXN2+ICny
-         +BPw==
-X-Gm-Message-State: AOAM532zl/WLyEUEZAC8yeiOmsp7r6gltAue3/RrmCsTkmQ1qJ638KBg
-	u4RlQvssmb4anKr0ZmhxX8ac2m0TkQcOg90e
+        bh=gZvmOUwjQtS6xEaNpunuzAVHfPoqO4Sl1QIqwwyKpO4=;
+        b=6RwtmH9ot8DTDYwirBYWNSE21k/dxd9REjRU1Sus1PgS/Mli5xd05g5z1mrRwMJZyi
+         pXUAyHuo6528zcrtAMu4xQB/nD21i3HdiYgFtSbhTcgt1+iUxJWl77sY9LwZdcJMG4ON
+         cWSIPgkNoRuV6zFHVH9dTapzGN5hKo5HzqXa7qwLlohKloASBUTgi8m3ka9PI1hEaNeW
+         WsWgTPpB18igeAvmBHmRw1iejZP0Wmt1z9835Ly7frFa4OZIaeAMoNdEUcbM6tW1FFxV
+         wmrmkwozyE00nJFo7yywFy0Osqr203kmVKWs8rKuQSsGs0inEh0k1te5RHn6D+vwXqw7
+         iSLw==
+X-Gm-Message-State: AOAM532bZX0J7K6Pc476g2gmprSfgJ+RGDVaM0uk0VWz/FoHBATRIP9k
+	6IuG1/K3XkEJrnCVn/q593ZVfJJ3vVtYMQ==
 X-Google-Smtp-Source: 
- ABdhPJxNtRbqPnIVYOo6Tom5UkiDv23W/tewF6E7yRzfvbY5t6KpcrjxVj28SuQX65qJx7MjPpzq+Q==
-X-Received: by 2002:a1c:a791:: with SMTP id
- q139mr4719312wme.176.1644687471552;
-        Sat, 12 Feb 2022 09:37:51 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8ec5:268f:bfc7:dcae])
+ ABdhPJxy7dr66psFHqNxfO66rvD4pcg+BI/3s//Ajd7K/TPq1opmNBofRYYX+oz3R0k+Y6gdwQ86+g==
+X-Received: by 2002:ac8:5ac9:: with SMTP id d9mr5735751qtd.230.1644715426045;
+        Sat, 12 Feb 2022 17:23:46 -0800 (PST)
+Received: from build.lan
+ (cpe04d4c4975b80-cmf4c11490699b.cpe.net.cable.rogers.com. [174.112.63.222])
         by smtp.gmail.com with ESMTPSA id
- q2sm23671843wrw.14.2022.02.12.09.37.50
-        for <openembedded-core@lists.openembedded.org>
+ w13sm13016556qkb.106.2022.02.12.17.23.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Feb 2022 09:37:51 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/buildtools: Switch to our webserver instead of
- example.com
-Date: Sat, 12 Feb 2022 17:37:49 +0000
-Message-Id: <20220212173749.2771453-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+        Sat, 12 Feb 2022 17:23:45 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/4] linux-yocto: consolidated pull request
+Date: Sat, 12 Feb 2022 20:23:40 -0500
+Message-Id: <cover.1644715271.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Feb 2022 17:37:54 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Feb 2022 01:23:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161674
+ https://lists.openembedded.org/g/openembedded-core/message/161675
 
-Similarly to the sanity connectivity check, switch away from example.com
-for the buildtools tests.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/sdk/buildtools-cases/https.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Richard,
 
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/https.py b/meta/lib/oeqa/sdk/buildtools-cases/https.py
-index 134879aab32..35e549eb406 100644
---- a/meta/lib/oeqa/sdk/buildtools-cases/https.py
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/https.py
-@@ -13,8 +13,8 @@ class HTTPTests(OESDKTestCase):
-     """
- 
-     def test_wget(self):
--        self._run('env -i wget --debug --output-document /dev/null https://www.example.com')
-+        self._run('env -i wget --debug --output-document /dev/null https://yoctoproject.org/connectivity.html')
- 
-     def test_python(self):
-         # urlopen() returns a file-like object on success and throws an exception otherwise
--        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://www.example.com/")\'')
-+        self._run('python3 -c \'import urllib.request; urllib.request.urlopen("https://yoctoproject.org/connectivity.html")\'')
+Here's the lastest -stable updates, plus the two backported changes to
+fix the binutils 2.3.8 builds.
+
+Bruce
+
+The following changes since commit 81fe3dfab99149a3e5a6b5cf0086dd8cbef1177d:
+
+  oeqa/buildtools: Switch to our webserver instead of example.com (2022-02-12 17:38:07 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/5.15: update to v5.15.22
+  linux-yocto/5.10: update to v5.10.99
+  linux-yocto/5.15: ppc/riscv: fix build with binutils 2.3.8
+  linux-yocto/5.10: ppc/riscv: fix build with binutils 2.3.8
+
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 6 files changed, 39 insertions(+), 39 deletions(-)
+
 -- 
-2.32.0
+2.19.1
 
 
