@@ -1,108 +1,92 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0D1C433F5
-	for <webhook@archiver.kernel.org>; Sun, 13 Feb 2022 22:36:22 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.27396.1644791781403835394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B918EC433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 04:43:50 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.30209.1644813829338462821
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Feb 2022 14:36:22 -0800
+ Sun, 13 Feb 2022 20:43:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=JgE/Dhda;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T/F/c3uc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id c10so1592571pfv.8
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 13 Feb 2022 20:43:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1644791781;
-  x=1676327781;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=HXmTFbAE3xwoRoH+kHyXGYQvbuSw5L15pPHYf1I9ywI=;
-  b=JgE/DhdaxhWiPVkCd7CXdDkBzX8A1zliQIy2/UfWvUUM5Xnu6lgnSWE/
-   nuOTbONoq/Jhqx8Kjf6O6B3rPZUTt4u3kOKHQBAR5luNib9YX7h9N52XZ
-   XMYZftQc8wtScT//EtJIK3uOf8tvhJuW53vc+otv4YS7V9d6ucKgx1nUX
-   fYm/OYaThmlR9X6qtMFNmoUR0XQ7FnbNxIIMAF2ObbsoGI0CPcsY6ZA10
-   gcUikKl3oZNiLk3Ysl8U44RiS94QuoNlRaCcErLXMGqQbSjovoiPnHi1C
-   7oX4aIQZFPsmD6x3TwB0BVAL/X71D9NxDlXvgZedT86y35qKKTZzKnxtV
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] bitbake.conf: Add COMMON_LICENSE_DIR to
- BB_HASHEXCLUDE_COMMON
-Thread-Topic: [OE-core] [PATCH] bitbake.conf: Add COMMON_LICENSE_DIR to
- BB_HASHEXCLUDE_COMMON
-Thread-Index: AQHYISLEXJwGeq5F/kuxV82Ik7QaKqySDIDg
-Date: Sun, 13 Feb 2022 22:36:19 +0000
-Message-ID: <0067cca67f2541aaa5522c52fce70660@axis.com>
-References: <20220213203454.28551-1-pkj@axis.com>
- <587c1931ebdcc8db37e4cef079130e5c64be6471.camel@linuxfoundation.org>
-In-Reply-To: 
- <587c1931ebdcc8db37e4cef079130e5c64be6471.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u17wCgBnYB9T1JxqomQqDkrCeAGf2yrFBRN4HpeRIyU=;
+        b=T/F/c3uctKET/noZ2I+urbYwhoMiT/qORSzxahToc0Is9DJsgAIveJGh2ID7MTN6Py
+         Wz1pB7IJlLa00u6lzbOSrpyzdlGr3x/jkgHxDo0i1zw/NWRDh0WMUN6gmbnY4t9TI3+c
+         gZkyRBJhJsmqylwYgmfhdmSD/OIL/MHJ1xWzM+Sjav8VxoFgN727nQwpUpGJFDFw/UsV
+         V+ueGrfGeJUmDFIBwgYYc3arr8V+xGaYuKIqJEEh+fmqGZ9oaKNNrycoDqdGZ0afhFFa
+         PIfUhn6ssoQDldp0LjgyPoFuDo/p3OI2/W0QyP+KxqdQEV2BYQ6BPjxIHJax+KR2OVhV
+         2lbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u17wCgBnYB9T1JxqomQqDkrCeAGf2yrFBRN4HpeRIyU=;
+        b=F2HMYF0LfDihyhNji41v6HQeZkPVqJ1uW/HS0hW4ZOZlXVfKvyJ16L59T2e1KQBKpO
+         7385Bah+aYqXB6S0yPB0ewcFQLX/JJIX3zb0vkz3QCeNwv3ZSY++d42Z+tq1iMpsc3Xk
+         AZ9JQ9aIfF0katOuj/Cbkr0IlYQITPOAKd/MYzyxg9zbEz4pAyjbINarPpAA8BGbBVey
+         ltMX2jm7VlOmszwdIQQWcNXatOo47wIxeS/L06SLZwVQaPz9+cvDN9O3zqqILR9xChq+
+         vLDEe+apPEm4XxBhIPrfWtKa8I5EUOQHmn5+FJvcwAZ7o/5WzcDFclGYxGLXzWf2VDxq
+         xUag==
+X-Gm-Message-State: AOAM533wSWZnag3l0chrFRIZ9HBwlr6MMRw5u82V4zZfh+VIN2XUTooV
+	YifntmO03lTeZdvmmuqdirW2vMhbg+x4Zg==
+X-Google-Smtp-Source: 
+ ABdhPJydpQKj1uM1JSiXGRdpt5njtRwC+MqYTVo2qT21B6163KMYxTtuOdZdd/A3l1n0pFPYn2yVxg==
+X-Received: by 2002:a63:d815:: with SMTP id
+ b21mr10243440pgh.237.1644813828384;
+        Sun, 13 Feb 2022 20:43:48 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::fb6e])
+        by smtp.gmail.com with ESMTPSA id
+ u16sm6164998pfk.220.2022.02.13.20.43.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Feb 2022 20:43:47 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] diffutils: Link with libbcrypt on mingw
+Date: Sun, 13 Feb 2022 20:43:45 -0800
+Message-Id: <20220214044345.13843-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Feb 2022 22:36:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 04:43:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161693
+ https://lists.openembedded.org/g/openembedded-core/message/161694
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDEzIGZlYnJ1YXJp
-IDIwMjIgMjI6NDQNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYml0YmFrZS5jb25mOiBBZGQgQ09NTU9OX0xJ
-Q0VOU0VfRElSIHRvIEJCX0hBU0hFWENMVURFX0NPTU1PTg0KPiANCj4gT24gU3VuLCAyMDIyLTAy
-LTEzIGF0IDIxOjM0ICswMTAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gRGlmZmVy
-ZW5jZXMgaW4gQ09NTU9OX0xJQ0VOU0VfRElSIHNob3VsZCBub3QgYWZmZWN0IHRoZSB0YXNrIGhh
-c2hlcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIu
-a2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL2NvbmYvYml0YmFrZS5j
-b25mIHwgMiArLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvYml0YmFrZS5jb25mIGIvbWV0
-YS9jb25mL2JpdGJha2UuY29uZg0KPiA+IGluZGV4IGZiYTk5ZThmMGMuLjQ3YzhjYjM5ZjkgMTAw
-NjQ0DQo+ID4gLS0tIGEvbWV0YS9jb25mL2JpdGJha2UuY29uZg0KPiA+ICsrKyBiL21ldGEvY29u
-Zi9iaXRiYWtlLmNvbmYNCj4gPiBAQCAtOTIyLDcgKzkyMiw3IEBAIEJCX0hBU0hFWENMVURFX0NP
-TU1PTiA/PSAiVE1QRElSIEZJTEUgUEFUSCBQV0QgQkJfVEFTS0hBU0ggQkJQQVRIIEJCU0VSVkVS
-IERMX0RJDQo+ID4gICAgICBCQl9XT1JLRVJDT05URVhUIEJCX0xJTUlURURERVBTIEJCX1VOSUhB
-U0ggZXh0ZW5kX3JlY2lwZV9zeXNyb290IERFUExPWV9ESVIgXA0KPiA+ICAgICAgU1NUQVRFX0hB
-U0hFUVVJVl9NRVRIT0QgU1NUQVRFX0hBU0hFUVVJVl9SRVBPUlRfVEFTS0RBVEEgXA0KPiA+ICAg
-ICAgU1NUQVRFX0hBU0hFUVVJVl9PV05FUiBDQ0FDSEVfVE9QX0RJUiBCQl9IQVNIU0VSVkUgR0lU
-X0NFSUxJTkdfRElSRUNUT1JJRVMgXA0KPiA+IC0gICAgT01QX05VTV9USFJFQURTIEJCX0NVUlJF
-TlRUQVNLIg0KPiA+ICsgICAgT01QX05VTV9USFJFQURTIEJCX0NVUlJFTlRUQVNLIENPTU1PTl9M
-SUNFTlNFX0RJUiINCj4gPiAgQkJfSEFTSEJBU0VfV0hJVEVMSVNUID89ICIke0JCX0hBU0hFWENM
-VURFX0NPTU1PTn0gUFNFVURPX0lHTk9SRV9QQVRIUyBCVUlMREhJU1RPUllfRElSIFwNCj4gPiAg
-ICAgIFNTVEFURV9ESVIgU09VUkNFX0RBVEVfRVBPQ0giDQo+ID4gIEJCX0hBU0hDT05GSUdfV0hJ
-VEVMSVNUID89ICIke0JCX0hBU0hFWENMVURFX0NPTU1PTn0gREFURSBUSU1FIFNTSF9BR0VOVF9Q
-SUQgXA0KPiANCj4gSSB0aGluayB0aGlzIGhhcyBiZWVuIGRpc2N1c3NlZCBiZWZvcmUgYW5kIEkn
-bSB2ZXJ5IHVuZWFzeSBhdCB0aGUgaWRlYS4gU29tZQ0KPiB1c2VycyB3b3VsZCBleHBlY3QgdGhh
-dCBpZiB0aGV5IGFkZCAidGhlaXIiIHZlcnNpb24gb2YgYSBsaWNlbnNlIGluIGEgbGF5ZXIgd2l0
-aA0KPiBoaWdoZXIgcHJpb3JpdHksIHRoZXknZCBleHBlY3QgdGhlIGhhc2hlcyB0byBjaGFuZ2Uu
-DQoNCklmIHRoZSB2YWx1ZSB3YXMgYSByZWxhdGl2ZSBwYXRoIEkgY291bGQgYnV5IHRoYXQsIGJ1
-dCBub3QgZm9yIGFuIA0KYWJzb2x1dGUgcGF0aC4NCg0KPiBXaGVyZSBpcyB0aGlzIGNhdXNpbmcg
-YW4gaXNzdWU/DQoNCkR1ZSB0byB0aGUgaHVnZSBudW1iZXIgb2YgbGljZW5zZXMgaW4gbWV0YS9m
-aWxlcy9jb21tb24tbGljZW5zZXMgYWZ0ZXIgDQphbGwgU1BEWCBsaWNlbnNlcyB3ZXJlIGFkZGVk
-LCB3ZSBjYW5ub3QgdXNlIHRoYXQgZGlyZWN0b3J5IGFueW1vcmUgYXMgDQppdCB0cmlwbGVzIHRo
-ZSByZWNpcGUgcGFyc2luZyB0aW1lIGZvciB1cyAoc2luY2Ugd2UgZGVmaW5lIA0KSU5DT01QQVRJ
-QkxFIExJQ0VOU0UgYXMgQVZBSUxBQkxFX0xJQ0VOU0VTIG1pbnVzIENPTVBBVElCTEVfTElDRU5T
-RVMsIA0KYW5kIHRoZSBsaWNlbnNlIGNvZGUgZG9lc24ndCByZWFsbHkgaGFuZGxlIGhhdmluZyBt
-YW55IGh1bmRyZWRzIG9mIA0KbGljZW5zZXMgaW4gSU5DT01QQVRJQkxFIExJQ0VOU0UpLiBUaHVz
-IGFzIGEgd29ya2Fyb3VuZCBJIGhhdmUgaGFkIHRvIA0KY3JlYXRlIGEgY29tbW9uLWxpY2Vuc2Vz
-IGRpcmVjdG9yeSBpbiBvbmUgb2Ygb3VyIGxheWVycyB3aGljaCBvbmx5IGhhcyANCnN5bWJvbGlj
-IGxpbmtzIHRvIHRoZSBsaWNlbnNlcyBpbiBtZXRhIHRoYXQgd2UgbmVlZC4gVGhlbiB3ZSBzZXQ6
-DQoNCkNPTU1PTl9MSUNFTlNFX0RJUiA6PSAiJHtMQVlFUkRJUn0vZmlsZXMvY29tbW9uLWxpY2Vu
-c2VzIg0KDQppbiB0aGF0IGxheWVyJ3MgbGF5ZXIuY29uZiwgYnV0IHNpbmNlICR7TEFZRVJESVJ9
-IHZhcmllcyBmcm9tIGJ1aWxkIGhvc3QgDQp0byBidWlsZCBob3N0LCBvdXIgd2hvbGUgZ2xvYmFs
-IHNzdGF0ZSB3YXMgbm93IG9ubHkgdXNlYWJsZSBvbiB0aGUgYnVpbGQgDQpzZXJ2ZXJzIGFuZCBu
-b3QgZm9yIGxvY2FsIGRldmVsb3BlciBidWlsZHMuDQoNCj4gDQo+IFRoZSB3aG9sZSBpZGVhIG9m
-IHRoZSAiY29tbW9uIiBsaWNlbnNlcyBwcm9iYWJseSBuZWVkcyByZXZpc2l0aW5nIGFueXdheQ0K
-PiB0b28gOi8NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQoNCg==
+This ensures that symbol is found in the library which is providing it
+in mingw runtime >= 9.0.0
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/diffutils/diffutils_3.8.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.8.bb b/meta/recipes-extended/diffutils/diffutils_3.8.bb
+index a6522967d47..12df1598e8a 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.8.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.8.bb
+@@ -18,6 +18,7 @@ CFLAGS:mingw32 = " -DSA_RESTART=0"
+ # Fix "Argument list too long" error when len(TMPDIR) = 410
+ acpaths = "-I ./m4"
+ 
++EXTRA_OEMAKE:append:mingw32 = " LIBS='-lbcrypt'"
+ inherit ptest
+ 
+ RDEPENDS:${PN}-ptest += "make perl"
+-- 
+2.35.1
+
 
