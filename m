@@ -2,65 +2,69 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 195E9C433F5
-	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 16:23:03 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.36334.1644855781823259760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 515BCC433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 16:24:20 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web12.36360.1644855859210104036
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Feb 2022 08:23:02 -0800
+ Mon, 14 Feb 2022 08:24:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gUm1G1tg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JXI5ospB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id u1so13996308wrg.11
+Received: by mail-wr1-f42.google.com with SMTP id e3so27840882wra.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Feb 2022 08:23:01 -0800 (PST)
+ Mon, 14 Feb 2022 08:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8O1SQOFNnYmF6ZISvZKBhnD2amq/GJbjN2CBwUFE+g0=;
-        b=gUm1G1tgUa7vgcYF90RvxI5W/ruA41eWT1h5mkwSzlXu4NwCoGDuk2zrVJqFVyZbK8
-         e4bOe9X8/QlrahWjZuFO3eKX4g1rF54nmzbpcSEmxtE8N3JOD2RHL61i5wd299nUoDsx
-         emHU9vrZiCfeVj4B9Lfa77NTTWEjz3oH835Es=
+        bh=vztSoHSG7A2ddGDzoYTRh/AsSmY30YSfJFNijEsoEqM=;
+        b=JXI5ospBZ1Sm0VmW6fwaCotNNEM/KQTMPsiGO04a2rMagYkSbubj1rCVacgI7KB3Oo
+         b43pW2k3+K016POf6fxn1uzfyjPquL7bEVtxos0+XV9iE7DFCGwKwnXc8idMMCda4VGy
+         +rvzSqe2YxjchSdPOMHJsSev52kT9r61RePoE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8O1SQOFNnYmF6ZISvZKBhnD2amq/GJbjN2CBwUFE+g0=;
-        b=8QNx61DCBeIs95MPQfYueRcMnAu9sCIxE0LwSgcisEAm00Fnk7Vjd1e2Uu2XEQ03Nx
-         C+3XqCQNcQpxQUfWNxMSh0uohlzmJVj7K64D5bSqRaPTOCiBQgyuivhGIAgOQexW5dBs
-         Osugy9VvYlgvHRH9CGwloHyJmBDyq1zEmYibierwy3hXXgEoiDxyCsHOwd+yrhtQemnn
-         u8sUEdTYnrRADtFZIsM1BD8oBsLPPdaQ4cam9DbTM+v3BmTVi/xSrjuwMV2qRBIM/fZo
-         r5CtcsiCH/ml7kmQx/YqrzSVWckUPt0PdNdtJEkb9ciLiJY/CXtnM/aDeUuoarqvOoVv
-         hsnQ==
-X-Gm-Message-State: AOAM533YvF+7T9lhwj+yiS0fSB4O35QldLmihxoVUc0fuZ0PtqsOwVJ+
-	QoAqNXVBewQmw4WFYqJwlBx7dAGOe/9Cczd1
+        bh=vztSoHSG7A2ddGDzoYTRh/AsSmY30YSfJFNijEsoEqM=;
+        b=Xdkz8nDa+O7MeOCIv4WU45xWgHMsB8bdXGlNk1HAOiuUYiCAnHgHSJizHuzE8iAgNs
+         S+jHpsvCyHdobz2nlDDrZ+guOUJrhMW1QKem0TuJdL/9WMP/c+fQL/KtWOUY1hpst04e
+         vmUzAYqP8AzXEOAhPjrtlBpzMf5twSrrwaoIXB8VqKRbQzIA7JLskRQ2avbro8+PiYkP
+         0+tZ469S+6JrIFNGpnAX8UKhLVwq9EphXOO96JRZbRRWkOzhNJnllyzEAFG2/9yVtOB3
+         95cagdHw6oSlmRT8F2WCxfDwqC6FgBNtGzEPiXuiWGVVshPYpMUDaivZuUAl0zPJzdxg
+         6JCg==
+X-Gm-Message-State: AOAM5302BWv9QmbiSaM3hyfzx5WpFKrI0EFhbz9+H0Jm9GJX4NA9Y45c
+	BE7Jhp7p04jdVRejv/BVNXLCO6pKcyG6KPiY
 X-Google-Smtp-Source: 
- ABdhPJzmwnf24wnFAN1RF9Pl23F7nOulnmJO4bS3ojYdHIaArC5/1Xoy31fSxKtuw1XqgKIDEa9V1A==
-X-Received: by 2002:a5d:53c9:: with SMTP id a9mr312309wrw.672.1644855779615;
-        Mon, 14 Feb 2022 08:22:59 -0800 (PST)
+ ABdhPJyLwlXhdlsu7rGhD2T3C2FJchjsk2kp7TApXwOhq489lji+RU3v9N9qxw3+EB2oBBhxFw7nWA==
+X-Received: by 2002:adf:e841:: with SMTP id d1mr316807wrn.293.1644855857501;
+        Mon, 14 Feb 2022 08:24:17 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8594:17f2:9d48:b842])
         by smtp.gmail.com with ESMTPSA id
- b11sm2858056wrd.31.2022.02.14.08.22.58
+ bg23sm16367820wmb.5.2022.02.14.08.24.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 08:22:59 -0800 (PST)
+        Mon, 14 Feb 2022 08:24:16 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Subject: [PATCH] ltp: Disable proc01 test
-Date: Mon, 14 Feb 2022 16:22:58 +0000
-Message-Id: <20220214162258.2844710-1-richard.purdie@linuxfoundation.org>
+Date: Mon, 14 Feb 2022 16:24:16 +0000
+Message-Id: <20220214162416.2844807-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 16:23:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 16:24:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161721
+ https://lists.openembedded.org/g/openembedded-core/message/161722
+
+This test has history of hanging on arm trying to read from /proc/kmsg and it has
+reappeared. Disable the test since hanging autobuilder builds are annoying. I suspect
+there is a genuine race on ARM somewhere here in the kernel.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
