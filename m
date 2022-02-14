@@ -2,77 +2,78 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D96C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD1CC433F5
 	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 23:55:18 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web10.3293.1644882917626722649
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.2])
+ by mx.groups.io with SMTP id smtpd.web10.3292.1644882917494575617
  for <openembedded-core@lists.openembedded.org>;
  Mon, 14 Feb 2022 15:55:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=h/CWAiAQ;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=vQnJULAw;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1644882915; i=@fujitsu.com;
-	bh=ROJlV8RhaC2saGpl6x1ASBFfAvoOe3QT2xzdDonugI4=;
+	bh=BIWUdwEYv+GP2Qirp5LxFSbcrb+w8UuxBEDHw34ZcNY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=h/CWAiAQSGglnKgsxR4h65ac3AbSGPYFcTm8SZPGKKLk6aIKLKvDNEJSZvQRUxf1w
-	 +DDz2iNGV41evV8XpgVKx0xVwwEEel4NlY/sZC4K6KcQNpNOebmnloOzqZA8aQE+Nz
-	 YvbvFD1rfY+Q0+Ca//5kwiWlflgWlBay0X4JPQTFytg1TvUvr2Dl9CHBUwkE370RVR
-	 qtdRv0QqRc694h1mJ5NGxECUckMuA0rOjatipwiMYrvUUGgE13LOAaKhFmF6KRAyLe
-	 MhGtBDsFgQLfhsJae+OjS3n8YKkp5szKgm4Q/PAIFxPAufXpxVwtdAfLY2/uskhkdt
-	 jbN1+FqHig+EQ==
-Received: from [100.115.7.136] (using TLSv1.2 with cipher
+	b=vQnJULAwcndKk6Q7/u8E0HU/Gp9lp/CXvazUcs3lTflX+HvN47QJPs/GpF0ThgPc9
+	 Uh90OFNpL2rvqsM+KGHd2hJc0qx157iz18JKnXsSkRLO8HTg+Yemxuzl1SiNK0j6aj
+	 ay1yNPbNCCgIuYI1qI+VB1F+OGmckONbZvAuTbeBISKs+XVKSFnSMitNXRsDmtF9N/
+	 RLLjTRudHlj78Tnu7/PnRAfjkOFOJrdEaGBh5aOtN/9f3R22Xj0TlbkR/jWMn18yDQ
+	 LbsoFjWei+wvfJP9PbngPOeLl6vijU0qWvcTozw/7nOWwe0GPxzsXoCoQxiK97Bsu7
+	 9tN8eC0aobSGg==
+Received: from [100.115.37.140] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 3D/9A-00700-3EBEA026;
+	by server-2.bemta.az-a.eu-west-2.aws.ess.symcld.net id B2/DB-12680-3EBEA026;
  Mon, 14 Feb 2022 23:55:15 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEIsWRWlGSWpSXmKPExsViZ8ORqPv4NVe
-  SwdaLrBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8a0Vy+YCubrV5xp387YwPhXs4uRi0NI4DGj
-  xLuJT9ghnPNMEi82/WWBcE4wSpzbeZG5i5GTg01ATWL6rRusXYwcHCICehJX/4mChJkFVCRe/
-  O5hB7GFBawkpjavYgSxWQRUJVb+nM0GYvMKOEocPTkHLC4hoCAx5eF7sJGcAk4SbybMAosLAd
-  X8utQFVS8ocXLmExaI+RISB1+8YIboVZSYfbmZBcKukJg1q40JwlaTuHpuE/MERsFZSNpnIWl
-  fwMi0itEqqSgzPaMkNzEzR9fQwEDX0NBU1wTIMtRLrNJN1Est1S1PLS7RBXLLi/VSi4v1iitz
-  k3NS9PJSSzYxAoM4pZgldQdjX99PvUOMkhxMSqK8MXu4koT4kvJTKjMSizPii0pzUosPMcpwc
-  ChJ8Eo9AsoJFqWmp1akZeYAIwomLcHBoyTCe+MBUJq3uCAxtzgzHSJ1itGS4+qVK3uZOW6AyU
-  1rbuxlFmLJy89LlRLn9b8N1CAA0pBRmgc3Dhb1lxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCo
-  J85q9AprCk5lXArf1FdBBTEAHKTaCHVSSiJCSamBac/0Or8AOy+AIvm3PWL5VBzD4tf10/8YR
-  sMJxaX/Yg/wt1q9eCu/d2ll7YE6UdOoOyVkckcItN97me0kX3bm5Zr6/b7xGjN4xc+b1e9lLH
-  jxlXcG5Llo77dv3G1e4zi9cbNXOkNT21fwllzubtYCTwWrWNU7f903qtxe3nzn7bOF/nfmPC4
-  5JvFjIpjepimWb3Lob3/c2Rbh+fXLi6g0TRov3CVnWrFvrwvw2nP50XuaE6p678eaTM81t2PZ
-  N/ySbuOHr3Ycr4+9tenGQiYu9udEjoML2+6J6rlmPTd9cfvogIDDj/t0Kk/d/5/B9ND2p01Fq
-  zGH68sXZ5kO8d84Urjj+xryWS8knPMh08pQYJZbijERDLeai4kQAX6kWeXUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrHIsWRWlGSWpSXmKPExsViZ8ORqPvoNVe
+  SwZu9VhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bVjtqCs8oVfR/6GBsYt8h3MXJxCAk8ZpRo
+  +fuLBcI5zyRx/s9HVgjnBKPElvkz2LoYOTnYBNQkpt+6AZTg4BAR0JO4+k8UJMwsoCLx4ncPO
+  4gtLGAp8fBsCwuIzSKgKrF/QRcjiM0r4Cgxc+djZhBbQkBBYsrD92A2p4CTxJsJs8BqhIBqfl
+  3qYoOoF5Q4OfMJC8R8CYmDL15A9SpKzL7czAJhV0jMmtXGBGGrSVw9t4l5AqPgLCTts5C0L2B
+  kWsVonVSUmZ5RkpuYmaNraGCga2hoqmtsqWtkaKyXWKWbqJdaqlueWlyia6SXWF6sl1pcrFdc
+  mZuck6KXl1qyiREYxCnF6ld3MG5e9VPvEKMkB5OSKG/MHq4kIb6k/JTKjMTijPii0pzU4kOMM
+  hwcShK8Uo+AcoJFqempFWmZOcCIgklLcPAoifDeeACU5i0uSMwtzkyHSJ1idOX4cOjKXmaOq1
+  dA5A0wefA/iFzw+9peZiGWvPy8VClxXv/bQM0CIM0ZpXlwo2HJ4BKjrJQwLyMDA4MQT0FqUW5
+  mCar8K0ZxDkYlYV6zV0BTeDLzSuAueAV0HBPQcYqNYMeVJCKkpBqY4nayKhhzu6aItDx+KSsQ
+  HPF4bSFbfuwJP/2Z2332PF3iquf6bmb/5P1RB59Py72b9fVGjO2pP9tDfI9IPFrJpnX4yULfM
+  /EvylotStd+DJ0wwbauyobjlmlLaqZQv+OOP/pOF1Tb31uJWP0++bW+2HnSIaFXk2yKrT2MXw
+  tFKU1K1tOW3p2QojnNdeHeFt6tCiXLNtTc6m4zkCzt/vLB696cqpQ/Lw9Kzm9sWqdquvaqv/k
+  x9x0id9fcjWxhUu4r/iR1qvpWVm3//j2/9IRPallWOQUeLVB6cH8mV0DrkouzzvsWBjvfuHLN
+  V7LIOl7/41MFh+4wqRNLN8eFrkiL1z7lvUTAJWnunp8vfGyUWIozEg21mIuKEwF5tN13gQMAA
+  A==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-20.tower-591.messagelabs.com!1644882914!46046!1
+X-Msg-Ref: server-10.tower-548.messagelabs.com!1644882914!20249!1
 X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5068 invoked from network); 14 Feb 2022 23:55:15 -0000
+Received: (qmail 28255 invoked from network); 14 Feb 2022 23:55:14 -0000
 Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-20.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 14 Feb 2022 23:55:15 -0000
+  by server-10.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 14 Feb 2022 23:55:14 -0000
 Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 994C1100197
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 93CD6100195
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 14 Feb 2022 23:55:14 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 88BA2100190
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 878C1100183
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 14 Feb 2022 23:55:14 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Mon, 14 Feb 2022 23:54:55 +0000
+ (TLS) id 15.0.1497.28; Mon, 14 Feb 2022 23:54:52 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] rng-tools: upgrade 6.14 -> 6.15
-Date: Tue, 15 Feb 2022 07:54:36 +0800
-Message-ID: <1644882876-4535-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mesa: upgrade 21.3.5 -> 21.3.6
+Date: Tue, 15 Feb 2022 07:54:35 +0800
+Message-ID: <1644882876-4535-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1644882876-4535-1-git-send-email-wangmy@fujitsu.com>
 References: <1644882876-4535-1-git-send-email-wangmy@fujitsu.com>
@@ -87,152 +88,98 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 23:55:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161738
-
-0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch
-0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch
-removed since they're included in 6.15.
+ https://lists.openembedded.org/g/openembedded-core/message/161737
 
 Changelog:
 =========
-Adjust rngtests for better behavior in travis
-fix use of non-posix setaffinity call to allow building on strict posix (musl) systems
-Add armv6l to list of detected arches for pkcs11
-misc fixes to allow building on libc-musl
-fix a deadlock in jitter shutdown sequence
-minor warning fixups (unused variables)
-improve cpu detection code
-improve jitter cpu monopolization on small/single cpu systems
+Bug fixes
+---------
+radv: CullDistance fail
+i965: Segmentation fault during glinfo context destruction, regression in 21.3.x
+Vulkan Wayland WSI returns empty surface formats
+[REGRESSION][BISECTED] iris: Qutebrowser/QtWebEngine sporadically flashes the window in white
+Flickering Intel Uhd 620 Graphics
+Broken Terraria & Glitches in Forza Horizon 4
+
+Changes
+-------
+Revert "nir/algebraic: distribute fmul(fadd(a, b), c) when b and c are constants"
+anv: Fix subgroupSupportedStages physical property
+Revert "zink: handle vertex buffer offset overflows"
+ir3: Fix copy-paste mistakes in ir3_block_remove_physical_predecessor()
+ir3/cp: ir3: Prevent propagating shared regs out of loops harder
+ir3: opt_deref in opt loop to remove unnecessary tex casts
+crocus: find correct relocation target for the bo.
+vulkan: Fix leak of error messages
+pick_status.json: Update to cb781fc350108584116280fc597c695d2f476c68
+pick_status.json: Mark 15e77504461a30038a054c87cc53a694171c9cf4 as denominated
+pick_status.json: Mark 960e72417f3e8885699cf384f690853e14ba44da as denominated
+intel/fs: Take into account region strides during SIMD lowering decision of SHUFFLE.
+vulkan/wsi/wayland: Fix add_wl_shm_format alpha/opaqueness.
+vulkan/wsi/wayland: Convert missing vulkan formats to shm formats.
+vulkan/wsi/wayland: Add modifiers for RGB formats.
+vulkan/wsi/wayland: Fix add_drm_format_modifier aplha/opaqueness.
+anv/pass: Don't set first_subpass_layout for stencil-only attachments
+vulkan/wsi: Set MUTABLE_FORMAT_BIT in the prime path
+i965: Avoid NULL drawbuffer in brw_flush_front
+intel/fs: don't set allow_sample_mask for CS intrinsics
+intel/nir: fix shader call lowering
+panvk: Fix pointer corruption in panvk_add_wait_event_syncobjs
+zink: never use SpvOpImageQuerySizeLod for texel buffers
+zink: reorder fbfetch flag-setting to avoid null deref
+zink: fix vertex buffer mask computation for null buffers
+zink: clamp tbo creation to maxTexelBufferElements
+zink: add vertex shader pipeline bit for generated barrier construction
+zink: fix waiting on current batch id
+zink: cast image atomic op params/results based on image type
+zink: use SpvScopeDevice over SpvScopeWorkgroup for atomic shader ops
+zink: disable PIPE_SHADER_CAP_FP16_CONST_BUFFERS
+llvmpipe: disable PIPE_SHADER_CAP_FP16_CONST_BUFFERS
+llvmpipe: ci updates
+zink: add VK_BUFFER_USAGE_CONDITIONAL_RENDERING_BIT_EXT for query binds
+zink: fix PIPE_CAP_TGSI_BALLOT export conditional
+zink: reject invalid draws
+zink: min/max blit region in coverage functions
+anv: Disable CCS_E for some 8/16bpp copies on TGL+
+anv: Use ANV_FAST_CLEAR_DEFAULT_VALUE for CCS on TGL+
+anv: Re-enable CCS_E on TGL+
+iris: implement inter-context busy-tracking
+aco: fix neg(abs(mul(a, b))) if the mul is not VOP3
+aco: don't encode src2 for v_writelane_b32_e64
+radv: fix R_02881C_PA_CL_VS_OUT_CNTL with mixed cull/clip distances
+radv/winsys: fix missing buffer_make_resident() for the null winsys
+tu: VkExternalImageFormatProperties is optional
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...o-detect-non-posix-extensions-for-pt.patch | 41 ----------------
- ...-either-pthread-affinity-set-methods.patch | 47 -------------------
- .../{rng-tools_6.14.bb => rng-tools_6.15.bb}  |  4 +-
- 3 files changed, 1 insertion(+), 91 deletions(-)
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch
- rename meta/recipes-support/rng-tools/{rng-tools_6.14.bb => rng-tools_6.15.bb} (90%)
+ .../mesa/{mesa-gl_21.3.5.bb => mesa-gl_21.3.6.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_21.3.5.bb => mesa_21.3.6.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_21.3.5.bb => mesa-gl_21.3.6.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_21.3.5.bb => mesa_21.3.6.bb} (100%)
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch b/meta/recipes-support/rng-tools/rng-tools/0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch
-deleted file mode 100644
-index 89edc4c403..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 66e6adc138eef1367d7492fb79ae4da84ed62934 Mon Sep 17 00:00:00 2001
--From: Neil Horman <nhorman@gmail.com>
--Date: Thu, 15 Jul 2021 08:43:01 -0400
--Subject: [PATCH] Adding ability to detect non-posix extensions for pthreads
--
--Theres a desire to build rngd with musl, which doesn't have all the gnu
--extensions (but it has some).  So test for those.  Note, this requires
--the addition of the USE_EXTENSIONS macro to enable -d_GNU_SOURCE
--
--Upstream-Status: Backport
--Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- configure.ac | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 9df633d..d0c2179 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -25,6 +25,7 @@ AC_CANONICAL_TARGET dnl required for broken AX_PTHREAD
-- AM_INIT_AUTOMAKE([foreign])
-- AC_CONFIG_HEADERS([rng-tools-config.h])
-- AC_CONFIG_MACRO_DIRS([m4])
--+AC_USE_SYSTEM_EXTENSIONS
-- 
-- dnl Parse options
-- 
--@@ -100,6 +101,12 @@ AS_IF(
-- 	], [AC_MSG_NOTICE([Disabling JITTER entropy source])]
-- )
-- 
--+AC_CHECK_DECL(pthread_attr_setaffinity_np,
--+		[AC_DEFINE([HAVE_PTHREAD_ATTR_SETAFFINITY], 1,[Set ATTR_SETAFFINITY])],
--+		[ AC_CHECK_DECL(pthread_setaffinity_np,
--+		   [AC_DEFINE([HAVE_PTHREAD_SETAFFINITY],1, [Set PTHREAD_SETAFFINITY])], [ AC_MSG_ERROR([Neither pthread_setaffinity_np nor pthread_attr_setaffinity_np found])],[[#include <pthread.h>]])
--+		], [[#include <pthread.h>]])
--+
-- AS_IF(
-- 	[ test "x$with_nistbeacon" != "xno"],
-- 	[
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch b/meta/recipes-support/rng-tools/rng-tools/0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch
-deleted file mode 100644
-index f7470d04bf..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From e4909f329245db52415102e96fc7c99ca1445d05 Mon Sep 17 00:00:00 2001
--From: Neil Horman <nhorman@gmail.com>
--Date: Thu, 15 Jul 2021 08:48:10 -0400
--Subject: [PATCH] Allow for use of either pthread affinity set methods
--
--musl has support for pthread_setaffinity_np, but not
--pthread_attr_setaffinity_np.  so check for hte existence of either
--function in configure, and use the appropriate one.
--
--Upstream-Status: Backport
--Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- rngd_jitter.c | 15 ++++++++++++++-
-- 1 file changed, 14 insertions(+), 1 deletion(-)
--
--diff --git a/rngd_jitter.c b/rngd_jitter.c
--index ea29436..5c7e09e 100644
----- a/rngd_jitter.c
--+++ b/rngd_jitter.c
--@@ -67,12 +67,25 @@ static int rngd_notime_start(void *ctx,
-- 	for(i=i-1;i>=0;i--) {
-- 		CPU_SET(i,cpus);
-- 	}
---	pthread_attr_setaffinity_np(&thread_ctx->notime_pthread_attr, cpusize, cpus);
-- 
--+        /*
--+	 * Note that only one of:
--+	 * HAVE_PTHREAD_ATTR_SETAFFINITY
--+	 * and
--+	 * HAVE_PTHREAD_SETAFFINITY
--+	 * Will ever be set, as per the configure.ac logic
--+	 */
--+#ifdef HAVE_PTHREAD_ATTR_SETAFFINITY
--+	pthread_attr_setaffinity_np(&thread_ctx->notime_pthread_attr, cpusize, cpus);
--+#endif
-- 	ret = -pthread_create(&thread_ctx->notime_thread_id,
-- 				&thread_ctx->notime_pthread_attr,
-- 				start_routine, arg);
-- 
--+#ifdef HAVE_PTHREAD_SETAFFINITY
--+	pthread_setaffinity_np(&thread_ctx->notime_thread_id, cpusize, cpus);
--+#endif
--+
-- 	CPU_FREE(cpus);
-- 	return ret;
-- }
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.14.bb b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
-similarity index 90%
-rename from meta/recipes-support/rng-tools/rng-tools_6.14.bb
-rename to meta/recipes-support/rng-tools/rng-tools_6.15.bb
-index 222d7cc630..c4d616e29b 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.14.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
-@@ -12,10 +12,8 @@ SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
-            file://init \
-            file://default \
-            file://rngd.service \
--           file://0001-Adding-ability-to-detect-non-posix-extensions-for-pt.patch \
--           file://0002-Allow-for-use-of-either-pthread-affinity-set-methods.patch \
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.3.5.bb b/meta/recipes-graphics/mesa/mesa-gl_21.3.6.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_21.3.5.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_21.3.6.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e8093f5665..cfd325add1 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
             "
--SRCREV = "c16176d3800b91f4d016b66733b384493b06f294"
-+SRCREV = "381f69828b782afda574f259c1b7549f48f9bb77"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "d93b2a9d2464ee856d7637a07dff6b7cd950f295ad58518bb959f76882cf4a4c"
++SRC_URI[sha256sum] = "96bb761fd546e9aa41d025fcc025225c5668443839dae21e3731959beb096736"
  
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_21.3.5.bb b/meta/recipes-graphics/mesa/mesa_21.3.6.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_21.3.5.bb
+rename to meta/recipes-graphics/mesa/mesa_21.3.6.bb
 -- 
 2.25.1
 
