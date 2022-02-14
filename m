@@ -1,143 +1,110 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A40C433F5
-	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 11:12:30 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.32707.1644837148828923048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2233C433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 12:55:52 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web09.33504.1644843351236877408
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Feb 2022 03:12:29 -0800
+ Mon, 14 Feb 2022 04:55:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=df1IrjFO;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dKjeAP99;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id d27so26689339wrc.6
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 14 Feb 2022 04:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1644837149;
-  x=1676373149;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=cuuUAHviM13LNDjXMlPIZk3E92rMVbBcEgMuM9ez9EI=;
-  b=df1IrjFO8Iy4LS9ptJBBZRsKAsOu5nYMbYkgaXMDIBib3l2F+5UrsJKC
-   8D/w+84SICJgrZOwnKA1yMJRDO/Du3SIkWGS8PTjEdeOnedT7od9PPa33
-   dXXvHFeQwJuA8v8WPNmqGPjvHzgknW4dm8aQwxNp0bD/FuNECrQ0PC3Kn
-   CXhUPW6OolrOzujkkkuHDXRO2Jm+ZbVEWDagzlqIKb+/LITQIUmhZHikl
-   LNIyiYnSr5GUc4B4brQXt7yNTnlLzsuaTj51xW1IV8wtN4ewRRPN0JAIK
-   i1zVYevIxOUM7u7F442M/5B03bdkzwHGFZMURO6UgqX2JwvFPqfJYgEW3
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] bitbake.conf: Add COMMON_LICENSE_DIR to
- BB_HASHEXCLUDE_COMMON
-Thread-Topic: [OE-core] [PATCH] bitbake.conf: Add COMMON_LICENSE_DIR to
- BB_HASHEXCLUDE_COMMON
-Thread-Index: AQHYISLEXJwGeq5F/kuxV82Ik7QaKqySDIDggAC8sYCAABXysA==
-Date: Mon, 14 Feb 2022 11:12:25 +0000
-Message-ID: <3ae0366b590e4a4785b2d21ab33b238f@axis.com>
-References: <20220213203454.28551-1-pkj@axis.com>
-	 <587c1931ebdcc8db37e4cef079130e5c64be6471.camel@linuxfoundation.org>
-	 <0067cca67f2541aaa5522c52fce70660@axis.com>
- <eed52e0d2088af59342bbe761c694ab7af19694d.camel@linuxfoundation.org>
-In-Reply-To: 
- <eed52e0d2088af59342bbe761c694ab7af19694d.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zIMpWNwlBnDrv4FThAP29FSq6Efy5/+gA8ZgBX2+9PY=;
+        b=dKjeAP996LTozpy6QRZTAak77uWKXdYjhXXYprkyVeV5RCoCHIU4wEtCSSMFyF6OKl
+         KhqL9TasDnSW4GQYYEnvqiqfnFg7hLxFg3+9FGKN10fvrsC/NyNUTptJr0Fd+uDR0IPJ
+         K6Wc+yQFv5Nn7NlJ/ueBwWvtTXWcQajZrq9h0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zIMpWNwlBnDrv4FThAP29FSq6Efy5/+gA8ZgBX2+9PY=;
+        b=rJUjsLN1p3h42VtMvrPuQ65SXv+IJ/UvsUBWvGQ+KbFaMh0rdzmtcECZyIf7OouCZp
+         0W9+xY8P8130NYzfOB4C668wjft4dTc6E31ZNsbCmxjdSK0VyGIX+pbgsD7/4KxL24d4
+         iuh8hWHOSKt417FsyY3UrGXJXxX+I4KZFfWOkXgAAApvJ9KVtIY40yOPYpZN1K+BMD7t
+         ZQgbgK/AYFn0ILEekaN6XsrpByKrJWjguPF8k9zZMAlK6BLlDAi74AwHn5Tmim4sVedt
+         cHMcotQMg4bJiAVLgSqiafx1NQ3FeTAqwH3KmtbZw2sxS2OwTBfXLPkME+s4Mu4b02Ig
+         Hf4Q==
+X-Gm-Message-State: AOAM531MMBRvAB95HJ5Kg5FaFHRNRKqPAMqdrt7RGKxuFkpGZhr160CE
+	2PV2pFQ02QMuxa9BpTb52uUodSf17mhWxwXi
+X-Google-Smtp-Source: 
+ ABdhPJxhGKu/HZ+ykKhMuyEWa/qfeC7TB57epzAJyQxECuTVL9UBfpKffntW6tfPbPw20Lf0GAzNSw==
+X-Received: by 2002:adf:d1c5:: with SMTP id b5mr4529441wrd.21.1644843349121;
+        Mon, 14 Feb 2022 04:55:49 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8594:17f2:9d48:b842])
+        by smtp.gmail.com with ESMTPSA id
+ e8sm14315504wru.37.2022.02.14.04.55.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 04:55:48 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] openssl: Add perl functionality test to do_configure
+Date: Mon, 14 Feb 2022 12:55:47 +0000
+Message-Id: <20220214125547.2835400-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 11:12:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 12:55:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161703
+ https://lists.openembedded.org/g/openembedded-core/message/161704
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDE0IGZlYnJ1YXJp
-IDIwMjIgMTE6MzINCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
-Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGJpdGJha2UuY29uZjogQWRkIENPTU1P
-Tl9MSUNFTlNFX0RJUiB0bw0KPiBCQl9IQVNIRVhDTFVERV9DT01NT04NCj4gDQo+IE9uIFN1biwg
-MjAyMi0wMi0xMyBhdCAyMjozNiArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+
-ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGll
-IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiA+ID4gU2VudDogZGVuIDEz
-IGZlYnJ1YXJpIDIwMjIgMjI6NDQNCj4gPiA+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVy
-LmtqZWxsZXJzdGVkdEBheGlzLmNvbT47DQo+ID4gPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYml0
-YmFrZS5jb25mOiBBZGQgQ09NTU9OX0xJQ0VOU0VfRElSIHRvDQo+ID4gPiBCQl9IQVNIRVhDTFVE
-RV9DT01NT04NCj4gPiA+DQo+ID4gPiBPbiBTdW4sIDIwMjItMDItMTMgYXQgMjE6MzQgKzAxMDAs
-IFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiA+ID4gRGlmZmVyZW5jZXMgaW4gQ09NTU9O
-X0xJQ0VOU0VfRElSIHNob3VsZCBub3QgYWZmZWN0IHRoZSB0YXNrIGhhc2hlcy4NCj4gPiA+ID4N
-Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVy
-c3RlZHRAYXhpcy5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiDCoG1ldGEvY29uZi9iaXRiYWtl
-LmNvbmYgfCAyICstDQo+ID4gPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvYml0
-YmFrZS5jb25mIGIvbWV0YS9jb25mL2JpdGJha2UuY29uZg0KPiA+ID4gPiBpbmRleCBmYmE5OWU4
-ZjBjLi40N2M4Y2IzOWY5IDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9tZXRhL2NvbmYvYml0YmFrZS5j
-b25mDQo+ID4gPiA+ICsrKyBiL21ldGEvY29uZi9iaXRiYWtlLmNvbmYNCj4gPiA+ID4gQEAgLTky
-Miw3ICs5MjIsNyBAQCBCQl9IQVNIRVhDTFVERV9DT01NT04gPz0gIlRNUERJUiBGSUxFIFBBVEgg
-UFdEDQo+ID4gPiA+IEJCX1RBU0tIQVNIIEJCUEFUSCBCQlNFUlZFUiBETF9ESQ0KPiA+ID4gPiDC
-oMKgwqDCoMKgQkJfV09SS0VSQ09OVEVYVCBCQl9MSU1JVEVEREVQUyBCQl9VTklIQVNIDQo+IGV4
-dGVuZF9yZWNpcGVfc3lzcm9vdA0KPiA+ID4gPiBERVBMT1lfRElSIFwNCj4gPiA+ID4gwqDCoMKg
-wqDCoFNTVEFURV9IQVNIRVFVSVZfTUVUSE9EIFNTVEFURV9IQVNIRVFVSVZfUkVQT1JUX1RBU0tE
-QVRBIFwNCj4gPiA+ID4gwqDCoMKgwqDCoFNTVEFURV9IQVNIRVFVSVZfT1dORVIgQ0NBQ0hFX1RP
-UF9ESVIgQkJfSEFTSFNFUlZFDQo+ID4gPiA+IEdJVF9DRUlMSU5HX0RJUkVDVE9SSUVTIFwNCj4g
-PiA+ID4gLSAgICBPTVBfTlVNX1RIUkVBRFMgQkJfQ1VSUkVOVFRBU0siDQo+ID4gPiA+ICsgICAg
-T01QX05VTV9USFJFQURTIEJCX0NVUlJFTlRUQVNLIENPTU1PTl9MSUNFTlNFX0RJUiINCj4gPiA+
-ID4gwqBCQl9IQVNIQkFTRV9XSElURUxJU1QgPz0gIiR7QkJfSEFTSEVYQ0xVREVfQ09NTU9OfQ0K
-PiBQU0VVRE9fSUdOT1JFX1BBVEhTDQo+ID4gPiA+IEJVSUxESElTVE9SWV9ESVIgXA0KPiA+ID4g
-PiDCoMKgwqDCoMKgU1NUQVRFX0RJUiBTT1VSQ0VfREFURV9FUE9DSCINCj4gPiA+ID4gwqBCQl9I
-QVNIQ09ORklHX1dISVRFTElTVCA/PSAiJHtCQl9IQVNIRVhDTFVERV9DT01NT059IERBVEUgVElN
-RQ0KPiA+ID4gPiBTU0hfQUdFTlRfUElEIFwNCj4gPiA+DQo+ID4gPiBJIHRoaW5rIHRoaXMgaGFz
-IGJlZW4gZGlzY3Vzc2VkIGJlZm9yZSBhbmQgSSdtIHZlcnkgdW5lYXN5IGF0IHRoZQ0KPiBpZGVh
-LiBTb21lDQo+ID4gPiB1c2VycyB3b3VsZCBleHBlY3QgdGhhdCBpZiB0aGV5IGFkZCAidGhlaXIi
-IHZlcnNpb24gb2YgYSBsaWNlbnNlIGluIGENCj4gbGF5ZXINCj4gPiA+IHdpdGgNCj4gPiA+IGhp
-Z2hlciBwcmlvcml0eSwgdGhleSdkIGV4cGVjdCB0aGUgaGFzaGVzIHRvIGNoYW5nZS4NCj4gPg0K
-PiA+IElmIHRoZSB2YWx1ZSB3YXMgYSByZWxhdGl2ZSBwYXRoIEkgY291bGQgYnV5IHRoYXQsIGJ1
-dCBub3QgZm9yIGFuDQo+ID4gYWJzb2x1dGUgcGF0aC4NCj4gDQo+IFRydWUsIGhvd2V2ZXIgbXkg
-Y29uY2VybiBpcyBtb3JlIHRoYXQgaWYgeW91J3JlIGNoYW5naW5nIHRoaXMgeW91IGFyZSBjaGFu
-Z2luZw0KPiB0aGUgY29uZmlndXJhdGlvbiBhbmQgeW91J2QgZXhwZWN0IHRoZSBoYXNoZXMgdG8g
-Y2hhbmdlIGFzIGEgcmVzdWx0LiBBZGRpbmcgaXQNCj4gdG8gdGhlIGV4Y2x1c2lvbiBsaXN0IGhp
-ZGVzIHRoYXQuDQoNCk9uIHRoZSBvdGhlciBoYW5kLCBtb3N0IChhbGw/KSBvdGhlciB2YXJpYWJs
-ZXMgdGhhdCB0YWtlIGFic29sdXRlIHBhdGhzIGFyZSANCmFsc28gcHJlc2VudCBpbiBCQl9IQVNI
-RVhDTFVERV9DT01NT04gc28gdGhhdCBkaWZmZXJlbmNlcyB0byB3aGVyZSB0aGUgYnVpbGQgDQpk
-aXJlY3RvcnkgaGFwcGVucyB0byBiZSBkbyBub3QgYWZmZWN0IHRoZSBzc3RhdGUuDQoNCj4gPiA+
-IFdoZXJlIGlzIHRoaXMgY2F1c2luZyBhbiBpc3N1ZT8NCj4gPg0KPiA+IER1ZSB0byB0aGUgaHVn
-ZSBudW1iZXIgb2YgbGljZW5zZXMgaW4gbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMgYWZ0ZXIN
-Cj4gPiBhbGwgU1BEWCBsaWNlbnNlcyB3ZXJlIGFkZGVkLCB3ZSBjYW5ub3QgdXNlIHRoYXQgZGly
-ZWN0b3J5IGFueW1vcmUgYXMNCj4gPiBpdCB0cmlwbGVzIHRoZSByZWNpcGUgcGFyc2luZyB0aW1l
-IGZvciB1cyAoc2luY2Ugd2UgZGVmaW5lDQo+ID4gSU5DT01QQVRJQkxFIExJQ0VOU0UgYXMgQVZB
-SUxBQkxFX0xJQ0VOU0VTIG1pbnVzIENPTVBBVElCTEVfTElDRU5TRVMsDQo+ID4gYW5kIHRoZSBs
-aWNlbnNlIGNvZGUgZG9lc24ndCByZWFsbHkgaGFuZGxlIGhhdmluZyBtYW55IGh1bmRyZWRzIG9m
-DQo+ID4gbGljZW5zZXMgaW4gSU5DT01QQVRJQkxFIExJQ0VOU0UpLiBUaHVzIGFzIGEgd29ya2Fy
-b3VuZCBJIGhhdmUgaGFkIHRvDQo+ID4gY3JlYXRlIGEgY29tbW9uLWxpY2Vuc2VzIGRpcmVjdG9y
-eSBpbiBvbmUgb2Ygb3VyIGxheWVycyB3aGljaCBvbmx5IGhhcw0KPiA+IHN5bWJvbGljIGxpbmtz
-IHRvIHRoZSBsaWNlbnNlcyBpbiBtZXRhIHRoYXQgd2UgbmVlZC4gVGhlbiB3ZSBzZXQ6DQo+ID4N
-Cj4gPiBDT01NT05fTElDRU5TRV9ESVIgOj0gIiR7TEFZRVJESVJ9L2ZpbGVzL2NvbW1vbi1saWNl
-bnNlcyINCj4gPg0KPiA+IGluIHRoYXQgbGF5ZXIncyBsYXllci5jb25mLCBidXQgc2luY2UgJHtM
-QVlFUkRJUn0gdmFyaWVzIGZyb20gYnVpbGQgaG9zdA0KPiA+IHRvIGJ1aWxkIGhvc3QsIG91ciB3
-aG9sZSBnbG9iYWwgc3N0YXRlIHdhcyBub3cgb25seSB1c2VhYmxlIG9uIHRoZSBidWlsZA0KPiA+
-IHNlcnZlcnMgYW5kIG5vdCBmb3IgbG9jYWwgZGV2ZWxvcGVyIGJ1aWxkcy4NCj4gDQo+IFNvIHNo
-b3VsZG4ndCB5b3UganVzdCBhZGQgQ09NTU9OX0xJQ0VOU0VfRElSIHRvIEJCX0hBU0hFWENMVURF
-X0NPTU1PTiBpbg0KPiB5b3VyIGNvbmZpZz8NCg0KV2VsbCwgYmFzZWQgb24geW91ciByZWx1Y3Rh
-bmNlIHRvIGFkZCBpdCB0byBiaXRiYWtlLmNvbmYsIEkgaGF2ZSBub3cgaW5zdGVhZCANCmFkZGVk
-IENPTU1PTl9MSUNFTlNFX0RJUlt2YXJkZXB2YWx1ZV0gPSAiIiB0b2dldGhlciB3aXRoIHdoZXJl
-IHdlIHJlZGVmaW5lIA0KQ09NTU9OX0xJQ0VOU0VfRElSLiANCg0KSG93ZXZlciwgdGhlIHJlYXNv
-biBJIHN1Z2dlc3RlZCBhZGRpbmcgaXQgdG8gYml0YmFrZS5jb25mIGlzIHRoYXQgaWYgeW91IA0K
-Y2hhbmdlIHRoaXMgdmFyaWFibGUsIGl0IGlzIGVhc3kgdG8gbWlzcyB0aGF0IGl0IGNhbiBjYXVz
-ZSB5b3VyIHNzdGF0ZSB0byANCmJlIGRpZmZlcmVudCBmb3IgZWFjaCBidWlsZCBob3N0LiBJIGtu
-b3cgSSBkaWQsIGFuZCB3ZSBoYXZlIGhhZCBpdCBtb2RpZmllZCANCmZvciBoYWxmIGEgeWVhci4g
-SXQgd2Fzbid0IHVudGlsIHllc3RlcmRheSwgd2hlbiBJIG1hZGUgYSBsb2NhbCBidWlsZCB0aGF0
-IA0KSSBleHBlY3RlZCB0byBmdWxseSBidWlsZCBmcm9tIG91ciBnbG9iYWwgc3N0YXRlIGFuZCBp
-dCBpbnN0ZWFkIHJlYnVpbHQgYSANCmxvdCBvZiByZWNpcGVzLCB0aGF0IEkgZm91bmQgb3V0IHRo
-ZXJlIHdhcyBzb21ldGhpbmcgd3JvbmcuIEl0IHRvb2sgbWUgYSANCmNvdXBsZSBvZiBob3VycyB0
-byBkaWcgaW50byB0aGUgc2lnaW5mbyBmaWxlcyB0byBmaW5hbGx5IGVuZCB1cCBhdCB0aGUgDQph
-YnNvbHV0ZSBwYXRoIGluIENPTU1PTl9MSUNFTlNFX0RJUiBhcyB0aGUgc291cmNlIG9mIHRoZSBk
-aWZmZXJpbmcgc3N0YXRlLg0KDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0K
-DQo=
+Loading the POSIX module after loading others in perl causes errors to get hidden. The
+resulting build failures are obtuse and hard to debug. We see this quite often when
+we upgrade glibc but not uninative and there are symbol mismatches.
+
+Add a quick test to the start of configure which tests perl operates correct and shows
+a much more obvious error if it isn't since the POSIX module doesn't have to reload.
+
+An example of the new error is:
+
+| Can't load 'XXX/buildtools-extended-tarball/1.0-r0/testimage-sdk/XXX/openssl-native/3.0.1-r0/recipe-sysroot-native/usr/lib/perl5/5.34.0/x86_64-linux/auto/POSIX/POSIX.so' for module POSIX:
+| XXX/buildtools-extended-tarball/1.0-r0/testimage-sdk/sysroots-uninative/x86_64-linux/lib/libm.so.6: version `GLIBC_2.35' not found
+|  (required by XXX/buildtools-extended-tarball/1.0-r0/testimage-sdk/XXX/openssl-native/3.0.1-r0/recipe-sysroot-native/usr/lib/perl5/5.34.0/x86_64-linux/auto/POSIX/POSIX.so) at
+|  XXX/buildtools-extended-tarball/1.0-r0/testimage-sdk/XXX/openssl-native/3.0.1-r0/recipe-sysroot-native/usr/lib/perl5/5.34.0/XSLoader.pm line 111.
+|  at XXX/buildtools-extended-tarball/1.0-r0/testimage-sdk/XXX/openssl-native/3.0.1-r0/recipe-sysroot-native/usr/lib/perl5/5.34.0/x86_64-linux/POSIX.pm line 24.
+
+which clearly shows the glibc symbol issue.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/openssl/openssl_3.0.1.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.1.bb b/meta/recipes-connectivity/openssl/openssl_3.0.1.bb
+index e97c986b398..d08d9b02dcb 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.1.bb
+@@ -55,6 +55,15 @@ CFLAGS:append:class-nativesdk = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/bu
+ DEPRECATED_CRYPTO_FLAGS ?= ""
+ 
+ do_configure () {
++	# When we upgrade glibc but not uninative we see obtuse failures in openssl. Make
++	# the issue really clear that perl isn't functional due to symbol mismatch issues.
++	cat <<- EOF > ${WORKDIR}/perltest
++	#!/usr/bin/env perl
++	use POSIX;
++	EOF
++	chmod a+x ${WORKDIR}/perltest
++	${WORKDIR}/perltest
++
+ 	os=${HOST_OS}
+ 	case $os in
+ 	linux-gnueabi |\
+-- 
+2.32.0
+
 
