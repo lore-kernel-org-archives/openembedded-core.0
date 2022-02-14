@@ -2,52 +2,57 @@ Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 780D6C433F5
-	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 15:45:52 +0000 (UTC)
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.73])
- by mx.groups.io with SMTP id smtpd.web09.35815.1644853549364030977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 630D3C433F5
+	for <webhook@archiver.kernel.org>; Mon, 14 Feb 2022 15:45:57 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.51])
+ by mx.groups.io with SMTP id smtpd.web11.35436.1644853554743174786
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Feb 2022 07:45:52 -0800
+ Mon, 14 Feb 2022 07:45:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=BvJSJdY3;
- spf=pass (domain: weidmueller.com, ip: 40.107.3.73,
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=VrTZm8x7;
+ spf=pass (domain: weidmueller.com, ip: 40.107.6.51,
  mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L+skTnAvDr/cEda+Ol/Vz5FAOaE925KkGbi6QNB2evItWQsKgpmZ7GB6gjIU8svEgJiPB2eZ/zKIzr3QW+54/TnKSngj1cfUM8wYuW/5JvFEPCvzko80s9Eyub+nd6hf+v+sezhM1z7XKIBIUtO9zmbYd9MwsXVBJpbogmLKuzEHDMZkztXgxEUtzCaRWZ6q1SJFOYvLjbZclzTyKRbXKPYGvBr1bONS4S4tjsBfNGQjHNnQAmNcUsbAxKkkyPo+3TAe+cBPz2DO2Ap28jmnmpTcyp2vgEOE2ae8lt3GOmyTECNjQivZAlfPxXqFEJ6oaNPTdVXbKZO4L4QHo6oVbA==
+ b=e+HS8BP+QBdZMWzUMiJqsyal+zXMXtA2Ao7VXs8mddWnfB/iIHs28JbcSnLSaAMAtSJWfctv67XQKDkcsalwRwdoFDWDPQHSD797bYu4pM+rOqpuYL9VgxzMRm3JgXmvhk1M4NEWb6id7A3lh8OriqWbyNHCl5nK677jIGbPleuAD7JguGjUTRtt2QBGxfZJU89SRdUE2Z6yzZRMjebM3G2NIYrKmlsPHlaUMKRSWsbGdbUvmekMtnWxjwfF5//VHAm2ad4rxdLKWUjW2brRuxZ6f7KFVIrD94h7NcV/lZW7xjZIpIei44Rr4qZWDTeK7g/7urKie1mD+xQoMr5pLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BwtRa/N7AW+KHmFJLYofEZjP+jm4Jfq2y7RRgeeN2XM=;
- b=HH6K9nq2r+m3gxqDDVEc6v+9mnSE9WGH42rg7qRJ/wZ/q8zDXDEECeSojHOA1xAN1BIs/KJMRlT5JgtrzuKQNI38Kg5NZiCT+dYimhR3Ir5URwJMxeSeQhRdveguUU/i3VSoCYManEc5zMshRpG14UslmN25/OwXeDRPMdDjOYHb7UsGiDJ5ncgwBJI5AeykZfitPEUfjaoqIiyQecFLTiCHCDc/7aBAXYRj0ixJVXrba14xjdF3+PjvzUUxkprBgU+ht6rMa8h8EU+emkY6hWmqRdfElmixi4hfcgrZO6tpMzI0P2MEhA6DENkPuV08b9dGEGiSBaOPX4gNtVPUVA==
+ bh=q9rxBzd+VfEGAbo6ymefkJZbUJY/YA3dLyrhDG2qqZg=;
+ b=LPs+qvFn5AgJaUcaAe7evLJ0RHVAiUv0u4zRi6WiBaIwpnJAg2WjvgXyMriGGMPzKCVzLeH/xgf2aeyY8Ol4g6dXqps1Wr6WkZxlqqEi7kqB0KJ7w8hj3qvIGXp1k7sEgLNRQ7I4yzaVUsvc587aRKlhlER3fx2iVoCF6yN62Zp4QUvEv8VGpLLDJq82wPPpswWvDirHlc3rk+AvP8UcSqxDXEmn06Gp9lpZaXbW7Zz8VqxI/cPkmS9brdxfebNrO4S1QuhwdWz2Hyat198AKJawZycoE1MTRSBsaYbPCx5W26k3z43htj92M5NRXUQG8d8LJ5PQY7x+7iM4Yq703Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BwtRa/N7AW+KHmFJLYofEZjP+jm4Jfq2y7RRgeeN2XM=;
- b=BvJSJdY3xLYtxQxwI5m5M0yGFFdLSN2czZUieIawAFGmDNTZ6CFUogN5vB4olgn4KsSWewZ8FAq0aHDj3VxHQIvuudl6mB31qSty5/NqMzWdAScL/svs4nAjxJFbeM0nVVj31Rebc7FXpFwzEYIysTY6kgrVObPhtnIPDvEzSFY=
+ bh=q9rxBzd+VfEGAbo6ymefkJZbUJY/YA3dLyrhDG2qqZg=;
+ b=VrTZm8x7Ukva8DMD6eFDGs2lJs3CA0PXFlS1mQN8XbwI4nRtyTCzUwk8J3J0OP05HH8cDteenio5A/Yx/jByqM7vdL9weoYrfwp0M+pTzOje+VFwa2IPltigSTw0oaOLPsMWI/Cw+tvVZjCEHFtKKOVFBDgaE9Puh+vjz04I4aQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
  by DB8PR08MB3929.eurprd08.prod.outlook.com (2603:10a6:10:ae::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Mon, 14 Feb
- 2022 15:45:45 +0000
+ 2022 15:45:47 +0000
 Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::245e:139f:5d4d:1dc2]) by PAXPR08MB6969.eurprd08.prod.outlook.com
  ([fe80::245e:139f:5d4d:1dc2%4]) with mapi id 15.20.4975.018; Mon, 14 Feb 2022
- 15:45:45 +0000
+ 15:45:47 +0000
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [PATCH v2 1/5] wic: partition: Support valueless keys in sourceparams
-Date: Mon, 14 Feb 2022 16:45:17 +0100
+Subject: [PATCH v2 3/5] selftest: wic: Remove requirement of syslinux from
+ test_rawcopy_plugin
+Date: Mon, 14 Feb 2022 16:45:19 +0100
 Message-ID: 
- <20220214154521.26905-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <20220214154521.26905-3-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: 
+ <20220214154521.26905-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: 
+ <20220214154521.26905-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: AS9PR06CA0257.eurprd06.prod.outlook.com
@@ -55,72 +60,74 @@ X-ClientProxiedBy: AS9PR06CA0257.eurprd06.prod.outlook.com
  (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9b6b7a22-d5b7-406b-edce-08d9efd1103c
+X-MS-Office365-Filtering-Correlation-Id: 16d6646a-8a0e-42ee-44a6-08d9efd110bb
 X-MS-TrafficTypeDiagnostic: DB8PR08MB3929:EE_
 X-Microsoft-Antispam-PRVS: 
-	<DB8PR08MB3929E6D47240A710ECEC84C5D7339@DB8PR08MB3929.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+	<DB8PR08MB3929E81BBA38E0642F846B69D7339@DB8PR08MB3929.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:211;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	GvSnddXHVs4vs6MZol5bp9UEo5yQngcaH+htKCtrL8/qII5EeqwmngCsXSVjzu3a7/cnX2IDeGoBIrj7HRhWQaDKMWxHdyeNEYNeTOp1qqzbpGOBJsoVsqIvraQMFCa5BXfdHf2iGfPB/fiWgFYxOhck/d//ENpEN5mTSoR99O9p6XM2Q3IDVvrL+fj04pB65FquJ/y9h6yXZaI0GUceq2za8uPq5AxxiGNWHt8hxqL2y3mGt/DWCn9TdeM+Vcm6bdZpfXxwDJwe6FPQpE2xvlmZdvIP20ibxiS8NYwqrn9kQziO7NiDnEKnp7UxFuhcVVPqvr3nboW9uURD56PmiVJCiPOSuPAz900DcLVJlEHO+B1CwKemnU4xRX9AyZuwcVYrkLmf2rHjI6UqV3WA3zICajcY7u4lsufvOb7P+aRgGPBgy29fXvj06ygJCYIt9g2svOiEYka9yayc4PrvaUA+VjHyp9bnYI2JpnNCkReZiUAHxbzafYcvKgEdSL2ZUD90x6sLRnWOoz25/RfsHXqdWyy/Qg+FuOCAY4s7sInk0E+dvFP3f/ZZvHtChkdt8eVqIqlaSVn/6M1rI0RC0U5ubD8cIt/sqqBIXe3c1fKNGEMxFUw17dRSwqoyCR8pkNVAOf7lxYGmvY5TIIRbP0ajHj++epnCtriaUPPrBm9Wsxo3EkXO+Uy4lJ5bml0QH/iMmsh+Q1fMQuLe4HTF4A==
+	tGgKe0MX/aTKDIok2fqFCmr14y26SxFNIzlxRkPovbzcCRjFjfky5KaeOVekmr2olhu/JySZXihOvQtrTofSWaOSUYQxKY0F9Nqjtg8GNYEkA96FY78jKCCn5E0GapRDOAEt9uqBpWM+Iv773vzC7qeom25PF1LmuAJOJuKpL5PZfFjb4LVP5Dq0sps/DRHY6oeuowQ+ZYwwkwufBenVzjRJuIw0paVB/LDbacUGED8zg7YCbKkMyeec9MgOqbiOz/NfhQ+J/kUDZuVwPYYqRklwC64OISwvTImqfSiETI7rCAHSCRclpYZnaMuIOHjl8dfSQWItu48Pq6j5Oo25CO1QFzXwj5sM3zuXEyWqMUaUpxKz+vvmJ+DxuYX+0YRk6rrnnUMerO7w6chWxKySxdWLPR1FwipLVgNTqh3AsQWF5szzwHa5/3FyVY21yg/1yNWSn9cvt0ZiVq8aRM6Q5cWggwFunzfRllz049UaUxMfuklfpbl4D3ktpPZmYEmicohRzLupFb6/tDzBXT4YVxO+oIPdv656N4YSLayYGFMvbgf4k/uLtWix656vu1wjkSv/LRhjgiUYtPdF4XstjrkkWqhQm93pBViQUossmR88wwAYW/IBouJZtaFQYPSVvOvAU2a00XtGJ1Jg4vtMU/0oDssCrzmYRwtmSFZlC+uwUa6c36d0ExNcWKIFudfolPfb1T3xP2voWE+E7pa9bg==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38350700002)(36756003)(66946007)(316002)(38100700002)(2616005)(66556008)(66476007)(4326008)(6916009)(6486002)(107886003)(1076003)(186003)(26005)(6666004)(6512007)(2906002)(86362001)(508600001)(83380400001)(52116002)(5660300002)(8936002)(6506007)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?UdYxmboXOR/MCv/ToRtOCea3AeytdMIZaP0uAP8OVs3KzPMIEnLDqIBMWJKj?=
- =?us-ascii?Q?sLxTQkcWnFDmXgI0UsJwbFCZbDk3CvwGDr8YWDa3ar/f+RudlOPxP9dHh0q/?=
- =?us-ascii?Q?qqfSHH6QB9XuhH0V97Hsgk8yIpO/xaUQL0ptIFAtRviPRTRgrIgzUD3/tHha?=
- =?us-ascii?Q?8eshsH4oWJHPTDL4lP425bgiEfB8HV8fiMqlDCdYG4IUdT+Gsx2t2etsqr6q?=
- =?us-ascii?Q?JhXOlUCmaY1tQZv5Y3m7h9+vwep2mizf1yZU9pWSSGBxk9oPvX8wy9uIOR7G?=
- =?us-ascii?Q?qbIc/ibxOsFV/21KpOECGaFlo4Rykfweb2/Zbpnb4iFjlYLBIJE1TGEcaLE7?=
- =?us-ascii?Q?qGCJi1xtioUwGXIAV2SSOX05wD/xMz8Ku/x/Jo0k0THxi9+BDiTnQZ/1Q5WB?=
- =?us-ascii?Q?JfVSiR2KydIU7o1bRu7IbcPhX8l5R53Ghs8H25QrUnrZzt/sr8n+OSYQmC86?=
- =?us-ascii?Q?YyMZ+2GxU6Vli41LOzB4pA8VxASnXIbXKFRIyE31Lw798sPw/WAZ0YUk1RLo?=
- =?us-ascii?Q?IgSXglgjE0xyjRZBEpNemq1JB1Q7R7uaSKRUOrBC4Uw+HYiXVSuS3qklv7Pq?=
- =?us-ascii?Q?rw+WDHskIs6CupqvRP/nN6Neuwbcs6z5e7Wdgi/rDLpQLoNqX+tP0LaGDevI?=
- =?us-ascii?Q?6zd7Z4dZbpcA2I2eI4syj5seDyISI4dWF+Nz+5JqLkLOT1k76ZrFxrJ0n6I/?=
- =?us-ascii?Q?8ilsV7+9Nfc6HgOUIJfnQYldLR7FO3y+RfaZvUxnISt31YkuJPfcdUzk13r7?=
- =?us-ascii?Q?DeQ/34il7yCbfkU/xiDztHdY2/q/jyx99cUQLRxHDuKTgu8zBFF1zKB7AfoE?=
- =?us-ascii?Q?8evfNpjZh1v8TOFRH3GQvjhtQXLGvgMHQv66NU39W8mz+vi5P2IirYOGokr3?=
- =?us-ascii?Q?dqum5bJZKW4dowmb8Svl99BbXk9ySyjNyIAT29a0eWowXijptb6dA+K6CyDv?=
- =?us-ascii?Q?O2PSoFFBvBRGyL/v48uQMq0WRuNm6ceztI3ItiTVtjAWygGt0wdGjVAKaOPK?=
- =?us-ascii?Q?maZ/xs+N7sEJYuNZjz269YJguM8Fknvy5DQlN3426zB87chcNZqUqzQBiPlM?=
- =?us-ascii?Q?YyKup6ylekWB3ZFhtznWId9Iq/U760BpKBiC31MH2oko63Amll2451EjEM0N?=
- =?us-ascii?Q?WQZpC+TZ47neo1rrmPbi7awNHbo3HiYijoZTRsHjdRv7jHJQVek+kPxIjTN0?=
- =?us-ascii?Q?HihMCBpareuzAh4Xjgt+vHhO0soMKW4wnmMDQubLrq2eGWof/dbJZlVA/bF7?=
- =?us-ascii?Q?e0R1CU9f4mgL8FAJaGwP4g7+/YWJtOWiq4MuZGg2sC9nQA8NHZ1xoDMRFxrr?=
- =?us-ascii?Q?l232INTcrU2Bw8V1SFTBDG8meEO3tV22Z8GF/+UYMLIdiqKg0ftOqiB4ulyk?=
- =?us-ascii?Q?dYa3v/LtV8uH8ZXuOXWlinu/FpRS9JQYxrHDkFbWSuPh/VbNKSxfdQLIDoNZ?=
- =?us-ascii?Q?ppLJDBYqdD4Ps606RB387a4Gx7LjGagM85UO8FEMgjEJYoT4uDP2TfAFIthw?=
- =?us-ascii?Q?II/aZYR2iNc2DYI2H2N4cXV9nTgvE8yG2ZruK5CcvbGy64H6Ebao9jWY+vD/?=
- =?us-ascii?Q?cXnzizsdHYsiJWfXl/I4vzt9kVQaiFUPLCbznhb0OT6pe5pP6G45tCS7ly7Z?=
- =?us-ascii?Q?7f/VVEmAd6lR+/TrhHlFiEk=3D?=
+	=?us-ascii?Q?O8GFCV0ednKzd67Y8xnA88Y3rDIuQaTfZCyzOwuxrzwiua9RDEs8opQ0qMZu?=
+ =?us-ascii?Q?fDO2KdIfqMSVPjqTHcwVAntbgioNYeFD0Nl0/8JocCTZKd5Sts438UC9qcbk?=
+ =?us-ascii?Q?jTCUjimAILFYiGiYrY7KXhpRZQSAnz5IUhMGxRzks+1LEybDjXg0zz6mKkzE?=
+ =?us-ascii?Q?Qpp/LuN8r5BV19AVayx97zCFckvHZeT9buqK8zi9aKCrKO1n493cUX40UGbQ?=
+ =?us-ascii?Q?vJPJJIwGVz+BaCIelWz83vogGQg/m26EmpSgrYrXaUsGv1N9CD+aPeNZZ7Jp?=
+ =?us-ascii?Q?9GDr6Yx6stKHzR4Enw5ROVkrYQFls28njgpsslEyybwRyLwsM2bYwuKqDvO2?=
+ =?us-ascii?Q?67m1mL6rcKFM+t6BMcH1ADwPpbsqtpm31z56kfdCDdz1oSYUFVxmIaMlqroI?=
+ =?us-ascii?Q?SGDRxetQi3RDYFcICFmtseY9XMEG4EZaAkifE53SNgkKjDXAF7Fsf45PDXOj?=
+ =?us-ascii?Q?947wej8UKmQ7xS4caSwLe60gl5tx1aguuZqIONNe+CrMpoF9jstkdmfIBCGO?=
+ =?us-ascii?Q?ANYXuBEp9Mmiln32Bipi4obzod/2DTz47smQrObso63zThQJzxRrxt32JuBm?=
+ =?us-ascii?Q?lD7LIvFAfhq9DJvaF4R315z/g8UBn/7ZbOgPuSo4Hw/qkqOVissCIdO7eYtp?=
+ =?us-ascii?Q?flgPqu+MOoWTWUFuGgcnDQu/cqQAA/nqzVPHpDj0+fi0RkI2h0iGW0qpI/US?=
+ =?us-ascii?Q?y+VJFuXp6sDNhldKxFhPsWcEqCGtz942YDINq9f6U7f7SA8Cy7THE5+MgK+4?=
+ =?us-ascii?Q?1CCgwsKk3wplKLCi782O9qBQrjWQfz2Eod8HFpmWkUabUv+Za65hdrz7h5Yv?=
+ =?us-ascii?Q?BGbrs5iwfRXDMTwIfQRab+uPtifFvXx2olX3mwF7Ie8HF0kVNWZVdHfDw4ng?=
+ =?us-ascii?Q?kkqlTg+cRZ20K7JUMYJxZQGQT+RXZvUgbJXgzm5fragvlnMMNTyAs4i24GsM?=
+ =?us-ascii?Q?ZH/uL/WrSAIxlvIwmBkrN+xqz1+8uvjHeLj1SrnJsXRx16KgMQIim83FuaSN?=
+ =?us-ascii?Q?lUpjJs8+N9k1xwqPHO7SG5zJC3rzQIw+5E34DzRLDehmyq3StbPC8CcN5Owl?=
+ =?us-ascii?Q?yyxgFWExqBmQcdOYjQDsTDSmauHdGqJGve56vWvAijUeAUcli/QrwZaGCMt+?=
+ =?us-ascii?Q?/VbJu+XjCCXd+La0qdq7lUQBX7tzWGQOD9aW6oQaWdEKcJOLnu9vgxj4meZE?=
+ =?us-ascii?Q?vJXFfiCNVRtb7A97rxIZ2+ryjn47NlgiKS2K2x0r4KuZxkK3Mc+Srdt5jO6h?=
+ =?us-ascii?Q?TsumaDlOqaHNL4xLxwicGeZl7ZBF2TfWSHvfkleDvqfKdjaok4i3bRZqp9ec?=
+ =?us-ascii?Q?9QI4hI0SL/Xfdgf2GDw/SgLYJPIHiVXu4g9hBtW4vBm8ilesTblSMK353co1?=
+ =?us-ascii?Q?RDfj3cGbGnU1Q23aTdVb4UTDgOc8QfvtzoxPWqrxDiNOaz4xmKKwnvHiZNwd?=
+ =?us-ascii?Q?Un+PsyZ9tlcxMSbVejh3yFiKtUS2hez9pT3+vaSYHbofPoTYVE8N5TOcjlB1?=
+ =?us-ascii?Q?urLPq7Q4CK3ayficgMHhg3DSmU3dXjU5WouuwIKbEPH/NoHY9hKgLmN044YP?=
+ =?us-ascii?Q?MvXUhE4jTjVxXcFQh0YWgwBLf+TmxwVEdEgsi1hCIGm/8vLyVQOH1b2b0wkq?=
+ =?us-ascii?Q?QhxAInNgQ6wRrlDOcc/nCLI=3D?=
 X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9b6b7a22-d5b7-406b-edce-08d9efd1103c
+ 16d6646a-8a0e-42ee-44a6-08d9efd110bb
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 15:45:45.1611
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 15:45:45.9578
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- eTJ079+GjmApR3zjrlhprJY9eZ2NJz6TZff+fsrHyx8HI590J2hA7iBQhscIeSG+TPUlFe8BtqwHIQK+Ma23bQ==
+ KehtT34xyQukSzVTGfppMLZN51KI+FCZVLPL05xN1eWakYv2su+HuxdhGzDu0EKWZVPVpzP4AUeHuApRtfdehg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3929
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 15:45:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Feb 2022 15:45:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161715
+ https://lists.openembedded.org/g/openembedded-core/message/161716
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Accept valueless keys in sourceparams without equals sign (=3D) to match
-the comment and support Boolean entries.
+Remove bootimg-pcbios from wks to eliminate requirement of syslinux from
+test_rawcopy_plugin to avoid the following error.
+
+ERROR: Couldn't find correct bootimg_dir, exiting
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
@@ -128,25 +135,32 @@ om>
 
 (no changes since v1)
 
- scripts/lib/wic/partition.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index a25834048e..09e491dd49 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -171,7 +171,7 @@ class Partition():
-             # Split sourceparams string of the form key1=3Dval1[,key2=3Dva=
-l2,...]
-             # into a dict.  Also accepts valueless keys i.e. without =3D
-             splitted =3D self.sourceparams.split(',')
--            srcparams_dict =3D dict(par.split('=3D', 1) for par in splitte=
-d if par)
-+            srcparams_dict =3D dict((par.split('=3D', 1) + [None])[:2] for=
- par in splitted if par)
-=20
-         plugin =3D PluginMgr.get_plugins('source')[self.source]
-         plugin.do_configure_partition(self, srcparams_dict, creator,
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
+ases/wic.py
+index 5fc8e65142..96b3e1b6a5 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -1070,10 +1070,8 @@ class Wic2(WicTestCase):
+         img =3D 'core-image-minimal'
+         machine =3D get_bb_var('MACHINE', img)
+         with NamedTemporaryFile("w", suffix=3D".wks") as wks:
+-            wks.writelines(['part /boot --active --source bootimg-pcbios\n=
+',
+-                            'part / --source rawcopy --sourceparams=3D"fil=
+e=3D%s-%s.ext4" --use-uuid\n'\
+-                             % (img, machine),
+-                            'bootloader --timeout=3D0 --append=3D"console=
+=3DttyS0,115200n8"\n'])
++            wks.write('part / --source rawcopy --sourceparams=3D"file=3D%s=
+-%s.ext4"\n'\
++                      % (img, machine))
+             wks.flush()
+             cmd =3D "wic create %s -e %s -o %s" % (wks.name, img, self.res=
+ultdir)
+             runCmd(cmd)
 --=20
 2.30.2
 
