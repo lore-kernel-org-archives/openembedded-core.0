@@ -1,197 +1,181 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4A0C433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 14:26:28 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.12337.1645021587455274405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF97C433EF
+	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 17:31:23 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web11.2181.1645032682252965734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 06:26:27 -0800
+ Wed, 16 Feb 2022 09:31:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TuyYETbo;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.41,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f41.google.com with SMTP id vz16so5094375ejb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cjL7187k;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id q4so926718qki.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 06:26:27 -0800 (PST)
+ Wed, 16 Feb 2022 09:31:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KTC3fYP0AtoUWDKowfI3j6kxpGsapvzT04FcQFQUoxk=;
-        b=TuyYETboCmEqBKN+4zu5PTztinvSCGkQZQJd4FznZPnOUeGZgughY8HwKLXYRqTJqB
-         Cj0rERVlwayCuJhTgDlVYuDpjKhjf3mBwnA6UqRxXCFRHcZTCP9GjGd01N0fRAZX1wMW
-         vyHgnMynjQvLA17wbLBtLT/DX7rBuLQny63ZcRBiR3JLke5Fm58plifdxeXxt/5KfvZp
-         NI8tEgRmkZ6dmxr1uc4/pUf2ETGeq3TORlY8gNoyVnniAOqEW0oRyqCcWhotpJBMg8UP
-         9tT1FgJNxCq10fS/hOjlYdh77SIg4P+63pe6JY+DrXvl96RYUDDF7ZE2IJ0VUUjG0ed6
-         rBjw==
+         :cc:content-transfer-encoding;
+        bh=x0k0rzny9F1qhmooKqSXMvXJi2AESVrxThRf5z8MxXo=;
+        b=cjL7187kkA+32jJtyZJfuTD/IEV90nQfK+GTLln9ZLglu7Abj4dpcl5Ip3OAvYajcu
+         wXbIYaXxIxYlOzPJCD8gTF76+aEl2+wxN01GjEJvT3qKz/7jtiER0J22BFyMvFrc/SoE
+         CKvZK+w5a6TDYUv9VSmzJqEnmcrsYwdlPLgYR0p2fyWn0WqHca5PQKe6lI42hBYefFIS
+         6ZW396+K6boJfBpCpcNZNaRVuCOpNg5tIIVq1jajHTpV+PN2w/HTPmJEokOrMlFK9Jtw
+         +7wTceNsMvEFpqdoxUqmtKDaOUCZXILiGpvuFNcqwwq/M5xev44JmweEhkISrSr7hDDx
+         dMJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KTC3fYP0AtoUWDKowfI3j6kxpGsapvzT04FcQFQUoxk=;
-        b=rZqWowO7TYIXQ3RtCGUu31uaR7RXUR31JHzy6dIG6kgj1V/PGtdUiDne69lXV0oQ0T
-         2scQtzuFxW7sCD+Df+WIO+IhphjBoV2XkiAzTedQDy/FZHmXazljHffAe9DpLW0PAhRC
-         5V2C3/36XXPYaqeO/87gwNImPfsXuX/ZNqLrCZZ90XqqMQDzazqY6JmzxX/oHbonI7Fp
-         p8398R2OEqjz5vkSZ6fHZEm6/k3e5M2Dv6JwbHkRF71WLJB5QxNBY1u8Yu/i5isAjlx3
-         SpVJYf6eftDzoIz2m5+Acj+qfTu5A7wn+YCzQXazUix6wHBsv4opcADH39Rd6D/8ClU3
-         p88A==
-X-Gm-Message-State: AOAM5335ES1c2+6DuMhe4Lgj7UnoOyNyI+TAykIxXBx/bYo88Baq1gA9
-	fJA1+Bmer09DXxhOJ5d06UKmTQcoENP0ZzLaZBcT2w==
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=x0k0rzny9F1qhmooKqSXMvXJi2AESVrxThRf5z8MxXo=;
+        b=lbkINT0+y3/B7ysZh+P1NAXJUTRN/ZE801WNwYKT+srUeDdo5Ia6HixxxtHz0YiUBc
+         HheL3Ii6nNXWyGkQc6P1zfFn2pgzMw/py031H/JVQatypxCVED8YQd2i4v4qBl8vu3+4
+         XZhDwRbOwsXWH27W4J12a+reXLuPjdQY8EgM3LAPHosnWG5yGtIGcoZ3liwUKXEOcSH6
+         G769cz75gukHQZM9fLddCx8mQoct5YcsqQxAjzz+ksRCrpsYVKQptWzzxNnlEBkGqS1Z
+         HxSx1Wz4TsMLH3gPaUUpcAW2BfWfRvSEeTUDp6RDC1Ha8x7PuQCf4V9v5KALW9CgC+Cp
+         LiVA==
+X-Gm-Message-State: AOAM5311fIY0qiStp1RisTOi3bUPkzVvwNbAONPc5Rs+3h4A554gyC7Y
+	n4Ngy4h5D5PCX6WENGxMlutleKhB3aqtliScp/0=
 X-Google-Smtp-Source: 
- ABdhPJzys6mjmNV+wSZj7hU0Qx9gpZZ6VkzUpGNMni0QI7F7wpqkALThbGm2E1DuLQFBSjRY3zD85wmqar+Zkw0r+qE=
-X-Received: by 2002:a17:906:6d09:b0:6b9:2e0e:5bdd with SMTP id
- m9-20020a1709066d0900b006b92e0e5bddmr2395058ejr.246.1645021585495; Wed, 16
- Feb 2022 06:26:25 -0800 (PST)
+ ABdhPJxa9Na9bARY3SSuvxOIfm6oM8eqdMkJ2wc3jyl5GlzxdgedaAzJoXJCyiqoa5Dh6hSfcwDOjJiLtCqWgXFDNDI=
+X-Received: by 2002:a37:b541:0:b0:475:4524:bb4b with SMTP id
+ e62-20020a37b541000000b004754524bb4bmr1856601qkf.149.1645032681266; Wed, 16
+ Feb 2022 09:31:21 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1644946036.git.steve@sakoman.com>
- <CACpMEhN3+9xDYLdyNfoBEnS6kEt+AvOr1ovb3iq9GD8uzu__NA@mail.gmail.com>
-In-Reply-To: 
- <CACpMEhN3+9xDYLdyNfoBEnS6kEt+AvOr1ovb3iq9GD8uzu__NA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 16 Feb 2022 04:26:14 -1000
+References: <20220107192255.3128781-1-raj.khem@gmail.com>
+ <CANNYZj9OOwkzDKbrDbav0iQPzC4uKiQ5HTP4W4joLMh=oXfrPg@mail.gmail.com>
+ <ac1db1b0-fe6a-995d-344a-ebd39b9ab72e@mailbox.org>
+In-Reply-To: <ac1db1b0-fe6a-995d-344a-ebd39b9ab72e@mailbox.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 16 Feb 2022 09:30:54 -0800
 Message-ID: 
- <CAOSpxdYaZmzDPeaX45YBQpEu7E1TzZ_OZ6gwa4+K2ZresWV6bg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/20] Pull request (cover letter only)
-To: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+ <CAMKF1srz=EjFE5u_msij_EFNbtksS21dRAkoBcBkMSR881tRtA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] libsdl2: Fix build when libunwind is not
+ used
+To: Carlos Rafael Giani <crg7475@mailbox.org>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 14:26:28 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 17:31:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161779
+ https://lists.openembedded.org/g/openembedded-core/message/161780
 
-On Tue, Feb 15, 2022 at 9:34 PM Ranjitsinh Rathod
-<ranjitsinhrathod1991@gmail.com> wrote:
+On Wed, Feb 16, 2022 at 1:58 AM Carlos Rafael Giani via
+lists.openembedded.org <crg7475=3Dmailbox.org@lists.openembedded.org>
+wrote:
 >
-> May I know by when this will be available on dunfell branch?
+> "MACHINE=3Dqemux86-64 bitbake libsdl2-native" still fails with a similar =
+error:
+>
+> | CMake Error at /home/test/yocto-master/poky/build/tmp/work/x86_64-linux=
+/libsdl2-native/2.0.20-r0/recipe-sysroot-native/usr/share/cmake-3.22/Module=
+s/FindPkgConfig.cmake:890 (message):
+> |   None of the required 'libunwind' found
+>
+> This is triggered by the "pkg_search_module(UNWIND REQUIRED libunwind)" l=
+ine right above the one that is modified by this patch.
+>
+> Any idea what is going on?
 
-It should be available now!
+I think its looking for libunwind on your build host.
 
-Steve
-
-> On Tue, 15 Feb, 2022, 10:59 pm Steve Sakoman, <steve@sakoman.com> wrote:
+>
+>
+> On 07.01.22 21:34, Alexander Kanavin wrote:
+>
+> Thanks :)
+>
+> Alex
+>
+> On Fri, 7 Jan 2022 at 20:23, Khem Raj <raj.khem@gmail.com> wrote:
 >>
->> The following changes since commit f3be01483b01c88f8c4ba24ca73ccf1bcc33665c:
+>> clang provides libunwind.h and cmake adds a check to
+>> find libunwind when this header is detected, which was
+>> not the case with automake. The check however is expecting
+>> specific unwinder implementation which provides libunwind-generic
+>> solib, this is not a standard library that all implementations
+>> will provide, therefore make this check optional.
 >>
->>   build-appliance-image: Update to dunfell head revision (2022-01-27 16:16:08 +0000)
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> Cc: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+>> ---
+>> v2: Udate patch status to submitted
 >>
->> are available in the Git repository at:
+>>  .../libsdl2/optional-libunwind-generic.patch   | 18 ++++++++++++++++++
+>>  .../recipes-graphics/libsdl2/libsdl2_2.0.18.bb |  1 +
+>>  2 files changed, 19 insertions(+)
+>>  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/optional-libun=
+wind-generic.patch
 >>
->>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
->>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-ge=
+neric.patch b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-gene=
+ric.patch
+>> new file mode 100644
+>> index 00000000000..757b99a5f68
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-generic.p=
+atch
+>> @@ -0,0 +1,18 @@
+>> +Do not error when libunwind-generic is not found, Not all
+>> +implementations of libunwind will provide this library therefore
+>> +do not make it hard error if its not found.
+>> +
+>> +Upstream-Status: Submitted [https://github.com/libsdl-org/SDL/pull/5194=
+]
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +
+>> +--- a/CMakeLists.txt
+>> ++++ b/CMakeLists.txt
+>> +@@ -1358,7 +1358,7 @@ elseif(UNIX AND NOT APPLE AND NOT ANDROI
+>> +       if(HAVE_LIBUNWIND_H)
+>> +         # We've already found the header, so REQUIRE the lib to be pre=
+sent
+>> +         pkg_search_module(UNWIND REQUIRED libunwind)
+>> +-        pkg_search_module(UNWIND_GENERIC REQUIRED libunwind-generic)
+>> ++        pkg_search_module(UNWIND_GENERIC libunwind-generic)
+>> +         list(APPEND EXTRA_LIBS ${UNWIND_LIBRARIES} ${UNWIND_GENERIC_LI=
+BRARIES})
+>> +       endif()
+>> +     endif()
+>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb b/meta/reci=
+pes-graphics/libsdl2/libsdl2_2.0.18.bb
+>> index 893386343a7..1559d5e9425 100644
+>> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+>> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+>> @@ -18,6 +18,7 @@ PROVIDES =3D "virtual/libsdl2"
 >>
->> Alexander Kanavin (1):
->>   libusb1: correct SRC_URI
+>>  SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+>>             file://0001-Fix-build-against-wayland-1.20.patch \
+>> +           file://optional-libunwind-generic.patch \
+>>  "
 >>
->> Joshua Watt (5):
->>   tzdata: Remove BSD License specifier
->>   e2fsprogs: Use specific BSD license variant
->>   glib-2.0: Use specific BSD license variant
->>   shadow: Use specific BSD license variant
->>   libcap: Use specific BSD license variant
->>
->> Marek Vasut (1):
->>   binutils: Backport Include members in the variable table used when
->>     resolving DW_AT_specification tags.
->>
->> Marta Rybczynska (2):
->>   grub: add a fix for CVE-2020-25632
->>   grub: add a fix for CVE-2020-25647
->>
->> Minjae Kim (1):
->>   ghostscript: fix CVE-2021-45949
->>
->> Peter Kjellerstedt (1):
->>   sstate: A third fix for for touching files inside pseudo
->>
->> Purushottam Choudhary (1):
->>   systemd: Fix CVE-2021-3997
->>
->> Ranjitsinh Rathod (1):
->>   util-linux: Fix for CVE-2021-3995 and CVE-2021-3996
->>
->> Ross Burton (2):
->>   lsof: correct LICENSE
->>   shadow-sysroot: sync license with shadow
->>
->> Rudolf J Streif (1):
->>   linux-firmware: Add CLM blob to linux-firmware-bcm4373 package
->>
->> Steve Sakoman (4):
->>   glibc: update to lastest 2.31 release HEAD
->>   expat: fix CVE-2022-23852
->>   expat: add missing Upstream-status, CVE tag and sign-off to
->>     CVE-2021-46143.patch
->>   common-licenses: add Spencer-94
->>
->>  meta/classes/sstate.bbclass                   |  14 +-
->>  meta/files/common-licenses/Spencer-94         |  12 +
->>  .../grub/files/CVE-2020-25632.patch           |  90 +++++
->>  .../grub/files/CVE-2020-25647.patch           | 119 +++++++
->>  meta/recipes-bsp/grub/grub2.inc               |   2 +
->>  .../expat/expat/CVE-2021-46143.patch          |   6 +
->>  .../expat/expat/CVE-2022-23852.patch          |  33 ++
->>  meta/recipes-core/expat/expat_2.2.9.bb        |   1 +
->>  meta/recipes-core/glib-2.0/glib.inc           |   2 +-
->>  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
->>  meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
->>  .../systemd/systemd/CVE-2021-3997-1.patch     |  65 ++++
->>  .../systemd/systemd/CVE-2021-3997-2.patch     | 101 ++++++
->>  .../systemd/systemd/CVE-2021-3997-3.patch     | 266 +++++++++++++++
->>  ...-fsync-after-removing-directory-tree.patch |  35 ++
->>  ...children-split-out-body-of-directory.patch | 318 ++++++++++++++++++
->>  meta/recipes-core/systemd/systemd_244.5.bb    |   5 +
->>  .../util-linux/util-linux/CVE-2021-3995.patch | 139 ++++++++
->>  .../util-linux/util-linux/CVE-2021-3996.patch | 226 +++++++++++++
->>  ...ude-strutils-cleanup-strto-functions.patch | 270 +++++++++++++++
->>  .../util-linux/util-linux_2.35.1.bb           |   3 +
->>  .../binutils/binutils-2.34.inc                |   1 +
->>  ...in-the-variable-table-used-when-reso.patch |  32 ++
->>  meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |   2 +-
->>  .../ghostscript/CVE-2021-45949.patch          |  65 ++++
->>  ...tack-limits-after-function-evalution.patch |  51 +++
->>  .../ghostscript/ghostscript_9.52.bb           |   2 +
->>  meta/recipes-extended/lsof/lsof_4.91.bb       |   2 +-
->>  .../shadow/shadow-sysroot_4.6.bb              |   2 +-
->>  meta/recipes-extended/shadow/shadow.inc       |   2 +-
->>  meta/recipes-extended/timezone/timezone.inc   |   2 +-
->>  .../linux-firmware/linux-firmware_20211216.bb |   1 +
->>  meta/recipes-support/libcap/libcap_2.32.bb    |   2 +-
->>  meta/recipes-support/libusb/libusb1_1.0.22.bb |   4 +-
->>  34 files changed, 1863 insertions(+), 15 deletions(-)
->>  create mode 100644 meta/files/common-licenses/Spencer-94
->>  create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-25632.patch
->>  create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-25647.patch
->>  create mode 100644 meta/recipes-core/expat/expat/CVE-2022-23852.patch
->>  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2021-3997-1.patch
->>  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2021-3997-2.patch
->>  create mode 100644 meta/recipes-core/systemd/systemd/CVE-2021-3997-3.patch
->>  create mode 100644 meta/recipes-core/systemd/systemd/rm-rf-optionally-fsync-after-removing-directory-tree.patch
->>  create mode 100644 meta/recipes-core/systemd/systemd/rm-rf-refactor-rm-rf-children-split-out-body-of-directory.patch
->>  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-3995.patch
->>  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-3996.patch
->>  create mode 100644 meta/recipes-core/util-linux/util-linux/include-strutils-cleanup-strto-functions.patch
->>  create mode 100644 meta/recipes-devtools/binutils/binutils/0018-Include-members-in-the-variable-table-used-when-reso.patch
->>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
->>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
->>
+>>  S =3D "${WORKDIR}/SDL2-${PV}"
 >> --
->> 2.25.1
+>> 2.34.1
 >>
 >>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#161757): https://lists.openembedded.org/g/openembedded-core/message/161757
->> Mute This Topic: https://lists.openembedded.org/mt/89166126/6360406
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ranjitsinhrathod1991@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
 >>
+>>
+>
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161773): https://lists.openembedded.org/g/openembedde=
+d-core/message/161773
+> Mute This Topic: https://lists.openembedded.org/mt/88269209/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
