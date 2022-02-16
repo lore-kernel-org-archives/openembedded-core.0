@@ -2,265 +2,164 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE563C433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 23:28:45 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.940.1645054124446935313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B82C433EF
+	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 23:37:09 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web08.1039.1645054628217655814
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 15:28:44 -0800
+ Wed, 16 Feb 2022 15:37:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=npaZHvxD;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JxYg1Twx;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id w11so5932564wra.4
+Received: by mail-lf1-f48.google.com with SMTP id d23so6716227lfv.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 15:28:44 -0800 (PST)
+ Wed, 16 Feb 2022 15:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3sImbnTgKP5GaR6tIsAa6ikgpCM++bcDkPBiCvqQHX4=;
-        b=npaZHvxDftOT/hLD/iPbKm8AueSaSMYIAUlg5A1ujzRkD5MeLrE5cO+SFSFjP1+ns+
-         3Wh51T4yhBlyBireZSZlyRZ9EdeOwbpsEREzOsi2/dWLgujFaI82cgETyxZg2+NXBK7I
-         emuipVpBPrrrbPNh9Lazb4CXuF/W3HHCjO4bvg1CY48f7HN9ekHHrMm56ZAQwH9JqDo/
-         sSbwv1QTWxV2zmDbwXEo7W3dUvCCXJwOFHN2Wf0W6Sn2NJDYE4r8cIVeU4iu3KOfJJ1f
-         amcmZ66D3qW/yM3ICdc50itzA7izx9C4zkQzPVUFRjqpiXy5b9gLqx6vZ4kNIDUVrv2J
-         AeVA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=S4UP55r4Gbb6rChwiQO4895vjOboQEx+Pw2TmeZej64=;
+        b=JxYg1TwxuYEu0Tx77OJDnG1jpStkmBAYOgAkVWRDfpmWoRNdLll8S0DBZcs78rrG6C
+         TXeeS60YPnhn6jJ8eeAUI1aVq3hDNxEcAabwBOoXVsMwqou844qi2V7GogH7eeURW5At
+         17pXAeAE3lm42opQBWPdXIpFx4/qvpc0TQg68DxcJWzKj4mlckBpd4PvALuAFCRQd+0B
+         68txaIiDz4krkGZTzs3McC9KVHr25xBWSCuEMG1cLhmtuRrE0ygv9bLMhuJWvcoNKRQ0
+         x4QyMlADhO5x0xYfQ/wdZmJKJ+dvQJ9BU06VIesurM8/k4vKFPunPdnpZA5waJgCTeph
+         hC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3sImbnTgKP5GaR6tIsAa6ikgpCM++bcDkPBiCvqQHX4=;
-        b=xisKZRRSFfE5r7cR3NpQJgrAZB3utUKCS0/6EXndZoAMDSXkDzTst6WShehYSDzqvF
-         9/aJ5pzyNc71q4T/Igiel45KiOJrP15c9pK28WA9o7le5AgtXKbA6eAnPGTPB6OS3xzJ
-         xenxF2uD9Wq/h15Gxgfx322duSEV3ZDVe/XShH4sS0itnzNo8N/POT1QL5YSDs4QTUvZ
-         sQhBMI6bH3fwLllCmnw9ekVfN9Ux7CLDbFaCL8f9DIkRIOKWJ9SGUBeHM3FQRW29tJI+
-         CUMNi5I2UqwhpJ2OoLz4qV0xvpONtLgZZW+BKh5sLOwitOI6ahd85EupqnyUl6aXIVAU
-         glMA==
-X-Gm-Message-State: AOAM533dsCJuYA7t/Pd2xcp6rdYT0WGB+MW5fG+TSugCU1osbHqXmnln
-	33WgFR5NDHAdh448cp/V/ScbmpH/jEw=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=S4UP55r4Gbb6rChwiQO4895vjOboQEx+Pw2TmeZej64=;
+        b=k6CXy9p9I2dsHMyHOWuzHuYe75Hn0T3ct1EijxPJFevsokY3IAfvSenVgzarDu1Ebn
+         aLTqcUsAqNJl/cRLszt5ISqZY9dvFLZavHuZnB9xl9c8LC3OqzcpZIhxqZA+utTUvr5x
+         LU3ThMQR9wNZdl5Lfg7RQVqBrSNEfnSGtx0fSFeGzlGWxHef9JnqSybGVpUHoL/Ug3xF
+         ke+0UtQimi/jwfg395fuZdY3LFfiE2DTZyOmqjgPxMUqQvhXqROc3dx6ipJf6/zVIJA5
+         /zkxODAA5R8EniloMSMMw3/vyjV6hQemQXpjGhihEJmx6BTVC+a6ZZB8C4Z4v5x3cqvX
+         ogJg==
+X-Gm-Message-State: AOAM531UYwu2TB8RXEP1pJtK8ihdlrvuPtEaRtU/LHxFZRgQmXW46bGS
+	ZTfLdJJ51WmEue5yeC2CJnd3zxLCh2pj3KWXm0Q=
 X-Google-Smtp-Source: 
- ABdhPJxOcNs22rB+bHCqoTZmt1U6xnVlRkG1jMIMC5aapvR70fAu/uQ1aOIPTTuTgkVx19b4IusVaQ==
-X-Received: by 2002:a05:6000:144a:b0:1e6:2783:b3fd with SMTP id
- v10-20020a056000144a00b001e62783b3fdmr229759wrx.156.1645054122586;
-        Wed, 16 Feb 2022 15:28:42 -0800 (PST)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id
- g22sm223941wmh.12.2022.02.16.15.28.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 15:28:42 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: peter.kjellerstedt@axis.com,
-	Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] gstreamer1.0: update licences of all modules
-Date: Wed, 16 Feb 2022 23:28:04 +0000
-Message-Id: <20220216232803.1868265-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJzX/srvWfvViLMZnL9SKY2NYkkHgOpZYUqPG0so8KG5LRzw7TUZrc/mMXNsz8MtEDEI4PDAlmfVd/UyA5Ocyt8=
+X-Received: by 2002:ac2:4855:0:b0:443:888e:5982 with SMTP id
+ 21-20020ac24855000000b00443888e5982mr247113lfy.447.1645054626235; Wed, 16 Feb
+ 2022 15:37:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220207010823.143664-1-quaresma.jose@gmail.com>
+ <20220207010823.143664-7-quaresma.jose@gmail.com>
+ <dcb645fd99ba4e2ebdda348373486076@axis.com>
+In-Reply-To: <dcb645fd99ba4e2ebdda348373486076@axis.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Wed, 16 Feb 2022 23:36:55 +0000
+Message-ID: 
+ <CANPvuRmq_w6NwwSE0rDpMOAdWp_j4bk0D2xA5Sc_F5OEarBGqw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a20e2c05d82b20f2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 23:28:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 23:37:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161786
+ https://lists.openembedded.org/g/openembedded-core/message/161787
 
-Since all gstreamer modules uses LGPLv2.1 with exceptions
-for some plugins in bad and ugly modules that has GPLv2+.
+--000000000000a20e2c05d82b20f2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For the GPLv2+ this patch set the licence only for each plugin
-that is affected by this licence. The commercial LICENSE_FLAGS
-is enabled if any of the previous plugins is builded.
+Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia quarta,
+9/02/2022 =C3=A0(s) 19:09:
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- .../gstreamer/gst-devtools_1.20.0.bb                   |  2 +-
- .../gstreamer/gstreamer1.0-libav_1.20.0.bb             |  2 +-
- .../gstreamer/gstreamer1.0-omx_1.20.0.bb               |  2 +-
- .../gstreamer/gstreamer1.0-plugins-bad_1.20.0.bb       |  7 ++++++-
- .../gstreamer/gstreamer1.0-plugins-base_1.20.0.bb      |  2 +-
- .../gstreamer/gstreamer1.0-plugins-good_1.20.0.bb      |  2 +-
- .../gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb      | 10 ++++++++--
- .../gstreamer/gstreamer1.0-python_1.20.0.bb            |  2 +-
- .../gstreamer/gstreamer1.0-rtsp-server_1.20.0.bb       |  2 +-
- .../gstreamer/gstreamer1.0-vaapi_1.20.0.bb             |  2 +-
- .../gstreamer/gstreamer1.0_1.20.0.bb                   |  2 +-
- 11 files changed, 23 insertions(+), 12 deletions(-)
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Jose Quaresma
+> > Sent: den 7 februari 2022 02:08
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Jose Quaresma <quaresma.jose@gmail.com>
+> > Subject: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
+> >
+> > - License update:
+> >   The code actually is LGPLv2.1 but the COPYING file is wrong.
+> >
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d157b23fb0ce1=
+75b167611a4cb019599d9017042
+>
+> Since the COPYING file for the GStreamer sub-projects now states
+> that the used license is LGPL-2.1, shouldn't the LICENSE for these
+> recipes be updated to say "LGPL-2.1-or-later"?
+>
+> As for -bad and -ugly, they should really have individual LICENSE:foo
+> for each generated package, so that only the packages that are affected
+> by the GPL license includes it, and the others only specify LGPL.
+>
+> //Peter
+>
+>
+I have sent a patch for that with your suggestion.
+I change the LICENSE_FLAGS based on the new gpl as well.
+https://patchwork.yoctoproject.org/project/oe-core/patch/20220216232803.186=
+8265-1-quaresma.jose@gmail.com/
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.0.bb
-index 7a27d27b2e..e17f4ee09d 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "A Tool to test GStreamer components"
- HOMEPAGE = "https://gstreamer.freedesktop.org/documentation/gst-devtools/index.html"
- SECTION = "multimedia"
- 
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://validate/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
- 
- #S = "${WORKDIR}/gst-devtools-${PV}"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.0.bb
-index 98b2650bb0..575e608d65 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.0.bb
-@@ -6,7 +6,7 @@ SECTION = "multimedia"
- 
- # ffmpeg has comercial license flags so add it as we need ffmpeg as a dependency
- LICENSE_FLAGS = "commercial"
--LICENSE = "LGPLv2+"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
-                     "
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.0.bb
-index 15f19e349e..94c5214a37 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.0.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Wraps available OpenMAX IL components and makes them available as
- HOMEPAGE = "http://gstreamer.freedesktop.org/"
- SECTION = "multimedia"
- 
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPL-2.1-or-later"
- LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.0.bb
-index 915d4ec744..22288373ac 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.0.bb
-@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "015b8d4d9a395ebf444d40876867a2034dd3304b3ad48bc3a0dd0c1ee7
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
--LICENSE = "GPLv2+ & LGPLv2+ & LGPLv2.1+"
-+LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- DEPENDS += "gstreamer1.0-plugins-base"
-@@ -98,6 +98,11 @@ PACKAGECONFIG[faad]            = "-Dfaad=enabled,-Dfaad=disabled,faad2"
- PACKAGECONFIG[resindvd]        = "-Dresindvd=enabled,-Dresindvd=disabled,libdvdread libdvdnav"
- PACKAGECONFIG[x265]            = "-Dx265=enabled,-Dx265=disabled,x265"
- 
-+LICENSE_FLAGS = "${@bb.utils.contains("PACKAGECONFIG", "gpl", "commercial", "", d)}"
-+LICENSE:${PN}-faad = "GPL-2.0-or-later"
-+LICENSE:${PN}-resindvd = "GPL-2.0-or-later"
-+LICENSE:${PN}-x265 = "GPL-2.0-or-later"
-+
- EXTRA_OEMESON += " \
-     -Ddoc=disabled \
-     -Daes=enabled \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.0.bb
-index 455c9fc480..c9fbc599ae 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.0.bb
-@@ -3,7 +3,7 @@ require gstreamer1.0-plugins-common.inc
- DESCRIPTION = "'Base' GStreamer plugins and helper libraries"
- HOMEPAGE = "https://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/-/issues"
--LICENSE = "LGPLv2+"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.0.bb
-index da4d4a8ccb..17086bc3b8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.0.bb
-@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "2d119c15ab8c9e79f8cd3c6bf582ff7a050b28ccae52ab4865e1a14649
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
--LICENSE = "GPLv2+ & LGPLv2.1+"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-index 8128104319..6442fd4504 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-@@ -7,8 +7,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-ugly/-/issues
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
- 
--LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
--LICENSE_FLAGS = "commercial"
-+LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
- 
- SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-@@ -37,6 +36,13 @@ PACKAGECONFIG[dvdread]  = "-Ddvdread=enabled,-Ddvdread=disabled,libdvdread"
- PACKAGECONFIG[mpeg2dec] = "-Dmpeg2dec=enabled,-Dmpeg2dec=disabled,mpeg2dec"
- PACKAGECONFIG[x264]     = "-Dx264=enabled,-Dx264=disabled,x264"
- 
-+LICENSE_FLAGS = "${@bb.utils.contains("PACKAGECONFIG", "gpl", "commercial", "", d)}"
-+LICENSE:${PN}-cdio = "GPL-2.0-or-later"
-+LICENSE:${PN}-a52dec = "GPL-2.0-or-later"
-+LICENSE:${PN}-dvdread = "GPL-2.0-or-later"
-+LICENSE:${PN}-mpeg2dec = "GPL-2.0-or-later"
-+LICENSE:${PN}-x264 = "GPL-2.0-or-later"
-+
- EXTRA_OEMESON += " \
-     -Ddoc=disabled \
-     -Dsidplay=disabled \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
-index 3399b6f9d7..29d7c55acb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.0.bb
-@@ -4,7 +4,7 @@ provided by python-gi) "
- HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-python/"
- SECTION = "multimedia"
- 
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.0.bb
-index 66764f0880..be81f87616 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "A library on top of GStreamer for building an RTSP server"
- HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-rtsp-server/"
- SECTION = "multimedia"
--LICENSE = "LGPLv2"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-index ce7fbde0df..7ef8ae3138 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.0.bb
-@@ -6,7 +6,7 @@ based plugins for GStreamer and helper libraries: `vaapidecode', \
- 
- REALPN = "gstreamer-vaapi"
- 
--LICENSE = "LGPLv2.1+"
-+LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
-index 243f99fee9..a84616cdd9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
-@@ -4,7 +4,7 @@ It supports a wide range of formats including mp3, ogg, avi, mpeg and quicktime.
- HOMEPAGE = "http://gstreamer.freedesktop.org/"
- BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
- SECTION = "multimedia"
--LICENSE = "LGPLv2+"
-+LICENSE = "LGPL-2.1-or-later"
- 
- DEPENDS = "glib-2.0 glib-2.0-native libxml2 bison-native flex-native"
- 
--- 
-2.35.1
+Jose
 
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000a20e2c05d82b20f2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjelle=
+rstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; escreveu no dia quarta=
+, 9/02/2022 =C3=A0(s) 19:09:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Jose Quaresma<br>
+&gt; Sent: den 7 februari 2022 02:08<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Cc: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" targe=
+t=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; Subject: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -&gt; 1.=
+20.0<br>
+&gt; <br>
+&gt; - License update:<br>
+&gt;=C2=A0 =C2=A0The code actually is LGPLv2.1 but the COPYING file is wron=
+g.<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.freedesktop.org/gstreamer/gstrea=
+mer/-/commit/d157b23fb0ce175b167611a4cb019599d9017042" rel=3D"noreferrer" t=
+arget=3D"_blank">https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commi=
+t/d157b23fb0ce175b167611a4cb019599d9017042</a><br>
+<br>
+Since the COPYING file for the GStreamer sub-projects now states <br>
+that the used license is LGPL-2.1, shouldn&#39;t the LICENSE for these <br>
+recipes be updated to say &quot;LGPL-2.1-or-later&quot;?<br>
+<br>
+As for -bad and -ugly, they should really have individual LICENSE:foo <br>
+for each generated package, so that only the packages that are affected <br=
+>
+by the GPL license includes it, and the others only specify LGPL.<br>
+<br>
+//Peter<br>
+<br>
+</blockquote></div><div><br></div><div>I have sent a patch for that with yo=
+ur suggestion.</div><div>I change the=C2=A0LICENSE_FLAGS based on the new g=
+pl as well.</div><div><a href=3D"https://patchwork.yoctoproject.org/project=
+/oe-core/patch/20220216232803.1868265-1-quaresma.jose@gmail.com/">https://p=
+atchwork.yoctoproject.org/project/oe-core/patch/20220216232803.1868265-1-qu=
+aresma.jose@gmail.com/</a><br></div><div><br></div>Jose<br clear=3D"all"><d=
+iv><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"=
+ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></div>
+
+--000000000000a20e2c05d82b20f2--
 
