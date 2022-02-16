@@ -2,386 +2,181 @@ Return-Path: <hongxu.jia@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D88C433F5
-	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 02:28:59 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.7027.1644978537383546081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8954C433EF
+	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 02:54:46 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web09.7386.1644980086039530797
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Feb 2022 18:28:58 -0800
+ Tue, 15 Feb 2022 18:54:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=nkmeQJUA;
+ dkim=missing;
  spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=90461b7e2c=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21G1uasn022663
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 02:28:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- mime-version; s=PPS06212021;
- bh=LUw3ph1G0l30CR8lDbjmb5XWcqDjTekb/NmkNHfclzw=;
- b=nkmeQJUAzJJZ5hibB1BpdgTXoYBkgokEFBiXVLidGdHZQVoiVnOyihacNXt+LRYmB1A1
- XwYFnLZ388xrYuZ84o21vR1ii+U/Uq+jzTn/U2UMUOaQz2v+Ih/QUED5pUkheqAhBtnP
- RodMF3wD8b0Wx/cdo6/1kRm7oacJtUTUwTUNJ4Y+WmJJWxq9EXwJjqFpsI+08/YSmmfL
- a+t8kifUWno1C8l6k4uSjRKtDASaTCNdNAw2UOZlqD2o0EQsx9xA0nMiGxGpj9HgnXmY
- +oIz+MSWTS3vRMChmrDUf5Q+bL8WCiTIJuqAIWr+Sdn5U35Bsc5uS3C+G9EpxjZcMlLo pQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e8nc3r3rt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 02:28:56 +0000
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 21G2StOs020701
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 02:28:55 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e8nc3r3rs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Feb 2022 02:28:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hNLrD7OTGF/8bxg+qH90yv1YVFmCScBElPuHB/ckiDSTf+X5bzgSNIBR9oaF/0xcH5DSXfGb2YsAxXRe3GOhik0vI+NoygId/wucE15Ef9Q0ccuEl+eLEvMzrB4ZH/jKJ1WZj3Qcu1t+g37qr8nUimzcl/QcW8aW33ZNgyWdSAWRrEofs206xnt0FgdbuCzHQkvnzInCBEk3gFVc+GNSudEF/izaYj8SOKUTBefvtHLFzaqJ35MomPefCWjOeMygRFGxboV3CgrncLHCwcFP5xtKhCLnRMc/jlumhcfO1mvBUlH/7rWkdYvy34YSg5TutzvSPoq72qI99+hPxwwgZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LUw3ph1G0l30CR8lDbjmb5XWcqDjTekb/NmkNHfclzw=;
- b=HeUZXQ3CPGap1HFiZVhiH976c3CCUw1cUmymD/6Qo3Fc4NaIlEPgidkSZpTtlqElf+7hrDOqk4cBiY5JJSG8VQLfheJi6uFH3S2VPy5MsxFvSmYpN+VcZlAltgf2bkoJWTz75l7lucXER+jfWpzMxcXjMb/3h/Mut3tHViRAqPIdsb3pu3xAm79oaLAcmYlXyuIsyF51RocGBc53blQogBhqnvTITVUYLI6nzNlDoHdtUO2RjgTDaIuPSGekEvEpKpEZGDtuPzi+SLe4hdGC5s85S33M9frOrJTdLVywcJVGLiqxwx4/JhHqcxhZtqipLVhkWVVrMqcCermCbJDnLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9)
- by BL0PR11MB2993.namprd11.prod.outlook.com (2603:10b6:208:75::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14; Wed, 16 Feb
- 2022 02:28:53 +0000
-Received: from MW3PR11MB4633.namprd11.prod.outlook.com
- ([fe80::59bf:ead2:b7e4:5029]) by MW3PR11MB4633.namprd11.prod.outlook.com
- ([fe80::59bf:ead2:b7e4:5029%5]) with mapi id 15.20.4975.019; Wed, 16 Feb 2022
- 02:28:53 +0000
-From: "Jia, Hongxu" <Hongxu.Jia@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-Thread-Topic: [OE-core] [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-Thread-Index: AQHYIkUW+qDwoj3CG0iJ/4xu/tDcHayUyoSAgACpEhs=
-Date: Wed, 16 Feb 2022 02:28:53 +0000
-Message-ID: 
- <MW3PR11MB4633B716168A3E59ECA2F06994359@MW3PR11MB4633.namprd11.prod.outlook.com>
-References: <20220208225310.1685131-1-raj.khem@gmail.com>
- <333ededd-79c4-8a21-b6a5-8012b5f793e3@windriver.com>
- <CAMKF1sp5rtBg0tf4mN-9VBUxVYXbqrA1i8nQe-L_8MHNRapj1g@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sp5rtBg0tf4mN-9VBUxVYXbqrA1i8nQe-L_8MHNRapj1g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-suggested_attachment_session_id: f9337530-fa8e-8ee7-91d3-4b8a6a255610
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 545af1db-5835-4a06-b259-08d9f0f41356
-x-ms-traffictypediagnostic: BL0PR11MB2993:EE_
-x-microsoft-antispam-prvs: 
- <BL0PR11MB299344293EE4A61103E2E22594359@BL0PR11MB2993.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2887;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 1L25BfClHG0mdHNtKOZ7jtkF08X+Ofp/U68pkiLVzoDHdQUoZwVOli/iDf8VEY91UYtPjC4b421hvxb2Lk96kX6rjL2G7vKj6bE4M2+IgNPg8qTTQVU176FxqlNW7y6mRHfXbvdoaK4z91wXDMKizjFFNzKi+h28FqdIuYXuejHCdCTnabfYGJ2Os4WCX8O+Hn+AaVrfovTeQDmLZa9YBSmqjallvy7VN47jDKgiQDTMfBv+WSpF7GScmpmIaJXSc3lotvrg1rATOcEArDvHSEZbrKj9TCo5qDbED6C0U/3WdVBpS7wdWA6yqveK1LITb1zjbbqHjkwCkzMUS/QaQAMXf/I3bU5Tyy5LSPfoR7g5WZGLxXSGSLZO894sb0w/HZroNp8/CqhHHVMEjEr2ywZhVeWqxIr+JHLigJExqo1e7xvId+ndqpEQg/oUG9jujhpcYJ8XNquXiySvUAUq6xyDVoExjzFdCo//Zp4zHeuf94LUzf9Pm+ov1/ITMd7n9f3Tg05SHEtfp3DEe7yQKbmfpiBVz8NQeVX+nrCTe97mcpqFWCetV/sLk5XM+a1jaFpmyTjHum+JsKp+pY7fOEmwuHnm0h+mRyjRUjcqacbdgsYqYXCEEu7OCf86Xl3aIkGQKtEioGYEetoca5xHdAvINHojApNIxd8hVb5Qu/shqyaRY/qnAWI1JDMuHzakMG3RYAFBeiTEpTF7f4MdxsGTOxB6Zx8aIEjEw6DHstlpk3MbfDATgma7YFQNnchrCnGMyl14Zi6TaXjd5mpO00Sv2jqYrLXfd1jekxyr39LgxzWzVbn2VhgeneHqDnvBwztYlvGoU8BSnp1Pnm6arg==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4633.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(966005)(2906002)(83380400001)(6916009)(38100700002)(33656002)(64756008)(5660300002)(54906003)(91956017)(66946007)(66556008)(76116006)(66446008)(508600001)(7696005)(66476007)(38070700005)(71200400001)(21615005)(8676002)(19627405001)(55016003)(4326008)(52536014)(122000001)(6506007)(86362001)(8936002)(166002)(186003)(26005)(53546011)(9686003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?N3hGM2VKbC9PMERUZXdLU2szTCtVNFRmZTFkMXl6eXo4T1c1bXBoakN6eHdu?=
- =?utf-8?B?eHhsbVRWL1B1SWJvZ0tuNDN0cnhyV1Q4bngvOFFHZGI0M0tiV0IyVWlONCsv?=
- =?utf-8?B?SlZsZE9vM2lZTXh0b0NIS2h6ZU9wVnRBdEd3eEhERXIyTEtvT0J3bDBjd0lO?=
- =?utf-8?B?WE9KNlVvVTc3NmZ3WEUwWGVYN0FYZDlzZEVUWnR0RGlrRDNLY0hUNWx6LzFL?=
- =?utf-8?B?b3YwYjBDemtLWnZIaVdLclloRzRLT1pHa3hrRml1ZDBQRm0rWXkxbzhJQ05k?=
- =?utf-8?B?Um16Qi9LV0s2SHpnWVlIN3gzYjc5dlhXcXA0SVVBdjRTU2thaThPeG1VK0xw?=
- =?utf-8?B?UTluYUhCNTQrQ1FuSmh0QktmVDZOcWxnc09ITjRxL3BNRXpmM0VHZmU2ZlRV?=
- =?utf-8?B?bXZVeW92dUI0UVdqSTk5aGJRS1RvV2loaXZWRW05Vi9QRkNHcFFIRnVDRWRa?=
- =?utf-8?B?d29wRmF0bkY1M2NpR0gveXVXZ0c0WXp0M3FhQzhEVTJvUVB2RVAxR2lHY2du?=
- =?utf-8?B?eFBUQUhzTGZsUFBYYVJzelN2dldQTEJ2WWFnc3NvNUFZUkhnUnU0eDNqUlNz?=
- =?utf-8?B?NHZMZlQ1VzZtYXJrb1pYVWZhVVI2NHE5V2lmZ3h1UkgzL3hYNE1qOUJveFhY?=
- =?utf-8?B?RmlBN3hyUkFhK0NKNTREZ0RGdDljdjN2bUp4bXVhVXZPKzg2eHBETnpncTlC?=
- =?utf-8?B?ZnhEV3E0VGp0VHp0Q1p2TFJzcnA3L1RBRWcvUGMwU0h0ZHF1Z0E3azBSREl1?=
- =?utf-8?B?dHZyMVljbFJHWGQreWJ3OEszcmYvdnR1SHNhZWNGWW9EWWtRT2ZWay9tQXEz?=
- =?utf-8?B?T1VEWlFZMEhjVnMzMGtrTlpIL2YvaVN6UVA5QzZxc0RGRk53di9TT2E5Z0g4?=
- =?utf-8?B?YVNuYjQ0MGd0K2pvcFh6c3JhT250OFVVbFBXNnRpSHBCVzNrMTFrUHg2REZv?=
- =?utf-8?B?dHVsb3VFK0MySy9HQ1RyZWdzRFI1ckVnMlY2b3QyUDV3N1V2NUIzVUo5S2dK?=
- =?utf-8?B?YVVXOVZhRjJsVU02MnN6TEJwVXJuKzRqWW1kNkhQL21iTXRRMDZQMUUxZlFz?=
- =?utf-8?B?V0JhK0twVEtocDVxYWpKREVMenFMRFBERklMTDBhblJWZ2JELzZhQnMxdDlP?=
- =?utf-8?B?L0kyT3BZTlZJU1IwUFdiTXFYRWd4UHE5VWwrZnVpNmFuUDh3d0FDaVNKYUVU?=
- =?utf-8?B?WFI3RVp3eXR3TGd0Z215U2N5ZzE4WUdneU5vbzY0Q1lPdFhrU1lpTDJTK3lM?=
- =?utf-8?B?Y2dJaWhaWk0ycHB6blluc3cySWNrN1UyaWFrMXovR2ExdGVuZ3RhcDJ1ejFh?=
- =?utf-8?B?VzMzWW5kRHY4TWg3Qmg2eHRzR0xiaEV1eEV4OW56MHphNTVTZ20wcTFOZjJ0?=
- =?utf-8?B?TUh0WTdlUlJNd3N1YlNTcWIxcXNhdXdCbHJDVHVEVDVrdmhwVVM3QlhVK1Nv?=
- =?utf-8?B?Qm5DOEdZejEyaVdmYVowcm10aitob2dnZVdqZ0RPR3lVNmNEdGpiTGJNQW16?=
- =?utf-8?B?VVg4cTl5dllEUnY4Ry9lNFZvWDNjSjlkTFI3VXI0QXo1M2xwQ21HdVlkZENQ?=
- =?utf-8?B?MHNtRXhOb1VLNk5YMEY1QjBCYzdselVIWk1iYWd6VWU3S2xObGpPVnVQNCta?=
- =?utf-8?B?VTFuSS9ZekZVZ05ubWRnOE9xV205dWVuMkNrR1VHRkw3bEMyaHFtalVXNU5S?=
- =?utf-8?B?QlA2bG95NFk4eUhlOHNaV0RsQk1TL05zclZXUFBIdEUzK0poc1BHRGhOcWQ5?=
- =?utf-8?B?cTI3aFErQ1psVWw3MURocU5ETjlmQ3U5cjViV0VGS3FoN3hqMUZSTkMvb3F6?=
- =?utf-8?B?NUovbGthcXZlYUNOaHI1VTRCdmNvSHlyN2J6aVNEN0F3UGY1WXM3WWFZaWtG?=
- =?utf-8?B?Q214cTVNYVNuZlhTMlBrNm15am4xSEpndUpsMEh5eVdjTCsyelp1SmNSNndR?=
- =?utf-8?B?M0c4aHk2OVJPcjdJZ1VWYVhoWlBEd0Ryc3dsdXRsNG1oNXY2NlNGSlNHNWg5?=
- =?utf-8?B?V3ovVm5KcDh4ckVoSXJjTEZDMncxQTBOb2I3SEVmL3R1VzVvaWtMRXRxK2pX?=
- =?utf-8?B?V0RFaE02VmxxTDBwZEcwbFV5N3Z3MnN0NHcvUWFIRkFoTExnNU5xdFNZUFpw?=
- =?utf-8?B?Z1ljVUduZTh1MWw4STZmTnZOT0dYeXdHaWUxdXNiaXlTRGhDUHJPNlhHNWxN?=
- =?utf-8?B?S0RaYUQrY1p4c3Z5NE93b1BzYm1xalRPMDVObUxpRFd6OE0vbFlPQkszYXo5?=
- =?utf-8?B?VFpjYmxrajN6aDhKWUZ4OWRTU3pBPT0=?=
-Content-Type: multipart/alternative;
-	boundary="_000_MW3PR11MB4633B716168A3E59ECA2F06994359MW3PR11MB4633namp_"
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: hongxu.jia@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 21G2sUTp026481
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 15 Feb 2022 18:54:30 -0800
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 15 Feb 2022 18:54:29 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Tue, 15 Feb 2022 18:54:29 -0800
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 15 Feb 2022 18:54:29 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
+Subject: [PATCH] glibc: fix create thread failed in unprivileged process
+Date: Tue, 15 Feb 2022 18:54:29 -0800
+Message-ID: <20220216025429.33339-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4633.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 545af1db-5835-4a06-b259-08d9f0f41356
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2022 02:28:53.5832
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- Ny4ZsDyPNINJrrMQgOEagdKt2ZL5z5UnJhPJ+Kquk+LBkzV0KyQs/S/mYdBV2gjGe5P1QN1JoWLko/MmIEUq/E7MCmQA80uNB4xP3MgoUBk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB2993
-X-Proofpoint-ORIG-GUID: QbLpvZa5lh7s_F_l-tihuPsQt8ILsGvh
-X-Proofpoint-GUID: 7plO1-eMA81ZYfVZ1Bov2gLelSBOCsU-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-15_07,2022-02-14_04,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 malwarescore=0
- adultscore=0 spamscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202160010
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 02:28:59 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 02:54:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161763
+ https://lists.openembedded.org/g/openembedded-core/message/161764
 
---_000_MW3PR11MB4633B716168A3E59ECA2F06994359MW3PR11MB4633namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Since upstream commit [d8ea0d0168 Add an internal wrapper for clone, clone2
+and clone3] applied, start a unprivileged container (docker run without
+--privileged), it creates a thread failed in container.
 
-SGkga2hlbSwNCg0KVXBzdHJlYW0gZ2xpYmMgcmVqZWN0IGl0IGJlY2F1c2UgdGhlIGxhdGVzdCBk
-b2NrZXIgaGFzIHN1cHBvcnRlZCBpdFsxXSwgYW5kIHVwc3RyZWFtIGdsaWJjIGRvZXMgbm90IGJh
-Y2t3YXJkIGNvbXBhdGliaWxpdHkgd2l0aCBvbGQgZG9ja2VyWzJdDQoNCkluIG9yZGVyIHRvIGJ1
-aWxkIFlvY3RvIHdpdGggdW5pbmF0aXZlIGluIG9sZCBkb2NrZXIsIHdlIG5lZWQgdGhpcyBsb2Nh
-bCBwYXRjaA0KDQpbMV0gaHR0cHM6Ly9naXRodWIuY29tL21vYnkvbW9ieS9jb21taXQvOWY2YjU2
-MmRkMTJlZjdiMWY5ZTJmOGU2ZjJhYjY0Nzc3OTBhNjU5NA0KW2h0dHBzOi8vb3BlbmdyYXBoLmdp
-dGh1YmFzc2V0cy5jb20vMzk4MjZiM2ZiYjFkMzE3M2RmNGYzZjdjNjAwODNhNzdiNzg5ODI1MjBj
-M2U4NWU4MzA4YTFkOTRiOTAyZGUxNi9tb2J5L21vYnkvY29tbWl0LzlmNmI1NjJkZDEyZWY3YjFm
-OWUyZjhlNmYyYWI2NDc3NzkwYTY1OTRdPGh0dHBzOi8vZ2l0aHViLmNvbS9tb2J5L21vYnkvY29t
-bWl0LzlmNmI1NjJkZDEyZWY3YjFmOWUyZjhlNmYyYWI2NDc3NzkwYTY1OTQ+DQpzZWNjb21wOiBh
-ZGQgc3VwcG9ydCBmb3IgImNsb25lMyIgc3lzY2FsbCBpbiBkZWZhdWx0IHBvbGljeSDCtyBtb2J5
-L21vYnlAOWY2YjU2MjxodHRwczovL2dpdGh1Yi5jb20vbW9ieS9tb2J5L2NvbW1pdC85ZjZiNTYy
-ZGQxMmVmN2IxZjllMmY4ZTZmMmFiNjQ3Nzc5MGE2NTk0Pg0KSWYgbm8gc2VjY29tcCBwb2xpY3kg
-aXMgcmVxdWVzdGVkLCB0aGVuIHRoZSBidWlsdC1pbiBkZWZhdWx0IHBvbGljeSBpbiBkb2NrZXJk
-IGFwcGxpZXMuIFRoaXMgaGFzIG5vIHJ1bGUgZm9yICZxdW90O2Nsb25lMyZxdW90OyBkZWZpbmVk
-LCBub3IgYW55IGRlZmF1bHQgZXJybm8gZGVmaW5lZC4gU28gd2hlbiBydW5jIHJlY2VpdmVzIHRo
-ZSBjb24uLi4NCmdpdGh1Yi5jb20NCu6ckQ0KDQpbMl1odHRwczovL3NvdXJjZXdhcmUub3JnL3Bp
-cGVybWFpbC9saWJjLWFscGhhLzIwMjEtQXVndXN0LzEzMDU5MC5odG1sDQoNCi8vSG9uZ3h1DQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KRnJvbTogS2hlbSBSYWogPHJhai5raGVt
-QGdtYWlsLmNvbT4NClNlbnQ6IFdlZG5lc2RheSwgRmVicnVhcnkgMTYsIDIwMjIgMTI6MTcgQU0N
-ClRvOiBKaWEsIEhvbmd4dSA8SG9uZ3h1LkppYUB3aW5kcml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+OyBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
-b3VuZGF0aW9uLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYzIDEvM10gZ2xp
-YmM6IFVwZ3JhZGUgdG8gMi4zNSAoUkZDKQ0KDQpbUGxlYXNlIG5vdGU6IFRoaXMgZS1tYWlsIGlz
-IGZyb20gYW4gRVhURVJOQUwgZS1tYWlsIGFkZHJlc3NdDQoNCk9uIFR1ZSwgRmViIDE1LCAyMDIy
-IGF0IDEyOjI1IEFNIEppYSwgSG9uZ3h1IDxIb25neHUuSmlhQHdpbmRyaXZlci5jb20+IHdyb3Rl
-Og0KPg0KPiBPbiAyLzkvMjIgMDY6NTMsIEtoZW0gUmFqIHdyb3RlOg0KPg0KPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAwMS1maXgtY3JlYXRlLXRocmVhZC1m
-YWlsZWQtaW4tdW5wcml2aWxlZ2VkLXByb2Nlc3MtQlotLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvZ2xpYmMvZ2xpYmMvMDAwMS1maXgtY3JlYXRlLXRocmVhZC1mYWlsZWQtaW4tdW5wcml2aWxl
-Z2VkLXByb2Nlc3MtQlotLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRl
-eCAzMjgzZGQ3YWQ4YS4uMDAwMDAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
-YmMvZ2xpYmMvMDAwMS1maXgtY3JlYXRlLXRocmVhZC1mYWlsZWQtaW4tdW5wcml2aWxlZ2VkLXBy
-b2Nlc3MtQlotLnBhdGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsNzkgKzAsMCBAQA0KPiAt
-RnJvbSBhOGJjNDQ5MzYyMDI2OTJlZGNkODJhNDhjMDdkN2NmMjdkNmVkOGVlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQ0KPiAtRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIu
-Y29tPg0KPiAtRGF0ZTogU3VuLCAyOSBBdWcgMjAyMSAyMDo0OToxNiArMDgwMA0KPiAtU3ViamVj
-dDogW1BBVENIXSBmaXggY3JlYXRlIHRocmVhZCBmYWlsZWQgaW4gdW5wcml2aWxlZ2VkIHByb2Nl
-c3MgW0JaICMyODI4N10NCj4gLQ0KPiAtU2luY2UgY29tbWl0IFtkOGVhMGQwMTY4IEFkZCBhbiBp
-bnRlcm5hbCB3cmFwcGVyIGZvciBjbG9uZSwgY2xvbmUyIGFuZCBjbG9uZTNdDQo+IC1hcHBsaWVk
-LCBzdGFydCBhIHVucHJpdmlsZWdlZCBjb250YWluZXIgKGRvY2tlciBydW4gd2l0aG91dCAtLXBy
-aXZpbGVnZWQpLA0KPiAtaXQgY3JlYXRlcyBhIHRocmVhZCBmYWlsZWQgaW4gY29udGFpbmVyLg0K
-PiAtDQo+IC1JbiBjb21taXQgZDhlYTBkMDE2OCwgaXQgY2FsbHMgX19jbG9uZTMgaWYgSEFWRV9D
-TE9ORTNfV0FQUEVSIGlzIGRlZmluZWQuICBJZg0KPiAtX19jbG9uZTMgcmV0dXJucyAtMSB3aXRo
-IEVOT1NZUywgZmFsbCBiYWNrIHRvIGNsb25lIG9yIGNsb25lMi4NCj4gLQ0KPiAtQXMga25vd24g
-ZnJvbSBbMV0sIGNsb25lWFhYIGZhaWxzIHdpdGggRVBFUk0gaWYgQ0xPTkVfTkVXQ0dST1VQLA0K
-PiAtQ0xPTkVfTkVXSVBDLCBDTE9ORV9ORVdORVQsIENMT05FX05FV05TLCBDTE9ORV9ORVdQSUQs
-IG9yIENMT05FX05FV1VUUw0KPiAtd2FzIHNwZWNpZmllZCBieSBhbiB1bnByaXZpbGVnZWQgcHJv
-Y2VzcyAocHJvY2VzcyB3aXRob3V0IENBUF9TWVNfQURNSU4pDQo+IC0NCj4gLVsxXSBodHRwczov
-L21hbjcub3JnL2xpbnV4L21hbi1wYWdlcy9tYW4yL2Nsb25lMy4yLmh0bWwNCj4gLQ0KPiAtU28g
-aWYgX19jbG9uZTMgcmV0dXJucyAtMSB3aXRoIEVQRVJNLCBmYWxsIGJhY2sgdG8gY2xvbmUgb3Ig
-Y2xvbmUyIGNvdWxkDQo+IC1maXggdGhlIGlzc3VlLiBIZXJlIGFyZSB0aGUgdGVzdCBzdGVwczoN
-Cj4gLQ0KPg0KPiBIaSBSUCwNCj4NCj4NCj4gSSBmb3VuZCB0aGlzIGxvY2FsIHBhdGNoIHdhcyBy
-ZW1vdmVkIGZyb20gZ2xpYmMsIHdlIGhhdmUgdG8gZ2V0IGl0IGJhY2sgYW5kIHJlZ2VuZXJhdGUg
-dW5pbmF0aXZlIHRvIGF2b2lkIHRoZSB0aHJlYWQgY3JlYXRpb24gZmFpbHVyZSBpbiAgdW5wcml2
-aWxlZ2VkIGNvbnRhaW5lcg0KPg0KDQpJIGludGVudGlvbmFsbHkgZHJvcHBlZCBpdCBzaW5jZSB1
-cHN0cmVhbSBnbGliYyB3aWxsIG5vdCBhY2NlcHQgdGhpcw0KcGF0Y2ggc2luY2UgaXRzIG5vdCBn
-bGliYyBwcm9ibGVtIGJ1dA0KcmF0aGVyIGNvbnRhaW5lciBydW50aW1lIHByb2JsZW0uIENhbiB5
-b3UgaW52ZXN0aWdhdGUgdGhhdCBwYXRoIGJlZm9yZQ0Kd2UgcmVhcHBseSBpdC4gTWFpbnRhaW5p
-bmcgYSByZWplY3RlZCBwYXRjaCBpcyBsYXN0IHRoaW5nIHdlIHdhbnQgdG8NCmRvLg0KDQo+DQo+
-IC8vSG9uZ3h1DQo=
+In commit d8ea0d0168, it calls __clone3 if HAVE_CLONE3_WAPPER is defined.  If
+__clone3 returns -1 with ENOSYS, fall back to clone or clone2.
 
---_000_MW3PR11MB4633B716168A3E59ECA2F06994359MW3PR11MB4633namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+As known from [1], cloneXXX fails with EPERM if CLONE_NEWCGROUP,
+CLONE_NEWIPC, CLONE_NEWNET, CLONE_NEWNS, CLONE_NEWPID, or CLONE_NEWUTS
+was specified by an unprivileged process (process without CAP_SYS_ADMIN)
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBD
-YWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7IGNv
-bG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkhpIGtoZW0sPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZh
-bWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9ImZv
-bnQtZmFtaWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNp
-emU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NClVwc3RyZWFtIGdsaWJjIHJlamVjdCBp
-dCBiZWNhdXNlIHRoZSBsYXRlc3QgZG9ja2VyIGhhcyBzdXBwb3J0ZWQgaXRbMV0sIGFuZCB1cHN0
-cmVhbSBnbGliYyBkb2VzIG5vdCBiYWNrd2FyZCBjb21wYXRpYmlsaXR5IHdpdGggb2xkIGRvY2tl
-clsyXTwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2
-ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsi
-Pg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgQXJpYWws
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyI+DQpJbiBvcmRlciB0byBidWlsZCBZb2N0byB3aXRoIHVuaW5hdGl2ZSBpbiBvbGQgZG9j
-a2VyLCB3ZSBuZWVkIHRoaXMgbG9jYWwgcGF0Y2g8L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFt
-aWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
-cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9u
-dC1mYW1pbHk6IENhbGlicmksIEFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6
-ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KWzFdJm5ic3A7PGEgY2xhc3M9Im1vei10
-eHQtbGluay1mcmVldGV4dCIgaHJlZj0iaHR0cHM6Ly9naXRodWIuY29tL21vYnkvbW9ieS9jb21t
-aXQvOWY2YjU2MmRkMTJlZjdiMWY5ZTJmOGU2ZjJhYjY0Nzc3OTBhNjU5NCIgaWQ9IkxQbG5rT1dB
-TGlua1ByZXZpZXciPmh0dHBzOi8vZ2l0aHViLmNvbS9tb2J5L21vYnkvY29tbWl0LzlmNmI1NjJk
-ZDEyZWY3YjFmOWUyZjhlNmYyYWI2NDc3NzkwYTY1OTQ8L2E+PC9kaXY+DQo8ZGl2IGNsYXNzPSJf
-RW50aXR5IF9FVHlwZV9PV0FMaW5rUHJldmlldyBfRUlkX09XQUxpbmtQcmV2aWV3IF9FUmVhZG9u
-bHlfMSI+DQo8ZGl2IGlkPSJMUEJvcmRlcl9HVGFIUjBjSE02THk5bmFYUm9kV0l1WTI5dEwyMXZZ
-bmt2Ylc5aWVTOWpiMjF0YVhRdk9XWTJZalUyTW1Sa01USmxaamRpTVdZNVpUSm1PR1UyWmpKaFlq
-WTBOemMzT1RCaE5qVTVOQS4uIiBjbGFzcz0iTFBCb3JkZXI5MTA0MjYiIHN0eWxlPSJ3aWR0aDog
-MTAwJTsgbWFyZ2luLXRvcDogMTZweDsgbWFyZ2luLWJvdHRvbTogMTZweDsgcG9zaXRpb246IHJl
-bGF0aXZlOyBtYXgtd2lkdGg6IDgwMHB4OyBtaW4td2lkdGg6IDQyNHB4OyI+DQo8dGFibGUgaWQ9
-IkxQQ29udGFpbmVyOTEwNDI2IiByb2xlPSJwcmVzZW50YXRpb24iIHN0eWxlPSJwYWRkaW5nOiAx
-MnB4IDM2cHggMTJweCAxMnB4OyB3aWR0aDogMTAwJTsgYm9yZGVyLXdpZHRoOiAxcHg7IGJvcmRl
-ci1zdHlsZTogc29saWQ7IGJvcmRlci1jb2xvcjogcmdiKDIwMCwgMjAwLCAyMDApOyBib3JkZXIt
-cmFkaXVzOiAycHg7Ij4NCjx0Ym9keT4NCjx0ciB2YWxpZ249InRvcCIgc3R5bGU9ImJvcmRlci1z
-cGFjaW5nOiAwcHg7Ij4NCjx0ZD4NCjxkaXYgaWQ9IkxQSW1hZ2VDb250YWluZXI5MTA0MjYiIHN0
-eWxlPSJwb3NpdGlvbjogcmVsYXRpdmU7IG1hcmdpbi1yaWdodDogMTJweDsgaGVpZ2h0OiAxMjBw
-eDsgb3ZlcmZsb3c6IGhpZGRlbjsgd2lkdGg6IDI0MHB4OyI+DQo8YSB0YXJnZXQ9Il9ibGFuayIg
-aWQ9IkxQSW1hZ2VBbmNob3I5MTA0MjYiIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9tb2J5L21v
-YnkvY29tbWl0LzlmNmI1NjJkZDEyZWY3YjFmOWUyZjhlNmYyYWI2NDc3NzkwYTY1OTQiPjxpbWcg
-aWQ9IkxQVGh1bWJuYWlsSW1hZ2VJZDkxMDQyNiIgYWx0PSIiIGhlaWdodD0iMTIwIiBzdHlsZT0i
-ZGlzcGxheTogYmxvY2s7IiB3aWR0aD0iMjQwIiBzcmM9Imh0dHBzOi8vb3BlbmdyYXBoLmdpdGh1
-YmFzc2V0cy5jb20vMzk4MjZiM2ZiYjFkMzE3M2RmNGYzZjdjNjAwODNhNzdiNzg5ODI1MjBjM2U4
-NWU4MzA4YTFkOTRiOTAyZGUxNi9tb2J5L21vYnkvY29tbWl0LzlmNmI1NjJkZDEyZWY3YjFmOWUy
-ZjhlNmYyYWI2NDc3NzkwYTY1OTQiPjwvYT48L2Rpdj4NCjwvdGQ+DQo8dGQgc3R5bGU9IndpZHRo
-OiAxMDAlOyI+DQo8ZGl2IGlkPSJMUFRpdGxlOTEwNDI2IiBzdHlsZT0iZm9udC1zaXplOiAyMXB4
-OyBmb250LXdlaWdodDogMzAwOyBtYXJnaW4tcmlnaHQ6IDhweDsgZm9udC1mYW1pbHk6IHdmX3Nl
-Z29lLXVpX2xpZ2h0LCAmcXVvdDtTZWdvZSBVSSBMaWdodCZxdW90OywgJnF1b3Q7U2Vnb2UgV1Ag
-TGlnaHQmcXVvdDssICZxdW90O1NlZ29lIFVJJnF1b3Q7LCAmcXVvdDtTZWdvZSBXUCZxdW90Oywg
-VGFob21hLCBBcmlhbCwgc2Fucy1zZXJpZjsgbWFyZ2luLWJvdHRvbTogMTJweDsiPg0KPGEgdGFy
-Z2V0PSJfYmxhbmsiIGlkPSJMUFVybEFuY2hvcjkxMDQyNiIgaHJlZj0iaHR0cHM6Ly9naXRodWIu
-Y29tL21vYnkvbW9ieS9jb21taXQvOWY2YjU2MmRkMTJlZjdiMWY5ZTJmOGU2ZjJhYjY0Nzc3OTBh
-NjU5NCIgc3R5bGU9InRleHQtZGVjb3JhdGlvbjogbm9uZTsgY29sb3I6IHZhcigtLXRoZW1lUHJp
-bWFyeSk7Ij5zZWNjb21wOiBhZGQgc3VwcG9ydCBmb3IgJnF1b3Q7Y2xvbmUzJnF1b3Q7IHN5c2Nh
-bGwgaW4gZGVmYXVsdCBwb2xpY3kgwrcgbW9ieS9tb2J5QDlmNmI1NjI8L2E+PC9kaXY+DQo8ZGl2
-IGlkPSJMUERlc2NyaXB0aW9uOTEwNDI2IiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyBtYXgtaGVp
-Z2h0OiAxMDBweDsgY29sb3I6IHJnYigxMDIsIDEwMiwgMTAyKTsgZm9udC1mYW1pbHk6IHdmX3Nl
-Z29lLXVpX25vcm1hbCwgJnF1b3Q7U2Vnb2UgVUkmcXVvdDssICZxdW90O1NlZ29lIFdQJnF1b3Q7
-LCBUYWhvbWEsIEFyaWFsLCBzYW5zLXNlcmlmOyBtYXJnaW4tYm90dG9tOiAxMnB4OyBtYXJnaW4t
-cmlnaHQ6IDhweDsgb3ZlcmZsb3c6IGhpZGRlbjsiPg0KSWYgbm8gc2VjY29tcCBwb2xpY3kgaXMg
-cmVxdWVzdGVkLCB0aGVuIHRoZSBidWlsdC1pbiBkZWZhdWx0IHBvbGljeSBpbiBkb2NrZXJkIGFw
-cGxpZXMuIFRoaXMgaGFzIG5vIHJ1bGUgZm9yICZhbXA7cXVvdDtjbG9uZTMmYW1wO3F1b3Q7IGRl
-ZmluZWQsIG5vciBhbnkgZGVmYXVsdCBlcnJubyBkZWZpbmVkLiBTbyB3aGVuIHJ1bmMgcmVjZWl2
-ZXMgdGhlIGNvbi4uLjwvZGl2Pg0KPGRpdiBpZD0iTFBNZXRhZGF0YTkxMDQyNiIgc3R5bGU9ImZv
-bnQtc2l6ZTogMTRweDsgZm9udC13ZWlnaHQ6IDQwMDsgY29sb3I6IHJnYigxNjYsIDE2NiwgMTY2
-KTsgZm9udC1mYW1pbHk6IHdmX3NlZ29lLXVpX25vcm1hbCwgJnF1b3Q7U2Vnb2UgVUkmcXVvdDss
-ICZxdW90O1NlZ29lIFdQJnF1b3Q7LCBUYWhvbWEsIEFyaWFsLCBzYW5zLXNlcmlmOyI+DQpnaXRo
-dWIuY29tPC9kaXY+DQo8L3RkPg0KPC90cj4NCjwvdGJvZHk+DQo8L3RhYmxlPg0KPGRpdiBpZD0i
-TFBDbG9zZUJ1dHRvbkNvbnRhaW5lcjkxMDQyNiIgY2xhc3M9Il8yTTN2WVhpVmFYQjl0NW1rLUhK
-ckpqIiB0YWJpbmRleD0iMCIgdGl0bGU9IlJlbW92ZSBsaW5rIHByZXZpZXciIHJvbGU9ImJ1dHRv
-biI+DQo8aSBkYXRhLWljb24tbmFtZT0iQ2FuY2VsIiBhcmlhLWhpZGRlbj0idHJ1ZSIgaWQ9IkxQ
-Q2xvc2VCdXR0b245MTA0MjYiIGNsYXNzPSJYNGZGaWJlVUkxcWMzRFFpQ21qV2Ygcm9vdC00NDQi
-Pu6ckTwvaT48L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8YnI+DQo8ZGl2IHN0eWxlPSJmb250LWZh
-bWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpbMl08YSBocmVmPSJodHRwczovL3NvdXJjZXdh
-cmUub3JnL3BpcGVybWFpbC9saWJjLWFscGhhLzIwMjEtQXVndXN0LzEzMDU5MC5odG1sIiBpZD0i
-TFBsbmsyMTc2MTUiPmh0dHBzOi8vc291cmNld2FyZS5vcmcvcGlwZXJtYWlsL2xpYmMtYWxwaGEv
-MjAyMS1BdWd1c3QvMTMwNTkwLmh0bWw8L2E+PGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250
-LWZhbWlseTogQ2FsaWJyaSwgQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXpl
-OiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgc3R5bGU9
-ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250
-LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCi8vSG9uZ3h1PC9kaXY+DQo8ZGl2
-IGlkPSJhcHBlbmRvbnNlbmQiPjwvZGl2Pg0KPGhyIHN0eWxlPSJkaXNwbGF5OmlubGluZS1ibG9j
-azt3aWR0aDo5OCUiIHRhYmluZGV4PSItMSI+DQo8ZGl2IGlkPSJkaXZScGx5RndkTXNnIiBkaXI9
-Imx0ciI+PGZvbnQgZmFjZT0iQ2FsaWJyaSwgc2Fucy1zZXJpZiIgc3R5bGU9ImZvbnQtc2l6ZTox
-MXB0IiBjb2xvcj0iIzAwMDAwMCI+PGI+RnJvbTo8L2I+IEtoZW0gUmFqICZsdDtyYWoua2hlbUBn
-bWFpbC5jb20mZ3Q7PGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgRmVicnVhcnkgMTYsIDIw
-MjIgMTI6MTcgQU08YnI+DQo8Yj5Ubzo8L2I+IEppYSwgSG9uZ3h1ICZsdDtIb25neHUuSmlhQHdp
-bmRyaXZlci5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnJmd0OzsgUmljaGFyZCBQdXJkaWUgJmx0O3JpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
-bi5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHYzIDEv
-M10gZ2xpYmM6IFVwZ3JhZGUgdG8gMi4zNSAoUkZDKTwvZm9udD4NCjxkaXY+Jm5ic3A7PC9kaXY+
-DQo8L2Rpdj4NCjxkaXYgY2xhc3M9IkJvZHlGcmFnbWVudCI+PGZvbnQgc2l6ZT0iMiI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMXB0OyI+DQo8ZGl2IGNsYXNzPSJQbGFpblRleHQiPltQbGVhc2Ug
-bm90ZTogVGhpcyBlLW1haWwgaXMgZnJvbSBhbiBFWFRFUk5BTCBlLW1haWwgYWRkcmVzc108YnI+
-DQo8YnI+DQpPbiBUdWUsIEZlYiAxNSwgMjAyMiBhdCAxMjoyNSBBTSBKaWEsIEhvbmd4dSAmbHQ7
-SG9uZ3h1LkppYUB3aW5kcml2ZXIuY29tJmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJyPg0KJmd0OyBP
-biAyLzkvMjIgMDY6NTMsIEtoZW0gUmFqIHdyb3RlOjxicj4NCiZndDs8YnI+DQomZ3Q7IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy8wMDAxLWZpeC1jcmVhdGUtdGhy
-ZWFkLWZhaWxlZC1pbi11bnByaXZpbGVnZWQtcHJvY2Vzcy1CWi0ucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtY29yZS9nbGliYy9nbGliYy8wMDAxLWZpeC1jcmVhdGUtdGhyZWFkLWZhaWxlZC1pbi11bnBy
-aXZpbGVnZWQtcHJvY2Vzcy1CWi0ucGF0Y2g8YnI+DQomZ3Q7IGRlbGV0ZWQgZmlsZSBtb2RlIDEw
-MDY0NDxicj4NCiZndDsgaW5kZXggMzI4M2RkN2FkOGEuLjAwMDAwMDAwMDAwPGJyPg0KJmd0OyAt
-LS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy8wMDAxLWZpeC1jcmVhdGUtdGhyZWFk
-LWZhaWxlZC1pbi11bnByaXZpbGVnZWQtcHJvY2Vzcy1CWi0ucGF0Y2g8YnI+DQomZ3Q7ICsrKyAv
-ZGV2L251bGw8YnI+DQomZ3Q7IEBAIC0xLDc5ICswLDAgQEA8YnI+DQomZ3Q7IC1Gcm9tIGE4YmM0
-NDkzNjIwMjY5MmVkY2Q4MmE0OGMwN2Q3Y2YyN2Q2ZWQ4ZWUgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxPGJyPg0KJmd0OyAtRnJvbTogSG9uZ3h1IEppYSAmbHQ7aG9uZ3h1LmppYUB3aW5kcml2ZXIu
-Y29tJmd0Ozxicj4NCiZndDsgLURhdGU6IFN1biwgMjkgQXVnIDIwMjEgMjA6NDk6MTYgKzA4MDA8
-YnI+DQomZ3Q7IC1TdWJqZWN0OiBbUEFUQ0hdIGZpeCBjcmVhdGUgdGhyZWFkIGZhaWxlZCBpbiB1
-bnByaXZpbGVnZWQgcHJvY2VzcyBbQlogIzI4Mjg3XTxicj4NCiZndDsgLTxicj4NCiZndDsgLVNp
-bmNlIGNvbW1pdCBbZDhlYTBkMDE2OCBBZGQgYW4gaW50ZXJuYWwgd3JhcHBlciBmb3IgY2xvbmUs
-IGNsb25lMiBhbmQgY2xvbmUzXTxicj4NCiZndDsgLWFwcGxpZWQsIHN0YXJ0IGEgdW5wcml2aWxl
-Z2VkIGNvbnRhaW5lciAoZG9ja2VyIHJ1biB3aXRob3V0IC0tcHJpdmlsZWdlZCksPGJyPg0KJmd0
-OyAtaXQgY3JlYXRlcyBhIHRocmVhZCBmYWlsZWQgaW4gY29udGFpbmVyLjxicj4NCiZndDsgLTxi
-cj4NCiZndDsgLUluIGNvbW1pdCBkOGVhMGQwMTY4LCBpdCBjYWxscyBfX2Nsb25lMyBpZiBIQVZF
-X0NMT05FM19XQVBQRVIgaXMgZGVmaW5lZC4mbmJzcDsgSWY8YnI+DQomZ3Q7IC1fX2Nsb25lMyBy
-ZXR1cm5zIC0xIHdpdGggRU5PU1lTLCBmYWxsIGJhY2sgdG8gY2xvbmUgb3IgY2xvbmUyLjxicj4N
-CiZndDsgLTxicj4NCiZndDsgLUFzIGtub3duIGZyb20gWzFdLCBjbG9uZVhYWCBmYWlscyB3aXRo
-IEVQRVJNIGlmIENMT05FX05FV0NHUk9VUCw8YnI+DQomZ3Q7IC1DTE9ORV9ORVdJUEMsIENMT05F
-X05FV05FVCwgQ0xPTkVfTkVXTlMsIENMT05FX05FV1BJRCwgb3IgQ0xPTkVfTkVXVVRTPGJyPg0K
-Jmd0OyAtd2FzIHNwZWNpZmllZCBieSBhbiB1bnByaXZpbGVnZWQgcHJvY2VzcyAocHJvY2VzcyB3
-aXRob3V0IENBUF9TWVNfQURNSU4pPGJyPg0KJmd0OyAtPGJyPg0KJmd0OyAtWzFdIDxhIGhyZWY9
-Imh0dHBzOi8vbWFuNy5vcmcvbGludXgvbWFuLXBhZ2VzL21hbjIvY2xvbmUzLjIuaHRtbCI+aHR0
-cHM6Ly9tYW43Lm9yZy9saW51eC9tYW4tcGFnZXMvbWFuMi9jbG9uZTMuMi5odG1sPC9hPjxicj4N
-CiZndDsgLTxicj4NCiZndDsgLVNvIGlmIF9fY2xvbmUzIHJldHVybnMgLTEgd2l0aCBFUEVSTSwg
-ZmFsbCBiYWNrIHRvIGNsb25lIG9yIGNsb25lMiBjb3VsZDxicj4NCiZndDsgLWZpeCB0aGUgaXNz
-dWUuIEhlcmUgYXJlIHRoZSB0ZXN0IHN0ZXBzOjxicj4NCiZndDsgLTxicj4NCiZndDs8YnI+DQom
-Z3Q7IEhpIFJQLDxicj4NCiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyBJIGZvdW5kIHRoaXMgbG9j
-YWwgcGF0Y2ggd2FzIHJlbW92ZWQgZnJvbSBnbGliYywgd2UgaGF2ZSB0byBnZXQgaXQgYmFjayBh
-bmQgcmVnZW5lcmF0ZSB1bmluYXRpdmUgdG8gYXZvaWQgdGhlIHRocmVhZCBjcmVhdGlvbiBmYWls
-dXJlIGluJm5ic3A7IHVucHJpdmlsZWdlZCBjb250YWluZXI8YnI+DQomZ3Q7PGJyPg0KPGJyPg0K
-SSBpbnRlbnRpb25hbGx5IGRyb3BwZWQgaXQgc2luY2UgdXBzdHJlYW0gZ2xpYmMgd2lsbCBub3Qg
-YWNjZXB0IHRoaXM8YnI+DQpwYXRjaCBzaW5jZSBpdHMgbm90IGdsaWJjIHByb2JsZW0gYnV0PGJy
-Pg0KcmF0aGVyIGNvbnRhaW5lciBydW50aW1lIHByb2JsZW0uIENhbiB5b3UgaW52ZXN0aWdhdGUg
-dGhhdCBwYXRoIGJlZm9yZTxicj4NCndlIHJlYXBwbHkgaXQuIE1haW50YWluaW5nIGEgcmVqZWN0
-ZWQgcGF0Y2ggaXMgbGFzdCB0aGluZyB3ZSB3YW50IHRvPGJyPg0KZG8uPGJyPg0KPGJyPg0KJmd0
-Ozxicj4NCiZndDsgLy9Ib25neHU8YnI+DQo8L2Rpdj4NCjwvc3Bhbj48L2ZvbnQ+PC9kaXY+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
+[1] https://man7.org/linux/man-pages/man2/clone3.2.html
 
---_000_MW3PR11MB4633B716168A3E59ECA2F06994359MW3PR11MB4633namp_--
+So if __clone3 returns -1 with EPERM, fall back to clone or clone2 could
+fix the issue.
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...d-failed-in-unprivileged-process-BZ-.patch | 88 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch b/meta/recipes-core/glibc/glibc/0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
+new file mode 100644
+index 0000000000..b431ea168d
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch
+@@ -0,0 +1,88 @@
++From 6609858239b8f94e12c19eac0cec425511d1211f Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Sun, 29 Aug 2021 20:49:16 +0800
++Subject: [PATCH] fix create thread failed in unprivileged process [BZ #28287]
++
++Since commit [d8ea0d0168 Add an internal wrapper for clone, clone2 and clone3]
++applied, start a unprivileged container (docker run without --privileged),
++it creates a thread failed in container.
++
++In commit d8ea0d0168, it calls __clone3 if HAVE_CLONE3_WAPPER is defined.  If
++__clone3 returns -1 with ENOSYS, fall back to clone or clone2.
++
++As known from [1], cloneXXX fails with EPERM if CLONE_NEWCGROUP,
++CLONE_NEWIPC, CLONE_NEWNET, CLONE_NEWNS, CLONE_NEWPID, or CLONE_NEWUTS
++was specified by an unprivileged process (process without CAP_SYS_ADMIN)
++
++[1] https://man7.org/linux/man-pages/man2/clone3.2.html
++
++So if __clone3 returns -1 with EPERM, fall back to clone or clone2 could
++fix the issue. Here are the test steps:
++
++1) Prepare test code
++cat > conftest.c <<ENDOF
++ #include <pthread.h>
++ #include <stdio.h>
++
++int check_me = 0;
++void* func(void* data) {check_me = 42; printf("start thread: check_me %d\n", check_me); return &check_me;}
++int main()
++{
++  pthread_t t;
++  void *ret;
++  pthread_create (&t, 0, func, 0);
++  pthread_join (t, &ret);
++  printf("check_me %d, p %p\n", check_me, &ret);
++  return (check_me != 42 || ret != &check_me);
++}
++
++ENDOF
++
++2) Compile
++gcc -o conftest -pthread conftest.c
++
++3) Start a container with glibc 2.34 installed
++[skip details]
++docker run -it <container-image-name> bash
++
++4) Run conftest without this patch
++$ ./conftest
++check_me 0, p 0x7ffd91ccd400
++
++5) Run conftest with this patch
++$ ./conftest
++start thread: check_me 42
++check_me 42, p 0x7ffe253c6f20
++
++Upstream-Status: Inappropriate [Rejected by upstream]
++
++Upstream glibc rejected it because the latest docker has resolved the issue [1],
++and upstream glibc does not backward compatibility with old docker[2]
++
++In order to build Yocto with uninative in old docker, we need this local
++patch
++
++[1] https://github.com/moby/moby/commit/9f6b562dd12ef7b1f9e2f8e6f2ab6477790a6594
++[2] https://sourceware.org/pipermail/libc-alpha/2021-August/130590.html
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ sysdeps/unix/sysv/linux/clone-internal.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysdeps/unix/sysv/linux/clone-internal.c b/sysdeps/unix/sysv/linux/clone-internal.c
++index a71effcbd3..a0569113aa 100644
++--- a/sysdeps/unix/sysv/linux/clone-internal.c
+++++ b/sysdeps/unix/sysv/linux/clone-internal.c
++@@ -52,7 +52,7 @@ __clone_internal (struct clone_args *cl_args,
++   /* Try clone3 first.  */
++   int saved_errno = errno;
++   ret = __clone3 (cl_args, sizeof (*cl_args), func, arg);
++-  if (ret != -1 || errno != ENOSYS)
+++  if (ret != -1 || (errno != ENOSYS && errno != EPERM))
++     return ret;
++ 
++   /* NB: Restore errno since errno may be checked against non-zero
++-- 
++2.27.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 2903a4001f..b785b61154 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -47,6 +47,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0021-Replace-echo-with-printf-builtin-in-nscd-init-script.patch \
+            file://0022-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch \
+            file://0023-timezone-Make-shell-interpreter-overridable-in-tzsel.patch \
++           file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.27.0
+
 
