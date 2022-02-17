@@ -2,230 +2,286 @@ Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE7FC433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Feb 2022 23:52:53 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web12.1183.1645055573029989990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCF9C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 00:34:16 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.1635.1645058050507180125
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 15:52:53 -0800
+ Wed, 16 Feb 2022 16:34:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Tom6pIps;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=RDnizT85;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=9046cebeea=saul.wold@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=9047f6eb5b=saul.wold@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21GNqqeK013890
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 23:52:52 GMT
+ 21H0NT3x031714
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Feb 2022 16:34:10 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
+ h=from : to : cc :
  subject : date : message-id : content-transfer-encoding : content-type :
  mime-version; s=PPS06212021;
- bh=KvsVEMbnoqeJ140Sc7jgQPZWIa0Oi7fBw4Q+8/30cKk=;
- b=Tom6pIps+JhG4srcqk6qJfbrPZDkjYHUBU/1r4zsufYddIcYp+UwlLu0OMKV2fqeX1hY
- od9QDUJJ4WztNKuhdrUT/lP4o3B3glh6s//BWiL2PrIVmi7kEK+l6lWoYccghGkF9P0s
- htkjst2uuHfmc38Slr85deXmvvJ9vbtIQSgypbZus+O1SZvYMKvvbsviOstDjlo6gakH
- ojEQwq43j1kZ104DGiMlFqIkmSrlr7l8BI3FMjql7hMDRtvXodnCSr+BkXjbaTsD02Iy
- 9siz+MFBlyFAzYZrup6qPVdCE+hRpqurTuCSIxyKD69TIaknU8jk4Pz5BK+QEoeCpC5o hA==
-Received: from nam02-bn1-obe.outbound.protection.outlook.com
- (mail-bn1nam07lp2042.outbound.protection.outlook.com [104.47.51.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e8nc3rxrc-1
+ bh=hp61osApkV4WuX1eEROcBdPKP5txwxYWgyKbSoL3ZQc=;
+ b=RDnizT858BrQhHBvzedVRWqByQVGoXt55sgUiG9wCTx1LsuQQO7wpEqH9V/mC3uKko8P
+ h3CZj9JB/gpnn1mfHkm/Sdnl58BiC5ZPVq5C8gARl0cFikkPuZ+Q+9o/lBS0afORITU9
+ vklzi4YwyZeb2fdwJUnHfWJOhtfXzSpEQkh0ZgrjzFASuar5rpaseZWSNXHIHYkl4loa
+ pu6/nV39rKOQw0LT8taHlCZrZam+XVvVGzCvF3/QFncRtXontN+zav8Jw4yf0MjCr/bT
+ fS3YEC1xeX14YG1426YN2A3tVFMvC+Qzuj81FA/1vQnwv+e6DMd1N98LtZeDEl8q0JP0 8w==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3e8n1x0yy9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 23:52:52 +0000
+ Wed, 16 Feb 2022 16:34:09 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WnMY/Ugvp6LhFNAS3Ps8RT3K0R7HRukdJq6CsHJMCKW7RLoINUCjvvbbNkJvqb0D9CeJuI3aGgXg2nHB/F2SZN/RmF3zRq94ZFW96NEDONIxAJjWAdCgtHB27CBkk2d82HMz6wsB/D+oh7EgsObk1wfcTRGBFWyJUM6KNzsJz5WKpR20/K+ukwGgH8VDgpRLx8BOSanXXxDeiaukdJkfEa/dy5Y+psflO3dqP2b7wajSrqYxT00qgmMCs2KPRN4DJKNWmpDeVTIdH/PBy6U2WLm8KOZ/q2Z+zRtJNHxcR5Bk9/TSFRA6YitAi+WcGcfgepNkvfZIZCNoxU1/4QtoBg==
+ b=chb/Gfz2MJjzRVlEpxG8BKXvRp6QhLOoLW+ypSgzKtmoCvGdynY4iPn0oHYpbJv+KLi5hcfiP7ZqK8+C1ZN55DHXp83kBbfmUP/gYE337r20dTKTVCKdQvpstYAvvfauyXn3qJtT/FSEnI5h7+vB+o/wNiOoLqQd93gmnGkNZUUsRYwyJa1PzJ2n59NOayPqPe0JYNhuUkRKN7elfpWzKKzRgXSMAUXbYoB9KvU40pTh8lkJ15mMHYqcmJw/wJAGcPN95pqd9OYbQq7NeIRRSriQSa+/r464L+tc09DI/OH0pYITLzwj2SVGJsiCZpoOpGLM2XWh91cKAfjp1wHYKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KvsVEMbnoqeJ140Sc7jgQPZWIa0Oi7fBw4Q+8/30cKk=;
- b=iR6VIi9xQhZv0Nea9lfki0ytzqiG6Z5xBfXH56grMEMWRVrZtn1Dnk8kI7Y9FoUo5bBIcnGm78S0LbW11j7D6bJitU8zTWKnUlomlTGTfpx0iuczg7IkWcjPd28y35aEf9uMWzHVgIbFWNltwPuoqUagZuGR/R1K+bkfn6ssP1DvUBDxeWd7s48DD+yvNI+Me6/f9pbAbuarCL3vsUkj02kYjEWZT6MvSj2WAETL1vYgqUAaUHzZ8dymMisU/N1qZmbC8yEhYmWS7N+DAkNjAyC6qgqV4serKMQCCU9y6O5Mifur4ZYMf4KrxFFGOKOPnqZr1wGB3tA8tF/v+CJjEQ==
+ bh=hp61osApkV4WuX1eEROcBdPKP5txwxYWgyKbSoL3ZQc=;
+ b=FUQAours/P/PLHsmVG/444eWUE3EPYPaQCVWFCou3ZHmxPU9Vr7Hg661jmNqZHmLR2btVqf6tE/QSxmXxv+CYA9xWZxzoXLGxkkO/JudnAobdKryar+bWl62OitsMKIzK+kDrgh+rh5YETbiduCgUgSRNMlw83SToIgYwRzogNjjACXAQE7tmzJy/CF+XUsOLjCOVz/IWCVqYN67aTupXITpGPvuhXXTBJ6gRQ+CLx/9GvjA/xjA0YcRFs2ydR8bosU2pPoiKpy0RvfOMVKq3IOKOa0qN7tbJVqJKiz7k0pHr8LB1cyywzAw4oiYI8ijxnAxbj2fW+vd0wem2beGJA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
- by MN2PR11MB4077.namprd11.prod.outlook.com (2603:10b6:208:13f::18) with
+ by DM8PR11MB5640.namprd11.prod.outlook.com (2603:10b6:8:3f::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Wed, 16 Feb
- 2022 23:52:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.17; Thu, 17 Feb
+ 2022 00:34:07 +0000
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::3dab:fd3e:8d8:4e36]) by CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::3dab:fd3e:8d8:4e36%6]) with mapi id 15.20.4995.016; Wed, 16 Feb 2022
- 23:52:48 +0000
+ ([fe80::3dab:fd3e:8d8:4e36%6]) with mapi id 15.20.4995.016; Thu, 17 Feb 2022
+ 00:34:07 +0000
 From: Saul Wold <saul.wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH] Rename INCOMPATIBLE related varibale
-Date: Wed, 16 Feb 2022 15:52:33 -0800
-Message-Id: <20220216235233.575379-1-saul.wold@windriver.com>
+Cc: Saul Wold <Saul.Wold@windriver.com>
+Subject: [PATCH v2] convert-variables: Script for Inclusive Language variable
+ renames
+Date: Wed, 16 Feb 2022 16:32:48 -0800
+Message-Id: <20220217003248.581903-1-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MW4PR04CA0308.namprd04.prod.outlook.com
- (2603:10b6:303:82::13) To CO1PR11MB5076.namprd11.prod.outlook.com
+X-ClientProxiedBy: MWHPR2001CA0021.namprd20.prod.outlook.com
+ (2603:10b6:301:15::31) To CO1PR11MB5076.namprd11.prod.outlook.com
  (2603:10b6:303:90::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 31e82388-eed2-4c93-28cb-08d9f1a76f5a
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4077:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58a6fd6d-82dd-4535-196c-08d9f1ad34b5
+X-MS-TrafficTypeDiagnostic: DM8PR11MB5640:EE_
 X-Microsoft-Antispam-PRVS: 
-	<MN2PR11MB40770AB9893756A9E6A387F3EE359@MN2PR11MB4077.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+	<DM8PR11MB564095F1DC3ECAEA4B6B76A8EE369@DM8PR11MB5640.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	ed076hh3myNuO+/DaQHns3WbdJnDvHH7zZ19REbTRxNyAnwpmbgdaioF3tvlmX2jKDs/aB0wDM7MYfRHatQcrRPEPnsFTMH6WVr+W0VtRrLvgD7QBW+eUtS1wbudJ26lb2yG2x6M9oNMVGjCUFPpx2tXPLU2z0mrWHtYzrDMrtbioK+8Sp7Aeh56/juUuOJmo3OfUn/aXu6M773kpcqwhAFi4xZxP3jN375dXbgSpxW7VujoMV3J4QniVWIsbW/pPgsHn7R8Dm3/hFZF4wj2fwBINr3bDuaZ0LUL4mqEyo8W8Q4fWFrcwv9jU7B26W+v+BECyQlNs4eQEDv373yjHT04Z3KGI1JPoAO8YPrLeUCakqJ2lmk86ku/6/cIGn40bJiR8WZa6aGR+AJsSohFV8VBK/236RFbFgAGoQsQwTziLP8dmq66BWZK5Wh+laqE8itlz19g+er8h4xpf6O72j1E6Fmc+OMXu2Wl66Yt13AIWeQUr9pfqKXmCAccIdhxyYzzqnyMSCBNcNaDXAqywNnaW0o8UkrRkQ2xFsvQUYCgp/AJxQSfdPVVZfy0KDEVl1PoQoe27rS78yhbxvl68Avu4yO9+Dmziyt5Nlzy4FONYYoGBvYQW+rKjsjXxZVhzOAI3fqbllmwxBcEtfrEoDY68cWBIuPqFlTXY58Bfbav165uOXalMUELJggNXDF+NI54nGk5g2r5dYKiZtLccg==
+	FdDu7GE8WbJEsuNIe3S/L88l5WUOt2cz4hN+VOpDzN9M6OvcletpRGQgoH/JdSBpW7W43joqg5pXRRiJshRRdMLKmyLguBq/byZensIqeAo8Ar2xgTEzeqPTPBxPp+pXQrrlReI5+sLnWxZUAzjVF5mK0mG12Xvtv2xlIKZ3BLNCptE63+a+1c5eeLMkkOTogWe+iscstd0lOUWu9KPSzwrX7Ue9+Si8DYYcdtXfQQv7C3XLXQmEb+/GemVp6cF7n/e2/uRcPYsHnIpC3G9w9q5UgmQUopEm8WpT/ruyfrZ8jh+OCE8TrlUooGIoqmI4kRPnO3ha4kkMaV5Dr5gOtkmCoMiUFC2b6pcQ8lxAfPHTQw0mGfm1IcjUZuX6S00uag1OJZJB+4o6NCzXysw7I4LVk+3c2m+a1g4spKZishp+j3YdSixDqJLjf+W5n1vdfG4gLYGCGq6+e0EE3M3rQ0lWS9aQ80lphHqJ4saTgOyjWLC91BmS+rqB3+hBVFikG3SCGllIYPK7i60SPePeLidGMl5FHjWvypsJ7Pk1r7I74/8nP1byLxZAmNjCbqKoL6CsMVvyzygF1/QayD9rfliRmaZNm5iL0GMuCVg9UrxlI0kVF+ZsyqFOVHVHRybfmQAD9EZOXcVJUzQeMpjubdVM3BemNqYydmCt9NaNTD/qfp9JlTFP4PV4RvhgF5FN3uI+2uVTmrDF+FZ2PmI7gg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(2906002)(38350700002)(44832011)(5660300002)(36756003)(2616005)(66946007)(52116002)(38100700002)(66556008)(8936002)(83380400001)(1076003)(26005)(6486002)(6506007)(66476007)(186003)(508600001)(6916009)(316002)(6512007)(6666004)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(86362001)(4326008)(8676002)(66476007)(6486002)(8936002)(36756003)(6916009)(66556008)(38100700002)(5660300002)(316002)(66946007)(38350700002)(6666004)(83380400001)(6506007)(2616005)(44832011)(107886003)(6512007)(26005)(508600001)(186003)(1076003)(2906002)(52116002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YOpCt/cP4eU712QEnq7rfyXqfSour8tnThNjegFkvr5ndQtUipoqybp3yDEb?=
- =?us-ascii?Q?1mlxqjfb7LjJBe2md+ce4+ZW43H2XojfFfzo6+wvTB70BIxQkZYa0E6ngOE7?=
- =?us-ascii?Q?TMvNc2e0YEw5Gmu1Xjnc1nu91JMy74tVhLIJk2rfu0UPlETXjFBvg8KprFFA?=
- =?us-ascii?Q?OfTYESPX0sSyNEBli3Uy/s5BqbiQar4xLWbYDWBRUBANoFBN3M4h+TTwa70t?=
- =?us-ascii?Q?zgkg7moia2Uomd+MufpIg85/aV+emYG6+cFgLNVjBZ/jiagNamqXPbQfHk2j?=
- =?us-ascii?Q?8ECTlpe+IvdPrmsRuuEHXv8f7fCVSJt3UmTRDdHVzFiSKl1hbbz7J3i/kBHz?=
- =?us-ascii?Q?ndk+s0861W5aXcefByolZkGgmOqlLQK3/LONvoHze189UHqzZnHppPo6skzL?=
- =?us-ascii?Q?2hBO+kKeEFykNsAloH/YVjf3Nnft/borxxIl0rXE0aI1Ns2uDYncze3C32V5?=
- =?us-ascii?Q?ctju8bV0hqR1+HIXJPHGcUPNA1HqNb09wHUAwXQWyslaauvoC5EhJr750WxY?=
- =?us-ascii?Q?2VhXnmlsyFBMqFSvo/u/9medRrchQ4udp+hderzcrbrWxmVxLjkdLv5WbhDj?=
- =?us-ascii?Q?1kyCTj/tytWvluMht796tH98ZsIBFRbMs55xhIMUKF1fxL/7Yqm8/kpoH3pv?=
- =?us-ascii?Q?GN62Fn5GWpogImc7y6wDHsxWo4Ruol23yzCGBXvuLLKikGaP7l/ozzhm/gd5?=
- =?us-ascii?Q?erXksHOfVPJwLomOksTPZKsCNHnlLUT43Y5/FeJBT/k9JRzNrZXAVZftQlj4?=
- =?us-ascii?Q?kq6gK/I4mrf7favIxSOaP2qU2+r9L0gKh/EcgYm7KJYVy80XPTKNmOar7B6Y?=
- =?us-ascii?Q?IAazRYRTOenOP2cmAC9IwhBebOndrZdcvYiBqrfiLg7yZeynkttdH2sUayWN?=
- =?us-ascii?Q?hBXRLTdud0ZUrJyxOzjdr/ntvxg8CXyxnflPNF5808DV7KyvYE2z2SvCgSWJ?=
- =?us-ascii?Q?Ye1QzdS1R1Llq1jRdZaNPyKeyd9xPATr12jZzarPsb/MpmUzYK7gCOp2F5FU?=
- =?us-ascii?Q?uQppFAiNc7L6P7rvOcAdvzViybRxjvuxUbQdr33gyXngSYNL9VXJhfzNJSPq?=
- =?us-ascii?Q?5aOiwZNru9KTA5jmCLMwNrFH4QKPOx7ALlwUTCzaSz6UnYMSVpNhFI6RLQds?=
- =?us-ascii?Q?PCdf1KQz/MSvhLHuwgJSjcvJ1UxlvuBASgU97MDPPS7QDupNoefx4rRVp2tU?=
- =?us-ascii?Q?bk4ytrx+HB11Q4rnksh7viSoEOvS9dyCllbYMKvgErWQDDaQK5rdk4ygYMvV?=
- =?us-ascii?Q?W0lfeYgXZVs6TTmJjGCsudIspA4Etw1DPuwTRjkaB1YEcUm15ucLDyxKBrkB?=
- =?us-ascii?Q?cct3cqZLi1l+BgyKtmKP2985E+lUD0zLxqLlCeYTMBb/m8ppnbfGvMQ8EQjs?=
- =?us-ascii?Q?4ig5tfnwQvQn8E0AyR9XOh1Dh34vMhVZVTzP8MGlIQG/GGUu+GdTnUojzaYU?=
- =?us-ascii?Q?2dKBa7wMOTMiBVbaB6Oo86z7K2hNE7uAoq79wq811kHA5fs6N/LWsJh5E5pT?=
- =?us-ascii?Q?evJSr3Y/BMDdnC7k+dklFIcF/GvQ/BaRrj4PjjakyBUN2xPfkTxWVQ33AUY7?=
- =?us-ascii?Q?WCQVwcxoFLZU6Jjs+OkOfxngBc3AuQ4s9avLNiwXk0c/gn2J9uze2N/DoAyI?=
- =?us-ascii?Q?gFCYkOyL9yF2wFODXW3Wz7c=3D?=
+	=?us-ascii?Q?GSG4VIO4oeIvRix+cuqCED6HZomlzgcj8YSR3xSUJn1i0dds+M3C80bw/vTY?=
+ =?us-ascii?Q?PMjNy+vCfVbF/Td+HqCU5GOFXse1Sn6bwBVSuH7/BMXi8VPhInG8LvwbWXrt?=
+ =?us-ascii?Q?5JgAz4s4H4Crbv/9M8bjhBxRXmFNcGR4e3NKj9tIpVuTz5yx03iJvQkVGAkR?=
+ =?us-ascii?Q?gvq3ycyQMoyoLWUQNr+TFNwcXdShUH4RcgscqwtNNoOjjWiPsxjWDPD0CUZm?=
+ =?us-ascii?Q?vpi+5470EIPwZVQB6+kS2dtIcwLU83pcMisyfEML3DPkFakxQuVCjWEQDHeN?=
+ =?us-ascii?Q?GA6qo/rC/57gviUIcey3TZ0df97TtqoBacjlqnXdq+4yvopg12Se4meIRCxJ?=
+ =?us-ascii?Q?IGND52NjM5z+GLh4+zuCN9iI5YsywKbLwQf7aBvXXhEidldR1yvtt0VIFPMc?=
+ =?us-ascii?Q?JkLjdVr0SIoX0xE7FjIRdd7u0xeiJ/qHiwZHef03G8sRC135b4FTj9DyACPB?=
+ =?us-ascii?Q?FOdB8zPn1NIzKGzku+WU+V43YiYid0DbhyCVBt1KZh7N7vspHE/7VP7J+aau?=
+ =?us-ascii?Q?xXZZcWvdi/mujIdm7ouljXGUv2z14EFnhVQZ24BEVt0UIz1PdrUarQR+6XE2?=
+ =?us-ascii?Q?yPSuW1tIkuayOASojykmMFi6qZ0roLzOOiKE5AtA+Qq9lkS8fLxF5R8s/FAo?=
+ =?us-ascii?Q?QPLVPYh8WB5PIQk4lX5Ngnw/r8nDOOL3xu+vJj/5DbqA/VuQe4ITRS8hOKEO?=
+ =?us-ascii?Q?rZFbqqHSG6S+ypSVjE2M5pszS3kVkGd3d2GjO+yLxWpaaRwHSqFkG7gFVwts?=
+ =?us-ascii?Q?l5Sda4130F/N3NAX49wr4RjH8dNT/x0nj1ndUAH7wSmbxanUYeYbu7Xf2hcx?=
+ =?us-ascii?Q?8PhNWCRNto+/si2vv13pkoc/PnOYybvOkg/HJrNhLL2Ymss8Pq6+ihXmQJpG?=
+ =?us-ascii?Q?9KpJz0q/dh7yH4eS9FzBYM1s0cyyN9IzJDIkMtEkf9i1Ii8FMqhB+jFvNnTV?=
+ =?us-ascii?Q?Xpquepr8oyCDtS/Ow1C5aNE+OaZRljRkVrdnbK61pKEw/Je/pKJz+ax1pIaG?=
+ =?us-ascii?Q?TeGBcboVoB4+v3VTfxI1P0nw1LT69LwO+HEHPCPx6wOeqEzE4f/FZfA27xmR?=
+ =?us-ascii?Q?UGEQaJgL/IbkDrtbNM7cKe4oK4tGSIUZ8tmTkPYi+cILdrr2GFLCTwouNFnS?=
+ =?us-ascii?Q?NOp4L/rhxomxQbwYEW3TCEvLzd3ZKLAhfDr8EB41+yqIoRrrC44WQuqKAyCF?=
+ =?us-ascii?Q?vclrPpAbpUz59WzvFZdoEGf/o+i4AGSkGILtDQ0zqL1Pu+gdArUQ4pbIEKXJ?=
+ =?us-ascii?Q?NNhD0kv9DI2jRAkGSVI8HdyRm76vqeu2YA/6uhTtGwiPPZ3/57ES9AfPjqpz?=
+ =?us-ascii?Q?jdxqGv09PQlgfaiQshzsL87SsXlPdEoNThs9CmFx9OwWnRjq35KBEyF3tOzq?=
+ =?us-ascii?Q?6xZUOepmwhz4a0PoeqB3b4udl4nCmLjpxnEx91kgexVpQTln2aKGRXmlyChZ?=
+ =?us-ascii?Q?Nx5pOjSZ5vBWYk1AhNEW7aG+9m9cBTNpX20YT628L6VleKRJ+EApkh9qLDx7?=
+ =?us-ascii?Q?g5nglH37bpllycMI2jkRVCyeks9nVTcZWTItpSCZMpX8FVUf1oQyMDhAXZbP?=
+ =?us-ascii?Q?UljQr2T0blswqxWTx6sFTvn5pWjyilbReLb4ywY3yRNhHAkmmhSyDgBqLilN?=
+ =?us-ascii?Q?9/lJ4M+u+YOXVNeBAVD+mdE=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 31e82388-eed2-4c93-28cb-08d9f1a76f5a
+ 58a6fd6d-82dd-4535-196c-08d9f1ad34b5
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2022 23:52:48.1523
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2022 00:34:06.8223
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- pGNckIUtLKN/ODgKEAOcl/KTk1hrha12kVf9vLCnJpPyZod4Vy13xLSAaV9/VgXrBpDqiXujacxq2L2lQIJgeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4077
-X-Proofpoint-ORIG-GUID: T_NXYxjQQHbeWZfc0CSgO3HXiVSdvrX8
-X-Proofpoint-GUID: T_NXYxjQQHbeWZfc0CSgO3HXiVSdvrX8
+ McVyh2JfCqeExYlmgYKXmhgydvKQAdviX8AYyGs6E5VI+kOavoobke/rQG3S7F5FT8v01a4ODU7BtoPdg0bkYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5640
+X-Proofpoint-ORIG-GUID: m-9Cr9NW5mwbaZxiXsZ4CFViN5aTz1iO
+X-Proofpoint-GUID: m-9Cr9NW5mwbaZxiXsZ4CFViN5aTz1iO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-02-16_11,2022-02-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=784
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- adultscore=0 spamscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202160129
+ impostorscore=0 spamscore=0
+ mlxscore=0 phishscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202170000
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Feb 2022 23:52:53 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 00:34:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161790
+ https://lists.openembedded.org/g/openembedded-core/message/161791
 
-This is one option to handle the rename, another alternative would
-be to change the new INCOMPATIBLE_LICENSE_ALLOWED_RECIPES to VarFlag
-style.
+From: Saul Wold <Saul.Wold@windriver.com>
+
+This script searches for a list of variable that have been renamed
+and converts them to their more descriptive names. It also searches
+for a list of variables that have been removed or deprecated and
+prints a message.
+
+It will print a message to inform the user that there are terms that
+need to be updated in their files. Many of these changes are context
+sensitive and may not be modified as they might be existing calls to
+other libraries. This message is informational only.
+
+I have tested this on poky and meta-openembedded so far.
+
+(From OE-Core rev: 50fe7ba8dba05a9681c9095506f798796cfc2750)
 
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/classes/base.bbclass                        | 4 ++--
- meta/classes/license_image.bbclass               | 2 +-
- meta/classes/multilib.bbclass                    | 6 +++---
- meta/conf/distro/include/default-distrovars.inc  | 2 +-
- meta/lib/oeqa/selftest/cases/incompatible_lic.py | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
+v2: renamed script, removed bitbake internal vars, added WHITELIST_ option
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 87a4cb5fc7..a376dfa134 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -598,9 +598,9 @@ python () {
-             whitelist = []
-             for lic in bad_licenses:
-                 spdx_license = return_spdx(d, lic)
--                whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
-+                whitelist.extend((d.getVar("INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_" + lic) or "").split())
-                 if spdx_license:
--                    whitelist.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
-+                    whitelist.extend((d.getVar("INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_" + spdx_license) or "").split())
- 
-             if pn in whitelist:
-                 '''
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index bf70bee99b..701516d324 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -56,7 +56,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
- 
-     whitelist = []
-     for lic in bad_licenses:
--        whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
-+        whitelist.extend((d.getVar("INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_" + lic) or "").split())
- 
-     with open(license_manifest, "w") as license_file:
-         for pkg in sorted(pkg_dic):
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index ec2013198c..278a88181a 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -75,11 +75,11 @@ python multilib_virtclass_handler () {
-     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
- 
--    # Expand WHITELIST_GPL-3.0 with multilib prefix
--    pkgs = e.data.getVar("WHITELIST_GPL-3.0")
-+    # Expand INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_GPL-3.0 with multilib prefix
-+    pkgs = e.data.getVar("INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_GPL-3.0")
-     for pkg in pkgs.split():
-         pkgs += " " + variant + "-" + pkg
--    e.data.setVar("WHITELIST_GPL-3.0", pkgs)
-+    e.data.setVar("INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_GPL-3.0", pkgs)
- 
-     # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
-     newtune = e.data.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 3bba651a77..7bfb946e67 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -20,7 +20,7 @@ DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 la
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
- IMAGE_FEATURES ?= ""
- 
--WHITELIST_GPL-3.0 ?= ""
-+INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_GPL-3.0 ?= ""
- 
- COMMERCIAL_AUDIO_PLUGINS ?= ""
- # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index fd3b3f409e..52c381dba6 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -111,7 +111,7 @@ INCOMPATIBLE_LICENSE:pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
-         bitbake('core-image-minimal')
- 
-     def test_bash_whitelist(self):
--        self.write_config(self.default_config() + '\nWHITELIST_GPL-3.0:pn-core-image-minimal = "bash"')
-+        self.write_config(self.default_config() + '\nINCOMPATIBLE_LICENSE_ALLOWED_RECIPE_GPL-3.0:pn-core-image-minimal = "bash"')
- 
-         bitbake('core-image-minimal')
- 
+ scripts/contrib/convert-variables.py | 110 +++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
+ create mode 100755 scripts/contrib/convert-variables.py
+
+diff --git a/scripts/contrib/convert-variables.py b/scripts/contrib/convert-variables.py
+new file mode 100755
+index 0000000000..a632fd4d5c
+--- /dev/null
++++ b/scripts/contrib/convert-variables.py
+@@ -0,0 +1,110 @@
++#!/usr/bin/env python3
++#
++# Conversion script to rename variables with more descriptive terms
++#
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++import re
++import os
++import sys
++import tempfile
++import shutil
++import mimetypes
++
++if len(sys.argv) < 2:
++    print("Please specify a directory to run the conversion script against.")
++    sys.exit(1)
++
++renames = {
++"BB_ENV_WHITELIST":"BB_ENV_PASSTHROUGH",
++"BB_ENV_EXTRAWHITE":"BB_ENV_PASSTHROUGH_ADDITIONS",
++"BB_HASHCONFIG_WHITELIST":"BB_HASHCONFIG_IGNORE_VARS",
++"BB_SETSCENE_ENFORCE_WHITELIST":"BB_SETSCENE_ENFORCE_IGNORE_TASKS",
++"BB_HASHBASE_WHITELIST":"BB_BASEHASH_IGNORE_VARS",
++"BB_HASHTASK_WHITELIST":"BB_TASKHASH_IGNORE_TASKS",
++"CVE_CHECK_PN_WHITELIST":"CVE_CHECK_SKIP_RECIPE",
++"CVE_CHECK_WHITELIST":"CVE_CHECK_IGNORE",
++"MULTI_PROVIDER_WHITELIST":"BB_MULTI_PROVIDER_ALLOWED",
++"PNBLACKLIST":"SKIP_RECIPE",
++"SDK_LOCAL_CONF_BLACKLIST":"ESDK_LOCAL_CONF_ALLOW",
++"SDK_LOCAL_CONF_WHITELIST":"ESDK_LOCAL_CONF_REMOVE",
++"SDK_INHERIT_BLACKLIST":"ESDK_CLASS_INHERIT_DISABLE",
++"SSTATE_DUPWHITELIST":"SSTATE_ALLOW_OVERLAP_FILES",
++"SYSROOT_DIRS_BLACKLIST":"SYSROOT_DIRS_IGNORE",
++"UNKNOWN_CONFIGURE_WHITELIST":"UNKNOWN_CONFIGURE_OPT_IGNORE",
++"WHITELIST_":"INCOMPATIBLE_LICENSE_ALLOWED_RECIPE_",
++}
++
++removed_list = [
++"BB_STAMP_WHITELIST",
++"BB_STAMP_POLICY",
++"ICECC_USER_CLASS_BL",
++"ICECC_USER_PACKAGE_BL",
++"ICECC_USER_PACKAGE_WL",
++"INHERIT_BLACKLIST",
++"TUNEABI_WHITELIST",
++]
++
++context_check_list = [
++"blacklist",
++"whitelist",
++"abort",
++]
++
++def processfile(fn):
++
++    print(f"processing file '{fn}'")
++    try:
++        fh, abs_path = tempfile.mkstemp()
++        modified = False
++        with os.fdopen(fh, 'w') as new_file:
++            with open(fn, "r") as old_file:
++                lineno = 0
++                for line in old_file:
++                    lineno += 1
++                    if not line or "BB_RENAMED_VARIABLE" in line:
++                        continue
++                    # Do the renames
++                    for old_name, new_name in renames.items():
++                        if old_name in line:
++                            line = line.replace(old_name, new_name)
++                            modified = True
++                    # Find removed names
++                    for removed_name in removed_list:
++                        if removed_name in line:
++                            print(f"{fn} needs further work at line {lineno} because {removed_name} has been deprecated")
++                    for check_word in context_check_list:
++                        if re.search(check_word, line, re.IGNORECASE):
++                            print(f"{fn} needs further work at line {lineno} since it contains {check_word}")
++                    new_file.write(line)
++            if modified:
++                print(f"*** Modified file '{fn}'")
++                shutil.copymode(fn, abs_path)
++                os.remove(fn)
++                shutil.move(abs_path, fn)
++    except UnicodeDecodeError:
++        pass
++
++ourname = os.path.basename(sys.argv[0])
++ourversion = "0.1"
++
++if os.path.isfile(sys.argv[1]):
++    processfile(sys.argv[1])
++    sys.exit(0)
++
++for targetdir in sys.argv[1:]:
++    print("processing directory '%s'" % targetdir)
++    for root, dirs, files in os.walk(targetdir):
++        for name in files:
++            if name == ourname:
++                continue
++            fn = os.path.join(root, name)
++            if os.path.islink(fn):
++                continue
++            if "ChangeLog" in fn or "/.git/" in fn or fn.endswith(".html") or fn.endswith(".patch") or fn.endswith(".m4") or fn.endswith(".diff") or fn.endswith(".orig"):
++                continue
++            processfile(fn)
++
++print("All files processed with version %s" % ourversion)
 -- 
 2.25.1
 
