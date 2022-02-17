@@ -1,86 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B08C433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 19:59:42 +0000 (UTC)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
- [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web09.1745.1645127981225759838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF8EC433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 20:02:12 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web12.1791.1645128131543416895
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 11:59:41 -0800
+ Thu, 17 Feb 2022 12:02:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ezbEeKRx;
- spf=pass (domain: gmail.com, ip: 209.85.217.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id i27so7536280vsr.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IRWr6hjn;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id p8so574945pfh.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 11:59:41 -0800 (PST)
+ Thu, 17 Feb 2022 12:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xNoXGskugnTGuC9vM7N1CVdxKfQfoe1vuxUlHCxXko4=;
-        b=ezbEeKRxVNuzLs4na4dYTbGUDE0yjm3+LNsQTEdkdjjwCMi/9CTK++sOio/0tnnR69
-         sex4j+btynOz7ItfI5OLt5XPB6TJK/dgFKbekzakZjNJEy0MJOtVq/qGzDSolh7VNlUd
-         LMCTE2fpKzONX6nnTgiX0QIErT/EW6jimkfXVsKgvK55zWI8zDx+s1Uy639UXtx1hm/v
-         2fQZ+vmwfurwhA7Basxzecw4iQaPz/Spf6gP1odWFNE06gWpxqT2/BH8Ws5PJ9VOj/ui
-         bxsaL7rX3D3piOHBq6WDkcqS5mLr/UqtST10R2oH1UAfHtVREtbYBtAh2uxLsSFeZPEy
-         mcyw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=IVJ8Y+vlU+EgGpGe9moUmMrw3LuXHdZUJfv0/Tlk8mk=;
+        b=IRWr6hjnct1LmV/rhFdX+oX9j6k8M42LXqMBPgAIgsS1BE2GulOlBkytL9MNH8uUIv
+         /BTI3ho4KR7xQV7GXoggSGQG3BkJZEG503Yak1W6ePEc6zIa+PE4TMqAeucxwINcFcmz
+         NYcDCVJKzULudzvLz6Pehzu4YQajRowPLrPSqvUta5UxaMWum7PuK+BkBQWgxPon6vkW
+         /S99ckvBzYw6NUBzpg/V7af5IMz/H3nwwdeVnuknnoC4LOaEKwdd/KURyPH8ktgaAxdI
+         O3U88oKBPifqsTVAGGRjNDwu36APlXiuciSzwQSRreiiHWtKB7Y0dbM13gJHqv9iOVaG
+         DBag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xNoXGskugnTGuC9vM7N1CVdxKfQfoe1vuxUlHCxXko4=;
-        b=P/Z/CztBJYdgWPCBi5BYtWpxeSdNRSavZy/J1AfnGRnm9gMtELikRGmE7u30VnqDyQ
-         +Fwj6x3Tca0veFoMB7qnRH188ldWD1Rx/KDgRhV/lpkBfA2tAlo75kSB1a16mGrUyFJu
-         a1ohR7wXgzINmQsmngOX0YsIhiqe3AfogwBN9o7JaX1EkxQIIe7r+fSy6G51YytakwnP
-         0fmgcuiHCPj/AjjSVKNpULKw0CG5M33qxthQAR6/GDjgWCWeCOKA4eIFXApoHeYo5d+c
-         KeyH61lQoTa1GqPZrmBozxISYsFNWId+ELu0MD0pJLtDHcSZ008eX9UoAbLBO3jTX4L/
-         ss1Q==
-X-Gm-Message-State: AOAM5318apcWaxHDX2tDucPVHkTNhZs0dSi6qmTvaAGz0v0EjNFl4suz
-	0MAtmhwmC2CZDT5hL3CnsPHTXMgxxIwfy8CiFCY=
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=IVJ8Y+vlU+EgGpGe9moUmMrw3LuXHdZUJfv0/Tlk8mk=;
+        b=COrNrN9WMiwCuPsts+XTbVEHVT3uRgnKqp3vIWqrDmlShybilAgjImarPdV5D1INXY
+         5pz7HWceJUzGk9+9oE8CMtzxmmLLar6q3iL9WIP1l5dls5X1ykDj9tfEXJMsepxRKr19
+         txsN3iqCoFwJ4HQW4a0VbkLukAImEfUpxl2Qd8L+TXEAZf+Y8ZwhFWXWkOUnlK96iK+l
+         jTdzejf1KfEwMm/I9AeVzdBvtDd3mLKsRE2HSsG16kOwmZZ3eOyKmqri0bGI9X3b+tWN
+         i63QEiWbOLLS5qFfJey+cCAw5IESqkuqwSUp+7NqmlqrO6cKRFWyvGdjTMZ+Er+XCtUc
+         86KQ==
+X-Gm-Message-State: AOAM53355B672etfg827WjPn2snroT21BvZTUJAQnCZ0rgwKXaur9IMx
+	ZZBjZfTIMxFS2po24iOzm2o=
 X-Google-Smtp-Source: 
- ABdhPJwUrKh0I1flByNqRHwn6MVf2b8bP8ALHSS588TsCLtvBoN7t2veT+xT1fb5yGbQ9BtyJqFEXqO1KE7V7g+WrWY=
-X-Received: by 2002:a67:e113:0:b0:30e:303d:d1d6 with SMTP id
- d19-20020a67e113000000b0030e303dd1d6mr2160862vsl.38.1645127980368; Thu, 17
- Feb 2022 11:59:40 -0800 (PST)
+ ABdhPJylyV8kikYbZLi51/fF+ANUfBA0bZXM3x6HIprAXK5B+rDKATMO34H/zUj31LoxahQFQT1fSQ==
+X-Received: by 2002:a62:1d07:0:b0:4bf:3782:22e3 with SMTP id
+ d7-20020a621d07000000b004bf378222e3mr4614167pfd.52.1645128130941;
+        Thu, 17 Feb 2022 12:02:10 -0800 (PST)
+Received: from ?IPV6:2601:646:9200:a0f0:9887:2763:ad87:2b2e?
+ ([2601:646:9200:a0f0:9887:2763:ad87:2b2e])
+        by smtp.gmail.com with ESMTPSA id
+ g21sm375473pfc.167.2022.02.17.12.02.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Feb 2022 12:02:10 -0800 (PST)
+Message-ID: <9fe05f72-ae7a-8bd7-5561-2ea22310a70e@gmail.com>
+Date: Thu, 17 Feb 2022 12:02:09 -0800
 MIME-Version: 1.0
-References: <20220217160939.1424397-1-alex@linutronix.de>
- <20220217160939.1424397-2-alex@linutronix.de>
- <0d022bb4-9fe0-effa-d6b9-50812f060cdc@gmail.com>
- <16D4AB147C5087DA.27018@lists.openembedded.org>
-In-Reply-To: <16D4AB147C5087DA.27018@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 17 Feb 2022 20:59:29 +0100
-Message-ID: 
- <CANNYZj8gG9vxKmU=5AU_7RV51Zji1b=mOT8fcdDqvvo-N9-Z-g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/28] weston-init: replace deprecated/disabled
- fbdev with drm backend
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [OE-core] [PATCH 04/28] devtool: auto-pick 'main' branch in
+ addition to 'master' in upgrades
+Content-Language: en-US
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20220217160939.1424397-1-alex@linutronix.de>
+ <20220217160939.1424397-4-alex@linutronix.de>
+ <41d3206a0e2d4aa392e80483a503cb86@axis.com>
+ <16D4A46679241182.18879@lists.openembedded.org>
+ <CANNYZj_17GFwNMqcwP3tdOw5z8=8CsL4yQgEPLt7OKmk6jQhoQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: 
+ <CANNYZj_17GFwNMqcwP3tdOw5z8=8CsL4yQgEPLt7OKmk6jQhoQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 19:59:42 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 20:02:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161856
+ https://lists.openembedded.org/g/openembedded-core/message/161857
 
-On Thu, 17 Feb 2022 at 20:57, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> Yes, I ran a-full with this change on top of my transition-to-weston
-> branch (where image-sato is swapped for image-weston), and it passed
-> with flying colours. Without kvm performance may not be great, but we
-> can tweak that with --use-pixman later :)
 
-Ah, one exception was x86-x32 (seatd doesn't build there, and swrast
-historically segfaulted with X11), but that target should be changed
-to cmdline only testing, or removed altogether. Intel invented it to
-look better in benchmarks :)
 
-Alex
+On 2/17/22 10:21 AM, Alexander Kanavin wrote:
+> On Thu, 17 Feb 2022 at 18:57, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+> wrote:
+>> It has worked fine where the branch is still master; I admit I don't
+>> fully understand how this works, but it did help with a failed update
+>> where devtool wasn't able to pick 'main' from several branches
+>> containing the same SRCREV. Upgrade functionality isn't easy to test
+>> as it is made of a million corner cases and runs against a 'live',
+>> constantly evolving set of pending updates, so I mostly adjust it from
+>> experience with AUH. If this still isn't good enough (as show by
+>> actual failed updates), I'll adjust further.
+> 
+> That said, I'll try if the suggested change works as it should and
+> resend if so :)
+
+I worry about riscv emulators will break, perhaps riscv32 for sure.
+
+> 
+> Alex
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161852): https://lists.openembedded.org/g/openembedded-core/message/161852
+> Mute This Topic: https://lists.openembedded.org/mt/89212438/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
