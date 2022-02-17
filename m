@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEFE9C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D63DAC433EF
 	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 16:10:04 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web08.1803.1645114204102782627
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web08.1802.1645114203725352003
  for <openembedded-core@lists.openembedded.org>;
  Thu, 17 Feb 2022 08:10:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UzRHsXMe;
- spf=pass (domain: gmail.com, ip: 209.85.218.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NMjkzG0A;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a23so8465925eju.3
+Received: by mail-ej1-f52.google.com with SMTP id p15so8415327ejc.7
         for <openembedded-core@lists.openembedded.org>;
  Thu, 17 Feb 2022 08:10:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BAK4u0ep1Ef2eCNwMT+jqp6ClPPBuV8TveuF/PqikFw=;
-        b=UzRHsXMeqjFeeUuxqxeK3FEUFRN5XHpazEgAYT1IBmnc+kNqihONmXQwF60i+6vQwq
-         lZ6jWGrcDtY6mj1cmKqAJtMuv++hDTYHlQb4R56Ni4GvVR0wwDvARxk93+lj+P7QOmKG
-         aGLvniSZK0OklNagb/MOsIrHpjLESRuYFCFvxjs3M3uuVLe+RTXyLHKmdMzKiVkABvC3
-         mFHGc0akSg4dZt8XxsGZMldzcW76lgpyID7emqd7ebfAh7YCLPDqPKkP6r4hFWbDenhy
-         Et1909LZf4IT248/vMj1OZbbWSY+N9kmM3w4/ztaggBLpyFAJhO+ku6G7YtJicFV/ME7
-         ZwDQ==
+        bh=h1vuO4jsR95e30u5Cop4RAY/ZIwAKZDzLzfq8MOFqUc=;
+        b=NMjkzG0AmVeOD/pbj1EnTp/AKqvOveRVkHg40uLfwtFDdNPX+KxoQM+ScEZ3vdowrY
+         yRbC67XxqF3HHx8C45SEwG1q8H0Gb1BglV2UCE0HvKTs2DCA73IIIx5jjYSfdSSWgRHn
+         eJPf9+LNtbHcde1jwaWSWtW36vzqEUtvc0mLCFnYTwD/09nTnF9q+C8BBYD9rFmqLtmT
+         bGV0SiQ9xPbSXfPmyvIsi33PnWUEl3MuoHHKiV2fYyzt1nq6p7LKLrHk18wM+ZMxuU0D
+         LIn/ur2+RMTmP8fSTVtz7nof7ePkINusURaFgW34+vB0DniUPki6IwemLS55IrOdMvm8
+         nPaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BAK4u0ep1Ef2eCNwMT+jqp6ClPPBuV8TveuF/PqikFw=;
-        b=YAxW/2RzBlYpuyErQQxDpy3/Y77F8p4yFVyLQBEB7+VKYGBm+gTV6NRQNVpuH7xqEs
-         tEJ7GyFbOZlT7XVgdd/6k1528SIQnYK3dbfpVnqFQDH7RgDNkllIfmdv4VVjUcSszGGy
-         sLgsvlPev820FgrEbDFgjBHHt4r3SDYnnQsPMRA8PTp5C/Ny+kJIeKO+Pu22aj00j84j
-         MU3wuBSmn/GU1JwbQ6329zMrCbkqRdZkv4pRksgIOTbJSoFnD4TrDC6x5HPQJJz2riZK
-         KBdSd7p7ftkoPSnXn8If9uGUfbSyCfiDGFnJgCTd/Atkk+z4YB+3OEoVaxhsSC12D6u0
-         c9lg==
-X-Gm-Message-State: AOAM5308qi2dmcdyJM+NAm2+h+ciyTt7tjKNRZMGl5aLky4G2Sy26LrD
-	SSnRkhxOly/J5byxGQkm3PX7/PubccM=
+        bh=h1vuO4jsR95e30u5Cop4RAY/ZIwAKZDzLzfq8MOFqUc=;
+        b=dsAr6CK3WoTCVrQ52TuCKFnmi9InSLcj9Izj0Ag3lfYw2S61MhZNeRg8YZOrrBj/Vv
+         s7IvZ1aTMq1J3cmYoqdjRvfYHUdQe8+yuKQwmkDMNFP8Z6bO9QeCmlaX3xZvHUluJB8Q
+         j9rKBuqksRBaAWOmwKRnsjRMdFjTYth4u571jL6VRCWB6petL0ajAKQ++UagN7Ahb1S1
+         HBwzTiijJq6OcIuWd/HRSTt95fwOHmHn/+XEtHXLye6+mcSicUTM7HEZVqZBA3i6wSK8
+         FTyOxAzuoSM2Dx0Tg9kvTWQ8DlPLTyIb53h2+lU6idLWWVk+DeOmffTPt8qcUjjCdV6d
+         35tA==
+X-Gm-Message-State: AOAM5321NDYhlx/OgVdSTcDWeycAAK0SZr7nBi5934iUw+vDMdGNtcZO
+	869K4/4vrBKDJXgx25u7FHN0dbLNORI=
 X-Google-Smtp-Source: 
- ABdhPJyCh+fwPECiaMcwxowehEDEa1jsvzSlYOcY4lo7MPyxhhEVdTzrYsMZCvcz9sTp6rojeTIu+g==
-X-Received: by 2002:a17:906:6848:b0:6cf:6273:9c47 with SMTP id
- a8-20020a170906684800b006cf62739c47mr2997688ejs.1.1645114202707;
-        Thu, 17 Feb 2022 08:10:02 -0800 (PST)
+ ABdhPJyt06WKICZT6h1Undl8sWOOTiVHoa5c/rILbUcnPPxXZ++8s4Pc59F2f0U9ODUIzGllBizH4Q==
+X-Received: by 2002:a17:906:3a55:b0:6ce:c2ee:3e10 with SMTP id
+ a21-20020a1709063a5500b006cec2ee3e10mr2863790ejf.210.1645114201937;
+        Thu, 17 Feb 2022 08:10:01 -0800 (PST)
 Received: from nereus.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- n2sm1381297ejl.55.2022.02.17.08.10.02
+ n2sm1381297ejl.55.2022.02.17.08.09.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 08:10:02 -0800 (PST)
+        Thu, 17 Feb 2022 08:10:00 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/28] python3-tomli: upgrade 2.0.0 -> 2.0.1
-Date: Thu, 17 Feb 2022 17:09:25 +0100
-Message-Id: <20220217160939.1424397-14-alex@linutronix.de>
+Subject: [PATCH 13/28] util-linux: upgrade 2.37.3 -> 2.37.4
+Date: Thu, 17 Feb 2022 17:09:24 +0100
+Message-Id: <20220217160939.1424397-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220217160939.1424397-1-alex@linutronix.de>
 References: <20220217160939.1424397-1-alex@linutronix.de>
@@ -68,40 +68,37 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 16:10:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161831
+ https://lists.openembedded.org/g/openembedded-core/message/161830
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-sources moved to src/tomli
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-tomli_2.0.0.bb => python3-tomli_2.0.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-tomli_2.0.0.bb => python3-tomli_2.0.1.bb} (79%)
+ ...til-linux-libuuid_2.37.3.bb => util-linux-libuuid_2.37.4.bb} | 0
+ meta/recipes-core/util-linux/util-linux.inc                     | 2 +-
+ .../util-linux/{util-linux_2.37.3.bb => util-linux_2.37.4.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/util-linux/{util-linux-libuuid_2.37.3.bb => util-linux-libuuid_2.37.4.bb} (100%)
+ rename meta/recipes-core/util-linux/{util-linux_2.37.3.bb => util-linux_2.37.4.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-tomli_2.0.0.bb b/meta/recipes-devtools/python/python3-tomli_2.0.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-tomli_2.0.0.bb
-rename to meta/recipes-devtools/python/python3-tomli_2.0.1.bb
-index aa23ad856d..c3d51282c2 100644
---- a/meta/recipes-devtools/python/python3-tomli_2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-tomli_2.0.1.bb
-@@ -8,12 +8,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5"
+diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.37.3.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux-libuuid_2.37.3.bb
+rename to meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 0309332722..c48f9572f5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -37,4 +37,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://avoid_parallel_tests.patch \
+            "
  
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "c292c34f58502a1eb2bbb9f5bbc9a5ebc37bee10ffb8c2d6bbdfa8eb13cc14e1"
-+SRC_URI[sha256sum] = "de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
- 
- do_configure:prepend() {
- cat > ${S}/setup.py <<-EOF
- from setuptools import setup
--setup(name="tomli", version="${PV}", packages=["tomli"], package_data={"": ["*"]})
-+setup(name="tomli", version="${PV}", packages=["tomli"], package_dir={'tomli': 'src/tomli'}, package_data={"": ["*"]})
- EOF
- }
- 
+-SRC_URI[sha256sum] = "590c592e58cd6bf38519cb467af05ce6a1ab18040e3e3418f24bcfb2f55f9776"
++SRC_URI[sha256sum] = "634e6916ad913366c3536b6468e7844769549b99a7b2bf80314de78ab5655b83"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.37.3.bb b/meta/recipes-core/util-linux/util-linux_2.37.4.bb
+similarity index 100%
+rename from meta/recipes-core/util-linux/util-linux_2.37.3.bb
+rename to meta/recipes-core/util-linux/util-linux_2.37.4.bb
 -- 
 2.20.1
 
