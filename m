@@ -1,340 +1,1253 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E327DC433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 01:41:23 +0000 (UTC)
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web09.2276.1645062082395101542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6F4C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 08:27:15 +0000 (UTC)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+ [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web10.4964.1645086434951216582
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Feb 2022 17:41:22 -0800
+ Thu, 17 Feb 2022 00:27:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=KOSy9TNp;
- spf=pass (domain: intel.com, ip: 134.134.136.65,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645062082; x=1676598082;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=tixPuCbODq03sGGUkPOVlJn5t9UWycirrs+GpXAc1UY=;
-  b=KOSy9TNpn/WsdZvX7NSBpiSzI3dPlB3imrHaCwzOR/c1G6YVklUEsrc7
-   JDmm9sfJyy3s49JfIifIBdfAka39wWvQzGGW5ZY2LXICJjHsmch5Hv7Oh
-   pRGFn77Ar0dzWi43YPoMq2VYvqrVPE7s/5noEYhda1/5opFT6XsWwv4z4
-   CdvtCwxSXchbNEz0GZu7o1CAQCMcNvKchOL6qxEFnXC+NBBrjOSh13WoR
-   5+KLwhYFeLBHQnxUF/AwVg912csnYpMpFxW8Xn8maiUnSWoZqVK9sepyn
-   3Q/WX/EQ8LKdF50kMLoApRpM5giLWXxC9huGFeHLUA3jmQ9K5/dos0118
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="250707837"
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600";
-   d="scan'208";a="250707837"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2022 17:41:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600";
-   d="scan'208";a="588914907"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga008.fm.intel.com with ESMTP; 16 Feb 2022 17:41:21 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 16 Feb 2022 17:41:20 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 16 Feb 2022 17:41:20 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Wed, 16 Feb 2022 17:41:20 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.46) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Wed, 16 Feb 2022 17:41:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JncrSHyM9Mi5twiMm40DQ/2sz2x8k+teTjVmFNTxwg6QpJ5EWRcNNssWsnmXrNdOx8fUdxAxlHpQdpVa2tlseYq2/5gKlk73FXydl6rgKysWe723ozLIYizVwNVqxYdmoJYgkp+5wMDftFgNThQlMHt6JWpyHLq2KdwbhUnVVdMlucXa2y7Dkp74y88ODEwaj6t/YOa7444xTT2o9r9FfxPgQ6uL7pmSoEqmyhskBiEhGcsSDdOSVl0Crdt4OhliffTrpx2wSnpq11HKSLrTHztiZFkIYzlGFJNtnUJF/xdYLeVdJSuibMuyiquiJt3c1OF+MDHClxo1amfk1wkiQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tixPuCbODq03sGGUkPOVlJn5t9UWycirrs+GpXAc1UY=;
- b=e2mWvR1MT37qT3xGsw6Iq2tcIugI4GoiwtLY/7EkGOphirWXF1bE66Yvk7FiVtSS4iKm0SDIOsNHSYvLvVppuh/ZUI1Zdx3uh+VsZdWCVVCNFfH53Ycrg9Ot2lI09rdVmqdj42Un32lXdfDeSJVOTj6ynLNQ8PAPLyVgZpjRdsl0fT3bwpdJTBbTBusNExpXlzSQboYKpWuIvrxaLHkLPmIj/1p57Ir0tC03XwdA2pUp6v5BHlfHxMaDeSLsc0OBjbpV/WDbntyyJT9oqbE1COt94Usby9bBZGM+G6SgDdKzmydkv4TyXNWMNl8DhHESd8D3hpHm9TT0qw2fcQ6hhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
- by DM6PR11MB4563.namprd11.prod.outlook.com (2603:10b6:5:28e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.15; Thu, 17 Feb
- 2022 01:41:18 +0000
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::fcf8:25a:89f:2006]) by SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::fcf8:25a:89f:2006%4]) with mapi id 15.20.4995.016; Thu, 17 Feb 2022
- 01:41:18 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "hongxu.jia@windriver.com" <hongxu.jia@windriver.com>,
-	"Martin.Jansa@gmail.com" <Martin.Jansa@gmail.com>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-Thread-Topic: [OE-core] [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-Thread-Index: 
- AQHYHT623q3FzCwN8kKkyQCbF59jNKyUUJiAgACD+ICAAKrTgIAAG9wAgABJfgCAAA5AAIABEW6A
-Date: Thu, 17 Feb 2022 01:41:18 +0000
-Message-ID: <81021d0953ac5825f1436af7295089f6409a0b10.camel@intel.com>
-References: <20220208225310.1685131-1-raj.khem@gmail.com>
-	 <333ededd-79c4-8a21-b6a5-8012b5f793e3@windriver.com>
-	 <CAMKF1sp5rtBg0tf4mN-9VBUxVYXbqrA1i8nQe-L_8MHNRapj1g@mail.gmail.com>
-	 <MW3PR11MB4633B716168A3E59ECA2F06994359@MW3PR11MB4633.namprd11.prod.outlook.com>
-	 <CAMKF1srKp84XMQLTs6jbfhxMhgBK2suLxjHQNbdPBH+gT9qW1g@mail.gmail.com>
-	 <MW3PR11MB46331A0B570CEB101DACBE1E94359@MW3PR11MB4633.namprd11.prod.outlook.com>
-	 <CA+chaQevizhQX+ogTf+5rOhbjJjch8yS79S+DOpk8o-KFm90HA@mail.gmail.com>
-In-Reply-To: 
- <CA+chaQevizhQX+ogTf+5rOhbjJjch8yS79S+DOpk8o-KFm90HA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.42.4 (3.42.4-1.fc35) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: acf6ff15-4581-4566-7e06-08d9f1b697e7
-x-ms-traffictypediagnostic: DM6PR11MB4563:EE_
-x-microsoft-antispam-prvs: 
- <DM6PR11MB45631BFFD809D48477B38DC6F8369@DM6PR11MB4563.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:901;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- RFmoavbjGN1v1oMLdo1U8wxuGo1GjwkHK2kI7qOLkn86dFTOLi6EUxdTeEdnBeDS5CkRRnLg+OMZc1+D9caYAVdDp4/3AyjFJeh1twUBoZjdxUm4C97DvXYCgTdr857SoKoBY26a2WOFx0hYcRdcmNzPtTG2ri8WSrqDkdTs6+nGDVpxRir9twzci0Xl801ZWH1YkZHPCfeq7TCLk+iD3DGEN71WWaeV32M61WuxX4SSbETHfahGY7ndHfdgJMkM6B8Peh5kmiNf8KLeJRzVKbtz+mjBiEVzDdmts9AocVUaukUE5h7ElbDfHnYda+fuK//wkilx1EFlWxpZGeCeuFqobqSkLbKlZvosvyGgzzsBkpVnuM1tk77MiH2N56DgCdFdPoVejJFAq11HE/zqE/F2x4V934IGQOqUbLLkpIHuXzFfmqox+9pWYEAw6YfV4zMxmkpNoCw2KWvpkTKt4G06eW2h8y5mP9lLFYz8QgnIVyGiwJnkMSQnqB3yeV0e/F6+4dTmJlAV6npRhv9T8SzN39x67hiHbcVBh9vgo06d2WYRodEs2bHyk3frqzYHIr4lt63y9Ur8XWcZ2zqgMpNcoGUCF5zjhgZqcRepRoPcPi8a3o3xOffWxEvJxogY6jHGMRQeKChIGWXxUINIvL8fyn1IOl1SDpBQu1OvRZrnsi8kO/R1rZ5/FGPc6P4GsdSfhS365wP2O2InImhFT71Vy02PN+5+nLF8tqSOj/MURlFprvrjd9/UcM5KBCz7Wc3C1YMDe5Rox4/TbdtzSx0COJ7AkG0X5erFESq9JzeYrn3/FuY7MC66Su3osrY/aW3E3KzKS3iY7NdDl2zlTw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(186003)(2616005)(82960400001)(66574015)(5660300002)(26005)(4001150100001)(4326008)(8676002)(66476007)(66446008)(64756008)(83380400001)(38070700005)(66556008)(66946007)(76116006)(91956017)(966005)(6486002)(6506007)(36756003)(53546011)(316002)(54906003)(110136005)(38100700002)(508600001)(2906002)(71200400001)(8936002)(6512007)(86362001)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?a0k5eXJnVU5mbTF2UGQ0dDhtQVZnWktKaC9OTU03NmJvdlNJQ0t4OGxnZ05z?=
- =?utf-8?B?Um02Umo1OWNGdnRySXFKVmFySXB2QWNCZ2xHN05Fd1FTTFE0dGJnM3Vsc0tm?=
- =?utf-8?B?TEZKZ1pCdE9sckNEQmYwY1dvUG14MDRpdzNhUk5pOWM0MU5UYXRBeEUxUitR?=
- =?utf-8?B?eHIwVGVDamRiTldweEJvK0hkZU1rMHZHRUZPV2lkZjE4S240WVl3dWY4WEIw?=
- =?utf-8?B?d0VvU1ZmVEpsTGJoVzdZZ3dEdXZ5cHVFRllpUExNRmdPa2ZyTXZ6RzRNMDFO?=
- =?utf-8?B?MFlpcVhoUmN4YmQ3UU5nYXZ2OU90dldDcFYzZEFwUnZWdkRFcmtkNjlXbmIx?=
- =?utf-8?B?dzdFOUtMb2M2UGU1QjdUQS9zV1FkOEx0SlBsSzVYR0RsQmRhVDhaNnpsdjFo?=
- =?utf-8?B?WitZRFpKL0ZMa0JTYmZUSUcxTFgxbGV1WWtIQ2g1RUVieXliZVIrRnRQOTds?=
- =?utf-8?B?Q1E5amRvYlRUUlVXeFZ5dXNKT2Q5bEEyOHN0cm42MnJqeFk2MWN0U0RNV293?=
- =?utf-8?B?eldlN3lCTi8rbC83T3ZvU3pmcmtsT0pRNjZPTGcyWHdWblNGMWh6b0JUSEF1?=
- =?utf-8?B?SFdYNlZ1bnNmQXduWjhXRTcxTldhRU51eGJWSE9DZUlINDJvWWFySnl6d25D?=
- =?utf-8?B?N2lMcE9MRUY1RUUwVWhoMkx4eDhLczI0NmczYTRpamxtUFV3dFp4a0pNYVBj?=
- =?utf-8?B?Q2o2VXpYRjRocEV5dGovWjNsS0hHSm1mWVNKZEN3UkE3T3EvTTZURm9KblhB?=
- =?utf-8?B?OGFlRUhmZmVEQzhSR0RWVDFMYTJGN01ZSHNVTnhKRmlOV1RPZHR5Y2lKUlJy?=
- =?utf-8?B?Zzlqc0dxSTJmOVpROGhjOEhFZk9uUjBxeS90dTNxYjQ1OVZ3V2w2QWo2M1ph?=
- =?utf-8?B?WVJSYkVHektTb0FwdDZLeE5HRFV0UmVFWFl5dDVoRDl2OW40TjdaSlhmNHlI?=
- =?utf-8?B?ZjNuMWhnK0tLd3I0V1ZadkRsMHhmalUyN0RhODNjNGtxUmpBb2xNMVk5eGFO?=
- =?utf-8?B?RDZxL050dGpqYTJMU2theFdzV3ZURU9sR1hYMGQwaDRFdGpiYUpEWFY1NjBm?=
- =?utf-8?B?RlRmcCtxU3lNejFVUkJQbkcwdk1RcjlKZEZ1bTZvMmNNVXdiRDZORkJQaTVD?=
- =?utf-8?B?Y3A5d3liV1lBdjFKUlFDekQ1UVBaYmZGeGJsVmcxVGZtTGVxMlBsMTJlc3R2?=
- =?utf-8?B?WU01bDR6akRBUU5hNndVZUJReEVNTVk4YjhIU3lvdno2VlUwZ2lSV2dwS1dl?=
- =?utf-8?B?eVZzTnpZTUNwRm1uc3Z0Z002Z3M3OUhPazhxV2xraEdPZ0JWeEhVSXYvOTl1?=
- =?utf-8?B?Q09nU1R3R2pBL1l0UzhYK3ZqSVpMTEkrdGVSM29uYXYvdjNCYXlXMFQ4M0Uw?=
- =?utf-8?B?ekhCTW9zOS9ibU9mSVI4QWJNRjMya1Q0a2J0eWl5TXFnamdhOVFyWmsySkNH?=
- =?utf-8?B?dWkxcm1SQ1YvTzVEbGxNaDZqUFcrdzl2cFE1cFFDK1U1S1RiS3pqNDF1N0RX?=
- =?utf-8?B?RnFYZW5CcGVDNmR6UEsvSzlPMkFDaEhpWm8yMUlXbXBZaHZwMTNqcjJhbTlp?=
- =?utf-8?B?TGVkTkZ5QVZxV1dLQy9TbnY5SXhvaDZnblQvcUQyeXNoMDFEL0pmU2t4SHFK?=
- =?utf-8?B?T0xyN3dFTi83ZzM0Nk5Rckc5MnRtQ1NteE43VTlzb0hUWGVDMzE1dWZjUUtr?=
- =?utf-8?B?dm1vemliUXJZS0RCQjFKV1R2aWRHYXJ0VU1aUHIwelIydnEvcEkzRy9wRTB1?=
- =?utf-8?B?OVpHQmlqcFViZXQ1YlNJaXNHVVU3MkZiWSt1MjJQdlFxaitCNWt1WTlZeGcw?=
- =?utf-8?B?Z0VQWjY3dXR5dmlIakVETW81emNqUWFHZnk4WWVjU29tOEZBREtnaTdMQTMw?=
- =?utf-8?B?SXhwa2hBRStCemVKaGdXNUJzRXZUeVJmdnRJQWsvb2pnUUg0bVkwT1J4UCtK?=
- =?utf-8?B?R3o0Yi9ZSVZ5Q2dhOXJhZ2RYMkJTSXJnTENsRW13b3ZtMWlOZU9IWVIyMktM?=
- =?utf-8?B?WkZwN0R4dkhJT1l3ZVpiSzdsYWZwR3p4SUdMVStQQzFFZlY4bllqSkJkMWh3?=
- =?utf-8?B?UjZMbW1MUkFwQ0Q1RFJCVTJPKzJPNmwwTkxNWUllaE41V3AwaWdZNjd0cm5x?=
- =?utf-8?B?SEtJZjBERnozdC9LNE1xaXlHYmpmNFhTbmplY2ttQlpYL053RldqWW1oSVFo?=
- =?utf-8?Q?czWKk0w59MV53kTjzHiJrjg8Ma9som9ISR3lhqcwFVF4?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <37301F514FDDCF49ADF1B8B7528ED8AF@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BGfTuooK;
+ spf=pass (domain: gmail.com, ip: 209.85.222.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f41.google.com with SMTP id c36so2274350uae.13
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Feb 2022 00:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rhD31s/O4fjLtsX0UE9uOn22KzGjwtMX4lmJFYEmJ+E=;
+        b=BGfTuooKVguWFhN2SJYdsHT5D0z0umw79xuK7f+r9v+8z9/fkn0BVOFTSpD5jY+YpG
+         8BsDKb8lGB7GJE9nkn8Zv/5ERZLfveOhSW9TBqvSYiYn3HbQlWbEvqQFX3oaM8i4DqGQ
+         0RF7PwIVbGLcn7IwzigFy8qVWXLzV1VIpAH2er1ZpbzRSARcyrW3bW7q7PlDTvB4Uu+L
+         UnDuYZ+W8i7wdW87tMgo7Bf7jYsklVQf5JREW3y4eLXtGQSZKAPNV8WrTCom/LJ/f/dC
+         oQmLotIcc9O0QiQU+6VFPepD0jn1/RgSqCdqoObPjhnDMrMDxQGnRKHSjwYsol8026+r
+         i6OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rhD31s/O4fjLtsX0UE9uOn22KzGjwtMX4lmJFYEmJ+E=;
+        b=0Ll+wTiL2GRFkqhvImNDUpSTsSt94w0epmFtK9eNi0GQ6A0KzPQz50FY2EB1vhVocG
+         wlg9MuRoPSlF3PV6hEoBLgF8cHMdu8KC72LCg/mT9KTJ2J/SK8hNf9XD9iAzwyI7iaLm
+         /XvBaGb6igjm+m/tDhaj000j9lpy8xpsgyXfdpcwUZtZ9v6G96qWufl6Cl8GXlH7UiAF
+         8mnNJNWrkWkGQZIhlmHRyKEAPbNl3Rh+P3muXOOzv9pCYN+b+rxZMQyo/2+y2dAPkDVn
+         UtsWpavqgCoDLOxVeaUdNn9TYcY+/uA/DLFIH39oYW410kH1/QyJxWGn6OHRRtA7KmAD
+         SgTw==
+X-Gm-Message-State: AOAM530gEJ8Uz573KS6dBef9BoT0NxeGzo39oTZx4SHCI8KYPCI2leSb
+	r6vo18fQ+PsZCcv8Wz9fY0ZlNu9nLRyAH1tKD+o=
+X-Google-Smtp-Source: 
+ ABdhPJxvxVbHe/x5VdLNrkt7B+MjLQClWPDGet0052tvY0V4TgKi2v3zDH2JEBGLICuxZtWZJeurwaOZ1DjjQCdftFQ=
+X-Received: by 2002:ab0:6919:0:b0:33d:da7:8bc1 with SMTP id
+ b25-20020ab06919000000b0033d0da78bc1mr646830uas.89.1645086433797; Thu, 17 Feb
+ 2022 00:27:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- acf6ff15-4581-4566-7e06-08d9f1b697e7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2022 01:41:18.3570
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- yIhZL9YcFwHJ2gxQr1WfE/nfNsBWKm0oPZ0toDgmQGQkNWkiNgAso1obkLQWKc+sTL0umPWMR1/IJA3cKeNQdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4563
-X-OriginatorOrg: intel.com
+References: <20220207010823.143664-1-quaresma.jose@gmail.com>
+ <20220207010823.143664-7-quaresma.jose@gmail.com>
+ <CANNYZj8SNr_MA86N9kL7jQw27QV8gDtwH_hSD_a9tfTVL8xd+Q@mail.gmail.com>
+ <CANPvuRkJpThUEjiKfzvg4m+Dz_-ChDRu8Yy1LsSnTmK8FdgoDg@mail.gmail.com>
+ <720ba17c-525a-3ad0-9c61-f2bc8db82468@denx.de>
+ <CANNYZj91L_QUcx-x8YSdSBo6gOqgzY0Cogh7r0ZphW_k4tf-gQ@mail.gmail.com>
+ <CANPvuRnZ8PLFsEp=-jQsFWUGoMz2FX=u58yC7pbKr7pof-g5FQ@mail.gmail.com>
+In-Reply-To: 
+ <CANPvuRnZ8PLFsEp=-jQsFWUGoMz2FX=u58yC7pbKr7pof-g5FQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 17 Feb 2022 09:27:01 +0100
+Message-ID: 
+ <CANNYZj9ZM7jQU7PU5Np7L6KocegYA7Qb9B9OfVgWm11VuWy3Nw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 07/17] gstreamer1.0: upgrade 1.18.5 -> 1.20.0
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Claudius Heine <ch@denx.de>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 01:41:23 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 08:27:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161792
+ https://lists.openembedded.org/g/openembedded-core/message/161793
 
-T24gV2VkLCAyMDIyLTAyLTE2IGF0IDEwOjIyICswMTAwLCBNYXJ0aW4gSmFuc2Egd3JvdGU6DQo+
-IFVidW50dSBwYXRjaGVkIHRoZWlyIGRvY2tlci5pbyBwYWNrYWdlIHNob3J0bHkgYWZ0ZXIgdXBn
-cmFkaW5nIHRvDQo+IGdsaWJjLTIuMzQgaW4gVWJ1bnR1LTIxLjEwLCBzZWU6DQo+IGh0dHA6Ly9j
-aGFuZ2Vsb2dzLnVidW50dS5jb20vY2hhbmdlbG9ncy9wb29sL3VuaXZlcnNlL2QvZG9ja2VyLmlv
-L2RvY2tlci5pb18yMC4xMC43LTB1YnVudHU1fjIwLjA0LjIvY2hhbmdlbG9nDQo+IA0KPiBkb2Nr
-ZXIuaW8gKDIwLjEwLjctMHVidW50dTQpIGltcGlzaDsgdXJnZW5jeT1tZWRpdW0NCj4gDQo+IMKg
-ICogZC9wL3NlY2NvbXAtYWRkLXN1cHBvcnQtZm9yLWNsb25lMy1zeXNjYWxsLWluLWRlZmF1bHQt
-DQo+IHBvbGljeS5wYXRjaDogRml4DQo+IMKgIMKgIGZhaWx1cmUgd2l0aCBuZXcgZ2xpYmMgY2xv
-bmUzIHN5c2NhbGwgYWRkaW5nIGl0IHRvIHRoZSBkZWZhdWx0DQo+IHNlY2NvbXANCj4gwqAgwqAg
-cG9saWN5IChMUDogIzE5NDMwNDkpLg0KPiANCj4gwqAtLSBMdWNhcyBLYW5hc2hpcm8gPGthbmFz
-aGlyb0B1YnVudHUuY29tPiDCoEZyaSwgMTAgU2VwIDIwMjEgMTU6MzQ6MzgNCj4gLTAzMDANCj4g
-DQo+IEFGQUlLIFVidW50dSBpc24ndCBhZmZlY3RlZCBhbnltb3JlLCBJJ3ZlDQo+IHVwZGF0ZWTC
-oGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTcxMSBh
-bmQNCj4gSSdtIGZpbmUgd2l0aCBkcm9wcGluZyB0aGUgcGF0Y2ggbm93IChpdCB3YXMgdXNlZnVs
-IGJlZm9yZSwgYnV0IG5vdw0KPiBkaXN0cmlidXRpb25zIGhhZCBlbm91Z2ggdGltZSB0byBwcmVw
-YXJlIGZvciAyLjM0IGNoYW5nZXMpLg0KDQpJbiBjYXNlIHRoZSB1bmluYXRpdmUgdXBncmFkZSBp
-cyBtZXJnZWQgaW4gc3RhYmxlL0xUUyBicmFuY2hlcywgaXQNCm1pZ2h0IHN0YXJ0IHNob3dpbmcg
-dXAgZmFpbHVyZXMgZm9yIHBlb3BsZSBidWlsZGluZyBvbiBvbGRlcg0KZGlzdHJpYnV0aW9ucyB0
-aGF0IGFyZW4ndCBiZWluZyB1cGRhdGVkIGFueSBtb3JlLg0KDQpUaGFua3MsDQoNCkFudWoNCg0K
-PiANCj4gT24gV2VkLCBGZWIgMTYsIDIwMjIgYXQgOTozMSBBTSBob25neHUgPGhvbmd4dS5qaWFA
-d2luZHJpdmVyLmNvbT4NCj4gd3JvdGU6DQo+ID4gRnJvbSB1cHN0cmVhbSBkb2NrZXIgZ2l0aHVi
-IFsxXQ0KPiA+IFRoZSBpc3N1ZSB3YXMgZm91bmQgaW7CoDIwLjEwLjcsIHRoZSB0aGUgZml4IHdh
-cyBtZXJnZWQNCj4gPiBpbsKgdjIwLjEwLjEwLXJjMSBbMl0NCj4gPiBGcm9tIGRvY2tlciByZWxl
-YXNlIG5vdGVzLCBpdCB3YXMgcHVibGlzaGVkIGluIHZlcnNpb24gMjAuMTAuMTAgYXQNCj4gPiAy
-MDIxLTEwLTI1WzNdDQo+ID4gDQo+ID4gSW4gdWJ1bnR1IDIwLjA0LjIsIHRoZSBkb2NrZXIgdmVy
-c2lvbiBpc8KgMjAuMTAuNyAoMjAuMTAuNy0NCj4gPiAwdWJ1bnR1MX4yMC4wNC4yKcKgWzRdLA0K
-PiA+IA0KPiA+IEZyb20gWzVdLMKgVWJ1bnR1IDIxLjEwIGFuZCBGZWRvcmEgMzUgaGFzIHRoZSBp
-c3N1ZQ0KPiA+IA0KPiA+IFsxXcKgaHR0cHM6Ly9naXRodWIuY29tL21vYnkvbW9ieS9pc3N1ZXMv
-NDI2ODANCj4gPiANCj4gPiBzZWNjb21wIGZpbHRlciBicmVha3MgbGF0ZXN0IGdsaWJjIChpbiBm
-ZWRvcmEgcmF3aGlkZSkgYnkgYmxvY2tpbmcNCj4gPiBjbG9uZTMgd2l0aCBFUEVSTSDCtyBJc3N1
-ZSAjNDI2ODAgwrcgbW9ieS9tb2J5IMK3IEdpdEh1Yg0KPiA+IENsaWVudDogVmVyc2lvbjogMjAu
-MTAuNyBBUEkgdmVyc2lvbjogMS40MSBHbyB2ZXJzaW9uOiBnbzEuMTYuNiBHaXQNCj4gPiBjb21t
-aXQ6IGYwZGYzNTAgQnVpbHQ6IE1vbiBKdWwgMjYgMTY6MzQ6MjkgMjAyMSBPUy9BcmNoOg0KPiA+
-IGxpbnV4L2FtZDY0IENvbnRleHQ6IGRlZmF1bHQgRXhwZXJpbWVudGFsIC4uLg0KPiA+IGdpdGh1
-Yi5jb20NCj4gPiDunJENCj4gPiBbMl3CoA0KPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS9tb2J5L21v
-YnkvY29tbWl0LzY4MzVkMTVmNTUyMzA2M2YwYTA0YTg2ZDQ4MTBhNjMNCj4gPiA3YzYwMTBkNjIN
-Cj4gPiANCj4gPiBbMjAuMTBdIHVwZGF0ZSBjb250YWluZXJkIGJpbmFyeSB0byB2MS40LjEwIMK3
-IG1vYnkvbW9ieUA2ODM1ZDE1DQo+ID4gLSBVcGRhdGUgcnVuYyB0byB2MS4wLjIgLSBVcGRhdGUg
-aGNzc2hpbSB0byB2MC44LjIxIC0gU3VwcG9ydA0KPiA+ICZxdW90O2Nsb25lMyZxdW90OyBpbiBk
-ZWZhdWx0IHNlY2NvbXAgcHJvZmlsZSAtIEZpeCBwYW5pYyBpbg0KPiA+IG1ldGFkYXRhIGNvbnRl
-bnQgd3JpdGVyIG9uIGNvcHkgZXJyb3IgU2lnbmVkLW9mZi1ieTogU2ViYXN0aWFhbiB2YW4NCj4g
-PiBTdGlqbi4uLg0KPiA+IGdpdGh1Yi5jb20NCj4gPiDunJENCj4gPiANCj4gPiBbM13CoGh0dHBz
-Oi8vZG9jcy5kb2NrZXIuY29tL2VuZ2luZS9yZWxlYXNlLW5vdGVzLyMyMDEwMTANCj4gPiBEb2Nr
-ZXIgRW5naW5lIHJlbGVhc2Ugbm90ZXMgLSBEb2NrZXIgRG9jdW1lbnRhdGlvbg0KPiA+IERvY2tl
-ciBFbmdpbmUgcmVsZWFzZSBub3Rlcy4gVGhpcyBkb2N1bWVudCBkZXNjcmliZXMgdGhlIGxhdGVz
-dA0KPiA+IGNoYW5nZXMsIGFkZGl0aW9ucywga25vd24gaXNzdWVzLCBhbmQgZml4ZXMgZm9yIERv
-Y2tlciBFbmdpbmUuDQo+ID4gTm90ZTogVGhlIGNsaWVudCBhbmQgY29udGFpbmVyIHJ1bnRpbWUg
-YXJlIG5vdyBpbiBzZXBhcmF0ZSBwYWNrYWdlcw0KPiA+IGZyb20gdGhlIGRhZW1vbiBpbiBEb2Nr
-ZXIgRW5naW5lIDE4LjA5LiBVc2VycyBzaG91bGQgaW5zdGFsbCBhbmQNCj4gPiB1cGRhdGUgYWxs
-IHRocmVlIHBhY2thZ2VzIGF0IHRoZSBzYW1lIHRpbWUgdG8gZ2V0IHRoZSBsYXRlc3QgcGF0Y2gN
-Cj4gPiByZWxlYXNlcy4NCj4gPiBkb2NzLmRvY2tlci5jb20NCj4gPiANCj4gPiANCj4gPiBbNF3C
-oA0KPiA+IGh0dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3VidW50dS8rc291cmNlL2RvY2tlci5p
-by8rYnVnLzE5NDgzNjENCj4gPiBCdWcgIzE5NDgzNjEg4oCcZG9ja2VyLmlvIC0gZXJyb3IgYWRk
-aW5nIHNlY2NvbXAgZmlsdGVyIHJ1bGUgZm9yIHMuLi4NCj4gPiA6IEJ1Z3MgOiBkb2NrZXIuaW8g
-cGFja2FnZSA6IFVidW50dQ0KPiA+IEVuY291bnRlcmVkIHRoZSBmb2xsb3dpbmcgZXJyb3IgdXNp
-bmcgdGhlIGRvY2tlci5pbyBwYWNrYWdlIGluDQo+ID4gZm9jYWwtcHJvcG9zZWQgcnVubmluZyB0
-aGUgYXV0b3Rlc3QtY2xpZW50LQ0KPiA+IHRlc3QvdWJ1bnR1X3BlcmZvcm1hbmNlX2RlZXBfbGVh
-cm5pbmcgdGVzdC4gImRvY2tlcjogRXJyb3IgcmVzcG9uc2UNCj4gPiBmcm9tIGRhZW1vbjogZmFp
-bGVkIHRvIGNyZWF0ZSBzaGltOiBPQ0kgcnVudGltZSBjcmVhdGUgZmFpbGVkOg0KPiA+IGNvbnRh
-aW5lcl9saW51eC5nbzozODA6IHN0YXJ0aW5nIGNvbnRhaW5lciBwcm9jZXNzIGNhdXNlZDogZXJy
-b3INCj4gPiBhZGRpbmcgc2VjY29tcCBmaWx0ZXIgcnVsZSBmb3Igc3lzY2FsbCBjbG9uZTM6IHBl
-cm1pc3Npb24gZGVuaWVkOg0KPiA+IHVua25vd24uIiBUaGlzIHRlc3QgZXNzZW50aWFsbHkgcHVs
-bHMgZG93biBhIG52aWRpYSB0ZW5zb3JmbG93DQo+ID4gZG9ja2VyIGNvbnRhaW5lciwgcnVucyB0
-aGUgY29udGFpbmVyIGFuZCB0cmlnZ2VycyB0aGUgcHJlbG9hZGVkIC4uLg0KPiA+IGJ1Z3MubGF1
-bmNocGFkLm5ldA0KPiA+IO6ckQ0KPiA+IA0KPiA+IFs1XcKgDQo+ID4gaHR0cHM6Ly9wYXNjYWxy
-b2VsZXZlbi5ubC8yMDIxLzA5LzA5L3VidW50dS0yMS0xMC1hbmQtZmVkb3JhLTM1LWluLQ0KPiA+
-IGRvY2tlci8NCj4gPiBVYnVudHUgMjEuMTAgYW5kIEZlZG9yYSAzNSBpbiBEb2NrZXIg4oCTIFBh
-c2NhbCBSb2VsZXZlbg0KPiA+IEhlcmUgSSBhbSwgYmFjayBhZ2FpbiB3aXRoIGFub3RoZXIgcG9z
-dCB3aGljaCBJIHRoaW5rIHRoZSBpbnRlcm5ldA0KPiA+IG5lZWRzLiBJdCB0b29rIG1lIGRheXMg
-dG8gZmlndXJlIGl0IG91dCBhbmQgSSBjYW7igJl0IGltYWdpbmUgdGhlcmUNCj4gPiBhcmVu4oCZ
-dCBtb3JlIHBlb3BsZSB3aG8gYXJlIHJ1bm5pbmcgaW50byB0aGUgc2FtZSBpc3N1ZS4NCj4gPiBw
-YXNjYWxyb2VsZXZlbi5ubA0KPiA+IA0KPiA+IC8vSG9uZ3h1DQo+ID4gRnJvbTogS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDE2LCAy
-MDIyIDEyOjA4IFBNDQo+ID4gVG86IEppYSwgSG9uZ3h1IDxIb25neHUuSmlhQHdpbmRyaXZlci5j
-b20+DQo+ID4gQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
-b24ub3JnPjsNCj4gPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+
-ID4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+ID4gU3ViamVj
-dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjMgMS8zXSBnbGliYzogVXBncmFkZSB0byAyLjM1IChS
-RkMpwqANCj4gPiBbUGxlYXNlIG5vdGU6IFRoaXMgZS1tYWlsIGlzIGZyb20gYW4gRVhURVJOQUwg
-ZS1tYWlsIGFkZHJlc3NdDQo+ID4gDQo+ID4gDQo+ID4gT24gVHVlLCBGZWIgMTUsIDIwMjIgYXQg
-NjoyOCBQTSBKaWEsIEhvbmd4dQ0KPiA+IDxIb25neHUuSmlhQHdpbmRyaXZlci5jb20+IHdyb3Rl
-Og0KPiA+ID4gSGkga2hlbSwNCj4gPiA+IA0KPiA+ID4gVXBzdHJlYW0gZ2xpYmMgcmVqZWN0IGl0
-IGJlY2F1c2UgdGhlIGxhdGVzdCBkb2NrZXIgaGFzIHN1cHBvcnRlZA0KPiA+ID4gaXRbMV0sIGFu
-ZCB1cHN0cmVhbSBnbGliYyBkb2VzIG5vdCBiYWNrd2FyZCBjb21wYXRpYmlsaXR5IHdpdGgNCj4g
-PiA+IG9sZCBkb2NrZXJbMl0NCj4gPiA+IA0KPiA+ID4gSW4gb3JkZXIgdG8gYnVpbGQgWW9jdG8g
-d2l0aCB1bmluYXRpdmUgaW4gb2xkIGRvY2tlciwgd2UgbmVlZA0KPiA+ID4gdGhpcyBsb2NhbCBw
-YXRjaA0KPiA+IA0KPiA+IEhvdyBvbGQgaXMgdGhlIGRvY2tlciBhbmQgSSBhc3N1bWUNCj4gPiBJ
-dOKAmXMgc29tZSBkaXN0cmlidXRpb24gbmVlZGluZyBpdCA/wqANCj4gPiA+IA0KPiA+ID4gWzFd
-wqANCj4gPiA+IGh0dHBzOi8vZ2l0aHViLmNvbS9tb2J5L21vYnkvY29tbWl0LzlmNmI1NjJkZDEy
-ZWY3YjFmOWUyZjhlNmYyYWI2DQo+ID4gPiA0Nzc3OTBhNjU5NA0KPiA+ID4gDQo+ID4gPiBzZWNj
-b21wOiBhZGQgc3VwcG9ydCBmb3IgImNsb25lMyIgc3lzY2FsbCBpbiBkZWZhdWx0IHBvbGljeSDC
-tw0KPiA+ID4gbW9ieS9tb2J5QDlmNmI1NjINCj4gPiA+IElmIG5vIHNlY2NvbXAgcG9saWN5IGlz
-IHJlcXVlc3RlZCwgdGhlbiB0aGUgYnVpbHQtaW4gZGVmYXVsdA0KPiA+ID4gcG9saWN5IGluIGRv
-Y2tlcmQgYXBwbGllcy4gVGhpcyBoYXMgbm8gcnVsZSBmb3INCj4gPiA+ICZxdW90O2Nsb25lMyZx
-dW90OyBkZWZpbmVkLCBub3IgYW55IGRlZmF1bHQgZXJybm8gZGVmaW5lZC4gU28NCj4gPiA+IHdo
-ZW4gcnVuYyByZWNlaXZlcyB0aGUgY29uLi4uDQo+ID4gPiBnaXRodWIuY29tDQo+ID4gPiDunJEN
-Cj4gPiA+IA0KPiA+ID4gWzJdDQo+ID4gPiBodHRwczovL3NvdXJjZXdhcmUub3JnL3BpcGVybWFp
-bC9saWJjLWFscGhhLzIwMjEtQXVndXN0LzEzMDU5MC5odA0KPiA+ID4gbWwNCj4gPiA+IA0KPiA+
-ID4gLy9Ib25neHUNCj4gPiA+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+
-ID4gPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDE2LCAyMDIyIDEyOjE3IEFNDQo+ID4gPiBU
-bzogSmlhLCBIb25neHUgPEhvbmd4dS5KaWFAd2luZHJpdmVyLmNvbT4NCj4gPiA+IENjOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA8b3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IFJpY2hhcmQgUHVyZGllDQo+ID4gPiA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIIHYzIDEvM10gZ2xpYmM6IFVwZ3JhZGUgdG8gMi4zNQ0KPiA+ID4gKFJGQynC
-oA0KPiA+ID4gW1BsZWFzZSBub3RlOiBUaGlzIGUtbWFpbCBpcyBmcm9tIGFuIEVYVEVSTkFMIGUt
-bWFpbCBhZGRyZXNzXQ0KPiA+ID4gDQo+ID4gPiANCj4gPiA+IE9uIFR1ZSwgRmViIDE1LCAyMDIy
-IGF0IDEyOjI1IEFNIEppYSwgSG9uZ3h1DQo+ID4gPiA8SG9uZ3h1LkppYUB3aW5kcml2ZXIuY29t
-PiB3cm90ZToNCj4gPiA+ID4gDQo+ID4gPiA+IE9uIDIvOS8yMiAwNjo1MywgS2hlbSBSYWogd3Jv
-dGU6DQo+ID4gPiA+IA0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
-YmMvZ2xpYmMvMDAwMS1maXgtY3JlYXRlLQ0KPiA+ID4gPiB0aHJlYWQtZmFpbGVkLWluLXVucHJp
-dmlsZWdlZC1wcm9jZXNzLUJaLS5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gPiA+ID4gY29yZS9n
-bGliYy9nbGliYy8wMDAxLWZpeC1jcmVhdGUtdGhyZWFkLWZhaWxlZC1pbi11bnByaXZpbGVnZWQt
-DQo+ID4gPiA+IHByb2Nlc3MtQlotLnBhdGNoDQo+ID4gPiA+IGRlbGV0ZWQgZmlsZSBtb2RlIDEw
-MDY0NA0KPiA+ID4gPiBpbmRleCAzMjgzZGQ3YWQ4YS4uMDAwMDAwMDAwMDANCj4gPiA+ID4gLS0t
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvMDAwMS1maXgtY3JlYXRlLXRocmVhZC0N
-Cj4gPiA+ID4gZmFpbGVkLWluLXVucHJpdmlsZWdlZC1wcm9jZXNzLUJaLS5wYXRjaA0KPiA+ID4g
-PiArKysgL2Rldi9udWxsDQo+ID4gPiA+IEBAIC0xLDc5ICswLDAgQEANCj4gPiA+ID4gLUZyb20g
-YThiYzQ0OTM2MjAyNjkyZWRjZDgyYTQ4YzA3ZDdjZjI3ZDZlZDhlZSBNb24gU2VwIDE3DQo+ID4g
-PiA+IDAwOjAwOjAwIDIwMDENCj4gPiA+ID4gLUZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFA
-d2luZHJpdmVyLmNvbT4NCj4gPiA+ID4gLURhdGU6IFN1biwgMjkgQXVnIDIwMjEgMjA6NDk6MTYg
-KzA4MDANCj4gPiA+ID4gLVN1YmplY3Q6IFtQQVRDSF0gZml4IGNyZWF0ZSB0aHJlYWQgZmFpbGVk
-IGluIHVucHJpdmlsZWdlZA0KPiA+ID4gPiBwcm9jZXNzIFtCWiAjMjgyODddDQo+ID4gPiA+IC0N
-Cj4gPiA+ID4gLVNpbmNlIGNvbW1pdCBbZDhlYTBkMDE2OCBBZGQgYW4gaW50ZXJuYWwgd3JhcHBl
-ciBmb3IgY2xvbmUsDQo+ID4gPiA+IGNsb25lMiBhbmQgY2xvbmUzXQ0KPiA+ID4gPiAtYXBwbGll
-ZCwgc3RhcnQgYSB1bnByaXZpbGVnZWQgY29udGFpbmVyIChkb2NrZXIgcnVuIHdpdGhvdXQgLS0N
-Cj4gPiA+ID4gcHJpdmlsZWdlZCksDQo+ID4gPiA+IC1pdCBjcmVhdGVzIGEgdGhyZWFkIGZhaWxl
-ZCBpbiBjb250YWluZXIuDQo+ID4gPiA+IC0NCj4gPiA+ID4gLUluIGNvbW1pdCBkOGVhMGQwMTY4
-LCBpdCBjYWxscyBfX2Nsb25lMyBpZiBIQVZFX0NMT05FM19XQVBQRVINCj4gPiA+ID4gaXMgZGVm
-aW5lZC7CoCBJZg0KPiA+ID4gPiAtX19jbG9uZTMgcmV0dXJucyAtMSB3aXRoIEVOT1NZUywgZmFs
-bCBiYWNrIHRvIGNsb25lIG9yIGNsb25lMi4NCj4gPiA+ID4gLQ0KPiA+ID4gPiAtQXMga25vd24g
-ZnJvbSBbMV0sIGNsb25lWFhYIGZhaWxzIHdpdGggRVBFUk0gaWYNCj4gPiA+ID4gQ0xPTkVfTkVX
-Q0dST1VQLA0KPiA+ID4gPiAtQ0xPTkVfTkVXSVBDLCBDTE9ORV9ORVdORVQsIENMT05FX05FV05T
-LCBDTE9ORV9ORVdQSUQsIG9yDQo+ID4gPiA+IENMT05FX05FV1VUUw0KPiA+ID4gPiAtd2FzIHNw
-ZWNpZmllZCBieSBhbiB1bnByaXZpbGVnZWQgcHJvY2VzcyAocHJvY2VzcyB3aXRob3V0DQo+ID4g
-PiA+IENBUF9TWVNfQURNSU4pDQo+ID4gPiA+IC0NCj4gPiA+ID4gLVsxXSBodHRwczovL21hbjcu
-b3JnL2xpbnV4L21hbi1wYWdlcy9tYW4yL2Nsb25lMy4yLmh0bWwNCj4gPiA+ID4gLQ0KPiA+ID4g
-PiAtU28gaWYgX19jbG9uZTMgcmV0dXJucyAtMSB3aXRoIEVQRVJNLCBmYWxsIGJhY2sgdG8gY2xv
-bmUgb3INCj4gPiA+ID4gY2xvbmUyIGNvdWxkDQo+ID4gPiA+IC1maXggdGhlIGlzc3VlLiBIZXJl
-IGFyZSB0aGUgdGVzdCBzdGVwczoNCj4gPiA+ID4gLQ0KPiA+ID4gPiANCj4gPiA+ID4gSGkgUlAs
-DQo+ID4gPiA+IA0KPiA+ID4gPiANCj4gPiA+ID4gSSBmb3VuZCB0aGlzIGxvY2FsIHBhdGNoIHdh
-cyByZW1vdmVkIGZyb20gZ2xpYmMsIHdlIGhhdmUgdG8gZ2V0DQo+ID4gPiA+IGl0IGJhY2sgYW5k
-IHJlZ2VuZXJhdGUgdW5pbmF0aXZlIHRvIGF2b2lkIHRoZSB0aHJlYWQgY3JlYXRpb24NCj4gPiA+
-ID4gZmFpbHVyZSBpbsKgIHVucHJpdmlsZWdlZCBjb250YWluZXINCj4gPiA+ID4gDQo+ID4gPiAN
-Cj4gPiA+IEkgaW50ZW50aW9uYWxseSBkcm9wcGVkIGl0IHNpbmNlIHVwc3RyZWFtIGdsaWJjIHdp
-bGwgbm90IGFjY2VwdA0KPiA+ID4gdGhpcw0KPiA+ID4gcGF0Y2ggc2luY2UgaXRzIG5vdCBnbGli
-YyBwcm9ibGVtIGJ1dA0KPiA+ID4gcmF0aGVyIGNvbnRhaW5lciBydW50aW1lIHByb2JsZW0uIENh
-biB5b3UgaW52ZXN0aWdhdGUgdGhhdCBwYXRoDQo+ID4gPiBiZWZvcmUNCj4gPiA+IHdlIHJlYXBw
-bHkgaXQuIE1haW50YWluaW5nIGEgcmVqZWN0ZWQgcGF0Y2ggaXMgbGFzdCB0aGluZyB3ZSB3YW50
-DQo+ID4gPiB0bw0KPiA+ID4gZG8uDQo+ID4gPiANCj4gPiA+ID4gDQo+ID4gPiA+IC8vSG9uZ3h1
-DQo+ID4gDQo+ID4gDQo+ID4gDQo+IA0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5r
-czogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9S
-ZXBseSBPbmxpbmUgKCMxNjE3NzIpOg0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-Zy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE2MTc3Mg0KPiBNdXRlIFRoaXMgVG9waWM6IGh0
-dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC84OTAwOTI3Ni8zNjE2NzAyDQo+IEdyb3Vw
-IE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+
-IFVuc3Vic2NyaWJlOg0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1i
-ZWRkZWQtY29yZS91bnN1YsKgWw0KPiBhbnVqLm1pdHRhbEBpbnRlbC5jb21dDQo+IC09LT0tPS09
-LT0tPS09LT0tPS09LT0tDQo+IA0KDQo=
+Simply send the patch, make sure the commit message explains what it's
+for, and we'll figure it out. RP regularly has such test-only patches
+in master-next, or I can run dedicated ptest builds with it.
+
+Alex
+
+On Thu, 17 Feb 2022 at 00:41, Jose Quaresma <quaresma.jose@gmail.com> wrote=
+:
+>
+>
+>
+> Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia quarta, 9/02/2=
+022 =C3=A0(s) 10:34:
+>>
+>> Yes, it seems to be sporadic. Here's a sample fail:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3083
+>> https://autobuilder.yocto.io/pub/non-release/20220208-14/testresults/qem=
+ux86-64-ptest/gstreamer1.0.log
+>
+>
+>
+> I ask for help upstream but I will try to replicate this with GST_DEBUG e=
+nabled.
+> Which is the best option to send a patch not for merge but only to run on=
+ the autobuilder to generate some logs?
+>
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/778
+>
+>>
+>>
+>> Alex
+>>
+>> On Wed, 9 Feb 2022 at 10:30, Claudius Heine <ch@denx.de> wrote:
+>> >
+>> > Hi Jose
+>> >
+>> > On 2022-02-09 10:15, Jose Quaresma wrote:
+>> > > Hi Alexander,
+>> > >
+>> > > Can you please clarify in what target arch is this happening and I c=
+an
+>> > > try to replicate it with qemu?
+>> >
+>> > I think we are hitting:
+>> > https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/778
+>> >
+>> > This testcase seems to be flaky and IIUC upstream marked it as such in
+>> > their test infrastructure.
+>> >
+>> > In my patchset, I added a patch to disable that testcase.
+>> >
+>> > regards,
+>> > Claudius
+>> >
+>> > >
+>> > > It works on my side on qemux86-64.
+>> > >
+>> > > root@qemux86-64:~# /usr/libexec/installed-tests/gstreamer/gst_gstbin=
+.sh
+>> > > + CK_DEFAULT_TIMEOUT=3D20
+>> > > + GST_PLUGIN_LOADING_WHITELIST=3Dgstreamer
+>> > > + GST_REGISTRY=3D/home/root/.cache/gstreamer-1.0/gst_gstbin.registry
+>> > > + GST_STATE_IGNORE_ELEMENTS=3D
+>> > > + exec /usr/libexec/installed-tests/gstreamer/gst_gstbin
+>> > > Running suite(s): GstBin
+>> > > 100%: Checks: 26, Failures: 0, Errors: 0
+>> > > Check suite gst_bin ran in 6.239s (tests failed: 0)
+>> > >
+>> > >
+>> > > Alexander Kanavin <alex.kanavin@gmail.com
+>> > > <mailto:alex.kanavin@gmail.com>> escreveu no dia ter=C3=A7a, 8/02/20=
+22 =C3=A0(s)
+>> > > 22:01:
+>> > >
+>> > >     Unfortunately this patchset (which is now in master) does not ad=
+dress
+>> > >     the ptest fail. Please resolve this as soon as possible.
+>> > >
+>> > >     + exec /usr/libexec/installed-tests/gstreamer/gst_gstbin
+>> > >     Running suite(s): GstBin
+>> > >     Executing: gstreamer/gst_gstbin.test
+>> > >     Executing: gstreamer/gst_gstbin.test
+>> > >     ....
+>> > >     Executing: gstreamer/gst_gstbin.test
+>> > >     Executing: gstreamer/gst_gstbin.test
+>> > >     Test timed out after 300 seconds
+>> > >     FAIL: gstreamer/gst_gstbin.test (Child process killed by signal =
+9)
+>> > >
+>> > >     Alex
+>> > >
+>> > >     On Mon, 7 Feb 2022 at 02:08, Jose Quaresma <quaresma.jose@gmail.=
+com
+>> > >     <mailto:quaresma.jose@gmail.com>> wrote:
+>> > >      >
+>> > >      > - License update:
+>> > >      >   The code actually is LGPLv2.1 but the COPYING file is wrong=
+.
+>> > >      >
+>> > >     https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d157=
+b23fb0ce175b167611a4cb019599d9017042
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/d15=
+7b23fb0ce175b167611a4cb019599d9017042>
+>> > >      >
+>> > >      > - Drop backported patches
+>> > >      >   0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.p=
+atch
+>> > >      >   0002-Remove-unused-valgrind-detection.patch
+>> > >      >   0003-tests-seek-Don-t-use-too-strict-timeout-for-validati.p=
+atch
+>> > >      >
+>> > >      > - Update submitted patches
+>> > >      >   0001-tests-respect-the-idententaion-used-in-meson.patch
+>> > >      >   0002-tests-add-support-for-install-the-tests.patch
+>> > >      >   0003-tests-use-a-dictionaries-for-environment.patch
+>> > >      >   0004-tests-add-helper-script-to-run-the-installed_tests.pat=
+ch
+>> > >      >
+>> > >      > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > ---
+>> > >      >  ...der.c-when-env-var-is-set-do-not-fal.patch |  69 --------=
+---
+>> > >      >  ...pect-the-idententaion-used-in-meson.patch} |  14 +--
+>> > >      >  ...002-Remove-unused-valgrind-detection.patch | 112
+>> > >     ------------------
+>> > >      >  ...s-add-support-for-install-the-tests.patch} |  67 ++++++--=
+---
+>> > >      >  ...-use-too-strict-timeout-for-validati.patch |  32 -----
+>> > >      >  ...-use-a-dictionaries-for-environment.patch} |  28 +++--
+>> > >      >  ...er-script-to-run-the-installed_tests.patch |  74 ++++++++=
+++++
+>> > >      >  ...-the-environment-for-installed_tests.patch |  58 --------=
+-
+>> > >      >  ...er1.0_1.18.5.bb <http://er1.0_1.18.5.bb> =3D>
+>> > >     gstreamer1.0_1.20.0.bb <http://gstreamer1.0_1.20.0.bb>} |  17 ++=
+-
+>> > >      >  9 files changed, 136 insertions(+), 335 deletions(-)
+>> > >      >  delete mode 100644
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstplugi=
+nloader.c-when-env-var-is-set-do-not-fal.patch
+>> > >      >  rename
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/{0004-tests-respe=
+ct-the-idententaion-used-in-meson.patch
+>> > >     =3D> 0001-tests-respect-the-idententaion-used-in-meson.patch} (7=
+1%)
+>> > >      >  delete mode 100644
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unuse=
+d-valgrind-detection.patch
+>> > >      >  rename
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/{0005-tests-add-s=
+upport-for-install-the-tests.patch
+>> > >     =3D> 0002-tests-add-support-for-install-the-tests.patch} (65%)
+>> > >      >  delete mode 100644
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-seek-D=
+on-t-use-too-strict-timeout-for-validati.patch
+>> > >      >  rename
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/{0006-tests-use-a=
+-dictionaries-for-environment.patch
+>> > >     =3D> 0003-tests-use-a-dictionaries-for-environment.patch} (61%)
+>> > >      >  create mode 100644
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-he=
+lper-script-to-run-the-installed_tests.patch
+>> > >      >  delete mode 100644
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-instal=
+l-the-environment-for-installed_tests.patch
+>> > >      >  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.18.=
+5.bb
+>> > >     <http://gstreamer1.0_1.18.5.bb> =3D> gstreamer1.0_1.20.0.bb
+>> > >     <http://gstreamer1.0_1.20.0.bb>} (76%)
+>> > >      >
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstplu=
+ginloader.c-when-env-var-is-set-do-not-fal.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstplu=
+ginloader.c-when-env-var-is-set-do-not-fal.patch
+>> > >      > deleted file mode 100644
+>> > >      > index 23ebd5c600..0000000000
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstplu=
+ginloader.c-when-env-var-is-set-do-not-fal.patch
+>> > >      > +++ /dev/null
+>> > >      > @@ -1,69 +0,0 @@
+>> > >      > -From fd8f49dba8c09d47425da80f5faab3bfa4a7c962 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > -From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > -Date: Sat, 10 Oct 2020 19:09:03 +0000
+>> > >      > -Subject: [PATCH 1/3] gstpluginloader: when env var is set do=
+ not
+>> > >     fall through
+>> > >      > - to system plugin scanner
+>> > >      > -
+>> > >      > -If we set a custom GST_PLUGIN_SCANNER env var, then we proba=
+bly
+>> > >     want to use that and only that.
+>> > >      > -
+>> > >      > -Falling through to the one installed on the system is
+>> > >     problamatic in cross-compilation
+>> > >      > -environemnts, regardless of whether one pointed to by the en=
+v
+>> > >     var succeeded or failed.
+>> > >      > -
+>> > >      > -taken from:
+>> > >      >
+>> > >     -http://cgit.openembedded.org/openembedded-core/commit/meta/reci=
+pes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-v=
+ar-is-set-do-not-fal.patch?id=3D0db7ba34ca41b107042306d13a6f0162885c123b
+>> > >     <http://cgit.openembedded.org/openembedded-core/commit/meta/reci=
+pes-multimedia/gstreamer/gstreamer1.0/0001-gst-gstpluginloader.c-when-env-v=
+ar-is-set-do-not-fal.patch?id=3D0db7ba34ca41b107042306d13a6f0162885c123b>
+>> > >      > -
+>> > >      > -Part-of:
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/669
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/669>>
+>> > >      > -
+>> > >      > -Upstream-Status: Backport
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9f9=
+58058697e6fbf5bde325228034572331d1a3a
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/9f9=
+58058697e6fbf5bde325228034572331d1a3a>]
+>> > >      > -
+>> > >      > -Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > ----
+>> > >      > - gst/gstpluginloader.c | 15 +++++++--------
+>> > >      > - 1 file changed, 7 insertions(+), 8 deletions(-)
+>> > >      > -
+>> > >      > -diff --git a/gst/gstpluginloader.c b/gst/gstpluginloader.c
+>> > >      > -index d1e404d98..c626bf263 100644
+>> > >      > ---- a/gst/gstpluginloader.c
+>> > >      > -+++ b/gst/gstpluginloader.c
+>> > >      > -@@ -464,20 +464,19 @@ gst_plugin_loader_spawn (GstPluginLoad=
+er *
+>> > >     loader)
+>> > >      > -   if (loader->child_running)
+>> > >      > -     return TRUE;
+>> > >      > -
+>> > >      > --  /* Find the gst-plugin-scanner: first try the env-var if =
+it
+>> > >     is set,
+>> > >      > --   * otherwise use the installed version */
+>> > >      > -+  /* Find the gst-plugin-scanner */
+>> > >      > -   env =3D g_getenv ("GST_PLUGIN_SCANNER_1_0");
+>> > >      > -   if (env =3D=3D NULL)
+>> > >      > -     env =3D g_getenv ("GST_PLUGIN_SCANNER");
+>> > >      > -
+>> > >      > -   if (env !=3D NULL && *env !=3D '\0') {
+>> > >      > -+    /* use the env-var if it is set */
+>> > >      > -     GST_LOG ("Trying GST_PLUGIN_SCANNER env var: %s", env);
+>> > >      > -     helper_bin =3D g_strdup (env);
+>> > >      > -     res =3D gst_plugin_loader_try_helper (loader, helper_bi=
+n);
+>> > >      > -     g_free (helper_bin);
+>> > >      > --  }
+>> > >      > --
+>> > >      > --  if (!res) {
+>> > >      > -+  } else {
+>> > >      > -+    /* use the installed version */
+>> > >      > -     GST_LOG ("Trying installed plugin scanner");
+>> > >      > -
+>> > >      > - #ifdef G_OS_WIN32
+>> > >      > -@@ -497,10 +496,10 @@ gst_plugin_loader_spawn (GstPluginLoad=
+er *
+>> > >     loader)
+>> > >      > - #endif
+>> > >      > -     res =3D gst_plugin_loader_try_helper (loader, helper_bi=
+n);
+>> > >      > -     g_free (helper_bin);
+>> > >      > -+  }
+>> > >      > -
+>> > >      > --    if (!res) {
+>> > >      > --      GST_INFO ("No gst-plugin-scanner available, or not wo=
+rking");
+>> > >      > --    }
+>> > >      > -+  if (!res) {
+>> > >      > -+    GST_INFO ("No gst-plugin-scanner available, or not work=
+ing");
+>> > >      > -   }
+>> > >      > -
+>> > >      > -   return loader->child_running;
+>> > >      > ---
+>> > >      > -2.29.2
+>> > >      > -
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-resp=
+ect-the-idententaion-used-in-meson.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-resp=
+ect-the-idententaion-used-in-meson.patch
+>> > >      > similarity index 71%
+>> > >      > rename from
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-respec=
+t-the-idententaion-used-in-meson.patch
+>> > >      > rename to
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respec=
+t-the-idententaion-used-in-meson.patch
+>> > >      > index 6f571a12d8..312c04fbfd 100644
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-resp=
+ect-the-idententaion-used-in-meson.patch
+>> > >      > +++
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-resp=
+ect-the-idententaion-used-in-meson.patch
+>> > >      > @@ -1,4 +1,4 @@
+>> > >      > -From 122e5ac3dd16a461b6ae595605490c8f5d1c3a9d Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > +From 1eb77a4ea5a3967c688d8f1192f99c605badc7e2 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      >  From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>> > >      >  Subject: [PATCH 1/4] tests: respect the idententaion used in=
+ meson
+>> > >      > @@ -7,13 +7,13 @@ Upstream-Status: Submitted
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/->
+>> > >      >
+>> > >      >  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  ---
+>> > >      > - tests/check/meson.build | 10 +++++-----
+>> > >      > + subprojects/gstreamer/tests/check/meson.build | 10 +++++---=
+--
+>> > >      >   1 file changed, 5 insertions(+), 5 deletions(-)
+>> > >      >
+>> > >      > -diff --git a/tests/check/meson.build b/tests/check/meson.bui=
+ld
+>> > >      > -index a617cf159..b2636714b 100644
+>> > >      > ---- a/tests/check/meson.build
+>> > >      > -+++ b/tests/check/meson.build
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/meson.build
+>> > >     b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +index 9c4228b6e4..506606684d 100644
+>> > >      > +--- a/subprojects/gstreamer/tests/check/meson.build
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/meson.build
+>> > >      >  @@ -146,11 +146,11 @@ foreach t : core_tests
+>> > >      >
+>> > >      >     if not skip_test
+>> > >      > @@ -32,5 +32,5 @@ index a617cf159..b2636714b 100644
+>> > >      >
+>> > >      >       env =3D environment()
+>> > >      >  --
+>> > >      > -2.31.1
+>> > >      > +2.33.1
+>> > >      >
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unu=
+sed-valgrind-detection.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unu=
+sed-valgrind-detection.patch
+>> > >      > deleted file mode 100644
+>> > >      > index 5121044734..0000000000
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unu=
+sed-valgrind-detection.patch
+>> > >      > +++ /dev/null
+>> > >      > @@ -1,112 +0,0 @@
+>> > >      > -From e275ba2bd854ac15a4b65a8f07d9f042021950da Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > -From: =3D?UTF-8?q?Tim-Philipp=3D20M=3DC3=3DBCller?=3D <tim@c=
+entricular.com
+>> > >     <mailto:tim@centricular.com>>
+>> > >      > -Date: Fri, 14 Aug 2020 16:38:26 +0100
+>> > >      > -Subject: [PATCH 2/3] Remove unused valgrind detection
+>> > >      > -
+>> > >      > -Having this just to log a debug message in case we're
+>> > >      > -running inside valgrind doesn't seem very useful, and
+>> > >      > -the code that used to use this no longer exists it seems.
+>> > >      > -
+>> > >      > -Part-of:
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/595
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/595>>
+>> > >      > -
+>> > >      > -Upstream-Status: Backport [a2cbf75523cdf8a4df1baa7007d86ef45=
+5972245]
+>> > >      > -
+>> > >      > -Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > ----
+>> > >      > - gst/gst_private.h |  2 --
+>> > >      > - gst/gstinfo.c     | 39 ------------------------------------=
+---
+>> > >      > - meson.build       |  1 -
+>> > >      > - 3 files changed, 42 deletions(-)
+>> > >      > -
+>> > >      > -diff --git a/gst/gst_private.h b/gst/gst_private.h
+>> > >      > -index eefd044..8252ede 100644
+>> > >      > ---- a/gst/gst_private.h
+>> > >      > -+++ b/gst/gst_private.h
+>> > >      > -@@ -116,8 +116,6 @@ G_GNUC_INTERNAL  gboolean
+>> > >     _priv_plugin_deps_env_vars_changed (GstPlugin * plugin
+>> > >      > -
+>> > >      > - G_GNUC_INTERNAL  gboolean _priv_plugin_deps_files_changed
+>> > >     (GstPlugin * plugin);
+>> > >      > -
+>> > >      > --G_GNUC_INTERNAL  gboolean _priv_gst_in_valgrind (void);
+>> > >      > --
+>> > >      > - /* init functions called from gst_init(). */
+>> > >      > - G_GNUC_INTERNAL  void  _priv_gst_quarks_initialize (void);
+>> > >      > - G_GNUC_INTERNAL  void  _priv_gst_mini_object_initialize (vo=
+id);
+>> > >      > -diff --git a/gst/gstinfo.c b/gst/gstinfo.c
+>> > >      > -index eea1a21..d3035d6 100644
+>> > >      > ---- a/gst/gstinfo.c
+>> > >      > -+++ b/gst/gstinfo.c
+>> > >      > -@@ -305,36 +305,6 @@ static gboolean pretty_tags =3D
+>> > >     PRETTY_TAGS_DEFAULT;
+>> > >      > - static gint G_GNUC_MAY_ALIAS __default_level =3D GST_LEVEL_=
+DEFAULT;
+>> > >      > - static gint G_GNUC_MAY_ALIAS __use_color =3D GST_DEBUG_COLO=
+R_MODE_ON;
+>> > >      > -
+>> > >      > --/* FIXME: export this? */
+>> > >      > --gboolean
+>> > >      > --_priv_gst_in_valgrind (void)
+>> > >      > --{
+>> > >      > --  static enum
+>> > >      > --  {
+>> > >      > --    GST_VG_UNCHECKED,
+>> > >      > --    GST_VG_NO_VALGRIND,
+>> > >      > --    GST_VG_INSIDE
+>> > >      > --  }
+>> > >      > --  in_valgrind =3D GST_VG_UNCHECKED;
+>> > >      > --
+>> > >      > --  if (in_valgrind =3D=3D GST_VG_UNCHECKED) {
+>> > >      > --#ifdef HAVE_VALGRIND_VALGRIND_H
+>> > >      > --    if (RUNNING_ON_VALGRIND) {
+>> > >      > --      GST_CAT_INFO (GST_CAT_GST_INIT, "we're running inside
+>> > >     valgrind");
+>> > >      > --      in_valgrind =3D GST_VG_INSIDE;
+>> > >      > --    } else {
+>> > >      > --      GST_CAT_LOG (GST_CAT_GST_INIT, "not doing extra valgr=
+ind
+>> > >     stuff");
+>> > >      > --      in_valgrind =3D GST_VG_NO_VALGRIND;
+>> > >      > --    }
+>> > >      > --#else
+>> > >      > --    in_valgrind =3D GST_VG_NO_VALGRIND;
+>> > >      > --#endif
+>> > >      > --    g_assert (in_valgrind =3D=3D GST_VG_NO_VALGRIND ||
+>> > >      > --        in_valgrind =3D=3D GST_VG_INSIDE);
+>> > >      > --  }
+>> > >      > --  return (in_valgrind =3D=3D GST_VG_INSIDE);
+>> > >      > --}
+>> > >      > --
+>> > >      > - static gchar *
+>> > >      > - _replace_pattern_in_gst_debug_file_name (gchar * name, cons=
+t
+>> > >     char *token,
+>> > >      > -     guint val)
+>> > >      > -@@ -463,9 +433,6 @@ _priv_gst_debug_init (void)
+>> > >      > -   _priv_GST_CAT_PROTECTION =3D
+>> > >      > -       _gst_debug_category_new ("GST_PROTECTION", 0, "protec=
+tion");
+>> > >      > -
+>> > >      > --  /* print out the valgrind message if we're in valgrind */
+>> > >      > --  _priv_gst_in_valgrind ();
+>> > >      > --
+>> > >      > -   env =3D g_getenv ("GST_DEBUG_OPTIONS");
+>> > >      > -   if (env !=3D NULL) {
+>> > >      > -     if (strstr (env, "full_tags") || strstr (env, "full-tag=
+s"))
+>> > >      > -@@ -2505,12 +2472,6 @@ gst_debug_construct_win_color (guint
+>> > >     colorinfo)
+>> > >      > -   return 0;
+>> > >      > - }
+>> > >      > -
+>> > >      > --gboolean
+>> > >      > --_priv_gst_in_valgrind (void)
+>> > >      > --{
+>> > >      > --  return FALSE;
+>> > >      > --}
+>> > >      > --
+>> > >      > - void
+>> > >      > - _gst_debug_dump_mem (GstDebugCategory * cat, const gchar * =
+file,
+>> > >      > -     const gchar * func, gint line, GObject * obj, const gch=
+ar *
+>> > >     msg,
+>> > >      > -diff --git a/meson.build b/meson.build
+>> > >      > -index 82a1728..42ae617 100644
+>> > >      > ---- a/meson.build
+>> > >      > -+++ b/meson.build
+>> > >      > -@@ -200,7 +200,6 @@ check_headers =3D [
+>> > >      > -   'sys/wait.h',
+>> > >      > -   'ucontext.h',
+>> > >      > -   'unistd.h',
+>> > >      > --  'valgrind/valgrind.h',
+>> > >      > -   'sys/resource.h',
+>> > >      > -   'sys/uio.h',
+>> > >      > - ]
+>> > >      > ---
+>> > >      > -2.29.2
+>> > >      > -
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-=
+support-for-install-the-tests.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-=
+support-for-install-the-tests.patch
+>> > >      > similarity index 65%
+>> > >      > rename from
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-su=
+pport-for-install-the-tests.patch
+>> > >      > rename to
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-su=
+pport-for-install-the-tests.patch
+>> > >      > index b77fb5797f..d18c19c397 100644
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-tests-add-=
+support-for-install-the-tests.patch
+>> > >      > +++
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-=
+support-for-install-the-tests.patch
+>> > >      > @@ -1,4 +1,4 @@
+>> > >      > -From c9e93c7a3e4d2773abef4f5e1464af24f36700b3 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > +From 62f5bb7bfc2498219df7280e73480d8ed2378ce5 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      >  From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>> > >      >  Subject: [PATCH 2/4] tests: add support for install the test=
+s
+>> > >      > @@ -11,54 +11,44 @@ Upstream-Status: Submitted
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/->
+>> > >      >
+>> > >      >  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  ---
+>> > >      > - meson.build             |  5 +++++
+>> > >      > - meson_options.txt       |  1 +
+>> > >      > - template.test.in <http://template.test.in>        |  3 +++
+>> > >      > - tests/check/meson.build | 22 +++++++++++++++++++++-
+>> > >      > - 4 files changed, 30 insertions(+), 1 deletion(-)
+>> > >      > - create mode 100644 template.test.in <http://template.test.i=
+n>
+>> > >      > + subprojects/gstreamer/meson.build             |  4 ++++
+>> > >      > + subprojects/gstreamer/meson_options.txt       |  1 +
+>> > >      > + subprojects/gstreamer/tests/check/meson.build | 22
+>> > >     ++++++++++++++++++-
+>> > >      > + .../gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>    |  3 +++
+>> > >      > + 4 files changed, 29 insertions(+), 1 deletion(-)
+>> > >      > + create mode 100644
+>> > >     subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      >
+>> > >      > -diff --git a/meson.build b/meson.build
+>> > >      > -index c4e8774f5..1abf4eb26 100644
+>> > >      > ---- a/meson.build
+>> > >      > -+++ b/meson.build
+>> > >      > -@@ -562,6 +562,11 @@ if bashcomp_dep.found()
+>> > >      > +diff --git a/subprojects/gstreamer/meson.build
+>> > >     b/subprojects/gstreamer/meson.build
+>> > >      > +index d20fe0040f..b595d8f990 100644
+>> > >      > +--- a/subprojects/gstreamer/meson.build
+>> > >      > ++++ b/subprojects/gstreamer/meson.build
+>> > >      > +@@ -562,6 +562,10 @@ if bashcomp_dep.found()
+>> > >      >     endif
+>> > >      >   endif
+>> > >      >
+>> > >      > ++installed_tests_enabled =3D get_option('installed_tests')
+>> > >      >  +installed_tests_metadir =3D join_paths(datadir,
+>> > >     'installed-tests', meson.project_name())
+>> > >      >  +installed_tests_execdir =3D join_paths(libexecdir,
+>> > >     'installed-tests', meson.project_name())
+>> > >      > -+installed_tests_enabled =3D get_option('installed-tests')
+>> > >      > -+installed_tests_template =3D files('template.test.in
+>> > >     <http://template.test.in>')
+>> > >      >  +
+>> > >      >   plugins_install_dir =3D join_paths(get_option('libdir'),
+>> > >     'gstreamer-1.0')
+>> > >      >
+>> > >      >   pkgconfig =3D import('pkgconfig')
+>> > >      > -diff --git a/meson_options.txt b/meson_options.txt
+>> > >      > -index c8cee3762..b5da40eaa 100644
+>> > >      > ---- a/meson_options.txt
+>> > >      > -+++ b/meson_options.txt
+>> > >      > +diff --git a/subprojects/gstreamer/meson_options.txt
+>> > >     b/subprojects/gstreamer/meson_options.txt
+>> > >      > +index 7363bdb7a1..a34ba37dad 100644
+>> > >      > +--- a/subprojects/gstreamer/meson_options.txt
+>> > >      > ++++ b/subprojects/gstreamer/meson_options.txt
+>> > >      >  @@ -15,6 +15,7 @@ option('poisoning', type : 'boolean', valu=
+e :
+>> > >     false, description : 'Enable poiso
+>> > >      >   option('memory-alignment', type: 'combo',
+>> > >      >          choices : ['1', '2', '4', '8', '16', '32', '64', '12=
+8',
+>> > >     '256', '512', '1024', '2048', '4096', '8192', 'malloc', 'pagesiz=
+e'],
+>> > >      >          value: 'malloc')
+>> > >      > -+option('installed-tests', type : 'boolean', value : false,
+>> > >     description : 'Enable installed tests')
+>> > >      > ++option('installed_tests', type : 'boolean', value : false,
+>> > >     description : 'Enable installed tests')
+>> > >      >
+>> > >      >   # Feature options
+>> > >      >   option('check', type : 'feature', value : 'auto', descripti=
+on :
+>> > >     'Build unit test libraries')
+>> > >      > -diff --git a/template.test.in <http://template.test.in>
+>> > >     b/template.test.in <http://template.test.in>
+>> > >      > -new file mode 100644
+>> > >      > -index 000000000..f701627f8
+>> > >      > ---- /dev/null
+>> > >      > -+++ b/template.test.in <http://template.test.in>
+>> > >      > -@@ -0,0 +1,3 @@
+>> > >      > -+[Test]
+>> > >      > -+Type=3Dsession
+>> > >      > -+Exec=3D@installed_tests_dir@/@program@
+>> > >      > -diff --git a/tests/check/meson.build b/tests/check/meson.bui=
+ld
+>> > >      > -index b2636714b..a697a7b06 100644
+>> > >      > ---- a/tests/check/meson.build
+>> > >      > -+++ b/tests/check/meson.build
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/meson.build
+>> > >     b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +index 506606684d..00a138a568 100644
+>> > >      > +--- a/subprojects/gstreamer/tests/check/meson.build
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/meson.build
+>> > >      >  @@ -124,10 +124,16 @@ test_defines =3D [
+>> > >      >     '-UG_DISABLE_ASSERT',
+>> > >      >     '-UG_DISABLE_CAST_CHECKS',
+>> > >      > @@ -95,7 +85,7 @@ index b2636714b..a697a7b06 100644
+>> > >      >  +      test_conf.set('installed_tests_dir', join_paths(prefi=
+x,
+>> > >     installed_tests_execdir))
+>> > >      >  +      test_conf.set('program', test_name)
+>> > >      >  +      configure_file(
+>> > >      > -+        input: installed_tests_template,
+>> > >      > ++        input: 'template.test.in <http://template.test.in>'=
+,
+>> > >      >  +        output: test_name + '.test',
+>> > >      >  +        install_dir: installed_tests_metadir,
+>> > >      >  +        configuration: test_conf
+>> > >      > @@ -105,6 +95,15 @@ index b2636714b..a697a7b06 100644
+>> > >      >       test(test_name, exe, env: env, timeout : 3 * 60)
+>> > >      >     endif
+>> > >      >   endforeach
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/template.test=
+.in
+>> > >     <http://template.test.in>
+>> > >     b/subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      > +new file mode 100644
+>> > >      > +index 0000000000..f701627f87
+>> > >      > +--- /dev/null
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      > +@@ -0,0 +1,3 @@
+>> > >      > ++[Test]
+>> > >      > ++Type=3Dsession
+>> > >      > ++Exec=3D@installed_tests_dir@/@program@
+>> > >      >  --
+>> > >      > -2.31.1
+>> > >      > +2.33.1
+>> > >      >
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-seek=
+-Don-t-use-too-strict-timeout-for-validati.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-seek=
+-Don-t-use-too-strict-timeout-for-validati.patch
+>> > >      > deleted file mode 100644
+>> > >      > index e0e64e2c7a..0000000000
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-seek=
+-Don-t-use-too-strict-timeout-for-validati.patch
+>> > >      > +++ /dev/null
+>> > >      > @@ -1,32 +0,0 @@
+>> > >      > -From 1db36347d05d88835519368442e9aa89c64091ad Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > -From: Seungha Yang <seungha@centricular.com
+>> > >     <mailto:seungha@centricular.com>>
+>> > >      > -Date: Tue, 15 Sep 2020 00:54:58 +0900
+>> > >      > -Subject: [PATCH] tests: seek: Don't use too strict timeout f=
+or
+>> > >     validation
+>> > >      > -
+>> > >      > -Expected segment-done message might not be seen within expec=
+ted
+>> > >      > -time if system is not powerful enough.
+>> > >      > -
+>> > >      > -Part-of:
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/625
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/625>>
+>> > >      > -
+>> > >      > -Upstream-Status: Backport
+>> > >     [https://cgit.freedesktop.org/gstreamer/gstreamer/commit?id=3Df4=
+4312ae5d831438fcf8041162079c65321c588c
+>> > >     <https://cgit.freedesktop.org/gstreamer/gstreamer/commit?id=3Df4=
+4312ae5d831438fcf8041162079c65321c588c>]
+>> > >      > -Signed-off-by: Anuj Mittal <anuj.mittal@intel.com
+>> > >     <mailto:anuj.mittal@intel.com>>
+>> > >      > ----
+>> > >      > - tests/check/pipelines/seek.c | 2 +-
+>> > >      > - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >      > -
+>> > >      > -diff --git a/tests/check/pipelines/seek.c
+>> > >     b/tests/check/pipelines/seek.c
+>> > >      > -index 28bb8846d..5f7447bc5 100644
+>> > >      > ---- a/tests/check/pipelines/seek.c
+>> > >      > -+++ b/tests/check/pipelines/seek.c
+>> > >      > -@@ -521,7 +521,7 @@ GST_START_TEST (test_loopback_2)
+>> > >      > -
+>> > >      > -   GST_INFO ("wait for segment done message");
+>> > >      > -
+>> > >      > --  msg =3D gst_bus_timed_pop_filtered (bus, (GstClockTime) 2=
+ *
+>> > >     GST_SECOND,
+>> > >      > -+  msg =3D gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_N=
+ONE,
+>> > >      > -       GST_MESSAGE_SEGMENT_DONE | GST_MESSAGE_ERROR);
+>> > >      > -   fail_unless (msg, "no message within the timed window");
+>> > >      > -   fail_unless_equals_string (GST_MESSAGE_TYPE_NAME (msg),
+>> > >     "segment-done");
+>> > >      > ---
+>> > >      > -2.29.2
+>> > >      > -
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-=
+a-dictionaries-for-environment.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-=
+a-dictionaries-for-environment.patch
+>> > >      > similarity index 61%
+>> > >      > rename from
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-a-=
+dictionaries-for-environment.patch
+>> > >      > rename to
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-=
+dictionaries-for-environment.patch
+>> > >      > index 46813cec3d..10a6dcc619 100644
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0006-tests-use-=
+a-dictionaries-for-environment.patch
+>> > >      > +++
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-=
+a-dictionaries-for-environment.patch
+>> > >      > @@ -1,4 +1,4 @@
+>> > >      > -From e82dedec1803922656e92285fc1bb75b2cdc0aad Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > +From fe830f0f75f3b4b41e3dbef8d4cf6ee4103c9e06 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      >  From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  Date: Sat, 24 Apr 2021 10:34:47 +0100
+>> > >      >  Subject: [PATCH 3/4] tests: use a dictionaries for environme=
+nt
+>> > >      > @@ -10,29 +10,31 @@ Upstream-Status: Submitted
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/->
+>> > >      >
+>> > >      >  Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      >  ---
+>> > >      > - tests/check/meson.build | 19 +++++++++++--------
+>> > >      > - 1 file changed, 11 insertions(+), 8 deletions(-)
+>> > >      > + subprojects/gstreamer/tests/check/meson.build | 21
+>> > >     ++++++++++++-------
+>> > >      > + 1 file changed, 13 insertions(+), 8 deletions(-)
+>> > >      >
+>> > >      > -diff --git a/tests/check/meson.build b/tests/check/meson.bui=
+ld
+>> > >      > -index a697a7b06..f64524904 100644
+>> > >      > ---- a/tests/check/meson.build
+>> > >      > -+++ b/tests/check/meson.build
+>> > >      > -@@ -161,14 +161,17 @@ foreach t : core_tests
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/meson.build
+>> > >     b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +index 00a138a568..48ec2532f8 100644
+>> > >      > +--- a/subprojects/gstreamer/tests/check/meson.build
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +@@ -161,14 +161,19 @@ foreach t : core_tests
+>> > >      >         install: installed_tests_enabled,
+>> > >      >       )
+>> > >      >
+>> > >      >  -    env =3D environment()
+>> > >      > --    env.set('GST_PLUGIN_PATH_1_0', meson.build_root())
+>> > >      > +-    env.set('GST_PLUGIN_PATH_1_0', meson.project_build_root=
+())
+>> > >      >  -    env.set('GST_PLUGIN_SYSTEM_PATH_1_0', '')
+>> > >      >  -    env.set('GST_STATE_IGNORE_ELEMENTS', '')
+>> > >      >  -    env.set('CK_DEFAULT_TIMEOUT', '20')
+>> > >      >  -    env.set('GST_REGISTRY',
+>> > >     '@0@/@1@.registry'.format(meson.current_build_dir(), test_name))
+>> > >      >  -    env.set('GST_PLUGIN_SCANNER_1_0', gst_scanner_dir +
+>> > >     '/gst-plugin-scanner')
+>> > >      >  -    env.set('GST_PLUGIN_LOADING_WHITELIST', 'gstreamer')
+>> > >      > -+    # environment() can't be passed to configure_file and i=
+t is
+>> > >     needed for installed_tests
+>> > >      > -+    # use a dictionary as this is simplest solution to inst=
+all
+>> > >     the environment
+>> > >      > ++    # meson environment object can't be passed to
+>> > >     configure_file and
+>> > >      > ++    # installed tests uses configure_file to install the
+>> > >     environment.
+>> > >      > ++    # use a dictionary as this is the simplest solution
+>> > >      > ++    # to install the environment.
+>> > >      >  +    env =3D {
+>> > >      > -+      'GST_PLUGIN_PATH_1_0': meson.build_root(),
+>> > >      > ++      'GST_PLUGIN_PATH_1_0': meson.project_build_root(),
+>> > >      >  +      'GST_PLUGIN_SYSTEM_PATH_1_0': '',
+>> > >      >  +      'GST_STATE_IGNORE_ELEMENTS': '',
+>> > >      >  +      'CK_DEFAULT_TIMEOUT': '20',
+>> > >      > @@ -44,5 +46,5 @@ index a697a7b06..f64524904 100644
+>> > >      >       if installed_tests_enabled
+>> > >      >         test_conf =3D configuration_data()
+>> > >      >  --
+>> > >      > -2.31.1
+>> > >      > +2.33.1
+>> > >      >
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-=
+helper-script-to-run-the-installed_tests.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-=
+helper-script-to-run-the-installed_tests.patch
+>> > >      > new file mode 100644
+>> > >      > index 0000000000..efa004f8ce
+>> > >      > --- /dev/null
+>> > >      > +++
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-=
+helper-script-to-run-the-installed_tests.patch
+>> > >      > @@ -0,0 +1,74 @@
+>> > >      > +From 4dcbabebca2ad6f1fdd59ee35a858082e87db7b6 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > +From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > +Date: Sun, 2 May 2021 01:58:01 +0100
+>> > >      > +Subject: [PATCH 4/4] tests: add helper script to run the
+>> > >     installed_tests
+>> > >      > +
+>> > >      > +- this is a bash script that will run the installed_tests
+>> > >      > +with some of the environment variables used in the meson
+>> > >      > +testing framework.
+>> > >      > +
+>> > >      > +Upstream-Status: Submitted
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/789
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/789>]
+>> > >      > +
+>> > >      > +Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > +---
+>> > >      > + subprojects/gstreamer/tests/check/meson.build   | 17
+>> > >     +++++++++++++++++
+>> > >      > + .../gstreamer/tests/check/template.sh.in
+>> > >     <http://template.sh.in>        |  9 +++++++++
+>> > >      > + .../gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>      |  2 +-
+>> > >      > + 3 files changed, 27 insertions(+), 1 deletion(-)
+>> > >      > + create mode 100755
+>> > >     subprojects/gstreamer/tests/check/template.sh.in <http://templat=
+e.sh.in>
+>> > >      > +
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/meson.build
+>> > >     b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +index 48ec2532f8..7dc4990d4e 100644
+>> > >      > +--- a/subprojects/gstreamer/tests/check/meson.build
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/meson.build
+>> > >      > +@@ -185,6 +185,23 @@ foreach t : core_tests
+>> > >      > +         install_dir: installed_tests_metadir,
+>> > >      > +         configuration: test_conf
+>> > >      > +       )
+>> > >      > ++
+>> > >      > ++      # All the tests will be deployed on the target machin=
+e and
+>> > >      > ++      # we use the home folder ~ for the registry which wil=
+l
+>> > >     then expand at runtime.
+>> > >      > ++      # Using the /tmp/gstreamer-1.0/@0@.registry can be
+>> > >     problematic as it mostly
+>> > >      > ++      # is mounted using tmpfs and if the machine crash fro=
+m
+>> > >     some reason we can lost the registry
+>> > >      > ++      # that is useful for debug propose of the tests itsel=
+f.
+>> > >      > ++      env +=3D {'GST_REGISTRY':
+>> > >     '~/.cache/gstreamer-1.0/@0@.registry'.format(test_name)}
+>> > >      > ++
+>> > >      > ++      # Set the full path for the test it self.
+>> > >      > ++      env +=3D {'TEST': '@0@/@1@'.format(join_paths(prefix,
+>> > >     installed_tests_execdir), test_name)}
+>> > >      > ++
+>> > >      > ++      configure_file(
+>> > >      > ++        input : 'template.sh.in <http://template.sh.in>',
+>> > >      > ++        output: test_name + '.sh',
+>> > >      > ++        install_dir: installed_tests_execdir,
+>> > >      > ++        configuration : env,
+>> > >      > ++      )
+>> > >      > +     endif
+>> > >      > +
+>> > >      > +     test(test_name, exe, env: env, timeout : 3 * 60)
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/template.sh.i=
+n
+>> > >     <http://template.sh.in>
+>> > >     b/subprojects/gstreamer/tests/check/template.sh.in
+>> > >     <http://template.sh.in>
+>> > >      > +new file mode 100755
+>> > >      > +index 0000000000..cf7d31b0ea
+>> > >      > +--- /dev/null
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/template.sh.in
+>> > >     <http://template.sh.in>
+>> > >      > +@@ -0,0 +1,9 @@
+>> > >      > ++#!/bin/sh
+>> > >      > ++
+>> > >      > ++set -ax
+>> > >      > ++
+>> > >      > ++CK_DEFAULT_TIMEOUT=3D"@CK_DEFAULT_TIMEOUT@"
+>> > >      > ++GST_PLUGIN_LOADING_WHITELIST=3D"@GST_PLUGIN_LOADING_WHITELI=
+ST@"
+>> > >      > ++GST_REGISTRY=3D@GST_REGISTRY@
+>> > >      > ++GST_STATE_IGNORE_ELEMENTS=3D"@GST_STATE_IGNORE_ELEMENTS@"
+>> > >      > ++exec @TEST@
+>> > >      > +diff --git a/subprojects/gstreamer/tests/check/template.test=
+.in
+>> > >     <http://template.test.in>
+>> > >     b/subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      > +index f701627f87..b74ef6ad73 100644
+>> > >      > +--- a/subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      > ++++ b/subprojects/gstreamer/tests/check/template.test.in
+>> > >     <http://template.test.in>
+>> > >      > +@@ -1,3 +1,3 @@
+>> > >      > + [Test]
+>> > >      > + Type=3Dsession
+>> > >      > +-Exec=3D@installed_tests_dir@/@program@
+>> > >      > ++Exec=3D@installed_tests_dir@/@program@.sh
+>> > >      > +--
+>> > >      > +2.33.1
+>> > >      > +
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-inst=
+all-the-environment-for-installed_tests.patch
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-inst=
+all-the-environment-for-installed_tests.patch
+>> > >      > deleted file mode 100644
+>> > >      > index eabe7bcbe1..0000000000
+>> > >      > ---
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0007-tests-inst=
+all-the-environment-for-installed_tests.patch
+>> > >      > +++ /dev/null
+>> > >      > @@ -1,58 +0,0 @@
+>> > >      > -From 57d2965e979f886e03eecd7e351bf01812053971 Mon Sep 17
+>> > >     00:00:00 2001
+>> > >      > -From: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > -Date: Sun, 2 May 2021 01:58:01 +0100
+>> > >      > -Subject: [PATCH 4/4] tests: install the environment for
+>> > >     installed_tests
+>> > >      > -
+>> > >      > -- adapt the test environment for installed_tests
+>> > >      > -- install the test environment for installed_tests
+>> > >      > -- run the tests using the installed environment
+>> > >      > -
+>> > >      > -Upstream-Status: Submitted
+>> > >     [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/789
+>> > >     <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requ=
+ests/789>]
+>> > >      > -
+>> > >      > -Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com
+>> > >     <mailto:quaresma.jose@gmail.com>>
+>> > >      > ----
+>> > >      > - template.test.in <http://template.test.in>        |  2 +-
+>> > >      > - tests/check/meson.build | 18 ++++++++++++++++++
+>> > >      > - 2 files changed, 19 insertions(+), 1 deletion(-)
+>> > >      > -
+>> > >      > -diff --git a/template.test.in <http://template.test.in>
+>> > >     b/template.test.in <http://template.test.in>
+>> > >      > -index f701627f8..9a3fbdd09 100644
+>> > >      > ---- a/template.test.in <http://template.test.in>
+>> > >      > -+++ b/template.test.in <http://template.test.in>
+>> > >      > -@@ -1,3 +1,3 @@
+>> > >      > - [Test]
+>> > >      > - Type=3Dsession
+>> > >      > --Exec=3D@installed_tests_dir@/@program@
+>> > >      > -+Exec=3Dsh -c 'set -aex && source
+>> > >     @installed_tests_dir@/@program@.env && exec
+>> > >     @installed_tests_dir@/@program@'
+>> > >      > -diff --git a/tests/check/meson.build b/tests/check/meson.bui=
+ld
+>> > >      > -index f64524904..a67e0f8dd 100644
+>> > >      > ---- a/tests/check/meson.build
+>> > >      > -+++ b/tests/check/meson.build
+>> > >      > -@@ -183,6 +183,24 @@ foreach t : core_tests
+>> > >      > -         install_dir: installed_tests_metadir,
+>> > >      > -         configuration: test_conf
+>> > >      > -       )
+>> > >      > -+
+>> > >      > -+      env +=3D {'GST_REGISTRY':
+>> > >     '~/.cache/gstreamer-1.0/@0@.registry'.format(test_name)}
+>> > >      > -+      configure_file(
+>> > >      > -+        output: test_name + '.env',
+>> > >      > -+        install_dir: installed_tests_execdir,
+>> > >      > -+        configuration : env,
+>> > >      > -+      )
+>> > >      > -+      # helper to convert a meson environment dictionay obj=
+ect
+>> > >     exported with configure_file
+>> > >      > -+      # this also remove not needed variables for the insta=
+lled
+>> > >     tests
+>> > >      > -+      meson.add_postconf_script('sed', '-i',
+>> > >      > -+        '-e', '/^#define/!d',
+>> > >      > -+        '-e', 's/^#define //g',
+>> > >      > -+        '-e', '/^GST_PLUGIN_PATH_1_0/d',
+>> > >      > -+        '-e', '/^GST_PLUGIN_SYSTEM_PATH_1_0/d',
+>> > >      > -+        '-e', '/^GST_PLUGIN_SCANNER_1_0/d',
+>> > >      > -+        '-e', 's/ /=3D/',
+>> > >      > -+        join_paths(meson.current_build_dir(), test_name + '=
+.env')
+>> > >      > -+      )
+>> > >      > -     endif
+>> > >      > -
+>> > >      > -     test(test_name, exe, env: env, timeout : 3 * 60)
+>> > >      > ---
+>> > >      > -2.31.1
+>> > >      > -
+>> > >      > diff --git
+>> > >     a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.5.bb
+>> > >     <http://gstreamer1.0_1.18.5.bb>
+>> > >     b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+>> > >     <http://gstreamer1.0_1.20.0.bb>
+>> > >      > similarity index 76%
+>> > >      > rename from
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.5.bb
+>> > >     <http://gstreamer1.0_1.18.5.bb>
+>> > >      > rename to
+>> > >     meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+>> > >     <http://gstreamer1.0_1.20.0.bb>
+>> > >      > index 0d82dd338c..243f99fee9 100644
+>> > >      > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.5.b=
+b
+>> > >     <http://gstreamer1.0_1.18.5.bb>
+>> > >      > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.b=
+b
+>> > >     <http://gstreamer1.0_1.20.0.bb>
+>> > >      > @@ -10,22 +10,19 @@ DEPENDS =3D "glib-2.0 glib-2.0-native lib=
+xml2
+>> > >     bison-native flex-native"
+>> > >      >
+>> > >      >  inherit meson pkgconfig gettext upstream-version-is-even
+>> > >     gobject-introspection ptest-gnome
+>> > >      >
+>> > >      > -LIC_FILES_CHKSUM =3D
+>> > >     "file://COPYING;md5=3D6762ed442b3822387a51c92d928ead0d \
+>> > >      > +LIC_FILES_CHKSUM =3D
+>> > >     "file://COPYING;md5=3D69333daa044cb77e486cc36129f7a770 \
+>> > >      >
+>> > >     file://gst/gst.h;beginline=3D1;endline=3D21;md5=3De059138481205e=
+e2c6fc1c079c016d0d"
+>> > >      >
+>> > >      >  S =3D "${WORKDIR}/gstreamer-${PV}"
+>> > >      >
+>> > >      >  SRC_URI =3D
+>> > >     "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}=
+.tar.xz
+>> > >     <https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$%7BP=
+V%7D.tar.xz>
+>> > >     \
+>> > >      >             file://run-ptest \
+>> > >      > -
+>> > >       file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-f=
+al.patch \
+>> > >      > -           file://0002-Remove-unused-valgrind-detection.patc=
+h \
+>> > >      > -
+>> > >       file://0003-tests-seek-Don-t-use-too-strict-timeout-for-valida=
+ti.patch \
+>> > >      > -
+>> > >       file://0004-tests-respect-the-idententaion-used-in-meson.patch=
+ \
+>> > >      > -
+>> > >       file://0005-tests-add-support-for-install-the-tests.patch \
+>> > >      > -
+>> > >       file://0006-tests-use-a-dictionaries-for-environment.patch \
+>> > >      > -
+>> > >       file://0007-tests-install-the-environment-for-installed_tests.=
+patch \
+>> > >      > +
+>> > >       file://0001-tests-respect-the-idententaion-used-in-meson.patch=
+;striplevel=3D3 \
+>> > >      > +
+>> > >       file://0002-tests-add-support-for-install-the-tests.patch;stri=
+plevel=3D3 \
+>> > >      > +
+>> > >       file://0003-tests-use-a-dictionaries-for-environment.patch;str=
+iplevel=3D3 \
+>> > >      > +
+>> > >       file://0004-tests-add-helper-script-to-run-the-installed_tests=
+.patch;striplevel=3D3 \
+>> > >      >             "
+>> > >      > -SRC_URI[sha256sum] =3D
+>> > >     "55862232a63459bbf56abebde3085ca9aec211b478e891dacea4d6df8cafe80=
+a"
+>> > >      > +SRC_URI[sha256sum] =3D
+>> > >     "edf4bffff85591d4fff7b21bb9ed7f0feabc123ac4a4eff29e73cbce454f9db=
+7"
+>> > >      >
+>> > >      >  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '=
+1',
+>> > >     'tests', '', d)} \
+>> > >      >                     check \
+>> > >      > @@ -36,7 +33,7 @@ PACKAGECONFIG[debug] =3D
+>> > >     "-Dgst_debug=3Dtrue,-Dgst_debug=3Dfalse"
+>> > >      >  PACKAGECONFIG[tracer-hooks] =3D
+>> > >     "-Dtracer_hooks=3Dtrue,-Dtracer_hooks=3Dfalse"
+>> > >      >  PACKAGECONFIG[coretracers] =3D
+>> > >     "-Dcoretracers=3Denabled,-Dcoretracers=3Ddisabled"
+>> > >      >  PACKAGECONFIG[check] =3D "-Dcheck=3Denabled,-Dcheck=3Ddisabl=
+ed"
+>> > >      > -PACKAGECONFIG[tests] =3D "-Dtests=3Denabled
+>> > >     -Dinstalled-tests=3Dtrue,-Dtests=3Ddisabled -Dinstalled-tests=3D=
+false"
+>> > >      > +PACKAGECONFIG[tests] =3D "-Dtests=3Denabled
+>> > >     -Dinstalled_tests=3Dtrue,-Dtests=3Ddisabled -Dinstalled_tests=3D=
+false"
+>> > >      >  PACKAGECONFIG[unwind] =3D
+>> > >     "-Dlibunwind=3Denabled,-Dlibunwind=3Ddisabled,libunwind"
+>> > >      >  PACKAGECONFIG[dw] =3D "-Dlibdw=3Denabled,-Dlibdw=3Ddisabled,=
+elfutils"
+>> > >      >  PACKAGECONFIG[bash-completion] =3D
+>> > >     "-Dbash-completion=3Denabled,-Dbash-completion=3Ddisabled,bash-c=
+ompletion"
+>> > >      > --
+>> > >      > 2.35.1
+>> > >      >
+>> > >      >
+>> > >      > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > >      > Links: You receive all messages sent to this group.
+>> > >      > View/Reply Online (#161427):
+>> > >     https://lists.openembedded.org/g/openembedded-core/message/16142=
+7
+>> > >     <https://lists.openembedded.org/g/openembedded-core/message/1614=
+27>
+>> > >      > Mute This Topic:
+>> > >     https://lists.openembedded.org/mt/88962313/1686489
+>> > >     <https://lists.openembedded.org/mt/88962313/1686489>
+>> > >      > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> > >     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>> > >      > Unsubscribe:
+>> > >     https://lists.openembedded.org/g/openembedded-core/unsub
+>> > >     <https://lists.openembedded.org/g/openembedded-core/unsub>
+>> > >     [alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>]
+>> > >      > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> > >      >
+>> > >
+>> > >
+>> > >
+>> > > --
+>> > > Best regards,
+>> > >
+>> > > Jos=C3=A9 Quaresma
+>> >
+>> > --
+>> > DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+>> > HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+>> > Phone: (+49)-8142-66989-54 Fax: (+49)-8142-66989-80 Email: ch@denx.de
+>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
 
