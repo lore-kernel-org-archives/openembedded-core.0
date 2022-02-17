@@ -1,60 +1,198 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <77083fc448827536e0fb8c76fe507b71d4b4a532.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/3] glibc: Upgrade to 2.35 (RFC)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Thu, 17 Feb 2022 22:46:16 +0000
-In-Reply-To: <81021d0953ac5825f1436af7295089f6409a0b10.camel@intel.com>
-References: <20220208225310.1685131-1-raj.khem@gmail.com>
-	 <333ededd-79c4-8a21-b6a5-8012b5f793e3@windriver.com>
-	 <CAMKF1sp5rtBg0tf4mN-9VBUxVYXbqrA1i8nQe-L_8MHNRapj1g@mail.gmail.com>
-	 <MW3PR11MB4633B716168A3E59ECA2F06994359@MW3PR11MB4633.namprd11.prod.outlook.com>
-	 <CAMKF1srKp84XMQLTs6jbfhxMhgBK2suLxjHQNbdPBH+gT9qW1g@mail.gmail.com>
-	 <MW3PR11MB46331A0B570CEB101DACBE1E94359@MW3PR11MB4633.namprd11.prod.outlook.com>
-	 <CA+chaQevizhQX+ogTf+5rOhbjJjch8yS79S+DOpk8o-KFm90HA@mail.gmail.com>
-	 <81021d0953ac5825f1436af7295089f6409a0b10.camel@intel.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Subject: [RFC 2/2] gstreamer1.0: add support for running native test
+Date: Thu, 17 Feb 2022 23:00:23 +0000
+Message-Id: <20220217230023.727460-2-quaresma.jose@gmail.com>
+In-Reply-To: <20220217230023.727460-1-quaresma.jose@gmail.com>
+References: <20220217230023.727460-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>, "hongxu.jia@windriver.com" <hongxu.jia@windriver.com>, "Martin.Jansa@gmail.com" <Martin.Jansa@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com" <raj.khem@gmail.com>, "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
 
-On Thu, 2022-02-17 at 01:41 +0000, Mittal, Anuj wrote:
-> On Wed, 2022-02-16 at 10:22 +0100, Martin Jansa wrote:
-> > Ubuntu patched their docker.io package shortly after upgrading to
-> > glibc-2.34 in Ubuntu-21.10, see:
-> > http://changelogs.ubuntu.com/changelogs/pool/universe/d/docker.io/docker.io_20.10.7-0ubuntu5~20.04.2/changelog
-> > 
-> > docker.io (20.10.7-0ubuntu4) impish; urgency=medium
-> > 
-> >   * d/p/seccomp-add-support-for-clone3-syscall-in-default-
-> > policy.patch: Fix
-> >     failure with new glibc clone3 syscall adding it to the default
-> > seccomp
-> >     policy (LP: #1943049).
-> > 
-> >  -- Lucas Kanashiro <kanashiro@ubuntu.com>  Fri, 10 Sep 2021 15:34:38
-> > -0300
-> > 
-> > AFAIK Ubuntu isn't affected anymore, I've
-> > updated https://bugzilla.yoctoproject.org/show_bug.cgi?id=1711 and
-> > I'm fine with dropping the patch now (it was useful before, but now
-> > distributions had enough time to prepare for 2.34 changes).
-> 
-> In case the uninative upgrade is merged in stable/LTS branches, it
-> might start showing up failures for people building on older
-> distributions that aren't being updated any more.
+This is an exmple of using the native meson test
 
-I think you're right, you have a good point here and we need to do something
-about this. Reviewing the discussion upstream, I think they proposed a different
-way of handling the patch so we need to look into that.
+gstreamer1.0-meson-qemuwrapper-test.inc
+^ this is receipe part
 
-I will look at taking our other workaround short term but we need a bug opened
-and someone to look at trying to get a proper patch into glibc IMO...
+meson-qemuwrapper-helper.sh
+^ this is an helper script to skip unsupported tests
 
-Cheers,
+meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch
+^ this patch helps debugind unsupported tests
 
-Richard
+With EXTRA_OEMESON_TEST = "gst_gstbin" it will only run
+the gst_gstbin test and the output
+is the following
+
++ meson_do_test
++ export GST_DEBUG=6
++ meson test -C /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build --print-errorlogs gst_gstbin
+
+ninja: Entering directory `/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build'
+
+ninja: no work to do.
+
+1/1 gst_gstbin TIMEOUT        180.12s   killed by signal 15 SIGTERM
+
+>>> GST_PLUGIN_SCANNER_1_0=/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build/libs/gst/helpers/gst-plugin-scanner GST_PLUGIN_LOADING_WHITELIST=gstreamer GST_STATE_IGNORE_ELEMENTS='' MESON_EXE_WRAPPER=/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/meson-qemuwrapper GST_PLUGIN_PATH_1_0=/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build MALLOC_PERTURB_=192 GST_REGISTRY=/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build/tests/check/gst_gstbin.registry CK_DEFAULT_TIMEOUT=20 GST_PLUGIN_SYSTEM_PATH_1_0='' /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/meson-qemuwrapper /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build/tests/check/gst_gstbin
+――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+Listing only the last 100 lines from a long log.
+0:00:07.719379569 440069   0x4000025400 DEBUG             GST_STATES gstbin.c:2990:gst_bin_change_state_func:<bin0> iterator done
+0:00:07.719393717 440069   0x4000061180 LOG              GST_MESSAGE gstmessage.c:304:gst_message_new_custom: source fakesink0: creating new message 0x400c002100 latency
+0:00:07.719413507 440069   0x4000025400 LOG               GST_STATES gstelement.c:3282:gst_element_change_state_func:<bin0> default handler tries setting state from PLAYING to PAUSED (0023)
+0:00:07.719438100 440069   0x4000061180 DEBUG                GST_BUS gstbus.c:338:gst_bus_post:<bus0> [msg 0x400c002100] posting on bus latency message: 0x400c002100, time 99:99:99.999999999, seq-num 31, element 'fakesink0', (NULL)
+0:00:07.719441024 440069   0x4000025400 DEBUG             GST_STATES gstbin.c:3006:gst_bin_change_state_func:<bin0> we have ASYNC elements SUCCESS -> ASYNC
+0:00:07.719467032 440069   0x4000025400 DEBUG                    bin gstbin.c:2383:gst_bin_sort_iterator_free:<bin0>
+.
+.
+.
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+Summary of Failures:
+
+1/1 gst_gstbin TIMEOUT        180.12s   killed by signal 15 SIGTERM
+
+Ok:                 0
+Expected Fail:      0
+Fail:               0
+Unexpected Pass:    0
+Skipped:            0
+Timeout:            1
+
+Full log written to /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/build/meson-logs/testlog.txt
+
++ bb_sh_exit_handler
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ .../gstreamer1.0-meson-qemuwrapper-test.inc   | 15 ++++++
+ ...show-the-reason-when-spawning-of-gst.patch | 53 +++++++++++++++++++
+ .../gstreamer1.0/meson-qemuwrapper-helper.sh  | 15 ++++++
+ .../gstreamer/gstreamer1.0_1.20.0.bb          |  6 +++
+ 4 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwrapper-test.inc
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwrapper-helper.sh
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwrapper-test.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwrapper-test.inc
+new file mode 100644
+index 0000000000..c9f4885f82
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwrapper-test.inc
+@@ -0,0 +1,15 @@
++SRC_URI += "file://0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch;striplevel=3"
++SRC_URI += "file://meson-qemuwrapper-helper.sh"
++
++#MESON_QEMU_WRAPPER_HELPER = "${WORKDIR}/meson-qemuwrapper-helper.sh"
++
++PACKAGECONFIG[tests] = "-Dtests=enabled,-Dtests=disabled"
++
++# run single test
++EXTRA_OEMESON_TEST = "gst_gstbin"
++
++meson_do_test:prepend() {
++    # run the test with the debug mode enabled
++    # logs will be placed at build/meson-logs/testlog.txt
++    export GST_DEBUG=6
++}
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch
+new file mode 100644
+index 0000000000..22c8750f5b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning-of-gst.patch
+@@ -0,0 +1,53 @@
++From 8e1de3f84c2e654515b6d6b16783a4a08dfd118d Mon Sep 17 00:00:00 2001
++From: Jose Quaresma <quaresma.jose@gmail.com>
++Date: Wed, 8 Dec 2021 22:13:15 +0000
++Subject: [PATCH] gstpluginloader: show the reason when spawning of
++ gst-plugin-scanner fail
++
++This fix helps in cross compiling when the meson tests runs using a qemu wraper
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1701>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/8e1de3f84c2e654515b6d6b16783a4a08dfd118d]
++
++Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
++---
++ subprojects/gstreamer/gst/gstpluginloader.c | 14 ++++++++++----
++ 1 file changed, 10 insertions(+), 4 deletions(-)
++
++diff --git a/subprojects/gstreamer/gst/gstpluginloader.c b/subprojects/gstreamer/gst/gstpluginloader.c
++index 10a446fa5e..fb8b45cffa 100644
++--- a/subprojects/gstreamer/gst/gstpluginloader.c
+++++ b/subprojects/gstreamer/gst/gstpluginloader.c
++@@ -413,6 +413,7 @@ gst_plugin_loader_try_helper (GstPluginLoader * loader, gchar * location)
++ {
++   char *argv[6] = { NULL, };
++   int c = 0;
+++  GError *error = NULL;
++ 
++ #if defined (__APPLE__) && defined (USR_BIN_ARCH_SWITCH)
++   if (gst_plugin_loader_use_usr_bin_arch ()) {
++@@ -432,11 +433,16 @@ gst_plugin_loader_try_helper (GstPluginLoader * loader, gchar * location)
++     GST_LOG ("Trying to spawn gst-plugin-scanner helper at %s", location);
++   }
++ 
++-  if (!g_spawn_async_with_pipes (NULL, argv, NULL,
++-          G_SPAWN_DO_NOT_REAP_CHILD /* | G_SPAWN_STDERR_TO_DEV_NULL */ ,
++-          NULL, NULL, &loader->child_pid, &loader->fd_w.fd, &loader->fd_r.fd,
++-          NULL, NULL))
+++  g_spawn_async_with_pipes (NULL, argv, NULL,
+++      G_SPAWN_DO_NOT_REAP_CHILD /* | G_SPAWN_STDERR_TO_DEV_NULL */ ,
+++      NULL, NULL, &loader->child_pid, &loader->fd_w.fd, &loader->fd_r.fd,
+++      NULL, &error);
+++
+++  if (error) {
+++    GST_ERROR ("Spawning gst-plugin-scanner helper failed: %s", error->message);
+++    g_clear_error (&error);
++     return FALSE;
+++  }
++ 
++   gst_poll_add_fd (loader->fdset, &loader->fd_w);
++   gst_poll_add_fd (loader->fdset, &loader->fd_r);
++-- 
++2.35.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwrapper-helper.sh b/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwrapper-helper.sh
+new file mode 100644
+index 0000000000..7f03f79292
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwrapper-helper.sh
+@@ -0,0 +1,15 @@
++#!/bin/sh
++#set -x
++
++test="$(basename "$1")"
++
++# some tests currently fails so there we skipped the already knowns
++skipped="$skipped elements_dataurisrc"
++skipped="$skipped libs_gstnettimeprovider"
++skipped="$skipped gst_gstelement"
++skipped="$skipped gst_gstregistry"
++for s in $skipped; do
++    if [ "$s" = "$test" ]; then
++        exit 77
++    fi
++done
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+index 243f99fee9..38595b8789 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+@@ -70,3 +70,9 @@ FILES:${PN}-dbg += "${datadir}/gdb ${datadir}/gstreamer-1.0/gdb"
+ CVE_PRODUCT = "gstreamer"
+ 
+ PTEST_BUILD_HOST_FILES = ""
++
++MESON_QEMU_WRAPPER_TEST_ENABLED = "1"
++
++GST_MESON_TEST = "${@"gstreamer1.0-meson-qemuwrapper-test.inc" if d.getVar('MESON_QEMU_WRAPPER_TEST_ENABLED') == '1' else ""}"
++
++require ${GST_MESON_TEST}
+-- 
+2.35.1
 
