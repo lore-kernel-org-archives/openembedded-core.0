@@ -1,137 +1,110 @@
-Return-Path: <scott.murray@konsulko.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7125EC433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 22:13:09 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web12.3504.1645135988952715979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8527CC433FE
+	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 22:59:45 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.4064.1645138784774420553
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 14:13:09 -0800
+ Thu, 17 Feb 2022 14:59:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=a8i36BXv;
- spf=pass (domain: konsulko.com, ip: 209.85.222.179,
- mailfrom: scott.murray@konsulko.com)
-Received: by mail-qk1-f179.google.com with SMTP id j78so1464034qke.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TebNOmLT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id k1so11482198wrd.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 14:13:08 -0800 (PST)
+ Thu, 17 Feb 2022 14:59:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7Kc2F+zOme1uvV159mYF+buIzRKoptrCwLSE7h3oadk=;
-        b=a8i36BXvdJLQWyv4y3Kbn34B6dhQADOxRukQfG+gpIbTV9bzxPimYyll/XC9MVufzD
-         NUuBYxB2rzVqADJ5et2eCyu7thmtne/+pdujQf/GMtHdfy1k/GzAQld9Np/cxzUxuTxC
-         8hPQlGT5/Sg+cHR7uwxz4G4eUqQaRSjQADt7U=
+        bh=G5Uo7fK2DDBJbIlqyHctniYrNTBTefZBk1tGeQNamEY=;
+        b=TebNOmLTJRwkdoN+hMp0ix2DJtzKPuUlWD2HoAl0LjaAUc0JHeyvuHrTg6hw8eWhPV
+         UZZnoDzAPm6L6DAPVxWotXJAtmR26fzoBSajQz0aI1cmXMIuzDzGa6vHDeOZFdzVRGJ6
+         d+3zPkGBMNSNJmSMFv15R+yO+DKmw11rlWr9w+uHTHx2k2yLWwX9XgItnnI/wsYFWn0K
+         d2zeYAiChvx4GYiQWFpO5J+GjKABzKN4lIIa4AG4/Su0k/N3lt8vXsXguNy/WAwCZ6dx
+         ytkYCFRjzhR4ogu+W1NCAacKqJdWunysLpCuYM2+hYrYJzr6O8rCY+KvktcQbp9O8ndN
+         lyKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7Kc2F+zOme1uvV159mYF+buIzRKoptrCwLSE7h3oadk=;
-        b=si5l2zwCBXxK6k6XjUNbT/g5XXzu7aaRxanEpWt1YxlrXOdOvVRkzMzwa857fq06ux
-         y0y1CFBBzrS61eedY5uYon10V5z4dbenMKVRW2dmz4p3TtJmdaRT/CvB2o7TLPRcJHKw
-         arh+3wv1gE1EPJlD1V4xj8ZOxyVNcvHGFonsRNB3Y6oQpSIkpPHmAG1zK8pT1RX8SeGg
-         zvvZdmL6YJ8fZ4KUZgOy1cipz8X9dy4P8ENKSEPI4nS3OqdR8KRXAvgENx7TXxB9dpf+
-         83S1orwqUBapa5OkhizYNpPIXTP4P4psJUKMTqC+cNHFTQi0YtPGc50MD9LFSaGndKDq
-         oeJw==
-X-Gm-Message-State: AOAM531JEbHcPcY3UHmM3f0cVy8uJpl+UFTVBCh2U7ktFvRUjn/rFvy8
-	G5aOhaTYB9M0kpRPWDvmyfrvR2YfID8QAw==
+        bh=G5Uo7fK2DDBJbIlqyHctniYrNTBTefZBk1tGeQNamEY=;
+        b=WcaEcNhYKhOq2PPnGuUMGhkurjIclsNfj+oxfrWA8hLJEtgLcjCcOBPnxdph4FXNWF
+         FZx44570ciyqXdcLhsBfsLagD4EuA8lFqcWGAJmal2WB16nxVC62E7w2VpuGUaT1wYaV
+         RZZ7NvD4hD9wIaQmQf1g5P/46E71O1c3p1c4hh4gCczT7aMlaxCgUifmzUVAx4FZdFnv
+         Z9QD5DyC+KjhX1sYPZPC2pZZb7mu9qnwkixA6yoE30iyzg/iuxvbeO+WVC5+yXfJJ3os
+         4Ua+b6eQku14X3X4W41UT5rFjSlJyBDtbEzduCE+44OoHK/tYbiZ4NbtJD5ljgqcV5ZJ
+         vMtA==
+X-Gm-Message-State: AOAM5332s4sWAdsUeFUBKPvfIllcBl8/XmXvVKZLCup1z1Y7QE+kg6qj
+	bJ0qukqhWz8YHr4EWywD8hkTDFT2IT+5GQ==
 X-Google-Smtp-Source: 
- ABdhPJxkTMBC5yeOa8xWbDR3eDybFD7Z2l6ahBtksRHeneU0c3M7yLruDjvD388HhemDLte6uENeAQ==
-X-Received: by 2002:a37:bd81:0:b0:47d:7533:1578 with SMTP id
- n123-20020a37bd81000000b0047d75331578mr2916805qkf.732.1645135987628;
-        Thu, 17 Feb 2022 14:13:07 -0800 (PST)
-Received: from ghidorah.spiteful.org ([192.0.174.222])
+ ABdhPJwCfQFwHuPEzMORc3wA2LVCm4JIEI6IPxyXyzwUYSWGDh6+O0ku5hySJ8JBKQhcCPJozaCt3g==
+X-Received: by 2002:a5d:4c41:0:b0:1e5:1a70:fb86 with SMTP id
+ n1-20020a5d4c41000000b001e51a70fb86mr3840973wrt.452.1645138782877;
+        Thu, 17 Feb 2022 14:59:42 -0800 (PST)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- w4sm21768137qko.123.2022.02.17.14.13.06
-        for <openembedded-core@lists.openembedded.org>
+ b16sm2966669wmj.32.2022.02.17.14.59.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 14:13:07 -0800 (PST)
-From: Scott Murray <scott.murray@konsulko.com>
+        Thu, 17 Feb 2022 14:59:42 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Update BB_DISKMON_DIRS use
-Date: Thu, 17 Feb 2022 17:12:55 -0500
-Message-Id: <20220217221255.1532588-1-scott.murray@konsulko.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 1/2] meson.bbclass: add exe_wrapper helper
+Date: Thu, 17 Feb 2022 22:59:34 +0000
+Message-Id: <20220217225935.727335-1-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 22:13:09 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 22:59:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161863
+ https://lists.openembedded.org/g/openembedded-core/message/161866
 
-Update the example BB_DISKMON_DIRS definitions in the sample
-local.conf files for the rename of the "ABORT" action to "HALT",
-and also update related error messages in one selftest to use
-the new action name.
+commit 40349dc51f097f75b486d81924753dee06baf017
+meson: configure and use generic exe_wrapper
+add a generic exe_wrapper that can be used to run
+the existing tests in some meson projects using
+the native meson test.
 
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+The tests will run on the qemu usermode and because of that
+it has some limitations.
+The ideia of this help script is to handle such cases before
+the qemu usermode was launched.
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/conf/local.conf.sample                  | 10 +++++-----
- meta/conf/local.conf.sample.extended         |  2 +-
- meta/lib/oeqa/selftest/cases/buildoptions.py |  4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ meta/classes/meson.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 7119f0f165..82efc2c4f5 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -163,7 +163,7 @@ PATCHRESOLVE = "noop"
- #
- # Monitor the disk space during the build. If there is less that 1GB of space or less
- # than 100K inodes in any key build location (TMPDIR, DL_DIR, SSTATE_DIR), gracefully
--# shutdown the build. If there is less than 100MB or 1K inodes, perform a hard abort
-+# shutdown the build. If there is less than 100MB or 1K inodes, perform a hard halt
- # of the build. The reason for this is that running completely out of space can corrupt
- # files and damages the build in ways which may not be easily recoverable.
- # It's necessary to monitor /tmp, if there is no space left the build will fail
-@@ -173,10 +173,10 @@ BB_DISKMON_DIRS ??= "\
-     STOPTASKS,${DL_DIR},1G,100K \
-     STOPTASKS,${SSTATE_DIR},1G,100K \
-     STOPTASKS,/tmp,100M,100K \
--    ABORT,${TMPDIR},100M,1K \
--    ABORT,${DL_DIR},100M,1K \
--    ABORT,${SSTATE_DIR},100M,1K \
--    ABORT,/tmp,10M,1K"
-+    HALT,${TMPDIR},100M,1K \
-+    HALT,${DL_DIR},100M,1K \
-+    HALT,${SSTATE_DIR},100M,1K \
-+    HALT,/tmp,10M,1K"
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 0bfe945811..8c732e6174 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -114,6 +114,8 @@ cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+ EOF
+ }
  
- #
- # Shared-state files from other locations
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index e72fb80361..2ea27d044a 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -196,7 +196,7 @@
- # "action,directory,minimum_space,minimum_free_inode"
- #
- # The "action" must be set and should be one of:
--# ABORT: Immediately abort
-+# HALT: Immediately halt
- # STOPTASKS: The new tasks can't be executed any more, will stop the build
- #           when the running tasks have been done.
- # WARN: show warnings (see BB_DISKMON_WARNINTERVAL for more information)
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
-index 651bb03c7e..bfe613b847 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -62,9 +62,9 @@ class DiskMonTest(OESelftestTestCase):
-         res = bitbake("delay -c delay", ignore_status = True)
-         self.assertTrue('ERROR: No new tasks can be executed since the disk space monitor action is "STOPTASKS"!' in res.output, msg = "Tasks should have stopped. Disk monitor is set to STOPTASK: %s" % res.output)
-         self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
--        self.write_config('BB_DISKMON_DIRS = "ABORT,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
-+        self.write_config('BB_DISKMON_DIRS = "HALT,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
-         res = bitbake("delay -c delay", ignore_status = True)
--        self.assertTrue('ERROR: Immediately abort since the disk space monitor action is "ABORT"!' in res.output, "Tasks should have been aborted immediatelly. Disk monitor is set to ABORT: %s" % res.output)
-+        self.assertTrue('ERROR: Immediately halt since the disk space monitor action is "HALT"!' in res.output, "Tasks should have been halted immediately. Disk monitor is set to HALT: %s" % res.output)
-         self.assertEqual(res.status, 1, msg = "bitbake reported exit code %s. It should have been 1. Bitbake output: %s" % (str(res.status), res.output))
-         self.write_config('BB_DISKMON_DIRS = "WARN,${TMPDIR},100000G,100K"\nBB_HEARTBEAT_EVENT = "1"')
-         res = bitbake("delay -c delay")
++MESON_QEMU_WRAPPER_HELPER ?= ""
++
+ do_write_config:append:class-target() {
+     # Write out a qemu wrapper that will be used as exe_wrapper so that meson
+     # can run target helper binaries through that.
+@@ -127,6 +129,9 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+ # meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+ unset LD_LIBRARY_PATH
+ 
++# import any customization provided in the helper
++test -f "${MESON_QEMU_WRAPPER_HELPER}" && . ${MESON_QEMU_WRAPPER_HELPER}
++
+ $qemu_binary "\$@"
+ EOF
+     chmod +x ${WORKDIR}/meson-qemuwrapper
 -- 
 2.35.1
 
