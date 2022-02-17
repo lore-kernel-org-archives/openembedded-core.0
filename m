@@ -1,102 +1,87 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EDCC433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 10:38:33 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.82])
- by mx.groups.io with SMTP id smtpd.web09.5809.1645094311928658955
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6058FC433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 10:43:39 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.5825.1645094618079657244
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 02:38:32 -0800
+ Thu, 17 Feb 2022 02:43:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Y8EcN4xg;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.82,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1645094310; i=@fujitsu.com;
-	bh=Lx2IbMwxkbu2w2GJ+912Ee+o28+zc3BOXCB7nDaNzME=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Y8EcN4xgr8m2ris8ntEBTsbZLoTQKIwGXKHy6z1FcF9j8kwwRWiwT7Ci0fM764tZo
-	 j0vXZ/DE2NymSM/eiWDjH1EcWJpSUnBQ52efJLSMusf+ezg43EczJ34Y4TeQj/bp4c
-	 JQADR+n0pLW6/+59FQJt53zcsoGIcSqDz+9Iql6Df3Con37VPoVRcmkkm3EXUHqWCb
-	 PoYFiQhKdfjVxTseQ9cW2CyiisQ4FIqeI/WlQMKeExhEovOUNfW8zEu7EW41rm3nQ7
-	 Hpkkd2wkbScteG0XME3zXkngmgP6H0odcx57leebq2gujmoah5KWA20SPyAHc0ggr+
-	 YTIeIRnZyLLFw==
-Received: from [100.115.7.114] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-west-1.aws.ess.symcld.net id D8/06-12986-5A52E026;
- Thu, 17 Feb 2022 10:38:29 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRWlGSWpSXmKPExsViZ8MRortUlS/
-  J4OYiOYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPKo7lsBa9YK672nmJrYFzF2sXIxSEkMINJ
-  4sf+m1DOCUaJG5/usnQxcnKwCahJTL91AyjBwSEioCdx9Z8oSJhZQEXixe8edhBbWCBEYtKGK
-  UwgNouAqsTy9yvBWnkFnCTW7v3NBmJLCChITHn4nhkiLihxcuYTFog5EhIHX7xghqhRlJh9uZ
-  kFwq6QmDWrjWkCI+8sJC2zkLQsYGRaxWiVVJSZnlGSm5iZo2toYKBraGiqa6prZGqql1ilm6i
-  XWqpbnlpcomuol1herJdaXKxXXJmbnJOil5dasokRGGIpxaz/dzB29/3UO8QoycGkJMob/ZE3
-  SYgvKT+lMiOxOCO+qDQntfgQowwHh5IELyswaIUEi1LTUyvSMnOA4Q6TluDgURLh7RMASvMWF
-  yTmFmemQ6ROMSpKifO2qQAlBEASGaV5cG2wGLvEKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZ
-  j3JMgUnsy8Erjpr4AWMwEtVmzkAllckoiQkmpgEmszuij15MZXBz/+/WsaLpeLXGxbuV2Gedt
-  MjrwH29fy28mttPi4U8da/Nykjzpfr+7batzEOl2drU2dK9j/s8Whn87JAt7y7I0dm4wD1gtE
-  hs4TqOVdtD2RZXfT1Cm8/If9nrjWJq2QMObtt2Z94zjNdfPxmTK/dIrUNL5lbFV9GaWvyC3bU
-  mX3bPnzwt333+k9k898VRy+c59eubvQ1YxjStcVxVq33i44ez9NySfkusA1pqXBxkW3Vy5uL5
-  /uNeVRjl+saqDn/YeNlUx7Epbb9/7guNq9YlfHzNDnBjemxmffvCtRmzW3g+3zqs/W6R4XLaf
-  fXz3Z4ZY8x3m3/Hhz39SbkTWxF0OjIpiUWIozEg21mIuKEwGseisCLAMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-585.messagelabs.com!1645094309!10100!1
-X-Originating-IP: [62.60.8.84]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 765 invoked from network); 17 Feb 2022 10:38:29 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-21.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 17 Feb 2022 10:38:29 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 21HAcMWT028385
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 10:38:29 GMT
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Thu, 17 Feb 2022 10:38:20 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libhandy: Use upstream regex to check version of
- upgrade.
-Date: Thu, 17 Feb 2022 18:38:09 +0800
-Message-ID: <1645094289-11772-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M0T4oJZv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id
+ x3-20020a05600c21c300b0037c01ad715bso3718103wmj.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Feb 2022 02:43:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=MaBu5DcWIHZK8KXmxaF468ZEqq47iYHvHUQ5smn36FE=;
+        b=M0T4oJZvtvEJH7Ky9jaAysNAUJXxvrEmoqV2iOxShthv/z/c+JZcxC/7PT7uoVUZWb
+         CIo+vmg6xm+f1/NmdHj6hsPxubab55xB6w4VUGq8gBxUF+o3vBe40L+sW+dqiEUsicOo
+         Q6D5e/ObQqxMveaJ3J4GueTaUy+O9RGzQRFp8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=MaBu5DcWIHZK8KXmxaF468ZEqq47iYHvHUQ5smn36FE=;
+        b=FO6Kym6BRtm1qh2tplebXnAqU+a22T5uwhXlj2BdJPtQo4lxKBQWXrovm3xaZ4W+if
+         hk9yRMOuASDM9LJ2pdCWXFPiQB7GcX4USL7b4Lhu/rAC0SO7MrVQUx4sDLj0G4a2ON5h
+         YRerBSn5IDnsK4jBkQHisIPxoXrd1aQicF+dkNdP5d2LY3IQ0qG7lBPYDpZb++oNVYaU
+         AIxiUhyU0RICaYmor9HZUF4j4QDeXBDrAxSqIVQ4FzlEMxk08ld7HQFYYYh+cBRW/CQd
+         DsgHfZGXmJeeFbCNKQb6VptFK6tnuBOf6Eh4rNKk/W5owmKwSwqspMafYeXcvSwARHc+
+         Xv5w==
+X-Gm-Message-State: AOAM532tJHG6MvVDIqYrBkqd09A1VM37cprRZ35fno3opXEqmZa+QATH
+	bPBQeGNgS+i3gFQ3/bXBT8tbbg==
+X-Google-Smtp-Source: 
+ ABdhPJyfjc/lUXljjLSgTH8m/o8Kep5EojBkyPT5RBJuaH7T+5PclnNns8NxG18jVYC6Ls23vuilMw==
+X-Received: by 2002:a1c:5445:0:b0:34f:30d6:99b9 with SMTP id
+ p5-20020a1c5445000000b0034f30d699b9mr2177623wmi.76.1645094616342;
+        Thu, 17 Feb 2022 02:43:36 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2892:510b:1ca1:ad61?
+ ([2001:8b0:aba:5f3c:2892:510b:1ca1:ad61])
+        by smtp.gmail.com with ESMTPSA id
+ y4sm17659273wrd.54.2022.02.17.02.43.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Feb 2022 02:43:35 -0800 (PST)
+Message-ID: 
+ <35c7accdbd700eb31e9728fc4f773c648695bff9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH] Rename INCOMPATIBLE related varibale
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <Saul.Wold@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 17 Feb 2022 10:43:34 +0000
+In-Reply-To: <20220216235233.575379-1-saul.wold@windriver.com>
+References: <20220216235233.575379-1-saul.wold@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 10:38:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 10:43:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161796
+ https://lists.openembedded.org/g/openembedded-core/message/161797
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- meta/recipes-gnome/libhandy/libhandy_1.5.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, 2022-02-16 at 15:52 -0800, Saul Wold wrote:
+> This is one option to handle the rename, another alternative would
+> be to change the new INCOMPATIBLE_LICENSE_ALLOWED_RECIPES to VarFlag
+> style.
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb b/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
-index 605ef2b5fa..51fc998971 100644
---- a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=maste
- SRCREV = "8fa8306a79215fc6ebf2483145da98bf9b2495ab"
- S = "${WORKDIR}/git"
- 
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
- GTKDOC_MESON_OPTION = 'gtk_doc'
--- 
-2.25.1
+It is one option but I'm not sure it makes sense. This functionality is a bit of
+a historical relic and the syntax is absolutely horrible. If we're going to
+change it, I'd like to take the opportunity to step back and fix it somehow.
+I've not spent the time thinking what that might look like unfortunately.
+
+Cheers,
+
+Richard
+
 
 
