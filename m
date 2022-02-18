@@ -2,63 +2,63 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3C0C433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:54 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.9114.1645178813262102592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A53EC433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:55 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.9186.1645178814244471925
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:53 -0800
+ Fri, 18 Feb 2022 02:06:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oybRagvV;
- spf=pass (domain: gmail.com, ip: 209.85.221.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=abii2aoK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id h6so13611956wrb.9
+Received: by mail-wr1-f43.google.com with SMTP id m27so1844761wrb.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:53 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=A97XdPuYf6Q82zKmgid8Vkvy1Y45NM5hVXPS1aZXqaY=;
-        b=oybRagvVEnypt7ST67cuadUMP24/55d0uxK4WgZustlGD89CS6WKVbZtlZJyKFaZVN
-         D5E1lx2BJ2NlZ6iUWv2BWADRmk/7jRHJW4QjMGNO5X6X1oSvPcHhpQA/mIs3DdtRaecG
-         M2PSdB+CC4JjjLcKLrkJyVycMWWuylSgc5m6x3OMTST1EvDsJ6absrCo6suM0nMY7OBs
-         Opq0GNL4zY59ywJLORE+HNPlHst9xTwx7nIxL+3LXAHLlwCI25KHBiswe5qB3i4m9TJu
-         b+l00C25JurkLR3WPd2LWW6aL98VbB3xsw+cyQD2h0A9kr50iiqxhU5nkriOf1eo04/S
-         S9fg==
+        bh=kFmaIn6KKAnd62e6QXFoKlb/V84sWa3y2wjep4wK8kk=;
+        b=abii2aoKcdYAFOptiiGpm8foE/x6vBcSheJfynN+Yy8TC5+h0D/K6KzElcxlZ6uAxR
+         bgh85gzctmGa09oUbUEI/4u2SNyDU0d4CyOP+wSlltpdDGmgAOF2NgtgvmGqy94l7WwZ
+         UhB2jZlMljAPT4ctyj4jrsMc234njdxhL/z4+kB0zAHaEGr5fpoO0bfUtfEWnaouinsA
+         ++tqFEHAIgN1sToaxjZ4XhPrfn7ywtJdaXA4WtsHN1g+zL+z39AcmxTh6jQ3zHNnuIX7
+         LTOyvpvIbCbdjGg4Bh/W8IqMBDg6qXBuyAa1dXKPjpIjH6u1JUNBh2y/UiVCoMk5MGhe
+         SMCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=A97XdPuYf6Q82zKmgid8Vkvy1Y45NM5hVXPS1aZXqaY=;
-        b=aE/I1It/cxGuF+5Hh78X4P/wnuwKfePH1xaMPw56q9puiJxXIvRN0v588WCjaLUmEt
-         d/pn35Rds37YhzMrTJqNkQ8k5vnhtfNeqvmCrDxXZ1PDy7fEc0QIQ6OwlukXc/d0cAfQ
-         ndjJ+H0n8QV9YOKZLiau3yvScE6K5PLlwdZrQThGXC/Gf6BTuoZkoqxu8d54sENcTwnc
-         Lxub1O3K8ySzm5eMb+lHSvjOW7p3uc8l/0OCO8JX+bBa0oRfan4b9Mi56dj4oa4rSkyh
-         ty3XvWmGsCpImubAhGkgZMMelk9i6ivGGNidRJcYqQSrKIuklGD938CVAH8uKI/5Dild
-         GNhA==
-X-Gm-Message-State: AOAM531oSKetNANUhRY6z8Lt1UIXM5AViIh5EhBKj70sO/fR/bjN7xnd
-	JjY00n/aM525SnZqQixrBko=
+        bh=kFmaIn6KKAnd62e6QXFoKlb/V84sWa3y2wjep4wK8kk=;
+        b=y1nInuVzJY8FiNnO351CAqWKXuCKVOEI+LGBRhDpXmZm+OzKl4XWW37SjGQhlrA/by
+         C6WYagzV8cLpvsqhEG64EGjo1XlIIUTIY413hOBD1qYjOgYNyE+0l9uJZCXduQVByMr3
+         zNYya5MN9XX342cokqarXngzVja4WpmoFe5B4eKwjBM2sOx2w5b/5ha8h95uCykaviow
+         w5MPpCCI8WPgLr9+3wTocTK+YeW7jOeUAn+V+xiaK0l+Zl+9RFh5OoGLzufrGvWAHg4I
+         qhomJ5Iv4HyzHiLpfarztsiBHmNQ79pXfpWlVIVEQUaY61GBPsVsijI59S3WVWZPZPpw
+         856A==
+X-Gm-Message-State: AOAM532CTrbSM+n+1ysSFQFe8W8pA2zPjjHHH55Rstljg+K12e2Vrluq
+	m4KJqL4esqm42rdGlO3eJQYm/3RmlYc=
 X-Google-Smtp-Source: 
- ABdhPJzXNLZ0YHnmC6HSaE6e3aDPyelnsUxGGJNwEjs673JKlfV5uHcxmBTjbzV7cM6APwMRhzVVNQ==
-X-Received: by 2002:a5d:6701:0:b0:1e3:3ba6:d2e8 with SMTP id
- o1-20020a5d6701000000b001e33ba6d2e8mr5380180wru.221.1645178811821;
-        Fri, 18 Feb 2022 02:06:51 -0800 (PST)
+ ABdhPJzg2jWujAPgiM4kevyiP+RMnirAA4m+2aajTnVgd9qsLfYXKsyAl4dOKjh+BR/ZAuoA+EVslg==
+X-Received: by 2002:adf:c382:0:b0:1e3:1be3:cc38 with SMTP id
+ p2-20020adfc382000000b001e31be3cc38mr5402675wrf.368.1645178812823;
+        Fri, 18 Feb 2022 02:06:52 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.50
+ z5sm4808494wmp.10.2022.02.18.02.06.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:51 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:52 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 33/46][dunfell] grub: fix multiple integer overflows
-Date: Fri, 18 Feb 2022 11:05:41 +0100
-Message-Id: <20220218100554.1315511-34-rybczynska@gmail.com>
+Subject: [PATCH 34/46][dunfell] grub: fix a possible integer overflow
+Date: Fri, 18 Feb 2022 11:05:42 +0100
+Message-Id: <20220218100554.1315511-35-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -67,141 +67,76 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:54 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161921
+ https://lists.openembedded.org/g/openembedded-core/message/161922
 
-This patch adds a fix for multiple integer overflows in grub's
+This patch adds a fix for a possible integer overflow in grub's
 video/fb/video_fb. It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...eo_fb-Fix-multiple-integer-overflows.patch | 104 ++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch
+ ...deo_fb-Fix-possible-integer-overflow.patch | 39 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0034-video-fb-video_fb-Fix-possible-integer-overflow.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch b/meta/recipes-bsp/grub/files/0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch
+diff --git a/meta/recipes-bsp/grub/files/0034-video-fb-video_fb-Fix-possible-integer-overflow.patch b/meta/recipes-bsp/grub/files/0034-video-fb-video_fb-Fix-possible-integer-overflow.patch
 new file mode 100644
-index 0000000000..544e7f31ae
+index 0000000000..c82b2c7df0
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch
-@@ -0,0 +1,104 @@
-+From 69b91f7466a5ad5fb85039a5b4118efb77ad6347 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0034-video-fb-video_fb-Fix-possible-integer-overflow.patch
+@@ -0,0 +1,39 @@
++From aac5574ff340a665ccc78d4c3d61596ac67acbbe Mon Sep 17 00:00:00 2001
 +From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Wed, 4 Nov 2020 14:43:44 +0000
-+Subject: [PATCH] video/fb/video_fb: Fix multiple integer overflows
++Date: Fri, 4 Dec 2020 14:51:30 +0000
++Subject: [PATCH] video/fb/video_fb: Fix possible integer overflow
 +
-+The calculation of the unsigned 64-bit value is being generated by
-+multiplying 2, signed or unsigned, 32-bit integers which may overflow
-+before promotion to unsigned 64-bit. Fix all of them.
++It is minimal possibility that the values being used here will overflow.
++So, change the code to use the safemath function grub_mul() to ensure
++that doesn't happen.
 +
-+Fixes: CID 73703, CID 73767, CID 73833
++Fixes: CID 73761
 +
 +Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=08e098b1dbf01e96376f594b337491bc4cfa48dd]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=08413f2f4edec0e2d9bf15f836f6ee5ca2e379cb]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/video/fb/video_fb.c | 52 ++++++++++++++++++++++++-----------
-+ 1 file changed, 36 insertions(+), 16 deletions(-)
++ grub-core/video/fb/video_fb.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
 +
 +diff --git a/grub-core/video/fb/video_fb.c b/grub-core/video/fb/video_fb.c
-+index 1a602c8..1c9a138 100644
++index 1c9a138..ae6b89f 100644
 +--- a/grub-core/video/fb/video_fb.c
 ++++ b/grub-core/video/fb/video_fb.c
-+@@ -25,6 +25,7 @@
-+ #include <grub/fbutil.h>
-+ #include <grub/bitmap.h>
-+ #include <grub/dl.h>
-++#include <grub/safemath.h>
-+ 
-+ GRUB_MOD_LICENSE ("GPLv3+");
-+ 
-+@@ -1417,15 +1418,23 @@ doublebuf_blit_update_screen (void)
-+ {
-+   if (framebuffer.current_dirty.first_line
-+       <= framebuffer.current_dirty.last_line)
-+-    grub_memcpy ((char *) framebuffer.pages[0]
-+-		 + framebuffer.current_dirty.first_line
-+-		 * framebuffer.back_target->mode_info.pitch,
-+-		 (char *) framebuffer.back_target->data
-+-		 + framebuffer.current_dirty.first_line
-+-		 * framebuffer.back_target->mode_info.pitch,
-+-		 framebuffer.back_target->mode_info.pitch
-+-		 * (framebuffer.current_dirty.last_line
-+-		    - framebuffer.current_dirty.first_line));
-++    {
-++      grub_size_t copy_size;
-++
-++      if (grub_sub (framebuffer.current_dirty.last_line,
-++		    framebuffer.current_dirty.first_line, &copy_size) ||
-++	  grub_mul (framebuffer.back_target->mode_info.pitch, copy_size, &copy_size))
-++	{
-++	  /* Shouldn't happen, but if it does we've a bug. */
-++	  return GRUB_ERR_BUG;
-++	}
-++
-++      grub_memcpy ((char *) framebuffer.pages[0] + framebuffer.current_dirty.first_line *
-++		   framebuffer.back_target->mode_info.pitch,
-++		   (char *) framebuffer.back_target->data + framebuffer.current_dirty.first_line *
-++		   framebuffer.back_target->mode_info.pitch,
-++		   copy_size);
-++    }
-+   framebuffer.current_dirty.first_line
-+     = framebuffer.back_target->mode_info.height;
-+   framebuffer.current_dirty.last_line = 0;
-+@@ -1439,7 +1448,7 @@ grub_video_fb_doublebuf_blit_init (struct grub_video_fbrender_target **back,
-+ 				   volatile void *framebuf)
++@@ -1537,7 +1537,13 @@ doublebuf_pageflipping_init (struct grub_video_mode_info *mode_info,
++ 			     volatile void *page1_ptr)
 + {
 +   grub_err_t err;
-+-  grub_size_t page_size = mode_info.pitch * mode_info.height;
-++  grub_size_t page_size = (grub_size_t) mode_info.pitch * mode_info.height;
-+ 
-+   framebuffer.offscreen_buffer = grub_zalloc (page_size);
-+   if (! framebuffer.offscreen_buffer)
-+@@ -1482,12 +1491,23 @@ doublebuf_pageflipping_update_screen (void)
-+     last_line = framebuffer.previous_dirty.last_line;
-+ 
-+   if (first_line <= last_line)
-+-    grub_memcpy ((char *) framebuffer.pages[framebuffer.render_page]
-+-		 + first_line * framebuffer.back_target->mode_info.pitch,
-+-		 (char *) framebuffer.back_target->data
-+-		 + first_line * framebuffer.back_target->mode_info.pitch,
-+-		 framebuffer.back_target->mode_info.pitch
-+-		 * (last_line - first_line));
++-  grub_size_t page_size = mode_info->pitch * mode_info->height;
+++  grub_size_t page_size = 0;
+++
+++  if (grub_mul (mode_info->pitch, mode_info->height, &page_size))
 ++    {
-++      grub_size_t copy_size;
-++
-++      if (grub_sub (last_line, first_line, &copy_size) ||
-++	  grub_mul (framebuffer.back_target->mode_info.pitch, copy_size, &copy_size))
-++	{
-++	  /* Shouldn't happen, but if it does we've a bug. */
-++	  return GRUB_ERR_BUG;
-++	}
-++
-++      grub_memcpy ((char *) framebuffer.pages[framebuffer.render_page] + first_line *
-++		   framebuffer.back_target->mode_info.pitch,
-++		   (char *) framebuffer.back_target->data + first_line *
-++		   framebuffer.back_target->mode_info.pitch,
-++		   copy_size);
+++      /* Shouldn't happen, but if it does we've a bug. */
+++      return GRUB_ERR_BUG;
 ++    }
-++
-+   framebuffer.previous_dirty = framebuffer.current_dirty;
-+   framebuffer.current_dirty.first_line
-+     = framebuffer.back_target->mode_info.height;
++ 
++   framebuffer.offscreen_buffer = grub_malloc (page_size);
++   if (! framebuffer.offscreen_buffer)
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 710ab5e361..8b5b9e3b3e 100644
+index 8b5b9e3b3e..04c9b4c092 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -79,6 +79,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0030-commands-hashsum-Fix-a-memory-leak.patch \
+@@ -80,6 +80,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0031-video-efi_gop-Remove-unnecessary-return-value-of-gru.patch \
             file://0032-video-fb-fbfill-Fix-potential-integer-overflow.patch \
-+           file://0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch \
+            file://0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch \
++           file://0034-video-fb-video_fb-Fix-possible-integer-overflow.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
