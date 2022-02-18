@@ -2,63 +2,64 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4D3C433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:39 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.9085.1645178798028664448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A62C433FE
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:40 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.9086.1645178799036407702
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:38 -0800
+ Fri, 18 Feb 2022 02:06:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aQTMaCkQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=X6R45FzI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id k1so13632974wrd.8
+Received: by mail-wm1-f54.google.com with SMTP id
+ az26-20020a05600c601a00b0037c078db59cso5984692wmb.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:37 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Kxcv53gL+SCfvq14d+AXQKLa9+TdEQmDoRhOBfRruOw=;
-        b=aQTMaCkQGQm8bBs9ebfeDPqj07jg1UHqQdh0PPkRN7dDvdH9Gjh9hCVDg+2PElK7KX
-         3IB/MbKlwElCBooD+6GQkIpL+4Vlh3iaS9c3uPcL8ZHxf0Q8PybKlmtxOoefw9EfvxU+
-         1b3vrvtNAuMIsdldGm83c6dUu5hZZfQijraAJzHxEp/39zxrIlTmAXmXnPlKdgWKThAZ
-         VHaB1f+vqDe81PKK85yZYuXnHAAUBxPwq1gdkihzD3OoQleqhjV5Gs6LHUu0g/bb7mXm
-         0EGfgs8aoINz7WQ8segIXot5RW8bcm1ZLwGMDjDdjHXm1i9fmOe2O2aDRAW0hBVnz/17
-         5bww==
+        bh=oLnJ3ZwPwWCokuarsihx+lWfeX96TGoaxtod25yLPG8=;
+        b=X6R45FzIjWb4EiJfVo12jWS02X4aT7py8WLrd7AZiYx3j01d8bW8S0y386evemDNn5
+         V6Mfk43G41LIKyOflZ57FddSNlni8YO0lgpRvnBfwc+/RTUwAaF4NDCEaYNJzeZNylUt
+         jsezQ8TREjHN9/viSs9NoVm3uZP7eyHHpQVnayOzjSEL7D23w1wAMdELB0sRpKgtiDl5
+         I8Me/PvNs9XJt1vnR2+2NJFyqryBGZe81gT/2qLjc5uQC5OAM85+CeZ2kqJa5nimRRgQ
+         j10wi1Vn9E0Mc2lRmlnzdg9750xh+OpiPZwKalw2Nr7dUynYXrdv6QecyloF4PFYy6vn
+         aXaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Kxcv53gL+SCfvq14d+AXQKLa9+TdEQmDoRhOBfRruOw=;
-        b=IXXlyuc3HzZksHZceU+4IOLZpC2iiHT/ATgn49VsKAwnHPJX/PjQNarSDkPxpJUbtj
-         nEUy1EmUybOrVeosSMq9m+MVYMjPm8bXp5H3jWyJWI2OGeAlPDiFHM9A3O0AbJ4Zftla
-         VvdZGUNWMcMd5bQuJkNkn0gFAgp5Y41bVUb4ZbqBefwbjPzCAZd4JAidbFE3luRJmBvV
-         QoKIx9fzskPiAms9Rw4ynSZ8z5f0IdkbOveY9UQMWrb9m8nLbHs1rxI1Pc7hmAMf9UQ8
-         1iwyO2pRM1mcrIqlVhnD91ySs8LdlHA58Leh7XYUFN1oMqS0WrKhCveesXhIGl2v58dq
-         7Ltw==
-X-Gm-Message-State: AOAM533hXca6wVle6GO7P75OD0/T/i43kw1X4MiVl3KCTPzuoGDFHWnh
-	GRhNSb+UmCyySUT4JKmf864=
+        bh=oLnJ3ZwPwWCokuarsihx+lWfeX96TGoaxtod25yLPG8=;
+        b=qYIvgTOz25QGseTvWVzETHltsgPjyYxjpm/cagMAG12ttX+9n0D8QGBythbvGTV0Ex
+         6ifgYXNhOsq3qhe1r/usdW6EDai4xqT5jpYAD4E5w2O8/y+QFxJp2fgbTGzynhUemLgj
+         waCLj+cYpLrYR4AFiDVMCEHsQhTgwFZn95oGqZfwx+fWg6Owr57INrIuepuwYHhMtHG2
+         C9rej/IxVha7qsnOVcLNqpb20Q59JDpXZpGKW6UM7WXF5NptC0LVeLKcU6XACCQV16YP
+         /DinmEZZdJ/coBPv/rDskhfqRmgLSDwVrhJskHJPMox6tr7mlG6qckXJLPb4zP2AAINd
+         GYVg==
+X-Gm-Message-State: AOAM533s4SUpHhjgSNyJUuBgF9L1pT1YUI+AIexuKOlFEOh0REKzyEsf
+	sN4FCiYlz4p7KCY/SBzo3Ko=
 X-Google-Smtp-Source: 
- ABdhPJwfFAm4lAAWlN8YtDKccQN+dZahS4Hw2GH0VQ8U/huHjPEmwggQKxHvioHTKH2LdQ9s13SJUA==
-X-Received: by 2002:adf:f644:0:b0:1e3:bfed:6eb5 with SMTP id
- x4-20020adff644000000b001e3bfed6eb5mr5458255wrp.654.1645178796499;
-        Fri, 18 Feb 2022 02:06:36 -0800 (PST)
+ ABdhPJxY6WM1iVJqxOuno16PUVwt3/kF8utpGbWUDai9ShF1RIBXnD7EvszaCgKWqg4kxRRW8jAF3w==
+X-Received: by 2002:a05:600c:414c:b0:37b:c80e:e3dc with SMTP id
+ h12-20020a05600c414c00b0037bc80ee3dcmr9786348wmm.116.1645178797556;
+        Fri, 18 Feb 2022 02:06:37 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.35
+ z5sm4808494wmp.10.2022.02.18.02.06.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:36 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:37 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 19/46][dunfell] grub: fix an integer overflow
-Date: Fri, 18 Feb 2022 11:05:27 +0100
-Message-Id: <20220218100554.1315511-20-rybczynska@gmail.com>
+Subject: [PATCH 20/46][dunfell] grub: add a fix for a length check
+Date: Fri, 18 Feb 2022 11:05:28 +0100
+Message-Id: <20220218100554.1315511-21-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -67,87 +68,80 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:39 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161907
+ https://lists.openembedded.org/g/openembedded-core/message/161908
 
-This patch fixes a potential overflow in grub's disk/cryptodisk. It is
-a part of a security series [1]
+This patch adds a fix for a volume name length check in grub's
+hfsplus. It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...odisk-Fix-potential-integer-overflow.patch | 50 +++++++++++++++++++
+ ...that-the-volume-name-length-is-valid.patch | 43 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0019-disk-cryptodisk-Fix-potential-integer-overflow.patch
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0019-disk-cryptodisk-Fix-potential-integer-overflow.patch b/meta/recipes-bsp/grub/files/0019-disk-cryptodisk-Fix-potential-integer-overflow.patch
+diff --git a/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch b/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
 new file mode 100644
-index 0000000000..dd7fda357d
+index 0000000000..eb459c547f
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0019-disk-cryptodisk-Fix-potential-integer-overflow.patch
-@@ -0,0 +1,50 @@
-+From 2550aaa0c23fdf8b6c54e00c6b838f2e3aa81fe2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
+@@ -0,0 +1,43 @@
++From 7c1813eeec78892fa651046cc224ae4e80d0c94d Mon Sep 17 00:00:00 2001
 +From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Thu, 21 Jan 2021 11:38:31 +0000
-+Subject: [PATCH] disk/cryptodisk: Fix potential integer overflow
++Date: Fri, 23 Oct 2020 17:09:31 +0000
++Subject: [PATCH] hfsplus: Check that the volume name length is valid
 +
-+The encrypt and decrypt functions expect a grub_size_t. So, we need to
-+ensure that the constant bit shift is using grub_size_t rather than
-+unsigned int when it is performing the shift.
++HFS+ documentation suggests that the maximum filename and volume name is
++255 Unicode characters in length.
 +
-+Fixes: CID 307788
++So, when converting from big-endian to little-endian, we should ensure
++that the name of the volume has a length that is between 0 and 255,
++inclusive.
++
++Fixes: CID 73641
 +
 +Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=a201ad17caa430aa710654fdf2e6ab4c8166f031]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2298f6e0d951251bb9ca97d891d1bc8b74515f8c]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/disk/cryptodisk.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ grub-core/fs/hfsplus.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
 +
-+diff --git a/grub-core/disk/cryptodisk.c b/grub-core/disk/cryptodisk.c
-+index 5037768..6883f48 100644
-+--- a/grub-core/disk/cryptodisk.c
-++++ b/grub-core/disk/cryptodisk.c
-+@@ -311,10 +311,10 @@ grub_cryptodisk_endecrypt (struct grub_cryptodisk *dev,
-+ 	case GRUB_CRYPTODISK_MODE_CBC:
-+ 	  if (do_encrypt)
-+ 	    err = grub_crypto_cbc_encrypt (dev->cipher, data + i, data + i,
-+-					   (1U << dev->log_sector_size), iv);
-++					   ((grub_size_t) 1 << dev->log_sector_size), iv);
-+ 	  else
-+ 	    err = grub_crypto_cbc_decrypt (dev->cipher, data + i, data + i,
-+-					   (1U << dev->log_sector_size), iv);
-++					   ((grub_size_t) 1 << dev->log_sector_size), iv);
-+ 	  if (err)
-+ 	    return err;
-+ 	  break;
-+@@ -322,10 +322,10 @@ grub_cryptodisk_endecrypt (struct grub_cryptodisk *dev,
-+ 	case GRUB_CRYPTODISK_MODE_PCBC:
-+ 	  if (do_encrypt)
-+ 	    err = grub_crypto_pcbc_encrypt (dev->cipher, data + i, data + i,
-+-					    (1U << dev->log_sector_size), iv);
-++					    ((grub_size_t) 1 << dev->log_sector_size), iv);
-+ 	  else
-+ 	    err = grub_crypto_pcbc_decrypt (dev->cipher, data + i, data + i,
-+-					    (1U << dev->log_sector_size), iv);
-++					    ((grub_size_t) 1 << dev->log_sector_size), iv);
-+ 	  if (err)
-+ 	    return err;
-+ 	  break;
++diff --git a/grub-core/fs/hfsplus.c b/grub-core/fs/hfsplus.c
++index dae43be..03c3c4c 100644
++--- a/grub-core/fs/hfsplus.c
+++++ b/grub-core/fs/hfsplus.c
++@@ -1007,6 +1007,15 @@ grub_hfsplus_label (grub_device_t device, char **label)
++     grub_hfsplus_btree_recptr (&data->catalog_tree, node, ptr);
++ 
++   label_len = grub_be_to_cpu16 (catkey->namelen);
+++
+++  /* Ensure that the length is >= 0. */
+++  if (label_len < 0)
+++    label_len = 0;
+++
+++  /* Ensure label length is at most 255 Unicode characters. */
+++  if (label_len > 255)
+++    label_len = 255;
+++
++   label_name = grub_calloc (label_len, sizeof (*label_name));
++   if (!label_name)
++     {
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 2fccdc2d62..130f32551b 100644
+index 130f32551b..3c5274fd96 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -65,6 +65,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch \
+@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0017-disk-ldm-If-failed-then-free-vg-variable-too.patch \
             file://0018-disk-ldm-Fix-memory-leak-on-uninserted-lv-references.patch \
-+           file://0019-disk-cryptodisk-Fix-potential-integer-overflow.patch \
+            file://0019-disk-cryptodisk-Fix-potential-integer-overflow.patch \
++           file://0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
