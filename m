@@ -2,64 +2,64 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73FFDC433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:34 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.9081.1645178793638717275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76FCCC433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:35 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.9083.1645178794651186868
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:34 -0800
+ Fri, 18 Feb 2022 02:06:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MyoGiPq/;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b8CfvVLj;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- m126-20020a1ca384000000b0037bb8e379feso8207222wme.5
+Received: by mail-wm1-f43.google.com with SMTP id
+ y6-20020a7bc186000000b0037bdc5a531eso5696743wmi.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:33 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=g5sl50RpMMYLiGVhC5b6iy6hOtbHmkGYsUUjIGy/Hzg=;
-        b=MyoGiPq/E6XoKKfGYsWAiHwf+E3N8okE7K7IEUnpN7nCvHEtHSDLQGn2s5lyxOgNym
-         GN2uVWiHGHiHH0BoGtkTlPSQxAh0Rwfr5fg3G2VTm8WSRX45bDrsq3MiPe8L2ZKBGFGw
-         955Lsb7747Dq9ks8rrW+ewKzKCxT12x0mW40lPv2F2NTWIb+RJ8G0xDxj6zGg1cilMNf
-         vJiY9oEhS2larUIHEheaA79mRm4MJZ1kyORmstteJixMcxb3vdCrVTW+SZEy+NYKbCGK
-         wI+XCnMFrXao9+U/C0JE64h5jlx3ToesY7d0kgpZnWc9RQk6p3wXVKv3+WIeVEH0bUsL
-         gM8Q==
+        bh=w8VJqzrIbSge4fI8eFxCYbHLfAfHeAD38lw28mYiALE=;
+        b=b8CfvVLj4xx+vk0R7dgYXgPFk8stvojIUn9EwvgH4Igf51aSlSzsEs3MmU24zJkaCY
+         JcRZ6os5X6YPpIP6/bz+6im//vTmzCIB7t2o+890qfNEUzkPDB23BsscDffh/nNmBmBe
+         Zvy2TnE+uPAef8DFVhB2PX9gEmtQx+31YmL8n0RRtN9pF9ToxkkZ42E5Eq8Gf29DMUPs
+         paWZYM+3vno22SEEMXL3JCM107pv2FrLFHNVhz1gE9QEr2c0axRNBT06dhIugeLqBbGQ
+         bE2UmKThdXSDEVs8uKgURsKjEOHNeXfztfPnuiXvUeCtUozOsj8nLYoDORu8Vi7y0P8c
+         V94g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=g5sl50RpMMYLiGVhC5b6iy6hOtbHmkGYsUUjIGy/Hzg=;
-        b=soXcrfbb8bQqSBgkrY9ytx1WGM1+Eu05Bx06pydXv2B2XVQDDLdk0fnB6sdab/Lyu3
-         fdsX7rP0VyJhlPrRCjA45MORqTFb00gRA1/EZZ/XrGziIoyd4Jo7EAVVqZA9Ci0hdlJi
-         eaO7qAvOuNCcJkIpu4ckeeJCg4B840aiaJ9DV32HoQsphleIObTfyRRkA9v1pbkK2xSJ
-         3oJyOS6WIX+TPX2A3Gk2p9xPGihhTC7gai2glN/T8ccHntfzeSZ72ASEeND5vsrBuYZ+
-         E2scd8o8yj/R490w+ehGa/9QFP2+VUjSepTl8H1hK01czIPLo0Yk+xBr4DJ7p6lOEewD
-         zuMg==
-X-Gm-Message-State: AOAM531jSV1C+Vps5WU0sHb34VEYv480euwuv1x0vUMec7Lp85v0eb9S
-	ZhI+ZvIZ6XH632sOZZS7wdo=
+        bh=w8VJqzrIbSge4fI8eFxCYbHLfAfHeAD38lw28mYiALE=;
+        b=0J04aF66d1XdCbnYqfzByql8to9zoNXkFIox0Y9+HOxObNknCnYfi7KiOrJqYdOshW
+         zHMUn+4OIzfzmTg32nT2Pyqx1X35R80UTcd9LQ7pq0iIkRFf75HwIoXGDh6muwNxhHTF
+         XwbsESXFDBvfbJYe4YqdHO0EiKRFHnpt66q+orXP/PlF/TTOZa1+bMH8bfYhRdcuM/AR
+         bNxSJvs+GrmdP4GjZw2CKogyJs1uT+mBh1D+zNL4d6H/cKefO0f3JLiVM6X1eNZ8nl+O
+         qOCv1V6OMIOSvc6d8mutmYwp01PYCbHpv/MVZPpX+Z0dtMzXBTA0dtkyBIbDkOSaLEmw
+         stbg==
+X-Gm-Message-State: AOAM530gR5a+U969RTvfzy4dN0z1KKtoFd9bZ0turifw79YQSjQp3pqL
+	Q4O0Z6MIOwg8RxiJFnDi+fM=
 X-Google-Smtp-Source: 
- ABdhPJyik9lBF3Df5cc9l4c1mckJP7t6i9wwRxwing1kgaDBOln0XsloBzNhZgADK5MAZsAwVnWOnQ==
-X-Received: by 2002:a05:600c:3acb:b0:37b:db39:f3b1 with SMTP id
- d11-20020a05600c3acb00b0037bdb39f3b1mr6376257wms.175.1645178792104;
-        Fri, 18 Feb 2022 02:06:32 -0800 (PST)
+ ABdhPJz2CbuJmLQWMmVU4W5/y4YEa1glSAMOOOJgqG1j2buBeyXu2v0OIW0SlRk6JY8mrTNFFSyt4w==
+X-Received: by 2002:a05:600c:285:b0:37b:e5b1:c446 with SMTP id
+ 5-20020a05600c028500b0037be5b1c446mr6345779wmk.49.1645178793141;
+        Fri, 18 Feb 2022 02:06:33 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.31
+ z5sm4808494wmp.10.2022.02.18.02.06.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:31 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:32 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 15/46][dunfell] grub: add a missing NULL check
-Date: Fri, 18 Feb 2022 11:05:23 +0100
-Message-Id: <20220218100554.1315511-16-rybczynska@gmail.com>
+Subject: [PATCH 16/46][dunfell] grub: fix a memory leak
+Date: Fri, 18 Feb 2022 11:05:24 +0100
+Message-Id: <20220218100554.1315511-17-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -68,80 +68,165 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:34 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161903
+ https://lists.openembedded.org/g/openembedded-core/message/161904
 
-This fix adds a missing check for NULL pointer from an external source
-in grub's kern/partition. It is a part of a security series [1].
+Add a fix for a memory leak in grub's disk/ldm. It is a part of
+a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...heck-for-NULL-before-dereferencing-i.patch | 43 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch
+ ...re-comp-data-is-freed-before-exiting.patch | 128 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch b/meta/recipes-bsp/grub/files/0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch
+diff --git a/meta/recipes-bsp/grub/files/0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch b/meta/recipes-bsp/grub/files/0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch
 new file mode 100644
-index 0000000000..af9fcd45cc
+index 0000000000..c1687c75d0
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch
-@@ -0,0 +1,43 @@
-+From 0da8ef2e03a8591586b53a29af92d2ace76a04e3 Mon Sep 17 00:00:00 2001
-+From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Fri, 23 Oct 2020 09:49:59 +0000
-+Subject: [PATCH] kern/partition: Check for NULL before dereferencing input
-+ string
++++ b/meta/recipes-bsp/grub/files/0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch
+@@ -0,0 +1,128 @@
++From 0c5d0fd796e6cafba179321de396681a493c4158 Mon Sep 17 00:00:00 2001
++From: Marco A Benatto <mbenatto@redhat.com>
++Date: Mon, 7 Dec 2020 11:53:03 -0300
++Subject: [PATCH] disk/ldm: Make sure comp data is freed before exiting from
++ make_vg()
 +
-+There is the possibility that the value of str comes from an external
-+source and continuing to use it before ever checking its validity is
-+wrong. So, needs fixing.
++Several error handling paths in make_vg() do not free comp data before
++jumping to fail2 label and returning from the function. This will leak
++memory. So, let's fix all issues of that kind.
 +
-+Additionally, drop unneeded part initialization.
++Fixes: CID 73804
 +
-+Fixes: CID 292444
-+
-+Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
++Signed-off-by: Marco A Benatto <mbenatto@redhat.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=bc9c468a2ce84bc767234eec888b71f1bc744fff]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=23e39f50ca7a107f6b66396ed4d177a914dee035]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/kern/partition.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ grub-core/disk/ldm.c | 51 ++++++++++++++++++++++++++++++++++++++------
++ 1 file changed, 44 insertions(+), 7 deletions(-)
 +
-+diff --git a/grub-core/kern/partition.c b/grub-core/kern/partition.c
-+index e499147..b10a184 100644
-+--- a/grub-core/kern/partition.c
-++++ b/grub-core/kern/partition.c
-+@@ -109,11 +109,14 @@ grub_partition_map_probe (const grub_partition_map_t partmap,
-+ grub_partition_t
-+ grub_partition_probe (struct grub_disk *disk, const char *str)
-+ {
-+-  grub_partition_t part = 0;
-++  grub_partition_t part;
-+   grub_partition_t curpart = 0;
-+   grub_partition_t tail;
-+   const char *ptr;
++diff --git a/grub-core/disk/ldm.c b/grub-core/disk/ldm.c
++index 58f8a53..428415f 100644
++--- a/grub-core/disk/ldm.c
+++++ b/grub-core/disk/ldm.c
++@@ -554,7 +554,11 @@ make_vg (grub_disk_t disk,
++ 	      comp->segments = grub_calloc (comp->segment_alloc,
++ 					    sizeof (*comp->segments));
++ 	      if (!comp->segments)
++-		goto fail2;
+++		{
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	    }
++ 	  else
++ 	    {
++@@ -562,7 +566,11 @@ make_vg (grub_disk_t disk,
++ 	      comp->segment_count = 1;
++ 	      comp->segments = grub_malloc (sizeof (*comp->segments));
++ 	      if (!comp->segments)
++-		goto fail2;
+++		{
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	      comp->segments->start_extent = 0;
++ 	      comp->segments->extent_count = lv->size;
++ 	      comp->segments->layout = 0;
++@@ -574,15 +582,26 @@ make_vg (grub_disk_t disk,
++ 		  comp->segments->layout = GRUB_RAID_LAYOUT_SYMMETRIC_MASK;
++ 		}
++ 	      else
++-		goto fail2;
+++		{
+++		  grub_free (comp->segments);
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	      ptr += *ptr + 1;
++ 	      ptr++;
++ 	      if (!(vblk[i].flags & 0x10))
++-		goto fail2;
+++		{
+++		  grub_free (comp->segments);
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	      if (ptr >= vblk[i].dynamic + sizeof (vblk[i].dynamic)
++ 		  || ptr + *ptr + 1 >= vblk[i].dynamic
++ 		  + sizeof (vblk[i].dynamic))
++ 		{
+++		  grub_free (comp->segments);
++ 		  grub_free (comp->internal_id);
++ 		  grub_free (comp);
++ 		  goto fail2;
++@@ -592,6 +611,7 @@ make_vg (grub_disk_t disk,
++ 	      if (ptr + *ptr + 1 >= vblk[i].dynamic
++ 		  + sizeof (vblk[i].dynamic))
++ 		{
+++		  grub_free (comp->segments);
++ 		  grub_free (comp->internal_id);
++ 		  grub_free (comp);
++ 		  goto fail2;
++@@ -601,7 +621,12 @@ make_vg (grub_disk_t disk,
++ 	      comp->segments->nodes = grub_calloc (comp->segments->node_alloc,
++ 						   sizeof (*comp->segments->nodes));
++ 	      if (!lv->segments->nodes)
++-		goto fail2;
+++		{
+++		  grub_free (comp->segments);
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	    }
 + 
-++  if (str == NULL)
-++    return 0;
-++
-+   part = tail = disk->partition;
++ 	  if (lv->segments->node_alloc == lv->segments->node_count)
++@@ -611,11 +636,23 @@ make_vg (grub_disk_t disk,
 + 
-+   for (ptr = str; *ptr;)
++ 	      if (grub_mul (lv->segments->node_alloc, 2, &lv->segments->node_alloc) ||
++ 		  grub_mul (lv->segments->node_alloc, sizeof (*lv->segments->nodes), &sz))
++-		goto fail2;
+++		{
+++		  grub_free (comp->segments->nodes);
+++		  grub_free (comp->segments);
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 
++ 	      t = grub_realloc (lv->segments->nodes, sz);
++ 	      if (!t)
++-		goto fail2;
+++		{
+++		  grub_free (comp->segments->nodes);
+++		  grub_free (comp->segments);
+++		  grub_free (comp->internal_id);
+++		  grub_free (comp);
+++		  goto fail2;
+++		}
++ 	      lv->segments->nodes = t;
++ 	    }
++ 	  lv->segments->nodes[lv->segments->node_count].pv = 0;
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 7cf4d64149..94b89aa643 100644
+index 94b89aa643..479e2f71f2 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -61,6 +61,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0012-gnulib-regcomp-Fix-uninitialized-re_token.patch \
+@@ -62,6 +62,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch \
             file://0014-zstd-Initialize-seq_t-structure-fully.patch \
-+           file://0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch \
+            file://0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch \
++           file://0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
