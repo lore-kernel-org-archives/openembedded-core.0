@@ -2,64 +2,64 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B37C4332F
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:25 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.9177.1645178784860673619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 742F1C433FE
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:27 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web12.9106.1645178786144510730
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:25 -0800
+ Fri, 18 Feb 2022 02:06:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CJTFrrqq;
- spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Sep19A0I;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id u1so13612191wrg.11
+Received: by mail-wm1-f54.google.com with SMTP id
+ x3-20020a05600c21c300b0037c01ad715bso6006094wmj.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:24 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zoK6QWrvubnTcrQPfuqquiWx/1qYluZBBobtf31i32I=;
-        b=CJTFrrqqbmiMZDcDdOqWAyTep08cice3puPRsi95nR+h+3GVdO1hBS7hzguUnfl9gs
-         hlBTC07Os3y1M7uO6AhWryDTSUo0BKLFN+30gH04T8okPqmgMXpc7Beb7ZEJvxBWyCuP
-         bIgCr3BcClX3Y2uLVCvhslXHDoSORDhvcxx0MLJvi2jmKzT/UPFXuTMbJjcZlhLMpBfC
-         Ng50V57IF547X3cEn6+vftsVhdSAUCO4sRd0xmFvpdbDfP6aIbRIoeJcJOssxVnBpFTG
-         V6yrt8jUduXIQLCFrp8X+pMmymTsa+H5wqic1JbZyX/LMBO+R6RI+/lCQANsdNvl0itf
-         sfeg==
+        bh=LjI27LnK64nL9hqgiiXCvXM0WdUdi/2YsdU0oZvS2qo=;
+        b=Sep19A0I6QgZmmxs8U1mMbmv/F1ecqRjLOSCCeF52xycUbRUaVXJ+LukYTEklURs1x
+         yCF2nYguffTa67xuRVMZJhDzh+1Gd+BsCyTu/Zj+pICnDFMTqx0W4FIM9E5btsoZCQT8
+         dYzhQOceUrxTtMiTUYcrNUJk5Q/TBc3gJkE0ON8r9G7A0I7C8nzEf2z27oZ4xDWklUFc
+         XJFD2LR6KM+r+lqo31vEpQLMzC+QwTPx8n5IcSXfh3RM24iuF3BPkF6o0AWSfJmbLlK1
+         zTagFjwOULZWiJGCH9FUpDFfsEFNGmsQe0X1Kpe6rNtx+olb2Qg/p03vDh2tkCzyo4R0
+         q01g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zoK6QWrvubnTcrQPfuqquiWx/1qYluZBBobtf31i32I=;
-        b=Luh0MCxP8T9M1julcjVgS5eq137/1ZODVeiBYihQ6CTbNT+euOs89KsisJT/1QZWGT
-         B0B6KUnhP35m8eIWuqgJYgtCLtAPCvAI0ZgQWi+nyY5PGZBz/8MdtllklfyebsZ1hCi1
-         AQcK6M1eI7YFx2DN861KrLsDd+PodrXhd3UUEbdqlo/bzgibNTTNhGQ0KL4KcdSY8swI
-         4s+0v3lMzchhkjuUUtA9VMzb/DdpLafo1HsaV3WrYYhEt8liq1wi12WQXgrL+XUJed+d
-         4qH+gHPrzJlPP5mGRL2pdQOTv1ktBCiVJVUfxh+vkyJw+JqDnz9OetmXjupbg1xwJqFj
-         FzcA==
-X-Gm-Message-State: AOAM533o+0nkIP8ma8gYC9fq1bbBP3hvGkX7l/lwGh5UbWrT+Jo8OC2t
-	I+B3jrf6z4LQDhyAq2CC+qY=
+        bh=LjI27LnK64nL9hqgiiXCvXM0WdUdi/2YsdU0oZvS2qo=;
+        b=3KinzkEiQxUngYWWEu7PnCr6o/0CvBvFRPTRdqpJj+zc/HsP2azhN2c7g2HkQQfcy1
+         15Sh7IGDw55wtvFj9VGG38h30hDqdooMzGiMRhHq0+n4IbuzM1s3NtWDxEys76JJ8sKe
+         w8X+ayiioirr4tHkjzftkeMHPl/afK3o7vx5RMlPlQcfEImKqjiYZbWRU1/FDUugjAKn
+         7HJv+HH/a/ShyoxyJChnye1U040lQc45Gatw9phOVPpR663xdLD6DIIZv8LWMdrKiaAX
+         xRb+MoFCVpNUXg5Aj/8rudcN5ef9QmJ15rwNDHMU2Aw7oOdulcAhns2xB/7MiTFP6fXz
+         hZgQ==
+X-Gm-Message-State: AOAM532nqHgDQYi0yuC7H28QUpP8jen+LuEvVjgRDwPiaJ0BI1HHWJ/h
+	XPwqGjsyV5TjgVDNVUR5LYpitWjUQDU=
 X-Google-Smtp-Source: 
- ABdhPJy9e7cJvEWcn0lvS9AAL+rMjs6QB8diSihQSJWc1Lw1fdyKvv3oYNHgN4DPw6iUDobAEe7Q8Q==
-X-Received: by 2002:a5d:6f0a:0:b0:1e4:a354:a7e with SMTP id
- ay10-20020a5d6f0a000000b001e4a3540a7emr5368586wrb.423.1645178783434;
-        Fri, 18 Feb 2022 02:06:23 -0800 (PST)
+ ABdhPJwaUIhBdQKHGoe2F4I3pUhb/xxNOvhVmjeV4io62K83HxMiui4DZUocHos12D6YyLsIsY6dDg==
+X-Received: by 2002:a1c:7419:0:b0:37b:b96e:81a6 with SMTP id
+ p25-20020a1c7419000000b0037bb96e81a6mr10038666wmc.8.1645178784668;
+        Fri, 18 Feb 2022 02:06:24 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.22
+ z5sm4808494wmp.10.2022.02.18.02.06.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:23 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:24 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 07/46][dunfell] grub: add a fix for a possible NULL pointer
- dereference
-Date: Fri, 18 Feb 2022 11:05:15 +0100
-Message-Id: <20220218100554.1315511-8-rybczynska@gmail.com>
+Subject: [PATCH 08/46][dunfell] grub: add a fix for unused variable in gnulib
+Date: Fri, 18 Feb 2022 11:05:16 +0100
+Message-Id: <20220218100554.1315511-9-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -68,102 +68,96 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161895
+ https://lists.openembedded.org/g/openembedded-core/message/161896
 
-This change fixes a possible NULL pointer dereference in grub's
-EFI support. It is a part of a security series [1].
+This changes adds a fix for an unused variable issue in gnulib.
+It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...ix-possible-NULL-pointer-dereference.patch | 65 +++++++++++++++++++
+ ...ulib-regexec-Resolve-unused-variable.patch | 59 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0008-gnulib-regexec-Resolve-unused-variable.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch b/meta/recipes-bsp/grub/files/0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch
+diff --git a/meta/recipes-bsp/grub/files/0008-gnulib-regexec-Resolve-unused-variable.patch b/meta/recipes-bsp/grub/files/0008-gnulib-regexec-Resolve-unused-variable.patch
 new file mode 100644
-index 0000000000..d55709406b
+index 0000000000..74ffb559e9
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch
-@@ -0,0 +1,65 @@
-+From be03a18b8767be50f16a845c389fd5ed29aae055 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0008-gnulib-regexec-Resolve-unused-variable.patch
+@@ -0,0 +1,59 @@
++From 9d36bce5d516b6379ba3a0dd1a94a9c035838827 Mon Sep 17 00:00:00 2001
 +From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Fri, 11 Dec 2020 15:03:13 +0000
-+Subject: [PATCH] kern/efi/mm: Fix possible NULL pointer dereference
++Date: Wed, 21 Oct 2020 14:41:27 +0000
++Subject: [PATCH] gnulib/regexec: Resolve unused variable
 +
-+The model of grub_efi_get_memory_map() is that if memory_map is NULL,
-+then the purpose is to discover how much memory should be allocated to
-+it for the subsequent call.
++This is a really minor issue where a variable is being assigned to but
++not checked before it is overwritten again.
 +
-+The problem here is that with grub_efi_is_finished set to 1, there is no
-+check at all that the function is being called with a non-NULL memory_map.
++The reason for this issue is that we are not building with DEBUG set and
++this in turn means that the assert() that reads the value of the
++variable match_last is being processed out.
 +
-+While this MAY be true, we shouldn't assume it.
++The solution, move the assignment to match_last in to an ifdef DEBUG too.
 +
-+The solution to this is to behave as expected, and if memory_map is NULL,
-+then don't try to use it and allow memory_map_size to be filled in, and
-+return 0 as is done later in the code if the buffer is too small (or NULL).
-+
-+Additionally, drop unneeded ret = 1.
-+
-+Fixes: CID 96632
++Fixes: CID 292459
 +
 +Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=6aee4bfd6973c714056fb7b56890b8d524e94ee1]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=a983d36bd9178d377d2072fd4b11c635fdc404b4]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/kern/efi/mm.c | 19 ++++++++++++++-----
-+ 1 file changed, 14 insertions(+), 5 deletions(-)
++ conf/Makefile.extra-dist                           |  1 +
++ .../lib/gnulib-patches/fix-unused-value.patch      | 14 ++++++++++++++
++ 2 files changed, 15 insertions(+)
++ create mode 100644 grub-core/lib/gnulib-patches/fix-unused-value.patch
 +
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index b02fab1..5afcef7 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -328,15 +328,24 @@ grub_efi_get_memory_map (grub_efi_uintn_t *memory_map_size,
-+   if (grub_efi_is_finished)
-+     {
-+       int ret = 1;
-+-      if (*memory_map_size < finish_mmap_size)
-++
-++      if (memory_map != NULL)
-+ 	{
-+-	  grub_memcpy (memory_map, finish_mmap_buf, *memory_map_size);
-+-	  ret = 0;
-++	  if (*memory_map_size < finish_mmap_size)
-++	    {
-++	      grub_memcpy (memory_map, finish_mmap_buf, *memory_map_size);
-++	      ret = 0;
-++	    }
-++          else
-++	    grub_memcpy (memory_map, finish_mmap_buf, finish_mmap_size);
-+ 	}
-+       else
-+ 	{
-+-	  grub_memcpy (memory_map, finish_mmap_buf, finish_mmap_size);
-+-	  ret = 1;
-++	  /*
-++	   * Incomplete, no buffer to copy into, same as
-++	   * GRUB_EFI_BUFFER_TOO_SMALL below.
-++	   */
-++	  ret = 0;
-+ 	}
-+       *memory_map_size = finish_mmap_size;
-+       if (map_key)
++diff --git a/conf/Makefile.extra-dist b/conf/Makefile.extra-dist
++index 46c4e95..9b01152 100644
++--- a/conf/Makefile.extra-dist
+++++ b/conf/Makefile.extra-dist
++@@ -29,6 +29,7 @@ EXTRA_DIST += grub-core/genemuinit.sh
++ EXTRA_DIST += grub-core/genemuinitheader.sh
++ 
++ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-null-deref.patch
+++EXTRA_DIST += grub-core/lib/gnulib-patches/fix-unused-value.patch
++ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-width.patch
++ EXTRA_DIST += grub-core/lib/gnulib-patches/no-abort.patch
++ 
++diff --git a/grub-core/lib/gnulib-patches/fix-unused-value.patch b/grub-core/lib/gnulib-patches/fix-unused-value.patch
++new file mode 100644
++index 0000000..ba51f1b
++--- /dev/null
+++++ b/grub-core/lib/gnulib-patches/fix-unused-value.patch
++@@ -0,0 +1,14 @@
+++--- a/lib/regexec.c	2020-10-21 14:25:35.310195912 +0000
++++++ b/lib/regexec.c	2020-10-21 14:32:07.961765604 +0000
+++@@ -828,7 +828,11 @@
+++ 		    break;
+++ 		  if (__glibc_unlikely (err != REG_NOMATCH))
+++ 		    goto free_return;
++++#ifdef DEBUG
++++		  /* Only used for assertion below when DEBUG is set, otherwise
++++		     it will be over-written when we loop around.  */
+++ 		  match_last = -1;
++++#endif
+++ 		}
+++ 	      else
+++ 		break; /* We found a match.  */
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 04ed8b7b23..46d65d8609 100644
+index 46d65d8609..d2a1502d56 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -53,6 +53,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0004-kern-parser-Fix-resource-leak-if-argc-0.patch \
+@@ -54,6 +54,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0005-efi-Fix-some-malformed-device-path-arithmetic-errors.patch \
             file://0006-kern-efi-Fix-memory-leak-on-failure.patch \
-+           file://0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch \
+            file://0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch \
++           file://0008-gnulib-regexec-Resolve-unused-variable.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
