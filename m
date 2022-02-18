@@ -2,63 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B96C433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 13:55:44 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.10997.1645192542412986841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AAB9C433FE
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 14:13:36 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web09.11226.1645193614204245860
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 05:55:43 -0800
+ Fri, 18 Feb 2022 06:13:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hSvfI0X4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Mam5ARcE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id k1so14736181wrd.8
+Received: by mail-wr1-f51.google.com with SMTP id u1so14805505wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 05:55:42 -0800 (PST)
+ Fri, 18 Feb 2022 06:13:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=7H2LgiGhpV65T0AjMIraPwzbpP1a8jirFzZ8MV9wATc=;
-        b=hSvfI0X4tAkfK5hpS3ATvOGTIdQIx8ynnggHuZhNg/kFH+cjGpr/aNN4VerY9e+qLF
-         RjEXya1vNbf+oR8ewj18sg7Y0spUTTRW4SucFyO00hV7i0gZYkVA/nMkoiyoOScuPooZ
-         U55pfqZmJdq4UjAh+yAZwVpA6XqUWtrM63Vzc=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=qDLF3GYy6xgHvTckG4X7ziH5vxmqmIWGmYT5a/EpIHM=;
+        b=Mam5ARcE7yaJvbc4o0RE1stkExcU+hP2e+nxfY0JufQvqrZMKA8b7XOjmtMBqv3+WL
+         staOYNDZV4ZDSxXK04Je+Z9QGHgGs+DgycWmR+FEh0wXMx32jhpx20ldrjubE8umjdR4
+         6+66V2ypKtawE9JP0L9ojXZ+A6YNzwKi0J6Vw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7H2LgiGhpV65T0AjMIraPwzbpP1a8jirFzZ8MV9wATc=;
-        b=TdyjUiZaq5153muH87k3DmoFfShjMFbWjgUcAh2bQE4g+pUaqz+KKyWy6D7FewVjde
-         exzi6dqTLogpkiSkAlg7oA7csRWjJRq5KTHjt+mc+aZ5N+BU3hZOlce4uuMiC0ObxGQY
-         +ddEVpHIBEETrbApY3PInsB4DlXnqa2yLtRvVtgPIuca1xa29hhNldt8y6K/HIF0aovf
-         xrYWewHlT+jnEWnfCpO8BbPyNYSvJ+2yiuzQh41S6pl15e1Vyo8hNLc33YKoX0G5ju0M
-         lfUv9Lyzi22e3jThMCwZ20jl9Nd5N0KTp7ObJ9ahu+N7Z53o8oaYyZKycYfdHpiPqkZA
-         UZpw==
-X-Gm-Message-State: AOAM530puTZN3B1fdmoo+IGziJsJtSlc+p5oWmXPgXhTHjzy9UN4EbPQ
-	GLDqnsu5r0LNetid83Ogv1F8+A==
+        bh=qDLF3GYy6xgHvTckG4X7ziH5vxmqmIWGmYT5a/EpIHM=;
+        b=lXMVkSZLavmxsH/UCkm3/osZuSASehchVB06y0Hc5Hsgua0kEiPO2wQnQldCnW+1my
+         knRo/cHJEbr03GmLTzp7btMi4S2Rwm3IZmVRSL8C//xz7sZaIBJVijsfvEuC2LUKmzYY
+         2wUkSCaYSJDPTOXnEBZYJOWEUFkikguLIHH5Y5VN/2zyt/khtX4oB+WQxOPrsOyWnXl8
+         oRgCpIjQhXFAfktUUxsvbAJ5tfBqhBklrl1gKtvbsgbrXp4XAtHIiwcRkKQ+OfQ+hEBs
+         kLkqmqxPeSPV/Q05LY9XzyNSYNqtxbQ7rOv+0oeH3m4zJSKth1/Cb3/1OmDV1qSdi9fc
+         eqWQ==
+X-Gm-Message-State: AOAM533rv9WPrLdZJKE21CEwdj37fqNIsY/IVe/idZfoq547rnBkxioO
+	aqRQcj4ywPgTfnWj1JG6ITNMzQ==
 X-Google-Smtp-Source: 
- ABdhPJz3Vt99/QGbz3JK5zefPXQ+UDGtBwHcUs5Bg4C4+aG2V5k30NkgdjJOP8iFe2gPE6w1XFeXpg==
-X-Received: by 2002:a5d:53cd:0:b0:1e5:a670:9d0b with SMTP id
- a13-20020a5d53cd000000b001e5a6709d0bmr6172928wrw.170.1645192540514;
-        Fri, 18 Feb 2022 05:55:40 -0800 (PST)
+ ABdhPJysh25MLfkadIU5BQe4V7Tr0YdJ/4DXHom2STfT/FSovlH1daJOgjs1GqoH1wzF3s100NmxvA==
+X-Received: by 2002:a5d:610c:0:b0:1d8:e910:47d1 with SMTP id
+ v12-20020a5d610c000000b001d8e91047d1mr6528849wrt.339.1645193612475;
+        Fri, 18 Feb 2022 06:13:32 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:7bc9:59b:7021:269f?
  ([2001:8b0:aba:5f3c:7bc9:59b:7021:269f])
         by smtp.gmail.com with ESMTPSA id
- s6sm4591036wmr.43.2022.02.18.05.55.39
+ j6sm29556220wrt.70.2022.02.18.06.13.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 05:55:40 -0800 (PST)
+        Fri, 18 Feb 2022 06:13:31 -0800 (PST)
 Message-ID: 
- <caf357e342ad33e0117af76244ba13fcd804f4fc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] convert-variables: Script for Inclusive
- Language variable renames
+ <df167d230c66ea8a975e7bc4b8d731cf58798e81.camel@linuxfoundation.org>
+Subject: Re: [oe] INCOMPATIBLE_LICENSES and WHITELIST_<license> usage
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: enrico.scholz@sigma-chemnitz.de, Saul Wold <Saul.Wold@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Feb 2022 13:55:37 +0000
-In-Reply-To: <ly35kg9tsz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <20220217003248.581903-1-saul.wold@windriver.com>
-	 <ly35kg9tsz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+To: Saul Wold <Saul.Wold@windriver.com>,
+	openembedded-architecture@lists.openembedded.org, OE-core
+	 <openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
+	 <openembedded-devel@lists.openembedded.org>
+Date: Fri, 18 Feb 2022 14:13:30 +0000
+In-Reply-To: <7d187920-92f0-a0fe-22b9-a77a1c98fd7d@windriver.com>
+References: <7d187920-92f0-a0fe-22b9-a77a1c98fd7d@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
@@ -66,31 +66,59 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 13:55:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 14:13:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161938
+ https://lists.openembedded.org/g/openembedded-core/message/161939
 
-On Fri, 2022-02-18 at 14:40 +0100, Enrico Scholz via lists.openembedded.org
-wrote:
-> "Saul Wold" <Saul.Wold@windriver.com> writes:
+On Thu, 2022-02-17 at 15:01 -0800, Saul Wold wrote:
+> I am working on a proposal to re-write how INCOMPATIBLE_LICENSES is used 
+> and processed to possibly include a COMPATIBLE_LICENSES variable as 
+> well, see PeterK's email [0]
 > 
-> > From: Saul Wold <Saul.Wold@windriver.com>
-> > 
-> > This script searches for a list of variable that have been renamed
-> > and converts them to their more descriptive names.
+> I am trying to determine the usage of WHITELIST_<license> which would be 
+> used to override a license that might be listed in INCOMPATIBLE_LICENSES 
+> variable.
 > 
-> again: most of these renamings make identifiers much less descriptive
-> because they now sound like boolean flags instead of lists
+> Randy and I have done a quick and dirty survey of a 100 or so layers 
+> (thanks Randy) and could not find any real usage other than what's 
+> currently in OE-Core for WHITELIST_GPL-3.0.
+> 
+> If you are using WHITELIST_<license>, please let me reply with your usage.
+> 
+> 
+> [0] https://lists.openembedded.org/g/openembedded-devel/message/95166
 
-Whilst you could say they sound like booleans, they clearly can't be as that
-wouldn't make sense, e.g. "Ignoring variables in basehash" makes no sense.
+We need to be mindful that we need to resolve this to unblock the other language
+changes and feature creep here is potentially problematic. I do think it is
+worth trying to improve things rather than blindly allowing the horrible syntax
+in this variable to continue though.
 
-Secondly, most metadata variables are lists of things. Adding "LIST" to every
-variable that is a list of items would just make the variable names much longer
-with little end resulting readability gain.
+The test case we have for this currently is:
 
-Unfortunately there likely isn't a perfect rename and these were the best we
-were able to come up with.
+WHITELIST_GPL-3.0:pn-core-image-minimal = "bash"
+
+so I'd wondered about an alternative of:
+
+INCOMPATIBLE_LICENSE_EXCEPTIONS:pn-core-image-minimal = "bash:GPL-3.0"
+
+which matches the current functionality, removes the issue that the name of the
+variable is unknown without iterating every possible license name and makes it
+clear where it is applying to.
+
+I don't really like INCOMPATIBLE_LICENSE_ALLOWED_RECIPES since:
+
+a) it is long
+b) it refers to recipes when it works against packages
+
+(INCOMPATIBLE_LICENSE_PACKAGE_EXCEPTIONS is more correct but still long)
+
+I do like it mentioning INCOMPATIBLE_LICENSE in full since it works in
+conjunction with that variable and that is definitely not clear from the current
+WHITELIST_XXX until you look at the code.
+
+I'm still of the opinion the AVAILABLE_LICENSES variable is something we should
+be aiming to remove ultimately too, it has horrible issues with layers changing
+hashes for all recipes.
 
 Cheers,
 
