@@ -1,144 +1,91 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C2DCC433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:07:07 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.9191.1645178825979286016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD248C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 11:26:08 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.9682.1645183566833887499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:07:06 -0800
+ Fri, 18 Feb 2022 03:26:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YqKLlQOP;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id u1so13615186wrg.11
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Flq9UhJe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id i14so13986500wrc.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:07:05 -0800 (PST)
+ Fri, 18 Feb 2022 03:26:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=3acWfQv3/xRAAUnl3FzY4sJA23B38zezFyuagC4OG1U=;
-        b=YqKLlQOP2VRJzzT7upCd1CPga/0D4H+Sp8bouXmb/ggn6r2QPlXW6aBZPooMcE1iYe
-         548bHiGG9mRPdO+6fj9aF0LzHWCXBssYh39AIs03sWsRjWNvpkF5Tf7jsQXtJSQHCDWV
-         uzWFjmdjQXnZdYC/gccLiPxOlkFKE9f3JbK/WFwTaaS6mq1tj7i6u9QRHCLNy8lrJxky
-         tYSUve+7uDIGNsExRrUeVQ/ifenz1+2bmNJuDAFRJpYcf3mbgLHDS/f4nVq7nG5U0yYF
-         HwvG57X5HpaLjAcvjK8esPrd2BYAfhN6G830wZjdfmoxVv49Qi0ubl2SuXODqpZ2fIBf
-         BcJg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m8/7ArKmJlaYXjg8UYiqkAv6Z1IzDMnd+ZTFClw3Z/g=;
+        b=Flq9UhJerKZb1zcIzx5ubSyn1tlrZSNPNMCOmO/21Tai18fVlrBAN3kPVoiYx9K3t7
+         lT60QbCyli+BFz1erg9p6vXhBRPRb5fAv1BwSWUOO+vVeEARP63vNNsKo9d+xu4ZudlO
+         SXZo8bkNbwMnZrBtZEIJ6U4kd+W6ENomSK1bw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3acWfQv3/xRAAUnl3FzY4sJA23B38zezFyuagC4OG1U=;
-        b=pqo0EObgyGWtKCX9uAPsRuLIQewq7l4Moy4WeRnww+c+UWqKh6tn+55BigB0XYfL7H
-         Ic/RsxVuJTAc5y9qvJ++r8tJUy7fWMLInUDSUeQElOeDnwmacO8k8S9X5yLPuR59vGNm
-         r3raqdEe2RnpjrRNjV7wIp5htxnoTVBJT5PHtQ7/q4TTuqKTf51VfO8bdZbu1FeeQ4el
-         aWG0GO9PStbdX1rL1oIdm8RIynRfjH1EqFhLz5//hBPfqKNohJ48iLHC8Nnn2VQ2e9wG
-         ayvcS6hAJJkcMidQUh14JXYUvRZlgsiGRHskShIupJsYcpoT9/p2OSOUC27In4Algl76
-         nJ2g==
-X-Gm-Message-State: AOAM532IGoV6ICMUHjR2rrYFSjYfJ1aWx2Np6J/k9OkpjI83fxNCWPEc
-	FBaVdAM+67i/Q/XvSi2/sCY=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m8/7ArKmJlaYXjg8UYiqkAv6Z1IzDMnd+ZTFClw3Z/g=;
+        b=lDDPXhpU8dIXaRFbOP4lTCYCp3iPUHHRVP7DGrc2p1pb4E6V80zG+YXyEEuVMFsuaW
+         IwMYdD6sb1xRrfZ2+ePoULMY3G0x8cGDLr7nVB9vGC60ldLPhj6glFKTiSZ+8nWzsnGg
+         ksH12tUaQQocPvk2CpGE22L+VTm215DU9Yn4DCVa59NR20qsl+gJFI/F+wyKka2pE2XV
+         Ek3SfIkjRiDiQb0PlerROGRHOfe4Y/hFz4WvBUx+v+c012flV13dRhmXxtSSXyVO0leF
+         QihzjZN75JmDOhYN9Mw0X6rhsWzcxlDjZd0VpyozXscR0cyclBDZ5unPXJJ3eQ7SV8l8
+         JKFA==
+X-Gm-Message-State: AOAM531khdful5yG6KxlimvbxQ+QCev0A6xZjWMzg26kpRGRKynOgZjY
+	/0U+DS7BNOsFzzIFjNXCOraRUYAFX9tex9r2
 X-Google-Smtp-Source: 
- ABdhPJyOM6icoYghc3/KEREOR9q3fWd8gB02FkvBFcZhfCeTKItBwtKlzPnLqelsVIcMGYUoRB6Svg==
-X-Received: by 2002:a5d:4534:0:b0:1e4:9d38:2d4f with SMTP id
- j20-20020a5d4534000000b001e49d382d4fmr5630524wra.2.1645178824547;
-        Fri, 18 Feb 2022 02:07:04 -0800 (PST)
-Received: from localhost.localdomain ([80.215.178.41])
+ ABdhPJz5aBTRKELAAZo4bY6ZFS5++34w0tcsJAy24wydu2CpYXfzibZeNnJzbWJQ6HzVdECYmgFEQw==
+X-Received: by 2002:adf:ce0a:0:b0:1d8:fc60:8d32 with SMTP id
+ p10-20020adfce0a000000b001d8fc608d32mr5385962wrn.689.1645183564880;
+        Fri, 18 Feb 2022 03:26:04 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7bc9:59b:7021:269f])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.07.03
+ 12sm17143282wry.111.2022.02.18.03.26.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:07:04 -0800 (PST)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: anuj.mittal@intel.com,
-	openembedded-core@lists.openembedded.org,
-	steve@sakoman.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 46/46][dunfell] grub: add a fix for a crash in scripts
-Date: Fri, 18 Feb 2022 11:05:54 +0100
-Message-Id: <20220218100554.1315511-47-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
-References: <20220218100554.1315511-1-rybczynska@gmail.com>
+        Fri, 18 Feb 2022 03:26:04 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] recipeutils: Add missing get_srcrev() call
+Date: Fri, 18 Feb 2022 11:26:03 +0000
+Message-Id: <20220218112603.3003995-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:07:07 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 11:26:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161934
+ https://lists.openembedded.org/g/openembedded-core/message/161935
 
-This patch adds a fix for a crash in grub's script handling. It is
-a part of a security series [1].
+Updates within bitbake now require this call to be triggered somewhere with
+floating git source revs. Add the missing call. Issue can be reproduced with:
 
-[1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
+devtool check-upgrade-status dbus-wait
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...void-crash-when-using-outside-a-func.patch | 37 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0046-script-execute-Avoid-crash-when-using-outside-a-func.patch
+ meta/lib/oe/recipeutils.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-bsp/grub/files/0046-script-execute-Avoid-crash-when-using-outside-a-func.patch b/meta/recipes-bsp/grub/files/0046-script-execute-Avoid-crash-when-using-outside-a-func.patch
-new file mode 100644
-index 0000000000..84117a9073
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0046-script-execute-Avoid-crash-when-using-outside-a-func.patch
-@@ -0,0 +1,37 @@
-+From df2505c4c3cf42b0c419c99a5f9e1ce63e5a5938 Mon Sep 17 00:00:00 2001
-+From: Daniel Axtens <dja@axtens.net>
-+Date: Mon, 11 Jan 2021 17:30:42 +1100
-+Subject: [PATCH] script/execute: Avoid crash when using "$#" outside a
-+ function scope
-+
-+"$#" represents the number of arguments to a function. It is only
-+defined in a function scope, where "scope" is non-NULL. Currently,
-+if we attempt to evaluate "$#" outside a function scope, "scope" will
-+be NULL and we will crash with a NULL pointer dereference.
-+
-+Do not attempt to count arguments for "$#" if "scope" is NULL. This
-+will result in "$#" being interpreted as an empty string if evaluated
-+outside a function scope.
-+
-+Signed-off-by: Daniel Axtens <dja@axtens.net>
-+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=fe0586347ee46f927ae27bb9673532da9f5dead5]
-+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-+---
-+ grub-core/script/execute.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/grub-core/script/execute.c b/grub-core/script/execute.c
-+index 5ea2aef..23d34bd 100644
-+--- a/grub-core/script/execute.c
-++++ b/grub-core/script/execute.c
-+@@ -485,7 +485,7 @@ gettext_putvar (const char *str, grub_size_t len,
-+     return 0;
-+ 
-+   /* Enough for any number.  */
-+-  if (len == 1 && str[0] == '#')
-++  if (len == 1 && str[0] == '#' && scope != NULL)
-+     {
-+       grub_snprintf (*ptr, 30, "%u", scope->argv.argc);
-+       *ptr += grub_strlen (*ptr);
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 0454b09d52..75ef31f249 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -92,6 +92,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0043-util-glue-efi-Fix-incorrect-use-of-a-possibly-negati.patch \
-            file://0044-script-execute-Fix-NULL-dereference-in-grub_script_e.patch \
-            file://0045-commands-ls-Require-device_name-is-not-NULL-before-p.patch \
-+           file://0046-script-execute-Avoid-crash-when-using-outside-a-func.patch \
-            "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index a0c6974f04a..872ff97b89a 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1029,6 +1029,7 @@ def get_recipe_upstream_version(rd):
+     else:
+         ud = bb.fetch2.FetchData(src_uri, rd)
+         if rd.getVar("UPSTREAM_CHECK_COMMITS") == "1":
++            bb.fetch2.get_srcrev(rd)
+             revision = ud.method.latest_revision(ud, rd, 'default')
+             upversion = pv
+             if revision != rd.getVar("SRCREV"):
 -- 
-2.33.0
+2.32.0
 
 
