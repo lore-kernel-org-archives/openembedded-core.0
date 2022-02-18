@@ -1,132 +1,125 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <andrew@aj.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8AA3C433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 00:29:23 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.4953.1645144162027835740
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E71C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 05:43:52 +0000 (UTC)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by mx.groups.io with SMTP id smtpd.web09.7628.1645163031278318126
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 16:29:22 -0800
+ Thu, 17 Feb 2022 21:43:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uxv2YRHH;
- spf=pass (domain: gmail.com, ip: 209.85.208.171,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id n24so1886764ljj.10
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 16:29:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RcGAXwBGk6cj6PnNa1yEbdUzOdE2IZ4EG1igB7+8yRg=;
-        b=Uxv2YRHH2gulug9FMF4M5NdgcLH23cLTN2df9w+2luVVugyyZ4lHm30CPiEWLyzjxF
-         uN8zrdOfo++msQFEi5dwH5zC2n5cK+URwf233qpqG37TfNuouyVm1gz9m0fMxz5UMwJk
-         FtkUicLcBwT4V3IZsuVm/VcjYKOUS79AH5DGIaa8XWZjePOU1eLiqhzIKm1TZfH6Gj2c
-         7DW+8631wDUVykfnItXStNKIW3qw6oeJEJv+ZOmkIVHRWXu7JnpxvWW/yWvZ97+ZEuQF
-         juJEMJ30rZYtYVVcLG98f7NzVzl++RdCGovtSv78Byz4FlGZnrXc5lBJB4ePSEaVW6jF
-         vEtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RcGAXwBGk6cj6PnNa1yEbdUzOdE2IZ4EG1igB7+8yRg=;
-        b=sbmdwS3UAG38gCGiA3uvTP5+EBldZJfM8EVqi379USz6I+PSu27JE3D2H80/jyKuvN
-         YyVUZYlJTETQA++0mHs0zoTovOOlE/0xUj9x5y3btXBri2uO+03Z8v1uS2FS9HwJqDR7
-         CX3hpMMD/ZjSZde3mMKkoJCqmc5uleTqNrnu5GVV55CLQiKXDBpwdn4K6sjhqvg4WQIX
-         7ZMxAaIk5YUUeYru2eg/Uqim/8sFeIvL6znrTWqE8XcubVtq0AlHLJwESGbOVT2WOQD1
-         fuYG7k3O/Ku4187YuHJkOUux3GEfdMAZgNto4lL6hHDE/t+jzXSEcIK3LvjGrE12WL6T
-         UeDg==
-X-Gm-Message-State: AOAM5320llVYGraxAd2KIZuB9eyq26lxSZ9Ka66WhAuQ2Nsd3zOrlMCj
-	MUJBbDgG9FXcL5ZS4IhKRIH7ksdPp3U21oHEJpA=
-X-Google-Smtp-Source: 
- ABdhPJzDlweB0tdga3aKJ8OzbgQLWIx3yt7GDaC3BLONX/lcyKaVIGQTloM7kMI4Adu+uxi80obK7DwxxK3PqHBOfS0=
-X-Received: by 2002:a2e:9b8c:0:b0:246:1378:89cb with SMTP id
- z12-20020a2e9b8c000000b00246137889cbmr4054876lji.28.1645144160172; Thu, 17
- Feb 2022 16:29:20 -0800 (PST)
+ dkim=pass header.i=@aj.id.au header.s=fm2 header.b=K5G9dRlg;
+ spf=pass (domain: aj.id.au, ip: 64.147.123.21, mailfrom: andrew@aj.id.au)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 8A9B03201805
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 18 Feb 2022 00:43:50 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 18 Feb 2022 00:43:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; bh=wfQAqfgkbxPlogu/R9FuruLo6XUGQMVtR6p+HXjYF78=; b=K5G9d
+	Rlg3iApe93NoY0/A0HYbk+IppPJX9YGbgrkcq8sjW7oimCjG/R70ajDkZWRNwm/k
+	HW+UGDfKKiCATen6qVHdxsOUGzoeMT8CtJUEAEvpdgN4XjBU85F6RII+exdsu4pn
+	v073Kb75cCjM0LMyZ9RDaKIOz4AFlunoSh3pHsXALmVevKSUEBlQ5moOszLXsMZK
+	UchkylQEsvIMfAzVwy61UKoNXFynG42pm/l/igO3hjCTslsyJm7r5bGYFqctTDfr
+	vTJjB51Zm/u6kKrLNG1HsRnjeum74r21qMyLdwBqTUg0uqIYGGrsBhWeVx0NE0t7
+	fXpoTOiE2hXK2yQPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; bh=wfQAqfgkbxPlogu/R9FuruLo6XUGQ
+	MVtR6p+HXjYF78=; b=b1h0K0FoNhJKZY3KYSCGiAni4GLyof0pPfbBY+W72od7V
+	IfHv1YHh8kzqX9WFPxFUPHFh+dBrUixCqV6JUWdfc4H49GwoYJ9FrB9gwut4si1Z
+	LKHhBgNauq4Ok31YzZf2GlQRctvOMoiKQGG4VkL0aZmxyS1fBEmPvOpYFBSP0fhJ
+	UyBujAZLZyYclKW5Hv0Mr+OxG0xMO3g6yGcpXO6kQD9XP49JPjhG69oA+pVKcB3B
+	6oTxhvaZUx5i6uvPn6g/IcxqKCLEI1tTyjQdjVHAl+wK3U4pOYjDJEgZLKSsFQSL
+	jkT7ehWn1KMDcroBSul0Rk7GQYAgN/B5ROsvf67CQ==
+X-ME-Sender: <xms:FTIPYnHGJ5mguoZ-szs_qHu-D4ptQdGZuVaMg1JPba5T6n_mAvzZkw>
+    <xme:FTIPYkUgWyjbidbfKfNGs1Puc7eJ5FU9fLDu_0A_OEeaH7z64ymWVZGRI4uJQ6g4D
+    U9hVDrJy41j0X4w3Q>
+X-ME-Received: 
+ <xmr:FTIPYpITx5pvKFW_yeVqdHlGIhN83zwcFDlH8Iq3Qc7oUOrfzuqUWQgd0Et4TAbjsMnZ4lRT90eceg6DgW-dFRQu6ahjerHZwkhkUQUb3leIJJ8U1lmTjCywcZ7V71KD>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvvddrjeelgdekiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+    ugdrrghuqeenucggtffrrghtthgvrhhnpeehfeelveekjeeuvefghffgjeffleetffevie
+    efveduteekleegkeefjefhtddtgfenucffohhmrghinheprhhushhtqdhlrghnghdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnh
+    gurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:FTIPYlHt061CWXJznGnt8bU8RVS3tleuZSdixixS-fTtpH0-hANpCw>
+    <xmx:FTIPYtWVYqvNLiVNgTjMXG4Fe36gGmpDCiPoPxq_0RfxGaROGlCMIg>
+    <xmx:FTIPYgPG2eKvjG4SjF0Yjkai9yTNk5oU0AO4waTSTGriWtjR_uFnNA>
+    <xmx:FjIPYsA2h8F2uqUYe8M8jezdaoRDx5qEK_SzTM6PEkFSKqNobDmG1g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA for
+ <openembedded-core@lists.openembedded.org>; Fri,
+ 18 Feb 2022 00:43:48 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] rust: Introduce RS_BUILD_ARCH to handle ppc64le
+Date: Fri, 18 Feb 2022 16:13:15 +1030
+Message-Id: <20220218054315.169005-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20220216232803.1868265-1-quaresma.jose@gmail.com>
- <705135fb77074d9c9ac87d0d060592e1@axis.com>
- <CANPvuRkQiwKXTB-6SXD4sf1vtBWH7DQEG-Q_M+tXo1N6S1QNYw@mail.gmail.com>
- <c017f7a95fa977fd113892c8d4f2b0882b410df8.camel@linuxfoundation.org>
-In-Reply-To: 
- <c017f7a95fa977fd113892c8d4f2b0882b410df8.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 18 Feb 2022 00:29:08 +0000
-Message-ID: 
- <CANPvuR=qn+Ee9rJw_fmL83bVO+GAK1_3m8MHK=FkX0TvouzCwA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0: update licences of all modules
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000457f3b05d83ff961"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 00:29:23 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 05:43:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161877
+ https://lists.openembedded.org/g/openembedded-core/message/161878
 
---000000000000457f3b05d83ff961
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On modern Power systems `uname -m` reports 'ppc64le'. However, Rust's
+toolchain names the architecture 'powerpc64le'.
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-17/02/2022 =C3=A0(s) 23:50:
+Introduce RS_BUILD_ARCH to provide an indirection to fix this mismatch.
 
-> On Thu, 2022-02-17 at 23:08 +0000, Jose Quaresma wrote:
-> > It's not as simple as I was thinking, I'll need more time.
->
-> Perhaps split the patch so the main change to LICENSE can be resolved,
-> then the
-> remaining later patches focus on the harder bit?
->
+I've tested each of the generated URIs for Power using the output from
+`bitbake -e rust-native` and could successfully fetch the artifacts.
 
-I sent a v2 with that.
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ meta/recipes-devtools/rust/rust-snapshot.inc | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-Jose
+diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
+index 74b558262f62..9b309b6f330c 100644
+--- a/meta/recipes-devtools/rust/rust-snapshot.inc
++++ b/meta/recipes-devtools/rust/rust-snapshot.inc
+@@ -14,12 +14,20 @@ SRC_URI[rust-std-snapshot-aarch64.sha256sum] = "3618da916a0f92f241cf1d67d04bb578
+ SRC_URI[rustc-snapshot-aarch64.sha256sum] = "f26811e48d03c56c125de03d389e1ae7c6df36990953c1670c6a5676bc12d4cb"
+ SRC_URI[cargo-snapshot-aarch64.sha256sum] = "6d11cd94618d80cda273eeeae7285980445f61a49ebacc616777b482a41cbf3f"
+ 
++python () {
++    build_arch = d.getVar('BUILD_ARCH')
++    if build_arch == "ppc64le":
++        d.setVar("RS_BUILD_ARCH", "powerpc64le")
++    else:
++        d.setVar("RS_BUILD_ARCH", build_arch)
++}
++
+ SRC_URI += " \
+-    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
+-    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
+-    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
+ "
+ 
+-RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
+-RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
+-CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
++RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
++RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
++CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
+-- 
+2.32.0
 
-
-> Cheers,
->
-> Richard
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000457f3b05d83ff961
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 17/02/2022 =C3=A0(s) 23:50:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2022-02-17 at 23:08 +0000, =
-Jose Quaresma wrote:<br>
-&gt; It&#39;s not as simple as I was thinking, I&#39;ll need more time.<br>
-<br>
-Perhaps split the patch so the main change to LICENSE can be resolved, then=
- the<br>
-remaining later patches focus on the harder bit?<br></blockquote><div><br><=
-/div><div>I sent a v2 with that.</div><div><br></div><div>Jose</div><div><b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000457f3b05d83ff961--
 
