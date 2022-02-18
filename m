@@ -2,64 +2,64 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76A62C433FE
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:40 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.9086.1645178799036407702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 759ACC433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:41 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.9087.1645178800101121356
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:39 -0800
+ Fri, 18 Feb 2022 02:06:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=X6R45FzI;
- spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f7ShmLaN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id
- az26-20020a05600c601a00b0037c078db59cso5984692wmb.4
+Received: by mail-wm1-f52.google.com with SMTP id
+ bg21-20020a05600c3c9500b0035283e7a012so6024648wmb.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:38 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oLnJ3ZwPwWCokuarsihx+lWfeX96TGoaxtod25yLPG8=;
-        b=X6R45FzIjWb4EiJfVo12jWS02X4aT7py8WLrd7AZiYx3j01d8bW8S0y386evemDNn5
-         V6Mfk43G41LIKyOflZ57FddSNlni8YO0lgpRvnBfwc+/RTUwAaF4NDCEaYNJzeZNylUt
-         jsezQ8TREjHN9/viSs9NoVm3uZP7eyHHpQVnayOzjSEL7D23w1wAMdELB0sRpKgtiDl5
-         I8Me/PvNs9XJt1vnR2+2NJFyqryBGZe81gT/2qLjc5uQC5OAM85+CeZ2kqJa5nimRRgQ
-         j10wi1Vn9E0Mc2lRmlnzdg9750xh+OpiPZwKalw2Nr7dUynYXrdv6QecyloF4PFYy6vn
-         aXaA==
+        bh=Va8D6+aLfs2dbpdI8ByudUJBjWpuScttYwJQMGtB7oU=;
+        b=f7ShmLaN5Lo2bBNqIiW2efmx2LzRY6mYlUy/CPr0oZx3av3XIxc2psLIDczE751Wby
+         oX+WXP0k6mil4dUt6mBGxgWW5wr/7h5UhXeVRSgkMcnMNVRNF8R92GZdhXYvf/TpS5Hf
+         7SOkLclEFOBazeevq4allXr6RJGLLSfxe4yOxPWJs8MSPmU+BNmw85n7nYGd8AtT28D/
+         Pl+fo3VZIgBrM4zVzSVuJmSWO23VtkIR7gAo2hDCu0RikfytYaAZQQrgj1MKbLmRtHEp
+         bxGxE+Zz8oTI7M+R+9z4futQlc9oZIb/SaEhtsqSNzo+MrSpblVpc2J8StS0RaxyMTY7
+         dzNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oLnJ3ZwPwWCokuarsihx+lWfeX96TGoaxtod25yLPG8=;
-        b=qYIvgTOz25QGseTvWVzETHltsgPjyYxjpm/cagMAG12ttX+9n0D8QGBythbvGTV0Ex
-         6ifgYXNhOsq3qhe1r/usdW6EDai4xqT5jpYAD4E5w2O8/y+QFxJp2fgbTGzynhUemLgj
-         waCLj+cYpLrYR4AFiDVMCEHsQhTgwFZn95oGqZfwx+fWg6Owr57INrIuepuwYHhMtHG2
-         C9rej/IxVha7qsnOVcLNqpb20Q59JDpXZpGKW6UM7WXF5NptC0LVeLKcU6XACCQV16YP
-         /DinmEZZdJ/coBPv/rDskhfqRmgLSDwVrhJskHJPMox6tr7mlG6qckXJLPb4zP2AAINd
-         GYVg==
-X-Gm-Message-State: AOAM533s4SUpHhjgSNyJUuBgF9L1pT1YUI+AIexuKOlFEOh0REKzyEsf
-	sN4FCiYlz4p7KCY/SBzo3Ko=
+        bh=Va8D6+aLfs2dbpdI8ByudUJBjWpuScttYwJQMGtB7oU=;
+        b=5O2ejMvB1vsG7asOzTUUvna1/1LZQ2TPgt/+fUfD1YKJBBNLkpr1po6Bjez1dvjlZl
+         TbjTgBD/eQkgfc99HCpOB/bJQYvgn79aPCXxhapeT5eTZ2UCZEeHVJmZjSQncjsML4DJ
+         ZUjPn93nNTlQmNQsiGA+wd5aYWFWBnhgUzqicvqOweP2ZObN4179em7rUgPiU516pXoF
+         cxrhTFgW+kSupZZO6x3joALKUhlRO2u8gYnvJ3CjrYFdTi03vrgWn0pejhsB0Zlc34aQ
+         /JiY9Nk9sUg0w2nq0ZaqitELlmqA3a9M8BiKhJzXm0XdLvJi7kaqCukJet9r5H64E5DS
+         yygA==
+X-Gm-Message-State: AOAM531W8ZO0fOv4/e2XBYGohx3+Ds48USOGQwLeLCk91vaiQNFqd/2m
+	3681kQz1LUbrTAzH2osyriE=
 X-Google-Smtp-Source: 
- ABdhPJxY6WM1iVJqxOuno16PUVwt3/kF8utpGbWUDai9ShF1RIBXnD7EvszaCgKWqg4kxRRW8jAF3w==
-X-Received: by 2002:a05:600c:414c:b0:37b:c80e:e3dc with SMTP id
- h12-20020a05600c414c00b0037bc80ee3dcmr9786348wmm.116.1645178797556;
-        Fri, 18 Feb 2022 02:06:37 -0800 (PST)
+ ABdhPJzIj0I2O6D6EVkc1YzPVC+p+eR+RoUo/lunhaSD0m6/MisoU8in2NVQy/ZnxTDW+TKe3nucVA==
+X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
+ o24-20020a1c7518000000b0037c07ebf255mr9826754wmc.29.1645178798603;
+        Fri, 18 Feb 2022 02:06:38 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.36
+ z5sm4808494wmp.10.2022.02.18.02.06.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:37 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:38 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 20/46][dunfell] grub: add a fix for a length check
-Date: Fri, 18 Feb 2022 11:05:28 +0100
-Message-Id: <20220218100554.1315511-21-rybczynska@gmail.com>
+Subject: [PATCH 21/46][dunfell] grub: add a fix for a possible negative shift
+Date: Fri, 18 Feb 2022 11:05:29 +0100
+Message-Id: <20220218100554.1315511-22-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -68,80 +68,79 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:40 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161908
+ https://lists.openembedded.org/g/openembedded-core/message/161909
 
-This patch adds a fix for a volume name length check in grub's
-hfsplus. It is a part of a security series [1].
+This patch adds a fix for a possible negative shift in grub's zfs.
+It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...that-the-volume-name-length-is-valid.patch | 43 +++++++++++++++++++
+ ...ix-possible-negative-shift-operation.patch | 42 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0021-zfs-Fix-possible-negative-shift-operation.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch b/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
+diff --git a/meta/recipes-bsp/grub/files/0021-zfs-Fix-possible-negative-shift-operation.patch b/meta/recipes-bsp/grub/files/0021-zfs-Fix-possible-negative-shift-operation.patch
 new file mode 100644
-index 0000000000..eb459c547f
+index 0000000000..12418858f9
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
-@@ -0,0 +1,43 @@
-+From 7c1813eeec78892fa651046cc224ae4e80d0c94d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0021-zfs-Fix-possible-negative-shift-operation.patch
+@@ -0,0 +1,42 @@
++From c757779e5d09719666c3b155afd2421978a107bd Mon Sep 17 00:00:00 2001
 +From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Fri, 23 Oct 2020 17:09:31 +0000
-+Subject: [PATCH] hfsplus: Check that the volume name length is valid
++Date: Tue, 24 Nov 2020 16:41:49 +0000
++Subject: [PATCH] zfs: Fix possible negative shift operation
 +
-+HFS+ documentation suggests that the maximum filename and volume name is
-+255 Unicode characters in length.
++While it is possible for the return value from zfs_log2() to be zero
++(0), it is quite unlikely, given that the previous assignment to blksz
++is shifted up by SPA_MINBLOCKSHIFT (9) before 9 is subtracted at the
++assignment to epbs.
 +
-+So, when converting from big-endian to little-endian, we should ensure
-+that the name of the volume has a length that is between 0 and 255,
-+inclusive.
++But, while unlikely during a normal operation, it may be that a carefully
++crafted ZFS filesystem could result in a zero (0) value to the
++dn_datalbkszsec field, which means that the shift left does nothing
++and assigns zero (0) to blksz, resulting in a negative epbs value.
 +
-+Fixes: CID 73641
++Fixes: CID 73608
 +
 +Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=2298f6e0d951251bb9ca97d891d1bc8b74515f8c]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=a02091834d3e167320d8a262ff04b8e83c5e616d]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/fs/hfsplus.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
++ grub-core/fs/zfs/zfs.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/grub-core/fs/hfsplus.c b/grub-core/fs/hfsplus.c
-+index dae43be..03c3c4c 100644
-+--- a/grub-core/fs/hfsplus.c
-++++ b/grub-core/fs/hfsplus.c
-+@@ -1007,6 +1007,15 @@ grub_hfsplus_label (grub_device_t device, char **label)
-+     grub_hfsplus_btree_recptr (&data->catalog_tree, node, ptr);
++diff --git a/grub-core/fs/zfs/zfs.c b/grub-core/fs/zfs/zfs.c
++index 36d0373..0c42cba 100644
++--- a/grub-core/fs/zfs/zfs.c
+++++ b/grub-core/fs/zfs/zfs.c
++@@ -2667,6 +2667,11 @@ dnode_get (dnode_end_t * mdn, grub_uint64_t objnum, grub_uint8_t type,
++   blksz = grub_zfs_to_cpu16 (mdn->dn.dn_datablkszsec, 
++ 			     mdn->endian) << SPA_MINBLOCKSHIFT;
++   epbs = zfs_log2 (blksz) - DNODE_SHIFT;
+++
+++  /* While this should never happen, we should check that epbs is not negative. */
+++  if (epbs < 0)
+++    epbs = 0;
+++
++   blkid = objnum >> epbs;
++   idx = objnum & ((1 << epbs) - 1);
 + 
-+   label_len = grub_be_to_cpu16 (catkey->namelen);
-++
-++  /* Ensure that the length is >= 0. */
-++  if (label_len < 0)
-++    label_len = 0;
-++
-++  /* Ensure label length is at most 255 Unicode characters. */
-++  if (label_len > 255)
-++    label_len = 255;
-++
-+   label_name = grub_calloc (label_len, sizeof (*label_name));
-+   if (!label_name)
-+     {
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 130f32551b..3c5274fd96 100644
+index 3c5274fd96..360e86685b 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0017-disk-ldm-If-failed-then-free-vg-variable-too.patch \
+@@ -67,6 +67,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0018-disk-ldm-Fix-memory-leak-on-uninserted-lv-references.patch \
             file://0019-disk-cryptodisk-Fix-potential-integer-overflow.patch \
-+           file://0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch \
+            file://0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch \
++           file://0021-zfs-Fix-possible-negative-shift-operation.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
