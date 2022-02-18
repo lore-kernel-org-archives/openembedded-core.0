@@ -2,64 +2,64 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748BDC433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:31 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.9080.1645178790298493207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 758B0C433FE
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:32 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.9180.1645178791642819803
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:30 -0800
+ Fri, 18 Feb 2022 02:06:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OLQsh04I;
- spf=pass (domain: gmail.com, ip: 209.85.128.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nhmdZzdy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id
- az26-20020a05600c601a00b0037c078db59cso5984345wmb.4
+Received: by mail-wm1-f48.google.com with SMTP id
+ k127-20020a1ca185000000b0037bc4be8713so8218506wme.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:30 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=G89MIHEA8eqQI5S55oLwMESBfN2hPesgJs0QaBdlbMw=;
-        b=OLQsh04IQHhvRdJOpkGqvxa/oRdp1C4ayyqg1s3xFxD/ZB9p2TBNVfxK+/o9S4aGWW
-         4YexCrIxMGJh5AjrpgLxhcOcfmopba6xGrx4bgX6rA1tU4bFteAGWk+zuwiDHukxlxJe
-         WEHGM0wagmQWGWWVqXjKClBNAwaPXsh+RgKAHa8t79VbYsecAa8B8QRlgI1hj3ef65K+
-         89t36484/a4IDzf3TgZcWijufDeF9d7rPyt9qfJWWXV1zAf4R4owVQvtWwfTHrEUqsXs
-         jj1ZbLdOvUMm5iEqHQnKK/NLJ/kAHpuM6UUQsSY07pYNHH3yNNWR645c4+09/j+msAQu
-         qllw==
+        bh=up80nopxMnwbVF/uExENh7DUnzPo4xKW9E6MbxjZAQk=;
+        b=nhmdZzdy88aKwV2DAeBnjnHBIR/snOr8Y6pJ+PknIM0xaqCa8w4Vj9ozLutP6BsWZV
+         A9P33BH3lcDNxU7ERNrbcSQ9pqP2TxDnQ8l7R7t802rDsFJcyERF701LXqf7ggX9LD+u
+         Lgq67VKyNe8szsqgJiUhRX18egPJP5Nve1Lf8K8cH4QA178u8dXaJmME1NnCYXy+hNap
+         3b+99/gKJHRj16nUWePlQQ2AVN4Fj7+5P1Rcqx85O/GJMlSld3fsrAwqhUPbckvh3jJF
+         dU6xG5YUPuVcVR9uUS518mKwuTTtC2jHAPf399SZqlurKymdqP55KpiOpYX9DfxeKXYV
+         HgGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=G89MIHEA8eqQI5S55oLwMESBfN2hPesgJs0QaBdlbMw=;
-        b=eZ7JiCiSlfwgHN8LwTj47nK9QwZ0hp9CU5iyjJ2PvC7sO9tYMoss8MvKTc0T1PLpFz
-         //T7p/Zht2Nnp8d7IsW7RRCkKZjJtJWyj2KszUNVHIAV8DFMyVOo2KtqyJyoSjlWYzSW
-         C7O2f4eo1lmdej/HwAeeGLkYhKLZ3z7qXgSgk6X3rt2qiCVmGTEZWGUEhA0gbPYbkwfN
-         /lAg8aLR0Z/ms36U0b+vDKGy0Tu7VYnTRqXpRgldV7ddYoiTHm30WP2eDiJVncW6B+os
-         fKPZSJjivd1n2So4GWGdo7KCqVMxK1yskswj8fQGNx00ieTzaBia3gLco32+s2Nlho3y
-         q+8A==
-X-Gm-Message-State: AOAM533cJCK8MqrrVw1Z8Nb5ovuxyGj/Zpbr6lBXdj9e4ghwbReSgGOs
-	VQSmrdlMoixTZZiOmYRd4yMJWbogwxE=
+        bh=up80nopxMnwbVF/uExENh7DUnzPo4xKW9E6MbxjZAQk=;
+        b=4/jyJV5deL+74f+ILLhyPohCttM6tEwn+IGil+QLyKHr1/WqDPkbZQfBwrFCjuj3yg
+         cA2s8hEwu5qJ7BTmUJdM1+Bwy9GYjyMv/fMMghwbArE9sBBTp6GG0wfTN81ElJpS2imx
+         e+r/5n/xj2VEM5zDfX6QWx09NxR3U3XVaK7dF4h2Yf9E3r5ByypeaJnhGjTUluQT4BTl
+         UtI847omOTmp2+87WXEnxeZM4Ug9kd3EfL6H8coHGziGM1Vr51+s9ZAEopphVe9NWQ3X
+         +NiaDay2El3bstNPsYvYM8uaZdkSxn5iwCbPaI4Nd/xZ1D2MeNMpKShEiTq5y2bDKqOl
+         VmAw==
+X-Gm-Message-State: AOAM530sWjy9wHI/dctxB/9Qn2KzY1mmNY26IzxBQXWutDbJ3PKwDxgb
+	/yWxtVy3/vBg2yLURsaY0Z0=
 X-Google-Smtp-Source: 
- ABdhPJy7d2SdrqK++pNFi4FCzxwT4Xv09dgfkdtEJ22U0l4wMo1Y4sgMHGrrNTZzrkA0h3nlqmtPIA==
-X-Received: by 2002:a05:600c:1e24:b0:37e:cd3d:feba with SMTP id
- ay36-20020a05600c1e2400b0037ecd3dfebamr1772756wmb.50.1645178788821;
-        Fri, 18 Feb 2022 02:06:28 -0800 (PST)
+ ABdhPJwL8uiHGv7NJ6n7ipYuHBzLSMGG0M3SijPKMqhmzM7H86CWi/O4BzYK/jWaeVrlGH5wOJTWnA==
+X-Received: by 2002:a05:600c:3486:b0:37c:d45c:179f with SMTP id
+ a6-20020a05600c348600b0037cd45c179fmr6319002wmq.6.1645178790053;
+        Fri, 18 Feb 2022 02:06:30 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.27
+ z5sm4808494wmp.10.2022.02.18.02.06.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:28 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:29 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 12/46][dunfell] grub: fix an unitialized re_token in gnulib
-Date: Fri, 18 Feb 2022 11:05:20 +0100
-Message-Id: <20220218100554.1315511-13-rybczynska@gmail.com>
+Subject: [PATCH 13/46][dunfell] grub: add a fix for unnecessary assignements
+Date: Fri, 18 Feb 2022 11:05:21 +0100
+Message-Id: <20220218100554.1315511-14-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -68,92 +68,78 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:31 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161900
+ https://lists.openembedded.org/g/openembedded-core/message/161901
 
-This patch adds a fix for an unitialized re_token in grub's gnulib.
-It is a part of a security series [1].
+Add a fix for unnecessary assignements grub's io/lzopio. This patch
+is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...b-regcomp-Fix-uninitialized-re_token.patch | 55 +++++++++++++++++++
+ ...e-unnecessary-self-assignment-errors.patch | 41 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0012-gnulib-regcomp-Fix-uninitialized-re_token.patch
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0012-gnulib-regcomp-Fix-uninitialized-re_token.patch b/meta/recipes-bsp/grub/files/0012-gnulib-regcomp-Fix-uninitialized-re_token.patch
+diff --git a/meta/recipes-bsp/grub/files/0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch b/meta/recipes-bsp/grub/files/0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch
 new file mode 100644
-index 0000000000..0507e0cd66
+index 0000000000..1190b0d090
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0012-gnulib-regcomp-Fix-uninitialized-re_token.patch
-@@ -0,0 +1,55 @@
-+From 512b6bb380a77233b88c84b7a712896c70281d2f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-bsp/grub/files/0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch
+@@ -0,0 +1,41 @@
++From c529ca446424f1a9c64f0007dfe31fa7645d13ac Mon Sep 17 00:00:00 2001
 +From: Darren Kenny <darren.kenny@oracle.com>
-+Date: Tue, 24 Nov 2020 18:04:22 +0000
-+Subject: [PATCH] gnulib/regcomp: Fix uninitialized re_token
++Date: Wed, 21 Oct 2020 14:44:10 +0000
++Subject: [PATCH] io/lzopio: Resolve unnecessary self-assignment errors
 +
-+This issue has been fixed in the latest version of gnulib, so to
-+maintain consistency, I've backported that change rather than doing
-+something different.
++These 2 assignments are unnecessary since they are just assigning
++to themselves.
 +
-+Fixes: CID 73828
++Fixes: CID 73643
 +
 +Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=03477085f9a33789ba6cca7cd49ab9326a1baa0e]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=59666e520f44177c97b82a44c169b3b315d63b42]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ conf/Makefile.extra-dist                          |  1 +
-+ .../gnulib-patches/fix-regcomp-uninit-token.patch | 15 +++++++++++++++
-+ 2 files changed, 16 insertions(+)
-+ create mode 100644 grub-core/lib/gnulib-patches/fix-regcomp-uninit-token.patch
++ grub-core/io/lzopio.c | 4 ----
++ 1 file changed, 4 deletions(-)
 +
-+diff --git a/conf/Makefile.extra-dist b/conf/Makefile.extra-dist
-+index d27d3a9..ffe6829 100644
-+--- a/conf/Makefile.extra-dist
-++++ b/conf/Makefile.extra-dist
-+@@ -30,6 +30,7 @@ EXTRA_DIST += grub-core/genemuinitheader.sh
++diff --git a/grub-core/io/lzopio.c b/grub-core/io/lzopio.c
++index 3014485..a7d4425 100644
++--- a/grub-core/io/lzopio.c
+++++ b/grub-core/io/lzopio.c
++@@ -125,8 +125,6 @@ read_block_header (struct grub_lzopio *lzopio)
++ 			  sizeof (lzopio->block.ucheck)) !=
++ 	  sizeof (lzopio->block.ucheck))
++ 	return -1;
++-
++-      lzopio->block.ucheck = lzopio->block.ucheck;
++     }
 + 
-+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-null-deref.patch
-+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-null-state-deref.patch
-++EXTRA_DIST += grub-core/lib/gnulib-patches/fix-regcomp-uninit-token.patch
-+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-regexec-null-deref.patch
-+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-uninit-structure.patch
-+ EXTRA_DIST += grub-core/lib/gnulib-patches/fix-unused-value.patch
-+diff --git a/grub-core/lib/gnulib-patches/fix-regcomp-uninit-token.patch b/grub-core/lib/gnulib-patches/fix-regcomp-uninit-token.patch
-+new file mode 100644
-+index 0000000..02e0631
-+--- /dev/null
-++++ b/grub-core/lib/gnulib-patches/fix-regcomp-uninit-token.patch
-+@@ -0,0 +1,15 @@
-++--- a/lib/regcomp.c	2020-11-24 17:06:08.159223858 +0000
-+++++ b/lib/regcomp.c	2020-11-24 17:06:15.630253923 +0000
-++@@ -3808,11 +3808,7 @@
-++ create_tree (re_dfa_t *dfa, bin_tree_t *left, bin_tree_t *right,
-++ 	     re_token_type_t type)
-++ {
-++-  re_token_t t;
-++-#if defined GCC_LINT || defined lint
-++-  memset (&t, 0, sizeof t);
-++-#endif
-++-  t.type = type;
-+++  re_token_t t = { .type = type };
-++   return create_token_tree (dfa, left, right, &t);
-++ }
-++ 
++   /* Read checksum of compressed data.  */
++@@ -143,8 +141,6 @@ read_block_header (struct grub_lzopio *lzopio)
++ 			      sizeof (lzopio->block.ccheck)) !=
++ 	      sizeof (lzopio->block.ccheck))
++ 	    return -1;
++-
++-	  lzopio->block.ccheck = lzopio->block.ccheck;
++ 	}
++     }
++ 
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index e7168e75ea..4ddb9fc4f1 100644
+index 4ddb9fc4f1..1906a28f30 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -58,6 +58,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0009-gnulib-regcomp-Fix-uninitialized-token-structure.patch \
+@@ -59,6 +59,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0010-gnulib-argp-help-Fix-dereference-of-a-possibly-NULL-.patch \
             file://0011-gnulib-regexec-Fix-possible-null-dereference.patch \
-+           file://0012-gnulib-regcomp-Fix-uninitialized-re_token.patch \
+            file://0012-gnulib-regcomp-Fix-uninitialized-re_token.patch \
++           file://0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
