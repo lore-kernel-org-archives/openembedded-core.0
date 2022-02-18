@@ -1,124 +1,341 @@
-Return-Path: <alejandro@enedino.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEF9C433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 06:57:34 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web10.7964.1645167452908404859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 849C2C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 06:58:04 +0000 (UTC)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
+ [209.85.221.181])
+ by mx.groups.io with SMTP id smtpd.web10.7968.1645167483866014273
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 22:57:33 -0800
+ Thu, 17 Feb 2022 22:58:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: aehs29@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id e22so13035218qvf.9;
-        Thu, 17 Feb 2022 22:57:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qYMiZJVV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.181,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f181.google.com with SMTP id n14so4304938vkk.6
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Feb 2022 22:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kORd9w+J57T7a7SN9wOehUzsvFydvcetK0eFszZ1Ec8=;
+        b=qYMiZJVVJU3F6lqUKqHxEpmEgcLnMnviOLYU2VmK06gLDv4jYgmNRUSetB3j6yK+Ro
+         ngcxgd5clpcTgKkticCepyFF4n6ddXK8hsHv35Fid+wMsC+QKaNel+hQYlFYTqI+yLvD
+         P+1Ia6YIAgqfVQ8gGHyyFSfnP01rZGbjBx5/P1Lrle8e0c9o4K8FhtGgulUj3s46C3CG
+         v7Nwn+RONkEUb5KTCC2G8Ec5/VxemjNAGTHEhYAtFwbvwBJHlaZ+t6hqLuP11mEMcLBB
+         QLigUeuhatL0+07mnp5t5ZlYeQUrsbTGwf7l3jZP1SkLL+2n1tDBaAob+8PhcSRLVPoH
+         W44g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=25Dn1KGt/6Qov0Q3DqQGwC4Mh8Lk/0HtOKQXArgrPCE=;
-        b=us9kcOvm5Va8aN5DoYgcfBNVZd0eNdmnC4yLeHMoZwM7nR5n7iavdp3PITYfQMkqY3
-         xxvYgtbY3s347ch9BPTvpTrAJWEgBF/Pxd0YbIMeWpsZf0tmrnvO/ScVd/vrt0YpvdIN
-         oRDu8qbDwtE8oYbtHDrcUyw828LKxm3l8w8V81G/w3WY3cq2Ykr3KauzrdGi3CQ7CPzd
-         kJbhUNY436UP/grRiNhTzSXmZlNQ9XdLtQtJrn3+x1pJWaMv1ek+cnKBMpr9wHJIYi2/
-         yxWYI/x/TIyVrFvP3XqP6a9HonGyauPLwQZWkJaEMjzpOiAcSW6+/tS3wIzixQ3hXasP
-         pB+g==
-X-Gm-Message-State: AOAM532tipURUGccEc1xJvbk9l4UQZGxpKSY3n2rb4PPOOfImf0GHhEm
-	gMwav8WjBLCzfm1vzEzaVATBTEr80qBcfwVr
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kORd9w+J57T7a7SN9wOehUzsvFydvcetK0eFszZ1Ec8=;
+        b=cboh8XXQbOmL0HG+ecVRfeLTiL53BVQdvQRuyrufmRR8XW2nN3YiVI2ArKmtUN5Rqp
+         jNXyhIbZUeYz57mtgPpGghZPrSa1wtdbTnHnUCs8lcSaabfBC18S3oWYeJ3ZytAFLuRz
+         v/H0f1rtk/HYNOwxs+YPswZv4Y+TH09jTOL2jxl0Hzx5elQ+UY7Spjaqz6JsosdpPPTs
+         pyi2UVeyQ5P6CHwk+wgGlUQi4ZgR8KJtvW2fvJU1Cv/jScTL06MeeDDcx+/zTwbCqqNY
+         HzrRNTui3nRQOBH+ySpiw6qGiDeNXBsLk5pN2z1JY9fcuBlx1NOduO1dPCglLzFf8CMq
+         DUew==
+X-Gm-Message-State: AOAM530VmJly0wUXxJ78WGLbSX3JwnbD5WdhtpZxYE1ptPo+ftSFkA6K
+	35cs815m2fpc1GFHHMNeU/sT0Y4K/tbXeuCtpLU=
 X-Google-Smtp-Source: 
- ABdhPJyTqdRaFs/PoXMdHcU7zZVZ+EK24/JaNLVE4lFUHAbCGd0uxOBGjfZTNXo+NjWUigry+ASZJQ==
-X-Received: by 2002:ad4:4d8e:0:b0:41c:77e3:24cd with SMTP id
- cv14-20020ad44d8e000000b0041c77e324cdmr4711922qvb.83.1645167451801;
-        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
- [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id
- s5sm1948344qtn.35.2022.02.17.22.57.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
-Received: by mail-qk1-f172.google.com with SMTP id n185so7098422qke.5;
-        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
-X-Received: by 2002:a05:620a:2913:b0:47e:15da:b041 with SMTP id
- m19-20020a05620a291300b0047e15dab041mr3547976qkp.310.1645167451368; Thu, 17
- Feb 2022 22:57:31 -0800 (PST)
+ ABdhPJyG2JMr3uFilgY+YawJ/B3yZEz2yZYH1nIXh/YHmgXqnnzipoOCYwFP4zYl4wTNOOyjtYEArTHL6NjpODfNJOU=
+X-Received: by 2002:a05:6122:2191:b0:32f:aa6a:da9d with SMTP id
+ j17-20020a056122219100b0032faa6ada9dmr2834663vkd.20.1645167482846; Thu, 17
+ Feb 2022 22:58:02 -0800 (PST)
 MIME-Version: 1.0
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Date: Fri, 18 Feb 2022 06:57:20 +0000
-X-Gmail-Original-Message-ID: 
- <CAHMutra5px9Egp6VXpBqyrxYCSCfX-437so6D+HSXZUPBc62sg@mail.gmail.com>
+References: <20220217230023.727460-1-quaresma.jose@gmail.com>
+ <20220217230023.727460-2-quaresma.jose@gmail.com>
+In-Reply-To: <20220217230023.727460-2-quaresma.jose@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 18 Feb 2022 07:57:51 +0100
 Message-ID: 
- <CAHMutra5px9Egp6VXpBqyrxYCSCfX-437so6D+HSXZUPBc62sg@mail.gmail.com>
-Subject: Kirkstone Layer Compatibility
-To: openembedded-architecture
- <openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000088f1a305d8456547"
+ <CANNYZj-5kY6xNhOpiM-CuMvkK=UeFKQWcBti0x-f8jUAPNPB3A@mail.gmail.com>
+Subject: Re: [OE-core] [RFC 2/2] gstreamer1.0: add support for running native
+ test
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 06:57:34 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 06:58:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161880
+ https://lists.openembedded.org/g/openembedded-core/message/161881
 
---00000000000088f1a305d8456547
-Content-Type: text/plain; charset="UTF-8"
+I like the idea, but gstreamer build-time testing seems like a bit of
+a work in progress. Is there some other meson-based component where
+this can be showcased and enabled in a more simple way?
 
-Hello everyone,
+Alex
 
-There have been a number of failures in the autobuilder today [1] [2] due
-to the change currently sitting in master-next that switches
-LAYERSERIES_COMPAT from honister to kirkstone[3].
-
-Since the change will soon be merged into master I thought it'd be a good
-idea to send an email so layer maintainers become aware of the upcoming
-issue and update their corresponding layers accordingly.
-
-Cheers,
-
-Alejandro
-
-[1] https://swatbot.yoctoproject.org/mainindex/swat/
-[2] https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3243
-[3]
-https://git.yoctoproject.org/poky/commit/?h=master-next&id=7145b34de02fffa97bb1238f4777d817efcdc78f
-
---00000000000088f1a305d8456547
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,sa=
-ns-serif;font-size:small">Hello everyone,</div><div class=3D"gmail_default"=
- style=3D"font-family:arial,sans-serif;font-size:small"><br></div><div clas=
-s=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:small">=
-There have been a number of failures in the autobuilder today [1] [2] due t=
-o the change currently sitting in master-next that switches LAYERSERIES_COM=
-PAT from honister to kirkstone[3].</div><div class=3D"gmail_default" style=
-=3D"font-family:arial,sans-serif;font-size:small"><br></div><div class=3D"g=
-mail_default" style=3D"font-family:arial,sans-serif;font-size:small">Since =
-the change will soon=C2=A0be merged into master I thought it&#39;d be a goo=
-d idea to send an email so layer maintainers become aware of the upcoming i=
-ssue and update their corresponding layers accordingly.</div><div class=3D"=
-gmail_default" style=3D"font-family:arial,sans-serif;font-size:small"><br><=
-/div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;fon=
-t-size:small">Cheers,</div><div class=3D"gmail_default" style=3D"font-famil=
-y:arial,sans-serif;font-size:small"><br></div><div class=3D"gmail_default" =
-style=3D"font-family:arial,sans-serif;font-size:small">Alejandro</div><div =
-class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:sma=
-ll"><br></div><div class=3D"gmail_default" style=3D"font-family:arial,sans-=
-serif;font-size:small">[1]=C2=A0<a href=3D"https://swatbot.yoctoproject.org=
-/mainindex/swat/">https://swatbot.yoctoproject.org/mainindex/swat/</a></div=
-><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-si=
-ze:small">[2]=C2=A0<a href=3D"https://autobuilder.yoctoproject.org/typhoon/=
-#/builders/83/builds/3243">https://autobuilder.yoctoproject.org/typhoon/#/b=
-uilders/83/builds/3243</a></div><div class=3D"gmail_default" style=3D"font-=
-family:arial,sans-serif;font-size:small">[3] <a href=3D"https://git.yoctopr=
-oject.org/poky/commit/?h=3Dmaster-next&amp;id=3D7145b34de02fffa97bb1238f477=
-7d817efcdc78f">https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&am=
-p;id=3D7145b34de02fffa97bb1238f4777d817efcdc78f</a><br></div><div class=3D"=
-gmail_default" style=3D"font-family:arial,sans-serif;font-size:small"><br><=
-/div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;fon=
-t-size:small"><br></div></div>
-
---00000000000088f1a305d8456547--
+On Fri, 18 Feb 2022 at 00:00, Jose Quaresma <quaresma.jose@gmail.com> wrote=
+:
+>
+> This is an exmple of using the native meson test
+>
+> gstreamer1.0-meson-qemuwrapper-test.inc
+> ^ this is receipe part
+>
+> meson-qemuwrapper-helper.sh
+> ^ this is an helper script to skip unsupported tests
+>
+> meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader-show-=
+the-reason-when-spawning-of-gst.patch
+> ^ this patch helps debugind unsupported tests
+>
+> With EXTRA_OEMESON_TEST =3D "gst_gstbin" it will only run
+> the gst_gstbin test and the output
+> is the following
+>
+> + meson_do_test
+> + export GST_DEBUG=3D6
+> + meson test -C /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r=
+0/build --print-errorlogs gst_gstbin
+>
+> ninja: Entering directory `/build/tmp/work/core2-64-poky-linux/gstreamer1=
+.0/1.20.0-r0/build'
+>
+> ninja: no work to do.
+>
+> 1/1 gst_gstbin TIMEOUT        180.12s   killed by signal 15 SIGTERM
+>
+> >>> GST_PLUGIN_SCANNER_1_0=3D/build/tmp/work/core2-64-poky-linux/gstreame=
+r1.0/1.20.0-r0/build/libs/gst/helpers/gst-plugin-scanner GST_PLUGIN_LOADING=
+_WHITELIST=3Dgstreamer GST_STATE_IGNORE_ELEMENTS=3D'' MESON_EXE_WRAPPER=3D/=
+build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20.0-r0/meson-qemuwrapper=
+ GST_PLUGIN_PATH_1_0=3D/build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.2=
+0.0-r0/build MALLOC_PERTURB_=3D192 GST_REGISTRY=3D/build/tmp/work/core2-64-=
+poky-linux/gstreamer1.0/1.20.0-r0/build/tests/check/gst_gstbin.registry CK_=
+DEFAULT_TIMEOUT=3D20 GST_PLUGIN_SYSTEM_PATH_1_0=3D'' /build/tmp/work/core2-=
+64-poky-linux/gstreamer1.0/1.20.0-r0/meson-qemuwrapper /build/tmp/work/core=
+2-64-poky-linux/gstreamer1.0/1.20.0-r0/build/tests/check/gst_gstbin
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80  =E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95
+> Listing only the last 100 lines from a long log.
+> 0:00:07.719379569 440069   0x4000025400 DEBUG             GST_STATES gstb=
+in.c:2990:gst_bin_change_state_func:<bin0> iterator done
+> 0:00:07.719393717 440069   0x4000061180 LOG              GST_MESSAGE gstm=
+essage.c:304:gst_message_new_custom: source fakesink0: creating new message=
+ 0x400c002100 latency
+> 0:00:07.719413507 440069   0x4000025400 LOG               GST_STATES gste=
+lement.c:3282:gst_element_change_state_func:<bin0> default handler tries se=
+tting state from PLAYING to PAUSED (0023)
+> 0:00:07.719438100 440069   0x4000061180 DEBUG                GST_BUS gstb=
+us.c:338:gst_bus_post:<bus0> [msg 0x400c002100] posting on bus latency mess=
+age: 0x400c002100, time 99:99:99.999999999, seq-num 31, element 'fakesink0'=
+, (NULL)
+> 0:00:07.719441024 440069   0x4000025400 DEBUG             GST_STATES gstb=
+in.c:3006:gst_bin_change_state_func:<bin0> we have ASYNC elements SUCCESS -=
+> ASYNC
+> 0:00:07.719467032 440069   0x4000025400 DEBUG                    bin gstb=
+in.c:2383:gst_bin_sort_iterator_free:<bin0>
+> .
+> .
+> .
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95
+> Summary of Failures:
+>
+> 1/1 gst_gstbin TIMEOUT        180.12s   killed by signal 15 SIGTERM
+>
+> Ok:                 0
+> Expected Fail:      0
+> Fail:               0
+> Unexpected Pass:    0
+> Skipped:            0
+> Timeout:            1
+>
+> Full log written to /build/tmp/work/core2-64-poky-linux/gstreamer1.0/1.20=
+.0-r0/build/meson-logs/testlog.txt
+>
+> + bb_sh_exit_handler
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  .../gstreamer1.0-meson-qemuwrapper-test.inc   | 15 ++++++
+>  ...show-the-reason-when-spawning-of-gst.patch | 53 +++++++++++++++++++
+>  .../gstreamer1.0/meson-qemuwrapper-helper.sh  | 15 ++++++
+>  .../gstreamer/gstreamer1.0_1.20.0.bb          |  6 +++
+>  4 files changed, 89 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-=
+qemuwrapper-test.inc
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-g=
+stpluginloader-show-the-reason-when-spawning-of-gst.patch
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-=
+qemuwrapper-helper.sh
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwra=
+pper-test.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwr=
+apper-test.inc
+> new file mode 100644
+> index 0000000000..c9f4885f82
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meson-qemuwrapper-te=
+st.inc
+> @@ -0,0 +1,15 @@
+> +SRC_URI +=3D "file://0001-gstpluginloader-show-the-reason-when-spawning-=
+of-gst.patch;striplevel=3D3"
+> +SRC_URI +=3D "file://meson-qemuwrapper-helper.sh"
+> +
+> +#MESON_QEMU_WRAPPER_HELPER =3D "${WORKDIR}/meson-qemuwrapper-helper.sh"
+> +
+> +PACKAGECONFIG[tests] =3D "-Dtests=3Denabled,-Dtests=3Ddisabled"
+> +
+> +# run single test
+> +EXTRA_OEMESON_TEST =3D "gst_gstbin"
+> +
+> +meson_do_test:prepend() {
+> +    # run the test with the debug mode enabled
+> +    # logs will be placed at build/meson-logs/testlog.txt
+> +    export GST_DEBUG=3D6
+> +}
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstplugi=
+nloader-show-the-reason-when-spawning-of-gst.patch b/meta/recipes-multimedi=
+a/gstreamer/gstreamer1.0/0001-gstpluginloader-show-the-reason-when-spawning=
+-of-gst.patch
+> new file mode 100644
+> index 0000000000..22c8750f5b
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gstpluginloader=
+-show-the-reason-when-spawning-of-gst.patch
+> @@ -0,0 +1,53 @@
+> +From 8e1de3f84c2e654515b6d6b16783a4a08dfd118d Mon Sep 17 00:00:00 2001
+> +From: Jose Quaresma <quaresma.jose@gmail.com>
+> +Date: Wed, 8 Dec 2021 22:13:15 +0000
+> +Subject: [PATCH] gstpluginloader: show the reason when spawning of
+> + gst-plugin-scanner fail
+> +
+> +This fix helps in cross compiling when the meson tests runs using a qemu=
+ wraper
+> +
+> +Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_req=
+uests/1701>
+> +
+> +Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstr=
+eamer/-/commit/8e1de3f84c2e654515b6d6b16783a4a08dfd118d]
+> +
+> +Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> +---
+> + subprojects/gstreamer/gst/gstpluginloader.c | 14 ++++++++++----
+> + 1 file changed, 10 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/subprojects/gstreamer/gst/gstpluginloader.c b/subprojects/g=
+streamer/gst/gstpluginloader.c
+> +index 10a446fa5e..fb8b45cffa 100644
+> +--- a/subprojects/gstreamer/gst/gstpluginloader.c
+> ++++ b/subprojects/gstreamer/gst/gstpluginloader.c
+> +@@ -413,6 +413,7 @@ gst_plugin_loader_try_helper (GstPluginLoader * load=
+er, gchar * location)
+> + {
+> +   char *argv[6] =3D { NULL, };
+> +   int c =3D 0;
+> ++  GError *error =3D NULL;
+> +
+> + #if defined (__APPLE__) && defined (USR_BIN_ARCH_SWITCH)
+> +   if (gst_plugin_loader_use_usr_bin_arch ()) {
+> +@@ -432,11 +433,16 @@ gst_plugin_loader_try_helper (GstPluginLoader * lo=
+ader, gchar * location)
+> +     GST_LOG ("Trying to spawn gst-plugin-scanner helper at %s", locatio=
+n);
+> +   }
+> +
+> +-  if (!g_spawn_async_with_pipes (NULL, argv, NULL,
+> +-          G_SPAWN_DO_NOT_REAP_CHILD /* | G_SPAWN_STDERR_TO_DEV_NULL */ =
+,
+> +-          NULL, NULL, &loader->child_pid, &loader->fd_w.fd, &loader->fd=
+_r.fd,
+> +-          NULL, NULL))
+> ++  g_spawn_async_with_pipes (NULL, argv, NULL,
+> ++      G_SPAWN_DO_NOT_REAP_CHILD /* | G_SPAWN_STDERR_TO_DEV_NULL */ ,
+> ++      NULL, NULL, &loader->child_pid, &loader->fd_w.fd, &loader->fd_r.f=
+d,
+> ++      NULL, &error);
+> ++
+> ++  if (error) {
+> ++    GST_ERROR ("Spawning gst-plugin-scanner helper failed: %s", error->=
+message);
+> ++    g_clear_error (&error);
+> +     return FALSE;
+> ++  }
+> +
+> +   gst_poll_add_fd (loader->fdset, &loader->fd_w);
+> +   gst_poll_add_fd (loader->fdset, &loader->fd_r);
+> +--
+> +2.35.1
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwra=
+pper-helper.sh b/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuw=
+rapper-helper.sh
+> new file mode 100644
+> index 0000000000..7f03f79292
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/meson-qemuwrapper-he=
+lper.sh
+> @@ -0,0 +1,15 @@
+> +#!/bin/sh
+> +#set -x
+> +
+> +test=3D"$(basename "$1")"
+> +
+> +# some tests currently fails so there we skipped the already knowns
+> +skipped=3D"$skipped elements_dataurisrc"
+> +skipped=3D"$skipped libs_gstnettimeprovider"
+> +skipped=3D"$skipped gst_gstelement"
+> +skipped=3D"$skipped gst_gstregistry"
+> +for s in $skipped; do
+> +    if [ "$s" =3D "$test" ]; then
+> +        exit 77
+> +    fi
+> +done
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb b/m=
+eta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+> index 243f99fee9..38595b8789 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.0.bb
+> @@ -70,3 +70,9 @@ FILES:${PN}-dbg +=3D "${datadir}/gdb ${datadir}/gstream=
+er-1.0/gdb"
+>  CVE_PRODUCT =3D "gstreamer"
+>
+>  PTEST_BUILD_HOST_FILES =3D ""
+> +
+> +MESON_QEMU_WRAPPER_TEST_ENABLED =3D "1"
+> +
+> +GST_MESON_TEST =3D "${@"gstreamer1.0-meson-qemuwrapper-test.inc" if d.ge=
+tVar('MESON_QEMU_WRAPPER_TEST_ENABLED') =3D=3D '1' else ""}"
+> +
+> +require ${GST_MESON_TEST}
+> --
+> 2.35.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161869): https://lists.openembedded.org/g/openembedde=
+d-core/message/161869
+> Mute This Topic: https://lists.openembedded.org/mt/89221717/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
