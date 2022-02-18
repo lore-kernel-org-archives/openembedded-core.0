@@ -1,86 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0186C433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Feb 2022 23:50:06 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web08.4539.1645141805185048428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E14C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 00:20:22 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.4777.1645143620857770276
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 15:50:06 -0800
+ Thu, 17 Feb 2022 16:20:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YNxRosVY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id h6so11617916wrb.9
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 15:50:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WRT6rzMx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id p9so11692941wra.12;
+        Thu, 17 Feb 2022 16:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=9IVfWKhAas8YRVw/mvJwNmd9RnZoZRX2mlSoBGgDdcA=;
-        b=YNxRosVY1+OWqlRkjuHztVKSEY6+m/tPsgWZkUXYZWSzRa6HPbJ5pnguUorqyeemtd
-         H1kRt6KEfrOwd88PtT2nk0BNkQxwEfJaOUUnPkWtfmGDVhPoGNEzRNJzvJ8tH7MpxwqM
-         DqbyJlk7i3LFi6hokJp+8YwptuHcYQp2udf3U=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q+8AnnXYGFIjFtC6Ztyr4HAqs2LdUlT4q9lWGIbz3eQ=;
+        b=WRT6rzMx7PuEfdoIHY9J7QaON072LM9heTsfDzyOPfji2CPvPGEQldMvLRHBW2+trk
+         aeZScNnSclpt/wE9ay8ffUyyxNKsOCZYzcR3hWfmjJcZif/GpTuRT65n46zzY5QvM4HU
+         2oxhh5zNuWg3PpIto9Uqt4AQV2VwpS+jS7UTZh4JCI5O4zqpmBwrjneDf6Q4AP1y5M1J
+         CkoRrVULHnM27d32Pn1Zo2Z515J4t52c1K0S8RnNyvFQahVK4nU/wYvBsWnhIqAGF+OJ
+         LCQyOMs/R6mPiDNWJZlpaj4GRP85/7xWOGShSZGei/1vQ9htviHo7XYxxec2hlUt+kHw
+         VHVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9IVfWKhAas8YRVw/mvJwNmd9RnZoZRX2mlSoBGgDdcA=;
-        b=PX1Fvu+MnUp28LSfwTabK176xv9wXljBak+tiy9IDXL+q/kQZPEqdYIjd2+BzUneRP
-         vJcAC2osS2rdNpShCqedeMqShxxBXODO3yJUdFm+5fTMT4Etggfz9y/8IHFLPgLszCQ/
-         aAPt91FLWm4hmtzi7IWEoTGZIMaTjx1BC70kDZoBOlHSnPTvZ0zsnkfSg2ZoZTR1Ryl1
-         O71dma+SjL7A9Cl42UFvWfuzOHBfjMligILO4e3I/Ym7TBKZEDGHlfWHFD29LvGeZ7KE
-         PqEA7YIHpjt123fbWDENSXp262WRISAgIlmkEAaM3QJ6fbB8cUXt6s92XZFSrWSCkNDj
-         KlNQ==
-X-Gm-Message-State: AOAM532Z420V8tOGUoBM0v+KYXLHZSwOzFytgEjhNSkBQw1NFTnJ5q3P
-	ZXYLSBsmWeF6ThR+XIrfF3yNpw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q+8AnnXYGFIjFtC6Ztyr4HAqs2LdUlT4q9lWGIbz3eQ=;
+        b=vnJfMLPIYI+KWEiD39zsSNUOo4n4hJjIoFLXCWTDUThNSRCuODc8JUzlIBX717QZWH
+         AQPe1WRU+GUaO1++Alz7Q7aAT+Y8J5sEZkowNri6opz67dp2KdXwBaW2rF/o44AtpuBH
+         9RRWICUXXpruhft+7/JY3B+bBKrRQvnQ+tudqj472aploOsHpt1Rbs+zaO7/AhsMp9va
+         apIZeqy9aNB3Du8LV9eRsWNLWSJTlquU0I00CUuCjPgpeLcQuXjVyUAOOo4JrlJC+PHu
+         KCRRCACKr5/EfHIJf1SU9dtd8wDXvgQzRMB8a06NYq6a7nYGLiEZpC7Lo9hQdyNLxQHL
+         oqPg==
+X-Gm-Message-State: AOAM531nggHgSBuMzy7E53/1JrOU+XV4so8DInpUb18ISZJ59MCyFbnM
+	eBz2B5sHJBGIjNRBk1PRrmZhsPmwBooW9LUJ3O4=
 X-Google-Smtp-Source: 
- ABdhPJwF5nzvssd3RLZbx3D8xXFFZcxofnO7Il92MvLeq4UoYeG7f+HU+QK9tqaFpPD0cuYSGjUMQg==
-X-Received: by 2002:adf:dfc4:0:b0:1e4:ed7c:34ca with SMTP id
- q4-20020adfdfc4000000b001e4ed7c34camr3971690wrn.22.1645141803257;
-        Thu, 17 Feb 2022 15:50:03 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7bc9:59b:7021:269f?
- ([2001:8b0:aba:5f3c:7bc9:59b:7021:269f])
-        by smtp.gmail.com with ESMTPSA id
- j10sm3276078wmq.20.2022.02.17.15.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 15:50:02 -0800 (PST)
-Message-ID: 
- <c017f7a95fa977fd113892c8d4f2b0882b410df8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0: update licences of all modules
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, Peter Kjellerstedt
-	 <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Feb 2022 23:49:59 +0000
-In-Reply-To: 
- <CANPvuRkQiwKXTB-6SXD4sf1vtBWH7DQEG-Q_M+tXo1N6S1QNYw@mail.gmail.com>
-References: <20220216232803.1868265-1-quaresma.jose@gmail.com>
-	 <705135fb77074d9c9ac87d0d060592e1@axis.com>
-	 <CANPvuRkQiwKXTB-6SXD4sf1vtBWH7DQEG-Q_M+tXo1N6S1QNYw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJxrzJzaELZUivldqjAjsaoJEGTWH+T49mXmcTuxGJPSRNjs+P/OWpzX4E+oirtktjDE0hcWyGSIleGpi94V/7E=
+X-Received: by 2002:adf:fb4e:0:b0:1e3:3e66:d5f6 with SMTP id
+ c14-20020adffb4e000000b001e33e66d5f6mr4245085wrs.615.1645143619008; Thu, 17
+ Feb 2022 16:20:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <7d187920-92f0-a0fe-22b9-a77a1c98fd7d@windriver.com>
+In-Reply-To: <7d187920-92f0-a0fe-22b9-a77a1c98fd7d@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 17 Feb 2022 16:20:01 -0800
+Message-ID: 
+ <CAJ86T=VF+6J3UBJ-=rYt=rODkdP=H73cWFXyE0YfJCaYJfb1oQ@mail.gmail.com>
+Subject: Re: [oe] INCOMPATIBLE_LICENSES and WHITELIST_<license> usage
+To: Saul Wold <Saul.Wold@windriver.com>
+Cc: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Feb 2022 23:50:06 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 00:20:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161874
+ https://lists.openembedded.org/g/openembedded-core/message/161875
 
-On Thu, 2022-02-17 at 23:08 +0000, Jose Quaresma wrote:
-> It's not as simple as I was thinking, I'll need more time.
+On Thu, Feb 17, 2022 at 3:01 PM Saul Wold <Saul.Wold@windriver.com> wrote:
+>
+> Folks,
+>
+> I am working on a proposal to re-write how INCOMPATIBLE_LICENSES is used
+> and processed to possibly include a COMPATIBLE_LICENSES variable as
+> well, see PeterK's email [0]
+>
+> I am trying to determine the usage of WHITELIST_<license> which would be
+> used to override a license that might be listed in INCOMPATIBLE_LICENSES
+> variable.
+>
+> Randy and I have done a quick and dirty survey of a 100 or so layers
+> (thanks Randy) and could not find any real usage other than what's
+> currently in OE-Core for WHITELIST_GPL-3.0.
+>
+> If you are using WHITELIST_<license>, please let me reply with your usage.
 
-Perhaps split the patch so the main change to LICENSE can be resolved, then the
-remaining later patches focus on the harder bit?
+Common case seems to be allowing gdb in debug builds of distros which
+are otherwise free of GPLv3 etc, e.g.
 
-Cheers,
-
-Richard
-
+  https://github.com/MentorEmbedded/meta-mentor/blob/master/meta-mel/conf/distro/include/gdbserver-gplv3.inc
+  https://github.com/lgirdk/meta-mng/blob/ofw-2112.6/conf/distro/mng.conf
 
