@@ -1,129 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alejandro@enedino.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3918C433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 06:13:34 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web09.7828.1645164814224790305
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEF9C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 06:57:34 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.7964.1645167452908404859
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 22:13:34 -0800
+ Thu, 17 Feb 2022 22:57:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pHdrTIgA;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id e22so12880496qvf.9
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Feb 2022 22:13:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Vr9/NPnxQohNfFsmEjH0BkR933AHWGFwvbTcIO3qzGE=;
-        b=pHdrTIgARGN9lABxYEdnlH/A+WGp5H10ZDm3jwDeMWqnDJOTbyRXAsEXrcdgyvQcsM
-         AMgms0MVrIT/cJzeBfUHJyDxSrGk83vlGjkxWEZGLirve462FOsJ4L4Qpe0cC5MtAIyG
-         RWjpU3AWCXtmGIFj+dE6faIjtHI8i1vhVadk+JDEq+9DcwzcH2Xomc/ltb6EHjuCa8Np
-         wJMIRQCHyliAFbPFTYV8D0PFjb0dS0bvtYY6ev+3tOqoIhmqc0kiOm+6OQdN19l98RQ1
-         17b8xruvFAzD18/4//weMF6kb4BBczCxAf42QGZg0JYJusKFjK5JpmewsxZ3xGiL19XG
-         1CjA==
+ dkim=missing;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: aehs29@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id e22so13035218qvf.9;
+        Thu, 17 Feb 2022 22:57:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vr9/NPnxQohNfFsmEjH0BkR933AHWGFwvbTcIO3qzGE=;
-        b=IZnres3bRem5RhF8FsuWkhwb7uX0XwfpwSBK+l8gNys/lfYfw1ZZv6gt0Amc8vfaId
-         jT8w1Q3cRhDps/3YBBesvoYAqRlb3a+hBAtu8H6wAJatk/BQ52vYmUUDztRfNCAgogXK
-         UHkNJcGx9I7k+8XZuiXxkNVFpAE5HIivP9dWQW32DWPjxEMOF5ygRGj/JLzPu9faF4xu
-         MTRjqv8SC2rfqH+4IfwU5OA55XnkJO9OX9xH1ouS+FLR8MOVydsq8/jwmrMQOo7wwKpZ
-         PVqsGWTCCN/aq5mBAVizljfe72KKrNi6GjBNB8EN2NjEiT/87fP/WsWBYN8w3UsDcDxb
-         dyrg==
-X-Gm-Message-State: AOAM5309v7CaYBSdbK4c9vlG7jKxkgxsml2Y3tzUVMJd9Sk7amcIg+Lh
-	L6OMA0lDe4LTj31GfbeRQk2yOo4Iukatlj67ZNE=
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=25Dn1KGt/6Qov0Q3DqQGwC4Mh8Lk/0HtOKQXArgrPCE=;
+        b=us9kcOvm5Va8aN5DoYgcfBNVZd0eNdmnC4yLeHMoZwM7nR5n7iavdp3PITYfQMkqY3
+         xxvYgtbY3s347ch9BPTvpTrAJWEgBF/Pxd0YbIMeWpsZf0tmrnvO/ScVd/vrt0YpvdIN
+         oRDu8qbDwtE8oYbtHDrcUyw828LKxm3l8w8V81G/w3WY3cq2Ykr3KauzrdGi3CQ7CPzd
+         kJbhUNY436UP/grRiNhTzSXmZlNQ9XdLtQtJrn3+x1pJWaMv1ek+cnKBMpr9wHJIYi2/
+         yxWYI/x/TIyVrFvP3XqP6a9HonGyauPLwQZWkJaEMjzpOiAcSW6+/tS3wIzixQ3hXasP
+         pB+g==
+X-Gm-Message-State: AOAM532tipURUGccEc1xJvbk9l4UQZGxpKSY3n2rb4PPOOfImf0GHhEm
+	gMwav8WjBLCzfm1vzEzaVATBTEr80qBcfwVr
 X-Google-Smtp-Source: 
- ABdhPJy4sMSPmvF++KmLbYf8iverS6eIFHbVoiSPXrNK72N/tZc2qpkRJJO3/yqlJ/nlJAF13QvH9yJYs7k9hOZwgzM=
-X-Received: by 2002:ad4:574a:0:b0:42b:ef56:c2a4 with SMTP id
- q10-20020ad4574a000000b0042bef56c2a4mr4654778qvx.16.1645164813196; Thu, 17
- Feb 2022 22:13:33 -0800 (PST)
+ ABdhPJyTqdRaFs/PoXMdHcU7zZVZ+EK24/JaNLVE4lFUHAbCGd0uxOBGjfZTNXo+NjWUigry+ASZJQ==
+X-Received: by 2002:ad4:4d8e:0:b0:41c:77e3:24cd with SMTP id
+ cv14-20020ad44d8e000000b0041c77e324cdmr4711922qvb.83.1645167451801;
+        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
+ [209.85.222.172])
+        by smtp.gmail.com with ESMTPSA id
+ s5sm1948344qtn.35.2022.02.17.22.57.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
+Received: by mail-qk1-f172.google.com with SMTP id n185so7098422qke.5;
+        Thu, 17 Feb 2022 22:57:31 -0800 (PST)
+X-Received: by 2002:a05:620a:2913:b0:47e:15da:b041 with SMTP id
+ m19-20020a05620a291300b0047e15dab041mr3547976qkp.310.1645167451368; Thu, 17
+ Feb 2022 22:57:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20220218054315.169005-1-andrew@aj.id.au>
-In-Reply-To: <20220218054315.169005-1-andrew@aj.id.au>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Feb 2022 22:13:07 -0800
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Date: Fri, 18 Feb 2022 06:57:20 +0000
+X-Gmail-Original-Message-ID: 
+ <CAHMutra5px9Egp6VXpBqyrxYCSCfX-437so6D+HSXZUPBc62sg@mail.gmail.com>
 Message-ID: 
- <CAMKF1sojxzU4g7hy3RPgnY99X70KnVnnVLqKFuVeD6rTp8WvxA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Introduce RS_BUILD_ARCH to handle ppc64le
-To: Andrew Jeffery <andrew@aj.id.au>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CAHMutra5px9Egp6VXpBqyrxYCSCfX-437so6D+HSXZUPBc62sg@mail.gmail.com>
+Subject: Kirkstone Layer Compatibility
+To: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000088f1a305d8456547"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 06:13:34 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 06:57:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161879
+ https://lists.openembedded.org/g/openembedded-core/message/161880
 
-On Thu, Feb 17, 2022 at 9:43 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> On modern Power systems `uname -m` reports 'ppc64le'. However, Rust's
-> toolchain names the architecture 'powerpc64le'.
->
-> Introduce RS_BUILD_ARCH to provide an indirection to fix this mismatch.
->
-> I've tested each of the generated URIs for Power using the output from
-> `bitbake -e rust-native` and could successfully fetch the artifacts.
->
-thanks
-can you also check if arch_to_rust_target_arch() in
-meta/recipes-devtools/rust/rust-common.inc
-is computing it right for ppc64le case ?
+--00000000000088f1a305d8456547
+Content-Type: text/plain; charset="UTF-8"
 
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  meta/recipes-devtools/rust/rust-snapshot.inc | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
-> index 74b558262f62..9b309b6f330c 100644
-> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> @@ -14,12 +14,20 @@ SRC_URI[rust-std-snapshot-aarch64.sha256sum] = "3618da916a0f92f241cf1d67d04bb578
->  SRC_URI[rustc-snapshot-aarch64.sha256sum] = "f26811e48d03c56c125de03d389e1ae7c6df36990953c1670c6a5676bc12d4cb"
->  SRC_URI[cargo-snapshot-aarch64.sha256sum] = "6d11cd94618d80cda273eeeae7285980445f61a49ebacc616777b482a41cbf3f"
->
-> +python () {
-> +    build_arch = d.getVar('BUILD_ARCH')
-> +    if build_arch == "ppc64le":
-> +        d.setVar("RS_BUILD_ARCH", "powerpc64le")
-> +    else:
-> +        d.setVar("RS_BUILD_ARCH", build_arch)
-> +}
-> +
->  SRC_URI += " \
-> -    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
-> -    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
-> -    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
-> +    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
-> +    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
-> +    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${RS_BUILD_ARCH};subdir=rust-snapshot-components \
->  "
->
-> -RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
-> -RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
-> -CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
-> +RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
-> +RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
-> +CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${RS_BUILD_ARCH}-unknown-linux-gnu"
-> --
-> 2.32.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#161878): https://lists.openembedded.org/g/openembedded-core/message/161878
-> Mute This Topic: https://lists.openembedded.org/mt/89227468/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Hello everyone,
+
+There have been a number of failures in the autobuilder today [1] [2] due
+to the change currently sitting in master-next that switches
+LAYERSERIES_COMPAT from honister to kirkstone[3].
+
+Since the change will soon be merged into master I thought it'd be a good
+idea to send an email so layer maintainers become aware of the upcoming
+issue and update their corresponding layers accordingly.
+
+Cheers,
+
+Alejandro
+
+[1] https://swatbot.yoctoproject.org/mainindex/swat/
+[2] https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3243
+[3]
+https://git.yoctoproject.org/poky/commit/?h=master-next&id=7145b34de02fffa97bb1238f4777d817efcdc78f
+
+--00000000000088f1a305d8456547
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,sa=
+ns-serif;font-size:small">Hello everyone,</div><div class=3D"gmail_default"=
+ style=3D"font-family:arial,sans-serif;font-size:small"><br></div><div clas=
+s=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:small">=
+There have been a number of failures in the autobuilder today [1] [2] due t=
+o the change currently sitting in master-next that switches LAYERSERIES_COM=
+PAT from honister to kirkstone[3].</div><div class=3D"gmail_default" style=
+=3D"font-family:arial,sans-serif;font-size:small"><br></div><div class=3D"g=
+mail_default" style=3D"font-family:arial,sans-serif;font-size:small">Since =
+the change will soon=C2=A0be merged into master I thought it&#39;d be a goo=
+d idea to send an email so layer maintainers become aware of the upcoming i=
+ssue and update their corresponding layers accordingly.</div><div class=3D"=
+gmail_default" style=3D"font-family:arial,sans-serif;font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;fon=
+t-size:small">Cheers,</div><div class=3D"gmail_default" style=3D"font-famil=
+y:arial,sans-serif;font-size:small"><br></div><div class=3D"gmail_default" =
+style=3D"font-family:arial,sans-serif;font-size:small">Alejandro</div><div =
+class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-size:sma=
+ll"><br></div><div class=3D"gmail_default" style=3D"font-family:arial,sans-=
+serif;font-size:small">[1]=C2=A0<a href=3D"https://swatbot.yoctoproject.org=
+/mainindex/swat/">https://swatbot.yoctoproject.org/mainindex/swat/</a></div=
+><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;font-si=
+ze:small">[2]=C2=A0<a href=3D"https://autobuilder.yoctoproject.org/typhoon/=
+#/builders/83/builds/3243">https://autobuilder.yoctoproject.org/typhoon/#/b=
+uilders/83/builds/3243</a></div><div class=3D"gmail_default" style=3D"font-=
+family:arial,sans-serif;font-size:small">[3] <a href=3D"https://git.yoctopr=
+oject.org/poky/commit/?h=3Dmaster-next&amp;id=3D7145b34de02fffa97bb1238f477=
+7d817efcdc78f">https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&am=
+p;id=3D7145b34de02fffa97bb1238f4777d817efcdc78f</a><br></div><div class=3D"=
+gmail_default" style=3D"font-family:arial,sans-serif;font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-family:arial,sans-serif;fon=
+t-size:small"><br></div></div>
+
+--00000000000088f1a305d8456547--
 
