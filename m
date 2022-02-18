@@ -1,121 +1,111 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE089C433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 14:27:42 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web12.11415.1645194459473260092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2BCC433F5
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 14:30:43 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web09.11452.1645194641790166293
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 06:27:42 -0800
+ Fri, 18 Feb 2022 06:30:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sigma-chemnitz.de header.s=v2012061000 header.b=IZIUiK6K;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67,
- mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-2.intern.sigma-chemnitz.de
- (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
-	by mail-out-3.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
- 21IERXYA012489
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 15:27:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1645194454;
-	bh=jsPWNHMI4PzS18K3LJmpOayWppzfRAGN9RXdQ86+8fA=; l=1600;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=IZIUiK6K7jKh4UJCBmthP/dazonzyulMSy6T6Qu6NO4HZWp2ZO3lvUM1yiZusIPk9
-	 s7I2lGQBaI1yfo15spW+5uRyOHmUTZWjU4NFWzEHJjSWxyr2GTrJL/6NGWoPYdJmK2
-	 u/eOZyuf7rhrYqWXgDd4ySj9ilL5PMITRMgaybpI=
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local
- [192.168.16.32])
-	by mail-mta-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id
- 21IERWWU017365
-	for <openembedded-core@lists.openembedded.org> from
- enrico.scholz@sigma-chemnitz.de; Fri, 18 Feb 2022 15:27:32 +0100
-Received: from mail-msa-2.intern.sigma-chemnitz.de ( [192.168.12.72]) by
- reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 5FE17612749; Fri, 18 Feb 2022 15:27:29 +0100
-Received: from ensc-virt.intern.sigma-chemnitz.de
- (ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
- 21IERSNs012431
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 18 Feb 2022 15:27:28 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
- 4.94.2)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1nL4EJ-000ac2-U7; Fri, 18 Feb 2022 15:27:28 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Saul Wold <Saul.Wold@windriver.com>,
-        openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] convert-variables: Script for Inclusive
- Language variable renames
-References: <20220217003248.581903-1-saul.wold@windriver.com>
-	<ly35kg9tsz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<caf357e342ad33e0117af76244ba13fcd804f4fc.camel@linuxfoundation.org>
-Date: Fri, 18 Feb 2022 15:27:27 +0100
-In-Reply-To: 
- <caf357e342ad33e0117af76244ba13fcd804f4fc.camel@linuxfoundation.org>
-	(Richard Purdie's message of "Fri, 18 Feb 2022 13:55:37 +0000")
-Message-ID: <lyv8xc8d2o.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GoGU0CxH;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 66D801BF203;
+	Fri, 18 Feb 2022 14:30:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1645194639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G05uYiDovgvcyEc2bKlgSmHja3/2kjg2wkoGTT2/sbQ=;
+	b=GoGU0CxH+LXLXjSmgg6BJ4ovGP+mJdgyWasVeEL457CkNoREdaWL3vRH5igEksTCM61+uL
+	ygAaWUmNT2bidKD1cv80geNE+5nMHJbVBMrmRleJ4+VSOW/5YJhG56uti/U7ak1fRndtNe
+	q/nFmJiLcKQK4FHv3GR1poTceyNoEQm1DWOjPDLio2PXcWdPsyz16RkGEUyNJsJ7WnnKQ1
+	ZGzDF6tc26b1ELhI1YEHakJc1t/ca8WSmXVRPnJl6tQmPukkicKLGtqrvmfau5dqIKs9aZ
+	B3Eu1tlZJtEzppLaL9H4JqsbZ33z0in8cdWAooEI0lyvGhbtDv1foxpzkoeFWw==
+Date: Fri, 18 Feb 2022 15:30:38 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jon Mason <jon.mason@arm.com>, Ross Burton <ross.burton@arm.com>,
+	"Elberger, Richard" <elberger@amazon.com>,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Scott Murray <scott.murray@konsulko.com>,
+	Alejandro Hernandez Samaniego <alejandro@enedino.org>,
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [Openembedded-architecture] Kirkstone Layer
+ Compatibility
+Message-ID: <Yg+tjtp5IPpmUe0T@piout.net>
+References: 
+ <CAHMutra5px9Egp6VXpBqyrxYCSCfX-437so6D+HSXZUPBc62sg@mail.gmail.com>
+ <CA+chaQfB9J1FQCWjWW4+x1m-PKUL9kZDO3uSPfGpcjFd8UJ35w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <CA+chaQfB9J1FQCWjWW4+x1m-PKUL9kZDO3uSPfGpcjFd8UJ35w@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 14:27:42 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 14:30:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161941
+ https://lists.openembedded.org/g/openembedded-core/message/161942
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+Hello,
 
->> > This script searches for a list of variable that have been renamed
->> > and converts them to their more descriptive names.
++layer maintainers to ensure they see that.
 
-s/descriptive/politically correct/
+On 18/02/2022 12:37:04+0100, Martin Jansa wrote:
+> The [3] should be
+> https://git.openembedded.org/openembedded-core/commit/?id=311e61ae14b7216f5b98f1afe0e791644a07c9d0
+> that's where LAYERSERIES_CORENAMES was changed to kirkstone (it's not due
+> to LAYERSERIES_COMPAT changes, these changes are what people need to update
+> in their layer).
+> 
+> On Fri, Feb 18, 2022 at 7:57 AM Alejandro Hernandez Samaniego <
+> alejandro@enedino.org> wrote:
+> 
+> > Hello everyone,
+> >
+> > There have been a number of failures in the autobuilder today [1] [2] due
+> > to the change currently sitting in master-next that switches
+> > LAYERSERIES_COMPAT from honister to kirkstone[3].
+> >
+> > Since the change will soon be merged into master I thought it'd be a good
+> > idea to send an email so layer maintainers become aware of the upcoming
+> > issue and update their corresponding layers accordingly.
+> >
+> > Cheers,
+> >
+> > Alejandro
+> >
+> > [1] https://swatbot.yoctoproject.org/mainindex/swat/
+> > [2] https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3243
+> > [3]
+> > https://git.yoctoproject.org/poky/commit/?h=master-next&id=7145b34de02fffa97bb1238f4777d817efcdc78f
+> >
+> >
+> >
+> > 
+> >
+> >
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#161936): https://lists.openembedded.org/g/openembedded-core/message/161936
+> Mute This Topic: https://lists.openembedded.org/mt/89230590/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
->> again: most of these renamings make identifiers much less descriptive
->> because they now sound like boolean flags instead of lists
->
-> Whilst you could say they sound like booleans, they clearly can't be
-> as that wouldn't make sense, e.g. "Ignoring variables in basehash"
-> makes no sense.
-
-True; because it does not make sense, these variables should not be
-named in this way.
-
-
-> Secondly, most metadata variables are lists of things.
-
-The renamed ones; yes.  But when I look in bitbake.conf, I can not say
-that most variables are lists.
-
-
-> Adding "LIST" to every variable that is a list of items would just make
-> the variable names much longer with little end resulting readability
-> gain.
-
-True; explicit type annotations like in the hungarian notation are
-nonsense.  But "whitelist" and "blacklist" are words with a meaning;
-the "list" is not used as a type annotation there.
-
-Variable names were perfectly readable.  A change should make things
-better, not worse.
-
-
-> Unfortunately there likely isn't a perfect rename and these were the
-> best we were able to come up with.
-
-Why is the rename done at all?  It makes the product just worse due to a
-less usable api and because it causes a lot of work for the users of the
-api (I shudder when I think about updating my CI to work with new and
-old branches).
-
-
-
-Enrico
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
