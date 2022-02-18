@@ -2,64 +2,63 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 798AEC433EF
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:07:02 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.9093.1645178821292198270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797BBC433F5
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:07:03 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.9095.1645178822336710130
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:07:01 -0800
+ Fri, 18 Feb 2022 02:07:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jgzq4qeQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=exUNkfoq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- k127-20020a1ca185000000b0037bc4be8713so8219320wme.3
+Received: by mail-wr1-f48.google.com with SMTP id v12so13680422wrv.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:07:01 -0800 (PST)
+ Fri, 18 Feb 2022 02:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YbgwM5ePXoPYVfm7W2uZRRtjOKUuCVh3Wjfh0qSzu/E=;
-        b=jgzq4qeQP5VdDRHLIoToh0czxDZCWPaiQedYHLvyRCJhs21/s3W0/ab0cGwPqn4Mfm
-         0kAuCC1wcfNB0SXMzWmitaSXPJ8l9Mz8n6qz/s/3jnYYfhVruIj+nS5CXdiQh6GbKmYF
-         tHD9+ujgJa/PcOjZio7vQIy/LV7dxU4uLDVrn0tTR99cidJpu8Oqs2e0jaD6/vusizJC
-         WjnL+0y/+mC7jvlGxdfT+9iEh66X9Wq43f938SqqsoaWIkVDzeQdvwHzx62QEecI9aNw
-         drV/a8l9enb8Kp72LFxy7yLMKlEGBUWchAyt3WFZ+qCuAlfdNXUS+e5Yg88oL+vx4ts2
-         CiPg==
+        bh=95zYeBRktPqabbGoTbLockpLIb9ujYHVc5tFNXim8vA=;
+        b=exUNkfoqyyxrySpORLslbg72EygtdQg5zLqsBa1u0ASRBsR8znQMxQZ8b6Tk57otWe
+         qN7TCjOAwxnMBcYocXjDyv4XZ5lNiQ0xyt9g6SbKXVvJ6pcnmJoe5Tvd8h3S29wgcHHM
+         DFA3HxnXeVPv5XBou6vXPM1/acind9OJHiVGuOpL1UNAacFR+iFpEy69NEplLB2SBfF+
+         ZY3bL4GrxjGOC7PgulthO4AeVEdX4g+srZZjLVVxkB8JK2/KqC5e87a/i9nzNRMc8hWu
+         m0JuTJxkS/L6t1U8polEKA9Br69Ex3ZKw6S6JsUgxkusk/GynCWJ2V96VQWbECfZ4nLK
+         bc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YbgwM5ePXoPYVfm7W2uZRRtjOKUuCVh3Wjfh0qSzu/E=;
-        b=E0AFueqtQZfPR1UjGR4AO9IROfHCaNk7NeiKD1TzksB+HMJbRSfOawYzDNo3CFdd7B
-         X9sKzhiMkM9AS2RQx5Csb6S+RoUa4rHUE5UHj+r96kahEy6m80VdafWzhrwshE5dPQ8C
-         +4yxZIvdp8Oe2c0102RHFSvX4B5PWsfRiZUlFm7p9s4BYVinmLgvPMBIkGwiF4SNu0Ym
-         QrhmkxcJ7Qxs5zRhyT06bke+6hNb3CPfQzRwjFZkrk+4UFWAh/oWF+z3frsGyExwVsRV
-         ehxDirABpIf9x9khokhHDKBVDpVQKRGCKbXRv9q5qgiIcMgny7ma0AOBqgfXXUHBZWuQ
-         gYoA==
-X-Gm-Message-State: AOAM531ZH+5Ej7FsV9rjgEaJYTZY0XxydIpwx/JhcNm+Ul1reK48mgBZ
-	OFGln3YCbSyj2ZtikRGa5X8=
+        bh=95zYeBRktPqabbGoTbLockpLIb9ujYHVc5tFNXim8vA=;
+        b=G9BXVLKkCJMbSxjTN8Vk36qj0+bbQWCXrDAlAyZJK/l+IC7q7h5e0NjYm+vLoP/gqx
+         vb1LHjMi3TbSQd7X0blEhrTYTjxFPmkw1FjuQWfr7atL06oB21C21auI1FXlLqcWnO3W
+         PlFuRFYxLyvZVDdvj9jOtJyWfIScW1towin8PLoaqqMzZZZ+3FnpxdJcEwFZ/NpnM05e
+         LagBBiSPxHU0xpyhdf41YW77rdW3BTJTxoQ31eh9j8PEeLbeIZ/elw2Q/2YiOxAVvZ/c
+         apNXueg4k5SBc3gRhYUEnkUlUhHBxhy47L7CNCDXmQ3jjEiQIe20+qV8BAkJWct7HCqq
+         wBYQ==
+X-Gm-Message-State: AOAM5307LPHZoKxzexcqKxJdFrsZBkzlxi8aEzfHKt2J4mcjWKmElkJU
+	BNmwBb7ydxf7W1Zps3wvfcw=
 X-Google-Smtp-Source: 
- ABdhPJwlxGywdVwNqEyTIp30qClRZxeu9ZHKY85pvjNcnu+ukrC9GolR/1VUmKosfmcQ9oz0BapQMQ==
-X-Received: by 2002:a05:600c:4f90:b0:350:d962:8944 with SMTP id
- n16-20020a05600c4f9000b00350d9628944mr6369322wmq.48.1645178819844;
-        Fri, 18 Feb 2022 02:06:59 -0800 (PST)
+ ABdhPJyFQU+eZPJFKXkbKjkogw0i8O33EgtASodHFxRSj35/Qk4xX8m1I48qc1ZKIuv9jbOP86jZlg==
+X-Received: by 2002:adf:e942:0:b0:1e3:353:d162 with SMTP id
+ m2-20020adfe942000000b001e30353d162mr5426465wrn.299.1645178820920;
+        Fri, 18 Feb 2022 02:07:00 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
  z5sm4808494wmp.10.2022.02.18.02.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:59 -0800 (PST)
+        Fri, 18 Feb 2022 02:07:00 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
 	steve@sakoman.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH 41/46][dunfell] grub: add a fix for NULL pointer dereference
-Date: Fri, 18 Feb 2022 11:05:49 +0100
-Message-Id: <20220218100554.1315511-42-rybczynska@gmail.com>
+Subject: [PATCH 42/46][dunfell] grub: add a fix for an incorrect cast
+Date: Fri, 18 Feb 2022 11:05:50 +0100
+Message-Id: <20220218100554.1315511-43-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
 References: <20220218100554.1315511-1-rybczynska@gmail.com>
@@ -68,78 +67,83 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:07:02 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:07:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161929
+ https://lists.openembedded.org/g/openembedded-core/message/161930
 
-This patch adds a fix for a NULL pointer dereference in grub's
-util/grub-install. It is a part of a security series [1].
+This patch adds a fix for incorrect casting from signed to unsigned
+in grub's util/grub-editenv. It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- ...nstall-Fix-NULL-pointer-dereferences.patch | 41 +++++++++++++++++++
+ ...v-Fix-incorrect-casting-of-a-signed-.patch | 46 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0041-util-grub-install-Fix-NULL-pointer-dereferences.patch
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0041-util-grub-install-Fix-NULL-pointer-dereferences.patch b/meta/recipes-bsp/grub/files/0041-util-grub-install-Fix-NULL-pointer-dereferences.patch
+diff --git a/meta/recipes-bsp/grub/files/0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch b/meta/recipes-bsp/grub/files/0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch
 new file mode 100644
-index 0000000000..ea563a41a0
+index 0000000000..0cd8ec3611
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0041-util-grub-install-Fix-NULL-pointer-dereferences.patch
-@@ -0,0 +1,41 @@
-+From 5d2dd0052474a882a22e47cc8c3ed87a01819f6b Mon Sep 17 00:00:00 2001
-+From: Daniel Kiper <daniel.kiper@oracle.com>
-+Date: Thu, 25 Feb 2021 18:35:01 +0100
-+Subject: [PATCH] util/grub-install: Fix NULL pointer dereferences
++++ b/meta/recipes-bsp/grub/files/0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch
+@@ -0,0 +1,46 @@
++From 3d68daf2567aace4b52bd238cfd4a8111af3bc04 Mon Sep 17 00:00:00 2001
++From: Darren Kenny <darren.kenny@oracle.com>
++Date: Thu, 5 Nov 2020 14:33:50 +0000
++Subject: [PATCH] util/grub-editenv: Fix incorrect casting of a signed value
 +
-+Two grub_device_open() calls does not have associated NULL checks
-+for returned values. Fix that and appease the Coverity.
++The return value of ftell() may be negative (-1) on error. While it is
++probably unlikely to occur, we should not blindly cast to an unsigned
++value without first testing that it is not negative.
 +
-+Fixes: CID 314583
++Fixes: CID 73856
 +
-+Signed-off-by: Daniel Kiper <daniel.kiper@oracle.com>
-+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
++Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=8b3a95655b4391122e7b0315d8cc6f876caf8183]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=5dc41edc4eba259c6043ae7698c245ec1baaacc6]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ util/grub-install.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ util/grub-editenv.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
 +
-+diff --git a/util/grub-install.c b/util/grub-install.c
-+index a82725f..367350f 100644
-+--- a/util/grub-install.c
-++++ b/util/grub-install.c
-+@@ -1775,6 +1775,8 @@ main (int argc, char *argv[])
-+ 	  fill_core_services (core_services);
++diff --git a/util/grub-editenv.c b/util/grub-editenv.c
++index f3662c9..db6f187 100644
++--- a/util/grub-editenv.c
+++++ b/util/grub-editenv.c
++@@ -125,6 +125,7 @@ open_envblk_file (const char *name)
++ {
++   FILE *fp;
++   char *buf;
+++  long loc;
++   size_t size;
++   grub_envblk_t envblk;
 + 
-+ 	  ins_dev = grub_device_open (install_drive);
-++	  if (ins_dev == NULL)
-++	    grub_util_error ("%s", grub_errmsg);
++@@ -143,7 +144,12 @@ open_envblk_file (const char *name)
++     grub_util_error (_("cannot seek `%s': %s"), name,
++ 		     strerror (errno));
 + 
-+ 	  bless (ins_dev, core_services, 0);
++-  size = (size_t) ftell (fp);
+++  loc = ftell (fp);
+++  if (loc < 0)
+++    grub_util_error (_("cannot get file location `%s': %s"), name,
+++		     strerror (errno));
+++
+++  size = (size_t) loc;
 + 
-+@@ -1875,6 +1877,8 @@ main (int argc, char *argv[])
-+ 	  fill_core_services(core_services);
-+ 
-+ 	  ins_dev = grub_device_open (install_drive);
-++	  if (ins_dev == NULL)
-++	    grub_util_error ("%s", grub_errmsg);
-+ 
-+ 	  bless (ins_dev, boot_efi, 1);
-+ 	  if (!removable && update_nvram)
++   if (fseek (fp, 0, SEEK_SET) < 0)
++     grub_util_error (_("cannot seek `%s': %s"), name,
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index fad7415e0d..7ca0b469e9 100644
+index 7ca0b469e9..a1fbc5e644 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -87,6 +87,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0038-loader-xnu-Fix-memory-leak.patch \
+@@ -88,6 +88,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch \
             file://0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch \
-+           file://0041-util-grub-install-Fix-NULL-pointer-dereferences.patch \
+            file://0041-util-grub-install-Fix-NULL-pointer-dereferences.patch \
++           file://0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
