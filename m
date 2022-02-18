@@ -2,227 +2,146 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EA3C433F5
-	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:19 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.9104.1645178778120482999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 838E2C433EF
+	for <webhook@archiver.kernel.org>; Fri, 18 Feb 2022 10:06:20 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.9073.1645178779023469290
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:18 -0800
+ Fri, 18 Feb 2022 02:06:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QyU9czMd;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=d9UcXSag;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id f3so13490458wrh.7
+Received: by mail-wr1-f43.google.com with SMTP id d27so13636378wrc.6
         for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 02:06:17 -0800 (PST)
+ Fri, 18 Feb 2022 02:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WQS331UuDg1roledQ/KnNSFENAzSnuoG22Gw+MLENFg=;
-        b=QyU9czMdSDfxGRj5IPtBnSR4UEJomsoesTxvV+Fy9VcfI6j2D+49NLBGy0VbPOjdzk
-         bHHMRPkO3BvrFYbEttDoFhfQ9qYLm6ZM+3tXUPq9qW6mSRfIDwPnQZLGPV3evQYXjKVB
-         XgZ3c/t0i46twhQ7+fQDNh8/9QvLmUcFJzlY37eMwuOGM6dc7xg0zK7QxsB0jEWJZZdO
-         r9tKLKTjRzxis3oi50cuRpKjsv+SlI3wpQN8LreFrsFtjagKwohrW5WxDbgFGNdxtKg6
-         Z3QAhocRYWpQyfE2SgGTW63qacggzE3inZdntPKV/OwGEU7db7j/dEcps3a/is0BCwcS
-         QDVQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pOtzSx++VtixBTphaVNWKRbxPTEH+b2sfi6cjjyOfvc=;
+        b=d9UcXSagf8YroAGX9gvTWrxI6t3rVWQrMwWNYbzSCQWRWuMOMRtx121qNbHu9GMJAi
+         pKytOXMSjq1907qpY0xKl2mk2IijqZSF6HAyA7ndqzbyv5NUVOrrhR7vKjAsoN4uzZSj
+         y+Zh2fRfLMtBlK/L+Jlxsqon73bD5BA4ltMXENQ3OvCWnSKXr/AraLLZ5VaXmXrEr8nr
+         UVg5GBwNGIktIuNvVJ7RpS4TP2I5ToEFe0bIHPSO/hLwkVDY9v+YYKydimczkc5YT8tw
+         /oBUhy6/u1BVrObpN3VW5V231NhJLVWUP8gu0A0nSjvUdZQgrkwHAnpBnQU8lbmyvwZE
+         ZFRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WQS331UuDg1roledQ/KnNSFENAzSnuoG22Gw+MLENFg=;
-        b=lfxhFvIdH4IHMKzS2cUeMudgRnWkARjCG5wgrzt7yNstSQooA9RhpqoNSlvECAJ9pB
-         GDc55pR+FdktNzK/HUlCqvfH0DnZi3iOcTrmo+UDLf4eUVgwadnEocG/Z+U3WIRGz9Hs
-         naDsfaoCysvd4oqfxrqjw9zs4KUn6nH04KfqNPXVH9o8hj9TSF4rlypRyfWYkqt7gA3n
-         Yep6/58oKAvQ9hN2NA1ZvjDbaaWCs2azVP6VFXQeDXt+csPUXvHdbK8t+SyEX0gB/04t
-         XjLUn+yQSmgTXWHjqi2qHCC0ITyt8+hZXVTLNBAmb/cCtc/+yva6WGAKd8fb4OyzNOMZ
-         XI/w==
-X-Gm-Message-State: AOAM533RCXfXdEZArpFSHsdpYR6yI7lXVmqOI2UOb043t/rQdEn8mWPx
-	BfaUsNXiuiYGe/t5sWdGOfs=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pOtzSx++VtixBTphaVNWKRbxPTEH+b2sfi6cjjyOfvc=;
+        b=4e2NXqRw3+UTKIgxqoWBCFGsUDp498T+6oHL8vru39pOMuybicSVqO6BSX/Cb/RNJ/
+         nuILJBRJJQ57zgMy9JdZNz8bJ7sMNBPjowOoyi7jfznb0gFeWCL/ThCKrmZZGVEQSX9e
+         BpDDv/H86rHqTkH0K0NSo5ugKFuKx6qLud/+e7Pwiodaq+1KJ/JCXCsQKWcmC4suLwoJ
+         +zNYuFRc2rI2Y8gDlzhPgiSp/CI20K7WVam2hFT0kF7FplYcf3o/EG+XimuClLik/QXS
+         z8iftdtVSKTWrOEU0jiq1N2pOKyLN+JU8ln7TA59qX4LAHB3dlimYrXtrEJY60329HmT
+         QKkw==
+X-Gm-Message-State: AOAM532ayL28lp4NO4OZAeo0bY6X7pwxW7F3yCAw0JT8T9JSiHnnva8Z
+	qsOCJPWi4etcGk8olq0U5wo=
 X-Google-Smtp-Source: 
- ABdhPJwUG31ecbLDLdN3KTNWLJIrdPJBlHYyAZ/YxeDRJhQawv5yBdKs9g4UingLDHW7oF9IA+PVNg==
-X-Received: by 2002:a5d:522a:0:b0:1e3:36c0:6e76 with SMTP id
- i10-20020a5d522a000000b001e336c06e76mr5639817wra.11.1645178776555;
-        Fri, 18 Feb 2022 02:06:16 -0800 (PST)
+ ABdhPJzri+o16lD46NOwpmX1mcB/Pz2X/GQvBiZWQLplo6HCm2qxX26q1AIph/MvXGdUW+WAu7yyow==
+X-Received: by 2002:a5d:6701:0:b0:1e3:3ba6:d2e8 with SMTP id
+ o1-20020a5d6701000000b001e33ba6d2e8mr5378223wru.221.1645178777570;
+        Fri, 18 Feb 2022 02:06:17 -0800 (PST)
 Received: from localhost.localdomain ([80.215.178.41])
         by smtp.gmail.com with ESMTPSA id
- z5sm4808494wmp.10.2022.02.18.02.06.15
+ z5sm4808494wmp.10.2022.02.18.02.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 02:06:16 -0800 (PST)
+        Fri, 18 Feb 2022 02:06:17 -0800 (PST)
 From: Marta Rybczynska <rybczynska@gmail.com>
 To: anuj.mittal@intel.com,
 	openembedded-core@lists.openembedded.org,
-	steve@sakoman.com,
-	Marta Rybczynska <rybczynska@gmail.com>
-Subject: [PATCH 00/46][dunfell] grub 2.04 security fixes
-Date: Fri, 18 Feb 2022 11:05:08 +0100
-Message-Id: <20220218100554.1315511-1-rybczynska@gmail.com>
+	steve@sakoman.com
+Cc: Marta Rybczynska <rybczynska@gmail.com>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Subject: [PATCH 01/46][dunfell] grub: fix a memory leak
+Date: Fri, 18 Feb 2022 11:05:09 +0100
+Message-Id: <20220218100554.1315511-2-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220218100554.1315511-1-rybczynska@gmail.com>
+References: <20220218100554.1315511-1-rybczynska@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:19 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Feb 2022 10:06:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161888
+ https://lists.openembedded.org/g/openembedded-core/message/161889
 
-This series fixes a number of issues in grub 2.04. It is a part of a security
-series [1], except of the patch 5. The patch 5 is a dependency of patch 6,
-but also a bugfix on its own.
-
-While none of them has an official CVE, they fix a number of NULL pointer
-dereferences, memory leaks and similar issues, so seem worth having.
-
-Patches included here are also in Debian's backports [2].
+Backport a fix for a memory leak in grub_mmap_iterate(). This patch
+is a part of a security series [1]
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
-[2] https://salsa.debian.org/grub-team/grub/-/tree/debian/2.04-20/debian/patches/2021-02-security
 
-Marta Rybczynska (46):
-  grub: fix a memory leak
-  grub: add a fix for a possible NULL dereference
-  grub: fix a dangling memory pointer
-  grub: fix wrong handling of argc == 0
-  grub: add a fix for malformed device path handling
-  grub: fix memory leak at error in grub_efi_get_filename()
-  grub: add a fix for a possible NULL pointer dereference
-  grub: add a fix for unused variable in gnulib
-  grub: fix an unitialized token in gnulib
-  grub: add a fix a NULL pointer dereference in gnulib
-  grub: add a fix for NULL pointer dereference
-  grub: fix an unitialized re_token in gnulib
-  grub: add a fix for unnecessary assignements
-  grub: add structure initialization in zstd
-  grub: add a missing NULL check
-  grub: fix a memory leak
-  grub: fix a memory leak
-  grub: fix a memory leak
-  grub: fix an integer overflow
-  grub: add a fix for a length check
-  grub: add a fix for a possible negative shift
-  grub: add a fix for a memory leak
-  grub: add a fix for possible integer overflows
-  grub: fix an error check
-  grub: add a fix for a memory leak
-  grub: add a fix for a possible unintended sign extension
-  grub: add a fix for a possible NULL dereference
-  grub: add a fix for a memory leak
-  grub: add a fix for a memory leak
-  grub: fix a memory leak
-  grub: remove unneeded return value
-  grub: fix an integer overflow
-  grub: fix multiple integer overflows
-  grub: fix a possible integer overflow
-  grub: test for malformed jpeg files
-  grub: remove dead code
-  grub: fix checking for NULL
-  grub: add a fix for a memory leak
-  grub: avoid a memory leak
-  grub: add a check for a NULL pointer
-  grub: add a fix for NULL pointer dereference
-  grub: add a fix for an incorrect cast
-  grub: fix incorrect use of a negative value
-  grub: add a fix for a NULL pointer dereference
-  grub: avoid a NULL pointer dereference
-  grub: add a fix for a crash in scripts
-
- ...leak-when-iterating-over-mapped-memo.patch |  39 +++
- ...ible-dereference-to-of-a-NULL-pointe.patch |  39 +++
- ...net-tftp-Fix-dangling-memory-pointer.patch |  33 +++
- ...n-parser-Fix-resource-leak-if-argc-0.patch |  50 ++++
- ...formed-device-path-arithmetic-errors.patch | 235 ++++++++++++++++++
- ...-kern-efi-Fix-memory-leak-on-failure.patch |  30 +++
- ...ix-possible-NULL-pointer-dereference.patch |  65 +++++
- ...ulib-regexec-Resolve-unused-variable.patch |  59 +++++
- ...mp-Fix-uninitialized-token-structure.patch |  53 ++++
- ...-Fix-dereference-of-a-possibly-NULL-.patch |  52 ++++
- ...egexec-Fix-possible-null-dereference.patch |  53 ++++
- ...b-regcomp-Fix-uninitialized-re_token.patch |  55 ++++
- ...e-unnecessary-self-assignment-errors.patch |  41 +++
- ...std-Initialize-seq_t-structure-fully.patch |  34 +++
- ...heck-for-NULL-before-dereferencing-i.patch |  43 ++++
- ...re-comp-data-is-freed-before-exiting.patch | 128 ++++++++++
- ...-If-failed-then-free-vg-variable-too.patch |  28 +++
- ...ory-leak-on-uninserted-lv-references.patch |  50 ++++
- ...odisk-Fix-potential-integer-overflow.patch |  50 ++++
- ...that-the-volume-name-length-is-valid.patch |  43 ++++
- ...ix-possible-negative-shift-operation.patch |  42 ++++
- ...source-leaks-while-constructing-path.patch | 121 +++++++++
- ...3-zfs-Fix-possible-integer-overflows.patch |  56 +++++
- ...-a-check-for-error-allocating-memory.patch |  35 +++
- .../files/0025-affs-Fix-memory-leaks.patch    |  82 ++++++
- ...x-possible-unintended-sign-extension.patch |  36 +++
- ...pt-mpi-Fix-possible-NULL-dereference.patch |  33 +++
- ...slinux-Fix-memory-leak-while-parsing.patch |  43 ++++
- ...n-Fix-leaking-of-memory-when-process.patch |  52 ++++
- ...0-commands-hashsum-Fix-a-memory-leak.patch |  56 +++++
- ...move-unnecessary-return-value-of-gru.patch |  94 +++++++
- ...bfill-Fix-potential-integer-overflow.patch |  78 ++++++
- ...eo_fb-Fix-multiple-integer-overflows.patch | 104 ++++++++
- ...deo_fb-Fix-possible-integer-overflow.patch |  39 +++
- ...eg-Test-for-an-invalid-next-marker-r.patch |  38 +++
- ...-Remove-code-that-coverity-is-flaggi.patch |  34 +++
- ...ader-bsd-Check-for-NULL-arg-up-front.patch |  47 ++++
- .../0038-loader-xnu-Fix-memory-leak.patch     |  38 +++
- ...driverkey-data-when-an-error-is-dete.patch |  77 ++++++
- ...k-if-pointer-is-NULL-before-using-it.patch |  42 ++++
- ...nstall-Fix-NULL-pointer-dereferences.patch |  41 +++
- ...v-Fix-incorrect-casting-of-a-signed-.patch |  46 ++++
- ...x-incorrect-use-of-a-possibly-negati.patch |  50 ++++
- ...ix-NULL-dereference-in-grub_script_e.patch |  28 +++
- ...ire-device_name-is-not-NULL-before-p.patch |  33 +++
- ...void-crash-when-using-outside-a-func.patch |  37 +++
- meta/recipes-bsp/grub/grub2.inc               |  48 +++-
- 47 files changed, 2609 insertions(+), 1 deletion(-)
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+---
+ ...leak-when-iterating-over-mapped-memo.patch | 39 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  3 +-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
- create mode 100644 meta/recipes-bsp/grub/files/0002-net-net-Fix-possible-dereference-to-of-a-NULL-pointe.patch
- create mode 100644 meta/recipes-bsp/grub/files/0003-net-tftp-Fix-dangling-memory-pointer.patch
- create mode 100644 meta/recipes-bsp/grub/files/0004-kern-parser-Fix-resource-leak-if-argc-0.patch
- create mode 100644 meta/recipes-bsp/grub/files/0005-efi-Fix-some-malformed-device-path-arithmetic-errors.patch
- create mode 100644 meta/recipes-bsp/grub/files/0006-kern-efi-Fix-memory-leak-on-failure.patch
- create mode 100644 meta/recipes-bsp/grub/files/0007-kern-efi-mm-Fix-possible-NULL-pointer-dereference.patch
- create mode 100644 meta/recipes-bsp/grub/files/0008-gnulib-regexec-Resolve-unused-variable.patch
- create mode 100644 meta/recipes-bsp/grub/files/0009-gnulib-regcomp-Fix-uninitialized-token-structure.patch
- create mode 100644 meta/recipes-bsp/grub/files/0010-gnulib-argp-help-Fix-dereference-of-a-possibly-NULL-.patch
- create mode 100644 meta/recipes-bsp/grub/files/0011-gnulib-regexec-Fix-possible-null-dereference.patch
- create mode 100644 meta/recipes-bsp/grub/files/0012-gnulib-regcomp-Fix-uninitialized-re_token.patch
- create mode 100644 meta/recipes-bsp/grub/files/0013-io-lzopio-Resolve-unnecessary-self-assignment-errors.patch
- create mode 100644 meta/recipes-bsp/grub/files/0014-zstd-Initialize-seq_t-structure-fully.patch
- create mode 100644 meta/recipes-bsp/grub/files/0015-kern-partition-Check-for-NULL-before-dereferencing-i.patch
- create mode 100644 meta/recipes-bsp/grub/files/0016-disk-ldm-Make-sure-comp-data-is-freed-before-exiting.patch
- create mode 100644 meta/recipes-bsp/grub/files/0017-disk-ldm-If-failed-then-free-vg-variable-too.patch
- create mode 100644 meta/recipes-bsp/grub/files/0018-disk-ldm-Fix-memory-leak-on-uninserted-lv-references.patch
- create mode 100644 meta/recipes-bsp/grub/files/0019-disk-cryptodisk-Fix-potential-integer-overflow.patch
- create mode 100644 meta/recipes-bsp/grub/files/0020-hfsplus-Check-that-the-volume-name-length-is-valid.patch
- create mode 100644 meta/recipes-bsp/grub/files/0021-zfs-Fix-possible-negative-shift-operation.patch
- create mode 100644 meta/recipes-bsp/grub/files/0022-zfs-Fix-resource-leaks-while-constructing-path.patch
- create mode 100644 meta/recipes-bsp/grub/files/0023-zfs-Fix-possible-integer-overflows.patch
- create mode 100644 meta/recipes-bsp/grub/files/0024-zfsinfo-Correct-a-check-for-error-allocating-memory.patch
- create mode 100644 meta/recipes-bsp/grub/files/0025-affs-Fix-memory-leaks.patch
- create mode 100644 meta/recipes-bsp/grub/files/0026-libgcrypt-mpi-Fix-possible-unintended-sign-extension.patch
- create mode 100644 meta/recipes-bsp/grub/files/0027-libgcrypt-mpi-Fix-possible-NULL-dereference.patch
- create mode 100644 meta/recipes-bsp/grub/files/0028-syslinux-Fix-memory-leak-while-parsing.patch
- create mode 100644 meta/recipes-bsp/grub/files/0029-normal-completion-Fix-leaking-of-memory-when-process.patch
- create mode 100644 meta/recipes-bsp/grub/files/0030-commands-hashsum-Fix-a-memory-leak.patch
- create mode 100644 meta/recipes-bsp/grub/files/0031-video-efi_gop-Remove-unnecessary-return-value-of-gru.patch
- create mode 100644 meta/recipes-bsp/grub/files/0032-video-fb-fbfill-Fix-potential-integer-overflow.patch
- create mode 100644 meta/recipes-bsp/grub/files/0033-video-fb-video_fb-Fix-multiple-integer-overflows.patch
- create mode 100644 meta/recipes-bsp/grub/files/0034-video-fb-video_fb-Fix-possible-integer-overflow.patch
- create mode 100644 meta/recipes-bsp/grub/files/0035-video-readers-jpeg-Test-for-an-invalid-next-marker-r.patch
- create mode 100644 meta/recipes-bsp/grub/files/0036-gfxmenu-gui_list-Remove-code-that-coverity-is-flaggi.patch
- create mode 100644 meta/recipes-bsp/grub/files/0037-loader-bsd-Check-for-NULL-arg-up-front.patch
- create mode 100644 meta/recipes-bsp/grub/files/0038-loader-xnu-Fix-memory-leak.patch
- create mode 100644 meta/recipes-bsp/grub/files/0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch
- create mode 100644 meta/recipes-bsp/grub/files/0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch
- create mode 100644 meta/recipes-bsp/grub/files/0041-util-grub-install-Fix-NULL-pointer-dereferences.patch
- create mode 100644 meta/recipes-bsp/grub/files/0042-util-grub-editenv-Fix-incorrect-casting-of-a-signed-.patch
- create mode 100644 meta/recipes-bsp/grub/files/0043-util-glue-efi-Fix-incorrect-use-of-a-possibly-negati.patch
- create mode 100644 meta/recipes-bsp/grub/files/0044-script-execute-Fix-NULL-dereference-in-grub_script_e.patch
- create mode 100644 meta/recipes-bsp/grub/files/0045-commands-ls-Require-device_name-is-not-NULL-before-p.patch
- create mode 100644 meta/recipes-bsp/grub/files/0046-script-execute-Avoid-crash-when-using-outside-a-func.patch
 
+diff --git a/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch b/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
+new file mode 100644
+index 0000000000..eaaa7effae
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
+@@ -0,0 +1,39 @@
++From 0900f11def2e7fbb4880efff0cd9c9b32f1cdb86 Mon Sep 17 00:00:00 2001
++From: Darren Kenny <darren.kenny@oracle.com>
++Date: Thu, 3 Dec 2020 14:39:45 +0000
++Subject: [PATCH] mmap: Fix memory leak when iterating over mapped memory
++
++When returning from grub_mmap_iterate() the memory allocated to present
++is not being released causing it to leak.
++
++Fixes: CID 96655
++
++Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=8cb2848f9699642a698af84b12ba187cab722031]
++Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
++---
++ grub-core/mmap/mmap.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/grub-core/mmap/mmap.c b/grub-core/mmap/mmap.c
++index 7ebf32e..8bf235f 100644
++--- a/grub-core/mmap/mmap.c
+++++ b/grub-core/mmap/mmap.c
++@@ -270,6 +270,7 @@ grub_mmap_iterate (grub_memory_hook_t hook, void *hook_data)
++ 		   hook_data))
++ 	{
++ 	  grub_free (ctx.scanline_events);
+++	  grub_free (present);
++ 	  return GRUB_ERR_NONE;
++ 	}
++ 
++@@ -282,6 +283,7 @@ grub_mmap_iterate (grub_memory_hook_t hook, void *hook_data)
++     }
++ 
++   grub_free (ctx.scanline_events);
+++  grub_free (present);
++   return GRUB_ERR_NONE;
++ }
++ 
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 9b20e1c09b..a06beac5ef 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -47,7 +47,8 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2020-27779_7.patch \
+            file://CVE-2020-25632.patch \
+            file://CVE-2020-25647.patch \
+-"
++           file://0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch \
++           "
+ SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+ 
 -- 
 2.33.0
 
