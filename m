@@ -1,370 +1,1241 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD95C433FE
-	for <webhook@archiver.kernel.org>; Sat, 19 Feb 2022 04:42:06 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.6977.1645245724328046416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7650DC433EF
+	for <webhook@archiver.kernel.org>; Sat, 19 Feb 2022 08:06:46 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web09.7982.1645258005613869357
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Feb 2022 20:42:05 -0800
+ Sat, 19 Feb 2022 00:06:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=FTFaeNws;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cmc7RQwe;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id i10so8915204plr.2
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 19 Feb 2022 00:06:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1645245725;
-  x=1676781725;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=ZU2ktSlN3suimsYPdiVVk9k4F+asGFCzME1qWaVC/64=;
-  b=FTFaeNwsTh5O7/oAkt3oMzpxv45z/+8jGVblZ22geQugAbxe+wRnW61m
-   UTEOwque3WjSShSLv5i/ab6SIpKqts9ulm/JfS3WotaH7TXqipZ/IJ9iE
-   tnkYByVpD3EHtjSpN73lo/3WZecN/kUw43Uf0+6thmFGsfC5Xd3QIcdDB
-   Va/ThO0PbMpNi6mPQJ+7mJ510WJsYukBqcx2XEhFa0mEU9S458vPbZso6
-   FoOHJRHjePCcADgTIszoAa9InTH71e3YzffI/d3Tl8hapI3PtyyxWRGec
-   pw4IbdaCUs2Jy/HfEv6w4qgoqrrqkoXXfw8uR0mbtBCsYYm4YaLvlV5NU
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Saul Wold
-	<Saul.Wold@windriver.com>, "openembedded-architecture@lists.openembedded.org"
-	<openembedded-architecture@lists.openembedded.org>, OE-core
-	<openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>
-Subject: RE: [oe] INCOMPATIBLE_LICENSES and WHITELIST_<license> usage
-Thread-Topic: [oe] INCOMPATIBLE_LICENSES and WHITELIST_<license> usage
-Thread-Index: AQHYJFJC1nV018n32UCyCpJrJFRGfayZSgAAgACHdhCAACjfgIAAHLPw
-Date: Sat, 19 Feb 2022 04:42:01 +0000
-Message-ID: <2d71c758039943bf943e40dd48484e01@axis.com>
-References: <7d187920-92f0-a0fe-22b9-a77a1c98fd7d@windriver.com>
-	 <df167d230c66ea8a975e7bc4b8d731cf58798e81.camel@linuxfoundation.org>
-	 <e7cbd76bf80a4403b1cf6fd0c4adc555@axis.com>
- <6bba214d8ca17f438191ca84b3a8c3a97da41e1d.camel@linuxfoundation.org>
-In-Reply-To: 
- <6bba214d8ca17f438191ca84b3a8c3a97da41e1d.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G0SOkr8z+CQtlHUpZ8Uwo/zKIETsA0ozPcGUdrnbQdM=;
+        b=cmc7RQweN+xzpSCWlM2UhzCHc5WX70+q+FWAWNBk9WaZsf1yYhNJ++DIh0KQ3h2ZNu
+         2F774kIiEhrwjrqBY7IxRO78Y0iUXASFBq8aU7mNKS7qf9uTjy+sAc9Rp+xlFd/QSMGG
+         F6tlqDU6eTfWUwwee+jpcl900eOdOwHXhQG+/aCXP2nwLM4ZpCLKRMIJWZQnr2thwh49
+         rh21nJC5u4Wb/2M6OoGsKWi4Gife1m+mkkgphamG18TdUk7fbtb7NFVV8bXvHj2Lutk/
+         1OBD7C7o1Dc/zoyozo5BxDfYhJ2PF6EO+EgrKF2xbDOgG8YBBCLxhFSmz1CPrUacQ5nu
+         BJ4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=G0SOkr8z+CQtlHUpZ8Uwo/zKIETsA0ozPcGUdrnbQdM=;
+        b=BI8TUNCvThLDb5EccPjE/X+pmsvqlBMcBbuHRf04G9U38dC6/QUHBLLm46lXB5qlOh
+         Bf1o2vx3FykadnQuoTsun4v48wicaEGy3BaOvyYIiCr7kS1DtXo8ILzVm+6NGvl3eUJl
+         blx2f+OoQyY12HNkfiDlVcabfrHeKqlNk9WOw5b35vXBpRpCmDfeDbw/GbAyffZg9qhM
+         Xga6+oBRvLIYvqmw/8DyTASFy8kS++ymfLtHC/RsqFZc6lhGkrXJx/3Mjog8Gp+gmRl1
+         IdO67wdNzOPXO0RaT/0tQKeEfXQq/EoNn3vTKeQKFb9R31g/8g0QG+KxyMZON37/v+Cm
+         nC/A==
+X-Gm-Message-State: AOAM532jCphQAAXaQ/kw8ZzFmwtq1aevXy7LlyNMzMHHjCsMNu1C7DKM
+	GcsVZKYO5rrEah+JIltBP58S50NtDEw=
+X-Google-Smtp-Source: 
+ ABdhPJwTAUOwqpZxzg1mcVDLGCp2mAUZjdRH+IHWg+KtqxKS0iGHXKamMU2GLiK1bR3SfBEDCDYtBg==
+X-Received: by 2002:a17:902:a604:b0:14c:b603:56ec with SMTP id
+ u4-20020a170902a60400b0014cb60356ecmr10560938plq.121.1645258003878;
+        Sat, 19 Feb 2022 00:06:43 -0800 (PST)
+Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
+ [147.11.105.124])
+        by smtp.gmail.com with ESMTPSA id s2sm5511991pfk.3.2022.02.19.00.06.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Feb 2022 00:06:43 -0800 (PST)
+From: pgowda <pgowda.cve@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	rwmacleod@gmail.com,
+	vinay.m.engg@gmail.com,
+	alex.kanavin@gmail.com,
+	pgowda <pgowda.cve@gmail.com>
+Subject: [honister][PATCH V3] Rust Oe-Selftest implementation
+Date: Sat, 19 Feb 2022 00:06:36 -0800
+Message-Id: <20220219080636.119901-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Feb 2022 04:42:06 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Feb 2022 08:06:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161959
+ https://lists.openembedded.org/g/openembedded-core/message/161960
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDE5IGZlYnJ1YXJp
-IDIwMjIgMDE6NDUNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPjsgU2F1bCBXb2xkDQo+IDxTYXVsLldvbGRAd2luZHJpdmVyLmNvbT47IG9wZW5l
-bWJlZGRlZC0NCj4gYXJjaGl0ZWN0dXJlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IE9FLWNvcmUg
-PG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPjsgT3BlbkVtYmVk
-ZGVkIERldmVsIExpc3QgPG9wZW5lbWJlZGRlZC0NCj4gZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZz4NCj4gU3ViamVjdDogUmU6IFtvZV0gSU5DT01QQVRJQkxFX0xJQ0VOU0VTIGFuZCBXSElU
-RUxJU1RfPGxpY2Vuc2U+IHVzYWdlDQo+IA0KPiBPbiBGcmksIDIwMjItMDItMTggYXQgMjM6MzQg
-KzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBXYXJuaW5nOiB3YWxsIG9mIHRl
-eHQgYWhlYWQuIFNvcnJ5IGFib3V0IHRoYXQsIGJ1dCBJIGJlbGlldmUgaXQgaXMNCj4gPiBpbXBv
-cnRhbnQgdGhhdCB3ZSBnZXQgdGhpcyByaWdodCBpZiB3ZSBhcmUgcmVkZXNpZ25pbmcgaXQuDQo+
-ID4NCj4gPiBUTDtEUjogc2VlIHRoZSBlbmQgZm9yIHRoZSBuZXcgc3VnZ2VzdGVkIGxpY2Vuc2lu
-ZyB2YXJpYWJsZXMuDQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4g
-PiBGcm9tOiBvcGVuZW1iZWRkZWQtZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVt
-YmVkZGVkLQ0KPiA+ID4gZGV2ZWxAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9m
-IFJpY2hhcmQgUHVyZGllDQo+ID4gPiBTZW50OiBkZW4gMTggZmVicnVhcmkgMjAyMiAxNToxNA0K
-PiA+ID4gVG86IFNhdWwgV29sZCA8U2F1bC5Xb2xkQHdpbmRyaXZlci5jb20+OyBvcGVuZW1iZWRk
-ZWQtDQo+ID4gPiBhcmNoaXRlY3R1cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgT0UtY29yZSA8
-b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPjsgT3BlbkVt
-YmVkZGVkIERldmVsIExpc3QgPG9wZW5lbWJlZGRlZC0NCj4gPiA+IGRldmVsQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmc+DQo+ID4gPiBTdWJqZWN0OiBSZTogW29lXSBJTkNPTVBBVElCTEVfTElDRU5T
-RVMgYW5kIFdISVRFTElTVF88bGljZW5zZT4gdXNhZ2UNCj4gPiA+DQo+ID4gPiBPbiBUaHUsIDIw
-MjItMDItMTcgYXQgMTU6MDEgLTA4MDAsIFNhdWwgV29sZCB3cm90ZToNCj4gPiA+ID4gSSBhbSB3
-b3JraW5nIG9uIGEgcHJvcG9zYWwgdG8gcmUtd3JpdGUgaG93IElOQ09NUEFUSUJMRV9MSUNFTlNF
-UyBpcw0KPiA+ID4gPiB1c2VkIGFuZCBwcm9jZXNzZWQgdG8gcG9zc2libHkgaW5jbHVkZSBhIENP
-TVBBVElCTEVfTElDRU5TRVMgdmFyaWFibGUNCj4gPiA+ID4gYXMgd2VsbCwgc2VlIFBldGVySydz
-IGVtYWlsIFswXQ0KPiA+ID4gPg0KPiA+ID4gPiBJIGFtIHRyeWluZyB0byBkZXRlcm1pbmUgdGhl
-IHVzYWdlIG9mIFdISVRFTElTVF88bGljZW5zZT4gd2hpY2gNCj4gPiA+ID4gd291bGQgYmUgdXNl
-ZCB0byBvdmVycmlkZSBhIGxpY2Vuc2UgdGhhdCBtaWdodCBiZSBsaXN0ZWQgaW4NCj4gPiA+ID4g
-SU5DT01QQVRJQkxFX0xJQ0VOU0VTIHZhcmlhYmxlLg0KPiA+ID4gPg0KPiA+ID4gPiBSYW5keSBh
-bmQgSSBoYXZlIGRvbmUgYSBxdWljayBhbmQgZGlydHkgc3VydmV5IG9mIGEgMTAwIG9yIHNvIGxh
-eWVycw0KPiA+ID4gPiAodGhhbmtzIFJhbmR5KSBhbmQgY291bGQgbm90IGZpbmQgYW55IHJlYWwg
-dXNhZ2Ugb3RoZXIgdGhhbiB3aGF0J3MNCj4gPiA+ID4gY3VycmVudGx5IGluIE9FLUNvcmUgZm9y
-IFdISVRFTElTVF9HUEwtMy4wLg0KPiA+ID4gPg0KPiA+ID4gPiBJZiB5b3UgYXJlIHVzaW5nIFdI
-SVRFTElTVF88bGljZW5zZT4sIHBsZWFzZSBsZXQgbWUgcmVwbHkgd2l0aCB5b3VyDQo+ID4gPiA+
-IHVzYWdlLg0KPiA+ID4gPg0KPiA+ID4gPiBbMF0gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL2cvb3BlbmVtYmVkZGVkLWRldmVsL21lc3NhZ2UvOTUxNjYNCj4gPiA+DQo+ID4gPiBXZSBu
-ZWVkIHRvIGJlIG1pbmRmdWwgdGhhdCB3ZSBuZWVkIHRvIHJlc29sdmUgdGhpcyB0byB1bmJsb2Nr
-IHRoZQ0KPiA+ID4gb3RoZXIgbGFuZ3VhZ2UgY2hhbmdlcyBhbmQgZmVhdHVyZSBjcmVlcCBoZXJl
-IGlzIHBvdGVudGlhbGx5IA0KPiA+ID4gcHJvYmxlbWF0aWMuIEkgZG8gdGhpbmsgaXQgaXMgd29y
-dGggdHJ5aW5nIHRvIGltcHJvdmUgdGhpbmdzIHJhdGhlciANCj4gPiA+IHRoYW4gYmxpbmRseSBh
-bGxvd2luZyB0aGUgaG9ycmlibGUgc3ludGF4IGluIHRoaXMgdmFyaWFibGUgdG8gDQo+ID4gPiBj
-b250aW51ZSB0aG91Z2guDQo+ID4gPg0KPiA+ID4gVGhlIHRlc3QgY2FzZSB3ZSBoYXZlIGZvciB0
-aGlzIGN1cnJlbnRseSBpczoNCj4gPiA+DQo+ID4gPiBXSElURUxJU1RfR1BMLTMuMDpwbi1jb3Jl
-LWltYWdlLW1pbmltYWwgPSAiYmFzaCINCj4gPiA+DQo+ID4gPiBzbyBJJ2Qgd29uZGVyZWQgYWJv
-dXQgYW4gYWx0ZXJuYXRpdmUgb2Y6DQo+ID4gPg0KPiA+ID4gSU5DT01QQVRJQkxFX0xJQ0VOU0Vf
-RVhDRVBUSU9OUzpwbi1jb3JlLWltYWdlLW1pbmltYWwgPSAiYmFzaDpHUEwtMy4wIg0KPiA+DQo+
-ID4gWW91IGRvIG5vdCByZWFsbHkgbmVlZCB0aGUgbGljZW5zZSBoZXJlIChtb3JlIHRoYW4gcG9z
-c2libHkgYXMNCj4gPiBpbmZvcm1hdGlvbiB0byBhbnlvbmUgcmVhZGluZyB0aGUgY29kZSkuIFNw
-ZWNpZnlpbmcgdGhhdCBhIHBhY2thZ2UgaXMNCj4gPiBhbGxvd2VkIGluIGFuIGltYWdlIHJlZ2Fy
-ZGxlc3Mgb2YgaXRzIGxpY2Vuc2VzIGNhbiBqdXN0IGFzIHdlbGwgYmUNCj4gPiBkb25lIGJ5IGFs
-bG93aW5nIHRoZSB2YXJpYWJsZSB0byB0YWtlIGEgbGlzdCBvZiBwYWNrYWdlczoNCj4gPg0KPiA+
-IElOQ09NUEFUSUJMRV9MSUNFTlNFX0VYQ0VQVElPTlM6cG4tY29yZS1pbWFnZS1taW5pbWFsID0g
-ImJhc2ggcmVhZGxpbmUiDQo+IA0KPiBJJ20gbm90IHN1cmUgSSBhZ3JlZSB3aXRoIHRoYXQuIEkg
-Z2V0IHRoZSBmZWVsaW5nIHNvbWUgcGVvcGxlIHdhbnQgdG8NCj4gYWxsb3cgdGhlc2UgcGFja2Fn
-ZXMgYXMgbG9uZyBhcyB0aGV5J3JlIHdpdGggbGljZW5zZSBYLiBMaWNlbnNlcyBjYW4gDQo+IGNo
-YW5nZSBvdmVyIHRpbWUgYW5kIHRoaXMgYWxsb3dzIGEgc2FmZXR5IG5ldCB0aGF0IGlmIGl0IGNo
-YW5nZXMsIHRoZSANCj4gZXhjZXB0aW9uIGhhcyB0byBiZSB1cGRhdGVkIHRvby4NCg0KV2VsbCwg
-dG8gY29tcGxpY2F0ZSBtYXR0ZXJzIHRoZW4sIGlmIHlvdSByZWFsbHkgd2FudCB0byBiZSBleHBs
-aWNpdCANCndpdGggdGhlIGxpY2Vuc2UgZXhjZXB0aW9ucyB5b3UgbWFrZSBmb3IgYSByZWNpcGUg
-b3IgYSBwYWNrYWdlLCBJIHdpbGwgDQphcmd1ZSB0aGF0IHlvdSBuZWVkIHRvIGRvIGl0IGZvciBh
-bGwgaW5jb21wYXRpYmxlIGxpY2Vuc2VzIGEgcmVjaXBlIA0KdXNlcy4gV2l0aCB0b2RheSdzIGNv
-ZGUsIGFzIHNvb24gYXMgeW91IGFsbG93IG9uZSBpbmNvbXBhdGlibGUgbGljZW5zZSANCmZvciBh
-IHJlY2lwZSwgdGhlIHJlY2lwZSBpcyBhbGxvd2VkIHRvIGJlIGJ1aWx0LCBldmVuIGlmIGl0IGhh
-cyANCnNwZWNpZmllZCBtdWx0aXBsZSBpbmNvbXBhdGlibGUgbGljZW5zZXMuIEUuZy4sIGlmIHdl
-IHRha2UgdGhlIGdudXBnIA0KcmVjaXBlLCB3aGljaCBzcGVjaWZpZXMgTElDRU5TRSA9ICJHUEx2
-MyAmIExHUEx2MyIsIGFuZCB3ZSBoYXZlIGFuIA0KSU5DT01QQVRJQkxFX0xJQ0VOU0UgPSAiR1BM
-LTMuMC1vbmx5IExHUEwtMy4wLW9ubHkiLCB3aXRoIHlvdXIgZXhhbXBsZSANCkkgd291bGQgdGhl
-biBleHBlY3QgdGhlIGZvbGxvd2luZzoNCg0KSU5DT01QQVRJQkxFX0xJQ0VOU0VfRVhDRVBUSU9O
-Uzpwbi1jb3JlLWltYWdlLW1pbmltYWwgPSAiZ251cGc6R1BMLTMuMC1vbmx5IGdudXBnOkxHUEwt
-My4wLW9ubHkiDQoNCnRvIGFsbG93IHRoZSBnbnVwZyBwYWNrYWdlIHRvIGJlIGluc3RhbGxlZCBp
-biB0aGUgaW1hZ2UuIEhvd2V2ZXIsIEkgDQpndWVzcyB5b3UgY291bGQgY29tYmluZSBvdXIgc3Vn
-Z2VzdGlvbnMgYnkgbWFraW5nIHRoZSBsaWNlbnNlIHBhcnQgDQpvZiB0aGUgdmFsdWUgb3B0aW9u
-YWwsIGkuZS4sIHRoZSBmb2xsb3dpbmcgd291bGQgdGhlbiBhbHNvIGFsbG93IHRoZSANCnBhY2th
-Z2UgdG8gYmUgaW5jbHVkZWQgdW5kZXIgdGhlIHNhbWUgY29uZGl0aW9uczoNCg0KSU5DT01QQVRJ
-QkxFX0xJQ0VOU0VfRVhDRVBUSU9OUzpwbi1jb3JlLWltYWdlLW1pbmltYWwgPSAiZ251cGciDQoN
-Cj4gPiBBbiBhbHRlcm5hdGl2ZSAoYW5kIGluIG15IG9waW5pb24gYmV0dGVyKSB2YXJpYWJsZSBu
-YW1lIHdvdWxkIGJlOg0KPiA+DQo+ID4gSU1BR0VfQUxMT1dfUEFDS0FHRVM6cG4tY29yZS1pbWFn
-ZS1taW5pbWFsID0gImJhc2ggcmVhZGxpbmUiDQo+ID4NCj4gPiBmb2N1c2luZyBvbiB0aGF0IHRo
-aXMgaXMgYSBsaXN0IG9mIF9wYWNrYWdlc18gYWxsb3dlZCBmb3IgYSBnaXZlbg0KPiA+IF9pbWFn
-ZV8uIFRoaXMgZG9lcyBub3QgZXhwbGljaXRseSBtZW50aW9uIGxpY2Vuc2VzLCBidXQgSSBkbyBu
-b3QNCj4gPiBiZWxpZXZlIHRoYXQgaXMgbmVlZGVkLg0KPiANCj4gSWYgeW91IGFzc3VtZSB0aGlz
-IGlzbid0IGJlaW5nIGRvbmUgb24gbGljZW5zZSByZWFzb25zLCBzdXJlLiBFeGNlcHQgDQo+IHNl
-ZSBhYm92ZSwgSSB0aGluayB0aGlzIGRvZXMgbmVlZCB0byBhY2NvdW50IGZvciBsaWNlbnNlcywg
-YXQgbGVhc3QgDQo+IHRoZSB3YXkgbWFueSB1c2UgaXQuDQo+IA0KPiA+IEFmdGVyIGFsbCB0aGVy
-ZSBjb3VsZCBiZSBtdWx0aXBsZSByZWFzb25zIGEgcGFja2FnZSBpcyBub3QgYWxsb3dlZCBpbg0K
-PiA+IGFuIGltYWdlIGFuZCB0aGlzIHZhcmlhYmxlIHdvdWxkIGFsbG93IHRvDQo+ID4gaWdub3Jl
-IHRoZW0gYWxsIGJlY2F1c2UgdGhhdCBpcyB0eXBpY2FsbHkgd2hhdCB5b3Ugd2FudCB0byBkbzoN
-Cj4gPiBzcGVjaWZ5IHRoYXQgeW91IHJlYWxseSB3YW50IHRoYXQgcGFja2FnZSBpbiB0aGF0IGlt
-YWdlLiBJIGd1ZXNzDQo+ID4gdGhpcyBpcyBpbiBzb21lIHNlbnNlIHRoZSBvcHBvc2l0ZSBvZiBQ
-QUNLQUdFX0VYQ0xVREUuIEFuZCBJIGd1ZXNzDQo+ID4gbGlrZSA6YXBwZW5kIHZzIDpyZW1vdmUs
-IGlmIHNvbWVvbmUgZm9yIHNvbWUgcmVhc29uIHNwZWNpZmllcyBhDQo+ID4gcGFja2FnZSBpbiBi
-b3RoIElNQUdFX0FMTE9XX1BBQ0tBR0VTIGFuZCBQQUNLQUdFX0VYQ0xVREUsIHRoZW4gdGhlDQo+
-ID4gbGF0ZXIgc2hvdWxkIHdpbiAodG8gZXJyIG9uIHRoZSBzaWRlIG9mIGNhdXRpb24pLg0KPiAN
-Cj4gSG93IHdvdWxkIElNQUdFX0FMTE9XX1BBQ0tBR0VTIHdvcmsgYW5kIGJlIGRpZmZlcmVudCB0
-byBJTUFHRV9JTlNUQUxMPw0KDQpXZWxsLCBJTUFHRV9JTlNUQUxMIGRldGVybWluZXMgd2hhdCBw
-YWNrYWdlcyB5b3Ugd2FudCBpbiB5b3VyIGltYWdlLCANCndoaWxlIElNQUdFX0FMTE9XX1BBQ0tB
-R0VTIGFsbG93cyBwYWNrYWdlcyB0byBiZSBpbnN0YWxsZWQgdGhhdCB3b3VsZCANCm90aGVyd2lz
-ZSByZW5kZXIgYW4gZXJyb3IgaWYgeW91IHRyaWVkLiBUbyBtZSBpdCBzZWVtcyBwZXJmZWN0bHkg
-DQpuYXR1cmFsLCBidXQgSSBhbSBwcm9iYWJseSBhIGJpdCBiaWFzZWQuIDspDQoNCj4gVGhpcyBp
-bnRlcmZhY2Ugd291bGQgbGlrZWx5IGNvbmZ1c2UgbW9yZSB1c2VycyB0aGFuIGl0IHdvdWxkIGhl
-bHAuDQoNCldlbGwsIGl0IGlzIHJlYWxseSBiYXNlZCBvbiB0aGF0IG9ubHkgcGFja2FnZSBuYW1l
-cyBuZWVkIHRvIGJlIHNwZWNpZmllZCANCmFuZCBub3QgdGhlIGxpY2Vuc2VzLiBJZiBib3RoIGFy
-ZSBuZWVkZWQgKGFzIHlvdSBiZWxpZXZlKSwgdGhlbiB0aGlzIG5hbWUgDQptYWtlcyBsZXNzIHNl
-bnNlLg0KDQo+ID4gRm9yIHRoZSBjYXNlIHdoZXJlIHlvdSB3YW50IHRvIGFsbG93IGEgcmVjaXBl
-IHRvIGJlIGJ1aWx0IGRlc3BpdGUNCj4gPiBpdCB1c2luZyBsaWNlbnNlcyB0aGF0IGFyZSBvdGhl
-cndpc2Ugbm90IGFsbG93ZWQgeW91IGNhbiBzaW1wbHkgdXNlDQo+ID4NCj4gPiBJTkNPTVBBVElC
-TEVfTElDRU5TRTpwbi1mb28gPSAiIg0KPiA+DQo+ID4gYW5kIGRvbid0IHJlYWxseSBuZWVkIGEg
-c2VwYXJhdGUgdmFyaWFibGUgZm9yIGl0Lg0KPiANCj4gVGhhdCBpcyBhIGdvb2QgcG9pbnQgYW5k
-IHBlcmhhcHMgc2hvdWxkIGluZmx1ZW5jZSBob3cgYW4NCj4gSU5DT01QQVRJQkxFX0xJQ0VOU0Vf
-RVhDRVBUSU9OUyBzaG91bGQgYmUgcGFja2FnZSBiYXNlZCByYXRoZXIgdGhhbg0KPiByZWNpcGUu
-IEkgZG91YnQgdGhlIHBuLSBvdmVycmlkZSBleGlzdGVkIHdoZW4gdGhhdCB2YXJpYWJsZSB3YXMg
-DQo+IG9yaWdpbmFsbHkgYWRkZWQuDQoNCkkgZGVmaW5pdGVseSBiZWxpZXZlIHRoYXQgd2UgbmVl
-ZCB0byBzZXBhcmF0ZSB0aGUgY2FzZSBmb3IgYnVpbGRpbmcgDQphIHJlY2lwZSBmcm9tIHRoZSBj
-YXNlIGZvciBpbnN0YWxsaW5nIGEgcGFja2FnZSBpbnRvIGFuIGltYWdlLiBGb3IgdGhlIA0KcmVj
-aXBlIGNhc2UsIEkgYmVsaWV2ZSB0aGF0IG1hbmlwdWxhdGluZyBSRUNJUEVfSU5DT01QQVRJQkxF
-X0xJQ0VOU0VTIA0KKG9yIHdoYXRldmVyIHRoZSB2YXJpYWJsZSBlbmRzIHVwIGJlaW5nIGNhbGxl
-ZCkgdXNpbmcgbm9ybWFsIHZhcmlhYmxlIA0KbWFuaXB1bGF0aW9ucyBzaG91bGQgYmUgZW5vdWdo
-LCB3aXRob3V0IGhhdmluZyB0byBpbnRyb2R1Y2UgeWV0IA0KYW5vdGhlciB2YXJpYWJsZS4gSS5l
-LiwgbXkgZXhhbXBsZSBhYm92ZSB3b3VsZCBjb3JyZXNwb25kIHRvIGdpdmluZyANCmEgYmxhbmtl
-dCBleGNlcHRpb24gZm9yIGFsbCBsaWNlbnNlcyBmb3IgdGhlIGdpdmVuIHJlY2lwZSwgd2hpbGUg
-YSANCmNhc2Ugd2hlcmUgYSBzcGVjaWZpYyBsaWNlbnNlIGlzIGV4Y2VwdGVkIHdvdWxkIGJlIHNv
-bWV0aGluZyBsaWtlIA0KUkVDSVBFX0lOQ09NUEFUSUJMRV9MSUNFTlNFUzpyZW1vdmU6cG4tZm9v
-ID0gIkdQTC0zLjAtb25seSINCg0KRm9yIHRoZSBpbnN0YWxsaW5nIGEgcGFja2FnZSBpbnRvIGFu
-IGltYWdlIGNhc2UsIEkgZG9uJ3Qgc2VlIGEgd2F5IA0KdG8gYXZvaWQgYW4gZXh0cmEgdmFyaWFi
-bGUgYXMgZGlzY3Vzc2VkIGFib3ZlLiBIb3dldmVyLCB0aGUgbmFtZSANCklOQ09NUEFUSUJMRV9M
-SUNFTlNFX0VYQ0VQVElPTlMgZ2l2ZXMgbm8gaW5kaWNhdGlvbnMgdGhhdCBpdCBpcyANCmltYWdl
-IHNwZWNpZmljLCB3aGljaCBJIHRoaW5rIGlzIGJhZC4gSWYgd2UgaW50cm9kdWNlIHRoZSBvdGhl
-ciANCm5hbWVzIEkgc3VnZ2VzdCBiZWxvdywgdGhlbiB0aGlzIHdvdWxkIGluc3RlYWQgbWFwIHRv
-IA0KSU1BR0VfSU5DT01QQVRJQkxFX0xJQ0VOU0VTX0VYQ0VQVElPTlMgKHRob3VnaCBJIGRpc2xp
-a2UgdGhhdCBuYW1lIA0KYmVjYXVzZSBpdCBpcyBzbyBsb25nLCBidXQgbWF5YmUgaXQgaXMgaW5l
-dml0YWJsZSkuDQoNCj4gPiA+IEknbSBzdGlsbCBvZiB0aGUgb3BpbmlvbiB0aGUgQVZBSUxBQkxF
-X0xJQ0VOU0VTIHZhcmlhYmxlIGlzIHNvbWV0aGluZw0KPiA+ID4gd2Ugc2hvdWxkIGJlIGFpbWlu
-ZyB0byByZW1vdmUgdWx0aW1hdGVseSB0b28sIGl0IGhhcyBob3JyaWJsZSBpc3N1ZXMNCj4gPiA+
-IHdpdGggbGF5ZXJzIGNoYW5naW5nIGhhc2hlcyBmb3IgYWxsIHJlY2lwZXMuDQo+ID4NCj4gPiBT
-aW5jZSBJIHdhcyB0aGUgb25lIHRvIGludHJvZHVjZSBpdCwgSSB3aWxsIGFuc3dlciB0byB0aGF0
-LiBJdCB3YXMNCj4gPiBpbnRyb2R1Y2VkIHNvIHRoYXQgaXQgaXMgcG9zc2libGUgdG8gc3BlY2lm
-eSBjb21wYXRpYmxlIGxpY2Vuc2VzDQo+ID4gaW5zdGVhZCBvZiBpbmNvbXBhdGlibGUgbGljZW5z
-ZXMgYnkgYmFzaWNhbGx5IGNhbGN1bGF0aW5nIHRoZQ0KPiA+IGluY29tcGF0aWJsZSBsaWNlbnNl
-cyBieSB0YWtpbmcgdGhlIHNldCBvZiBhdmFpbGFibGUgbGljZW5zZXMgbWludXMNCj4gPiB0aGUg
-c2V0IG9mIGNvbXBhdGlibGUgbGljZW5zZXMuIElmIGEgbWVjaGFuaXNtIHRvIGRvIHRoYXQgaXMN
-Cj4gPiBpbnRyb2R1Y2VkLCBlLmcuLCBieSBhZGRpbmcgc3VwcG9ydCBmb3IgYSBDT01QQVRJQkxF
-X0xJQ0VOU0VTIGluDQo+ID4gYWRkaXRpb24gdG8gSU5DT01QQVRJQkxFX0xJQ0VOU0UsIHRoZW4g
-SSBhbSBvZiB0aGUgb3BpbmlvbiB0aGF0IHdlDQo+ID4gY2FuIHJlbW92ZSBBVkFJTEFCTEVfTElD
-RU5TRVMgYWdhaW4uDQo+ID4NCj4gPiBXZSBhbHNvIG5lZWQgdGhpcyBtZWNoYW5pc20gaW4gdGhl
-IGNvZGUgZm9yIGhhbmRsaW5nIGFsbG93ZWQgdnMNCj4gPiBkaXNhbGxvd2VkIGxpY2Vuc2VzIGJl
-Y2F1c2UgdGhlIGN1cnJlbnQgY29kZSByZWFsbHkgY2Fubm90IGhhbmRsZWQgYQ0KPiA+IGxpc3Qg
-b2YgbWFueSBodW5kcmVkcyBvZiBpbmNvbXBhdGlibGUgbGljZW5zZXMsIHdoaWNoIGlzIHdoYXQg
-d2UgZ290DQo+ID4gYWZ0ZXIgYWxsIFNQRFggbGljZW5zZXMgd2VyZSBhZGRlZCB0byBPRS1Db3Jl
-LiBUaGUgY29kZSBpcyBleHRyZW1lbHkNCj4gPiBpbmVmZmljaWVudCBhbmQgZXZhbHVhdGVzIHRo
-ZSBsaXN0IG9mIGluY29tcGF0aWJsZSBsaWNlbnNlcyBvdmVyIGFuZA0KPiA+IG92ZXIgYWdhaW4u
-IEluIG91ciBjYXNlIHRoYXQgbWVhbnQgdGhlIHJlY2lwZSBwYXJzaW5nIHRpbWUgdHJpcGxlZC4N
-Cj4gDQo+IElyb25pY2FsbHksIHBhcnQgb2YgdGhlIHJlYXNvbiBJIHdhbnQgdG8gY2hhbmdlIHRo
-ZSBkZXNpZ24gb2YNCj4gV0hJVEVMSVNUX1hYWCBpcyB0aGF0IGl0IGZvcmNlcyBjb2RlIHRoYXQg
-ZG9lc24ndCBwZXJmb3JtIHdlbGwuIFlvdSANCj4gbWF5IGJlIHN1cnByaXNlZCB0byBmaW5kIHRo
-YXQgdGhpcyBjaGFuZ2UgYWN0dWFsbHkgaW1wcm92ZXMgdGhhdCAzeCANCj4gaXNzdWUgeW91J3Zl
-IHNlZW4uIElmIG5vdCwgSSB0aGluayBpdCB3b3VsZCBsZWFkIHVzIGluIGEgZGlyZWN0aW9uIA0K
-PiB3aGVyZSBpdCBjYW4gY2VydGFpbmx5IGhlbHAuDQo+IA0KPiA+IFRoYXQgc2FpZCwgd2UgcmVh
-bGx5IG5lZWQgdHdvIHNldHMgb2YgdmFyaWFibGVzLiBPbmUgZm9yIGJsb2NraW5nDQo+ID4gdGhl
-IGJ1aWxkaW5nIG9mIHJlY2lwZXMgYmVjYXVzZSBvZiBpdHMgbGljZW5zZShzKSwgYW5kIG9uZSBm
-b3INCj4gPiBwcmV2ZW50aW5nIHBhY2thZ2VzIHdpdGggZGlzYWxsb3dlZCBsaWNlbnNlcyB0byBi
-ZSBpbmNsdWRlZCBpbiBhDQo+ID4gZ2l2ZW4gaW1hZ2UuIFRoZXNlIGFyZSB2ZXJ5IGRpZmZlcmVu
-dCB1c2UgY2FzZXMgYW5kIHRoZXkgdGFrZQ0KPiA+IHRvdGFsbHkgZGlmZmVyZW50IGxpc3RzIG9m
-IGl0ZW1zIChyZWNpcGVzIHZzIHBhY2thZ2VzKS4gVGhlIGN1cnJlbnQNCj4gPiBtZXNzIHdoZXJl
-IHRoZSBzYW1lIHZhcmlhYmxlcyBhcmUgdXNlZCBmb3IgYm90aCBjYXNlcyBuZWVkcyB0byBiZQ0K
-PiA+IHJlc29sdmVkLg0KPiA+DQo+ID4gU28gd2h5IGRvIHdlIG5lZWQgYm90aCBjYXNlcz8gVGhl
-IGZpcnN0IGNhc2Ugd2hlcmUgcmVjaXBlcyBhcmUNCj4gPiBwcmV2ZW50ZWQgZnJvbSBiZWluZyBi
-dWlsdCBtYWtlcyBpdCBwb3NzaWJsZSB0bywgZS5nLiwgcHJldmVudCBhDQo+ID4gbmV3ZXIgdmVy
-c2lvbmVkIHJlY2lwZSB0aGF0IHVzZXMgR1BMLTMuMC1vci1sYXRlciB0byBiZSBidWlsdCBhbmQN
-Cj4gPiBpbnN0ZWFkIGJ1aWxkIGFuIG9sZGVyIHZlcnNpb24gdGhhdCB1c2VzIEdQTC0yLjAtb3It
-bGF0ZXIgKGkuZS4sDQo+ID4gd2hhdCBtZXRhLWdwbHYyIGNhbiBiZSB1c2VkIGZvciB0b2RheSku
-DQo+ID4NCj4gPiBUaGUgc2Vjb25kIGNhc2UgYWxsb3dzIHRvIGJ1aWxkIGNvZGUgdGhhdCB1c2Vz
-IGRpc2FsbG93ZWQgbGljZW5zZXMsDQo+ID4gYXMgbG9uZyBhcyB0aGUgcGFja2FnZXMgYXJlIG5v
-dCBhZGRlZCB0byB0aGUgaW1hZ2UuIFdoeSBpcyB0aGlzDQo+ID4gdXNlZnVsPyBCZWNhdXNlIG1h
-bnkgcmVjaXBlcyBhcmUgYnVpbHQgZm9yIHNvbWUgcGFja2FnZXMgdGhhdCBhcmUNCj4gPiBuZXZl
-ciB1c2VkIGluIHRoZSBnaXZlbiBpbWFnZSwgYW5kIGl0IGlzIHRoZW4gbXVjaCBlYXNpZXIgdG8g
-YWxsb3cNCj4gPiB0aGVtIHRvIGJlIGJ1aWx0IGFzIGxvbmcgYXMgdGhlaXIgb3V0cHV0IGlzIG5v
-dCB1c2VkLiBFLmcuLCB2ZXJ5DQo+ID4gbWFueSByZWNpcGVzIGRlcGVuZCBvbiBiYXNoIHdoaWNo
-IGlzIEdQTC0zLjAtb3ItbGF0ZXIsIG1ha2luZyBpdA0KPiA+IG5lYXIgaW1wb3NzaWJsZSB0byBh
-dm9pZCBoYXZpbmcgdG8gYnVpbGQgaXQuIEhvd2V2ZXIsIGl0IGlzDQo+ID4gcGVyZmVjdGx5IHBv
-c3NpYmxlIHRvIGJ1aWxkIHByb2R1Y3Rpb24gaW1hZ2VzIHRoYXQgZG8gbm90IG5lZWQgYmFzaA0K
-PiA+IHRvIGJlIGluc3RhbGxlZC4NCj4gPg0KPiA+IEkgYmVsaWV2ZSBmb3IgdGhpcyBzZWNvbmQg
-Y2FzZSB3ZSBzaG91bGQgaGF2ZSB0d28gdmFyaWFibGVzLA0KPiA+IElNQUdFX0NPTVBBVElCTEVf
-TElDRU5TRVMgYW5kIElNQUdFX0lOQ09NUEFUSUJMRV9MSUNFTlNFUy4gQW5kIHRvDQo+ID4gbWFr
-ZSB0aGUgbmFtaW5nIGNsZWFyIGZvciB0aGUgZmlyc3QgY2FzZSwgSSB3b3VsZCBzdWdnZXN0IGNh
-bGxpbmcNCj4gPiB0aG9zZSB2YXJpYWJsZXMgUkVDSVBFX0NPTVBBVElCTEVfTElDRU5TRVMgYW5k
-DQo+ID4gUkVDSVBFX0lOQ09NUEFUSUJMRV9MSUNFTlNFUy4NCj4gPg0KPiA+IEFsc28gbm90ZSB0
-aGF0IHRoZSB1c2Ugb2YgUkVDSVBFX0NPTVBBVElCTEVfTElDRU5TRVMgYW5kDQo+ID4gUkVDSVBF
-X0lOQ09NUEFUSUJMRV9MSUNFTlNFUyBpcyBtdXR1YWxseSBleGNsdXNpdmUsIGFzIGlzIHRoZSB1
-c2UNCj4gPiBvZiBJTUFHRV9DT01QQVRJQkxFX0xJQ0VOU0VTIGFuZCBJTUFHRV9JTkNPTVBBVElC
-TEVfTElDRU5TRVMuIEkuZS4sDQo+ID4geW91IHdpbGwgaGF2ZSB0byBjaG9vc2Ugd2hldGhlciB0
-byBzcGVjaWZ5IHdoYXQgbGljZW5zZXMgdG8gYWxsb3cNCj4gPiBvciB3aGF0IGxpY2Vuc2VzIHRv
-IGRpc2FsbG93LiBZb3UgY2Fubm90IGRvIGJvdGguIFRoaXMgaXMgYmVjYXVzZQ0KPiA+IHNwZWNp
-ZnlpbmcgYSBsaXN0IG9mIGNvbXBhdGlibGUgbGljZW5zZXMgbWVhbnMgdGhhdCBhbGwgb3RoZXIN
-Cj4gPiBsaWNlbnNlcyBhcmUgYnkgZGVmaW5pdGlvbiBpbmNvbXBhdGlibGUsIGFuZCB2aWNlIHZl
-cnNhLiBIb3dldmVyLA0KPiA+IHRoaXMgYWxzbyBtZWFucyB0aGF0IGl0IG1ha2VzIHBlcmZlY3Qg
-c2Vuc2UgdG8gYmUgYWJsZSB0bywgZS5nLiwNCj4gPiBzcGVjaWZ5IGEgZmV3IFJFQ0lQRV9JTkNP
-TVBBVElCTEVfTElDRU5TRVMgdG9nZXRoZXIgd2l0aCBhIGxpc3Qgb2YNCj4gPiBJTUFHRV9DT01Q
-QVRJQkxFX0xJQ0VOU0VTLg0KPiANCj4gSSBzdXNwZWN0IHRoZXJlIHdpbGwgYmUgcGVvcGxlIHdo
-byB3aWxsIHdhbnQgY29uZmlndXJhdGlvbnMgd2hlcmUgdGhleQ0KPiBzcGVjaWZ5IHRoYXQgdGhl
-eSBhcmUgaGFwcHkgd2l0aCBYIGFuZCBkZWZpbml0ZWx5IGRvbid0IHdhbnQgWSB0byB3b3JrLiAN
-Cj4gVGhlIHVuc3BlY2lmaWVkIGxpY2Vuc2VzIHdvdWxkIGVmZmVjdGl2ZWx5IGJlIGNvbXBhdGli
-bGUgYnV0IG5vdCBiZSANCj4gZXhwbGljaXRseSBzcGVjaWZpZWQuIEl0IHNlZW1zIGxpa2UgYW4g
-b2RkIHNldHVwIGJ1dCBJIGNhbiBpbWFnaW5lIA0KPiBwZW9wbGUgY29uZmlndXJpbmcgaXQgYW5k
-IHdhbnRpbmcgaXQgdG8gd29yay4NCj4gDQo+IEkgYW0gdmVyeSB3b3JyaWVkIGFib3V0IHRoZSBw
-ZXJmb3JtYW5jZSBpbXBsaWNhdGlvbnMgaW4gdGhpcyAiZXZlcnkNCj4gbGljZW5zZSIgaW4gYSBj
-b21wYXRpYmxlIGxpc3QuIE9idmlvdXNseSBmb3IgdGhlIGNhc2UgeW91ciBsZWdhbCANCj4gZGVw
-YXJ0bWVudCBjYXJlcyBhYm91dCwgeW91IGhhdmUgdG8gZG8gaXQgYnV0IEknbSBub3Qgc3VyZSB3
-ZSB3YW50IA0KPiB0byBmb3JjZSBpdCBvbnRvIGV2ZXJ5b25lIChhbmQgQVZBSUxBQkxFX0xJQ0VO
-U0VTIGFscmVhZHkgaGVhZHMgaW4gDQo+IHRoYXQgZGlyZWN0aW9uKS4NCg0KQnkgc3BsaXR0aW5n
-IHRoZSBsaXN0IG9mIGxpY2Vuc2VzIGludG8gdHdvLCB0byBoYW5kbGUgdGhlIG9wcG9zaXRlIA0K
-dXNlIGNhc2VzIG9mIGFsbG93ZWQgdnMgZGlzYWxsb3dlZCBsaWNlbnNlcywgd2UgYXZvaWQgdGhl
-IG5lZWQgdG8ga25vdyANCnRoZSBmdWxsIGxpc3Qgb2YgcG90ZW50aWFsIGxpY2Vuc2VzIGFzIHdl
-IG9ubHkgbmVlZCB0byBrbm93IHdoYXQgaXMNCmFsbG93ZWQgb3IgZGlzYWxsb3dlZCBhbmQgY2Fu
-IGV4Y2x1ZGUgYW55dGhpbmcgZWxzZS4NCg0KVGh1cyB0aGUgZXhwZWN0YXRpb24gaXMgdGhhdCB0
-aGUgbGlzdHMgaW4gZWl0aGVyICpfQ09NUEFUSUJMRV9MSUNFTlNFUyANCm9yICpfSU5DT01QQVRJ
-QkxFX0xJQ0VOU0VTIHdpbGwgYmUgcmVsYXRpdmVseSBzaG9ydCwgY29tcGFyZWQgdG8gbGlzdHMg
-DQpiYXNlZCBvbiBhbGwgbGljZW5zZXMuIEluIG91ciBjYXNlLCB3ZSBoYXZlIDgwIGxpY2Vuc2Vz
-IGluIG91ciBsaXN0IA0Kb2YgYWxsb3dlZCBsaWNlbnNlcy4gVGhhdCBpcyBzb21ldGhpbmcgdGhh
-dCBJIHRoaW5rIGV2ZW4gdGhlIGN1cnJlbnQgDQpjb2RlIGNhbiBoYW5kbGUgcmVhc29uYWJseSB3
-ZWxsLiBBbmQgd2l0aG91dCBwYXR0ZXJuIG1hdGNoaW5nIGFuZCANCm1hcHBpbmdzIG9mIG9sZCBs
-aWNlbnNlIG5hbWVzLCB0aGUgY29kZSB3b3VsZCBiYXNpY2FsbHkgaGF2ZSB0byBkbyANCnNvbWV0
-aGluZyBsaWtlOg0KDQogICAgY29tcGF0aWJsZV9saWNlbnNlcyA9IChkLmdldFZhcignQ09NUEFU
-SUJMRV9MSUNFTlNFUycpIG9yICcnKS5zcGxpdCgpDQogICAgaW5jb21wYXRpYmxlX2xpY2Vuc2Vz
-ID0gKGQuZ2V0VmFyKCdJTkNPTVBBVElCTEVfTElDRU5TRVMnKSBvciAnJykuc3BsaXQoKQ0KICAg
-IGRpc2FsbG93ZWRfbGljZW5zZXMgPSBzZXQoKQ0KICAgIC4uLg0KICAgIGlmIGNvbXBhdGlibGVf
-bGljZW5zZXMgYW5kIGxpY2Vuc2Ugbm90IGluIGNvbXBhdGlibGVfbGljZW5zZXMgb3IgXA0KICAg
-ICAgIGluY29tcGF0aWJsZV9saWNlbnNlcyBhbmQgbGljZW5zZSBpbiBpbmNvbXBhdGlibGVfbGlj
-ZW5zZXM6DQogICAgICAgIGRpc2FsbG93ZWRfbGljZW5zZXMuYWRkKGxpY2Vuc2UpDQoNCkFsc28s
-IGJhc2VkIG9uIHRoZSBhc3N1bXB0aW9uIHRoYXQgaW4gbW9zdCBjYXNlcyB5b3Ugd2FudCB0byBi
-ZSBhYmxlIHRvIA0KYnVpbGQgYXMgbXVjaCBhcyBwb3NzaWJsZSwgSSB3b3VsZCBndWVzcyB0aGF0
-IHlvdSB3b3VsZCB0eXBpY2FsbHkgdXNlIA0KUkVDSVBFU19JTkNPTVBBVElCTEVfTElDRU5TRVMg
-dG8gZXhjbHVkZSBvbmx5IGEgc2VsZWN0IGZldyBsaWNlbnNlcyB0aGF0IA0KY2Fubm90IGJlIHVz
-ZWQgYXQgYWxsIChlLmcuLCBHUEwtMy4wKSwgYW5kIHRoZW4gdXNlIA0KSU1BR0VfQ09NUEFUSUJM
-RV9MSUNFTlNFUyBvciBJTUFHRV9JTkNPTVBBVElCTEVfTElDRU5TRVMgdG8gbGltaXQgd2hhdCAN
-CmdvZXMgaW50byB0aGUgaW1hZ2VzLiBUaHVzIHRoZSBsb25nZXIgbGlzdHMgd291bGQgb25seSBh
-ZmZlY3QgdGhlIGltYWdlIA0KcmVjaXBlcyBjb21wYXJlZCB0byBhbGwgcmVjaXBlcyBhcyBpdCBp
-cyB0b2RheS4NCg0KPiA+IE9oLCBhbmQgYW5vdGhlciB0aGluZyBJIHdvdWxkIGxpa2UgdG8gdGFr
-ZSB0aGUgb3Bwb3J0dW5pdHkgdG8gcmFpc2UNCj4gPiBpcyB3aGV0aGVyIHdlIHNob3VsZCBjb250
-aW51ZSB0byBzdXBwb3J0IHBhdHRlcm5zIGluIHRoZXNlIGxpc3QsIG9yDQo+ID4gaWYgd2Ugc2hv
-dWxkIGNoYW5nZSBpdCBzbyB0aGF0IHRoZSBsaXN0cyBvZiBsaWNlbnNlcyBuZWVkIHRvDQo+ID4g
-ZXhwbGljaXRseSBzcGVjaWZ5IGFsbCBsaWNlbnNlcy4gVGhlIGxhdHRlciB3b3VsZCBncmVhdGx5
-IHNpbXBsaWZ5DQo+ID4gdGhlIGNvZGUsIGVzcGVjaWFsbHkgd2hlbiBjb21iaW5lZCB3aXRoIG9u
-bHkgYWxsb3dpbmcgU1BEWCBuYW1lcy4NCj4gPiBJZiB3ZSBkZWNpZGUgdG8gcmVtb3ZlIHN1cHBv
-cnQgZm9yIHBhdHRlcm5zLCBhbmQgYmFzZWQgb24gdGhlDQo+ID4gYXNzdW1wdGlvbiB0aGF0IHRo
-ZSBwYXR0ZXJuIGlzIHR5cGljYWxseSB1c2VkIHRvIHNwZWNpZnkgIipHUEwtMy4wKiIsDQo+ID4g
-d2UgY291bGQgbWFrZSBhdmFpbGFibGUgYSB2YXJpYWJsZSBvciB0d28gdGhhdCBjb250YWluIHRo
-ZSB0eXBpY2FsDQo+ID4gc2V0cyBvZiBHUEwgbGljZW5zZXMuIFRoaXMgd291bGQgYWxzbyBhbGxv
-dyB1cyB0byByZW1vdmUgdGhlIGNvZGUNCj4gPiB0aGF0IGhhbmRsZXMgaG93IGFuIG9yLWxhdGVy
-IGxpY2Vuc2VzIHNwZWNpZmllZCBhcyAnPGxpY2Vuc2U+KycNCj4gPiBzaG91bGQgYmUgdHJlYXRl
-ZCBpbiBjb21iaW5hdGlvbiB3aXRoIHBhdHRlcm5zLg0KPiANCj4gSSdkIGxvdmUgdG8gcmVtb3Zl
-IGl0IGJ1dCBpdCBpcyBzb21ldGhpbmcgd2hpY2ggcGVvcGxlIHdhbnQgYW5kIG5vdyANCj4gZXhw
-ZWN0IGZyb20gdGhlIGNvZGUuIFlvdSBtaWdodCBub3QgbGlrZSBpdCwgb3RoZXJzIGRvLiBIb3cg
-ZG8gd2UgDQo+IHBsZWFzZSBldmVyeW9uZT8gSSBkb24ndCB0aGluayB3ZSdkIGJlIGFibGUgdG8g
-cmVtb3ZlIHRoYXQsIG9ubHkgDQo+IHBlcmhhcHMgbGltaXQgaXQgYSBsaXR0bGUgbW9yZS4NCg0K
-QnV0IGlmIHdlIHJlZGVzaWduIHRoZSBsaWNlbnNlIGhhbmRsaW5nIGFueXdheSwgY2FuJ3Qgd2Ug
-Y2hhbmdlIHRoZWlyIA0KZXhwZWN0YXRpb25zIGF0IHRoZSBzYW1lIHRpbWU/IFRoZXJlIHJlYWxs
-eSBhcmVuJ3QgdGhhdCBtYW55IGdyb3VwcyANCm9mIFNQRFggbGljZW5zZXMgd2hlcmUgaXQgaXMg
-dXNlZnVsIHRvIHVzZSBwYXR0ZXJuIG1hdGNoaW5nIGFueXdheSANCmFuZCB0aGF0IHlvdSBhcmUg
-bGlrZWx5IHRvIHB1dCBpbiB0aGVzZSB2YXJpYWJsZXMuIEJhc2ljYWxseSBJIHRoaW5rIA0KaXQg
-Y29tZXMgZG93biB0byBzb21lIHNldCBvZiBHUEwgbGljZW5zZXMuIEkuZS4sIHJlcGxhY2luZyAi
-KkdQTC0zLjAqIiANCndpdGggdGhlIGNvcnJlc3BvbmRpbmcgbGljZW5zZXMgcmVhbGx5IGRvZXNu
-J3QgeWllbGQgYSB2ZXJ5IGxvbmcgbGlzdC4gDQpBbmQgYXMgSSBzdWdnZXN0ZWQgYWJvdmUsIHdl
-IGNvdWxkIGV2ZW4gcHJvdmlkZSBhIHZhcmlhYmxlIG9yIHR3byB3aXRoIA0KdGhlIGV4cGFuZGVk
-IGxpc3RzIG9mIHRoZSBtb3N0IHR5cGljYWwgdXNlIGNhc2VzLiBFLmcuLCBpZiB3ZSBhZGRlZCBh
-IA0KR1BMM19MSUNFTlNFUyB2YXJpYWJsZSwgdGhlIElOQ09NUEFUSUJMRV9MSUNFTlNFUyA9ICIq
-R1BMLTMuMCoiIHdvdWxkIA0KYmVjb21lIElOQ09NUEFUSUJMRV9MSUNFTlNFUyA9ICIke0dQTDNf
-TElDRU5TRVN9Ii4gWWVzLCBpdCBpcyBhIGxpdHRsZSANCmxlc3MgZmxleGlibGUsIGJ1dCBpdCB3
-b3VsZCBkbyB3b25kZXJzIGZvciB0aGUgY29kZS4uLg0KDQpBbnl3YXksIHRoaXMgaXMgYSBtaW5v
-ciBncmlwZSBjb21wYXJlZCB0byB0aGUgcmVzdCwgc28gaWYgd2UgY2FuJ3QgDQpnZXQgcmlkIG9m
-IGl0LCBzbyBiZSBpdC4NCg0KPiA+IFNvLCB0byByZWl0ZXJhdGUsIHRoZXNlIGFyZSB0aGUgdmFy
-aWFibGVzIHRoYXQgSSBzdWdnZXN0IHdlIGFkb3B0DQo+ID4gdG8gYmUgYWJsZSB0byBoYW5kbGUg
-dGhlIHZhcmlvdXMgdXNlIGNhc2VzIHJlZ2FyZGluZyBsaWNlbnNlczoNCj4gPg0KPiA+IFJFQ0lQ
-RV9DT01QQVRJQkxFX0xJQ0VOU0VTICAgLSBsaXN0IG9mIGNvbXBhdGlibGUgbGljZW5zZXMgZm9y
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlY2lwZXMNCj4gPiBSRUNJUEVf
-SU5DT01QQVRJQkxFX0xJQ0VOU0VTIC0gbGlzdCBvZiBpbmNvbXBhdGlibGUgbGljZW5zZXMgZm9y
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlY2lwZXMNCj4gPiBJTUFHRV9D
-T01QQVRJQkxFX0xJQ0VOU0VTICAgIC0gbGlzdCBvZiBjb21wYXRpYmxlIGxpY2Vuc2VzIGZvcg0K
-PiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwYWNrYWdlcyBpbiBpbWFnZXMNCj4g
-PiBJTUFHRV9JTkNPTVBBVElCTEVfTElDRU5TRVMgIC0gbGlzdCBvZiBpbmNvbXBhdGlibGUgbGlj
-ZW5zZXMgZm9yDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhY2thZ2VzIGlu
-IGltYWdlcw0KPiA+IElNQUdFX0FMTE9XX1BBQ0tBR0VTICAgICAgICAgLSBsaXN0IG9mIHBhY2th
-Z2VzIGFsbG93ZWQgaW4gdGhlDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlt
-YWdlIHJlZ2FyZGxlc3Mgb2YgbGljZW5zZXMgYW5kDQo+ID4gICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIG90aGVyIHJlc3RyaWN0aW9ucw0KPiA+DQo+ID4gVGhpcyBhbHNvIG1lYW5zIHRo
-YXQgdGhlIG9sZCBXSElURUxJU1RfKiwgSU5DT01QQVRJQkxFX0xJQ0VOU0UNCj4gPiBhbmQgQVZB
-SUxBQkxFX0xJQ0VOU0VTIHZhcmlhYmxlcyBhcmUgcmVtb3ZlZC4gSSBhbHNvIHN1Z2dlc3Qgd2UN
-Cj4gPiByZW1vdmUgdGhlIHN1cHBvcnQgZm9yIHBhdHRlcm5zIGluIHRoZSBuZXcgdmFyaWFibGVz
-Lg0KPiANCj4gV2hpbHN0IEkgZG9uJ3QganVzdCB3YW50IHRvIG1hcCBXSElURUxJU1RfKiB0byBz
-b21ldGhpbmcgcmVuYW1lZCwgSSB0aGluaw0KPiB0aGUgYWJvdmUgaXMgYSBiaXQgdG9vIHJhZGlj
-YWwgdG8gZ2V0IGludG8gdGhpcyBsYXRlIGluIHRoZSByZWxlYXNlIGN5Y2xlIA0KPiBzbyBJIHN1
-c3BlY3Qgd2UnbGwgaGF2ZSB0byBjb21wcm9taXNlLiBUaGlzIGRpc2N1c3Npb24gbmVlZGVkIHRv
-IGhhcHBlbiANCj4gZWFybHkgaW4gdGhlIGN5Y2xlIHdpdGggcGVvcGxlIGFjdGl2ZWx5IHdvcmtp
-bmcgb24gaXQuDQoNCkFuZCBJIHJlYWxseSwgcmVhbGx5IHdpc2ggSSBoYWQgaGFkIHRoZSB0aW1l
-IHRoZW4gdG8gZG8gZXhhY3RseSB0aGF0LiA6KCANCkkga25vdyBJIGV2ZW4gc2FpZCBJIHdvdWxk
-IGFmdGVyIEkgbm90aWNlZCB0aGUgcHJvYmxlbSB3aXRoIHRoZSBwcm9sb25nZWQgDQpyZWNpcGUg
-cGFyc2luZyB0aW1lcyBkdWUgdG8gdGhlIGh1Z2UgaW5jcmVhc2UgaW4gYXZhaWxhYmxlIGxpY2Vu
-c2VzLCBidXQgDQphbGFzIHRpbWUgd2Fzbid0IG9uIG15IHNpZGUuIFNvIEkgZGlkIHdoYXQgYW55
-b25lIHdvdWxkIGRvIGFuZCBtYWRlIGEgDQp3b3JrYXJvdW5kIGFuZCB3ZW50IG9uIHRvIGhhbmRs
-ZSBtb3JlIHByZXNzaW5nIHByb2JsZW1zLiBJIGFtIHZlcnkgc29ycnkgDQphYm91dCB0aGF0Lg0K
-DQo+IEp1c3QgdG8gYmUgcmVhbGx5IGNsZWFyLCBpbiBwYXJ0aWN1bGFyIEkgZGV0ZXN0IElNQUdF
-X0FMTE9XX1BBQ0tBR0VTIGFzIGENCj4gdmFyaWFibGUgbmFtZS4gSSB0aGluayB5b3UncmUgdHJ5
-aW5nIHRvIGJlIHRvbyB3aWRlIGluIHNjb3BlIHdpdGggIm90aGVyDQo+IHJlc3RyaWN0aW9ucyIg
-YW5kIGl0IHdpbGwganVzdCBjb25mdXNlIHBlb3BsZS4NCg0KT3VjaCwgYW5kIEkgdGhvdWdodCBp
-dCB3YXMgcHJldHR5IG9rLiA6KCBFc3BlY2lhbGx5IGNvbXBhcmVkIHRvIA0KSU5DT01QQVRJQkxF
-X0xJQ0VOU0VfRVhDRVBUSU9OUywgd2hpY2ggSSBkb24ndCBsaWtlIHZlcnkgbXVjaCAodGhvdWdo
-IHRoYXQgDQppcyBtb3N0bHkgYmFzZWQgb24gaXRzIGxlbmd0aCkuIEFueXdheSwgdGhpcyBoYXMg
-YmVlbiBkaXNjdXNzZWQgYXQgbGVuZ3RoDQphYm92ZSwgc28gSSB3aWxsIG5vdCBkZWx2ZSBvbiBp
-dCBtb3JlIGhlcmUuDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
+The patch implements Oe-selftest framework for Rust test.
+Some of the functions are as follows:-
+setup_cargo_environment(): Build bootstrap and some early stage tools.
+do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
+do_configure(): To generate config.toml
+do_compile(): To build "remote-test-server" for qemutarget image.
+
+The python file builds remote-test-server and executes rust testing
+remotely using background ssh. It adds the necessary test environment
+and variables to run the rust oe-selftest.
+Print the results in case of failure of runCmd().
+
+The patch has been run and tested on X86 and X86_64 targets on
+Ubuntu-18 successfully.
+
+There is an issue of loading libserde for master branch rust-1.58.1
+sources as follows:-
+"command did not execute successfully: oe-selftest/build-st/tmp/work
+/core2-64-poky-linux/rust-testsuite/1.58.1-r0/rustc-1.58.1-src/build/
+x86_64-unknown-linux-gnu/stage0-tools-bin/remote-test-client" "push"
+"oe-selftest/build-st/tmp/work/core2-64-poky-linux/rust-testsuite/
+1.58.1-r0/rustc-1.58.1-src/build/x86_64-unknown-linux-gnu/stage1/lib/
+rustlib/x86_64-unknown-linux-gnu/lib/libserde_derive-804e1d2731595192.so"
+
+thread 'main' panicked at 'io::copy(&mut file, dst) failed with
+Connection reset by peer (os error 104)',
+src/tools/remote-test-client/src/main.rs:353:5
+
+The patch will be posted for master branch after fixing the issue.
+
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/rust.py          |  53 ++
+ meta/recipes-devtools/rust/rust-testsuite.inc | 170 ++++
+ .../rust-testsuite/rust-oe-selftest.patch     | 872 ++++++++++++++++++
+ .../rust/rust-testsuite_1.54.0.bb             |   3 +
+ 4 files changed, 1098 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+ create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+ create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
+
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+new file mode 100644
+index 0000000000..ad28f7ab26
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: MIT
++import os
++import subprocess
++from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu, Command
++from oeqa.utils.sshcontrol import SSHControl
++
++# Total time taken for testing is of about 2hr 20min, with PARALLEL_MAKE set to 40 number of jobs.
++class RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
++
++	def run_check_emulated(self, *args, **kwargs):
++		# build remote-test-server before image build
++		recipe = "rust-testsuite"
++		bitbake("{} -c compile".format(recipe))
++		builddir = get_bb_var("B", "rust-testsuite")
++		# build core-image-minimal with required packages
++		default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
++		features = []
++		features.append('IMAGE_FEATURES += "ssh-server-openssh"')
++		features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
++		self.write_config("\n".join(features))
++		bitbake("core-image-minimal")
++		# wrap the execution with a qemu instance
++		with runqemu("core-image-minimal", runqemuparams = "nographic", qemuparams = "-m 512") as qemu:
++			# Copy remote-test-server to image through scp
++			ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user="root")
++			ssh.copy_to(builddir + "/" + "build/x86_64-unknown-linux-gnu/stage1-tools-bin/remote-test-server","~/")
++			# Execute remote-test-server on image through background ssh
++			command = '~/remote-test-server -v remote'
++			sshrun=subprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=/dev/null', '-o',  'StrictHostKeyChecking=no', '-f', "root@%s" % qemu.ip, command),
++                                shell=False,
++                                stdout=subprocess.PIPE,
++                                stderr=subprocess.PIPE)
++			# Get the values of variables.
++			targetsys = get_bb_var("TARGET_SYS", "rust-testsuite")
++			rustlibpath = get_bb_var("STAGING_LIBDIR_NATIVE", "rust-testsuite")
++			tmpdir = get_bb_var("TMPDIR", "rust-testsuite")
++			testargs = "--exclude compiler/rustc --exclude compiler/rustc_apfloat --exclude compiler/rustc_serialize --exclude src/tools/tidy --exclude src/tools/compiletest --no-fail-fast --bless"
++			# Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttools.
++			cmd = " export PATH=%s/../bin:$PATH;" % rustlibpath
++			cmd = cmd + " export PATH=%s/../bin/%s:%s/hosttools:$PATH;" % (rustlibpath, targetsys, tmpdir)
++			cmd = cmd + " export RUST_TARGET_PATH=%s/rustlib;" % rustlibpath
++			# Trigger testing.
++			cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
++			cmd = cmd + " cd %s;  python3 src/bootstrap/bootstrap.py -j 40 test %s --target %s ;" % (builddir, testargs, targetsys)
++			result = runCmd(cmd)
++
++@OETestTag("toolchain-system")
++class RustSelfTestSystemEmulated(RustSelfTestBase):
++	def test_rust(self):
++		self.run_check_emulated("rust")
+diff --git a/meta/recipes-devtools/rust/rust-testsuite.inc b/meta/recipes-devtools/rust/rust-testsuite.inc
+new file mode 100644
+index 0000000000..8a6698a8e2
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-testsuite.inc
+@@ -0,0 +1,170 @@
++SUMMARY = "Rust testing"
++HOMEPAGE = "https://rustc-dev-guide.rust-lang.org/tests/intro.html"
++SECTION = "test"
++LICENSE = "MIT | Apache-2.0"
++
++SRC_URI += "file://rust-oe-selftest.patch;striplevel=1"
++
++inherit rust
++inherit cargo_common
++
++DEPENDS += "file-native python3-native"
++EXCLUDE_FROM_WORLD = "1"
++
++S = "${RUSTSRC}"
++
++# Path of target specification file "target-poky-linux.json"
++export RUST_TARGET_PATH="${STAGING_LIBDIR_NATIVE}/rustlib"
++
++export FORCE_CRATE_HASH="${BB_TASKHASH}"
++
++# We don't want to use bitbakes vendoring because the rust sources do their
++# own vendoring.
++CARGO_DISABLE_BITBAKE_VENDORING = "1"
++
++# We can't use RUST_BUILD_SYS here because that may be "musl" if
++# TCLIBC="musl". Snapshots are always -unknown-linux-gnu
++SNAPSHOT_BUILD_SYS = "${BUILD_ARCH}-unknown-linux-gnu"
++setup_cargo_environment () {
++    # The first step is to build bootstrap and some early stage tools,
++    # these are build for the same target as the snapshot, e.g.
++    # x86_64-unknown-linux-gnu.
++    # Later stages are build for the native target (i.e. target.x86_64-linux)
++    cargo_common_do_configure
++
++    printf '[target.%s]\n' "${SNAPSHOT_BUILD_SYS}" >> ${CARGO_HOME}/config
++    printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
++}
++
++include rust-common.inc
++
++do_rust_setup_snapshot () {
++    for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
++        "${installer}" --prefix="${WORKDIR}/rust-snapshot" --disable-ldconfig
++    done
++
++    # Some versions of rust (e.g. 1.18.0) tries to find cargo in stage0/bin/cargo
++    # and fail without it there.
++    mkdir -p ${RUSTSRC}/build/${BUILD_SYS}
++    ln -sf ${WORKDIR}/rust-snapshot/ ${RUSTSRC}/build/${BUILD_SYS}/stage0
++
++    # Need to use uninative's loader if enabled/present since the library paths
++    # are used internally by rust and result in symbol mismatches if we don't
++    if [ ! -z "${UNINATIVE_LOADER}" -a -e "${UNINATIVE_LOADER}" ]; then
++        for bin in cargo rustc rustdoc; do
++            patchelf-uninative ${WORKDIR}/rust-snapshot/bin/$bin --set-interpreter ${UNINATIVE_LOADER}
++        done
++    fi
++}
++addtask rust_setup_snapshot after do_unpack before do_configure
++do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
++
++python do_configure() {
++    import json
++    from distutils.version import LooseVersion
++    try:
++        import configparser
++    except ImportError:
++        import ConfigParser as configparser
++
++    # toml is rather similar to standard ini like format except it likes values
++    # that look more JSON like. So for our purposes simply escaping all values
++    # as JSON seem to work fine.
++
++    e = lambda s: json.dumps(s)
++
++    config = configparser.RawConfigParser()
++
++    # [target.ARCH-unknown-linux-gnu] in case of x86_64 [target.ARCH-poky-linux]
++    target_section = "target.{}".format(d.getVar('TARGET_SYS', True))
++    config.add_section(target_section)
++
++    # Points to wrapper files which contain target specific compiler and linker commands.
++    config.set(target_section, "cxx", e(d.expand("${RUST_TARGET_CXX}")))
++    config.set(target_section, "cc", e(d.expand("${RUST_TARGET_CC}")))
++    config.set(target_section, "linker", e(d.expand("${RUST_TARGET_CCLD}")))
++
++    # If we don't do this rust-native will compile it's own llvm for BUILD.
++    # [target.${BUILD_ARCH}-unknown-linux-gnu]
++    target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
++    config.add_section(target_section)
++
++    # Wrapper scripts of build system.
++    config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
++    config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
++
++    # [llvm]
++    config.add_section("llvm")
++    config.set("llvm", "targets", e("ARM;AArch64;Mips;PowerPC;RISCV;X86"))
++    config.set("llvm", "ninja", e(False))
++
++    # [rust]
++    config.add_section("rust")
++    config.set("rust", "rpath", e(True))
++    config.set("rust", "channel", e("stable"))
++
++    if LooseVersion(d.getVar("PV")) < LooseVersion("1.32.0"):
++        config.set("rust", "use-jemalloc", e(False))
++
++    # Whether or not to optimize the compiler and standard library
++    config.set("rust", "optimize", e(True))
++
++    # Emits extraneous output from tests to ensure that failures of the test
++    # harness are debuggable just from logfiles
++    config.set("rust", "verbose-tests", e(True))
++
++    # Override default linker cc.
++    config.set("rust", "default-linker", e(d.expand("${RUST_BUILD_CCLD}")))
++
++    # [build]
++    config.add_section("build")
++    config.set("build", "submodules", e(False))
++    config.set("build", "docs", e(False))
++
++    rustc = d.expand("${WORKDIR}/rust-snapshot/bin/rustc")
++    config.set("build", "rustc", e(rustc))
++
++    cargo = d.expand("${WORKDIR}/rust-snapshot/bin/cargo")
++    config.set("build", "cargo", e(cargo))
++
++    config.set("build", "vendor", e(True))
++
++    targets = [d.getVar("TARGET_SYS", True)]
++    config.set("build", "target", e(targets))
++
++    hosts = [d.getVar("SNAPSHOT_BUILD_SYS", True)]
++    config.set("build", "host", e(hosts))
++
++    # We can't use BUILD_SYS since that is something the rust snapshot knows
++    # nothing about when trying to build some stage0 tools (like fabricate)
++    config.set("build", "build", e(d.getVar("SNAPSHOT_BUILD_SYS", True)))
++
++    with open("config.toml", "w") as f:
++        config.write(f)
++
++    # set up ${WORKDIR}/cargo_home
++    bb.build.exec_func("setup_cargo_environment", d)
++}
++
++
++rust_runx () {
++    echo "COMPILE ${PN}" "$@"
++
++    # CFLAGS, LDFLAGS, CXXFLAGS, CPPFLAGS are used by rust's build for a
++    # wide range of targets (not just TARGET). Yocto's settings for them will
++    # be inappropriate, avoid using.
++    unset CFLAGS
++    unset LDFLAGS
++    unset CXXFLAGS
++    unset CPPFLAGS
++
++    oe_cargo_fix_env
++
++    python3 src/bootstrap/bootstrap.py ${@oe.utils.parallel_make_argument(d, '-j %d')} "$@" --verbose
++}
++rust_runx[vardepsexclude] += "PARALLEL_MAKE"
++
++do_compile () {
++
++    rust_runx build src/tools/remote-test-server --target "${TARGET_SYS}"
++}
+diff --git a/meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch b/meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+new file mode 100644
+index 0000000000..78f061d028
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+@@ -0,0 +1,872 @@
++Rust testsuite outputs error even on a single testcase failure.
++Hence, some test runs are ignored as they fail with error messages.
++
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++---
++diff -upr a/compiler/rustc_arena/Cargo.toml b/compiler/rustc_arena/Cargo.toml
++--- a/compiler/rustc_arena/Cargo.toml	2022-02-18 20:52:49.343261926 -0800
+++++ b/compiler/rustc_arena/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -4,6 +4,10 @@ name = "rustc_arena"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ rustc_data_structures = { path = "../rustc_data_structures" }
++ smallvec = { version = "1.6.1", features = ["union", "may_dangle"] }
++diff -upr a/compiler/rustc_ast/Cargo.toml b/compiler/rustc_ast/Cargo.toml
++--- a/compiler/rustc_ast/Cargo.toml	2022-02-18 20:52:49.343261926 -0800
+++++ b/compiler/rustc_ast/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_ast_lowering/Cargo.toml b/compiler/rustc_ast_lowering/Cargo.toml
++--- a/compiler/rustc_ast_lowering/Cargo.toml	2022-02-18 20:52:49.343261926 -0800
+++++ b/compiler/rustc_ast_lowering/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_ast_passes/Cargo.toml b/compiler/rustc_ast_passes/Cargo.toml
++--- a/compiler/rustc_ast_passes/Cargo.toml	2022-02-18 20:52:49.343261926 -0800
+++++ b/compiler/rustc_ast_passes/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -4,6 +4,10 @@ name = "rustc_ast_passes"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ itertools = "0.9"
++ tracing = "0.1"
++diff -upr a/compiler/rustc_ast_pretty/Cargo.toml b/compiler/rustc_ast_pretty/Cargo.toml
++--- a/compiler/rustc_ast_pretty/Cargo.toml	2022-02-18 20:52:49.343261926 -0800
+++++ b/compiler/rustc_ast_pretty/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_attr/Cargo.toml b/compiler/rustc_attr/Cargo.toml
++--- a/compiler/rustc_attr/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_attr/Cargo.toml	2022-02-18 20:22:40.745863059 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_builtin_macros/Cargo.toml b/compiler/rustc_builtin_macros/Cargo.toml
++--- a/compiler/rustc_builtin_macros/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_builtin_macros/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_data_structures/Cargo.toml b/compiler/rustc_data_structures/Cargo.toml
++--- a/compiler/rustc_data_structures/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_data_structures/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_driver/Cargo.toml b/compiler/rustc_driver/Cargo.toml
++--- a/compiler/rustc_driver/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_driver/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -6,6 +6,8 @@ edition = "2018"
++ 
++ [lib]
++ crate-type = ["dylib"]
+++test = false
+++doctest = false
++ 
++ [dependencies]
++ libc = "0.2"
++diff -upr a/compiler/rustc_error_codes/Cargo.toml b/compiler/rustc_error_codes/Cargo.toml
++--- a/compiler/rustc_error_codes/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_error_codes/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -3,3 +3,7 @@ authors = ["The Rust Project Developers"
++ name = "rustc_error_codes"
++ version = "0.0.0"
++ edition = "2018"
+++
+++[lib]
+++test = false
+++doctest = false
++diff -upr a/compiler/rustc_errors/Cargo.toml b/compiler/rustc_errors/Cargo.toml
++--- a/compiler/rustc_errors/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_errors/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_expand/Cargo.toml b/compiler/rustc_expand/Cargo.toml
++--- a/compiler/rustc_expand/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_expand/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -6,6 +6,7 @@ edition = "2018"
++ build = false
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_feature/Cargo.toml b/compiler/rustc_feature/Cargo.toml
++--- a/compiler/rustc_feature/Cargo.toml	2022-02-18 20:52:49.347261785 -0800
+++++ b/compiler/rustc_feature/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_fs_util/Cargo.toml b/compiler/rustc_fs_util/Cargo.toml
++--- a/compiler/rustc_fs_util/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_fs_util/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -3,3 +3,7 @@ authors = ["The Rust Project Developers"
++ name = "rustc_fs_util"
++ version = "0.0.0"
++ edition = "2018"
+++
+++[lib]
+++test = false
+++doctest = false
++diff -upr a/compiler/rustc_graphviz/Cargo.toml b/compiler/rustc_graphviz/Cargo.toml
++--- a/compiler/rustc_graphviz/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_graphviz/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -3,3 +3,7 @@ authors = ["The Rust Project Developers"
++ name = "rustc_graphviz"
++ version = "0.0.0"
++ edition = "2018"
+++
+++[lib]
+++test = false
+++doctest = false
++diff -upr a/compiler/rustc_hir/Cargo.toml b/compiler/rustc_hir/Cargo.toml
++--- a/compiler/rustc_hir/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_hir/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_hir_pretty/Cargo.toml b/compiler/rustc_hir_pretty/Cargo.toml
++--- a/compiler/rustc_hir_pretty/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_hir_pretty/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_incremental/Cargo.toml b/compiler/rustc_incremental/Cargo.toml
++--- a/compiler/rustc_incremental/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_incremental/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_index/Cargo.toml b/compiler/rustc_index/Cargo.toml
++--- a/compiler/rustc_index/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_index/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_infer/Cargo.toml b/compiler/rustc_infer/Cargo.toml
++--- a/compiler/rustc_infer/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_infer/Cargo.toml	2022-02-18 20:22:40.749862923 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_interface/Cargo.toml b/compiler/rustc_interface/Cargo.toml
++--- a/compiler/rustc_interface/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_interface/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_lexer/Cargo.toml b/compiler/rustc_lexer/Cargo.toml
++--- a/compiler/rustc_lexer/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_lexer/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -13,6 +13,7 @@ Rust lexer used by rustc. No stability g
++ # Note: do not remove this blank `[lib]` section.
++ # This will be used when publishing this crate as `rustc-ap-rustc_lexer`.
++ [lib]
+++test = false
++ doctest = false
++ 
++ # Note that this crate purposefully does not depend on other rustc crates
++diff -upr a/compiler/rustc_lint/Cargo.toml b/compiler/rustc_lint/Cargo.toml
++--- a/compiler/rustc_lint/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_lint/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -4,6 +4,10 @@ name = "rustc_lint"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ tracing = "0.1"
++ unicode-security = "0.0.5"
++diff -upr a/compiler/rustc_lint_defs/Cargo.toml b/compiler/rustc_lint_defs/Cargo.toml
++--- a/compiler/rustc_lint_defs/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_lint_defs/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -4,6 +4,10 @@ name = "rustc_lint_defs"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ log = { package = "tracing", version = "0.1" }
++ rustc_ast = { path = "../rustc_ast" }
++diff -upr a/compiler/rustc_llvm/Cargo.toml b/compiler/rustc_llvm/Cargo.toml
++--- a/compiler/rustc_llvm/Cargo.toml	2022-02-18 20:52:49.351261644 -0800
+++++ b/compiler/rustc_llvm/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -4,6 +4,10 @@ name = "rustc_llvm"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [features]
++ static-libstdcpp = []
++ emscripten = []
++diff -upr a/compiler/rustc_macros/Cargo.toml b/compiler/rustc_macros/Cargo.toml
++--- a/compiler/rustc_macros/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_macros/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -6,6 +6,8 @@ edition = "2018"
++ 
++ [lib]
++ proc-macro = true
+++test = false
+++doctest = false
++ 
++ [dependencies]
++ synstructure = "0.12.1"
++diff -upr a/compiler/rustc_metadata/Cargo.toml b/compiler/rustc_metadata/Cargo.toml
++--- a/compiler/rustc_metadata/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_metadata/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_middle/Cargo.toml b/compiler/rustc_middle/Cargo.toml
++--- a/compiler/rustc_middle/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_middle/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_mir/Cargo.toml b/compiler/rustc_mir/Cargo.toml
++--- a/compiler/rustc_mir/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_mir/Cargo.toml	2022-02-18 20:22:40.753862788 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_mir/src/transform/coverage/test_macros/Cargo.toml b/compiler/rustc_mir/src/transform/coverage/test_macros/Cargo.toml
++--- a/compiler/rustc_mir/src/transform/coverage/test_macros/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_mir/src/transform/coverage/test_macros/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -6,4 +6,5 @@ edition = "2018"
++ 
++ [lib]
++ proc-macro = true
+++test = false
++ doctest = false
++diff -upr a/compiler/rustc_mir_build/Cargo.toml b/compiler/rustc_mir_build/Cargo.toml
++--- a/compiler/rustc_mir_build/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_mir_build/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_parse/Cargo.toml b/compiler/rustc_parse/Cargo.toml
++--- a/compiler/rustc_parse/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_parse/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_parse_format/Cargo.toml b/compiler/rustc_parse_format/Cargo.toml
++--- a/compiler/rustc_parse_format/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_parse_format/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -4,6 +4,10 @@ name = "rustc_parse_format"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ rustc_span = { path = "../rustc_span" }
++ rustc_lexer = { path = "../rustc_lexer" }
++diff -upr a/compiler/rustc_passes/Cargo.toml b/compiler/rustc_passes/Cargo.toml
++--- a/compiler/rustc_passes/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_passes/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -4,6 +4,10 @@ name = "rustc_passes"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ tracing = "0.1"
++ rustc_middle = { path = "../rustc_middle" }
++diff -upr a/compiler/rustc_plugin_impl/Cargo.toml b/compiler/rustc_plugin_impl/Cargo.toml
++--- a/compiler/rustc_plugin_impl/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_plugin_impl/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -6,6 +6,7 @@ build = false
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_privacy/Cargo.toml b/compiler/rustc_privacy/Cargo.toml
++--- a/compiler/rustc_privacy/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_privacy/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -4,6 +4,10 @@ name = "rustc_privacy"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ rustc_middle = { path = "../rustc_middle" }
++ rustc_attr = { path = "../rustc_attr" }
++diff -upr a/compiler/rustc_query_impl/Cargo.toml b/compiler/rustc_query_impl/Cargo.toml
++--- a/compiler/rustc_query_impl/Cargo.toml	2022-02-18 20:52:49.355261504 -0800
+++++ b/compiler/rustc_query_impl/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_query_system/Cargo.toml b/compiler/rustc_query_system/Cargo.toml
++--- a/compiler/rustc_query_system/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_query_system/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_save_analysis/Cargo.toml b/compiler/rustc_save_analysis/Cargo.toml
++--- a/compiler/rustc_save_analysis/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_save_analysis/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -4,6 +4,10 @@ name = "rustc_save_analysis"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ tracing = "0.1"
++ rustc_middle = { path = "../rustc_middle" }
++diff -upr a/compiler/rustc_session/Cargo.toml b/compiler/rustc_session/Cargo.toml
++--- a/compiler/rustc_session/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_session/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -4,6 +4,10 @@ name = "rustc_session"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ bitflags = "1.2.1"
++ getopts = "0.2"
++diff -upr a/compiler/rustc_span/Cargo.toml b/compiler/rustc_span/Cargo.toml
++--- a/compiler/rustc_span/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_span/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_symbol_mangling/Cargo.toml b/compiler/rustc_symbol_mangling/Cargo.toml
++--- a/compiler/rustc_symbol_mangling/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_symbol_mangling/Cargo.toml	2022-02-18 20:22:40.765862380 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_target/Cargo.toml b/compiler/rustc_target/Cargo.toml
++--- a/compiler/rustc_target/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_target/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -4,6 +4,10 @@ name = "rustc_target"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ bitflags = "1.2.1"
++ tracing = "0.1"
++diff -upr a/compiler/rustc_traits/Cargo.toml b/compiler/rustc_traits/Cargo.toml
++--- a/compiler/rustc_traits/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_traits/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -4,6 +4,10 @@ name = "rustc_traits"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ tracing = "0.1"
++ rustc_attr = { path = "../rustc_attr" }
++diff -upr a/compiler/rustc_trait_selection/Cargo.toml b/compiler/rustc_trait_selection/Cargo.toml
++--- a/compiler/rustc_trait_selection/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_trait_selection/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -5,6 +5,7 @@ version = "0.0.0"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_type_ir/Cargo.toml b/compiler/rustc_type_ir/Cargo.toml
++--- a/compiler/rustc_type_ir/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_type_ir/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -5,6 +5,7 @@ authors = ["The Rust Project Developers"
++ edition = "2018"
++ 
++ [lib]
+++test = false
++ doctest = false
++ 
++ [dependencies]
++diff -upr a/compiler/rustc_ty_utils/Cargo.toml b/compiler/rustc_ty_utils/Cargo.toml
++--- a/compiler/rustc_ty_utils/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/compiler/rustc_ty_utils/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -4,6 +4,10 @@ name = "rustc_ty_utils"
++ version = "0.0.0"
++ edition = "2018"
++ 
+++[lib]
+++test = false
+++doctest = false
+++
++ [dependencies]
++ tracing = "0.1"
++ rustc_middle = { path = "../rustc_middle" }
++diff -upr a/library/alloc/Cargo.toml b/library/alloc/Cargo.toml
++--- a/library/alloc/Cargo.toml	2022-02-18 20:52:49.359261363 -0800
+++++ b/library/alloc/Cargo.toml	2022-02-18 20:22:40.769862244 -0800
++@@ -24,7 +24,7 @@ path = "tests/lib.rs"
++ [[bench]]
++ name = "collectionsbenches"
++ path = "benches/lib.rs"
++-test = true
+++test = false
++ 
++ [[bench]]
++ name = "vec_deque_append_bench"
++Only in a/: patches
++Only in a/: .pc
++diff -upr a/src/test/run-make/issue-36710/Makefile b/src/test/run-make/issue-36710/Makefile
++--- a/src/test/run-make/issue-36710/Makefile	2022-02-18 20:52:49.359261363 -0800
+++++ b/src/test/run-make/issue-36710/Makefile	2022-02-18 20:22:40.769862244 -0800
++@@ -7,6 +7,8 @@
++ # ignore-nvptx64-nvidia-cuda FIXME: can't find crate for `std`
++ # ignore-musl FIXME: this makefile needs teaching how to use a musl toolchain
++ #                    (see dist-i586-gnu-i586-i686-musl Dockerfile)
+++# ignore-windows-msvc
+++# ignore-stage1
++ 
++ include ../../run-make-fulldeps/tools.mk
++ 
++diff -upr a/src/test/ui/abi/stack-probes-lto.rs b/src/test/ui/abi/stack-probes-lto.rs
++--- a/src/test/ui/abi/stack-probes-lto.rs	2022-02-18 20:52:49.291263757 -0800
+++++ b/src/test/ui/abi/stack-probes-lto.rs	2022-02-18 20:58:59.706316652 -0800
++@@ -14,5 +14,6 @@
++ // ignore-pretty
++ // compile-flags: -C lto
++ // no-prefer-dynamic
+++// ignore-stage1
++ 
++ include!("stack-probes.rs");
++diff -upr a/src/test/ui/abi/stack-probes.rs b/src/test/ui/abi/stack-probes.rs
++--- a/src/test/ui/abi/stack-probes.rs	2022-02-18 20:52:49.291263757 -0800
+++++ b/src/test/ui/abi/stack-probes.rs	2022-02-18 20:59:12.777862379 -0800
++@@ -10,6 +10,7 @@
++ // ignore-wasm
++ // ignore-emscripten no processes
++ // ignore-sgx no processes
+++// ignore-stage1
++ 
++ use std::env;
++ use std::mem::MaybeUninit;
++diff -upr a/src/test/ui/macros/restricted-shadowing-legacy.rs b/src/test/ui/macros/restricted-shadowing-legacy.rs
++--- a/src/test/ui/macros/restricted-shadowing-legacy.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui/macros/restricted-shadowing-legacy.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -74,6 +74,7 @@
++ // 62 |   Unordered   |   Unordered   |       =       |    +?    |
++ // 63 |   Unordered   |   Unordered   |       >       |    +?    |
++ // 64 |   Unordered   |   Unordered   |   Unordered   |    +     |
+++// ignore-stage1
++ 
++ #![feature(decl_macro, rustc_attrs)]
++ 
++diff -upr a/src/test/ui/simd/simd-target-feature-mixup.rs b/src/test/ui/simd/simd-target-feature-mixup.rs
++--- a/src/test/ui/simd/simd-target-feature-mixup.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui/simd/simd-target-feature-mixup.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ #![allow(unused_variables)]
++ #![allow(stable_features)]
++ #![allow(overflowing_literals)]
++diff -upr a/src/test/ui-fulldeps/create-dir-all-bare.rs b/src/test/ui-fulldeps/create-dir-all-bare.rs
++--- a/src/test/ui-fulldeps/create-dir-all-bare.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/create-dir-all-bare.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ use std::env;
++ use std::fs;
++diff -upr a/src/test/ui-fulldeps/deriving-encodable-decodable-box.rs b/src/test/ui-fulldeps/deriving-encodable-decodable-box.rs
++--- a/src/test/ui-fulldeps/deriving-encodable-decodable-box.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/deriving-encodable-decodable-box.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_imports)]
++ #![feature(box_syntax)]
++diff -upr a/src/test/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs b/src/test/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs
++--- a/src/test/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_imports)]
++ // This briefly tests the capability of `Cell` and `RefCell` to implement the
++diff -upr a/src/test/ui-fulldeps/deriving-global.rs b/src/test/ui-fulldeps/deriving-global.rs
++--- a/src/test/ui-fulldeps/deriving-global.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/deriving-global.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ 
++diff -upr a/src/test/ui-fulldeps/deriving-hygiene.rs b/src/test/ui-fulldeps/deriving-hygiene.rs
++--- a/src/test/ui-fulldeps/deriving-hygiene.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/deriving-hygiene.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(non_upper_case_globals)]
++ #![feature(rustc_private)]
++diff -upr a/src/test/ui-fulldeps/dropck_tarena_sound_drop.rs b/src/test/ui-fulldeps/dropck_tarena_sound_drop.rs
++--- a/src/test/ui-fulldeps/dropck_tarena_sound_drop.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/dropck_tarena_sound_drop.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unknown_lints)]
++ // Check that an arena (TypedArena) can carry elements whose drop
++diff -upr a/src/test/ui-fulldeps/empty-struct-braces-derive.rs b/src/test/ui-fulldeps/empty-struct-braces-derive.rs
++--- a/src/test/ui-fulldeps/empty-struct-braces-derive.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/empty-struct-braces-derive.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // `#[derive(Trait)]` works for empty structs/variants with braces or parens.
++ 
++ #![feature(rustc_private)]
++diff -upr a/src/test/ui-fulldeps/extern-mod-syntax.rs b/src/test/ui-fulldeps/extern-mod-syntax.rs
++--- a/src/test/ui-fulldeps/extern-mod-syntax.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/extern-mod-syntax.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_imports)]
++ #![feature(rustc_private)]
++diff -upr a/src/test/ui-fulldeps/issue-11881.rs b/src/test/ui-fulldeps/issue-11881.rs
++--- a/src/test/ui-fulldeps/issue-11881.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/issue-11881.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_must_use)]
++ #![allow(dead_code)]
++diff -upr a/src/test/ui-fulldeps/issue-13560.rs b/src/test/ui-fulldeps/issue-13560.rs
++--- a/src/test/ui-fulldeps/issue-13560.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/issue-13560.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // aux-build:issue-13560-1.rs
++ // aux-build:issue-13560-2.rs
++ // aux-build:issue-13560-3.rs
++diff -upr a/src/test/ui-fulldeps/issue-14021.rs b/src/test/ui-fulldeps/issue-14021.rs
++--- a/src/test/ui-fulldeps/issue-14021.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/issue-14021.rs	2022-02-18 20:22:40.769862244 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_mut)]
++ #![allow(unused_imports)]
++diff -upr a/src/test/ui-fulldeps/issue-15149.rs b/src/test/ui-fulldeps/issue-15149.rs
++--- a/src/test/ui-fulldeps/issue-15149.rs	2022-02-18 20:52:49.363261222 -0800
+++++ b/src/test/ui-fulldeps/issue-15149.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_variables)]
++ // no-prefer-dynamic
++diff -upr a/src/test/ui-fulldeps/issue-15924.rs b/src/test/ui-fulldeps/issue-15924.rs
++--- a/src/test/ui-fulldeps/issue-15924.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-15924.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_imports)]
++ #![allow(unused_must_use)]
++diff -upr a/src/test/ui-fulldeps/issue-16822.rs b/src/test/ui-fulldeps/issue-16822.rs
++--- a/src/test/ui-fulldeps/issue-16822.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-16822.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // aux-build:issue-16822.rs
++ 
++ extern crate issue_16822 as lib;
++diff -upr a/src/test/ui-fulldeps/issue-18502.rs b/src/test/ui-fulldeps/issue-18502.rs
++--- a/src/test/ui-fulldeps/issue-18502.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-18502.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // aux-build:issue-18502.rs
++ 
++ extern crate issue_18502 as fmt;
++diff -upr a/src/test/ui-fulldeps/issue-24106.rs b/src/test/ui-fulldeps/issue-24106.rs
++--- a/src/test/ui-fulldeps/issue-24106.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-24106.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // aux-build:issue-24106.rs
++ 
++ extern crate issue_24106;
++diff -upr a/src/test/ui-fulldeps/issue-24972.rs b/src/test/ui-fulldeps/issue-24972.rs
++--- a/src/test/ui-fulldeps/issue-24972.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-24972.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(dead_code)]
++ #![feature(rustc_private)]
++diff -upr a/src/test/ui-fulldeps/issue-2804.rs b/src/test/ui-fulldeps/issue-2804.rs
++--- a/src/test/ui-fulldeps/issue-2804.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-2804.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(non_camel_case_types)]
++ #![allow(dead_code)]
++diff -upr a/src/test/ui-fulldeps/issue-4016.rs b/src/test/ui-fulldeps/issue-4016.rs
++--- a/src/test/ui-fulldeps/issue-4016.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-4016.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(dead_code)]
++ #![feature(rustc_private)]
++diff -upr a/src/test/ui-fulldeps/issue-4036.rs b/src/test/ui-fulldeps/issue-4036.rs
++--- a/src/test/ui-fulldeps/issue-4036.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/issue-4036.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // Issue #4036: Test for an issue that arose around fixing up type inference
++ // byproducts in vtable records.
++ 
++diff -upr a/src/test/ui-fulldeps/myriad-closures.rs b/src/test/ui-fulldeps/myriad-closures.rs
++--- a/src/test/ui-fulldeps/myriad-closures.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/myriad-closures.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // This test case tests whether we can handle code bases that contain a high
++ // number of closures, something that needs special handling in the MingGW
++ // toolchain.
++diff -upr a/src/test/ui-fulldeps/pprust-expr-roundtrip.rs b/src/test/ui-fulldeps/pprust-expr-roundtrip.rs
++--- a/src/test/ui-fulldeps/pprust-expr-roundtrip.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/pprust-expr-roundtrip.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ // ignore-cross-compile
++ 
++ // The general idea of this test is to enumerate all "interesting" expressions and check that
++diff -upr a/src/test/ui-fulldeps/regions-mock-tcx.rs b/src/test/ui-fulldeps/regions-mock-tcx.rs
++--- a/src/test/ui-fulldeps/regions-mock-tcx.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/regions-mock-tcx.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(dead_code)]
++ #![allow(unused_imports)]
++diff -upr a/src/test/ui-fulldeps/rename-directory.rs b/src/test/ui-fulldeps/rename-directory.rs
++--- a/src/test/ui-fulldeps/rename-directory.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/rename-directory.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![allow(unused_must_use)]
++ #![allow(unused_imports)]
++diff -upr a/src/test/ui-fulldeps/rustc_encodable_hygiene.rs b/src/test/ui-fulldeps/rustc_encodable_hygiene.rs
++--- a/src/test/ui-fulldeps/rustc_encodable_hygiene.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/rustc_encodable_hygiene.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ #![feature(rustc_private)]
++ 
++diff -upr a/src/test/ui-fulldeps/stdio-from.rs b/src/test/ui-fulldeps/stdio-from.rs
++--- a/src/test/ui-fulldeps/stdio-from.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/stdio-from.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,5 +1,6 @@
++ // run-pass
++ // ignore-cross-compile
+++// ignore-stage1
++ 
++ use std::env;
++ use std::fs::File;
++diff -upr a/src/test/ui-fulldeps/switch-stdout.rs b/src/test/ui-fulldeps/switch-stdout.rs
++--- a/src/test/ui-fulldeps/switch-stdout.rs	2022-02-18 20:52:49.367261081 -0800
+++++ b/src/test/ui-fulldeps/switch-stdout.rs	2022-02-18 20:22:40.773862108 -0800
++@@ -1,4 +1,5 @@
++ // run-pass
+++// ignore-stage1
++ 
++ use std::env;
++ use std::fs::File;
+diff --git a/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb b/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
+new file mode 100644
+index 0000000000..ad758b71f4
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-testsuite_1.54.0.bb
+@@ -0,0 +1,3 @@
++require rust-testsuite.inc
++require rust-source-${PV}.inc
++require rust-snapshot-${PV}.inc
+-- 
+2.31.1
+
 
