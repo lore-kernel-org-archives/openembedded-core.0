@@ -1,763 +1,211 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E15D0C433FE
-	for <webhook@archiver.kernel.org>; Sun, 20 Feb 2022 14:10:16 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.21434.1645366215254890133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9944C433F5
+	for <webhook@archiver.kernel.org>; Sun, 20 Feb 2022 14:34:47 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.21994.1645367686103953047
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 06:10:15 -0800
+ Sun, 20 Feb 2022 06:34:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V37Q0+6q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- l123-20020a1c2581000000b0037b9d960079so11896506wml.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=WJEkMtaY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id x18so6484515pfh.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 06:10:15 -0800 (PST)
+ Sun, 20 Feb 2022 06:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PJXbb4bO20XOH2MVX3I9jB5sihWmz2dVtTdcKh1zEyk=;
-        b=V37Q0+6qAcfwwU5ObCKwrNEZ++fQkNC6hw1JqzpHq2KQYIbiOOYjN2DYlpGWWl2XCQ
-         NiueudkR2yS6Di0GR5ieHkmx72fKz/B1jpqIkUYLbRpfgQhC4ZE8YNwCFksLzE58LjGI
-         TZ37E7zL06xGs+ZKihw6+8SMZH/mANvZmHPbU=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=uBvR4l8+9k7KEOAN7gmF6rA/FPOWzH4WsxrOfzceL4g=;
+        b=WJEkMtaYlY8bDLOTTTDgn2tzqG2SQkfBQK28tRfGjxCGT7hrs3aatnM8L8lYGM4zw1
+         7IHv1Vbwb0nf5LaVv9HPwaR7kqm1yPTJk7iiHBTrVg9twRdBqCMBTNrLR9UwBGRgJTDD
+         WHd1Ouz8BPk5XtXFoHHYJk/WfczZ+2ceCpzDXOobUTwSvyREeR8y3b8PDEDFNZ5jwzwP
+         IBGGtwc5GjP1l4HhjAnK9rZdLcf/1CzihMNI9UjjRyaFN4czs67SJHRYopgd8BEQrkr4
+         pY/YHcI2TNPgmjhAOZ6bqZQ7s+pMysv+bzeyVq7YSNK3uvUksGBSJ4e2Acd6UYr9w0Dt
+         HYZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PJXbb4bO20XOH2MVX3I9jB5sihWmz2dVtTdcKh1zEyk=;
-        b=5R4kuLO2RFs3izHBdkdEuLvCP7idAB0KzqNH4K360alLHd3pea+sh9aZ5ntA0rlgmx
-         smoCbFzon/iFSP63jRIfTec4+0KeEjrybfDNXAlymTMEJU1X9ce+R7C2nMCCLzeLFznb
-         KU4wQyz/Kz1ycQJvDC547TsMFqwKRrflnLnEEJjGUNBQLjBzZmTS0luUdkEXPDQn/wHK
-         26MFcuoDxMjJ2p/ofQrv/MAaGhuaFykpYFhpaAEsjKKq0FFpBFjj4XrExREwRNLU1i1n
-         WOE2YKnBYW4IU8saB6FPm6Ks/9u4m6bdOR+k/Bq8mRqN6/D1RuRig3U8/jFTODfZ9kDm
-         /FHQ==
-X-Gm-Message-State: AOAM530j5adVmwYbBy6asGhi8fpRZYPgXcs2xkNhwpxIGxV0Ea1KL53+
-	fjNTJrYexJMAoyMQR7OJtM5Qiyis19h6WQwu
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=uBvR4l8+9k7KEOAN7gmF6rA/FPOWzH4WsxrOfzceL4g=;
+        b=leThEXJXK+M6DxSy8K70k/HEJEtSX5uG6EPcayYImhuBF6T52o1e3ZrEY4UrjNqB8V
+         NrxJxepRqPZ9WihOd3B+zktvqugRTmryKE9sp2QUznv/OKrEjwjX5cnMA1aO7JZhXYwg
+         LUUXRrFfcRhXpdrfKNdl2lPfUtfNSZ7PcTF3JF8/+mINpHVmOFndydp9H8xQydW6YBEV
+         gs1o0d07ULUMxuFTu+FH7I6kWtpAYxQlCnhw0935GDOiFgwSdKNB7HQRZJaWaEF/uGdn
+         N6ZSsAAGguIjcgohOStENWcWdoRf/q8CrLDt++SxhGpKhChbKne0uRK7HjquxKiuyeH5
+         xtMQ==
+X-Gm-Message-State: AOAM532C9J4P/m27kiRZXEs/V1KzrHIWFrvsqPSF3N46dQpsk+0KW1fb
+	4E1DPKmnv94MhZlG8Kl886BlyzTWERDxTqPj
 X-Google-Smtp-Source: 
- ABdhPJwJQE+U2XF8r+UUp4kc9eO4DtG34kKmWYcMtamSBjWhm55/Yf6wC3EY/Z4WO/3nxLQ0d+ETsw==
-X-Received: by 2002:a05:600c:48aa:b0:37c:a4ef:4acf with SMTP id
- j42-20020a05600c48aa00b0037ca4ef4acfmr14602193wmp.135.1645366212497;
-        Sun, 20 Feb 2022 06:10:12 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9355:e71:cc42:42f1])
+ ABdhPJzg+CO3xUdLdw5fdlE+ZPRjQrqMEVZOS4wJCWuHLfOGCUP3zZyaMFb5VSkf/44HiVhdVpoAjA==
+X-Received: by 2002:a63:d0d:0:b0:34e:34b:fc17 with SMTP id
+ c13-20020a630d0d000000b0034e034bfc17mr12739669pgl.501.1645367684749;
+        Sun, 20 Feb 2022 06:34:44 -0800 (PST)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- z6-20020a1cf406000000b0037c4e2d3baesm4844548wma.19.2022.02.20.06.10.11
-        for <openembedded-core@lists.openembedded.org>
+ u39sm10094241pfg.195.2022.02.20.06.34.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 06:10:11 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] perl: Improve and update module RPDEPENDS
-Date: Sun, 20 Feb 2022 14:10:10 +0000
-Message-Id: <20220220141011.3112326-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 20 Feb 2022 06:34:44 -0800 (PST)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 174B096070E; Sun, 20 Feb 2022 04:34:42 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 20 Feb 2022 04:30:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220220143442.174B096070E@nuc.router0800d9.com>
+Date: Sun, 20 Feb 2022 04:34:42 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Feb 2022 14:10:16 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Feb 2022 14:34:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161983
+ https://lists.openembedded.org/g/openembedded-core/message/161984
 
-The perl module RDEPENDS needed refreshing so I updated it with the script. I
-also found a ton of issues with missing test2 module dependencies so I've tweaked
-the generator script to improve those. For some reason they were previously excluded
-but I can't see anything wrong with the generated dependencies so I've added them. A
-number of manual dependencies were still needed in addition.
+Branch: dunfell
 
-I did notice an issue with trailing ")" characters so the sed is updated to handle
-that (it did already handle "(").
+New this week: 9 CVEs
+CVE-2021-45949: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45949 *
+CVE-2022-0529: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+CVE-2022-0530: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+CVE-2022-0554: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0554 *
+CVE-2022-0561: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0561 *
+CVE-2022-0562: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0562 *
+CVE-2022-23772: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23772 *
+CVE-2022-23773: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23773 *
+CVE-2022-23806: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23806 *
 
-This fixes issues seen in the dependecies for libxml-parser-perl's ptest package.
+Removed this week: 6 CVEs
+CVE-2020-25632: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25632 *
+CVE-2020-25647: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25647 *
+CVE-2021-45949: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45949 *
+CVE-2022-23218: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23218 *
+CVE-2022-23219: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23219 *
+CVE-2022-23852: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23852 *
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../perl/files/perl-rdepends.txt              | 338 ++++++++++++++++--
- meta/recipes-devtools/perl/perl_5.34.0.bb     |  12 +-
- 2 files changed, 327 insertions(+), 23 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl/files/perl-rdepends.txt b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-index dd23dc222ad..3415f32ab1f 100644
---- a/meta/recipes-devtools/perl/files/perl-rdepends.txt
-+++ b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-@@ -1,7 +1,15 @@
- 
- # Some additional dependencies that the above doesn't manage to figure out
- RDEPENDS:perl-module-file-spec += "perl-module-file-spec-unix"
-+RDEPENDS:perl-module-io-file += "perl-module-symbol"
- RDEPENDS:perl-module-math-bigint += "perl-module-math-bigint-calc"
-+RDEPENDS:perl-module-test-builder += "perl-module-list-util"
-+RDEPENDS:perl-module-test-builder += "perl-module-scalar-util"
-+RDEPENDS:perl-module-test-builder-formatter += "perl-module-test2-formatter-tap"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-fail"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-pass"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-v2"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-test2-formatter"
- RDEPENDS:perl-module-thread-queue += "perl-module-attributes"
- RDEPENDS:perl-module-overload += "perl-module-overloading"
- 
-@@ -50,6 +58,7 @@ RDEPENDS:perl-module-archive-tar-constant += "perl-module-exporter"
- RDEPENDS:perl-module-archive-tar-constant += "perl-module-io-compress-bzip2"
- RDEPENDS:perl-module-archive-tar-constant += "perl-module-strict"
- RDEPENDS:perl-module-archive-tar-constant += "perl-module-time-local"
-+RDEPENDS:perl-module-archive-tar-constant += "perl-module-vars"
- RDEPENDS:perl-module-archive-tar-constant += "perl-module-warnings"
- RDEPENDS:perl-module-archive-tar-file += "perl-module-archive-tar"
- RDEPENDS:perl-module-archive-tar-file += "perl-module-archive-tar-constant"
-@@ -157,6 +166,8 @@ RDEPENDS:perl-module-b-xref += "perl-module-b"
- RDEPENDS:perl-module-b-xref += "perl-module-config"
- RDEPENDS:perl-module-b-xref += "perl-module-strict"
- RDEPENDS:perl-module-bytes += "perl-module-bytes-heavy"
-+RDEPENDS:perl-module-bytes += "perl-module-strict"
-+RDEPENDS:perl-module-bytes += "perl-module-warnings"
- RDEPENDS:perl-module--charnames += "perl-module-bytes"
- RDEPENDS:perl-module-charnames += "perl-module-bytes"
- RDEPENDS:perl-module-charnames += "perl-module--charnames"
-@@ -245,14 +256,9 @@ RDEPENDS:perl-module-cwd += "perl-module-xsloader"
- RDEPENDS:perl-module-data-dumper += "perl-module-config"
- RDEPENDS:perl-module-data-dumper += "perl-module-constant"
- RDEPENDS:perl-module-data-dumper += "perl-module-exporter"
-+RDEPENDS:perl-module-data-dumper += "perl-module-strict"
-+RDEPENDS:perl-module-data-dumper += "perl-module-warnings"
- RDEPENDS:perl-module-data-dumper += "perl-module-xsloader"
--RDEPENDS:perl-module-db-file += "perl-module-dynaloader"
--RDEPENDS:perl-module-db-file += "perl-module-exporter"
--RDEPENDS:perl-module-db-file += "perl-module-fcntl"
--RDEPENDS:perl-module-db-file += "perl-module-strict "
--RDEPENDS:perl-module-db-file += "perl-module-strict"
--RDEPENDS:perl-module-db-file += "perl-module-tie-hash"
--RDEPENDS:perl-module-db-file += "perl-module-warnings"
- RDEPENDS:perl-module-dbm-filter-compress += "perl-module-strict"
- RDEPENDS:perl-module-dbm-filter-compress += "perl-module-warnings"
- RDEPENDS:perl-module-dbm-filter-encode += "perl-module-strict"
-@@ -281,18 +287,18 @@ RDEPENDS:perl-module-diagnostics += "perl-module-strict"
- RDEPENDS:perl-module-diagnostics += "perl-module-text-tabs"
- RDEPENDS:perl-module-digest-base += "perl-module-mime-base64"
- RDEPENDS:perl-module-digest-base += "perl-module-strict"
--RDEPENDS:perl-module-digest-base += "perl-module-vars"
-+RDEPENDS:perl-module-digest-base += "perl-module-warnings"
- RDEPENDS:perl-module-digest-file += "perl-module-digest"
- RDEPENDS:perl-module-digest-file += "perl-module-exporter"
- RDEPENDS:perl-module-digest-file += "perl-module-strict"
--RDEPENDS:perl-module-digest-file += "perl-module-vars"
-+RDEPENDS:perl-module-digest-file += "perl-module-warnings"
- RDEPENDS:perl-module-digest-md5 += "perl-module-digest-base"
- RDEPENDS:perl-module-digest-md5 += "perl-module-exporter"
- RDEPENDS:perl-module-digest-md5 += "perl-module-strict"
--RDEPENDS:perl-module-digest-md5 += "perl-module-vars"
-+RDEPENDS:perl-module-digest-md5 += "perl-module-warnings"
- RDEPENDS:perl-module-digest-md5 += "perl-module-xsloader"
- RDEPENDS:perl-module-digest += "perl-module-strict"
--RDEPENDS:perl-module-digest += "perl-module-vars"
-+RDEPENDS:perl-module-digest += "perl-module-warnings"
- RDEPENDS:perl-module-digest-sha += "perl-module-digest-base"
- RDEPENDS:perl-module-digest-sha += "perl-module-dynaloader"
- RDEPENDS:perl-module-digest-sha += "perl-module-exporter"
-@@ -444,9 +450,9 @@ RDEPENDS:perl-module-errno += "perl-module-strict"
- RDEPENDS:perl-module-experimental += "perl-module-strict"
- RDEPENDS:perl-module-experimental += "perl-module-version"
- RDEPENDS:perl-module-experimental += "perl-module-warnings"
--RDEPENDS:perl-module-exporter-heavy += "perl-module-exporter"
- RDEPENDS:perl-module-exporter-heavy += "perl-module-strict"
- RDEPENDS:perl-module-exporter += "perl-module-exporter-heavy"
-+RDEPENDS:perl-module-exporter += "perl-module-strict"
- RDEPENDS:perl-module-extutils-cbuilder-base += "perl-module-config"
- RDEPENDS:perl-module-extutils-cbuilder-base += "perl-module-cwd"
- RDEPENDS:perl-module-extutils-cbuilder-base += "perl-module-dynaloader"
-@@ -511,6 +517,7 @@ RDEPENDS:perl-module-extutils-command += "perl-module-file-find"
- RDEPENDS:perl-module-extutils-command += "perl-module-file-path"
- RDEPENDS:perl-module-extutils-command += "perl-module-strict"
- RDEPENDS:perl-module-extutils-command += "perl-module-vars"
-+RDEPENDS:perl-module-extutils-command += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-constant-base += "perl-module-constant"
- RDEPENDS:perl-module-extutils-constant-base += "perl-module-extutils-constant-utils"
- RDEPENDS:perl-module-extutils-constant-base += "perl-module-strict"
-@@ -550,7 +557,6 @@ RDEPENDS:perl-module-extutils-installed += "perl-module-extutils-packlist"
- RDEPENDS:perl-module-extutils-installed += "perl-module-file-basename"
- RDEPENDS:perl-module-extutils-installed += "perl-module-file-find"
- RDEPENDS:perl-module-extutils-installed += "perl-module-strict"
--RDEPENDS:perl-module-extutils-installed += "perl-module-vars"
- RDEPENDS:perl-module-extutils-install += "perl-module-autosplit"
- RDEPENDS:perl-module-extutils-install += "perl-module-config"
- RDEPENDS:perl-module-extutils-install += "perl-module-cwd"
-@@ -570,13 +576,16 @@ RDEPENDS:perl-module-extutils-liblist-kid += "perl-module-text-parsewords"
- RDEPENDS:perl-module-extutils-liblist-kid += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-liblist += "perl-module-extutils-liblist-kid"
- RDEPENDS:perl-module-extutils-liblist += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-liblist += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-makemaker-config += "perl-module-config"
- RDEPENDS:perl-module-extutils-makemaker-config += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-makemaker-config += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-base"
- RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-encode"
- RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-encode-alias"
- RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-i18n-langinfo"
- RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-makemaker-locale += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-b"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-cpan"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-cwd"
-@@ -589,8 +598,10 @@ RDEPENDS:perl-module-extutils-makemaker += "perl-module-extutils-my"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-file-path"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-strict"
- RDEPENDS:perl-module-extutils-makemaker += "perl-module-version"
-+RDEPENDS:perl-module-extutils-makemaker += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-makemaker-version += "perl-module-strict"
- RDEPENDS:perl-module-extutils-makemaker-version += "perl-module-vars"
-+RDEPENDS:perl-module-extutils-makemaker-version += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-manifest += "perl-module-config"
- RDEPENDS:perl-module-extutils-manifest += "perl-module-exporter"
- RDEPENDS:perl-module-extutils-manifest += "perl-module-file-basename"
-@@ -606,12 +617,15 @@ RDEPENDS:perl-module-extutils-mkbootstrap += "perl-module-config"
- RDEPENDS:perl-module-extutils-mkbootstrap += "perl-module-dynaloader"
- RDEPENDS:perl-module-extutils-mkbootstrap += "perl-module-exporter"
- RDEPENDS:perl-module-extutils-mkbootstrap += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mkbootstrap += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mksymlists += "perl-module-config"
- RDEPENDS:perl-module-extutils-mksymlists += "perl-module-exporter"
- RDEPENDS:perl-module-extutils-mksymlists += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mksymlists += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-aix += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-aix += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-aix += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-aix += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-autosplit"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-cpan"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-data-dumper"
-@@ -621,35 +635,49 @@ RDEPENDS:perl-module-extutils-mm-any += "perl-module-file-basename"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-file-find"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-strict"
- RDEPENDS:perl-module-extutils-mm-any += "perl-module-version"
-+RDEPENDS:perl-module-extutils-mm-any += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-beos += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-beos += "perl-module-extutils-mm-any"
- RDEPENDS:perl-module-extutils-mm-beos += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-beos += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-beos += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-cygwin += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-cygwin += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-cygwin += "perl-module-extutils-mm-win32"
- RDEPENDS:perl-module-extutils-mm-cygwin += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-cygwin += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-darwin += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-darwin += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-darwin += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-dos += "perl-module-extutils-mm-any"
- RDEPENDS:perl-module-extutils-mm-dos += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-dos += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-dos += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-macos += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-macos += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-extutils-makemaker"
- RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-extutils-mm-win32"
- RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-file-basename"
- RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-nw5 += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-os2 += "perl-module-extutils-makemaker"
- RDEPENDS:perl-module-extutils-mm-os2 += "perl-module-extutils-mm-any"
- RDEPENDS:perl-module-extutils-mm-os2 += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-os2 += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-os2 += "perl-module-warnings"
-+RDEPENDS:perl-module-extutils-mm-os390 += "perl-module-extutils-makemaker-config"
-+RDEPENDS:perl-module-extutils-mm-os390 += "perl-module-extutils-mm-unix"
-+RDEPENDS:perl-module-extutils-mm-os390 += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-os390 += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm += "perl-module-extutils-liblist"
- RDEPENDS:perl-module-extutils-mm += "perl-module-extutils-makemaker"
- RDEPENDS:perl-module-extutils-mm += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-qnx += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-qnx += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-qnx += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-cwd"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-encode"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-extutils-liblist"
-@@ -661,8 +689,10 @@ RDEPENDS:perl-module-extutils-mm-unix += "perl-module-file-find"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-strict"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-vars"
- RDEPENDS:perl-module-extutils-mm-unix += "perl-module-version"
-+RDEPENDS:perl-module-extutils-mm-unix += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-uwin += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-uwin += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-uwin += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-exporter"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-extutils-liblist-kid"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-extutils-makemaker"
-@@ -672,23 +702,26 @@ RDEPENDS:perl-module-extutils-mm-vms += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-file-basename"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-file-find"
- RDEPENDS:perl-module-extutils-mm-vms += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-vms += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-vos += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-vos += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-vos += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-extutils-makemaker"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-extutils-mm-any"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-extutils-mm-unix"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-file-basename"
- RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-win32 += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-mm-win95 += "perl-module-extutils-makemaker-config"
- RDEPENDS:perl-module-extutils-mm-win95 += "perl-module-extutils-mm-win32"
- RDEPENDS:perl-module-extutils-mm-win95 += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-mm-win95 += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-my += "perl-module-extutils-mm"
- RDEPENDS:perl-module-extutils-my += "perl-module-strict"
- RDEPENDS:perl-module-extutils-packlist += "perl-module-config"
- RDEPENDS:perl-module-extutils-packlist += "perl-module-cwd"
- RDEPENDS:perl-module-extutils-packlist += "perl-module-strict"
--RDEPENDS:perl-module-extutils-packlist += "perl-module-vars"
- RDEPENDS:perl-module-extutils-parsexs-constants += "perl-module-strict"
- RDEPENDS:perl-module-extutils-parsexs-constants += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-parsexs-countlines += "perl-module-strict"
-@@ -709,6 +742,9 @@ RDEPENDS:perl-module-extutils-parsexs-utilities += "perl-module-extutils-parsexs
- RDEPENDS:perl-module-extutils-parsexs-utilities += "perl-module-extutils-typemaps"
- RDEPENDS:perl-module-extutils-parsexs-utilities += "perl-module-strict"
- RDEPENDS:perl-module-extutils-parsexs-utilities += "perl-module-warnings"
-+RDEPENDS:perl-module-extutils-pl2bat += "perl-module-config"
-+RDEPENDS:perl-module-extutils-pl2bat += "perl-module-strict"
-+RDEPENDS:perl-module-extutils-pl2bat += "perl-module-warnings"
- RDEPENDS:perl-module-extutils-testlib += "perl-module-cwd"
- RDEPENDS:perl-module-extutils-testlib += "perl-module-lib"
- RDEPENDS:perl-module-extutils-testlib += "perl-module-strict"
-@@ -829,6 +865,8 @@ RDEPENDS:perl-module-filter-util-call += "perl-module-xsloader"
- RDEPENDS:perl-module-findbin += "perl-module-cwd"
- RDEPENDS:perl-module-findbin += "perl-module-exporter"
- RDEPENDS:perl-module-findbin += "perl-module-file-basename"
-+RDEPENDS:perl-module-findbin += "perl-module-strict"
-+RDEPENDS:perl-module-findbin += "perl-module-warnings"
- RDEPENDS:perl-module-gdbm-file += "perl-module-exporter"
- RDEPENDS:perl-module-gdbm-file += "perl-module-strict"
- RDEPENDS:perl-module-gdbm-file += "perl-module-tie-hash"
-@@ -843,6 +881,8 @@ RDEPENDS:perl-module-getopt-long += "perl-module-text-parsewords"
- RDEPENDS:perl-module-getopt-long += "perl-module-vars"
- RDEPENDS:perl-module-getopt-long += "perl-module-warnings"
- RDEPENDS:perl-module-getopt-std += "perl-module-exporter"
-+RDEPENDS:perl-module-getopt-std += "perl-module-strict"
-+RDEPENDS:perl-module-getopt-std += "perl-module-warnings"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-exporter"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-strict"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-warnings"
-@@ -867,6 +907,7 @@ RDEPENDS:perl-module-i18n-langtags-detect += "perl-module-strict"
- RDEPENDS:perl-module-i18n-langtags-list += "perl-module-strict"
- RDEPENDS:perl-module-i18n-langtags += "perl-module-exporter"
- RDEPENDS:perl-module-i18n-langtags += "perl-module-strict"
-+RDEPENDS:perl-module-if += "perl-module-strict"
- RDEPENDS:perl-module-io-compress-adapter-bzip2 += "perl-module-bytes"
- RDEPENDS:perl-module-io-compress-adapter-bzip2 += "perl-module-compress-raw-bzip2"
- RDEPENDS:perl-module-io-compress-adapter-bzip2 += "perl-module-io-compress-base-common"
-@@ -1105,7 +1146,7 @@ RDEPENDS:perl-module-io-zlib += "perl-module-fcntl"
- RDEPENDS:perl-module-io-zlib += "perl-module-io-handle"
- RDEPENDS:perl-module-io-zlib += "perl-module-strict"
- RDEPENDS:perl-module-io-zlib += "perl-module-tie-handle"
--RDEPENDS:perl-module-io-zlib += "perl-module-vars"
-+RDEPENDS:perl-module-io-zlib += "perl-module-warnings"
- RDEPENDS:perl-module-ipc-cmd += "perl-module-constant"
- RDEPENDS:perl-module-ipc-cmd += "perl-module-exporter"
- RDEPENDS:perl-module-ipc-cmd += "perl-module-extutils-makemaker"
-@@ -1144,10 +1185,10 @@ RDEPENDS:perl-module-ipc-sharedmem += "perl-module-ipc-sysv"
- RDEPENDS:perl-module-ipc-sharedmem += "perl-module-strict"
- RDEPENDS:perl-module-ipc-sharedmem += "perl-module-vars"
- RDEPENDS:perl-module-ipc-sysv += "perl-module-config"
--RDEPENDS:perl-module-ipc-sysv += "perl-module-dynaloader"
- RDEPENDS:perl-module-ipc-sysv += "perl-module-exporter"
- RDEPENDS:perl-module-ipc-sysv += "perl-module-strict"
- RDEPENDS:perl-module-ipc-sysv += "perl-module-vars"
-+RDEPENDS:perl-module-ipc-sysv += "perl-module-xsloader"
- RDEPENDS:perl-module-json-pp-boolean += "perl-module-overload"
- RDEPENDS:perl-module-json-pp-boolean += "perl-module-strict"
- RDEPENDS:perl-module-json-pp += "perl-module-b"
-@@ -1195,6 +1236,8 @@ RDEPENDS:perl-module-locale-maketext += "perl-module-strict"
- RDEPENDS:perl-module-locale-maketext-simple += "perl-module-base"
- RDEPENDS:perl-module-locale-maketext-simple += "perl-module-strict"
- RDEPENDS:perl-module-locale += "perl-module-config"
-+RDEPENDS:perl-module-locale += "perl-module-strict"
-+RDEPENDS:perl-module-locale += "perl-module-warnings"
- RDEPENDS:perl-module-math-bigfloat += "perl-module-exporter"
- RDEPENDS:perl-module-math-bigfloat += "perl-module-math-bigint"
- RDEPENDS:perl-module-math-bigfloat += "perl-module-math-complex"
-@@ -1251,12 +1294,12 @@ RDEPENDS:perl-module-memoize-sdbm-file += "perl-module-sdbm-file"
- RDEPENDS:perl-module-memoize-storable += "perl-module-storable"
- RDEPENDS:perl-module-mime-base64 += "perl-module-exporter"
- RDEPENDS:perl-module-mime-base64 += "perl-module-strict"
--RDEPENDS:perl-module-mime-base64 += "perl-module-vars"
-+RDEPENDS:perl-module-mime-base64 += "perl-module-warnings"
- RDEPENDS:perl-module-mime-base64 += "perl-module-xsloader"
- RDEPENDS:perl-module-mime-quotedprint += "perl-module-exporter"
- RDEPENDS:perl-module-mime-quotedprint += "perl-module-mime-base64"
- RDEPENDS:perl-module-mime-quotedprint += "perl-module-strict"
--RDEPENDS:perl-module-mime-quotedprint += "perl-module-vars"
-+RDEPENDS:perl-module-mime-quotedprint += "perl-module-warnings"
- RDEPENDS:perl-module-mro += "perl-module-strict"
- RDEPENDS:perl-module-mro += "perl-module-warnings"
- RDEPENDS:perl-module-mro += "perl-module-xsloader"
-@@ -1331,6 +1374,7 @@ RDEPENDS:perl-module-net-ping += "perl-module-posix"
- RDEPENDS:perl-module-net-ping += "perl-module-socket"
- RDEPENDS:perl-module-net-ping += "perl-module-strict"
- RDEPENDS:perl-module-net-ping += "perl-module-time-hires"
-+RDEPENDS:perl-module-net-ping += "perl-module-vars"
- RDEPENDS:perl-module-net-pop3 += "perl-module-io-socket"
- RDEPENDS:perl-module-net-pop3 += "perl-module-io-socket-ip"
- RDEPENDS:perl-module-net-pop3 += "perl-module-mime-base64"
-@@ -1376,6 +1420,7 @@ RDEPENDS:perl-module-ops += "perl-module-opcode"
- RDEPENDS:perl-module-overloading += "perl-module-overload-numbers"
- RDEPENDS:perl-module-overloading += "perl-module-warnings"
- RDEPENDS:perl-module-overload += "perl-module-mro"
-+RDEPENDS:perl-module-overload += "perl-module-strict"
- RDEPENDS:perl-module-overload += "perl-module-warnings-register"
- RDEPENDS:perl-module-params-check += "perl-module-exporter"
- RDEPENDS:perl-module-params-check += "perl-module-locale-maketext-simple"
-@@ -1585,7 +1630,6 @@ RDEPENDS:perl-module-pod-text-termcap += "perl-module-warnings"
- RDEPENDS:perl-module-pod-usage += "perl-module-config"
- RDEPENDS:perl-module-pod-usage += "perl-module-exporter"
- RDEPENDS:perl-module-pod-usage += "perl-module-strict"
--RDEPENDS:perl-module-pod-usage += "perl-module-vars"
- RDEPENDS:perl-module-posix += "perl-module-exporter"
- RDEPENDS:perl-module-posix += "perl-module-fcntl"
- RDEPENDS:perl-module-posix += "perl-module-strict"
-@@ -1619,6 +1663,8 @@ RDEPENDS:perl-module-socket += "perl-module-xsloader"
- RDEPENDS:perl-module-sort += "perl-module-strict"
- RDEPENDS:perl-module-storable += "perl-module-exporter"
- RDEPENDS:perl-module-storable += "perl-module-io-file"
-+RDEPENDS:perl-module-subs += "perl-module-strict"
-+RDEPENDS:perl-module-subs += "perl-module-warnings"
- RDEPENDS:perl-module-sub-util += "perl-module-exporter"
- RDEPENDS:perl-module-sub-util += "perl-module-list-util"
- RDEPENDS:perl-module-sub-util += "perl-module-strict"
-@@ -1838,7 +1884,251 @@ RDEPENDS:perl-module-term-complete += "perl-module-exporter"
- RDEPENDS:perl-module-term-complete += "perl-module-strict"
- RDEPENDS:perl-module-term-readline += "perl-module-strict"
- RDEPENDS:perl-module-term-readline += "perl-module-term-cap"
-+RDEPENDS:perl-module-test2-api-breakage += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-breakage += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api-breakage += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-test2-eventfacet-trace"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-test2-util-externalmeta"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-api-context += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-test2-api-stack"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-test2-eventfacet-trace"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-api-instance += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-list-util"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-storable"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-test2-api-interceptresult-facet"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-test2-api-interceptresult-hub"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-api-interceptresult-event += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-interceptresult-facet += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-interceptresult-facet += "perl-module-test2-eventfacet"
-+RDEPENDS:perl-module-test2-api-interceptresult-facet += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-interceptresult-hub += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-interceptresult-hub += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-api-interceptresult-hub += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-storable"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-test2-api-interceptresult-event"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-test2-api-interceptresult-hub"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-test2-api-interceptresult-squasher"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api-interceptresult += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-interceptresult-squasher += "perl-module-list-util"
-+RDEPENDS:perl-module-test2-api-interceptresult-squasher += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-interceptresult-squasher += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-api-interceptresult-squasher += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-api-context"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-api-interceptresult"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-bail"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-diag"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-exception"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-eventfacet-trace"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-note"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-ok"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-plan"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-skip"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-subtest"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-event-waiting"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-hub-interceptor"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-hub-interceptor-terminator"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-hub-subtest"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-api += "perl-module-test2-util-trace"
-+RDEPENDS:perl-module-test2-api += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-api-stack += "perl-module-strict"
-+RDEPENDS:perl-module-test2-api-stack += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-api-stack += "perl-module-test2-hub"
-+RDEPENDS:perl-module-test2-api-stack += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-bail += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-bail += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-bail += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-diag += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-diag += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-diag += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-encoding += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-encoding += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-encoding += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-exception += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-exception += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-exception += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-about += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-about += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-about += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-amnesty += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-amnesty += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-amnesty += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-assert += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-assert += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-assert += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-control += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-control += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-control += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-error += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-error += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-error += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-hub += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-hub += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-hub += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-info += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-info += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-info += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-info-table += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-info-table += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-info-table += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-meta += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-meta += "perl-module-vars"
-+RDEPENDS:perl-module-test2-eventfacet-meta += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-parent += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-parent += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-parent += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-plan += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-plan += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-plan += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-render += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-render += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-render += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-eventfacet-trace += "perl-module-strict"
-+RDEPENDS:perl-module-test2-eventfacet-trace += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-eventfacet-trace += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-eventfacet-trace += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-fail += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-fail += "perl-module-test2-event"
-+RDEPENDS:perl-module-test2-event-fail += "perl-module-test2-eventfacet-info"
-+RDEPENDS:perl-module-test2-event-fail += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-fail += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-generic += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-generic += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-generic += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-note += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-note += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-note += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-ok += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-ok += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-ok += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-pass += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-pass += "perl-module-test2-event"
-+RDEPENDS:perl-module-test2-event-pass += "perl-module-test2-eventfacet-info"
-+RDEPENDS:perl-module-test2-event-pass += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-pass += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-about"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-amnesty"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-assert"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-control"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-error"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-hub"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-info"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-meta"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-parent"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-plan"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-eventfacet-trace"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-util-externalmeta"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event += "perl-module-test2-util-trace"
-+RDEPENDS:perl-module-test2-event += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-plan += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-plan += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-plan += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-skip += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-skip += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-skip += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-subtest += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-subtest += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-subtest += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-tap-version += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-tap-version += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-tap-version += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-v2 += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-v2 += "perl-module-test2-util-facets2legacy"
-+RDEPENDS:perl-module-test2-event-v2 += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-v2 += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-event-waiting += "perl-module-strict"
-+RDEPENDS:perl-module-test2-event-waiting += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-event-waiting += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-formatter += "perl-module-strict"
-+RDEPENDS:perl-module-test2-formatter += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-formatter += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-data-dumper"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-strict"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-formatter-tap += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-hub-interceptor += "perl-module-strict"
-+RDEPENDS:perl-module-test2-hub-interceptor += "perl-module-test2-hub-interceptor-terminator"
-+RDEPENDS:perl-module-test2-hub-interceptor += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-hub-interceptor += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-hub-interceptor-terminator += "perl-module-strict"
-+RDEPENDS:perl-module-test2-hub-interceptor-terminator += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-hub += "perl-module-list-util"
-+RDEPENDS:perl-module-test2-hub += "perl-module-strict"
-+RDEPENDS:perl-module-test2-hub += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-hub += "perl-module-test2-util-externalmeta"
-+RDEPENDS:perl-module-test2-hub += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-hub += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-hub-subtest += "perl-module-strict"
-+RDEPENDS:perl-module-test2-hub-subtest += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-hub-subtest += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-hub-subtest += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-data-dumper"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-file-temp"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-json-pp"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-posix"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-storable"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-strict"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-test2-event-waiting"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-ipc-driver-files += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-ipc-driver += "perl-module-strict"
-+RDEPENDS:perl-module-test2-ipc-driver += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-ipc-driver += "perl-module-test2-util-hashbase"
-+RDEPENDS:perl-module-test2-ipc-driver += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-strict"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-test2-api-instance"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-test2-ipc-driver-files"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-ipc += "perl-module-warnings"
-+RDEPENDS:perl-module-test2 += "perl-module-strict"
-+RDEPENDS:perl-module-test2 += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-data-dumper"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-strict"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-test2-api"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-test2-hub-interceptor"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-test2-hub-interceptor-terminator"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-test2-util"
-+RDEPENDS:perl-module-test2-tools-tiny += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-util-externalmeta += "perl-module-strict"
-+RDEPENDS:perl-module-test2-util-externalmeta += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-util-facets2legacy += "perl-module-base"
-+RDEPENDS:perl-module-test2-util-facets2legacy += "perl-module-strict"
-+RDEPENDS:perl-module-test2-util-facets2legacy += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-util-hashbase += "perl-module-strict"
-+RDEPENDS:perl-module-test2-util-hashbase += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-util += "perl-module-config"
-+RDEPENDS:perl-module-test2-util += "perl-module-posix"
-+RDEPENDS:perl-module-test2-util += "perl-module-strict"
-+RDEPENDS:perl-module-test2-util += "perl-module-warnings"
-+RDEPENDS:perl-module-test2-util-trace += "perl-module-strict"
-+RDEPENDS:perl-module-test2-util-trace += "perl-module-test2-eventfacet-trace"
-+RDEPENDS:perl-module-test2-util-trace += "perl-module-warnings"
- RDEPENDS:perl-module-test-builder-formatter += "perl-module-strict"
-+RDEPENDS:perl-module-test-builder-formatter += "perl-module-test2-util-hashbase"
- RDEPENDS:perl-module-test-builder-formatter += "perl-module-warnings"
- RDEPENDS:perl-module-test-builder-module += "perl-module-exporter"
- RDEPENDS:perl-module-test-builder-module += "perl-module-strict"
-@@ -1846,6 +2136,12 @@ RDEPENDS:perl-module-test-builder-module += "perl-module-test-builder"
- RDEPENDS:perl-module-test-builder += "perl-module-data-dumper"
- RDEPENDS:perl-module-test-builder += "perl-module-overload"
- RDEPENDS:perl-module-test-builder += "perl-module-strict"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-api"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-event-subtest"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-hub-subtest"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-ipc"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-ipc-driver-files"
-+RDEPENDS:perl-module-test-builder += "perl-module-test2-util"
- RDEPENDS:perl-module-test-builder += "perl-module-test-builder-formatter"
- RDEPENDS:perl-module-test-builder += "perl-module-test-builder-tododiag"
- RDEPENDS:perl-module-test-builder += "perl-module-warnings"
-@@ -1893,7 +2189,6 @@ RDEPENDS:perl-module-test-tester += "perl-module-vars"
- RDEPENDS:perl-module-text-abbrev += "perl-module-exporter"
- RDEPENDS:perl-module-text-balanced += "perl-module-exporter"
- RDEPENDS:perl-module-text-balanced += "perl-module-overload"
--RDEPENDS:perl-module-text-balanced += "perl-module-selfloader"
- RDEPENDS:perl-module-text-balanced += "perl-module-strict"
- RDEPENDS:perl-module-text-balanced += "perl-module-vars"
- RDEPENDS:perl-module-text-parsewords += "perl-module-exporter"
-@@ -1943,7 +2238,6 @@ RDEPENDS:perl-module-tie-refhash += "perl-module-config"
- RDEPENDS:perl-module-tie-refhash += "perl-module-overload"
- RDEPENDS:perl-module-tie-refhash += "perl-module-strict"
- RDEPENDS:perl-module-tie-refhash += "perl-module-tie-hash"
--RDEPENDS:perl-module-tie-refhash += "perl-module-vars"
- RDEPENDS:perl-module-tie-scalar += "perl-module-warnings-register"
- RDEPENDS:perl-module-tie-stdhandle += "perl-module-strict"
- RDEPENDS:perl-module-tie-stdhandle += "perl-module-tie-handle"
-@@ -2018,6 +2312,8 @@ RDEPENDS:perl-module-user-pwent += "perl-module-config"
- RDEPENDS:perl-module-user-pwent += "perl-module-exporter"
- RDEPENDS:perl-module-user-pwent += "perl-module-strict"
- RDEPENDS:perl-module-user-pwent += "perl-module-warnings"
-+RDEPENDS:perl-module-utf8 += "perl-module-strict"
-+RDEPENDS:perl-module-utf8 += "perl-module-warnings"
- RDEPENDS:perl-module-version += "perl-module-strict"
- RDEPENDS:perl-module-version += "perl-module-version-regex"
- RDEPENDS:perl-module-version += "perl-module-warnings-register"
-diff --git a/meta/recipes-devtools/perl/perl_5.34.0.bb b/meta/recipes-devtools/perl/perl_5.34.0.bb
-index 396d2d11eea..a97da872032 100644
---- a/meta/recipes-devtools/perl/perl_5.34.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.0.bb
-@@ -356,7 +356,15 @@ do_create_rdepends_inc() {
- 
- # Some additional dependencies that the above doesn't manage to figure out
- RDEPENDS:${PN}-module-file-spec += "${PN}-module-file-spec-unix"
-+RDEPENDS:${PN}-module-io-file += "${PN}-module-symbol"
- RDEPENDS:${PN}-module-math-bigint += "${PN}-module-math-bigint-calc"
-+RDEPENDS:${PN}-module-test-builder += "${PN}-module-list-util"
-+RDEPENDS:${PN}-module-test-builder += "${PN}-module-scalar-util"
-+RDEPENDS:${PN}-module-test-builder-formatter += "${PN}-module-test2-formatter-tap"
-+RDEPENDS:${PN}-module-test2-api += "${PN}-module-test2-event-fail"
-+RDEPENDS:${PN}-module-test2-api += "${PN}-module-test2-event-pass"
-+RDEPENDS:${PN}-module-test2-api += "${PN}-module-test2-event-v2"
-+RDEPENDS:${PN}-module-test2-formatter-tap += "${PN}-module-test2-formatter"
- RDEPENDS:${PN}-module-thread-queue += "${PN}-module-attributes"
- RDEPENDS:${PN}-module-overload += "${PN}-module-overloading"
- 
-@@ -366,12 +374,12 @@ EOPREAMBLE
-     cp -r packages-split packages-split.new && cd packages-split.new
-     find . -name \*.pm | xargs sed -i '/^=head/,/^=cut/d'
-     egrep -r "^\s*(\<use .*|\<require .*);?" perl-module-* --include="*.pm" | \
--    sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;" | tr [:upper:] [:lower:] | \
-+    sed "s/\/.*\.pm: */ += /g;s/[\"\']//g;s/;.*/\"/g;s/+= .*\(require\|use\)\> */+= \"perl-module-/g;s/CPANPLUS::.*/cpanplus/g;s/CPAN::.*/cpan/g;s/::/-/g;s/ [^+\"].*//g;s/_/-/g;s/\.pl\"$/\"/;s/\"\?\$/\"/;s/(//;s/)//;" | tr [:upper:] [:lower:] | \
-     awk '{if ($3 != "\x22"$1"\x22"){ print $0}}'| \
-     grep -v -e "\-vms\-" -e module-5 -e "^$" -e "\\$" -e your -e tk -e autoperl -e html -e http -e parse-cpan -e perl-ostype -e ndbm-file -e module-mac -e fcgi -e lwp -e dbd -e dbix | \
-     sort -u | \
-     sed 's/^/RDEPENDS:/;s/perl-module-/${PN}-module-/g;s/module-\(module-\)/\1/g;s/\(module-load\)-conditional/\1/g;s/encode-configlocal/&-pm/;' | \
--    egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-socket-inet6|module-io-socket-ssl|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-test2|module-text-unidecode|module-unicore|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' | \
-+    egrep -wv '=>|module-a|module-apache.?|module-apr|module-authen-sasl|module-b-asmdata|module-convert-ebcdic|module-devel-size|module-digest-perl-md5|module-dumpvalue|module-extutils-constant-aaargh56hash|module-extutils-xssymset|module-file-bsdglob|module-for|module-it|module-io-socket-inet6|module-io-socket-ssl|module-io-string|module-ipc-system-simple|module-lexical|module-local-lib|metadata|module-modperl-util|module-pluggable-object|module-test-builder-io-scalar|module-text-unidecode|module-unicore|module-win32|objects\sload|syscall.ph|systeminfo.ph|%s' | \
-     egrep -wv '=>|module-algorithm-diff|module-carp|module-c<extutils-mm-unix>|module-l<extutils-mm-unix>|module-encode-hanextra|module-extutils-makemaker-version-regex|module-file-spec|module-io-compress-lzma|module-io-uncompress-unxz|module-locale-maketext-lexicon|module-log-agent|module-meta-notation|module-net-localcfg|module-net-ping-external|module-b-deparse|module-scalar-util|module-some-module|module-symbol|module-uri|module-win32api-file' > ${WORKDIR}/perl-rdepends.generated
-     cat ${WORKDIR}/perl-rdepends.inc ${WORKDIR}/perl-rdepends.generated > ${THISDIR}/files/perl-rdepends.txt
- }
--- 
-2.32.0
-
+Full list:  Found 120 unpatched CVEs
+CVE-2018-21232: re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
+CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-13253: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+CVE-2020-13754: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+CVE-2020-13791: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+CVE-2020-15469: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
+CVE-2020-15705: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15859: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-15999: freetype:freetype-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15999 *
+CVE-2020-16590: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16590 *
+CVE-2020-16591: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16591 *
+CVE-2020-16599: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16599 *
+CVE-2020-17380: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-17380 *
+CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2020-25742: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-27661: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27661 *
+CVE-2020-27749: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27749 *
+CVE-2020-27821: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
+CVE-2020-29510: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29510 *
+CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
+CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
+CVE-2020-35504: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35504 *
+CVE-2020-35505: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35505 *
+CVE-2020-35506: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35506 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
+CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
+CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
+CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
+CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
+CVE-2021-20225: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20225 *
+CVE-2021-20233: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20233 *
+CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2021-20294: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20294 *
+CVE-2021-25219: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25219 *
+CVE-2021-27097: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27097 *
+CVE-2021-27138: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27138 *
+CVE-2021-27918: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27918 *
+CVE-2021-28966: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28966 *
+CVE-2021-31525: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31525 *
+CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
+CVE-2021-33194: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33194 *
+CVE-2021-33195: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33195 *
+CVE-2021-33198: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33198 *
+CVE-2021-33833: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33833 *
+CVE-2021-3409: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3409 *
+CVE-2021-3418: grub:grub-efi:grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3418 *
+CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
+CVE-2021-3472: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3472 *
+CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
+CVE-2021-36221: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36221 *
+CVE-2021-36976: libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36976 *
+CVE-2021-3713: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
+CVE-2021-38297: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38297 *
+CVE-2021-39293: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-39293 *
+CVE-2021-3974: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3974 *
+CVE-2021-3984: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3984 *
+CVE-2021-4008: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4008 *
+CVE-2021-4009: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4009 *
+CVE-2021-4010: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4010 *
+CVE-2021-4011: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4011 *
+CVE-2021-4019: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4019 *
+CVE-2021-4136: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4136 *
+CVE-2021-4145: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4145 *
+CVE-2021-4160: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4160 *
+CVE-2021-4166: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4166 *
+CVE-2021-4173: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4173 *
+CVE-2021-41771: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41771 *
+CVE-2021-41772: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41772 *
+CVE-2021-41817: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41817 *
+CVE-2021-41819: ruby:ruby-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-41819 *
+CVE-2021-4187: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4187 *
+CVE-2021-4192: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4192 *
+CVE-2021-4193: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4193 *
+CVE-2021-42762: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
+CVE-2021-44716: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-44716 *
+CVE-2021-44717: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-44717 *
+CVE-2021-45078: binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45078 *
+CVE-2021-45085: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
+CVE-2021-45086: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
+CVE-2021-45087: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
+CVE-2021-45088: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
+CVE-2021-45481: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
+CVE-2021-45482: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
+CVE-2021-45483: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
+CVE-2021-45944: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45944 *
+CVE-2021-45949: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45949 *
+CVE-2022-0128: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0128 *
+CVE-2022-0156: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0156 *
+CVE-2022-0158: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0158 *
+CVE-2022-0261: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0261 *
+CVE-2022-0318: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0318 *
+CVE-2022-0319: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0319 *
+CVE-2022-0359: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0359 *
+CVE-2022-0361: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0361 *
+CVE-2022-0368: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0368 *
+CVE-2022-0392: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0392 *
+CVE-2022-0393: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0393 *
+CVE-2022-0407: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0407 *
+CVE-2022-0408: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0408 *
+CVE-2022-0413: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0413 *
+CVE-2022-0417: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0417 *
+CVE-2022-0443: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0443 *
+CVE-2022-0529: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+CVE-2022-0530: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+CVE-2022-0554: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0554 *
+CVE-2022-0561: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0561 *
+CVE-2022-0562: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0562 *
+CVE-2022-22707: lighttpd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-22707 *
+CVE-2022-23096: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23096 *
+CVE-2022-23097: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23097 *
+CVE-2022-23098: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23098 *
+CVE-2022-23303: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23303 *
+CVE-2022-23304: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23304 *
+CVE-2022-23772: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23772 *
+CVE-2022-23773: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23773 *
+CVE-2022-23806: go:go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23806 *
+CVE-2022-23990: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23990 *
 
