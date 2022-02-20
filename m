@@ -2,128 +2,92 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 927F6C433EF
-	for <webhook@archiver.kernel.org>; Sun, 20 Feb 2022 15:39:21 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.22683.1645371560067892790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF415C433F5
+	for <webhook@archiver.kernel.org>; Sun, 20 Feb 2022 23:14:45 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.4486.1645398884916299624
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 07:39:20 -0800
+ Sun, 20 Feb 2022 15:14:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WIcaWZ6K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IPN1XH3I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id v12so22943213wrv.2
+Received: by mail-wr1-f51.google.com with SMTP id o24so24090184wro.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 07:39:19 -0800 (PST)
+ Sun, 20 Feb 2022 15:14:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=7mZXnzUWh/SPBOEX6DgMaorM64zZMYfyAhbfklTqKz0=;
-        b=WIcaWZ6K1P9XAxzxnFZ9NISX5Lgv++Pn4AjBpyDVcVNn1u7MgTwKGpfN325vQiz0f3
-         NHGGsBHR8aDz8uyvGOJ0zsOkqDVem9ZYm5nQvP3ZseAT9t11MGE1oTSQW6FrxjVxbk+I
-         hNb2bkBR464LhebC1Dge9VxEh3dwYTOIRkfNk=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7ixa9pVcwuvEHCqd5lAhp641SGt1tiZScL0l+duAAYY=;
+        b=IPN1XH3IMRrXBdVO4rKVcfXSt9KDBIBuoBSH2Zxg6JDWSmYyGtWKvVWl4J+Exi1Zrd
+         Cqo1yHbkxrWSTHP8W6dM879oeOkGZG0qyd8cIGgLyHMbOgL5d39R4Sa7fk28JaQES37x
+         M7ikxGkgqi9TduhwWtUU+IK409FoWp+Za2dj0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7mZXnzUWh/SPBOEX6DgMaorM64zZMYfyAhbfklTqKz0=;
-        b=zWuWOEzM5p2GYini/Mggq8VHtQ+Fr1L1qqwneCiP85wUdVVeHt/2SK0ZNzJlafJBEN
-         n4Ya+bSMvYA1phfFmMvyZJEM2RpRgD3bvIYS/ijZo67Eq1vXm8xOKTp9wEseCqlFiUJA
-         5jWE0HcwRGS0f5c070m7m95W6twARW6KBsTxPM3d3x00kRLN336NRYt5FPWrwc8WTvqP
-         +tMOTW/J2CF0mqW/kTYPOzawTFyinw/dZWrWTgYTLBjBLa0F5kPc6m6bMmbsE2WwiHtk
-         Snjm+bqcXRFVUzEjmnL/GKQoRHhNh83BQRkSugwss/M3ap9MXCAPnC6nbqIfYEVFzLCL
-         syzg==
-X-Gm-Message-State: AOAM531KdspYn6WjATlpqtMJ/UlHCyhpnJnh828TblUKT5fWy+ienI/7
-	QrJNqzrMK9nfgNI1s8HHeUKMZA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7ixa9pVcwuvEHCqd5lAhp641SGt1tiZScL0l+duAAYY=;
+        b=XVMNaUa1yslcvlIREJoWHhp/EPF/HjGc2lVyGO5ZmFT3UQDGVk//ZzVkuYm3prEcSl
+         JG8fd+0klbquwXWBQjc5TCh+VpToTfcIJgSYiKjw2PDW7xHKi+ZTCpIn+jnL/SdG6n4A
+         cNT7wytNOgSVXfLIu4m0F3XlGbhN+UJtxgWcKk+MoPLJ7glCZA6xPPYPfBKLhJZyyKVj
+         g591OhcaP0PxslDBKBxO9eZdaqPzTHBxMIQP5VZGnFlEyNCF4rf9oxWfaOGm4q7abKq4
+         FiTMWaGQBjYAwk5WkiA+2FdR2sEpNqPp0Yx6lY2hwOuEOUxZ37X+eO7g5HU9h61YfSZc
+         +QZA==
+X-Gm-Message-State: AOAM533YenN4h31qwOhZijHas4wB/JuUUHp65LVeWAqOirsFt6PzDNI5
+	rh/j3hBQrBoxFhKvu4rEhuHTZAR2WYgkNrqK
 X-Google-Smtp-Source: 
- ABdhPJz6eJW9cvsTAqryf+XB5N2QtuMPOdC/440Brhv2BK2aQd30Z1GZPY1w2pWLqyheusXcd8Ubqw==
-X-Received: by 2002:a05:6000:1ac6:b0:1e9:3a52:4c86 with SMTP id
- i6-20020a0560001ac600b001e93a524c86mr9411489wry.389.1645371558323;
-        Sun, 20 Feb 2022 07:39:18 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9355:e71:cc42:42f1?
- ([2001:8b0:aba:5f3c:9355:e71:cc42:42f1])
+ ABdhPJw3cp4VbJrin5rIjCMxy4e2093buzD80qLkhV3kIHVgl3SJwjDDS3T4BmR06qVM+Q32ZzAjfQ==
+X-Received: by 2002:adf:f1cd:0:b0:1e7:5b47:52a2 with SMTP id
+ z13-20020adff1cd000000b001e75b4752a2mr13313435wro.92.1645398883034;
+        Sun, 20 Feb 2022 15:14:43 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:ae50:3f11:233d:4303])
         by smtp.gmail.com with ESMTPSA id
- h11sm29578472wrr.64.2022.02.20.07.39.17
+ t16sm6206852wmq.43.2022.02.20.15.14.42
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 07:39:17 -0800 (PST)
-Message-ID: 
- <fc955ccbd9a05e04afb590ff908f10dd05da0d7f.camel@linuxfoundation.org>
-Subject: Re: [Openembedded-architecture] Proposal:
- INCOMPATIBLE_LICENSE_EXCEPTION
+        Sun, 20 Feb 2022 15:14:42 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <Saul.Wold@windriver.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
-	 <openembedded-devel@lists.openembedded.org>,
-	openembedded-architecture@lists.openembedded.org
-Date: Sun, 20 Feb 2022 15:39:16 +0000
-In-Reply-To: <c2098bee-157e-4f23-d0bf-26fc4b5bb37d@windriver.com>
-References: <c2098bee-157e-4f23-d0bf-26fc4b5bb37d@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] expat: Upgrade 2.4.5 -> 2.4.6
+Date: Sun, 20 Feb 2022 23:14:40 +0000
+Message-Id: <20220220231440.3141329-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Feb 2022 15:39:21 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Feb 2022 23:14:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161990
+ https://lists.openembedded.org/g/openembedded-core/message/161991
 
-On Fri, 2022-02-18 at 11:41 -0800, Saul Wold wrote:
-> As a follow-on to yesterday's email and replies, I would like to make 
-> the following proposal for dealing with the changes to 
-> INCOMPATIBLE_LICENSE and associated variables.
-> 
-> Current Usage:
-> 
-> INCOMPATIBLE_LICENSE is a list of licenses that are considered 
-> incompatible with a distro's requirements. This is used to compare 
-> against packages built by a given recipe.
-> 
-> A set of exception variables based on the license name (currently 
-> WHITELIST_<license>) that contains a list of recipes that will be 
-> checked against the current recipe (PN) being evaluated.  If it's in 
-> that list then all packages in that recipe will be built and included 
-> and the rest of the evaluation will be skipped.
-> 
-> Otherwise, the packages (PKGS) from the recipe will be evaluated to see 
-> if any have a package specific license (LICENSE:<pkgname>). If a package 
-> has a license other than the INCOMPATIBLE_LICENSE the recipe will be 
-> built and any packages with the INCOMPATIBLE_LICENSE will be excluded 
-> from being packaged in package.bbclass via LICENSE_EXCLUSION-<pkgname> 
-> internal variable.
-> 
-> The exception is predominately used for GPLv3 related packages, based on 
-> the emails replies overnight.
-> 
-> 
-> Proposal:
-> 
-> Keep the existing INCOMPATIBLE_LICENSE variable with the same behavior. 
-> The values in INCOMPATIBLE_LICENSE should be SDPX normalized license 
-> strings.
-> 
-> As Richard has already suggested an alternative variable that is more 
-> meaningful: INCOMPATIBLE_LICENSE_EXCEPTION with an a <pkg>:<spdx_lic> 
-> value. Rename the LICENSE_EXCLUSION-<pkg> variable to make it clear that 
-> it is an internal variable. The usage of the _EXCEPTION variable should 
-> contain pkg names not recipe name. ** This would be an important change **
-> 
-> Clean up code as appropriate to ensure the exceptions are handled once 
-> and identified during parsing.
-> 
-> I will start working on the implementation, Monday is a holiday in the 
-> US, so this should give sometime for this to be reviewed for Tuesday.
+This fixes a regression in libxml-parser-perl's ptests from 2.4.5.
 
-Thanks Saul, from my perspective I think this is a good balance between cleaning
-up the syntax and other issues whilst being practical to implement and test in
-the time frames available.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/expat/{expat_2.4.5.bb => expat_2.4.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.4.5.bb => expat_2.4.6.bb} (91%)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/expat/expat_2.4.5.bb b/meta/recipes-core/expat/expat_2.4.6.bb
+similarity index 91%
+rename from meta/recipes-core/expat/expat_2.4.5.bb
+rename to meta/recipes-core/expat/expat_2.4.6.bb
+index 83ba3a23291..ef245242bc1 100644
+--- a/meta/recipes-core/expat/expat_2.4.5.bb
++++ b/meta/recipes-core/expat/expat_2.4.6.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
+ 
+-SRC_URI[sha256sum] = "fbb430f964c7a2db2626452b6769e6a8d5d23593a453ccbc21701b74deabedff"
++SRC_URI[sha256sum] = "ce317706b07cae150f90cddd4253f5b4fba929607488af5ac47bf2bc08e31f09"
+ 
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+ 
+-- 
+2.32.0
 
 
