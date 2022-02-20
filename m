@@ -1,133 +1,74 @@
-Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Pgowda" <pgowda.cve@gmail.com>
-Subject: [PATCH] Binutils: Avoid Race condition in as.info
-Date: Wed,  2 Mar 2022 21:57:00 -0800
-Message-Id: <20220303055700.144747-1-pgowda.cve@gmail.com>
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 00/14] Pull request
+Date: Sun, 20 Feb 2022 22:44:05 +0800
+Message-Id: <cover.1645368164.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, pgowda <pgowda.cve@gmail.com>
 
-The race condition in binutils/gas folder was introduced with the
-following patch. The patch avoids recursive make into the doc folder.
-It would speed up the build process slightly. However, the as.info
-is installed twice which resulted in the race condition sometimes.
-https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=bde299e063de090bf36c1fe51874d1e9f4d94c3c
+The following changes since commit a32cee6c9e1ff53e424b8386c36555e6cf3bf3af:
 
-On debugging the code, it was found that the issue was related to
-install-data-local. On further analysis, there is already a patch in
-binutils that removes install-data-local.
-On applying the patch as.info is installed once as expected and there’s
-no possibility of any race condition.
-https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=9a84a44d5df4618dd616137fa755bd71b7eacc5f
+  expat: add missing Upstream-status, CVE tag and sign-off to CVE-2021-46143.patch (2022-02-07 11:01:23 +0800)
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=9a84a44d5df4618dd616137fa755bd71b7eacc5f]
+are available in the Git repository at:
 
-[YOCTO #14725]
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
----
- .../binutils/binutils-2.38.inc                |  1 +
- .../0013-Avoid-as-info-race-condition.patch   | 75 +++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
+Anuj Mittal (1):
+  runtime_test: skip virgl test on fedora 34
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 6d4415048a..4ce74f94bf 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -31,5 +31,6 @@ SRC_URI = "\
-      file://0010-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
-      file://0011-sync-with-OE-libtool-changes.patch \
-      file://0012-Check-for-clang-before-checking-gcc-version.patch \
-+     file://0013-Avoid-as-info-race-condition.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch b/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
-new file mode 100644
-index 0000000000..8edc12d5a9
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
-@@ -0,0 +1,75 @@
-+From 9a84a44d5df4618dd616137fa755bd71b7eacc5f Mon Sep 17 00:00:00 2001
-+From: Mike Frysinger <vapier@gentoo.org>
-+Date: Sun, 23 Jan 2022 12:44:24 -0500
-+Subject: [PATCH] gas: drop old cygnus install hack
-+
-+This was needed when gas was using the automake cygnus option, but
-+this was removed years ago by Simon in d0ac1c44885daf68f631befa37e
-+("Bump to autoconf 2.69 and automake 1.15.1").  So delete it here.
-+The info pages are already & still installed by default w/out it.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gas/Makefile.in  | 14 +++++---------
-+ gas/doc/local.mk |  4 ----
-+ 2 files changed, 5 insertions(+), 13 deletions(-)
-+
-+diff --git a/gas/Makefile.in b/gas/Makefile.in
-+index 8f0a56fd8d6..67dac53f68c 100644
-+--- a/gas/Makefile.in
-++++ b/gas/Makefile.in
-+@@ -1854,7 +1854,7 @@ info: info-recursive
-+ 
-+ info-am: $(INFO_DEPS) info-local
-+ 
-+-install-data-am: install-data-local install-info-am install-man
-++install-data-am: install-info-am install-man
-+ 
-+ install-dvi: install-dvi-recursive
-+ 
-+@@ -2008,10 +2008,10 @@ uninstall-man: uninstall-man1
-+ 	distclean-DEJAGNU distclean-compile distclean-generic \
-+ 	distclean-hdr distclean-libtool distclean-tags dvi dvi-am html \
-+ 	html-am html-local info info-am info-local install install-am \
-+-	install-data install-data-am install-data-local install-dvi \
-+-	install-dvi-am install-exec install-exec-am install-exec-local \
-+-	install-html install-html-am install-info install-info-am \
-+-	install-man install-man1 install-pdf install-pdf-am install-ps \
-++	install-data install-data-am install-dvi install-dvi-am \
-++	install-exec install-exec-am install-exec-local install-html \
-++	install-html-am install-info install-info-am install-man \
-++	install-man1 install-pdf install-pdf-am install-ps \
-+ 	install-ps-am install-strip installcheck installcheck-am \
-+ 	installdirs installdirs-am maintainer-clean \
-+ 	maintainer-clean-aminfo maintainer-clean-generic mostlyclean \
-+@@ -2211,10 +2211,6 @@ doc/asconfig.texi: doc/$(CONFIG).texi doc/$(am__dirstamp)
-+ 	$(AM_V_GEN)cp $(srcdir)/doc/$(CONFIG).texi doc/asconfig.texi
-+ 	$(AM_V_at)chmod u+w doc/asconfig.texi
-+ 
-+-# We want install to imply install-info as per GNU standards, despite the
-+-# cygnus option.
-+-install-data-local: install-info
-+-
-+ # Maintenance
-+ 
-+ # We need it for the taz target in ../Makefile.in.
-+diff --git a/gas/doc/local.mk b/gas/doc/local.mk
-+index c2de441257c..ac205cf08a2 100644
-+--- a/gas/doc/local.mk
-++++ b/gas/doc/local.mk
-+@@ -101,10 +101,6 @@ CPU_DOCS = \
-+ 	%D%/c-z80.texi \
-+ 	%D%/c-z8k.texi
-+ 
-+-# We want install to imply install-info as per GNU standards, despite the
-+-# cygnus option.
-+-install-data-local: install-info
-+-
-+ # This one isn't ready for prime time yet.  Not even a little bit.
-+ 
-+ noinst_TEXINFOS = %D%/internals.texi
-+-- 
-+2.27.0
-+
+Bruce Ashfield (5):
+  linux-yocto/5.10: update to v5.10.96
+  linux-yocto/5.10: update to v5.10.99
+  linux-yocto/5.4: update to v5.4.173
+  linux-yocto/5.4: update to v5.4.176
+  linux-yocto/5.4: update to v5.4.178
+
+Christian Eggers (1):
+  sdk: fix search for dynamic loader
+
+Daniel Müller (1):
+  scripts/runqemu-ifdown: Don't treat the last iptables command as
+    special
+
+Pgowda (1):
+  glibc: upgrade glibc-2.33 to latest version
+
+Richard Purdie (1):
+  default-distrovars.inc: Switch connectivity check to a
+    yoctoproject.org page
+
+Ross Burton (2):
+  vim: update to include latest CVE fixes
+  vim: upgrade to patch 4269
+
+Saul Wold (1):
+  recipetool: Fix circular reference in SRC_URI
+
+Stefan Herbrechtsmeier (1):
+  cve-check: create directory of CVE_CHECK_MANIFEST before copy
+
+ meta/classes/cve-check.bbclass                |  1 +
+ meta/classes/sanity.bbclass                   |  2 +-
+ .../distro/include/default-distrovars.inc     |  2 +-
+ meta/files/toolchain-shar-relocate.sh         |  2 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |  3 +++
+ meta/recipes-core/glibc/glibc-version.inc     |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++++++++---------
+ meta/recipes-support/vim/vim.inc              |  4 ++--
+ scripts/lib/recipetool/create.py              |  2 +-
+ scripts/runqemu-ifdown                        |  1 +
+ 15 files changed, 49 insertions(+), 44 deletions(-)
+
 -- 
-2.31.1
+2.35.1
 
