@@ -2,59 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAA2C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2B1C4332F
 	for <webhook@archiver.kernel.org>; Sun, 20 Feb 2022 15:15:58 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.22480.1645370157095219788
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.22055.1645370157477329979
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Feb 2022 07:15:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VzSibhrJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YbHUNbAk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id
- q198-20020a1ca7cf000000b0037bb52545c6so11957023wme.1
+Received: by mail-wr1-f41.google.com with SMTP id u1so22822052wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 07:15:56 -0800 (PST)
+ Sun, 20 Feb 2022 07:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/9pB7zXHj27Jv7958jTAyVwSvlgwiCOLJ0MleQ+/e48=;
-        b=VzSibhrJ17YqlIUA7XNZJwYMZ/v3z5OfqNcrnUghJ69AFJqp0Mrh77HHVMAC/BrNp3
-         6NVKwC6yBbrVRuZs6wIKb7oXq1Gym5whzyHJI2xE0S4GRTwwHKCCR3moea+nwCMQOSAl
-         9RJXJVbM9alxF5VSqUZ+XbWzNGNjafU2MH7rc=
+        bh=IvjPsP//7qMHf5h9gPn7UxfPctjq6Y5Tvh0G6foCpKU=;
+        b=YbHUNbAkj0/D2yWhk/NHX3FL9XQ7aU2OTJFB+NwQH7VSLgSeP5l4XWfG5JiJxSeurx
+         ovsk2aGKQRxFLieWHKcGnf1ruTQkhJswSGFXme/EvBWx7jm8BMlgmemildvqo6PCVUNN
+         MvzpIZ6IhtgdcjQkl87Tebuc70PSkG9jCd6ZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/9pB7zXHj27Jv7958jTAyVwSvlgwiCOLJ0MleQ+/e48=;
-        b=2rh8t12jBZapho644XPVjXvZh3GcPUkRpfFccEXk3KhlD0aMQV2Zy0hLQgDYCNdgxJ
-         NVLRdkArs8JUu2pXVspGfRy9diIKnkKk0caJ18x3mVSIrgEtDikt4mCjqF9R5fcqZLR7
-         E7Ax7oTsmE3dWt0EMPjdYe1OgB0qFpJpKOEEUiaNXtGxWMZFmQQXJamB8K58skDjCnlv
-         hgdb7gA7lH9yyaXKshiemBoI8v5/Yvdui3QgnO3u/6fWmlpcDCKQNnC4tPG2zBFfPPJ+
-         5Sul6/jJMQn3N+ZRuHcVqvcadKbzWXdawT31K1rOSLeldpPGwLN1GcD0AFuWX1hnYzdP
-         tm5A==
-X-Gm-Message-State: AOAM532DrVFRaGxrF4rbOK3QGmKUuwUriZg+MCZAq1ZrUTiIMYhtyDmX
-	Npf74TU+6rVy4U2YyZgRlQG36Bi0X4IGFILL
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IvjPsP//7qMHf5h9gPn7UxfPctjq6Y5Tvh0G6foCpKU=;
+        b=3lXD3dBc8ihRL96Uob5OcRzcZT8it81irWK7PK5VwQjNdX3B/tj2t0NXiYZlsdTgQu
+         QV+0Hwd1dEumupMVi4WhFUi4BakFKV9nVNBaZ3yM+xmu60QjFcL8Eqhy5UAupYeBsgxP
+         k8pjxw8U0ddNlVGqXfWkW2JIIy4rq2LAF+SYmVSNoDicgTpYbGPfuSeK5LVpUMHOTEoT
+         jiERd2fSHcStdN/UmRbHxJwEHojq6q7dW0fFvmw31BPu2gK9m+bgp5LZr4im766PMr/V
+         KpTLoU9RDF+7X2eiRs9li8iIlzsA+gExr5XPLYepIcFSAo7LrqYnJQ2ncYDdTGXIZ2Ac
+         PdtQ==
+X-Gm-Message-State: AOAM530LI1Ilha6zdMWLLy5j4ncu3UO6Q8eMy63KXHRPr3ifKiMXate5
+	NjpAE24FfdL+U6/4/TOGKr1sGe9diq6NGqh8
 X-Google-Smtp-Source: 
- ABdhPJzk9sn4PZMbCMPzMXBgGs5u5/7/PadtLI6qGOI9KZ4sG3vUfYgsbgANz/B5kRNSMVG30o+sEg==
-X-Received: by 2002:a05:600c:3056:b0:37b:bbc3:95a6 with SMTP id
- n22-20020a05600c305600b0037bbbc395a6mr17674682wmh.46.1645370155020;
+ ABdhPJz1ueejEfzEbG2amOsIeeUCDiaz1UCdpoLUXmSHmQYgfIlNbLQb3uyEbki4F1+sbp5StsSaLQ==
+X-Received: by 2002:a5d:6884:0:b0:1e4:ed7b:fd71 with SMTP id
+ h4-20020a5d6884000000b001e4ed7bfd71mr12920039wru.550.1645370155736;
         Sun, 20 Feb 2022 07:15:55 -0800 (PST)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9355:e71:cc42:42f1])
         by smtp.gmail.com with ESMTPSA id
- q76sm5329883wme.1.2022.02.20.07.15.54
+ q76sm5329883wme.1.2022.02.20.07.15.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 07:15:54 -0800 (PST)
+        Sun, 20 Feb 2022 07:15:55 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] vim: Upgrade 8.2.4314 -> 8.2.4424
-Date: Sun, 20 Feb 2022 15:15:52 +0000
-Message-Id: <20220220151553.3117584-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] tiff: Add backports for two CVEs from upstream
+Date: Sun, 20 Feb 2022 15:15:53 +0000
+Message-Id: <20220220151553.3117584-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220220151553.3117584-1-richard.purdie@linuxfoundation.org>
+References: <20220220151553.3117584-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -62,41 +63,112 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 20 Feb 2022 15:15:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161987
-
-License file had some grammar fixes.
-
-Includes CVE-2022-0554.
+ https://lists.openembedded.org/g/openembedded-core/message/161988
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/vim/vim.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ ...al-buffer-overflow-for-ASCII-tags-wh.patch |  0
+ ...99c99f987dc32ae110370cfdd7df7975586b.patch | 30 +++++++++++++++++
+ ...0712f4c3a5b449f70c57988260a667ddbdef.patch | 32 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  4 ++-
+ 4 files changed, 65 insertions(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libtiff/{files => tiff}/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch (100%)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f9b6cd60d0f..68051f9b923 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,7 +11,7 @@ RSUGGESTS:${PN} = "diffutils"
+diff --git a/meta/recipes-multimedia/libtiff/files/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+similarity index 100%
+rename from meta/recipes-multimedia/libtiff/files/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+rename to meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch b/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+new file mode 100644
+index 00000000000..0b41dde606d
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+@@ -0,0 +1,30 @@
++From 561599c99f987dc32ae110370cfdd7df7975586b Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sat, 5 Feb 2022 20:36:41 +0100
++Subject: [PATCH] TIFFReadDirectory(): avoid calling memcpy() with a null
++ source pointer and size of zero (fixes #362)
++
++Upstream-Status: Backport
++CVE: CVE-2022-0562
++
++---
++ libtiff/tif_dirread.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 2bbc4585..23194ced 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -4177,7 +4177,8 @@ TIFFReadDirectory(TIFF* tif)
++                     goto bad;
++                 }
++ 
++-                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
+++                if (old_extrasamples > 0)
+++                    memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
++                 _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
++                 _TIFFfree(new_sampleinfo);
++         }
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch b/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+new file mode 100644
+index 00000000000..74f9649fdf1
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+@@ -0,0 +1,32 @@
++From eecb0712f4c3a5b449f70c57988260a667ddbdef Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sun, 6 Feb 2022 13:08:38 +0100
++Subject: [PATCH] TIFFFetchStripThing(): avoid calling memcpy() with a null
++ source pointer and size of zero (fixes #362)
++
++Upstream-Status: Backport
++CVE: CVE-2022-0561
++
++---
++ libtiff/tif_dirread.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 23194ced..50ebf8ac 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -5777,8 +5777,9 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32_t nstrips, uint64_t** l
++ 			_TIFFfree(data);
++ 			return(0);
++ 		}
++-                _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
++-                _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
+++		if( dir->tdir_count )
+++			_TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
+++		_TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
++ 		_TIFFfree(data);
++ 		data=resizeddata;
++ 	}
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index a0745020b8c..6b933a409b8 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
+ CVE_PRODUCT = "libtiff"
  
- LICENSE = "Vim"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
--                    file://runtime/doc/uganda.txt;md5=600a38dc53e8931fdfb1238276ee09b0"
-+                    file://runtime/doc/uganda.txt;md5=a3f193c20c6faff93c69185d5d070535"
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+-           file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch"
++           file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
++           file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
++           file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch"
  
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
  
--PV .= ".4314"
--SRCREV = "8cbf2499179db39a46e700ab04d0b36e22bcc1bb"
-+PV .= ".4424"
-+SRCREV = "cdf717283ca70b18f20b8a2cefe7957083280c6f"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.32.0
 
