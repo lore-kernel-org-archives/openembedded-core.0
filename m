@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81709C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:45 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.11166.1645452884363534963
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4A4C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:48 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web08.11296.1645452888073677975
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:44 -0800
+ Mon, 21 Feb 2022 06:14:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=PgmUxMqG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=cXikC2LW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- iq13-20020a17090afb4d00b001bc4437df2cso2793363pjb.2
+Received: by mail-pl1-f174.google.com with SMTP id l8so12996283pls.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:44 -0800 (PST)
+ Mon, 21 Feb 2022 06:14:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/qO1hS3zyI9vh7aGlQZZW7VMp85yhyJVVCFEwMdl61c=;
-        b=PgmUxMqGW6Vp16hFC1xN4bNfZ2ijcgbgVeK2t/heIgvnpVY4OVw/+MskVMLdJjk1g8
-         PTZjJm9lOVsiiH/d6/lAiR0285biu/6J2A/LVSZhF+PMzeXLRLrv1h2wnZNKDnEMMPE+
-         53AgXcPlmTSVmiVhU4dJLXN7tY5MrnL1LJxKS1WNRdw0Gh56JSHfMEmMg7YdjAKYGSQ1
-         5B+HgWLKo5+qL45x6N6ZJ5vt989pU1qRMwVqxb7L6wMZF+2p5CCBAW3xvSC7TlPmALkz
-         zMbk+KZLJiGvQPv8ZqkK+/FOZ94djftUyhD3EvWoCi6bPEJNYAc4vdfz56bmNhOmlCXO
-         TWng==
+        bh=L/9QzGyFyzTeoaRpNxI3Q2rf/8dcPgQvAl0LP3B2RMA=;
+        b=cXikC2LWR9cFq9h694pnFZUghsgz4+Ar1jDVjW4727zRUaYRV6GtAKsLhI8qb5iRPu
+         ACTm48vZxQVzzVfBWvwu2uvA6NqSmi0DmD3gf/O9SWq81sh4YFLEnGyApdsl8czvOOMa
+         hJmZ8di/wGFKsHoxlvvAid2avfOPUcO0dnJyrR6x96wOncGkeBC8Pv3TTloAPdg0DkKf
+         NjtB1OofkVwfUeZr79RYE4KDsAI9JkKq9oyfyWu31vucwor+pQ9y2J/Z3A2X7SNRi3Ob
+         KyaQzofxJQS5FbXR+GvCSHjFpdqKQld91Fkq5Q4vtZq3fTN91RKsomVotV6/WNIPx0vO
+         MSNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/qO1hS3zyI9vh7aGlQZZW7VMp85yhyJVVCFEwMdl61c=;
-        b=ik9wTS8nfL/9IxLuzHvFAo5DfTMVm4MYF9Dkq2kn+OGpTigpZln9OZOik/6gbk/aC7
-         VnFN+pWwsyWn84ltI7u4NR6rhZyiomSNqqR1KwqfO+qBUXOUt17B8zk64Rolt8xyXML3
-         R2ZBH0gio9EVobS69yfxKJPNnVKC4BUBcMHtF3C5B8i9ma9mVS4Cprm8NcVhae9BpBWZ
-         s1lctd27+Vmk0ZpYaSh+eOBKtVW2zs2mk/Irp31MIVKoIeN214DnczPaZCqPb/GquF81
-         CZdsUXOXf2bAF+H0c0uLARuN01DJn+l/6cMgJWR7ZHuQSYHZ1PiWYhzGsVE25vFfRt2r
-         I2Rg==
-X-Gm-Message-State: AOAM531eI282Y1nRF7K7roTC7ZAjxjVO37gMqF9+xSXStCRgAiLysiD1
-	6Pl6vuWfQwtJA85uE/LAyEViO7zWtf5sdZy5
+        bh=L/9QzGyFyzTeoaRpNxI3Q2rf/8dcPgQvAl0LP3B2RMA=;
+        b=FilCZjDMAV3iOLwoNL1V57/v2revtPYNpckhIitC4Ab6xPkqIFSFjUcSvFykBJrs7f
+         VXu/aJ9YPvFvljn6Ga8c1rNpr7YN/hqCIpABkETK+dQldwSAZ2mHP6ugZWTe7Vi9yj3n
+         j/9AZwG2IHUIOamUvp5OJTIXNMoWBN0NWQ0odgQPRSiSRRuzqjB8k1DrCiZjBl8O6RS/
+         w0+KVCzouP+h+F0yh5J3Z0ZRW8+P82MzcVqjV2gS8g5aKy7CjSLaW2UWZCZzV5jHQVqS
+         0UtmTCGt2LHdbCa2WAU7Kfsk7PbXpOYQ6HYNqz9SMlze4I6uNAuljPugzOmBR5nLF86h
+         cTqw==
+X-Gm-Message-State: AOAM533xWhortKECpJPnBdeGfp30xQ+bOLw5GNciTFW0sL/4jcXG3NUw
+	5DdxTvDKzqPPXjSdisbyUwAFhu/3JyXepK8H
 X-Google-Smtp-Source: 
- ABdhPJxV8WnAEpkauTXB5eRZ/Lfc5kaFRcT3DRs1sQtdXOPq7aktQutt6srvPlaEbMEM6Q7KPtu9EA==
-X-Received: by 2002:a17:902:b18a:b0:14d:57b2:8c72 with SMTP id
- s10-20020a170902b18a00b0014d57b28c72mr19063989plr.149.1645452883030;
-        Mon, 21 Feb 2022 06:14:43 -0800 (PST)
+ ABdhPJy8WUXpnNWeF6UnqC0k6C8KGnm46G6kvYRhbFfGwEwNqdDAbKie67xm7j51MEfbQiPIfcmBAQ==
+X-Received: by 2002:a17:90b:2513:b0:1bc:545d:8dbe with SMTP id
+ ns19-20020a17090b251300b001bc545d8dbemr2216507pjb.182.1645452887007;
+        Mon, 21 Feb 2022 06:14:47 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 8sm12919235pfl.164.2022.02.21.06.14.41
+ 8sm12919235pfl.164.2022.02.21.06.14.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 06:14:42 -0800 (PST)
+        Mon, 21 Feb 2022 06:14:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 05/20] wpa-supplicant: fix CVE-2022-23303-4
-Date: Mon, 21 Feb 2022 04:14:03 -1000
+Subject: [OE-core][dunfell 07/20] binutils: Fix CVE-2021-45078
+Date: Mon, 21 Feb 2022 04:14:05 -1000
 Message-Id: 
- <13ae7a3f4bbe7abafae3136190cf43d226271413.1645452535.git.steve@sakoman.com>
+ <9793eac0988f10ec2e4cbe0e4fc494ff4dd29585.1645452535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645452535.git.steve@sakoman.com>
 References: <cover.1645452535.git.steve@sakoman.com>
@@ -68,654 +67,302 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:45 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162033
+ https://lists.openembedded.org/g/openembedded-core/message/162035
 
-The implementations of SAE in hostapd before 2.10 and wpa_supplicant
-before 2.10 are vulnerable to side channel attacks as a result
-of cache access patterns. NOTE: this issue exists because of an
-incomplete fix for CVE-2019-9494.
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 
-Backport patches from:
-https://w1.fi/security/2022-1/
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=161e87d12167b1e36193385485c1f6ce92f74f02]
+(From OE-Core rev: be665a2279795c522cb3e3e700ea747efd885f95)
 
-CVE: CVE-2022-23303 CVE-2022-23304
-
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 823d25f5218836fb4298482366fbc5d05d822907)
+Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
+Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../wpa-supplicant/CVE-2022-23303-4.patch     | 609 ++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |   1 +
- 2 files changed, 610 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
+ .../binutils/binutils-2.34.inc                |   1 +
+ .../binutils/0001-CVE-2021-45078.patch        | 257 ++++++++++++++++++
+ 2 files changed, 258 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index 903b9d7b01..6a55de2d45 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -51,5 +51,6 @@ SRC_URI = "\
+      file://CVE-2021-3487.patch \
+      file://CVE-2021-3549.patch \
+      file://CVE-2020-16593.patch \
++     file://0001-CVE-2021-45078.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
 new file mode 100644
-index 0000000000..21e65ba961
+index 0000000000..2af82477ac
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
-@@ -0,0 +1,609 @@
-+From 208e5687ff2e48622e28d8888ce5444a54353bbd Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <jouni@codeaurora.org>
-+Date: Tue, 27 Aug 2019 16:33:15 +0300
-+Subject: [PATCH 1/4] crypto: Add more bignum/EC helper functions
++++ b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
+@@ -0,0 +1,257 @@
++From 161e87d12167b1e36193385485c1f6ce92f74f02 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 15 Dec 2021 11:48:42 +1030
++Subject: [PATCH] PR28694, Out-of-bounds write in stab_xcoff_builtin_type
 +
-+These are needed for implementing SAE hash-to-element.
++	PR 28694
++	* stabs.c (stab_xcoff_builtin_type): Make typenum unsigned.
++	Negate typenum earlier, simplifying bounds checking.  Correct
++	off-by-one indexing.  Adjust switch cases.
 +
-+Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
 +
-+Upstream-Status: Backport
-+https://w1.fi/security/2022-1/
++CVE: CVE-2021-45078
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=161e87d12167b1e36193385485c1f6ce92f74f02]
 +
-+CVE: CVE-2022-23303 CVE-2022-23304
-+Signed-off-by: Steve Sakoman <steve@sakoman.com>
-+
++Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
++Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
++Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
 +---
-+ src/crypto/crypto.h         | 45 ++++++++++++++++++
-+ src/crypto/crypto_openssl.c | 94 +++++++++++++++++++++++++++++++++++++
-+ src/crypto/crypto_wolfssl.c | 66 ++++++++++++++++++++++++++
-+ 3 files changed, 205 insertions(+)
++ binutils/stabs.c | 87 ++++++++++++++++++++++++------------------------
++ 1 file changed, 43 insertions(+), 44 deletions(-)
 +
-+diff --git a/src/crypto/crypto.h b/src/crypto/crypto.h
-+index 15f8ad04cea4..68476dbce96c 100644
-+--- a/src/crypto/crypto.h
-++++ b/src/crypto/crypto.h
-+@@ -518,6 +518,13 @@ struct crypto_bignum * crypto_bignum_init(void);
-+  */
-+ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len);
++
++diff --git a/binutils/stabs.c b/binutils/stabs.c
++index 274bfb0e7fa..83ee3ea5fa4 100644
++--- a/binutils/stabs.c
+++++ b/binutils/stabs.c
++@@ -202,7 +202,7 @@ static debug_type stab_find_type (void *, struct stab_handle *, const int *);
++ static bfd_boolean stab_record_type
++   (void *, struct stab_handle *, const int *, debug_type);
++ static debug_type stab_xcoff_builtin_type
++-  (void *, struct stab_handle *, int);
+++  (void *, struct stab_handle *, unsigned int);
++ static debug_type stab_find_tagged_type
++   (void *, struct stab_handle *, const char *, int, enum debug_type_kind);
++ static debug_type *stab_demangle_argtypes
++@@ -3496,166 +3496,167 @@ stab_record_type (void *dhandle ATTRIBUTE_UNUSED, struct stab_handle *info,
 + 
-++/**
-++ * crypto_bignum_init_set - Allocate memory for bignum and set the value (uint)
-++ * @val: Value to set
-++ * Returns: Pointer to allocated bignum or %NULL on failure
-++ */
-++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val);
-++
-+ /**
-+  * crypto_bignum_deinit - Free bignum
-+  * @n: Bignum from crypto_bignum_init() or crypto_bignum_init_set()
-+@@ -612,6 +619,19 @@ int crypto_bignum_div(const struct crypto_bignum *a,
-+ 		      const struct crypto_bignum *b,
-+ 		      struct crypto_bignum *c);
-+ 
-++/**
-++ * crypto_bignum_addmod - d = a + b (mod c)
-++ * @a: Bignum
-++ * @b: Bignum
-++ * @c: Bignum
-++ * @d: Bignum; used to store the result of (a + b) % c
-++ * Returns: 0 on success, -1 on failure
-++ */
-++int crypto_bignum_addmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 const struct crypto_bignum *c,
-++			 struct crypto_bignum *d);
-++
-+ /**
-+  * crypto_bignum_mulmod - d = a * b (mod c)
-+  * @a: Bignum
-+@@ -625,6 +645,28 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
-+ 			 const struct crypto_bignum *c,
-+ 			 struct crypto_bignum *d);
-+ 
-++/**
-++ * crypto_bignum_sqrmod - c = a^2 (mod b)
-++ * @a: Bignum
-++ * @b: Bignum
-++ * @c: Bignum; used to store the result of a^2 % b
-++ * Returns: 0 on success, -1 on failure
-++ */
-++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 struct crypto_bignum *c);
-++
-++/**
-++ * crypto_bignum_sqrtmod - returns sqrt(a) (mod b)
-++ * @a: Bignum
-++ * @b: Bignum
-++ * @c: Bignum; used to store the result
-++ * Returns: 0 on success, -1 on failure
-++ */
-++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
-++			  const struct crypto_bignum *b,
-++			  struct crypto_bignum *c);
-++
-+ /**
-+  * crypto_bignum_rshift - r = a >> n
-+  * @a: Bignum
-+@@ -731,6 +773,9 @@ const struct crypto_bignum * crypto_ec_get_prime(struct crypto_ec *e);
-+  */
-+ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e);
-+ 
-++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e);
-++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e);
-++
-+ /**
-+  * struct crypto_ec_point - Elliptic curve point
-+  *
-+diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
-+index bab33a537293..ed463105e8f1 100644
-+--- a/src/crypto/crypto_openssl.c
-++++ b/src/crypto/crypto_openssl.c
-+@@ -1283,6 +1283,24 @@ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len)
-+ }
-+ 
-+ 
-++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val)
-++{
-++	BIGNUM *bn;
-++
-++	if (TEST_FAIL())
-++		return NULL;
-++
-++	bn = BN_new();
-++	if (!bn)
-++		return NULL;
-++	if (BN_set_word(bn, val) != 1) {
-++		BN_free(bn);
-++		return NULL;
-++	}
-++	return (struct crypto_bignum *) bn;
-++}
-++
-++
-+ void crypto_bignum_deinit(struct crypto_bignum *n, int clear)
++ static debug_type
++ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
++-			 int typenum)
+++			 unsigned int typenum)
 + {
-+ 	if (clear)
-+@@ -1449,6 +1467,28 @@ int crypto_bignum_div(const struct crypto_bignum *a,
++   debug_type rettype;
++   const char *name;
++ 
++-  if (typenum >= 0 || typenum < -XCOFF_TYPE_COUNT)
+++  typenum = -typenum - 1;
+++  if (typenum >= XCOFF_TYPE_COUNT)
++     {
++-      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), typenum);
+++      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), -typenum - 1);
++       return DEBUG_TYPE_NULL;
++     }
++-  if (info->xcoff_types[-typenum] != NULL)
++-    return info->xcoff_types[-typenum];
+++  if (info->xcoff_types[typenum] != NULL)
+++    return info->xcoff_types[typenum];
++ 
++-  switch (-typenum)
+++  switch (typenum)
++     {
++-    case 1:
+++    case 0:
++       /* The size of this and all the other types are fixed, defined
++ 	 by the debugging format.  */
++       name = "int";
++       rettype = debug_make_int_type (dhandle, 4, FALSE);
++       break;
++-    case 2:
+++    case 1:
++       name = "char";
++       rettype = debug_make_int_type (dhandle, 1, FALSE);
++       break;
++-    case 3:
+++    case 2:
++       name = "short";
++       rettype = debug_make_int_type (dhandle, 2, FALSE);
++       break;
++-    case 4:
+++    case 3:
++       name = "long";
++       rettype = debug_make_int_type (dhandle, 4, FALSE);
++       break;
++-    case 5:
+++    case 4:
++       name = "unsigned char";
++       rettype = debug_make_int_type (dhandle, 1, TRUE);
++       break;
++-    case 6:
+++    case 5:
++       name = "signed char";
++       rettype = debug_make_int_type (dhandle, 1, FALSE);
++       break;
++-    case 7:
+++    case 6:
++       name = "unsigned short";
++       rettype = debug_make_int_type (dhandle, 2, TRUE);
++       break;
++-    case 8:
+++    case 7:
++       name = "unsigned int";
++       rettype = debug_make_int_type (dhandle, 4, TRUE);
++       break;
++-    case 9:
+++    case 8:
++       name = "unsigned";
++       rettype = debug_make_int_type (dhandle, 4, TRUE);
++       break;
++-    case 10:
+++    case 9:
++       name = "unsigned long";
++       rettype = debug_make_int_type (dhandle, 4, TRUE);
++       break;
++-    case 11:
+++    case 10:
++       name = "void";
++       rettype = debug_make_void_type (dhandle);
++       break;
++-    case 12:
+++    case 11:
++       /* IEEE single precision (32 bit).  */
++       name = "float";
++       rettype = debug_make_float_type (dhandle, 4);
++       break;
++-    case 13:
+++    case 12:
++       /* IEEE double precision (64 bit).  */
++       name = "double";
++       rettype = debug_make_float_type (dhandle, 8);
++       break;
++-    case 14:
+++    case 13:
++       /* This is an IEEE double on the RS/6000, and different machines
++ 	 with different sizes for "long double" should use different
++ 	 negative type numbers.  See stabs.texinfo.  */
++       name = "long double";
++       rettype = debug_make_float_type (dhandle, 8);
++       break;
++-    case 15:
+++    case 14:
++       name = "integer";
++       rettype = debug_make_int_type (dhandle, 4, FALSE);
++       break;
++-    case 16:
+++    case 15:
++       name = "boolean";
++       rettype = debug_make_bool_type (dhandle, 4);
++       break;
++-    case 17:
+++    case 16:
++       name = "short real";
++       rettype = debug_make_float_type (dhandle, 4);
++       break;
++-    case 18:
+++    case 17:
++       name = "real";
++       rettype = debug_make_float_type (dhandle, 8);
++       break;
++-    case 19:
+++    case 18:
++       /* FIXME */
++       name = "stringptr";
++       rettype = NULL;
++       break;
++-    case 20:
+++    case 19:
++       /* FIXME */
++       name = "character";
++       rettype = debug_make_int_type (dhandle, 1, TRUE);
++       break;
++-    case 21:
+++    case 20:
++       name = "logical*1";
++       rettype = debug_make_bool_type (dhandle, 1);
++       break;
++-    case 22:
+++    case 21:
++       name = "logical*2";
++       rettype = debug_make_bool_type (dhandle, 2);
++       break;
++-    case 23:
+++    case 22:
++       name = "logical*4";
++       rettype = debug_make_bool_type (dhandle, 4);
++       break;
++-    case 24:
+++    case 23:
++       name = "logical";
++       rettype = debug_make_bool_type (dhandle, 4);
++       break;
++-    case 25:
+++    case 24:
++       /* Complex type consisting of two IEEE single precision values.  */
++       name = "complex";
++       rettype = debug_make_complex_type (dhandle, 8);
++       break;
++-    case 26:
+++    case 25:
++       /* Complex type consisting of two IEEE double precision values.  */
++       name = "double complex";
++       rettype = debug_make_complex_type (dhandle, 16);
++       break;
++-    case 27:
+++    case 26:
++       name = "integer*1";
++       rettype = debug_make_int_type (dhandle, 1, FALSE);
++       break;
++-    case 28:
+++    case 27:
++       name = "integer*2";
++       rettype = debug_make_int_type (dhandle, 2, FALSE);
++       break;
++-    case 29:
+++    case 28:
++       name = "integer*4";
++       rettype = debug_make_int_type (dhandle, 4, FALSE);
++       break;
++-    case 30:
+++    case 29:
++       /* FIXME */
++       name = "wchar";
++       rettype = debug_make_int_type (dhandle, 2, FALSE);
++       break;
++-    case 31:
+++    case 30:
++       name = "long long";
++       rettype = debug_make_int_type (dhandle, 8, FALSE);
++       break;
++-    case 32:
+++    case 31:
++       name = "unsigned long long";
++       rettype = debug_make_int_type (dhandle, 8, TRUE);
++       break;
++-    case 33:
+++    case 32:
++       name = "logical*8";
++       rettype = debug_make_bool_type (dhandle, 8);
++       break;
++-    case 34:
+++    case 33:
++       name = "integer*8";
++       rettype = debug_make_int_type (dhandle, 8, FALSE);
++       break;
++@@ -3664,9 +3665,7 @@ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
++     }
++ 
++   rettype = debug_name_type (dhandle, name, rettype);
++-
++-  info->xcoff_types[-typenum] = rettype;
++-
+++  info->xcoff_types[typenum] = rettype;
++   return rettype;
 + }
 + 
-+ 
-++int crypto_bignum_addmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 const struct crypto_bignum *c,
-++			 struct crypto_bignum *d)
-++{
-++	int res;
-++	BN_CTX *bnctx;
-++
-++	if (TEST_FAIL())
-++		return -1;
-++
-++	bnctx = BN_CTX_new();
-++	if (!bnctx)
-++		return -1;
-++	res = BN_mod_add((BIGNUM *) d, (const BIGNUM *) a, (const BIGNUM *) b,
-++			 (const BIGNUM *) c, bnctx);
-++	BN_CTX_free(bnctx);
-++
-++	return res ? 0 : -1;
-++}
-++
-++
-+ int crypto_bignum_mulmod(const struct crypto_bignum *a,
-+ 			 const struct crypto_bignum *b,
-+ 			 const struct crypto_bignum *c,
-+@@ -1472,6 +1512,48 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
-+ }
-+ 
-+ 
-++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 struct crypto_bignum *c)
-++{
-++	int res;
-++	BN_CTX *bnctx;
-++
-++	if (TEST_FAIL())
-++		return -1;
-++
-++	bnctx = BN_CTX_new();
-++	if (!bnctx)
-++		return -1;
-++	res = BN_mod_sqr((BIGNUM *) c, (const BIGNUM *) a, (const BIGNUM *) b,
-++			 bnctx);
-++	BN_CTX_free(bnctx);
-++
-++	return res ? 0 : -1;
-++}
-++
-++
-++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
-++			  const struct crypto_bignum *b,
-++			  struct crypto_bignum *c)
-++{
-++	BN_CTX *bnctx;
-++	BIGNUM *res;
-++
-++	if (TEST_FAIL())
-++		return -1;
-++
-++	bnctx = BN_CTX_new();
-++	if (!bnctx)
-++		return -1;
-++	res = BN_mod_sqrt((BIGNUM *) c, (const BIGNUM *) a, (const BIGNUM *) b,
-++			  bnctx);
-++	BN_CTX_free(bnctx);
-++
-++	return res ? 0 : -1;
-++}
-++
-++
-+ int crypto_bignum_rshift(const struct crypto_bignum *a, int n,
-+ 			 struct crypto_bignum *r)
-+ {
-+@@ -1682,6 +1764,18 @@ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e)
-+ }
-+ 
-+ 
-++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e)
-++{
-++	return (const struct crypto_bignum *) e->a;
-++}
-++
-++
-++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e)
-++{
-++	return (const struct crypto_bignum *) e->b;
-++}
-++
-++
-+ void crypto_ec_point_deinit(struct crypto_ec_point *p, int clear)
-+ {
-+ 	if (clear)
-+diff --git a/src/crypto/crypto_wolfssl.c b/src/crypto/crypto_wolfssl.c
-+index 4cedab4367cd..e9894b335e53 100644
-+--- a/src/crypto/crypto_wolfssl.c
-++++ b/src/crypto/crypto_wolfssl.c
-+@@ -1042,6 +1042,26 @@ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len)
-+ }
-+ 
-+ 
-++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val)
-++{
-++	mp_int *a;
-++
-++	if (TEST_FAIL())
-++		return NULL;
-++
-++	a = (mp_int *) crypto_bignum_init();
-++	if (!a)
-++		return NULL;
-++
-++	if (mp_set_int(a, val) != MP_OKAY) {
-++		os_free(a);
-++		a = NULL;
-++	}
-++
-++	return (struct crypto_bignum *) a;
-++}
-++
-++
-+ void crypto_bignum_deinit(struct crypto_bignum *n, int clear)
-+ {
-+ 	if (!n)
-+@@ -1168,6 +1188,19 @@ int crypto_bignum_div(const struct crypto_bignum *a,
-+ }
-+ 
-+ 
-++int crypto_bignum_addmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 const struct crypto_bignum *c,
-++			 struct crypto_bignum *d)
-++{
-++	if (TEST_FAIL())
-++		return -1;
-++
-++	return mp_addmod((mp_int *) a, (mp_int *) b, (mp_int *) c,
-++			 (mp_int *) d) == MP_OKAY ?  0 : -1;
-++}
-++
-++
-+ int crypto_bignum_mulmod(const struct crypto_bignum *a,
-+ 			 const struct crypto_bignum *b,
-+ 			 const struct crypto_bignum *m,
-+@@ -1181,6 +1214,27 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
-+ }
-+ 
-+ 
-++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
-++			 const struct crypto_bignum *b,
-++			 struct crypto_bignum *c)
-++{
-++	if (TEST_FAIL())
-++		return -1;
-++
-++	return mp_sqrmod((mp_int *) a, (mp_int *) b,
-++			 (mp_int *) c) == MP_OKAY ?  0 : -1;
-++}
-++
-++
-++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
-++			  const struct crypto_bignum *b,
-++			  struct crypto_bignum *c)
-++{
-++	/* TODO */
-++	return -1;
-++}
-++
-++
-+ int crypto_bignum_rshift(const struct crypto_bignum *a, int n,
-+ 			 struct crypto_bignum *r)
-+ {
-+@@ -1386,6 +1440,18 @@ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e)
-+ }
-+ 
-+ 
-++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e)
-++{
-++	return (const struct crypto_bignum *) &e->a;
-++}
-++
-++
-++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e)
-++{
-++	return (const struct crypto_bignum *) &e->b;
-++}
-++
-++
-+ void crypto_ec_point_deinit(struct crypto_ec_point *p, int clear)
-+ {
-+ 	ecc_point *point = (ecc_point *) p;
 +-- 
-+2.25.1
++2.27.0
 +
-+From 2232d3d5f188b65dbb6c823ac62175412739eb16 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 7 Jan 2022 13:47:16 +0200
-+Subject: [PATCH 2/4] dragonfly: Add sqrt() helper function
-+
-+This is a backport of "SAE: Move sqrt() implementation into a helper
-+function" to introduce the helper function needed for the following
-+patches.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
-+---
-+ src/common/dragonfly.c | 34 ++++++++++++++++++++++++++++++++++
-+ src/common/dragonfly.h |  2 ++
-+ 2 files changed, 36 insertions(+)
-+
-+diff --git a/src/common/dragonfly.c b/src/common/dragonfly.c
-+index 547be66f1561..1e842716668e 100644
-+--- a/src/common/dragonfly.c
-++++ b/src/common/dragonfly.c
-+@@ -213,3 +213,37 @@ int dragonfly_generate_scalar(const struct crypto_bignum *order,
-+ 		   "dragonfly: Unable to get randomness for own scalar");
-+ 	return -1;
-+ }
-++
-++
-++/* res = sqrt(val) */
-++int dragonfly_sqrt(struct crypto_ec *ec, const struct crypto_bignum *val,
-++		   struct crypto_bignum *res)
-++{
-++	const struct crypto_bignum *prime;
-++	struct crypto_bignum *tmp, *one;
-++	int ret = 0;
-++	u8 prime_bin[DRAGONFLY_MAX_ECC_PRIME_LEN];
-++	size_t prime_len;
-++
-++	/* For prime p such that p = 3 mod 4, sqrt(w) = w^((p+1)/4) mod p */
-++
-++	prime = crypto_ec_get_prime(ec);
-++	prime_len = crypto_ec_prime_len(ec);
-++	tmp = crypto_bignum_init();
-++	one = crypto_bignum_init_uint(1);
-++
-++	if (crypto_bignum_to_bin(prime, prime_bin, sizeof(prime_bin),
-++				 prime_len) < 0 ||
-++	    (prime_bin[prime_len - 1] & 0x03) != 3 ||
-++	    !tmp || !one ||
-++	    /* tmp = (p+1)/4 */
-++	    crypto_bignum_add(prime, one, tmp) < 0 ||
-++	    crypto_bignum_rshift(tmp, 2, tmp) < 0 ||
-++	    /* res = sqrt(val) */
-++	    crypto_bignum_exptmod(val, tmp, prime, res) < 0)
-++		ret = -1;
-++
-++	crypto_bignum_deinit(tmp, 0);
-++	crypto_bignum_deinit(one, 0);
-++	return ret;
-++}
-+diff --git a/src/common/dragonfly.h b/src/common/dragonfly.h
-+index ec3dd593eda4..84d67f575c54 100644
-+--- a/src/common/dragonfly.h
-++++ b/src/common/dragonfly.h
-+@@ -27,5 +27,7 @@ int dragonfly_generate_scalar(const struct crypto_bignum *order,
-+ 			      struct crypto_bignum *_rand,
-+ 			      struct crypto_bignum *_mask,
-+ 			      struct crypto_bignum *scalar);
-++int dragonfly_sqrt(struct crypto_ec *ec, const struct crypto_bignum *val,
-++		   struct crypto_bignum *res);
-+ 
-+ #endif /* DRAGONFLY_H */
-+-- 
-+2.25.1
-+
-+From fe534b0baaa8c0e6ddeb24cf529d6e50e33dc501 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 7 Jan 2022 13:47:16 +0200
-+Subject: [PATCH 3/4] SAE: Derive the y coordinate for PWE with own
-+ implementation
-+
-+The crypto_ec_point_solve_y_coord() wrapper function might not use
-+constant time operations in the crypto library and as such, could leak
-+side channel information about the password that is used to generate the
-+PWE in the hunting and pecking loop. As such, calculate the two possible
-+y coordinate values and pick the correct one to use with constant time
-+selection.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
-+---
-+ src/common/sae.c | 47 +++++++++++++++++++++++++++++++++--------------
-+ 1 file changed, 33 insertions(+), 14 deletions(-)
-+
-+diff --git a/src/common/sae.c b/src/common/sae.c
-+index 08fdbfd18173..8d79ed962768 100644
-+--- a/src/common/sae.c
-++++ b/src/common/sae.c
-+@@ -286,14 +286,16 @@ static int sae_derive_pwe_ecc(struct sae_data *sae, const u8 *addr1,
-+ 	int pwd_seed_odd = 0;
-+ 	u8 prime[SAE_MAX_ECC_PRIME_LEN];
-+ 	size_t prime_len;
-+-	struct crypto_bignum *x = NULL, *qr = NULL, *qnr = NULL;
-++	struct crypto_bignum *x = NULL, *y = NULL, *qr = NULL, *qnr = NULL;
-+ 	u8 x_bin[SAE_MAX_ECC_PRIME_LEN];
-+ 	u8 x_cand_bin[SAE_MAX_ECC_PRIME_LEN];
-+ 	u8 qr_bin[SAE_MAX_ECC_PRIME_LEN];
-+ 	u8 qnr_bin[SAE_MAX_ECC_PRIME_LEN];
-++	u8 x_y[2 * SAE_MAX_ECC_PRIME_LEN];
-+ 	int res = -1;
-+ 	u8 found = 0; /* 0 (false) or 0xff (true) to be used as const_time_*
-+ 		       * mask */
-++	unsigned int is_eq;
-+ 
-+ 	os_memset(x_bin, 0, sizeof(x_bin));
-+ 
-+@@ -402,25 +404,42 @@ static int sae_derive_pwe_ecc(struct sae_data *sae, const u8 *addr1,
-+ 		goto fail;
-+ 	}
-+ 
-+-	if (!sae->tmp->pwe_ecc)
-+-		sae->tmp->pwe_ecc = crypto_ec_point_init(sae->tmp->ec);
-+-	if (!sae->tmp->pwe_ecc)
-+-		res = -1;
-+-	else
-+-		res = crypto_ec_point_solve_y_coord(sae->tmp->ec,
-+-						    sae->tmp->pwe_ecc, x,
-+-						    pwd_seed_odd);
-+-	if (res < 0) {
-+-		/*
-+-		 * This should not happen since we already checked that there
-+-		 * is a result.
-+-		 */
-++	/* y = sqrt(x^3 + ax + b) mod p
-++	 * if LSB(save) == LSB(y): PWE = (x, y)
-++	 * else: PWE = (x, p - y)
-++	 *
-++	 * Calculate y and the two possible values for PWE and after that,
-++	 * use constant time selection to copy the correct alternative.
-++	 */
-++	y = crypto_ec_point_compute_y_sqr(sae->tmp->ec, x);
-++	if (!y ||
-++	    dragonfly_sqrt(sae->tmp->ec, y, y) < 0 ||
-++	    crypto_bignum_to_bin(y, x_y, SAE_MAX_ECC_PRIME_LEN,
-++				 prime_len) < 0 ||
-++	    crypto_bignum_sub(sae->tmp->prime, y, y) < 0 ||
-++	    crypto_bignum_to_bin(y, x_y + SAE_MAX_ECC_PRIME_LEN,
-++				 SAE_MAX_ECC_PRIME_LEN, prime_len) < 0) {
-+ 		wpa_printf(MSG_DEBUG, "SAE: Could not solve y");
-++		goto fail;
-++	}
-++
-++	is_eq = const_time_eq(pwd_seed_odd, x_y[prime_len - 1] & 0x01);
-++	const_time_select_bin(is_eq, x_y, x_y + SAE_MAX_ECC_PRIME_LEN,
-++			      prime_len, x_y + prime_len);
-++	os_memcpy(x_y, x_bin, prime_len);
-++	wpa_hexdump_key(MSG_DEBUG, "SAE: PWE", x_y, 2 * prime_len);
-++	crypto_ec_point_deinit(sae->tmp->pwe_ecc, 1);
-++	sae->tmp->pwe_ecc = crypto_ec_point_from_bin(sae->tmp->ec, x_y);
-++	if (!sae->tmp->pwe_ecc) {
-++		wpa_printf(MSG_DEBUG, "SAE: Could not generate PWE");
-++		res = -1;
-+ 	}
-+ 
-+ fail:
-++	forced_memzero(x_y, sizeof(x_y));
-+ 	crypto_bignum_deinit(qr, 0);
-+ 	crypto_bignum_deinit(qnr, 0);
-++	crypto_bignum_deinit(y, 1);
-+ 	os_free(dummy_password);
-+ 	bin_clear_free(tmp_password, password_len);
-+ 	crypto_bignum_deinit(x, 1);
-+-- 
-+2.25.1
-+
-+From 603cd880e7f90595482658a7136fa6a7be5cb485 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 7 Jan 2022 18:52:27 +0200
-+Subject: [PATCH 4/4] EAP-pwd: Derive the y coordinate for PWE with own
-+ implementation
-+
-+The crypto_ec_point_solve_y_coord() wrapper function might not use
-+constant time operations in the crypto library and as such, could leak
-+side channel information about the password that is used to generate the
-+PWE in the hunting and pecking loop. As such, calculate the two possible
-+y coordinate values and pick the correct one to use with constant time
-+selection.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
-+---
-+ src/eap_common/eap_pwd_common.c | 46 ++++++++++++++++++++++++++-------
-+ 1 file changed, 36 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/eap_common/eap_pwd_common.c b/src/eap_common/eap_pwd_common.c
-+index 2b2b8efdbd01..ff22b29b087a 100644
-+--- a/src/eap_common/eap_pwd_common.c
-++++ b/src/eap_common/eap_pwd_common.c
-+@@ -127,7 +127,8 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	u8 qr_or_qnr_bin[MAX_ECC_PRIME_LEN];
-+ 	u8 x_bin[MAX_ECC_PRIME_LEN];
-+ 	u8 prime_bin[MAX_ECC_PRIME_LEN];
-+-	struct crypto_bignum *tmp2 = NULL;
-++	u8 x_y[2 * MAX_ECC_PRIME_LEN];
-++	struct crypto_bignum *tmp2 = NULL, *y = NULL;
-+ 	struct crypto_hash *hash;
-+ 	unsigned char pwe_digest[SHA256_MAC_LEN], *prfbuf = NULL, ctr;
-+ 	int ret = 0, res;
-+@@ -139,6 +140,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	u8 found_ctr = 0, is_odd = 0;
-+ 	int cmp_prime;
-+ 	unsigned int in_range;
-++	unsigned int is_eq;
-+ 
-+ 	if (grp->pwe)
-+ 		return -1;
-+@@ -151,11 +153,6 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	if (crypto_bignum_to_bin(prime, prime_bin, sizeof(prime_bin),
-+ 				 primebytelen) < 0)
-+ 		return -1;
-+-	grp->pwe = crypto_ec_point_init(grp->group);
-+-	if (!grp->pwe) {
-+-		wpa_printf(MSG_INFO, "EAP-pwd: unable to create bignums");
-+-		goto fail;
-+-	}
-+ 
-+ 	if ((prfbuf = os_malloc(primebytelen)) == NULL) {
-+ 		wpa_printf(MSG_INFO, "EAP-pwd: unable to malloc space for prf "
-+@@ -261,10 +258,37 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	 */
-+ 	crypto_bignum_deinit(x_candidate, 1);
-+ 	x_candidate = crypto_bignum_init_set(x_bin, primebytelen);
-+-	if (!x_candidate ||
-+-	    crypto_ec_point_solve_y_coord(grp->group, grp->pwe, x_candidate,
-+-					  is_odd) != 0) {
-+-		wpa_printf(MSG_INFO, "EAP-pwd: Could not solve for y");
-++	if (!x_candidate)
-++		goto fail;
-++
-++	/* y = sqrt(x^3 + ax + b) mod p
-++	 * if LSB(y) == LSB(pwd-seed): PWE = (x, y)
-++	 * else: PWE = (x, p - y)
-++	 *
-++	 * Calculate y and the two possible values for PWE and after that,
-++	 * use constant time selection to copy the correct alternative.
-++	 */
-++	y = crypto_ec_point_compute_y_sqr(grp->group, x_candidate);
-++	if (!y ||
-++	    dragonfly_sqrt(grp->group, y, y) < 0 ||
-++	    crypto_bignum_to_bin(y, x_y, MAX_ECC_PRIME_LEN, primebytelen) < 0 ||
-++	    crypto_bignum_sub(prime, y, y) < 0 ||
-++	    crypto_bignum_to_bin(y, x_y + MAX_ECC_PRIME_LEN,
-++				 MAX_ECC_PRIME_LEN, primebytelen) < 0) {
-++		wpa_printf(MSG_DEBUG, "SAE: Could not solve y");
-++		goto fail;
-++	}
-++
-++	/* Constant time selection of the y coordinate from the two
-++	 * options */
-++	is_eq = const_time_eq(is_odd, x_y[primebytelen - 1] & 0x01);
-++	const_time_select_bin(is_eq, x_y, x_y + MAX_ECC_PRIME_LEN,
-++			      primebytelen, x_y + primebytelen);
-++	os_memcpy(x_y, x_bin, primebytelen);
-++	wpa_hexdump_key(MSG_DEBUG, "EAP-pwd: PWE", x_y, 2 * primebytelen);
-++	grp->pwe = crypto_ec_point_from_bin(grp->group, x_y);
-++	if (!grp->pwe) {
-++		wpa_printf(MSG_DEBUG, "EAP-pwd: Could not generate PWE");
-+ 		goto fail;
-+ 	}
-+ 
-+@@ -289,6 +313,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	/* cleanliness and order.... */
-+ 	crypto_bignum_deinit(x_candidate, 1);
-+ 	crypto_bignum_deinit(tmp2, 1);
-++	crypto_bignum_deinit(y, 1);
-+ 	crypto_bignum_deinit(qr, 1);
-+ 	crypto_bignum_deinit(qnr, 1);
-+ 	bin_clear_free(prfbuf, primebytelen);
-+@@ -296,6 +321,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
-+ 	os_memset(qnr_bin, 0, sizeof(qnr_bin));
-+ 	os_memset(qr_or_qnr_bin, 0, sizeof(qr_or_qnr_bin));
-+ 	os_memset(pwe_digest, 0, sizeof(pwe_digest));
-++	forced_memzero(x_y, sizeof(x_y));
-+ 
-+ 	return ret;
-+ }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index cddcfb6811..a8fb34b1a1 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://CVE-2021-0326.patch \
-            file://CVE-2021-27803.patch \
-            file://CVE-2021-30004.patch \
-+           file://CVE-2022-23303-4.patch \
-           "
- SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
- SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
 -- 
 2.25.1
 
