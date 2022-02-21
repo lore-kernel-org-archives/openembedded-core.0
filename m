@@ -1,148 +1,179 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0744C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:22:27 +0000 (UTC)
-Received: from forward501p.mail.yandex.net (forward501p.mail.yandex.net
- [77.88.28.111])
- by mx.groups.io with SMTP id smtpd.web10.11109.1645453345784650429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F520C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:24:57 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.11150.1645453496195066101
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:22:27 -0800
+ Mon, 21 Feb 2022 06:24:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=mail header.b=TsFCW5Px;
- spf=pass (domain: zhukoff.net, ip: 77.88.28.111, mailfrom: pavel@zhukoff.net)
-Received: from myt6-06c5907de372.qloud-c.yandex.net
- (myt6-06c5907de372.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:42ad:0:640:6c5:907d])
-	by forward501p.mail.yandex.net (Yandex) with ESMTP id F0BAB621240F;
-	Mon, 21 Feb 2022 17:22:22 +0300 (MSK)
-Received: from 2a02:6b8:c12:3ea4:0:640:a551:2e99
- (2a02:6b8:c12:3ea4:0:640:a551:2e99 [2a02:6b8:c12:3ea4:0:640:a551:2e99])
-	by myt6-06c5907de372.qloud-c.yandex.net (mxback/Yandex) with HTTP id
- LMm9814dZuQ1-MMdWfgGM;
-	Mon, 21 Feb 2022 17:22:22 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1645453342;
-	bh=PpmrVwDP2ZfVuVgpkMQ2p/KVWZb6D+AJ6dBEjVYDC3Y=;
-	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
-	b=TsFCW5Px3PUrH6tNYxtUSETm5sOabYED5JeK8xF4ybb7qOnboKO+6gjvfQsdsiD2L
-	 ywTGFhth/HT5Rvf/qKQxel7+Lr03pAEmYJqRRW7ThyXWmwshONaYlcidi8t5efUdRh
-	 5fQM6FpQO6tIDgobF8VI+laDHKfKuP642c95CuVg=
-Authentication-Results: myt6-06c5907de372.qloud-c.yandex.net;
- dkim=pass header.i=@zhukoff.net
-Received: by myt5-a5512e99e394.qloud-c.yandex.net with HTTP;
-	Mon, 21 Feb 2022 17:22:22 +0300
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: Christian Eggers <ceggers@arri.de>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Pavel Zhukov <pavel.zhukov@huawei.com>
-In-Reply-To: <7357253.EvYhyI6sBW@dhcp-192-168-0-28.wgnetz.xx>
-References: <20220221135745.5145-1-pavel@zhukoff.net>
- <7357253.EvYhyI6sBW@dhcp-192-168-0-28.wgnetz.xx>
-Subject: Re: [PATCH] patch.py: Prevent git repo reinitialization
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=iVzOmjGo;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.41,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f41.google.com with SMTP id j22so1303817wrb.13
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 21 Feb 2022 06:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dcRWR1uGmLXkQXp4vd/KB/nuAm6yhL/PU8RlBfk3VYk=;
+        b=iVzOmjGoWmItRML7OdepDphNigcqPiQ6WNFhNJkYO7FhjXoq9BT5WNrS59zMY2Z8zL
+         hLKdPK+jLFH6XqnqDXZZNkYxzftBkdu7k+U7VfE4z7Y34Ok0mtk9A3z6TAKj2W0gnFSJ
+         hfuANkcgApeh/1TdcnAtycCszR6x0+xZ6A4Qlnu5RD16jJwtS5WItj628TTiKxIMUdc5
+         se4F11BLxDZ9zaRG1vKUfJw66u94GlMZgHcNCJ2bZJv3/pWZYyPciu9N+qK9+iSt7c9J
+         5R8leFjKv0Dh34R526l1xt51zmNsQicfDl8wwk7YraQcE5L9wPonxw5yryTO4lY8wjl8
+         e8Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dcRWR1uGmLXkQXp4vd/KB/nuAm6yhL/PU8RlBfk3VYk=;
+        b=kbnjKTCbHYeFp05EvSbu+dZ6CmEUrazKgoEpv6DV5ZMGrO2jY2keKzpWXBii+rGMCs
+         cztvx5APQYI+StZqDIsKmojaMXssvMOITAOB8xUKPAbr0dL4IhOTpqtKI8Ajp6UJDFKT
+         KFs1vFh3F39I2oIQsQ2aFTTxZWDIxPLDfCoWbXJSsO3cTeau4s/jgNOwEwL3o++unj/x
+         Lysr+DJzblyeN/eiM/5ihFexMROZC5EbVBRiBq18LNDdkDGHLfUKPUDFg/FwsOhNxJM9
+         qHWDD9UzUxrBvbIikrKWFjt5jLXIGPIgmF6X3A2uT++jiJwxCZ0pBP4VjeSfhp4GI3Qu
+         sk6Q==
+X-Gm-Message-State: AOAM530679PUIv6v/hDEZrlWQf41xgP6Qo+WIvNjIlG8UcreYQMbg1H9
+	bJtIs20wRtN7UbM0s7GPB5sHcQk30ZKKeAjaiawmEg==
+X-Google-Smtp-Source: 
+ ABdhPJwN9ZHUWIi89/yQpzWFTJ1AV7z8qQAywTd4mQpDvonGwU5mSMXX4Zk6wKhoO59Xl6osVqANCd0PLDje6lACvFo=
+X-Received: by 2002:adf:fd48:0:b0:1e4:99d8:48bd with SMTP id
+ h8-20020adffd48000000b001e499d848bdmr15537025wrs.497.1645453494450; Mon, 21
+ Feb 2022 06:24:54 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Mon, 21 Feb 2022 15:22:22 +0100
-Message-Id: <531321645453238@mail.yandex.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
+References: <20220221085118.2267900-1-quaresma.jose@gmail.com>
+In-Reply-To: <20220221085118.2267900-1-quaresma.jose@gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Mon, 21 Feb 2022 14:24:43 +0000
+Message-ID: 
+ <CAAnfSTuxOD2LVkod3wTk7K=w_Q_6KjbYoa_-FqD1WHy0hqy0jA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] meson.bbclass: add support for running
+ the meson tests at build time
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:22:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:24:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162052
+ https://lists.openembedded.org/g/openembedded-core/message/162053
 
-PGRpdj7CoDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2Pi0twqA8L2Rpdj48ZGl2PjIxLjAyLjIwMjIs
-IDE1OjE1LCAiQ2hyaXN0aWFuIEVnZ2VycyIgJmx0O2NlZ2dlcnNAYXJyaS5kZSZndDs6PC9kaXY+
-PGJsb2NrcXVvdGU+PHA+T24gTW9uZGF5LCAyMSBGZWJydWFyeSAyMDIyLCAxNDo1Nzo0NiBDRVQs
-IFBhdmVsIFpodWtvdiB3cm90ZTo8L3A+PGJsb2NrcXVvdGU+wqBUaGVyZSB3ZXJlIGZldyBidWdz
-IGluIHRoZSBfaXNJbml0aWFsaXplZCgpIGZ1bmN0aW9uIHdoaWNoIG1pZ2h0IHRyaWdnZXI8YnIg
-Lz7CoGdpdCByZXBvIHRvIGJlIHJlaW5pdGlhbGl6ZWQgYW5kIHBhdGNoZXMgZmFpbGluZyB0byBh
-cHBseS48YnIgLz7CoDxiciAvPsKgU2lnbmVkLW9mZi1ieTogUGF2ZWwgWmh1a292ICZsdDs8YSBo
-cmVmPSJtYWlsdG86cGF2ZWwuemh1a292QGh1YXdlaS5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZl
-cnJlciI+cGF2ZWwuemh1a292QGh1YXdlaS5jb208L2E+Jmd0OzxiciAvPsKgLS0tPGJyIC8+wqDC
-oC4uLi9uZXQtdG9vbHMvQWRkX21pc3NpbmdfaGVhZGVycy5wYXRjaCB8IDE1ICsrKzxiciAvPsKg
-wqAuLi4vbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLmggfCA3NSArKysrKysr
-KysrKzxiciAvPsKgwqAuLi4vbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLm1h
-a2UgfCAzNiArKysrKys8YnIgLz7CoMKgLi4uL3JlY2lwZXMtdGVzdC9uZXQtdG9vbHMvbmV0LXRv
-b2xzXzIuMTAuYmIgfCAxMjEgKysrKysrKysrKysrKysrKysrPC9ibG9ja3F1b3RlPjxwPkkgZ3Vl
-c3MgdGhhdCB0aGVzZSBmaWxlcyBoYXZlIGJlZW4gYWRkZWQgYnkgYWNjaWRlbnQuPC9wPjwvYmxv
-Y2txdW90ZT48ZGl2PlRoZXkgaGF2ZW4ndC4gSSd2ZSBhZGRlZCB0ZXN0IGZvciBQQVRDSFRPT0w9
-ImdpdCIgJmFtcDsmYW1wOyBnaXQ6Ly8gLiBJIGNvdWxkIHVzZSBnaXRpbnBhY2tvZmZsaW5lIGJ1
-dCBpdCBkb2Vzbid0IGNvbnRhaW4gYW55IHBhdGNoZXMuIEkgd2FzIG5vdCBhYmxlIHRvIHJlcHJv
-ZHVjZSB0aGUgaXNzdWUgaG93ZXZlci48L2Rpdj48YmxvY2txdW90ZT48cD7CoDwvcD48YmxvY2tx
-dW90ZT7CoMKgbWV0YS9saWIvb2UvcGF0Y2gucHkgfCA2ICstPGJyIC8+wqDCoG1ldGEvbGliL29l
-cWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5weSB8IDIwICsrLTxiciAvPsKgwqA2IGZpbGVzIGNo
-YW5nZWQsIDI2OCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKTxiciAvPsKgwqBjcmVhdGUg
-bW9kZSAxMDA2NDQgbWV0YS1zZWxmdGVzdC9yZWNpcGVzLXRlc3QvbmV0LXRvb2xzL25ldC10b29s
-cy9BZGRfbWlzc2luZ19oZWFkZXJzLnBhdGNoPGJyIC8+wqDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBt
-ZXRhLXNlbGZ0ZXN0L3JlY2lwZXMtdGVzdC9uZXQtdG9vbHMvbmV0LXRvb2xzL25ldC10b29scy1j
-b25maWcuaDxiciAvPsKgwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS1zZWxmdGVzdC9yZWNpcGVz
-LXRlc3QvbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLm1ha2U8YnIgLz7CoMKg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEtc2VsZnRlc3QvcmVjaXBlcy10ZXN0L25ldC10b29scy9u
-ZXQtdG9vbHNfMi4xMC5iYjxiciAvPsKgPGJyIC8+wqAuLi48YnIgLz7CoDxiciAvPsKgZGlmZiAt
-LWdpdCBhL21ldGEvbGliL29lL3BhdGNoLnB5IGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7C
-oGluZGV4IDk1MGZlNzIzZGMuLmI2ZmU5YjJiZGQgMTAwNjQ0PGJyIC8+wqAtLS0gYS9tZXRhL2xp
-Yi9vZS9wYXRjaC5weTxiciAvPsKgKysrIGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7CoEBA
-IC0zMDQsMTQgKzMwNCwxNCBAQCBjbGFzcyBHaXRBcHBseVRyZWUoUGF0Y2hUcmVlKTo8YnIgLz7C
-oMKgPGJyIC8+wqDCoMKgwqDCoMKgZGVmIF9pc0luaXRpYWxpemVkKHNlbGYpOjxiciAvPsKgwqDC
-oMKgwqDCoMKgwqDCoMKgY21kID0gImdpdCByZXYtcGFyc2UgLS1zaG93LXRvcGxldmVsIjxiciAv
-PsKgLSAoc3RhdHVzLCBvdXRwdXQpID0gc3VicHJvY2Vzcy5nZXRzdGF0dXNvdXRwdXQoY21kLnNw
-bGl0KCkpPGJyIC8+wqArIChzdGF0dXMsIG91dHB1dCkgPSBzdWJwcm9jZXNzLmdldHN0YXR1c291
-dHB1dChjbWQpPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqAjIyBNYWtlIHN1cmUgcmVwbyBpcyBp
-biBidWlsZGRpciB0byBub3QgYnJlYWsgdG9wLWxldmVsIGdpdCByZXBvczxiciAvPsKgLSByZXR1
-cm4gc3RhdHVzID09IDAgYW5kIG9zLnBhdGguc2FtZWRpcihvdXRwdXQsIHNlbGYuZGlyKTxiciAv
-PsKgKyByZXR1cm4gc3RhdHVzID09IDAgYW5kIG9zLnBhdGguc2FtZWZpbGUob9C4dXRwdXQsIHNl
-bGYuZGlyKTwvYmxvY2txdW90ZT48cD5leHRyYSBjaGFyYWN0ZXIgKCfQuCcpPC9wPjwvYmxvY2tx
-dW90ZT48ZGl2Pk9oLiBmYXQgZmluZ2Vycy4gVGhhbmsgeW91ITwvZGl2PjxibG9ja3F1b3RlPjxw
-PjxiciAvPnJlZ2FyZHM8YnIgLz5DaHJpc3RpYW48YnIgLz7CoDwvcD48YmxvY2txdW90ZT7CoMKg
-PGJyIC8+wqDCoMKgwqDCoMKgZGVmIF9pbml0UmVwbyhzZWxmKTo8YnIgLz7CoMKgwqDCoMKgwqDC
-oMKgwqDCoHJ1bmNtZCgiZ2l0IGluaXQiLnNwbGl0KCksIHNlbGYuZGlyKTxiciAvPsKgwqDCoMKg
-wqDCoMKgwqDCoMKgcnVuY21kKCJnaXQgYWRkIC4iLnNwbGl0KCksIHNlbGYuZGlyKTxiciAvPsKg
-LSBydW5jbWQoImdpdCBjb21taXQgLWEgLS1hbGxvdy1lbXB0eSAtbSBQYXRjaGluZ19zdGFydGVk
-Ii5zcGxpdCgpLCBzZWxmLmRpcik8YnIgLz7CoCsgcnVuY21kKCJnaXQgY29tbWl0IC1hIC0tYWxs
-b3ctZW1wdHkgLW0gYml0YmFrZV9wYXRjaGluZ19zdGFydGVkIi5zcGxpdCgpLCBzZWxmLmRpcik8
-YnIgLz7CoMKgPGJyIC8+wqDCoMKgwqDCoMKgQHN0YXRpY21ldGhvZDxiciAvPsKgwqDCoMKgwqDC
-oGRlZiBleHRyYWN0UGF0Y2hIZWFkZXIocGF0Y2hmaWxlKTo8YnIgLz7CoGRpZmYgLS1naXQgYS9t
-ZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2JidGVzdHMucHkgYi9tZXRhL2xpYi9vZXFhL3Nl
-bGZ0ZXN0L2Nhc2VzL2JidGVzdHMucHk8YnIgLz7CoGluZGV4IGNlNzJjNGJjYzYuLmFlM2YyMzAw
-MzggMTAwNjQ0PGJyIC8+wqAtLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2JidGVz
-dHMucHk8YnIgLz7CoCsrKyBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5w
-eTxiciAvPsKgQEAgLTMwNywxMSArMzA3LDI3IEBAIElOSEVSSVQ6cmVtb3ZlID0gXCJyZXBvcnQt
-ZXJyb3JcIjxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgc3JjID0gZ2V0X2JiX3ZhcigiU1JDX1VS
-SSIsdGVzdF9yZWNpcGUpPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqBnaXRzY20gPSByZS5zZWFy
-Y2goImdpdDovLyIsIHNyYyk8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoHNlbGYuYXNzZXJ0RmFs
-c2UoZ2l0c2NtLCAidGVzdF9naXRfcGF0Y2h0b29sIHByZS1jb25kaXRpb24gZmFpbGVkOiB7fSB0
-ZXN0IHJlY2lwZSBjb250YWlucyBnaXQgcmVwbyEiLmZvcm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+
-wqAtIHJlc3VsdCA9IGJpdGJha2UoJ21hbi1kYiAtYyBwYXRjaCcsIGlnbm9yZV9zdGF0dXM9RmFs
-c2UpPGJyIC8+wqArIHJlc3VsdCA9IGJpdGJha2UoJ3t9IC1jIHBhdGNoJy5mb3JtYXQodGVzdF9y
-ZWNpcGUpLCBpZ25vcmVfc3RhdHVzPUZhbHNlKTxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgZmF0
-YWwgPSByZS5zZWFyY2goImZhdGFsOiBub3QgYSBnaXQgcmVwb3NpdG9yeSAob3IgYW55IG9mIHRo
-ZSBwYXJlbnQgZGlyZWN0b3JpZXMpIiwgcmVzdWx0Lm91dHB1dCk8YnIgLz7CoMKgwqDCoMKgwqDC
-oMKgwqDCoHNlbGYuYXNzZXJ0RmFsc2UoZmF0YWwsICJGYWlsZWQgdG8gcGF0Y2ggdXNpbmcgUEFU
-Q0hUT09MPVwiZ2l0XCIiKTxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgc2VsZi5kZWxldGVfcmVj
-aXBlaW5jKHRlc3RfcmVjaXBlKTxiciAvPsKgLSBiaXRiYWtlKCctY2NsZWFuIG1hbi1kYicpPGJy
-IC8+wqArIGJpdGJha2UoJy1jY2xlYW4ge30nLmZvcm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+wqAr
-PGJyIC8+wqArIGRlZiB0ZXN0X2dpdF9wYXRjaHRvb2wyKHNlbGYpOjxiciAvPsKgKyAiIiIgVGVz
-dCBpZiBQQVRDSFRPT0w9Z2l0IHdvcmtzIHdpdGggZ2l0IHJlcG8gYW5kIGRvZXNuJ3QgcmVpbml0
-aWFsaXplIGl0PGJyIC8+wqArICIiIjxiciAvPsKgKyB0ZXN0X3JlY2lwZSA9ICJuZXQtdG9vbHMi
-PGJyIC8+wqArIHNlbGYud3JpdGVfcmVjaXBlaW5jKHRlc3RfcmVjaXBlLCAnUEFUQ0hUT09MPVwi
-Z2l0XCInKTxiciAvPsKgKyBzcmMgPSBnZXRfYmJfdmFyKCJTUkNfVVJJIix0ZXN0X3JlY2lwZSk8
-YnIgLz7CoCsgZ2l0c2NtID0gcmUuc2VhcmNoKCJnaXQ6Ly8iLCBzcmMpPGJyIC8+wqArIHNlbGYu
-YXNzZXJ0VHJ1ZShnaXRzY20sICJ0ZXN0X2dpdF9wYXRjaHRvb2wgcHJlLWNvbmRpdGlvbiBmYWls
-ZWQ6IHt9IHRlc3QgcmVjaXBlIGRvZXNuJ3QgY29udGFpbnMgZ2l0IHJlcG8hIi5mb3JtYXQodGVz
-dF9yZWNpcGUpKTxiciAvPsKgKyByZXN1bHQgPSBiaXRiYWtlKCd7fSAtYyBwYXRjaCcuZm9ybWF0
-KHRlc3RfcmVjaXBlKSwgaWdub3JlX3N0YXR1cz1GYWxzZSk8YnIgLz7CoCsgc3JjZGlyID0gZ2V0
-X2JiX3ZhcignUycsIHRlc3RfcmVjaXBlKTxiciAvPsKgKyByZXN1bHQgPSBydW5DbWQoImdpdCBs
-b2ciLCBjd2QgPSBzcmNkaXIpPGJyIC8+wqArIHNlbGYuYXNzZXJ0RmFsc2UoImJpdGJha2VfcGF0
-Y2hpbmdfc3RhcnRlZCIgaW4gcmVzdWx0Lm91dHB1dCwgbXNnID0gIlJlcG9zaXRvcnkgaGFzIGJl
-ZW4gcmVpbml0aWFsaXplZC4ge30iLmZvcm1hdChzcmNkaXIpKTxiciAvPsKgKyBzZWxmLmRlbGV0
-ZV9yZWNpcGVpbmModGVzdF9yZWNpcGUpPGJyIC8+wqArIGJpdGJha2UoJy1jY2xlYW4ge30nLmZv
-cm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+wqArPGJyIC8+wqDCoDxiciAvPsKgwqDCoMKgwqDCoGRl
-ZiB0ZXN0X2dpdF91bnBhY2tfbm9uZXR3b3JrKHNlbGYpOjxiciAvPsKgwqDCoMKgwqDCoMKgwqDC
-oMKgIiIiPGJyIC8+wqA8L2Jsb2NrcXVvdGU+PC9ibG9ja3F1b3RlPg==
+There are *so many* limitations of qemu-user I'm not sure this is
+actually useful.
+
+(speaking as someone who tried this with Python a while ago).
+
+What recipes has this successfully worked on?
+
+Ross
+
+On Mon, 21 Feb 2022 at 08:51, Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>
+> The generic exe_wrapper introcuced in 40349dc5 can be used to run the
+> meson tests when build the receipe. This patch add the meson_test task
+> on the meson bbclass that adds this possibility.
+>
+> The exe_wrapper will run using the qemu usermode and because of that it
+> has some limitations, so don't expect the same results when it runs
+> natively on target.
+>
+> Running the tests at build time is upstream way for testing but is not
+> possible in OE as we always croos-compile. This can be useful in some
+> integration processes and for debuging and it adds the possibility to
+> run the test in an interactive way using the devtool build for example.
+>
+> There are two variable for that:
+>  MESON_QEMU_WRAPPER_TEST_ENABLED: this enables the test when it's "1"
+>  EXTRA_OEMESON_TEST: this is used to add extra args
+>
+> Some results when using this patch in the bigest meson project
+> on OE-core are the folloing:
+>
+> cat <<'EOF' >>conf/local.conf
+> MESON_QEMU_WRAPPER_TEST_ENABLED:pn-systemd-boot = "1"
+> EOF
+>
+> bitbake -c do_meson_test -v systemd-boot
+>
+> Ok:                 821
+> Expected Fail:      0
+> Fail:               95
+> Unexpected Pass:    0
+> Skipped:            33
+> Timeout:            0
+>
+> cat <<'EOF' >>conf/local.conf
+> MESON_QEMU_WRAPPER_TEST_ENABLED:pn-glib-2.0 = "1"
+> EOF
+>
+> bitbake -c do_meson_test -v glib-2.0
+>
+> Ok:                 197
+> Expected Fail:      0
+> Fail:               76
+> Unexpected Pass:    0
+> Skipped:            0
+> Timeout:            2
+>
+> cat <<'EOF' >>conf/local.conf
+> MESON_QEMU_WRAPPER_TEST_ENABLED:pn-gstreamer1.0 = "1"
+> EOF
+>
+> bitbake -c do_meson_test -v gstreamer1.0
+>
+> Ok:                 95
+> Expected Fail:      0
+> Fail:               10
+> Unexpected Pass:    0
+> Skipped:            1
+> Timeout:            0
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/classes/meson.bbclass | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index 0bfe945811..020a59a3c0 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -179,3 +179,19 @@ meson_do_install() {
+>  }
+>
+>  EXPORT_FUNCTIONS do_configure do_compile do_install
+> +
+> +EXTRA_OEMESON_TEST ?= ""
+> +
+> +do_meson_test() {
+> +    bbwarn "don't expect the same results when it runs natively as it will run in qemu usermode (that has its own limitations)"
+> +    meson test -C ${B} ${EXTRA_OEMESON_TEST}
+> +}
+> +do_meson_test[vardeps] += "EXTRA_OEMESON_TEST"
+> +
+> +MESON_QEMU_WRAPPER_RUNTEST = ""
+> +MESON_QEMU_WRAPPER_RUNTEST:class-target = "${@d.getVar('MESON_QEMU_WRAPPER_TEST_ENABLED') == '1' and d.getVar('EXEWRAPPER_ENABLED') == 'True'}"
+> +
+> +python() {
+> +    if d.getVar('MESON_QEMU_WRAPPER_RUNTEST') == 'True':
+> +       bb.build.addtask('meson_test', 'do_install', 'do_compile', d)
+> +}
+> --
+> 2.35.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162019): https://lists.openembedded.org/g/openembedded-core/message/162019
+> Mute This Topic: https://lists.openembedded.org/mt/89289917/1676615
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
