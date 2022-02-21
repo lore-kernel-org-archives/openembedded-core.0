@@ -1,131 +1,82 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <mikko.rapeli@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C23C433EF
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 06:20:32 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.7854.1645424432180375769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BE1C433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 07:04:40 +0000 (UTC)
+Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com
+ [207.54.71.60])
+ by mx.groups.io with SMTP id smtpd.web08.8078.1645427077738965524
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 22:20:32 -0800
+ Sun, 20 Feb 2022 23:04:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kv+e6xz7;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- t4-20020a17090a3b4400b001bc40b548f9so1432572pjf.0
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 22:20:32 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=VZ83vwR3;
+ spf=pass (domain: bmw.de, ip: 207.54.71.60,
+ mailfrom: prvs=044a62bd9=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VOWJpv+X5aslNR2Nhi3hhUMhPV8WpHigrscUuidqFBk=;
-        b=kv+e6xz7jVtIFNpgOEd6kTpnIywk98OhK8SmEwf39dyxqV+q3YbEm/odL5DdDMThFe
-         Q7l0sOAZinprdupkcw+IMr49fxWqFhiVecLr52PJUVwOx4SYtGigExcBVH7hM787WsSQ
-         6uHsOQQnuj28Jj1Hj8V6MxPVPgHhiSJVhmSpf4mqvTFs5fKK2CnFoAtwZLduIKRXxJqq
-         bVgEUXJOwBGrIUClFi8Ol2qmzDq6e2/7ILAFQ4gtOnovyRJeH4KlvzMZazspCb6IWuDC
-         KKmZPCtrKMygo9emX/lIIfxuimb2AcSWYfCPxl0HmupZgqcBOONPwbXfJaICEQQJjwNm
-         zvXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VOWJpv+X5aslNR2Nhi3hhUMhPV8WpHigrscUuidqFBk=;
-        b=niXp6/XW2PBz4JNzJcn6aHOHz8Gvytjjhpz9qjvZUbeRBW1Avv2OUyfLh3LLqg+8iT
-         4+NRoLybS4kVBZfDbOoYREMv/HOpJ+0H+oQ+7VLqvANjW0+QXEywxheRALwSFWmALfpt
-         a99CTubY0/Uya7gkqgpjFW8QLJ3jjk8KtWwZdYDD+nJ0yNvMZ6pMCwPSZzFszhYgxyT3
-         irX+7PPvrsjPNG4eF8fau2DGG3aq28LJOaLaXDMeHkSDSZehEDULBTC8tPGg57E1UjV9
-         f/Cwe0FTFLfm0ayS4Wu5n1PcOTYl0macjSbqXjGE0O1vj2p3AaHBaO4ls+5fodQNJy4A
-         MABQ==
-X-Gm-Message-State: AOAM532XmCsNHIP9f9wWrDP7BA2oNIJHsLWQK54Dkc0Uty+sXwr5edPM
-	qeJUykOwaymKeE7BtJDEeOixpqXhrR6rMw==
-X-Google-Smtp-Source: 
- ABdhPJzn1NXr4AG3qXroDRrIKEjtCqbCfdo+3cTT+Oj4PNaVMqhUMe/JWPx0QXV50e7NGBBSGdhgRg==
-X-Received: by 2002:a17:903:2283:b0:14d:4cd3:45b1 with SMTP id
- b3-20020a170903228300b0014d4cd345b1mr17510374plh.115.1645424431432;
-        Sun, 20 Feb 2022 22:20:31 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::fb6e])
-        by smtp.gmail.com with ESMTPSA id
- g1sm10645567pfu.32.2022.02.20.22.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 22:20:31 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] boost: Fix build on 32bit arches with 64bit time_t defaults
-Date: Sun, 20 Feb 2022 22:20:28 -0800
-Message-Id: <20220221062028.122453-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1645427078; x=1676963078;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=5aDq2Ba3jfydMU5vQ4F88OJ10b+Q/lBMLm7Ge5aO6HY=;
+  b=VZ83vwR3hMpotYcXGWBxK67FijCan7s9x+f+chtxArWngkBuX4vHBmSd
+   lR4rxCOlNXAQg9C9I10t0sIx0rdruj6E+T9D9NTz0fmZkuoUNnXJgGJm3
+   2jNS+zrmOm/9hr+oh58ZPVFDSJXqasY+QNqjIE1i9Ytzeg7dICVzPQInC
+   U=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 21 Feb 2022 08:04:34 +0100
+Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
+ 21 Feb 2022 08:04:34 +0100
+Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp)
+ ([160.46.167.67])
+ by esabb2.muc with ESMTP/TLS; 21 Feb 2022 08:04:35 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
+ smucm33k.europe.bmw.corp
+ (160.46.167.67) with Microsoft SMTP Server (TLS;
+ Mon, 21 Feb 2022 08:04:34 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.026; Mon,
+ 21 Feb 2022 08:04:33 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <steve@sakoman.com>
+CC: <ticotimo@gmail.com>, <tim.orling@konsulko.com>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [dunfell][PATCH v2] openssl: upgrade to 1.1.1m for
+ CVE-2021-4160
+Thread-Topic: [OE-core] [dunfell][PATCH v2] openssl: upgrade to 1.1.1m for
+ CVE-2021-4160
+Thread-Index: AQHYIum5vSTNubjjjkO9gdntLLFkl6yZ6gOAgAAObACAACRLAIADbzqA
+Date: Mon, 21 Feb 2022 07:04:33 +0000
+Message-ID: <YhM5fyUSSrhW8E2D@korppu>
+References: <20220216035900.851949-1-tim.orling@konsulko.com>
+ <CAOSpxdYvC6Lk_d7MT81ZM72e4NUrPyg7W3HhF53_niN38bA77Q@mail.gmail.com>
+ <CANx9H-B8pxFuD6Dsv+Zhw=iBzeVvOd+BCZijY96xjHtBCFwijA@mail.gmail.com>
+ <CAOSpxda1U9+x_EDqcWd=Xv4Q4yUk9CnnPVNyXukZuuXqdFhw7Q@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxda1U9+x_EDqcWd=Xv4Q4yUk9CnnPVNyXukZuuXqdFhw7Q@mail.gmail.com>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1918DC408E8D994B978EE9CCF0F45736@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 06:20:32 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 07:04:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162013
+ https://lists.openembedded.org/g/openembedded-core/message/162014
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...on-32-bit-architectures-using-64-bit.patch | 36 +++++++++++++++++++
- meta/recipes-support/boost/boost_1.78.0.bb    |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
+FWIW, there is also the pure patch to fix CVE-2021-4160 in openssl 1.1.1l f=
+or dunfell:
 
-diff --git a/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch b/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
-new file mode 100644
-index 00000000000..20dc3ca54e3
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
-@@ -0,0 +1,36 @@
-+From b15d8d0754bb545ba10d0cfba8bbfdfb22a62c38 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 20 Feb 2022 22:03:14 -0800
-+Subject: [PATCH] futex: fix build on 32-bit architectures using 64-bit time_t
-+
-+Fix the following build failure on 32-bit architectures using 64-bit
-+time_t (e.g. riscv32):
-+| ./boost/fiber/detail/futex.hpp:31:23: error: use of undeclared identifier 'SYS_futex'
-+|     return ::syscall( SYS_futex, addr, op, x, nullptr, nullptr, 0);
-+|                       ^
-+| 1 error generated.
-+
-+Upstream-Status: Submitted [https://github.com/boostorg/fiber/pull/292]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ boost/fiber/detail/futex.hpp | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/boost/fiber/detail/futex.hpp b/boost/fiber/detail/futex.hpp
-+index e64bd5990..d0353e9e5 100644
-+--- a/boost/fiber/detail/futex.hpp
-++++ b/boost/fiber/detail/futex.hpp
-+@@ -12,6 +12,10 @@
-+ 
-+ #include <boost/fiber/detail/config.hpp>
-+ 
-++#ifndef SYS_futex
-++#define SYS_futex SYS_futex_time64
-++#endif
-++
-+ #if BOOST_OS_LINUX
-+ extern "C" {
-+ #include <linux/futex.h>
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-support/boost/boost_1.78.0.bb b/meta/recipes-support/boost/boost_1.78.0.bb
-index f4b6ed85762..58be9dcf122 100644
---- a/meta/recipes-support/boost/boost_1.78.0.bb
-+++ b/meta/recipes-support/boost/boost_1.78.0.bb
-@@ -6,4 +6,5 @@ SRC_URI += "file://boost-CVE-2012-2677.patch \
-            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
-            file://0001-dont-setup-compiler-flags-m32-m64.patch \
-            file://de657e01635306085488290ea83de541ec393f8b.patch \
-+           file://0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch \
-            "
--- 
-2.35.1
+https://lists.openembedded.org/g/openembedded-core/message/161652
 
+Patch versus letter version update, which one is preferred?
+
+-Mikko=
 
