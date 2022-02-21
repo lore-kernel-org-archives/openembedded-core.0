@@ -1,155 +1,108 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB46AC433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 08:08:19 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.8340.1645430898663701762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57148C433FE
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 08:21:17 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web08.8526.1645431676238885439
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:08:18 -0800
+ Mon, 21 Feb 2022 00:21:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: changqing.li@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 21L88H8w029463
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:08:17 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 21 Feb 2022 00:08:17 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 21 Feb 2022 00:08:16 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 21 Feb 2022 00:08:16 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][hardknott][PATCH] e2fsprogs: backport to fix one regression
-Date: Mon, 21 Feb 2022 16:08:15 +0800
-Message-ID: <20220221080815.1979337-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ocWtZ8pM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id y24so4752452lfg.1;
+        Mon, 21 Feb 2022 00:21:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vY8uNJwCE6lhIE+z1u9Tn6/0SOSUl0fm4ddaQnztHME=;
+        b=ocWtZ8pMGxRxZEAK3P2LvyU2ZRsd6W/563oLZeSjQOfZ/dEkcbsvb297cqGeeg8Q0J
+         +BBOiwa7PPlGQ+69mW05gFlQJajCmyS8nlXmHG09ft5z6sVp9X89aHZbeLQhf3kLGKCY
+         3X/92Xm+KPOwtORa1kvUo2nAl6HFGmhjfVci8uPuoXNsEJkyGORcuiLqSUmaqeeAutLv
+         gyHqwHYhme2wCUxMxSigGLrvKcB519mEskx0fbHGcHbqHU5b9cqtxnWFdHA0FvsZ3bZ6
+         Ar8zlNY98yF/i4kPyLvFnus0HqIfsMoeHQREtM2GAw6hkRFWUNwV7OJSAHdtngLqiCFj
+         VAGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vY8uNJwCE6lhIE+z1u9Tn6/0SOSUl0fm4ddaQnztHME=;
+        b=vFT0q7ipjkUY7pdXaLhWmeUId5idw05qVKKHOXzJdqha52JADb5YR6tofJ+i4XYv2R
+         cViMxRfc7KSiw/TFLEAr9pbd7KJU/KEkYnJVMcYzxhABPTLcfTsgjfnOcUCzcAw4SULV
+         7D/rnHzKjdxMWXgKjH8YvS08ya7UMd4R5jJcA4GUG3N/DIYZ4mnXksQgBwYXNt3i3ngr
+         ClNV8gOjTrjzTMnkqXn98AIDHmr/mqo/IIYJYgAeB8VliBhXIth0TLg2reoenag/oQXc
+         hR/trKXSA78gzjCLJp31YnCECMyJJCEy1laEx5QuVle21YTH3DTJNk1dKhXvqIFiqcVj
+         A5Jg==
+X-Gm-Message-State: AOAM531kOEj/aM2hTeFZzVPGpVug2Ywfv4q1vubBLDXHcIOS9pNJxtqg
+	gb4+wlhPd38Zw3HfSQ80dzWA3u+G3pHyUJ/tCTY=
+X-Google-Smtp-Source: 
+ ABdhPJytmBfBUha3BW/6KrluDCMqi2LKH2+/nPGtFkvjx34Fw21KtoMoB3lbreC7AeQLFMVGZcRhbI+Zs8o4ilAFxow=
+X-Received: by 2002:a19:ee17:0:b0:443:5d4b:a4e4 with SMTP id
+ g23-20020a19ee17000000b004435d4ba4e4mr13007508lfb.352.1645431674217; Mon, 21
+ Feb 2022 00:21:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: 
+ <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
+In-Reply-To: 
+ <CAPoiz9wL16OTzxNHdw_5-L72GOHkhhM0--WZF7An071cx6sr_A@mail.gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Mon, 21 Feb 2022 09:21:02 +0100
+Message-ID: 
+ <CAApg2=TxBsDcU2_YgjMVM4r_4_9K4B0=dapFfMg-EotyTLi85w@mail.gmail.com>
+Subject: Re: [oe] Inclusive Language Proposal for YP/OE
+To: Jon Mason <jdmason@kudzu.us>
+Cc: yocto@lists.yoctoproject.org,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000071aa7705d882ea62"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 08:08:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 08:21:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162017
+ https://lists.openembedded.org/g/openembedded-core/message/162018
 
-From: Changqing Li <changqing.li@windriver.com>
+--00000000000071aa7705d882ea62
+Content-Type: text/plain; charset="UTF-8"
 
-Backport a patch in 1.46.3 which fix one regression:
-This is what the changelog says:
-    Fix e2fsck so that the if the s_interval is zero, and the last mount
-    or write time is in the future, it will fix invalid last mount/write
-    timestamps in the superblock. (This was a regression introduced in
-    v1.45.5.)
+On Mon, Jan 24, 2022 at 5:18 PM Jon Mason <jdmason@kudzu.us> wrote:
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  3 +-
- ...mount-write-time-when-e2fsck-is-forc.patch | 66 +++++++++++++++++++
- 2 files changed, 68 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch
+> CVE_CHECK_PN_WHITELIST -> CVE_CHECK_SKIPRECIPE
+> CVE_CHECK_WHITELIST -> CVE_CHECK_IGNORECVE
+>
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-index fb02b2006e..1250a9b99c 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-@@ -19,7 +19,8 @@ LIC_FILES_CHKSUM = "file://NOTICE;md5=d50be0580c0b0a7fbc7a4830bbe6c12b \
- SECTION = "base"
- DEPENDS = "util-linux attr autoconf-archive"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=master"
-+SRC_URI = "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git;branch=master \
-+           file://0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch"
- S = "${WORKDIR}/git"
- 
- inherit autotools gettext texinfo pkgconfig multilib_header update-alternatives ptest
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch
-new file mode 100644
-index 0000000000..d679b25b1d
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch
-@@ -0,0 +1,66 @@
-+From 2c69c94217b6db083d601d4fd62d6ab6c1628fee Mon Sep 17 00:00:00 2001
-+From: Lukas Czerner <lczerner@redhat.com>
-+Date: Mon, 14 Jun 2021 15:27:25 +0200
-+Subject: [PATCH] e2fsck: fix last mount/write time when e2fsck is forced
-+
-+With commit c52d930f e2fsck is no longer able to fix bad last
-+mount/write time by default because it is conditioned on s_checkinterval
-+not being zero, which it is by default.
-+
-+One place where it matters is when other e2fsprogs tools require to run
-+full file system check before a certain operation. If the last mount
-+time is for any reason in future, it will not allow it to run even if
-+full e2fsck is ran.
-+
-+Fix it by checking the last mount/write time when the e2fsck is forced,
-+except for the case where we know the system clock is broken.
-+
-+[ Reworked the conditionals so error messages claiming that the last
-+  write/mount time were corrupted wouldn't be always printed when the
-+  e2fsck was run with the -f option, thus causing 299 out of 372
-+  regression tests to fail.  -- TYT ]
-+
-+Fixes: c52d930f ("e2fsck: don't check for future superblock times if checkinterval == 0")
-+Reported-by: Dusty Mabe <dustymabe@redhat.com>
-+Signed-off-by: Lukas Czerner <lczerner@redhat.com>
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-+
-+Upstream-Status: Backport [https://github.com/tytso/e2fsprogs/commit/2c69c94217b6db083d601d4fd62d6ab6c1628fee]
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ e2fsck/super.c | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/e2fsck/super.c b/e2fsck/super.c
-+index e1c3f935..31e2ffb2 100644
-+--- a/e2fsck/super.c
-++++ b/e2fsck/super.c
-+@@ -1038,9 +1038,9 @@ void check_super_block(e2fsck_t ctx)
-+ 	 * Check to see if the superblock last mount time or last
-+ 	 * write time is in the future.
-+ 	 */
-+-	if (!broken_system_clock && fs->super->s_checkinterval &&
-+-	    !(ctx->flags & E2F_FLAG_TIME_INSANE) &&
-+-	    fs->super->s_mtime > (__u32) ctx->now) {
-++	if (((ctx->options & E2F_OPT_FORCE) || fs->super->s_checkinterval) &&
-++	    !broken_system_clock && !(ctx->flags & E2F_FLAG_TIME_INSANE) &&
-++	    (fs->super->s_mtime > (__u32) ctx->now)) {
-+ 		pctx.num = fs->super->s_mtime;
-+ 		problem = PR_0_FUTURE_SB_LAST_MOUNT;
-+ 		if (fs->super->s_mtime <= (__u32) ctx->now + ctx->time_fudge)
-+@@ -1050,9 +1050,9 @@ void check_super_block(e2fsck_t ctx)
-+ 			fs->flags |= EXT2_FLAG_DIRTY;
-+ 		}
-+ 	}
-+-	if (!broken_system_clock && fs->super->s_checkinterval &&
-+-	    !(ctx->flags & E2F_FLAG_TIME_INSANE) &&
-+-	    fs->super->s_wtime > (__u32) ctx->now) {
-++	if (((ctx->options & E2F_OPT_FORCE) || fs->super->s_checkinterval) &&
-++	    !broken_system_clock && !(ctx->flags & E2F_FLAG_TIME_INSANE) &&
-++	    (fs->super->s_wtime > (__u32) ctx->now)) {
-+ 		pctx.num = fs->super->s_wtime;
-+ 		problem = PR_0_FUTURE_SB_LAST_WRITE;
-+ 		if (fs->super->s_wtime <= (__u32) ctx->now + ctx->time_fudge)
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+When running master-next I have found one missing rename, cve-check has
+"CVE STATUS" result
+which is still Patched, Unpatched, Whitelisted. I propose to rename
+Whitelisted to Ignored to be in-line
+with the variable rename.
 
+Is there anyone using the states in scripting or other tools today?
+
+Marta
+
+--00000000000071aa7705d882ea62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 24, 2022 at 5:18 PM Jon M=
+ason &lt;<a href=3D"mailto:jdmason@kudzu.us">jdmason@kudzu.us</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+CVE_CHECK_PN_WHITELIST -&gt; CVE_CHECK_SKIPRECIPE<br>
+CVE_CHECK_WHITELIST -&gt; CVE_CHECK_IGNORECVE<br></blockquote><div><br></di=
+v><div>When running master-next I have found one missing rename, cve-check =
+has &quot;CVE STATUS&quot; result</div><div>which is still Patched, Unpatch=
+ed, Whitelisted. I propose to rename Whitelisted to Ignored to be in-line</=
+div><div>with the variable rename.</div><div><br></div><div>Is there anyone=
+ using the states in scripting or other tools today?</div><div><br></div><d=
+iv>Marta<br></div></div></div>
+
+--00000000000071aa7705d882ea62--
 
