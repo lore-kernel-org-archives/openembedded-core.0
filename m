@@ -2,159 +2,112 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F909C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 08:51:54 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.8716.1645433512940268849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBBEC4332F
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 08:51:56 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web12.8628.1645433515213858941
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:51:53 -0800
+ Mon, 21 Feb 2022 00:51:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QXIT3JKP;
- spf=pass (domain: gmail.com, ip: 209.85.221.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BoD8j8i1;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id d3so10078983wrf.1
+Received: by mail-wr1-f53.google.com with SMTP id d3so10079159wrf.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:51:52 -0800 (PST)
+ Mon, 21 Feb 2022 00:51:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M89MP8VBi3Cu6d4nkldikr9+x37Fj5pMY6jcop9QWGY=;
-        b=QXIT3JKPB3xekKS9ElZnYL1+jvI8S/gAQ3vpNrwPIsV4WagMpu15hA63x0WYnIQRyL
-         xfYTLxURGl4KFlZYO80YT8SDIGdPsU8j4M01yYTHRD4sP2GworJ9yfnV0j6TFpTkIg8h
-         +d5haqQL0yhttxt+o+NXaVdvBx5N5JhsqIeXbGm7KTAPimI55K6sOzkgXuqNpH7pA1Et
-         06HL/SzSWBB4+V6c40FyTosd135pGSFXyT3rGaPtQ6CtuULYEnicpoKGvmHPgT20sTSD
-         /7LIfC6vt/WU0MXgZZ2LygJrSSt9Q1egpjL3iZpAagVdiF7njKyW8jl6pjtnyjmxx6wx
-         iJCw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=SKZN6ZEbcAqzO2GraP3ZC8Bsq62J8TGI9Y3psxx3o0E=;
+        b=BoD8j8i1pIWdPmTIXZ0+Yz/iPeCNY9+dviVcHDnpPqSNf9TEgsxo1UWg9hRyzb6KYl
+         /gfmQbuM/+WpBjaQRI1UAD9x6DWJ+hbEoAlLA4/r9i+KJUaTS6KxCOg/t1aFNuBokTY6
+         6GftQrOlk2VAR4krcXtEBbMtnt4fIIWYaQMxFEEaQtMy9QIA6R8oq4IyeH5CtmPQqjcX
+         D8gOMsTiUXqczrIFjCdYE/Z3ruFU0XRsz9ffR/vLsCukum9Bagpykh77oC6lT4zP5dl7
+         r35juApciz9mthvxGRakGWevHNZ3fDI4yhKE1MFW9ocNs9ILO3VQVDaucxxF/rUJIcFn
+         SJJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=M89MP8VBi3Cu6d4nkldikr9+x37Fj5pMY6jcop9QWGY=;
-        b=5P3W70U4rTXZmBCPeRSMWtICk2s+i2rC/4AXZmw2nn4LYcYwxVwMWMsItHIt/9Vdam
-         xuepZjNpQjFH/vYx1193tLVXhHpcDA50CguP9krrqDAKKU0MX6kXf7V8cOPcvtQsH91j
-         Ef4FZ2gLffFBFrXxMMlBOuDaxdd95IyxZcTIvyB2lXBbkRgnyo21qGqFVatFEUqdowB5
-         GeCquNn9efqZmbd40fM1Ty/80/Oan04ZcXi1vpEyg3Vi0LzKfLP/5/w3HquargzGpmi2
-         XfPsl7/gGeEm7Tulnie1WtQh6SP8ykKBU5VPgBbO/tw8dgJQGvqPia8tYsN2oHAyFsXe
-         f/Jg==
-X-Gm-Message-State: AOAM530knCDJmKD7M/qSzgATF2+/23788vsQqUjqeyS3PrG6R6VbK86E
-	P71FYZXlqGtcePgqS78XrqtGlpHuHF8=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SKZN6ZEbcAqzO2GraP3ZC8Bsq62J8TGI9Y3psxx3o0E=;
+        b=p+U6KwVymvSx3c86SvrrlAcZm7vWMQnrMYQDnuhu+PiGkW+hh5o2UrjvQV7pi4ojUa
+         rOEIqp6l/pOTe3skukrV4NV/E/jhVW7lHrsKbWHBWbRIxNNPzIgC30H6MHCOkwxsKyNG
+         Z+24up0qNr+TtQfTS+M6L1gwcjGIsNqOODUiFgn/p23zLudfoZLaOEf/R4bgDb69lOji
+         Twx7vengZND9NPM16PcAoYFPioTUmzdABfQ2ysDqxXlvTPghmAFLp2yhPZvBr9devrG8
+         aDfdMAdr0JGpvAQJ7UwGV1ncaWlwFbqOvlusHsYACC0wNab/onkzz00zj482i6lCI+OE
+         TGIQ==
+X-Gm-Message-State: AOAM5330Fr5+/3Lf0tWgP5ooY4KgBoKoHpB6sLR2uCSKyoBvbsglGPmY
+	b6f1mjnIpNw0LaplRLrMFPB5zlaoK1w=
 X-Google-Smtp-Source: 
- ABdhPJy+yH7MucIdFsycIg5N1/c1GCKsDxFB5poVUbY/Scq5pDsoh3B5EjKpU5K+7GQhmyVxrpu6/w==
-X-Received: by 2002:adf:e904:0:b0:1d6:64b3:fdd with SMTP id
- f4-20020adfe904000000b001d664b30fddmr14817267wrm.200.1645433510919;
-        Mon, 21 Feb 2022 00:51:50 -0800 (PST)
+ ABdhPJxATqD1rSPEkbcHB0BrVHwLOof3u3H5SGx3FSddVEFFtmEK3fi5kSADDl0EQ2VoAt2el4S5kA==
+X-Received: by 2002:a5d:47cb:0:b0:1e8:593d:d34b with SMTP id
+ o11-20020a5d47cb000000b001e8593dd34bmr14161754wrc.124.1645433513595;
+        Mon, 21 Feb 2022 00:51:53 -0800 (PST)
 Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- x11sm6843110wmi.37.2022.02.21.00.51.50
+ x11sm6843110wmi.37.2022.02.21.00.51.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 00:51:50 -0800 (PST)
+        Mon, 21 Feb 2022 00:51:53 -0800 (PST)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2 1/2] meson.bbclass: add support for running the meson tests
- at build time
-Date: Mon, 21 Feb 2022 08:51:17 +0000
-Message-Id: <20220221085118.2267900-1-quaresma.jose@gmail.com>
+Subject: [PATCH v2 2/2] meson.bbclass: add exe_wrapper helper
+Date: Mon, 21 Feb 2022 08:51:18 +0000
+Message-Id: <20220221085118.2267900-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220221085118.2267900-1-quaresma.jose@gmail.com>
+References: <20220221085118.2267900-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 08:51:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 08:51:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162019
+ https://lists.openembedded.org/g/openembedded-core/message/162020
 
-The generic exe_wrapper introcuced in 40349dc5 can be used to run the
-meson tests when build the receipe. This patch add the meson_test task
-on the meson bbclass that adds this possibility.
+When we use the exe_wrapper to run the tests we need a way to
+costumize or circumvent some limitations of the qemu usermode.
+So for example we can skip the tests we know will fail.
 
-The exe_wrapper will run using the qemu usermode and because of that it
-has some limitations, so don't expect the same results when it runs
-natively on target.
-
-Running the tests at build time is upstream way for testing but is not
-possible in OE as we always croos-compile. This can be useful in some
-integration processes and for debuging and it adds the possibility to
-run the test in an interactive way using the devtool build for example.
-
-There are two variable for that:
- MESON_QEMU_WRAPPER_TEST_ENABLED: this enables the test when it's "1"
- EXTRA_OEMESON_TEST: this is used to add extra args
-
-Some results when using this patch in the bigest meson project
-on OE-core are the folloing:
-
-cat <<'EOF' >>conf/local.conf
-MESON_QEMU_WRAPPER_TEST_ENABLED:pn-systemd-boot = "1"
-EOF
-
-bitbake -c do_meson_test -v systemd-boot
-
-Ok:                 821
-Expected Fail:      0
-Fail:               95
-Unexpected Pass:    0
-Skipped:            33
-Timeout:            0
-
-cat <<'EOF' >>conf/local.conf
-MESON_QEMU_WRAPPER_TEST_ENABLED:pn-glib-2.0 = "1"
-EOF
-
-bitbake -c do_meson_test -v glib-2.0
-
-Ok:                 197
-Expected Fail:      0
-Fail:               76
-Unexpected Pass:    0
-Skipped:            0
-Timeout:            2
-
-cat <<'EOF' >>conf/local.conf
-MESON_QEMU_WRAPPER_TEST_ENABLED:pn-gstreamer1.0 = "1"
-EOF
-
-bitbake -c do_meson_test -v gstreamer1.0
-
-Ok:                 95
-Expected Fail:      0
-Fail:               10
-Unexpected Pass:    0
-Skipped:            1
-Timeout:            0
+The ideia of this help script is to handle such cases before
+the qemu usermode was launched.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/meson.bbclass | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/classes/meson.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 0bfe945811..020a59a3c0 100644
+index 020a59a3c0..3a8061bb76 100644
 --- a/meta/classes/meson.bbclass
 +++ b/meta/classes/meson.bbclass
-@@ -179,3 +179,19 @@ meson_do_install() {
+@@ -114,6 +114,8 @@ cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
+ EOF
  }
  
- EXPORT_FUNCTIONS do_configure do_compile do_install
++MESON_QEMU_WRAPPER_HELPER ?= ""
 +
-+EXTRA_OEMESON_TEST ?= ""
+ do_write_config:append:class-target() {
+     # Write out a qemu wrapper that will be used as exe_wrapper so that meson
+     # can run target helper binaries through that.
+@@ -127,10 +129,14 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+ # meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
+ unset LD_LIBRARY_PATH
+ 
++# import any customization provided in the helper
++test -f "${MESON_QEMU_WRAPPER_HELPER}" && . ${MESON_QEMU_WRAPPER_HELPER}
 +
-+do_meson_test() {
-+    bbwarn "don't expect the same results when it runs natively as it will run in qemu usermode (that has its own limitations)"
-+    meson test -C ${B} ${EXTRA_OEMESON_TEST}
-+}
-+do_meson_test[vardeps] += "EXTRA_OEMESON_TEST"
-+
-+MESON_QEMU_WRAPPER_RUNTEST = ""
-+MESON_QEMU_WRAPPER_RUNTEST:class-target = "${@d.getVar('MESON_QEMU_WRAPPER_TEST_ENABLED') == '1' and d.getVar('EXEWRAPPER_ENABLED') == 'True'}"
-+
-+python() {
-+    if d.getVar('MESON_QEMU_WRAPPER_RUNTEST') == 'True':
-+       bb.build.addtask('meson_test', 'do_install', 'do_compile', d)
-+}
+ $qemu_binary "\$@"
+ EOF
+     chmod +x ${WORKDIR}/meson-qemuwrapper
+ }
++do_write_config:class-target[vardeps] += "MESON_QEMU_WRAPPER_HELPER"
+ 
+ # Tell externalsrc that changes to this file require a reconfigure
+ CONFIGURE_FILES = "meson.build"
 -- 
 2.35.1
 
