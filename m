@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F979C433FE
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:50 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web08.11298.1645452889891008304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B392C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:52 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web08.11300.1645452891723294466
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:50 -0800
+ Mon, 21 Feb 2022 06:14:51 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=NLeMoPDr;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
+ header.b=mCwVjSYo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id b8so15362693pjb.4
+Received: by mail-pl1-f171.google.com with SMTP id x11so12986533pll.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:49 -0800 (PST)
+ Mon, 21 Feb 2022 06:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=FzKvsR+dExfaJKy98Ql4WNUEvGay+bl6B1n9XGUd+S4=;
-        b=NLeMoPDr551kx0Ih1zPZw6gU3aMrK5TKeByGrLXOYHSIEyAAJ61EihugKpz+CDt5JR
-         t0P03ebphK3n/iJ8Ik4cYA3hpdy4JwAOaGl95R7HkXl0AJ7OtISxnIkzgw5OK1es7Nla
-         uI0iOX6jTqatWTAKwf4HFuwnVf0IH6fZH7KUPweZhZm7VzbpWn6bQeDQMA+8/xuWf7ph
-         UaGukkIHEmiBif7knqapGK6yKQCkMobBdj4oP7OG0J3/5paABO+LXMO+vH7mVRTAIWZB
-         Rv6dFwW+6JLJdqyFD8N7tz4nbxaFm1usp8DiLrii+pkTCfyMlRQoAwycQJ62Y2l0yAXu
-         JjmQ==
+        bh=QUEddwckeYaLeBVtkfXJ9kG3OiQWa1oUsPm3VW7w7Hc=;
+        b=mCwVjSYoQMz+VGHPfsjq7Gv5s4UWlZ+YciOdMO80OkiQpbFuPuPCPQmkioVFfH4w51
+         OrUyosQz4pI/xTDa/L1eN+Fiz0nLn44W8l6qE/z27+XwwwgcWxybnXxUJ3IBKtMjmYIw
+         EkbLKZHGLEq4L0wXPZjckWWett6vlHMhJYtNBPvYdKpxp+krPIqT8F4tKFJ7N77hPDqh
+         ewp9B86H1Bx3I5zkOUwTUTao1bcZKbwJQPFGBOKOTF29X2Xmg0fyc4mOXXUWwQd9neGK
+         YXtXw4BN+j9tychoKKfX9R+WPJe6VE3CqoC8JXdiB0r50Shj2jo/eNG0HTigtYZgXk6/
+         SmXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FzKvsR+dExfaJKy98Ql4WNUEvGay+bl6B1n9XGUd+S4=;
-        b=iqEa1tEbHcZbzUhhefQPy1CA0e9XBFA37M8pWir6R+mbwyD71xnslmsxXSjJ9T+kNg
-         isUNf2aIX0qWLGLMkxuiPP9cTYYx6Pp4kvnGFxqrnsx9Dz8+H0ulfEueID5c6P5Z10M3
-         EFIoBpsiSuXE16RuVcRXlmcv1xohHYCSWhjyAvS0kSnC6ZFMamphCYpEqgoFF2I/Fb7X
-         EIZ3RQ5yUMH/RP9pNzfV89ByG1onFBcn5QDY4yc+hN2fn4b0jSl9zKmkHeXyziEYBaT0
-         +Pjs/Nqb5Bz9S4+RJcUIN39U/fWJAQpwY/7q0VYudVo4Qpssw8n6g1bSjBQmUtbb/toq
-         bmdA==
-X-Gm-Message-State: AOAM532zcwpkEYcczXtd+dvGV1uwgolPe6dc9pZDzq5oNe0a0xYcgZ0U
-	6N2IkGLj50b7Nl7/tWOqCN7VXFCpp1I0QIZa
+        bh=QUEddwckeYaLeBVtkfXJ9kG3OiQWa1oUsPm3VW7w7Hc=;
+        b=UPqfGPmqewiG8GtOP66VckspFCbD3pJ0z0NYotWOXnGWk/11/ZLk7GUI9wucta1o9o
+         j1zq3cBpa5KfCeA+fwm3ReaWtbk6Nnz4D17+PtRgw+hQjfoJPlcdIeZ7VXMw5n3wWdKp
+         wH5Zgvlc0y3exZKsgFat47y1M4b1amwMC7pDRq9pNkDSI5MBvWX6vK4yshE8e+aMOmC7
+         v+6nGgyz//0fb1QOtCJGNa3znZwhQXtG3MY3t5fyQ1/wk8ijQQS2LtMf0KmW1FCR9XZr
+         Dsz7nUI/WLR6Gr3N+jaJdMAgJzrXH8ysHDNPp8nASkZeukGmDciVGkKHp6RuNY2lzRp0
+         mepg==
+X-Gm-Message-State: AOAM530H7/klK6lzx67Q7KlRvgdVoAOtEjN3PWNvyEzNPCN9WjZhXRo9
+	YToK9oithsz9b7fXpSfBnv8iwWxGagDq9JGE
 X-Google-Smtp-Source: 
- ABdhPJyFzyP9ajuy5k6TNou+G1l/dvovVdDR9FKbEKYsQr0e9QxBFHPl9FnwgDWtBZhhMa6EicIjpw==
-X-Received: by 2002:a17:902:e742:b0:14f:252d:7a65 with SMTP id
- p2-20020a170902e74200b0014f252d7a65mr19156395plf.62.1645452888977;
-        Mon, 21 Feb 2022 06:14:48 -0800 (PST)
+ ABdhPJzbRZ5sH9aHoHHCLxKPzGeSjlgcOzG29QRfZTX1FbuAUPqhWqC8cuF2PCI/xpbo6f55cOJDyQ==
+X-Received: by 2002:a17:903:2289:b0:14f:a64f:2475 with SMTP id
+ b9-20020a170903228900b0014fa64f2475mr7828791plh.80.1645452890854;
+        Mon, 21 Feb 2022 06:14:50 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 8sm12919235pfl.164.2022.02.21.06.14.47
+ 8sm12919235pfl.164.2022.02.21.06.14.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 06:14:48 -0800 (PST)
+        Mon, 21 Feb 2022 06:14:50 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/20] freetype: add missing CVE tag CVE-2020-15999
-Date: Mon, 21 Feb 2022 04:14:06 -1000
+Subject: [OE-core][dunfell 09/20] cve-check: create directory of
+ CVE_CHECK_MANIFEST before copy
+Date: Mon, 21 Feb 2022 04:14:07 -1000
 Message-Id: 
- <26daab8a30661b64d2ee3de030e472da5160b387.1645452535.git.steve@sakoman.com>
+ <ee05539fc6fadff7f14c8609641021fc497cbd8e.1645452535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645452535.git.steve@sakoman.com>
 References: <cover.1645452535.git.steve@sakoman.com>
@@ -67,37 +68,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:50 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162036
+ https://lists.openembedded.org/g/openembedded-core/message/162037
 
-From: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
+Create directory of the CVE_CHECK_MANIFEST variable before copy to it,
+so that the variable can use an arbitrary directory name.
+
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9829c16301bf2dce39fa046401a984f112fa0322)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch    | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/cve-check.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-index fa8a29b798..31f9e32dc2 100644
---- a/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-+++ b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
-@@ -6,10 +6,13 @@ Subject: [PATCH] [sfnt] Fix heap buffer overflow (#59308).
- This is CVE-2020-15999.
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 6eecbdbf13..6b627464a0 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -143,6 +143,7 @@ python cve_check_write_rootfs_manifest () {
+         manifest_name = d.getVar("CVE_CHECK_MANIFEST")
+         cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
  
- * src/sfnt/pngshim.c (Load_SBit_Png): Test bitmap size earlier.
-+CVE: CVE-2020-15999
++        bb.utils.mkdirhier(os.path.dirname(manifest_name))
+         shutil.copyfile(cve_tmp_file, manifest_name)
  
- Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=a3bab162b2ae616074c8877a04556932998aeacd]
- 
- Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-+Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
-+Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
- ---
-  src/sfnt/pngshim.c | 14 +++++++-------
-  1 file changed, 7 insertions(+), 7 deletions(-)
+         if manifest_name and os.path.exists(manifest_name):
 -- 
 2.25.1
 
