@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4A4C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:48 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web08.11296.1645452888073677975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C08C433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:46 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web09.10997.1645452886011243820
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:48 -0800
+ Mon, 21 Feb 2022 06:14:46 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cXikC2LW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174,
+ header.b=QkJJiCdb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id l8so12996283pls.7
+Received: by mail-pj1-f44.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso2793451pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:48 -0800 (PST)
+ Mon, 21 Feb 2022 06:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=L/9QzGyFyzTeoaRpNxI3Q2rf/8dcPgQvAl0LP3B2RMA=;
-        b=cXikC2LWR9cFq9h694pnFZUghsgz4+Ar1jDVjW4727zRUaYRV6GtAKsLhI8qb5iRPu
-         ACTm48vZxQVzzVfBWvwu2uvA6NqSmi0DmD3gf/O9SWq81sh4YFLEnGyApdsl8czvOOMa
-         hJmZ8di/wGFKsHoxlvvAid2avfOPUcO0dnJyrR6x96wOncGkeBC8Pv3TTloAPdg0DkKf
-         NjtB1OofkVwfUeZr79RYE4KDsAI9JkKq9oyfyWu31vucwor+pQ9y2J/Z3A2X7SNRi3Ob
-         KyaQzofxJQS5FbXR+GvCSHjFpdqKQld91Fkq5Q4vtZq3fTN91RKsomVotV6/WNIPx0vO
-         MSNw==
+        bh=tIgNMw7dnX2CvgjRh5cv0BlKZ4ciCpvSA4UvHFe+xCg=;
+        b=QkJJiCdbh7CV+vLY8RGDEBLylKxU7UVr1x+BaQST7PJP6PccjQbPFYLg32n2hZUkKz
+         dSC/hxAlwNzJVhuL2WmchHnlLOuVjD19lLd7TsYm3c/XGt00zSxo4G0loQNlnnC9pGMb
+         l1wWHF1grUEN/3Zu3YU37aCE9U0m3L9PyN2m01ocYxAXEROm8SP7y/WPklBAA2KYZ+8k
+         BnI0YRPxyhgfv3Bn0JOzCPaiHrpq18P9VQAF7PVHoycgXN9/FD0TuCeYq2yHVA+ZR8DW
+         H1TuS6Wjh5Q5HPt2U8KrAhObpGIihMM8LcRXKH53B2Wyzxf2UgoiYOGUQhcidQcSgT6b
+         fsIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L/9QzGyFyzTeoaRpNxI3Q2rf/8dcPgQvAl0LP3B2RMA=;
-        b=FilCZjDMAV3iOLwoNL1V57/v2revtPYNpckhIitC4Ab6xPkqIFSFjUcSvFykBJrs7f
-         VXu/aJ9YPvFvljn6Ga8c1rNpr7YN/hqCIpABkETK+dQldwSAZ2mHP6ugZWTe7Vi9yj3n
-         j/9AZwG2IHUIOamUvp5OJTIXNMoWBN0NWQ0odgQPRSiSRRuzqjB8k1DrCiZjBl8O6RS/
-         w0+KVCzouP+h+F0yh5J3Z0ZRW8+P82MzcVqjV2gS8g5aKy7CjSLaW2UWZCZzV5jHQVqS
-         0UtmTCGt2LHdbCa2WAU7Kfsk7PbXpOYQ6HYNqz9SMlze4I6uNAuljPugzOmBR5nLF86h
-         cTqw==
-X-Gm-Message-State: AOAM533xWhortKECpJPnBdeGfp30xQ+bOLw5GNciTFW0sL/4jcXG3NUw
-	5DdxTvDKzqPPXjSdisbyUwAFhu/3JyXepK8H
+        bh=tIgNMw7dnX2CvgjRh5cv0BlKZ4ciCpvSA4UvHFe+xCg=;
+        b=YUElnCwoKKDHOizluhva4RVXQuBv3Q8lhf/krxaJd3kgBWysOFLMFCQoSWvIVXeoWt
+         q5zlE7WLqdWTkAw5ppYzOIa09fRVa5OWy3MEEEJAGwTYtEA3fraQfAZ3zxxqrclfw411
+         jDNRLKU58gfPtmlKQguuyLHkq8KNasKWdsmNwLrSSZe/CytW4rDHRAn15HlJ0hg65q2K
+         d7tnuCFZwO2H9gwbUl/9z2nV6fJHWEdragevU8X8Afuz6I59PaXWQGlwdndfFeuCdLGv
+         PxKMsNoFyN24KHOqg008EY2bz0WE4Erb37MSNS0du8mOd/2WJINQlrmLpPyUzrF8BKS9
+         /0gg==
+X-Gm-Message-State: AOAM532o+AQtLGkSoweJXy9jXGPsHTD3TT4G3j5JqbCxS+8BdM1c1jEQ
+	UOckLZ0iGENUIOaOpgegcFPln1HAXGi3v64m
 X-Google-Smtp-Source: 
- ABdhPJy8WUXpnNWeF6UnqC0k6C8KGnm46G6kvYRhbFfGwEwNqdDAbKie67xm7j51MEfbQiPIfcmBAQ==
-X-Received: by 2002:a17:90b:2513:b0:1bc:545d:8dbe with SMTP id
- ns19-20020a17090b251300b001bc545d8dbemr2216507pjb.182.1645452887007;
-        Mon, 21 Feb 2022 06:14:47 -0800 (PST)
+ ABdhPJzJ19Ct4ybzbAfz7iTs9JsydnAn5dk0TLSf7Rlv1eTgU4alFgfDw7ZMmcB0RyApAFrBgosIhQ==
+X-Received: by 2002:a17:902:8509:b0:14e:f9b7:6cab with SMTP id
+ bj9-20020a170902850900b0014ef9b76cabmr19315046plb.162.1645452885032;
+        Mon, 21 Feb 2022 06:14:45 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 8sm12919235pfl.164.2022.02.21.06.14.45
+ 8sm12919235pfl.164.2022.02.21.06.14.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 06:14:46 -0800 (PST)
+        Mon, 21 Feb 2022 06:14:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/20] binutils: Fix CVE-2021-45078
-Date: Mon, 21 Feb 2022 04:14:05 -1000
+Subject: [OE-core][dunfell 06/20] lighttpd: backport a fix for CVE-2022-22707
+Date: Mon, 21 Feb 2022 04:14:04 -1000
 Message-Id: 
- <9793eac0988f10ec2e4cbe0e4fc494ff4dd29585.1645452535.git.steve@sakoman.com>
+ <bf57c164501c0a60279d069aa8130fb622db8273.1645452535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645452535.git.steve@sakoman.com>
 References: <cover.1645452535.git.steve@sakoman.com>
@@ -67,302 +68,149 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:48 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162035
+ https://lists.openembedded.org/g/openembedded-core/message/162034
 
-From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+From: Ross Burton <ross@burtonini.com>
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=161e87d12167b1e36193385485c1f6ce92f74f02]
-(From OE-Core rev: be665a2279795c522cb3e3e700ea747efd885f95)
+Backport the fix for CVE-2022-22707, a buffer overflow in mod_extforward.
 
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+(From OE-Core rev: d54d7e7b43da621be8e6fcca34feb7b3d49b8160)
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7758596613cc442f647fd4625b36532f30e6129f)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 823d25f5218836fb4298482366fbc5d05d822907)
+(cherry picked from commit 7695d11dd09b1e9e87d6741135d0b28e82672f0a)
 Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
 Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.34.inc                |   1 +
- .../binutils/0001-CVE-2021-45078.patch        | 257 ++++++++++++++++++
- 2 files changed, 258 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
+ ...ix-out-of-bounds-OOB-write-fixes-313.patch | 100 ++++++++++++++++++
+ .../lighttpd/lighttpd_1.4.55.bb               |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index 903b9d7b01..6a55de2d45 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -51,5 +51,6 @@ SRC_URI = "\
-      file://CVE-2021-3487.patch \
-      file://CVE-2021-3549.patch \
-      file://CVE-2020-16593.patch \
-+     file://0001-CVE-2021-45078.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
+diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
 new file mode 100644
-index 0000000000..2af82477ac
+index 0000000000..da59b7297a
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
-@@ -0,0 +1,257 @@
-+From 161e87d12167b1e36193385485c1f6ce92f74f02 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 15 Dec 2021 11:48:42 +1030
-+Subject: [PATCH] PR28694, Out-of-bounds write in stab_xcoff_builtin_type
++++ b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
+@@ -0,0 +1,100 @@
++From 27103f3f8b1a2857aa45b889e775435f7daf141f Mon Sep 17 00:00:00 2001
++From: povcfe <povcfe@qq.com>
++Date: Wed, 5 Jan 2022 11:11:09 +0000
++Subject: [PATCH] [mod_extforward] fix out-of-bounds (OOB) write (fixes #3134)
 +
-+	PR 28694
-+	* stabs.c (stab_xcoff_builtin_type): Make typenum unsigned.
-+	Negate typenum earlier, simplifying bounds checking.  Correct
-+	off-by-one indexing.  Adjust switch cases.
++(thx povcfe)
 +
++(edited: gstrauss)
 +
-+CVE: CVE-2021-45078
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=161e87d12167b1e36193385485c1f6ce92f74f02]
++There is a potential remote denial of service in lighttpd mod_extforward
++under specific, non-default and uncommon 32-bit lighttpd mod_extforward
++configurations.
 +
-+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
++Under specific, non-default and uncommon lighttpd mod_extforward
++configurations, a remote attacker can trigger a 4-byte out-of-bounds
++write of value '-1' to the stack. This is not believed to be exploitable
++in any way beyond triggering a crash of the lighttpd server on systems
++where the lighttpd server has been built 32-bit and with compiler flags
++which enable a stack canary -- gcc/clang -fstack-protector-strong or
++-fstack-protector-all, but bug not visible with only -fstack-protector.
++
++With standard lighttpd builds using -O2 optimization on 64-bit x86_64,
++this bug has not been observed to cause adverse behavior, even with
++gcc/clang -fstack-protector-strong.
++
++For the bug to be reachable, the user must be using a non-default
++lighttpd configuration which enables mod_extforward and configures
++mod_extforward to accept and parse the "Forwarded" header from a trusted
++proxy. At this time, support for RFC7239 Forwarded is not common in CDN
++providers or popular web server reverse proxies. It bears repeating that
++for the user to desire to configure lighttpd mod_extforward to accept
++"Forwarded", the user must also be using a trusted proxy (in front of
++lighttpd) which understands and actively modifies the "Forwarded" header
++sent to lighttpd.
++
++lighttpd natively supports RFC7239 "Forwarded"
++hiawatha natively supports RFC7239 "Forwarded"
++
++nginx can be manually configured to add a "Forwarded" header
++https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/
++
++A 64-bit build of lighttpd on x86_64 (not known to be affected by bug)
++in front of another 32-bit lighttpd will detect and reject a malicious
++"Forwarded" request header, thereby thwarting an attempt to trigger
++this bug in an upstream 32-bit lighttpd.
++
++The following servers currently do not natively support RFC7239 Forwarded:
++nginx
++apache2
++caddy
++node.js
++haproxy
++squid
++varnish-cache
++litespeed
++
++Given the general dearth of support for RFC7239 Forwarded in popular
++CDNs and web server reverse proxies, and given the prerequisites in
++lighttpd mod_extforward needed to reach this bug, the number of lighttpd
++servers vulnerable to this bug is estimated to be vanishingly small.
++Large systems using reverse proxies are likely running 64-bit lighttpd,
++which is not known to be adversely affected by this bug.
++
++In the future, it is desirable for more servers to implement RFC7239
++Forwarded.  lighttpd developers would like to thank povcfe for reporting
++this bug so that it can be fixed before more CDNs and web servers
++implement RFC7239 Forwarded.
++
++x-ref:
++  "mod_extforward plugin has out-of-bounds (OOB) write of 4-byte -1"
++  https://redmine.lighttpd.net/issues/3134
++  (not yet written or published)
++  CVE-2022-22707
++
++Upstream-Status: Backport
++CVE: CVE-2022-22707
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
 +Signed-off-by: Purushottam Choudhary <purushottam.choudhary@kpit.com>
 +Signed-off-by: Purushottam Choudhary <purushottamchoudhary29@gmail.com>
 +---
-+ binutils/stabs.c | 87 ++++++++++++++++++++++++------------------------
-+ 1 file changed, 43 insertions(+), 44 deletions(-)
++ src/mod_extforward.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+
-+diff --git a/binutils/stabs.c b/binutils/stabs.c
-+index 274bfb0e7fa..83ee3ea5fa4 100644
-+--- a/binutils/stabs.c
-++++ b/binutils/stabs.c
-+@@ -202,7 +202,7 @@ static debug_type stab_find_type (void *, struct stab_handle *, const int *);
-+ static bfd_boolean stab_record_type
-+   (void *, struct stab_handle *, const int *, debug_type);
-+ static debug_type stab_xcoff_builtin_type
-+-  (void *, struct stab_handle *, int);
-++  (void *, struct stab_handle *, unsigned int);
-+ static debug_type stab_find_tagged_type
-+   (void *, struct stab_handle *, const char *, int, enum debug_type_kind);
-+ static debug_type *stab_demangle_argtypes
-+@@ -3496,166 +3496,167 @@ stab_record_type (void *dhandle ATTRIBUTE_UNUSED, struct stab_handle *info,
-+ 
-+ static debug_type
-+ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
-+-			 int typenum)
-++			 unsigned int typenum)
-+ {
-+   debug_type rettype;
-+   const char *name;
-+ 
-+-  if (typenum >= 0 || typenum < -XCOFF_TYPE_COUNT)
-++  typenum = -typenum - 1;
-++  if (typenum >= XCOFF_TYPE_COUNT)
-+     {
-+-      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), typenum);
-++      fprintf (stderr, _("Unrecognized XCOFF type %d\n"), -typenum - 1);
-+       return DEBUG_TYPE_NULL;
-+     }
-+-  if (info->xcoff_types[-typenum] != NULL)
-+-    return info->xcoff_types[-typenum];
-++  if (info->xcoff_types[typenum] != NULL)
-++    return info->xcoff_types[typenum];
-+ 
-+-  switch (-typenum)
-++  switch (typenum)
-+     {
-+-    case 1:
-++    case 0:
-+       /* The size of this and all the other types are fixed, defined
-+ 	 by the debugging format.  */
-+       name = "int";
-+       rettype = debug_make_int_type (dhandle, 4, FALSE);
-+       break;
-+-    case 2:
-++    case 1:
-+       name = "char";
-+       rettype = debug_make_int_type (dhandle, 1, FALSE);
-+       break;
-+-    case 3:
-++    case 2:
-+       name = "short";
-+       rettype = debug_make_int_type (dhandle, 2, FALSE);
-+       break;
-+-    case 4:
-++    case 3:
-+       name = "long";
-+       rettype = debug_make_int_type (dhandle, 4, FALSE);
-+       break;
-+-    case 5:
-++    case 4:
-+       name = "unsigned char";
-+       rettype = debug_make_int_type (dhandle, 1, TRUE);
-+       break;
-+-    case 6:
-++    case 5:
-+       name = "signed char";
-+       rettype = debug_make_int_type (dhandle, 1, FALSE);
-+       break;
-+-    case 7:
-++    case 6:
-+       name = "unsigned short";
-+       rettype = debug_make_int_type (dhandle, 2, TRUE);
-+       break;
-+-    case 8:
-++    case 7:
-+       name = "unsigned int";
-+       rettype = debug_make_int_type (dhandle, 4, TRUE);
-+       break;
-+-    case 9:
-++    case 8:
-+       name = "unsigned";
-+       rettype = debug_make_int_type (dhandle, 4, TRUE);
-+       break;
-+-    case 10:
-++    case 9:
-+       name = "unsigned long";
-+       rettype = debug_make_int_type (dhandle, 4, TRUE);
-+       break;
-+-    case 11:
-++    case 10:
-+       name = "void";
-+       rettype = debug_make_void_type (dhandle);
-+       break;
-+-    case 12:
-++    case 11:
-+       /* IEEE single precision (32 bit).  */
-+       name = "float";
-+       rettype = debug_make_float_type (dhandle, 4);
-+       break;
-+-    case 13:
-++    case 12:
-+       /* IEEE double precision (64 bit).  */
-+       name = "double";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 14:
-++    case 13:
-+       /* This is an IEEE double on the RS/6000, and different machines
-+ 	 with different sizes for "long double" should use different
-+ 	 negative type numbers.  See stabs.texinfo.  */
-+       name = "long double";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 15:
-++    case 14:
-+       name = "integer";
-+       rettype = debug_make_int_type (dhandle, 4, FALSE);
-+       break;
-+-    case 16:
-++    case 15:
-+       name = "boolean";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 17:
-++    case 16:
-+       name = "short real";
-+       rettype = debug_make_float_type (dhandle, 4);
-+       break;
-+-    case 18:
-++    case 17:
-+       name = "real";
-+       rettype = debug_make_float_type (dhandle, 8);
-+       break;
-+-    case 19:
-++    case 18:
-+       /* FIXME */
-+       name = "stringptr";
-+       rettype = NULL;
-+       break;
-+-    case 20:
-++    case 19:
-+       /* FIXME */
-+       name = "character";
-+       rettype = debug_make_int_type (dhandle, 1, TRUE);
-+       break;
-+-    case 21:
-++    case 20:
-+       name = "logical*1";
-+       rettype = debug_make_bool_type (dhandle, 1);
-+       break;
-+-    case 22:
-++    case 21:
-+       name = "logical*2";
-+       rettype = debug_make_bool_type (dhandle, 2);
-+       break;
-+-    case 23:
-++    case 22:
-+       name = "logical*4";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 24:
-++    case 23:
-+       name = "logical";
-+       rettype = debug_make_bool_type (dhandle, 4);
-+       break;
-+-    case 25:
-++    case 24:
-+       /* Complex type consisting of two IEEE single precision values.  */
-+       name = "complex";
-+       rettype = debug_make_complex_type (dhandle, 8);
-+       break;
-+-    case 26:
-++    case 25:
-+       /* Complex type consisting of two IEEE double precision values.  */
-+       name = "double complex";
-+       rettype = debug_make_complex_type (dhandle, 16);
-+       break;
-+-    case 27:
-++    case 26:
-+       name = "integer*1";
-+       rettype = debug_make_int_type (dhandle, 1, FALSE);
-+       break;
-+-    case 28:
-++    case 27:
-+       name = "integer*2";
-+       rettype = debug_make_int_type (dhandle, 2, FALSE);
-+       break;
-+-    case 29:
-++    case 28:
-+       name = "integer*4";
-+       rettype = debug_make_int_type (dhandle, 4, FALSE);
-+       break;
-+-    case 30:
-++    case 29:
-+       /* FIXME */
-+       name = "wchar";
-+       rettype = debug_make_int_type (dhandle, 2, FALSE);
-+       break;
-+-    case 31:
-++    case 30:
-+       name = "long long";
-+       rettype = debug_make_int_type (dhandle, 8, FALSE);
-+       break;
-+-    case 32:
-++    case 31:
-+       name = "unsigned long long";
-+       rettype = debug_make_int_type (dhandle, 8, TRUE);
-+       break;
-+-    case 33:
-++    case 32:
-+       name = "logical*8";
-+       rettype = debug_make_bool_type (dhandle, 8);
-+       break;
-+-    case 34:
-++    case 33:
-+       name = "integer*8";
-+       rettype = debug_make_int_type (dhandle, 8, FALSE);
-+       break;
-+@@ -3664,9 +3665,7 @@ stab_xcoff_builtin_type (void *dhandle, struct stab_handle *info,
-+     }
-+ 
-+   rettype = debug_name_type (dhandle, name, rettype);
-+-
-+-  info->xcoff_types[-typenum] = rettype;
-+-
-++  info->xcoff_types[typenum] = rettype;
-+   return rettype;
-+ }
-+ 
++diff --git a/src/mod_extforward.c b/src/mod_extforward.c
++index ba957e04..fdaef7f6 100644
++--- a/src/mod_extforward.c
+++++ b/src/mod_extforward.c
++@@ -715,7 +715,7 @@ static handler_t mod_extforward_Forwarded (request_st * const r, plugin_data * c
++         while (s[i] == ' ' || s[i] == '\t') ++i;
++         if (s[i] == ';') { ++i; continue; }
++         if (s[i] == ',') {
++-            if (j >= (int)(sizeof(offsets)/sizeof(int))) break;
+++            if (j >= (int)(sizeof(offsets)/sizeof(int))-1) break;
++             offsets[++j] = -1; /*("offset" separating params from next proxy)*/
++             ++i;
++             continue;
 +-- 
-+2.27.0
++2.25.1
 +
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+index 737d6ebf7c..357a269015 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+@@ -14,6 +14,7 @@ RRECOMMENDS_${PN} = "lighttpd-module-access \
+                      lighttpd-module-accesslog"
+ 
+ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.xz \
++        file://0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch \
+         file://index.html.lighttpd \
+         file://lighttpd.conf \
+         file://lighttpd \
 -- 
 2.25.1
 
