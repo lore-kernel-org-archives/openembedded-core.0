@@ -2,63 +2,64 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B668C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 21:24:18 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.4683.1645478657519808259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1B2C433FE
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 21:24:20 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web12.4690.1645478659273417515
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 13:24:17 -0800
+ Mon, 21 Feb 2022 13:24:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Esx3CPnv;
- spf=pass (domain: gmail.com, ip: 209.85.210.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g0c26vle;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id x18so9969460pfh.5
+Received: by mail-pf1-f180.google.com with SMTP id z16so9981453pfh.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 13:24:17 -0800 (PST)
+ Mon, 21 Feb 2022 13:24:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=dNLGngtey9WED5VQilqdbHjZhWopBluU8AH/DrKJCho=;
-        b=Esx3CPnv56fVg/GhSoCf4g2GJJbWuFT7ch9Ibw6+0jz3J7ziRKKd6w0ukkjjs/+X9P
-         k2nnAN+fpUMlyDdAlZuxYS3LXrYPIVEmMUPwf4Cbj24AxpIYU/dK8Cje6Rnx9grsTPxY
-         D9Td9QwsyP5orlgDgXE7Lu5OU6efF6PUY/ffhaVxh3OJuTybmbRyS80RlUTLOap/vUk8
-         OukMnDXjTFecXdVeJC7zNn0fO0LPLMYYnXAg0RONgYApdJRk6ObwqvbUeElm2qAnImT7
-         7aJQi7b/G+sRJKD1u2RtC0qZCbkdJMK/D13J8yTm/zkY7VCItEnS6PAsP0+jbhwcIWPh
-         AsxA==
+        bh=MbFM/lfHIRRkVJn+qCVJ397jXTQm8/CrUAmSQXaYRLw=;
+        b=g0c26vleXfaNy/ithdeRGYZsZuuBIDtR5rOD8P4+8vZCWqXmCns3VquQCp2UwcQ2lj
+         Pt48XUKzkQwDjCoWYHxXH9bv1qd/bYpKfGbudVGql5H0kGmmGyJSm2kRZ4uYXRBXSTyl
+         LmGK1Re9HH41Ysbe6UaMYIwU9f+niao7z2IQB4HfWcTipJGyh+vtd2ozPXcrxTCwjRqw
+         f829tpyDWfEsnuUcrURkqMGC3POKIENTpU7/8eZL1Uj2AsNCeU/Qfns34G7zTvloS60p
+         oI/MatB9MTl+yRBDW9UGHd0DwR37NMVhFo1z9BKuGE7LvffeV/rf4L1Inkn4JsbM8UWe
+         WaIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dNLGngtey9WED5VQilqdbHjZhWopBluU8AH/DrKJCho=;
-        b=2pAnLj22dUWuP6G7uTdU5/Nx3Dk3bRnKmibn0C6pIMjnwBLS4X+Jh9+s2PTAkTx77K
-         inbogpge8ZrC2X0eSHs0pCNFmNHGXlQlEQkHmdYrJG/3CJQCcYSxLCTAWl/yiZ9vL4na
-         PDL8sgblnisOpqpC1wflantmX6jgSP7cMBW1/uBfXOv6IjUL7CwO4JGDn9KrXMZYtBpl
-         xDpPFtMVtIoeHCj0Qgws0b9HLmq3NtqEBpJ2su1aEQmkYhzZNYTm6paE3fCRrUUYjKgp
-         bppBENNAvyDIGzOJn7SSHhs2x+1SXRbG+FQkMx5PzRlQGQYTEbhCDtQtiK1KG1D30icT
-         KC0w==
-X-Gm-Message-State: AOAM531lYb0XmzGuv9Fh7Km3SI7mSDo86yaYaQfIY272UJnBb2fj+/uX
-	cyA2+oOU05YZvrsFy1xIy3LBRnA+pgqLAQ==
+        bh=MbFM/lfHIRRkVJn+qCVJ397jXTQm8/CrUAmSQXaYRLw=;
+        b=WIiwU9QaVf3/AD9C+O21HHyVMic+wsheuBYySY6ubWiuVg45aJB2TjHwCnc0TQHIM3
+         x2B6M/YCNIJYjLNQVIRIdsmIYlZJrqJkW0hxu8vOyQY15yOWzVpF6QbqbzCmIYxT2RRh
+         XniPZyMQwg0JPBWu7bve+ULymrVwOF48bteTOoGEUS+IB37HqjHWE+apsstha1oul32V
+         ZVQO6zo8xjJmYuiryXnMaXxiEebORFQ+jWrFN3P0pG+XvdKVL8yXK1iXDjo7u8VTYFWH
+         0oL1k/l0XKQKAf+zonHlqvnbQBNLqkY9dsTdIgmejfi/S27Br3oxniJ1LYBL5O/yUOKg
+         AEKA==
+X-Gm-Message-State: AOAM531pPeHC/svnyIu8eUtevePuZmP36ODCjLuk8enyECjt2Cv/Gip7
+	8zeNBPA7/83S0KQ5Q43wbSx3Ma6EX2lOsg==
 X-Google-Smtp-Source: 
- ABdhPJyQY2rBEFxaioubDdw05B5HL9uP5mWuYbPTrHpe8/d/PRp0J/hH9jYVuxXeUtIMvQpT/iPqdA==
-X-Received: by 2002:a05:6a00:24c7:b0:4e1:cb76:32d1 with SMTP id
- d7-20020a056a0024c700b004e1cb7632d1mr20712478pfv.36.1645478656633;
-        Mon, 21 Feb 2022 13:24:16 -0800 (PST)
+ ABdhPJzuP9hS+DzBET0+YPKzL0gQ4vUac15QVuyYoR4PbYFNr7/MHBHXaHTF93NbnmENjiPP8d9KQw==
+X-Received: by 2002:a05:6a00:24c4:b0:4cb:7324:bfd with SMTP id
+ d4-20020a056a0024c400b004cb73240bfdmr21816466pfv.60.1645478658390;
+        Mon, 21 Feb 2022 13:24:18 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:d01c:96b7:6393:8c56])
         by smtp.gmail.com with ESMTPSA id
- n85sm14081529pfd.142.2022.02.21.13.24.15
+ n85sm14081529pfd.142.2022.02.21.13.24.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 13:24:16 -0800 (PST)
+        Mon, 21 Feb 2022 13:24:17 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 10/32] python3-pytest: inherit setuptools_build_meta
-Date: Mon, 21 Feb 2022 13:23:25 -0800
+Subject: [PATCH v2 11/32] python3-setuptools-scm: inherit
+ setuptools_build_meta
+Date: Mon, 21 Feb 2022 13:23:26 -0800
 Message-Id: 
- <15c365924ac146117ca38abdb1542cbea00d227e.1645478020.git.tim.orling@konsulko.com>
+ <0ba58b2ff324cb790b77e20580c7a874a018ae8f.1645478020.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1645478020.git.tim.orling@konsulko.com>
 References: <cover.1645478020.git.tim.orling@konsulko.com>
@@ -67,9 +68,9 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 21:24:18 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 21:24:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162086
+ https://lists.openembedded.org/g/openembedded-core/message/162087
 
 Upstream provides a pyproject.toml which declares the
 setuptools.build_meta backend for PEP-517 packaging.
@@ -78,25 +79,22 @@ setuptools.build_meta backend for PEP-517 packaging.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-pytest_7.0.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_7.0.1.bb b/meta/recipes-devtools/python/python3-pytest_7.0.1.bb
-index 25014064890..ea6ba80300a 100644
---- a/meta/recipes-devtools/python/python3-pytest_7.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_7.0.1.bb
-@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
+index 10dad5a37be..182ccecbbfc 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148
+ SRC_URI[sha256sum] = "6833ac65c6ed9711a4d5d2266f8024cfa07c533a0e55f4c12f6eff280a5a9e30"
  
- SRC_URI[sha256sum] = "e30905a0c131d3d94b89624a1cc5afec3e0ba2fbdb151867d8e0ebd49850f171"
+ PYPI_PACKAGE = "setuptools_scm"
+-inherit pypi setuptools3
++inherit pypi setuptools_build_meta
  
--DEPENDS = "python3-setuptools-scm-native"
-+DEPENDS += "python3-setuptools-scm-native"
+ UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
  
--inherit update-alternatives pypi setuptools3
-+inherit update-alternatives pypi setuptools_build_meta
- 
- RDEPENDS:${PN}:class-target += " \
-     ${PYTHON_PN}-atomicwrites \
 -- 
 2.30.2
 
