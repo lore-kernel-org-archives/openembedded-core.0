@@ -2,190 +2,135 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF30C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 01:27:57 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.5719.1645406874086508394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E62CC433FE
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 01:27:59 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.5659.1645406878203380748
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 17:27:54 -0800
+ Sun, 20 Feb 2022 17:27:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HhTMEn2a;
- spf=pass (domain: gmail.com, ip: 209.85.214.174,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id c3so1968840plh.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NKLH+cXa;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id
+ q11-20020a17090a304b00b001b94d25eaecso13975504pjl.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Feb 2022 17:27:54 -0800 (PST)
+ Sun, 20 Feb 2022 17:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KnBV5z/kp1TE8O2R4blbh1mXCnxUOx838QzwRxy/NIY=;
-        b=HhTMEn2a+6YfnnCMFpFgmyQAyZRQR1/2b1+6Wz09lDsmi/StqCzyvZ86HYY1INu0O/
-         eVRYV74WvbLk55tRMqrcys6YzpeQEnQO1uL8157vkqltJ77/2l8MyjGrc9EMrH0146Xa
-         ph9dwKfItj7xCqWc1TakVN/Hkq5VhuzMcIFAUdMNM/v+hQKdeuLs2clnrjOUytAVmWqX
-         Hy0Cs1nbRloTcE20Lq/FwF2T72+FXquvb03bLgIXGRE1khK2uL6DCvYMKxoRFH6oWUuK
-         4t5TyhSSEZKmwTpbUHwJo9vuqaXlnKN6d0oAOkp3csGxXw8PI76xBUr2dxo/16P4V8wE
-         n+jQ==
+        bh=093y63bB3YtgqKbIKttkCteNoSK7hltsyxc9FyW4ZE0=;
+        b=NKLH+cXaTmE/RyIAHdNhvWqIeHiY+XZwx8L783uCfn0Xote/Fa56EECJYBFlgS0nUy
+         t1LDAoiR9uoUvFBb21TQ57W3NpL5Cf9ZOjw62o8HIdAEy4jvoBvjGdO44fhY50buQ3E3
+         qwXnwd8bKOrqjf+WXhhb1Eaq5bH68sGnHQHDn39sHZU5Lra3ynNF6bKDY2ru9QfIoCW8
+         RzSKbtajg3taEgQ2N/qoY/RPW3mlTnlXEY08YwuhTM/azZT7oFhsRtUwOtxRjoA/xzVV
+         VlXmwu53HsgH1EA5HKgR+pho39bStnu5eZ++sFNjz0bLW0X4JXKFwfXGKTvtd8JR76Qe
+         pWLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KnBV5z/kp1TE8O2R4blbh1mXCnxUOx838QzwRxy/NIY=;
-        b=ncgJ4SUdpzGMScM2O3oaXTEL3icmyDgyswedrWrnwmGosWcGzj2ODPyzeJwnhCb3cs
-         0t+hIJ/ZWghjdfL3zOXjQCgf8y4yUNp4kpoExDeYBOoTlJ9nU5FtxDjOyP8VKYS6Lbeq
-         GBL/Mj0pr/36+0gkt005Hz03aEasIIVF1ZMjB74pFdi7dtXnSvZVLXKkpumTMKXyxfH1
-         K9f+t1SI4WSuGMLadniLO0AspFvGwQ/fF0KLLq/wg5Z20Iy961PedInZx+egbfOzT3/n
-         pZ/9Pwanh2B3WyhN9vgCponxMSouc5uQ+75bLBATPEkC/cdi9oeGJjkpLALmU5z4S+l7
-         o5uQ==
-X-Gm-Message-State: AOAM532DgBeCOV7pURXFicXQufNfFMdfQAAr6Fz0jwgQ0TByopvtTwSG
-	VpIXAbMJ01XfvYHmDtgnpfDdFonzSMO36Q==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=093y63bB3YtgqKbIKttkCteNoSK7hltsyxc9FyW4ZE0=;
+        b=h+iiRQZR5GkoePjSds280dfbV6hnsp7ydXLq8N35dfOqMR5j2EZ2UqkO9v7EnSTNdZ
+         1PpEzTYMNh6bwQSwliv04L6J8FLWOdbVamHBBlXuTuEtkGkMhtqQTANWewCT2tqDlQQz
+         Fa9/Gf60dFgQsT+TpD/RjYedbOpYiS6e29LpADsg3cYMp9wtbYPLJAhJTSx+6YmBtac4
+         +o9fsDj6YrP5uNAx1lBgwoZcC2vXQjxQ+0MZoAn1kvz3IZGYxW8SH9HPKTGEDkwF6yV9
+         vYQ5CADTZgnCsc1pNKoz1VEBiiEefm7/I41YaaKraK1svoDL/8jTGDEgdaMaZ72gwE40
+         2LWg==
+X-Gm-Message-State: AOAM5314o9J8TRTkijdR1mLrZRyjr2WIPbw+XG3yD76BCX2wEudQd2J0
+	1UJg7mVbPADoS3lkC+x+gSxXltIvKS2VpA==
 X-Google-Smtp-Source: 
- ABdhPJy2emsK6sMftR6OIJeDRd2cDpvsTFKab5w1045Sd0jgXblq/JNQPXkHuW27ynn2RYZYjRpZ1A==
-X-Received: by 2002:a17:90b:fd7:b0:1b8:c872:f98f with SMTP id
- gd23-20020a17090b0fd700b001b8c872f98fmr19185012pjb.170.1645406872654;
-        Sun, 20 Feb 2022 17:27:52 -0800 (PST)
+ ABdhPJwgYSOEqB0zpD8Lar+O+xW4qOzq1vrmlXXFRzOBiKKwGY77y+1uK+44CYXuV3VZaCarb8ZtcA==
+X-Received: by 2002:a17:90b:3eca:b0:1b9:b85e:87f6 with SMTP id
+ rm10-20020a17090b3eca00b001b9b85e87f6mr23354282pjb.132.1645406877246;
+        Sun, 20 Feb 2022 17:27:57 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:f2b0:3951:ce8:8dfd])
         by smtp.gmail.com with ESMTPSA id
- e20sm10252937pfn.4.2022.02.20.17.27.51
+ e20sm10252937pfn.4.2022.02.20.17.27.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 17:27:52 -0800 (PST)
+        Sun, 20 Feb 2022 17:27:56 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/19] Python PEP-517: build wheels and installw with pip
-Date: Sun, 20 Feb 2022 17:27:29 -0800
-Message-Id: <cover.1645405471.git.tim.orling@konsulko.com>
+Subject: [PATCH 02/19] python3-flit-core: add recipe for 3.6.0
+Date: Sun, 20 Feb 2022 17:27:31 -0800
+Message-Id: 
+ <479b42fec238a94ac1a4f8b903071667847f6bb1.1645405471.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1645405471.git.tim.orling@konsulko.com>
+References: <cover.1645405471.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 01:27:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 01:27:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/161992
+ https://lists.openembedded.org/g/openembedded-core/message/161994
 
-Upstream Python is moving to pyproject.toml rather than setup.py and
-wheels rather than eggs. The main place this is documented is in
-PEP-517[1]. Installing packages with setup.py install is deprecated.
+This is the core of one of the "new build system" tools, although not
+officially part of the pypa (Python Packaging Authority) repositories,
+it is an increasingly common build tool (e.g. typing_extensions and
+tomli) as declared in pyproject.toml for said packages.
 
-We have a choice with the 'kirkstone' LTS release of introducing this
-series (and fixing any fall out during the stabilization period) or
-living with deprecated Python packaging for the duration of the LTS (at
-a minimum 2 years). This seems to be a compelling enough reason to bring
-in this series, even if it results in a slight slip of the 'feature
-freeze', which is officially tomorrow, Monday 21 Feb, 2022.
+This package provides a very simple bootstrapping method that builds
+the source tarball (build_sdist) and a wheel (build_wheel).
 
-This series bootstraps python3-setuptools-native,
-python3-flit-core-native, python3-wheel-native and python3-pip-native,
-simply unzipping the wheel into PYTHON_SITEPACKAGES_DIR. This allows all
-other recipes to be installed with pip, as intended by upstream.
-
-Three new classes are introduced:
-(1) flit_core which builds PEP-517 compliant packages which use
-    flit_core.buildapi as their build-backend.
-(2) setuptools_build_meta which builds PEP-517 compliant packages which use
-    setuptools_build_meta  as their build-backend.
-(3) pip_install_wheel, which simply installs wheels built by other
-    classes.
-
-The original setuptools3.bbclass do_compile is modified to
-'setup.py bdist_wheel' (from python3-wheel-native) rather than the deprecated
-'setup.py build' mechanism. 
-
-The original setuptools3.bbclass do_install is modified to
-use the pip_install_wheel.bbclass to install wheels with pip rather than
-the deprecated 'setup.py install' mechanism. 
-
-For pip install, we disable dependency checking (--no-deps) because it
-proves to be brittle in our environment without providing full wheel
-cache that seems like overhead that we do not need. We also disable
-fetching wheels from pypi (--no-index). This is no different than our
-normal workflow of requiring dependencies to be defined in a recipe.
-
-Missing from this series is documentation of the new features, classes
-and variables (this will be done under separate cover).
-
-Also desired and previously discussed in YP meetings is a helper
-function to warn that a recipe which currently inherits setuptools3
-but has a pyproject.toml and defines a build-system.build-backend should
-instead use of the new PEP-517 classes. This function is still in progress.
-
-During testing, recipes which use python3-setuptools-scm are failing to
-determine the version of the python package, For several recipes, the fix
-was to use pyproject.toml and PEP-517 build backends. To be sure, other recipes
-are still going to fail for the short term, until the root cause can be
-determined.
-
-Another PEP-517 build-backend, poetry.core.masonry.api has been
-identified in recipes in meta-python, but not in oe-core. The
-python3-poetry-core recipe is WIP, but brings in a number of
-dependencies that are perhaps not worth it to bring into oe-core at this
-time. Rather we can support these recipes in meta-python?
+Wheels are the official vehicle for delivering Python packages now.
+Eggs (egg-info) are deprecated and will increasingly go away.
 
 [YOCTO #14638]
 
-[1] https://www.python.org/dev/peps/pep-0517/
-
-The following changes since commit 0539b563c6f41fef383429a13c28bf918231d404:
-
-  libhandy: Use upstream regex to check version of upgrade. (2022-02-20 16:45:25 +0000)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/git/poky-contrib timo/bootstrap-wheels
-  http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=timo/bootstrap-wheels
-
-Tim Orling (19):
-  python3-wheel: move 0.37.0 from meta-python
-  python3-flit-core: add recipe for 3.6.0
-  python3-flit-core: simplify
-  flit_core.bbclass: add helper for newer python packaging
-  python3-wheel: inherit flit_core
-  pip_install_wheel.bbclass: add helper class
-  setuptools_build_meta.bbclass: add helper class
-  python3-pip: inherit setuptools_build_meta
-  python3-attrs: inherit setuptools_build_meta
-  python3-git: inherit setuptools_build_meta
-  python3-pytest: inherit setuptools_build_meta
-  python3-setuptools-scm: inherit setuptools_build_meta
-  python3-zipp: inherit setuptools_build_meta
-  python3-iniconfig: inherit setuptools_build_meta
-  python3-py: inherit setuptools_build_meta
-  python3-pluggy: inherit setuptools_build_meta
-  python3-setuptools: inherit setuptools_base_meta
-  setuptools3.bbclass: refactor for wheels
-  python3-more-itertools: set PIP_INSTALL_PACKAGE
-
- meta/classes/flit_core.bbclass                |  16 +++
- meta/classes/pip_install_wheel.bbclass        |  18 ++++
- meta/classes/setuptools3.bbclass              |  20 ++--
- meta/classes/setuptools_build_meta.bbclass    |  18 ++++
- .../python/python3-attrs_21.4.0.bb            |   2 +-
- .../python/python3-flit-core_3.6.0.bb         |  41 +++++++
- .../python/python3-git_3.1.26.bb              |   2 +-
- .../python/python3-iniconfig_1.1.1.bb         |   4 +-
- .../python/python3-more-itertools_8.12.0.bb   |   2 +
- .../python/python3-pip_22.0.3.bb              |  19 +++-
- .../python/python3-pluggy_1.0.0.bb            |   2 +-
- .../python/python3-py_1.11.0.bb               |   2 +-
- .../python/python3-pytest_7.0.1.bb            |   4 +-
- .../python/python3-setuptools-scm_6.4.2.bb    |   2 +-
- .../python/python3-setuptools_59.5.0.bb       |  19 +++-
- ...roject.toml-from-flit-backend-branch.patch | 100 ++++++++++++++++++
- .../python/python3-wheel_0.37.1.bb            |  24 +++++
- .../python/python3-zipp_3.7.0.bb              |   2 +-
- 18 files changed, 269 insertions(+), 28 deletions(-)
- create mode 100644 meta/classes/flit_core.bbclass
- create mode 100644 meta/classes/pip_install_wheel.bbclass
- create mode 100644 meta/classes/setuptools_build_meta.bbclass
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../python/python3-flit-core_3.6.0.bb         | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
- create mode 100644 meta/recipes-devtools/python/python3-wheel_0.37.1.bb
 
+diff --git a/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb b/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+new file mode 100644
+index 00000000000..4221076bc73
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+@@ -0,0 +1,35 @@
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
++
++SRC_URI[sha256sum] = "b1464e006df4df4c8eeb37671c0e0ce66e1d04e4a36d91b702f180a25fde3c11"
++
++inherit python3native python3-dir pypi
++
++DEPENDS += "python3 python3-pip-native"
++
++# We need the full flit tarball
++PYPI_PACKAGE = "flit"
++
++do_compile () {
++    nativepython3 flit_core/build_dists.py
++}
++
++do_install () {
++    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
++    PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
++    nativepython3 -m pip install -vvvv --no-index --target ${D}${PYTHON_SITEPACKAGES_DIR} ./flit_core/dist/flit_core-${PV}-py3-none-any.whl
++}
++
++FILES:${PN} += "\
++    ${PYTHON_SITEPACKAGES_DIR}/flit_core/* \
++    ${PYTHON_SITEPACKAGES_DIR}/flit_core-${PV}.dist-info/* \
++"
++
++PACKAGES =+ "${PN}-tests"
++
++FILES:${PN}-tests += "\
++    ${PYTHON_SITEPACKAGES_DIR}/flit_core/tests/* \
++"
++
++BBCLASSEXTEND = "native nativesdk"
++
 -- 
 2.30.2
 
