@@ -2,445 +2,147 @@ Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BFFC433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:20:41 +0000 (UTC)
-Received: from forward101p.mail.yandex.net (forward101p.mail.yandex.net
- [77.88.28.101])
- by mx.groups.io with SMTP id smtpd.web08.11374.1645453239902152296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0744C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:22:27 +0000 (UTC)
+Received: from forward501p.mail.yandex.net (forward501p.mail.yandex.net
+ [77.88.28.111])
+ by mx.groups.io with SMTP id smtpd.web10.11109.1645453345784650429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:20:41 -0800
+ Mon, 21 Feb 2022 06:22:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@zhukoff.net
- header.s=mail header.b=2OuplWwO;
- spf=pass (domain: zhukoff.net, ip: 77.88.28.101, mailfrom: pavel@zhukoff.net)
-Received: from sas1-fb5dbf3ce6b2.qloud-c.yandex.net
- (sas1-fb5dbf3ce6b2.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:79f:0:640:fb5d:bf3c])
-	by forward101p.mail.yandex.net (Yandex) with ESMTP id 2A5D259CE0BD;
-	Mon, 21 Feb 2022 17:20:36 +0300 (MSK)
-Received: from sas2-e7f6fb703652.qloud-c.yandex.net
- (sas2-e7f6fb703652.qloud-c.yandex.net [2a02:6b8:c14:4fa6:0:640:e7f6:fb70])
-	by sas1-fb5dbf3ce6b2.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- 6RX7wCOuHL-KZcuUbrI;
-	Mon, 21 Feb 2022 17:20:36 +0300
-X-Yandex-Fwd: 2
+ dkim=pass header.i=@zhukoff.net header.s=mail header.b=TsFCW5Px;
+ spf=pass (domain: zhukoff.net, ip: 77.88.28.111, mailfrom: pavel@zhukoff.net)
+Received: from myt6-06c5907de372.qloud-c.yandex.net
+ (myt6-06c5907de372.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:42ad:0:640:6c5:907d])
+	by forward501p.mail.yandex.net (Yandex) with ESMTP id F0BAB621240F;
+	Mon, 21 Feb 2022 17:22:22 +0300 (MSK)
+Received: from 2a02:6b8:c12:3ea4:0:640:a551:2e99
+ (2a02:6b8:c12:3ea4:0:640:a551:2e99 [2a02:6b8:c12:3ea4:0:640:a551:2e99])
+	by myt6-06c5907de372.qloud-c.yandex.net (mxback/Yandex) with HTTP id
+ LMm9814dZuQ1-MMdWfgGM;
+	Mon, 21 Feb 2022 17:22:22 +0300
+X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; s=mail;
- t=1645453236;
-	bh=t2hF/UD8WxtVLI3v/zju1tUgnUY/fLw6GJQscmFuadM=;
-	h=Date:Subject:To:From:Message-Id:Cc;
-	b=2OuplWwOl+NuN6u9wznSCSJls+fUdPMFjqsbniC5m/kaEotx5A9H047ZYCkaUfuje
-	 MLHgTYGnbgXcwouX88EInMIH4kwdfF6DNsHPI2EmVcTgkwYFXkZj9ou0mE9OtS01xZ
-	 6LL2vJFbdrlj16QQW9Xham/Q7Jlu8k08qXyWMi+E=
-Authentication-Results: sas1-fb5dbf3ce6b2.qloud-c.yandex.net;
+ t=1645453342;
+	bh=PpmrVwDP2ZfVuVgpkMQ2p/KVWZb6D+AJ6dBEjVYDC3Y=;
+	h=References:Date:Message-Id:Cc:Subject:In-Reply-To:To:From;
+	b=TsFCW5Px3PUrH6tNYxtUSETm5sOabYED5JeK8xF4ybb7qOnboKO+6gjvfQsdsiD2L
+	 ywTGFhth/HT5Rvf/qKQxel7+Lr03pAEmYJqRRW7ThyXWmwshONaYlcidi8t5efUdRh
+	 5fQM6FpQO6tIDgobF8VI+laDHKfKuP642c95CuVg=
+Authentication-Results: myt6-06c5907de372.qloud-c.yandex.net;
  dkim=pass header.i=@zhukoff.net
-Received: by sas2-e7f6fb703652.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id cubJMtWrMC-KYHOIKoo;
-	Mon, 21 Feb 2022 17:20:34 +0300
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client certificate not present)
+Received: by myt5-a5512e99e394.qloud-c.yandex.net with HTTP;
+	Mon, 21 Feb 2022 17:22:22 +0300
 From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: ceggers@arri.de,
-	pavel@zhukoff.net,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Subject: [PATCH v2] patch.py: Prevent git repo reinitialization
-Date: Mon, 21 Feb 2022 15:20:07 +0100
-Message-Id: <20220221142006.6501-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.34.1
+To: Christian Eggers <ceggers@arri.de>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>
+In-Reply-To: <7357253.EvYhyI6sBW@dhcp-192-168-0-28.wgnetz.xx>
+References: <20220221135745.5145-1-pavel@zhukoff.net>
+ <7357253.EvYhyI6sBW@dhcp-192-168-0-28.wgnetz.xx>
+Subject: Re: [PATCH] patch.py: Prevent git repo reinitialization
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Mon, 21 Feb 2022 15:22:22 +0100
+Message-Id: <531321645453238@mail.yandex.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:20:41 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:22:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162051
+ https://lists.openembedded.org/g/openembedded-core/message/162052
 
-There were few bugs in the _isInitialized() function which might trigger
-git repo to be reinitialized and patches failing to apply.
-
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
----
- .../net-tools/Add_missing_headers.patch       |  15 +++
- .../net-tools/net-tools/net-tools-config.h    |  75 +++++++++++
- .../net-tools/net-tools/net-tools-config.make |  36 ++++++
- .../recipes-test/net-tools/net-tools_2.10.bb  | 121 ++++++++++++++++++
- meta/lib/oe/patch.py                          |   6 +-
- meta/lib/oeqa/selftest/cases/bbtests.py       |  20 ++-
- 6 files changed, 268 insertions(+), 5 deletions(-)
- create mode 100644 meta-selftest/recipes-test/net-tools/net-tools/Add_mi=
-ssing_headers.patch
- create mode 100644 meta-selftest/recipes-test/net-tools/net-tools/net-to=
-ols-config.h
- create mode 100644 meta-selftest/recipes-test/net-tools/net-tools/net-to=
-ols-config.make
- create mode 100644 meta-selftest/recipes-test/net-tools/net-tools_2.10.b=
-b
-
-diff --git a/meta-selftest/recipes-test/net-tools/net-tools/Add_missing_h=
-eaders.patch b/meta-selftest/recipes-test/net-tools/net-tools/Add_missing=
-_headers.patch
-new file mode 100644
-index 0000000000..f15d3654c7
---- /dev/null
-+++ b/meta-selftest/recipes-test/net-tools/net-tools/Add_missing_headers.=
-patch
-@@ -0,0 +1,15 @@
-+Description: Add missing headers
-+
-+Upstream-Status: Pending
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+--- a/netstat.c
-++++ b/netstat.c
-+@@ -88,6 +88,7 @@
-+ #include <sys/stat.h>
-+ #include <net/if.h>
-+ #include <dirent.h>
-++#include <sys/types.h>
-+=20
-+ #include "net-support.h"
-+ #include "pathnames.h"
-diff --git a/meta-selftest/recipes-test/net-tools/net-tools/net-tools-con=
-fig.h b/meta-selftest/recipes-test/net-tools/net-tools/net-tools-config.h
-new file mode 100644
-index 0000000000..6d39c2a8cb
---- /dev/null
-+++ b/meta-selftest/recipes-test/net-tools/net-tools/net-tools-config.h
-@@ -0,0 +1,75 @@
-+/*
-+* config.h	Automatically generated configuration includefile
-+*
-+* NET-TOOLS	A collection of programs that form the base set of the
-+*		NET-3 Networking Distribution for the LINUX operating
-+*		system.
-+*
-+*		DO  NOT  EDIT  DIRECTLY
-+*
-+*/
-+
-+/*=20
-+ *=20
-+ * Internationalization
-+ *=20
-+ * The net-tools package has currently been translated to French,
-+ * German and Brazilian Portugese.  Other translations are, of
-+ * course, welcome.  Answer `n' here if you have no support for
-+ * internationalization on your system.
-+ *=20
-+ */
-+#define I18N 1
-+
-+/*=20
-+ *=20
-+ * Protocol Families.
-+ *=20
-+ */
-+#define HAVE_AFUNIX 1
-+#define HAVE_AFINET 1
-+#define HAVE_AFINET6 1
-+#define HAVE_AFIPX 0
-+#define HAVE_AFATALK 0
-+#define HAVE_AFAX25 0
-+#define HAVE_AFNETROM 1
-+#define HAVE_AFROSE 0
-+#define HAVE_AFX25 0
-+#define HAVE_AFECONET 0
-+#define HAVE_AFDECnet 0
-+#define HAVE_AFASH 0
-+
-+/*=20
-+ *=20
-+ * Device Hardware types.
-+ *=20
-+ */
-+#define HAVE_HWETHER 1
-+#define HAVE_HWARC 1
-+#define HAVE_HWSLIP 1
-+#define HAVE_HWPPP 1
-+#define HAVE_HWTUNNEL 1
-+#define HAVE_HWSTRIP 0
-+#define HAVE_HWTR 0
-+#define HAVE_HWAX25 0
-+#define HAVE_HWROSE 0
-+#define HAVE_HWNETROM 1
-+#define HAVE_HWX25 0
-+#define HAVE_HWFR 1
-+#define HAVE_HWSIT 0
-+#define HAVE_HWFDDI 0
-+#define HAVE_HWHIPPI 0
-+#define HAVE_HWASH 0
-+#define HAVE_HWHDLCLAPB 0
-+#define HAVE_HWIRDA 1
-+#define HAVE_HWEC 0
-+#define HAVE_HWIB 0
-+
-+/*=20
-+ *=20
-+ * Other Features.
-+ *=20
-+ */
-+#define HAVE_FW_MASQUERADE 1
-+#define HAVE_IP_TOOLS 1
-+#define HAVE_MII 1
-diff --git a/meta-selftest/recipes-test/net-tools/net-tools/net-tools-con=
-fig.make b/meta-selftest/recipes-test/net-tools/net-tools/net-tools-confi=
-g.make
-new file mode 100644
-index 0000000000..ec516f27ee
---- /dev/null
-+++ b/meta-selftest/recipes-test/net-tools/net-tools/net-tools-config.mak=
-e
-@@ -0,0 +1,36 @@
-+I18N=3D1
-+HAVE_AFUNIX=3D1
-+HAVE_AFINET=3D1
-+HAVE_AFINET6=3D1
-+# HAVE_AFIPX=3D0
-+# HAVE_AFATALK=3D0
-+# HAVE_AFAX25=3D0
-+HAVE_AFNETROM=3D1
-+# HAVE_AFROSE=3D0
-+# HAVE_AFX25=3D0
-+# HAVE_AFECONET=3D0
-+# HAVE_AFDECnet=3D0
-+# HAVE_AFASH=3D0
-+HAVE_HWETHER=3D1
-+HAVE_HWARC=3D1
-+HAVE_HWSLIP=3D1
-+HAVE_HWPPP=3D1
-+HAVE_HWTUNNEL=3D1
-+HAVE_HWSTRIP=3D1
-+HAVE_HWTR=3D1
-+# HAVE_HWAX25=3D0
-+# HAVE_HWROSE=3D0
-+HAVE_HWNETROM=3D1
-+# HAVE_HWX25=3D0
-+HAVE_HWFR=3D1
-+# HAVE_HWSIT=3D0
-+# HAVE_HWFDDI=3D0
-+# HAVE_HWHIPPI=3D0
-+# HAVE_HWASH=3D0
-+# HAVE_HWHDLCLAPB=3D0
-+HAVE_HWIRDA=3D1
-+# HAVE_HWEC=3D0
-+# HAVE_HWIB=3D0
-+HAVE_FW_MASQUERADE=3D1
-+HAVE_IP_TOOLS=3D1
-+HAVE_MII=3D1
-diff --git a/meta-selftest/recipes-test/net-tools/net-tools_2.10.bb b/met=
-a-selftest/recipes-test/net-tools/net-tools_2.10.bb
-new file mode 100644
-index 0000000000..33304297ec
---- /dev/null
-+++ b/meta-selftest/recipes-test/net-tools/net-tools_2.10.bb
-@@ -0,0 +1,121 @@
-+SUMMARY =3D "Basic networking tools"
-+DESCRIPTION =3D "A collection of programs that form the base set of the =
-NET-3 networking distribution for the Linux operating system"
-+HOMEPAGE =3D "http://net-tools.berlios.de/"
-+BUGTRACKER =3D "http://bugs.debian.org/net-tools"
-+LICENSE =3D "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263 \
-+                    file://ifconfig.c;beginline=3D11;endline=3D15;md5=3D=
-d1ca372080ad5401e23ca0afc35cf9ba"
-+
-+SRCREV =3D "80d7b95067f1f22fece9537dea6dff53081f4886"
-+SRC_URI =3D "git://git.code.sf.net/p/net-tools/code;protocol=3Dhttps;bra=
-nch=3Dmaster \
-+    file://net-tools-config.h \
-+    file://net-tools-config.make \
-+    file://Add_missing_headers.patch \
-+"
-+
-+S =3D "${WORKDIR}/git"
-+
-+inherit gettext
-+
-+# The Makefile is lame, no parallel build
-+PARALLEL_MAKE =3D ""
-+
-+PACKAGECONFIG ??=3D "hostname arp serial plip"
-+PACKAGECONFIG[hostname] =3D ""
-+PACKAGECONFIG[arp] =3D ""
-+PACKAGECONFIG[serial] =3D ""
-+PACKAGECONFIG[plip] =3D ""
-+PACKAGECONFIG[slattach] =3D ""
-+PACKAGECONFIG[plipconfig] =3D ""
-+
-+do_configure() {
-+	# net-tools has its own config mechanism requiring "make config"
-+	# we pre-generate desired options and copy to source directory instead
-+	cp ${WORKDIR}/net-tools-config.h    ${S}/config.h
-+	cp ${WORKDIR}/net-tools-config.make ${S}/config.make
-+
-+	if [ "${USE_NLS}" =3D "no" ]; then
-+		sed -i -e 's/^I18N=3D1/# I18N=3D1/' ${S}/config.make
-+	fi
-+
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'hostname', 'true', 'false', d=
-)} ; then
-+		echo "#define HAVE_HOSTNAME_TOOLS 1" >> ${S}/config.h
-+		echo "#define HAVE_HOSTNAME_SYMLINKS 1" >> ${S}/config.h
-+		echo "HAVE_HOSTNAME_TOOLS=3D1" >> ${S}/config.make
-+		echo "HAVE_HOSTNAME_SYMLINKS=3D1" >> ${S}/config.make
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'arp', 'true', 'false', d)} ; =
-then
-+		echo "#define HAVE_ARP_TOOLS 1" >> ${S}/config.h
-+		echo "HAVE_ARP_TOOLS=3D1" >> ${S}/config.make
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'serial', 'true', 'false', d)}=
- ; then
-+		echo "#define HAVE_SERIAL_TOOLS 1" >> ${S}/config.h
-+		echo "HAVE_SERIAL_TOOLS=3D1" >> ${S}/config.make
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'plip', 'true', 'false', d)} ;=
- then
-+		echo "#define HAVE_PLIP_TOOLS 1" >> ${S}/config.h
-+		echo "HAVE_PLIP_TOOLS=3D1" >> ${S}/config.make
-+	fi
-+}
-+
-+do_compile() {
-+	# net-tools use COPTS/LOPTS to allow adding custom options
-+	oe_runmake COPTS=3D"$CFLAGS" LOPTS=3D"$LDFLAGS"
-+}
-+
-+do_install() {
-+	# We don't need COPTS or LOPTS, but let's be consistent.
-+	oe_runmake COPTS=3D"$CFLAGS" LOPTS=3D"$LDFLAGS" BASEDIR=3D${D} INSTALLN=
-LSDIR=3D${D}${datadir}/locale mandir=3D${mandir} install
-+
-+	if [ "${base_bindir}" !=3D "/bin" ]; then
-+		mkdir -p ${D}/${base_bindir}
-+		mv ${D}/bin/* ${D}/${base_bindir}/
-+		rmdir ${D}/bin
-+	fi
-+	if [ "${base_sbindir}" !=3D "/sbin" ]; then
-+		mkdir ${D}/${base_sbindir}
-+		mv ${D}/sbin/* ${D}/${base_sbindir}/
-+		rmdir ${D}/sbin
-+	fi
-+}
-+
-+inherit update-alternatives
-+
-+base_sbindir_progs =3D "ipmaddr iptunnel mii-tool nameif \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'arp', 'arp rarp', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'plip', 'plipconfig', '', d)} =
-\
-+    ${@bb.utils.contains('PACKAGECONFIG', 'serial', 'slattach', '', d)} =
-\
-+"
-+base_bindir_progs  =3D "ifconfig netstat route \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'hostname', 'dnsdomainname dom=
-ainname hostname nisdomainname ypdomainname', '', d)} \
-+"
-+
-+ALTERNATIVE:${PN} =3D "${base_sbindir_progs} ${base_bindir_progs}"
-+ALTERNATIVE:${PN}-doc +=3D "${@bb.utils.contains('PACKAGECONFIG', 'hostn=
-ame', 'hostname.1 dnsdomainname.1', '', d)}"
-+ALTERNATIVE_LINK_NAME[hostname.1] =3D "${mandir}/man1/hostname.1"
-+ALTERNATIVE_LINK_NAME[dnsdomainname.1] =3D "${mandir}/man1/dnsdomainname=
-.1"
-+ALTERNATIVE_PRIORITY[hostname.1] =3D "10"
-+
-+python __anonymous() {
-+    for prog in d.getVar('base_sbindir_progs').split():
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar(=
-'base_sbindir'), prog))
-+    for prog in d.getVar('base_bindir_progs').split():
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar(=
-'base_bindir'), prog))
-+}
-+ALTERNATIVE_PRIORITY =3D "100"
-+
-+NETTOOLS_PACKAGES =3D "${PN}-mii-tool"
-+NETTOOLS_PACKAGES:class-native =3D ""
-+
-+PACKAGE_BEFORE_PN =3D "${NETTOOLS_PACKAGES}"
-+RDEPENDS:${PN} +=3D "${NETTOOLS_PACKAGES}"
-+
-+FILES:${PN}-mii-tool =3D "${base_sbindir}/mii-tool"
-+
-+ALTERNATIVE:${PN}:remove =3D "mii-tool"
-+
-+ALTERNATIVE:${PN}-mii-tool =3D "mii-tool"
-+ALTERNATIVE_TARGET[mii-tool] =3D "${base_sbindir}/mii-tool"
-+ALTERNATIVE_LINK_NAME[mii-tool] =3D "${base_sbindir}/mii-tool"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 950fe723dc..2163e336c2 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -304,14 +304,14 @@ class GitApplyTree(PatchTree):
-=20
-     def _isInitialized(self):
-         cmd =3D "git rev-parse --show-toplevel"
--        (status, output) =3D subprocess.getstatusoutput(cmd.split())
-+        (status, output) =3D subprocess.getstatusoutput(cmd)
-         ## Make sure repo is in builddir to not break top-level git repo=
-s
--        return status =3D=3D 0 and os.path.samedir(output, self.dir)
-+        return status =3D=3D 0 and os.path.samefile(output, self.dir)
-=20
-     def _initRepo(self):
-         runcmd("git init".split(), self.dir)
-         runcmd("git add .".split(), self.dir)
--        runcmd("git commit -a --allow-empty -m Patching_started".split()=
-, self.dir)
-+        runcmd("git commit -a --allow-empty -m bitbake_patching_started"=
-.split(), self.dir)
-=20
-     @staticmethod
-     def extractPatchHeader(patchfile):
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/self=
-test/cases/bbtests.py
-index ce72c4bcc6..ae3f230038 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -307,11 +307,27 @@ INHERIT:remove =3D \"report-error\"
-         src =3D get_bb_var("SRC_URI",test_recipe)
-         gitscm =3D re.search("git://", src)
-         self.assertFalse(gitscm, "test_git_patchtool pre-condition faile=
-d: {} test recipe contains git repo!".format(test_recipe))
--        result =3D bitbake('man-db -c patch', ignore_status=3DFalse)
-+        result =3D bitbake('{} -c patch'.format(test_recipe), ignore_sta=
-tus=3DFalse)
-         fatal =3D re.search("fatal: not a git repository (or any of the =
-parent directories)", result.output)
-         self.assertFalse(fatal, "Failed to patch using PATCHTOOL=3D\"git=
-\"")
-         self.delete_recipeinc(test_recipe)
--        bitbake('-cclean man-db')
-+        bitbake('-cclean {}'.format(test_recipe))
-+
-+    def test_git_patchtool2(self):
-+        """ Test if PATCHTOOL=3Dgit works with git repo and doesn't rein=
-itialize it
-+        """
-+        test_recipe =3D "net-tools"
-+        self.write_recipeinc(test_recipe, 'PATCHTOOL=3D\"git\"')
-+        src =3D get_bb_var("SRC_URI",test_recipe)
-+        gitscm =3D re.search("git://", src)
-+        self.assertTrue(gitscm, "test_git_patchtool pre-condition failed=
-: {} test recipe doesn't contains git repo!".format(test_recipe))
-+        result =3D bitbake('{} -c patch'.format(test_recipe), ignore_sta=
-tus=3DFalse)
-+        srcdir =3D get_bb_var('S', test_recipe)
-+        result =3D runCmd("git log", cwd =3D srcdir)
-+        self.assertFalse("bitbake_patching_started" in result.output, ms=
-g =3D "Repository has been reinitialized. {}".format(srcdir))
-+        self.delete_recipeinc(test_recipe)
-+        bitbake('-cclean {}'.format(test_recipe))
-+
-=20
-     def test_git_unpack_nonetwork(self):
-         """
---=20
-2.34.1
-
+PGRpdj7CoDwvZGl2PjxkaXY+wqA8L2Rpdj48ZGl2Pi0twqA8L2Rpdj48ZGl2PjIxLjAyLjIwMjIs
+IDE1OjE1LCAiQ2hyaXN0aWFuIEVnZ2VycyIgJmx0O2NlZ2dlcnNAYXJyaS5kZSZndDs6PC9kaXY+
+PGJsb2NrcXVvdGU+PHA+T24gTW9uZGF5LCAyMSBGZWJydWFyeSAyMDIyLCAxNDo1Nzo0NiBDRVQs
+IFBhdmVsIFpodWtvdiB3cm90ZTo8L3A+PGJsb2NrcXVvdGU+wqBUaGVyZSB3ZXJlIGZldyBidWdz
+IGluIHRoZSBfaXNJbml0aWFsaXplZCgpIGZ1bmN0aW9uIHdoaWNoIG1pZ2h0IHRyaWdnZXI8YnIg
+Lz7CoGdpdCByZXBvIHRvIGJlIHJlaW5pdGlhbGl6ZWQgYW5kIHBhdGNoZXMgZmFpbGluZyB0byBh
+cHBseS48YnIgLz7CoDxiciAvPsKgU2lnbmVkLW9mZi1ieTogUGF2ZWwgWmh1a292ICZsdDs8YSBo
+cmVmPSJtYWlsdG86cGF2ZWwuemh1a292QGh1YXdlaS5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZl
+cnJlciI+cGF2ZWwuemh1a292QGh1YXdlaS5jb208L2E+Jmd0OzxiciAvPsKgLS0tPGJyIC8+wqDC
+oC4uLi9uZXQtdG9vbHMvQWRkX21pc3NpbmdfaGVhZGVycy5wYXRjaCB8IDE1ICsrKzxiciAvPsKg
+wqAuLi4vbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLmggfCA3NSArKysrKysr
+KysrKzxiciAvPsKgwqAuLi4vbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLm1h
+a2UgfCAzNiArKysrKys8YnIgLz7CoMKgLi4uL3JlY2lwZXMtdGVzdC9uZXQtdG9vbHMvbmV0LXRv
+b2xzXzIuMTAuYmIgfCAxMjEgKysrKysrKysrKysrKysrKysrPC9ibG9ja3F1b3RlPjxwPkkgZ3Vl
+c3MgdGhhdCB0aGVzZSBmaWxlcyBoYXZlIGJlZW4gYWRkZWQgYnkgYWNjaWRlbnQuPC9wPjwvYmxv
+Y2txdW90ZT48ZGl2PlRoZXkgaGF2ZW4ndC4gSSd2ZSBhZGRlZCB0ZXN0IGZvciBQQVRDSFRPT0w9
+ImdpdCIgJmFtcDsmYW1wOyBnaXQ6Ly8gLiBJIGNvdWxkIHVzZSBnaXRpbnBhY2tvZmZsaW5lIGJ1
+dCBpdCBkb2Vzbid0IGNvbnRhaW4gYW55IHBhdGNoZXMuIEkgd2FzIG5vdCBhYmxlIHRvIHJlcHJv
+ZHVjZSB0aGUgaXNzdWUgaG93ZXZlci48L2Rpdj48YmxvY2txdW90ZT48cD7CoDwvcD48YmxvY2tx
+dW90ZT7CoMKgbWV0YS9saWIvb2UvcGF0Y2gucHkgfCA2ICstPGJyIC8+wqDCoG1ldGEvbGliL29l
+cWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5weSB8IDIwICsrLTxiciAvPsKgwqA2IGZpbGVzIGNo
+YW5nZWQsIDI2OCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKTxiciAvPsKgwqBjcmVhdGUg
+bW9kZSAxMDA2NDQgbWV0YS1zZWxmdGVzdC9yZWNpcGVzLXRlc3QvbmV0LXRvb2xzL25ldC10b29s
+cy9BZGRfbWlzc2luZ19oZWFkZXJzLnBhdGNoPGJyIC8+wqDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBt
+ZXRhLXNlbGZ0ZXN0L3JlY2lwZXMtdGVzdC9uZXQtdG9vbHMvbmV0LXRvb2xzL25ldC10b29scy1j
+b25maWcuaDxiciAvPsKgwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS1zZWxmdGVzdC9yZWNpcGVz
+LXRlc3QvbmV0LXRvb2xzL25ldC10b29scy9uZXQtdG9vbHMtY29uZmlnLm1ha2U8YnIgLz7CoMKg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEtc2VsZnRlc3QvcmVjaXBlcy10ZXN0L25ldC10b29scy9u
+ZXQtdG9vbHNfMi4xMC5iYjxiciAvPsKgPGJyIC8+wqAuLi48YnIgLz7CoDxiciAvPsKgZGlmZiAt
+LWdpdCBhL21ldGEvbGliL29lL3BhdGNoLnB5IGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7C
+oGluZGV4IDk1MGZlNzIzZGMuLmI2ZmU5YjJiZGQgMTAwNjQ0PGJyIC8+wqAtLS0gYS9tZXRhL2xp
+Yi9vZS9wYXRjaC5weTxiciAvPsKgKysrIGIvbWV0YS9saWIvb2UvcGF0Y2gucHk8YnIgLz7CoEBA
+IC0zMDQsMTQgKzMwNCwxNCBAQCBjbGFzcyBHaXRBcHBseVRyZWUoUGF0Y2hUcmVlKTo8YnIgLz7C
+oMKgPGJyIC8+wqDCoMKgwqDCoMKgZGVmIF9pc0luaXRpYWxpemVkKHNlbGYpOjxiciAvPsKgwqDC
+oMKgwqDCoMKgwqDCoMKgY21kID0gImdpdCByZXYtcGFyc2UgLS1zaG93LXRvcGxldmVsIjxiciAv
+PsKgLSAoc3RhdHVzLCBvdXRwdXQpID0gc3VicHJvY2Vzcy5nZXRzdGF0dXNvdXRwdXQoY21kLnNw
+bGl0KCkpPGJyIC8+wqArIChzdGF0dXMsIG91dHB1dCkgPSBzdWJwcm9jZXNzLmdldHN0YXR1c291
+dHB1dChjbWQpPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqAjIyBNYWtlIHN1cmUgcmVwbyBpcyBp
+biBidWlsZGRpciB0byBub3QgYnJlYWsgdG9wLWxldmVsIGdpdCByZXBvczxiciAvPsKgLSByZXR1
+cm4gc3RhdHVzID09IDAgYW5kIG9zLnBhdGguc2FtZWRpcihvdXRwdXQsIHNlbGYuZGlyKTxiciAv
+PsKgKyByZXR1cm4gc3RhdHVzID09IDAgYW5kIG9zLnBhdGguc2FtZWZpbGUob9C4dXRwdXQsIHNl
+bGYuZGlyKTwvYmxvY2txdW90ZT48cD5leHRyYSBjaGFyYWN0ZXIgKCfQuCcpPC9wPjwvYmxvY2tx
+dW90ZT48ZGl2Pk9oLiBmYXQgZmluZ2Vycy4gVGhhbmsgeW91ITwvZGl2PjxibG9ja3F1b3RlPjxw
+PjxiciAvPnJlZ2FyZHM8YnIgLz5DaHJpc3RpYW48YnIgLz7CoDwvcD48YmxvY2txdW90ZT7CoMKg
+PGJyIC8+wqDCoMKgwqDCoMKgZGVmIF9pbml0UmVwbyhzZWxmKTo8YnIgLz7CoMKgwqDCoMKgwqDC
+oMKgwqDCoHJ1bmNtZCgiZ2l0IGluaXQiLnNwbGl0KCksIHNlbGYuZGlyKTxiciAvPsKgwqDCoMKg
+wqDCoMKgwqDCoMKgcnVuY21kKCJnaXQgYWRkIC4iLnNwbGl0KCksIHNlbGYuZGlyKTxiciAvPsKg
+LSBydW5jbWQoImdpdCBjb21taXQgLWEgLS1hbGxvdy1lbXB0eSAtbSBQYXRjaGluZ19zdGFydGVk
+Ii5zcGxpdCgpLCBzZWxmLmRpcik8YnIgLz7CoCsgcnVuY21kKCJnaXQgY29tbWl0IC1hIC0tYWxs
+b3ctZW1wdHkgLW0gYml0YmFrZV9wYXRjaGluZ19zdGFydGVkIi5zcGxpdCgpLCBzZWxmLmRpcik8
+YnIgLz7CoMKgPGJyIC8+wqDCoMKgwqDCoMKgQHN0YXRpY21ldGhvZDxiciAvPsKgwqDCoMKgwqDC
+oGRlZiBleHRyYWN0UGF0Y2hIZWFkZXIocGF0Y2hmaWxlKTo8YnIgLz7CoGRpZmYgLS1naXQgYS9t
+ZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2JidGVzdHMucHkgYi9tZXRhL2xpYi9vZXFhL3Nl
+bGZ0ZXN0L2Nhc2VzL2JidGVzdHMucHk8YnIgLz7CoGluZGV4IGNlNzJjNGJjYzYuLmFlM2YyMzAw
+MzggMTAwNjQ0PGJyIC8+wqAtLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2JidGVz
+dHMucHk8YnIgLz7CoCsrKyBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvYmJ0ZXN0cy5w
+eTxiciAvPsKgQEAgLTMwNywxMSArMzA3LDI3IEBAIElOSEVSSVQ6cmVtb3ZlID0gXCJyZXBvcnQt
+ZXJyb3JcIjxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgc3JjID0gZ2V0X2JiX3ZhcigiU1JDX1VS
+SSIsdGVzdF9yZWNpcGUpPGJyIC8+wqDCoMKgwqDCoMKgwqDCoMKgwqBnaXRzY20gPSByZS5zZWFy
+Y2goImdpdDovLyIsIHNyYyk8YnIgLz7CoMKgwqDCoMKgwqDCoMKgwqDCoHNlbGYuYXNzZXJ0RmFs
+c2UoZ2l0c2NtLCAidGVzdF9naXRfcGF0Y2h0b29sIHByZS1jb25kaXRpb24gZmFpbGVkOiB7fSB0
+ZXN0IHJlY2lwZSBjb250YWlucyBnaXQgcmVwbyEiLmZvcm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+
+wqAtIHJlc3VsdCA9IGJpdGJha2UoJ21hbi1kYiAtYyBwYXRjaCcsIGlnbm9yZV9zdGF0dXM9RmFs
+c2UpPGJyIC8+wqArIHJlc3VsdCA9IGJpdGJha2UoJ3t9IC1jIHBhdGNoJy5mb3JtYXQodGVzdF9y
+ZWNpcGUpLCBpZ25vcmVfc3RhdHVzPUZhbHNlKTxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgZmF0
+YWwgPSByZS5zZWFyY2goImZhdGFsOiBub3QgYSBnaXQgcmVwb3NpdG9yeSAob3IgYW55IG9mIHRo
+ZSBwYXJlbnQgZGlyZWN0b3JpZXMpIiwgcmVzdWx0Lm91dHB1dCk8YnIgLz7CoMKgwqDCoMKgwqDC
+oMKgwqDCoHNlbGYuYXNzZXJ0RmFsc2UoZmF0YWwsICJGYWlsZWQgdG8gcGF0Y2ggdXNpbmcgUEFU
+Q0hUT09MPVwiZ2l0XCIiKTxiciAvPsKgwqDCoMKgwqDCoMKgwqDCoMKgc2VsZi5kZWxldGVfcmVj
+aXBlaW5jKHRlc3RfcmVjaXBlKTxiciAvPsKgLSBiaXRiYWtlKCctY2NsZWFuIG1hbi1kYicpPGJy
+IC8+wqArIGJpdGJha2UoJy1jY2xlYW4ge30nLmZvcm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+wqAr
+PGJyIC8+wqArIGRlZiB0ZXN0X2dpdF9wYXRjaHRvb2wyKHNlbGYpOjxiciAvPsKgKyAiIiIgVGVz
+dCBpZiBQQVRDSFRPT0w9Z2l0IHdvcmtzIHdpdGggZ2l0IHJlcG8gYW5kIGRvZXNuJ3QgcmVpbml0
+aWFsaXplIGl0PGJyIC8+wqArICIiIjxiciAvPsKgKyB0ZXN0X3JlY2lwZSA9ICJuZXQtdG9vbHMi
+PGJyIC8+wqArIHNlbGYud3JpdGVfcmVjaXBlaW5jKHRlc3RfcmVjaXBlLCAnUEFUQ0hUT09MPVwi
+Z2l0XCInKTxiciAvPsKgKyBzcmMgPSBnZXRfYmJfdmFyKCJTUkNfVVJJIix0ZXN0X3JlY2lwZSk8
+YnIgLz7CoCsgZ2l0c2NtID0gcmUuc2VhcmNoKCJnaXQ6Ly8iLCBzcmMpPGJyIC8+wqArIHNlbGYu
+YXNzZXJ0VHJ1ZShnaXRzY20sICJ0ZXN0X2dpdF9wYXRjaHRvb2wgcHJlLWNvbmRpdGlvbiBmYWls
+ZWQ6IHt9IHRlc3QgcmVjaXBlIGRvZXNuJ3QgY29udGFpbnMgZ2l0IHJlcG8hIi5mb3JtYXQodGVz
+dF9yZWNpcGUpKTxiciAvPsKgKyByZXN1bHQgPSBiaXRiYWtlKCd7fSAtYyBwYXRjaCcuZm9ybWF0
+KHRlc3RfcmVjaXBlKSwgaWdub3JlX3N0YXR1cz1GYWxzZSk8YnIgLz7CoCsgc3JjZGlyID0gZ2V0
+X2JiX3ZhcignUycsIHRlc3RfcmVjaXBlKTxiciAvPsKgKyByZXN1bHQgPSBydW5DbWQoImdpdCBs
+b2ciLCBjd2QgPSBzcmNkaXIpPGJyIC8+wqArIHNlbGYuYXNzZXJ0RmFsc2UoImJpdGJha2VfcGF0
+Y2hpbmdfc3RhcnRlZCIgaW4gcmVzdWx0Lm91dHB1dCwgbXNnID0gIlJlcG9zaXRvcnkgaGFzIGJl
+ZW4gcmVpbml0aWFsaXplZC4ge30iLmZvcm1hdChzcmNkaXIpKTxiciAvPsKgKyBzZWxmLmRlbGV0
+ZV9yZWNpcGVpbmModGVzdF9yZWNpcGUpPGJyIC8+wqArIGJpdGJha2UoJy1jY2xlYW4ge30nLmZv
+cm1hdCh0ZXN0X3JlY2lwZSkpPGJyIC8+wqArPGJyIC8+wqDCoDxiciAvPsKgwqDCoMKgwqDCoGRl
+ZiB0ZXN0X2dpdF91bnBhY2tfbm9uZXR3b3JrKHNlbGYpOjxiciAvPsKgwqDCoMKgwqDCoMKgwqDC
+oMKgIiIiPGJyIC8+wqA8L2Jsb2NrcXVvdGU+PC9ibG9ja3F1b3RlPg==
 
