@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B392C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:52 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web08.11300.1645452891723294466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B735C433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:54 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web09.11000.1645452893770606471
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:51 -0800
+ Mon, 21 Feb 2022 06:14:53 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mCwVjSYo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
+ header.b=FTiM8io3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id x11so12986533pll.10
+Received: by mail-pj1-f54.google.com with SMTP id b8so15362869pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:51 -0800 (PST)
+ Mon, 21 Feb 2022 06:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QUEddwckeYaLeBVtkfXJ9kG3OiQWa1oUsPm3VW7w7Hc=;
-        b=mCwVjSYoQMz+VGHPfsjq7Gv5s4UWlZ+YciOdMO80OkiQpbFuPuPCPQmkioVFfH4w51
-         OrUyosQz4pI/xTDa/L1eN+Fiz0nLn44W8l6qE/z27+XwwwgcWxybnXxUJ3IBKtMjmYIw
-         EkbLKZHGLEq4L0wXPZjckWWett6vlHMhJYtNBPvYdKpxp+krPIqT8F4tKFJ7N77hPDqh
-         ewp9B86H1Bx3I5zkOUwTUTao1bcZKbwJQPFGBOKOTF29X2Xmg0fyc4mOXXUWwQd9neGK
-         YXtXw4BN+j9tychoKKfX9R+WPJe6VE3CqoC8JXdiB0r50Shj2jo/eNG0HTigtYZgXk6/
-         SmXA==
+        bh=RnnlLQbDqXg2wsGRtm2TXzaAKnFcirsu3Q5sTY4Umg8=;
+        b=FTiM8io3MamM2UYdrslkc1V9lYM9jBoNYAuc9NBVcaactd7o9hg61H4szAlAF3lBEr
+         RuOYtQi+kvUHbDMy1rKJZSlnCaDzZH8F68pzmvrHQcXDc5IPg5PASCPeIy1AcuzLuVLH
+         bdQbhVSNu+VpD11kvcfVr3WKzjDrwdC6vYZPRXdBAV/ElqRqGGQZU45PZVJsIn8VzzwS
+         MsSuzWGV1JI9JX7IRCbaKPzcw0MDQNXtGCHxAGw0gmgh2QD5oOrTctM5qUqueESUhrA4
+         ugPZLi+GBHTjf47lKj/H8tbYjwd9uXer0R/fOMytJSDwCkbR+OWZb1wyCSNlZKWqE6nI
+         m0/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QUEddwckeYaLeBVtkfXJ9kG3OiQWa1oUsPm3VW7w7Hc=;
-        b=UPqfGPmqewiG8GtOP66VckspFCbD3pJ0z0NYotWOXnGWk/11/ZLk7GUI9wucta1o9o
-         j1zq3cBpa5KfCeA+fwm3ReaWtbk6Nnz4D17+PtRgw+hQjfoJPlcdIeZ7VXMw5n3wWdKp
-         wH5Zgvlc0y3exZKsgFat47y1M4b1amwMC7pDRq9pNkDSI5MBvWX6vK4yshE8e+aMOmC7
-         v+6nGgyz//0fb1QOtCJGNa3znZwhQXtG3MY3t5fyQ1/wk8ijQQS2LtMf0KmW1FCR9XZr
-         Dsz7nUI/WLR6Gr3N+jaJdMAgJzrXH8ysHDNPp8nASkZeukGmDciVGkKHp6RuNY2lzRp0
-         mepg==
-X-Gm-Message-State: AOAM530H7/klK6lzx67Q7KlRvgdVoAOtEjN3PWNvyEzNPCN9WjZhXRo9
-	YToK9oithsz9b7fXpSfBnv8iwWxGagDq9JGE
+        bh=RnnlLQbDqXg2wsGRtm2TXzaAKnFcirsu3Q5sTY4Umg8=;
+        b=Vw+mYQ5s4pJQ12ZzP++E0Kfyv3z6QvSi0LQrYSKvtjoYiRhKJ2eA09gfLQ0f0ctXSR
+         lTGaVcCIe5TLT/qs0XDKAy8LY3kwdVbw0oXwDX2e/7hubg6yPv7W8BqTvFhWhytaKPEt
+         t4uytJYopVTDLTHZ5UjOQ3MoL1objgklaaSOjGIDjwxM9ABTSe7o6PNY6EcqUl/GzNY1
+         2JdIwvs2jGvg6vCZXkTQEOTi6lt4AZlsifxd28qZSQ3W1BDwndS+XWwDDhmAvcJSVdTf
+         FS59DhuWwNgk6msLSBMQXIIbfHIw6BwEi3MS8EZEetQgPQ2/bQlb0iQxhsQHFVDMLKpP
+         v3yQ==
+X-Gm-Message-State: AOAM530mrbApncF+9l8ugczrvhv8qax3agI2kdIj00av2o4n9abrpF65
+	3TitHGhz/B4EwDsnVqHUTqoYQ/HDnr6+7q9n
 X-Google-Smtp-Source: 
- ABdhPJzbRZ5sH9aHoHHCLxKPzGeSjlgcOzG29QRfZTX1FbuAUPqhWqC8cuF2PCI/xpbo6f55cOJDyQ==
-X-Received: by 2002:a17:903:2289:b0:14f:a64f:2475 with SMTP id
- b9-20020a170903228900b0014fa64f2475mr7828791plh.80.1645452890854;
-        Mon, 21 Feb 2022 06:14:50 -0800 (PST)
+ ABdhPJzNDsxKVeLBMrbe/a94fL1F+2ESQWTpyXE7u3EzdtAJ+Eevugvv9WCJQkeuM0Rc/GT13xDHoQ==
+X-Received: by 2002:a17:902:bd92:b0:14f:3f88:1b14 with SMTP id
+ q18-20020a170902bd9200b0014f3f881b14mr19035182pls.112.1645452892819;
+        Mon, 21 Feb 2022 06:14:52 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 8sm12919235pfl.164.2022.02.21.06.14.49
+ 8sm12919235pfl.164.2022.02.21.06.14.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 06:14:50 -0800 (PST)
+        Mon, 21 Feb 2022 06:14:52 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/20] cve-check: create directory of
- CVE_CHECK_MANIFEST before copy
-Date: Mon, 21 Feb 2022 04:14:07 -1000
+Subject: [OE-core][dunfell 10/20] recipetool: Fix circular reference in
+ SRC_URI
+Date: Mon, 21 Feb 2022 04:14:08 -1000
 Message-Id: 
- <ee05539fc6fadff7f14c8609641021fc497cbd8e.1645452535.git.steve@sakoman.com>
+ <64434ffd6d406e4c3d1e9ca2fb72fa97990346d8.1645452535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645452535.git.steve@sakoman.com>
 References: <cover.1645452535.git.steve@sakoman.com>
@@ -68,35 +68,57 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162037
+ https://lists.openembedded.org/g/openembedded-core/message/162038
 
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+From: Saul Wold <Saul.Wold@windriver.com>
 
-Create directory of the CVE_CHECK_MANIFEST variable before copy to it,
-so that the variable can use an arbitrary directory name.
+When creating a new recipe.bb file for a binary, don't use BP which
+includes the version information, instead use BPN which is just the
+name base Package Name.
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Since PB is not specified, it takes the default:
+PV = "1.0+git${SRCPV}"
+
+But SRCPV is defined in terms of the SRC_URI, which leads to infinite
+recursion (traceback below). Here are the pertinent variables which
+cause the recursion:
+
+SRC_URI = "git://github.com/lvc/abi-dumper;protocol=https;subdir=${BP}"
+BP = "${BPN}-${PV}"
+PV = "1.0+git${SRCPV}"
+SRCPV = "${@bb.fetch2.get_srcrev(d)}"
+
+def get_srcrev(d, method_name='sortable_revision'):
+    # ... trimmed
+    scms = []
+    fetcher = Fetch(d.getVar('SRC_URI').split(), d)
+    # ... trimmed
+
+[YOCTO #14040]
+
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9829c16301bf2dce39fa046401a984f112fa0322)
+(cherry picked from commit 3b8d43fc53ee13d39abc3b2a1f706a97fcf752aa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/lib/recipetool/create.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 6eecbdbf13..6b627464a0 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -143,6 +143,7 @@ python cve_check_write_rootfs_manifest () {
-         manifest_name = d.getVar("CVE_CHECK_MANIFEST")
-         cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
- 
-+        bb.utils.mkdirhier(os.path.dirname(manifest_name))
-         shutil.copyfile(cve_tmp_file, manifest_name)
- 
-         if manifest_name and os.path.exists(manifest_name):
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 5b6ac12a92..798cb0cefe 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -435,7 +435,7 @@ def create_recipe(args):
+         if args.binary:
+             # Assume the archive contains the directory structure verbatim
+             # so we need to extract to a subdirectory
+-            fetchuri += ';subdir=${BP}'
++            fetchuri += ';subdir=${BPN}'
+         srcuri = fetchuri
+         rev_re = re.compile(';rev=([^;]+)')
+         res = rev_re.search(srcuri)
 -- 
 2.25.1
 
