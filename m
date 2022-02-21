@@ -1,148 +1,168 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <8a8cbe906197ff3e5aa385d148747b8757d81bb5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] Binutils: Avoid Race condition in as.info
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Thu, 03 Mar 2022 08:02:22 +0000
-In-Reply-To: <20220303055700.144747-1-pgowda.cve@gmail.com>
-References: <20220303055700.144747-1-pgowda.cve@gmail.com>
+From: "Tim Orling" <ticotimo@gmail.com>
+Subject: [PATCH 05/19] python3-wheel: inherit flit_core
+Date: Sun, 20 Feb 2022 17:27:34 -0800
+Message-Id: <5bbbe338aaaf1628439f7fec51fd75e984cfa5e1.1645405471.git.tim.orling@konsulko.com>
+In-Reply-To: <cover.1645405471.git.tim.orling@konsulko.com>
+References: <cover.1645405471.git.tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com
+To: openembedded-core@lists.openembedded.org
 
-On Wed, 2022-03-02 at 21:57 -0800, Pgowda wrote:
-> The race condition in binutils/gas folder was introduced with the
-> following patch. The patch avoids recursive make into the doc folder.
-> It would speed up the build process slightly. However, the as.info
-> is installed twice which resulted in the race condition sometimes.
-> https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=bde299e063de090bf36c1fe51874d1e9f4d94c3c
-> 
-> On debugging the code, it was found that the issue was related to
-> install-data-local. On further analysis, there is already a patch in
-> binutils that removes install-data-local.
-> On applying the patch as.info is installed once as expected and there’s
-> no possibility of any race condition.
-> https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=9a84a44d5df4618dd616137fa755bd71b7eacc5f
-> 
-> Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=9a84a44d5df4618dd616137fa755bd71b7eacc5f]
-> 
-> [YOCTO #14725]
-> 
-> Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> ---
->  .../binutils/binutils-2.38.inc                |  1 +
->  .../0013-Avoid-as-info-race-condition.patch   | 75 +++++++++++++++++++
->  2 files changed, 76 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
+Backport pyproject.toml from flit-backend branch.
+Inherit flit_core class to build
+Inherit pip_install_wheel to install wheels for target
 
-Thanks for tracking that down, it will be good to fix this one as we've seen it
-fail a few times. Note that the Upstream-Status in the patch below was
-incorrect, it needed to be Backport like it is above.
+We need to bootstrap python3-wheel-native in order to have bdist_wheel
+available to python3-setuptools-native and the refactored
+setuptools3.bbclass. Simply unzip the wheel into
+PYTHON_SITEPACKAGES_DIR for class-native.
 
-I've fixed it in the patch I've queued for testing so no need to resend.
+[YOCTO #14638]
 
-Cheers,
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...roject.toml-from-flit-backend-branch.patch | 100 ++++++++++++++++++
+ .../python/python3-wheel_0.37.1.bb            |  16 ++-
+ 2 files changed, 114 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
 
-Richard
-
-> 
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> index 6d4415048a..4ce74f94bf 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> @@ -31,5 +31,6 @@ SRC_URI = "\
->       file://0010-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
->       file://0011-sync-with-OE-libtool-changes.patch \
->       file://0012-Check-for-clang-before-checking-gcc-version.patch \
-> +     file://0013-Avoid-as-info-race-condition.patch \
->  "
->  S  = "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch b/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
-> new file mode 100644
-> index 0000000000..8edc12d5a9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0013-Avoid-as-info-race-condition.patch
-> @@ -0,0 +1,75 @@
-> +From 9a84a44d5df4618dd616137fa755bd71b7eacc5f Mon Sep 17 00:00:00 2001
-> +From: Mike Frysinger <vapier@gentoo.org>
-> +Date: Sun, 23 Jan 2022 12:44:24 -0500
-> +Subject: [PATCH] gas: drop old cygnus install hack
-> +
-> +This was needed when gas was using the automake cygnus option, but
-> +this was removed years ago by Simon in d0ac1c44885daf68f631befa37e
-> +("Bump to autoconf 2.69 and automake 1.15.1").  So delete it here.
-> +The info pages are already & still installed by default w/out it.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + gas/Makefile.in  | 14 +++++---------
-> + gas/doc/local.mk |  4 ----
-> + 2 files changed, 5 insertions(+), 13 deletions(-)
-> +
-> +diff --git a/gas/Makefile.in b/gas/Makefile.in
-> +index 8f0a56fd8d6..67dac53f68c 100644
-> +--- a/gas/Makefile.in
-> ++++ b/gas/Makefile.in
-> +@@ -1854,7 +1854,7 @@ info: info-recursive
-> + 
-> + info-am: $(INFO_DEPS) info-local
-> + 
-> +-install-data-am: install-data-local install-info-am install-man
-> ++install-data-am: install-info-am install-man
-> + 
-> + install-dvi: install-dvi-recursive
-> + 
-> +@@ -2008,10 +2008,10 @@ uninstall-man: uninstall-man1
-> + 	distclean-DEJAGNU distclean-compile distclean-generic \
-> + 	distclean-hdr distclean-libtool distclean-tags dvi dvi-am html \
-> + 	html-am html-local info info-am info-local install install-am \
-> +-	install-data install-data-am install-data-local install-dvi \
-> +-	install-dvi-am install-exec install-exec-am install-exec-local \
-> +-	install-html install-html-am install-info install-info-am \
-> +-	install-man install-man1 install-pdf install-pdf-am install-ps \
-> ++	install-data install-data-am install-dvi install-dvi-am \
-> ++	install-exec install-exec-am install-exec-local install-html \
-> ++	install-html-am install-info install-info-am install-man \
-> ++	install-man1 install-pdf install-pdf-am install-ps \
-> + 	install-ps-am install-strip installcheck installcheck-am \
-> + 	installdirs installdirs-am maintainer-clean \
-> + 	maintainer-clean-aminfo maintainer-clean-generic mostlyclean \
-> +@@ -2211,10 +2211,6 @@ doc/asconfig.texi: doc/$(CONFIG).texi doc/$(am__dirstamp)
-> + 	$(AM_V_GEN)cp $(srcdir)/doc/$(CONFIG).texi doc/asconfig.texi
-> + 	$(AM_V_at)chmod u+w doc/asconfig.texi
-> + 
-> +-# We want install to imply install-info as per GNU standards, despite the
-> +-# cygnus option.
-> +-install-data-local: install-info
-> +-
-> + # Maintenance
-> + 
-> + # We need it for the taz target in ../Makefile.in.
-> +diff --git a/gas/doc/local.mk b/gas/doc/local.mk
-> +index c2de441257c..ac205cf08a2 100644
-> +--- a/gas/doc/local.mk
-> ++++ b/gas/doc/local.mk
-> +@@ -101,10 +101,6 @@ CPU_DOCS = \
-> + 	%D%/c-z80.texi \
-> + 	%D%/c-z8k.texi
-> + 
-> +-# We want install to imply install-info as per GNU standards, despite the
-> +-# cygnus option.
-> +-install-data-local: install-info
-> +-
-> + # This one isn't ready for prime time yet.  Not even a little bit.
-> + 
-> + noinst_TEXINFOS = %D%/internals.texi
-> +-- 
-> +2.27.0
-> +
-> 
-> 
-
+diff --git a/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch b/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
+new file mode 100644
+index 00000000000..023de0e6a88
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
+@@ -0,0 +1,100 @@
++From f00dd220346773bc088d403847ee7f06f2b4c30a Mon Sep 17 00:00:00 2001
++From: Tim Orling <tim.orling@konsulko.com>
++Date: Fri, 18 Feb 2022 11:09:16 -0800
++Subject: [PATCH] Backport pyproject.toml from flit-backend branch
++
++This allows us to bootstrap wheels and PEP-517 packaging.
++
++Upstream-Status: Backport from flit-backend branch
++https://raw.githubusercontent.com/pypa/wheel/4f6ba78fede38a8d9e35a14e38377a121033afb3/pyproject.toml
++
++Signed-off-by: Tim Orling <tim.orling@konsulko.com>
++---
++ pyproject.toml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 78 insertions(+)
++ create mode 100644 pyproject.toml
++
++diff --git a/pyproject.toml b/pyproject.toml
++new file mode 100644
++index 0000000..749b8de
++--- /dev/null
+++++ b/pyproject.toml
++@@ -0,0 +1,78 @@
+++[build-system]
+++requires = ["flit_core >=3.2,<4"]
+++build-backend = "flit_core.buildapi"
+++
+++[project]
+++name = "wheel"
+++description = "A built-package format for Python"
+++readme = "README.rst"
+++classifiers = [
+++    "Development Status :: 5 - Production/Stable",
+++    "Intended Audience :: Developers",
+++    "Topic :: System :: Archiving :: Packaging",
+++    "License :: OSI Approved :: MIT License",
+++    "Programming Language :: Python",
+++    "Programming Language :: Python :: 3 :: Only",
+++    "Programming Language :: Python :: 3.7",
+++    "Programming Language :: Python :: 3.8",
+++    "Programming Language :: Python :: 3.9",
+++    "Programming Language :: Python :: 3.10"
+++]
+++authors = [{name = "Daniel Holth", email = "dholth@fastmail.fm"}]
+++maintainers = [{name = "Alex Grönholm", email = "alex.gronholm@nextday.fi"}]
+++keywords = ["wheel", "packaging"]
+++license = {file = "LICENSE.txt"}
+++requires-python = ">=3.7"
+++dependencies = [
+++    "setuptools >= 45.2.0"
+++]
+++dynamic = ["version"]
+++
+++[project.urls]
+++Documentation = "https://wheel.readthedocs.io/"
+++Changelog = "https://wheel.readthedocs.io/en/stable/news.html"
+++"Issue Tracker" = "https://github.com/pypa/wheel/issues"
+++
+++[project.scripts]
+++wheel = "wheel.cli:main"
+++
+++[project.entry-points."distutils.commands"]
+++bdist_wheel = "wheel.bdist_wheel:bdist_wheel"
+++
+++[project.optional-dependencies]
+++test = [
+++    "pytest >= 3.0.0"
+++]
+++
+++[tool.flit.sdist]
+++exclude = [
+++    ".cirrus.yml",
+++    ".github/*",
+++    ".gitignore",
+++    ".pre-commit-config.yaml",
+++    ".readthedocs.yml"
+++]
+++
+++[tool.black]
+++target-version = ['py37']
+++extend-exclude = '''
+++^/src/wheel/vendored/
+++'''
+++
+++[tool.isort]
+++src_paths = ["src"]
+++profile = "black"
+++skip_gitignore = true
+++
+++[tool.flake8]
+++max-line-length = 88
+++
+++[tool.pytest.ini_options]
+++testpaths = "tests"
+++
+++[tool.coverage.run]
+++source = ["wheel"]
+++omit = ["*/vendored/*"]
+++
+++[tool.coverage.report]
+++show_missing = true
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
+index 6c7a31db9e7..c7354c9d982 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
+@@ -6,7 +6,19 @@ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=10;endline=10;md5=8227180126797a01
+ 
+ SRC_URI[sha256sum] = "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4"
+ 
+-inherit pypi setuptools3
++inherit flit_core pypi setuptools3-base
+ 
+-BBCLASSEXTEND = "native"
++SRC_URI += " file://0001-Backport-pyproject.toml-from-flit-backend-branch.patch"
++
++DEPENDS:remove:class-native = "python3-pip-native"
++
++do_install:class-native () {
++    # We need to bootstrap python3-wheel-native
++    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
++    PYPA_WHEEL="${B}/dist/${PYPI_PACKAGE}-${PV}-*.whl"
++    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PYPA_WHEEL} || \
++    bbfatal_log "Failed to install"
++}
++
++BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.30.2
 
