@@ -1,114 +1,103 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBBEC4332F
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 08:51:56 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web12.8628.1645433515213858941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BD6C433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 09:28:20 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.8963.1645435699274987186
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:51:55 -0800
+ Mon, 21 Feb 2022 01:28:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BoD8j8i1;
- spf=pass (domain: gmail.com, ip: 209.85.221.53,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id d3so10079159wrf.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=e9CoV/Cv;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id c6so25193264edk.12
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 00:51:54 -0800 (PST)
+ Mon, 21 Feb 2022 01:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SKZN6ZEbcAqzO2GraP3ZC8Bsq62J8TGI9Y3psxx3o0E=;
-        b=BoD8j8i1pIWdPmTIXZ0+Yz/iPeCNY9+dviVcHDnpPqSNf9TEgsxo1UWg9hRyzb6KYl
-         /gfmQbuM/+WpBjaQRI1UAD9x6DWJ+hbEoAlLA4/r9i+KJUaTS6KxCOg/t1aFNuBokTY6
-         6GftQrOlk2VAR4krcXtEBbMtnt4fIIWYaQMxFEEaQtMy9QIA6R8oq4IyeH5CtmPQqjcX
-         D8gOMsTiUXqczrIFjCdYE/Z3ruFU0XRsz9ffR/vLsCukum9Bagpykh77oC6lT4zP5dl7
-         r35juApciz9mthvxGRakGWevHNZ3fDI4yhKE1MFW9ocNs9ILO3VQVDaucxxF/rUJIcFn
-         SJJA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XIVEgKPwkoF8rtqXsd4VAq8kuVVLcqGe6exQD822C88=;
+        b=e9CoV/CvQ9E0mtYjijKCktzI7qr3urA/GEEIcNTv7xOElBVkhqMIPY5JrFStq2O5l8
+         R/6M8nfmYr+5Q6XfhBpzuEY8Ld134END5a6DPnhUlLYkkHd2dG/beIwQuNFzTV5k3WLE
+         xQcWgeL0ezLM0K5Earn1POmAo04kYuGI4fRWSxcdRgstxEOhUOiM/Gda36I8E2Isv06e
+         vxn0KCBshv/D8FJ9mIQhJ4xebCTaO5eyJi49geqmSjg7NoKf9iPqE9CDNKf2eOLyUoQb
+         gyQAYVhrO/2WEBBFeSTN3GguDHSR9RgN7s622kYWiazu2QQJzUGiWFnCpUubMhKRKydI
+         vgpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SKZN6ZEbcAqzO2GraP3ZC8Bsq62J8TGI9Y3psxx3o0E=;
-        b=p+U6KwVymvSx3c86SvrrlAcZm7vWMQnrMYQDnuhu+PiGkW+hh5o2UrjvQV7pi4ojUa
-         rOEIqp6l/pOTe3skukrV4NV/E/jhVW7lHrsKbWHBWbRIxNNPzIgC30H6MHCOkwxsKyNG
-         Z+24up0qNr+TtQfTS+M6L1gwcjGIsNqOODUiFgn/p23zLudfoZLaOEf/R4bgDb69lOji
-         Twx7vengZND9NPM16PcAoYFPioTUmzdABfQ2ysDqxXlvTPghmAFLp2yhPZvBr9devrG8
-         aDfdMAdr0JGpvAQJ7UwGV1ncaWlwFbqOvlusHsYACC0wNab/onkzz00zj482i6lCI+OE
-         TGIQ==
-X-Gm-Message-State: AOAM5330Fr5+/3Lf0tWgP5ooY4KgBoKoHpB6sLR2uCSKyoBvbsglGPmY
-	b6f1mjnIpNw0LaplRLrMFPB5zlaoK1w=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XIVEgKPwkoF8rtqXsd4VAq8kuVVLcqGe6exQD822C88=;
+        b=XA6Y2AXOdQBquL1JScdZOTDN+a8Tjr9ACqD9Okb6YQc0OyqMhBW+qZnwoTZavryg9C
+         AaYB3O1xZv/OlW5dVrmyDnAvLzc9m7g+0Cd24CNNQQcxiOvKmm3V0+o3RevH8I8y87C+
+         O3WAo5DcLhFhlJj2B2GivilZ6dkrtyx7rNa7vVWxmPZtA3A57Gy46ubUYhS8zJxRSk3e
+         Ghea89nIRFJzTP8gMbTPs2FXpR9Gajocp5MuHSHTLA/Dgitliwi0LHXWgCmUMwS1Zk9y
+         oi5CKkiiCjix/i9XFvAuFjQ9NSKIVifaLUjGVX40FoTJzAhgXTyqcAoKDEBXpgxlb00Q
+         GnEg==
+X-Gm-Message-State: AOAM53003HTZhTaxa6+yy6V+Z4dbSjRLY79OQ7I6OcQue1qOoFds7iMa
+	3XRSJPSK2ESvLzoTcEUvtyVUpnCGcGQ=
 X-Google-Smtp-Source: 
- ABdhPJxATqD1rSPEkbcHB0BrVHwLOof3u3H5SGx3FSddVEFFtmEK3fi5kSADDl0EQ2VoAt2el4S5kA==
-X-Received: by 2002:a5d:47cb:0:b0:1e8:593d:d34b with SMTP id
- o11-20020a5d47cb000000b001e8593dd34bmr14161754wrc.124.1645433513595;
-        Mon, 21 Feb 2022 00:51:53 -0800 (PST)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+ ABdhPJz3CsnmstJx8kDai2ngiE7gslKe3tk59Cv/M4PKqxaYGGDRSzfvkfQ3qMl79lDYKcDOQagedw==
+X-Received: by 2002:a05:6402:190c:b0:408:80a7:ed8a with SMTP id
+ e12-20020a056402190c00b0040880a7ed8amr20686587edz.137.1645435697689;
+        Mon, 21 Feb 2022 01:28:17 -0800 (PST)
+Received: from nereus.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- x11sm6843110wmi.37.2022.02.21.00.51.52
+ j11sm6895220eda.106.2022.02.21.01.28.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 00:51:53 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
+        Mon, 21 Feb 2022 01:28:17 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2 2/2] meson.bbclass: add exe_wrapper helper
-Date: Mon, 21 Feb 2022 08:51:18 +0000
-Message-Id: <20220221085118.2267900-2-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221085118.2267900-1-quaresma.jose@gmail.com>
-References: <20220221085118.2267900-1-quaresma.jose@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/2] weston-init: replace deprecated/disabled fbdev with drm
+ backend
+Date: Mon, 21 Feb 2022 10:28:11 +0100
+Message-Id: <20220221092812.3332815-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 08:51:56 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 09:28:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162020
+ https://lists.openembedded.org/g/openembedded-core/message/162021
 
-When we use the exe_wrapper to run the tests we need a way to
-costumize or circumvent some limitations of the qemu usermode.
-So for example we can skip the tests we know will fail.
+drm will default to opengl rendering by default; if this is
+problematic, --use-pixman option may help, apply only where
+it's proven necessary.
 
-The ideia of this help script is to handle such cases before
-the qemu usermode was launched.
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/meson.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-graphics/wayland/weston-init.bb | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 020a59a3c0..3a8061bb76 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -114,6 +114,8 @@ cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
- EOF
- }
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index e02da0c358..8e8c0454be 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -19,13 +19,7 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[no-idle-timeout] = ",,"
  
-+MESON_QEMU_WRAPPER_HELPER ?= ""
-+
- do_write_config:append:class-target() {
-     # Write out a qemu wrapper that will be used as exe_wrapper so that meson
-     # can run target helper binaries through that.
-@@ -127,10 +129,14 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
- # meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
- unset LD_LIBRARY_PATH
+ DEFAULTBACKEND ??= ""
+-DEFAULTBACKEND:qemuall ?= "fbdev"
+-DEFAULTBACKEND:qemuarm64 = "drm"
+-DEFAULTBACKEND:qemux86 = "drm"
+-DEFAULTBACKEND:qemux86-64 = "drm"
+-# gallium swrast was found to crash weston on startup in x32 qemu
+-DEFAULTBACKEND:qemux86-64:x86-x32 = "fbdev"
+-DEFAULTBACKEND:x86-x32 = "fbdev"
++DEFAULTBACKEND:qemuall ?= "drm"
  
-+# import any customization provided in the helper
-+test -f "${MESON_QEMU_WRAPPER_HELPER}" && . ${MESON_QEMU_WRAPPER_HELPER}
-+
- $qemu_binary "\$@"
- EOF
-     chmod +x ${WORKDIR}/meson-qemuwrapper
- }
-+do_write_config:class-target[vardeps] += "MESON_QEMU_WRAPPER_HELPER"
- 
- # Tell externalsrc that changes to this file require a reconfigure
- CONFIGURE_FILES = "meson.build"
+ do_install() {
+         if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
 -- 
-2.35.1
+2.20.1
 
 
