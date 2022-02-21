@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C31C433EF
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:42 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web12.11021.1645452882044816228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81709C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 14:14:45 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.11166.1645452884363534963
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:42 -0800
+ Mon, 21 Feb 2022 06:14:44 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=yyv0YEWB;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
+ header.b=PgmUxMqG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id x11so12986145pll.10
+Received: by mail-pj1-f41.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso2793363pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 06:14:42 -0800 (PST)
+ Mon, 21 Feb 2022 06:14:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Utjz5zg4sNecMMf9lLoXDLTq/oc/dgw4gePN3/RP7tg=;
-        b=yyv0YEWBFOu6ypzkaXWKEnIulV/y7qRxOMPeunq1cp0Md3qXyZcjlzeRfUQSvfatG0
-         qLL4Tkwe7OxphJrlVcUDenV6ZLOeakJDazpNEhzH0Kvj5a/MEeMX47uHsF9unpxjeLHv
-         ZfFqwcdMRa006liPA01zw63F9olrlkSxTeI1v3jR2Byhaqmabze3Cwt08OySxRlqBHzr
-         tGUvQvKy1Tg02rl3r8nPdokS6Fs2nP6yDDyKL0gqkjDLrhiqyqiixvG0pPtZK+K+eCnV
-         v1wtz6L1rODCKrFkKnIZIcYwT4m62n/383YGBufE6JziKIcdrTfnF5yypzGQFv193A1v
-         nUZA==
+        bh=/qO1hS3zyI9vh7aGlQZZW7VMp85yhyJVVCFEwMdl61c=;
+        b=PgmUxMqGW6Vp16hFC1xN4bNfZ2ijcgbgVeK2t/heIgvnpVY4OVw/+MskVMLdJjk1g8
+         PTZjJm9lOVsiiH/d6/lAiR0285biu/6J2A/LVSZhF+PMzeXLRLrv1h2wnZNKDnEMMPE+
+         53AgXcPlmTSVmiVhU4dJLXN7tY5MrnL1LJxKS1WNRdw0Gh56JSHfMEmMg7YdjAKYGSQ1
+         5B+HgWLKo5+qL45x6N6ZJ5vt989pU1qRMwVqxb7L6wMZF+2p5CCBAW3xvSC7TlPmALkz
+         zMbk+KZLJiGvQPv8ZqkK+/FOZ94djftUyhD3EvWoCi6bPEJNYAc4vdfz56bmNhOmlCXO
+         TWng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Utjz5zg4sNecMMf9lLoXDLTq/oc/dgw4gePN3/RP7tg=;
-        b=Dh84Xs8q303NSEsH309mGLD5yJoKnV2Kbe/exWGBvpxLeXyRhGMqx7gVrUnaXwZJ7C
-         5dJ+7Q/z/eiBX2Ak2z664Qyn3rIHjoDIaljIDMs7l6S1ih7tJfHoAo7ae/vtax6Ml8cB
-         bZSRtIFRzQ+6tF8/VVGccv7FN5uS4zqECwwgMPHfhZ8S9AWPsdTEbPsSi6yvzuWOvBuw
-         LIJNYUwrKQaOSqbGEwBeYJTjcjMRPemlRRTGopiYt+t+ndAwn19SZ06HGT4u4gGRr/Ui
-         Qzh5CvyfOJEoz0cZLNNG8xu1AKq0oNlJTgwUeb9dvWWkwsv9GZ/EEgFvnGJBR7VVFuLt
-         x9oA==
-X-Gm-Message-State: AOAM533xsWhXzhp+bzrDvvtmJjs8gjNSx60i58X2AfALkVQYtbhVUKN1
-	coxhdq2NKi2jCVOVmerZXI7WnsTSC6T9W+YB
+        bh=/qO1hS3zyI9vh7aGlQZZW7VMp85yhyJVVCFEwMdl61c=;
+        b=ik9wTS8nfL/9IxLuzHvFAo5DfTMVm4MYF9Dkq2kn+OGpTigpZln9OZOik/6gbk/aC7
+         VnFN+pWwsyWn84ltI7u4NR6rhZyiomSNqqR1KwqfO+qBUXOUt17B8zk64Rolt8xyXML3
+         R2ZBH0gio9EVobS69yfxKJPNnVKC4BUBcMHtF3C5B8i9ma9mVS4Cprm8NcVhae9BpBWZ
+         s1lctd27+Vmk0ZpYaSh+eOBKtVW2zs2mk/Irp31MIVKoIeN214DnczPaZCqPb/GquF81
+         CZdsUXOXf2bAF+H0c0uLARuN01DJn+l/6cMgJWR7ZHuQSYHZ1PiWYhzGsVE25vFfRt2r
+         I2Rg==
+X-Gm-Message-State: AOAM531eI282Y1nRF7K7roTC7ZAjxjVO37gMqF9+xSXStCRgAiLysiD1
+	6Pl6vuWfQwtJA85uE/LAyEViO7zWtf5sdZy5
 X-Google-Smtp-Source: 
- ABdhPJyFyW7uyEQq36yP1zs7lggLh98bDAE4JzywzFRW8FaAkniE70OyKnFuBAJFDp2BxyOpeubfJg==
-X-Received: by 2002:a17:903:248f:b0:14f:acf5:a5c2 with SMTP id
- p15-20020a170903248f00b0014facf5a5c2mr6661509plw.167.1645452880958;
-        Mon, 21 Feb 2022 06:14:40 -0800 (PST)
+ ABdhPJxV8WnAEpkauTXB5eRZ/Lfc5kaFRcT3DRs1sQtdXOPq7aktQutt6srvPlaEbMEM6Q7KPtu9EA==
+X-Received: by 2002:a17:902:b18a:b0:14d:57b2:8c72 with SMTP id
+ s10-20020a170902b18a00b0014d57b28c72mr19063989plr.149.1645452883030;
+        Mon, 21 Feb 2022 06:14:43 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 8sm12919235pfl.164.2022.02.21.06.14.39
+ 8sm12919235pfl.164.2022.02.21.06.14.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 06:14:40 -0800 (PST)
+        Mon, 21 Feb 2022 06:14:42 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/20] connman: fix CVE-2021-33833
-Date: Mon, 21 Feb 2022 04:14:02 -1000
+Subject: [OE-core][dunfell 05/20] wpa-supplicant: fix CVE-2022-23303-4
+Date: Mon, 21 Feb 2022 04:14:03 -1000
 Message-Id: 
- <8eb4fdd19fe4b275c26c49120b364cd24ec151d5.1645452535.git.steve@sakoman.com>
+ <13ae7a3f4bbe7abafae3136190cf43d226271413.1645452535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645452535.git.steve@sakoman.com>
 References: <cover.1645452535.git.steve@sakoman.com>
@@ -67,116 +68,654 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:42 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 14:14:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162032
+ https://lists.openembedded.org/g/openembedded-core/message/162033
 
-ConnMan (aka Connection Manager) 1.30 through 1.39 has a stack-based
-buffer overflow in uncompress in dnsproxy.c via NAME, RDATA, or
-RDLENGTH (for A or AAAA).
+The implementations of SAE in hostapd before 2.10 and wpa_supplicant
+before 2.10 are vulnerable to side channel attacks as a result
+of cache access patterns. NOTE: this issue exists because of an
+incomplete fix for CVE-2019-9494.
 
-Backport patch from:
-https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=eceb2e8d2341c041df55a5e2f047d9a8c491463c
+Backport patches from:
+https://w1.fi/security/2022-1/
 
-CVE: CVE-2021-33833
+CVE: CVE-2022-23303 CVE-2022-23304
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../connman/connman/CVE-2021-33833.patch      | 72 +++++++++++++++++++
- .../connman/connman_1.37.bb                   |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-33833.patch
+ .../wpa-supplicant/CVE-2022-23303-4.patch     | 609 ++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.9.bb      |   1 +
+ 2 files changed, 610 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
 
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2021-33833.patch b/meta/recipes-connectivity/connman/connman/CVE-2021-33833.patch
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
 new file mode 100644
-index 0000000000..770948fb69
+index 0000000000..21e65ba961
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/CVE-2021-33833.patch
-@@ -0,0 +1,72 @@
-+From eceb2e8d2341c041df55a5e2f047d9a8c491463c Mon Sep 17 00:00:00 2001
-+From: Valery Kashcheev <v.kascheev@omp.ru>
-+Date: Mon, 7 Jun 2021 18:58:24 +0200
-+Subject: dnsproxy: Check the length of buffers before memcpy
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
+@@ -0,0 +1,609 @@
++From 208e5687ff2e48622e28d8888ce5444a54353bbd Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <jouni@codeaurora.org>
++Date: Tue, 27 Aug 2019 16:33:15 +0300
++Subject: [PATCH 1/4] crypto: Add more bignum/EC helper functions
 +
-+Fix using a stack-based buffer overflow attack by checking the length of
-+the ptr and uptr buffers.
++These are needed for implementing SAE hash-to-element.
 +
-+Fix debug message output.
-+
-+Fixes: CVE-2021-33833
++Signed-off-by: Jouni Malinen <jouni@codeaurora.org>
 +
 +Upstream-Status: Backport
-+https://git.kernel.org/pub/scm/network/connman/connman.git/commit/?id=eceb2e8d2341c041df55a5e2f047d9a8c491463c
-+CVE: CVE-2021-33833
++https://w1.fi/security/2022-1/
++
++CVE: CVE-2022-23303 CVE-2022-23304
 +Signed-off-by: Steve Sakoman <steve@sakoman.com>
 +
 +---
-+ src/dnsproxy.c | 20 +++++++++++---------
-+ 1 file changed, 11 insertions(+), 9 deletions(-)
++ src/crypto/crypto.h         | 45 ++++++++++++++++++
++ src/crypto/crypto_openssl.c | 94 +++++++++++++++++++++++++++++++++++++
++ src/crypto/crypto_wolfssl.c | 66 ++++++++++++++++++++++++++
++ 3 files changed, 205 insertions(+)
 +
-+diff --git a/src/dnsproxy.c b/src/dnsproxy.c
-+index de52df5a..38dbdd71 100644
-+--- a/src/dnsproxy.c
-++++ b/src/dnsproxy.c
-+@@ -1788,17 +1788,15 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+ 		 * tmp buffer.
-+ 		 */
++diff --git a/src/crypto/crypto.h b/src/crypto/crypto.h
++index 15f8ad04cea4..68476dbce96c 100644
++--- a/src/crypto/crypto.h
+++++ b/src/crypto/crypto.h
++@@ -518,6 +518,13 @@ struct crypto_bignum * crypto_bignum_init(void);
++  */
++ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len);
 + 
-+-		debug("pos %d ulen %d left %d name %s", pos, ulen,
-+-			(int)(uncomp_len - (uptr - uncompressed)), uptr);
-+-
-+-		ulen = strlen(name);
-+-		if ((uptr + ulen + 1) > uncomp_end) {
-++		ulen = strlen(name) + 1;
-++		if ((uptr + ulen) > uncomp_end)
-+ 			goto out;
-+-		}
-+-		strncpy(uptr, name, uncomp_len - (uptr - uncompressed));
-++		strncpy(uptr, name, ulen);
+++/**
+++ * crypto_bignum_init_set - Allocate memory for bignum and set the value (uint)
+++ * @val: Value to set
+++ * Returns: Pointer to allocated bignum or %NULL on failure
+++ */
+++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val);
 ++
-++		debug("pos %d ulen %d left %d name %s", pos, ulen,
-++			(int)(uncomp_end - (uptr + ulen)), uptr);
++ /**
++  * crypto_bignum_deinit - Free bignum
++  * @n: Bignum from crypto_bignum_init() or crypto_bignum_init_set()
++@@ -612,6 +619,19 @@ int crypto_bignum_div(const struct crypto_bignum *a,
++ 		      const struct crypto_bignum *b,
++ 		      struct crypto_bignum *c);
 + 
-+ 		uptr += ulen;
-+-		*uptr++ = '\0';
+++/**
+++ * crypto_bignum_addmod - d = a + b (mod c)
+++ * @a: Bignum
+++ * @b: Bignum
+++ * @c: Bignum
+++ * @d: Bignum; used to store the result of (a + b) % c
+++ * Returns: 0 on success, -1 on failure
+++ */
+++int crypto_bignum_addmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 const struct crypto_bignum *c,
+++			 struct crypto_bignum *d);
+++
++ /**
++  * crypto_bignum_mulmod - d = a * b (mod c)
++  * @a: Bignum
++@@ -625,6 +645,28 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
++ 			 const struct crypto_bignum *c,
++ 			 struct crypto_bignum *d);
 + 
-+ 		ptr += pos;
+++/**
+++ * crypto_bignum_sqrmod - c = a^2 (mod b)
+++ * @a: Bignum
+++ * @b: Bignum
+++ * @c: Bignum; used to store the result of a^2 % b
+++ * Returns: 0 on success, -1 on failure
+++ */
+++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 struct crypto_bignum *c);
+++
+++/**
+++ * crypto_bignum_sqrtmod - returns sqrt(a) (mod b)
+++ * @a: Bignum
+++ * @b: Bignum
+++ * @c: Bignum; used to store the result
+++ * Returns: 0 on success, -1 on failure
+++ */
+++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
+++			  const struct crypto_bignum *b,
+++			  struct crypto_bignum *c);
+++
++ /**
++  * crypto_bignum_rshift - r = a >> n
++  * @a: Bignum
++@@ -731,6 +773,9 @@ const struct crypto_bignum * crypto_ec_get_prime(struct crypto_ec *e);
++  */
++ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e);
 + 
-+@@ -1841,7 +1839,7 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+ 		} else if (dns_type == ns_t_a || dns_type == ns_t_aaaa) {
-+ 			dlen = uptr[-2] << 8 | uptr[-1];
+++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e);
+++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e);
+++
++ /**
++  * struct crypto_ec_point - Elliptic curve point
++  *
++diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
++index bab33a537293..ed463105e8f1 100644
++--- a/src/crypto/crypto_openssl.c
+++++ b/src/crypto/crypto_openssl.c
++@@ -1283,6 +1283,24 @@ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len)
++ }
 + 
-+-			if (ptr + dlen > end) {
-++			if ((ptr + dlen) > end || (uptr + dlen) > uncomp_end) {
-+ 				debug("data len %d too long", dlen);
-+ 				goto out;
-+ 			}
-+@@ -1880,6 +1878,10 @@ static char *uncompress(int16_t field_count, char *start, char *end,
-+ 			 * refresh interval, retry interval, expiration
-+ 			 * limit and minimum ttl). They are 20 bytes long.
-+ 			 */
-++			if ((uptr + 20) > uncomp_end || (ptr + 20) > end) {
-++				debug("soa record too long");
-++				goto out;
-++			}
-+ 			memcpy(uptr, ptr, 20);
-+ 			uptr += 20;
-+ 			ptr += 20;
++ 
+++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val)
+++{
+++	BIGNUM *bn;
+++
+++	if (TEST_FAIL())
+++		return NULL;
+++
+++	bn = BN_new();
+++	if (!bn)
+++		return NULL;
+++	if (BN_set_word(bn, val) != 1) {
+++		BN_free(bn);
+++		return NULL;
+++	}
+++	return (struct crypto_bignum *) bn;
+++}
+++
+++
++ void crypto_bignum_deinit(struct crypto_bignum *n, int clear)
++ {
++ 	if (clear)
++@@ -1449,6 +1467,28 @@ int crypto_bignum_div(const struct crypto_bignum *a,
++ }
++ 
++ 
+++int crypto_bignum_addmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 const struct crypto_bignum *c,
+++			 struct crypto_bignum *d)
+++{
+++	int res;
+++	BN_CTX *bnctx;
+++
+++	if (TEST_FAIL())
+++		return -1;
+++
+++	bnctx = BN_CTX_new();
+++	if (!bnctx)
+++		return -1;
+++	res = BN_mod_add((BIGNUM *) d, (const BIGNUM *) a, (const BIGNUM *) b,
+++			 (const BIGNUM *) c, bnctx);
+++	BN_CTX_free(bnctx);
+++
+++	return res ? 0 : -1;
+++}
+++
+++
++ int crypto_bignum_mulmod(const struct crypto_bignum *a,
++ 			 const struct crypto_bignum *b,
++ 			 const struct crypto_bignum *c,
++@@ -1472,6 +1512,48 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
++ }
++ 
++ 
+++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 struct crypto_bignum *c)
+++{
+++	int res;
+++	BN_CTX *bnctx;
+++
+++	if (TEST_FAIL())
+++		return -1;
+++
+++	bnctx = BN_CTX_new();
+++	if (!bnctx)
+++		return -1;
+++	res = BN_mod_sqr((BIGNUM *) c, (const BIGNUM *) a, (const BIGNUM *) b,
+++			 bnctx);
+++	BN_CTX_free(bnctx);
+++
+++	return res ? 0 : -1;
+++}
+++
+++
+++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
+++			  const struct crypto_bignum *b,
+++			  struct crypto_bignum *c)
+++{
+++	BN_CTX *bnctx;
+++	BIGNUM *res;
+++
+++	if (TEST_FAIL())
+++		return -1;
+++
+++	bnctx = BN_CTX_new();
+++	if (!bnctx)
+++		return -1;
+++	res = BN_mod_sqrt((BIGNUM *) c, (const BIGNUM *) a, (const BIGNUM *) b,
+++			  bnctx);
+++	BN_CTX_free(bnctx);
+++
+++	return res ? 0 : -1;
+++}
+++
+++
++ int crypto_bignum_rshift(const struct crypto_bignum *a, int n,
++ 			 struct crypto_bignum *r)
++ {
++@@ -1682,6 +1764,18 @@ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e)
++ }
++ 
++ 
+++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e)
+++{
+++	return (const struct crypto_bignum *) e->a;
+++}
+++
+++
+++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e)
+++{
+++	return (const struct crypto_bignum *) e->b;
+++}
+++
+++
++ void crypto_ec_point_deinit(struct crypto_ec_point *p, int clear)
++ {
++ 	if (clear)
++diff --git a/src/crypto/crypto_wolfssl.c b/src/crypto/crypto_wolfssl.c
++index 4cedab4367cd..e9894b335e53 100644
++--- a/src/crypto/crypto_wolfssl.c
+++++ b/src/crypto/crypto_wolfssl.c
++@@ -1042,6 +1042,26 @@ struct crypto_bignum * crypto_bignum_init_set(const u8 *buf, size_t len)
++ }
++ 
++ 
+++struct crypto_bignum * crypto_bignum_init_uint(unsigned int val)
+++{
+++	mp_int *a;
+++
+++	if (TEST_FAIL())
+++		return NULL;
+++
+++	a = (mp_int *) crypto_bignum_init();
+++	if (!a)
+++		return NULL;
+++
+++	if (mp_set_int(a, val) != MP_OKAY) {
+++		os_free(a);
+++		a = NULL;
+++	}
+++
+++	return (struct crypto_bignum *) a;
+++}
+++
+++
++ void crypto_bignum_deinit(struct crypto_bignum *n, int clear)
++ {
++ 	if (!n)
++@@ -1168,6 +1188,19 @@ int crypto_bignum_div(const struct crypto_bignum *a,
++ }
++ 
++ 
+++int crypto_bignum_addmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 const struct crypto_bignum *c,
+++			 struct crypto_bignum *d)
+++{
+++	if (TEST_FAIL())
+++		return -1;
+++
+++	return mp_addmod((mp_int *) a, (mp_int *) b, (mp_int *) c,
+++			 (mp_int *) d) == MP_OKAY ?  0 : -1;
+++}
+++
+++
++ int crypto_bignum_mulmod(const struct crypto_bignum *a,
++ 			 const struct crypto_bignum *b,
++ 			 const struct crypto_bignum *m,
++@@ -1181,6 +1214,27 @@ int crypto_bignum_mulmod(const struct crypto_bignum *a,
++ }
++ 
++ 
+++int crypto_bignum_sqrmod(const struct crypto_bignum *a,
+++			 const struct crypto_bignum *b,
+++			 struct crypto_bignum *c)
+++{
+++	if (TEST_FAIL())
+++		return -1;
+++
+++	return mp_sqrmod((mp_int *) a, (mp_int *) b,
+++			 (mp_int *) c) == MP_OKAY ?  0 : -1;
+++}
+++
+++
+++int crypto_bignum_sqrtmod(const struct crypto_bignum *a,
+++			  const struct crypto_bignum *b,
+++			  struct crypto_bignum *c)
+++{
+++	/* TODO */
+++	return -1;
+++}
+++
+++
++ int crypto_bignum_rshift(const struct crypto_bignum *a, int n,
++ 			 struct crypto_bignum *r)
++ {
++@@ -1386,6 +1440,18 @@ const struct crypto_bignum * crypto_ec_get_order(struct crypto_ec *e)
++ }
++ 
++ 
+++const struct crypto_bignum * crypto_ec_get_a(struct crypto_ec *e)
+++{
+++	return (const struct crypto_bignum *) &e->a;
+++}
+++
+++
+++const struct crypto_bignum * crypto_ec_get_b(struct crypto_ec *e)
+++{
+++	return (const struct crypto_bignum *) &e->b;
+++}
+++
+++
++ void crypto_ec_point_deinit(struct crypto_ec_point *p, int clear)
++ {
++ 	ecc_point *point = (ecc_point *) p;
 +-- 
-+cgit 1.2.3-1.el7
++2.25.1
 +
-diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-index 096981364f..bdd1e590ec 100644
---- a/meta/recipes-connectivity/connman/connman_1.37.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-@@ -9,6 +9,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://CVE-2021-26675.patch \
-             file://CVE-2021-26676-0001.patch \
-             file://CVE-2021-26676-0002.patch \
-+            file://CVE-2021-33833.patch \
-             file://CVE-2022-23096-7.patch \
-             file://CVE-2022-23098.patch \
- "
++From 2232d3d5f188b65dbb6c823ac62175412739eb16 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Fri, 7 Jan 2022 13:47:16 +0200
++Subject: [PATCH 2/4] dragonfly: Add sqrt() helper function
++
++This is a backport of "SAE: Move sqrt() implementation into a helper
++function" to introduce the helper function needed for the following
++patches.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++---
++ src/common/dragonfly.c | 34 ++++++++++++++++++++++++++++++++++
++ src/common/dragonfly.h |  2 ++
++ 2 files changed, 36 insertions(+)
++
++diff --git a/src/common/dragonfly.c b/src/common/dragonfly.c
++index 547be66f1561..1e842716668e 100644
++--- a/src/common/dragonfly.c
+++++ b/src/common/dragonfly.c
++@@ -213,3 +213,37 @@ int dragonfly_generate_scalar(const struct crypto_bignum *order,
++ 		   "dragonfly: Unable to get randomness for own scalar");
++ 	return -1;
++ }
+++
+++
+++/* res = sqrt(val) */
+++int dragonfly_sqrt(struct crypto_ec *ec, const struct crypto_bignum *val,
+++		   struct crypto_bignum *res)
+++{
+++	const struct crypto_bignum *prime;
+++	struct crypto_bignum *tmp, *one;
+++	int ret = 0;
+++	u8 prime_bin[DRAGONFLY_MAX_ECC_PRIME_LEN];
+++	size_t prime_len;
+++
+++	/* For prime p such that p = 3 mod 4, sqrt(w) = w^((p+1)/4) mod p */
+++
+++	prime = crypto_ec_get_prime(ec);
+++	prime_len = crypto_ec_prime_len(ec);
+++	tmp = crypto_bignum_init();
+++	one = crypto_bignum_init_uint(1);
+++
+++	if (crypto_bignum_to_bin(prime, prime_bin, sizeof(prime_bin),
+++				 prime_len) < 0 ||
+++	    (prime_bin[prime_len - 1] & 0x03) != 3 ||
+++	    !tmp || !one ||
+++	    /* tmp = (p+1)/4 */
+++	    crypto_bignum_add(prime, one, tmp) < 0 ||
+++	    crypto_bignum_rshift(tmp, 2, tmp) < 0 ||
+++	    /* res = sqrt(val) */
+++	    crypto_bignum_exptmod(val, tmp, prime, res) < 0)
+++		ret = -1;
+++
+++	crypto_bignum_deinit(tmp, 0);
+++	crypto_bignum_deinit(one, 0);
+++	return ret;
+++}
++diff --git a/src/common/dragonfly.h b/src/common/dragonfly.h
++index ec3dd593eda4..84d67f575c54 100644
++--- a/src/common/dragonfly.h
+++++ b/src/common/dragonfly.h
++@@ -27,5 +27,7 @@ int dragonfly_generate_scalar(const struct crypto_bignum *order,
++ 			      struct crypto_bignum *_rand,
++ 			      struct crypto_bignum *_mask,
++ 			      struct crypto_bignum *scalar);
+++int dragonfly_sqrt(struct crypto_ec *ec, const struct crypto_bignum *val,
+++		   struct crypto_bignum *res);
++ 
++ #endif /* DRAGONFLY_H */
++-- 
++2.25.1
++
++From fe534b0baaa8c0e6ddeb24cf529d6e50e33dc501 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Fri, 7 Jan 2022 13:47:16 +0200
++Subject: [PATCH 3/4] SAE: Derive the y coordinate for PWE with own
++ implementation
++
++The crypto_ec_point_solve_y_coord() wrapper function might not use
++constant time operations in the crypto library and as such, could leak
++side channel information about the password that is used to generate the
++PWE in the hunting and pecking loop. As such, calculate the two possible
++y coordinate values and pick the correct one to use with constant time
++selection.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++---
++ src/common/sae.c | 47 +++++++++++++++++++++++++++++++++--------------
++ 1 file changed, 33 insertions(+), 14 deletions(-)
++
++diff --git a/src/common/sae.c b/src/common/sae.c
++index 08fdbfd18173..8d79ed962768 100644
++--- a/src/common/sae.c
+++++ b/src/common/sae.c
++@@ -286,14 +286,16 @@ static int sae_derive_pwe_ecc(struct sae_data *sae, const u8 *addr1,
++ 	int pwd_seed_odd = 0;
++ 	u8 prime[SAE_MAX_ECC_PRIME_LEN];
++ 	size_t prime_len;
++-	struct crypto_bignum *x = NULL, *qr = NULL, *qnr = NULL;
+++	struct crypto_bignum *x = NULL, *y = NULL, *qr = NULL, *qnr = NULL;
++ 	u8 x_bin[SAE_MAX_ECC_PRIME_LEN];
++ 	u8 x_cand_bin[SAE_MAX_ECC_PRIME_LEN];
++ 	u8 qr_bin[SAE_MAX_ECC_PRIME_LEN];
++ 	u8 qnr_bin[SAE_MAX_ECC_PRIME_LEN];
+++	u8 x_y[2 * SAE_MAX_ECC_PRIME_LEN];
++ 	int res = -1;
++ 	u8 found = 0; /* 0 (false) or 0xff (true) to be used as const_time_*
++ 		       * mask */
+++	unsigned int is_eq;
++ 
++ 	os_memset(x_bin, 0, sizeof(x_bin));
++ 
++@@ -402,25 +404,42 @@ static int sae_derive_pwe_ecc(struct sae_data *sae, const u8 *addr1,
++ 		goto fail;
++ 	}
++ 
++-	if (!sae->tmp->pwe_ecc)
++-		sae->tmp->pwe_ecc = crypto_ec_point_init(sae->tmp->ec);
++-	if (!sae->tmp->pwe_ecc)
++-		res = -1;
++-	else
++-		res = crypto_ec_point_solve_y_coord(sae->tmp->ec,
++-						    sae->tmp->pwe_ecc, x,
++-						    pwd_seed_odd);
++-	if (res < 0) {
++-		/*
++-		 * This should not happen since we already checked that there
++-		 * is a result.
++-		 */
+++	/* y = sqrt(x^3 + ax + b) mod p
+++	 * if LSB(save) == LSB(y): PWE = (x, y)
+++	 * else: PWE = (x, p - y)
+++	 *
+++	 * Calculate y and the two possible values for PWE and after that,
+++	 * use constant time selection to copy the correct alternative.
+++	 */
+++	y = crypto_ec_point_compute_y_sqr(sae->tmp->ec, x);
+++	if (!y ||
+++	    dragonfly_sqrt(sae->tmp->ec, y, y) < 0 ||
+++	    crypto_bignum_to_bin(y, x_y, SAE_MAX_ECC_PRIME_LEN,
+++				 prime_len) < 0 ||
+++	    crypto_bignum_sub(sae->tmp->prime, y, y) < 0 ||
+++	    crypto_bignum_to_bin(y, x_y + SAE_MAX_ECC_PRIME_LEN,
+++				 SAE_MAX_ECC_PRIME_LEN, prime_len) < 0) {
++ 		wpa_printf(MSG_DEBUG, "SAE: Could not solve y");
+++		goto fail;
+++	}
+++
+++	is_eq = const_time_eq(pwd_seed_odd, x_y[prime_len - 1] & 0x01);
+++	const_time_select_bin(is_eq, x_y, x_y + SAE_MAX_ECC_PRIME_LEN,
+++			      prime_len, x_y + prime_len);
+++	os_memcpy(x_y, x_bin, prime_len);
+++	wpa_hexdump_key(MSG_DEBUG, "SAE: PWE", x_y, 2 * prime_len);
+++	crypto_ec_point_deinit(sae->tmp->pwe_ecc, 1);
+++	sae->tmp->pwe_ecc = crypto_ec_point_from_bin(sae->tmp->ec, x_y);
+++	if (!sae->tmp->pwe_ecc) {
+++		wpa_printf(MSG_DEBUG, "SAE: Could not generate PWE");
+++		res = -1;
++ 	}
++ 
++ fail:
+++	forced_memzero(x_y, sizeof(x_y));
++ 	crypto_bignum_deinit(qr, 0);
++ 	crypto_bignum_deinit(qnr, 0);
+++	crypto_bignum_deinit(y, 1);
++ 	os_free(dummy_password);
++ 	bin_clear_free(tmp_password, password_len);
++ 	crypto_bignum_deinit(x, 1);
++-- 
++2.25.1
++
++From 603cd880e7f90595482658a7136fa6a7be5cb485 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Fri, 7 Jan 2022 18:52:27 +0200
++Subject: [PATCH 4/4] EAP-pwd: Derive the y coordinate for PWE with own
++ implementation
++
++The crypto_ec_point_solve_y_coord() wrapper function might not use
++constant time operations in the crypto library and as such, could leak
++side channel information about the password that is used to generate the
++PWE in the hunting and pecking loop. As such, calculate the two possible
++y coordinate values and pick the correct one to use with constant time
++selection.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++---
++ src/eap_common/eap_pwd_common.c | 46 ++++++++++++++++++++++++++-------
++ 1 file changed, 36 insertions(+), 10 deletions(-)
++
++diff --git a/src/eap_common/eap_pwd_common.c b/src/eap_common/eap_pwd_common.c
++index 2b2b8efdbd01..ff22b29b087a 100644
++--- a/src/eap_common/eap_pwd_common.c
+++++ b/src/eap_common/eap_pwd_common.c
++@@ -127,7 +127,8 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	u8 qr_or_qnr_bin[MAX_ECC_PRIME_LEN];
++ 	u8 x_bin[MAX_ECC_PRIME_LEN];
++ 	u8 prime_bin[MAX_ECC_PRIME_LEN];
++-	struct crypto_bignum *tmp2 = NULL;
+++	u8 x_y[2 * MAX_ECC_PRIME_LEN];
+++	struct crypto_bignum *tmp2 = NULL, *y = NULL;
++ 	struct crypto_hash *hash;
++ 	unsigned char pwe_digest[SHA256_MAC_LEN], *prfbuf = NULL, ctr;
++ 	int ret = 0, res;
++@@ -139,6 +140,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	u8 found_ctr = 0, is_odd = 0;
++ 	int cmp_prime;
++ 	unsigned int in_range;
+++	unsigned int is_eq;
++ 
++ 	if (grp->pwe)
++ 		return -1;
++@@ -151,11 +153,6 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	if (crypto_bignum_to_bin(prime, prime_bin, sizeof(prime_bin),
++ 				 primebytelen) < 0)
++ 		return -1;
++-	grp->pwe = crypto_ec_point_init(grp->group);
++-	if (!grp->pwe) {
++-		wpa_printf(MSG_INFO, "EAP-pwd: unable to create bignums");
++-		goto fail;
++-	}
++ 
++ 	if ((prfbuf = os_malloc(primebytelen)) == NULL) {
++ 		wpa_printf(MSG_INFO, "EAP-pwd: unable to malloc space for prf "
++@@ -261,10 +258,37 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	 */
++ 	crypto_bignum_deinit(x_candidate, 1);
++ 	x_candidate = crypto_bignum_init_set(x_bin, primebytelen);
++-	if (!x_candidate ||
++-	    crypto_ec_point_solve_y_coord(grp->group, grp->pwe, x_candidate,
++-					  is_odd) != 0) {
++-		wpa_printf(MSG_INFO, "EAP-pwd: Could not solve for y");
+++	if (!x_candidate)
+++		goto fail;
+++
+++	/* y = sqrt(x^3 + ax + b) mod p
+++	 * if LSB(y) == LSB(pwd-seed): PWE = (x, y)
+++	 * else: PWE = (x, p - y)
+++	 *
+++	 * Calculate y and the two possible values for PWE and after that,
+++	 * use constant time selection to copy the correct alternative.
+++	 */
+++	y = crypto_ec_point_compute_y_sqr(grp->group, x_candidate);
+++	if (!y ||
+++	    dragonfly_sqrt(grp->group, y, y) < 0 ||
+++	    crypto_bignum_to_bin(y, x_y, MAX_ECC_PRIME_LEN, primebytelen) < 0 ||
+++	    crypto_bignum_sub(prime, y, y) < 0 ||
+++	    crypto_bignum_to_bin(y, x_y + MAX_ECC_PRIME_LEN,
+++				 MAX_ECC_PRIME_LEN, primebytelen) < 0) {
+++		wpa_printf(MSG_DEBUG, "SAE: Could not solve y");
+++		goto fail;
+++	}
+++
+++	/* Constant time selection of the y coordinate from the two
+++	 * options */
+++	is_eq = const_time_eq(is_odd, x_y[primebytelen - 1] & 0x01);
+++	const_time_select_bin(is_eq, x_y, x_y + MAX_ECC_PRIME_LEN,
+++			      primebytelen, x_y + primebytelen);
+++	os_memcpy(x_y, x_bin, primebytelen);
+++	wpa_hexdump_key(MSG_DEBUG, "EAP-pwd: PWE", x_y, 2 * primebytelen);
+++	grp->pwe = crypto_ec_point_from_bin(grp->group, x_y);
+++	if (!grp->pwe) {
+++		wpa_printf(MSG_DEBUG, "EAP-pwd: Could not generate PWE");
++ 		goto fail;
++ 	}
++ 
++@@ -289,6 +313,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	/* cleanliness and order.... */
++ 	crypto_bignum_deinit(x_candidate, 1);
++ 	crypto_bignum_deinit(tmp2, 1);
+++	crypto_bignum_deinit(y, 1);
++ 	crypto_bignum_deinit(qr, 1);
++ 	crypto_bignum_deinit(qnr, 1);
++ 	bin_clear_free(prfbuf, primebytelen);
++@@ -296,6 +321,7 @@ int compute_password_element(EAP_PWD_group *grp, u16 num,
++ 	os_memset(qnr_bin, 0, sizeof(qnr_bin));
++ 	os_memset(qr_or_qnr_bin, 0, sizeof(qr_or_qnr_bin));
++ 	os_memset(pwe_digest, 0, sizeof(pwe_digest));
+++	forced_memzero(x_y, sizeof(x_y));
++ 
++ 	return ret;
++ }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+index cddcfb6811..a8fb34b1a1 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://CVE-2021-0326.patch \
+            file://CVE-2021-27803.patch \
+            file://CVE-2021-30004.patch \
++           file://CVE-2022-23303-4.patch \
+           "
+ SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
+ SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
 -- 
 2.25.1
 
