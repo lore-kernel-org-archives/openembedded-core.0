@@ -2,63 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E914C433EF
-	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 21:24:32 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web08.4749.1645478671327211980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F631C433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Feb 2022 21:24:34 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web08.4750.1645478673263865281
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 13:24:31 -0800
+ Mon, 21 Feb 2022 13:24:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XPK6TYBJ;
- spf=pass (domain: gmail.com, ip: 209.85.210.178,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FEOZSyHa;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id x18so9969868pfh.5
+Received: by mail-pg1-f172.google.com with SMTP id s16so15294164pgs.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 13:24:31 -0800 (PST)
+ Mon, 21 Feb 2022 13:24:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KpabGmJjjk3K+/jFXIE88j1atOrJNVNNgrpdrYZkKAg=;
-        b=XPK6TYBJyMH554OtoLzWToRkp6Xab/Il5+QHvrSeBcqqP847uCxScMzFehS/7r5LAj
-         p1aABRmHVMo/tYeHVSP5urFcmjTPbuZSVgvXZuuvs3Vvw8bUshrpcuNIGfJR5Nx8RQv4
-         AbHvjJis+BQagnZI1KOy2KMcOmHsJny+LHAzVBtEZ4wS6nh2n/7SMYQI6+GnmKegLZiV
-         /+pAf+2HJ2ikGGZVrAvucbxZEQepUcxauK4f9EqEsmbcU83X5mmJVDySL4GvzBg4KNQC
-         lKAXk4mmEqXpj03dd5CBS19jaKWnBnr4IFW7Gf+8jYetVVNNCn212gOJvJG8bB2XPjwB
-         39sw==
+        bh=bIWn95NH7ZZ5EAPah4d73bWVjBR5j0CeQlwbjz5AVy8=;
+        b=FEOZSyHaiOCtkTSsuBjqMgoFbbsiIaCne8fOnDczG6eQb9HHooXCvaBKkHyvCuA5cj
+         qhVidrVwwj147j9K2HRcm6Ucm7dZxhPJVoObuc82Z7eLEOkNrrBo/ynnyvy+pMtPXJlO
+         XY4lNKGPXdZyZ8nZFUzPIT16Upwt7+8RsFPaHMJS6Uxt3AKxPzAoQiu750ZYyzAW/Dwr
+         3cquNeTjt5OafEqgq8z2e+bFNP9lMq7hRs3U1x+hq78mh0rbkvJfRxbabhWawl9/G3Em
+         qLrFsBwfM3QYBOEAUabxSYSHJsDaKpBOCZIQXutz3EUm5l3t0pOQqBldL2drL081SraF
+         e83g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KpabGmJjjk3K+/jFXIE88j1atOrJNVNNgrpdrYZkKAg=;
-        b=veOO5LfJnOMzHAZfHf+dqr8pE8PIP2iFJnu7EQXMGhPUyn80rYGj/XtO95J194VzHt
-         Ot3Q96A3U03gAZ908wZrkPGH0xLX7ZfhdNA3Wvk9V6dmNHOVcPyQTbddHtoY8WcZH7Hw
-         CcPdubPO1dnlzwE89LQV+UUfuK14R1GM9HJZnq55/rGrETseI7H7mXZHpo2Nc56ZbwQ0
-         2+ar0EEquLOEp9ybuuwVz4bDwiTwmOcHH5LQyXL26k6oM5gv5T55tL/en/0EuwkpsoUp
-         uY6/EpE04GH0oMKQ6h+xaqiJ8xsEiF/6abU8kezJ0iIZ1UsbTj+9D/W9mGSE05wKV0Z0
-         CO1g==
-X-Gm-Message-State: AOAM532Tu0A2YvUTMd/AYu9Kq3xVoLGLbLReW3e0rugiIiaqL/Z012bG
-	wwM3bscIVi+gdXs/Ab62wOuP/0pQPeWBsA==
+        bh=bIWn95NH7ZZ5EAPah4d73bWVjBR5j0CeQlwbjz5AVy8=;
+        b=JX6Lp63ewprvtc3jxrX3KX9wCgGJUem/3egOsOozkfAYS1s0otI/+QUWcyDtVZOjtz
+         5gAJPwtoGJd7DaXljb/CTku/lqGq1NeytWKzjsobs2KY5f59WDidRCOGiIr82wW5Unf+
+         OAm31LGOVSwkvxETSgmLUXSOQ7UBaRDahUe1cQdx+IdiT9zXJQJCDvItlBLqTOF84PrW
+         N/Yy/snHY4kbzezwm1w4b/w4rxqykYio+NbyWkkf8rDrGxzyX15cKH3dFdBF6AatOtbh
+         hRQ/F4AnXXsQJm9H77h/CgAbODRUXw9yW6K/Uxj7QtXGlBcZVc9YZbJGnc11Ewk3MUdG
+         JBRg==
+X-Gm-Message-State: AOAM5322A/zSEvEfvceFLtXf3251yzrmUVux8MpfnPU0V2DLZLuSNkaP
+	6j6FgKTN5KVfz7CZhBHo5Gxj5dGx5dij4w==
 X-Google-Smtp-Source: 
- ABdhPJxCgKB/Y+xJFww9khcFiVkTmpofIBoi+/g6ciS70bU6Jwn2eA2LQeicagRleIEusoCMY6voWg==
-X-Received: by 2002:a05:6a00:2492:b0:4cc:eacd:58ea with SMTP id
- c18-20020a056a00249200b004cceacd58eamr21856929pfv.21.1645478670429;
-        Mon, 21 Feb 2022 13:24:30 -0800 (PST)
+ ABdhPJyKBi4nbfHbE5RLll7Q9mZFE0Ez2wZv6zWPTJ8Jesl9ARpXNJReD1cxADEGduFnqg3PQrZh0A==
+X-Received: by 2002:a63:8649:0:b0:34c:3be:ba14 with SMTP id
+ x70-20020a638649000000b0034c03beba14mr17445071pgd.139.1645478672345;
+        Mon, 21 Feb 2022 13:24:32 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:d01c:96b7:6393:8c56])
         by smtp.gmail.com with ESMTPSA id
- n85sm14081529pfd.142.2022.02.21.13.24.29
+ n85sm14081529pfd.142.2022.02.21.13.24.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 13:24:29 -0800 (PST)
+        Mon, 21 Feb 2022 13:24:31 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 18/32] python3-more-itertools: set PIP_INSTALL_PACKAGE
-Date: Mon, 21 Feb 2022 13:23:33 -0800
+Subject: [PATCH v2 19/32] meson: inherit setuptools_build_meta
+Date: Mon, 21 Feb 2022 13:23:34 -0800
 Message-Id: 
- <79407e3f04830ed6305ef9b5ecc18c06bc712624.1645478020.git.tim.orling@konsulko.com>
+ <82c32de14862300d7171690ae2568c7af386be19.1645478020.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1645478020.git.tim.orling@konsulko.com>
 References: <cover.1645478020.git.tim.orling@konsulko.com>
@@ -67,33 +67,38 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 21:24:32 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Feb 2022 21:24:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162094
+ https://lists.openembedded.org/g/openembedded-core/message/162095
 
-Define PIP_INSTALL_PACKAGE as more_itertools to match the name of the
-wheel.
+Upstream provides a pyproject.toml which declares setuptools.build_meta
+to be backend for PEP-517 packaging.
+
+Set PIP_INSTALL_PACKAGE as this recipe does not inherit pypi and
+therefor no PYPI_PACKAGE is defined
 
 [YOCTO #14638]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/meson/meson_0.61.2.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-index c1e34b205da..5788af3f71e 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
-@@ -7,6 +7,8 @@ SRC_URI[sha256sum] = "7dc6ad46f05f545f900dd59e8dfb4e84a4827b97b3cfecb175ea0c7d24
+diff --git a/meta/recipes-devtools/meson/meson_0.61.2.bb b/meta/recipes-devtools/meson/meson_0.61.2.bb
+index 45938af6ffe..a51db1e3d44 100644
+--- a/meta/recipes-devtools/meson/meson_0.61.2.bb
++++ b/meta/recipes-devtools/meson/meson_0.61.2.bb
+@@ -21,7 +21,9 @@ SRC_URI[sha256sum] = "0233a7f8d959079318f6052b0939c27f68a5de86ba601f25c9ee6869fb
+ UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
+ UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
  
- inherit pypi setuptools3 ptest
- 
-+PIP_INSTALL_PACKAGE = "more_itertools"
+-inherit setuptools3
++inherit setuptools_build_meta
 +
- SRC_URI += " \
- 	file://run-ptest \
- "
++PIP_INSTALL_PACKAGE = "meson"
+ 
+ RDEPENDS:${PN} = "ninja python3-modules python3-pkg-resources"
+ 
 -- 
 2.30.2
 
