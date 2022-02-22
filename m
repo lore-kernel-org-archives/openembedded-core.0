@@ -2,49 +2,49 @@ Return-Path: <andrew@aj.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 728D6C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 03:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDA4C433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 03:52:56 +0000 (UTC)
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by mx.groups.io with SMTP id smtpd.web09.8808.1645501973685192048
+ by mx.groups.io with SMTP id smtpd.web10.8755.1645501975180031473
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 19:52:53 -0800
+ Mon, 21 Feb 2022 19:52:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aj.id.au header.s=fm2 header.b=w0+Q6S+P;
+ dkim=pass header.i=@aj.id.au header.s=fm2 header.b=I8rE1VMX;
  spf=pass (domain: aj.id.au, ip: 66.111.4.29, mailfrom: andrew@aj.id.au)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0AB785C019A
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 7E1825C0183
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Feb 2022 22:52:53 -0500 (EST)
+ Mon, 21 Feb 2022 22:52:54 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 21 Feb 2022 22:52:53 -0500
+  by compute4.internal (MEProxy); Mon, 21 Feb 2022 22:52:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
 	:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; bh=ZFa+wXhP3MbLHQw+z5VIGSTuI0Lxfk
-	/Q+Vk8CWHbtWs=; b=w0+Q6S+PeHBaZnX9+NOmdQDwtad0ZvZG7WIXyPl9h9zVFH
-	nGylt0H71/HgcBbAfbc6J7J+nZJxb1iLCxxJSeYR7jyIPW5y5kyHFuTSxA9M1XAP
-	qodgesXPmWLkt09zwkhemBkM9yW2tkBYTY4KLt7x0TgdiK/OLd2fpZefFWEgzS51
-	Uy38lJLR/b7a2nF9ChAvP49eCh8BEAN2zY4MdYacC9tHgWfMOCfKoS9iZSrzsdYs
-	mdTFPI3rx/2wLt9zx4CHpCeH4PKFnRGweX6EGSzi5X5iGhNHLGOqbNkjNYb7C2TG
-	O7Blsoz+47gm31GN4LSAP8a0pBYw9/mmOm1xFSTg==
+	:subject:subject:to:to; s=fm2; bh=iUnDvb1HjtKi5hq3R3j3ylK3mNhf4m
+	Sxb58qkdLWlVw=; b=I8rE1VMX2OKoDGnQNF7pHSXztmWJML2V3vFV11hUoe8ftF
+	VmMjeA4XpmC1U+v5+TR9pOha1g/YIBMF5QouNDBJ+2+44TVK6kgK0QDQu6uRxbPr
+	WWZ6F+c5lfI+Nrxi//K4COsya9x1ZCcc1EA1/lx3y4JfoNw/fWoBJiqE7o+gBq1l
+	wEkFj95qcs26VeDRQxrAphf6AKHjMzCP8VURBdeWH/k0VWCDM+PhNXRvC41n8+8Q
+	SZig8bwjGikcPUpM6hrQGoVXlQUd+3s7QeLiIax7A/GM6OGB9ZMrWtt0OscoCZzN
+	fg+KcjGCamEX8XLt6IUxi1l2iCxvhJHHOBEdf2Xw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZFa+wX
-	hP3MbLHQw+z5VIGSTuI0Lxfk/Q+Vk8CWHbtWs=; b=OWd0uDHA7qUR3NjDkhmI1M
-	yJ2Oo+zixmiojkrXnEN5fB9ubCpgIV4fJUKPC4XbB2e1xAao/MC9xXsJK/gsfb9U
-	mj+kl0epHtVbZ3zdChUcXnE0043DELP0EoxGvTm97ukKQst3QevU0RS1IRPyKbs1
-	fW74gSballArp/wgIMXvYZSYmPPRzsosQrw0cHpxwsWWUaSPr3RJ1FkYDAQKkO5z
-	asKEBkD62dt/UhvXPsMphJld8CLfJj7A0uPmHAxHJVN2Cnj+i8DgTNVYkfVWJ0cG
-	aa2YxMs85LQgcS+T9H71L1toawwrs5pCsHVNWAQ+Ptf9EXjvpiM+fU/AWmuD4kCw
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=iUnDvb
+	1HjtKi5hq3R3j3ylK3mNhf4mSxb58qkdLWlVw=; b=Q/smWJM36q2LHQOWd8pr77
+	nt+rsETAhuGFxxc6npBYKMFLba/6dVvNnQAgKK1+fMwuQvZd697IznEfjcTFcO+g
+	W08dQIps4Vb4TCUNdLV3NJkSDERaJ9DjotMPDgZ/wtmfWuDm8pJ8ktR6ZC/GOlQP
+	G2xQUztNbS6EHR+OscVBbQh+Q6QXA8tfDaVRsXGHg0Wtm1aqqIwgdq2XeApd4ViU
+	MA/bPzOwZD+29AfvOhsbJHcjkjqdSb+/tj+dVaipo8jo7O23/mdcsqoAvfIqA3Kj
+	pvp5m9AVbF3lLymzLAjgyj6jniF7YyPMNWQwDvSsStl7mBevJi5qBsKoFiurXwMw
 	==
-X-ME-Sender: <xms:FF4UYj6g5IJR-dkQsm7tF0VPXqCA3OsJh1K-SQONubadTiZRF2Et0Q>
-    <xme:FF4UYo4KbujA06Faf8qoUmDAgU4lbwTzNjTFSeukIlXDOhmGS2buSPkXS-d9NTco9
-    7TF-CGnIrZn_4K2SA>
+X-ME-Sender: <xms:Fl4UYjSt9bFNVeMCscDIZTz7p8m0nga_tbBdK34260oL3w__wmxivA>
+    <xme:Fl4UYkyTHYv1ddgvP_CrndmpFMSfv8IlwMdu0LHEVUDcOkNDyT8yWvfxTLqxgfqFj
+    N5Wg5f51BZ6HlosMQ>
 X-ME-Received: 
- <xmr:FF4UYqdqnqof8HMo-0S6fJJtmSZo5LRzRFKufqfba8A0XmIvVGhxjnOVz-nhjszUwD51fltAi0xk06mqbDlDd-ol8AFq8WemSAR1z86ph6EnxgTqYJefHbc0hSHsYGhgjMhnThMx>
+ <xmr:Fl4UYo1XXncIbXYOnIjrJozxhSZfNI0CbgjzFcM6ppAMf9nrfJPJPLe0dZlcRiHFKbajddlB82gAdUuL7AJRFQGiQAIbBsAFLCYcd66oSpOwtWGU54FffCA8BB2GJdcRnP7b5KlL>
 X-ME-Proxy-Cause: 
  gggruggvucftvghtrhhoucdtuddrgedvvddrkeejgdeifecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause:
     rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
     ejffelffdvudduveeiffegteelvefhteenucevlhhushhtvghrufhiiigvpedtnecurfgr
     rhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:FF4UYkLfHGKaNdSsSjK8CTdZuhPDJgcaL-r7_AZI38AP3rQHVPxjQA>
-    <xmx:FF4UYnIf_P-ywE8jfk5xnhPxE83Mdlp55IFzxKdCs4y7CHkbBjjDQw>
-    <xmx:FF4UYtxrmNzRCFWdSscCoMicuPnTIhda2Lji0X56NH0ZcO0PTW1nZw>
-    <xmx:FV4UYinBB3eh5I7umT8UaEtr8AyJdPfalpqrZ_hzdulhPjTbuUJjjw>
+X-ME-Proxy: <xmx:Fl4UYjBhs9YWD4NifMQyXZa2LG4ZkNd9R92UWta1LWh8zCsaJAcG9A>
+    <xmx:Fl4UYshFNQg4D1rqW0fWP-MyMytrPOg1Ima-JyIfQx6OzMKZhb93vQ>
+    <xmx:Fl4UYnoCp6APhdUW1KiseQJ1sCucbrxuQx33yVrEqylh5vDbEhsLxw>
+    <xmx:Fl4UYqdjDDtKToS5_lMPvVHcsqqBIFMRCkXkx_41StjIZ_XOvBwyTw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA for
  <openembedded-core@lists.openembedded.org>; Mon,
- 21 Feb 2022 22:52:51 -0500 (EST)
+ 21 Feb 2022 22:52:53 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 5/8] rust: libstd-rs: Install deps under
- {RUST_,}TARGET_SYS mismatch
-Date: Tue, 22 Feb 2022 14:22:31 +1030
-Message-Id: <20220222035234.463162-6-andrew@aj.id.au>
+Subject: [RFC PATCH 6/8] rust: Mitigate duplicate sections on matching
+ architectures
+Date: Tue, 22 Feb 2022 14:22:32 +1030
+Message-Id: <20220222035234.463162-7-andrew@aj.id.au>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220222035234.463162-1-andrew@aj.id.au>
 References: <20220222035234.463162-1-andrew@aj.id.au>
@@ -74,39 +74,60 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 03:52:54 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 03:52:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162119
+ https://lists.openembedded.org/g/openembedded-core/message/162120
 
-The architecture mangling gets a bit too much here. Use globs to paper
-over the problem.
+This seemed to be an issue for Power once the arch mappings were fixed
+(by a patch later in this series).
 
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- meta/recipes-devtools/rust/libstd-rs.inc | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/rust/rust.inc | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/libstd-rs.inc b/meta/recipes-devtools/rust/libstd-rs.inc
-index 987956344a24..e94fb8d5612e 100644
---- a/meta/recipes-devtools/rust/libstd-rs.inc
-+++ b/meta/recipes-devtools/rust/libstd-rs.inc
-@@ -35,6 +35,14 @@ do_install () {
-     # With the incremental build support added in 1.24, the libstd deps directory also includes dependency
-     # files that get installed. Those are really only needed to incrementally rebuild the libstd library
-     # itself and don't need to be installed.
--    rm -f ${B}/${TARGET_SYS}/${BUILD_DIR}/deps/*.d
--    cp ${B}/${TARGET_SYS}/${BUILD_DIR}/deps/* ${D}${rustlibdir}
-+    #
-+    # ${B} contains two directories, one for the target architecture and one for the build mode
-+    # (e.g. "release"). In some cases (e.g. ARMv7) the build directory matches neither ${TARGET_SYS}
-+    # (due to "unknown" vendor from rust_base_triple()) nor ${RUST_TARGET_SYS} (due to architecture
-+    # name mangling in rust_base_triple()). Further, rust_base_triple() always assumes a linux
-+    # OS, so exploit both "unknown" and "linux" in a triple glob to select the right source
-+    # directory.
-+    DEPS=${B}/*-unknown-linux-*/${BUILD_DIR}/deps
-+    rm -f ${DEPS}/*.d
-+    cp ${DEPS}/* ${D}${rustlibdir}
+diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
+index cc0730e9cd2d..fd934082bddf 100644
+--- a/meta/recipes-devtools/rust/rust.inc
++++ b/meta/recipes-devtools/rust/rust.inc
+@@ -35,8 +35,11 @@ setup_cargo_environment () {
+     # Later stages are build for the native target (i.e. target.x86_64-linux)
+     cargo_common_do_configure
+ 
+-    printf '[target.%s]\n' "${SNAPSHOT_BUILD_SYS}" >> ${CARGO_HOME}/config
+-    printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
++    if [ ${SNAPSHOT_BUILD_SYS} != ${RUST_BUILD_SYS} ]
++    then
++        printf '[target.%s]\n' "${SNAPSHOT_BUILD_SYS}" >> ${CARGO_HOME}/config
++        printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
++    fi
  }
+ 
+ include rust-common.inc
+@@ -88,15 +91,16 @@ python do_configure() {
+     config.set(target_section, "cxx", e(d.expand("${RUST_TARGET_CXX}")))
+     config.set(target_section, "cc", e(d.expand("${RUST_TARGET_CC}")))
+ 
+-    # If we don't do this rust-native will compile it's own llvm for BUILD.
+-    # [target.${BUILD_ARCH}-unknown-linux-gnu]
+-    target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
+-    config.add_section(target_section)
++    if (d.getVar('SNAPSHOT_BUILD_SYS') != d.getVar('RUST_TARGET_SYS')):
++        # If we don't do this rust-native will compile it's own llvm for BUILD.
++        # [target.${BUILD_ARCH}-unknown-linux-gnu]
++        target_section = "target.{}".format(d.getVar('SNAPSHOT_BUILD_SYS', True))
++        config.add_section(target_section)
+ 
+-    config.set(target_section, "llvm-config", e(llvm_config))
++        config.set(target_section, "llvm-config", e(llvm_config))
+ 
+-    config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
+-    config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
++        config.set(target_section, "cxx", e(d.expand("${RUST_BUILD_CXX}")))
++        config.set(target_section, "cc", e(d.expand("${RUST_BUILD_CC}")))
+ 
+     # [rust]
+     config.add_section("rust")
 -- 
 2.32.0
 
