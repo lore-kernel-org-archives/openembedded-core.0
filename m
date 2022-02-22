@@ -1,360 +1,131 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <andrew@aj.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 232EEC433EF
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 22:34:00 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.157.1645569238915061069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D6CC433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 23:41:42 +0000 (UTC)
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by mx.groups.io with SMTP id smtpd.web12.975.1645573300983978592
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 14:33:59 -0800
+ Tue, 22 Feb 2022 15:41:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nxcJg0py;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: ticotimo@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id q17so40700456edd.4
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 14:33:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vupOY6GZjfYJcF1tbM/hxXuAIeK3o6y92q0gTCxMTvA=;
-        b=nxcJg0pytitxE3SapTsIRtbAfIItCy6s1iYRQ0+XnvUzBNmsqCd4aSmTUXExm5P/8U
-         gHjHFHX0PbyiBEKC/T+BctzWubmyTB7jIDuC2aJsJ+aIgksHkXdSQ3InGUyjx+kRimyi
-         8H72Sr+M8ZCx60mcq4Nv2hnbKWsyB2t/IkVaYZjFYxUxDekYCkvDHYkoJ+Xe3FlMW4g6
-         QvDpLtx3H0gzefsQLbQsWpdhEBL9tP67bTWNTHZAd5Skq8xavxksSRZV7bGi2Iwrn+7c
-         nt0nSHKLKv0nN1o3Fdd6EfYszUJXa6Lhli3FdWLimGd75UD6XRKG9nZ6kPKXffSmkntF
-         38/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vupOY6GZjfYJcF1tbM/hxXuAIeK3o6y92q0gTCxMTvA=;
-        b=PGqUJFCxXd9jWw+9qKCsjXs+CzFJqNl2YPI2H/w5OUjfHDX5ia3VGRm8X53G9TTwEW
-         NtKXKeq7HL+94cRnwCCZnf+cdfwJZ1MjXBf7f7JIxCZCyZaScwUe6UkjjH83QNcYCg50
-         /KTfdppbgx9vWHlwODzNkZ4GWbs3Y+n8F9C9sjGCywHIR4uUQhuRc5wkQw55rQjnbvSr
-         LHnnd8VNDsESplPnNuHNs8vH+vTWRuSiEMMjYSpI7/TQ6cwdSRBfp/t7KMRItGCix/M2
-         aj1gvk4vIkKKlJSWr/+BVrg6A5YyjUGW6WF4dTuUJnWePnmxV7x5YV94JtThSNnwAZ6u
-         VSOA==
-X-Gm-Message-State: AOAM533blQre3w7dLPF+YnMMtQdpoz8SBCeBOPIld/wgevimrS/o9VaH
-	mBIeEesao4sPOuc36tzNhtiqHVQjkrL1Me9t3eI=
-X-Google-Smtp-Source: 
- ABdhPJzHKpql66wBhK1H8zbSRFAZdI6y7RAXyDYJ9E5R986/XWzqQtHopUwASGR7pVjCezsPq8l2HHyOlg/GeXmm2rc=
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id
- g8-20020a056402114800b0041311e01f58mr10032270edw.113.1645569237102; Tue, 22
- Feb 2022 14:33:57 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1645478020.git.tim.orling@konsulko.com>
- <3071336da7ba931774c91ba3a937f277c7b7c7d7.1645478020.git.tim.orling@konsulko.com>
- <CAMKF1soENmAx+JC4A7Jvdg2nrRaA0YmEsFWyg4Z+9Aj8V4SuSg@mail.gmail.com>
+ dkim=pass header.i=@aj.id.au header.s=fm2 header.b=gPMY8+z2;
+ spf=pass (domain: aj.id.au, ip: 64.147.123.19, mailfrom: andrew@aj.id.au)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 860603200F72;
+	Tue, 22 Feb 2022 18:41:39 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Tue, 22 Feb 2022 18:41:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=/4kdOAAE2RyPdYvMclmBmKPR43Uc6OHFvyLNXN
+	Ih7F0=; b=gPMY8+z2N3byqav3i7jggytLBTDk5lTIX4+taTTUCiE4KXNghlyFr3
+	e2SWIMvAdJOIeM7ZW9x9xaqAOiOl4dvWmXZvqgXKdvjTVTj/gAXr72rDMIsV15TX
+	bJdBgnV0nPh9FB0ofwNd1VeI0O1wa3zCoBY5TbEThPY8MNSaju+ZN59jmG04zEoz
+	/SmXtDcM7eDgllkgYdaXaOLzf14rFBzkUvDA5t1DAFhRnBa1gdoS78K3Ohlo0rXJ
+	Np7NW5qGsBRQ0tH9uUnuSHZhQV8/+dI+Wu3fa2zQ/Mo3sblEO5wtanQYXgoyzApy
+	uDMTwNNgyBhh9qTy7L/i+ne1WxzAejBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/4kdOAAE2RyPdYvMc
+	lmBmKPR43Uc6OHFvyLNXNIh7F0=; b=bvk+uTs8rO6x1nVXU8jJSeYF4fg2/gxZG
+	l5x6f8XUxkuePRmGBasXjTbzSU94tjOSvJQY0KKwZT43MrwfucWI5VK7ywGMwV3A
+	F/a6PUhAxTsVjYgZuQSXzeZ4TjEPPXpnV1iGSDCjQFuehPpij1U1F4jgzoCf0Fuy
+	ZdPTiclX+WkwxIVPXAC4jJIozRx/mFZql7rUVggQHZoZDikT0EA/hHKwGuq/gAEL
+	mQmtlHm7pL2sWdWI09yTyZFtTpPW0fEBDJyK1qLdzfgve0HOrSpG+weHDs+Do8y7
+	d4KAfO+KEsC/Sr3BGLXzt8ksdbQQOO9pTdllS1jEp44AAJSVYPM3g==
+X-ME-Sender: <xms:snQVYqh3H9m3W9FhFJwSJ0Wfg8i3ENV0Hr_YOk9pUySsLB-PyJ7U8g>
+    <xme:snQVYrD-vP7HlkfsY7osjvChps0hl3IgL7QCUoxh4SWnH_rad3xqzIMN2E_JJ58l9
+    nmCysA4dCctp6Q73g>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvvddrkeelgdduudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+    htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+    veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:snQVYiHp6qRAaT8rXvylyTPqKMO4glrteBKoTggJ3NCtUJ8ZlRWGWA>
+    <xmx:snQVYjRVyBJ_NtQQKm7rDZjwOvfR8R4yPzxwF8M3hZgS7q1LF64PIw>
+    <xmx:snQVYnzDDNxxVQCy-zeMO5dokxX_DDl1xENCXsd4hbrTvAIqn7e_7A>
+    <xmx:s3QVYgpTmZCXCgnUMij8YKPDET_wB-6y3b0e2vxu7SHZRu1lebT4fA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C06021920081; Tue, 22 Feb 2022 18:41:38 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
+Mime-Version: 1.0
+Message-Id: <f009723e-2b61-4df1-a098-8be73152b5d1@www.fastmail.com>
 In-Reply-To: 
- <CAMKF1soENmAx+JC4A7Jvdg2nrRaA0YmEsFWyg4Z+9Aj8V4SuSg@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 22 Feb 2022 14:33:45 -0800
-Message-ID: 
- <CANx9H-Bq+s-PfsDJvTgpznL4uFaQf_z1jR5NPH+X4MR0Mj3zZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 32/32] python3-nose: drop recipe
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d4b31805d8a2f155"
+ <CAMKF1sp6c40ZRaBkkpAo+wdmcRd57TKZEk8xADpJCt8SPmmdEg@mail.gmail.com>
+References: <20220222035234.463162-1-andrew@aj.id.au>
+ <20220222035234.463162-8-andrew@aj.id.au>
+ <CANNYZj_3sRMqa-F_GvR2fCi2vNtafyNOvyHB_WhS99EhpoVK_w@mail.gmail.com>
+ <48dc371d839b004db347823b5867f4c338e94443.camel@linuxfoundation.org>
+ <CANNYZj_G4Y0=sO7j7VaPeLc8gF6EFGwnuHTKcXhouTKmzODoog@mail.gmail.com>
+ <CAMKF1sp6c40ZRaBkkpAo+wdmcRd57TKZEk8xADpJCt8SPmmdEg@mail.gmail.com>
+Date: Wed, 23 Feb 2022 10:11:18 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Khem Raj" <raj.khem@gmail.com>,
+ "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: "Richard Purdie" <richard.purdie@linuxfoundation.org>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [RFC PATCH 7/8] rust: Add snapshot checksums for
+ powerpc64le
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 22:34:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 23:41:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162229
+ https://lists.openembedded.org/g/openembedded-core/message/162230
 
---000000000000d4b31805d8a2f155
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 22, 2022 at 2:24 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-> there are packages in meta-python which still need it
+On Wed, 23 Feb 2022, at 05:04, Khem Raj wrote:
+> On Tue, Feb 22, 2022 at 6:24 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+>>
+>> On Tue, 22 Feb 2022 at 13:28, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Tue, 2022-02-22 at 10:59 +0100, Alexander Kanavin wrote:
+>> > > I have to note that YP does not support ppc systems as build hosts;
+>> > > can this be kept in a bbappend?
+>> >
+>> > It isn't official but there are obviously people using it. I think we should try
+>> > and do something in core but there is a question of how we maintain this given
+>> > our infrastructure/tests don't cover it :(
+>>
+>> Worse yet, there is no way to test this locally either.  If the ppc64
+>> binary tarball checksums are added to the core rust recipe, presumably
+>> I'd be expected to update them together with x86 and arm64 binary
+>> checksums on version updates, but I'd have to do this completely
+>> blindly with no testing of any kind :(
 >
->   meta-networking/recipes-connectivity/netplan/netplan_0.103.bb:
-> RDEPENDS:${PN}
-> = "python3 python3-core python3-pyyaml python3-netifaces python3-nos
-> e python3-coverage python3-pycodestyle python3-pyflakes
-> util-linux-libuuid libnetplan"
->   meta-python/recipes-devtools/python/python3-anyjson_0.3.3.bb:
-> ${PYTHON_PN}-nose \
->   meta-python/recipes-devtools/python/python3-blinker_1.4.bb:
-> ${PYTHON_PN}-nose \
->   meta-python/recipes-devtools/python/python3-oauthlib_3.2.0.bb:
-> PACKAGECONFIG[test]
-> = ",,,${PYTHON_PN}-blinker ${PYTHON_PN}-cryptography ${PYTHON_P
-> N}-nose ${PYTHON_PN}-pyjwt"
->
-> I wonder if these recipes can either be also removed or made free of
-> nose module.
->
->
-I am thinking the same thing. While we could probably run 2to3 on the nose
-plugins
-that are the legacy python2 code, I would rather do the right thing.
+> as long as it does not impede main testing I would think thats ok and
+> we can expect the OE community
+> members like Andrew to test this and report issues or better fix them
 
-In some cases, pytest can be a drop in replacement for nosetests, but not
-always.
+Well, hopefully I've shown I'm at least willing to try fix things :D
 
-If anyone has any other ideas, please chime in. I am all ears.
+And yeah, my preference would be that the ppc64le checksums are just 
+bumped along with the rest, but without any explicit testing beyond 
+that. I understand that I'm not the maintainer here so will go along 
+with whatever approach is chosen, but keeping them here feels like 
+we're at least solving the problem in a consistent spot.
 
-On Mon, Feb 21, 2022 at 1:25 PM Tim Orling <ticotimo@gmail.com> wrote:
-> >
-> > The code has not been touched since 2016 and numerous files still have
-> > Python2 syntax code in them. This causes do_compile errors when
-> > packaging a wheel (PEP-517 packaging).
-> >
-> > Nothing in oe-core depends on python3-nose.
-> >
-> > [YOCTO #14638]
-> >
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> > ---
-> >  meta/conf/distro/include/maintainers.inc       |  1 -
-> >  meta/recipes-devtools/python/python-nose.inc   | 18 ------------------
-> >  .../python/python3-nose_1.3.7.bb               |  2 --
-> >  3 files changed, 21 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/python/python-nose.inc
-> >  delete mode 100644 meta/recipes-devtools/python/python3-nose_1.3.7.bb
-> >
-> > diff --git a/meta/conf/distro/include/maintainers.inc
-> b/meta/conf/distro/include/maintainers.inc
-> > index 7a65612b7c6..333685cd8b8 100644
-> > --- a/meta/conf/distro/include/maintainers.inc
-> > +++ b/meta/conf/distro/include/maintainers.inc
-> > @@ -616,7 +616,6 @@ RECIPE_MAINTAINER:pn-python3-mako = "Oleksandr
-> Kravchuk <open.source@oleksandr-k
-> >  RECIPE_MAINTAINER:pn-python3-markdown = "Alexander Kanavin <
-> alex.kanavin@gmail.com>"
-> >  RECIPE_MAINTAINER:pn-python3-markupsafe = "Richard Purdie <
-> richard.purdie@linuxfoundation.org>"
-> >  RECIPE_MAINTAINER:pn-python3-more-itertools = "Tim Orling <
-> tim.orling@konsulko.com>"
-> > -RECIPE_MAINTAINER:pn-python3-nose = "Oleksandr Kravchuk <
-> open.source@oleksandr-kravchuk.com>"
-> >  RECIPE_MAINTAINER:pn-python3-numpy = "Oleksandr Kravchuk <
-> open.source@oleksandr-kravchuk.com>"
-> >  RECIPE_MAINTAINER:pn-python3-packaging = "Tim Orling <
-> tim.orling@konsulko.com>"
-> >  RECIPE_MAINTAINER:pn-python3-pathlib2 = "Tim Orling <
-> tim.orling@konsulko.com>"
-> > diff --git a/meta/recipes-devtools/python/python-nose.inc
-> b/meta/recipes-devtools/python/python-nose.inc
-> > deleted file mode 100644
-> > index 08c380d637c..00000000000
-> > --- a/meta/recipes-devtools/python/python-nose.inc
-> > +++ /dev/null
-> > @@ -1,18 +0,0 @@
-> > -SUMMARY = "Extends Python unittest to make testing easier"
-> > -HOMEPAGE = "http://readthedocs.org/docs/nose/"
-> > -DESCRIPTION = "nose extends the test loading and running features of
-> unittest, \
-> > -making it easier to write, find and run tests."
-> > -SECTION = "devel/python"
-> > -LICENSE = "LGPL-2.1-only"
-> > -LIC_FILES_CHKSUM =
-> "file://lgpl.txt;md5=a6f89e2100d9b6cdffcea4f398e37343"
-> > -
-> > -SRC_URI[md5sum] = "4d3ad0ff07b61373d2cefc89c5d0b20b"
-> > -SRC_URI[sha256sum] =
-> "f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb6a1b1d26c69a8b79e6208a98"
-> > -
-> > -inherit pypi
-> > -
-> > -RDEPENDS:${PN} = "\
-> > -  ${PYTHON_PN}-unittest \
-> > -  "
-> > -
-> > -BBCLASSEXTEND = "native nativesdk"
-> > diff --git a/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-> b/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-> > deleted file mode 100644
-> > index 13dbf96179a..00000000000
-> > --- a/meta/recipes-devtools/python/python3-nose_1.3.7.bb
-> > +++ /dev/null
-> > @@ -1,2 +0,0 @@
-> > -inherit setuptools3
-> > -require python-nose.inc
-> > --
-> > 2.30.2
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#162108):
-> https://lists.openembedded.org/g/openembedded-core/message/162108
-> > Mute This Topic: https://lists.openembedded.org/mt/89304054/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
+As mentioned in the cover letter we found this issue via the ppc64le CI 
+machines used in OpenBMC. OpenBMC tries to integrate upstream YP 
+changes every fortnight or so. That's obviously not as ideal as ppc64le 
+resources dedicated to YP, but I think this provides enough feedback 
+that things won't completely rot.
 
---000000000000d4b31805d8a2f155
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+If a bump does cause issues I'll try to resolve them as soon as possible.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 22, 2022 at 2:24 PM Khem =
-Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">there are p=
-ackages in meta-python which still need it<br>
-<br>
-=C2=A0 meta-networking/recipes-connectivity/netplan/netplan_0.103.bb:RDEPEN=
-DS:${PN}<br>
-=3D &quot;python3 python3-core python3-pyyaml python3-netifaces python3-nos=
-<br>
-e python3-coverage python3-pycodestyle python3-pyflakes<br>
-util-linux-libuuid libnetplan&quot;<br>
-=C2=A0 meta-python/recipes-devtools/python/<a href=3D"http://python3-anyjso=
-n_0.3.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-anyjson_0.3.3.bb</=
-a>:<br>
-${PYTHON_PN}-nose \<br>
-=C2=A0 meta-python/recipes-devtools/python/<a href=3D"http://python3-blinke=
-r_1.4.bb" rel=3D"noreferrer" target=3D"_blank">python3-blinker_1.4.bb</a>:<=
-br>
-${PYTHON_PN}-nose \<br>
-=C2=A0 meta-python/recipes-devtools/python/python3-oauthlib_3.2.0.bb:PACKAG=
-ECONFIG[test]<br>
-=3D &quot;,,,${PYTHON_PN}-blinker ${PYTHON_PN}-cryptography ${PYTHON_P<br>
-N}-nose ${PYTHON_PN}-pyjwt&quot;<br>
-<br>
-I wonder if these recipes can either be also removed or made free of<br>
-nose module.<br>
-<br></blockquote><div><br></div><div>I am thinking the same thing. While we=
- could probably run 2to3 on the nose plugins</div><div>that are the legacy =
-python2 code, I would rather do the right thing.</div><div><br></div><div>I=
-n some cases, pytest can be a drop in replacement for nosetests, but not al=
-ways.</div><div><br></div><div>If anyone has any other ideas, please chime =
-in. I am all ears.</div><div><br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-On Mon, Feb 21, 2022 at 1:25 PM Tim Orling &lt;<a href=3D"mailto:ticotimo@g=
-mail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The code has not been touched since 2016 and numerous files still have=
-<br>
-&gt; Python2 syntax code in them. This causes do_compile errors when<br>
-&gt; packaging a wheel (PEP-517 packaging).<br>
-&gt;<br>
-&gt; Nothing in oe-core depends on python3-nose.<br>
-&gt;<br>
-&gt; [YOCTO #14638]<br>
-&gt;<br>
-&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
-m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 1 -<br>
-&gt;=C2=A0 meta/recipes-devtools/python/python-nose.inc=C2=A0 =C2=A0| 18 --=
-----------------<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-nose_1.3.7.bb" rel=3D"noref=
-errer" target=3D"_blank">python3-nose_1.3.7.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 --<br>
-&gt;=C2=A0 3 files changed, 21 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python-nose.inc<=
-br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
-//python3-nose_1.3.7.bb" rel=3D"noreferrer" target=3D"_blank">python3-nose_=
-1.3.7.bb</a><br>
-&gt;<br>
-&gt; diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/dist=
-ro/include/maintainers.inc<br>
-&gt; index 7a65612b7c6..333685cd8b8 100644<br>
-&gt; --- a/meta/conf/distro/include/maintainers.inc<br>
-&gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
-&gt; @@ -616,7 +616,6 @@ RECIPE_MAINTAINER:pn-python3-mako =3D &quot;Oleksa=
-ndr Kravchuk &lt;open.source@oleksandr-k<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-markdown =3D &quot;Alexander Kanavi=
-n &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kana=
-vin@gmail.com</a>&gt;&quot;<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-markupsafe =3D &quot;Richard Purdie=
- &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt;&quot;<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-more-itertools =3D &quot;Tim Orling=
- &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orlin=
-g@konsulko.com</a>&gt;&quot;<br>
-&gt; -RECIPE_MAINTAINER:pn-python3-nose =3D &quot;Oleksandr Kravchuk &lt;<a=
- href=3D"mailto:open.source@oleksandr-kravchuk.com" target=3D"_blank">open.=
-source@oleksandr-kravchuk.com</a>&gt;&quot;<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-numpy =3D &quot;Oleksandr Kravchuk =
-&lt;<a href=3D"mailto:open.source@oleksandr-kravchuk.com" target=3D"_blank"=
->open.source@oleksandr-kravchuk.com</a>&gt;&quot;<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-packaging =3D &quot;Tim Orling &lt;=
-<a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@kon=
-sulko.com</a>&gt;&quot;<br>
-&gt;=C2=A0 RECIPE_MAINTAINER:pn-python3-pathlib2 =3D &quot;Tim Orling &lt;<=
-a href=3D"mailto:tim.orling@konsulko.com" target=3D"_blank">tim.orling@kons=
-ulko.com</a>&gt;&quot;<br>
-&gt; diff --git a/meta/recipes-devtools/python/python-nose.inc b/meta/recip=
-es-devtools/python/python-nose.inc<br>
-&gt; deleted file mode 100644<br>
-&gt; index 08c380d637c..00000000000<br>
-&gt; --- a/meta/recipes-devtools/python/python-nose.inc<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,18 +0,0 @@<br>
-&gt; -SUMMARY =3D &quot;Extends Python unittest to make testing easier&quot=
-;<br>
-&gt; -HOMEPAGE =3D &quot;<a href=3D"http://readthedocs.org/docs/nose/" rel=
-=3D"noreferrer" target=3D"_blank">http://readthedocs.org/docs/nose/</a>&quo=
-t;<br>
-&gt; -DESCRIPTION =3D &quot;nose extends the test loading and running featu=
-res of unittest, \<br>
-&gt; -making it easier to write, find and run tests.&quot;<br>
-&gt; -SECTION =3D &quot;devel/python&quot;<br>
-&gt; -LICENSE =3D &quot;LGPL-2.1-only&quot;<br>
-&gt; -LIC_FILES_CHKSUM =3D &quot;file://lgpl.txt;md5=3Da6f89e2100d9b6cdffce=
-a4f398e37343&quot;<br>
-&gt; -<br>
-&gt; -SRC_URI[md5sum] =3D &quot;4d3ad0ff07b61373d2cefc89c5d0b20b&quot;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;f1bffef9cbc82628f6e7d7b40d7e255aefaa1adb=
-6a1b1d26c69a8b79e6208a98&quot;<br>
-&gt; -<br>
-&gt; -inherit pypi<br>
-&gt; -<br>
-&gt; -RDEPENDS:${PN} =3D &quot;\<br>
-&gt; -=C2=A0 ${PYTHON_PN}-unittest \<br>
-&gt; -=C2=A0 &quot;<br>
-&gt; -<br>
-&gt; -BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-no=
-se_1.3.7.bb" rel=3D"noreferrer" target=3D"_blank">python3-nose_1.3.7.bb</a>=
- b/meta/recipes-devtools/python/<a href=3D"http://python3-nose_1.3.7.bb" re=
-l=3D"noreferrer" target=3D"_blank">python3-nose_1.3.7.bb</a><br>
-&gt; deleted file mode 100644<br>
-&gt; index 13dbf96179a..00000000000<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-nose_1.3.=
-7.bb" rel=3D"noreferrer" target=3D"_blank">python3-nose_1.3.7.bb</a><br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,2 +0,0 @@<br>
-&gt; -inherit setuptools3<br>
-&gt; -require python-nose.inc<br>
-&gt; --<br>
-&gt; 2.30.2<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#162108): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/162108" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/162108</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89304054=
-/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/89304054/1997914</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" t=
-arget=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
-
---000000000000d4b31805d8a2f155--
+Andrew
 
