@@ -2,63 +2,63 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56510C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 19:17:41 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.1837.1645557460815893381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 573A3C433EF
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 19:17:43 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web12.1872.1645557462352919935
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 11:17:40 -0800
+ Tue, 22 Feb 2022 11:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dszmlGOx;
- spf=pass (domain: gmail.com, ip: 209.85.210.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=m9RBLebi;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id p8so13057517pfh.8
+Received: by mail-pf1-f179.google.com with SMTP id l19so13076375pfu.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 11:17:40 -0800 (PST)
+ Tue, 22 Feb 2022 11:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OqfbI/taZuE5tvRkjzUudtuBzn1DIs9rdG1KeJG3/cw=;
-        b=dszmlGOxHwpZcZbsB04sjf+Hf0Iez/cXkj4QqEfRNSkwkBSRUGR8ti2+2JzydgEnOr
-         hH602Qd9N94LHNnZM6VXJWQ1f3aNYMXEJ1lorZGjlhp19eVDDunbpQPxCQdGKGDJnnoR
-         +pFzx/EUr03w7Kt4IdZ0JqLzLIn6UNycwYkCKVS/r4xv/ESuBblM15u37xskfpHIhT4F
-         kdf/KfYPZV3ZcZiuiTNJigE9krP2RpBsFnhlKKgvrY4hDlIGXYViyp+/gpLR03dUwZtX
-         duAWYMf2FkVszBugqViCrgrTHOpU4ZEpJroDaxTuV5FsoM/DzmByFDog39kix0VuT7mk
-         O6Ig==
+        bh=xNLWwM9nQTo2EyOg5vy/NihA9OtxCmsk83GuvHI3/Os=;
+        b=m9RBLebiOmDv1rJfBqFrxFZJCYpslpPjgHFPm+dBWACik+kQ+hzNSXUZN2r6xo/wTK
+         sAUaQf8pfi3gH9X6VjfbHOZ2qmUx5hv//I1rkfiz7WTXRAQl/5aGKv/e5W7UeA+eV68A
+         0fGXP8dCd+x4r/T3C176cnZtnlKkl/R74D6okg4OG1mT8hiYzJK1tGFMXWNVxpAte+nw
+         Og3JtiHFwu8dtTfsmYOPR1dab8w2zcSZwfELJnfdRnL4uR/lttvfBVvFcm8SE2UXfaPf
+         CzrmqQ7WZABBLHFWtO2Dp//lmcb2z43I03D6KQvcc6TFEqHFM+t7+nGNa3Fqh4ZLuE9U
+         0qoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OqfbI/taZuE5tvRkjzUudtuBzn1DIs9rdG1KeJG3/cw=;
-        b=AAKNkcSAF2NWZNb2MF84F6OMeGr5sC11FQiAL9IT5QxHCKK9WPvJVFEvsYdyLmo9oN
-         m7CaFrBtd6rcdlcilVhbKvrCwFpO/hUSlXGAz35j5F3+LgRYUFKk91HpMP1fjI/Llr60
-         5jLOy8ziBI7eivJCF3ZqgaE44DToeetzxF0EVYUDQ70z+3ixrwDanbUX0iMcxmpEot4J
-         g471rQDpFHh59HREOhqloQyHL+HW04RBTsiMqhL9gK9rL8tLKCQewAKoas38b+kpvnbq
-         XGKMq1QUPiS8dmJrhOWWDXZscdDJNQTRMA75bOsPgZONx3omSIcXEw5b2vn7uDh0NRNj
-         7C4Q==
-X-Gm-Message-State: AOAM533iCuRNBYDZLskmzSjwfHol/vozrRzXAt9yuGvmUyoRFjQ8lhAx
-	s5U99MCqLWnXmi3RzuxMQVmaZUu5D6viQg==
+        bh=xNLWwM9nQTo2EyOg5vy/NihA9OtxCmsk83GuvHI3/Os=;
+        b=myNJLzOkUOAZf2zgxPeg04+2Qgqj2Xg9gGTrR+5kiw/w26bCGxSIwtfoSE7z6ZrqFr
+         i7FrWiUakS+tJdSVTx7QKSPwprKwEfUkivWRGhWvgnaE7ZBLvI96jBMNacAa16td4b+c
+         YbG/4ARyrEEQQmwh9hoFEe3OrpUqm8JB7GXgKaT3hsDxDewwn723//pfEXT5TjATA+k2
+         Zisk1ggQnNK9FPZxcHhoho1f9vWqJ89KmhrWFehTf29NIR5o+YhdX+nat3pkwyertOw8
+         u1ntUOdyljgYh1CvQRj2FWVwiJFhcoehCXvEGq6+Zu3qXH3o92Au0WLK/nmwt34nO8ik
+         vJIw==
+X-Gm-Message-State: AOAM532taOFz550Q+gD32wOs86+gdDDqAN1Bqg0V3EIEULnaUy4vuSEe
+	T/D+Y88bTJFEF7ErGC9gZ+fdX930973LnA==
 X-Google-Smtp-Source: 
- ABdhPJzvyGNCP3mraTB2c84zAxyEKD8S6IPFc61lmvMGJt2mTvNda/DQDIsJPLZqsWang7Kswbwzbg==
-X-Received: by 2002:a05:6a00:22cc:b0:4e1:bee1:937 with SMTP id
- f12-20020a056a0022cc00b004e1bee10937mr26128492pfj.13.1645557459846;
-        Tue, 22 Feb 2022 11:17:39 -0800 (PST)
+ ABdhPJwcF6y0g696Y0sjzTKEAqrE2ntxeD9BCFN458IOQBRA65i9cE+QU9YK96GKRC1MzTMU5+p2qA==
+X-Received: by 2002:a63:b20:0:b0:373:9e9e:86c3 with SMTP id
+ 32-20020a630b20000000b003739e9e86c3mr20347516pgl.55.1645557461308;
+        Tue, 22 Feb 2022 11:17:41 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:d208:bddf:2b06:2b5a])
         by smtp.gmail.com with ESMTPSA id
- z13sm18402700pfe.20.2022.02.22.11.17.38
+ z13sm18402700pfe.20.2022.02.22.11.17.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 11:17:39 -0800 (PST)
+        Tue, 22 Feb 2022 11:17:40 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 22/32] python3-scons: merge -native recipe
-Date: Tue, 22 Feb 2022 11:16:48 -0800
+Subject: [PATCH v3 23/32] python3-subunit: merge inc; set PIP_INSTALL_PACKAGE
+Date: Tue, 22 Feb 2022 11:16:49 -0800
 Message-Id: 
- <085319c03515531403ae28d31b15466a6b34daa3.1645557032.git.tim.orling@konsulko.com>
+ <de53b5ecf796820b2417879934a519196004a3b2.1645557032.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1645557032.git.tim.orling@konsulko.com>
 References: <cover.1645557032.git.tim.orling@konsulko.com>
@@ -67,66 +67,124 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 19:17:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 19:17:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162213
+ https://lists.openembedded.org/g/openembedded-core/message/162214
 
-The native recipe simply calls create_wrapper to add a host script. Do
-this via do_install:append:class-native()
+We have not supported python2 for some time now, so there is no reason
+to maintain a separate python-subunit.inc file.
 
-The scons*.1 man pages are being installed in ${prefix}, move them to
-${mandir} (previously installed in ${datadir}).
+The wheel built by bdist_wheel is named 'python_subunit-*.whl', so set
+PIP_INSALL_PACKAGE appropriately.
+
+Add patch to use vendored _distutils from setuptools.
 
 [YOCTO #14638]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../python/python3-scons-native_4.3.0.bb            |  7 -------
- meta/recipes-devtools/python/python3-scons_4.3.0.bb | 13 ++++++++++++-
- 2 files changed, 12 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
+ .../python/python-subunit.inc                 | 14 ----------
+ ...001-setup.py-use-vendored-_distutils.patch | 27 +++++++++++++++++++
+ .../python/python3-strict-rfc3339_0.7.bb      |  4 ++-
+ .../python/python3-subunit_1.4.0.bb           | 17 ++++++++++--
+ 4 files changed, 45 insertions(+), 17 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-subunit.inc
+ create mode 100644 meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch
 
-diff --git a/meta/recipes-devtools/python/python3-scons-native_4.3.0.bb b/meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
+diff --git a/meta/recipes-devtools/python/python-subunit.inc b/meta/recipes-devtools/python/python-subunit.inc
 deleted file mode 100644
-index 73076b87320..00000000000
---- a/meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
+index a2f9c5c3ffe..00000000000
+--- a/meta/recipes-devtools/python/python-subunit.inc
 +++ /dev/null
-@@ -1,7 +0,0 @@
--require python3-scons_${PV}.bb
--inherit native python3native
--DEPENDS = "python3-native python3-setuptools-native"
+@@ -1,14 +0,0 @@
+-SUMMARY = "Python implementation of subunit test streaming protocol"
+-HOMEPAGE = "https://pypi.org/project/python-subunit/"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=909c08e291647fd985fbe5d9836d51b6"
 -
--do_install:append() {
--    create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}' PYTHONNOUSERSITE='1'
--}
-diff --git a/meta/recipes-devtools/python/python3-scons_4.3.0.bb b/meta/recipes-devtools/python/python3-scons_4.3.0.bb
-index bff2fdae92d..cfb075f65f3 100644
---- a/meta/recipes-devtools/python/python3-scons_4.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.3.0.bb
-@@ -8,6 +8,7 @@ SRC_URI += " file://0001-Fix-man-page-installation.patch"
- SRC_URI[sha256sum] = "d47081587e3675cc168f1f54f0d74a69b328a2fc90ec4feb85f728677419b879"
+-PYPI_PACKAGE = "python-subunit"
+-
+-SRC_URI[md5sum] = "30f1ab20651d94442dd9a7f8c9e8d633"
+-SRC_URI[sha256sum] = "042039928120fbf392e8c983d60f3d8ae1b88f90a9f8fd7188ddd9c26cad1e48"
+-
+-inherit pypi
+-
+-BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch b/meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch
+new file mode 100644
+index 00000000000..ba1c3d33637
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch
+@@ -0,0 +1,27 @@
++From 857719e82daea0d85b734cac34cf569050724068 Mon Sep 17 00:00:00 2001
++From: Tim Orling <tim.orling@konsulko.com>
++Date: Sun, 20 Feb 2022 20:26:51 -0800
++Subject: [PATCH] setup.py: use vendored _distutils
++
++Deprecation warning of distutils is interferring with bdist_wheel build.
++
++For now, use the vendored setuptools._distutils.core.
++
++Upstream-Status: Pending [upstream appears unmaintained]
++
++Signed-off-by: Tim Orling <tim.orling@konsulko.com>
++---
++ setup.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/setup.py b/setup.py
++index 1bf87cf..a49fb8e 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -1,5 +1,5 @@
++ import os.path
++-from distutils.core import setup
+++from setuptools._distutils.core import setup
++ 
++ readme_file = os.path.join(os.path.dirname(__file__), 'README.md')
++ readme = open(readme_file).read()
+diff --git a/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
+index b8e929ef886..b592cb95d4a 100644
+--- a/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
++++ b/meta/recipes-devtools/python/python3-strict-rfc3339_0.7.bb
+@@ -3,9 +3,11 @@ HOMEPAGE = "https://pypi.org/project/strict-rfc3339/"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=8f0e2cd40e05189ec81232da84bd6e1a"
  
- PYPI_PACKAGE = "SCons"
-+PIP_INSTALL_DIST_PATH = "${B}/build/dist"
+-SRC_URI[md5sum] = "4d9b635b4df885bc37bc1189d66c9abc"
++SRC_URI += "file://0001-setup.py-use-vendored-_distutils.patch"
+ SRC_URI[sha256sum] = "5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277"
  
  inherit pypi setuptools3
  
-@@ -24,4 +25,14 @@ RDEPENDS:${PN}:class-target = "\
-   python3-pprint \
-   "
++PIP_INSTALL_PACKAGE = "strict_rfc3339"
++
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.0.bb b/meta/recipes-devtools/python/python3-subunit_1.4.0.bb
+index a06ded868f5..bc49a2b69ed 100644
+--- a/meta/recipes-devtools/python/python3-subunit_1.4.0.bb
++++ b/meta/recipes-devtools/python/python3-subunit_1.4.0.bb
+@@ -1,4 +1,17 @@
+-inherit setuptools3
+-require python-subunit.inc
++SUMMARY = "Python implementation of subunit test streaming protocol"
++HOMEPAGE = "https://pypi.org/project/python-subunit/"
++SECTION = "devel/python"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=909c08e291647fd985fbe5d9836d51b6"
++
++PYPI_PACKAGE = "python-subunit"
++
++SRC_URI[sha256sum] = "042039928120fbf392e8c983d60f3d8ae1b88f90a9f8fd7188ddd9c26cad1e48"
++
++inherit pypi setuptools3
++
++PIP_INSTALL_PACKAGE = "python_subunit"
  
--FILES:${PN}-doc += "${datadir}/scons*.1"
-+do_install:append() {
-+    install -d ${D}${mandir}/man1
-+    mv ${D}${prefix}/scons*.1 ${D}${mandir}/man1/
-+}
-+FILES:${PN}-doc += "${mandir}/man1/scons*.1"
+ RDEPENDS:${PN} = " python3-testtools"
 +
-+do_install:append:class-native() {
-+    create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}' PYTHONNOUSERSITE='1'
-+}
-+
-+BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "nativesdk"
 -- 
 2.30.2
 
