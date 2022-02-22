@@ -1,111 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <927f4e39946ceed8d2d66c2a298375d86726b1d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use shallow mirror tarballs
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Thu, 31 Mar 2022 17:19:46 +0100
-In-Reply-To: <142dc7fe42ce4f9d8af2110a083b7e3f@axis.com>
-References: <20220330122344.1507091-1-richard.purdie@linuxfoundation.org>
-	 <5ad842968691474f8671615154122c87@axis.com>
-	 <419808b5ff897fc36da87a91143370bda43e3cdf.camel@linuxfoundation.org>
-	 <142dc7fe42ce4f9d8af2110a083b7e3f@axis.com>
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+Subject: [honister][PATCH 17/38] scripts/runqemu-ifdown: Don't treat the last iptables command as special
+Date: Tue, 22 Feb 2022 23:07:18 +0800
+Message-Id: <2832f0277e29811cfb32fb9962fc2983afb34c8f.1645536711.git.anuj.mittal@intel.com>
+In-Reply-To: <cover.1645536711.git.anuj.mittal@intel.com>
+References: <cover.1645536711.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
 
-On Thu, 2022-03-31 at 15:45 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Sent: den 31 mars 2022 16:16
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to
-> > use shallow mirror tarballs
-> > 
-> > On Thu, 2022-03-31 at 14:09 +0000, Peter Kjellerstedt wrote:
-> > > > -----Original Message-----
-> > > > From: openembedded-core@lists.openembedded.org
-> > > > <openembedded-core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > > > Sent: den 30 mars 2022 14:24
-> > > > To: openembedded-core@lists.openembedded.org
-> > > > Subject: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
-> > > > shallow mirror tarballs
-> > > > 
-> > > > These two repositories are large and overload our downloads server as a
-> > > > premirror but the recipes are easier to maintain as git urls. Compromise
-> > > > and use shallow clones for them.
-> > > > 
-> > > > In order to be effective, we need premirror entries on where to find
-> > > > the shallow mirror tarballs.
-> > > > 
-> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > ---
-> > > >  meta/classes/mirrors.bbclass | 11 +++++++++++
-> > > >  1 file changed, 11 insertions(+)
-> > > > 
-> > > > diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-> > > > index 37dc449ade7..ffdccff5fb4 100644
-> > > > --- a/meta/classes/mirrors.bbclass
-> > > > +++ b/meta/classes/mirrors.bbclass
-> > > > @@ -76,3 +76,14 @@ git://git.gnome.org/.*
-> > > > git://gitlab.gnome.org/GNOME/PATH;protocol=https \
-> > > >  git://.*/.*                   git://HOST/PATH;protocol=https \
-> > > >  git://.*/.*                   git://HOST/git/PATH;protocol=https \
-> > > >  "
-> > > > +
-> > > > +# Switch glibc and binutils recipes to use shallow clones as they're
-> > > > large and this
-> > > > +# improves user experience whilst allowing the flexibility of git urls
-> > > > in the recipes
-> > > > +BB_GIT_SHALLOW:pn-binutils = "1"
-> > > > +BB_GIT_SHALLOW:pn-binutils-cross-${TARGET_ARCH} = "1"
-> > > > +BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> > > > "1"
-> > > > +BB_GIT_SHALLOW:pn-binutils-cross-testsuite = "1"
-> > > > +BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} = "1"
-> > > > +BB_GIT_SHALLOW:pn-glibc = "1"
-> > > > +PREMIRRORS += "git://sourceware.org/git/glibc.git
-> > > > https://downloads.yoctoproject.org/mirror/sources/ \
-> > > > +              git://sourceware.org/git/binutils-gdb.git
-> > > > https://downloads.yoctoproject.org/mirror/sources/"
-> > > 
-> > > Please use PREMIRRORS:append here, or you will wipe away any
-> > > default configuration of PREMIRRORS defined using "?=".
-> > 
-> > No, I'm not using append here since I do want users to be able to reset
-> > this.
-> 
-> That can easily be achieved by instead doing something like:
-> 
-> SHALLOW_PREMIRRORS = " \
->     git://sourceware.org/git/glibc.git https://downloads.yoctoproject.org/mirror/sources/ \
->     git://sourceware.org/git/binutils-gdb.git https://downloads.yoctoproject.org/mirror/sources/ \
-> "
-> PREMIRRORS:append = " ${SHALLOW_PREMIRRORS}"
+From: Daniel Müller <muellerd@fb.com>
 
-This implies that any variable alteration should always use indirection via
-another variable. I am not going to support moves in that direction as it is
-horrible. If our syntax is causing issues we need to resolve that but I'm not
-going to compound it with moves like the above, sorry.
+The runqemu-ifup script performs a bunch of setup steps that
+runqemu-ifdown attempts to undo later on. While a bunch of said setup
+operations are considered fatal should they fail, the iptables based NAT
+setup notably is not.
+The tear down procedure in runqemu-ifdown, however, has the iptables
+based tear down as the last operation, with the status of it determining
+the overall status of the script. Hence, if this step fails, the script
+is considered a failure overall. That is arguably inconsistent: If the
+NAT setup did not succeed, the tear down cannot succeed either.
+To ensure similarity of the two paths, let's not treat the last iptables
+tear down operation any special and allow it to fail the runqemu-ifdown
+script, but just ignore failures.
 
-I'd also note this matches how MIRRORS is being handled.
+Background: we have seen a NAT related setup problem on the ifup path
+(which didn't cause script failure), but then saw an issue bubbled up
+when this operation was meant to be undone on the ifdown path.
 
-> which I think is a far better solution anyway since it is very 
-> hard to reset something in PREMIRRORS as one cannot use :remove.
-> With this solution it is possible to set SHALLOW_PREMIRRORS = "" 
-> in case one do not want the mirrors OE-Core adds by default.
-> 
-> Otherwise you are effectively saying that one can no longer define 
-> a default for PREMIRRORS using ?=, which was possible up until the 
-> above change. And unless I can persuade you to switch to :append, 
-> then this needs to be mentioned in the migration notes for 4.0.
+Signed-off-by: Daniel Müller <muellerd@fb.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0ebcfb034bcad81efef5f746f0aa0b69772901a0)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ scripts/runqemu-ifdown | 1 +
+ 1 file changed, 1 insertion(+)
 
-Lets release note it then.
-
-Cheers,
-
-Richard
+diff --git a/scripts/runqemu-ifdown b/scripts/runqemu-ifdown
+index a104c37bf8..e0eb5344c6 100755
+--- a/scripts/runqemu-ifdown
++++ b/scripts/runqemu-ifdown
+@@ -64,3 +64,4 @@ n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
+ $IPTABLES -D POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
+ $IPTABLES -D POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$dest/32
++true
+-- 
+2.35.1
 
