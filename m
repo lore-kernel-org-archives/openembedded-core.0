@@ -2,63 +2,64 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6070CC433FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 19:17:06 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web12.1857.1645557425787358924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B376C433EF
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 19:17:08 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web12.1858.1645557427636819533
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 11:17:05 -0800
+ Tue, 22 Feb 2022 11:17:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dNaL9zOS;
- spf=pass (domain: gmail.com, ip: 209.85.210.178,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=an4E2pLD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id y11so13061355pfa.6
+Received: by mail-pf1-f173.google.com with SMTP id z15so7311951pfe.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 11:17:05 -0800 (PST)
+ Tue, 22 Feb 2022 11:17:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=mpwwhqXqkzlqacdHpK5rV/x2IN4b9I44GIVlmd98dKM=;
-        b=dNaL9zOSmV6lwP45Dz0ZPCNZdqyfIcgeXdajsXBXFy8wnMvCFRgp07PgZ1IoW05Pr9
-         e4GLkx1mYMeDdbTuzH/dhH801YHpgGcuDw9QbExOKdiEqg4dE6Qv3kngap8xHNtKQWvM
-         /r5+Jtvd3EoWG73zdH0NMgm19VA6T2zIfuXcie3M4w4/IEBsZ1xKC7ru3Nd4/k5J0O1D
-         aFZx0cyn+3WYZDhRvkTYRLV5F5jYnbXBYuogB52LBlowghSzxGFazd2cl+pocrTvq3K9
-         OBcdTXRp/tFWcf4gKzlNzx5x6JAHNnt0arpPokyM7c5bI2nRMSnjJc/b6DkyWxwR9pzb
-         /voA==
+        bh=CfHg4DcEJtMZA8euboN687Jj3f+GOy7LRl/b0rjXE5E=;
+        b=an4E2pLDo7taSfrahChTgCHRNZJRRXc/r/5jxCbmETT3ie1tFGR2Uz61eSqYJz2U+Y
+         MootkDFvrL7UTRl9cTtRISffZJ63iQOi5JlOOkKoXuhFFlb7wN8yFJeM+zofLzguuTx5
+         XEfd5mkuCNQeWolFGbWKZt7ruqaUovk0hHWYZGzNyxMQZ77k26rNKR1TwPTlYy+fL20K
+         uVk8EXHwPZtblstjvNQa8gkPmbbe8xtXBbE5mNBv9XbKpSv52G7t5PuYppJ47KcUUpKT
+         EtQraMnx4hGJf1WLc1T30Ra57YS6YjulZl+kKsFQUmcak95sx2CsClqJqiKcYbK8hjV8
+         QPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mpwwhqXqkzlqacdHpK5rV/x2IN4b9I44GIVlmd98dKM=;
-        b=N/+JUfXrEN+YzZgXw8Bu/9iriwSM4+1qwmU4YPJwgWKcHzXpt5T5/3e3axrHire+3i
-         +FAzxgmaxx+sm5+cBXDptq4sTM8VFKMg5FlmnmMsbdhCqAssqMDMvZu9743+fcS9pl4S
-         gWe+eAlBG5O5aJDteFoWnEfnBf7LTdEa85LXuYiHPApS2opjkwN4NWsDgdyNsqSR03aO
-         aiid1NAT8TxM+nbQYglkuw0qHbqeiAXIpOmnczQoL3ZIQhXgOPS4yeZjtE0l8Ak7a8HH
-         3DQOcukRdyV6QR7Xgyjw5ldo5nzbF4VZF8O3kcjTUHt3WvMTgvEJlxKiiXo8Kx8jmQcu
-         g7ug==
-X-Gm-Message-State: AOAM5338cdJWuaQcMqZE2ZWZdaqe6U8CLXMPIJgGPNDflotCBagf15yq
-	aW8PJSXnRr6IZ/qd4r8UKY+uBUTp8l1K9w==
+        bh=CfHg4DcEJtMZA8euboN687Jj3f+GOy7LRl/b0rjXE5E=;
+        b=02j0WqcEzxxgfCMeqfwrJ+Xoso/8EOltdbyrh6r26bf/9IwxAIYxi7y/e4jJ1mJibw
+         9ejbB3HkYvV1HgyZqs3K/SG3jdSp7OBVJVsx39ZvmH4R7fk6YMRWHpIKB46RI8Mh0w/X
+         cIK/GHS5HRFgCCKKqnqFDjDbvnt7VIrp0qO1SWnKHkxELFZLvUL8flbjWIQPVENicUdh
+         OKYGJ9mgNKn2R1B0donF657feJZLYyXcPhfxxhhLCfrF3Eix37Pr4ZSOertMEm81k/uS
+         0fy/rtWbKC0KweBt9osfLrDPMY+8CRSWzkL96XFT+OFVATdlJtIH/DRigVuiViDEydS7
+         20zg==
+X-Gm-Message-State: AOAM532MptswCnLHb4exHeLoMmZYsHocSVGrBXRtRRmUzRvfkBhhDdus
+	LgiPWJPDLMbI+rd/WAM6iQaTk92UE7llSg==
 X-Google-Smtp-Source: 
- ABdhPJwUW/jss0r5s70gGGYLFVcQN0Yx5xcZdoubyP6Md2stKYguMx9Lhmhh8Fe306NKFA93dWPMdA==
-X-Received: by 2002:a65:4d4f:0:b0:372:a6e1:f675 with SMTP id
- j15-20020a654d4f000000b00372a6e1f675mr20922723pgt.112.1645557424862;
-        Tue, 22 Feb 2022 11:17:04 -0800 (PST)
+ ABdhPJxOFKws3UnEJ4/wVCEOLhd18v5bMzVnCn/A6ef1R8py00TDUhowWfzGynmKyXxowUH68UJ/TQ==
+X-Received: by 2002:a63:4b07:0:b0:373:e921:ca4e with SMTP id
+ y7-20020a634b07000000b00373e921ca4emr15558585pga.58.1645557426717;
+        Tue, 22 Feb 2022 11:17:06 -0800 (PST)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:d208:bddf:2b06:2b5a])
         by smtp.gmail.com with ESMTPSA id
- z13sm18402700pfe.20.2022.02.22.11.17.04
+ z13sm18402700pfe.20.2022.02.22.11.17.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 11:17:04 -0800 (PST)
+        Tue, 22 Feb 2022 11:17:06 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 02/32] python3-flit-core: add recipe for 3.6.0
-Date: Tue, 22 Feb 2022 11:16:28 -0800
+Subject: [PATCH v3 03/32] flit_core.bbclass: add helper for newer python
+ packaging
+Date: Tue, 22 Feb 2022 11:16:29 -0800
 Message-Id: 
- <bffca70cfbf50d5bfc63e617115dfa6a460a6ac3.1645557032.git.tim.orling@konsulko.com>
+ <168dc5b183bbb0e552923f0def94290f98d8e339.1645557032.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1645557032.git.tim.orling@konsulko.com>
 References: <cover.1645557032.git.tim.orling@konsulko.com>
@@ -67,94 +68,44 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 19:17:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 19:17:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162193
+ https://lists.openembedded.org/g/openembedded-core/message/162194
 
-This is the core of one of the "new build system" tools--hosted
-officially as part of the pypa (Python Packaging Authority)
-repositories--it is an increasingly common build tool (e.g.
-typing_extensions and tomli) as declared in pyproject.toml for
-said packages.
+Some python packages now use pyproject.toml and declare
+flit_core.buildapi as the build engine
 
-This package provides a very simple bootstrapping method that builds
-the source tarball (build_sdist) and a wheel (build_wheel).
-
-Bootstrap -native by simply unzipping the wheel to
-PYTHON_SITEPACKAGES_DIR.
-
-Use pip to install the wheel for class-target.
-
-Wheels are the official vehicle for delivering Python packages now.
-Eggs (egg-info) are deprecated and will increasingly go away.
+Use pip_install_wheel class to install.
 
 [YOCTO #14638]
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../python/python3-flit-core_3.6.0.bb         | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+ meta/classes/flit_core.bbclass | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 meta/classes/flit_core.bbclass
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 72cd0125814..7a65612b7c6 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -599,6 +599,7 @@ RECIPE_MAINTAINER:pn-python3-pycryptodome = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-pyrsistent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER:pn-python3-flit-core = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER:pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER:pn-python3-hypothesis = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb b/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+diff --git a/meta/classes/flit_core.bbclass b/meta/classes/flit_core.bbclass
 new file mode 100644
-index 00000000000..d0b88c3fa50
+index 00000000000..0f2eec85d0b
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
-@@ -0,0 +1,41 @@
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
++++ b/meta/classes/flit_core.bbclass
+@@ -0,0 +1,16 @@
++inherit pip_install_wheel python3native python3-dir
 +
-+SRC_URI[sha256sum] = "b1464e006df4df4c8eeb37671c0e0ce66e1d04e4a36d91b702f180a25fde3c11"
++DEPENDS += "python3 python3-flit-core-native python3-pip-native"
 +
-+inherit python3native python3-dir pypi setuptools3-base
-+
-+DEPENDS:append:class-target = " python3-pip-native"
-+DEPENDS:append:class-native = " unzip-native"
-+
-+# We need the full flit tarball
-+PYPI_PACKAGE = "flit"
++do_configure () {
++    mkdir -p ${S}/dist
++    cat > ${S}/build-it.py << EOF
++from flit_core import buildapi
++buildapi.build_wheel('./dist')
++EOF
++}
 +
 +do_compile () {
-+    nativepython3 flit_core/build_dists.py
++    ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} ${S}/build-it.py
 +}
-+
-+do_install () {
-+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-+    PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
-+    nativepython3 -m pip install -vvvv --no-deps --no-index --target ${D}${PYTHON_SITEPACKAGES_DIR} ./flit_core/dist/flit_core-${PV}-py3-none-any.whl
-+}
-+
-+do_install:class-native () {
-+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-+    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ./flit_core/dist/flit_core-${PV}-py3-none-any.whl
-+}
-+
-+FILES:${PN} += "\
-+    ${PYTHON_SITEPACKAGES_DIR}/flit_core/* \
-+    ${PYTHON_SITEPACKAGES_DIR}/flit_core-${PV}.dist-info/* \
-+"
-+
-+PACKAGES =+ "${PN}-tests"
-+
-+FILES:${PN}-tests += "\
-+    ${PYTHON_SITEPACKAGES_DIR}/flit_core/tests/* \
-+"
-+
-+BBCLASSEXTEND = "native nativesdk"
 +
 -- 
 2.30.2
