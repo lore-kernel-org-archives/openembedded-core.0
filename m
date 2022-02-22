@@ -1,107 +1,122 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0900C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 09:59:41 +0000 (UTC)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by mx.groups.io with SMTP id smtpd.web11.10971.1645523981216157490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF28C433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 10:05:07 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.10984.1645524305833052775
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 01:59:41 -0800
+ Tue, 22 Feb 2022 02:05:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gbfBTE95;
- spf=pass (domain: gmail.com, ip: 209.85.221.178,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f178.google.com with SMTP id f12so10047108vkl.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Bqbx4dKp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id s13so3524324wrb.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 01:59:41 -0800 (PST)
+ Tue, 22 Feb 2022 02:05:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tdqidp7BeOf7Jx3q166TCMXtqLTQGHs4MciLFOdmUuY=;
-        b=gbfBTE95DNh6uWHbAVqFQQIv3MCHRlBb7RdEljvD6OXhJUUZwhE/REG8Z6yd10Sstz
-         /SYnT1fs4yWSSr99niQdB/tm/TgsvycwDjBFE3pHJZZSQmMynOjK+8QDj5lffZxnRvZZ
-         2ezqtgrafL+Z7uxifWMGOmQEUPRtcs78jp+tr5G8j0MEIOgqZSF0FO1RyzjJ7c/7zlqr
-         hGi0yNxXXtz61VYmb3Ukqdhe7wi9gDXMZQxA/Goatt2GpvAMi3YsVq+OMyjTrOdx9IEG
-         yusDFI2DRHpNHJlpLbGy5tJjIjiHihV9+4nG/tbIJQRFOHDdLMjxcpL36a4XMDn9QyY4
-         4h3Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=sWtz57KRL1Q2kZ+hbzqkUCz+uE9qF50Zd9eRuefbw34=;
+        b=Bqbx4dKpGSUc2z8CGaWT3aMxCIXrqDWVzpNryMHX0WS2syGsX4Z5cw3NsDPfQNCloA
+         ZIzbnOP8g5cNuoBlCWPTSy8395PaTVSrOrmRczpNuCBEGAfykJu8JupM3ZR/lulUkIL2
+         I/udlhUvy7rD/KUv/b1PnM2Xf4aMYY38PPxEI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tdqidp7BeOf7Jx3q166TCMXtqLTQGHs4MciLFOdmUuY=;
-        b=0hFr4p3ncYesKD9shRJlcnryVx2q8ATKrLv4M7Fa6Qwee4qyvcnjemu3Kfm1MM0TQc
-         g+I2xUwtsMDHxHGLE+AyH98hYBe5kL3pGofawAt8CpPIos4S96xAGD5UxdIobi/cRL6L
-         JpgK4YJDyB2+gwAy4yzmUxB+0kEEY5dIJU9yEnEPwRDms2IW3VD46h+ekpH1gwFsWFx+
-         ysPT70f0QshtAi6ULmBEryTNluUxHiK+GYOnY/l8fL1Mzo37+8TrBWIvGFl1d4IpY+gV
-         JvTi0wowjjLOPb2/CogZSb3T4ckV5udpLvxxBNteaEaH07RTUgDSdSqZOrLAiI2LAbxN
-         BGsw==
-X-Gm-Message-State: AOAM5314e3VUXgPaxlMUpp0xAgG/Z2xZBnHHJD7InCw146lYsxf2bB+i
-	lTVwoiVBcz6vSQQ2vBHozoSOKxig6KSbUG/Xs2NwvDEc
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=sWtz57KRL1Q2kZ+hbzqkUCz+uE9qF50Zd9eRuefbw34=;
+        b=fgxgsE3k+BAcEfvys2P4gxfgq9ugY8vO2gSWw+o4hnlw1s9iA4bu+3p/U9KlX9PCbc
+         D5iBbAgTNPAxLKpCragWV9u6FZGnAO8AcuF77GvE06IMROhSSUIV9DyFDiuOz4cSvKfn
+         APP1F7fNpSu85OkpSDJ393vhEEAoazny6rlulb3B/kqDfh/B2nYGAcbspjJtyFFsg4D7
+         M3XP9mXV+UGrIeCUHj+0fX3xgHY6+GaM9vj0mMvi3z2HbdDzr8PyY6LIclER55W1Tesg
+         hKMXjRUIyAtlXW6ui2YhAyHnOIfYzt2QSpnmV3Vw81QwONAHymTcXa81ArSOBFs/u+/m
+         jdkA==
+X-Gm-Message-State: AOAM532fe7b7eJ//Fg3y1HZXIwUBM9r9xYcGDDmJrNxot0ZI3Z22XecT
+	SG+Wz5UgfEDLc1Q8KYESVIHQdA==
 X-Google-Smtp-Source: 
- ABdhPJyBtL26t81WiN/Oq0WbeJbTZ+xJBt4Xi6VpvPlljgIlfXD6JYYmG5dAc4vcCF6JiKY4pwNRePLIkdHDaqhCFeY=
-X-Received: by 2002:a05:6122:20aa:b0:32d:4894:f680 with SMTP id
- i42-20020a05612220aa00b0032d4894f680mr10343062vkd.1.1645523980339; Tue, 22
- Feb 2022 01:59:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20220222035234.463162-1-andrew@aj.id.au>
- <20220222035234.463162-8-andrew@aj.id.au>
-In-Reply-To: <20220222035234.463162-8-andrew@aj.id.au>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 22 Feb 2022 10:59:28 +0100
+ ABdhPJx11bj+AYP6c2EyTHNgd2/yR0ozrDSBllx90TjwbBvcFvMGBEpGlLtiGLPmwwwFMIVKiIm3Ow==
+X-Received: by 2002:a5d:6284:0:b0:1e4:9e4d:8488 with SMTP id
+ k4-20020a5d6284000000b001e49e4d8488mr19326080wru.75.1645524304145;
+        Tue, 22 Feb 2022 02:05:04 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:26ce:ff82:5c7d:d03e?
+ ([2001:8b0:aba:5f3c:26ce:ff82:5c7d:d03e])
+        by smtp.gmail.com with ESMTPSA id
+ az7sm2407533wmb.14.2022.02.22.02.05.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 02:05:03 -0800 (PST)
 Message-ID: 
- <CANNYZj_3sRMqa-F_GvR2fCi2vNtafyNOvyHB_WhS99EhpoVK_w@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 7/8] rust: Add snapshot checksums for
- powerpc64le
-To: Andrew Jeffery <andrew@aj.id.au>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <0ee2484cba7068b4b43330ff2d371ccf14bc94b4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 1/8] rust: Migrate
+ arch_to_rust_target_arch() to rust-common class
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrew Jeffery <andrew@aj.id.au>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Feb 2022 10:05:02 +0000
+In-Reply-To: <20220222035234.463162-2-andrew@aj.id.au>
+References: <20220222035234.463162-1-andrew@aj.id.au>
+	 <20220222035234.463162-2-andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 09:59:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 10:05:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162128
+ https://lists.openembedded.org/g/openembedded-core/message/162129
 
-I have to note that YP does not support ppc systems as build hosts;
-can this be kept in a bbappend?
-
-Alex
-
-On Tue, 22 Feb 2022 at 04:52, Andrew Jeffery <andrew@aj.id.au> wrote:
->
+On Tue, 2022-02-22 at 14:22 +1030, Andrew Jeffery wrote:
+> This will allow us to use it elsewhere for architecture name
+> translation. This move is motivated by powerpc64le support.
+> 
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 > ---
->  meta/recipes-devtools/rust/rust-snapshot.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
-> index 74b558262f62..d6ffe92d07ee 100644
-> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> @@ -14,6 +14,10 @@ SRC_URI[rust-std-snapshot-aarch64.sha256sum] = "3618da916a0f92f241cf1d67d04bb578
->  SRC_URI[rustc-snapshot-aarch64.sha256sum] = "f26811e48d03c56c125de03d389e1ae7c6df36990953c1670c6a5676bc12d4cb"
->  SRC_URI[cargo-snapshot-aarch64.sha256sum] = "6d11cd94618d80cda273eeeae7285980445f61a49ebacc616777b482a41cbf3f"
->
-> +SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] = "fc07eb3e9f3d227428cc5b53ca868e3de375bc198ce4dce7b87a9246e6fec81a"
-> +SRC_URI[rustc-snapshot-powerpc64le.sha256sum] = "f43cb99109c3438c77c7079cdce4673df3320e310158e0b4d949c1babc4300fc"
-> +SRC_URI[cargo-snapshot-powerpc64le.sha256sum] = "599cf1b5a8cdbf76d591621bc9222aefa60e2f5fd378ae71c4dcf4514c47122e"
+>  meta/classes/rust-common.bbclass           | 16 ++++++++++++++++
+>  meta/recipes-devtools/rust/rust-common.inc | 16 ----------------
+>  2 files changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
+> index 98d65970e8c0..2f2a31867ad0 100644
+> --- a/meta/classes/rust-common.bbclass
+> +++ b/meta/classes/rust-common.bbclass
+> @@ -1,5 +1,21 @@
+>  inherit python3native
+>  
+> +# Convert a normal arch (HOST_ARCH, TARGET_ARCH, BUILD_ARCH, etc) to something
+> +# rust's internals won't choke on.
+> +def arch_to_rust_target_arch(arch):
+> +    if arch == "i586" or arch == "i686":
+> +        return "x86"
+> +    elif arch == "mipsel":
+> +        return "mips"
+> +    elif arch == "mip64sel":
+> +        return "mips64"
+> +    elif arch == "armv7":
+> +        return "arm"
+> +    elif arch == "powerpc64le":
+> +        return "powerpc64"
+> +    else:
+> +        return arch
 > +
->  SRC_URI += " \
->      https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
->      https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
-> --
-> 2.32.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162121): https://lists.openembedded.org/g/openembedded-core/message/162121
-> Mute This Topic: https://lists.openembedded.org/mt/89310363/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+>  # Common variables used by all Rust builds
+>  export rustlibdir = "${libdir}/rust"
+>  FILES:${PN} += "${rustlibdir}/*.so"
+
+
+If we're moving this, it may be a good candidate to move to a new
+meta/lib/oe/rust.py python function library for rust. I appreciate that is
+slightly move involved and will likely need the imports in base.bbclass to be
+tweaked but is probably the better long term fix.
+
+Cheers,
+
+Richard
+
+
+
 
