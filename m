@@ -1,175 +1,247 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 281B5C433EF
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 18:47:23 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.14])
- by mx.groups.io with SMTP id smtpd.web11.1450.1645555641183381027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 659F8C433EF
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 19:17:03 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.1881.1645557422361486116
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 10:47:22 -0800
+ Tue, 22 Feb 2022 11:17:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com
- header.s=selector1 header.b=SAOzIJY8;
- spf=pass (domain: outlook.com, ip: 40.92.89.14,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bE7N1Cz27gDvuGuPBDX0yp46wEbb36Xz/agVUAYPPkw2LCFJ3jHsyg4TDKP0lc25BOuaE7M5iHAMaomj63aDSxtLDsRqq1TliM/rldLdYzpLKxhjCaBW+8ej8FKD0VkwmHxxLRmOY/DP+nr06SapFB5lnqr86HtOo8eki0FJjbp9F+BMpEZvm7ceULGEopr9hPpJG7FA1x2yFIZNGuQ8CrLQeoYugQBthQ+l/DTx4lqVhEV05pMpFBcj04BsjqyjYlGPJ9xqx7XRW99of6/54Dqj33u/QIveSiKaWi6xO0gQ7V3anqEpsnfulCJBNZhjzoHCSDlFHtTo2juSmqi09A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2NYTusBme2nLwXbyPLSy6owMcGA4/VTQwfdQmqS+4VQ=;
- b=gPOUX98e2W9TX+/NiPx1n0/7mBG/hqx2i+T96ieVsYpuSJhbU9X6y/T3ExIo/Y2A5I4ko9kEYbtQnVSwBWLDGgNQlPviyvye0OAw+2RQ+mf6YpgiXmHu0Ql0ErR1Uuqsb5BzIAIChypHZPiOKUl9qip5MNbbVNsCMv6lucQtI1zBRUA6EZimXQVL+dIi8njE7t+qGoQRXDWH/PgegM5kZKmD/8ksE6raFg/WxnV1GdmnJmwuPBBgnqsziv6KceJ6MkNmYZKqINMiN+d9pR0f4ElQR20GMznXjtIiWgZZPYR/3OjE2uGswkQ7q/UpBKZ0z9nzsstY/1apTEoFdEUUyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2NYTusBme2nLwXbyPLSy6owMcGA4/VTQwfdQmqS+4VQ=;
- b=SAOzIJY8bDk/8uSPNZth620xuA1WCVqoRGiYB0p3kajfQqzVUX8xepHK/1g5+HcaC/zUB0DMOqYAYtoDyORUErQ+XXfulibwO4/3uJQqFAvhWSs24iQJwHkaoh35TkUUQojecnsftNhXoZpWPWqmIPJFKz541U0HUPl9sU/J6jR03XFYh+cSn174TBRCQw0M38i6Sy+SenbT9+b4x8UqhBXUyIofkIaoSv+cXSRMTivUNHxoSWa+SSM6XEGR9LvoSlP1WHqXLoINgnM18PLWn/JY8kZ/7b/MoFpdejaBQlc6IkGCWU42NKKI+AwSHIjUEv0b0tFYgOkBpW7jn+j+7A==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM6PR09MB3336.eurprd09.prod.outlook.com (2603:10a6:20b:f2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Tue, 22 Feb
- 2022 18:47:18 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b%6]) with mapi id 15.20.5017.021; Tue, 22 Feb 2022
- 18:47:18 +0000
-From: Konrad Weihmann <kweihmann@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g6PhhLo7;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id w37so11440511pga.7
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 22 Feb 2022 11:17:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q+jpw2q5Bcj5lyOj5p9bFjs1iJI2flRAXsroTJWkR+Y=;
+        b=g6PhhLo7IdyksQxwUFpu7CxSRP/xpPUQd8YiYbWYbL1sXCIjoY3nj5QqAb+Zpg+5jQ
+         Zs76+NhwREGVS5Z4cu3ZkOq7UscqDuV9l4xWfSNeikbrVn1mBkyfZstGXkTf61j92cgz
+         21REwwKN5+Injb7qSYTH8crpjksgf1zfBawQN5JQsglbg/HPdoMefZbMZvfJBnBrk53B
+         P2DQ8JITDhkjkuG0Pr21f69zcS3hUmKcS/iO7ETArX6XAWPOna03gcAZYNAu5QAUP2IY
+         wpH7iumfMGqpNxJXfHKm7VX3BPE75N9drFxsGQx9oISUpj90rIX24aBik+abl0171hT8
+         Vjlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q+jpw2q5Bcj5lyOj5p9bFjs1iJI2flRAXsroTJWkR+Y=;
+        b=FmKBPHy56nG+8IAbSmiWj1DP8sNeHjm6ifYFZUxF7J2G3fHI6oUJEbfMYS5l7WGgFY
+         V19lqO3xw+fV3AzpnywrGrWQJPicZldB16KKq4hUxaBgdX21uDPLgT3qPyb05pQZpaqh
+         is12L80Duq5d0CI3T2qFOPs2ddGRzTOdp3Hmc9tp2rkG7tNZ3QuHF2TraT+Y7gLoebow
+         llAornOvaUppYRLC+0Dlz6ytuJ0Sd1GCrtZq2xleMnzpwMz7vWeYfSIWw9FdIQAyptIX
+         yHqlVvjSWmxhX5HxaWnHeY261InXE9GkQsnebg2CQIGmEbXfCTHx2+3SrSoMtGiUHDTE
+         TN0g==
+X-Gm-Message-State: AOAM5312M6BYJ4zVKf3lG8VSmR0V93Baha/c521KIBfrfhI77quVQxYJ
+	8Ry16OMHw6QZD7UcGwHSK9UOSLXD1dAG5A==
+X-Google-Smtp-Source: 
+ ABdhPJyO0/5kdc7MbkrmTv0tAD5ExBARJHAXwGtttXRCRLPzwR0+vdyxls822isNVZk8UqM6ei3BoA==
+X-Received: by 2002:a63:6d0d:0:b0:370:14d8:5962 with SMTP id
+ i13-20020a636d0d000000b0037014d85962mr20681090pgc.463.1645557421193;
+        Tue, 22 Feb 2022 11:17:01 -0800 (PST)
+Received: from nereus.hsd1.or.comcast.net
+ ([2601:1c0:6000:1b20:d208:bddf:2b06:2b5a])
+        by smtp.gmail.com with ESMTPSA id
+ z13sm18402700pfe.20.2022.02.22.11.17.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 11:17:00 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-CC: ross.burton@arm.com,
-	ralph.siemsen@linaro.org,
-	Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH][RFC] cve-check: use local copy instead of global db
-Date: Tue, 22 Feb 2022 19:46:59 +0100
-Message-ID: 
- <AM9PR09MB46421C5E3A51479C951310FDA83B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-TMN: [QmtLR1Q5V4dlb0u6BVuNrC+W3ral1HWCStgl9KHGCJNVTdPw2/ZMvJr3XeEqs7Gq]
-X-ClientProxiedBy: AM6PR04CA0021.eurprd04.prod.outlook.com
- (2603:10a6:20b:92::34) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <20220222184659.285541-1-kweihmann@outlook.com>
+Subject: [PATCH v3 00/32] Python PEP-517: build wheels and install with pip
+Date: Tue, 22 Feb 2022 11:16:26 -0800
+Message-Id: <cover.1645557032.git.tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2c3fddce-6e30-4fb7-e8b4-08d9f633c07b
-X-MS-Exchange-SLBlob-MailProps: 
-	aa/WAlXx4eSPnZ8MVtxgAfgPETi0E/Z4RoDRTDNFe9vxbXGekoOnI2vtAJ3G9FbjYWuXgpubdT/vBzDiIMiOy3W4xnBhX3fCpbg7ADiyCcH6cbA6sXIeEA6TuzBYChSbf+rEWR1NUc0Kw+zdHNn2o0oLbZAcoT4x0i1ilYi03LAoO+5Luj7HF1lj/McFMpDIol9kDNdRb2O4MofPTZ2ra+Xaux9C8t4Jou8nJt0VZNatro8YX/DvDy/NF1gwA4cqfWNLnRzo9U6s8vMSHU4/uyYCBh3cqKx9yyMvxfyXiDpSJ5mJUk6jiCC6jJ3CwZ0LtUXOfTER5M+lXM6bYDpg53JU3SQ+qlAaumdM0k8f5NkrygbLfovE58fu6ElYoWl166FtxAdaSBTdem5C2mmm5QSrbcjotGp/86rD2nG4LN6YzuvIbIseH3dsjby1+1GJDoDLW+y8yXSQ3uaFu9dkLIkAVZqSRnQBg3zVrP3vf9/3K8Dz5TYazANjKjRgKcqS4azUIrF6MSnHPomsPFYo5bBcRFmm/EIJeSFXxwm8HfkpNMbiZAZrKM9dDK7/OBCROYg0o+lXT/Xcqvmh3ixDSxCplfdzU1bG5a1wEFF8VEeEQk6OqbP4a7hop1mrHKXL8q0Adgt9clwDB8QaePapzto0+kkGyttCYqBbYtBoSX3HZYR/BQUCJ9a1+FCKQ5OczNcQhPh5/LTV07UDb60gEXvcamf9Yz8tbRicpWXCzG92zRK7uM+CSgsMizSvd3rUxosmCz1NuFYnWExP8/luny5xngaomzFB
-X-MS-TrafficTypeDiagnostic: AM6PR09MB3336:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	S3jExDFg0y61mQBXKD6zxMfnn/yJvFXkFNCqVQR0G0LpkDgFLpNApb9KkbpRLeNexe4JtRqsIGObyRwKntbQIBIeGHr2Ax8ILcbI4BVr0xjJdaxRgVacrzjw3tDNWI0LuSBAfYQGg2HO+ND1IBAlivvWFnzwfBJy3wGruMVDmaP4DiYd64PtlO4TYK7R2PQCps3+e4LiV5Ol8S+eK18EQBe0btcwFf/HclkTGMsX2uEcG9aj/JsUSF+Lgmi6PQQ7Yya+fUTfP7oJLhrQtAyy4f82zZ4VIlVFkxohrcYaDgxKTarzA9Y7+TXgWKXcqrjeDwrHhrNuB7aOLGBDznUmYX6tONH6Cu5Z8NoExaXBNqizBDqnuU5sSyvwt8BlVRAqG/fafWcrQh9xzhOYwzavQaFc4phxhnZBBpiIei1PBVQXpYZ1lvEU+B67x/nVT5MxPcCMgf8lyF7T63DWziYGAZORNH93mlIgbdwXvcLtH6LDVTlDhuwhDwnGZkxKVubN6C5GRsMGs2z8afKydCxGldsT/6YrQKHFvlD4FNyGj580xOvi3KSfmiub1kKIjW9tJRuDGybQtL/FqG8bHevrMg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?9dpfTFiEkvcYy8Ss7qQ/jtJ2IV3A33rBmRM97GjoI9UANraZw55dRjBWmCWs?=
- =?us-ascii?Q?ZXJ1G+/rhyjxd4yQtdUgE14kALVDpYRVXNYra5F0g4n32TQNCNrJ9QLq3WJC?=
- =?us-ascii?Q?hXltHOR3bMKwcDUTycP2zImp9zn1eAxBBTF8oBeWWkWhIlPd5V35K/nq5pel?=
- =?us-ascii?Q?W6srIWx5i9v5n6q/Yg8sU0ZH33fG9/bOhCfTrj0iygY6NSxAtJuXBo3wTdQz?=
- =?us-ascii?Q?wi5+O/abJR+jl55O07UmtuigsfILnFf3agbW2JpEBZYq93rp+J8lvTEhIl1B?=
- =?us-ascii?Q?IdmHPjr2zaTA+tIikC/zHzfKoIKvd8ODd3SF4oyhjGxPC5zcsB7XjMU+0IRi?=
- =?us-ascii?Q?liMUlgtKOYqsXzzFMwkHOcXFXHcSxhu19yszJNRq/yAs0X/JQa9JGD4dfUC6?=
- =?us-ascii?Q?u50UvysK2qqt6+7dOu9AmrQIK/ZhEX6KZeoTodajgPrBI9Mu9pEck3qIREBT?=
- =?us-ascii?Q?TQ+dcTM8/6ou7w7i17BKHi/Hd+HTwV5arSjAwf0EsWbMMrkVkyijgl3mhw6T?=
- =?us-ascii?Q?DglT1jcxzS1LOcG/kmc5L4+8GftlAB6DLc9NdtZvb22uO0YsVP0YZOYC7M9u?=
- =?us-ascii?Q?WFORHTJGBIbE+zgxhagCw1lOhbGZnfduyQiejYmjeNZJtjjCnaP71PaHdp93?=
- =?us-ascii?Q?D2OAzuegowseS1QjQSOiAIQg1UgwtkfbgkPiKcdP6OGMwfb9Wpm8xntwwYAy?=
- =?us-ascii?Q?OjpOYyk2BMnkOTOAW+1KM3lZRnHzGu9XYFeOkhuE2dQEgS5K0ZsKtBLecnEz?=
- =?us-ascii?Q?bwrRw+v12uN1SaOlpek41M+nBPaCKsO80F0SgSXbWspMAevgEFHdaqf08Xt0?=
- =?us-ascii?Q?6UhznJUCEEz1y7hSmfDZaVyapBuk5FjaMc+dJ5nTdz+iR8xIw3QMmhBYq3D5?=
- =?us-ascii?Q?WkL+8Md1hQMQtIF8MYNUxBcvom0JhJ9wQ5RNU2CafuGOQkQxCzViiUnsEk36?=
- =?us-ascii?Q?Wvlf3lygg8vbTp//DsxBzUST0KGNHvbM7zKP9Ipa3J5QXePa91AC1vUnZ7lj?=
- =?us-ascii?Q?DRRTl70JInzhUuXp6mf0CTmouA=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 2c3fddce-6e30-4fb7-e8b4-08d9f633c07b
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 18:47:18.6808
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR09MB3336
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 18:47:23 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 19:17:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162190
+ https://lists.openembedded.org/g/openembedded-core/message/162191
 
-instead of using a global DB (default in DL_DIR) copy an existing
-DB file into WORKDIR and use it from there.
-This should avoid running into the reported "database is readonly" error
-while at the same time there's no need to arbritrarily limit the
-cve_check task to just one run at a time
+Upstream Python is moving to pyproject.toml rather than setup.py and
+wheels rather than eggs. The main place this is documented is in
+PEP-517[1]. Installing packages with setup.py install is deprecated.
 
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
-This patch should be tested by users that run cve-check on a regular
-on hosts with as much as possible cores, before merging.
-In local testing I haven't found any issues on a world build,
-but as mentioned in the previous patch the issue is kind of hard to
-reproduce.
-So this patch aims at lifting the arbitrary task lock, while preventing
-access by more than one thread/process at a time by sqlite.
-Feedback through heavy local testing is very much appreciated
+We have a choice with the 'kirkstone' LTS release of introducing this
+series (and fixing any fall out during the stabilization period) or
+living with deprecated Python packaging for the duration of the LTS (at
+a minimum 2 years). This seems to be a compelling enough reason to bring
+in this series, even if it results in a slight slip of the 'feature
+freeze', which is officially tomorrow, Monday 21 Feb, 2022.
 
- meta/classes/cve-check.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+This series bootstraps python3-setuptools-native,
+python3-flit-core-native, python3-wheel-native and python3-pip-native,
+simply unzipping the wheel into PYTHON_SITEPACKAGES_DIR. This allows all
+other recipes to be installed with pip, as intended by upstream.
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s
-index 21d3da7974..e4389b7001 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -28,6 +28,7 @@ CVE_VERSION ??=3D "${PV}"
- CVE_CHECK_DB_DIR ?=3D "${DL_DIR}/CVE_CHECK"
- CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
- CVE_CHECK_DB_FILE_LOCK ?=3D "${CVE_CHECK_DB_FILE}.lock"
-+CVE_CHECK_DB_FILE_LOCAL =3D "${WORKDIR}/${@os.path.basename(d.getVar('CVE_=
-CHECK_DB_FILE'))}"
-=20
- CVE_CHECK_LOG ?=3D "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?=3D "${TMPDIR}/cve_check"
-@@ -94,9 +95,11 @@ python do_cve_check () {
-     """
-     Check recipe for patched and unpatched CVEs
-     """
-+    import bb.utils
-     from oe.cve_check import get_patched_cves
-=20
-     if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-+        bb.utils.copyfile(d.getVar("CVE_CHECK_DB_FILE"), d.getVar("CVE_CHE=
-CK_DB_FILE_LOCAL"))
-         try:
-             patched_cves =3D get_patched_cves(d)
-         except FileNotFoundError:
-@@ -111,7 +114,6 @@ python do_cve_check () {
- }
-=20
- addtask cve_check before do_build after do_fetch
--do_cve_check[lockfiles] +=3D "${CVE_CHECK_DB_FILE_LOCK}"
- do_cve_check[depends] =3D "cve-update-db-native:do_fetch"
- do_cve_check[nostamp] =3D "1"
-=20
-@@ -185,7 +187,7 @@ def check_cves(d, patched_cves):
-     cve_whitelist =3D d.getVar("CVE_CHECK_WHITELIST").split()
-=20
-     import sqlite3
--    db_file =3D d.expand("file:${CVE_CHECK_DB_FILE}?mode=3Dro")
-+    db_file =3D d.expand("file:${CVE_CHECK_DB_FILE_LOCAL}?mode=3Dro")
-     conn =3D sqlite3.connect(db_file, uri=3DTrue)
-=20
-     # For each of the known product names (e.g. curl has CPEs using curl a=
-nd libcurl)...
---=20
-2.25.1
+Three new classes are introduced:
+(1) flit_core which builds PEP-517 compliant packages which use
+    flit_core.buildapi as their build-backend.
+(2) setuptools_build_meta which builds PEP-517 compliant packages which use
+    setuptools_build_meta  as their build-backend.
+(3) pip_install_wheel, which simply installs wheels built by other
+    classes.
+
+The original setuptools3.bbclass do_compile is modified to
+'setup.py bdist_wheel' (from python3-wheel-native) rather than the deprecated
+'setup.py build' mechanism. 
+
+The original setuptools3.bbclass do_install is modified to
+use the pip_install_wheel.bbclass to install wheels with pip rather than
+the deprecated 'setup.py install' mechanism. 
+
+For pip install, we disable dependency checking (--no-deps) because it
+proves to be brittle in our environment without providing full wheel
+cache that seems like overhead that we do not need. We also disable
+fetching wheels from pypi (--no-index). This is no different than our
+normal workflow of requiring dependencies to be defined in a recipe.
+
+Missing from this series is documentation of the new features, classes
+and variables (this will be done under separate cover).
+
+Also desired and previously discussed in YP meetings is a helper
+function to warn that a recipe which currently inherits setuptools3
+but has a pyproject.toml and defines a build-system.build-backend should
+instead use of the new PEP-517 classes. This function is still in progress.
+
+During testing, recipes which use python3-setuptools-scm are failing to
+determine the version of the python package, For several recipes, the fix
+was to use pyproject.toml and PEP-517 build backends. To be sure, other recipes
+are still going to fail for the short term, until the root cause can be
+determined. This was not seen again in v2 builds.
+
+Another PEP-517 build-backend, poetry.core.masonry.api has been
+identified in recipes in meta-python, but not in oe-core. The
+python3-poetry-core recipe is WIP, but brings in a number of
+dependencies that are perhaps not worth it to bring into oe-core at this
+time. Rather we can support these recipes in meta-python?
+
+Fixes in v2 include passing --root=${D} to pip install (rather than --target)
+and also passing --prefix so that scripts are (usually) installed in the proper
+location. pip install also 'helpfully' overwrites python3 intepreter with nativepython3
+in #!, so add a fix to return the values to what is actually correct (similar to what is
+done in setuptools3.bbclass). Also several recipes still needed PIP_INSTALL_PACKAGE defined.
+
+Fixes in v3 include:
+* passing --force-reinstall to pip install to ensure FILES can be
+  populated.
+*  passing --no-cache to pip install to avoid a (harmless) warning about
+  $HOME
+* Fix check for ${D}${bindir}/pip in python3-pip-native (-e vs -f)
+* Properly note that python3-wheel recipe is 0.37.1 not 0.37.0
+
+[YOCTO #14638]
+
+[1] https://www.python.org/dev/peps/pep-0517/
+
+The following changes since commit 41ae26ecab731f2fb6593df143476c94183be209:
+
+  releases: update to include 3.4.2 (2022-02-21 16:46:22 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/git/poky-contrib timo/bootstrap-wheels
+  http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=timo/bootstrap-wheels
+
+Tim Orling (32):
+  python3-wheel: move 0.37.1 from meta-python
+  python3-flit-core: add recipe for 3.6.0
+  flit_core.bbclass: add helper for newer python packaging
+  python3-wheel: inherit flit_core
+  pip_install_wheel.bbclass: add helper class
+  setuptools_build_meta.bbclass: add helper class
+  python3-pip: inherit setuptools_build_meta
+  python3-attrs: inherit setuptools_build_meta
+  python3-git: inherit setuptools_build_meta
+  python3-pytest: inherit setuptools_build_meta
+  python3-setuptools-scm: inherit setuptools_build_meta
+  python3-zipp: inherit setuptools_build_meta
+  python3-iniconfig: inherit setuptools_build_meta
+  python3-py: inherit setuptools_build_meta
+  python3-pluggy: inherit setuptools_build_meta
+  python3-setuptools: inherit setuptools_base_meta
+  setuptools3.bbclass: refactor for wheels
+  python3-more-itertools: set PIP_INSTALL_PACKAGE
+  meson: inherit setuptools_build_meta
+  python3-libarchive-d: set PIP_INSTALL_PACKAGE
+  python3-smartypants: patch hash bang to python3
+  python3-scons: merge -native recipe
+  python3-subunit: merge inc; set PIP_INSTALL_PACKAGE
+  python3-magic: set PIP_INSTALL_PACKAGE
+  bmap-tools: set PIP_INSTALL_PACKAGE, BASEVER
+  asciidoc: set PIP_INSTALL_PACKAGE
+  gi-docgen: set PIP_INSTALL_PACKAGE
+  numpy: set PIP_INSTALL_PACKAGE
+  python3-dbusmock: set PIP_INSTALL_PACKAGE
+  python3-mako: inherit setuptools_build_meta
+  python3-packaging: inherit setuptools_build_meta
+  python3-nose: drop recipe
+
+ meta/classes/flit_core.bbclass                |  16 +++
+ meta/classes/pip_install_wheel.bbclass        |  39 +++++++
+ meta/classes/setuptools3.bbclass              |  20 ++--
+ meta/classes/setuptools_build_meta.bbclass    |  18 ++++
+ meta/conf/distro/include/maintainers.inc      |   3 +-
+ meta/recipes-devtools/meson/meson_0.61.2.bb   |   4 +-
+ meta/recipes-devtools/python/python-nose.inc  |  18 ----
+ .../python/python-subunit.inc                 |  14 ---
+ .../python/python3-attrs_21.4.0.bb            |   2 +-
+ .../python/python3-dbusmock_0.25.0.bb         |   1 +
+ .../python/python3-flit-core_3.6.0.bb         |  41 +++++++
+ .../python/python3-git_3.1.26.bb              |   2 +-
+ .../python/python3-iniconfig_1.1.1.bb         |   4 +-
+ .../python/python3-libarchive-c_4.0.bb        |   2 +
+ .../python/python3-magic_0.4.25.bb            |   1 +
+ .../python/python3-mako_1.1.6.bb              |   2 +-
+ .../python/python3-more-itertools_8.12.0.bb   |   2 +
+ .../python/python3-nose_1.3.7.bb              |   2 -
+ .../python/python3-numpy_1.22.2.bb            |   1 +
+ .../python/python3-packaging_21.3.bb          |   2 +-
+ .../python/python3-pip_22.0.3.bb              |  19 +++-
+ .../python/python3-pluggy_1.0.0.bb            |   2 +-
+ .../python/python3-py_1.11.0.bb               |   2 +-
+ .../python/python3-pytest_7.0.1.bb            |   4 +-
+ .../python/python3-scons-native_4.3.0.bb      |   7 --
+ .../python/python3-scons_4.3.0.bb             |  13 ++-
+ .../python/python3-setuptools-scm_6.4.2.bb    |   2 +-
+ .../python/python3-setuptools_59.5.0.bb       |  19 +++-
+ .../0001-Change-hash-bang-to-python3.patch    |  47 ++++++++
+ .../python/python3-smartypants_2.0.0.bb       |   1 +
+ ...001-setup.py-use-vendored-_distutils.patch |  27 +++++
+ .../python/python3-strict-rfc3339_0.7.bb      |   4 +-
+ .../python/python3-subunit_1.4.0.bb           |  17 ++-
+ ...roject.toml-from-flit-backend-branch.patch | 100 ++++++++++++++++++
+ .../python/python3-wheel_0.37.1.bb            |  24 +++++
+ .../python/python3-zipp_3.7.0.bb              |   2 +-
+ .../asciidoc/asciidoc_10.1.1.bb               |   1 +
+ meta/recipes-gnome/gi-docgen/gi-docgen_git.bb |   1 +
+ .../{bmap-tools_3.6.bb => bmap-tools_git.bb}  |   6 +-
+ 39 files changed, 414 insertions(+), 78 deletions(-)
+ create mode 100644 meta/classes/flit_core.bbclass
+ create mode 100644 meta/classes/pip_install_wheel.bbclass
+ create mode 100644 meta/classes/setuptools_build_meta.bbclass
+ delete mode 100644 meta/recipes-devtools/python/python-nose.inc
+ delete mode 100644 meta/recipes-devtools/python/python-subunit.inc
+ create mode 100644 meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+ delete mode 100644 meta/recipes-devtools/python/python3-nose_1.3.7.bb
+ delete mode 100644 meta/recipes-devtools/python/python3-scons-native_4.3.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-smartypants/0001-Change-hash-bang-to-python3.patch
+ create mode 100644 meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch
+ create mode 100644 meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
+ create mode 100644 meta/recipes-devtools/python/python3-wheel_0.37.1.bb
+ rename meta/recipes-support/bmap-tools/{bmap-tools_3.6.bb => bmap-tools_git.bb} (86%)
+
+-- 
+2.30.2
 
 
