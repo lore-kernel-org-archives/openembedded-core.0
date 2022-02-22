@@ -1,114 +1,736 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79728C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 18:35:01 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web09.1325.1645554900662928147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7730C433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 18:40:08 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.1390.1645555207060112048
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 10:35:00 -0800
+ Tue, 22 Feb 2022 10:40:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eK4R2QT1;
- spf=pass (domain: gmail.com, ip: 209.85.222.172,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id c7so802746qka.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zuz2nntI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: ticotimo@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id gb39so45771847ejc.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 10:35:00 -0800 (PST)
+ Tue, 22 Feb 2022 10:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kn2BQjaanpfgTk0d3XWBv3ByVU4iuTseevf/4tuFPN4=;
-        b=eK4R2QT1CX/FzYhrWE7N1anETg4B2jduCPpuRKyYx8KHK4RMn0HyNwZYkgjE33dGiR
-         XN6yrDNAxnq0iqWdJt6nQaiqhDb8I5lHxrE8g6L8G5Dio2aDlcLY9QZl4wJW8s75LvdJ
-         G/fwqdqCUzLFpw3Dy9rBFhH13rH1R8fP9gDll9veLAYnnX+WZuJqGt3A3kZsvAsxT/A/
-         z6F8i18ePeaMDsAmWhoKYZOHtLtq0DyLMBAU2K4E7OH/MoV/k83t3dADNugaVtgEtlUC
-         8SiobHXHMcdjvkwXc6Uqhv+zNNU4bZ/IoghFhrGaXd6gRrVmSNP6NNyi6AL3CvfBFqmB
-         BwfQ==
+        bh=8jYHMyUTCYt1aJLmeQ1EaRAo+L7ndv8j/V2iauK3Gyc=;
+        b=Zuz2nntIO8HxvU41sirMpWFCeki5IVdpTrkhKkcRgVSIrQBcHwsktoaLokiR3r60mH
+         +qTfGdJR76hsnUpOw7LkRFhaCkFK3IE7i099sM4AQrV7SEpzUBSnOzi2O96xoM4NUlkT
+         tvYtlUoMWC3fwuBoBxXqRD8rxywrJKVJglp7JmnYy+N3C8BXl86EQ0Osr+lc6wdNAnPi
+         bXuMxkE1V7XDhGEqIR4Bp6kDCZCX03Ws5Dv+kVWqyqcIKqztx9AhRrvT9FMNd0fFLCiy
+         rzA1kj55C4qIiYJe3jyne4bK8/bxI7jwCdWogbrRN5we+GWYE+7ULxCyWAJRsStTaaS1
+         56Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kn2BQjaanpfgTk0d3XWBv3ByVU4iuTseevf/4tuFPN4=;
-        b=1qgpVLrn6CDhUx6/Va72y5KR9kjepplARXHOeZabCj1LCJfPgfSgSz+bWCKHBYQrcq
-         7f6MoA1eO8B+04PjOx5kITLDmps+7239yU0JvG6DFRzd+14q3nXc+MqcntUJA4PNTQKR
-         nBDBqEpjnN26RlB1v2nX8oh0guyd7xS3220OSyeOtoDid0kNM/DnDzOLFlB2uqmlVYXY
-         5N2KOtlqGiyUGN3T0dXeoIRL5xbi4QfQJaSCWeZWNN809Sp9VNen7nsejHeutG4jGVc6
-         mVUMzVz5OwFMyoSwrGve2ShpXS5vwWiSgE25tWxRtQSxOFaF6R8DodC9W0A3GX86bPSO
-         8cqQ==
-X-Gm-Message-State: AOAM5322jH6MOsP2lUtzJ5PzT3+z9Vb0odxsHiYbBNjJFD6kjDNajrsk
-	ZB2hVncB6nr4J/VytMGfJkvnw/mlYeq+vbiGDkk=
+        bh=8jYHMyUTCYt1aJLmeQ1EaRAo+L7ndv8j/V2iauK3Gyc=;
+        b=v+fjfX8A9n6B+c1/6TCG6jLsFSqRAEm1SD5VJiadI9YV0l719H9LxzqMBh+R1QVCR8
+         alXUm8VUEajITVuJohQjU5UzwogKdiL/ktT5S8DsGJAP+MMmp4mQ5ILV1ef8sI3fY3OC
+         rOPHWhQv7YdBDJ6AGBVrvnN1ModoyJtrZwjbEQQdxhfssnFqpSplnYDuQ2grrXweselm
+         Am4YpS1/Xv920Y/1smrt1R5TXZ5Eh2fEgM66OqeBFEL4FfkCR0Qn+xREOLBEmidpZyis
+         ho0kL4wgPQOQHf41kSOa/zNCjodnnzIcjN5qjL43pICCI5clWoo9s3tJ0dUEmSzEpoLp
+         NEtQ==
+X-Gm-Message-State: AOAM532NKpV/o5itM5paAuQb2xgpR47+mGpCSkajloH8gVuNEKmPaWjv
+	hvFZod5DoPuLf859mRAFfx3M3HmkEZjQxVd6C8c=
 X-Google-Smtp-Source: 
- ABdhPJxUNMqpWIbOOY17YXdcSFkhaLH1to/2Qh1fwjc94acQ3zJFBhYFAWmclXn3UzK1nLPQXZrFkj0YOvd3SLrg0OM=
-X-Received: by 2002:a05:620a:817:b0:648:d856:3fdc with SMTP id
- s23-20020a05620a081700b00648d8563fdcmr7078490qks.180.1645554899352; Tue, 22
- Feb 2022 10:34:59 -0800 (PST)
+ ABdhPJzaZ49IhnoqigtWb8Ctq0x1qopd7qUUb3fO17ZVWzSHNrh4/Kw/Esk6HBJ8+ICb+MfOqX+J87Qfjfc9be1mbhM=
+X-Received: by 2002:a17:906:7b91:b0:6cd:19b4:edfa with SMTP id
+ s17-20020a1709067b9100b006cd19b4edfamr20060962ejo.227.1645555205189; Tue, 22
+ Feb 2022 10:40:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220222035234.463162-1-andrew@aj.id.au>
- <20220222035234.463162-8-andrew@aj.id.au>
- <CANNYZj_3sRMqa-F_GvR2fCi2vNtafyNOvyHB_WhS99EhpoVK_w@mail.gmail.com>
- <48dc371d839b004db347823b5867f4c338e94443.camel@linuxfoundation.org>
- <CANNYZj_G4Y0=sO7j7VaPeLc8gF6EFGwnuHTKcXhouTKmzODoog@mail.gmail.com>
+References: <cover.1645478020.git.tim.orling@konsulko.com>
+ <CAMKF1sobUZW4FbtdoGpk7yj8XZwNht4YqwHD=ohT_CmOmDry3Q@mail.gmail.com>
+ <CANx9H-Bx_AFnAnCjJSoMqS59pGR3dH5vuYN0fvLPdz+CBy=z7A@mail.gmail.com>
+ <CAMKF1sqNCMhH9_OoVzewjvd1SOHsF+5z3WFBmp51itSsh-eEzA@mail.gmail.com>
 In-Reply-To: 
- <CANNYZj_G4Y0=sO7j7VaPeLc8gF6EFGwnuHTKcXhouTKmzODoog@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 22 Feb 2022 10:34:33 -0800
+ <CAMKF1sqNCMhH9_OoVzewjvd1SOHsF+5z3WFBmp51itSsh-eEzA@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 22 Feb 2022 10:39:54 -0800
 Message-ID: 
- <CAMKF1sp6c40ZRaBkkpAo+wdmcRd57TKZEk8xADpJCt8SPmmdEg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH 7/8] rust: Add snapshot checksums for
- powerpc64le
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Andrew Jeffery <andrew@aj.id.au>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CANx9H-D-4RZgg4y=B+2QwyCghiwT0uEDHyquxMz6aaVw-cBa0g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 00/32] Python PEP-517: build wheels and
+ install with pip
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000076b53805d89fad79"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 18:35:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 18:40:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162187
+ https://lists.openembedded.org/g/openembedded-core/message/162188
 
-On Tue, Feb 22, 2022 at 6:24 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Tue, 22 Feb 2022 at 13:28, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
+--00000000000076b53805d89fad79
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Feb 22, 2022 at 10:24 AM Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Tue, Feb 22, 2022 at 10:21 AM Tim Orling <ticotimo@gmail.com> wrote:
 > >
-> > On Tue, 2022-02-22 at 10:59 +0100, Alexander Kanavin wrote:
-> > > I have to note that YP does not support ppc systems as build hosts;
-> > > can this be kept in a bbappend?
 > >
-> > It isn't official but there are obviously people using it. I think we should try
-> > and do something in core but there is a question of how we maintain this given
-> > our infrastructure/tests don't cover it :(
+> >
+> > On Tue, Feb 22, 2022 at 9:22 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> this is going into dep loops Try
+> >>
+> >> bitbake python3-wheel-native
+> >
+> >
+> > It shouldn=E2=80=99t
+> >
+> https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/pyth=
+on/python3-wheel_0.37.1.bb?h=3Dtimo/bootstrap-wheels
+> >
 >
-> Worse yet, there is no way to test this locally either.  If the ppc64
-> binary tarball checksums are added to the core rust recipe, presumably
-> I'd be expected to update them together with x86 and arm64 binary
-> checksums on version updates, but I'd have to do this completely
-> blindly with no testing of any kind :(
+> I have been trying whats on master-next
+>
+>
+I can't reproduce. Can you point me at an error log please?
+It might have something to do with sstate cache, but that's just a hunch.
 
-as long as it does not impede main testing I would think thats ok and
-we can expect the OE community
-members like Andrew to test this and report issues or better fix them
 
-That's why I am asking to keep
-> them in an external bbappend.
+> > DEPENDS:remove:class-native =3D "python3-pip-native"
+> >
+> > do_install:class-native () {
+> >     # We need to bootstrap python3-wheel-native
+> >     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+> >     PYPA_WHEEL=3D"${B}/dist/${PYPI_PACKAGE}-${PV}-*.whl"
+> >     unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PYPA_WHEEL} || \
+> >     bbfatal_log "Failed to install"
+> > }
+> >>
+> >>
+> >>
+> >>
+> >> On Mon, Feb 21, 2022 at 1:23 PM Tim Orling <ticotimo@gmail.com> wrote:
+> >> >
+> >> > Upstream Python is moving to pyproject.toml rather than setup.py and
+> >> > wheels rather than eggs. The main place this is documented is in
+> >> > PEP-517[1]. Installing packages with setup.py install is deprecated.
+> >> >
+> >> > We have a choice with the 'kirkstone' LTS release of introducing thi=
+s
+> >> > series (and fixing any fall out during the stabilization period) or
+> >> > living with deprecated Python packaging for the duration of the LTS
+> (at
+> >> > a minimum 2 years). This seems to be a compelling enough reason to
+> bring
+> >> > in this series, even if it results in a slight slip of the 'feature
+> >> > freeze', which is officially tomorrow, Monday 21 Feb, 2022.
+> >> >
+> >> > This series bootstraps python3-setuptools-native,
+> >> > python3-flit-core-native, python3-wheel-native and python3-pip-nativ=
+e,
+> >> > simply unzipping the wheel into PYTHON_SITEPACKAGES_DIR. This allows
+> all
+> >> > other recipes to be installed with pip, as intended by upstream.
+> >> >
+> >> > Three new classes are introduced:
+> >> > (1) flit_core which builds PEP-517 compliant packages which use
+> >> >     flit_core.buildapi as their build-backend.
+> >> > (2) setuptools_build_meta which builds PEP-517 compliant packages
+> which use
+> >> >     setuptools_build_meta  as their build-backend.
+> >> > (3) pip_install_wheel, which simply installs wheels built by other
+> >> >     classes.
+> >> >
+> >> > The original setuptools3.bbclass do_compile is modified to
+> >> > 'setup.py bdist_wheel' (from python3-wheel-native) rather than the
+> deprecated
+> >> > 'setup.py build' mechanism.
+> >> >
+> >> > The original setuptools3.bbclass do_install is modified to
+> >> > use the pip_install_wheel.bbclass to install wheels with pip rather
+> than
+> >> > the deprecated 'setup.py install' mechanism.
+> >> >
+> >> > For pip install, we disable dependency checking (--no-deps) because =
+it
+> >> > proves to be brittle in our environment without providing full wheel
+> >> > cache that seems like overhead that we do not need. We also disable
+> >> > fetching wheels from pypi (--no-index). This is no different than ou=
+r
+> >> > normal workflow of requiring dependencies to be defined in a recipe.
+> >> >
+> >> > Missing from this series is documentation of the new features, class=
+es
+> >> > and variables (this will be done under separate cover).
+> >> >
+> >> > Also desired and previously discussed in YP meetings is a helper
+> >> > function to warn that a recipe which currently inherits setuptools3
+> >> > but has a pyproject.toml and defines a build-system.build-backend
+> should
+> >> > instead use of the new PEP-517 classes. This function is still in
+> progress.
+> >> >
+> >> > During testing, recipes which use python3-setuptools-scm are failing
+> to
+> >> > determine the version of the python package, For several recipes, th=
+e
+> fix
+> >> > was to use pyproject.toml and PEP-517 build backends. To be sure,
+> other recipes
+> >> > are still going to fail for the short term, until the root cause can
+> be
+> >> > determined. This was not seen again in v2 builds.
+> >> >
+> >> > Another PEP-517 build-backend, poetry.core.masonry.api has been
+> >> > identified in recipes in meta-python, but not in oe-core. The
+> >> > python3-poetry-core recipe is WIP, but brings in a number of
+> >> > dependencies that are perhaps not worth it to bring into oe-core at
+> this
+> >> > time. Rather we can support these recipes in meta-python?
+> >> >
+> >> > Fixes in v2 include passing --root=3D${D} to pip install (rather tha=
+n
+> --target)
+> >> > and also passing --prefix so that scripts are (usually) installed in
+> the proper
+> >> > location. pip install also 'helpfully' overwrites python3 intepreter
+> with nativepython3
+> >> > in #!, so add a fix to return the values to what is actually correct
+> (similar to what is
+> >> > done in setuptools3.bbclass). Also several recipes still needed
+> PIP_INSTALL_PACKAGE defined.
+> >> >
+> >> > Also added self as maintainer of new recipes.
+> >> >
+> >> > [YOCTO #14638]
+> >> >
+> >> > [1] https://www.python.org/dev/peps/pep-0517/
+> >> >
+> >> > The following changes since commit
+> 41ae26ecab731f2fb6593df143476c94183be209:
+> >> >
+> >> >   releases: update to include 3.4.2 (2022-02-21 16:46:22 +0000)
+> >> >
+> >> > are available in the Git repository at:
+> >> >
+> >> >   git://git.yoctoproject.org/git/poky-contrib timo/bootstrap-wheels
+> >> >
+> http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=3Dtimo/boots=
+trap-wheels
+> >> >
+> >> > Tim Orling (32):
+> >> >   python3-wheel: move 0.37.0 from meta-python
+> >> >   python3-flit-core: add recipe for 3.6.0
+> >> >   flit_core.bbclass: add helper for newer python packaging
+> >> >   python3-wheel: inherit flit_core
+> >> >   pip_install_wheel.bbclass: add helper class
+> >> >   setuptools_build_meta.bbclass: add helper class
+> >> >   python3-pip: inherit setuptools_build_meta
+> >> >   python3-attrs: inherit setuptools_build_meta
+> >> >   python3-git: inherit setuptools_build_meta
+> >> >   python3-pytest: inherit setuptools_build_meta
+> >> >   python3-setuptools-scm: inherit setuptools_build_meta
+> >> >   python3-zipp: inherit setuptools_build_meta
+> >> >   python3-iniconfig: inherit setuptools_build_meta
+> >> >   python3-py: inherit setuptools_build_meta
+> >> >   python3-pluggy: inherit setuptools_build_meta
+> >> >   python3-setuptools: inherit setuptools_base_meta
+> >> >   setuptools3.bbclass: refactor for wheels
+> >> >   python3-more-itertools: set PIP_INSTALL_PACKAGE
+> >> >   meson: inherit setuptools_build_meta
+> >> >   python3-libarchive-d: set PIP_INSTALL_PACKAGE
+> >> >   python3-smartypants: patch hash bang to python3
+> >> >   python3-scons: merge -native recipe
+> >> >   python3-subunit: merge inc; set PIP_INSTALL_PACKAGE
+> >> >   python3-magic: set PIP_INSTALL_PACKAGE
+> >> >   bmap-tools: set PIP_INSTALL_PACKAGE, BASEVER
+> >> >   asciidoc: set PIP_INSTALL_PACKAGE
+> >> >   gi-docgen: set PIP_INSTALL_PACKAGE
+> >> >   numpy: set PIP_INSTALL_PACKAGE
+> >> >   python3-dbusmock: set PIP_INSTALL_PACKAGE
+> >> >   python3-mako: inherit setuptools_build_meta
+> >> >   python3-packaging: inherit setuptools_build_meta
+> >> >   python3-nose: drop recipe
+> >> >
+> >> >  meta/classes/flit_core.bbclass                |  16 +++
+> >> >  meta/classes/pip_install_wheel.bbclass        |  37 +++++++
+> >> >  meta/classes/setuptools3.bbclass              |  20 ++--
+> >> >  meta/classes/setuptools_build_meta.bbclass    |  18 ++++
+> >> >  meta/conf/distro/include/maintainers.inc      |   3 +-
+> >> >  meta/recipes-devtools/meson/meson_0.61.2.bb   |   4 +-
+> >> >  meta/recipes-devtools/python/python-nose.inc  |  18 ----
+> >> >  .../python/python-subunit.inc                 |  14 ---
+> >> >  .../python/python3-attrs_21.4.0.bb            |   2 +-
+> >> >  .../python/python3-dbusmock_0.25.0.bb         |   1 +
+> >> >  .../python/python3-flit-core_3.6.0.bb         |  41 +++++++
+> >> >  .../python/python3-git_3.1.26.bb              |   2 +-
+> >> >  .../python/python3-iniconfig_1.1.1.bb         |   4 +-
+> >> >  .../python/python3-libarchive-c_4.0.bb        |   2 +
+> >> >  .../python/python3-magic_0.4.25.bb            |   1 +
+> >> >  .../python/python3-mako_1.1.6.bb              |   2 +-
+> >> >  .../python/python3-more-itertools_8.12.0.bb   |   2 +
+> >> >  .../python/python3-nose_1.3.7.bb              |   2 -
+> >> >  .../python/python3-numpy_1.22.2.bb            |   1 +
+> >> >  .../python/python3-packaging_21.3.bb          |   2 +-
+> >> >  .../python/python3-pip_22.0.3.bb              |  19 +++-
+> >> >  .../python/python3-pluggy_1.0.0.bb            |   2 +-
+> >> >  .../python/python3-py_1.11.0.bb               |   2 +-
+> >> >  .../python/python3-pytest_7.0.1.bb            |   4 +-
+> >> >  .../python/python3-scons-native_4.3.0.bb      |   7 --
+> >> >  .../python/python3-scons_4.3.0.bb             |  13 ++-
+> >> >  .../python/python3-setuptools-scm_6.4.2.bb    |   2 +-
+> >> >  .../python/python3-setuptools_59.5.0.bb       |  19 +++-
+> >> >  .../0001-Change-hash-bang-to-python3.patch    |  47 ++++++++
+> >> >  .../python/python3-smartypants_2.0.0.bb       |   1 +
+> >> >  ...001-setup.py-use-vendored-_distutils.patch |  27 +++++
+> >> >  .../python/python3-strict-rfc3339_0.7.bb      |   4 +-
+> >> >  .../python/python3-subunit_1.4.0.bb           |  17 ++-
+> >> >  ...roject.toml-from-flit-backend-branch.patch | 100
+> ++++++++++++++++++
+> >> >  .../python/python3-wheel_0.37.1.bb            |  24 +++++
+> >> >  .../python/python3-zipp_3.7.0.bb              |   2 +-
+> >> >  .../asciidoc/asciidoc_10.1.1.bb               |   1 +
+> >> >  meta/recipes-gnome/gi-docgen/gi-docgen_git.bb |   1 +
+> >> >  .../{bmap-tools_3.6.bb =3D> bmap-tools_git.bb}  |   6 +-
+> >> >  39 files changed, 412 insertions(+), 78 deletions(-)
+> >> >  create mode 100644 meta/classes/flit_core.bbclass
+> >> >  create mode 100644 meta/classes/pip_install_wheel.bbclass
+> >> >  create mode 100644 meta/classes/setuptools_build_meta.bbclass
+> >> >  delete mode 100644 meta/recipes-devtools/python/python-nose.inc
+> >> >  delete mode 100644 meta/recipes-devtools/python/python-subunit.inc
+> >> >  create mode 100644 meta/recipes-devtools/python/
+> python3-flit-core_3.6.0.bb
+> >> >  delete mode 100644 meta/recipes-devtools/python/
+> python3-nose_1.3.7.bb
+> >> >  delete mode 100644 meta/recipes-devtools/python/
+> python3-scons-native_4.3.0.bb
+> >> >  create mode 100644
+> meta/recipes-devtools/python/python3-smartypants/0001-Change-hash-bang-to=
+-python3.patch
+> >> >  create mode 100644
+> meta/recipes-devtools/python/python3-strict-rfc3339/0001-setup.py-use-ven=
+dored-_distutils.patch
+> >> >  create mode 100644
+> meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-f=
+rom-flit-backend-branch.patch
+> >> >  create mode 100644 meta/recipes-devtools/python/
+> python3-wheel_0.37.1.bb
+> >> >  rename meta/recipes-support/bmap-tools/{bmap-tools_3.6.bb =3D>
+> bmap-tools_git.bb} (86%)
+> >> >
+> >> > --
+> >> > 2.30.2
+> >> >
+> >> >
+> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> > Links: You receive all messages sent to this group.
+> >> > View/Reply Online (#162076):
+> https://lists.openembedded.org/g/openembedded-core/message/162076
+> >> > Mute This Topic: https://lists.openembedded.org/mt/89304007/1997914
+> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
+b
+> [raj.khem@gmail.com]
+> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> >
 >
-> Andrew, how hard is it to obtain a shell on ppc64 machines nowadays?
-> Is it something specific to your employer?
+
+--00000000000076b53805d89fad79
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 22, 2022 at 10:24 AM Khem=
+ Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, Fe=
+b 22, 2022 at 10:21 AM Tim Orling &lt;<a href=3D"mailto:ticotimo@gmail.com"=
+ target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Tue, Feb 22, 2022 at 9:22 AM Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; this is going into dep loops Try<br>
+&gt;&gt;<br>
+&gt;&gt; bitbake python3-wheel-native<br>
+&gt;<br>
+&gt;<br>
+&gt; It shouldn=E2=80=99t<br>
+&gt; <a href=3D"https://git.yoctoproject.org/poky-contrib/tree/meta/recipes=
+-devtools/python/python3-wheel_0.37.1.bb?h=3Dtimo/bootstrap-wheels" rel=3D"=
+noreferrer" target=3D"_blank">https://git.yoctoproject.org/poky-contrib/tre=
+e/meta/recipes-devtools/python/python3-wheel_0.37.1.bb?h=3Dtimo/bootstrap-w=
+heels</a><br>
+&gt;<br>
+<br>
+I have been trying whats on master-next<br>
+<br></blockquote><div><br></div><div>I can&#39;t reproduce. Can you point m=
+e at an error log please?</div><div>It might have something to do with ssta=
+te cache, but that&#39;s just a hunch.</div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+&gt; DEPENDS:remove:class-native =3D &quot;python3-pip-native&quot;<br>
+&gt;<br>
+&gt; do_install:class-native () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0# We need to bootstrap python3-wheel-native<br>
+&gt;=C2=A0 =C2=A0 =C2=A0install -d ${D}${PYTHON_SITEPACKAGES_DIR}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0PYPA_WHEEL=3D&quot;${B}/dist/${PYPI_PACKAGE}-${PV}-=
+*.whl&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PYPA_WHEE=
+L} || \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0bbfatal_log &quot;Failed to install&quot;<br>
+&gt; }<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Feb 21, 2022 at 1:23 PM Tim Orling &lt;<a href=3D"mailto:t=
+icotimo@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Upstream Python is moving to pyproject.toml rather than setup=
+.py and<br>
+&gt;&gt; &gt; wheels rather than eggs. The main place this is documented is=
+ in<br>
+&gt;&gt; &gt; PEP-517[1]. Installing packages with setup.py install is depr=
+ecated.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; We have a choice with the &#39;kirkstone&#39; LTS release of =
+introducing this<br>
+&gt;&gt; &gt; series (and fixing any fall out during the stabilization peri=
+od) or<br>
+&gt;&gt; &gt; living with deprecated Python packaging for the duration of t=
+he LTS (at<br>
+&gt;&gt; &gt; a minimum 2 years). This seems to be a compelling enough reas=
+on to bring<br>
+&gt;&gt; &gt; in this series, even if it results in a slight slip of the &#=
+39;feature<br>
+&gt;&gt; &gt; freeze&#39;, which is officially tomorrow, Monday 21 Feb, 202=
+2.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; This series bootstraps python3-setuptools-native,<br>
+&gt;&gt; &gt; python3-flit-core-native, python3-wheel-native and python3-pi=
+p-native,<br>
+&gt;&gt; &gt; simply unzipping the wheel into PYTHON_SITEPACKAGES_DIR. This=
+ allows all<br>
+&gt;&gt; &gt; other recipes to be installed with pip, as intended by upstre=
+am.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Three new classes are introduced:<br>
+&gt;&gt; &gt; (1) flit_core which builds PEP-517 compliant packages which u=
+se<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0flit_core.buildapi as their build-backend.=
+<br>
+&gt;&gt; &gt; (2) setuptools_build_meta which builds PEP-517 compliant pack=
+ages which use<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0setuptools_build_meta=C2=A0 as their build=
+-backend.<br>
+&gt;&gt; &gt; (3) pip_install_wheel, which simply installs wheels built by =
+other<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0classes.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The original setuptools3.bbclass do_compile is modified to<br=
 >
-> Alex
+&gt;&gt; &gt; &#39;setup.py bdist_wheel&#39; (from python3-wheel-native) ra=
+ther than the deprecated<br>
+&gt;&gt; &gt; &#39;setup.py build&#39; mechanism.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The original setuptools3.bbclass do_install is modified to<br=
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162134): https://lists.openembedded.org/g/openembedded-core/message/162134
-> Mute This Topic: https://lists.openembedded.org/mt/89310363/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+&gt;&gt; &gt; use the pip_install_wheel.bbclass to install wheels with pip =
+rather than<br>
+&gt;&gt; &gt; the deprecated &#39;setup.py install&#39; mechanism.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; For pip install, we disable dependency checking (--no-deps) b=
+ecause it<br>
+&gt;&gt; &gt; proves to be brittle in our environment without providing ful=
+l wheel<br>
+&gt;&gt; &gt; cache that seems like overhead that we do not need. We also d=
+isable<br>
+&gt;&gt; &gt; fetching wheels from pypi (--no-index). This is no different =
+than our<br>
+&gt;&gt; &gt; normal workflow of requiring dependencies to be defined in a =
+recipe.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Missing from this series is documentation of the new features=
+, classes<br>
+&gt;&gt; &gt; and variables (this will be done under separate cover).<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Also desired and previously discussed in YP meetings is a hel=
+per<br>
+&gt;&gt; &gt; function to warn that a recipe which currently inherits setup=
+tools3<br>
+&gt;&gt; &gt; but has a pyproject.toml and defines a build-system.build-bac=
+kend should<br>
+&gt;&gt; &gt; instead use of the new PEP-517 classes. This function is stil=
+l in progress.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; During testing, recipes which use python3-setuptools-scm are =
+failing to<br>
+&gt;&gt; &gt; determine the version of the python package, For several reci=
+pes, the fix<br>
+&gt;&gt; &gt; was to use pyproject.toml and PEP-517 build backends. To be s=
+ure, other recipes<br>
+&gt;&gt; &gt; are still going to fail for the short term, until the root ca=
+use can be<br>
+&gt;&gt; &gt; determined. This was not seen again in v2 builds.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Another PEP-517 build-backend, poetry.core.masonry.api has be=
+en<br>
+&gt;&gt; &gt; identified in recipes in meta-python, but not in oe-core. The=
+<br>
+&gt;&gt; &gt; python3-poetry-core recipe is WIP, but brings in a number of<=
+br>
+&gt;&gt; &gt; dependencies that are perhaps not worth it to bring into oe-c=
+ore at this<br>
+&gt;&gt; &gt; time. Rather we can support these recipes in meta-python?<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Fixes in v2 include passing --root=3D${D} to pip install (rat=
+her than --target)<br>
+&gt;&gt; &gt; and also passing --prefix so that scripts are (usually) insta=
+lled in the proper<br>
+&gt;&gt; &gt; location. pip install also &#39;helpfully&#39; overwrites pyt=
+hon3 intepreter with nativepython3<br>
+&gt;&gt; &gt; in #!, so add a fix to return the values to what is actually =
+correct (similar to what is<br>
+&gt;&gt; &gt; done in setuptools3.bbclass). Also several recipes still need=
+ed PIP_INSTALL_PACKAGE defined.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Also added self as maintainer of new recipes.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; [YOCTO #14638]<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; [1] <a href=3D"https://www.python.org/dev/peps/pep-0517/" rel=
+=3D"noreferrer" target=3D"_blank">https://www.python.org/dev/peps/pep-0517/=
+</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The following changes since commit 41ae26ecab731f2fb6593df143=
+476c94183be209:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0releases: update to include 3.4.2 (2022-02-21 16:=
+46:22 +0000)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; are available in the Git repository at:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0git://<a href=3D"http://git.yoctoproject.org/git/=
+poky-contrib" rel=3D"noreferrer" target=3D"_blank">git.yoctoproject.org/git=
+/poky-contrib</a> timo/bootstrap-wheels<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit.cgi/g=
+it/poky-contrib/log/?h=3Dtimo/bootstrap-wheels" rel=3D"noreferrer" target=
+=3D"_blank">http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=3D=
+timo/bootstrap-wheels</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Tim Orling (32):<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-wheel: move 0.37.0 from meta-python<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-flit-core: add recipe for 3.6.0<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0flit_core.bbclass: add helper for newer python pa=
+ckaging<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-wheel: inherit flit_core<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0pip_install_wheel.bbclass: add helper class<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0setuptools_build_meta.bbclass: add helper class<b=
+r>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-pip: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-attrs: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-git: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-pytest: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-setuptools-scm: inherit setuptools_build_=
+meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-zipp: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-iniconfig: inherit setuptools_build_meta<=
+br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-py: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-pluggy: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-setuptools: inherit setuptools_base_meta<=
+br>
+&gt;&gt; &gt;=C2=A0 =C2=A0setuptools3.bbclass: refactor for wheels<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-more-itertools: set PIP_INSTALL_PACKAGE<b=
+r>
+&gt;&gt; &gt;=C2=A0 =C2=A0meson: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-libarchive-d: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-smartypants: patch hash bang to python3<b=
+r>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-scons: merge -native recipe<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-subunit: merge inc; set PIP_INSTALL_PACKA=
+GE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-magic: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0bmap-tools: set PIP_INSTALL_PACKAGE, BASEVER<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0asciidoc: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0gi-docgen: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0numpy: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-dbusmock: set PIP_INSTALL_PACKAGE<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-mako: inherit setuptools_build_meta<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-packaging: inherit setuptools_build_meta<=
+br>
+&gt;&gt; &gt;=C2=A0 =C2=A0python3-nose: drop recipe<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 meta/classes/flit_core.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 16 +++<br>
+&gt;&gt; &gt;=C2=A0 meta/classes/pip_install_wheel.bbclass=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 37 +++++++<br>
+&gt;&gt; &gt;=C2=A0 meta/classes/setuptools3.bbclass=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 ++--<br>
+&gt;&gt; &gt;=C2=A0 meta/classes/setuptools_build_meta.bbclass=C2=A0 =C2=A0=
+ |=C2=A0 18 ++++<br>
+&gt;&gt; &gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A03 +-<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/meson/<a href=3D"http://meson_0.6=
+1.2.bb" rel=3D"noreferrer" target=3D"_blank">meson_0.61.2.bb</a>=C2=A0 =C2=
+=A0|=C2=A0 =C2=A04 +-<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/python/python-nose.inc=C2=A0 |=C2=
+=A0 18 ----<br>
+&gt;&gt; &gt;=C2=A0 .../python/python-subunit.inc=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 14 ---<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-attrs_21.4.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-attrs_21.4.0.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-dbusmock_0.25.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-dbusmock_0.25.0.bb</a>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-flit-core_3.6.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-flit-core_3.6.0.bb</a>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 41 +++++++<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-git_3.1.26.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-git_3.1.26.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-iniconfig_1.1.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-iniconfig_1.1.1.bb</a>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-libarchive-c_4.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-libarchive-c_4.0.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-magic_0.4.25.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-magic_0.4.25.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-mako_1.1.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-mako_1.1.6.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-more-itertools_8.1=
+2.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-more-itertools_8.12.0.=
+bb</a>=C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-nose_1.3.7.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-nose_1.3.7.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 -<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-numpy_1.22.2.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-numpy_1.22.2.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-packaging_21.3.bb"=
+ rel=3D"noreferrer" target=3D"_blank">python3-packaging_21.3.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-pip_22.0.3.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-pip_22.0.3.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 19 +++-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-pluggy_1.0.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-pluggy_1.0.0.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-py_1.11.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-py_1.11.0.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-pytest_7.0.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-pytest_7.0.1.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-scons-native_4.3.0=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons-native_4.3.0.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A07 --<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-scons_4.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">python3-scons_4.3.0.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 13 ++-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-setuptools-scm_6.4=
+.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools-scm_6.4.2.bb=
+</a>=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-setuptools_59.5.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-setuptools_59.5.0.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 19 +++-<br>
+&gt;&gt; &gt;=C2=A0 .../0001-Change-hash-bang-to-python3.patch=C2=A0 =C2=A0=
+ |=C2=A0 47 ++++++++<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-smartypants_2.0.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-smartypants_2.0.0.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 ...001-setup.py-use-vendored-_distutils.patch |=C2=A0 2=
+7 +++++<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-strict-rfc3339_0.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-strict-rfc3339_0.7.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-subunit_1.4.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.4.0.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 17 ++-<br>
+&gt;&gt; &gt;=C2=A0 ...roject.toml-from-flit-backend-branch.patch | 100 +++=
++++++++++++++++<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-wheel_0.37.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-wheel_0.37.1.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 24 +++++<br>
+&gt;&gt; &gt;=C2=A0 .../python/<a href=3D"http://python3-zipp_3.7.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-zipp_3.7.0.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;&gt; &gt;=C2=A0 .../asciidoc/<a href=3D"http://asciidoc_10.1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">asciidoc_10.1.1.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-gnome/gi-docgen/<a href=3D"http://gi-docge=
+n_git.bb" rel=3D"noreferrer" target=3D"_blank">gi-docgen_git.bb</a> |=C2=A0=
+ =C2=A01 +<br>
+&gt;&gt; &gt;=C2=A0 .../{<a href=3D"http://bmap-tools_3.6.bb" rel=3D"norefe=
+rrer" target=3D"_blank">bmap-tools_3.6.bb</a> =3D&gt; <a href=3D"http://bma=
+p-tools_git.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_git.bb</a>}=
+=C2=A0 |=C2=A0 =C2=A06 +-<br>
+&gt;&gt; &gt;=C2=A0 39 files changed, 412 insertions(+), 78 deletions(-)<br=
 >
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/classes/flit_core.bbclass<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/classes/pip_install_wheel.bbcla=
+ss<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/classes/setuptools_build_meta.b=
+bclass<br>
+&gt;&gt; &gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python-=
+nose.inc<br>
+&gt;&gt; &gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/python-=
+subunit.inc<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
+=3D"http://python3-flit-core_3.6.0.bb" rel=3D"noreferrer" target=3D"_blank"=
+>python3-flit-core_3.6.0.bb</a><br>
+&gt;&gt; &gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/<a href=
+=3D"http://python3-nose_1.3.7.bb" rel=3D"noreferrer" target=3D"_blank">pyth=
+on3-nose_1.3.7.bb</a><br>
+&gt;&gt; &gt;=C2=A0 delete mode 100644 meta/recipes-devtools/python/<a href=
+=3D"http://python3-scons-native_4.3.0.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">python3-scons-native_4.3.0.bb</a><br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3=
+-smartypants/0001-Change-hash-bang-to-python3.patch<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3=
+-strict-rfc3339/0001-setup.py-use-vendored-_distutils.patch<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3=
+-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch<br>
+&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
+=3D"http://python3-wheel_0.37.1.bb" rel=3D"noreferrer" target=3D"_blank">py=
+thon3-wheel_0.37.1.bb</a><br>
+&gt;&gt; &gt;=C2=A0 rename meta/recipes-support/bmap-tools/{<a href=3D"http=
+://bmap-tools_3.6.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.6.b=
+b</a> =3D&gt; <a href=3D"http://bmap-tools_git.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">bmap-tools_git.bb</a>} (86%)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 2.30.2<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; &gt; Links: You receive all messages sent to this group.<br>
+&gt;&gt; &gt; View/Reply Online (#162076): <a href=3D"https://lists.openemb=
+edded.org/g/openembedded-core/message/162076" rel=3D"noreferrer" target=3D"=
+_blank">https://lists.openembedded.org/g/openembedded-core/message/162076</=
+a><br>
+&gt;&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt=
+/89304007/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.opene=
+mbedded.org/mt/89304007/1997914</a><br>
+&gt;&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@list=
+s.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.openemb=
+edded.org</a><br>
+&gt;&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/open=
+embedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.ope=
+nembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gma=
+il.com" target=3D"_blank">raj.khem@gmail.com</a>]<br>
+&gt;&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; &gt;<br>
+</blockquote></div></div>
+
+--00000000000076b53805d89fad79--
 
