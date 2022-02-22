@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC24C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 15:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD86C433EF
+	for <webhook@archiver.kernel.org>; Tue, 22 Feb 2022 15:08:59 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web11.13741.1645542537762329827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 07:08:57 -0800
+ Tue, 22 Feb 2022 07:08:58 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=RJnZAYHE;
+ header.b=fUFFwU73;
  spf=pass (domain: intel.com, ip: 192.55.52.93,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645542537; x=1677078537;
+  t=1645542538; x=1677078538;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=mxMa8IKDOBd++S7fCbiNNWvjc7g+jHExzsji6HyFp08=;
-  b=RJnZAYHEZbMx86HAsb4XxsQuWrX5kuEKYDIr2atVTInVVTSR/Bcwj+bh
-   enxQP/pnpSDf3pyLFL7hRCxWNX7GqWqjet/24S1K0eEMu4SeMclkma4ki
-   a/FRk2etAlo3G55PQQfkYIbwGSZTts7icMBMDZFAhAY54ohj1eVew/aqc
-   GcN+4VVEPDYPyAntTB3/kcuwTGBlaNzkx1vELs9lFO2u55X8amOaOXXBq
-   rpabsib2WGGB0rv76ATBvVCqyVmTKM9FUKPAphqf/SqPgRPH5su3QrnkE
-   RwT+AYl5e/TeSkmhAuBJMyHGrcGQqAh2KNi/kSDR1NcjrtXcPwyuXyLdE
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="249305366"
+  bh=JX2uJu4Ltp2hH2tkvGWLLSRBD9B3V7kR8RgNE5Zzo3Q=;
+  b=fUFFwU733FGrOIQANq1+0D8mJBnm/MSLekekJP2ChuM2V9+Ck/Dh2P0+
+   Y+rLN9cskP/DDOIDc3vqenaQfcL/ihP3hdhKoL37NAWbaNdRrgUdco742
+   nQlJ7xb7Y8AKqHRywNYwZlD5y5cwlhvM8W/q69NxX9e6Gs6Si8y8SyeFJ
+   EzEqba9sogv0dqnifYNQlJ74zHOlRl3cvQVGlGTHoD0YbKFau1o4aAcEJ
+   0OUJFTWS0qZJMVTbxQw6PsahQ4I2rA/gWHY5p+qdwIz4J0CZkEn+DRM66
+   7EeWfz/BTsS0k7GXQIbNi2AUPB9QHS9ZVLvLyeoVkJfCSoG/iDJ2cUUCR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10265"; a="249305375"
 X-IronPort-AV: E=Sophos;i="5.88,387,1635231600";
-   d="scan'208";a="249305366"
+   d="scan'208";a="249305375"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 07:08:43 -0800
+ 22 Feb 2022 07:08:44 -0800
 X-IronPort-AV: E=Sophos;i="5.88,387,1635231600";
-   d="scan'208";a="532258881"
+   d="scan'208";a="532258894"
 Received: from mmohdnaj-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.137.195])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2022 07:08:41 -0800
+ 22 Feb 2022 07:08:43 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 37/38] expat: Upgrade 2.4.5 -> 2.4.6
-Date: Tue, 22 Feb 2022 23:07:38 +0800
+Subject: [honister][PATCH 38/38] uninative: Upgrade to 3.5
+Date: Tue, 22 Feb 2022 23:07:39 +0800
 Message-Id: 
- <a55061f2811596ea0515e558eb2d626d5fd86819.1645536711.git.anuj.mittal@intel.com>
+ <eeae63c343c8ebd418679915ee20aa8c02fa0fdc.1645536711.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1645536711.git.anuj.mittal@intel.com>
 References: <cover.1645536711.git.anuj.mittal@intel.com>
@@ -52,36 +52,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 15:08:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Feb 2022 15:08:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162173
+ https://lists.openembedded.org/g/openembedded-core/message/162174
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
+Add support for glibc 2.35.
+
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 91aa5e3f94a7f82be7949ecfde2764d51384ad42)
+(cherry picked from commit 347b8c87fb4e2c398644f900728cf6e22ba4516d)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/expat/{expat_2.4.5.bb => expat_2.4.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/expat/{expat_2.4.5.bb => expat_2.4.6.bb} (91%)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/expat/expat_2.4.5.bb b/meta/recipes-core/expat/expat_2.4.6.bb
-similarity index 91%
-rename from meta/recipes-core/expat/expat_2.4.5.bb
-rename to meta/recipes-core/expat/expat_2.4.6.bb
-index 2d9894a057..3e779c3dea 100644
---- a/meta/recipes-core/expat/expat_2.4.5.bb
-+++ b/meta/recipes-core/expat/expat_2.4.6.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 6833072cd3..bfe05ce1eb 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
  
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
+-UNINATIVE_MAXGLIBCVERSION = "2.34"
+-UNINATIVE_VERSION = "3.4"
++UNINATIVE_MAXGLIBCVERSION = "2.35"
++UNINATIVE_VERSION = "3.5"
  
--SRC_URI[sha256sum] = "fbb430f964c7a2db2626452b6769e6a8d5d23593a453ccbc21701b74deabedff"
-+SRC_URI[sha256sum] = "ce317706b07cae150f90cddd4253f5b4fba929607488af5ac47bf2bc08e31f09"
- 
- EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
- 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
+-UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
+-UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
++UNINATIVE_CHECKSUM[aarch64] ?= "6de0771bd21e0fcb5e80388e5b561a8023b24083bcbf46e056a089982aff75d7"
++UNINATIVE_CHECKSUM[i686] ?= "8c8745becbfa1c341bae839c7eab56ddf17ce36c303bcd73d3b2f2f788b631c2"
++UNINATIVE_CHECKSUM[x86_64] ?= "e8047a5748e6f266165da141eb6d08b23674f30e477b0e5505b6403d50fbc4b2"
 -- 
 2.35.1
 
