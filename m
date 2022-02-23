@@ -2,77 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 442B8C433F5
-	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 07:45:25 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web08.4859.1645602323637996097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD6AC4332F
+	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 07:45:26 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web10.4993.1645602324184202603
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Feb 2022 23:45:24 -0800
+ Tue, 22 Feb 2022 23:45:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=xbPunvZh;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=kZly8AZX;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1645602322; i=@fujitsu.com;
-	bh=LLhhRhcelrVIUdAlswMK2K2DXoWd2vcZAWMc5qyUsy4=;
+	bh=9Sbhtw8iFWtFB8mue3bXOVuPvKsVvjRwNVyOV37ESZA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=xbPunvZhfMZ0hXgAkgpGC0o1Wccm7Brxfm9W0nS7WkULYn0QluUlfyuCSPZZdO+cT
-	 tEpFIk5gS9oKi/IvMuFeur/8aP7e/UG1rGRKzErDhCQ8Mfe+bcTsj2zbf0QeoMC5z5
-	 xUzkuagqIChfcM4wfVyhnVn9kz7ltMvUlTcpnqfBu+g4oPHpx0WhO6lN79Foe3TFWG
-	 2F1wAV7qlWEul/XTzGkCdt+XI4QVOqLFHGrqO/FGrWrhWOuaqXqAO27tHjFs2+i9Wu
-	 baBUWz1NJTeUCVPWBY0k/Zfs1vn/CsYYkTNVMA5jhUZEP/Yp9TKwDKunDCzeDKFg8N
-	 NRfKS1Y3tn8hA==
-Received: from [100.115.36.74] (using TLSv1.2 with cipher
+	b=kZly8AZXSt98z3nR16HKM+eNs7EcxYsdgH5dFowFvSsY1p2Hpm4ceLd29pTa2mEPH
+	 KHh6FIFz+MmERsnENOJfmPoYRKHigGwfAiQhGaoPzZZSp3//lwGl3u+iS4LoSdm19v
+	 tl1H2YQ8AUZNteeof6x5lxROOJ94jYoU+BZaVSCbD6svuX2ou+TeJXF35fu9Lb3vDL
+	 ZiKp10JYfHyZ2qoqK+j1R2wEFS/TipVMpGpDOgQnuWWi0a9b44dLJOG8+JR0edzJM1
+	 3BxpGKB3VxBVXJG7PMk0i558yGN4YazysR0B9/oiygtC06Lpg7Fc4mdo9YuEmVbLNS
+	 NjudHnittP7gQ==
+Received: from [100.115.69.48] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-1.bemta.az-a.eu-west-2.aws.ess.symcld.net id F3/67-14616-116E5126;
- Wed, 23 Feb 2022 07:45:21 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRWlGSWpSXmKPExsViZ8MxSVfwmWi
-  SwYZ9ihZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aln9dYCp5yVnzaFtXA+Iyji5GLQ0jgMaPE
-  m8azjBDOeSaJO8u3sUE4JxglDh/fCZTh5GATUJOYfusGaxcjB4eIgJ7E1X+iIGFmARWJF7972
-  EHCwgLuEif/84OEWQRUJeZP28UIEuYVcJI4t5kJJCwhoCAx5eF7ZhCbU8BZYkv3YlYQWwioZP
-  +dS2CLeAUEJU7OfMICMV1C4uCLF8wQvYoSsy83s0DYFRKzZrVBzVSTuHpuE/MERsFZSNpnIWl
-  fwMi0itE6qSgzPaMkNzEzR9fQwEDX0NBU19hI19DCUi+xSjdRL7VUtzy1uETXSC+xvFgvtbhY
-  r7gyNzknRS8vtWQTIzCAU4oV9u5gvLzyp94hRkkOJiVR3sIjoklCfEn5KZUZicUZ8UWlOanFh
-  xhlODiUJHj7ngDlBItS01Mr0jJzgNEEk5bg4FES4RUBSfMWFyTmFmemQ6ROMSpKifN+vweUEA
-  BJZJTmwbXBIvgSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHe2IdAU3gy80rgpr8CWswEtHh
-  KlhDI4pJEhJRUA1Nvq/n3pdvvad9fEfFe6sfXGdzeDle4z3w2E2iNShQ9FLU9rzkuxet2BN9/
-  Fv2mg49ZJS7Nn7p6+VFd+yj+v2/+KUn9P+cfekF6rtqX9YsffJNcmqnz95IIvzrzHL+Gj8mnv
-  Z8aXZeP4+3w6z9w73F2etYx1uVmF/9Pf7GlO9agI9KS01i8fafa5RXOFUW7dmjIFHxsf5tUv/
-  HA/anlYol+Uc5WM6bfnN/v9eNDu+E/7oKfB0MfrQmQMP+xvFzY/1HwL7vUw34+djPWPA//tft
-  8jZj93KlaP/7/S613us5+snzSD7b1D/aUcPDZdl87or4+oE9I8nXmcsNlbq2Tfd+xBR+eZn+R
-  76HXycVclwuUWIozEg21mIuKEwE6JaBBWwMAAA==
+	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ C3/4D-13301-216E5126; Wed, 23 Feb 2022 07:45:22 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDIsWRWlGSWpSXmKPExsViZ8MxSVfwmWi
+  SwZozGhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aqEwuZCqZzV/yffIClgXEBVxcjF4eQwGNG
+  ib+/lzB3MXICOeeZJDp+i0IkTjBKfDh3jxEkwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvf
+  vewg4SFBVwl9rwoBQmzCKhKNLRPBuvkFXCSaPx5jwnElhBQkJjy8D3YKk4BZ4kt3YtZIdY6Se
+  y/cwmqXlDi5MwnLBDjJSQOvnjBDNGrKDH7cjMLhF0hMWtWG9RMNYmr5zYxT2AUnIWkfRaS9gW
+  MTKsY7ZKKMtMzSnITM3N0DQ0MdA0NTXXNzHSNjCz0Eqt0E/VSS3WTU/NKihKB0nqJ5cV6qcXF
+  esWVuck5KXp5qSWbGIGBnFLs9GQH4+u+n3qHGCU5mJREeQuPiCYJ8SXlp1RmJBZnxBeV5qQWH
+  2KU4eBQkuDtewKUEyxKTU+tSMvMAUYVTFqCg0dJhFcEJM1bXJCYW5yZDpE6xagoJc77/R5QQg
+  AkkVGaB9cGi+RLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5Yx8CTeHJzCuBm/4KaDET0OI
+  pWUIgi0sSEVJSDUwTTkU2HpV8+tzw4q6/M04bcT81LJ9py8O0UMtt1v86vZmp2y9w9m3eGl3N
+  lMe7ytw6tsbJu/3dxJ3uvg8X7n3mwxm/tnq921zh4qXVzBpBC+NEjZb7WBxmvuNg2iNo/G1vT
+  EimzJ/NQRrRkwwmFDSH9K+5UFITMXmR4tNvjlPz90exMe7qEv39/WNc2C2NO6+WyG9ViGfaEW
+  abHZ79eOnM7pk58psYt/fFTBDyWGw3MybM40r26/nNcpHruiyqnEqlTKbyPzpv8GE9j620+Mm
+  NE/idtaV6XE/L1Nvo+hUpJ723fzRzdQd/vdubQqtd3nHPPxl9Lpj0/aTQ1uA/yzQ6/69VUTco
+  nFQQcNuaXYmlOCPRUIu5qDgRANxmqXlfAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-22.tower-571.messagelabs.com!1645602321!34522!1
+X-Msg-Ref: server-17.tower-545.messagelabs.com!1645602321!69630!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 23484 invoked from network); 23 Feb 2022 07:45:21 -0000
+Received: (qmail 9337 invoked from network); 23 Feb 2022 07:45:21 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-22.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-17.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 23 Feb 2022 07:45:21 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 241CB10045A
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 2C71610045E
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Feb 2022 07:45:21 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 1601A100446
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 198E61000FD
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Feb 2022 07:45:21 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Wed, 23 Feb 2022 07:45:10 +0000
+ (TLS) id 15.0.1497.28; Wed, 23 Feb 2022 07:45:12 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-hypothesis: upgrade 6.36.2 -> 6.37.2
-Date: Wed, 23 Feb 2022 15:44:56 +0800
-Message-ID: <1645602297-28300-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-markupsafe: upgrade 2.0.1 -> 2.1.0
+Date: Wed, 23 Feb 2022 15:44:57 +0800
+Message-ID: <1645602297-28300-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1645602297-28300-1-git-send-email-wangmy@fujitsu.com>
 References: <1645602297-28300-1-git-send-email-wangmy@fujitsu.com>
@@ -85,36 +85,39 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 07:45:25 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 07:45:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162243
+ https://lists.openembedded.org/g/openembedded-core/message/162245
 
-This patch fixes a bug in stateful testing, where returning a single value
-wrapped in :func:'~hypothesis.stateful.multiple' would be printed such that
-the assigned variable was a tuple rather than the single element
+Changelog:
+==========
+Drop support for Python 3.6. :pr:'262'
+Remove soft_unicode, which was previously deprecated. Use soft_str instead. :pr:'261'
+Raise error on missing single placeholder during string interpolation. :issue:'225'
+Disable speedups module for GraalPython. :issue:'277'
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...ython3-hypothesis_6.36.2.bb => python3-hypothesis_6.37.2.bb} | 2 +-
+ ...{python3-markupsafe_2.0.1.bb => python3-markupsafe_2.1.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.36.2.bb => python3-hypothesis_6.37.2.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-markupsafe_2.0.1.bb => python3-markupsafe_2.1.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.36.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.36.2.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb
-index 8642fb55b9..4deed1e56f 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.36.2.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-markupsafe_2.0.1.bb b/meta/recipes-devtools/python/python3-markupsafe_2.1.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-markupsafe_2.0.1.bb
+rename to meta/recipes-devtools/python/python3-markupsafe_2.1.0.bb
+index 857472cc7b..953ea01cfe 100644
+--- a/meta/recipes-devtools/python/python3-markupsafe_2.0.1.bb
++++ b/meta/recipes-devtools/python/python3-markupsafe_2.1.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://github.com/mitsuhiko/markupsafe"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=ffeffa59c90c9c4a033c7574f8f3fb75"
  
--SRC_URI[sha256sum] = "7202ea05759f591adf6c1887edbd4d53c049821284f630c5ec8ec3f3f57fd46b"
-+SRC_URI[sha256sum] = "79321035b9174ffa506d724ca5e8af375d7bf532c80e4f602bd433792c527e6c"
+-SRC_URI[sha256sum] = "594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"
++SRC_URI[sha256sum] = "80beaf63ddfbc64a0452b841d8036ca0611e049650e20afcb882f5d3c266d65f"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ PYPI_PACKAGE = "MarkupSafe"
+ inherit pypi setuptools3
 -- 
 2.25.1
 
