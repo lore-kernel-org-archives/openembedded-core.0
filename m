@@ -1,176 +1,179 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8401FC433F5
-	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 16:04:45 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (EUR04-VI1-obe.outbound.protection.outlook.com [40.92.75.90])
- by mx.groups.io with SMTP id smtpd.web08.9476.1645632283351250557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89D90C433F5
+	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 16:17:46 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.73])
+ by mx.groups.io with SMTP id smtpd.web08.9681.1645633063244554705
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 08:04:43 -0800
+ Wed, 23 Feb 2022 08:17:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=BLerTcuq;
- spf=pass (domain: outlook.com, ip: 40.92.75.90,
- mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=RZ5ESu6N;
+ spf=pass (domain: weidmueller.com, ip: 40.107.20.73,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bL+PWaYvhgia0czYTo0p72eTvS6rIJbWdvKGdApiDfSQVSRD6pgLB+IVT1j8bajjpojzRqFUSlRJQP5HOTixnF7xUJjFl3pCk2C4CWvUDNcWjxRfAMXx4Rhtsfj3tqDEThl2Uetz35xBKihj8iYQkyCTEuASUj1cFAqbZit7V/lTNRy2ctQHrgW+ZfXteedRk88/lkVWQN36GMfpRHvadoXdzdEaBvI6uq7NTr4ElrD6zeML7trvc2uMWMBrSVUMPSm3+Jhsyu6BmpmyTxLZEzOXUuECdleNKKGyzKppYh0WJocO1Pl+F9fhwc6ixSti1+wP3Xd7j8i6sXTv+kB3jA==
+ b=I1MpHJXprtXk0Ixdf7t3j5/YAcckCx/2yT0/lCAgAFeNTC5Cp1vbgtXUv9nwFFCXWJJ+9USYVW1LvAAgdP9hkaUWGMOnsKQsY/clcce2hmpCCbl1p7QK5NA9cBpFTKZ//qBkoYTfek1oz9JerhqE5YncP8OxOpSxrxyawS7pjWJ2Ol2tB88fnoMbKfdYqEpc3DJCc6bbfxVGbUfNMZexxr/qhP7ldqiBD0mpU9HE/LoR2grxtua1CaMWPA8i3s1PIOeQvNhpp7YT91bVMHaCi6r2/t/pIEhUmIQIjvdTe5Le/FXo1DBt6OkNT1XTsyuwEvzAv9+nwoxOuMD/TDsRKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rLQDjii9ls0SYZQKyMXUIgQkqdlPnov8+BMDP+5nyIc=;
- b=FI6lJYaA30k5/ixBXXEV9paLzJeuLqzpm7hUjKsfE62DKfV4FiwUZp65Be79omSdUNytOG7zLGnnfTjh/t2nMh9rbmhJ5bXb/ptH3RYAyDfJA4dzv59W022uuErJyPRAo98JHMxT0EFekS2mSI2p96kgzq7zHfZ+MBRdkXA7gCH/Mx5PFH7zK8JBQypQhevlFw4M3IYUEmc/VGbC8/Zl/tNM/gNuJZgC7bnWYi4mxIDKZMZjU5O2SpGrTzFDl2c49hLMX2n0IViFo6bOjvEUVGgB25Ws4JWWVK17cAbfNTPwlMe/mlrQcfTYLR87pUhJaqyMiGUVflAkZONUTJZGEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=xEnIyrq+abqrrfQGUL5c4laYAukoipIK7Kna5XSiyT0=;
+ b=Yyeza73yNFQfaLWzP8pfvdzvYMrKkI0bEi5LoMoZ5cB3drPzYgTp2nrg7ebstnZNcE2RLp9CoswfP1sKq3N5z04Z+ek1b9qCg5aovn1ieIg2OZ1e0oi7bcGq81sbVt1eZylbY8+TKC4rQTw5cBBkjYaGVj4nYNq/Wn4dx8TBqGWaYGXHHML5eswQ3tYZrW3FhyDyTw0MZ1XLnZAR0BhLOjsFtaGODDOERIZ3/rE2tFRLGHW5ldZe4iZhoqLwmOoSOUm+RyPo8OZM74wrRkACC09GamUMqMPBFA5uGKdfFhMTeQvVM3WFX4gPEXvtBnrIH/BzGPF1MidqZVCXyAplvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rLQDjii9ls0SYZQKyMXUIgQkqdlPnov8+BMDP+5nyIc=;
- b=BLerTcuqcCtRd433XAwGdMGR1hFXmaQzLWt0YruFeIxNpjlRq+YNx6A992SlGPeRR0LIYD4sNIUF5OVS8gEEGVpIkf+DfT0EZOkfOSr3k0xb7PQ3OFAnxPUDgNKW7yD8pusNTwJF8MmZ/kUhnvlCNbMfYf/OEuo94knO4cYMoIg8Q8s+Mt6puyyhRCmU0i+Du0PNFnIpb08oCovsJWtta4D+4QqTH9xvEF/fMVb4vc3A/5icAXpdj9zDrsAwD/QECz/rgUwk6Agt7koQUM2hyGDDtlBa4WajaFMYAL9yefTDdfY0K8rxpW6nyCPrhfU6GigkeIQXlHqFDjwCvHyFNQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by DB8PR09MB4121.eurprd09.prod.outlook.com (2603:10a6:10:12c::10) with
+ bh=xEnIyrq+abqrrfQGUL5c4laYAukoipIK7Kna5XSiyT0=;
+ b=RZ5ESu6NCNOgylNzpmD51joYcbP0zdh34osSL4D8VMDFfar7Kr/gJ2n4PnVToCvm9ge1UPpuqTmY9ste03sQhB+FQ1ECiB64e7qLo4ghBBX1FAkB3mpEaTG3ZICUWXQYh4skd93jlyhEzflL/HQ4MoMy5r+5039BR33hK1McNrc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by VI1PR08MB2687.eurprd08.prod.outlook.com (2603:10a6:802:25::25) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.24; Wed, 23 Feb
- 2022 16:04:40 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b%6]) with mapi id 15.20.5017.022; Wed, 23 Feb 2022
- 16:04:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Wed, 23 Feb
+ 2022 16:17:40 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::245e:139f:5d4d:1dc2]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::245e:139f:5d4d:1dc2%4]) with mapi id 15.20.4995.027; Wed, 23 Feb 2022
+ 16:17:40 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org,
+	mingli.yu@windriver.com
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [PATCH v2] systemd: move systemd shared library into its own package
+Date: Wed, 23 Feb 2022 17:17:21 +0100
 Message-ID: 
- <AM9PR09MB4642B6942BDDAC17F60A142FA83C9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Wed, 23 Feb 2022 17:04:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH] systemd: move systemd shared library into its
- own package
-Content-Language: en-US
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
- openembedded-core@lists.openembedded.org, mingli.yu@windriver.com
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-References: 
- <20220223155954.11408-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
-In-Reply-To: 
- <20220223155954.11408-1-stefan.herbrechtsmeier-oss@weidmueller.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [BmXrIt6du06fS2fRtIPI2eKYE640svqHsM0PKONifdLOTwMU08c1ZoZS/OtUUnk4]
-X-ClientProxiedBy: AM5PR0701CA0022.eurprd07.prod.outlook.com
- (2603:10a6:203:51::32) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <2cf87319-df83-96f2-fdb6-ca14413544c9@outlook.com>
+ <20220223161722.14256-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AM6PR10CA0022.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:89::35) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ba97231-1f2a-446d-c7a4-08d9f6e6326f
-X-MS-TrafficTypeDiagnostic: DB8PR09MB4121:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac3cc6b8-1879-4bcd-05c7-08d9f6e80373
+X-MS-TrafficTypeDiagnostic: VI1PR08MB2687:EE_
+X-Microsoft-Antispam-PRVS: 
+	<VI1PR08MB2687C7213F01048370DA16CCD73C9@VI1PR08MB2687.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	LjFhvT8BbUlLTXpOg8MX8g8Eu7Vzns3Vj6i8N/XNX4gwNzlFgbrVq/KovKwVAQE8gNvUMp/HA0pjG1jw6A+YKSAKLM/Zxhq8+URJCLWTKUBukMm0LsJtb/2F3IQDxUAdyYDOU5JXA50+/L4NKl8QWK3i58fuHnhP4xbQV4JvVYMvJjrwdmru1TOcncN/fPGYsIMA1TF+hT6LwqoSk+6gxkZSUJkk+8dRmg8XIGG99ezOsLG600hscNcf4HCnddR/gPBXKRL1g8gtXkSyhpIpAwwB7JF7xFJPzD61IaHLaeZp4eKO73Jm3CB3gmkCtRHkPQyy8PnpeInD3FeMj4IAD8pPs4dIt5zrMTOIyMCBeZskH//6Ox/Dlro80Xo2mLEC6Vkf9Q8bZCAE9wvJ2g7HwszP8xXlXtYCHsJG3SN1ykyLM5QoYjnt94maRJ06PfUZCdFCoGTpV2NHilRiNJ3NeoXEifgxslJ2yArCHdqALBDmMhUvY56zhe2cC6ger5OjhpTZ6YUBWwQQIHisJHzDdSyxPldlaf0/MdhzdH2C3rTljbEJbrP8apWHqiu3ldv4NBpPninR67xeiTnE5qCMUsSUKX5zUkECW4L2YgxsmVRgTDfHDUKLBztEugO+tjVTJe4fK+TK/oqp8Bk14tjni++a3IHFDgjsleIFNs+1i7U=
+	2mMf5WHxxb1cQ063h0jaUyh9QKG1zBREwJvCAZyEN+EaaK24vWaG5Hdj5IAdtfl329K+67J5QqYcNkXYtB5pftw2ub4CZPtCubqj38G5xRA7Y09DxCDhkaIWRWBDyEPaXw0KaiXmLHp81WXC4j0MeDbYWQGfZgFWFYydk/yqPOR8uNQaG2vEoRGF06IFX4T30tH/gZLAzP6eNITNLIywYkWDUMr1WpPQ3Ocym1sMOdAw5ft2OycXS0qLhKCIwrNs+b7mO7g9j7tYtGpc+JW15i+mD69+ME+ukkuZ8JOeKr1TQ9MCBrhsmW4wxxCfomUAih95eWud3M5Dji2WrR0gU6mb9seb/so+e2t3wo838zm6pD+E1vXrRJeJkS9d9Msv0rYkZ9acOU8a3LDJczGzmq87fLj+LM2us2BpeG5aY+DcdheNZLHLyY1D0ti98h76y5Au87QQZQtehy+t4XxYGDy/c3MZUSbgY6AQjBLyhej7aGSoHVHuTbKhL74T5SQwENjJzUTCfZXGglhJN+Ayt0xJTMxwL9Xzh2o9X2w7z3Xsq2cLNh9hmpq9B4t/VpOf4y/kfnOALFOgFE55l1C47/kHfVRrmpescfksrU8lEI25G6GhzJeLI2C13/JN9MoB/9mQ/pGV1Lm2FeEt9TFhcfHMTHYM5z+JDS29auMy7AMCFPDCIUlSk9KcMDHiO7fEMh+Sqtu0iCvspWA2okD8vA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(38350700002)(2616005)(1076003)(66946007)(86362001)(38100700002)(26005)(186003)(8676002)(4326008)(8936002)(66556008)(66476007)(107886003)(2906002)(83380400001)(52116002)(6506007)(316002)(508600001)(36756003)(6486002)(6512007)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UHgvSnVtM1BaR0dpb2lhdjJCVUxLd0tiZ0tRTkNOeVp3cExNUHY2K0hZc3BQ?=
- =?utf-8?B?YkVudnU4cEJEWlY5eE9yUElxWmMwYnVsQXkxTkU0U0wzSXRNWU5laDI1OU9q?=
- =?utf-8?B?VEdVckZYbGRUdkZNT3VZdjFnUUduSnI2UVlha0xYaHo2SlFWNG1UZVloYU94?=
- =?utf-8?B?cTdZSVJqTjZxWWtFSGUxY1dqTGEvZFB3U3BKWDlyS2xMWTVpSUxlLzg0L05N?=
- =?utf-8?B?aGRyMjhkSHdGSFZERDdlM2VxZEIrM3hTdVJQcWtTbXI4TTNvVTR4YldObE41?=
- =?utf-8?B?Tk0yYjZjME1wbXQ1a1VZV0tjbVYyY3R2eTIwMHV6UnkwazhmU1ZORUNWQ1c4?=
- =?utf-8?B?emdvZlRBcExiNVEyMVF4TTVLWkNXeVB6K1dMajVxaStWU3hCbUs2bjVIVVAy?=
- =?utf-8?B?bGlmZlpoWXpCb3EwMVl0elFIc2pmcUh3bzZNak92aW92cEs2VkkxNE1lY2Uw?=
- =?utf-8?B?NDhhLzJ4TTVUMjgyNytWRzBZT0V2VkVTNk1pQjFnL3BmeGpJM1RtcFF3cVBt?=
- =?utf-8?B?RmtrK2RiL3RrWkJIcTVaTlo3YS8xTzd6WlNFWVRxRTM2ZWFBRlhBS3JveEFr?=
- =?utf-8?B?aFBsM0p0RE14UmUwTkFTZUNrYzVPMXdnYTdUaWdISFpoVjVzQWQzUllJNW4y?=
- =?utf-8?B?WUFHUUFMMVNzTXJZdzB3a2p2ZUVQQW5UTnlITmt4REJlY0FtMXFpUGk3KzEv?=
- =?utf-8?B?VEdzOW5GVU5sVkhIK2NGMk5sbzZHYnhLOVJVZWlGNmpSanBXOWxHSHlrOTVI?=
- =?utf-8?B?cVVRYTFVRHRFUTFPdzVpR2h2T0RKU0R4U0tBdGdESURDQkQ1MlhZUFVpNlBH?=
- =?utf-8?B?aHREVkJMcmFtZnY3T0ZVcFVUTXVZZTNXenlnVDFwT0dQVTVWVCtENkIycnFW?=
- =?utf-8?B?WU1KcTY5eHJlQWFVV0Nab3pPSHpRMWpjcDFUNHRjQ1dRaXhVSlhXd0hOWlpv?=
- =?utf-8?B?amw5WGpjazN2c3liU3lyWW5FTVo2SDJ3OFhkV3ZqeUlwazljODNOMkp0bWs3?=
- =?utf-8?B?WVVqMzFRQzAwZC9Na0JCSEJuZE14MldLekFmajBCQVJkQ3E0TVI2K0c4cm9G?=
- =?utf-8?B?b2QwN0IrQi96UkxLL2VGODFzKzZYZXBUakxIbldiRlNRTmUvckV4MGxVMHM5?=
- =?utf-8?B?SERubkNuazBET3JTMXdnY0ZWUEhDUW1VcDBieXVtYlgzUmttMUgxRGhYaUhB?=
- =?utf-8?B?a3dVQjBGMEtLaTNDRmlxR2duK3duQUhjUW1WVWRQNnFuUFBiN0UxOFZmS3lk?=
- =?utf-8?B?WFQ0amJXR3pRZVluLzdoVm9OV1VUdm1NdmNZRjUyREhRV29xTkNRMTVpenBq?=
- =?utf-8?B?d2FGeTlTeklBZ1JlaUY3UTA2bFhXTGMrYjJlMHVibW9aY2hEL1lQRzB2NC9w?=
- =?utf-8?B?VE9SSzZ6U08yZGc9PQ==?=
-X-OriginatorOrg: outlook.com
+	=?us-ascii?Q?6tkuXK0Fw63+bcSexnU9gp7PVFVUMJxBf9mQaAWHuw/qbvhagplf4sCtwLCi?=
+ =?us-ascii?Q?aHhtWy6DsV8qQ5T08bqQkoBiXl8HnbDfT7Ebfy7uVdiJyf7wPRd+//AEKfFQ?=
+ =?us-ascii?Q?NOn9wnpDRTcVOEWDvXzmZ179TaC4cLiYtdMALsO3O2w7jiScTAUA4fc6XAQU?=
+ =?us-ascii?Q?YO7xak6sPi3Dr7BKn9sRH1NVEaHSgcNE/FF/hVzrvdDhpqin2Z1kzCynESge?=
+ =?us-ascii?Q?pk0igmQWxGyyk+vKpKeBV2iOaDaWDGxRcV8T3IJpt4oLgVSwtTrc9nykOO87?=
+ =?us-ascii?Q?S5Xl4dccPwhrQasNw9WU4RN7x/aAi/pmZb579hT/q4QJlLr7/GCCynixjl+x?=
+ =?us-ascii?Q?D2ynoTVHnN9nD11DWl/9nX2AQTHi8M6AEoj3l6+xjdFZ265+RovFgoLY2vqC?=
+ =?us-ascii?Q?Gu7lJ7ARzYcClXoVKvN5pPCaSPrUj+CYz1SA1erHxniJelVS69z2ISOPiolp?=
+ =?us-ascii?Q?+oJge9b315jg7QckFIoOZQXjthyoSiIlHdRa7ZDjS0V1MxtJqpgdJTprEMDF?=
+ =?us-ascii?Q?gZZW4Cm3GO5J0GamYFCTyJ6TX5Rmnob5n1dLktw92Mt89clB4OWTrFy/xIHP?=
+ =?us-ascii?Q?VNM9Lqcka0H9k9bAW15C+BFu3VAMiyzMc2oJGYS73waYzg0jVlopZOg2T3vK?=
+ =?us-ascii?Q?PwUUHneNG6x7HgdMCQdLmNeGqt1X/+h/UdhzlogVH3WwOT96MPXCv8RO7GH0?=
+ =?us-ascii?Q?s6pKDc5h8axjQdD/Lt/hNMfwhEr8qKNyrbZPn55sXdTU2KzjaRL7nOI7R1Aw?=
+ =?us-ascii?Q?DaRsKXKroFxh8Of2CjW44mR1aLdIeYd9wWF623nkEUZUiji2TaSbDHufIm4u?=
+ =?us-ascii?Q?emUgk/FKVjCqNx8s/IemrLWcITpiAKute22H9Ikz9tlt2jrXdpIHOdrKkzJd?=
+ =?us-ascii?Q?Uczsaw9EZwHuSlvQ6rWuWJLcu1m1eXW0GQdQqkXO5UbrYlwgp3CePfY8sG/7?=
+ =?us-ascii?Q?Y5f2Vy65AxPqGmX2kP/7U5YIsb5rUYvnAyR5D6ponH38YzWexMfAXhTVl70l?=
+ =?us-ascii?Q?0RYkK7HzY5aulyWmzoy7JdAPndNo005EVq02VbxBjP8wErHfJzOvnF3I8hii?=
+ =?us-ascii?Q?9KQdwjdpTCHEs31IGqo15jTyX9J4wxqYPpZP8/QD6yrhBXEdBUK7+b28+91D?=
+ =?us-ascii?Q?jbJSK1oEhA/RxUCMEH7ZbdwdzV3xyu5lVNGg5hD0cRt2VoVL2or9Ni5vFj31?=
+ =?us-ascii?Q?Ij25aohGb3ZQWHt/nvh5JGlyHdPPnP3gEc2rfj4DDUISc1IkVji0Hbt1Eu/g?=
+ =?us-ascii?Q?vMmNBTCUt+YovEGLPXaTstHLV6iUB+Z7LyabNxikvENQddTK7Y+fneA1s572?=
+ =?us-ascii?Q?CVbZv2YhLV55PR7f3wKj94KVhoPoKVmaNQtt1IV3/MK6WnE8bqs8qKlERLgq?=
+ =?us-ascii?Q?iXjDL16ndHoVoiuE4OJFp70d9Fec/1s9Qo83jxoN7lkZkKywC+Y3leP/ZrOF?=
+ =?us-ascii?Q?tcGMWYoQyPqq8+1hHcyqoT1NuzO7/lEeDSZMF1PDceFdJydseFKMovmb2+Pf?=
+ =?us-ascii?Q?532k27BsU8R8AT9TQKZqzrW3aivgT7V6VZUnzbeHCZo9/8jZ+5gxiuxa2U4B?=
+ =?us-ascii?Q?i7wfXZhZVUynTJuz59oLcpB01mQX/+1iBsyFTPuqgMOPQ/HdXo/5kzrN+ROl?=
+ =?us-ascii?Q?MRJ1J7FKGIBiV6C3nRafI2g=3D?=
+X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 7ba97231-1f2a-446d-c7a4-08d9f6e6326f
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+ ac3cc6b8-1879-4bcd-05c7-08d9f6e80373
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 16:04:40.1076
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 16:17:40.1757
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR09MB4121
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ ELKOcAZQLiA3z3mVfy4PnWztjHL5wn5cRL6UNe8gxiWYCPGC9NSPnMGHTmHn6gYx2+o/VN3+xp94viB6TpHntg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2687
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 16:04:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 16:17:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162269
+ https://lists.openembedded.org/g/openembedded-core/message/162270
 
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
+Move the systemd shared library (libsystemd-shared.so) into its own
+package to prevent a runtime dependency from udev package to systemd
+package and thereby to a second init manager.
 
-On 23.02.22 16:59, Stefan Herbrechtsmeier wrote:
-> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> 
-> Move the systemd shared library (libsystemd-shared.so) into its own
-> package to prevent a runtime dependency from udev package to systemd
-> package and thereby to a second init manager.
-> 
-> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> 
-> ---
-> 
->   meta/recipes-core/systemd/systemd_250.3.bb | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_250.3.bb b/meta/recipes-core/systemd/systemd_250.3.bb
-> index 9121333f56..43ac66da62 100644
-> --- a/meta/recipes-core/systemd/systemd_250.3.bb
-> +++ b/meta/recipes-core/systemd/systemd_250.3.bb
-> @@ -371,6 +371,7 @@ PACKAGE_BEFORE_PN = "\
->       ${PN}-journal-remote \
->       ${PN}-extra-utils \
->       ${PN}-udev-rules \
-> +    libsystemd-shared \
->       udev \
->       udev-hwdb \
->   "
-> @@ -387,6 +388,8 @@ DESCRIPTION:${PN}-journal-upload = "systemd-journal-upload uploads journal entri
->   SUMMARY:${PN}-journal-remote = "Receive journal messages over the network"
->   DESCRIPTION:${PN}-journal-remote = "systemd-journal-remote is a command to receive serialized journal events and store them to journal files."
->   
-> +SUMMARY:${PN}-container = "Systemd shared library"
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
 
-That doesn't look right to me - shouldn't that be SUMMARY:libsystemd-shared?
+---
 
-> +
->   SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfmt', '', d)} \
->                       ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gatewayd', '', d)} \
->                       ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
-> @@ -654,6 +657,8 @@ INSANE_SKIP:${PN} += "dev-so libdir"
->   INSANE_SKIP:${PN}-dbg += "libdir"
->   INSANE_SKIP:${PN}-doc += " libdir"
->   
-> +FILES:libsystemd-shared = "${rootlibexecdir}/systemd/libsystemd-shared*.so"
-> +
->   RPROVIDES:udev = "hotplug"
->   
->   RDEPENDS:udev-hwdb += "udev"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162267): https://lists.openembedded.org/g/openembedded-core/message/162267
-> Mute This Topic: https://lists.openembedded.org/mt/89343939/3647476
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Changes in v2:
+- Fix SUMMARY override
+
+ meta/recipes-core/systemd/systemd_250.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_250.3.bb b/meta/recipes-core=
+/systemd/systemd_250.3.bb
+index 9121333f56..04785827a2 100644
+--- a/meta/recipes-core/systemd/systemd_250.3.bb
++++ b/meta/recipes-core/systemd/systemd_250.3.bb
+@@ -371,6 +371,7 @@ PACKAGE_BEFORE_PN =3D "\
+     ${PN}-journal-remote \
+     ${PN}-extra-utils \
+     ${PN}-udev-rules \
++    libsystemd-shared \
+     udev \
+     udev-hwdb \
+ "
+@@ -387,6 +388,8 @@ DESCRIPTION:${PN}-journal-upload =3D "systemd-journal-u=
+pload uploads journal entri
+ SUMMARY:${PN}-journal-remote =3D "Receive journal messages over the networ=
+k"
+ DESCRIPTION:${PN}-journal-remote =3D "systemd-journal-remote is a command =
+to receive serialized journal events and store them to journal files."
+=20
++SUMMARY:libsystemd-shared =3D "Systemd shared library"
++
+ SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${P=
+N}-binfmt', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '$=
+{PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '$=
+{PN}-journal-remote', '', d)} \
+@@ -654,6 +657,8 @@ INSANE_SKIP:${PN} +=3D "dev-so libdir"
+ INSANE_SKIP:${PN}-dbg +=3D "libdir"
+ INSANE_SKIP:${PN}-doc +=3D " libdir"
+=20
++FILES:libsystemd-shared =3D "${rootlibexecdir}/systemd/libsystemd-shared*.=
+so"
++
+ RPROVIDES:udev =3D "hotplug"
+=20
+ RDEPENDS:udev-hwdb +=3D "udev"
+--=20
+2.30.2
+
 
