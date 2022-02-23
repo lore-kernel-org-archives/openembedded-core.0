@@ -1,216 +1,176 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F248C433F5
-	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 13:42:19 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web08.7589.1645623737618544757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5CDEC433EF
+	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 16:00:21 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.45])
+ by mx.groups.io with SMTP id smtpd.web12.9429.1645632018317371538
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 05:42:18 -0800
+ Wed, 23 Feb 2022 08:00:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ren1J21+;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1645623735; i=@fujitsu.com;
-	bh=5JyLZnbYLCyBBemfDg0PSfiivLqILmJ0mkw3SVOm4J4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=ren1J21+jPi3i14b+jETmeiedOvMSDAFteiJWO7JoyiNHUnaDzV7YFIfmVInvRFwd
-	 yMsmxsNadvuuL8Mfa2M5URzDqAn892E94uPaXx7SutGasvmzZuFGuWVKnnCFOO4BIm
-	 h+6AGgxroA+T8GFCv+QmjSkA7E7n0KchFv6f8Dqxw96BwTx1Pzl8E4XCmb4hjW3htw
-	 8jMa5EYAwrrTjV9DCsUuLMS0hlgno6JyqixH7pQ6KnZlAgK5MecXRbV9j5q05Md6fx
-	 rh5S4PSh0wkOCcdOSdoJzTOYvcYWgeSbeS1MCm1P9rpaSGFMQur1IIAvzhWGtc+DhG
-	 8PnnQZPSD62oQ==
-Received: from [100.115.69.48] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- AA/0F-25243-7B936126; Wed, 23 Feb 2022 13:42:15 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRWlGSWpSXmKPExsViZ8MxSXe7pVi
-  SQd8EEYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPT0syCGZoVp54uZW5gfKXUxcjFISTwmFFi
-  zfw1rBDOeSaJa49usEE4Jxgl9r24BORwcrAJqElMv3UDqIqDQ0RAT+LqP1GQMLOAisSL3z3sI
-  LawgLnE/R9NLCA2i4CqxORDu5hAbF4BJ4n2Qy1gNRICChJTHr5nhogLSpyc+YQFYo6ExMEXL5
-  ghahQlZl9uZoGwKyRmzWpjgrDVJK6e28Q8gZF/FpL2WUjaFzAyrWK0TSrKTM8oyU3MzNE1NDD
-  QNTQ01TWz1DU21kus0k3USy3VTU7NKylKBMrqJZYX66UWF+sVV+Ym56To5aWWbGIEBmZKsavi
-  DsZrfT/1DjFKcjApifJe4xFLEuJLyk+pzEgszogvKs1JLT7EKMPBoSTBK2YBlBMsSk1PrUjLz
-  AFGCUxagoNHSYT3uipQmre4IDG3ODMdInWKUVFKnPe6AVBCACSRUZoH1waLzEuMslLCvIwMDA
-  xCPAWpRbmZJajyrxjFORiVhHm1zYCm8GTmlcBNfwW0mAlo8ZQsIZDFJYkIKakGpt0p9/r+Knk
-  HacoIuaVc8r+beNr9DtNE3qVzNsU0RL4WfaPKt+nGwt13b3ruT2F34p//7HR6ssmhas1wnxUp
-  H82ec79PqFwiytf3Qe9ns8bPd8xpSm1sYVellhRa7W6Z8aBM4LHGLcHfrP43oie/UNjL2Dllr
-  pBI2TL9zR8PKolwmeec2KZ++NP1biWpUycnTFNxDj18pmLuAqE7YSm7JVNlnvW41jS5rk/d5a
-  C8/K++caZw+CvpO/cYd/koGj9c+3zqrFWfziy+esSV+V+K6Z7XvAd2Bbruu3OY/33fYZvEpmd
-  2dUvElF+bf7rYEcSq2j196bI8oSrF59s+vNE/X2fNoGl4IyYkYaPZZU8NASWW4oxEQy3mouJE
-  APo6aYJHAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-532.messagelabs.com!1645623735!21712!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 1429 invoked from network); 23 Feb 2022 13:42:15 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-5.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 23 Feb 2022 13:42:15 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id CC838100450
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 13:42:14 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id BCB1410033A
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 13:42:14 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Wed, 23 Feb 2022 13:42:03 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] ruby: upgrade 3.1.0 -> 3.1.1
-Date: Wed, 23 Feb 2022 21:41:53 +0800
-Message-ID: <1645623714-29329-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=vOSNazZQ;
+ spf=pass (domain: weidmueller.com, ip: 40.107.15.45,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AyMd+90HchcfnSqXlVJxIVs2kmJnLvYaWQS0mBEEqnET1bDnSzA6mZdnaSJKqGX7igyLiw83B86p0OHHFRUuOTQCWpbbDucwgGAbIr/VnRrktOeELBGWZSyaAiyOqtfJdyVZfLL9/yrNoT127Ukgb5dF+ZXQMSS4YuCGe+vdVVQrxmZTpeY1qd2SIwdZ4D3CHzAsK2wUS6FTLhsKQHfheaBj78SCKktCqHpHjoNDTEnq1onYuzVPVG5gKyYFnyKp3y7qIUIeZ1jbNd9r8mkP08FsWlNQdm8nRMoc97Y1rDO8Q3lsgGMRcIkUuc/Bf5/D6FNNnBdCQf4DZ4CQmbM8+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8YkFR/Rv1n814PqwKWEPfGQvGe+ItuIGIj2shMTpLCM=;
+ b=Ble9PXrrD5/pV3Qebjmfidw/ZMyrOyFT8tqjf2auKW9E//KWWcRPtFDvtj2MnXupLzEU/FHh5+rd9QMovPJ2dWnGzOAm+M8L5ZMxF+0whRZIygVa8njB9Bor6JI9NFSSjX04SpALjTq5GEmWZxVhr/k+fbWxbJf2vC956O5SGYh9Emb+8ULjhLx6Ou5n78Moh5nYahnjwEDA+dBmn/gN9/5awX+NX+UijZmIlEc8NCyQiCRfznjG9wmLSwZI2hptW9tdBr0+OnLfh3j6blY8uucl9Bq633uGepmyXAAWK9ituxJ4Mlf/HgT0l6GmFqjrT1ADUfggCTKhAnviO1XCzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8YkFR/Rv1n814PqwKWEPfGQvGe+ItuIGIj2shMTpLCM=;
+ b=vOSNazZQNe6FO0m37gNioJiVWd1Qb2EpMA10pylkzYLIUvY60adhA23ahQilt6WmU9YU1eGMfL5oPMQ73tQOsl4q/p04mK12eRUMG9qbkebsWAekt1EBMPzUFmnwWXFTjqI5E1a9Y6HYU7J8mhNEEPKUo/qwRASv0GQ+7Cbc6lE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by AM0PR08MB3012.eurprd08.prod.outlook.com (2603:10a6:208:5b::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Wed, 23 Feb
+ 2022 16:00:15 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::245e:139f:5d4d:1dc2]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::245e:139f:5d4d:1dc2%4]) with mapi id 15.20.4995.027; Wed, 23 Feb 2022
+ 16:00:15 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org,
+	mingli.yu@windriver.com
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [PATCH] systemd: move systemd shared library into its own package
+Date: Wed, 23 Feb 2022 16:59:54 +0100
+Message-ID: 
+ <20220223155954.11408-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-ClientProxiedBy: AM6P193CA0119.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:85::24) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bed45cdc-96ae-4e4f-a246-08d9f6e59492
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3012:EE_
+X-Microsoft-Antispam-PRVS: 
+	<AM0PR08MB3012F6540111ADF28567E34CD73C9@AM0PR08MB3012.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	qeuu6wt5ZgL7g+LZkHz9fpkvRjoAAoqFcOda+6uY9xg4LVTaN9PzqaCNwku3dMoWTGBZN+nBrFecDdfwcie2WMcnKKj5Y2IjVG//ZlJgY2uqPqzN+DHg8oFwvlKgRgnHxEKsUPOc0vmALu4jWEtN4jGcg9xhCm92+IRym6wvyT2ddno7iOJ9cShL0Vb5C0eHfTSFstjQoTbVAbdvpiAqrDQ4b0Agc0uoyjqf5DlOFKKF3EauLP19n1HoGFKoGIsxS7bmnaScU3tsxHVrfy/g5M2r9qU++3pDML8nkk2IR3vZf7R+0nGpp7EEjh+RqXWPtnjlqeialQ6S1h6AfLIgqfc4r+SU1kr5A927DdJi/Bm2x1mZsi7UpB9Ia8q3AsjztzW+oW708NOxNjNRI/IOCzcdSmrK5yJTqjFpYL5eUNY8VHUc+yBpio7+6ZjuS7+0MlaAygTNXbMVP91sXk4vzYZLC9zu6d9tB2BOCauDzCbP9GPRW0apxvBvQzsMzURARdFrHrcAgoTiItwrOi2a9ymEWjdvFmREPPVRMyw+AeDvlUvTaYa7OeDuKKdlCKWQU8MYC1RL0gSMOSCYhPm8JRrxIIJW6B67F0qGWykVWLJkaZiGFzYZ1ESfY46I04ch5+eXqDQAITcXUP8XSgFxVejNl6dr6SCvEtJCyZMiTOi2HXirAVr5p6x6bsHRhasGIel7y1Cz3uCIR4UtVQVWew==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(66556008)(316002)(66946007)(38100700002)(66476007)(4326008)(8676002)(38350700002)(86362001)(5660300002)(6666004)(508600001)(8936002)(6512007)(1076003)(2616005)(107886003)(83380400001)(6486002)(26005)(6506007)(52116002)(36756003)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?uCbS/y83xnZ8eALeKCnYdSZL7R2lHjAprkboBb42Uf1jVu0Il6QcRXFgHotY?=
+ =?us-ascii?Q?ZLLWLGhJZwUkHqkQmJouNFOlzRAhbTdwQznu06vz/KzbxSPxgXEZF/Bjwcli?=
+ =?us-ascii?Q?T/cjh/aU7pa9147Tj2oyAAl+VmcHkhXnRBhpKsRir5GeEnLULa8p7Xtu3K11?=
+ =?us-ascii?Q?iI9gBkpWFxsdl6KEUoYlc/hNMOq7CpPW5GU2j81bI8iu5cSSxT10Cpj3Av1i?=
+ =?us-ascii?Q?hJGXEzvbdlfNUrvWTcE1IGWU4dO978Lo66CwHqdd4xa5LWvSiOqyXSSwsZuI?=
+ =?us-ascii?Q?flEgM+1oaGtTnRwqLOLSCcVGfA/QjlZYWmgZg09twFXHExaca75f6cEJUtEQ?=
+ =?us-ascii?Q?7LzkxtarNPJ/MY0ieHMavatLQx+7Mx2A5DnEs/JbsClYejkFBVayi3UU5fab?=
+ =?us-ascii?Q?cYIxFcsCQC69GYrYqxjO22VtLBAL2wdZ75LsDbg+S7pVQb7VZ1K3Km6tInGW?=
+ =?us-ascii?Q?J98tJVbovtErBLBk/r8EqaRiYQ3Ydd6swy/ff/HRs3Ve5PhawcW/lT6GwMBS?=
+ =?us-ascii?Q?tZSzkTVQowksGsnMo26C2TmCD/k3rsqtMmZ83u43Yr0/Yo9t3n4xBAarifR2?=
+ =?us-ascii?Q?NhwuMnztL1wq5Q165ZWeY4qSYUQRThEBoYObFI0Z2WFCM8NBTdukxUC8GErH?=
+ =?us-ascii?Q?uB6+buhv95FfmtE3uonR1IkE9BUt7YRVODrqKQYV7Vj9RGUwsNMuAwCj7Prc?=
+ =?us-ascii?Q?AfxhF33+b1tNrB8IgI884Z8gRyduRuIZaSKpziTdEOCTc7CEHbOg8wdWk7t7?=
+ =?us-ascii?Q?gzsCA0tJ5waLiiaHygSblMKrBbMd0g3d/VgXbVdlGmk3wKlxAeXfS1UhriEX?=
+ =?us-ascii?Q?qwCfkDpCtGCk3dYVLVGBnJ88++U/VTGq7Gxp/82t78fwRq8d+VbxfVEEOA4f?=
+ =?us-ascii?Q?GLB4wsuUR1G7uhiDvyD7JF1KEDw8MnIHtUy/nHTVcL0JGSJjSw4b5f0fEIQH?=
+ =?us-ascii?Q?fFE2oqwUfSG6Ye2ZRy4j3aoz+Bl5oGvPlO3k2ccKSOOAPjCo/oyG72UA+ozj?=
+ =?us-ascii?Q?SNiyIpt+gIjIv081bBjTTCH8aO1vE9A6gpSqXTV9+BdXEQvoYGbO9il9j41H?=
+ =?us-ascii?Q?3D+BQl3Lh7XbuGkqkDHy4DersnmRrixpFY4kTB2s9YxCgftNUbyZ4WiF5qCl?=
+ =?us-ascii?Q?gfa5y+hReSJIdtqefDTjdnEhtSFR8TA5rDne10Y8AfVl+uzLdI9xwE8JHmO7?=
+ =?us-ascii?Q?U5+QfLgS4PwkFrTcGwPKInP31cBR5KgUUWvKTRLoN0ftrl1jQIqXTYQD3FvU?=
+ =?us-ascii?Q?rPB1U9i18acH/IQHb1a/rPuLYYPC/yCYSJ8VfF/HrFwApZGUeaEs/ppMQgWz?=
+ =?us-ascii?Q?NR+C/ojlw/gAicUoYM5Bhrinqug1isTXXNMRpgOUvdFOgXvO70w7Zs/FuUOz?=
+ =?us-ascii?Q?uubETSGaMgQEgvyvxwbPy7HL+1Iw4LXwSwDfvF/N/yLxGLMfjL2Q+97KUVky?=
+ =?us-ascii?Q?OIVpC0nmkJjQAbn6ROwf5qxnoz3+KlzcVwWJsX2rxpQHq5d3PkvZUhjBepXI?=
+ =?us-ascii?Q?oNFqamO+RRz3ebLWY2G99J8lSL3GClBvYqzOrhFog914lMjVd0oRo+HiUdqm?=
+ =?us-ascii?Q?iN+LmpO8XH4MP29kqdtH69HpieaQ4y1CltdFyxZfghXSYoW/+09o/8g1N8IG?=
+ =?us-ascii?Q?BTy2E/WSYjJQtEdUV+E0pzU=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ bed45cdc-96ae-4e4f-a246-08d9f6e59492
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2022 16:00:15.1154
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ cJulpKv3NwsE+QQDMa6F8SPBG4sRzEFS3yGlN6Xy1LHmHief/nafIXwyrER+wTX2DazE3XM1MPksEwvZFP85Kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 13:42:19 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 16:00:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162265
+ https://lists.openembedded.org/g/openembedded-core/message/162267
 
-refresh the following patches for 3.1.1:
-0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-0006-Make-gemspecs-reproducible.patch
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Move the systemd shared library (libsystemd-shared.so) into its own
+package to prevent a runtime dependency from udev package to systemd
+package and thereby to a second init manager.
+
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+
 ---
- ...eproducible-change-fixing-784225-too.patch | 41 ++++++++++---------
- .../0006-Make-gemspecs-reproducible.patch     | 13 +++---
- .../ruby/{ruby_3.1.0.bb => ruby_3.1.1.bb}     |  2 +-
- 3 files changed, 31 insertions(+), 25 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_3.1.0.bb => ruby_3.1.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-index b7faa58655..41f206523e 100644
---- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-@@ -1,28 +1,31 @@
--From: Christian Hofstaedtler <zeha@debian.org>
--Date: Tue, 10 Oct 2017 15:07:11 -0300
--Subject: Mark Gemspec-reproducible change fixing #784225, too
-+From 6e1dc610724a7aa8368cbcddf4bbe21cccc0f731 Mon Sep 17 00:00:00 2001
-+From: Lucas Kanashiro <kanashiro@debian.org>
-+Date: Fri, 1 Nov 2019 15:25:17 -0300
-+Subject: [PATCH] Make gemspecs reproducible
- 
--I think the UTC date change will fix the Multi-Arch not-same file issue,
--too.
-+Without an explicit date, they will get the current date and make the
-+build unreproducible
- 
- Upstream-Status: Backport [debian]
--
--Signed-off-by: Antonio Terceiro <terceiro@debian.org>
--Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
- ---
-  lib/rubygems/specification.rb | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
-+diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
-+index 0d72cee..eb7bc25 100644
- --- a/lib/rubygems/specification.rb
- +++ b/lib/rubygems/specification.rb
--@@ -1695,7 +1695,9 @@
--                 raise(Gem::InvalidSpecificationException,
--                       "invalid date format in specification: #{date.inspect}")
--               end
---            when Time, DateLike then
--+            when Time then
--+              Time.utc(date.utc.year, date.utc.month, date.utc.day)
--+            when DateLike then
--               Time.utc(date.year, date.month, date.day)
--             else
--               TODAY
-+@@ -1691,7 +1691,9 @@ class Gem::Specification < Gem::BasicSpecification
-+         raise(Gem::InvalidSpecificationException,
-+               "invalid date format in specification: #{date.inspect}")
-+       end
-+-    when Time, DateLike then
-++    when Time then
-++      Time.utc(date.utc.year, date.utc.month, date.utc.day)
-++    when DateLike then
-+       Time.utc(date.year, date.month, date.day)
-+     else
-+       TODAY
-+-- 
-+2.25.1
+ meta/recipes-core/systemd/systemd_250.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_250.3.bb b/meta/recipes-core=
+/systemd/systemd_250.3.bb
+index 9121333f56..43ac66da62 100644
+--- a/meta/recipes-core/systemd/systemd_250.3.bb
++++ b/meta/recipes-core/systemd/systemd_250.3.bb
+@@ -371,6 +371,7 @@ PACKAGE_BEFORE_PN =3D "\
+     ${PN}-journal-remote \
+     ${PN}-extra-utils \
+     ${PN}-udev-rules \
++    libsystemd-shared \
+     udev \
+     udev-hwdb \
+ "
+@@ -387,6 +388,8 @@ DESCRIPTION:${PN}-journal-upload =3D "systemd-journal-u=
+pload uploads journal entri
+ SUMMARY:${PN}-journal-remote =3D "Receive journal messages over the networ=
+k"
+ DESCRIPTION:${PN}-journal-remote =3D "systemd-journal-remote is a command =
+to receive serialized journal events and store them to journal files."
+=20
++SUMMARY:${PN}-container =3D "Systemd shared library"
 +
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index de8d4f04cc..1e4a298317 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -41,10 +41,10 @@ index a9c0ec4..89da078 100644
-    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
-  
- diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-console.gemspec
--index 36beda7..e932d83 100644
-+index aa57f8a..ba7f8e5 100644
- --- a/ext/io/console/io-console.gemspec
- +++ b/ext/io/console/io-console.gemspec
--@@ -4,6 +4,7 @@ _VERSION = "0.5.10"
-+@@ -4,6 +4,7 @@ _VERSION = "0.5.11"
-  Gem::Specification.new do |s|
-    s.name = "io-console"
-    s.version = _VERSION
-@@ -53,13 +53,13 @@ index 36beda7..e932d83 100644
-    s.email = "nobu@ruby-lang.org"
-    s.description = "add console capabilities to IO instances."
- diff --git a/lib/ipaddr.gemspec b/lib/ipaddr.gemspec
--index 36e2300..06dc888 100644
-+index 1f4798e..48743cf 100644
- --- a/lib/ipaddr.gemspec
- +++ b/lib/ipaddr.gemspec
--@@ -6,6 +6,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-+@@ -18,6 +18,7 @@ end
-  Gem::Specification.new do |spec|
-    spec.name          = "ipaddr"
--   spec.version       = "1.2.3"
-+   spec.version       = version
- +  spec.date          = RUBY_RELEASE_DATE
-    spec.authors       = ["Akinori MUSHA", "Hajimu UMEMOTO"]
-    spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
-@@ -76,3 +76,6 @@ index 525a15f..f6d0e22 100644
-    s.version = RDoc::VERSION
-  
-    s.authors = [
-+-- 
-+2.25.1
+ SYSTEMD_PACKAGES =3D "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${P=
+N}-binfmt', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '$=
+{PN}-journal-gatewayd', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '$=
+{PN}-journal-remote', '', d)} \
+@@ -654,6 +657,8 @@ INSANE_SKIP:${PN} +=3D "dev-so libdir"
+ INSANE_SKIP:${PN}-dbg +=3D "libdir"
+ INSANE_SKIP:${PN}-doc +=3D " libdir"
+=20
++FILES:libsystemd-shared =3D "${rootlibexecdir}/systemd/libsystemd-shared*.=
+so"
 +
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.0.bb b/meta/recipes-devtools/ruby/ruby_3.1.1.bb
-similarity index 97%
-rename from meta/recipes-devtools/ruby/ruby_3.1.0.bb
-rename to meta/recipes-devtools/ruby/ruby_3.1.1.bb
-index 7a04a36432..d8fddfa520 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.1.bb
-@@ -14,7 +14,7 @@ SRC_URI += " \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            "
- 
--SRC_URI[sha256sum] = "50a0504c6edcb4d61ce6b8cfdbddaa95707195fab0ecd7b5e92654b2a9412854"
-+SRC_URI[sha256sum] = "fe6e4782de97443978ddba8ba4be38d222aa24dc3e3f02a6a8e7701c0eeb619d"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
--- 
-2.25.1
+ RPROVIDES:udev =3D "hotplug"
+=20
+ RDEPENDS:udev-hwdb +=3D "udev"
+--=20
+2.30.2
 
 
