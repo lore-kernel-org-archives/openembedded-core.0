@@ -1,168 +1,107 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Tim Orling" <ticotimo@gmail.com>
-Subject: [PATCH v3 04/32] python3-wheel: inherit flit_core
-Date: Tue, 22 Feb 2022 11:16:30 -0800
-Message-Id: <b2fcaaaf164e4519a1eb7802791f7acbc6857017.1645557032.git.tim.orling@konsulko.com>
-In-Reply-To: <cover.1645557032.git.tim.orling@konsulko.com>
-References: <cover.1645557032.git.tim.orling@konsulko.com>
+Message-ID: <78b7ab98e425456c7e5b1e4fcfeb16596144cc41.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 3/3] systemd: Minimize udev package size if DISTRO_FEATURES contains systemd
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Wed, 23 Feb 2022 12:39:20 +0000
+In-Reply-To: <f7edf748-fbf3-ac39-69ec-69c9aebc79ae@weidmueller.com>
+References: 
+	<20220202073525.3413-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+	 <20220202073525.3413-3-stefan.herbrechtsmeier-oss@weidmueller.com>
+	 <7b788487-cfaf-7d47-2697-6ac692cb7b5e@windriver.com>
+	 <7764a230-888e-f92e-538c-dcd536e300d3@weidmueller.com>
+	 <2e481fb7-360c-890d-b651-4a83af7b11c6@windriver.com>
+	 <f7edf748-fbf3-ac39-69ec-69c9aebc79ae@weidmueller.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>, "Yu, Mingli" <mingli.yu@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Backport pyproject.toml from flit-backend branch.
-Inherit flit_core class to build
-Inherit pip_install_wheel to install wheels for target
+On Wed, 2022-02-23 at 09:13 +0100, Stefan Herbrechtsmeier wrote:
+> Hi,
+> 
+> Am 23.02.2022 um 02:49 schrieb Yu, Mingli:
+> > 
+> > 
+> > On 2/22/22 9:26 PM, Stefan Herbrechtsmeier wrote:
+> > > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> > > 
+> > > Hi,
+> > > 
+> > > Am 22.02.2022 um 10:20 schrieb Yu, Mingli:
+> > > > Hi,
+> > > > 
+> > > > On 2/2/22 3:35 PM, Stefan Herbrechtsmeier wrote:
+> > > > > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> > > > > 
+> > > > > From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> > > > > 
+> > > > > Link udev shared with systemd helper to minimize the udev package size
+> > > > > if DISTRO_FEATURES contains systemd.
+> > > > > 
+> > > > > It is only usefull to link udev static with systemd helper if udev
+> > > > > should be installed without systemd.
+> > > > > 
+> > > > > Signed-off-by: Stefan Herbrechtsmeier
+> > > > > <stefan.herbrechtsmeier@weidmueller.com>
+> > > > > 
+> > > > > ---
+> > > > > 
+> > > > > (no changes since v1)
+> > > > > 
+> > > > >   meta/recipes-core/systemd/systemd_249.7.bb | 1 +
+> > > > >   1 file changed, 1 insertion(+)
+> > > > > 
+> > > > > diff --git a/meta/recipes-core/systemd/systemd_249.7.bb
+> > > > > b/meta/recipes-core/systemd/systemd_249.7.bb
+> > > > > index 739f3aae86..431781e6c7 100644
+> > > > > --- a/meta/recipes-core/systemd/systemd_249.7.bb
+> > > > > +++ b/meta/recipes-core/systemd/systemd_249.7.bb
+> > > > > @@ -66,6 +66,7 @@ PACKAGECONFIG ??= " \
+> > > > >       ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit efi ldconfig
+> > > > > pam selinux smack usrmerge polkit seccomp', d)} \
+> > > > >       ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', 
+> > > > > d)} \
+> > > > >       ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '',
+> > > > > d)} \
+> > > > > +    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
+> > > > > 'link-udev-shared', '', d)} \
+> > > > 
+> > > > After this change, the iso image failed to boot with below error:
+> > > > Cannot find rootfs.img file in /run/media/*, dropping to a shell
+> > > > 
+> > > > And more detailed about the error as the attached.
+> > > > 
+> > > > Steps to reproduce:
+> > > > 1, update conf/local.conf to use systemd as the default init manager
+> > > > DISTRO_FEATURES:append = " systemd"
+> > > > DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+> > > > VIRTUAL-RUNTIME_init_manager = "systemd"
+> > > > VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+> > > > KERNEL_FEATURES:append = " cfg/systemd.scc"
+> > > You have to set the INIT_MANAGER variable instead or set the
+> > > VIRTUAL-RUNTIME_dev_manager variable to systemd.
+> > > 
+> > > > 2, bitbake core-image-minimal
+> > > > 
+> > > > 3, runqemu qemux86-64  core-image-minimal  iso
+> > > 
+> > > A revert of the commit solve your problem?
+> > 
+> > Yes, the issue is gone after revert the commit.
+> 
+> It looks like a loot of packages have a direct runtime dependency to 
+> udev and after this patch udev have a runtime dependency to systemd. We 
+> could revert this patch or move libsystemd-shared.so to its own package 
+> to remove the dependency to systemd itself.
 
-We need to bootstrap python3-wheel-native in order to have bdist_wheel
-available to python3-setuptools-native and the refactored
-setuptools3.bbclass. Simply unzip the wheel into
-PYTHON_SITEPACKAGES_DIR for class-native.
+A separate package for it would seem like a good option and could smplify the
+original issues we saw enabling this too?
 
-[YOCTO #14638]
+Cheers,
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- ...roject.toml-from-flit-backend-branch.patch | 100 ++++++++++++++++++
- .../python/python3-wheel_0.37.1.bb            |  16 ++-
- 2 files changed, 114 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
-
-diff --git a/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch b/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
-new file mode 100644
-index 00000000000..023de0e6a88
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-wheel/0001-Backport-pyproject.toml-from-flit-backend-branch.patch
-@@ -0,0 +1,100 @@
-+From f00dd220346773bc088d403847ee7f06f2b4c30a Mon Sep 17 00:00:00 2001
-+From: Tim Orling <tim.orling@konsulko.com>
-+Date: Fri, 18 Feb 2022 11:09:16 -0800
-+Subject: [PATCH] Backport pyproject.toml from flit-backend branch
-+
-+This allows us to bootstrap wheels and PEP-517 packaging.
-+
-+Upstream-Status: Backport from flit-backend branch
-+https://raw.githubusercontent.com/pypa/wheel/4f6ba78fede38a8d9e35a14e38377a121033afb3/pyproject.toml
-+
-+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-+---
-+ pyproject.toml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 78 insertions(+)
-+ create mode 100644 pyproject.toml
-+
-+diff --git a/pyproject.toml b/pyproject.toml
-+new file mode 100644
-+index 0000000..749b8de
-+--- /dev/null
-++++ b/pyproject.toml
-+@@ -0,0 +1,78 @@
-++[build-system]
-++requires = ["flit_core >=3.2,<4"]
-++build-backend = "flit_core.buildapi"
-++
-++[project]
-++name = "wheel"
-++description = "A built-package format for Python"
-++readme = "README.rst"
-++classifiers = [
-++    "Development Status :: 5 - Production/Stable",
-++    "Intended Audience :: Developers",
-++    "Topic :: System :: Archiving :: Packaging",
-++    "License :: OSI Approved :: MIT License",
-++    "Programming Language :: Python",
-++    "Programming Language :: Python :: 3 :: Only",
-++    "Programming Language :: Python :: 3.7",
-++    "Programming Language :: Python :: 3.8",
-++    "Programming Language :: Python :: 3.9",
-++    "Programming Language :: Python :: 3.10"
-++]
-++authors = [{name = "Daniel Holth", email = "dholth@fastmail.fm"}]
-++maintainers = [{name = "Alex Grönholm", email = "alex.gronholm@nextday.fi"}]
-++keywords = ["wheel", "packaging"]
-++license = {file = "LICENSE.txt"}
-++requires-python = ">=3.7"
-++dependencies = [
-++    "setuptools >= 45.2.0"
-++]
-++dynamic = ["version"]
-++
-++[project.urls]
-++Documentation = "https://wheel.readthedocs.io/"
-++Changelog = "https://wheel.readthedocs.io/en/stable/news.html"
-++"Issue Tracker" = "https://github.com/pypa/wheel/issues"
-++
-++[project.scripts]
-++wheel = "wheel.cli:main"
-++
-++[project.entry-points."distutils.commands"]
-++bdist_wheel = "wheel.bdist_wheel:bdist_wheel"
-++
-++[project.optional-dependencies]
-++test = [
-++    "pytest >= 3.0.0"
-++]
-++
-++[tool.flit.sdist]
-++exclude = [
-++    ".cirrus.yml",
-++    ".github/*",
-++    ".gitignore",
-++    ".pre-commit-config.yaml",
-++    ".readthedocs.yml"
-++]
-++
-++[tool.black]
-++target-version = ['py37']
-++extend-exclude = '''
-++^/src/wheel/vendored/
-++'''
-++
-++[tool.isort]
-++src_paths = ["src"]
-++profile = "black"
-++skip_gitignore = true
-++
-++[tool.flake8]
-++max-line-length = 88
-++
-++[tool.pytest.ini_options]
-++testpaths = "tests"
-++
-++[tool.coverage.run]
-++source = ["wheel"]
-++omit = ["*/vendored/*"]
-++
-++[tool.coverage.report]
-++show_missing = true
-diff --git a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-index 6c7a31db9e7..c7354c9d982 100644
---- a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-+++ b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-@@ -6,7 +6,19 @@ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=10;endline=10;md5=8227180126797a01
- 
- SRC_URI[sha256sum] = "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4"
- 
--inherit pypi setuptools3
-+inherit flit_core pypi setuptools3-base
- 
--BBCLASSEXTEND = "native"
-+SRC_URI += " file://0001-Backport-pyproject.toml-from-flit-backend-branch.patch"
-+
-+DEPENDS:remove:class-native = "python3-pip-native"
-+
-+do_install:class-native () {
-+    # We need to bootstrap python3-wheel-native
-+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-+    PYPA_WHEEL="${B}/dist/${PYPI_PACKAGE}-${PV}-*.whl"
-+    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PYPA_WHEEL} || \
-+    bbfatal_log "Failed to install"
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.30.2
+Richard
 
