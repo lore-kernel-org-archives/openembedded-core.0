@@ -2,70 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FEAC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48FADC433F5
 	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 11:03:33 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.81])
- by mx.groups.io with SMTP id smtpd.web10.6206.1645614211392295196
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web10.6207.1645614211543550961
  for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Feb 2022 03:03:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=h+VmcVsR;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.81,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=oI3UsJ0H;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1645614209; i=@fujitsu.com;
-	bh=xuEjp9GSJGkklXZgLsl+i+jKRTizB6Zy+ItTt3OTNdQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=h+VmcVsRahECFX64nzFsbyeXn4rrG0D+0CkAEFyWy6GG4y3d/649tMJ7rPiuAnTGK
-	 e9GPIVZLnNb3EMDlluqyl2ahly7tD/bM2CvU2Lp6/N3bD1iPwQzkjT6REFJJq0xAMw
-	 VdqwJ7z7WYRL0txpoSvI7cxlctd7RrPmgX6KAFr/93PH0sgyWqHxpVIdYaHFAik7OE
-	 PXNVQ46Hz7Ff3Bsy/3wTFSSAM3EpGPYRQRUE5vOCvGq+rLzJu7TVpo+i7ep5hj1XTm
-	 OP8Ce7gZHRCF4fr0my2vnvhm/5mWrazKpJxopySOdJJLmMPXMlM0BDN+z9MNtUG2dq
-	 U2dc9CWY64JpA==
-Received: from [100.115.7.206] (using TLSv1.2 with cipher
+	bh=Z0KyRolNgG8cewNOLp9pw/uowynR5E7HcU5gWt5GbGk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=oI3UsJ0H+UUhW1kWc97851TJZObu8ReZC5+dcUsU3lIC4rflF8QhLzywBsIvEECWW
+	 /ZhDcKg6FblXUaZvBIbFW1j7yQNf75th61t/HCcSIHSHamvV+NiHPLcpTRm8VegLaN
+	 2CLHHumLmgxRaTswgu/mL0zr1dG8HphBVxaiDrZ1PaAaC6fH0aS2WZzBnlwd8lShR+
+	 +eQKgRN9gkvxLY1qZUT1dWyHh6Xt5PN7Ny8YCBkvjlkt/WPeiUF+Qp5X3TJ6KJqWa9
+	 AXxb0X8axkOK+fXNKKpSvBCAH/r3T4WOVCb8Jy8PYSfR9d/3G77w7AUZKTDxfY2lXS
+	 g7AZBX5imf1rg==
+Received: from [100.115.71.247] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 2D/18-00700-18416126;
- Wed, 23 Feb 2022 11:03:29 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBIsWRWlGSWpSXmKPExsViZ8MxRbdBRCz
-  J4PkrK4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePfxd/sBT+MKjas/sbcwPhBr4uRi0NIYAaT
-  xK7Of6wQzglGiQ1T9jN3MXJysAmoSUy/dQMowcEhIqAncfWfKEiYWUBF4sXvHnYQW1jAWuLTp
-  bdsIDaLgKrE4uY9YDavgJNE58XvYGMkBBQkpjx8zwwRF5Q4OfMJC8QcCYmDL15A1ShKzL7czA
-  JhV0jMmtXGNIGRdxaSlllIWhYwMq1itEwqykzPKMlNzMzRNTQw0DU0NNU11jW00Eus0k3USy3
-  VLU8tLtE11EssL9ZLLS7WK67MTc5J0ctLLdnECAywlGJmoR2M6/t+6h1ilORgUhLlvcYjliTE
-  l5SfUpmRWJwRX1Sak1p8iFGGg0NJgtdZACgnWJSanlqRlpkDDHaYtAQHj5IIbwIfUJq3uCAxt
-  zgzHSJ1ilFRSpyXQwgoIQCSyCjNg2uDRdglRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8ti
-  BTeDLzSuCmvwJazAS0eEqWEMjikkSElFQD07xvnWk/Vrzcfozl8N/SPLuVGTk1qUf3rgmZqZz
-  +0Y/j8jkeRp095gvWvfM4XZ0ZJ61xdX1QW2P01f1rY5Qr07lunG8U5ApYvXi/eueS+QlHtcpm
-  K3lwlM0X6DAqdNdNdlTLT5S6EsB97FG469tDyX65R/4+ebWi1bxxc8Piz29UDyocV/hSGWsQs
-  PCBcPXf5W6TK11rzSUVhV/+0v4y337u97UZ36cX8ddti5lqYnx14SzhNOG/06d8vhDk+ars3G
-  S+xQeuLxJ/oFk6uVuZ6WzUPe4w33OHs45Hx8WrbHddWuks7j25wXNy2Z044YVHl/hWBOw70H5
-  v50Ob3P22+V9uHVw/d2G7py3T37tHdiixFGckGmoxFxUnAgD6kWFpKwMAAA==
+	by server-1.bemta.az-a.eu-central-1.aws.ess.symcld.net id
+ 9E/48-24566-18416126; Wed, 23 Feb 2022 11:03:29 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRWlGSWpSXmKPExsViZ8MxRbdRRCz
+  JoHMaq8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtF2UKRgJ3fFyzOHWRoYN3J1MXJxCAnMYJK4
+  umYtI4RzglHi/M3pzF2MnBxsAmoS02/dYO1i5OAQEdCTuPpPFCTMLKAi8eJ3DztIWFjAReLyc
+  x2QMIuAqsTN/j0sIDavgJPE/Q2vmEBsCQEFiSkP34NN5BRwlrj3tIsVxBYCqvnf/JoZol5Q4u
+  TMJywQ4yUkDr54wQzRqygx+3IzC4RdITFrVhvTBEb+WUhaZiFpWcDItIrRLqkoMz2jJDcxM0f
+  X0MBA19DQVNfMTNfQ1FQvsUo3US+1VDc5Na+kKBEorZdYXqyXWlysV1yZm5yTopeXWrKJERiW
+  KcVOs3cw7uj7qXeIUZKDSUmU9xqPWJIQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCV5nAaCcYFFqe
+  mpFWmYOMEZg0hIcPEoivAl8QGne4oLE3OLMdIjUKUZdjqtXruxlFmLJy89LlRLn5RACKhIAKc
+  oozYMbAYvXS4yyUsK8jAwMDEI8BalFuZklqPKvGMU5GJWEeW1BpvBk5pXAbXoFdAQT0BFTsoR
+  AjihJREhJNTDJWf/6d2BTz1uOS+vk3h48c+2C9+ndxdumPJmyIihIPzItsfbMhN4F3+rusrjf
+  OvN/4hephb6NQWs2dgp8ebCg5r6BdoTAPsVDpw2Yxe6d690su3NtxK0Jm3a5r5c1eNG6mz/rV
+  FPk9aerLnXV3dWc9Lu4229m4st9y3yXC2aUdqXoT5q2VLTEW2l36+/iHf93HisVLbAIM5x4j7
+  Utwv5wapTHpZURAtVfJEXv5nxPf7tx78TtWafjhPZkfPRae9PjRxNz0R+GnSm27prpEcHe4vF
+  X9bf17/qxW8fx0ie/2Mf/D27t2bXs3X23ew2OZ5tNs1KTq9Pte2027n56w7JTTq1l7rV5AqLr
+  zJyc4lM+K7EUZyQaajEXFScCAFBXqqlSAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-585.messagelabs.com!1645614208!7088!1
+X-Msg-Ref: server-9.tower-532.messagelabs.com!1645614208!5144!1
 X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 20242 invoked from network); 23 Feb 2022 11:03:28 -0000
+Received: (qmail 21719 invoked from network); 23 Feb 2022 11:03:29 -0000
 Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-3.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 23 Feb 2022 11:03:28 -0000
+  by server-9.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 23 Feb 2022 11:03:29 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 21NB3Mpq014052
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 21NB3Mpu014052
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 11:03:28 GMT
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Wed, 23 Feb 2022 11:03:20 +0000
+ (TLS) id 15.0.1497.28; Wed, 23 Feb 2022 11:03:26 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] bind: upgrade 9.16.25 -> 9.16.26
-Date: Wed, 23 Feb 2022 19:03:09 +0800
-Message-ID: <1645614192-28889-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] init-system-helpers: upgrade 1.60 -> 1.62
+Date: Wed, 23 Feb 2022 19:03:11 +0800
+Message-ID: <1645614192-28889-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1645614192-28889-1-git-send-email-wangmy@fujitsu.com>
+References: <1645614192-28889-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -76,97 +80,39 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 11:03:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162252
+ https://lists.openembedded.org/g/openembedded-core/message/162251
 
 Changelog:
-==========
-Log "quota reached" message when hard quota is reached when accepting a connection.
-
-Add ECS support to the DLZ interface.
-
-A failed view configuration during a named reconfiguration procedure could cause
-inconsistencies in BIND internal structures, causing a crash or other unexpected errors.
-
-rndc could crash when interrupted by a signal before receiving a response.
-
-Correctly detect and enable UDP recvmmsg support in all versions of libuv that support it.
+=========
+* use fakechroot instead of unsharing the mount namespace and mounting tmpfs
+* deb-systemd-invoke: systemctl --machine @<UID> is now available in
+  v249.10. Adjust the version check accordingly
+* Skip build-time tests if DEB_BUILD_OPTIONS=nocheck is set
+* Fix typos found by Lintian
+* Set Rules-Requires-Root: no
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.16.25 => bind-9.16.26}/bind9                   | 0
- .../bind/{bind-9.16.25 => bind-9.16.26}/conf.patch              | 0
- .../bind/{bind-9.16.25 => bind-9.16.26}/generate-rndc-key.sh    | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.16.25 => bind-9.16.26}/named.service           | 0
- .../bind/{bind_9.16.25.bb => bind_9.16.26.bb}                   | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.16.25 => bind-9.16.26}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.16.25.bb => bind_9.16.26.bb} (98%)
+ ...{init-system-helpers_1.60.bb => init-system-helpers_1.62.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/initscripts/{init-system-helpers_1.60.bb => init-system-helpers_1.62.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.26/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.26/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.26/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/bind9 b/meta/recipes-connectivity/bind/bind-9.16.26/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/bind9
-rename to meta/recipes-connectivity/bind/bind-9.16.26/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.26/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.26/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.16.26/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.26/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.26/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.16.26/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.16.25/named.service b/meta/recipes-connectivity/bind/bind-9.16.26/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.16.25/named.service
-rename to meta/recipes-connectivity/bind/bind-9.16.26/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.16.25.bb b/meta/recipes-connectivity/bind/bind_9.16.26.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.16.25.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.26.bb
-index 7c16376b58..877d0a2fed 100644
---- a/meta/recipes-connectivity/bind/bind_9.16.25.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.26.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.60.bb b/meta/recipes-core/initscripts/init-system-helpers_1.62.bb
+similarity index 96%
+rename from meta/recipes-core/initscripts/init-system-helpers_1.60.bb
+rename to meta/recipes-core/initscripts/init-system-helpers_1.62.bb
+index 187bb8326b..d5c05ff8e5 100644
+--- a/meta/recipes-core/initscripts/init-system-helpers_1.60.bb
++++ b/meta/recipes-core/initscripts/init-system-helpers_1.62.bb
+@@ -16,7 +16,7 @@ SECTION = "base"
+ LICENSE = "BSD-3-Clause & GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
  
--SRC_URI[sha256sum] = "9fa328850f82843ef8b7bf1ff5322cb68b110273a33f375ba41f35270f5e1ff3"
-+SRC_URI[sha256sum] = "70b39a5eb71650358ec9ba41da3050d32aeac0aeb4a466684b23f35affa7fb45"
+-SRCREV = "dbd9197569c0935029acd5c9b02b84c68fd937ee"
++SRCREV = "bbe4b508f3216cdc124683ba449e2295974a6b4a"
+ SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git;protocol=https;branch=master"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.16 follow the ESV versions divisible by 4
+ S = "${WORKDIR}/git"
 -- 
 2.25.1
 
