@@ -2,47 +2,47 @@ Return-Path: <yi.zhao@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D90EC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBBEC433F5
 	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 07:41:21 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
  [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.7630.1645688480560059138
+ by mx.groups.io with SMTP id smtpd.web12.7541.1645688480555970972
  for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Feb 2022 23:41:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=izgWGZjP;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=VwVShwQd;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.166.238,
  mailfrom: prvs=9054982802=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21O7We0n014214
+ 21O7We0m014214
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 23:41:20 -0800
+ Wed, 23 Feb 2022 23:41:19 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=zsUQie8CEY6gdwm9d5FbpzHbZABOlwD3Bzg2M/udpW0=;
- b=izgWGZjP2d7nQFNBaQcKf0bbfFWsKLu0NzM+RwcxPqwpI11+YwMj5tLhHKmrMALJtM4l
- +XkqaVjlT10OHaI8PvIGU/YYpuVzCqCSDFQWgaunBOIPz0KUUWDMkdaDcpQblQUHGgY1
- DNB3sXAQwiSN99XbfzTdqUDtIaKCV/rQSInqAyDX7pWEALwAuliDCOxb+LMKthJ5dctl
- FHI46JOacvzjXVff3J3tKoJRmhrOcXVpngJRzbU+k41Zaoobo5NvI0FP96QdbNeASWFo
- Nu07KR9gr6bn0fSa/AJJZmLMlOQCi3m7JZSkkWgfNT7IF7RqBrVda8gCuLmEZQYcLzR7 2Q==
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=EoLRDcGOcuuOFZyoW0D/vgsv9TI605TQLZUTvBCH2co=;
+ b=VwVShwQdavqE5Io2djdzSl9Ew7fx9BBB+GXrPAn9JXs28mv85KHtXYWbNftsUAZ6aSP0
+ xJMCu8skh4DctMnYl6cVysJ5DyQbKXjfzXhz5gEBhvy30aHe4dMifU2DLVB/Dnlsms/m
+ OuXTsmUAmDd2GpLTS8bWgjksUa06LC4p3Dda/Q3OaGvYub557MLUtNiznfGFJD3W7J1z
+ /x5Hsj42jZydMKZG2AdmdeZnF4WozoR5rr8dfBMZX1LA0iF/DkL7m2V84EmTkVc83wXd
+ wE2/YhFtppPY+TepXtMoIsFlFsbyKOeZopgJWdC9mdKSNHzxAYrnFEpxYvzTdw7xZbTf vQ==
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
  (mail-dm3nam07lp2046.outbound.protection.outlook.com [104.47.56.46])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ecj2kteu0-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ecj2kteu0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Feb 2022 23:41:19 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OqizTJm0vB36HLGoqQod4jfAhL4Z4Iq4k9/7npiQ3vK4voK7zJjPlFGYmv/CjPICnVNWHJbsKhFk0bIIyIsWfAt6riMAZkKQdeot5qfGP0Bb6cDdJzKybJJLi4+8ycHsAEZH5kvaasACfiPJ2SWqHyt7BYCq3OOdIZp0+Wb2VM8irar9/F3+sLu3xlUR4A5kiXsJHTHhyFYkCq68LgOlZfp2XTlbQGN6sVRlx2ykdpywtGsitJKI8mSNne+/wb6cx+Mcue2w4zZkR3BcrHNeEGi3EQI6vcA2GCeqLtxDMs1w0Cz+WiKGP/Bi9wT5hOrgxaOxdqUgNU1NSX+U5Hndew==
+ b=P3LXl58oNRq8l9sRjakDglKP+zV8kjmE7UTZpMuSikYiuDGS6M8OZBOev7ePSpKCAwKmvnIMzof+03bYN9SfDQneVNOh37TFnwy8x3CQoxPaqQB9udUDc8YRC/5Jm5OMqURC/7X1U6gvO6uzldYhk64dcJBwBiZw3j5XPwelHbRNDX2Pw8RXvRRWi6Q+6GtxD9x9amN7fhTx0DXXwSH2kui86DJOMG+Ez6vxotLhkn1uZyxu1AZ63SlICm54dXArtajryxa5krX8yxvzcKkvxvChxXdUgmiPEE9o8YueKjwiKSqUdqNTJyxk46WzGokgF0DCkvg0zCW9IcE+bIKlRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zsUQie8CEY6gdwm9d5FbpzHbZABOlwD3Bzg2M/udpW0=;
- b=AjQoow6/AJlH9qk4b7S7ZaohJWohRnyiUvUz5JqJG++mPFYy4bQsNEN7BWAnolZTSMgypsdmXZhORV2uvGiZt4dDqvb6gVrUeD2MOMrYhGETHy4+E7MGTi42pjt5voht+MVzQ/RR3tcekmOCzFKtZbPT17iXnDxzjPsDWzRdTFHchXvhJKiYB0Bow31E8De48zjBla7l+czQwbf4zHRqDomqOtUluEG8o0xpU25fwZv+ziez9YaOWQ8M6Qvr0wGqkVQ3F+/9UuuZo9bzHZDM4b27AQr3d3GgYuEHe/omhhJlCUUYazAwfwOipsGgVmMowb0j4RsYpE5V/cf6oW6cfg==
+ bh=EoLRDcGOcuuOFZyoW0D/vgsv9TI605TQLZUTvBCH2co=;
+ b=aD/umpJuhi8YfO++JUdReFbRUMAuHhawwVnWyn8m/KLYwYLNLshodgxIJ+aX3HoCQjeqyHVwBzNVLDfzM0MNiLgeMAj2PQ7cwdLaTEqYz5dV+qJ1fbaJInxbEMg9zxhNp2wTBCnjI0zWzORD5LKkluCJS3bQLywMqHRZD3G/zaLLWQZYJ9wCwyHNIqx6fyaxw7ipbauM+DqCN//5PQFDuH2onOxFnq7LOov/cxM9W1E9Zt4mD1cpiXA0BtnKMCrIWotW2j7rlG9JrAjI7a7V+QTuHJQwq+7m7qBD7EMImFDlhsLfFc84ReIGueOqsGSSycpFcVzhyqD7kK+vlKHPdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -50,19 +50,17 @@ Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
  by BN6PR1101MB2321.namprd11.prod.outlook.com (2603:10b6:404:91::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.21; Thu, 24 Feb
- 2022 07:41:18 +0000
+ 2022 07:41:17 +0000
 Received: from CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::7dee:4199:b4c8:c79a]) by CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::7dee:4199:b4c8:c79a%4]) with mapi id 15.20.5017.022; Thu, 24 Feb 2022
- 07:41:18 +0000
+ 07:41:17 +0000
 From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] glibc: fix multilib headers conflict for arm
-Date: Thu, 24 Feb 2022 15:41:07 +0800
-Message-Id: <20220224074107.867356-2-yi.zhao@windriver.com>
+Subject: [PATCH 1/2] glibc: unify wordsize.h between arm and aarch64
+Date: Thu, 24 Feb 2022 15:41:06 +0800
+Message-Id: <20220224074107.867356-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224074107.867356-1-yi.zhao@windriver.com>
-References: <20220224074107.867356-1-yi.zhao@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: BYAPR06CA0033.namprd06.prod.outlook.com
@@ -70,69 +68,69 @@ X-ClientProxiedBy: BYAPR06CA0033.namprd06.prod.outlook.com
  (2603:10b6:303:9a::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bb9b5c3c-74f4-4dc1-fc80-08d9f7690b40
+X-MS-Office365-Filtering-Correlation-Id: 0bfbecac-77bf-4f98-6a5f-08d9f7690a89
 X-MS-TrafficTypeDiagnostic: BN6PR1101MB2321:EE_
 X-Microsoft-Antispam-PRVS: 
-	<BN6PR1101MB2321395D95E00B9748EF1CB3F93D9@BN6PR1101MB2321.namprd11.prod.outlook.com>
+	<BN6PR1101MB23216BF161953B40D14D4BB4F93D9@BN6PR1101MB2321.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	7aFab2a+oRQ1h2VCPCYIN/yuEzi/+XLaPn/s8szn83lptx+sOiRFDeV7p8tWqUbKSNjtTxPfZONHGSBLNQOFt+eWV7nlyHhQzQXKd3Bwz8YF1mD2UHe/S8SjwoEjjZ2FNEad/hUZIN7T+cvbND53WeYmpqMvqfSU7CEpNe9pPOh08k6wwaQoQ1B6+BcnRg9CYtu1gJAvL2fHz71GfhE7L24RnCes5m+nZv1vz0FVCpzo4xdXCnv1J97XJDh5+hOKSzw7H4krR6BhLXTW3erktrrQ19t0eBEABhP09fKqV3Zqzml0bpLgTHFmqj7LnIUQB+RYJGF1Drq7M6M88Euo12vF82kzN5vEOeG3f65h6NRKF0/Jptr426R7XSWU70/X5e/V3yWRy/pBEcgclQBdqf+u7ocIxZP9qDA2R+a+fPAsqhHL59G8U1gfu8EXdEIOyzMKKYR26kl2SS+LzSLM8TZEcAPMXd9Py9c+/e+naqQAuoJp+r1RW008Pb8EcIIYRVXKxF2oBk7IjvMJDcYbpyrBA21kSlJbhmBE5LDVRrpDCbfuG/80FEVT9xEwN3c0u6uAKSI2nwJoobnZie2MNRU9Ac1UHCQD9sWehDAR2AB79UA2PypyKykJGMt5Yr+DtLrxNel7VSpgcz5zCYkU1BWCDt/RsqicJmfz2T7YJXkT1pt7cEJoqd3tFdNgsYSZFDHVDIWs+Srlg6H05NnJvg==
+	HpgzWfn8MF179te8WIHq+X/o/a5YPHSLuBEzyARYgb5xP5mpsd68AQKt1RYwPVxHIFPOpdrhIvmJxqjat0KZKzM4af9qy19hKEtHiurK1jXAMy0YhzQfMwQG9HXHPAzDhPcQNoqPY5BKYh2ll3ch+KUc7IjrZ0nWVEmuDm2QvtKfro/YFXl2XBHWxTxsPjn00P5+AXKZSvxuHyjdsh4zXQ9Sk65t7eRl8ST3fRtLrGCt5py5b+DOYtNN0EOVyKjP217zHDi37RP1+kj6YpyvbCLGR3Vjk3bgasIZeEE84gAsZdp3j+oTj5ry3RdobaHCVKw7gEsqBREpMnei5dAtdMj3vHpVe9O5QxsWtseDgtj/JjvJ7OyX8MaM9RsZ4wTvJYxRbnffEq98CUEgo4jp0eyNfEtPf7A6xEcriFF3ekpa8rONKqHIeh4D99nbqIq3RvTiPUcetA9gOaLz4SGsQRlvW13isg9yfdjaKQ/Fjc1TX7ZIPHnzuLhmx/Ii/WBY8QD0BEIFxGPnRgwY+TKDJv0oySLjC2H7Ews+APh3mbEk6RzP/V9BPKL742uVKYM+24Qo6YaTzJNJh86Th7VbYCngLJ8naj0/tjITHv8ko/I35vTsay51u9A7ygRNwiBlv8EEuPA6+b+7y5RKgDODQ1uzIZb+o8nZ9CAiD8KEpKja7iBceEiznex5xOR/UdVPXONWbNr54nzQ6RRdNcA2AkM1C+2gTf4A8g4KwPwfAuuAPWnkcQwwlJRL/2DleT9SBDuDEOAmcLB2y5V/O9kltE7+lyjP3xDCTIS5hne6OOGLaNxE1HXnqgj+2OO7oY//
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6506007)(52116002)(6512007)(66946007)(66556008)(66476007)(36756003)(86362001)(5660300002)(8936002)(44832011)(1076003)(38100700002)(508600001)(26005)(6486002)(2616005)(8676002)(186003)(316002)(6666004)(2906002)(6916009)(38350700002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6506007)(52116002)(6512007)(66946007)(66556008)(66476007)(36756003)(86362001)(5660300002)(8936002)(44832011)(1076003)(38100700002)(508600001)(26005)(6486002)(83380400001)(2616005)(8676002)(186003)(316002)(6666004)(2906002)(6916009)(38350700002)(2004002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?N6Gfol9aoTxXroHtr6kQ/gRr+atusEuudwN6QMjHjH0E848trI2jzyIQ5ink?=
- =?us-ascii?Q?YJX/XM4sqWYgHdlPZlsjLPX++Qd0UodCVBYcIXh2oLIgqZbiqvd/DFIw4nd4?=
- =?us-ascii?Q?hcQ/L+jIwXNl5QEb+TwFfbsFPa9YjgM3ByZPPgw6h5/35SdV5qsx4zBIU/Dm?=
- =?us-ascii?Q?zAQzw7Bgt/HBRCP/4fvHPVCnk7UC7lx2rc471+fI21QdNDpCZzzCMKdq2d24?=
- =?us-ascii?Q?8Wbx2K/U1jKCjf231wFR86yIeDsXd7s6F85bcKJyhTDh9FKMLnTOS2Rmf+E/?=
- =?us-ascii?Q?drfAcUx97hl0uCtbUdRgYXeFXYLk4H+vwxGdhe1oC67BraKa35vge9coS0fs?=
- =?us-ascii?Q?qCGF7vo4i5eOGMC5ZjsIg63k4c0mjkL30eEgOge0+hNpT0U6f2uksGQIFlMK?=
- =?us-ascii?Q?dYPQLccr3JOATfr+0COKR0UoaQXKqptMMqSkDv2oOJmFjcE3LJo81fFXvPAR?=
- =?us-ascii?Q?O3Tm63UaJsu+oFb+6DYrIEMtnkY7r6WIMzSQ9zqnOBuS/ALzfP0nkmggK3D6?=
- =?us-ascii?Q?YjImuMgIonXdtAgc0AX5almhgyMEMzVPbmvlBRypB4270B8lBjf7zW6Ctq+U?=
- =?us-ascii?Q?H2Oe+ekACVyyjdkmyLXp8g59TjQpjcnF67BElQMILATcj4qqXbhEDbJ3Ngzs?=
- =?us-ascii?Q?wFq8u3E73VE5I0CxNJsFHIyPaPUVCHMZkKJWePukSigVrXOQGKRUi3iS/cpb?=
- =?us-ascii?Q?ao+XiE48/8isGBhVjFuGL/70p1tvjp+k8KIdA6Z11YwO2PRf5e+42bW8YGfn?=
- =?us-ascii?Q?0uHeUD+qEuPMUx6t7Tte+/aQG3BQSGPUoEBMbzn4JoIWMd4RBXk0pLy6qDyc?=
- =?us-ascii?Q?6ActdLfdHYgwqI2nUOofRhCLq2qHBeVTQM3iFyrd1Y1F8cC6AzwMWENJNzut?=
- =?us-ascii?Q?mZ5pVCocsp2JO9SfhcqxVhxBWwW2GjSyLrBxheVpDKm2byXD+5WCuNz9Hz19?=
- =?us-ascii?Q?G93+CXLWHx0dV4gZoUQMjq7SIEatGauRITDOlIQqDSNfjP7OZPKpS/dUPAtl?=
- =?us-ascii?Q?IQbzJSxogRvNMfi0Ry7Ft13o6ZLJc8Ibs17lcIMP2e0oLRBDPf4uJYkqHkjM?=
- =?us-ascii?Q?ze797nvifkIkSoaUc66kHmQK7Sk7BuZc1YFk2PDMCnrKvFY2Xnji7dR3sYAq?=
- =?us-ascii?Q?BgsJkIbD9c9CPDIwncBOHLUFc+4ocyd5GNjICrn/SdZuxrvndj/dYPxpHMiu?=
- =?us-ascii?Q?5xMzhqX62j5EVpAv0wSGoG6Hrg2JOVBXq2yOVvkxPzT+3U7QxHy+QEybqutP?=
- =?us-ascii?Q?euEUHqnF2p7DrJeK25zUuntinupUKObKNId2nI//VGjhdxQ6STJg5hhiFYIT?=
- =?us-ascii?Q?lkBg8J83bcS+18LyM6zTvCv1s9XAHQN95jiSh5T8xOJuJGiUGXuEpSeUiojB?=
- =?us-ascii?Q?x6fwGRkfc+tYqFZwXJ0T0JYj1NcHmoiiW9uqh5XMIsCJXeAZW/Mgqb/sI/0z?=
- =?us-ascii?Q?q7AeplbSHcae1ShcQp8P6nRrKujZQHdFOmIttgv81Rsfe7uQOwqKcPLhONzo?=
- =?us-ascii?Q?jSutyPM5N6XOe+pzXmhj1ipwOv6iQRmWfHjUHqSgErJmhCGYZPGpLfrlNrQB?=
- =?us-ascii?Q?PnBL7tx3F/qhHJTTuQyXoFjBAjfP0uLu+M3QyG3tEE9paExabdKdwh5fXJIo?=
- =?us-ascii?Q?T56BvsDd91Z8G9YvqrmJBTk=3D?=
+	=?us-ascii?Q?qPDDMay3kLdw7zzfsFDDmlbvDCkYqE/eG2TFkS6ecWSpv2IvIGF0GUYkIHI3?=
+ =?us-ascii?Q?ZXy2zQqrldyb4cteivLIdmlWXMrFOn8Q4Qzc7nc4IqAG8YNdlgnjzJ64OsM0?=
+ =?us-ascii?Q?um8wcW87P8fwSg2K8gkRynOij7no8GgKN5qyjiLD3vq9y1W+Kdl2zdja2pjx?=
+ =?us-ascii?Q?JctTKcSWxYKVAin52OiyhHO5XqqMnR/17FNVHTYuqVLD/APgW74X/vSt3wl1?=
+ =?us-ascii?Q?G+EHDcJ2vJzPhJXS7M/6m6/cXVzKZDwSqDDtwIa/ohc61XcMj1AqCM2eMI/i?=
+ =?us-ascii?Q?3BiL3p43Fya26L/rIm6kkfWD44IcWonwvYZ1Y45m5J0VsR+EGDdZQ+JOJ3/o?=
+ =?us-ascii?Q?GQoPsU895595ri4pto0Z7izIOHWHI6r9d6t/AAmubv3yzm5cWi42HnjgI0OI?=
+ =?us-ascii?Q?5d0AAdTPzIXFeIzNFG5LXwzJ4Fz4niftWpgldilVd7oDGQ7aJkpBrYR+PIKp?=
+ =?us-ascii?Q?OFi8DKM0qJYRnInT3UUg1PekbUC42jT8iqtzsjvhcxYUiZhfeyHDEUwwGZS9?=
+ =?us-ascii?Q?ppC/DWOKq82rLV7hNgyRRzaSicXhx/Ew2/XP0uBnPTpAZ8uLsnk+qIaXfQnp?=
+ =?us-ascii?Q?uxtP4mIGRVMRJbewbakZjn4JznUc7EcpzoQYTkvoLyOXuh29SFwTEddAawz/?=
+ =?us-ascii?Q?qaH/70ZRGtfjrSbBJR4O0A9iWB7nXU5VzkdOWQMDgf0e1RCQbcGByt2r1eSf?=
+ =?us-ascii?Q?2cgSxkeA4KV8RLX0W1Rl4EeprU3/4emiU5Kr9Y3sR0XxAQXrZb26DptNm1KQ?=
+ =?us-ascii?Q?1XeDgoJvbIdiBhcZgBHBthzzXGatvZPxIRRoSNjqrFeycHZT7Gi2C1ju5KlG?=
+ =?us-ascii?Q?a9n2fU2YBaX0S4x5pbV8saMwhCk3KES0NreQyNswkzSghI5QR6W3FNtBtSPi?=
+ =?us-ascii?Q?2drz89hXLM09Qz8QKNwyODmEmWDhB1aXck6Pw2N9+VGtAHrqe5KLAAUAEwUh?=
+ =?us-ascii?Q?H/PGqvcw7j6o1qKOubEcduf1xgb6XLrRN/8na6bR41dPliuRwidlkhVaXPCK?=
+ =?us-ascii?Q?KOC5XP5BWkwPpur1qvPH3p87W7W8f7V9cLKg3k+m5RqHe2KgqAHx9lLBN7Jb?=
+ =?us-ascii?Q?koBgCq0LX+sFNC3yl5aE4Eb2wBnqrs8WgmpT1EcKI6AiVG6wEW44tZlM73SG?=
+ =?us-ascii?Q?5dG6UQlOVigOfgKF/w5KuFWaX5n21/fEg6p4QBodiS/FzbPWBJlEHXdjGtFd?=
+ =?us-ascii?Q?EnYpBp8zDvK4cdLmwXleJ+Iq5g92aji9JbQvt6fPqspbaAXX0CiihitCcd/0?=
+ =?us-ascii?Q?NK1jBxXK00ic2NWI1pSRtw5zFNtys6fdVzvZykHcfoXbs5oj6u0ZB0AT0uJQ?=
+ =?us-ascii?Q?NGzUlIwcEEJ3FI2a0CZ3u4EVTn52cQFbIhKMZgBZqiPXpsj6ViusGsEin3/A?=
+ =?us-ascii?Q?yDSoqRS7aoFTkDAt/eLhIrbiUYkVFHfWGNz46JHoggX3l9ym2j98rdUAK399?=
+ =?us-ascii?Q?Hh4JIASp1Cw6xRl9j5kJz8XWro2OYlss5O7znLIWK0M2XUR5AnAOl5/12lAs?=
+ =?us-ascii?Q?W/PEvdbVUqlaCPHjh8INPgH4DXfOgzVDkKEOaBlS7mO9yEM16c/xzgevpmxT?=
+ =?us-ascii?Q?h8ICDx+G0Na7mi2lwNzbgZDwJ73TCep9dPMcME9/Hyr2WHBwMS+oCJqO/G62?=
+ =?us-ascii?Q?fcWpBk92QrueUphzRqTkeaQ=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- bb9b5c3c-74f4-4dc1-fc80-08d9f7690b40
+ 0bfbecac-77bf-4f98-6a5f-08d9f7690a89
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 07:41:18.5195
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 07:41:17.3164
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 4oHfqFGQb1Cbq6nF9m2KkzYGKw0ifBbwXKdlT35r7ysJ0adMgYZYTg+uOtCtKICC43k8HejV88bh37njzCjaTw==
+ GnBsxL1geqtJBdz5spjVI5YFHD5g0r7v0HweHADyy61SvhSOYPwA0TtboWSNzz0ZMzYinetEtwgMWgRCHQHw5w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1101MB2321
-X-Proofpoint-GUID: Tjyh5JyKLDoRjEFFQX7gsxGyPlpbCpuQ
-X-Proofpoint-ORIG-GUID: Tjyh5JyKLDoRjEFFQX7gsxGyPlpbCpuQ
+X-Proofpoint-GUID: MucMReKUPXwr1aEIfUtAmDMGzp4dAgT5
+X-Proofpoint-ORIG-GUID: MucMReKUPXwr1aEIfUtAmDMGzp4dAgT5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-02-23_09,2022-02-23_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  phishscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=822 malwarescore=0
- clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=523 malwarescore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2202240045
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -140,31 +138,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 07:41:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162304
+ https://lists.openembedded.org/g/openembedded-core/message/162303
 
-Fixes:
+Make sure this header file is same in arm and aarch64.
+
+Fix the conflict error when enable multilib:
 Error: Transaction test error:
-  file /usr/include/bits/dl_find_object.h conflicts between attempted installs of lib32-libc6-dev-2.35-r0.armv7vet2hf_vfp and libc6-dev-2.35-r0.cortexa57
-  file /usr/include/bits/rseq.h conflicts between attempted installs of lib32-libc6-dev-2.35-r0.armv7vet2hf_vfp and libc6-dev-2.35-r0.cortexa57
-  file /usr/include/bits/timesize.h conflicts between attempted installs of lib32-libc6-dev-2.35-r0.armv7vet2hf_vfp and libc6-dev-2.35-r0.cortexa57
+  file /usr/include/bits/wordsize.h conflicts between attempted installs of lib32-libc6-dev-2.35-r0.armv7vet2hf_vfp and libc6-dev-2.35-r0.cortexa57
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 1 +
- 1 file changed, 1 insertion(+)
+ ...dsize.h-Unify-the-header-between-arm-and-aarch64.patch | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index c1c0114a07..7f9e7503a1 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -162,6 +162,7 @@ do_install_armmultilib () {
- 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
- 	oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
- 	oe_multilib_header bits/struct_stat.h bits/pthread_stack_min.h
-+	oe_multilib_header bits/dl_find_object.h bits/rseq.h bits/timesize.h
- 
- 	oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee754.h
- 
+diff --git a/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
+index 63f7749ecb..3b2d638b5f 100644
+--- a/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
++++ b/meta/recipes-core/glibc/glibc/0018-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
+@@ -46,14 +46,6 @@ copy to sysdeps/arm/bits/wordsize.h
+ index 4635431f0e..34fcdef1f1 100644
+ --- a/sysdeps/aarch64/bits/wordsize.h
+ +++ b/sysdeps/arm/bits/wordsize.h
+-@@ -1,6 +1,6 @@
+- /* Determine the wordsize from the preprocessor defines.
+- 
+--   Copyright (C) 2016-2022 Free Software Foundation, Inc.
+-+   Copyright (C) 2016-2020 Free Software Foundation, Inc.
+-    This file is part of the GNU C Library.
+- 
+-    The GNU C Library is free software; you can redistribute it and/or
+ @@ -17,12 +17,16 @@
+     License along with the GNU C Library; if not, see
+     <https://www.gnu.org/licenses/>.  */
 -- 
 2.25.1
 
