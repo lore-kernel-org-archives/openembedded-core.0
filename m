@@ -1,205 +1,128 @@
-Return-Path: <Saul.Wold@windriver.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 317FAC433EF
-	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 15:27:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web08.11750.1645716452149876502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B10C433EF
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 15:52:14 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (EUR04-VI1-obe.outbound.protection.outlook.com [40.92.75.28])
+ by mx.groups.io with SMTP id smtpd.web08.12122.1645717932527159570
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 07:27:33 -0800
+ Thu, 24 Feb 2022 07:52:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=GDvISBQZ;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=9054b88637=saul.wold@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21ODBtbT022185
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 15:27:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=HDAorzqhYh9oi+IeZ7TI5t/oIqqY0QoITQx+6UQ/nNU=;
- b=GDvISBQZl6xew6viI+wE2DapfoZFzX0DLHxal/y182c0fHSSGxcXuh3yRBLgThI1SRwM
- AceRtrzExad6jpuNSlK4BG71Wp7OnjjlX1YZpuzb0pTIWmic8hIj8v5xc3iHhC7zpIYB
- V2FBn7DvRU4XAzVDvQXRajRuXpIviOyBtHgWvzXi73ss1nb2+dEY2g79ITxxTn0bD8hh
- K5NGqfAt2RxlZo3icmUM/P13bxVvPEkF7AnRYFR2I5q7ENRKZOBMNxRv/oqxm+YATQVo
- NbzcDWuEjIZ2ee2ne1mkZbvU6P/BiPbSqgA7mPhHKcxhiFdpHboLnPRgpfxEXG6n3wG6 ig==
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ee069rk5g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 15:27:31 +0000
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=fbS4Qo5t;
+ spf=pass (domain: outlook.com, ip: 40.92.75.28,
+ mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M0UkRJ6Cfubugp7Q+agAmj0pT62zlThjiy//yb6hTRFyv9+rpljykEhx1OH+ilhr/fhuUHQBRCpzMENqJhksg4+CisGy2x40zbTRncc3I/75VkVcjnX1+ij7ErhEiY3ugdHQzgYYdmL72VSKwiNqvPmkWzynbnOcUeISruLKPTp3Qg0QZ95syouVXn0SZShc6jfdhaJh3N0HcnBJ7GQAeUvPGbKGQDsNyR529RrpK7HWOKpYQmkLSbiAECz6qJ21aETl2atq2CuN5pzI0nSWwP6GqjSC5GlHL58bplMD1ABKU7UGqJfCbKSZ0VUi69dHd6sVXoTpADjmBfoe7uRT1w==
+ b=TQKffoeQGOqQkTcebjymOtmJIVguk9J1r1/CzypRHdb3+AHcwwvVwuok1tmocYxggJRWvoZFLMCWR8d/6sDksX41U+yw3+hkVjtvpkquItOMchAquTkgsekvWq9olnvQLImEuTB4CRm3Kpbii8cmvKXAG0jYAkyjI+MFE7ki3BCKXrfRvRgd7aHKdjAfQ1do+QNrwRw+qrxDJMeGPZYkm8L6mMrUy1Q3LaWfN6+GLD4nxBZ674t1aNqR9OVNSJCM1P8Ljl0XDcnuy2AvLtagw1VN7veV85mG71UpI+C7TvGgkoxIohT+cklmsgsDIIeRrn5b0wN8fwwynBaB0xBajg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HDAorzqhYh9oi+IeZ7TI5t/oIqqY0QoITQx+6UQ/nNU=;
- b=aDEonHn3mg6NzCyfh4DlwSMD5l9XnUsx4lE/KOxs0Bs5DdGWdxpB1+Q1w5xs3pQ+oAGudNfZYPrA3QMi3AmBlPPymeC74JQsiyJF/e8c2QEOttkhT0v4anTdSYbElIktUBl6nrs0WioSNXkc9Ynq8PzXv/qwCfWL0CO657R4uIMD4JOpQ0UbIBtnkfoGJZe3m2BKPteicvLzhOjiaq88qPwlPaOhOGAI1re3sfGrH27k7rzGCyQr8HdybHHdL8uAYUr2BD/+es10yc7jvFrqv7Wvc7tSmbvG+D3ocZqc9TiOu1cWnxp8O8lG2UzRFrOaaAntvxPL7qa2laXCbHh7JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
- by DM4PR11MB5456.namprd11.prod.outlook.com (2603:10b6:5:39c::14) with
+ bh=1lGir+FpMknTfFACjEs6Z9JnOioaIIiQAJI/uBvKkTs=;
+ b=EdGC6P+o302s+nawaGkdy8HnIzbSOjeawm0gJczw8XNm3iR75aaG8JiyjoK5l6f8RjEu3QXKRH3yR76e5//35X9PyW3OO3xMaKtUM2J5cyZS5VOLaTfQqRxmu6j8Xaa/wFQ5IcdRWJebwLvm2I8JKspqIetlg+V2r+TVym2VcXxniRYClHVzD3LFpaIlyQWFdjCQisY8GORi70zb5eN4bdeUTmYJDJf50K2PcNPev7kyVbj+ios92NgOVPGICBrPK4atMOa0g+YqRHNTBjglcwEeGLq2LvaNUYgQUHHYsxAIWBgdIJMj5vDaVQcVx9EejMTnpysYBbmrR31IdC4A7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1lGir+FpMknTfFACjEs6Z9JnOioaIIiQAJI/uBvKkTs=;
+ b=fbS4Qo5tLBzhZqr2s59Euw+7q2GXxmJn8TjjnMy83pGbeZjxrjOCeFPmXR7eAx1khGGOWj0oDSzzTZmHqv8gF8c3JDcfKXjM4n/62HoUfGoeufCDZiXmR5IrEyeUBgkKWxB3n1e6n1o2/bZhPTTctl+tqDv7ErUXIIFv6Umfl2Lho3gjf7zmjWpBbQiNQKlgRMeBnbPOnPo6sOqmA7JbTQACBEPS7JFe6OIfO98MfM3NnXJpvkjqJlY1K6nsI25tFu+ehdOzH1GqzD6gkrto3sqmC6BB459D/4PJHV+n8IdILEQARok/tTpNJ/g5rMuAuQctoZuMSdPjL/VE3BFz1g==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by DB8PR09MB3578.eurprd09.prod.outlook.com (2603:10a6:10:11c::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Thu, 24 Feb
- 2022 15:27:28 +0000
-Received: from CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::3dab:fd3e:8d8:4e36]) by CO1PR11MB5076.namprd11.prod.outlook.com
- ([fe80::3dab:fd3e:8d8:4e36%8]) with mapi id 15.20.5017.021; Thu, 24 Feb 2022
- 15:27:28 +0000
-From: Saul Wold <saul.wold@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Saul Wold <saul.wold@windriver.com>
-Subject: [PATCH] license.py: rename variables
-Date: Thu, 24 Feb 2022 07:26:59 -0800
-Message-Id: <20220224152659.134461-1-saul.wold@windriver.com>
-X-Mailer: git-send-email 2.31.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR06CA0063.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::40) To CO1PR11MB5076.namprd11.prod.outlook.com
- (2603:10b6:303:90::7)
+ 2022 15:52:09 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e8ae:b245:b019:195b%6]) with mapi id 15.20.5017.022; Thu, 24 Feb 2022
+ 15:52:07 +0000
+Message-ID: 
+ <AM9PR09MB46421D2885F301ED19EF4338A83D9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+Date: Thu, 24 Feb 2022 16:52:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [OE-core] [PATCH v3 00/32] Python PEP-517: build wheels and
+ install with pip
+Content-Language: en-US
+To: Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
+References: <cover.1645557032.git.tim.orling@konsulko.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Konrad Weihmann <kweihmann@outlook.com>
+In-Reply-To: <cover.1645557032.git.tim.orling@konsulko.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TMN: [7oftdfYVfJrUqFapCqJ+DDU/PCWbbwVjQ8LFpoJKfaQuM4nLes+mPChcR8qM0orU]
+X-ClientProxiedBy: AS8P250CA0009.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:20b:330::14) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <594f6a88-d689-f10b-8c4a-10961dae91fb@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c49d465b-48f4-4b3f-6e9a-08d9f7aa2ad5
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5456:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DM4PR11MB5456F90EB35E742CFC7D405EEE3D9@DM4PR11MB5456.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Office365-Filtering-Correlation-Id: 066891cf-7d49-4b37-0ccd-08d9f7ad9c5f
+X-MS-TrafficTypeDiagnostic: DB8PR09MB3578:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	CLaiMmIllhIkXmP3YllnzUe2VFu94Cu9FcemEsCi178n5BZtdP1wOLgU5cKBnrzOXTySyUwqnb43FadFjzUESU+LBPXJdVSGLArIshLfGk9YGYhdGQDDw5j4p6nDfmiJveFZxPrP0E/3v+T+UXqeql94l1Ubj/7YZ6jzpGwbj297YCvh1yiQzJGQpfpUdBWeKxZQhCp0vhp9Y4NuNNnreOYulV7HOGL3ztnZLFNz/kSJWWo5PYACsuE1JtUdArwug7SVSPGQy3fwqXgkxMjmwnE71WYXybI5GUtlt/Kx9YkZZsC856Oc85dy3YxlptW3offkYyeuD1LhD3J28PWfhy1XqLCJ9LHKdbKz6hzd1v/SuOdMMoOceZoQGooY7mRTEICIGDo2yV3cukYDH7fNnKmDVqxQo1Z+bi+33lojImzxaisWqpeE8trSsHbnpzxuvfapb89ZE7DaTUteh88SqhwXjxTRWZQ5a7tirqWq4fT8r7TRobwfU4DLs7N/tQb4I13Rgd1w+SNDn3TM75wSgpu0lRmF7yDVxT7B/XMlGIh+jVqj3Ueq1f0jaGxwWkSlTc752Iuxxosi17vWiqqJZglOiBLaZ4Urni9K+egGBsOu0zbk8PrnvmmMBUVgcBdNd7ZghtDIXzPq9OfmwhXUUFFNJ6U5fSQxnF+/Q60rem3bquVRvmove7FP1+MvROyS0PYqOxNPjFTYnkVphcBm/A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(66556008)(66476007)(6486002)(4326008)(8676002)(6506007)(1076003)(316002)(44832011)(52116002)(2616005)(107886003)(2906002)(8936002)(38350700002)(38100700002)(6512007)(6666004)(508600001)(5660300002)(86362001)(186003)(26005)(6916009)(36756003)(83380400001);DIR:OUT;SFP:1101;
+	rsanwRardMG8DSYbvMP7nkEiK/VhWE1Wm7o2Yw7YYAnKmDDqDZCV766P8ZYfLoDnD/V5w8WlwQaF8nL9Rz1/NqlcaBSDNLAPFYd8rcoxW58xdafCvKazmCTgxGp5nW2I8JZdgDTjJG+Fz+B2X9dMzN+KDdz65xz/VZ2x8HZclHlM4hOoL++1TCpjzAggRkoG/VBWoovzFcFLOC5vOV4OWPZIf8sX/CAwNq1F7uIXm+bvEkup3rkxYAzKf/jaQzxJToCHrEWC8GilXbtC8WBs+jhz//iqZACoNpZeJGl7EMWb/AuNVOpifOVZPSCGM2mboX98VJ6VvShoT3TW+T5d1BEwhmKsTha8RB8rFBqC41ZjSXUBsYnDhB31+Zy1k4DRou8BGdypocQkeegPJXMneFsq7OQDXps/vo8g81x9cyd2fl0qV99IDJrTIEmgnViu9NiAc9ScK4I1KaajfrDyzMD5lpFi8xkKjiBwN5SK7SRiVOjQhRpS8rrGPg0K09dxELaf7S4ry2L8qTQBOn6hwO8d/0282zmn5wtIXCXNPTYrCM0FbQbz+PBBNvzHL8L7/jldS84mpGYz66uwyFv0OA==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PR9pCJYpePFtxaa9oLevOHNDSykAa94UYabwDHpI2UiOIN+VGK7SfhFjcBps?=
- =?us-ascii?Q?ACvm8/iqgO3Q+jNLphiE2bjXM9np4YQuJT6u0dgDr9gDN5m2Fpbo5W/guuPs?=
- =?us-ascii?Q?yC86ICLZJndOElyFJ2pZ9z5i+Fo952UlO0QPeOQmhSrfSHf7dlNN+cigDoC3?=
- =?us-ascii?Q?h9GAX2Zkgcb3V4qRNF9vmPcP4IgPw1nhJbv50RcKmH1PVjkuOoKtd6DrgNYc?=
- =?us-ascii?Q?QVO/vSoWY8LxPapGNrK+AttziJkY7wI/llWdqqyRCneyopyvp4So729IWbHW?=
- =?us-ascii?Q?RbAXDYS1OuN+UKJlshYdYP7RKN9TFBA+cGN3+1WV6Z+N6rFcBfU/lEoa1znI?=
- =?us-ascii?Q?SX882PDj7ZvnK5N1GKpzHWYvzLbez0ea02UMRsphCkjv+D7/lRgSKs4jr5LQ?=
- =?us-ascii?Q?UEevXdsZYp24GLFWpXjPXJ3U85fOQFN8Nkxbx4pwoC4P92i5fr/rZbFwMa2U?=
- =?us-ascii?Q?K3UvfKB9GAumdABXIMRUUAAQ6fMhgyvy5RIQkvjoPt8iR8jlhf+Kji/ttoyJ?=
- =?us-ascii?Q?CVdFB2nDgFdWUy29KYOTo1vOBwYdg07LUxQcwtS3bgfygssHhTFaq6r+hwWN?=
- =?us-ascii?Q?Pqxg+OV/jJ1BkKEA6/R5Y8bbMd/CpIBwQ5kkTJ51I6Fe7v0/LEVU8M0TXCR6?=
- =?us-ascii?Q?1aSAAPSxYWeAnbL1Mw2RLS84YUzLjDSXGHRqPL4/q58DX2EjoUAuORfzEncK?=
- =?us-ascii?Q?YQL8rBNLCzJai8m06mMN9JG+X8PL9jgVlBaRVa7RJF+W9+sw/7sLy0bFJs4k?=
- =?us-ascii?Q?OCXUGIosiB7fBJynf0+5fkXKdFRTUzSUN/VdIEGLRE3q9uFgemPmRdR9cOCj?=
- =?us-ascii?Q?79klZqZr6ZyvCHvjZGDJOEoOylgkJFu/zYXQQZ2HV4uAtlJbgeIiVPy7blZs?=
- =?us-ascii?Q?ekG/mXZL1xz3zLxj+SWrpWEyxzSzEy/FeGBoTCjSiVx8ukUtDyndk/XbQx9a?=
- =?us-ascii?Q?qc8R1V5x+pkwk93q4EJTJV0dTg9vMNBBK400OZLraGb3kz5UjrAPnpfrOivu?=
- =?us-ascii?Q?PMuOGYGWiKgwW3wl1Ck767cGxsTxXQESgNotyOjMSH7Iv2577KQDMgJDeirl?=
- =?us-ascii?Q?Yqy5aqiTV6Cw4XRw6UgO6xFkNPsWSUikVviEXbdgobrzMOW5amGSQgfhTmA/?=
- =?us-ascii?Q?WzE6ax2eYBQT3JRMjpHFeSsgegY1T+9xkPMkZeaQBLtBqgYCWHD4BOK58tXA?=
- =?us-ascii?Q?xndXBq+J09u3mgcd+B4ZZrd7796U0gnr6cgr+pU9itgcdnMg1Fz6wk8sNnoq?=
- =?us-ascii?Q?4k1KX6SHdID+nf86eNWpV/nZcjHC3gsdubYgN48L4+PImIV7WAA2DSFjZ9cZ?=
- =?us-ascii?Q?9m+iSDt3SaIQCQVtLqbDCXiCJfwvFLr5B3AvyvAfDVxOb5OhII8dQ/V2rHOW?=
- =?us-ascii?Q?MSvyrB0XEl0P60uCtg6lvvuUy3UEPYfuoo5tI+xzFPprMszp8r/tcdYSzk6B?=
- =?us-ascii?Q?M9VHNn54l52tM6b3pgdoYfyS/X1FGTtIO3HpyA1d/YUQMMLxdDtAE3dZGxXN?=
- =?us-ascii?Q?hAQBH91WnDlfqaw3xYIilC8ITZkCQ5zKG7vaJ2aPRToxqUQcbJBFWxNqebrA?=
- =?us-ascii?Q?gTe8Fm4BsP3AKNQ7E/MQR6axYBL4TdhFZQ4n7dUuQkIgq6XQfDU8KO8zbNex?=
- =?us-ascii?Q?+3mkdg6wO6ckyZyhYsxCW7s=3D?=
-X-OriginatorOrg: windriver.com
+	=?utf-8?B?Zm1UbndVTTFmSEtpVkFDc2phcGV5azFzN3RZdVJNdU0zZnFGNVpmM2x4WFgy?=
+ =?utf-8?B?TjJSZkpuUVBHOGVkdTlIa2hHSEdCa3l5blhDR0pEQlJiU3pTVTlUM0h0MDR5?=
+ =?utf-8?B?bDhnY2h0U1B1Y2RZbkYzTzdYL3hkdXV4S2FDOFptbWJQSXJRcmtrUEsvNHJv?=
+ =?utf-8?B?dExkZ3BKTTNxWmFCZGJ1YWJXL0xSNzBMTGNsSGdoN1lOWkh2cUtLSW1SMzY4?=
+ =?utf-8?B?dmlVeTYvM2Zxakw4bWJGMFBaMFhyaDlOZjdMMEI0aEFiWHJMYkJuVEtidUwy?=
+ =?utf-8?B?RHllY1FmcVlzZ3h3a1RFZXRTOFYrcGNES3RWWXpVcmF2YkJZTXlCQVlYMWZ4?=
+ =?utf-8?B?UFJEZlVHYnJvdExYVTRIS1VGL2YvYTAzM3pudEJqWnpBTC9Zb3VUUHFHVXhB?=
+ =?utf-8?B?VDFzYURkdHVEVHZ6N3YyKys3V2M5bmIxYWZQME5tamVZRGEvRmgveDJqQmpz?=
+ =?utf-8?B?YVJDWHYxeEpXUFF4b1JYYlhnNDNDWnJQdklkNWNaRVVJN1JId2VHUlNGWEVz?=
+ =?utf-8?B?ZG5ibDZBa3FOWGNHdko2ejFBK3VTMTNMMlRBc29nTnh1KzY2T2k5UXZZZ1pS?=
+ =?utf-8?B?RnZyZ2NpbzlNaVdWNlNnRzZZV1Zna1RVV3BJYlgzQWZ0dVlEQUJYQ0laVmpY?=
+ =?utf-8?B?OHVmOXhKRjJxNHdHd1I1MXlXcFZ2NEdGcVBiL0Zlb3hERXpQdnNZNnJQWnFj?=
+ =?utf-8?B?TnlFSFhTR0hGZTV4SkZqdlBuNnJNNWdJRVA3c0N6VEdFa1VOU2RZc1U2ekxt?=
+ =?utf-8?B?elVzY05mN0M0eFVuNmNKcklUNUUyNWgrZXgwcitxdUxiUUNDSzA5RU1udVFq?=
+ =?utf-8?B?MXF6bnNXZzFneTF3dnZIMEVmT2dubmE3UUl0OXlZM1p2TjdheHBpVnJROHBi?=
+ =?utf-8?B?citMZ1ViTUpEcTJZdzNhQnJnUXhXUE9JRGFQcGZzOWhFMXJNWlhDcG1MUTB5?=
+ =?utf-8?B?VlN5c1Y4MjhrNERRWTZjWGVicDlXQzdwTSt1aWlXMVpVTGtpRS9raFVYYmpO?=
+ =?utf-8?B?RzlSczRqcVNiSlE1czAxNFY2U0VqNWw0alcyWEFJbEo5aHNKZVNHVkdGenVR?=
+ =?utf-8?B?NXRWQnR5VG9CTFRtUktFSFpZWjF6VkViVUx6YnRLQTBTUllnQm9mandISnZ3?=
+ =?utf-8?B?QWNPbnhmQ3N6bjM0STlyWmxqYVY4czFXeUlJSWd2b0pHdUtiY0l6TFhRSFV0?=
+ =?utf-8?B?UlBrdXR3V3dJV0w3azRvRkYxajNPRUN3N1VVUk1aWWNOTTBrRXRsRUZUTFQ4?=
+ =?utf-8?B?SE8rL1RIaXFSV09QNmVBK09DczdaMUFXTWVLdEszYmYvbHZVbU9YSjBLdFMw?=
+ =?utf-8?B?NHg0WmY2S08rQWRUSGFXaTcybmdEd2ozL2xWZXIxM053c3VadGtraURiQzJv?=
+ =?utf-8?B?UExzUUNSU0pwR3c9PQ==?=
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c49d465b-48f4-4b3f-6e9a-08d9f7aa2ad5
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+ 066891cf-7d49-4b37-0ccd-08d9f7ad9c5f
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 15:27:28.6954
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 15:52:07.7794
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- jaP4ZbWVU0wu9+d8JmhtwgoVDcTQxhWy2HKped7guathfausSsWnDedzR+Q4ulIz7JpZaSbkcjTKPLnD6sKHuA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5456
-X-Proofpoint-ORIG-GUID: EnTv8MhWqpXbBurzYgudgOPkG4-Qv5Px
-X-Proofpoint-GUID: EnTv8MhWqpXbBurzYgudgOPkG4-Qv5Px
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-24_03,2022-02-24_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 spamscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240092
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR09MB3578
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 15:27:34 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 15:52:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162323
+ https://lists.openembedded.org/g/openembedded-core/message/162325
 
-Update the comment to reflect new variable names
+I got a kind of general question about this patch series and all the 
+followups: is this still considered to go into the next release?
 
-Signed-off-by: Saul Wold <saul.wold@windriver.com>
----
- meta/lib/oe/license.py | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+I'm a bit worried about the fallout of this pretty invasive change - 
+even though I see that at some point it needs to be done.
 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index b5d378a549b..4cd382b4fd7 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -99,20 +99,22 @@ def flattened_licenses(licensestr, choose_licenses):
-         raise LicenseSyntaxError(licensestr, exc)
-     return flatten.licenses
- 
--def is_included(licensestr, whitelist=None, blacklist=None):
--    """Given a license string and whitelist and blacklist, determine if the
--    license string matches the whitelist and does not match the blacklist.
--
--    Returns a tuple holding the boolean state and a list of the applicable
--    licenses that were excluded if state is False, or the licenses that were
--    included if the state is True.
-+def is_included(licensestr, include=None, exclude=None):
-+    """Given a license string and include list and exclude list,
-+        determine if the license string matches the an included
-+        license and does dont match an excluded license.
-+
-+        Returns a tuple holding the boolean state and a list of
-+        the applicable licenses that were excluded if state is
-+        False, or the licenses that were included if the state
-+        is True.
-     """
- 
-     def include_license(license):
--        return any(fnmatch(license, pattern) for pattern in whitelist)
-+        return any(fnmatch(license, pattern) for pattern in include)
- 
-     def exclude_license(license):
--        return any(fnmatch(license, pattern) for pattern in blacklist)
-+        return any(fnmatch(license, pattern) for pattern in exclude)
- 
-     def choose_licenses(alpha, beta):
-         """Select the option in an OR which is the 'best' (has the most
-@@ -131,11 +133,11 @@ def is_included(licensestr, whitelist=None, blacklist=None):
-         else:
-             return beta
- 
--    if not whitelist:
--        whitelist = ['*']
-+    if not include:
-+        include = ['*']
- 
--    if not blacklist:
--        blacklist = []
-+    if not exclude:
-+        exclude = []
- 
-     licenses = flattened_licenses(licensestr, choose_licenses)
-     excluded = [lic for lic in licenses if exclude_license(lic)]
--- 
-2.31.1
+My understanding is that the "classic" way will stop with Python 3.12, 
+which doesn't apply to next LTS release - as this will likely remain on 
+3.10.
+Only downside will be that manual helper files for updates of packages 
+that are lacking a setup.py needs to be provided (there are already a 
+few examples how to do it) - not a big deal if you'd ask me.
 
+So what's the stand of the project regarding this issue - also keeping 
+in mind that I think it's already past feature freeze?
 
