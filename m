@@ -1,152 +1,128 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5B5C433F5
-	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 01:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB432C433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 01:27:21 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
  [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web09.4484.1645664510953414042
+ by mx.groups.io with SMTP id smtpd.web11.4813.1645666040365115648
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 17:01:52 -0800
+ Wed, 23 Feb 2022 17:27:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=J9FN6atD;
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=VyDbZDD9;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
  invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=90546d8fae=randy.macleod@windriver.com)
+ mailfrom: prvs=9054b88637=saul.wold@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
 	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21O0qsDO019720
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 01:01:50 GMT
+ 21NModmW021022
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 01:27:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=qMu/jLJOYBSHwzCr1ZBdt+teqFm+JYRNRzFQPKSH7j8=;
- b=J9FN6atD5AVoXGziAiSJagyqgRLCcX4mbWmAPVkrrIit+TSuXhb6CoJVBMnd3V2drngK
- TvYE8IPkjjR9FdlpXpMdlecgw4/ATC8P0sA8EmmENoXTtEza6wEG/up+tSiZTeOajFaL
- PNu0dfOeX09pKFNOOdEQG7Y2KCUEPPnfcDoTutX9s9FnfFXBXq2aF3FUIpYGBhta4yyz
- ppNknLDZBZd3jVLHva40l9aOI6JKZKrJVhYhXtDXjcUAsv3fQ9BNntqHdagykMF+7LpF
- Ma/J0tMF2BRzJ9EBvtU9AfQF7nK0Zc0tWRluPZfY1geRo/e7+EKbEn4oSoe/Sk6kKJy0 qA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3edukjg6ec-1
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=XYV6fdyISPhg6eyCQccpS2tasfy+AlvVTavld+uoaK8=;
+ b=VyDbZDD9W9LBlSrifB5JuKL4Wayj1OWtd8E+nfxDiZpJZJ36pzdooJ4yrJWj8HzgToXy
+ QXRWaDcsoeLksKYHS97zoEAEQHQe3rLgjakgOMtRXGmSWMqDrT3towW6MOHEopmM39Ux
+ tLWR7tor/JubjMNksibrBthqMgUCWuJpMnHjVjqbevu0RnNxdwCAZhQrv9kT/eFWDlVx
+ CRkV3i0pcaxgl9m/w5JkPk9hCVxsL+PUYaECajXtDuaOLeO9Y7StRBye2i+ApHV7M/YW
+ z9826cZpJXLVI2Do2Qmfg1imEvzj57s1IVrG36ik63870HPyScsNUYH3WmWIpQZxokxd Ag==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3edukjg6ve-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 01:01:49 +0000
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 21O11npQ005861
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 01:01:49 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3edukjg6ea-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 24 Feb 2022 01:01:49 +0000
+ Thu, 24 Feb 2022 01:27:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V4YZCPM1fELE21mtURjR5V3dJdS9Nzpz5pXG8Xa3uMoOfcanrpXxjCxnK2fYmXUac/xqSM35B08tyzXI87ZnWBDz5ktwiCKktlfphy7sOGAY5v20OWc+S9mWY4FZYt3d+AET80+NvJvaPVQgb4Oufk45WwIyz781Eg3eBxkjEWkaN6gZ88o+Q0XZikDkOjdhK/EEPjQKAJrDCxMeenuhu3/gODzoYoOOCtenq8xQVQ6FOZN48MTV9byqphUGBcYCAJq/V///w+YWoxiekSe58wC2T7FrE1/FbGeXGF8/zPz6L/IqcyduYA3AMRkZ7ipetnYrbafCoNx7LnSTTKU9Cg==
+ b=XiWPVqleSCGDW+DgtXgN7JOdBFB4k9PQ93Ozg4IdzHSvkV45G2+TnJsnMhdpknvXf1yt0Y69F/KeD1l8NT9WyjXviMbuxYvKWieMTTYT5tnJ5chX3vPrMTjzjwr9xiS1i+tlzj2/MNdbAZfxCKhcL+OPHd9bPf7ggVQuCTN7KjzE1nSQd4aW3qe/QaIXfdw+EzjBIIoZSoio4d+iCpeIsJnk4pkPtD1LVvz6g7q3nAp/1jJyNEodte+GhpPo4XVaOzgsJYSkxGr7HlKrQxlrFFX8H4jk2S3+pYEOkhQNjFG7Tf5rajA2H1EPXclaPIO5de+IR68R1RR3WWcImkyOQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qMu/jLJOYBSHwzCr1ZBdt+teqFm+JYRNRzFQPKSH7j8=;
- b=eM9/sRizf2v8B+YVvcee+Y9lVNGvzB0L+hUCuCaSTOjPkEKcgACvB6xUOsMOvyVB6uWfY/8i98EYKqKfHApB1KjGw1BBifzLupD+07+qCLKb1/4Z6fYKS2rni8XCvc9IfPf1zm1n/fN5Hk3PQkixUmj7kkaxGB72Djg7LJjURNtNTmz7QufYZR2GJVGwabBKcgwvFSaHqHYH5VtSje/DJCvIUm1ScjBGkDeVFED8nJzEDsa08GH8N1dl+y81YbI8qjVE0BLrB3rTpc42e0S8iFO9dw0oDaWjNGz4uJRLZ5X8aQwXow93Yi1u8K4ueNsK3KiuY1hg0yJiYzyTALBrKw==
+ bh=XYV6fdyISPhg6eyCQccpS2tasfy+AlvVTavld+uoaK8=;
+ b=YtjpQifTSRPwmOewOu6BAhKF4MaclyI+AK+7DQ0lsVSk3AsDGDVkyKq3cQ/8ZfbxyrlvA+rOruqGKOGD1w3bvtUYjUYA+9eLocEKekAUjorSmATbfd7mb0wd4aiX2dgrA8iFdC82M+11Ox5IdXnRq//tMSvcF75DwgMuHMcPR4lcmb/a5KCUHclI7n6IZjEnNAhEeSfddnJCCWOsZI1y29wkH99I+5kcajOQV1t5IzUXniMqusyEGauB9ECLZRLUTyID6rx+PSUJOYx3wV+oO2bSYL9lEEyz8Mjm+FsVwdAO+gbqxJHrEATyOvVD81ovbHRKSfdDT6tgNjwNPwORZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by CH0PR11MB5538.namprd11.prod.outlook.com (2603:10b6:610:d5::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Thu, 24 Feb
- 2022 01:01:47 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::fca9:1fa9:6fdd:9dee]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::fca9:1fa9:6fdd:9dee%5]) with mapi id 15.20.4995.027; Thu, 24 Feb 2022
- 01:01:47 +0000
-Message-ID: <34156304-0480-6b77-3e30-0f02d2534373@windriver.com>
-Date: Wed, 23 Feb 2022 20:01:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [oe-core][hardknott][PATCH 1/1] virglrenderer: fix CVE-2022-0135
- and -0175
-Content-Language: en-CA
-To: Joe Slater <joe.slater@windriver.com>,
-        openembedded-core@lists.openembedded.org,
-        "Mittal, Anuj" <anuj.mittal@intel.com>
-References: <20220216231204.21131-1-joe.slater@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20220216231204.21131-1-joe.slater@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR04CA0025.namprd04.prod.outlook.com
- (2603:10b6:a03:217::30) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by DM5PR11MB1596.namprd11.prod.outlook.com (2603:10b6:4:b::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4995.22; Thu, 24 Feb 2022 01:27:16 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::3dab:fd3e:8d8:4e36]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::3dab:fd3e:8d8:4e36%8]) with mapi id 15.20.5017.021; Thu, 24 Feb 2022
+ 01:27:16 +0000
+From: Saul Wold <saul.wold@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Saul Wold <saul.wold@windriver.com>
+Subject: [RFC] INCOMPATIBLE_LICENSE re-work
+Date: Wed, 23 Feb 2022 17:26:59 -0800
+Message-Id: <20220224012659.176760-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0135.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::20) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42d24390-d6a5-48af-2724-08d9f7313b49
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5538:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81a1394a-9549-4647-7ca5-08d9f734caa3
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1596:EE_
 X-Microsoft-Antispam-PRVS: 
-	<CH0PR11MB5538D5C8638A1E71C500D09CF83D9@CH0PR11MB5538.namprd11.prod.outlook.com>
+	<DM5PR11MB159628B6CC91F69FE4AA89ADEE3D9@DM5PR11MB1596.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	S9P1fWiDm7Cy6Ia4503e9yCtL3bb5hxlQro/L7aO5u6IYooWy1nfR2VLDM7nhz/RJVgOvWs9rVHcFxClYHy/stQbdvd1ZIaTK9g5O3M6orYu0sK/P/BcmzA7+ADou/vQ+EI9wnYD9P/wEHNrcpro+0z/vLYTmvbzGlqxL++u/g6TraQFOkahNJpy5ZbO+AwHx+JeGNqs3feh5rzOmiHzPns9JyUBjlLdb80NjFViWPqPoJ0HU5lyKmxCGALBE/MhAVPE2UaYfHv4uOTUpEQcdBxB67G1hTTMA0ph6Ukyq784YhGcSM/1zoGrZ9aq1geOOvBr73jg8UBcSwOiVO5nYDW57C41TlsPAMVRUkq/u7n9u+TdB7atjLCLXVTNq6HzOYTg/dJSLhaMgSG+da01Dpw4cRH0Gb0PqKFXTBFO3bSgD9SK8116QHlrF30cIhk9/oIU6S9+GOq54ULAT6icjsIBL0Ayhbd/oqy731fhGuHA3pySBtLOmgHqD7vX0KIFAJhYcvZwsvPDwFg9dLQ8lcknvDWVbIs5oUg3dQWMKHs7lGZDYknRSpyVrb2BALtPbjiuTFTAWltRcxZlQ7OJ+iwq7cag615gq79jEwDh8nTF5iCR1th2MrhfySo7bMl76vaSWE4DqB8k74KAPeC+/hPujYCRIQSYkerMC3NFef4bgyVv1z4pqVRER9ezon7+GbwZW6DweT8JRjRaS3B5MycJmwJjrDZoMERvEGbBfcJv8aK0B/nO/GDMOuCYAqorECCBs6VJO5eF+Rvh7JaAJgZpWWfEET2B2O1kAZbVlscxL8zm1QLcT5Mutq7gaieU520D7tXc4GH0dBbRlm61iA==
+	MkqzktFf2/3a9aUvMBtQb2j1von7g5k8e8xAM3pmutBoFmLd7WfE4YvuKkTARWKsYCVKE231YTkUx/b3oTc2TcJm3TGPKn9xBvDOTYZ1oTbyxiHMNAnXOzWoeWO9g2q+wuz962hDejkFWEMPNG24XdinC7MWgd5e0aqbQNiSD/5R8k2sdoTqCxkiosi3l9k1ieUU467s3LL9txUAGSPX5+1YkXwdKMClp+0xOuARCCRg/QQl5iimKt0yfTCzOWkyoyvt8sqavotp305xcJVag2r+rZCFmEx/rG22B2qxfNzmjdIXEDMhWbZSlRj+1UZvkZOffLqglbLoBmKIzcr5PfDJ9ilp5yOMMfilRHvtuwBeoSuok/EbS8GI1giHmp25vT8omcOeENNP0LuG7tTuQSfxJZ7QaftTXN3ZrMlqJWPfikxnzEl7UOVmGLBYj6oopEDkk829y+Q+7P8+jWu+qHJfGk5dV9f+VcCUHPFsX6fLcwlluP9BhnUe0uYuTd9yKg9Yf14oNTZgWYYgLma76cO9IHAyDQrNDLVkjJRSS2l1c9yGHAWd+HyWDjwqoR5VtTs2S9c7yKSQkoF61m2F/atyAiOLpv8Mzl4xab7vPgsdGsPfF+MG2M+wUTak0AtLbM2dynXtskPfPc5nJQmktiaUB6mYeF/w6DuX6JNVab8Oe7IYQhNBKgNRwwMNiuJAq8ok/IdM2bF2YMwJsHvCOA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6666004)(5660300002)(966005)(6486002)(6512007)(6506007)(8676002)(8936002)(86362001)(53546011)(52116002)(66946007)(66556008)(31686004)(31696002)(66476007)(508600001)(186003)(2616005)(84970400001)(36756003)(83380400001)(2906002)(316002)(110136005)(38350700002)(38100700002)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(508600001)(52116002)(6666004)(66556008)(6512007)(26005)(66946007)(107886003)(66476007)(6486002)(6916009)(316002)(86362001)(2616005)(1076003)(8676002)(6506007)(36756003)(83380400001)(44832011)(4326008)(38100700002)(38350700002)(5660300002)(8936002)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SFZLMEtCR1ZLREJJNENjdmhuYmdwWElWWE5xTndkNlJ3MmNPd0k0NlBWSC92?=
- =?utf-8?B?MFBtREpqY3lSOHhtWXNkNk91TUhOWEMxTnMrOW1zZFBpYXplVTZVblVyQW50?=
- =?utf-8?B?Tkc4aGVjZnp5b0hzRmFGenVFTnZBTzhIRGpicGdtYkVhdWhpeHNxQUplNktT?=
- =?utf-8?B?VWNKVDdMeHFOUGhjT0gxdUg2OEZiSVRFZXlVUkhldnlqcE5sSXhhanVMTWk0?=
- =?utf-8?B?MjlMQ2JqcXBlNVJGZFJVTmkxM1phaHNCdW1oT1B6TkVzc0lWalVQT01FcnFK?=
- =?utf-8?B?c3RKNXZRcEtCMjZvUktWVzBCUGp0RGtiYUJZL1VKcElTVXlmUUttUXpjc1E4?=
- =?utf-8?B?a2U0Sm9RRU9LcEp4cm5JbUR2aFh5TmUxNy9oNkxsaTNkTVFiZ0REdHkweW14?=
- =?utf-8?B?VE9YWHprem1Mb2VPS08ySFZndkdvYTQzQXFTVU9Fa0FDYzM5cWFEUm9hc1Br?=
- =?utf-8?B?QnY1M3gyM0NUOGU5Mk5ic3dxVGtEcHFYbkFoUFBRUHJGNk9UVTJiNWs4WUdC?=
- =?utf-8?B?R09xeFVmL0hDc1czUE9wbVNITjdHdTh3NkluL1kyZHZyWHRGZ3ErdU0zTmFv?=
- =?utf-8?B?dWdqcEFGZ3VIVlppK3Y5U0MrRVIwTGhWbkJNRHlROHJyU09HN1RBaUVCYzlr?=
- =?utf-8?B?dFgxRDFSMGRWVjR6SVpIQUV1RTh3YmtXY0Mvdmo2d295RGIreFY5UGhvcTVr?=
- =?utf-8?B?QkNURDBwaVJldjg2UEFVbFlDYzJzdTVQK0tuMmZtMzBmUmk0bmdhQTM1TWJ3?=
- =?utf-8?B?TEFxb1g0SjNmSlVPbld6amtQZ1RlR2k1OS8xR3dzbDIremJrc09TVDY0YmZC?=
- =?utf-8?B?Mlh3eEZneFVnc21WRmprK3R5TVM5S0pmNDdJaU9aeGcwR2Faa0hKZlFZOTFp?=
- =?utf-8?B?cUYxQ09WSURJTnRCeERqREZFR1ZPcGkwelZJaTN2YkhQbTkvTThjSGNoT0px?=
- =?utf-8?B?N2FhV2FCdFZwRUVVdDBPbXlSVzlVYzdpdkVMTVU4UzRCdUlMQnBCK09CYXda?=
- =?utf-8?B?TFE0T2JxWE0wYWZYclJiVWVyNGxIZVBxUGx2UHp0WDJCYmtad1NieWlTaFVR?=
- =?utf-8?B?NHJ5djdsa1ZDbjlZVjY5Ly9IWXhLYmJZaHVRT1FBL3J6bnZZbWZkZHk2V2Y5?=
- =?utf-8?B?ZHhIMURLdVFuTk5rL3ZpN1RzaG81YThOS00vbUN2S05tY0FQbkxpcUxKZmJt?=
- =?utf-8?B?cU80WnVzbGJRRk9tUHNlU3JJS3BUQzM5cG9vYndUUkVrQTE0ZDlFRElxYlpB?=
- =?utf-8?B?eDhZRlhBRVkwZFRFMGdnUXNoeXR5dm5nRzQvVmsvcjAwQUFqMHBsUXZVK3ZV?=
- =?utf-8?B?OUNuUkR1SHJwYjBSeDVvbXdiY0tWSmVnVEp5a29iNHRTZ3VvYmsrVlM3U25W?=
- =?utf-8?B?eHZuTW96VlFXcjl3bkNFNFhiVWhsMHVkVjlDRzFCOHV3dDZoMjdrZEpVams0?=
- =?utf-8?B?SldUTGZVaDRBRFB5VHJSUW1WTzVTaHBqSkNwbzhtcm1qVVQrZGgzeW5HQ2JT?=
- =?utf-8?B?Q291SzFBUFlHWkp1ZUZJaENxMGd2ZmJ4eVAvbE51UXVVbW5SMXBiRURSWThC?=
- =?utf-8?B?MzEyc2plSGJRZ04wNkVpb3ZqZFkyelBXWU5rcEEzbXhFQjRDYklvT0JUSklM?=
- =?utf-8?B?bkVaQnBta29QTlJlUi9KVncwNkkwaS9ZSVF3dXdvVkt4Y0ZDendHMks2Y1JH?=
- =?utf-8?B?bVpDalhucDM0Tnh1NFNCVGFYOHRaRDJTZXZCbGxaelVYUmJTOWZsTCtoR2Vu?=
- =?utf-8?B?VEtmcytRakQ4ZFBIdHJFWGxSN2ozU3A4UE03OG1RYnBXa011SlF2TTN6dmZq?=
- =?utf-8?B?TmFqZWphRHJ6VU01TUp4bmlZRWZ3MHQ2S3Bsb0tFNTBJZ1dUZVRXTUJjZXJQ?=
- =?utf-8?B?ZlpBbXZHd3Q1a0JnQ1FpNXorRGJvckhzZ0wrVUExMElEOWhWR3NudE9NTGVl?=
- =?utf-8?B?QmZwSEhTZzNOL2pGelppZUFSZmFSS0hBVENTUEo1LzJod3IxdVUzSFFXZ1dt?=
- =?utf-8?B?Mkh6NWtpQkpSRUlUL2lVMHdJUE05UXREcXdLMFFYSThCc0hLc3o3Z3pqdXMz?=
- =?utf-8?B?aWg1QVdNTDNMWUtNcmV1djBqQmFLMTk1MnJoVE1wUGJ2RmJOZkVFbmpkREla?=
- =?utf-8?B?QlBDcTl1aCtSdkNJUTlCcVRUNzR6c01ndjJ1c3c3QU5MenZnN3VSdThSRnY2?=
- =?utf-8?B?dklYRE9UemVyRWlDWnRaeUJLTEs5M1RjQjRwelNyaGZQdlQ0MTFOMzBZa0hX?=
- =?utf-8?B?S1RvdWMwL0FISmxjaHlhNC9WU2x3PT0=?=
+	=?us-ascii?Q?yzYwtjMLXN9YWiz7N3NHn/UbsSiMf9UwcvlD33Qs1QaooAMQaQfYPsiDjVo2?=
+ =?us-ascii?Q?lDZDcr2hLHD1TVKAvlg3cSLBDEkPf1AnScxh142fXZS4p4Wndc7wwF10wV2K?=
+ =?us-ascii?Q?BPUIbJEhtGyzQlK1iph7IsTjaJdpHPbBnrtpfXuaY3UNHuioLYTDnlWhWokh?=
+ =?us-ascii?Q?z826vwdRgkh5FqtE8Np2IOiGiljTfe187+fBs2NyVhuDZ2gDs+5tLYyfeOn0?=
+ =?us-ascii?Q?yhoLzVg82BIfbA4u/j2glAyRR+bY9hscQ4n7LtJa05J4Yzt8DMdiM8r72vh+?=
+ =?us-ascii?Q?hQFEXSKFQH+VOc+ILoBuED4RuboDVDeMhGF/biy1hN+egcE84FT/rAR46ukb?=
+ =?us-ascii?Q?dvVtdnyaDoqUyyAbqfL1VxKzJGO7waSR4vYi2CuNt706NjTEqNw++9zjlW2I?=
+ =?us-ascii?Q?uKcF7GCHXZlpEfJFDY9kvf6ncUlXrexupqpUjK+XxYSqnZDI8ujnd7mw9+Zw?=
+ =?us-ascii?Q?mh7gw0VQLq/Nk2dFcvKFrH2GK/ezCRfvPz+4JpYSELZPrrF9Tn/eTz1yaTy+?=
+ =?us-ascii?Q?P5/w240HtoOLVuJgLUwJm8J33ZNBZsPjA0gkPoLffbVOAGHlnv13mZhX/zlX?=
+ =?us-ascii?Q?i4zqmG6tAvZljpYgLcjmuCJ8KQKc/lW0CigR4kiRY3iBCjKZyF1sp688ggdN?=
+ =?us-ascii?Q?nbuhszhmXFPDI0YENse/HL4b4O8xy1WTgOpiasSbyb8aZ5g81yjUlRtZNnyP?=
+ =?us-ascii?Q?Ih/+PSQQK7krkgw/R3WHAadjazEYnFLFzgbLaM0ELwOX2PsuMcIghdxzE6Ts?=
+ =?us-ascii?Q?W3xUkV/jyCxJa2Yf1pFgPazIuvp9y/3u5s7mJqiLUxDsg8mGrvoaxfmr+xG8?=
+ =?us-ascii?Q?Feeh+41Xhn/28LaVQFOahAxKUFtNYjF+TAHr7IQVYWsAE0779XqlaZWNxHVM?=
+ =?us-ascii?Q?L/8vLRn+6/PcW6Vx/kK8rjVeG2fPspfbYl3ebkKdlUST2CMUql2ubMdcqIm3?=
+ =?us-ascii?Q?QCwx/TrJB+FW2mwDiAG1qhw6O2051EGNix6T0YQEHigvcj/ty7fmLFJXaW2Q?=
+ =?us-ascii?Q?lf2Asnv/OjjrN35OX//h5hCrMlrtn5rcybS05m6WleGbj+RR8psLFhTiZdg6?=
+ =?us-ascii?Q?8gKg7fWRVC4wneldH6M4tJ6ydV/4j/1zPhi78Knc8Bp19TlufMypwgTaX0dL?=
+ =?us-ascii?Q?WI5Hg/L5hHecd2JxzJVUWzlCvSYUbx2i1RZZEH7mMGO6FAXbbtPSynahW/JL?=
+ =?us-ascii?Q?K7qKhKgKH2YcUEWdhwir9tFXcMtpPB241Q5pJChm/fx7Ou3SDGmi4hw9iAsa?=
+ =?us-ascii?Q?7KLeTNaoEX9eMXOwBx9W22M7vXsMSIfdcQJBlDgSgzOi7r2Pwi8idaAjRI5a?=
+ =?us-ascii?Q?6F6GAbfT0sGRUWr0kidXMVhRiBLLi3kv70WXBxZgrg+gw3p20TMxHJ47ZTOZ?=
+ =?us-ascii?Q?rQjUfWVQxeT92zfeqVkTYafD2m4H5caDcrrIaDywIJOtg5OoTXJ7m9BPD63g?=
+ =?us-ascii?Q?nU7Bkl+wNvt8e+IPaMqh7mYJ6/6sbXK7Gp5aiog+S0AICUrlLaZEM+7oKx9u?=
+ =?us-ascii?Q?o46KGYKLje/7kzV2NFmDYCkgFRxLaIvAN9yUsmir0UqFO60JhuVUpauCq5hT?=
+ =?us-ascii?Q?av+waqhUD5w8BSuNn7tUi8cNqNK1pkO+QsJ7RPjago6UOb98zPTW62gBF9r4?=
+ =?us-ascii?Q?TR5m6Ftt1ar6GlaZQM997y8=3D?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 42d24390-d6a5-48af-2724-08d9f7313b49
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+ 81a1394a-9549-4647-7ca5-08d9f734caa3
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 01:01:47.0993
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 01:27:16.1895
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- OhBIZ8dFY136vjfyHCM69/FS8n97icLziUSK/f54ZP9mKqa1XZqsGVDM/workDjQZcEt6NXRzW9+dyoKWkVCvdgb5Izb21BqbB2J0tsoxAI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5538
-X-Proofpoint-GUID: VI2-5zsATmpOqBTAKLQl3irkbtpifvS3
-X-Proofpoint-ORIG-GUID: 84jg_P_xEnnQl7hJ7XNOJtG5VXoXSDdx
+ S8eYv5Q9vP+o0Lcv3YPJ06MeaZiq+/LbwvdJ/TQOasAJy8ZivSEXI5WAdTCCDvHcwsWPqQDKrXg0zXB5Xrvq1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1596
+X-Proofpoint-GUID: L0bgc_AYxcuTiKEnd9KypMRYfhxcOljo
+X-Proofpoint-ORIG-GUID: L0bgc_AYxcuTiKEnd9KypMRYfhxcOljo
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-02-23_09,2022-02-23_01,2022-02-23_01
@@ -155,301 +131,210 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  phishscore=0 adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0
  mlxlogscore=999 spamscore=0 mlxscore=0 priorityscore=1501
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240002
+ engine=8.12.0-2201110000 definitions=main-2202240003
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 01:01:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 01:27:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162283
+ https://lists.openembedded.org/g/openembedded-core/message/162284
 
-Anuj,
+This re-writes the INCOMPATIBLE_LICENSE checking code to replace
+the WHITELIST_<lic> with
+INCOMPATIBLE_LICENSE_EXCEPTIONS = '<pkg>:<lic> <pkg>:<lic> ...'
 
-Did you miss this one?
-I don't see it in:
-https://git.openembedded.org/meta-openembedded-contrib/log/?h=hardknott-next
+This initial set of changes leaves most of the code structure in
+place, but the code in base.bbclass needs to be re-written to make
+the check more consistent around packages (PKGS) and not recipe
+names (PN). This also is taking into account the changes for SPDX
+licenses.
 
-../Randy
+This is a work in progress. This version does test successfully
+with oe-selftest. This will be refactored as multiple patches as
+appropriate.
 
-On 2022-02-16 18:12, Joe Slater wrote:
-> CVE-2022-0135 concerns out-of-bounds writes in read_transfer_data().
-> CVE-2022-0175 concerns using malloc() instead of calloc().
->
-> We cherry-pick from master.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 91f7511df79c5c1f93add9f2827a5a266453614e)
->
-> Modify -0175 patch to apply to hardknott branch.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->   .../virglrenderer/cve-2022-0135.patch         | 117 ++++++++++++++++++
->   .../virglrenderer/cve-2022-0175.patch         | 112 +++++++++++++++++
->   .../virglrenderer/virglrenderer_0.8.2.bb      |   2 +
->   3 files changed, 231 insertions(+)
->   create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
->   create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
->
-> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
-> new file mode 100644
-> index 0000000000..ae42dc8f6c
-> --- /dev/null
-> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
-> @@ -0,0 +1,117 @@
-> +From 63aee871365f9c9e7fa9125672302a0fb250d34d Mon Sep 17 00:00:00 2001
-> +From: Gert Wollny <gert.wollny@collabora.com>
-> +Date: Tue, 30 Nov 2021 09:16:24 +0100
-> +Subject: [PATCH 2/2] vrend: propperly check whether the shader image range is
-> + correct
-> +
-> +Also add a test to check the integer underflow.
-> +
-> +Closes: #251
-> +Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-> +Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> +
-> +cherry-pick from anongit.freedesktop.org/virglrenderer
-> +commit 2aed5d4...
-> +
-> +CVE: CVE-2022-0135
-> +Upstream-Status: Backport
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +---
-> + src/vrend_decode.c          |  3 +-
-> + tests/test_fuzzer_formats.c | 57 +++++++++++++++++++++++++++++++++++++
-> + 2 files changed, 59 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/vrend_decode.c b/src/vrend_decode.c
-> +index 91f5f24..6771b10 100644
-> +--- a/src/vrend_decode.c
-> ++++ b/src/vrend_decode.c
-> +@@ -1249,8 +1249,9 @@ static int vrend_decode_set_shader_images(struct vrend_context *ctx, const uint3
-> +    if (num_images < 1) {
-> +       return 0;
-> +    }
-> ++
-> +    if (start_slot > PIPE_MAX_SHADER_IMAGES ||
-> +-       start_slot > PIPE_MAX_SHADER_IMAGES - num_images)
-> ++       start_slot + num_images > PIPE_MAX_SHADER_IMAGES)
-> +       return EINVAL;
-> +
-> +    for (uint32_t i = 0; i < num_images; i++) {
-> +diff --git a/tests/test_fuzzer_formats.c b/tests/test_fuzzer_formats.c
-> +index 154a2e5..e32caf0 100644
-> +--- a/tests/test_fuzzer_formats.c
-> ++++ b/tests/test_fuzzer_formats.c
-> +@@ -958,6 +958,61 @@ static void test_vrend_set_signle_abo_heap_overflow() {
-> +     virgl_renderer_submit_cmd((void *) cmd, ctx_id, 0xde);
-> + }
-> +
-> ++static void test_vrend_set_shader_images_overflow()
-> ++{
-> ++    uint32_t num_shaders = PIPE_MAX_SHADER_IMAGES + 1;
-> ++    uint32_t size = num_shaders * VIRGL_SET_SHADER_IMAGE_ELEMENT_SIZE + 3;
-> ++    uint32_t cmd[size];
-> ++    int i = 0;
-> ++    cmd[i++] = ((size - 1)<< 16) | 0 << 8 | VIRGL_CCMD_SET_SHADER_IMAGES;
-> ++    cmd[i++] = PIPE_SHADER_FRAGMENT;
-> ++    memset(&cmd[i], 0, size - i);
-> ++
-> ++    virgl_renderer_submit_cmd((void *) cmd, ctx_id, size);
-> ++}
-> ++
-> ++/* Test adapted from yaojun8558363@gmail.com:
-> ++ * https://gitlab.freedesktop.org/virgl/virglrenderer/-/issues/250
-> ++*/
-> ++static void test_vrend_3d_resource_overflow() {
-> ++
-> ++    struct virgl_renderer_resource_create_args resource;
-> ++    resource.handle = 0x4c474572;
-> ++    resource.target = PIPE_TEXTURE_2D_ARRAY;
-> ++    resource.format = VIRGL_FORMAT_Z24X8_UNORM;
-> ++    resource.nr_samples = 2;
-> ++    resource.last_level = 0;
-> ++    resource.array_size = 3;
-> ++    resource.bind = VIRGL_BIND_SAMPLER_VIEW;
-> ++    resource.depth = 1;
-> ++    resource.width = 8;
-> ++    resource.height = 4;
-> ++    resource.flags = 0;
-> ++
-> ++    virgl_renderer_resource_create(&resource, NULL, 0);
-> ++    virgl_renderer_ctx_attach_resource(ctx_id, resource.handle);
-> ++
-> ++    uint32_t size = 0x400;
-> ++    uint32_t cmd[size];
-> ++    int i = 0;
-> ++    cmd[i++] = (size - 1) << 16 | 0 << 8 | VIRGL_CCMD_RESOURCE_INLINE_WRITE;
-> ++    cmd[i++] = resource.handle;
-> ++    cmd[i++] = 0; // level
-> ++    cmd[i++] = 0; // usage
-> ++    cmd[i++] = 0; // stride
-> ++    cmd[i++] = 0; // layer_stride
-> ++    cmd[i++] = 0; // x
-> ++    cmd[i++] = 0; // y
-> ++    cmd[i++] = 0; // z
-> ++    cmd[i++] = 8; // w
-> ++    cmd[i++] = 4; // h
-> ++    cmd[i++] = 3; // d
-> ++    memset(&cmd[i], 0, size - i);
-> ++
-> ++    virgl_renderer_submit_cmd((void *) cmd, ctx_id, size);
-> ++}
-> ++
-> ++
-> + int main()
-> + {
-> +    initialize_environment();
-> +@@ -980,6 +1035,8 @@ int main()
-> +    test_cs_nullpointer_deference();
-> +    test_vrend_set_signle_abo_heap_overflow();
-> +
-> ++   test_vrend_set_shader_images_overflow();
-> ++   test_vrend_3d_resource_overflow();
-> +
-> +    virgl_renderer_context_destroy(ctx_id);
-> +    virgl_renderer_cleanup(&cookie);
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
-> new file mode 100644
-> index 0000000000..8bbb9eb579
-> --- /dev/null
-> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
-> @@ -0,0 +1,112 @@
-> +From 5ca7aca001092c557f0b6fc1ba3db7dcdab860b7 Mon Sep 17 00:00:00 2001
-> +From: Gert Wollny <gert.wollny@collabora.com>
-> +Date: Tue, 30 Nov 2021 09:29:42 +0100
-> +Subject: [PATCH 1/2] vrend: clear memory when allocating a host-backed memory
-> + resource
-> +
-> +Closes: #249
-> +Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-> +Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> +
-> +cherry-pick from anongit.freedesktop.org/virglrenderer
-> +commit b05bb61...
-> +
-> +CVE: CVE-2022-0175
-> +Upstream-Status: Backport
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +Patch to vrend_renderer.c modified to apply to version used by hardknott.
-> +Patch to test_virgl_transfer.c unchanged.
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +---
-> + src/vrend_renderer.c        |  2 +-
-> + tests/test_virgl_transfer.c | 51 +++++++++++++++++++++++++++++++++++++
-> + 2 files changed, 52 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-> +index ad7a351..d84f785 100644
-> +--- a/src/vrend_renderer.c
-> ++++ b/src/vrend_renderer.c
-> +@@ -6646,7 +6646,7 @@ int vrend_renderer_resource_create(struct vrend_renderer_resource_create_args *a
-> +       if (args->bind == VIRGL_BIND_CUSTOM) {
-> +          /* use iovec directly when attached */
-> +          gr->storage_bits |= VREND_STORAGE_HOST_SYSTEM_MEMORY;
-> +-         gr->ptr = malloc(args->width);
-> ++         gr->ptr = calloc(1, args->width);
-> +          if (!gr->ptr) {
-> +             FREE(gr);
-> +             return ENOMEM;
-> +diff --git a/tests/test_virgl_transfer.c b/tests/test_virgl_transfer.c
-> +index 2c8669a..8f8e98a 100644
-> +--- a/tests/test_virgl_transfer.c
-> ++++ b/tests/test_virgl_transfer.c
-> +@@ -952,6 +952,56 @@ START_TEST(virgl_test_transfer_near_res_bounds_with_stride_succeeds)
-> + }
-> + END_TEST
-> +
-> ++START_TEST(test_vrend_host_backed_memory_no_data_leak)
-> ++{
-> ++   struct iovec iovs[1];
-> ++   int niovs = 1;
-> ++
-> ++   struct virgl_context ctx = {0};
-> ++
-> ++   int ret = testvirgl_init_ctx_cmdbuf(&ctx);
-> ++
-> ++   struct virgl_renderer_resource_create_args res;
-> ++   res.handle = 0x400;
-> ++   res.target = PIPE_BUFFER;
-> ++   res.format = VIRGL_FORMAT_R8_UNORM;
-> ++   res.nr_samples = 0;
-> ++   res.last_level = 0;
-> ++   res.array_size = 1;
-> ++   res.bind = VIRGL_BIND_CUSTOM;
-> ++   res.depth = 1;
-> ++   res.width = 32;
-> ++   res.height = 1;
-> ++   res.flags = 0;
-> ++
-> ++   uint32_t size = 32;
-> ++   uint8_t* data = calloc(1, size);
-> ++   memset(data, 1, 32);
-> ++   iovs[0].iov_base = data;
-> ++   iovs[0].iov_len = size;
-> ++
-> ++   struct pipe_box box = {0,0,0, size, 1,1};
-> ++
-> ++   virgl_renderer_resource_create(&res, NULL, 0);
-> ++   virgl_renderer_ctx_attach_resource(ctx.ctx_id, res.handle);
-> ++
-> ++   ret = virgl_renderer_transfer_read_iov(res.handle, ctx.ctx_id, 0, 0, 0,
-> ++                                          (struct virgl_box *)&box, 0, iovs, niovs);
-> ++
-> ++   ck_assert_int_eq(ret, 0);
-> ++
-> ++   for (int i = 0; i < 32; ++i)
-> ++      ck_assert_int_eq(data[i], 0);
-> ++
-> ++   virgl_renderer_ctx_detach_resource(1, res.handle);
-> ++
-> ++   virgl_renderer_resource_unref(res.handle);
-> ++   free(data);
-> ++
-> ++}
-> ++END_TEST
-> ++
-> ++
-> + static Suite *virgl_init_suite(void)
-> + {
-> +   Suite *s;
-> +@@ -981,6 +1031,7 @@ static Suite *virgl_init_suite(void)
-> +   tcase_add_test(tc_core, virgl_test_transfer_buffer_bad_strides);
-> +   tcase_add_test(tc_core, virgl_test_transfer_2d_array_bad_layer_stride);
-> +   tcase_add_test(tc_core, virgl_test_transfer_2d_bad_level);
-> ++  tcase_add_test(tc_core, test_vrend_host_backed_memory_no_data_leak);
-> +
-> +   tcase_add_loop_test(tc_core, virgl_test_transfer_res_read_valid, 0, PIPE_MAX_TEXTURE_TYPES);
-> +   tcase_add_loop_test(tc_core, virgl_test_transfer_res_write_valid, 0, PIPE_MAX_TEXTURE_TYPES);
-> +--
-> +2.31.1
-> +
-> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-> index 7f035f820a..d92359565a 100644
-> --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-> @@ -13,6 +13,8 @@ SRCREV = "7d204f3927be65fb3365dce01dbcd04d447a4985"
->   SRC_URI = "git://anongit.freedesktop.org/virglrenderer;branch=master \
->              file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
->              file://0001-meson.build-use-python3-directly-for-python.patch \
-> +           file://cve-2022-0135.patch \
-> +           file://cve-2022-0175.patch \
->              "
->   
->   S = "${WORKDIR}/git"
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ meta/classes/base.bbclass                     | 26 +++++++++---------
+ meta/classes/license_image.bbclass            | 27 +++++++------------
+ meta/classes/multilib.bbclass                 |  6 ++---
+ meta/conf/bitbake.conf                        | 10 +++++++
+ .../distro/include/default-distrovars.inc     |  2 +-
+ .../oeqa/selftest/cases/incompatible_lic.py   | 10 +++----
+ 6 files changed, 43 insertions(+), 38 deletions(-)
 
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 227f1f5a756..f937728ef6a 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -595,21 +595,23 @@ python () {
+         if check_license and bad_licenses:
+             bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+-            whitelist = []
+-            for lic in bad_licenses:
+-                spdx_license = return_spdx(d, lic)
+-                whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
+-                if spdx_license:
+-                    whitelist.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
+-
+-            if pn in whitelist:
++            exceptions = (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") or "").split()
++
++            pkg_exceptions = {}
++            for exception in exceptions:
++                pkg_lic = exception.split(':')
++                pkg_exceptions[pkg_lic[0]] = pkg_lic[1]
++
++#            if any((pn in execption and incompatible_lic in exception) for execption in exceptions):
++            if any(execption.startswith(pn + ':') for execption in exceptions):
+                 '''
+-                We need to track what we are whitelisting and why. If pn is
+-                incompatible we need to be able to note that the image that
+-                is created may infact contain incompatible licenses despite
++                We need to track which recipes are in the exception
++                list and why. If pn is incompatible we need to be
++                able to note that the image that is created may
++                infact contain incompatible licenses despite
+                 INCOMPATIBLE_LICENSE being set.
+                 '''
+-                bb.note("Including %s as buildable despite it having an incompatible license because it has been whitelisted" % pn)
++                bb.note("Including %s as a buildable recipe despite it having an incompatible license because it was found in the exception list" % pn)
+             else:
+                 pkgs = d.getVar('PACKAGES').split()
+                 skipped_pkgs = {}
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index bf70bee99bb..c6f04d30733 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -54,28 +54,21 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+-    whitelist = []
+-    for lic in bad_licenses:
+-        whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
+-
++    exceptions = (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") or "").split()
+     with open(license_manifest, "w") as license_file:
+         for pkg in sorted(pkg_dic):
+-            if bad_licenses and pkg not in whitelist:
+-                try:
++            if bad_licenses and not any((pkg + ":") in execption for execption in exceptions):
+                     licenses = incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"])
+                     if licenses:
+                         bb.fatal("Package %s cannot be installed into the image because it has incompatible license(s): %s" %(pkg, ' '.join(licenses)))
+-                    (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
+-                        oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
+-                        bad_licenses, canonical_license, d)
+-                except oe.license.LicenseError as exc:
+-                    bb.fatal('%s: %s' % (d.getVar('P'), exc))
+-            else:
+-                pkg_dic[pkg]["LICENSES"] = re.sub(r'[|&()*]', ' ', pkg_dic[pkg]["LICENSE"])
+-                pkg_dic[pkg]["LICENSES"] = re.sub(r'  *', ' ', pkg_dic[pkg]["LICENSES"])
+-                pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
+-                if pkg in whitelist:
+-                    oe.qa.handle_error('license-incompatible', "Including %s with an incompatible license %s into the image, because it has been whitelisted." %(pkg, pkg_dic[pkg]["LICENSE"]), d)
++            elif any((pkg + ":") in execption for execption in exceptions):
++                oe.qa.handle_error('license-incompatible', "Including %s with an incompatible license %s into the image, because it has been allowed by exception list." %(pkg, pkg_dic[pkg]["LICENSE"]), d)
++            try:
++                (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
++                    oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
++                    bad_licenses, canonical_license, d)
++            except oe.license.LicenseError as exc:
++                bb.fatal('%s: %s' % (d.getVar('P'), exc))
+ 
+             if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
+                 # Rootfs manifest
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index ec2013198ce..7d3b71c0d0a 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -75,11 +75,11 @@ python multilib_virtclass_handler () {
+     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
+ 
+-    # Expand WHITELIST_GPL-3.0 with multilib prefix
+-    pkgs = e.data.getVar("WHITELIST_GPL-3.0")
++    # Expand INCOMPATIBLE_LICENSE_EXCEPTIONS with multilib prefix
++    pkgs = e.data.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS")
+     for pkg in pkgs.split():
+         pkgs += " " + variant + "-" + pkg
+-    e.data.setVar("WHITELIST_GPL-3.0", pkgs)
++    e.data.setVar("INCOMPATIBLE_LICENSE_EXCEPTIONS", pkgs)
+ 
+     # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
+     newtune = e.data.getVar("DEFAULTTUNE:" + "virtclass-multilib-" + variant, False)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6fb7bfeb23c..7f0de51fa7b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -110,6 +110,16 @@ BB_RENAMED_VARIABLES[INHERIT_BLACKLIST] = "is a deprecated variable and no longe
+ BB_RENAMED_VARIABLES[TUNEABI_WHITELIST] = "is a deprecated variable and support has been removed"
+ BB_RENAMED_VARIABLES[LICENSE_FLAGS_WHITELIST] = "LICENSE_FLAGS_ACCEPTED"
+ 
++BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-only] = "INCOMPATIBLE_LICENSE_EXCEPTIONS"
++BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-or-later] = "INCOMPATIBLE_LICENSE_EXCEPTIONS"
++BB_RENAMED_VARIABLES[WHITELIST_LGPL-3.0-only] = "INCOMPATIBLE_LICENSE_EXCEPTIONS"
++BB_RENAMED_VARIABLES[WHITELIST_LGPL-3.0-or-later] = "INCOMPATIBLE_LICENSE_EXCEPTIONS"
++
++# These are deprecated version and should be updated to approved names
++BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0] = "is deprecated, convert to INCOMPATIBLE_LICENSE_EXCEPTIONS = '<pkg>:GPL-3.0-only'"
++BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0+] = "is deprecated, convert to INCOMPATIBLE_LICENSE_EXCEPTIONS = '<pkg>:GPL-3.0-or-later'"
++BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0] = "is deprecated, convert to INCOMPATIBLE_LICENSE_EXCEPTIONS = '<pkg>:LGPL-3.0-only'"
++BB_RENAMED_VARIABLES[WHITELIST_LGPL-3.0+] = "is deprecated, convert to INCOMPATIBLE_LICENSE_EXCEPTIONS = '<pkg>:LGPL-3.0-or-later'"
+ ##################################################################
+ # Architecture-dependent build variables.
+ ##################################################################
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 3bba651a776..dcc4a932a17 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -20,7 +20,7 @@ DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 la
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
+ 
+-WHITELIST_GPL-3.0 ?= ""
++INCOMPATIBLE_LICENSE_EXCEPTIONS ?= ""
+ 
+ COMMERCIAL_AUDIO_PLUGINS ?= ""
+ # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index fd3b3f409e3..08de3023c0a 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -86,7 +86,7 @@ class IncompatibleLicensePerImageTests(OESelftestTestCase):
+     def default_config(self):
+         return """
+ IMAGE_INSTALL:append = " bash"
+-INCOMPATIBLE_LICENSE:pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
++INCOMPATIBLE_LICENSE:pn-core-image-minimal = "GPL-3.0-or-later LGPL-3.0"
+ """
+ 
+     def test_bash_default(self):
+@@ -110,8 +110,8 @@ INCOMPATIBLE_LICENSE:pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+ 
+         bitbake('core-image-minimal')
+ 
+-    def test_bash_whitelist(self):
+-        self.write_config(self.default_config() + '\nWHITELIST_GPL-3.0:pn-core-image-minimal = "bash"')
++    def test_bash_license_exceptions(self):
++        self.write_config(self.default_config() + '\nINCOMPATIBLE_LICENSE_EXCEPTIONS:pn-core-image-minimal = "bash:GPL-3.0-or-later"')
+ 
+         bitbake('core-image-minimal')
+ 
+@@ -125,8 +125,8 @@ INCOMPATIBLE_LICENSE:pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+     def test_core_image_full_cmdline_weston(self):
+         self.write_config("""
+ INHERIT += "testimage"
+-INCOMPATIBLE_LICENSE:pn-core-image-full-cmdline = "GPL-3.0 LGPL-3.0"
+-INCOMPATIBLE_LICENSE:pn-core-image-weston = "GPL-3.0 LGPL-3.0"
++INCOMPATIBLE_LICENSE:pn-core-image-full-cmdline = "GPL-3.0-or-later LGPL-3.0"
++INCOMPATIBLE_LICENSE:pn-core-image-weston = "GPL-3.0-or-later LGPL-3.0"
+ # Settings for full-cmdline
+ RDEPENDS:packagegroup-core-full-cmdline-utils:remove = "bash bc coreutils cpio ed findutils gawk grep mc mc-fish mc-helpers mc-helpers-perl sed tar time"
+ RDEPENDS:packagegroup-core-full-cmdline-dev-utils:remove = "diffutils m4 make patch"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.31.1
 
 
