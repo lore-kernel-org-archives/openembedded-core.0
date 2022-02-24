@@ -1,207 +1,117 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A7B5C433F5
-	for <webhook@archiver.kernel.org>; Wed, 23 Feb 2022 22:16:15 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web08.2534.1645654574001987713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC6BC433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 00:30:24 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.4163.1645662620392926962
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 14:16:14 -0800
+ Wed, 23 Feb 2022 16:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=J2LcjSOM;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id e13so55547plh.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 14:16:13 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=Aa5t+taU;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=968iI8lsT2KIy56lBGptTW0sWnt0ef/FFdSl7lanKo4=;
-        b=J2LcjSOMeYGWfS/ZVLtQqLJfsRUN0FnbPMCGLen0uatnCt63ngKXTow/C/6rpj8sNr
-         6SD4B7spdQQlcGqbjVlB5KVb14+1irMN4HfxFTVayf/MVgolfHjRuojHNSR+lnZYWnte
-         fFpEaeiOp7Fg6zjxMAmd2Qy6m2p4mH97TRYDaF5zGPiySYrhh59umeIhYbmGBnu0vrmc
-         RSZkpnw+c3RqC8Qrhho1QWg1f+xvvPa4WNtRGFw7TPmdqAPGtB4KAWH2V2iC84/6vjnP
-         bIg9SsaSG3A1uHmk2AzrDHK0RvEJ6jf+QJGLKzhZmSbjZR2EyIfTcwFZ137SwYkrSY5T
-         gS3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=968iI8lsT2KIy56lBGptTW0sWnt0ef/FFdSl7lanKo4=;
-        b=6Mv/+mrNLGxCg56Miy114v4AaCNNfNYWaK8vayOysjBXyuR8ZfZl8BLe/aSzrbgMfB
-         +gfpU6Y0cP1pDImQ6u9S0dnoEEVig/yHc4OPC/KFgirOZvIKG6WrW3bIRS31RWK/Ll2m
-         ui+3Mfe0STswPIBNBYo/Oqjeelc4Bg+1K5Tiru2fDoNq1nF30Ow2OPpXMuwITImTb7Ya
-         Rwo1bKpftgNDrdaIantsXnsfrU/xBduN1BdXmDhAOx5CY2CtVXayGbnS+eKCXjbZgnWx
-         RkKudtvqKsRm6PTrrbj/1BKWPp8F8MOK9aepw/shfmWKZWRXuUB+YnE73PSuUTHCOX0m
-         KzLQ==
-X-Gm-Message-State: AOAM531+l3kP4b/yWJXOpXpJK4/8nrLN5cjaZY9GjRqE7qT7l1Dwy/zi
-	f2eaZSqjsuVtEG8hx+RNltFAkdzmmWLbG4CI
-X-Google-Smtp-Source: 
- ABdhPJxVrqOWYBbtGB4h+e+EodW1GtFyUUYx9/DDAPdvwIoeS3xLBZT6JDbdJB9UR9W+XbQaGWG3dQ==
-X-Received: by 2002:a17:902:ed83:b0:14f:c969:7669 with SMTP id
- e3-20020a170902ed8300b0014fc9697669mr1850156plj.96.1645654572767;
-        Wed, 23 Feb 2022 14:16:12 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- d5-20020a17090acd0500b001b9c05b075dsm3925551pju.44.2022.02.23.14.16.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Feb 2022 14:16:12 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/29] Pull request (cover letter only)
-Date: Wed, 23 Feb 2022 12:16:01 -1000
-Message-Id: <cover.1645654380.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1645662620;
+  x=1677198620;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JcHttlsi6vt9uWYobWMGPexSPmQuNBZqLNwC5OlTixc=;
+  b=Aa5t+taUOJjaMxAxLrO+2d9q3Hbav6BkOz3bQma9hzNBnwWfQzQ4fBtb
+   HV7zeyPao5rU5+s0g7icQDLlZo5XmAKbShP/LGIprjj4a/Bys+KmIznUi
+   kOhcTtJtOQy9oq0DaQmRhpB60LW/mcrP0px6bHieRaGa8Nj2aVuhD9Pdh
+   mh6J8ck8vtBLxZ2ZenrujNGUc7v9eMcUOVYy563geaaBEZZTd6b6A7ZSC
+   ZnmRYCkALwPlyKeLIJEtzLXM0+PhthQT4OVOIS9n+4snxI/EK/gpRwnxq
+   3q4jHkWY4NKo7BWi0amt1qEpP93SOvxhiG3UuC9DcDUiDCuAw2PZDdnqL
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Tim Orling <ticotimo@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Tim Orling <tim.orling@konsulko.com>
+Subject: RE: [OE-core] [PATCH 1/4] python3-pip-native: install scripts in
+ ${bindir}
+Thread-Topic: [OE-core] [PATCH 1/4] python3-pip-native: install scripts in
+ ${bindir}
+Thread-Index: AQHYKQILaCq70R1IhkualE2Rq0+/Q6yh0BKA
+Date: Thu, 24 Feb 2022 00:30:14 +0000
+Message-ID: <a5ede526a7de42fb9628a11ef7253051@axis.com>
+References: <20220223220913.2057644-1-tim.orling@konsulko.com>
+In-Reply-To: <20220223220913.2057644-1-tim.orling@konsulko.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Feb 2022 22:16:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 00:30:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162281
+ https://lists.openembedded.org/g/openembedded-core/message/162282
 
-The following changes since commit 88c0290520c9e4982d25c20e783bd91eec016b52:
-
-  libusb1: correct SRC_URI (2022-02-07 04:40:13 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alexander Kanavin (2):
-  ruby: correctly set native/target dependencies
-  vim: do not report upstream version check as broken
-
-Bruce Ashfield (3):
-  linux-yocto/5.4: update to v5.4.173
-  linux-yocto/5.4: update to v5.4.176
-  linux-yocto/5.4: update to v5.4.178
-
-Christian Eggers (1):
-  sdk: fix search for dynamic loader
-
-Florian Amstutz (1):
-  devtool: deploy-target: Remove stripped binaries in pseudo context
-
-Konrad Weihmann (1):
-  ruby: fix DEPENDS append
-
-Martin Beeger (1):
-  cmake: remove bogus CMAKE_LDFLAGS_FLAGS definition from toolchain file
-
-Purushottam Choudhary (1):
-  freetype: add missing CVE tag CVE-2020-15999
-
-Richard Purdie (3):
-  default-distrovars.inc: Switch connectivity check to a
-    yoctoproject.org page
-  vim: Upgrade 4269 -> 4134
-  vim: Upgrade 8.2.4314 -> 8.2.4424
-
-Ross Burton (5):
-  lighttpd: backport a fix for CVE-2022-22707
-  vim: set PACKAGECONFIG idiomatically
-  vim: upgrade to 8.2 patch 3752
-  vim: update to include latest CVE fixes
-  vim: upgrade to patch 4269
-
-Saul Wold (1):
-  recipetool: Fix circular reference in SRC_URI
-
-Stefan Herbrechtsmeier (1):
-  cve-check: create directory of CVE_CHECK_MANIFEST before copy
-
-Steve Sakoman (6):
-  expat: fix CVE-2022-23990
-  connman: fix CVE-2022-23096-7
-  connman: fix CVE-2022-23098
-  connman: fix CVE-2021-33833
-  wpa-supplicant: fix CVE-2022-23303-4
-  Revert "vim: fix CVE-2021-4069"
-
-Sundeep KOKKONDA (1):
-  binutils: Fix CVE-2021-45078
-
-bkylerussell@gmail.com (1):
-  rpm: fix intermittent compression failure in do_package_write_rpm
-
-wangmy (1):
-  linux-firmware: upgrade 20211216 -> 20220209
-
- meta/classes/cve-check.bbclass                |   1 +
- meta/classes/sanity.bbclass                   |   2 +-
- .../distro/include/default-distrovars.inc     |   2 +-
- meta/files/toolchain-shar-relocate.sh         |   2 +-
- .../connman/connman/CVE-2021-33833.patch      |  72 +++
- .../connman/connman/CVE-2022-23096-7.patch    | 121 ++++
- .../connman/connman/CVE-2022-23098.patch      |  50 ++
- .../connman/connman_1.37.bb                   |   3 +
- .../wpa-supplicant/CVE-2022-23303-4.patch     | 609 ++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |   1 +
- .../expat/expat/CVE-2022-23990.patch          |  49 ++
- meta/recipes-core/expat/expat_2.2.9.bb        |   1 +
- .../binutils/binutils-2.34.inc                |   1 +
- .../binutils/0001-CVE-2021-45078.patch        | 257 ++++++++
- .../cmake/cmake/OEToolchainConfig.cmake       |   1 -
- ..._internal-mode-parsing-when-Tn-is-us.patch |  34 +
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
- meta/recipes-devtools/ruby/ruby.inc           |   4 +-
- ...ix-out-of-bounds-OOB-write-fixes-313.patch | 100 +++
- .../lighttpd/lighttpd_1.4.55.bb               |   1 +
- ...-sfnt-Fix-heap-buffer-overflow-59308.patch |   3 +
- ...20211216.bb => linux-firmware_20220209.bb} |   4 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- ...1-reading-character-past-end-of-line.patch |  62 --
- ...src-Makefile-improve-reproducibility.patch |  13 +-
- ...28-using-freed-memory-when-replacing.patch |  83 ---
- ...eading-uninitialized-memory-when-giv.patch |  63 --
- ...rash-when-using-CTRL-W-f-without-fin.patch |  92 ---
- ...llegal-memory-access-if-buffer-name-.patch |  86 ---
- ...ml_get-error-after-search-with-range.patch |  72 ---
- ...nvalid-memory-access-when-scrolling-.patch |  97 ---
- .../vim/files/CVE-2021-3778.patch             |  61 --
- .../vim/files/CVE-2021-4069.patch             |  43 --
- ...1e135a16091c93f6f5f7525a5c58fb7ca9f9.patch | 207 ------
- .../vim/files/disable_acl_header_check.patch  |  15 +-
- .../vim/files/no-path-adjust.patch            |   8 +-
- meta/recipes-support/vim/files/racefix.patch  |   6 +-
- ...m-add-knob-whether-elf.h-are-checked.patch |  13 +-
- meta/recipes-support/vim/vim.inc              |  27 +-
- scripts/lib/devtool/deploy.py                 |   2 +-
- scripts/lib/recipetool/create.py              |   2 +-
- 43 files changed, 1364 insertions(+), 943 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2021-33833.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-23096-7.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2022-23098.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2022-23303-4.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-23990.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0001-CVE-2021-45078.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-rpmio-Fix-lzopen_internal-mode-parsing-when-Tn-is-us.patch
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_extforward-fix-out-of-bounds-OOB-write-fixes-313.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211216.bb => linux-firmware_20220209.bb} (99%)
- delete mode 100644 meta/recipes-support/vim/files/0001-patch-8.2.3581-reading-character-past-end-of-line.patch
- delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3428-using-freed-memory-when-replacing.patch
- delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3582-reading-uninitialized-memory-when-giv.patch
- delete mode 100644 meta/recipes-support/vim/files/0002-patch-8.2.3611-crash-when-using-CTRL-W-f-without-fin.patch
- delete mode 100644 meta/recipes-support/vim/files/0003-patch-8.2.3487-illegal-memory-access-if-buffer-name-.patch
- delete mode 100644 meta/recipes-support/vim/files/0004-patch-8.2.3489-ml_get-error-after-search-with-range.patch
- delete mode 100644 meta/recipes-support/vim/files/0005-patch-8.2.3564-invalid-memory-access-when-scrolling-.patch
- delete mode 100644 meta/recipes-support/vim/files/CVE-2021-3778.patch
- delete mode 100644 meta/recipes-support/vim/files/CVE-2021-4069.patch
- delete mode 100644 meta/recipes-support/vim/files/b7081e135a16091c93f6f5f7525a5c58fb7ca9f9.patch
-
--- 
-2.25.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFRpbSBPcmxpbmcNCj4gU2VudDogZGVuIDIzIGZlYnJ1
+YXJpIDIwMjIgMjM6MDkNCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNCj4gQ2M6IFRpbSBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPg0KPiBTdWJq
+ZWN0OiBbT0UtY29yZV0gW1BBVENIIDEvNF0gcHl0aG9uMy1waXAtbmF0aXZlOiBpbnN0YWxsIHNj
+cmlwdHMgaW4NCj4gJHtiaW5kaXJ9DQo+IA0KPiBUaGUgbmHDr3ZlIGFwcHJvYWNoIG9mIHNpbXBs
+eSB1bnppcHBpbmcgdGhlIGJ1aWx0IHdoZWVsIGlzIG5vdA0KPiBzdWZmaWNpZW50LiAncGlwIGlu
+c3RhbGwnIHdvdWxkIG5vcm1hbGx5IGhhdmUgY3JlYXRlZCB0aGUNCj4gW2NvbnNvbGVfc2NyaXB0
+c10gZnJvbSBlbnRyeS1wb2ludHMudHh0IGluICR7RH0ke2JpbmRpcn0uDQo+IA0KPiBGb3IgYm9v
+dHN0cmFwcGluZyBwdXJwb3NlcywgaGFyZGNvZGUgdGhlIHNjcmlwdHMgYW5kIGluc3RhbGwgdGhl
+bSBpbnRvDQo+ICR7RH0ke2JpbmRpcn0uIFNraXAgdGhlICR7YmluZGlyfS9waXAgdmFyaWFudC4N
+Cj4gDQo+IFtZT0NUTyAjMTQ3MzldDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUaW0gT3JsaW5nIDx0
+aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4NCj4gLS0tDQo+ICAuLi4vcHl0aG9uL3B5dGhvbjMtcGlw
+XzIyLjAuMy5iYiAgICAgICAgICAgICAgICB8IDE3ICsrKysrKysrKysrKysrKysrDQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1waXBfMjIuMC4zLmJiDQo+IGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBpcF8yMi4wLjMuYmINCj4gaW5kZXggNDgyYTIx
+MGVlOTkuLjVhNzdjYjcyZDcwIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtcGlwXzIyLjAuMy5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcGlwXzIyLjAuMy5iYg0KPiBAQCAtMjMsNiArMjMsMjMgQEAgZG9f
+aW5zdGFsbDpjbGFzcy1uYXRpdmUoKSB7DQoNCkZvciB0aGUgcmVjb3JkLCBPRS1Db3JlIHVzZXMg
+dGFicyB0byBpbmRlbnQgc2hlbGwgY29kZSwgDQpjb21wYXJlZCB0byBPcGVuRW1iZWRkZWQsIHdo
+aWNoIHVzZXMgZm91ciBzcGFjZXMuLi4NCg0KPiAgICAgIGluc3RhbGwgLWQgJHtEfSR7UFlUSE9O
+X1NJVEVQQUNLQUdFU19ESVJ9DQo+ICAgICAgdW56aXAgLWQgJHtEfSR7UFlUSE9OX1NJVEVQQUNL
+QUdFU19ESVJ9ICR7UFlQQV9XSEVFTH0gfHwgXA0KDQpUaGVyZSBpcyBubyByZWFzb24gZm9yIHRo
+ZSBiYWNrc2xhc2ggYXQgdGhlIGVuZCBvZiB0aGUgbGluZSBhYm92ZS4NCkhvd2V2ZXIsIHRoZSBs
+aW5lIGJlbG93IHNob3VsZCBiZSBpbmRlbnRlZCB0byBpbmRpY2F0ZSB0aGF0IGl0IGlzIA0KYSBj
+b250aW51YXRpb24gb2YgdGhlIGxpbmUgYWJvdmUsDQoNCj4gICAgICBiYmZhdGFsX2xvZyAiRmFp
+bGVkIHRvIHVuemlwIHdoZWVsOiAke1BZUEFfV0hFRUx9LiBDaGVjayB0aGUgbG9ncy4iDQo+ICsN
+Cj4gKyAgICAjIHBpcCBpbnN0YWxsIHdvdWxkIG5vcm1hbGx5IGdlbmVyYXRlIFtjb25zb2xlX3Nj
+cmlwdHNdIGluICR7YmluZGlyfQ0KPiArICAgIGluc3RhbGwgLWQgJHtEfS8ke2JpbmRpcn0NCg0K
+Q2hhbmdlICIke0R9LyR7YmluZGlyfSIgdG8gIiR7RH0ke2JpbmRpcn0iLg0KDQo+ICsgICAgIyBX
+ZSB3aWxsIHNraXAgdGhlICR7YmluZGlyfS9waXAgdmFyaWFudCBhcyB3ZSB3b3VsZCBqdXN0IHJl
+bW92ZSBpdCBpbiB0aGUgZG9faW5zdGFsbDphcHBlbmQNCj4gKyAgICBjYXQgPDwgRU9GID4+ICR7
+RH0vJHtiaW5kaXJ9L3BpcDMgfCB0ZWUgJHtEfS8ke2JpbmRpcn0vcGlwJHtQWVRIT05fQkFTRVZF
+UlNJT059DQoNCkNoYW5nZSB0aGUgYWJvdmUgdG86DQoNCgljYXQgPDwgRU9GID4gcGlwMw0KDQpv
+ciBldmVuIGJldHRlciB3b3VsZCBiZToNCg0KCWNhdCA8PC1FT0YgPiBwaXAzDQoNCmFzIHlvdSB0
+aGVuIGNhbiBpbmRlbnQgdGhlIGNvZGUgYmVsb3cuDQoNCkFuZCB0aGUgY3JlYXRpb24gb2YgdGhl
+IGZpbGUgYmVsb25ncyBpbiBkb19jb21waWxlOmNsYXNzLW5hdGl2ZSgpIA0KaW5zdGVhZC4NCg0K
+PiArIyEvYmluL3NoDQo+ICsnJydleGVjJyAke1NUQUdJTkdfQklORElSX05BVElWRX0vJHtQWVRI
+T05fUE59LW5hdGl2ZS8ke1BZVEhPTl9QTn0gIlwkMCIgIlwkQCINCj4gKycgJycnDQoNCldoYXQn
+cyB0aGUgcmVhc29uIGZvciB0aGUgYWJvdmUgY29uc3RydWN0PyBXaHkgZG9lc24ndCB0aGlzIHdv
+cms6DQoNCiMhJHtTVEFHSU5HX0JJTkRJUl9OQVRJVkV9LyR7UFlUSE9OX1BOfS1uYXRpdmUvJHtQ
+WVRIT05fUE59DQoNCklmIGl0IGRvZXNuJ3QsIHRoZW4gdGhlcmUgc2hvdWxkIGJlIGEgY29tbWVu
+dCBleHBsYWluaW5nIHdoYXQncyANCmdvaW5nIG9uLg0KDQo+ICsjIC0qLSBjb2Rpbmc6IHV0Zi04
+IC0qLQ0KPiAraW1wb3J0IHJlDQo+ICtpbXBvcnQgc3lzDQo+ICtmcm9tIHBpcC5faW50ZXJuYWwu
+Y2xpLm1haW4gaW1wb3J0IG1haW4NCj4gK2lmIF9fbmFtZV9fID09ICdfX21haW5fXyc6DQo+ICsg
+ICAgc3lzLmFyZ3ZbMF0gPSByZS5zdWIocicoLXNjcmlwdFwucHl3fFwuZXhlKT8kJywgJycsIHN5
+cy5hcmd2WzBdKQ0KPiArICAgIHN5cy5leGl0KG1haW4oKSkNCj4gK0VPRg0KDQpJc24ndCB0aGUg
+Y29kZSBmb3IgcGlwMyBhdmFpbGFibGUgc29tZXdoZXJlIGluIHRoZSBzb3VyY2UgY29kZSANCnNv
+IGl0IGNvdWxkIGJlIGNvcGllZCBmcm9tIHRoZXJlIGluc3RlYWQ/IFdoYXQgaGFwcGVucyBpZiAN
+CnVwc3RyZWFtIGRlY2lkZXMgdG8gY2hhbmdlIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiBwaXAzPw0K
+DQo+ICsgICAgY2htb2QgMDc1NSAke0R9JHtiaW5kaXJ9L3BpcDMgJHtEfSR7YmluZGlyfS9waXAk
+e1BZVEhPTl9CQVNFVkVSU0lPTn0NCg0KQ2hhbmdlIHRoZSBhYm92ZSB0bzoNCg0KCWluc3RhbGwg
+cGlwMyAke0R9JHtiaW5kaXJ9DQoJaW5zdGFsbCBwaXAzICR7RH0ke2JpbmRpcn0vcGlwJHtQWVRI
+T05fQkFTRVZFUlNJT059DQoNCj4gIH0NCj4gDQo+ICBkb19pbnN0YWxsOmFwcGVuZCgpIHsNCj4g
+LS0NCj4gMi4zMC4yDQoNCk1vc3Qgb2YgdGhlIGFib3ZlIGNvbW1lbnRzIGFsc28gYXBwbHkgdG8g
+dGhlIHBhdGNoIGZvciANCnB5dGhvbjMtd2hlZWwtbmF0aXZlLg0KDQovL1BldGVyDQoNCg==
 
