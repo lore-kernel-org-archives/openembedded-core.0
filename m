@@ -1,113 +1,100 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B351DC433F5
-	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 09:43:21 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.8373.1645695800270748399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE8CAC433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 11:55:03 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.9313.1645703702705442924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 01:43:20 -0800
+ Thu, 24 Feb 2022 03:55:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PDaBPJ0D;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id j7so2828156lfu.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DjhXrTWe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id
+ l2-20020a7bc342000000b0037fa585de26so3537244wmj.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 01:43:20 -0800 (PST)
+ Thu, 24 Feb 2022 03:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=yyiwdfUBOnpk5/2zHIxwIOBp1+AEKnBUauDfqaikR4g=;
-        b=PDaBPJ0DHxJrCLuS8fl+EU4hsZwZl+cmE18aqfhiNHlDppTJycVSXwCeE3bERpNTZX
-         /1cqEA707th7NGzsL519wz/IFtJKwS88XfRczU02+k5yk9wcoLdcOMgY/IMgbNLR2qly
-         ECOEIudywwGsFquI2SDmCKmLeltmINtAMGNX1bms8j6UmqnK0bgudgRIxRNwNw34oyKS
-         QMhrH9OW0dLGnoeQt6huBEBgnddlNPiG8Qr0ectgSVwvYjgHy0WpMs8rvPBseLSDWM3y
-         aTdAw8l6wFpu7ZpGnLO2PhcONhddEFcqyI2FwcSk0YWLAibNPDLPyxFrZkltSYRVapS5
-         4I/Q==
+        bh=oB9Kpblq+ZOXxQB1i78qYJoytrStI1g+WpPzEdJ39xw=;
+        b=DjhXrTWeOP/+V6TIC/i18bDkJakxf3sXMM/Ge6PfBNked8FJfphRvuPAoMRgcFBCKh
+         XvdsRETY6hklgwGzV+Np+IFfXK9Y4XPOOH52698cQfIa327adM2qT8uN7+0+WbWtlmia
+         QsxSCrbyG5nvD57OKS8VKTBnnKiX4KXiVRdYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yyiwdfUBOnpk5/2zHIxwIOBp1+AEKnBUauDfqaikR4g=;
-        b=T4qtlIodMd6oADWXxoi+tpo/7CMds6LuhJd9m9woxUFs/s8AxBKDD2zcTTbfRRYx6D
-         NXgBg1gw5F6NxJxqrdzkjbxhPhmergo34PYG5HLj6+CU4//K4U+5lmaTkNKf251eXkGE
-         50BmzQV67bNWbW7yvxvcNe6gaHOdVdjKvaDRJJ4PTVWqLAwZ7qcwc5tdCbqCL7ofHbot
-         YPHEB1xLWKp6PHBaCC2xycTp7I0oO6sCrApH2PjqtoSHuz0nfDtcHH/TqNDPjcDKAnZl
-         scuXSVDNUwo1E4XNBB/FB50EPg/kUFSBvUtYOvG61WAG224xo1Er5SX2jiIO8L78R5Gf
-         2Elg==
-X-Gm-Message-State: AOAM533ux+owZLHC+cP976LUHgfXfdkNAC7b9un3tUpTVYpoT20hS6vt
-	D/658+/6ytx2mVLJh+jLTZljiUGpnH78NA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=oB9Kpblq+ZOXxQB1i78qYJoytrStI1g+WpPzEdJ39xw=;
+        b=gHUk8q7/SxI2ch3choLNt+pV7rI8ESQcC55T0NzJZ9XqKdtM/+v3ea9OoVVEwj+AI8
+         JRtGm+y0ssh4RVh/GuVyH5iCMpIcPbeMYLLZ+RMXTEeUo791gDGUiEZFiCvGxsh1HI4O
+         HysNntqcjupqRoBHhbPHPJS51S9cShP10ngf0XVOgVUOqKqh99q+ePzzQP6dEcGGko01
+         ng84RK8I0jzJVOPFManctpN32MKM36TYFvWO5ac3IYmGsMpgFexWH03k6VnVs/hkzo4B
+         s47JAKjPNiagaoCP7eHiodhOKlwJGuEU+qAJFo9fiqcz/FXFHAEgIvxchHZbNLyayI5n
+         5ZbA==
+X-Gm-Message-State: AOAM5329eBAISvIMc9hyXAdFJiHUTNMa47i/AQNf7i9LokIMAZAg1Ekk
+	zSAcD/P1XJ4WMevA2mmaFLASHw==
 X-Google-Smtp-Source: 
- ABdhPJynUFyvIwydN/KOOhZmq+eZphjyV3Wqj5H3LDzrWwiM4PHIKMKKccAEOLgJBi7CECtpF2VLEg==
-X-Received: by 2002:ac2:442b:0:b0:443:5ff9:e5ac with SMTP id
- w11-20020ac2442b000000b004435ff9e5acmr1274770lfl.43.1645695797945;
-        Thu, 24 Feb 2022 01:43:17 -0800 (PST)
-Received: from peterliu-Precision-7530.lan
- (customer-212-100-112-191.stosn.net. [212.100.112.191])
+ ABdhPJycPbR4a/yeUZbP3xYp2GVjFqFWZblNIyXkgX6qTe025DtEOSve5tZq5ymuxj5jkjO7L3TFlQ==
+X-Received: by 2002:a1c:a7ca:0:b0:380:e40f:c31a with SMTP id
+ q193-20020a1ca7ca000000b00380e40fc31amr2004386wme.85.1645703701097;
+        Thu, 24 Feb 2022 03:55:01 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:3d62:f765:e1dc:ad89?
+ ([2001:8b0:aba:5f3c:3d62:f765:e1dc:ad89])
         by smtp.gmail.com with ESMTPSA id
- z5sm163892lfd.244.2022.02.24.01.43.17
+ r2-20020a05600c35c200b00352cdcdd7b2sm12103140wmq.0.2022.02.24.03.55.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 01:43:17 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V2 1/1] depmodwrapper-cross: add config directory
- option
-Date: Thu, 24 Feb 2022 10:43:08 +0100
-Message-Id: <20220224094308.58744-2-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224094308.58744-1-liu.ming50@gmail.com>
-References: <20220224094308.58744-1-liu.ming50@gmail.com>
+        Thu, 24 Feb 2022 03:55:00 -0800 (PST)
+Message-ID: 
+ <dfc93e2a7babc42e49a6c12dc1b997b388582e2a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libsecret: upgrade 0.20.4 -> 0.20.5
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 24 Feb 2022 11:54:59 +0000
+In-Reply-To: <1645616774-28994-1-git-send-email-wangmy@fujitsu.com>
+References: <1645616774-28994-1-git-send-email-wangmy@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 09:43:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 11:55:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162307
+ https://lists.openembedded.org/g/openembedded-core/message/162308
 
-From: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+On Wed, 2022-02-23 at 19:46 +0800, wangmy wrote:
+> determinism.patch
+> removed since it's included in 0.20.5
+> 
+> Changelog:
+> =========
+>  * Drop autotools-based build [!44]
+>  * Use G_GNUC_NULL_TERMINATED where appropriate [!65]
+>  * collection, methods, prompt: Port to GTask [!66, !93]
+>  * Detect local storage in snaps in the same way as flatpaks [!67]
+>  * Add bash-completion for secret-tool [!70, #50, !72]
+>  * secret-tool: Add locking capabilities to secret tool [#28, !75]
+>  * secret-file-backend: Avoid closing the same file descriptor twice [!78]
+>  * Add support for TPM2 based secret storage [!83, !90, !95]
+>  * Create default collection after DBus.Error.UnknownObject [!94]
+>  * Port documentation to gi-docgen [!101]
+>  * GI annotation and documentation fixes [!63, !64, !102, !103, #66]
+>  * Build fixes [#54, !62, !68, #59, !73, !77, !82, !84, !85, !88]
+>  * Updated translations
+> 
 
-Native depmod by default try to find config files from the following
-directories:
-```
-${STAGING_ETCDIR_NATIVE}/depmod.d
-/run/depmod.d
-/usr/local/lib/depmod.d
-/lib/depmod.d
-```
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/2653
 
-but none of them is correct, change to load config files from
-${sysconfdir}/depmod.d of basedir.
+There is an issue with the documentation changes here.
 
-Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-index 9a172675af..04fc14a6d2 100644
---- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-+++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
-@@ -32,9 +32,9 @@ fi
- 
- if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ] || [ "\$kernelabi" != "\$4" ]; then
-     echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/System.map-\$4" >&2
--    exec env depmod "\$1" "\$2" "\$3" "\$4"
-+    exec env depmod -C "\$3${sysconfdir}/depmod.d" "\$1" "\$2" "\$3" "\$4"
- else
--    exec env depmod "\$1" "\$2" "\$3" -F "${PKGDATA_DIR}/kernel-depmod/System.map-\$4" "\$4"
-+    exec env depmod -C "\$3${sysconfdir}/depmod.d" "\$1" "\$2" "\$3" -F "${PKGDATA_DIR}/kernel-depmod/System.map-\$4" "\$4"
- fi
- EOF
- 	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
--- 
-2.25.1
+Richard
 
 
