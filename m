@@ -1,117 +1,178 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A653C433FE
-	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 13:33:11 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.10324.1645709587366310214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80796C433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 14:52:28 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web08.11234.1645714347713977391
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 05:33:09 -0800
+ Thu, 24 Feb 2022 06:52:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=p6g1prZU;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OZf7Qidt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id
+ l1-20020a7bcf01000000b0037f881182a8so3643436wmg.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 24 Feb 2022 06:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1645709587;
-  x=1677245587;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=smgLQ+LdOvT+2OqGAYSZQs1KkGlxjUgF4Mp3fkDLFf4=;
-  b=p6g1prZUTtpnxILgWi+CPmtJjkOwFLsZzLRxfc2xw4H6XdgKw5XJPHsX
-   /k/THWoP7f/G8IkPhrzifHAk7RkChHzUHDseVeNpzXENKSA99d2+Txz2t
-   Tc5V5Yrek6SqZpLv8QFCK3T6NDiLN0SbPNmTPYPJ3AMsr4lVA4Kd1TjuB
-   axE9xDRpG8lqv0hyOgfwPOfaRRMjNdiQeJiAeHkX4UEznAibyaHczbJBn
-   Vye/2z2UFMj4zadpzq8BocBbrYueBBC8yn3R6TFOeAYynlT8UgF5J9x2k
-   IeiW9WcqEAhtGousdgXriTMYAe2YawYVmCULBEBpZokz0eNp3ngHdOf6Q
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Tim Orling <ticotimo@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Tim Orling <tim.orling@konsulko.com>
-Subject: RE: [OE-core] [PATCH 2/2] pip_install_wheel: improved wheel filename
- guess
-Thread-Topic: [OE-core] [PATCH 2/2] pip_install_wheel: improved wheel filename
- guess
-Thread-Index: AQHYKTS7kiYHeHK3HEi9n77gV4tUQqyisopQ
-Date: Thu, 24 Feb 2022 13:33:01 +0000
-Message-ID: <4acfd09b21f445a88a60cb574c0df3d1@axis.com>
-References: <20220224041200.2645054-1-tim.orling@konsulko.com>
- <20220224041200.2645054-2-tim.orling@konsulko.com>
-In-Reply-To: <20220224041200.2645054-2-tim.orling@konsulko.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rYO4w8DIZLPA1cpSdr/USX1+OGONV5UqcTWWkD87fao=;
+        b=OZf7QidtaOSk4ousSsaPKvTXZ37iuVgLmYlh2iWa9Hl3J+Y5+wEj6yNkzUqpaa/NGc
+         Rh5XsVNYJQKk/jWCMoO7sVUDDq/uknsko0kG98Md/lFUJ4kG7E9cO6R9bGtjkEbu9v7i
+         W9qHAiPq7OLhoxg2qIVubAbzQ1s6jiDIS0Kb8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rYO4w8DIZLPA1cpSdr/USX1+OGONV5UqcTWWkD87fao=;
+        b=VDHv/3Q+vPLcdrloTDvNJ7o8ZTrM3IXpcBB7Rdqq4Qyc6UEiqBciIv55SVO7qd78w/
+         KcP9HwKue0svu9RqF0CnSB6VkbXamFHnJT9x3rSk86tfpSETuqeqaam2VxO+vAunyYVX
+         tMDln1TXhwKLjOcONsFS7TxAEWn5EtT/g+H57cJmAn9cGvqnUgHiBTMJ+0aNVQs8cw8V
+         IWVXSxvN70euMuaAAy54SPnoBIsB2vDKjnTe4k34pnWo/sPQ+QeSvoKMOsypedI2V3rX
+         ObKQ7aqxZP1HNb37Z/IsGXTlrfMNQ+22/Qmwvb5qsAXu1coJr8DKzO89zQs/kgw61n24
+         TepA==
+X-Gm-Message-State: AOAM530NIgEbddmfiFvjA8mul/f6dZKGElWYjUtW5mAHvrxZqNaQqljq
+	DQo6ItzUqqDxCsfdmCugCzpAjbS+9hqMJYQM
+X-Google-Smtp-Source: 
+ ABdhPJzJaLQf9eOySzzq/lyOnMRvIsXxA75YK9SsS+mP7DBWU1qiU+dDDzZTjqRs2bH1l4L4F+YJbA==
+X-Received: by 2002:a05:600c:6019:b0:380:f8bc:ddf3 with SMTP id
+ az25-20020a05600c601900b00380f8bcddf3mr6600413wmb.117.1645714345462;
+        Thu, 24 Feb 2022 06:52:25 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3d62:f765:e1dc:ad89])
+        by smtp.gmail.com with ESMTPSA id
+ az13sm3062541wrb.39.2022.02.24.06.52.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 06:52:24 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python-pip: Improve reproducibility
+Date: Thu, 24 Feb 2022 14:52:23 +0000
+Message-Id: <20220224145223.27900-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 13:33:11 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 14:52:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162313
+ https://lists.openembedded.org/g/openembedded-core/message/162314
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Tim Orling
-> Sent: den 24 februari 2022 05:12
-> To: openembedded-core@lists.openembedded.org
-> Cc: Tim Orling <tim.orling@konsulko.com>
-> Subject: [OE-core] [PATCH 2/2] pip_install_wheel: improved wheel filename=
- guess
->=20
-> Rather than only use PYPI_PACKAGE as a guess, fall back on PN for cases
-> where a recipe does not inherit pypi.
->=20
-> Wheels can only have alphanumeric characters in the 'distribution'
-> name [1]. Any other characters are replaced with an underscore. Provide a
-> function to replace dash with underscore.
->=20
-> [1] https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode
->=20
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> ---
->  meta/classes/pip_install_wheel.bbclass | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_in=
-stall_wheel.bbclass
-> index f0312e0b1eb..e0f0b97ad13 100644
-> --- a/meta/classes/pip_install_wheel.bbclass
-> +++ b/meta/classes/pip_install_wheel.bbclass
-> @@ -1,6 +1,15 @@
->  DEPENDS:append =3D " python3-pip-native"
->=20
-> -PIP_INSTALL_PACKAGE ?=3D "${PYPI_PACKAGE}"
-> +def guess_pip_install_package_name(d):
-> +    '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
-> +    package =3D ""
-> +    if not d.getVar('PYPI_PACKAGE'):
-> +         package =3D (d.getVar('PN').replace('-', '_'))
-> +    else:
-> +         package =3D (d.getVar('PYPI_PACKAGE').replace('-', '_'))
-> +    return package
+Pip installed wheels are not reproducible currently. The direct_url
+files encode an installation path and the installed wheels compile
+the python files at their location, not their final install location
+which is incorrect.
 
-You can simplify the above to:
+To fix this, simply disable the direct_urls and pass the "root" to
+the python compile function to strip that path out of the compiled
+files.
 
-+def guess_pip_install_package_name(d):
-+    '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
-+    return (d.getVar('PYPI_PACKAGE') or d.getVar('PN')).replace('-', '_')
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../python/python3-pip/reproducible.patch     | 74 +++++++++++++++++++
+ .../python/python3-pip_22.0.3.bb              |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pip/reproducible.patch
 
-> +
-> +PIP_INSTALL_PACKAGE ?=3D "${@guess_pip_install_package_name(d)}"
->  PIP_INSTALL_DIST_PATH ?=3D "${B}/dist"
->  PYPA_WHEEL ??=3D "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-${PV}-=
-*.whl"
->=20
-> --
-> 2.30.2
-
-//Peter
+diff --git a/meta/recipes-devtools/python/python3-pip/reproducible.patch b/meta/recipes-devtools/python/python3-pip/reproducible.patch
+new file mode 100644
+index 00000000000..538bb94f7ad
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pip/reproducible.patch
+@@ -0,0 +1,74 @@
++Pip installed wheels are not reproducible currently. The direct_url
++files encode an installation path and the installed wheels compile
++the python files at their location, not their final install location
++which is incorrect.
++
++To fix this, simply disable the direct_urls and pass the "root" to
++the python compile function to strip that path out of the compiled
++files.
++
++A version of this patch, perhaps stripping root from the direct_urls
++may be something that could be considered by upstream.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Upstream-Status: Pending
++
++Index: pip-22.0.3/src/pip/_internal/req/req_install.py
++===================================================================
++--- pip-22.0.3.orig/src/pip/_internal/req/req_install.py
+++++ pip-22.0.3/src/pip/_internal/req/req_install.py
++@@ -758,7 +758,9 @@ class InstallRequirement:
++         if self.is_wheel:
++             assert self.local_file_path
++             direct_url = None
++-            if self.editable:
+++            if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
+++                direct_url = None
+++            elif self.editable:
++                 direct_url = direct_url_for_editable(self.unpacked_source_directory)
++             elif self.original_link:
++                 direct_url = direct_url_from_link(
++@@ -775,6 +777,7 @@ class InstallRequirement:
++                 warn_script_location=warn_script_location,
++                 direct_url=direct_url,
++                 requested=self.user_supplied,
+++                root=root,
++             )
++             self.install_succeeded = True
++             return
++Index: pip-22.0.3/src/pip/_internal/operations/install/wheel.py
++===================================================================
++--- pip-22.0.3.orig/src/pip/_internal/operations/install/wheel.py
+++++ pip-22.0.3/src/pip/_internal/operations/install/wheel.py
++@@ -436,6 +436,7 @@ def _install_wheel(
++     warn_script_location: bool = True,
++     direct_url: Optional[DirectUrl] = None,
++     requested: bool = False,
+++    root: str = None,
++ ) -> None:
++     """Install a wheel.
++ 
++@@ -612,7 +613,7 @@ def _install_wheel(
++             with warnings.catch_warnings():
++                 warnings.filterwarnings("ignore")
++                 for path in pyc_source_file_paths():
++-                    success = compileall.compile_file(path, force=True, quiet=True)
+++                    success = compileall.compile_file(path, force=True, quiet=True, stripdir=root)
++                     if success:
++                         pyc_path = pyc_output_path(path)
++                         assert os.path.exists(pyc_path)
++@@ -723,6 +724,7 @@ def install_wheel(
++     warn_script_location: bool = True,
++     direct_url: Optional[DirectUrl] = None,
++     requested: bool = False,
+++    root: str = None,
++ ) -> None:
++     with ZipFile(wheel_path, allowZip64=True) as z:
++         with req_error_context(req_description):
++@@ -735,4 +737,5 @@ def install_wheel(
++                 warn_script_location=warn_script_location,
++                 direct_url=direct_url,
++                 requested=requested,
+++                root=root,
++             )
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+index e02ea5bd3d2..7eb9fb69ba4 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+@@ -14,6 +14,7 @@ DEPENDS:append:class-native = " unzip-native"
+ 
+ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ SRC_URI += "file://no_shebang_mangling.patch"
++SRC_URI += "file://reproducible.patch"
+ 
+ SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
+ 
+-- 
+2.32.0
 
 
