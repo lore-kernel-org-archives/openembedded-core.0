@@ -1,405 +1,381 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 582A8C433EF
-	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 02:47:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.5609.1645670869578013109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA775C433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Feb 2022 04:07:24 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web09.6361.1645675644131141614
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 18:47:50 -0800
+ Wed, 23 Feb 2022 20:07:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=rTrUIVfy;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=90546d8fae=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 21O2hBa5013014
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 18:47:49 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=cl6FHcGmc+lYwAykWlfdCdvj1I8kbQelOKfVpG8PFBo=;
- b=rTrUIVfym6C8Brdm+NuI6Ot0eF+BcjT44U1JwCGXRFy9OODF1bCSHvgrxT9qd49dKog6
- tK1geYCoeMrf8py5rK6OoHs4D0QLW3TBEUhKGUp7fTLj2tOgvwVvo/Prr3GzlXmqJydC
- ZBFT/LlTdMXvIM+s1ab+Icm01EE6lFZeMKj9/BcLgyH74ImdJg1klMvMX9nn3OgfWp1i
- q4E9CDBpkhLhdwaNULQaZVuo8quaRAYRBeGz6jS4fvRSgZc8YiDFisdCdiPdW75o3MgK
- O4TE1rk0INkfF0Py/FIZfilE+XgIhafs54fY9jbVgS3W44mD7n+QmrtcTj+XfccwaKsH Qg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ecj2kt95m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 18:47:49 -0800
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 21O2lmHR022394
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Feb 2022 18:47:48 -0800
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ecj2kt95j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Feb 2022 18:47:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mjzpm4Iz3NIbbJ8dFrvtsGjeTmg27qpvej8oiPvhPxx4OqOmNisot+AD0azhyU4wFl+dOMZ/HV11mVXoFfATUIitX+2bMLCDfRuBJ4E6g+Ou2/L3XME20N+pA/L+YZU+eLrDk9834xgbu7nmR3iIyvHp6nusNoy6jfumLtC/ZAB6IiqtMpVxL2mFclN1kEUcGCXowx5+xhlIYXJfhkaYmoOAnJErJAZkTpdrwzPqOZA4EePk628LCVi+NjYxUD09wU+QQy/WXyS5zN7CI4EKzDz93YM1FfAX6aEepwwtwFShAu1YH0lQFW4EUB/I02tZ1qZdHW90FoOEpxRyKB5oEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cl6FHcGmc+lYwAykWlfdCdvj1I8kbQelOKfVpG8PFBo=;
- b=lVjAYkKFDUC4kopXHdiAapmcu7Kzhz/SYSPMeLoFueOuvuqbISb68dNLjf3yW+a5iCDvzq8+UnTQ79ZXcFo0d/82T/Pn3wKTourtTqEbHkx1ANwckFl5Jb5y8Is4PBNGnYLPbVp04zcwfnSxMmx5mgg30CXvD7dJbdcquP0goEu1DnMizmNueb5e4MGAgqaQiKNKw3YRilQieke7U84s5nU6/4SqNlLHfooCeYSfKW/rhd6GJW56kAlkfvxtxWPLBBnDkYykK99R43NG8mG56DktW/brwTMPBtZsn3jfaTmxKgKc79kXC2dNTlCn+hw4ssnJoE28Y4MDOkVotxHx5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by SN6PR11MB3182.namprd11.prod.outlook.com (2603:10b6:805:bf::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Thu, 24 Feb
- 2022 02:47:45 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::fca9:1fa9:6fdd:9dee]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::fca9:1fa9:6fdd:9dee%5]) with mapi id 15.20.4995.027; Thu, 24 Feb 2022
- 02:47:45 +0000
-Message-ID: <fc74428b-86a2-739f-808c-ed364884f173@windriver.com>
-Date: Wed, 23 Feb 2022 21:47:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH v3] Rust Oe-Selftest implementation
-Content-Language: en-CA
-To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org,
-        nathan@nathanrossi.com,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
-        vinay.m.engg@gmail.com
-References: <20220223122218.42996-1-pgowda.cve@gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20220223122218.42996-1-pgowda.cve@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: SJ0P220CA0029.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::13) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DNRZrwaQ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id h13so1669356qvk.12
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 23 Feb 2022 20:07:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=61SWW+or5mURNO3tAh555cP0otY+gp5HYaEdXQhf12g=;
+        b=DNRZrwaQM4eMBDKrFeIpE6r+rDRxcbxmh3PwcMVID5Gq2tUlpOg8sNDaxPu/w7+N6H
+         jZRpsI7SaySe44UU8z6QkoySTFlDAUBt2umUv/GKdHBhTp7JGDMoUdlDsB/sx9TXsBqu
+         hsef6xwrFjuKwJvr/+rs2aLGK/V8euBJTaV9XGNvoSjCK0cSITBEkUDtxztPWWPildHq
+         b3pMrhtrol9hKC82hixFqpzJIEZK6bbSDk7n+UztfSVRNGHms7SIamPKRax7aIsGt9nO
+         HrqcgBi22u7olx3apKH5/ZDJav+Z3LCE7dWmw0bo/L7xHTBt+5Rg7ZfSIhKaSaEgra1l
+         a4BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=61SWW+or5mURNO3tAh555cP0otY+gp5HYaEdXQhf12g=;
+        b=oMPkxZRUb5pRZky9ICYu9vx4i/y6Esr7+8mraL5iuB2qhhNDRi6WFQU0adM+ddaTWP
+         qheuPie2TJMpVEtZL8liyxziIUDnbL03+RWVVdFLSfwiPZiqOIB+yFgjbuDUjqZO9EXa
+         1hIC/XOxTOBTi5H3wFbErCIzBuqEt/SJuz0XUAj3LG5akYfNUXSkUOwnL7lw80RdV9ht
+         wFqdpaGUqxsR31Lp34DPIznUZann5+nuf5UVlskKv56X7er10cO9HsWVukReWfcxt1DG
+         nv7K1nfATTY/1u7TEOxD+BpvCgCblBYj20UEjc0Ya26TcSVXpP51NqJ7NP+75w3YEMqq
+         cLiw==
+X-Gm-Message-State: AOAM5301oPQgtDA54r4Cssrj4sYnLpiy44hCz4HUuw/KyaUM7Wc6ChgA
+	/DSG6zuR51SwqCnyVpgWnKNUAbXL6WEjYXuijiM=
+X-Google-Smtp-Source: 
+ ABdhPJxRtlEXgWSnDVYe7FvWt8H5856qAyO12YHEZwIDWR12F907BhUcxCfRYtPhQaf31LK/YTD+aUybQzDVAA3Lzho=
+X-Received: by 2002:ad4:574a:0:b0:42b:ef56:c2a4 with SMTP id
+ q10-20020ad4574a000000b0042bef56c2a4mr608533qvx.16.1645675643029; Wed, 23 Feb
+ 2022 20:07:23 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b290ca08-5194-47cb-bca5-08d9f74008fa
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3182:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3182B5B80BFF2A747167E736F83D9@SN6PR11MB3182.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	c2J0Dll4ZMESofghwvPucQ1kPCg/BX7JJbYxzY7CnAGNOJ+BggFfH/sAvrd4fXFL6zTiYtygZgTyqLvgMe900b/1c2pEIUS1td6njbOUebKp0aRaQVa7xvh8f1YCE3Ks2uKAg9CxcldvZYlSpe2WLoN0ijM+ylH34TjIFc5uyzjIXg9mNfiQQCUTslRFg5TSezzgRhb6/FQIUisR+5m7vFRLES9ZzyYSCXbZ4YQaxDwz75ATFb1DFyBzzkgZtbtDCpLuzA535tFXmrsCxMJV9Fl18JGC9ALVbsI2eVtcNlcd/CXl6xb8IBe0UfTIibPPu8As3/rKA1cS/5qvRPqR6wuvOQsuVTYsGhlOqfzxJi0j5IwOAcpAuPDhog8sEyJrYt0VdMY8dicDUM0vFKB+9Q6pZiSdiapjmr7joi/AaQbjdI3EBPLHyzRxlAqA6Czyyx9M2yY2ApokOEnVyzMBdj9HDBoDvezKXoO1BbwJoC+vNUCq5M7U1IAU5mxEI51gp45ZbJkpHu2x2XmZFUEFINIiNO/tyN9PKDgTJol9KlTce678d3NyXCEKzqc1BgfoxJVmp+9k3//u1FjlnJOqNtN+dTGN6bd9tl4Jo4FwPEEzZciKF4WPTd1dI1neCE+k3NIcSKLsbEHxkqSFP0vzNysPyU6GU3Hyp8/4HBc5E7ZXCCmmEHPU3wtEaBiObWmAJ2yO5sMK9d6wXalatqICkX5zi7yXuLRlHMhJjbf/wG9Nw+xSRiVT4DfMqeMJFOOWrQaxmJZbOh6qhMjod/iAXvf5QZjkb5v0wilYuNoPg01rMdF9y7Wvj1WiCii4cirO2J5dHMueamab01xOZeQ/OEKd7cny5FlPAThvfOqb7Dw=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(6486002)(966005)(508600001)(6666004)(83380400001)(2616005)(26005)(186003)(53546011)(52116002)(6506007)(6512007)(110136005)(31686004)(5660300002)(31696002)(2906002)(36756003)(86362001)(66946007)(66556008)(66476007)(4326008)(8936002)(316002)(38350700002)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?WWV4QnMxNjJSMlRMVTdDbU16YThRQ05ZTHZKZ25VNnBoMW1SMUh0SVA5VWdZ?=
- =?utf-8?B?VGdNa2dSUlowSStKWlVYVVJ1MWNDZG9DazNHeDE0OU4xeWYwU2dRZlZKb2Jh?=
- =?utf-8?B?bStOYXR0VmhWd0FmK0VBQTFNa1Ryd2tuWUlQdUUyWGtZc01wTmpndXZld2w3?=
- =?utf-8?B?dlo5YUVtTGhwOGx2NU0xQmdwVGM5VFpaa0pBNnRuUDlYckE1akg1Vnd2dzhM?=
- =?utf-8?B?NHB0NGxSemlGV0R4dkFPcms1NE9GWVgyWHRpOVlLSjFMR002Um1QY0dWV2R1?=
- =?utf-8?B?WXNmbTMvRmtKL09IZWZXdDN4bzJubGs5a2hVRXdGTUtvcGpQc1dFcm1aaHB0?=
- =?utf-8?B?cXQxS2JuRlRRZlVCbGJCRFB1U3Z6UVBNUXpMSmpkQ2Y1VzBWRzdaRDhBeWpK?=
- =?utf-8?B?RUhmQWZDRWVPNS96KzltRm9nU0lwaHp0emV5Q3FwVXlCd0lyLzVNUy9Pa3Fy?=
- =?utf-8?B?Ykt6d0JnUXMrMEVHYWxpL2hYcnA0VVZoMi9jQjNDRzNvemRrcC9xR1hJc0Jz?=
- =?utf-8?B?cWp0bFhBWDlvcUhQMnBRVkNJdGtpdW9Sank0M1dBdzdTUUEvNTc5aVFJcG1Q?=
- =?utf-8?B?RENjNGRZeWV3M2JXa2dZaXZLeDVKU1FpRnFMYVlnblNSbFlSa2Y0UkRQa1M2?=
- =?utf-8?B?Zk9mRU00OXZGVlo1NHc1S0ZTcWI4MjF1MkdMWkdQWk85YjUyY0NHMTJjcWZ1?=
- =?utf-8?B?b1hlUndCZ0p5NCtqMUdWV2s1UXFRQXErSFF6dXF1WkcwYlhWN2p6ZGZBeWZr?=
- =?utf-8?B?QnZGR0FQQm90dEg5Nk5DaE1ZOEtyK2pPb0VOVVkvOXpqV0V2aVcrUnBab0FR?=
- =?utf-8?B?R2NRa3BGRENjTVZya2o5UTNHamYvcXBXaCsvNlMwY0pUajdWV25TcWc4MUhl?=
- =?utf-8?B?YUxJdWtTN0V2RGs3SzA0NjBncEx1Q0NGWC96VGt3UlZsbytGNjlVNkY1YXZ2?=
- =?utf-8?B?T2hkMXFDY1lOVFdHSGFUV3gvYmdTWFc4UUI2MG5PR1lNT1dzMllIbmVDTnQr?=
- =?utf-8?B?OHpuaTU5Q0hYbjZLRW5MUEhwR1QyMVVmL2RhS05oZ2RwSEJqQ2MxQjNRTlBN?=
- =?utf-8?B?Vm5EYjJBVHA1THJYZWV1WXd5eXhSNEt6MjdlWit5ZHFGaXZxMGFoSUxvWVVs?=
- =?utf-8?B?Ri8zSlZucU51b3BpTjQ5STF2NHJBSloxQmVyM05LeXBYWHJyNzliS3Nvc25J?=
- =?utf-8?B?U1VtMGR0bk5ZUEFqOWJDUkZ1V2FnTzRPcFV1Z3JVcnJMZHA1N0tiU1BxM1dJ?=
- =?utf-8?B?bDFzRklUSDRCOUkwbURNcFMyWGpsMFY5WWRTM0toWHdjWnNXZ2R1enUxQUFz?=
- =?utf-8?B?TWtaQzRISjEwVkZVbWk0RDh2dlRsUjE5UzBtVkY2b1psdjdJSjJJQXM4V0E3?=
- =?utf-8?B?YS92eHozOVpOL2pHb05sUkZzYUJORHhveXhzV2FLZ0MycTg1THg3VUtubWFh?=
- =?utf-8?B?bCsvbEN4N1N4OWZrd25jY0VJWHQxdFFXalVvL0Q0MldETkpKdm15b3BvUzV1?=
- =?utf-8?B?OVMrbEpVRk9YM1MyUkUzMnBXZTBEdTdCQlNkK3ZwVGJsOXJqYkFiMWEwV3Nh?=
- =?utf-8?B?Q0t6T2ZQOFU1RFFkWTl4ckY4RkVBek5uYVFqU0xmSTdwYXJ6UmxpeERvYUx6?=
- =?utf-8?B?dUU5cTJTSVREM3NFM1phdXpMUDdTKzFXdFlXMldwcy9oTHgySCtKTFVucjVO?=
- =?utf-8?B?K0JrZFNmdWxaVDFncVNVREFuUURJWUxUZ0d4ZHB4VDl4Mi9zdklxMGtLOWxW?=
- =?utf-8?B?QjdzaVRjdS8rRm5EY3pvbVB1cEZpaENSaTEzU0tjdC9tMU55OVlQQ0ZhbytI?=
- =?utf-8?B?S241SjZWb2IzZ1NBTUg5L3phZXVuTWxIYVpOUEIwOXlnZHVEWTFMbSs4ZHJr?=
- =?utf-8?B?d29ZajFxOVN2R0dDdnRUbnlpcDdOWWVqeGJEWkpmdjg4ZGgwb1V1Vk85RTVh?=
- =?utf-8?B?MDhyQmVacFFvM2RMYnZHOVRPMWJWaE1nQnA4bnc4MU0rZFBJVGl1bGJoaERD?=
- =?utf-8?B?TGZYT0ZHUUR1WitobWhvbGRMa09jRGlIc0NlNE1CYyt5amZHcXd1cE1oNUdQ?=
- =?utf-8?B?T1FxSEpXaUwwSUpaT1BWaThVZzNqbU85dEVkTUNEVGNFVGRSU1FyVVhTRXNk?=
- =?utf-8?B?Y2pJeVVubkJEdkFpUHpzaXRIaFZFcm42ODc3Y1h1Y3BpcXBnamp4Z1ZFVmFF?=
- =?utf-8?B?NytQdHB4aWpWR1RGYmlTK2d4OHRwdm9YZUVkN04wQmxGWmNud0t5TnREZUlX?=
- =?utf-8?Q?ew5IpJLpy4ckfStMiKXScpFXe/KPwIjZP4uZLeztvc=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- b290ca08-5194-47cb-bca5-08d9f74008fa
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 02:47:45.2440
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- yT2iQ4Gm7rgtNca+8mzFPIs4kFPv1pegRWaDzaa7Hu7/f6Ni4v5Y2yuUuefqpUQmvQJ2zhiFKal62SP95xixSTRXrjqmPwXJvUoBuueazbo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3182
-X-Proofpoint-GUID: TcI9ZdlHNAkhdjMMxdEIIx395P4fKm46
-X-Proofpoint-ORIG-GUID: 4qspRetBDd4uEUIcllhfhDlbQ9GSv0pO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-23_09,2022-02-23_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
- clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202240012
+References: <cover.1645478020.git.tim.orling@konsulko.com>
+ <CAMKF1sobUZW4FbtdoGpk7yj8XZwNht4YqwHD=ohT_CmOmDry3Q@mail.gmail.com>
+ <CANx9H-Bx_AFnAnCjJSoMqS59pGR3dH5vuYN0fvLPdz+CBy=z7A@mail.gmail.com>
+ <CAMKF1sqNCMhH9_OoVzewjvd1SOHsF+5z3WFBmp51itSsh-eEzA@mail.gmail.com>
+ <CANx9H-D-4RZgg4y=B+2QwyCghiwT0uEDHyquxMz6aaVw-cBa0g@mail.gmail.com>
+ <CAMKF1so1W0nAKdpxUwxUS=AMH4joLkaisqLsGHt=X6TOqtxvWA@mail.gmail.com>
+ <CANx9H-Digth=jXdoN3riPVs9FMZjZSAtjgaWQi3KTnS6qiUCXg@mail.gmail.com>
+In-Reply-To: 
+ <CANx9H-Digth=jXdoN3riPVs9FMZjZSAtjgaWQi3KTnS6qiUCXg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Feb 2022 20:06:56 -0800
+Message-ID: 
+ <CAMKF1sqo0vAR8RB04_UKoGqwEegv=m+vbZqh47A_q3ZtC0RL7A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 00/32] Python PEP-517: build wheels and
+ install with pip
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-0064b401.pphosted.com id 21O2hBa5013014
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 02:47:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Feb 2022 04:07:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162288
+ https://lists.openembedded.org/g/openembedded-core/message/162289
 
-Hi Naveen,
+Right now approx 150 out of 470 recipes [1] in meta-python are directly fai=
+ling,
+perhaps there will be more once these are fixed then there are other layers
+which might be carrying some impacted python modules. Also YP compatibility
+is broken due to python3-nose removal. If we are planning
+to include this in the upcoming release,we would need some commitment
+and strategy to fix these and other ripple effects throughout the ecosystem
+especially since this is an LTS release. I wish this changeset was proposed
+in a release prior to LTS release, so it could have given enough time to
+adjust for the ecosystem. This is will take some effort in stabilizing
 
-On 2022-02-23 07:22, Pgowda wrote:
-> The patch implements Oe-selftest framework for Rust test.
-I think you need a bit more of an introduction to
-the patch. I assume that you and Vinay based this
-in part on the gcc.py test suite so you might say so and
-explain what is different and why.
+I also wonder, what do we lose if we do not put this into the LTS
+release?
 
-Additionally, people will not be familiar with the rust test suite so
-you should try to summarize that in a few sentences if possible.
+ [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1460
 
-I have some suggestion below but in addition to that maybe you can
-include a link in this commit log to, and outline how this would differ=20
-from:
-
- =C2=A0=C2=A0 https://rustc-dev-guide.rust-lang.org/tests/intro.html
-
-without discussing the implementation.
-
-> Some of the functions are as follows:-
-
-Rather than just listing the functions, say:
-
-
-To support the rust tests in oe-core, the following
-functions were added:
-> setup_cargo_environment(): Build bootstrap and some early stage tools.
-> do_rust_setup_snapshot(): Install the snapshot version of rust binaries.
-> do_configure(): To generate config.toml
-> do_compile(): To build "remote-test-server" for qemutarget image.
+On Tue, Feb 22, 2022 at 11:23 AM Tim Orling <ticotimo@gmail.com> wrote:
 >
-> The python file builds remote-test-server and executes rust testing
-> remotely using background ssh. It adds the necessary test environment
-> and variables to run the rust oe-selftest.
-> Print the results in case of failure of runCmd().
 >
-> The patch has been run and tested for X86, X86_64, Arm & Arm64 targets
-> on Ubuntu-18 successfully.
 >
-> Most of the tests excluded in rust.py are due to the following error:-
-> These tests will be included in Oe-selftest after fixing the issue.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> "build-st/tmp/work/core2-64-poky-linux/rust-testsuite/1.58.1-r0/
-> rustc-1.58.1-src/build/bootstrap/debug/rustc -vV` (exit status: 101)
-> --- stderr
-> thread 'main' panicked at '
-> kind: NotFound, message: "No such file or directory" }',
-> src/bootstrap/bin/rustc.rs:175:37
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-
-In this commit log, add a summary of APPROXIMATELY how many tests are=20
-run when building
-rust outside of a bitbake environment and compare that to:
-
-1. tests run before skipping the broken ones
-
-2. tests run with the patch below that skips higher level modules that
- =C2=A0=C2=A0=C2=A0 are broken.
-
-i.e.
-on ubuntu, there are 12000 tests and 11,555 pass
-
-before the disable patch, 9000 tests ran and 7777 passed
-
-with the patch, 5500 test ran and they all passed.
-
-I just want the reader (myself) to have an understanding of
-how much we have disabled. If you have exact numbers, that's great
-but I'm NOT asking you to spend hours or days gathering that data.
-
-
-
+> On Tue, Feb 22, 2022 at 11:18 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Tue, Feb 22, 2022 at 10:40 AM Tim Orling <ticotimo@gmail.com> wrote:
+>> >
+>> >
+>> >
+>> > On Tue, Feb 22, 2022 at 10:24 AM Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >> On Tue, Feb 22, 2022 at 10:21 AM Tim Orling <ticotimo@gmail.com> wrot=
+e:
+>> >> >
+>> >> >
+>> >> >
+>> >> > On Tue, Feb 22, 2022 at 9:22 AM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>> >> >>
+>> >> >> this is going into dep loops Try
+>> >> >>
+>> >> >> bitbake python3-wheel-native
+>> >> >
+>> >> >
+>> >> > It shouldn=E2=80=99t
+>> >> > https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtool=
+s/python/python3-wheel_0.37.1.bb?h=3Dtimo/bootstrap-wheels
+>> >> >
+>> >>
+>> >> I have been trying whats on master-next
+>> >>
+>> >
+>> > I can't reproduce. Can you point me at an error log please?
+>> > It might have something to do with sstate cache, but that's just a hun=
+ch.
+>> >
+>>
+>> This is because python3-wheel was moved to core and modified but not
+>> deleted from meta-python at same time. I have sent a patch for that
+>>
+> Already sent one:
+> https://patchwork.yoctoproject.org/project/oe/patch/20220222184920.231039=
+1-1-tim.orling@konsulko.com/
 >
-> Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> ---
->   meta/lib/oeqa/selftest/cases/rust.py          |  57 +
->   meta/recipes-devtools/rust/rust-testsuite.inc | 163 +++
->   .../rust-testsuite/rust-oe-selftest.patch     | 995 +++++++++++++++++=
-+
->   .../rust/rust-testsuite_1.58.1.bb             |   3 +
->   4 files changed, 1218 insertions(+)
->   create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
->   create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
->   create mode 100644 meta/recipes-devtools/rust/rust-testsuite/rust-oe-=
-selftest.patch
->   create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.58.1.b=
-b
->
-> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selft=
-est/cases/rust.py
-> new file mode 100644
-> index 0000000000..1379b09af1
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/cases/rust.py
-> @@ -0,0 +1,57 @@
-> +# SPDX-License-Identifier: MIT
-> +import os
-> +import subprocess
-> +from oeqa.core.decorator import OETestTag
-> +from oeqa.core.case import OEPTestResultTestCase
-> +from oeqa.selftest.case import OESelftestTestCase
-> +from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_va=
-rs, runqemu, Command
-> +from oeqa.utils.sshcontrol import SSHControl
-> +
-> +# Total time taken for testing is of about 2hr 20min, with PARALLEL_MA=
-KE set to 40 number of jobs.
-> +class RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
-> +
-> +	def run_check_emulated(self, *args, **kwargs):
-> +		# build remote-test-server before image build
-> +		recipe =3D "rust-testsuite"
-> +		bitbake("{} -c compile".format(recipe))
-> +		builddir =3D get_bb_var("B", "rust-testsuite")
-> +		# build core-image-minimal with required packages
-> +		default_installed_packages =3D ["libgcc", "libstdc++", "libatomic", =
-"libgomp"]
-> +		features =3D []
-> +		features.append('IMAGE_FEATURES +=3D "ssh-server-openssh"')
-> +		features.append('CORE_IMAGE_EXTRA_INSTALL +=3D "{0}"'.format(" ".joi=
-n(default_installed_packages)))
-> +		self.write_config("\n".join(features))
-> +		bitbake("core-image-minimal")
-> +		# wrap the execution with a qemu instance
-> +		with runqemu("core-image-minimal", runqemuparams =3D "nographic", qe=
-muparams =3D "-m 512") as qemu:
-
-meta/lib/oeqa/selftest/cases/gcc.py has a quick test:
-
-# validate that SSH is working
-
-Given that you are about to run a long test, that seems worthwhile
-even if your next step is to copy over the test server.
-
-> +			# Copy remote-test-server to image through scp
-> +			ssh =3D SSHControl(ip=3Dqemu.ip, logfile=3Dqemu.sshlog, user=3D"roo=
-t")
-> +			ssh.copy_to(builddir + "/" + "build/x86_64-unknown-linux-gnu/stage1=
--tools-bin/remote-test-server","~/")
-> +			# Execute remote-test-server on image through background ssh
-> +			command =3D '~/remote-test-server -v remote'
-> +			sshrun=3Dsubprocess.Popen(("ssh", '-o',  'UserKnownHostsFile=3D/dev=
-/null', '-o',  'StrictHostKeyChecking=3Dno', '-f', "root@%s" % qemu.ip, c=
-ommand),
-> +                                shell=3DFalse,
-> +                                stdout=3Dsubprocess.PIPE,
-> +                                stderr=3Dsubprocess.PIPE)
-> +			# Get the values of variables.
-> +			targetsys =3D get_bb_var("TARGET_SYS", "rust-testsuite")
-> +			rustlibpath =3D get_bb_var("STAGING_LIBDIR_NATIVE", "rust-testsuite=
-")
-> +			tmpdir =3D get_bb_var("TMPDIR", "rust-testsuite")
-> +
-> +			# Exclude the test folders that error out while building
-> +			# Need to fix these errors and include them for testing
-> +			testargs =3D "--exclude src/test/rustdoc-json --exclude src/test/ru=
-n-make-fulldeps --exclude src/tools/tidy --exclude src/tools/rustfmt --ex=
-clude src/tools/rustdoc-themes --exclude src/tools/rust-demangler --exclu=
-de src/tools/rls --exclude src/tools/miri --exclude src/tools/linkchecker=
- --exclude src/tools/expand-yaml-anchors --exclude src/tools/compiletest =
---exclude src/tools/clippy --exclude src/tools/cargotest --exclude src/to=
-ols/cargo --exclude src/test/rustdoc-gui --exclude src/rustdoc-json-types=
- --exclude src/tools/rustdoc --exclude src/librustdoc --exclude src/doc/u=
-nstable-book --exclude src/doc/rustdoc --exclude src/doc/rustc --exclude =
-compiler/rustc --exclude library/panic_abort --exclude library/panic_unwi=
-nd --no-doc --no-fail-fast --bless"
-
-
-Can you add a comment in the commit log listing why these are excluded?
-It seems that they are extra features that we haven't worked on=20
-supporting yet so if that's right, just say so.
-
-> +
-> +			# Set path for target-poky-linux-gcc, RUST_TARGET_PATH and hosttool=
-s.
-> +			cmd =3D " export PATH=3D%s/../bin:$PATH;" % rustlibpath
-> +			cmd =3D cmd + " export PATH=3D%s/../bin/%s:%s/hosttools:$PATH;" % (=
-rustlibpath, targetsys, tmpdir)
-> +			cmd =3D cmd + " export RUST_TARGET_PATH=3D%s/rustlib;" % rustlibpat=
-h
-> +			# Trigger testing.
-> +			cmd =3D cmd + " export TEST_DEVICE_ADDR=3D\"%s:12345\";" % qemu.ip
-> +			cmd =3D cmd + " cd %s;  python3 src/bootstrap/bootstrap.py test %s =
---target %s ;" % (builddir, testargs, targetsys)
-> +			result =3D runCmd(cmd)
-> +
-> +@OETestTag("toolchain-system")
-> +class RustSelfTestSystemEmulated(RustSelfTestBase):
-> +	def test_rust(self):
-> +		self.run_check_emulated("rust")
-
-I haven't actually worked with it but in:
-
- =C2=A0=C2=A0 meta/lib/oeqa/selftest/cases/gcc.py
-
-the tests can be run using qemu-system or qemu-user mode.
-It seems that either mode is possible for the gcc tests.
-
-Nathan, Richard,
-
-Should we support both modes and which is the default
-if you know offhand.
-
-Are these gcc tests actually run in parallel in practice?
-We should look into what parallelism is possible in these
-rust tests but first we need to make it work even in this degraded
-(skipped tests) mode.
-
-
-No comments on the rest of the patch so I've removed that.
-I assume that you have moved the patch from one release to another
-so just out of curiosity, is that minutes, an hour, many hours or days=20
-of work
-to fix up when we next have to update the recipe?
-
-Good work, hopefully it's almost ready to be merged.
-
-Since all I've asked from you is changes to the commit log,
-I hope you can provide that quickly as v4 on this thread, and
-then people CCed here can provide additional comments.
-
-
---=20
-# Randy MacLeod
-# Wind River Linux
-
+>>
+>> >>
+>> >> > DEPENDS:remove:class-native =3D "python3-pip-native"
+>> >> >
+>> >> > do_install:class-native () {
+>> >> >     # We need to bootstrap python3-wheel-native
+>> >> >     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+>> >> >     PYPA_WHEEL=3D"${B}/dist/${PYPI_PACKAGE}-${PV}-*.whl"
+>> >> >     unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PYPA_WHEEL} || \
+>> >> >     bbfatal_log "Failed to install"
+>> >> > }
+>> >> >>
+>> >> >>
+>> >> >>
+>> >> >>
+>> >> >> On Mon, Feb 21, 2022 at 1:23 PM Tim Orling <ticotimo@gmail.com> wr=
+ote:
+>> >> >> >
+>> >> >> > Upstream Python is moving to pyproject.toml rather than setup.py=
+ and
+>> >> >> > wheels rather than eggs. The main place this is documented is in
+>> >> >> > PEP-517[1]. Installing packages with setup.py install is depreca=
+ted.
+>> >> >> >
+>> >> >> > We have a choice with the 'kirkstone' LTS release of introducing=
+ this
+>> >> >> > series (and fixing any fall out during the stabilization period)=
+ or
+>> >> >> > living with deprecated Python packaging for the duration of the =
+LTS (at
+>> >> >> > a minimum 2 years). This seems to be a compelling enough reason =
+to bring
+>> >> >> > in this series, even if it results in a slight slip of the 'feat=
+ure
+>> >> >> > freeze', which is officially tomorrow, Monday 21 Feb, 2022.
+>> >> >> >
+>> >> >> > This series bootstraps python3-setuptools-native,
+>> >> >> > python3-flit-core-native, python3-wheel-native and python3-pip-n=
+ative,
+>> >> >> > simply unzipping the wheel into PYTHON_SITEPACKAGES_DIR. This al=
+lows all
+>> >> >> > other recipes to be installed with pip, as intended by upstream.
+>> >> >> >
+>> >> >> > Three new classes are introduced:
+>> >> >> > (1) flit_core which builds PEP-517 compliant packages which use
+>> >> >> >     flit_core.buildapi as their build-backend.
+>> >> >> > (2) setuptools_build_meta which builds PEP-517 compliant package=
+s which use
+>> >> >> >     setuptools_build_meta  as their build-backend.
+>> >> >> > (3) pip_install_wheel, which simply installs wheels built by oth=
+er
+>> >> >> >     classes.
+>> >> >> >
+>> >> >> > The original setuptools3.bbclass do_compile is modified to
+>> >> >> > 'setup.py bdist_wheel' (from python3-wheel-native) rather than t=
+he deprecated
+>> >> >> > 'setup.py build' mechanism.
+>> >> >> >
+>> >> >> > The original setuptools3.bbclass do_install is modified to
+>> >> >> > use the pip_install_wheel.bbclass to install wheels with pip rat=
+her than
+>> >> >> > the deprecated 'setup.py install' mechanism.
+>> >> >> >
+>> >> >> > For pip install, we disable dependency checking (--no-deps) beca=
+use it
+>> >> >> > proves to be brittle in our environment without providing full w=
+heel
+>> >> >> > cache that seems like overhead that we do not need. We also disa=
+ble
+>> >> >> > fetching wheels from pypi (--no-index). This is no different tha=
+n our
+>> >> >> > normal workflow of requiring dependencies to be defined in a rec=
+ipe.
+>> >> >> >
+>> >> >> > Missing from this series is documentation of the new features, c=
+lasses
+>> >> >> > and variables (this will be done under separate cover).
+>> >> >> >
+>> >> >> > Also desired and previously discussed in YP meetings is a helper
+>> >> >> > function to warn that a recipe which currently inherits setuptoo=
+ls3
+>> >> >> > but has a pyproject.toml and defines a build-system.build-backen=
+d should
+>> >> >> > instead use of the new PEP-517 classes. This function is still i=
+n progress.
+>> >> >> >
+>> >> >> > During testing, recipes which use python3-setuptools-scm are fai=
+ling to
+>> >> >> > determine the version of the python package, For several recipes=
+, the fix
+>> >> >> > was to use pyproject.toml and PEP-517 build backends. To be sure=
+, other recipes
+>> >> >> > are still going to fail for the short term, until the root cause=
+ can be
+>> >> >> > determined. This was not seen again in v2 builds.
+>> >> >> >
+>> >> >> > Another PEP-517 build-backend, poetry.core.masonry.api has been
+>> >> >> > identified in recipes in meta-python, but not in oe-core. The
+>> >> >> > python3-poetry-core recipe is WIP, but brings in a number of
+>> >> >> > dependencies that are perhaps not worth it to bring into oe-core=
+ at this
+>> >> >> > time. Rather we can support these recipes in meta-python?
+>> >> >> >
+>> >> >> > Fixes in v2 include passing --root=3D${D} to pip install (rather=
+ than --target)
+>> >> >> > and also passing --prefix so that scripts are (usually) installe=
+d in the proper
+>> >> >> > location. pip install also 'helpfully' overwrites python3 intepr=
+eter with nativepython3
+>> >> >> > in #!, so add a fix to return the values to what is actually cor=
+rect (similar to what is
+>> >> >> > done in setuptools3.bbclass). Also several recipes still needed =
+PIP_INSTALL_PACKAGE defined.
+>> >> >> >
+>> >> >> > Also added self as maintainer of new recipes.
+>> >> >> >
+>> >> >> > [YOCTO #14638]
+>> >> >> >
+>> >> >> > [1] https://www.python.org/dev/peps/pep-0517/
+>> >> >> >
+>> >> >> > The following changes since commit 41ae26ecab731f2fb6593df143476=
+c94183be209:
+>> >> >> >
+>> >> >> >   releases: update to include 3.4.2 (2022-02-21 16:46:22 +0000)
+>> >> >> >
+>> >> >> > are available in the Git repository at:
+>> >> >> >
+>> >> >> >   git://git.yoctoproject.org/git/poky-contrib timo/bootstrap-whe=
+els
+>> >> >> >   http://git.yoctoproject.org/cgit.cgi/git/poky-contrib/log/?h=
+=3Dtimo/bootstrap-wheels
+>> >> >> >
+>> >> >> > Tim Orling (32):
+>> >> >> >   python3-wheel: move 0.37.0 from meta-python
+>> >> >> >   python3-flit-core: add recipe for 3.6.0
+>> >> >> >   flit_core.bbclass: add helper for newer python packaging
+>> >> >> >   python3-wheel: inherit flit_core
+>> >> >> >   pip_install_wheel.bbclass: add helper class
+>> >> >> >   setuptools_build_meta.bbclass: add helper class
+>> >> >> >   python3-pip: inherit setuptools_build_meta
+>> >> >> >   python3-attrs: inherit setuptools_build_meta
+>> >> >> >   python3-git: inherit setuptools_build_meta
+>> >> >> >   python3-pytest: inherit setuptools_build_meta
+>> >> >> >   python3-setuptools-scm: inherit setuptools_build_meta
+>> >> >> >   python3-zipp: inherit setuptools_build_meta
+>> >> >> >   python3-iniconfig: inherit setuptools_build_meta
+>> >> >> >   python3-py: inherit setuptools_build_meta
+>> >> >> >   python3-pluggy: inherit setuptools_build_meta
+>> >> >> >   python3-setuptools: inherit setuptools_base_meta
+>> >> >> >   setuptools3.bbclass: refactor for wheels
+>> >> >> >   python3-more-itertools: set PIP_INSTALL_PACKAGE
+>> >> >> >   meson: inherit setuptools_build_meta
+>> >> >> >   python3-libarchive-d: set PIP_INSTALL_PACKAGE
+>> >> >> >   python3-smartypants: patch hash bang to python3
+>> >> >> >   python3-scons: merge -native recipe
+>> >> >> >   python3-subunit: merge inc; set PIP_INSTALL_PACKAGE
+>> >> >> >   python3-magic: set PIP_INSTALL_PACKAGE
+>> >> >> >   bmap-tools: set PIP_INSTALL_PACKAGE, BASEVER
+>> >> >> >   asciidoc: set PIP_INSTALL_PACKAGE
+>> >> >> >   gi-docgen: set PIP_INSTALL_PACKAGE
+>> >> >> >   numpy: set PIP_INSTALL_PACKAGE
+>> >> >> >   python3-dbusmock: set PIP_INSTALL_PACKAGE
+>> >> >> >   python3-mako: inherit setuptools_build_meta
+>> >> >> >   python3-packaging: inherit setuptools_build_meta
+>> >> >> >   python3-nose: drop recipe
+>> >> >> >
+>> >> >> >  meta/classes/flit_core.bbclass                |  16 +++
+>> >> >> >  meta/classes/pip_install_wheel.bbclass        |  37 +++++++
+>> >> >> >  meta/classes/setuptools3.bbclass              |  20 ++--
+>> >> >> >  meta/classes/setuptools_build_meta.bbclass    |  18 ++++
+>> >> >> >  meta/conf/distro/include/maintainers.inc      |   3 +-
+>> >> >> >  meta/recipes-devtools/meson/meson_0.61.2.bb   |   4 +-
+>> >> >> >  meta/recipes-devtools/python/python-nose.inc  |  18 ----
+>> >> >> >  .../python/python-subunit.inc                 |  14 ---
+>> >> >> >  .../python/python3-attrs_21.4.0.bb            |   2 +-
+>> >> >> >  .../python/python3-dbusmock_0.25.0.bb         |   1 +
+>> >> >> >  .../python/python3-flit-core_3.6.0.bb         |  41 +++++++
+>> >> >> >  .../python/python3-git_3.1.26.bb              |   2 +-
+>> >> >> >  .../python/python3-iniconfig_1.1.1.bb         |   4 +-
+>> >> >> >  .../python/python3-libarchive-c_4.0.bb        |   2 +
+>> >> >> >  .../python/python3-magic_0.4.25.bb            |   1 +
+>> >> >> >  .../python/python3-mako_1.1.6.bb              |   2 +-
+>> >> >> >  .../python/python3-more-itertools_8.12.0.bb   |   2 +
+>> >> >> >  .../python/python3-nose_1.3.7.bb              |   2 -
+>> >> >> >  .../python/python3-numpy_1.22.2.bb            |   1 +
+>> >> >> >  .../python/python3-packaging_21.3.bb          |   2 +-
+>> >> >> >  .../python/python3-pip_22.0.3.bb              |  19 +++-
+>> >> >> >  .../python/python3-pluggy_1.0.0.bb            |   2 +-
+>> >> >> >  .../python/python3-py_1.11.0.bb               |   2 +-
+>> >> >> >  .../python/python3-pytest_7.0.1.bb            |   4 +-
+>> >> >> >  .../python/python3-scons-native_4.3.0.bb      |   7 --
+>> >> >> >  .../python/python3-scons_4.3.0.bb             |  13 ++-
+>> >> >> >  .../python/python3-setuptools-scm_6.4.2.bb    |   2 +-
+>> >> >> >  .../python/python3-setuptools_59.5.0.bb       |  19 +++-
+>> >> >> >  .../0001-Change-hash-bang-to-python3.patch    |  47 ++++++++
+>> >> >> >  .../python/python3-smartypants_2.0.0.bb       |   1 +
+>> >> >> >  ...001-setup.py-use-vendored-_distutils.patch |  27 +++++
+>> >> >> >  .../python/python3-strict-rfc3339_0.7.bb      |   4 +-
+>> >> >> >  .../python/python3-subunit_1.4.0.bb           |  17 ++-
+>> >> >> >  ...roject.toml-from-flit-backend-branch.patch | 100 +++++++++++=
++++++++
+>> >> >> >  .../python/python3-wheel_0.37.1.bb            |  24 +++++
+>> >> >> >  .../python/python3-zipp_3.7.0.bb              |   2 +-
+>> >> >> >  .../asciidoc/asciidoc_10.1.1.bb               |   1 +
+>> >> >> >  meta/recipes-gnome/gi-docgen/gi-docgen_git.bb |   1 +
+>> >> >> >  .../{bmap-tools_3.6.bb =3D> bmap-tools_git.bb}  |   6 +-
+>> >> >> >  39 files changed, 412 insertions(+), 78 deletions(-)
+>> >> >> >  create mode 100644 meta/classes/flit_core.bbclass
+>> >> >> >  create mode 100644 meta/classes/pip_install_wheel.bbclass
+>> >> >> >  create mode 100644 meta/classes/setuptools_build_meta.bbclass
+>> >> >> >  delete mode 100644 meta/recipes-devtools/python/python-nose.inc
+>> >> >> >  delete mode 100644 meta/recipes-devtools/python/python-subunit.=
+inc
+>> >> >> >  create mode 100644 meta/recipes-devtools/python/python3-flit-co=
+re_3.6.0.bb
+>> >> >> >  delete mode 100644 meta/recipes-devtools/python/python3-nose_1.=
+3.7.bb
+>> >> >> >  delete mode 100644 meta/recipes-devtools/python/python3-scons-n=
+ative_4.3.0.bb
+>> >> >> >  create mode 100644 meta/recipes-devtools/python/python3-smartyp=
+ants/0001-Change-hash-bang-to-python3.patch
+>> >> >> >  create mode 100644 meta/recipes-devtools/python/python3-strict-=
+rfc3339/0001-setup.py-use-vendored-_distutils.patch
+>> >> >> >  create mode 100644 meta/recipes-devtools/python/python3-wheel/0=
+001-Backport-pyproject.toml-from-flit-backend-branch.patch
+>> >> >> >  create mode 100644 meta/recipes-devtools/python/python3-wheel_0=
+.37.1.bb
+>> >> >> >  rename meta/recipes-support/bmap-tools/{bmap-tools_3.6.bb =3D> =
+bmap-tools_git.bb} (86%)
+>> >> >> >
+>> >> >> > --
+>> >> >> > 2.30.2
+>> >> >> >
+>> >> >> >
+>> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >> >> > Links: You receive all messages sent to this group.
+>> >> >> > View/Reply Online (#162076): https://lists.openembedded.org/g/op=
+enembedded-core/message/162076
+>> >> >> > Mute This Topic: https://lists.openembedded.org/mt/89304007/1997=
+914
+>> >> >> > Group Owner: openembedded-core+owner@lists.openembedded.org
+>> >> >> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/=
+unsub [raj.khem@gmail.com]
+>> >> >> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> >> >> >
 
