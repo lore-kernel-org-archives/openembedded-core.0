@@ -2,65 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D521C433F5
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 14:26:59 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web11.6908.1645799218119254731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A5A4C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 14:27:01 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.6886.1645799220509658319
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 06:26:58 -0800
+ Fri, 25 Feb 2022 06:27:00 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cajMCTJU;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
+ header.b=suQo8Z7v;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id
- j10-20020a17090a94ca00b001bc2a9596f6so4925188pjw.5
+Received: by mail-pl1-f170.google.com with SMTP id x11so4933498pll.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 06:26:58 -0800 (PST)
+ Fri, 25 Feb 2022 06:27:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KprXCRO2fjv0h2CRObxw3tHmqhYHA3j63UkDX++/NaU=;
-        b=cajMCTJURfcVYEhlabBvKRQ6RF46VSHrf4y+kDpyhUYgjW7CyAlaZIL1G3RFFpXurO
-         wNc0cJqoZsj6WTEcPw0RAaJID0LLbbSqaOv7wakxhTOhqCgkZE8ofzqCxO+fGTgyPXZN
-         PxVoeeM5x9dyBsBXK2LV9czAA+MGl4aido2g4j0fq89igmCHha3WwD5zPW1zRjk0z61M
-         oTA7khVJwi8QhorVzRdpibD9X2NLq1+UJrVYBXkRe0cMII7JTD8pZY4lilr1qiHVNzLC
-         5z3P/VH+t/R9O8JegkhGvfncPByEe4H8Bddh7KG01Ron8VjX3cXk9f4k5bUutfpBAwDB
-         g+jg==
+        bh=qruG9ss2cxOI4qldARAhgzV+TB6/KvtboP0WkX1HbFo=;
+        b=suQo8Z7v/AHt1KnMEv2d1RoswzYrFgX7tr08nAKORaIbATFt9nBkWUU/wOhEm4XSsi
+         4OLv/UO11zyYf0dFkf48AzpAFAMgua1Tb4v+bwr0j4iU4xZwLB+GMDnaKbfsQyYO7IJ3
+         6qRivr1/W32UW0/czr90RTe0cKOOldF5ZhPRF3d6++k/KT88s/FRI/oOXNVYXqhdxoCQ
+         VVbImMmGpzNvZekhUWI9d1HkTmdXtlx/EX+xTwubADIWV9xGxt65SvMMxCZI0pt4nhxR
+         kEnvgUqNV8fL0iL7+q/ofKB8VM3z+3rn1+fHiszsd0GCGvtGQsMrdm3ScKS4qs6ZLhCS
+         CaUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KprXCRO2fjv0h2CRObxw3tHmqhYHA3j63UkDX++/NaU=;
-        b=S7ct4TzmPfqAHpByLpbJ+DigDS+Ev06v78ZxZVOOcoK3ta8g9Pp2zTvV3Z3pPJKBQ4
-         G52NEUb1uNgTrBgspltzT9kmFndRfsmmLye9dDGXGgL0MWOCBO+RioGFnJsWm4covFSa
-         50o0DtXcElnER1m1bl2P0/03Tw+BmcJ1Qk4izQhRKpIYURZ7TwVF1Ab/IE93TV8P3aS6
-         EeXgQ6MfLfIwYhTrZKwNcrdW+zaD2l1y3eo67lUIfX4GEu7tZUhlSTPN/1BcaTeSK0EP
-         GC7DiKX1SOWZU4mMLr87LGm6PHTGJgOQ+5wCrHdMrgVIUbzkut3rbJe+y21Bqi1siRG4
-         VUcA==
-X-Gm-Message-State: AOAM530f8SgPsGWCLNYLzNeu6JL+yth4Avz112QdHQKWKJP+udksDDph
-	lYoipo3ShbLS7FA5/EVHGcwEInF411NQo9JA
+        bh=qruG9ss2cxOI4qldARAhgzV+TB6/KvtboP0WkX1HbFo=;
+        b=8Bc1ILrY5rK6xLU+y1a1XcYyKwxz3OnUIoRelLP+oLOZ5xSIxIRZTObiG1hXBgLzTK
+         ecwWUL5KHQFpG5YKSYwY3tY1cQ/dMUjnFYmXsMSoTs9QzLs5lXJwATzxOxC9JibLkCz9
+         OTMt2zxvIDLEX/UM3Sm+FUfa8JOlXs15wu4FqyJPXPARAkcM56jqP0A9Gw1ZrlQqEI6e
+         YNfDBUSScYq/CaaB2+YDJaNDiP0b6HDuaIaGZ8sI/KIm1mn1913KMy8439u2sqv2yMze
+         NUBhqIYkHod/Jj60+vW5HUfnjKY1thilq5zcfjOT8GrIK+XcPQeGg34eY2YxpIBAWXWK
+         QfWA==
+X-Gm-Message-State: AOAM533Y4OJ+ai8a+KYBmtmb2gKkEgLIfdcDHoN43osIo+kgt/0FoUMp
+	ysQHwnZJwu4t3v+FSl7dOYfYgXXiI9+L0Dyg
 X-Google-Smtp-Source: 
- ABdhPJxK8zbc69FUVDE3y/NIi06WlKm62QvZSmoujvd4brToyJpoIh+uati+4tIzbl1Vt4uOGx0rkA==
-X-Received: by 2002:a17:902:ef4c:b0:14f:7548:dae3 with SMTP id
- e12-20020a170902ef4c00b0014f7548dae3mr7706430plx.92.1645799217191;
-        Fri, 25 Feb 2022 06:26:57 -0800 (PST)
+ ABdhPJzokf+j39CuMqUgxbofUXvNlw7jPY7aqOGD3RInGDXAdb0b5XGUD/mUbX9w1sjunewnzjgfBg==
+X-Received: by 2002:a17:90a:3046:b0:1bc:2b36:87bc with SMTP id
+ q6-20020a17090a304600b001bc2b3687bcmr3327372pjl.191.1645799219558;
+        Fri, 25 Feb 2022 06:26:59 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h17-20020a63df51000000b0036b9776ae5bsm2864538pgj.85.2022.02.25.06.26.56
+ h17-20020a63df51000000b0036b9776ae5bsm2864538pgj.85.2022.02.25.06.26.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 06:26:56 -0800 (PST)
+        Fri, 25 Feb 2022 06:26:58 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/50] puzzles: Upstream changed to main branch for
- development
-Date: Fri, 25 Feb 2022 04:25:44 -1000
+Subject: [OE-core][dunfell 05/50] grub: fix a memory leak
+Date: Fri, 25 Feb 2022 04:25:45 -1000
 Message-Id: 
- <930f097ef9e40fd4631a24ce79b99a4eb166319b.1645798648.git.steve@sakoman.com>
+ <330ef99ae58e025b78bf30b9a9d09b32dfa2f605.1645798648.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645798648.git.steve@sakoman.com>
 References: <cover.1645798648.git.steve@sakoman.com>
@@ -69,31 +67,84 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 14:26:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 14:27:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162350
+ https://lists.openembedded.org/g/openembedded-core/message/162351
 
-From: Kartikey Rameshbhai Parmar <kartikey.rameshbhai.parmar@intel.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
 
-Signed-off-by: Kartikey Rameshbhai Parmar <kartikey.rameshbhai.parmar@intel.com>
+Backport a fix for a memory leak in grub_mmap_iterate(). This patch
+is a part of a security series [1]
+
+[1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
+
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...leak-when-iterating-over-mapped-memo.patch | 39 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  3 +-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 2edc9ada2e..3ee441998d 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -9,7 +9,7 @@ DEPENDS = "libxt"
- # The libxt requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch b/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
+new file mode 100644
+index 0000000000..eaaa7effae
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch
+@@ -0,0 +1,39 @@
++From 0900f11def2e7fbb4880efff0cd9c9b32f1cdb86 Mon Sep 17 00:00:00 2001
++From: Darren Kenny <darren.kenny@oracle.com>
++Date: Thu, 3 Dec 2020 14:39:45 +0000
++Subject: [PATCH] mmap: Fix memory leak when iterating over mapped memory
++
++When returning from grub_mmap_iterate() the memory allocated to present
++is not being released causing it to leak.
++
++Fixes: CID 96655
++
++Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=8cb2848f9699642a698af84b12ba187cab722031]
++Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
++---
++ grub-core/mmap/mmap.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/grub-core/mmap/mmap.c b/grub-core/mmap/mmap.c
++index 7ebf32e..8bf235f 100644
++--- a/grub-core/mmap/mmap.c
+++++ b/grub-core/mmap/mmap.c
++@@ -270,6 +270,7 @@ grub_mmap_iterate (grub_memory_hook_t hook, void *hook_data)
++ 		   hook_data))
++ 	{
++ 	  grub_free (ctx.scanline_events);
+++	  grub_free (present);
++ 	  return GRUB_ERR_NONE;
++ 	}
++ 
++@@ -282,6 +283,7 @@ grub_mmap_iterate (grub_memory_hook_t hook, void *hook_data)
++     }
++ 
++   grub_free (ctx.scanline_events);
+++  grub_free (present);
++   return GRUB_ERR_NONE;
++ }
++ 
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 9b20e1c09b..a06beac5ef 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -47,7 +47,8 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2020-27779_7.patch \
+            file://CVE-2020-25632.patch \
+            file://CVE-2020-25647.patch \
+-"
++           file://0001-mmap-Fix-memory-leak-when-iterating-over-mapped-memo.patch \
++           "
+ SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
  
--SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=master \
-+SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main \
-            file://fix-compiling-failure-with-option-g-O.patch \
-            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
-            file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
 -- 
 2.25.1
 
