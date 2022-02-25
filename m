@@ -1,112 +1,217 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F10C433EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 04:04:44 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web09.3256.1645761883812751990
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A29C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 04:21:32 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.3295.1645762890787211729
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 20:04:43 -0800
+ Thu, 24 Feb 2022 20:21:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KtBGA5k7;
- spf=pass (domain: gmail.com, ip: 209.85.214.181,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id l9so3298663pls.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OGAPDexR;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id d84so3608917qke.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 20:04:43 -0800 (PST)
+ Thu, 24 Feb 2022 20:21:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qG04nIg6J63aKeBJ76h2FtaMlt5RgWmHjYeeRb6mZXA=;
-        b=KtBGA5k7WC6n4MP9km92C18xDWsRKfG2uk90RsjlM0oCClJzbqdC1LytnBnmRBXVI0
-         hVVVpkWHtw1eITPCLpst6rIF7qiytg4dBNlBPZiBvmlWhtNlhgROh7VSw5zpybAmjk3n
-         CCxmOlp2eHVtEbGDQ+cjlizNzeXCubwoq05qTENs0aScw8BwoG4IQPnFZM/vu5pu0Ryr
-         En8Z8REpmAIA2FQMq+3j3xyDInc4/om3Q8bjGWudI7VstCXidLKpiNfPB1q+XzT2NJdI
-         PtgZsl9ApUXPpFZZ0Rc8hTwwBzkDHOkzl6yGR2fBfxyC9DCOXkCNGRZZW2JunXW9uI5l
-         foHQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a17XzAitKyRUjc8m4GWPxlw71v7mEVYjHuYiHWl8rH4=;
+        b=OGAPDexRrT4+BJIQqD2S5As2nS4XmQGPcQrzKGXukBqFCLVLouwRB19h3rFeORbhIH
+         qjLRVAcl0gZGDFxswP4nSpQqgtSPuVhqwypIIMEXX92zAUyJAnJOkJav/7jIhEoTGvUn
+         rW85cT12qVMRPgi6GOv+DnkQDw1TeC4wrn6qp5VJ+g8wH0UIhTmlCkPZUl035lHKFCPt
+         A2IXGWTLB2gV0+w9TJ5Czstpyn+7/4RlYKH/KjJoKvzF2e2xYmhLJH290rtH93O7iHg9
+         VHfbvMZ1s/O6wavWzupdMqGdKI5wv9Ou02WK99ivElTy+VV5YXhbihGZqjYT27RhZVdI
+         R4DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qG04nIg6J63aKeBJ76h2FtaMlt5RgWmHjYeeRb6mZXA=;
-        b=cx0mnmIoL6zEUsQqLID5yxifJOcBK4wG9hnUuzLVm714UEZxyWxJyU2u5Zbji3fJe8
-         63esbhkoOUMtF6Y0EthhZW7d36im0z0UhRIi8JnRNnMyZVdNxMqPQ7Xovauw76JXkLfP
-         a+zQnHHuJZYgO1g8SOETABrl+P2Hydm7wb8LC8o2aRwXHS2CXbttvl4aVNMQ2R0AhPMu
-         42mGxfxNvgwnSdJvqQCL5ABKec4UNEoDkfYu1rJahnIwAddrd9OSx2MJX/9WlDG8Grkg
-         QMF8jixpTLP3/xr1mKp/JNd2Sskk1juSAn/fq+A9mgLtRqZWVySF546nTb0Yi2jk9bf3
-         b2Sg==
-X-Gm-Message-State: AOAM532SDTexPS7IB47U52bRMYwysKTFRnHN2Oo3A/OzftMUGQ6jsXzK
-	VaXmoYz/PMPEd/a4yv3tkBCTUBeQWENL/w==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a17XzAitKyRUjc8m4GWPxlw71v7mEVYjHuYiHWl8rH4=;
+        b=dH3xaiX4Qw73Qcs7X4QNBeledihNegwLagGMISeLtV3A7I3yNLfbXNYTOzhSv+rYvg
+         Jxibj8qbLDTEan25DIIyKmNOTSBu3q5CAVegMwHHePg1BM752qXUlau1OgxvgWwg/bEf
+         64EXP4+gFTQoWX+Y7LreMBzpMLDgJrVZS/yj2OZveZ18se0t7BFJ7r0ESIaKzNIs2Rhv
+         cFjx6Dprh0butRj/Ic6V5oH/ZEpk8aQDdsR1lrN840+Qi1P3IR6bePS+cqd8u0jscHfV
+         uYZBZgKVzEJ5FIbRnMbyUj6+oQbQUAjLhFqGYv8fnSU6dHru6Sm9aWA60bRd6KcZBaaA
+         ckIA==
+X-Gm-Message-State: AOAM530h4ZVf7K3E2B7crvGSXyH4KwUPntSJeStp9dgoR4UdXar63fSj
+	T7YnaW0cOGBhPdTLtK2iLLkM0o9DTWlNNIGHLN0lNlkcU4ht6A==
 X-Google-Smtp-Source: 
- ABdhPJyMOEn1Ph49PGlh5sR7TTom8mJrgPf+TVY4icD55jY0X6QATn+P+eQfGpKaLiM83ojKt5Io/g==
-X-Received: by 2002:a17:90a:3f09:b0:1b8:e615:a261 with SMTP id
- l9-20020a17090a3f0900b001b8e615a261mr1342047pjc.196.1645761882960;
-        Thu, 24 Feb 2022 20:04:42 -0800 (PST)
-Received: from nereus.hsd1.or.comcast.net
- ([2601:1c0:6000:1b20:263d:523e:139c:a040])
-        by smtp.gmail.com with ESMTPSA id
- y5-20020a056a00190500b004f104b5350fsm1066512pfi.93.2022.02.24.20.04.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 20:04:42 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <ticotimo@gmail.com>,
-	Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2 2/2] pip_install_wheel: improved wheel filename guess
-Date: Thu, 24 Feb 2022 20:03:31 -0800
-Message-Id: <20220225040329.813595-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220225040329.813595-1-tim.orling@konsulko.com>
-References: <20220225040329.813595-1-tim.orling@konsulko.com>
+ ABdhPJycYTwvEi/9C585VEcn3B8+EedtW9CTzqbdcZjfaXv6dWoUmUfSI1CtPSLP82zlCkZcDH73IwCOGFdomkxpr4o=
+X-Received: by 2002:a05:620a:1593:b0:60a:b223:893a with SMTP id
+ d19-20020a05620a159300b0060ab223893amr3799795qkk.72.1645762889531; Thu, 24
+ Feb 2022 20:21:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220225024751.21765-1-joe.slater@windriver.com>
+In-Reply-To: <20220225024751.21765-1-joe.slater@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 24 Feb 2022 20:21:03 -0800
+Message-ID: 
+ <CAMKF1spmDUY46J8EjSdi1=LxAdkZ0sEVjbSroKPUTeQqENAjcQ@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/1] zip: modify when match.S is built
+To: Joe Slater <joe.slater@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Randy MacLeod <randy.macleod@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 04:04:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 04:21:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162335
+ https://lists.openembedded.org/g/openembedded-core/message/162336
 
-From: Tim Orling <ticotimo@gmail.com>
+On Thu, Feb 24, 2022 at 6:48 PM Joe Slater <joe.slater@windriver.com> wrote:
+>
+> Use the correct $CPP to test if match.S is buildable,
+> and do not build it if QA checks require PIC code.
+>
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  .../0001-configure-use-correct-CPP.patch      | 47 +++++++++++++++++++
+>  ...002-configure-support-PIC-code-build.patch | 34 ++++++++++++++
+>  meta/recipes-extended/zip/zip_3.0.bb          |  3 ++
+>  3 files changed, 84 insertions(+)
+>  create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
+>  create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
+>
+> diff --git a/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch b/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
+> new file mode 100644
+> index 0000000000..02253f968c
+> --- /dev/null
+> +++ b/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
+> @@ -0,0 +1,47 @@
+> +From 7a2729ee7f5d9b9d4a0d9b83fe641a2ab03c4ee0 Mon Sep 17 00:00:00 2001
+> +From: Joe Slater <joe.slater@windriver.com>
+> +Date: Thu, 24 Feb 2022 17:36:59 -0800
+> +Subject: [PATCH 1/2] configure: use correct CPP
+> +
+> +configure uses CPP to test that two assembler routines
+> +can be built. Unfortunately, it will use /usr/bin/cpp
+> +if it exists, invalidating the tests.  We use the $CC
+> +passed to configure.
+> +
+> +Upstream-Status: Inappropriate [openembedded specific]
+> +
+> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> +---
+> + unix/configure | 15 +++++++++------
+> + 1 file changed, 9 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/unix/configure b/unix/configure
+> +index 73ba803..7e21070 100644
+> +--- a/unix/configure
+> ++++ b/unix/configure
+> +@@ -220,13 +220,16 @@ fi
+> + echo Check for the C preprocessor
+> + # on SVR4, cc -E does not produce correct assembler files. Need /lib/cpp.
+> + CPP="${CC} -E"
+> ++
+> ++# We should not change CPP for yocto builds.
+> ++#
+> + # solaris as(1) needs -P, maybe others as well ?
+> +-[ -f /usr/ccs/lib/cpp ] && CPP="/usr/ccs/lib/cpp -P"
+> +-[ -f /usr/lib/cpp ] && CPP=/usr/lib/cpp
+> +-[ -f /lib/cpp ] && CPP=/lib/cpp
+> +-[ -f /usr/bin/cpp ] && CPP=/usr/bin/cpp
+> +-[ -f /xenix ] && CPP="${CC} -E"
+> +-[ -f /lynx.os ] && CPP="${CC} -E"
+> ++# [ -f /usr/ccs/lib/cpp ] && CPP="/usr/ccs/lib/cpp -P"
+> ++# [ -f /usr/lib/cpp ] && CPP=/usr/lib/cpp
+> ++# [ -f /lib/cpp ] && CPP=/lib/cpp
+> ++# [ -f /usr/bin/cpp ] && CPP=/usr/bin/cpp
+> ++# [ -f /xenix ] && CPP="${CC} -E"
+> ++# [ -f /lynx.os ] && CPP="${CC} -E"
+> +
+> + echo "#include <stdio.h>" > conftest.c
+> + $CPP conftest.c >/dev/null 2>/dev/null || CPP="${CC} -E"
+> +--
+> +2.24.1
+> +
+> diff --git a/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch b/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
+> new file mode 100644
+> index 0000000000..6e0879616a
+> --- /dev/null
+> +++ b/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
+> @@ -0,0 +1,34 @@
+> +From b0492506d2c28581193906e9d260d4f0451e2c39 Mon Sep 17 00:00:00 2001
+> +From: Joe Slater <joe.slater@windriver.com>
+> +Date: Thu, 24 Feb 2022 17:46:03 -0800
+> +Subject: [PATCH 2/2] configure: support PIC code build
+> +
+> +Disable building match.S. The code requires
+> +relocation in .text.
+> +
+> +Upstream-Status: Inappropriate [openembedded specific]
+> +
+> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> +---
+> + unix/configure | 5 +++--
+> + 1 file changed, 3 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/unix/configure b/unix/configure
+> +index 7e21070..1bc698b 100644
+> +--- a/unix/configure
+> ++++ b/unix/configure
+> +@@ -242,8 +242,9 @@ if eval "$CPP match.S > _match.s 2>/dev/null"; then
+> +   if test ! -s _match.s || grep error < _match.s > /dev/null; then
+> +     :
+> +   elif eval "$CC -c _match.s >/dev/null 2>/dev/null" && [ -f _match.o ]; then
+> +-    CFLAGS="${CFLAGS} -DASMV"
+> +-    OBJA="match.o"
+> ++    # disable match.S for PIC code
+> ++    # CFLAGS="${CFLAGS} -DASMV"
+> ++    # OBJA="match.o"
 
-Rather than only use PYPI_PACKAGE as a guess, fall back on PN for cases
-where a recipe does not inherit pypi.
+you could convert this to do a runtime check for pic'ness
 
-Wheels can only have alphanumeric characters in the 'distribution'
-name [1]. Any other characters are replaced with an underscore. Provide a
-function to replace dash with underscore.
+is_pic=$(echo | $CPP -dM - | grep -i __pic__)
+if [ "$is_pic" = "" ]; then
+compile match.o
+else
+fi
 
-[1] https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode
+This will also mean you dont have to do the check you are doing in
+recipe while applying this patch
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
-Changes in v2:
-   address review comments
+> +     echo "int foo() { return 0;}" > conftest.c
+> +     $CC -c conftest.c >/dev/null 2>/dev/null
+> +     echo Check if compiler generates underlines
+> +--
+> +2.24.1
+> +
+> diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+> index 18b5d8648e..42a17f9450 100644
+> --- a/meta/recipes-extended/zip/zip_3.0.bb
+> +++ b/meta/recipes-extended/zip/zip_3.0.bb
+> @@ -14,6 +14,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
+>             file://fix-security-format.patch \
+>             file://10-remove-build-date.patch \
+>             file://zipnote-crashes-with-segfault.patch \
+> +           file://0001-configure-use-correct-CPP.patch \
+> +           ${@bb.utils.contains('ERROR_QA', 'textrel', \
+> +               'file://0002-configure-support-PIC-code-build.patch', '', d)} \
 
- meta/classes/pip_install_wheel.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I think its fine to apply it unconditionally since OE toolchain
+generates PIC by default.
 
-diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
-index 8a848c0ebab..9f9feda6ee0 100644
---- a/meta/classes/pip_install_wheel.bbclass
-+++ b/meta/classes/pip_install_wheel.bbclass
-@@ -1,6 +1,10 @@
- DEPENDS:append = " python3-pip-native"
- 
--PIP_INSTALL_PACKAGE ?= "${PYPI_PACKAGE}"
-+def guess_pip_install_package_name(d):
-+    '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
-+    return (d.getVar('PYPI_PACKAGE') or d.getVar('PN')).replace('-', '_')
-+
-+PIP_INSTALL_PACKAGE ?= "${@guess_pip_install_package_name(d)}"
- PIP_INSTALL_DIST_PATH ?= "${B}/dist"
- PYPA_WHEEL ??= "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-${PV}-*.whl"
- 
--- 
-2.30.2
-
+>             "
+>  UPSTREAM_VERSION_UNKNOWN = "1"
+>
+> --
+> 2.24.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162333): https://lists.openembedded.org/g/openembedded-core/message/162333
+> Mute This Topic: https://lists.openembedded.org/mt/89381221/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
