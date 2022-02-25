@@ -1,163 +1,146 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE090C433F5
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 08:05:35 +0000 (UTC)
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.58])
- by mx.groups.io with SMTP id smtpd.web12.4444.1645776332547458123
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B611EC433EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 08:31:08 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.4543.1645777867992329736
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 00:05:35 -0800
+ Fri, 25 Feb 2022 00:31:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=xv25BAcE;
- spf=pass (domain: weidmueller.com, ip: 40.107.3.58,
- mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KsLMUQRKzF9yh1yCzFgOWAfWMQv00eLUGWndGweLsmetl1QWRBxT16duxzYNZG8ypGKs106eBkJYPZ4lc4k0BTaGG92IVVdkfh/2gdK8s0d43G1+ZQy2TUoNTvAEdXzUH7JZWIl+rLtG0AuTXbP1s3fwLBJryhMbEt0kOZAwi5cx5OLE9/opTSHcXmsq52P5MQx/pzBZe8SWXCWG/vCm6G1GsjTvjQSFjvkmHm4dry1QHs2VLxk1v3haob99lfBJ/tRNX90gPjdcTQI4q98rKJLzLEAaxCdFES/CgvAjjTS78EbJrsjAMGul2u2hNPvJ7pCemtStOKPkmkRQaopgkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zAXzmBGIFl3RRCbkRPGQMzabTN4EvjTgafJecPBg2Nc=;
- b=WV/vUVe89FJaNtttrpQhdTqIpmFRbryQglQIXzsw95q/ah/zCVvw84EdZpB0mcQqXFSDxGSFWnLWGqR6cm0iAnYYAcMUSCz6W3E6eMkX30euXyXhprngDsvKgOMM0tBIOj8o0NsPdXi+gSBIfnbsximh1oUp+cn+WAQCO9rNKC0XrCFKv+m2ozTukABXUtqAy/0BpuThtfEGIqJfc2nDjSzBAaZxsKPd5kT+rqTCpoU9V8BIq8jV8qmNOkl2TUmVR54V2H3xsKkzcF66PGdDD3wjyOr9wH6eayg+42ALvzofj5H/GdzVOKx9AiYILvdfKEAIbvSkNZoMBaacpumIvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XW8HJazN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id v21so3276001wrv.5
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 25 Feb 2022 00:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zAXzmBGIFl3RRCbkRPGQMzabTN4EvjTgafJecPBg2Nc=;
- b=xv25BAcEGF53OmQrN771gwTYfXlHfulvP3zvNf+Nv/+kQtbkquvQpvEvQ8gSaYqcNToFznQTuC0YBRwpKCw1L2KxK8ApGXUIPTpZJqMp/v0a6yCJ8liSO2P9KypE1AIuH6OOJjiUwthEjUK1emG1bnYaZm7E+N052VKslwxC/LY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
- by PR2PR08MB4858.eurprd08.prod.outlook.com (2603:10a6:101:1f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Fri, 25 Feb
- 2022 08:05:29 +0000
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::4a1:bad9:11c2:7de0]) by PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::4a1:bad9:11c2:7de0%4]) with mapi id 15.20.5017.026; Fri, 25 Feb 2022
- 08:05:29 +0000
-Message-ID: <1594db98-46b6-7358-0649-a61e59b0b714@weidmueller.com>
-Date: Fri, 25 Feb 2022 09:05:26 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [OE-core] [PATCH v2] systemd: move systemd shared library into
- its own package
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org, mingli.yu@windriver.com
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-References: 
- <20220223161722.14256-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <af819494e57fe7da1b44786b004488a72f3f4c48.camel@linuxfoundation.org>
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: 
- <af819494e57fe7da1b44786b004488a72f3f4c48.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P193CA0138.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:85::43) To PAXPR08MB6969.eurprd08.prod.outlook.com
- (2603:10a6:102:1d8::23)
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=eS4Jk74IVIAWEho4ylGq9jlxCwqEdOP5g/2M+uP9YWg=;
+        b=XW8HJazNVwXpUUI/bEAdfH1z0Kqkg+M6qHstjR9AQRSColbYij1STuupNPtRWLXdhJ
+         drlFIW3TlECltaMsG6exbB/dnFYwjF1USyGyjzzHNmPw97zEE4N60aUj6RctjBeHtlUB
+         UPEV4MaKL4xOMyY7a8gErylS30g3esEPhJ7YI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=eS4Jk74IVIAWEho4ylGq9jlxCwqEdOP5g/2M+uP9YWg=;
+        b=JEKhqdkC/eVdNSuIC8IATA+/ZmRajjSl2qyFUZirfAcz9FqcDxgQ5aWTs8oXzcQ4e7
+         1uuREH2KyBh8PawROIKkxVWdcvJ2zVKrPhCiANIvT1Z/Fgit1y+SrnEgyUT/jA9m8Ubz
+         ElbW61xc7F2CcgAoiC7cjozH10o2r4oGODxHbBC6aIn/iREbhthgu+O5pgkvx/08NhlC
+         xqQhKKgfcSfkWxfCyvDdQbfVAcU6jiOWNF3qQtNK1i2ytcx2eG8355cqFyW5XZ2RLXEp
+         8xwqphw0GJNEY1rZ70lEniGhwV04aSltcFOyEn+lVM3+gwDrjs/84HX2jFCPwvqJ5iBC
+         FSag==
+X-Gm-Message-State: AOAM5316XZD+nm9bd7Xs6H4rxLtOHBeGY5uGe4J7Tr1nd6YSb7zD7i+d
+	NgLc8YWp4P3QgriHzcP1SYKOZw==
+X-Google-Smtp-Source: 
+ ABdhPJxrX3m0ETLfwwb6HnKGJE2GOtRBf6ESS3VYlvsPEwHuqBy9zeWgbiPCPlZr46K+c381KrDGuA==
+X-Received: by 2002:a05:6000:184f:b0:1e9:e816:3a0a with SMTP id
+ c15-20020a056000184f00b001e9e8163a0amr5182740wri.206.1645777866250;
+        Fri, 25 Feb 2022 00:31:06 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8c05:a731:3c1:5d08?
+ ([2001:8b0:aba:5f3c:8c05:a731:3c1:5d08])
+        by smtp.gmail.com with ESMTPSA id
+ g17-20020a5d4891000000b001e74e998bf9sm1579630wrq.33.2022.02.25.00.31.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 00:31:05 -0800 (PST)
+Message-ID: 
+ <332a5358c9bba5a072d50f3661919dd2968f169d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] license.py: rename variables
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <Saul.Wold@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 25 Feb 2022 08:31:02 +0000
+In-Reply-To: <20220224215533.133373-1-saul.wold@windriver.com>
+References: <20220224215533.133373-1-saul.wold@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e1423132-cabb-4ff6-14e0-08d9f835965e
-X-MS-TrafficTypeDiagnostic: PR2PR08MB4858:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PR2PR08MB4858D43C389FF029DF66CAC1D73E9@PR2PR08MB4858.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZQWepa8U4rJ6zqAeY+4HNzLPGeK3tFOF93AcPWqcScQgmCWIcW28naQ/nzR0vq3r4CHPTR67omPObyJHiZsr3XDbJNAaGRACw4jX7eEXvEsFdaRXM1STO0NF+u7j1wdbaSIWI+WwMXmWEXrp4wXAOaDanMZG5cRkJ34TQVPUO6Et4+h2cl8farFMpn+fQUzU+87Mn/H8HdASoibQ6D9xovXyejTdudpsYKNvs/VoSwUeCrSPIEklyAedKAJgcgAR2jsZTHlbZsaOqZKDoTzxLMog4Xs71d8RmNU5VXDv8jVFWaWhACKoKy4upi6owH4IL9GPij5VxGUVi1n70YJ1bwH3LfKDEH095ek9HGBazIXQbZ6Xy3UrQAnQE19y3eqVUkjcN5M9D/WisRQF60bTpOeRRa8oj5uoVFYnaPndbfZt0zT0JrWyhY1JH5DwUQkKz+CeHAfrtbBYDYyg3PKjAP50DNXxJBz2BkONMvnb4GqmI6X8GKIQ2CCc36wFB7wTpVJjQwwyDhxpbPbNyQIQGFm1LNE19HlhxhpQiAggwC2YL22qAN9uofLy3D2uf/X6SEI7lXsevBA8CuYGesv2xSWIKW/iCSeW6BAn5yNUQFDcSmJhDhcGIHhtD+s+JquhgtW0x3/Qgs3cBJNUMn0auA/IWANOCMlaXoZgAO9sFe8q8L0ULCvWtipH9PoErSETNuJq1zN60tA8r10WtFnsX9WMk46E4iSl5ta16HinsCmV45YUNTvsFzUNj3spLfivcm2GIxuciUxhhgTMvOrxgwCmXqTlttkeI7SufeIl00MXskH8+BCVkz2ZCdHwzMkWjsQDM1J2VI6TI1FKvBjXrtZl0GQJzR5eHfSk9rPhz6A=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(26005)(83380400001)(31686004)(36756003)(2906002)(4744005)(66476007)(2616005)(66946007)(8676002)(38350700002)(6486002)(966005)(8936002)(4326008)(66556008)(86362001)(316002)(31696002)(52116002)(107886003)(508600001)(6666004)(6506007)(5660300002)(6512007)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MkxpQ1dyZ1JWWkZoRDBWK0Z2OXowNFFpVXhmdWJNK2QxVEFOeWpTbUJNaHBz?=
- =?utf-8?B?ZmhtV29laWwrUkJBYU9MaVJlaE12UkFnSGF3RnlHbXpqRWk3TGtzZk1LbjFH?=
- =?utf-8?B?TXE1MHVYd0ZRc0s4SVNyRE15VVRSSENySmFtRVZXUlFFRlpxVnE0Um5CQ05Z?=
- =?utf-8?B?UEEwb0w2OE4yakdSdWR4bWlGOU5hQUQvUkJERUFNc0p0cFdWSmp1Q3JuelZ5?=
- =?utf-8?B?RDRqcXRnTnNGK0lQWVRUblBzS004V3ZLL2NuTHpzditHdUhTMks0bmtZUFRK?=
- =?utf-8?B?N1lNaTVPTnRXd2x1d0gyOURMK3BVQnRQOTdha1cwM1JCQWdoeXVWdnZYeVdI?=
- =?utf-8?B?VlJ3cFhsektMZXl5amx3bVJWODNpdmh2ZnVyUFBYSHdVZ2x0YzZnUmNHbllM?=
- =?utf-8?B?SzQrM0lvY2RKNnpkN0RJT2tLTkV4Q1RLV2NUVHBMQzNNTWtEQVA5ZWFCbEt1?=
- =?utf-8?B?YitHekdIOTNVMjNRcjNPT3RMMnN2aGpnOVNROWpWYS9kVkdJOGJnWWM1STNa?=
- =?utf-8?B?VUNEcExoSE0rMlI2QTF5TEs4Q3FkbFBPOU44bEZodmZsK2V6RkhTNk9NTzYw?=
- =?utf-8?B?d1dqd2RkbDdyeSsxaFdrSVZzOTlQSVpYS056RkpCa3pYbDNVRHorc1M1bUtO?=
- =?utf-8?B?V284UlhZcFJEZGF3OCtnUXVaaS94bjUvdWtiSDZOVWFveG1wek54QkFKaEZB?=
- =?utf-8?B?dFoyZVBqVjQ1dE5zR2lpT1EvSWdKQ3dxSzJLdEEvTlRTRnRYajUwc0tqZlpv?=
- =?utf-8?B?QmVqL2lGSVR0NmpDeHh4SHV2WHhpa2YyWDZFK3VrMzBpdVlSUFg0K2dHWkRv?=
- =?utf-8?B?MlZMdGVWakFOL2dYWEc3NDVuNDNmb0ZwV1M0bHFPYUFjWWZSQ1NkVW1odC9x?=
- =?utf-8?B?MVV6NXRqakFFRjRHYitwUGhTb3pXQ1RNZUNRVXpYeSt0RTBCeHdxbm80SWZx?=
- =?utf-8?B?RnJXZlJabEp2SDF3MHlQS2JDeUJaSnpKMWhaWm5rYTMyQzBlbFVWSHNNZ1lK?=
- =?utf-8?B?a2J1Rmt1MTdZcng5ZU4vRitvQy9LQ2ZEYmNGeHE2blpyYmVUMWl0dE9mQXds?=
- =?utf-8?B?VEFJWGdyL08zTW5xREllQVg4RUZoYllyNHpVTk9zckdSeEMxdFhLOFd0WVFC?=
- =?utf-8?B?bEtiVWtkVmRKSnZISUNLTkJwdTBsOHJJNUpYN21hY1ZqeUpTZWE2WDEyWCsy?=
- =?utf-8?B?bFBZYTVUT3YrSGcveHg0N2E3eTkyRmxBRlZNTUoyMzJHaVlWSndwQXcxZlpY?=
- =?utf-8?B?cE5Nc0lHTE15UlJjMTRWdzlrRVluWkR0TVM1SzZONUFyMW9ETGxhcEdjbEpx?=
- =?utf-8?B?QlUvNUMrYWp5T1B5R3VjT0UzMFhOejA0OWhDQXRtMmcrQTd6QzIrVUs2Q3N4?=
- =?utf-8?B?aDFaQ2pmR2syY3VmZUZJKzBFMnp1UFhLem5lRUl6TUd0OUphK3JpY2lnajVv?=
- =?utf-8?B?MmFJVENadWpRYnMrMEJpRW93MlpoeE5GN21PV294VDZCcy9kcThiV0t3UlJR?=
- =?utf-8?B?NFM3TDZKWW9lU1ZRdDkzOVdEcklyL1hrRnp2bDFpMndpVzJGUStLODhEb3hD?=
- =?utf-8?B?a0pWdEdPT21IVzZ3NERFZFlnZmZ4bEpxQmFLcHlQalVVcm42TjZIWUZGR21H?=
- =?utf-8?B?dmw3R2h6RmxodkQ3SUlHMkszTWFSL0xrYUk1L05qbEJTVVpOQWY3NEtJNVl5?=
- =?utf-8?B?dVdUMGdpVFFtcVRaUHkvQ1RjQUtQS3JkV2RpVTlIb3RyellacU52Ly9vWlly?=
- =?utf-8?B?OFU5SjVaTjJFdHFwWnhXOFp0bmRzOXVRanNzdnA5bEQ1TW14ODltVW5oanMz?=
- =?utf-8?B?MlVSZzcyUThMOFZwSk13b3h1WmRUT0lnUkFzazc1OE53ZksycjJuc1Y5N0J4?=
- =?utf-8?B?UCtnN1lPUlFDVUlXZzVZZjdXSG5rWGtSeGRqSjNWOXI4M2Z5WldFQ1FtT2Yy?=
- =?utf-8?B?Q0NEYmZnMFpmSG9FNnQxcEdDUkREUCswUm96ZWNNZnRRTWNZR0NYMUJEUUl0?=
- =?utf-8?B?NlVLQzR4RGZqandmenhjMGs1cjJTMFdlV1VKckpzVnk4cUdiK2xDR3hYdGhW?=
- =?utf-8?B?eEc5SDRkS3FvRnlFQ0REVThjdDh3VHVvL1RSN1VvMDEvNHp6anpxVGhXb213?=
- =?utf-8?B?dmFOYlBDVlNsRHY1R2s5Vk9GeTA3QkIwTHJPWjdQYTdpa012TTNGdXRVTDho?=
- =?utf-8?Q?lJD4cq9qSE/fZYEHTboC+So=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- e1423132-cabb-4ff6-14e0-08d9f835965e
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2022 08:05:29.0745
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- ErzkMZ/lpAiyJe2/El+4gOe5ZkLoWQzKkn19pp7YxsmXTMgbiLNeosgIlEmAns3x0OrGebghTIUs/XbtAOXNCg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4858
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 08:05:35 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 08:31:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162341
+ https://lists.openembedded.org/g/openembedded-core/message/162342
 
-Am 24.02.2022 um 22:06 schrieb Richard Purdie:
-> On Wed, 2022-02-23 at 17:17 +0100, Stefan Herbrechtsmeier wrote:
->> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
->>
->> Move the systemd shared library (libsystemd-shared.so) into its own
->> package to prevent a runtime dependency from udev package to systemd
->> package and thereby to a second init manager.
->>
->> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
->>
->> ---
->>
->> Changes in v2:
->> - Fix SUMMARY override
+On Thu, 2022-02-24 at 13:55 -0800, Saul Wold wrote:
+> Update the comment to reflect new variable names
 > 
-> This did trigger a warning on the autobuilder tests:
+> Signed-off-by: Saul Wold <saul.wold@windriver.com>
+> ---
+> v2: Update comment and change include -> include_licenses,
+>     exclude -> exclude_licenses
+>  meta/lib/oe/license.py | 31 +++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
 > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/2657/steps/11/logs/warnings
+> diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+> index b5d378a549b..b1105f6149c 100644
+> --- a/meta/lib/oe/license.py
+> +++ b/meta/lib/oe/license.py
+> @@ -99,26 +99,29 @@ def flattened_licenses(licensestr, choose_licenses):
+>          raise LicenseSyntaxError(licensestr, exc)
+>      return flatten.licenses
+>  
+> -def is_included(licensestr, whitelist=None, blacklist=None):
+> -    """Given a license string and whitelist and blacklist, determine if the
+> -    license string matches the whitelist and does not match the blacklist.
+> -
+> -    Returns a tuple holding the boolean state and a list of the applicable
+> -    licenses that were excluded if state is False, or the licenses that were
+> -    included if the state is True.
+> +def is_included(licensestr, include_licenses=None, exclude_licenses=None):
+> +    """Given a license a list of list to include and a list of
+> +        licenses to exclude, determine if the license string
+> +        matches the an include list and does not match the 
+> +        exclude list.
+> +
+> +        Returns a tuple holding the boolean state and a list of
+> +        the applicable licenses that were excluded if state is
+> +        False, or the licenses that were included if the state
+> +        is True.
+>      """
+>  
+>      def include_license(license):
+> -        return any(fnmatch(license, pattern) for pattern in whitelist)
+> +        return any(fnmatch(license, pattern) for pattern in include_licenses)
+>  
+>      def exclude_license(license):
+> -        return any(fnmatch(license, pattern) for pattern in blacklist)
+> +        return any(fnmatch(license, pattern) for pattern in exclude_licenses)
+>  
+>      def choose_licenses(alpha, beta):
+>          """Select the option in an OR which is the 'best' (has the most
+>          included licenses and no excluded licenses)."""
+>          # The factor 1000 below is arbitrary, just expected to be much larger
+> -        # that the number of licenses actually specified. That way the weight
+> +        # than the number of licenses actually specified. That way the weight
+>          # will be negative if the list of licenses contains an excluded license,
+>          # but still gives a higher weight to the list with the most included
+>          # licenses.
+> @@ -131,11 +134,11 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+>          else:
+>              return beta
+>  
+> -    if not whitelist:
+> -        whitelist = ['*']
+> +    if not include_licenses:
+> +        include = ['*']
+>  
+> -    if not blacklist:
+> -        blacklist = []
+> +    if not exclude_licenses:
+> +        exclude = []
+>  
 
-I will post a patch to add `INSANE_SKIP:libsystemd-shared += "libdir"` 
-to the recipe.
+There is a bit of a logic error which causes the selftests to fail.
 
-At the moment I have a problem to reproduce the warning. I don't see it 
-on qemux86-64 and have to retest with qemux86.
+Cheers,
 
-Regards
-   Stefan
+Richard
+
 
