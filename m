@@ -1,117 +1,153 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DDAC433EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 05:31:10 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web09.3749.1645767070548090977
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AE0C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 07:11:42 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web11.4169.1645773101680840975
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 21:31:10 -0800
+ Thu, 24 Feb 2022 23:11:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Lvvdgw8m;
- spf=pass (domain: gmail.com, ip: 209.85.210.175,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id p8so3787273pfh.8
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Feb 2022 21:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yJzYWEL4suFsfSm5FovBlD8Sk6cSxPpriDA2PwZCYbo=;
-        b=Lvvdgw8mFK0tDAHPACYshU8V5oYgjkXQAkcNnkWA8sLrMHLQUI9zGvLZgWslE7zgl5
-         kFXxBbbyj2ujC9d1CCobkXCHQNSLUdl3f7B9omn0SFaSQCn/rOGXaKGF6NelcmJ/tysu
-         0hELht49guauxORPiMZ0hZPcxVG21s29hxO6z90RBlhhmithOFjxeXVt+Rpo9KqjTMPH
-         l4nhM9zrTKouqITjtFn5740hkCvowcc3HH9y+Lotufz+jvUxuzEg/jXdAthWa2Dj14Ua
-         rRnxLx5z4NFeI1s1PPUZWRuJBRyEi6bEm2CVkvV3ir0qeKRyh7Ru+zOs31INcekV15gn
-         +wSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yJzYWEL4suFsfSm5FovBlD8Sk6cSxPpriDA2PwZCYbo=;
-        b=Ayq6hvaQhK8sraUcyrE1fep9PgLGGssT3aTOlUL5TcGuL8L8M+/+Mu1bDLIKqUPH8U
-         OHbZOK3ac6KjbDOKc4LlUiRHtzwnYhOgEc9q0QDJt/AFg95e3zifvrT8krmv9JS30Msm
-         sikvtOoPt/jcHe679kyULXcdn+AmvFTUXmH4gK1bDjD8pbAh4dMvhjMC+n2lctUHhwVt
-         gK0S+Bue21V3HmYx9iapg4PAdfu9HyX9M1D71iSlk9PVxU/CeJ/ViCoVWKPoCVmvkJYc
-         tEsWnMec262+GIVNwVVm+8QWdl3dlaTWIB8Hw8VP1kkjJZvYOasCPNSh5WA44Q4H5UXJ
-         kfbQ==
-X-Gm-Message-State: AOAM532zVwzn+LkCTSs1LGYvpKaJpNUt3lw4hJU+Tf6NV7ma+gtBj/Lt
-	TC4pj2csL/lSq/VZqCxJV8bDicodhBHPrQ==
-X-Google-Smtp-Source: 
- ABdhPJx9kUajDK5hptK54QjrdVREl6y+622I2I/FOqhbMNwXebm1lyGqnxyDoOY2NTi/ft/Nw/y0lw==
-X-Received: by 2002:a63:f315:0:b0:376:2310:ffed with SMTP id
- l21-20020a63f315000000b003762310ffedmr2643331pgh.23.1645767069624;
-        Thu, 24 Feb 2022 21:31:09 -0800 (PST)
-Received: from nereus.hsd1.or.comcast.net
- ([2601:1c0:6000:1b20:263d:523e:139c:a040])
-        by smtp.gmail.com with ESMTPSA id
- d5-20020a056a0010c500b004e1b283a072sm1375634pfu.76.2022.02.24.21.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 21:31:09 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=nhSK91D5;
+ spf=pass (domain: intel.com, ip: 192.55.52.151,
+ mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645773101; x=1677309101;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UFnv0Q2Yq30bw63L2JQq2A7/7fN2H9Ix/4asr2dqank=;
+  b=nhSK91D5oemEg7yNE/rRouy0htXJNJNCcrnPILZaUZrynbUkrBvmmc5B
+   jIDCCO4+2nZgTEVo/hQ6M9vHgxbFzJOkRKexnJePUpdxxG8ipwNwhPpW/
+   B3PXtayTz78HGkCbiwW/rhmXePBAU1LDIx7LRxhyyG3rc3t/jgF9eBrBf
+   snpxW5aqX5ZnVPaqvt6bogZvYNi56e7adL2CeMp9sBplr4xNmZkiPez4H
+   yvhuplHM39mOWU4OwxI0A7K8uw8rr7kxz7uVTVFu/rCiijs6k+im03nYf
+   bitqUswhVOfjS1JS5s76ZeIY8pXsVZuAZ/zz6VX2msyk0QFeaxYRwbvte
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="233063172"
+X-IronPort-AV: E=Sophos;i="5.90,135,1643702400";
+   d="scan'208";a="233063172"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2022 23:11:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,135,1643702400";
+   d="scan'208";a="549142528"
+Received: from cheeyang-desk1.png.intel.com ([10.158.87.104])
+  by orsmga008.jf.intel.com with ESMTP; 24 Feb 2022 23:11:38 -0800
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] selftest: drop distutils3 test from recipetool
-Date: Thu, 24 Feb 2022 21:30:51 -0800
-Message-Id: <20220225053051.1000603-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220225053051.1000603-1-tim.orling@konsulko.com>
-References: <20220225053051.1000603-1-tim.orling@konsulko.com>
+Subject: [PATCH][honister] ghostscript: fix CVE-2021-45949
+Date: Fri, 25 Feb 2022 15:09:52 +0800
+Message-Id: <20220225070952.2349050-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 05:31:10 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 07:11:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162339
+ https://lists.openembedded.org/g/openembedded-core/message/162340
 
-The distutils*.bbclasses have been moved from oe-core to
-meta-python, so drop test_recipetool_create_python3_distutils
-test case.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-[YOCTO #14610]
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 19 -------------------
- 1 file changed, 19 deletions(-)
+ .../ghostscript/CVE-2021-45949.patch          | 68 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.54.0.bb         |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 9db1ddb5320..09448bad016 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -472,25 +472,6 @@ class RecipetoolCreateTests(RecipetoolBase):
-         inherits = ['setuptools3']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
+new file mode 100644
+index 0000000000..8e4fd40932
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
+@@ -0,0 +1,68 @@
++From 2a3129365d3bc0d4a41f107ef175920d1505d1f7 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Tue, 1 Jun 2021 19:57:16 +0100
++Subject: [PATCH] Bug 703902: Fix op stack management in
++ sampled_data_continue()
++
++Replace pop() (which does no checking, and doesn't handle stack extension
++blocks) with ref_stack_pop() which does do all that.
++
++We still use pop() in one case (it's faster), but we have to later use
++ref_stack_pop() before calling sampled_data_sample() which also accesses the
++op stack.
++
++Fixes:
++https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=34675
++
++Upstream-Status: Backported [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=2a3129365d3bc0d4a41f107ef175920d1505d1f7]
++CVE: CVE-2021-45949
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ psi/zfsample.c | 16 ++++++++++------
++ 1 file changed, 10 insertions(+), 6 deletions(-)
++
++diff --git a/psi/zfsample.c b/psi/zfsample.c
++index 0e8e4bc8d..00cd0cfdd 100644
++--- a/psi/zfsample.c
+++++ b/psi/zfsample.c
++@@ -533,15 +533,19 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
++         for (j = 0; j < bps; j++)
++             data_ptr[bps * i + j] = (byte)(cv >> ((bps - 1 - j) * 8));	/* MSB first */
++     }
++-    pop(num_out);		    /* Move op to base of result values */
++ 
++-    /* Check if we are done collecting data. */
+++    pop(num_out); /* Move op to base of result values */
++ 
+++    /* From here on, we have to use ref_stack_pop() rather than pop()
+++       so that it handles stack extension blocks properly, before calling
+++       sampled_data_sample() which also uses the op stack.
+++     */
+++    /* Check if we are done collecting data. */
++     if (increment_cube_indexes(params, penum->indexes)) {
++         if (stack_depth_adjust == 0)
++-            pop(O_STACK_PAD);	    /* Remove spare stack space */
+++            ref_stack_pop(&o_stack, O_STACK_PAD);	    /* Remove spare stack space */
++         else
++-            pop(stack_depth_adjust - num_out);
+++            ref_stack_pop(&o_stack, stack_depth_adjust - num_out);
++         /* Execute the closing procedure, if given */
++         code = 0;
++         if (esp_finish_proc != 0)
++@@ -554,11 +558,11 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
++             if ((O_STACK_PAD - stack_depth_adjust) < 0) {
++                 stack_depth_adjust = -(O_STACK_PAD - stack_depth_adjust);
++                 check_op(stack_depth_adjust);
++-                pop(stack_depth_adjust);
+++                ref_stack_pop(&o_stack, stack_depth_adjust);
++             }
++             else {
++                 check_ostack(O_STACK_PAD - stack_depth_adjust);
++-                push(O_STACK_PAD - stack_depth_adjust);
+++                ref_stack_push(&o_stack, O_STACK_PAD - stack_depth_adjust);
++                 for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
++                     make_null(op - i);
++             }
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
+index 59cc560cf8..d4442a4908 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
+@@ -33,6 +33,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
++                file://CVE-2021-45949.patch \
+ "
  
--    def test_recipetool_create_python3_distutils(self):
--        # Test creating python3 package from tarball (using distutils3 class)
--        temprecipe = os.path.join(self.tempdir, 'recipe')
--        os.makedirs(temprecipe)
--        pn = 'docutils'
--        pv = '0.14'
--        recipefile = os.path.join(temprecipe, '%s_%s.bb' % (pn, pv))
--        srcuri = 'https://files.pythonhosted.org/packages/84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils-%s.tar.gz' % pv
--        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
--        self.assertTrue(os.path.isfile(recipefile))
--        checkvars = {}
--        checkvars['LICENSE'] = 'BSD-3-Clause & GPL & PSF'
--        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING.txt;md5=35a23d42b615470583563132872c97d6'
--        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils-${PV}.tar.gz'
--        checkvars['SRC_URI[md5sum]'] = 'c53768d63db3873b7d452833553469de'
--        checkvars['SRC_URI[sha256sum]'] = '51e64ef2ebfb29cae1faa133b3710143496eca21c530f3f71424d77687764274'
--        inherits = ['distutils3']
--        self._test_recipe_contents(recipefile, checkvars, inherits)
--
-     def test_recipetool_create_github_tarball(self):
-         # Basic test to ensure github URL mangling doesn't apply to release tarballs
-         temprecipe = os.path.join(self.tempdir, 'recipe')
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
-2.30.2
+2.25.1
 
 
