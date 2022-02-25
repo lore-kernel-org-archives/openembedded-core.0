@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 828ABC433F5
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 14:28:27 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web08.6808.1645799306363082527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8020EC433EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 14:28:28 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.7082.1645799308105425316
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 06:28:26 -0800
+ Fri, 25 Feb 2022 06:28:28 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=r5ivn/OU;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179,
+ header.b=736hGUEm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id e6so3397786pgn.2
+Received: by mail-pf1-f175.google.com with SMTP id l19so4843260pfu.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 06:28:26 -0800 (PST)
+ Fri, 25 Feb 2022 06:28:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=eAHOlyKavLL/MuANQ9JIrL4rPw+3TZBCc6evPMFXlhk=;
-        b=r5ivn/OUytNmDwYmgh+JlxNDf+b8KyYZTCpIEzCYWJAbFTf/spxmO1BPc3l5c7/4+m
-         20AnLlXyF+UHA2E+BlHbKCCFaffWpR7XoBo/JdEkxxuJzgSCQ/39nvdprD4taOeXf2CU
-         To50CmYQ8QNqf+L0iXL6OPlRRsKI4ffZrn0LfcIN2YosB6ikTvuyWtgpOhg2Xft4ro6n
-         a9luAKjRe8NZkzyS+PqY4F3ar1QL294yz5ts5xQoFI9cniSA0dcPJDBU6uUVOqNm9FkB
-         zM0jhmx1tHDi7KRn9XCdgZMZ0xe0Ty2GYhGaqD6HlH2DWzb19lBUwVa1+aO0+oQBKZvi
-         4Acg==
+        bh=GUKCIkM2lQIlLnuT8xl6BfYo2rcOXiOHuFOzeW+3xvg=;
+        b=736hGUEmTGvZeqZp+fT037gknVJYPEyP6zhDaH6XwDGjQhlTpQnzQ6BCkaa++AGdBE
+         1vvL14E8NfwXRzJFEAAYHVriXS9eXHN3swmOhGbDIm65IXIZuYvhQKRlzgG+gQgWCG9T
+         mVho/K6oJLGxl4KMrXxFmlvF7/utJ2NOktUfjqP/z+eKxpaX0C1P11u2LoaeOnWlVyAW
+         iOUzp3CHF5QMppVHgGZLMGkYhJdHWBzKGbMoE1Kjfpz33DY9+MUPUjrT+k0toxFNbzWT
+         gByWkZClLNL2moHuBdHW7lhBMKSPtfyAl/+EhHf/AipFfMkW0QomgLjOErKqPSOOZOh/
+         cJzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eAHOlyKavLL/MuANQ9JIrL4rPw+3TZBCc6evPMFXlhk=;
-        b=Kkv6xz54reYQn8wk7xJJW35XfXVlsKcdjY+autFUJfYhgMVhc1ikm8o4GcjvnkY4du
-         ELYNfbshpviBkD3+ondW2fnXzdcwiQL1d+7vwXw/EsCuHNL6reauSsWWn/Y7ttVKSe/1
-         YaAlRXXztoo7QjqKb+PxvDpLzxBgyWU8wv1PYhHyXWGO4KWu5J2udBZzyA7hqEchPOUM
-         l+BfCWeqwcnDY4V/0DecVlx8rlZWQUnxbfDeVrOQg5dctHQ0TZJ2Cej7b9MqMc2rS3VU
-         xw1VhF499pQWBHvPK44KWBcTBET4CasfZxio7O5+w+iPpMVgzN12/txkhioydGqNrI4E
-         XEog==
-X-Gm-Message-State: AOAM530p8Vhoa3Fncm/b8tGyxB8wpMzb9nC28AaUgwm+JjNEBr3n+XCu
-	5BHAlbo+40cNdbTCP3ys9IuWCHSrVebUxcpj
+        bh=GUKCIkM2lQIlLnuT8xl6BfYo2rcOXiOHuFOzeW+3xvg=;
+        b=y5epbBVW0yHhrRoMRJtl2+YmOgSZ5I5ktmE2R5WG+pTXEusMUe5wjPwvGzVIGOktaT
+         /4md66XqoGTRqaaj40SH/dDfQN0TKycHmJxpiDoA9uEtNzoC2Bq5A3rWQHamBBGY46uk
+         KgtLWNrg55z6Q6dMLLdA9BVNoTiF7D1sfzSIljw2R1kkbDHIAG4ZzIxBV9Pbt1dbMqP2
+         RD/21JLobreM+vriVQFXErO84q5ACIYopECAvPVR9sSkMSvvcc4fBhDNZmatBXt2t1bJ
+         4e8LIg8ply7rRCeblgF9RIlS9o2xLxUIrZRG1PJ9znkwRYiOA8nHa1v+HzauA7tv4oTU
+         ulpg==
+X-Gm-Message-State: AOAM530/nVlnGA7JOwOpg+YVl9az52bfNE4WvjZ+KJyAm8z4rAt0lARa
+	nxFjngVt8G9RlYsgPHLiBRGIDiAlib6oUgXR
 X-Google-Smtp-Source: 
- ABdhPJzjZ8zzHDeK98e/8JFOQKvctXrUTPwcyqzjIv0rqSyrnupkXXrwTEkN5w4Ak5rJAuh5DnwsaQ==
-X-Received: by 2002:aa7:8890:0:b0:4e1:b25b:634c with SMTP id
- z16-20020aa78890000000b004e1b25b634cmr8104268pfe.31.1645799305153;
-        Fri, 25 Feb 2022 06:28:25 -0800 (PST)
+ ABdhPJwvblfGKRjd3FH25i64agcdPAZux8fG3thOTUa8n9XVwJlVklXpMgedEYy2NP/Wfvca19vHNA==
+X-Received: by 2002:a63:5323:0:b0:375:9c2b:9716 with SMTP id
+ h35-20020a635323000000b003759c2b9716mr4957256pgb.150.1645799307131;
+        Fri, 25 Feb 2022 06:28:27 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h17-20020a63df51000000b0036b9776ae5bsm2864538pgj.85.2022.02.25.06.28.24
+ h17-20020a63df51000000b0036b9776ae5bsm2864538pgj.85.2022.02.25.06.28.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 06:28:24 -0800 (PST)
+        Fri, 25 Feb 2022 06:28:26 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 43/50] grub: avoid a memory leak
-Date: Fri, 25 Feb 2022 04:26:23 -1000
+Subject: [OE-core][dunfell 44/50] grub: add a check for a NULL pointer
+Date: Fri, 25 Feb 2022 04:26:24 -1000
 Message-Id: 
- <265baabc6e7ce4962c22489158dba113e0d74b91.1645798648.git.steve@sakoman.com>
+ <1d95061ecdc920835df44c0c3ed274193f26948e.1645798648.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1645798648.git.steve@sakoman.com>
 References: <cover.1645798648.git.steve@sakoman.com>
@@ -67,118 +67,82 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 14:28:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 14:28:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162389
+ https://lists.openembedded.org/g/openembedded-core/message/162390
 
 From: Marta Rybczynska <rybczynska@gmail.com>
 
-This patch fixes a memory leak in grub's loader/xnu when an error is
-detected in grub_xnu_writetree_toheap(). It is a part of a security
-series [1].
+This patch adds a check for a NULL pointer before use in grub's
+loader/xnu. It is a part of a security series [1].
 
 [1] https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...driverkey-data-when-an-error-is-dete.patch | 77 +++++++++++++++++++
+ ...k-if-pointer-is-NULL-before-using-it.patch | 42 +++++++++++++++++++
  meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch
 
-diff --git a/meta/recipes-bsp/grub/files/0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch b/meta/recipes-bsp/grub/files/0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch
+diff --git a/meta/recipes-bsp/grub/files/0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch b/meta/recipes-bsp/grub/files/0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch
 new file mode 100644
-index 0000000000..f9ad0fc34c
+index 0000000000..8081f7763a
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch
-@@ -0,0 +1,77 @@
-+From 81117a77a9e945ee5e7c1f12bd5667e2a16cbe32 Mon Sep 17 00:00:00 2001
-+From: Marco A Benatto <mbenatto@redhat.com>
-+Date: Mon, 30 Nov 2020 12:18:24 -0300
-+Subject: [PATCH] loader/xnu: Free driverkey data when an error is detected in
-+ grub_xnu_writetree_toheap()
++++ b/meta/recipes-bsp/grub/files/0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch
+@@ -0,0 +1,42 @@
++From 778a3fffd19229e5650a1abfb06c974949991cd4 Mon Sep 17 00:00:00 2001
++From: Paulo Flabiano Smorigo <pfsmorigo@canonical.com>
++Date: Mon, 30 Nov 2020 10:36:00 -0300
++Subject: [PATCH] loader/xnu: Check if pointer is NULL before using it
 +
-+... to avoid memory leaks.
++Fixes: CID 73654
 +
-+Fixes: CID 96640
-+
-+Signed-off-by: Marco A Benatto <mbenatto@redhat.com>
++Signed-off-by: Paulo Flabiano Smorigo <pfsmorigo@canonical.com>
 +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=4b4027b6b1c877d7ab467896b04c7bd1aadcfa15]
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=7c8a2b5d1421a0f2a33d33531f7561f3da93b844]
 +Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 +---
-+ grub-core/loader/xnu.c | 24 ++++++++++++++++++++----
-+ 1 file changed, 20 insertions(+), 4 deletions(-)
++ grub-core/loader/xnu.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
 +diff --git a/grub-core/loader/xnu.c b/grub-core/loader/xnu.c
-+index b3029a8..39ceff8 100644
++index 39ceff8..adc048c 100644
 +--- a/grub-core/loader/xnu.c
 ++++ b/grub-core/loader/xnu.c
-+@@ -224,26 +224,33 @@ grub_xnu_writetree_toheap (grub_addr_t *target, grub_size_t *size)
-+   if (! memorymap)
-+     return grub_errno;
++@@ -667,6 +667,9 @@ grub_xnu_load_driver (char *infoplistname, grub_file_t binaryfile,
++   char *name, *nameend;
++   int namelen;
 + 
-+-  driverkey = (struct grub_xnu_devtree_key *) grub_malloc (sizeof (*driverkey));
-++  driverkey = (struct grub_xnu_devtree_key *) grub_zalloc (sizeof (*driverkey));
-+   if (! driverkey)
-+     return grub_errno;
-+   driverkey->name = grub_strdup ("DeviceTree");
-+   if (! driverkey->name)
-+-    return grub_errno;
-++    {
-++      err = grub_errno;
-++      goto fail;
-++    }
+++  if (infoplistname == NULL)
+++    return grub_error (GRUB_ERR_BAD_FILENAME, N_("missing p-list filename"));
 ++
-+   driverkey->datasize = sizeof (*extdesc);
-+   driverkey->next = memorymap->first_child;
-+   memorymap->first_child = driverkey;
-+   driverkey->data = extdesc
-+     = (struct grub_xnu_extdesc *) grub_malloc (sizeof (*extdesc));
-+   if (! driverkey->data)
-+-    return grub_errno;
-++    {
-++      err = grub_errno;
-++      goto fail;
-++    }
++   name = get_name_ptr (infoplistname);
++   nameend = grub_strchr (name, '/');
 + 
-+   /* Allocate the space based on the size with dummy value. */
-+   *size = grub_xnu_writetree_get_size (grub_xnu_devtree_root, "/");
-+   err = grub_xnu_heap_malloc (ALIGN_UP (*size + 1, GRUB_XNU_PAGESIZE),
-+ 			      &src, target);
-+   if (err)
-+-    return err;
-++    goto fail;
++@@ -698,10 +701,7 @@ grub_xnu_load_driver (char *infoplistname, grub_file_t binaryfile,
++   else
++     macho = 0;
 + 
-+   /* Put real data in the dummy. */
-+   extdesc->addr = *target;
-+@@ -252,6 +259,15 @@ grub_xnu_writetree_toheap (grub_addr_t *target, grub_size_t *size)
-+   /* Write the tree to heap. */
-+   grub_xnu_writetree_toheap_real (src, grub_xnu_devtree_root, "/");
-+   return GRUB_ERR_NONE;
-++
-++ fail:
-++  memorymap->first_child = NULL;
-++
-++  grub_free (driverkey->data);
-++  grub_free (driverkey->name);
-++  grub_free (driverkey);
-++
-++  return err;
-+ }
-+ 
-+ /* Find a key or value in parent key. */
++-  if (infoplistname)
++-    infoplist = grub_file_open (infoplistname, GRUB_FILE_TYPE_XNU_INFO_PLIST);
++-  else
++-    infoplist = 0;
+++  infoplist = grub_file_open (infoplistname, GRUB_FILE_TYPE_XNU_INFO_PLIST);
++   grub_errno = GRUB_ERR_NONE;
++   if (infoplist)
++     {
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index c9e7a06a3f..eebe9a7233 100644
+index eebe9a7233..fad7415e0d 100644
 --- a/meta/recipes-bsp/grub/grub2.inc
 +++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -85,6 +85,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0036-gfxmenu-gui_list-Remove-code-that-coverity-is-flaggi.patch \
+@@ -86,6 +86,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
             file://0037-loader-bsd-Check-for-NULL-arg-up-front.patch \
             file://0038-loader-xnu-Fix-memory-leak.patch \
-+           file://0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch \
+            file://0039-loader-xnu-Free-driverkey-data-when-an-error-is-dete.patch \
++           file://0040-loader-xnu-Check-if-pointer-is-NULL-before-using-it.patch \
             "
  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
