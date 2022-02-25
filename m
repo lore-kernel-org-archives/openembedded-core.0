@@ -1,120 +1,104 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDDC3C433F5
-	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 19:52:57 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web09.1814.1645818776211134549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F48C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Feb 2022 21:19:34 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.2723.1645823973115716335
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 11:52:56 -0800
+ Fri, 25 Feb 2022 13:19:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jkGyU6+w;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id hw13so12824577ejc.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YHNRxopx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id j17so6357628wrc.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Feb 2022 11:52:55 -0800 (PST)
+ Fri, 25 Feb 2022 13:19:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jCCY/EWAIioOSl8v+G1Ev2ZC+I4N9dtIoz79nH/2TWg=;
-        b=jkGyU6+wqzJZS/5GOp5OkNcTTjn9ON9lLgID8465nVR57GG9yl6F15QEBfSxKR9EkP
-         DdIo29bvTJSuZQknum7ULXdXmDdOV5DH4dDkDBTP63bnRjVuOydze1Tzwt/gMzEN8ppG
-         WEeMRj94I7eCmG9/91b7hH68kQkPgMJ0iqDsRKkxOdT2LA6WlZQuj/wdewKIyqVhovDt
-         wRZYsZ++JKuwYK1dalViCY0TXY9JlGqKWGtZTRoeBQEW1iBkQ8Dr2smWlkFjTHw5mW1T
-         /F8AiT7cblfuwAVOM0XnSNCc5JSLHwVPesWLgYsm7IDiJ6AT5CaHugkQCOsSEFlLsjdA
-         PN8A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=JHb2A6LpIrPRr6OD+/9S6lMX2WWSLsGd7Ok/wleMLok=;
+        b=YHNRxopxXDTy+Tg655MMrDj+UrwtZcrwWKSLI96rsGs5F9GpGvmTyLzozAddG4XodZ
+         DtXmpRjygJix9KqeiWLQOifxk3MFIbFaOKdb82vscL3OXdxlsIqgAVsr9KXhJra4YpMU
+         pq/oeMUeP04omQaFsPgmpggE1aIptCkx7eK34=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jCCY/EWAIioOSl8v+G1Ev2ZC+I4N9dtIoz79nH/2TWg=;
-        b=XHUc68HLQjKnCSRk4uAfi08J51dfpx2nJ601vArAK+zTO57FyakU8GI0jbStWV8uqq
-         lcCXI+RJQ8U+QTHyu8/I/cgIqmN8waWj9fULI5xTz0QSnDuUwf3S2DDDZ4TjtRDf+uGT
-         3EA0owTQOkBHq7FoCAdluQRUjmETs4n0EbYokfvkCNvmGVPDjJjs+tZy47zO2RIGBw/H
-         qw9TRxQVgSs8wLlimfFfq4hp2YlaFG5Wz/qiXonMO2wv3Q3pza6fKfJUwRF0iQyiRYJF
-         ecvsHEV+CVfMFqpVUyIlVE/Z9970EvQd63rbVqBePSeKb1Y+DFbV8H9WvoxJDPOBks4k
-         pVpg==
-X-Gm-Message-State: AOAM532w6p5SR9u1PhHYwIDgtTdKFc6bVRyHvNCoELma72YlZx8IlWwn
-	7Ei1Mp1b3dK9zNANDWoma0uFteCwfhY=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=JHb2A6LpIrPRr6OD+/9S6lMX2WWSLsGd7Ok/wleMLok=;
+        b=V/UFzM0fRrWGKMzcSkb0682+ezCAOwsBGZcpjIcw5DzP2iKSGJLdQS4j03luDJTwUH
+         N4WG/s7L8BUYwki/ebeFO302MdWo+vutWcfNsbZXr79aSlQAlD4kJoXZpFwYCHdp/0SA
+         hrMzVD17zFR0lAR5tzTiLNELe2qMYcjSnEcGOrWlA93fduT6Cb5FvicVNPTsGbd6zzNo
+         GmidwWbBDPO7JuAnCHxt3lLHZ9/FdvScpvRI9z88qOYM4nJm3JxlrnXJRGUHWacgUjOH
+         efawfmtHjgS0E79WpAEB1QHpoZmrda8rixdTaDZNC5aeEX/bQM10wEQicI+thFdvahcA
+         mBTg==
+X-Gm-Message-State: AOAM533VEnXqKkwab/JddTR5quWtr90JQnKX+zYr/oBKx7vM0qo6Mj9f
+	vSJqlSvcYVqUqd9APcbwa1phkw==
 X-Google-Smtp-Source: 
- ABdhPJx4wS8yUNb7Jiejv/IbAdDxwaxerKj2TJzdKauBzyyxvSB/LjySFWXBvDjZ4dgmn13EtZ8cpw==
-X-Received: by 2002:a17:906:1603:b0:6ce:362:c938 with SMTP id
- m3-20020a170906160300b006ce0362c938mr7422061ejd.253.1645818774640;
-        Fri, 25 Feb 2022 11:52:54 -0800 (PST)
-Received: from nereus.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+ ABdhPJz5Yl3Q7jGlIjMWx+gITMz2ivcN8Wtcw7qQK9CX0nZWpIizDh6l1NYPw0nUtzIOUm+AkVZPVg==
+X-Received: by 2002:adf:db82:0:b0:1ed:bf4b:e327 with SMTP id
+ u2-20020adfdb82000000b001edbf4be327mr7433017wri.527.1645823971522;
+        Fri, 25 Feb 2022 13:19:31 -0800 (PST)
+Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
         by smtp.gmail.com with ESMTPSA id
- d25-20020aa7d699000000b004128cfcc228sm1839387edr.5.2022.02.25.11.52.53
+ b15-20020adfc74f000000b001e888b871a0sm3367968wrh.87.2022.02.25.13.19.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 11:52:54 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
+        Fri, 25 Feb 2022 13:19:30 -0800 (PST)
+Message-ID: 
+ <63129c4bef7fbd014cf7563d5cd056ffb757c378.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] OELAYOUT_ABI: bump, avoid tmp/ breakage
+ by removing old cross manifests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/2] sstate: do not add TARGET_ARCH to pkgarch for cross
- recipes.
-Date: Fri, 25 Feb 2022 20:52:50 +0100
-Message-Id: <20220225195251.2433615-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.20.1
+Date: Fri, 25 Feb 2022 21:19:29 +0000
+In-Reply-To: <20220225195251.2433615-2-alex@linutronix.de>
+References: <20220225195251.2433615-1-alex@linutronix.de>
+	 <20220225195251.2433615-2-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 19:52:57 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Feb 2022 21:19:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162409
+ https://lists.openembedded.org/g/openembedded-core/message/162411
 
-This is redundant (target arch is already in PN), and breaks
-compiling a cross-canadian toolchain, as that needs populating the
-sysroot with two different native-hosted toolchains built from
-cross recipes. Inserting TARGET_ARCH allows only one or the other.
+On Fri, 2022-02-25 at 20:52 +0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/classes/sanity.bbclass | 22 +++++++++++++++++++++-
+>  meta/conf/abi_version.conf  |  2 +-
+>  2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 773902e619..9dd829512a 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -559,6 +559,23 @@ def sanity_check_conffiles(d):
+>                  bb.fatal(str(e))
+>              d.setVar("BB_INVALIDCONF", True)
+>  
+> +def drop_v14_cross_builds(d):
+> +    i = d.expand("${SSTATE_MANIFESTS}/index-${BUILD_ARCH}_${TARGET_ARCH}")
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/classes/sstate.bbclass | 3 +--
- meta/lib/oe/sstatesig.py    | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
+This is nearly there but there is one further small tweak needed.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 787172b408..dc9a2c085b 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -83,7 +83,6 @@ SSTATE_ARCHS = " \
-     ${BUILD_ARCH} \
-     ${BUILD_ARCH}_${ORIGNATIVELSBSTRING} \
-     ${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS} \
--    ${BUILD_ARCH}_${TARGET_ARCH} \
-     ${SDK_ARCH}_${SDK_OS} \
-     ${SDK_ARCH}_${PACKAGE_ARCH} \
-     allarch \
-@@ -138,7 +137,7 @@ python () {
-     elif bb.data.inherits_class('crosssdk', d):
-         d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"))
-     elif bb.data.inherits_class('cross', d):
--        d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${TARGET_ARCH}"))
-+        d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}"))
-     elif bb.data.inherits_class('nativesdk', d):
-         d.setVar('SSTATE_PKGARCH', d.expand("${SDK_ARCH}_${SDK_OS}"))
-     elif bb.data.inherits_class('cross-canadian', d):
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index abcd96231e..2cf858e201 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -443,7 +443,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-     elif "-cross-canadian" in taskdata:
-         pkgarchs = ["${SDK_ARCH}_${SDK_ARCH}-${SDKPKGSUFFIX}"]
-     elif "-cross-" in taskdata:
--        pkgarchs = ["${BUILD_ARCH}_${TARGET_ARCH}"]
-+        pkgarchs = ["${BUILD_ARCH}"]
-     elif "-crosssdk" in taskdata:
-         pkgarchs = ["${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"]
-     else:
--- 
-2.20.1
+This will convert the current TARGET_ARCH but we probably need to glob the other
+possible options in case there are other things in the TMPDIR. I'm a bit worried
+that might match some other things (such as crosssdk) however if it removes too
+much, it would restore it from sstate so it might not matter.
+
+Cheers,
+
+Richard
+
+
 
 
