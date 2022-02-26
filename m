@@ -1,127 +1,137 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED7AC433EF
-	for <webhook@archiver.kernel.org>; Sat, 26 Feb 2022 08:22:48 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.4263.1645863766873221620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F60C433FE
+	for <webhook@archiver.kernel.org>; Sat, 26 Feb 2022 15:02:23 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web12.6613.1645887742614471761
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Feb 2022 00:22:47 -0800
+ Sat, 26 Feb 2022 07:02:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h27HhIXu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id r10so7720295wrp.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EmgJH0xO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id p9so16351548ejd.6
         for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Feb 2022 00:22:46 -0800 (PST)
+ Sat, 26 Feb 2022 07:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=3cb7BLI0uhk4vEmk/p77dzeEiipJpTBo5vcto+R4/oI=;
-        b=h27HhIXuIw86WiOYfThzTq20UlD+B01SJHPr4MA8Wb/TXI2OQSeg74TNszZmKkPrsA
-         tqcAXBHBsrbxgGHDv7NsxLR1oUBTC3MNK7ETTTYMTs+wTWw6aI/g9ZO2ImYTEy4u6RMC
-         EkkHWDHA3IVu9MdqjQkfAFc0Z7onCrx4gZiTg=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oxNHs+XDED+hvkMqXane4i1xP/emvOLGAcF7CS6PC+g=;
+        b=EmgJH0xOFznRcRQk2LBbGeg6OC8cQSP9zMFH2u+KmmxEmXmE9b3t/GXTwgUwKsJrHt
+         Lm8spWZqu2MxobP/8uwIFWfZAHLvtF0uxHV8zw2gR4ACWsP+lx6d0Ib9zmV6QZIbvmJE
+         IS673NUU/EUZAZS1xTl16pCcJBOVbRiwwtZ1i8IqAFSvNK1mpkRWKLzb96kAaspL6d+f
+         polJjVaDVNpVFEh/mVeP9k6WtTZzDXkPcI4oXheyH3BJMA+gS940z62GKDGWOY+DqtAD
+         B7KUBHVsJ0kw6sZUueEG+OQKghB+6+gPCfP6ZmOwY0lmzIxqllbo8EMzAi7N2cgqmZ33
+         OrAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=3cb7BLI0uhk4vEmk/p77dzeEiipJpTBo5vcto+R4/oI=;
-        b=4T6HcY6gzBzaTdealu4EQdNPMFvPSVfPMGQv6jOUkoZSTMk4CwyMytAvhaT1YyVQrR
-         eID1LibbXwve6kUI+v39f2wG7p21ppI/LbAJczq0BTU2cNA+A/aJGJW/c2BpE7mcAc89
-         pTbsGTX9PEyyqgA0tXI3StZ4rgQ959KZNHIZgykiChCxJfpUaJDZfUl1uVgbVd8+pI55
-         oc2Br0OtYvjtYqSMhHHOmGTxuGTCkn+T8V0wtfkwPaEEUDayGK14q9dSTq6dQaMK5CMy
-         Q253hg6VKWYTqSCqYq/tnzbPTTxLogjBFr0j//X4jFTkNNFZUbNjHr5lCZSQD/HRu3e1
-         PYCg==
-X-Gm-Message-State: AOAM532Uymlo+I3HpFWP1rHfL44IerOPHX/bVk0S2L8n6d7uUEC9jZZ7
-	jSEFJL98/FvqOWHkdydQxTn/NAHiSVvpWGtH
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oxNHs+XDED+hvkMqXane4i1xP/emvOLGAcF7CS6PC+g=;
+        b=IgudaNgJ67//QNiZOiHs0bTVocdKG+3SC7rdxTtyRinhZyfhRJlduwo0aHZwFOShWs
+         t4IJDfmOJTEEqYQ791o1k2tAxxRzpSMYMByB0u8FzSSs3JqTpQGqDMO5BbWYQGmsUFy6
+         iJCyq3mqL+z2clXWQjJVm1vRfzPeS8RJVCTIOH7lCV0NpftlfMfMTC92uDZoh1/tVpKB
+         jKxGNY0q0qd0lb/Yf7CjolfaxW6t57hQcpBOPX/MYVbr06LHDydIJzf1ka0muAs4Hcn7
+         tj1An+FC9ak84OcMKFAuIQWC0y8GmL0aq4Z46s0BwHGAxkbf53FQMAsJpEd6nRrVteFB
+         AC1w==
+X-Gm-Message-State: AOAM53131a5Kayr/BFIT4ox/i4y2463/SOtfVKOuUJW0C9qe+L/X2cAg
+	DgRAxwjK+v8i01qiWkvKJd2ACNF3FoE=
 X-Google-Smtp-Source: 
- ABdhPJykAlAywNLAVmKTCbsq+CEqKPsqO/CJtSJPtWtiRVTRCIHGGPgkbxQ1EAhkQkCIjs4hhssdQg==
-X-Received: by 2002:a5d:47cb:0:b0:1ef:7360:7939 with SMTP id
- o11-20020a5d47cb000000b001ef73607939mr4498717wrc.573.1645863765394;
-        Sat, 26 Feb 2022 00:22:45 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3901:1ac2:e293:e734?
- ([2001:8b0:aba:5f3c:3901:1ac2:e293:e734])
+ ABdhPJyG08eb212Dhti3QKd534tP4wJ8VjBabvEPctyva7ZgpByE3jyj/96NGKbuXly2u01tJApKdw==
+X-Received: by 2002:a17:906:b757:b0:6cf:86c7:a301 with SMTP id
+ fx23-20020a170906b75700b006cf86c7a301mr9535721ejb.431.1645887741065;
+        Sat, 26 Feb 2022 07:02:21 -0800 (PST)
+Received: from nereus.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- k19-20020a05600c479300b00380e461a4d2sm10450690wmo.0.2022.02.26.00.22.44
+ hc43-20020a17090716ab00b006c7622abe73sm2306847ejc.216.2022.02.26.07.02.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Feb 2022 00:22:44 -0800 (PST)
-Message-ID: 
- <95f493218224c4543921f643de6e07a9f2e8ddbd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/2] pip_install_wheel: improved wheel
- filename guess
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, Tim Orling
- <ticotimo@gmail.com>,  openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Date: Sat, 26 Feb 2022 08:22:43 +0000
-In-Reply-To: 
- <AM9PR09MB4642BA292AF82C2512FB07C0A83F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-References: <20220225040329.813595-1-tim.orling@konsulko.com>
-	 <20220225040329.813595-2-tim.orling@konsulko.com>
-	 <AM9PR09MB4642BA292AF82C2512FB07C0A83F9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Sat, 26 Feb 2022 07:02:20 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] OELAYOUT_ABI: bump,
+ avoid tmp/ breakage by removing old cross manifests
+Date: Sat, 26 Feb 2022 16:02:17 +0100
+Message-Id: <20220226150217.2793953-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220226150217.2793953-1-alex@linutronix.de>
+References: <20220226150217.2793953-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Feb 2022 08:22:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Feb 2022 15:02:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162424
+ https://lists.openembedded.org/g/openembedded-core/message/162426
 
-On Sat, 2022-02-26 at 08:56 +0100, Konrad Weihmann wrote:
-> 
-> On 25.02.22 05:03, Tim Orling wrote:
-> > From: Tim Orling <ticotimo@gmail.com>
-> > 
-> > Rather than only use PYPI_PACKAGE as a guess, fall back on PN for cases
-> > where a recipe does not inherit pypi.
-> > 
-> > Wheels can only have alphanumeric characters in the 'distribution'
-> > name [1]. Any other characters are replaced with an underscore. Provide a
-> > function to replace dash with underscore.
-> > 
-> > [1] https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode
-> > 
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> > ---
-> > Changes in v2:
-> >     address review comments
-> > 
-> >   meta/classes/pip_install_wheel.bbclass | 6 +++++-
-> >   1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
-> > index 8a848c0ebab..9f9feda6ee0 100644
-> > --- a/meta/classes/pip_install_wheel.bbclass
-> > +++ b/meta/classes/pip_install_wheel.bbclass
-> > @@ -1,6 +1,10 @@
-> >   DEPENDS:append = " python3-pip-native"
-> >   
-> > -PIP_INSTALL_PACKAGE ?= "${PYPI_PACKAGE}"
-> > +def guess_pip_install_package_name(d):
-> > +    '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
-> > +    return (d.getVar('PYPI_PACKAGE') or d.getVar('PN')).replace('-', '_')
-> 
-> In my opinion this needs to be BPN not PN - as if you will build 
-> python3-foo-native (for native only recipes) it will result in 
-> foo_native-1.2.3-*.whl, that just doesn't exit.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes/sanity.bbclass | 23 ++++++++++++++++++++++-
+ meta/conf/abi_version.conf  |  2 +-
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-Agreed, fix sent.
-
-> What disappoints me the most is that none of this comes with unit tests 
-> - it broke for a bunch of stuff I maintain this morning, making my 
-> morning coffee taste bitter :-(
-
-I'd love more tests!
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 773902e619..92807dc88e 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -559,6 +559,24 @@ def sanity_check_conffiles(d):
+                 bb.fatal(str(e))
+             d.setVar("BB_INVALIDCONF", True)
+ 
++def drop_v14_cross_builds(d):
++    import glob
++    indexes = glob.glob(d.expand("${SSTATE_MANIFESTS}/index-${BUILD_ARCH}_*"))
++    for i in indexes:
++        with open(i, "r") as f:
++            lines = f.readlines()
++            for l in reversed(lines):
++                try:
++                    (stamp, manifest, workdir) = l.split()
++                except ValueError:
++                    bb.fatal("Invalid line '%s' in sstate manifest '%s'" % (l, i))
++                for m in glob.glob(manifest + ".*"):
++                    if m.endswith(".postrm"):
++                        continue
++                    sstate_clean_manifest(m, d)
++                bb.utils.remove(stamp + "*")
++                bb.utils.remove(workdir, recurse = True)
++
+ def sanity_handle_abichanges(status, d):
+     #
+     # Check the 'ABI' of TMPDIR
+@@ -577,7 +595,10 @@ def sanity_handle_abichanges(status, d):
+             status.addresult("The layout of TMPDIR changed for Recipe Specific Sysroots.\nConversion doesn't make sense and this change will rebuild everything so please delete TMPDIR (%s).\n" % d.getVar("TMPDIR"))
+         elif int(abi) <= 13 and current_abi == "14":
+             status.addresult("TMPDIR changed to include path filtering from the pseudo database.\nIt is recommended to use a clean TMPDIR with the new pseudo path filtering so TMPDIR (%s) would need to be removed to continue.\n" % d.getVar("TMPDIR"))
+-
++        elif int(abi) == 14 and current_abi == "15":
++            drop_v14_cross_builds(d)
++            with open(abifile, "w") as f:
++                f.write(current_abi)
+         elif (abi != current_abi):
+             # Code to convert from one ABI to another could go here if possible.
+             status.addresult("Error, TMPDIR has changed its layout version number (%s to %s) and you need to either rebuild, revert or adjust it at your own risk.\n" % (abi, current_abi))
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index 66df69bb8d..2a08b1208b 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -4,7 +4,7 @@
+ # that breaks the format and have been previously discussed on the mailing list 
+ # with general agreement from the core team.
+ #
+-OELAYOUT_ABI = "14"
++OELAYOUT_ABI = "15"
+ 
+ #
+ # HASHEQUIV_HASH_VERSION is injected into the output hash calculation used by
+-- 
+2.20.1
 
 
