@@ -1,193 +1,159 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <akuster808@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Minjae Kim" <flowergom@gmail.com>
-Subject: [dunfell][PATCH 1/2] go: fix CVE-2022-23806
-Date: Sat, 26 Feb 2022 20:55:34 +0000
-Message-Id: <20220226205535.86919-1-flowergom@gmail.com>
+Message-ID: <2455ee0c-6386-f3ea-39d9-7a8f93e64d38@gmail.com>
+Date: Sun, 27 Feb 2022 07:28:38 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [OE-core] Yocto Project Status WW08`22
+References: <319f01d82804$7d7576e0$786064a0$@gmail.com>
+From: "Armin Kuster" <akuster808@gmail.com>
+In-Reply-To: <319f01d82804$7d7576e0$786064a0$@gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
+To: Stephen Jolley <sjolley.yp.pm@gmail.com>, yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
 
-crypto/elliptic: fix IsOnCurve for big.Int values that are not valid coordinates
+I see there is an April release of Hardknott.  Is that the last official 
+Hardknott release from the Yocto Project?
 
-Some big.Int values that are not valid field elements (negative or overflowing)
-might cause Curve.IsOnCurve to incorrectly return true. Operating on those values
-may cause a panic or an invalid curve operation. Note that Unmarshal will never
-return such values.
+-armin
 
-Upstream-Status: Backport [https://go.dev/issue/50974]
-CVE: CVE-2022-23806
-Signed-off-by:Minjae Kim <flowergom@gmail.com>
----
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2022-23806.patch           | 142 ++++++++++++++++++
- 2 files changed, 143 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
-
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index abc6f42184..fcb316e09e 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -19,6 +19,7 @@ SRC_URI += "\
-     file://CVE-2021-34558.patch \
-     file://CVE-2021-33196.patch \
-     file://CVE-2021-33197.patch \
-+    file://CVE-2022-23806.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- SRC_URI[main.sha256sum] = "7ed13b2209e54a451835997f78035530b331c5b6943cdcd68a3d815fdc009149"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
-new file mode 100644
-index 0000000000..772acdcbf6
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
-@@ -0,0 +1,142 @@
-+From 5b376a209d1c61e10847e062d78c4b1aa90dff0c Mon Sep 17 00:00:00 2001
-+From: Filippo Valsorda <filippo@golang.org>
-+Date: Sat, 26 Feb 2022 10:40:57 +0000
-+Subject: [PATCH] crypto/elliptic: make IsOnCurve return false for invalid
-+
-+ field elements
-+
-+Updates #50974
-+Fixes #50977
-+Fixes CVE-2022-23806
-+
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+
-+---
-+ src/crypto/elliptic/elliptic.go      |  6 +++
-+ src/crypto/elliptic/elliptic_test.go | 81 ++++++++++++++++++++++++++++
-+ src/crypto/elliptic/p224.go          |  6 +++
-+ 3 files changed, 93 insertions(+)
-+
-+diff --git a/src/crypto/elliptic/elliptic.go b/src/crypto/elliptic/elliptic.go
-+index e2f71cd..bd574a4 100644
-+--- a/src/crypto/elliptic/elliptic.go
-++++ b/src/crypto/elliptic/elliptic.go
-+@@ -53,6 +53,12 @@ func (curve *CurveParams) Params() *CurveParams {
-+ }
-+ 
-+ func (curve *CurveParams) IsOnCurve(x, y *big.Int) bool {
-++
-++	if x.Sign() < 0 || x.Cmp(curve.P) >= 0 ||
-++		y.Sign() < 0 || y.Cmp(curve.P) >= 0 {
-++		return false
-++	}
-++
-+ 	// y² = x³ - 3x + b
-+ 	y2 := new(big.Int).Mul(y, y)
-+ 	y2.Mod(y2, curve.P)
-+diff --git a/src/crypto/elliptic/elliptic_test.go b/src/crypto/elliptic/elliptic_test.go
-+index 09c5483..b13a620 100644
-+--- a/src/crypto/elliptic/elliptic_test.go
-++++ b/src/crypto/elliptic/elliptic_test.go
-+@@ -628,3 +628,84 @@ func TestUnmarshalToLargeCoordinates(t *testing.T) {
-+ 		t.Errorf("Unmarshal accepts invalid Y coordinate")
-+ 	}
-+ }
-++
-++func testAllCurves(t *testing.T, f func(*testing.T, Curve)) {
-++	tests := []struct {
-++		name  string
-++		curve Curve
-++	}{
-++		{"P256", P256()},
-++		{"P256/Params", P256().Params()},
-++		{"P224", P224()},
-++		{"P224/Params", P224().Params()},
-++		{"P384", P384()},
-++		{"P384/Params", P384().Params()},
-++		{"P521", P521()},
-++		{"P521/Params", P521().Params()},
-++	}
-++	if testing.Short() {
-++		tests = tests[:1]
-++	}
-++	for _, test := range tests {
-++		curve := test.curve
-++		t.Run(test.name, func(t *testing.T) {
-++			t.Parallel()
-++			f(t, curve)
-++		})
-++	}
-++}
-++
-++// TestInvalidCoordinates tests big.Int values that are not valid field elements
-++// (negative or bigger than P). They are expected to return false from
-++// IsOnCurve, all other behavior is undefined.
-++func TestInvalidCoordinates(t *testing.T) {
-++	testAllCurves(t, testInvalidCoordinates)
-++}
-++
-++func testInvalidCoordinates(t *testing.T, curve Curve) {
-++	checkIsOnCurveFalse := func(name string, x, y *big.Int) {
-++		if curve.IsOnCurve(x, y) {
-++			t.Errorf("IsOnCurve(%s) unexpectedly returned true", name)
-++		}
-++	}
-++
-++	p := curve.Params().P
-++	_, x, y, _ := GenerateKey(curve, rand.Reader)
-++	xx, yy := new(big.Int), new(big.Int)
-++
-++	// Check if the sign is getting dropped.
-++	xx.Neg(x)
-++	checkIsOnCurveFalse("-x, y", xx, y)
-++	yy.Neg(y)
-++	checkIsOnCurveFalse("x, -y", x, yy)
-++
-++	// Check if negative values are reduced modulo P.
-++	xx.Sub(x, p)
-++	checkIsOnCurveFalse("x-P, y", xx, y)
-++	yy.Sub(y, p)
-++	checkIsOnCurveFalse("x, y-P", x, yy)
-++
-++	// Check if positive values are reduced modulo P.
-++	xx.Add(x, p)
-++	checkIsOnCurveFalse("x+P, y", xx, y)
-++	yy.Add(y, p)
-++	checkIsOnCurveFalse("x, y+P", x, yy)
-++
-++	// Check if the overflow is dropped.
-++	xx.Add(x, new(big.Int).Lsh(big.NewInt(1), 535))
-++	checkIsOnCurveFalse("x+2⁵³⁵, y", xx, y)
-++	yy.Add(y, new(big.Int).Lsh(big.NewInt(1), 535))
-++	checkIsOnCurveFalse("x, y+2⁵³⁵", x, yy)
-++
-++	// Check if P is treated like zero (if possible).
-++	// y^2 = x^3 - 3x + B
-++	// y = mod_sqrt(x^3 - 3x + B)
-++	// y = mod_sqrt(B) if x = 0
-++	// If there is no modsqrt, there is no point with x = 0, can't test x = P.
-++	if yy := new(big.Int).ModSqrt(curve.Params().B, p); yy != nil {
-++		if !curve.IsOnCurve(big.NewInt(0), yy) {
-++			t.Fatal("(0, mod_sqrt(B)) is not on the curve?")
-++		}
-++		checkIsOnCurveFalse("P, y", p, yy)
-++	}
-++}
-+diff --git a/src/crypto/elliptic/p224.go b/src/crypto/elliptic/p224.go
-+index 8c76021..f1bfd7e 100644
-+--- a/src/crypto/elliptic/p224.go
-++++ b/src/crypto/elliptic/p224.go
-+@@ -48,6 +48,12 @@ func (curve p224Curve) Params() *CurveParams {
-+ }
-+ 
-+ func (curve p224Curve) IsOnCurve(bigX, bigY *big.Int) bool {
-++
-++	if bigX.Sign() < 0 || bigX.Cmp(curve.P) >= 0 ||
-++		bigY.Sign() < 0 || bigY.Cmp(curve.P) >= 0 {
-++		return false
-++	}
-++
-+ 	var x, y p224FieldElement
-+ 	p224FromBig(&x, bigX)
-+ 	p224FromBig(&y, bigY)
--- 
-2.17.1
+On 2/22/22 07:54, Stephen Jolley wrote:
+>
+> Current Dev Position: YP 3.5 M4
+>
+> Next Deadline: 4th April. 2022 YP 3.5 M4 build
+>
+> Next Team Meetings:
+>
+>   * Bug Triage meeting Thursday Feb. 24th 7:30 am PDT
+>     (https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09
+>     <https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>)
+>   * Monthly Project Meeting Tuesday Mar. 1st at 8 am PDT
+>     (https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+>     <https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>)
+>     <https://zoom.us/j/990892712>
+>   * Weekly Engineering Sync Tuesday Feb. 22nd at 8 am PDT
+>     (https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+>     <https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>)
+>     <https://zoom.us/j/990892712>
+>   * Twitch - See https://www.twitch.tv/theyoctojester
+>
+> Key Status/Updates:
+>
+>   * We are now at feature freeze for 3.5, our next LTS release
+>   * YP 3.1.14 and YP 3.2.4 were released
+>   * YP 3.3.5 is in QA
+>   * After a last minute push, the base set of inclusive language
+>     changes have merged. There is a conversion script which can be run
+>     to convert layers. Not all changes needed have been written yet
+>     but enough are present to allow the conversion process to start.
+>   * There were also changes to convert LICENSE fields to use SPDX
+>     identifiers and there is a second conversion script for this that
+>     can be used.
+>   * We have updated the core layer series name to kirkstone and other
+>     layers will now need to update to confirm compatibility with
+>     kirkstone.
+>   * There is a patchset to update python’s build processes to use the
+>     upstream preferred wheel approach which would aid support of
+>     python over the next few years. It is late in the cycle for this
+>     kind of change but we will give this series a few days of testing
+>     to make a decision and welcome user feedback either way on these
+>     changes.
+>   * As such, the M3 release build will likely not happen until early
+>     next week.
+>   * The autobuilder infrastructure is planned to be offline 26-28th
+>     February for a data center move. Public services like the website,
+>     wiki and git servers will remain live but the git backend
+>     (push.yoctoproject.org) will be offline, as will the downloads and
+>     sstate services and the autobuilder/NAS.
+>   * Capacity has been improved on the sstate server which was causing
+>     intermittent timeout issues for downloads.
+>   * Intermittent issues continue to be at record high levels and help
+>     is very much welcome in trying to resolve them. You can see the
+>     list of failures we’re continuing to see by searching for the
+>     “AB-INT” tag in bugzilla:
+>     https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
+>     <https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
+>
+> In particular, we’re struggling to understand the intermittent network 
+> issue with external hosts we’re seeing very occasionally.
+>
+> Ways to contribute:
+>
+>   * There are bugs identified as possible for newcomers to the
+>     project: https://wiki.yoctoproject.org/wiki/Newcomers
+>     <https://wiki.yoctoproject.org/wiki/Newcomers>
+>   * There are bugs that are currently unassigned for YP 3.5. See:
+>     https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.5_Unassigned_Enhancements.2FBugs
+>     <https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.5_Unassigned_Enhancements.2FBugs>
+>   * We’d welcome new maintainers for recipes in OE-Core. Please see
+>     the list at:
+>     http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/maintainers.inc
+>     <http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/maintainers.inc>
+>     and discuss with the existing maintainer, or ask on the OE-Core
+>     mailing list. We will likely move a chunk of these to “Unassigned”
+>     soon to help facilitate this.
+>   * Help us resolve CVE issues: CVE metrics
+>     <https://docs.google.com/spreadsheets/d/e/2PACX-1vRgNISmH0Ditf0bRtSezeR2XsgKIiSFJKF6KJUHpnzocNGzvKZbuSDKfmV3n64BFXDRqElBSJnhHtG4/pubchart?oid=1993375488&format=interactive>
+>
+>
+> YP 3.5 Milestone Dates:
+>
+>   * YP 3.5 M3 build date 2022/02/21
+>   * YP 3.5 M3 Release date 2022/03/04
+>   * YP 3.5 M4 build date 2022/04/04
+>   * YP 3.5 M4 Release date 2022/04/29
+>
+> Upcoming dot releases:
+>
+>   * YP 3.1.14  is released
+>   * YP 3.4.2 is released
+>   * YP 3.3.5 is in QA
+>   * YP 3.3.5 Release date 2022/02/25
+>   * YP 3.1.15 build date 2022/03/14
+>   * YP 3.1.15 Release date 2022/03/25
+>   * YP 3.4.3 build date 2022/03/21
+>   * YP 3.4.3 Release date 2022/04/01
+>   * YP 3.3.6 build date 2022/03/28
+>   * YP 3.3.6 Release date 2022/04/08
+>   * YP 3.1.16 build date 2022/04/25
+>   * YP 3.1.16 Release date 2022/05/06
+>
+> Tracking Metrics:
+>
+>   * WDD 2652 (last week
+>     2662)(https://wiki.yoctoproject.org/charts/combo.html
+>     <https://wiki.yoctoproject.org/charts/combo.html>)
+>   * OE-Core/Poky Patch Metrics
+>       o Total patches found: 1202 (last week 1208)
+>       o Patches in the Pending State: 334 (28%) [last week 334 (28%)]
+>
+> The Yocto Project’s technical governance is through its Technical 
+> Steering Committee, more information is available at:
+>
+> https://wiki.yoctoproject.org/wiki/TSC 
+> <https://wiki.yoctoproject.org/wiki/TSC>
+>
+> The Status reports are now stored on the wiki at: 
+> https://wiki.yoctoproject.org/wiki/Weekly_Status 
+> <https://wiki.yoctoproject.org/wiki/Weekly_Status>
+>
+> [If anyone has suggestions for other information you’d like to see on 
+> this weekly status update, let us know!]
+>
+> Thanks,
+>
+> */Stephen K. Jolley/**//*
+>
+> *Yocto Project Program Manager*
+>
+> (*Cell*: (208) 244-4460
+>
+> * *Email*:_sjolley.yp.pm@gmail.com_
+>
+>
+> 
+>
 
