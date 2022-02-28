@@ -1,120 +1,199 @@
-Return-Path: <andrew@aj.id.au>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C22B6C433F5
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 13:57:52 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web09.20096.1646056671056355471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEF4C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 14:00:41 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web10.19878.1646056840489874149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 05:57:51 -0800
+ Mon, 28 Feb 2022 06:00:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aj.id.au header.s=fm2 header.b=CwKkPzBG;
- spf=pass (domain: aj.id.au, ip: 66.111.4.27, mailfrom: andrew@aj.id.au)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 35CC85C0384;
-	Mon, 28 Feb 2022 08:57:50 -0500 (EST)
-Received: from imap49 ([10.202.2.99])
-  by compute3.internal (MEProxy); Mon, 28 Feb 2022 08:57:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=JmdJlqVEe/gOXrbB2Sx0H/UH2y5H5CinDxpPJk
-	p9K+w=; b=CwKkPzBGvKqly9ovp8rqfgNLULimbgbQw1nAS16FFSasf8eot8DChX
-	azFZoY+UXDQSEEShYPaPIs5rr+ZDnCIu2UJ2bngnbaE1Xn6Ne6Cm6YrhbR3hJOhq
-	05TZfeYeu7hF2guvQnUtfeZkipv8xULcAqXFNPrcu6Wo28i6zuHavEQ+09zgqPPI
-	tBxgLz3OoEzWq/3+GUlbJk4Bu2/DtUrcEabDxppYF8J5bKxnfNgRn0nt2It7XlCI
-	YKBmsfcSLgaIXFdWUoq04YF+F8DILc6bUxOguEHSVYWOynvnXhfIDkUziP+nseXN
-	+zse6Mq9uEqYJsVoY0371RaBX1iqDbZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JmdJlqVEe/gOXrbB2
-	Sx0H/UH2y5H5CinDxpPJkp9K+w=; b=R1Hg84OwhJXhhjdiAslB8473KvkDY38Z7
-	dudfFBba6DID2/g/E47KSYbYfMEB63d1eTn7WlRrnoeL2THXGLnIhJqSKqnbepNm
-	qcqWF63YBm8F+XS6J3Nj2SRzwcUmelDAEi76/XK+C6gzwYB902cqgxOSImfHo1gc
-	g+e1BkcUwMLKbuOxPn7zbGyQ7kPm73wvRO0M+3FDsID0Rocn2Xo5B6zRdzgA8Zmj
-	DJOiGZAXmqiDJ2edj1IrEj8/eqZZB591Nkrwpq0cYBsd1sAzU+8Hgk2jgv+7a2qE
-	rxD/g/gm4fZmXXGMgEYedoz4DEebwF1E94QTF3yy3rOjYxWTHrHAg==
-X-ME-Sender: <xms:3tQcYhsbaNGVAtdteOlVWb9aiQgjHOY-PcbGdxfZ3glLtl-WiRj5UA>
-    <xme:3tQcYqfoh2CI36-kzuoMJRTcpHTSYBr4c-W8BKA1Fo3us-8GL_mtFSqCKLLcObOCD
-    bNzNzTva0wTpLj3uw>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvvddruddttddgheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
-    rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
-    grthhtvghrnhepffevhfeifeegfefgtedvgfefgfetteetkedukeelgeduhfdufedvueel
-    fefhtdeunecuffhomhgrihhnpehgrghthhgvrhdrhhhofienucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:3tQcYkxxOHgmrM8CeUDQjwKAvid_dqsyff_rDND76CosO2D7vzB5iQ>
-    <xmx:3tQcYoPxxYTgKA_kr9R84IZcPdYDfsjFGSnGRpoZkv2U2YrEjZN7DA>
-    <xmx:3tQcYh9LS9qjQw630EoVf30PlN805obwzfyfvhAtvPCbYcmICvdqVw>
-    <xmx:3tQcYmLp66MpcvEGedqerEX-Ip47uZx0TQiEoppcR-PkifNmhJ4uVA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0CC2CF6007E; Mon, 28 Feb 2022 08:57:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
-Mime-Version: 1.0
-Message-Id: <c87de1ba-dfc6-4162-a146-d50f041a6580@www.fastmail.com>
-In-Reply-To: 
- <CANNYZj_21ZYm1vz33FbbmVZ5md-GaQEVpvbrtCNkbh5Ck-0snQ@mail.gmail.com>
-References: <20220222035234.463162-1-andrew@aj.id.au>
- <20220222035234.463162-7-andrew@aj.id.au>
- <CANNYZj8uEbibb6POcuhc+fEvViJCXb8_yAC28wMyGSgiAJA35Q@mail.gmail.com>
- <e77a8568-cc54-4706-84a6-718657532662@www.fastmail.com>
- <eed550ec-96ac-4dd4-96e2-ce139db13a5b@www.fastmail.com>
- <CANNYZj_21ZYm1vz33FbbmVZ5md-GaQEVpvbrtCNkbh5Ck-0snQ@mail.gmail.com>
-Date: Tue, 01 Mar 2022 00:27:29 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [RFC PATCH 6/8] rust: Mitigate duplicate sections on
- matching
- architectures
-Content-Type: text/plain
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=ijO2pNvj;
+ spf=pass (domain: intel.com, ip: 192.55.52.136,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646056840; x=1677592840;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BxzzUUbjsJNPJB407/YVDY3MowPAqyzPxCb2UdxWEx4=;
+  b=ijO2pNvj1uyIAvo6QCwLX7YFZpKXmZfz7qgQeB+E4EnMpzibPaV+yS75
+   qWzV9Nr/+zX6o9sk2s2+x5CYhsRr7jV620O1vWfdDb936/jUbvM14i6Gj
+   p7uqCr7UCAG7jntex0p2KEfBrCT2gIqn98E9/ucd7qPCaNJEM3eVN/SHv
+   5z5zKdptekN0WrYEnhG/1NT+CudaPPKjZUgTv64h3Zdi0d9gNLzZLG/OL
+   pCUojYR4ivASlB0ToFGCSGJf8Fz9okiZCk/YQxT+oL+b729e/80Je5XsJ
+   iEwkQg1Ej9A0sVxUhXjL5eu93SN6qtCBpqOWEs60vg0vXZurHm6+pWsrR
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="232856860"
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
+   d="scan'208";a="232856860"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 06:00:39 -0800
+X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
+   d="scan'208";a="778092110"
+Received: from jtang17-mobl1.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.213.141.22])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2022 06:00:37 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [hardknott][PATCH 00/39] Patch review
+Date: Mon, 28 Feb 2022 21:59:50 +0800
+Message-Id: <cover.1646056612.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 13:57:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 14:00:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162455
+ https://lists.openembedded.org/g/openembedded-core/message/162456
 
+Next set of changes for hardknott. Please review.
 
+No problems seen while testing on autobuilder.
 
-On Mon, 28 Feb 2022, at 18:51, Alexander Kanavin wrote:
-> On Mon, 28 Feb 2022 at 01:13, Andrew Jeffery <andrew@aj.id.au> wrote:
->> Okay, so the root cause of this was I was setting RUST_{HOST,TARGET}_SYS
->> to "powerpc64le-unknown-linux-gnu", which matched RUST_BUILD_SYS. I did
->> that because rustc seems to be quite unhappy when supplied with
->> `--target ppc64le-linux` or `--target powerpc64le-linux'. I'm trying to
->> understand why, but I'm struggling because rustc seems just fine with
->> `--target x86_64-linux` despite none of `ppc64le-linux`,
->> `powerpc64le-linux` nor `x86_64-linux` appearing in the `rustc --print
->> target-list` output that I could gather.
->>
->> How/why does `--target x86_64-linux` work?
->
-> I think in the context of oe-core, all targets are custom ones,
-> specified by writing out json files and directing rust to use them. So
-> you need to do two things:
-> 1. --print target-list is useless and irrelevant, as it only prints
-> built-in targets, don't try it.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3289
 
-Ack, certainly experienced that :)
+Thanks,
 
-> 2. When there's a problem inspect what json files are in the sysroot,
-> what they contain, and whether rust is able to find them.
-> x86_64-linux.json is made specifically for building native items.
+Anuj
 
-Thanks, this helped a lot. Before sending the previous mail I had poked 
-around a bit and found the json support in rust, but hadn't put enough 
-of the puzzle pieces together to make the picture clear. With your 
-pointer here I've cut away most of the cruft in the series and am 
-testing the rework now.
+The following changes since commit 29cd1d796057ef5599fe17c39b42aa099f7b1c29:
 
-Andrew
+  build-appliance-image: Update to hardknott head revision (2022-02-20 15:32:32 +0000)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
+
+Alexander Kanavin (1):
+  libarchive: upgrade 3.5.1 -> 3.5.2
+
+Changqing Li (1):
+  e2fsprogs: backport to fix one regression
+
+Christian Eggers (1):
+  mc: fix build if ncurses have been configured without wide characters
+
+Florian Amstutz (1):
+  devtool: deploy-target: Remove stripped binaries in pseudo context
+
+Joe Slater (1):
+  virglrenderer: fix CVE-2022-0135 and -0175
+
+Jose Quaresma (24):
+  gstreamer1.0: 1.18.4 -> 1.18.5
+  gstreamer1.0-plugins-base: 1.18.4 -> 1.18.5
+  gstreamer1.0-plugins-bad: 1.18.4 -> 1.18.5
+  gstreamer1.0-plugins-good: 1.18.4 -> 1.18.5
+  gstreamer1.0-rtsp-server: 1.18.4 -> 1.18.5
+  gstreamer1.0-libav: 1.18.4 -> 1.18.5
+  gstreamer1.0-vaapi: 1.18.4 -> 1.18.5
+  gstreamer1.0-omx: 1.18.4 -> 1.18.5
+  gstreamer1.0-python: 1.18.4 -> 1.18.5
+  gst-devtools: 1.18.4 -> 1.18.5
+  gst-examples: 1.18.4 -> 1.18.5
+  gstreamer1.0-plugins-ugly: 1.18.4 -> 1.18.5
+  gstreamer1.0: 1.18.5 -> 1.18.6
+  gstreamer1.0-plugins-base: 1.18.5 -> 1.18.6
+  gstreamer1.0-plugins-good: 1.18.5 -> 1.18.6
+  gstreamer1.0-plugins-bad: 1.18.5 -> 1.18.6
+  gstreamer1.0-plugins-ugly: 1.18.5 -> 1.18.6
+  gstreamer1.0-vaapi: 1.18.5 -> 1.18.6
+  gstreamer1.0-libav: 1.18.5 -> 1.18.6
+  gstreamer1.0-omx: 1.18.5 -> 1.18.6
+  gstreamer1.0-rtsp-server: 1.18.5 -> 1.18.6
+  gst-examples: 1.18.5 -> 1.18.6
+  gstreamer1.0-python: 1.18.5 -> 1.18.6
+  gst-devtools: 1.18.5 -> 1.18.6
+
+Justin Bronder (1):
+  initramfs-framework: unmount automounts before switch_root
+
+Kai Kang (1):
+  expat: fix CVE-2022-23990
+
+Lee Chee Yang (1):
+  libarchive : update to 3.5.3
+
+Michael Halstead (1):
+  uninative: Upgrade to 3.5
+
+Oleksiy Obitotskyy (1):
+  package_manager: ipk: Fix host manifest generation
+
+Richard Purdie (2):
+  vim: Upgrade 4269 -> 4134
+  vim: Upgrade 8.2.4314 -> 8.2.4424
+
+Tim Orling (1):
+  scripts/buildhistory-diff: drop use of distutils
+
+wangmy (2):
+  linux-firmware: upgrade 20211216 -> 20220209
+  ccache: upgrade 4.2 -> 4.2.1
+
+ meta/conf/distro/include/yocto-uninative.inc  |  10 +-
+ meta/lib/oe/sdk.py                            |   4 +
+ .../expat/expat/CVE-2022-23990.patch          |  49 ++++++++
+ meta/recipes-core/expat/expat_2.2.10.bb       |   7 +-
+ .../initrdscripts/initramfs-framework/finish  |  12 ++
+ .../ccache/{ccache_4.2.bb => ccache_4.2.1.bb} |   4 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |   3 +-
+ ...mount-write-time-when-e2fsck-is-forc.patch |  66 ++++++++++
+ ...ibarchive_3.5.1.bb => libarchive_3.5.3.bb} |   2 +-
+ ...FTBFS-with-ncurses-build-with-disabl.patch |  87 +++++++++++++
+ meta/recipes-extended/mc/mc_4.8.26.bb         |   5 +-
+ .../virglrenderer/cve-2022-0135.patch         | 117 ++++++++++++++++++
+ .../virglrenderer/cve-2022-0175.patch         | 112 +++++++++++++++++
+ .../virglrenderer/virglrenderer_0.8.2.bb      |   2 +
+ ...20211216.bb => linux-firmware_20220209.bb} |   4 +-
+ ...tools_1.18.4.bb => gst-devtools_1.18.6.bb} |   2 +-
+ ...mples_1.18.4.bb => gst-examples_1.18.6.bb} |   2 +-
+ ...1.18.4.bb => gstreamer1.0-libav_1.18.6.bb} |   2 +-
+ ...x_1.18.4.bb => gstreamer1.0-omx_1.18.6.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.18.6.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.18.6.bb} |   2 +-
+ ...Fix-parsing-of-the-mediaclk-direct-f.patch |  33 -----
+ ...bb => gstreamer1.0-plugins-good_1.18.6.bb} |   3 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.18.6.bb} |   2 +-
+ ....18.4.bb => gstreamer1.0-python_1.18.6.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.18.6.bb} |   2 +-
+ ...1.18.4.bb => gstreamer1.0-vaapi_1.18.6.bb} |   2 +-
+ ...002-Remove-unused-valgrind-detection.patch |  14 +--
+ ...er1.0_1.18.4.bb => gstreamer1.0_1.18.6.bb} |   2 +-
+ meta/recipes-support/vim/vim.inc              |   7 +-
+ scripts/buildhistory-diff                     |   5 -
+ scripts/lib/devtool/deploy.py                 |   2 +-
+ 32 files changed, 493 insertions(+), 77 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-23990.patch
+ rename meta/recipes-devtools/ccache/{ccache_4.2.bb => ccache_4.2.1.bb} (82%)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-fix-last-mount-write-time-when-e2fsck-is-forc.patch
+ rename meta/recipes-extended/libarchive/{libarchive_3.5.1.bb => libarchive_3.5.3.bb} (96%)
+ create mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4200-fix-FTBFS-with-ncurses-build-with-disabl.patch
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211216.bb => linux-firmware_20220209.bb} (99%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.18.4.bb => gst-devtools_1.18.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.4.bb => gst-examples_1.18.6.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.18.4.bb => gstreamer1.0-libav_1.18.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.18.4.bb => gstreamer1.0-omx_1.18.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.18.4.bb => gstreamer1.0-plugins-bad_1.18.6.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.18.4.bb => gstreamer1.0-plugins-base_1.18.6.bb} (98%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0002-rtpjitterbuffer-Fix-parsing-of-the-mediaclk-direct-f.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.18.4.bb => gstreamer1.0-plugins-good_1.18.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.18.4.bb => gstreamer1.0-plugins-ugly_1.18.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.18.4.bb => gstreamer1.0-python_1.18.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.18.4.bb => gstreamer1.0-rtsp-server_1.18.6.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.18.4.bb => gstreamer1.0-vaapi_1.18.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.18.4.bb => gstreamer1.0_1.18.6.bb} (97%)
+
+-- 
+2.35.1
+
 
