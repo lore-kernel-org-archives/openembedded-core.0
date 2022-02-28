@@ -1,105 +1,91 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <changhyeok.bae@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EF3C433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 23:54:54 +0000 (UTC)
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web11.2472.1646092492829428909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA09C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 23:56:50 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.2499.1646092608709026013
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 15:54:53 -0800
+ Mon, 28 Feb 2022 15:56:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm1 header.b=pAllaMDg;
- spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0ED7C5C02A6;
-	Mon, 28 Feb 2022 18:54:52 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 28 Feb 2022 18:54:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm1; bh=hDDEYqmGFX3xngjlpTsFafIGNFYePYam6gGBsb/9ft4=; b=pAlla
-	MDg8gYniCbO1d0iXRVGPL/RvfxfUQzrb+fVR2EfqJHcpdlpZMvYAYGKvJA09ztd2
-	i0gOi+mNT7B/hg6p6LJ069a53WYi9eIyPfLOjExJBTkvR+j2S9hZZ9RFdREGAB8e
-	bVrKL9s6ImGZeZ6J/ymPgxlmzNNtOzvrg1dljdUWlFJtFS/CeC4h7WYx+LTE5gYb
-	JOLCJw4Z5t9UUqAGEN0JWorCYowlcXlvvihDWlQcfH9LTRoQTcW9xlzHY4pcDzNA
-	teJsvplUHCcBELr6REgH3x3dkiKmVv4X0T+CI9R/EHUWz85K9605u/OY3pP+XaFi
-	ivSeppQvUqQvpec2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
-	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; bh=hDDEYqmGFX3xngjlpTsFafIGNFYeP
-	Yam6gGBsb/9ft4=; b=YyeSLzhsVELNtw+aZl2OlyiqH/QitYTOqfb3ToVimv+b0
-	RpwGf2HH9/fvRm+u8ZPKZP25+gbXnEI3aZ9ktmKWTrps9r4s/9UwLjj7KJF7HKFv
-	QtVR7sKzTC9enCktkuvAy/m9fw3uzg2uyolAfuBgbAryi9D9rTCenJDZrD1hM4eD
-	0PGMS527VpfUTdcUSvPjSY1+Lsm/V9bNZCt+xEjw6v9QSBi2/+JrUoYfPLsdA05H
-	jxZ6kbNkIgZ8ZU8UXuPQczzBR2ctF2717Uyey6uiFM2X3W3cExGflblX2oIA3mOl
-	jAPDQoRe8i58kz9InUVNuQ++JoDzIKRt7Dmm8/S7g==
-X-ME-Sender: <xms:y2AdYl3bKX6G3YCSb0Vj7dWhx8Odnfide1SJY8VJvq2LAgvRAF24IQ>
-    <xme:y2AdYsEQmnqKM0n3d8FBGUYvFzwW0_Hk-h1G5Ba3j_1U8SGClyztCe4ijqW40is0H
-    nT-QLzgh8Kercl4buo>
-X-ME-Received: 
- <xmr:y2AdYl7g8mWnsw1cD69i9lFrhhkDcyyyoNFFX8z_Yl7EpmipuejNrDfA4c5ASeOejnVFdluknpEOgzIQLgAJ784PeYR343YZeTsBSwAvsmFIprVW5cnoPPHh>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvvddruddtuddgudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
-    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeelueefieelfeelledugeeuffekke
-    duleejffeiheefkeehuedviefggfehhedtkeenucffohhmrghinhepghholhgrnhhgrdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hnughrvghisehghhgvrhiirghnrdgtohhm
-X-ME-Proxy: <xmx:y2AdYi1oiT0OYVnw-5WWtzK7GIOzQeTREyKJlbRfXJhrVlBoDLSgOw>
-    <xmx:y2AdYoGN2fJ3i_r6AkSnWzfgI0oxZk53D6MuU5C0yqBHEC2Q-5kiPw>
-    <xmx:y2AdYj_Cla2058a6uCp1N5UKLtTMw81AsTFUfqhpekqInwLJoPlGMg>
-    <xmx:zGAdYiNsQmNAkmTOZ9w5yLoZX2d7MDuuC845jZcRqnkvR3ZpKzrRiw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Feb 2022 18:54:51 -0500 (EST)
-From: Andrei Gherzan <andrei@gherzan.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q5pJBiWQ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42,
+ mailfrom: changhyeok.bae@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id i8so789661wrr.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 28 Feb 2022 15:56:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=KZkhqGdSkpg/pl0JYqLEKJuk3zQKcFGwgpdE1KXTJVM=;
+        b=Q5pJBiWQUr7O3uTjWA9tKx632f060j6Zt5WpmUbSPZZeFwwmdwvSEq+ly4A0bpHbkY
+         CswdrkjSCE7YIwb7VTW7j8NUdAGuRvwcH/UZ/c/bFrVmvt1z2BDP7gA+Je7TI7yzijpC
+         X0l9qQoo93tJYe+rwUAlcu6moJXO8+B2CLqqFfaf7Tfdo02fMtKj8dM2t7Dxac7EjA+T
+         LFML38CR2nBdNl7dJ22ufPnVdAk8Q0Q16xVNqy+neJ/+DyZ5okRdad+w8KYUMwbofwNr
+         NNtu8F6K2ng57p5T02W2QGAzXyqQfGX/ikZ+ZflRz62vRlRbby9axAqQ3v9j9yyrJ6Eq
+         0F9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KZkhqGdSkpg/pl0JYqLEKJuk3zQKcFGwgpdE1KXTJVM=;
+        b=VwfFEksIKiIWeo6wzHasjnbTpZjfOrdis4c5ITwj8B3PHdXSnJ8NtSl48HPHQRTHww
+         LhusDa6bXKtkvfys6B/CrJWdZc/1WLYhhjugokMXZK1tz/UNKUkyG1kfYK+pb4dSehAf
+         20wf1NOtfZcOPJuzFjrueVeY4SFvnLdZaDABSDrD19R+mcugMICddqi9gF1k7G2mkI5G
+         4GrmI6IiSJo3OkPOiYMEKx/o58rLeR+4nAU6R70DUPX7WIDlmTx9FGhwbyl2B0KWBhmM
+         U6WK85NbYUkyGfff9eLOPeJnSTHjuiEW3/2Wi4RJcctTK3OMpCkNdbaX4QoZ08XR+0lk
+         LQhA==
+X-Gm-Message-State: AOAM531XEy35RpAd0l9jxvGyxAWjJbOQNTAKKyBdaX2q08Medl4OlJsp
+	3s0GtGxTgTlJNq+Z/Xj3UJNhR0kVy9c=
+X-Google-Smtp-Source: 
+ ABdhPJwQMJ+hZESSZqVOveAPY3v5YiU6wHULLW0nu6y+Yxh+ygLIKz7oChOyo6sY026Y8EQZjpFn7w==
+X-Received: by 2002:a05:6000:1846:b0:1ea:78fc:1d60 with SMTP id
+ c6-20020a056000184600b001ea78fc1d60mr16977110wri.590.1646092606896;
+        Mon, 28 Feb 2022 15:56:46 -0800 (PST)
+Received: from localhost.localdomain (ip5f5aec99.dynamic.kabel-deutschland.de.
+ [95.90.236.153])
+        by smtp.gmail.com with ESMTPSA id
+ v124-20020a1cac82000000b0037c3d08e0e7sm797528wme.29.2022.02.28.15.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 15:56:46 -0800 (PST)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: andrei@gherzan.com,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH 1/1] go.bbclass: Allow network in do_compile
-Date: Tue,  1 Mar 2022 00:54:33 +0100
-Message-Id: <20220228235433.3948994-1-andrei@gherzan.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Changhyeok Bae <changhyeok.bae@gmail.com>
+Subject: [OE-Core][PATCH] repo: upgrade 2.21 -> 2.22
+Date: Mon, 28 Feb 2022 23:56:42 +0000
+Message-Id: <20220228235642.66943-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 23:54:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 23:56:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162517
+ https://lists.openembedded.org/g/openembedded-core/message/162518
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
-
-Compile pulls in the go.mod list requiring network. Without this, do
-compile would fail with a similar error to the following:
-
-dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
-
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- meta/classes/go.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/repo/{repo_2.21.bb => repo_2.22.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/repo/{repo_2.21.bb => repo_2.22.bb} (95%)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 9c4c92bffd..dc246c72cb 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -113,6 +113,7 @@ go_do_compile() {
- }
- do_compile[dirs] =+ "${GOTMPDIR}"
- do_compile[cleandirs] = "${B}/bin ${B}/pkg"
-+do_compile[network] = "1"
+diff --git a/meta/recipes-devtools/repo/repo_2.21.bb b/meta/recipes-devtools/repo/repo_2.22.bb
+similarity index 95%
+rename from meta/recipes-devtools/repo/repo_2.21.bb
+rename to meta/recipes-devtools/repo/repo_2.22.bb
+index 3c50793401..a99d5d7070 100644
+--- a/meta/recipes-devtools/repo/repo_2.21.bb
++++ b/meta/recipes-devtools/repo/repo_2.22.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            file://0001-python3-shebang.patch \
+            "
+-SRCREV = "8e91248655acf1c8044ed8c1b265b804a99eb07f"
++SRCREV = "cc879a97c3e2614d19b15b4661c3cab4d33139c9"
  
- go_do_install() {
- 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ 
 -- 
-2.25.1
+2.17.1
 
 
