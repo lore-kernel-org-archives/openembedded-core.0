@@ -2,69 +2,70 @@ Return-Path: <andrew@aj.id.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D339C433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 14:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D774C433EF
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 14:40:06 +0000 (UTC)
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web09.20616.1646059202734151341
+ by mx.groups.io with SMTP id smtpd.web09.20617.1646059205059882927
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 06:40:03 -0800
+ Mon, 28 Feb 2022 06:40:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aj.id.au header.s=fm2 header.b=pNOK8B53;
+ dkim=pass header.i=@aj.id.au header.s=fm2 header.b=d6uCOG8r;
  spf=pass (domain: aj.id.au, ip: 66.111.4.27, mailfrom: andrew@aj.id.au)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 135985C02F0;
-	Mon, 28 Feb 2022 09:40:02 -0500 (EST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6EEFD5C02F7;
+	Mon, 28 Feb 2022 09:40:04 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 28 Feb 2022 09:40:02 -0500
+  by compute4.internal (MEProxy); Mon, 28 Feb 2022 09:40:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
 	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; bh=GAnDW5URs9E+mHDpSWfKFwybg3mPqs
-	tMI8XBL/R6OlI=; b=pNOK8B536viMq90DDbVG950a1Jf0EA091zB93B/6JNUO3/
-	bwugCIy5GbyQjkIKuNeiQaNQqGZBMnaka9ZtH+MxZOKdeslQRnniMHj2vjBbcmWI
-	lrlTnFGQBNfjFRVJ1zvchCzOKe/sc9u11/qs/9xgzijDWwYJVpINDMeve56QbQGa
-	ypeMIZlDJPoWA48E8tZzr+cCf5QIJYYjmnRTJe95k3QsPSR/aCcYMBH9emWR2/aX
-	7i/RFbrkpY0B0EZxChI1tA7o/ZXToyeTp7MJZeeMe6T0PkwjU52jsVLF+RU6g0rL
-	lJHRETTe0ueMbol5wIip4KEAKvtt9SM3D5yGbsYA==
+	:subject:subject:to:to; s=fm2; bh=8wuf5eQhpE/JnLyz33TWeVvk+OQLd5
+	yzdOCeF7ZF5cY=; b=d6uCOG8r/p/LBME9Dl+I38mGTwdkFr3VfdqVrXGSMPIJXW
+	gXAH9tHYAX72pAYwx2tHabGM79ehypKVAuN+z1moD8MppTcKvEjHOeokAyASnBv+
+	qpJYrpT5JKPSZPSZXtQ1ecFEEJFA1qKSoHSOyZOcR0d+0prO0KYBM0rD46YZeK6M
+	KCL5ExpRFwtGyp+DP+QG9sKu038XFAbKY5XoCPAOAzzAztedHhoCrPLR5GX6I9UP
+	+Bg7euF3ZgbTDqja4FdcbZCLkQ+HU36gzXkPxwgjFqo/jDdFSUZZI+DeZLBVAMBj
+	9nrSTdm49w0CsTpmnfHxMCGQMyq598LRM5VqfTYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GAnDW5
-	URs9E+mHDpSWfKFwybg3mPqstMI8XBL/R6OlI=; b=DdFchChnRW1kAa9n7WYoVW
-	+RB1HxW8mp+F81mQAoVkH/JvLvKMGcJ5TLyswTqUsnY+48fhY+bnKYV/z5bq6pXq
-	46sawAk4/sikRl6AN55lBbH2yKnAEpP22trua6iFgT9QI7tIAu7xUamoIsweEfy1
-	GjwZPBayD9YS43gVWhf6hoR/GVD2uUfsvRyuKMM52v5DqnkcDGaDFeF5wwX+2fFn
-	2HivvcsKHnQkjWjQpAWY2TmldIvKKQYx+XYSpBjgEjvS1Sf7uc65UeibbMZ5edjk
-	pU/OSexdckjNQg3+8H3ks3Ks+ny0/7WgImSBpctTluOZtAowacRWCeKiddcA+R5Q
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8wuf5e
+	QhpE/JnLyz33TWeVvk+OQLd5yzdOCeF7ZF5cY=; b=gTLEKqZSNjiWiJKgop4b+T
+	mv1k3M2ebzYiBLGuSn1d7c39IwwbDGBp3lUKyMcvWthUCAZhIrlEt2pqBZ9oqGXl
+	sYVNgHwbXOrWTW2El1Us0/2wQLtP/97hNvg//uSHKcOVX6085F+cV2mQdLVsovLY
+	EtLQ/L8xQKiEZ9m2lxUhDtA30vWE409Y6N7csuQ+sAnyuHZl2uW/20DveMhmKeF9
+	3a365+LpfpkW24t//2aOTzafNsWuChyYFg+7sVSreDzcLFh3FHkagJElldzRfb49
+	JpEcdUNthPVBvOV1fcpe413kNXIzR08jjC4h6foWRRXxgCHHNpOV/r218g/4w3CA
 	==
-X-ME-Sender: <xms:wd4cYpnwSw71Hb0ci3EQuYjHJesBIyR_4Qnu16qm0C8pFn3Y_FOnQg>
-    <xme:wd4cYk0DgRPsGJuUfxL5CtRSsSAdJROsvhB5b6ybxuY2dCHdsNuIrLqmSlet0NOYg
-    z8uBMJ_RPjwRpxNNg>
+X-ME-Sender: <xms:xN4cYgzSSALV9Vwx1kf-Hpl-bydIUZEMuzPfNxt-weFpCbQMTB_25A>
+    <xme:xN4cYkRTvrjq9YDKerN19cFOCuQQQx5gHWbEyAxTpFEpnkejGfLMcLKdfUVLW1poM
+    hhqHy9s5vKdEBYh3A>
 X-ME-Received: 
- <xmr:wd4cYvrtQf9PoKyusAK2pj79EM78lkDLZIyk6qq64xbWJyJGNrIMWZI0-BrRErME7zQZoWq2mnltvNpeHhZ4OL0ClCwnQxOlQMvYOKvNJ6ZeTPB6iz_DFIT5W3ZtnHt0>
+ <xmr:xN4cYiXk6FnaL3JIugc8eThFvxENaBKPGUdE2t_yfDsshUqcCjG3D2j-n9UuC4lQ9ckWICUJ7jt1Dty3HkAkEqmLsoXGKnpdolaB4ztTEB3KzvO5IyswCLTk6Weg1AkS>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvvddruddttddgieejucetufdoteggodetrfdotf
+ gggruggvucftvghtrhhoucdtuddrgedvvddruddttddgieeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
     dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
-    jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
-    etjeffleffvdduudevieffgeetleevhfetnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:wt4cYplbPF7Idy53R_0B_zjtK6bzTHky0nznq2tgAtnPS1c8Pe3bRQ>
-    <xmx:wt4cYn06TrWMlCDoUo6peKXOpm5AEWWGWKe1oxAdsPt_lLKEtCmPIQ>
-    <xmx:wt4cYovR_Uw840jOGklyQi8AQwPGKEjVUbNzmNq9FfeimFBKuV2HCA>
-    <xmx:wt4cYg_hHwKKDBg-UL4qpp0nJ7vrApvJUzMUBdWUrNlp8dW_VWJCzw>
+    jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepleffvdfgheelteelgfehfeegfefhud
+    eukeegvdevffdutdduieevffetvdeuudeunecuffhomhgrihhnpehruhhsthdqlhgrnhhg
+    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:xN4cYujNITKJwbSOmdyfbTmrwefIxbGqJPvGelS8bwQh0NxLoZg-nw>
+    <xmx:xN4cYiDghvXK2KdBQKIWXQQNarHgr8grav8W2aZ_JrPpqouIChsmBg>
+    <xmx:xN4cYvLJMJZUUrjwqt56FMxIdOAt47N1g5gNEtlEmHgkJYZ9A8Yszw>
+    <xmx:xN4cYj6uHWu8iMbAgIQxAgEYIIoxnOps1AcVeRFF_P3LhpzEwGsb2Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Feb 2022 09:40:00 -0500 (EST)
+ 28 Feb 2022 09:40:02 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: openembedded-core@lists.openembedded.org
 Cc: alex.kanavin@gmail.com,
 	richard.purdie@linuxfoundation.org
-Subject: [PATCH v2 1/3] rust: Introduce arch_to_rust_arch()
-Date: Tue,  1 Mar 2022 01:09:46 +1030
-Message-Id: <20220228143948.50809-2-andrew@aj.id.au>
+Subject: [PATCH v2 2/3] rust: Introduce RUST_BUILD_ARCH
+Date: Tue,  1 Mar 2022 01:09:47 +1030
+Message-Id: <20220228143948.50809-3-andrew@aj.id.au>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220228143948.50809-1-andrew@aj.id.au>
 References: <20220228143948.50809-1-andrew@aj.id.au>
@@ -73,123 +74,73 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 14:40:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 14:40:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162502
+ https://lists.openembedded.org/g/openembedded-core/message/162503
 
-On modern Power systems `uname -m` yields 'ppc64le' while the toolchain
-knows the architecture as 'powerpc64le'. Provide a mapping from one to
-the other to integrate with the existing architecture configuration
-flags.
+RUST_BUILD_ARCH contains the arch_to_rust_arch()-translated value of
+BUILD_ARCH. This is necessary to acquire the correct snapshot artifacts
+under Linux where `uname -m` reports "ppc64le" rather than
+"powerpc64le".
 
-arch_to_rust_arch() only exists to map the OE *_ARCH variables before
-any further processing, unlike arch_to_rust_target_arch() which is
-specific to the internal triple handling of rust.
-
-On Linux ppc64le systems the changes give the following config:
-
-```
-$ cat ./tmp/work/ppc64le-linux/rust-native/1.58.0-r0/targets/ppc64le-linux.json
-{
-    "llvm-target": "powerpc64le-unknown-linux-gnu",
-    "data-layout": "e-m:e-i64:64-n32:64-v256:256:256-v512:512:512",
-    "max-atomic-width": 64,
-    "target-pointer-width": "64",
-    "target-c-int-width": "64",
-    "target-endian": "little",
-    "arch": "powerpc64",
-    "os": "linux",
-    "env": "gnu",
-    "vendor": "unknown",
-    "target-family": "unix",
-    "linker": "gcc",
-    "cpu": "generic",
-    "dynamic-linking": true,
-    "executables": true,
-    "linker-is-gnu": true,
-    "linker-flavor": "gcc",
-    "has-rpath": true,
-    "has-elf-tls": true,
-    "position-independent-executables": true,
-    "panic-strategy": "unwind"
-}
-```
-
-Change-Id: Ief0c01189185d7d4da31d307270bec4e1de674ca
+Change-Id: I6aec23aced8e1c6f0bfc46fe52531b0c16bcf687
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- meta/classes/base.bbclass                  | 2 +-
- meta/classes/rust-common.bbclass           | 2 +-
- meta/lib/oe/rust.py                        | 5 +++++
- meta/recipes-devtools/rust/rust-common.inc | 8 +++++---
- 4 files changed, 12 insertions(+), 5 deletions(-)
- create mode 100644 meta/lib/oe/rust.py
+ meta/classes/rust-common.bbclass             |  4 ++++
+ meta/recipes-devtools/rust/rust-snapshot.inc | 12 ++++++------
+ meta/recipes-devtools/rust/rust.inc          |  2 +-
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 55f654d37d0c..27c1d6168d45 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -12,7 +12,7 @@ inherit logging
- 
- OE_EXTRA_IMPORTS ?= ""
- 
--OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible ${OE_EXTRA_IMPORTS}"
-+OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust ${OE_EXTRA_IMPORTS}"
- OE_IMPORTS[type] = "list"
- 
- PACKAGECONFIG_CONFARGS ??= ""
 diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
-index 98d65970e8c0..8cfe864ca3fd 100644
+index 8cfe864ca3fd..65ad677499cb 100644
 --- a/meta/classes/rust-common.bbclass
 +++ b/meta/classes/rust-common.bbclass
-@@ -65,7 +65,7 @@ def rust_base_triple(d, thing):
-     if thing == "TARGET" and target_is_armv7(d):
-         arch = "armv7"
-     else:
--        arch = d.getVar('{}_ARCH'.format(thing))
-+        arch = oe.rust.arch_to_rust_arch(d.getVar('{}_ARCH'.format(thing)))
+@@ -89,6 +89,10 @@ def rust_base_triple(d, thing):
+         libc = bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hf', '', d)
+     return arch + vendor + '-' + os + libc
  
-     # All the Yocto targets are Linux and are 'unknown'
-     vendor = "-unknown"
-diff --git a/meta/lib/oe/rust.py b/meta/lib/oe/rust.py
-new file mode 100644
-index 000000000000..ec70b348054d
---- /dev/null
-+++ b/meta/lib/oe/rust.py
-@@ -0,0 +1,5 @@
-+# Handle mismatches between `uname -m`-style output and Rust's arch names
-+def arch_to_rust_arch(arch):
-+    if arch == "ppc64le":
-+        return "powerpc64le"
-+    return arch
-diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-index ceeee9786376..310aecef226e 100644
---- a/meta/recipes-devtools/rust/rust-common.inc
-+++ b/meta/recipes-devtools/rust/rust-common.inc
-@@ -313,10 +313,12 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
-     sys = sys_for(d, thing)
-     prefix = prefix_for(d, thing)
- 
-+    rust_arch = oe.rust.arch_to_rust_arch(arch)
 +
-     if abi:
--        arch_abi = "{}-{}".format(arch, abi)
-+        arch_abi = "{}-{}".format(rust_arch, abi)
-     else:
--        arch_abi = arch
-+        arch_abi = rust_arch
++# In some cases uname and the toolchain differ on their idea of the arch name
++RUST_BUILD_ARCH = "${@oe.rust.arch_to_rust_arch(d.getVar('BUILD_ARCH'))}"
++
+ # Naming explanation
+ # Yocto
+ # - BUILD_SYS - Yocto triple of the build environment
+diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
+index 74b558262f62..173648c889fb 100644
+--- a/meta/recipes-devtools/rust/rust-snapshot.inc
++++ b/meta/recipes-devtools/rust/rust-snapshot.inc
+@@ -15,11 +15,11 @@ SRC_URI[rustc-snapshot-aarch64.sha256sum] = "f26811e48d03c56c125de03d389e1ae7c6d
+ SRC_URI[cargo-snapshot-aarch64.sha256sum] = "6d11cd94618d80cda273eeeae7285980445f61a49ebacc616777b482a41cbf3f"
  
-     features = features or d.getVarFlag('FEATURES', arch_abi) or ""
-     features = features.strip()
-@@ -329,7 +331,7 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
-     tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
-     tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
-     tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
--    tspec['arch'] = arch_to_rust_target_arch(arch)
-+    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
-     tspec['os'] = "linux"
-     if "musl" in tspec['llvm-target']:
-         tspec['env'] = "musl"
+ SRC_URI += " \
+-    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
+-    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
+-    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
++    https://static.rust-lang.org/dist/${CARGO_SNAPSHOT}.tar.xz;name=cargo-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
+ "
+ 
+-RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
+-RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
+-CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${BUILD_ARCH}-unknown-linux-gnu"
++RUST_STD_SNAPSHOT = "rust-std-${RS_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
++RUSTC_SNAPSHOT = "rustc-${RS_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
++CARGO_SNAPSHOT = "cargo-${CARGO_VERSION}-${RUST_BUILD_ARCH}-unknown-linux-gnu"
+diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
+index 1d6f99afad31..f39228e3c08d 100644
+--- a/meta/recipes-devtools/rust/rust.inc
++++ b/meta/recipes-devtools/rust/rust.inc
+@@ -27,7 +27,7 @@ CARGO_DISABLE_BITBAKE_VENDORING = "1"
+ 
+ # We can't use RUST_BUILD_SYS here because that may be "musl" if
+ # TCLIBC="musl". Snapshots are always -unknown-linux-gnu
+-SNAPSHOT_BUILD_SYS = "${BUILD_ARCH}-unknown-linux-gnu"
++SNAPSHOT_BUILD_SYS = "${RUST_BUILD_ARCH}-unknown-linux-gnu"
+ setup_cargo_environment () {
+     # The first step is to build bootstrap and some early stage tools,
+     # these are build for the same target as the snapshot, e.g.
 -- 
 2.32.0
 
