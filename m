@@ -1,89 +1,93 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4612BC4332F
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 03:40:36 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.16230.1646019633714561008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA59C433EF
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 08:21:22 +0000 (UTC)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
+ [209.85.221.179])
+ by mx.groups.io with SMTP id smtpd.web11.17859.1646036481593997810
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Feb 2022 19:40:35 -0800
+ Mon, 28 Feb 2022 00:21:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=inxfjBPE;
- spf=pass (domain: intel.com, ip: 192.55.52.115,
- mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646019635; x=1677555635;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=ZnM6gZ7/VAQO5lmDRUa+E99X6DVSMTOeNHancMzEjQU=;
-  b=inxfjBPEkHOadW46Nev2/QVEOiKcLgQF9tkRsfo0D43tBSHhRqhU7YNq
-   ON9VQCCh71MZ0OG0SnOaxobI9ho9VDdCDHj73AE1dQ7SBxFOqcY8F4VR6
-   P70aazhSRWUyXewXPf+nle2/H9sb9r28rv+MJwM8OqrGEa0QjUQwEnIh+
-   7mHcMnc/mBFR2gGDlkWHKNfJF9eCo3VZX9ozrWN+StTctti27CDp5dSUq
-   vVC0EjRRpbn1/yQF/BN/WeBy0L9NsEktTHy/g/2E0SKltRPusf/5dsgdl
-   vt9HyXqCRDGewO+D7q/O/H3QnrBhPtqNkMtFvAFbbA1NbsxhDQdGvZMAP
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="252988324"
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
-   d="scan'208";a="252988324"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2022 19:40:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
-   d="scan'208";a="509942100"
-Received: from cheeyang-desk1.png.intel.com ([10.158.87.104])
-  by orsmga006.jf.intel.com with ESMTP; 27 Feb 2022 19:40:33 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][hardknott 3/3] libgcrypt: Upgrade 1.9.3 -> 1.9.4
-Date: Mon, 28 Feb 2022 11:38:39 +0800
-Message-Id: <20220228033839.2386940-3-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220228033839.2386940-1-chee.yang.lee@intel.com>
-References: <20220228033839.2386940-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DdGvx2wY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.179,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f179.google.com with SMTP id bj24so4726669vkb.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 28 Feb 2022 00:21:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZF/xRU1R8r2ybIoY/WQan6458FNwM+SF6aRQFO0cfDk=;
+        b=DdGvx2wYZf+HKqbI9IZuZZbdoZ0SvesX0u9Ii7kFH39Nk1UGEiKSpjYz9byezM0KCo
+         I/utDVpPLfrPuwKmGvCyQ1DV03M1FJ2n7S20A+uyMHv5BhgEHTvPxwFzAGX/6U7PxGvQ
+         DP8hCr1rFFm2qoSDPm1MQnj3qwFHzZjakWTF46gejEtZCD8SZstaskk4aq6TBTnOQpv1
+         uZlT1pP2NprmKylczt2lluPXxdCnapRfDnuJhDB+gE61e3+4tSr/qigivhfRbHTq1EJf
+         5q1XvI3pyl7AyhwkOTaLv+NboobYXFBtOFdK8iuInGQl1UI8b5zXO3qD/bqBaEi6AVD1
+         37FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZF/xRU1R8r2ybIoY/WQan6458FNwM+SF6aRQFO0cfDk=;
+        b=b1JVZcTp/OXokkUraiYFbZCCfsK/W9oz9jyOTxKmRblK81ZljMWDm3UXehw32YCjf4
+         XXtNRW39hb1SUIj8wGWHOyQkjl0HO+5NqEnezy5Qo1mNTYScALlEWLb4ljGsuQkOEkza
+         VqB8jF681GwAsZbynrsBu7XhdISvcUx0Gelwmp1hcahvqgrlL25oWhICrSyCfS1D/BXd
+         Tt3FUYRis1fxibSvlXvhLbM06Xh83nWJ1nL3o1wyD89b5nU3MIfpmd9co7Az/ES3W7Nf
+         QUe7mGWHhZLVzWeuSpyewLE8I+x+XalGFqhQrDVR5DsD/KoFHCcuTzlpjQ4crQ94UCLI
+         PKjA==
+X-Gm-Message-State: AOAM5309kOgywxCy9EctOkfJG7CDJxBE3NlKU/XpqnLS3zr35ofKLLJu
+	hBS4kZ5IqE0XpYF0syj2T6FG+4aR7t4JE2vk120=
+X-Google-Smtp-Source: 
+ ABdhPJxy3l5PWE5XbcHnTG+xsIRvNcnVgxjA5AAPaRRR/qGVXe/wiTGZFVoCBwlNGtYSXVcUk1mwsiNd9IocFyjwmjE=
+X-Received: by 2002:a05:6122:20aa:b0:32d:4894:f680 with SMTP id
+ i42-20020a05612220aa00b0032d4894f680mr7842342vkd.1.1646036480603; Mon, 28 Feb
+ 2022 00:21:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220222035234.463162-1-andrew@aj.id.au>
+ <20220222035234.463162-7-andrew@aj.id.au>
+ <CANNYZj8uEbibb6POcuhc+fEvViJCXb8_yAC28wMyGSgiAJA35Q@mail.gmail.com>
+ <e77a8568-cc54-4706-84a6-718657532662@www.fastmail.com>
+ <eed550ec-96ac-4dd4-96e2-ce139db13a5b@www.fastmail.com>
+In-Reply-To: <eed550ec-96ac-4dd4-96e2-ce139db13a5b@www.fastmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 Feb 2022 09:21:09 +0100
+Message-ID: 
+ <CANNYZj_21ZYm1vz33FbbmVZ5md-GaQEVpvbrtCNkbh5Ck-0snQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 6/8] rust: Mitigate duplicate sections on
+ matching architectures
+To: Andrew Jeffery <andrew@aj.id.au>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 03:40:36 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 08:21:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162450
+ https://lists.openembedded.org/g/openembedded-core/message/162451
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Mon, 28 Feb 2022 at 01:13, Andrew Jeffery <andrew@aj.id.au> wrote:
+> Okay, so the root cause of this was I was setting RUST_{HOST,TARGET}_SYS
+> to "powerpc64le-unknown-linux-gnu", which matched RUST_BUILD_SYS. I did
+> that because rustc seems to be quite unhappy when supplied with
+> `--target ppc64le-linux` or `--target powerpc64le-linux'. I'm trying to
+> understand why, but I'm struggling because rustc seems just fine with
+> `--target x86_64-linux` despite none of `ppc64le-linux`,
+> `powerpc64le-linux` nor `x86_64-linux` appearing in the `rustc --print
+> target-list` output that I could gather.
+>
+> How/why does `--target x86_64-linux` work?
 
-Includes a fix for CVE-2021-40528.
+I think in the context of oe-core, all targets are custom ones,
+specified by writing out json files and directing rust to use them. So
+you need to do two things:
+1. --print target-list is useless and irrelevant, as it only prints
+built-in targets, don't try it.
+2. When there's a problem inspect what json files are in the sysroot,
+what they contain, and whether rust is able to find them.
+x86_64-linux.json is made specifically for building native items.
 
-(From OE-Core rev: 24664297abd3844902fa40c21e4e975d89f40383)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} (96%)
-
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-similarity index 96%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-index fd3d8e09f2..c212d02651 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.9.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-@@ -27,7 +27,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-            file://0001-Makefile.am-add-a-missing-space.patch \
-            "
--SRC_URI[sha256sum] = "97ebe4f94e2f7e35b752194ce15a0f3c66324e0ff6af26659bbfb5ff2ec328fd"
-+SRC_URI[sha256sum] = "ea849c83a72454e3ed4267697e8ca03390aee972ab421e7df69dfe42b65caaf7"
- 
- # Below whitelisted CVEs are disputed and not affecting crypto libraries for any distro.
- CVE_CHECK_WHITELIST += "CVE-2018-12433 CVE-2018-12438"
--- 
-2.25.1
-
+Alex
 
