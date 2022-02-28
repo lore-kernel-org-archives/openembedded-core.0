@@ -2,241 +2,106 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD03C433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 16:10:42 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.21673.1646064641219969076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5547C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 16:37:35 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.22108.1646066254156253721
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 08:10:41 -0800
+ Mon, 28 Feb 2022 08:37:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CRVvkbqu;
- spf=pass (domain: gmail.com, ip: 209.85.208.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=i2YJvBIf;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id p20so18148276ljo.0
+Received: by mail-wr1-f42.google.com with SMTP id d28so16406692wra.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 08:10:40 -0800 (PST)
+ Mon, 28 Feb 2022 08:37:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m8ocrTr/3gX9Yw15+kiX8oo52q6Wz0LbZAsG+N9ZV0U=;
-        b=CRVvkbqut1+LNsUEYxt0RJNDxql1jeNoapHEhCk+odgz53hVT+pIJmlhFkQVmBwxlU
-         jpzTXj8MjzaImjG6AkjYxYg6PDP0PG0yS1foT3rOQD1lMwMyelOH+stdIKOjvKH6dd1k
-         RpuASrwO1viZ/DX1lQDlnhP9U56Y1MJC1BPwnr06gwXlVJmvUFMjPAkT64QT+dd/I29x
-         g88dkJcWwE8alXeX+FKSPNlR6oNjApivY0nXycsmRGIEQoZltp2+tM+jkQi5GBh7PPTX
-         EkzA7KK2cg01L4ZC5GVr2Z+r501nd9hKxesptx0/BCRBgF/c3OPW92T8yxZnTjrrnKRz
-         H4mg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vKwWqcbt3siF9n6kOES/XjsAihhAtmsLUGCvR9MFvBM=;
+        b=i2YJvBIfp3Z99Le4MgXLKLFWJsspWsNAZ/seG++ktHVX/jfn5E7XZZs9WzaXVMTsGJ
+         To6fs50FPoilTBQPz3GR+GYmvK6tovwOSr4E+lUs7HCAXNBdczro9b7PAiUMXftpZ6KA
+         qmDK0poddIiWj6g9k+fLX+/CUcoLTzdE9bJxxDKelw8pjiPHT4Oc7AMAQzkRva+A+ZxG
+         GgTeoz23z++HdEIVvSlG/0FcopEnK4YtErxIb5lanleaQxz8N4GLfQZwULW+Lc3zMyvM
+         IMM95e0hgxoWMnNpR+dJnHdK706TG2Z/L5k4pMuyMbkxbf1AJF46Yk+8/AYFtkt4p35e
+         28Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m8ocrTr/3gX9Yw15+kiX8oo52q6Wz0LbZAsG+N9ZV0U=;
-        b=7lANojc3V3Rw3hmWx3Mz9/HVs6NO5M+eAwqI883jHxLIlzU7756GS7ybvL8oEWcbes
-         OVuaa2kEG6+vWfJkp/6rJBJ91rKTxK9c/hTlnSSzojmRdOuVtEb9aI/rtfLFNI2R70Xs
-         8dcX8ylYY7cuPIomYNx0y0ihaF+ACYVMHDzvrNwR/Ah6BO7oNXjv4MskEV3DSACKIWYA
-         Y7TMSY4Fnh8GdBguSXX0PfOaMw5gIVCt6UZaobci0lMJi1dxmC1yTVySioWkGsPegN5E
-         YBgfpvRbnkE2jOp4BkW1LP0wVrtFhEitkz0URIvG39nTW+9u07kh+y/1+beD0Ah/+RG8
-         k3tQ==
-X-Gm-Message-State: AOAM530hGywkiTdjpPaFejvqPi0Ac6J4u7SKnzor/Fj1e08U4c5ENJG3
-	iPJDJABh5WwydeKPH+Es5cCO5LRsogn4P5qOCxw=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vKwWqcbt3siF9n6kOES/XjsAihhAtmsLUGCvR9MFvBM=;
+        b=6MQpTydqSfJPhG2fnNWXtHdoZKyY03H5AgW3F+YydHABDU0VsgHyULxVdEXyvWsi4I
+         ibYX6pMKzQNeJZA4lAKiRx6/SUl60G8HuyanBovGaZK47klYf2EywrZQW1sI50WBhqyx
+         dMsFFm0Q8gZHOeLsvnrJ1mcE5Jm5eM5wxHxqegCFamvZIitTMkCX1Yss5mwXE+FoCnkY
+         Qn1xW/BW+cWdi+kCVb+a5CfAVBHOuPhc7LSrJFeVQvMqVE7re6iWFYlsC72p0hcVUvmS
+         BQtQNPZNZtPJejET01GCnNNuRY2d9WEq38lzh/314/r+uqTiVjI6feTlnzDkXT7PCkeP
+         3PIQ==
+X-Gm-Message-State: AOAM532KOaaU6PXLNwHST5mhminM4La3zLK8fJtE4Yh0BEzmm/P9mrfB
+	yOI55d9rb4gNnExaekQF8gN6NVkHU8g=
 X-Google-Smtp-Source: 
- ABdhPJwHj+Qxj14wCLoZoex1gA6ob4Q63hyVr3jajZL8bYYZ6BBK2IcOb8zF0wVk5zbNeQ3FqhqY08wMp/w680DO9a8=
-X-Received: by 2002:a2e:8e98:0:b0:246:3f53:6b0d with SMTP id
- z24-20020a2e8e98000000b002463f536b0dmr15030177ljk.255.1646064639254; Mon, 28
- Feb 2022 08:10:39 -0800 (PST)
-MIME-Version: 1.0
-References: <16D467EAE661BF11.21797@lists.openembedded.org>
-In-Reply-To: <16D467EAE661BF11.21797@lists.openembedded.org>
+ ABdhPJz0VBWciNQf2BBG/Be+WtY0SODu47qkvPIvUa3iBSuLXrdHN8rbNSafMiJWOzVHkBjp/WRMEg==
+X-Received: by 2002:a5d:6f08:0:b0:1ef:d822:e3 with SMTP id
+ ay8-20020a5d6f08000000b001efd82200e3mr3136181wrb.561.1646066252396;
+        Mon, 28 Feb 2022 08:37:32 -0800 (PST)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ v2-20020adf8b42000000b001edc38024c9sm12350284wra.65.2022.02.28.08.37.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 08:37:31 -0800 (PST)
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 28 Feb 2022 16:10:28 +0000
-Message-ID: 
- <CANPvuRn8mgL6FMWj0143ZTPXY5VyzHfA81kJruqFEq0xdpBgnQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] icecc.bbclass: enable networking in all tasks
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000019a4c205d9164aa9"
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com,
+	Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] Revert "cmake.bbclass: Set CXXFLAGS and CFLAGS"
+Date: Mon, 28 Feb 2022 16:37:10 +0000
+Message-Id: <20220228163710.44361-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 16:10:42 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 16:37:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162509
+ https://lists.openembedded.org/g/openembedded-core/message/162510
 
---00000000000019a4c205d9164aa9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This reverts commit 47594d59ec4ab82fcf87d3c590caf7c46a6bfdff.
 
-This patch can't be the right fix but currently the icecc.bbclass doesn't
-work on master.
+This patch was introduced 5 years ago as a temporary workaround
+to fix an upstream bug.
 
-Jose
+Currently with that patch the following flags are duplicated:
+ OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
+ OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
 
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu no dia quarta, 16/02/2022 =C3=A0=
-(s)
-23:27:
+The duplicated flags is used in the toolchain.cmake:
+ set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+ set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
+ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
 
-> The icecc.bbclass needs network access to work properly.
->
-> Currently I build with icecc inside a container with network isolation an=
-d
-> my icecc daemon runs outside of the build container in my host.
-> The only thing I need to do for using the icecc inside my build container
-> is
-> mounting the unix socket /var/run/icecc/iceccd.socket inside the containe=
-r.
->
-> I think we need something like this mount functionality to have access to
-> some sockets connections inside the tasks that runs on the new namespace
-> created with unshare system call.
->
-> This patch is not a the real solution for the problem and is more like
-> an hack so we can use the icecc.bbclass again.
->
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  meta/classes/icecc.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-> index 3bbd2645af..68415b04c7 100644
-> --- a/meta/classes/icecc.bbclass
-> +++ b/meta/classes/icecc.bbclass
-> @@ -428,18 +428,22 @@ set_icecc_env() {
->      bbnote "Using icecc tarball: $ICECC_VERSION"
->  }
->
-> +do_configure[network] =3D "1"
->  do_configure:prepend() {
->      set_icecc_env
->  }
->
-> +do_compile[network] =3D "1"
->  do_compile:prepend() {
->      set_icecc_env
->  }
->
-> +do_compile_kernelmodules[network] =3D "1"
->  do_compile_kernelmodules:prepend() {
->      set_icecc_env
->  }
->
-> +do_install[network] =3D "1"
->  do_install:prepend() {
->      set_icecc_env
->  }
-> --
-> 2.35.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#161785):
-> https://lists.openembedded.org/g/openembedded-core/message/161785
-> Mute This Topic: https://lists.openembedded.org/mt/89198407/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+CC: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/cmake.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
---=20
-Best regards,
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index fac7bbca7a..d9bcddbdbb 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -31,8 +31,6 @@ OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
+ OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
+ OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
+-CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+-CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+ 
+ def oecmake_map_compiler(compiler, d):
+     args = d.getVar(compiler).split()
+-- 
+2.35.1
 
-Jos=C3=A9 Quaresma
-
---00000000000019a4c205d9164aa9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>This patch can&#39;t be the right=C2=A0fix but curren=
-tly the icecc.bbclass doesn&#39;t work on master.<br></div><div><br></div><=
-div>Jose</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">Jose Quaresma via <a href=3D"http://lists.openembedded.org">lists.o=
-penembedded.org</a> &lt;quaresma.jose=3D<a href=3D"mailto:gmail.com@lists.o=
-penembedded.org">gmail.com@lists.openembedded.org</a>&gt; escreveu no dia q=
-uarta, 16/02/2022 =C3=A0(s) 23:27:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">The icecc.bbclass needs network access to work properly.=
-<br>
-<br>
-Currently I build with icecc inside a container with network isolation and<=
-br>
-my icecc daemon runs outside of the build container in my host.<br>
-The only thing I need to do for using the icecc inside my build container i=
-s<br>
-mounting the unix socket /var/run/icecc/iceccd.socket inside the container.=
-<br>
-<br>
-I think we need something like this mount functionality to have access to<b=
-r>
-some sockets connections inside the tasks that runs on the new namespace<br=
->
-created with unshare system call.<br>
-<br>
-This patch is not a the real solution for the problem and is more like<br>
-an hack so we can use the icecc.bbclass again.<br>
-<br>
-Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com"=
- target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/icecc.bbclass | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass<br>
-index 3bbd2645af..68415b04c7 100644<br>
---- a/meta/classes/icecc.bbclass<br>
-+++ b/meta/classes/icecc.bbclass<br>
-@@ -428,18 +428,22 @@ set_icecc_env() {<br>
-=C2=A0 =C2=A0 =C2=A0bbnote &quot;Using icecc tarball: $ICECC_VERSION&quot;<=
-br>
-=C2=A0}<br>
-<br>
-+do_configure[network] =3D &quot;1&quot;<br>
-=C2=A0do_configure:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0set_icecc_env<br>
-=C2=A0}<br>
-<br>
-+do_compile[network] =3D &quot;1&quot;<br>
-=C2=A0do_compile:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0set_icecc_env<br>
-=C2=A0}<br>
-<br>
-+do_compile_kernelmodules[network] =3D &quot;1&quot;<br>
-=C2=A0do_compile_kernelmodules:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0set_icecc_env<br>
-=C2=A0}<br>
-<br>
-+do_install[network] =3D &quot;1&quot;<br>
-=C2=A0do_install:prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0set_icecc_env<br>
-=C2=A0}<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#161785): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/161785" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/161785</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89198407/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/89198407/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---00000000000019a4c205d9164aa9--
 
