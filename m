@@ -1,102 +1,114 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 674B2C433F5
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 15:46:10 +0000 (UTC)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
- [209.85.221.176])
- by mx.groups.io with SMTP id smtpd.web12.21111.1646063169755982228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B343C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 16:06:11 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.21380.1646064370327356615
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 07:46:09 -0800
+ Mon, 28 Feb 2022 08:06:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QMj5E1XJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.176,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f176.google.com with SMTP id b64so2024563vkf.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=J2ZoJzvz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id
+ bg16-20020a05600c3c9000b00380f6f473b0so6035012wmb.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 07:46:09 -0800 (PST)
+ Mon, 28 Feb 2022 08:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g21+9saW8dz4DaPSZP7WJHG2MFMGnT1sw/8HiD6I5AU=;
-        b=QMj5E1XJ+e0oXSkE3wgJstMcCgu9dBcfnzHODygzYaO/Y/bMX+VNiW6vSW6Bi4ZmHT
-         FnZWxTTerZqbaMBX4he/OEJXQFmS1Ol6hTA24dw4I66JJ6BHUOqQoN+2uCYxE54k97Ah
-         zbF4lEYB7P65KxIPfuhh0h0J4wVq2/V8yQTGnwxkJS0R96DeCBiO/nLUb0MtNMIKGJUs
-         Ea+1lyhve7mj6r7LDHLN2KQbvtHNtqLj+8yB7HqYNz/prokQxtt8NKFb8N/nKA19HpGb
-         oWy4UE4g63YBXPKPNTZZgc2qUPiB6BsD5fXVUxermvxCuiHCvNA9ozQz8bXxtRbDba9J
-         qGHg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r07HoHKA0wrPT0T7oUMJwIqDo3L3vrS93xVozrmfJmY=;
+        b=J2ZoJzvz6dYeR7eCAyS0SKv5R0UxlcyLapXKiAICTsyiA5B2EWb6QWMLHyYLgVHZB0
+         OXmtHcVs0VTPW+dttTuKehYNkrMWvhORnqbH1Ga3oazV8NKcD21lxxyKR7xCEAU6oihw
+         AMwEq8wRJCQTnrZXFH1lQuiLOlmZmg+dO3hxeff/xxY+4BDsWwi97Rc+sLqO8itJi0Fs
+         RMdgVQbOXTFK7QpDIyD2ZZQsiwZyenxlmH8GsT2py9PN0RYNGe2HubZxSIIl8SszxJns
+         H3ngoE5v5J3dyUVGvalfZDyhqlNTXwHa66mcHrv8lwn8dnmr1gakld/PSVP8aLpRVem/
+         9l9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g21+9saW8dz4DaPSZP7WJHG2MFMGnT1sw/8HiD6I5AU=;
-        b=LvGqnr89okOzVDutoHxGh++sm20P7PyqJ+3jXBIqYvktdYWiP7Hjei+sm+i3QARBIB
-         C5iCMWk6Z6TbJFSvoV4omzENDaRNJh6bozKFdfulbrZu68U5pnaTuSXMdua6eLx/HTk6
-         8SgTq2OERfMVmNa7PA2a/vr9vAERO+Y9QO945PxxybUzcc3j+OxqE0f9pwQQJ0WBSvH9
-         qGdPwdsdp66FVj7el8FbvStJvWDkUcgx0xWOOgp4QICzcLW2xHSM11NISGq7zEQTLBaN
-         yvwnBNk3CtF6z/XoUr5DjRjMrx2RsBQi0v/AR4ha/DSFNOHsRz4GkA17HsKZ8+balQFA
-         ZufQ==
-X-Gm-Message-State: AOAM532O0E2RYtLjm/AzG2EiwtJYA2mu64GNCWT0JZLJkZdwP8zEy1PK
-	cTYXTocWpptAlatG0Z2WkX/FNMB5lTajMlIl8oM=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=r07HoHKA0wrPT0T7oUMJwIqDo3L3vrS93xVozrmfJmY=;
+        b=u9iAddASt8fVXbb5qYIT9pneGC7PhPs3Op3oWU4uPNWwfG0UhbuvLRFtXSPyRNVJnS
+         itrMAeu4OwlNA2x4NwnHlzsBc/zA4KqpVx+q93KQRzr8yYbcwvFgxS5nSL1y7RRELq/l
+         xPudF8VD+czlFaUw/oxf3p1q6oNH5zutT5ACWFgrbSLcTrjnj6DtTCPlGqP/GZzb7sNK
+         B/SIeSv3j9uaEsDhRPSF/osRcEFf3nn20pebnnWSqMMsSYjX86VBks9ZlKv0Ew1uuZSu
+         rTg3+Xgu0cG958FDj5nGUV3aYy8EzvtMMFUnMTI4ioVN4LrnHJkiLUGYiGgGOE26l46k
+         NA9w==
+X-Gm-Message-State: AOAM531rztbkq5D3LvQRovVSgKP/XAh/uP1DcNVoNaem1WvSuLsRPADF
+	T7W95wfoIEnaAmFpZhpuim7VMpwWriE=
 X-Google-Smtp-Source: 
- ABdhPJyY/N8xLubHC836CHYA3oGMEq6XXfQRP+nfRXAnS8PqSKF76axt/kIKgrvtIc/z8X2txbaucccE/afbdSy4bFA=
-X-Received: by 2002:a05:6122:180a:b0:332:61fb:6eac with SMTP id
- ay10-20020a056122180a00b0033261fb6eacmr8034812vkb.21.1646063168830; Mon, 28
- Feb 2022 07:46:08 -0800 (PST)
+ ABdhPJwn3gHMPIc0Mbhy0eYeyM8CDi6Kg0shleU2bSF8ZJRSl6ijPfJNyQC70DZ8nvh1ATLTh39ELw==
+X-Received: by 2002:a05:600c:4107:b0:381:1c3:5d3 with SMTP id
+ j7-20020a05600c410700b0038101c305d3mr13668544wmi.107.1646064368438;
+        Mon, 28 Feb 2022 08:06:08 -0800 (PST)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ o22-20020a05600c4fd600b0038133076dcesm12654932wmq.16.2022.02.28.08.06.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 08:06:07 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] buildhistory.bbclass: create the buildhistory directory when
+ needed
+Date: Mon, 28 Feb 2022 16:06:00 +0000
+Message-Id: <20220228160600.42164-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220228143948.50809-1-andrew@aj.id.au>
- <20220228143948.50809-4-andrew@aj.id.au>
-In-Reply-To: <20220228143948.50809-4-andrew@aj.id.au>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 28 Feb 2022 16:45:57 +0100
-Message-ID: 
- <CANNYZj8=MqZPDBROgfAYz93kvtpVFxV5-o6Dcb=ZnibtoRFXDw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] rust: Add snapshot checksums for powerpc64le
-To: Andrew Jeffery <andrew@aj.id.au>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 15:46:10 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 16:06:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162507
+ https://lists.openembedded.org/g/openembedded-core/message/162508
 
-The final call is Richard's but I would still prefer to have this in
-core if there is at least one other consumer of it, other than
-openbmc.
+When the BUILDHISTORY_RESET is enabled we need to move the
+content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but
+when we start a clean build in the first run we don't have the
+BUILDHISTORY_DIR so the move of files will fail.
 
-The downside of .bbappend is that there'll be inevitably a breakage
-window where the .bbappend needs to be updated.
+| ERROR: Command execution failed: Traceback (most recent call last):
+|  File "/xxx/poky/bitbake/lib/bb/command.py", line 110, in runAsyncCommand
+|    commandmethod(self.cmds_async, self, options)
+|  File "/xxx/poky/bitbake/lib/bb/command.py", line 564, in buildTargets
+|    command.cooker.buildTargets(pkgs_to_build, task)
+|  File "/xxx/poky/bitbake/lib/bb/cooker.py", line 1481, in buildTargets
+|    bb.event.fire(bb.event.BuildStarted(buildname, ntargets), self.databuilder.mcdata[mc])
+|  File "/xxx/home/builder/src/base/poky/bitbake/lib/bb/event.py", line 214, in fire
+|    fire_class_handlers(event, d)
+|  File "/xxx/poky/bitbake/lib/bb/event.py", line 121, in fire_class_handlers
+|    execute_handler(name, handler, event, d)
+|  File "/xxx/poky/bitbake/lib/bb/event.py", line 93, in execute_handler
+|    ret = handler(event)
+|  File "/xxx/poky/meta/classes/buildhistory.bbclass", line 919, in buildhistory_eventhandler
+|    entries = [ x for x in os.listdir(rootdir) if not x.startswith('.') ]
+| FileNotFoundError: [Errno 2] No such file or directory: '/xxx/buildhistory'
 
-Alex
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ meta/classes/buildhistory.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Mon, 28 Feb 2022 at 15:40, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  meta/recipes-devtools/rust/rust-snapshot.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-devtools/rust/rust-snapshot.inc
-> index 173648c889fb..d0c05aec7866 100644
-> --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> @@ -14,6 +14,10 @@ SRC_URI[rust-std-snapshot-aarch64.sha256sum] = "3618da916a0f92f241cf1d67d04bb578
->  SRC_URI[rustc-snapshot-aarch64.sha256sum] = "f26811e48d03c56c125de03d389e1ae7c6df36990953c1670c6a5676bc12d4cb"
->  SRC_URI[cargo-snapshot-aarch64.sha256sum] = "6d11cd94618d80cda273eeeae7285980445f61a49ebacc616777b482a41cbf3f"
->
-> +SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] = "fc07eb3e9f3d227428cc5b53ca868e3de375bc198ce4dce7b87a9246e6fec81a"
-> +SRC_URI[rustc-snapshot-powerpc64le.sha256sum] = "f43cb99109c3438c77c7079cdce4673df3320e310158e0b4d949c1babc4300fc"
-> +SRC_URI[cargo-snapshot-powerpc64le.sha256sum] = "599cf1b5a8cdbf76d591621bc9222aefa60e2f5fd378ae71c4dcf4514c47122e"
-> +
->  SRC_URI += " \
->      https://static.rust-lang.org/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=rust-std-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
->      https://static.rust-lang.org/dist/${RUSTC_SNAPSHOT}.tar.xz;name=rustc-snapshot-${RUST_BUILD_ARCH};subdir=rust-snapshot-components \
-> --
-> 2.32.0
->
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 49797a6701..d416512f6d 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -896,6 +896,8 @@ python buildhistory_eventhandler() {
+                 if os.path.isdir(olddir):
+                     shutil.rmtree(olddir)
+                 rootdir = e.data.getVar("BUILDHISTORY_DIR")
++                if not os.path.exists(rootdir):
++                    bb.utils.mkdirhier(rootdir)
+                 entries = [ x for x in os.listdir(rootdir) if not x.startswith('.') ]
+                 bb.utils.mkdirhier(olddir)
+                 for entry in entries:
+-- 
+2.35.1
+
 
