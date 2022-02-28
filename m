@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA4FC433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 14:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1346C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Feb 2022 14:01:42 +0000 (UTC)
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  by mx.groups.io with SMTP id smtpd.web12.19879.1646056878394925946
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 06:01:38 -0800
+ Mon, 28 Feb 2022 06:01:41 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=T8fvkMmt;
+ header.b=RsZ2/me3;
  spf=pass (domain: intel.com, ip: 192.55.52.136,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646056898; x=1677592898;
+  t=1646056901; x=1677592901;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=xBV5DbhgU37hAxNxRwOz6A4BL3Yo9CfWGuKhtfZtYTc=;
-  b=T8fvkMmtp3ewvNJh79SZ2iLVaTaZ7EhO8FklGSfZan2gqQ/hY4ngeZ86
-   3dVPY0Mws20chJibUVsy+PPeVpsePzQJVFjHgMKMTexybZKTYwTutNuri
-   fFub0ewn6wsiapEzSw4tW8LJ2k+BjJnI8wK/kSnneVWoaVenDWr9r82Bx
-   pXVv/AyhAU/I0okFm6FqdkJinDHQYq4dTsSE9XUmtraBIFqy+/5XjgT36
-   96O1SKhj9NJIoMtFPLaFu1mS3mUpY4kJk/ZxTEjfvP+2Tw/HPcJgBTNH0
-   wCd4QS54g3Szwih8p/WyeG84+9qFRI/y+0vOwjsK4YTHjfmD/C09MYUEu
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="232857416"
+  bh=z7Jr2zFq6D2MSEM5RuTxKR9eTd80OQCdVjdaFDC/yJs=;
+  b=RsZ2/me35FcUlzhyeUpfJlG/aHaKtd3Ae98pGac+hbokS+jYti6Qdz0S
+   tnYYpDeRYVEVJkouOR3mNE6nRzPGul5ik/QsLsWAxk7WUdoHavmADlrz8
+   dJBfaywOuA5mIgROub0zrhYR9QqGl7Nt8eiRA+waY5aiqoVLj/tsu32wj
+   ojEoOZD10oHeAXJywUQOUBlXQ4F1Arc9/sBPYQZFIsStSBKwoCijyzzoa
+   jbO1PkCCm4xa5plfKYptUxUkQfncRPmVep0Hb/cnlgNx+5OMulFTWPqBu
+   JBf4HBl5l3FVbW5Bnrzl1NQkBgnYqWNARQRaLa/CaHTIquZLP5IhyI8lQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10271"; a="232857444"
 X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
-   d="scan'208";a="232857416"
+   d="scan'208";a="232857444"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 06:01:28 -0800
+ 28 Feb 2022 06:01:30 -0800
 X-IronPort-AV: E=Sophos;i="5.90,142,1643702400";
-   d="scan'208";a="778092782"
+   d="scan'208";a="778092799"
 Received: from jtang17-mobl1.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.141.22])
   by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 06:01:27 -0800
+ 28 Feb 2022 06:01:28 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 33/39] vim: Upgrade 8.2.4314 -> 8.2.4424
-Date: Mon, 28 Feb 2022 22:00:23 +0800
+Subject: [hardknott][PATCH 34/39] uninative: Upgrade to 3.5
+Date: Mon, 28 Feb 2022 22:00:24 +0800
 Message-Id: 
- <6a262ad3afb672f1976633118ecc390bf4de1ae1.1646056612.git.anuj.mittal@intel.com>
+ <5bde365accec6837dc5751e1ac01b767898a2c5d.1646056612.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1646056612.git.anuj.mittal@intel.com>
 References: <cover.1646056612.git.anuj.mittal@intel.com>
@@ -52,47 +52,44 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 14:01:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Feb 2022 14:01:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162489
+ https://lists.openembedded.org/g/openembedded-core/message/162490
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-License file had some grammar fixes.
+Add support for glibc 2.35.
 
-Includes CVE-2022-0554.
-
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a8d0a4026359c2c8a445dba9456f8a05470293c1)
+(cherry picked from commit 347b8c87fb4e2c398644f900728cf6e22ba4516d)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+(cherry picked from commit eeae63c343c8ebd418679915ee20aa8c02fa0fdc)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/vim/vim.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 26310ed591..6caa89c733 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,7 +11,7 @@ RSUGGESTS_${PN} = "diffutils"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 6833072cd3..bfe05ce1eb 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
  
- LICENSE = "vim"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
--                    file://runtime/doc/uganda.txt;md5=600a38dc53e8931fdfb1238276ee09b0"
-+                    file://runtime/doc/uganda.txt;md5=a3f193c20c6faff93c69185d5d070535"
+-UNINATIVE_MAXGLIBCVERSION = "2.34"
+-UNINATIVE_VERSION = "3.4"
++UNINATIVE_MAXGLIBCVERSION = "2.35"
++UNINATIVE_VERSION = "3.5"
  
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
- "
- 
--PV .= ".4314"
--SRCREV = "8cbf2499179db39a46e700ab04d0b36e22bcc1bb"
-+PV .= ".4424"
-+SRCREV = "cdf717283ca70b18f20b8a2cefe7957083280c6f"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
+-UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
+-UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
++UNINATIVE_CHECKSUM[aarch64] ?= "6de0771bd21e0fcb5e80388e5b561a8023b24083bcbf46e056a089982aff75d7"
++UNINATIVE_CHECKSUM[i686] ?= "8c8745becbfa1c341bae839c7eab56ddf17ce36c303bcd73d3b2f2f788b631c2"
++UNINATIVE_CHECKSUM[x86_64] ?= "e8047a5748e6f266165da141eb6d08b23674f30e477b0e5505b6403d50fbc4b2"
 -- 
 2.35.1
 
