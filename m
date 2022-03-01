@@ -1,87 +1,92 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A85C433FE
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 07:24:24 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.5734.1646119462668668031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A94BC433EF
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 07:51:00 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.5889.1646121059129210181
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 23:24:22 -0800
+ Mon, 28 Feb 2022 23:50:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: liezhi.yang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 2217OLno007003
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 23:24:21 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 28 Feb 2022 23:24:21 -0800
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Mon, 28 Feb 2022 23:24:21 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] coreutils: fix statx failure on native builds
-Date: Mon, 28 Feb 2022 23:24:20 -0800
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=apNmhL/A;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id n14so19000461wrq.7
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 28 Feb 2022 23:50:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Bw3iPf+7t/+Xaqq6gGea9Km87Vml4T+JI8jfuNq3QF8=;
+        b=apNmhL/A96UHPIOXfGmc0AUSrME3xXPJR3XQdj6zzGzqcJXotw1QYXiHALS/RYm20s
+         1hTiTc6E8/rBQobWsVSj367MCPKRsJzyVRQk5MP3avNu4hOidj0Ksk6AwWDjFfl/TyNT
+         erETIom4yj+ISmu8MOANOexFnzl2//dSBfOAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Bw3iPf+7t/+Xaqq6gGea9Km87Vml4T+JI8jfuNq3QF8=;
+        b=MhEWxdR+MpZJZh3+ARf7bqrGvr1X+FTEVSiZTaCcl2vZnwUYTTarKDA+Q+gPcQHjE3
+         CPWhf6/7HIkZy7uXw0i4RIGqQ3mmxM+8EXfiKeA96w15X8gW570F4mLYgad9pEDFDQXu
+         vuPl47kxSvA/hfDok7eD9cfwyEV5Wdi8hIpVLLPhM+Zv36BTDBv56AvBkF2OdVoo+ggd
+         cMv9FyMvibE24+vOjc3JXdiG7AYvhAwg5ixLccCimjYsiDJnmypL6LTq6ent425MwY2Z
+         cH5uY8nUAifJzi2jftu9PbSGAwgg1pLjFVwDVUnJyTVvvYPIGF7F373ryqljRw9OVSFp
+         7ZiA==
+X-Gm-Message-State: AOAM533BR8X3dw8zq/SDkHhwDSyGr25UMZAmqNmShIjsu9Re6tryRwVf
+	bO/J2n6gy9yvcdrpSnFNTg6EsQ==
+X-Google-Smtp-Source: 
+ ABdhPJznhKGNQZ6CykbPipvdYRLDvdn0LZuiUvIxmjz39TYTdekk8JPfzHTdFFy48uTJoNuSSGijcA==
+X-Received: by 2002:a5d:4a51:0:b0:1ef:6254:8683 with SMTP id
+ v17-20020a5d4a51000000b001ef62548683mr14272080wrs.398.1646121057280;
+        Mon, 28 Feb 2022 23:50:57 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f88:ec89:14b:c380?
+ ([2001:8b0:aba:5f3c:5f88:ec89:14b:c380])
+        by smtp.gmail.com with ESMTPSA id
+ v5-20020adfe4c5000000b001edc1e5053esm12517726wrm.82.2022.02.28.23.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 23:50:56 -0800 (PST)
 Message-ID: 
- <373dcd3613b74ba10dba54f5116576bc172c222f.1646119426.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1646119426.git.liezhi.yang@windriver.com>
-References: <cover.1646119426.git.liezhi.yang@windriver.com>
+ <963c756b456fa34b7377802f3fd3074f06c69476.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] Revert "cmake.bbclass: Set CXXFLAGS and
+ CFLAGS"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 01 Mar 2022 07:50:54 +0000
+In-Reply-To: 
+ <CAMKF1sr60VPL7C-kmroxNs5+d_aEsOn+ZZGZfBB7mwT-NHe3xg@mail.gmail.com>
+References: <20220228163710.44361-1-quaresma.jose@gmail.com>
+	 <CAMKF1sr60VPL7C-kmroxNs5+d_aEsOn+ZZGZfBB7mwT-NHe3xg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 07:24:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 07:51:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162525
+ https://lists.openembedded.org/g/openembedded-core/message/162527
 
-From: Davi Poyastro <davi.poyastro@nokia.com>
+On Mon, 2022-02-28 at 20:17 -0800, Khem Raj wrote:
+> this is fixing more than the workaround, e.g. see the patch I sent to
+> fix libical, where these flags are not passed to git compiler when
+> using cmake
+> I am not sure how many such fallouts there will be through out.
 
-Coreutils configure only checks glibc compatibility for statx
-syscall but fail to check kernel support.
+The error Khem mentions is here:
 
-Fixed on RedHat Enterprise Linux Server 7.6 (Maipo)
-Host kernel: 3.10.0-1127.8.2.el7.x86_64
-Docker distro: Ubuntu 20.04.1 LTS
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/4839/steps/11/logs/stdio
 
-$ bitbake coreutils-native
-find the binary ls and run it as "ls -l ."
-The result is something like: "?????????. ? ? ? ? ? foo"
+with multiple other failures in that build in libical. I'm worried about other
+failures resulting from this change.
 
-Signed-off-by: Davi Poyastro <davi.poyastro@nokia.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/coreutils/coreutils_9.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-core/coreutils/coreutils_9.0.bb
-index e4633949f42..40fad72bbf4 100644
---- a/meta/recipes-core/coreutils/coreutils_9.0.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
-@@ -152,6 +152,11 @@ ALTERNATIVE_LINK_NAME[kill.1] = "${mandir}/man1/kill.1"
- ALTERNATIVE_LINK_NAME[stat.1] = "${mandir}/man1/stat.1"
- 
- python __anonymous() {
-+    from distutils.version import LooseVersion
-+    # statx syscall require glibc >= 2.28 and linux kernel >= 4.11
-+    if LooseVersion(os.uname().release) < LooseVersion('4.11'):
-+        d.appendVar("EXTRA_OECONF_class-native", " ac_cv_func_statx=0")
-+
-     for prog in d.getVar('base_bindir_progs').split():
-         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_bindir'), prog))
- 
--- 
-2.31.1
+Richard
 
 
