@@ -1,150 +1,269 @@
-Return-Path: <ardeleanalex@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52584C433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 14:30:25 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.8689.1646145024825078341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA95C433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 15:22:34 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web12.9383.1646148153826918478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 06:30:24 -0800
+ Tue, 01 Mar 2022 07:22:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kq41rQLH;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: ardeleanalex@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id n15so11321360plf.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=F6HOw0Wk;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: ticotimo@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id p4so7367100edi.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 06:30:24 -0800 (PST)
+ Tue, 01 Mar 2022 07:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dr+6XOx0+xmx3xuPDDgAurJDT7cENhh0X8YQ8RU7fGQ=;
-        b=kq41rQLHyMzvZg1bUjyGwYEEePsU4COBO3e/KvsxCNP8WHEOQNxtR5eNFSr7w4aJSj
-         m4yShY/Ne55vjsXw6rM40uYRDqA+7ABOBJJFqFuTjZjSsT8Rqg5QFktmDzJCWkDmpVna
-         DKBuVhmJkrPdAEdaHJo9W/3sExeR0vhA1BKxnrC8uI7Et3XgX354QMpeA4rkslT/rnVm
-         yN6JgGE/XRWnGiIMJGeD7rb8ae1yV0qTr0AJ5VBNXTnk6nLungZgGxncbZKbXVjDPbfR
-         cUXX7Nrc6lNqZbBVa9mBd+yij3VrG9+6vCGswbtspkOEM7pvpWvVIDZS5MVAMFqw5MQn
-         H/3Q==
+        bh=5KIDNyyCfooeOvVGB+Tn07OoJJrwW/b8PpYb08XKGO8=;
+        b=F6HOw0WkCCfXGpGKIPxktAVcb2SbCn60GOT3KI6I4UoqLhoF/tXLv4u+MHx94U99Q1
+         GpfBIDMtJuqpbU/uySCF7+D0PWTuScuVLXlLfT2XPqZZMa1U+NEFYOHRaU4/3krOCC9s
+         yVwiGR6u/Hb3kC7J43WrOeUS0zuUYhBgCBvkICgE0yL+sMrfko4YURKhjFF7L0blt6L1
+         EIK0TfbBgud4ccDFMwxDpjCcALiL4swNVL5bUXFrYvntEHoTKaXMgxga/rMSstqsbtfC
+         loC4Wo5dpRZjRNxuECyXbUxoB53dRAY5wia3D4agDTjEA4Zrk0Or/n7pwFFPR7YAZ1N+
+         si1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dr+6XOx0+xmx3xuPDDgAurJDT7cENhh0X8YQ8RU7fGQ=;
-        b=sOflmwRBKfw1r5lmfQ3xPsq6KuM5gDb6BS5Sneh2WmArKc4a0eOMrSg7o4pFZQiUBQ
-         Gd6DFU36SD83nlIDN3e1Phv3+CgYtxfjMDrkdYqNN6vMod74n5aso+ucnx96oFAN0ezt
-         hAtecer0KUe6MFseOT6rx9TlU3Z8zN4Y6hGSOHvOq5J/OfMAUNSUjEBf0StNqIU0qa7+
-         og50O3uZbSnUSLjYHjYoVeskSOuEIwwd8UwIrEIGmmMkQc3ky1v/mi56TLs73bfdRNuV
-         PEiP7RRT3NerZs4BQFKnZZzCxt4/bIvZTdIDpwqd+2S1TnactG5xmQXxYHvsSkZXQmKu
-         GrCA==
-X-Gm-Message-State: AOAM530VVo62u75J5ZCgFVNJhZ/IXTCQIiJyGk/mmBddXM+x9uS5rZPu
-	N2L6L5V2MY0Fj34pSwyRFTRUWr1oChdCXLCk/Do=
+        bh=5KIDNyyCfooeOvVGB+Tn07OoJJrwW/b8PpYb08XKGO8=;
+        b=UJ5gaV0aOX/DhQUxWvJGF/Fg+EW8wx8RGo3YB0I6oU7bRWHOeTNgwTl/RcRmMUOoQo
+         8dK6ybYlCv4FUx4c4j8Pqk3zp99/gABQ0IIo31c7VeQ4jDEvuRKPIt9nKYGw/XrDxkDp
+         A2luWx562rPTjQK/T9aSLMuauAufU9nPkJ9Vw/cQg4KltZJJpE8ISp2A5PVgjypKRtQj
+         x+n3O2Ipkjn6KGjvISvjfDxGeYtlSTOqUe24ca19ktXJSvsE+YTjW8ziKFFxt6FSpR/k
+         2dIpTrvcfPHROIV+KZz5VfUK3b7vKkt6iTgILaCKLLEqSjYl4VrodhhYVFGAYoHPopEp
+         7glg==
+X-Gm-Message-State: AOAM531U1bcypis2ZKYCC1GysC0pAHU//I1Fm0ZVKkgoAAbC2SLXqEHD
+	tEQvmvTNELX72n2XJubxIcSAmL//RfDET0p79cE=
 X-Google-Smtp-Source: 
- ABdhPJxpzvbXmt8FPkfrM5FZogojuhEZphAUZNxCth9dsueI2ceIO5IaVLVVxrtCEZ+A/2O+JfYAPkXt6nmM3AbPZBQ=
-X-Received: by 2002:a17:902:da85:b0:151:8d9e:e31b with SMTP id
- j5-20020a170902da8500b001518d9ee31bmr941702plx.166.1646145024216; Tue, 01 Mar
- 2022 06:30:24 -0800 (PST)
+ ABdhPJwBet9ezY17Q9OdQtFA2RrArHHhNWicQLKDV+nwejXYZMoQoFP5WqYB9MfRKnWvJj5XnAUKv8Y9KIC4AzFwx4g=
+X-Received: by 2002:aa7:cf10:0:b0:410:a59d:7317 with SMTP id
+ a16-20020aa7cf10000000b00410a59d7317mr24824435edy.199.1646148151949; Tue, 01
+ Mar 2022 07:22:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20220224153034.5140-1-ardeleanalex@gmail.com>
- <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
- <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
+References: 
+ <AS8PR09MB464554B9B604C0EB0E3FBB1DA8029@AS8PR09MB4645.eurprd09.prod.outlook.com>
 In-Reply-To: 
- <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
-From: Alexandru Ardelean <ardeleanalex@gmail.com>
-Date: Tue, 1 Mar 2022 16:30:12 +0200
+ <AS8PR09MB464554B9B604C0EB0E3FBB1DA8029@AS8PR09MB4645.eurprd09.prod.outlook.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 1 Mar 2022 07:22:20 -0800
 Message-ID: 
- <CA+U=DsrXewjnaWp2DQM8u=V9AS49vGKcdt17b5kyZ8eth_8LOQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] libsndfile1: bump to version 1.0.31
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ <CANx9H-BhZVaYekYpoqT3P9Nbvd-bWiXixXkfhEmtg_FWXtr8nA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] pip_install_wheel: improve wheel handling
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d843b005d929bbee"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 14:30:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 15:22:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162558
+ https://lists.openembedded.org/g/openembedded-core/message/162559
 
-On Tue, Mar 1, 2022 at 4:23 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2022-02-28 at 12:32 +0200, Alexandru Ardelean wrote:
-> > On Thu, Feb 24, 2022 at 5:30 PM Alexandru Ardelean
-> > <ardeleanalex@gmail.com> wrote:
-> > >
-> > > It seems that the homepage has moved (for a while now) from
-> > >   http://www.mega-nerd.com/libsndfile/
-> > > to
-> > >   https://libsndfile.github.io/libsndfile/
-> > >
-> > > On Github, the development group seems to include Erik de Castro Lopo (the
-> > > original author of libsndfile1).
-> > > Link: https://github.com/orgs/libsndfile/people
-> > >
-> > > All backported CVE patches are in version 1.0.31 (I've checked).
-> > >
-> > > The supported format page [1], mentions that Ogg/Opus is supported since
-> > > 1.0.29, however that isn't currently added in this patch. And it may
-> > > require libopus.
-> > > And mp3 is supported at around version 1.1.0, but that version is in beta.
-> > >
-> > > This change focuses solely on updating to 1.0.31 and removing all
-> > > backported patches.
-> > >
-> > > [1] https://libsndfile.github.io/libsndfile/formats.html
-> >
-> > Bah...
-> >
-> > No luck with V2 either.
-> > This would require some patch to allow build without libopus support.
-> > Since there is no libopus available, it will not include support for
-> > libvorbis, libflac.
-> > i.e. libsndfile will build, but will say:
-> >
-> > configure: WARNING: *** One or more of the external libraries (ie
-> > libflac, libogg and
-> > configure: WARNING: *** libvorbis) is either missing (possibly only
-> > the development
-> > configure: WARNING: *** headers) or is of an unsupported version.
-> > configure: WARNING: ***
-> > configure: WARNING: *** Unfortunately, for ease of maintenance, the
-> > external libs
-> > configure: WARNING: *** are an all or nothing affair.
-> >
-> >
-> > Seems I forgot to check these extra configurations.
-> >
-> > Please disregard the V2 and apologies for the noise.
-> >
-> > I may try again with a V3, but let's see.
->
->
-> Unfortunately we merged this as it passed the automated testing and there was no
-> other review feedback.
+--000000000000d843b005d929bbee
+Content-Type: text/plain; charset="UTF-8"
 
-Oh.
-Now I feel a bit worse.
+On Tue, Mar 1, 2022 at 1:42 AM Konrad Weihmann <kweihmann@outlook.com>
+wrote:
+
+> - replace python3 prefix when guessing the wheel name
+>   as there are still plenty of recipes out there that do use
+>   python3 prefixes
+> - remove all previously generated wheels matching the glob
+>   to avoid installing any outdated blob
+> - don't use PV in glob, as PV doesn't necessarily align with the
+>   version used inside of the setuptools configuration.
+>   this will avoid having the user set PYPA_WHEEL in a lot
+>   of recipes
+> - respect SETUPTOOLS_SETUP_PATH in PIP_INSTALL_DIST_PATH
+>   and use B as a fallback only (in case this class is inherited
+>   without setuptools3 class being there as well).
+>   recipes like python3-smbus run in a subfolder of the
+>   workspace and were failing in before this adjustment
+>
+> Thank you. These are patterns that were never seen during development, but
+are painfully obvious now.
+The wheel spec (PEP-427) allows for, for instance, dev/pre-release wheels
+which we see with the
+python3-dtc recipe from meta-virtualization.
+
+
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+
+Reviewed-by: Tim Orling <tim.orling@konsulko.com>
 
 >
-> https://git.yoctoproject.org/poky/commit/?id=fd2c86b06963345683ac5dc4f47f9da8e0c8c69d
->
-> It does make me worry about tests here and means we'll have to find some way to
-> fix this.
 
-The silent nature of this build issue, suggests a few things to move forward:
-
-1. Propose a patch upstream to cause a build failure if this
-configuration isn't complete (i.e. all Xiph libs are enabled or not)
-    It's their right to have this all Xiph libs or no Xiph libs support matrix.
-2. For Yocto, we could add libopus, in the meantime OR
-    Patch-out libopus in the build
-
-There's also the option to revert this [now] and try again.
-
+---
+> v3: remove in prepend to compile, not in install for obvious reasons
+> v2: fix python3 prefix string
 >
-> Cheers,
+>  meta/classes/pip_install_wheel.bbclass | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
 >
-> Richard
+> diff --git a/meta/classes/pip_install_wheel.bbclass
+> b/meta/classes/pip_install_wheel.bbclass
+> index 5b7e5cd706..789c25b68c 100644
+> --- a/meta/classes/pip_install_wheel.bbclass
+> +++ b/meta/classes/pip_install_wheel.bbclass
+> @@ -1,12 +1,13 @@
+>  DEPENDS:append = " python3-pip-native"
 >
+>  def guess_pip_install_package_name(d):
+> +    import re
+>      '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
+> -    return (d.getVar('PYPI_PACKAGE') or d.getVar('BPN')).replace('-', '_')
+> +    return (d.getVar('PYPI_PACKAGE') or re.sub(r"^python3-", "",
+> d.getVar('BPN')).replace('-', '_'))
+>
+>  PIP_INSTALL_PACKAGE ?= "${@guess_pip_install_package_name(d)}"
+> -PIP_INSTALL_DIST_PATH ?= "${B}/dist"
+> -PYPA_WHEEL ??=
+> "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-${PV}-*.whl"
+> +PIP_INSTALL_DIST_PATH ?= "${@d.getVar('SETUPTOOLS_SETUP_PATH') or
+> d.getVar('B')}/dist"
+> +PYPA_WHEEL ??= "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-*-*.whl"
+>
+>  PIP_INSTALL_ARGS ?= "\
+>      -vvvv \
+> @@ -45,4 +46,9 @@ pip_install_wheel_do_install () {
+>      done
+>  }
+>
+> +do_compile:prepend() {
+> +    # cleanup previously generated files
+> +    rm -f ${PYPA_WHEEL}
+> +}
+> +
+>  EXPORT_FUNCTIONS do_install
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162541):
+> https://lists.openembedded.org/g/openembedded-core/message/162541
+> Mute This Topic: https://lists.openembedded.org/mt/89472354/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000d843b005d929bbee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 1, 2022 at 1:42 AM Konrad=
+ Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com">kweihmann@outlook.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>- replace python3 prefix when guessing the wheel name<br>
+=C2=A0 as there are still plenty of recipes out there that do use<br>
+=C2=A0 python3 prefixes<br>
+- remove all previously generated wheels matching the glob<br>
+=C2=A0 to avoid installing any outdated blob<br>
+- don&#39;t use PV in glob, as PV doesn&#39;t necessarily align with the<br=
+>
+=C2=A0 version used inside of the setuptools configuration.<br>
+=C2=A0 this will avoid having the user set PYPA_WHEEL in a lot<br>
+=C2=A0 of recipes<br>
+- respect SETUPTOOLS_SETUP_PATH in PIP_INSTALL_DIST_PATH<br>
+=C2=A0 and use B as a fallback only (in case this class is inherited<br>
+=C2=A0 without setuptools3 class being there as well).<br>
+=C2=A0 recipes like python3-smbus run in a subfolder of the<br>
+=C2=A0 workspace and were failing in before this adjustment<br>
+<br></blockquote><div>Thank you. These are patterns that were never seen du=
+ring development, but are painfully obvious now.</div><div>The wheel spec (=
+PEP-427) allows for, for instance, dev/pre-release wheels which we see with=
+ the</div><div>python3-dtc recipe from meta-virtualization.</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Signed-off-by: Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com"=
+ target=3D"_blank">kweihmann@outlook.com</a>&gt;</blockquote><div>Reviewed-=
+by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com">tim.orling@ko=
+nsulko.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">=C2=A0</blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+v3: remove in prepend to compile, not in install for obvious reasons<br>
+v2: fix python3 prefix string<br>
+<br>
+=C2=A0meta/classes/pip_install_wheel.bbclass | 12 +++++++++---<br>
+=C2=A01 file changed, 9 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_inst=
+all_wheel.bbclass<br>
+index 5b7e5cd706..789c25b68c 100644<br>
+--- a/meta/classes/pip_install_wheel.bbclass<br>
++++ b/meta/classes/pip_install_wheel.bbclass<br>
+@@ -1,12 +1,13 @@<br>
+=C2=A0DEPENDS:append =3D &quot; python3-pip-native&quot;<br>
+<br>
+=C2=A0def guess_pip_install_package_name(d):<br>
++=C2=A0 =C2=A0 import re<br>
+=C2=A0 =C2=A0 =C2=A0&#39;&#39;&#39;<a href=3D"https://www.python.org/dev/pe=
+ps/pep-0491/#escaping-and-unicode&#39;" rel=3D"noreferrer" target=3D"_blank=
+">https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode&#39;</a>&#=
+39;&#39;<br>
+-=C2=A0 =C2=A0 return (d.getVar(&#39;PYPI_PACKAGE&#39;) or d.getVar(&#39;BP=
+N&#39;)).replace(&#39;-&#39;, &#39;_&#39;)<br>
++=C2=A0 =C2=A0 return (d.getVar(&#39;PYPI_PACKAGE&#39;) or re.sub(r&quot;^p=
+ython3-&quot;, &quot;&quot;, d.getVar(&#39;BPN&#39;)).replace(&#39;-&#39;, =
+&#39;_&#39;))<br>
+<br>
+=C2=A0PIP_INSTALL_PACKAGE ?=3D &quot;${@guess_pip_install_package_name(d)}&=
+quot;<br>
+-PIP_INSTALL_DIST_PATH ?=3D &quot;${B}/dist&quot;<br>
+-PYPA_WHEEL ??=3D &quot;${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-${P=
+V}-*.whl&quot;<br>
++PIP_INSTALL_DIST_PATH ?=3D &quot;${@d.getVar(&#39;SETUPTOOLS_SETUP_PATH&#3=
+9;) or d.getVar(&#39;B&#39;)}/dist&quot;<br>
++PYPA_WHEEL ??=3D &quot;${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-*-*=
+.whl&quot;<br>
+<br>
+=C2=A0PIP_INSTALL_ARGS ?=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0-vvvv \<br>
+@@ -45,4 +46,9 @@ pip_install_wheel_do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0done<br>
+=C2=A0}<br>
+<br>
++do_compile:prepend() {<br>
++=C2=A0 =C2=A0 # cleanup previously generated files<br>
++=C2=A0 =C2=A0 rm -f ${PYPA_WHEEL}<br>
++}<br>
++<br>
+=C2=A0EXPORT_FUNCTIONS do_install<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#162541): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/162541" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/162541</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89472354/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+89472354/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000d843b005d929bbee--
 
