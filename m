@@ -1,169 +1,112 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4890EC433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 18:48:51 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
- [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web08.919.1646160530298379667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14DCC433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 19:17:39 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web08.1318.1646162258816996610
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 10:48:50 -0800
+ Tue, 01 Mar 2022 11:17:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=I2TpvYB9;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 8so17390164qvf.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=P5MUZSk5;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id d187so15167171pfa.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 10:48:50 -0800 (PST)
+ Tue, 01 Mar 2022 11:17:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I8v5WjYfY30m+HEjyTWrdurQ9wtdvxaD2L1IvRR4BUw=;
-        b=I2TpvYB9EM83WIT5ekVApR6of/WW9xhD1vfMDiM7FDCoNzjxQ/nKjZnB/RTqdjyC2V
-         Fr+OillvegFfwn7LKooGapd26O5zgKqnaGVHrgFLQhffXTYSA/7r8G1M2ITikuljsr3H
-         HhoBI+8QLJfx6t9Fe23NEiOboEeiQbLDOfiaIbfntPOuekUJy6peZ8kCWTvF2xI0/cIb
-         hpTCOwRDbFTC3AcICL7/c0UE2FzSsSrA9Gy/vIw3m9lQvLVkVdS3sKG2C21RJudjW4qe
-         aPB3Fi32Pggh/BLtlXBMg6aP2Eqisli8Wo9ra/2EBrdRkIWDnKEwc8yJxQrQmLMC0tHD
-         yYlQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C5t50VXxOqXYfat4ikfB5/7a4hL+AxsgiQWDTAKqDc0=;
+        b=P5MUZSk59c9NlsPo7NatniJRRqMZlBV3ERn2bTEQynD6ibGJ4o1G3kjyhEOW29LBev
+         VVUWLtrkYXNdljoWRvSu0wr0428EG7kCbG8UNJta+FHZZ+T+KCeoMYuSen2IebB4Xi1F
+         UCfHV3CxA3MN6IR/HFRqDfTpl4CdibiMd+9SaJjtiDkA/fOl3EiKG797tpEzVKyzK1Sd
+         6Cu4sSPBdIsPd3fPhElpxHR5y4USh6s6rfyhgixn3ME4SbtmmmDg5tF31KapzFkUaiLI
+         530mdD8nqf+46dU/DZIRHKeXdCs8aWwheEfmSJ4LqvtTnOAINKuuTqD2/lAKUAkmqqUt
+         WPEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I8v5WjYfY30m+HEjyTWrdurQ9wtdvxaD2L1IvRR4BUw=;
-        b=2JuhdDeruqETVmvXlKAQbd5F5frKKgo3yzMquolDGzAgvhYDm20mDvsa3wx3Hk4Fvn
-         tiUayfEO2d9LWUn1s8U12Y8XVon52AsKS15MaEdjx292ArFKeTnXe+dUrYt1Nw1Aqxma
-         rukcIv0VR4MeZhy7t0JzV84CqeQSlh3gX95A7vcjYWsaksD9qiayhA2kVRv3Ez2x9ca2
-         kr1YSqnq/0620c/vw8PfTy2zZThochliEHPMzzM9c2VzC+4qPoA1bfWXV5/5sSvrKbxC
-         9TkMJBBcTlLzzZp2xoqihHrvkwI9DJtf7NZBPsrcIFyBAjRoj2d11prxj+dyARiGCqp+
-         Y0xw==
-X-Gm-Message-State: AOAM532cHvs5OEpiOUVwkxqiuiSiguHzXJ2PbyXlsZcbXL0OrEYh1Y9e
-	boDfQQSsLuYa3G9J9mGxwZoQRTdd+NtVChI72DU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C5t50VXxOqXYfat4ikfB5/7a4hL+AxsgiQWDTAKqDc0=;
+        b=xqduiJ/vG/UC7FeSNizhh+QvcVfRotdgXX0lILZFrcgX2XQ365ureu++L6JqnXvqYL
+         mtxR7shs4ZYXMOp75gfXDiDQOvU+7y482CGN4NpJSArqJRO8bnzZFjZJuRiL0/z1PjDw
+         MensQMSQkvaabIOFJZiR7GTtLCroNrT3viL7AdgZvWB7vOWddU+5h29Dc2Jj/tyamZID
+         NC23lKZY0CDvtcIDHxSg/XMmGW+JzRNmecPbQKMC309FlkQue/iDFMkdkF2iSrOXDX0q
+         ddIhE46xlyJa39C4s0LTBP8yf2BtyfDiEbldwCFyeoZyvArgOjqmx9bBM1Z8Sva+oNkE
+         sA4w==
+X-Gm-Message-State: AOAM530dojqhh65732srKgzlovCEf0SiAsUA+BFakSQ+HoXkr9PJccqE
+	yQbczOKlPtqLNv30Rm54T4p/9zNn4sc=
 X-Google-Smtp-Source: 
- ABdhPJxAKcyKhqZsppcCb80NXLRqUmBoEENyAv/awSQyOKkgTRiKBiYEBAKUlI5Oy+RAPlEL6KOdIXX91ZIDw9UXPNQ=
-X-Received: by 2002:ad4:5dea:0:b0:433:2d8f:f85 with SMTP id
- jn10-20020ad45dea000000b004332d8f0f85mr6287355qvb.63.1646160529285; Tue, 01
- Mar 2022 10:48:49 -0800 (PST)
+ ABdhPJzd3rziOx5LZw6KrAK0f5lnuDNdn8i3cVxGC7UwGCsuBOpdNa8rttoSwgIK8UaYcjk36H7PpQ==
+X-Received: by 2002:a65:5888:0:b0:374:5575:ba08 with SMTP id
+ d8-20020a655888000000b003745575ba08mr22640063pgu.375.1646162257556;
+        Tue, 01 Mar 2022 11:17:37 -0800 (PST)
+Received: from nereus.hsd1.or.comcast.net
+ ([2601:1c0:6000:1b20:b4e2:b3d2:f012:52ea])
+        by smtp.gmail.com with ESMTPSA id
+ q12-20020a17090aa00c00b001bc6f1baaaesm2775356pjp.39.2022.03.01.11.17.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 11:17:37 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-flit-core: upgrade 3.6.0 to 3.7.1
+Date: Tue,  1 Mar 2022 11:17:30 -0800
+Message-Id: <20220301191730.3418406-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: 
- <AS8PR09MB464554B9B604C0EB0E3FBB1DA8029@AS8PR09MB4645.eurprd09.prod.outlook.com>
- <CANx9H-BhZVaYekYpoqT3P9Nbvd-bWiXixXkfhEmtg_FWXtr8nA@mail.gmail.com>
-In-Reply-To: 
- <CANx9H-BhZVaYekYpoqT3P9Nbvd-bWiXixXkfhEmtg_FWXtr8nA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Mar 2022 10:48:22 -0800
-Message-ID: 
- <CAMKF1spMpkHH4-LpH6Fe=tcg+WM30x3_+0-ZHiDRnvCUqGOquw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] pip_install_wheel: improve wheel handling
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Konrad Weihmann <kweihmann@outlook.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 18:48:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 19:17:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162569
+ https://lists.openembedded.org/g/openembedded-core/message/162570
 
-I am seeing this
+Version 3.7.1
+* Fix building packages which need execution to get the version number,
+  and have a relative import in __init__.py (:ghpull:`531`).
 
-| Created temporary directory: /tmp/pip-install-33iiigxv
-| WARNING: Requirement
-'/mnt/b/yoe/master/build/tmp/work/x86_64-linux/python3-pytest-runner-native/5.3.1-r0/pytest-runner-5.3.1/dist/pytest-runner-*-*.whl'
-looks like a filename, but the file does not exist
-| ERROR: pytest-runner-*-*.whl is not a valid wheel filename.
-| Exception information:
-| Traceback (most recent call last):
-|   File "/mnt/b/yoe/master/build/tmp/work/x86_64-linux/python3-pytest-runner-native/5.3.1-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/pip/_internal/cli/base_command.py",
-line 167, in exc_logging_wrapper
+Version 3.7
+* Support for :ref:`external data files <pyproject_toml_external_data>`
+  such as man pages or Jupyter extension support files (:ghpull:`510`).
+* Project names are now lowercase in wheel filenames and .dist-info folder
+  names, in line with the specifications (:ghpull:`498`).
+* Improved support for :doc:`bootstrapping <bootstrap>` a Python environment,
+  e.g. for downstream packagers (:ghpull:`511`). flit_core.wheel is usable
+  with python -m to create wheels before the build tool is available, and
+  flit_core sdists also include a script to install itself from a wheel
+  before installer is available.
+* Use newer importlib APIs, fixing some deprecation warnings (:ghpull:`499`).
 
-where the wheel file is called
-pytest_runner-5.3.1-py3-none-any.whl
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../{python3-flit-core_3.6.0.bb => python3-flit-core_3.7.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-flit-core_3.6.0.bb => python3-flit-core_3.7.1.bb} (93%)
 
-On Tue, Mar 1, 2022 at 7:22 AM Tim Orling <ticotimo@gmail.com> wrote:
->
->
->
-> On Tue, Mar 1, 2022 at 1:42 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
->>
->> - replace python3 prefix when guessing the wheel name
->>   as there are still plenty of recipes out there that do use
->>   python3 prefixes
->> - remove all previously generated wheels matching the glob
->>   to avoid installing any outdated blob
->> - don't use PV in glob, as PV doesn't necessarily align with the
->>   version used inside of the setuptools configuration.
->>   this will avoid having the user set PYPA_WHEEL in a lot
->>   of recipes
->> - respect SETUPTOOLS_SETUP_PATH in PIP_INSTALL_DIST_PATH
->>   and use B as a fallback only (in case this class is inherited
->>   without setuptools3 class being there as well).
->>   recipes like python3-smbus run in a subfolder of the
->>   workspace and were failing in before this adjustment
->>
-> Thank you. These are patterns that were never seen during development, but are painfully obvious now.
-> The wheel spec (PEP-427) allows for, for instance, dev/pre-release wheels which we see with the
-> python3-dtc recipe from meta-virtualization.
->
->>
->> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
->
-> Reviewed-by: Tim Orling <tim.orling@konsulko.com>
->>
->>
->>
->> ---
->> v3: remove in prepend to compile, not in install for obvious reasons
->> v2: fix python3 prefix string
->>
->>  meta/classes/pip_install_wheel.bbclass | 12 +++++++++---
->>  1 file changed, 9 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
->> index 5b7e5cd706..789c25b68c 100644
->> --- a/meta/classes/pip_install_wheel.bbclass
->> +++ b/meta/classes/pip_install_wheel.bbclass
->> @@ -1,12 +1,13 @@
->>  DEPENDS:append = " python3-pip-native"
->>
->>  def guess_pip_install_package_name(d):
->> +    import re
->>      '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
->> -    return (d.getVar('PYPI_PACKAGE') or d.getVar('BPN')).replace('-', '_')
->> +    return (d.getVar('PYPI_PACKAGE') or re.sub(r"^python3-", "", d.getVar('BPN')).replace('-', '_'))
->>
->>  PIP_INSTALL_PACKAGE ?= "${@guess_pip_install_package_name(d)}"
->> -PIP_INSTALL_DIST_PATH ?= "${B}/dist"
->> -PYPA_WHEEL ??= "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-${PV}-*.whl"
->> +PIP_INSTALL_DIST_PATH ?= "${@d.getVar('SETUPTOOLS_SETUP_PATH') or d.getVar('B')}/dist"
->> +PYPA_WHEEL ??= "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-*-*.whl"
->>
->>  PIP_INSTALL_ARGS ?= "\
->>      -vvvv \
->> @@ -45,4 +46,9 @@ pip_install_wheel_do_install () {
->>      done
->>  }
->>
->> +do_compile:prepend() {
->> +    # cleanup previously generated files
->> +    rm -f ${PYPA_WHEEL}
->> +}
->> +
->>  EXPORT_FUNCTIONS do_install
->> --
->> 2.25.1
->>
->>
->>
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162559): https://lists.openembedded.org/g/openembedded-core/message/162559
-> Mute This Topic: https://lists.openembedded.org/mt/89472354/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
+rename to meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
+index a00ea1810e3..f5e7506d5d2 100644
+--- a/meta/recipes-devtools/python/python3-flit-core_3.6.0.bb
++++ b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "https://github.com/pypa/flit/issues"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
+ 
+-SRC_URI[sha256sum] = "b1464e006df4df4c8eeb37671c0e0ce66e1d04e4a36d91b702f180a25fde3c11"
++SRC_URI[sha256sum] = "3c9bd9c140515bfe62dd938c6610d10d6efb9e35cc647fc614fe5fb3a5036682"
+ 
+ inherit pip_install_wheel python3native python3-dir pypi setuptools3-base
+ 
+-- 
+2.30.2
+
 
