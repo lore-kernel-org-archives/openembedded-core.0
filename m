@@ -1,152 +1,138 @@
-Return-Path: <akuster808@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB01C433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 14:13:15 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web12.8480.1646143994522309528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B2A2C433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 14:23:47 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.8668.1646144625388600277
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 06:13:14 -0800
+ Tue, 01 Mar 2022 06:23:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=M4vVUp5l;
- spf=pass (domain: gmail.com, ip: 209.85.214.173,
- mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id bd1so13499071plb.13
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TVzMdACp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id
+ m42-20020a05600c3b2a00b00382ab337e14so154701wms.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 06:13:14 -0800 (PST)
+ Tue, 01 Mar 2022 06:23:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=c+1S19RB7itzHDb8lPjkZSEHCJaRq3Vs2NhuC35+mzE=;
-        b=M4vVUp5lTDda6sYfmXGXURrSijGMo8TPmVrXGYL97Ac4ReqZJdSb+0G3G/7P7PTPCl
-         wYf7FHrfa7E5w0awQZIOQe2yVQ2xGnnNjDis7q9c0XgN7rOjmp6/mm0sjTdUxq2wdEvu
-         dYNUtI1LFFO+36m7SZdJxtSF+viC2sMNLYhqIJ+v3AngzB2Di8/YM44zG3uVBWa2kdHX
-         hx7fZhk5UETak/UPn+VRH17OOmnpu2WdmBAH98neCBLT4LHMLh12p8gB8MMGPkc0DT0n
-         ELOLDCQOIuVLTfjuo/U1uQjGdKov0LuRiB4p9KO9/ZFpVUf/a2IpOEy9q8VPq3jpUrKx
-         bCSw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=CAG0fmHrkyZva/l71pk6Q/X8Y5mRRQBasl8omTZEWSo=;
+        b=TVzMdACp9V5XVqALqmxP2MjEpVXgoTz5gNShLaw234dMdR1HH/ymMiIo84JG9tb+UL
+         TiclE8rHKdv1U0L811WXql29aKp6R6IffFgrRFl52HnPAf6e++xmfRMzbnOxvyHnPqij
+         eAOrxkJI+aZZ86bvxynklZIx5e81nRuAIhVXA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=c+1S19RB7itzHDb8lPjkZSEHCJaRq3Vs2NhuC35+mzE=;
-        b=gwudc7aPpHBqqv4ERWYWasurX0SbyU+fDvUu0l3YPnStyT6cCclC41Mm4pYhZsVWJg
-         q7kSgVmy0RUEQ724rjwfPNo8LyZ5TE9p5RH2ZlDZojLVtTXO2tnT0RGT4227BnVq0TBe
-         kbIFkABW/g63z7oURVjmHP4BWe21jpXXGXcQ9ic6uo15lwwOYal2Jhiv7uqGM1lYIVsN
-         oqGJkS7TxPhva4/WjuzrtagAJoWRxDxwy7TxgEGIbmX8xkVy2mow3Zn2DlyqeJTR83PG
-         NW7LN1hL73ffZlkLKR8vQjzYKDIIoEVvh0TMSOxWLmOqMVUn7FF+eDmvRpYyTbRBQgq5
-         vJUw==
-X-Gm-Message-State: AOAM53212X3LtLE9ROxDfTcurVIn1Kad9ENB//C9Wsizeevnbr4A4IxS
-	BcnqFVhQ3RFrAYqiXZutQNoDAmK2AZQ=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CAG0fmHrkyZva/l71pk6Q/X8Y5mRRQBasl8omTZEWSo=;
+        b=gfdZf9TpgwzeKcSTYg2nT67tEzcBuuE3ge9mNN6KCJwh5yidEd1tto5f0X99Lks2Hf
+         /HUxAHvknqwmB8qrQb7c8TBD7/4dRMw5mhVoexIdg/arIsNJoGVldY+tcFaahfUB9ikS
+         /bocm+1zhOZUnt1aNnLJPYd71vQaTE4Ly1Em2wwaPj9wLEpTiZwZwqUkLae6k9pADeZ4
+         oDFVWypg0U7W62Zok2P1AE6zUYv8iQGv8FEdtgjj65qe14Yzs22GJ0e3N1ve2qrdF17I
+         NLoZdYJoCe4uCnmioBdlSp7Wj5lGX49xFCUaPVqIOLqSl1ikWOlvUV5jm8ValtOUnZNZ
+         5eTg==
+X-Gm-Message-State: AOAM530XWyxDI74c0WhiBmAW/6aqHQK7JxFlYy7f2aNXINqLRRvki1hV
+	Vvy5kzkz2cLw6HSHdVHvxyzHWQ==
 X-Google-Smtp-Source: 
- ABdhPJyEW49Ma3IoRmpMMcx+WTeaPpYKEOTd/zEs3liLu4sKcKIV5JvwPGTq6VSEpZ3dnAGofBXK6g==
-X-Received: by 2002:a17:90a:ce87:b0:1bc:e78f:993e with SMTP id
- g7-20020a17090ace8700b001bce78f993emr21877384pju.41.1646143993754;
-        Tue, 01 Mar 2022 06:13:13 -0800 (PST)
-Received: from ?IPV6:2601:202:4180:a5c0:e318:f2cc:acb5:a058?
- ([2601:202:4180:a5c0:e318:f2cc:acb5:a058])
+ ABdhPJyStvbDvWDBDpkru5bYapVc5N5abhDqcmKlRwaPDc+7l8zXN5EZLoXVSCzgeGY4rNVCOjxfZA==
+X-Received: by 2002:a05:600c:410d:b0:381:1fa9:7da0 with SMTP id
+ j13-20020a05600c410d00b003811fa97da0mr17417174wmi.195.1646144623819;
+        Tue, 01 Mar 2022 06:23:43 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f88:ec89:14b:c380?
+ ([2001:8b0:aba:5f3c:5f88:ec89:14b:c380])
         by smtp.gmail.com with ESMTPSA id
- kb6-20020a17090ae7c600b001bee8664d82sm988440pjb.35.2022.03.01.06.13.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Mar 2022 06:13:13 -0800 (PST)
-Message-ID: <1cf08e1b-a113-af04-fa1a-7056aef5f711@gmail.com>
-Date: Tue, 1 Mar 2022 06:13:12 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [qa-build-notification] [yocto] QA notification for completed
- autobuilder build (yocto-3.3.5.rc1)
-Content-Language: en-US
-To: qa-build-notification@lists.yoctoproject.org,
- yocto@lists.yoctoproject.org,
- OE-core <openembedded-core@lists.openembedded.org>
-References: 
- <3060b5d3e361823a872bf956f6d09ef816d6857c.camel@linuxfoundation.org>
- <DM5PR1101MB2348B0D3AA38CFD2B77E4F89BB019@DM5PR1101MB2348.namprd11.prod.outlook.com>
-From: akuster808 <akuster808@gmail.com>
+ p4-20020a1c7404000000b0038140136ff6sm3532630wmc.5.2022.03.01.06.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 06:23:43 -0800 (PST)
+Message-ID: 
+ <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] libsndfile1: bump to version
+ 1.0.31
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexandru Ardelean <ardeleanalex@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 01 Mar 2022 14:23:42 +0000
 In-Reply-To: 
- <DM5PR1101MB2348B0D3AA38CFD2B77E4F89BB019@DM5PR1101MB2348.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
+References: <20220224153034.5140-1-ardeleanalex@gmail.com>
+	 <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 14:13:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 14:23:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162556
+ https://lists.openembedded.org/g/openembedded-core/message/162557
+
+On Mon, 2022-02-28 at 12:32 +0200, Alexandru Ardelean wrote:
+> On Thu, Feb 24, 2022 at 5:30 PM Alexandru Ardelean
+> <ardeleanalex@gmail.com> wrote:
+> > 
+> > It seems that the homepage has moved (for a while now) from
+> >   http://www.mega-nerd.com/libsndfile/
+> > to
+> >   https://libsndfile.github.io/libsndfile/
+> > 
+> > On Github, the development group seems to include Erik de Castro Lopo (the
+> > original author of libsndfile1).
+> > Link: https://github.com/orgs/libsndfile/people
+> > 
+> > All backported CVE patches are in version 1.0.31 (I've checked).
+> > 
+> > The supported format page [1], mentions that Ogg/Opus is supported since
+> > 1.0.29, however that isn't currently added in this patch. And it may
+> > require libopus.
+> > And mp3 is supported at around version 1.1.0, but that version is in beta.
+> > 
+> > This change focuses solely on updating to 1.0.31 and removing all
+> > backported patches.
+> > 
+> > [1] https://libsndfile.github.io/libsndfile/formats.html
+> 
+> Bah...
+> 
+> No luck with V2 either.
+> This would require some patch to allow build without libopus support.
+> Since there is no libopus available, it will not include support for
+> libvorbis, libflac.
+> i.e. libsndfile will build, but will say:
+> 
+> configure: WARNING: *** One or more of the external libraries (ie
+> libflac, libogg and
+> configure: WARNING: *** libvorbis) is either missing (possibly only
+> the development
+> configure: WARNING: *** headers) or is of an unsupported version.
+> configure: WARNING: ***
+> configure: WARNING: *** Unfortunately, for ease of maintenance, the
+> external libs
+> configure: WARNING: *** are an all or nothing affair.
+> 
+> 
+> Seems I forgot to check these extra configurations.
+> 
+> Please disregard the V2 and apologies for the noise.
+> 
+> I may try again with a V3, but let's see.
 
 
+Unfortunately we merged this as it passed the automated testing and there was no
+other review feedback.
 
-On 2/28/22 11:44, Teoh, Jay Shen wrote:
-> Hi Everyone,
->
-> This is the full report for yocto-3.3.5.rc1:
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
->
-> ======= Summary ========
-> No high milestone defects.
->
-> No new issue found.
+https://git.yoctoproject.org/poky/commit/?id=fd2c86b06963345683ac5dc4f47f9da8e0c8c69d
 
-As a YP TSC member, I am fine releasing this build.
+It does make me worry about tests here and means we'll have to find some way to
+fix this.
 
-I will let Richard send the final word once the rest of the YP TSC respond.
+Cheers,
 
-- Armin
-
->
->
-> Thanks,
-> Jay
->> -----Original Message-----
->> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
->> Behalf Of Richard Purdie
->> Sent: Tuesday, 22 February, 2022 5:51 PM
->> To: <yocto@lists.yoctoproject.org> <yocto@lists.yoctoproject.org>
->> Cc: qa-build-notification <qa-build-notification@lists.yoctoproject.org>
->> Subject: [yocto] QA notification for completed autobuilder build (yocto-
->> 3.3.5.rc1)
->>
->> A build flagged for QA (yocto-3.3.5.rc1) was completed on the autobuilder
->> and is available at:
->>
->>
->>      https://autobuilder.yocto.io/pub/releases/yocto-3.3.5.rc1
->>
->>
->> Build hash information:
->>
->> bitbake: aaa7f7af23d5f89fe4a5ed48c57ea3dfca07c79d
->> meta-agl: 9a50bd62dfac0d6ea1320b2ee083529cb98b9f92
->> meta-arm: fe35ff5ba809bf4826adfe65899a84e9c99494e8
->> meta-aws: 6801abf40bb255a31bce5061c5c6b72f5e2a8f58
->> meta-gplv2: 9e119f333cc8f53bd3cf64326f826dbc6ce3db0f
->> meta-intel: 36e915402dfe317654568f09f18fb6f7653603bc
->> meta-mingw: 422b96cb2b6116442be1f40dfb5bd77447d1219e
->> meta-openembedded: 23598caeafce0af0dde8d1339cf5edff021f6823
->> oecore: 29cd1d796057ef5599fe17c39b42aa099f7b1c29
->> poky: 8d3e054f6d432b5ca0fcd613e0c767fab3c85f24
->>
->>
->>
->> This is an automated message from the Yocto Project Autobuilder
->> Git: git://git.yoctoproject.org/yocto-autobuilder2
->> Email: richard.purdie@linuxfoundation.org
->>
->>
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#105): https://lists.yoctoproject.org/g/qa-build-notification/message/105
-> Mute This Topic: https://lists.yoctoproject.org/mt/89459365/3616698
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-notification/leave/8918815/3616698/368265748/xyzzy [akuster808@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Richard
 
 
