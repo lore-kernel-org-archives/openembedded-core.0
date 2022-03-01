@@ -2,99 +2,110 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E2DC433F5
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 04:13:51 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web09.4735.1646108030129994730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEE4C433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 04:18:22 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.4700.1646108301522421288
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 20:13:50 -0800
+ Mon, 28 Feb 2022 20:18:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z5rqyGen;
- spf=pass (domain: gmail.com, ip: 209.85.215.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DZIZ6Xlv;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id 12so13418791pgd.0
+Received: by mail-qk1-f176.google.com with SMTP id 185so12131561qkh.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 20:13:50 -0800 (PST)
+ Mon, 28 Feb 2022 20:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CJURL1qqtDhi20aOhkKfjQ20ZTgBr25LaWLWM85AcFU=;
-        b=Z5rqyGenytK42Wfz4X+X+yCimLBYKNtudg+dabXSHm8rIYmJf+qLGMA+0U8TrB22Cs
-         tcxqVOHcrY77roVDio7vsK2UhVUWzMArvitHcAaFOzoctYnpsNAMdGNXvleCJKP7OIgz
-         ZnSWFQuulgRfx/8WUYmZfLLLkaw2ATmSSLkDHg0j+mm1+yAu5nqrSGDC8M1kKXhUZje7
-         ZDSb6oAuMYdCY3Ldd2G66+pttq9SWivH/oqbPTS4clK+QKIQXcD0UWQgwemzwyRH6bMt
-         D0xRzBn5QNX2T7XWHxhyjdznsFG+2u4W8+9vx/Ijy6pl8DHeGF54hlafAPF0S/322g5i
-         lCFA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=71Lf8YU7dufo2zRY6mmlSQ+2AOLIsBMhBJvGxVSgNxk=;
+        b=DZIZ6XlveGVfw1T4PFy27xtwYJaEZNO67pFdh4zjSVqdv3CiTwn3ZqJjGdZI8KXxd3
+         tFZTbk1TmjSO9jNAL3eWkyTSSwszec2PfuUvdm/1WUAqWCAinbq/hqpVOKzanCXiM6ss
+         DI0UEFTWZQNEMlQcQgVuRvIBOH4jRGp45V/0nsh+hEv5V3/e8mj3XSBJ1x6YBSVRFAmB
+         WvuAiJT6Z5LuVNS7afVqm/SM0/K2oHieq787TXybTKEUXp0FpzSplz/VLn8i/q9CIRRk
+         /G2KeThRKk5tm0jueOS72VbzPnhLvpkMevkVTB9agFrXRFkKLKWeUuCGWLXfFtQiKynR
+         UHCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CJURL1qqtDhi20aOhkKfjQ20ZTgBr25LaWLWM85AcFU=;
-        b=WgHkGOnOs4ZRrRtdh9ZoYO31rr1nloiK5X8+LZ3ozJMaqM6/3M+OTNxDc95Wz3yeza
-         jz7/MQ6yTBOtsYFf6u0Lq/mNRmmZLYxxXjX7ZZff1qUR/dfY3HXCovcvWV2yvFnOVdOt
-         kL1fEGPl5H7fG/zbCozxnJZ8ZVifFrthw2R/Jl7ZnVS9/O2B6Wpj0avJI7dR5pfx65+1
-         iaNExTrlqdD6zJTzl3oJYWwJiPyOIvVfIV5OkbAk6QUgEnCGD2mdVbGrJg20PPiPRluW
-         yMVqYxDaNIonIVAoHzbHoUWpHDmFZ5MjN3+ckpl0QPvVnXSOb3yogcdeRCeJGJFXbzJB
-         C+cQ==
-X-Gm-Message-State: AOAM531JCBJR2dHMFP3iVk8q/h4VibhNrhAkefnhIUMPR01S2Xh+ZOJJ
-	2ZToJFMtSXe5yWkBJ2/2aaxawd2S5Bmzow==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=71Lf8YU7dufo2zRY6mmlSQ+2AOLIsBMhBJvGxVSgNxk=;
+        b=A6MCbYBGALvlCKeIrDOwQ4HXN/C8YpActS9/9Si3RtwdqNne/vR09F+4D4413NtcFk
+         Av4ESztd2rtQV2tv8d1VdH50S3W+oG6NsllWOpumHzDixNaSmxpPiwvqo2tAvkmrAaFF
+         Jl0p9edaULQvgQbUDekoPP9XJNSM86Bue4JytW7ck/lld7o70pUir8d12s3+6DwOCh73
+         OT5uJLKhrNVYx/5DU8c+WlPHWw/TioLuxZXv+Mwwltp+jzwlpzSDPhG6PeHpUfBvmyh6
+         8xPaTCgfwHubsVRVfpfSsZd2gRZv4V6oqY0gtAsT0F/egtAu6VZumfoTo/22qielA0Cy
+         jWqg==
+X-Gm-Message-State: AOAM532ppLzs/pzCu26yTJTZoEsbxtvFAerGrKmmxyXryT601ydvJukX
+	B6Kgu6Y+i+s4RHJ4TX0L3f9lRM6QB1RHFSpOO/M=
 X-Google-Smtp-Source: 
- ABdhPJzbIMjqEApDYc0CgjaXDhiLl00PNEim9UCVNYlugwroHOWrUwvuz73IXBvwUPDSpQh7xFTfHg==
-X-Received: by 2002:a05:6a00:21ca:b0:4c9:ff9:47e3 with SMTP id
- t10-20020a056a0021ca00b004c90ff947e3mr25403501pfj.10.1646108029237;
-        Mon, 28 Feb 2022 20:13:49 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1a20])
-        by smtp.gmail.com with ESMTPSA id
- mi9-20020a17090b4b4900b001bc8dd413fesm765759pjb.19.2022.02.28.20.13.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 20:13:48 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libical: Pass TOOLCHAIN_OPTIONS via CFLAGS
-Date: Mon, 28 Feb 2022 20:13:46 -0800
-Message-Id: <20220301041346.1703440-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJyW/VXuEmQz5DGNLUGYLTgDef7XeJGExASXhE5XBQEpvfBw2xFy6X2Iy5+O6w1/b5qdxMsw5Thr8jtEGb+B7t4=
+X-Received: by 2002:a05:620a:817:b0:648:d856:3fdc with SMTP id
+ s23-20020a05620a081700b00648d8563fdcmr12576874qks.180.1646108300510; Mon, 28
+ Feb 2022 20:18:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220228163710.44361-1-quaresma.jose@gmail.com>
+In-Reply-To: <20220228163710.44361-1-quaresma.jose@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Feb 2022 20:17:54 -0800
+Message-ID: 
+ <CAMKF1sr60VPL7C-kmroxNs5+d_aEsOn+ZZGZfBB7mwT-NHe3xg@mail.gmail.com>
+Subject: Re: [PATCH] Revert "cmake.bbclass: Set CXXFLAGS and CFLAGS"
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 04:13:51 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 04:18:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162523
+ https://lists.openembedded.org/g/openembedded-core/message/162524
 
-This ensures that right sysroot is used during build, otherwise we see
-warnings in build about using wrong sysroot and it fails explicitly with
-clang
+this is fixing more than the workaround, e.g. see the patch I sent to
+fix libical, where these flags are not passed to git compiler when
+using cmake
+I am not sure how many such fallouts there will be through out.
 
-x86_64-yoe-linux-ld: warning: library search path "/usr/lib/gcc/x86_6
-4-pc-linux-gnu/11.2.0/../../../../lib64" is unsafe for cross-compilation
-
-x86_64-yoe-linux-ld: cannot find /usr/lib/clang/14.0.0/lib/linux/libc
-lang_rt.builtins-x86_64.a: No such file or directory
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/libical/libical_3.0.14.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-support/libical/libical_3.0.14.bb b/meta/recipes-support/libical/libical_3.0.14.bb
-index 717eb11e125..879ad8ed595 100644
---- a/meta/recipes-support/libical/libical_3.0.14.bb
-+++ b/meta/recipes-support/libical/libical_3.0.14.bb
-@@ -18,6 +18,8 @@ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
- 
- inherit cmake pkgconfig gobject-introspection vala
- 
-+CFLAGS += "${TOOLCHAIN_OPTIONS}"
-+
- DEPENDS += "libical-native"
- 
- PACKAGECONFIG ??= "icu glib"
--- 
-2.35.1
-
+On Mon, Feb 28, 2022 at 8:37 AM Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>
+> This reverts commit 47594d59ec4ab82fcf87d3c590caf7c46a6bfdff.
+>
+> This patch was introduced 5 years ago as a temporary workaround
+> to fix an upstream bug.
+>
+> Currently with that patch the following flags are duplicated:
+>  OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
+>  OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+>  OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
+>
+> The duplicated flags is used in the toolchain.cmake:
+>  set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+>  set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
+>  set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>
+> CC: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/classes/cmake.bbclass | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index fac7bbca7a..d9bcddbdbb 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -31,8 +31,6 @@ OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
+>  OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
+>  OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+>  OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
+> -CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+> -CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+>
+>  def oecmake_map_compiler(compiler, d):
+>      args = d.getVar(compiler).split()
+> --
+> 2.35.1
+>
 
