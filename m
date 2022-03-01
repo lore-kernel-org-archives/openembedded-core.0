@@ -1,227 +1,173 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <tean.cunningham@digi.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FC3C43219
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 20:15:50 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web08.2117.1646165749076939688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0B0C433EF
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 21:27:47 +0000 (UTC)
+Received: from outbound-ip23a.ess.barracuda.com
+ (outbound-ip23a.ess.barracuda.com [209.222.82.205])
+ by mx.groups.io with SMTP id smtpd.web10.338.1646170064492530984
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 12:15:49 -0800
+ Tue, 01 Mar 2022 13:27:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fVgi3j4+;
- spf=pass (domain: gmail.com, ip: 209.85.218.49,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a23so33774466eju.3
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 12:15:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7UDH6kpUASzVmkPq9W775PJpL2ykMqCfCNwmiCtNKzo=;
-        b=fVgi3j4+4VftNR5ud5J/GNfSZ7fCKhzxYdgaFYPsHk/OrXlPBu0W4mII52RUv3zXeg
-         JkmQ+KBbhtwQn8kIN4Lr9yh8gLNAtzf3HWp4ufrigZ2ZWv/PhziwjR9lah2rnLA/qI/b
-         TlT3gcyOmGmWdSm8fmVf96Ra+ZPbcXCfVfTTeC5PYIF4o/c/HpYuKH36O9Ry1A9Mm7DJ
-         H8Jh1zNAwtlH9kEZw2+YJ0/Z3vDrlv8Zkp78hJq4Hx+g6l+fVu7MZvLtojF9AVK55Yir
-         35O3XCVbh1oz/aGE8z5HoTW7WQDpeOnJBECPrejqpLciD0VrtKGcylZnAId7BxfF4Ejs
-         ukCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7UDH6kpUASzVmkPq9W775PJpL2ykMqCfCNwmiCtNKzo=;
-        b=DrFR4O2QOwARoF5JFV8xAUAE8IqOpAfjZKHTDRzFiQ6LQ8D/aDvWHAeqCy/o1krzBq
-         9JKRhyL2v87JHtFwePydLdggl1A0qfzUb0iitpDCThw4wO6E661Glqq0wm3ud+D4Jerb
-         jrQuHzSDDPvQLJZMhuXDldCI4zxkydICxgSFP1YUF4ym6Lnz2fJqi6dRoxxU7oDJcFbi
-         jxj2Cenp22/I0zHqfmgNN1UUO5eJv6Zv4zNwSbkickAt8cmCyoPNVQiz1/SU0kHxkKSV
-         YihWOhslUq8ChMNS+1dX5srsk4+Le6VmCJQlMKFfQP2DX0iyKf1V8mO4SAZ4HNUlNUXP
-         ddJw==
-X-Gm-Message-State: AOAM533fMqGK/qqGUCgELcSMyrRPWA+fzAdBTTestNwdWqUeZCcQDBfy
-	YrPw859Z4ju/sDuLR30G6AYN9j5WxMisyI+my0s=
-X-Google-Smtp-Source: 
- ABdhPJxBzHgqHBBzFAAKuXJ8kYfLjXowJ64tRnfXXWZ1l5QmP4qlnpB3hBy+YGqssjgIouC0mDQ21MgtYT2RTJURi/A=
-X-Received: by 2002:a17:906:3e90:b0:6b6:829b:577c with SMTP id
- a16-20020a1709063e9000b006b6829b577cmr21162659ejj.711.1646165747283; Tue, 01
- Mar 2022 12:15:47 -0800 (PST)
+ dkim=pass header.i=@digi.com header.s=selector1 header.b=DLIc8wNJ;
+ spf=pass (domain: digi.com, ip: 209.222.82.205,
+ mailfrom: tean.cunningham@digi.com)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42]) by
+ mx-outbound15-146.us-east-2a.ess.aws.cudaops.com (version=TLSv1.2
+ cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 01 Mar 2022 21:27:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gPJa0ufdPoPHg5YTuczm978A3FqvXvKOkGEh47ytYUXn83rDmL/f85+JfBWKVT0p8bHnJls/RUDji8hjksjKsFc5YOTorWxRtppoJmAXyW1/fAfr+PEkO/KsfziI0MhQPBXKFeoKh1uAksZGLqMXnKtiVSA6dmDZ7PPMFsQVwXnU8bkWIYRAytFMD3Ci3I1l87KgEOZRoaCVQwc5f/fk5rwbuLbWmlPsIjojdA8l1t6QPJEUUVdr4OJp04yWsiJluRtHyxdDi1JM2Lcikt9S7CfMpS+ThwBBem10xrxlAyvtGCZZITf+shhPfT67+kuIq+UdR75743YvysKQOSYRqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sMkGydEKaBg5cFBsJ2Ju3M/goXcwDa/TwOekFqqlUag=;
+ b=WAIl6LBSSONyAGZ4+DrU+uMIQW5jIuhdB3J4k+TKOs1ALLRio6nPOz+N4aaWP9spUxmGct8JUO9NDG5WAi/067u0DaoqPQqdU5xDgyMDkdtNWnpGAFU+5+LdGF9IdVblvnkC1kz440X4TETcNXgKGF/4AcIlIQVT0UQOutUvXZBoA7nC+LwvA96QkMWKlnFdWMScAa22YD7+lpGlk6RcdN1sGiA429in4cqPCoyMHsx5bzEohII+ytaOYNcRyi42co5ujfx1ltgTIUi3mwhRruj2B5Z3MQ20KlpAQHANz+vQgORuzrQe6UOXQKhdvw6j2RqlLyukVT6X2JEKgVaXEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=digi.com; dmarc=pass action=none header.from=digi.com;
+ dkim=pass header.d=digi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digi.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sMkGydEKaBg5cFBsJ2Ju3M/goXcwDa/TwOekFqqlUag=;
+ b=DLIc8wNJXtDW2PQkikg7SU0K26Im6nqQxCm9ANsEo9QWaohRqDrQLJoeP+TeTqn5VQkdFJiiCsaRgsi8K+hjJZKZuQqLAs4vhRHmKu4PiWLsDLXMdjFSBgMe7ppt+40YnJOjCraSpJOSL3SDb76Dd4l3KAz10Sv0IgW0ZYyjxUOJttUSh0+dY5FjCwy/LDOH6K38P0Z3jKF8hPZacOpsYRw/DIKw0z/2e1vaZP963EkuRKFzo735Y90svXhCG5h+vEyFb3okSwDlkAZtidpJsa+Blz7xTtwPaLYBzKtGGgQoKQDz0hQR+XzNzqFelIMyuYay3+jK2SkmvLv59zdYAA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=digi.com;
+Received: from CO1PR10MB4753.namprd10.prod.outlook.com (2603:10b6:303:6f::9)
+ by BY5PR10MB3905.namprd10.prod.outlook.com (2603:10b6:a03:1fa::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Tue, 1 Mar
+ 2022 21:27:40 +0000
+Received: from CO1PR10MB4753.namprd10.prod.outlook.com
+ ([fe80::7904:ac3:f953:1235]) by CO1PR10MB4753.namprd10.prod.outlook.com
+ ([fe80::7904:ac3:f953:1235%7]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 21:27:40 +0000
+From: Tean Cunningham <tean.cunningham@digi.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tean Cunningham <tean.cunningham@digi.com>
+Subject: [PATCH] rootfs-postcommands: amend systemd_create_users add user to
+ group check
+Date: Tue,  1 Mar 2022 14:25:39 -0700
+Message-Id: <20220301212539.38643-1-tean.cunningham@digi.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR20CA0042.namprd20.prod.outlook.com
+ (2603:10b6:208:235::11) To CO1PR10MB4753.namprd10.prod.outlook.com
+ (2603:10b6:303:6f::9)
 MIME-Version: 1.0
-References: 
- <CADkTA4N0NaDoS5e5+E92vkNXdQ9AsUxc7zH=Sd+9X=hcq3BPhQ@mail.gmail.com>
- <3986.1646150091898772204@lists.openembedded.org>
-In-Reply-To: <3986.1646150091898772204@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 1 Mar 2022 15:15:35 -0500
-Message-ID: 
- <CADkTA4NKK0OXXnJSrpD7Vg-UQoygUR1ZPXaGOqKtJ9kmyGSukg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] go.bbclass: Allow network in do_compile
-To: lukas.funke@weidmueller.com
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fd4929b0-d4a2-4447-71f8-08d9fbca5094
+X-MS-TrafficTypeDiagnostic: BY5PR10MB3905:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR10MB39054CDC7173D970187216B494029@BY5PR10MB3905.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ybqWsqSQgso6lE5hZ/EK/C9MyHn04zvULnZP7ORH/L1PrOzz/AyDdc2C1vFsSiN8vAn4Y5l+Oaxriv94BHK02MCInzhFNwutSAHl6+IecPP6KXNvAXkZEbmvPEgAet8PmS5SmEN78+bQS6xVqEQt1JnYi/5pD+ddaFjoS7E+AuL1iNJxcZA5slZ7M3iZfhK+397Zy7ZODcNpk9TJGg1lJopkUTmlmQGKf8As+/QRifgxsDoKW24d1JqZac2tKlUULK6L+0C22a8Z5ESh+dWJ7Rks4zwwicfr+kqmt1sc/1CSNPdpp1aQ9bA4UmliNFTN7okkmFjRbPRiMV9bfpCQz33iNv6IiYBAqHtykXHds/3tsHx9kYvdwua/1PIJLwvloWAixd7dW6C2c+vj+mnEpr/MT5ylpkNQbJLjfBdn9VMigGnjk8uUHXyf9Lrg4OJVT4yfoETaeOQsDBLtG3Lup9ThCRoSKwlW0dM0I3P8ZW+tJSw55KkezosnrLAAYTvt7mJhdN2Oz/KVzemIaSX9+nkUuyd2aEZKxlFWfRKic/tCK+Qwcir4LPMg/bVgqgw8vPuWBIp5voRvsAaIcrhRD7G9vnmiUQr4smht6E+RpOINWBEJLswZTQjF95+3LRyGFfHxuXVkz7lbaYbgz8ydgpB37h1dXSWiqL1ELYjSyhiOJAlzXoh3X+kR8dErHXImm1psAE1mxQiwQZjv9GqqcA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4753.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(36756003)(6512007)(4326008)(83380400001)(86362001)(2616005)(1076003)(26005)(52116002)(6506007)(8676002)(6486002)(66556008)(66476007)(66946007)(6916009)(8936002)(107886003)(508600001)(316002)(5660300002)(44832011)(38350700002)(38100700002)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?nG9/ulUYNHvakd1n+0vs5I/WdsD/mYEHD4XrIzJYPNFdho9/IOy0XHpYoVXP?=
+ =?us-ascii?Q?qWkDFyMV2/tZHXpz843ezSygToDAHYs85y4vh90/i69m4wfe5HUUwO7Y6zTp?=
+ =?us-ascii?Q?S1fuqOS/ELAmhYwFiWhx1ykoOj5zEWePQnFZiE7yokln/kbegAtBiHeI0CRa?=
+ =?us-ascii?Q?p73Qu22/9Eky249UPfbcZswKSRrVTz26X6DenC6KRU+FmA3yFZyZliLJ1tor?=
+ =?us-ascii?Q?0DIAHIQLzYrz+4uHP675xTlyThguDx5o+3gixXlf2pVQey/tqEAs+8I/ILMW?=
+ =?us-ascii?Q?XbMtDd6bX1yCbt9j6J9aWTnF7HAT/FQvakYtlypqx+KbPLVBMNPjeGpn3C7p?=
+ =?us-ascii?Q?3e28pwQf0VNxdnzMFOGWhPe+kl/Y3xJJygkn41I+U5Kxw7V0DzggD4K+czSm?=
+ =?us-ascii?Q?Khe9wXDkmGr1NMOV94AToeSq5gGft9gyWgDxdsIt9edMK1zoMDwcT5caHqAZ?=
+ =?us-ascii?Q?IzXL36wXbBsf9lqsiVzCtJZjM6Y0Hngzi4ZQBoncg0DfLEmcZ8rLhKJeZLF+?=
+ =?us-ascii?Q?5dEfadcl8kbKD6kKurVE9BVKYIZoO+rJBeFGU5Urf98pw+tnO4TLbVNGtz5T?=
+ =?us-ascii?Q?zw15psAJ/O2+PR1wVxUAIjmAOL05x7SXswel7ls/OcLL1Do3KwoVTdo3QvfE?=
+ =?us-ascii?Q?gmaQARncTYibxkyi5uUx0MgH14X4cTj+O+oqblPWkO4vp8vXWE/R8fo3ftDw?=
+ =?us-ascii?Q?sk5M2txtkNJjgvSiMacx9YYiOiTyGX9HBdP9/nrM7he2gWHTbRMkLvaafl/j?=
+ =?us-ascii?Q?+9K8pRKtE3ehvC7J+UkuFylYny5bilHjCq5yPBJ7PvEodJWnRtsTZWWKFnVN?=
+ =?us-ascii?Q?pQf0ypzutkKbXZJ7k6ch2ZPGLC5yokY3AnryFGep9LN90vw2DNh+LmMKO7zP?=
+ =?us-ascii?Q?ZY+ZRFarFoCLur3NoBPqysive0tjj+9vIGQPQ4wNxQlCFIUq92WMWx57D+SO?=
+ =?us-ascii?Q?8HOG9eJap2h8oC8tZsOFC+zafFWIdN0Q2MUypHE41jQrQbTx/IZ1QKWxhKxD?=
+ =?us-ascii?Q?xzo+NrxKlKMejW5G3lM+9HjzMEmSrXANdNGz0m0+oN9UYfvSnXifGVAvC/Jl?=
+ =?us-ascii?Q?wPNduTCQvJtSe/1IuAF2kmMe6dbAa9jXH0o2bZBk1QpymjIqkt1pJxOQsqBD?=
+ =?us-ascii?Q?FO9AKyKFYdjs+5Yl8p7oOL2PRQcAQmidS85cb/6pNZ5Adg3Vf+OVh+JAW81J?=
+ =?us-ascii?Q?tZ1Bc26+curiScmcdYvJq0YJLU3AwNtx1q6Hm2KyaeFbppqM1Sg5LKsbQJJi?=
+ =?us-ascii?Q?zHvq30Cld+VToF/gHYDPNcMsd6JfWD5dTQ5JM/oOdfDb5P/hMSlrIkdzlt5n?=
+ =?us-ascii?Q?XoRs+V+xJuHnfvb0VSeN0jdAj8rgtrLm2VyLayhiXYn+as75LhePJFief/Pf?=
+ =?us-ascii?Q?luuGBKV7vSsoagZj1akAhxtPh3wIXQv+TD9jFXH5jtrSphhIIojpHnWn82kZ?=
+ =?us-ascii?Q?8Fv5uyfYr1AyuuDuhFdhUlaFR6/fyXMyGb3U7525p+irj4OdWnKOilXHf51q?=
+ =?us-ascii?Q?Edcyc93Xb35DaPoBFiVBCEMIbEZdlFnwvuxHe2eSgoVzrcAsJgE4RtlpIO/N?=
+ =?us-ascii?Q?2gYairrZ7row9SLnqsipCp02v1e8nifyiLavZyt5QEoR08VvDkEmWjIKbgWr?=
+ =?us-ascii?Q?0DLlQSG4GNkCSQX3+rPveWM=3D?=
+X-OriginatorOrg: digi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ fd4929b0-d4a2-4447-71f8-08d9fbca5094
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4753.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 21:27:40.5849
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: abb4cdb7-1b7e-483e-a143-7ebfd1184b9e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ gi7LH2gfewG+Oq2TAjjgL4e4jsqKBamTcWC32GLWUeiX75TrB/L/sXWNW9o/fi/4X46gPwdQcC2EI26zHWhgyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3905
+X-BESS-ID: 1646170062-103986-5367-31526-1
+X-BESS-VER: 2019.1_20220223.1749
+X-BESS-Apparent-Source-IP: 104.47.66.42
+X-BESS-Outbound-Spam-Score: 0.00
+X-BESS-Outbound-Spam-Report: Code version 3.2,
+ rules version 3.2.2.238307 [from
+	cloudscan15-1.us-east-2a.ess.aws.cudaops.com]
+	Rule breakdown below
+	 pts rule name              description
+	---- ---------------------- --------------------------------
+	0.00 BSF_BESS_OUTBOUND      META: BESS Outbound
+X-BESS-Outbound-Spam-Status: SCORE=0.00 using account:ESS112744 scores of
+ KILL_LEVEL=7.0 tests=BSF_BESS_OUTBOUND
+X-BESS-BRTS-Status: 1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 20:15:50 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 21:27:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162573
+ https://lists.openembedded.org/g/openembedded-core/message/162574
 
-On Tue, Mar 1, 2022 at 10:54 AM <lukas.funke@weidmueller.com> wrote:
->
-> On Tue, Mar 1, 2022 at 02:14 PM, Bruce Ashfield wrote:
->
-> On Tue, Mar 1, 2022 at 6:42 AM Andrei Gherzan <andrei@gherzan.com> wrote:
->
->
-> On Tue, 1 Mar 2022, at 01:55, Bruce Ashfield wrote:
->
-> On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->
->
-> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wrote=
-:
->
->
-> From: Andrei Gherzan <andrei.gherzan@huawei.com>
->
-> Compile pulls in the go.mod list requiring network. Without this, do
-> compile would fail with a similar error to the following:
->
-> dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
->
-> This is something that needs to be carried in your own layers, IMHO it
-> isn't appropriate for core.
->
-> It isn't about the fetching, it is the entire gap in functionality
-> that we are missing if go starts fetching dependencies during compile.
->
-> A further thought is that if this is for go.mod issues, there is the
-> go-mod.bbclass.
->
-> Perhaps enabling it in that class and doing a bbwarn about go fetching
-> dependencies would be appropriate ?
->
-> Otherwise, someone may not know that this is happening and that a no
-> network configuration has no chance of working.
->
-> I reckon that is reasonable. I'll personally go down the recipe level to =
-workaround this change but understanding and agreeing with the reasoning be=
-hind this change, I want to invest a bit into trying to find a proper solut=
-ion in the core. Bruce, I know you invested a fair amount of time into this=
- already. Would you be willing to sync up and see how we can work together =
-in tackling this?
->
-> Definitely, more ideas are good. In fact, I think there are probably
-> several approaches that can co-exist, depending on what a
-> recipe/developer needs.
->
-> I'm in the Eastern time zone here, and will try and grab folks on IRC
-> to have a level set
->
-> Bruce
->
-> Added Zyga to CC as he is also interested in this as part of his go devel=
-opment activities.
->
-> Thanks,
-> Andrei
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> The problem in allowing downloads during compile (e.g. by go) is, that it=
- leads to non-reproducable builds. I'm currently facing the same issue and =
-would like to have a reproducable go *offline* build.
-> I would like to propose two ideas to workaround the go-compile fetching i=
-ssue:
->
-> First:
-> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. b=
-y writing a seperate go fetcher or a wget-fetcher) and unpack the dependenc=
-ies into go projects 'vendor' folder. This forces go to compile offline. Ho=
-wever, one have to generate the 'modules.txt' file in the vendor folder 'ma=
-nually' during unpack. This is error prone, as there is no official documen=
-tation how this format should look like. Anyway, I've tried this approach a=
-nd it works for me.
->
-> Second:
-> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. b=
-y writing a seperate go fetcher) and unpack the dependencies into a local (=
-workdir) go-path. This seemed a good solution for me as the go-path is well=
- defined. But for some reason 'go'  fetches the zip-files during compile in=
-to it's download-cache AGAIN, even if the source is already unpacked in the=
- go-path. I'll assume this is required to verify the source files integrity=
-?! With this approach one have to adapt 'go' to suppress this download beha=
-viour.
->
+Currently when adding a user to a group ('m' type), the conditional
+check to only create a user/group if it does not exist always resolves
+to true. This causes a build exit failure if the user and/or group
+defined in the sysusers configuration file were already created prior to
+the execution of systemd_create_users().
 
-I've been doing offline builds using a constructed vendor/ directory
-and generated modules.txt.
+This logic has been updated to instead fail silently (consistent with
+'u' and 'g' type). Additionally, if a user doesn't exist it will be
+created without the default group.
 
-The only difference between what I have working and what you are
-suggesting (type 1), is that I've gone directly to the sources and
-constructed the vendor directory using the OE git fetcher. That allows
-all functionality to continue to work that is part of OEcore, and the
-build to continue.  Switching out the git fetches for tarballs would
-be possible, I just wasn't sure how to use the proxied modules (and I
-wanted the history for debug).
+Signed-off-by: Tean Cunningham <tean.cunningham@digi.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-I've never had any issues with the modules.txt, as I generate it at
-the same time as the git fetch lines for the SRC_URI. I've also not
-been using information from the go.mod directly from go.proxy.org, it
-is information I've generated from a clone of the project and dumped
-via go mod. There's likely improvements I can do there, but with what
-I'm doing, I'm going directly to the source of the projects and doing
-clones, which keeps everything clear of the go infrastructure.
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 87b5751e24..f3b8f13a55 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -76,12 +76,8 @@ systemd_create_users () {
+ 			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
+ 		elif [ "$type" = "m" ]; then
+ 			group=$id
+-			if [ ! `grep -q "^${group}:" ${IMAGE_ROOTFS}${sysconfdir}/group` ]; then
+-				eval groupadd --root ${IMAGE_ROOTFS} --system $group
+-			fi
+-			if [ ! `grep -q "^${name}:" ${IMAGE_ROOTFS}${sysconfdir}/passwd` ]; then
+-				eval useradd --root ${IMAGE_ROOTFS} --shell /sbin/nologin --system $name
+-			fi
++			eval groupadd --root ${IMAGE_ROOTFS} --system $group || true
++			eval useradd --root ${IMAGE_ROOTFS} --shell /sbin/nologin --system $name --no-user-group || true
+ 			eval usermod --root ${IMAGE_ROOTFS} -a -G $group $name
+ 		fi
+ 		done
+-- 
+2.25.1
 
-I have a utility that I'm still cleaning up that generates the SRC_URI
-lines, as well as the modules.txt, when I resolve a few nagging
-issues, I'll make the WIP scripts available.
-
-Other projects (BSD, etc), have been doing different sorts of
-constructed vendor directories, but they are similar in approach.
-
-For the short term (i.e. the upcoming release), that is pretty much
-all we can do. There isn't enough time to implement a new go fetcher
-backend for bitbake.
-
-In the end, how we fetch and place the dependencies is a transport, so
-whether or not we fetch them ourselves, or let go do it, that part is
-largely the same.
-
-For now (short term), I favour vendor/, as it is workable, but not
-perfect. It isn't exactly efficient or pretty, but at least it seems
-to produce correct output, and allows all of the project capabilities
-to work. And of course, the approach will continue to work regardless
-of development on other go.mod elements.
-
-Cheers,
-
-Bruce
-
-> Please let me know your opinion on these two approaches.
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162562): https://lists.openembedded.org/g/openembedde=
-d-core/message/162562
-> Mute This Topic: https://lists.openembedded.org/mt/89464905/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
