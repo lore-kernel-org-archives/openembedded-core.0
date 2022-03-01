@@ -2,169 +2,123 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACBE3C433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 11:59:29 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.81])
- by mx.groups.io with SMTP id smtpd.web11.7286.1646135968361309810
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEB5C433EF
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 13:08:18 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.1])
+ by mx.groups.io with SMTP id smtpd.web08.7718.1646140097243289146
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 03:59:28 -0800
+ Tue, 01 Mar 2022 05:08:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=iiGVaB9/;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.81,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=jQxwUimB;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1646135966; i=@fujitsu.com;
-	bh=PaddRR4qjRnvdovyUGbT2KpDF0sRb9htu79IFBRcUck=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=iiGVaB9/k/SqNkS0ISdYoxJJw5fYBhL9D8mrtV833cantqtyk/SMWSdbRwcKF+roL
-	 N9hWua+RUawsciqv33Ddw7RpNI9/5dpptij57HvyfDdM1shQagg0Ad3F5khMwThhcW
-	 rYZWZYQgZCVyADG5jaVskrdQY97OESFxG+lcIBtV97jO3vqiM7gsiUQrbk+7XUudwi
-	 7QUwDFxGrVutG8Zm0kmFMxjCBdOGgzNojOBD79ObvnfzoCno+79wcWOrhnMzwrAkJX
-	 qmINtjAw73wsj4wMTmcOVlzRxHhN+02xhkJ6RleSYAFfLgqRxGREFFwgplfgMcxXLu
-	 8x8aHn0AIHpJQ==
-Received: from [100.115.7.206] (using TLSv1.2 with cipher
+	s=170520fj; t=1646140095; i=@fujitsu.com;
+	bh=DsNgwWHv35ab7m1204BkKKzB8Vrw8xxitx9s/o7PluM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=jQxwUimBuRGEoNZzuSvplt8aQ0zxU4bf1oznXRe2u8hAhQxMEzCe/DIEyyb2kEJAp
+	 abTb5vqJBKJZ/s7HT2unUCSZDo5sZAScKriUiwq7zlSv7w8RWEZO5pbzSD84WRml0h
+	 NBgjD2k7+qkQuem3jSIYYiZqHVrjOuffD8ET9TyZR/DONBas0c/EdcwmYzmbCkV5XS
+	 0HKQGV4slzj8UY8+C17FQIVS649Dz/LR+zefgs3KsgHXDRGJXdTCMSfRVugH9zHfpv
+	 LKWmLO1YG00YC+gFQAytgtCXZ9m7rKpgGUxIG+n0XiB7gwa87oHhiavFx5xtkEYySw
+	 BsBK6WsCNkVEQ==
+Received: from [100.115.33.107] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 06/F2-00700-E9A0E126;
- Tue, 01 Mar 2022 11:59:26 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRWlGSWpSXmKPExsViZ8MRojuXSy7
-  JoOWZocWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtF9v4e14J1ixfuNmxgbGE/LdjFycQgJTGeS
-  +PX2DiuEc5xR4mDvH+YuRk4ONgE1iem3bgAlODhEBPQkrv4TBQkzC6hIvPjdww5iCwtYSrTv/
-  sECYrMAxV+3rQKL8wo4SSzvXgIWlxBQkJjy8D0zRFxQ4uTMJywQcyQkDr54wQxRoygx+3IzVH
-  2FxKxZbUwTGHlnIWmZhaRlASPTKkarpKLM9IyS3MTMHF1DAwNdQ0NTXVNdIyNTvcQq3US91FL
-  d8tTiEl1DvcTyYr3U4mK94src5JwUvbzUkk2MwBBLKWZ9uINxcd9PvUOMkhxMSqK8ajdlk4T4
-  kvJTKjMSizPii0pzUosPMcpwcChJ8G5nl0sSEixKTU+tSMvMAYY7TFqCg0dJhNeXEyjNW1yQm
-  FucmQ6ROsVoyfHh0JW9zBxXr4DIv5/+7mUWYsnLz0uVEuetBWkQAGnIKM2DGweLyUuMslLCvI
-  wMDAxCPAWpRbmZJajyrxjFORiVhHkfgUzhycwrgdv6CuggJqCD/gZLgRxUkoiQkmpg8uHl4n0
-  YafS7b93foqXWee1HhJhrJh7cdLvt++7zuqsX2MSWWfHLKhcpX2UvctHif/L4tWcIE8PCSuY3
-  KuHZabHSbPPEpLgF7VhLa69UuNvZBOTs8tC8yPP6l8kKgVBJx0NHrlQ0vXxV7mdUe+VrQWXHX
-  q8e3/lHeefOYT9zzMftLBdjS++rM5Wxp9ZbOv1o07z1JOvmq4OqU2InLYqpe9vZOPfbjLD770
-  R2Cj38YLfv9j/zc7MqvpZeZH3BetT7kPW3lULvanSyX30I1visHi3pc0V/e9HsmRYMFQLXVvy
-  cufpf8rcV0Tm6Oho+Z/6oX5b5uTtSbEn7g87n8bOcDqx/v+L5Wbka/f5l/H8slViKMxINtZiL
-  ihMBNs6xZ0QDAAA=
+	by server-1.bemta.az-a.eu-west-2.aws.ess.symcld.net id 19/DA-14616-FBA1E126;
+ Tue, 01 Mar 2022 13:08:15 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJIsWRWlGSWpSXmKPExsViZ8ORqLtfSi7
+  JYM1HYYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePL1S/sBau4Kjpe/mNuYOzm7GLk5BASeMwo
+  cb/fF8I+zySx8ShrFyMXkH2cUWLdy1YWkASbgJrE9Fs3gBIcHCICehJX/4mChJkFVCRe/O5hB
+  7GFBSwlXi06C1bOAhTveHAEzOYVcJJY8ucyM4gtIaAgMeXhezCbU8BZYtqcF2wQe50kLm2dxg
+  RRLyhxcuYTFoj5EhIHX7yA6lWUmH25mQXCrpCYNauNCcJWk7h6bhPzBEbBWUjaZyFpX8DItIr
+  ROqkoMz2jJDcxM0fX0MBA19DQVNfYVNfQwkQvsUo3US+1VLc8tbhE10gvsbxYL7W4WK+4Mjc5
+  J0UvL7VkEyMwhFOKlXfsYGxb9VPvEKMkB5OSKK/aTdkkIb6k/JTKjMTijPii0pzU4kOMMhwcS
+  hK8F8XkkoQEi1LTUyvSMnOA8QSTluDgURLhTRUHSvMWFyTmFmemQ6ROMSpKifNOB0kIgCQySv
+  Pg2mAxfIlRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMK+lBNAUnsy8Erjpr4AWMwEt/hssBbK
+  4JBEhJdXAJH+nYdWuBSzp9tvaI3a+s/jRfD6rPsjJq01FdkL2Hd9/7z859a31WiKXx5Tnvvfz
+  H0Zze+4DjHv/tsfG+jDfzLK/eEa4a6l6ZJPd09Qj9qvECpSvasYYrrsTwjN7+4lrC+6KOkRUb
+  ndeNnON1Ew5sbUFGlEbDly7a9jGYVhuMdc8fItLT/AFrdaz9efelOycv4zvxbons+tzV5Q014
+  apdLSZzN2atE+hIV/zwv2ot11JzTVhisUmr89enyRkf5VzTxJD8h6jjGvtkZqiH+MX6qS49XR
+  XaF3bKOout9FoQoGjxo6rJ/XefLm85lKHkhhvfNGM9OBrC17zlM/7ebV5y0450SU5wflmE00c
+  +FqVWIozEg21mIuKEwE6AJdvXAMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-19.tower-585.messagelabs.com!1646135965!15937!1
-X-Originating-IP: [62.60.8.84]
+X-Msg-Ref: server-3.tower-548.messagelabs.com!1646140095!19600!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 11518 invoked from network); 1 Mar 2022 11:59:25 -0000
-Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
-  by server-19.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 1 Mar 2022 11:59:25 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 221BxIlb015669
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 1 Mar 2022 11:59:25 GMT
+Received: (qmail 12592 invoked from network); 1 Mar 2022 13:08:15 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-3.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 1 Mar 2022 13:08:15 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id E6D5E10018F
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  1 Mar 2022 13:08:14 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id D9687100187
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  1 Mar 2022 13:08:14 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 11:59:16 +0000
+ (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 13:08:12 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] mesa: upgrade 21.3.6 -> 21.3.7
-Date: Tue, 1 Mar 2022 19:59:09 +0800
-Message-ID: <1646135949-39195-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] wget: upgrade 1.21.2 -> 1.21.3
+Date: Tue, 1 Mar 2022 21:07:55 +0800
+Message-ID: <1646140075-39370-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1646140075-39370-1-git-send-email-wangmy@fujitsu.com>
+References: <1646140075-39370-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 11:59:29 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 13:08:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162549
+ https://lists.openembedded.org/g/openembedded-core/message/162551
 
 Changelog:
 =========
-Bug fixes
----------
-lavapipe: dEQP-VK.spirv_assembly.instruction.compute.float16.arithmetic_3.step fails
-ANV: Bad output from TransformFeedback . Regression from Mesa 21. Something to do with VB+XFB -> VB+XFB dependency?
-
-Changes
--------
-pan/bi: Avoid *FADD.v2f16 hazard in optimizer
-pan/bi: Avoid *FADD.v2f16 hazard in scheduler
-pan/bi: Lower swizzles on CSEL.i32/MUX.i32
-panvk: Use more reliable assert for UBO pushing
-radv: Fix preamble argument order.
-ir3/spill: Fix simplify_phi_nodes with multiple loop nesting
-lavapipe: fix sampler + sampler view leaks.
-lavapipe: reference gallium fences correctly.
-crocus: fix leak on gen4/5 stencil fallback blit path.
-i915g: Initialize the rest of the "from_nir" temporary VS struct.
-pick_status.json: Update to dabba7d7263be6ffb6f3676465e92c65952fa824
-pick_status.json: Mark b07372312d7053f2ef5c858ceb1fbf9ade5e7c52 as denominated
-gallivm/nir: Call nir_lower_bool_to_int32 after nir_opt_algebraic_late
-nir: All set-on-comparison opcodes can take all float types
-intel/fs: Don't optimize out 1.0*x and -1.0*x
-spriv: Produce correct result for GLSLstd450Step with NaN
-spirv: Produce correct result for GLSLstd450Modf with Inf
-spirv: Produce correct result for GLSLstd450Tanh with NaN
-nir: Properly handle various exceptional values in frexp
-nir: Produce correct results for atan with NaN
-nir: Add missing dependency on nir_opcodes.py
-anv: Call vk_command_buffer_finish if create fails
-dri: avoid NULL deref of DrawBuffer on flush
-nir: fix lower_memcpy
-anv/genxml/intel/fs: fix binding shader record entry
-anv: don't set color state when input state was requested
-ac/surface: add more elements to meta equations because HTILE can use them
-lavapipe: use util_pack_color_union() for generating clear colors
-aux/draw: fix llvm tcs lane vec generation
-zink: always set VkPipelineMultisampleStateCreateInfo::pSampleMask
-zink: always invalidate streamout counter buffer if not resuming
-iris: Don't fast clear with the view format
-r300: fix transformation of abs modifiers with negate
-radeonsi: workaround Specviewperf13 Catia hang on GFX9
-radeonsi: fix depth stencil multi sample texture blit
-glx: fix pbuffer refcount init
-radv/winsys: fix initializing debug/perftest options if multiple instances
-intel/genxml: add PIPE_CONTROL field for L3 read only cache invalidation
-anv: invalidate L3 read only cache when VF cache is invalidated
-iris: invalidate L3 read only cache when VF cache is invalidated
-iris: fix a leak on surface states
-mesa/st: always use DXT5 when transcoding ASTC format
-tegra: Use private reference count for sampler views
-tegra: Use private reference count for resources
-radv: Disable IB2 on compute queues.
-venus: properly destroy deferred ahb image before real image creation
+** Fix computation of total bytes downloaded during FTP trasnfers (#61277)
+** Add option to select TLS 1.3 on the command line
+** Fix HSTS build issues on some 64-bit big-endian systems
+** Hide password during status report in --no-verbose
+** Remove a sprurious print statement that showed up even during --quiet
+** Some more cleanups and bug-fixes
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../mesa/{mesa-gl_21.3.6.bb => mesa-gl_21.3.7.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_21.3.6.bb => mesa_21.3.7.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_21.3.6.bb => mesa-gl_21.3.7.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.3.6.bb => mesa_21.3.7.bb} (100%)
+ meta/recipes-extended/wget/{wget_1.21.2.bb => wget_1.21.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/wget/{wget_1.21.2.bb => wget_1.21.3.bb} (60%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.3.6.bb b/meta/recipes-graphics/mesa/mesa-gl_21.3.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.3.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_21.3.7.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index cfd325add1..2f79e8b34d 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
-            "
+diff --git a/meta/recipes-extended/wget/wget_1.21.2.bb b/meta/recipes-extended/wget/wget_1.21.3.bb
+similarity index 60%
+rename from meta/recipes-extended/wget/wget_1.21.2.bb
+rename to meta/recipes-extended/wget/wget_1.21.3.bb
+index 90f3eb104d..f176a1546c 100644
+--- a/meta/recipes-extended/wget/wget_1.21.2.bb
++++ b/meta/recipes-extended/wget/wget_1.21.3.bb
+@@ -2,6 +2,6 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+           "
  
--SRC_URI[sha256sum] = "96bb761fd546e9aa41d025fcc025225c5668443839dae21e3731959beb096736"
-+SRC_URI[sha256sum] = "b4fa9db7aa61bf209ef0b40bef83080999d86ad98df8b8b4fada7c128a1efc3d"
+-SRC_URI[sha256sum] = "e6d4c76be82c676dd7e8c61a29b2ac8510ae108a810b5d1d18fc9a1d2c9a2497"
++SRC_URI[sha256sum] = "5726bb8bc5ca0f6dc7110f6416e4bb7019e2d2ff5bf93d1ca2ffcc6656f220e5"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_21.3.6.bb b/meta/recipes-graphics/mesa/mesa_21.3.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.3.6.bb
-rename to meta/recipes-graphics/mesa/mesa_21.3.7.bb
+ require wget.inc
 -- 
 2.25.1
 
