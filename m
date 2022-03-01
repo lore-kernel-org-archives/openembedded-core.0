@@ -1,150 +1,100 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F258C433F5
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 01:55:55 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.3570.1646099754320383874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E2DC433F5
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 04:13:51 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web09.4735.1646108030129994730
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 17:55:54 -0800
+ Mon, 28 Feb 2022 20:13:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ac0YRJAD;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id w3so20051877edu.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Z5rqyGen;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 12so13418791pgd.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Feb 2022 17:55:54 -0800 (PST)
+ Mon, 28 Feb 2022 20:13:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=q8TBqpJV9lYN+LXgEJ3XczWBzUTi0mSuMlXLO4PrvQs=;
-        b=ac0YRJADozPgYN1VWWiBgKdtT64Jt1LW9ZHxtrgnZo1eQ3SnYkVrDVsqd6KxujUKZ1
-         FlYT4kfxWRBBCioM2sd1kcx/ifukaMALFZTv+a5sV7Hl674op8xpp059VXY2whzeAfQJ
-         fo12yrYfEA7LEnjXvJ3MUcEJKjoRR///5PMUjzlGDREdgR8MWtu1dvyst0cnvV++dQIQ
-         /UCjCy0satPSyoLRG3ycVSxhHW2afm/WQD1/hSSzHZ4x1vj78/qWB83FF9tdOniMMxl7
-         EZoTGKsvRxTqGFSzRzvASC4Tbh3g3EbjNKhl7DODxdib4gLGdFqdFPDAKg059QA9Lh7r
-         aByQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CJURL1qqtDhi20aOhkKfjQ20ZTgBr25LaWLWM85AcFU=;
+        b=Z5rqyGenytK42Wfz4X+X+yCimLBYKNtudg+dabXSHm8rIYmJf+qLGMA+0U8TrB22Cs
+         tcxqVOHcrY77roVDio7vsK2UhVUWzMArvitHcAaFOzoctYnpsNAMdGNXvleCJKP7OIgz
+         ZnSWFQuulgRfx/8WUYmZfLLLkaw2ATmSSLkDHg0j+mm1+yAu5nqrSGDC8M1kKXhUZje7
+         ZDSb6oAuMYdCY3Ldd2G66+pttq9SWivH/oqbPTS4clK+QKIQXcD0UWQgwemzwyRH6bMt
+         D0xRzBn5QNX2T7XWHxhyjdznsFG+2u4W8+9vx/Ijy6pl8DHeGF54hlafAPF0S/322g5i
+         lCFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=q8TBqpJV9lYN+LXgEJ3XczWBzUTi0mSuMlXLO4PrvQs=;
-        b=QTqmUEaRy1EcB3w/KeiazXAXjC+53XGyjMTBloxIidJrcdlxHaEa6Yi8l5dL42dzmO
-         Of7YH1w6wxsGDgnOUiZnXLobhnjpH92psJ6xL3fM9RqSX3oegyO7Gu3ARqKEWonRiRNl
-         M3iEAclPqKiBlP6OosWI5UYssWNSRTjIjLx3wxxC1RaHluzn/iwXWT6oYNBBUdEOc3sp
-         C3Nk1IHFjxhpXcOd2noFxUbGDQV/emu5y6G9d97iQuTaqEGMHAs2sD+64tftgEdvPTw0
-         MEGk9Rl6VE2xrAgMV/jV530LRlTmQrdYFW4wO2AYOVANbPWxs4fObevkLpLmkWgAqRBg
-         FJEw==
-X-Gm-Message-State: AOAM53339BhejmByngEuIGaMBlOtncJywUQhXfx2YyShvOKHfb95Gx4X
-	K5mqp4S88Mycl98dWUakcGzosHqOqbphlZfh5IQ=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CJURL1qqtDhi20aOhkKfjQ20ZTgBr25LaWLWM85AcFU=;
+        b=WgHkGOnOs4ZRrRtdh9ZoYO31rr1nloiK5X8+LZ3ozJMaqM6/3M+OTNxDc95Wz3yeza
+         jz7/MQ6yTBOtsYFf6u0Lq/mNRmmZLYxxXjX7ZZff1qUR/dfY3HXCovcvWV2yvFnOVdOt
+         kL1fEGPl5H7fG/zbCozxnJZ8ZVifFrthw2R/Jl7ZnVS9/O2B6Wpj0avJI7dR5pfx65+1
+         iaNExTrlqdD6zJTzl3oJYWwJiPyOIvVfIV5OkbAk6QUgEnCGD2mdVbGrJg20PPiPRluW
+         yMVqYxDaNIonIVAoHzbHoUWpHDmFZ5MjN3+ckpl0QPvVnXSOb3yogcdeRCeJGJFXbzJB
+         C+cQ==
+X-Gm-Message-State: AOAM531JCBJR2dHMFP3iVk8q/h4VibhNrhAkefnhIUMPR01S2Xh+ZOJJ
+	2ZToJFMtSXe5yWkBJ2/2aaxawd2S5Bmzow==
 X-Google-Smtp-Source: 
- ABdhPJwEBvz+7fakzOQyHb66EYEpHA9PdFnR8tj9W9Eo8Vt21xYODJ812cDEMTIGFYTdtH/Scl4Jfm0bvigIblf8ong=
-X-Received: by 2002:aa7:dcda:0:b0:413:2c17:d969 with SMTP id
- w26-20020aa7dcda000000b004132c17d969mr21993990edu.185.1646099752771; Mon, 28
- Feb 2022 17:55:52 -0800 (PST)
+ ABdhPJzbIMjqEApDYc0CgjaXDhiLl00PNEim9UCVNYlugwroHOWrUwvuz73IXBvwUPDSpQh7xFTfHg==
+X-Received: by 2002:a05:6a00:21ca:b0:4c9:ff9:47e3 with SMTP id
+ t10-20020a056a0021ca00b004c90ff947e3mr25403501pfj.10.1646108029237;
+        Mon, 28 Feb 2022 20:13:49 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::1a20])
+        by smtp.gmail.com with ESMTPSA id
+ mi9-20020a17090b4b4900b001bc8dd413fesm765759pjb.19.2022.02.28.20.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 20:13:48 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libical: Pass TOOLCHAIN_OPTIONS via CFLAGS
+Date: Mon, 28 Feb 2022 20:13:46 -0800
+Message-Id: <20220301041346.1703440-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220228235433.3948994-1-andrei@gherzan.com>
- <16D81CEE77B62019.3953@lists.openembedded.org>
-In-Reply-To: <16D81CEE77B62019.3953@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 28 Feb 2022 20:55:41 -0500
-Message-ID: 
- <CADkTA4MEqxJc7=RNEKS4emNKOy_7ytPs4rF6F5E=EPCCMTLQSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] go.bbclass: Allow network in do_compile
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Andrei Gherzan <andrei@gherzan.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 01:55:55 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 04:13:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162522
+ https://lists.openembedded.org/g/openembedded-core/message/162523
 
-On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
->
-> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wrote:
-> >
-> > From: Andrei Gherzan <andrei.gherzan@huawei.com>
-> >
-> > Compile pulls in the go.mod list requiring network. Without this, do
-> > compile would fail with a similar error to the following:
-> >
-> > dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
->
-> This is something that needs to be carried in your own layers, IMHO it
-> isn't appropriate for core.
->
-> It isn't about the fetching, it is the entire gap in functionality
-> that we are missing if go starts fetching dependencies during compile.
+This ensures that right sysroot is used during build, otherwise we see
+warnings in build about using wrong sysroot and it fails explicitly with
+clang
 
-A further thought is that if this is for go.mod issues, there is the
-go-mod.bbclass.
+x86_64-yoe-linux-ld: warning: library search path "/usr/lib/gcc/x86_6
+4-pc-linux-gnu/11.2.0/../../../../lib64" is unsafe for cross-compilation
 
-Perhaps enabling it in that class and doing a bbwarn about go fetching
-dependencies would be appropriate ?
+x86_64-yoe-linux-ld: cannot find /usr/lib/clang/14.0.0/lib/linux/libc
+lang_rt.builtins-x86_64.a: No such file or directory
 
-Otherwise, someone may not know that this is happening and that a no
-network configuration has no chance of working.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-support/libical/libical_3.0.14.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Cheers,
-
-Bruce
-
->
-> Bruce
->
-> >
-> > Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-> > ---
-> >  meta/classes/go.bbclass | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> > index 9c4c92bffd..dc246c72cb 100644
-> > --- a/meta/classes/go.bbclass
-> > +++ b/meta/classes/go.bbclass
-> > @@ -113,6 +113,7 @@ go_do_compile() {
-> >  }
-> >  do_compile[dirs] =+ "${GOTMPDIR}"
-> >  do_compile[cleandirs] = "${B}/bin ${B}/pkg"
-> > +do_compile[network] = "1"
-> >
-> >  go_do_install() {
-> >         install -d ${D}${libdir}/go/src/${GO_IMPORT}
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162519): https://lists.openembedded.org/g/openembedded-core/message/162519
-> Mute This Topic: https://lists.openembedded.org/mt/89464905/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
-
+diff --git a/meta/recipes-support/libical/libical_3.0.14.bb b/meta/recipes-support/libical/libical_3.0.14.bb
+index 717eb11e125..879ad8ed595 100644
+--- a/meta/recipes-support/libical/libical_3.0.14.bb
++++ b/meta/recipes-support/libical/libical_3.0.14.bb
+@@ -18,6 +18,8 @@ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig gobject-introspection vala
+ 
++CFLAGS += "${TOOLCHAIN_OPTIONS}"
++
+ DEPENDS += "libical-native"
+ 
+ PACKAGECONFIG ??= "icu glib"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.35.1
+
 
