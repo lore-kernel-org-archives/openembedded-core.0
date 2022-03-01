@@ -1,138 +1,108 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D71C433EF
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 17:07:24 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.111.1646154442705340516
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34664C433EF
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 17:40:44 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web09.62.1646156442653449563
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 09:07:22 -0800
+ Tue, 01 Mar 2022 09:40:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: sakib.sajal@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 221H7Lxf004081
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 1 Mar 2022 09:07:22 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 1 Mar 2022 09:07:21 -0800
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 1 Mar 2022 09:07:21 -0800
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] go: upgrade 1.16.13 -> 1.16.14
-Date: Tue, 1 Mar 2022 12:07:15 -0500
-Message-ID: <20220301170715.10331-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DY3IkeeJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id
+ v2-20020a7bcb42000000b0037b9d960079so1719150wmj.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 01 Mar 2022 09:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=nxe9qqQMHtmtXSUHb3ZwCrAcxf9PJSEm32lT7u+iuOA=;
+        b=DY3IkeeJb/LWLzd9fYkBPay70zMEJfLSMEff84zDErgk6RwWXU1/9hzPlLrGm0hiJO
+         kLkbw7KCGMREUuans3u8sM3Nq2M8ENtX7kVOTIVgC4I6rtMLkZRqdOohhq9MPDiH7LaD
+         u7+lQm4PKGzadC1ACKbMYbvYN+cfw/nsbFKTM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=nxe9qqQMHtmtXSUHb3ZwCrAcxf9PJSEm32lT7u+iuOA=;
+        b=3vtMdyjBHbhhSsBQ/lG9nXkiL1KwUZJzs/GuS/zCfL+8CAjVzLGeE9rFHBHGw2VJ8p
+         eFq+6yvGSNc89j01+LfsHmiJQ+y4eh3DILwY4YwnxkCmh0sdQ191ItCtHblYy+zxI63+
+         w3NfzVzgTBChOe+5xAlSkd5YGOMefVewb38vqIRKXCOfzFV7EWeSJnxgPDKyjeAFamyH
+         L/0ah4wmx7HKGxKsQ4EHltUm4wocuciCnpp/nSybcJbCHB1mgfQM75FGhC23j8dfW3wA
+         Yw1DuApyxsk4Z11XPsR/KyX/eElf+dDRgD/NBEld+mBNYfn0APqQykvfouc3GHSuZa39
+         +4hA==
+X-Gm-Message-State: AOAM532dHRBjb/+4vRb2ZM4HH+CgEYA95z2KiEYKT6QV0QJec2xYq+iD
+	6hm+q56eWIFzskTftZmuBdAsIA==
+X-Google-Smtp-Source: 
+ ABdhPJzkcz/6Bh/6y23pB9CmWqA9LBZpztTvSnz380NZxPv0uJZLNr2O7MXSrsMP+2kmMa9jz0YDqQ==
+X-Received: by 2002:a7b:cd96:0:b0:381:201e:ba06 with SMTP id
+ y22-20020a7bcd96000000b00381201eba06mr18031080wmj.78.1646156441096;
+        Tue, 01 Mar 2022 09:40:41 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f88:ec89:14b:c380?
+ ([2001:8b0:aba:5f3c:5f88:ec89:14b:c380])
+        by smtp.gmail.com with ESMTPSA id
+ n5-20020a05600c3b8500b00380fc02ff76sm3451397wms.15.2022.03.01.09.40.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Mar 2022 09:40:40 -0800 (PST)
+Message-ID: 
+ <93d63f085b91f10d0e4b8c3cc54155d0d5baacf2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] sqlite3: upgrade 3.37.2 -> 3.38.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 01 Mar 2022 17:40:38 +0000
+In-Reply-To: <1646140075-39370-2-git-send-email-wangmy@fujitsu.com>
+References: <1646140075-39370-1-git-send-email-wangmy@fujitsu.com>
+	 <1646140075-39370-2-git-send-email-wangmy@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 17:07:24 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 17:40:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162566
+ https://lists.openembedded.org/g/openembedded-core/message/162567
 
-go 1.16.14 release includes fix for CVE-2022-23806.
+On Tue, 2022-03-01 at 21:07 +0800, wangmy wrote:
+> Remove invalid PACKAGECONFIG : json1
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  meta/recipes-support/sqlite/sqlite3.inc                        | 3 +--
+>  .../sqlite/{sqlite3_3.37.2.bb => sqlite3_3.38.0.bb}            | 2 +-
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>  rename meta/recipes-support/sqlite/{sqlite3_3.37.2.bb => sqlite3_3.38.0.bb} (86%)
+> 
+> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+> index aa5dc0974b..b89f509c12 100644
+> --- a/meta/recipes-support/sqlite/sqlite3.inc
+> +++ b/meta/recipes-support/sqlite/sqlite3.inc
+> @@ -23,7 +23,7 @@ CVE_PRODUCT = "sqlite"
+>  inherit autotools pkgconfig siteinfo
+>  
+>  # enable those which are enabled by default in configure
+> -PACKAGECONFIG ?= "fts4 fts5 json1 rtree dyn_ext"
+> +PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext"
+>  PACKAGECONFIG:class-native ?= "fts4 fts5 json1 rtree dyn_ext"
+>  
+>  PACKAGECONFIG[editline] = "--enable-editline,--disable-editline,libedit"
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/go/{go-1.16.13.inc => go-1.16.14.inc}   | 4 ++--
- ...o-binary-native_1.16.13.bb => go-binary-native_1.16.14.bb} | 4 ++--
- ...cross-canadian_1.16.13.bb => go-cross-canadian_1.16.14.bb} | 0
- .../go/{go-cross_1.16.13.bb => go-cross_1.16.14.bb}           | 0
- .../go/{go-crosssdk_1.16.13.bb => go-crosssdk_1.16.14.bb}     | 0
- .../go/{go-native_1.16.13.bb => go-native_1.16.14.bb}         | 0
- .../go/{go-runtime_1.16.13.bb => go-runtime_1.16.14.bb}       | 0
- meta/recipes-devtools/go/{go_1.16.13.bb => go_1.16.14.bb}     | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.13.inc => go-1.16.14.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.13.bb => go-binary-native_1.16.14.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.13.bb => go-cross-canadian_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.13.bb => go-cross_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.13.bb => go-crosssdk_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.13.bb => go-native_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.13.bb => go-runtime_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.13.bb => go_1.16.14.bb} (100%)
+This triggers:
 
-diff --git a/meta/recipes-devtools/go/go-1.16.13.inc b/meta/recipes-devtools/go/go-1.16.14.inc
-similarity index 91%
-rename from meta/recipes-devtools/go/go-1.16.13.inc
-rename to meta/recipes-devtools/go/go-1.16.14.inc
-index 8675afc3bb..6482c6fa7c 100644
---- a/meta/recipes-devtools/go/go-1.16.13.inc
-+++ b/meta/recipes-devtools/go/go-1.16.14.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.16"
--PV = "1.16.13"
-+PV = "1.16.14"
- FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -18,7 +18,7 @@ SRC_URI += "\
-     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
-     file://0001-encoding-xml-handle-leading-trailing-or-double-colon.patch \
- "
--SRC_URI[main.sha256sum] = "b0926654eaeb01ef43816638f42d7b1681f2d3f41b9559f07735522b7afad41a"
-+SRC_URI[main.sha256sum] = "467898cd3a216de54dcb9014f541efe77e9b79a7154dbc1fd2dd778b0c63fb56"
- 
- # Upstream don't believe it is a signifiant real world issue and will only
- # fix in 1.17 onwards where we can drop this.
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.13.bb b/meta/recipes-devtools/go/go-binary-native_1.16.14.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.16.13.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.16.14.bb
-index 6e498a17be..419fc4ffcf 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.16.13.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.16.14.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "275fc03c90c13b0bbff13125a43f1f7a9f9c00a0d5a9f2d5b16dbc2fa2c6e12a"
--SRC_URI[go_linux_arm64.sha256sum] = "3dd8e14837105cbfedf7124c7f8c524ce492748c370036c7316ef99e18d116d7"
-+SRC_URI[go_linux_amd64.sha256sum] = "f4f5f02eb6809ac5bf19b5ad517b23504fd5fc036f6487651968ad36aa7a20e0"
-+SRC_URI[go_linux_arm64.sha256sum] = "5e59056e36704acb25809bcdb27191f27593cb7aba4d716b523008135a1e764a"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.13.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.16.13.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.16.14.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.16.13.bb b/meta/recipes-devtools/go/go-cross_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.16.13.bb
-rename to meta/recipes-devtools/go/go-cross_1.16.14.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.13.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.16.13.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.16.14.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.16.13.bb b/meta/recipes-devtools/go/go-native_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.16.13.bb
-rename to meta/recipes-devtools/go/go-native_1.16.14.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.16.13.bb b/meta/recipes-devtools/go/go-runtime_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.16.13.bb
-rename to meta/recipes-devtools/go/go-runtime_1.16.14.bb
-diff --git a/meta/recipes-devtools/go/go_1.16.13.bb b/meta/recipes-devtools/go/go_1.16.14.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.16.13.bb
-rename to meta/recipes-devtools/go/go_1.16.14.bb
--- 
-2.33.0
+WARNING: sqlite3-native-3_3.38.0-r0 do_configure: QA Issue: sqlite3-native: invalid PACKAGECONFIG: json1 [invalid-packageconfig]
+
+but I fixed the patch in master-next.
+
+Cheers,
+
+Richard
+
+
 
 
