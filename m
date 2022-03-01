@@ -2,77 +2,80 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64575C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 639B6C433F5
 	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 09:42:15 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web11.6394.1646127733436347084
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
+ [195.245.230.81])
+ by mx.groups.io with SMTP id smtpd.web12.6404.1646127733527976540
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Mar 2022 01:42:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JAHwWfqx;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ElH7D9Eo;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.81,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1646127731; i=@fujitsu.com;
-	bh=wsK2gFexA9E0EcMGZGzIZAktLBCXNFPs0zSerai22bM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=JAHwWfqxSyK4FdbSKPCVTxwE0AFVevgxmNQUtZA3oc9aGH3le6YRbnIIoA0GcnGNB
-	 +5fBDCkTfYQDSmiQMy+2isszCkZX1cR+OktazGf8OpzHOqMFt0Gz+oUp0J8p5JznPq
-	 ew1eYmo1gbgQtAWN92iAz+Ib3vpxE70b8LLe2rUXZbWddGnKa1NjD10o2aQ7/6sNSd
-	 JDe2VsPevVLHOdN3qZm+HdX9iLVQ/LIYGRAiXA1m1gL3ZZArfhRy3MQOoeQy7VXNhr
-	 m16pZL8/gVQ+TUsdajc5l6mnEcQkOYTKVxXC2BMJWyvNWMp3qs3OW8lbS8v+YDizb9
-	 jD/rtxwq4Ij9Q==
+	bh=zYuBPAXsJgpE0bXgmrNlehSdO/Hu4/ELolgFwY+VTCA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=ElH7D9Eo9fE/bJVUJbARAVejQ8gVINFQ6YD2zquAm5VnQ2eYXf+hgGkTfSQqt/Pdr
+	 l+hO/AyOsefSAYh6LflKsNboB4Qe7kGYTTtfmVIHXjDlgR1pVMS87xXa99qY1MlURa
+	 VadYEOkBeqWOFKOwCcqTRhv8DDZ4jLb4u+VvvpMweH15iifGGy71OgppXssd+YxrG5
+	 fZL7br38+fMHzym7mfKPmNzG9Q8PvYjVDwvx4S/e86AjFwV+B/Bw4olv7JJIqkgc77
+	 l+F3HC9r6qbDb8qfVYA21WEJNP7SO/ml2XzddL6aNHQUYGlRDayJzJxb+l4UixH0Uw
+	 ZYS5FWcv7O8Bw==
 Received: from [100.115.7.206] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 0F/8E-00700-37AED126;
+	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 4E/8E-00700-37AED126;
  Tue, 01 Mar 2022 09:42:11 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqFv8Sjb
-  JoG0Xu8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrHp5i+mgk3cFYfOnWFuYNzI1cXIxSEk8JhR
-  4l3PJfYuRk4g5zyTxNZnKhCJ44wS7c2vmEESbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHid
-  w9Yr7CAq8T3tdfAylmA4n3X97GC2LwCThKtd54xgdgSAgoSUx6+Z4aIC0qcnPmEBWKOhMTBFy
-  +YIWoUJWZfbmaBsCskZs1qg+pVk7h6bhPzBEb+WUjaZyFpX8DItIrRKqkoMz2jJDcxM0fX0MB
-  A19DQVNdA18jEWC+xSjdRL7VUtzy1uETXUC+xvFgvtbhYr7gyNzknRS8vtWQTIzAkU4oZPu9g
-  XND3U+8QoyQHk5Ior9pN2SQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKErxcz4FygkWp6akVaZk5w
-  PiASUtw8CiJ8PbcAkrzFhck5hZnpkOkTjHqciy+emUvsxBLXn5eqpQ4L/tLoCIBkKKM0jy4Eb
-  BYvcQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmPfPC6ApPJl5JXCbXgEdwQR0xN9gKZAjShI
-  RUlINTNm2Ffusd9hnRJw01TbfyHt6WibDsubvwj0Ra1a9s5hgzfE904xp19XFnx/NZ3d0uszK
-  XMWXYLkvvONeQe6VQJsDb5OOHz9/kkfm1EvTn8ZCgfln3T7W9R698D8531ZLyNx0Qf0rzsNvJ
-  k9WuZP3taBGe+uXc03x9tzxb/5yzjXqmG19s3/3jpKllzsMO4M7dLc1iFku8EtaL7JPJvPZwZ
-  mJ1Xa2H3N8mbJSjm7+Ujn7pojlQwO+u+rynhkJRhcb55avefZWOfGQ7Qses4kzpKe3PnnYmRB
-  wVPrZtui3vTp36haqv362ovCu995nfjlLQ60yU9p/dL8Wm8KtYpUsbOp+yOj9Ujev2hdcrxw0
-  lViKMxINtZiLihMBYYi+G1ADAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBIsWRWlGSWpSXmKPExsViZ8ORqFv8Sjb
+  JYN16Tos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPmngdMBfu5K47eOMHWwLiIq4uRi0NI4DGj
+  RNP2rywQznkmiZ5TnawQznFGiZ1XzwJlODnYBNQkpt+6AZTg4BAR0JO4+k8UJMwsoCLx4ncPO
+  0hYWMBd4vk/MxCTBSjcMl0FpIJXwEni44FHTCC2hICCxJSH75lBbE4BZ4n+BRfAhgsB1Zz+M5
+  MNol5Q4uTMJywQ0yUkDr54wQzRqygx+3IzC4RdITFrVhvUTDWJq+c2MU9gFJyFpH0WkvYFjEy
+  rGK2SijLTM0pyEzNzdA0NDHQNDU11TXSNjC31Eqt0E/VSS3XLU4tLdA31EsuL9VKLi/WKK3OT
+  c1L08lJLNjECAzilmOX9Dsamvp96hxglOZiURHnVbsomCfEl5adUZiQWZ8QXleakFh9ilOHgU
+  JLg5XoOlBMsSk1PrUjLzAFGE0xagoNHSYS35xZQmre4IDG3ODMdInWKUVFKnLf2JVBCACSRUZ
+  oH1waL4EuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHktQabwZOaVwE1/BbSYCWjx32ApkMU
+  liQgpqQampjO7OloVveXNG6Z9LttheP29hZdK0Srx8N62vi3fOBPs9f91WE35/Sfs+ZJ77OYb
+  L2rdU85d/bmgN+p6+QXH4I99Qj99u94YF0nkTk/bsVxTT2vTrY9HbQLiZv/6wrxoT5C7rM2G0
+  LWrnRVF3mh/cek6PPVUlq5O04FQZXmp7dvVD79xnLV11yET7j9NW/dITzkWYvPFV2bm/jlV/3
+  1zf3Qmqi446jtl2/oEs+cck5dyRHEasErm3bXWuXwq6xZ31SXx/Zr/En7zxoccqyplmM15wcR
+  Lacere80lWsbq2+IOn14t93T1p3A1c55aviM+/jH/mxNbMwLub+i2LlU3tJzrI/Pf+haT/t6X
+  e6qVWIozEg21mIuKEwH9cujAWwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-20.tower-587.messagelabs.com!1646127730!3095!1
+X-Msg-Ref: server-3.tower-585.messagelabs.com!1646127730!2947!1
 X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 30992 invoked from network); 1 Mar 2022 09:42:11 -0000
+Received: (qmail 30080 invoked from network); 1 Mar 2022 09:42:11 -0000
 Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-20.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-3.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 1 Mar 2022 09:42:11 -0000
 Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id A5918100190
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id A8C4A100192
 	for <openembedded-core@lists.openembedded.org>;
  Tue,  1 Mar 2022 09:42:10 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 99B6E100186
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 9BDA4100187
 	for <openembedded-core@lists.openembedded.org>;
  Tue,  1 Mar 2022 09:42:10 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 09:41:53 +0000
+ (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 09:41:55 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.25.0 -> 0.26.1
-Date: Tue, 1 Mar 2022 17:41:43 +0800
-Message-ID: <1646127704-38701-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-hypothesis: upgrade 6.37.2 -> 6.39.0
+Date: Tue, 1 Mar 2022 17:41:44 +0800
+Message-ID: <1646127704-38701-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1646127704-38701-1-git-send-email-wangmy@fujitsu.com>
+References: <1646127704-38701-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -84,38 +87,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 09:42:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162540
+ https://lists.openembedded.org/g/openembedded-core/message/162539
 
-Changelog from 0.25.0 to 0.26.1:
-==========
-- logind template: Add locking API
-- bluez5 template: Add RemoveDevice() and RemoveAdapterWithDevices() methods,
-  fix properties
-- Documentation improvements, particularly wrt. raising errors
-- Fix README content type to Markdown, to fix releasing to PyPi
+Changelog:
+=========
+This release improves Hypothesis' handling of positional-only arguments,
+which are now allowed @st.composite strategies.
+
+On Python 3.8 and later, the first arguments to builds() and from_model()
+are now natively positional-only. In cases which were already errors, the
+TypeError from incorrect usage will therefore be raises immediately when
+the function is called, rather than when the strategy object is used.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-dbusmock_0.25.0.bb => python3-dbusmock_0.26.1.bb}  | 2 +-
+ ...ython3-hypothesis_6.37.2.bb => python3-hypothesis_6.39.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.25.0.bb => python3-dbusmock_0.26.1.bb} (84%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.37.2.bb => python3-hypothesis_6.39.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
-index 3a9cdda5f6..d892ac9804 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.39.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.39.0.bb
+index 4deed1e56f..81bc26208d 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.37.2.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.39.0.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
--SRC_URI[sha256sum] = "6f4ce7650ecbb022684dc158df720e199635f3a3df75f7020f4fe8f6ff0394db"
-+SRC_URI[sha256sum] = "0e95ef6ec1e6b58aeb0e08839a76972debea94184570f09e29e5f12551399e55"
+-SRC_URI[sha256sum] = "79321035b9174ffa506d724ca5e8af375d7bf532c80e4f602bd433792c527e6c"
++SRC_URI[sha256sum] = "1744b82251ce89173e9d5b3627c59723ec0b5130df1c1710e19b8e6f5f42399b"
  
- PYPI_PACKAGE = "python-dbusmock"
- PIP_INSTALL_PACKAGE = "python_dbusmock"
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.25.1
 
