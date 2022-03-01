@@ -1,91 +1,122 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F03D2C433F5
-	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 09:34:10 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.6323.1646127250399012520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64575C433FE
+	for <webhook@archiver.kernel.org>; Tue,  1 Mar 2022 09:42:15 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web11.6394.1646127733436347084
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 01:34:10 -0800
+ Tue, 01 Mar 2022 01:42:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GaSfZuoT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id p9so19426662wra.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Mar 2022 01:34:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=0CYJ15osrvrwEeOGiCOybetiAcsJYa17r+EXYKOaB7U=;
-        b=GaSfZuoTXZ5Sl930/LGe62s3MFflJo665IXOUlY+H2lyDpmuU/4kcFz0knGIutryvm
-         cr8lTfjBvOX4jwWxbyvvArSKn4TAoNd3wljgBzhxZPdF0/UvclBKJXV3acPFGFKc5FCt
-         /N6pWbsUdKo8E4LIg/JwDozzPv5CXboZbqybM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0CYJ15osrvrwEeOGiCOybetiAcsJYa17r+EXYKOaB7U=;
-        b=VnpaAtTulBltMUjBfLZFx3h37a3keHRCj0LBehsJJFUKHTaHv2Cjw2JArOALtKUnI+
-         mp+Q5C55YFSM5jBcaOYMPBA9eUFunoe7WNeoCozs66bj/269Fx5l1fONnlv3klZSsfLL
-         OVE2TBt5cNudLMu0n8vun7rtI/Lc4FL5h7kQaMX39j+sdQWt1TXiQ63QcuJZr3P+IZuZ
-         HxeyviSP4sv7EEa1vPA8uin1K/8txCEMOInSOj/Ml62f2epY+c3/0R/U709M9Zg5hzEq
-         KZ0p92vvpxlG8aBARzBr2bO9PmYsDd2QlvzEKyfoVpZf9X4psYx6r0xm1FpTH2kCJPHu
-         OEoA==
-X-Gm-Message-State: AOAM5328uvA/vdWLj3N+zYtBw9baBx2mTUqQgZlaQi3MhxAsoaK7lKvc
-	jtb95d2gTJRT2p+nGMl7aH9/jQ==
-X-Google-Smtp-Source: 
- ABdhPJw++s8FkkpWtNxT4IiMBp+/6iTqk1b2AZZZWOL10z6miSzLVEiY4CGHAfFThMe2jG4K9QnwAQ==
-X-Received: by 2002:adf:f611:0:b0:1ed:e11a:67a4 with SMTP id
- t17-20020adff611000000b001ede11a67a4mr18841789wrp.215.1646127248539;
-        Tue, 01 Mar 2022 01:34:08 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5f88:ec89:14b:c380?
- ([2001:8b0:aba:5f3c:5f88:ec89:14b:c380])
-        by smtp.gmail.com with ESMTPSA id
- i20-20020a05600c355400b0038164ef5418sm2106289wmq.32.2022.03.01.01.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Mar 2022 01:34:08 -0800 (PST)
-Message-ID: 
- <1356a980b2ab07660ee5c4c762afd2a586cad676.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] pip_install_wheel: improve wheel handling
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lee Chee Yang <chee.yang.lee@intel.com>, Konrad Weihmann
-	 <kweihmann@outlook.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Mar 2022 09:34:04 +0000
-In-Reply-To: 
- <DM5PR1101MB236143C46FFE2DE38DEDF521B9029@DM5PR1101MB2361.namprd11.prod.outlook.com>
-References: 
-	<AS8PR09MB4645B9D742E68820D384DA6DA8029@AS8PR09MB4645.eurprd09.prod.outlook.com>
-	 <DM5PR1101MB236143C46FFE2DE38DEDF521B9029@DM5PR1101MB2361.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JAHwWfqx;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1646127731; i=@fujitsu.com;
+	bh=wsK2gFexA9E0EcMGZGzIZAktLBCXNFPs0zSerai22bM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=JAHwWfqxSyK4FdbSKPCVTxwE0AFVevgxmNQUtZA3oc9aGH3le6YRbnIIoA0GcnGNB
+	 +5fBDCkTfYQDSmiQMy+2isszCkZX1cR+OktazGf8OpzHOqMFt0Gz+oUp0J8p5JznPq
+	 ew1eYmo1gbgQtAWN92iAz+Ib3vpxE70b8LLe2rUXZbWddGnKa1NjD10o2aQ7/6sNSd
+	 JDe2VsPevVLHOdN3qZm+HdX9iLVQ/LIYGRAiXA1m1gL3ZZArfhRy3MQOoeQy7VXNhr
+	 m16pZL8/gVQ+TUsdajc5l6mnEcQkOYTKVxXC2BMJWyvNWMp3qs3OW8lbS8v+YDizb9
+	 jD/rtxwq4Ij9Q==
+Received: from [100.115.7.206] (using TLSv1.2 with cipher
+ DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-3.bemta.az-a.eu-west-1.aws.ess.symcld.net id 0F/8E-00700-37AED126;
+ Tue, 01 Mar 2022 09:42:11 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqFv8Sjb
+  JoG0Xu8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmrHp5i+mgk3cFYfOnWFuYNzI1cXIxSEk8JhR
+  4l3PJfYuRk4g5zyTxNZnKhCJ44wS7c2vmEESbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHid
+  w9Yr7CAq8T3tdfAylmA4n3X97GC2LwCThKtd54xgdgSAgoSUx6+Z4aIC0qcnPmEBWKOhMTBFy
+  +YIWoUJWZfbmaBsCskZs1qg+pVk7h6bhPzBEb+WUjaZyFpX8DItIrRKqkoMz2jJDcxM0fX0MB
+  A19DQVNdA18jEWC+xSjdRL7VUtzy1uETXUC+xvFgvtbhYr7gyNzknRS8vtWQTIzAkU4oZPu9g
+  XND3U+8QoyQHk5Ior9pN2SQhvqT8lMqMxOKM+KLSnNTiQ4wyHBxKErxcz4FygkWp6akVaZk5w
+  PiASUtw8CiJ8PbcAkrzFhck5hZnpkOkTjHqciy+emUvsxBLXn5eqpQ4L/tLoCIBkKKM0jy4Eb
+  BYvcQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmPfPC6ApPJl5JXCbXgEdwQR0xN9gKZAjShI
+  RUlINTNm2Ffusd9hnRJw01TbfyHt6WibDsubvwj0Ra1a9s5hgzfE904xp19XFnx/NZ3d0uszK
+  XMWXYLkvvONeQe6VQJsDb5OOHz9/kkfm1EvTn8ZCgfln3T7W9R698D8531ZLyNx0Qf0rzsNvJ
+  k9WuZP3taBGe+uXc03x9tzxb/5yzjXqmG19s3/3jpKllzsMO4M7dLc1iFku8EtaL7JPJvPZwZ
+  mJ1Xa2H3N8mbJSjm7+Ujn7pojlQwO+u+rynhkJRhcb55avefZWOfGQ7Qses4kzpKe3PnnYmRB
+  wVPrZtui3vTp36haqv362ovCu995nfjlLQ60yU9p/dL8Wm8KtYpUsbOp+yOj9Ujev2hdcrxw0
+  lViKMxINtZiLihMBYYi+G1ADAAA=
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-20.tower-587.messagelabs.com!1646127730!3095!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.8; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 30992 invoked from network); 1 Mar 2022 09:42:11 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-20.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 1 Mar 2022 09:42:11 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id A5918100190
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  1 Mar 2022 09:42:10 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 99B6E100186
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  1 Mar 2022 09:42:10 +0000 (GMT)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 09:41:53 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.25.0 -> 0.26.1
+Date: Tue, 1 Mar 2022 17:41:43 +0800
+Message-ID: <1646127704-38701-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 09:34:10 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Mar 2022 09:42:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162538
+ https://lists.openembedded.org/g/openembedded-core/message/162540
 
-On Tue, 2022-03-01 at 09:32 +0000, Lee Chee Yang wrote:
-> Hi 
-> 
-> look like this is causing some build error: 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/4816/steps/12/logs/stdio
+Changelog from 0.25.0 to 0.26.1:
+==========
+- logind template: Add locking API
+- bluez5 template: Add RemoveDevice() and RemoveAdapterWithDevices() methods,
+  fix properties
+- Documentation improvements, particularly wrt. raising errors
+- Fix README content type to Markdown, to fix releasing to PyPi
 
-Yes, 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../{python3-dbusmock_0.25.0.bb => python3-dbusmock_0.26.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dbusmock_0.25.0.bb => python3-dbusmock_0.26.1.bb} (84%)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5156/steps/11/logs/stdio
-
-too. I've stopped that build and dropped the patch.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
+rename to meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
+index 3a9cdda5f6..d892ac9804 100644
+--- a/meta/recipes-devtools/python/python3-dbusmock_0.25.0.bb
++++ b/meta/recipes-devtools/python/python3-dbusmock_0.26.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-SRC_URI[sha256sum] = "6f4ce7650ecbb022684dc158df720e199635f3a3df75f7020f4fe8f6ff0394db"
++SRC_URI[sha256sum] = "0e95ef6ec1e6b58aeb0e08839a76972debea94184570f09e29e5f12551399e55"
+ 
+ PYPI_PACKAGE = "python-dbusmock"
+ PIP_INSTALL_PACKAGE = "python_dbusmock"
+-- 
+2.25.1
 
 
