@@ -1,115 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <2b1a5391ad635f2349b56bbb03c94fbee5d2baff.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] license: Rework INCOMPATIBLE_LICENSE wildcard handling
+Message-ID: <e790ba26401bfca4d526588e88d4c0318a40ddcc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] wic: Use custom kernel path if provided
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 02 Mar 2022 15:34:16 +0000
-In-Reply-To: <7d61dda553234e96b0be45bd550b0918@axis.com>
-References: <20220301234214.247172-1-richard.purdie@linuxfoundation.org>
-	 <20220301234214.247172-4-richard.purdie@linuxfoundation.org>
-	 <7d61dda553234e96b0be45bd550b0918@axis.com>
+Date: Wed, 02 Mar 2022 23:02:56 +0000
+In-Reply-To: <SN6PR04MB49095E1D789819C9E3CEC881EC349@SN6PR04MB4909.namprd04.prod.outlook.com>
+References: 
+	<SN6PR04MB49095E1D789819C9E3CEC881EC349@SN6PR04MB4909.namprd04.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+To: Bill Pittman <bill.pittman@ni.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 
-On Wed, 2022-03-02 at 15:09 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 2 mars 2022 00:42
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 4/4] license: Rework INCOMPATIBLE_LICENSE
-> > wildcard handling
-> > 
-> > The current wildcard handling is badly documented and inconsistently
-> > used and understood.
-> > 
-> > Forcing users to have to use "GPL-3.0-only GPL-3.0-or-later" whilst
-> > explict is not very user friendly. Equally, using the current wildcards
-> > is ambigious. This supports pre-defined expansions only and at least makes
-> > it clear what GPL-3.0* means (it doesn't include the exception licenses).
-> > 
-> > This is hopefully an acceptable compromise between literal meaning and
-> > having something usable.
-> > 
-> > Non-SPDX forms of license in this field have been dropped and errors are
-> > shown for unsupported expansions and unsupported old style license terms.
-> > 
-> > Users need to carefully consider how to migrate to the new syntax but
-> > the meaning should be well defined and clear from here forward.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/classes/license.bbclass                  | 41 +++++----
-> >  .../oeqa/selftest/cases/incompatible_lic.py   | 86 +++++++++++--------
-> >  2 files changed, 70 insertions(+), 57 deletions(-)
-> > 
-> > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> > index 68c022248c8..cb1f46983ac 100644
-> > --- a/meta/classes/license.bbclass
-> > +++ b/meta/classes/license.bbclass
-> > @@ -277,28 +277,27 @@ AVAILABLE_LICENSES := "${@'
-> > '.join(available_licenses(d))}"
-> > 
-> >  def expand_wildcard_licenses(d, wildcard_licenses):
-> >      """
-> > -    Return actual spdx format license names if wildcards are used. We
-> > expand
-> > -    wildcards from SPDXLICENSEMAP flags and AVAILABLE_LICENSES.
-> > +    There are some common wildcard values users may want to use. Support
-> > them
-> > +    here.
-> >      """
-> > -    import fnmatch
-> > -
-> > -    licenses = wildcard_licenses[:]
-> > -    spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
-> > -    for wld_lic in wildcard_licenses:
-> > -        spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
-> > -        licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in
-> > spdxflags]
-> > -        # Assume that if we are passed "GPL-3.0" or "*GPL-3.0", then it
-> > means
-> > -        # "-or-later" as well.
-> > -        if not wld_lic.endswith(("-or-later", "-only", "*", "+")):
-> > -            spdxflags = fnmatch.filter(spdxmapkeys, wld_lic + "+")
-> > -            licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in
-> > spdxflags]
-> > -
-> > -    spdx_lics = d.getVar('AVAILABLE_LICENSES').split()
-> > -    for wld_lic in wildcard_licenses:
-> > -        licenses += fnmatch.filter(spdx_lics, wld_lic)
-> > -
-> > -    licenses = list(set(licenses))
-> > -    return licenses
-> > +    licenses = set(wildcard_licenses)
-> > +    mapping = {
-> > +        "GPL-3.0*" : ["GPL-3.0-only", "GPL-3.0-or-later"],
-> > +        "LGPL-3.0*" : ["LGPL-3.0-only", "LGPL-3.0-or-later"],
+On Tue, 2022-02-15 at 16:54 +0000, Bill Pittman wrote:
+> If the custom kernel path is provided in options, then
+> use that path instead of the default path.
 > 
-> If you are adamant about using "*" in these shortcuts (which I 
-> still think is a mistake), then you should add these two as well:
+> Signed-off-by: Bill Pittman <bill.pittman@ni.com>
+> ---
+>  scripts/wic | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->         "AGPL-3.0*" : ["AGPL-3.0-only", "AGPL-3.0-or-later"],
->         "*GPL-3.0*" : ["GPL-3.0-only", "GPL-3.0-or-later", "LGPL-3.0-only",
-> "LGPL-3.0-or-later", "AGPL-3.0-only", "AGPL-3.0-or-later"],
-> 
-> I believe the last one is what most really want to do, i.e., 
-> exclude all GPL-3.0 variants.
+> diff --git a/scripts/wic b/scripts/wic
+> index a741aed364..29a157bf37 100755
+> --- a/scripts/wic
+> +++ b/scripts/wic
+> @@ -159,6 +159,9 @@ def wic_create_subcommand(options, usage_str):
+>                             "(Use -e/--image-name to specify it)")
+>          native_sysroot = options.native_sysroot
+>  
+> +    if options.kernel_dir:
+> +        kernel_dir = options.kernel_dir
+> +
+>      if not options.vars_dir and (not native_sysroot or not
+> os.path.isdir(native_sysroot)):
+>          logger.info("Building wic-tools...\n")
+>          subprocess.check_call(["bitbake", "wic-tools"])
 
-I don't think I've seen anything under the AGPL. I don't have a strong
-preference for adding it here or not, I was tempted to wait for patches and see
-if anyone needed it.
 
-The idea is the wildcards added should remove the need for the latter as people
-can say "GPL-3.0* LGPL-3.0*" which I think is manageable.
+The concern with these kinds of changes is I can't really test it or tell if it
+is the right thing to do and I worry about it regressing in the future.
+
+Is there part of the test coverage we should be improving too? wic does have
+fairly good coverage from oe-selftest -r wic
 
 Cheers,
 
 Richard
-
-
 
