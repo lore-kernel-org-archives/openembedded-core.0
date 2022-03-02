@@ -2,239 +2,118 @@ Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F381C433EF
-	for <webhook@archiver.kernel.org>; Wed,  2 Mar 2022 21:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F6FC433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Mar 2022 22:06:05 +0000 (UTC)
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
- by mx.groups.io with SMTP id smtpd.web08.3768.1646258237239709300
+ by mx.groups.io with SMTP id smtpd.web12.3874.1646258764650392390
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Mar 2022 13:57:17 -0800
+ Wed, 02 Mar 2022 14:06:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gherzan.com header.s=fm1 header.b=R8bBOA/T;
+ dkim=pass header.i=@gherzan.com header.s=fm1 header.b=D4SQCtFw;
  spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 53B8A5C01AD;
-	Wed,  2 Mar 2022 16:57:15 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 02 Mar 2022 16:57:15 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id DECD35C0109;
+	Wed,  2 Mar 2022 17:06:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 02 Mar 2022 17:06:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; bh=WC/9g+kUWfqXtE
-	vhN+5fuDL3dD0DR5klbExW3553ouo=; b=R8bBOA/TFznCaxT06MRMM4mrnebOyQ
-	Hgv17aDR3JXuIJ2qhMS4WDPPGvKHkAzY665AKLWNPt258DjVgQogeima9T7wKh1M
-	VbpJVa9egjTBu7EXQQlAAdaJcAr57lpiKp6RPAm6fppsU1woyhanrmCTDjbk29Kr
-	o/pr/IbqsWsmfP0Ilkefja2q+AZ0PP/YchXi7eKFb/atrgwjR3r1lEQ0oLbxVWr6
-	jaIm0FR4r1rbDF6eXtn+qqE4ZTVw9Ie08fqbQBGUNWJ+hUyMN0AHCJizg+4UNF1D
-	9yF5AqLPVpssxClOZOzcW+k1X/O9PY5h8I6i0idfRc33MLYi5EtmYIZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=WC/9g+kUWfqXtEvhN+5fuDL3dD0DR5klbExW3553o
-	uo=; b=F5hBqItNwE5rk9/oeGcRPhz7Drc/oZ/Lx6PXJjvofW58luGC7E/RGJI8f
-	ESaEPKQuv460O4DfTpNLuPCcAWKCH6iAAPff/8lXJ/WWo5a5weMYgGOMYwivscS7
-	4vSqvwPMhSLy1olLoTITYLqNgjZNKYtw58s+uGiYUzsMtVmAfdkH2ZLwggJRm8Jc
-	mCw9V0xap8BoBgNE7d/ihQPJrIfnSZL+Wh61jzI1U6++KHrBgctOQtOS+F6Y2qdB
-	Ob5Hpy3dTQkV7/NcgSV1SYKNCCakh2J5fnyBBwYdrseCmG87PkLUxbzkrniTA9Vl
-	P+LpybtLwuNjT8foG+rMLI+fYY/bw==
-X-ME-Sender: <xms:OugfYv5flzPLjdQFwa6dpSEztjOab1aX1VzHlIkGy3_UfMVCKBn8vg>
-    <xme:OugfYk4v0AHDuH9ouASyUt5zio4GjcHDp9yV8QWKT120qOoN5qyH1duMqL097RCts
-    EpQL3BsgidseGBQw6Y>
+	:subject:to:to; s=fm1; bh=56+HK7Uzp5R6W1jQtUcQjk8LXf2qF8jiqIm9dl
+	q6WZc=; b=D4SQCtFwDLy7DUkxAIblbR0SstsOsp2Sd/lfWN9j0+P1cJmXYEWyUb
+	lDXBAk6lba8a1H1HmrzoU5dO86noOmeeTcMfEx6evAnd0+E8e49+rPJ1ncTHswy2
+	DTFe8DkzS/hrQSz8f64tLFy9S02EG8ukn8DYVB8rlvdVien3SnV9RRj62S97Yzor
+	yhb+7is+D2wx0jvQQJ6u699mQlWk3RMtAaRGKrH8Tiw6k628lNxexFi2kW12V55N
+	5SQu4Eqx1YF7NJSvj80pNNi8YTZytXKDAxUqI5w2Z+XCdQm1PpertmmvRfUGJRz8
+	gF7l5a5R1pq8NChnaJhQet+2wX5Yb9Gg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=56+HK7Uzp5R6W1jQt
+	UcQjk8LXf2qF8jiqIm9dlq6WZc=; b=IAmHPwJsdt8y6aUNiSXxSt2RcuVOGaZAc
+	IOD9QqevbHiIstubM7xPYYcqUpgpKk84unNGQmp2HzEK2AKbr3DOj2kfzPPWEwtq
+	zuykWh8/QQZiKDxrJGK1oLizRWsNpFCfTAj9l8lpqQ7Cg4R+NxTcsEAJz0pQUZIX
+	MrgJ0RiJmB1MmTc0xNB9mSFZ3RmUCmNjCQL4EUGNvucnVnocyVSOb5afuY4HmCa+
+	yajvbHadLXz7lJKUEeccekZdPJC70BltVl8G6PhZfhH8RUj3hmE+3Q4dUJYBIsmA
+	lOriCv08t5KkNPATPIsoQvTw2kJtQdjYTXqMdrKY8XPZyi98lxWyQ==
+X-ME-Sender: <xms:S-ofYsv-AFog3s_XKxB0cVNsbORr0BKFu3d4mxIHNcBOBzeIu1AEvw>
+    <xme:S-ofYpf6cGyPH7vXL1c9WH5stY03qHAoluVaY770OkEm6wIcD82Q6TyYeWfqtbuwu
+    FI6DGKMiy8ZJ7HtqYo>
 X-ME-Received: 
- <xmr:OugfYmeQbAfFtT_RE-ME4gt-UTNCbBDi5ZDCLh6EhEedzofH9GzZ8qfmxW08wQ>
+ <xmr:S-ofYny00pnZ8uQTZYoJZMbkdiSrebAeITSV8vmkvnCxS09P-tML-f9GXcxT0Q>
 X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgudehtdcutefuodetggdotefrod
+ gggruggvucftvghtrhhoucdtuddrgedvvddruddtgedgudehvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvkfgjfhfugggtgfesthhqredttddtjeenucfhrhhomheptehnughr
-    vghiucfihhgvrhiirghnuceorghnughrvghisehghhgvrhiirghnrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeehjeefvdekfefhfeefkeffhefhhfehudehffejjeeugedutdekhefh
-    tdfgueetueenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgohhlrg
-    hnghdrohhrghdpghdrsgihpdhprhhogiihrdhorhhgnecuvehluhhsthgvrhfuihiivgep
-    tdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrdgtoh
-    hm
-X-ME-Proxy: <xmx:O-gfYgJyzWiiyZ5VrkoPwitq3uFq26znoefhNt6M0ZqxC_37alvAOQ>
-    <xmx:O-gfYjIbA0a-WCE5xQDkm-EKWtZsVtRg5T1oaP8KIuC4VpkDxgmdGw>
-    <xmx:O-gfYpwcwIiACkTpUEtVQbV6jabPZ9fIBJ1_ICwlqGc4EnDLi2uhTw>
-    <xmx:O-gfYpj76-9md86E6M5uJCMPkYbiiyw88-gUcIkVbyvz2qKFIdLJQw>
+    enucfjughrpeffhffvkfgjfhfugggtsegrtdersgdttdejnecuhfhrohhmpeetnhgurhgv
+    ihcuifhhvghriigrnhcuoegrnhgurhgvihesghhhvghriigrnhdrtghomheqnecuggftrf
+    grthhtvghrnhepgfevheetudevheeiteelvedvheeugefgheetveevleffveekudduueei
+    vdejffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghnughrvghisehghhgvrhiirghnrdgtohhm
+X-ME-Proxy: <xmx:S-ofYvOsEfyLvFZkY1LWp5jvLWbzBGm3LjF61wpkIaDmwSiCUjkLFg>
+    <xmx:S-ofYs-5MJsN6QIORBlkuyx81OjFfLfDSOflZdVWchRcliW7KsMdow>
+    <xmx:S-ofYnWzaSiQd8iEuW2VW9gJDP0qHDwDSdQjas085LZxk9QPOHhUVg>
+    <xmx:S-ofYhFle_TN3pNRW4urXs7NM61RwfdUdSWEkhtt-aM6xr1VEdBb8g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Mar 2022 16:57:14 -0500 (EST)
-Date: Wed, 2 Mar 2022 21:57:13 +0000 (UTC)
+ 2 Mar 2022 17:06:03 -0500 (EST)
+Date: Wed, 2 Mar 2022 22:06:02 +0000 (UTC)
 From: Andrei Gherzan <andrei@gherzan.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: lukas.funke@weidmueller.com,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Message-ID: <9a15b064-6962-4f12-aa41-890f9890d64b@gherzan.com>
+To: Bill Pittman <bill.pittman@ni.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-ID: <50482c34-35af-4e12-8ce6-db2f1b7c1914@gherzan.com>
 In-Reply-To: 
- <CADkTA4NKK0OXXnJSrpD7Vg-UQoygUR1ZPXaGOqKtJ9kmyGSukg@mail.gmail.com>
+ <SN6PR04MB49095E1D789819C9E3CEC881EC349@SN6PR04MB4909.namprd04.prod.outlook.com>
 References: 
- <CADkTA4N0NaDoS5e5+E92vkNXdQ9AsUxc7zH=Sd+9X=hcq3BPhQ@mail.gmail.com>
- <3986.1646150091898772204@lists.openembedded.org>
- <CADkTA4NKK0OXXnJSrpD7Vg-UQoygUR1ZPXaGOqKtJ9kmyGSukg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] go.bbclass: Allow network in do_compile
+ <SN6PR04MB49095E1D789819C9E3CEC881EC349@SN6PR04MB4909.namprd04.prod.outlook.com>
+Subject: Re: [OE-core] [PATCH] wic: Use custom kernel path if provided
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <9a15b064-6962-4f12-aa41-890f9890d64b@gherzan.com>
+Content-Type: multipart/alternative;
+	boundary="----=_Part_5_152330063.1646258762144"
+X-Correlation-ID: <50482c34-35af-4e12-8ce6-db2f1b7c1914@gherzan.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Mar 2022 21:57:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Mar 2022 22:06:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162626
+ https://lists.openembedded.org/g/openembedded-core/message/162627
+
+------=_Part_5_152330063.1646258762144
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-Mar 1, 2022 20:15:52 Bruce Ashfield <bruce.ashfield@gmail.com>:
+Feb 15, 2022 16:54:28 Bill Pittman <bill.pittman@ni.com>:
 
-> On Tue, Mar 1, 2022 at 10:54 AM <lukas.funke@weidmueller.com> wrote:
->>
->> On Tue, Mar 1, 2022 at 02:14 PM, Bruce Ashfield wrote:
->>
->> On Tue, Mar 1, 2022 at 6:42 AM Andrei Gherzan <andrei@gherzan.com> wrote=
-:
->>
->>
->> On Tue, 1 Mar 2022, at 01:55, Bruce Ashfield wrote:
->>
->> On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
->> lists.openembedded.org
->> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->>
->>
->> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wrot=
-e:
->>
->>
->> From: Andrei Gherzan <andrei.gherzan@huawei.com>
->>
->> Compile pulls in the go.mod list requiring network. Without this, do
->> compile would fail with a similar error to the following:
->>
->> dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
->>
->> This is something that needs to be carried in your own layers, IMHO it
->> isn't appropriate for core.
->>
->> It isn't about the fetching, it is the entire gap in functionality
->> that we are missing if go starts fetching dependencies during compile.
->>
->> A further thought is that if this is for go.mod issues, there is the
->> go-mod.bbclass.
->>
->> Perhaps enabling it in that class and doing a bbwarn about go fetching
->> dependencies would be appropriate ?
->>
->> Otherwise, someone may not know that this is happening and that a no
->> network configuration has no chance of working.
->>
->> I reckon that is reasonable. I'll personally go down the recipe level to=
- workaround this change but understanding and agreeing with the reasoning b=
-ehind this change, I want to invest a bit into trying to find a proper solu=
-tion in the core. Bruce, I know you invested a fair amount of time into thi=
-s already. Would you be willing to sync up and see how we can work together=
- in tackling this?
->>
->> Definitely, more ideas are good. In fact, I think there are probably
->> several approaches that can co-exist, depending on what a
->> recipe/developer needs.
->>
->> I'm in the Eastern time zone here, and will try and grab folks on IRC
->> to have a level set
->>
->> Bruce
->>
->> Added Zyga to CC as he is also interested in this as part of his go deve=
-lopment activities.
->>
->> Thanks,
->> Andrei
->>
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->>
->> The problem in allowing downloads during compile (e.g. by go) is, that i=
-t leads to non-reproducable builds. I'm currently facing the same issue and=
- would like to have a reproducable go *offline* build.
->> I would like to propose two ideas to workaround the go-compile fetching =
-issue:
->>
->> First:
->> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. =
-by writing a seperate go fetcher or a wget-fetcher) and unpack the dependen=
-cies into go projects 'vendor' folder. This forces go to compile offline. H=
-owever, one have to generate the 'modules.txt' file in the vendor folder 'm=
-anually' during unpack. This is error prone, as there is no official docume=
-ntation how this format should look like. Anyway, I've tried this approach =
-and it works for me.
->>
->> Second:
->> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. =
-by writing a seperate go fetcher) and unpack the dependencies into a local =
-(workdir) go-path. This seemed a good solution for me as the go-path is wel=
-l defined. But for some reason 'go'=C2=A0 fetches the zip-files during comp=
-ile into it's download-cache AGAIN, even if the source is already unpacked =
-in the go-path. I'll assume this is required to verify the source files int=
-egrity?! With this approach one have to adapt 'go' to suppress this downloa=
-d behaviour.
->>
->
-> I've been doing offline builds using a constructed vendor/ directory
-> and generated modules.txt.
->
-> The only difference between what I have working and what you are
-> suggesting (type 1), is that I've gone directly to the sources and
-> constructed the vendor directory using the OE git fetcher. That allows
-> all functionality to continue to work that is part of OEcore, and the
-> build to continue.=C2=A0 Switching out the git fetches for tarballs would
-> be possible, I just wasn't sure how to use the proxied modules (and I
-> wanted the history for debug).
->
-> I've never had any issues with the modules.txt, as I generate it at
-> the same time as the git fetch lines for the SRC_URI. I've also not
-> been using information from the go.mod directly from go.proxy.org, it
-> is information I've generated from a clone of the project and dumped
-> via go mod. There's likely improvements I can do there, but with what
-> I'm doing, I'm going directly to the source of the projects and doing
-> clones, which keeps everything clear of the go infrastructure.
->
-> I have a utility that I'm still cleaning up that generates the SRC_URI
-> lines, as well as the modules.txt, when I resolve a few nagging
-> issues, I'll make the WIP scripts available.
->
-> Other projects (BSD, etc), have been doing different sorts of
-> constructed vendor directories, but they are similar in approach.
->
-> For the short term (i.e. the upcoming release), that is pretty much
-> all we can do. There isn't enough time to implement a new go fetcher
-> backend for bitbake.
->
-> In the end, how we fetch and place the dependencies is a transport, so
-> whether or not we fetch them ourselves, or let go do it, that part is
-> largely the same.
->
-> For now (short term), I favour vendor/, as it is workable, but not
-> perfect. It isn't exactly efficient or pretty, but at least it seems
-> to produce correct output, and allows all of the project capabilities
-> to work. And of course, the approach will continue to work regardless
-> of development on other go.mod elements.
+> If the custom kernel path is provided in options, then
+> use that path instead of the default path.
 
-After reflecting on this for a while I reckon this is the fastest way forwa=
-rd while addressing the reproducibility issue. I'm wondering what we can do=
- in terms of compliance? Maybe we can turn the script you were talking abou=
-t into a recipe generator that also deals with this by querying the license=
-s of all the dependencies (direct and indirect).
-
-That being said, how can I help? It seems that there is an existing WIP sta=
-te on this. Can I take something from it? Maybe help with cleaning up the s=
-cript?
+Just to understand this a bit, what is your usecase here?
 --
 Andrei Gherzan
 gpg: rsa4096/D4D94F67AD0E9640
+
+------=_Part_5_152330063.1646258762144
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html> 
+ <head></head> 
+ <body> 
+  <br> <span dir="ltr" style="font-family:sans-serif;margin-top:0; margin-bottom:0">Feb 15, 2022 16:54:28 Bill Pittman &lt;bill.pittman@ni.com&gt;:</span> 
+  <br> 
+  <br> <span dir="ltr" style="font-family:sans-serif;margin-top:0; margin-bottom:0">&gt; If the custom kernel path is provided in options, then</span> 
+  <br> <span dir="ltr" style="font-family:sans-serif;margin-top:0; margin-bottom:0">&gt; use that path instead of the default path.</span> 
+  <br> 
+  <br> <span dir="ltr" style="font-family:sans-serif;margin-top:0; margin-bottom:0">Just to understand this a bit, what is your usecase here?</span> 
+  <br> 
+  <div> <span dir="ltr" style="margin-top:0; margin-bottom:0;">--</span> 
+   <br> <span dir="ltr" style="margin-top:0; margin-bottom:0;">Andrei Gherzan</span> 
+   <br> <span dir="ltr" style="margin-top:0; margin-bottom:0;">gpg: rsa4096/D4D94F67AD0E9640</span> 
+   <br> 
+  </div>  
+ </body>
+</html>
+------=_Part_5_152330063.1646258762144--
 
