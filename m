@@ -1,162 +1,234 @@
-Return-Path: <kamil.dziezyk@arm.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 862C0C433F5
-	for <webhook@archiver.kernel.org>; Wed,  2 Mar 2022 14:17:50 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.89])
- by mx.groups.io with SMTP id smtpd.web09.7642.1646230668681902599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFC9C433EF
+	for <webhook@archiver.kernel.org>; Wed,  2 Mar 2022 14:33:56 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.49])
+ by mx.groups.io with SMTP id smtpd.web08.7732.1646231632021920063
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Mar 2022 06:17:49 -0800
+ Wed, 02 Mar 2022 06:33:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=mWOZc8Us;
- spf=pass (domain: arm.com, ip: 40.107.15.89, mailfrom: kamil.dziezyk@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f1owDDengTx7Gr0t0u2E2yexiSZnxwRb60vX97z+6dc=;
- b=mWOZc8UsTDRMv+tKt/8YNLhj+tIXoVZ1DoMStCwoFnixm9DwSShr2kjm2iiqpN7fkllCqj7AeAsjs3eFSvnPPI70sgwBkZVmOihxJiTVhh0IKQQWekrhqtof00XuIVktjXh2pf6SMPN4p+/0IYREKJLD0n7/m6vurgqEPU5EHjo=
-Received: from FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::8) by
- PAXPR08MB7106.eurprd08.prod.outlook.com (2603:10a6:102:204::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Wed, 2 Mar
- 2022 14:17:45 +0000
-Received: from VE1EUR03FT004.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:d10:15:cafe::f3) by FR0P281CA0003.outlook.office365.com
- (2603:10a6:d10:15::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.11 via Frontend
- Transport; Wed, 2 Mar 2022 14:17:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT004.mail.protection.outlook.com (10.152.18.106) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5017.22 via Frontend Transport; Wed, 2 Mar 2022 14:17:44 +0000
-Received: ("Tessian outbound 341d209a0e52:v113");
- Wed, 02 Mar 2022 14:17:44 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: e8ff65d6cd376812
-X-CR-MTA-TID: 64aa7808
-Received: from 081b05a96d13.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 84387087-5F2B-468D-93B7-1253C9915B95.1;
-	Wed, 02 Mar 2022 14:17:38 +0000
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- 081b05a96d13.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 02 Mar 2022 14:17:38 +0000
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=2MUb20nX;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.49,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LVguHMIh/TZmfURLD4YjINrjFAw7jKrmUdabD+5Tjz1Nl/09tsAG8trERotEOoHK3NLLthTKgFPEtwOlLX9Uy8XFWGctQ7+eoLifD5V4DnQpLglHHg3jirIJoDT0XskM2Dtgvl5YXVI8GpO8yGCN99WgKJnOBo/bzZsAMRtlnJ/f1rw9hFXvUvKXgmyrCETtwVByxeLgMvuOItr1McgRpFzPC3sVzq4RhW3WTPm4PcN6Vd4folCLPw/iUxzKUtfg23MO/9JXugWO0IzD9yVtpImU10xU2QSoEsqfudGKf+C31OjXGMM/CLZnJhiu3xNjc/jRkMpRFhR8TOHYpEEO5Q==
+ b=JZcPB17l3Zzf1SHIqtNomkK/PdjQAKcbX6ZMIguD3I4DWpQ156xSqh1guAjFl68GBwD+sg+M6SoIq/9G1SbI89PMBtboKFVCauH3S6knwphHu6MTlNsJt0eJNOmIOzuvjUayZ6pttzDs09trtKOU9RSgbFNNAyfQfKFXzkstMNcZegG58KjctBVMp8fCxAgWNpPZjEoi7dckk2AXRMJDqMhAcahtrqkgaib6VJKdQO3/ETXM5p2/nrF/xQDzn6R9T1g+jHG56XCX4NxgK8dKi/ejpuPi7jXnzttfwlnaS7wBxovZTA2MRSfkAuuvsoHp8J3+JTCw4T/fXLRhgEfAzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f1owDDengTx7Gr0t0u2E2yexiSZnxwRb60vX97z+6dc=;
- b=fxonx7dCw89sXBsTl5fDm+TKyJnoJ0Zpt9omg9AIv/byQNCCKIrwrC0fzE5iSWLMkwsuqfRh0cYsLeuxMVyngJ3u9ox4RVvCN2fIaobH1d2l8S7ENByvcZUVUevcXldbrwt69cBgNKne7/EnMldvkJNKPe+/G6YIAqj3ErPFJbMz5pKjPUUMBDwcZsWHWPOUgGP1u/5GscdtWzjamoTYv2YpjsK0+Dhiwi5+lVUKAmhz+Hn3B/xFRt3aUr1g/N+4kxQy12C5bSaj2Ztdb0VNdSTL7suc8PJ4FZ/aIVMQ0Q6paSTEhwiWbscn8ySVHataZns9IJKKonwdee8nWNFphA==
+ bh=Jb5+3ZTGJizhcqh2Vb/snQVvaFCW36K5YEwGRYdI1uc=;
+ b=hIla3RfhOJSLadC3ELKD/WVEVZlobq+RCBl2LcnaL+Hue4xAm8ROs+3NueQQvRKr7qppzLQrR4eh2SkvukYd+cfXZlBcMz0nRa+ccVLgOIu36d45chiRELRIiNWIrIZ1qr2NRJVHv4kLYM6ab5r5a3USHSaQGCQSyeUr8U5Li+uKiRwXcGSafLCrZE8z5YLDUHwqvgqjflRckY4RU0j1rWMtHYKMkvC1MZPg4l2VTv+grUkPZEYmhv1EgK+YDaTPBlFprS3dUPnljcMCI/4rUCklFWyJsz5Of3/jgeWpJiXTHvVOYgQvqHPIhwPJ0X2Odaqy11vrQXszkWGxLhPA8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f1owDDengTx7Gr0t0u2E2yexiSZnxwRb60vX97z+6dc=;
- b=mWOZc8UsTDRMv+tKt/8YNLhj+tIXoVZ1DoMStCwoFnixm9DwSShr2kjm2iiqpN7fkllCqj7AeAsjs3eFSvnPPI70sgwBkZVmOihxJiTVhh0IKQQWekrhqtof00XuIVktjXh2pf6SMPN4p+/0IYREKJLD0n7/m6vurgqEPU5EHjo=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DBBPR08MB4696.eurprd08.prod.outlook.com (2603:10a6:10:f3::13)
- by AS8PR08MB6712.eurprd08.prod.outlook.com (2603:10a6:20b:393::22) with
+ bh=Jb5+3ZTGJizhcqh2Vb/snQVvaFCW36K5YEwGRYdI1uc=;
+ b=2MUb20nXXwlewj/brL7y8XmdQqb0RzmJ4wvBLDJp1Jh+vdTTcmF2TAmpqOt3rsS17jMQYdNfbNQAZVB4olaGBQ9LmHz0qTLKx1UL5F5IYGZyFSPBwRr0+i5pgWhsN7VRxBd5hEEK75193VgZD0n9XDSmvz7zVA31WdEY3f+RLGk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by AM9PR08MB6983.eurprd08.prod.outlook.com (2603:10a6:20b:416::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Wed, 2 Mar
- 2022 14:17:36 +0000
-Received: from DBBPR08MB4696.eurprd08.prod.outlook.com
- ([fe80::154f:63b1:4cd9:cf1c]) by DBBPR08MB4696.eurprd08.prod.outlook.com
- ([fe80::154f:63b1:4cd9:cf1c%6]) with mapi id 15.20.5038.014; Wed, 2 Mar 2022
- 14:17:36 +0000
-From: Kamil Dziezyk <kamil.dziezyk@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] libacpi: Build libacpi also for 'aarch64' machines
-Date: Wed,  2 Mar 2022 15:17:02 +0100
-Message-Id: <20220302141702.5383-1-kamil.dziezyk@arm.com>
-X-Mailer: git-send-email 2.17.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Wed, 2 Mar
+ 2022 14:33:48 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::4a1:bad9:11c2:7de0]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::4a1:bad9:11c2:7de0%4]) with mapi id 15.20.5017.027; Wed, 2 Mar 2022
+ 14:33:48 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org,
+	Vyacheslav Yurkov <uvv.mail@gmail.com>
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [RFC PATCH 1/2] classes: rootfs-postcommands: include /etc/fstab in
+ overlayfs_qa_check
+Date: Wed,  2 Mar 2022 15:33:28 +0100
+Message-ID: <20220302143329.4168-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SA0PR11CA0148.namprd11.prod.outlook.com
- (2603:10b6:806:131::33) To DBBPR08MB4696.eurprd08.prod.outlook.com
- (2603:10a6:10:f3::13)
+X-ClientProxiedBy: AM6PR10CA0061.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:80::38) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 505f245e-c4c7-421e-89ad-08d9fc576bb6
-X-MS-TrafficTypeDiagnostic: 
-	AS8PR08MB6712:EE_|VE1EUR03FT004:EE_|PAXPR08MB7106:EE_
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dd528f8f-75fa-4400-5a95-08d9fc59a9d4
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6983:EE_
 X-Microsoft-Antispam-PRVS: 
-	<PAXPR08MB71061744509A6A083513F583FD039@PAXPR08MB7106.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
+	<AM9PR08MB6983E37E57067DE3A60B7E40D7039@AM9PR08MB6983.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- hPMS1YfW9iL4bZWnP3pBANL2c7PcGbFPePKIPiKw9rWUDV3byF+CrhBFe/gOw67NI962z6od2dPlWDQmkPzVBGdSaUEVY3lDL0airT6yT0D5/3XOdjwsTM3kRi/pOHsIlXjKs3L45gz++hJYkwz4jHmgvOIXT66ZueX1ONuRcacRoLm8XypsFy43RthMlpFLmMDZ7XxOvnbdaJi2+4t2nhbU9OmefOiCZxlZiv9iajCCVPTmqhIvLpQv4jCwU9hvgCoEmuUSNh0fv7+yOcbaLpoPTtftHd6mLipwJ/m4zUMJrSlKqSJ6xiP8CjSlg6BacZSS+MzjpfNuk+LxXAkpUPZ+L6OXlvLZSxaKXmOissoWNtXlcjd0cVtYw4RYNKjxQfeowPk7Of8ccI8yUTFmx8dwn4IXpJpZxPfCu36Uiot4QYwNcRyOd908IPJPaEB8cX/LADM51SBhC2ykkMmCXKEwSiHSgWC9ihveN3B0k2TcG1qdtviBdpQGhVlqW7JSl/JN7xu/fT8LHo3XBM4loddatNi/Ml/BgPI9rHTIw/Rre6u/5SdMGzFkHIlldoEU6VPYK+VA7jpUdI/2MrEoHdLvM93EqbW31FkBkC5N5X1n5qjkj7YJtGh7gmjr5CEK6nVNZuiHxNZn559f5dawzYyVDdoaqDfg+9IzDCq14Ytjtn5j0QGeAbTmkVtYmC1ublLV8K0FDqmv9jce10RDmsCIVnSLaH503EBDx4xt2ZsP119ZK2zi+xO6Mtv7y3thDKZtRrqY8dwEsEBWaJtmwh8+3hbzREpWYxlpDpTwAs8=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR08MB4696.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(26005)(6512007)(38100700002)(38350700002)(5660300002)(36756003)(8936002)(6506007)(1076003)(52116002)(83380400001)(316002)(6486002)(86362001)(4326008)(2616005)(6916009)(6666004)(508600001)(66556008)(2906002)(66476007)(8676002)(66946007)(44832011)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6712
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT004.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9fd2b885-6a6b-4335-7dc5-08d9fc576673
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	i1yKuuP0wTkMWKCtpWrQGVsqlrzFkAeWlVOQt0Gc4nq8+OhDQZ1FgfwGBokLkpc8XHMEFcIhYeaM7WFINVow7lLXOxgC8NLqyA1JUgWywhIgIKiPuoFI/WqmQgUwJ7kUSLJ/X2IaP3dWoam56ap5BtT/cV/i0Yit1j+xYwKd3OTx1XQAGAE7iup28fl36lc4Pl1tTQw2C+7DsBuwhzM7uAqGky+tQtQEg/8jj8TcYdba5pRPyLgVGmdMiM+KQZ20aEJwmcLaNVlJzBPY1/hHu3Ej347R6XaIDCrF87TxJaeu3Buw8OMKU2C9HyijA1xM+xbMVjw40C4L5q/DO51SjO61zZm9T6YOGmz+4J1WVmFuTKqdCvFu8roaDaROFL26cAVJieaP7EZKFZ0Q6VaOyjeF2gKn/vsU4AtU/WDr2zGSAmZhj0JVrVo4eaA9Hsrje+OOXHe/C5AUVtgMcd9K/o8iA2rSKIco+a+kFPHVQSCUTEuXjayxG0iBZXHugu0TeNQJsYQZS516homeeutWxJv2BmbSf96L9nKVh/LzZ2uj3eMGrfVQC1Jp16s17qRVH/2odWVnOx1Ysi31z+1j0MG0TuQHKXW2wbOaMlH+l+FTo8aS4EWuqURY4uXEhEx+wB0Ea6Wt7hcNRmbznA+qGvPF2IkXdwdyZSYR5dPpLykliI+fiHqCgtGaLUp451/5mawCaZvwkCEuDe9m8SqKfPYVCfETtZ5i6jLAO4qyE+Ar+nsoCx2B5xa+MDxIsHc7DYIxsyTuVSsr3nr2rwUwJg==
+	Nk1uqQBVOigxBUE0bnAqoNJNakLiaYWAo0FQhSCAQvy4e2g2AqqWaUP8duxNnraFA94t9xoHcSvCjWmbZ6UMAqZLB7dBUw91jAMcOmf+my+I2jXazTP6qTbTtHUpVNYcCgTFAJHLBLnDmiGP/TbynNcmUWyCIYl1I2o5OxuVLCI6pCBOVQLdjrR5nlGc2s9s40oH7M9vRCJeoL/7+sepjUtDzcNJ5g70l7OH1zRgZiZpoW7Wvu/820Mu3kDlTegVTk1cOLghv41eSddIMLlBZeHdAd4ZZ3LjkS6eNauArigCXjTWHZ5ThvwQtBcrclYv/FqR3JyQIsKPiSWB9Y9eC6TI1r1ohhSXxeAeKWjox9l3BRXb0K9MMzH+EanexjbRuaIumJwBeXtgHJPhynq2DzLWnnQV3TMcS9vnSIeAlDA34Lcwj544bZZasAhYlxkzDpK8b1Utw2WdHuEDA3GQ86nYzt5/x24lGmuuHl0aUH6IO2oH5Y7+tsk18dOxaI3qMzONQZpYsZSNQrcYP2BjVo0snzAM2emhFlKDQMRsFN+2JA8lz+sk7UHGT9DlD1a0NMl+E+RNnJxtZTVmIgF1AXKu1Oa8lvSMM602xcMGTHNFXPbaYeE7HUGeHuwaCGnR8mpA5FFfFZDfR2EcO4JK7yHR8E3UDL9ecWjIWdEMG3pp1k8nkUrzIZnZgsjv5qQbW0kuPsOYJEvifZY3cl6thw==
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(44832011)(36756003)(8936002)(40460700003)(70206006)(70586007)(4326008)(6916009)(316002)(8676002)(508600001)(86362001)(6486002)(6512007)(6506007)(6666004)(83380400001)(356005)(81166007)(336012)(2616005)(26005)(1076003)(186003)(4744005)(5660300002)(2906002)(82310400004)(47076005)(36860700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 14:17:44.7865
- (UTC)
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(38100700002)(38350700002)(6916009)(1076003)(316002)(966005)(6486002)(86362001)(508600001)(2616005)(52116002)(83380400001)(2906002)(4326008)(8676002)(36756003)(66946007)(66476007)(66556008)(107886003)(6666004)(186003)(26005)(6512007)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?1ZlStqUuTiI+8LsQz/5aZwcmdXvQ2qnGaUWqwIJvMX5Wg+E8UNFZmjwVofoq?=
+ =?us-ascii?Q?zmIIt7/GXbLbOLB2j2HTfBkrWZJDOy9sPgKn9v3l0goqMCu6qmS/277zYvus?=
+ =?us-ascii?Q?91GrXPX7Jj2vw6HxMDNaKbwm/1icrwVWOhGyO3NL5XG9UHpZWXAjFqpIu6xe?=
+ =?us-ascii?Q?EafcEjdr4mpyGNhe21UQS0rCBF3UTg52+cf/M3URDUfoCt1ctkr2XBIcXuSu?=
+ =?us-ascii?Q?QVJEWLd0LX8JIh7nvs2VzzxC6PFxlAgg6AMwNOOrDoIs6T17bJaurTaMfqIU?=
+ =?us-ascii?Q?3B2sSCwnMHutaThHtQhcXJFj7voCJ/DxXQOrqTIdZD6iqqmaMLrQ/Us90Xt4?=
+ =?us-ascii?Q?0DJQBAULSRmqCpm2NvGwRFQ8X55ETplOmRdZla1vEslG1yp0u847Qc+wNz+x?=
+ =?us-ascii?Q?VMKfmTwb1IRMNifN1ahWbSOQP7Z8Mu0KlJOpZ8BUPqoVMaO6t7r03L/Vnul9?=
+ =?us-ascii?Q?wtys+UkQhhsQWtMGo/AX2GrmqI6B/xIwupk76bywn62mw5Tg8a3ErgMwxbVy?=
+ =?us-ascii?Q?ryICibwFyFpa1spazLfdRgHBkwfCME9lof5fjgcamc2Aj4IinWg1SgFxgUXH?=
+ =?us-ascii?Q?2Z96YtmaFrCFPqAPfsCvaLyU5qdUpeEmp48aQLTqAZYWaRkJwTSpLEUMmIsj?=
+ =?us-ascii?Q?fBL4/YqlsU4nL2Bvz2+RCNfmUmdFM3tQFU+rrxb6jCtY65xXuQVgk13wrgMW?=
+ =?us-ascii?Q?Ui7j99MJzArn7tVnDQJMF7eK2vG0wcqME7TQDKeb+mytCujPOuNfQ8rTwoGS?=
+ =?us-ascii?Q?osKz4XhUAqhxAsg097zRtpIdOekrZ2HwrRs+yKn2hiDl2vggPFxd4B7AQLpZ?=
+ =?us-ascii?Q?LB26C2LRsVNRmpocdXuFT3gbP3e2/p8NJnxid/ZROcRbrntEOB+AX9ojNT2i?=
+ =?us-ascii?Q?H+Mq8L91yjbUdBGpDKVlE18xHaEqB/Ltpzo/bL572xOLQI04REZWJrP7nRtY?=
+ =?us-ascii?Q?28WZeOPUZiGMLN5ki32Y6UgkFkdzMUqJMzMU9zqGgmbAYCw0z2MQC/aVq8fV?=
+ =?us-ascii?Q?PPSOANA/FpFeulhqj8//yAZc0G8hL+5eed2TYoUgQ4Ihfq278oA361vGe1QC?=
+ =?us-ascii?Q?92ignwLpFtv1xGQXeiGcfo/ptkM0E3w0hhsvJb3FrGEHULkZLY7ooHvurXZ4?=
+ =?us-ascii?Q?MrbEyAbRf5wfEqqAh7LhngAP2M7BdWaI98O5R1wS8A5lK2H6dAWw4I9qkMxp?=
+ =?us-ascii?Q?Fkqc5GvESIyEiJ4WkYW3c0Yj0yjKMCFwb7tCpUR1tdA/dPr9w292ogZJw1k5?=
+ =?us-ascii?Q?HeVwBqno8GoOi56CC6i/ddCbzWpOzoi3sy9XmZfCF8OEf6ZLMfQJjt/KqC0Z?=
+ =?us-ascii?Q?AaWW1u4VhxMOfmaXQPphH5ZmSfl17T16jx5qB83Sw0mIxxv5MWn0BfHiQB/f?=
+ =?us-ascii?Q?ijw8TSrpqAQ0RGBOjj5YPadT0BziomtWior4CPPf4GF9FMOy6KnWzSY3OvLM?=
+ =?us-ascii?Q?dReCI6aYf1goGpspcFs5nkIOaDgUpfaDvwzvOCKV518JSSwAGeZ61Uw1WoQ6?=
+ =?us-ascii?Q?ffiJ+8nP64xYrdr5WkJAMy/3PgJBhSZEVVryUFGpxLSpog6D65WDVdH+OKWa?=
+ =?us-ascii?Q?ktwhzurc6XCOTECZSNLxbmLDJMKd2ZRJqP1Fg9tptbRSM5tvT56QkhgGqG1o?=
+ =?us-ascii?Q?F08oi7BGOpDQUli7/OS0Hpo=3D?=
+X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 505f245e-c4c7-421e-89ad-08d9fc576bb6
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT004.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7106
+ dd528f8f-75fa-4400-5a95-08d9fc59a9d4
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 14:33:48.3547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 0kIkL8uIfo8dmsxf4BLbHO/NY7VSzEUH9Jfy4b/uFYBo7/iLwz/YnQu7Fq15HkySIHWjRZipRlON1sK0zpM2Uw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6983
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Mar 2022 14:17:50 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Mar 2022 14:33:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162611
+ https://lists.openembedded.org/g/openembedded-core/message/162612
 
-Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+
+The systemd init manager support mount point configuration via mount
+units and /etc/fstab. 'Mounts listed in /etc/fstab will be converted
+into native units dynamically at boot and when the configuration of
+the system manager is reloaded. In general, configuring mount points
+through /etc/fstab is the preferred approach.' [1]
+
+Read mount points from /etc/fstab to determine dynamic mount units.
+
+[1] https://www.freedesktop.org/software/systemd/man/systemd.mount.html
+
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+
 ---
- meta/recipes-bsp/libacpi/libacpi_0.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-index fa9e3d4894..6d4be76bab 100644
---- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-+++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-@@ -22,7 +22,7 @@ UPSTREAM_CHECK_URI = "http://www.ngolde.de/libacpi.html"
- 
- inherit lib_package
- 
--COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
-+COMPATIBLE_HOST = '(x86_64|i.86|aarch64).*-(linux|freebsd.*)'
- 
- CFLAGS += "-fPIC"
- EXTRA_OEMAKE = '-e MAKEFLAGS= STRIP="echo"'
--- 
-2.17.1
+ meta/classes/rootfs-postcommands.bbclass  | 38 +++++++++++++++++------
+ meta/lib/oeqa/selftest/cases/overlayfs.py |  4 +--
+ 2 files changed, 31 insertions(+), 11 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
+-postcommands.bbclass
+index cd8986d8a9..e1276a220a 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -376,25 +376,45 @@ rootfs_reproducible () {
+ 	fi
+ }
+=20
++# Perform a dumb check for unit existence, not its validity
+ python overlayfs_qa_check() {
+     from oe.overlayfs import mountUnitName
+=20
+-    # this is a dumb check for unit existence, not its validity
+     overlayMountPoints =3D d.getVarFlags("OVERLAYFS_MOUNT_POINT") or {}
+     imagepath =3D d.getVar("IMAGE_ROOTFS")
+-    searchpaths =3D [oe.path.join(imagepath, d.getVar("sysconfdir"), "syst=
+emd", "system"),
++    sysconfdir =3D d.getVar("sysconfdir")
++    searchpaths =3D [oe.path.join(imagepath, sysconfdir, "systemd", "syste=
+m"),
+                    oe.path.join(imagepath, d.getVar("systemd_system_unitdi=
+r"))]
++    fstabpath =3D oe.path.join(imagepath, sysconfdir, "fstab")
++
++    if not any(os.path.exists(path) for path in [*searchpaths, fstabpath])=
+:
++        return
++
++    fstabDevices =3D []
++    if os.path.isfile(fstabpath):
++        with open(fstabpath, 'r') as f:
++            for line in f:
++                if line[0] =3D=3D '#':
++                    continue
++                path =3D line.split(maxsplit=3D2)
++                if len(path) > 2:
++                    fstabDevices.append(path[1])
+=20
+     allUnitExist =3D True;
+     for mountPoint in overlayMountPoints:
+-        path =3D d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint)
+-        unit =3D mountUnitName(path)
++        mountPath =3D d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint)
++        if mountPath in fstabDevices:
++            continue
++
++        mountUnit =3D mountUnitName(mountPath)
++        if any(os.path.isfile(oe.path.join(dirpath, mountUnit))
++               for dirpath in searchpaths):
++            continue
+=20
+-        if not any(os.path.isfile(oe.path.join(dirpath, unit))
+-                   for dirpath in searchpaths):
+-            bb.warn('Unit name %s not found in systemd unit directories' %=
+ unit)
+-            allUnitExist =3D False;
++        bb.warn('Mount path %s not found in fstat and unit %s not found '
++                'in systemd unit directories' % (mountPath, mountUnit))
++        allUnitExist =3D False;
+=20
+     if not allUnitExist:
+-        bb.fatal('Not all mount units are installed by the BSP')
++        bb.fatal('Not all mount paths and units are installed in the image=
+')
+ }
+diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/self=
+test/cases/overlayfs.py
+index 82007fade7..79d36fa93c 100644
+--- a/meta/lib/oeqa/selftest/cases/overlayfs.py
++++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+@@ -61,9 +61,9 @@ DISTRO_FEATURES +=3D "systemd overlayfs"
+         self.add_overlay_conf_to_machine()
+=20
+         res =3D bitbake('core-image-minimal', ignore_status=3DTrue)
+-        line =3D getline(res, "Unit name mnt-overlay.mount not found in sy=
+stemd unit directories")
++        line =3D getline(res, " Mount path /mnt/overlay not found in fstat=
+ and unit mnt-overlay.mount not found in systemd unit directories")
+         self.assertTrue(line and line.startswith("WARNING:"), msg=3Dres.ou=
+tput)
+-        line =3D getline(res, "Not all mount units are installed by the BS=
+P")
++        line =3D getline(res, "Not all mount paths and units are installed=
+ in the image")
+         self.assertTrue(line and line.startswith("ERROR:"), msg=3Dres.outp=
+ut)
+=20
+     def test_mount_unit_not_set(self):
+--=20
+2.30.2
 
 
