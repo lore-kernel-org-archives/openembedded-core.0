@@ -1,241 +1,234 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85856C433FE
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 11:43:31 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.44])
- by mx.groups.io with SMTP id smtpd.web10.9678.1646307809964369397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CD2C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 12:29:06 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web09.10099.1646310541912504486
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 03:43:30 -0800
+ Thu, 03 Mar 2022 04:29:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=VV2kMY7m;
- spf=pass (domain: outlook.com, ip: 40.92.91.44,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YZA8rI98vQlAJmmX88NJkvXU/fbQ2z+ZlGTCjYlMouqrGuzhJ+mgN/NnQZeg8oxw1ntAfHfiCSWNgzCtrgrzAHqI0Zqvo4yi5mZWLxvAIlyHyXhfgv7N8KJkxM9J850qj5yWf92hg/1grqesnahgjh4Uq9tk+KJEMZBe5AePUQSs0+cnZ7xm/Ca6HZhHNQEqXTGTgDttbf/3W7mHvWA7PiAAG6+HsPU9nNqo+t5ciWs+hz2mgNuW5VYYf03D108/7veBA4Fao8lZOnIsFJoi4cyuY1Y+3qvoFSenzc6XCoPZBocyVtJcpz/3hWgLbC7WRVy1p4h/LDdM7hIwomIV2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=liiKuz8nBgew0xy/KgSOLi4odDLrgZpVZiDoaj9iEj4=;
- b=iKjjDY3bXi6boinuRTNKDUGHKtyHH11la5VRFqCyQAesF/g4BzVpCq02ODZa+yS6iHSPsrwqVcYXp8QRvhQkOG+MbljBb8JQTfmrYd+vxKKLaeyiK8SqqTDuEjNe8VVKF8yJvr/N66GrH6ge33bCgXPjcF3c1Ppz3QQxVkTxO0JSHDvza2i+rpwif03VZv5o8wwg8AKPEVawjl72azUhyFxsfzUAnbdkSdqb/C19d7drhZsvDpvgQvDztg7nzylRTMDJYgaNHJ4oI6y8HceuGXaFqiN5d4ywY0kERPnOYRpIv+PRVdWKkPX59LyGwWC9m7wnQ0PNYdpd7F4fySYyEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=liiKuz8nBgew0xy/KgSOLi4odDLrgZpVZiDoaj9iEj4=;
- b=VV2kMY7m2dXq3d17NLNnyAvVWqDu+ZNVq9nNFKLg97bz4dMnRD8VEZak5db+g9uPi+KXn8aJcXKiF4i8TEKW7w/aPLnm4Qg0bTd39WiPWIsExdm5FuXitJ7klxtFQYJgt7hn2T6eThWkU7D/PCYRejhUnHoRe/eF8+SNxcsckdgjNAD2yhukElQtp3avFptr1CAhrWvNyCojfCdlmextnFEyX5uQiBH4aPIRatjOQrGNrtg7inEMeimjEZ6SzFLWfVW+LERIrR4m23Wa/RV8QxF0D1l3xeTb/TzQmehZhHvkmrbtuCh1pxJVPC61RCufnktvdZC2SzEAQlr6uugPJQ==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by DBBPR09MB4633.eurprd09.prod.outlook.com (2603:10a6:10:207::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Thu, 3 Mar
- 2022 11:43:22 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b%8]) with mapi id 15.20.5038.015; Thu, 3 Mar 2022
- 11:43:21 +0000
-Message-ID: 
- <AM9PR09MB464236CC1D57B2C351A8C0D2A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 3 Mar 2022 12:43:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH 1/2] cve-check: get_cve_info should open the
- database read-only
-Content-Language: en-US
-To: Ross Burton <ross@burtonini.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20220223125432.2733396-1-ross.burton@arm.com>
- <AM9PR09MB4642A596E4D70E846363B638A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAAnfSTsttmQuKcXYcgyfV1wQyptEsZThpYQ3Oa8h6WZsPW9xjw@mail.gmail.com>
- <AM9PR09MB4642C795688931840887DC06A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAAnfSTs3QP5zDqpPvGHx1TpyhyTg43k5eguiaK81VH9deR5h5g@mail.gmail.com>
-From: Konrad Weihmann <kweihmann@outlook.com>
+ dkim=pass header.i=@gherzan.com header.s=fm1 header.b=JPKR9Kvi;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3EDBC5C03ED;
+	Thu,  3 Mar 2022 07:29:01 -0500 (EST)
+Received: from imap41 ([10.202.2.91])
+  by compute3.internal (MEProxy); Thu, 03 Mar 2022 07:29:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm1; bh=PZQnltq1ZHL5gCpRb3U6vgS9JjUYsbDJ6EvyH5
+	8vU3Y=; b=JPKR9KviXP7ylOphVq6kRvTYEU7lDRd2QsXSptgv83+BqWGY9QT87J
+	ZgPJU3Wnw/ljQCS75YKbT3NbVH1ZBmdgRpH+Br595usG4kMBgZpo5eLBJ7nidbTE
+	mqM+tZVmjW86Nq5pVBXAioARAf6fuyX1ihQnmvDXWvqGrlEOciOLo6KaHRjsgROS
+	kMiy2+9fm/NAE++I7sFo1kV+gIgRzrAQcZdYGQgCzqUz3+1l+MBGVO8Vyg0XMxKG
+	/+ERQpOh2Gdt6gh7IZWpPTi98UDorXUXT8iqoLTLVj0XRrr2vi0H0yDsX5XNDpMR
+	QLeW0HEiZhWERRcfeglrW/qojDzzsDVA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=PZQnltq1ZHL5gCpRb
+	3U6vgS9JjUYsbDJ6EvyH58vU3Y=; b=Y163ZXzL2aUTlEQep154IeLiFlRoJ0IHh
+	IkvSNTV2ScgcjCCsDm/952PfiycuBRGu49ZFp0wl50Z+UXeyEd6LwAU0qjT1NNaj
+	mwjVVguPt5Baq+Bs1dri3QTdrQlzHZOYCTfeus4f8xw1eCdxrz+koFBmBwtW82WL
+	AQ2vezGgr5IpIE9ceCFziuWeLnryMriH8JzF2KySMlUV0ERHoBkOIBGOR0/xg3qH
+	y5ILZZXj4JF/uVr5zY7hh74oZQSgaO9x84U/2HCD9P1lCozCoozOirnE0eOUbbhh
+	hXq7wpGVI9et06S74VThnLpggSvFvpjvH8ObVU65RO7CfuITG0eSg==
+X-ME-Sender: <xms:jbQgYlMHM3U5_HN4XjluxJSfMe7Gbztst9eaeKoXCCUcpX4u6lTVkw>
+    <xme:jbQgYn_MyMFpEBGURZpk3SEtZwCSICsp97DW0nDjpAW4uwefCMkJUtC4eOEPfN_wf
+    W0e7fGih2umbCFwVDE>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvvddruddtiedggedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+    rhgvihcuifhhvghriigrnhdfuceorghnughrvghisehghhgvrhiirghnrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpefhveeiieelvdfgteejueegjefgueegieeuhfefhefhteekhfeh
+    uedufedtfeduieenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgpdhgoh
+    hlrghnghdrohhrghdpghdrsgihpdhprhhogiihrdhorhhgnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvghisehghhgvrhiirghnrd
+    gtohhm
+X-ME-Proxy: <xmx:jbQgYkSErYj_xA94FW3E2LwaTvSk-i3vJSa1LlZKZJtpXS9UsPRJCg>
+    <xmx:jbQgYhvVSUKaOJfbMIN-iBxChnSGTgMdwdc49lamyXOnpH7ei9CjCg>
+    <xmx:jbQgYtfCDaorST7HnOlAq1BwxcbkTTaBKYBxaLjWC_jitxNVF9CX3w>
+    <xmx:jbQgYtFIHhRNEYFG8Rkbj1_aUysm1F_sWH-LBKH8nI4VYgO8XFDh9g>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id ECB253C00CF; Thu,  3 Mar 2022 07:29:00 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
+Mime-Version: 1.0
+Message-Id: <db160b37-2c62-4601-a47b-8bc8890d96f5@www.fastmail.com>
 In-Reply-To: 
- <CAAnfSTs3QP5zDqpPvGHx1TpyhyTg43k5eguiaK81VH9deR5h5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [yPsEob6rEi84DIFyiDcdgKcDtnToWdswylvPa+nJj5ZweVXTHYheJiV3oVRrqYNk]
-X-ClientProxiedBy: AM5PR1001CA0014.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::27) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <246769d9-90bc-cf78-cfd0-707759cd6319@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65e19284-0169-40da-7d1c-08d9fd0b04ce
-X-MS-TrafficTypeDiagnostic: DBBPR09MB4633:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	pa68vVvhjPpnhGHSjslDGb6n9nz1JqjdPem2nRy9QAzX7kmHxphCjoAREKNJqvEJ8tA1TKoQdDFDtvJcMMlmZi2G3Jp+RnzKIwgQcgaOod5dZaPbDdON0Kx4kIlUfpNbEp5x6SWjgIPsTxClwdXVw2/KThTiNE2JvToMQaygCZwFK1tkY+gMAteOw8JI6F/QIOeDc8VD+oVX+mXTd0XnehyjtX53RHVCwOaVDfjIz3THw9MsywmlbOmH/go1tk9sSK4/AAJhChzFCHkabOQ//oDJ3KzhMzcrNdY6PKDXs1KyDxBdI9px4NFVgUQQ1VHsedEuy7fnJAGuRUEDkAVYDv875l++k4DMXuVooS7Toyfk5NyzzaNpLadXnIO8txgW9o0K7kkhEuRq3YU3YDGG1epyiGsGyz9O0aCIUSt6ev8GN5J1d2Qp31xuKuwZxfrhe2nzXtr0oymvhdOVWdjf59tRXm2JSOku9KUu+xrOd0OFBWt+aEn9lVZDBMdfRjFL6rHoeCYbjMKcSpx4cIncRtgl3QVYDrZDjAjoA6n59Lbs0lqHjvfONdnb5ZZ6AmvXEWrRUUyAV3uSGidTWKoTZr5tz5GKI7t2DBQfDSOe+yWXBPE0mFb1dUpmG1/ByoBLhpTWPeis7e7jdmWWRjp9jjLaA3ohjT2X5KypzXaQrV4=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bGVLcm9BZnpEc0NoS0tiN0cvdkpXMWxwQjRLTXp4RWtvT2h6ZlNaQ3VhQXV2?=
- =?utf-8?B?UHZHZkVESkwyendqQS9QcTcrYVdHYmo4enl5YXdkdjdJam1tYWVmQU93eXBQ?=
- =?utf-8?B?MnZvSUZnUFR0UjRRT0dma2FwU3FsdXdvczBGcyticUdzSzV4SlVOSkJJL3Ir?=
- =?utf-8?B?cmZ4SVViSEkxZUdoRWtUaVZuRmJPR1RlbGNBc0lLOGo3SHgvaHBSNkM4RUhw?=
- =?utf-8?B?dDZCYlRhQUIxdTh5eklGMGppTm1MbEs2L1dQT21jUmcwSnJLbGVGc3RnUFI5?=
- =?utf-8?B?OEF6dlBXQ3N1RzJtSnQ3eElGdFBKc2tSS0JOd3ZnUzFQNWllbExndXpOMm9i?=
- =?utf-8?B?SDJOdzNkSUVLdDIyaW5iaXpxQ2FpQUs4WFlUWWp3VWV5S3diaXdGd3NXTk8y?=
- =?utf-8?B?Z0s1SGxJMS9vS1BLSllNRXp2WGtIMCtKM0tTbzdHbVJmakN4YWFBMHY2NEwz?=
- =?utf-8?B?UC9OSi9veTh5c1Y2Z2FNTEN6TmtjTW9JdElTVWVZdXorRGs1NnNsQU10OWdr?=
- =?utf-8?B?aTVka1ZYOFlLS2VkeUhJenhvcTZLMDYrYlduUkI4b2FLUG1Td3pPSExIeXdZ?=
- =?utf-8?B?NENDenp3ZHhEUW1DTUR1eFhqU0tyTG9mLzNMdWVheFVYU0ZSTU9VdDVmbmFQ?=
- =?utf-8?B?ckpBL1FTbmNUQ3dmOHNYMmUwSlVuWGZRcnYrQnJGNUZrWTRiV01pRkk1MXNi?=
- =?utf-8?B?SDlLczFhcU8yZG1hb3hLZHNpckMrTlUwcXdZUkhvMG9jekp4clNXV3dReThE?=
- =?utf-8?B?b0pjUENpdEVMMmNsSDFXaEFYN0RjNVRZd2FveVFPTVpiZ0xvenVaL3J5VW52?=
- =?utf-8?B?MDVtbTQ2SzFtdzNGUGYvQnF1S2g0K2x4amg2QnFVRjl4TWEwR3FEVUtoblk3?=
- =?utf-8?B?VWtFNDdtZVE1YzRoM0VrOERtaVBHVkZkS2theW4vN25EbldnNU9yb2ZUQzFa?=
- =?utf-8?B?Y1Jidk0rVnM5aU9pTWQ3dmJQaloxWFdxeEpxL0YxWG5MS2lUMzRxSWI1VzVC?=
- =?utf-8?B?LzgyMkhpd1NKRnprbFlHMnhkR3UrQndSQno5WTh6dWJvakdhQk1VT2Nzam0r?=
- =?utf-8?B?dXowYjFWRTVybVhuOXkyd0xNK2FhQWpGb21KaG5XYlpJZDN6MXQxVVY5SXJz?=
- =?utf-8?B?TDNFMy9nZUVEYzI5bTRXelVmYW9tUjdtakJEaVQ2bzJ0VFVhVStpUXBobjlZ?=
- =?utf-8?B?SWg4ck9adWUwNVUvRTIwZVlranI1QXY3MzM1UDdZUHlHU2p4Ly82LzgwZmpG?=
- =?utf-8?B?dlVRWkVUcjRhd1ZOOUQ5UVNpWS92SGxIMTNrRGpHV2lGbUJNYkVvL0hEUmdQ?=
- =?utf-8?B?QjFOb1JLWXI4UFNzUGVZWXdjUWhSZU9LVHNBN25ZVmlSdHFGQjJXd1M1WTNU?=
- =?utf-8?B?NkNLTE5nTnZwOEE9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 65e19284-0169-40da-7d1c-08d9fd0b04ce
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 11:43:21.9400
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR09MB4633
+ <CADkTA4Ph0hfZTGBj0cTPLCSUUYZLX-RO1dcvjpJi1uuzGDpkGA@mail.gmail.com>
+References: 
+ <CADkTA4N0NaDoS5e5+E92vkNXdQ9AsUxc7zH=Sd+9X=hcq3BPhQ@mail.gmail.com>
+ <3986.1646150091898772204@lists.openembedded.org>
+ <CADkTA4NKK0OXXnJSrpD7Vg-UQoygUR1ZPXaGOqKtJ9kmyGSukg@mail.gmail.com>
+ <9a15b064-6962-4f12-aa41-890f9890d64b@gherzan.com>
+ <CADkTA4Ph0hfZTGBj0cTPLCSUUYZLX-RO1dcvjpJi1uuzGDpkGA@mail.gmail.com>
+Date: Thu, 03 Mar 2022 12:28:41 +0000
+From: "Andrei Gherzan" <andrei@gherzan.com>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Cc: lukas.funke@weidmueller.com,
+ openembedded <openembedded-core@lists.openembedded.org>,
+ zygmunt.krynicki@huawei.com
+Subject: Re: [OE-core] [PATCH 1/1] go.bbclass: Allow network in do_compile
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 11:43:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 12:29:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162653
+ https://lists.openembedded.org/g/openembedded-core/message/162654
 
-This one is odd...
-
-After scrolling through the log that I can get from a github pipeline 
-(sorry no runner log available) - I noticed
-
-2022-03-03T05:39:23.2334189Z WARNING: cve-update-db-native-1.0-r0 
-do_fetch: Failed to fetch CVE data ([Errno 99] Cannot assign requested 
-address)
-2022-03-03T05:39:23.2569941Z NOTE: recipe cve-update-db-native-1.0-r0: 
-task do_fetch: Succeeded
-
-and then do_cve_check run on that recipe
-
-2022-03-03T05:39:56.6239005Z NOTE: Running task 4428 of 5120 
-(/opt/build/sources/poky/meta/recipes-core/meta/cve-update-db-native.bb:do_cve_check)
-
-before failing with 2022-03-03T05:39:56.8063851Z Exception: 
-sqlite3.OperationalError: attempt to write a readonly database
-
-this doesn't look right to me - maybe there's something special about my 
-settings - I will try to recreate that locally
-
-On 03.03.22 12:27, Ross Burton wrote:
-> :tableflip:
-> 
-> Thanks, I guess!
-> 
-> Can you share the full bitbake log from that run? I'd like to see what
-> jobs are running in parallel.
-> 
-> Ross
-> 
-> On Thu, 3 Mar 2022 at 11:10, Konrad Weihmann <kweihmann@outlook.com> wrote:
+On Thu, 3 Mar 2022, at 03:34, Bruce Ashfield wrote:
+> On Wed, Mar 2, 2022 at 4:57 PM Andrei Gherzan <andrei@gherzan.com> wrote:
 >>
->> Single from scratch build of core-image-minimal
 >>
->> On 03.03.22 12:07, Ross Burton wrote:
->>> What's the scenario where this is happening?  Multiple build
->>> directories using the same DL_DIR? Or was this a single build?
->>>
->>> Ross
->>>
->>> On Thu, 3 Mar 2022 at 08:10, Konrad Weihmann <kweihmann@outlook.com> wrote:
->>>>
->>>> Sadly I encountered this here last night
->>>>
->>>> NOTE: recipe cve-update-db-native-1.0-r0: task do_cve_check: Started
->>>> ERROR: cve-update-db-native-1.0-r0 do_cve_check: Error executing a
->>>> python function in exec_func_python() autogenerated:
->>>>
->>>> The stack trace of python calls that resulted in this exception/failure was:
->>>> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->>>>         0001:
->>>>     *** 0002:do_cve_check(d)
->>>>         0003:
->>>> File: '/opt/build/sources/poky/meta/classes/cve-check.bbclass', lineno:
->>>> 104, function: do_cve_check
->>>>         0100:        try:
->>>>         0101:            patched_cves = get_patched_cves(d)
->>>>         0102:        except FileNotFoundError:
->>>>         0103:            bb.fatal("Failure in searching patches")
->>>>     *** 0104:        whitelisted, patched, unpatched = check_cves(d,
->>>> patched_cves)
->>>>         0105:        if patched or unpatched:
->>>>         0106:            cve_data = get_cve_info(d, patched + unpatched)
->>>>         0107:            cve_write_data(d, patched, unpatched,
->>>> whitelisted, cve_data)
->>>>         0108:    else:
->>>> File: '/opt/build/sources/poky/meta/classes/cve-check.bbclass', lineno:
->>>> 198, function: check_cves
->>>>         0194:        else:
->>>>         0195:            vendor = "%"
->>>>         0196:
->>>>         0197:        # Find all relevant CVE IDs.
->>>>     *** 0198:        for cverow in conn.execute("SELECT DISTINCT ID FROM
->>>> PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
->>>>         0199:            cve = cverow[0]
->>>>         0200:
->>>>         0201:            if cve in cve_whitelist:
->>>>         0202:                bb.note("%s-%s has been whitelisted for %s" %
->>>> (product, pv, cve))
->>>> Exception: sqlite3.OperationalError: attempt to write a readonly database
->>>>
->>>> So it seems your patch doesn't solve the issue
->>>>
->>>>
->>>>
->>>> On 23.02.22 13:54, Ross Burton wrote:
->>>>> All of the function in cve-check should open the database read-only, as
->>>>> the only writer is the fetch task in cve-update-db.  However,
->>>>> get_cve_info() was failing to do this, which might be causing locking
->>>>> issues with sqlite.
->>>>>
->>>>> Signed-off-by: Ross Burton <ross.burton@arm.com>
->>>>> ---
->>>>>     meta/classes/cve-check.bbclass | 3 ++-
->>>>>     1 file changed, 2 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
->>>>> index 2d69aeba4b..d715fbf4d8 100644
->>>>> --- a/meta/classes/cve-check.bbclass
->>>>> +++ b/meta/classes/cve-check.bbclass
->>>>> @@ -265,7 +265,8 @@ def get_cve_info(d, cves):
->>>>>         import sqlite3
->>>>>
->>>>>         cve_data = {}
->>>>> -    conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
->>>>> +    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
->>>>> +    conn = sqlite3.connect(db_file, uri=True)
->>>>>
->>>>>         for cve in cves:
->>>>>             for row in conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,)):
->>>>>
->>>>>
->>>>>
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>> Links: You receive all messages sent to this group.
->>>>> View/Reply Online (#162258): https://lists.openembedded.org/g/openembedded-core/message/162258
->>>>> Mute This Topic: https://lists.openembedded.org/mt/89339702/3647476
->>>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
->>>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>>
+>> Mar 1, 2022 20:15:52 Bruce Ashfield <bruce.ashfield@gmail.com>:
+>>
+>> > On Tue, Mar 1, 2022 at 10:54 AM <lukas.funke@weidmueller.com> wrote:
+>> >>
+>> >> On Tue, Mar 1, 2022 at 02:14 PM, Bruce Ashfield wrote:
+>> >>
+>> >> On Tue, Mar 1, 2022 at 6:42 AM Andrei Gherzan <andrei@gherzan.com> wrote:
+>> >>
+>> >>
+>> >> On Tue, 1 Mar 2022, at 01:55, Bruce Ashfield wrote:
+>> >>
+>> >> On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
+>> >> lists.openembedded.org
+>> >> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+>> >>
+>> >>
+>> >> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wrote:
+>> >>
+>> >>
+>> >> From: Andrei Gherzan <andrei.gherzan@huawei.com>
+>> >>
+>> >> Compile pulls in the go.mod list requiring network. Without this, do
+>> >> compile would fail with a similar error to the following:
+>> >>
+>> >> dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
+>> >>
+>> >> This is something that needs to be carried in your own layers, IMHO it
+>> >> isn't appropriate for core.
+>> >>
+>> >> It isn't about the fetching, it is the entire gap in functionality
+>> >> that we are missing if go starts fetching dependencies during compile.
+>> >>
+>> >> A further thought is that if this is for go.mod issues, there is the
+>> >> go-mod.bbclass.
+>> >>
+>> >> Perhaps enabling it in that class and doing a bbwarn about go fetching
+>> >> dependencies would be appropriate ?
+>> >>
+>> >> Otherwise, someone may not know that this is happening and that a no
+>> >> network configuration has no chance of working.
+>> >>
+>> >> I reckon that is reasonable. I'll personally go down the recipe level to workaround this change but understanding and agreeing with the reasoning behind this change, I want to invest a bit into trying to find a proper solution in the core. Bruce, I know you invested a fair amount of time into this already. Would you be willing to sync up and see how we can work together in tackling this?
+>> >>
+>> >> Definitely, more ideas are good. In fact, I think there are probably
+>> >> several approaches that can co-exist, depending on what a
+>> >> recipe/developer needs.
+>> >>
+>> >> I'm in the Eastern time zone here, and will try and grab folks on IRC
+>> >> to have a level set
+>> >>
+>> >> Bruce
+>> >>
+>> >> Added Zyga to CC as he is also interested in this as part of his go development activities.
+>> >>
+>> >> Thanks,
+>> >> Andrei
+>> >>
+>> >>
+>> >>
+>> >> --
+>> >> - Thou shalt not follow the NULL pointer, for chaos and madness await
+>> >> thee at its end
+>> >> - "Use the force Harry" - Gandalf, Star Trek II
+>> >>
+>> >> The problem in allowing downloads during compile (e.g. by go) is, that it leads to non-reproducable builds. I'm currently facing the same issue and would like to have a reproducable go *offline* build.
+>> >> I would like to propose two ideas to workaround the go-compile fetching issue:
+>> >>
+>> >> First:
+>> >> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. by writing a seperate go fetcher or a wget-fetcher) and unpack the dependencies into go projects 'vendor' folder. This forces go to compile offline. However, one have to generate the 'modules.txt' file in the vendor folder 'manually' during unpack. This is error prone, as there is no official documentation how this format should look like. Anyway, I've tried this approach and it works for me.
+>> >>
+>> >> Second:
+>> >> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. by writing a seperate go fetcher) and unpack the dependencies into a local (workdir) go-path. This seemed a good solution for me as the go-path is well defined. But for some reason 'go'  fetches the zip-files during compile into it's download-cache AGAIN, even if the source is already unpacked in the go-path. I'll assume this is required to verify the source files integrity?! With this approach one have to adapt 'go' to suppress this download behaviour.
+>> >>
+>> >
+>> > I've been doing offline builds using a constructed vendor/ directory
+>> > and generated modules.txt.
+>> >
+>> > The only difference between what I have working and what you are
+>> > suggesting (type 1), is that I've gone directly to the sources and
+>> > constructed the vendor directory using the OE git fetcher. That allows
+>> > all functionality to continue to work that is part of OEcore, and the
+>> > build to continue.  Switching out the git fetches for tarballs would
+>> > be possible, I just wasn't sure how to use the proxied modules (and I
+>> > wanted the history for debug).
+>> >
+>> > I've never had any issues with the modules.txt, as I generate it at
+>> > the same time as the git fetch lines for the SRC_URI. I've also not
+>> > been using information from the go.mod directly from go.proxy.org, it
+>> > is information I've generated from a clone of the project and dumped
+>> > via go mod. There's likely improvements I can do there, but with what
+>> > I'm doing, I'm going directly to the source of the projects and doing
+>> > clones, which keeps everything clear of the go infrastructure.
+>> >
+>> > I have a utility that I'm still cleaning up that generates the SRC_URI
+>> > lines, as well as the modules.txt, when I resolve a few nagging
+>> > issues, I'll make the WIP scripts available.
+>> >
+>> > Other projects (BSD, etc), have been doing different sorts of
+>> > constructed vendor directories, but they are similar in approach.
+>> >
+>> > For the short term (i.e. the upcoming release), that is pretty much
+>> > all we can do. There isn't enough time to implement a new go fetcher
+>> > backend for bitbake.
+>> >
+>> > In the end, how we fetch and place the dependencies is a transport, so
+>> > whether or not we fetch them ourselves, or let go do it, that part is
+>> > largely the same.
+>> >
+>> > For now (short term), I favour vendor/, as it is workable, but not
+>> > perfect. It isn't exactly efficient or pretty, but at least it seems
+>> > to produce correct output, and allows all of the project capabilities
+>> > to work. And of course, the approach will continue to work regardless
+>> > of development on other go.mod elements.
+>>
+>> After reflecting on this for a while I reckon this is the fastest way forward while addressing the reproducibility issue. I'm wondering what we can do in terms of compliance? Maybe we can turn the script you were talking about into a recipe generator that also deals with this by querying the licenses of all the dependencies (direct and indirect).
+>
+> That was my rough plan, generate a recipe or have it generate  an
+> include that recipes pull in, there are some repeating patterns go
+> modules, so there is some re-use to be found.
+>
+> I roughed out a process for it to work with k3s, and have a working
+> updated recipe that creates a vendor/ directory and doesn't touch the
+> network during the actual build.
+>
+> There's definitely efficiencies to be found, as the first fetch is
+> quite long, and there's some i/o required as the fetches secondarily
+> shuffled into place that go expects in a vendor directory.
+>
+> I'm trying to complete a second recipe with the generated SRC_URI
+> entries now (nerdctl) and I ran into an issue with the script where
+> some repeated fetches were breaking the vendor directory creation. I
+> need to spend time with that on Thursday, but after I sort that out,
+> I can remove the curse words from the script and do a bit of cleanup.
+> There's plenty of bugs, and alternate ways things can operate (maybe
+> some of the packaged go modules versus git, etc, etc), but since those
+> choices don't required bitbake/fetcher or other core changes, we have
+> a bit of time to iterate on a workable approach.
+
+That sounds good. Keep me in the loop and once you have a patch set pushed, I try it out and squeeze some of the bugs you'll leave in intentionally :)
+
+Cheers,
+Andrei
 
