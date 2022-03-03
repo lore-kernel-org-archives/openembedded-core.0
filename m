@@ -1,203 +1,128 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5526FC433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 23:28:17 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web09.1212.1646350096244579093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F97C433F5
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 23:47:04 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.1465.1646351222701181255
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 15:28:16 -0800
+ Thu, 03 Mar 2022 15:47:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=btiL8Ruc;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: ticotimo@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id r13so13949987ejd.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wkarv/Fm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id l10so222178wmb.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 15:28:16 -0800 (PST)
+ Thu, 03 Mar 2022 15:47:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2PX9NQmBJTRXHtf/FXJ9GxInqusGK9qQ5mKdXdFRIxw=;
-        b=btiL8RucegfcGFk2u51QUf3Xj4CbZ6rxxGAdrzJ4v91UzPgEe4KwHLmuYNRK8CbHtX
-         Gsma5XFXqZgXx1hOX0U6KmCnQx/oJY/4H+rsOgoDxB8DpYmQS2pKGO6epj/MuesNzTdD
-         wJh6XxwvPie5YteG5+5ktT5IKMcGqepAIkg8yU/FjBwx9T7xyH0u5wooXJzgHKCo4CvO
-         8vea0K2e90pY+hrLzLNRusB1rc23ukoSwcLj+IaUFiKHpqVpFC3TmMRTlFfN2LyE6bss
-         ADB4bbCy4YRj7ImkqEtuTGHXuSoAjeXbQKlPh6WbUqkD71EUg/dJC8+sCylln857YgVN
-         rvcA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=GHjBPWi9tX0cP/Sn5rAmOzrr+C5KIwl4pYynDr/8mas=;
+        b=Wkarv/FmP/6KNeWHrpr87YCpzJqOyyswxxWqHNOKW2M5qxcOwsvu9tN/NU3+4Y+IjF
+         3DKaDgUn2OxKVok2fPHOGCzMDYbjLG9MDUMsDTG2FPw14sZ0p3fC9WBKFEkveu3SbI9o
+         6dl7I6aYbVW6dWJ7E2yGE1+zMSYXra6eTUrBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2PX9NQmBJTRXHtf/FXJ9GxInqusGK9qQ5mKdXdFRIxw=;
-        b=5sgp6gMQM1YWDGAk3+MhGEJtq8Y5TrchFtio8WXMA+slvBKSwL5uRhfkwolyHGJ216
-         llDvqemNGDtvAg/dqm7J+nCvSSC94+Vcc4yZ8MoWe540yq9qpEosan5wnFNg3bC/sSRo
-         rzHxfPUN3SYDIAxksa9c1R1IdzHK1OdkDurxymWlmun0X6Uk6RUDpu9eenOCD6z6Tbij
-         qtu+Cz8tI9oElHX98cKItK9i3hcYkuQmAloBA6oVoNcBqeXKu0RtCiCZiDYQdcf7tv/E
-         GGzX6PSO7K5C+HIuy9IOQi+R1bFXxk+dX4C1KxXJaW6khS0UD3fyBCSHT+C1JzvsRDdK
-         M5sw==
-X-Gm-Message-State: AOAM532TlmWXHW+DknPvsUfbF35Lp+s2/l7YfaYj50epXfu1qYBgT5mX
-	jVRXzBFUZPUb9DvwSXnK2EFY0cn2p65DKhuPoH4=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=GHjBPWi9tX0cP/Sn5rAmOzrr+C5KIwl4pYynDr/8mas=;
+        b=GjXRirW0h69baUGatORQERHi3iCcXTbaEcjS3JtrH+jqZhp2X6zYMQDSUZHJeQu7jS
+         pAMM3E8T3LZgc3lfIgUbtulMvxfEytgTlm9miVvfgUYAqjhDyX8xpKSbXjoMOUSrM3q5
+         sYTmEtmQ7Xrhx/+XnlwuZ/QWCRfyW1CHxZTeogJtJAyaraGXn9+4UU4xYlFvEhWVBANI
+         dv2u/+t7XPqbkYRZBi3k3V1tIkFy0dkDDaC558WLYEJ8YFMYSqDaAyShe3AmFop4k4+C
+         cVthMPclQP1+7rsK+FCnM/aFju0T7f882OJHAMPa21qMe6/5XwEsyBHj0uJarXzKtNpW
+         4Dbg==
+X-Gm-Message-State: AOAM532scrXH9Qm8wHcYT0NVZ5Onx2m6xR7N2v8JDRGcZfZOH65KYJ8V
+	38poHxdVWqtLAkaR9fCuY2JMpg==
 X-Google-Smtp-Source: 
- ABdhPJwOilBc9N5LWUxNyu0UT4GhWM0nQ87JbIotrABbT45pjCVUKoTRVn9+rwAOrgC50Xia3Bdc0+Zxcw4Bloz+IHo=
-X-Received: by 2002:a17:906:3adb:b0:6b7:876c:d11b with SMTP id
- z27-20020a1709063adb00b006b7876cd11bmr29111329ejd.250.1646350094638; Thu, 03
- Mar 2022 15:28:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20220303163451.336518-1-richard.purdie@linuxfoundation.org>
- <CAAnfSTu78H+UG34pykED6G8M939LLmupEghxaUaz8_mToAwwFg@mail.gmail.com>
- <6d880923351fe7e16d4c44d25dd8f43d1de390c6.camel@linuxfoundation.org>
-In-Reply-To: 
- <6d880923351fe7e16d4c44d25dd8f43d1de390c6.camel@linuxfoundation.org>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 3 Mar 2022 15:28:03 -0800
+ ABdhPJxGnkAjI9HSmzES/sbeT4is1OGO29SwoCsgJdgJrpq28u1pGgnrm6sLjRwwqkcbLRIHCbQeWQ==
+X-Received: by 2002:a7b:c94e:0:b0:386:3694:3e78 with SMTP id
+ i14-20020a7bc94e000000b0038636943e78mr5872827wml.22.1646351220991;
+        Thu, 03 Mar 2022 15:47:00 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f5cf:8b05:e0eb:94af?
+ ([2001:8b0:aba:5f3c:f5cf:8b05:e0eb:94af])
+        by smtp.gmail.com with ESMTPSA id
+ p3-20020a05600c358300b003897e440047sm194649wmq.28.2022.03.03.15.47.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 15:47:00 -0800 (PST)
 Message-ID: 
- <CANx9H-Cn8e6-5q-6YJurv0TkTDvFnVd=9Kd5qFs5geP7i8YXGQ@mail.gmail.com>
+ <d4f51c5770e4ffa626acffe9042aadd9d6e6ba92.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 1/2] python3-native: Remove all pyc files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000911ffb05d958c060"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Ross Burton <ross@burtonini.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Mar 2022 23:46:59 +0000
+In-Reply-To: 
+ <CANx9H-Cn8e6-5q-6YJurv0TkTDvFnVd=9Kd5qFs5geP7i8YXGQ@mail.gmail.com>
+References: <20220303163451.336518-1-richard.purdie@linuxfoundation.org>
+	 <CAAnfSTu78H+UG34pykED6G8M939LLmupEghxaUaz8_mToAwwFg@mail.gmail.com>
+	 <6d880923351fe7e16d4c44d25dd8f43d1de390c6.camel@linuxfoundation.org>
+	 <CANx9H-Cn8e6-5q-6YJurv0TkTDvFnVd=9Kd5qFs5geP7i8YXGQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 23:28:17 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 23:47:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162705
+ https://lists.openembedded.org/g/openembedded-core/message/162706
 
---000000000000911ffb05d958c060
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 2022-03-03 at 15:28 -0800, Tim Orling wrote:
+> 
+> 
+> On Thu, Mar 3, 2022 at 9:16 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2022-03-03 at 17:14 +0000, Ross Burton wrote:
+> > > On Thu, 3 Mar 2022 at 16:34, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > This removes a further 1600 files from sstate handling and lets python
+> > > > create the ones it wants at runtime which is likely much better overall
+> > > > for performance.
+> > > 
+> > > Playing devil's advocate: doesn't having them in sstate mean they're
+> > > generated once and hardlinked, instead of needing to be generated for
+> > > every recipe which runs pythonnative?
+> > > 
+> > > Whilst I can't disagree that 1600 files being dropped from sstate is
+> > > good, we're just punting the recompile step to every recipe when it
+> > > runs python code.
+> > > 
+> > > I guess the question here is how long does the Python library take to
+> > recompile.
+> > 
+> 
+> 
+> At runtime it should only generate pyc for modules actually used?
 
-On Thu, Mar 3, 2022 at 9:16 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Yes.
 
-> On Thu, 2022-03-03 at 17:14 +0000, Ross Burton wrote:
-> > On Thu, 3 Mar 2022 at 16:34, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > This removes a further 1600 files from sstate handling and lets python
-> > > create the ones it wants at runtime which is likely much better overall
-> > > for performance.
-> >
-> > Playing devil's advocate: doesn't having them in sstate mean they're
-> > generated once and hardlinked, instead of needing to be generated for
-> > every recipe which runs pythonnative?
-> >
-> > Whilst I can't disagree that 1600 files being dropped from sstate is
-> > good, we're just punting the recompile step to every recipe when it
-> > runs python code.
-> >
-> > I guess the question here is how long does the Python library take to
-> recompile.
->
+> > Another consideration is that there are many sysroots pulling in python3-
+> > native
+> > which don't run python and they're only there as there are python scripts
+> > being
+> > added which means python has to come too.
+> > 
+> > I suspect for that reason it could be a net win but it is a tough call.
+> > 
+> 
+> I tend to be in favor of the reduced number of files moving around. I suppose
+> we could do some timing comparisons if we really care. It will be a trade-off
+> of network/io vs compute/io, correct?
 
-At runtime it should only generate pyc for modules actually used?
+Yes. I suspect the compile cost is tiny compared to the io/network cost of
+chucking so many small files around when I suspect they're not used that often.
 
->
-> Another consideration is that there are many sysroots pulling in
-> python3-native
-> which don't run python and they're only there as there are python scripts
-> being
-> added which means python has to come too.
->
-> I suspect for that reason it could be a net win but it is a tough call.
+Cheers,
+
+Richard
 
 
-> I tend to be in favor of the reduced number of files moving around. I
-suppose we could do some timing comparisons if we really care. It will be a
-trade-off of network/io vs compute/io, correct?
 
 
-> Cheers,
->
-> Richard
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162669):
-> https://lists.openembedded.org/g/openembedded-core/message/162669
-> Mute This Topic: https://lists.openembedded.org/mt/89528765/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000911ffb05d958c060
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Mar 3, 2022 at 9:16 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2022-=
-03-03 at 17:14 +0000, Ross Burton wrote:<br>
-&gt; On Thu, 3 Mar 2022 at 16:34, Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; This removes a further 1600 files from sstate handling and lets p=
-ython<br>
-&gt; &gt; create the ones it wants at runtime which is likely much better o=
-verall<br>
-&gt; &gt; for performance.<br>
-&gt; <br>
-&gt; Playing devil&#39;s advocate: doesn&#39;t having them in sstate mean t=
-hey&#39;re<br>
-&gt; generated once and hardlinked, instead of needing to be generated for<=
-br>
-&gt; every recipe which runs pythonnative?<br>
-&gt; <br>
-&gt; Whilst I can&#39;t disagree that 1600 files being dropped from sstate =
-is<br>
-&gt; good, we&#39;re just punting the recompile step to every recipe when i=
-t<br>
-&gt; runs python code.<br>
-&gt; <br>
-&gt; I guess the question here is how long does the Python library take to =
-recompile.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">At runtime it sh=
-ould only generate pyc for modules actually used?<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><br>
-Another consideration is that there are many sysroots pulling in python3-na=
-tive<br>
-which don&#39;t run python and they&#39;re only there as there are python s=
-cripts being<br>
-added which means python has to come too.<br>
-<br>
-I suspect for that reason it could be a net win but it is a tough call.</bl=
-ockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-</blockquote><div dir=3D"auto">I tend to be in favor of the reduced number =
-of files moving around. I suppose we could do some timing comparisons if we=
- really care. It will be a trade-off of network/io vs compute/io, correct?<=
-/div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#162669): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/162669" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/162669</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89528765/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-89528765/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000911ffb05d958c060--
 
