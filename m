@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28919C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26056C433FE
 	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 17:42:25 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web12.13953.1646329343842999324
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web08.13894.1646329344630304633
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 09:42:23 -0800
+ Thu, 03 Mar 2022 09:42:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=pX6pKTbR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 0101017f50e02b60-52fe1919-3835-4a59-90a5-ec11f3f15f20-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=vBy+K2Y+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 0101017f50e02ffe-c02bd7b6-f696-42a3-af12-eaeea965a0b8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1646329343;
+	t=1646329344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+Hp4fnbJ09iT/bTacrGkfiD+tC6OkcDX05lnLL/nwjA=;
-	b=pX6pKTbR9ViAh9NCh/3mDen4mHOUmNWCTm8Zy8tXMAfxRloE+w3xYxdysn2X5EMv
-	wP6cTUDeluGandZp6h1lJDWqaZ9qy5aVXR241FkcqFTIc4ij8WUCFJ+BgBNQ95g3suu
-	MO5beQcDxuV+9BaLmtU66yToj5ElfHfgJiWdbd0Q=
+	bh=UCvkIOt5E02T0Ae7LQJ2IZObEDMq0fYzofrAmZBdJTo=;
+	b=vBy+K2Y+AnUVxs/ofuDQ7RfPbT0Jib79wAtuNot5CSdaQDgl5ckZrFIYJINOYQ7e
+	49n1JGtvYwC0HUZZgPGU2OUhQfVMgm4cTmkdzV2utZONzsex1OWrSn3T6DTpO39wOjg
+	M7mjWSFhWJrkgvzRgxTgZ0mHtm8KWNpqssrQlKLg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1646329343;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1646329344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+Hp4fnbJ09iT/bTacrGkfiD+tC6OkcDX05lnLL/nwjA=;
-	b=c0OL0I4ZxoZlrmcehe4QLzW1zsaBXSnYlq11ljUjmpWWv3PXyVXTlLiREoor3GCG
-	PeHxFITaf9bbhxBNnQ4TLK93ST6zI82YkR5M3ShgMJ5Sr7Yrwmg3XVFkmPp6K1Jn0kS
-	M14w3EWdwLZ7C8Udqu/eQt3tZRF9bX58ypWsnKZk=
-Content-Type: multipart/mixed; boundary="===============5119722068376262589=="
+	bh=UCvkIOt5E02T0Ae7LQJ2IZObEDMq0fYzofrAmZBdJTo=;
+	b=MHFDd7DofBWKf2ixR68ab+HsTJ1f8UaIHVnZfZs78W2e25wxivgj1aic6ZtR2MgH
+	//PkDtUqyhmeGMwb8Rxvm4nXnBhX2tFdNuCssyjuTq/GLyFXgEfBjCU7MsnWTrVGZQx
+	PBGiiOjHhvUsMMkLnf0lxhe8SGr1J/tYXoSIbHkE=
+Content-Type: multipart/mixed; boundary="===============4981105399453156337=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dbus-test: upgrading to 1.14.0 FAILED
+Subject: [AUH] rust-llvm: upgrading to 1.59.0 FAILED
 Message-ID: 
- <0101017f50e02b60-52fe1919-3835-4a59-90a5-ec11f3f15f20-000000@us-west-2.amazonses.com>
-Date: Thu, 3 Mar 2022 17:42:22 +0000
+ <0101017f50e02ffe-c02bd7b6-f696-42a3-af12-eaeea965a0b8-000000@us-west-2.amazonses.com>
+Date: Thu, 3 Mar 2022 17:42:24 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.03.03-54.240.27.33
+X-SES-Outgoing: 2022.03.03-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 17:42:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162671
+ https://lists.openembedded.org/g/openembedded-core/message/162681
 
---===============5119722068376262589==
+--===============4981105399453156337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,76 +56,64 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dbus-test* to *1.14.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust-llvm* to *1.59.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade dbus-test -V 1.14.0
+The following devtool command failed:  finish -f rust-llvm /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
 NOTE: Starting bitbake server...
 Loading cache...done.
 Loaded 1521 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.53.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-76bff7d8238b4b407c05b8867ca4900479188923"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:76bff7d8238b4b407c05b8867ca4900479188923"
-workspace            = "master:0447aace57d46c4de4d120b430384e99fc3a5e0c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1521 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 844 .bb files complete (842 cached, 2 parsed). 1522 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Parsing of 844 .bb files complete (843 cached, 1 parsed). 1523 targets, 34 skipped, 0 masked, 0 errors.
 
-Build Configuration:
-BB_VERSION           = "1.53.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-76bff7d8238b4b407c05b8867ca4900479188923"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:76bff7d8238b4b407c05b8867ca4900479188923"
-workspace            = "master:0447aace57d46c4de4d120b430384e99fc3a5e0c"
+ERROR: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 131, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
 
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 131, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
 
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hq
- va1k/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-z2hqva1k/work/temp/log.do_fetch.1722068
-ERROR: Failed to fetch URL https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2108, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1814, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1671, in _update_recipe_patch
+    redirect_output=dry_run_outdir)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 705, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
 
 
 Please review the attached files for further information and build/update failures.
@@ -133,5 +121,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5119722068376262589==--
+--===============4981105399453156337==--
 
