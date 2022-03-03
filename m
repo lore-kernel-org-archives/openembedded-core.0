@@ -2,54 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51FE8C3525B
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 17:42:25 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.13892.1646329344108010509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47036C3527A
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 17:42:26 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.13919.1646329344956540771
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 09:42:24 -0800
+ Thu, 03 Mar 2022 09:42:25 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=xR6Wwwoj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 0101017f50e02ce3-a1441d94-9e88-412e-b8c7-e878ccf45cbd-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MVprjqNA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 0101017f50e02fcc-89e36863-77db-4595-9df1-dc73dcb7bd61-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1646329343;
+	t=1646329344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sRC/wQkUpAES4KiK8cPb+9ixn9tTr2MYLoe24krLVz8=;
-	b=xR6Wwwoj/HivmB+i/tzypl1NhqmkzA6FIxCBThVopY42s+pHG+N/V8hzE6FPMFvL
-	NtmWu95iJqu8TOxYEqR4cKUw4/6WoEd4q6BQFL6RU91Gml5Oh8JsrzDUr0/Kc4BZY3D
-	7Ka68vy3Dr9tmMPZmDPH4hT4i3ZAxi26LQZG3vxs=
+	bh=nMoFj9QaKgaaSzuVXDBd3p1daSCiblG5YH4KaEhEObc=;
+	b=MVprjqNAAK7Xsh26WGUbkQHyy1gDlnBJFFpbhH4M75PI0jrDTcvZIvfQQKuv/SRV
+	sG7YcKqOJLEbaiMMyroyzlM7B+jHXC2TgoR4nAqHmTC6hgOOok+yJpuRuocdoDkVFFK
+	Nj+yz2oACmiczco7yKfWAFk1jHF7c4FbVJtYGBBQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1646329343;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1646329344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sRC/wQkUpAES4KiK8cPb+9ixn9tTr2MYLoe24krLVz8=;
-	b=iOPlotWiP7erT3DFHSvIbn9M99AQ6hrXI9yYF4H8I0uM8IHlovWlkKY3NpzZIrmz
-	GBlAtsNilrY9kQp0d4vly/csWKK5U3lIMlOYDQLeRzLpAnXz54ak6c7t1KwP7RkY+4N
-	M65brFV9ir6twasl4oeC2B9vcpUJ0V8QHDScQTig=
-Content-Type: multipart/mixed; boundary="===============5362221748235591688=="
+	bh=nMoFj9QaKgaaSzuVXDBd3p1daSCiblG5YH4KaEhEObc=;
+	b=BKetLW2U4h3Xm60eIKZWzhwMcPi6qQQP0LGy83A8nisk3N6vZSbpBcDjindi50q1
+	seB3OkfZgASNrRlCNPWJvPWINR2vpqe2jL3VlGx6n5l7qOeJSX/Crbl15LxMKhx58qP
+	BjVkuVnFNAKSf5QmFqjnjBZmg9E37kMQSZ4Ilb8w=
+Content-Type: multipart/mixed; boundary="===============7867251654168983363=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
- =?utf-8?b?QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+?=@yoctoproject.org
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] apt: upgrading to 2.4.0 SUCCEEDED
+Subject: [AUH] python3-jsonschema: upgrading to 4.4.0 FAILED
 Message-ID: 
- <0101017f50e02ce3-a1441d94-9e88-412e-b8c7-e878ccf45cbd-000000@us-west-2.amazonses.com>
-Date: Thu, 3 Mar 2022 17:42:23 +0000
+ <0101017f50e02fcc-89e36863-77db-4595-9df1-dc73dcb7bd61-000000@us-west-2.amazonses.com>
+Date: Thu, 3 Mar 2022 17:42:24 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.03.03-54.240.27.33
+X-SES-Outgoing: 2022.03.03-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 17:42:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 17:42:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162674
+ https://lists.openembedded.org/g/openembedded-core/message/162682
 
---===============5362221748235591688==
+--===============7867251654168983363==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -57,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *apt* to *2.4.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-jsonschema* to *4.4.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-apt-upgrade-2.2.4-2.4.0.patch
+    - apply the patch: git am 0001-python3-jsonschema-upgrade-3.2.0-4.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -76,181 +81,123 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5362221748235591688==
+--===============7867251654168983363==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/apt/apt-bash-completion: PKGSIZE changed from 7108 to 7513 (+6%)
-packages/core2-32-poky-linux/apt/apt-bash-completion: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-bash-completion: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-dbg: PKGSIZE changed from 53878028 to 55966752 (+4%)
-packages/core2-32-poky-linux/apt/apt-dbg: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-dbg: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-dev: PKGSIZE changed from 446186 to 448023 (+0%)
-packages/core2-32-poky-linux/apt/apt-dev: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-dev: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-doc: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-doc: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-locale: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-locale: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-src: PKGSIZE changed from 2863393 to 2888910 (+1%)
-packages/core2-32-poky-linux/apt/apt-src: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-src: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt-staticdev: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt-staticdev: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt/apt: PKGSIZE changed from 4027916 to 4085041 (+1%)
-packages/core2-32-poky-linux/apt/apt: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt/apt: PV changed from "2.2.4" to "2.4.0"
-packages/core2-32-poky-linux/apt: SRC_URI changed from "http://ftp.debian.org/debian/pool/main/a/apt/apt_2.2.4.tar.xz file://triehash file://0001-Disable-documentation-directory-altogether.patch file://0001-Fix-musl-build.patch file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch file://0001-srvrec-Keep-support-for-older-resolver.patch file://0001-cmake-Do-not-build-po-files.patch file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch file://0001-aptwebserver.cc-Include-array.patch" to "http://ftp.debian.org/debian/pool/main/a/apt/apt_2.4.0.tar.xz file://triehash file://0001-Disable-documentation-directory-altogether.patch file://0001-Fix-musl-build.patch file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch file://0001-cmake-Do-not-build-po-files.patch file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch file://0001-aptwebserver.cc-Include-array.patch file://0001-Do-not-init-tables-from-dpkg-configuration.patch file://0001-Revert-
- always-run-dpkg-configure-a-at-the-end-of-our.patch"
-packages/core2-32-poky-linux/apt: PKGV changed from 2.2.4 [default] to 2.4.0 [default]
-packages/core2-32-poky-linux/apt: PV changed from "2.2.4" to "2.4.0"
+Loading cache...done.
+Loaded 1521 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 843 .bb files complete (842 cached, 1 parsed). 1521 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5362221748235591688==
+Build Configuration:
+BB_VERSION           = "1.53.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.4+snapshot-b6dc3fd019a750cfa0f56e80545ec2ae654bd0f0"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b6dc3fd019a750cfa0f56e80545ec2ae654bd0f0"
+workspace            = "master:0447aace57d46c4de4d120b430384e99fc3a5e0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 98 Local 91 Mirrors 0 Missed 7 Current 283 (92% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1039 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_fetch)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1387 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_unpack)
+NOTE: Running task 1388 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1389 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_patch)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1390 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1391 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_populate_lic)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1392 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_configure: Started
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1393 of 1400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/jsonschema-4.4.0/setup.py': [Errno 2] No such file or directory
+| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868:178 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868, line 178
+| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868, line 168
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868, line 157
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868, line 182
+NOTE: recipe python3-jsonschema-4.4.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1393 tasks of which 1385 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: python3-jsonschema-4.4.0-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
+ERROR: python3-jsonschema-4.4.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/run.do_compile.2557868', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.4.0-r0/temp/log.do_compile.2557868
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb:do_compile) failed with exit code '1'
+
+--===============7867251654168983363==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Disposition: attachment; filename="0001-apt-upgrade-2.2.4-2.4.0.patch"
+Content-Disposition: attachment;
+ filename="0001-python3-jsonschema-upgrade-3.2.0-4.4.0.patch"
 
-From b6ffe940a07433234fc3fcc555f55e104fa2798d Mon Sep 17 00:00:00 2001
+From 27b3d81c48a3cf65e966984e6fbf66f52679cb20 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 3 Mar 2022 13:29:39 +0000
-Subject: [PATCH] apt: upgrade 2.2.4 -> 2.4.0
+Date: Thu, 3 Mar 2022 14:21:26 +0000
+Subject: [PATCH] python3-jsonschema: upgrade 3.2.0 -> 4.4.0
 
 ---
- ...-init-tables-from-dpkg-configuration.patch |  2 +-
- ...n-dpkg-configure-a-at-the-end-of-our.patch |  8 ++--
- ...vrec-Keep-support-for-older-resolver.patch | 44 -------------------
- .../apt/{apt_2.2.4.bb => apt_2.4.0.bb}        |  5 ++-
- 4 files changed, 8 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
- rename meta/recipes-devtools/apt/{apt_2.2.4.bb => apt_2.4.0.bb} (94%)
+ ...python3-jsonschema_3.2.0.bb => python3-jsonschema_4.4.0.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-jsonschema_3.2.0.bb => python3-jsonschema_4.4.0.bb} (90%)
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-index 72713c3b1a..59b9cd190f 100644
---- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-@@ -1,4 +1,4 @@
--From c7a79e753e50f1a5f248ba5812c61616f2f524f0 Mon Sep 17 00:00:00 2001
-+From 11ba49594ae9d11f0070198c146b5e437fa83022 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 10 May 2019 16:47:38 +0200
- Subject: [PATCH] Do not init tables from dpkg configuration
-diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-index 1517b47858..593ed7d096 100644
---- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-@@ -1,4 +1,4 @@
--From 393ac20efc66bfc000a2457e093e369b934c5a50 Mon Sep 17 00:00:00 2001
-+From 47c2b42af60ceefd8ed52b32a3a365facf0e05b8 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 21 May 2020 20:13:25 +0000
- Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
-@@ -20,10 +20,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 7 deletions(-)
+diff --git a/meta/recipes-devtools/python/python3-jsonschema_3.2.0.bb b/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-jsonschema_3.2.0.bb
+rename to meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb
+index c7efe33a83..48e634b369 100644
+--- a/meta/recipes-devtools/python/python3-jsonschema_3.2.0.bb
++++ b/meta/recipes-devtools/python/python3-jsonschema_4.4.0.bb
+@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 \
+                     file://json/LICENSE;md5=9d4de43111d33570c8fe49b4cb0e01af"
+ DEPENDS += "${PYTHON_PN}-vcversioner-native ${PYTHON_PN}-setuptools-scm-native"
  
- diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
--index 46a6dee..8617a9e 100644
-+index 93effa9..4375781 100644
- --- a/apt-pkg/deb/dpkgpm.cc
- +++ b/apt-pkg/deb/dpkgpm.cc
--@@ -1211,12 +1211,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-+@@ -1199,12 +1199,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-  	 }
-        }
-     }
-@@ -36,7 +36,7 @@ index 46a6dee..8617a9e 100644
-  }
-                                                                          /*}}}*/
-  void pkgDPkgPM::StartPtyMagic()						/*{{{*/
--@@ -1710,7 +1704,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-+@@ -1741,7 +1735,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-  
-        // support subpressing of triggers processing for special
-        // cases like d-i that runs the triggers handling manually
-diff --git a/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch b/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
-deleted file mode 100644
-index 94d67a87ac..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From f98c12b9f04ef3a9daec822c210044095b41a0ac Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 20 Mar 2021 12:33:34 -0700
--Subject: [PATCH] srvrec: Keep support for older resolver
--
--Some C libraries e.g. musl do not implement the new res_n* APIs
--therefore keep the old implementation as fallback and check __RES
--version macro to determine the API level
--
--Upstream-Status: Submitted [https://github.com/Debian/apt/pull/129]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Julian Andres Klode <julian.klode@canonical.com>
-----
-- apt-pkg/contrib/srvrec.cc | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/apt-pkg/contrib/srvrec.cc b/apt-pkg/contrib/srvrec.cc
--index 4ca208273..3eb5f1d4c 100644
----- a/apt-pkg/contrib/srvrec.cc
--+++ b/apt-pkg/contrib/srvrec.cc
--@@ -62,6 +62,7 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
--    unsigned char answer[PACKETSZ];
--    int answer_len, compressed_name_len;
--    int answer_count;
--+#if __RES >= 19991006
--    struct __res_state res;
-- 
--    if (res_ninit(&res) != 0)
--@@ -71,6 +72,12 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
--    std::shared_ptr<void> guard(&res, res_nclose);
-- 
--    answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
--+#else
--+   if (res_init() != 0)
--+      return _error->Errno("res_init", "Failed to init resolver");
--+
--+   answer_len = res_query(name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
--+#endif //__RES >= 19991006
--    if (answer_len == -1)
--       return false;
--    if (answer_len < (int)sizeof(HEADER))
---- 
--2.31.0
--
-diff --git a/meta/recipes-devtools/apt/apt_2.2.4.bb b/meta/recipes-devtools/apt/apt_2.4.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/apt/apt_2.2.4.bb
-rename to meta/recipes-devtools/apt/apt_2.4.0.bb
-index aef309840b..329a761443 100644
---- a/meta/recipes-devtools/apt/apt_2.2.4.bb
-+++ b/meta/recipes-devtools/apt/apt_2.4.0.bb
-@@ -10,10 +10,11 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://0001-Disable-documentation-directory-altogether.patch \
-            file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
--           file://0001-srvrec-Keep-support-for-older-resolver.patch \
-            file://0001-cmake-Do-not-build-po-files.patch \
-            file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch \
-            file://0001-aptwebserver.cc-Include-array.patch \
-+           file://0001-Do-not-init-tables-from-dpkg-configuration.patch \
-+           file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
-            "
+-SRC_URI[md5sum] = "f1a0b5011f05a02a8dee1070cd10a26d"
+-SRC_URI[sha256sum] = "c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"
++SRC_URI[sha256sum] = "636694eb41b3535ed608fe04129f26542b59ed99808b4f688aa32dcf55317a83"
  
- SRC_URI:append:class-native = " \
-@@ -26,7 +27,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
-            "
+ inherit pypi setuptools3
  
--SRC_URI[sha256sum] = "6eecd04a4979bd2040b22a14571c15d342c4e1802b2023acb5aa19649b1f64ea"
-+SRC_URI[sha256sum] = "728c69df369cbc4a55f91fc2817fe9832c1a2f39de4142e7ef222c5158f234af"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- # the package is taken from snapshots.debian.org; that source is static and goes stale
 -- 
 2.27.0
 
 
---===============5362221748235591688==--
+--===============7867251654168983363==--
 
