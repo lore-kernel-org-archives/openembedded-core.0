@@ -2,106 +2,91 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC34C433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 15:29:11 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.12072.1646321343908172494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03B73C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 15:30:04 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.12005.1646321403330025317
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 07:29:04 -0800
+ Thu, 03 Mar 2022 07:30:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DhjDD23I;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AfOXNLUJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id u10so6766922wra.9
+Received: by mail-wr1-f43.google.com with SMTP id u1so8375751wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 07:29:03 -0800 (PST)
+ Thu, 03 Mar 2022 07:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:user-agent:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Q4Z6pVBL4LbdnWz4xG5h892qsqouQg8B4uu2LuaC8Io=;
-        b=DhjDD23I/Q6k7gtkvvruSXhI2PBXYUhu1XABMd+n4atbwZwQZ7S11CtpClaIoEU3m2
-         6Cfr0ZxrQ9bSYb0le1xAiLBOs0uOjN2uc5piU09aW2684T8Z1cyK/MQL9sBLkZF/5e06
-         64Kp4QnQr3eGlc40VwHeknJ0P+5iJDX+wy3zs=
+        bh=J9WH0YsU2So1XNdbnpKld8Vt6+Y8qR4YMT57PpCZBTQ=;
+        b=AfOXNLUJj+oP/bZXFz+z1atlxYdtJMwnWcxCc+cgJQHZvDS+0kC7ML2pME1NhnKAik
+         0qPe8iptPNuFo8Dt9Zl+HobiFJExNf2U1WYKwwLzm50slYepF/Sf54kUjcaPfZwwsHgL
+         p+ZRpLvyxWof0a7ev3hA83a2Dhxbo3dCPL7P8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Q4Z6pVBL4LbdnWz4xG5h892qsqouQg8B4uu2LuaC8Io=;
-        b=En8McTRGANfSxIbNwjiCNiJP79AA0aZ1Cwv0L6CBPf9RWfjEzARs+lNK2nDISCSlas
-         SJUQfeG4s11K+IKWlDWUVvbWeLsxkbkyXJOevd0U+DbPIquaCSnLFG+jHT4k7mxQjfuD
-         qSDJ2J+h8iQ4pZgNOZ4aT6a4LxA9vn/iVX8caQgoaUGrJi9WCOECBDcA+W+XSGxm0tI7
-         zsjzLlDx1G1ojF6Xr/UzlR/5+4xaGUtEox6UOFIbxixguVQbe/d+UsZPDYiWTPMYR91M
-         b15+nTagE1F2ZQYaGUH10J6aYxxh6xA1REOHvaEkhacg7HZXuxcVim2/JwZKGAvYbSyZ
-         bp4A==
-X-Gm-Message-State: AOAM533OjPfNhVC7G5PHOXqfN3VZF3PSiWX/vWJEXI2f6DSREzCXh/XV
-	wWUXGFpHQMLoo1GFgoriF0w1++F8yY1zpQAK
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J9WH0YsU2So1XNdbnpKld8Vt6+Y8qR4YMT57PpCZBTQ=;
+        b=iQ4Ikv48+emIyMxI1LSCTqIDRbkRmJMZo1BekraUXtBSeGkCodCQ3UyIkDqer6Hx3S
+         M9HIL0qCPwWVLWJry3o8fxu8oKn8+VzhIKCwpu8iuYZjGP/AJf7uwu/gnkhI2SturCpa
+         h1ootjfT/jo5W4Bcl/tgSzKcy7kv/mYgaADRopK+C/mRwXqE3a2z3sXKiz5vP6zWvC62
+         E+jCOy0XO3FvbQIjHOEFpVEv0rTzbbrLLhSn3tAGvTgGdfyYtYbB2tY9vb9Uwp9hs45R
+         OgEcSbFxMDn7hTdEUHiuMLNpv6XSqMgjRsXTmoSLbtNLyH221o2j0iAdfonYE9q5bdOk
+         i3Vg==
+X-Gm-Message-State: AOAM532OdAkkEISAm0toBbzkdXdzGw4GhS+AzqomGdZsPSUjuOGxN2uj
+	IIzjzJ6HlWL9E9H+aRSEqsKlKgWBrzvRdqIj
 X-Google-Smtp-Source: 
- ABdhPJwNYO0i4aDV6NPl/P6tPwN14SaOO4wzHdALhBsgKv/ZRjDk4Q3nD+z1WEzOHNVTPWVr1sagew==
-X-Received: by 2002:a05:6000:15cb:b0:1ea:78fc:2201 with SMTP id
- y11-20020a05600015cb00b001ea78fc2201mr27774324wry.362.1646321341907;
-        Thu, 03 Mar 2022 07:29:01 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1?
- ([2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1])
+ ABdhPJxzhtOEQPnZBm8J7y49POu4kXLVsADPlr1ghzMKRk5Z7AFF9SLS1+q2Qyl9ys7mm2loiwxgjQ==
+X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
+ p1-20020adf9581000000b001edc3414ed1mr26911063wrp.299.1646321401670;
+        Thu, 03 Mar 2022 07:30:01 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1])
         by smtp.gmail.com with ESMTPSA id
- e18-20020adfdbd2000000b001e4bbbe5b92sm2498657wrj.76.2022.03.03.07.29.01
+ n8-20020adf8b08000000b001f046cc8891sm2295723wra.24.2022.03.03.07.30.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 07:29:01 -0800 (PST)
-Message-ID: 
- <1d823e69acf53be178df2cfd02d9c7138fcd28b5.camel@linuxfoundation.org>
-Subject: Listing numbers of files in native populate_sysroot installs
+        Thu, 03 Mar 2022 07:30:01 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Mar 2022 15:29:00 +0000
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cmake-native: Remove help docs from the native sysroot
+Date: Thu,  3 Mar 2022 15:30:00 +0000
+Message-Id: <20220303153000.332558-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 15:29:11 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 15:30:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162661
+ https://lists.openembedded.org/g/openembedded-core/message/162662
 
-For info for people who've not seen this, you can list the number of files
-installed by native recipes that are present in the current build with:
+This drops the file count for cmake-native from ~3000 to ~1700
+which is a decent chunk of files not to be copying to each native
+sysroot for no reason.
 
-wc tmp/sstate-control/manifest-x86_64-*native*.populate_sysroot -l | sort -n
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/cmake/cmake-native_3.22.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-which on my local build shows:
-
-    153 tmp/sstate-control/manifest-x86_64-alsa-lib-native.populate_sysroot
-    168 tmp/sstate-control/manifest-x86_64-ncurses-native.populate_sysroot
-    168 tmp/sstate-control/manifest-x86_64-xorgproto-native.populate_sysroot
-    180 tmp/sstate-control/manifest-x86_64-python3-setuptools-native.populate_sysroot
-    181 tmp/sstate-control/manifest-x86_64-openssl-native.populate_sysroot
-    208 tmp/sstate-control/manifest-x86_64-gobject-introspection-native.populate_sysroot
-    219 tmp/sstate-control/manifest-x86_64-docbook-xml-dtd4-native.populate_sysroot
-    231 tmp/sstate-control/manifest-x86_64-dpkg-native.populate_sysroot
-    266 tmp/sstate-control/manifest-x86_64-rpm-native.populate_sysroot
-    376 tmp/sstate-control/manifest-x86_64-glib-2.0-native.populate_sysroot
-    426 tmp/sstate-control/manifest-x86_64-perlcross-native.populate_sysroot
-    466 tmp/sstate-control/manifest-x86_64-meson-native.populate_sysroot
-    483 tmp/sstate-control/manifest-x86_64-icu-native.populate_sysroot
-    524 tmp/sstate-control/manifest-x86_64-gtk+3-native.populate_sysroot
-    585 tmp/sstate-control/manifest-x86_64-autoconf-archive-native.populate_sysroot
-    600 tmp/sstate-control/manifest-x86_64-python3-pip-native.populate_sysroot
-    748 tmp/sstate-control/manifest-x86_64-swig-native.populate_sysroot
-    850 tmp/sstate-control/manifest-x86_64-shared-mime-info-native.populate_sysroot
-   1945 tmp/sstate-control/manifest-x86_64-docbook-xsl-stylesheets-native.populate_sysroot
-   2005 tmp/sstate-control/manifest-x86_64-perl-native.populate_sysroot
-   2362 tmp/sstate-control/manifest-x86_64-python3-native.populate_sysroot
-   3035 tmp/sstate-control/manifest-x86_64-cmake-native.populate_sysroot
-  21246 total
-
-Removing cmake-native's help files would probably help next...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
+index 335097d3872..8293fe5e561 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
+@@ -46,6 +46,9 @@ do_install() {
+ 	install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/cmake/
+ 	mkdir -p ${D}${base_prefix}/environment-setup.d
+ 	install -m 644 ${WORKDIR}/environment.d-cmake.sh ${D}${base_prefix}/environment-setup.d/cmake.sh
++
++	# Help docs create tons of files in the native sysroot and aren't needed there
++	rm -rf ${D}${datadir}/cmake-*/Help
+ }
+ 
+ do_compile[progress] = "percent"
+-- 
+2.32.0
 
 
