@@ -2,248 +2,304 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4BEC433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 15:20:02 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web09.12026.1646320801236761890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9A76C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 15:23:04 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.11909.1646320983912311357
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 07:20:01 -0800
+ Thu, 03 Mar 2022 07:23:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lOGRIgUo;
- spf=pass (domain: gmail.com, ip: 209.85.167.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eBNz0Bgt;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 5so7118728lfz.9
+Received: by mail-lf1-f49.google.com with SMTP id j7so9091302lfu.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 07:20:00 -0800 (PST)
+ Thu, 03 Mar 2022 07:23:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vji1emqt5iJJ4Es8z3WS4tRMFHj0WkOIK1OCYeHnaFM=;
-        b=lOGRIgUokhACXMTDVCBuiSKUFvv8wszZ6YnkrFrlkBcdlYMzZ7W3dMF1rwgnXD47xE
-         c89tFVgXgDBtU2YGt45G4CurmdSq4wjU0DUcjR2PXwjOaVQIJmE5t0B3PwPbNh/+rpTj
-         8M5gYCn7R9mkZGPlXH/aBi7pSSdoKjUf8LngWSoIUFr5cVx9mesXJJv+nsV78vWVVcil
-         zQiswY1+KcoGKy0IPfgK8pVsfX80j62M4TW9iq3lR4VTeBPa+KEJCjB0CEzOAmlXb369
-         5YMljKYVmG6ycx+opuySJF/XULScN2tZ77InvIkWVRWnNFWOGI/xTyI3iQj/o8bnF2en
-         ySDg==
+        bh=YC4/LlK9IyMJx+ZOfVuMvavko2DMXegU1/YnvPziMuo=;
+        b=eBNz0Bgtre9y4mVPJUML6DKW1T7mUFkEa/OYafemeGInbl3A42fSWfDd38DxLG0gAY
+         PAbpjQS94jI1qNh3VKUfDkTLlpDREVqOpFdTcmU7oa6qEmaVbs+MvgKQWcJoYctERia0
+         FPLZcH3jQfF9zSr3HRe4kY/WNG3DzLxbhu2lZOyRS5F8GTpuxNvhLeyULmO8pC/ufWSA
+         WBpiCtezvxxUcPRydJsLb5vws5N0bL8PS3NAMabHgRjISIwyG109nqQI9rsCjwI4dv7x
+         yJ1e/MJrm7QLW0Kpd3mNPLSzh9GyvqJAQUIQlNsBH3yAxqGL4BoKfaoXyt0rZNlem+jK
+         773A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vji1emqt5iJJ4Es8z3WS4tRMFHj0WkOIK1OCYeHnaFM=;
-        b=3DA+B5JjAO9oNleiZIe5qYJRpAOAFs+1qTPTnah+2Aw2cSySnX/hqCGrO6VmJ2A8tQ
-         1bLyiLAc55UgvSaOht3Xi05ZFGY4PctV68nissQDkUasmG/1rOHvlkIKQrJy+Lx1fWo+
-         GET/Z+sQCnZhsd+5f1CLZPiajlG8HqstFrYL8v2s6FXVZ5aKCAcqisu6ZbUQ0HgAg71T
-         baAvC87aOXI/JUT5GufRkYlWxBnjR4mRGHXv8E3FcqW0HiaXK87EagXo+OJ2tM3ovFMi
-         lKS208BXYTASh/z5Z48jZiTkD5Zskudpe1k7E/Wl29TekkgyRV/HYfPJfebzK1ytEoQd
-         bLzQ==
-X-Gm-Message-State: AOAM5307oFhSD7tnYJ0Rqsk2He7koSmj1bwfqWQgW3wmrP8k1Mhp2GdD
-	NAqQhHm/6xS6gRKmKgoSLKZilTQvKWanxyvV6w8=
+        bh=YC4/LlK9IyMJx+ZOfVuMvavko2DMXegU1/YnvPziMuo=;
+        b=vPygcb6dKOqtllAyIIs+Mh1dMWTjsWb3x0M+9bBwHvge1BGYzoJRomL0Y4daGC07dX
+         2gzGqLTUmvvpO+K9A1maO8JfgKRNoVuIsjTEPIbgsiHIpxs8cCB7xoVLONsVuC9ZuL/g
+         CyyFD4xr5ru9d6lbj1uOkt0ohqZboLH22LFoSLweoeScSMrlictO1ROjSo80j7J8DBBd
+         mgEm4+R4R+zTFKib5PTOru3kohHnCt/81S5Obdl3UAkdOQjFWHddyp9OHMtpd77mk0qW
+         L14yXmAb9Tfx8TOuXFTaWWNRrXejspwEH5zPihg3UOGxzJ+fKq4UR7Z16E4pVFbDpLIK
+         S4xg==
+X-Gm-Message-State: AOAM530/vzUYo73Y0BV+JJLxZj7g0mgzOAazoM0J0OMZQQ13kItyg4J6
+	gTMEAkNBk0Z+gAKdXHfUbDyOUd997yHVJngExxXNzXyE
 X-Google-Smtp-Source: 
- ABdhPJzVqgEiR090wKPx6OWHh5d0pj9hjnet01ErmQCFJ01iCmfpasQmq+KVwz7E4KHUsfWt6/7Z8WitiK9UR08tbiI=
-X-Received: by 2002:a05:6512:3709:b0:436:26a3:99d3 with SMTP id
- z9-20020a056512370900b0043626a399d3mr21938745lfr.106.1646320799389; Thu, 03
- Mar 2022 07:19:59 -0800 (PST)
+ ABdhPJwgllvDSv8MbwBgFCBQ2rT6zscba0gYBMU0FZEP23zTn2n6JXnIIgV3IowT7/C44O+JvOxoySBLes1YHi3fOUY=
+X-Received: by 2002:a05:6512:511:b0:443:3f9f:5d5c with SMTP id
+ o17-20020a056512051100b004433f9f5d5cmr20931408lfb.94.1646320981996; Thu, 03
+ Mar 2022 07:23:01 -0800 (PST)
 MIME-Version: 1.0
-References: <16D8E53ED33DE8AA.24484@lists.openembedded.org>
- <f7d911b79f48eb7da976002533b1f64cccc554d3.camel@linuxfoundation.org>
+References: <16D869D532B5A22D.25756@lists.openembedded.org>
+ <CANPvuRk2wx+yXfviZADt8AoF-zR+H89Spj8NcQzAgsFL2LLCfQ@mail.gmail.com>
+ <CAOSpxdYz=saGTeRm48L+C_RgB51eOdQC6GgAo3j5ZrifWPuXYg@mail.gmail.com>
 In-Reply-To: 
- <f7d911b79f48eb7da976002533b1f64cccc554d3.camel@linuxfoundation.org>
+ <CAOSpxdYz=saGTeRm48L+C_RgB51eOdQC6GgAo3j5ZrifWPuXYg@mail.gmail.com>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 3 Mar 2022 15:19:47 +0000
+Date: Thu, 3 Mar 2022 15:22:50 +0000
 Message-ID: 
- <CANPvuR=GTsdG0-BNZvYTaQUYzwOFWJ5ygNnN9ykKOxcUWpBNZA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-native: Drop opt-1 and opt-2 pyc files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+ <CANPvuRnzTHDiN1NG5C+=HoH1qU5Eaztkb7FDAJwETCfYAd0g0Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] buildhistory.bbclass: create the
+ buildhistory directory when needed
+To: Steve Sakoman <steve@sakoman.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006f229705d951eecc"
+Content-Type: multipart/alternative; boundary="00000000000051771c05d951f95f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 15:20:02 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 15:23:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162659
+ https://lists.openembedded.org/g/openembedded-core/message/162660
 
---0000000000006f229705d951eecc
+--00000000000051771c05d951f95f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-3/03/2022 =C3=A0(s) 14:37:
+Great, thanks!
 
-> On Thu, 2022-03-03 at 14:28 +0000, Richard Purdie via
-> lists.openembedded.org
+Steve Sakoman <steve@sakoman.com> escreveu no dia quinta, 3/03/2022 =C3=A0(=
+s)
+14:49:
+
+> On Wed, Mar 2, 2022 at 2:07 PM Jose Quaresma <quaresma.jose@gmail.com>
 > wrote:
-> > There are over 3,000 of these in python3-native (of 8,000+ files total)
-> and
-> > copying them to sysroots all the time seems pointless, particularly sin=
-ce
-> > they're only used if python is run with the -O or -OO parameters.
 > >
-> > Get rid of them and save the overhead. This is particularly pronounced =
-in
-> > builds using the api-documentation distro feature.
+> > Can this patch be backported to dunfell?
+>
+> I've added it to my test queue.
+>
+> Steve
+>
 > >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/recipes-devtools/python/python3_3.10.2.bb | 5 +++++
-> >  1 file changed, 5 insertions(+)
+> > Jose
 > >
-> > diff --git a/meta/recipes-devtools/python/python3_3.10.2.bb
-> b/meta/recipes-devtools/python/python3_3.10.2.bb
-> > index 429839b6226..b28aa6505a0 100644
-> > --- a/meta/recipes-devtools/python/python3_3.10.2.bb
-> > +++ b/meta/recipes-devtools/python/python3_3.10.2.bb
-> > @@ -152,6 +152,11 @@ do_install:append:class-native() {
-> >          # (these often end up too long for the #! parser in the kernel
-> as the
-> >          # buffer is 128 bytes long).
-> >          ln -s python3-native/python3 ${D}${bindir}/nativepython3
-> > +
-> > +        # Remove the opt-1.pyc and opt-2.pyc files. There are over
-> 3,000 of them
-> > +        # and the overhead in each recipe-sysroot-native isn't worth
-> it, particularly
-> > +        # when they're only used for python called with -O or -OO.
-> > +        find ${D} -name *opt-*.pyc -delete
-> >  }
-> >
-> >  do_install:append() {
-> >
->
-> This does pose an interesting dilemma. We could just go this far, or
-> should we
-> remove the remaining pyc files (~1,500 of them) and let python create the=
-m
-> as
-> needed, or do we disable them from python entirely?
->
-
-I think that for native recipes it can be created at runtime as needed.
-
-Jose
-
-
-> Cheers,
->
-> Richard
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162656):
-> https://lists.openembedded.org/g/openembedded-core/message/162656
-> Mute This Topic: https://lists.openembedded.org/mt/89525809/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> > Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+> gmail.com@lists.openembedded.org> escreveu no dia quarta, 2/03/2022 =C3=
+=A0(s)
+> 00:47:
+> >>
+> >> When the BUILDHISTORY_RESET is enabled we need to move the
+> >> content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but
+> >> when we start a clean build in the first run we don't have the
+> >> BUILDHISTORY_DIR so the move of files will fail.
+> >>
+> >> | ERROR: Command execution failed: Traceback (most recent call last):
+> >> |  File "/xxx/poky/bitbake/lib/bb/command.py", line 110, in
+> runAsyncCommand
+> >> |    commandmethod(self.cmds_async, self, options)
+> >> |  File "/xxx/poky/bitbake/lib/bb/command.py", line 564, in buildTarge=
+ts
+> >> |    command.cooker.buildTargets(pkgs_to_build, task)
+> >> |  File "/xxx/poky/bitbake/lib/bb/cooker.py", line 1481, in buildTarge=
+ts
+> >> |    bb.event.fire(bb.event.BuildStarted(buildname, ntargets),
+> self.databuilder.mcdata[mc])
+> >> |  File "/xxx/home/builder/src/base/poky/bitbake/lib/bb/event.py", lin=
+e
+> 214, in fire
+> >> |    fire_class_handlers(event, d)
+> >> |  File "/xxx/poky/bitbake/lib/bb/event.py", line 121, in
+> fire_class_handlers
+> >> |    execute_handler(name, handler, event, d)
+> >> |  File "/xxx/poky/bitbake/lib/bb/event.py", line 93, in execute_handl=
+er
+> >> |    ret =3D handler(event)
+> >> |  File "/xxx/poky/meta/classes/buildhistory.bbclass", line 919, in
+> buildhistory_eventhandler
+> >> |    entries =3D [ x for x in os.listdir(rootdir) if not
+> x.startswith('.') ]
+> >> | FileNotFoundError: [Errno 2] No such file or directory:
+> '/xxx/buildhistory'
+> >>
+> >> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> >> ---
+> >>  V2: remove the check to see if the directory exists
+> >>
+> >>  meta/classes/buildhistory.bbclass | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/meta/classes/buildhistory.bbclass
+> b/meta/classes/buildhistory.bbclass
+> >> index 49797a6701..8db79a4829 100644
+> >> --- a/meta/classes/buildhistory.bbclass
+> >> +++ b/meta/classes/buildhistory.bbclass
+> >> @@ -896,6 +896,7 @@ python buildhistory_eventhandler() {
+> >>                  if os.path.isdir(olddir):
+> >>                      shutil.rmtree(olddir)
+> >>                  rootdir =3D e.data.getVar("BUILDHISTORY_DIR")
+> >> +                bb.utils.mkdirhier(rootdir)
+> >>                  entries =3D [ x for x in os.listdir(rootdir) if not
+> x.startswith('.') ]
+> >>                  bb.utils.mkdirhier(olddir)
+> >>                  for entry in entries:
+> >> --
+> >> 2.35.1
+> >>
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#162587):
+> https://lists.openembedded.org/g/openembedded-core/message/162587
+> >> Mute This Topic: https://lists.openembedded.org/mt/89491842/5052612
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[
 > quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
+> >
+> >
+> > --
+> > Best regards,
+> >
+> > Jos=C3=A9 Quaresma
 >
->
+
 
 --=20
 Best regards,
 
 Jos=C3=A9 Quaresma
 
---0000000000006f229705d951eecc
+--00000000000051771c05d951f95f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 3/03/2022 =C3=A0(s) 14:37:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Thu, 2022-03-03 at 14:28 +0000, R=
-ichard Purdie via <a href=3D"http://lists.openembedded.org" rel=3D"noreferr=
-er" target=3D"_blank">lists.openembedded.org</a><br>
-wrote:<br>
-&gt; There are over 3,000 of these in python3-native (of 8,000+ files total=
-) and<br>
-&gt; copying them to sysroots all the time seems pointless, particularly si=
-nce<br>
-&gt; they&#39;re only used if python is run with the -O or -OO parameters.<=
-br>
-&gt; <br>
-&gt; Get rid of them and save the overhead. This is particularly pronounced=
- in<br>
-&gt; builds using the api-documentation distro feature.<br>
-&gt; <br>
-&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
-uxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
-gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-devtools/python/<a href=3D"http://python3_3.10.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3_3.10.2.bb</a> | 5 +++++<br>
-&gt;=C2=A0 1 file changed, 5 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.=
-10.2.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.10.2.bb</a> b/meta/=
-recipes-devtools/python/<a href=3D"http://python3_3.10.2.bb" rel=3D"norefer=
-rer" target=3D"_blank">python3_3.10.2.bb</a><br>
-&gt; index 429839b6226..b28aa6505a0 100644<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.10.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3_3.10.2.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.10.2.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3_3.10.2.bb</a><br>
-&gt; @@ -152,6 +152,11 @@ do_install:append:class-native() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # (these often end up too long for t=
-he #! parser in the kernel as the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # buffer is 128 bytes long).<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s python3-native/python3 ${D}${b=
-indir}/nativepython3<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove the opt-1.pyc and opt-2.pyc file=
-s. There are over 3,000 of them<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # and the overhead in each recipe-sysroot=
--native isn&#39;t worth it, particularly<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # when they&#39;re only used for python c=
-alled with -O or -OO.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 find ${D} -name *opt-*.pyc -delete<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 do_install:append() {<br>
-&gt; <br>
+<div dir=3D"ltr">Great, thanks!=C2=A0<br></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">Steve Sakoman &lt;<a href=3D"mailt=
+o:steve@sakoman.com">steve@sakoman.com</a>&gt; escreveu no dia quinta, 3/03=
+/2022 =C3=A0(s) 14:49:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On Wed, Mar 2, 2022 at 2:07 PM Jose Quaresma &lt;<a href=3D"mailto:q=
+uaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt; w=
+rote:<br>
+&gt;<br>
+&gt; Can this patch be backported to dunfell?<br>
 <br>
-This does pose an interesting dilemma. We could just go this far, or should=
- we<br>
-remove the remaining pyc files (~1,500 of them) and let python create them =
-as<br>
-needed, or do we disable them from python entirely?<br></blockquote><div><b=
-r></div><div>I think that for native recipes it can be created at runtime a=
-s needed.</div><div><br></div><div>Jose</div><div><br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">
+I&#39;ve added it to my test queue.<br>
 <br>
-Cheers,<br>
+Steve<br>
 <br>
-Richard<br>
+&gt;<br>
+&gt; Jose<br>
+&gt;<br>
+&gt; Jose Quaresma via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
+eferrer" target=3D"_blank">lists.openembedded.org</a> &lt;quaresma.jose=3D<=
+a href=3D"mailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.=
+com@lists.openembedded.org</a>&gt; escreveu no dia quarta, 2/03/2022 =C3=A0=
+(s) 00:47:<br>
+&gt;&gt;<br>
+&gt;&gt; When the BUILDHISTORY_RESET is enabled we need to move the<br>
+&gt;&gt; content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but<br>
+&gt;&gt; when we start a clean build in the first run we don&#39;t have the=
 <br>
+&gt;&gt; BUILDHISTORY_DIR so the move of files will fail.<br>
+&gt;&gt;<br>
+&gt;&gt; | ERROR: Command execution failed: Traceback (most recent call las=
+t):<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/command.py&quot;, line=
+ 110, in runAsyncCommand<br>
+&gt;&gt; |=C2=A0 =C2=A0 commandmethod(self.cmds_async, self, options)<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/command.py&quot;, line=
+ 564, in buildTargets<br>
+&gt;&gt; |=C2=A0 =C2=A0 command.cooker.buildTargets(pkgs_to_build, task)<br=
+>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/cooker.py&quot;, line =
+1481, in buildTargets<br>
+&gt;&gt; |=C2=A0 =C2=A0 bb.event.fire(bb.event.BuildStarted(buildname, ntar=
+gets), self.databuilder.mcdata[mc])<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/home/builder/src/base/poky/bitbake/lib/bb/=
+event.py&quot;, line 214, in fire<br>
+&gt;&gt; |=C2=A0 =C2=A0 fire_class_handlers(event, d)<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/event.py&quot;, line 1=
+21, in fire_class_handlers<br>
+&gt;&gt; |=C2=A0 =C2=A0 execute_handler(name, handler, event, d)<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/event.py&quot;, line 9=
+3, in execute_handler<br>
+&gt;&gt; |=C2=A0 =C2=A0 ret =3D handler(event)<br>
+&gt;&gt; |=C2=A0 File &quot;/xxx/poky/meta/classes/buildhistory.bbclass&quo=
+t;, line 919, in buildhistory_eventhandler<br>
+&gt;&gt; |=C2=A0 =C2=A0 entries =3D [ x for x in os.listdir(rootdir) if not=
+ x.startswith(&#39;.&#39;) ]<br>
+&gt;&gt; | FileNotFoundError: [Errno 2] No such file or directory: &#39;/xx=
+x/buildhistory&#39;<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@g=
+mail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 V2: remove the check to see if the directory exists<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 meta/classes/buildhistory.bbclass | 1 +<br>
+&gt;&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buil=
+dhistory.bbclass<br>
+&gt;&gt; index 49797a6701..8db79a4829 100644<br>
+&gt;&gt; --- a/meta/classes/buildhistory.bbclass<br>
+&gt;&gt; +++ b/meta/classes/buildhistory.bbclass<br>
+&gt;&gt; @@ -896,6 +896,7 @@ python buildhistory_eventhandler() {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if o=
+s.path.isdir(olddir):<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 shutil.rmtree(olddir)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 root=
+dir =3D e.data.getVar(&quot;BUILDHISTORY_DIR&quot;)<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.=
+mkdirhier(rootdir)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 entr=
+ies =3D [ x for x in os.listdir(rootdir) if not x.startswith(&#39;.&#39;) ]=
 <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#162656): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/162656" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/162656</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89525809/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/89525809/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.u=
+tils.mkdirhier(olddir)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for =
+entry in entries:<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.35.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; Links: You receive all messages sent to this group.<br>
+&gt;&gt; View/Reply Online (#162587): <a href=3D"https://lists.openembedded=
+.org/g/openembedded-core/message/162587" rel=3D"noreferrer" target=3D"_blan=
+k">https://lists.openembedded.org/g/openembedded-core/message/162587</a><br=
+>
+&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/8949=
+1842/5052612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/mt/89491842/5052612</a><br>
+&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
+nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
+.org</a><br>
+&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
+ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gma=
+il.com" target=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Best regards,<br>
+&gt;<br>
+&gt; Jos=C3=A9 Quaresma<br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
+ Quaresma</div></div></div>
 
---0000000000006f229705d951eecc--
+--00000000000051771c05d951f95f--
 
