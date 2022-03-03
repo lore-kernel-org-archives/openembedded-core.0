@@ -1,116 +1,172 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C603CC433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 11:23:51 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web12.9708.1646306630873214674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA8AC433F5
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 11:28:03 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.9554.1646306883144191948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 03:23:51 -0800
+ Thu, 03 Mar 2022 03:28:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CbsqIB/n;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id m6so7297163wrr.10
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=KCtPR++h;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.41,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f41.google.com with SMTP id bk29so7338843wrb.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 03:23:50 -0800 (PST)
+ Thu, 03 Mar 2022 03:28:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=doY7b4RWp+G2l91AwbS2KJGtUg/Wj1RKRwAZgkbkNdo=;
-        b=CbsqIB/ns3jg6itbQIdETYAFc5lSCv44J67GisWnkhjSq5AQKEETVt9B7xbWTwbNwU
-         4bhKWl1rZpoiwYtsoHO0xdF5o3oJi+cd9ohtppzKQ8uaZ8HpJQw/5+LtjT4O/VR4jHCc
-         ZytmNNPQJfNrTM0yNNHIC/dW0xDaAVWTnGFO4=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4YjbtXKkU+Ai+hnxqkL5lyhjgwQIZfWSdPYgCAZJ2ys=;
+        b=KCtPR++hU1h8avO3o3hfqihBUJOzb0LQX1DwZ3WRPJaZjq9ILQ4Lpn5oiarSwP6NE7
+         ppGpBddvxWwkOH4eHuKNEeocsC2GyJCFihdNQu2ytYDKAcS4YJfJX9qsNjpJqXZa5MJS
+         gv1hp8IyY3OHssXQ0YIhq600iTIRjo6LdVMW29rovKV7XniP2QCmMZMpsA+9TXwTV7mD
+         C7G5vBOuEcr4Ga64zitInjEfex/6nHMBd1bIDWM/TxEIk+SOf+rZjEA04yZTaT6eYpp2
+         ArN+Oyic/cBT+Qy2A7bSUTBNXW5d27/FbNdi+0xS+xzbVpO8amAVnmQLgJrUfe6AIN6c
+         fWsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=doY7b4RWp+G2l91AwbS2KJGtUg/Wj1RKRwAZgkbkNdo=;
-        b=sQMCqO+ReQaYM3Mjhg7v39uBQ0QAiUGHiG1MHbg+dL3hC8n04dO7Y6wBXwsB6QlYg2
-         Xk9dQgM2EOnrya6SJe14YiAkdsutJ1M4fYWhqeGt0f+xa8+72A2pGfF0mcZdtwCUxmmr
-         fbvFPry9j/I7E7Aa4REyNFAaN1Q3frNyBNTR+uxJOE2Gsj3SAnkw/7qSbxozVNpuQO8D
-         fYR9F0Gtkt/UzVB9htfLxCaqZACKyk7rn85CimVhlOvkroph0HeYQYTAsWU8BYsbqrZ5
-         og6KypcMhHuSecxyQ9vS+zzNOEVFKsRGGUagU1Jsv66LlSUOvU7CjfB4bQFLOaheGOpR
-         +H9A==
-X-Gm-Message-State: AOAM531nHdMFl65h8PbDSTVaVkkq3ilP0dYhDUJH9kM+NPl5TSMXScQM
-	DKhwzVuL4YwCf6FeU8FOgc5JA6WAgBweIDXX
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4YjbtXKkU+Ai+hnxqkL5lyhjgwQIZfWSdPYgCAZJ2ys=;
+        b=DzIl1tHB4J5TBqxuiC1f4mpfTJbJELPWMo13ymr+LHRneyv1D3FONyFmhVfvu86DM7
+         d2ghVuiBvqC+d6t/5v0hukbbw0PCrtZnyLDC1OLHNEvbGgCtOsT0ZVeizuPPJoGVEtG4
+         unyfdFAGF/RRwE5fhEP3KwEVbwdSTyvVYDjSDkuNw41KlKd5pTadlcRr3yhkcWNaPOyg
+         Z35ky4pjT56bloLVE+AmCan9ibwWGujFDopMLYxwUKu6Zn7ueIQxeNMy+10hK9j079Vo
+         AilWb58kU4okPHix2RvCOWO0Lxpl1MeDSXtipohlRpjuGXX/+6wgOniN26GcECVmcVD3
+         tihQ==
+X-Gm-Message-State: AOAM530aVs7cT97q0YRcAzgSSKczLzWEhuQUDxRCiv1NfoD0oUoKUmro
+	qyjrkxxcXF7RLfN1qJCFrQpH3xcmfFemcUepKG1gfA==
 X-Google-Smtp-Source: 
- ABdhPJwEVNqKdlwIUyEymrFVBmXF1cIhZcsLUZTrimlgNrNsz/2evnwEKPfS3kDVgt0hKPsCIjc+Ww==
-X-Received: by 2002:a05:6000:1445:b0:1f0:4865:c772 with SMTP id
- v5-20020a056000144500b001f04865c772mr3554190wrx.83.1646306629272;
-        Thu, 03 Mar 2022 03:23:49 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1?
- ([2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1])
-        by smtp.gmail.com with ESMTPSA id
- e2-20020adfe7c2000000b001f04d622e7fsm1838744wrn.39.2022.03.03.03.23.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 03:23:48 -0800 (PST)
-Message-ID: 
- <eda53a5cb864d7dfec2f8e7d180f4e291419a921.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] libsndfile1: bump to version
- 1.0.31
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexandru Ardelean <ardeleanalex@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 03 Mar 2022 11:23:47 +0000
-In-Reply-To: 
- <CA+U=Dsr74n=NT7w-TrrpQwv0_9iHQYnGNCU8BobebjKQ5sbJXg@mail.gmail.com>
-References: <20220224153034.5140-1-ardeleanalex@gmail.com>
-	 <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
-	 <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
-	 <CA+U=DsrXewjnaWp2DQM8u=V9AS49vGKcdt17b5kyZ8eth_8LOQ@mail.gmail.com>
-	 <49dbf7f4492322649e7876c110e94de4f82bcf77.camel@linuxfoundation.org>
-	 <CA+U=Dsr74n=NT7w-TrrpQwv0_9iHQYnGNCU8BobebjKQ5sbJXg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJyoZRZ+C5lkchoy+AdIDxbJPBvmlsTF6zGCEc/TLzOSLYpZUErPGdfj+Al2bLFjwQ+w+gLlq1nx5YYc6eUiIBY=
+X-Received: by 2002:adf:e74a:0:b0:1f0:25cb:3ad5 with SMTP id
+ c10-20020adfe74a000000b001f025cb3ad5mr5869878wrn.231.1646306881511; Thu, 03
+ Mar 2022 03:28:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220223125432.2733396-1-ross.burton@arm.com>
+ <AM9PR09MB4642A596E4D70E846363B638A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAAnfSTsttmQuKcXYcgyfV1wQyptEsZThpYQ3Oa8h6WZsPW9xjw@mail.gmail.com>
+ <AM9PR09MB4642C795688931840887DC06A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: 
+ <AM9PR09MB4642C795688931840887DC06A8049@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Thu, 3 Mar 2022 11:27:50 +0000
+Message-ID: 
+ <CAAnfSTs3QP5zDqpPvGHx1TpyhyTg43k5eguiaK81VH9deR5h5g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] cve-check: get_cve_info should open the
+ database read-only
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 11:23:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 11:28:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162651
+ https://lists.openembedded.org/g/openembedded-core/message/162652
 
-On Thu, 2022-03-03 at 12:54 +0200, Alexandru Ardelean wrote:
-> It didn't look [to me] like it would be too bad to me either.
-> I wasn't sure what the decision would have been (from OE), to
-> [1]patch-out libopus? or to [2]add libopus? or [3]revert?
-> But your patch suggests [1] is preferred for now.
+:tableflip:
 
-My reasoning is that:
+Thanks, I guess!
 
-* libopus is in meta-openembedded, I'm not sure we have a strong case for moving
-it to core.
-* I was happy to see us move to a recent more up to date version with the CVE
-patches dropped so reverting seemed like a less attractive option too.
+Can you share the full bitbake log from that run? I'd like to see what
+jobs are running in parallel.
 
-I just wasn't sure if patching out libopus would be possible or not. I therefore
-had a look at a patch to do it and that shows it does seem to be reasonable.
+Ross
 
-> Did you get a chance to test it?
-> I can run a test on my system with it.
-> But it may take me 1-2 days.
-
-I've turned it into a proper patch and will test it on the autobuilder.
-
-> In the meantime, I was a bit busy with this:
-> https://github.com/libsndfile/libsndfile/pull/812
-> 
-> It kind of seems that libsndfile people are talking about maybe
-> splitting up their configuration.
-> Let's see. That will be in a future release anyway.
-
-Thanks for discussing it with them. If upstream were willing to accept a patch
-to enable/disable opus, that would be our much preferred way to handle this!
-
-Cheers,
-
-Richard
-
-
-
+On Thu, 3 Mar 2022 at 11:10, Konrad Weihmann <kweihmann@outlook.com> wrote:
+>
+> Single from scratch build of core-image-minimal
+>
+> On 03.03.22 12:07, Ross Burton wrote:
+> > What's the scenario where this is happening?  Multiple build
+> > directories using the same DL_DIR? Or was this a single build?
+> >
+> > Ross
+> >
+> > On Thu, 3 Mar 2022 at 08:10, Konrad Weihmann <kweihmann@outlook.com> wrote:
+> >>
+> >> Sadly I encountered this here last night
+> >>
+> >> NOTE: recipe cve-update-db-native-1.0-r0: task do_cve_check: Started
+> >> ERROR: cve-update-db-native-1.0-r0 do_cve_check: Error executing a
+> >> python function in exec_func_python() autogenerated:
+> >>
+> >> The stack trace of python calls that resulted in this exception/failure was:
+> >> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> >>        0001:
+> >>    *** 0002:do_cve_check(d)
+> >>        0003:
+> >> File: '/opt/build/sources/poky/meta/classes/cve-check.bbclass', lineno:
+> >> 104, function: do_cve_check
+> >>        0100:        try:
+> >>        0101:            patched_cves = get_patched_cves(d)
+> >>        0102:        except FileNotFoundError:
+> >>        0103:            bb.fatal("Failure in searching patches")
+> >>    *** 0104:        whitelisted, patched, unpatched = check_cves(d,
+> >> patched_cves)
+> >>        0105:        if patched or unpatched:
+> >>        0106:            cve_data = get_cve_info(d, patched + unpatched)
+> >>        0107:            cve_write_data(d, patched, unpatched,
+> >> whitelisted, cve_data)
+> >>        0108:    else:
+> >> File: '/opt/build/sources/poky/meta/classes/cve-check.bbclass', lineno:
+> >> 198, function: check_cves
+> >>        0194:        else:
+> >>        0195:            vendor = "%"
+> >>        0196:
+> >>        0197:        # Find all relevant CVE IDs.
+> >>    *** 0198:        for cverow in conn.execute("SELECT DISTINCT ID FROM
+> >> PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
+> >>        0199:            cve = cverow[0]
+> >>        0200:
+> >>        0201:            if cve in cve_whitelist:
+> >>        0202:                bb.note("%s-%s has been whitelisted for %s" %
+> >> (product, pv, cve))
+> >> Exception: sqlite3.OperationalError: attempt to write a readonly database
+> >>
+> >> So it seems your patch doesn't solve the issue
+> >>
+> >>
+> >>
+> >> On 23.02.22 13:54, Ross Burton wrote:
+> >>> All of the function in cve-check should open the database read-only, as
+> >>> the only writer is the fetch task in cve-update-db.  However,
+> >>> get_cve_info() was failing to do this, which might be causing locking
+> >>> issues with sqlite.
+> >>>
+> >>> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> >>> ---
+> >>>    meta/classes/cve-check.bbclass | 3 ++-
+> >>>    1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+> >>> index 2d69aeba4b..d715fbf4d8 100644
+> >>> --- a/meta/classes/cve-check.bbclass
+> >>> +++ b/meta/classes/cve-check.bbclass
+> >>> @@ -265,7 +265,8 @@ def get_cve_info(d, cves):
+> >>>        import sqlite3
+> >>>
+> >>>        cve_data = {}
+> >>> -    conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
+> >>> +    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
+> >>> +    conn = sqlite3.connect(db_file, uri=True)
+> >>>
+> >>>        for cve in cves:
+> >>>            for row in conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,)):
+> >>>
+> >>>
+> >>>
+> >>> -=-=-=-=-=-=-=-=-=-=-=-
+> >>> Links: You receive all messages sent to this group.
+> >>> View/Reply Online (#162258): https://lists.openembedded.org/g/openembedded-core/message/162258
+> >>> Mute This Topic: https://lists.openembedded.org/mt/89339702/3647476
+> >>> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kweihmann@outlook.com]
+> >>> -=-=-=-=-=-=-=-=-=-=-=-
+> >>>
 
