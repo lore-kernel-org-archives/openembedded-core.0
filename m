@@ -1,259 +1,218 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <andrej.valek@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 713BFC433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 03:34:22 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.7048.1646278461462657608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F61FC433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 06:35:26 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.41])
+ by mx.groups.io with SMTP id smtpd.web12.8276.1646289325049175744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Mar 2022 19:34:21 -0800
+ Wed, 02 Mar 2022 22:35:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KMaZT+/i;
- spf=pass (domain: gmail.com, ip: 209.85.208.45,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id y11so4369599eda.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Mar 2022 19:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CwivF3rXQZUlBVwjdABOsh6fTV7IETt689jxhaThD+g=;
-        b=KMaZT+/i7YZ4lBiV0fW3GcrDFyzKP5nhZUzzJUG14bdkFaVGqzDqKljEWcDrvI5QRZ
-         D4ITJpG6WiPxxZhaxgHm/ikGomZA1MycR9j5vR/XdvgJ5hTbIeDcLjqe1a7EheiDfhvi
-         6j6Bjif5YNQenC/BJROh1lWPIlcaSqJuy8xWDVweq7P5wVa6ca+YUDGDpSGqofnVnhqC
-         laUJZYf55jVQ7D9XKFA1CWYdCjB/vvdXmeQYUclf1Oc+GQC1sMZNcyhjz057lBma0adI
-         Jcs9UXKq3H+ldLrjtTkULP/me8EsSXApBhiOeB50xv5J/a/DvuVCpllruP07Z/FkJTJC
-         3aZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CwivF3rXQZUlBVwjdABOsh6fTV7IETt689jxhaThD+g=;
-        b=cdjAqeuDdWQVBqQn622UqqWLsF/AjTBHaM6BUoZ0TYO5JpdXEUG3aUAvBKPUD0QOPY
-         KJfnG09lt/otl+K37VoC9Np2q6oqqhQqwXajvpkxnRrjgiIKxnMBB7YfFd7bSlbkSHi1
-         3ecIHGZGYc9yNdtnoPWZp9FG2VCJRUaXRY9jq+EINYVxNAEQefERu3QYgwCuwaOMoTuY
-         WNfDgUsAjGU1YbvYtA1AZAs8VYxVmD4SvAQ0i07dHkcxnZj08ae6CcXA8uOPyvTFB4oG
-         i8L6QyrdYFJ6dazYWlTd6sCah+7/63LW9nbkCipZYI3+y+N6E4w6c11ra3ywRPWUbQig
-         e5cw==
-X-Gm-Message-State: AOAM531COpF5sUnGWzz/PT83iOx1tK+On8DHt6uen/e6np1YSCS9NmSB
-	d1E7HvcZFvrSRbZuowLEiv3KIJysKcmFI8ynOZY=
-X-Google-Smtp-Source: 
- ABdhPJwOD9N8bKgUv403Z8hwwV2BMZ+ww193ZTrFnBvN7g9BDBTSvFRJRiu2hBHuUfySlFOAS48iyBQfCT0+4lV3aRw=
-X-Received: by 2002:a05:6402:50ca:b0:413:2a27:6b63 with SMTP id
- h10-20020a05640250ca00b004132a276b63mr32193152edb.349.1646278459320; Wed, 02
- Mar 2022 19:34:19 -0800 (PST)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=kDtgGNxn;
+ spf=pass (domain: siemens.com, ip: 40.107.6.41,
+ mailfrom: andrej.valek@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gfd9zNPthsyRJKWSzwM7g5qBXdKgr2FNLy2ooKR1aBiepXLSU4VIPElNJSUkm7OuBP0W+fvs7QWi9cGl8S1lsA+a1HbJ37xCS4ZQwq7KvgJhhSGzBfNLBitTbXABb/MvZIUnsHLej4JKH4KU1fGjCaeHmTLoYsjCnQcZIVzjfu2BDn4WYYJ23MoB8jpWhMITyJTIspJaTCyMWyPPv+5BpXCJLSaH4xYcY6GIIhsnLMjI4y9Pu+m3TSLRgXYt/HLRjoFM6eqfPvSDoXgVpqps+pJGQ1L2/wQTru3tGCz130R5rbOaGeAkLgFSuqvbAwZTNBBH/dDiQyJu/51aqlV5gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vRXE/7SoNGRSdxXEN0JPwYREwzP+8U079kYZstVEp7s=;
+ b=lRvGF6ECHI3viAbSheAiKlcu/j185V8eN8K8MHRxlmqLeGIjpcDX+brw5oE1Z8OkueRFGBYP3ZnlGM/PelOIGVr3MKO4UUPEsnmzR2x52salby7joisZuaECdHIpm76Ew3Ud49O0xnGsXfZx7F0L8pDYRu3EGbfsYR++vHhqg6cXNb4bqJAsCWDt0kvrXMhm71Uo0CsDKBQ/OP2f1CqJwsYmMs7XedPaRKjh3zzxkXRlbNdZvMnJtRpaL/2/wubLvkL3rrTA+m8u4XzvzVe5jTZSK5IRxFwEf5lUq6/ZSu5OzPcXX7qRTtPzDR+S6IVvKBvkK04ifvPnBGNfrPB84w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vRXE/7SoNGRSdxXEN0JPwYREwzP+8U079kYZstVEp7s=;
+ b=kDtgGNxngxPPsNh5b+EL5JtyhVZ3xFZanFoZpFmqd1mzf1/1F6vbX8n1KN1sok5IokG5FNu7ke9pTe5W5Fw3JONZFWuaYUE7lIjInymfZi0XlNePLOBFmDsmxdHTtvOGtHRXEw8/G0XyvIZ5Ni8Hahb80e30zHVWwKULFwsgkQG7RUfDhQMTV6PIDIAWCmOMyXnV5jF8w3r99wbapky8+dS6bD9q6R8V93yF09CR3optFp2vPc4mbljR9oSNKJ8kqZsvzj6m8rdzavXCDxTXrEbk8Xe/WedF2++1RLfmXpJw8aCHtIg/0lXBngWCd6fVNPgRM3bGNty6xITQ0z7yXA==
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
+ by DU2PR10MB5109.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:2d8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.15; Thu, 3 Mar
+ 2022 06:35:22 +0000
+Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c9d9:d51f:3d47:9bee]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c9d9:d51f:3d47:9bee%9]) with mapi id 15.20.5038.014; Thu, 3 Mar 2022
+ 06:35:22 +0000
+From: "Valek, Andrej" <andrej.valek@siemens.com>
+To: "dwagenknecht@emlix.com" <dwagenknecht@emlix.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] copy_buildsystem: allow more layer paths
+Thread-Topic: [OE-core][PATCH] copy_buildsystem: allow more layer paths
+Thread-Index: AQHYLmil0dofjl7G7EG733p89knoqqytNOSA
+Date: Thu, 3 Mar 2022 06:35:21 +0000
+Message-ID: <a6865397ca95fbe80336054fdc8486165a5e35f1.camel@siemens.com>
+References: <20220302190554.1953968-1-dwagenknecht@emlix.com>
+In-Reply-To: <20220302190554.1953968-1-dwagenknecht@emlix.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-3.fc34) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2171f1cd-62dc-4207-4087-08d9fcdffe10
+x-ms-traffictypediagnostic: DU2PR10MB5109:EE_
+x-microsoft-antispam-prvs: 
+ <DU2PR10MB51093B35FEE8D8ADBEA0AD3992049@DU2PR10MB5109.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ kigIUNjEWk5LBo0rWKSRbSfg5wcvWEMu4JMCLO1bRtD241MKe0VWxdLkx2X+aQFJdSx3mWH6Dqc2+rHeFIoZYCnzHOgl3ijceUXi/l4r+51nNCGXo4kLOqOjrFlnVmsfqPM2cua05GryxOpT9/ZOkaZ6ZqiRKU8W/GOc6AmXagcWd7cD4MroVd32C1BPsdt7Xt9RLY2ZWjCz1osUku31fCYR355KfeYJy56Hs/YGZ4p6ZJIyoYyYFTuAbwCioJFfDPSK4FEoWXVtR91wHbhK6MWHYw2gTKMmPyQynDk+oJ4Stxp4goSZu76LjEnAVLldoImjnyFLzzlQrFap9wzOBgLBDOtDoJgxK7Zx3yoSe5bImswkYwu0bJuaKZhEoTa2E76glu0GIh4anpPH3a9H2Fm5DEc1EuCk2tlPmpO9/m49jU74DyQ4mCjZKrnq2qidCYhBTof/3jqdlIkpsAhx7UEy03LLByOqJK66kDUucGneE/X14s165pQdOpet+XpBfgDDANO7vEt29NTbodNWpPTQtGUqPKwbmbuWCTDUSjcBKtws8IFWbAyS/VosxwBpN5CKgzYi9jNYIXFaMO7ySnHmgpDZjyCOwlFeDtrQqpHBI86ykSk4CJNRFQLufos/sHGFIvMSGnwOlLQJzWqJXh3AtFp8vV0USQG3d5p5WEu/o3P+xqneEETHwLKt8p9NqdesXZVi9xxz40cfCrJdjg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(110136005)(38100700002)(36756003)(2616005)(83380400001)(6512007)(6506007)(2906002)(26005)(186003)(8936002)(71200400001)(91956017)(4326008)(86362001)(122000001)(316002)(82960400001)(66446008)(66476007)(508600001)(8676002)(76116006)(64756008)(66946007)(66556008)(6486002)(38070700005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?NVNFQmQ5a3AwZVoyQlZ0MFBPRzAyNDFIaEJwM25LV0hsdldhRFZGbEJaSndj?=
+ =?utf-8?B?ZndXTENaRVR3VURTTGpHK3owT3RjblNZa2RQMlB5TWJZZXArb2dXckYrblps?=
+ =?utf-8?B?Ynl0Wnc4VlNDb2V4dFBVUTJheWg2cTVGanpkT2NIS3NocURkKzIwNzdMMUF6?=
+ =?utf-8?B?MytKVnFHVTEza0xEbkp4cXFrOVVTNkVCNzBTbzJ0aHJOaHpTNDhXSitDejdn?=
+ =?utf-8?B?Yll0YzA4cyt2YmYvbGFqQjBCMHlpMkxTTEZCZzJESXF6M3dmeG1ZR0VsemNS?=
+ =?utf-8?B?bVRkNXRZUXRJemVVeU9rUHdaV0Q1Rk9TdUhmUWF0aE9KQm0xY1VOb1pGYXRi?=
+ =?utf-8?B?amlEVXMrZW5CVVF6b2p3b1hSOXZicTVJQVZJRnoyK2dmWU8xVUFPUGVMdS82?=
+ =?utf-8?B?YzlOYkovU0pZODQ1VjA3ZXdYM0hrazM0aW9VODlNaWthWUN5NWNjN0p6cThH?=
+ =?utf-8?B?eE5xVjY4WFZFck91b1V4eFc1WktISG1NQzlDYkYwZkg1eEFIVjBqUHVpWGN4?=
+ =?utf-8?B?SnYwTnp0b2JURkhha25QWFdEVU9MK0NmNGNJdWd3RTF1ZWNHZUJiNFFGOTVJ?=
+ =?utf-8?B?MjdVS3F5Z1FZMXNkUUU2K0laa3YyUWtEd2lPSEUvczhHb3hIeHJWL25mdUJu?=
+ =?utf-8?B?RUliTkxZYW5jOTI2NlNtaDQrdUJaaDkzVzhrcXRQTEMvbisrQTNGWUs4UzlK?=
+ =?utf-8?B?Yzg5UFJGcFBDYkRWNzlnUHdmNE9ScUdrd2p4eTEvZXBVOVRLQ2t2MXlST1ox?=
+ =?utf-8?B?T1hETVNIOEwyQzhXNGJaVG16b0lCbnlGY0RBS0hOZ0pZZFBqQlpyeEQ4MnRI?=
+ =?utf-8?B?VFdoZkhFaTJDcHVHYWpCdHNidWgwMWVOcmZ3eDZ2M1VVUnp1Rnc3cGlHL2k0?=
+ =?utf-8?B?Rng4dWgxVzErYUlxWXFxeUI2Y0ZpOXV2LzBEMkV4ZkV1Um9ubzloYmpFTDBD?=
+ =?utf-8?B?TXFXQnpSR0N1dlhtMEVackNRNlJCZituWXk5VVJpZEhDSmNsQ2wxRXFiSTVI?=
+ =?utf-8?B?STRaZkVkaE9ydWNwalhwTVBuekdFT2tnM3JtOWdXU0lkS0p5eE9sazJzeFAz?=
+ =?utf-8?B?aGVEa2NkYTgxQ2xyU1FGLytHYU95d3JFMFl5cDd3anlGcjFSYWxsN0c2a0Yv?=
+ =?utf-8?B?ZHNoTjFNTVdncmZNMW9Oa3lUMUI2c2hkL3NtQ2U1dTBURXlFOTcxNkdmR29S?=
+ =?utf-8?B?REZyaGtIeVdhMnBtbC9aeHpZekZyUkR1RG5VZmt6aUh6ZHRRU21IQ0F6eW55?=
+ =?utf-8?B?OXQzZzVlVmpyUEU1bjY0NXh4V1FUS3RrMHhYSldrYTMrdXpGUGtKT0JDeng5?=
+ =?utf-8?B?L2tGT2pBYkViL0MxK0tEKy9uM3R5akl1WHJqWitEQk1PakQ1QUxRNy9hK05F?=
+ =?utf-8?B?VHNGS3Q2VlMxZlpzMDRlMmg5czNZK1ZkV0FqY1RxSUhtMGZxeGk4T1FzeDdj?=
+ =?utf-8?B?R3Bqd3BVdFF1M1g0WUphdUpLRkxtR2lOOGhRYTRSdDdWeVVDcEo1b2JHSGRC?=
+ =?utf-8?B?c3pEcit3cEVqNDRzdUI1NnNzVWU1YzZiTXptWjNHWFplUktGb2pNMHVsNjkw?=
+ =?utf-8?B?a1hkNzk3UlA0NjJEcnk5THdOb2swajUvb08wb0s5eDhXTVp5Y1JwbEFhMGlw?=
+ =?utf-8?B?cmNpMDltSFJKZkNZNi90amlFTzdJUkFhNnNoQnQ1cTlmZW5aSjJIaTZtMnpr?=
+ =?utf-8?B?b3h4OTlsYW4zeGJROExCNXk4RFdTVEZMcWRWWGg2RmhvbmVKQlJ2eW5Xa2p4?=
+ =?utf-8?B?WU9aQnRDa05BeG9JSlJ6ZFpVVis1VUE0TFBFcnNPU29wNEczM1k2Mk5kUmFz?=
+ =?utf-8?B?eHh5QnN6MmIwaUg2TGRyTUFCY2s2Rk1kalVkV0JxeUdZWGVCc0lxYnlCZXFy?=
+ =?utf-8?B?cUlER2FMeGFaYS9WckU1dk4zZzUzQmEzVDlzNFF4aUd5bTFlRmoweVlsKy9T?=
+ =?utf-8?B?RHZrOTR5YTF1bmtEVlhQTGtDYXhiLytBUTNaSDV6VHlvMjg0TEQzMEVlWmFW?=
+ =?utf-8?B?dUFwbm42ckRRN0FaMzB3WEhLREwzWFlBcEIxejhZTHdVWjBLcHJBOEw2Q3ph?=
+ =?utf-8?B?ZldwYmp2ZGFkYW1WK09pQjdycFBDSWFKc2MyZ0dTMHVnMi9BZUpINTBrV3kv?=
+ =?utf-8?B?bFZUdTU4MzBSQlducDY5d2R4dkRvdmlmVVkzanhZN2N6NzlIMzB4R0FzYWhG?=
+ =?utf-8?B?TU9Pb2lpSlNXYllDRk9PcFoxR01nUjZNajNxL1B2MlJLU1ZseThxTXNST1Rp?=
+ =?utf-8?Q?o39mb93d42I7s/hVwQn8XJkfg4mrs3nWKwOvL6bThE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <45DC02BFD3D52548B3BB0AE1A10D7BE7@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: 
- <CADkTA4N0NaDoS5e5+E92vkNXdQ9AsUxc7zH=Sd+9X=hcq3BPhQ@mail.gmail.com>
- <3986.1646150091898772204@lists.openembedded.org>
- <CADkTA4NKK0OXXnJSrpD7Vg-UQoygUR1ZPXaGOqKtJ9kmyGSukg@mail.gmail.com>
- <9a15b064-6962-4f12-aa41-890f9890d64b@gherzan.com>
-In-Reply-To: <9a15b064-6962-4f12-aa41-890f9890d64b@gherzan.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 2 Mar 2022 22:34:07 -0500
-Message-ID: 
- <CADkTA4Ph0hfZTGBj0cTPLCSUUYZLX-RO1dcvjpJi1uuzGDpkGA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] go.bbclass: Allow network in do_compile
-To: Andrei Gherzan <andrei@gherzan.com>
-Cc: lukas.funke@weidmueller.com,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 2171f1cd-62dc-4207-4087-08d9fcdffe10
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2022 06:35:21.9395
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ l2Uz3FKFWoWpG4eU5g1M0a0texakRizN3PWoC5TWZ1nm1JvoCt4hAB6gARTPw7Rsx6+FWPH17dFAXSr+vPknY0WtG90seeE30m8I+zG7T/Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR10MB5109
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 03:34:22 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 06:35:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162633
+ https://lists.openembedded.org/g/openembedded-core/message/162635
 
-On Wed, Mar 2, 2022 at 4:57 PM Andrei Gherzan <andrei@gherzan.com> wrote:
->
->
-> Mar 1, 2022 20:15:52 Bruce Ashfield <bruce.ashfield@gmail.com>:
->
-> > On Tue, Mar 1, 2022 at 10:54 AM <lukas.funke@weidmueller.com> wrote:
-> >>
-> >> On Tue, Mar 1, 2022 at 02:14 PM, Bruce Ashfield wrote:
-> >>
-> >> On Tue, Mar 1, 2022 at 6:42 AM Andrei Gherzan <andrei@gherzan.com> wro=
-te:
-> >>
-> >>
-> >> On Tue, 1 Mar 2022, at 01:55, Bruce Ashfield wrote:
-> >>
-> >> On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
-> >> lists.openembedded.org
-> >> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> >>
-> >>
-> >> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wr=
-ote:
-> >>
-> >>
-> >> From: Andrei Gherzan <andrei.gherzan@huawei.com>
-> >>
-> >> Compile pulls in the go.mod list requiring network. Without this, do
-> >> compile would fail with a similar error to the following:
-> >>
-> >> dial tcp: lookup proxy.golang.org: Temporary failure in name resolutio=
-n
-> >>
-> >> This is something that needs to be carried in your own layers, IMHO it
-> >> isn't appropriate for core.
-> >>
-> >> It isn't about the fetching, it is the entire gap in functionality
-> >> that we are missing if go starts fetching dependencies during compile.
-> >>
-> >> A further thought is that if this is for go.mod issues, there is the
-> >> go-mod.bbclass.
-> >>
-> >> Perhaps enabling it in that class and doing a bbwarn about go fetching
-> >> dependencies would be appropriate ?
-> >>
-> >> Otherwise, someone may not know that this is happening and that a no
-> >> network configuration has no chance of working.
-> >>
-> >> I reckon that is reasonable. I'll personally go down the recipe level =
-to workaround this change but understanding and agreeing with the reasoning=
- behind this change, I want to invest a bit into trying to find a proper so=
-lution in the core. Bruce, I know you invested a fair amount of time into t=
-his already. Would you be willing to sync up and see how we can work togeth=
-er in tackling this?
-> >>
-> >> Definitely, more ideas are good. In fact, I think there are probably
-> >> several approaches that can co-exist, depending on what a
-> >> recipe/developer needs.
-> >>
-> >> I'm in the Eastern time zone here, and will try and grab folks on IRC
-> >> to have a level set
-> >>
-> >> Bruce
-> >>
-> >> Added Zyga to CC as he is also interested in this as part of his go de=
-velopment activities.
-> >>
-> >> Thanks,
-> >> Andrei
-> >>
-> >>
-> >>
-> >> --
-> >> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >> thee at its end
-> >> - "Use the force Harry" - Gandalf, Star Trek II
-> >>
-> >> The problem in allowing downloads during compile (e.g. by go) is, that=
- it leads to non-reproducable builds. I'm currently facing the same issue a=
-nd would like to have a reproducable go *offline* build.
-> >> I would like to propose two ideas to workaround the go-compile fetchin=
-g issue:
-> >>
-> >> First:
-> >> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g=
-. by writing a seperate go fetcher or a wget-fetcher) and unpack the depend=
-encies into go projects 'vendor' folder. This forces go to compile offline.=
- However, one have to generate the 'modules.txt' file in the vendor folder =
-'manually' during unpack. This is error prone, as there is no official docu=
-mentation how this format should look like. Anyway, I've tried this approac=
-h and it works for me.
-> >>
-> >> Second:
-> >> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g=
-. by writing a seperate go fetcher) and unpack the dependencies into a loca=
-l (workdir) go-path. This seemed a good solution for me as the go-path is w=
-ell defined. But for some reason 'go'  fetches the zip-files during compile=
- into it's download-cache AGAIN, even if the source is already unpacked in =
-the go-path. I'll assume this is required to verify the source files integr=
-ity?! With this approach one have to adapt 'go' to suppress this download b=
-ehaviour.
-> >>
-> >
-> > I've been doing offline builds using a constructed vendor/ directory
-> > and generated modules.txt.
-> >
-> > The only difference between what I have working and what you are
-> > suggesting (type 1), is that I've gone directly to the sources and
-> > constructed the vendor directory using the OE git fetcher. That allows
-> > all functionality to continue to work that is part of OEcore, and the
-> > build to continue.  Switching out the git fetches for tarballs would
-> > be possible, I just wasn't sure how to use the proxied modules (and I
-> > wanted the history for debug).
-> >
-> > I've never had any issues with the modules.txt, as I generate it at
-> > the same time as the git fetch lines for the SRC_URI. I've also not
-> > been using information from the go.mod directly from go.proxy.org, it
-> > is information I've generated from a clone of the project and dumped
-> > via go mod. There's likely improvements I can do there, but with what
-> > I'm doing, I'm going directly to the source of the projects and doing
-> > clones, which keeps everything clear of the go infrastructure.
-> >
-> > I have a utility that I'm still cleaning up that generates the SRC_URI
-> > lines, as well as the modules.txt, when I resolve a few nagging
-> > issues, I'll make the WIP scripts available.
-> >
-> > Other projects (BSD, etc), have been doing different sorts of
-> > constructed vendor directories, but they are similar in approach.
-> >
-> > For the short term (i.e. the upcoming release), that is pretty much
-> > all we can do. There isn't enough time to implement a new go fetcher
-> > backend for bitbake.
-> >
-> > In the end, how we fetch and place the dependencies is a transport, so
-> > whether or not we fetch them ourselves, or let go do it, that part is
-> > largely the same.
-> >
-> > For now (short term), I favour vendor/, as it is workable, but not
-> > perfect. It isn't exactly efficient or pretty, but at least it seems
-> > to produce correct output, and allows all of the project capabilities
-> > to work. And of course, the approach will continue to work regardless
-> > of development on other go.mod elements.
->
-> After reflecting on this for a while I reckon this is the fastest way for=
-ward while addressing the reproducibility issue. I'm wondering what we can =
-do in terms of compliance? Maybe we can turn the script you were talking ab=
-out into a recipe generator that also deals with this by querying the licen=
-ses of all the dependencies (direct and indirect).
-
-That was my rough plan, generate a recipe or have it generate  an
-include that recipes pull in, there are some repeating patterns go
-modules, so there is some re-use to be found.
-
-I roughed out a process for it to work with k3s, and have a working
-updated recipe that creates a vendor/ directory and doesn't touch the
-network during the actual build.
-
-There's definitely efficiencies to be found, as the first fetch is
-quite long, and there's some i/o required as the fetches secondarily
-shuffled into place that go expects in a vendor directory.
-
-I'm trying to complete a second recipe with the generated SRC_URI
-entries now (nerdctl) and I ran into an issue with the script where
-some repeated fetches were breaking the vendor directory creation. I
-need to spend time with that on Thursday, but after I sort that out,
-I can remove the curse words from the script and do a bit of cleanup.
-There's plenty of bugs, and alternate ways things can operate (maybe
-some of the packaged go modules versus git, etc, etc), but since those
-choices don't required bitbake/fetcher or other core changes, we have
-a bit of time to iterate on a workable approach.
-
-Bruce
-
->
-> That being said, how can I help? It seems that there is an existing WIP s=
-tate on this. Can I take something from it? Maybe help with cleaning up the=
- script?
-> --
-> Andrei Gherzan
-> gpg: rsa4096/D4D94F67AD0E9640
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+SGkgRGFuaWVsLA0KDQpDb3VsZCB5b3UgcGxlYXNlIGdpdmUgaGVyZSB0aGUgZXhhbXBsZXMgaG93
+IHRoZSBsYXllciBzdHJ1Y3R1cmUgbG9va3MNCmJlZm9yZSBhbmQgYWZ0ZXIgY2hhbmdlPyBJIHdh
+bnQgdG8gc2VlIGhvdyB0cmFuc2Zvcm1hdGlvbiBsb29rcyBsaWtlLg0KDQpSZWdhcmRzLA0KQW5k
+cmVqDQoNCk9uIFdlZCwgMjAyMi0wMy0wMiBhdCAyMDowNSArMDEwMCwgRGFuaWVsIFdhZ2Vua25l
+Y2h0IHdyb3RlOg0KPiBMYXllcnMgY291bGQgYmUgbG9jYXRlZCBhbnl3aGVyZS4gVGhlIGVTREsg
+c2hvdWxkIHdvcmsgd2l0aCB0aGVtIGV2ZW4NCj4gaWYNCj4gdGhleSBhcmUgbm90IGxvY2F0ZWQg
+aW4gVE9QRElSIG9yIGluIHRoZSBzYW1lIHBhcmVudCBkaXJlY3RvcnkgYXMNCj4gQ09SRUJBU0Uu
+DQo+IA0KPiBGb3IgbGF5ZXJzIGxvY2F0ZWQgaW4gdGhlIHNhbWUgcGFyZW50IGRpcmVjdG9yeSBh
+cyBDT1JFQkFTRSB0aGlzDQo+IHByZXNlcnZlcw0KPiB0aGUgaW50ZW50IGZyb20gdGhlIHByZXZp
+b3VzDQo+IMKgIGNvcHlfYnVpbGRzeXN0ZW06IGluY2x1ZGUgbGF5ZXIgdHJlZSBkdXJpbmcgYnVp
+bGQgc3RydWN0dXJlDQo+IGNyZWF0aW9uDQo+IGNvbW1pdC4NCj4gDQo+IFJlbGF0ZWQgT0UtQ29y
+ZSByZXY6IDVhNTlhNjk5N2Y0MWU2MDZkMDg4ZTNlODY4MTJkZTU2ZjcyZjU0M2INCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IERhbmllbCBXYWdlbmtuZWNodCA8ZHdhZ2Vua25lY2h0QGVtbGl4LmNvbT4N
+Cj4gLS0tDQo+IFRoaXMgcGF0Y2ggcmVzb2x2ZXMgaXNzdWVzIGxpa2UNCj4gwqAgRVJST1I6IG15
+LWltYWdlLTEuMC1yMCBkb19wb3B1bGF0ZV9zZGtfZXh0OiBGYWlsZWQgdG8gZ2VuZXJhdGUNCj4g
+ZmlsdGVyZWQgdGFzayBsaXN0IGZvciBleHRlbnNpYmxlIFNESzoNCj4gDQo+IMKgICMjIyBTaGVs
+bCBlbnZpcm9ubWVudCBzZXQgdXAgZm9yIGJ1aWxkcy4gIyMjDQo+IMKgIFsuLi5dDQo+IA0KPiDC
+oCBFUlJPUjogYml0YmFrZSBmYWlsZWQ6DQo+IMKgIEVSUk9SOiBUaGUgZm9sbG93aW5nIGxheWVy
+IGRpcmVjdG9yaWVzIGRvIG5vdCBleGlzdDoNCj4gwqAgRVJST1I6wqDCoMKgIC9idWlsZC90bXAv
+d29yay9teS1ib2FyZC1saW51eC9teS1pbWFnZS8xLjAtcjAvc2RrLQ0KPiBleHQvaW1hZ2UvdG1w
+LXJlbmFtZWQtc2RrL2xheWVycy8uLi8uLi8uLi9yZXBvL2xheWVycy9tZXRhLW15LWxheWVyDQo+
+IMKgIEVSUk9SOiBQbGVhc2UgY2hlY2sgQkJMQVlFUlMgaW4gL2J1aWxkL3RtcC93b3JrL215LWJv
+YXJkLWxpbnV4L215LQ0KPiBpbWFnZS8xLjAtcjAvc2RrLWV4dC9pbWFnZS90bXAtcmVuYW1lZC1z
+ZGsvY29uZi9iYmxheWVycy5jb25mDQo+IMKgIEVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUgc3Rv
+cmVkIGluOiAvYnVpbGQvdG1wL3dvcmsvbXktYm9hcmQtDQo+IGxpbnV4L215LWltYWdlLzEuMC1y
+MC90ZW1wL2xvZy5kb19wb3B1bGF0ZV9zZGtfZXh0LjY4ODQ0DQo+IA0KPiBJIHRyaWVkIHRvIHBy
+ZXNlcnZlIHRoZSBzcGVjaWFsIGNhc2luZyB0byBwcmVzZXJ2ZSB0aGUgbGF5ZXIgdHJlZQ0KPiBl
+LmcuIGdldCB0aGUNCj4gZm9sbG93aW5nIGxheWVyLXN0cnVjdHVyZSBpbiB0aGUgZVNESzoNCj4g
+wqAgbGF5ZXJzL3Bva3kvbWV0YQ0KPiDCoCBsYXllcnMvbWV0YS1vcGVuZW1iZWRkZWQvbWV0YS1u
+ZXR3b3JraW5nDQo+IMKgIGxheWVycy9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLW9lDQo+IEZvciBs
+YXllcnMgdGhhdCBhcmUgbm90IGxvY2F0ZWQgaW4gYSBkaXJlY3RvcnkgdHJlZSByaWdodCBuZXh0
+IHRvDQo+IENPUkVCQVNFIHdlDQo+IGRvbid0IGhhdmUgYW4gYW5jaG9yIHRvIGRldGVybWluZSB3
+aGF0IHBhcnQgb2YgdGhlIGxheWVyIHRyZWUgd2UNCj4gc2hvdWxkIGtlZXAsDQo+IHRodXMgdGhl
+IGxheWVyIHRyZWUgd2lsbCBiZSBmbGF0dGVuZWQuDQo+IA0KPiBBbHRlcm5hdGl2ZSB0byB0aGlz
+IHBhdGNoOg0KPiBEZWxldGUgdGhlIHdob2xlIGVsc2UgLyBlbHNlaWYgYmxvY2suIFRoaXMgd291
+bGQgbGVhZCB0byBhIGxheWVyDQo+IHN0cnVjdHVyZSBpbg0KPiB0aGUgZVNESyBsaWtlDQo+IMKg
+IGxheWVycy9wb2t5L21ldGENCj4gwqAgbGF5ZXJzL21ldGEtbmV0d29ya2luZw0KPiDCoCBsYXll
+cnMvbWV0YS1vZQ0KPiB0aHVzIGZsYXR0ZW5pbmcgdGhlIGxheWVyIHRyZWUuIEknbSBwZXJzb25h
+bGx5IG5vdCBvcHBvc2VkIHRvIHRoaXMNCj4gYXBwcm9hY2gsDQo+IGJ1dCBib3RoIDVhNTlhNjk5
+N2Y0MWU2MDZkMDg4ZTNlODY4MTJkZTU2ZjcyZjU0M2IgYW5kDQo+IDU1ZWNmNjk4OGQzZTNjMDkz
+NWNiNjMyNGE2YWQyYzc1ZjExOTFhMWQgKE9FLUNvcmUpIHNob3cgdGhhdCB0aGVyZQ0KPiBzZWVt
+cyB0byBiZQ0KPiBhIG5lZWQgLyBwcmVmZXJlbmNlIGZvciBrZWVwaW5nIHRoZSBsYXllciB0cmVl
+Lg0KPiANCj4gDQo+IMKgbWV0YS9saWIvb2UvY29weV9idWlsZHN5c3RlbS5weSB8IDEyICsrKyst
+LS0tLS0tLQ0KPiDCoDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25z
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2UvY29weV9idWlsZHN5c3RlbS5weQ0K
+PiBiL21ldGEvbGliL29lL2NvcHlfYnVpbGRzeXN0ZW0ucHkNCj4gaW5kZXggZDk3YmY5ZDFiOS4u
+Nzk2NDJmZDc2YSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9saWIvb2UvY29weV9idWlsZHN5c3RlbS5w
+eQ0KPiArKysgYi9tZXRhL2xpYi9vZS9jb3B5X2J1aWxkc3lzdGVtLnB5DQo+IEBAIC00NSw5ICs0
+NSw2IEBAIGNsYXNzIEJ1aWxkU3lzdGVtKG9iamVjdCk6DQo+IMKgDQo+IMKgwqDCoMKgwqDCoMKg
+wqAgY29yZWJhc2UgPSBvcy5wYXRoLmFic3BhdGgoc2VsZi5kLmdldFZhcignQ09SRUJBU0UnKSkN
+Cj4gwqDCoMKgwqDCoMKgwqDCoCBsYXllcnMuYXBwZW5kKGNvcmViYXNlKQ0KPiAtwqDCoMKgwqDC
+oMKgwqAgIyBHZXQgcmVsYXRpb25zaGlwIGJldHdlZW4gVE9QRElSIGFuZCBDT1JFQkFTRQ0KPiAt
+wqDCoMKgwqDCoMKgwqAgIyBMYXllcnMgc2hvdWxkIHJlc3BlY3QgaXQNCj4gLcKgwqDCoMKgwqDC
+oMKgIGNvcmViYXNlX3JlbGF0aXZlID0NCj4gb3MucGF0aC5kaXJuYW1lKG9zLnBhdGgucmVscGF0
+aChvcy5wYXRoLmFic3BhdGgoc2VsZi5kLmdldFZhcignVE9QRElSDQo+ICcpKSwgY29yZWJhc2Up
+KQ0KPiDCoMKgwqDCoMKgwqDCoMKgICMgVGhlIGJpdGJha2UgYnVpbGQgc3lzdGVtIHVzZXMgdGhl
+IG1ldGEtc2tlbGV0b24gbGF5ZXIgYXMgYQ0KPiBsYXlvdXQNCj4gwqDCoMKgwqDCoMKgwqDCoCAj
+IGZvciBjb21tb24gcmVjaXBpZXMsIGUuZzogdGhlIHJlY2lwZXRvb2wgc2NyaXB0IHRvIGNyZWF0
+ZQ0KPiBrZXJuZWwgcmVjaXBpZXMNCj4gwqDCoMKgwqDCoMKgwqDCoCAjIEFkZCB0aGUgbWV0YS1z
+a2VsZXRvbiBsYXllciB0byBiZSBpbmNsdWRlZCBhcyBwYXJ0IG9mIHRoZQ0KPiBlU0RLIGluc3Rh
+bGxhdGlvbg0KPiBAQCAtMTAwLDExICs5NywxMCBAQCBjbGFzcyBCdWlsZFN5c3RlbShvYmplY3Qp
+Og0KPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGF5ZXJkZXN0cGF0aCA9IGRlc3RkaXINCj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIGNvcmViYXNlID09IG9zLnBhdGguZGlybmFtZShs
+YXllcik6DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxheWVyZGVzdHBhdGgg
+Kz0gJy8nICsgb3MucGF0aC5iYXNlbmFtZShjb3JlYmFzZSkNCj4gLcKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZWxzZToNCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsYXllcl9yZWxh
+dGl2ZSA9IG9zLnBhdGgucmVscGF0aChsYXllciwgY29yZWJhc2UpDQo+IC3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgaWYgb3MucGF0aC5kaXJuYW1lKGxheWVyX3JlbGF0aXZlKSA9PQ0K
+PiBjb3JlYmFzZV9yZWxhdGl2ZToNCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGxheWVyX3JlbGF0aXZlID0NCj4gb3MucGF0aC5kaXJuYW1lKGNvcmViYXNlX3JlbGF0
+aXZlKSArICcvJyArIGxheWVybmV3bmFtZQ0KPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGxheWVyX3JlbGF0aXZlID0gb3MucGF0aC5iYXNlbmFtZShjb3JlYmFzZSkgKyAnLycgKw0K
+PiBsYXllcl9yZWxhdGl2ZQ0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAjIElmIHRoZSBsYXll
+ciBpcyBsb2NhdGVkIHNvbWV3aGVyZSB1bmRlciB0aGUgc2FtZQ0KPiBwYXJlbnQgZGlyZWN0b3J5
+DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgYXMgY29yZWJhc2Ugd2Uga2VlcCB0aGUgbGF5
+ZXIgc3RydWN0dXJlLg0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbGlmIG9zLnBhdGguY29t
+bW9ucGF0aChbbGF5ZXIsIGNvcmViYXNlXSkgPT0NCj4gb3MucGF0aC5kaXJuYW1lKGNvcmViYXNl
+KToNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsYXllcl9yZWxhdGl2ZSA9IG9z
+LnBhdGgucmVscGF0aChsYXllciwNCj4gb3MucGF0aC5kaXJuYW1lKGNvcmViYXNlKSkNCj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgb3MucGF0aC5kaXJuYW1lKGxheWVyX3Jl
+bGF0aXZlKSAhPSBsYXllcm5ld25hbWU6DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgbGF5ZXJkZXN0cGF0aCArPSAnLycgKw0KPiBvcy5wYXRoLmRpcm5hbWUobGF5
+ZXJfcmVsYXRpdmUpDQo+IMKgDQoNCg==
 
