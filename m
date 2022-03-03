@@ -2,152 +2,115 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF92C433F5
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 11:18:57 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.9681.1646306336280888911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C603CC433F5
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 11:23:51 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.9708.1646306630873214674
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 03:18:56 -0800
+ Thu, 03 Mar 2022 03:23:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D1WMMaaQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CbsqIB/n;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id d3so7312340wrf.1
+Received: by mail-wr1-f54.google.com with SMTP id m6so7297163wrr.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 03:18:56 -0800 (PST)
+ Thu, 03 Mar 2022 03:23:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGScNjagdTuFYNHRcGIsvkEYGp/3oVqZqn7uFbwPyTU=;
-        b=D1WMMaaQubrOg73hMSDjUC7QmOpZcAAhtc3O6DvtZq6U/tENFZ4zTjDi5o1pn0yoPo
-         EL34loUNkMcSCNF/G0wop+0Vdo3S2x2AJ/ilQnecdbggcGq3gnX60k6uc5DubGN5qduY
-         KTrlBp0XxbQki9n6OsRFQ2kRmFerE3dcyGHJc=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=doY7b4RWp+G2l91AwbS2KJGtUg/Wj1RKRwAZgkbkNdo=;
+        b=CbsqIB/ns3jg6itbQIdETYAFc5lSCv44J67GisWnkhjSq5AQKEETVt9B7xbWTwbNwU
+         4bhKWl1rZpoiwYtsoHO0xdF5o3oJi+cd9ohtppzKQ8uaZ8HpJQw/5+LtjT4O/VR4jHCc
+         ZytmNNPQJfNrTM0yNNHIC/dW0xDaAVWTnGFO4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGScNjagdTuFYNHRcGIsvkEYGp/3oVqZqn7uFbwPyTU=;
-        b=nWAktJiXVvrX4KgbmG7PDzPzziNkpAhxgeJmfHeD5bUIC2wnjm0lhnyERP6nzTEZUn
-         tDGfrdURQJnF5Rps+uDzvOIKYO3Age2uMwMY9iGfsuSDaXUaiyCTM5Va7Xh0S1bGyoaJ
-         A+3TA8JwrVJg6qixToLSAQUYJZKIFArAI4oJCe6BB7IqpefH57137v5AXa1vGwnuaE8z
-         oUQK5DesHIfLA+G/V7dkfMzvgGnXPosOy9jhIWy/JkjijfsGgLO+qrB/C+hZ92nG65mI
-         msb0TLlNymU3q1qIOLhhT+j8AoX42PPvNPohB+lps5vwUXMD8U+GogY6ukD5jV6+Ag+Q
-         fq/Q==
-X-Gm-Message-State: AOAM530JJkGqGhlPs1oJcABESjJ6F0YKdkNOCyav0LrUDKzYMJte2UZB
-	byRMxi/+gusokF1NRVBOhMc9lnlx+mRIf0rU
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=doY7b4RWp+G2l91AwbS2KJGtUg/Wj1RKRwAZgkbkNdo=;
+        b=sQMCqO+ReQaYM3Mjhg7v39uBQ0QAiUGHiG1MHbg+dL3hC8n04dO7Y6wBXwsB6QlYg2
+         Xk9dQgM2EOnrya6SJe14YiAkdsutJ1M4fYWhqeGt0f+xa8+72A2pGfF0mcZdtwCUxmmr
+         fbvFPry9j/I7E7Aa4REyNFAaN1Q3frNyBNTR+uxJOE2Gsj3SAnkw/7qSbxozVNpuQO8D
+         fYR9F0Gtkt/UzVB9htfLxCaqZACKyk7rn85CimVhlOvkroph0HeYQYTAsWU8BYsbqrZ5
+         og6KypcMhHuSecxyQ9vS+zzNOEVFKsRGGUagU1Jsv66LlSUOvU7CjfB4bQFLOaheGOpR
+         +H9A==
+X-Gm-Message-State: AOAM531nHdMFl65h8PbDSTVaVkkq3ilP0dYhDUJH9kM+NPl5TSMXScQM
+	DKhwzVuL4YwCf6FeU8FOgc5JA6WAgBweIDXX
 X-Google-Smtp-Source: 
- ABdhPJwRgCBAjCkKdKqMA59PcjxjHBBJmEkxN0UL7tqP/4QLhg36X0KhYrNHERg0VsPh6jXAuOQUFQ==
-X-Received: by 2002:adf:eb81:0:b0:1e3:2bf5:132 with SMTP id
- t1-20020adfeb81000000b001e32bf50132mr26669564wrn.246.1646306334271;
-        Thu, 03 Mar 2022 03:18:54 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1])
+ ABdhPJwEVNqKdlwIUyEymrFVBmXF1cIhZcsLUZTrimlgNrNsz/2evnwEKPfS3kDVgt0hKPsCIjc+Ww==
+X-Received: by 2002:a05:6000:1445:b0:1f0:4865:c772 with SMTP id
+ v5-20020a056000144500b001f04865c772mr3554190wrx.83.1646306629272;
+        Thu, 03 Mar 2022 03:23:49 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1?
+ ([2001:8b0:aba:5f3c:68d0:4b5c:ced3:87b1])
         by smtp.gmail.com with ESMTPSA id
- p12-20020a5d48cc000000b001e6114938a8sm1708894wrs.56.2022.03.03.03.18.52
-        for <openembedded-core@lists.openembedded.org>
+ e2-20020adfe7c2000000b001f04d622e7fsm1838744wrn.39.2022.03.03.03.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 03:18:53 -0800 (PST)
+        Thu, 03 Mar 2022 03:23:48 -0800 (PST)
+Message-ID: 
+ <eda53a5cb864d7dfec2f8e7d180f4e291419a921.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] libsndfile1: bump to version
+ 1.0.31
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libsndfile: Fix missing external library support
-Date: Thu,  3 Mar 2022 11:18:52 +0000
-Message-Id: <20220303111852.323319-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Alexandru Ardelean <ardeleanalex@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 03 Mar 2022 11:23:47 +0000
+In-Reply-To: 
+ <CA+U=Dsr74n=NT7w-TrrpQwv0_9iHQYnGNCU8BobebjKQ5sbJXg@mail.gmail.com>
+References: <20220224153034.5140-1-ardeleanalex@gmail.com>
+	 <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
+	 <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
+	 <CA+U=DsrXewjnaWp2DQM8u=V9AS49vGKcdt17b5kyZ8eth_8LOQ@mail.gmail.com>
+	 <49dbf7f4492322649e7876c110e94de4f82bcf77.camel@linuxfoundation.org>
+	 <CA+U=Dsr74n=NT7w-TrrpQwv0_9iHQYnGNCU8BobebjKQ5sbJXg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 11:18:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 11:23:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162650
+ https://lists.openembedded.org/g/openembedded-core/message/162651
 
-The recent upgrade regressed codec support since opus is missing and
-this caused several codecs to be disabled. Add a patch to work around
-the issue whilst it is discussed with upstream.
+On Thu, 2022-03-03 at 12:54 +0200, Alexandru Ardelean wrote:
+> It didn't look [to me] like it would be too bad to me either.
+> I wasn't sure what the decision would have been (from OE), to
+> [1]patch-out libopus? or to [2]add libopus? or [3]revert?
+> But your patch suggests [1] is preferred for now.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../libsndfile/libsndfile1/noopus.patch       | 55 +++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.31.bb          |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/noopus.patch
+My reasoning is that:
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/noopus.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/noopus.patch
-new file mode 100644
-index 00000000000..6bcb9324298
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/noopus.patch
-@@ -0,0 +1,55 @@
-+We don't have opus in OE-Core which causes all the external libs to be disabled 
-+silently. The silent issue is discussed in the link below and hints a patch
-+to make things configurable may be accepted.
-+
-+This patch removing the opus piece at least gets most of the functionality
-+we previously used back whilst the issue is discussed.
-+
-+Upstream-Status: Pending [https://github.com/libsndfile/libsndfile/pull/812]
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: libsndfile-1.0.31/configure.ac
-+===================================================================
-+--- libsndfile-1.0.31.orig/configure.ac
-++++ libsndfile-1.0.31/configure.ac
-+@@ -361,13 +361,13 @@ AS_IF([test -n "$PKG_CONFIG"], [
-+ 				enable_external_libs=yes
-+ 			])
-+ 
-+-			AS_IF([test "x$ac_cv_flac$ac_cv_ogg$ac_cv_vorbis$ac_cv_vorbisenc$ac_cv_opus" = "xyesyesyesyesyes"], [
-++			AS_IF([test "x$ac_cv_flac$ac_cv_ogg$ac_cv_vorbis$ac_cv_vorbisenc" = "xyesyesyesyes"], [
-+ 					HAVE_EXTERNAL_XIPH_LIBS=1
-+ 					enable_external_libs=yes
-+ 
-+-					EXTERNAL_XIPH_CFLAGS="$FLAC_CFLAGS $VORBIS_CFLAGS $VORBISENC_CFLAGS $SPEEX_CFLAGS $OPUS_CFLAGS $OGG_CFLAGS "
-+-					EXTERNAL_XIPH_LIBS="$FLAC_LIBS $VORBIS_LIBS $VORBISENC_LIBS $SPEEX_LIBS $OPUS_LIBS $OGG_LIBS "
-+-					EXTERNAL_XIPH_REQUIRE="flac ogg vorbis vorbisenc opus"
-++					EXTERNAL_XIPH_CFLAGS="$FLAC_CFLAGS $VORBIS_CFLAGS $VORBISENC_CFLAGS $SPEEX_CFLAGS $OGG_CFLAGS "
-++					EXTERNAL_XIPH_LIBS="$FLAC_LIBS $VORBIS_LIBS $VORBISENC_LIBS $SPEEX_LIBS $OGG_LIBS "
-++					EXTERNAL_XIPH_REQUIRE="flac ogg vorbis vorbisenc"
-+ 
-+ 					if test x$ac_cv_speex = "xyes" ; then
-+ 						EXTERNAL_XIPH_REQUIRE="$EXTERNAL_XIPH_REQUIRE speex"
-+@@ -716,7 +716,7 @@ AC_MSG_RESULT([
-+ 
-+     Experimental code : ................... ${enable_experimental:-no}
-+     Using ALSA in example programs : ...... ${enable_alsa:-no}
-+-    External FLAC/Ogg/Vorbis/Opus : ....... ${enable_external_libs:-no}
-++    External FLAC/Ogg/Vorbis : ....... ${enable_external_libs:-no}
-+     Building Octave interface : ........... ${OCTAVE_BUILD}
-+ 
-+   Tools :
-+Index: libsndfile-1.0.31/src/ogg_opus.c
-+===================================================================
-+--- libsndfile-1.0.31.orig/src/ogg_opus.c
-++++ libsndfile-1.0.31/src/ogg_opus.c
-+@@ -159,7 +159,7 @@
-+ #include "sfendian.h"
-+ #include "common.h"
-+ 
-+-#if HAVE_EXTERNAL_XIPH_LIBS
-++#if 0
-+ 
-+ #include <ogg/ogg.h>
-+ #include <opus/opus.h>
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-index 9f1a106600b..ea14fe29cb5 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-@@ -9,6 +9,7 @@ SECTION = "libs/multimedia"
- LICENSE = "LGPL-2.1-only"
- 
- SRC_URI = "https://github.com/libsndfile/libsndfile/releases/download/${PV}/libsndfile-${PV}.tar.bz2 \
-+           file://noopus.patch \
-           "
- UPSTREAM_CHECK_URI = "https://github.com/libsndfile/libsndfile/releases/"
- 
--- 
-2.32.0
+* libopus is in meta-openembedded, I'm not sure we have a strong case for moving
+it to core.
+* I was happy to see us move to a recent more up to date version with the CVE
+patches dropped so reverting seemed like a less attractive option too.
+
+I just wasn't sure if patching out libopus would be possible or not. I therefore
+had a look at a patch to do it and that shows it does seem to be reasonable.
+
+> Did you get a chance to test it?
+> I can run a test on my system with it.
+> But it may take me 1-2 days.
+
+I've turned it into a proper patch and will test it on the autobuilder.
+
+> In the meantime, I was a bit busy with this:
+> https://github.com/libsndfile/libsndfile/pull/812
+> 
+> It kind of seems that libsndfile people are talking about maybe
+> splitting up their configuration.
+> Let's see. That will be in a future release anyway.
+
+Thanks for discussing it with them. If upstream were willing to accept a patch
+to enable/disable opus, that would be our much preferred way to handle this!
+
+Cheers,
+
+Richard
+
+
 
 
