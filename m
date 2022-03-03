@@ -1,157 +1,203 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CBBC433EF
-	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 23:15:44 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web09.1050.1646349343973852863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5526FC433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 23:28:17 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web09.1212.1646350096244579093
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 15:15:44 -0800
+ Thu, 03 Mar 2022 15:28:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ACLnCmT7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id q20so1703286wmq.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=btiL8Ruc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: ticotimo@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id r13so13949987ejd.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 15:15:43 -0800 (PST)
+ Thu, 03 Mar 2022 15:28:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=vrNQcMi+TUOHtK9DMqraCEV4oDdTVO13OjBo5WRuaPM=;
-        b=ACLnCmT7mKpVnlV9Fe6zS76HQ8ZtQJyIMffY1d9L+vPl5dV8XLzAAeteML4qIWQiEk
-         hsgJZBFLmh4nNTk0UuSAwSQSLMm2fxcR+8FiBJVkoYFVO6xPqXezfHt5ommTpQJbzGdU
-         xGg7kNnukxZgly82tTWtSo1pKGS9+kVio4DtM=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2PX9NQmBJTRXHtf/FXJ9GxInqusGK9qQ5mKdXdFRIxw=;
+        b=btiL8RucegfcGFk2u51QUf3Xj4CbZ6rxxGAdrzJ4v91UzPgEe4KwHLmuYNRK8CbHtX
+         Gsma5XFXqZgXx1hOX0U6KmCnQx/oJY/4H+rsOgoDxB8DpYmQS2pKGO6epj/MuesNzTdD
+         wJh6XxwvPie5YteG5+5ktT5IKMcGqepAIkg8yU/FjBwx9T7xyH0u5wooXJzgHKCo4CvO
+         8vea0K2e90pY+hrLzLNRusB1rc23ukoSwcLj+IaUFiKHpqVpFC3TmMRTlFfN2LyE6bss
+         ADB4bbCy4YRj7ImkqEtuTGHXuSoAjeXbQKlPh6WbUqkD71EUg/dJC8+sCylln857YgVN
+         rvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=vrNQcMi+TUOHtK9DMqraCEV4oDdTVO13OjBo5WRuaPM=;
-        b=HhKljst+TSqjUPGI8ntAljHQa5OWGZTtXP6AXZqqnR8Y6LJEp6geRltDkL262gGuTA
-         VSXQG4u2b6ZqzMaPi+F36PYFVEpaTNBReUarWBy7a5H3y4Wm8WwYAc3Tqsb1vXl6mCw2
-         2IFxqcGyScUkbJxhvVaKp+VWu//E86hskjSK7uUTuK+w7jtsuqkerS9ajBF1ByEuyOIc
-         UTYfDyfNsWGUtua61jcYuBNEMYU3rzyH2/tR7wNZfRx6x+0EkFkkStB87YQapkQbNo1j
-         QWnEyWQ5mfkISieFrbLeCh8wsZ41ICwZaFDauw6M9GdTDbonrPpOI5AgvlzWZ21bWbn5
-         /T8w==
-X-Gm-Message-State: AOAM533WkjAvHJCabQcQrGz2nefOp5PtKtVAyYjI6eOCm88gEijKm3MX
-	w4itiODJ7Vwr4w0MQnszy3p/KA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2PX9NQmBJTRXHtf/FXJ9GxInqusGK9qQ5mKdXdFRIxw=;
+        b=5sgp6gMQM1YWDGAk3+MhGEJtq8Y5TrchFtio8WXMA+slvBKSwL5uRhfkwolyHGJ216
+         llDvqemNGDtvAg/dqm7J+nCvSSC94+Vcc4yZ8MoWe540yq9qpEosan5wnFNg3bC/sSRo
+         rzHxfPUN3SYDIAxksa9c1R1IdzHK1OdkDurxymWlmun0X6Uk6RUDpu9eenOCD6z6Tbij
+         qtu+Cz8tI9oElHX98cKItK9i3hcYkuQmAloBA6oVoNcBqeXKu0RtCiCZiDYQdcf7tv/E
+         GGzX6PSO7K5C+HIuy9IOQi+R1bFXxk+dX4C1KxXJaW6khS0UD3fyBCSHT+C1JzvsRDdK
+         M5sw==
+X-Gm-Message-State: AOAM532TlmWXHW+DknPvsUfbF35Lp+s2/l7YfaYj50epXfu1qYBgT5mX
+	jVRXzBFUZPUb9DvwSXnK2EFY0cn2p65DKhuPoH4=
 X-Google-Smtp-Source: 
- ABdhPJwvyuItqb2pgP3lRQoNCgE7AwHbqWGI6VQsCfayXIwYgLzWJbS2ZBP+DfAf8Fm6a9tOisRCXQ==
-X-Received: by 2002:a05:600c:2250:b0:383:bab2:9df5 with SMTP id
- a16-20020a05600c225000b00383bab29df5mr5514794wmm.162.1646349342319;
-        Thu, 03 Mar 2022 15:15:42 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f5cf:8b05:e0eb:94af?
- ([2001:8b0:aba:5f3c:f5cf:8b05:e0eb:94af])
-        by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c418200b00380e4fa28b8sm9294442wmh.23.2022.03.03.15.15.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 15:15:41 -0800 (PST)
-Message-ID: 
- <df36f0c75a79adeda5d6f57297efaccb4fd54bda.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libical: Pass TOOLCHAIN_OPTIONS via CFLAGS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, Jose Quaresma
-	 <quaresma.jose@gmail.com>
-Date: Thu, 03 Mar 2022 23:15:40 +0000
-In-Reply-To: 
- <CAMKF1soDJbtUY1qrkGXjUw86XzNSF+4VD3fv=Kr8MuqXR7tjGA@mail.gmail.com>
-References: <20220301041346.1703440-1-raj.khem@gmail.com>
-	 <3912ca5523901721837cd3200b9c685cd5561313.camel@linuxfoundation.org>
-	 <CAMKF1soDJbtUY1qrkGXjUw86XzNSF+4VD3fv=Kr8MuqXR7tjGA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJwOilBc9N5LWUxNyu0UT4GhWM0nQ87JbIotrABbT45pjCVUKoTRVn9+rwAOrgC50Xia3Bdc0+Zxcw4Bloz+IHo=
+X-Received: by 2002:a17:906:3adb:b0:6b7:876c:d11b with SMTP id
+ z27-20020a1709063adb00b006b7876cd11bmr29111329ejd.250.1646350094638; Thu, 03
+ Mar 2022 15:28:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220303163451.336518-1-richard.purdie@linuxfoundation.org>
+ <CAAnfSTu78H+UG34pykED6G8M939LLmupEghxaUaz8_mToAwwFg@mail.gmail.com>
+ <6d880923351fe7e16d4c44d25dd8f43d1de390c6.camel@linuxfoundation.org>
+In-Reply-To: 
+ <6d880923351fe7e16d4c44d25dd8f43d1de390c6.camel@linuxfoundation.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 3 Mar 2022 15:28:03 -0800
+Message-ID: 
+ <CANx9H-Cn8e6-5q-6YJurv0TkTDvFnVd=9Kd5qFs5geP7i8YXGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] python3-native: Remove all pyc files
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross@burtonini.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000911ffb05d958c060"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 23:15:44 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 23:28:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162704
+ https://lists.openembedded.org/g/openembedded-core/message/162705
 
-On Thu, 2022-03-03 at 15:05 -0800, Khem Raj wrote:
-> On Thu, Mar 3, 2022 at 2:53 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Mon, 2022-02-28 at 20:13 -0800, Khem Raj wrote:
-> > > This ensures that right sysroot is used during build, otherwise we see
-> > > warnings in build about using wrong sysroot and it fails explicitly with
-> > > clang
-> > > 
-> > > x86_64-yoe-linux-ld: warning: library search path "/usr/lib/gcc/x86_6
-> > > 4-pc-linux-gnu/11.2.0/../../../../lib64" is unsafe for cross-compilation
-> > > 
-> > > x86_64-yoe-linux-ld: cannot find /usr/lib/clang/14.0.0/lib/linux/libc
-> > > lang_rt.builtins-x86_64.a: No such file or directory
-> > > 
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/recipes-support/libical/libical_3.0.14.bb | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/meta/recipes-support/libical/libical_3.0.14.bb b/meta/recipes-support/libical/libical_3.0.14.bb
-> > > index 717eb11e125..879ad8ed595 100644
-> > > --- a/meta/recipes-support/libical/libical_3.0.14.bb
-> > > +++ b/meta/recipes-support/libical/libical_3.0.14.bb
-> > > @@ -18,6 +18,8 @@ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
-> > > 
-> > >  inherit cmake pkgconfig gobject-introspection vala
-> > > 
-> > > +CFLAGS += "${TOOLCHAIN_OPTIONS}"
-> > > +
-> > >  DEPENDS += "libical-native"
-> > > 
-> > >  PACKAGECONFIG ??= "icu glib"
-> > 
-> > 
-> > I gave this (and the cmake patch) a go and whilst it mostly worked, it doesn't
-> > work on arm (qemuarm or beaglebone):
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/4855
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/3774
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/4829
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/3715
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/4825
-> > 
-> > Any ideas?
-> 
-> I think we need to check why CC is being passed here from env
-> explicitly when invoking g-ir-scanner-wrapper, which is bare compiler
-> without TOOLCHAIN_OPTIONS and this cmd seems to not
-> respect CFLAGS
-> 
-> > [95/112] cd /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/build/src/libical
-> && /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/recipe-sysroot-native/usr/bin/cmake
-> -E env "CC='/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/recipe-sysroot-native/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-gcc'"
-> /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/recipe-sysroot/usr/bin/g-ir-scanner-wrapper
-> --c-include=libical/ical.h --pkg-export libical
-> --identifier-prefix=ical
-> -I/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/libical-3.0.14/src/libical
-> /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/build/src/libical/ical.h
-> --namespace=ICal --nsversion=3.0 --no-libtool --library=ical
-> --include=GObject-2.0
-> -L/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/build/lib
-> --output /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/libical/3.0.14-r0/build/src/libical/ICal-3.0.gir
-> --accept-unprefixed
-> 
-> I will take a look later today.
+--000000000000911ffb05d958c060
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks, I'll be asleep shortly I hope! :)
+On Thu, Mar 3, 2022 at 9:16 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> 
-> btw. is this the only failure left ?
-> 
+> On Thu, 2022-03-03 at 17:14 +0000, Ross Burton wrote:
+> > On Thu, 3 Mar 2022 at 16:34, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > This removes a further 1600 files from sstate handling and lets python
+> > > create the ones it wants at runtime which is likely much better overall
+> > > for performance.
+> >
+> > Playing devil's advocate: doesn't having them in sstate mean they're
+> > generated once and hardlinked, instead of needing to be generated for
+> > every recipe which runs pythonnative?
+> >
+> > Whilst I can't disagree that 1600 files being dropped from sstate is
+> > good, we're just punting the recompile step to every recipe when it
+> > runs python code.
+> >
+> > I guess the question here is how long does the Python library take to
+> recompile.
+>
 
-For that patch in core, yes, I think so.
+At runtime it should only generate pyc for modules actually used?
 
-Cheers,
+>
+> Another consideration is that there are many sysroots pulling in
+> python3-native
+> which don't run python and they're only there as there are python scripts
+> being
+> added which means python has to come too.
+>
+> I suspect for that reason it could be a net win but it is a tough call.
 
-Richard
 
-> 
+> I tend to be in favor of the reduced number of files moving around. I
+suppose we could do some timing comparisons if we really care. It will be a
+trade-off of network/io vs compute/io, correct?
 
+
+> Cheers,
+>
+> Richard
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162669):
+> https://lists.openembedded.org/g/openembedded-core/message/162669
+> Mute This Topic: https://lists.openembedded.org/mt/89528765/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000911ffb05d958c060
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Mar 3, 2022 at 9:16 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2022-=
+03-03 at 17:14 +0000, Ross Burton wrote:<br>
+&gt; On Thu, 3 Mar 2022 at 16:34, Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; This removes a further 1600 files from sstate handling and lets p=
+ython<br>
+&gt; &gt; create the ones it wants at runtime which is likely much better o=
+verall<br>
+&gt; &gt; for performance.<br>
+&gt; <br>
+&gt; Playing devil&#39;s advocate: doesn&#39;t having them in sstate mean t=
+hey&#39;re<br>
+&gt; generated once and hardlinked, instead of needing to be generated for<=
+br>
+&gt; every recipe which runs pythonnative?<br>
+&gt; <br>
+&gt; Whilst I can&#39;t disagree that 1600 files being dropped from sstate =
+is<br>
+&gt; good, we&#39;re just punting the recompile step to every recipe when i=
+t<br>
+&gt; runs python code.<br>
+&gt; <br>
+&gt; I guess the question here is how long does the Python library take to =
+recompile.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">At runtime it sh=
+ould only generate pyc for modules actually used?<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><br>
+Another consideration is that there are many sysroots pulling in python3-na=
+tive<br>
+which don&#39;t run python and they&#39;re only there as there are python s=
+cripts being<br>
+added which means python has to come too.<br>
+<br>
+I suspect for that reason it could be a net win but it is a tough call.</bl=
+ockquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+</blockquote><div dir=3D"auto">I tend to be in favor of the reduced number =
+of files moving around. I suppose we could do some timing comparisons if we=
+ really care. It will be a trade-off of network/io vs compute/io, correct?<=
+/div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#162669): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/162669" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/162669</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89528765/9247=
+29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+89528765/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000911ffb05d958c060--
 
