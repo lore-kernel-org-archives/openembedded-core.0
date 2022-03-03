@@ -1,223 +1,250 @@
-Return-Path: <kweihmann@outlook.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D205FC433EF
-	for <webhook@archiver.kernel.org>; Wed,  2 Mar 2022 23:33:43 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (EUR01-VE1-obe.outbound.protection.outlook.com [40.92.66.16])
- by mx.groups.io with SMTP id smtpd.web09.4967.1646264021911135041
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54920C433EF
+	for <webhook@archiver.kernel.org>; Thu,  3 Mar 2022 00:07:05 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web12.5347.1646266024291721281
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Mar 2022 15:33:42 -0800
+ Wed, 02 Mar 2022 16:07:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=C5AEJjNa;
- spf=pass (domain: outlook.com, ip: 40.92.66.16,
- mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HYk4M6oABdzUNcFllyu2Ko86YmnvvegUZDwApzx3z+7pSlUe7gVv/sM7X6Srmgyjhkfk9APw+1E4XtYHtCmQPBLMVPzqld2PJLieEzLsTEsX/2qERCM8c5ZWLlGNQNe2rjwZlNUhvqb3LwIB2TPnBgJNACLJvcC0asaeL4kxghsk1Exgjtf7TXDqpHUVwwFxLeE1ADu/6CLGZeU6xAG4WLIxIL+3MMPy6vmqqo9d9JjR+TQ9UmOGFVqnGKQZqpyDYn6xlujvOB/w5eoRZzeqIlRndh46Szw7c/0BQc9HX39SHN27tvyI1wcN/dFum3JNiDuowwwUNoWixK6K8Zt4dQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qkM2aU4vmoMTkrmKlnFoXwsOTVrCZkXXGDU5nDGNFDU=;
- b=GcxR6y2p8vesNP3NoO+lmoha4yaL1pYrrQ8SdRkw603vXFsdw2+kYKTJ2vhC2WoNbHaCVjuVDVRXxfKrY/5TRzZWaiE9lneI2f3gMb4olSQmy0yNYoqsIfVmyo7dFrttDZvoIHz+ZNUdRiEfcnqz9bDYc3/J/bwCqUS491VBh63R4sjA7YTQA4fWJeZiTPj0YBu1CWZEb2RhDK80GBw+dW23zvP4vYgIoWXivjERol55TFzzVR8KUSOZSeooAB4QC6lS4qv96RiLxDSuz7nKsmtrHUmatlutL6D8OSKXooZBUvpTA/M0uXVltDwZTZ69LxMI91RTN4qDuQG/9VBdzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qkM2aU4vmoMTkrmKlnFoXwsOTVrCZkXXGDU5nDGNFDU=;
- b=C5AEJjNaKAD8BcboPXecPPG90ymOE18GqacWu0ZPCN2szLjQHzEIenJ61zBfYfN7cHNZJj4iuaT6k0Y83NbOJC3mMQNB1CZD2aDAV/hsrDCYilwAfLmQRWO5ncg/DMbBrrxcE5sbF+Cptf4302QQ7h01sOy8yU3ApnzlBc4QPDd1njYP5e+Tvyb2IyfbkXfpoBFXqsi746XdLsdZ2zY7demJzoLmlwMesVxXfA/ZClANRxvTnMR5b2he2Z9pDeDwbrUhPKFD8ez70vpgSBTknA3VvyYPLNlUGa9Y/Cjxv50NKXWIIJHB1gUpXzIUcq7ebInZUGgdFt8GdtR+wwIQgA==
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
- by AM6PR09MB3025.eurprd09.prod.outlook.com (2603:10a6:20b:c5::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Wed, 2 Mar
- 2022 23:33:38 +0000
-Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
- ([fe80::e8ae:b245:b019:195b%8]) with mapi id 15.20.5038.014; Wed, 2 Mar 2022
- 23:33:38 +0000
-Message-ID: 
- <AM9PR09MB46424AF57D3DAE4DA462EA14A8039@AM9PR09MB4642.eurprd09.prod.outlook.com>
-Date: Thu, 3 Mar 2022 00:33:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] staging: FileExistsError
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core <openembedded-core@lists.openembedded.org>
-References: 
- <AM9PR09MB464217F0B4A5828BA8092D4AA8039@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <997e00f33cb607ad96e0c9607dab46a4872ce98f.camel@linuxfoundation.org>
-From: Konrad Weihmann <kweihmann@outlook.com>
-In-Reply-To: 
- <997e00f33cb607ad96e0c9607dab46a4872ce98f.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [tik7rRAbruhGBQ0FO4xRVUo76x54LXMpMG8i+RZFx8zfN61Qe62a8eqSpYm+cxc0]
-X-ClientProxiedBy: AM5PR1001CA0033.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::46) To AM9PR09MB4642.eurprd09.prod.outlook.com
- (2603:10a6:20b:284::24)
-X-Microsoft-Original-Message-ID: 
- <7c28ed37-37d0-5c2a-9bb8-c0fc706ca3c3@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y1qwcJAV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id w27so5594150lfa.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 02 Mar 2022 16:07:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LOFZYVxhQByb0VTTGgETAMCRYNRVuj9bS4j3umy+F8w=;
+        b=Y1qwcJAVTOKltM5CFBFhgdjUr87Tf+szGwRizUdMIF9keoT/acKj98sNDvduYrPw5y
+         WdUgewz1T1fVtmPpayrUw62eN2YsY80flXEc/rTH2KyZ8EBffppZa6PVj0vci8mTeZWk
+         dRag16Il4YRGObSAosvx6F+w84dqucoDPlfVVY8oMH2Wje7ygi6C/Rvu1VP62GGKTG0x
+         dH2eNIVndFJhr250RYPo4kid7V0PdAYxUIogE/NflUcP9NiYW4CKqNJqnha8wT9xUPxV
+         yD763MApW0WrUejq8HCMxXAMk4k658Mxt6MSVEsCRi5J1dpKxXFcmEiDkVQM9kyr31ut
+         j3Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LOFZYVxhQByb0VTTGgETAMCRYNRVuj9bS4j3umy+F8w=;
+        b=KVZp4pqrpEVFkags4YEQpMgKz6skCkj0aJCRkwn8kA3k297W5GNxqEsCxEJBml4zur
+         4n10dDUmxXDgAF0o1tfkmCXup5pIbCjrjKOBxzlw7f3xqJgPnEZJEEnDhxpc7xONf/wE
+         uqhnDBdBA1AiWOgBMT02IJ9bYndxDfpqCBLGr3zwTNJAUfgBlfDJESc55O03I6QKLJSM
+         z0fcrFLneouyPdwCTtF+6VgvADQZ6mHlPTKO/iQnMqMinmhxTVgqrgIqulEESxvYSHiy
+         dKfBliYS4EJhFu3CCwXBvUVEz3+/PnG8tmhJAzWhlp7+wmSGkuU6FyafgbGNEo3eo8Xd
+         v9NA==
+X-Gm-Message-State: AOAM530XxqkSct0W0XJcre4AqmiYmYGv5GUFfbOZWkbeq9Pch/1eYjPE
+	XvWIo4zqRnO9wtIq1dle88g7UETV4wuV7m494U0=
+X-Google-Smtp-Source: 
+ ABdhPJxf2//l2av4hktLzA6BI5oQt0uDlezgAGLOQnKP3qpTm+hTU388jzwbUyCdkC5TSjPvRz8efdcARN2UX0AOVO8=
+X-Received: by 2002:a05:6512:511:b0:443:3f9f:5d5c with SMTP id
+ o17-20020a056512051100b004433f9f5d5cmr19123108lfb.94.1646266022470; Wed, 02
+ Mar 2022 16:07:02 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bc03da53-5b83-4b5f-42af-08d9fca513ee
-X-MS-TrafficTypeDiagnostic: AM6PR09MB3025:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NMpsIMPsNO//rW0tvP7CQZnbGzN7nHvOYu/qpk8ezppOqD4ke1iIwnVP0A8ERPBqv4iWVZd4Qj+s/JpBUnB59Vvq7008xYwAHRCEytsAYWy0xWjT7Q9Dgt9yPPmFZbBFBDiIBwHzzQllcqE06AGLM2Lr/+x9cMeLr/VOnJAfkkizGGvZEA+4XO637rLPt/eDBoWOUeSHBz1/QGKPr6mxZWpHBXxzut2XpIIA5XRzk5yrIQozBifNK8nSq5tSHlhUaFnBxbqMzh63qiVqjC7xG/X9TsA8I0ZFSmISimbGFC9N6/Hw0O3o5vATJx2F/dIlOdhtnlITKeHxKMoRmW7cdVyX0cIBKVZtYo6mi2SXKZ0cqNjliCVvXMjtya5n4xDFfA41DxAVOoZ4UZjE9S7/2SSNuashqtQxLuV67bglk1O6JU8ihIklTLqDbUw59otGADAeUBARqW6p/B/Oe1Y8teg3ZABjgS/guPUduZigXK7G+Q4hvD9H1TseAMpwEsQXu4LkEO04IL/Rxa5Fd3DRap4r0LriU2PU5ti+tx709E3EyO7tVeq5SEzhKTpBmsNP49fHK6DPbz03t1S6IUj8Sg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SzllREZPekYxMTJkajBjV1h6K2owVGtQcTcrNTNQK1Zla0p1Ni85NDBnZHR2?=
- =?utf-8?B?djUrQnNaTm5FVXdmQnNsaXpqdms0dWNSeU42UTNkWVJja0lIbVlPN09Ra3Yz?=
- =?utf-8?B?K0JZZk55a2dtMHE1OGdQV21FOXVsZHE3dFpnbWdHVllZcldiZ2E1SlQzd2lx?=
- =?utf-8?B?TVZyOE1jbUIzK2dNS2tUY1ptdWJ4ZTRwVUE5bHFRaldxblJaWGpobWQvOFdq?=
- =?utf-8?B?UWh6MHhyWFQzS2p3bG9hbDdyU0RQT3NIdUtPZE5ZNzVieUdrUVdPNFlkZk0r?=
- =?utf-8?B?R245eFlxdXB5UjZFMTE5S2xGK09YK1BHTys1elV1K0NVcWFYdmtJeUlwTGxX?=
- =?utf-8?B?WU9pbDVVSlNMdnBza1g0UEpiT3hHeTVDcC9WalFCOTRMMlZ1N28xdFhTZXQ3?=
- =?utf-8?B?YTJRNzR6eFdobXZMUEtQMjlRbDVtYTdlbWhxbEFUSWhyVk5wVGJBdjRqZ21V?=
- =?utf-8?B?aDE4MVZseWZ6Z0pnUk5iZllXZ0VERVIrT1hWaitDQ21wVmFQaXg4S3dVcjZo?=
- =?utf-8?B?NEFCd2RNUThyTGZyVFJhdE5iVzAzU0RjSDNnK3lBRHIyQkVXNy9UK0lPbDdy?=
- =?utf-8?B?MVJLT2dCZ3Y1MWZseWowSHdCbjgvbTZZNkozOERMc3Y5UXhuK3cxK0dnT3NF?=
- =?utf-8?B?d0NNcVVORjF6Zk9QcTlaQTh5czNicko4dWhlMnVJeW5mMmRHb1ZDN05KQjc5?=
- =?utf-8?B?emQ0cHh0aHQ0V08xS2trQ1NKV21GRFhUYThiZ1dBZmRkdFU4RVBUZ0Q1TzMy?=
- =?utf-8?B?SEhrOThCa0t1dnNiMlBHRUpwa2xqOUpSMmk3Nmp5dGdxL1JyOWNiVXZpVDZO?=
- =?utf-8?B?T0RuR3I0QnBhRVlRVHRGMGxPQVJ2MUIzc0lZMUU0M3ZyeVhYVkYzWm93aTAz?=
- =?utf-8?B?cWMrNkZhd0tkM1Y2VE9taTBNdzM5VlE3WlJwQmNvZndQNjdoWDZJSUZjL1k4?=
- =?utf-8?B?UmhWN0oyamt6SnNSemxYVXdmTTdwTURrMy9lRGV3VlNBNXZLWlY3OVhHMlVX?=
- =?utf-8?B?TUFacElscEN5alNoSUtaK2pVVmZHQlI1YmlNTVNSREtGWXRReElSQW5MR2xs?=
- =?utf-8?B?WUpRaHVuOXpOdWlmdlY0UWluZ2RkZUhPUC9ERFRndCtMUElSQ2t3bkc5emxh?=
- =?utf-8?B?TWxqUkhtY2I3andCVW5yQVIyY1MwRnYvNWVzMVN4MGM4MytJcDYzOEpSRlJV?=
- =?utf-8?B?WHpUSE1jWFNZMTZ5M2dnUHl1QXZyWDh2SXJNSHBCWkxQQm9Lc1BGZWJvamcz?=
- =?utf-8?B?aXBDWjEyTS9EOS9ja3l6ZkMwYlVucVBxZWRqNE1kdnRrSmNLemtldGFEcDJj?=
- =?utf-8?B?VHI0MnIrZzhsWDkzR0R5MUZTWXk5NEQzUW9ScTJlVmRDd2UxWXAyUkVsbXBN?=
- =?utf-8?B?MzhXcWUvdzhsMlE9PQ==?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- bc03da53-5b83-4b5f-42af-08d9fca513ee
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 23:33:38.6022
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR09MB3025
+References: <16D869D532B5A22D.25756@lists.openembedded.org>
+In-Reply-To: <16D869D532B5A22D.25756@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 3 Mar 2022 00:06:51 +0000
+Message-ID: 
+ <CANPvuRk2wx+yXfviZADt8AoF-zR+H89Spj8NcQzAgsFL2LLCfQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] buildhistory.bbclass: create the
+ buildhistory directory when needed
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="00000000000079ac5e05d9452d8f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Mar 2022 23:33:43 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Mar 2022 00:07:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162630
+ https://lists.openembedded.org/g/openembedded-core/message/162631
 
+--00000000000079ac5e05d9452d8f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Can this patch be backported to dunfell?
 
-On 03.03.22 00:05, Richard Purdie wrote:
-> On Wed, 2022-03-02 at 21:55 +0100, Konrad Weihmann wrote:
->> An interesting behavior struck me once more after a long long time.
->>
->>    *** 0002:extend_recipe_sysroot(d)
->>        0003:
->> File: '/layer/layer/poky/meta/classes/staging.bbclass', lineno: 584,
->> function: extend_recipe_sysroot
->>        0580:                    if "/bin/" in l or "/sbin/" in l:
->>        0581:                        # defer /*bin/* files until last in
->> case they need libs
->>        0582:                        binfiles[l] = (targetdir, dest)
->>        0583:                    else:
->>    *** 0584:                        staging_copyfile(l, targetdir, dest,
->> postinsts, seendirs)
->>        0585:
->>        0586:    # Handle deferred binfiles
->>        0587:    for l in binfiles:
->>        0588:        (targetdir, dest) = binfiles[l]
->> File: '/layer/layer/poky/meta/classes/staging.bbclass', lineno: 158,
->> function: staging_copyfile
->>        0154:        os.symlink(linkto, dest)
->>        0155:        #bb.warn(c)
->>        0156:    else:
->>        0157:        try:
->>    *** 0158:            os.link(c, dest)
->>        0159:        except OSError as err:
->>        0160:            if err.errno == errno.EXDEV:
->>        0161:                bb.utils.copyfile(c, dest)
->>        0162:            else:
->> Exception: FileExistsError: [Errno 17] File exists:
->> '/build/tmp/sysroots-components/x86_64/some/path/to/some/deeply/nested/file'
->> ->
->> '/build/tmp/work/x86_64-linux/some-recipe/1.0-r0/recipe-sysroot-native/some/path/to/some/deeply/nested/file'
->>
->> This happens in rare case when doing a differential build o a recipe
->> with hundreds or thousands of native dependencies.
->>
->> The file mentioned is pretty much random and it's unique (no duplicates
->> among all the dependencies when it comes to filename+path).
->>
->> So far I helped myself with ignoring this error by adding
->>
->>           except FileExistsError:
->>               pass
->>
->> to staging - I wonder if anyone else ever seen this behavior and what's
->> the best way to deal with it
->>
->> What comes to my mind is
->>
->> - ignoring it - but then no one can be sure it's the right file
->> - falling back to the OSError/EXDEV path and copying over the file requested
->> - a 3rd option
->>
->> Any thoughts?
->>
->> (Just to be sure, this happens like once in a thousand builds and only
->> on differential builds)
-> 
-> My initial thought is that is a horrible work around and we need to get to the
-> real issue.
-> 
-> The question is where is the duplicate file coming from and why.
-> 
-> Also, is this dunfell or master or something else? There were issues that were
-> fixed in these codepaths after dunfell.
-> 
-> Is there anything significant about the kinds of files this is being hit with.
-> For example are they generated pyc files? We have see that issue before. Is
-> there anything significant about the path lengths involved? It is hard to tell
-> from the information provided.
+Jose
 
-To shed some light on it - no it's current master (head of yesterday) 
-and it's no regarding some pyc, as I normally remove them by a different 
-class in my builds.
-As I said, the error hits on pretty random file, one time it's a code 
-file, one time it a LICENSE file - I don't see any pattern in there.
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu no dia quarta, 2/03/2022 =C3=A0(=
+s)
+00:47:
 
-And I agree one need to get to the bottom of it, which indeed difficult 
-as this hits me like once in every 3-4 months and usually a sstate clean 
-fixes it for me.
+> When the BUILDHISTORY_RESET is enabled we need to move the
+> content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but
+> when we start a clean build in the first run we don't have the
+> BUILDHISTORY_DIR so the move of files will fail.
+>
+> | ERROR: Command execution failed: Traceback (most recent call last):
+> |  File "/xxx/poky/bitbake/lib/bb/command.py", line 110, in runAsyncComma=
+nd
+> |    commandmethod(self.cmds_async, self, options)
+> |  File "/xxx/poky/bitbake/lib/bb/command.py", line 564, in buildTargets
+> |    command.cooker.buildTargets(pkgs_to_build, task)
+> |  File "/xxx/poky/bitbake/lib/bb/cooker.py", line 1481, in buildTargets
+> |    bb.event.fire(bb.event.BuildStarted(buildname, ntargets),
+> self.databuilder.mcdata[mc])
+> |  File "/xxx/home/builder/src/base/poky/bitbake/lib/bb/event.py", line
+> 214, in fire
+> |    fire_class_handlers(event, d)
+> |  File "/xxx/poky/bitbake/lib/bb/event.py", line 121, in
+> fire_class_handlers
+> |    execute_handler(name, handler, event, d)
+> |  File "/xxx/poky/bitbake/lib/bb/event.py", line 93, in execute_handler
+> |    ret =3D handler(event)
+> |  File "/xxx/poky/meta/classes/buildhistory.bbclass", line 919, in
+> buildhistory_eventhandler
+> |    entries =3D [ x for x in os.listdir(rootdir) if not x.startswith('.'=
+) ]
+> | FileNotFoundError: [Errno 2] No such file or directory:
+> '/xxx/buildhistory'
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  V2: remove the check to see if the directory exists
+>
+>  meta/classes/buildhistory.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/buildhistory.bbclass
+> b/meta/classes/buildhistory.bbclass
+> index 49797a6701..8db79a4829 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -896,6 +896,7 @@ python buildhistory_eventhandler() {
+>                  if os.path.isdir(olddir):
+>                      shutil.rmtree(olddir)
+>                  rootdir =3D e.data.getVar("BUILDHISTORY_DIR")
+> +                bb.utils.mkdirhier(rootdir)
+>                  entries =3D [ x for x in os.listdir(rootdir) if not
+> x.startswith('.') ]
+>                  bb.utils.mkdirhier(olddir)
+>                  for entry in entries:
+> --
+> 2.35.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162587):
+> https://lists.openembedded.org/g/openembedded-core/message/162587
+> Mute This Topic: https://lists.openembedded.org/mt/89491842/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-TBH I have no idea how to get into this state, but once you're in there 
-it can be reproduced with a 100% certainty.
+--=20
+Best regards,
 
-The only thing I see is, that the more build time dependencies one 
-injects the more likely it's going to hit.
-In today incident I rebuild npm-native, which cause the rebuild of like 
-~5000 dependencies to be setup for a particular workspace.
-Anyway just to assure you it's not about npm, I encountered the very 
-same on a recipe that had like ~250 python dependencies.
+Jos=C3=A9 Quaresma
 
-My question is, what should I do, next time this hits me.
-What kind of trace and/or info you would need to analyze this, as I have 
-admit this is beyond my understanding of bitbake/OE
+--00000000000079ac5e05d9452d8f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
-> 
+<div dir=3D"ltr"><div>Can this patch be backported to dunfell?</div><div><b=
+r></div><div>Jose</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Jose Quaresma via <a href=3D"http://lists.openembedded.org=
+">lists.openembedded.org</a> &lt;quaresma.jose=3D<a href=3D"mailto:gmail.co=
+m@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; escreveu=
+ no dia quarta, 2/03/2022 =C3=A0(s) 00:47:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">When the BUILDHISTORY_RESET is enabled we need t=
+o move the<br>
+content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but<br>
+when we start a clean build in the first run we don&#39;t have the<br>
+BUILDHISTORY_DIR so the move of files will fail.<br>
+<br>
+| ERROR: Command execution failed: Traceback (most recent call last):<br>
+|=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/command.py&quot;, line 110, in =
+runAsyncCommand<br>
+|=C2=A0 =C2=A0 commandmethod(self.cmds_async, self, options)<br>
+|=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/command.py&quot;, line 564, in =
+buildTargets<br>
+|=C2=A0 =C2=A0 command.cooker.buildTargets(pkgs_to_build, task)<br>
+|=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/cooker.py&quot;, line 1481, in =
+buildTargets<br>
+|=C2=A0 =C2=A0 bb.event.fire(bb.event.BuildStarted(buildname, ntargets), se=
+lf.databuilder.mcdata[mc])<br>
+|=C2=A0 File &quot;/xxx/home/builder/src/base/poky/bitbake/lib/bb/event.py&=
+quot;, line 214, in fire<br>
+|=C2=A0 =C2=A0 fire_class_handlers(event, d)<br>
+|=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/event.py&quot;, line 121, in fi=
+re_class_handlers<br>
+|=C2=A0 =C2=A0 execute_handler(name, handler, event, d)<br>
+|=C2=A0 File &quot;/xxx/poky/bitbake/lib/bb/event.py&quot;, line 93, in exe=
+cute_handler<br>
+|=C2=A0 =C2=A0 ret =3D handler(event)<br>
+|=C2=A0 File &quot;/xxx/poky/meta/classes/buildhistory.bbclass&quot;, line =
+919, in buildhistory_eventhandler<br>
+|=C2=A0 =C2=A0 entries =3D [ x for x in os.listdir(rootdir) if not x.starts=
+with(&#39;.&#39;) ]<br>
+| FileNotFoundError: [Errno 2] No such file or directory: &#39;/xxx/buildhi=
+story&#39;<br>
+<br>
+Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com"=
+ target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0V2: remove the check to see if the directory exists<br>
+<br>
+=C2=A0meta/classes/buildhistory.bbclass | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.=
+bbclass<br>
+index 49797a6701..8db79a4829 100644<br>
+--- a/meta/classes/buildhistory.bbclass<br>
++++ b/meta/classes/buildhistory.bbclass<br>
+@@ -896,6 +896,7 @@ python buildhistory_eventhandler() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.is=
+dir(olddir):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0shutil.rmtree(olddir)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rootdir =3D e=
+.data.getVar(&quot;BUILDHISTORY_DIR&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier=
+(rootdir)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entries =3D [=
+ x for x in os.listdir(rootdir) if not x.startswith(&#39;.&#39;) ]<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.mkdi=
+rhier(olddir)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for entry in =
+entries:<br>
+-- <br>
+2.35.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#162587): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/162587" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/162587</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89491842/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/89491842/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--00000000000079ac5e05d9452d8f--
 
