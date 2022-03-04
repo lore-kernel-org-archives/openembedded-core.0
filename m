@@ -1,169 +1,124 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87093C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 19:03:44 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.437.1646420622888889871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B173C433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 20:14:35 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web08.1294.1646424874773038639
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 11:03:43 -0800
+ Fri, 04 Mar 2022 12:14:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=oQB9L4MU;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VFjP0Iig;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id w1so8388867qtj.2
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 04 Mar 2022 12:14:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1646420623;
-  x=1677956623;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=cLo4KZEYRTolW0j6sDnn1f6i4hoVEnZZpuJMjm+mgtc=;
-  b=oQB9L4MUQHFSXjg1Uf66g5rOslm+pSJU7SmGhl2R7DEBbXpQdXFEBV1u
-   xwdthfONdjhOUDF9lfm2eqKkglrIlkiZtfhKznZUdk+EijnRkDYU6MzRk
-   +BcbymswmRC71d9Q2ohGVNVugJb6pbW9VI9UWspxiB+SQFBZq7B+bRlhV
-   7ef5QZJXlNsyKC4JHADuO3SBezl32M02a3Q63PUniGhICNCY2QMmblPNN
-   QqSTchijWU+AW7chyK9PFt8NumhuR+Cro8VpK/qO1FCEQIdRb8Hrf5dwN
-   OQDpvBkqHWi1Goxun0xryDMVtSIefkuKwhANKZnrF8t5S/8gTxNv1Jg49
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Ross Burton <ross@burtonini.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/3] setuptools3.bbclass: clean up
-Thread-Topic: [OE-core] [PATCH 2/3] setuptools3.bbclass: clean up
-Thread-Index: AQHYL+tjR+i3X472xkiJRERxiS+1nqyvjTcQ
-Date: Fri, 4 Mar 2022 19:03:37 +0000
-Message-ID: <7914aeb052c84f0895246df5f8a7e440@axis.com>
-References: <20220304171408.2672507-1-ross.burton@arm.com>
- <20220304171408.2672507-2-ross.burton@arm.com>
-In-Reply-To: <20220304171408.2672507-2-ross.burton@arm.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=pAAZP3ggt+TxVnGUqJhIrBNvoARpUPUh4jgFieuyBTw=;
+        b=VFjP0IigrW6BC2MPYFjFSJ2Y6VgxvDaoJry/mkCGG/XhtJShma+5Sr4ybE328flIBN
+         itWRaPhOma/Q7zOW62H1HaSyKrM6GAKdZu1S/lxR921qy+46PItU09H4rWNnNkisMV8R
+         0DIMnAEuuVXta6A6tAZIFAkcEf9YlNwk3KkiDaAf+SA8A1gD8q2UVzrLojOJhC+4jTk4
+         1HookDLqBd6uYkjdX7Y8TA8evwmQt0DV3eTq+UVLiUfvookh2B4YGmdb5BjPOCZBhP0v
+         zQpQrAB5i3vkHxIMx5wxdpwEA+Li+k82cdNCOSTXdlb1qrWVBs2jsCoezhaC1sp/frvf
+         1kMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=pAAZP3ggt+TxVnGUqJhIrBNvoARpUPUh4jgFieuyBTw=;
+        b=WlibrOQQD7JsUWzyJmK/5Atb6BU3/1bgNvL7kxF6mEk90Tz6b9z4USfg++MlQPpMUb
+         WiIzGGdXrR8o5/BH360PNqEffpirW9EgseHBXUddxd2df5XNoJXqrgQeQmo7L7pYJHer
+         J+lsqKCXfSxQYuJ9Yo27JttLv/WEsqm2mHFDXsCvxdfvuEjiKR0F/RRUs6fC8BikOZHL
+         PCj0sGo5P7Pc3XWmq8WZgG1cFihq3nCEJPNg6N8HPsXqQG1h9aTNSGFdsChBm5NIPYoZ
+         ybr9dW5B3qdcr50pr9lbWS+nE2ej7i/kBn4gwj3sPi6MPiu8LFU7JgaybkOFvP/IjIRk
+         EudQ==
+X-Gm-Message-State: AOAM531ly61MnUxz6iM07ROIsdy2bdXawZkPFBDgwzJsbiezYtSMGuNl
+	FKJrIiaETx5bJzlibrGdqDbl1uMylLCiwfFmGwM=
+X-Google-Smtp-Source: 
+ ABdhPJyUB79ZmS9hNrMZusVuS6AP+//1FPTOyUjQyVJZ2VGRNenghePQGyJZogSg6mulh6zXt6H7LiX7+xKxybYkAvk=
+X-Received: by 2002:ac8:584c:0:b0:2dd:aaa6:7865 with SMTP id
+ h12-20020ac8584c000000b002ddaaa67865mr435165qth.330.1646424873823; Fri, 04
+ Mar 2022 12:14:33 -0800 (PST)
 MIME-Version: 1.0
+References: 
+ <CAP9ODKrZT9A=fdjUekvAHEch9LFjNt3mnH+jnGXGK0DR0BOvww@mail.gmail.com>
+ <AM9PR09MB46428B351F1207869AA667DFA8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: 
+ <AM9PR09MB46428B351F1207869AA667DFA8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 4 Mar 2022 12:14:07 -0800
+Message-ID: 
+ <CAMKF1sp6ZO5ZL9WY2z7QP_eMDC9+uB3yBMpzFrKyaTNdHqYvGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] classes: add setuptools3_legacy
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ Ross Burton <ross@burtonini.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 19:03:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 20:14:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162754
+ https://lists.openembedded.org/g/openembedded-core/message/162756
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Ross Burton
-> Sent: den 4 mars 2022 18:14
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/3] setuptools3.bbclass: clean up
->=20
-> There's been a lot of work in this class lately, so a little spring
-> cleaning is needed.
->=20
-> Create wheels verbosely to help debug problems.
->=20
-> Remove unused SETUPTOOLS_INSTALL_ARGS, these can't be passed to
-> bdist_wheel.
->=20
-> Remove duplicate manipulation of files in bindir as pip_install_wheel
-> does the same.
->=20
-> Remove obsolete deletion of easy-install.pth, wheels don't generate that.
->=20
-> Remove obsolete ${datadir}/share fixup, pip-installed wheels can't
-> generate that path combination.
->=20
-> Remove purging of ${D} references from *.py, these won't be written by
-> standard setuptools, and recipes can do it themselves to work around
-> specific issues if needed.
->=20
-> Remove obsolete vardepsexclude of MACHINE on do_install, as that variable
-> isn't referenced.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
->=20
-> fixup! setuptools3.bbclass: clean up
+On Fri, Mar 4, 2022 at 11:20 AM Konrad Weihmann <kweihmann@outlook.com> wro=
+te:
+>
+> If it's about meta-python why can't be placed there? I don't follow the a=
+rgument that some edge case stuff outside of core requires the project to h=
+ave additional (as of now not time limited) maintenance effort - if there w=
+ould be a clear plan to remove that before kirkstone release I might agree,=
+ but with the release looming this all feels like abandoning the commitment=
+ for the upcoming release.
 
-That last line looks like some leftover from rebasing?
+it is about many layers e.g. meta-oe, meta-xfce, meta-python and
+perhaps many more that I have not come across yet. We want to enable a
+wider ecosystem and we
+do carry features in OE-core to do so from time to time. Core in
+itself is a reference distribution, its not meant to carry just what
+it needs to support a minimum distro
+it serves as a baseline for many distros which may include other
+layers. At times we do put specific features in specific layers, this
+is not one of those.
 
-> ---
->  meta/classes/setuptools3.bbclass | 34 +-------------------------------
->  1 file changed, 1 insertion(+), 33 deletions(-)
->=20
-> diff --git a/meta/classes/setuptools3.bbclass
-> b/meta/classes/setuptools3.bbclass
-> index 564996c556..1b1a8aac76 100644
-> --- a/meta/classes/setuptools3.bbclass
-> +++ b/meta/classes/setuptools3.bbclass
-> @@ -4,13 +4,6 @@ inherit setuptools3-base pip_install_wheel
->  #B =3D "${WORKDIR}/build"
->=20
->  SETUPTOOLS_BUILD_ARGS ?=3D ""
-> -SETUPTOOLS_INSTALL_ARGS ?=3D "--root=3D${D} \
-> -    --prefix=3D${prefix} \
-> -    --install-lib=3D${PYTHON_SITEPACKAGES_DIR} \
-> -    --install-data=3D${datadir}"
-> -
-> -SETUPTOOLS_PYTHON =3D "python3"
-> -SETUPTOOLS_PYTHON:class-native =3D "nativepython3"
->=20
->  SETUPTOOLS_SETUP_PATH ?=3D "${S}"
->=20
-> @@ -24,42 +17,17 @@ setuptools3_do_compile() {
->          STAGING_INCDIR=3D${STAGING_INCDIR} \
->          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
-py \
-> -        bdist_wheel ${SETUPTOOLS_BUILD_ARGS} || \
-> +        bdist_wheel --verbose ${SETUPTOOLS_BUILD_ARGS} || \
->          bbfatal_log "'${PYTHON_PN} setup.py bdist_wheel ${SETUPTOOLS_BUI=
-LD_ARGS}' execution failed."
-
-Why all the backslashes? This is bitbake, not make. ;)
-
->  }
->  setuptools3_do_compile[vardepsexclude] =3D "MACHINE"
->  do_compile[cleandirs] +=3D "${SETUPTOOLS_SETUP_PATH}/dist"
->=20
->  setuptools3_do_install() {
-> -        cd ${SETUPTOOLS_SETUP_PATH}
-> -
->          pip_install_wheel_do_install
-> -
-> -        # support filenames with *spaces*
-> -        find ${D} -name "*.py" -exec grep -q ${D} {} \; \
-> -                               -exec sed -i -e s:${D}::g {} \;
-> -
-> -        for i in ${D}${bindir}/* ${D}${sbindir}/*; do
-> -            if [ -f "$i" ]; then
-> -                sed -i -e s:${PYTHON}:${USRBINPATH}/env\ ${SETUPTOOLS_PY=
-THON}:g $i
-> -                sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-> -            fi
-> -        done
-> -
-> -        rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
-> -
-> -        #
-> -        # FIXME: Bandaid against wrong datadir computation
-> -        #
-> -        if [ -e ${D}${datadir}/share ]; then
-> -            mv -f ${D}${datadir}/share/* ${D}${datadir}/
-> -            rmdir ${D}${datadir}/share
-> -        fi
->  }
-> -setuptools3_do_install[vardepsexclude] =3D "MACHINE"
->=20
->  EXPORT_FUNCTIONS do_configure do_compile do_install
->=20
->  export LDSHARED=3D"${CCLD} -shared"
->  DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
-> -
+>
+> And just to emphasize my claim, if there's nothing in core that would req=
+uire this patch it won't get tested, so it's another dead end.
+>
+> In the end it's the decision of the project leads, but I would be persona=
+lly be disappointed to take the easy way out here.
+>
+> On 4 Mar 2022 19:01, Otavio Salvador <otavio.salvador@ossystems.com.br> w=
+rote:
+>
+>
+>
+> Em sex., 4 de mar. de 2022 =C3=A0s 13:56, Khem Raj <raj.khem@gmail.com> e=
+screveu:
+>
+> There are recipes in meta-oe and meta-python which would need this
+> and both layer only list core as sole dependency, if we put it in either =
+of
+> these layers, then one will depend on other which is not nice, so I rathe=
+r
+> would prefer it in core.
+>
+>
+> Couldn't those recipes (depending on Python) go to meta-python?
+>
 > --
-> 2.25.1
-
-//Peter
-
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+>
+>
 
