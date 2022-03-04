@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C506C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 15:04:56 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.7942.1646406295589241111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0361AC433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 15:04:58 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.7844.1646406297422058949
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:04:55 -0800
+ Fri, 04 Mar 2022 07:04:57 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=E0DetpGQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
+ header.b=QuOMS/ny;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 195so7747111pgc.6
+Received: by mail-pf1-f179.google.com with SMTP id t5so7841763pfg.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:04:55 -0800 (PST)
+ Fri, 04 Mar 2022 07:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=+VIPxverKIPH7mpG29z537Q0uQUlDTlGNDEycqZnj24=;
-        b=E0DetpGQjIRC8OmMTD84tyGWSDVRDBmUYyaH6w0Ymp33xe6ymbtZux3bCZIxn3qD6T
-         k218f4DpoGAVOax2LurAhlrY67zy4U6pa7N5nMAN2fO988klIhK+62Eik5ofjxnA2UbK
-         edO0nj1gdTOdxDyH9MbF1QgOeH1mfjASiBtHjoGatkXuSBcejgtdei02DwxvlW854oej
-         jNyPoRYqBLk1aD70FkpSaYEY8Kb6Z+T69CKU3BAD2L9mtwWsyEYbyUoyK7gk3+XK6Nsm
-         K+FIFnn9Y3PQgWR4T6VnH/82qkvQ1cAtV09yadXG8iXRrxGk1QmiRzE3aquu28omtfWX
-         Q63g==
+        bh=6UzuQVzHSo6u1OUUhuEu9mHXq8+iiAvipINSz4JPtLA=;
+        b=QuOMS/ny2aABWjsa8RYIUfBYVqJXI1g2PyAgwitMbg8a7UQzhH37KiGYAtgev2cYAN
+         yzRu+pVtYW/ale5iRkFWF5sz+54WmJ3jqI6UlYNpc5W48znpOSF0R7gYzIDYSl+hXgRa
+         k7alAdj6f07cSJPbcmL8h9cC1Ai7JA77dSGSYhJ7f4fT7TskxomATcix+xie93pLLAqV
+         R51XrZwThobpFtZKEEQABoHLeP98AK9yCmmxbavR1m+GVzAfnxZ8os1AQx8sRx/YiMSX
+         9iveMKe0Db84VJLK2xU6lJx64swoPA6cltsn+kWIQkSbqp6UL0QkGe3/KnITdGjJcyEp
+         L2AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+VIPxverKIPH7mpG29z537Q0uQUlDTlGNDEycqZnj24=;
-        b=N/NM3rE69sKskWFg2Y4LdsjnviQJPf4rjKH+uZ9ANccRzNqNwwq0EiAmehV7ZrTG24
-         FHBhhDZnCaXAqywQ/dGldr6QSdmVxqo36YxUSX69GXp5haQX1NPn+qyAfmgma9Jx/kfP
-         wg3SDMwNlFWIcPYiLXN62r1/8tDsLAyRJzkUENsPWtadq8gVQE8rQJlM3q9ezGClNSJj
-         GeCzBJCzHgGONSJUzv/HZVw/F9IHpDWM3sKot4jRpr28SN7QNBzTv5jNgyuZ0B9It+cF
-         dXf0a9cG1UMwsMQr+is6wlBzBL5iAzmhMeP+7DCYOjn3wugqB4UERHs8xfDceTCAaOn0
-         ZitQ==
-X-Gm-Message-State: AOAM532AfNOECso6LLObua2XXKFXTnVWVkaGSO4d+f1Btg0jk4q6z3wP
-	EyA7NXCtrRR9RSvQ7Ej/DjxIqRfEJlpaCGwZYmU=
+        bh=6UzuQVzHSo6u1OUUhuEu9mHXq8+iiAvipINSz4JPtLA=;
+        b=HgumpnYpFC7OX9ME3QNsS7iy/+/2rKdhhOQeVIM43y4MqyvK1YOmh1r35GFruPOprm
+         J38vM7XNGFMZWWj3tnziA7F1ZJZjFc+CjFhm0fiT1BAtGdB6ywf7+2w7hqbHG1xrgRle
+         wU+aDsgNs1cGFcL7nQu2XnG/LVJayxliaY0f+9wI+STZluwITM3xn/huExxEmXWD2/bT
+         BSKZdSTg2VCqsUspl2cmtEuPjXvLAF2BJTKsInvzoaai50LICIv/UlNIufmWP3s8xLDD
+         svSWQKhFmNnUaFryLx4XeY/CEOIEkjQ2xNrYsZpTxWwWydYgXn0vmElOc1mNjr92Ck4E
+         RxYw==
+X-Gm-Message-State: AOAM530RtIvv6ldKwkVd3xBA/1+5kP9k3sna2FJIjEV8OQRUU2McYagM
+	5Yo0ms57z08agD/LmcmMHqY/BS5J4jkJE1ifjG4=
 X-Google-Smtp-Source: 
- ABdhPJzMQhXSpBateW424KPBVe0+975KrG8iWQ8skXj1CEIWLKwhKsxGsmQudXHepCwX5d97btiswg==
-X-Received: by 2002:a63:3d0b:0:b0:37f:ef34:1431 with SMTP id
- k11-20020a633d0b000000b0037fef341431mr87078pga.547.1646406294105;
-        Fri, 04 Mar 2022 07:04:54 -0800 (PST)
+ ABdhPJxRfdjgLvotcYw/Umkd3/XrJ2NI/kZjLZd4DGBSVyjVSXwSrNNaXh8J2YWX29LrSJa2YrKQgA==
+X-Received: by 2002:a63:1c21:0:b0:374:104c:e4eb with SMTP id
+ c33-20020a631c21000000b00374104ce4ebmr34622121pgc.556.1646406296350;
+        Fri, 04 Mar 2022 07:04:56 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.04.52
+ f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.04.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 07:04:53 -0800 (PST)
+        Fri, 04 Mar 2022 07:04:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/18] expat: fix CVE-2022-25235
-Date: Fri,  4 Mar 2022 05:04:12 -1000
+Subject: [OE-core][dunfell 05/18] expat: fix CVE-2022-25236
+Date: Fri,  4 Mar 2022 05:04:13 -1000
 Message-Id: 
- <27ab07b1e8caa5c85526eee4a7a3ad0d73326866.1646406001.git.steve@sakoman.com>
+ <72ab213c128ef75669447eadcae8219a9f87f941.1646406001.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1646406001.git.steve@sakoman.com>
 References: <cover.1646406001.git.steve@sakoman.com>
@@ -67,324 +67,170 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 15:04:56 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 15:04:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162723
+ https://lists.openembedded.org/g/openembedded-core/message/162724
 
-xmltok_impl.c in Expat (aka libexpat) before 2.4.5 lacks certain
-validation of encoding, such as checks for whether a UTF-8 character
-is valid in a certain context.
+xmlparse.c in Expat (aka libexpat) before 2.4.5 allows
+attackers to insert namespace-separator characters into
+namespace URIs.
 
 Backport patches from:
-https://github.com/libexpat/libexpat/pull/562/commits
+https://github.com/libexpat/libexpat/pull/561/commits
 
-CVE: CVE-2022-25235
+CVE: CVE-2022-25236
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../expat/expat/CVE-2022-25235.patch          | 283 ++++++++++++++++++
+ .../expat/expat/CVE-2022-25236.patch          | 129 ++++++++++++++++++
  meta/recipes-core/expat/expat_2.2.9.bb        |   1 +
- 2 files changed, 284 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25235.patch
+ 2 files changed, 130 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25236.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2022-25235.patch b/meta/recipes-core/expat/expat/CVE-2022-25235.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2022-25236.patch b/meta/recipes-core/expat/expat/CVE-2022-25236.patch
 new file mode 100644
-index 0000000000..be9182a5c1
+index 0000000000..ba6443fc6a
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2022-25235.patch
-@@ -0,0 +1,283 @@
-+From ee2a5b50e7d1940ba8745715b62ceb9efd3a96da Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/expat/expat/CVE-2022-25236.patch
+@@ -0,0 +1,129 @@
++From 6881a4fc8596307ab9ff2e85e605afa2e413ab71 Mon Sep 17 00:00:00 2001
 +From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 8 Feb 2022 17:37:14 +0100
-+Subject: [PATCH] lib: Drop unused macro UTF8_GET_NAMING
++Date: Sat, 12 Feb 2022 00:19:13 +0100
++Subject: [PATCH] lib: Fix (harmless) use of uninitialized memory
 +
 +Upstream-Status: Backport
-+https://github.com/libexpat/libexpat/pull/562/commits
++https://github.com/libexpat/libexpat/pull/561/commits
 +
-+CVE: CVE-2022-25235
++CVE: CVE-2022-25236
 +
 +Signed-off-by: Steve Sakoman <steve@sakoman.com>
 +
 +---
-+ expat/lib/xmltok.c | 5 -----
-+ 1 file changed, 5 deletions(-)
++ expat/lib/xmlparse.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
 +
-+diff --git a/lib/xmltok.c b/lib/xmltok.c
-+index a72200e8..3bddf125 100644
-+--- a/lib/xmltok.c
-++++ b/lib/xmltok.c
-+@@ -95,11 +95,6 @@
-+         + ((((byte)[1]) & 3) << 1) + ((((byte)[2]) >> 5) & 1)]                 \
-+    & (1u << (((byte)[2]) & 0x1F)))
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 902895d5..c768f856 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -718,8 +718,7 @@ XML_ParserCreate(const XML_Char *encodingName) {
 + 
-+-#define UTF8_GET_NAMING(pages, p, n)                                           \
-+-  ((n) == 2                                                                    \
-+-       ? UTF8_GET_NAMING2(pages, (const unsigned char *)(p))                   \
-+-       : ((n) == 3 ? UTF8_GET_NAMING3(pages, (const unsigned char *)(p)) : 0))
-+-
-+ /* Detection of invalid UTF-8 sequences is based on Table 3.1B
-+    of Unicode 3.2: http://www.unicode.org/unicode/reports/tr28/
-+    with the additional restriction of not allowing the Unicode
-+From 3f0a0cb644438d4d8e3294cd0b1245d0edb0c6c6 Mon Sep 17 00:00:00 2001
++ XML_Parser XMLCALL
++ XML_ParserCreateNS(const XML_Char *encodingName, XML_Char nsSep) {
++-  XML_Char tmp[2];
++-  *tmp = nsSep;
+++  XML_Char tmp[2] = {nsSep, 0};
++   return XML_ParserCreate_MM(encodingName, NULL, tmp);
++ }
++ 
++@@ -1344,8 +1343,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
++      would be otherwise.
++   */
++   if (parser->m_ns) {
++-    XML_Char tmp[2];
++-    *tmp = parser->m_namespaceSeparator;
+++    XML_Char tmp[2] = {parser->m_namespaceSeparator, 0};
++     parser = parserCreate(encodingName, &parser->m_mem, tmp, newDtd);
++   } else {
++     parser = parserCreate(encodingName, &parser->m_mem, NULL, newDtd);
++From a2fe525e660badd64b6c557c2b1ec26ddc07f6e4 Mon Sep 17 00:00:00 2001
 +From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 8 Feb 2022 04:32:20 +0100
-+Subject: [PATCH] lib: Add missing validation of encoding (CVE-2022-25235)
++Date: Sat, 12 Feb 2022 01:09:29 +0100
++Subject: [PATCH] lib: Protect against malicious namespace declarations
++ (CVE-2022-25236)
 +
 +---
-+ expat/lib/xmltok_impl.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
++ expat/lib/xmlparse.c | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
 +
-+diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
-+index 0430591b4..64a3b2c15 100644
-+--- a/lib/xmltok_impl.c
-++++ b/lib/xmltok_impl.c
-+@@ -61,7 +61,7 @@
-+   case BT_LEAD##n:                                                             \
-+     if (end - ptr < n)                                                         \
-+       return XML_TOK_PARTIAL_CHAR;                                             \
-+-    if (! IS_NAME_CHAR(enc, ptr, n)) {                                         \
-++    if (IS_INVALID_CHAR(enc, ptr, n) || ! IS_NAME_CHAR(enc, ptr, n)) {         \
-+       *nextTokPtr = ptr;                                                       \
-+       return XML_TOK_INVALID;                                                  \
-+     }                                                                          \
-+@@ -90,7 +90,7 @@
-+   case BT_LEAD##n:                                                             \
-+     if (end - ptr < n)                                                         \
-+       return XML_TOK_PARTIAL_CHAR;                                             \
-+-    if (! IS_NMSTRT_CHAR(enc, ptr, n)) {                                       \
-++    if (IS_INVALID_CHAR(enc, ptr, n) || ! IS_NMSTRT_CHAR(enc, ptr, n)) {       \
-+       *nextTokPtr = ptr;                                                       \
-+       return XML_TOK_INVALID;                                                  \
-+     }                                                                          \
-+@@ -1134,6 +1134,10 @@ PREFIX(prologTok)(const ENCODING *enc, const char *ptr, const char *end,
-+   case BT_LEAD##n:                                                             \
-+     if (end - ptr < n)                                                         \
-+       return XML_TOK_PARTIAL_CHAR;                                             \
-++    if (IS_INVALID_CHAR(enc, ptr, n)) {                                        \
-++      *nextTokPtr = ptr;                                                       \
-++      return XML_TOK_INVALID;                                                  \
-++    }                                                                          \
-+     if (IS_NMSTRT_CHAR(enc, ptr, n)) {                                         \
-+       ptr += n;                                                                \
-+       tok = XML_TOK_NAME;                                                      \
-+From c85a3025e7a1be086dc34e7559fbc543914d047f Mon Sep 17 00:00:00 2001
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index c768f856..a3aef88c 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -3754,6 +3754,17 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
++     if (! mustBeXML && isXMLNS
++         && (len > xmlnsLen || uri[len] != xmlnsNamespace[len]))
++       isXMLNS = XML_FALSE;
+++
+++    // NOTE: While Expat does not validate namespace URIs against RFC 3986,
+++    //       we have to at least make sure that the XML processor on top of
+++    //       Expat (that is splitting tag names by namespace separator into
+++    //       2- or 3-tuples (uri-local or uri-local-prefix)) cannot be confused
+++    //       by an attacker putting additional namespace separator characters
+++    //       into namespace declarations.  That would be ambiguous and not to
+++    //       be expected.
+++    if (parser->m_ns && (uri[len] == parser->m_namespaceSeparator)) {
+++      return XML_ERROR_SYNTAX;
+++    }
++   }
++   isXML = isXML && len == xmlLen;
++   isXMLNS = isXMLNS && len == xmlnsLen;
++From 2de077423fb22750ebea599677d523b53cb93b1d Mon Sep 17 00:00:00 2001
 +From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Wed, 9 Feb 2022 01:00:38 +0100
-+Subject: [PATCH] lib: Add comments to BT_LEAD* cases where encoding has
-+ already been validated
++Date: Sat, 12 Feb 2022 00:51:43 +0100
++Subject: [PATCH] tests: Cover CVE-2022-25236
 +
 +---
-+ expat/lib/xmltok_impl.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
-+index 64a3b2c1..84ff35f9 100644
-+--- a/lib/xmltok_impl.c
-++++ b/lib/xmltok_impl.c
-+@@ -1266,7 +1266,7 @@ PREFIX(attributeValueTok)(const ENCODING *enc, const char *ptr, const char *end,
-+     switch (BYTE_TYPE(enc, ptr)) {
-+ #  define LEAD_CASE(n)                                                         \
-+   case BT_LEAD##n:                                                             \
-+-    ptr += n;                                                                  \
-++    ptr += n; /* NOTE: The encoding has already been validated. */             \
-+     break;
-+       LEAD_CASE(2)
-+       LEAD_CASE(3)
-+@@ -1335,7 +1335,7 @@ PREFIX(entityValueTok)(const ENCODING *enc, const char *ptr, const char *end,
-+     switch (BYTE_TYPE(enc, ptr)) {
-+ #  define LEAD_CASE(n)                                                         \
-+   case BT_LEAD##n:                                                             \
-+-    ptr += n;                                                                  \
-++    ptr += n; /* NOTE: The encoding has already been validated. */             \
-+     break;
-+       LEAD_CASE(2)
-+       LEAD_CASE(3)
-+@@ -1514,7 +1514,7 @@ PREFIX(getAtts)(const ENCODING *enc, const char *ptr, int attsMax,
-+       state = inName;                                                          \
-+     }
-+ #  define LEAD_CASE(n)                                                         \
-+-  case BT_LEAD##n:                                                             \
-++  case BT_LEAD##n: /* NOTE: The encoding has already been validated. */        \
-+     START_NAME ptr += (n - MINBPC(enc));                                       \
-+     break;
-+       LEAD_CASE(2)
-+@@ -1726,7 +1726,7 @@ PREFIX(nameLength)(const ENCODING *enc, const char *ptr) {
-+     switch (BYTE_TYPE(enc, ptr)) {
-+ #  define LEAD_CASE(n)                                                         \
-+   case BT_LEAD##n:                                                             \
-+-    ptr += n;                                                                  \
-++    ptr += n; /* NOTE: The encoding has already been validated. */             \
-+     break;
-+       LEAD_CASE(2)
-+       LEAD_CASE(3)
-+@@ -1771,7 +1771,7 @@ PREFIX(updatePosition)(const ENCODING *enc, const char *ptr, const char *end,
-+     switch (BYTE_TYPE(enc, ptr)) {
-+ #  define LEAD_CASE(n)                                                         \
-+   case BT_LEAD##n:                                                             \
-+-    ptr += n;                                                                  \
-++    ptr += n; /* NOTE: The encoding has already been validated. */             \
-+     break;
-+       LEAD_CASE(2)
-+       LEAD_CASE(3)
-+From 6a5510bc6b7efe743356296724e0b38300f05379 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 8 Feb 2022 04:06:21 +0100
-+Subject: [PATCH] tests: Cover missing validation of encoding (CVE-2022-25235)
-+
-+---
-+ expat/tests/runtests.c | 109 +++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 109 insertions(+)
++ expat/tests/runtests.c | 30 ++++++++++++++++++++++++++++++
++ 1 file changed, 30 insertions(+)
 +
 +diff --git a/tests/runtests.c b/tests/runtests.c
-+index bc5344b1..9b155b82 100644
++index d07203f2..bc5344b1 100644
 +--- a/tests/runtests.c
 ++++ b/tests/runtests.c
-+@@ -5998,6 +5998,105 @@ START_TEST(test_utf8_in_cdata_section_2) {
++@@ -7220,6 +7220,35 @@ START_TEST(test_ns_double_colon_doctype) {
 + }
 + END_TEST
 + 
-++START_TEST(test_utf8_in_start_tags) {
+++START_TEST(test_ns_separator_in_uri) {
 ++  struct test_case {
-++    bool goodName;
-++    bool goodNameStart;
-++    const char *tagName;
+++    enum XML_Status expectedStatus;
+++    const char *doc;
 ++  };
-++
-++  // The idea with the tests below is this:
-++  // We want to cover 1-, 2- and 3-byte sequences, 4-byte sequences
-++  // go to isNever and are hence not a concern.
-++  //
-++  // We start with a character that is a valid name character
-++  // (or even name-start character, see XML 1.0r4 spec) and then we flip
-++  // single bits at places where (1) the result leaves the UTF-8 encoding space
-++  // and (2) we stay in the same n-byte sequence family.
-++  //
-++  // The flipped bits are highlighted in angle brackets in comments,
-++  // e.g. "[<1>011 1001]" means we had [0011 1001] but we now flipped
-++  // the most significant bit to 1 to leave UTF-8 encoding space.
 ++  struct test_case cases[] = {
-++      // 1-byte UTF-8: [0xxx xxxx]
-++      {true, true, "\x3A"},   // [0011 1010] = ASCII colon ':'
-++      {false, false, "\xBA"}, // [<1>011 1010]
-++      {true, false, "\x39"},  // [0011 1001] = ASCII nine '9'
-++      {false, false, "\xB9"}, // [<1>011 1001]
-++
-++      // 2-byte UTF-8: [110x xxxx] [10xx xxxx]
-++      {true, true, "\xDB\xA5"},   // [1101 1011] [1010 0101] =
-++                                  // Arabic small waw U+06E5
-++      {false, false, "\x9B\xA5"}, // [1<0>01 1011] [1010 0101]
-++      {false, false, "\xDB\x25"}, // [1101 1011] [<0>010 0101]
-++      {false, false, "\xDB\xE5"}, // [1101 1011] [1<1>10 0101]
-++      {true, false, "\xCC\x81"},  // [1100 1100] [1000 0001] =
-++                                  // combining char U+0301
-++      {false, false, "\x8C\x81"}, // [1<0>00 1100] [1000 0001]
-++      {false, false, "\xCC\x01"}, // [1100 1100] [<0>000 0001]
-++      {false, false, "\xCC\xC1"}, // [1100 1100] [1<1>00 0001]
-++
-++      // 3-byte UTF-8: [1110 xxxx] [10xx xxxx] [10xxxxxx]
-++      {true, true, "\xE0\xA4\x85"},   // [1110 0000] [1010 0100] [1000 0101] =
-++                                      // Devanagari Letter A U+0905
-++      {false, false, "\xA0\xA4\x85"}, // [1<0>10 0000] [1010 0100] [1000 0101]
-++      {false, false, "\xE0\x24\x85"}, // [1110 0000] [<0>010 0100] [1000 0101]
-++      {false, false, "\xE0\xE4\x85"}, // [1110 0000] [1<1>10 0100] [1000 0101]
-++      {false, false, "\xE0\xA4\x05"}, // [1110 0000] [1010 0100] [<0>000 0101]
-++      {false, false, "\xE0\xA4\xC5"}, // [1110 0000] [1010 0100] [1<1>00 0101]
-++      {true, false, "\xE0\xA4\x81"},  // [1110 0000] [1010 0100] [1000 0001] =
-++                                      // combining char U+0901
-++      {false, false, "\xA0\xA4\x81"}, // [1<0>10 0000] [1010 0100] [1000 0001]
-++      {false, false, "\xE0\x24\x81"}, // [1110 0000] [<0>010 0100] [1000 0001]
-++      {false, false, "\xE0\xE4\x81"}, // [1110 0000] [1<1>10 0100] [1000 0001]
-++      {false, false, "\xE0\xA4\x01"}, // [1110 0000] [1010 0100] [<0>000 0001]
-++      {false, false, "\xE0\xA4\xC1"}, // [1110 0000] [1010 0100] [1<1>00 0001]
+++      {XML_STATUS_OK, "<doc xmlns='one_two' />"},
+++      {XML_STATUS_ERROR, "<doc xmlns='one&#x0A;two' />"},
 ++  };
-++  const bool atNameStart[] = {true, false};
 ++
 ++  size_t i = 0;
-++  char doc[1024];
 ++  size_t failCount = 0;
-++
 ++  for (; i < sizeof(cases) / sizeof(cases[0]); i++) {
-++    size_t j = 0;
-++    for (; j < sizeof(atNameStart) / sizeof(atNameStart[0]); j++) {
-++      const bool expectedSuccess
-++          = atNameStart[j] ? cases[i].goodNameStart : cases[i].goodName;
-++      sprintf(doc, "<%s%s><!--", atNameStart[j] ? "" : "a", cases[i].tagName);
-++      XML_Parser parser = XML_ParserCreate(NULL);
-++
-++      const enum XML_Status status
-++          = XML_Parse(parser, doc, (int)strlen(doc), /*isFinal=*/XML_FALSE);
-++
-++      bool success = true;
-++      if ((status == XML_STATUS_OK) != expectedSuccess) {
-++        success = false;
-++      }
-++      if ((status == XML_STATUS_ERROR)
-++          && (XML_GetErrorCode(parser) != XML_ERROR_INVALID_TOKEN)) {
-++        success = false;
-++      }
-++
-++      if (! success) {
-++        fprintf(
-++            stderr,
-++            "FAIL case %2u (%sat name start, %u-byte sequence, error code %d)\n",
-++            (unsigned)i + 1u, atNameStart[j] ? "    " : "not ",
-++            (unsigned)strlen(cases[i].tagName), XML_GetErrorCode(parser));
-++        failCount++;
-++      }
-++
-++      XML_ParserFree(parser);
+++    XML_Parser parser = XML_ParserCreateNS(NULL, '\n');
+++    XML_SetElementHandler(parser, dummy_start_element, dummy_end_element);
+++    if (XML_Parse(parser, cases[i].doc, (int)strlen(cases[i].doc),
+++                  /*isFinal*/ XML_TRUE)
+++        != cases[i].expectedStatus) {
+++      failCount++;
 ++    }
+++    XML_ParserFree(parser);
 ++  }
 ++
-++  if (failCount > 0) {
-++    fail("UTF-8 regression detected");
+++  if (failCount) {
+++    fail("Namespace separator handling is broken");
 ++  }
 ++}
 ++END_TEST
 ++
-+ /* Test trailing spaces in elements are accepted */
-+ static void XMLCALL
-+ record_element_end_handler(void *userData, const XML_Char *name) {
-+@@ -6175,6 +6274,14 @@ START_TEST(test_bad_doctype) {
-+ }
-+ END_TEST
++ /* Control variable; the number of times duff_allocator() will successfully
++  * allocate */
++ #define ALLOC_ALWAYS_SUCCEED (-1)
++@@ -11905,6 +11934,7 @@ make_suite(void) {
++   tcase_add_test(tc_namespace, test_ns_utf16_doctype);
++   tcase_add_test(tc_namespace, test_ns_invalid_doctype);
++   tcase_add_test(tc_namespace, test_ns_double_colon_doctype);
+++  tcase_add_test(tc_namespace, test_ns_separator_in_uri);
 + 
-++START_TEST(test_bad_doctype_utf8) {
-++  const char *text = "<!DOCTYPE \xDB\x25"
-++                     "doc><doc/>"; // [1101 1011] [<0>010 0101]
-++  expect_failure(text, XML_ERROR_INVALID_TOKEN,
-++                 "Invalid UTF-8 in DOCTYPE not faulted");
-++}
-++END_TEST
-++
-+ START_TEST(test_bad_doctype_utf16) {
-+   const char text[] =
-+       /* <!DOCTYPE doc [ \x06f2 ]><doc/>
-+@@ -11870,6 +11977,7 @@ make_suite(void) {
-+   tcase_add_test(tc_basic, test_ext_entity_utf8_non_bom);
-+   tcase_add_test(tc_basic, test_utf8_in_cdata_section);
-+   tcase_add_test(tc_basic, test_utf8_in_cdata_section_2);
-++  tcase_add_test(tc_basic, test_utf8_in_start_tags);
-+   tcase_add_test(tc_basic, test_trailing_spaces_in_elements);
-+   tcase_add_test(tc_basic, test_utf16_attribute);
-+   tcase_add_test(tc_basic, test_utf16_second_attr);
-+@@ -11878,6 +11986,7 @@ make_suite(void) {
-+   tcase_add_test(tc_basic, test_bad_attr_desc_keyword);
-+   tcase_add_test(tc_basic, test_bad_attr_desc_keyword_utf16);
-+   tcase_add_test(tc_basic, test_bad_doctype);
-++  tcase_add_test(tc_basic, test_bad_doctype_utf8);
-+   tcase_add_test(tc_basic, test_bad_doctype_utf16);
-+   tcase_add_test(tc_basic, test_bad_doctype_plus);
-+   tcase_add_test(tc_basic, test_bad_doctype_star);
++   suite_add_tcase(s, tc_misc);
++   tcase_add_checked_fixture(tc_misc, NULL, basic_teardown);
 diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
-index 4c86f90ef1..e59ff93df0 100644
+index e59ff93df0..c0103767b1 100644
 --- a/meta/recipes-core/expat/expat_2.2.9.bb
 +++ b/meta/recipes-core/expat/expat_2.2.9.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
-            file://CVE-2022-22822-27.patch \
+@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
             file://CVE-2022-23852.patch \
             file://CVE-2022-23990.patch \
-+           file://CVE-2022-25235.patch \
+            file://CVE-2022-25235.patch \
++           file://CVE-2022-25236.patch \
             file://libtool-tag.patch \
           "
  
