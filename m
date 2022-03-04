@@ -1,183 +1,351 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <crg7475@mailbox.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 651C5C433F5
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 05:19:07 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web08.4051.1646371145551400454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1E6C433EF
+	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 07:53:46 +0000 (UTC)
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by mx.groups.io with SMTP id smtpd.web10.4722.1646380423150717039
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Mar 2022 21:19:06 -0800
+ Thu, 03 Mar 2022 23:53:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=VdBRRBwh;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1646371143; i=@fujitsu.com;
-	bh=4uBQj01MsgT8N9cuOW74J7kUDM3+x1ewZ79qNa6fD6o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=VdBRRBwh2eIDDkMGG5/6cSz9VE/SAA7ODXFqXIBDVL98ohOvGJtFmjJrVgRD4t3FL
-	 XUxDpiU2jCeqHk38twBQ53Qf7D/cUPVQnXceKQo29hI6R7EqnWSWWwlvJ7I1Xk49Dy
-	 psMgomhPgQLkosOFTSOT4mfFUeMQc1mMHrn0IuzOwBrT8VHfiuvcG89FfSpKWqNgR8
-	 CrDsZki8TSxwHKrv4j7uyEMq1mxoWTY9ufw/a+VFO4/EgktjkVZ/F8g0Gk7JEMqR+R
-	 xtZZS0PVewX3CxQtd/gPS7KGhXax0SlwlvpxQslmMp+3DKJobIQsf4jTz1vvOJOi5x
-	 gK/PVVVdXBm3Q==
-Received: from [100.115.68.192] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- BB/EE-13301-741A1226; Fri, 04 Mar 2022 05:19:03 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRWlGSWpSXmKPExsViZ8ORqOu+UDH
-  J4HUfq8Wdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnFs823mgqPyFcu3NDE1ML6R7mLk4hASeMwo
-  seP0HhYI5zyTRPONK0AOJ5BznFHixXcfEJtNQE1i+q0brF2MHBwiAnoSV/+JgoSZBVQkXvzuY
-  QexhQXsJFpbf7KC2CxA8Z0fT4LZvAJOEtM3fQWzJQQUJKY8fM8MEReUODnzCQvEHAmJgy9eME
-  PUKErMvtzMAmFXSMya1cYEYatJXD23iXkCI/8sJO2zkLQvYGRaxWibVJSZnlGSm5iZo2toYKB
-  raGiqa2YBpPQSq3QT9VJLdZNT80qKEoGyeonlxXqpxcV6xZW5yTkpenmpJZsYgYGZUuzCvYPx
-  Tt9PvUOMkhxMSqK8XByKSUJ8SfkplRmJxRnxRaU5qcWHGGU4OJQkeDMXAOUEi1LTUyvSMnOAU
-  QKTluDgURLhvT8dKM1bXJCYW5yZDpE6xWjMsXPL5b3MHFevXNnLLMSSl5+XKiXOqwAySQCkNK
-  M0D24QLHovMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBLmfTAfaApPZl4J3L5XQKcwAZ2y1UM
-  O5JSSRISUVAOTZUFxUrb7d6EvctvkZjKvWR+75FhaS5L2DOsLYavkt6/+l3n/TF75vz+xCZG7
-  FndmXd276vhbp+JLb285hoVdXVX96sMphuDQU46vFqyr2bnj3qu8mTLzjRkquz0XPN11T6wwO
-  Pmw1vT+qZ2pi5p7JpbJXzZPvPsh0PVGkGu9Z+LKI4n73jhV8P+WvhjiGBTzrjHsIjv/hTevir
-  x27SlV2nnE+9Hjk2rHrpsGzfOav1v5z/tetS0XJr185CG5PG9GezB3kYNt8SORfMVdO1bnZNa
-  FfZh3NOaTAdPMTxmTbP8Wr7ncnX9v06GG39FZt1zq02Rio95t7hPzr6l74RXwUMHDJMnc+PoT
-  04ymSVznlViKMxINtZiLihMB6XB7t1kDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-10.tower-528.messagelabs.com!1646371142!33412!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.8; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23438 invoked from network); 4 Mar 2022 05:19:03 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-10.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 4 Mar 2022 05:19:03 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 289B11001A2
-	for <openembedded-core@lists.openembedded.org>;
- Fri,  4 Mar 2022 05:19:02 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ dkim=fail reason="body hash did not verify" header.i=@mailbox.org
+ header.s=mail20150812 header.b=rXu3SuTU;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.152,
+ mailfrom: crg7475@mailbox.org)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256)
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id D705C1001A4
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4K90Tv65RNz9sWQ
 	for <openembedded-core@lists.openembedded.org>;
- Fri,  4 Mar 2022 05:19:01 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Fri, 4 Mar 2022 05:18:52 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] btrfs-tools: upgrade 5.16 -> 5.16.2
-Date: Fri, 4 Mar 2022 13:18:43 +0800
-Message-ID: <1646371123-46782-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ Fri,  4 Mar 2022 08:53:39 +0100 (CET)
+Content-Type: multipart/alternative;
+ boundary="------------I4amE8tWna6foGDQetCi9E82"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812;
+	t=1646380417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QuhM2spUMKwp5WVpZ3U2LaXZUEWSEgNC9zJLxL7zeIw=;
+	b=rXu3SuTUyQGsGPl2wUnlefIMcFCG03nWreUxIdH1gClEAGEP90AgOsGIpmRjQUlyH7/4sT
+	udD7s3xZli2qRTcOmBGqtjsPObYVcUd96MPYX9C0vGe9LKJneQElUnLOwqM/6ufwggWa+9
+	wdt4HD72uvjsNVk13HMAeH2FQWXk2VBeq19pzCncRMxG4bHyqmU3CWSmg/zS0A7MSu8Z4H
+	MoYV+mXtKFgvs/GUYtuiLPD2NBzNeLJV0cHmCWcvgdBwi+SPO89AzCcClXWgtuFQHz7xKf
+	x4fmbuonPvQRU91E0XYpRD56AsDSW6UCjhE7B232CXpsOPljlBqxDYiZPj5p7g==
+Message-ID: <166d4bfe-d235-1c5d-7fac-fb3e41521ee6@mailbox.org>
+Date: Fri, 4 Mar 2022 08:53:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: [OE-core] [PATCH v2] libsdl2: Fix build when libunwind is not
+ used
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20220107192255.3128781-1-raj.khem@gmail.com>
+ <CANNYZj9OOwkzDKbrDbav0iQPzC4uKiQ5HTP4W4joLMh=oXfrPg@mail.gmail.com>
+ <ac1db1b0-fe6a-995d-344a-ebd39b9ab72e@mailbox.org>
+ <CAMKF1srz=EjFE5u_msij_EFNbtksS21dRAkoBcBkMSR881tRtA@mail.gmail.com>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+In-Reply-To: 
+ <CAMKF1srz=EjFE5u_msij_EFNbtksS21dRAkoBcBkMSR881tRtA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 05:19:07 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 07:53:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162708
+ https://lists.openembedded.org/g/openembedded-core/message/162709
 
-0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch
-removed since it's included in 5.16.2
+This is a multi-part message in MIME format.
+--------------I4amE8tWna6foGDQetCi9E82
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Changelog:
-=========
-mkfs: fix detection of profile type for zoned mode when creating DUP
-build:
- - add missing stub for zoned mode helper when zoned mode not enabled
- - fix 64bit types on MIPS and PowerPC
- - improved zoned mode support autodetection, for systems with existing blkzone.h
-   header but missing support for zone capacity
-other: doc updates, test updates
+libunwind is installed on the host, complete with its -dev package. OE=20
+still does not find it.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+I'll submit a patch that adds libunwind-native to the native DEPENDS.
+
+On 16.02.22 18:30, Khem Raj wrote:
+> On Wed, Feb 16, 2022 at 1:58 AM Carlos Rafael Giani via
+> lists.openembedded.org<crg7475=3Dmailbox.org@lists.openembedded.org>
+> wrote:
+>> "MACHINE=3Dqemux86-64 bitbake libsdl2-native" still fails with a simil=
+ar error:
+>>
+>> | CMake Error at /home/test/yocto-master/poky/build/tmp/work/x86_64-li=
+nux/libsdl2-native/2.0.20-r0/recipe-sysroot-native/usr/share/cmake-3.22/M=
+odules/FindPkgConfig.cmake:890 (message):
+>> |   None of the required 'libunwind' found
+>>
+>> This is triggered by the "pkg_search_module(UNWIND REQUIRED libunwind)=
+" line right above the one that is modified by this patch.
+>>
+>> Any idea what is going on?
+> I think its looking for libunwind on your build host.
+>
+>>
+>> On 07.01.22 21:34, Alexander Kanavin wrote:
+>>
+>> Thanks :)
+>>
+>> Alex
+>>
+>> On Fri, 7 Jan 2022 at 20:23, Khem Raj<raj.khem@gmail.com>  wrote:
+>>> clang provides libunwind.h and cmake adds a check to
+>>> find libunwind when this header is detected, which was
+>>> not the case with automake. The check however is expecting
+>>> specific unwinder implementation which provides libunwind-generic
+>>> solib, this is not a standard library that all implementations
+>>> will provide, therefore make this check optional.
+>>>
+>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> Cc: Andreas M=C3=BCller<schnitzeltony@gmail.com>
+>>> ---
+>>> v2: Udate patch status to submitted
+>>>
+>>>   .../libsdl2/optional-libunwind-generic.patch   | 18 +++++++++++++++=
++++
+>>>   .../recipes-graphics/libsdl2/libsdl2_2.0.18.bb |  1 +
+>>>   2 files changed, 19 insertions(+)
+>>>   create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/optional-l=
+ibunwind-generic.patch
+>>>
+>>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind=
+-generic.patch b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind=
+-generic.patch
+>>> new file mode 100644
+>>> index 00000000000..757b99a5f68
+>>> --- /dev/null
+>>> +++ b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-generi=
+c.patch
+>>> @@ -0,0 +1,18 @@
+>>> +Do not error when libunwind-generic is not found, Not all
+>>> +implementations of libunwind will provide this library therefore
+>>> +do not make it hard error if its not found.
+>>> +
+>>> +Upstream-Status: Submitted [https://github.com/libsdl-org/SDL/pull/5=
+194]
+>>> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> +
+>>> +--- a/CMakeLists.txt
+>>> ++++ b/CMakeLists.txt
+>>> +@@ -1358,7 +1358,7 @@ elseif(UNIX AND NOT APPLE AND NOT ANDROI
+>>> +       if(HAVE_LIBUNWIND_H)
+>>> +         # We've already found the header, so REQUIRE the lib to be =
+present
+>>> +         pkg_search_module(UNWIND REQUIRED libunwind)
+>>> +-        pkg_search_module(UNWIND_GENERIC REQUIRED libunwind-generic=
+)
+>>> ++        pkg_search_module(UNWIND_GENERIC libunwind-generic)
+>>> +         list(APPEND EXTRA_LIBS ${UNWIND_LIBRARIES} ${UNWIND_GENERIC=
+_LIBRARIES})
+>>> +       endif()
+>>> +     endif()
+>>> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb b/meta/r=
+ecipes-graphics/libsdl2/libsdl2_2.0.18.bb
+>>> index 893386343a7..1559d5e9425 100644
+>>> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+>>> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+>>> @@ -18,6 +18,7 @@ PROVIDES =3D "virtual/libsdl2"
+>>>
+>>>   SRC_URI =3D"http://www.libsdl.org/release/SDL2-${PV}.tar.gz \=20
+>>> file://0001-Fix-build-against-wayland-1.20.patch \ +=20
+>>> file://optional-libunwind-generic.patch \ "
+>>>
+>>>   S =3D "${WORKDIR}/SDL2-${PV}"
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>>
+>>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#161780):https://lists.openembedded.org/g/openembed=
+ded-core/message/161780
+>> Mute This Topic:https://lists.openembedded.org/mt/88269209/3617253
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  =
+[crg7475@mailbox.org]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+--------------I4amE8tWna6foGDQetCi9E82
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><font face=3D"Helvetica, Arial, sans-serif">libunwind is installed
+        on the host, complete with its -dev package. OE still does not
+        find it.</font></p>
+    <p><font face=3D"Helvetica, Arial, sans-serif">I'll submit a patch
+        that adds libunwind-native to the native DEPENDS.</font><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 16.02.22 18:30, Khem Raj wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CAMKF1srz=3DEjFE5u_msij_EFNbtksS21dRAkoBcBkMSR881tRtA@mail.gm=
+ail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">On Wed, Feb 16, 2022 at 1:58=
+ AM Carlos Rafael Giani via
+lists.openembedded.org <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:=
+crg7475=3Dmailbox.org@lists.openembedded.org">&lt;crg7475=3Dmailbox.org@l=
+ists.openembedded.org&gt;</a>
+wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+"MACHINE=3Dqemux86-64 bitbake libsdl2-native" still fails with a similar =
+error:
+
+| CMake Error at /home/test/yocto-master/poky/build/tmp/work/x86_64-linux=
+/libsdl2-native/2.0.20-r0/recipe-sysroot-native/usr/share/cmake-3.22/Modu=
+les/FindPkgConfig.cmake:890 (message):
+|   None of the required 'libunwind' found
+
+This is triggered by the "pkg_search_module(UNWIND REQUIRED libunwind)" l=
+ine right above the one that is modified by this patch.
+
+Any idea what is going on?
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+I think its looking for libunwind on your build host.
+
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+
+On 07.01.22 21:34, Alexander Kanavin wrote:
+
+Thanks :)
+
+Alex
+
+On Fri, 7 Jan 2022 at 20:23, Khem Raj <a class=3D"moz-txt-link-rfc2396E" =
+href=3D"mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a> wrote:
+</pre>
+        <blockquote type=3D"cite">
+          <pre class=3D"moz-quote-pre" wrap=3D"">
+clang provides libunwind.h and cmake adds a check to
+find libunwind when this header is detected, which was
+not the case with automake. The check however is expecting
+specific unwinder implementation which provides libunwind-generic
+solib, this is not a standard library that all implementations
+will provide, therefore make this check optional.
+
+Signed-off-by: Khem Raj <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto=
+:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
+Cc: Andreas M=C3=BCller <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto=
+:schnitzeltony@gmail.com">&lt;schnitzeltony@gmail.com&gt;</a>
 ---
- ...compat-add-local-definition-for-alig.patch | 46 -------------------
- ...fs-tools_5.16.bb => btrfs-tools_5.16.2.bb} |  3 +-
- 2 files changed, 1 insertion(+), 48 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.16.bb => btrfs-tools_5.16.2.bb} (95%)
+v2: Udate patch status to submitted
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch
-deleted file mode 100644
-index b0fe67922d..0000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From b0cfe12c4d4b8b4ef335cdf4ddefcbdcd1b70d58 Mon Sep 17 00:00:00 2001
--From: David Sterba <dsterba@suse.com>
--Date: Thu, 13 Jan 2022 14:47:08 +0100
--Subject: [PATCH] btrfs-progs: kerncompat: add local definition for alignment
-- macros
--
--There's still problem left with compilation on musl and kernel < 5.11,
--because __ALIGN_KERNEL is not defined anymore:
--
--../bin/ld: kernel-shared/volumes.o: in function `create_chunk':
--volumes.c:(.text+0x17f8): undefined reference to `__ALIGN_KERNEL'
--
--Due to the entangled includes and unconditional definition of
--__ALIGN_KERNEL, we can't use #ifdef in kerncompat.h to define it
--eventually (as kerncompat.h is the first include). Instead add local
--definitions of the macros and rename them to avoid name clashes.
--
--Pull-request: #433
--
--Upstream-Status: Backport [https://github.com/kdave/btrfs-progs/commit/b0cfe12c4d4b8b4ef335cdf4ddefcbdcd1b70d58]
--
--Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-----
-- kerncompat.h | 9 ++++++++-
-- 1 file changed, 8 insertions(+), 1 deletion(-)
--
--diff --git a/kerncompat.h b/kerncompat.h
--index 6ca1526e2..f0a6e196e 100644
----- a/kerncompat.h
--+++ b/kerncompat.h
--@@ -359,7 +359,14 @@ do {					\
-- 
-- /* Alignment check */
-- #define IS_ALIGNED(x, a)                (((x) & ((typeof(x))(a) - 1)) == 0)
---#define ALIGN(x, a)		__ALIGN_KERNEL((x), (a))
--+
--+/*
--+ * Alignment, copied and renamed from /usr/include/linux/const.h to work around
--+ * issues caused by moving the definition in 5.12
--+ */
--+#define __ALIGN_KERNEL__(x, a)		__ALIGN_KERNEL_MASK__(x, (typeof(x))(a) - 1)
--+#define __ALIGN_KERNEL_MASK__(x, mask)	(((x) + (mask)) & ~(mask))
--+#define ALIGN(x, a)		__ALIGN_KERNEL__((x), (a))
-- 
-- static inline int is_power_of_2(unsigned long n)
-- {
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb
-index e5b2057f26..4ab486c465 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb
-@@ -17,9 +17,8 @@ DEPENDS = "lzo util-linux zlib"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           file://0001-btrfs-progs-kerncompat-add-local-definition-for-alig.patch \
-            "
--SRCREV = "8ad326b2f28c044cb6ed9016d7c3285e23b673c8"
-+SRCREV = "31458c9c81935abbed010221261897273a98d2c1"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= " \
--- 
-2.25.1
+ .../libsdl2/optional-libunwind-generic.patch   | 18 ++++++++++++++++++
+ .../recipes-graphics/libsdl2/libsdl2_2.0.18.bb |  1 +
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/optional-libunw=
+ind-generic.patch
 
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-gen=
+eric.patch b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-gen=
+eric.patch
+new file mode 100644
+index 00000000000..757b99a5f68
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/optional-libunwind-generic.pa=
+tch
+@@ -0,0 +1,18 @@
++Do not error when libunwind-generic is not found, Not all
++implementations of libunwind will provide this library therefore
++do not make it hard error if its not found.
++
++Upstream-Status: Submitted [<a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://github.com/libsdl-org/SDL/pull/5194">https://github.com/libsdl-org=
+/SDL/pull/5194</a>]
++Signed-off-by: Khem Raj <a class=3D"moz-txt-link-rfc2396E" href=3D"mailt=
+o:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
++
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -1358,7 +1358,7 @@ elseif(UNIX AND NOT APPLE AND NOT ANDROI
++       if(HAVE_LIBUNWIND_H)
++         # We've already found the header, so REQUIRE the lib to be pres=
+ent
++         pkg_search_module(UNWIND REQUIRED libunwind)
++-        pkg_search_module(UNWIND_GENERIC REQUIRED libunwind-generic)
+++        pkg_search_module(UNWIND_GENERIC libunwind-generic)
++         list(APPEND EXTRA_LIBS ${UNWIND_LIBRARIES} ${UNWIND_GENERIC_LIB=
+RARIES})
++       endif()
++     endif()
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb b/meta/recip=
+es-graphics/libsdl2/libsdl2_2.0.18.bb
+index 893386343a7..1559d5e9425 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.18.bb
+@@ -18,6 +18,7 @@ PROVIDES =3D "virtual/libsdl2"
+
+ SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"http://www.libsdl=
+.org/release/SDL2-${PV}.tar.gz\file://0001-Fix-build-against-wayland-1.20=
+.patch\+file://optional-libunwind-generic.patch\">"http://www.libsdl.org/=
+release/SDL2-${PV}.tar.gz \
+            file://0001-Fix-build-against-wayland-1.20.patch \
++           file://optional-libunwind-generic.patch \
+ "</a>
+
+ S =3D "${WORKDIR}/SDL2-${PV}"
+--
+2.34.1
+
+
+
+
+</pre>
+        </blockquote>
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+
+
+
+
+
+</pre>
+        <br>
+        <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#161780): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/161780">https:/=
+/lists.openembedded.org/g/openembedded-core/message/161780</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/88269209/3617253">https://lists.openembedded.org/mt/=
+88269209/3617253</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:crg7475@mailbox.org">crg7475@mailbox.org</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------I4amE8tWna6foGDQetCi9E82--
 
