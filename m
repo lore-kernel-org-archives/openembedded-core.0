@@ -1,93 +1,150 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA778C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 16:41:01 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.579.1646412061069731830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8DDC433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 16:56:30 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.777.1646412989715036676
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 08:41:01 -0800
+ Fri, 04 Mar 2022 08:56:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vdsic+mN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id k24so4052509wrd.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JSAMEaD8;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id s15so7875121qtk.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 08:41:00 -0800 (PST)
+ Fri, 04 Mar 2022 08:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=Ylm/Jo5m6AQtgSlDpvyNB+VzyGiucFClLUV224gDXNM=;
-        b=Vdsic+mN4UQYiwPlvTleZF7ypG4LNMtIr3Ew6aOiVEjpyTVVjnMcSvbUuPz3s1EOEE
-         PdaEGi1GiNUiHlyiHmtiMB31e5/iJJ80AslWCd1Z6YgPu9mLcN4wyfeD6Ohg2lfQ2de4
-         BhQr5Cxs3MtIPpRQz66/FsVAsrMCk3rJXb/o0=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uLsJAr7mGW44pQsY5EuG0WA4RsEsk9/lZmuns5hP5tk=;
+        b=JSAMEaD8516jfkKzpFvvkcz8StTGfnBPgmNrmaE6YpYrhpFVgPoOHiaW9Hpjgq188C
+         1nMIci/DAGYs0r5DjBLmnXSTUQyObt8+OES+gujZ6T73ynUAvrQHe/QcV8S14PJ2RPJe
+         IjsRCAibmaTqr3+kVUfZdoJFYF5H7pux5y6Iq/Dz9ffpb128BnX/b9ZQa+NQKyWw4Hx8
+         Ov5EO6chsFDDiSgARaQcWp66bUkkfK44bSjw0uab2hCSLQ+/vfsydX2LY5L1GjvhDvF0
+         9VbctKqZuO0mRVY/ZAeHsRQo3+bnd3xxTzGRNQX2dv7aVP2rhQrltrVkXUaQZiB0W5rI
+         pxpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ylm/Jo5m6AQtgSlDpvyNB+VzyGiucFClLUV224gDXNM=;
-        b=KfMAoeWEpuOaui6y/Erqt+pc3hO+H3VcMPT/OKysmZLiJVY1NG/MWijR4mSdfpkmuh
-         qsp3V+bpHT8hXbdSnQnErl4tz+7Krveqve2qmmm+rSaGhw/PFFRtYKPwEuK//Yt12ES/
-         caogP9AKQttM1VhNTBP5JUaePl1bG2/RbLPZ9DoXQ8IrRKSIAKDFUSRmhpJeEVUKx4O6
-         GWuT9n47DEQr0bpUDG3eoc+H/wQygtOkveqiyJvH1JaAQIlNNUpvXe21xzHpq+0+w1m6
-         ZYRns5G09FYwuqjH/kkHlbiUTtCs1OZS4UFrVIdGdINqc3cL57BsfdjczGxz8XC1Z6L0
-         /XVw==
-X-Gm-Message-State: AOAM532tYdCGVxAh7qi8qvfue3N3enkN3sR61rC5XQP3MwNVMNDIOF03
-	5ZlC0lwStRZ+6NxWJaX2mZ5oprUK9yd/NIUy
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uLsJAr7mGW44pQsY5EuG0WA4RsEsk9/lZmuns5hP5tk=;
+        b=s2g73Mq9aL3PdsfjZYo5mi/4XlO3PmkRN5LepxkSmQS0niAA6lb3YZ02IgSZpMioUI
+         T41C4X0HL80JdhwnGwTeetbJfX9gHhVrj1JidfZLmPp4jCfb/wfQTIJHze+tRYudmAJz
+         sU97ReCO03QFWL9ykFUqsMXJOXF2CP3YWQcm+pQfWLkwQMp6RmY8CXatJUjGP37L+jfG
+         OhKbkn2IJBtaEDbyERq3tEnttnwLNn+td25kzYnFllwQS+5NNoxe6CFJoFBenW15R9zP
+         V+0ai6eP5NuXnmX3tT9aUryTlQTzegs6IZU1IjY8Z97EhHfemE9+yh/wpdQYaQgZuR/y
+         imjg==
+X-Gm-Message-State: AOAM533b5VEeiQCxP5nE/HqZ0OHQCXMiEnfb45wjwqX4fTFh/eGQlrlU
+	oD0aVeBgdoA74e92Ya2AW1sndVM/ec/5X1BQAu4=
 X-Google-Smtp-Source: 
- ABdhPJx+k03b1yf6W3tLgQEW9/ZEgbG80UI9iAHrrN/Ao2nll2M0PARRiJ8Pk96TTx3o5AvVcWxEvw==
-X-Received: by 2002:a5d:68cd:0:b0:1f0:771f:82a with SMTP id
- p13-20020a5d68cd000000b001f0771f082amr2929748wrw.613.1646412059208;
-        Fri, 04 Mar 2022 08:40:59 -0800 (PST)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f5cf:8b05:e0eb:94af])
-        by smtp.gmail.com with ESMTPSA id
- d8-20020a056000114800b001f045f3435asm6970536wrx.108.2022.03.04.08.40.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 08:40:58 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] python3: Reduce util-linux dependency to
- util-linux-libuuid
-Date: Fri,  4 Mar 2022 16:40:55 +0000
-Message-Id: <20220304164055.379402-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220304164055.379402-1-richard.purdie@linuxfoundation.org>
-References: <20220304164055.379402-1-richard.purdie@linuxfoundation.org>
+ ABdhPJwl1TOl7ID7YUhwc/ziVxlHmGNZBSFziMcgP6AgaZDWBcRn2uCZj1pZ5XzrDaDSFsKNzpa7coNqyuDfKNAuiAI=
+X-Received: by 2002:ac8:5a86:0:b0:2de:29af:5658 with SMTP id
+ c6-20020ac85a86000000b002de29af5658mr32250539qtc.54.1646412988648; Fri, 04
+ Mar 2022 08:56:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220304115525.2240283-1-ross.burton@arm.com>
+ <AM9PR09MB4642E1F4D179551C41AB9217A8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAAnfSTugRrDfDxwEKXfbHRM5DznThMN3_jiiTLZ4Nr6J5o_M+Q@mail.gmail.com>
+ <AM9PR09MB46429EC89803B44A66B82D44A8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
+In-Reply-To: 
+ <AM9PR09MB46429EC89803B44A66B82D44A8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 4 Mar 2022 08:56:02 -0800
+Message-ID: 
+ <CAMKF1spt8JqUnosr8n6T2bja9BRvvoH6KKJn7rNLjaBgi0UsEQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] classes: add setuptools3_legacy
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: Ross Burton <ross@burtonini.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 16:41:01 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 16:56:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162741
+ https://lists.openembedded.org/g/openembedded-core/message/162742
 
-Only libuuid is needed by python so reduce the dependency and hence
-reduce the amount pulled into the syroot for the native case in particular.
+On Fri, Mar 4, 2022 at 6:06 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
+>
+>
+>
+> On 04.03.22 14:13, Ross Burton wrote:
+> > On Fri, 4 Mar 2022 at 12:44, Konrad Weihmann <kweihmann@outlook.com> wrote:
+> >> For me that would be a candidate to be added to meta-python, or are
+> >> there any core recipes that currently break because of the new behavior?
+> >
+> > This is restoring existing behaviour, so I believe it should be in
+> > core.  There's going to be enough recipes using this that it is
+> > justified in core. I expect we'll have deleted this by the time the
+> > next LTS comes around too.
+> >
+> >> Furthermore the variables names are the same, so if people accidentally
+> >> (or due to complex injection trees/classes/distro settings/whatever have
+> >> new setuptools3 and this class here in the same recipe, things become
+> >> rather unpredictable - as of now there are the same but surely they will
+> >> start to diverge at one point.
+> >
+> > That's intentional: if you have a recipe which needs the legacy
+> > behaviour, just change the import from setuptool3 to
+> > setuptools3_legacy.
+>
+> Can you name any publicly available recipe that requires that?
+>
+> For me this is the same situation as with the python2 > python3
+> transition - there wasn't any fallback provided in core, but outside of
+> core it was - so I would propose to do the same here.
+>
+> If that legacy class will be part of core it's likely that it will
+> remain till EOL of kirkstone which is somewhat in ~2025 (by current
+> planning) - and meta-python2 showed that even then some recipes still
+> haven't migrated (yes, chromium looking at you).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python3_3.10.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+latest chromium does not need py2 in OE context anymore for a year or so now.
 
-diff --git a/meta/recipes-devtools/python/python3_3.10.2.bb b/meta/recipes-devtools/python/python3_3.10.2.bb
-index e61b23c6a9b..32da2a12c8d 100644
---- a/meta/recipes-devtools/python/python3_3.10.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.2.bb
-@@ -71,7 +71,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
- ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
- 
- 
--DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2 autoconf-archive-native"
-+DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux-libuuid libtirpc libnsl2 autoconf-archive-native"
- DEPENDS:append:class-target = " python3-native"
- DEPENDS:append:class-nativesdk = " python3-native"
- 
--- 
-2.32.0
+> All in all I think core should just provide *one* way to do it while the
+> legacy cases can easily live outside in a separate layer (meta-python
+> for instance as the "old" distutils have been put there as well).
+>
 
+There are recipes in meta-oe and meta-python which would need this
+and both layer only list core as sole dependency, if we put it in either of
+these layers, then one will depend on other which is not nice, so I rather
+would prefer it in core.
+, regarding distutils classes we did move them to meta-python but there
+are recipes in meta-oe needing them e.g. unattended-upgrades which now
+are forced to be moved to meta-python which is less than ideal but can
+be lived with.
+
+seuptool-legacy is similar to autotools-brokensep in spirit. python2 issue was
+of a different nature
+
+> In additional everyone was worried so much about reputation lately that
+> doing this long announced transition, while keeping the "old" way
+> enabled (and creating more maintenance effort in the end), would
+> definitely send the wrong signal to the community.
+>
+> >
+> >> While we are at it pypi class needs a fallback too, because for me this
+> >> is the standard way of packaging python recipes and new class points to
+> >> the new setuptools implementation - so if we want to have this here, we
+> >> might need a fallback for pypi class as well
+> >
+> > My understanding is that almost anything on pypi is already a pure
+> > Python module and is mostly unaffected by the changes.
+> >
+> > Ross
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162718): https://lists.openembedded.org/g/openembedded-core/message/162718
+> Mute This Topic: https://lists.openembedded.org/mt/89547022/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
