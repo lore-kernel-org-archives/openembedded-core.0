@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0854DC433F5
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 15:05:22 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.7854.1646406321119058237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0863AC433F5
+	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 15:05:24 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.7954.1646406323500572859
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:05:21 -0800
+ Fri, 04 Mar 2022 07:05:23 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7u/MFIBU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=OxLT1nQr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id bd1so7936774plb.13
+Received: by mail-pj1-f48.google.com with SMTP id m22so7594658pja.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:05:21 -0800 (PST)
+ Fri, 04 Mar 2022 07:05:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=r4hN4GBzIIyUuusjGSnt32Fbvnk84gHPgl4x/zvUKzc=;
-        b=7u/MFIBUXiNRJK3vpq00O9g4woHVic+XgqdCKc7w1kOp++WZEBUMJfwrHUgghNXLUU
-         6bhcY1wIn1oCVmNxHfgfRuTM+M8+mQPiy1Pw7eT8q4EgAQD19HCcg61HQToqBQ170MJJ
-         d/hP4yItz95yApehCrx856iNmYdhF6wfyQL4ftw5vCHWx8XLulTiwXbioFtmbnOp9GFQ
-         FDdrEe7Bk1bTyC8n1m8VS1JIVUNZzwXsC7nrh8gUQr7Hmq0QHjB8zg11dZ7/0XjoGM2+
-         vLNZc262LJxElARpdWrfO+vQvUftBeMeIY9OXuGrVRD7eH4s3sswesLVFUnJUQ50la0F
-         MGNw==
+        bh=y6nd04w4fgTZTVMWUl9EUzosHL0HHGZS/xm85Wm9Zbw=;
+        b=OxLT1nQrH5AeCUNb8J+62UunZcyd+5Dd9MWoeBCWCa9ZvApc9/Mj5ApLRc1uPKLwv3
+         I+LR1faRo4to3YgvHV116RMShFC1+BPSPP1muZi7hvFSTraEfHuQ/ecC4EwKvPSX9rKm
+         UXFGF8T4e6o1X3QrP83tGFAohNIqXcL75z2Le7EEHmovON3Lm2+mDOWG3ZuS6UPBSlmZ
+         rcWGj/zyUG22dBO/MwB5UreFXrSipyR98/sYpKFgDIyQBb4QwHJWrNiYl/KM2Pq2MX5J
+         4cbNPYZtFEedlob4v75dZ3if1J77zCN7MPdSRSoB51Bq536o3TdxKiXMIb7i9F6bLMsP
+         bXuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=r4hN4GBzIIyUuusjGSnt32Fbvnk84gHPgl4x/zvUKzc=;
-        b=b1/JLx8JAkvzVMyPNOCyj0Nv5pc4jzdp5PB0wcP+rBacw4jX1Z0yiqWNkwXV7NWHXa
-         Bk4IYQbjthgZA8SzBr4QqNiUCA+Ru1vsFSC1tgIbdo4etjvu4cZNt4aTYBcs60HH6Rk4
-         RFu/R02Fx7Shwz7DNPsRTU5sLJ3RmDy5y4fRDWrwXwDYVy8gLRkGEo4TuTmcOxpNAwaB
-         WQHGDNCXjLmuXvmG4B4lPSlaXq0l7XVh1EewrwzAxXSbWNidmuiP8XKoH5BFFy8Ow9Ry
-         IWNtPOWR+u49YQKviyYq8/WGSpj3FSum3OCFqKj+RtP/ZNHeRrEB+I8lzBe/363cCAhy
-         Z+Lw==
-X-Gm-Message-State: AOAM530TpfY6D1YGSAhVbmrAm+3KkTXo73ROC7Ii9oDqgpvoxQHOWcEb
-	GQJxlxBB7J7GuRLIycCU9+n2QzaYIWh8Zby5ofE=
+        bh=y6nd04w4fgTZTVMWUl9EUzosHL0HHGZS/xm85Wm9Zbw=;
+        b=gLJv6SU3E6WiTkMqBu5637n4Vpa93f6nSv0XTIIMTjYvDqGOp961P5csDuqYq8XNda
+         n6jVNie+eWONglXM5soLQNhZKA7opVHwMZ6kakHQA79S5pECLM1dab2J2ozUdQzUvPB1
+         dDouoi1nYUoEuo9XGwtYvuzfeZ730IS3n/XpAjyM0BJgZER9cHk00DsTKqT8YU/ECXsU
+         0qF8i4h3LkCUXm5Sm/S54YmWxVIf3X99gK1SVEHXbIM3HigEeULKgYywCq4+aK7LMM/P
+         NKArz8hg9ePdXwOGNPDthVWtZ+VJyWMrxvkZd8Y6YFTgNxlvtV7c6GaLVtKRyYOEuz9S
+         K98g==
+X-Gm-Message-State: AOAM5328ArofoyATerGpjpaXkOAICCf9ZjUCuu8wT4EK/kR7424hstL9
+	iYEgEqDxB16WVNhW1g7Tc4RGHW4AddNwtc1qRG0=
 X-Google-Smtp-Source: 
- ABdhPJyXemkAVGG8gqNdBcOKbPXokAcjwCZfEOOZWqKlAoDO7Mh9USMRH1aqQUUnsp2cGRIjWODLMQ==
-X-Received: by 2002:a17:90a:d3d1:b0:1bb:fdc5:182 with SMTP id
- d17-20020a17090ad3d100b001bbfdc50182mr11203920pjw.206.1646406320177;
-        Fri, 04 Mar 2022 07:05:20 -0800 (PST)
+ ABdhPJxNdlQQfmDjyys+qmDwncR4ZBJvJaHECSLeJBcZsZR1Q5cNHnHqquULVAZGT34d0WGiKzGozg==
+X-Received: by 2002:a17:90a:604f:b0:1be:e84e:692 with SMTP id
+ h15-20020a17090a604f00b001bee84e0692mr11113633pjm.61.1646406322393;
+        Fri, 04 Mar 2022 07:05:22 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.05.19
+ f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.05.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 07:05:19 -0800 (PST)
+        Fri, 04 Mar 2022 07:05:21 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/18] buildhistory.bbclass: create the
- buildhistory directory when needed
-Date: Fri,  4 Mar 2022 05:04:24 -1000
+Subject: [OE-core][dunfell 17/18] uninative: Add version to uninative tarball
+ name
+Date: Fri,  4 Mar 2022 05:04:25 -1000
 Message-Id: 
- <de89dc125758f828a7886012bd9b1c8a1017ef48.1646406001.git.steve@sakoman.com>
+ <0ec0e49d0d2a7478efbf20bc3554f0ffba40afa0.1646406001.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1646406001.git.steve@sakoman.com>
 References: <cover.1646406001.git.steve@sakoman.com>
@@ -68,54 +68,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 15:05:22 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 15:05:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162735
+ https://lists.openembedded.org/g/openembedded-core/message/162736
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When the BUILDHISTORY_RESET is enabled we need to move the
-content from BUILDHISTORY_DIR to BUILDHISTORY_OLD_DIR but
-when we start a clean build in the first run we don't have the
-BUILDHISTORY_DIR so the move of files will fail.
+uninative works via hashes and doesn't need the version in the tarball name but
+it does make things easier to inspect in DL_DIR. There were reasons such as
+ease of publication of the build tarballs but we can handle those differently
+now and the signature issues from the early code aren't an issue now. From 3.4
+onwards we can use a version'd name.
 
-| ERROR: Command execution failed: Traceback (most recent call last):
-|  File "/xxx/poky/bitbake/lib/bb/command.py", line 110, in runAsyncCommand
-|    commandmethod(self.cmds_async, self, options)
-|  File "/xxx/poky/bitbake/lib/bb/command.py", line 564, in buildTargets
-|    command.cooker.buildTargets(pkgs_to_build, task)
-|  File "/xxx/poky/bitbake/lib/bb/cooker.py", line 1481, in buildTargets
-|    bb.event.fire(bb.event.BuildStarted(buildname, ntargets), self.databuilder.mcdata[mc])
-|  File "/xxx/home/builder/src/base/poky/bitbake/lib/bb/event.py", line 214, in fire
-|    fire_class_handlers(event, d)
-|  File "/xxx/poky/bitbake/lib/bb/event.py", line 121, in fire_class_handlers
-|    execute_handler(name, handler, event, d)
-|  File "/xxx/poky/bitbake/lib/bb/event.py", line 93, in execute_handler
-|    ret = handler(event)
-|  File "/xxx/poky/meta/classes/buildhistory.bbclass", line 919, in buildhistory_eventhandler
-|    entries = [ x for x in os.listdir(rootdir) if not x.startswith('.') ]
-| FileNotFoundError: [Errno 2] No such file or directory: '/xxx/buildhistory'
+[YOCTO #12970]
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 97bc2168da7dbacdfbf79cd70db674363ab84f6b)
+(cherry picked from commit dadba70d6a24d8ebb5576598efffa973151c7218)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/buildhistory.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/uninative.bbclass               | 2 +-
+ meta/conf/distro/include/yocto-uninative.inc | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 2746996cbb..6a1a20653a 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -865,6 +865,7 @@ python buildhistory_eventhandler() {
-                 if os.path.isdir(olddir):
-                     shutil.rmtree(olddir)
-                 rootdir = e.data.getVar("BUILDHISTORY_DIR")
-+                bb.utils.mkdirhier(rootdir)
-                 entries = [ x for x in os.listdir(rootdir) if not x.startswith('.') ]
-                 bb.utils.mkdirhier(olddir)
-                 for entry in entries:
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index 3c7ccd66f4..4412d7c567 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -2,7 +2,7 @@ UNINATIVE_LOADER ?= "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/
+ UNINATIVE_STAGING_DIR ?= "${STAGING_DIR}"
+ 
+ UNINATIVE_URL ?= "unset"
+-UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.xz"
++UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc-${UNINATIVE_VERSION}.tar.xz"
+ # Example checksums
+ #UNINATIVE_CHECKSUM[aarch64] = "dead"
+ #UNINATIVE_CHECKSUM[i686] = "dead"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 3165fc93b8..6833072cd3 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,8 +7,9 @@
+ #
+ 
+ UNINATIVE_MAXGLIBCVERSION = "2.34"
++UNINATIVE_VERSION = "3.4"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/3.4/"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+ UNINATIVE_CHECKSUM[aarch64] ?= "3013cdda8f0dc6639ce1c80f33eabce66f06b890bd5b58739a6d7a92a0bb7100"
+ UNINATIVE_CHECKSUM[i686] ?= "abed500de584aad63ec237546db20cdd0c69d8870a6f8e94ac31721ace64b376"
+ UNINATIVE_CHECKSUM[x86_64] ?= "126f4f7f6f21084ee140dac3eb4c536b963837826b7c38599db0b512c3377ba2"
 -- 
 2.25.1
 
