@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A60C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 099F1C4332F
 	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 15:05:18 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web12.7915.1646406310097232995
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.7845.1646406301644090728
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:05:10 -0800
+ Fri, 04 Mar 2022 07:05:01 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=wQvd7/uc;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=q0fEcoHb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso8182371pjo.5
+Received: by mail-pl1-f177.google.com with SMTP id z2so7959230plg.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 07:05:10 -0800 (PST)
+ Fri, 04 Mar 2022 07:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=HpWW+fO3ujAkPkbxBeH39dkcrn2i5p8JIQ0vlxvXazE=;
-        b=wQvd7/ucjABHwYoCjOFAhHMCKxzptWYWYlVMXKV27q3O/YGqIKjwnQp7+Sx7vVj9dz
-         no1cH2sKmm+Mb7Tp+q4A2W2+QUr3Ztq0F6yEJIKAfQRCwHWwHVnq1kSugXjJKWUeQQVM
-         cFHvWyxdZmB0gPDhTyViHpxohQuvZGmKy+Kja9i34vJ3GKweMm8M9igBqvk6+lmrXth8
-         cAAE/RdZuKtTsIHsxGDfwLmN0OeUlyBlAkX6fpdJce06/MNCxJfLOePyHnmUao9ubW1Z
-         m01Tgvi/eYkqQVSLg0th0zhR1BQu5o+FHZlTMkqsehnUtUmNLLgeqwxPmCqYt8AQ0+MP
-         VtSg==
+        bh=NrFuNB8fEPnlZoo6sufh0ZnuR8tRVkiQ4CDM9TrntF8=;
+        b=q0fEcoHb4+dzFgmMsdrB8uLMzo/z5pFgbZR5aN1v7ClFMInSAThPoMT4oWKNrM3wC8
+         5geLAwAv2INOe+dX6I92TXmpGMJQJ6X5N5ZxYJld6A3gH90m9o2q8mhLH7ktc6ZHA624
+         f3UajwStLnnMw3lk0U0Yj8jR2WOVi4vYws2PROpGS/bRP8cZV1TIVvGJ6Aml4GFOLMK/
+         3y1RIwjHbo95MqpWibkORiqkHKP+jIp95GR2SqtHQZbNFc4EXlD863gWQjZMkJNM9M8C
+         4dzTCNq7CIEjnxVVCbOi68UWSthsqRD0xNP2twphGs4RP3x+AyfY317U3CXF8FoHlYKP
+         iVog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HpWW+fO3ujAkPkbxBeH39dkcrn2i5p8JIQ0vlxvXazE=;
-        b=eAtmHjxaM7E0x+CiR4kUbaLT/08EOQshZ2W4gKZeWcRZtShWkctOvQGfyej4JvNvq/
-         NcvMQxqbY97b/9IgsJsg6ta22lDF3DBRolI5/3Dg8KRa/jkvniFL8hX96SxQAeU0k2CS
-         5jFOqxlUhC1mAYUdW6/L6JTSc+qbTlElhv9SqvH4lkmLF5kBW1aIlIG5kRLlTUMbeEHd
-         Hj1BcJ9668Z3xRAeFI+W9apigtPCtRa1FBLPtx7MjL72H2l9LhhUE90YGEH0Qn+Rbrm/
-         HSTBgy23Ev5KNRczL77UaHgjXe/bW/4mrov4Jwc9dT75RJpFzANfOLFtuW2B89xyrZro
-         0EOQ==
-X-Gm-Message-State: AOAM5305Gio6G2H6LtR+nwZ8Ep1yN/aovmBrfyN3ztvGe7dEsGIKu+Gb
-	Q6V4DAKqUzSnIxKedTiYOwHDs08mrqfpaHPvdsM=
+        bh=NrFuNB8fEPnlZoo6sufh0ZnuR8tRVkiQ4CDM9TrntF8=;
+        b=zlpQ9rYRWTFqD9jW/PeLXeL5EP7yVJLJshS4P81cVbYzOFB4TEjvRDeWoSqfSOz8b6
+         I73ir9wwZAa2AcMXxKsUEEMHlXWePoYQLAjFh79HOInATurUivFrJgQUeAQooEBJ4KHd
+         Kwic739NtPlnRGbIkpHOXoHaA46QURJFoqFFfLHglUSg+BSnkiHoAMLoDBNNg6S8Q0Vo
+         actMtMZ8ofeTekLdaCn2Uq/u2LcyDGFJEJdUuwhjunDbgHC/B/xw36GpbGNAzqj0CeDK
+         XGFXC3p1EjCVFUqvEOrMMX22EWfbsP5xopCLcw7M+RpKj2OJfFZ0jefCOrL/9tdM64yK
+         zg7g==
+X-Gm-Message-State: AOAM5334RDw6DwADEDlc78vl6fwqQkNNQ8Bj/PMSV5J7ktHJ9JzVQaQR
+	SMvJXPC3SQGBEwsiFnF7teUlXyoPO+KsYp/fmAU=
 X-Google-Smtp-Source: 
- ABdhPJzZaTwXqPJjoKidYimYvNHGoGNJJweyiYGLCRytBhP26Pv3hl4tPkm7Nr2k5wop6ldUQgf03Q==
-X-Received: by 2002:a17:90a:d0c4:b0:1bc:b02e:ed75 with SMTP id
- y4-20020a17090ad0c400b001bcb02eed75mr11099632pjw.104.1646406309134;
-        Fri, 04 Mar 2022 07:05:09 -0800 (PST)
+ ABdhPJz75SPsCxGwBL9flOL9OUpw/ndo7YoOh3cBenMeHfvpNOhEE+A2rYJpmv6rEjzeaScof7Y94A==
+X-Received: by 2002:a17:902:aa08:b0:151:a5ff:eca3 with SMTP id
+ be8-20020a170902aa0800b00151a5ffeca3mr9923571plb.19.1646406300642;
+        Fri, 04 Mar 2022 07:05:00 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.05.07
+ f194-20020a6238cb000000b004f6ce898c61sm80400pfa.77.2022.03.04.07.04.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Mar 2022 07:05:08 -0800 (PST)
+        Fri, 04 Mar 2022 07:05:00 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/18] Revert "cve-check: add lockfile to task"
-Date: Fri,  4 Mar 2022 05:04:19 -1000
+Subject: [OE-core][dunfell 07/18] expat: fix CVE-2022-25314
+Date: Fri,  4 Mar 2022 05:04:15 -1000
 Message-Id: 
- <1a30a8513ca47890470ee9d19a5ea36437e664bf.1646406001.git.steve@sakoman.com>
+ <b92c33285c5f886c95a3734e61007b522b62a71f.1646406001.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1646406001.git.steve@sakoman.com>
 References: <cover.1646406001.git.steve@sakoman.com>
@@ -70,37 +69,72 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 15:05:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162730
+ https://lists.openembedded.org/g/openembedded-core/message/162726
 
-From: Ross Burton <ross@burtonini.com>
+In Expat (aka libexpat) before 2.4.5, there is an integer overflow in
+copyString.
 
-Now that all of the functions in cve-check open the database read-only,
-we can remove this lockfile.
+Backport patch from:
+https://github.com/libexpat/libexpat/pull/560/commits/efcb347440ade24b9f1054671e6bd05e60b4cafd
 
-This means cve-check can run in parallal again, improving runtimes
-massively.
+CVE: CVE-2022-25314
 
-This reverts commit d55fbf4779483d2cfd71df78d0f733b599fef739.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e60d149b41d14d177df20dbecaef943696df1586)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ .../expat/expat/CVE-2022-25314.patch          | 32 +++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25314.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 5369b7074c..75c5b92b96 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -110,7 +110,6 @@ python do_cve_check () {
- }
- 
- addtask cve_check before do_build after do_fetch
--do_cve_check[lockfiles] += "${CVE_CHECK_DB_FILE_LOCK}"
- do_cve_check[depends] = "cve-update-db-native:do_fetch"
- do_cve_check[nostamp] = "1"
+diff --git a/meta/recipes-core/expat/expat/CVE-2022-25314.patch b/meta/recipes-core/expat/expat/CVE-2022-25314.patch
+new file mode 100644
+index 0000000000..2f713ebb54
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2022-25314.patch
+@@ -0,0 +1,32 @@
++From efcb347440ade24b9f1054671e6bd05e60b4cafd Mon Sep 17 00:00:00 2001
++From: Samanta Navarro <ferivoz@riseup.net>
++Date: Tue, 15 Feb 2022 11:56:57 +0000
++Subject: [PATCH] Prevent integer overflow in copyString
++
++The copyString function is only used for encoding string supplied by
++the library user.
++
++Upstream-Status: Backport
++https://github.com/libexpat/libexpat/pull/560/commits/efcb347440ade24b9f1054671e6bd05e60b4cafd
++
++CVE: CVE-2022-25314
++
++Signed-off-by: Steve Sakoman <steve@sakoman.com>
++
++---
++ expat/lib/xmlparse.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 4b43e613..a39377c2 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7412,7 +7412,7 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
++ 
++ static XML_Char *
++ copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
++-  int charsRequired = 0;
+++  size_t charsRequired = 0;
++   XML_Char *result;
++ 
++   /* First determine how long the string is */
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index 4d945a295e..dd8eeddf80 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
+            file://CVE-2022-25236.patch \
+            file://CVE-2022-25313.patch \
+            file://CVE-2022-25313-regression.patch \
++           file://CVE-2022-25314.patch \
+            file://libtool-tag.patch \
+          "
  
 -- 
 2.25.1
