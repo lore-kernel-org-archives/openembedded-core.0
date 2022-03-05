@@ -1,152 +1,90 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 172F6C433EF
-	for <webhook@archiver.kernel.org>; Fri,  4 Mar 2022 23:39:31 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.911.1646437169664884309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66200C433EF
+	for <webhook@archiver.kernel.org>; Sat,  5 Mar 2022 00:10:22 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.1143.1646439021437893554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 15:39:30 -0800
+ Fri, 04 Mar 2022 16:10:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WcZq1Go+;
- spf=pass (domain: gmail.com, ip: 209.85.218.45,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id yy13so11645995ejb.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KvhMNmbe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id u1so14803034wrg.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Mar 2022 15:39:29 -0800 (PST)
+ Fri, 04 Mar 2022 16:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TA5SymyDuLKhVppsxePYJ3+cJab0hOoyAoFYR/9it1E=;
-        b=WcZq1Go+dsMgEKamG3kfGKtCU9J6D38DKlNhnqzqVbnpzY+pBkLedAMZTTVJqGvU7X
-         ngse3zbyY/BOVRrcuCIqvq2MN0rsdm4tBYruY1ETo1WQYdDygKzbyzBxo4BFKLQCE7jR
-         /iHj1Ragf5MVU0FE2o4c9XdXpdEuWUzozguMDqoXsEnX31uI9Rf74b4JJs1OwyekciXk
-         nLYxsX8aI1txnvw69fGp/QwS+mxjMtPU1mZt7uXOXsQQFcDV+d4MfdaLMLYBrk/o6TRa
-         jFBrU/J6F31w0LVzAUSO2Jl1o27kkE07/DiKa995JNju4shgw97ezRLSRPurKVHgIdsc
-         k9/A==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rbxsYYTzHIZ66K2m/HEFm/Z6JOA3yztgPg/SOG0pQsM=;
+        b=KvhMNmbeGmY4DQvOtUQoXHOP4yGUrv0ZlD8Ff/u0A+YD+wOZPQ4D6O46rMqw7+XbRx
+         /Q9vuh1gt0dq2YPNSLsBcb1gRSidsKzc72oSUQUGFNOLue3V1bTn9OA2QqtKRRVo/CaC
+         jW7LY9BCGk4ubbcsWrG7fgr8Sc2Bkb7QvVYYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TA5SymyDuLKhVppsxePYJ3+cJab0hOoyAoFYR/9it1E=;
-        b=VUGMtlT1AONfLr2By6PbNl9+PSF3S+/pw/jfAaRbh/nf0wLi4HNb2h6dDAC7Uzg5qU
-         otYsE5rzI1WOrcoR0PcfEK4xwWY6Wl9wA8OneGJdLMx2PNE5GSU3RXvgKJZ1zWMhVsYS
-         WnTjkgha803sLtdU/DCX3u0HZ3GL0IyI0hJfKjeUe2NLf+WKk/pwb8erHzBk9ooYW/wt
-         sVxD/jpz6F1y0/0aRDr0wvcweOgAYN+EAtf2W2gaOw7z8Ie9WARmiatnXOq6Fmbqqxul
-         ssmoI2mlXBoosXI9c/Klv/n3NQe8U160f0EpBq2g1sQ9xPTRf9a06ZmT2nqqpZqP+0qX
-         v8Ag==
-X-Gm-Message-State: AOAM5312B9ko2t4xIOb8npazQq3D36lGkJiUrwxZ6VUmKeY9wi5n1tWP
-	YwkQYHmosK4eVzbilkda3leYC80M6FJ4OrZZGXQ=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rbxsYYTzHIZ66K2m/HEFm/Z6JOA3yztgPg/SOG0pQsM=;
+        b=OMgTbg7/07AK5bq3Laopo+Y/ewwbFgIb3lbASSa7Lh5bhNZ2Rh/es7/6xfOyJDVkun
+         F4MRhKL8B2YgtEkq27Tal43um29Y9AsmT9wjRUZ9vScJrip1Ej8lebdxyNBV3IUJyF1z
+         ipZaUyRmeODiZXNnfEP4dVIVYSbBw0DbRyw1+BNZy11+QByujP2sHsoThd+K55RQYrzw
+         0qkdbC+xAkJ1zWnifrKMA4ugZOnwxOjvp/ftowd6r0UXUGl7szVab40B0OOkU4//BHOQ
+         4RXviMcPq2LgN4XRkmuIadCaTKw9doDhGVKXw64rWV46ZHl+FR5SACio9t0kDh5KCWnF
+         hFPg==
+X-Gm-Message-State: AOAM53071T8jVIlxXYj8Cud4g77R3ywJxvwhT74BvHWWpdO2r6poQtV5
+	3cibk7R1Vh8tgB/fip4MopkaFGfgjpJuPM/7
 X-Google-Smtp-Source: 
- ABdhPJxLfcDC5V8qfeDjDU6SpPwnYjWNqMnViiMvnmLxjX5PH+FHSSc8olpuZjPwXk998Bi49E2nZd/JymWwh0ylTmY=
-X-Received: by 2002:a17:907:c13:b0:6d7:a03:8d9f with SMTP id
- ga19-20020a1709070c1300b006d70a038d9fmr930957ejc.141.1646437167969; Fri, 04
- Mar 2022 15:39:27 -0800 (PST)
+ ABdhPJyXrOiuh65WiaGKbqq4F95yNR6sc7FBBWdI3lhms99PPMl0iOqztLguEy3BLi5SwBNjopnEfQ==
+X-Received: by 2002:a05:6000:144a:b0:1ef:d316:aa3c with SMTP id
+ v10-20020a056000144a00b001efd316aa3cmr750740wrx.602.1646439019419;
+        Fri, 04 Mar 2022 16:10:19 -0800 (PST)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:58d2:445e:5b81:1f43])
+        by smtp.gmail.com with ESMTPSA id
+ m5-20020a05600c3b0500b00380da3ac789sm7388577wms.1.2022.03.04.16.10.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Mar 2022 16:10:18 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] layer.conf: Allow sysroot dependencies on perlcross-native to
+ be skipped
+Date: Sat,  5 Mar 2022 00:10:17 +0000
+Message-Id: <20220305001017.394135-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: 
- <CAP9ODKrZT9A=fdjUekvAHEch9LFjNt3mnH+jnGXGK0DR0BOvww@mail.gmail.com>
- <AM9PR09MB46428B351F1207869AA667DFA8059@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAMKF1sp6ZO5ZL9WY2z7QP_eMDC9+uB3yBMpzFrKyaTNdHqYvGQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sp6ZO5ZL9WY2z7QP_eMDC9+uB3yBMpzFrKyaTNdHqYvGQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 4 Mar 2022 18:39:16 -0500
-Message-ID: 
- <CADkTA4Pt1dNSkN1SkWzBnV23Bdcx5qGPXaPUA1w3VafkJkMQVw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] classes: add setuptools3_legacy
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Konrad Weihmann <kweihmann@outlook.com>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>,
- Ross Burton <ross@burtonini.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Mar 2022 23:39:31 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Mar 2022 00:10:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162760
+ https://lists.openembedded.org/g/openembedded-core/message/162762
 
-On Fri, Mar 4, 2022 at 3:14 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Fri, Mar 4, 2022 at 11:20 AM Konrad Weihmann <kweihmann@outlook.com> w=
-rote:
-> >
-> > If it's about meta-python why can't be placed there? I don't follow the=
- argument that some edge case stuff outside of core requires the project to=
- have additional (as of now not time limited) maintenance effort - if there=
- would be a clear plan to remove that before kirkstone release I might agre=
-e, but with the release looming this all feels like abandoning the commitme=
-nt for the upcoming release.
->
-> it is about many layers e.g. meta-oe, meta-xfce, meta-python and
-> perhaps many more that I have not come across yet. We want to enable a
-> wider ecosystem and we
-> do carry features in OE-core to do so from time to time. Core in
-> itself is a reference distribution, its not meant to carry just what
-> it needs to support a minimum distro
-> it serves as a baseline for many distros which may include other
-> layers. At times we do put specific features in specific layers, this
-> is not one of those.
+The only thing which needs perlcross-native will depend upon it directly
+so we can optimise this out everywhere else for small space/speed gains.
 
-Agreed.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/layer.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-I'd prefer that this be in core, versus meta-python.
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 935c4f6b9b7..ea57123601c 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -105,6 +105,7 @@ SSTATE_EXCLUDEDEPS_SYSROOT += "\
+     .*->gperf-native \
+     .*->gtk-doc-native \
+     .*->texinfo-native \
++    .*->perlcross-native \
+     libarchive-native->e2fsprogs-native \
+ "
+ # Nothing needs to depend on libc-initial
+-- 
+2.32.0
 
-Bruce
-
->
-> >
-> > And just to emphasize my claim, if there's nothing in core that would r=
-equire this patch it won't get tested, so it's another dead end.
-> >
-> > In the end it's the decision of the project leads, but I would be perso=
-nally be disappointed to take the easy way out here.
-> >
-> > On 4 Mar 2022 19:01, Otavio Salvador <otavio.salvador@ossystems.com.br>=
- wrote:
-> >
-> >
-> >
-> > Em sex., 4 de mar. de 2022 =C3=A0s 13:56, Khem Raj <raj.khem@gmail.com>=
- escreveu:
-> >
-> > There are recipes in meta-oe and meta-python which would need this
-> > and both layer only list core as sole dependency, if we put it in eithe=
-r of
-> > these layers, then one will depend on other which is not nice, so I rat=
-her
-> > would prefer it in core.
-> >
-> >
-> > Couldn't those recipes (depending on Python) go to meta-python?
-> >
-> > --
-> > Otavio Salvador                             O.S. Systems
-> > http://www.ossystems.com.br        http://code.ossystems.com.br
-> > Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162756): https://lists.openembedded.org/g/openembedde=
-d-core/message/162756
-> Mute This Topic: https://lists.openembedded.org/mt/89547022/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
