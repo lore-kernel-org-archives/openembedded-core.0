@@ -1,197 +1,80 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][dunfell 02/18] go: fix CVE-2022-23806
-Date: Fri,  4 Mar 2022 05:04:10 -1000
-Message-Id: <eb7aa0929ecd712aeeec0ff37dfb77c3da33b375.1646406001.git.steve@sakoman.com>
-In-Reply-To: <cover.1646406001.git.steve@sakoman.com>
-References: <cover.1646406001.git.steve@sakoman.com>
+Message-ID: <a73d4944b4e5fe4b6528aa5390edcd3bdf58e5e7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libsdl2: Add libunwind-native to the libsdl2-native DEPENDS
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Sat, 05 Mar 2022 00:05:12 +0000
+In-Reply-To: <14bd2ef7889943f8b972fa612844e04c@axis.com>
+References: <20220304075507.369779-1-crg7475@mailbox.org>
+	 <14bd2ef7889943f8b972fa612844e04c@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "crg7475@mailbox.org" <crg7475@mailbox.org>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 
-From: Minjae Kim <flowergom@gmail.com>
+On Fri, 2022-03-04 at 18:20 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Carlos Rafael Giani
+> > via lists.openembedded.org
+> > Sent: den 4 mars 2022 08:55
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH] libsdl2: Add libunwind-native to the libsdl2-native
+> > DEPENDS
+> > 
+> > This fixes this CMake configuration error:
+> > 
+> > > -- Checking for one of the modules 'libunwind'
+> > > CMake Error at [...]/build/tmp/work/x86_64-linux/libsdl2-native/2.0.20-
+> > > r0/recipe-sysroot-native/usr/share/cmake-
+> > > 3.22/Modules/FindPkgConfig.cmake:890 (message):
+> > >   None of the required 'libunwind' found
+> > > Call Stack (most recent call first):
+> > >   CMakeLists.txt:1367 (pkg_search_module)
+> > 
+> > This error happens even if libunwind is installed complete with its C
+> > headers and development .so files (in Ubuntu, this means libunwind-dev
+> > is installed).
+> > 
+> > Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+> > ---
+> >  meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb b/meta/recipes-
+> > graphics/libsdl2/libsdl2_2.0.20.bb
+> > index 90724ab8b7..802efba980 100644
+> > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
+> > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
+> > @@ -27,6 +27,8 @@ SRC_URI[sha256sum] =
+> > "c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f
+> > 
+> >  inherit cmake lib_package binconfig-disabled pkgconfig
+> > 
+> > +DEPENDS:class-native += "libunwind-native"
+> 
+> The above should be:
+> 
+> DEPENDS:append:class-native = " libunwind-native"
+> 
+> However, why don't libsdl2 built for target and nativesdk 
+> need to depend on libunwind? I.e., why isn't the above:
+> 
+> DEPENDS = "libunwind"
+> 
+> 
 
-crypto/elliptic: fix IsOnCurve for big.Int values that are not valid coordinates
+There is a second issue, libunwind-native doesn't build on all our systems:
 
-Some big.Int values that are not valid field elements (negative or overflowing)
-might cause Curve.IsOnCurve to incorrectly return true. Operating on those values
-may cause a panic or an invalid curve operation. Note that Unmarshal will never
-return such values.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/91/builds/5624/steps/12/logs/stdio
 
-Upstream-Status: Backport [https://go.dev/issue/50974]
-CVE: CVE-2022-23806
-Signed-off-by:Minjae Kim <flowergom@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2022-23806.patch           | 142 ++++++++++++++++++
- 2 files changed, 143 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
+:(
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index abc6f42184..fcb316e09e 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -19,6 +19,7 @@ SRC_URI += "\
-     file://CVE-2021-34558.patch \
-     file://CVE-2021-33196.patch \
-     file://CVE-2021-33197.patch \
-+    file://CVE-2022-23806.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- SRC_URI[main.sha256sum] = "7ed13b2209e54a451835997f78035530b331c5b6943cdcd68a3d815fdc009149"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
-new file mode 100644
-index 0000000000..772acdcbf6
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
-@@ -0,0 +1,142 @@
-+From 5b376a209d1c61e10847e062d78c4b1aa90dff0c Mon Sep 17 00:00:00 2001
-+From: Filippo Valsorda <filippo@golang.org>
-+Date: Sat, 26 Feb 2022 10:40:57 +0000
-+Subject: [PATCH] crypto/elliptic: make IsOnCurve return false for invalid
-+
-+ field elements
-+
-+Updates #50974
-+Fixes #50977
-+Fixes CVE-2022-23806
-+
-+Signed-off-by: Minjae Kim <flowergom@gmail.com>
-+
-+---
-+ src/crypto/elliptic/elliptic.go      |  6 +++
-+ src/crypto/elliptic/elliptic_test.go | 81 ++++++++++++++++++++++++++++
-+ src/crypto/elliptic/p224.go          |  6 +++
-+ 3 files changed, 93 insertions(+)
-+
-+diff --git a/src/crypto/elliptic/elliptic.go b/src/crypto/elliptic/elliptic.go
-+index e2f71cd..bd574a4 100644
-+--- a/src/crypto/elliptic/elliptic.go
-++++ b/src/crypto/elliptic/elliptic.go
-+@@ -53,6 +53,12 @@ func (curve *CurveParams) Params() *CurveParams {
-+ }
-+ 
-+ func (curve *CurveParams) IsOnCurve(x, y *big.Int) bool {
-++
-++	if x.Sign() < 0 || x.Cmp(curve.P) >= 0 ||
-++		y.Sign() < 0 || y.Cmp(curve.P) >= 0 {
-++		return false
-++	}
-++
-+ 	// y² = x³ - 3x + b
-+ 	y2 := new(big.Int).Mul(y, y)
-+ 	y2.Mod(y2, curve.P)
-+diff --git a/src/crypto/elliptic/elliptic_test.go b/src/crypto/elliptic/elliptic_test.go
-+index 09c5483..b13a620 100644
-+--- a/src/crypto/elliptic/elliptic_test.go
-++++ b/src/crypto/elliptic/elliptic_test.go
-+@@ -628,3 +628,84 @@ func TestUnmarshalToLargeCoordinates(t *testing.T) {
-+ 		t.Errorf("Unmarshal accepts invalid Y coordinate")
-+ 	}
-+ }
-++
-++func testAllCurves(t *testing.T, f func(*testing.T, Curve)) {
-++	tests := []struct {
-++		name  string
-++		curve Curve
-++	}{
-++		{"P256", P256()},
-++		{"P256/Params", P256().Params()},
-++		{"P224", P224()},
-++		{"P224/Params", P224().Params()},
-++		{"P384", P384()},
-++		{"P384/Params", P384().Params()},
-++		{"P521", P521()},
-++		{"P521/Params", P521().Params()},
-++	}
-++	if testing.Short() {
-++		tests = tests[:1]
-++	}
-++	for _, test := range tests {
-++		curve := test.curve
-++		t.Run(test.name, func(t *testing.T) {
-++			t.Parallel()
-++			f(t, curve)
-++		})
-++	}
-++}
-++
-++// TestInvalidCoordinates tests big.Int values that are not valid field elements
-++// (negative or bigger than P). They are expected to return false from
-++// IsOnCurve, all other behavior is undefined.
-++func TestInvalidCoordinates(t *testing.T) {
-++	testAllCurves(t, testInvalidCoordinates)
-++}
-++
-++func testInvalidCoordinates(t *testing.T, curve Curve) {
-++	checkIsOnCurveFalse := func(name string, x, y *big.Int) {
-++		if curve.IsOnCurve(x, y) {
-++			t.Errorf("IsOnCurve(%s) unexpectedly returned true", name)
-++		}
-++	}
-++
-++	p := curve.Params().P
-++	_, x, y, _ := GenerateKey(curve, rand.Reader)
-++	xx, yy := new(big.Int), new(big.Int)
-++
-++	// Check if the sign is getting dropped.
-++	xx.Neg(x)
-++	checkIsOnCurveFalse("-x, y", xx, y)
-++	yy.Neg(y)
-++	checkIsOnCurveFalse("x, -y", x, yy)
-++
-++	// Check if negative values are reduced modulo P.
-++	xx.Sub(x, p)
-++	checkIsOnCurveFalse("x-P, y", xx, y)
-++	yy.Sub(y, p)
-++	checkIsOnCurveFalse("x, y-P", x, yy)
-++
-++	// Check if positive values are reduced modulo P.
-++	xx.Add(x, p)
-++	checkIsOnCurveFalse("x+P, y", xx, y)
-++	yy.Add(y, p)
-++	checkIsOnCurveFalse("x, y+P", x, yy)
-++
-++	// Check if the overflow is dropped.
-++	xx.Add(x, new(big.Int).Lsh(big.NewInt(1), 535))
-++	checkIsOnCurveFalse("x+2⁵³⁵, y", xx, y)
-++	yy.Add(y, new(big.Int).Lsh(big.NewInt(1), 535))
-++	checkIsOnCurveFalse("x, y+2⁵³⁵", x, yy)
-++
-++	// Check if P is treated like zero (if possible).
-++	// y^2 = x^3 - 3x + B
-++	// y = mod_sqrt(x^3 - 3x + B)
-++	// y = mod_sqrt(B) if x = 0
-++	// If there is no modsqrt, there is no point with x = 0, can't test x = P.
-++	if yy := new(big.Int).ModSqrt(curve.Params().B, p); yy != nil {
-++		if !curve.IsOnCurve(big.NewInt(0), yy) {
-++			t.Fatal("(0, mod_sqrt(B)) is not on the curve?")
-++		}
-++		checkIsOnCurveFalse("P, y", p, yy)
-++	}
-++}
-+diff --git a/src/crypto/elliptic/p224.go b/src/crypto/elliptic/p224.go
-+index 8c76021..f1bfd7e 100644
-+--- a/src/crypto/elliptic/p224.go
-++++ b/src/crypto/elliptic/p224.go
-+@@ -48,6 +48,12 @@ func (curve p224Curve) Params() *CurveParams {
-+ }
-+ 
-+ func (curve p224Curve) IsOnCurve(bigX, bigY *big.Int) bool {
-++
-++	if bigX.Sign() < 0 || bigX.Cmp(curve.P) >= 0 ||
-++		bigY.Sign() < 0 || bigY.Cmp(curve.P) >= 0 {
-++		return false
-++	}
-++
-+ 	var x, y p224FieldElement
-+ 	p224FromBig(&x, bigX)
-+ 	p224FromBig(&y, bigY)
--- 
-2.25.1
+I think I may have to revert this until we get to the bottom of things.
+
+Cheers,
+
+Richard
 
