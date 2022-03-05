@@ -1,136 +1,144 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15763C433EF
-	for <webhook@archiver.kernel.org>; Sat,  5 Mar 2022 11:05:49 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.4312.1646478347841251886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEABC433EF
+	for <webhook@archiver.kernel.org>; Sat,  5 Mar 2022 11:17:27 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.92.91.47])
+ by mx.groups.io with SMTP id smtpd.web11.4339.1646479044973917917
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Mar 2022 03:05:48 -0800
+ Sat, 05 Mar 2022 03:17:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=QIkDL+Kw;
- spf=pass (domain: burtonini.com, ip: 209.85.221.52,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f52.google.com with SMTP id j17so16261538wrc.0
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Mar 2022 03:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aT00NJ5rcqhmybQ37s9qPDAiRCt3mcm746cvN9o6p9g=;
-        b=QIkDL+KwjafoKGfWhy8FC54P4o6CY36EumDVItQSY73cY/tZ457kb/dcDYUMV9wAvN
-         hBRyzOcar+WMHZzWGCYWd2NE+POZ7ljhXpUIVE7pU1tPeqAFUZctpYQif1tjymYiX+iC
-         bFpUR8S4p3PlkkvwSPbyVl0T4vDStljqNRm9+LAj1B9Q0baCkFcFpVBMhfNcizxyDrrU
-         F6Nvi+djHRC6Aw52dYOZAiChHjNCci97Ov3k4XUslKlRvm9Ar8NxDlidtw9O79HF1tlh
-         LndNqNhPvx9rrT6Fo5DZs00JMJPRYC5DsdrBCYUG4qFcqUZE57XdgQ6sioqE9OJ2weV7
-         kW+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aT00NJ5rcqhmybQ37s9qPDAiRCt3mcm746cvN9o6p9g=;
-        b=7Sb24kddxIWqJLVZfrrdsLTUyfZ5syZWLQtmTHoUX6ULVhifBSS+jbU9Rvwe3Tg90I
-         a3CABZ8jdkwmxD+cQeYNkuPOED+n+W0fTb3hmDdyLLnM3QXB2LRyyTlIXgC/QKobiv6J
-         W99TmEGD7DoK4OTeoucZk9rTc3PrIK5XPkYJIW0mIkO1hwtZ7kXJq1hptUxtTItRE45O
-         3tnXcpZ1bXe/NOuepH4vwLuOY1RCKAqXFm4umquaTYijRseAEg8VQCIxYeNBVuAbaT3o
-         HXnPGzOLoRbjAUOFKDfx8yUMssdaBDy7ED1pI3WuMWRTBcAhB5AMwZN00cisEiatlB4D
-         QdDA==
-X-Gm-Message-State: AOAM5328E0pedLOXsII8Cl54YOym8biwSXskRjVOct6tZXT8iXy2ve39
-	4l9Aj7Gdq83XCcThzo0sekL6hmLv8GGWmkcwSOLUuw==
-X-Google-Smtp-Source: 
- ABdhPJz9mJdgBJI3ORKOVQp3KfjwLZyIRwQU3USBLoRh8MbisXH7NaTbuJEE5qPt+93bONLOK5APrylVLp/qqSihX4o=
-X-Received: by 2002:a5d:5918:0:b0:1f0:3295:f4ec with SMTP id
- v24-20020a5d5918000000b001f03295f4ecmr2082996wrd.451.1646478346110; Sat, 05
- Mar 2022 03:05:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20220304171408.2672507-1-ross.burton@arm.com>
- <20220304171408.2672507-3-ross.burton@arm.com>
- <bdbc7662dae5887be08bfdb9fba53f042bf2930a.camel@linuxfoundation.org>
-In-Reply-To: 
- <bdbc7662dae5887be08bfdb9fba53f042bf2930a.camel@linuxfoundation.org>
-From: Ross Burton <ross@burtonini.com>
-Date: Sat, 5 Mar 2022 11:05:35 +0000
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com
+ header.s=selector1 header.b=BOfgc+h3;
+ spf=pass (domain: outlook.com, ip: 40.92.91.47,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KEXqHsppon3znmDw7967+06FNMMt2KQWep5npSs27Hiv32LjS3vkYt/bykmvkKB1HXg2/NZ4NJ+gaPTbIOwUmNPTnyX6OYQDHqaG//5n7/eLaNFFSuw6lo+GVPqRjanj+5ptyAbVlQeYSO1qkKeSqj8kdIus18LZkV2jbIpP4cAYyE07/mDanguhjvKX/HnfmdKB4VhHCuj+u9BG2/JVTbCEgmE5/XdqvPkTZRteaJljBJfMOHM+bcuQFIIlH2nbT0hQDp5tGiSQorSI7ThbwT232dSY4VRNV5tkA3qcLIhn4YGjojHmwZiGn+8PsmGgQpHv/3pYxWC5xZqRLiIA7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oS7QDftjtKLty9jdZbM/wxy9MGd0bBVbvD840WF0nLI=;
+ b=hjVFjJIGqxg0oMPQ5JwaTbl4fNpapcsUspb0J0rgri6kN61DmaNGip9DRPk66oPV1oM84voIp/7rIg0KKrf7vembLQUYC/UpiAYEt3N4PzTjceKf3RMuchfNz3/rCrw33W8Ezxo2MN0NJxkeuqyEOWsLCqFpci1mE3+6UsGikdeZA4/UNh7IiXSzpg/PlYfKpAWI/TE79o3nEQkI1l37pXWINWi+eHoNlJqtiaKqCAdDcMHE2RR3HJatHiO1RfWF8ej5n/eRuSv3R0KXiwedRCi/9lk4ylwilAfADgvlyZxaJ2SMgh3+NHFdpjeU74uKwMQj0QICDp39mP83LNWXYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oS7QDftjtKLty9jdZbM/wxy9MGd0bBVbvD840WF0nLI=;
+ b=BOfgc+h3TlcbSFd/3ba9GL3M/AOw0GqgIlHJn+tQav+eO8o6eHW3nWec59E7uw5Lr2Mzon9HApCiFLLpstrBnh8A4+7OdrL3JQehpRCdIdJy9hSqzRKrsIRtWF9NZFRddeaX4YRJRNn/h4upEF0IwwKqWY5UfICSIvpwaxviAJVxr+Uw9nGiDqwrdbjfYcJY1GFn6GGwcFlc17jdHXus4FOuest8Yg/4yzDH/5Kt8IaX06wy+c4eCRh3zy07yQz7ohpr4oYl+V3d9bivq/iPwoYv6LUad+4vVK0kGLdw+7p78FRnafxiEHFeCep4Vy8UOuHsXax7uLd2nGSdzUwdsQ==
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com (2603:10a6:20b:284::24)
+ by AM0PR09MB2947.eurprd09.prod.outlook.com (2603:10a6:208:12f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.16; Sat, 5 Mar
+ 2022 11:17:22 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e8ae:b245:b019:195b]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::e8ae:b245:b019:195b%8]) with mapi id 15.20.5038.020; Sat, 5 Mar 2022
+ 11:17:22 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] setuptools_build_meta: remove python dependency
+Date: Sat,  5 Mar 2022 12:16:58 +0100
 Message-ID: 
- <CAAnfSTsg4Ww3py=+9Cbr9TCmyO6kLSe1z_Z3jPO11sQEApepAA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] pip_install_wheel: clean up
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ <AM9PR09MB4642A02EF7369BEC6B3EFE27A8069@AM9PR09MB4642.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [G2z/+hceC0l6Br7+YkuqVv/ZNc5Xv2iAmhzGRwKAAuWUGrIuUVM9RKOdssCTPhWp]
+X-ClientProxiedBy: AS9PR06CA0180.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45c::27) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+X-Microsoft-Original-Message-ID: 
+ <20220305111658.2592278-1-kweihmann@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 286e443f-e5f6-4856-3067-08d9fe99b7cd
+X-MS-Exchange-SLBlob-MailProps: 
+	tBYDyRQCPcmF40moE3TJBNuxr/vCepMobVpL/LcP5waaJxjnE0usjJyD9oghezUZUh+Ygu8hQxwMOVbi2OycrkUB7iHKO2cSYTBPecW8SvCzJBEQCXkPkdd72v/xfQv5/d31GhCZPYvU8C51L7xo/K8t0Drp1KiyRuc6t9QhLTK7Z9zNk694T/F2sKfXQxc8bkKLqxYcOw4BmUx968qkl0S0RNJvpmKFxKPnq3hNyTfCj8aERv9xFwLzbTwr66JX8clE3f0UExwkvhtUlzqQLLRMundgUIvTaYcLbAWqhdlDV1vIZUqBori2xf8GZEbzmAvh9AgaH6OldO+fhNXWGV6BoauXWlalMJAoglaK2dMbzAspx9HgPS46kdU0lpedLaRAwC90IYlomdIBtzmL21mp+b9ZNWLifXJPoZR/9jri5YOPycZgkLg9vTXDMwj9qrK91fk/TM9ZMk1MeU99CrOg1ld/wDOee0nfWB7ho6ofpgR7c8Oz0mlvBgVs4Nh2oDkcsrdmoQMFTnbNsgQr+m0aPSSNDtj/lO3Tss/cdu/OyMVjSwsIT6wC4fxpe+KQXVhgwE8CpcEmiUMvsIxDPD1DLttRf/FYz3bzpjeLnU8lUVwT8ElWqGLvLlRM44wJVo1m+hwdKNSN/bFY9hUcuOWmkyq6CN/jy4kwMoUfL1d0bUvcBIjBiZQnLyebN9HzR9Vx8Xpr7+EP4l36GKKeF1X29++0+sjsk+1yZD3EcxmaM32AgX+IBYEosBS73WbrQDpvGZdiDZU=
+X-MS-TrafficTypeDiagnostic: AM0PR09MB2947:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	MbvqWZ3CiVAyFuPxdMk0Bkm+uoSJks7MH9xFwILAp1U/NDMGNh1ztw6S3gpXnP2BtZOo9bKcN2g6Rc/+Ysqk2hGD2kU4tnw1slpO33TknAyVtcocEBFS/TGbp/Ehfo+R3xUYdJ+6JQ5zXZSq6Ou8xRf3FL31RbQ1EAt0pF5zc9ydnX/R5IJnx3OWWKGRCptipu6jmVaP9+53RSLNnWv5r/sbYD0SiI6kv7Ox91z4m0XEKeJ96DN/x+qebC30oTMw+l9XTUsbwqxcDoRyauJEKED00P7xASU/78YMIdJxMyLstG8ej1ezJw+QdJy8+3Pggf1yt0ASm32rm4rlojzT7P7nvEC/WzXdPus/mh8HviUSXxpX3KzrXprUDsztjZAI27tWEHZbvPRXbvdBm5j6D7rqWYEVx/S81Z+HI935DjjSxTDEvUKQnOGI4XGoO7Sk+nhGeaGNUJm6gzNjNKMoH1HSOqY4BWcIRnTaBEbIiVePFNZaoyEEocc2NN02duOAIm5/1gbRAn0TsDyyvkxCi7nZd66GxAFBP7ZEgT6MFc+W8l5Wj2wJFpuqhi/GZpTp63HuHY8EN0cAMo6kJk18QQ==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?wn09EwQMJ6wr7uNfyJkf+kdTMyXt6ZXQLdJkOs9O7uTN97G66EYHgatmSVho?=
+ =?us-ascii?Q?2bn2G/2DGvMo6jXzJT87Ry+RPVz1SiwcuqyhMGZ2V2ZX3kSlvN4+cn0WOMuH?=
+ =?us-ascii?Q?NHasH1d3QZk7OCOlsmg9ma5ir9pUxYPRNQ8Pg3d+RPbnhQSdW4deyIc+sxDa?=
+ =?us-ascii?Q?RnSg57AgGBQBPKday3vUqINlNbTqA1Ovcw4PhfogGVsmHQkOO4tDsKtKbeGg?=
+ =?us-ascii?Q?ky2qHkZx66zt4UPLaf0c53uGmLJKfUFD0o+5Y84edT9Jacz+KbLVbNheeL+I?=
+ =?us-ascii?Q?lKOz2ekfXD6az1Df4FZU2ZaQNn2Y5rMKBd/KTHR7DAt9h5Q5Va9wl1JbyNN7?=
+ =?us-ascii?Q?Jxr2A+8zwhY3thbrpOJEr5wQ98cRFxE6ClNoZt2M40IBGfJDO+sWpOZ31e3m?=
+ =?us-ascii?Q?dYxhmbmlE1UrlkvItMrIM6DIRjJ0pCMIB2itHggEnRk4OKEPWNmip9kBzdES?=
+ =?us-ascii?Q?rPNPQlWEbYAOXsGDR7FJsZBI53YIP5U1iDV/wnq8lFFo1TuSPJhAYcy5/lrT?=
+ =?us-ascii?Q?0KH4WoDE0YP54PS5nJRVH6/Jt7SHhxLjf3fgxUQVNkkZuSx7NsGFPGofG5x0?=
+ =?us-ascii?Q?eVfGVp2TJ7hsVi75u1k1x6Fdixm+bUvRx7mMKpj/xrG2LLDw5q1p2Y1U2T6Q?=
+ =?us-ascii?Q?gLpH0O1N68qZdmr085weDSG7TiO68gSdh/mBmbFFwW5yS2F/QoFbtkgvcmum?=
+ =?us-ascii?Q?SSqdB4N6DYv5BKh756hNhoXJt1dseUpoL4LjBhaEco9HfYEY2YN9wiHSCmWS?=
+ =?us-ascii?Q?UE6D0TK0kbEYqlhprEsfXm5VzJNPF68Z9tc4BpT9JMDC0cgiBltrvOBndolU?=
+ =?us-ascii?Q?kNbWAtVW28+03NiKE+NDMljD+qEf5sly9C+WiEkhcYxK7I3vmDUJoLQqJWVV?=
+ =?us-ascii?Q?AaYrB7W0AvT6eafp/2CbTRqiy1VfnPbNWoaEsapT1op5n0xm0IQfakx/yAO9?=
+ =?us-ascii?Q?uErdUyKynE13OQLkWvSGiCL2suRSdmj9ztpprWMLXx/+/mTAQMfK9ZQbc9QT?=
+ =?us-ascii?Q?KU4Rm285C5X6HkrSaMG6v0r1Pg=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 286e443f-e5f6-4856-3067-08d9fe99b7cd
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4642.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2022 11:17:22.0045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR09MB2947
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Mar 2022 11:05:49 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Mar 2022 11:17:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162778
+ https://lists.openembedded.org/g/openembedded-core/message/162779
 
-I think I found a bug in the dependency chasing code...
+when building additional native python tools that should be used
+for additional tasks in python3 package (class-target), the dependency
+on target class python creates a dependency loop:
 
-Ross
+python3-foo-native_1.2.3.bb:do_prepare_recipe_sysroot
+python3-pep8-native_1.7.1.bb:do_populate_sysroot
+python3-wheel_0.37.1.bb:do_populate_sysroot
+python3-bar-native_0.1.2.bb:do_populate_sysroot
+python3-pip_22.0.3.bb:do_populate_sysroot
+python3-pyflakes-native_2.4.0.bb:do_populate_sysroot
+python3_3.10.2.bb:do_populate_sysroot
+python3-foo-native_1.2.3_1.2.0.bb:do_fetch
+python3-setuptools_59.5.0.bb:do_populate_sysroot
 
-On Sat, 5 Mar 2022 at 08:22, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2022-03-04 at 17:14 +0000, Ross Burton wrote:
-> > There's been a lot of work in this class lately, so a little spring
-> > cleaning is needed.
-> >
-> > Remove redundant creation of PYTHON_SITEPACKAGES_DIR, pip will do that.
-> >
-> > Remove redundant export of PYPA_WHEEL.
-> >
-> > Simplyify recompile code using "realpath --relative-to".
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/classes/pip_install_wheel.bbclass | 15 +++------------
-> >  1 file changed, 3 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
-> > index 3beff685bb..1870b916fe 100644
-> > --- a/meta/classes/pip_install_wheel.bbclass
-> > +++ b/meta/classes/pip_install_wheel.bbclass
-> > @@ -20,29 +20,20 @@ PIP_INSTALL_ARGS ?= "\
-> >      --prefix=${prefix} \
-> >  "
-> >
-> > -pip_install_wheel_do_install:prepend () {
-> > -    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> > -}
-> > -
-> > -export PYPA_WHEEL
-> > -
-> >  PIP_INSTALL_PYTHON = "python3"
-> >  PIP_INSTALL_PYTHON:class-native = "nativepython3"
-> >
-> >  pip_install_wheel_do_install () {
-> >      nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PYPA_WHEEL} ||
-> > -    bbfatal_log "Failed to pip install wheel. Check the logs."
-> > +      bbfatal_log "Failed to pip install wheel. Check the logs."
-> >
-> > +    cd ${D}
-> >      for i in ${D}${bindir}/* ${D}${sbindir}/*; do
-> >          if [ -f "$i" ]; then
-> >              sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PIP_INSTALL_PYTHON}," $i
-> >              sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PIP_INSTALL_PYTHON}:g" $i
-> >              sed -i -e "s:${STAGING_BINDIR_NATIVE}:${bindir}:g" $i
-> > -            # Recompile after modifying it
-> > -            cd ${D}
-> > -            file=`echo $i | sed 's:^${D}/::'`
-> > -            ${STAGING_BINDIR_NATIVE}/python3-native/python3 -c "from py_compile import compile; compile('$file')"
-> > -            cd -
-> > +            nativepython3 -mpy_compile $(realpath --relative-to=${D} $i)
->
-> This last bit likely doesn't work unless you are in ${D} when you run the
-> command :/.
->
-> Cheers,
->
-> Richard
->
->
->
+resolve this by removing python3 from DEPENDS.
+The correct dependencies are already injected by
+setuptools-base class
+
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/classes/setuptools_build_meta.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/setuptools_build_meta.bbclass b/meta/classes/setu=
+ptools_build_meta.bbclass
+index b1441e65dd..8f5479e922 100644
+--- a/meta/classes/setuptools_build_meta.bbclass
++++ b/meta/classes/setuptools_build_meta.bbclass
+@@ -1,6 +1,6 @@
+ inherit pip_install_wheel setuptools3-base
+=20
+-DEPENDS +=3D "python3 python3-setuptools-native python3-wheel-native"
++DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
+=20
+ setuptools_build_meta_do_configure () {
+     mkdir -p ${S}/dist
+--=20
+2.25.1
+
 
