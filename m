@@ -1,91 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7538FC433EF
-	for <webhook@archiver.kernel.org>; Sun,  6 Mar 2022 07:13:31 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web09.13624.1646550810928406290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0592C433EF
+	for <webhook@archiver.kernel.org>; Sun,  6 Mar 2022 13:31:47 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.15104.1646573506210202659
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Mar 2022 23:13:31 -0800
+ Sun, 06 Mar 2022 05:31:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qcyy4/Rq;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id m22so10706147pja.0
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Mar 2022 23:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=51HAGloKWH3K/Qfl6EzmaoAWVFFsgo94bzqCd72RWYQ=;
-        b=qcyy4/Rqy5uemiVu9BdVWfmoFz+pwD/ObsOYDBr6RNNEBu2/GQjyq2NwP6vJtXIlVN
-         TS/gBN1WMBNc6tD8NnlfOLPe9I+TnFQTVI/mq6M5x7A4GBTSrYzRMyB6bsZibUNmgTR4
-         RbQj8CNCkIi0Ug6OP1Dy+w2iLrdHP03FPeLUPGYFqXY8wtOCMGgZnoaE/kYGzzvtZ1o9
-         B+EeQocq8CaE6JLSwzO9yXDiGItfRnNbc/K/PeRhORoXKMJWdZHyq/M/ES591ArwS+Jc
-         AmGs7JpkpvxMxMd5AROoAwYC6Wm6Xfb/P8rl50rSaLX7qoN7nmToO8EDvHU8pvrWxgzV
-         W8Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=51HAGloKWH3K/Qfl6EzmaoAWVFFsgo94bzqCd72RWYQ=;
-        b=2wGGaSog7XJ7XOg2MyzU0h8IzLnbNzFzPqRGhmzZlP3czeCUz/rekT0O8NUP0Y27xU
-         9tWFZhcBCDlEuzM1jvRnx2O1tW9X5TDT8Fl0mjnpPvm7ve38XVapPpECgpHX7jt1LDvX
-         MJrDdkkTFBgk6qMGUUc6ges2IJdB81VR9FApq7JbMU/vy/cVHQuU/VNY0b12mA6uWu4I
-         uGidi6vWxzxyBNtmyAJqtDfcmRypJuV7ca4aoMey7cc61rPPenuzVGS+LRcZ3tLtF4rZ
-         cRLusdOTAMvimIEeT+pi2VUDWep+/4smcFe4wJGxRIeerTpFDbKepACwepgqeQZsK4dC
-         H9vw==
-X-Gm-Message-State: AOAM532bHPfErJoOd82PioXmJhvp2MJQabeejJ7MSy2YS8WOvwzAxzMd
-	AbYuCtdqIf2K9u5B6YfsknFpphQck5SLJw==
-X-Google-Smtp-Source: 
- ABdhPJw30fGR/Tg60RT9AaIhFfqhgq6v/qtAtEJGdM6Kkmj6vT0gXCEFJTw/9mIBVJn/Mg6IRZIhTA==
-X-Received: by 2002:a17:902:f602:b0:14f:53a8:64f7 with SMTP id
- n2-20020a170902f60200b0014f53a864f7mr6386263plg.151.1646550810125;
-        Sat, 05 Mar 2022 23:13:30 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
-        by smtp.gmail.com with ESMTPSA id
- k7-20020a6555c7000000b0034e101ca75csm8457725pgs.6.2022.03.05.23.13.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Mar 2022 23:13:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: redrectangle.org,
+ ip: 217.70.183.201, mailfrom: robert.joslyn@redrectangle.org)
+Received: (Authenticated sender: robert.joslyn@redrectangle.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id EC9FB1BF205;
+	Sun,  6 Mar 2022 13:31:42 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] packagegroup-core-tools-profile: Enable systemtap for
- riscv64
-Date: Sat,  5 Mar 2022 23:13:25 -0800
-Message-Id: <20220306071325.1698626-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220306071325.1698626-1-raj.khem@gmail.com>
-References: <20220306071325.1698626-1-raj.khem@gmail.com>
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH] curl: Update to 7.82.0
+Date: Sun,  6 Mar 2022 05:31:18 -0800
+Message-Id: <20220306133118.1542817-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Spam-Score: 150
+X-GND-Status: SPAM
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Mar 2022 07:13:31 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Mar 2022 13:31:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162781
+ https://lists.openembedded.org/g/openembedded-core/message/162782
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Includes bug fixes and feature updates, such as addition of a --json flag
+and the removal of mesalink support. Changelog available at:
+https://curl.se/changes.html#7_82_0
+
+LIC_FILES_CHKSUM changed due to copyright year update. Now that the full
+SPDX license list is supported, refine the license from MIT to
+MIT-open-group. The curl license contains the additional advertising
+clause present in the Open Group variant.
+
+Use a weak assignment with the RANDOM variable to make changes via
+bbappend easier.
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- .../packagegroups/packagegroup-core-tools-profile.bb             | 1 -
- 1 file changed, 1 deletion(-)
+ .../curl/{curl_7.81.0.bb => curl_7.82.0.bb}               | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.81.0.bb => curl_7.82.0.bb} (95%)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 84eb46b9c21..6330200d2f0 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -35,7 +35,6 @@ PERF:riscv32 = ""
- SYSTEMTAP = "systemtap"
- SYSTEMTAP:libc-musl = ""
- SYSTEMTAP:nios2 = ""
--SYSTEMTAP:riscv64 = ""
- SYSTEMTAP:riscv32 = ""
+diff --git a/meta/recipes-support/curl/curl_7.81.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+similarity index 95%
+rename from meta/recipes-support/curl/curl_7.81.0.bb
+rename to meta/recipes-support/curl/curl_7.82.0.bb
+index e7219def18..23bd7eaa52 100644
+--- a/meta/recipes-support/curl/curl_7.81.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -6,11 +6,11 @@ HTTP post, SSL connections, proxy support, FTP uploads, and more!"
+ HOMEPAGE = "https://curl.se/"
+ BUGTRACKER = "https://github.com/curl/curl/issues"
+ SECTION = "console/network"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=425f6fdc767cc067518eef9bbdf4ab7b"
++LICENSE = "MIT-open-group"
++LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
  
- LTTNGTOOLS = "lttng-tools"
+ SRC_URI = "https://curl.se/download/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "a067b688d1645183febc31309ec1f3cdce9213d02136b6a6de3d50f69c95a7d3"
++SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+@@ -18,7 +18,7 @@ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl dan
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+ # Entropy source for random PACKAGECONFIG option
+-RANDOM = "/dev/urandom"
++RANDOM ?= "/dev/urandom"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} libidn openssl proxy random threaded-resolver verbose zlib"
+ PACKAGECONFIG:class-native = "ipv6 openssl proxy random threaded-resolver verbose zlib"
 -- 
-2.35.1
+2.34.1
 
 
