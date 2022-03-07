@@ -2,25 +2,25 @@ Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D38DC433EF
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 10:19:57 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.116])
- by mx.groups.io with SMTP id smtpd.web10.24729.1646648391251509589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74089C433EF
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 10:30:49 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.110])
+ by mx.groups.io with SMTP id smtpd.web11.24753.1646649046799444812
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 02:19:54 -0800
+ Mon, 07 Mar 2022 02:30:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@arrigroup.onmicrosoft.com
- header.s=selector1-arrigroup-onmicrosoft-com header.b=tziuKwzV;
- spf=pass (domain: arri.de, ip: 40.107.21.116, mailfrom: ceggers@arri.de)
+ header.s=selector1-arrigroup-onmicrosoft-com header.b=VMaZUuNa;
+ spf=pass (domain: arri.de, ip: 40.107.8.110, mailfrom: ceggers@arri.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eL4KZt0PV6ByucbhAxAC843EA+Aq35rKPs5xwDbv5e6rCbxytWfvYxnadR5o1MoEFyW3mpSCVwnEctTJzJqWWzndq0E9+cJJ64iqVcUEAbIWcH5BR51469VYg6fb7tvAlnCqtZSJ4bhE7WpaSC5sMlnlsuxtVWsWmYdDVP6kBVy0Q5YYFPZ7RPVkrH8ASXMxlo1xqN9OPnO3igBegZKGAa9xkTS/6eAiigaIIBBXI11oyfjBmWGAYq0BeMfVtPTbe7dFXBtb+3B1Z3+cU1MlJWRydoLZhJHzO+p9YbU0LPq3xY98F6ML9K4BbLYDwNKK3pAaUty98ZhYA0BiDL9dMg==
+ b=IzGzBrGOkhn3zDiCESZZLbvbcSnhpM00SV0B2jb/zHcu0lBer01scq2FL5MgUFePYAfHt7LHeHNBrCuTLPzdI1LNBQXp4zwtpQkh5nZpN7OiAuFe8/D5FO69SHK6IPd4ldj8VSJM3bGxQpe61jhK8KjK/rgAOYw2hG8igxc8UfKfvjGStKxsZ8r4uoel8JhIUZQkyg1sKn49plGtNeAX4qEXsFvbe7qyT/aszPxWdRASQG7a29nTtK7mdUmb7M0OYq5CQuzIQ/M2BzakVK/UAwAIrs5yxx+tPCcFwuNZWKMOjF6HLuFDBB8L8FAsNZOUP9vcpvXgLnz519Rel/uV3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y7I2+5veeZN35SieaNr/p8kGMqTFjyec2s8urKPkbbM=;
- b=Kkt3OVWJx9XZ/9I6P8NkcsTq3dxakGQkBXU2Xq6hyukn8uBiI77MpjVCMnHtDyIaS8UOLG0iZNHjh1FxjSSWc/bJcUDnPqYhKUfOXU+AEr+8+HMC+fQROo9QOHGDuvcUfNx2lm2gYG1vzckWzPWta0uihqQ/5LhzE4n4yV8LI6cM7YoqEriS3ODdZY1gaUWGtFbA80D2btTNiiIpHJ9+/ezmZaYcC4g5L7Yy1VJgFDZTT3HYnocw2ojR/ynS5NRMGkBXj8cviSG5CEP4KCtqedY37Jw9Wa6q2yVpCvlmwQW4DiYSGGIvDr97HrOZBDYTrT/K28WhQ8qxxtG8CtvQiw==
+ bh=eY0hoCG3VxPL7aN0DFXhJhwa8/SbuW4E7W5ZwDgC4vM=;
+ b=L1+AFx1S1Ib1DMJfO4UrjcB3IitmOWji8e3eDLDwPgTbPMglposixpwSw3WgTfC+h5G88rUB+HSJwkRLLazb+TdMg/ve2BViX7TQDzL7gr8Aku5ljoOPCMlhqatuVqWqYUqwDWF6lz6/rlFPTzDcsF0O2sCtJeAYkiqsbiKLW1NppNRj4znVoPwwqG0sbNKfPUuIzWr1R82uBpt1PWHGdoT4POk01bK8XIeBdVTZo6fV+p3sXV5rRRn8cBCcuSiMtljL+203FLs4QFxZ11SBb7O5WtLe4DJdRJydnQLk3P+LxyVn2V+4gwfKrldeaAtoVYrzQ/jrM8xgyU1x2B7LGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
  dmarc=none action=none header.from=arri.de; dkim=none (message not signed);
@@ -28,18 +28,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y7I2+5veeZN35SieaNr/p8kGMqTFjyec2s8urKPkbbM=;
- b=tziuKwzVStc3kdjQDQc0Wfpm4HoyaVTAIEpxOHhckn+yKUpwm+PdgztN15cGUANhYZnREjcv9oQgCZXDRI9+vOqkDuujQy1TqwF0LDFp8Nf5PjmHlsWvtbuV7lT+okM9y9pTKnT9LJJIWbEWSKGK1Ynyi8BrbvcDqLkUtv2kxag=
-Received: from SV0P279CA0009.NORP279.PROD.OUTLOOK.COM (2603:10a6:f10:11::14)
- by AM6PR07MB5174.eurprd07.prod.outlook.com (2603:10a6:20b:69::20) with
+ bh=eY0hoCG3VxPL7aN0DFXhJhwa8/SbuW4E7W5ZwDgC4vM=;
+ b=VMaZUuNaCehGR+h1aoQOOr073IFiIMWcrK/v4jnRmE4F4Zw4wwlrw1yWeBgjxr77c5CNW8WYqoPp7g+w1KCgPSTv9kRRtJgznpCWTGDPlsYN33FepUNvKlgKmG0AJsAmvj7Y1ii3ECzg4tJjQzmzKLC+Nsnm9w1lxOI1GiXccyA=
+Received: from AS8PR04CA0043.eurprd04.prod.outlook.com (2603:10a6:20b:312::18)
+ by VI1PR07MB4093.eurprd07.prod.outlook.com (2603:10a6:803:2d::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.6; Mon, 7 Mar
- 2022 10:19:47 +0000
-Received: from HE1EUR02FT038.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:f10:11:cafe::96) by SV0P279CA0009.outlook.office365.com
- (2603:10a6:f10:11::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.10; Mon, 7 Mar
+ 2022 10:30:43 +0000
+Received: from AM5EUR02FT059.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:20b:312:cafe::21) by AS8PR04CA0043.outlook.office365.com
+ (2603:10a6:20b:312::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14 via Frontend
- Transport; Mon, 7 Mar 2022 10:19:47 +0000
+ Transport; Mon, 7 Mar 2022 10:30:42 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
  smtp.mailfrom=arri.de; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arri.de;
@@ -47,20 +47,20 @@ Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
  designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
  client-ip=217.111.95.7; helo=mta.arri.de;
 Received: from mta.arri.de (217.111.95.7) by
- HE1EUR02FT038.mail.protection.outlook.com (10.152.11.30) with Microsoft SMTP
+ AM5EUR02FT059.mail.protection.outlook.com (10.152.9.204) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5038.14 via Frontend Transport; Mon, 7 Mar 2022 10:19:46 +0000
+ 15.20.5038.14 via Frontend Transport; Mon, 7 Mar 2022 10:30:42 +0000
 Received: from localhost.de (192.168.201.134) by mta.arri.de (10.10.18.5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.7; Mon, 7 Mar 2022
- 11:19:45 +0100
+ 11:30:41 +0100
 From: Christian Eggers <ceggers@arri.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: Pavel Zhukov <pavel@zhukoff.net>, Pavel Zhukov <pavel.zhukov@huawei.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [honister][PATCH] patch.py: Prevent git repo reinitialization
-Date: Mon, 7 Mar 2022 11:19:29 +0100
-Message-ID: <20220307101929.20144-1-ceggers@arri.de>
+Subject: [hardknott][PATCH] patch.py: Prevent git repo reinitialization
+Date: Mon, 7 Mar 2022 11:30:26 +0100
+Message-ID: <20220307103026.20672-1-ceggers@arri.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -68,36 +68,36 @@ Content-Type: text/plain
 X-Originating-IP: [192.168.201.134]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c631d73a-603e-43de-6077-08da00240160
-X-MS-TrafficTypeDiagnostic: AM6PR07MB5174:EE_
+X-MS-Office365-Filtering-Correlation-Id: 461ca83f-23e4-47e7-5eb8-08da00258836
+X-MS-TrafficTypeDiagnostic: VI1PR07MB4093:EE_
 X-Microsoft-Antispam-PRVS: 
-	<AM6PR07MB51748A76D82E2938D9A27495BF089@AM6PR07MB5174.eurprd07.prod.outlook.com>
+	<VI1PR07MB40933503A5DF9CF3BB37F3A0BF089@VI1PR07MB4093.eurprd07.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	eVWExtgAog5z8Gm6ccNCO2LL+U7dFv+aHk3fml5CsgDmRaOMe5qIInHl39iSzU7oaJaHotkL6LvHxS67q9NKe2Ml6RO2/AJQczrB8ykYHPPZjfD+fZR4kbUFwqZ5sWI59RMPsuMDHhxkSWbjxwc3p/BohxM6Dx49/m8IccqdfcjT3C4L9cmhnhglZ9zpxBsIsrrK9hRcKFWf2neORDxYDlRRi15nCs52KuqolVgZ6FrHgK9S/mS2vi+wv9qUyoVQNwiLHMcH6l/fJGjCEtwnAgSFjSAVQkP/xNk0mv9/SQIveMW+Il7WZMsC4iw4e5cvIgPtXEB+ZjvjHl6chBxFv2VmXiRl+hH1QdbdUNF9PWuU/RajL0sopdSiQ3QTWIPm9h1eOV5/89HSxosXmOKZyqXMJAR4zq73TwkXdxZq7mYtk0piGwlRTlQs2Gt+zO/FhxF5h0EHJ4+hPv/AA9KTCBOIZwjzwYPfDH0CvV4qbeRsCXnEKcqMVq6VVK4oPtwS/vjzPmedoyNMEAQvI5h7QByXD2jCTUVUP5I5mF3a2eJHCEewC+THml3muslModOEb7R2P7nqMZHmORppPadYiaaObia0p3aO5HsVfoOrjTyxMUEIUd4JrGfKG8CymcT/4IzO4qxDogFQExFkDM6aGqCGRpd0gWsJ8JK8YfG1kG03CcCzFjzTPYMY52ookOOPO3VYAM5KrlwvQB74ugWLNeEvQppmznyC+KLaz7h6dQi4/skxvTh7Ukg6v1zRxL3FeNHxWAsO5Ws3CJrnqOEEj+LGxu31j1mAPKKIczUGmu2M3twJA6aEZHbdMe8jtq8w
+	nAT9uCVWogHGqgQc2QntOFyTHYCbkpLpONMBcG1ybcyF1tQYBZsF0jjB5eQZG+s4/saHzzuOMSfmqZ4HtAEqy2KyhacXNUTA9dUonQ8gOki19Hm7/KNceHpvpkX85KJF+djS548wbtatvi+/44Qfoj34tcnLISqTOo7Z/v5Z0glDkCK29TtyMfrvT3ekJrgXAroXkLFUFlGXmh5pVeAtH1/UyMvOCzilyYbIBEJNQma7FA46K3t+uy61OE9oD1z6YdUfCqjljeYJ+P0dNp7Y4dJthSo7jR3VZdHHmU8NYgIopxHSq6g/Z2dLDOqhKOwyAIlR3xeIQcWToA9Wqu64nHy5sw+9udhYKYCMF0QIeeY+trgjuK3qdyg8qXzI0XSgxlC7VubpuA48APRFVeLHgxuTTzq1OCQXksSs/jNNudctCAy0mm9pMQZbjMzD6nMod3EwHIm+BgCiVsMbU+DkEzK9JlnilUQ4096E6vPePs2G4ID0LmrqyUhYFubg/nXF8hFsAXEj0DV+uwPvomRou0mZPzDZftoDLuO2z+ZkBg3QhehmWGRtoGB6Iww/b4w8gtjTYZtyNEI10PxPQB+yFHW1ohh1sKtyzcfWVIHXKWkZDlBng5xA+4suksKP0sLsCkNsAZu5QKy7VVoYxP5kNr3YQYeQYt4JmmrxLaZGb29T2CJizcTL6hKU0KbeHoTo9wpIbad6F/E1RzrR0BxCH3a+bpGqtW22ybfjVr8/pPBoAb4rKRZszpYjMlSC4hygsgA/lRxCFMaIUM/wot0G/A==
 X-Forefront-Antispam-Report: 
-	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(46966006)(82310400004)(508600001)(86362001)(8936002)(54906003)(36860700001)(81166007)(356005)(6916009)(186003)(26005)(2906002)(83380400001)(426003)(16526019)(336012)(6666004)(5660300002)(47076005)(70206006)(70586007)(4326008)(8676002)(2616005)(1076003)(316002)(36756003)(36900700001);DIR:OUT;SFP:1102;
+	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(16526019)(1076003)(81166007)(426003)(336012)(2616005)(26005)(356005)(47076005)(83380400001)(82310400004)(36860700001)(86362001)(186003)(6666004)(8676002)(4326008)(70206006)(70586007)(8936002)(5660300002)(36756003)(2906002)(508600001)(6916009)(316002)(54906003)(36900700001);DIR:OUT;SFP:1102;
 X-OriginatorOrg: arri.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 10:19:46.6845
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 10:30:42.4971
  (UTC)
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c631d73a-603e-43de-6077-08da00240160
+ 461ca83f-23e4-47e7-5eb8-08da00258836
 X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
  TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	HE1EUR02FT038.eop-EUR02.prod.protection.outlook.com
+	AM5EUR02FT059.eop-EUR02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR07MB5174
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB4093
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 10:19:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 10:30:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162805
+ https://lists.openembedded.org/g/openembedded-core/message/162806
 
 From: Pavel Zhukov <pavel@zhukoff.net>
 
@@ -190,10 +190,10 @@ plit(), self.dir)
      def extractPatchHeader(patchfile):
 diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selfte=
 st/cases/bbtests.py
-index 31962b92d79e..a08001a173dc 100644
+index 0a618bb9a6c9..4187cb840a38 100644
 --- a/meta/lib/oeqa/selftest/cases/bbtests.py
 +++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -310,8 +310,22 @@ INHERIT:remove =3D \"report-error\"
+@@ -310,8 +310,22 @@ INHERIT_remove =3D \"report-error\"
          src =3D get_bb_var("SRC_URI",test_recipe)
          gitscm =3D re.search("git://", src)
          self.assertFalse(gitscm, "test_git_patchtool pre-condition failed:=
