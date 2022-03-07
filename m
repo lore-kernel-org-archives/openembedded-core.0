@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 069A8C433EF
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 14:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0579BC433F5
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 14:13:40 +0000 (UTC)
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  by mx.groups.io with SMTP id smtpd.web08.26813.1646662417320001295
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 06:13:38 -0800
+ Mon, 07 Mar 2022 06:13:39 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=mszkAQm5;
+ header.b=EY4nuc1j;
  spf=pass (domain: intel.com, ip: 134.134.136.31,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646662418; x=1678198418;
+  t=1646662419; x=1678198419;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=H481GceAMH4XqL8SVHMXt7yMOyWcf8cBoLnpkMWv2fY=;
-  b=mszkAQm5mHnUg9Vpc2iFyR3GfxPTxuk7iHt83chtO6icdtA7hqwV0TXt
-   bTsNPFozEmDt8Bq3NlK3rVipVbQPqZFSHEf0lqVyaJ8P+ZBnBgS9uBgus
-   Vrvznn6IeAJFBB4wgyhw6MKM6aUL3QK/GUjkl4Pjy758u0LP321mdb7jd
-   bcitwyagj0XEENg8w0FeP5iYIDiGwhD9Wc+4SaGki1t01TIb0pierOy80
-   qASfE/lwQ3KakqyhoaMIXf1pW2kKjnF84jQddZtatMpf5vBu/9DktOGAL
-   Pp/ndZo6OZ+CDe90++YvstHAAtIQmjXU/PLxeMjMWoNWQhYZW05XFVTXd
+  bh=ysHRCdgvoWmy0NwgAaVqAZsVxvegpYBtzbgeiCGbY1w=;
+  b=EY4nuc1jM/8vL9GmhYShv2gVlTlv/xfZa0LoKVDeXS1zElE0wbAnOLNv
+   IavSd+xTalN8xkspgsfXo5P15iB8gveG+tkX8uRB6H0apkE5+9gArvtK9
+   bKrUQFdO/tsrCAeBzBuMZNyMQy5HDAs/3+ZKI/JER90Mc9O9k4K/bZY1O
+   dcH2eOsNbsyUYi2Fm/DgTRhQv4fjd0q35d22vKhqeNCLK3VoiHuq9Go/p
+   HlI6E9YITJpMRqG2ZrDidqnMhMIrYmNlqJfIEXmKPEw/VBaUV33JT7/7L
+   hAQXOzIraUNxOvYTcd7dpxpc+F9ATLm7Uk0YWgA4OXKYTKwV6EWsks6Hd
    A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="315112408"
+X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="315112419"
 X-IronPort-AV: E=Sophos;i="5.90,162,1643702400";
-   d="scan'208";a="315112408"
+   d="scan'208";a="315112419"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 06:10:08 -0800
+ 07 Mar 2022 06:10:10 -0800
 X-IronPort-AV: E=Sophos;i="5.90,162,1643702400";
-   d="scan'208";a="495070759"
+   d="scan'208";a="495070762"
 Received: from hmohdnox-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.227.91])
   by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 06:10:07 -0800
+ 07 Mar 2022 06:10:09 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 01/25] harfbuzz: upgrade 2.9.0 -> 2.9.1
-Date: Mon,  7 Mar 2022 22:09:37 +0800
+Subject: [honister][PATCH 02/25] ruby: update 3.0.2 -> 3.0.3
+Date: Mon,  7 Mar 2022 22:09:38 +0800
 Message-Id: 
- <99a05d5365e85f5d32f2cf5926110292443211f6.1646661615.git.anuj.mittal@intel.com>
+ <7e3929281bbb9f37a8e286a3f0d89eed01df2a0d.1646661615.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1646661615.git.anuj.mittal@intel.com>
 References: <cover.1646661615.git.anuj.mittal@intel.com>
@@ -52,52 +52,50 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 14:13:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 14:13:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162822
+ https://lists.openembedded.org/g/openembedded-core/message/162823
 
-From: wangmy <wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Final subset API is in place and if no issues are discovered,
-it will be the stable subset API of HarfBuzz 3.0.0.
-Old API is kept to ease transition, but will be removed in 3.0.0.
-Various fuzzer-found bug fixes.
-hb_buffer_append() now handles the pre- and post-context which
-previously were left unchanged in the destination buffer.
-hb-view / hb-shape now accept following new arguments:
---unicodes-before/after: takes a list of hex numbers that represent Unicode
-codepoints.
-Undeprecated API:
-hb_set_invert()
+Do not tweak a file that is no longer installed.
 
-(From OE-Core rev: 0a9d19f575fda7db2f768f77701a137da8f73a97)
+(From OE-Core rev: 1af0c4ef56d1892f284b6787ccc5a925d023e178)
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../harfbuzz/{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb} (95%)
+ meta/recipes-devtools/ruby/{ruby_3.0.2.bb => ruby_3.0.3.bb} | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.0.2.bb => ruby_3.0.3.bb} (93%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
-index bc91a8c03c..694553beef 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.9.1.bb
-@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+diff --git a/meta/recipes-devtools/ruby/ruby_3.0.2.bb b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
+similarity index 93%
+rename from meta/recipes-devtools/ruby/ruby_3.0.2.bb
+rename to meta/recipes-devtools/ruby/ruby_3.0.3.bb
+index 2abf504d91..95feb94dd4 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.0.2.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.0.3.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+            file://0006-Make-gemspecs-reproducible.patch \
+            "
  
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "3e1c2e1d2c65d56364fd16d1c41a06b2a35795496f78dfff635c2b7414b54c5a"
-+SRC_URI[sha256sum] = "0edcc980f526a338452180e701d6aba6323aef457b6686976a7d17ccbddc51cf"
+-SRC_URI[sha256sum] = "5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1"
++SRC_URI[sha256sum] = "3586861cb2df56970287f0fd83f274bd92058872d830d15570b36def7f1a92ac"
  
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+@@ -83,8 +83,6 @@ do_install_ptest () {
+         -i ${D}${PTEST_PATH}/test/erb/test_erb_command.rb
  
+     cp -r ${S}/include ${D}/${libdir}/ruby/
+-    test_case_rb=`grep rubygems/test_case.rb ${B}/.installed.list`
+-    sed -i -e 's:../../../test/:../../../ptest/test/:g' ${D}/$test_case_rb
+ }
+ 
+ PACKAGES =+ "${PN}-ri-docs ${PN}-rdoc"
 -- 
 2.35.1
 
