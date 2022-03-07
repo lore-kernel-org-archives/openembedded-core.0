@@ -1,152 +1,139 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <ardeleanalex@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A45C433F5
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 13:01:56 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.1])
- by mx.groups.io with SMTP id smtpd.web10.25861.1646658113891632984
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B650C433EF
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 13:07:24 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.25833.1646658443412433380
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 05:01:54 -0800
+ Mon, 07 Mar 2022 05:07:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Iyq8X9zK;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1646658111; i=@fujitsu.com;
-	bh=N2PQnoLabBwCZuBvesAExctyWhsGziOMWNLH+BZFgEo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Iyq8X9zK7my2/ctDZQNaWY8iAGZZ0UOg7xXL56gmpIJZtgL18B2NMUOkxOThZv6T0
-	 REPLQnPbYThDvGX6iK2AZ1VaCCICcfbX4wQuwEjGuvRTQJENJ1o9UffobrXXMSru1X
-	 df2xk0B/qcV/VVSf0ne4innXMRvaukki7qSBV1Vqzqf2fDYerGN4ejxGHpVFFq0Hm6
-	 yG9o7nGGlGZ5s2uXXEr2KeFUB+exDK4YTnYENoslM41sbOskRiNiBwa5iscF3XmJig
-	 ajC+OGG7llBi9B22W0SfF2d19yJDPwlP3v3xO2AVWPMBmVhhU1GpF3EPKky5s6XZ+I
-	 imUdw3iZEV31w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8ORqGvPpJZ
-  ksOWPlMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtHz/QVzwUvJit6XoQ2ME8S7GDk5hAQeM0ps
-  7EzpYuQCss8zSaxaPJkZwjnOKPHuynd2kCo2ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7B
-  6xEWMBK4vvVk4wgJSxA8dMbskBMXgEnif/zakEqJAQUJKY8fM8MYvMKCEqcnPmEBWKKhMTBFy
-  +YIWoUJWZfbmaBsCskZs1qY4Kw1SSuntvEPIGRfxaS9llI2hcwMq1itEsqykzPKMlNzMzRNTQ
-  w0DU0NNU1N9Q1tDTQS6zSTdRLLdVNTs0rKUoESusllhfrpRYX6xVX5ibnpOjlpZZsYgQGZUqx
-  +74djC/6fuodYpTkYFIS5b3+VzVJiC8pP6UyI7E4I76oNCe1+BCjDAeHkgQvP4NakpBgUWp6a
-  kVaZg4wQmDSEhw8SiK8IV+AWnmLCxJzizPTIVKnGBWlxHkVGIH6BEASGaV5cG2wqLzEKCslzM
-  vIwMAgxFOQWpSbWYIq/4pRnINRSZiXC2QKT2ZeCdz0V0CLmYAWV9kqgSwuSURISTUwbVTdXV+
-  yU8XMX/36n36v/TGyS8rZ507c9d9Vws5htsdqq1elbKl3cq7lvFaRKSl1Nrz52eYlx/YHHmdv
-  3Ih+de5G4p73NnfXWZzYe8VrWXUSr5T9S8OtrRWBq7caFX6uWxSXJhNyx4hpOV8M/x13ZbZzB
-  W/fBDJ7FWlt3fHF2+v0/x8alTUun16EmDe5x3423MEbYN4oGz9/xaQ5K3k/SO4oimgw27CjJ7
-  jSJ7k+e+eHAw0Lj51lm5weYrL1rv3pTrGTvf/YYxqsOq86lLiqaql7f2sIXeY85fmNkJ0Ot9f
-  fSstNs5+cf0i6r67qUHSYjuOzPzNX/S/h9ClwX+Gc0PVNoOuirG+Tytbn6SVKLMUZiYZazEXF
-  iQDw1tvoRQMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-13.tower-528.messagelabs.com!1646658111!30789!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.8; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 21712 invoked from network); 7 Mar 2022 13:01:51 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-13.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 7 Mar 2022 13:01:51 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id D7222100189
-	for <openembedded-core@lists.openembedded.org>;
- Mon,  7 Mar 2022 13:01:50 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id CA984100183
-	for <openembedded-core@lists.openembedded.org>;
- Mon,  7 Mar 2022 13:01:50 +0000 (GMT)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 13:01:31 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] cmake: upgrade 3.22.2 -> 3.22.3
-Date: Mon, 7 Mar 2022 21:01:22 +0800
-Message-ID: <1646658082-56264-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eKKePmB1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: ardeleanalex@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id a5so2130990pfv.2
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 07 Mar 2022 05:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vXerZ101ExHs0loCkW4YgY44TJ5WiwV34GkGwdo9yfk=;
+        b=eKKePmB1H2HhJbJASO+/batshSFT1rApUoqGpLCvLYxTIYBLQ2tEGdMHhOZa15NkRj
+         IRrqvVHH4E8XRrz3Y26sdgtadYb7gJ9N6r+VgW53YtltWDlCqO3EEertBTroJ4usw5Ju
+         D+/dJugl2cgm7jjglgF8cINSsFA2+DFJcKGzEPF4VfFLpEQIKBwgQzVVT8gfoRhpdJ6+
+         Ggucf66cvp/b8qATdsIHm30AxCLchT+KsqWeszaywMEILnRYueYp5ps+NN3eBry+7Bgv
+         mjCQUq2op/HoJNaRTOM5lmhnFNR2ZgmWHzrEnJg/h7hk8H+VRejra+PFhlANUoHi/bQA
+         ANig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vXerZ101ExHs0loCkW4YgY44TJ5WiwV34GkGwdo9yfk=;
+        b=sjxPf8f44KvtbPLsmn/trVq1BDC1H7O902Hpxp0B0C6D/cg7uoJRI96Ob2lzEs48rd
+         6acbo1W4n/yDNvI9PdTfnTuGQtBu2MsArDxtjskrka8IEdeL3vtBWFyaUyJDxgA4Sr/L
+         pf9EAlv+EOmzIB8eLzqApl9weOd+PPWQbWNWD4jgduD6PTjEn5A4sztLvyW2Kdkw0Cc7
+         BsPolaiNGHaGVSCBqhN6altDzkirq4GB5E/tJI7BBvOZucTdnfDv4HdsniACPW8iVhjf
+         CaYByvbcF8mkFvR+buTcJu75WFRF6eSRtPqqzbiOCUY1YZBKOSjSlXI0R8r/d1Cnl7m9
+         aLtw==
+X-Gm-Message-State: AOAM533N0tp0RYOYCTfzOfTznV+GK2yiE663ZbWQyx0r0T0SrVTA9qxB
+	AR8nj/GPpGpIv0qKssXvD1CZiyk0J7PxP45Clgo=
+X-Google-Smtp-Source: 
+ ABdhPJwX3WQK4YrlkmkltuPATswpTL7rmxkXV6CvE6OSxMpYRQhOhQ67WjNH0Vtjj1lWB04eZXvfBrDz/BiIquAYCQg=
+X-Received: by 2002:a05:6a00:1307:b0:4b0:b1c:6fd9 with SMTP id
+ j7-20020a056a00130700b004b00b1c6fd9mr12732285pfu.27.1646658442873; Mon, 07
+ Mar 2022 05:07:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <20220224153034.5140-1-ardeleanalex@gmail.com>
+ <CA+U=DsrLoHsQKqVb06hqnL3UvHJotM5yxBYnvN7y7KM9Ec2tdQ@mail.gmail.com>
+ <12d5c909469e4ced0ab136d0ca5f00cbe45567c7.camel@linuxfoundation.org>
+ <CA+U=DsrXewjnaWp2DQM8u=V9AS49vGKcdt17b5kyZ8eth_8LOQ@mail.gmail.com>
+ <49dbf7f4492322649e7876c110e94de4f82bcf77.camel@linuxfoundation.org>
+ <CA+U=Dsr74n=NT7w-TrrpQwv0_9iHQYnGNCU8BobebjKQ5sbJXg@mail.gmail.com>
+ <eda53a5cb864d7dfec2f8e7d180f4e291419a921.camel@linuxfoundation.org>
+In-Reply-To: 
+ <eda53a5cb864d7dfec2f8e7d180f4e291419a921.camel@linuxfoundation.org>
+From: Alexandru Ardelean <ardeleanalex@gmail.com>
+Date: Mon, 7 Mar 2022 15:07:10 +0200
+Message-ID: 
+ <CA+U=DsqOD-1iyykdDB0srZrQiw5Z-u0vWRTBr-9oO=9g3Swhsg@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] libsndfile1: bump to version 1.0.31
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 13:01:56 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 13:07:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162816
+ https://lists.openembedded.org/g/openembedded-core/message/162817
 
-refresh 0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+On Thu, Mar 3, 2022 at 1:23 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2022-03-03 at 12:54 +0200, Alexandru Ardelean wrote:
+> > It didn't look [to me] like it would be too bad to me either.
+> > I wasn't sure what the decision would have been (from OE), to
+> > [1]patch-out libopus? or to [2]add libopus? or [3]revert?
+> > But your patch suggests [1] is preferred for now.
+>
+> My reasoning is that:
+>
+> * libopus is in meta-openembedded, I'm not sure we have a strong case for moving
+> it to core.
+> * I was happy to see us move to a recent more up to date version with the CVE
+> patches dropped so reverting seemed like a less attractive option too.
+>
+> I just wasn't sure if patching out libopus would be possible or not. I therefore
+> had a look at a patch to do it and that shows it does seem to be reasonable.
+>
+> > Did you get a chance to test it?
+> > I can run a test on my system with it.
+> > But it may take me 1-2 days.
+>
+> I've turned it into a proper patch and will test it on the autobuilder.
+>
+> > In the meantime, I was a bit busy with this:
+> > https://github.com/libsndfile/libsndfile/pull/812
+> >
+> > It kind of seems that libsndfile people are talking about maybe
+> > splitting up their configuration.
+> > Let's see. That will be in a future release anyway.
+>
+> Thanks for discussing it with them. If upstream were willing to accept a patch
+> to enable/disable opus, that would be our much preferred way to handle this!
 
-Changelog:
-==========
-* The :command:'while' command again ignores errors in condition evaluation
-  as CMake 3.21 and below did.  This bug was fixed in 3.22.0, but exposed
-  errors in existing projects.  The fix has been reverted to restore
-  compatibility.  The fix may be restored in a future version of CMake
-  via a policy.
+Tested your patch no-opus patch.
+It works for me.
+I have a running system and I'm also able to convert the OGG Vorbis
+files to WAV.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../{cmake-native_3.22.2.bb => cmake-native_3.22.3.bb}      | 0
- meta/recipes-devtools/cmake/cmake.inc                       | 2 +-
- ...akeDetermineSystem-use-oe-environment-vars-to-load.patch | 6 +++---
- .../cmake/{cmake_3.22.2.bb => cmake_3.22.3.bb}              | 0
- 4 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.22.2.bb => cmake-native_3.22.3.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.22.2.bb => cmake_3.22.3.bb} (100%)
+Regarding libsndfile, things are a bit on hold.
+I may bother them next week.
+Reference: https://github.com/libsndfile/libsndfile/pull/812#issuecomment-1059762147
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index a8bd4311c4..d500321138 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
- 
--SRC_URI[sha256sum] = "3c1c478b9650b107d452c5bd545c72e2fad4e37c09b89a1984b9a2f46df6aced"
-+SRC_URI[sha256sum] = "9f8469166f94553b6978a16ee29227ec49a2eb5ceb608275dec40d8ae0d1b5a0"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-index 9609f5f7c2..9a2287f517 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
-@@ -1,4 +1,4 @@
--From e75f76b00cc9c1cfc231c5e731e975552f5dd13e Mon Sep 17 00:00:00 2001
-+From 89f6c846f02ad6d30b9ebb7eaaaa4fb6f9cec054 Mon Sep 17 00:00:00 2001
- From: Cody P Schafer <dev@codyps.com>
- Date: Thu, 27 Apr 2017 11:35:05 -0400
- Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
-@@ -25,10 +25,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 7 insertions(+)
- 
- diff --git a/Modules/CMakeDetermineSystem.cmake b/Modules/CMakeDetermineSystem.cmake
--index bae270de..5bb6bc0d 100644
-+index 8c7af067..ade2b189 100644
- --- a/Modules/CMakeDetermineSystem.cmake
- +++ b/Modules/CMakeDetermineSystem.cmake
--@@ -111,6 +111,13 @@ else()
-+@@ -112,6 +112,13 @@ else()
-    endif()
-  endif()
-  
-diff --git a/meta/recipes-devtools/cmake/cmake_3.22.2.bb b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.22.2.bb
-rename to meta/recipes-devtools/cmake/cmake_3.22.3.bb
--- 
-2.25.1
+It looks like there was a proposal (3 years ago) to split the
+configuration, but it was NACK'ed by the main maintainer/author of
+libsndfile.
+Reference: https://github.com/libsndfile/libsndfile/pull/400
 
+Now, with (me) opening the discussion PR 812, it looks like this is
+being re-evaluated again.
+
+Good news is: there is already work done for this (splitting
+configuration per Xiph-codec), it just needs to be pulled back into
+the present.
+
+Thanks again
+Alex
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
