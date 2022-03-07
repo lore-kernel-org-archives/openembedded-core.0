@@ -1,104 +1,91 @@
-Return-Path: <leimaohui@fujitsu.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C48C433F5
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 02:48:35 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web12.22204.1646621313978804266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17146C433EF
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 04:07:47 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web08.23073.1646626065007202423
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Mar 2022 18:48:34 -0800
+ Sun, 06 Mar 2022 20:07:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Rd3Yi8jT;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
- mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1646621312; i=@fujitsu.com;
-	bh=1ScVtfsUqsP1wowc2frfrouSPsTgpQW0y7v3G5DRUCQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Rd3Yi8jTE4GA6a8KU5zQY/lyOb2k4d8SQSrDAvGL4xkqtHAdyzG7leW53PWOj85xd
-	 JnN678TeDg/WguOCEITpXe3+AtuJk+I2D9l52OZ8yCDuI9AitJfW1XDwvqTA/ue9uO
-	 hBUZQgwzvsNG4weW93TA/6VhLidnZOEHHrnGk0N7LdjK0ECL2Plzn7pOiF/yhXf31N
-	 1CTgi4Puh5AHDsU1rfLCsfpOcSnNOTbWUQT1cRWLtyZxPNLzQlnDq0l14eWaIt9Jjd
-	 WAnbo9aHZSjRjXPU5/86QZfuzAV0jzCWe620DYZ826KWtoJu7p1pfT4g9SJhFPBY4P
-	 OXcknn/GfgM0g==
-Received: from [100.115.71.2] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-4.bemta.az-a.eu-central-1.aws.ess.symcld.net id
- 6A/21-24645-F7275226; Mon, 07 Mar 2022 02:48:31 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRWlGSWpSXmKPExsViZ8MxRbe+SDX
-  JYFKHiMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvFz1gGWgj1sFZP2z2FqYJzB2sXIxSEkMJ1J
-  YuaHbYwQzh5GifsHVwFlODnYBDQkdk+9zNzFyMEhIqAncfWfKEiYWUBN4ujLn8wgtrBAqETLo
-  xNgNouAisTLpR/YQWxeAReJ/we+s4DYEgIKElMevmeGiAtKnJz5hAVijoTEwRcvmCFqlCTeXt
-  rDCGFXSMya1cY0gZF3FpKWWUhaFjAyrWK0SyrKTM8oyU3MzNE1NDDQNTQ01TUz0zW0MNNLrNJ
-  N1Est1U1OzSspSgRK6yWWF+ulFhfrFVfmJuek6OWllmxiBIZaSrHTrh2MB/t+6h1ilORgUhLl
-  ZWdRTRLiS8pPqcxILM6ILyrNSS0+xCjDwaEkwdtSAJQTLEpNT61Iy8wBhj1MWoKDR0mENwgkz
-  VtckJhbnJkOkTrFqMsx6c+1vcxCLHn5ealS4ryTCoGKBECKMkrz4EbAYvASo6yUMC8jAwODEE
-  9BalFuZgmq/CtGcQ5GJWHenSCreDLzSuA2vQI6ggnoiCpbJZAjShIRUlINTEeDvddHp2nz/rs
-  yPct5UfOFPsZnkdyrp76ZO2fG/MRprdduJr+7ECa+QHPSlUdrt2pFl2212sS4Ifdszh5x80O/
-  bMS9l5i9UnX9s7NMLz0z7ZvM4bv1/vkmJZndVnxMc1nruA7eU2uZHjjHI6kiIt1e9OXK60v/K
-  M1Ybfoo7AyzrLlMz6JdSzjSp++v7zv+eO2WdY0SHkZNZvI3jS+LHZsi9N59eb64lI/fi8tbO3
-  zsSlaGWLIurzPWnTvVZJHYOsegVZmNfvsbdd5xLnXenlNyOoht6pTtZwIUj7+P1ZX+P6lpAfO
-  9SdweHxIv1t7Kjddeb+rkmrDv0/uNyf+7f2XmnEqI8Jgfd//MrXDRM0osxRmJhlrMRcWJAJyX
-  gfc8AwAA
-X-Env-Sender: leimaohui@fujitsu.com
-X-Msg-Ref: server-17.tower-528.messagelabs.com!1646621310!64255!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.8; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 18834 invoked from network); 7 Mar 2022 02:48:31 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-17.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 7 Mar 2022 02:48:31 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 2272mLeT025805
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 7 Mar 2022 02:48:30 GMT
-Received: from localhost.localdomain (10.167.225.227) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 02:48:20 +0000
-From: Lei Maohui <leimaohui@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Lei Maohui <leimaohui@fujitsu.com>
-Subject: [OE-core] [PATCH] monitordisk.py: Deleted redundant word in warning
- message.
-Date: Mon, 7 Mar 2022 19:48:12 +0800
-Message-ID: <1646653692-3675-1-git-send-email-leimaohui@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YxJv2XX7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id s1so12640487plg.12
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 06 Mar 2022 20:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ju5zQB4R60cnN3gKXP/cfmtPwuQR/6VHxQWOKclpMV4=;
+        b=YxJv2XX7gnFlgsSSrHVsvO+iADKn51YPj674NbhfpCs314Km0o1OGZMv3+lYA82bae
+         +OZYEHPVSSMX33ICVDzyExhXiiPZrqaSsffDsFzCHWoPeafAXzlCWdRBxsNDILj5tmAY
+         com9rmGzFenVHn6b4d+WYycTRj1Xy6DOzr5IjvnzgTjhIiRPNhciHFMtpKjuvC7vl4LU
+         g3hw/0nVwpmgx1G0ouv5ncC1iKqc4Qf4Y9hoJkzOE06HPYH62/iC8LfONzapKmz1jKHJ
+         AZQuxi1kwq3SFmSBqCCoGT7PwJBRRhed8aQyzjZONoWaBksO6jkdNSFtK5zcJXZR5LQF
+         3M6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ju5zQB4R60cnN3gKXP/cfmtPwuQR/6VHxQWOKclpMV4=;
+        b=bvyXNL6VtLB6FdG/S4IN43GDgU2z0tsLCg+Df14mGJ5BcyhME3dtn18dpO5h/uVquo
+         +o1R00KctGdoOpz0bGMaZ1lrPD+KLkR7K8iQLPcfc6nRQTHkA0NR0W/O3CWvPyTEH4BD
+         EwRdH0F+PKLly16RpZxxXLw/qlhnlzvL3qUjvm68+LtyXjTOAx3Jd4WLywtyD6J0Xa57
+         8WVtvCH7hCxE9qaRu02hqw33NGaHjbMFR+CkveKcmE6akAty1pBa6sz5zavYc6EVlH9U
+         ZTbdOlb5gxflZEpBQL/xVRKyOWmLuKlNTGxcmwaZ6bPfZvas7ZR8swGW/Nw4E5cuZtZe
+         MyRg==
+X-Gm-Message-State: AOAM531n3pQ49DfjPbJhHIv/gelRUyTGj+VaiJIhmkcIZk0u6Nl7H6Wa
+	OyOlrxpKfp3gdnI7FzIG2OmCJ0VBGpdXgg==
+X-Google-Smtp-Source: 
+ ABdhPJzI2+kxpvojNFXkwgvX+nModnwP9VxWSLd/YLhl3nNbuYRAQ2LTma/P22hOliGmjoPXdbfv1w==
+X-Received: by 2002:a17:902:d2ce:b0:151:6781:affa with SMTP id
+ n14-20020a170902d2ce00b001516781affamr10384155plc.168.1646626064190;
+        Sun, 06 Mar 2022 20:07:44 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
+        by smtp.gmail.com with ESMTPSA id
+ j13-20020a63594d000000b003639cf2f9c7sm10438821pgm.71.2022.03.06.20.07.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Mar 2022 20:07:43 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] kmscube: Fix build when x11 is absent in distro features
+Date: Sun,  6 Mar 2022 20:07:41 -0800
+Message-Id: <20220307040741.3566970-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.227]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 02:48:35 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 04:07:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162795
+ https://lists.openembedded.org/g/openembedded-core/message/162796
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+distros might use openGL but not x11 ( e.g. EGL ), therefore fix build for such
+combination
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- bitbake/lib/bb/monitordisk.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/kmscube/kmscube_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/bitbake/lib/bb/monitordisk.py b/bitbake/lib/bb/monitordisk.py
-index 8d8cfbb937..a1b910007d 100644
---- a/bitbake/lib/bb/monitordisk.py
-+++ b/bitbake/lib/bb/monitordisk.py
-@@ -78,7 +78,7 @@ def getDiskData(BBDirs):
-         action = pathSpaceInodeRe.group(1)
-         if action == "ABORT":
-             # Emit a deprecation warning
--            logger.warnonce("The BB_DISKMON_DIRS \"ABORT\" action has been been renamed to \"HALT\", update configuration")
-+            logger.warnonce("The BB_DISKMON_DIRS \"ABORT\" action has been renamed to \"HALT\", update configuration")
-             action = "HALT"
+diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
+index 68cbe8c9fbf..58ce26a3d51 100644
+--- a/meta/recipes-graphics/kmscube/kmscube_git.bb
++++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+@@ -24,3 +24,6 @@ DEPENDS = "virtual/libgbm"
  
-         if action not in ("HALT", "STOPTASKS", "WARN"):
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[gstreamer] = "-Dgstreamer=enabled,-Dgstreamer=disabled,gstreamer1.0 gstreamer1.0-plugins-base"
++
++CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
++
 -- 
-2.25.1
+2.35.1
 
 
