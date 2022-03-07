@@ -2,72 +2,72 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00262C433F5
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 13:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3A45C433F5
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 13:01:56 +0000 (UTC)
 Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web12.25868.1646658081298204345
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web10.25861.1646658113891632984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 05:01:21 -0800
+ Mon, 07 Mar 2022 05:01:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=h0SV75ME;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Iyq8X9zK;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1646658079; i=@fujitsu.com;
-	bh=bS3nJVaNyVwCHELctJ4IJezzDWkmiExzwId/gyTCD5k=;
+	s=170520fj; t=1646658111; i=@fujitsu.com;
+	bh=N2PQnoLabBwCZuBvesAExctyWhsGziOMWNLH+BZFgEo=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=h0SV75MEBv3q54YZIQRsuEXrins24PklCY107zumTSCFApzc2YyVi5nid5QbiXtoe
-	 PVSRLyaAyYdgBoAlqnzu7Gzmu7L/fAnSBqmxF/Uvzh0HCEaHBaZjiHPWxxWO28TxkP
-	 ixLAqSXw4MGoLULIIefaDDYs6lcTofaUwFhxo7oD2uw3RB8OgpaKWmPIa8WQ5gjy8N
-	 YnnBCJ6LWQrXi0HaDiGJ16PCx4+FZK93fRtTMF210d1q4e6QTTmhe7olzFw8eVNxdw
-	 JKhInzvzJ3PPFSc2UQDANTHyz9YpGAfYUlwoUgTFuew9hzbkOz5c6mYrfINqCU2rTm
-	 LkxWG3jxT9rsA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRWlGSWpSXmKPExsViZ8MxSVeOSS3
-  J4PQuc4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWP5yl6Wgj/cFYffT2RvYNzH1cXIxSEk8JhR
-  4vDLG0wQznkmic7+DSxdjJxAznFGiQvvJUBsNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQkXjxu
-  4cdxBYWsJW4OfELK4jNAhR/fLWVDcTmFXCS+PZwIthICQEFiSkP3zNDxAUlTs58wgIxR0Li4I
-  sXzBA1ihKzLzdD1VdIzJrVxgRhq0lcPbeJeQIj/ywk7bOQtC9gZFrFaJdUlJmeUZKbmJmja2h
-  goGtoaKprbqhraGmgl1ilm6iXWqqbnJpXUpQIlNZLLC/WSy0u1iuuzE3OSdHLSy3ZxAgMzZRi
-  9307GF/0/dQ7xCjJwaQkynv9r2qSEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQlefga1JCHBotT01
-  Iq0zBxgnMCkJTh4lER4Q74AtfIWFyTmFmemQ6ROMRpzXL1yZS8zxw0QKcSSl5+XKiXOOxFkkg
-  BIaUZpHtwgWPxeYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMex5kCk9mXgncvldApzABnVJ
-  lqwRySkkiQkqqgaliRX/MseCSutytSs87TgTcTBOUr3rx91Ds1ds75n4wX7PcyHiqQvGvHRsC
-  E6peHc+z5luxOaDgsmW++t2zkUkLJh4uO+/PuON0k+/P8s8Lz8Ze13O+b1QU67T+yvLWK5nbH
-  9bfvqORbzBn56Ti/g9+stb8VxwM5nxnDOA8pf6//3nGtblxr466WbL8XabX0PRtr+t0WV3BDq
-  5px6VcdFxPFS48eyS96JxptHFQbMuf57Ku7DoJKgZ32JbUZ3JMKSg4du1cGFsIj0bv0sfar20
-  tOnSX7/565JzsFJnVf0w2SuczCJp2btiY0qH9+ePFh5Mafk1StZa33b9tzXIHg6CAfBNF0yNu
-  pbrmfxKPpimxFGckGmoxFxUnAgAPWpK+WgMAAA==
+	b=Iyq8X9zK7my2/ctDZQNaWY8iAGZZ0UOg7xXL56gmpIJZtgL18B2NMUOkxOThZv6T0
+	 REPLQnPbYThDvGX6iK2AZ1VaCCICcfbX4wQuwEjGuvRTQJENJ1o9UffobrXXMSru1X
+	 df2xk0B/qcV/VVSf0ne4innXMRvaukki7qSBV1Vqzqf2fDYerGN4ejxGHpVFFq0Hm6
+	 yG9o7nGGlGZ5s2uXXEr2KeFUB+exDK4YTnYENoslM41sbOskRiNiBwa5iscF3XmJig
+	 ajC+OGG7llBi9B22W0SfF2d19yJDPwlP3v3xO2AVWPMBmVhhU1GpF3EPKky5s6XZ+I
+	 imUdw3iZEV31w==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8ORqGvPpJZ
+  ksOWPlMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtHz/QVzwUvJit6XoQ2ME8S7GDk5hAQeM0ps
+  7EzpYuQCss8zSaxaPJkZwjnOKPHuynd2kCo2ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7B
+  6xEWMBK4vvVk4wgJSxA8dMbskBMXgEnif/zakEqJAQUJKY8fM8MYvMKCEqcnPmEBWKKhMTBFy
+  +YIWoUJWZfbmaBsCskZs1qY4Kw1SSuntvEPIGRfxaS9llI2hcwMq1itEsqykzPKMlNzMzRNTQ
+  w0DU0NNU1N9Q1tDTQS6zSTdRLLdVNTs0rKUoESusllhfrpRYX6xVX5ibnpOjlpZZsYgQGZUqx
+  +74djC/6fuodYpTkYFIS5b3+VzVJiC8pP6UyI7E4I76oNCe1+BCjDAeHkgQvP4NakpBgUWp6a
+  kVaZg4wQmDSEhw8SiK8IV+AWnmLCxJzizPTIVKnGBWlxHkVGIH6BEASGaV5cG2wqLzEKCslzM
+  vIwMAgxFOQWpSbWYIq/4pRnINRSZiXC2QKT2ZeCdz0V0CLmYAWV9kqgSwuSURISTUwbVTdXV+
+  yU8XMX/36n36v/TGyS8rZ507c9d9Vws5htsdqq1elbKl3cq7lvFaRKSl1Nrz52eYlx/YHHmdv
+  3Ih+de5G4p73NnfXWZzYe8VrWXUSr5T9S8OtrRWBq7caFX6uWxSXJhNyx4hpOV8M/x13ZbZzB
+  W/fBDJ7FWlt3fHF2+v0/x8alTUun16EmDe5x3423MEbYN4oGz9/xaQ5K3k/SO4oimgw27CjJ7
+  jSJ7k+e+eHAw0Lj51lm5weYrL1rv3pTrGTvf/YYxqsOq86lLiqaql7f2sIXeY85fmNkJ0Ot9f
+  fSstNs5+cf0i6r67qUHSYjuOzPzNX/S/h9ClwX+Gc0PVNoOuirG+Tytbn6SVKLMUZiYZazEXF
+  iQDw1tvoRQMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-3.tower-532.messagelabs.com!1646658078!32601!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-13.tower-528.messagelabs.com!1646658111!30789!1
+X-Originating-IP: [62.60.8.97]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 20445 invoked from network); 7 Mar 2022 13:01:18 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-3.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 7 Mar 2022 13:01:18 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 5FCA110034F
+Received: (qmail 21712 invoked from network); 7 Mar 2022 13:01:51 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-13.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 7 Mar 2022 13:01:51 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id D7222100189
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  7 Mar 2022 13:01:18 +0000 (GMT)
+ Mon,  7 Mar 2022 13:01:50 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 529111000FE
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id CA984100183
 	for <openembedded-core@lists.openembedded.org>;
- Mon,  7 Mar 2022 13:01:18 +0000 (GMT)
+ Mon,  7 Mar 2022 13:01:50 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 13:01:15 +0000
+ (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 13:01:31 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] asciidoc: upgrade 10.1.3 -> 10.1.4
-Date: Mon, 7 Mar 2022 21:01:04 +0800
-Message-ID: <1646658064-56217-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] cmake: upgrade 3.22.2 -> 3.22.3
+Date: Mon, 7 Mar 2022 21:01:22 +0800
+Message-ID: <1646658082-56264-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -78,45 +78,74 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 13:01:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 13:01:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162815
+ https://lists.openembedded.org/g/openembedded-core/message/162816
+
+refresh 0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
 
 Changelog:
-=========
-.Bug fixes
-- Add missing test py files to dist archives
-- Fix DeprecationWarnings in a2x regexes
+==========
+* The :command:'while' command again ignores errors in condition evaluation
+  as CMake 3.21 and below did.  This bug was fixed in 3.22.0, but exposed
+  errors in existing projects.  The fix has been reverted to restore
+  compatibility.  The fix may be restored in a future version of CMake
+  via a policy.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../asciidoc/{asciidoc_10.1.3.bb => asciidoc_10.1.4.bb}    | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/asciidoc/{asciidoc_10.1.3.bb => asciidoc_10.1.4.bb} (84%)
+ .../{cmake-native_3.22.2.bb => cmake-native_3.22.3.bb}      | 0
+ meta/recipes-devtools/cmake/cmake.inc                       | 2 +-
+ ...akeDetermineSystem-use-oe-environment-vars-to-load.patch | 6 +++---
+ .../cmake/{cmake_3.22.2.bb => cmake_3.22.3.bb}              | 0
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.22.2.bb => cmake-native_3.22.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.22.2.bb => cmake_3.22.3.bb} (100%)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb b/meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-similarity index 84%
-rename from meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb
-rename to meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-index fc8cbc89c8..484250b33e 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-@@ -5,11 +5,12 @@ articles, books and UNIX man pages."
- HOMEPAGE = "http://asciidoc.org/"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.22.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index a8bd4311c4..d500321138 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
  
- LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
--                    file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=aaee33adce0fc7cc40fee23f82f7f101 \
-+                    file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    "
+-SRC_URI[sha256sum] = "3c1c478b9650b107d452c5bd545c72e2fad4e37c09b89a1984b9a2f46df6aced"
++SRC_URI[sha256sum] = "9f8469166f94553b6978a16ee29227ec49a2eb5ceb608275dec40d8ae0d1b5a0"
  
- SRC_URI = "git://github.com/asciidoc/asciidoc-py;protocol=https;branch=main"
--SRCREV = "342639edbbc0dcc64354a0291d2214d4d5e65cab"
-+SRCREV = "c724bbf95b1840b04bb298a61a72b6a5ea94c2ef"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
- DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+index 9609f5f7c2..9a2287f517 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+@@ -1,4 +1,4 @@
+-From e75f76b00cc9c1cfc231c5e731e975552f5dd13e Mon Sep 17 00:00:00 2001
++From 89f6c846f02ad6d30b9ebb7eaaaa4fb6f9cec054 Mon Sep 17 00:00:00 2001
+ From: Cody P Schafer <dev@codyps.com>
+ Date: Thu, 27 Apr 2017 11:35:05 -0400
+ Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
+@@ -25,10 +25,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 7 insertions(+)
  
+ diff --git a/Modules/CMakeDetermineSystem.cmake b/Modules/CMakeDetermineSystem.cmake
+-index bae270de..5bb6bc0d 100644
++index 8c7af067..ade2b189 100644
+ --- a/Modules/CMakeDetermineSystem.cmake
+ +++ b/Modules/CMakeDetermineSystem.cmake
+-@@ -111,6 +111,13 @@ else()
++@@ -112,6 +112,13 @@ else()
+    endif()
+  endif()
+  
+diff --git a/meta/recipes-devtools/cmake/cmake_3.22.2.bb b/meta/recipes-devtools/cmake/cmake_3.22.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.22.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.22.3.bb
 -- 
 2.25.1
 
