@@ -1,108 +1,159 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FE0C433EF
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 13:59:57 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.26496.1646661595956656650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE60C433EF
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 14:09:39 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.26573.1646662178366618435
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 05:59:56 -0800
+ Mon, 07 Mar 2022 06:09:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cdirmSak;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id u1so23406746wrg.11
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=X6DKrdSm;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.44,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wr1-f44.google.com with SMTP id b5so23527470wrr.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 05:59:55 -0800 (PST)
+ Mon, 07 Mar 2022 06:09:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=qA5DNmiWZGNqH0PZ3SjOcKltl+H1FG6wYcrK+wDj7+I=;
-        b=cdirmSakIFXp3dn11yhoHEwL4pLlnYMuyh+6cHUK85JuV2RIHGaAwyKYXadc8O1Lg+
-         QoYRDtdAJ8f8wOwjqHFtQ2Gs7ndGKfikJD3wk0Js8sw6wsLUH1Ic5RZNL1URoqfcG35I
-         nmlnWZvgfX+qwrPA5J3WaaPyRdFG/t4qDzQlk=
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QV9lShgnVb8ZfatkB6de7haDmlclig+9oJP6+alz8A8=;
+        b=X6DKrdSm8fnHXvc3LH+E5zESgm7agh5Bhv84ENB+IY/DeNGkRhClPzEvMkRT+MPO3M
+         tmcKvjqQvSdvYISdFeGeUQmthoESL3xueuCQlQ4BDesIinHs00YkL/tYqN9WpipsnJ9Z
+         Pm5QOTK+ftichs3WI5tkqlly/lFf7m0XWXMlnbSDGm2TVkxdI9qVsoRFMTVuLIQuDL/Q
+         r1SIvVNx50g2slzt8hY7UTIh9mEusTd6B1TZrmsronYmiDyi4lv+ftXAkO4TVgzg1Anx
+         V31xxQjAMvf3+3ZMTJRjvjLZOKBnHfO9ONZ8RhVzwUdt5r5wY9aKL72mX6RNlfTEzt8N
+         Bltg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qA5DNmiWZGNqH0PZ3SjOcKltl+H1FG6wYcrK+wDj7+I=;
-        b=ao6Y5pPEBil0zYd0CdExxrMFO4kfIBFKOAOLc3S9NJCZEYUG7fHDeOaatoOZIpqNq+
-         s0TDezh4pZ2zDyVI1CWuLGbi8Ns+Jz1p2Z0zkfz+kMfP+0H+ID/QGeDjpSuWj1LNHsOH
-         Fix5ZeRzyrzmXg6ZJWqGxfwBJpnLv6Yaj8EyFAlS8F3/6/AnSG2XrS4Ez5UW80u7fV3j
-         8sMNG9P3PZTWtsmswPZIEAlE0Ecel+GtGdZDykKC/sFLUamKeN6YYut7PGoV6dfGo5HH
-         ydeJ9nekp94dhnxdHWbLd4kqBz54ePq4VIbkXaVcUxRSe3PbcM7T5O2L1yC8TaxB+Hr2
-         Ajlg==
-X-Gm-Message-State: AOAM531irlEm60421MuazIc78/cbbNVaclbWABDbgOsseKu/u4fTs+5p
-	H5gwvc3qy6UrYA12w5c8vbFz/A==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QV9lShgnVb8ZfatkB6de7haDmlclig+9oJP6+alz8A8=;
+        b=dQFZX2uVzI+KcmSNfM9UZ1FFskHjhu25llSFBJ8/9Pm/taS4gMPVaHdvJLrYQ0rt44
+         ATYCGhFe8n392fqCsstOw1uvQxiYCt5kwj65fxhaewQl17gQPLLRQphgDLd+8HL3cO3L
+         2XOFJerykd1UZvvB9XExuyRXlrbdwmSfWng6tOdW7YkOsID57DGZdqWAxQVk0jSct8eZ
+         CWy6rhsRnZ1JkUeCYLb70HfRRxmPL4AATnyZ6W5xYtJyA7y7Ii92nT9OYiYuFdxpj24d
+         lWIQMcMahS0CJ0/LxlI9LxHbTudSyxEuebyPK6S+V4+D3JBk/ULb9WnzySJJ27ixvJ0J
+         v+3g==
+X-Gm-Message-State: AOAM532j4weLI8EziCYJyywroDfcrg+mKBcmGKl1boDTvPUhcLj4yHd+
+	ZBhx56N/8XmS/foK8hhf9igeEczwJmvsvvAWCe29Rw==
 X-Google-Smtp-Source: 
- ABdhPJzc6QrQFjxL6MTePpR3OoElndqZF3YsZGu6ekB1sLAtEcVVNGsIK8EB/7ZlCfDddGXEUgDfSQ==
-X-Received: by 2002:a05:6000:1862:b0:1f1:f526:7901 with SMTP id
- d2-20020a056000186200b001f1f5267901mr4385969wri.485.1646661594124;
-        Mon, 07 Mar 2022 05:59:54 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:bb31:2700:8490:fdf8?
- ([2001:8b0:aba:5f3c:bb31:2700:8490:fdf8])
-        by smtp.gmail.com with ESMTPSA id
- p3-20020a05600c358300b003897e440047sm10794214wmq.28.2022.03.07.05.59.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Mar 2022 05:59:53 -0800 (PST)
-Message-ID: 
- <1b840c9a971a3a5a887991fabe919f29577b0810.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] asciidoc: upgrade 10.1.3 -> 10.1.4
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 07 Mar 2022 13:59:50 +0000
-In-Reply-To: <1646658064-56217-1-git-send-email-wangmy@fujitsu.com>
-References: <1646658064-56217-1-git-send-email-wangmy@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJzOxEhcw0DyzmMlbr76IeNwmx06XzmEjlOacvVTqPjpgqrJG42xwnpiY/nWgeN6joScAgnr+vwC3JmoKbi6ZGs=
+X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
+ m13-20020adff38d000000b001f0490a92aemr8173555wro.497.1646662176478; Mon, 07
+ Mar 2022 06:09:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220304171408.2672507-1-ross.burton@arm.com>
+ <20220304171408.2672507-3-ross.burton@arm.com>
+ <CAMKF1sqsb7qGrGYuAC6v-scJ4rR-4XaCVJFdkhKus0TwhcjQkg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sqsb7qGrGYuAC6v-scJ4rR-4XaCVJFdkhKus0TwhcjQkg@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Mon, 7 Mar 2022 14:09:25 +0000
+Message-ID: 
+ <CAAnfSTsm8VF2-mwrm5=iuq-CKa1RBRuayh-uvxx352PyMeUgNA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] pip_install_wheel: clean up
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 13:59:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 14:09:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162819
+ https://lists.openembedded.org/g/openembedded-core/message/162820
 
-On Mon, 2022-03-07 at 21:01 +0800, wangmy wrote:
-> Changelog:
-> =========
-> .Bug fixes
-> - Add missing test py files to dist archives
-> - Fix DeprecationWarnings in a2x regexes
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../asciidoc/{asciidoc_10.1.3.bb => asciidoc_10.1.4.bb}    | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->  rename meta/recipes-extended/asciidoc/{asciidoc_10.1.3.bb => asciidoc_10.1.4.bb} (84%)
-> 
-> diff --git a/meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb b/meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-> similarity index 84%
-> rename from meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb
-> rename to meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-> index fc8cbc89c8..484250b33e 100644
-> --- a/meta/recipes-extended/asciidoc/asciidoc_10.1.3.bb
-> +++ b/meta/recipes-extended/asciidoc/asciidoc_10.1.4.bb
-> @@ -5,11 +5,12 @@ articles, books and UNIX man pages."
->  HOMEPAGE = "http://asciidoc.org/"
->  
->  LICENSE = "GPL-2.0-only"
-> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
-> -                    file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
-> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=aaee33adce0fc7cc40fee23f82f7f101 \
-> +                    file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> +                    "
->  
->  
+These appear to be because the new compile code doesn't ignore errors,
+and the loop compiles everything installed in $bindir, even cmd.exe or
+Bash scripts...
 
-Why did the license checksums change?
+I'll make the loop stricter.
 
-Cheers,
+Ross
 
-Richard
-
+On Sat, 5 Mar 2022 at 01:57, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This is causing some install failures in meta-openembedded see
+> last five recipes in this batch
+>
+> https://errors.yoctoproject.org/Errors/Details/651080/
+> https://errors.yoctoproject.org/Errors/Details/651082/
+> https://errors.yoctoproject.org/Errors/Details/651083/
+> https://errors.yoctoproject.org/Errors/Details/651084/
+> https://errors.yoctoproject.org/Errors/Details/651085/
+>
+> These are the same failures across architectures and libcs.
+>
+>
+>
+> On Fri, Mar 4, 2022 at 9:14 AM Ross Burton <ross@burtonini.com> wrote:
+> >
+> > There's been a lot of work in this class lately, so a little spring
+> > cleaning is needed.
+> >
+> > Remove redundant creation of PYTHON_SITEPACKAGES_DIR, pip will do that.
+> >
+> > Remove redundant export of PYPA_WHEEL.
+> >
+> > Simplyify recompile code using "realpath --relative-to".
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/classes/pip_install_wheel.bbclass | 15 +++------------
+> >  1 file changed, 3 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
+> > index 3beff685bb..1870b916fe 100644
+> > --- a/meta/classes/pip_install_wheel.bbclass
+> > +++ b/meta/classes/pip_install_wheel.bbclass
+> > @@ -20,29 +20,20 @@ PIP_INSTALL_ARGS ?= "\
+> >      --prefix=${prefix} \
+> >  "
+> >
+> > -pip_install_wheel_do_install:prepend () {
+> > -    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+> > -}
+> > -
+> > -export PYPA_WHEEL
+> > -
+> >  PIP_INSTALL_PYTHON = "python3"
+> >  PIP_INSTALL_PYTHON:class-native = "nativepython3"
+> >
+> >  pip_install_wheel_do_install () {
+> >      nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PYPA_WHEEL} ||
+> > -    bbfatal_log "Failed to pip install wheel. Check the logs."
+> > +      bbfatal_log "Failed to pip install wheel. Check the logs."
+> >
+> > +    cd ${D}
+> >      for i in ${D}${bindir}/* ${D}${sbindir}/*; do
+> >          if [ -f "$i" ]; then
+> >              sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PIP_INSTALL_PYTHON}," $i
+> >              sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PIP_INSTALL_PYTHON}:g" $i
+> >              sed -i -e "s:${STAGING_BINDIR_NATIVE}:${bindir}:g" $i
+> > -            # Recompile after modifying it
+> > -            cd ${D}
+> > -            file=`echo $i | sed 's:^${D}/::'`
+> > -            ${STAGING_BINDIR_NATIVE}/python3-native/python3 -c "from py_compile import compile; compile('$file')"
+> > -            cd -
+> > +            nativepython3 -mpy_compile $(realpath --relative-to=${D} $i)
+> >          fi
+> >      done
+> >  }
+> > --
+> > 2.25.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#162746): https://lists.openembedded.org/g/openembedded-core/message/162746
+> > Mute This Topic: https://lists.openembedded.org/mt/89553658/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
