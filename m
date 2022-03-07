@@ -2,216 +2,234 @@ Return-Path: <bill.pittman@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A2FC433EF
-	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 16:37:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC2FC433F5
+	for <webhook@archiver.kernel.org>; Mon,  7 Mar 2022 16:38:34 +0000 (UTC)
 Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web11.42.1646671068122944089
+ [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web08.46.1646671113265124167
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 08:37:48 -0800
+ Mon, 07 Mar 2022 08:38:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=z2aWKr1L;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=jpKs9JnY;
+ spf=pass (domain: ni.com, ip: 148.163.158.57,
  mailfrom: prvs=0065ecdf95=bill.pittman@ni.com)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 227AIhno022224
+Received: from pps.filterd (m0239463.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 227F4Lvq027569
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 7 Mar 2022 10:37:47 -0600
+ Mon, 7 Mar 2022 10:38:32 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
  h=from : to : subject :
  date : message-id : references : in-reply-to : content-type :
  mime-version; s=PPS11062020;
- bh=zqXufMRop35ve/fgjf4mx72djU7QhrXGr389IvWifc8=;
- b=z2aWKr1Ly7hs5AZ1uo7fPCd6hYRcIArodRqJXuBiM2Y3kFqQT0rP4SuDib7ZO3tJJunx
- i39Oh4veX02HEqi6zSDdnr0FO+WOIaRzEcml1SYxWXWrujobI7xxMzOu9tmfBhyoFbIy
- a86tCX3y5OKlBARM+npmIDPswt+S7vmyFaziPX6CizCsfk0w6aiTq1DGdvAB/+Sghkda
- FBDe8waf5plYVVLT7WOzYp2Hu180iSJyj7nY+PWElRdFWLsHrFY06ChAf1v59Myoy4L4
- DRTvPkb/EGxj9uyXd5I0wkJtO4YCL9ws0Cl8Xt4fidwM9RjM8uW7hbpTA0guF3lAiQV4 kw==
+ bh=0PmfuUUGrND+PHc8nPCQCjXJrG+3QcvDaUqpwGfiv2Q=;
+ b=jpKs9JnYIkeEhKKAGIuLZ3jK/rCMxQA0OGudq+ka+jt0K9+Z2nouee9byYnypVWMmYu1
+ xGr7v3+J8lNbt7abNzbdIimc7RAqZXDMOs1s1WsV9Dxy5nHJ9LJWHsOE/+lcqk2Qp+Rb
+ rHNPcvrzgfOLsYqN45fcgv0KoeUZl2cB8XnxB2R8wQZttpzATkk/yCCnlLIh6VxLWF3y
+ uibUKXZP0bM4PR98OF0xUF+jQwSOMU/gVAD6WWd2F9GhMbmlhaHHRCOFT0GXYGHciYsh
+ M/MUHtJbqpXDMar/91iwKOyakVg5MeLaOClwc5ScBxdIcOprhMBUd9oE/b8xz2uJAvWQ Pg==
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
-	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3em4s2ku99-1
+ (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3em44jbhmw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Mar 2022 10:37:47 -0600
+ Mon, 07 Mar 2022 10:38:31 -0600
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pmj1eyxyuLQrx2bgJXjxeVafEwAeTFNFeOqZA2bj+tvBZXMKaiKX0HsMeIDwyIGbJrwDjSxYufIPOWYyo/vlTf3KzEZMf98j0tllC7pPVIitoE/szeXqc8M/pb8spojZVA9Nx9GvQjejnW/d5TCm9Hic3NTmqApz6uX7jXoy3BIpJxDCNsSBk9P+c9B696eVk9OXthEUrnZT6vgM5XHbsgZhOaJJIeZayrMeDFyGfGh2/5gLePv++jGnGomGcXepIA4MPWrw9gzQ6teOthkaNl0bzHUdKIn4R+V42pe01/CSiB17NhIbj+MQfZ/R09NWUY2vrzk+c5uoPUwuYS9dTQ==
+ b=Pe6QsuhF01ndCUE7bEu1JHh1k2iG8pCdl0J2x5Str1wgPUgk+M7iTKUBrX3eStiADjYPyfP3OsuPLYPMBCcfuhPvEVvdzubD4u8bPH9f+YoWtvOuZ6LFgvYbd4seEdcN9+R3bYf0xmRUkgfAfplYLOIDNQJjMJ0xhKOHUYZO06bnx1GEJMlpdel9qETafGY7QL/+1m7COMqQt9puPBp/YCpmUdRDKp2HMJ2ynGD2D/3TJfEH0/+FxQl//JvvdeGpiaTaAnbvwItsEOcIHD3bCc9wJGK2NsLttG+/P6mC3zcYRSR2k8stpq1gVh6mtXgV0AwDYXgcy7L8etZaEf0uSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zqXufMRop35ve/fgjf4mx72djU7QhrXGr389IvWifc8=;
- b=Cwbs6QvDKbHY+ISfrZeKVy2vBIYYd5uVBS7iKqpxpZD+7VxqtYEmfGsOWzN0G8w/5HALIKHOohrpsSF1w1kiEdEugvsXsVW+JA330FHEbqqYaIwc94F2IvjcriMQ+b60c771Vdvpo13u0PNkH5trZS0tlCKxGcVXXXeeHZiLvmBr+zsL0vyaswM5D1hM2/+9vS1b3jJspso8kIkDz1cHfoEGSFRJ5MzXC3GQxaICugQc5QRCJsK7fuI703mXwfeIeFwtK191LTsrNkuh7ZDKlcRPuiUHvH+T/tDeeyf1xcN4SHS8gXDTcePGZMMdPizPIybm1BUi1T8FPI1tMZl7ow==
+ bh=0PmfuUUGrND+PHc8nPCQCjXJrG+3QcvDaUqpwGfiv2Q=;
+ b=NOqOm5Z/uOaQD0IMosHHZE3cIkqIRH/wAAIAqnDVqgxpIVtc8PBNucTtTB81y+4p8H3oGS8uOZAxBK0AgEaIP6UQe5mQYMg16qjPrTWBiaQlHY22sq7cq6ZMaZfjyyy6O6+1qotHgOAmhnJtdywClWzLyeVyO2rjV6+LoHDZc3rRbUipp9PWmeL8+4UmuaHx+oVGb/duyvJqVeGKIbZN9ZkhzuXnwXr61frYFS/h1fb5FHu5ev29vXxnXB43b+a+vvfHnajWSu/rSspHw13J12pGyYleigdrv7w9DfPp3krCx/BBR6dsWXsVtTQ4dWOQLAu2RUyyAyqH9qUQOP7BRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
  header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zqXufMRop35ve/fgjf4mx72djU7QhrXGr389IvWifc8=;
- b=VziTfkUzkcnuMJJY5moCkzS20PJOvlZwdaMcG9Hm6cXsUTEL1MKOdSF10XSOuO8npYngipmXPtcOi/HT82F/jRRps5t/tH5JmhQolKS6mWk+bWwygxu2PMtg0rJMtvuAruJY30JNkdNVyzhb/XrCUDekMaSV7BOrxT6otT/+iwg=
+ bh=0PmfuUUGrND+PHc8nPCQCjXJrG+3QcvDaUqpwGfiv2Q=;
+ b=rLW4lkVbZSz/OXzYUXyoGakjIBGgwVpax8reuDKa0B25Azdzx47eqe/ocZ//OuiL1+7ytPDiDo8xoJiAt5qITSxt5OAXk6ODrWH84UQK0shfz55UYLsYQ0GzO51mhzn2m5JKdtO0gFUqWgr5OLul0jqCa6GeV5fXpBkmfdbw4ig=
 Received: from SN6PR04MB4909.namprd04.prod.outlook.com (2603:10b6:805:95::25)
  by CO6PR04MB7811.namprd04.prod.outlook.com (2603:10b6:5:35e::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Mon, 7 Mar
- 2022 16:37:43 +0000
+ 2022 16:38:29 +0000
 Received: from SN6PR04MB4909.namprd04.prod.outlook.com
  ([fe80::d939:c66:be10:4323]) by SN6PR04MB4909.namprd04.prod.outlook.com
  ([fe80::d939:c66:be10:4323%5]) with mapi id 15.20.5038.026; Mon, 7 Mar 2022
- 16:37:43 +0000
+ 16:38:29 +0000
 From: Bill Pittman <bill.pittman@ni.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] wic: Use custom kernel path if provided
-Thread-Topic: [PATCH] wic: Use custom kernel path if provided
-Thread-Index: AQHYMkGr69VQBj6An0a0h9HfM5RKgQ==
-Date: Mon, 7 Mar 2022 16:37:43 +0000
+Subject: [OE-core] [PATCH] wic: Use custom kernel path if provided
+Thread-Topic: [OE-core] [PATCH] wic: Use custom kernel path if provided
+Thread-Index: AQHYMkHGDTiPLBJ/NUKWyzpgQh9UJQ==
+Date: Mon, 7 Mar 2022 16:38:29 +0000
 Message-ID: 
- <SN6PR04MB49095AAF3038D9A9D2A9E413EC089@SN6PR04MB4909.namprd04.prod.outlook.com>
+ <SN6PR04MB490954026B270D62EBDA29F5EC089@SN6PR04MB4909.namprd04.prod.outlook.com>
 References: 
  <SN6PR04MB49095E1D789819C9E3CEC881EC349@SN6PR04MB4909.namprd04.prod.outlook.com>
- <50482c34-35af-4e12-8ce6-db2f1b7c1914@gherzan.com>
- <SN6PR04MB49098B84F7D5490D734B7EB1EC089@SN6PR04MB4909.namprd04.prod.outlook.com>
+ <e790ba26401bfca4d526588e88d4c0318a40ddcc.camel@linuxfoundation.org>
+ <SN6PR04MB4909394161091073345E1ACBEC089@SN6PR04MB4909.namprd04.prod.outlook.com>
 In-Reply-To: 
- <SN6PR04MB49098B84F7D5490D734B7EB1EC089@SN6PR04MB4909.namprd04.prod.outlook.com>
+ <SN6PR04MB4909394161091073345E1ACBEC089@SN6PR04MB4909.namprd04.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
- MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Enabled=True;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_SiteId=87ba1f9a-44cd-43a6-b008-6fdb45a5204e;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_SetDate=2022-03-07T16:37:42.622Z;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Name=Internal;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_ContentBits=0;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Method=Standard;
-suggested_attachment_session_id: f86cdef5-2663-b59b-a26f-65d7b39e0ad0
+ MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Enabled=True;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_SiteId=87ba1f9a-44cd-43a6-b008-6fdb45a5204e;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_SetDate=2022-03-07T16:38:28.846Z;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Name=Internal;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_ContentBits=0;MSIP_Label_76122db4-a595-414e-9ece-6adfb473e1a0_Method=Standard;
+suggested_attachment_session_id: 7400c8ad-e22a-37ec-10eb-77ddf1c20e1b
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2a42b949-6929-494d-b942-08da0058cd93
+x-ms-office365-filtering-correlation-id: 8e3b2981-dabb-4cf5-8d18-08da0058e92b
 x-ms-traffictypediagnostic: CO6PR04MB7811:EE_
 x-microsoft-antispam-prvs: 
- <CO6PR04MB7811C0851A1684BAE25D3782EC089@CO6PR04MB7811.namprd04.prod.outlook.com>
+ <CO6PR04MB781198D85FFF789151726F67EC089@CO6PR04MB7811.namprd04.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- YgEX5lBnK8brTs6gUfiMr43aFn2IrWgwsaQmbOS4E8iN4CYfFpGREFewqff/SRlPxuqbMQDAYC6YlaHRZx/5G03+zGeKL+Fj4OBby6DeRJSgRVNNHghy7DIrTYYVrNC4ZSPHd7daR4U7UN4YcMOCJWbZBpGHvn5OdzfKK3Hox84TC3bNK7cTT7yJ/ITytFxmPbUOjFZ5eAYBcRIPi0H8HpQ22Ot+H/hFWAv4Wq9YB0/SEiB9RLzB8RKFindnJMLdeQmzKPlveppZl3iL+OOzm8JwHPtERZBXeX3YwcQE0NNWRvZ+yEwvIK6BU+mlRqmEqUFf4bqhYS0oI6xYjuUpujmHxiMTikY74ykysv0ONGezxYygDN8ZiZUcYft+4Upk2+qVWZXsSwR31SYEL+qURh6tOahbfrHEZBGbKeA+2ZF62+Bc/K1Ik6jhr7v04GGD4hncSpqeN6xdYDeq26KcHtNTMB9dNk1yXEOD7G8Vj/4sXz1UFthVzByTvcbIL+s6PrZHfwumdoTRwMz0BuCppgb4iWVYFMABJUT6bdQ3hPKEnm7uwRNiflIymByjL00Q3aZ2feZLn+yPHp0b1Y1G9M26Fto1cuHFU/7eZKwk2huEjKb7wvcTA4e5obCn4boRCJO/fytuGoeOZUfrMqULJC2F3eWG2GL8GrIPT18U5IjlbtP/pYVuAqhINaZPdtv5b+RvQTlWEE6KVP4Lrxr5Qg==
+ T4Iu0aYrxaR0ubgnp9zZIaKtVNMiMmEf8lq38yiElTl5r25WPzUHDyek32ne84LjqfWr5pzGjRTI28KMgQSmZRtusf2pQKh6pzOWL3oiy+tD3wgMhRkyL5y5o/4heI46sAegMRWsB758npzOzIkGdvdoK0ENBGEm4AXMXdQL6wIFTjWYRU2NFH9kZNJr5LQ12ExlAsHI5IzcLR48rLK1vMfnaIbnimPZfUt7RTFfvkJYIcHS1/6dnXJLdZEpHS0fh3r+1vh29djBmmqzV1ejHAL1Yqer1vcWTGUrP7tCPefkgeMbd+jESjie2q7wt0o73LxL5Tae9uuvEoWvbGash7Ntnnb8JWI6mfW8R1PJ9KmJSUT+3w5XZphs+FgF+lr83dO4qc5HErikVF7TGHmGTHzyCDBrzrzVcZ4P/WIdxlZsM8PEdkIderfAZvBHRliaIxy5RHtPU+rTO0lKjSGje48YxbUjrvacY4jtFjCYzQqhA96N2vM/LDLtMnk7oma+Enk8yqGABFLFlvZ9YCFwtn8YEhsPCaBq1LBEGUKWNrD494HY+F1D6MtZqC/Le5O+EkUps4zMM/ugn5Yi0JHwfa4bRlcEpD9XB4T4IwAT9Vf+1M/+ABCgZ6hBFHQSMt/Baz4D3PFkYv4m4pHJiR5hIaEM5Ag5MSmySfHsT69QDWcrh2NtXjJ1xt1is4VmMrFi9sYuUbnu/ls1HEpCZ1HpZA==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4909.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(71200400001)(6916009)(2906002)(5660300002)(44832011)(8936002)(52536014)(33656002)(19627405001)(8676002)(66476007)(186003)(64756008)(66446008)(66946007)(26005)(66556008)(76116006)(122000001)(83380400001)(38100700002)(7696005)(53546011)(6506007)(2940100002)(316002)(9686003)(38070700005)(86362001)(55016003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4909.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(508600001)(71200400001)(6916009)(2906002)(5660300002)(44832011)(8936002)(52536014)(33656002)(19627405001)(8676002)(66476007)(186003)(64756008)(66446008)(66946007)(26005)(66556008)(76116006)(122000001)(38100700002)(7696005)(53546011)(6506007)(2940100002)(316002)(9686003)(38070700005)(86362001)(55016003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?puTe5x2VCrGY0TWc+hUVQ8X7CViMT/dJ2xQXYLFycj+7Ea0+sDIdi+2tF2?=
- =?iso-8859-1?Q?GUIes25fywU5JCBdWZg9h/EcZM5G88Osj0h6eJhgJH6Y8PldXwu5lp+qg/?=
- =?iso-8859-1?Q?VX59pUWZklj7UuXrPYmLFdO9RHoolqAsS2Z2de9UE0uxM0W6Ks0ksTQs+Y?=
- =?iso-8859-1?Q?xKm0EHmep+2H0A5rBUHokwEHeW9SSKJk4MmU90S2sBtGjwl8/YhjFB+8N1?=
- =?iso-8859-1?Q?OYlRqXMMxcnX0/pnGxfTTm1Mjiw2EmFgET6V7tQWSgh6QMmRaE4WJUa11M?=
- =?iso-8859-1?Q?7/dvx94PFtWK6453aocvl3iYarktWQxoXnBJQ4X7Ng4O0onvu0uqCpGx9m?=
- =?iso-8859-1?Q?SU/2BPRbpvWZ+s2hQNtWUwXwF1QqA4e9vMAMf9B1Y0XVkb9gEIluXX5oIX?=
- =?iso-8859-1?Q?pGYBcT5oEzbDwNuTCzc5aaz8SXpCzdopo4fOjnQlH5KbyB4Ko33Ly5E6/5?=
- =?iso-8859-1?Q?NIvj4DOTWChjJwKABmIEel/iyAz4QY1AhbSMwMxmGjGE9fggEVvLlmLhyF?=
- =?iso-8859-1?Q?p7oqMAy3SCeLJc8NIXRI5psf5969ARFi1fVswsvKjZbRPTyhNmkrA8XyPX?=
- =?iso-8859-1?Q?SDknmw5dZyj99QKETcPZ2B0O0iuMFOq0G90Gc3bqDMDnuQL4ChLuxowtPH?=
- =?iso-8859-1?Q?DV0o4g37iUt7fQ/Hr1H68Gj/vyUE2ywSsHzcCRiYjLlcgV13IkNQwy5hlE?=
- =?iso-8859-1?Q?+p0/HV9/tUTounITy5B37IX1TwCPqh9CXW1YueJYe4dOYsR8vEv4DgA1Z3?=
- =?iso-8859-1?Q?BCNZ0f9ivT3/eE++zc9II+1WYattlzmI3co0jrV6fwHdduQ757aDOhHWkE?=
- =?iso-8859-1?Q?rW7gpOVKPvWZHocOcsUMlDeow5sMj3U8vr0zCWTwH0VP09uJf4Uky7SI+x?=
- =?iso-8859-1?Q?DCT2lM6C2Mp9wNEqpiE6mUc7fj71vsWKMIZkBZk5iWRbzAHd6XSQzdZSU+?=
- =?iso-8859-1?Q?YrQ89HDRPfTux2p0u+9NIwPHo/msFX4BunV4cZIMp808LfA43C9WU+uLpx?=
- =?iso-8859-1?Q?rt3GxaOTLjSEyck8efzuKzVxvBVI7W0vWwjQF7m2rGlv2/SzzO5yAMKuLs?=
- =?iso-8859-1?Q?rliWf4B7m7ey5M4o/albZ1LIDL0ztEHUNJ6YARjoeelGzmKaznGn2Amt5n?=
- =?iso-8859-1?Q?aEbbANGe/MKvglvPgyR21p9EXmyBs8SPEFOGqs/uEsVVm75dzk8QTdt3sR?=
- =?iso-8859-1?Q?ZFuKN9BWl7Rwcri878IHvD6J3QHjDCaL47BDFa+ed9gm2CJoNOxnKkFEFA?=
- =?iso-8859-1?Q?RivEp/gLaqt1DRBfrr7etuzSboNnxvM6dQxN1N5OMRmahTeG6OPkwIdzLL?=
- =?iso-8859-1?Q?ojdSv4NvV87hPpUtydF8Mp0yk7dqzTwIJuN1LK18aq3pwtRZEJxd05HPXC?=
- =?iso-8859-1?Q?X9V3mrmc0KjPZMPH1LTv2mDp5TAViYRj36SUkAQR0gx6WYMOQ7/OFumd6c?=
- =?iso-8859-1?Q?bBfZfZs5GsWjCJCN1VmuLlQ96BRuziU50lS9Q+szwiBMkuCTJm/uzoZBJ6?=
- =?iso-8859-1?Q?6Zwou9xsbjYNbI6w1IeqNJ+l7RgM4n+fJPcZtY6AsxPGjLdsqI8t7IMr8V?=
- =?iso-8859-1?Q?nDZ/brH10yhl5Gh+veNpNPEes1tJLYc7ePrqQ0PmTCHRKU2eLSMaqGAMT/?=
- =?iso-8859-1?Q?LvHcFzCPoYRhg8RwP/QoLMCLk/hy+Vq3Hsz9ODDQLw84I09ytnd624Lw?=
+ =?iso-8859-1?Q?IoQOnWtmY7kAmkK9mK0oof0CMrrJoU8rMRh1jQNxciuoJSwUjlgkheOjPY?=
+ =?iso-8859-1?Q?iROLEnm6Sm8apGfB31OmyJmRbcrPZiqbD/SWWOfAKoLzU0l/+fUApJH3E7?=
+ =?iso-8859-1?Q?GWSuHqY6mx31JNPUCI/fOO5VqAEzMM+47jo+o0Gyw69+xMhe4CR4OYRPvc?=
+ =?iso-8859-1?Q?Qwj256BlGXy9I/NW6Jr9zApBW9ynapTMQLRcH1iCxKiOoVPf2pKi5oYm67?=
+ =?iso-8859-1?Q?TmvTnPoZpA70xl+8Vvnl2Q9tJakiCz5R0IAHQESocC6+2/6ug/lND9h8Q7?=
+ =?iso-8859-1?Q?mfNZrRuLWa+gg9JTjgHRgl4qd9+aO8q3216Ha8yMq8dxMfZG4Fd2NqVwe5?=
+ =?iso-8859-1?Q?GTslSq6YcDyL0yBkmCxzBGXbRMwjzGAaVHoyMWxkhsxEXVEGSSn2jMdD1u?=
+ =?iso-8859-1?Q?0dT3tGhSUhrP6kbXbhqI6G6J2GIlTLLKxnsH75aZY8o/s0QT5ibPdShfkr?=
+ =?iso-8859-1?Q?aaKSHGuppbUos7EzVURoxqJXH3VCw4zKiBa/qWbowcuft6aOiT+qlxaF/T?=
+ =?iso-8859-1?Q?VezCDjIKUkR/7BNHlSHWEP1o7pophm6wyBGkSU93p7tlosHnT8ow/nnADD?=
+ =?iso-8859-1?Q?BWX98Dwfyrnjuf5dB9xhF0TL/0PGOSrQ0cukX11/EXYBfcLOpNOYnA4/QA?=
+ =?iso-8859-1?Q?DA/opsJPzkvs/xFr26rCGU6TZrWlgQPXx0XydkSxvl3XWykbcs1BolmLeL?=
+ =?iso-8859-1?Q?7x1UAlrvqNddEF+z9xwJ+BOMCRu+ZUwuVznBgSfeRgyt5ZRUSNgswtTx2Z?=
+ =?iso-8859-1?Q?WC3mh/vPiIWc8n0uKy9duGP6M/Qfs5wiT+Im1gJR1uSnTezetJPcsaTZoL?=
+ =?iso-8859-1?Q?UXLU4NAyY7h3sUWLuJogOGXhN8PFvldCFRINtPZosUrAp63UwL0UJgGkU5?=
+ =?iso-8859-1?Q?IATmCAl3xFQESZxlMX6ZgIulkXGJNZZ2qINGpaTWEwd3wCdG24fZhbTS70?=
+ =?iso-8859-1?Q?UTG3YufwYuF0BhkSq8r12/FYodaACwXdM2gOC3+Ylavty5pC3oFr74UX1G?=
+ =?iso-8859-1?Q?tkjo9yjDgOsJXDClU75fMXSCtMusCE6g88Gv5ohrwvqEuvMhb+5k0sdg8S?=
+ =?iso-8859-1?Q?Mr/tLiASm3keiP5r4o+Z5UZVKcMgU7NoRRNd4mKBTWSgnr0Ys7oqOabpV7?=
+ =?iso-8859-1?Q?cFcAmk+xseCqa/HqeUzeB2Or2xk0CW2B7fyGQWGaSdov3lGhaUAzUAOGO4?=
+ =?iso-8859-1?Q?eoUv4VWhJkPIM8dYbQxeXXtUW0aljskS30tvid4NbmynyOQkBzx+HaXIzH?=
+ =?iso-8859-1?Q?fT7TT1oBQjgd6WNLREsRgBsEHo1XJ7r5oYvIyYCBg0o2KntSVV9Yt/bIk/?=
+ =?iso-8859-1?Q?4P6X/QfeJHoDiw9+hgQemcFijBgcw/Tj6eGZPQ96eQsU50jx+6UVIt2UlC?=
+ =?iso-8859-1?Q?nWddiuymptlMn/OU26JfbWp//VeHIxuhf0+qxLT120UMAiqi/FBws03yPS?=
+ =?iso-8859-1?Q?GvUZCrSSElylRPeEJ46WQe/15Wdsw2sKcxaH8PDCOWpUOTA4WobygzB8ie?=
+ =?iso-8859-1?Q?qs+XqGYlVjGswAQF8lIwKEdrfXkgmBKbvvOjaFf9x8B1Fhfbpyszlvav7q?=
+ =?iso-8859-1?Q?3dLgvS6YyucWgy1Nno4ORcQly0AHQ/UlJp7k00jJhgUsjR/VNafxbPHoOU?=
+ =?iso-8859-1?Q?XJS9Lp6ENc5UGSvldzunqfpTbjQdMOCEpJ9c+f6k/GARZ3FQPkMWontw?=
  =?iso-8859-1?Q?=3D=3D?=
 Content-Type: multipart/alternative;
-	boundary="_000_SN6PR04MB49095AAF3038D9A9D2A9E413EC089SN6PR04MB4909namp_"
+	boundary="_000_SN6PR04MB490954026B270D62EBDA29F5EC089SN6PR04MB4909namp_"
 MIME-Version: 1.0
 X-OriginatorOrg: ni.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4909.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 2a42b949-6929-494d-b942-08da0058cd93
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Mar 2022 16:37:43.1541
+ 8e3b2981-dabb-4cf5-8d18-08da0058e92b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Mar 2022 16:38:29.4476
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: 
- LiNfivHJQIfZYSBks2HFbWOMnLwIiUA+Dk/nfWomcdXbL25RXg9k8rhizJt5zNjcBkZSxzx48fmeE4l3C0ICYA==
+ YUixeP41sAqLUOk3/HvW6y34R4P05iwUuPtSO/9eGjlaW/z/8NYKUKFoTwfqQ5mw6x2zae6Kc7ICHO1DstsmGw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7811
-X-Proofpoint-GUID: iYS8bSdPTiQ8O961VrobWUTdfU_0aUx4
-X-Proofpoint-ORIG-GUID: iYS8bSdPTiQ8O961VrobWUTdfU_0aUx4
+X-Proofpoint-GUID: uXpt-YL2OaPd4EDkBkw-pX7Xl6P_hd2I
+X-Proofpoint-ORIG-GUID: uXpt-YL2OaPd4EDkBkw-pX7Xl6P_hd2I
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-07_08,2022-03-04_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
- score=30 phishscore=0
- clxscore=1015 lowpriorityscore=0 adultscore=0 spamscore=0 impostorscore=0
- malwarescore=0 mlxlogscore=938 priorityscore=1501 suspectscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=30 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203070096
+ score=30
+ lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0
+ suspectscore=0 spamscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=947 classifier=spam adjust=30
+ reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203070096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 16:37:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Mar 2022 16:38:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162854
+ https://lists.openembedded.org/g/openembedded-core/message/162855
 
---_000_SN6PR04MB49095AAF3038D9A9D2A9E413EC089SN6PR04MB4909namp_
+--_000_SN6PR04MB490954026B270D62EBDA29F5EC089SN6PR04MB4909namp_
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Andrei,
+Richard,
 
-In our build, we use a two stage build, the first stage builds the IPKs and=
- packages files, the second stage builds the various images from the feeds =
-created in the first stage.  We've run into a corner case when the kernel r=
-epo gets an update that bumps the version, if that happens, the kernel will=
- rebuild during the second stage build (the kernel recipe is on AUTOREV).  =
-Unfortunately, that now creates a new kernel with a newer version that the =
-one in the pre-built feed.  The image recipe is then assembled using the pr=
-ebuilt feed (and the older kernel), however the wic script picks up the new=
- kernel.  Then when the wic image is booted, the new kernel in the boot por=
-tion of the wic image is unable to find the right version of modules and it=
- panics.
+I don't think there are any additional test cases that need to be created f=
+or this condition.  It is a fairly unique set of circumstances that cause a=
+n error in our build system and would be difficult to reproduce outside of =
+it.
 
-This is only an issue during development while the kernel recipe is on auto=
-rev, but its causing other teams (and us) some grief and this change allows=
- the wic script to always use a custom kernel path.  In this case it allows=
- the wic script to use the path to the kernel installed in the image recipe=
-.
+As for your concern about this being the right thing to do, honestly I'm no=
+t sure, but it does seem wrong to me that there is a code path that ignores=
+ the value in options.kernel_dir, which is why I proposed the patch (and of=
+ course our build system was being affected by it).  I'm not sure if it is =
+right or not, but it seems "more right" to me.
 
-The patch I'm proposing allows options.kernel_dir to always be used if its =
-provided.  The current code in wic_create_subcommand has a code path where =
-it is presently ignored.
-
-Cheers,
+Hope that helps,
 Bill
 
+
 ________________________________
-From: Andrei Gherzan <andrei@gherzan.com>
-Sent: Wednesday, March 2, 2022 4:06 PM
-To: Bill Pittman <bill.pittman@ni.com>
-Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: Wednesday, March 2, 2022 5:02 PM
+To: Bill Pittman <bill.pittman@ni.com>; openembedded-core@lists.openembedde=
+d.org <openembedded-core@lists.openembedded.org>
 Subject: [EXTERNAL] Re: [OE-core] [PATCH] wic: Use custom kernel path if pr=
 ovided
 
-
-Feb 15, 2022 16:54:28 Bill Pittman <bill.pittman@ni.com>:
-
+On Tue, 2022-02-15 at 16:54 +0000, Bill Pittman wrote:
 > If the custom kernel path is provided in options, then
 > use that path instead of the default path.
+>
+> Signed-off-by: Bill Pittman <bill.pittman@ni.com>
+> ---
+>  scripts/wic | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/wic b/scripts/wic
+> index a741aed364..29a157bf37 100755
+> --- a/scripts/wic
+> +++ b/scripts/wic
+> @@ -159,6 +159,9 @@ def wic_create_subcommand(options, usage_str):
+>                             "(Use -e/--image-name to specify it)")
+>          native_sysroot =3D options.native_sysroot
+>
+> +    if options.kernel_dir:
+> +        kernel_dir =3D options.kernel_dir
+> +
+>      if not options.vars_dir and (not native_sysroot or not
+> os.path.isdir(native_sysroot)):
+>          logger.info("Building wic-tools...\n")
+>          subprocess.check_call(["bitbake", "wic-tools"])
 
-Just to understand this a bit, what is your usecase here?
---
-Andrei Gherzan
-gpg: rsa4096/D4D94F67AD0E9640
+
+The concern with these kinds of changes is I can't really test it or tell i=
+f it
+is the right thing to do and I worry about it regressing in the future.
+
+Is there part of the test coverage we should be improving too? wic does hav=
+e
+fairly good coverage from oe-selftest -r wic
+
+Cheers,
+
+Richard
+
 
 
 INTERNAL - NI CONFIDENTIAL
 
---_000_SN6PR04MB49095AAF3038D9A9D2A9E413EC089SN6PR04MB4909namp_
+--_000_SN6PR04MB490954026B270D62EBDA29F5EC089SN6PR04MB4909namp_
 Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
@@ -223,93 +241,107 @@ Content-Transfer-Encoding: quoted-printable
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div>Andrei,</div>
-<div>&nbsp;<br>
-</div>
+Richard,
 <div dir=3D"ltr">
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
-In our build, we use a two stage build, the first stage builds the IPKs and=
- packages files, the second stage builds the various images from the feeds =
-created in the first stage.&nbsp; We've run into a corner case when the ker=
-nel repo gets an update that bumps the
- version, if that happens, the kernel will rebuild during the second stage =
-build (the kernel recipe is on AUTOREV).&nbsp; Unfortunately, that now crea=
-tes a new kernel with a newer version that the one in the pre-built feed.&n=
-bsp; The image recipe is then assembled using
- the prebuilt feed (and the older kernel), however the wic script picks up =
-the new kernel.&nbsp; Then when the wic image is booted, the new kernel in =
-the boot portion of the wic image is unable to find the right version of mo=
-dules and it panics.<br>
-</div>
 <br>
+</div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
-This is only an issue during development while the kernel recipe is on auto=
-rev, but its causing other teams (and us) some grief and this change allows=
- the wic script to always use a custom kernel path.&nbsp; In this case it a=
-llows the wic script to use the path
- to the kernel installed in the image recipe.<br>
-</div>
+I don't think there are any additional test cases that need to be created f=
+or this condition.&nbsp; It is a fairly unique set of circumstances that ca=
+use an error in our build system and would be difficult to reproduce outsid=
+e of it.</div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
 <br>
 </div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
-The patch I'm proposing allows options.kernel_dir to always be used if its =
-provided.&nbsp; The current code in wic_create_subcommand has a code path w=
-here it is presently ignored.</div>
+As for your concern about this being the right thing to do, honestly I'm no=
+t sure, but it does seem wrong to me that there is a code path that ignores=
+ the value in options.kernel_dir, which is why I proposed the patch (and of=
+ course our build system was being
+ affected by it).&nbsp; I'm not sure if it is right or not, but it seems &q=
+uot;more right&quot; to me.</div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
 <br>
 </div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
-Cheers,<br>
-Bill</div>
+Hope that helps,</div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+Bill<br>
+</div>
 <div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
 t; color:rgb(0,0,0)">
 <br>
 </div>
+<br>
 <div id=3D"x_appendonsend"></div>
 <hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
 <div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
-=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Andrei Gherzan &lt;=
-andrei@gherzan.com&gt;<br>
-<b>Sent:</b> Wednesday, March 2, 2022 4:06 PM<br>
-<b>To:</b> Bill Pittman &lt;bill.pittman@ni.com&gt;<br>
-<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
+=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Richard Purdie &lt;=
+richard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> Wednesday, March 2, 2022 5:02 PM<br>
+<b>To:</b> Bill Pittman &lt;bill.pittman@ni.com&gt;; openembedded-core@list=
+s.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
 <b>Subject:</b> [EXTERNAL] Re: [OE-core] [PATCH] wic: Use custom kernel pat=
 h if provided</font>
 <div>&nbsp;</div>
 </div>
-<div><br>
-<span dir=3D"ltr" style=3D"font-family:sans-serif; margin-top:0; margin-bot=
-tom:0">Feb 15, 2022 16:54:28 Bill Pittman &lt;bill.pittman@ni.com&gt;:</spa=
-n>
+<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
+t">
+<div class=3D"x_PlainText">On Tue, 2022-02-15 at 16:54 +0000, Bill Pittman =
+wrote:<br>
+&gt; If the custom kernel path is provided in options, then<br>
+&gt; use that path instead of the default path.<br>
+&gt; <br>
+&gt; Signed-off-by: Bill Pittman &lt;bill.pittman@ni.com&gt;<br>
+&gt; ---<br>
+&gt; &nbsp;scripts/wic | 3 +++<br>
+&gt; &nbsp;1 file changed, 3 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/scripts/wic b/scripts/wic<br>
+&gt; index a741aed364..29a157bf37 100755<br>
+&gt; --- a/scripts/wic<br>
+&gt; +++ b/scripts/wic<br>
+&gt; @@ -159,6 +159,9 @@ def wic_create_subcommand(options, usage_str):<br>
+&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &quot;(Use -e/--image-name to specify it)&quot;=
+)<br>
+&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;native_sysroot =3D options.native_sy=
+sroot<br>
+&gt; &nbsp;<br>
+&gt; + &nbsp; &nbsp;if options.kernel_dir:<br>
+&gt; + &nbsp; &nbsp; &nbsp; &nbsp;kernel_dir =3D options.kernel_dir<br>
+&gt; +<br>
+&gt; &nbsp; &nbsp; &nbsp;if not options.vars_dir and (not native_sysroot or=
+ not<br>
+&gt; os.path.isdir(native_sysroot)):<br>
+&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;logger.info(&quot;Building wic-tools=
+...\n&quot;)<br>
+&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;subprocess.check_call([&quot;bitbake=
+&quot;, &quot;wic-tools&quot;])<br>
 <br>
 <br>
-<span dir=3D"ltr" style=3D"font-family:sans-serif; margin-top:0; margin-bot=
-tom:0">&gt; If the custom kernel path is provided in options, then</span>
+The concern with these kinds of changes is I can't really test it or tell i=
+f it<br>
+is the right thing to do and I worry about it regressing in the future.<br>
 <br>
-<span dir=3D"ltr" style=3D"font-family:sans-serif; margin-top:0; margin-bot=
-tom:0">&gt; use that path instead of the default path.</span>
+Is there part of the test coverage we should be improving too? wic does hav=
+e<br>
+fairly good coverage from oe-selftest -r wic<br>
 <br>
+Cheers,<br>
 <br>
-<span dir=3D"ltr" style=3D"font-family:sans-serif; margin-top:0; margin-bot=
-tom:0">Just to understand this a bit, what is your usecase here?</span>
-<br>
-<div><span dir=3D"ltr" style=3D"margin-top:0; margin-bottom:0">--</span> <b=
-r>
-<span dir=3D"ltr" style=3D"margin-top:0; margin-bottom:0">Andrei Gherzan</s=
-pan> <br>
-<span dir=3D"ltr" style=3D"margin-top:0; margin-bottom:0">gpg: rsa4096/D4D9=
-4F67AD0E9640</span>
+Richard<br>
 <br>
 </div>
-</div>
+</span></font></div>
 </div>
 <br>
 <p style=3D"font-family:Calibri;font-size:10pt;color:#000000;margin:5pt;" a=
@@ -319,5 +351,5 @@ INTERNAL - NI CONFIDENTIAL<br>
 </body>
 </html>
 
---_000_SN6PR04MB49095AAF3038D9A9D2A9E413EC089SN6PR04MB4909namp_--
+--_000_SN6PR04MB490954026B270D62EBDA29F5EC089SN6PR04MB4909namp_--
 
