@@ -1,97 +1,295 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 965A5C433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 15:53:00 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web12.9752.1646754779834927192
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE4AC433FE
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 16:07:02 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web09.9971.1646755621292575589
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 07:52:59 -0800
+ Tue, 08 Mar 2022 08:07:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gcykBBe6;
- spf=pass (domain: gmail.com, ip: 209.85.210.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id s42so5075249pfg.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g3pOgKjh;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id t14so16871865pgr.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 07:52:59 -0800 (PST)
+ Tue, 08 Mar 2022 08:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=t8xwW6YBNsrNQ3tbtFZ1pqCpXR1F43dKW1bx+zIqpeU=;
-        b=gcykBBe6tJ/gWjGVIGkQQQ5XsX5PwMBPFHe7RudVSxsa2p9YAWQVPFhZlCfJQydAeS
-         YicYU8YjTnGntxW7LBeoi5gSTa/nLZitqU9LjtIjSmjWPxN53I9pA4MLorIoJB8uX4pZ
-         zkUc+5OiC5yLhgtTewjBn/XFwn608KfIDbKgIwsnAf5gvW1NvfJUErpsNW0zXlk8MU2T
-         ztly3QA76sGJUYN/cwFVImg7lF+IMYfKKLw8d2mBUjmK+g7t0PxgqbgMYkKII8TdCcYz
-         RvmlFE00NfoKa2ydvUlA8fm/bNU7MYIJpaGEjn+Mo0NMEJjUBdj2ZL46vn55x/+oQOqY
-         PJpA==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=mxlmzUdDjRxgEOEH4jRm3r3mPG1jj09I0MhVRH4dwLw=;
+        b=g3pOgKjhcyiCfhKHOhIf5rVmVg+lIEH8Oxe0V2PFA2Ifkm0Cvq+g9c7aWGYhP8zp71
+         7qAX5Lq30yzq49Ye3iGLL0y9EKuOM5lQiEMwfku3hoyjWvakzHFhrwWNPNdyEvX20DXn
+         FFvG3x0uu3DUsTtnRqkMcApZS/nQSgYiAujvMRJw5UjJsc0cmzzpk0mP6h8FLaTT8OP6
+         xrmrgsxFUsiR1lNqlQG36d4+YfRvpBlukl5su4APbHkNNu6cYvdD11hLSO8cXK84Hi7y
+         cWVfXKQUOY+xRVDt4Q816SGxHMV9qnu1rldW7hLWHgzHstxNhalZsryD0fc0IyGs7LFw
+         LV7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=t8xwW6YBNsrNQ3tbtFZ1pqCpXR1F43dKW1bx+zIqpeU=;
-        b=TAAkt7Jda4ayDOAzIniDt7Y/maRiW2gf+aMUbtlw7PWc3oIV6SPRzdf2OUkYN2GuGD
-         w9b43bh51hIIRedFqd8s+wU0gKkcS2zsXIgVHEaxt8ZZ1t9ehaYVYqFmp0u7SDKB6L1q
-         i/Ohfm2PNFDbRiR1B4CLpL1hz/rvlOFhd6VEklRUcCFJwjmy0/qwyii4qHNVg0cTTOTX
-         flpFo9OzQNvGLo3ymKgu5Oh6njNFlornlgj9l5NS4fVXLQJgYTPp+viKvbV3RYeYg5OW
-         PkCIuAeBwMpsDELtgRD0PlHcMrd3uyHM8BRyDo9sQWRJmMOqL/XInQtK4eoOYkT/kTgX
-         7pVg==
-X-Gm-Message-State: AOAM530UxjCl3+vOGAkH3jIld5zbjfuGT7ehq3McCleuquPJDKZJ+2Hs
-	zNTRmIVX0aOvZvYDAwJ5rtjs8yyYmlS06w==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=mxlmzUdDjRxgEOEH4jRm3r3mPG1jj09I0MhVRH4dwLw=;
+        b=goAcTrLDUkvMpTceGS99Q2+3KCInLZpXGzci2ytFqsiuUImDiT82vZDJlbYT2c2Aqx
+         D3pILUtb9LjlZjskUmP6rLu68xJi83uqglknZt2DX8GfbSi8zfozdxsCSAfbcXw/+CHH
+         0O90Cyvu9q5LRqaqg5bMYvZK6ZsKQaRRKrKUqbaUuqJfZEQ1N3jucA9o2ECe8S//h7M0
+         jk1g4NTsyGuRb818t3tR7YyS62SgM5hV0vO3iJfi7OdExlOw+hj0+2KVTQmL2E0xmwyU
+         7mY68ZtLgn++5ZprAWjBm4z4cuve9ShE/y5RR9NozxPCCEJmIrr1ozk6bwaLDv4qhVZ4
+         9nZg==
+X-Gm-Message-State: AOAM533s2P/kmF6pPTw2/EVmv10dZVtGTUnYNmVaDRfUS5BdoNIsMzvT
+	9NHIHvWf1qaC3csT1w84Qt/SAj+NNGs=
 X-Google-Smtp-Source: 
- ABdhPJzMU2bUZLySfQk1BxaifHb25EHDfGT/3hVCugDF7/95hs3hyuJyqM89V21pPXuSVA2cYnTCFg==
-X-Received: by 2002:a63:5a4a:0:b0:380:260d:47b0 with SMTP id
- k10-20020a635a4a000000b00380260d47b0mr10764885pgm.45.1646754779158;
-        Tue, 08 Mar 2022 07:52:59 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
+ ABdhPJxXauXrN6E1JpiIFpGBL5/GIgrSd1fikZ7DmDXCF0nUZGnwj+sefeI4SfduavqBauFaiBTavg==
+X-Received: by 2002:a65:6943:0:b0:376:333b:1025 with SMTP id
+ w3-20020a656943000000b00376333b1025mr14519458pgq.164.1646755620650;
+        Tue, 08 Mar 2022 08:07:00 -0800 (PST)
+Received: from skjolley ([2600:1011:a102:c420:1c3c:439e:a397:a118])
         by smtp.gmail.com with ESMTPSA id
- o1-20020a637e41000000b003804d0e2c9esm6559106pgn.35.2022.03.08.07.52.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 07:52:58 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/5] webkitgtk: Depend on virtual/egl instead of virtual/libgl
-Date: Tue,  8 Mar 2022 07:52:52 -0800
-Message-Id: <20220308155252.2454464-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220308155252.2454464-1-raj.khem@gmail.com>
-References: <20220308155252.2454464-1-raj.khem@gmail.com>
+ bi29-20020a056a00311d00b004f6fa51e70dsm7839915pfb.196.2022.03.08.08.06.59
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 08 Mar 2022 08:07:00 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Tue, 8 Mar 2022 09:06:59 -0700
+Message-ID: <18e401d83306$8b6063c0$a2212b40$@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_18E5_01D832CB.DF038790"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQL8BpV83LPbe9ywfXkoPFPiKaGFvw==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 15:53:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 16:07:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162933
+ https://lists.openembedded.org/g/openembedded-core/message/162934
 
-This ensures that platforms not implementing GL ( perhaps only providing
-GLES ) are able to build webkit
+This is a multipart message in MIME format.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.34.6.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+------=_NextPart_000_18E5_01D832CB.DF038790
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
-index 52cc185eb33..8cea8a86000 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
-@@ -60,8 +60,8 @@ PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/lib
- PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
- PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
- PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
--PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
--PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/libgl"
-+PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
-+PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/egl"
- PACKAGECONFIG[opengl-or-es] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF"
- PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
- PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
--- 
-2.35.1
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 397
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "3.5, "3.6", "3.99" and "Future", the more pressing/urgent
+issues being in "3.5" and then "3.6".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_18E5_01D832CB.DF038790
+Content-Type: text/html;
+	boundary="----=_NextPart_000_104C_01D82D4E.C6BBB900";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 397 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;3.5, =
+&#8220;3.6&#8221;, &quot;3.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;3.5&quot; and then =
+&#8220;3.6&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_18E5_01D832CB.DF038790--
 
 
