@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 275C8C43219
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 09:32:34 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.6491.1646731952950361403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285C2C433FE
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 09:32:33 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.6398.1646731952391341896
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 01:32:33 -0800
+ Tue, 08 Mar 2022 01:32:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ftD0Oz8V;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dUnz/OZ3;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id w4so21070611edc.7
+Received: by mail-ej1-f50.google.com with SMTP id qa43so37736005ejc.12
         for <openembedded-core@lists.openembedded.org>;
  Tue, 08 Mar 2022 01:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zMbFSoILk1h1G/SmpgvCUyHZwLzFAYDC2vXX5DLB+co=;
-        b=ftD0Oz8VIb0Bww2gAu+2Bd7rvpA+8Kvpa4MbursVcIf9O5VT16w6uXd62a2TD/zwTu
-         aBeLWJlioWL11EXHJDUQZd+tmQVJ+KDnXPhDyI0F7gVDH9aoCmcSfGXgpdM4cSH/4HlU
-         qoi2hH4sxoilQF0TFgPOVLWrG4xRC5jJOZBe6dOD23z6EJkXxg70/hkq5XboYxuKFv8Z
-         wUCml6ZebPJ0rwb9IzMOqVKrWu3oH/f7M5E+YleRoz0AUeoNYHPxPbnFzksSSbkGIkMQ
-         DcLDeEo3D4O8sas8c0Ywht9Zn/WHTwYRQdl2Eh+OuaulY6t7JOFlljydB89Hx63eb72a
-         64zA==
+        bh=C58ixp5QcYaK2I1f8tLpc3X09GqfnXV6GxTlm1oSKIs=;
+        b=dUnz/OZ3fVN+2/YuohejY/to2BJndtBkSTak+v9gHX9IhsZkVjmuNeq+Q6fc9Fl4il
+         U271FjJCShY386ttftw6fj4+YFVel/AFz5pOnTm7PlQAuOjvHQSPfgT7xys/WuNCoi9/
+         Lu/eJvrKKIxB/49fZYTBO8uw3WApTOkCJFBQkLoqQUCDroaTlgoZrHsTZKt8QfhtJ8wC
+         YtyQ6xv98gTGqcoUyzcpt9PKbvutHLPePDYgI3ihe5SgW7Dcyyves9i2tJFcTxCLXqbM
+         WbUwOMvK0FgyN1tdUjcjcQ4p29cNU1ePFUKdYAs5vL8rJjZO0VOvd2Q2UKSxQPBz0mUw
+         qZXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zMbFSoILk1h1G/SmpgvCUyHZwLzFAYDC2vXX5DLB+co=;
-        b=WPVeI7jeLBTHPkwwaZlHXV5ZJQqZ5/qhi8/F+Ogj+D5OeKycmu1aSF5Z0B41VUlh1O
-         abGAwOfp8rIensqj81sffP8QVf4o3sSyKmKviDZCb0oen8mlZigL+nZKBG1Cxu9dl/pc
-         wVaO+9ifMOw4qxeGVCsAiYbybjN7CXw/odGxSSHsLwJ2zEllwWIkcN89qKDWbeVe0h9p
-         shND4BoOV3cGmDZixhN/I6eG9B6egMkXso0xQjOTzOb0oYZIoD6Ohu4uEyfJm/gE4Brj
-         UEtUOZmIp0hV30R9IIo3+AJ9BPoy4tNMX1yUAnTozWdRzOo/NqLEtf66Jh2u//lLqH/o
-         dXpw==
-X-Gm-Message-State: AOAM531Ld/JcdcXe7QY98UCDrd2Ns6a8qyRbSskerT/Oa0k+NKblkrxK
-	55JLcJhJQ8xnCbUmhpUvxgcz/8KtIsw=
+        bh=C58ixp5QcYaK2I1f8tLpc3X09GqfnXV6GxTlm1oSKIs=;
+        b=QwKnGnJBmz9BVtimNp9HLtidlb96QD5pHZQ+5vu/+lqs3Z+GYi5X8UFDNQfjVZJoV+
+         PZna21g3xOUmDOEZRsPjhYr2UggRn9I8+yUWgxlmnegoUKwKM7LKg8aB6pyxKLpiLoIX
+         pePOQYVs2FOFpVTbymh3ThiLivXj51XqQ6EUyPhhYzfFY+WVu+u9VPAB3zq/XlEv0RH/
+         2R7rux4voZsVZRJNZnKA6V7c7uqgktyk/IS6wBwgUF87BFLlRN/YiIgauYkKPqzIBior
+         JrT/meTjousK3RKZmI8YuJr6Ub6Xr6fGiboI0bHWBUMP+m1terPdXrM4m7xYh11M92r1
+         mdgw==
+X-Gm-Message-State: AOAM530FhQy5kW5AYLYBi/aBPOxxJb7reTzLFu0EqYVIEm83eK3uXFlK
+	jJv6crFPvshkS5tf0d5TIBK+taPxYx4=
 X-Google-Smtp-Source: 
- ABdhPJx81H9SXuNrclUcbgYvk9YbmCrc3IgJgmzUJ2+DyXSd2vL74xI29sLw8ceJ0GoWOy+QSLeFFg==
-X-Received: by 2002:aa7:d80f:0:b0:410:d5c3:f770 with SMTP id
- v15-20020aa7d80f000000b00410d5c3f770mr15087977edq.279.1646731951482;
-        Tue, 08 Mar 2022 01:32:31 -0800 (PST)
+ ABdhPJyfpjgQpTy44Hbsb6kqpN+vUJyF/Iudpo7PHUrFr+EbxMna4zNVuNy6SaBdI80763EFwHsilA==
+X-Received: by 2002:a17:906:4d0d:b0:6da:a60f:bf4 with SMTP id
+ r13-20020a1709064d0d00b006daa60f0bf4mr12396946eju.451.1646731950730;
+        Tue, 08 Mar 2022 01:32:30 -0800 (PST)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  g22-20020a170906395600b006cec40b9cf0sm5640178eje.92.2022.03.08.01.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 01:32:31 -0800 (PST)
+        Tue, 08 Mar 2022 01:32:30 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 05/16] apt: upgrade 2.2.4 -> 2.4.0
-Date: Tue,  8 Mar 2022 10:32:13 +0100
-Message-Id: <20220308093224.3436483-5-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 04/16] xwayland: update 21.1.4 -> 22.1.0
+Date: Tue,  8 Mar 2022 10:32:12 +0100
+Message-Id: <20220308093224.3436483-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220308093224.3436483-1-alex@linutronix.de>
 References: <20220308093224.3436483-1-alex@linutronix.de>
@@ -66,138 +66,40 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 09:32:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 09:32:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162882
+ https://lists.openembedded.org/g/openembedded-core/message/162881
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-init-tables-from-dpkg-configuration.patch |  2 +-
- ...n-dpkg-configure-a-at-the-end-of-our.patch |  8 ++--
- ...vrec-Keep-support-for-older-resolver.patch | 44 -------------------
- .../apt/{apt_2.2.4.bb => apt_2.4.0.bb}        |  3 +-
- 4 files changed, 6 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
- rename meta/recipes-devtools/apt/{apt_2.2.4.bb => apt_2.4.0.bb} (96%)
+ .../xwayland/{xwayland_21.1.4.bb => xwayland_22.1.0.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xwayland/{xwayland_21.1.4.bb => xwayland_22.1.0.bb} (92%)
 
-diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-index 72713c3b1a..59b9cd190f 100644
---- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
-@@ -1,4 +1,4 @@
--From c7a79e753e50f1a5f248ba5812c61616f2f524f0 Mon Sep 17 00:00:00 2001
-+From 11ba49594ae9d11f0070198c146b5e437fa83022 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 10 May 2019 16:47:38 +0200
- Subject: [PATCH] Do not init tables from dpkg configuration
-diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-index 1517b47858..593ed7d096 100644
---- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-+++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-@@ -1,4 +1,4 @@
--From 393ac20efc66bfc000a2457e093e369b934c5a50 Mon Sep 17 00:00:00 2001
-+From 47c2b42af60ceefd8ed52b32a3a365facf0e05b8 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 21 May 2020 20:13:25 +0000
- Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
-@@ -20,10 +20,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 insertions(+), 7 deletions(-)
+diff --git a/meta/recipes-graphics/xwayland/xwayland_21.1.4.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/xwayland/xwayland_21.1.4.bb
+rename to meta/recipes-graphics/xwayland/xwayland_22.1.0.bb
+index e08be51ce7..9769235ce6 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_21.1.4.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.0.bb
+@@ -10,14 +10,14 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
--index 46a6dee..8617a9e 100644
-+index 93effa9..4375781 100644
- --- a/apt-pkg/deb/dpkgpm.cc
- +++ b/apt-pkg/deb/dpkgpm.cc
--@@ -1211,12 +1211,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-+@@ -1199,12 +1199,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
-  	 }
-        }
-     }
-@@ -36,7 +36,7 @@ index 46a6dee..8617a9e 100644
-  }
-                                                                          /*}}}*/
-  void pkgDPkgPM::StartPtyMagic()						/*{{{*/
--@@ -1710,7 +1704,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-+@@ -1741,7 +1735,8 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
-  
-        // support subpressing of triggers processing for special
-        // cases like d-i that runs the triggers handling manually
-diff --git a/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch b/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
-deleted file mode 100644
-index 94d67a87ac..0000000000
---- a/meta/recipes-devtools/apt/apt/0001-srvrec-Keep-support-for-older-resolver.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From f98c12b9f04ef3a9daec822c210044095b41a0ac Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 20 Mar 2021 12:33:34 -0700
--Subject: [PATCH] srvrec: Keep support for older resolver
--
--Some C libraries e.g. musl do not implement the new res_n* APIs
--therefore keep the old implementation as fallback and check __RES
--version macro to determine the API level
--
--Upstream-Status: Submitted [https://github.com/Debian/apt/pull/129]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Julian Andres Klode <julian.klode@canonical.com>
-----
-- apt-pkg/contrib/srvrec.cc | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/apt-pkg/contrib/srvrec.cc b/apt-pkg/contrib/srvrec.cc
--index 4ca208273..3eb5f1d4c 100644
----- a/apt-pkg/contrib/srvrec.cc
--+++ b/apt-pkg/contrib/srvrec.cc
--@@ -62,6 +62,7 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
--    unsigned char answer[PACKETSZ];
--    int answer_len, compressed_name_len;
--    int answer_count;
--+#if __RES >= 19991006
--    struct __res_state res;
-- 
--    if (res_ninit(&res) != 0)
--@@ -71,6 +72,12 @@ bool GetSrvRecords(std::string name, std::vector<SrvRec> &Result)
--    std::shared_ptr<void> guard(&res, res_nclose);
-- 
--    answer_len = res_nquery(&res, name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
--+#else
--+   if (res_init() != 0)
--+      return _error->Errno("res_init", "Failed to init resolver");
--+
--+   answer_len = res_query(name.c_str(), C_IN, T_SRV, answer, sizeof(answer));
--+#endif //__RES >= 19991006
--    if (answer_len == -1)
--       return false;
--    if (answer_len < (int)sizeof(HEADER))
---- 
--2.31.0
--
-diff --git a/meta/recipes-devtools/apt/apt_2.2.4.bb b/meta/recipes-devtools/apt/apt_2.4.0.bb
-similarity index 96%
-rename from meta/recipes-devtools/apt/apt_2.2.4.bb
-rename to meta/recipes-devtools/apt/apt_2.4.0.bb
-index aef309840b..c95e36e3d0 100644
---- a/meta/recipes-devtools/apt/apt_2.2.4.bb
-+++ b/meta/recipes-devtools/apt/apt_2.4.0.bb
-@@ -10,7 +10,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
-            file://0001-Disable-documentation-directory-altogether.patch \
-            file://0001-Fix-musl-build.patch \
-            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
--           file://0001-srvrec-Keep-support-for-older-resolver.patch \
-            file://0001-cmake-Do-not-build-po-files.patch \
-            file://0001-Hide-fstatat64-and-prlimit64-defines-on-musl.patch \
-            file://0001-aptwebserver.cc-Include-array.patch \
-@@ -26,7 +25,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
-            "
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "19f6795f31cfa8eb352b1e5b3c379f22ee6020e98701ff2cc679da8c4f1159f7"
++SRC_URI[sha256sum] = "1752d6d0a930e71292b5a308d3811ebd54d8cc68cacff44de654265b8617a2bf"
  
--SRC_URI[sha256sum] = "6eecd04a4979bd2040b22a14571c15d342c4e1802b2023acb5aa19649b1f64ea"
-+SRC_URI[sha256sum] = "728c69df369cbc4a55f91fc2817fe9832c1a2f39de4142e7ef222c5158f234af"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
  
- # the package is taken from snapshots.debian.org; that source is static and goes stale
+ inherit meson features_check pkgconfig
+ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+-DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy"
++DEPENDS += "xorgproto xtrans pixman libxkbfile libxfont2 wayland wayland-native wayland-protocols libdrm libepoxy libxcvt"
+ 
+ OPENGL_PKGCONFIGS = "glx glamor dri3"
+ PACKAGECONFIG ??= "${XORG_CRYPTO} \
 -- 
 2.30.2
 
