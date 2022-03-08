@@ -1,155 +1,104 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58FDFC433EF
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 12:22:19 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web09.7484.1646742137915098751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 102DCC433FE
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:13:47 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.8463.1646748826205596075
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 04:22:18 -0800
+ Tue, 08 Mar 2022 06:13:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PToaedym;
- spf=pass (domain: gmail.com, ip: 209.85.208.43,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id c20so5781708edr.8
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=S75c5J30;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id p8so17430724pfh.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 04:22:17 -0800 (PST)
+ Tue, 08 Mar 2022 06:13:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xZ0zAHxGcpNfv0g6JwKbirx1V2LhCNh92+nuen/N/PU=;
-        b=PToaedymz9SOhSMBHYJyL70xInz5FskOBNIA7xroDJZg9sHyJl00Apblgk3ajAvc53
-         O+ImOXCLfolAEpSbyBtqc/c20gqUKGSkACxwJMQoXvWpqgwODtyW2TNHMxr21npecy2g
-         +iLOzX/AIzY0BMG7KlMaH4ZGAZ/a4XjHHr1nXD2oYEuVAePoAg9L4vffkd3+elYvQUl7
-         hIi4Xfvo1kpTkNA8oeD4QxuGrXsIbjavfHHkLe0eOfYAU/Y6O8JlvD3wRth4Ed5vpe5C
-         dIkVfDTtj1OE9jBFof/9wM7L5PbS3JHZcCdoiUQSY3Hl65y/JQmewZOSgtHyJEa8NtbC
-         SKcw==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C6BuYMnXmdaZBwVvERSl/PB1l82kH6j2CxyopF+uHbY=;
+        b=S75c5J30ynlYa+JGHBVlLITyiFa3g/KXIRrceXecKbamqMjdaaIh2Zy02guUOFNmce
+         wtz493N+ezaq2KBj22U0Nsf2KfCsyj3iQYcdEwEWLhODBk19VlWedVVQodkM7srQKf1S
+         rGYfXyfJi+shZ8sdWaGNUkdgF0W7dYHPKk/jiSgw62xHYHebxZCSRKmLKitYX7bYdc9J
+         f8bPy3SbdTDCJFVCZFbtgzU+Sz/xVZWxA1dvRvK1Ca0oo34zbIwVjaF35FYvWZf9WsG8
+         tYpJGX+YedhA3Za6xSfhqoYFhwBURRnAo/HxUv8cuXCmc72T0oBqRhDg27U50EOPKDNG
+         HQZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xZ0zAHxGcpNfv0g6JwKbirx1V2LhCNh92+nuen/N/PU=;
-        b=ptR5CGGttgp07caiAMr2egdWZA731wKK5LId3YVW8kHAdupPKZ4JUJcnJaIgaV41G6
-         igyRAnRrkvzo8vkJjBbTo46QsMwO7no12GI38wGqZBC62m3AKwPJTIeizbL2tUc1qd8A
-         obu66iWSH5yI/UBIlVLzKMHgyKZPOpDl5EN6e2og92bdn4Sj6MYzB7p2A9mh2HeTUfRw
-         942vzmr7UzAX8bsC7Q8aP7KV+IrA0ApLrlQpd13Qu0zXh9fS0RsFgPeqcR8Op7vDHQBM
-         FoqDlReR5fl0358hO9sGlDuw+j/OU9NAlH9KdtTX+/m1MFM8eXY6TzZfSbKI7NLS4doq
-         aj+Q==
-X-Gm-Message-State: AOAM531fbaAsWMbD0P02dnBtYKb+PRUTQW57FiwUeQaODLfvKHkUOBPg
-	Zomyn8UTrm6YFjz4ONllG+an30bJdX5u3niDNGM=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C6BuYMnXmdaZBwVvERSl/PB1l82kH6j2CxyopF+uHbY=;
+        b=1ydGMVBWNJ6D1UWAZERx9OCeANGBeyZ4YzAQ1KHMrYqIZjbxdR8XsbUWk34eZvWHS/
+         5MnjsfqqjsE8lvl+7wISHOGBe0QheLogph1tIkeNd1kf65fDZGzZbelM8o+i9lqi+gwa
+         nje0VpM1C9VcScWgHLeU/onlHDn1Ky+AORbHQH4/yFKmqZ56TVSEqoOJIMQnc8RkMGBw
+         XsdplO8qYG+Ha9lMz94O8BdzO7/Ja4DpjKWloi9L/OttthHpit44zKa6zfbVrmWrYiiP
+         Gfdh1m9mZs8uUHHcRfEVNZtDK7Aigr+RwjMSMpDy3g03iJusl5+rBpnZ/lUd/qIYfEZY
+         +pXg==
+X-Gm-Message-State: AOAM53105DtryAyDpkYJmP2OUaVsiZeWE8DstMps3YuqrDDrT57kR1xj
+	cyHsqoz5q/XfJ9RNZmeV4me5DWkigdGACbd2H60=
 X-Google-Smtp-Source: 
- ABdhPJzgJh0k9cETvxUqA4KKZgX4gczW0mpzBguzbI75v6XjBwXud80KzIffYVp2GcePOteND+9MFxvhZvPnZQMVDAE=
-X-Received: by 2002:a05:6402:3715:b0:410:a415:fd95 with SMTP id
- ek21-20020a056402371500b00410a415fd95mr15782273edb.288.1646742135103; Tue, 08
- Mar 2022 04:22:15 -0800 (PST)
+ ABdhPJxjFGKG36QRlkSiU/CF0Oyv5C7u3JxKv2MRGluBbPDWd0imfOcrpO19IdR5rEE2gC5zkQ0rbg==
+X-Received: by 2002:a63:864a:0:b0:375:7999:e83c with SMTP id
+ x71-20020a63864a000000b003757999e83cmr14408362pgd.144.1646748824812;
+        Tue, 08 Mar 2022 06:13:44 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ e21-20020a635455000000b00372badd9063sm15160884pgm.11.2022.03.08.06.13.43
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Mar 2022 06:13:44 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/3] Patch review
+Date: Tue,  8 Mar 2022 04:13:29 -1000
+Message-Id: <cover.1646748150.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: 
- <CAFA6WYPbMYuHXHaHDe3qkDFoPE8senbZWhJjuUXmuZ6d9-2=2w@mail.gmail.com>
-In-Reply-To: 
- <CAFA6WYPbMYuHXHaHDe3qkDFoPE8senbZWhJjuUXmuZ6d9-2=2w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 8 Mar 2022 07:22:03 -0500
-Message-ID: 
- <CADkTA4OC6RibL_Jnv-7o+GECJ7Y5bCYArgdDiB=RUD4kyAx2bA@mail.gmail.com>
-Subject: Re: [OE-core] Linux kernel GCC plugins build failure with SDK
- toolchain
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
- Khem Raj <raj.khem@gmail.co>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
- Ralph Siemsen <ralph.siemsen@linaro.org>,
-	Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 12:22:19 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:13:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162902
+ https://lists.openembedded.org/g/openembedded-core/message/162903
 
-On Tue, Mar 8, 2022 at 4:26 AM Sumit Garg <sumit.garg@linaro.org> wrote:
->
-> Hi,
->
-> We have recently observed Linux kernel build failures while using SDK
-> toolchain (built using gcc-cross-canadian_<version>.bb) especially
-> after upstream changed the way to detect presence of GCC plugins here
-> [1]. Logs below:
->
->   HOSTCXX scripts/gcc-plugins/arm_ssp_per_task_plugin.so
->   HOSTCC  scripts/kallsyms
->   HOSTCC  scripts/sorttable
->   HOSTCC  scripts/asn1_compiler
->   SYSNR   arch/arm/include/generated/asm/unistd-nr.h
->   GEN     arch/arm/include/generated/asm/mach-types.h
->   SYSTBL  arch/arm/include/generated/calls-oabi.S
->   SYSTBL  arch/arm/include/generated/calls-eabi.S
->   HOSTCC  scripts/mod/mk_elfconfig
->   CC      scripts/mod/empty.o
-> cc1: error: cannot load plugin ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so
->    ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: undefined symbol:
-> _ZN8opt_pass14set_pass_paramEjb
-> make[1]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1
-> make: *** [Makefile:1214: prepare0] Error 2
->
-> This is reproducible with current OE core dunfell (gcc9.3) and
-> honister (gcc 11). But strangely this issue is not seen while building
-> kernel as part of OE build using normal cross toolchain (built using
-> gcc-cross_<version>.bb).
->
-> I have tried to compare the two recipes: gcc-cross_<version>.bb and
-> gcc-cross-canadian_<version>.bb but can't find anything explicit which
-> can cause this behaviour. Also, following hack does disable GCC
-> plugins detection during kernel build leading to a successful build:
+Please review this set of patches for dunfell and have comments back by
+end of day Thursday.
 
-It is likely a variant of a bug that I'm working on now, feel free to
-add your steps to reproduce the issue there.
+Passed a-full on autobuilder:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14681
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3335
 
-Cheers,
+The following changes since commit 51844f2d60d77fb8cb46ffe460402f76ae216ca5:
 
-Bruce
+  uninative: Upgrade to 3.5 (2022-03-03 07:43:07 -1000)
 
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> index 553ef7fe62..5529932472 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-> @@ -73,8 +73,6 @@ FILES_${PN} = "\
->      ${gcclibdir}/${TARGET_SYS}/${BINV}/lib* \
->      ${gcclibdir}/${TARGET_SYS}/${BINV}/include \
->      ${gcclibdir}/${TARGET_SYS}/${BINV}/include-fixed \
-> -    ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/include/ \
-> -    ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gtype.* \
->      ${includedir}/c++/${BINV} \
->      ${prefix}/${TARGET_SYS}/bin/* \
->      ${prefix}/${TARGET_SYS}/lib/* \
->
-> Thoughts?
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1e860048c53ee77ee9870dcce94847a28544b753
->
-> Regards,
-> Sumit
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#162877): https://lists.openembedded.org/g/openembedded-core/message/162877
-> Mute This Topic: https://lists.openembedded.org/mt/89633477/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Jose Quaresma (1):
+  sstate: inside the threadedpool don't write to the shared localdata
+
+Richard Purdie (1):
+  systemd: Ensure uid/gid ranges are set deterministically
+
+Ross Burton (1):
+  asciidoc: update git repository
+
+ meta/classes/sstate.bbclass                      | 2 +-
+ meta/recipes-core/systemd/systemd_244.5.bb       | 2 ++
+ meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.25.1
+
 
