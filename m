@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1403EC433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:13:55 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.8498.1646748834029534464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEA2C433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:13:57 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.8181.1646748836560932320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 06:13:54 -0800
+ Tue, 08 Mar 2022 06:13:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IHxvSdwJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
+ header.b=b9xg27b4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id bc27so16584602pgb.4
+Received: by mail-pf1-f179.google.com with SMTP id d17so8600452pfv.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 06:13:53 -0800 (PST)
+ Tue, 08 Mar 2022 06:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=xqLlozCecKzMz7r3351ffs9bnjk5HwnQaxoJJQe6OEw=;
-        b=IHxvSdwJ5whY3DkSPZqGIvANhOZMyKYD+nD4bqPYo11HhOUrSDvXCd/kuDO5hnlNGW
-         x3/txEfh7+RdpZmelVTZCF5EOWLibdPxpQcJcHWPHpWauXQhriB0KbG/rZGRd0D+LWsT
-         DwhbhlR41HIfaPw2aLeFtXkGt3HHfFKo4MyesToWpLExj0/r/i0xpc8IoqcbcNlIYkzb
-         4cjiP6Mrl7WDdWx3xbvoUApNe0F3sy66epwbZhrZ5iGPG1kezwfIPedtERsH++6jeOdB
-         SByIUwYR5mxOQBTFO1cJlXxgNTsiY3IJ9/mZmOVdMuQUnXJzfZYh1NhBjzpLvxLstPNN
-         MmUA==
+        bh=uJLB55i/yv+vA76YW7i15mgSUEU+jeAERSFZyD25GMA=;
+        b=b9xg27b4kajflCKtYA2zgRCPm9tbSW5DYnT9Pumd2ixV3tvnGetE//fDpUBj+CBz8b
+         HmlM0cQEmTErWWgUtS9BAPELoBKOCuuDdAd6v0TV1tEpKVLlp4Xqzek7niDyTHFXlXq0
+         1QWiklaXzmZz9dD8L3i0QuXoHU2kbgshpXW+px9zXDOsSh2qjLrusPC2unG0VRq2iakf
+         vajInQTv2yLq60taLeQIlcfNR4myEJIJowH73ltRvcsv8hzP//vizBCRM4aRml++Djnv
+         LG7WK7NDqh1n3ImVVK3UuDjTyhvKsRylO5jPYxIAKONcn2sL0Hvi6eWxTBkQgZtXEn9M
+         0qOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xqLlozCecKzMz7r3351ffs9bnjk5HwnQaxoJJQe6OEw=;
-        b=bAAdI0aTYiMGt7twZ8LFeYbKjDvU7jlDVatYyXjlhsm9/SYz/Hdp0h86wo4MozV8/4
-         8oWl3WXNat776I1s/ozFJwej4YOyCinqAiDZBubCExLn9sjIX5J67MDft1l2NHz/tafl
-         lz383f3m7SbFZYCHEfTdNEnKPrH7QTiSZR//+TjtljNmuXmROSc3OIxtGCJfCaNQfvOi
-         A0bdzJbx5g1fhRyyz4tN+obl1PCUxqaaIkUIWjjUblHc21Qk6mo99MsHkP7LpQDzrAJR
-         TSsCFmW17N7++i1Dr+9RcM2v8O/hYgd8rsd8fJisC7UlUuCqQfpmCtsFrjkYqRSgONAX
-         zrGw==
-X-Gm-Message-State: AOAM532lmZABN4EXhrGhHo1mH7y3cELBBJAzOtFKsL8g4hKlnTRJtBei
-	MUbWcXZqpwr6hVZnQZ7A/IE3/j3aysdQClO+IZs=
+        bh=uJLB55i/yv+vA76YW7i15mgSUEU+jeAERSFZyD25GMA=;
+        b=CXnZrmwX9/r+2FVcj0sREE18Ju+TrG0uN3RSwpAosSxz6hGUXd+GVv3JeJa30UuX5a
+         xHPOTXRnBdVsNwDIAIJfd4k0ue/4BQl8mOUm+izifyoAVyt64GLAkr1qsQToeBuSppJl
+         bwm0uxfBAqGO6wQiq/uxJb7zKAB9vfy2teq7s49FsqDNLLlxp/C7hQiIJOlOzC4esHHt
+         04E7K9YBKoeEpHdwD+/rjon582KrhwUPrdFcieSox3A5pmQdep6UBlluSdBQFfdZfNbM
+         UlBYHD9fkELZUXDpriMjpwgAiRf36jIKaK/EK2hmINGVyhC5zvV0pCRMbYorzkq4lqlW
+         8M/Q==
+X-Gm-Message-State: AOAM533idkenPW7hJ79f1kVVC7V1g+JrC5RN6O70cbmlIPDpfhnNAiwf
+	ciGwt4e32y5IMnpfu1rKR1p4jzlWA7ftUH5Mrt0=
 X-Google-Smtp-Source: 
- ABdhPJyAZ+XvAsYDjo3ZG1xjKfDNccBtreOD3nzEGPZv3AKsly0ZzZiplb4VyP1lTwrdlmSklP2vnw==
-X-Received: by 2002:a63:24c3:0:b0:37c:926d:daef with SMTP id
- k186-20020a6324c3000000b0037c926ddaefmr10140347pgk.280.1646748833111;
-        Tue, 08 Mar 2022 06:13:53 -0800 (PST)
+ ABdhPJz2fUA7U9DdZLOaIzRTvslKcnKUtj0WAcNQyzmZsXvSH583LKKEd8py3PTpAP8QRvBDum0TnQ==
+X-Received: by 2002:a65:4c06:0:b0:373:a7d1:75d5 with SMTP id
+ u6-20020a654c06000000b00373a7d175d5mr14007124pgq.502.1646748835507;
+        Tue, 08 Mar 2022 06:13:55 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e21-20020a635455000000b00372badd9063sm15160884pgm.11.2022.03.08.06.13.52
+ e21-20020a635455000000b00372badd9063sm15160884pgm.11.2022.03.08.06.13.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 06:13:52 -0800 (PST)
+        Tue, 08 Mar 2022 06:13:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/3] systemd: Ensure uid/gid ranges are set
- deterministically
-Date: Tue,  8 Mar 2022 04:13:31 -1000
+Subject: [OE-core][dunfell 3/3] sstate: inside the threadedpool don't write to
+ the shared localdata
+Date: Tue,  8 Mar 2022 04:13:32 -1000
 Message-Id: 
- <56f57c70fb87beb9a7181df8cb5e7a4a0b5a184a.1646748150.git.steve@sakoman.com>
+ <604146a242c3d5f5a9872bb756910f4bd1b58406.1646748150.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1646748150.git.steve@sakoman.com>
 References: <cover.1646748150.git.steve@sakoman.com>
@@ -68,37 +68,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:13:55 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:13:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162905
+ https://lists.openembedded.org/g/openembedded-core/message/162906
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-meson.build will fall back to greping /etc/login.defs for values of these
-if they're not set. Different distros set them (Centos 7/8 does, Ubuntu
-does not) so output was not deterministic. Avoid this by setting to the
-default values. We now match the vaules from login.defs from shadow.
+When inside the threadedpool we make a copy of the localdata
+to avoid some race condition, so we need to use this new
+localdata2 and stop write the shared localdata.
 
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 77a6ac0ac266d71e4fe67fd332662081f30cd7bf)
+(cherry picked from commit 90fe6948a9df0b43c58120a9358adb3da1ceb5b9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/systemd/systemd_244.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
-index 66446e2a7c..a648272bc0 100644
---- a/meta/recipes-core/systemd/systemd_244.5.bb
-+++ b/meta/recipes-core/systemd/systemd_244.5.bb
-@@ -216,6 +216,8 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Drootlibdir=${rootlibdir} \
-                   -Drootprefix=${rootprefix} \
-                   -Ddefault-locale=C \
-+                  -Dsystem-uid-max=999 \
-+                  -Dsystem-gid-max=999 \
-                   "
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 00a0e8fbd7..3d6fb84d63 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -961,7 +961,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
  
- # Hardcode target binary paths to avoid using paths from sysroot
+             localdata2 = bb.data.createCopy(localdata)
+             srcuri = "file://" + sstatefile
+-            localdata.setVar('SRC_URI', srcuri)
++            localdata2.setVar('SRC_URI', srcuri)
+             bb.debug(2, "SState: Attempting to fetch %s" % srcuri)
+ 
+             try:
 -- 
 2.25.1
 
