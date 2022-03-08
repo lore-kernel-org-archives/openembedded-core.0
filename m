@@ -2,49 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E51EC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE53C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:21:23 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web09.8563.1646749281769388891
+ by mx.groups.io with SMTP id smtpd.web11.8485.1646749280809201859
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 06:21:21 -0800
+ Tue, 08 Mar 2022 06:21:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=QyebHzCj;
+ header.b=Wp7zJKFr;
  spf=pass (domain: intel.com, ip: 134.134.136.20,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646749281; x=1678285281;
+  t=1646749282; x=1678285282;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=geqeK9wXN9WeQoAM7LfFkj/GxzZk96ms/6jj+l5jQbE=;
-  b=QyebHzCjfKV5WsL37NZqE3dvCNsaapnMtU2u00VPDTZSXN+nvkzFrpOf
-   CIyHpcUOgFtypr5suMJ1Va2X3FZJAin2ML4rn57P530OlHeUKI7MkW5xC
-   kygqTyvyFkZg9q2faLQDTLxjSdMWe76db4+Wf5TWFkUQLvVTODAQw+8y2
-   YhG8tGQuzVD37OgxmzaebRIi9VBuYgV1Je3O1A/0u1eIh2iNephqreW02
-   KZIlep5OnOQxGQWCm5ZfW666C0Ir8m+3vXDW2VGFTcVK+Np88sXWp4YNK
-   9qbNMBE9KxtZrOeIqdaxcIfKl602XWD94sIRWpJ6aDFzFx4w3rdd1Qwr0
+  bh=hKx+HQD3qLUq9SMzDN2sgWrX63aCnFbCdaQHGVmD9LM=;
+  b=Wp7zJKFr+Rn6qxUzXVlQy1Av9Bl/Hh7EMNElv9XEMyee+mlSaN+M9dVK
+   WKWwe/to7JG2+yC/DkD/i8w6931/CaTEiCSp01AKTp/FxvmoZlWqQ1jS9
+   PuRkbrcje4YvrX5Y+x/xZ+ABu/Sq2EMejVDKsaisrLoJEu9BogZo1PvU3
+   Hc0WMNQBLziPagdoYBeo6X01PBDZqnJvmcIklKrl1t17ty3WbNE3Bo8yP
+   soFjykSiIbKA/u6vyTsWOzEEBD2xt6URri7UAWxVkLqgVdAl39v5sZWHx
+   T1CPAK5ABy+pm2P4LAG1QAAHDEiKnEigwhzFLExHXM1aTp51eR3GIWamW
    A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="242130082"
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="242130097"
 X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="242130082"
+   d="scan'208";a="242130097"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:20:46 -0800
+ 08 Mar 2022 06:20:50 -0800
 X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="513119924"
+   d="scan'208";a="513119951"
 Received: from sktoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.225.176])
   by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:20:45 -0800
+ 08 Mar 2022 06:20:48 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 06/15] wireless-regdb: upgrade 2021.08.28 ->
- 2022.02.18
-Date: Tue,  8 Mar 2022 22:19:57 +0800
+Subject: [hardknott][PATCH 08/15] asciidoc: update git repository
+Date: Tue,  8 Mar 2022 22:19:59 +0800
 Message-Id: 
- <35053703a511fbd3e931740b546b863097485809.1646748870.git.anuj.mittal@intel.com>
+ <e5beba08c03fa773e2b4fc4a12662825ac4e2b71.1646748870.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1646748869.git.anuj.mittal@intel.com>
 References: <cover.1646748869.git.anuj.mittal@intel.com>
@@ -53,37 +52,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:21:22 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:21:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162914
+ https://lists.openembedded.org/g/openembedded-core/message/162915
 
-From: wangmy <wangmy@fujitsu.com>
+From: Ross Burton <ross@burtonini.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+The asciidoc-py3 repository has been renamed to asciidoc-py.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e5c06ddfd3c0db0d0762c0241c019f59ad310e53)
+(cherry picked from commit f78dd3f4c5f0cd738783e75f3796e1da2a2a2ba1)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...ireless-regdb_2021.08.28.bb => wireless-regdb_2022.02.18.bb} | 2 +-
+ meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.08.28.bb => wireless-regdb_2022.02.18.bb} (94%)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.08.28.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.08.28.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb
-index b1cad01a25..2d7e5dad9d 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2021.08.28.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb b/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
+index 523bf33f42..3869abee59 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_9.1.0.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
+                     file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "cff370c410d1e6d316ae0a7fa8ac6278fdf1efca5d3d664aca7cfd2aafa54446"
-+SRC_URI[sha256sum] = "8828c25a4ee25020044004f57374bb9deac852809fad70f8d3d01770bf9ac97f"
+-SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https;branch=9.x"
++SRC_URI = "git://github.com/asciidoc/asciidoc-py;protocol=https;branch=9.x"
+ SRCREV = "9705d428439530104ce55d0ba12e8ef9d1b57ad1"
  
- inherit bin_package allarch
- 
+ DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
 -- 
 2.35.1
 
