@@ -2,153 +2,227 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 595D4C433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:20:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B0FC433EF
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:20:48 +0000 (UTC)
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  by mx.groups.io with SMTP id smtpd.web11.8477.1646749237171537025
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 06:20:38 -0800
+ Tue, 08 Mar 2022 06:20:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=J98Oxr1w;
+ header.b=iPyFum08;
  spf=pass (domain: intel.com, ip: 192.55.52.120,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646749237; x=1678285237;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e/Gs78JVfdWDU9M/4YWvQM1+XOd0/zpyRm4y9gLJaII=;
-  b=J98Oxr1wncBBY5YARZ0Z++n/GfE1SB4fWIpZx71InnmZ8A0YXGPIFHp5
-   Ff3UiSgzGiKcUb8d3AdtGXi62ccY3j4qBaUG5PvNuuTSaMzcQZvqX6uRJ
-   RHM0e+IQh7uZ8t6ZYG2cIjDlvqsAQIlHwdvYlLsyXGmPXkh+gXhDHNI4X
-   kEiOcGiBAArpMj4nf7NWB95bknyfiWL4bT7sN6KOWgq1sZbVAq2YwMW9h
-   B0MERAf2QN5jpasQxThVVLaSLVVlVMEKGcWPazOheABdQfJ5NliwRB6K9
-   EoqONsIIDocnSwQtlAAxa+jrOp3s1UskInZomVBG8+Er6da/Qz04yIbse
+  t=1646749247; x=1678285247;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=REC7n9lMpOL/tNLxGX4ybp8uWt8+xBOWudd4M8BvsSg=;
+  b=iPyFum08YU3pMRa8oNKxxkRvI/9u0RUy4fqnz9cS3wqucpFU8BAjECWA
+   yFzx9uYx7ExJIE2GkRkrvVExtGLNJ1K8QbPXmGkwisjkAnch5bqsolDui
+   dGJS69Kxkokx4rrPtm7KJHbwBSC41VtKyZD9lgomqA8pApghPPZ5WELXG
+   hCyvAfsc+65k0FHjyh4x7eEYoYzuKHoWDljcRDio+J94sun2V/hV9uC7n
+   QpMAfcBxkvjkXwIN3V0Y3eHUMMEFK5yj/ZBbySjXxHfUwsjNsLHIqUJGR
+   JRSbjmE5jG85kqZEV40ITdkS2WCrY/y3ctPzrgH55Mkfz/3VYZBFg8xD9
    A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="253519468"
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="253519514"
 X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="253519468"
+   d="scan'208";a="253519514"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:20:36 -0800
+ 08 Mar 2022 06:20:43 -0800
 X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="513119877"
+   d="scan'208";a="513119902"
 Received: from sktoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.225.176])
   by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:20:34 -0800
+ 08 Mar 2022 06:20:39 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/15] Patch review
-Date: Tue,  8 Mar 2022 22:19:51 +0800
-Message-Id: <cover.1646748869.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 03/15] ghostscript: fix CVE-2021-45949
+Date: Tue,  8 Mar 2022 22:19:54 +0800
+Message-Id: 
+ <9b0199a1d8ec3c7bbfd2022932d524d61f2c6832.1646748870.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1646748869.git.anuj.mittal@intel.com>
+References: <cover.1646748869.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:20:45 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:20:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162907
+ https://lists.openembedded.org/g/openembedded-core/message/162910
 
-Next set of changes for hardknott. Please review.
+From: Minjae Kim <flowergom@gmail.com>
 
-No problems seen while testing on autobuilder.
+Ghostscript GhostPDL 9.50 through 9.54.0 has a heap-based buffer overflow in sampled_data_finish
+(called from sampled_data_continue and interp).
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3338
+To apply this CVE-2021-45959 patch,
+the check-stack-limits-after-function-evalution.patch should be applied first.
 
-Thanks,
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2021-45949
 
-Anuj
+(From OE-Core rev: 5fb43ed64ae32abe4488f2eb37c1b82f97f83db0)
 
-The following changes since commit 94db7109f21cdefd50baea5660b691e5fe44a0d1:
-
-  scripts/buildhistory-diff: drop use of distutils (2022-02-25 22:14:02 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Anuj Mittal (1):
-  lttng-modules: upgrade 2.12.6 -> 2.12.7
-
-Bruce Ashfield (6):
-  linux-yocto/5.10: ppc/riscv: fix build with binutils 2.3.8
-  linux-yocto/5.10: fix dssall build error with binutils 2.3.8
-  linux-yocto/5.10: features/zram: remove CONFIG_ZRAM_DEF_COMP
-  linux-yocto/5.10: update to v5.10.101
-  linux-yocto/5.10: Fix ramoops/ftrace
-  linux-yocto/5.10: update to v5.10.103
-
-Changqing Li (1):
-  unfs3: correct configure option
-
-Lee Chee Yang (1):
-  ruby : update to 3.0.3
-
-Minjae Kim (1):
-  ghostscript: fix CVE-2021-45949
-
-Peter Kjellerstedt (1):
-  selftest: recipetool: Correct the URI for socat
-
-Richard Purdie (1):
-  libgcrypt: Upgrade 1.9.3 -> 1.9.4
-
-Ross Burton (1):
-  asciidoc: update git repository
-
-Sakib Sajal (1):
-  go: upgrade 1.16.13 -> 1.16.14
-
-wangmy (1):
-  wireless-regdb: upgrade 2021.08.28 -> 2022.02.18
-
- meta/lib/oeqa/selftest/cases/recipetool.py    |   2 +-
- .../go/{go-1.16.13.inc => go-1.16.14.inc}     |   4 +-
- ...1.16.13.bb => go-binary-native_1.16.14.bb} |   4 +-
- ....16.13.bb => go-cross-canadian_1.16.14.bb} |   0
- ...o-cross_1.16.13.bb => go-cross_1.16.14.bb} |   0
- ...ssdk_1.16.13.bb => go-crosssdk_1.16.14.bb} |   0
- ...native_1.16.13.bb => go-native_1.16.14.bb} |   0
- ...ntime_1.16.13.bb => go-runtime_1.16.14.bb} |   0
- .../go/{go_1.16.13.bb => go_1.16.14.bb}       |   0
- .../ruby/ruby/CVE-2021-31799.patch            |  57 ----
- .../ruby/ruby/CVE-2021-31810.patch            | 258 ------------------
- .../ruby/ruby/CVE-2021-32066.patch            | 102 -------
- .../ruby/{ruby_3.0.1.bb => ruby_3.0.3.bb}     |   7 +-
- meta/recipes-devtools/unfs3/unfs3_git.bb      |   2 +-
- .../asciidoc/asciidoc_9.1.0.bb                |   2 +-
- .../ghostscript/CVE-2021-45949.patch          |  65 +++++
- ...tack-limits-after-function-evalution.patch |  51 ++++
- .../ghostscript/ghostscript_9.53.3.bb         |   2 +
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- ...ules_2.12.6.bb => lttng-modules_2.12.7.bb} |   2 +-
- ....08.28.bb => wireless-regdb_2022.02.18.bb} |   2 +-
- ...{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} |   2 +-
- 24 files changed, 148 insertions(+), 452 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.13.inc => go-1.16.14.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.13.bb => go-binary-native_1.16.14.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.13.bb => go-cross-canadian_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.13.bb => go-cross_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.13.bb => go-crosssdk_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.13.bb => go-native_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.13.bb => go-runtime_1.16.14.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.13.bb => go_1.16.14.bb} (100%)
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31810.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-32066.patch
- rename meta/recipes-devtools/ruby/{ruby_3.0.1.bb => ruby_3.0.3.bb} (90%)
+Signed-off-by: Minjae Kim <flowergom@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../ghostscript/CVE-2021-45949.patch          | 65 +++++++++++++++++++
+ ...tack-limits-after-function-evalution.patch | 51 +++++++++++++++
+ .../ghostscript/ghostscript_9.53.3.bb         |  2 +
+ 3 files changed, 118 insertions(+)
  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.12.6.bb => lttng-modules_2.12.7.bb} (94%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.08.28.bb => wireless-regdb_2022.02.18.bb} (94%)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} (96%)
 
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
+new file mode 100644
+index 0000000000..f312f89e04
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
+@@ -0,0 +1,65 @@
++From 6643ff0cb837db3eade489ffff21e3e92eee2ae0 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Fri, 28 Jan 2022 08:21:19 +0000
++Subject: [PATCH] [PATCH] Bug 703902: Fix op stack management in
++ sampled_data_continue()
++
++Replace pop() (which does no checking, and doesn't handle stack extension
++blocks) with ref_stack_pop() which does do all that.
++
++We still use pop() in one case (it's faster), but we have to later use
++ref_stack_pop() before calling sampled_data_sample() which also accesses the
++op stack.
++
++Fixes:
++https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=34675
++
++Upstream-Status: Backported [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=2a3129365d3bc0d4a41f107ef175920d1505d1f7]
++CVE: CVE-2021-45949
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ psi/zfsample.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
++
++diff --git a/psi/zfsample.c b/psi/zfsample.c
++index 0023fa4..f84671f 100644
++--- a/psi/zfsample.c
+++++ b/psi/zfsample.c
++@@ -534,14 +534,17 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
++             data_ptr[bps * i + j] = (byte)(cv >> ((bps - 1 - j) * 8));	/* MSB first */
++     }
++     pop(num_out);		    /* Move op to base of result values */
++-
+++    /* From here on, we have to use ref_stack_pop() rather than pop()
+++       so that it handles stack extension blocks properly, before calling
+++       sampled_data_sample() which also uses the op stack.
+++    */
++     /* Check if we are done collecting data. */
++ 
++     if (increment_cube_indexes(params, penum->indexes)) {
++         if (stack_depth_adjust == 0)
++-            pop(O_STACK_PAD);	    /* Remove spare stack space */
+++	    ref_stack_pop(&o_stack, O_STACK_PAD);         /* Remove spare stack space */
++         else
++-            pop(stack_depth_adjust - num_out);
+++            ref_stack_pop(&o_stack, stack_depth_adjust - num_out);
++         /* Execute the closing procedure, if given */
++         code = 0;
++         if (esp_finish_proc != 0)
++@@ -554,11 +557,11 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
++             if ((O_STACK_PAD - stack_depth_adjust) < 0) {
++                 stack_depth_adjust = -(O_STACK_PAD - stack_depth_adjust);
++                 check_op(stack_depth_adjust);
++-                pop(stack_depth_adjust);
+++		ref_stack_pop(&o_stack, stack_depth_adjust);
++             }
++             else {
++                 check_ostack(O_STACK_PAD - stack_depth_adjust);
++-                push(O_STACK_PAD - stack_depth_adjust);
+++		ref_stack_push(&o_stack, O_STACK_PAD - stack_depth_adjust);
++                 for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
++                     make_null(op - i);
++             }
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch b/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
+new file mode 100644
+index 0000000000..722bab4ddb
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
+@@ -0,0 +1,51 @@
++From 7861fcad13c497728189feafb41cd57b5b50ea25 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Fri, 12 Feb 2021 10:34:23 +0000
++Subject: [PATCH] oss-fuzz 30715: Check stack limits after function evaluation.
++
++During function result sampling, after the callout to the Postscript
++interpreter, make sure there is enough stack space available before pushing
++or popping entries.
++
++In thise case, the Postscript procedure for the "function" is totally invalid
++(as a function), and leaves the op stack in an unrecoverable state (as far as
++function evaluation is concerned). We end up popping more entries off the
++stack than are available.
++
++To cope, add in stack limit checking to throw an appropriate error when this
++happens.
++
++Upstream-Status: Backported [https://git.ghostscript.com/?p=ghostpdl.git;a=patch;h=7861fcad13c497728189feafb41cd57b5b50ea25]
++Signed-off-by: Minjae Kim <flowergom@gmail.com>
++---
++ psi/zfsample.c | 14 +++++++++++---
++ 1 file changed, 11 insertions(+), 3 deletions(-)
++
++diff --git a/psi/zfsample.c b/psi/zfsample.c
++index 290809405..652ae02c6 100644
++--- a/psi/zfsample.c
+++++ b/psi/zfsample.c
++@@ -551,9 +551,17 @@ sampled_data_continue(i_ctx_t *i_ctx_p)
++     } else {
++         if (stack_depth_adjust) {
++             stack_depth_adjust -= num_out;
++-            push(O_STACK_PAD - stack_depth_adjust);
++-            for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
++-                make_null(op - i);
+++            if ((O_STACK_PAD - stack_depth_adjust) < 0) {
+++                stack_depth_adjust = -(O_STACK_PAD - stack_depth_adjust);
+++                check_op(stack_depth_adjust);
+++                pop(stack_depth_adjust);
+++            }
+++            else {
+++                check_ostack(O_STACK_PAD - stack_depth_adjust);
+++                push(O_STACK_PAD - stack_depth_adjust);
+++                for (i=0;i<O_STACK_PAD - stack_depth_adjust;i++)
+++                    make_null(op - i);
+++            }
++         }
++     }
++
++--
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
+index 216822478f..958a88e968 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
+@@ -34,6 +34,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+                 file://0001-Bug-704342-Include-device-specifier-strings-in-acces.patch \
++                file://check-stack-limits-after-function-evalution.patch \
++                file://CVE-2021-45949.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.35.1
 
