@@ -1,99 +1,72 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E60BC433FE
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:21:33 +0000 (UTC)
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web10.8578.1646749290648435983
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03A9C4332F
+	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 14:30:40 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.8612.1646749840226651308
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 06:21:32 -0800
+ Tue, 08 Mar 2022 06:30:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=fzAxUch0;
- spf=pass (domain: intel.com, ip: 134.134.136.20,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646749292; x=1678285292;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=Y5u1RC9gSkyKUoAHsqcbKHU0E1xihNrDJPGJQTLp5u4=;
-  b=fzAxUch0BpQpfeT4BRuoc6fA/803JCBxaBEhOlCJ2NykdZeWRGPfY91f
-   gymhue9wngTAHhj86iU4ieCgTHmvW76c2+4zjs2hK6YHduBdZNJxWJNwI
-   eRt9metZqpB3WoUV+x2XrfbtlqdGdwjsPYZty+lxx2nMqLlGr47w4od2A
-   rGZHUdsnuWvmRlem/LWQ0xRuHgjYfLpBOdPIcE8dpamc/rt1BqplAXb/I
-   L6kjD5IEWbyFJq78Me3aVvGICbuNAFKAK/7HSlme1vkd2+j9u1dde9fMI
-   Fyp8q2q+9NWey2UIP7+3Jj+PZEXALmd2t1LsVST9Aqz6TnQMtcLighJuQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="242130162"
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="242130162"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:21:02 -0800
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400";
-   d="scan'208";a="513120075"
-Received: from sktoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.225.176])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2022 06:21:01 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFA2C1516
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  8 Mar 2022 06:30:38 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 96AF43FA7A
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  8 Mar 2022 06:30:38 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 15/15] unfs3: correct configure option
-Date: Tue,  8 Mar 2022 22:20:06 +0800
-Message-Id: 
- <d0b1807edc10835beff9a55a105ac191b6ac2fe7.1646748870.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1646748869.git.anuj.mittal@intel.com>
-References: <cover.1646748869.git.anuj.mittal@intel.com>
+Subject: [PATCH 3/6] setuptools_build_meta: respect PIP_INSTALL_DIST_PATH
+Date: Tue,  8 Mar 2022 14:30:32 +0000
+Message-Id: <20220308143035.3569559-3-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220308143035.3569559-1-ross.burton@arm.com>
+References: <20220308143035.3569559-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:21:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 14:30:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162922
+ https://lists.openembedded.org/g/openembedded-core/message/162925
 
-From: Changqing Li <changqing.li@windriver.com>
+pip_install_wheel expects the wheels to be in PIP_INSTALL_DIST_PATH but
+this class was writing to the same directory through chance not design.
 
-On some new distro like ubuntu21.04, unfs3-native compile failed with
-error: undefined reference to `xdr_uint32', since new distro has new
-glibc.
+Respect PIP_INSTALL_DIST_PATH as the output directory, and use
+[cleandirs] to ensure that it exists and is empty.
 
->From glibc 2.27 rpc support is dropped, so unfs3 need to link to
-libtirpc.
-
-Here is defination of ac_link:
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-
-Depended library should be added into LIBS, not LDFLAGS, otherwise,
-gcc may not load the lib since it is before conftest.$ac_ext during
-configure. Finally, it results in compile failed.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 27867862c1fee6c0e649286500fa1ab015d57faf)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/unfs3/unfs3_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/setuptools_build_meta.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
-index bcaa4e2822..06148005cf 100644
---- a/meta/recipes-devtools/unfs3/unfs3_git.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
-@@ -37,7 +37,7 @@ BBCLASSEXTEND = "native nativesdk"
- inherit autotools
- EXTRA_OECONF_append_class-native = " --sbindir=${bindir}"
- CFLAGS_append = " -I${STAGING_INCDIR}/tirpc"
--LDFLAGS_append = " -ltirpc"
-+EXTRA_OECONF_append = " LIBS=-ltirpc"
- 
- # Turn off these header detects else the inode search
- # will walk entire file systems and this is a real problem
--- 
-2.35.1
+diff --git a/meta/classes/setuptools_build_meta.bbclass b/meta/classes/se=
+tuptools_build_meta.bbclass
+index 0651cca0a0..18ae2e6004 100644
+--- a/meta/classes/setuptools_build_meta.bbclass
++++ b/meta/classes/setuptools_build_meta.bbclass
+@@ -8,8 +8,8 @@ setuptools_build_meta_do_configure () {
+=20
+ # TODO: ideally this uses pypa/build
+ setuptools_build_meta_do_compile () {
+-    mkdir -p ${S}/dist
+-    nativepython3 -c "from setuptools import build_meta; build_meta.buil=
+d_wheel('./dist')"
++    nativepython3 -c "from setuptools import build_meta; build_meta.buil=
+d_wheel('${PIP_INSTALL_DIST_PATH}')"
+ }
++do_compile[cleandirs] +=3D "${PIP_INSTALL_DIST_PATH}"
+=20
+ EXPORT_FUNCTIONS do_configure do_compile
+--=20
+2.25.1
 
 
