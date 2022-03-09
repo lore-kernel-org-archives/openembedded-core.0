@@ -1,147 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEA0C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 16:56:45 +0000 (UTC)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
- [209.85.217.45])
- by mx.groups.io with SMTP id smtpd.web08.277.1646845004365680223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9890C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 17:07:56 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.450.1646845676496410174
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 08:56:44 -0800
+ Wed, 09 Mar 2022 09:07:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DDtZf2MM;
- spf=pass (domain: gmail.com, ip: 209.85.217.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f45.google.com with SMTP id u124so3009989vsb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OSdrvvtN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 27so2472035pgk.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 08:56:44 -0800 (PST)
+ Wed, 09 Mar 2022 09:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=fM0QP3i3K2rJjdNY7SlS4m40iuk759rIBZ2YRJF2o7M=;
-        b=DDtZf2MMUpKs9Kxr4RTPuNnRYtN2Rv66II+p/njKlpyLQNth1OvhIpi78tmbRjU5pl
-         ASEJd3OHdbH4DgzZBHSOMbAZB3Ca1RXVVMmyw9bPvY6pR55/tx6L2u35kuAqFBdcv41n
-         Hybw+51Cd0Dew5wOONgor69zBqYNEb+Czu1bgka9UNPKg5bz/jRQdZ05Voc6FPLad5SU
-         TUVrrdNZPtxOhh6W1jUKridOgB0nEsCoS4jGyVN5CRZ/NGHLsz6LoOsSK8QpAEx3LiKf
-         TPeyHN7UCsk2gssc3y2F/cSUXUQ7dvBxuZvkSWxTGJ+F6zF7tCX4NPe7V/iCd0mByg0f
-         snbw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Iky+fmOpB3hCwKAjspEECNzc9FoshB2RKfxEyA/VNZ8=;
+        b=OSdrvvtNGioWY7ouMeK6rZQEdAWh3fh/JouQwpY7MS/aLC+rdbQ4xonFlgvclz3/RU
+         hb4qK+nLAcPi6olU3ZvkFs81pq+WK/JutMIi4j58NGh0TJPmOB3/x5feVMTCqX+QS+xf
+         P9txHpC3PxKfpUd2VUwJK/CUN10IttsGTEq8qJh0KtgN5MxHOKY01Sn7EjcpamKsUXZU
+         8mfQGMT8wx3bURsrsl7M5ibWma19tyevtiIJXyAlbbafX8LISCV+CTESLFCFPRKBl++D
+         st9RT5lr04vHw9EWaRtJr75dxaM2aJoe2xSOKLYIvPnRkbN5wUbX9J7TcQEVjFQSMAeD
+         MoAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fM0QP3i3K2rJjdNY7SlS4m40iuk759rIBZ2YRJF2o7M=;
-        b=cgsHb7Fea1bl/y8091pF3IPtWKJ4RdyVI9yPHZ/uPg6rkWJEyG4JElyWepQKCaOrV+
-         7eguxLpmhyz1SOGmg1jfQ2QXMWFd9OXkde225PJUhvBhrRPdzcYgWj2qCIoueK1MAgyi
-         Q/GrRKLKL8OJOJYAPBny1PsZxfph0DFjDwH0CJsFoRjlY2Lva+MlEnraqRTqoPpcbmTU
-         KIUqjZ2fICB3F2u0wjeMWDBVogn4ivJFhT9whGmvCnojvIw/7m0rL1JEIWsFUM+sEIQu
-         fMSWs2qp2JhLk2wJU/qe3loK1sNh/1Kq53ni/gOUJMr8/NiRW/yaNiw0dOjTQtYQeCF9
-         YWJA==
-X-Gm-Message-State: AOAM5307IIxkEfjlV2T+KH476tpdjLR+u/h4yADcqLD3GmuO9yVGoGAz
-	zSlnKq+OuOyW1bmZlmJb2WfP/tWOFvlra89NG74=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Iky+fmOpB3hCwKAjspEECNzc9FoshB2RKfxEyA/VNZ8=;
+        b=oh5Q8mVZr7Ba3D43YMb6gHgToDWQhn+KuREWaRJGy6PvA3WJupeABZp3mqERZ226yt
+         pS1kbkaCTtNgJpDPmOuCWbOwGlVW87nSRIamvs9iloA5BgzEr56lc15dcz4Vq8aE/riJ
+         V/pkwp+eRt8P3+jovi8rUwnMxNh0LmLyLQTAXenXAYsIWTjxWMcUJyOmlotdARsK9sKp
+         LrdhKqRfoUuZoAsnYmiS9Xg1/tk5EF687FBuwkRV23OpmKHGzxNBg/+aWwdFk5S7CBbd
+         3rjwaIWYonrbY11MPmPHz7fi8TfYA4jhys/F2oWbUA908eMf9g99//5iarH+eyCiIm8H
+         YKow==
+X-Gm-Message-State: AOAM533+pC0A/FggGCXcWM+9gNJbHVLOb4pgk/ujBEDuyyOYCUa50E8S
+	GBqu9m66yMLs+CVgZ0LfVCyVelq+KPy4sQ==
 X-Google-Smtp-Source: 
- ABdhPJzv12skffW2Nc8Rjz3gryCwiCWtZWXBopS/Sda7hBPUGoqmkPUkBVHe6bqrNXhTebBGLjWy+kQrpLWjmNo6Qsg=
-X-Received: by 2002:a05:6102:4405:b0:320:a07a:1c4c with SMTP id
- df5-20020a056102440500b00320a07a1c4cmr176216vsb.42.1646845003428; Wed, 09 Mar
- 2022 08:56:43 -0800 (PST)
+ ABdhPJycpvuTc0sgutTzK5DxX+lkij6zUZUU8+Iz68/21vfPd5ptIWzh0Cy6oh2FuBOrUfMZ2g5BQQ==
+X-Received: by 2002:a65:5189:0:b0:378:f265:982e with SMTP id
+ h9-20020a655189000000b00378f265982emr581615pgq.582.1646845675696;
+        Wed, 09 Mar 2022 09:07:55 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
+        by smtp.gmail.com with ESMTPSA id
+ s1-20020a056a00178100b004f731a1a952sm3940277pfg.168.2022.03.09.09.07.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 09:07:55 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] webkitgtk: Fix build when x11 is not in distro features
+Date: Wed,  9 Mar 2022 09:07:52 -0800
+Message-Id: <20220309170752.2892032-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220309170752.2892032-1-raj.khem@gmail.com>
+References: <20220309170752.2892032-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <20220309011830.3130440-1-raj.khem@gmail.com>
- <16DAA19DB5E87A22.14238@lists.openembedded.org>
- <CANNYZj-=3wf4HUAP6yTUQBg+qo07XwjxkbN9k=Dqgu9MiCuZTg@mail.gmail.com>
- <CAMKF1spQTOqd2pH3pdgvXVBaQ1jvQKLBDey3EE1HCumwOLym5Q@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1spQTOqd2pH3pdgvXVBaQ1jvQKLBDey3EE1HCumwOLym5Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 9 Mar 2022 17:56:32 +0100
-Message-ID: 
- <CANNYZj8dH8yBfAbtRT0rc2NRsatQ3igVJxN_yuaVWBQ20w_Mfw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: Fix build when x11 is not in distro
- features
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 16:56:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 17:07:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162978
+ https://lists.openembedded.org/g/openembedded-core/message/162980
 
-Can you add this to the commit message please?
+ANGLE's copy of khrplatform.h is not uptodate with mesa/khronos khrplatform.h
+which uses MESA_EGL_NO_X11_HEADERS which is now renamed in newer headers to
+EGL_NO_X11 from mesa/khronos headers, however this define is
+relatively new and 3D stacks do not have this adopted but apps
+like qemu and bunch of others depend on it, I guess they assume mesa.
+One can argue that its better to fix the 3D stacks to behave
+like mesa but this means every BSP using these stacks will need to
+carry such a fix.
 
-Alex
+https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/include/EGL/eglplatform.h
 
-On Wed, 9 Mar 2022 at 17:47, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Mar 8, 2022 at 10:38 PM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Also, what error specifically are you seeing? How is your build set up?
-> >
->
-> There is use of MESA_EGL_NO_X11_HEADERS which is now renamed in newer hea=
-ders to
-> EGL_NO_X11 from mesa/khronos headers, however this define is
-> relatively new and 3D stacks do not have this adopted but apps
-> like qemu and bunch of others depend on it, I guess they assume mesa.
-> One can argue that its better to fix the 3D stacks to behave
-> like mesa but this means every BSP using these stacks will need to
-> carry such a fix.
->
-> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/include/EGL/eglplatf=
-orm.h
->
-> > Alex
-> >
-> > On Wed 9. Mar 2022 at 7.11, Alexander Kanavin via lists.openembedded.or=
-g <alex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
-> >>
-> >> Why is this issue not seen on autobuilder=E2=80=99s no-x11 job?
-> >>
-> >> Alex
-> >>
-> >> On Wed 9. Mar 2022 at 2.18, Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >>> ---
-> >>>  meta/recipes-devtools/qemu/qemu_6.2.0.bb | 2 ++
-> >>>  1 file changed, 2 insertions(+)
-> >>>
-> >>> diff --git a/meta/recipes-devtools/qemu/qemu_6.2.0.bb b/meta/recipes-=
-devtools/qemu/qemu_6.2.0.bb
-> >>> index 062ed32b015..c7eef0a9d5e 100644
-> >>> --- a/meta/recipes-devtools/qemu/qemu_6.2.0.bb
-> >>> +++ b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
-> >>> @@ -6,6 +6,8 @@ DEPENDS =3D "glib-2.0 zlib pixman bison-native ninja-=
-native meson-native"
-> >>>
-> >>>  DEPENDS:append:libc-musl =3D " libucontext"
-> >>>
-> >>> +CFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DE=
-GL_NO_X11=3D1', d)}"
-> >>> +
-> >>>  RDEPENDS:${PN}:class-target +=3D "bash"
-> >>>
-> >>>  EXTRA_OECONF:append:class-target =3D " --target-list=3D${@get_qemu_t=
-arget_list(d)}"
-> >>> --
-> >>> 2.35.1
-> >>>
-> >>>
-> >>>
-> >>>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#162947): https://lists.openembedded.org/g/openembe=
-dded-core/message/162947
-> >> Mute This Topic: https://lists.openembedded.org/mt/89652908/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alex.kanavin@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
+This patch helps with that
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.34.6.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
+index 8cea8a86000..6870eed5259 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
+@@ -98,6 +98,9 @@ EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
+ CFLAGS:append:arc = " -mlong-calls"
+ CXXFLAGS:append:arc = " -mlong-calls"
+ 
++# Needed for non-mesa graphics stacks when x11 is disabled
++CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
++
+ # Javascript JIT is not supported on powerpc
+ EXTRA_OECMAKE:append:powerpc = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE:append:powerpc64 = " -DENABLE_JIT=OFF "
+-- 
+2.35.1
+
 
