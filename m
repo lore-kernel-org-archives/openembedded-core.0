@@ -1,158 +1,90 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3BA7C433F5
-	for <webhook@archiver.kernel.org>; Tue,  8 Mar 2022 23:10:54 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.70.1646781053409361209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1426C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 01:18:47 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.710.1646788727317353687
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 15:10:53 -0800
+ Tue, 08 Mar 2022 17:18:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=fw8gEGw2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id cx5so730624pjb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Kfi2Y+LO;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id c11so620590pgu.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Mar 2022 15:10:53 -0800 (PST)
+ Tue, 08 Mar 2022 17:18:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fkOzQXHlcXXgTPUYJ+RKRbWi0Qga1tIk4+rHw8irOXg=;
-        b=fw8gEGw2c0Cy2ZgX61XFwjBL5LGiIa5C+9+2j1C4zc23bIJ6xnKptOhaDeMSJwhfMW
-         k+27CEimgLmlPs1/lfLKuCNm89Kx3uPCyCeHOmuqBWPFRdF4RtQK/miDSbcG28pIvY4w
-         Z7Z9apZITXcA+QIYHVS8YJVSrG++lbW5ZIWKHv9H/sMa3ea+OP81dGEyblBOs1u/Z7KY
-         iTRRafB+e0SmGiq0J1gIx8Bh/XFtR4BONbAGo5G/zopxjha+2H+xFuuKEVMVHoyto7Xi
-         H8oULkYcS7ulgzdeh8U6iOa+KtO0QaD343a8UaOdQ4UUtP79f8UapwwwUTAYTexirUJb
-         euLA==
+        bh=nMhZJ8WpJFIqcMCH9OHCc+OrlCFQ1mdc/AB7xxhZMHY=;
+        b=Kfi2Y+LO9+jQ+v55sqvwgbqLeRzooEF5eVAFfIi6Fo+9Ase8RqOa+UjgGB9jmVMJye
+         idjqYj3/iNxfs/oqKKhwoJjTi7oETtNJsXCrda/ncP0IRXiMQOrl/3TstsfYmt0h4r8X
+         ZHrKHsQ1e2t0lbKuqUX8rH0Nax8Krn4nNQFHySCyPfBp064md/f2lSfpC5nO39gR4F09
+         hxcC0v8jnxRLnLfm+0Cp4nrd/xsrAxe5tHe1EGdUuKeW5PuqiT14UPw43sedr4j/Rg/3
+         Oylim4NKAbtn6d6UssyjKtlLlwT6fGY/uDdVwIBdMXdCLFcTBUdJugx7CcgEhcR/Dgxv
+         EBCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fkOzQXHlcXXgTPUYJ+RKRbWi0Qga1tIk4+rHw8irOXg=;
-        b=59Af3wy89u+XezfeMdLDuMwALkgvUW8GqPI6hfpFFOThzYhphudT2ONgAc0QYAAuUI
-         r0we0JgNNLfHohDyPsb2oqwSRga71ZnrABnVeV1UvzL+HvQmu13GCwedWF7oVo1EpT77
-         UXjS9MkCk65EAh5yHs1INr6Ye2OTFnxdG7Nfb4eQodk6g7ojukORLFK4gfFIrsYW9XZo
-         g5kH54wyFbmmSsDcGShOqeBfER/6eCu88i63n6VGrbW3WflfIqx2hdVmBoOqUpz4osGQ
-         Xv3BL7H48xP+z5C02g5Vl4gCz9lwJtF2PJFXGnlmBuignKcUR1UZSBCAp9FVJmnIqdxY
-         Su3A==
-X-Gm-Message-State: AOAM532sFM5BW0YDmkPzFQ7cV6Ktv2GlzmUXXGuCEjOgSEXoRG9omDy3
-	IcxshRBjGECz34V3DEN/MLOQvfukslTOwfQUHsg=
+        bh=nMhZJ8WpJFIqcMCH9OHCc+OrlCFQ1mdc/AB7xxhZMHY=;
+        b=y9hIEl5hi1jK8Fk+tUKY88WGjVaKO53ZU2ZNTEKEQ0ag8bVR8pUUdVFtNGJx5yS+sN
+         2PwYoYjo6cb/AdftKH2xisxyhFgLpZ7/EF6IH3enuC+GGDr+9KZO1N2i6P+Icc+Mv/Ft
+         2oqxbB/5WlmdK6XDE6fs/Nt4dMlnzZxkwGcRqTeWbRZwTY3YpzWg276RdD13l3VA20cG
+         7/3kHA+j9s24jrHx7j9/iOdlJ+JxYYCH/Yb/VPY1Tts+xzoD0BYvmVPXvPdyHdo8UnQa
+         lrLNRG0Q8Nn6dT72C9SqZ03+4/km0q/FbDJbVl71p9bFPbhcEU4DS65mz/L8hyf00NQA
+         bvKA==
+X-Gm-Message-State: AOAM533TL3Z77JlNQbbKDkT2xKKqB99J62sFE2PxArMKXbymsgAqca61
+	FouZzkEp+Du0jAqVvKpzMVOghaRLEWregg==
 X-Google-Smtp-Source: 
- ABdhPJxoamYCZGWigl38JWfkNy3pSQte9sk5Zy8lW345gqKae2Nr7NvCywN5AFqZr++KM1WFsUz/5w==
-X-Received: by 2002:a17:902:ec8f:b0:152:939:ac45 with SMTP id
- x15-20020a170902ec8f00b001520939ac45mr3854569plg.61.1646781051775;
-        Tue, 08 Mar 2022 15:10:51 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ ABdhPJxLenWHxQ+s9GX2oJ3fANtvNqmgEIQMkcrRjAODkiVIZ/4ihP4tW32qXGASsE4AxliLD8YyZQ==
+X-Received: by 2002:a63:84c2:0:b0:380:5d6f:6b97 with SMTP id
+ k185-20020a6384c2000000b003805d6f6b97mr9564701pgd.73.1646788726534;
+        Tue, 08 Mar 2022 17:18:46 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
         by smtp.gmail.com with ESMTPSA id
- y12-20020a17090a390c00b001bf7b033e21sm163759pjb.8.2022.03.08.15.10.50
-        for <openembedded-core@lists.openembedded.org>
+ e11-20020a63e00b000000b0037341d979b8sm309494pgh.94.2022.03.08.17.18.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 15:10:51 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 08 Mar 2022 17:18:36 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/18] Pull request (cover letter only)
-Date: Tue,  8 Mar 2022 13:10:37 -1000
-Message-Id: <cover.1646780968.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemu: Fix build when x11 is not in distro features
+Date: Tue,  8 Mar 2022 17:18:30 -0800
+Message-Id: <20220309011830.3130440-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Mar 2022 23:10:54 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 01:18:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162945
+ https://lists.openembedded.org/g/openembedded-core/message/162946
 
-The following changes since commit 79ce9059f716546a7d6f4562ba194aedd90c22cd:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu_6.2.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  grub: add a fix for a crash in scripts (2022-02-23 05:00:42 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Jose Quaresma (1):
-  buildhistory.bbclass: create the buildhistory directory when needed
-
-Marek Vasut (1):
-  bootchart2: Add missing python3-math dependency
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.5
-
-Minjae Kim (2):
-  go: fix CVE-2022-23806
-  go: fix CVE-2022-23772
-
-Nathan Rossi (1):
-  cml1.bbclass: Handle ncurses-native being available via pkg-config
-
-Richard Purdie (2):
-  libxml-parser-perl: Add missing RDEPENDS
-  uninative: Add version to uninative tarball name
-
-Ross Burton (3):
-  coreutils: remove obsolete ignored CVE list
-  cve-check: get_cve_info should open the database read-only
-  Revert "cve-check: add lockfile to task"
-
-Steve Sakoman (5):
-  expat: fix CVE-2022-25235
-  expat: fix CVE-2022-25236
-  expat: fix CVE-2022-25313
-  expat: fix CVE-2022-25314
-  expat: fix CVE-2022-25315
-
-Virendra Thakur (1):
-  libarchive: Fix for CVE-2021-36976
-
-wangmy (1):
-  wireless-regdb: upgrade 2021.08.28 -> 2022.02.18
-
- meta/classes/buildhistory.bbclass             |   1 +
- meta/classes/cml1.bbclass                     |   8 +
- meta/classes/cve-check.bbclass                |   4 +-
- meta/classes/uninative.bbclass                |   2 +-
- meta/conf/distro/include/yocto-uninative.inc  |  11 +-
- meta/recipes-core/coreutils/coreutils_8.31.bb |   3 -
- .../expat/expat/CVE-2022-25235.patch          | 283 +++++++++++++++
- .../expat/expat/CVE-2022-25236.patch          | 129 +++++++
- .../expat/CVE-2022-25313-regression.patch     | 131 +++++++
- .../expat/expat/CVE-2022-25313.patch          | 230 +++++++++++++
- .../expat/expat/CVE-2022-25314.patch          |  32 ++
- .../expat/expat/CVE-2022-25315.patch          | 145 ++++++++
- meta/recipes-core/expat/expat_2.2.9.bb        |   6 +
- .../bootchart2/bootchart2_0.14.9.bb           |   2 +-
- meta/recipes-devtools/go/go-1.14.inc          |   2 +
- .../go/go-1.14/CVE-2022-23772.patch           |  50 +++
- .../go/go-1.14/CVE-2022-23806.patch           | 142 ++++++++
- .../perl/libxml-parser-perl_2.46.bb           |   1 +
- .../libarchive/CVE-2021-36976-1.patch         | 321 ++++++++++++++++++
- .../libarchive/CVE-2021-36976-2.patch         | 121 +++++++
- .../libarchive/CVE-2021-36976-3.patch         |  93 +++++
- .../libarchive/libarchive_3.4.2.bb            |   6 +-
- ....08.28.bb => wireless-regdb_2022.02.18.bb} |   2 +-
- 23 files changed, 1711 insertions(+), 14 deletions(-)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25235.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25236.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25313-regression.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25313.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25314.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25315.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-23772.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-23806.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2021-36976-1.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2021-36976-2.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2021-36976-3.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.08.28.bb => wireless-regdb_2022.02.18.bb} (94%)
-
+diff --git a/meta/recipes-devtools/qemu/qemu_6.2.0.bb b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
+index 062ed32b015..c7eef0a9d5e 100644
+--- a/meta/recipes-devtools/qemu/qemu_6.2.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
+@@ -6,6 +6,8 @@ DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"
+ 
+ DEPENDS:append:libc-musl = " libucontext"
+ 
++CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
++
+ RDEPENDS:${PN}:class-target += "bash"
+ 
+ EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
 -- 
-2.25.1
+2.35.1
 
 
