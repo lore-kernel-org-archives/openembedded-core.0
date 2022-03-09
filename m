@@ -1,124 +1,88 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82670C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 16:37:47 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.18.1646843866360071805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F9F7C433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 16:40:02 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.44.1646843996673584802
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 08:37:46 -0800
+ Wed, 09 Mar 2022 08:39:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EJUGvOx0;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id im7so2421657qvb.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dbRFpu9N;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id l10so1738779wmb.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 08:37:46 -0800 (PST)
+ Wed, 09 Mar 2022 08:39:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=oIHLfrMqDvf6WVoV4Af+y29ty9deVoOw4AcU7V0uyl4=;
-        b=EJUGvOx0rBTJ1AhXhXy1TmpEpogK8Ye95MiNQ0tJabTnLhHi5oOymubiQUWXxs4cqk
-         XCgwUIg2TvKCvi+WzxxhSjeVQIwzTGMI6uMtDgmMo2V4fKNURVFm3jebEU5C4vNgPqA8
-         mLhd7Lw2M1d3gG88MssCv74bwxPzm8BS5Od5/bumH/m3nWvwbq+SgfNC24dwAaKqRi2/
-         XjbEMv5FPeApgwlNq6WKs8YxBEdaRQ2kO9MjtDszXL51teZ8/pccXAnAomQ7G1BPcE2o
-         Zon7Jp7vNu1kvbltR+63VbJRTCICaVwI3PePkBSivceFxgEiEmCqVAeb/57ehrNTi7O9
-         chBw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=87E4698Y7CtPhJHrPNemXXs89RWRykK8fMyzcLLH0hQ=;
+        b=dbRFpu9NbUVAGUlgRYpFlsWtJU3Ekwcw1+/j5Ckde/fzybz7/2hd3VxnzOLYhcjgjg
+         3lHPA9YRxZUKeYRU993X2MV4nsDX+r9V9buoFkmv4LJ9qKRt5HR/nkQPP03CSlcsewi5
+         cz7fqGAjQHZGS0v6WGJvsAiGvxVZK2SJ7mVzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oIHLfrMqDvf6WVoV4Af+y29ty9deVoOw4AcU7V0uyl4=;
-        b=R6YRZgtj9BynTagzwMLHEkOzx/Zo5whtP82UQNece7Xanwbfg4in20uMaVwGBUKQQk
-         M5BwrTKn630Ja9US2kIw8suYwAaYCNLKnAbeLj7QFYU93+aTPVClj6TJPGa5qaUMr5+i
-         /cEZtZ9P6uzjs4X0N2v++uW7O4nWK9ekzEuMLhomnrUJsUIeLUnMr0XgSWX/q0v5Gfw8
-         fAJ/yCoKP4iJXoeC1W7uhXenzRf0OZXp9fDcAWtM9qXd4e4VtkO3284K5S6GnRWvqkZu
-         p7yJ49ozGc1Zepiv8EVkY2S8ios83Ft+/UiX20dvj6r2sDhq46WmHwJXdi4EATxVJmIb
-         ziag==
-X-Gm-Message-State: AOAM533+3qLhe8NoAeOS/ni9CeG6qAtDiOb889qxSk/7FNM5cFL+i2zq
-	YrOHK7a7V0DfCLMNvZthy0mtFQ7Qjn/Vo50qeJs=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=87E4698Y7CtPhJHrPNemXXs89RWRykK8fMyzcLLH0hQ=;
+        b=JFYaqOmmeoZRM7L8r3P1hCuthvBaUv4elT4aUM841H5iTfOOw3Dl3MM9nkUWicMYo7
+         bTIokKO5ypWpYD4cvJ0aQTDx8iFR67ByoffQ4KQ0D+YSmRvHDrawgaeo9Ss/ccJXFSRJ
+         Y8VQapjoExnl4ot4VwZNEfocpnrc8JjGx0HWAVJ2llEIZ0th+jwLWwmB9sC8tfiC1ncV
+         +vF3s97u6RindpeKikfjKRS7fSyw0ttnXcR5rjxYAgNTGl8lPuJUV6XeXREs8sOIjb7W
+         hhrygx+Zb7OnAar6aQkBgIyGT49jXqM3jOD2rNtVrknVGF8inc9L/jv/jiFZ5SU/6xW2
+         v4mg==
+X-Gm-Message-State: AOAM533xtrNArRbBJ3eS4h30VihRbVO4AEvufybZy75Z7Yqsn60vrfin
+	ydlxTTcPyxk3cvSr2nC+W0AvpQ==
 X-Google-Smtp-Source: 
- ABdhPJzJWdxsObirgpe7AX/8Ya6dsNC/P2PORYk0hzNCAx7dGKltJtQZfRVtQO3mYqg2xzR78cYFHNHllrD6OBTVbJg=
-X-Received: by 2002:a05:6214:2a83:b0:435:3075:e990 with SMTP id
- jr3-20020a0562142a8300b004353075e990mr347578qvb.110.1646843865433; Wed, 09
- Mar 2022 08:37:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20220309011830.3130440-1-raj.khem@gmail.com>
- <CANNYZj85JcW7xaLcuPC_+oap4a2hseFEWucnCLX4hFY=KT5Apg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj85JcW7xaLcuPC_+oap4a2hseFEWucnCLX4hFY=KT5Apg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Mar 2022 08:37:19 -0800
+ ABdhPJzUwn+mtE7pdkYV10S/OSBQUyVP0R1UnyZaRPU4yma9r6gV7aQuhu6X4lkcy0YmsARne2DioQ==
+X-Received: by 2002:a1c:f30b:0:b0:37b:b5de:c804 with SMTP id
+ q11-20020a1cf30b000000b0037bb5dec804mr8172010wmq.166.1646843994989;
+        Wed, 09 Mar 2022 08:39:54 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:32b1:4783:6b7d:78e6?
+ ([2001:8b0:aba:5f3c:32b1:4783:6b7d:78e6])
+        by smtp.gmail.com with ESMTPSA id
+ bg18-20020a05600c3c9200b0037c2ef07493sm2690200wmb.3.2022.03.09.08.39.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 08:39:54 -0800 (PST)
 Message-ID: 
- <CAMKF1spaCR+0DmrQz22=pgSLhUPN6GFBdK4_068ecw5yKg_1ZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemu: Fix build when x11 is not in distro
- features
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ <1d8f614abcdb7345019934093b13155a5234e788.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 03/16] dbus: update 1.12.22 -> 1.14.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Ross Burton
+ <ross@burtonini.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Wed, 09 Mar 2022 16:39:51 +0000
+In-Reply-To: 
+ <CANNYZj8UnxaMikzLxxQKKirHn-ut=CQ0qTKW928q1Zv6CwYrjQ@mail.gmail.com>
+References: <20220308093224.3436483-1-alex@linutronix.de>
+	 <20220308093224.3436483-3-alex@linutronix.de>
+	 <CAAnfSTupWXPF34RZ4qw+38XfL29CnG2zv8xCcES4dqCPERFZXw@mail.gmail.com>
+	 <CANNYZj8UnxaMikzLxxQKKirHn-ut=CQ0qTKW928q1Zv6CwYrjQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 16:37:47 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 16:40:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162972
+ https://lists.openembedded.org/g/openembedded-core/message/162973
 
-On Tue, Mar 8, 2022 at 10:11 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Why is this issue not seen on autobuilder=E2=80=99s no-x11 job?
->
+On Wed, 2022-03-09 at 16:51 +0100, Alexander Kanavin wrote:
+> It's atomic with dbus gaining a glib dependency unfortunately. I don't
+> want to break bisection.
 
-perhaps AB's no-x11 job is still using mesa and not an alternative
-stack like mali or sgx ddk
-if so then here is why
+Are you saying that dbus gained a hard glib dependency? That wasn't clear from
+the commit message if so and is an important detail...
 
-https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics/m=
-esa/mesa.inc#n30
+Cheers,
 
+Richard
 
-> Alex
->
-> On Wed 9. Mar 2022 at 2.18, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-devtools/qemu/qemu_6.2.0.bb | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/qemu/qemu_6.2.0.bb b/meta/recipes-dev=
-tools/qemu/qemu_6.2.0.bb
->> index 062ed32b015..c7eef0a9d5e 100644
->> --- a/meta/recipes-devtools/qemu/qemu_6.2.0.bb
->> +++ b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
->> @@ -6,6 +6,8 @@ DEPENDS =3D "glib-2.0 zlib pixman bison-native ninja-nat=
-ive meson-native"
->>
->>  DEPENDS:append:libc-musl =3D " libucontext"
->>
->> +CFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_=
-NO_X11=3D1', d)}"
->> +
->>  RDEPENDS:${PN}:class-target +=3D "bash"
->>
->>  EXTRA_OECONF:append:class-target =3D " --target-list=3D${@get_qemu_targ=
-et_list(d)}"
->> --
->> 2.35.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#162946): https://lists.openembedded.org/g/openembedd=
-ed-core/message/162946
->> Mute This Topic: https://lists.openembedded.org/mt/89652908/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a=
-lex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
 
