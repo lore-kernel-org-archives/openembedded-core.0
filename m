@@ -2,87 +2,77 @@ Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C0CC433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 10:03:14 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.3999.1646820193096012514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FDDC433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 10:28:56 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
+ [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web12.4153.1646821734916822738
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 02:03:13 -0800
+ Wed, 09 Mar 2022 02:28:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nZRKk4zd;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200,
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JO918mRD;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230,
  mailfrom: michael.opdenacker@bootlin.com)
 Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 5F13D2000F;
-	Wed,  9 Mar 2022 10:03:10 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 152F124000A;
+	Wed,  9 Mar 2022 10:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646820190;
+	t=1646821733;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6ZxWqiemJ9KZJF/ef3wDoikeW7bGdm4p3hCo3zQZwFA=;
-	b=nZRKk4zdfOv8gHVYrTMP0Mm/HyUKHXh7ip+PQ9cXP1iGt9mN0ck6JLMqw4R0CyJ8L04zTP
-	E6TCQalfk63fPk76/Nl8zzG1IG8BDMpSUv/NMRROco3e6WCuaryZKQxlVzW/k9utM4fL4w
-	KWUxUGDubPDIb23RFhapdZcJZynhs0ANJK/Z+LA0Nu+muh1Uesg2h3byxwV1g/5ZgWFzC7
-	wtC4octYHhyaIDk61KI5Y8UT/eSZGC8knwby9gFUaLMoiqlAwHsIgwFRV5Lnbsf4TlQXlt
-	MUS7TInRqXHvsylo8Rdp2ntkaE8irc4oqNm1GYAUH+kUDNKtYbs5srjJej6F7g==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SQ3oeDLBiVL8ykJ6yFrmCGVoZa2PG2EE7WlPD7cfBXw=;
+	b=JO918mRDzsBNdNlAPFx1x+0gsUJ7CLH6QXDljJVsAq8sQkW75664L2UUKeGgu7L8RgFRFc
+	YF2DP6X8uQ5url9YfbQrQZ5Ha1PdKIuxb8TACNM/EvuwvtGLVyaUdVsqyCUlpPaiJCiHsn
+	N2nRqKTvqXqMqV5FF3c7u0bMBj9cWH+s0oxzU+oeUicWPHDVG7l1C9M0l3BZrRpG3bKTm0
+	+x6zMmEXRFRmVlN2zteYzkOr3lnCI9oXmxJh73Atm0wBxFcW9aQYBNUjt7fGojo315PLMV
+	jRstMZlzBF1nfsXcoaHWn6vJn+wEtOOOCOjxs0FKJoIO0UXrY3w+b0jZPAzCjA==
 From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH RESEND] conf/machine: fix QEMU x86 sound options
-Date: Wed,  9 Mar 2022 11:02:59 +0100
-Message-Id: <20220309100259.607050-1-michael.opdenacker@bootlin.com>
+Subject: [PATCH] local.conf.sample: https and no newline for SSTATE_MIRRORS
+Date: Wed,  9 Mar 2022 11:28:50 +0100
+Message-Id: <20220309102850.607681-1-michael.opdenacker@bootlin.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <16CC0B71E636B8E0.7993@lists.openembedded.org>
-References: <16CC0B71E636B8E0.7993@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 10:03:14 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 10:28:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162955
+ https://lists.openembedded.org/g/openembedded-core/message/162956
 
-This updates the QEMU sounds options for x86 emulation,
-when "runqemu" is called with the "audio" argument,
-to fix the below error:
+Both http and https work, but we will get fewer user questions with https
 
-runqemu - ERROR - Failed to run qemu: qemu-system-x86_64: warning: '-soundhw ac97' is deprecated, please use '-device AC97' instead
+Remove no longer necessary \n character in the sample definition
 
 Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ---
- meta/classes/qemuboot.bbclass                  | 2 +-
- meta/conf/machine/include/x86/qemuboot-x86.inc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/local.conf.sample | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-index 755d49acd6..ad8489902a 100644
---- a/meta/classes/qemuboot.bbclass
-+++ b/meta/classes/qemuboot.bbclass
-@@ -29,7 +29,7 @@
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 82efc2c4f5..4d0883302b 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -185,7 +185,7 @@ BB_DISKMON_DIRS ??= "\
+ # used to accelerate build time. This variable can be used to configure the system
+ # to search other mirror locations for these objects before it builds the data itself.
  #
- # QB_AUDIO_DRV: qemu audio driver, e.g., "alsa", set it when support audio
- #
--# QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
-+# QB_AUDIO_OPT: qemu audio option, e.g., "-device AC97", used
- #               when QB_AUDIO_DRV is set.
- #
- # QB_RNG: Pass-through for host random number generator, it can speedup boot
-diff --git a/meta/conf/machine/include/x86/qemuboot-x86.inc b/meta/conf/machine/include/x86/qemuboot-x86.inc
-index d3b91070a8..b7b6428e44 100644
---- a/meta/conf/machine/include/x86/qemuboot-x86.inc
-+++ b/meta/conf/machine/include/x86/qemuboot-x86.inc
-@@ -8,7 +8,7 @@ QB_CPU:x86-64 = "-cpu IvyBridge -machine q35"
- QB_CPU_KVM:x86-64 = "-cpu IvyBridge -machine q35"
+-# This can be a filesystem directory, or a remote url such as http or ftp. These
++# This can be a filesystem directory, or a remote url such as https or ftp. These
+ # would contain the sstate-cache results from previous builds (possibly from other
+ # machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the
+ # cache locations to check for the shared objects.
+@@ -193,7 +193,7 @@ BB_DISKMON_DIRS ??= "\
+ # at the end as shown in the examples below. This will be substituted with the
+ # correct path within the directory structure.
+ #SSTATE_MIRRORS ?= "\
+-#file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
++#file://.* https://someserver.tld/share/sstate/PATH;downloadfilename=PATH \
+ #file://.* file:///some/local/dir/sstate/PATH"
  
- QB_AUDIO_DRV = "alsa"
--QB_AUDIO_OPT = "-soundhw ac97,es1370"
-+QB_AUDIO_OPT = "-device AC97"
- QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1 tsc=reliable no_timer_check rcupdate.rcu_expedited=1"
- QB_OPT_APPEND = "-usb -device usb-tablet"
  
 -- 
 2.25.1
