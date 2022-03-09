@@ -2,107 +2,122 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C004C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 17:20:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 676F4C433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 17:23:25 +0000 (UTC)
 Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
  [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web09.140.1646846407598737860
+ by mx.groups.io with SMTP id smtpd.web09.188.1646846604374794504
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 09:20:07 -0800
+ Wed, 09 Mar 2022 09:23:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XVlqR8pK;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IRNnIrlW;
  spf=pass (domain: gmail.com, ip: 209.85.160.174,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id 11so2434256qtt.9
+Received: by mail-qt1-f174.google.com with SMTP id c4so2488157qtx.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 09:20:07 -0800 (PST)
+ Wed, 09 Mar 2022 09:23:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AH5r++PL4HKfraki+uRs7bkuq0GFo0X/pltbz1v8EWs=;
-        b=XVlqR8pKGs585HZ2McgX+FAAjQAhDbu6owzOnXgB3QDfBZU3iL+kI9cjHXdXSj/0Fp
-         aT9XHHP0KGykGSzR4vtp2gWCGHZs2TaDMhSOPMgppCeFRJiL3CaMC2t27IFBjVXg+oPs
-         W1+/bKN6gfR0b1sS13gbuI1Pfu0NTJS0SPjBaJbxtAewMeN1YLbp5wl39RS//xIP4jCs
-         8FJin83RdMCc/Mzo8+SoGt5+pLOJnCMlnaZTwtUjN0Hu2qu0wO38Uw1HGdHpvUfDUOla
-         /idIw5RdUz7Wp0WJYT+KIT1UjsEo47pp+jNtt3FrzJMrX9akWDnoBh6YCYUoIjAK41Hr
-         JQlQ==
+        bh=SzoTHh3aP91D6xtBZ+QK7MRLuXDOmPuI36hLbuxcYL4=;
+        b=IRNnIrlWTT1NT2hggaiYmOxmNRERs6Cd/Wae+0yiVjKwDwC1hIB7v/mWEJs5wjYQw1
+         +mki5FxnGsjJKkesNO5AAodvR/BDQ5D4CeQ1i01dam+tqJB0s+Fk6/SAhmY9hqGxZu6s
+         irwAJ3vGnuvNpQgVlF9sdeOizZCKLGGZKFZ8b5XAoZ3hzl7kAaklVNiNMtFd0RKtsCnD
+         GAP1GQh8lxi/jiw2tcEcS8O/K3T+Z0X79Khd7BcRgjOMhjQYji1B1gFvmePhfLEiBZg7
+         wA3UER5PCzqJ6GdsThb0k6s5i3y8gb+vzbTJSQ79jUuBqO7ZlAkCv+Rc7/vpMhYCWbms
+         nWkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AH5r++PL4HKfraki+uRs7bkuq0GFo0X/pltbz1v8EWs=;
-        b=0K+KM2JRWiPvDFLJU+rDRv8jnvvhS3t9VvJSUcVlYUa5+YRiXUVxcFsfWUlN3AR5hO
-         hdiELrfYDjpAIPY5ZkeDspPSbAJ3/IuNyTYfH4j/KBbXaGEENVjyR1z9IeeADuHhzUAC
-         VGCnSCgQQd2C9cp9yj0VjTf26syUNKhDEkPKWlQMxwQ3jj8OvXty7dAkWHp/m41891g3
-         Z4sCz7EBaoSds6O5tzVmJ4SyABAgX/hz3cOI5Q1WH8Z/I7DVJnLxu9VRsRsWp5NO/H1z
-         ylpH+qUby5Awb5rQtyO9Tt/Hs/GBbA4PjqE1vWy2xSDP/GoQhhpHJ7fUmmVcoX/vZyGp
-         vy8A==
-X-Gm-Message-State: AOAM532pPSZtJYYHX6CEJ0L9O6GPAcwspKpr38tLkPstK9+Lv+Xju6Hi
-	NQ7aACPLxi2vjdaelzOKhaAzpxT8N0kqP5YZHB4=
+        bh=SzoTHh3aP91D6xtBZ+QK7MRLuXDOmPuI36hLbuxcYL4=;
+        b=QvwPL3ZIOVjNf13luoTelUOUA2o5eBpW37oYnyPQfS2Hmj1KsWDHAf0HW9iXC0EEDG
+         ue/5Nm7mCdu13cGZjvhw4wGHcD/NkCXo8eH8b+rUZ9KdtFJIJ+Zg6PSLkRP6ZZr9UTT2
+         5R+LCDu0QY81tNL4jCCIzo1P49/AuifTXGPMX+3wNXAh7G8+L9vOczf901G3eHf0Ogas
+         Azb2aRkUr8OvZcOTiGNLKHRoLXGwv+LNMK0ZbqrJtsO8TfSaft/eXes/vMzlh7AzZp01
+         NMZ3Ly2r4WdjM5fz0v/aO9vEUIxWHlwtdKMyqR376ocl4ecOJa6/sjfnHWb/1mBBxiOX
+         qRng==
+X-Gm-Message-State: AOAM531jHbOTBcLYcWIRBUrS+l1VXEtKEo2Ycfo9F2rlhyFu91nTJRzt
+	XFISk/QR6tCTUnRuK/pMyAjLFiT94akVvIOeiHnTDcBM4rA=
 X-Google-Smtp-Source: 
- ABdhPJy+exIQ+DOnUC2WzNvYQYbf8tIXXAmVa79/jonq5HAvocNeOM7yzbBU7edX8PMYJCdvVB8bC8fjCRgwOArmeRE=
-X-Received: by 2002:a05:622a:1042:b0:2e1:378b:e200 with SMTP id
- f2-20020a05622a104200b002e1378be200mr610843qte.229.1646846406584; Wed, 09 Mar
- 2022 09:20:06 -0800 (PST)
+ ABdhPJzkEGyRDay/hhscAArFc4l/ok0avsJUTka4bfrhW5nxIomgFHmD2G4+deOj3/MSO51fsgRWh7cpbMX9+oBNCL4=
+X-Received: by 2002:ac8:7dd0:0:b0:2e1:a2c8:7dc1 with SMTP id
+ c16-20020ac87dd0000000b002e1a2c87dc1mr643154qte.532.1646846603307; Wed, 09
+ Mar 2022 09:23:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20220309150224.2661618-1-ross.burton@arm.com>
- <AM9PR09MB4642C97B03C03260CDB40D66A80A9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAAnfSTspNY6Davnnh1A+E3awnz4q4_=E2OdCZx_VbVZeLMtQLg@mail.gmail.com>
- <AM9PR09MB4642BB663E7CF8E1324DE136A80A9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642BB663E7CF8E1324DE136A80A9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+References: <16CC0B71E636B8E0.7993@lists.openembedded.org>
+ <20220309100259.607050-1-michael.opdenacker@bootlin.com>
+In-Reply-To: <20220309100259.607050-1-michael.opdenacker@bootlin.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Mar 2022 09:19:40 -0800
+Date: Wed, 9 Mar 2022 09:22:57 -0800
 Message-ID: 
- <CAMKF1spMok7M-7oFS0FN2SE1e2BzYaF00pccDr_2NDe1LQohFw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pip_install_wheel: install wheel with a glob
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: Ross Burton <ross@burtonini.com>,
-	Patches and discussions about the oe-core layer
+ <CAMKF1spbtsjhkVa2pkP+X7KD40Yx08bU2Y3fbhgXQ9ivod6shg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RESEND] conf/machine: fix QEMU x86 sound options
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 17:20:10 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 17:23:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162982
+ https://lists.openembedded.org/g/openembedded-core/message/162983
 
-On Wed, Mar 9, 2022 at 7:57 AM Konrad Weihmann <kweihmann@outlook.com> wrote:
+On Wed, Mar 9, 2022 at 2:03 AM Michael Opdenacker via
+lists.openembedded.org
+<michael.opdenacker=bootlin.com@lists.openembedded.org> wrote:
 >
+> This updates the QEMU sounds options for x86 emulation,
+> when "runqemu" is called with the "audio" argument,
+> to fix the below error:
 >
+> runqemu - ERROR - Failed to run qemu: qemu-system-x86_64: warning: '-soundhw ac97' is deprecated, please use '-device AC97' instead
 >
-> On 09.03.22 16:53, Ross Burton wrote:
-> > On Wed, 9 Mar 2022 at 15:47, Konrad Weihmann <kweihmann@outlook.com> wrote:
-> >> Can we, for the very unlikely case that do have more than one wheel in
-> >> this dir, bbfatal out here as well - otherwise I'm worried that this
-> >> will never get noticed
-> >
-> > I'm undecided on this.  In the unlikely case (impossible, by design)
-> > that a number of wheels are built for a single package, wouldn't we
-> > want to install all of them as we're building the package?
+> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+> ---
+>  meta/classes/qemuboot.bbclass                  | 2 +-
+>  meta/conf/machine/include/x86/qemuboot-x86.inc | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> Classic assertion case IMO - as you said there shouldn't more than one,
-> but in the event of having more than one, I would just terminate the
-> build, as likely something is very wrong (like people playing around if
-> task appends or custom tasks in between compile and install).
+> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+> index 755d49acd6..ad8489902a 100644
+> --- a/meta/classes/qemuboot.bbclass
+> +++ b/meta/classes/qemuboot.bbclass
+> @@ -29,7 +29,7 @@
+>  #
+>  # QB_AUDIO_DRV: qemu audio driver, e.g., "alsa", set it when support audio
+>  #
+> -# QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
+> +# QB_AUDIO_OPT: qemu audio option, e.g., "-device AC97", used
+>  #               when QB_AUDIO_DRV is set.
+>  #
+>  # QB_RNG: Pass-through for host random number generator, it can speedup boot
+> diff --git a/meta/conf/machine/include/x86/qemuboot-x86.inc b/meta/conf/machine/include/x86/qemuboot-x86.inc
+> index d3b91070a8..b7b6428e44 100644
+> --- a/meta/conf/machine/include/x86/qemuboot-x86.inc
+> +++ b/meta/conf/machine/include/x86/qemuboot-x86.inc
+> @@ -8,7 +8,7 @@ QB_CPU:x86-64 = "-cpu IvyBridge -machine q35"
+>  QB_CPU_KVM:x86-64 = "-cpu IvyBridge -machine q35"
 >
-> I'm just concerned that this here would create a blind spot, where there
-> none needed
+>  QB_AUDIO_DRV = "alsa"
+> -QB_AUDIO_OPT = "-soundhw ac97,es1370"
+> +QB_AUDIO_OPT = "-device AC97"
 
-will install work if there are more than one .whl file expected ?
-I think we will get install failures, in that case it maybe just an
-over optimization
+we are also dropping es1370 here, can you comment on it.
 
+>  QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1 tsc=reliable no_timer_check rcupdate.rcu_expedited=1"
+>  QB_OPT_APPEND = "-usb -device usb-tablet"
 >
-> >
-> > Ross
+> --
+> 2.25.1
+>
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#162968): https://lists.openembedded.org/g/openembedded-core/message/162968
-> Mute This Topic: https://lists.openembedded.org/mt/89664344/1997914
+> View/Reply Online (#162955): https://lists.openembedded.org/g/openembedded-core/message/162955
+> Mute This Topic: https://lists.openembedded.org/mt/89658861/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
