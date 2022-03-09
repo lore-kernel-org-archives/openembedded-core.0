@@ -1,434 +1,1088 @@
-Return-Path: <lukas.funke@weidmueller.com>
+Return-Path: <zhe.he@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88340C433F5
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 08:10:53 +0000 (UTC)
-Subject: Re: [PATCH 1/1] go.bbclass: Allow network in do_compile
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 297BBC433EF
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 08:26:26 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.3402.1646814384253155772
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 09 Mar 2022 00:26:25 -0800
+Authentication-Results: mx.groups.io;
+ dkim=fail reason="body hash did not verify" header.i=@windriver.com
+ header.s=pps06212021 header.b=lHAxqrJc;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=00670e95d8=zhe.he@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 2297EG6k031808
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Mar 2022 08:26:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=PPS06212021;
+ bh=TvktAlp7JAghflCKr+X9e5KrLwkNY73XIJ/vuZE7pKw=;
+ b=lHAxqrJc0vlcVaCzRC2vGhKvl3RodCPz3zsyIKXUH1ucgYTZFHpnNzDvrBT72awx4HFr
+ BcwkaBq4A29QiivJcpNmySJvyEEQn4bDcxCfJQAZGHq01lQ/u8/KmguqHqo3w+h3XBXe
+ OMDCfaMMdZ4VzNe8hhXiJW80s0ZkzNECkWP2noTfSeBKmye2BJMABeTaaFZTWCnt7Yon
+ 91yiG0QGCJbZ5aKiyEpbHCEqrz37W3syMHW+TbNUUOHpdGPBYCH0ZUwb0dFJhxe42UAF
+ +ShWIMVXIi3YNMIRK1cjs+1SnssJP7HKMZ5ouioHz1cQ9YYH3DwgnA6fxZeIPYqPKOG0 Iw==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ekw3039b1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 09 Mar 2022 08:26:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Lz9EUnv6BMsw6PlRHyIfE3ZNzvwgydNNlPfr/LJFk91fdlLP7qiI5i5iqHhIqknmOtGlKnU7u8+kKzZxRas3kdt7thDyMrL0KmYo+l50dsHox5YSrctF3IxYgiGkXGss7JIJpdclFtbjrJ+KCl0FQfiiQ2ulM3hOmeTEIhXM+ZYMvABaR7XDSnc+q+YfbkqR3dFf29jREDB2mRzKA3wYWyBpJ3c1pJ+HrBDhyVHbzd/5YwgysK8yfX2GYAUqWNiI8D1K56thoxodH6XQ8fBlxwuEs8NYDd8rHAHnDserNeIvomgvkFr6AV88/IlpGeSDVZgJ3afyxq3gI08zhgF5cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TvktAlp7JAghflCKr+X9e5KrLwkNY73XIJ/vuZE7pKw=;
+ b=EeQBkkrLfxLi40Wor1QEOxQRKy7fe/UB12P0qlnavfSWhXAxePi/JncPKg+zNE6yobdZMLPGWXwiuwogNw+WSSQu3ls4YM7jxXeGIIQ4A/jdfQARySYps0yNaObBN5BVY97VnSsG57nHbViS0yLfe6nsWkJMtLopwcx/S5MmT5VWjHuQAK1Sf8diozr4ibnKk/QOAB40bWrad3xQOEiEqxrP9xf0wWYR/nuPIygeWmf+nNElnCrrc6JpNPUHC7TjRYzo40Xac6wvXGIOHH/oG5chDFMocSNEJ1VgBiIYdrkgwpQN6tXLgrLzyRrWdgmq6/KykCNVM/YM2frGAEKhHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MWHPR11MB1358.namprd11.prod.outlook.com (2603:10b6:300:23::8)
+ by CH0PR11MB5524.namprd11.prod.outlook.com (2603:10b6:610:d7::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Wed, 9 Mar
+ 2022 08:26:20 +0000
+Received: from MWHPR11MB1358.namprd11.prod.outlook.com
+ ([fe80::2cb7:7dbc:9904:2c3e]) by MWHPR11MB1358.namprd11.prod.outlook.com
+ ([fe80::2cb7:7dbc:9904:2c3e%5]) with mapi id 15.20.5038.027; Wed, 9 Mar 2022
+ 08:26:20 +0000
+From: He Zhe <zhe.he@windriver.com>
 To: openembedded-core@lists.openembedded.org
-From: lukas.funke@weidmueller.com
-X-Originating-Location: Sonneberg, Thuringia, DE (87.129.248.106)
-X-Originating-Platform: Windows Chrome 98
-User-Agent: GROUPS.IO Web Poster
+Subject: [OE-core] [hardknott][PATCH] babeltrace: Handle negative time and
+ offset from Epoch
+Date: Wed,  9 Mar 2022 16:26:07 +0800
+Message-Id: <20220309082607.2165890-1-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: SJ0PR03CA0058.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::33) To MWHPR11MB1358.namprd11.prod.outlook.com
+ (2603:10b6:300:23::8)
 MIME-Version: 1.0
-Date: Wed, 09 Mar 2022 00:10:53 -0800
-References: 
- <CADkTA4MVEuGLjzk0vgbeMm+DgWCLk+RA9RTfEkn=YG+-kAwh1g@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4MVEuGLjzk0vgbeMm+DgWCLk+RA9RTfEkn=YG+-kAwh1g@mail.gmail.com>
-Message-ID: <22943.1646813453152097150@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="pc1kYPrWUC4Hpo7FnFDV"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f8bf5b9c-4092-4681-7234-08da01a67cdd
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5524:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CH0PR11MB55247C8FE24031A1D26F6A928F0A9@CH0PR11MB5524.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nwNWVrcJGwGfYobPP28slzUFVPrvBVPeIWgRG9zTWhojrWdXs3gK2YAjutowdd5j8BMq51le605riaTFesJ9Kqd7J9DBxM+Fpg61+fUJAV/OOmI6+YJBOqugIUC0dLnGnNNC/bpWO6HDvGke9i48l8y+zb40n7ua2WgCpXG5cjEBUtiNbdpOdy0lqfTZbDvSjBVihhkzhjZY9RHavWYtqCmdZR8ZKgdtIABo9SISV5cuxWnNuRlfmzcr340S9nlmRplP3swihOG5Mg0sc/vCYLaYThhDE5mCXL1w52t9cy7WpMGJS1UtBmKqJKGlK8PvtxEzV0Ii/fsmopQfN21uf3VyXjWvOuZcqslnyPigNHPpKzH5jnh1n8EjXpZOKhXQn032syu71lOo353tDh5ZDyHBwBDbPXGglMroHWzB3dmlVvHMGKqKV5hCoae6g7n0mnzPB6kxzDpsRzMaLibPUD/0fKl7sw5UggHQaNWoEuB68z/YTMlDPu6B/57PdEvA22Gvll5XCSNazl4FOcjYpB6pVVQW42l5tgaomlM7afXnTPx7LDC2hsx/aeiy6QpR5V0b+i3vf1aUY6cK/DGIhL/ZA5rJutHOSOdR8UxjApXmOnv93BDZNCd1xyDHxSS26hR3Y56fcS+pA7vME6Wipb1u29NBCuDfI/8+SaEle7/blDa/Xstl5ctn4UiMNq1rzt7HBrMn2pIU6aESav/HdaF/916l3UH6M3p/34E1tSzra9ZhPGo+x5ml2FlzN4aUVy0yUXHeCRz+2+eFqP2li79dXTXra3l0jeproU6vFyw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1358.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6486002)(508600001)(316002)(6506007)(52116002)(86362001)(1076003)(6666004)(2616005)(36756003)(186003)(26005)(83380400001)(6512007)(66574015)(66556008)(38100700002)(66946007)(66476007)(8676002)(38350700002)(2906002)(8936002)(6916009)(5660300002)(30864003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WTVVcklma0F4dEV4NjdtWjZnaDVJbld5ck8zQ3oySzRrdDdQOEZ0dzFaYXM1?=
+ =?utf-8?B?YmZVOGdmay9UVndzMmZSaUc4aGRsR0c0dVU1U0N1VkpZUUxHNmdFZzlyWm1k?=
+ =?utf-8?B?MEpqUlpHeS95b3BDSHRTa0RNd0VjU3RCUFM4VHIvQmhTeVMwWGorck1PMUo5?=
+ =?utf-8?B?ME0rM2hPU3ExWVplMmQ5OENVdzJPS0REeFA1WGN3Vmlua1hFcCtsbWVZNTNZ?=
+ =?utf-8?B?aHRjREZLZzJha2hZUWwrVHdSMVBWU0FCeUlINCtXNm1jZ0p1MmVOaldiajlR?=
+ =?utf-8?B?VHQrRHVQSzBJRU93YkhoM0gvVExBajc0NmdyRG03ZXNVS2dWWUNwaFVSem1h?=
+ =?utf-8?B?YzJpY2t6VnJjakx4ZzluR2lMVHpmNnlyR3NqNG1rSlpvbjJzNzRXMTlyNE1h?=
+ =?utf-8?B?NE91bUVraDVOb1FJS0U5QjQvdUZ0ZXI5SkhNbVBCZ1ExcVphNXRtbHQxaEZj?=
+ =?utf-8?B?SHpVSTJuOUErM0V1MEtqWGV6bDNiNGptOFJXdm83QkozQTBGL2gyM1lpZ1NE?=
+ =?utf-8?B?VGFCRlNsU1ZMVE4zWXpTZkQ2Y3NvRS84dCtjRVVxcUJqdkk4ek8wajdkdjY2?=
+ =?utf-8?B?OHBqajA1UmlGZ09xNmU1SGR3SFoydHM1Nm9QMmI4emtlTTN3UlJNRXo2YWx4?=
+ =?utf-8?B?WG1HOEVZM002Vk5hOWRCLy9RK0QzeFg5amdJWlZUTkY5Z2pWamRIRmVXQUZu?=
+ =?utf-8?B?SWluQ0RnL0w5L29TcTRTS2hhQVcreFNlcm9qenJwVHloZEI4NmQ1WlhldHI1?=
+ =?utf-8?B?b29wampvKzN2QzI5eHNKdWtFU2QrTGdYSG5PM1NsaVVqalNjMmwrckNmYWZB?=
+ =?utf-8?B?V0c5SnVtZlZ1N0VCdWRrL3lYcXlCaUZIQVFyZlpUOWIwWTRDUm1yanFqVFhJ?=
+ =?utf-8?B?bDNyS3dBcEd1Ti9DZm83b2I2R0dXMkNMNFpsR25wdXlwdnFxVTVMb09hYUg1?=
+ =?utf-8?B?NXduNE0zbm9jWFZzd2FCQVlaYjNiYzJ0VHR2elBrN1ZHZUFmV0ttZDBJWTEz?=
+ =?utf-8?B?NURVVSs5ZjZMWHRQVmhRNWpSNDZyOVpoNUhtK05MTS96OStId2Z3RjNTRFhG?=
+ =?utf-8?B?TVQ2TktoempHVTNGUE1zcTlqSWVxaG1sYVVXMUNDWWlsbmZwU0tRWXprY2VD?=
+ =?utf-8?B?MDhkY2dCRlJ5S3FaUG1NNklMQmVVR2NpSHlhYjl4WU5WcUVYSWVMOXBhT3Qw?=
+ =?utf-8?B?dUJER1FXdDJyTWJRTCtYczl2OVI2UEJleitHaEFLQUdmRjAyMjI4QktBZ00v?=
+ =?utf-8?B?c0hpTDBZZXllUzhwUVl5OVlvUEJ6Ym9qMmx0OWRoVlhxZk45Q2w0RWRwbnJ5?=
+ =?utf-8?B?TDlrQmorenFEbXkzVndNWWw0SmIvUFVRNHhCY0tlN3lsdG5TRGZpVWdIQUxR?=
+ =?utf-8?B?Y2hRR3ZRckFaZzBTVjFKT3AyZnVOWHVDdTJ2ZzgyZlByOEVsdzhXU1Y4Slk3?=
+ =?utf-8?B?V0xYZ1dHYU03MFZJN2hOK1JVZUZ6OXpSYTl1dHExRTJsaHRZZDU4ZzkzK2tz?=
+ =?utf-8?B?RkJadEFtU056aFFLRWVmVjIzb0Q5c0tYMWVMWjdubUMrNmlZM2k5dHFXNmJ1?=
+ =?utf-8?B?eUZUTzdINWdPYjhaYzlkQXBETXMwcjNXd3JFWXJVRFE5MmFyMHVhdnVDeTZJ?=
+ =?utf-8?B?dGVsdnIzMDRzUnFlT1JiZWhYUzgzMXJUdHZzUThpelhGdEpxaXc3N0pFNUdV?=
+ =?utf-8?B?L21VVHMxQjljMVowZnkrc1I5cGtUbjB3NmNURnNvMytzY3Exc0tSTUl2Q0xQ?=
+ =?utf-8?B?c21DcHBxem9yc2RBb1FLWTlkek9pZS9aMTRuSGlPRGRiS1NUVUxmQWFDM0pX?=
+ =?utf-8?B?RWQxZ1lCRXgreFZxdjVQOHJydzJ0aWZYZFNpbDBlQWhhWVZVQmVFc1dabGZ1?=
+ =?utf-8?B?cG5aT2FOeVgza1A0enZXVEEvbzVhK1hXdHRDVktjR0laZmFpU0QrbHdWTUc4?=
+ =?utf-8?B?L3M1b01xbFlhYjhoRnBQbU43WDliSXBkdTljTjhFNHpQTFZJTGEwYWtVRlIz?=
+ =?utf-8?B?b3NNbUVkN1pJRGgvSHFDQXloQ2tPTzRLUy9wUUU5T1hSYWI5dXZIRnZOcGVo?=
+ =?utf-8?B?VEF5WFkxTjlYL0t4a0wwVlN4WFVONUNzREFPMS9yeXN2c1ZoNkQ0TzN4RHZN?=
+ =?utf-8?B?N0hEM3hXK0ZxdDdPcEc4WUg4K0hDZ01YZW9MTDBDNjNUWVlMbkJMNmtBMmdD?=
+ =?utf-8?Q?P8s2qnmYHkdsS1pTu0Tdv0A=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ f8bf5b9c-4092-4681-7234-08da01a67cdd
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1358.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2022 08:26:20.2120
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ Wdm3ipF9UQYiAUcT8NP95BLEbuqn3oCohEAWgiu/72tNhZvgXuhl42Zdo8yJRj+KrtaJRV2G9vSnKzmlFJeLKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5524
+X-Proofpoint-ORIG-GUID: N_lKnZNriQuKQqYgr51TnousTxi6xP7S
+X-Proofpoint-GUID: N_lKnZNriQuKQqYgr51TnousTxi6xP7S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-09_03,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0
+ impostorscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 phishscore=0
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203090044
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-0064b401.pphosted.com id 2297EG6k031808
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 08:10:53 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 08:26:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162951
+ https://lists.openembedded.org/g/openembedded-core/message/162952
 
---pc1kYPrWUC4Hpo7FnFDV
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Backport a patch from upstream to handle negative time and offset from Ep=
+och
 
-On Thu, Mar 3, 2022 at 05:46 PM, Bruce Ashfield wrote:
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ ...-negative-time-and-offset-from-Epoch.patch | 853 ++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb |   1 +
+ 2 files changed, 854 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Handle-nega=
+tive-time-and-offset-from-Epoch.patch
 
->=20
-> On Thu, Mar 3, 2022 at 10:13 AM <lukas.funke@weidmueller.com> wrote:
->=20
->> On Thu, Mar 3, 2022 at 04:34 AM, Bruce Ashfield wrote:
->>=20
->> On Wed, Mar 2, 2022 at 4:57 PM Andrei Gherzan <andrei@gherzan.com> wrote=
-:
->>=20
->>=20
->> Mar 1, 2022 20:15:52 Bruce Ashfield <bruce.ashfield@gmail.com>:
->>=20
->> On Tue, Mar 1, 2022 at 10:54 AM <lukas.funke@weidmueller.com> wrote:
->>=20
->> On Tue, Mar 1, 2022 at 02:14 PM, Bruce Ashfield wrote:
->>=20
->> On Tue, Mar 1, 2022 at 6:42 AM Andrei Gherzan <andrei@gherzan.com> wrote=
-:
->>=20
->>=20
->> On Tue, 1 Mar 2022, at 01:55, Bruce Ashfield wrote:
->>=20
->> On Mon, Feb 28, 2022 at 8:17 PM Bruce Ashfield via
->> lists.openembedded.org
->> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->>=20
->>=20
->> On Mon, Feb 28, 2022 at 6:54 PM Andrei Gherzan <andrei@gherzan.com> wrot=
-e:
->>=20
->>=20
->>=20
->> From: Andrei Gherzan <andrei.gherzan@huawei.com>
->>=20
->> Compile pulls in the go.mod list requiring network. Without this, do
->> compile would fail with a similar error to the following:
->>=20
->> dial tcp: lookup proxy.golang.org: Temporary failure in name resolution
->>=20
->> This is something that needs to be carried in your own layers, IMHO it
->> isn't appropriate for core.
->>=20
->> It isn't about the fetching, it is the entire gap in functionality
->> that we are missing if go starts fetching dependencies during compile.
->>=20
->> A further thought is that if this is for go.mod issues, there is the
->> go-mod.bbclass.
->>=20
->> Perhaps enabling it in that class and doing a bbwarn about go fetching
->> dependencies would be appropriate ?
->>=20
->> Otherwise, someone may not know that this is happening and that a no
->> network configuration has no chance of working.
->>=20
->> I reckon that is reasonable. I'll personally go down the recipe level to
->> workaround this change but understanding and agreeing with the reasoning
->> behind this change, I want to invest a bit into trying to find a proper
->> solution in the core. Bruce, I know you invested a fair amount of time
->> into this already. Would you be willing to sync up and see how we can wo=
-rk
->> together in tackling this?
->>=20
->> Definitely, more ideas are good. In fact, I think there are probably
->> several approaches that can co-exist, depending on what a
->> recipe/developer needs.
->>=20
->> I'm in the Eastern time zone here, and will try and grab folks on IRC
->> to have a level set
->>=20
->> Bruce
->>=20
->> Added Zyga to CC as he is also interested in this as part of his go
->> development activities.
->>=20
->> Thanks,
->> Andrei
->>=20
->>=20
->>=20
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->>=20
->> The problem in allowing downloads during compile (e.g. by go) is, that i=
-t
->> leads to non-reproducable builds. I'm currently facing the same issue an=
-d
->> would like to have a reproducable go *offline* build.
->> I would like to propose two ideas to workaround the go-compile fetching
->> issue:
->>=20
->> First:
->> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. =
-by
->> writing a seperate go fetcher or a wget-fetcher) and unpack the
->> dependencies into go projects 'vendor' folder. This forces go to compile
->> offline. However, one have to generate the 'modules.txt' file in the
->> vendor folder 'manually' during unpack. This is error prone, as there is
->> no official documentation how this format should look like. Anyway, I've
->> tried this approach and it works for me.
->>=20
->> Second:
->> - Fetch go-dependencies using go.mod file from 'proxy.golang.org' (e.g. =
-by
->> writing a seperate go fetcher) and unpack the dependencies into a local
->> (workdir) go-path. This seemed a good solution for me as the go-path is
->> well defined. But for some reason 'go' fetches the zip-files during
->> compile into it's download-cache AGAIN, even if the source is already
->> unpacked in the go-path. I'll assume this is required to verify the sour=
+diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-Handle-negative-ti=
+me-and-offset-from-Epoch.patch b/meta/recipes-kernel/lttng/babeltrace/000=
+1-Handle-negative-time-and-offset-from-Epoch.patch
+new file mode 100644
+index 0000000000..37ca698bd8
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace/0001-Handle-negative-time-and-=
+offset-from-Epoch.patch
+@@ -0,0 +1,853 @@
++From 78f62745313a51ebdaa64d4c59131ef87ef00917 Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Wed, 22 Apr 2020 03:00:02 +0000
++Subject: [PATCH] Handle negative time and offset from Epoch
++
++Handle cases where a trace have a negative offset from Epoch.
++If Epoch is arbitrary (e.g. embedded system starting at 0, without any
++network access), the "0" can be used as correlation point between
++various components, and some components could start before the
++correlation point. Therefore, especially in traces where the time is
++meant to be shown in nanoseconds or cycles from the correlation point,
++it also makes sense to have a negative time value.
++
++It introduces API-breaking changes in the C and Python APIs, since we
++need to be able to return negative time values, which were previously
++used as errors (-1ULL).
++
++The --offset and --offset-ns command line parameters can now take
++negative offset (seconds and nanoseconds) values too.
++
++The [sec.ns] format is used as fallback so we don't attempt to pass
++a negative time value to POSIX time-formatting APIs.
++
++This also fixes an inaccurate return value in an error path of
++bt_ctf_event_populate_event_header().
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficios.c=
+om>
++
++Upstream-Status: Backport [https://git.efficios.com/?p=3Dbabeltrace.git;=
+a=3Dcommit;h=3D61cf588beae752e5ddfc60b6b5310f769ac9e852]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ converter/babeltrace.c                        |   4 +-
++ formats/ctf-text/ctf-text.c                   |   2 +-
++ formats/ctf/ctf.c                             | 115 +++++++++++++-----
++ formats/ctf/events-private.h                  |  10 +-
++ formats/ctf/events.c                          |  11 +-
++ .../metadata/ctf-visitor-generate-io-struct.c |   1 -
++ include/babeltrace/babeltrace-internal.h      |   8 +-
++ include/babeltrace/clock-internal.h           |   2 +-
++ include/babeltrace/ctf-ir/clock-internal.h    |   2 +-
++ include/babeltrace/ctf/events.h               |   8 +-
++ include/babeltrace/ctf/types.h                |   6 +-
++ include/babeltrace/format.h                   |  10 +-
++ include/babeltrace/trace-handle-internal.h    |   8 +-
++ include/babeltrace/trace-handle.h             |  25 ++--
++ lib/context.c                                 |  44 +++++--
++ lib/trace-handle.c                            |  39 +++---
++ tests/lib/test_ctf_writer.c                   |   6 +-
++ tests/lib/test_seek.c                         |  28 ++---
++ 18 files changed, 209 insertions(+), 120 deletions(-)
++
++diff --git a/converter/babeltrace.c b/converter/babeltrace.c
++index ef783ed4..2ac16179 100644
++--- a/converter/babeltrace.c
+++++ b/converter/babeltrace.c
++@@ -375,7 +375,7 @@ static int parse_options(int argc, char **argv)
++ 				goto end;
++ 			}
++ 			errno =3D 0;
++-			opt_clock_offset =3D strtoull(str, &endptr, 0);
+++			opt_clock_offset =3D strtoll(str, &endptr, 0);
++ 			if (*endptr !=3D '\0' || str =3D=3D endptr || errno !=3D 0) {
++ 				fprintf(stderr, "[error] Incorrect --clock-offset argument: %s\n", =
+str);
++ 				ret =3D -EINVAL;
++@@ -400,7 +400,7 @@ static int parse_options(int argc, char **argv)
++ 				goto end;
++ 			}
++ 			errno =3D 0;
++-			opt_clock_offset_ns =3D strtoull(str, &endptr, 0);
+++			opt_clock_offset_ns =3D strtoll(str, &endptr, 0);
++ 			if (*endptr !=3D '\0' || str =3D=3D endptr || errno !=3D 0) {
++ 				fprintf(stderr, "[error] Incorrect --clock-offset-ns argument: %s\n=
+", str);
++ 				ret =3D -EINVAL;
++diff --git a/formats/ctf-text/ctf-text.c b/formats/ctf-text/ctf-text.c
++index 16f156de..e001a548 100644
++--- a/formats/ctf-text/ctf-text.c
+++++ b/formats/ctf-text/ctf-text.c
++@@ -43,7 +43,7 @@
++ #include <unistd.h>
++ #include <stdlib.h>
++=20
++-#define NSEC_PER_SEC 1000000000ULL
+++#define NSEC_PER_SEC 1000000000LL
++=20
++ int opt_all_field_names,
++ 	opt_scope_field_names,
++diff --git a/formats/ctf/ctf.c b/formats/ctf/ctf.c
++index 1ba9017f..3c774188 100644
++--- a/formats/ctf/ctf.c
+++++ b/formats/ctf/ctf.c
++@@ -70,7 +70,7 @@
++  */
++ #define WRITE_PACKET_LEN	(getpagesize() * 8 * CHAR_BIT)
++=20
++-#define NSEC_PER_SEC 1000000000ULL
+++#define NSEC_PER_SEC 1000000000LL
++=20
++ #define INDEX_PATH "./index/%s.idx"
++=20
++@@ -79,8 +79,8 @@ int opt_clock_cycles,
++ 	opt_clock_date,
++ 	opt_clock_gmt;
++=20
++-uint64_t opt_clock_offset;
++-uint64_t opt_clock_offset_ns;
+++int64_t opt_clock_offset;
+++int64_t opt_clock_offset_ns;
++=20
++ extern int yydebug;
++ char *opt_debug_info_dir;
++@@ -114,11 +114,13 @@ void ctf_set_handle(struct bt_trace_descriptor *de=
+scriptor,
++ static
++ int ctf_close_trace(struct bt_trace_descriptor *descriptor);
++ static
++-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
++-		struct bt_trace_handle *handle, enum bt_clock_type type);
+++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+++		struct bt_trace_handle *handle, enum bt_clock_type type,=20
+++		int64_t *timestamp);
++ static
++-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
++-		struct bt_trace_handle *handle, enum bt_clock_type type);
+++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+++		struct bt_trace_handle *handle, enum bt_clock_type type,
+++		int64_t *timestamp);
++ static
++ int ctf_convert_index_timestamp(struct bt_trace_descriptor *tdp);
++=20
++@@ -167,17 +169,20 @@ void bt_ctf_hook(void)
++ }
++=20
++ static
++-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
++-		struct bt_trace_handle *handle, enum bt_clock_type type)
+++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+++		struct bt_trace_handle *handle, enum bt_clock_type type,
+++		int64_t *timestamp)
++ {
++ 	struct ctf_trace *tin;
++-	uint64_t begin =3D ULLONG_MAX;
++-	int i, j;
+++	int64_t begin =3D LLONG_MAX;
+++	int i, j, ret;
++=20
++ 	tin =3D container_of(descriptor, struct ctf_trace, parent);
++=20
++-	if (!tin)
+++	if (!tin || !timestamp) {
+++        	ret =3D -EINVAL;
++ 		goto error;
+++        }
++=20
++ 	/* for each stream_class */
++ 	for (i =3D 0; i < tin->streams->len; i++) {
++@@ -198,8 +203,10 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descri=
+ptor *descriptor,
++ 					parent);
++ 			stream_pos =3D &cfs->pos;
++=20
++-			if (!stream_pos->packet_index)
+++			if (!stream_pos->packet_index) {
+++				ret =3D -EINVAL;
++ 				goto error;
+++			}
++=20
++ 			if (stream_pos->packet_index->len <=3D 0)
++ 				continue;
++@@ -214,29 +221,38 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descr=
+iptor *descriptor,
++ 				if (index->ts_cycles.timestamp_begin < begin)
++ 					begin =3D index->ts_cycles.timestamp_begin;
++ 			} else {
+++				ret =3D -EINVAL;
++ 				goto error;
++ 			}
++ 		}
++ 	}
++=20
++-	return begin;
+++        if (begin =3D=3D LLONG_MAX) {
+++                ret =3D -ENOENT;
+++                goto error;
+++        }
+++        *timestamp =3D begin;
+++        return 0;
++=20
++ error:
++-	return -1ULL;
+++	return ret;
++ }
++=20
++ static
++-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
++-		struct bt_trace_handle *handle, enum bt_clock_type type)
+++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+++		struct bt_trace_handle *handle, enum bt_clock_type type,
+++		int64_t *timestamp)
++ {
++ 	struct ctf_trace *tin;
++-	uint64_t end =3D 0;
++-	int i, j;
+++	int64_t end =3D LLONG_MIN;
+++	int i, j, ret;
++=20
++ 	tin =3D container_of(descriptor, struct ctf_trace, parent);
++=20
++-	if (!tin)
+++        if (!tin || !timestamp) {
+++                ret =3D -EINVAL;
++ 		goto error;
+++	}
++=20
++ 	/* for each stream_class */
++ 	for (i =3D 0; i < tin->streams->len; i++) {
++@@ -257,8 +273,10 @@ uint64_t ctf_timestamp_end(struct bt_trace_descript=
+or *descriptor,
++ 					parent);
++ 			stream_pos =3D &cfs->pos;
++=20
++-			if (!stream_pos->packet_index)
+++			if (!stream_pos->packet_index) {
+++				ret =3D -EINVAL;
++ 				goto error;
+++			}
++=20
++ 			if (stream_pos->packet_index->len <=3D 0)
++ 				continue;
++@@ -273,15 +291,21 @@ uint64_t ctf_timestamp_end(struct bt_trace_descrip=
+tor *descriptor,
++ 				if (index->ts_cycles.timestamp_end > end)
++ 					end =3D index->ts_cycles.timestamp_end;
++ 			} else {
+++				ret =3D -EINVAL;
++ 				goto error;
++ 			}
++ 		}
++ 	}
++=20
++-	return end;
+++        if (end =3D=3D LLONG_MIN) {
+++                ret =3D -ENOENT;
+++                goto error;
+++        }
+++        *timestamp =3D end;
+++        return 0;
++=20
++ error:
++-	return -1ULL;
+++	return ret;
++ }
++=20
++ /*
++@@ -328,7 +352,9 @@ void ctf_print_timestamp_real(FILE *fp,
++ 			struct ctf_stream_definition *stream,
++ 			uint64_t timestamp)
++ {
++-	uint64_t ts_sec =3D 0, ts_nsec;
+++        int64_t ts_sec =3D 0, ts_nsec;
+++        uint64_t ts_sec_abs, ts_nsec_abs;
+++        bool is_negative;
++=20
++ 	ts_nsec =3D timestamp;
++=20
++@@ -341,9 +367,40 @@ void ctf_print_timestamp_real(FILE *fp,
++ 	ts_sec +=3D ts_nsec / NSEC_PER_SEC;
++ 	ts_nsec =3D ts_nsec % NSEC_PER_SEC;
++=20
+++        if (ts_sec >=3D 0 && ts_nsec >=3D 0) {
+++                is_negative =3D false;
+++                ts_sec_abs =3D ts_sec;
+++                ts_nsec_abs =3D ts_nsec;
+++        } else if (ts_sec > 0 && ts_nsec < 0) {
+++                is_negative =3D false;
+++                ts_sec_abs =3D ts_sec - 1;
+++                ts_nsec_abs =3D NSEC_PER_SEC + ts_nsec;
+++        } else if (ts_sec =3D=3D 0 && ts_nsec < 0) {
+++                is_negative =3D true;
+++                ts_sec_abs =3D ts_sec;
+++                ts_nsec_abs =3D -ts_nsec;
+++        } else if (ts_sec < 0 && ts_nsec > 0) {
+++                is_negative =3D true;
+++                ts_sec_abs =3D -(ts_sec + 1);
+++                ts_nsec_abs =3D NSEC_PER_SEC - ts_nsec;
+++        } else if (ts_sec < 0 && ts_nsec =3D=3D 0) {
+++                is_negative =3D true;
+++                ts_sec_abs =3D -ts_sec;
+++                ts_nsec_abs =3D ts_nsec;
+++        } else {        /* (ts_sec < 0 && ts_nsec < 0) */
+++                is_negative =3D true;
+++                ts_sec_abs =3D -ts_sec;
+++                ts_nsec_abs =3D -ts_nsec;
+++        }
+++
++ 	if (!opt_clock_seconds) {
++ 		struct tm tm;
++-		time_t time_s =3D (time_t) ts_sec;
+++		time_t time_s =3D (time_t) ts_sec_abs;
+++
+++                if (is_negative) {
+++                        fprintf(stderr, "[warning] Fallback to [sec.ns]=
+ for printing negative time value. Use --clock-seconds.\n");
+++                        goto seconds;
+++                }=09
++=20
++ 		if (!opt_clock_gmt) {
++ 			struct tm *res;
++@@ -377,12 +434,12 @@ void ctf_print_timestamp_real(FILE *fp,
++ 		}
++ 		/* Print time in HH:MM:SS.ns */
++ 		fprintf(fp, "%02d:%02d:%02d.%09" PRIu64,
++-			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec);
+++			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec_abs);
++ 		goto end;
++ 	}
++ seconds:
++-	fprintf(fp, "%3" PRIu64 ".%09" PRIu64,
++-		ts_sec, ts_nsec);
+++        fprintf(fp, "%s%" PRId64 ".%09" PRIu64,
+++                is_negative ? "-" : "", ts_sec_abs, ts_nsec_abs);
++=20
++ end:
++ 	return;
++@@ -401,7 +458,7 @@ void ctf_print_timestamp_cycles(FILE *fp,
++=20
++ void ctf_print_timestamp(FILE *fp,
++ 		struct ctf_stream_definition *stream,
++-		uint64_t timestamp)
+++		int64_t timestamp)
++ {
++ 	if (opt_clock_cycles) {
++ 		ctf_print_timestamp_cycles(fp, stream, timestamp);
++diff --git a/formats/ctf/events-private.h b/formats/ctf/events-private.h
++index 9bea75d4..c47fd7d8 100644
++--- a/formats/ctf/events-private.h
+++++ b/formats/ctf/events-private.h
++@@ -35,20 +35,20 @@
++ #include <babeltrace/clock-internal.h>
++=20
++ static inline
++-uint64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
++-			uint64_t timestamp)
+++int64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
+++			uint64_t ts_cycles)
++ {
++-	uint64_t ts_nsec;
+++	int64_t ts_nsec;
++ 	struct ctf_trace *trace =3D stream->stream_class->trace;
++ 	struct trace_collection *tc =3D trace->parent.collection;
++-	uint64_t tc_offset;
+++	int64_t tc_offset;
++=20
++ 	if (tc->clock_use_offset_avg)
++ 		tc_offset =3D tc->single_clock_offset_avg;
++ 	else
++ 		tc_offset =3D clock_offset_ns(trace->parent.single_clock);
++=20
++-	ts_nsec =3D clock_cycles_to_ns(stream->current_clock, timestamp);
+++	ts_nsec =3D clock_cycles_to_ns(stream->current_clock, ts_cycles);
++ 	ts_nsec +=3D tc_offset;	/* Add offset */
++ 	return ts_nsec;
++ }
++diff --git a/formats/ctf/events.c b/formats/ctf/events.c
++index bd195b93..c5aefd82 100644
++--- a/formats/ctf/events.c
+++++ b/formats/ctf/events.c
++@@ -315,18 +315,19 @@ int bt_ctf_event_get_handle_id(const struct bt_ctf=
+_event *ctf_event)
++ 	return ret;
++ }
++=20
++-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event)
+++int bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event, int64_t =
+*timestamp)
++ {
++ 	const struct ctf_event_definition *event;
++=20
++-	if (!ctf_event)
++-		return -1ULL;
+++	if (!ctf_event || !timestamp)
+++		return -1;
++=20
++ 	event =3D ctf_event->parent;
++ 	if (event && event->stream->has_timestamp)
++-		return event->stream->real_timestamp;
+++		*timestamp =3D event->stream->real_timestamp;
++ 	else
++-		return -1ULL;
+++		return -1;
+++	return 0;
++ }
++=20
++ uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *ctf_event)
++diff --git a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c b/for=
+mats/ctf/metadata/ctf-visitor-generate-io-struct.c
++index 8d348d66..dd8374fc 100644
++--- a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
+++++ b/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
++@@ -219,7 +219,6 @@ int get_unary_signed(struct bt_list_head *head, int6=
+4_t *value)
++=20
++ 	bt_list_for_each_entry(node, head, siblings) {
++ 		if (node->type !=3D NODE_UNARY_EXPRESSION
++-				|| node->u.unary_expression.type !=3D UNARY_UNSIGNED_CONSTANT
++ 				|| (node->u.unary_expression.type !=3D UNARY_UNSIGNED_CONSTANT && n=
+ode->u.unary_expression.type !=3D UNARY_SIGNED_CONSTANT)
++ 				|| node->u.unary_expression.link !=3D UNARY_LINK_UNKNOWN
++ 				|| i !=3D 0)
++diff --git a/include/babeltrace/babeltrace-internal.h b/include/babeltra=
+ce/babeltrace-internal.h
++index 6f8e2006..3e137e4c 100644
++--- a/include/babeltrace/babeltrace-internal.h
+++++ b/include/babeltrace/babeltrace-internal.h
++@@ -178,8 +178,8 @@ struct trace_collection {
++ 	GPtrArray *array;	/* struct bt_trace_descriptor */
++ 	GHashTable *clocks;	/* struct ctf_clock */
++=20
++-	uint64_t single_clock_offset_avg;
++-	uint64_t offset_first;
+++	int64_t single_clock_offset_avg;
+++	int64_t offset_first;
++ 	int64_t delta_offset_first_sum;
++ 	int offset_nr;
++ 	int clock_use_offset_avg;
++@@ -208,8 +208,8 @@ extern int opt_all_field_names,
++ 	opt_clock_force_correlate,
++ 	opt_debug_info_full_path;
++=20
++-extern uint64_t opt_clock_offset;
++-extern uint64_t opt_clock_offset_ns;
+++extern int64_t opt_clock_offset;
+++extern int64_t opt_clock_offset_ns;
++ extern int babeltrace_ctf_console_output;
++ extern char *opt_debug_info_dir;
++ extern char *opt_debug_info_target_prefix;
++diff --git a/include/babeltrace/clock-internal.h b/include/babeltrace/cl=
+ock-internal.h
++index cd6bdbae..86954b78 100644
++--- a/include/babeltrace/clock-internal.h
+++++ b/include/babeltrace/clock-internal.h
++@@ -49,7 +49,7 @@ uint64_t clock_cycles_to_ns(struct ctf_clock *clock, u=
+int64_t cycles)
++  * mantissa.
++  */
++ static inline
++-uint64_t clock_offset_ns(struct ctf_clock *clock)
+++int64_t clock_offset_ns(struct ctf_clock *clock)
++ {
++ 	return clock->offset_s * 1000000000ULL
++ 			+ clock_cycles_to_ns(clock, clock->offset);
++diff --git a/include/babeltrace/ctf-ir/clock-internal.h b/include/babelt=
+race/ctf-ir/clock-internal.h
++index 75677707..f1e896b6 100644
++--- a/include/babeltrace/ctf-ir/clock-internal.h
+++++ b/include/babeltrace/ctf-ir/clock-internal.h
++@@ -42,7 +42,7 @@ struct bt_ctf_clock {
++ 	uint64_t precision;
++ 	int64_t offset_s;	/* Offset in seconds */
++ 	int64_t offset;		/* Offset in ticks */
++-	uint64_t value;		/* Current clock value */
+++	int64_t value;		/* Current clock value */
++ 	uuid_t uuid;
++ 	int uuid_set;
++ 	int absolute;
++diff --git a/include/babeltrace/ctf/events.h b/include/babeltrace/ctf/ev=
+ents.h
++index c81d8852..15830a30 100644
++--- a/include/babeltrace/ctf/events.h
+++++ b/include/babeltrace/ctf/events.h
++@@ -109,10 +109,12 @@ const char *bt_ctf_event_name(const struct bt_ctf_=
+event *event);
++ uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *event);
++=20
++ /*
++- * bt_ctf_get_timestamp: returns the timestamp of the event offsetted
++- * with the system clock source (in ns) or -1ULL on error
+++ * bt_ctf_get_timestamp: get the timestamp of the event offsetted
+++ * with the system clock source (in ns) in *timestamp.
+++ *
+++ * Return 0 on success, or -1ULL on error.
++  */
++-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *event);
+++int bt_ctf_get_timestamp(const struct bt_ctf_event *event, int64_t *tim=
+estamp);
++=20
++ /*
++  * bt_ctf_get_field_list: obtain the list of fields for compound type
++diff --git a/include/babeltrace/ctf/types.h b/include/babeltrace/ctf/typ=
+es.h
++index 0bc003c8..4b626b39 100644
++--- a/include/babeltrace/ctf/types.h
+++++ b/include/babeltrace/ctf/types.h
++@@ -46,8 +46,8 @@
++ struct bt_stream_callbacks;
++=20
++ struct packet_index_time {
++-	uint64_t timestamp_begin;
++-	uint64_t timestamp_end;
+++	int64_t timestamp_begin;
+++	int64_t timestamp_end;
++ };
++=20
++ struct packet_index {
++@@ -253,7 +253,7 @@ int ctf_pos_get_event(struct ctf_stream_pos *pos)
++ }
++=20
++ void ctf_print_timestamp(FILE *fp, struct ctf_stream_definition *stream=
+,
++-			uint64_t timestamp);
+++			int64_t timestamp);
++ int ctf_append_trace_metadata(struct bt_trace_descriptor *tdp,
++ 			FILE *metadata_fp);
++ void ctf_print_discarded_lost(FILE *fp, struct ctf_stream_definition *s=
+tream);
++diff --git a/include/babeltrace/format.h b/include/babeltrace/format.h
++index dea8e0e5..bf33a239 100644
++--- a/include/babeltrace/format.h
+++++ b/include/babeltrace/format.h
++@@ -73,10 +73,12 @@ struct bt_format {
++ 			struct bt_context *ctx);
++ 	void (*set_handle)(struct bt_trace_descriptor *descriptor,
++ 			struct bt_trace_handle *handle);
++-	uint64_t (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
++-			struct bt_trace_handle *handle, enum bt_clock_type type);
++-	uint64_t (*timestamp_end)(struct bt_trace_descriptor *descriptor,
++-			struct bt_trace_handle *handle, enum bt_clock_type type);
+++        int (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
+++                        struct bt_trace_handle *handle, enum bt_clock_t=
+ype type,
+++                        int64_t *timestamp);
+++        int (*timestamp_end)(struct bt_trace_descriptor *descriptor,
+++                        struct bt_trace_handle *handle, enum bt_clock_t=
+ype type,
+++                        int64_t *timestamp);
++ 	int (*convert_index_timestamp)(struct bt_trace_descriptor *descriptor)=
+;
++ };
++=20
++diff --git a/include/babeltrace/trace-handle-internal.h b/include/babelt=
+race/trace-handle-internal.h
++index 5e9c1c6a..924c730c 100644
++--- a/include/babeltrace/trace-handle-internal.h
+++++ b/include/babeltrace/trace-handle-internal.h
++@@ -46,10 +46,10 @@ struct bt_trace_handle {
++ 	struct bt_trace_descriptor *td;
++ 	struct bt_format *format;
++ 	char path[PATH_MAX];
++-	uint64_t real_timestamp_begin;
++-	uint64_t real_timestamp_end;
++-	uint64_t cycles_timestamp_begin;
++-	uint64_t cycles_timestamp_end;
+++	int64_t real_timestamp_begin;
+++	int64_t real_timestamp_end;
+++	int64_t cycles_timestamp_begin;
+++	int64_t cycles_timestamp_end;
++ };
++=20
++ /*
++diff --git a/include/babeltrace/trace-handle.h b/include/babeltrace/trac=
+e-handle.h
++index 96e4a81b..55c850f8 100644
++--- a/include/babeltrace/trace-handle.h
+++++ b/include/babeltrace/trace-handle.h
++@@ -53,20 +53,25 @@ struct bt_ctf_event;
++ const char *bt_trace_handle_get_path(struct bt_context *ctx, int handle=
+_id);
++=20
++ /*
++- * bt_trace_handle_get_timestamp_begin : returns the creation time (in
++- * nanoseconds or cycles depending on type) of the buffers of a trace
++- * or -1ULL on error.
+++ * bt_trace_handle_get_timestamp_begin : get the creation time (in
+++ * nanoseconds or cycles depending on type) of the buffers of a trace.
+++ *
+++ * Returns 0 on success, -1 on error.
++  */
++-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
++-		int handle_id, enum bt_clock_type type);
+++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+++		int handle_id, enum bt_clock_type type,
+++		int64_t *timestamp);
++=20
++ /*
++- * bt_trace_handle_get_timestamp_end : returns the destruction timestam=
+p
++- * (in nanoseconds or cycles depending on type) of the buffers of a tra=
 ce
->> files integrity?! With this approach one have to adapt 'go' to suppress
->> this download behaviour.
->>=20
->> I've been doing offline builds using a constructed vendor/ directory
->> and generated modules.txt.
->>=20
->> The only difference between what I have working and what you are
->> suggesting (type 1), is that I've gone directly to the sources and
->> constructed the vendor directory using the OE git fetcher. That allows
->> all functionality to continue to work that is part of OEcore, and the
->> build to continue. Switching out the git fetches for tarballs would
->> be possible, I just wasn't sure how to use the proxied modules (and I
->> wanted the history for debug).
->>=20
->> I've never had any issues with the modules.txt, as I generate it at
->> the same time as the git fetch lines for the SRC_URI. I've also not
->> been using information from the go.mod directly from go.proxy.org, it
->> is information I've generated from a clone of the project and dumped
->> via go mod. There's likely improvements I can do there, but with what
->> I'm doing, I'm going directly to the source of the projects and doing
->> clones, which keeps everything clear of the go infrastructure.
->>=20
->> I have a utility that I'm still cleaning up that generates the SRC_URI
->> lines, as well as the modules.txt, when I resolve a few nagging
->> issues, I'll make the WIP scripts available.
->>=20
->> Other projects (BSD, etc), have been doing different sorts of
->> constructed vendor directories, but they are similar in approach.
->>=20
->> For the short term (i.e. the upcoming release), that is pretty much
->> all we can do. There isn't enough time to implement a new go fetcher
->> backend for bitbake.
->>=20
->> In the end, how we fetch and place the dependencies is a transport, so
->> whether or not we fetch them ourselves, or let go do it, that part is
->> largely the same.
->>=20
->> For now (short term), I favour vendor/, as it is workable, but not
->> perfect. It isn't exactly efficient or pretty, but at least it seems
->> to produce correct output, and allows all of the project capabilities
->> to work. And of course, the approach will continue to work regardless
->> of development on other go.mod elements.
->>=20
->> After reflecting on this for a while I reckon this is the fastest way
->> forward while addressing the reproducibility issue. I'm wondering what w=
-e
->> can do in terms of compliance? Maybe we can turn the script you were
->> talking about into a recipe generator that also deals with this by
->> querying the licenses of all the dependencies (direct and indirect).
->>=20
->> That was my rough plan, generate a recipe or have it generate an
->> include that recipes pull in, there are some repeating patterns go
->> modules, so there is some re-use to be found.
->>=20
->> I roughed out a process for it to work with k3s, and have a working
->> updated recipe that creates a vendor/ directory and doesn't touch the
->> network during the actual build.
->>=20
->> There's definitely efficiencies to be found, as the first fetch is
->> quite long, and there's some i/o required as the fetches secondarily
->> shuffled into place that go expects in a vendor directory.
->>=20
->> I'm trying to complete a second recipe with the generated SRC_URI
->> entries now (nerdctl) and I ran into an issue with the script where
->> some repeated fetches were breaking the vendor directory creation. I
->> need to spend time with that on Thursday, but after I sort that out,
->> I can remove the curse words from the script and do a bit of cleanup.
->> There's plenty of bugs, and alternate ways things can operate (maybe
->> some of the packaged go modules versus git, etc, etc), but since those
->> choices don't required bitbake/fetcher or other core changes, we have
->> a bit of time to iterate on a workable approach.
->>=20
->> Bruce
->>=20
->> Bruce, I'm looking forward to review your approach. My biggest concern i=
-n
->> fetching the imports from source via git is, that an 'import' my not
->> necessarily relate to a git repository. 'go' supports multiple backends
->> (e.g. hg, svn, etc.). That said, an import-path cannot be transformed to=
- a
->> git SRC_URI in a 1:1 manner. That's why I ended up downloading the modul=
-es
->> from golang-proxy.
->=20
-> I just used git as an example. Any supported OE fetcher can be used. I
-> haven't run into any source bases that can't be resolved to git so
-> far, but the generation of other SRC_URI entries is relatively
-> trivial. Since this is static information and part of the recipe, it
-> can all be sorted out ahead after the original generation of the
-> source locations.
->=20
-> Experience with supporting some of the larger go applications has
-> shown me that the source has made it easier for hot fixes to address
-> CVE issues. We can easily bump an individual SRCREV or bring in a
-> patch. It's solvable no matter what the approach, that's just how
-> we've solved it with the source repos.
->=20
-> I was browsing around the proxy docs, and the API to get modules was
-> clear to me, do you have a link to an example or a document that
-> describes it ?
++- * or -1ULL on error.
+++ * bt_trace_handle_get_timestamp_end : get the destruction time
+++ * (in nanoseconds or cycles depending on type) of the buffers of a
+++ * trace.
+++ *
+++ * Returns 0 on success, -1 on error.
++  */
++-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
++-		int handle_id, enum bt_clock_type type);
+++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+++		int handle_id, enum bt_clock_type type,
+++		int64_t *timestamp);
++=20
++ /*
++  * bt_ctf_event_get_handle_id : get the handle id associated with an ev=
+ent
++diff --git a/lib/context.c b/lib/context.c
++index 87901b3c..34a1bc82 100644
++--- a/lib/context.c
+++++ b/lib/context.c
++@@ -139,18 +139,38 @@ int bt_context_add_trace(struct bt_context *ctx, c=
+onst char *path,
++ 			goto error_collection_del;
++ 	}
++=20
++-	if (fmt->timestamp_begin)
++-		handle->real_timestamp_begin =3D fmt->timestamp_begin(td,
++-				handle, BT_CLOCK_REAL);
++-	if (fmt->timestamp_end)
++-		handle->real_timestamp_end =3D fmt->timestamp_end(td, handle,
++-				BT_CLOCK_REAL);
++-	if (fmt->timestamp_begin)
++-		handle->cycles_timestamp_begin =3D fmt->timestamp_begin(td,
++-				handle, BT_CLOCK_CYCLES);
++-	if (fmt->timestamp_end)
++-		handle->cycles_timestamp_end =3D fmt->timestamp_end(td, handle,
++-				BT_CLOCK_CYCLES);
+++        if (fmt->timestamp_begin) {
+++                ret =3D fmt->timestamp_begin(td, handle, BT_CLOCK_REAL,
+++                                &handle->real_timestamp_begin);
+++                if (ret < 0 && ret !=3D -ENOENT) {
+++                        ret =3D -1;
+++                        goto error_collection_del;
+++                }
+++        }
+++        if (fmt->timestamp_end) {
+++                ret =3D fmt->timestamp_end(td, handle, BT_CLOCK_REAL,
+++                                &handle->real_timestamp_end);
+++                if (ret < 0 && ret !=3D -ENOENT) {
+++                        ret =3D -1;
+++                        goto error_collection_del;
+++                }
+++        }
+++        if (fmt->timestamp_begin) {
+++                ret =3D fmt->timestamp_begin(td, handle, BT_CLOCK_CYCLE=
+S,
+++                                &handle->cycles_timestamp_begin);
+++                if (ret < 0 && ret !=3D -ENOENT) {
+++                        ret =3D -1;
+++                        goto error_collection_del;
+++                }
+++        }
+++        if (fmt->timestamp_end) {
+++                ret =3D fmt->timestamp_end(td, handle, BT_CLOCK_CYCLES,
+++                                &handle->cycles_timestamp_end);
+++                if (ret < 0 && ret !=3D -ENOENT) {
+++                        ret =3D -1;
+++                        goto error_collection_del;
+++                }
+++        }
++=20
++ 	/* Add new handle to container */
++ 	g_hash_table_insert(ctx->trace_handles,
++diff --git a/lib/trace-handle.c b/lib/trace-handle.c
++index d5b906aa..8f11c7cc 100644
++--- a/lib/trace-handle.c
+++++ b/lib/trace-handle.c
++@@ -66,54 +66,57 @@ const char *bt_trace_handle_get_path(struct bt_conte=
+xt *ctx, int handle_id)
++ 	return handle->path;
++ }
++=20
++-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
++-		int handle_id, enum bt_clock_type type)
+++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+++		int handle_id, enum bt_clock_type type,
+++		int64_t *timestamp)
++ {
++ 	struct bt_trace_handle *handle;
++-	uint64_t ret;
++=20
++-	if (!ctx)
++-		return -1ULL;
+++	int ret =3D 0;
+++=09
+++        if (!ctx || !timestamp)
+++                return -1;
++=20
++ 	handle =3D g_hash_table_lookup(ctx->trace_handles,
++ 			(gpointer) (unsigned long) handle_id);
++ 	if (!handle) {
++-		ret =3D -1ULL;
+++		ret =3D -1;
++ 		goto end;
++ 	}
++ 	if (type =3D=3D BT_CLOCK_REAL) {
++-		ret =3D handle->real_timestamp_begin;
+++		*timestamp =3D handle->real_timestamp_begin;
++ 	} else if (type =3D=3D BT_CLOCK_CYCLES) {
++-		ret =3D handle->cycles_timestamp_begin;
+++		*timestamp =3D handle->cycles_timestamp_begin;
++ 	} else {
++-		ret =3D -1ULL;
+++		ret =3D -1;
++ 	}
++=20
++ end:
++ 	return ret;
++ }
++=20
++-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
++-		int handle_id, enum bt_clock_type type)
+++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+++		int handle_id, enum bt_clock_type type,
+++		int64_t *timestamp)
++ {
++ 	struct bt_trace_handle *handle;
++-	uint64_t ret;
+++	int ret =3D 0;
++=20
++-	if (!ctx)
++-		return -1ULL;
+++	if (!ctx || !timestamp)
+++		return -1;
++=20
++ 	handle =3D g_hash_table_lookup(ctx->trace_handles,
++ 			(gpointer) (unsigned long) handle_id);
++ 	if (!handle) {
++-		ret =3D -1ULL;
+++		ret =3D -1;
++ 		goto end;
++ 	}
++ 	if (type =3D=3D BT_CLOCK_REAL) {
++-		ret =3D handle->real_timestamp_end;
+++		*timestamp =3D handle->real_timestamp_end;
++ 	} else if (type =3D=3D BT_CLOCK_CYCLES) {
++-		ret =3D handle->cycles_timestamp_end;
+++		*timestamp =3D handle->cycles_timestamp_end;
++ 	} else {
++-		ret =3D -1ULL;
+++		ret =3D -1;
++ 	}
++=20
++ end:
++diff --git a/tests/lib/test_ctf_writer.c b/tests/lib/test_ctf_writer.c
++index 53613c91..29d76df8 100644
++--- a/tests/lib/test_ctf_writer.c
+++++ b/tests/lib/test_ctf_writer.c
++@@ -45,7 +45,7 @@
++ #define SEQUENCE_TEST_LENGTH 10
++ #define PACKET_RESIZE_TEST_LENGTH 100000
++=20
++-static uint64_t current_time;
+++static int64_t current_time;
++=20
++ void validate_metadata(char *parser_path, char *metadata_path)
++ {
++@@ -695,8 +695,8 @@ int main(int argc, char **argv)
++ 	const char *clock_name =3D "test_clock";
++ 	const char *clock_description =3D "This is a test clock";
++ 	const uint64_t frequency =3D 1000000000;
++-	const uint64_t offset_s =3D 1351530929945824323;
++-	const uint64_t offset =3D 1234567;
+++	const int64_t offset_s =3D 1351530929945824323;
+++	const int64_t offset =3D 1234567;
++ 	const uint64_t precision =3D 10;
++ 	char *metadata_string;
++ 	struct bt_ctf_writer *writer;
++diff --git a/tests/lib/test_seek.c b/tests/lib/test_seek.c
++index 3c78e8ad..04beaf97 100644
++--- a/tests/lib/test_seek.c
+++++ b/tests/lib/test_seek.c
++@@ -33,7 +33,7 @@
++ #include <tap/tap.h>
++ #include "common.h"
++=20
++-#define NR_TESTS	29
+++#define NR_TESTS	36
++=20
++ void run_seek_begin(char *path, uint64_t expected_begin)
++ {
++@@ -42,8 +42,8 @@ void run_seek_begin(char *path, uint64_t expected_begi=
+n)
++ 	struct bt_ctf_event *event;
++ 	struct bt_iter_pos newpos;
++ 	int ret;
++-	uint64_t timestamp_begin;
++-	uint64_t timestamp_seek_begin;
+++	int64_t timestamp_begin;
+++	int64_t timestamp_seek_begin;
++ 	unsigned int nr_seek_begin_test;
++=20
++ 	nr_seek_begin_test =3D 5;
++@@ -67,7 +67,7 @@ void run_seek_begin(char *path, uint64_t expected_begi=
+n)
++ 	ok(event, "Event valid");
++=20
++ 	/* Validate that the first timestamp is right */
++-	timestamp_begin =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp_begin) =3D=3D 0);
++=20
++ 	ok1(timestamp_begin =3D=3D expected_begin);
++=20
++@@ -81,8 +81,8 @@ void run_seek_begin(char *path, uint64_t expected_begi=
+n)
++=20
++ 	ok(event, "Event valid");
++=20
++-	timestamp_seek_begin =3D bt_ctf_get_timestamp(event);
++-
+++	ok1(bt_ctf_get_timestamp(event, &timestamp_seek_begin) =3D=3D 0);
+++=09
++ 	ok1(timestamp_begin =3D=3D timestamp_seek_begin);
++=20
++ 	bt_context_put(ctx);
++@@ -96,7 +96,7 @@ void run_seek_last(char *path, uint64_t expected_last)
++ 	struct bt_ctf_event *event;
++ 	struct bt_iter_pos newpos;
++ 	int ret;
++-	uint64_t timestamp_last;
+++	int64_t timestamp_last;
++ 	unsigned int nr_seek_last_tests;
++=20
++ 	nr_seek_last_tests =3D 6;
++@@ -129,7 +129,7 @@ void run_seek_last(char *path, uint64_t expected_las=
+t)
++=20
++ 	ok(event, "Event valid at last position");
++=20
++-	timestamp_last =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) =3D=3D 0);
++=20
++ 	ok1(timestamp_last =3D=3D expected_last);
++=20
++@@ -152,7 +152,7 @@ void run_seek_time_at_last(char *path, uint64_t expe=
+cted_last)
++ 	struct bt_ctf_event *event;
++ 	struct bt_iter_pos newpos;
++ 	int ret;
++-	uint64_t timestamp_last;
+++	int64_t timestamp_last;
++ 	unsigned int nr_seek_time_at_last_tests;
++=20
++ 	nr_seek_time_at_last_tests =3D 6;
++@@ -188,7 +188,7 @@ void run_seek_time_at_last(char *path, uint64_t expe=
+cted_last)
++=20
++ 	ok(event, "Event valid at last position");
++=20
++-	timestamp_last =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) =3D=3D 0);
++=20
++ 	ok1(timestamp_last =3D=3D expected_last);
++=20
++@@ -213,7 +213,7 @@ void run_seek_cycles(char *path,
++ 	struct bt_ctf_event *event;
++ 	struct bt_iter_pos newpos;
++ 	int ret;
++-	uint64_t timestamp;
+++	int64_t timestamp;
++=20
++ 	unsigned int nr_seek_cycles_tests;
++=20
++@@ -247,7 +247,7 @@ void run_seek_cycles(char *path,
++=20
++ 	ok(event, "Event valid at last position");
++=20
++-	timestamp =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
++=20
++ 	ok1(timestamp =3D=3D expected_last);
++=20
++@@ -270,7 +270,7 @@ void run_seek_cycles(char *path,
++=20
++ 	ok(event, "Event valid at first position");
++=20
++-	timestamp =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
++=20
++ 	ok1(timestamp =3D=3D expected_begin);
++=20
++@@ -284,7 +284,7 @@ void run_seek_cycles(char *path,
++=20
++ 	ok(event, "Event valid at last position");
++=20
++-	timestamp =3D bt_ctf_get_timestamp(event);
+++	ok1(bt_ctf_get_timestamp(event, &timestamp) =3D=3D 0);
++=20
++ 	ok1(timestamp =3D=3D expected_last);
++=20
++--=20
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes=
+-kernel/lttng/babeltrace_1.5.8.bb
+index 9e5d3a7a97..86664b14ba 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -9,6 +9,7 @@ DEPENDS =3D "glib-2.0 util-linux popt bison-native flex-n=
+ative"
+=20
+ SRC_URI =3D "git://git.efficios.com/babeltrace.git;branch=3Dstable-1.5 \
+ 	   file://run-ptest \
++	   file://0001-Handle-negative-time-and-offset-from-Epoch.patch \
+ 	  "
+ SRCREV =3D "054a54ae10b01a271afc4f19496c041b10fb414c"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>1(\.\d+)+)$"
+--=20
+2.25.1
 
-Bruce, sorry for the late reply. The only documentation I found regarding t=
-he mapping 'import-path' <> 'src-uri' is this one: Go Modules Reference - T=
-he Go Programming Language ( https://go.dev/ref/mod#vcs-find )
-The mapping seems to be clear. That said, I would agree that it is possible=
- to download the sources directly from git (or any other vcs) and unpack it=
- to the vendor folder.
-
-Lukas
-
->=20
->=20
-> Bruce
->=20
->=20
->> Lukas
->>=20
->>=20
->> That being said, how can I help? It seems that there is an existing WIP
->> state on this. Can I take something from it? Maybe help with cleaning up
->> the script?
->> --
->> Andrei Gherzan
->> gpg: rsa4096/D4D94F67AD0E9640
->>=20
->>=20
->>=20
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->>=20
->>=20
->>=20
->=20
->=20
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
---pc1kYPrWUC4Hpo7FnFDV
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Mar 3, 2022 at 05:46 PM, Bruce Ashfield wrote:<br />
-<blockquote>On Thu, Mar 3, 2022 at 10:13 AM &lt;lukas.funke@weidmueller.com=
-&gt; wrote:<br />
-<blockquote>On Thu, Mar 3, 2022 at 04:34 AM, Bruce Ashfield wrote:<br /><br=
- />On Wed, Mar 2, 2022 at 4:57 PM Andrei Gherzan &lt;andrei@gherzan.com&gt;=
- wrote:<br /><br /><br />Mar 1, 2022 20:15:52 Bruce Ashfield &lt;bruce.ashf=
-ield@gmail.com&gt;:<br /><br />On Tue, Mar 1, 2022 at 10:54 AM &lt;lukas.fu=
-nke@weidmueller.com&gt; wrote:<br /><br />On Tue, Mar 1, 2022 at 02:14 PM, =
-Bruce Ashfield wrote:<br /><br />On Tue, Mar 1, 2022 at 6:42 AM Andrei Gher=
-zan &lt;andrei@gherzan.com&gt; wrote:<br /><br /><br />On Tue, 1 Mar 2022, =
-at 01:55, Bruce Ashfield wrote:<br /><br />On Mon, Feb 28, 2022 at 8:17 PM =
-Bruce Ashfield via<br />lists.openembedded.org<br />&lt;bruce.ashfield=3Dgm=
-ail.com@lists.openembedded.org&gt; wrote:<br /><br /><br />On Mon, Feb 28, =
-2022 at 6:54 PM Andrei Gherzan &lt;andrei@gherzan.com&gt; wrote:<br /><br /=
-><br />From: Andrei Gherzan &lt;andrei.gherzan@huawei.com&gt;<br /><br />Co=
-mpile pulls in the go.mod list requiring network. Without this, do<br />com=
-pile would fail with a similar error to the following:<br /><br />dial tcp:=
- lookup proxy.golang.org: Temporary failure in name resolution<br /><br />T=
-his is something that needs to be carried in your own layers, IMHO it<br />=
-isn't appropriate for core.<br /><br />It isn't about the fetching, it is t=
-he entire gap in functionality<br />that we are missing if go starts fetchi=
-ng dependencies during compile.<br /><br />A further thought is that if thi=
-s is for go.mod issues, there is the<br />go-mod.bbclass.<br /><br />Perhap=
-s enabling it in that class and doing a bbwarn about go fetching<br />depen=
-dencies would be appropriate ?<br /><br />Otherwise, someone may not know t=
-hat this is happening and that a no<br />network configuration has no chanc=
-e of working.<br /><br />I reckon that is reasonable. I'll personally go do=
-wn the recipe level to workaround this change but understanding and agreein=
-g with the reasoning behind this change, I want to invest a bit into trying=
- to find a proper solution in the core. Bruce, I know you invested a fair a=
-mount of time into this already. Would you be willing to sync up and see ho=
-w we can work together in tackling this?<br /><br />Definitely, more ideas =
-are good. In fact, I think there are probably<br />several approaches that =
-can co-exist, depending on what a<br />recipe/developer needs.<br /><br />I=
-'m in the Eastern time zone here, and will try and grab folks on IRC<br />t=
-o have a level set<br /><br />Bruce<br /><br />Added Zyga to CC as he is al=
-so interested in this as part of his go development activities.<br /><br />=
-Thanks,<br />Andrei<br /><br /><br /><br />--<br />- Thou shalt not follow =
-the NULL pointer, for chaos and madness await<br />thee at its end<br />- "=
-Use the force Harry" - Gandalf, Star Trek II<br /><br />The problem in allo=
-wing downloads during compile (e.g. by go) is, that it leads to non-reprodu=
-cable builds. I'm currently facing the same issue and would like to have a =
-reproducable go *offline* build.<br />I would like to propose two ideas to =
-workaround the go-compile fetching issue:<br /><br />First:<br />- Fetch go=
--dependencies using go.mod file from 'proxy.golang.org' (e.g. by writing a =
-seperate go fetcher or a wget-fetcher) and unpack the dependencies into go =
-projects 'vendor' folder. This forces go to compile offline. However, one h=
-ave to generate the 'modules.txt' file in the vendor folder 'manually' duri=
-ng unpack. This is error prone, as there is no official documentation how t=
-his format should look like. Anyway, I've tried this approach and it works =
-for me.<br /><br />Second:<br />- Fetch go-dependencies using go.mod file f=
-rom 'proxy.golang.org' (e.g. by writing a seperate go fetcher) and unpack t=
-he dependencies into a local (workdir) go-path. This seemed a good solution=
- for me as the go-path is well defined. But for some reason 'go' fetches th=
-e zip-files during compile into it's download-cache AGAIN, even if the sour=
-ce is already unpacked in the go-path. I'll assume this is required to veri=
-fy the source files integrity?! With this approach one have to adapt 'go' t=
-o suppress this download behaviour.<br /><br />I've been doing offline buil=
-ds using a constructed vendor/ directory<br />and generated modules.txt.<br=
- /><br />The only difference between what I have working and what you are<b=
-r />suggesting (type 1), is that I've gone directly to the sources and<br /=
->constructed the vendor directory using the OE git fetcher. That allows<br =
-/>all functionality to continue to work that is part of OEcore, and the<br =
-/>build to continue. Switching out the git fetches for tarballs would<br />=
-be possible, I just wasn't sure how to use the proxied modules (and I<br />=
-wanted the history for debug).<br /><br />I've never had any issues with th=
-e modules.txt, as I generate it at<br />the same time as the git fetch line=
-s for the SRC_URI. I've also not<br />been using information from the go.mo=
-d directly from go.proxy.org, it<br />is information I've generated from a =
-clone of the project and dumped<br />via go mod. There's likely improvement=
-s I can do there, but with what<br />I'm doing, I'm going directly to the s=
-ource of the projects and doing<br />clones, which keeps everything clear o=
-f the go infrastructure.<br /><br />I have a utility that I'm still cleanin=
-g up that generates the SRC_URI<br />lines, as well as the modules.txt, whe=
-n I resolve a few nagging<br />issues, I'll make the WIP scripts available.=
-<br /><br />Other projects (BSD, etc), have been doing different sorts of<b=
-r />constructed vendor directories, but they are similar in approach.<br />=
-<br />For the short term (i.e. the upcoming release), that is pretty much<b=
-r />all we can do. There isn't enough time to implement a new go fetcher<br=
- />backend for bitbake.<br /><br />In the end, how we fetch and place the d=
-ependencies is a transport, so<br />whether or not we fetch them ourselves,=
- or let go do it, that part is<br />largely the same.<br /><br />For now (s=
-hort term), I favour vendor/, as it is workable, but not<br />perfect. It i=
-sn't exactly efficient or pretty, but at least it seems<br />to produce cor=
-rect output, and allows all of the project capabilities<br />to work. And o=
-f course, the approach will continue to work regardless<br />of development=
- on other go.mod elements.<br /><br />After reflecting on this for a while =
-I reckon this is the fastest way forward while addressing the reproducibili=
-ty issue. I'm wondering what we can do in terms of compliance? Maybe we can=
- turn the script you were talking about into a recipe generator that also d=
-eals with this by querying the licenses of all the dependencies (direct and=
- indirect).<br /><br />That was my rough plan, generate a recipe or have it=
- generate an<br />include that recipes pull in, there are some repeating pa=
-tterns go<br />modules, so there is some re-use to be found.<br /><br />I r=
-oughed out a process for it to work with k3s, and have a working<br />updat=
-ed recipe that creates a vendor/ directory and doesn't touch the<br />netwo=
-rk during the actual build.<br /><br />There's definitely efficiencies to b=
-e found, as the first fetch is<br />quite long, and there's some i/o requir=
-ed as the fetches secondarily<br />shuffled into place that go expects in a=
- vendor directory.<br /><br />I'm trying to complete a second recipe with t=
-he generated SRC_URI<br />entries now (nerdctl) and I ran into an issue wit=
-h the script where<br />some repeated fetches were breaking the vendor dire=
-ctory creation. I<br />need to spend time with that on Thursday, but after =
-I sort that out,<br />I can remove the curse words from the script and do a=
- bit of cleanup.<br />There's plenty of bugs, and alternate ways things can=
- operate (maybe<br />some of the packaged go modules versus git, etc, etc),=
- but since those<br />choices don't required bitbake/fetcher or other core =
-changes, we have<br />a bit of time to iterate on a workable approach.<br /=
-><br />Bruce<br /><br />Bruce, I'm looking forward to review your approach.=
- My biggest concern in fetching the imports from source via git is, that an=
- 'import' my not necessarily relate to a git repository. 'go' supports mult=
-iple backends (e.g. hg, svn, etc.). That said, an import-path cannot be tra=
-nsformed to a git SRC_URI in a 1:1 manner. That's why I ended up downloadin=
-g the modules from golang-proxy.</blockquote>
-I just used git as an example. Any supported OE fetcher can be used. I<br /=
->haven't run into any source bases that can't be resolved to git so<br />fa=
-r, but the generation of other SRC_URI entries is relatively<br />trivial. =
-Since this is static information and part of the recipe, it<br />can all be=
- sorted out ahead after the original generation of the<br />source location=
-s.<br /><br />Experience with supporting some of the larger go applications=
- has<br />shown me that the source has made it easier for hot fixes to addr=
-ess<br />CVE issues. We can easily bump an individual SRCREV or bring in a<=
-br />patch. It's solvable no matter what the approach, that's just how<br /=
->we've solved it with the source repos.<br /><br />I was browsing around th=
-e proxy docs, and the API to get modules was<br />clear to me, do you have =
-a link to an example or a document that<br />describes it ?</blockquote>
-Bruce, sorry for the late reply. The only documentation I found regarding t=
-he mapping 'import-path' &lt;&gt; 'src-uri' is this one:&nbsp;<a href=3D"ht=
-tps://go.dev/ref/mod#vcs-find">Go Modules Reference - The Go Programming La=
-nguage&nbsp;</a><br />The mapping seems to be clear. That said, I would agr=
-ee that it is possible to download the sources directly from git (or any ot=
-her vcs) and unpack it to the vendor folder.<br /><br />Lukas<br /><br />
-<blockquote><br />Bruce<br /><br />
-<blockquote>Lukas<br /><br /><br />That being said, how can I help? It seem=
-s that there is an existing WIP state on this. Can I take something from it=
-? Maybe help with cleaning up the script?<br />--<br />Andrei Gherzan<br />=
-gpg: rsa4096/D4D94F67AD0E9640<br /><br /><br /><br />--<br />- Thou shalt n=
-ot follow the NULL pointer, for chaos and madness await<br />thee at its en=
-d<br />- "Use the force Harry" - Gandalf, Star Trek II<br /><br /><br /></b=
-lockquote>
-<br />-- <br />- Thou shalt not follow the NULL pointer, for chaos and madn=
-ess await<br />thee at its end<br />- "Use the force Harry" - Gandalf, Star=
- Trek II</blockquote>
-
---pc1kYPrWUC4Hpo7FnFDV--
 
