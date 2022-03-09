@@ -2,99 +2,141 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C14C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 17:07:56 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web09.457.1646845675625496633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6D5BC433FE
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 17:15:10 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web11.68.1646846097356989485
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 09:07:55 -0800
+ Wed, 09 Mar 2022 09:14:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K+3LSC/Y;
- spf=pass (domain: gmail.com, ip: 209.85.214.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=E69U+4P6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id 9so2508964pll.6
+Received: by mail-qt1-f175.google.com with SMTP id a14so2410030qtx.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 09:07:55 -0800 (PST)
+ Wed, 09 Mar 2022 09:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j9QeZgCRHVBSiR3Cs5QsSCmH7x69cuMyTwuP0yTgNG4=;
-        b=K+3LSC/Yb+EcEhVE50VSIP0EMijFV2zPs6DMGtIVX9udni09KDaZGarv5f0u4+e02h
-         LOFY74b+4k198Rctz7sLazMc9Iz8NLvlxjNjtKdqfmBoSlwOYnC5/zak3R9V4VwvSIDr
-         BG5m89jiReg4smP4LByJ19qSZ/MpcXpKSsUy9aGh1q4apMtSEgBXz6VS2l3bP1mnbFt5
-         zUG5oiVyeoQiNC7/Mh76eIKdkvplEu0WOkyDkhxcEFRRnqKRIjXL9gnyNwdonGzF6+J6
-         UIZ3vk8Mqa5OpqgaduoNGkocGlYVRtqUbgdxfO3Tqs9LId26YqX4HdDbaYejfOVMJep5
-         hfzQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PUDZAUP8KfcKLeZuuiOrW/by7Oo89vW7apLNcV7Cj44=;
+        b=E69U+4P64RCr31GCQZki2TiN3AcnHVlocURh0Gip8TpJ5FUreFG7jx9Keu2tl+NaYg
+         p0I6JKnaEtBaBWQZKrIOGJXqwfX6ElQ2TbnNThyxbkjnolLzV2z6tBn1z01mUHXQX9+j
+         KXVxU2XEYCLi5B5yFk3h0mg5mV0USvSq6kmDftj0TNSoNwAIvXKirS7M8ueVbnLMN1TG
+         PMaCRmtcADLyh1sCJXcoLV32Ayv3BlCesYCuDzvqboxeqwsQ410kvMjq7b4WwymDL19k
+         8S4EcJ9BP4KacmF838pPgxXHewrUXhjOCtL7Bjm+GRWI4foFJCh7swn3+nG7lqopbm7b
+         0ruw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j9QeZgCRHVBSiR3Cs5QsSCmH7x69cuMyTwuP0yTgNG4=;
-        b=2m1iyjfm4UjPCKiRQD6MC1uM2hMAC/xzPRQJW0/obMmWvZGT2Zmisilzh51guUyDO4
-         9prNBShdufJ2qJUv5YDSy+VXNdIuSiDUFeebaSyXL8eB94mtrCxEekg47rZnDBAs0yu3
-         LcpzppIypmYnD9f5JGiVh5+d4+lCXac3kf+yD//mqUXPT/1pp6dY6J4ALGWEU4x2mnz1
-         8qYuGlXHFggzMonoH2nu0n/kcjZ3MsYZsGj4AgCvdOhV399H4nKWYpXq7/l+mDWIUfoB
-         W02ATxemDEMZy1uum1DYLuOCyy/4yDpKTyNzkUPVCRrgLZB/ETAGv9HAC4D29p3P9kfU
-         Izvw==
-X-Gm-Message-State: AOAM533xTg4xdmcEkOJ8rch1wTMxdQGW/1p2yv7q83oj8/bR+VSuubAe
-	QHZNgCnb0pVga6PGiHQnjcA5kRoqK0d4aw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PUDZAUP8KfcKLeZuuiOrW/by7Oo89vW7apLNcV7Cj44=;
+        b=330KjVRBiXQbtjudUPmHMz7xN6ke/8AKs/dMBuoGDSZWWXtONtnkdqyKMCc0z5rGFU
+         AG4URgX8kfo40JM7oGJji8aH5LOQhh5o4yAIHOuyFAibFgWaOqY3P1YntfutjI/ztl8S
+         CBlLVHnz/jtmz7880OmhHfLg4KXgZnzQawOsAXsp47yV/WxE0ibCDxDCbXmAfj/KyQra
+         JfI/v8vMvXfSO8pSGKwiWil0R+wbUv4gvomrk0raYqf9PNdp9yp5dW/yT5csNrYphvSP
+         FT2OKOxXb7J2yPV5s2Vf+lDBY63EQT5LFT+J7b0ffGnMVK8I40iSZv67UpFEPZKeWBEM
+         bOvw==
+X-Gm-Message-State: AOAM532MnQNnjuITXd/+I5c/4ubR4Np/835k5tPHKlI02IOfvdasO99G
+	mmn36OEu3rNBjzxNP77xW9u5InMPIfaLNtVH2J/fARif7aE=
 X-Google-Smtp-Source: 
- ABdhPJx5GlAtHLN6fnZ/xTEi6bWTYESTyrOMu7RN1X5Bg39aPMdLf8iqE9h8FxvCj6c9pobgNDWe2w==
-X-Received: by 2002:a17:902:d511:b0:151:fa36:f1a1 with SMTP id
- b17-20020a170902d51100b00151fa36f1a1mr521921plg.17.1646845674870;
-        Wed, 09 Mar 2022 09:07:54 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
-        by smtp.gmail.com with ESMTPSA id
- s1-20020a056a00178100b004f731a1a952sm3940277pfg.168.2022.03.09.09.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 09:07:54 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 1/2] qemu: Fix build when x11 is not in distro features
-Date: Wed,  9 Mar 2022 09:07:51 -0800
-Message-Id: <20220309170752.2892032-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJxyigmPzwAP14TqOnSD+BY0VhnKtMgoowAQK7JYN/E+PN+MSz/gvLx83EnY7psGWkYx0F6qcbocVEenBrytkdU=
+X-Received: by 2002:ac8:7dd0:0:b0:2e1:a2c8:7dc1 with SMTP id
+ c16-20020ac87dd0000000b002e1a2c87dc1mr609956qte.532.1646846096302; Wed, 09
+ Mar 2022 09:14:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220309165113.2757010-1-ross.burton@arm.com>
+In-Reply-To: <20220309165113.2757010-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 9 Mar 2022 09:14:30 -0800
+Message-ID: 
+ <CAMKF1spVGtp8pcZHwcmQ=XV536Y5aJyVyO9YrtmN_s20_tqRZA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] pip_install_wheel: install wheel with a glob
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 17:07:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 17:15:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162979
+ https://lists.openembedded.org/g/openembedded-core/message/162981
 
-There is use of MESA_EGL_NO_X11_HEADERS which is now renamed in newer headers to
-EGL_NO_X11 from mesa/khronos headers, however this define is
-relatively new and 3D stacks do not have this adopted but apps
-like qemu and bunch of others depend on it, I guess they assume mesa.
-One can argue that its better to fix the 3D stacks to behave
-like mesa but this means every BSP using these stacks will need to
-carry such a fix.
+On Wed, Mar 9, 2022 at 8:51 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> Now that the build systems that use pip_install_wheel are all building
+> their wheel into a directory that we knew was empty before, we can just
+> install *.whl and not need to know the precise names.
+>
+> By design a pyproject.toml will always build a single wheel, so there
+> shouldn't be any way for this to end up installing more than expected.
+>
+> This obsoletes PIP_INSTALL_PACKAGE and PYPA_WHEEL, neither of which are
+> needed anymore.
+>
 
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/include/EGL/eglplatform.h
+this looks a better approach, we can unbold ton of workaround on
+meta-openembedded with this
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu_6.2.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemu_6.2.0.bb b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
-index 062ed32b015..c7eef0a9d5e 100644
---- a/meta/recipes-devtools/qemu/qemu_6.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
-@@ -6,6 +6,8 @@ DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"
- 
- DEPENDS:append:libc-musl = " libucontext"
- 
-+CFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
-+
- RDEPENDS:${PN}:class-target += "bash"
- 
- EXTRA_OECONF:append:class-target = " --target-list=${@get_qemu_target_list(d)}"
--- 
-2.35.1
-
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/classes/pip_install_wheel.bbclass | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+>
+> diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/pip_install_wheel.bbclass
+> index 954a6b750f..3861dae75a 100644
+> --- a/meta/classes/pip_install_wheel.bbclass
+> +++ b/meta/classes/pip_install_wheel.bbclass
+> @@ -1,20 +1,10 @@
+>  DEPENDS:append = " python3-pip-native"
+>
+> -def guess_pip_install_package_name(d):
+> -    import re
+> -    '''https://www.python.org/dev/peps/pep-0491/#escaping-and-unicode'''
+> -    name = d.getVar('PYPI_PACKAGE') or re.sub(r"^python3-", "", d.getVar('BPN'))
+> -    return name.replace('-', '_')
+> -
+> -PIP_INSTALL_PACKAGE ?= "${@guess_pip_install_package_name(d)}"
+> -
+>  # The directory where wheels should be written too. Build classes
+>  # will ideally [cleandirs] this but we don't do that here in case
+>  # a recipe wants to install prebuilt wheels.
+>  PIP_INSTALL_DIST_PATH ?= "${WORKDIR}/dist"
+>
+> -PYPA_WHEEL ??= "${PIP_INSTALL_DIST_PATH}/${PIP_INSTALL_PACKAGE}-*-*.whl"
+> -
+>  PIP_INSTALL_ARGS = "\
+>      -vvvv \
+>      --ignore-installed \
+> @@ -29,8 +19,14 @@ PIP_INSTALL_PYTHON = "python3"
+>  PIP_INSTALL_PYTHON:class-native = "nativepython3"
+>
+>  pip_install_wheel_do_install () {
+> -    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PYPA_WHEEL} ||
+> -      bbfatal_log "Failed to pip install wheel. Check the logs."
+> +    COUNT=$(find ${PIP_INSTALL_DIST_PATH} -name '*.whl' | wc -l)
+> +    if test $COUNT -eq 0; then
+> +        bbfatal No wheels found in ${PIP_INSTALL_DIST_PATH}
+> +    elif test $COUNT -gt 1; then
+> +        bbfatal More than one wheel found in ${PIP_INSTALL_DIST_PATH}, this should not happen
+> +    fi
+> +
+> +    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PIP_INSTALL_DIST_PATH}/*.whl
+>
+>      cd ${D}
+>      for i in ${D}${bindir}/* ${D}${sbindir}/*; do
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#162975): https://lists.openembedded.org/g/openembedded-core/message/162975
+> Mute This Topic: https://lists.openembedded.org/mt/89666433/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
