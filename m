@@ -1,93 +1,74 @@
-Return-Path: <samuli.piippo@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23762C433EF
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 09:13:55 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web09.3745.1646817234238638808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA32C433F5
+	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 09:45:11 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
+ [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web08.3776.1646819110494611013
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 01:13:54 -0800
+ Wed, 09 Mar 2022 01:45:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jWCk8HyI;
- spf=pass (domain: gmail.com, ip: 209.85.208.177,
- mailfrom: samuli.piippo@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id l12so2071336ljh.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 01:13:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k7DJC1GQlkNFyXrmI/0tpddm6Zu/EgBWGQ4uJBGGf80=;
-        b=jWCk8HyIxzUBqn8WiXpp6om0epM6Isgain1gC/tnb5N/HtNWswSStQz0+xR05q/08v
-         RunHa3lV7pqYyDsdxXz+MW13M8JoxPLjYic0oN3KJtQMFhxbrgHlSy6NQQcK3V6pkCs7
-         VEOzk/z7Y7LMXVwTuj/69g8TgXiMr+IpWCYYAcG98+QWJM8c1srxp/MXP5lcK0njlruZ
-         jmsI2s6kRHcT3R9RbAOOurGTy1eRtX6dFCbf8cV+HqsOVXvQNf796kDmKuMBHM8WpYLi
-         KTt5ueIrPSEuS2w5nt3ROXorqmIDsNcU6qaLmKVQwQu9MPqNzDPW53X3M5BdW6FSlSRp
-         MKzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k7DJC1GQlkNFyXrmI/0tpddm6Zu/EgBWGQ4uJBGGf80=;
-        b=i34txx4T6XmYj8/PMZw7vGFqvpB1Gc1womTfnZko+kQtupUj2ZP4OUsW/E2YWfuG7M
-         EhwsPz/RWhvXVfa1oKoW0e/dNjFOOO9jzryia7C8Ueima0SyO6Q6MuM89dL4F5pdBfMz
-         1wO2fer4/tJiF3DX0d/cqFlto5te2ar5/+kIWy6bQDjRnQ1SKCLn2jOvIVrSN1TKWKid
-         Zf3oXKDZWdmHtna0r02PfSpT78DQMmYKfTlvEUIt2NqVFap+zZ4vFaHFUFhzekg9RxV8
-         kLvqGQQozl8GK65ZD0Zz5WmSi7aMZeQSpaXiA11sX61AMpu28m18dqukxv2DK+aC17HF
-         OsfA==
-X-Gm-Message-State: AOAM532EOKrIEw+FahJJ0RkJC+UxT8LNW9HiiYlg1zzUBxIrQmEh+h7o
-	97R3wmlDlFBz8S3CWcS5v29Fq3rkXf8=
-X-Google-Smtp-Source: 
- ABdhPJw3+Vhco//quZ+vzUFUgi5kUBw1WdCgp6cEEbBfcVFxyakLhK6Q+Fk6eRx6sgZVp725maLD9g==
-X-Received: by 2002:a2e:a482:0:b0:245:1b8:65f3 with SMTP id
- h2-20020a2ea482000000b0024501b865f3mr13092012lji.507.1646817231916;
-        Wed, 09 Mar 2022 01:13:51 -0800 (PST)
-Received: from dcbuildsrv.ci.qt.io ([192.89.120.62])
-        by smtp.gmail.com with ESMTPSA id
- e11-20020ac2546b000000b004482059541asm285898lfn.167.2022.03.09.01.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 01:13:51 -0800 (PST)
-From: Samuli Piippo <samuli.piippo@gmail.com>
-X-Google-Original-From: Samuli Piippo <samuli.piippo@qt.io>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=M1BiRbwe;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230,
+ mailfrom: michael.opdenacker@bootlin.com)
+Received: (Authenticated sender: michael.opdenacker@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 16CF5240017;
+	Wed,  9 Mar 2022 09:45:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1646819108;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EUTNSbyEJPPSoRoyP2WzXG8gAwQF13Ych8FqDD/M0mE=;
+	b=M1BiRbwe1BPLHGQ0VRnU9QjxGhknEkEZOoR5q/6ruS3PAGbOwlIWiz50ompwemVkCRivZW
+	zi/q7gzluF6SGVG6n0nJonxKTf+KGm3L0tduy9JOeq28n35VycsS5bcxK8KALIIzpibfES
+	K8BonpBzCPQLrGpWSyJMipDuaGCc/CNlpi0G61B7gUwDDfhWgqYqDB2MmS1YlEZaXW/ANa
+	a5YbhbRSoZmRKQnM29ZibZ+SDsvnA6yKg2dLJRgVs95cSgQKS9WddFCa49WUyu6Fzw80Ef
+	NCOBMNMNUUs+FH4EBfogoA4vIBQWUhnAJWpH8qKGs92c/FDaTqlJ+V+1T+HOqQ==
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Cc: jpewhacker@gmail.com
-Subject: [PATCH] binutils-cross-canadian: enable gold for mingw
-Date: Wed,  9 Mar 2022 09:13:23 +0000
-Message-Id: <20220309091323.2647842-1-samuli.piippo@qt.io>
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH] local.conf.sample: fix reference to extended configuration
+ sample
+Date: Wed,  9 Mar 2022 10:44:42 +0100
+Message-Id: <20220309094442.606175-1-michael.opdenacker@bootlin.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 09:13:55 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 09:45:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162953
+ https://lists.openembedded.org/g/openembedded-core/message/162954
 
-This reverts commit b5a595a4be09756b88e91f3353e3b221b165ab44,
-gold linker can now be built correctly for mingw SDKs.
+The file name is local.conf.sample.extended, not local.conf.extended
 
-Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ---
- meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/conf/local.conf.sample | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index f44f46602d..b3d591e658 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -13,8 +13,6 @@ EXTRA_OECONF += "--with-sysroot=${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VEND
- # e.g. we switch between different machines with different tunes.
- EXTRA_OECONF[vardepsexclude] = "TUNE_PKGARCH"
- 
--LDGOLD:sdkmingw32 = ""
--
- do_install () {
- 	autotools_do_install
- 
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 82efc2c4f5..1edbb73987 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -2,9 +2,10 @@
+ # This file is your local configuration file and is where all local user settings
+ # are placed. The comments in this file give some guide to the options a new user
+ # to the system might want to change but pretty much any configuration option can
+-# be set in this file. More adventurous users can look at local.conf.extended
+-# which contains other examples of configuration which can be placed in this file
+-# but new users likely won't need any of them initially.
++# be set in this file. More adventurous users can look at
++# local.conf.sample.extended which contains other examples of configuration which
++# can be placed in this file but new users likely won't need any of them
++# initially.
+ #
+ # Lines starting with the '#' character are commented out and in some cases the
+ # default values are provided as comments to show people example syntax. Enabling
 -- 
 2.25.1
 
