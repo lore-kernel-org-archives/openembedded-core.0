@@ -2,94 +2,81 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE373C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 15:56:56 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web08.11098.1646927815097228433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EEAC433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 17:17:00 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.12211.1646932619680684346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 07:56:55 -0800
+ Thu, 10 Mar 2022 09:17:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=2IUteTqz;
- spf=pass (domain: burtonini.com, ip: 209.85.128.44,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f44.google.com with SMTP id
- m42-20020a05600c3b2a00b00382ab337e14so5729240wms.3
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 07:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9OPjHFEmgAQ7K/aRO7MHkxIWP3SKw9zD48hWQvOArr0=;
-        b=2IUteTqzoonoOTFwXDoMyKAHAUi2xBUkZMar9Nu5IqHG1jaeySWfybkxJlsk0nKqfS
-         RuSF7btEO6MdVQB43MJDU4jGRD2MccdUl2Xmz2x5ILzLVQA++PtAeQhvJ8Wmsu8fS5iE
-         YeqJIO5ZJu2uhhzxcHwIow6gqgZ/FgHBJ9Sffq477KFb3sMrDpQPxTOxJitUM0o7e616
-         u/LniHbqB5E1koTJPXE7PEg0nqP/lu5IefwJkPOWSMTalyT6C0HnorZNQOQ5I7L0X9S/
-         Q3G4HfbVaPrn6zWISK5d7hUvzqfdPLqZNgLWIzcRScB4NnhKsIFF+lQm1w9YmiT1Y3Qc
-         wiUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9OPjHFEmgAQ7K/aRO7MHkxIWP3SKw9zD48hWQvOArr0=;
-        b=LXbqs6bPitg0oVljYfUdu6//VNBGUezdm+864kagGUr13J0jsGcNGwmrcpVgNZpqSR
-         ZeTBIUFl9j8U53pNPflIfvy1O4SX59WL0uf8NUb4ISkKqaYaqRXdfL8XnvjMenSdFk6o
-         K7OSYbV5BoKlx2S2qUqt0FFrszS6pC0d2681iQZ2T5L1WzFGA5xLtxOiQZ19TDap+7Nf
-         iuv1mF2YQvlhjW865riz6NRoH2+bAtxMWUMS/oPY9oS2fhZ6zD3x3v47pQEBX5RjFU8O
-         TPydH9nRDOLAzDnV/ov4ujNiPZgHBFsLd8fzyv1qQetHMNrzx1tw8xrvF876DiyMmSje
-         VZ3g==
-X-Gm-Message-State: AOAM532tYKcX9ZbAUJthq9EICoumh0Fhlw7G1jIgCRRS77iRTdP14FKo
-	mp1ACvP2L4ggVsKs8pmV8+7kfm3VK5aNsHC4okUecg==
-X-Google-Smtp-Source: 
- ABdhPJxsIgVRZ9o4rbUIsvdVyaINg6vFB7vkmyYc0H/hUN1TfOzgaHHaUFsc4jyZYO6D7cz/QnVAAyu/Cn6CVx2+KWg=
-X-Received: by 2002:a05:600c:2219:b0:389:bc8b:ac48 with SMTP id
- z25-20020a05600c221900b00389bc8bac48mr11925016wml.14.1646927813543; Thu, 10
- Mar 2022 07:56:53 -0800 (PST)
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8AC051692
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 10 Mar 2022 09:16:58 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 38BF23F99C
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 10 Mar 2022 09:16:58 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] python3-installer: add installer module
+Date: Thu, 10 Mar 2022 17:16:55 +0000
+Message-Id: <20220310171656.3106028-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220310114035.2226442-1-ross.burton@arm.com>
- <AM9PR09MB4642CA1CCF4C29F109985C76A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAAnfSTuga12XF0fDUAgpm0u0ryh4=L7f2bn4VHmiArusSo=hQA@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTuga12XF0fDUAgpm0u0ryh4=L7f2bn4VHmiArusSo=hQA@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 10 Mar 2022 15:56:42 +0000
-Message-ID: 
- <CAAnfSTvgWdVtgW+GTqA8vCm0ANP330MJW302uFr=OFHDBbusPw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] pip_install_wheel: add a generic do_install
- for bootstrapping
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 15:56:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 17:17:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163031
+ https://lists.openembedded.org/g/openembedded-core/message/163032
 
-On Thu, 10 Mar 2022 at 14:01, Ross Burton <ross@burtonini.com> wrote:
->
-> On Thu, 10 Mar 2022 at 11:48, Konrad Weihmann <kweihmann@outlook.com> wrote:
-> > > +pip_install_wheel_do_bootstrap_install () {
-> > > +    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> > > +    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PIP_INSTALL_DIST_PATH}/*.whl
-> > > +}
-> >
-> > I think these two lines could be moved into a generic do_install:native
-> > - and then removing all the override code from the recipes below.
->
-> There's only a few recipes which need this bootstrap, 99% of native
-> recipes can use pip: it's just flit_core/pip/setuptools/wheel which
-> can't as they're needed to build pip itself.
->
-> (and once installer is used instead of pip, it's just installer and flit_core)
->
-> I may send a v2 to this, as we should be byte-compiling the bootstrap code too.
+Add a recipe for Installer, a minimal library/tool to install Python
+Wheels.  Unlike PIP, it explicitly only installs wheels and does nothing
+else.
 
-I won't send a v2 as this causes interesting problems which are not
-easy to fix...
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../python/python3-installer_0.5.0.bb         | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-installer_0.5.0.=
+bb
 
-Ross
+diff --git a/meta/recipes-devtools/python/python3-installer_0.5.0.bb b/me=
+ta/recipes-devtools/python/python3-installer_0.5.0.bb
+new file mode 100644
+index 0000000000..bde9397569
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-installer_0.5.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY =3D "A library for installing Python wheels"
++DESCRIPTION =3D "a low-level library for installing a Python package fro=
+m a wheel distribution."
++HOMEPAGE =3D "https://installer.readthedocs.io/"
++BUGTRACKER =3D "https://github.com/pradyunsg/installer/issues"
++
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5038641aec7a77451e31da828ebfa=
+e00"
++
++SRC_URI[sha256sum] =3D "0cd6bdab3b358cf7e8749370b99aef9e12202751271c5ddb=
+22126599b34dc665"
++
++inherit pypi flit_core
++
++DEPENDS:remove:class-native =3D "python3-installer-native"
++DEPENDS:append:class-native =3D " unzip-native"
++
++do_install:class-native () {
++    pip_install_wheel_do_bootstrap_install
++}
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.25.1
+
 
