@@ -2,106 +2,101 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC270C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 14:04:19 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web08.9682.1646921058684915991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2AFC433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 14:04:22 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web09.9553.1646921061993856976
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 06:04:19 -0800
+ Thu, 10 Mar 2022 06:04:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mVQxhQwc;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=L6eHds0R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id n2so4974173plf.4
+Received: by mail-pf1-f173.google.com with SMTP id s42so5231674pfg.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 06:04:18 -0800 (PST)
+ Thu, 10 Mar 2022 06:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=HPj8cJu2rR1dsZuyMO+Na4AisnthZigzpwRNSTsGNms=;
-        b=mVQxhQwcSicYzVNDkxoq00rFejTYNUWNZ0t2D6dW2P2mHNSFsbMQXOiPcM8EifR0e0
-         7u6OHARGEfnyOvL85N8k7CDr5os4cET6Rf3LHzShSRg+edPqhW1r+ql0Puv2fowSKzyF
-         nO5XXxMArau1KhUyFACsWzckRTs/XwEzEJFgyRio9SS9gx7F0W+6yreKbBUX8AGRNh4a
-         1z7p8dNa0uQlCxLVZ13og/y8el3evUt9FQ4bXvx+ah5fR8/y+lnmWjUDkzF28lLw6QmX
-         7vg4mxmrbFQdNWBWHWX7aSY67y1yfKgiy02J4g3DYpBGXunQqFLzFBIt6zoNxnqEgBlB
-         U29Q==
+        bh=ATbxODqz3bHsmPIHpHI203jPSQ2b2M5JsBRQMlvr/+U=;
+        b=L6eHds0Rbz/BTQrYS41Isx8mhH0rOdY3gbxNAumuY3jHumNDMWFFrSt8UJf305Jgkp
+         5RoR+9zPIKMA1aPHrm7kQfvF6pksSKb++5ul6TJY6VD3QiuTBnfCi+HSK+LkBj+vbJjy
+         icTRzBErp7y7lkR+vs63/cMYoD2w4oB8MTZQz6ybPXXAtQpzuxlDfizMkYXPTPdM722A
+         1McldgNB70C3r+Mh7c965QuhzFjFFfI5o9arpflkmw3k3ziB50j/O/pzjsS5PCn9RP1z
+         aSyH1y/w+BzpMOGEhzUBTUKhl8nGOBc/Y2pXDDtZC5f+S73HwBcCimDuVR+zrQWepBpy
+         8FGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HPj8cJu2rR1dsZuyMO+Na4AisnthZigzpwRNSTsGNms=;
-        b=IIlrVbrlqJpIa7BA3opmqeKWo6iwxdg/1Go61+qWPcFnWVYIEKAJzt0+cOc/3SRiHQ
-         Tpkk/brxFPLPVoYIgJgF7XjLfEAST4QLFTrjZKw5cfhJ9GUdcoWUQhBLlnHVlAFD/jrV
-         2WRIP2wzyLI9zSLAC9H3MinCyfYomJ96AtckvxEo2H6MMjfpI6BfTMRMGCTUrd9GLPBs
-         DnG6xI52viUs7Gj6IRmbSNEmUbfRPuzpp5amWAqy598KVu+1Yp8aSlOjVWrpJYyaDSCq
-         kDTNKd3s1sHjRQQXtqPXg1w7EOlQNGwN4C1Jvb/B1t9ed0cd/nmi4gxBoDksVjes2G50
-         xBOA==
-X-Gm-Message-State: AOAM532liJ6KQU8mHF17/hEy9e2/7Slz41u6UDg+re/YaAA6DdiLOeo2
-	0Axm11GQ3+hkroKY+qfc4ZdRol47gAOYvzeSFDg=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ATbxODqz3bHsmPIHpHI203jPSQ2b2M5JsBRQMlvr/+U=;
+        b=OBqp1sL0XkRIJwmck0WF0/CJ7VHxwrmK9ns7HWoLIKNkto4Fvoymxb9Vuym4y7Ojk6
+         AyJDYvuyb1fgsJhJRjaZC5Ai08M8uWxt9CE+9aZVk8aD1ZArngbJYfztHtsNywsMQS/J
+         aSdG0gsD30vO8ISN4ooHZBQlw6q7XodLO735iZFK0vF/VyxE7Tm1xtX8dtaTnvhF1m4I
+         WwryEYn8ER410nRCLy9P5M1LLQ2BCnDL7SBjG2EuMRKomsTx64+jfQbRyCWxY6cF6FUc
+         90F1ymc17ro6FS0SxR+9jr44AdsZmsvasTgax8bcjBKlt5MOUgI6PmHzBrWUccFcuRyG
+         AfGA==
+X-Gm-Message-State: AOAM533gJe2DCbsOEd7gAeIs7TjfgYTbJfTVe3G5XXK+45jg98Wv2tKY
+	rr3e6heWZfXTfqaGVjPOE6f3f7DpoFUpfvYOcG8=
 X-Google-Smtp-Source: 
- ABdhPJzzSAwUXDMMCzURqWT6TmuCmTLwbcL5jB6BrvtifHDALfSysznbIuqbjG0wiDLwa/d62+i8Nw==
-X-Received: by 2002:a17:90a:3d44:b0:1bf:584d:7fa with SMTP id
- o4-20020a17090a3d4400b001bf584d07famr5144306pjf.217.1646921057197;
-        Thu, 10 Mar 2022 06:04:17 -0800 (PST)
+ ABdhPJyImBCubzLLSKl1QiQo/dDHVdTZAsFqcSJRY+k1eJ0Dtk11p10nU6wboUdoNzDQNkyQY0V6dA==
+X-Received: by 2002:a05:6a00:2352:b0:4f7:752d:dd09 with SMTP id
+ j18-20020a056a00235200b004f7752ddd09mr3162742pfj.22.1646921061029;
+        Thu, 10 Mar 2022 06:04:21 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d11-20020a056a00198b00b004dfc6b023b2sm7291927pfl.41.2022.03.10.06.04.15
+ d11-20020a056a00198b00b004dfc6b023b2sm7291927pfl.41.2022.03.10.06.04.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Mar 2022 06:04:16 -0800 (PST)
+        Thu, 10 Mar 2022 06:04:20 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/3] Patch review
-Date: Thu, 10 Mar 2022 04:04:01 -1000
-Message-Id: <cover.1646881254.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/3] vim: Update to 8.2.4524 for further CVE fixes
+Date: Thu, 10 Mar 2022 04:04:02 -1000
+Message-Id: 
+ <b7fa41cda88bffa5345d5b9768774cdf28f62b7b.1646881254.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1646881254.git.steve@sakoman.com>
+References: <cover.1646881254.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 14:04:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 14:04:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163024
+ https://lists.openembedded.org/g/openembedded-core/message/163025
 
-Please review this set of patches for dunfell and have comments back by end
-of day Friday.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+Includes CVE-2022-0696, CVE-2022-0714, CVE-2022-0729.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3344
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0d29988958e48534a0076307bb2393a3c1309e03)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 604146a242c3d5f5a9872bb756910f4bd1b58406:
-
-  sstate: inside the threadedpool don't write to the shared localdata (2022-03-07 07:05:33 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Bruce Ashfield (1):
-  perf-tests: add bash into RDEPENDS (v5.12-rc5+)
-
-Richard Purdie (1):
-  vim: Update to 8.2.4524 for further CVE fixes
-
-sana kazi (1):
-  tiff: Add backports for two CVEs from upstream
-
- meta/recipes-kernel/perf/perf.bb              |  2 +-
- ...99c99f987dc32ae110370cfdd7df7975586b.patch | 28 +++++++++++++++++
- ...0712f4c3a5b449f70c57988260a667ddbdef.patch | 30 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  2 ++
- meta/recipes-support/vim/vim.inc              |  4 +--
- 5 files changed, 63 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 838f7b7a53..b3c471225e 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
+ 
+-PV .= ".4424"
+-SRCREV = "cdf717283ca70b18f20b8a2cefe7957083280c6f"
++PV .= ".4524"
++SRCREV = "d8f8629b1bf566e1dada7515e9b146c69e5d9757"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.25.1
 
