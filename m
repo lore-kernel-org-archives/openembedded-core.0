@@ -1,88 +1,108 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86298C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 14:01:29 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.9505.1646920888612608024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC270C433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 14:04:19 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web08.9682.1646921058684915991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 06:01:29 -0800
+ Thu, 10 Mar 2022 06:04:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=q/jy4F4N;
- spf=pass (domain: burtonini.com, ip: 209.85.221.53,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f53.google.com with SMTP id u10so8107535wra.9
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=mVQxhQwc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id n2so4974173plf.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 06:01:28 -0800 (PST)
+ Thu, 10 Mar 2022 06:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6bDygtsV5LuWF+Xdac5MMLypgSbLHRIuhFlb3CNJ1Yc=;
-        b=q/jy4F4Npjwlx2+x25tUFAn5bAo+L696BC32Dqt4tdvLNTDvi06gz5wyq/wjHsnTbm
-         uu5gLTMMWwU9qk430fMxW1s2J5O94/YlQzZCUALwqQJeKCOp+CqUjz5uxd5fWFLRVGKl
-         Or7NTIlbGOs9gYw8sLpzLto7ceJi0WMLa9EKSoUvpxI9XYBq563/ks+aneMFCQzoacko
-         GwaAT/OmIe8lPL20yfVPhBFzBL0MDBhdrPzrbts7HociSVhsYDRX+KfmyW2zUUWXHt/x
-         lq+lN68RCicmQEEtx2TnNXqTJn7PzluUlcbh6kmUYqhlgy/sH9Lw6NvP9tc1TgZ8PL+v
-         maJQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HPj8cJu2rR1dsZuyMO+Na4AisnthZigzpwRNSTsGNms=;
+        b=mVQxhQwcSicYzVNDkxoq00rFejTYNUWNZ0t2D6dW2P2mHNSFsbMQXOiPcM8EifR0e0
+         7u6OHARGEfnyOvL85N8k7CDr5os4cET6Rf3LHzShSRg+edPqhW1r+ql0Puv2fowSKzyF
+         nO5XXxMArau1KhUyFACsWzckRTs/XwEzEJFgyRio9SS9gx7F0W+6yreKbBUX8AGRNh4a
+         1z7p8dNa0uQlCxLVZ13og/y8el3evUt9FQ4bXvx+ah5fR8/y+lnmWjUDkzF28lLw6QmX
+         7vg4mxmrbFQdNWBWHWX7aSY67y1yfKgiy02J4g3DYpBGXunQqFLzFBIt6zoNxnqEgBlB
+         U29Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6bDygtsV5LuWF+Xdac5MMLypgSbLHRIuhFlb3CNJ1Yc=;
-        b=MPeXsnyPu5jyccAe1PZDCedh3/qZ/DIBTANMy9/OeOtcy+/qIktq9g9yE286IlgamW
-         LhyGntA/GpjjKfdzobZG6I7dWwu9nnHGKEqp64UBmZEjXdXlb1e/Bu+ble5fhbWtPzP9
-         TabGHiLlurLba6zs3wZ3GmtGc/4d9jQ3e3zg66HFn6k0sU1lEQQT0vUCy/w1quPGUb72
-         4nq87/XYV/VKFJRdz/tShAo/7jgSHI5ofoy5+b61HrEf3R4QaZ1Q98914Yq5WhhgBtXV
-         F2KdcnEzZBeAUCRdV75tbWl2Vbc/IY4+CdLTQesnB9RPYT8fMj42AS0mpGXUL3pR01MV
-         5pEg==
-X-Gm-Message-State: AOAM532opjqa/lCKmIfVIHB051FmfEe2r3zIxytm4l2IVhGkxiYmOXQX
-	FOJo6KmRLxG3l22e2CSZx1PpD2Ln0Vj/FJuKNa1rYA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HPj8cJu2rR1dsZuyMO+Na4AisnthZigzpwRNSTsGNms=;
+        b=IIlrVbrlqJpIa7BA3opmqeKWo6iwxdg/1Go61+qWPcFnWVYIEKAJzt0+cOc/3SRiHQ
+         Tpkk/brxFPLPVoYIgJgF7XjLfEAST4QLFTrjZKw5cfhJ9GUdcoWUQhBLlnHVlAFD/jrV
+         2WRIP2wzyLI9zSLAC9H3MinCyfYomJ96AtckvxEo2H6MMjfpI6BfTMRMGCTUrd9GLPBs
+         DnG6xI52viUs7Gj6IRmbSNEmUbfRPuzpp5amWAqy598KVu+1Yp8aSlOjVWrpJYyaDSCq
+         kDTNKd3s1sHjRQQXtqPXg1w7EOlQNGwN4C1Jvb/B1t9ed0cd/nmi4gxBoDksVjes2G50
+         xBOA==
+X-Gm-Message-State: AOAM532liJ6KQU8mHF17/hEy9e2/7Slz41u6UDg+re/YaAA6DdiLOeo2
+	0Axm11GQ3+hkroKY+qfc4ZdRol47gAOYvzeSFDg=
 X-Google-Smtp-Source: 
- ABdhPJxJjmTvtLjZZ72EhTvdfFJC5GB4p678UVJC67+oAEgoAK0Oxd1OXekM4rwTLHThOVdWdqY8lfFh6eq+x2MUjdg=
-X-Received: by 2002:a5d:5918:0:b0:1f0:3295:f4ec with SMTP id
- v24-20020a5d5918000000b001f03295f4ecmr3618455wrd.451.1646920886774; Thu, 10
- Mar 2022 06:01:26 -0800 (PST)
+ ABdhPJzzSAwUXDMMCzURqWT6TmuCmTLwbcL5jB6BrvtifHDALfSysznbIuqbjG0wiDLwa/d62+i8Nw==
+X-Received: by 2002:a17:90a:3d44:b0:1bf:584d:7fa with SMTP id
+ o4-20020a17090a3d4400b001bf584d07famr5144306pjf.217.1646921057197;
+        Thu, 10 Mar 2022 06:04:17 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ d11-20020a056a00198b00b004dfc6b023b2sm7291927pfl.41.2022.03.10.06.04.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Mar 2022 06:04:16 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/3] Patch review
+Date: Thu, 10 Mar 2022 04:04:01 -1000
+Message-Id: <cover.1646881254.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220310114035.2226442-1-ross.burton@arm.com>
- <AM9PR09MB4642CA1CCF4C29F109985C76A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB4642CA1CCF4C29F109985C76A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 10 Mar 2022 14:01:15 +0000
-Message-ID: 
- <CAAnfSTuga12XF0fDUAgpm0u0ryh4=L7f2bn4VHmiArusSo=hQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] pip_install_wheel: add a generic do_install
- for bootstrapping
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 14:01:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 14:04:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163023
+ https://lists.openembedded.org/g/openembedded-core/message/163024
 
-On Thu, 10 Mar 2022 at 11:48, Konrad Weihmann <kweihmann@outlook.com> wrote:
-> > +pip_install_wheel_do_bootstrap_install () {
-> > +    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> > +    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PIP_INSTALL_DIST_PATH}/*.whl
-> > +}
->
-> I think these two lines could be moved into a generic do_install:native
-> - and then removing all the override code from the recipes below.
+Please review this set of patches for dunfell and have comments back by end
+of day Friday.
 
-There's only a few recipes which need this bootstrap, 99% of native
-recipes can use pip: it's just flit_core/pip/setuptools/wheel which
-can't as they're needed to build pip itself.
+Passed a-full on autobuilder:
 
-(and once installer is used instead of pip, it's just installer and flit_core)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3344
 
-I may send a v2 to this, as we should be byte-compiling the bootstrap code too.
+The following changes since commit 604146a242c3d5f5a9872bb756910f4bd1b58406:
 
-Ross
+  sstate: inside the threadedpool don't write to the shared localdata (2022-03-07 07:05:33 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (1):
+  perf-tests: add bash into RDEPENDS (v5.12-rc5+)
+
+Richard Purdie (1):
+  vim: Update to 8.2.4524 for further CVE fixes
+
+sana kazi (1):
+  tiff: Add backports for two CVEs from upstream
+
+ meta/recipes-kernel/perf/perf.bb              |  2 +-
+ ...99c99f987dc32ae110370cfdd7df7975586b.patch | 28 +++++++++++++++++
+ ...0712f4c3a5b449f70c57988260a667ddbdef.patch | 30 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  2 ++
+ meta/recipes-support/vim/vim.inc              |  4 +--
+ 5 files changed, 63 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
+
+-- 
+2.25.1
+
 
