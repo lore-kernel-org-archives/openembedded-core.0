@@ -2,151 +2,142 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 552B5C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 01:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B57C433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 01:42:38 +0000 (UTC)
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by mx.groups.io with SMTP id smtpd.web12.4855.1646876083852487315
+ by mx.groups.io with SMTP id smtpd.web10.4909.1646876556851747821
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 17:34:45 -0800
+ Wed, 09 Mar 2022 17:42:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=NTXFevz9;
+ header.b=Og/m+nC/;
  spf=pass (domain: intel.com, ip: 134.134.136.126,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646876083; x=1678412083;
+  t=1646876556; x=1678412556;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=GIc7i4azlk/h/ZiwDWHLwRsaaZ99Wi49qHzUaX/8ccs=;
-  b=NTXFevz92XhPgiYln0ei3eOFzDAbyOKxqfXubSTZUpHkn9VP+wTZy/QK
-   HEVkVg7znTt4JxIsW+vj+CoVcEltluoQTZ9FQquBof0/UKU/edfYiKjCs
-   I5v3Tz6KV99d411pfz9lweYTpVj16nH5rNikDNSGox7757NNwKWigVCZv
-   X+9i2sPoujLCoyzL5oviLGeKm6RrcXpyVgEJr/I4RHLwUjaG0YXOJiv4d
-   JDVQhHycu80S5JIOYLQXweXLnbgAFxFhmTZKF5VyO9myolQnktVYvJNYZ
-   cQ9vsJXO3qUdnpBQtBPrARZoFRhz2MrvZW1Y7m84ruUY9K9hF2HgOxNJ4
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="237302141"
+  bh=ac6S5+DDkKn/qU4T+MOwx5C3cn9TvLdafLQ1H+7k4+g=;
+  b=Og/m+nC/j8NITwPXLJGtLLWkdVPS+2karW21LGWJbc/9YxAZp1sgD6oB
+   0LQFICCIp/TB9G79BFNAZHhOZhSF+sU1Wi3ulwW56vyzh97Db9Y2qnwio
+   Fc0t6Q6iQ+IzSjkbRIIXQEoU8TNWlx0LntlLRms6u2iTPQzwWFtm5cU9W
+   iwyi5Y7AzBmrONKuo+xdyO9t/m+n/OMVXMiPDrIq/XZAphMZlMe6X+n1T
+   0iKZu4GMS5TrDEiKxyP/cJZsM+ELIukcUo23bz1OTJBl/9ISZTlzZ8D6C
+   OV2vqKXMrgeYbTwJQLxtVvLz8AHpRwKNSaw/kP/nZhIFT+j7GJubAVFHT
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="237303811"
 X-IronPort-AV: E=Sophos;i="5.90,169,1643702400";
-   d="scan'208";a="237302141"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+   d="scan'208";a="237303811"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 17:34:42 -0800
+ 09 Mar 2022 17:42:36 -0800
 X-IronPort-AV: E=Sophos;i="5.90,169,1643702400";
-   d="scan'208";a="781290216"
+   d="scan'208";a="596489746"
 Received: from jeffreyy-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.231.125])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 17:34:40 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 17:42:34 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/25] Pull request (cover letter only)
-Date: Thu, 10 Mar 2022 09:34:36 +0800
-Message-Id: <cover.1646875963.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 00/15] Pull request (cover letter only)
+Date: Thu, 10 Mar 2022 09:42:26 +0800
+Message-Id: <cover.1646876220.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 01:34:45 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 01:42:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162998
+ https://lists.openembedded.org/g/openembedded-core/message/162999
 
-The following changes since commit eeae63c343c8ebd418679915ee20aa8c02fa0fdc:
+The following changes since commit 94db7109f21cdefd50baea5660b691e5fe44a0d1:
 
-  uninative: Upgrade to 3.5 (2022-02-22 14:22:25 +0800)
+  scripts/buildhistory-diff: drop use of distutils (2022-02-25 22:14:02 +0800)
 
 are available in the Git repository at:
 
-  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
+  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
 
-Alexander Kanavin (3):
-  ruby: update 3.0.2 -> 3.0.3
-  libarchive: upgrade 3.5.1 -> 3.5.2
-  devtool: explicitly set main or master branches in upgrades when
-    available
+Anuj Mittal (1):
+  lttng-modules: upgrade 2.12.6 -> 2.12.7
 
-Bruce Ashfield (4):
+Bruce Ashfield (6):
+  linux-yocto/5.10: ppc/riscv: fix build with binutils 2.3.8
+  linux-yocto/5.10: fix dssall build error with binutils 2.3.8
   linux-yocto/5.10: features/zram: remove CONFIG_ZRAM_DEF_COMP
   linux-yocto/5.10: update to v5.10.101
   linux-yocto/5.10: Fix ramoops/ftrace
   linux-yocto/5.10: update to v5.10.103
 
-Joe Slater (1):
-  zip: modify when match.S is built
+Changqing Li (1):
+  unfs3: correct configure option
 
-Lee Chee Yang (2):
-  libarchive : update to 3.5.3
+Lee Chee Yang (1):
+  ruby : update to 3.0.3
+
+Minjae Kim (1):
   ghostscript: fix CVE-2021-45949
-
-Oleksandr Ocheretnyi (1):
-  kernel-devsrc: do not copy Module.symvers file during install
-
-Oleksandr Suvorov (1):
-  depmodwrapper-cross: add config directory option
 
 Peter Kjellerstedt (1):
   selftest: recipetool: Correct the URI for socat
 
-Richard Purdie (3):
-  perl: Improve and update module RPDEPENDS
-  libxml-parser-perl: Add missing RDEPENDS
-  expat: Upgrade 2.4.6 -> 2.4.7
+Richard Purdie (1):
+  libgcrypt: Upgrade 1.9.3 -> 1.9.4
 
-Robert Yang (2):
-  quilt: Disable external sendmail for deterministic build
-  cups: Add --with-dbusdir to EXTRA_OECONF for deterministic build
-
-Ross Burton (4):
-  coreutils: remove obsolete ignored CVE list
-  cve-check: get_cve_info should open the database read-only
-  Revert "cve-check: add lockfile to task"
+Ross Burton (1):
   asciidoc: update git repository
 
-Tean Cunningham (1):
-  rootfs-postcommands: amend systemd_create_users add user to group
-    check
+Sakib Sajal (1):
+  go: upgrade 1.16.13 -> 1.16.14
 
-wangmy (2):
-  harfbuzz: upgrade 2.9.0 -> 2.9.1
+wangmy (1):
   wireless-regdb: upgrade 2021.08.28 -> 2022.02.18
 
- meta/classes/cve-check.bbclass                |   4 +-
- meta/classes/rootfs-postcommands.bbclass      |   8 +-
  meta/lib/oeqa/selftest/cases/recipetool.py    |   2 +-
- meta/recipes-core/coreutils/coreutils_8.32.bb |   3 -
- .../expat/{expat_2.4.6.bb => expat_2.4.7.bb}  |   2 +-
- .../perl/files/perl-rdepends.txt              | 338 ++++++++++++++++--
- .../perl/libxml-parser-perl_2.46.bb           |   1 +
- meta/recipes-devtools/perl/perl_5.34.0.bb     |  12 +-
- meta/recipes-devtools/quilt/quilt.inc         |   3 +-
- .../ruby/{ruby_3.0.2.bb => ruby_3.0.3.bb}     |   4 +-
+ .../go/{go-1.16.13.inc => go-1.16.14.inc}     |   4 +-
+ ...1.16.13.bb => go-binary-native_1.16.14.bb} |   4 +-
+ ....16.13.bb => go-cross-canadian_1.16.14.bb} |   0
+ ...o-cross_1.16.13.bb => go-cross_1.16.14.bb} |   0
+ ...ssdk_1.16.13.bb => go-crosssdk_1.16.14.bb} |   0
+ ...native_1.16.13.bb => go-native_1.16.14.bb} |   0
+ ...ntime_1.16.13.bb => go-runtime_1.16.14.bb} |   0
+ .../go/{go_1.16.13.bb => go_1.16.14.bb}       |   0
+ .../ruby/ruby/CVE-2021-31799.patch            |  57 ----
+ .../ruby/ruby/CVE-2021-31810.patch            | 258 ------------------
+ .../ruby/ruby/CVE-2021-32066.patch            | 102 -------
+ .../ruby/{ruby_3.0.1.bb => ruby_3.0.3.bb}     |   7 +-
+ meta/recipes-devtools/unfs3/unfs3_git.bb      |   2 +-
  .../asciidoc/asciidoc_9.1.0.bb                |   2 +-
- meta/recipes-extended/cups/cups.inc           |   1 +
- .../ghostscript/CVE-2021-45949.patch          |  68 ++++
- .../ghostscript/ghostscript_9.54.0.bb         |   1 +
- ...ibarchive_3.5.1.bb => libarchive_3.5.3.bb} |   2 +-
- .../0001-configure-use-correct-CPP.patch      |  47 +++
- ...002-configure-support-PIC-code-build.patch |  34 ++
- meta/recipes-extended/zip/zip_3.0.bb          |   2 +
- .../{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb}  |   2 +-
- .../kmod/depmodwrapper-cross_1.0.bb           |   4 +-
- meta/recipes-kernel/linux/kernel-devsrc.bb    |   4 +-
+ .../ghostscript/CVE-2021-45949.patch          |  65 +++++
+ ...tack-limits-after-function-evalution.patch |  51 ++++
+ .../ghostscript/ghostscript_9.53.3.bb         |   2 +
  .../linux/linux-yocto-rt_5.10.bb              |   6 +-
  .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
  meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ ...ules_2.12.6.bb => lttng-modules_2.12.7.bb} |   2 +-
  ....08.28.bb => wireless-regdb_2022.02.18.bb} |   2 +-
- scripts/lib/devtool/upgrade.py                |  15 +-
- 26 files changed, 526 insertions(+), 73 deletions(-)
- rename meta/recipes-core/expat/{expat_2.4.6.bb => expat_2.4.7.bb} (91%)
- rename meta/recipes-devtools/ruby/{ruby_3.0.2.bb => ruby_3.0.3.bb} (93%)
+ ...{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} |   2 +-
+ 24 files changed, 148 insertions(+), 452 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.16.13.inc => go-1.16.14.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.16.13.bb => go-binary-native_1.16.14.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.16.13.bb => go-cross-canadian_1.16.14.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.16.13.bb => go-cross_1.16.14.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.16.13.bb => go-crosssdk_1.16.14.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.16.13.bb => go-native_1.16.14.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.16.13.bb => go-runtime_1.16.14.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.16.13.bb => go_1.16.14.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31799.patch
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-31810.patch
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-32066.patch
+ rename meta/recipes-devtools/ruby/{ruby_3.0.1.bb => ruby_3.0.3.bb} (90%)
  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-45949.patch
- rename meta/recipes-extended/libarchive/{libarchive_3.5.1.bb => libarchive_3.5.3.bb} (96%)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.9.0.bb => harfbuzz_2.9.1.bb} (95%)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/check-stack-limits-after-function-evalution.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.12.6.bb => lttng-modules_2.12.7.bb} (94%)
  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2021.08.28.bb => wireless-regdb_2022.02.18.bb} (94%)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.3.bb => libgcrypt_1.9.4.bb} (96%)
 
 -- 
 2.35.1
