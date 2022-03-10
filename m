@@ -2,177 +2,135 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735EAC433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 07:36:07 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web11.6948.1646897766544624705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB99C433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 07:53:39 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web08.7175.1646898817837433770
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 23:36:06 -0800
+ Wed, 09 Mar 2022 23:53:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KnkTfu5d;
- spf=pass (domain: gmail.com, ip: 209.85.222.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nswpdk1/;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f173.google.com with SMTP id b67so3762383qkc.6
+Received: by mail-pg1-f175.google.com with SMTP id t14so4071472pgr.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 23:36:06 -0800 (PST)
+ Wed, 09 Mar 2022 23:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nbZ6XXw4dI7WGoVOvMk2qAEyOD4wijPnnqVOYh9c5WI=;
-        b=KnkTfu5dYVi/2Xbrp0ITxrgo/uYBKnkEPerpvS8fu5i3Zn/rqOfv4ZUTP2GI9U3hXh
-         y+/V40YlutYmWBbYU4xyl1BGznnGBaXc8to++WpJ9LG/TvPEBuGizdiAPkpEMillEOir
-         fNHUooQgGybMiVr9Ha41ui+cRHUUDaUdAcLaEdT5xU1yQsqFVSr7lx78ztsHq2F6zk8Z
-         7E0xqnYVObGMbs4U8cpcglfMEk/6nOB6z4ZI4yM67QfVWV8iXV4ftitF1/ARE8/l+/CC
-         osQj9Dm2mr/vpuNtJmaD0ALO3LuGBIp9jDengQzAnxTlXQ0BSZ19KbwnO3TKzUzTDiTf
-         gDwA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Msa0305MdT+Xj+z5725ZV/wiAoondBJD1dH7/p64URc=;
+        b=nswpdk1/IS6pEpSoC/Ts5dEhLlZUyVnYhWybenZW+nnKgrCBgrmhW1XZ7AxfQiggGQ
+         xZBJdlsasUomV9kdN7DEAilnVamPyVvPqGPCIqIuKXpDeEat478jTmetmiDylDdone3T
+         R+oVlyTKn0AowfGCczLyyi/fkoP+2xdB99cV1PCvVIHvShbLMADzODDYguBWr56bhxvi
+         rERjac3xrFxaMOLT8vcq9Z6G3EYDSlLPSOdg8nbhYlH2dVnaid5AJcudCow0vv3fx2sR
+         VTunkBFzw5ydKY4/huh3uGRx6dxqDrF0f8qw2deTnrF/unAgED6YvcOpSHmZ288XLTch
+         ZnbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nbZ6XXw4dI7WGoVOvMk2qAEyOD4wijPnnqVOYh9c5WI=;
-        b=E5398cLyRCLP2SduBhfpkYYOwrC8FPVzQQw6+Zz/o2Hy1Ux9RHJK8O5KZni1ySGHEv
-         KyUFjN6nZKEIPksRAxAexT3Sb7zDqdzt0/CRAXXDMBfY7t0ki5maDv6bd0C4tqJi0B6+
-         RxxUPxu8+vI9BkRuYPb1MD6PwV8lhgD4QYOl9rRkJNDj8KQ9TpmQ2umkuNoBv5VYWjXb
-         pCM1ECY/0KWBEJ8hq/m+nQ31ZsofqnXAJQCG7WCXEo4Mg3tG0m5SHh860CwDmGJ2bYj6
-         saHBbXlxc02vP7C1U1kF7Zu/fLIfk1SYTj6A3NKhKG+Y1OqMP/TfQ3qlGNYiPEzN2eDE
-         iiOQ==
-X-Gm-Message-State: AOAM530g3yxFqnpwFESgVY5/I5MRS+siAUtycHZiey+oxb0c7+0uhUIf
-	uDWRJlkD4cHfPJ7NifAdvLoh0bSfOdT1rmfRU+8=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Msa0305MdT+Xj+z5725ZV/wiAoondBJD1dH7/p64URc=;
+        b=FGOEuNVKNIXldLj6/J2nWhMvyPS/YoCm/yctmOEONiKO91NEFxcS/5GEzcn/rSm2+z
+         MZgCp6FOO6jqSFR2csWwLhpVx6jp7ncgpEefYIIhhYWmuyqPRez8qzLxSielGEd4Gum2
+         yjEthvQ4xpOSJoDwxyyUp4SX6O0YjMtVb2sYxpHIPDLOkYZ5Xbo5BMGLn7Au6bqhq02F
+         rCEx9MG1aH8N6y8HF9qp1PO1zDT/YDGJo65XEfP4IJTLYg3P1ehixlTjnA+o7SyUjr/y
+         lOJE9OJS5QniXcccUl2xIF1SSkxma3ziUgDW9qVqjYnicux8Sa/mV7f1H7Wt/b7nhzuL
+         V2Ew==
+X-Gm-Message-State: AOAM531NdiqUxb/Z1neXL9sl3WS5ljg6fPWn+gy+EJz1oVk9KyPe2HRD
+	tcrngbrGnHWn0JJ6peTEvcuKYhpdtz+ksA==
 X-Google-Smtp-Source: 
- ABdhPJyfShowoxzA4pLv4aJK0h9F9dXXh7sWGjOE4oPPn6JElfUFYKEebWMtZ/2G1K93TucIgzLdnAQKBSK7TspCfuc=
-X-Received: by 2002:a05:620a:372c:b0:67a:de08:875e with SMTP id
- de44-20020a05620a372c00b0067ade08875emr2226407qkb.149.1646897765394; Wed, 09
- Mar 2022 23:36:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20220310043116.476846-1-raj.khem@gmail.com>
- <CANNYZj9FP0yZnKHGQv6CTv4CqAFsh2GUqSP5ni=2hRzjWe3H8A@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9FP0yZnKHGQv6CTv4CqAFsh2GUqSP5ni=2hRzjWe3H8A@mail.gmail.com>
+ ABdhPJxP1aXhsH4PGsVk1Gzb3fs6nLaivmRFuOMiv+CGHMR2htwyplkL9WJgSIfxAQwDrdsGlQpMzg==
+X-Received: by 2002:a63:7502:0:b0:37f:f089:7d56 with SMTP id
+ q2-20020a637502000000b0037ff0897d56mr2993915pgc.531.1646898817076;
+        Wed, 09 Mar 2022 23:53:37 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::ff3d])
+        by smtp.gmail.com with ESMTPSA id
+ o13-20020a17090a3d4d00b001bf7d65f1e2sm4906830pjf.3.2022.03.09.23.53.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 23:53:36 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Mar 2022 23:35:39 -0800
-Message-ID: 
- <CAMKF1sptSfuJf0Uii==eSH-Yd+UH0_ZqUGvdj4Mhh5xEe+RFSw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] m4: Fix build on musl/ppc
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] m4: Fix build on musl/ppc
+Date: Wed,  9 Mar 2022 23:53:34 -0800
+Message-Id: <20220310075334.3060973-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 07:36:07 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 07:53:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163002
+ https://lists.openembedded.org/g/openembedded-core/message/163003
 
-On Wed, Mar 9, 2022 at 10:27 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Submit upstream first please :)
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Update patch status
 
-its already sent but it has not appeared on ml yet since I am not
-subscribed to m4 ml I guess.
+ meta/recipes-devtools/m4/m4-1.4.19.inc        |  1 +
+ .../0001-sigsegv-Fix-build-on-ppc-musl.patch  | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
 
->
-> Ale
->
-> On Thu 10. Mar 2022 at 5.31, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-devtools/m4/m4-1.4.19.inc        |  1 +
->>  .../0001-sigsegv-Fix-build-on-ppc-musl.patch  | 37 +++++++++++++++++++
->>  2 files changed, 38 insertions(+)
->>  create mode 100644 meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-o=
-n-ppc-musl.patch
->>
->> diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devto=
-ols/m4/m4-1.4.19.inc
->> index 2785a3d22cd..2adf4de6f2f 100644
->> --- a/meta/recipes-devtools/m4/m4-1.4.19.inc
->> +++ b/meta/recipes-devtools/m4/m4-1.4.19.inc
->> @@ -8,6 +8,7 @@ inherit autotools texinfo ptest gettext
->>
->>  SRC_URI =3D "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
->>             file://ac_config_links.patch \
->> +           file://0001-sigsegv-Fix-build-on-ppc-musl.patch \
->>             "
->>  SRC_URI:append:class-target =3D " file://run-ptest \
->>                                  file://serial-tests-config.patch \
->> diff --git a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-m=
-usl.patch b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.=
-patch
->> new file mode 100644
->> index 00000000000..8f2ad81c0c5
->> --- /dev/null
->> +++ b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.pat=
-ch
->> @@ -0,0 +1,37 @@
->> +From 36d5e26f606e070553eb0fff1f738e61970be5d7 Mon Sep 17 00:00:00 2001
->> +From: Khem Raj <raj.khem@gmail.com>
->> +Date: Wed, 9 Mar 2022 20:22:20 -0800
->> +Subject: [PATCH] sigsegv: Fix build on ppc/musl
->> +
->> +mcontext is not a standard layout so glibc and musl differ sadly.
->> +
->> +Fixes
->> +../../m4-1.4.19/lib/sigsegv.c: In function 'sigsegv_handler':          =
-                                                                           =
-                                          ../../m4-1.4.19/lib/sigsegv.c:223=
-:75: error: 'mcontext_t' has no member named 'uc_regs'; did you mean 'gregs=
-'?                                                                         =
-       223 | #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->=
-uc_mcontext.uc_regs->gregs[1]                                              =
-                                                 |                         =
-                                                  ^~~~~~~
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +---
->> + lib/sigsegv.c | 6 +++---
->> + 1 file changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/lib/sigsegv.c b/lib/sigsegv.c
->> +index 696a152..fa0c465 100644
->> +--- a/lib/sigsegv.c
->> ++++ b/lib/sigsegv.c
->> +@@ -217,10 +217,10 @@ int libsigsegv_version =3D LIBSIGSEGV_VERSION;
->> + #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mconte=
-xt.gp_regs[1]
->> + #  else /* 32-bit */
->> + /* both should be equivalent */
->> +-#   if 0
->> +-#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcont=
-ext.regs->gpr[1]
->> ++#   if ! defined __GLIBC__
->> ++#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_reg=
-s->gregs[1]
->> + #   else
->> +-#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcont=
-ext.uc_regs->gregs[1]
->> ++#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mco=
-ntext.uc_regs->gregs[1]
->> + #   endif
->> + #  endif
->> +
->> +--
->> +2.35.1
->> +
->> --
->> 2.35.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#163000): https://lists.openembedded.org/g/openembedd=
-ed-core/message/163000
->> Mute This Topic: https://lists.openembedded.org/mt/89680211/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a=
-lex.kanavin@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+diff --git a/meta/recipes-devtools/m4/m4-1.4.19.inc b/meta/recipes-devtools/m4/m4-1.4.19.inc
+index 2785a3d22cd..2adf4de6f2f 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.19.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.19.inc
+@@ -8,6 +8,7 @@ inherit autotools texinfo ptest gettext
+ 
+ SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
+            file://ac_config_links.patch \
++           file://0001-sigsegv-Fix-build-on-ppc-musl.patch \
+            "
+ SRC_URI:append:class-target = " file://run-ptest \
+                                 file://serial-tests-config.patch \
+diff --git a/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
+new file mode 100644
+index 00000000000..04320de63a2
+--- /dev/null
++++ b/meta/recipes-devtools/m4/m4/0001-sigsegv-Fix-build-on-ppc-musl.patch
+@@ -0,0 +1,37 @@
++From 36d5e26f606e070553eb0fff1f738e61970be5d7 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 9 Mar 2022 20:22:20 -0800
++Subject: [PATCH] sigsegv: Fix build on ppc/musl
++
++mcontext is not a standard layout so glibc and musl differ sadly.
++
++Fixes
++../../m4-1.4.19/lib/sigsegv.c: In function 'sigsegv_handler':                                                                                                                               ../../m4-1.4.19/lib/sigsegv.c:223:75: error: 'mcontext_t' has no member named 'uc_regs'; did you mean 'gregs'?                                                                                223 | #    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]                                                                                               |                                                                           ^~~~~~~
++
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/m4-patches/2022-03/msg00000.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/sigsegv.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/lib/sigsegv.c b/lib/sigsegv.c
++index 696a152..fa0c465 100644
++--- a/lib/sigsegv.c
+++++ b/lib/sigsegv.c
++@@ -217,10 +217,10 @@ int libsigsegv_version = LIBSIGSEGV_VERSION;
++ #   define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.gp_regs[1]
++ #  else /* 32-bit */
++ /* both should be equivalent */
++-#   if 0
++-#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.regs->gpr[1]
+++#   if ! defined __GLIBC__
+++#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_regs->gregs[1]
++ #   else
++-#    define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
+++#      define SIGSEGV_FAULT_STACKPOINTER  ((ucontext_t *) ucp)->uc_mcontext.uc_regs->gregs[1]
++ #   endif
++ #  endif
++ 
++-- 
++2.35.1
++
+-- 
+2.35.1
+
 
