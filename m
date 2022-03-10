@@ -2,69 +2,71 @@ Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 943D2C433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 18:32:56 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web08.362.1646937175011549094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB481C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 19:00:30 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.704.1646938829401952067
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 10:32:55 -0800
+ Thu, 10 Mar 2022 11:00:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=x3w5ogng;
- spf=pass (domain: linaro.org, ip: 209.85.222.177,
+ dkim=pass header.i=@linaro.org header.s=google header.b=yQ0MIYSE;
+ spf=pass (domain: linaro.org, ip: 209.85.160.169,
  mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qk1-f177.google.com with SMTP id q194so5137066qke.5
+Received: by mail-qt1-f169.google.com with SMTP id a1so5412725qta.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 10:32:54 -0800 (PST)
+ Thu, 10 Mar 2022 11:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ubDoPNaTfirYdb/Nno7TmELVWzjVfRHl/w6oJs9M/Ps=;
-        b=x3w5ognggtbqvUkObCqVGeg/lJl+BRf2wAXodCLF1+aBsk8wleo7j361IXL4LWoGcA
-         2KJ6ZBO+atWWerkEpXkJmuX7z0YDIt9YSkXE9jD6zT8kBwq+WFuWqX/9C/8XFptNPgfy
-         NAnPlKFC0NoidKk+MS18VAdYdZc88gcMxgR4kwIXxqKB32U6vdDnRKy1f2+xKL0VrvDY
-         OSrJGvhOq0fATzMviLkQ7mJrzJL4qwol9zLx3cOCMU7RnlGWVz7RATTwu6kf+l54sb6h
-         nFAugIJGakxGUCsL150vkKalDDSjgoPZSY0iAbNgGHctotw1BGuP3cvwq5mPT8i+6ay+
-         oXUg==
+        bh=KIb/snM2MSOUyTV+nImf79//gcq/u4lU6gPX9QCg6fM=;
+        b=yQ0MIYSEuVraepjZ/lytOBS9hz2OvUGwdyxSpXgJTXPGWGytGrtuK6gS6y6eXUVau3
+         CUhU328Ih2o3JD6nCjEnIdWDXdVHAK2mxZGxm+GlXbXGwje71QK4bqm3X0a8Sy8qf4/S
+         nXPKjADZCF60Y+YCqfRySc9NWasNFGXcutU9wCdxDuxRbxkGjOy7t+UJjmoPs59MhA7f
+         az/2Cl2v+OoXIngFOWK30dTVt0EMTMV2Aaq9qvRwcpWJnIxF7qzeia5DEv/VtDWrel6A
+         4WWBdRgEnFLKfAxkGBpxiEpIPZfBKijqObT7fCK0BdeGSjlxt8k+4CJJTk+p/22eP/RC
+         GhCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ubDoPNaTfirYdb/Nno7TmELVWzjVfRHl/w6oJs9M/Ps=;
-        b=dAUPHMKEjuIDqKZTKix/XuBa+P/7FSbhohGagau5URDWpCqtCmpuYslATgDu55NgRL
-         2GkXFlk9I9mCh+j5nAnNEpywsfgC/BPP8dwydBMntusrCILmQKt8oKUw+aqakX6yVcRd
-         MW6x2D3RMPV/pP+CPoLAXjQUaq1jjl68jiKnQ5tDgntzFK7Qk1+A3b4KQlOQo8XNeW6h
-         G5XRyTatfQrOU+4h6/wVZVHT07OF2UiGVATaxp4RIEVRcWKHFXOx+SfC8DKrXiBqnq8E
-         Z1IiD6TBA37oer0pc2gNQLih/h7GAuOKPJQZPAJ9zl3Pu4Y7nsmSVoGmnJN8ClKswrVN
-         mvtA==
-X-Gm-Message-State: AOAM531u2+VblqOlImUbW3Gq8luCgSXMbvBKQzIYwU5dblAbnNOp/vcN
-	WzAe7WJWKTwY3DAzd3TAmxJRjerbd8rbFw==
+        bh=KIb/snM2MSOUyTV+nImf79//gcq/u4lU6gPX9QCg6fM=;
+        b=MJ+IEcty46sqhGDM/SaZip/9Q0Q8AXf46NH4qgCVJaIfi8vaBr8BYwh7eJLupWg/wv
+         lZ++JHpwrmXps1W0PzScGdIDdG8nO6mtt8tSy9NWCTluBXVrg8C2tQdcTan4fbt+f0im
+         OoWN5qiFr33fu0TbBEh1M240FFVEjEtjkNQAnhTauvjD7nIoyz6JEyyzZ9k3rJnWpFOI
+         qB2g9oBNKHAECnbdIScU3abfxzjvbaTc/YgktWhnHcCj1gWwjD/ndRXRdJpAB3g/uFz2
+         /kMHICRSbvzhnb/Dk21Z/Aqnc9HwgsTbbL8OgDR3Z4TFDJ8zx5Fr0GrURXB0Ui7QjrCU
+         IGGw==
+X-Gm-Message-State: AOAM532rRYwo4p8ZATjjH99feJxCS6Ak9Gl+EX8WxFE0NLqz7CvHxGFr
+	AgP8eheGuNZb1I28c+vNWNXcvpaTHPm40g==
 X-Google-Smtp-Source: 
- ABdhPJx9NGOtRttknQxn4+KcWSdSWvgEa8y0599FZAWTXxj8nmW9iBz5hcMr5u9vxbdxAiO+Fw7Ksg==
-X-Received: by 2002:a37:5d2:0:b0:67b:136a:3b1e with SMTP id
- 201-20020a3705d2000000b0067b136a3b1emr3991271qkf.169.1646937173977;
-        Thu, 10 Mar 2022 10:32:53 -0800 (PST)
+ ABdhPJylzdFcwNVeh3WWMhSpLErXF1m01IWSL1wBl1f3Q6/WYpkaUDbKkN3eXf/VzB8QHp9+VjGIig==
+X-Received: by 2002:a05:622a:1b8d:b0:2c6:59a9:360e with SMTP id
+ bp13-20020a05622a1b8d00b002c659a9360emr5187678qtb.678.1646938828457;
+        Thu, 10 Mar 2022 11:00:28 -0800 (PST)
 Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
         by smtp.gmail.com with ESMTPSA id
- bk41-20020a05620a1a2900b0067d4997c579sm1759518qkb.33.2022.03.10.10.32.53
+ a13-20020ac85b8d000000b002e1b2620a4dsm1395936qta.95.2022.03.10.11.00.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Mar 2022 10:32:53 -0800 (PST)
+        Thu, 10 Mar 2022 11:00:27 -0800 (PST)
 From: Ralph Siemsen <ralph.siemsen@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [dunfell][PATCH] bind: update to 9.11.36
-Date: Thu, 10 Mar 2022 13:32:34 -0500
-Message-Id: <20220310183234.608500-1-ralph.siemsen@linaro.org>
+Subject: [dunfell][PATCH v2] bind: update to 9.11.36
+Date: Thu, 10 Mar 2022 14:00:24 -0500
+Message-Id: <20220310190024.608965-1-ralph.siemsen@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 18:32:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 19:00:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163036
+ https://lists.openembedded.org/g/openembedded-core/message/163037
+
+Notes for BIND 9.11.36
 
 Security Fixes
 
@@ -84,7 +86,10 @@ ISC would like to thank Kishore Kumar Kothapalli of Infoblox for
 bringing this vulnerability to our attention. [GL #2899]
 
 Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
----
+--
+Changes from v1:
+  - commit message format adjusted to match previous updates
+
  .../bind/{bind_9.11.35.bb => bind_9.11.36.bb}                   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-connectivity/bind/{bind_9.11.35.bb => bind_9.11.36.bb} (98%)
