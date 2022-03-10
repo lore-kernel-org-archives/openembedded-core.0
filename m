@@ -1,159 +1,111 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D428C433F5
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 18:25:57 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.279.1646936755641477911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 943D2C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 18:32:56 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web08.362.1646937175011549094
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 10:25:56 -0800
+ Thu, 10 Mar 2022 10:32:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=wwB8fffq;
- spf=pass (domain: burtonini.com, ip: 209.85.128.48,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f48.google.com with SMTP id q20so3780914wmq.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=x3w5ogng;
+ spf=pass (domain: linaro.org, ip: 209.85.222.177,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qk1-f177.google.com with SMTP id q194so5137066qke.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 10:25:55 -0800 (PST)
+ Thu, 10 Mar 2022 10:32:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/Fflg4aBK+P9QBfybMCTYlF/+kIVTOtWwOEuz+Nr9bs=;
-        b=wwB8fffqnVyvSMM4/NQIwzAimlG6Uu4Axy22SsHtUsL/S3llRMoXVu7l6F91XLUFVI
-         1NXH09ZLr0h7kqmOtY/lDsWQVFHain8OUlFO/+vzrOzOqY2GJxNk9aJGwnCrhXtlzwAv
-         EA8dr2OwVkt4Y6GduwYVmKGOOJdkIq/CVUKRZrXvmCOXrBHhJMqflgQxrI0AlRcOekkM
-         ipKCn/NHO1XXSKW5/pYb2ZWcU2yJmHlfCAaM/l2l5SlV2K/O/hOcUuwfwm+cjtolPIHP
-         LSFDsarpfslFhzVqmyExw3k1aHDribZ5rP0bfb6NeCvzuyRS2KDFFfDBuJuM0yx+7Dee
-         9Wyg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ubDoPNaTfirYdb/Nno7TmELVWzjVfRHl/w6oJs9M/Ps=;
+        b=x3w5ognggtbqvUkObCqVGeg/lJl+BRf2wAXodCLF1+aBsk8wleo7j361IXL4LWoGcA
+         2KJ6ZBO+atWWerkEpXkJmuX7z0YDIt9YSkXE9jD6zT8kBwq+WFuWqX/9C/8XFptNPgfy
+         NAnPlKFC0NoidKk+MS18VAdYdZc88gcMxgR4kwIXxqKB32U6vdDnRKy1f2+xKL0VrvDY
+         OSrJGvhOq0fATzMviLkQ7mJrzJL4qwol9zLx3cOCMU7RnlGWVz7RATTwu6kf+l54sb6h
+         nFAugIJGakxGUCsL150vkKalDDSjgoPZSY0iAbNgGHctotw1BGuP3cvwq5mPT8i+6ay+
+         oXUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Fflg4aBK+P9QBfybMCTYlF/+kIVTOtWwOEuz+Nr9bs=;
-        b=Iptyc5ZyuSAJImMWIVPbSGhJExiCFWybs54TzNvRZxjii/GSGeg5tIscHMfzcxMcfB
-         GDBh6XFZMXuV+neuMtQ7Pj2fZclhoEGTJOERcyGfdoKlOB4PvZjM78nNedl8ga+elnfk
-         k9WdYz6t4NmSZ+0LK73HRxrnaLbMCPHJ/Xv/TLmP3GWwL80UyLPgBxz6JtND6ZOnBHPH
-         Dwl7B32HPTaDWhM0oqoCA3zsDtk3tlKvLwOxB0KUxiDesEj5Kj3s0PJZjyNSxHfMdZop
-         VRF1TMKQ1GU6OhWDgvcUoJC2Q938mnx1zYIEk2vAskif/U3HKaquB/3q824jXrutqI5l
-         yKVQ==
-X-Gm-Message-State: AOAM531/TJOqCQ/NrIQeJhyE4gH62lhlO2skeLT9OFQ74rUlIm6nbUR0
-	ymoa96434pPh/CRPMZVdabGfN8AX1qnoLipehv0AgA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ubDoPNaTfirYdb/Nno7TmELVWzjVfRHl/w6oJs9M/Ps=;
+        b=dAUPHMKEjuIDqKZTKix/XuBa+P/7FSbhohGagau5URDWpCqtCmpuYslATgDu55NgRL
+         2GkXFlk9I9mCh+j5nAnNEpywsfgC/BPP8dwydBMntusrCILmQKt8oKUw+aqakX6yVcRd
+         MW6x2D3RMPV/pP+CPoLAXjQUaq1jjl68jiKnQ5tDgntzFK7Qk1+A3b4KQlOQo8XNeW6h
+         G5XRyTatfQrOU+4h6/wVZVHT07OF2UiGVATaxp4RIEVRcWKHFXOx+SfC8DKrXiBqnq8E
+         Z1IiD6TBA37oer0pc2gNQLih/h7GAuOKPJQZPAJ9zl3Pu4Y7nsmSVoGmnJN8ClKswrVN
+         mvtA==
+X-Gm-Message-State: AOAM531u2+VblqOlImUbW3Gq8luCgSXMbvBKQzIYwU5dblAbnNOp/vcN
+	WzAe7WJWKTwY3DAzd3TAmxJRjerbd8rbFw==
 X-Google-Smtp-Source: 
- ABdhPJw7vrfbmTAJn5Chz4fJzP47q4a7EG6AONYXhI6nQS+vHnIQKAqn93YcZuMHEPUiP7vqS94cuYftnQZQrlkCuQI=
-X-Received: by 2002:a7b:c841:0:b0:389:864c:e715 with SMTP id
- c1-20020a7bc841000000b00389864ce715mr4600569wml.72.1646936753987; Thu, 10 Mar
- 2022 10:25:53 -0800 (PST)
+ ABdhPJx9NGOtRttknQxn4+KcWSdSWvgEa8y0599FZAWTXxj8nmW9iBz5hcMr5u9vxbdxAiO+Fw7Ksg==
+X-Received: by 2002:a37:5d2:0:b0:67b:136a:3b1e with SMTP id
+ 201-20020a3705d2000000b0067b136a3b1emr3991271qkf.169.1646937173977;
+        Thu, 10 Mar 2022 10:32:53 -0800 (PST)
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id
+ bk41-20020a05620a1a2900b0067d4997c579sm1759518qkb.33.2022.03.10.10.32.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Mar 2022 10:32:53 -0800 (PST)
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [dunfell][PATCH] bind: update to 9.11.36
+Date: Thu, 10 Mar 2022 13:32:34 -0500
+Message-Id: <20220310183234.608500-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220310171656.3106028-1-ross.burton@arm.com>
- <AM9PR09MB46423A3FDC636B28C16590C6A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB46423A3FDC636B28C16590C6A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Thu, 10 Mar 2022 18:25:42 +0000
-Message-ID: 
- <CAAnfSTujN-T=7kfEfrmcs3XXdsAB2XL3=p9gtCWCyn__dhT2Pg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-installer: add installer module
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003077f205d9e158fb"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 18:25:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 18:32:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163035
+ https://lists.openembedded.org/g/openembedded-core/message/163036
 
---0000000000003077f205d9e158fb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Security Fixes
 
-On Thu, 10 Mar 2022 at 17:36, Konrad Weihmann <kweihmann@outlook.com> wrote=
-:
+The lame-ttl option controls how long named caches certain types of
+broken responses from authoritative servers (see the security advisory
+for details). This caching mechanism could be abused by an attacker to
+significantly degrade resolver performance. The vulnerability has been
+mitigated by changing the default value of lame-ttl to 0 and overriding
+any explicitly set value with 0, effectively disabling this mechanism
+altogether. ISC's testing has determined that doing that has a
+negligible impact on resolver performance while also preventing abuse.
+Administrators may observe more traffic towards servers issuing certain
+types of broken responses than in previous BIND 9 releases, depending on
+client query patterns. (CVE-2021-25219)
 
-> Sorry to say that - but to me (even though it's more work) pip seems to
-> be the better option - the proposed tool is ~8 months old and not part
-> of pypa community as it seems - so in comparison to pip this could not
-> be labeled "battle proven".
+ISC would like to thank Kishore Kumar Kothapalli of Infoblox for
+bringing this vulnerability to our attention. [GL #2899]
 
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+ .../bind/{bind_9.11.35.bb => bind_9.11.36.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.35.bb => bind_9.11.36.bb} (98%)
 
-It=E2=80=99s not that unheard of, for example the flit_core bootstrap docum=
-entation
-says to use it:
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.35.bb b/meta/recipes-connectivity/bind/bind_9.11.36.bb
+similarity index 98%
+rename from meta/recipes-connectivity/bind/bind_9.11.35.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.36.bb
+index 4652529623..872baf6d2f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.35.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.36.bb
+@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "1c882705827b6aafa45d917ae3b20eccccc8d5df3c4477df44b04382e6c47562"
++SRC_URI[sha256sum] = "c953fcb6703b395aaa53e65ff8b2869b69a5303dd60507cba2201305e1811681"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+-- 
+2.25.1
 
-https://flit.readthedocs.io/en/latest/bootstrap.html
-
-It also does one job and just one job, which is A Very Good Thing.
-
-Especially as the second patch of the series removes the possibility to
-> use the tooling proposed by python upstream for installing stuff.
-
-
-Do you mean Pip here? That=E2=80=99s one option.  Installing a wheel is a g=
-lorified
-unzip, pip brings a lot of baggage that we don=E2=80=99t care about.
-
-I should make it clear that this class is not for installing arbitrary
-wheels, it installs a wheel we just built and in the future will build the
-wheel too.
-
-If one would want to have that kind of tooling the switch from pure
-> setup.py to toml and friends could have been done already a year ago
-> (python-build was the originally proposed tool iirc) - so this feels to
-> me like a step in the wrong direction (esp. the part that this would
-> rely on a tool **not** supported by upstream)
-
-
-Adding support for build is next on the list.
-
-Ross
-
---0000000000003077f205d9e158fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, 10 Mar 2022 at 17:36, Konrad Weihmann &lt;<a href=3D"mail=
-to:kweihmann@outlook.com">kweihmann@outlook.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(=
-204,204,204)">Sorry to say that - but to me (even though it&#39;s more work=
-) pip seems to <br>
-be the better option - the proposed tool is ~8 months old and not part <br>
-of pypa community as it seems - so in comparison to pip this could not <br>
-be labeled &quot;battle proven&quot;.</blockquote><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">It=E2=80=99s not that unheard of, for example the flit=
-_core bootstrap documentation says to use it:</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto"><div><a href=3D"https://flit.readthedocs.io/en/latest=
-/bootstrap.html">https://flit.readthedocs.io/en/latest/bootstrap.html</a></=
-div><br></div><div dir=3D"auto">It also does one job and just one job, whic=
-h is A Very Good Thing.</div><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" =
-dir=3D"auto">
-Especially as the second patch of the series removes the possibility to <br=
->
-use the tooling proposed by python upstream for installing stuff.</blockquo=
-te><div dir=3D"auto"><br></div><div dir=3D"auto">Do you mean Pip here? That=
-=E2=80=99s one option.=C2=A0 Installing a wheel is a glorified unzip, pip b=
-rings a lot of baggage that we don=E2=80=99t care about.</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">I should make it clear that this class is =
-not for installing arbitrary wheels, it installs a wheel we just built and =
-in the future will build the wheel too.</div><div dir=3D"auto"><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb=
-(204,204,204)" dir=3D"auto">
-If one would want to have that kind of tooling the switch from pure <br>
-setup.py to toml and friends could have been done already a year ago <br>
-(python-build was the originally proposed tool iirc) - so this feels to <br=
->
-me like a step in the wrong direction (esp. the part that this would <br>
-rely on a tool **not** supported by upstream)</blockquote><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Adding support for build is next on the list.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Ross</div><div dir=3D"au=
-to"><br></div></div></div>
-
---0000000000003077f205d9e158fb--
 
