@@ -2,105 +2,92 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72042C433EF
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 19:30:03 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web12.1100.1646940602282140732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82111C433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 19:38:34 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.1130.1646941113644898149
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 11:30:02 -0800
+ Thu, 10 Mar 2022 11:38:34 -0800
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=tzwcSTou;
- spf=pass (domain: burtonini.com, ip: 209.85.128.42,
+ header.b=2qd0Kyai;
+ spf=pass (domain: burtonini.com, ip: 209.85.221.47,
  mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- n33-20020a05600c3ba100b003832caf7f3aso4962155wms.0
+Received: by mail-wr1-f47.google.com with SMTP id p9so9551869wra.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 11:30:01 -0800 (PST)
+ Thu, 10 Mar 2022 11:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y7RBXwvrF66Jwj5K5NSBidPey0N1fSWGVJDcrhAMecQ=;
-        b=tzwcSTouFSZmw69NIbQanNk8uUp7UVQ8pugPVi75O3thaLkz/9hRP2gjlCUmuNGLL6
-         YOv8W/HW7MXE7zYvsgIOm+I8LZJgYk11+785RUlV4nKu5pgz8ofNfgYOw/sUm9P1YOYl
-         dSI0K+vE1ZSK3UuB9NH1P/yh2WiP0RUWp/zOiY6aw+JjTaTIuW4LS3Cwqu6ohTxyPj5t
-         UOvJrdsVYbd4VpbLVXM9NENNbJ5tTv6NsSjohT1Ep60QWKjOA+gMAiAP3S7Ornrep8J2
-         /HiS7X21193jzS0JRAX4h/Mb2mJA21X4YK7KAoahwY1boL1F03kxqJbyRPRiyEiuzO9B
-         +cwg==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=oufWD/cTsaMg4nFHhEf5MXY65slaaeniWK94pfAcT4w=;
+        b=2qd0KyaiXG43O2PzZ46sakhc+2Ue1KEcuLhDEGrcKiTJ3qiELT3nmpm1/pMfTx9mFg
+         n+v1r8n8pKFLAnp6rtS7LhnuEMfE3/14cs+J+97plkRWAINwwYbYpS6RvKfgvIPT/Hiz
+         ZpfptFj6OqAfm9sr7E6HtaKNpWemV2XGBS8mtTsKkQzeB9qdW/0+uOPL94kHzmIKA7K4
+         Fika0tsKzz573snqNaVog/MwdoXHPJLFKLeW5iHxP93I/MgIJ5WKZmnTipajJweJy/dL
+         J2UoERMrEiPhfp7tcI6/NyTsnwNrv0d9TvufKFwAq/fV1vJd1z0eYlSYh8t2B3vtA226
+         Wrxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y7RBXwvrF66Jwj5K5NSBidPey0N1fSWGVJDcrhAMecQ=;
-        b=mNhXCL05qMBCw1GhtBLHuFa2Sr9JhlcB460/7Y2QteyeEThoVvJ5fWPseCksVm7cB+
-         IOuoNbEJ1KsvxTEJal2yraJWjrU0deBjWoW0NONhtPEkyADLlfbBBej/ec3z8VO1P/cB
-         pZknvKbkXwk5cZOUn4yS73BhDBfcYUMKSO8l37O7nDUZl3J6b/IuUlXrgRui6i8rTA6w
-         Xg3GQ9LfN+QY/NFI25vBSZg/zBARtRLF092VpaiElhCSpwNUT59b8slzXKc/1EXMlBvM
-         vJyp1kqO1HSXvTqXvM6TuivITnM/jRJPwEvjabGJYl9/cvmBGQg6e/I3avPGQBiH3x9/
-         O3hA==
-X-Gm-Message-State: AOAM53296K+YpVRxRABHVpUNMINDBIoe7yi2jt+coXCCvU1lQLOh0IMJ
-	wtIXE9evbZo+cY8TTDW4tXAFdgg/ciDS88YNieoIuA==
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oufWD/cTsaMg4nFHhEf5MXY65slaaeniWK94pfAcT4w=;
+        b=iwmep4XMCNUpl8jcRsEc0u/syQhrbAbc3QJYQNgUMV8pDW1t1PGL+SxFfrsZ/hHPDX
+         HcVFkvfPsUGfZfg4UPF3emkAYIhCVHK8351UHw4ZGVMOzsHEo83XBY9Zw2L5Go7BCQ0l
+         Oui1IbETuSLMfhjvb//zlvN/8CQVirm8Fq3gQ7CzufOdFVxov9+J+zVYuNxby8Sw2Met
+         4d0e+/8lQXD1ZKShXLxh/8BZf8LcLUCk5ygD3oc/muAA0ujzSTi03WMMTc+UuuAuzFKl
+         mSO1b/LUXcyWKlAwNDLEQn4tW4xHyRXNSGe0Lto+hsIjJziu7n79zlyHlRN4ZIwRwt9I
+         Ym8w==
+X-Gm-Message-State: AOAM533BenuGM3X4NDCvBj4P1tpxn0HsAiNmuXw0sfoXNsuzk2BuhIi5
+	IG2hSOZ0huc7F08+m8R51pWtc8gvOhK90k27RGcvtvLno52y4JkW
 X-Google-Smtp-Source: 
- ABdhPJxYsLJ7W2VcHBWP7uC8b35y/gqeHYpM5vLQi9L6db9KGssslje2+1b67ussXYDVku8PpQaOBWzRgIuPXJtyWyc=
-X-Received: by 2002:a1c:7916:0:b0:389:8d21:caa9 with SMTP id
- l22-20020a1c7916000000b003898d21caa9mr4842545wme.106.1646940600579; Thu, 10
- Mar 2022 11:30:00 -0800 (PST)
+ ABdhPJx0WFlkpuM2lTFjAJs9aI3MgS6bqqX8T00IZkRHLiR2DUKMv1Vm9d5O9H80rtItmVSYHyuqB4QZkDQimDITwM0=
+X-Received: by 2002:a5d:5918:0:b0:1f0:3295:f4ec with SMTP id
+ v24-20020a5d5918000000b001f03295f4ecmr4636730wrd.451.1646941111506; Thu, 10
+ Mar 2022 11:38:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20220310171656.3106028-1-ross.burton@arm.com>
- <AM9PR09MB46423A3FDC636B28C16590C6A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
- <CAAnfSTujN-T=7kfEfrmcs3XXdsAB2XL3=p9gtCWCyn__dhT2Pg@mail.gmail.com>
- <AM9PR09MB46420D97FB3AE4F4349E2A4BA80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <AM9PR09MB46420D97FB3AE4F4349E2A4BA80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
 From: Ross Burton <ross@burtonini.com>
-Date: Thu, 10 Mar 2022 19:29:48 +0000
+Date: Thu, 10 Mar 2022 19:38:19 +0000
 Message-ID: 
- <CAAnfSTsbGq6h=roWB=9HX5xH-Q=b2Yu1faQtxpCp4Un0Kn7aBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-installer: add installer module
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
+ <CAAnfSTsib1p5Vgkvqt52WB=4a5wBAF2R0Ei-Wygx0AsNchCiOg@mail.gmail.com>
+Subject: [RFC] rename pip_install_wheel.bbclass to python_pep517.bbclass
+To: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 19:30:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 19:38:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163039
+ https://lists.openembedded.org/g/openembedded-core/message/163040
 
-On Thu, 10 Mar 2022 at 19:03, Konrad Weihmann <kweihmann@outlook.com> wrote:
-> > It also does one job and just one job, which is A Very Good Thing.
->
-> Still doesn't make it the best choice TBH.
-> Just diving into the code makes me wonder about a lot, like
+This is the last major change to the Python packaging before
+kirkstone, I promise!  I think we should release with future-proof
+names instead of renaming everything the moment the LTS Kirkstone is
+released.
 
-Also referenced on https://github.com/brettcannon/mousebender, by a
-prominent Microsoft Python engineer.
+Basically, I want to send this:
 
-> - can this tool run on non arm/aarch64/x86/x86-64 hosts
-> (https://github.com/pradyunsg/installer/blob/fad2894a572d5497a3dceec58407c276f21e8c11/src/installer/utils.py#L140)
+--- b/meta/classes/pip_install_wheel.bbclass
++++ b/meta/classes/python_pep517.bbclass
+-PIP_INSTALL_DIST_PATH ?= "${WORKDIR}/dist"
++PEP517_WHEEL_PATH ?= "${WORKDIR}/dist"
 
-Line 137 makes that moot, that's all Windows-specific.
+-PIP_INSTALL_PYTHON = "python3"
+-PIP_INSTALL_PYTHON:class-native = "nativepython3"
++PEP517_INSTALL_PYTHON = "python3"
++PEP517_INSTALL_PYTHON:class-native = "nativepython3"
 
-> - support of this here https://github.com/pradyunsg/installer/issues/98,
-> should be given by a matured tool
+-INSTALL_WHEEL_COMPILE_BYTECODE ?= "--compile-bytecode=0"
++PEP517_COMPILE_BYTECODE ?= "--compile-bytecode=0"
 
-That's moot: it installs where the Python sysconfig module says to
-install, which is told where to install when we build Python.
+The rationale being that pip_install_wheel doesn't have to use pip to
+install wheels (there is a patch to use installer, and the ability to
+change to something better would be nice), and in the future we plan
+to also cover the build stage (using python -mbuild).  As this class
+hasn't actually been in a release yet, now is the time to change any
+names before they're locked into a LTS release.
 
-The Nix people want to override it per-package because they use
-per-package prefixes, but we don't.  The prefix Python is built with
-is the prefix we want to install into.
-
-> > I should make it clear that this class is not for installing arbitrary
-> > wheels, it installs a wheel we just built and in the future will build
-> > the wheel too.
->
-> Then that's definitely missing in the commit message, that this should
-> be an option and not the default
-
-If you want to install arbitrary packages with pip, then just use pip directly.
+I'm just building all of oe-core + meta-python with this to verify it
+works.  Konrad, any thoughts?
 
 Ross
 
