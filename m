@@ -1,105 +1,95 @@
-Return-Path: <ch@denx.de>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F61C43217
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 14:35:29 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web12.10123.1646922926870607144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE373C433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 15:56:56 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.11098.1646927815097228433
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 06:35:28 -0800
+ Thu, 10 Mar 2022 07:56:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de
- header.s=phobos-20191101 header.b=jkn5d1er;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
-Received: from [10.88.0.104]
- (dslb-002-205-233-017.002.205.pools.vodafone-ip.de [2.205.233.17])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: ch@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id B272583AB9;
-	Thu, 10 Mar 2022 15:35:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1646922923;
-	bh=aAtWEXswPbZyWzMM647GjShSJ9yDi6YHoXkwNihOzCY=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=jkn5d1erIVCiv0NGmEPZyfVrsZQc09HDTuA7VETuv3Hx5AdSJranMyjQ28cNYbtPA
-	 SItb7dDQteCEhxDlOgoxqZMNc8ZVsGX+D401BvNiO13RRmwYTQ5tBHAEGfH7G9BoCr
-	 xea6qZeKVe5OF1+9hesE5NwLReNO8hWRTtNyG/GUc6cf9zkqNFCgSL55a60bNDLmCl
-	 +Y9iTn1S2QsKfMrNbdvgxA+LpthHaAV1Ex9mBUsdiUgP50d5U9CnhimEXsU2gB+fyd
-	 Ug4kiJuRrAcxUrsu4Jc1r1PI7Te9coUCLQRcYKMJiLbNT3SHqaVwY5N7xbNaUro32c
-	 Wl5nDBjGeWUCQ==
-Message-ID: <f189d539-6e6f-231e-b682-5eceeacf921d@denx.de>
-Date: Thu, 10 Mar 2022 15:35:23 +0100
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=2IUteTqz;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.44,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f44.google.com with SMTP id
+ m42-20020a05600c3b2a00b00382ab337e14so5729240wms.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 10 Mar 2022 07:56:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9OPjHFEmgAQ7K/aRO7MHkxIWP3SKw9zD48hWQvOArr0=;
+        b=2IUteTqzoonoOTFwXDoMyKAHAUi2xBUkZMar9Nu5IqHG1jaeySWfybkxJlsk0nKqfS
+         RuSF7btEO6MdVQB43MJDU4jGRD2MccdUl2Xmz2x5ILzLVQA++PtAeQhvJ8Wmsu8fS5iE
+         YeqJIO5ZJu2uhhzxcHwIow6gqgZ/FgHBJ9Sffq477KFb3sMrDpQPxTOxJitUM0o7e616
+         u/LniHbqB5E1koTJPXE7PEg0nqP/lu5IefwJkPOWSMTalyT6C0HnorZNQOQ5I7L0X9S/
+         Q3G4HfbVaPrn6zWISK5d7hUvzqfdPLqZNgLWIzcRScB4NnhKsIFF+lQm1w9YmiT1Y3Qc
+         wiUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9OPjHFEmgAQ7K/aRO7MHkxIWP3SKw9zD48hWQvOArr0=;
+        b=LXbqs6bPitg0oVljYfUdu6//VNBGUezdm+864kagGUr13J0jsGcNGwmrcpVgNZpqSR
+         ZeTBIUFl9j8U53pNPflIfvy1O4SX59WL0uf8NUb4ISkKqaYaqRXdfL8XnvjMenSdFk6o
+         K7OSYbV5BoKlx2S2qUqt0FFrszS6pC0d2681iQZ2T5L1WzFGA5xLtxOiQZ19TDap+7Nf
+         iuv1mF2YQvlhjW865riz6NRoH2+bAtxMWUMS/oPY9oS2fhZ6zD3x3v47pQEBX5RjFU8O
+         TPydH9nRDOLAzDnV/ov4ujNiPZgHBFsLd8fzyv1qQetHMNrzx1tw8xrvF876DiyMmSje
+         VZ3g==
+X-Gm-Message-State: AOAM532tYKcX9ZbAUJthq9EICoumh0Fhlw7G1jIgCRRS77iRTdP14FKo
+	mp1ACvP2L4ggVsKs8pmV8+7kfm3VK5aNsHC4okUecg==
+X-Google-Smtp-Source: 
+ ABdhPJxsIgVRZ9o4rbUIsvdVyaINg6vFB7vkmyYc0H/hUN1TfOzgaHHaUFsc4jyZYO6D7cz/QnVAAyu/Cn6CVx2+KWg=
+X-Received: by 2002:a05:600c:2219:b0:389:bc8b:ac48 with SMTP id
+ z25-20020a05600c221900b00389bc8bac48mr11925016wml.14.1646927813543; Thu, 10
+ Mar 2022 07:56:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 0/4] Patches and bugfixes for overlayfs
-Content-Language: en-US
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20220310131329.1906537-1-ch@denx.de>
- <4914a575-f6da-59da-1fce-12064f83dac0@gmail.com>
-From: Claudius Heine <ch@denx.de>
-Organization: Denx Software Engineering
-In-Reply-To: <4914a575-f6da-59da-1fce-12064f83dac0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+References: <20220310114035.2226442-1-ross.burton@arm.com>
+ <AM9PR09MB4642CA1CCF4C29F109985C76A80B9@AM9PR09MB4642.eurprd09.prod.outlook.com>
+ <CAAnfSTuga12XF0fDUAgpm0u0ryh4=L7f2bn4VHmiArusSo=hQA@mail.gmail.com>
+In-Reply-To: 
+ <CAAnfSTuga12XF0fDUAgpm0u0ryh4=L7f2bn4VHmiArusSo=hQA@mail.gmail.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Thu, 10 Mar 2022 15:56:42 +0000
+Message-ID: 
+ <CAAnfSTvgWdVtgW+GTqA8vCm0ANP330MJW302uFr=OFHDBbusPw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] pip_install_wheel: add a generic do_install
+ for bootstrapping
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 14:35:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 15:56:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163030
+ https://lists.openembedded.org/g/openembedded-core/message/163031
 
-Hi Vyacheslav,
+On Thu, 10 Mar 2022 at 14:01, Ross Burton <ross@burtonini.com> wrote:
+>
+> On Thu, 10 Mar 2022 at 11:48, Konrad Weihmann <kweihmann@outlook.com> wrote:
+> > > +pip_install_wheel_do_bootstrap_install () {
+> > > +    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+> > > +    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PIP_INSTALL_DIST_PATH}/*.whl
+> > > +}
+> >
+> > I think these two lines could be moved into a generic do_install:native
+> > - and then removing all the override code from the recipes below.
+>
+> There's only a few recipes which need this bootstrap, 99% of native
+> recipes can use pip: it's just flit_core/pip/setuptools/wheel which
+> can't as they're needed to build pip itself.
+>
+> (and once installer is used instead of pip, it's just installer and flit_core)
+>
+> I may send a v2 to this, as we should be byte-compiling the bootstrap code too.
 
-On 2022-03-10 15:28, Vyacheslav Yurkov wrote:
-> On 10.03.2022 14:13, Claudius Heine wrote:
->> Hi,
->>
->> I bundled my patches to overlayfs and overlayfs-etc togehter in this
->> patchset and fixed the whitespace issues.
->>
->> regards,
->> Claudius
->>
->> --=20
->> Changes from v1:
->> =C2=A0=C2=A0 - fixed whitespace issues: converted tabs to 4 spaces.
->> =C2=A0=C2=A0 - changed git commit title of patch 4
->>
->> Claudius Heine (4):
->> =C2=A0=C2=A0 overlayfs-etc: add condition to package-management featur=
-e conflict
->> =C2=A0=C2=A0 overlayfs: add systemd unit path prefix to FILES:${PN} ar=
-ray
->> =C2=A0=C2=A0 files: overlayfs-etc: wrap long lines of preinit file
->> =C2=A0=C2=A0 files: overlayfs-etc: add overlay mount options to preini=
-t
->>
->> =C2=A0 meta/classes/overlayfs-etc.bbclass=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 ++-
->> =C2=A0 meta/classes/overlayfs.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
->> =C2=A0 meta/files/overlayfs-etc-preinit.sh.in | 12 ++++++++++--
->> =C2=A0 3 files changed, 14 insertions(+), 4 deletions(-)
->>
->=20
-> Hi Claudius,
-> Thanks for the patches. It seems like the first 2 are already in master=
-=20
-> branch or I'm missing something?
+I won't send a v2 as this causes interesting problems which are not
+easy to fix...
 
-Yes, that seems to be the case, I missed that.
-
-There are only non-essential white space differences between those and=20
-mine, so my first two patches can be ignored.
-
-Thanks for spotting that.
-
-regards,
-Claudius
+Ross
 
