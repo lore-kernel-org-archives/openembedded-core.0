@@ -1,440 +1,281 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B35C433FE
-	for <webhook@archiver.kernel.org>; Wed,  9 Mar 2022 22:22:26 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web09.2972.1646864545062574475
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 860AFC433F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 00:51:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.4435.1646873473161586689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 14:22:25 -0800
+ Wed, 09 Mar 2022 16:51:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oOWM2POS;
- spf=pass (domain: gmail.com, ip: 209.85.218.43,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id d10so8129359eje.10
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Mar 2022 14:22:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=keSEZ6a7s7hk7hy/W2Nwwpic5L2LJp2IIxa+AlZBdo8=;
-        b=oOWM2POSHahaOVqwvhZr6gbxCLXb/mCGfX4/z+LuYpBegwMVI+FQM+BejiTWqSdfe0
-         z0AF7z2QECPLSnJDAIHFpkbIFjo5L2SDklVfVTOjd03itdnOIxkXLu4Ea9sWu6Q98RH4
-         ivahMF0IHYmroyxQeCz+hiqQ1QdoBQeaTEr0xKW6zJi6aqSwQIxj8sZwOak+QsrZk4PR
-         DKLpbTI/Iva7DXWPNNYwG8e/XTPI2AywWgJjOzu67jO8W4ogAwsKdLLFuG19nKhMLeJi
-         IM8GNc16k6dxHheOrj/0FOFQ1bLwgf+lY7l0AGUnk/k84d5qC9psjbjAtr1w8eREpc1h
-         yFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=keSEZ6a7s7hk7hy/W2Nwwpic5L2LJp2IIxa+AlZBdo8=;
-        b=c0KK2PHObkwrfSw2o9tIEo+1lWkWOFGSw2HucgeLGIXUMYgSShDGNSzkp9BKqCU7/7
-         mrL0IbD9exKZ4HTGvaBM/OdbJMrSVVvvZMejxvLpUjL1evrLX9rvFd3aOgj+TZL2wykJ
-         2GnpT89ylEZncXyc3x4sAhPxG3EuN3moOJuUUt1IFohO7pRzADlRVqXNIVyzPieTM7W3
-         nYe+cO30SQ6xZ6DA1dkW+NPY5MzFFAp/f+gAbKI9QR3ORKtHI2xohMEJmSoAXFrQuUhc
-         oTowsDFsqXprPU56zYjcBxRyzV+H7r6MtBks3uJ+Dz3PK7vaqqQmBl6txowZVrSN27dV
-         y2nQ==
-X-Gm-Message-State: AOAM532yQCqaNFqjHFXYZXgBn0jnDVm6yeZsBGVIR9WeoR4UBwgcX5oA
-	NQoFK4kuvzgwP1IhYCKJNY/4jJMDrvQ=
-X-Google-Smtp-Source: 
- ABdhPJy0itwMGCRE9Dik/SSG+awV/5/BLunTEJN+U2Knf54rg6EvNaXnRA2Bt2ICogd/Y6jVfrpkSw==
-X-Received: by 2002:a17:906:1e91:b0:6ae:99d9:93b1 with SMTP id
- e17-20020a1709061e9100b006ae99d993b1mr1733004ejj.111.1646864543537;
-        Wed, 09 Mar 2022 14:22:23 -0800 (PST)
-Received: from Zen2.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- me17-20020a170906aed100b006db0dcf6746sm1173699ejb.216.2022.03.09.14.22.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Mar 2022 14:22:23 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=cPPTLe/h;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=0068e34002=joe.slater@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 22A0ljsn011591
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 9 Mar 2022 16:51:12 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=JsIK4MpNGAh/ITnzZeoSRz6AObV94LqRi+RJAZ440J8=;
+ b=cPPTLe/hp/zY/mXyaU/J09qkiv0E9k6YWXZdK8iqm40nDjJFpdsu+R3VLlmxEm9GII+l
+ GpA2H15Ggeoa3uQtDZo+5CFtKOLIWr8lhLGnTUtXYI9wwNVN7Ha+TLgXHKefr7NeCiLg
+ tpD4/HnvqL8TAVRnV7sNxT9RkPTI4UaxXo5MmgHbEy2cI7+r0q900+zIg81SYcg4dXzo
+ /vmbJ3dPmAF/FEOcXfGHlsa/+94vg+woLlB2cFNWQdAVQ5xht+2cuOaoPV2LjEbP8dkV
+ 8fmmCfBoX0gCPFLGP+BvhtICBDXgKauCNKtzctOVuM6ZwJCZXw1zocsuG+alf01Tu9Q1 Cg==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3enew6tkjf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 09 Mar 2022 16:51:12 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZYShm21nUUTcIsqMyyLP82Wx4LmCBRpJD9aT8PaMrwx4STn0i0GTm6XFihGy/BmKtu+0pGSvptpPYduKBoATPoUM0Snb9fFEI9hVjt6XycF5UZN40ZBF2xgOsN8YRex7zyeil655ITHJsoSJiVeTu+Cdcgj8LpwYDw1o0E+HtsDCDz4HFzU+N5tD3zs9EG0YMODtya8HaRENZenvm/LzUfr4rNDDDL0GoEzei8/bxeDoTrC6jDY9rE2lTLwR3c9tV1smDMkchHLqDK2+KH7vWLMlFnI8z5Wle2H7TEmpx+vsusL9bmE54qPc5qtOMVUqHtqlov9Ur6jUiFLIxK+nYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JsIK4MpNGAh/ITnzZeoSRz6AObV94LqRi+RJAZ440J8=;
+ b=CrkN9Id3qUEGmwK/07ojQp9XZxm3bH1RAN029CeLQ835hdxIqScbG1+pVYM/EwzT5eS3dZqK6qOltB17BngkEwwQuBpo/vlnhuPNpG8TyCNg7235h0nwBbi+i190Yf5+F49xeJMo8cAnCGqPj1h6Cf4fCn+w2K5WjqCjeW0sde7KJjJ32HyOed6qoW35M+JgNBKknOqMPacAtIWt+uEEn2VXjN2yHW3Z3otDhZl3lH7csgcaEs7JtZEAEmhW0muVsP8hfvr3PSC/jVb9gzGW2Q2szFzyzZ0rA7h2k4Wt9jL5p9yS3vQVVDszHPe/ijYN0XSInWHNBX097Sr37mYymQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
+ by MWHPR11MB1472.namprd11.prod.outlook.com (2603:10b6:301:d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 10 Mar
+ 2022 00:51:07 +0000
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::389d:5330:bc19:13c4]) by BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::389d:5330:bc19:13c4%7]) with mapi id 15.20.5038.029; Thu, 10 Mar 2022
+ 00:51:07 +0000
+From: Joe Slater <joe.slater@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] dbus: update 1.12.22 -> 1.14.0
-Date: Wed,  9 Mar 2022 23:22:14 +0100
-Message-Id: <20220309222214.4040432-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220309222214.4040432-1-alex@linutronix.de>
-References: <20220309222214.4040432-1-alex@linutronix.de>
-MIME-Version: 1.0
+Cc: joe.slater@windriver.com, randy.macleod@windriver.com
+Subject: [oe-core][PATCH 1/1] libvert: modify dependencies on lxc_protocol.h
+Date: Wed,  9 Mar 2022 16:50:48 -0800
+Message-Id: <20220310005048.37403-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.35.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR04CA0008.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::21) To BY5PR11MB3992.namprd11.prod.outlook.com
+ (2603:10b6:a03:188::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5b43c328-9020-44f1-b8fc-08da02300fba
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1472:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB14728245DA0C94D4E1A4F4E0880B9@MWHPR11MB1472.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Bq8+oS54jB4/ZbWMdauS9UpsTt0xcPiMEdpvIKwQC1436ohUN8vEJbCi3u4mzphdIVP+uERh18gBtsUn5BVsudGw+NPTdtYaBFt5kBBKt+exO2nnzWul8zsQ4yNYEWqXXxaVYzIvx+wqpuJC7OSI9bYFdpeN4tymK8MzuTmXofwzPscrq84e+iiO+aAHCBb+WEzl8e/PkjY9LPQZX44KpOvJVLL00Gi4VffVxajiatRw4h9SEdDD8d6kypDWT+v2EItXW/ZWC/lnUxWjOqvaXrg+9ZQvqFjvc5sd8aWDz/2D4MiPLuXlG6GmZ15cz/xdS36asLEdQeIlIgC6ge9qhgvAr12yYmg83rdAqLWQagLrpEzQD/4Ct/tvmkDRjY8oi+PUYAjkDXD/Yd8MBjv2uTGHQh9w4hi2HJFcOv0bmrV+dy1ED8nx5Hfyvue9M7LwVBnNwjc/pR7d6BRixpZzStIHgrQtHOvbnrnJNMJP34vpZwpJMlZBvNW442dGKNgTLe9pLXtYfUWD7x1pYFUq16cZzvECogFH/c8wffyZVX5sqZHujrO1A+Lp4OYy/FL7pC8WXolf4+eZnDV9BSrbhWLfknzjBuofJsnv6Qr0uQhyywY6OM6UXUggMkP6MAGaqC1UMjMIbSF1mW16g9Qm2B+qKgtCOsglbqgtLZeqyjvGkO6DRZhvHG6YgVMUPlBgctgRCW08PbsLLZh6tPuq/RvCvoF5dVBjOCFKerCVYEEwns8AWFp7SjjNYAtQ8tchycoAZDHCV2Tv4eqVZ+HE1pf9jT6+vwTglArFfeRbeAZd7SWhpMwTeRvcGpLfJAOg
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(107886003)(508600001)(2616005)(8936002)(6486002)(86362001)(5660300002)(6666004)(83380400001)(8676002)(186003)(6916009)(26005)(1076003)(44832011)(66476007)(4326008)(66556008)(316002)(66946007)(38350700002)(38100700002)(52116002)(2906002)(36756003)(6512007)(6506007)(21314003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?a4iK40Jeb3hpwj38Ip00dVgEothr8tlgT9Iu1COa9KWTlx6Rt5/RLTu95qHe?=
+ =?us-ascii?Q?UbVb/+IIDxii2lM2lvEKGxMv2CwDWIWedo9AmwXDVgJKZH7Kmmn5lWz/+VQp?=
+ =?us-ascii?Q?v7jYoC3d2PWpndcqcgja4jnRJjDcnoYfCusoGJffhwTZzYZnafCja2X9G8K9?=
+ =?us-ascii?Q?R1STRH6Mt7mpaoZ+KvQyNzfc2jXXm66EK3hq+xhPd86+La+eH4Vcur6htTbL?=
+ =?us-ascii?Q?cPKKUf/iRxs3TjpKSwXxmNHosJl47yGeeoRrgKqnuVmwb6/dGsOGpFItyEw8?=
+ =?us-ascii?Q?0fFwgUfgKBBgoDIfGHBbewY57A4+wmgJZpOA9zjY8lZzA5tKfHjO5N+5pYlE?=
+ =?us-ascii?Q?LudeUZoPcx7OyTd0NeaC6hxBAJbaw6jMPf8R2bmc4/StbBJJgvuAKWlvfLgu?=
+ =?us-ascii?Q?wiICYO+bL0NWnghldPMgjJS2IFEQ1ZntntGLYyi/Vl3Y/zlsIyxLBblfsD1C?=
+ =?us-ascii?Q?syjEhsJQ9ldddy2HKi3yqdzz/6bf/whHPvC7CtPXQcHO7Lh6hWOgaQAHY3l8?=
+ =?us-ascii?Q?byOkYX5xBE4sVOeGJIIUlQPOvXsPNL91SbkNbz5Xd/hh5nlFNJ/+Uc6MW9v+?=
+ =?us-ascii?Q?lWhcwIx+lf8KQ53USLesTKHvBdSBDmHzbVhUHBIE1wkhUenNNFaQFwILzyaT?=
+ =?us-ascii?Q?K+N7LVW1AhJfpYwPFgp7U2nOVUWPM64NKtzkaPYxR65s2oj/t7Hj752EByqL?=
+ =?us-ascii?Q?Vfbd/wKpptu7pBLM7AFabo6VpAPPeYA69S4U60sL6rHGC8NrDIMzsbclKTSU?=
+ =?us-ascii?Q?/pFfMrUfYRyKEv+/WvAtRIWf5eD0imCy9JUGLgem6RRuDR4AwATAP3Zo2sKm?=
+ =?us-ascii?Q?rNH26R1HJeue8W3rXoEbheBVbKNiD4hJMI+xypWq/9nhDiWvUD+1cizmHeW3?=
+ =?us-ascii?Q?37uhL6PI7R6E0BvPjYNvwkXVlyDn+E5SGmJqFLCof6mMxx12myoBUcLPqtqX?=
+ =?us-ascii?Q?XmMF6KCV3zCYGMWLtq6LkdGgMSLzOnE8yD3FrIgZz/i7yiJP0pMMcuyLSo4p?=
+ =?us-ascii?Q?/8+6enagPpARtz2GxQvWu/JyL2bPJyVgR+kQ48IiR51yLtG7NYlaJtFWssNS?=
+ =?us-ascii?Q?NzJ6Dfaw82werlqqdw/wGoa6OA+/Ru2K7Rg3cYWGu798eRvvs86gfar1cYoD?=
+ =?us-ascii?Q?vdSq0AndSHFVFLqFWpCm76HR5QFeHf9HWNJcK66GWiL1MkpO+SJLMJmrgtPk?=
+ =?us-ascii?Q?myKxWYv0a/F0/WkWQ8anyLGrlJ/Qu+BszoJM7Qm5kXuraD9jB6JBQj/RWlDf?=
+ =?us-ascii?Q?Zu/zWV4MeDCTE7h4V83/r3pwu7VFyFTFvrSI8pdmk9vs8Pju/8DDm8aSnsHt?=
+ =?us-ascii?Q?G9mbJvcrZjZ6CaenfqIuysNI+9vjibr9mA5Fzcw7nlngpUeHoNZNz1zUgqh8?=
+ =?us-ascii?Q?jXSquiJuqWZqN9MINl09QVRCB2gmONL2ovQau5PnLU+tFrALbxqbhnOi4xDL?=
+ =?us-ascii?Q?ZhR6HnrtPiHxLXNDVTCaZQA1PoAfA0i2oo+M7P3Pv64UhOTFCgyyWKPEnmGj?=
+ =?us-ascii?Q?V7RmO4/3D18rUO0iDksXeQqVpZydcIxg6cwCgIGEfoGjef49OyEWPbdwduBV?=
+ =?us-ascii?Q?xjjhIyXn4j27HD/auZCHXHjN7cMkhUDCXKc2t3Liv+TtptrHvpmE86CPfO3v?=
+ =?us-ascii?Q?2xtOmkqVZPFzBT9QlWSv80M1RfT8OlK0IP8Vy7FgKzcSrH7KDQO91OHsUVuT?=
+ =?us-ascii?Q?fAFv57ZHAkIPD+18x8gHKMZKvSI=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 5b43c328-9020-44f1-b8fc-08da02300fba
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3992.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2022 00:51:07.7239
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 0yVBlYYXIYqGvt+i9WzuiKUCmrtOiTk+I4RAi6od6u2dX2MfBR9w6FIuH6Kz4V7xw7IzBtdYjuNmTq2Rt0QbTjcrzXE/1mmH6usjJ4eembQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1472
+X-Proofpoint-ORIG-GUID: FmAyFBajoYhsJRvg-xeH8qgnmFCjTMQk
+X-Proofpoint-GUID: FmAyFBajoYhsJRvg-xeH8qgnmFCjTMQk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-09_10,2022-03-09_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ lowpriorityscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ suspectscore=0 mlxscore=0 clxscore=1015 spamscore=0 mlxlogscore=449
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203100000
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Mar 2022 22:22:26 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 00:51:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/162995
+ https://lists.openembedded.org/g/openembedded-core/message/162996
 
-Drop patches:
-clear-guid_from_server-if-send_negotiate_unix_f.patch
-stop_using_selinux_set_mapping.patch
-(both merged upstream)
+src/remote/meson.build does not create a dependency on
+the generated lxc_protocol.h for remote_daemon.c.  Restructure
+how this file is generated to allow the dependency.
 
-python-config.patch
-(patched code removed upstream)
-
-License-Update: whitespace fixes
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- ...from_server-if-send_negotiate_unix_f.patch | 104 ------------
- .../dbus/dbus/python-config.patch             |  34 ----
- .../dbus/stop_using_selinux_set_mapping.patch | 148 ------------------
- .../dbus/{dbus_1.12.22.bb => dbus_1.14.0.bb}  |  11 +-
- 4 files changed, 4 insertions(+), 293 deletions(-)
- delete mode 100644 meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
- delete mode 100644 meta/recipes-core/dbus/dbus/python-config.patch
- delete mode 100644 meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
- rename meta/recipes-core/dbus/{dbus_1.12.22.bb => dbus_1.14.0.bb} (94%)
+ .../libvirt/libvirt/lxc_protocol.patch        | 104 ++++++++++++++++++
+ recipes-extended/libvirt/libvirt_7.2.0.bb     |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt/lxc_protocol.patch
 
-diff --git a/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch b/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
-deleted file mode 100644
-index 6bb6d9c82e..0000000000
---- a/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
-+++ /dev/null
-@@ -1,104 +0,0 @@
--From b8f84bd39485d3977625c9a8b8e8cff5d23be56f Mon Sep 17 00:00:00 2001
--From: Roy Li <rongqing.li@windriver.com>
--Date: Thu, 27 Feb 2014 09:05:02 +0800
--Subject: [PATCH] dbus: clear guid_from_server if send_negotiate_unix_fd
-- failed
--
--Upstream-Status: Submitted
--
--bus-test dispatch test failed with below information:
--    ./bus/bus-test: Running message dispatch test
--    Activating service name='org.freedesktop.DBus.TestSuiteEchoService'
--    Successfully activated service 'org.freedesktop.DBus.TestSuiteEchoService'
--    6363: assertion failed "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0" file "dbus-auth.c" line 1545 function process_ok
--      ./bus/bus-test(_dbus_print_backtrace+0x29) [0x80cb969]
--      ./bus/bus-test(_dbus_abort+0x14) [0x80cfb44]
--      ./bus/bus-test(_dbus_real_assert+0x53) [0x80b52c3]
--      ./bus/bus-test() [0x80e24da]
--      ./bus/bus-test(_dbus_auth_do_work+0x388) [0x80e3848]
--      ./bus/bus-test() [0x80aea49]
--      ./bus/bus-test() [0x80affde]
--      ./bus/bus-test(_dbus_transport_handle_watch+0xb1) [0x80ad841]
--      ./bus/bus-test(_dbus_connection_handle_watch+0x104) [0x8089174]
--      ./bus/bus-test(dbus_watch_handle+0xd8) [0x80b15e8]
--      ./bus/bus-test(_dbus_loop_iterate+0x4a9) [0x80d1509]
--      ./bus/bus-test(bus_test_run_clients_loop+0x5d) [0x808129d]
--      ./bus/bus-test() [0x806cab0]
--      ./bus/bus-test() [0x806e0ca]
--      ./bus/bus-test() [0x806da6f]
--      ./bus/bus-test(_dbus_test_oom_handling+0x18c) [0x80b5c8c]
--      ./bus/bus-test() [0x806f723]
--      ./bus/bus-test(bus_dispatch_test+0x3c) [0x8071aac]
--      ./bus/bus-test(main+0x1b7) [0x805acc7]
--      /lib/libc.so.6(__libc_start_main+0xf3) [0x45f919b3]
--      ./bus/bus-test() [0x805ae39]
--
--The stack is below:
--    #0  0xffffe425 in __kernel_vsyscall ()
--    #1  0x45fa62d6 in raise () from /lib/libc.so.6
--    #2  0x45fa9653 in abort () from /lib/libc.so.6
--    #3  0x080cfb65 in _dbus_abort () at dbus-sysdeps.c:94
--    #4  0x080b52c3 in _dbus_real_assert (condition=0,
--        condition_text=condition_text@entry=0x8117a38 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
--        file=file@entry=0x8117273 "dbus-auth.c", line=line@entry=1545,
--        func=func@entry=0x8117f8e <__FUNCTION__.3492> "process_ok")
--        data=0x8157290) at dbus-connection.c:1515
--    #0  0x00000033fee353e9 in raise () from /lib64/libc.so.6
--    #1  0x00000033fee38508 in abort () from /lib64/libc.so.6
--    #2  0x000000000047d585 in _dbus_abort () at dbus-sysdeps.c:94
--    #3  0x0000000000466486 in _dbus_real_assert (condition=<optimized out>,
--        condition_text=condition_text@entry=0x4c2988 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
--        file=file@entry=0x4c21a5 "dbus-auth.c", line=line@entry=1546,
--        func=func@entry=0x4c2fce <__FUNCTION__.3845> "process_ok")
--        at dbus-internals.c:931
--    #4  0x000000000048d424 in process_ok (args_from_ok=0x7fffffffe480,
--        auth=0x6ff340) at dbus-auth.c:1546
--    #5  handle_client_state_waiting_for_data (auth=0x6ff340,
--        command=<optimized out>, args=0x7fffffffe480) at dbus-auth.c:1996
--    #6  0x000000000048e789 in process_command (auth=0x6ff340) at dbus-auth.c:2208
--    #7  _dbus_auth_do_work (auth=0x6ff340) at dbus-auth.c:2458
--    #8  0x000000000046091d in do_authentication (
--        transport=transport@entry=0x6ffaa0, do_reading=do_reading@entry=1,
--        do_writing=do_writing@entry=0,
--        auth_completed=auth_completed@entry=0x7fffffffe55c)
--        at dbus-transport-socket.c:442
--    #9  0x0000000000461d08 in socket_handle_watch (transport=0x6ffaa0,
--        watch=0x6f4190, flags=1) at dbus-transport-socket.c:921
--    #10 0x000000000045fa3a in _dbus_transport_handle_watch (transport=0x6ffaa0,
--
--Once send_negotiate_unix_fd failed, this failure will happen, since
--auth->guid_from_server has been set to some value before
--send_negotiate_unix_fd. send_negotiate_unix_fd failure will lead to
--this auth be handled by process_ok again, but this auth->guid_from_server
--is not zero.
--
--So we should clear auth->guid_from_server if send_negotiate_unix_fd failed
--
--Signed-off-by: Roy Li <rongqing.li@windriver.com>
-----
-- dbus/dbus-auth.c |    9 +++++++--
-- 1 file changed, 7 insertions(+), 2 deletions(-)
--
--diff --git a/dbus/dbus-auth.c b/dbus/dbus-auth.c
--index d2c37a7..37b45c6 100644
----- a/dbus/dbus-auth.c
--+++ b/dbus/dbus-auth.c
--@@ -1571,8 +1571,13 @@ process_ok(DBusAuth *auth,
--   _dbus_verbose ("Got GUID '%s' from the server\n",
--                  _dbus_string_get_const_data (& DBUS_AUTH_CLIENT (auth)->guid_from_server));
-- 
---  if (auth->unix_fd_possible)
---    return send_negotiate_unix_fd(auth);
--+  if (auth->unix_fd_possible) {
--+     if (!send_negotiate_unix_fd(auth)) {
--+         _dbus_string_set_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server, 0);
--+         return FALSE;
--+     }
--+     return TRUE;
--+  }
-- 
--   _dbus_verbose("Not negotiating unix fd passing, since not possible\n");
--   return send_begin (auth);
---- 
--1.7.10.4
--
-diff --git a/meta/recipes-core/dbus/dbus/python-config.patch b/meta/recipes-core/dbus/dbus/python-config.patch
-deleted file mode 100644
-index da2f10c726..0000000000
---- a/meta/recipes-core/dbus/dbus/python-config.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--When building the dbus-ptest package, we have to enable python.  However
--checking if the host-system python has the necessary library isn't useful.
--
--Disable the python module check for cross compiling.
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
-----
-- configure.ac | 7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 80d27b4..becc1cc 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -279,13 +279,6 @@ if test "x$enable_tests" = xyes; then
--   # full test coverage is required, Python is a hard dependency
--   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygi])
--   AM_PATH_PYTHON([2.6])
---  AC_MSG_CHECKING([for Python modules for full test coverage])
---  if "$PYTHON" -c "import dbus, gi.repository.GObject, dbus.mainloop.glib"; then
---    AC_MSG_RESULT([yes])
---  else
---    AC_MSG_RESULT([no])
---    AC_MSG_ERROR([cannot import dbus, gi.repository.GObject, dbus.mainloop.glib Python modules])
---  fi
-- else
--   # --enable-tests not given: do not abort if Python is missing
--   AM_PATH_PYTHON([2.6], [], [:])
---- 
--1.9.1
--
-diff --git a/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch b/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
-deleted file mode 100644
-index 7035098e41..0000000000
---- a/meta/recipes-core/dbus/dbus/stop_using_selinux_set_mapping.patch
-+++ /dev/null
-@@ -1,148 +0,0 @@
--From 6072f8b24153d844a3033108a17bcd0c1a967816 Mon Sep 17 00:00:00 2001
--From: Laurent Bigonville <bigon@bigon.be>
--Date: Sat, 3 Mar 2018 11:15:23 +0100
--Subject: [PATCH] Stop using selinux_set_mapping() function
--
--Currently, if the "dbus" security class or the associated AV doesn't
--exist, dbus-daemon fails to initialize and exits immediately. Also the
--security classes or access vector cannot be reordered in the policy.
--This can be a problem for people developing their own policy or trying
--to access a machine where, for some reasons, there is not policy defined
--at all.
--
--The code here copy the behaviour of the selinux_check_access() function.
--We cannot use this function here as it doesn't allow us to define the
--AVC entry reference.
--
--See the discussion at https://marc.info/?l=selinux&m=152163374332372&w=2
--
--Resolves: https://gitlab.freedesktop.org/dbus/dbus/issues/198
-----
-- bus/selinux.c | 75 ++++++++++++++++++++++++++++-----------------------
-- 1 file changed, 42 insertions(+), 33 deletions(-)
--
--
--Upstream-Status: Backport
--Signed-off-by: Nisha.Parrakat <Nisha.Parrakat@kpit.com>
--diff --git a/bus/selinux.c b/bus/selinux.c
--
----- a/bus/selinux.c	2021-08-11 14:45:59.048513026 +0000
--+++ b/bus/selinux.c	2021-08-11 14:57:47.144846966 +0000
--@@ -311,24 +311,6 @@
-- #endif
-- }
-- 
---/*
--- * Private Flask definitions; the order of these constants must
--- * exactly match that of the structure array below!
--- */
---/* security dbus class constants */
---#define SECCLASS_DBUS       1
---
---/* dbus's per access vector constants */
---#define DBUS__ACQUIRE_SVC   1
---#define DBUS__SEND_MSG      2
---
---#ifdef HAVE_SELINUX
---static struct security_class_mapping dbus_map[] = {
---  { "dbus", { "acquire_svc", "send_msg", NULL } },
---  { NULL }
---};
---#endif /* HAVE_SELINUX */
---
-- /**
--  * Establish dynamic object class and permission mapping and
--  * initialize the user space access vector cache (AVC) for D-Bus and set up
--@@ -350,13 +332,6 @@
-- 
--   _dbus_verbose ("SELinux is enabled in this kernel.\n");
-- 
---  if (selinux_set_mapping (dbus_map) < 0)
---    {
---      _dbus_warn ("Failed to set up security class mapping (selinux_set_mapping():%s).",
---                   strerror (errno));
---      return FALSE; 
---    }
---
--   avc_entry_ref_init (&aeref);
--   if (avc_init ("avc", &mem_cb, &log_cb, &thread_cb, &lock_cb) < 0)
--     {
--@@ -421,19 +396,53 @@
-- static dbus_bool_t
-- bus_selinux_check (BusSELinuxID        *sender_sid,
--                    BusSELinuxID        *override_sid,
---                   security_class_t     target_class,
---                   access_vector_t      requested,
--+                   const char          *target_class,
--+                   const char          *requested,
-- 		   DBusString          *auxdata)
-- {
--+  int saved_errno;
--+  security_class_t security_class;
--+  access_vector_t requested_access;
--+
--   if (!selinux_enabled)
--     return TRUE;
-- 
--+  security_class = string_to_security_class (target_class);
--+  if (security_class == 0)
--+    {
--+      saved_errno = errno;
--+      log_callback (SELINUX_ERROR, "Unknown class %s", target_class);
--+      if (security_deny_unknown () == 0)
--+        {
--+          return TRUE;
--+	}
--+
--+      _dbus_verbose ("Unknown class %s\n", target_class);
--+      errno = saved_errno;
--+      return FALSE;
--+    }
--+
--+  requested_access = string_to_av_perm (security_class, requested);
--+  if (requested_access == 0)
--+    {
--+      saved_errno = errno;
--+      log_callback (SELINUX_ERROR, "Unknown permission %s for class %s", requested, target_class);
--+      if (security_deny_unknown () == 0)
--+        {
--+          return TRUE;
--+	}
--+
--+      _dbus_verbose ("Unknown permission %s for class %s\n", requested, target_class);
--+      errno = saved_errno;
--+      return FALSE;
--+    }
--+
--   /* Make the security check.  AVC checks enforcing mode here as well. */
--   if (avc_has_perm (SELINUX_SID_FROM_BUS (sender_sid),
--                     override_sid ?
--                     SELINUX_SID_FROM_BUS (override_sid) :
--                     bus_sid,
---                    target_class, requested, &aeref, auxdata) < 0)
--+                    security_class, requested_access, &aeref, auxdata) < 0)
--     {
--     switch (errno)
--       {
--@@ -500,8 +509,8 @@
--   
--   ret = bus_selinux_check (connection_sid,
-- 			   service_sid,
---			   SECCLASS_DBUS,
---			   DBUS__ACQUIRE_SVC,
--+			   "dbus",
--+			   "acquire_svc",
-- 			   &auxdata);
-- 
--   _dbus_string_free (&auxdata);
--@@ -629,8 +638,8 @@
-- 
--   ret = bus_selinux_check (sender_sid, 
-- 			   recipient_sid,
---			   SECCLASS_DBUS, 
---			   DBUS__SEND_MSG,
--+			   "dbus", 
--+			   "send_msg",
-- 			   &auxdata);
-- 
--   _dbus_string_free (&auxdata);
-diff --git a/meta/recipes-core/dbus/dbus_1.12.22.bb b/meta/recipes-core/dbus/dbus_1.14.0.bb
-similarity index 94%
-rename from meta/recipes-core/dbus/dbus_1.12.22.bb
-rename to meta/recipes-core/dbus/dbus_1.14.0.bb
-index 792f34c7ef..7598c45f8e 100644
---- a/meta/recipes-core/dbus/dbus_1.12.22.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.0.bb
-@@ -7,18 +7,15 @@ inherit autotools pkgconfig gettext upstream-version-is-even ptest-gnome
+diff --git a/recipes-extended/libvirt/libvirt/lxc_protocol.patch b/recipes-extended/libvirt/libvirt/lxc_protocol.patch
+new file mode 100644
+index 00000000..595c3fe4
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/lxc_protocol.patch
+@@ -0,0 +1,104 @@
++From 38af66c1a9c4cdeb256eeaf563c6807757c370ce Mon Sep 17 00:00:00 2001
++From: Joe Slater <joe.slater@windriver.com>
++Date: Wed, 9 Mar 2022 23:17:33 +0000
++Subject: [PATCH] working commit
++
++remote_daemon.c and others need the generated header lxc_protocol.h,
++but do not have it as a dependency in meson.build.  This means that
++builds will randomly (ok, very occasionally) fail.  Restructure how the
++header is built so that remote_daemon can have it as a dependency.
++
++Upstream-Status: Pending
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++---
++ src/remote/meson.build | 48 ++++++++++++++++++++++++------------------
++ 1 file changed, 28 insertions(+), 20 deletions(-)
++
++diff --git a/src/remote/meson.build b/src/remote/meson.build
++index 0a18826..31a30ee 100644
++--- a/src/remote/meson.build
+++++ b/src/remote/meson.build
++@@ -1,27 +1,11 @@
++-remote_driver_sources = [
++-  'remote_driver.c',
++-  'remote_sockets.c',
++-]
++-
++-remote_driver_generated = []
+++remote_xxx_generated = []
++ 
++ foreach name : [ 'remote', 'qemu', 'lxc' ]
++-  client_bodies_h = '@0@_client_bodies.h'.format(name)
++   protocol_c = '@0@_protocol.c'.format(name)
++   protocol_h = '@0@_protocol.h'.format(name)
++   protocol_x = '@0@_protocol.x'.format(name)
++ 
++-  remote_driver_generated += custom_target(
++-    client_bodies_h,
++-    input: protocol_x,
++-    output: client_bodies_h,
++-    command: [
++-      gendispatch_prog, '--mode=client', name, name.to_upper(), '@INPUT@',
++-    ],
++-    capture: true,
++-  )
++-
++-  remote_driver_generated += custom_target(
+++  remote_xxx_generated += custom_target(
++     protocol_h,
++     input: protocol_x,
++     output: protocol_h,
++@@ -30,7 +14,7 @@ foreach name : [ 'remote', 'qemu', 'lxc' ]
++     ],
++   )
++ 
++-  remote_driver_generated += custom_target(
+++  remote_xxx_generated += custom_target(
++     protocol_c,
++     input: protocol_x,
++     output: protocol_c,
++@@ -42,6 +26,30 @@ foreach name : [ 'remote', 'qemu', 'lxc' ]
++   rpc_probe_files += files(protocol_x)
++ endforeach
++ 
+++
+++remote_driver_sources = [
+++  'remote_driver.c',
+++  'remote_sockets.c',
+++]
+++
+++remote_driver_generated =remote_xxx_generated
+++
+++foreach name : [ 'remote', 'qemu', 'lxc' ]
+++  client_bodies_h = '@0@_client_bodies.h'.format(name)
+++  protocol_x = '@0@_protocol.x'.format(name)
+++
+++  remote_driver_generated += custom_target(
+++    client_bodies_h,
+++    input: protocol_x,
+++    output: client_bodies_h,
+++    command: [
+++      gendispatch_prog, '--mode=client', name, name.to_upper(), '@INPUT@',
+++    ],
+++    capture: true,
+++  )
+++
+++endforeach
+++
++ remote_daemon_sources = files(
++   'remote_daemon.c',
++   'remote_daemon_config.c',
++@@ -49,7 +57,7 @@ remote_daemon_sources = files(
++   'remote_daemon_stream.c',
++ )
++ 
++-remote_daemon_generated = []
+++remote_daemon_generated = remote_xxx_generated
++ 
++ virt_ssh_helper_sources = files(
++   'remote_sockets.c',
++-- 
++2.32.0
++
+diff --git a/recipes-extended/libvirt/libvirt_7.2.0.bb b/recipes-extended/libvirt/libvirt_7.2.0.bb
+index 5ad7d59e..04c66eb5 100644
+--- a/recipes-extended/libvirt/libvirt_7.2.0.bb
++++ b/recipes-extended/libvirt/libvirt_7.2.0.bb
+@@ -31,6 +31,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+            file://0002-meson-Fix-compatibility-with-Meson-0.58.patch \
+            file://0001-security-fix-SELinux-label-generation-logic.patch \
+            file://0001-storage_driver-Unlock-object-on-ACL-fail-in-storageP.patch \
++           file://lxc_protocol.patch \
+           "
  
- LICENSE = "AFL-2.1 | GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
--                    file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
-+                    file://dbus/dbus.h;beginline=6;endline=20;md5=866739837ccd835350af94dccd6457d8"
- 
--SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-+SRC_URI = "https://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.xz \
-            file://run-ptest \
--           file://python-config.patch \
-            file://tmpdir.patch \
-            file://dbus-1.init \
--           file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
--           file://stop_using_selinux_set_mapping.patch \
- "
- 
--SRC_URI[sha256sum] = "8d25785c798ec4f892e6f9d177fb0ceeb8b29867b119798f9d5228561d3ad474"
-+SRC_URI[sha256sum] = "ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4"
- 
- EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-@@ -37,7 +34,7 @@ PACKAGECONFIG:class-native = ""
- PACKAGECONFIG:class-nativesdk = ""
- 
- PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
--PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
-+PACKAGECONFIG[x11] = "--enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
- PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
- PACKAGECONFIG[verbose-mode] = "--enable-verbose-mode,,,"
- PACKAGECONFIG[audit] = "--enable-libaudit,--disable-libaudit,audit"
+ SRC_URI[libvirt.md5sum] = "92044b629216e44adce63224970a54a3"
 -- 
-2.30.2
+2.35.1
 
 
