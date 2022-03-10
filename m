@@ -1,101 +1,106 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <ch@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6052DC433FE
-	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 10:25:50 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web08.7965.1646907949697577265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D849EC433EF
+	for <webhook@archiver.kernel.org>; Thu, 10 Mar 2022 10:37:49 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web10.8043.1646908667132548313
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Mar 2022 02:25:50 -0800
+ Thu, 10 Mar 2022 02:37:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ESHl9mas;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197,
- mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id BDD4D1C0005;
-	Thu, 10 Mar 2022 10:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646907947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xbYtirqmmaCgIZM95nEvEpcLPwFckANeW3v53oqvPXo=;
-	b=ESHl9masN6v0lYOZDmUG47tr0Vhw0jvSovYYGV921qKt7QaAQh0OlrjSjoiERR/B1AnWfb
-	2c4YerGO9bewsJg/wxYYM10Mo9VSMrmbesfEWa3iELJT1yIm1igLJ2emejVisffIwFBekH
-	v/TOz2bRNRHtI30D9/BIRPTUmLW5aijJlXCkCVUhZFwgZ1g4R+l4K72fSLC6dRfg5s4kE/
-	f5JMf4jRT8/HHEHKvGoG0wGJXCYyoRBi5ei+I1/0DscjFh3lgP3XR6iPotbF8O1x/6lzoj
-	T9MFp/MQ1qG4vdOA73a7cxZlZxuex9b2+ScbRLGc5jDg9R/Ugx5J5wrSj1aAyw==
-Message-ID: <bed867f3-8226-701c-0ee7-ac8f02723edc@bootlin.com>
-Date: Thu, 10 Mar 2022 11:25:46 +0100
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=op1rwFAq;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
+Received: from [10.88.0.104]
+ (dslb-002-205-233-017.002.205.pools.vodafone-ip.de [2.205.233.17])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: ch@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id A480E8009D;
+	Thu, 10 Mar 2022 11:37:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1646908664;
+	bh=VPb97NHirp4xnozN+dWlxuwHhDgXQaV17m0OMb7EYPw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=op1rwFAqQdkDjyiKcjEfQWJbWiKqXLQVXbkiXZwkqoIBybAhAoX7mErcVdKiaCbct
+	 srvQuOGOWDNctNOe3T3Ez0PDDfxr5kqKNYVng+vdFFOUIba2uElcExH0yi+e3piihd
+	 DegPmxu1GKo029E+5r/JOIlVZVK0698pjliidtRNTZgxn97YAwrqfgW9iDYqrW6OSh
+	 DZ5PMTGVBGQ3qM+OXOO901HsIzmW9MOaqV/DWBhNyvqldxq5GcH9f+VWI9T2tac24m
+	 lE6TxzoMYvea70RQM8Z2J6q/6/WgFyKQXdvzx3RrIIR8KgSvX5MiFkXngNHoNMd9BA
+	 X73mauw5Jts0g==
+Message-ID: <830782cd-7cd6-a38a-595e-3e604e584059@denx.de>
+Date: Thu, 10 Mar 2022 11:37:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Cc: YP docs mailing list <docs@lists.yoctoproject.org>
+ Thunderbird/91.6.1
+Subject: Re: [OE-core] [PATCH] overlayfs: add systemd unit path prefix to
+ FILES:${PN} array
 Content-Language: en-US
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: List of changes for Kirkstone migration notes
-Organization: Bootlin
-Content-Type: text/plain; charset=UTF-8
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+References: <20220309142946.3028564-1-ch@denx.de>
+ <37dadffea7d833f128aacd1454f7bbfaae4c8563.camel@linuxfoundation.org>
+From: Claudius Heine <ch@denx.de>
+Organization: Denx Software Engineering
+In-Reply-To: 
+ <37dadffea7d833f128aacd1454f7bbfaae4c8563.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 10:25:50 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Mar 2022 10:37:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163011
+ https://lists.openembedded.org/g/openembedded-core/message/163012
 
-Greetings
+Hi Richard,
 
-We need to prepare the final migration notes for Kirkstone and need your
-help. Here is a quick list of already documented changes (see
-https://git.yoctoproject.org/yocto-docs/tree/documentation/migration-guides/migration-3.5.rst),
-and changes that haven't been documented yet:
+On 2022-03-10 11:11, Richard Purdie wrote:
+> On Wed, 2022-03-09 at 15:29 +0100, Claudius Heine wrote:
+>> The 'FILES:${PN}' array is missing the systemd unit dir prefix causing
+>> them to not be packaged and the build fails with the
+>> `installed-vs-shipped` error.
+>>
+>> This adds the `systemd_system_unitdir` variable in front of every unit
+>> file added with this class.
+>>
+>> Signed-off-by: Claudius Heine <ch@denx.de>
+>> ---
+>>   meta/classes/overlayfs.bbclass | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/overlayfs.bbclass b/meta/classes/overlayfs.bbclass
+>> index 4a860f7308..f525ea6625 100644
+>> --- a/meta/classes/overlayfs.bbclass
+>> +++ b/meta/classes/overlayfs.bbclass
+>> @@ -103,7 +103,8 @@ python () {
+>>       unitList = unitFileList(d)
+>>       for unit in unitList:
+>>           d.appendVar('SYSTEMD_SERVICE:' + d.getVar('PN'), ' ' + unit)
+>> -        d.appendVar('FILES:' + d.getVar('PN'), ' ' + strForBash(unit))
+>> +        d.appendVar('FILES:' + d.getVar('PN'), ' ' +
+>> +		d.getVar('systemd_system_unitdir') + '/' + strForBash(unit))
+>>   
+>>       d.setVar('OVERLAYFS_UNIT_LIST', ' '.join([strForBash(s) for s in unitList]))
+>>   }
+> 
+> I have to wonder how this is being tested since this patch injects tabs into a
+> python function and that triggers warnings about tabs in python code.
+> 
+> That caused selftest failures:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3227
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/3240
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3271
+> 
+> I've tweaked the patch to fix the whitespace here and in the other patch but I
+> notice more patches on the list also with what I suspect are whitespace issues.
 
-Already documented
-- Branch name required in git:// and gitsm:// SRC_URI entries
-- ";protocol=https" required at the end of GitHub URLs
-- Network access disabled for tasks
-- TOPDIR and current directory no longer modified while parsing recipes
-- ``append``, ``prepend`` and ``remove`` only working with "=" and ":="
-- allarch packagegroups can no longer depend on packages using PKG renaming
-- distutils* classes moved to meta-python
-- `blacklist.bbclass`` removed and introduction of SKIP_RECIPE
+Ouch, I will check my editor config. Sorry for this.
 
-
-Not documented yet
-- Shared State reuse from the autobuilder, speeding up builds if the
-network is fast enough
-- License fields now using SPDX identifiers
-- Inclusive language updates, conversion script available
-- Python build process based on wheels. New python packaging classes:
-setuptools_build_meta.bbclass, pip_install_wheel.bbclass,
-flit_core.bbclass;
-- prelink support dropped
-- New overlayfs and overlayfs-etc classes
-- Support for AlmaLinux replacing CentOS, dropped CentOS 8, Ubuntu
-16.04, Fedora 30-32...
-- State cache: use ZStandard (zstd) instead of Gzip compression
-- Fixed the reproducibility issues with rust-llvm and golang. Full
-reprocibility in OE-Core
-- BitBake: improve setscene task display
-- New "crate" fetcher for Rust
-
-Any noteworthy changes we should add to the list? I also realize that
-some of the changes probably shouldn't make it to the migration notes,
-just to the release notes. If so, let us know.
-
-Don't hesitate to amend the above list by replying to this e-mail.
-Documentation patches are also welcome, of course.
-
-Thanks in advance,
-Michael.
-
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+regards,
+Claudius
 
