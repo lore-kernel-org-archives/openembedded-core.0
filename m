@@ -2,265 +2,278 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BBF9C433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Mar 2022 12:03:00 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web12.4529.1647000178546501836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D527C433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Mar 2022 12:03:08 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.4530.1647000186562806880
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 04:02:59 -0800
+ Fri, 11 Mar 2022 04:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=KMos+yo2;
- spf=pass (domain: burtonini.com, ip: 209.85.128.54,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f54.google.com with SMTP id
- v130-20020a1cac88000000b00389d0a5c511so947672wme.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 04:02:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
-        bh=bodeokY8npciF3N1WNceooINDayOjJfMCUc4mk+Slbs=;
-        b=KMos+yo2B06g9cSMotlm0MN3/ZJl5641sVl5FazjehBGf0dH5cmnCXUUMSyk2v2ZYM
-         5RsQgM8UILOlQqhM9od4wIINY0tDHWKuADviQqUHCunuOiIWlEluDmRrZsT/01rP5aJP
-         DFyvckXEhEvgBzyenFyscZzvVSFIkSzO53JFtWkNFfYzFExvsSg0SuTu13/P6tsoopgF
-         qJ/SNzFoIpUvHTGtMumr5Uth7Ze1rR0wZ9hB9CyUTVg2DFw6fpv/NCuhpjb0C4m3cNDs
-         cMZq3x1de4MnsEWkFkepJzsQFzAFxbChVxuFSGejA9q9zyz4uLBGJ/3jgslBcOOd31A1
-         NjXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:cc;
-        bh=bodeokY8npciF3N1WNceooINDayOjJfMCUc4mk+Slbs=;
-        b=hcxv8lNk3vytvpOVEKdbI8ogC3E/BqlKer7iGD3IVaIHvspceLcQ7hcoP2hpFS1WeK
-         YsDmMtHIvz7tUFKknyRTZMRCL15jn4bI6v6eadVLuIW2nz81RnyoKW57oQpRN0WXRxz7
-         lVKexgZ9goadlbCjby9atCqwPiNypgAXChlbv4aA0M17d3o+9P7WD0/VyugrMQk8fAP/
-         BFxL+vvw3r83yKYLs9oOEB3rd3ZZ6GhyEzyHRy0WiSC+93dvyXuoCB2DFz9eKjeHhDqm
-         xxyT0MzK6jglatD7KPdaEV/oQpAN7G2FyNlSs8vDl4QiO5veSAvbv6oxE7i3J0pcbFK+
-         aUDA==
-X-Gm-Message-State: AOAM533KqmRh/9GuZ2YWPKp53LxZKjXKDcRvRc8Tc0eLHnAHBbiYnjsL
-	1KsmdOx94Iw3mIddcA3wlBTJkOnOvkbv4jlEgJIkF6hoNHMvOQ==
-X-Google-Smtp-Source: 
- ABdhPJw1Iejwmz/ZEmlYM0JKBIPoI9HoCAHoO1c8VlgYpoeFmhm+AXzDuWUzI8VV430ZwcWtY73XtlBB4mrbl1hpTBM=
-X-Received: by 2002:a05:600c:2219:b0:389:bc8b:ac48 with SMTP id
- z25-20020a05600c221900b00389bc8bac48mr14984429wml.14.1647000176465; Fri, 11
- Mar 2022 04:02:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20220311120205.3020751-1-ross.burton@arm.com>
- <20220311120205.3020751-2-ross.burton@arm.com>
-In-Reply-To: <20220311120205.3020751-2-ross.burton@arm.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Fri, 11 Mar 2022 12:02:45 +0000
-Message-ID: 
- <CAAnfSTup9KVFq6toWtQbAo3svQLJF=-20-qPHP1ruW2KXHgMvA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] meta: rename pip_install_wheel.bbclass to
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C8C4175D
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 11 Mar 2022 04:03:06 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF7133F99C
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 11 Mar 2022 04:03:05 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] meta: rename pip_install_wheel.bbclass to
  python_pep517.bbclass
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 11 Mar 2022 12:03:02 +0000
+Message-Id: <20220311120302.3020992-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Mar 2022 12:03:00 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Mar 2022 12:03:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163050
+ https://lists.openembedded.org/g/openembedded-core/message/163051
 
-A fixup failed to land in this, v2 incoming.
+pip_install_wheel shouldn't restricted to just using Pip to install
+wheels (the installer module is simplier and likely a better option),
+and in the future may be extended to also provide do_compile() using
+the build module.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes/flit_core.bbclass                |  6 ++---
+ ...ll_wheel.bbclass =3D> python_pep517.bbclass} | 27 ++++++++++---------
+ meta/classes/setuptools3.bbclass              |  8 +++---
+ meta/classes/setuptools_build_meta.bbclass    |  6 ++---
+ .../python/python3-flit-core_3.7.1.bb         |  2 +-
+ .../python/python3-pip_22.0.3.bb              |  2 +-
+ .../python/python3-setuptools_59.5.0.bb       |  2 +-
+ .../python/python3-wheel_0.37.1.bb            |  2 +-
+ 8 files changed, 29 insertions(+), 26 deletions(-)
+ rename meta/classes/{pip_install_wheel.bbclass =3D> python_pep517.bbclas=
+s} (56%)
 
-On Fri, 11 Mar 2022 at 12:02, Ross Burton via lists.openembedded.org
-<ross=burtonini.com@lists.openembedded.org> wrote:
->
-> pip_install_wheel shouldn't restricted to just using Pip to install
-> wheels (the installer module is simplier and likely a better option),
-> and in the future may be extended to also provide do_compile() using
-> the build module.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/classes/flit_core.bbclass                |  6 ++---
->  ...ll_wheel.bbclass => python_pep517.bbclass} | 27 ++++++++++---------
->  meta/classes/setuptools3.bbclass              |  8 +++---
->  meta/classes/setuptools_build_meta.bbclass    |  6 ++---
->  .../python/python3-flit-core_3.7.1.bb         |  2 +-
->  .../python/python3-wheel_0.37.1.bb            |  2 +-
->  6 files changed, 27 insertions(+), 24 deletions(-)
->  rename meta/classes/{pip_install_wheel.bbclass => python_pep517.bbclass} (56%)
->
-> diff --git a/meta/classes/flit_core.bbclass b/meta/classes/flit_core.bbclass
-> index ce162bb75b..1ef8ce9429 100644
-> --- a/meta/classes/flit_core.bbclass
-> +++ b/meta/classes/flit_core.bbclass
-> @@ -1,4 +1,4 @@
-> -inherit pip_install_wheel python3native python3-dir setuptools3-base
-> +inherit python_pep517 python3native python3-dir setuptools3-base
->
->  DEPENDS += "python3 python3-flit-core-native"
->
-> @@ -12,8 +12,8 @@ PEP517_SOURCE_PATH ?= "${S}"
->  # TODO: ideally this uses pypa/build
->  flit_core_do_compile () {
->      cd ${PEP517_SOURCE_PATH}
-> -    nativepython3 -mflit_core.wheel --outdir ${PIP_INSTALL_DIST_PATH}
-> +    nativepython3 -mflit_core.wheel --outdir ${PEP517_WHEEL_PATH}
->  }
-> -do_compile[cleandirs] += "${PIP_INSTALL_DIST_PATH}"
-> +do_compile[cleandirs] += "${PEP517_WHEEL_PATH}"
->
->  EXPORT_FUNCTIONS do_configure do_compile
-> diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/python_pep517.bbclass
-> similarity index 56%
-> rename from meta/classes/pip_install_wheel.bbclass
-> rename to meta/classes/python_pep517.bbclass
-> index 29cd544aa3..76660e70f8 100644
-> --- a/meta/classes/pip_install_wheel.bbclass
-> +++ b/meta/classes/python_pep517.bbclass
-> @@ -1,9 +1,12 @@
-> +# Common infrastructure for Python packages that use PEP-517 compliant packaging.
-> +# https://www.python.org/dev/peps/pep-0517/
-> +
->  DEPENDS:append = " python3-pip-native"
->
->  # The directory where wheels should be written too. Build classes
->  # will ideally [cleandirs] this but we don't do that here in case
->  # a recipe wants to install prebuilt wheels.
-> -PIP_INSTALL_DIST_PATH ?= "${WORKDIR}/dist"
-> +PEP517_WHEEL_PATH ?= "${WORKDIR}/dist"
->
->  PIP_INSTALL_ARGS = "\
->      -vvvv \
-> @@ -15,24 +18,24 @@ PIP_INSTALL_ARGS = "\
->      --prefix=${prefix} \
->  "
->
-> -PIP_INSTALL_PYTHON = "python3"
-> -PIP_INSTALL_PYTHON:class-native = "nativepython3"
-> +PEP517_INSTALL_PYTHON = "python3"
-> +PEP517_INSTALL_PYTHON:class-native = "nativepython3"
->
-> -pip_install_wheel_do_install () {
-> -    COUNT=$(find ${PIP_INSTALL_DIST_PATH} -name '*.whl' | wc -l)
-> +python_pep517_do_install () {
-> +    COUNT=$(find ${PEP517_WHEEL_PATH} -name '*.whl' | wc -l)
->      if test $COUNT -eq 0; then
-> -        bbfatal No wheels found in ${PIP_INSTALL_DIST_PATH}
-> +        bbfatal No wheels found in ${PEP517_WHEEL_PATH}
->      elif test $COUNT -gt 1; then
-> -        bbfatal More than one wheel found in ${PIP_INSTALL_DIST_PATH}, this should not happen
-> +        bbfatal More than one wheel found in ${PEP517_WHEEL_PATH}, this should not happen
->      fi
->
-> -    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PIP_INSTALL_DIST_PATH}/*.whl
-> +    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PEP517_WHEEL_PATH}/*.whl
->
->      cd ${D}
->      for i in ${D}${bindir}/* ${D}${sbindir}/*; do
->          if [ -f "$i" ]; then
-> -            sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PIP_INSTALL_PYTHON}," $i
-> -            sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PIP_INSTALL_PYTHON}:g" $i
-> +            sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PEP517_INSTALL_PYTHON}," $i
-> +            sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PEP517_INSTALL_PYTHON}:g" $i
->              sed -i -e "s:${STAGING_BINDIR_NATIVE}:${bindir}:g" $i
->              # Not everything we find may be Python, so ignore errors
->              nativepython3 -mpy_compile $(realpath --relative-to=${D} $i) || true
-> @@ -41,9 +44,9 @@ pip_install_wheel_do_install () {
->  }
->
->  # A manual do_install that just uses unzip for bootstrapping purposes. Callers should DEPEND on unzip-native.
-> -pip_install_wheel_do_bootstrap_install () {
-> +python_pep517_do_bootstrap_install () {
->      install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-> -    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PIP_INSTALL_DIST_PATH}/*.whl
-> +    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PEP517_WHEEL_PATH}/*.whl
->  }
->
->  EXPORT_FUNCTIONS do_install
-> diff --git a/meta/classes/setuptools3.bbclass b/meta/classes/setuptools3.bbclass
-> index dcf3561b8d..556bc801af 100644
-> --- a/meta/classes/setuptools3.bbclass
-> +++ b/meta/classes/setuptools3.bbclass
-> @@ -1,4 +1,4 @@
-> -inherit setuptools3-base pip_install_wheel
-> +inherit setuptools3-base python_pep517
->
->  # bdist_wheel builds in ./dist
->  #B = "${WORKDIR}/build"
-> @@ -17,14 +17,14 @@ setuptools3_do_compile() {
->          STAGING_INCDIR=${STAGING_INCDIR} \
->          STAGING_LIBDIR=${STAGING_LIBDIR} \
->          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
-> -        bdist_wheel --verbose --dist-dir ${PIP_INSTALL_DIST_PATH} ${SETUPTOOLS_BUILD_ARGS} || \
-> +        bdist_wheel --verbose --dist-dir ${PEP517_WHEEL_PATH} ${SETUPTOOLS_BUILD_ARGS} || \
->          bbfatal_log "'${PYTHON_PN} setup.py bdist_wheel ${SETUPTOOLS_BUILD_ARGS}' execution failed."
->  }
->  setuptools3_do_compile[vardepsexclude] = "MACHINE"
-> -do_compile[cleandirs] += "${PIP_INSTALL_DIST_PATH}"
-> +do_compile[cleandirs] += "${PEP517_WHEEL_PATH}"
->
->  setuptools3_do_install() {
-> -        pip_install_wheel_do_install
-> +        python_pep517_do_install
->  }
->
->  EXPORT_FUNCTIONS do_configure do_compile do_install
-> diff --git a/meta/classes/setuptools_build_meta.bbclass b/meta/classes/setuptools_build_meta.bbclass
-> index 787fbd5f36..424be85608 100644
-> --- a/meta/classes/setuptools_build_meta.bbclass
-> +++ b/meta/classes/setuptools_build_meta.bbclass
-> @@ -1,4 +1,4 @@
-> -inherit pip_install_wheel setuptools3-base
-> +inherit setuptools3-base python_pep517
->
->  DEPENDS += "python3-setuptools-native python3-wheel-native"
->
-> @@ -12,8 +12,8 @@ setuptools_build_meta_do_configure () {
->  # TODO: ideally this uses pypa/build
->  setuptools_build_meta_do_compile () {
->      cd ${PEP517_SOURCE_PATH}
-> -    nativepython3 -c "from setuptools import build_meta; build_meta.build_wheel('${PIP_INSTALL_DIST_PATH}')"
-> +    nativepython3 -c "from setuptools import build_meta; build_meta.build_wheel('${PEP517_WHEEL_PATH}')"
->  }
-> -do_compile[cleandirs] += "${PIP_INSTALL_DIST_PATH}"
-> +do_compile[cleandirs] += "${PEP517_WHEEL_PATH}"
->
->  EXPORT_FUNCTIONS do_configure do_compile
-> diff --git a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-> index 1f14345d50..b12b8e42d7 100644
-> --- a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-> +++ b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-> @@ -21,7 +21,7 @@ PYPI_PACKAGE = "flit"
->  PEP517_SOURCE_PATH = "${S}/flit_core"
->
->  do_install:class-native () {
-> -    pip_install_wheel_do_bootstrap_install
-> +    python_pep517_do_bootstrap_install
->  }
->
->  PACKAGES =+ "${PN}-tests"
-> diff --git a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-> index cf0d8191b4..a339e65824 100644
-> --- a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-> +++ b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
-> @@ -13,7 +13,7 @@ SRC_URI += " file://0001-Backport-pyproject.toml-from-flit-backend-branch.patch"
->  DEPENDS:remove:class-native = "python3-pip-native"
->
->  do_install:class-native () {
-> -    pip_install_wheel_do_bootstrap_install
-> +    python_pep517_do_bootstrap_install
->
->      # pip install would normally generate [project.scripts] in ${bindir}
->      install -d ${D}/${bindir}
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163049): https://lists.openembedded.org/g/openembedded-core/message/163049
-> Mute This Topic: https://lists.openembedded.org/mt/89708482/1676615
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/classes/flit_core.bbclass b/meta/classes/flit_core.bbcl=
+ass
+index ce162bb75b..1ef8ce9429 100644
+--- a/meta/classes/flit_core.bbclass
++++ b/meta/classes/flit_core.bbclass
+@@ -1,4 +1,4 @@
+-inherit pip_install_wheel python3native python3-dir setuptools3-base
++inherit python_pep517 python3native python3-dir setuptools3-base
+=20
+ DEPENDS +=3D "python3 python3-flit-core-native"
+=20
+@@ -12,8 +12,8 @@ PEP517_SOURCE_PATH ?=3D "${S}"
+ # TODO: ideally this uses pypa/build
+ flit_core_do_compile () {
+     cd ${PEP517_SOURCE_PATH}
+-    nativepython3 -mflit_core.wheel --outdir ${PIP_INSTALL_DIST_PATH}
++    nativepython3 -mflit_core.wheel --outdir ${PEP517_WHEEL_PATH}
+ }
+-do_compile[cleandirs] +=3D "${PIP_INSTALL_DIST_PATH}"
++do_compile[cleandirs] +=3D "${PEP517_WHEEL_PATH}"
+=20
+ EXPORT_FUNCTIONS do_configure do_compile
+diff --git a/meta/classes/pip_install_wheel.bbclass b/meta/classes/python=
+_pep517.bbclass
+similarity index 56%
+rename from meta/classes/pip_install_wheel.bbclass
+rename to meta/classes/python_pep517.bbclass
+index 29cd544aa3..76660e70f8 100644
+--- a/meta/classes/pip_install_wheel.bbclass
++++ b/meta/classes/python_pep517.bbclass
+@@ -1,9 +1,12 @@
++# Common infrastructure for Python packages that use PEP-517 compliant p=
+ackaging.
++# https://www.python.org/dev/peps/pep-0517/
++
+ DEPENDS:append =3D " python3-pip-native"
+=20
+ # The directory where wheels should be written too. Build classes
+ # will ideally [cleandirs] this but we don't do that here in case
+ # a recipe wants to install prebuilt wheels.
+-PIP_INSTALL_DIST_PATH ?=3D "${WORKDIR}/dist"
++PEP517_WHEEL_PATH ?=3D "${WORKDIR}/dist"
+=20
+ PIP_INSTALL_ARGS =3D "\
+     -vvvv \
+@@ -15,24 +18,24 @@ PIP_INSTALL_ARGS =3D "\
+     --prefix=3D${prefix} \
+ "
+=20
+-PIP_INSTALL_PYTHON =3D "python3"
+-PIP_INSTALL_PYTHON:class-native =3D "nativepython3"
++PEP517_INSTALL_PYTHON =3D "python3"
++PEP517_INSTALL_PYTHON:class-native =3D "nativepython3"
+=20
+-pip_install_wheel_do_install () {
+-    COUNT=3D$(find ${PIP_INSTALL_DIST_PATH} -name '*.whl' | wc -l)
++python_pep517_do_install () {
++    COUNT=3D$(find ${PEP517_WHEEL_PATH} -name '*.whl' | wc -l)
+     if test $COUNT -eq 0; then
+-        bbfatal No wheels found in ${PIP_INSTALL_DIST_PATH}
++        bbfatal No wheels found in ${PEP517_WHEEL_PATH}
+     elif test $COUNT -gt 1; then
+-        bbfatal More than one wheel found in ${PIP_INSTALL_DIST_PATH}, t=
+his should not happen
++        bbfatal More than one wheel found in ${PEP517_WHEEL_PATH}, this =
+should not happen
+     fi
+=20
+-    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PIP_INSTALL_DIST_=
+PATH}/*.whl
++    nativepython3 -m pip install ${PIP_INSTALL_ARGS} ${PEP517_WHEEL_PATH=
+}/*.whl
+=20
+     cd ${D}
+     for i in ${D}${bindir}/* ${D}${sbindir}/*; do
+         if [ -f "$i" ]; then
+-            sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PIP_IN=
+STALL_PYTHON}," $i
+-            sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PIP_INSTALL_PYTH=
+ON}:g" $i
++            sed -i -e "1s,#!.*nativepython3,#!${USRBINPATH}/env ${PEP517=
+_INSTALL_PYTHON}," $i
++            sed -i -e "s:${PYTHON}:${USRBINPATH}/env\ ${PEP517_INSTALL_P=
+YTHON}:g" $i
+             sed -i -e "s:${STAGING_BINDIR_NATIVE}:${bindir}:g" $i
+             # Not everything we find may be Python, so ignore errors
+             nativepython3 -mpy_compile $(realpath --relative-to=3D${D} $=
+i) || true
+@@ -41,9 +44,9 @@ pip_install_wheel_do_install () {
+ }
+=20
+ # A manual do_install that just uses unzip for bootstrapping purposes. C=
+allers should DEPEND on unzip-native.
+-pip_install_wheel_do_bootstrap_install () {
++python_pep517_do_bootstrap_install () {
+     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+-    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PIP_INSTALL_DIST_PATH}/*.w=
+hl
++    unzip -d ${D}${PYTHON_SITEPACKAGES_DIR} ${PEP517_WHEEL_PATH}/*.whl
+ }
+=20
+ EXPORT_FUNCTIONS do_install
+diff --git a/meta/classes/setuptools3.bbclass b/meta/classes/setuptools3.=
+bbclass
+index dcf3561b8d..556bc801af 100644
+--- a/meta/classes/setuptools3.bbclass
++++ b/meta/classes/setuptools3.bbclass
+@@ -1,4 +1,4 @@
+-inherit setuptools3-base pip_install_wheel
++inherit setuptools3-base python_pep517
+=20
+ # bdist_wheel builds in ./dist
+ #B =3D "${WORKDIR}/build"
+@@ -17,14 +17,14 @@ setuptools3_do_compile() {
+         STAGING_INCDIR=3D${STAGING_INCDIR} \
+         STAGING_LIBDIR=3D${STAGING_LIBDIR} \
+         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.=
+py \
+-        bdist_wheel --verbose --dist-dir ${PIP_INSTALL_DIST_PATH} ${SETU=
+PTOOLS_BUILD_ARGS} || \
++        bdist_wheel --verbose --dist-dir ${PEP517_WHEEL_PATH} ${SETUPTOO=
+LS_BUILD_ARGS} || \
+         bbfatal_log "'${PYTHON_PN} setup.py bdist_wheel ${SETUPTOOLS_BUI=
+LD_ARGS}' execution failed."
+ }
+ setuptools3_do_compile[vardepsexclude] =3D "MACHINE"
+-do_compile[cleandirs] +=3D "${PIP_INSTALL_DIST_PATH}"
++do_compile[cleandirs] +=3D "${PEP517_WHEEL_PATH}"
+=20
+ setuptools3_do_install() {
+-        pip_install_wheel_do_install
++        python_pep517_do_install
+ }
+=20
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes/setuptools_build_meta.bbclass b/meta/classes/se=
+tuptools_build_meta.bbclass
+index 787fbd5f36..424be85608 100644
+--- a/meta/classes/setuptools_build_meta.bbclass
++++ b/meta/classes/setuptools_build_meta.bbclass
+@@ -1,4 +1,4 @@
+-inherit pip_install_wheel setuptools3-base
++inherit setuptools3-base python_pep517
+=20
+ DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
+=20
+@@ -12,8 +12,8 @@ setuptools_build_meta_do_configure () {
+ # TODO: ideally this uses pypa/build
+ setuptools_build_meta_do_compile () {
+     cd ${PEP517_SOURCE_PATH}
+-    nativepython3 -c "from setuptools import build_meta; build_meta.buil=
+d_wheel('${PIP_INSTALL_DIST_PATH}')"
++    nativepython3 -c "from setuptools import build_meta; build_meta.buil=
+d_wheel('${PEP517_WHEEL_PATH}')"
+ }
+-do_compile[cleandirs] +=3D "${PIP_INSTALL_DIST_PATH}"
++do_compile[cleandirs] +=3D "${PEP517_WHEEL_PATH}"
+=20
+ EXPORT_FUNCTIONS do_configure do_compile
+diff --git a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb b/me=
+ta/recipes-devtools/python/python3-flit-core_3.7.1.bb
+index 1f14345d50..b12b8e42d7 100644
+--- a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
++++ b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
+@@ -21,7 +21,7 @@ PYPI_PACKAGE =3D "flit"
+ PEP517_SOURCE_PATH =3D "${S}/flit_core"
+=20
+ do_install:class-native () {
+-    pip_install_wheel_do_bootstrap_install
++    python_pep517_do_bootstrap_install
+ }
+=20
+ PACKAGES =3D+ "${PN}-tests"
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/re=
+cipes-devtools/python/python3-pip_22.0.3.bb
+index bce3b68861..bfeeee789c 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+@@ -19,7 +19,7 @@ SRC_URI +=3D "file://reproducible.patch"
+ SRC_URI[sha256sum] =3D "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c53=
+49d70aa581b333d0"
+=20
+ do_install:class-native() {
+-    pip_install_wheel_do_bootstrap_install
++    python_pep517_do_bootstrap_install
+=20
+     # pip install would normally generate [console_scripts] in ${bindir}
+     install -d ${D}/${bindir}
+diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/=
+meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+index 7cd67b85f9..d93972b9a0 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+@@ -22,7 +22,7 @@ DEPENDS:remove:class-native =3D "python3-pip-native pyt=
+hon3-setuptools-native"
+ DEPENDS:append:class-native =3D " unzip-native"
+=20
+ do_install:class-native() {
+-    pip_install_wheel_do_bootstrap_install
++    python_pep517_do_bootstrap_install
+ }
+=20
+ RDEPENDS:${PN} =3D "\
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb b/meta/=
+recipes-devtools/python/python3-wheel_0.37.1.bb
+index cf0d8191b4..a339e65824 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.37.1.bb
+@@ -13,7 +13,7 @@ SRC_URI +=3D " file://0001-Backport-pyproject.toml-from=
+-flit-backend-branch.patch"
+ DEPENDS:remove:class-native =3D "python3-pip-native"
+=20
+ do_install:class-native () {
+-    pip_install_wheel_do_bootstrap_install
++    python_pep517_do_bootstrap_install
+=20
+     # pip install would normally generate [project.scripts] in ${bindir}
+     install -d ${D}/${bindir}
+--=20
+2.25.1
+
 
