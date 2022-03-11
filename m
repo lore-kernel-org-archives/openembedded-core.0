@@ -1,416 +1,131 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E864DC433EF
-	for <webhook@archiver.kernel.org>; Fri, 11 Mar 2022 17:20:21 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.8033.1647019220185146635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F384DC433EF
+	for <webhook@archiver.kernel.org>; Fri, 11 Mar 2022 17:21:27 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web11.8053.1647019286959449073
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 09:20:20 -0800
+ Fri, 11 Mar 2022 09:21:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.85,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
-	by mailout11.t-online.de (Postfix) with SMTP id 83C74D874
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 18:20:18 +0100 (CET)
-Received: from flk-MS-7C91.fritz.box ([84.163.46.97]) by fwd83.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nSiw6-17PTOr0; Fri, 11 Mar 2022 18:20:18 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [meta-oe][PATCHv2] mesa: update to 22.0.0
-Date: Fri, 11 Mar 2022 18:20:10 +0100
-Message-Id: <20220311172010.2490948-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HYdakX8c;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id q194so7512164qke.5
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 11 Mar 2022 09:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tJoufRRLlhPAYmlfq+dg3GCCLXmxIBh48G4SKRnLUgE=;
+        b=HYdakX8cWjxM0D4QS3/xrSXAgnciHH32jyMUnPJ3fHzrfnf9jbQSnq1znfat8RjEiw
+         ciC3mKY8bXyN+BHHHSssW6irFPIV/Z5Rej0SlYiXFlcpa9+U85cznL0goTYJej4dBHrn
+         pWvgqPYPSTp4TJgjCyn0C7bh1LDkrX+j4T19WNWHCF09Drkpk95vldY/CGzpOitcD0fL
+         Kag2GJW7svKgwMa+2LujY/LK2p25Zg7lQhv37mcFO6g6QkqriHTwkJo3uF/MKHHaoI+0
+         7qcyZ+gQ4XxsQiXaUZMu6Xh8rZqH87jcLW7Msae/BUX4x3cFI2LQPL68/ksWsT7ojYbM
+         qDVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tJoufRRLlhPAYmlfq+dg3GCCLXmxIBh48G4SKRnLUgE=;
+        b=iCt4z8G2GzksFhCKKBLzr3qLOAM6GWgoluDYGt51uNNB5CWyWaARc6SlRg6CRaTmwH
+         PBtrNHQoIRkAoxxs8FG/DyGYs37VEgUAYNyxpmzkKeeyQN8yZDGYUWNuu+Y+lgLIx92S
+         //ZUjXSU+ArSqyRmGtnD2AQHrI+0tjHJJe2wR5BhKWl1pvAyrwut2Na6J70fP++Cx3tR
+         X1R18SFS6kPg47noEKrl8vqb1lSE2AH+xBWWwTR5rEGj2rlAON6O5ivdbqusCff32zE5
+         B5xui+Cw8zBtjweoq8q4bUnISxvkn1NwisbrJqfLy5ASejhG6CnrvMwKOSBtNY/uRXi9
+         jSXQ==
+X-Gm-Message-State: AOAM532S97BttZ43WDBl0f3l1Eg3q97Dj93pemmBvo0eF9Xr8ltInS/2
+	95KtxKLouKqHsU7a6EQ8e4J8wDqHooRtEOmQKVU=
+X-Google-Smtp-Source: 
+ ABdhPJyAZYHXBcn0OymmjMDPAh3QxLg+4E2gCRnyaffgqZevrSKcqF6FLmYwfgTaCe4nbwnwAn98hC2gYB4i7tymbdc=
+X-Received: by 2002:a05:620a:4626:b0:67d:1857:cdd2 with SMTP id
+ br38-20020a05620a462600b0067d1857cdd2mr6951108qkb.227.1647019285926; Fri, 11
+ Mar 2022 09:21:25 -0800 (PST)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1647019218-0000EDC4-C563C576/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9199d650-07f5-40b6-b1b9-303aa793f61e
-Content-Transfer-Encoding: quoted-printable
+References: <20220311090534.1133919-1-sundeep.kokkonda@gmail.com>
+In-Reply-To: <20220311090534.1133919-1-sundeep.kokkonda@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 Mar 2022 09:21:00 -0800
+Message-ID: 
+ <CAMKF1soUYKhsp8FqrU0GeSQ1WP5z-tV4_PmJPfk+80JTZGu9Hw@mail.gmail.com>
+Subject: Re: [OE-core] [master][PATCH] PR sanitizer/101749 -
+ sanitizer_common/sanitizer_posix_libcdep.cpp: Prevent generation of
+ dependency on _cxa_guard for static initialization.
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Anuj Mittal <anuj.mittal@intel.com>, Randy MacLeod <rwmacleod@gmail.com>,
+	umesh kalappa0 <umesh.kalappa0@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Mar 2022 17:20:21 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Mar 2022 17:21:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163069
+ https://lists.openembedded.org/g/openembedded-core/message/163070
 
-- remove 0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch that
-  was applied upstream
+lgtm. you might need to add more info into patch header.
 
-- adjust 0002-meson.build-make-TLS-ELF-optional.patch
-
-- fix patch fuzz
-
-License-Update: removed references to deleted code.
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- ...fine-__NR_futex-if-it-does-not-exist.patch |  5 ++-
- ...sdetects-64bit-atomics-on-mips-clang.patch |  8 ++--
- ...k-for-all-linux-host_os-combinations.patch | 10 ++---
- ...ormat-Check-for-NEON-before-using-it.patch | 10 ++---
- ...unt-for-64bit-time_t-on-32bit-arches.patch | 41 -----------------
- ...02-meson.build-make-TLS-ELF-optional.patch | 44 +++++++++----------
- .../{mesa-gl_21.3.7.bb =3D> mesa-gl_22.0.0.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  5 +--
- .../mesa/{mesa_21.3.7.bb =3D> mesa_22.0.0.bb}   |  0
- 9 files changed, 40 insertions(+), 83 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-v3dv-account-fo=
-r-64bit-time_t-on-32bit-arches.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_21.3.7.bb =3D> mesa-gl_22.0.0=
-.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_21.3.7.bb =3D> mesa_22.0.0.bb} (=
-100%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_fu=
-tex-if-it-does-not-exist.patch b/meta/recipes-graphics/mesa/files/0001-fu=
-tex.h-Define-__NR_futex-if-it-does-not-exist.patch
-index 8bedbac669..3b0bfa323b 100644
---- a/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-=
-it-does-not-exist.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-futex.h-Define-__NR_futex-if-=
-it-does-not-exist.patch
-@@ -1,4 +1,4 @@
--From 8973e297f2f9b17498b9dc0e37a19481d4bb7df9 Mon Sep 17 00:00:00 2001
-+From 253b042d2bf10e9abfa9cc508e0782aefd834145 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 16 Oct 2020 11:03:47 -0700
- Subject: [PATCH] futex.h: Define __NR_futex if it does not exist
-@@ -12,10 +12,13 @@ working
-=20
- Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  src/util/futex.h | 4 ++++
-  1 file changed, 4 insertions(+)
-=20
-+diff --git a/src/util/futex.h b/src/util/futex.h
-+index 43097f4..941b0ec 100644
- --- a/src/util/futex.h
- +++ b/src/util/futex.h
- @@ -34,6 +34,10 @@
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit=
--atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meso=
-n-misdetects-64bit-atomics-on-mips-clang.patch
-index 15485feb71..b08e4d86c2 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomic=
-s-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomic=
-s-on-mips-clang.patch
-@@ -1,16 +1,17 @@
--From bb2f0bea553d51d659a9bc46f7ae186885405151 Mon Sep 17 00:00:00 2001
-+From d34bdbd80e5a1f309d2ba280cdc66ff0ee0e5c43 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-=20
- Upstream-Status: Pending
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  src/util/u_atomic.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/src/util/u_atomic.c b/src/util/u_atomic.c
--index e4bffa8..58e1ddd 100644
-+index 5a5eab4..e499516 100644
- --- a/src/util/u_atomic.c
- +++ b/src/util/u_atomic.c
- @@ -21,7 +21,7 @@
-@@ -22,6 +23,3 @@ index e4bffa8..58e1ddd 100644
- =20
-  #include <stdint.h>
-  #include <pthread.h>
----=20
--2.24.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-=
-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0=
-001-meson.build-check-for-all-linux-host_os-combinations.patch
-index b6f86743e1..aea23d0ec2 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-lin=
-ux-host_os-combinations.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-lin=
-ux-host_os-combinations.patch
-@@ -1,4 +1,4 @@
--From 38e984073e4c23b6278d1a2ff21e894fda7b93c5 Mon Sep 17 00:00:00 2001
-+From f9c597a2c517eb85c23cbeeb2e95c55794c74cda Mon Sep 17 00:00:00 2001
- From: Alistair Francis <alistair@alistair23.me>
- Date: Thu, 14 Nov 2019 13:04:49 -0800
- Subject: [PATCH] meson.build: check for all linux host_os combinations
-@@ -20,10 +20,10 @@ Signed-off-by: Alistair Francis <alistair@alistair23.=
-me>
-  1 file changed, 2 insertions(+), 2 deletions(-)
-=20
- diff --git a/meson.build b/meson.build
--index 932eb13..efc6171 100644
-+index bca6b1f..70d06c0 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -153,7 +153,7 @@ with_any_opengl =3D with_opengl or with_gles1 or wit=
-h_gles2
-+@@ -172,7 +172,7 @@ with_any_opengl =3D with_opengl or with_gles1 or wit=
-h_gles2
-  # Only build shared_glapi if at least one OpenGL API is enabled
-  with_shared_glapi =3D with_shared_glapi and with_any_opengl
- =20
-@@ -31,8 +31,8 @@ index 932eb13..efc6171 100644
- +system_has_kms_drm =3D ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].co=
-ntains(host_machine.system()) or host_machine.system().startswith('linux'=
-)
- =20
-  dri_drivers =3D get_option('dri-drivers')
-- if dri_drivers.contains('auto')
--@@ -970,7 +970,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }'=
-,
-+ if dri_drivers.length() !=3D 0
-+@@ -1074,7 +1074,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; =
-}',
-  endif
- =20
-  # TODO: this is very incomplete
-diff --git a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-=
-NEON-before-using-it.patch b/meta/recipes-graphics/mesa/files/0001-util-f=
-ormat-Check-for-NEON-before-using-it.patch
-index 80b9af08e8..5c6165c281 100644
---- a/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-be=
-fore-using-it.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-util-format-Check-for-NEON-be=
-fore-using-it.patch
-@@ -1,4 +1,4 @@
--From 4febda271c6bb0dc69ebf573446c6922a1ec35fb Mon Sep 17 00:00:00 2001
-+From fdb2face4eeac3c20eedcca7520f4e7014225fb4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 2 Dec 2021 19:57:42 -0800
- Subject: [PATCH] util/format: Check for NEON before using it
-@@ -13,13 +13,14 @@ In file included from ../mesa-21.3.0/src/util/format/=
-u_format_unpack_neon.c:35:
-=20
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/14032]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  src/util/format/u_format.c             | 2 +-
-  src/util/format/u_format_unpack_neon.c | 2 +-
-  2 files changed, 2 insertions(+), 2 deletions(-)
-=20
- diff --git a/src/util/format/u_format.c b/src/util/format/u_format.c
--index 36c5e52008e..f0a00971691 100644
-+index 36c5e52..f0a0097 100644
- --- a/src/util/format/u_format.c
- +++ b/src/util/format/u_format.c
- @@ -1138,7 +1138,7 @@ static void
-@@ -32,7 +33,7 @@ index 36c5e52008e..f0a00971691 100644
-        if (unpack) {
-           util_format_unpack_table[format] =3D unpack;
- diff --git a/src/util/format/u_format_unpack_neon.c b/src/util/format/u_=
-format_unpack_neon.c
--index a4a5cb1f723..1e4f794a295 100644
-+index a4a5cb1..1e4f794 100644
- --- a/src/util/format/u_format_unpack_neon.c
- +++ b/src/util/format/u_format_unpack_neon.c
- @@ -23,7 +23,7 @@
-@@ -44,6 +45,3 @@ index a4a5cb1f723..1e4f794a295 100644
- =20
-  /* armhf builds default to vfp, not neon, and refuses to compile neon i=
-ntrinsics
-   * unless you tell it "no really".
----=20
--2.34.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit=
--time_t-on-32bit-arches.patch b/meta/recipes-graphics/mesa/files/0001-v3d=
-v-account-for-64bit-time_t-on-32bit-arches.patch
-deleted file mode 100644
-index e87d7d7311..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-v3dv-account-for-64bit-time_t=
--on-32bit-arches.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From e2e2fe86dd61b6fae682a1fec31bd0755ced5cd5 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 7 Dec 2021 11:13:27 -0800
--Subject: [PATCH] v3dv: account for 64bit time_t on 32bit arches
--
--This makes is a bit more portable, especially on 32bit architectures
--with 64bit time_t defaults. Especially on musl its a must.
--
--Fixes
--../mesa-21.3.0/src/broadcom/vulkan/v3dv_bo.c:71:15: error: format specif=
-ies type 'long' but the argument has type 'time_t' (aka 'long long') [-We=
-rror,-Wformat]
--              time.tv_sec);
--              ^~~~~~~~~~~
--
--Also reported here [1]
--
--[1] https://github.com/agherzan/meta-raspberrypi/issues/969
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/14118]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/broadcom/vulkan/v3dv_bo.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/broadcom/vulkan/v3dv_bo.c b/src/broadcom/vulkan/v3dv_bo=
-.c
--index 71679ce..dc5e7f5 100644
----- a/src/broadcom/vulkan/v3dv_bo.c
--+++ b/src/broadcom/vulkan/v3dv_bo.c
--@@ -67,8 +67,8 @@ bo_dump_stats(struct v3dv_device *device)
--=20
--       struct timespec time;
--       clock_gettime(CLOCK_MONOTONIC, &time);
---      fprintf(stderr, "  now:               %ld\n",
---              time.tv_sec);
--+      fprintf(stderr, "  now:               %lld\n",
--+              (long long)time.tv_sec);
--    }
--=20
--    if (cache->size_list_size) {
----=20
--2.34.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-E=
-LF-optional.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-mak=
-e-TLS-ELF-optional.patch
-index 35ab8d5a72..af11baee86 100644
---- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-opti=
-onal.patch
-+++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-opti=
-onal.patch
-@@ -1,4 +1,4 @@
--From 8f2f48b41aa17eec3c4d63685e3296f28e60b980 Mon Sep 17 00:00:00 2001
-+From bf41fa026ae3d378e62fd83d03a6f5933b52ca04 Mon Sep 17 00:00:00 2001
- From: Alistair Francis <alistair@alistair23.me>
- Date: Thu, 14 Nov 2019 13:08:31 -0800
- Subject: [PATCH] meson.build: make TLS ELF optional
-@@ -17,36 +17,36 @@ Traceback (most recent call last):
-   File "/home/pokybuild/yocto-worker/musl-qemux86/build/meta/lib/oeqa/ru=
-ntime/cases/parselogs.py", line 378, in test_parselogs
-     self.assertEqual(errcount, 0, msg=3Dself.msg)
- AssertionError: 1 !=3D 0 : Log: /home/pokybuild/yocto-worker/musl-qemux8=
-6/build/build/tmp/work/qemux86-poky-linux-musl/core-image-sato-sdk/1.0-r0=
-/target_logs/Xorg.0.log
-------------------------
--Central error: [    10.477] (EE) Failed to load /usr/lib/xorg/modules/ex=
-tensions/libglx.so: Error relocating /usr/lib/libGL.so.1: alphasort: init=
-ial-exec TLS resolves to dynamic definition in /usr/lib/libGL.so.1
--***********************
-=20
- Upstream-Status: Inappropriate [configuration]
--Signed-off-by: Alistair Francis <alistair@alistair23.me>
--
- ---
-- meson.build       | 2 +-
-+ meson.build       | 7 +++++--
-  meson_options.txt | 6 ++++++
-- 2 files changed, 7 insertions(+), 1 deletion(-)
-+ 2 files changed, 11 insertions(+), 2 deletions(-)
-=20
- diff --git a/meson.build b/meson.build
--index 23618c1..c8cc5e3 100644
-+index 70d06c0..1441611 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -476,7 +476,7 @@ endif
-- use_elf_tls =3D false
-- if (not ['freebsd', 'openbsd', 'haiku'].contains(host_machine.system())=
- and
--     (not with_platform_android or get_option('platform-sdk-version') >=3D=
- 29) and
---    (not with_platform_windows or not with_shared_glapi))
--+    (not with_platform_windows or not with_shared_glapi) and get_option=
-('elf-tls'))
--   pre_args +=3D '-DUSE_ELF_TLS'
--   use_elf_tls =3D true
-+@@ -490,8 +490,11 @@ foreach platform : _platforms
-+   pre_args +=3D '-DHAVE_@0@_PLATFORM'.format(platform.to_upper())
-+ endforeach
-+=20
-+-use_elf_tls =3D true
-+-pre_args +=3D '-DUSE_ELF_TLS'
-++use_elf_tls =3D false
-++if get_option('elf-tls')
-++  use_elf_tls =3D true
-++  pre_args +=3D '-DUSE_ELF_TLS'
-++endif
- =20
-+ if with_platform_android and get_option('platform-sdk-version') >=3D 29
-+   # By default the NDK compiler, at least, emits emutls references inst=
-ead of
- diff --git a/meson_options.txt b/meson_options.txt
--index 29c402c..f70d9b2 100644
-+index 1f6ef38..99cc5cb 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
--@@ -455,6 +455,12 @@ option(
-+@@ -440,6 +440,12 @@ option(
-    value : true,
-    description : 'Enable direct rendering in GLX and EGL for DRI',
-  )
-@@ -56,6 +56,6 @@ index 29c402c..f70d9b2 100644
- +  value : true,
- +  description : 'Enable TLS support in ELF',
- +)
-- option(
--   'prefer-iris',
--   type : 'boolean',
-+ option('egl-lib-suffix',
-+   type : 'string',
-+   value : '',
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_21.3.7.bb b/meta/recipes-=
-graphics/mesa/mesa-gl_22.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_21.3.7.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_22.0.0.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 2f79e8b34d..c9dab15f4f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -10,7 +10,7 @@ HOMEPAGE =3D "http://mesa3d.org"
- BUGTRACKER =3D "https://bugs.freedesktop.org"
- SECTION =3D "x11"
- LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://docs/license.rst;md5=3D17a4ea65de7a9ab42437=
-f3131e616a7f"
-+LIC_FILES_CHKSUM =3D "file://docs/license.rst;md5=3D9a383ee9f65a4e939d66=
-30e9b067ff58"
-=20
- PE =3D "2"
-=20
-@@ -20,10 +20,9 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa=
--${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
-h \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.pa=
-tch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch =
-\
--           file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.pat=
-ch \
-            "
-=20
--SRC_URI[sha256sum] =3D "b4fa9db7aa61bf209ef0b40bef83080999d86ad98df8b8b4=
-fada7c128a1efc3d"
-+SRC_URI[sha256sum] =3D "e6c41928b5b9917485bd67cec22d15e62cad7a358bf4c711=
-a647979987601250"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
-=20
-diff --git a/meta/recipes-graphics/mesa/mesa_21.3.7.bb b/meta/recipes-gra=
-phics/mesa/mesa_22.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_21.3.7.bb
-rename to meta/recipes-graphics/mesa/mesa_22.0.0.bb
---=20
-2.25.1
-
+On Fri, Mar 11, 2022 at 1:05 AM Sundeep KOKKONDA
+<sundeep.kokkonda@gmail.com> wrote:
+>
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-11.2.inc         |  1 +
+>  .../gcc/0042-Fix-thread-stack-size-init.patch  | 18 ++++++++++++++++++
+>  2 files changed, 19 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> index 2394c86e29..0c6c54888c 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+> @@ -68,6 +68,7 @@ SRC_URI = "\
+>             file://0003-CVE-2021-42574.patch \
+>             file://0004-CVE-2021-42574.patch \
+>             file://0001-CVE-2021-46195.patch \
+> +          file://0042-Fix-thread-stack-size-init.patch \
+>  "
+>  SRC_URI[sha256sum] = "d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b"
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patch b/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patch
+> new file mode 100644
+> index 0000000000..ab463f252a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patch
+> @@ -0,0 +1,18 @@
+> +Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=90e46074e6b3561ae7d8ebd205127f286cc0c6b6]
+> +---
+> +--- a/libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp        2022-03-08 03:04:25.871012986 -0800
+> ++++ b/libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp        2022-03-10 23:28:20.131064433 -0800
+> +@@ -166,9 +166,10 @@
+> + #if !SANITIZER_GO
+> + // TODO(glider): different tools may require different altstack size.
+> + static uptr GetAltStackSize() {
+> +-  // SIGSTKSZ is not enough.
+> +-  static const uptr kAltStackSize = SIGSTKSZ * 4;
+> +-  return kAltStackSize;
+> ++  // Note: since GLIBC_2.31, SIGSTKSZ may be a function call, so this may be
+> ++  // more costly that you think. However GetAltStackSize is only call 2-3 times
+> ++  // per thread so don't cache the evaluation.
+> ++  return SIGSTKSZ * 4;
+> + }
+> +
+> + void SetAlternateSignalStack() {
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163047): https://lists.openembedded.org/g/openembedded-core/message/163047
+> Mute This Topic: https://lists.openembedded.org/mt/89706923/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
