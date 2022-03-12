@@ -1,118 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ECCC433F5
-	for <webhook@archiver.kernel.org>; Fri, 11 Mar 2022 21:49:17 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.11253.1647035356143996839
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A701C433F5
+	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 00:18:27 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.148.1647044306701600945
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 13:49:16 -0800
+ Fri, 11 Mar 2022 16:18:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=bnW6MmJ/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id t5so8982183pfg.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LRaDuerd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id t11so15221553wrm.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Mar 2022 13:49:15 -0800 (PST)
+ Fri, 11 Mar 2022 16:18:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Z2zBYQfMHEbFH4eSUWANh0gG5gbzZkGC+zz4R3pFKm8=;
-        b=bnW6MmJ/jBQHSQKWmcxbJdn0pT+W08rPB/bkgIRw6iZj94Gs12L6DiSGy8VqasqT/0
-         eN6MaLgrWVTQwalZlrev0yjzCZtL3YyRh+CNeAXl002F3wtsUxkAwJ+Xjtwv+Y59aPsN
-         hfk3FoBaqCF7WYvhpMxkT6oLiQQ+nen69uXdHQ2wWvqerXVEMmfwL8UXu7GSY+ALJh2J
-         2iP0rSuwjggz4gdtIROpfpVd5n7zstEE+kl+GpDv++FI9jhqLMaKG/XK8j3iXYItg7Ob
-         1QgP+3qoj18XGF82ozG7rxHomrdsB38kM9VAPyxpED0EDBrLQId3PKxiO/r2NMHse5ZG
-         qSkw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=n/YlA7o3crJ0iN0G0HqWVJK/AVg3UWsqz7Me5z+MV2c=;
+        b=LRaDuerdrToCzgQkuNvgPg/EJes4SkB54PiVa5YBe+X7S7bvc0pqF3RF1LUQFEqAPD
+         m/TFIVLIyoj2+6Cd6MOzvR+zeYeE/1hrjYk+j5y5b6c5TKgFJZ6Tis0qSqBu1paafLXO
+         gzD5F7ysDLm38zf/WRuhnsV7lW8bb0JS+ENrc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Z2zBYQfMHEbFH4eSUWANh0gG5gbzZkGC+zz4R3pFKm8=;
-        b=TVo7F41RAQ/DUuvN+qBA7bOjwAzc68OuVKGrxC6wVN5WdT1J5fHvK/U4LzMeYz8MO9
-         ZoqAiEq4xThp/IqACbGmYOqrONdDvJhFuTZAN5jdUACO95myz3yKMfjfX6amlF2fZKWp
-         jU+u8AOK/ZRwyv5buC7kQXhwDnK2j/HVNgparzV0dFMfntkn7UgGZtWZzpIJiOEaFTx+
-         1OuszKQRRBf0/krXxinHUj/XCKezdfopApbZr5I7ZDan612g5WHzTPBzXg4ATr3W212C
-         lmhFKn2BNt8o0q4+iFwSpPRwqhmIsezDRAseYK9CifXEhkH6tpt9r4mQgh6uzWpdWG8l
-         KAbw==
-X-Gm-Message-State: AOAM53085Y/joJvHGRn0PZaNlk+44ZqZsW/KP0RRCfZlC4NWMQ992eZj
-	G0/5TCdG+xP/42nzPcna3HIrYHKjLZn/0XZ+83Y=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=n/YlA7o3crJ0iN0G0HqWVJK/AVg3UWsqz7Me5z+MV2c=;
+        b=mI8oMtg/9P4I4fWZEMcrOpEuTR1mbHj8TT+TlprdqUN4YcTXJa5NHLeD2zFkacqvqx
+         HuRb53DB9ugZXvZt2ophsRyoivUUJQ5cYBiL/asVgilzo5HJ7oajxubmvPcecz8xKepA
+         64YePRkHiVW9WuEJh3/IyOW7N8mBUuALUTeKniTAEaKbbVE9WQutBN22LauN4oAPt8bT
+         crvVFR82ejTYgUPQAkdOWh6upQnHXMoYqwqdbpfkNMkC+23e5kOshSbr14Xs/au4n2b3
+         mIfGKNmAAErjxlPgbzFqHICZEm7kaRkyplXDgv1EX00YIBTPfn3KPDwTJsoWKL39sgvE
+         7utA==
+X-Gm-Message-State: AOAM532pQeoDoHvlAhr0eHSX8UgYmwG28FgHjiDYcGjBwtRQYg9GCHQp
+	oa5L5O2lV8uRUyNuuy/TCJ6E9w==
 X-Google-Smtp-Source: 
- ABdhPJz5rPF29iGK7DU1VHSkVrKlQR8NWLD4LpqHYUFKK0K1PHxpO/vrrj/gysaH+uW79btQ4Fdhag==
-X-Received: by 2002:a05:6a00:174b:b0:4f7:8e44:6fdb with SMTP id
- j11-20020a056a00174b00b004f78e446fdbmr4505654pfc.64.1647035354975;
-        Fri, 11 Mar 2022 13:49:14 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ ABdhPJx39kxbvbbsAdmKI0hvuzjm245ZOqxoWDgolJCH3SWM1yCLuHsLII/CbZd3t5z1MuMHfwI9Zg==
+X-Received: by 2002:adf:816e:0:b0:1e4:ad2b:cb24 with SMTP id
+ 101-20020adf816e000000b001e4ad2bcb24mr9204470wrm.521.1647044305116;
+        Fri, 11 Mar 2022 16:18:25 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7?
+ ([2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7])
         by smtp.gmail.com with ESMTPSA id
- k12-20020a056a00168c00b004e15818cda3sm12614134pfc.114.2022.03.11.13.49.13
-        for <openembedded-core@lists.openembedded.org>
+ p26-20020a7bcc9a000000b00389f80668cesm1220146wma.28.2022.03.11.16.18.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Mar 2022 13:49:14 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/7] Pull request (cover letter only)
-Date: Fri, 11 Mar 2022 11:49:06 -1000
-Message-Id: <cover.1647035249.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 11 Mar 2022 16:18:24 -0800 (PST)
+Message-ID: 
+ <0abd18c8268323c953e66ac12185de8641a37ac0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCHv2] mesa: update to 22.0.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Sat, 12 Mar 2022 00:18:18 +0000
+In-Reply-To: <20220311172010.2490948-1-f_l_k@t-online.de>
+References: <20220311172010.2490948-1-f_l_k@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Mar 2022 21:49:17 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 00:18:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163078
+ https://lists.openembedded.org/g/openembedded-core/message/163079
 
-Final pull for 3.1.15 release
+On Fri, 2022-03-11 at 18:20 +0100, Markus Volk wrote:
+> - remove 0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch that
+>   was applied upstream
+> 
+> - adjust 0002-meson.build-make-TLS-ELF-optional.patch
+> 
+> - fix patch fuzz
+> 
+> License-Update: removed references to deleted code.
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 
-The following changes since commit 51844f2d60d77fb8cb46ffe460402f76ae216ca5:
+Thanks for the v2, looks good.
 
-  uninative: Upgrade to 3.5 (2022-03-03 07:43:07 -1000)
+I queued this for testing unfortunately it showed:
 
-are available in the Git repository at:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3220/steps/11/logs/stdio
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+as well as
 
-Bruce Ashfield (1):
-  perf-tests: add bash into RDEPENDS (v5.12-rc5+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/4874/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/4877/steps/12/logs/stdio
 
-Jose Quaresma (1):
-  sstate: inside the threadedpool don't write to the shared localdata
+I stopped that build since it seemed unlikely it would get anywhere.
 
-Ralph Siemsen (1):
-  bind: update to 9.11.36
+Cheers,
 
-Richard Purdie (2):
-  systemd: Ensure uid/gid ranges are set deterministically
-  vim: Update to 8.2.4524 for further CVE fixes
-
-Ross Burton (1):
-  asciidoc: update git repository
-
-sana kazi (1):
-  tiff: Add backports for two CVEs from upstream
-
- meta/classes/sstate.bbclass                   |  2 +-
- .../bind/{bind_9.11.35.bb => bind_9.11.36.bb} |  2 +-
- meta/recipes-core/systemd/systemd_244.5.bb    |  2 ++
- .../asciidoc/asciidoc_8.6.9.bb                |  2 +-
- meta/recipes-kernel/perf/perf.bb              |  2 +-
- ...99c99f987dc32ae110370cfdd7df7975586b.patch | 28 +++++++++++++++++
- ...0712f4c3a5b449f70c57988260a667ddbdef.patch | 30 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  2 ++
- meta/recipes-support/vim/vim.inc              |  4 +--
- 9 files changed, 68 insertions(+), 6 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.35.bb => bind_9.11.36.bb} (98%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-
--- 
-2.25.1
+Richard
 
 
