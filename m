@@ -2,61 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0064CC433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 13:32:46 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.4670.1647091965380281961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CC9C433F5
+	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 14:04:37 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.4738.1647093876576096026
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 05:32:45 -0800
+ Sat, 12 Mar 2022 06:04:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PxRWm58s;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XGAJrH3W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id e24so16927457wrc.10
+Received: by mail-wm1-f52.google.com with SMTP id c192so6690958wma.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 05:32:45 -0800 (PST)
+ Sat, 12 Mar 2022 06:04:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=06XkTuODjnmmy3mD3FVz02BcuiKa99jRIyRiLEf8X4Y=;
-        b=PxRWm58s6bQx0oRcdPpdUz5ExjM/FS//7EGj34QC03QZ/HdnQdUkOe1j06jwgDFV0X
-         sCosHiiTmCrL9KLdCl9kn3kCVcJATc7/B0Eb9U8HTRxtSuCgJDrydJxqiNcdb2WBJ2eT
-         3nNrCyD0r9BDoYqT6jUdDmS/oCu2S5S2AgtiM=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=cN8X5eYc3WiJR6nrYevLB0LKWVoBMMJwD1NPdAqKBho=;
+        b=XGAJrH3WE/FLlDQC9N439K8Obi0v6/cgj43k1d+tMGNASozguiYwvn3HXMhrcctOKi
+         NQ9oQMHTvCuWkyncxymfwdoia4yTh/HmSlkmExsav2cArAXcR3QtGQjfKnRasdInz4ln
+         CdA7/9qJE81OoziS2QYAfWH/oyBYz90rbT8Nk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=06XkTuODjnmmy3mD3FVz02BcuiKa99jRIyRiLEf8X4Y=;
-        b=MttpkFv5hMgLfXBc9e0jVJ4V1QVZ6fOXb7tAdklUe4VBUXz5r9zS2mx2ymFXu8j/xB
-         fpnavgwLOUw638usQ5dwZ24qws6+6kBwvjfCxUl1ixcrO8EbX4MoQoLzBzY2jjxNvl8F
-         GuTHhSeAfzFg49QxJ1M06j8ZICPW85tVXHnpLYKuzUCUEWmX6wKfL3vMAd6ByR17+Kmc
-         y4/KaIUHWwAE7KmAf6oQ1mQSYqSx8n45iedXWLOthCx8JYiu/UiNEKW4V3Phq4Zjvfdm
-         cjPMSEuxropEQA4LAu3CEH3R8civnUIPDYW16So4Xy2bpOvyPqgjT47eF7b9q+tIX3cm
-         65qw==
-X-Gm-Message-State: AOAM5307jMUhtMklU5EgdFr6AQo3m+t+ncvOd31ChSB3LZRAzVCI27DL
-	3d1ptEtsVhdHz8JXikw4yuIX6Q==
+        bh=cN8X5eYc3WiJR6nrYevLB0LKWVoBMMJwD1NPdAqKBho=;
+        b=G/EhGuCeTFQbnF3GXyBYhtllr15z85te9N/syNmLkCgHYz0rEqxFQjk7Z6dyqRYxbU
+         7Q4m60pbuGUDtVRrtXpI73MVc6XViBn/8ft/Z3Rx7hsCqbHq8HTmJ9an+FLP6wIQfoUC
+         TpuYCX7tedCsQQdPcCOZRuY9VmCrBrB2KmvkE7Zm3+Ypnw1KDPzYKD+dLySMKw10IKqU
+         7gABamLZzVVKKyRCrCOUkJZX320rKGO2N0zi3aJKfLCnJtdXcbBFk90VjkiBfJelqofG
+         PIlgqXJMPi339nnHudwZqFDpVRaUEKK5PlCHa4aixXOYZ9xY1Cne4ZtKRpTqIY1goGHt
+         wbsA==
+X-Gm-Message-State: AOAM530+2/oM90uUgwdp/X8ngyVQJUnfJ3r3jukClg7CSaTzEDtJLqNs
+	KuAADWvJrWnYBluNpBuMzXW9DQ==
 X-Google-Smtp-Source: 
- ABdhPJx2PjKFV66OzXcyikHAh+3zfHmiMeUZOm52V9FgyYVymVmYsfRUX6ECNGUE9Qysorx3I+kPpg==
-X-Received: by 2002:a05:6000:1d85:b0:1f2:197:60fc with SMTP id
- bk5-20020a0560001d8500b001f2019760fcmr11210443wrb.316.1647091963692;
-        Sat, 12 Mar 2022 05:32:43 -0800 (PST)
+ ABdhPJwpOk8Qq+3szZ9Ev860f7srBHcKcfKyKYY6j8hp9zyl7QiU9pQ+D1z2TQ8U+JDA5MoSStR2Fw==
+X-Received: by 2002:a05:600c:1990:b0:389:d72d:ca77 with SMTP id
+ t16-20020a05600c199000b00389d72dca77mr11046517wmq.1.1647093874697;
+        Sat, 12 Mar 2022 06:04:34 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7?
  ([2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7])
         by smtp.gmail.com with ESMTPSA id
- e10-20020a056000178a00b0020393321552sm5103060wrg.85.2022.03.12.05.32.42
+ q23-20020a1cf317000000b003815206a638sm13187913wmq.15.2022.03.12.06.04.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Mar 2022 05:32:43 -0800 (PST)
+        Sat, 12 Mar 2022 06:04:33 -0800 (PST)
 Message-ID: 
- <8ee120c2a797e8cb2b9fe011312b932fe8e83b6c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCHv3 3/3] librsvg: inherit vala
+ <aca7cb219caaaead1f29d3376cf0176a45b964c9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 2/2] libxml2: update to 2.9.13
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Sat, 12 Mar 2022 13:32:41 +0000
-In-Reply-To: <20220312073022.2894-3-f_l_k@t-online.de>
-References: <20220312073022.2894-1-f_l_k@t-online.de>
-	 <20220312073022.2894-3-f_l_k@t-online.de>
+To: Ralph Siemsen <ralph.siemsen@linaro.org>,
+	openembedded-core@lists.openembedded.org
+Cc: tony.tascioglu@windriver.com
+Date: Sat, 12 Mar 2022 14:04:32 +0000
+In-Reply-To: <16DB979A6291AEB5.27059@lists.openembedded.org>
+References: <20220311165855.3477645-1-ralph.siemsen@linaro.org>
+	 <20220311165855.3477645-3-ralph.siemsen@linaro.org>
+	 <16DB979A6291AEB5.27059@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
@@ -64,43 +67,26 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 13:32:46 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 14:04:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163088
+ https://lists.openembedded.org/g/openembedded-core/message/163089
 
-On Sat, 2022-03-12 at 08:30 +0100, Markus Volk wrote:
-> this fixes a build error about missing vapigen and enables vapi build
+On Sat, 2022-03-12 at 09:19 +0000, Richard Purdie via lists.openembedded.org
+wrote:
+> On Fri, 2022-03-11 at 11:58 -0500, Ralph Siemsen wrote:
+> > - new version includes fix for CVE-2022-23308
+> > - drop two patches which are upstream
 > 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  meta/recipes-gnome/librsvg/librsvg_2.52.5.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> One of the patches is upstream, the other isn't. I can't see any patch adding
+> pkg-config support to libxml.m4?
 > 
-> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb b/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
-> index 1279c663f7..ede6454c2b 100644
-> --- a/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
-> +++ b/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
-> @@ -14,7 +14,7 @@ SECTION = "x11/utils"
->  DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
->  BBCLASSEXTEND = "native"
->  
-> -inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-introspection rust
-> +inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-introspection rust vala
->  
->  SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch \
->             file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch \
+> https://gitlab.gnome.org/GNOME/libxml2/-/commits/master/libxml.m4
 
-
-I'm curious whether we've just been missing some functionality in librsvg or
-whether the recent changes exposed some new error?
-
-Put another way, how did you see this when the autobuilder does not?
+I added a fix to the patch to resolve this one since it was just caused by
+typo/message fixes upstream.
 
 Cheers,
 
 Richard
-
-
-
 
 
