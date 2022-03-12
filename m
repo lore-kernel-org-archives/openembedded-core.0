@@ -1,110 +1,121 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 522F9C433EF
-	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 15:40:45 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.5689.1647099640324637602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 851C1C433EF
+	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 15:45:01 +0000 (UTC)
+Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
+ by mx.groups.io with SMTP id smtpd.web12.5736.1647099900625325191
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 07:40:40 -0800
+ Sat, 12 Mar 2022 07:45:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QJnoTR1z;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id u10so17274546wra.9
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 07:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MJsppwh3KsQCBW1uL2UDuDMi1zgqt/YYFtBnfE2gz6A=;
-        b=QJnoTR1zAsdjJwLatsXnfE0X0IKkouhi1KNXYGCo1t8i8R8baKqAwwFJdQ7n9oDhdL
-         NYzr7WG1shh4C8ViJL0To9+0+8SmFNmpuDiMSoFjfem9EMJHcZjkWsEi/u8Wtb66vqAs
-         cacXOdNW/9E0oQzWM3bq0QlTasua0liKu8SvhvTNgjs3tqB+vw60hyQAWF3g+RLUj4DH
-         soys4MPGnl7YTqRW0NPL6Eq3gXgQxGfCBy6YsLfgJpFVVBQE/0rdz/mvQQd/gwPemCaV
-         QhpBlUhaTAukqxv8Fckw/OOZkeH6zgPanshsj7ltiESd0U9BShwr1VBUQSRzX0HThpAd
-         BDzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MJsppwh3KsQCBW1uL2UDuDMi1zgqt/YYFtBnfE2gz6A=;
-        b=BuwecZVasro1Hf/SLelja1c+1UPIzleLxT2t8dpkYDx47IKw+dmRWUw5+LFqefdCMy
-         6SU9aeDfMiiJcLXGHNXixAyCJ6QjBk6YchPF2WXttN21DBv54omV+IOb8jUeM1dUEkg2
-         sc7Nhhbb2P1JzOoxNTxw9/obHCZsPGfBQxAd8j2y4m5vOtb45zZj6k9TIYTsUpyYzmvU
-         fGwEFcUy83Dz9zn39mQPXZ2jWdsuzWJW2GHpcIMWlHfzfntj3L7MZS2BtT3jMTJUAUV9
-         GHzxjqUbzRX99KRVC/qUc1pucMns+oT5tm+ylrMP89dGVO/jUklNB0D/7iadacMcrfA6
-         yvwg==
-X-Gm-Message-State: AOAM532qLYZ4RFwddvfk0zm9EV9fX+S4UpmsSOWMZEBW9vTIUD2+VocK
-	6+jrb9aiThZWAvjjB1o5rRph66lfvAg=
-X-Google-Smtp-Source: 
- ABdhPJwld22sumTfYqec6pIJt9Ro7tcSmt5vxYhWKyZoEcZw6HzFNclzwmWD316DW3CMLah5PCEIZA==
-X-Received: by 2002:a05:6000:1683:b0:1f1:eb7c:be70 with SMTP id
- y3-20020a056000168300b001f1eb7cbe70mr10796678wrd.129.1647099638390;
-        Sat, 12 Mar 2022 07:40:38 -0800 (PST)
-Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id
- 11-20020a05600c22cb00b00382a960b17csm13147967wmg.7.2022.03.12.07.40.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Mar 2022 07:40:37 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH] meson.bbclass: add exe_wrapper helper
-Date: Sat, 12 Mar 2022 15:40:11 +0000
-Message-Id: <20220312154011.499012-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
+	by mailout10.t-online.de (Postfix) with SMTP id C66F0153B9;
+	Sat, 12 Mar 2022 16:44:58 +0100 (CET)
+Received: from [192.168.178.83] ([79.219.225.239]) by fwd85.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1nT3vO-4MYCOn0; Sat, 12 Mar 2022 16:44:58 +0100
+Message-ID: <91cf4ccf-7f26-2022-dc1d-9aa614cbbac8@t-online.de>
+Date: Sat, 12 Mar 2022 16:44:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [OE-core] [meta-oe][PATCHv3 3/3] librsvg: inherit vala
+Content-Language: en-US
+From: Markus Volk <f_l_k@t-online.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20220312073022.2894-1-f_l_k@t-online.de>
+ <20220312073022.2894-3-f_l_k@t-online.de>
+ <8ee120c2a797e8cb2b9fe011312b932fe8e83b6c.camel@linuxfoundation.org>
+ <16DBAB94989A6D75.19757@lists.openembedded.org>
+In-Reply-To: <16DBAB94989A6D75.19757@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TOI-EXPURGATEID: 150726::1647099898-00014AB5-4495D96D/0/0 CLEAN NORMAL
+X-TOI-MSGID: bf90dbef-066c-4bf6-9310-76066f34fa9a
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 15:40:45 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 15:45:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163092
+ https://lists.openembedded.org/g/openembedded-core/message/163093
 
-Sometimes when we use the exe_wrapper we need a way to
-costumize or circumvent some limitations of the qemu usermode.
-The ideia of this help script is to handle such cases before
-the qemu usermode was launched.
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/classes/meson.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 0bfe945811..877f5e7794 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -114,6 +114,8 @@ cpp_link_args = ${@meson_array('BUILD_LDFLAGS', d)}
- EOF
- }
- 
-+MESON_QEMU_WRAPPER_HELPER ?= ""
-+
- do_write_config:append:class-target() {
-     # Write out a qemu wrapper that will be used as exe_wrapper so that meson
-     # can run target helper binaries through that.
-@@ -127,10 +129,14 @@ export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
- # meson sets this wrongly (only to libs in build-dir), qemu_wrapper_cmdline() and GIR_EXTRA_LIBS_PATH take care of it properly
- unset LD_LIBRARY_PATH
- 
-+# import any customization provided in the helper
-+test -f "${MESON_QEMU_WRAPPER_HELPER}" && . ${MESON_QEMU_WRAPPER_HELPER}
-+
- $qemu_binary "\$@"
- EOF
-     chmod +x ${WORKDIR}/meson-qemuwrapper
- }
-+do_write_config:class-target[vardeps] += "MESON_QEMU_WRAPPER_HELPER"
- 
- # Tell externalsrc that changes to this file require a reconfigure
- CONFIGURE_FILES = "meson.build"
--- 
-2.35.1
-
+Am 12.03.22 um 16:25 schrieb Markus Volk:
+>
+> Am 12.03.22 um 14:32 schrieb Richard Purdie:
+>> On Sat, 2022-03-12 at 08:30 +0100, Markus Volk wrote:
+>>> this fixes a build error about missing vapigen and enables vapi build
+>>>
+>>> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>>> ---
+>>> =C2=A0 meta/recipes-gnome/librsvg/librsvg_2.52.5.bb | 2 +-
+>>> =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb=20
+>>> b/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
+>>> index 1279c663f7..ede6454c2b 100644
+>>> --- a/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
+>>> +++ b/meta/recipes-gnome/librsvg/librsvg_2.52.5.bb
+>>> @@ -14,7 +14,7 @@ SECTION =3D "x11/utils"
+>>> =C2=A0 DEPENDS =3D "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
+>>> =C2=A0 BBCLASSEXTEND =3D "native"
+>>> =C2=A0 -inherit gnomebase gtk-doc pixbufcache upstream-version-is-eve=
+n=20
+>>> gobject-introspection rust
+>>> +inherit gnomebase gtk-doc pixbufcache upstream-version-is-even=20
+>>> gobject-introspection rust vala
+>>> =C2=A0 =C2=A0 SRC_URI +=3D=20
+>>> "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.pat=
+ch=20
+>>> \
+>>> file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patc=
+h=20
+>>> \
+>>
+>> I'm curious whether we've just been missing some functionality in=20
+>> librsvg or
+>> whether the recent changes exposed some new error?
+>>
+>> Put another way, how did you see this when the autobuilder does not?
+>>
+>> Cheers,
+>>
+>> Richard
+> In any case, this adds functionality. For example, a real life issue=20
+> for the lack of vapi in librsvg is that you can't build gnome-chess=20
+> because it has a dependency on it.
+>
+> The second question is a good one. Normally vala bindings should be=20
+> optional in librsvg autotools buidsystem.
+>
+> https://github.com/GNOME/librsvg/blob/c5d0eb679ee45377417bbf9ce2dabde0e=
+b72802d/configure.ac#L293=20
+>
+>
+> I noticed similar behavior with some xfce recipes when I did an=20
+> oe-core update a little over two weeks ago. I suddenly had build=20
+> aborts due to missing vapigen, even though --enable-vala was not=20
+> explicitly specified.
+>
+> https://git.openembedded.org/meta-openembedded/diff/meta-xfce/recipes-x=
+fce/libxfce4util/libxfce4util_4.16.0.bb?h=3Dmaster-next&id=3D26d9d0b62717=
+7f6f710c5d7b902d73b84ac14804=20
+>
+>
+> All recipes that were affected by this already had 'inherit=20
+> gobject-introspection' added. vapi build is basically just=20
+> gobject-introspection too, so this seems related somehow.
+> But why has this only been the case for two weeks? And why not with=20
+> autobuilder? I really don't know.
+> I'll see if I can reproduce the vapi error in librsvg.
+>
+It looks like i'm not able to reproduce the issue. It only happened on=20
+the first clean build. Now, that i have sstate cache available it's=20
+working as expected. Adding or removing vala from inherit just enables=20
+or disables generation of the vapi files.
 
