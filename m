@@ -1,86 +1,120 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7E2C433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 09:19:38 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.3245.1647076777481526388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF1CC433F5
+	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 11:53:09 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web09.3929.1647085988892789413
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 01:19:37 -0800
+ Sat, 12 Mar 2022 03:53:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LhCBHoCt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id r6so15924993wrr.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aFSwm13L;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: liu.ming50@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id z11so19272889lfh.13
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 01:19:37 -0800 (PST)
+ Sat, 12 Mar 2022 03:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6O8d4DJmrLcXQsWGKM/H3rh0E43hkFAOHq0JqZgM3fk=;
-        b=LhCBHoCt+8h0zlBTJwIM9Ldow14L6DrcGvuwvjcquT34f+/db9FpOwnkpijZ9eZSoE
-         S+XSBYZc4YsKU9ZRW7SVwBS9rPtDRi3YWbWAqLqpIIhQWh7/sGDM6ZJQT3EY9eTOxjV2
-         PqcXSUnQcoasWdxE/Nl9qsW+mZZTM/xTr60nM=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PN/ZjL1FZe4hrVHu0INjRmRNgmRxMmRU6grrTh8xBbw=;
+        b=aFSwm13LdId5x1e+L7l7oo5KDi3bc8Vk6FN/cjGVwi8DO5L7v2S0iRzr/zgb6S4WJD
+         85fOR2KvrYKiWlKdr7hS4tybm1ePoshfKYOiPp7OXJypkLc/uIhijN7YVywUN2syucWq
+         SxtQyFXYGGIKTf2CpptvRYYwpJ5+afa+jqr3ERgnDeIeBglpE1hOI9BcxoqB2G2r1hoX
+         cmYiYiBSB1lCZTGxpZOuSlShIy/jDXb/wXJX6z8996IoiAUj7NoCTTQ43WHwYGHl3rxl
+         +6I6ePeMj9XpPjMPOy3hJdUvDSI2glSj7591OgNAF9p+DeIicDEd70rGz686erXynviN
+         PyzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6O8d4DJmrLcXQsWGKM/H3rh0E43hkFAOHq0JqZgM3fk=;
-        b=giNqcMaEHVx6i6MBb6PDf9kK1du4y9ago3iWLavY0syRAAFa7naGz8rmXgrEiQCYvv
-         ANSepjU+VC987Jrl5cMzj4ovVC+PpW4VDKxoOA1r2Dd/g3VwKqwqlwROWScBsFIXAsCU
-         Spl94gje4DG0grK5Vok7yQlPdLNA51HPOKKvfa7L4Z9XnXeXs7NgdQ+TKxt3XwAgxtY1
-         2bOGcsWrMdUos/JW9lnHdPQAYAXLMUCfwwLdv5sQbbxRWK2dkvA3ge89D5tlB0WNsZX+
-         sdF8+LbaIPmNpn7yZMJWZz3f/krdoZxzdKeeF3Cy/w4DTnb4hpUnHjkTmr4n+TTdI5/Z
-         GVww==
-X-Gm-Message-State: AOAM5304BzFbySbO6fRrhhIQ+lXwS4JcaqfvakuD8rLb9mp7jJ/ewnQu
-	io4e9opdre+sPnJ3XEJ12YRz4A==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PN/ZjL1FZe4hrVHu0INjRmRNgmRxMmRU6grrTh8xBbw=;
+        b=ZbPj0DbuLMNL2svRx8ENoTHOe/iTFaj/bsSPSdCCMN40JOvTbAKj0O8UnzZvCTspY+
+         b4vc1LGiE6Pdtbw8s8Xv3bcxjDCFR2Qj5ZnWZzUZZNtLue/7OhrpxBscWxV+KT0Tq+uo
+         MXPzRvFsCLhW4BwQi3Q/Yl/d8Z1804R0isY4ZrCBAEW5BGpBxMraMFqgnlFrc877e4ti
+         B81IhKDX0KyeCYjKJUdHMn6tvssGMlWIk7GffFSyXUy4QLmm/ZBZ1bWN3iSGJPU/jB4r
+         UgirwmhhUXFEAfuxsS+V7LGeP4xx9+lh0e6JopdEgu8qsTIj+CorTOM9JPmMdiGeyP94
+         ThCg==
+X-Gm-Message-State: AOAM533YqVM6hvU+/3HJlGOvHIlhN74Ki6Qjv2cYiAcUuMdcmVKUi9q5
+	Ktzjyo2yzWjN59zIXC9IVCoGq96UBDnKpA==
 X-Google-Smtp-Source: 
- ABdhPJzAxOfiqtexGIs8hqp+opMgmaEq9xJyLyNX8suQT8rVuItIDV5xh0DR4jNmHGr6gzFXiRQKog==
-X-Received: by 2002:adf:fdc8:0:b0:1f1:f134:433c with SMTP id
- i8-20020adffdc8000000b001f1f134433cmr9874919wrs.305.1647076775740;
-        Sat, 12 Mar 2022 01:19:35 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7?
- ([2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7])
+ ABdhPJxtp0ZjhYUB24WOFtjDOYiP+cFXMy3moM/qmDWs8SmT2zyZCu9sFbQK+K+pVbAvz/ac67b/ug==
+X-Received: by 2002:a05:6512:3704:b0:448:599e:30ea with SMTP id
+ z4-20020a056512370400b00448599e30eamr8546785lfr.311.1647085986727;
+        Sat, 12 Mar 2022 03:53:06 -0800 (PST)
+Received: from peterliu-Precision-7530.lan
+ (customer-212-100-112-191.stosn.net. [212.100.112.191])
         by smtp.gmail.com with ESMTPSA id
- h36-20020a05600c49a400b00382aa0b1619sm8828001wmp.45.2022.03.12.01.19.34
+ k7-20020ac257c7000000b0044854f11248sm2026535lfo.55.2022.03.12.03.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Mar 2022 01:19:35 -0800 (PST)
-Message-ID: 
- <7968b70b22cda72139f6dc75b9ff252bf7cba2cb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC PATCH 2/2] libxml2: update to 2.9.13
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ralph Siemsen <ralph.siemsen@linaro.org>,
-	openembedded-core@lists.openembedded.org
-Cc: tony.tascioglu@windriver.com
-Date: Sat, 12 Mar 2022 09:19:32 +0000
-In-Reply-To: <20220311165855.3477645-3-ralph.siemsen@linaro.org>
-References: <20220311165855.3477645-1-ralph.siemsen@linaro.org>
-	 <20220311165855.3477645-3-ralph.siemsen@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+        Sat, 12 Mar 2022 03:53:06 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] image.bbclass: make sure do_rootfs run from a clean
+ workspace
+Date: Sat, 12 Mar 2022 12:53:03 +0100
+Message-Id: <20220312115303.10434-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 09:19:38 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 11:53:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163086
+ https://lists.openembedded.org/g/openembedded-core/message/163087
 
-On Fri, 2022-03-11 at 11:58 -0500, Ralph Siemsen wrote:
-> - new version includes fix for CVE-2022-23308
-> - drop two patches which are upstream
+From: Ming Liu <liu.ming50@gmail.com>
 
-One of the patches is upstream, the other isn't. I can't see any patch adding
-pkg-config support to libxml.m4?
+Add ${IMAGE_ROOTFS} and ${IMGDEPLOYDIR} to do_rootfs[dirs] and
+do_rootfs[cleandirs], this ensures do_rootfs run from a clean
+workspace, with this change, we can now remove two bb.utils.mkdirhier
+lines from meta/lib/oe/rootfs.py.
 
-https://gitlab.gnome.org/GNOME/libxml2/-/commits/master/libxml.m4
+Also drop ${S} from do_rootfs[cleandirs], nothing being installed into
+that directory.
 
-Cheers,
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/image.bbclass | 4 ++--
+ meta/lib/oe/rootfs.py      | 4 ----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-Richard
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 2b0ce4a988..98a0555040 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -252,8 +252,8 @@ fakeroot python do_rootfs () {
+ 
+     progress_reporter.finish()
+ }
+-do_rootfs[dirs] = "${TOPDIR}"
+-do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
++do_rootfs[dirs] = "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
++do_rootfs[cleandirs] += "${IMAGE_ROOTFS} ${IMGDEPLOYDIR}"
+ do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
+ addtask rootfs after do_prepare_recipe_sysroot
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index b0dd625539..98cf3f244d 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -190,10 +190,6 @@ class Rootfs(object, metaclass=ABCMeta):
+         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
+         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
+ 
+-        bb.utils.mkdirhier(self.image_rootfs)
+-
+-        bb.utils.mkdirhier(self.deploydir)
+-
+         execute_pre_post_process(self.d, pre_process_cmds)
+ 
+         if self.progress_reporter:
+-- 
+2.25.1
 
 
