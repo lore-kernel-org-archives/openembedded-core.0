@@ -1,112 +1,138 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 699ABC433F5
-	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 16:22:15 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.6317.1647102134219385959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3607CC433F5
+	for <webhook@archiver.kernel.org>; Sat, 12 Mar 2022 16:41:23 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web09.6336.1647103282007898336
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 08:22:14 -0800
+ Sat, 12 Mar 2022 08:41:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JMeVRy6i;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id q20so6839804wmq.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KhM3wd/k;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id v13so8961432qkv.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 08:22:14 -0800 (PST)
+ Sat, 12 Mar 2022 08:41:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=fkR6CKI8iog4ZIYr6g1FYJ34Bv9+VRuRw/BC/w0YZlE=;
-        b=JMeVRy6i7FWy8ZEInG99HPDjOYseoq+6Qe77L1x0adpZycRp5tLtnfysPLfT5bgYk6
-         4d0v/h5Z8gKHXv6R8LsTE8QqcJoaQXZeHB4ovOv4Dsh0rht77jMdRW5/+q/8MZtM6k2X
-         a+ZKWYqvN6WwsQCoyfEGjk7I7+hcAfg188K14=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OlOr+ulAT/NN9Foas6Ki3Jhc/L+6DYC8UqgQ8qWKF8Q=;
+        b=KhM3wd/kpVT4C6MTSTkNslWwYHKOmu5OrChp6haq2KKEXHUOKl+ml/QidnHsMOaXxK
+         tNuiGdvf5MbEsYci5E4FncBiVDudPcyFNM+llWrzuN2VL9SKyxL3EkvJrP0EtKSBJLq8
+         rOYEtxTFOi8kMpDa+DXbDcnAoGIakN5SquZoyjBjEHJY1PUVfMOY0f2DLt7KFdOH+my2
+         6Yfvi5FZe2lCChBTktk7xOLe3hcD2bn2df1Gu1trbvBwOJD1jXYa5r6n91pi26OCm82M
+         /MpY933aJSpzOVDZhXpD4V0oKM1uedlbEtiOQC1n4rksc1E3W9/X5VD6QMfxkhD3lRS4
+         WoIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fkR6CKI8iog4ZIYr6g1FYJ34Bv9+VRuRw/BC/w0YZlE=;
-        b=ADvr8z2HNZJD1cnqT1RzSt8sYKdSGS2gM2u9/pS0Zx/zso6ySuv4dZe8CWqdNs4gG7
-         rChrTb3d0gVO8kWYkVHGiE97LbT/0vFOLwftXi4E00wZcuoTTRQ7HpXA8o5Hx4xk1BNM
-         MHceNQOsi2NTqRuEf6eeVreFTXmk4XPFmp1IzoCmahO9S5QoTuwav1vyPbpmqw4SeOSe
-         BkbTJlaBxsxsfI/jKdsyHPFfAh9df3xt7zoPDEWdUgGwqviNwQoyGCp//NPAH9cEEFaT
-         whhDa1X3jT8QCAmKxyrzf9IglZjvDEE1HKgwEktQb9BkpKjDxN4y3RFnqN988+/3Pblx
-         R4tA==
-X-Gm-Message-State: AOAM5316CmpDZlI8fXfs3YeBCkQ922gYpoRfr7oenSMe7cRwqM6D/3Ob
-	8uC97HmS+xBc2kGpWKaRVOzhgg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OlOr+ulAT/NN9Foas6Ki3Jhc/L+6DYC8UqgQ8qWKF8Q=;
+        b=YOHZQzSCyKGk7Kh1+E5CrxBXARB9UwhPrThyilZCnpFpXs9xKjoPNxk1gaMBn27TQ6
+         abeQqwJuxBhbpOiWxl5a2aXNXdbrG1aO8lWhtJlO7bMp+WTsBCdbENGl0y2EeRVpa0Eb
+         Hkc2RnZaxnodleju3RT1zO8IQJmstTiia2A2tR7YWblQYL1drE6xnmVLzYaUuEVTJHVe
+         4bTw8SVrFYN2TQ83LllCW4mwb+5455iu45/bO88GP4YRc3fhWhXadAFKHba2ptHpVwSH
+         9kTN0r7cMF7gLvE8/wwNUdyVr5+xJmi4mdNGVAumtozsVlLOnlZ8BJNsPNy3grNRv9Ji
+         xT7w==
+X-Gm-Message-State: AOAM5330zKnJ0+W/DloDbqyky/3jILUrTHi5QVZVutE7GozHzw/HHmlW
+	HjA9VA22CqR8yXpO2PsEBkFXFVAEssguw0LNQ+0=
 X-Google-Smtp-Source: 
- ABdhPJzw/jtK9r4M/zEszB/k0bcBaVj/lMw1EFGvExFCM84X3VC5OjTwkQcNFADnvAZZehPC2nrP2w==
-X-Received: by 2002:a1c:e916:0:b0:37c:f44f:573 with SMTP id
- q22-20020a1ce916000000b0037cf44f0573mr19693362wmc.179.1647102132688;
-        Sat, 12 Mar 2022 08:22:12 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7?
- ([2001:8b0:aba:5f3c:fe04:8f35:800e:f4a7])
-        by smtp.gmail.com with ESMTPSA id
- e1-20020a05600c108100b00389cdb3372csm9985666wmd.26.2022.03.12.08.22.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Mar 2022 08:22:12 -0800 (PST)
-Message-ID: 
- <66d41d961474f4a71c3fc682a178eb81effa151f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] image.bbclass: make sure do_rootfs run from a
- clean workspace
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ming Liu <liu.ming50@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 12 Mar 2022 16:22:09 +0000
-In-Reply-To: <20220312115303.10434-1-liu.ming50@gmail.com>
-References: <20220312115303.10434-1-liu.ming50@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJz/XlKfFZcOPFD4q+Bfp7RuC38W1rXHkLjeVPWtYd+JB6BjdJyGeAosXA15GI2RpNA3YogllsXfHYIQ5N8d07U=
+X-Received: by 2002:a05:620a:4103:b0:67b:49f4:3ee4 with SMTP id
+ j3-20020a05620a410300b0067b49f43ee4mr10261974qko.72.1647103280982; Sat, 12
+ Mar 2022 08:41:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220311171206.41094-1-ross.burton@arm.com>
+In-Reply-To: <20220311171206.41094-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 12 Mar 2022 08:40:55 -0800
+Message-ID: 
+ <CAMKF1so=5Nf=-trZpcH8XNoFgduw0KGZgO_Z5J6jDs4scWgwnQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python_pep517: move PEP517_SOURCE_PATH to
+ python_pep517
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 16:22:15 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Mar 2022 16:41:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163094
+ https://lists.openembedded.org/g/openembedded-core/message/163095
 
-On Sat, 2022-03-12 at 12:53 +0100, Ming Liu wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
-> 
-> Add ${IMAGE_ROOTFS} and ${IMGDEPLOYDIR} to do_rootfs[dirs] and
-> do_rootfs[cleandirs], this ensures do_rootfs run from a clean
-> workspace, with this change, we can now remove two bb.utils.mkdirhier
-> lines from meta/lib/oe/rootfs.py.
-> 
-> Also drop ${S} from do_rootfs[cleandirs], nothing being installed into
-> that directory.
-> 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+seeing this
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/1517
+
+On Fri, Mar 11, 2022 at 9:12 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> Now we have the start of a PEP-517 base class, the PEP517_SOURCE_PATH
+> variable can be defined in there instead of the classes that use it.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/classes/image.bbclass | 4 ++--
->  meta/lib/oe/rootfs.py      | 4 ----
->  2 files changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 2b0ce4a988..98a0555040 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -252,8 +252,8 @@ fakeroot python do_rootfs () {
->  
->      progress_reporter.finish()
+>  meta/classes/flit_core.bbclass             | 3 ---
+>  meta/classes/python_pep517.bbclass         | 3 +++
+>  meta/classes/setuptools_build_meta.bbclass | 3 ---
+>  3 files changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/classes/flit_core.bbclass b/meta/classes/flit_core.bbclass
+> index 1ef8ce9429..5a602f54ab 100644
+> --- a/meta/classes/flit_core.bbclass
+> +++ b/meta/classes/flit_core.bbclass
+> @@ -6,9 +6,6 @@ flit_core_do_configure () {
+>      :
 >  }
-> -do_rootfs[dirs] = "${TOPDIR}"
-> -do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
-> +do_rootfs[dirs] = "${IMAGE_ROOTFS} ${IMGDEPLOYDIR} ${TOPDIR}"
-> +do_rootfs[cleandirs] += "${IMAGE_ROOTFS} ${IMGDEPLOYDIR}"
->  do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
->  addtask rootfs after do_prepare_recipe_sysroot
-
-I think the removal of ${S} breaks things:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3279/steps/14/logs/stdio
-
-Cheers,
-
-Richard
-
-
+>
+> -# Where to execute the build process from
+> -PEP517_SOURCE_PATH ?= "${S}"
+> -
+>  # TODO: ideally this uses pypa/build
+>  flit_core_do_compile () {
+>      cd ${PEP517_SOURCE_PATH}
+> diff --git a/meta/classes/python_pep517.bbclass b/meta/classes/python_pep517.bbclass
+> index 76660e70f8..756333bcf2 100644
+> --- a/meta/classes/python_pep517.bbclass
+> +++ b/meta/classes/python_pep517.bbclass
+> @@ -3,6 +3,9 @@
+>
+>  DEPENDS:append = " python3-pip-native"
+>
+> +# Where to execute the build process from
+> +PEP517_SOURCE_PATH ?= "${S}"
+> +
+>  # The directory where wheels should be written too. Build classes
+>  # will ideally [cleandirs] this but we don't do that here in case
+>  # a recipe wants to install prebuilt wheels.
+> diff --git a/meta/classes/setuptools_build_meta.bbclass b/meta/classes/setuptools_build_meta.bbclass
+> index 424be85608..8791a2965f 100644
+> --- a/meta/classes/setuptools_build_meta.bbclass
+> +++ b/meta/classes/setuptools_build_meta.bbclass
+> @@ -2,9 +2,6 @@ inherit setuptools3-base python_pep517
+>
+>  DEPENDS += "python3-setuptools-native python3-wheel-native"
+>
+> -# Where to execute the build process from
+> -PEP517_SOURCE_PATH ?= "${S}"
+> -
+>  setuptools_build_meta_do_configure () {
+>      :
+>  }
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163067): https://lists.openembedded.org/g/openembedded-core/message/163067
+> Mute This Topic: https://lists.openembedded.org/mt/89715331/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
