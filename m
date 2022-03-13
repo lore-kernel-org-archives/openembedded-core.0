@@ -1,104 +1,117 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A2AC433FE
-	for <webhook@archiver.kernel.org>; Sun, 13 Mar 2022 07:59:37 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web08.13263.1647158376877486972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDFC7C433EF
+	for <webhook@archiver.kernel.org>; Sun, 13 Mar 2022 12:23:47 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web09.14609.1647174226855805633
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 23:59:37 -0800
+ Sun, 13 Mar 2022 05:23:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XG+Xw1Un;
- spf=pass (domain: gmail.com, ip: 209.85.215.173,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id t14so11149588pgr.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F5257S40;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id x15so19730974wru.13
         for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Mar 2022 23:59:36 -0800 (PST)
+ Sun, 13 Mar 2022 05:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2HAHzxvKM7zE4oJmye5WnXVluNoR8gqcz1h5xH5oQuE=;
-        b=XG+Xw1UnjcIhDE/SbZ8LBhXdwo21CL5ea2uk7AMR+EBlTiwccXUU9wkBLx3ddNifPl
-         /VDAtheMa+w05zp2RPpxCpQTRR3KHvhKR+T9xSAMQLftp5RS/yV85r+8LOPaLARS68RG
-         cZ6BgyyMRglr5NM7y8pPN4VzLlPQWzsABfunkK2kYKZXvvz+NbjWi7ue92tTCOoJKFYN
-         dL0O4UF/mEr4GYWgXYCopQxMB3OyS7L1Ndjk8IsBiTlRmuVGovT7Dt4DbhFqWNFCPZR+
-         rZVb0c9gWZvFYr65l7JlOd4UD06vYswbDB3abf4bnr+zyEorseHuiJfqFxZeMVFUB2iV
-         hgkg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VfX1NhN7IZosFiUfYrvj3Xu7ETV6DSbk5xpnR56fSfQ=;
+        b=F5257S40Z/hlskB5PwRjJ5NtG0NaWdtrm1M+GMCXS1DeqmRBS4skhoArFeHU1MGSLB
+         kFKl0eIcQfxNcOvf8rbsnVeQw8yDY5W7TRBuKZHUsOUlc9Ev7UXGrCErJatPr1DfTd6t
+         EVILZrDzDIT2+h/FQC9CUQVdGsw2SS0Y3xUO0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2HAHzxvKM7zE4oJmye5WnXVluNoR8gqcz1h5xH5oQuE=;
-        b=PXpcShHgg54xUT/FM3thlqSyUXO2YGrigVa93Tve+yAhz0ekN7GLLxuvE09SLzbgMN
-         krYBRi9tgNb5AGNwjvaxs0SkRWgexWz9ErFSViw+NuSJ1F0nwQ6ZoLbdOSsS77HAsTsy
-         zxlWy+ltkOrkwwuYC712LLtDvnxww/PmwzvNZHaY0va28ZTN3GOxeTylZL/PuUZQtbfQ
-         LL7KAP+2veLVITJJH3i5xsGGkuXB9ymVFt0+nocoZsffSr1/IiR8gPwrDag74IV913+q
-         c5N0CIYEkh+MtCJbNgyEfhLOIadUWw4jxDSDKw5vTqt8y7JXLPc/hZlqGFtSGG60JQRr
-         gpKw==
-X-Gm-Message-State: AOAM530epXDo+HtVkIwI2liYHg9xcfDJI6KMcN4+iLUp7rNFlQKZg+62
-	Vg8X4IIlcixM8RRMmZl79Ae3tLgtFkyP7w==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VfX1NhN7IZosFiUfYrvj3Xu7ETV6DSbk5xpnR56fSfQ=;
+        b=GoMXPu23zr+L3DL1ey8r84ixNzsETf8pMyiJU9L3L1rcBBoeRc7iUZi03y5enXn80z
+         MIcW5eTum7ik3d4p00gOkFh3BT6gXJUreN+HBmHh4MxFTNKqI9CDaE7Oi/2kBbWHHOnw
+         iAr9Xa5MF7pIjYaCMCvsA24ZFN3pAilY2oDC3tkaj5e1Ovp7SFhIDkIUHLGy2ovX2v1P
+         5bqpHd6msLm9DSdylczcgWRzBSMWKBw/+JcxtTCf9Eve9pV74tqr9Yi52Wo479dWZj11
+         gq9uw4UryFctxn/1uTBYflTR3OTQ8FyxYMhcweftNcmtls6YHSwG2OLmHwwGtMpNYaMO
+         E8dw==
+X-Gm-Message-State: AOAM533A4MNxBVK3XGH4X2TFvznfKN4gAR53Gz+m4oUWDq2GLAT3RzIW
+	bF4pzlytwIk4bq/W59is67JGQjutuyrVG0xU
 X-Google-Smtp-Source: 
- ABdhPJwf2q/qQTju0MHnLzhNtrdYM5N71ZcJLq6vhS4wHUB1N77nndK6DdthLgiMuYEjblPiSdcGLA==
-X-Received: by 2002:a05:6a00:2405:b0:4e1:5008:adcc with SMTP id
- z5-20020a056a00240500b004e15008adccmr18655968pfh.35.1647158376155;
-        Sat, 12 Mar 2022 23:59:36 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
+ ABdhPJysMIvdm6Q1yc0UUpbIkRW0Jn4OLxDGuxBEwj9GE2HZvq7e/Bk6kBCd31Z0oWLUFDcZuthCBg==
+X-Received: by 2002:a5d:4578:0:b0:1ed:bf30:40f3 with SMTP id
+ a24-20020a5d4578000000b001edbf3040f3mr13385852wrc.669.1647174224791;
+        Sun, 13 Mar 2022 05:23:44 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:cbdf:7d09:95e7:c814])
         by smtp.gmail.com with ESMTPSA id
- g28-20020a63111c000000b00374646abc42sm12958928pgl.36.2022.03.12.23.59.35
+ i5-20020a1c3b05000000b00382871cf734sm15830135wma.25.2022.03.13.05.23.44
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Mar 2022 23:59:35 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+        Sun, 13 Mar 2022 05:23:44 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] binutils: Bump to latest 2.38 release branch
-Date: Sat, 12 Mar 2022 23:59:32 -0800
-Message-Id: <20220313075932.3031649-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220313075932.3031649-1-raj.khem@gmail.com>
-References: <20220313075932.3031649-1-raj.khem@gmail.com>
+Subject: [PATCH] oeqa/runtime/ping: Improve failure message to include more
+ detail
+Date: Sun, 13 Mar 2022 12:23:43 +0000
+Message-Id: <20220313122343.757505-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Mar 2022 07:59:37 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Mar 2022 12:23:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163104
+ https://lists.openembedded.org/g/openembedded-core/message/163105
 
-Fixes building ppc32 kernels
+When the ping test fails due to a timeout we only get limited debug
+information. Tweak the code to improve that in case it sheds any light
+on intermittent failures.
 
-Brings following fixes
-
-* 2d92604cd30 Revert "Check thin archive element file size against archive header"
-  * ed9b2e40ebf binutils 2.38 vs. ppc32 linux kernel
-  * 40d32f56f63 Updated Serbian translations for the bfd, gold, ld and opcodes directories
-  * 6aa1b7df2fc ld: Keep indirect symbol from IR if referenced from shared object
-  * ae1cab7d3f3 i386: Update I386_NEED_DYNAMIC_RELOC_TYPE_P for DT_TEXTREL
-  * df9071487a8 PR28882, build failure with gcc-4.2 due to use of 0b literals
-  * caa6172de4b x86: Disallow invalid relocation against protected symbol
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/binutils/binutils-2.38.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/ping.py | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 4ce74f94bfa..3544c0c7e7c 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_38-branch"
+diff --git a/meta/lib/oeqa/runtime/cases/ping.py b/meta/lib/oeqa/runtime/cases/ping.py
+index f6603f75ec7..498f80d0a50 100644
+--- a/meta/lib/oeqa/runtime/cases/ping.py
++++ b/meta/lib/oeqa/runtime/cases/ping.py
+@@ -6,6 +6,7 @@ from subprocess import Popen, PIPE
  
- UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.oetimeout import OETimeout
++from oeqa.core.exception import OEQATimeoutError
  
--SRCREV ?= "a96f7ba94b69b588bf524624ff2410b31420c957"
-+SRCREV ?= "6938a3aca19044aeb9bc4b9564e04f9092a701ed"
- BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
- SRC_URI = "\
-      ${BINUTILS_GIT_URI} \
+ class PingTest(OERuntimeTestCase):
+ 
+@@ -13,14 +14,17 @@ class PingTest(OERuntimeTestCase):
+     def test_ping(self):
+         output = ''
+         count = 0
+-        while count < 5:
+-            cmd = 'ping -c 1 %s' % self.target.ip
+-            proc = Popen(cmd, shell=True, stdout=PIPE)
+-            output += proc.communicate()[0].decode('utf-8')
+-            if proc.poll() == 0:
+-                count += 1
+-            else:
+-                count = 0
++        try:
++            while count < 5:
++                cmd = 'ping -c 1 %s' % self.target.ip
++                proc = Popen(cmd, shell=True, stdout=PIPE)
++                output += proc.communicate()[0].decode('utf-8')
++                if proc.poll() == 0:
++                    count += 1
++                else:
++                    count = 0
++        except OEQATimeoutError:
++            self.fail("Ping timeout error for address %s, count %s, output: %s" % (self.target.ip, count, output))
+         msg = ('Expected 5 consecutive, got %d.\n'
+                'ping output is:\n%s' % (count,output))
+         self.assertEqual(count, 5, msg = msg)
 -- 
-2.35.1
+2.32.0
 
 
