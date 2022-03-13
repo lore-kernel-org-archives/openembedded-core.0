@@ -1,46 +1,56 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <a293ee7c3829c56572d618628a129ae4ef7a0de7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] gstreamer1.0-plugins-bad/ugly: use the GPL-2.0-or-later only when it is in use
+Message-ID: <ad0bfaa3e9c8700ce92ffa524196a1a0d4aa09c9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCHv2] mesa: update to 22.0.0
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 07 Mar 2022 15:50:47 +0000
-In-Reply-To: <d0ce368f42264868a8af1e4c390fbe58@axis.com>
-References: <20220307085919.426627-1-quaresma.jose@gmail.com>
-	 <d0ce368f42264868a8af1e4c390fbe58@axis.com>
+Date: Sun, 13 Mar 2022 12:40:23 +0000
+In-Reply-To: <7RWL8R.KIOTTKEBL4AT2@t-online.de>
+References: <20220311172010.2490948-1-f_l_k@t-online.de>
+	 <0abd18c8268323c953e66ac12185de8641a37ac0.camel@linuxfoundation.org>
+	 <7RWL8R.KIOTTKEBL4AT2@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Jose Quaresma <quaresma.jose@gmail.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+To: f_l_k@t-online.de
+Cc: openembedded-core@lists.openembedded.org
 
-On Mon, 2022-03-07 at 15:33 +0000, Peter Kjellerstedt wrote:
-> > 
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-> > index 9b6f80aa89..577ba16af7 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.0.bb
-> > @@ -1,4 +1,5 @@
-> >  require gstreamer1.0-plugins-common.inc
-> > +require gstreamer1.0-plugins-license.inc
-> > 
-> >  DESCRIPTION = "'Ugly GStreamer plugins"
-> >  HOMEPAGE = "https://gstreamer.freedesktop.org/"
-> > @@ -8,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-> > 
-> > file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
-> > 
-> >  LICENSE = "LGPL-2.1-or-later & GPL-2.0-or-later"
-> > -LICENSE_FLAGS = "commercial"
+On Sat, 2022-03-12 at 01:45 +0100, f_l_k@t-online.de wrote:
+> Before I left for work, I started a core-image-weston build and ran into some
+> problems. One of them was that librsvg was missing 'inherit vala', but that
+> doesn't seem to be related. The main problem seems to be that mesa-22.0.0
+> dropped dri api and drivers. These are no longer buildable:
+> https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics/mesa/mesa_21.3.7.bb?h=master-next#n3
 > 
-> I still think this is wrong. I.e., the commercial flag is not 
-> related to a plugin using GPL or not, but rather the fact that it 
-> is in ugly. E.g., the reason may be patent considerations and 
-> can apply to any of the plugins regardless of license.
+> My build did not have the problem because I did not include the dri drivers in
+> my image.
+> There was also an error because gtk+3 tried to add libgl instead of
+> virtual/libgl, but that whole line is deprecated, gtk no longer has an --enable-
+> glx option.
+>  https://git.yoctoproject.org/poky/tree/meta/recipes-gnome/gtk+/gtk+3.inc?h=master-next#n59
 > 
 > 
+> I'll see if i can fix it when i'm home again
 
-Agreed, that flag should be independent of whether GPL is there or not.
+The autobuilder ran into similar issues. The problem was the loss of "dri" from
+the PACKAGECONFIG which triggers the RPROVIDES of libgl. I was able to fix it
+with the addition of:
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 503a7efba5..2a89b8e8f0 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -227,7 +227,7 @@ python __anonymous() {
+     if "-native" in d.getVar("PN"):
+         suffix = "-native"
+     for p in (("egl", "libegl", "libegl1"),
+-              ("dri", "libgl", "libgl1"),
++              ("opengl", "libgl", "libgl1"),
+               ("gles", "libgles1", "libglesv1-cm1"),
+               ("gles", "libgles2", "libglesv2-2"),
+               ("gles", "libgles3",)):
+
 
 Cheers,
 
