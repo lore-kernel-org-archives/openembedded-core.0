@@ -1,140 +1,91 @@
-Return-Path: <jason.m.bills@linux.intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9B5C433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 16:21:33 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web10.28211.1647274892317041337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0919C433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 17:57:37 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.29752.1647280656545280482
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 09:21:32 -0700
+ Mon, 14 Mar 2022 10:57:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=QF5jDTZ7;
- spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.43,
- mailfrom: jason.m.bills@linux.intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647274892; x=1678810892;
-  h=message-id:date:mime-version:subject:references:to:cc:
-   from:in-reply-to:content-transfer-encoding;
-  bh=QY/dXrcbT+AKN2uDar9+T0YVOUD4Z8mQj9d+UPxFyts=;
-  b=QF5jDTZ7gG9xJZvBBiVLo0dTTsIMVbPXz8UuYk82veA65mcmPi5lnoqw
-   euQ3cQU0+Ncdd0oCVWz0VSdn25eN2dLRpLXQAswmXXatGVh9qSnU1Kr/v
-   vM81TMnJQiG06o6CngPdDAUNHCpH07rxEdXu8AX8JvvNvaL3DzzbBlsWN
-   wjsuutYaAExsU5fJJP04/5ZVuSTakObIiQfaOr/KDzdr5HZMMqZUfs8DA
-   UhA3KIbHobJVaZYSAj2VLnOrBAOSbGYTErn17I3XdZuHes0SB0Uv52bYS
-   QpntahgO49jJ4YzIVDuuDa9ACk81tcvKFTttxC7JKMX5c4HhRXDC9lfia
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="342502876"
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400";
-   d="scan'208";a="342502876"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 09:21:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,181,1643702400";
-   d="scan'208";a="612948617"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Mar 2022 09:21:31 -0700
-Received: from [10.255.228.36] (jmbills-MOBL.amr.corp.intel.com
- [10.255.228.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id B2D1C58097C;
-	Mon, 14 Mar 2022 09:21:31 -0700 (PDT)
-Message-ID: <f3dd9984-eae8-61f6-f4bd-812cc13417c5@linux.intel.com>
-Date: Mon, 14 Mar 2022 10:21:31 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: [PATCH] kernel-yocto: configcheck: create cfg folder if it doesn't
- exist
-References: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
-Content-Language: en-US
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YphB1Ue3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id l10so9822115wmb.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 14 Mar 2022 10:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jrFEl7cApqqT89GM9Efp/vvGT8xk41qR4+1oRRyYAR0=;
+        b=YphB1Ue3KVd6sufGjhAHdiMANFC78Py/Ly/DKPvHIU+8fy+vC0BaKly3wYKI+7fwFL
+         yI2oZ1FTe+7C2gqJ2keU6Am2ll1g75QYPFTqbwSemoaL5cisCkhPUQGyWvV//fHuYRMN
+         QHZPT2fuwPkbPXHborp/jZwAHAkd2s2QGOxTs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jrFEl7cApqqT89GM9Efp/vvGT8xk41qR4+1oRRyYAR0=;
+        b=t3szaTofqVQMRGSIFIwLZVnsQbaHRAAZYRLpQnFU/zkEjTZsyCRivqVflbMOQwB/II
+         RAlc367A9oM8At49KXo8xlhwse/0Woqte1YA5dY8ha23sRdZfS16wKkhEZquSM3VIp2K
+         t2M0t3rnU7IWUmtPH7r3ebPLz8aO8hF3vVEjzayK/52ZJQpzdXEgLSPbQ2xdy22YBvkC
+         6m/BtdUqhQh447SymvGm0rLGBLqc1WEkG3LCchVyKD4ihuYGtaLiRuiVcAt59DhisYAP
+         1tAvWzedWUjk051Ex8tQqHOvx+vnW0AL8n96WE/QnO7ahMf8JXg3EtIovtf49b/0QFJ8
+         hCrw==
+X-Gm-Message-State: AOAM5302815OjE1qsnBS3Dj6HJhJcEglDxmhLktSnZUYU1U3f7+viAAu
+	CH/Qj6/TB+xe674H21NTNye9qJM1zjKX8f4u
+X-Google-Smtp-Source: 
+ ABdhPJwRv/ms9jj0Sps8S2zkBnVjYwkMMnqaSKYg6hMq1ux8b0p/9/X7jfzKqvEV7k7DOM0huUNEWA==
+X-Received: by 2002:a05:600c:4055:b0:385:5450:6717 with SMTP id
+ j21-20020a05600c405500b0038554506717mr259460wmm.13.1647280654398;
+        Mon, 14 Mar 2022 10:57:34 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5edf:6bc1:541a:c26f])
+        by smtp.gmail.com with ESMTPSA id
+ r12-20020a05600c2c4c00b003816932de9csm166718wmg.24.2022.03.14.10.57.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 10:57:33 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: jason.m.bills@linux.intel.com
-From: "Bills, Jason M" <jason.m.bills@linux.intel.com>
-In-Reply-To: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
-X-Forwarded-Message-Id: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH 1/2] scripts/runqemu: Fix memory limits for qemux86-64
+Date: Mon, 14 Mar 2022 17:57:31 +0000
+Message-Id: <20220314175732.827665-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 16:21:33 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 17:57:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163158
+ https://lists.openembedded.org/g/openembedded-core/message/163161
 
-In some situations, the cfg folder doesn't exist when a config
-check returns data, which results in a python exception:
+When setting memory to 4GB, qemu is only running with 2GB for x86_64.
+Avoid this by removing the mem= option to the kernel and letting the
+qemu configuration handle it for x86 in a similar way to mips.
 
-File: '/.../meta/classes/kernel-yocto.bbclass', lineno: 590, function: 
-do_kernel_configcheck
-      0586:    if analysis:
-      0587:        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
-      0588:        if os.path.isfile(outfile):
-      0589:           os.remove(outfile)
-  *** 0590:        with open(outfile, 'w+') as f:
-      0591:            f.write( analysis )
-      0592:
-      0593:        if bsp_check_visibility and os.stat(outfile).st_size > 0:
-      0594:            with open (outfile, "r") as myfile:
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
- 
-'/.../openbmc-openbmc/build/tmp/work-shared/.../kernel-source/.kernel-meta/cfg/invalid.txt'
-
-This adds a check to create the cfg folder if it doesn't exist to
-avoid the python exception.
-
-I have only seen this error with invalid.txt, but it looks like
-mismatch.txt and redefinition.txt could hit the same issue, so
-adding the fix for those, too.
-
-Signed-off-by: Jason M. Bills <jason.m.bills@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-  meta/classes/kernel-yocto.bbclass | 15 ++++++++++++---
-  1 file changed, 12 insertions(+), 3 deletions(-)
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass 
-b/meta/classes/kernel-yocto.bbclass
-index 1d5a8cdf29..d35f4629cb 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -562,7 +562,10 @@ python do_kernel_configcheck() {
-          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-       if analysis:
--        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
-+        outpath = "{}/{}/cfg".format( s, kmeta )
-+        if not os.path.exists(outpath):
-+            os.makedirs(outpath)
-+        outfile = "{}/mismatch.txt".format(outpath)
-          if os.path.isfile(outfile):
-             os.remove(outfile)
-          with open(outfile, 'w+') as f:
-@@ -584,7 +587,10 @@ python do_kernel_configcheck() {
-          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-       if analysis:
--        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
-+        outpath = "{}/{}/cfg".format(s,kmeta)
-+        if not os.path.exists(outpath):
-+            os.makedirs(outpath)
-+        outfile = "{}/invalid.txt".format(outpath)
-          if os.path.isfile(outfile):
-             os.remove(outfile)
-          with open(outfile, 'w+') as f:
-@@ -603,7 +609,10 @@ python do_kernel_configcheck() {
-          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
-       if analysis:
--        outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
-+        outpath = "{}/{}/cfg".format(s,kmeta)
-+        if not os.path.exists(outpath):
-+            os.makedirs(outpath)
-+        outfile = "{}/redefinition.txt".format(outpath)
-          if os.path.isfile(outfile):
-             os.remove(outfile)
-          with open(outfile, 'w+') as f:
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 9ddd47267c9..2f77a7bd0f2 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -814,7 +814,7 @@ class BaseConfig(object):
+         self.set('QB_MEM', qb_mem)
+ 
+         mach = self.get('MACHINE')
+-        if not mach.startswith('qemumips'):
++        if not mach.startswith(('qemumips', 'qemux86')):
+             self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
+ 
+         self.qemu_opt_script += ' %s' % self.get('QB_MEM')
 -- 
-2.17.1
+2.32.0
 
 
