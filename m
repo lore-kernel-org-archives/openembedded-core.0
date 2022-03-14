@@ -1,97 +1,68 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B9DC433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 13:38:38 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.26378.1647265117139134181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E6AC433F5
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 13:39:40 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.26174.1647265167999233992
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 06:38:37 -0700
+ Mon, 14 Mar 2022 06:39:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TELFcMa4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id j17so24109637wrc.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 06:38:36 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YMJQMCp6;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=aMwLo6Vu43YR0lrK04WrVLZgT8hvQLIlja12b05kfbA=;
-        b=TELFcMa4bqrIAhawWt6Kx49l8jOYcht10UWyNJ4FzqrY4KnrpO/PMZcxUA7FJwA+pc
-         iMEZ4yIvdgnZs8K9g2CyRyANFFGqER58CwZqvVexPEpaSLcucWxXWlYfQtPAHHE43Xkz
-         DAzTIVGUZJ1w5hUyGH7EA3pnMsUd2LLkUbZ5A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aMwLo6Vu43YR0lrK04WrVLZgT8hvQLIlja12b05kfbA=;
-        b=tsWCQpylJzwbqhDV8NFAExovYpO+rNZ7UOtoLMsQLX3pWk4I3wuZtyIFch/r21fjjA
-         uyskBnxVIxYg8FvdrBdp+cq60x/Ni8nEcTCeLO3RqEtFnOSBl4BIAMr8vGXNtX+Cj8A5
-         oQpC1rlM7YEtrpxA73CKS/kxXckbCOjFi6AlEvdN89S5I43twZUuIbzqDMxcm/1FRBsC
-         KzNZIEV+MwcqbxV9yTKMYqd0w2glczawOS9TZhiUlrXgKI60SXQmeJz250wXQ+qswnya
-         lu8kx8khcYm214vgC5/X/X3BkfFPE1kocZQ9kQPdFLN3ZGhNy3SBgyXMnJndknSXDEPl
-         yA4Q==
-X-Gm-Message-State: AOAM533s0M+A9GqsGQsLavz3PV8ileNKkwBlw6T+++W5VsDL/7KW2aSq
-	4r+YwyiZ26Px9Hfan8BPyuCWEA==
-X-Google-Smtp-Source: 
- ABdhPJwYyU0MiygCKiXCx0OxYQFWxTRReIrcHhQb5TjzkXv/QpNWWUodRa9cnJb1hYVBicB8e1zm0A==
-X-Received: by 2002:adf:ba8f:0:b0:1e9:4afb:179b with SMTP id
- p15-20020adfba8f000000b001e94afb179bmr16964417wrg.57.1647265115584;
-        Mon, 14 Mar 2022 06:38:35 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5edf:6bc1:541a:c26f?
- ([2001:8b0:aba:5f3c:5edf:6bc1:541a:c26f])
-        by smtp.gmail.com with ESMTPSA id
- m2-20020adff382000000b001f022ef0375sm13320987wro.102.2022.03.14.06.38.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 06:38:35 -0700 (PDT)
-Message-ID: 
- <e980e648dc47fd3f9566c05742bf82bd88cea461.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCH] re2c: backport of partial fix for
- CVE-2018-21232
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Davide Gardenal <davidegarde2000@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>, Steve Sakoman
-	 <steve@sakoman.com>
-Date: Mon, 14 Mar 2022 13:38:32 +0000
-In-Reply-To: <20220314112006.478573-1-davide.gardenal@huawei.com>
-References: <20220314112006.478573-1-davide.gardenal@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+  d=axis.com; q=dns/txt; s=axis-central1; t=1647265168;
+  x=1678801168;
+  h=from:to:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=vnXCz/EZKJX27UPv3O195QHwmJiCggOavf1qRgLeJBw=;
+  b=YMJQMCp6hRYZfBW+3SmWedaAhLClZv9RmgjWTFQWW6ubWahu2k8xQIJw
+   dE9h9Iqu2RUKMqORkEGZwmCyK2QgyGFJCq28YZHvMnknH+1qYTmPiikeF
+   6TRTy26M/QByXtydMOVcb8mUeWrFq4dwrbtFIexWFsUBVdl8XvYYOYNsq
+   rc6svQ41PFjgKsNRWH7Rw29ovRaNHCVDgOZ96bshzRHITdYACZ7jnf0Os
+   vCWoYVvjy5iVd5I7scauHjhGZ4bgFzOxvbXw0TemYPIBA8GpSQJAExPmT
+   gspCOND4ifZylZJkTDog/bBW13GG/9z1jeDiig7KwbV/1hmg4M59uDDNj
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Building python3 without readline fails for Kirkstone
+Thread-Topic: Building python3 without readline fails for Kirkstone
+Thread-Index: Adg3qCNDhtoo90H9Tum4/+Umwa0ebw==
+Date: Mon, 14 Mar 2022 13:39:25 +0000
+Message-ID: <1fcdfa7197764e3ebeeb5ace0b99a550@axis.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 13:38:38 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 13:39:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163137
+ https://lists.openembedded.org/g/openembedded-core/message/163138
 
-On Mon, 2022-03-14 at 12:20 +0100, Davide Gardenal wrote:
-> Backport commits from the following issue (assigned CVE-2018-21232):
-> https://github.com/skvadrik/re2c/issues/219
-> 
-> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
-> ---
->  .../re2c/re2c/CVE-2018-21232-1.patch          | 345 ++++++++++++++++++
->  .../re2c/re2c/CVE-2018-21232-2.patch          | 241 ++++++++++++
->  .../re2c/re2c/CVE-2018-21232-3.patch          | 154 ++++++++
->  .../re2c/re2c/CVE-2018-21232-4.patch          | 164 +++++++++
->  meta/recipes-support/re2c/re2c_1.0.1.bb       |   6 +-
->  5 files changed, 909 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-1.patch
->  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-2.patch
->  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-3.patch
->  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-4.patch
+We have readline support disabled for python3 for target. It works=20
+fine for Hardknott and Honister, but fails for Kirkstone with the=20
+following error:
 
-Is this for dunfell?
+  The necessary bits to build these optional modules were not found:
+  _curses               _curses_panel
 
-Cheers,
+The problem can be recreated by adding the following to local.conf:
 
-Richard
+PACKAGECONFIG:remove:pn-python3:class-target =3D "readline"
+
+and then building python3.
+
+Any help to solve the problem would be appreciated.
+
+//Peter
 
 
