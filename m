@@ -1,94 +1,84 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 546B1C433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 16:02:05 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web12.28007.1647273724333655330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB56FC433F5
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 16:20:59 +0000 (UTC)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
+ [209.85.217.54])
+ by mx.groups.io with SMTP id smtpd.web09.28474.1647274857782443334
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 09:02:04 -0700
+ Mon, 14 Mar 2022 09:20:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=nH4g9Usp;
- spf=pass (domain: burtonini.com, ip: 209.85.221.52,
- mailfrom: ross@burtonini.com)
-Received: by mail-wr1-f52.google.com with SMTP id e24so24705627wrc.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KM9EFLWD;
+ spf=pass (domain: gmail.com, ip: 209.85.217.54,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f54.google.com with SMTP id h30so17680110vsq.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 09:02:04 -0700 (PDT)
+ Mon, 14 Mar 2022 09:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VbA+sxtlDEgpMUO9bTczbvM8iKgMqP9jjI3XsFP68mE=;
-        b=nH4g9Usp2k1LG+gx2llGr3+5oUjXipN7vvdK+qd6bteik7K9L+j5aWxZ1g5r0Jo8X3
-         THdmIx5AKiI7Ix3z4zWa+cT2sex8v/nJ1t6nLCHtNGNE3Ma9Gf5SO1tmWTL2rtkVirSP
-         UUh2CwOt5ipnwBWNolE/7PgqbhTJhF0EGmMxKY1etpfHgLFMB/SKJe+lDp3gFlEdsS11
-         RDZaO5XsXw8Y5a97MYSSV01i3dgTQR1sZCIJ/Lz0c766U5wT75EyoVVkIGJvDaXk5A3O
-         xw+AWck12hgEfyGoZR6LCv2cviCuh9q1JS2a+smdrR9DEJA0sM682kYwQC16EthN2s9Q
-         7a2A==
+        bh=NpvBU9B3GKaRFl81wfKPsaZyNlXhX3IsQQjk+gz5rb8=;
+        b=KM9EFLWDEYw0pC+6uPjLU6I8q/Vedv0Omqy12iQLdns40LciRJp2DfeykJVUGZu/5j
+         VaR2sHzIOrA4c/KX1mA3sz3sJPolOwTziMmbsijX7sPiPKOuQb77N4ruzqTb3LSjgnqG
+         ylvTyQUFGW5MMB+D0/wEITl57yInq2bzT3bcY16pl+9Pc+M5Nf8VLdjnFFx6UAN0aLmT
+         dG+I3gc2QhSKCkvRYQ7lkRYlQX9x9wkPa8u89qiUZmSk/Y9lTAUPXEAUzwHEApZ90p38
+         MqwERtKIEsHNT1b5ZnOamxP2UyW9xWIsIXmgH6C5AXsHQutGNXAd2784FDuo5MaVf/FJ
+         dnmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VbA+sxtlDEgpMUO9bTczbvM8iKgMqP9jjI3XsFP68mE=;
-        b=QQ5rQcxh6TQQPlQl3mrY9y1ffx4AskQw5xwcNEQfTEN6IDLyMPC4cZ5WXaLh2zx+NZ
-         H6zz4rUZ6+lMIAAX3JkeeGaOiI+Dw4ahUVAJ7JFevm+d5mQ/e2N9PABoQpDF/blxeOG+
-         NGf7t5bGfchZsF6MxLnCQzGM/p5zUiggdVgfBgz+JmEWgyZOMrTuEpo/Z9rD/sw25xwP
-         QLLFpQ33pC3gmqr+qU1a7pBrtrqAqF4ehdCu3U53h9oYDbEgp1yQ29+9Xy8V/H5zlh04
-         LcXqfK/5GHsKW/xPOD6C00CodFPTZ0PQvdpIhA24KwEZaRgplLNwSTGRfoe1rwF7NH8X
-         c9ZA==
-X-Gm-Message-State: AOAM53155KN+Y1XAySHYkwEpJMbEIMP7FZPevOCSYbP7lfIab8M23a58
-	0FfWgBWkOIoLxKyXeOOtPQXi8Ik3LJMiKUenPb9DCQ==
+        bh=NpvBU9B3GKaRFl81wfKPsaZyNlXhX3IsQQjk+gz5rb8=;
+        b=jQ3FrK/u1c3uWB+kgVY5mZKglfra2pgpyev6UpbA4RzE2PrQYti25o5+XwJIOLSz8W
+         qEEYcitS/En7XhwdvrDtTqTgiSoLMMdtXvxTpW1H0FzoFvDRRrZ2L1pBKl5jhgGO1vHL
+         SPWajG+Lgc8F6oK2AtfD0rJogsG5o6gyORJ0gAA0Y/UWDpu6/VrcQUaaPWVYGUyAXV66
+         dLGrEYN7rQLDVW5Mol4ag/75v4ZmpB3DC6fLhrdfJHUPR6RGh8YZcGW+m09o6VESAz24
+         SGKx3ko0fiD38rC968hMVpJNnm1xgD0vB5hZkW82kfi+piXB7DnCZeGgqXpc9k+D4P5S
+         hZFw==
+X-Gm-Message-State: AOAM533+OfklZITexXeQdNGI1nzUeSsmreYdOdjvLiacMvr7tykwGJfu
+	gNajYh/TlOtqMo0MNxKqa5or6+qwKDEmit6XEXY=
 X-Google-Smtp-Source: 
- ABdhPJwEu1k0Vgl6nk4rabHFTgFB+k6M8JZ868Nr8wxjKI246LaMjRoYTQgqxGuJz/7LY6TNVpiUKfU0zqb27oLtZ2M=
-X-Received: by 2002:a5d:6506:0:b0:1f1:da5e:e077 with SMTP id
- x6-20020a5d6506000000b001f1da5ee077mr17117596wru.405.1647273722808; Mon, 14
- Mar 2022 09:02:02 -0700 (PDT)
+ ABdhPJxbTpyxalDHXn9ekGnicSo3sKpU7ijCWotRcX92BHWnKawd03YU16auoaVHUhl5QB1QU290ZfNDA/iqKha1mp8=
+X-Received: by 2002:a05:6102:cce:b0:322:c483:76b2 with SMTP id
+ g14-20020a0561020cce00b00322c48376b2mr5607670vst.45.1647274856900; Mon, 14
+ Mar 2022 09:20:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <1fcdfa7197764e3ebeeb5ace0b99a550@axis.com>
-In-Reply-To: <1fcdfa7197764e3ebeeb5ace0b99a550@axis.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Mon, 14 Mar 2022 16:01:51 +0000
-Message-ID: 
  <CAAnfSTuXkAQyGW_KoQYMJQHM=hFte_wU6rKuAcof2bddUHAB6Q@mail.gmail.com>
+In-Reply-To: 
+ <CAAnfSTuXkAQyGW_KoQYMJQHM=hFte_wU6rKuAcof2bddUHAB6Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 14 Mar 2022 17:20:45 +0100
+Message-ID: 
+ <CANNYZj_yRqqMuGN1sP4_GrRUFCj-Ak17e-0ob_y97USrSLKt1w@mail.gmail.com>
 Subject: Re: [OE-core] Building python3 without readline fails for Kirkstone
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: "OE Core (openembedded-core@lists.openembedded.org)"
+To: Ross Burton <ross@burtonini.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"OE Core (openembedded-core@lists.openembedded.org)"
  <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 16:02:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 16:20:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163156
+ https://lists.openembedded.org/g/openembedded-core/message/163157
 
-On Mon, 14 Mar 2022 at 13:39, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+On Mon, 14 Mar 2022 at 17:02, Ross Burton <ross@burtonini.com> wrote:
+> The sanity check code has support for modules which have been disabled
+> (see MODDISABLED_NAMES in
+> meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch)
+> but that variable doesn't appear to be connected to the PACKAGECONFIG
+> settings.
 >
-> We have readline support disabled for python3 for target. It works
-> fine for Hardknott and Honister, but fails for Kirkstone with the
-> following error:
->
->   The necessary bits to build these optional modules were not found:
->   _curses               _curses_panel
->
-> The problem can be recreated by adding the following to local.conf:
->
-> PACKAGECONFIG:remove:pn-python3:class-target = "readline"
->
-> and then building python3.
+> Adding AlexK to the CC list as he wrote this in the first place.
 
-The sanity check code has support for modules which have been disabled
-(see MODDISABLED_NAMES in
-meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch)
-but that variable doesn't appear to be connected to the PACKAGECONFIG
-settings.
+python is configured with autotools, so perhaps comparing the logs
+with and without readline would be a good first step, specifically the
+bifurcation point where ncurses is disabled.
 
-Adding AlexK to the CC list as he wrote this in the first place.
-
-Ross
+Alex
 
