@@ -3,8 +3,8 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Khem Raj" <raj.khem@gmail.com>
 Subject: [PATCH v2] qemu: Fix build on ppc64
-Date: Mon, 14 Mar 2022 10:12:40 -0700
-Message-Id: <20220314171240.585051-1-raj.khem@gmail.com>
+Date: Mon, 14 Mar 2022 14:57:14 -0700
+Message-Id: <20220314215714.1360249-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -16,9 +16,11 @@ add a missing system include
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Use upstream submitted patch
+
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...ptrace.h-for-pt_regs-struct-definiti.patch | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ ...ptrace.h-for-pt_regs-struct-definiti.patch | 90 +++++++++++++++++++
+ 2 files changed, 91 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
@@ -35,10 +37,10 @@ index 86bf2c1016f..216af037a66 100644
  
 diff --git a/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
 new file mode 100644
-index 00000000000..a2b6149b32b
+index 00000000000..b213b2f4472
 --- /dev/null
 +++ b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
-@@ -0,0 +1,36 @@
+@@ -0,0 +1,90 @@
 +From 91e15627fd05d5a59fd2b88bc5c3491d3e0b56b0 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
 +Date: Mon, 14 Mar 2022 09:58:21 -0700
@@ -63,18 +65,72 @@ index 00000000000..a2b6149b32b
 + 1 file changed, 4 insertions(+)
 +
 +--- a/linux-user/host/ppc/host-signal.h
-++++ b/linux-user/host/ppc/host-signal.h
-+@@ -11,6 +11,10 @@
-+ #ifndef PPC_HOST_SIGNAL_H
-+ #define PPC_HOST_SIGNAL_H
-+ 
-++#if defined(__powerpc__)
-++#include <asm/ptrace.h>
-++#endif
+++++ /dev/null
++@@ -1,30 +0,0 @@
++-/*
++- * host-signal.h: signal info dependent on the host architecture
++- *
++- * Copyright (c) 2003-2005 Fabrice Bellard
++- * Copyright (c) 2021 Linaro Limited
++- *
++- * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++- * See the COPYING file in the top-level directory.
++- */
++-
++-#ifndef PPC_HOST_SIGNAL_H
++-#define PPC_HOST_SIGNAL_H
++-
++-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++-{
++-    return uc->uc_mcontext.regs->nip;
++-}
++-
++-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++-{
++-    uc->uc_mcontext.regs->nip = pc;
++-}
++-
++-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++-{
++-    return uc->uc_mcontext.regs->trap != 0x400
++-        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
++-}
++-
++-#endif
++--- a/linux-user/host/ppc64/host-signal.h
+++++ b/linux-user/host/ppc64/host-signal.h
++@@ -1 +1,30 @@
++-#include "../ppc/host-signal.h"
+++/*
+++ * host-signal.h: signal info dependent on the host architecture
+++ *
+++ * Copyright (c) 2003-2005 Fabrice Bellard
+++ * Copyright (c) 2021 Linaro Limited
+++ *
+++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+++ * See the COPYING file in the top-level directory.
+++ */
 ++
-+ static inline uintptr_t host_signal_pc(ucontext_t *uc)
-+ {
-+     return uc->uc_mcontext.regs->nip;
+++#ifndef PPC_HOST_SIGNAL_H
+++#define PPC_HOST_SIGNAL_H
+++
+++static inline uintptr_t host_signal_pc(ucontext_t *uc)
+++{
+++    return uc->uc_mcontext.gp_regs[32];
+++}
+++
+++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+++{
+++    uc->uc_mcontext.gp_regs[32] = pc;
+++}
+++
+++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+++{
+++    return uc->uc_mcontext.gp_regs[40] != 0x400
+++        && (uc->uc_mcontext.gp_regs[42] & 0x02000000);
+++}
+++
+++#endif
 -- 
 2.35.1
 
