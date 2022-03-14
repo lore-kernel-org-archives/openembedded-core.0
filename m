@@ -1,136 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Khem Raj" <raj.khem@gmail.com>
-Subject: [PATCH v2] qemu: Fix build on ppc64
-Date: Mon, 14 Mar 2022 14:57:14 -0700
-Message-Id: <20220314215714.1360249-1-raj.khem@gmail.com>
+Message-ID: <0292fbe9d87d083d81c08cad35ac28da82b27f41.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] shadow-native: Simplify and fix syslog disable patch
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Mon, 14 Mar 2022 23:00:15 +0000
+In-Reply-To: <c886e8beebb74603a78b97bc68b026b4@axis.com>
+References: <20220314175732.827665-1-richard.purdie@linuxfoundation.org>
+	 <20220314175732.827665-2-richard.purdie@linuxfoundation.org>
+	 <c886e8beebb74603a78b97bc68b026b4@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 
-add a missing system include
+On Mon, 2022-03-14 at 19:10 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Richard Purdie
+> > Sent: den 14 mars 2022 18:58
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 2/2] shadow-native: Simplify and fix syslog
+> > disable patch
+> > 
+> > Shadow is happily spamming the host syslog with messages and shouldn't be
+> > which suggests the patch isn't working. Redo it to work at the configure
+> > level which is simpler and hopefully more effective.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  ...01-Disable-use-of-syslog-for-sysroot.patch | 122 ++----------------
+> >  1 file changed, 13 insertions(+), 109 deletions(-)
+> > 
+> > diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-
+> > for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-
+> > syslog-for-sysroot.patch
+> > index 4d6f6d68ec2..23640824f14 100644
+> > --- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-
+> > sysroot.patch
+> > +++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-
+> > sysroot.patch
+> > @@ -13,112 +13,16 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> >  Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> >  Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Since this is a completely new patch you should replace the 
+> Signed-off-by's above as they obviously no longer apply.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Use upstream submitted patch
+I've removed them on the branch.
 
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...ptrace.h-for-pt_regs-struct-definiti.patch | 90 +++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 86bf2c1016f..216af037a66 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
-            file://0001-riscv-Set-5.4-as-minimum-kernel-version-for-riscv32.patch \
-            file://0001-acpi-tpm-Add-missing-device-identification-objects.patch \
-+           file://0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
-new file mode 100644
-index 00000000000..b213b2f4472
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
-@@ -0,0 +1,90 @@
-+From 91e15627fd05d5a59fd2b88bc5c3491d3e0b56b0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 14 Mar 2022 09:58:21 -0700
-+Subject: [PATCH] ppc: Include asm/ptrace.h for pt_regs struct definition
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Fixes
-+../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: incomplete definition of type 'struct pt_regs'
-+    return uc->uc_mcontext.regs->nip;
-+           ~~~~~~~~~~~~~~~~~~~~^
-+
-+Upstream-Status: Submitted [https://patchwork.kernel.org/project/qemu-devel/patch/20220314170223.554679-1-raj.khem@gmail.com/]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Cc: Peter Maydell <peter.maydell@linaro.org>
-+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+Cc: Richard Henderson <richard.henderson@linaro.org>
-+---
-+ linux-user/include/host/ppc/host-signal.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+--- a/linux-user/host/ppc/host-signal.h
-++++ /dev/null
-+@@ -1,30 +0,0 @@
-+-/*
-+- * host-signal.h: signal info dependent on the host architecture
-+- *
-+- * Copyright (c) 2003-2005 Fabrice Bellard
-+- * Copyright (c) 2021 Linaro Limited
-+- *
-+- * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+- * See the COPYING file in the top-level directory.
-+- */
-+-
-+-#ifndef PPC_HOST_SIGNAL_H
-+-#define PPC_HOST_SIGNAL_H
-+-
-+-static inline uintptr_t host_signal_pc(ucontext_t *uc)
-+-{
-+-    return uc->uc_mcontext.regs->nip;
-+-}
-+-
-+-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-+-{
-+-    uc->uc_mcontext.regs->nip = pc;
-+-}
-+-
-+-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-+-{
-+-    return uc->uc_mcontext.regs->trap != 0x400
-+-        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
-+-}
-+-
-+-#endif
-+--- a/linux-user/host/ppc64/host-signal.h
-++++ b/linux-user/host/ppc64/host-signal.h
-+@@ -1 +1,30 @@
-+-#include "../ppc/host-signal.h"
-++/*
-++ * host-signal.h: signal info dependent on the host architecture
-++ *
-++ * Copyright (c) 2003-2005 Fabrice Bellard
-++ * Copyright (c) 2021 Linaro Limited
-++ *
-++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-++ * See the COPYING file in the top-level directory.
-++ */
-++
-++#ifndef PPC_HOST_SIGNAL_H
-++#define PPC_HOST_SIGNAL_H
-++
-++static inline uintptr_t host_signal_pc(ucontext_t *uc)
-++{
-++    return uc->uc_mcontext.gp_regs[32];
-++}
-++
-++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-++{
-++    uc->uc_mcontext.gp_regs[32] = pc;
-++}
-++
-++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-++{
-++    return uc->uc_mcontext.gp_regs[40] != 0x400
-++        && (uc->uc_mcontext.gp_regs[42] & 0x02000000);
-++}
-++
-++#endif
--- 
-2.35.1
+Richard
 
