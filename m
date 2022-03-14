@@ -1,172 +1,201 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D58D7C433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 02:03:06 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web08.21809.1647223382157051029
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE66C433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 02:24:04 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web08.21940.1647224643402409360
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Mar 2022 19:03:06 -0700
+ Sun, 13 Mar 2022 19:24:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=eCYwZNwz;
- spf=pass (domain: intel.com, ip: 134.134.136.31,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647223385; x=1678759385;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=PRLXXMmDX7l+WfUohlQWqcTPB/JbupI5KP6DqhDfgEI=;
-  b=eCYwZNwzbbMqrZ8D1nCO4DD8bcqFEImh6BAF+a1B8JndqLKA+k5r3UtZ
-   5S881Hz8Rzl0EPhohBn2yoDrJ6gFS8hgG00wyfZxOm4pvXKbCCrB2upK7
-   kBdumH3J8HJa7LZ0acevAEi3QEBX7cz17T30Y3qS4v5G1zUxtZBhIfHEz
-   XAG0OLzwIs+BmZ5Vr8SUVKKXukgW8Qf7LQTSRj3JakZiW6riOxMz7T58W
-   Q+oRf7+HcpGccz14Tg/cQ7m6RO2oyqDYsPogcy3EPg1yky0VmW7+Qowit
-   Rx2mwmV1n3zvExMXQ7kjhCkFJbao3wNlrNiaBVHYSg0KJsdeKMywwjh31
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="316641583"
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400";
-   d="scan'208";a="316641583"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 19:02:22 -0700
-X-IronPort-AV: E=Sophos;i="5.90,179,1643702400";
-   d="scan'208";a="515229582"
-Received: from lsim7-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.229.232])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2022 19:02:21 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 6/6] patch.py: Prevent git repo reinitialization
-Date: Mon, 14 Mar 2022 10:02:05 +0800
-Message-Id: 
- <427f4ef11beb8ceee007b5c7e152f2383a114aca.1647222224.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1647222224.git.anuj.mittal@intel.com>
-References: <cover.1647222224.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SpP29Zhd;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id y22so17884984eds.2
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 13 Mar 2022 19:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9MwyBx5ATzjhRV8+uNACL9WMNAfjefrXaK2EHgxtQkY=;
+        b=SpP29ZhdOW9u4w0vC2RKADo8B0MbvU7xONXc3rwzXiXMMtw6VSd3kT1uG2qmZnmhmb
+         gL0hIrfxpaVm7pzcbG0UNxNgaTnwJ1aOKU4UWXcTJGpgEDoK5Z2tnwBkRkM7fQr5BhhA
+         G6T99nJ+ScKPYzQZlGkSCXHtD9zDxHLacltqSbzPGXPlU2lmgchC70oDkOelmgsBDN2D
+         JyZ+lnP4O3iTt7FrHxpbDFyb2D7/MmlbWzWw64mjaCKS90t40+TfCC7c939Q9w/mGCyw
+         CpXS3yoc3mAIJufiTgzzRZf0pudzTTO27k7adw+n+tn343hD4SZNMMwpKPivGBg3fi/U
+         RHKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9MwyBx5ATzjhRV8+uNACL9WMNAfjefrXaK2EHgxtQkY=;
+        b=g5Q2V3VQxNQKQF8QKz8sPWqeGJhXZ8oUeKXT5qiWohTnIxKwuSdsWKEyNhDBMlsG7M
+         w4Twp8+ffeuGybzJAb/Uwf38V1GONV+YjcjbxvN/7lBuGUNtTl+EHp0gRMD1Mdw0t2Pi
+         Oo1l8V5wMMvF99LeAxLNwf+0Bi6PLoC8DBjpLe00Z+1/3BH+TS3C2rfUSCnMeQT5lQ0W
+         1G9pvI5DlWJruZuysLwQMh525OgGTsU8GW2pTPWt3q2r4nCgorqcqxj59nQ5aw5A3z3a
+         Dm0MoOV8UNcxgIPRU4Xi8unK8LN0RVyogpodW9n1mWeZG3hhMTO0S1Lt4Z/VRck/UGQZ
+         stsw==
+X-Gm-Message-State: AOAM531Gwui4eTzbzxH730gj7HO479kn8+2s7J/4gY2Czjf76f5C+asV
+	hqna1JM7f7g0OXeFHbtOFEQcDfnWeuK5x7S6qOA=
+X-Google-Smtp-Source: 
+ ABdhPJwdK00P4EWkETdO3V84hIpwpdoUUOvB4sD7xtjmV3DeuLPNBBzK+q4+0VFexpBPcmxIp1viqzTtjPYpnS2bejQ=
+X-Received: by 2002:a05:6402:3715:b0:410:a415:fd95 with SMTP id
+ ek21-20020a056402371500b00410a415fd95mr18409297edb.288.1647224641777; Sun, 13
+ Mar 2022 19:24:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220313075932.3031649-1-raj.khem@gmail.com>
+ <20220313075932.3031649-2-raj.khem@gmail.com>
+In-Reply-To: <20220313075932.3031649-2-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 13 Mar 2022 22:23:51 -0400
+Message-ID: 
+ <CADkTA4OccVZ6g40ip0WDCUnbB-E1O7iEUCmV=2UkW2e0eyFkmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/3] linux-yocto: Ignore textrels for ppc64
+ kernel
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a3759805da245f9b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 02:03:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 02:24:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163121
+ https://lists.openembedded.org/g/openembedded-core/message/163122
 
-From: Pavel Zhukov <pavel@zhukoff.net>
+--000000000000a3759805da245f9b
+Content-Type: text/plain; charset="UTF-8"
 
-There were few bugs in the _isInitialized() function which might trigger
-git repo to be reinitialized and patches failing to apply.
+On Sun, Mar 13, 2022 at 3:59 AM Khem Raj <raj.khem@gmail.com> wrote:
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../recipes-test/gitrepotest/gitrepotest.bb    | 16 ++++++++++++++++
- .../gitrepotest/0001-testpatch.patch           |  9 +++++++++
- meta/lib/oe/patch.py                           | 11 ++++++++---
- meta/lib/oeqa/selftest/cases/bbtests.py        | 18 ++++++++++++++++--
- 4 files changed, 49 insertions(+), 5 deletions(-)
- create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
- create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto_5.15.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> index b9715e71eec..9a147023e83 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> @@ -66,3 +66,6 @@ KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc
+> cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32",
+> " cfg/x32.scc", "", d)}"
+>  KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "", d)}"
+>  KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/gpio/mockup.scc", "", d)}"
+> +
+> +INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
+>
 
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-new file mode 100644
-index 0000000000..f1b6c55833
---- /dev/null
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "Test recipe for git repo initialization"
-+HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
-+LICENSE = "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+PATCHTOOL="git"
-+
-+SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
-+           file://0001-testpatch.patch \
-+          "
-+
-+SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
-+
-+S = "${WORKDIR}/git"
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-new file mode 100644
-index 0000000000..bccda17ee9
---- /dev/null
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-@@ -0,0 +1,9 @@
-+diff --git a/Makefile.am b/Makefile.am
-+index 432a9b4..bbf7c74 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -1,3 +1,4 @@
-++## This is useless comment to test if patch works
-+ ACLOCAL_AMFLAGS = -I m4
-+ 
-+ SUBDIRS = matchbox-panel applets data po
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 950fe723dc..9034fcae03 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -304,14 +304,19 @@ class GitApplyTree(PatchTree):
- 
-     def _isInitialized(self):
-         cmd = "git rev-parse --show-toplevel"
--        (status, output) = subprocess.getstatusoutput(cmd.split())
-+        try:
-+            output = runcmd(cmd.split(), self.dir).strip()
-+        except CmdError as err:
-+            ## runcmd returned non-zero which most likely means 128
-+            ## Not a git directory
-+            return False
-         ## Make sure repo is in builddir to not break top-level git repos
--        return status == 0 and os.path.samedir(output, self.dir)
-+        return os.path.samefile(output, self.dir)
- 
-     def _initRepo(self):
-         runcmd("git init".split(), self.dir)
-         runcmd("git add .".split(), self.dir)
--        runcmd("git commit -a --allow-empty -m Patching_started".split(), self.dir)
-+        runcmd("git commit -a --allow-empty -m bitbake_patching_started".split(), self.dir)
- 
-     @staticmethod
-     def extractPatchHeader(patchfile):
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index 31962b92d7..a08001a173 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -310,8 +310,22 @@ INHERIT:remove = \"report-error\"
-         src = get_bb_var("SRC_URI",test_recipe)
-         gitscm = re.search("git://", src)
-         self.assertFalse(gitscm, "test_git_patchtool pre-condition failed: {} test recipe contains git repo!".format(test_recipe))
--        result = bitbake('man-db -c patch', ignore_status=False)
-+        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
-         fatal = re.search("fatal: not a git repository (or any of the parent directories)", result.output)
-         self.assertFalse(fatal, "Failed to patch using PATCHTOOL=\"git\"")
-         self.delete_recipeinc(test_recipe)
--        bitbake('-cclean man-db')
-+        bitbake('-cclean {}'.format(test_recipe))
-+
-+    def test_git_patchtool2(self):
-+        """ Test if PATCHTOOL=git works with git repo and doesn't reinitialize it
-+        """
-+        test_recipe = "gitrepotest"
-+        src = get_bb_var("SRC_URI",test_recipe)
-+        gitscm = re.search("git://", src)
-+        self.assertTrue(gitscm, "test_git_patchtool pre-condition failed: {} test recipe doesn't contains git repo!".format(test_recipe))
-+        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
-+        srcdir = get_bb_var('S', test_recipe)
-+        result = runCmd("git log", cwd = srcdir)
-+        self.assertFalse("bitbake_patching_started" in result.output, msg = "Repository has been reinitialized. {}".format(srcdir))
-+        self.delete_recipeinc(test_recipe)
-+        bitbake('-cclean {}'.format(test_recipe))
+Fine with me. We could also do the same tweak to linux-yocto-dev, when I'm
+back from vacation, I'll check on that (if I don't see anything on the
+list).
+
+Bruce
+
+
+
+> +
+> --
+> 2.35.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163103):
+> https://lists.openembedded.org/g/openembedded-core/message/163103
+> Mute This Topic: https://lists.openembedded.org/mt/89747768/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
 -- 
-2.35.1
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--000000000000a3759805da245f9b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Sun, Mar 13, 2022 at 3:59 AM Khem Raj &lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Khem Raj &=
+lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.c=
+om</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a> | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.b=
+b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a> b/meta/reci=
+pes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=3D"noreferrer" =
+target=3D"_blank">linux-yocto_5.15.bb</a><br>
+index b9715e71eec..9a147023e83 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a><br>
+@@ -66,3 +66,6 @@ KERNEL_FEATURES:append:qemux86-64=3D&quot; cfg/sound.scc =
+cfg/paravirt_kvm.scc&quot;<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEA=
+TURES&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot;, d)}&=
+quot;<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_F=
+EATURES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;=
+, &quot;&quot;, d)}&quot;<br>
+=C2=A0KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_F=
+EATURES&quot;, &quot;ptest&quot;, &quot; features/gpio/mockup.scc&quot;, &q=
+uot;&quot;, d)}&quot;<br>
++<br>
++INSANE_SKIP:kernel-vmlinux:qemuppc64 =3D &quot;textrel&quot;<br></blockquo=
+te><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:smal=
+l">Fine with me. We could also do the same tweak to linux-yocto-dev, when I=
+&#39;m back from vacation, I&#39;ll check on that (if I don&#39;t see anyth=
+ing on the list).</div><div class=3D"gmail_default" style=3D"font-size:smal=
+l"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</=
+div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
++<br>
+-- <br>
+2.35.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#163103): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/163103" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/163103</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89747768/1050=
+810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/89747768/1050810</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000a3759805da245f9b--
 
