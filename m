@@ -1,84 +1,140 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jason.m.bills@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB56FC433F5
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 16:20:59 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
- [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.web09.28474.1647274857782443334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9B5C433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 16:21:33 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.28211.1647274892317041337
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 09:20:58 -0700
+ Mon, 14 Mar 2022 09:21:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KM9EFLWD;
- spf=pass (domain: gmail.com, ip: 209.85.217.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f54.google.com with SMTP id h30so17680110vsq.13
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 09:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NpvBU9B3GKaRFl81wfKPsaZyNlXhX3IsQQjk+gz5rb8=;
-        b=KM9EFLWDEYw0pC+6uPjLU6I8q/Vedv0Omqy12iQLdns40LciRJp2DfeykJVUGZu/5j
-         VaR2sHzIOrA4c/KX1mA3sz3sJPolOwTziMmbsijX7sPiPKOuQb77N4ruzqTb3LSjgnqG
-         ylvTyQUFGW5MMB+D0/wEITl57yInq2bzT3bcY16pl+9Pc+M5Nf8VLdjnFFx6UAN0aLmT
-         dG+I3gc2QhSKCkvRYQ7lkRYlQX9x9wkPa8u89qiUZmSk/Y9lTAUPXEAUzwHEApZ90p38
-         MqwERtKIEsHNT1b5ZnOamxP2UyW9xWIsIXmgH6C5AXsHQutGNXAd2784FDuo5MaVf/FJ
-         dnmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NpvBU9B3GKaRFl81wfKPsaZyNlXhX3IsQQjk+gz5rb8=;
-        b=jQ3FrK/u1c3uWB+kgVY5mZKglfra2pgpyev6UpbA4RzE2PrQYti25o5+XwJIOLSz8W
-         qEEYcitS/En7XhwdvrDtTqTgiSoLMMdtXvxTpW1H0FzoFvDRRrZ2L1pBKl5jhgGO1vHL
-         SPWajG+Lgc8F6oK2AtfD0rJogsG5o6gyORJ0gAA0Y/UWDpu6/VrcQUaaPWVYGUyAXV66
-         dLGrEYN7rQLDVW5Mol4ag/75v4ZmpB3DC6fLhrdfJHUPR6RGh8YZcGW+m09o6VESAz24
-         SGKx3ko0fiD38rC968hMVpJNnm1xgD0vB5hZkW82kfi+piXB7DnCZeGgqXpc9k+D4P5S
-         hZFw==
-X-Gm-Message-State: AOAM533+OfklZITexXeQdNGI1nzUeSsmreYdOdjvLiacMvr7tykwGJfu
-	gNajYh/TlOtqMo0MNxKqa5or6+qwKDEmit6XEXY=
-X-Google-Smtp-Source: 
- ABdhPJxbTpyxalDHXn9ekGnicSo3sKpU7ijCWotRcX92BHWnKawd03YU16auoaVHUhl5QB1QU290ZfNDA/iqKha1mp8=
-X-Received: by 2002:a05:6102:cce:b0:322:c483:76b2 with SMTP id
- g14-20020a0561020cce00b00322c48376b2mr5607670vst.45.1647274856900; Mon, 14
- Mar 2022 09:20:56 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=QF5jDTZ7;
+ spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.43,
+ mailfrom: jason.m.bills@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647274892; x=1678810892;
+  h=message-id:date:mime-version:subject:references:to:cc:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QY/dXrcbT+AKN2uDar9+T0YVOUD4Z8mQj9d+UPxFyts=;
+  b=QF5jDTZ7gG9xJZvBBiVLo0dTTsIMVbPXz8UuYk82veA65mcmPi5lnoqw
+   euQ3cQU0+Ncdd0oCVWz0VSdn25eN2dLRpLXQAswmXXatGVh9qSnU1Kr/v
+   vM81TMnJQiG06o6CngPdDAUNHCpH07rxEdXu8AX8JvvNvaL3DzzbBlsWN
+   wjsuutYaAExsU5fJJP04/5ZVuSTakObIiQfaOr/KDzdr5HZMMqZUfs8DA
+   UhA3KIbHobJVaZYSAj2VLnOrBAOSbGYTErn17I3XdZuHes0SB0Uv52bYS
+   QpntahgO49jJ4YzIVDuuDa9ACk81tcvKFTttxC7JKMX5c4HhRXDC9lfia
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="342502876"
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400";
+   d="scan'208";a="342502876"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2022 09:21:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,181,1643702400";
+   d="scan'208";a="612948617"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Mar 2022 09:21:31 -0700
+Received: from [10.255.228.36] (jmbills-MOBL.amr.corp.intel.com
+ [10.255.228.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id B2D1C58097C;
+	Mon, 14 Mar 2022 09:21:31 -0700 (PDT)
+Message-ID: <f3dd9984-eae8-61f6-f4bd-812cc13417c5@linux.intel.com>
+Date: Mon, 14 Mar 2022 10:21:31 -0600
 MIME-Version: 1.0
-References: <1fcdfa7197764e3ebeeb5ace0b99a550@axis.com>
- <CAAnfSTuXkAQyGW_KoQYMJQHM=hFte_wU6rKuAcof2bddUHAB6Q@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTuXkAQyGW_KoQYMJQHM=hFte_wU6rKuAcof2bddUHAB6Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Mar 2022 17:20:45 +0100
-Message-ID: 
- <CANNYZj_yRqqMuGN1sP4_GrRUFCj-Ak17e-0ob_y97USrSLKt1w@mail.gmail.com>
-Subject: Re: [OE-core] Building python3 without readline fails for Kirkstone
-To: Ross Burton <ross@burtonini.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"OE Core (openembedded-core@lists.openembedded.org)"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: [PATCH] kernel-yocto: configcheck: create cfg folder if it doesn't
+ exist
+References: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+Cc: jason.m.bills@linux.intel.com
+From: "Bills, Jason M" <jason.m.bills@linux.intel.com>
+In-Reply-To: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
+X-Forwarded-Message-Id: <20220311171050.30748-1-jason.m.bills@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 16:20:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 16:21:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163157
+ https://lists.openembedded.org/g/openembedded-core/message/163158
 
-On Mon, 14 Mar 2022 at 17:02, Ross Burton <ross@burtonini.com> wrote:
-> The sanity check code has support for modules which have been disabled
-> (see MODDISABLED_NAMES in
-> meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch)
-> but that variable doesn't appear to be connected to the PACKAGECONFIG
-> settings.
->
-> Adding AlexK to the CC list as he wrote this in the first place.
+In some situations, the cfg folder doesn't exist when a config
+check returns data, which results in a python exception:
 
-python is configured with autotools, so perhaps comparing the logs
-with and without readline would be a good first step, specifically the
-bifurcation point where ncurses is disabled.
+File: '/.../meta/classes/kernel-yocto.bbclass', lineno: 590, function: 
+do_kernel_configcheck
+      0586:    if analysis:
+      0587:        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
+      0588:        if os.path.isfile(outfile):
+      0589:           os.remove(outfile)
+  *** 0590:        with open(outfile, 'w+') as f:
+      0591:            f.write( analysis )
+      0592:
+      0593:        if bsp_check_visibility and os.stat(outfile).st_size > 0:
+      0594:            with open (outfile, "r") as myfile:
+Exception: FileNotFoundError: [Errno 2] No such file or directory:
+ 
+'/.../openbmc-openbmc/build/tmp/work-shared/.../kernel-source/.kernel-meta/cfg/invalid.txt'
 
-Alex
+This adds a check to create the cfg folder if it doesn't exist to
+avoid the python exception.
+
+I have only seen this error with invalid.txt, but it looks like
+mismatch.txt and redefinition.txt could hit the same issue, so
+adding the fix for those, too.
+
+Signed-off-by: Jason M. Bills <jason.m.bills@linux.intel.com>
+---
+  meta/classes/kernel-yocto.bbclass | 15 ++++++++++++---
+  1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel-yocto.bbclass 
+b/meta/classes/kernel-yocto.bbclass
+index 1d5a8cdf29..d35f4629cb 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -562,7 +562,10 @@ python do_kernel_configcheck() {
+          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
+       if analysis:
+-        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
++        outpath = "{}/{}/cfg".format( s, kmeta )
++        if not os.path.exists(outpath):
++            os.makedirs(outpath)
++        outfile = "{}/mismatch.txt".format(outpath)
+          if os.path.isfile(outfile):
+             os.remove(outfile)
+          with open(outfile, 'w+') as f:
+@@ -584,7 +587,10 @@ python do_kernel_configcheck() {
+          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
+       if analysis:
+-        outfile = "{}/{}/cfg/invalid.txt".format(s,kmeta)
++        outpath = "{}/{}/cfg".format(s,kmeta)
++        if not os.path.exists(outpath):
++            os.makedirs(outpath)
++        outfile = "{}/invalid.txt".format(outpath)
+          if os.path.isfile(outfile):
+             os.remove(outfile)
+          with open(outfile, 'w+') as f:
+@@ -603,7 +609,10 @@ python do_kernel_configcheck() {
+          bb.fatal( "config analysis failed: %s" % e.output.decode('utf-8'))
+       if analysis:
+-        outfile = "{}/{}/cfg/redefinition.txt".format(s,kmeta)
++        outpath = "{}/{}/cfg".format(s,kmeta)
++        if not os.path.exists(outpath):
++            os.makedirs(outpath)
++        outfile = "{}/redefinition.txt".format(outpath)
+          if os.path.isfile(outfile):
+             os.remove(outfile)
+          with open(outfile, 'w+') as f:
+-- 
+2.17.1
+
 
