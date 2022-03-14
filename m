@@ -1,83 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F1FC433F5
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 09:13:06 +0000 (UTC)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
- [209.85.221.171])
- by mx.groups.io with SMTP id smtpd.web10.24265.1647249186316477038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B9DC433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 13:38:38 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.26378.1647265117139134181
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 02:13:06 -0700
+ Mon, 14 Mar 2022 06:38:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fzXez3sA;
- spf=pass (domain: gmail.com, ip: 209.85.221.171,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f171.google.com with SMTP id s195so7940290vkb.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TELFcMa4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id j17so24109637wrc.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 02:13:06 -0700 (PDT)
+ Mon, 14 Mar 2022 06:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6gjfX2aWP0FEE3dGO0bBN4wSA3/5I+4ni8/G9s8e9BU=;
-        b=fzXez3sAEibco3+aAFAcQXDoCg/T2xQ2of3o4NOtl/qL4mcxB+kYhyMFF6gG9zwOd+
-         uVgMy9q5xXwPKTYHXTUQfRUTXKhWs4ojSm85VgFz55P0Xkxmr66dAWXc2D5jAk7Kxsrn
-         Em9l5x4KFuo/gEPfXK5Y/z5Wn+tbOxRsicP2RbclI6Do9p5+ezJ8Hain4id8bzrbQaPJ
-         59CeaBViIf3bpR0WpnxK5OOCQ71q7TptPq66hqluSKFv+s6VqTK0tdcvOJkyP+cp20wV
-         NToCqMiFB3xoPnO4T08qXcNDNjH5VQ7SrXq/QMstuc5tNH9WVMPqJJv3V9o0TDYVxn/t
-         VwWg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=aMwLo6Vu43YR0lrK04WrVLZgT8hvQLIlja12b05kfbA=;
+        b=TELFcMa4bqrIAhawWt6Kx49l8jOYcht10UWyNJ4FzqrY4KnrpO/PMZcxUA7FJwA+pc
+         iMEZ4yIvdgnZs8K9g2CyRyANFFGqER58CwZqvVexPEpaSLcucWxXWlYfQtPAHHE43Xkz
+         DAzTIVGUZJ1w5hUyGH7EA3pnMsUd2LLkUbZ5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6gjfX2aWP0FEE3dGO0bBN4wSA3/5I+4ni8/G9s8e9BU=;
-        b=mlAYCmCfedtFE62cWE8GG0i/3lo5E8wwXtkgmW0pb2x4Ie8G5/2ozuS2rY+Wn9EBNp
-         +Fa4tTvctR+nuW2BNa+pgJyKR2ls6BVfqcjqNDLQ9lxp95o+O4BXUTc77J7J+MviSMhv
-         aiQVKZGD0+nm7kvfSLGLewWEOWSfhsdKkGPYSsla1l/q/Z/URNvIEPD2T8N6FFjL2wTb
-         SNKCjqx9WBAI6a0IuBMSKRWt6AOTcaf8F0Rm8kcPrK0cbYvdJIoKf92XAGh11fe2oUUi
-         0pv4NJo4+YSiL8ENx9pgo+uhxsSPdtarTQHD0ZRQgCiu5zpYlJxX9jzqPX3Vj6kVipgU
-         W2vA==
-X-Gm-Message-State: AOAM532bRnZL5xiFaGQMrGNZevBTCAbrQKjvxrLV8gBnct6+ovRuaLc5
-	3z3mKRWed9aF8OjmnhyVqKqGTbiHFUYbjg3Ey/I=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=aMwLo6Vu43YR0lrK04WrVLZgT8hvQLIlja12b05kfbA=;
+        b=tsWCQpylJzwbqhDV8NFAExovYpO+rNZ7UOtoLMsQLX3pWk4I3wuZtyIFch/r21fjjA
+         uyskBnxVIxYg8FvdrBdp+cq60x/Ni8nEcTCeLO3RqEtFnOSBl4BIAMr8vGXNtX+Cj8A5
+         oQpC1rlM7YEtrpxA73CKS/kxXckbCOjFi6AlEvdN89S5I43twZUuIbzqDMxcm/1FRBsC
+         KzNZIEV+MwcqbxV9yTKMYqd0w2glczawOS9TZhiUlrXgKI60SXQmeJz250wXQ+qswnya
+         lu8kx8khcYm214vgC5/X/X3BkfFPE1kocZQ9kQPdFLN3ZGhNy3SBgyXMnJndknSXDEPl
+         yA4Q==
+X-Gm-Message-State: AOAM533s0M+A9GqsGQsLavz3PV8ileNKkwBlw6T+++W5VsDL/7KW2aSq
+	4r+YwyiZ26Px9Hfan8BPyuCWEA==
 X-Google-Smtp-Source: 
- ABdhPJzP889mQ9L+M5eytZy8AchmZQoufBgPKxD7iBCD9dNUbwOIMx9FdPP2slCDeesYQ/66BJ9E1yIKH3xnYUMJ2wY=
-X-Received: by 2002:a05:6122:208d:b0:337:7db2:8684 with SMTP id
- i13-20020a056122208d00b003377db28684mr9165074vkd.1.1647249185382; Mon, 14 Mar
- 2022 02:13:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220314071037.3702941-1-f_l_k@t-online.de>
- <CANNYZj98CMmxXUKXhGboOfK_9WTu499GL=EomTpw9Y3SWS3oaA@mail.gmail.com>
- <74c5d185-8abe-6afe-724c-8cc7b6529997@t-online.de>
- <CANNYZj9wcs9-XFD_zXob3i6WiwqMedeaC9qu7cuhGBcaqLyeGw@mail.gmail.com>
- <506cd2c0-20eb-a782-a34e-506d230bc32d@t-online.de>
-In-Reply-To: <506cd2c0-20eb-a782-a34e-506d230bc32d@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Mar 2022 10:12:54 +0100
+ ABdhPJwYyU0MiygCKiXCx0OxYQFWxTRReIrcHhQb5TjzkXv/QpNWWUodRa9cnJb1hYVBicB8e1zm0A==
+X-Received: by 2002:adf:ba8f:0:b0:1e9:4afb:179b with SMTP id
+ p15-20020adfba8f000000b001e94afb179bmr16964417wrg.57.1647265115584;
+        Mon, 14 Mar 2022 06:38:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5edf:6bc1:541a:c26f?
+ ([2001:8b0:aba:5f3c:5edf:6bc1:541a:c26f])
+        by smtp.gmail.com with ESMTPSA id
+ m2-20020adff382000000b001f022ef0375sm13320987wro.102.2022.03.14.06.38.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 06:38:35 -0700 (PDT)
 Message-ID: 
- <CANNYZj9zCgyxo8_DJtrOuDiXYxK35KWTypGnbRx6-i=HnZ2i-w@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv2] cairo: update to v1.17.4
-To: Markus Volk <f_l_k@t-online.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+ <e980e648dc47fd3f9566c05742bf82bd88cea461.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH] re2c: backport of partial fix for
+ CVE-2018-21232
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Davide Gardenal <davidegarde2000@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Davide Gardenal <davide.gardenal@huawei.com>, Steve Sakoman
+	 <steve@sakoman.com>
+Date: Mon, 14 Mar 2022 13:38:32 +0000
+In-Reply-To: <20220314112006.478573-1-davide.gardenal@huawei.com>
+References: <20220314112006.478573-1-davide.gardenal@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 09:13:06 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 13:38:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163135
+ https://lists.openembedded.org/g/openembedded-core/message/163137
 
-On Mon, 14 Mar 2022 at 10:07, Markus Volk <f_l_k@t-online.de> wrote:
-> just when I thought it was a bit inconvenient to have only one version
-> every few years
->
-> and no bugfix versions in between i found that there is something like
-> that on gitlab.
->
-> https://gitlab.freedesktop.org/cairo/cairo/-/commits/1.16/
+On Mon, 2022-03-14 at 12:20 +0100, Davide Gardenal wrote:
+> Backport commits from the following issue (assigned CVE-2018-21232):
+> https://github.com/skvadrik/re2c/issues/219
+> 
+> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+> ---
+>  .../re2c/re2c/CVE-2018-21232-1.patch          | 345 ++++++++++++++++++
+>  .../re2c/re2c/CVE-2018-21232-2.patch          | 241 ++++++++++++
+>  .../re2c/re2c/CVE-2018-21232-3.patch          | 154 ++++++++
+>  .../re2c/re2c/CVE-2018-21232-4.patch          | 164 +++++++++
+>  meta/recipes-support/re2c/re2c_1.0.1.bb       |   6 +-
+>  5 files changed, 909 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-1.patch
+>  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-2.patch
+>  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-3.patch
+>  create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-4.patch
 
-I'm fairly sure it's a question of lacking maintainers. It's a major
-problem everywhere, the market economy just doesn't reward that work.
+Is this for dunfell?
 
-Alex
+Cheers,
+
+Richard
+
 
