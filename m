@@ -1,158 +1,126 @@
-Return-Path: <gchoc-openembedded-core@m.gmane-mx.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8186C433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 21:14:03 +0000 (UTC)
-Received: from ciao.gmane.io (ciao.gmane.io [116.202.254.214])
- by mx.groups.io with SMTP id smtpd.web09.2257.1647292442396917404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2E2C433F5
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 22:48:45 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.3428.1647298124344894461
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 14:14:02 -0700
+ Mon, 14 Mar 2022 15:48:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: m.gmane-mx.org, ip: 116.202.254.214,
- mailfrom: gchoc-openembedded-core@m.gmane-mx.org)
-Received: from list by ciao.gmane.io with local (Exim 4.92)
-	(envelope-from <gchoc-openembedded-core@m.gmane-mx.org>)
-	id 1nTs0q-0000vW-Ng
-	for openembedded-core@lists.openembedded.org; Mon, 14 Mar 2022 22:13:56 +0100
-X-Injected-Via-Gmane: http://gmane.org/
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ecaQfzca;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id
+ r190-20020a1c2bc7000000b0038a1013241dso421865wmr.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 14 Mar 2022 15:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gLKH5epzSN0mzlhtJ10RrUzCLL/pTwnX97ocHAPZ3HI=;
+        b=ecaQfzcaCTBMeFLvrrkBoHCzQ2xJOj6QrZYGobbbxeuyAiwbD1phRXPtrHcELNGs+N
+         FnryW9dde59BHPMoEH/aPZPKV8anmgkGCOcAT6XnOeaf5WkaU6fGiHQUmXYRy4DlI0BR
+         N/vSvCdq8xj7oDxTCdyWI3p4VyeOQnJgO4NJU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gLKH5epzSN0mzlhtJ10RrUzCLL/pTwnX97ocHAPZ3HI=;
+        b=vvcKAxUWANiQeEKnNbP8p3r6xu2d8mgeihXFn4ZnOkKorqnPUfi9ULoO+s/Gva10I5
+         IufbLqadlxjlldMAUQ8CJvoMFodbdTWRTScT4619bAX71h8QTwvjWLq85uIArwDt0UHj
+         mayRHecLszYipaL4e6ZbcLZCMlkoSFrIMPAB8sZp+reqjj0oeLF3MzNnfww0gCpbbpWz
+         8HIqJCq/Sl9rnbEE3zC7iRj2TH04X/8nV8fbqVKy6/G9atx60DfxagYNT94U28nibyYl
+         8EV4kyR5rOjdbySTaO6gbZ+6sg+QA4O2+9RM2lweVRQ1RL/oFC9OkfX3uv7mKuxL7ElU
+         hSmQ==
+X-Gm-Message-State: AOAM530hRoMEPnZAFvcVNQ9bcWuBk/wvyEqsUwIr5qu7vJVHzUS0eAaf
+	U3jYidXmA+j5/PKOtiz2ZALuYGhnKgOHhSQZ
+X-Google-Smtp-Source: 
+ ABdhPJy5JxqfOygSzMnLyt0yTzwrAFn3bqE0/IKY47BlEdmpmRRctKYUSOklLTafEOp6ZZyPjUv4CA==
+X-Received: by 2002:a1c:44c4:0:b0:389:e7e6:282a with SMTP id
+ r187-20020a1c44c4000000b00389e7e6282amr997350wma.206.1647298122568;
+        Mon, 14 Mar 2022 15:48:42 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9098:b3d5:8fee:ea58])
+        by smtp.gmail.com with ESMTPSA id
+ bg18-20020a05600c3c9200b0037c2ef07493sm788599wmb.3.2022.03.14.15.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 15:48:42 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: Ferry Toth <fntoth@gmail.com>
-Subject: Re: [PATCH 20/20] perf: sort-pmuevents: allow for additional type
- qualifiers and storage class
-Date: Mon, 14 Mar 2022 22:13:49 +0100
-Message-ID: <b8559718-7155-285f-d49b-f3102d6e74aa@gmail.com>
-References: <cover.1637788184.git.bruce.ashfield@gmail.com>
- <487361c5d91ff9389454f1ef3577038a9878e116.1637788184.git.bruce.ashfield@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Cc: openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@public.gmane.org,
- TicoTimo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org,
- trevor.gamblin-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org
-Content-Language: en-US
-In-Reply-To: 
- <487361c5d91ff9389454f1ef3577038a9878e116.1637788184.git.bruce.ashfield@gmail.com>
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 04/33] setuptools3_rust.bbclass: move from meta-python
+Date: Mon, 14 Mar 2022 22:48:08 +0000
+Message-Id: <20220314224837.834776-4-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220314224837.834776-1-richard.purdie@linuxfoundation.org>
+References: <20220314224837.834776-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 21:14:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 22:48:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163165
+ https://lists.openembedded.org/g/openembedded-core/message/163170
 
-Hi,
+From: Tim Orling <tim.orling@konsulko.com>
 
-Op 24-11-2021 om 22:14 schreef Bruce Ashfield:
-> From: Max Krummenacher <max.oss.09@gmail.com>
-> 
-> With kernel 5.16 some structs in pmu-events do get a const qualifier, some
-> a static const storage class and qualifier.
-> 
-> The current sort-pmuevents cannot cope with that and drops all struct
-> arrays with such additional elements. This then leads to compiler errors.
-> 
-> Allow '^struct', '^const struct', '^static struct', '^static const struct'.
-> 
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->   .../perf/perf/sort-pmuevents.py               | 30 ++++++++++---------
->   1 file changed, 16 insertions(+), 14 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> index 4f841eb822..09ba3328a7 100755
-> --- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> +++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
-> @@ -33,10 +33,10 @@ if os.path.exists(outfile):
->   with open(infile, 'r') as file:
->       data = file.read()
->   
-> -preamble_regex = re.compile( '^(.*?)^struct', re.MULTILINE | re.DOTALL )
-> +preamble_regex = re.compile( '^(.*?)^(struct|const struct|static struct|static const struct)', re.MULTILINE | re.DOTALL )
->   
->   preamble = re.search( preamble_regex, data )
-> -struct_block_regex = re.compile( '^struct.*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
-> +struct_block_regex = re.compile( '^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
->   field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
->   cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
->   name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
-> @@ -45,24 +45,25 @@ name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
->   # types and then their fields.
->   entry_dict = {}
->   for struct in re.findall( struct_block_regex, data ):
-> -    # print( "struct: %s %s" % (struct[0],struct[1]) )
-> -    entry_dict[struct[1]] = {}
-> -    entry_dict[struct[1]]['type'] = struct[0]
-> -    entry_dict[struct[1]]['fields'] = {}
-> -    for entry in re.findall( field_regex, struct[2] ):
-> +    # print( "struct: %s %s %s" % (struct[0],struct[1],struct[2]) )
-> +    entry_dict[struct[2]] = {}
-> +    entry_dict[struct[2]]['type_prefix'] = struct[0]
-> +    entry_dict[struct[2]]['type'] = struct[1]
-> +    entry_dict[struct[2]]['fields'] = {}
-> +    for entry in re.findall( field_regex, struct[3] ):
->           #print( "    entry: %s" % entry )
->           cpuid = re.search( cpuid_regex, entry )
->           if cpuid:
->               #print( "    cpuid found: %s" % cpuid.group(1) )
-> -            entry_dict[struct[1]]['fields'][cpuid.group(1)] = entry
-> -
-> +            entry_dict[struct[2]]['fields'][cpuid.group(1)] = entry
-> +
->           name = re.search( name_regex, entry )
->           if name:
->               #print( "    name found: %s" % name.group(1) )
-> -            entry_dict[struct[1]]['fields'][name.group(1)] = entry
-> -
-> -        if not entry_dict[struct[1]]['fields']:
-> -            entry_dict[struct[1]]['fields']['0'] = entry
-> +            entry_dict[struct[2]]['fields'][name.group(1)] = entry
-> +
-> +        if not entry_dict[struct[2]]['fields']:
-> +            entry_dict[struct[2]]['fields']['0'] = entry
->   
->   # created ordered dictionaries from the captured values. These are ordered by
->   # a sorted() iteration of the keys. We don't care about the order we read
-> @@ -74,6 +75,7 @@ for struct in re.findall( struct_block_regex, data ):
->   entry_dict_sorted = OrderedDict()
->   for i in sorted(entry_dict.keys()):
->       entry_dict_sorted[i] = {}
-> +    entry_dict_sorted[i]['type_prefix'] = entry_dict[i]['type_prefix']
->       entry_dict_sorted[i]['type'] = entry_dict[i]['type']
->       entry_dict_sorted[i]['fields'] = {}
->       for f in sorted(entry_dict[i]['fields'].keys()):
-> @@ -85,7 +87,7 @@ outf = open( outfile, 'w' )
->   print( preamble.group(1) )
->   outf.write( preamble.group(1) )
->   for d in entry_dict_sorted:
-> -    outf.write( "struct %s %s[] = {\n" % (entry_dict_sorted[d]['type'],d) )
-> +    outf.write( "%s %s %s[] = {\n" % (entry_dict_sorted[d]['type_prefix'], entry_dict_sorted[d]['type'],d) )
->       for f in entry_dict_sorted[d]['fields']:
->           outf.write( entry_dict_sorted[d]['fields'][f] + '\n' )
->   
-I have had sort-pmuevents hanging since on hardknott trying to build 
-linux 5.16 and disabled perf from my recipe to work around.
+setuptools-rust is a plugin for setuptools to build Rust Python extensions
+implemented with PyO3 or rust-cpython.
 
-However, I was hoping that with honister this patch would resolve that 
-issue. But it doesn't in my case.
+Compile and distribute Python extensions written in Rust as easily as if
+they were written in C.
 
-Is there anything in particular that I need to do to make this work?
+This class inherits pyo3.bbclass (and therefore cargo.bbclass) and
+setuptools3.bbclass to make it easier to build Python modules with Rust
+extensions.
 
-Thanks
-Ferry
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#158766): https://lists.openembedded.org/g/openembedded-core/message/158766
-> Mute This Topic: https://lists.openembedded.org/mt/87290477/4454657
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [gchoc-openembedded-core@m.gmane-mx.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Need to call pyo3_do_configure to properly setup the PyO3 environment
+for cross-compiling.
 
+Need to call cargo_common_do_configure to setup cargo_home/config so
+that the linker properly finds e.g. crti.o and crtbeginS.o
+
+It is strongly recommended to provide crates needed for your recipe
+using the crate:// fetcher. This can be helped with the cargo-bitbake
+command [1].
+
+If you choose not to use the crate fetcher, bitbake vendoring will not
+work with setuptools-rust, as it errors out immediately because it cannot
+find pyo3 or some other crate. The (strongly discouraged) workaround for
+this is to set:
+
+CARGO_DISABLE_BITBAKE_VENDORING = "1"
+
+[1] https://crates.io/crates/cargo-bitbake
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/classes/setuptools3_rust.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 meta/classes/setuptools3_rust.bbclass
+
+diff --git a/meta/classes/setuptools3_rust.bbclass b/meta/classes/setuptools3_rust.bbclass
+new file mode 100644
+index 00000000000..fb11f08f89c
+--- /dev/null
++++ b/meta/classes/setuptools3_rust.bbclass
+@@ -0,0 +1,11 @@
++inherit pyo3 setuptools3
++
++DEPENDS += "python3-setuptools-rust-native"
++
++setuptools3_rust_do_configure() {
++    pyo3_do_configure
++    cargo_common_do_configure
++    setuptools3_do_configure
++}
++
++EXPORT_FUNCTIONS do_configure
+-- 
+2.32.0
 
 
