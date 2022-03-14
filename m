@@ -1,229 +1,158 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <gchoc-openembedded-core@m.gmane-mx.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D527BC433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 19:10:19 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.778.1647285018102706664
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8186C433EF
+	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 21:14:03 +0000 (UTC)
+Received: from ciao.gmane.io (ciao.gmane.io [116.202.254.214])
+ by mx.groups.io with SMTP id smtpd.web09.2257.1647292442396917404
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 12:10:19 -0700
+ Mon, 14 Mar 2022 14:14:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ddt5LzEY;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1647285018;
-  x=1678821018;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=skwX6OdO0irTs9g6juHwTzV2BihEgKVba26JSNhKrg4=;
-  b=ddt5LzEYCH3aauvxt0G0Bzzv1IcdO8ZWVCBLesG0up7qzZXvPKD2h9TW
-   PA8z7P808+gkQwV78ONFOJf9yakVpRq0XK6Q3j8uYEaL0AEU0Ym6BLG7D
-   ANZGVpB28Po8OEavk6ZqmBJz5lW3wjSEFk2dHWZC7dQ0uC5NC9mvorCIY
-   DkqjsydXrYZE6O0piyNWRdOa0o6a9AgD5dwDH0ppsp3d37EWTr5/wFJca
-   wXgfSeAcCYQ0Nt/VXKDecOnU1pkKS4S0d+nIEmr7G3CV3sEoHa5CgkPxm
-   w8pksG+z3ULIAf+foJ6WeBRZa3C4QUBY3TGjQfp+vV+s4oNKQ0/zmzLKQ
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/2] shadow-native: Simplify and fix syslog
- disable patch
-Thread-Topic: [OE-core] [PATCH 2/2] shadow-native: Simplify and fix syslog
- disable patch
-Thread-Index: AQHYN80Ir1ZTtyvQUkKJoXFHb8xk26y/PRXg
-Date: Mon, 14 Mar 2022 19:10:13 +0000
-Message-ID: <c886e8beebb74603a78b97bc68b026b4@axis.com>
-References: <20220314175732.827665-1-richard.purdie@linuxfoundation.org>
- <20220314175732.827665-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220314175732.827665-2-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
+ dkim=missing;
+ spf=pass (domain: m.gmane-mx.org, ip: 116.202.254.214,
+ mailfrom: gchoc-openembedded-core@m.gmane-mx.org)
+Received: from list by ciao.gmane.io with local (Exim 4.92)
+	(envelope-from <gchoc-openembedded-core@m.gmane-mx.org>)
+	id 1nTs0q-0000vW-Ng
+	for openembedded-core@lists.openembedded.org; Mon, 14 Mar 2022 22:13:56 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Ferry Toth <fntoth@gmail.com>
+Subject: Re: [PATCH 20/20] perf: sort-pmuevents: allow for additional type
+ qualifiers and storage class
+Date: Mon, 14 Mar 2022 22:13:49 +0100
+Message-ID: <b8559718-7155-285f-d49b-f3102d6e74aa@gmail.com>
+References: <cover.1637788184.git.bruce.ashfield@gmail.com>
+ <487361c5d91ff9389454f1ef3577038a9878e116.1637788184.git.bruce.ashfield@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Cc: openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@public.gmane.org,
+ TicoTimo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org,
+ trevor.gamblin-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+In-Reply-To: 
+ <487361c5d91ff9389454f1ef3577038a9878e116.1637788184.git.bruce.ashfield@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 19:10:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 21:14:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163164
+ https://lists.openembedded.org/g/openembedded-core/message/163165
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Richard Purdie
-> Sent: den 14 mars 2022 18:58
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/2] shadow-native: Simplify and fix syslog dis=
-able patch
->=20
-> Shadow is happily spamming the host syslog with messages and shouldn't be
-> which suggests the patch isn't working. Redo it to work at the configure
-> level which is simpler and hopefully more effective.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi,
+
+Op 24-11-2021 om 22:14 schreef Bruce Ashfield:
+> From: Max Krummenacher <max.oss.09@gmail.com>
+> 
+> With kernel 5.16 some structs in pmu-events do get a const qualifier, some
+> a static const storage class and qualifier.
+> 
+> The current sort-pmuevents cannot cope with that and drops all struct
+> arrays with such additional elements. This then leads to compiler errors.
+> 
+> Allow '^struct', '^const struct', '^static struct', '^static const struct'.
+> 
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  ...01-Disable-use-of-syslog-for-sysroot.patch | 122 ++----------------
->  1 file changed, 13 insertions(+), 109 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslo=
-g-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-o=
-f-syslog-for-sysroot.patch
-> index 4d6f6d68ec2..23640824f14 100644
-> --- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-s=
-ysroot.patch
-> +++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-s=
-ysroot.patch
-> @@ -13,112 +13,16 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.co=
-m>
->  Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->  Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-
-Since this is a completely new patch you should replace the=20
-Signed-off-by's above as they obviously no longer apply.
-
->=20
-> ----
-> - src/groupadd.c  | 3 +++
-> - src/groupdel.c  | 3 +++
-> - src/groupmems.c | 3 +++
-> - src/groupmod.c  | 3 +++
-> - src/useradd.c   | 3 +++
-> - src/userdel.c   | 4 ++++
-> - src/usermod.c   | 3 +++
-> - 7 files changed, 22 insertions(+)
+>   .../perf/perf/sort-pmuevents.py               | 30 ++++++++++---------
+>   1 file changed, 16 insertions(+), 14 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+> index 4f841eb822..09ba3328a7 100755
+> --- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+> +++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+> @@ -33,10 +33,10 @@ if os.path.exists(outfile):
+>   with open(infile, 'r') as file:
+>       data = file.read()
+>   
+> -preamble_regex = re.compile( '^(.*?)^struct', re.MULTILINE | re.DOTALL )
+> +preamble_regex = re.compile( '^(.*?)^(struct|const struct|static struct|static const struct)', re.MULTILINE | re.DOTALL )
+>   
+>   preamble = re.search( preamble_regex, data )
+> -struct_block_regex = re.compile( '^struct.*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
+> +struct_block_regex = re.compile( '^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
+>   field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
+>   cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
+>   name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
+> @@ -45,24 +45,25 @@ name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
+>   # types and then their fields.
+>   entry_dict = {}
+>   for struct in re.findall( struct_block_regex, data ):
+> -    # print( "struct: %s %s" % (struct[0],struct[1]) )
+> -    entry_dict[struct[1]] = {}
+> -    entry_dict[struct[1]]['type'] = struct[0]
+> -    entry_dict[struct[1]]['fields'] = {}
+> -    for entry in re.findall( field_regex, struct[2] ):
+> +    # print( "struct: %s %s %s" % (struct[0],struct[1],struct[2]) )
+> +    entry_dict[struct[2]] = {}
+> +    entry_dict[struct[2]]['type_prefix'] = struct[0]
+> +    entry_dict[struct[2]]['type'] = struct[1]
+> +    entry_dict[struct[2]]['fields'] = {}
+> +    for entry in re.findall( field_regex, struct[3] ):
+>           #print( "    entry: %s" % entry )
+>           cpuid = re.search( cpuid_regex, entry )
+>           if cpuid:
+>               #print( "    cpuid found: %s" % cpuid.group(1) )
+> -            entry_dict[struct[1]]['fields'][cpuid.group(1)] = entry
 > -
-> -diff --git a/src/groupadd.c b/src/groupadd.c
-> -index 66ccb53..776ea51 100644
-> ---- a/src/groupadd.c
-> -+++ b/src/groupadd.c
-> -@@ -11,6 +11,9 @@
-> -
-> - #ident "$Id$"
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <ctype.h>
-> - #include <fcntl.h>
-> - #include <getopt.h>
-> -diff --git a/src/groupdel.c b/src/groupdel.c
-> -index c84faa7..1076f4b 100644
-> ---- a/src/groupdel.c
-> -+++ b/src/groupdel.c
-> -@@ -11,6 +11,9 @@
-> -
-> - #ident "$Id$"
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <ctype.h>
-> - #include <fcntl.h>
-> - #include <grp.h>
-> -diff --git a/src/groupmems.c b/src/groupmems.c
-> -index a0e3266..6540cb1 100644
-> ---- a/src/groupmems.c
-> -+++ b/src/groupmems.c
-> -@@ -9,6 +9,9 @@
-> -
-> - #include <config.h>
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <fcntl.h>
-> - #include <getopt.h>
-> - #include <grp.h>
-> -diff --git a/src/groupmod.c b/src/groupmod.c
-> -index 006eca1..78b1ad6 100644
-> ---- a/src/groupmod.c
-> -+++ b/src/groupmod.c
-> -@@ -11,6 +11,9 @@
-> -
-> - #ident "$Id$"
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <ctype.h>
-> - #include <fcntl.h>
-> - #include <getopt.h>
-> -diff --git a/src/useradd.c b/src/useradd.c
-> -index 456b9de..2b0d703 100644
-> ---- a/src/useradd.c
-> -+++ b/src/useradd.c
-> -@@ -11,6 +11,9 @@
-> -
-> - #ident "$Id$"
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <assert.h>
-> - #include <ctype.h>
-> - #include <errno.h>
-> -diff --git a/src/userdel.c b/src/userdel.c
-> -index 7012b0e..08bb5d1 100644
-> ---- a/src/userdel.c
-> -+++ b/src/userdel.c
-> -@@ -8,6 +8,10 @@
-> -  */
-> -
-> - #include <config.h>
-> -+
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <assert.h>
-> - #include <dirent.h>
-> - #include <errno.h>
-> -diff --git a/src/usermod.c b/src/usermod.c
-> -index 9473a7d..7d4f7b5 100644
-> ---- a/src/usermod.c
-> -+++ b/src/usermod.c
-> -@@ -11,6 +11,9 @@
-> -
-> - #ident "$Id$"
-> -
-> -+/* Disable use of syslog since we're running this command against a sys=
-root */
-> -+#undef USE_SYSLOG
-> -+
-> - #include <assert.h>
-> - #include <ctype.h>
-> - #include <errno.h>
-> +Index: shadow-4.11.1/configure.ac
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- shadow-4.11.1.orig/configure.ac
-> ++++ shadow-4.11.1/configure.ac
-> +@@ -204,7 +204,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, "$sha
-> + 	[Path to passwd program.])
+> +            entry_dict[struct[2]]['fields'][cpuid.group(1)] = entry
 > +
-> + dnl XXX - quick hack, should disappear before anyone notices :).
-> +-AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
-> ++AC_DEFINE(USE_SYSLOG, 0, [Define to use syslog().])
-> + if test "$ac_cv_func_ruserok" =3D "yes"; then
-> + 	AC_DEFINE(RLOGIN, 1, [Define if login should support the -r flag for r=
-logind.])
-> + 	AC_DEFINE(RUSEROK, 0, [Define to the ruserok() "success" return value =
-(0 or 1).])
-> --
-> 2.32.0
+>           name = re.search( name_regex, entry )
+>           if name:
+>               #print( "    name found: %s" % name.group(1) )
+> -            entry_dict[struct[1]]['fields'][name.group(1)] = entry
+> -
+> -        if not entry_dict[struct[1]]['fields']:
+> -            entry_dict[struct[1]]['fields']['0'] = entry
+> +            entry_dict[struct[2]]['fields'][name.group(1)] = entry
+> +
+> +        if not entry_dict[struct[2]]['fields']:
+> +            entry_dict[struct[2]]['fields']['0'] = entry
+>   
+>   # created ordered dictionaries from the captured values. These are ordered by
+>   # a sorted() iteration of the keys. We don't care about the order we read
+> @@ -74,6 +75,7 @@ for struct in re.findall( struct_block_regex, data ):
+>   entry_dict_sorted = OrderedDict()
+>   for i in sorted(entry_dict.keys()):
+>       entry_dict_sorted[i] = {}
+> +    entry_dict_sorted[i]['type_prefix'] = entry_dict[i]['type_prefix']
+>       entry_dict_sorted[i]['type'] = entry_dict[i]['type']
+>       entry_dict_sorted[i]['fields'] = {}
+>       for f in sorted(entry_dict[i]['fields'].keys()):
+> @@ -85,7 +87,7 @@ outf = open( outfile, 'w' )
+>   print( preamble.group(1) )
+>   outf.write( preamble.group(1) )
+>   for d in entry_dict_sorted:
+> -    outf.write( "struct %s %s[] = {\n" % (entry_dict_sorted[d]['type'],d) )
+> +    outf.write( "%s %s %s[] = {\n" % (entry_dict_sorted[d]['type_prefix'], entry_dict_sorted[d]['type'],d) )
+>       for f in entry_dict_sorted[d]['fields']:
+>           outf.write( entry_dict_sorted[d]['fields'][f] + '\n' )
+>   
+I have had sort-pmuevents hanging since on hardknott trying to build 
+linux 5.16 and disabled perf from my recipe to work around.
 
-//Peter
+However, I was hoping that with honister this patch would resolve that 
+issue. But it doesn't in my case.
+
+Is there anything in particular that I need to do to make this work?
+
+Thanks
+Ferry
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#158766): https://lists.openembedded.org/g/openembedded-core/message/158766
+> Mute This Topic: https://lists.openembedded.org/mt/87290477/4454657
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [gchoc-openembedded-core@m.gmane-mx.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
 
