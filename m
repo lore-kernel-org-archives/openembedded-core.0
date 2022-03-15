@@ -2,108 +2,170 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D78C433EF
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 15:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71355C433F5
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 15:07:03 +0000 (UTC)
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
  by mx.groups.io with SMTP id smtpd.web08.12123.1647356821113804643
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 08:07:01 -0700
+ Tue, 15 Mar 2022 08:07:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=kPuzjK1k;
+ header.b=CxucV6Z0;
  spf=pass (domain: intel.com, ip: 192.55.52.88,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647356821; x=1678892821;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X5TyVB1vTs2arZj32NmpYSI8Is6luE3xJkPJ6ITOe5s=;
-  b=kPuzjK1keCWV94rdQJqrnjhU8gNp5FVEC/p5VmMq6HIXgrtJT6JP90in
-   PDeJOC5sg7ShZPKrOcGxAYUwDq3DRx6JJDTIhfNa7EyBRYULVCXnX378j
-   eplF6os+awwS3jQCGQwtvQP1rMk+TJs4zMPOMIov4ijL1RsLFS/XxReDR
-   MZ19Abtjp7/BIlKDa4gDZbFoVbs7NZ6hG0FbvBa1BvEPiPdajVn+DyXG3
-   EBPOU3YWUBkeyqohFddjwnCqKiBIYXtE2P8di1Ogp+t5CSgl3mbff3jN7
-   R+jHo8owHw2tYIw1lZpmdZQs9dr4+82RsDk3MFdyA86K7be3dckFh9ShF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281098879"
+  t=1647356822; x=1678892822;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=mrZMYTnRC+rRhmP3bM0ARrkX8eIX+YL4gLHWPN5y3JA=;
+  b=CxucV6Z01ip5aqsUxw8W9gh7SNQrW7RkLioNtsd+VxT1J4Gnma0p4uXS
+   cF73tJO/I2Nrxi26lFRfdsG7FMHhAgCljgBBNG4Vm6hockcnyuOBtZEBf
+   wK0LW7RBuhLHODSfhpBRsa7jNIal5X7Zh7VlLhgtmcb1xnbfFHu+jRwRi
+   75Opp6B2oaWdJMpIqH24mOjmQN3u5hl+gIsub0sWUUobrHrrkjETK23lM
+   up1TbMD9qvPgtMis7o8B5Jw470sJMYvnvb7a5G//MZSSGd1y0nKc4KdS/
+   RGFHulnTMCxTt63AKNrDsHPfhU7JPAWYOsNHNve34hgaLgLA70wma+9P9
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281098896"
 X-IronPort-AV: E=Sophos;i="5.90,183,1643702400";
-   d="scan'208";a="281098879"
+   d="scan'208";a="281098896"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 08:05:28 -0700
+ 15 Mar 2022 08:05:31 -0700
 X-IronPort-AV: E=Sophos;i="5.90,183,1643702400";
-   d="scan'208";a="634616101"
+   d="scan'208";a="634616109"
 Received: from ezulkifl-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.233.253])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 08:05:27 -0700
+ 15 Mar 2022 08:05:29 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 0/6] Patch review
-Date: Tue, 15 Mar 2022 23:05:15 +0800
-Message-Id: <cover.1647356478.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 1/6] patch.py: Prevent git repo reinitialization
+Date: Tue, 15 Mar 2022 23:05:16 +0800
+Message-Id: 
+ <29d86bcad4fc43e09d7499c3f6fba8c499170b9b.1647356478.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1647356478.git.anuj.mittal@intel.com>
+References: <cover.1647356478.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 15:07:02 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 15:07:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163296
+ https://lists.openembedded.org/g/openembedded-core/message/163297
 
-Next set of changes for hardknott. No problems seen while testing on the
-autobuilder.
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3363
+There were few bugs in the _isInitialized() function which might trigger
+git repo to be reinitialized and patches failing to apply.
 
-Thanks,
-
-Anuj
-
-The following changes since commit d0b1807edc10835beff9a55a105ac191b6ac2fe7:
-
-  unfs3: correct configure option (2022-03-07 22:19:01 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Bill Pittman (1):
-  wic: Use custom kernel path if provided
-
-Jose Quaresma (1):
-  sstate: inside the threadedpool don't write to the shared localdata
-
-Kai Kang (2):
-  expat: fix CVE-2022-25235
-  expat: fix CVE-2022-25236
-
-Pavel Zhukov (1):
-  patch.py: Prevent git repo reinitialization
-
-Richard Purdie (1):
-  vim: Update to 8.2.4524 for further CVE fixes
-
- .../recipes-test/gitrepotest/gitrepotest.bb   |  16 ++
- .../gitrepotest/0001-testpatch.patch          |   9 +
- meta/classes/sstate.bbclass                   |   2 +-
- meta/lib/oe/patch.py                          |  11 +-
- meta/lib/oeqa/selftest/cases/bbtests.py       |  18 +-
- .../expat/expat/CVE-2022-25235.patch          | 261 ++++++++++++++++++
- .../expat/expat/CVE-2022-25236-1.patch        | 116 ++++++++
- .../expat/expat/CVE-2022-25236-2.patch        | 232 ++++++++++++++++
- meta/recipes-core/expat/expat_2.2.10.bb       |   3 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- scripts/wic                                   |   3 +
- 11 files changed, 667 insertions(+), 8 deletions(-)
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../recipes-test/gitrepotest/gitrepotest.bb    | 16 ++++++++++++++++
+ .../gitrepotest/0001-testpatch.patch           |  9 +++++++++
+ meta/lib/oe/patch.py                           | 11 ++++++++---
+ meta/lib/oeqa/selftest/cases/bbtests.py        | 18 ++++++++++++++++--
+ 4 files changed, 49 insertions(+), 5 deletions(-)
  create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
  create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25235.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25236-1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25236-2.patch
 
+diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+new file mode 100644
+index 0000000000..f1b6c55833
+--- /dev/null
++++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "Test recipe for git repo initialization"
++HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
++LICENSE = "GPL-2.0-or-later"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++PATCHTOOL="git"
++
++SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
++           file://0001-testpatch.patch \
++          "
++
++SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
++
++S = "${WORKDIR}/git"
+diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
+new file mode 100644
+index 0000000000..bccda17ee9
+--- /dev/null
++++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
+@@ -0,0 +1,9 @@
++diff --git a/Makefile.am b/Makefile.am
++index 432a9b4..bbf7c74 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -1,3 +1,4 @@
+++## This is useless comment to test if patch works
++ ACLOCAL_AMFLAGS = -I m4
++ 
++ SUBDIRS = matchbox-panel applets data po
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 950fe723dc..9034fcae03 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -304,14 +304,19 @@ class GitApplyTree(PatchTree):
+ 
+     def _isInitialized(self):
+         cmd = "git rev-parse --show-toplevel"
+-        (status, output) = subprocess.getstatusoutput(cmd.split())
++        try:
++            output = runcmd(cmd.split(), self.dir).strip()
++        except CmdError as err:
++            ## runcmd returned non-zero which most likely means 128
++            ## Not a git directory
++            return False
+         ## Make sure repo is in builddir to not break top-level git repos
+-        return status == 0 and os.path.samedir(output, self.dir)
++        return os.path.samefile(output, self.dir)
+ 
+     def _initRepo(self):
+         runcmd("git init".split(), self.dir)
+         runcmd("git add .".split(), self.dir)
+-        runcmd("git commit -a --allow-empty -m Patching_started".split(), self.dir)
++        runcmd("git commit -a --allow-empty -m bitbake_patching_started".split(), self.dir)
+ 
+     @staticmethod
+     def extractPatchHeader(patchfile):
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index 0a618bb9a6..4187cb840a 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -310,8 +310,22 @@ INHERIT_remove = \"report-error\"
+         src = get_bb_var("SRC_URI",test_recipe)
+         gitscm = re.search("git://", src)
+         self.assertFalse(gitscm, "test_git_patchtool pre-condition failed: {} test recipe contains git repo!".format(test_recipe))
+-        result = bitbake('man-db -c patch', ignore_status=False)
++        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
+         fatal = re.search("fatal: not a git repository (or any of the parent directories)", result.output)
+         self.assertFalse(fatal, "Failed to patch using PATCHTOOL=\"git\"")
+         self.delete_recipeinc(test_recipe)
+-        bitbake('-cclean man-db')
++        bitbake('-cclean {}'.format(test_recipe))
++
++    def test_git_patchtool2(self):
++        """ Test if PATCHTOOL=git works with git repo and doesn't reinitialize it
++        """
++        test_recipe = "gitrepotest"
++        src = get_bb_var("SRC_URI",test_recipe)
++        gitscm = re.search("git://", src)
++        self.assertTrue(gitscm, "test_git_patchtool pre-condition failed: {} test recipe doesn't contains git repo!".format(test_recipe))
++        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
++        srcdir = get_bb_var('S', test_recipe)
++        result = runCmd("git log", cwd = srcdir)
++        self.assertFalse("bitbake_patching_started" in result.output, msg = "Repository has been reinitialized. {}".format(srcdir))
++        self.delete_recipeinc(test_recipe)
++        bitbake('-cclean {}'.format(test_recipe))
 -- 
 2.35.1
 
