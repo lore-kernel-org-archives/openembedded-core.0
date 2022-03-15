@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2BC0C35296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2048C35295
 	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 13:08:56 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web09.10486.1647349734701737647
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web08.10655.1647349735156691803
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Mar 2022 06:08:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=es4H1s/8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 0101017f8db21c1a-7231ff51-b979-4217-bac1-79e1e3bbba5d-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=y6/J02L/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 0101017f8db21b6b-546cde6c-c17f-4eb5-9ae1-d01336048e9a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1647349735;
+	t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UZNufCMMBTAjBShomHLoEljSqzDBXiKcGU1r/dBEDyA=;
-	b=es4H1s/8836PcXrVpcS4XCIiRxUHX8Cg0X5qRYglCgvWoO60+P/b8DifbVeoxcLt
-	oKWFMfrrVGTgVlf0iXh8s4FLtqnrNTS4GUx58xhDRs9SXjevui6wKtyAa6EJ+8VTxBd
-	Kns5cXcmDi5nCxXphKQt+mfu7OYBAc2ADqmegZOc=
+	bh=4RRYM4HYOvfv1Co8fKOS/oHcm54Yu/hpy8pICXsBsZg=;
+	b=y6/J02L/Ifehb+dzgMncEakWJZEppd9LSLELcha9UjvwDdqFzvordUQ+4ebwkZKs
+	fmpXu8MhL43x23EZOY6sgvDER7vGzunNd0FNLz4Q14mXUkKj9OWGdsHVGhfI/cccFS5
+	vvRVpGfR5m0XgwV3Fx6EgsFdLBJeZZnpY42R/gcM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349735;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UZNufCMMBTAjBShomHLoEljSqzDBXiKcGU1r/dBEDyA=;
-	b=QC1WAFroXBj0h0u941xdHoSyJAkp0yO1I3y4ZuNbBbesPVK7SuuT/tjO67KS0hfU
-	SRvvvRKb8jvImtf0/B7HHp0XNtvSzaUzmiIS1J/YgIAjoBtXsH/DzCuosN/8y+2Svfv
-	AImhQ6I9vL7nFGpsLxIW7T3dGP+txjLo3cg6cAB4=
-Content-Type: multipart/mixed; boundary="===============7703793472538728584=="
+	bh=4RRYM4HYOvfv1Co8fKOS/oHcm54Yu/hpy8pICXsBsZg=;
+	b=D6jNdOZsZWmzKiIb9bs1Ya+UIotSY9XP0EgYa+hy2JoeYbehNqK6n/+d331MinHK
+	dWkVxqfTAL2YlnaB5MxCwkgf7SLIrVWM1rMlcQESFJyAsVZ4m7p6v8z63/2u1r6XSzl
+	LBkSv5Hx209X04Ff7DiQnol2ktnjRRggsPofSOXs=
+Content-Type: multipart/mixed; boundary="===============4987743748839311910=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pip: upgrading to 22.0.4 SUCCEEDED
+Subject: [AUH] python3-mako: upgrading to 1.2.0 SUCCEEDED
 Message-ID: 
- <0101017f8db21c1a-7231ff51-b979-4217-bac1-79e1e3bbba5d-000000@us-west-2.amazonses.com>
+ <0101017f8db21b6b-546cde6c-c17f-4eb5-9ae1-d01336048e9a-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Mar 2022 13:08:54 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.03.15-54.240.27.45
+X-SES-Outgoing: 2022.03.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 13:08:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163264
+ https://lists.openembedded.org/g/openembedded-core/message/163259
 
---===============7703793472538728584==
+--===============4987743748839311910==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pip* to *22.0.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pip-upgrade-22.0.3-22.0.4.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.1.6-1.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,125 +75,144 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7703793472538728584==
+--===============4987743748839311910==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.3.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.4.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch"
-packages/core2-32-poky-linux/python3-pip: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-src: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-src: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "22.0.3" to "22.0.4"
-packages/core2-32-poky-linux/python3-pip/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
-packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.1
- 0/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc"
-packages/core2-32-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 12183249 to 12431887 (+2%)
-packages/core2-32-poky-linux/python3-pip/python3-pip: PV changed from "22.0.3" to "22.0.4"
-Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
-  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
-Changes to packages/x86_64-linux/python3-pip-native (sysroot):
-  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.6.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.0.tar.gz"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/REQUESTED /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/INSTALLER", added "/usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA /usr/lib/python3.10/site-pa
+ ckages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/REQUESTED /usr/lib/python3.10/site-packages/mako/testing/exclusions.py /usr/lib/python3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cp
+ ython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/INSTALLER /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/mako/testing/helpers.py"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 494103 to 507241 (+3%)
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
+  /usr/lib/python3.10/site-packages/mako/testing was added
+  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
 
---===============7703793472538728584==
+--===============4987743748839311910==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc /usr/lib/python3.1
- 0/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py"
-Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
-  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
-Changes to packages/x86_64-linux/python3-pip-native (sysroot):
-  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
-  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/REQUESTED /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/INSTALLER /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD", added "/usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/INSTALLER /usr/lib/python3.10/site-packages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/REQUESTED /usr/lib/python3.10/site-packages/mako/testing/exclusions
+ .py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/helpers.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__
+ /__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
+  /usr/lib/python3.10/site-packages/mako/testing was added
+  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
 
---===============7703793472538728584==
+--===============4987743748839311910==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-pip-upgrade-22.0.3-22.0.4.patch"
+ filename="0001-python3-mako-upgrade-1.1.6-1.2.0.patch"
 
-From f4acf86f002551258090f0093c5e670013b4a32d Mon Sep 17 00:00:00 2001
+From 0bdd88a86b7f1501333da45b66dc537f96ff9388 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Mar 2022 08:17:23 +0000
-Subject: [PATCH] python3-pip: upgrade 22.0.3 -> 22.0.4
+Date: Tue, 15 Mar 2022 07:50:48 +0000
+Subject: [PATCH] python3-mako: upgrade 1.1.6 -> 1.2.0
 
 ---
- .../python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb} (94%)
+ ...n3-mako_1.1.6.bb => python3-mako_1.2.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} (28%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-pip_22.0.3.bb
-rename to meta/recipes-devtools/python/python3-pip_22.0.4.bb
-index bfeeee789c..a8027845d4 100644
---- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
-@@ -16,7 +16,7 @@ SRC_URI += "file://0001-change-shebang-to-python3.patch"
- SRC_URI += "file://no_shebang_mangling.patch"
- SRC_URI += "file://reproducible.patch"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.6.bb b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+similarity index 28%
+rename from meta/recipes-devtools/python/python3-mako_1.1.6.bb
+rename to meta/recipes-devtools/python/python3-mako_1.2.0.bb
+index 23e13cff94..522392adcf 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.6.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+@@ -1,14 +1,33 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright 2006-2020 the Mako authors and contributors <see AUTHORS file>.
++# +Copyright 2006-2021 the Mako authors and contributors <see AUTHORS file>.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
  
--SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
-+SRC_URI[sha256sum] = "b3a9de2c6ef801e9247d1527a4b16f92f2cc141cd1489f3fffaf6a9e96729764"
+ PYPI_PACKAGE = "Mako"
  
- do_install:class-native() {
-     python_pep517_do_bootstrap_install
+ inherit pypi setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "4e9e345a41924a954251b95b4b28e14a301145b544901332e658907a7464b6b2"
++SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-netclient \
 -- 
 2.27.0
 
 
---===============7703793472538728584==--
+--===============4987743748839311910==--
 
