@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71355C433F5
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 15:07:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBC0C433FE
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 15:07:05 +0000 (UTC)
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
  by mx.groups.io with SMTP id smtpd.web08.12123.1647356821113804643
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 08:07:02 -0700
+ Tue, 15 Mar 2022 08:07:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=CxucV6Z0;
+ header.b=KHc10kwR;
  spf=pass (domain: intel.com, ip: 192.55.52.88,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647356822; x=1678892822;
+  t=1647356823; x=1678892823;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=mrZMYTnRC+rRhmP3bM0ARrkX8eIX+YL4gLHWPN5y3JA=;
-  b=CxucV6Z01ip5aqsUxw8W9gh7SNQrW7RkLioNtsd+VxT1J4Gnma0p4uXS
-   cF73tJO/I2Nrxi26lFRfdsG7FMHhAgCljgBBNG4Vm6hockcnyuOBtZEBf
-   wK0LW7RBuhLHODSfhpBRsa7jNIal5X7Zh7VlLhgtmcb1xnbfFHu+jRwRi
-   75Opp6B2oaWdJMpIqH24mOjmQN3u5hl+gIsub0sWUUobrHrrkjETK23lM
-   up1TbMD9qvPgtMis7o8B5Jw470sJMYvnvb7a5G//MZSSGd1y0nKc4KdS/
-   RGFHulnTMCxTt63AKNrDsHPfhU7JPAWYOsNHNve34hgaLgLA70wma+9P9
+  bh=hXcqt8fmvxzE7AymbRUbOMMmuHX/C+rN2vNM4vINviA=;
+  b=KHc10kwRA9zc6dPEMdD2OvPC2ptdApVqtocZ96WUzRDj8GKCSEIYCVSz
+   6otFh04H9riauUbNR46P+y6MKAIe8OY/ACcUnXg0OES3PRFwUNAWeFZt+
+   Qkyu5ZAEVkWK16StwmaIVl7a83JY/+UKr9euSt37K71okvUO3NCNt+QVF
+   YkP8QqmwcSoKGXyLSRAtBRy7p1i0e+GbtZzzQTciHrhTpM92Wfgs5xMeW
+   vmxr49BOuWdjN5ICff/fGEBeulWpa03Jtx6uhhMUkdiQUArIkoUaWL+b6
+   IEOpaL/uvB0Y0HlHYnaPCH2FTyUwsg4iG91KTbfM7h+n5OKmkJ19LjXbT
    g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281098896"
+X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="281098906"
 X-IronPort-AV: E=Sophos;i="5.90,183,1643702400";
-   d="scan'208";a="281098896"
+   d="scan'208";a="281098906"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 08:05:31 -0700
+ 15 Mar 2022 08:05:32 -0700
 X-IronPort-AV: E=Sophos;i="5.90,183,1643702400";
-   d="scan'208";a="634616109"
+   d="scan'208";a="634616117"
 Received: from ezulkifl-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.233.253])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 08:05:29 -0700
+ 15 Mar 2022 08:05:30 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 1/6] patch.py: Prevent git repo reinitialization
-Date: Tue, 15 Mar 2022 23:05:16 +0800
+Subject: [hardknott][PATCH 2/6] expat: fix CVE-2022-25235
+Date: Tue, 15 Mar 2022 23:05:17 +0800
 Message-Id: 
- <29d86bcad4fc43e09d7499c3f6fba8c499170b9b.1647356478.git.anuj.mittal@intel.com>
+ <60dd7d2deeda838346f30b6f8de28dfac7efac0d.1647356478.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1647356478.git.anuj.mittal@intel.com>
 References: <cover.1647356478.git.anuj.mittal@intel.com>
@@ -52,120 +52,303 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 15:07:03 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 15:07:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163297
+ https://lists.openembedded.org/g/openembedded-core/message/163298
 
-From: Pavel Zhukov <pavel@zhukoff.net>
+From: Kai Kang <kai.kang@windriver.com>
 
-There were few bugs in the _isInitialized() function which might trigger
-git repo to be reinitialized and patches failing to apply.
+Backport patch to fix CVE-2022-25235 for expat.
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+CVE: CVE-2022-25235
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../recipes-test/gitrepotest/gitrepotest.bb    | 16 ++++++++++++++++
- .../gitrepotest/0001-testpatch.patch           |  9 +++++++++
- meta/lib/oe/patch.py                           | 11 ++++++++---
- meta/lib/oeqa/selftest/cases/bbtests.py        | 18 ++++++++++++++++--
- 4 files changed, 49 insertions(+), 5 deletions(-)
- create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
- create mode 100644 meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
+ .../expat/expat/CVE-2022-25235.patch          | 261 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.10.bb       |   1 +
+ 2 files changed, 262 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25235.patch
 
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
+diff --git a/meta/recipes-core/expat/expat/CVE-2022-25235.patch b/meta/recipes-core/expat/expat/CVE-2022-25235.patch
 new file mode 100644
-index 0000000000..f1b6c55833
+index 0000000000..9febeae609
 --- /dev/null
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "Test recipe for git repo initialization"
-+HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
-+LICENSE = "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++++ b/meta/recipes-core/expat/expat/CVE-2022-25235.patch
+@@ -0,0 +1,261 @@
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/306b721]
++CVE: CVE-2022-25235
 +
-+INHIBIT_DEFAULT_DEPS = "1"
++The commit is a merge commit, and this patch is created by:
 +
-+PATCHTOOL="git"
++$ git show -m -p --stat 306b72134f157bbfd1637b20a22cabf4acfa136a
 +
-+SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https \
-+           file://0001-testpatch.patch \
-+          "
++Remove modification for expat/Changes which fails to be applied.
 +
-+SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+S = "${WORKDIR}/git"
-diff --git a/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-new file mode 100644
-index 0000000000..bccda17ee9
---- /dev/null
-+++ b/meta-selftest/recipes-test/gitrepotest/gitrepotest/0001-testpatch.patch
-@@ -0,0 +1,9 @@
-+diff --git a/Makefile.am b/Makefile.am
-+index 432a9b4..bbf7c74 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -1,3 +1,4 @@
-++## This is useless comment to test if patch works
-+ ACLOCAL_AMFLAGS = -I m4
++commit 306b72134f157bbfd1637b20a22cabf4acfa136a (from 2cc97e875ef84da4bcf55156c83599116f7523b4)
++Merge: 2cc97e87 c16300f0
++Author: Sebastian Pipping <sebastian@pipping.org>
++Date:   Fri Feb 18 20:12:32 2022 +0100
++
++    Merge pull request #562 from libexpat/utf8-security
++    
++    [CVE-2022-25235] lib: Protect against malformed encoding (e.g. malformed UTF-8)
++---
++ expat/Changes           |   7 ++++
++ expat/lib/xmltok.c      |   5 ---
++ expat/lib/xmltok_impl.c |  18 ++++----
++ expat/tests/runtests.c  | 109 ++++++++++++++++++++++++++++++++++++++++++++++++
++ 4 files changed, 127 insertions(+), 12 deletions(-)
++
++diff --git a/lib/xmltok.c b/lib/xmltok.c
++index a72200e8..3bddf125 100644
++--- a/lib/xmltok.c
+++++ b/lib/xmltok.c
++@@ -98,11 +98,6 @@
++         + ((((byte)[1]) & 3) << 1) + ((((byte)[2]) >> 5) & 1)]                 \
++    & (1u << (((byte)[2]) & 0x1F)))
 + 
-+ SUBDIRS = matchbox-panel applets data po
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 950fe723dc..9034fcae03 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -304,14 +304,19 @@ class GitApplyTree(PatchTree):
++-#define UTF8_GET_NAMING(pages, p, n)                                           \
++-  ((n) == 2                                                                    \
++-       ? UTF8_GET_NAMING2(pages, (const unsigned char *)(p))                   \
++-       : ((n) == 3 ? UTF8_GET_NAMING3(pages, (const unsigned char *)(p)) : 0))
++-
++ /* Detection of invalid UTF-8 sequences is based on Table 3.1B
++    of Unicode 3.2: http://www.unicode.org/unicode/reports/tr28/
++    with the additional restriction of not allowing the Unicode
++diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
++index 0430591b..84ff35f9 100644
++--- a/lib/xmltok_impl.c
+++++ b/lib/xmltok_impl.c
++@@ -69,7 +69,7 @@
++   case BT_LEAD##n:                                                             \
++     if (end - ptr < n)                                                         \
++       return XML_TOK_PARTIAL_CHAR;                                             \
++-    if (! IS_NAME_CHAR(enc, ptr, n)) {                                         \
+++    if (IS_INVALID_CHAR(enc, ptr, n) || ! IS_NAME_CHAR(enc, ptr, n)) {         \
++       *nextTokPtr = ptr;                                                       \
++       return XML_TOK_INVALID;                                                  \
++     }                                                                          \
++@@ -98,7 +98,7 @@
++   case BT_LEAD##n:                                                             \
++     if (end - ptr < n)                                                         \
++       return XML_TOK_PARTIAL_CHAR;                                             \
++-    if (! IS_NMSTRT_CHAR(enc, ptr, n)) {                                       \
+++    if (IS_INVALID_CHAR(enc, ptr, n) || ! IS_NMSTRT_CHAR(enc, ptr, n)) {       \
++       *nextTokPtr = ptr;                                                       \
++       return XML_TOK_INVALID;                                                  \
++     }                                                                          \
++@@ -1142,6 +1142,10 @@ PREFIX(prologTok)(const ENCODING *enc, const char *ptr, const char *end,
++   case BT_LEAD##n:                                                             \
++     if (end - ptr < n)                                                         \
++       return XML_TOK_PARTIAL_CHAR;                                             \
+++    if (IS_INVALID_CHAR(enc, ptr, n)) {                                        \
+++      *nextTokPtr = ptr;                                                       \
+++      return XML_TOK_INVALID;                                                  \
+++    }                                                                          \
++     if (IS_NMSTRT_CHAR(enc, ptr, n)) {                                         \
++       ptr += n;                                                                \
++       tok = XML_TOK_NAME;                                                      \
++@@ -1270,7 +1274,7 @@ PREFIX(attributeValueTok)(const ENCODING *enc, const char *ptr, const char *end,
++     switch (BYTE_TYPE(enc, ptr)) {
++ #  define LEAD_CASE(n)                                                         \
++   case BT_LEAD##n:                                                             \
++-    ptr += n;                                                                  \
+++    ptr += n; /* NOTE: The encoding has already been validated. */             \
++     break;
++       LEAD_CASE(2)
++       LEAD_CASE(3)
++@@ -1339,7 +1343,7 @@ PREFIX(entityValueTok)(const ENCODING *enc, const char *ptr, const char *end,
++     switch (BYTE_TYPE(enc, ptr)) {
++ #  define LEAD_CASE(n)                                                         \
++   case BT_LEAD##n:                                                             \
++-    ptr += n;                                                                  \
+++    ptr += n; /* NOTE: The encoding has already been validated. */             \
++     break;
++       LEAD_CASE(2)
++       LEAD_CASE(3)
++@@ -1518,7 +1522,7 @@ PREFIX(getAtts)(const ENCODING *enc, const char *ptr, int attsMax,
++       state = inName;                                                          \
++     }
++ #  define LEAD_CASE(n)                                                         \
++-  case BT_LEAD##n:                                                             \
+++  case BT_LEAD##n: /* NOTE: The encoding has already been validated. */        \
++     START_NAME ptr += (n - MINBPC(enc));                                       \
++     break;
++       LEAD_CASE(2)
++@@ -1730,7 +1734,7 @@ PREFIX(nameLength)(const ENCODING *enc, const char *ptr) {
++     switch (BYTE_TYPE(enc, ptr)) {
++ #  define LEAD_CASE(n)                                                         \
++   case BT_LEAD##n:                                                             \
++-    ptr += n;                                                                  \
+++    ptr += n; /* NOTE: The encoding has already been validated. */             \
++     break;
++       LEAD_CASE(2)
++       LEAD_CASE(3)
++@@ -1775,7 +1779,7 @@ PREFIX(updatePosition)(const ENCODING *enc, const char *ptr, const char *end,
++     switch (BYTE_TYPE(enc, ptr)) {
++ #  define LEAD_CASE(n)                                                         \
++   case BT_LEAD##n:                                                             \
++-    ptr += n;                                                                  \
+++    ptr += n; /* NOTE: The encoding has already been validated. */             \
++     pos->columnNumber++;                                                       \
++     break;
++       LEAD_CASE(2)
++diff --git a/tests/runtests.c b/tests/runtests.c
++index bc5344b1..9b155b82 100644
++--- a/tests/runtests.c
+++++ b/tests/runtests.c
++@@ -5998,6 +5998,105 @@ START_TEST(test_utf8_in_cdata_section_2) {
++ }
++ END_TEST
++ 
+++START_TEST(test_utf8_in_start_tags) {
+++  struct test_case {
+++    bool goodName;
+++    bool goodNameStart;
+++    const char *tagName;
+++  };
+++
+++  // The idea with the tests below is this:
+++  // We want to cover 1-, 2- and 3-byte sequences, 4-byte sequences
+++  // go to isNever and are hence not a concern.
+++  //
+++  // We start with a character that is a valid name character
+++  // (or even name-start character, see XML 1.0r4 spec) and then we flip
+++  // single bits at places where (1) the result leaves the UTF-8 encoding space
+++  // and (2) we stay in the same n-byte sequence family.
+++  //
+++  // The flipped bits are highlighted in angle brackets in comments,
+++  // e.g. "[<1>011 1001]" means we had [0011 1001] but we now flipped
+++  // the most significant bit to 1 to leave UTF-8 encoding space.
+++  struct test_case cases[] = {
+++      // 1-byte UTF-8: [0xxx xxxx]
+++      {true, true, "\x3A"},   // [0011 1010] = ASCII colon ':'
+++      {false, false, "\xBA"}, // [<1>011 1010]
+++      {true, false, "\x39"},  // [0011 1001] = ASCII nine '9'
+++      {false, false, "\xB9"}, // [<1>011 1001]
+++
+++      // 2-byte UTF-8: [110x xxxx] [10xx xxxx]
+++      {true, true, "\xDB\xA5"},   // [1101 1011] [1010 0101] =
+++                                  // Arabic small waw U+06E5
+++      {false, false, "\x9B\xA5"}, // [1<0>01 1011] [1010 0101]
+++      {false, false, "\xDB\x25"}, // [1101 1011] [<0>010 0101]
+++      {false, false, "\xDB\xE5"}, // [1101 1011] [1<1>10 0101]
+++      {true, false, "\xCC\x81"},  // [1100 1100] [1000 0001] =
+++                                  // combining char U+0301
+++      {false, false, "\x8C\x81"}, // [1<0>00 1100] [1000 0001]
+++      {false, false, "\xCC\x01"}, // [1100 1100] [<0>000 0001]
+++      {false, false, "\xCC\xC1"}, // [1100 1100] [1<1>00 0001]
+++
+++      // 3-byte UTF-8: [1110 xxxx] [10xx xxxx] [10xxxxxx]
+++      {true, true, "\xE0\xA4\x85"},   // [1110 0000] [1010 0100] [1000 0101] =
+++                                      // Devanagari Letter A U+0905
+++      {false, false, "\xA0\xA4\x85"}, // [1<0>10 0000] [1010 0100] [1000 0101]
+++      {false, false, "\xE0\x24\x85"}, // [1110 0000] [<0>010 0100] [1000 0101]
+++      {false, false, "\xE0\xE4\x85"}, // [1110 0000] [1<1>10 0100] [1000 0101]
+++      {false, false, "\xE0\xA4\x05"}, // [1110 0000] [1010 0100] [<0>000 0101]
+++      {false, false, "\xE0\xA4\xC5"}, // [1110 0000] [1010 0100] [1<1>00 0101]
+++      {true, false, "\xE0\xA4\x81"},  // [1110 0000] [1010 0100] [1000 0001] =
+++                                      // combining char U+0901
+++      {false, false, "\xA0\xA4\x81"}, // [1<0>10 0000] [1010 0100] [1000 0001]
+++      {false, false, "\xE0\x24\x81"}, // [1110 0000] [<0>010 0100] [1000 0001]
+++      {false, false, "\xE0\xE4\x81"}, // [1110 0000] [1<1>10 0100] [1000 0001]
+++      {false, false, "\xE0\xA4\x01"}, // [1110 0000] [1010 0100] [<0>000 0001]
+++      {false, false, "\xE0\xA4\xC1"}, // [1110 0000] [1010 0100] [1<1>00 0001]
+++  };
+++  const bool atNameStart[] = {true, false};
+++
+++  size_t i = 0;
+++  char doc[1024];
+++  size_t failCount = 0;
+++
+++  for (; i < sizeof(cases) / sizeof(cases[0]); i++) {
+++    size_t j = 0;
+++    for (; j < sizeof(atNameStart) / sizeof(atNameStart[0]); j++) {
+++      const bool expectedSuccess
+++          = atNameStart[j] ? cases[i].goodNameStart : cases[i].goodName;
+++      sprintf(doc, "<%s%s><!--", atNameStart[j] ? "" : "a", cases[i].tagName);
+++      XML_Parser parser = XML_ParserCreate(NULL);
+++
+++      const enum XML_Status status
+++          = XML_Parse(parser, doc, (int)strlen(doc), /*isFinal=*/XML_FALSE);
+++
+++      bool success = true;
+++      if ((status == XML_STATUS_OK) != expectedSuccess) {
+++        success = false;
+++      }
+++      if ((status == XML_STATUS_ERROR)
+++          && (XML_GetErrorCode(parser) != XML_ERROR_INVALID_TOKEN)) {
+++        success = false;
+++      }
+++
+++      if (! success) {
+++        fprintf(
+++            stderr,
+++            "FAIL case %2u (%sat name start, %u-byte sequence, error code %d)\n",
+++            (unsigned)i + 1u, atNameStart[j] ? "    " : "not ",
+++            (unsigned)strlen(cases[i].tagName), XML_GetErrorCode(parser));
+++        failCount++;
+++      }
+++
+++      XML_ParserFree(parser);
+++    }
+++  }
+++
+++  if (failCount > 0) {
+++    fail("UTF-8 regression detected");
+++  }
+++}
+++END_TEST
+++
++ /* Test trailing spaces in elements are accepted */
++ static void XMLCALL
++ record_element_end_handler(void *userData, const XML_Char *name) {
++@@ -6175,6 +6274,14 @@ START_TEST(test_bad_doctype) {
++ }
++ END_TEST
++ 
+++START_TEST(test_bad_doctype_utf8) {
+++  const char *text = "<!DOCTYPE \xDB\x25"
+++                     "doc><doc/>"; // [1101 1011] [<0>010 0101]
+++  expect_failure(text, XML_ERROR_INVALID_TOKEN,
+++                 "Invalid UTF-8 in DOCTYPE not faulted");
+++}
+++END_TEST
+++
++ START_TEST(test_bad_doctype_utf16) {
++   const char text[] =
++       /* <!DOCTYPE doc [ \x06f2 ]><doc/>
++@@ -11870,6 +11977,7 @@ make_suite(void) {
++   tcase_add_test(tc_basic, test_ext_entity_utf8_non_bom);
++   tcase_add_test(tc_basic, test_utf8_in_cdata_section);
++   tcase_add_test(tc_basic, test_utf8_in_cdata_section_2);
+++  tcase_add_test(tc_basic, test_utf8_in_start_tags);
++   tcase_add_test(tc_basic, test_trailing_spaces_in_elements);
++   tcase_add_test(tc_basic, test_utf16_attribute);
++   tcase_add_test(tc_basic, test_utf16_second_attr);
++@@ -11878,6 +11986,7 @@ make_suite(void) {
++   tcase_add_test(tc_basic, test_bad_attr_desc_keyword);
++   tcase_add_test(tc_basic, test_bad_attr_desc_keyword_utf16);
++   tcase_add_test(tc_basic, test_bad_doctype);
+++  tcase_add_test(tc_basic, test_bad_doctype_utf8);
++   tcase_add_test(tc_basic, test_bad_doctype_utf16);
++   tcase_add_test(tc_basic, test_bad_doctype_plus);
++   tcase_add_test(tc_basic, test_bad_doctype_star);
+diff --git a/meta/recipes-core/expat/expat_2.2.10.bb b/meta/recipes-core/expat/expat_2.2.10.bb
+index a851e54b2a..0b3331981c 100644
+--- a/meta/recipes-core/expat/expat_2.2.10.bb
++++ b/meta/recipes-core/expat/expat_2.2.10.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+            file://CVE-2021-46143.patch \
+            file://CVE-2022-23852.patch \
+            file://CVE-2022-23990.patch \
++           file://CVE-2022-25235.patch \
+            "
  
-     def _isInitialized(self):
-         cmd = "git rev-parse --show-toplevel"
--        (status, output) = subprocess.getstatusoutput(cmd.split())
-+        try:
-+            output = runcmd(cmd.split(), self.dir).strip()
-+        except CmdError as err:
-+            ## runcmd returned non-zero which most likely means 128
-+            ## Not a git directory
-+            return False
-         ## Make sure repo is in builddir to not break top-level git repos
--        return status == 0 and os.path.samedir(output, self.dir)
-+        return os.path.samefile(output, self.dir)
- 
-     def _initRepo(self):
-         runcmd("git init".split(), self.dir)
-         runcmd("git add .".split(), self.dir)
--        runcmd("git commit -a --allow-empty -m Patching_started".split(), self.dir)
-+        runcmd("git commit -a --allow-empty -m bitbake_patching_started".split(), self.dir)
- 
-     @staticmethod
-     def extractPatchHeader(patchfile):
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index 0a618bb9a6..4187cb840a 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -310,8 +310,22 @@ INHERIT_remove = \"report-error\"
-         src = get_bb_var("SRC_URI",test_recipe)
-         gitscm = re.search("git://", src)
-         self.assertFalse(gitscm, "test_git_patchtool pre-condition failed: {} test recipe contains git repo!".format(test_recipe))
--        result = bitbake('man-db -c patch', ignore_status=False)
-+        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
-         fatal = re.search("fatal: not a git repository (or any of the parent directories)", result.output)
-         self.assertFalse(fatal, "Failed to patch using PATCHTOOL=\"git\"")
-         self.delete_recipeinc(test_recipe)
--        bitbake('-cclean man-db')
-+        bitbake('-cclean {}'.format(test_recipe))
-+
-+    def test_git_patchtool2(self):
-+        """ Test if PATCHTOOL=git works with git repo and doesn't reinitialize it
-+        """
-+        test_recipe = "gitrepotest"
-+        src = get_bb_var("SRC_URI",test_recipe)
-+        gitscm = re.search("git://", src)
-+        self.assertTrue(gitscm, "test_git_patchtool pre-condition failed: {} test recipe doesn't contains git repo!".format(test_recipe))
-+        result = bitbake('{} -c patch'.format(test_recipe), ignore_status=False)
-+        srcdir = get_bb_var('S', test_recipe)
-+        result = runCmd("git log", cwd = srcdir)
-+        self.assertFalse("bitbake_patching_started" in result.output, msg = "Repository has been reinitialized. {}".format(srcdir))
-+        self.delete_recipeinc(test_recipe)
-+        bitbake('-cclean {}'.format(test_recipe))
+ UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
 -- 
 2.35.1
 
