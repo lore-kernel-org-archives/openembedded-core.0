@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6438CC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 620A0C43217
 	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 13:08:55 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web09.10483.1647349733423656930
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.10639.1647349734978107054
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 06:08:54 -0700
+ Tue, 15 Mar 2022 06:08:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HI2dkJWV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 0101017f8db2166b-dd1f731d-de7e-4a42-ac62-6d7d1197f3cb-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dZ1qcrSa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 0101017f8db219bc-dcb74083-2e52-488d-9282-9e74b47acaa5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1647349733;
+	t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lEuicO5TBNrwJEHU3UPBKWhvbrrGkZ/I8bqrR99RTFI=;
-	b=HI2dkJWVCySQa8Hlegx/LU3nkO+SlU/TDfQaqPLdyJANSJEYPtyS0GFU98lC4Qlr
-	eJnjOoBietC5sbsz+39TBUXKeN0BpvyS+RT3nzXbOWgDd8veAIhBqmCKI8YSbr6q51q
-	R1unxJPNzUiKXInXe2lqzUgOQsgfiINNG32Kj+fs=
+	bh=N6nBrsEH6ADB8ttym2DvsSUrE/vrQPUztowopPl6fZ8=;
+	b=dZ1qcrSayyNdutDEh1F1N/IkCLmNAuZnZ1rs47jU5D5sVBw9vwDqX4DXQN29IcHX
+	B0K3m2UsUXu2eQWWNuF3UqMZxvxb7R0YU/eQDaNB0wNAWrhp6OeenuYM/XCw020CeJP
+	ckxbIEMlHJflDfqSijUHOftTOr708GMYCun8YpKs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349733;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lEuicO5TBNrwJEHU3UPBKWhvbrrGkZ/I8bqrR99RTFI=;
-	b=KMfFQqmHQAaZbXFbyqrXMC6X2S4iCvhiuxmGX0XETwHZsEGS4XoxyyuvdguA1+Fh
-	YHrcZHr75yeLKaGWoS1txTaS/K2GO1tLQTptwsZpj619WKPMA4zU9ws/ezlc/Uh1gE4
-	pE8DECU2kBLo2sv3huj2Vs+ScZvDFJLMFJLUPbHs=
-Content-Type: multipart/mixed; boundary="===============5287481418325749892=="
+	bh=N6nBrsEH6ADB8ttym2DvsSUrE/vrQPUztowopPl6fZ8=;
+	b=C25SHBlgjkdr64pZAsEtZeLytyYmX7xBjtDgnGxgTEfUnxPIERfUfvbZc+sfzwG0
+	CkrJoJNt4v/yDg0z7dIl3IlsrDSi4VvHoxuDxMII3EwfSgsRPJJaolBY19KROIpydm8
+	lVELrxyv7CjZW9EXP5KnjlGP3LyaT11JL9GBmISM=
+Content-Type: multipart/mixed; boundary="===============2008956420046422472=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: 
+ =?utf-8?b?QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dbus: upgrading to 1.14.0 FAILED
+Subject: [AUH] dpkg: upgrading to 1.21.2 FAILED
 Message-ID: 
- <0101017f8db2166b-dd1f731d-de7e-4a42-ac62-6d7d1197f3cb-000000@us-west-2.amazonses.com>
+ <0101017f8db219bc-dcb74083-2e52-488d-9282-9e74b47acaa5-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Mar 2022 13:08:53 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.03.15-54.240.27.193
+X-SES-Outgoing: 2022.03.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 13:08:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163242
+ https://lists.openembedded.org/g/openembedded-core/message/163252
 
---===============5287481418325749892==
+--===============2008956420046422472==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,11 +57,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dbus* to *1.14.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *dpkg* to *1.21.2* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade dbus -V 1.14.0
+Running 'devtool upgrade' for recipe dpkg failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -75,12 +76,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-21af5c2b7862e9ce9f5f1d5bf4161f26f49542b9"
+DISTRO_VERSION       = "3.4+snapshot-45f307b7e9bcd9cadf43d0451195a366f01da04d"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:21af5c2b7862e9ce9f5f1d5bf4161f26f49542b9"
+meta-yocto-bsp       = "tmp-auh-upgrades:45f307b7e9bcd9cadf43d0451195a366f01da04d"
 workspace            = "master:2c8f3be3a559158b1d475da1931a659dad5b9414"
 
 Initialising tasks...done.
@@ -88,46 +89,25 @@ Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% c
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-Loading cache...done.
-Loaded 1521 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 844 .bb files complete (842 cached, 2 parsed). 1522 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.53.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-21af5c2b7862e9ce9f5f1d5bf4161f26f49542b9"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:21af5c2b7862e9ce9f5f1d5bf4161f26f49542b9"
-workspace            = "master:2c8f3be3a559158b1d475da1931a659dad5b9414"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-
+NOTE: Writing buildhistory took: 1 seconds
 INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85
- 495b/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-_p85495b/work/temp/log.do_fetch.1482678
-ERROR: Failed to fetch URL https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.gz
+INFO: Rebasing devtool onto a9580d3aec5f487a81664a462ec70ec1993f19f8
+WARNING: Command 'git rebase a9580d3aec5f487a81664a462ec70ec1993f19f8' failed:
+Auto-merging Makefile.am
+CONFLICT (content): Merge conflict in Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto a9580d3aec5f487a81664a462ec70ec1993f19f8
+WARNING: Command 'git rebase a9580d3aec5f487a81664a462ec70ec1993f19f8' failed:
+Auto-merging Makefile.am
+CONFLICT (content): Merge conflict in Makefile.am
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/dpkg
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/dpkg/dpkg_1.21.2.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -135,5 +115,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5287481418325749892==--
+--===============2008956420046422472==--
 
