@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A3CC433F5
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 13:08:54 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web09.10483.1647349733423656930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EF8C4332F
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 13:08:55 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.10589.1647349734950566480
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 06:08:53 -0700
+ Tue, 15 Mar 2022 06:08:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EvWamchV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 0101017f8db21432-eee7138f-93f6-4dea-86df-ea460416242a-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=H+mB/sG/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 0101017f8db21a43-a8181fc9-eeaa-43e6-9085-8ab3f9b2c876-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1647349732;
+	t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Zy09fnNQljwLIi+XPApCoY6dBS6AsneFS6wU5KO3wL0=;
-	b=EvWamchVwFZlfx65+r0FZuUBH2bwgig8KG0f2NLiNE9HlTZrJ3Z4kWML82Na3/Bi
-	Rytq8G3p8WVTS5HzAkUK2kxNuCGR7N649vq6hIKSrQfMcZOYaZm+acOB4rfagtLyjvH
-	1k2fZFEV3gINlhKAIXQ5wQCZiVvGxnGkN7qzuP1I=
+	bh=sUcZuaK752aVS7VT4XupWevW20Blvc5vXgCKNH/etZ4=;
+	b=H+mB/sG/Io6w+1OKpJ7zaA/c39CkPs+mnCDFgPtj6+0OJdNa45skovo1KNw+i2rP
+	smN/je0qytcL02GnNjg2djiqy31pTaoCBSro3FSpLks+EyJmFzRBfkZtbSI0gZH8mnm
+	nUVQVC8tFc7YjpcOQl3AEwfW/MOuq1waAkIg/kZY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349732;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349734;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Zy09fnNQljwLIi+XPApCoY6dBS6AsneFS6wU5KO3wL0=;
-	b=L6lR4/QHmt2HPsh2LppOGzCdcIw6yynq0V5U1M5In7lGZUdI98/xB8RxIfVOajnf
-	dozJiLOMkdDXeS471EZW/h6xpGoy6Ql8H43eA76ho7lNkfCPW5Xu6VGv7PjgQjsxE3O
-	gye0ToybyDrnY8gEcusf/WL9M9Ey3xiwO4HwSSNI=
-Content-Type: multipart/mixed; boundary="===============5400713523962025440=="
+	bh=sUcZuaK752aVS7VT4XupWevW20Blvc5vXgCKNH/etZ4=;
+	b=H3mFWXnLGklHZfLqPYtlR7+vf2QD9FI51yDWHEw0f2SeeqsqxMttom64+XklsmU5
+	IF248L5x1BZs9f6FMTHwZZytQVLKpctio9Ln3Ez5R+XeRpAysV9o8/YMK7wYFIB5WDD
+	PyVY+WIbUE7w6Ut8e/BdHG5j7+WoPrDsi2geSIb4=
+Content-Type: multipart/mixed; boundary="===============6830923299525649798=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bind: upgrading to 9.18.0 FAILED
+Subject: [AUH] mtools: upgrading to 4.0.38 SUCCEEDED
 Message-ID: 
- <0101017f8db21432-eee7138f-93f6-4dea-86df-ea460416242a-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Mar 2022 13:08:52 +0000
+ <0101017f8db21a43-a8181fc9-eeaa-43e6-9085-8ab3f9b2c876-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Mar 2022 13:08:54 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.03.15-54.240.27.193
+X-SES-Outgoing: 2022.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 13:08:54 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 13:08:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163240
+ https://lists.openembedded.org/g/openembedded-core/message/163253
 
---===============5400713523962025440==
+--===============6830923299525649798==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,122 +56,98 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bind* to *9.18.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *mtools* to *4.0.38* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mtools-upgrade-4.0.37-4.0.38.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe bind failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 843 .bb files complete (0 cached, 843 parsed). 1521 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.53.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-2c8f3be3a559158b1d475da1931a659dad5b9414"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2c8f3be3a559158b1d475da1931a659dad5b9414"
-workspace            = "master:2c8f3be3a559158b1d475da1931a659dad5b9414"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-Loading cache...done.
-Loaded 1521 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 844 .bb files complete (842 cached, 2 parsed). 1522 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.53.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.4+snapshot-2c8f3be3a559158b1d475da1931a659dad5b9414"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2c8f3be3a559158b1d475da1931a659dad5b9414"
-workspace            = "master:2c8f3be3a559158b1d475da1931a659dad5b9414"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 0 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   3% |#                                   | ETA:  0:00:02
-Adding changed files:   6% |##                                  | ETA:  0:00:01
-Adding changed files:   9% |###                                 | ETA:  0:00:01
-Adding changed files:  13% |####                                | ETA:  0:00:00
-Adding changed files:  16% |#####                               | ETA:  0:00:00
-Adding changed files:  19% |#######                             | ETA:  0:00:00
-Adding changed files:  23% |########                            | ETA:  0:00:00
-Adding changed files:  26% |#########                           | ETA:  0:00:00
-Adding changed files:  29% |##########                          | ETA:  0:00:00
-Adding changed files:  32% |###########                         | ETA:  0:00:00
-Adding changed files:  36% |#############                       | ETA:  0:00:00
-Adding changed files:  39% |##############                      | ETA:  0:00:00
-Adding changed files:  42% |###############                     | ETA:  0:00:00
-Adding changed files:  46% |################                    | ETA:  0:00:00
-Adding changed files:  49% |#################                   | ETA:  0:00:00
-Adding changed files:  52% |##################                  | ETA:  0:00:00
-Adding changed files:  55% |####################                | ETA:  0:00:00
-Adding changed files:  59% |#####################               | ETA:  0:00:00
-Adding changed files:  62% |######################              | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  69% |########################            | ETA:  0:00:00
-Adding changed files:  72% |##########################          | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.isc.org/isc/bind9/9.18.0/bind-9.18.0.tar.xz...
-INFO: Rebasing devtool onto dcc63f09f4acd2d4bc684a2bbbcae39f856f363c
-WARNING: Command 'git rebase dcc63f09f4acd2d4bc684a2bbbcae39f856f363c' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/bind
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/bind/bind_9.18.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5400713523962025440==--
+--===============6830923299525649798==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mtools: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools: SRC_URI changed from "https://ftp.gnu.org/gnu/mtools/mtools-4.0.37.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch" to "https://ftp.gnu.org/gnu/mtools/mtools-4.0.38.tar.bz2 file://mtools-makeinfo.patch file://clang_UNUSED.patch"
+packages/core2-32-poky-linux/mtools: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-dbg: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-dbg: PKGSIZE changed from 727452 to 727496 (+0%)
+packages/core2-32-poky-linux/mtools/mtools-dev: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-dev: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-doc: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-doc: PKGSIZE changed from 241789 to 241778 (-0%)
+packages/core2-32-poky-linux/mtools/mtools-locale: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-locale: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-src: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-src: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools-src: PKGSIZE changed from 592250 to 592300 (+0%)
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools-staticdev: PV changed from "4.0.37" to "4.0.38"
+packages/core2-32-poky-linux/mtools/mtools: PKGV changed from 4.0.37 [default] to 4.0.38 [default]
+packages/core2-32-poky-linux/mtools/mtools: PV changed from "4.0.37" to "4.0.38"
+
+--===============6830923299525649798==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-mtools-upgrade-4.0.37-4.0.38.patch"
+
+From 7fdaccf54ea3e8881f75d834dedaacb8d77d7239 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Mar 2022 07:38:07 +0000
+Subject: [PATCH] mtools: upgrade 4.0.37 -> 4.0.38
+
+---
+ .../mtools/mtools/disable-hardcoded-configs.patch               | 2 +-
+ .../mtools/{mtools_4.0.37.bb => mtools_4.0.38.bb}               | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.37.bb => mtools_4.0.38.bb} (93%)
+
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index 6185f4d19f..25ee2b74b5 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+@@ -1,4 +1,4 @@
+-From a5076415ed2c226ca7115d27e0ce51a8a0302090 Mon Sep 17 00:00:00 2001
++From 142f40b80ea908831ef7a4d694cec6a5985a0724 Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.37.bb b/meta/recipes-devtools/mtools/mtools_4.0.38.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.37.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.38.bb
+index 3e072b0d93..dc2b9f8794 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.37.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.38.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "799b197e23e47b61259628810b27790efb7a1fe36037ef1da8a27b0ae4fa8342"
++SRC_URI[sha256sum] = "7b94485f486e7df08cca68b00a164a13cd38f4c63cb8684d188759ee7bc5e729"
+ 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
+-- 
+2.27.0
+
+
+--===============6830923299525649798==--
 
