@@ -1,45 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <76692ee072570c7187bacc8751343475baba74b6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] meson.bbclass: add exe_wrapper helper
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 14 Mar 2022 23:23:56 +0000
-In-Reply-To: <CANPvuRkcqN9XiQRmO=tYh4B_XFgecwU4SQvotOTaAvA+9DzLVg@mail.gmail.com>
-References: <20220312154011.499012-1-quaresma.jose@gmail.com>
-	 <c2bf5b0dc76b78ce72d54b8d0a7bee40c0512f4f.camel@linuxfoundation.org>
-	 <CANPvuRkcqN9XiQRmO=tYh4B_XFgecwU4SQvotOTaAvA+9DzLVg@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Subject: [PATCH v4] qemu: Fix build on ppc64
+Date: Mon, 14 Mar 2022 19:00:44 -0700
+Message-Id: <20220315020044.847866-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On Mon, 2022-03-14 at 23:14 +0000, Jose Quaresma wrote:
-> 
-> 
-> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia sábado,
-> 12/03/2022 à(s) 17:11:
-> > On Sat, 2022-03-12 at 15:40 +0000, Jose Quaresma wrote:
-> > > 
-> > > +do_write_config:class-target[vardeps] += "MESON_QEMU_WRAPPER_HELPER"
-> > 
-> > You can't use overrides with flags like that, I'm surprised that even
-> > parses!
-> > 
-> 
-> 
-> I will drop this line because my intention is to rerun the do_write_config
-> when
-> the content of the file changes, which is not possible at all.
-> 
-> I will take the opportunity to ask if the following would work?
-> do_write_config[vardeps]:class-target += "MESON_QEMU_WRAPPER_HELPER"
+add a missing system include
 
-No, that won't work either.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+v2: Use upstream submitted patch
+v3: Missed
+v4: Update upstreamed patch to its v3
 
-Cheers,
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...ptrace.h-for-pt_regs-struct-definiti.patch | 92 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
 
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 86bf2c1016f..216af037a66 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -28,6 +28,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
+            file://0001-riscv-Set-5.4-as-minimum-kernel-version-for-riscv32.patch \
+            file://0001-acpi-tpm-Add-missing-device-identification-objects.patch \
++           file://0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
+new file mode 100644
+index 00000000000..e8e42007dfe
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-ppc-Include-asm-ptrace.h-for-pt_regs-struct-definiti.patch
+@@ -0,0 +1,92 @@
++From 91e15627fd05d5a59fd2b88bc5c3491d3e0b56b0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 14 Mar 2022 09:58:21 -0700
++Subject: [PATCH] ppc: Include asm/ptrace.h for pt_regs struct definition
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Fixes
++../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: incomplete definition of type 'struct pt_regs'
++    return uc->uc_mcontext.regs->nip;
++           ~~~~~~~~~~~~~~~~~~~~^
++
++Upstream-Status: Submitted [https://patchwork.kernel.org/project/qemu-devel/patch/20220314170223.554679-1-raj.khem@gmail.com/]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Peter Maydell <peter.maydell@linaro.org>
++Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
++Cc: Richard Henderson <richard.henderson@linaro.org>
++---
++ linux-user/include/host/ppc/host-signal.h | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++--- a/linux-user/host/ppc/host-signal.h
+++++ /dev/null
++@@ -1,30 +0,0 @@
++-/*
++- * host-signal.h: signal info dependent on the host architecture
++- *
++- * Copyright (c) 2003-2005 Fabrice Bellard
++- * Copyright (c) 2021 Linaro Limited
++- *
++- * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++- * See the COPYING file in the top-level directory.
++- */
++-
++-#ifndef PPC_HOST_SIGNAL_H
++-#define PPC_HOST_SIGNAL_H
++-
++-static inline uintptr_t host_signal_pc(ucontext_t *uc)
++-{
++-    return uc->uc_mcontext.regs->nip;
++-}
++-
++-static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++-{
++-    uc->uc_mcontext.regs->nip = pc;
++-}
++-
++-static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++-{
++-    return uc->uc_mcontext.regs->trap != 0x400
++-        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
++-}
++-
++-#endif
++--- a/linux-user/host/ppc64/host-signal.h
+++++ b/linux-user/host/ppc64/host-signal.h
++@@ -1 +1,32 @@
++-#include "../ppc/host-signal.h"
+++/*
+++ * host-signal.h: signal info dependent on the host architecture
+++ *
+++ * Copyright (c) 2003-2005 Fabrice Bellard
+++ * Copyright (c) 2021 Linaro Limited
+++ *
+++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+++ * See the COPYING file in the top-level directory.
+++ */
+++
+++#ifndef PPC_HOST_SIGNAL_H
+++#define PPC_HOST_SIGNAL_H
+++
+++#include <asm/ptrace.h>
+++
+++static inline uintptr_t host_signal_pc(ucontext_t *uc)
+++{
+++    return uc->uc_mcontext.gp_regs[PT_NIP];
+++}
+++
+++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
+++{
+++    uc->uc_mcontext.gp_regs[PT_NIP] = pc;
+++}
+++
+++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+++{
+++    return uc->uc_mcontext.gp_regs[PT_TRAP] != 0x400
+++        && (uc->uc_mcontext.gp_regs[PT_DSISR] & 0x02000000);
+++}
+++
+++#endif
+-- 
+2.35.1
 
