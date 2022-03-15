@@ -1,66 +1,105 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <a.fatoum@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2122C4332F
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 16:23:49 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.13305.1647361428616082709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFD9C433EF
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 17:24:07 +0000 (UTC)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web12.13846.1647365045230470613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 09:23:48 -0700
+ Tue, 15 Mar 2022 10:24:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F6EF1474
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 09:23:48 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D33803F766
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 09:23:47 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: afa@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <afa@pengutronix.de>)
+	id 1nUAtu-0007mM-Ev; Tue, 15 Mar 2022 18:24:02 +0100
+Received: from afa by dude.hi.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <afa@pengutronix.de>)
+	id 1nUAtt-000umw-Bo; Tue, 15 Mar 2022 18:24:01 +0100
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto: remove redundant devupstream assignments
-Date: Tue, 15 Mar 2022 16:23:45 +0000
-Message-Id: <20220315162345.613041-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220315162345.613041-1-ross.burton@arm.com>
-References: <20220315162345.613041-1-ross.burton@arm.com>
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: [OE-core][PATCH] kernel-fitimage: allow overriding FIT configuration
+ prefix
+Date: Tue, 15 Mar 2022 18:23:53 +0100
+Message-Id: <20220315172352.217149-1-a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 16:23:49 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 17:24:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163307
+ https://lists.openembedded.org/g/openembedded-core/message/163308
 
-These are set by devupstream, so they don't need to be set in the recipe.
+The prefix was recently changed to play ball with the CVE-2021-27138
+workaround in U-Boot. Already deployed bootloaders though may still
+expect a configuration name containing @ or they may not be affected
+by this issue.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Also, uses may want to customize it beyond the [@-] issue: When
+device trees are built from a recipe using kernel-devicetree.bbclass
+the configuration nodes will contain the parent directories, e.g.
+
+KERNEL_DEVICETREE = "freescale/imx8mm-myboard.dtb"
+
+will become "conf-freescale_imx8mm-myboard.dtb". When moving to
+devicetree.bbclass, this prefix go away. With this change here,
+users can restore it easily by setting FIT_CONF_PREFIX =
+"conf-freescale_", ensuring backwards compatibility.
+
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/kernel-fitimage.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes=
--kernel/linux/linux-yocto_5.15.bb
-index 9a147023e8..6965df13bb 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -30,7 +30,6 @@ SRCREV_meta ?=3D "ea948a0983d7b7820814e5bce4eda3079201b=
-d95"
- # meta SRCREV as the linux-yocto-standard builds. Select your version us=
-ing the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND =3D "devupstream:target"
--DEFAULT_PREFERENCE:class-devupstream =3D "-1"
- SRCREV_machine:class-devupstream ?=3D "8993e6067f263765fd26edabf3e3012e3=
-ec4d81e"
- PN:class-devupstream =3D "linux-yocto-upstream"
- KBRANCH:class-devupstream =3D "v5.15/base"
---=20
-2.25.1
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index c16977c477eb..8a9b195d6ee2 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -64,6 +64,9 @@ FIT_DESC ?= "Kernel fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+ # Sign individual images as well
+ FIT_SIGN_INDIVIDUAL ?= "0"
+ 
++FIT_CONF_PREFIX ?= "conf-"
++FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
++
+ # Keys used to sign individually image nodes.
+ # The keys to sign image nodes must be different from those used to sign
+ # configuration nodes, otherwise the "required" property, from
+@@ -358,7 +361,7 @@ fitimage_emit_section_config() {
+ 	# Test if we have any DTBs at all
+ 	sep=""
+ 	conf_desc=""
+-	conf_node="conf-"
++	conf_node="${FIT_CONF_PREFIX}"
+ 	kernel_line=""
+ 	fdt_line=""
+ 	ramdisk_line=""
+@@ -407,9 +410,9 @@ fitimage_emit_section_config() {
+ 		# default node is selected based on dtb ID if it is present,
+ 		# otherwise its selected based on kernel ID
+ 		if [ -n "$dtb_image" ]; then
+-			default_line="default = \"conf-$dtb_image\";"
++			default_line="default = \"${FIT_CONF_PREFIX}$dtb_image\";"
+ 		else
+-			default_line="default = \"conf-$kernel_id\";"
++			default_line="default = \"${FIT_CONF_PREFIX}$kernel_id\";"
+ 		fi
+ 	fi
+ 
+-- 
+2.30.2
 
 
