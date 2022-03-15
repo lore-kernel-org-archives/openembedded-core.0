@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F10C2C352A7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2BC0C35296
 	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 13:08:56 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com
  (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.10592.1647349735317736642
+ by mx.groups.io with SMTP id smtpd.web09.10486.1647349734701737647
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Mar 2022 06:08:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FKDKhFC1;
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=es4H1s/8;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 0101017f8db21c53-cf64f771-4852-4a69-97b7-e95a284ddc2e-000000@us-west-2.amazonses.com)
+ mailfrom: 0101017f8db21c1a-7231ff51-b979-4217-bac1-79e1e3bbba5d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1647349734;
+	t=1647349735;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VLUgySSfxnQld0dNew2EYbVqmstzq+s/XGcjsn12j2c=;
-	b=FKDKhFC1TPtUNcVdWQp6hxn/iak31QmPyOFuBZh8bcUaK3WPheqmetsqlPaNyBvv
-	8fgg3URTVf00UF4uNaaxqfwoYFgISbuzX4V+NnriJoDuUpydRyebChTqzHh3Jxnq4jg
-	nWfHWuIYnO/t7+Rzk64RcL71xUpqVr0pEJ316vdQ=
+	bh=UZNufCMMBTAjBShomHLoEljSqzDBXiKcGU1r/dBEDyA=;
+	b=es4H1s/8836PcXrVpcS4XCIiRxUHX8Cg0X5qRYglCgvWoO60+P/b8DifbVeoxcLt
+	oKWFMfrrVGTgVlf0iXh8s4FLtqnrNTS4GUx58xhDRs9SXjevui6wKtyAa6EJ+8VTxBd
+	Kns5cXcmDi5nCxXphKQt+mfu7OYBAc2ADqmegZOc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349734;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1647349735;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VLUgySSfxnQld0dNew2EYbVqmstzq+s/XGcjsn12j2c=;
-	b=Cwfb8FeB9MK5e1/EM8U4WoUrgfY3K7FDLg04n4SNrUXJHmezSyz/EAEaDECQ1r06
-	44zGiN1gqOF99v1S/x7gpk24WIVgitwsiBUXCs1W4zXOZ9n2F9dJXyfjm7sPBFKY2VH
-	x6DD2hidpvTjmvMj1BuvGBjJ16gt+iU5+Va+S46U=
-Content-Type: multipart/mixed; boundary="===============3894578071172086501=="
+	bh=UZNufCMMBTAjBShomHLoEljSqzDBXiKcGU1r/dBEDyA=;
+	b=QC1WAFroXBj0h0u941xdHoSyJAkp0yO1I3y4ZuNbBbesPVK7SuuT/tjO67KS0hfU
+	SRvvvRKb8jvImtf0/B7HHp0XNtvSzaUzmiIS1J/YgIAjoBtXsH/DzCuosN/8y+2Svfv
+	AImhQ6I9vL7nFGpsLxIW7T3dGP+txjLo3cg6cAB4=
+Content-Type: multipart/mixed; boundary="===============7703793472538728584=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Zang Ruochen <zangrc.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest: upgrading to 7.1.0 SUCCEEDED
+Subject: [AUH] python3-pip: upgrading to 22.0.4 SUCCEEDED
 Message-ID: 
- <0101017f8db21c53-cf64f771-4852-4a69-97b7-e95a284ddc2e-000000@us-west-2.amazonses.com>
+ <0101017f8db21c1a-7231ff51-b979-4217-bac1-79e1e3bbba5d-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Mar 2022 13:08:54 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 13:08:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163260
+ https://lists.openembedded.org/g/openembedded-core/message/163264
 
---===============3894578071172086501==
+--===============7703793472538728584==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytest* to *7.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pip* to *22.0.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-upgrade-7.0.1-7.1.0.patch
+    - apply the patch: git am 0001-python3-pip-upgrade-22.0.3-22.0.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,83 +75,125 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3894578071172086501==
+--===============7703793472538728584==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pytest: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.0.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.1.0.tar.gz"
-packages/core2-32-poky-linux/python3-pytest: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dbg: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-dev: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-doc: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-locale: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-src: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest-staticdev: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGV changed from 7.0.1 [default] to 7.1.0 [default]
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PV changed from "7.0.1" to "7.1.0"
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 1886001 to 1882701 (-0%)
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pytest-7.0.1.dist-info -> /usr/lib/python3.10/site-packages/pytest-7.1.0.dist-info, removed "/usr/lib/python3.10/site-packages/pytest/__pycache__/collect.cpython-310.pyc /usr/lib/python3.10/site-packages/pytest/collect.py"
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.10/site-packages/pytest-7.0.1.dist-info moved to /usr/lib/python3.10/site-packages/pytest-7.1.0.dist-info
-  /usr/lib/python3.10/site-packages/pytest/collect.py was removed
-  /usr/lib/python3.10/site-packages/pytest/__pycache__/collect.cpython-310.pyc was removed
+packages/core2-32-poky-linux/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.3.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.4.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch"
+packages/core2-32-poky-linux/python3-pip: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.1
+ 0/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 12183249 to 12431887 (+2%)
+packages/core2-32-poky-linux/python3-pip/python3-pip: PV changed from "22.0.3" to "22.0.4"
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+Changes to packages/x86_64-linux/python3-pip-native (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
 
---===============3894578071172086501==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-pytest-upgrade-7.0.1-7.1.0.patch"
-
-From c6b5f6c1e68c0cdeade19552aca32f382b8382bd Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Mar 2022 08:20:06 +0000
-Subject: [PATCH] python3-pytest: upgrade 7.0.1 -> 7.1.0
-
----
- .../python/{python3-pytest_7.0.1.bb => python3-pytest_7.1.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest_7.0.1.bb => python3-pytest_7.1.0.bb} (93%)
-
-diff --git a/meta/recipes-devtools/python/python3-pytest_7.0.1.bb b/meta/recipes-devtools/python/python3-pytest_7.1.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-pytest_7.0.1.bb
-rename to meta/recipes-devtools/python/python3-pytest_7.1.0.bb
-index ea6ba80300..2be78761dc 100644
---- a/meta/recipes-devtools/python/python3-pytest_7.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_7.1.0.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
- 
--SRC_URI[sha256sum] = "e30905a0c131d3d94b89624a1cc5afec3e0ba2fbdb151867d8e0ebd49850f171"
-+SRC_URI[sha256sum] = "f1089d218cfcc63a212c42896f1b7fbf096874d045e1988186861a1a87d27b47"
- 
- DEPENDS += "python3-setuptools-scm-native"
- 
--- 
-2.27.0
-
-
---===============3894578071172086501==
+--===============7703793472538728584==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pytest-7.0.1.dist-info -> /usr/lib/python3.10/site-packages/pytest-7.1.0.dist-info, removed "/usr/lib/python3.10/site-packages/pytest/collect.py /usr/lib/python3.10/site-packages/pytest/__pycache__/collect.cpython-310.pyc"
-Changes to packages/core2-32-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.10/site-packages/pytest-7.0.1.dist-info moved to /usr/lib/python3.10/site-packages/pytest-7.1.0.dist-info
-  /usr/lib/python3.10/site-packages/pytest/collect.py was removed
-  /usr/lib/python3.10/site-packages/pytest/__pycache__/collect.cpython-310.pyc was removed
+packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc /usr/lib/python3.1
+ 0/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py"
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+Changes to packages/x86_64-linux/python3-pip-native (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
 
---===============3894578071172086501==--
+--===============7703793472538728584==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-pip-upgrade-22.0.3-22.0.4.patch"
+
+From f4acf86f002551258090f0093c5e670013b4a32d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Mar 2022 08:17:23 +0000
+Subject: [PATCH] python3-pip: upgrade 22.0.3 -> 22.0.4
+
+---
+ .../python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb} (94%)
+
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-pip_22.0.3.bb
+rename to meta/recipes-devtools/python/python3-pip_22.0.4.bb
+index bfeeee789c..a8027845d4 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
+@@ -16,7 +16,7 @@ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ SRC_URI += "file://no_shebang_mangling.patch"
+ SRC_URI += "file://reproducible.patch"
+ 
+-SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
++SRC_URI[sha256sum] = "b3a9de2c6ef801e9247d1527a4b16f92f2cc141cd1489f3fffaf6a9e96729764"
+ 
+ do_install:class-native() {
+     python_pep517_do_bootstrap_install
+-- 
+2.27.0
+
+
+--===============7703793472538728584==--
 
