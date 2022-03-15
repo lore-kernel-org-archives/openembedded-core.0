@@ -1,169 +1,106 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43868C433EF
-	for <webhook@archiver.kernel.org>; Mon, 14 Mar 2022 23:53:00 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web08.4147.1647301979509936549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2808DC433EF
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 00:10:04 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web12.4369.1647303002646374395
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 16:52:59 -0700
+ Mon, 14 Mar 2022 17:10:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B9IpVtr6;
- spf=pass (domain: gmail.com, ip: 209.85.208.172,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id u7so24201855ljk.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=A3rjFMPj;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id n11so9010409qtk.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Mar 2022 16:52:59 -0700 (PDT)
+ Mon, 14 Mar 2022 17:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zS4F0AxoPPzxyhkzgucIA18YtA5F26gp3GvsPSYRlZk=;
-        b=B9IpVtr6WsLncfOoT2whWI9xj+N0kQbzBvORyHy/ZbPEXH8jAyMS72LiupibEZEliK
-         EWoIdu7MQ6hAohBuBQrDgy4qVsWEKjgkGhmNN2/Zj3ydhByTkCKvIgY13hqb2whu+U8z
-         DxSDiXcVOVhN4AQdYSsjmefKoti82SVgfeSACheIzLPjLCoH9JIvibIqSoWo9ZoosFue
-         XdSgqDF0kVbbF31/zP1hgX218X9MTDaJ5ZFa+i55LiTxorRod6Ao2iSIsnIz5l6Bz2Re
-         D2eh5MYCAVbPfYG+ILKO4GLdzIDOMAWh3VF72eUa3kwNxQk1owAl3kxfQ5xU0LQ+qucg
-         Nf2w==
+        bh=RWqYRIZfdl5MZT++pJmVcGtE3m6jKbA4nar1LpVipeA=;
+        b=A3rjFMPjR/VLUJjddiUFO1LfkXwLiZnKW5Jm8DN5g70eW/yWfxISokphtWB2WciWWo
+         xyh9KXj08ARRrtXvIAPCg/05BLdNO2Np7+SdP5Dp0Jg2wJ5smySj6iuvuu7HfzZOu1FW
+         1jnPomQtdM7jjG9Sd6oF9mLuc32LXren9d8Q4hUM55lG6yDI6ytorrq+Xv9wmqTiUrYy
+         e6unj3m+h1gSyf5Ds+DHQNFk5ZEA5Y0pyPOk4UrTlLCNc0A+F3psct+Vc+hs4hthy+oc
+         g3ruJD2F0lfrYZG5q+69nK7g3nLy+M+NR3tViUJW/1rk/S3XVCjuqBFarZlTiJpcqpth
+         uQvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zS4F0AxoPPzxyhkzgucIA18YtA5F26gp3GvsPSYRlZk=;
-        b=ybQg2tWXei27euC21pWVimGDBmpBle8lTgrqDnTqoUVr6FtBrjbpPS5nUlCRlO+AQr
-         /66EB47FXIgAbcAHRd2kFc4U2XSMYcTPcTBlM9N3GZG5BXq/M1nCPZOcry/emkSs20m7
-         S8aWysIK3bhU296+rBzbWvvest5+Lz/3Gww95SSfiFRb+5J4MyXUmmKDEjEr0XPFVtpo
-         OBmBNyWEl6PJc31scF+ctly98aAqoB6zAfVa2aQGHLdqea32YgQ6Whbfd8X8atJfJRbs
-         Vz9OpPgLsRDergFFmMYu+85y6ZZELr10KGmoJMZghAen0fLqtIsYjRSiSFN2QPkpsDrh
-         GuzQ==
-X-Gm-Message-State: AOAM532SUy1eHr0B5aC9n8toLLmnjK3nmZBP9aWGJAJSUXsqB4qcmCEP
-	nYUo60XbpQfljuuy22ffJ8YfdCUtxyIQcDqwSo4=
+        bh=RWqYRIZfdl5MZT++pJmVcGtE3m6jKbA4nar1LpVipeA=;
+        b=vTvNNeDwyEU+JnHzqBWj+dTBnAA7JNBT4gN1yt2sMVHSKZQTONDovhkOF2YbjoWjKW
+         O/ZOhOxpt2QEUMcOVFh01IjbuEBlPWE/KqyUvCdVPHsRhONfuf7rPLPBodsqRSi2BTfG
+         gdoObi+otz5cZsSumpKiLkmQ2t2FFNarse7NH2/Tg6zDuPzNgAT0L3Ri6BvjKjj6pZqD
+         kjmIcFvKunuJynNPMNyc9DxkrDEZiFdkZVay9GOAGDS/TWUx9NkN9Aix8rL7O8rtAC8V
+         eRQ4+kOQzhLbaJkoE7zZhpF9Q0BsLbJ8tzzOYzr2oOCnfsqxWKE6w8joHKQpfCd9AyJN
+         u6Hg==
+X-Gm-Message-State: AOAM533i7RT7i0uT6Wnfa/BXQZQn6JZqUSmHwVpmzQGpQWyw1p6PnwFI
+	oPkc94ii0RK8iCV9cHC4UyJcAAnm3MvQZo+P1Mw=
 X-Google-Smtp-Source: 
- ABdhPJyhDfZJZbBQh6viuxCONWaAApACcwYqS5OAo29vTfmubKFfwtsKO48h2a/n7hBqTnHFUe79y659ySwI/kx0/vI=
-X-Received: by 2002:a2e:2f0e:0:b0:246:1a59:8f04 with SMTP id
- v14-20020a2e2f0e000000b002461a598f04mr16137017ljv.409.1647301977735; Mon, 14
- Mar 2022 16:52:57 -0700 (PDT)
+ ABdhPJwZkYMn+mc18RWmOMtisFfXfzqTuFvikyPW1gGtGCUg2OvH97Uct2a7AAd5aZWyd8t3RzwZ5iEfNiJq/7UauOQ=
+X-Received: by 2002:ac8:5842:0:b0:2e1:aa10:e7cd with SMTP id
+ h2-20020ac85842000000b002e1aa10e7cdmr19878378qth.330.1647303001656; Mon, 14
+ Mar 2022 17:10:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220312154011.499012-1-quaresma.jose@gmail.com>
- <c2bf5b0dc76b78ce72d54b8d0a7bee40c0512f4f.camel@linuxfoundation.org>
- <CANPvuRkcqN9XiQRmO=tYh4B_XFgecwU4SQvotOTaAvA+9DzLVg@mail.gmail.com>
- <76692ee072570c7187bacc8751343475baba74b6.camel@linuxfoundation.org>
+References: <16DC60EA44823A9F.11325@lists.openembedded.org>
+ <426ed1452a5cc0c052c0218ce4865bf935e4aac1.camel@linuxfoundation.org>
 In-Reply-To: 
- <76692ee072570c7187bacc8751343475baba74b6.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 14 Mar 2022 23:52:46 +0000
+ <426ed1452a5cc0c052c0218ce4865bf935e4aac1.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 14 Mar 2022 17:09:35 -0700
 Message-ID: 
- <CANPvuRkrKtncQTj=neY0qAFhKuoa6h_kGhJb1kc7b42vDe0s6w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meson.bbclass: add exe_wrapper helper
+ <CAMKF1soQUjMeTOvKdfXQYjO93f5ZSx3MKAxhsJLO05dcgdDZ-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/33] Add python3-cryptography from meta-oe
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003883ec05da366168"
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Tim Orling <tim.orling@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Mar 2022 23:53:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 00:10:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163217
+ https://lists.openembedded.org/g/openembedded-core/message/163218
 
---0000000000003883ec05da366168
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+we need to remove all of them from meta-python too.
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-segunda, 14/03/2022 =C3=A0(s) 23:24:
-
-> On Mon, 2022-03-14 at 23:14 +0000, Jose Quaresma wrote:
-> >
-> >
-> > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-> s=C3=A1bado,
-> > 12/03/2022 =C3=A0(s) 17:11:
-> > > On Sat, 2022-03-12 at 15:40 +0000, Jose Quaresma wrote:
-> > > >
-> > > > +do_write_config:class-target[vardeps] +=3D "MESON_QEMU_WRAPPER_HEL=
-PER"
-> > >
-> > > You can't use overrides with flags like that, I'm surprised that even
-> > > parses!
-> > >
-> >
-> >
-> > I will drop this line because my intention is to rerun the
-> do_write_config
-> > when
-> > the content of the file changes, which is not possible at all.
-> >
-> > I will take the opportunity to ask if the following would work?
-> > do_write_config[vardeps]:class-target +=3D "MESON_QEMU_WRAPPER_HELPER"
+On Mon, Mar 14, 2022 at 3:54 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> No, that won't work either.
+> It is late in the cycle but is has become apparent that the dependencies we're
+> weaving with layers and meta-arm was reaching a point where it wasn't working
+> well for anyone. BSPs and hardware layers needing to pull in meta-oe/meta-python
+> isn't a good situation. Whilst late, it does seem better to sort this now before
+> the LTS ships rather than live with it for much longer.
 >
-
-Thanks
-
-
+> This series brings in python3-cryptography and it's dependencies to OE-Core,
+> bringing everything to the standard needed (maintainers entries, homepages,
+> reproducibility), tweaks to match the recent python changes and some ptest
+> fixes.
+>
+> It also namespaces the classes with a python_ prefix since this makes it much
+> more obvious in core what area of the system the classes belong to.
 >
 > Cheers,
 >
 > Richard
 >
 >
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000003883ec05da366168
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia segunda, 14/03/2022 =C3=A0(s) 23:24:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On Mon, 2022-03-14 at 23:14 +0000,=
- Jose Quaresma wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
-g" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu no=
- dia s=C3=A1bado,<br>
-&gt; 12/03/2022 =C3=A0(s) 17:11:<br>
-&gt; &gt; On Sat, 2022-03-12 at 15:40 +0000, Jose Quaresma wrote:<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; +do_write_config:class-target[vardeps] +=3D &quot;MESON_QEMU=
-_WRAPPER_HELPER&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; You can&#39;t use overrides with flags like that, I&#39;m surpris=
-ed that even<br>
-&gt; &gt; parses!<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; I will drop this line because my intention is to rerun the do_write_co=
-nfig<br>
-&gt; when<br>
-&gt; the content of the file changes, which is not possible at all.<br>
-&gt; <br>
-&gt; I will take the opportunity to ask if the following would work?<br>
-&gt; do_write_config[vardeps]:class-target=C2=A0+=3D &quot;MESON_QEMU_WRAPP=
-ER_HELPER&quot;<br>
-<br>
-No, that won&#39;t work either.<br></blockquote><div><br></div><div>Thanks<=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000003883ec05da366168--
+>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163200): https://lists.openembedded.org/g/openembedded-core/message/163200
+> Mute This Topic: https://lists.openembedded.org/mt/89786369/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
