@@ -2,78 +2,80 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2788C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF41C433FE
 	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 11:22:49 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web11.9583.1647343367828150677
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web10.9662.1647343368150862462
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 04:22:48 -0700
+ Tue, 15 Mar 2022 04:22:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=IwuYL5D0;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
+ header.s=170520fj header.b=A6qypl8G;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1647343366; i=@fujitsu.com;
-	bh=rTKHKQJJNNB0dUZSDKf5wfvz43I8ZwJbBr+DqQjLDyE=;
+	bh=6Xk6c94+l+ArDFUTNC586752mZ2s4xNJeWFGVd8vQFQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=IwuYL5D0e1BqzcJjAs11oGQmjGjyaafXPLCF8u0nF95XORkAxlJApdxQcrg0VDlrD
-	 T8sU+OJQGnpMvoW1B2XEoA2I5D3C7kY4FXoJMexBrq3w3ZFHxXbZ3aestH484v/EGJ
-	 7HVvAR8AisdSPF1EgMYKJmQEkvX5/oOpLHAehIwU+nTc71zD54MeuzGpYkMxKlIgqv
-	 9Ag6RFUXzXyX48gxA6s3qK+30Upc6GKg0ngd+dhHW9JkbCbjEcctN62MaRjXKdP/he
-	 Xi8IICCkh+oAogR5rzsoNfEgcNkMa3frErdpKBNExghaIUbrxv92buJYsvbZr2m8BP
-	 KjaGGOF7ZKyYg==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	b=A6qypl8G3qxYl0ZUTHHhMAh+Q6reNQmkgU06fucvV6yfqeeUSwZ2sMx1hEa9+h7RZ
+	 6rvtpB6CyV5kjFeJIUXQ5Jtj9jRZNYnqHUs0JKsfFxQ43T2uctGGNgQV8QuRStUW5A
+	 5pxPVdRC07Kx69+81XwApJMEy1PIROTJOw4xQtYC0IOIyKDRx5Z17TdHA13vEuxMNq
+	 vJbB41M11/iNW8v1ZWuV29ewPubWa4Ng4IyT1E3ytCUApLNvlsamNNhvZCL1pj0oo7
+	 E43SOB1QbTvOoTNBnwrnbMdn9lal4tZ5uYhSlfxuvs4B4766zILzovFG8HSFIgYinI
+	 R5lKUPOIr7P9w==
 X-Brightmail-Tracker: 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
-  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
+  JYO42K4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPjk7ksBR3yFS/2xDQwfpDqYuTkEBJ4zCix
+  aJd+FyMXkH2eSeL326lsEM4JRonlR46wg1SxCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
+  WAlwgJWEpuO9rCA2CwCqhLdX9+zgdi8Ak4SM4/0M4LYEgIKElMevmcGsTkFnCUu33nICnGEk8
+  SNlnWsEPWCEidnPmGBmA8058hTJghbXqJ562xmiDmKErMvN7NA2BUSs2a1MUHYahJXz21insA
+  oNAvJqFlIRs1CMmoBI/MqRqukosz0jJLcxMwcXUMDA11DQ1NdA10jE2O9xCrdRL3UUt3y1OIS
+  XUO9xPJivdTiYr3iytzknBS9vNSSTYzAgE8pZvi8g3FB30+9Q4ySHExKorwsIgZJQnxJ+SmVG
+  YnFGfFFpTmpxYcYZTg4lCR4Y0uBcoJFqempFWmZOcDog0lLcPAoifC+BEnzFhck5hZnpkOkTj
+  EqSonzvgdJCIAkMkrz4NpgEX+JUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjCvWBnQFJ7MvBK
+  46a+AFjMBLZ4nrQeyuCQRISXVwJQ48cn1v9lSJnPv8fLbrClcE37mc5rWF1lTziWTdY6H3v/V
+  ue85ey7nxMUcnr3fLpktyIi+Gr2OT3uugFsyx1zONWsZlx7e/r9+68Hf1f1H5/w9p9eQqJmqr
+  zS1fHFGi5RZqWF0qfTf7pJN787t3HlM8Zaux9LSd50qjonWlxdYXc3UmS5xwPp67ce5vN4e65
+  iEGKYWsbD2yk99aPEy7KZ7kOzH4g/uUZkGhqmrbY/3ik4/8P+AutyO509qZ/0IeTqj3bjW8aj
+  mpkk7bs8LnmN5tcj1dOcpJvPAn8XP2o6s9ljn8mtlZ+4aPx2prM3eSzTF3WXsHE9Z690VD5yV
+  +WbPLfOT75Y++WFbv59BLlSJpTgj0VCLuag4EQCqsSgNcwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-10.tower-571.messagelabs.com!1647343365!6309!1
+X-Msg-Ref: server-7.tower-591.messagelabs.com!1647343365!10016!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.81.9; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5510 invoked from network); 15 Mar 2022 11:22:45 -0000
+Received: (qmail 21157 invoked from network); 15 Mar 2022 11:22:45 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-10.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-7.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 15 Mar 2022 11:22:45 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 1C5C010045E
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 3F44710034F
 	for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Mar 2022 11:22:45 +0000 (GMT)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 0AE3D100445
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 13F98100452
 	for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Mar 2022 11:22:45 +0000 (GMT)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Tue, 15 Mar 2022 11:22:34 +0000
+ (TLS) id 15.0.1497.28; Tue, 15 Mar 2022 11:22:41 +0000
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libdnf: upgrade  0.65.0 -> 0.66.0
-Date: Tue, 15 Mar 2022 19:22:17 +0800
-Message-ID: <1647343339-78926-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libuv: upgrade 1.43.0 -> 1.44.1
+Date: Tue, 15 Mar 2022 19:22:19 +0800
+Message-ID: <1647343339-78926-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1647343339-78926-1-git-send-email-wangmy@fujitsu.com>
 References: <1647343339-78926-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
@@ -83,214 +85,98 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 11:22:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163232
+ https://lists.openembedded.org/g/openembedded-core/message/163235
 
-0001-Add-WITH_TESTS-option.patch
-0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch
-removed since they're included in 0.66.0
+License-Update:
+the following message removed from LICENSE:
+android-ifaddrs.h, android-ifaddrs.c, copyright Berkeley Software Design
+Inc, Kenneth MacKay and Emergya (Cloud4all, FP7/2007-2013, grant agreement
+n=C2=B0 289016). Three clause BSD license.
 
-0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-modified for new version
-
-Changelog:
-=========
-Use rpmdbCookie from librpm, remove hawkey.Sack._rpmdb_version
-Fix handling transaction id in resolveTransactionItemReason (RhBug:2010259,2053014)
-Remove deprecated assertions (RhBug:2027383)
-Skip rich deps for autodetection of unmet dependencies (RhBug:2033130, 2048394)
-Increase required rpm version since we use rpmdbCookie()
+Changes since version 1.43.0:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+* process: simplify uv__write_int calls
+* macos: don't use thread-unsafe strtok()
+* process: fix hang after NOTE_EXIT
+* darwin: remove EPROTOTYPE error workaround
+* doc: fix v1.43.0 changelog entries
+* win: replace CRITICAL_SECTION+Semaphore with SRWLock
+* darwin: translate EPROTOTYPE to ECONNRESET
+* android: use libc getifaddrs()
+* unix: fix STATIC_ASSERT to check what it means to check
+* unix: ensure struct msghdr is zeroed in recvmmsg
+* test: test with maximum recvmmsg buffer
+* unix: don't allow too small thread stack size
+* bsd: ensure mutex is initialized
+* doc: add gengjiawen as maintainer
+* process: monitor for exit with kqueue on BSDs
+* test: fix flaky uv_fs_lutime test
+* build: fix cmake install locations
+* thread,win: fix C90 style nit
+* build: rename CFLAGS to AM_CFLAGS
+* doc/guide: update content and sample code
+* process,bsd: handle kevent NOTE_EXIT failure
+* test: remove flaky test ipc_closed_handle
+* darwin: bump minimum supported version to 10.15
+* win: return fractional seconds in uv_uptime()
+* build: export uv_a for cmake
+* loop: add pending work to loop-alive check
+* win: use GetTickCount64 for uptime again
+* win: restrict system DLL load paths
+* win,errors: remap ERROR_ACCESS_DENIED to UV_EACCES
+* bench: add 'uv_queue_work' ping-pong measurement
+* build: fix error C4146 on MSVC
+* test: fix benchmark-ping-udp
+* win,fs: consider broken pipe error a normal EOF
+* document the values of enum uv_stdio_flags
+* win,loop: add missing uv_update_time
+* win,fs: avoid closing an invalid handle
+* fix oopsie from
+* doc: clarify android api level
+* win: fix style nits [NFC]
+* test: fix flaky udp_mmsg test
+* test: fix ipc_send_recv_pipe flakiness
+* doc: checkout -> check out
+* core: change uv_get_password uid/gid to unsigned
+* hurd: unbreak build on GNU/Hurd
+* freebsd: use copy_file_range() in uv_fs_sendfile()
+* test: use closefd in runner-unix.c
+* Reland "macos: use posix_spawn instead of fork"
+* android: fix build error when no ifaddrs.h
+* unix,win: add uv_available_parallelism()
+* process: remove OpenBSD from kevent list
+* zos: fix build breakage
+* process: only use F_DUPFD_CLOEXEC if it is defined
+* win,poll: add the MSAFD GUID for AF_UNIX
+* unix: simplify uv__cloexec_fcntl()
+* doc: add secondary GPG ID for vtjnash
+* unix: remove uv__cloexec_ioctl()
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libdnf/0001-Add-WITH_TESTS-option.patch   | 49 -------------------
- ...or-both-libsolv-and-libsolvext-libdn.patch |  4 +-
- ...nly-if-documentation-is-actually-ena.patch | 42 ----------------
- ...ables-with-pkg-config-cmake-s-own-mo.patch | 10 ++--
- .../{libdnf_0.65.0.bb => libdnf_0.66.0.bb}    |  4 +-
- 5 files changed, 9 insertions(+), 100 deletions(-)
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
- delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch
- rename meta/recipes-devtools/libdnf/{libdnf_0.65.0.bb => libdnf_0.66.0.bb} (91%)
+ .../libuv/{libuv_1.43.0.bb =3D> libuv_1.44.1.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.43.0.bb =3D> libuv_1.44.1.bb} (84%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
-deleted file mode 100644
-index 607995a394..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 7d60d62b5c5374156703ca7262fb2f85ec5db119 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 6 Nov 2018 13:54:43 +0100
--Subject: [PATCH] Add WITH_TESTS option
--
--This makes a dependency on cppunit optional.
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1382]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- CMakeLists.txt               | 3 +++
-- python/hawkey/CMakeLists.txt | 2 ++
-- 2 files changed, 5 insertions(+)
--
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 9c6e1b2f..8599c540 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -33,6 +33,7 @@ option(WITH_MAN "Enables hawkey man page generation" ON)
-- option(WITH_ZCHUNK "Build with zchunk support" ON)
-- option(ENABLE_RHSM_SUPPORT "Build with Red Hat Subscription Manager support?" OFF)
-- option(ENABLE_SOLV_URPMREORDER "Build with support for URPM-like solution reordering?" OFF)
--+option(WITH_TESTS "Enables unit tests" ON)
-- 
-- 
-- # build options - debugging
--@@ -179,8 +180,10 @@ endif()
-- 
-- 
-- # build tests
--+IF (WITH_TESTS)
-- enable_testing()
-- add_subdirectory(tests)
--+ENDIF()
-- if(WITH_BINDINGS)
--     add_subdirectory(python/hawkey)
-- endif()
--diff --git a/python/hawkey/CMakeLists.txt b/python/hawkey/CMakeLists.txt
--index d9645346..84d17204 100644
----- a/python/hawkey/CMakeLists.txt
--+++ b/python/hawkey/CMakeLists.txt
--@@ -50,4 +50,6 @@ target_link_libraries(_hawkeymodule ${PYTHON_LIBRARY})
-- install(FILES __init__.py DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
-- install(TARGETS _hawkeymodule LIBRARY DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
-- 
--+IF (WITH_TESTS)
-- add_subdirectory(tests)
--+ENDIF()
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-index 10450defbe..c7b2af89d1 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-@@ -16,12 +16,12 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
- index b722d4fb..ce88b9e3 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -45,7 +45,7 @@ endif()
-+@@ -52,7 +52,7 @@ endif()
-  
-  # build dependencies
-  find_package(Gpgme REQUIRED)
- -PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
- +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
-  set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- find_package(OpenSSL REQUIRED)
-+
-  
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch
-deleted file mode 100644
-index 2d8213cc87..0000000000
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From b570c7f8bd089deec7da2b108aa789a27025a473 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 19 Nov 2019 13:46:09 +0100
--Subject: [PATCH] Look fo sphinx only if documentation is actually enabled
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/1383]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- docs/hawkey/CMakeLists.txt | 20 +++++++++++---------
-- 1 file changed, 11 insertions(+), 9 deletions(-)
--
--diff --git a/docs/hawkey/CMakeLists.txt b/docs/hawkey/CMakeLists.txt
--index 52cc35c6..63c7672f 100644
----- a/docs/hawkey/CMakeLists.txt
--+++ b/docs/hawkey/CMakeLists.txt
--@@ -2,15 +2,17 @@
-- # tell sphinx-build to do them both in one go:
-- 
-- 
---find_program(SPHINX_PROGRAM NAMES "sphinx-build-${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
---if(NOT EXISTS ${SPHINX_PROGRAM})
---    find_program(SPHINX_PROGRAM NAMES sphinx-build-${PYTHON_VERSION_MAJOR})
---endif()
---if(NOT EXISTS ${SPHINX_PROGRAM})
---    find_program(SPHINX_PROGRAM NAMES sphinx-build)
---endif()
---if(NOT EXISTS ${SPHINX_PROGRAM})
---    message(FATAL_ERROR "Sphinx program not found." )
--+if (WITH_HTML OR WITH_MAN)
--+    find_program(SPHINX_PROGRAM NAMES "sphinx-build-${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
--+    if(NOT EXISTS ${SPHINX_PROGRAM})
--+        find_program(SPHINX_PROGRAM NAMES sphinx-build-${PYTHON_VERSION_MAJOR})
--+    endif()
--+    if(NOT EXISTS ${SPHINX_PROGRAM})
--+        find_program(SPHINX_PROGRAM NAMES sphinx-build)
--+    endif()
--+    if(NOT EXISTS ${SPHINX_PROGRAM})
--+        message(FATAL_ERROR "Sphinx program not found." )
--+    endif()
-- endif()
-- 
-- if(WITH_HTML)
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-index 475c8f120b..9adb345b68 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-@@ -7,22 +7,24 @@ Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.43.0.bb b/meta/recipes-connectivity/libuv/libuv_1.44.1.bb
+similarity index 84%
+rename from meta/recipes-connectivity/libuv/libuv_1.43.0.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.44.1.bb
+index 4ae4262fb9..4c96d80a65 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.43.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.44.1.bb
+@@ -3,9 +3,9 @@ HOMEPAGE =3D "https://github.com/libuv/libuv"
+ DESCRIPTION =3D "libuv is a multi-platform support library with a focus on asynchronous I/O. It was primarily developed for use by Node.js, but it's also used by Luvit, Julia, pyuv, and others."
+ BUGTRACKER =3D "https://github.com/libuv/libuv/issues"
+ LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Da68902a430e32200263d182d44924d47"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dad93ca1fffe931537fcf64f6fcce084d"
  
- Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  CMakeLists.txt | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
+-SRCREV =3D "988f2bfc4defb9a85a536a3e645834c161143ee0"
++SRCREV =3D "e8b7eb6908a847ffbe6ab2eec7428e43a0aa53a2"
+ SRC_URI =3D "git://github.com/libuv/libuv;branch=3Dv1.x;protocol=3Dhttps"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(=3FP<pver>\d+(\.\d+)+)"
  
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 16b63308..b722d4fb 100644
-+index fd6e3f0..5383744 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -45,7 +45,8 @@ endif()
-+@@ -52,7 +52,8 @@ endif()
-  
-  # build dependencies
-  find_package(Gpgme REQUIRED)
- -find_package(LibSolv 0.6.30 REQUIRED COMPONENTS ext)
- +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
- +set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
-- find_package(OpenSSL REQUIRED)
-  
-  
-+ # build dependencies via pkg-config
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/libdnf/libdnf_0.65.0.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-index 03c56e934a..1bfe901c8a 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.65.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-@@ -8,14 +8,12 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
-            file://0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch \
-            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
-            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
--           file://0001-Add-WITH_TESTS-option.patch \
--           file://0001-Look-fo-sphinx-only-if-documentation-is-actually-ena.patch \
-            file://enable_test_data_dir_set.patch \
-            file://0001-drop-FindPythonInstDir.cmake.patch \
-            file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch \
-            "
- 
--SRCREV = "cee3e1c59f849d9be1bb8d7db3090cea5c59f4b6"
-+SRCREV = "add5d5418b140a86d08667dd2b14793093984875"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(?!4\.90)\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
 -- 
 2.25.1
 
