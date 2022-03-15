@@ -2,67 +2,74 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F186CC433EF
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 16:23:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03701C433FE
+	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 16:23:49 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.13224.1647361428005082242
+ by mx.groups.io with SMTP id smtpd.web08.13277.1647361427538485815
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 09:23:48 -0700
+ Tue, 15 Mar 2022 09:23:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D2221476
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 177181474
 	for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Mar 2022 09:23:47 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com
  (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CD453F766
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9B653F766
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 09:23:47 -0700 (PDT)
+ Tue, 15 Mar 2022 09:23:46 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] lttng-modules: remove redundant devupstream assignments
-Date: Tue, 15 Mar 2022 16:23:44 +0000
-Message-Id: <20220315162345.613041-2-ross.burton@arm.com>
+Subject: [PATCH 1/3] devupstream: fix handling of SRC_URI
+Date: Tue, 15 Mar 2022 16:23:43 +0000
+Message-Id: <20220315162345.613041-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220315162345.613041-1-ross.burton@arm.com>
-References: <20220315162345.613041-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 16:23:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 16:23:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163306
+ https://lists.openembedded.org/g/openembedded-core/message/163305
 
-These are set by devupstream, so they don't need to be set in the recipe.
+As the class handler runs before overrides are actually applied we need
+to check both SRC_URI:class-devupstream and SRC_URI, otherwise the
+automatic assignment of S=3D"${WORKDIR}/git" for git repositories does
+not work if the base recipe uses http: but :class-devupstream has a git:/=
+/
+entry instead.
+
+Also, there's no need to set S:class-devupstream, we can just assign to
+S here.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-kernel/lttng/lttng-modules_2.13.1.bb | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/classes/devupstream.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.1.bb b/meta/rec=
-ipes-kernel/lttng/lttng-modules_2.13.1.bb
-index a8e4cc5afa..80877bcf5e 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.1.bb
-@@ -42,11 +42,6 @@ python do_package:prepend() {
- }
+diff --git a/meta/classes/devupstream.bbclass b/meta/classes/devupstream.=
+bbclass
+index facc46f3af..ba6dc4136c 100644
+--- a/meta/classes/devupstream.bbclass
++++ b/meta/classes/devupstream.bbclass
+@@ -30,10 +30,11 @@ python devupstream_virtclass_handler () {
+     # Develpment releases are never preferred by default
+     d.setVar("DEFAULT_PREFERENCE", "-1")
 =20
- BBCLASSEXTEND =3D "devupstream:target"
--LIC_FILES_CHKSUM:class-devupstream =3D "file://LICENSE;md5=3D0464cff101a=
-009c403cd2ed65d01d4c4"
--DEFAULT_PREFERENCE:class-devupstream =3D "-1"
- SRC_URI:class-devupstream =3D "git://git.lttng.org/lttng-modules;branch=3D=
-stable-2.13"
--
- SRCREV:class-devupstream =3D "7584cfc04914cb0842a986e9808686858b9c8630"
--PV:class-devupstream =3D "2.13.1+git${SRCPV}"
--S:class-devupstream =3D "${WORKDIR}/git"
- SRCREV_FORMAT ?=3D "lttng_git"
+-    uri =3D bb.fetch2.URI(d.getVar("SRC_URI").split()[0])
++    src_uri =3D d.getVar("SRC_URI:class-devupstream") or d.getVar("SRC_U=
+RI")
++    uri =3D bb.fetch2.URI(src_uri.split()[0])
+=20
+     if uri.scheme =3D=3D "git" and not d.getVar("S:class-devupstream"):
+-        d.setVar("S:class-devupstream", "${WORKDIR}/git")
++        d.setVar("S", "${WORKDIR}/git")
+=20
+     # Modify the PV if the recipe hasn't already overridden it
+     pv =3D d.getVar("PV")
 --=20
 2.25.1
 
