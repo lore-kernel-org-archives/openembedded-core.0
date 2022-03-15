@@ -1,92 +1,70 @@
-Return-Path: <arnout.vandecappelle@essensium.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <90368083-ea8c-fe09-a9ca-b4c23b55b9cd@essensium.com>
-Date: Tue, 15 Mar 2022 15:38:36 +0100
+Message-ID: <5c3d0456bf1845e2f2b95daa0dbe7ca54621a467.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] create-spdx: Use function rather than AVAILABLE_LICENSES
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Tue, 15 Mar 2022 17:58:43 +0000
+In-Reply-To: <f39762f2fc464c619aa3035abd66321e@axis.com>
+References: <20220315173310.889973-1-richard.purdie@linuxfoundation.org>
+	 <f39762f2fc464c619aa3035abd66321e@axis.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] sdk: support uppercase characters in MACHINE
-References: <20220315135646.3687446-1-arnout@mind.be>
- <05c881e9-6518-9525-1182-1c447e865bae@theobroma-systems.com>
-From: "Arnout Vandecappelle (Essensium/Mind)" <arnout.vandecappelle@essensium.com>
-In-Reply-To: <05c881e9-6518-9525-1182-1c447e865bae@theobroma-systems.com>
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>, openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, "Arnout Vandecappelle (Essensium/Mind)" <arnout@mind.be>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 
+On Tue, 2022-03-15 at 17:48 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Richard Purdie
+> > Sent: den 15 mars 2022 18:33
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 1/2] create-spdx: Use function rather than
+> > AVAILABLE_LICENSES
+> > 
+> > We can directly call the function rather than using the variable
+> > indirection.
+> > As this is the last user of the variable, it then allows removal of it in a
+> > followup patch.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/classes/create-spdx.bbclass | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-
+> > spdx.bbclass
+> > index daf99ca676c..1a4804a7c50 100644
+> > --- a/meta/classes/create-spdx.bbclass
+> > +++ b/meta/classes/create-spdx.bbclass
+> > @@ -94,7 +94,7 @@ def convert_license_to_spdx(lic, document, d,
+> > existing={}):
+> >      from pathlib import Path
+> >      import oe.spdx
+> > 
+> > -    available_licenses = d.getVar("AVAILABLE_LICENSES").split()
+> > +    avail_licenses = available_licenses(d)
+> 
+> Doesn't this mean that the available licenses will be calculated once 
+> per recipe? Or isn't it a problem since the time will not be spent 
+> during recipe parsing, but rather during task execution where no one 
+> will notice if the create-spdx task for all recipes takes a little 
+> longer?
 
-On 15/03/2022 15:24, Quentin Schulz wrote:
-> Hi Arnout,
->
-> On 3/15/22 14:56, Arnout Vandecappelle (Essensium/Mind) wrote:
->> There are no real constraints on the values that MACHINE can take, it's
->> perfectly possible to define a machine with uppercase letters, and
->> building for that machine works fine.
->>
->> However, the (extensible) SDK targets include packages and packagegroups
->> that have MACHINE in their name, and uppercase letters are not allowed
->> in package names.
->>
->> Therefore, convert the machine name to lowercase when it's used as a
->> package name: for meta-environment, meta-environment-extsdk,
->> packagegroup-cross-canadian, packagegroup-go-cross-canadian and
->> packagegroup-rust-cross-canadian. Propagate this change to other places
->> where those packages are referred to.
->>
->> Alternatively, it would be possible to outright disallow uppercase
->> letters in MACHINE. However, this would affect any existing
->> configuration that currently works fine except for building the SDK.
->>
->
-> Overrides for machines starting with an uppercase letter have been broken and 
-> might still be (I was bitten by this on Thud). I don't know if this issue 
-> still applies after the migration to the newer override syntax though.
->
-> e.g. FOO_Machine will not override FOO for Machine, it'll just create a new 
-> variable named FOO_Machine instead.
->
-> Also, I seem to recall some weird issue with uppercase letter in the middle of 
-> package/recipe names. Bootlin discovered that issue in their training based on 
-> Rocko (?) a few years back because of people trying to use nInvaders as the 
-> recipe name instead of ninvaders. Pretty sure it was Alexandre who found the 
-> issue (don't remember if we ultimately found out what the issue was or just 
-> recommended not using uppercase letters at all).
->
->> Signed-off-by: Arnout Vandecappelle (Essensium/Mind) <arnout@mind.be>
->> ---
->> I have only tested this with the base SDK, not with the extensible SDK.
->> I also haven't tested the changes to tclibc-baremetal, tclibc-newlib,
->> packagegroup-go-cross-canadian, packagegroup-rust-cross-canadian and
->> maintainers.inc. packagegroup-rust-cross-canadian doesn't even seem to
->> be used anywhere, so I guess this change would need to be propagated
->> somewhere externally.
->>
->> Ideally in addition to lowercasing, any other illegal package name
->> variables should also be removed or converted. It's less likely though
->> that other invalid characters would be used, since that will easily
->> break existing recipes. Also I couldn't find a conventient function to
->> make such a conversion.
->
-> I'm not sure it's worth the added complexity and confusion instead of the 
-> other way to do it which is to check for "harmful" characters in some critical 
-> strings and flat out fail the build if one is met. But I guess something needs 
-> to be done.
->
-> https://docs.yoctoproject.org/bitbake/bitbake-user-manual/bitbake-user-manual-metadata.html#conditional-metadata 
-> is the only place where I could read something about the allowed characters. I 
-> guess we should explicit this in some other places, such as MACHINE in the 
-> ref-manual.
+It will be in a different process so it will already run once per recipe during
+task execution anyway. So yes, this just allows us to move execution overhead
+away from parsing.
 
-  Ack, adding the list of allowed characters ([a-z0-9+-] I think - . is also 
-allowed in PN but I'm not sure if it's OK for OVERRIDES) to the MACHINE 
-documentation seems like an excellent idea.
+> That said, if I remember correctly from the last time I looked at this 
+> function, it should be possible to rewrite it to not rely on 
+> available_licenses() without any real loss in functionality.
 
-  Even better would be a check (insane or other) that MACHINE is valid.
+Patches very welcome. Now we're moving to SPDX identifiers only, this need to
+this is likely reduced too. I needed to start unwinding the pieces somewhere
+though...
 
+Cheers,
 
-  Regards,
-  Arnout
-
+Richard
 
