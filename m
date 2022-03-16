@@ -1,84 +1,133 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B2BC433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 20:21:07 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
- [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web10.1803.1647462065438614076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D5BC433EF
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 20:33:31 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.1958.1647462810940817996
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 13:21:06 -0700
+ Wed, 16 Mar 2022 13:33:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=htXzDHGu;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230,
- mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9133D240002
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 20:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647462063;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PuKnUM/ZQjnJ4oqEPR0ViGdC3vGUYEo6Lmr70ikroM8=;
-	b=htXzDHGuIayJvLf/xTkLvjDYoWy8H6sw1Qn+kkLVJwX0+gl5bimmjUiyCLEV5E1OONrEj2
-	VNE1dS9H74CtDo/NKqTKYT19p+/xlaYOtIYUdYFv032TjmWWXIy2dTwZWD6ESI9XnauGVK
-	kd/OHKa796qdTNO481wAVtkC6t77oI2NxC+DvECyi2nSE8H67JozHSMgxoN050Fwt9FoDb
-	Yt/7LBiW/Dsw9rYI2/d7Bz6kXz1c3UeHuUAurK0DNytCQHY/e+W2x2OR+nkLO0nMo2xJcm
-	F5FMZlNPH76lMi+EsWbkt6fHoGH6dhkMcLDJW/HkqvFbGhu1lEpw9UrAdLSKlA==
-Message-ID: <2593ef46-de63-013a-dbc3-5b626e289fdd@bootlin.com>
-Date: Wed, 16 Mar 2022 21:21:02 +0100
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z5gP297m;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id u16so3588749wru.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Mar 2022 13:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=d7rCKdixTV4FrZnqd2c+JH1NXujwddZUoQ/DlUcHC6o=;
+        b=Z5gP297mEBCmVU7+3gS84os5BVb0oafYAbUfW2/tLtpRfCYs1CfQ+D1SLu1LT3er0o
+         0rRFfhRruWz/8Vr5uPVLqPimEHVi7Hmwy9vLpUMkHZ6RPF0ZBBKm9rlep5fHWMx/yC1G
+         wM1M+bsLJTBLvG0ttD3+k4p463GpYIRJEn7PM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=d7rCKdixTV4FrZnqd2c+JH1NXujwddZUoQ/DlUcHC6o=;
+        b=l0CF5yTzRv8REXaBCGDFnHFvHRsTgLqMcvWz1wEIWxfCCMpfT6rgsDOreKm0Pbajy7
+         1qC51xwC4AljfsAZX1qxEdbX9hircYJKz4ZQVOJtkWGlRpARg4hhSjCMHIOGbZ41uwM4
+         1M0PO4E5r2WB/gSJGuCSsyNN5/GWezHdJYGScSYeBWJNISCKg4zpWAqJF41JgeQVAomA
+         1ENeYPhxk4rykg9/rGfc2vRp8uiiUCtwwYxYZLgbc+dSpXcUxW4/jssQ6HmdMVR1X+nr
+         JkTb6PZAxNBsXmcZuQt0A7wb6ciNmdS7Z3mg6PY5Vn23IrzA1myDhguk8/L/10MM0Ih+
+         m9fw==
+X-Gm-Message-State: AOAM530dOMfMlbyzqOwQElbFQRsI88za6OEBpDWIbcsxX29Qi4tRDc9N
+	XEeH0ZgIxg0YslBOyuQBUmyiI3s4cNPxDeiR
+X-Google-Smtp-Source: 
+ ABdhPJwZy9CNQjImtfiAyXrkbgw/sZrPS81tX9BveMq8WGNTOreTU4rcm9RRuP1dBMdaMxZrBlkgww==
+X-Received: by 2002:a5d:608e:0:b0:203:e8a3:36f3 with SMTP id
+ w14-20020a5d608e000000b00203e8a336f3mr350046wrt.176.1647462809224;
+        Wed, 16 Mar 2022 13:33:29 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:bc44:1420:18a9:e343])
+        by smtp.gmail.com with ESMTPSA id
+ u11-20020a05600c19cb00b00389efe9c512sm6520630wmq.23.2022.03.16.13.33.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 13:33:28 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/3] rust-cross: Add rust-crosssdk variant for nativesdk use
+Date: Wed, 16 Mar 2022 20:33:26 +0000
+Message-Id: <20220316203327.950175-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220316203327.950175-1-richard.purdie@linuxfoundation.org>
+References: <20220316203327.950175-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: Patches sent to mailing lists: "From" attribute modified
-Organization: Bootlin
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 20:21:07 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 20:33:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163355
+ https://lists.openembedded.org/g/openembedded-core/message/163357
 
-Greetings,
+Allow nativesdk recipes to find a correct version of the rust cross
+compiler.
 
-My patches sent to the mailing lists are causing trouble for Richard.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/rust/rust-cross.inc          | 7 -------
+ meta/recipes-devtools/rust/rust-cross_1.59.0.bb    | 6 ++++++
+ meta/recipes-devtools/rust/rust-crosssdk_1.59.0.bb | 8 ++++++++
+ 3 files changed, 14 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/rust/rust-crosssdk_1.59.0.bb
 
-The reason is the "From" field is modified by the mailing list server. It's
-From: "Michael Opdenacker via lists.yoctoproject.org"
-<michael.opdenacker=bootlin.com@lists.yoctoproject.org>
-instead of
-From : Michael Opdenacker <michael.opdenacker@bootlin.com"
-in my original patch.
-
-And then when you try to apply the patch with "git am", you get a
-modified committer name. This makes it harder for Richard to apply
-patches, otherwise you get commits such as:
-https://git.yoctoproject.org/poky/log/?qt=author&q=via
-
-If I understood correctly, the problem happens because we had to enable
-DMARC on our domain (bootlin.com), because of a storm of spam messages
-claiming to come from our domain. Otherwise our legitimate e-mails were
-getting blocked by Google Mail.
-
-Richard recalls that someone once found a workaround for this issue. Did
-any of you ever face this?
-
-Thanks in advance
-Michael.
-
-
-
+diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
+index a77f7d51223..f6babfeedaa 100644
+--- a/meta/recipes-devtools/rust/rust-cross.inc
++++ b/meta/recipes-devtools/rust/rust-cross.inc
+@@ -1,6 +1,3 @@
+-require rust.inc
+-inherit cross
+-
+ python do_rust_gen_targets () {
+     wd = d.getVar('WORKDIR') + '/targets/'
+     # It is important 'TARGET' is last here so that it overrides our less
+@@ -30,12 +27,8 @@ INHIBIT_DEFAULT_RUST_DEPS = "1"
+ # so it might make sense to take it's mapping. For now, though, we just mention
+ # the bits we need explicitly.
+ DEPENDS += "rust-llvm-native"
+-DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc"
+ DEPENDS += "rust-native"
+ 
+-PROVIDES = "virtual/${TARGET_PREFIX}rust"
+-PN = "rust-cross-${TUNE_PKGARCH}-${TCLIBC}"
+-
+ # In the cross compilation case, rustc doesn't seem to get the rpath quite
+ # right. It manages to include '../../lib/${TARGET_PREFIX}', but doesn't
+ # include the '../../lib' (ie: relative path from cross_bindir to normal
+diff --git a/meta/recipes-devtools/rust/rust-cross_1.59.0.bb b/meta/recipes-devtools/rust/rust-cross_1.59.0.bb
+index 3179d395d25..5358d98da85 100644
+--- a/meta/recipes-devtools/rust/rust-cross_1.59.0.bb
++++ b/meta/recipes-devtools/rust/rust-cross_1.59.0.bb
+@@ -1,2 +1,8 @@
++require rust.inc
++inherit cross
+ require rust-cross.inc
+ require rust-source.inc
++
++DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc"
++PROVIDES = "virtual/${TARGET_PREFIX}rust"
++PN = "rust-cross-${TUNE_PKGARCH}-${TCLIBC}"
+diff --git a/meta/recipes-devtools/rust/rust-crosssdk_1.59.0.bb b/meta/recipes-devtools/rust/rust-crosssdk_1.59.0.bb
+new file mode 100644
+index 00000000000..5929978591f
+--- /dev/null
++++ b/meta/recipes-devtools/rust/rust-crosssdk_1.59.0.bb
+@@ -0,0 +1,8 @@
++require rust.inc
++inherit crosssdk
++require rust-cross.inc
++require rust-source.inc
++
++DEPENDS += "virtual/${TARGET_PREFIX}gcc-crosssdk virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/nativesdk-libc"
++PROVIDES = "virtual/nativesdk-${TARGET_PREFIX}rust"
++PN = "rust-crosssdk-${TUNE_PKGARCH}-${TCLIBC}"
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.32.0
 
 
