@@ -2,27 +2,27 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD4AC433FE
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 16:29:57 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web12.27163.1647448196197994218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6538C433F5
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 16:36:27 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web09.27659.1647448586414060225
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 09:29:56 -0700
+ Wed, 16 Mar 2022 09:36:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80,
  mailfrom: f_l_k@t-online.de)
-Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout03.t-online.de (Postfix) with SMTP id 501185241
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout01.t-online.de (Postfix) with SMTP id 7E58F7CF2
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 17:29:54 +0100 (CET)
-Received: from [192.168.178.83] ([84.163.47.155]) by fwd84.t-online.de
+ Wed, 16 Mar 2022 17:36:24 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.47.155]) by fwd87.t-online.de
 	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nUWX4-0Ffmq10; Wed, 16 Mar 2022 17:29:54 +0100
+	esmtp id 1nUWdK-1DxtgX0; Wed, 16 Mar 2022 17:36:22 +0100
 Content-Type: multipart/alternative;
- boundary="------------1hLl9ligFioFmnHTBAMR0kdE"
-Message-ID: <c3bd7d1b-a4c0-bb6b-34c1-4d65b658f209@t-online.de>
-Date: Wed, 16 Mar 2022 17:29:53 +0100
+ boundary="------------TxOuPh1e6i1pFusCgGE2dt7K"
+Message-ID: <7ba06982-c8e5-df3b-fc4a-042d482ca202@t-online.de>
+Date: Wed, 16 Mar 2022 17:36:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
@@ -39,31 +39,21 @@ References:
 From: Markus Volk <f_l_k@t-online.de>
 In-Reply-To: 
  <AM0PR10MB3107BD5AA37CDF8EBF972CA099119@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
-X-TOI-EXPURGATEID: 150726::1647448194-00009E39-534B8EBB/0/0 CLEAN NORMAL
-X-TOI-MSGID: a5b7b1c0-e903-4de0-bca8-0155336aed11
+X-TOI-EXPURGATEID: 150726::1647448582-00000271-B23C824A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 1baa51aa-d876-4a89-9a56-f6e8e1fad0ac
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 16:29:57 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 16:36:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163340
+ https://lists.openembedded.org/g/openembedded-core/message/163341
 
 This is a multi-part message in MIME format.
---------------1hLl9ligFioFmnHTBAMR0kdE
+--------------TxOuPh1e6i1pFusCgGE2dt7K
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matthias,
-
-I created a patchset to align mesa PACKAGECONFIG for native and target=20
-builds.
-I tried compiling my own images and core-image-sato with this patchset=20
-and had no problems.
-Hopefully this will fix your problem as well.
-
-This change seems much cleaner to me, but maybe I'm missing some=20
-context. I will send the patches to the mailing list and wait for comment=
-s.
+Thanks for testing
 
 Markus
 
@@ -200,7 +190,7 @@ ed-core/message/163339
 f_l_k@t-online.de]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
---------------1hLl9ligFioFmnHTBAMR0kdE
+--------------TxOuPh1e6i1pFusCgGE2dt7K
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -210,15 +200,8 @@ Content-Transfer-Encoding: quoted-printable
 -8">
   </head>
   <body>
-    <p>Hi Matthias,</p>
-    I created a patchset to align mesa PACKAGECONFIG for native and
-    target builds.<br>
-    I tried compiling my own images and core-image-sato with this
-    patchset and had no problems.<br>
-    Hopefully this will fix your problem as well.<br>
-    <p>This change seems much cleaner to me, but maybe I'm missing some
-      context. I will send the patches to the mailing list and wait for
-      comments.</p>
+    <p>Thanks for testing<br>
+    </p>
     <p>Markus<br>
     </p>
     <div class=3D"moz-cite-prefix">Am 16.03.22 um 17:19 schrieb Matthias
@@ -505,5 +488,5 @@ nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
   </body>
 </html>
 
---------------1hLl9ligFioFmnHTBAMR0kdE--
+--------------TxOuPh1e6i1pFusCgGE2dt7K--
 
