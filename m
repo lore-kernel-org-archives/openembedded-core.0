@@ -1,80 +1,89 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CD9C433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 14:05:30 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
- [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web08.25649.1647439529078335277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C21AC433F5
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 14:35:19 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.25933.1647441318024398241
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 07:05:29 -0700
+ Wed, 16 Mar 2022 07:35:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YxiyRTan;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230,
- mailfrom: michael.opdenacker@bootlin.com)
-Received: (Authenticated sender: michael.opdenacker@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 03BC7240008;
-	Wed, 16 Mar 2022 14:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647439527;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VRJSO72volkWXCPwDsFhEr4B0J3qaYDVmCDcmLgw+wg=;
-	b=YxiyRTan6JsOmtAM07P1vAVUPSLzj5yf7iBT8fs1lUh7JHuEaiJsqlEupGNii7aBD7sqHk
-	ILu0KkCmdjL4QfCVMItPJ8ddn9N82tv0vcSas9I4PdSLjsPIDTUQ1uP9eOZg8yI1+DOzq7
-	jXXSqmxx/pZOQqFUxKDBW2K3u0D6lYR2Glw5vx+GUuIvfSC0uJz6G0ukzFRjOB5CqIWRwe
-	UFFyp2wJTBm1bm2YKPRqP+x47QaxrSQeZ26sAmoODBKtmK+YXu8RllzcURCuqmiVoT+6CV
-	x0WsIDhR9Kzt8rIJKACqkvgY6CaqMk1UgraeLwsdgDZJvVHv/AXdVkVnfS8KnA==
-Message-ID: <ae470c5c-d35e-5ba3-8da2-65dd5e448786@bootlin.com>
-Date: Wed, 16 Mar 2022 15:05:26 +0100
+ dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
+ header.b=NmcdXoFq;
+ spf=pass (domain: burtonini.com, ip: 209.85.128.49,
+ mailfrom: ross@burtonini.com)
+Received: by mail-wm1-f49.google.com with SMTP id
+ v130-20020a1cac88000000b00389d0a5c511so3319981wme.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Mar 2022 07:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GfpsIvKkTnmGhW/eZRLACr8CBlzrC5/3i5QKbywyYyI=;
+        b=NmcdXoFqInu9ThAcu2txl4MEou3bpgSpJM4nIsu3X/bWumhwAD7gpe3kTwFCVgcoMq
+         t5DCqUGUGcbQ1WnkmY5Fk9YUxMv9BtRO521VVaXoYVZJ8pz1r+AUhRY+r2J3gT+iiDpd
+         ugap/fQW5BajR3Ra8RmPop/lQ0PaWgsAgQOGSSfbeOCPFVRFDKcuSLZl4MPHXi1Fo95t
+         7V5JDIFvtkML/0hzkZDIjxAolKVkv+edOh0n2NsiHxTV3l7An8JLU8qB7IvKVTj+0pVL
+         tybTcHMVNzZs9FF6/YLkRxH37V8GMdXX8k6bV+OEY/0GSyK+SalvJ+IFmBdU82warQjh
+         yu1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GfpsIvKkTnmGhW/eZRLACr8CBlzrC5/3i5QKbywyYyI=;
+        b=m40efmz/WtgrPeLUSfqvlNvrcfo7dVN2KBcBzqYoMACB5nNfukU8jHpQWxmUgA7zM8
+         5xtjWzC+UY8SyeB3P9ktNF2OzIgfy27P362eCXidraZTvj9TM0ILvFl5dU38shtQLGDL
+         uDxFkVqxd0ole+LfABloe24YonE8Wx8U6yHdnFuJrw44tVTE0q1KTlWLXrbLWTvVSN+k
+         33G4/c1PgXO3ASAvsp77yrkvIn+mBsiJybu07tFI++DMhVSW2Iuhh0EwOx+vF0eX3XR1
+         bW5n0JpsuMqIoPvNu7iHADSzRePxEeoyouqT7mkcvztiFrDwHUezJZR2Orj9GiEtqky7
+         EdiQ==
+X-Gm-Message-State: AOAM533G/fKb0AnqTwa9omWEqR1cMVD8prXpHHWiwsLJbq2wfbTcpBBo
+	g3J/nbDfB8ZLfIu+asp5BHf/CED+/kqKpIWRVHrQjg==
+X-Google-Smtp-Source: 
+ ABdhPJyLHaUtyWfoyXrn2iXbJZv/0VkC+pKuKbahZV2I1xv0VoAD2xv5LdKsxsGtvlgL+fMc8iHe/FxixmTpxfUSEzo=
+X-Received: by 2002:a1c:2b41:0:b0:380:e379:b8b0 with SMTP id
+ r62-20020a1c2b41000000b00380e379b8b0mr63493wmr.87.1647441316096; Wed, 16 Mar
+ 2022 07:35:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH] convert-variable-renames.py: add more
- problematic words
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20220316140007.184425-1-michael.opdenacker@bootlin.com>
- <3513614322f4f301ca4cd34fe6f6f0b5576562a4.camel@linuxfoundation.org>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
+References: <20220315162345.613041-1-ross.burton@arm.com>
+ <20220315162345.613041-2-ross.burton@arm.com>
+ <8096196d8428377e5c277ffab8be51dfb138d1b0.camel@linuxfoundation.org>
 In-Reply-To: 
- <3513614322f4f301ca4cd34fe6f6f0b5576562a4.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <8096196d8428377e5c277ffab8be51dfb138d1b0.camel@linuxfoundation.org>
+From: Ross Burton <ross@burtonini.com>
+Date: Wed, 16 Mar 2022 14:35:05 +0000
+Message-ID: 
+ <CAAnfSTskU_LSgZmqqjPWKi1ySfEZsM8+=xkrGU5A1CEavJ=-=Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/3] lttng-modules: remove redundant devupstream
+ assignments
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 14:05:30 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 14:35:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163335
+ https://lists.openembedded.org/g/openembedded-core/message/163336
 
+On Wed, 16 Mar 2022 at 10:30, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> >  SRCREV:class-devupstream = "7584cfc04914cb0842a986e9808686858b9c8630"
+> > -PV:class-devupstream = "2.13.1+git${SRCPV}"
+> > -S:class-devupstream = "${WORKDIR}/git"
+> >  SRCREV_FORMAT ?= "lttng_git"
+>
+> I think you need to leave PV?
 
-On 3/16/22 15:02, Richard Purdie wrote:
-> On Wed, 2022-03-16 at 15:00 +0100, Michael Opdenacker via lists.openembedded.org
-> wrote:
->> Listed on https://inclusivenaming.org/
->>
->> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
->> ---
->>  scripts/contrib/convert-variable-renames.py | 7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
-> Not sure we want to add a whole load more work at this point in the release
-> cycle? This wasn't what we agreed as the first set of priorities :/.
+devupstream should be setting PV automatically:
 
-The word checks are just warnings by the way, but no problem at all for me.
-I figured I'd send a patch rather than a question ;-)
+if proto_marker not in pv and not d.getVar("PV:class-devupstream"):
+  d.setVar("PV", pv + proto_marker + "${SRCPV}")
 
-Thanks
-Michael.
+I can double check shortly.
 
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Ross
 
