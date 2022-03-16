@@ -1,250 +1,356 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E182CC433F5
-	for <webhook@archiver.kernel.org>; Tue, 15 Mar 2022 23:24:58 +0000 (UTC)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.18754.1647386697924665571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 451A5C433F5
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 00:18:27 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.1])
+ by mx.groups.io with SMTP id smtpd.web09.19365.1647389905512093564
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Mar 2022 16:24:58 -0700
+ Tue, 15 Mar 2022 17:18:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=dmvNkik6;
- spf=pass (domain: intel.com, ip: 192.55.52.115,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647386697; x=1678922697;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=qeVl9oA2u0G1+Z4jGx0q1hpC7RmvZ9OZw9T/m7g5WNE=;
-  b=dmvNkik6MQVcFNhl9o+Zrvd0jf4yB6umGpNxChqfqgaRnKIOPe2YZ/uq
-   t8WkBl9NGuI2X5CV1KOlofihIjAtYmJxJxyJU3iCGYrD6fu71+UHMO7mZ
-   ONFBYXx9TGGouHHwafowzoBFZgZwNqlsb/kw7lEqCUNgAOa5xEtmm+jMb
-   0NPXLwafhN+H+Op901yQrP8a8XKcz2CXBc48L+hXip2LQd0Q97Zds69GO
-   x0FTYMnqr1pfkaGnF6gjjbLKGIybUMVP5VqVw8HsL3EGkV1aH5OrqrVTg
-   /NO4s31w4G0taji7Rojk9GPwjXfvU4k+w7nYpbpRKsp/Zk6AtlZv1oXZ4
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10286"; a="256635615"
-X-IronPort-AV: E=Sophos;i="5.90,185,1643702400";
-   d="scan'208";a="256635615"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2022 16:24:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,185,1643702400";
-   d="scan'208";a="512800457"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by orsmga002.jf.intel.com with ESMTP; 15 Mar 2022 16:24:56 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 15 Mar 2022 16:24:56 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21 via Frontend Transport; Tue, 15 Mar 2022 16:24:56 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.21; Tue, 15 Mar 2022 16:24:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TKWiJ6ka8OvyprypwtrToYeAKwbaJlj17cR/Uc0vTfSLvwLWG3LeEt2Vqr9rVJT8xX7mcRity07NmSHMmiZVAr2sipr1ddy/wRRd3S5vZZ5ZWrlNT7a/+xyPlnfdNwBcCYhUfapMYXp1EJPGk+F9sFWDfASHrh8FC7I8zTnM01cQq0d2Gyej5gw7XTdP1WAZNNRjSd5G/+FHGg32isZFF+5jJ0NFiN/VnXOyFV7JpAi7cVK2Tl5z24NR3qgyqyqk3yef/6+JI3I2W1JNtlafLhPMcs5nXgRyiftlL4Jta7UEGn3ke2YScITTvs4L5dzRMf4tnfg41qp6v/TE1gEeNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/cvfuZY0/rsQGWISrG21yK1nzIyHnD0CByPHpoy5TOQ=;
- b=XmoWp398sXDSmF6pmqzECulLw2SwP5affY2IkezHx+zJX+VL4gqUZfNbPbH96Nghw08xOfMfEcOc9JWT6iBNvTRd/QU2WlOmLPdA0FWwdtzwhL+sfX3obcAzbdUy6vliMAsXb4/iXPmzuQaEIZt0ymCH9efmew96Zsv36l7pd07wdSdmVdeun0On3D/lPksBNk/e5CrNoRVY6l4NR1QEcEGJxluhJBiS7oMTGd4DG4qU8vyq020R3nuyNbmghwzoKRClRTKSEUUEbPsm7G8LcAWxsqzT3pbyfSPIBpqh4P6IIgkJJRh+Hn74k2pwXQSQt/v+a+OwFIx+/5k46DiOJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com (2603:10b6:a03:2dd::20)
- by BN6PR11MB4017.namprd11.prod.outlook.com (2603:10b6:405:79::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.25; Tue, 15 Mar
- 2022 23:24:54 +0000
-Received: from SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::bb:6323:5ce4:2148]) by SJ0PR11MB4896.namprd11.prod.outlook.com
- ([fe80::bb:6323:5ce4:2148%8]) with mapi id 15.20.5081.014; Tue, 15 Mar 2022
- 23:24:54 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "rwmacleod@gmail.com" <rwmacleod@gmail.com>, "umesh.kalappa0@gmail.com"
-	<umesh.kalappa0@gmail.com>
-Subject: RE: [OE-core] [honister][PATCH] gcc: sanitizer: Fix tsan against
- glibc 2.34
-Thread-Topic: [OE-core] [honister][PATCH] gcc: sanitizer: Fix tsan against
- glibc 2.34
-Thread-Index: AQHYOIUbniAjE1A+F0GL7E7UeJgTwazBFiOg
-Date: Tue, 15 Mar 2022 23:24:54 +0000
-Message-ID: 
- <SJ0PR11MB4896C14AB672EED387038DA3F8109@SJ0PR11MB4896.namprd11.prod.outlook.com>
-References: <20220315155507.1410297-1-sundeep.kokkonda@gmail.com>
-In-Reply-To: <20220315155507.1410297-1-sundeep.kokkonda@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eb1a891f-6e8c-4939-8d5f-08da06db0306
-x-ms-traffictypediagnostic: BN6PR11MB4017:EE_
-x-microsoft-antispam-prvs: 
- <BN6PR11MB4017C078C5F378D7743615B8F8109@BN6PR11MB4017.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- T/UPzgKNlqDWDQMqx+1QmRF1NnFees+QHAS3lIS/1lJsP7WusLDisQ/uGXFtpqvX32Tfnf+m0Cf/FRqpV2gZszVYtqyTmlWEIkOqijFd9+IqATL7GJWt+lPYbUXz3ZFBusVlF99wpP805w0oSE4qxZWeXfaZulWW1yAccOtuY2yBdEO/X4k2hVtOiTSw2lcHtd9WDRjKsmyOsTBAyfkq3MxpNN6Gkb9fp0yXqZ4OMn3h8ywYh9p0aA7gGQs4fmEpmAlx/YUArMZuAetuyx29uQCLJyb/0wTYYg30H391pC7k6q/6Un0UtozRJoAYl5KjQgZ/aacWhbilRBrnjHiT9D5Ue0JNNVX5F7xHx9UzZRops4gH0m0vZkTwhz96TyPGbLboQF+ryKIXwklxheIbtOUwYa44AdLMJOlIVvtvJFyebG50ggAQIIr6ePIxKYuE5aa4YGHq3UcXMQVXIaQT1SuYrd/MpsiZAl1Zqx0NhOM1P8XiyqSiShCGx9hOBDgwOWEbN6lP97CFeuSLn8TCBe9KRlkHuA16jitplEJnzuU1NNWXhu2gEjKbrmL4UEpNf60R/s5xpxSAa3vvZ99lU9KCcwtzd683CBfkObKeo06Y9bvVr8HFk2bTc+IS7UzZ0wlLl+r3Lte0HHRYSZqet96sdlQxNWhd/Pbt3h/mx6Y6rND20CVE0YexjzkQNmI+zojFj+TfhctlO5Aj52oiPlSN/fGWppnq1sc6ErqWPGJi3E13HtwvPJnOMIrIbeTK4CtJxghlS4MBCW06GTHd/xkuSFcQYpmAs2tC2DyOaR4MQ/Ly+kDiZztZwvpjgCjvRIdoK897MOp6gCAcVRxgeA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB4896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(122000001)(38100700002)(82960400001)(9686003)(186003)(26005)(38070700005)(83380400001)(33656002)(110136005)(54906003)(8936002)(316002)(86362001)(52536014)(5660300002)(8676002)(4326008)(71200400001)(64756008)(66446008)(66476007)(66556008)(76116006)(66946007)(55016003)(508600001)(7696005)(6506007)(2906002)(53546011)(966005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?LbevEW2Bqg2pluG2CCqlVb02uWGasCoquc6Um0q9PlwyFjr22/cyADCAvoOU?=
- =?us-ascii?Q?YqhmMqNmn0zUd8hJxnFSsSGUiUQ2Cl1LY7+c+x9zLKR0iD/oDsCnW8o3FYoe?=
- =?us-ascii?Q?SNcqJjf+NaTypIOm9fUWi85YsPs7ggtj6W9vjJhIuQBQhdyVGaiY+QZGhmRk?=
- =?us-ascii?Q?6mGh6w+I9dDzDWyhVrV1c0dgZz6CACAjTySistSAV0ugdP6RxaoEPxeXdnaa?=
- =?us-ascii?Q?p9ga/pes2eL6dyEhZzBwW9X+uz5sbotU+kW5GCEUjijRW6+iXE6Dp06INf29?=
- =?us-ascii?Q?nSLjLsnFfUy8KQfMq6SnmcTSLA7O+GwKXq80FsnSRQDY+CMu4/t1DGSPI58s?=
- =?us-ascii?Q?xd0ElkR/KWofMKT6LNtXLWoL+gtFN8HiMrtaG6UPcHN/e+Lt9axOjqAyVvAk?=
- =?us-ascii?Q?NBLuvXjBPZ+k3tGdNnebhsrwUCmBTCRjz8zw/v5QdoBHuap1jnTkuZkL3llZ?=
- =?us-ascii?Q?6Al4wy5KpazdHPttM4IaP5HOIasqIewpItKIx1Y/wnv2VFZkL0p3JnnN7Nrn?=
- =?us-ascii?Q?7HcSr1VZetK+Bt9OPl15S2m0iVREJL9ni0CvelHt1SU5miSuLUx861vV76xC?=
- =?us-ascii?Q?PDC7DUo/4HNw/GJjfpxo1tJdkWSVvIlUn3aXd+yHpUND7MuukCT/FvrCKIQc?=
- =?us-ascii?Q?Efc9ZbQh8Fc6p74njihKY84Kxz4JKZ4Nh9MaVbOgsZmSpP8qmYU2qbO6OLb/?=
- =?us-ascii?Q?1FxUn86kh03b1j2DmpCVeyl427tkznmvQcfFv52hoP7rXKRx2XyWrdbkGdWi?=
- =?us-ascii?Q?L6HNuk1kocBoorP3laLV1JSbmptpyZXTGSxYOSr635XubRFQ+MuDJ4CazH7z?=
- =?us-ascii?Q?ymZJlTczGa0fkwgigzMiEtvCliTkkUngpWhfeEgeTglBWr6jz/c+ywUxQLqF?=
- =?us-ascii?Q?dMOK3CsEKeJHkwxxvfWlOLizZmQPEpnyjXOal3TW1pM3OLXzSkqBt5Hnnxum?=
- =?us-ascii?Q?Zwxn17QdkQBPS8yvUtpxZpo15CQ/S9YQBFbVoERVY471GRgtGxKXsxiC+cO7?=
- =?us-ascii?Q?kTl8Cn/ra6AorkkbNNjTQyUXFYJVKRwj3vriuaJJJB9MN46z3NfyQpP/5gj9?=
- =?us-ascii?Q?8zGxeUT/oDP1mysGOKb27Y7nWHe6lVNnQF/SZuEKwH+P9QI5KXAXrvmVVd9N?=
- =?us-ascii?Q?E+rJLcyQPBz1EMb/hEHKrAr2BUi8ffopN9DliXnZk/18KB1rtvj7iseeXABP?=
- =?us-ascii?Q?zaGYTVbrZB+OcSbmXAiS/1QREFBfWQeHySYhK7CaNhAKl3F7+v1UHPznKFq1?=
- =?us-ascii?Q?hLwRl3KYzCIFRka4zIDuc1e2wFVmcseH9HOqwi7ROw8iLtOCcCdPXz3s1rrr?=
- =?us-ascii?Q?M30y8IEr/3oHmtQHbW8u0hqfk99Z1fio38zQBdnFj9PMwz8hG7UYW1U8tOt6?=
- =?us-ascii?Q?yquapMvS/DM4TZ8ODkbeY5/gy3GViPm0mf2xzyMq3SIDQsjtgTXTQNT+OdZw?=
- =?us-ascii?Q?wC52VsVNyRG2g6JpZZ2tD5BXnaPjJwV7?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HRBJxv5I;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1647389903; i=@fujitsu.com;
+	bh=bEH4eBctMxvvKM3e6/CQZhYWG4MZhpfVbW8M5wXWz9Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=HRBJxv5IdwvGToA2bRHmaHDLaFIpay9jdSkg4WJaoE10pNUBVVo/XMUbNnv5pHOTY
+	 XiKpyGtmGouVWKJHtLFkGGG8VcX0ZJjihxLhohxfYEDDM3dTgbQQLcf0XyoMXFx0tG
+	 dLn6j00XwfqJIXqXy95FA4RGFR0gTSgNPyAQkb7SxQX2me7GIJjOqxixel5rUSuYbq
+	 ci+gV2SUzx0qOFyKSObB3pZlB1YIXFpSkoEfA0/F9dr/KF/eJ753gOJiAji3sIVZlY
+	 N6cGeHrWc/IgpQXyBVEZMuOl5vGWtFyjd4pz99tIDvNbfo6SyTIe4+S/+ZSQ5X+7j6
+	 1/ztiaYnc/9ow==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRWlGSWpSXmKPExsViZ8MRontexzD
+  J4PlZRos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaNl/Um2gluBFWtWHGZrYOz16GLk4hASmMEk
+  8WDZRTYI5wSjxJKDZ5m6GDk52ATUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7x52kLCwgI3E4
+  YXWIGEWAVWJe8uXsYHYvAJOEh3tc1hBbAkBBYkpD98zQ8QFJU7OfMICMUZC4uCLF8wQNYoSsy
+  83s0DYFRKzZrUxTWDknYWkZRaSlgWMTKsYrZKKMtMzSnITM3N0DQ0MdA0NTXWNLXUtjPQSq3Q
+  T9VJLdctTi0t0gdzyYr3U4mK94src5JwUvbzUkk2MwABLKVYP2sH4bcVPvUOMkhxMSqK8heUG
+  SUJ8SfkplRmJxRnxRaU5qcWHGGU4OJQkeC2VDJOEBItS01Mr0jJzgMEOk5bg4FES4Y3TAErzF
+  hck5hZnpkOkTjFacly9cmUvM8cNMLn/GpAUYsnLz0uVEuf1VARqEABpyCjNgxsHi8hLjLJSwr
+  yMDAwMQjwFqUW5mSWo8q8YxTkYlYR5vbWApvBk5pXAbX0FdBAT0EHzpPVADipJREhJNTCt0jJ
+  kvK353zFqTeVHY2ezV6sOrMm6p3fhrOXpjQIiL96GPPnkL9Sk8urapaqrbrLT9cuvnbA/tUB0
+  b3qQg5X+5KXT3GPS+q60xcjN2Gav++1m/1k7efb3sbP25t3XW7Qi2Dd6xr/dT3v3RJs6VNmxu
+  t6easUygTXI8c5Fo9tT2+5O2FuvsFE89xCfkcuc6Z87p69R+u4ur/FhLmuU3d8XF00b9lgeV/
+  gp8He746SHq9J27f/H2Bh77BpDmd2s5sYSm+v9+znvlvBP/zlvv+Wh19eVPK/qPBNI8rjxd99
+  +wxpDZZtVt2tDNzx7vUV3+td/y6X9zj+45RrSGGgTcmP2lcTO+Bx+5rqVs3ek9vRGKLEUZyQa
+  ajEXFScCADHjRLxDAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-5.tower-565.messagelabs.com!1647389902!1850!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.10; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 4635 invoked from network); 16 Mar 2022 00:18:23 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-5.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 16 Mar 2022 00:18:23 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 22G0IC1F006502
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 00:18:22 GMT
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.28; Wed, 16 Mar 2022 00:18:10 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] dpkg: upgrade 1.21.1 -> 1.21.2
+Date: Wed, 16 Mar 2022 08:17:57 +0800
+Message-ID: <1647389877-80606-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- eb1a891f-6e8c-4939-8d5f-08da06db0306
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Mar 2022 23:24:54.3930
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- GKtBVeTTF85GGJ1N4FsnYZOuxDIFTY/DJyvsIebJog4Y0ReT1Bqe+buD09+I/ZElyfqnWc6bdzKI5FVb6LJ8qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4017
-X-OriginatorOrg: intel.com
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Mar 2022 23:24:58 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 00:18:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163318
+ https://lists.openembedded.org/g/openembedded-core/message/163319
 
+The following patches refreshed for new version:
+0001-build.c-ignore-return-of-1-from-tar-cf.patch
+0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
+0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
+0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
+noman.patch
+remove-tar-no-timestamp.patch
 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...ild.c-ignore-return-of-1-from-tar-cf.patch | 15 ++++++-----
+ ...s-expect-D-to-be-set-when-running-in.patch | 26 +++++++++----------
+ ...tion-doesn-t-work-properly-for-all-s.patch | 14 +++++-----
+ ...c-Remove-usage-of-clamp-mtime-in-tar.patch | 18 ++++++-------
+ meta/recipes-devtools/dpkg/dpkg/noman.patch   | 19 +++++++-------
+ .../dpkg/dpkg/remove-tar-no-timestamp.patch   | 17 ++++++++----
+ .../dpkg/{dpkg_1.21.1.bb => dpkg_1.21.2.bb}   |  2 +-
+ 7 files changed, 59 insertions(+), 52 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.21.1.bb => dpkg_1.21.2.bb} (95%)
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Sundeep KOKKONDA
-> Sent: Tuesday, March 15, 2022 11:55 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: rwmacleod@gmail.com; umesh.kalappa0@gmail.com; Sundeep KOKKONDA
-> <sundeep.kokkonda@gmail.com>
-> Subject: [OE-core] [honister][PATCH] gcc: sanitizer: Fix tsan against gli=
-bc 2.34
->=20
-> sanitizer: cherry pick 414482751452e54710f16bae58458c66298aaf69
->=20
-> The patch is needed in order to support recent glibc (2.34).
->=20
-> libsanitizer/ChangeLog:
-> 	PR sanitizer/101749
->         * sanitizer_common/sanitizer_posix_libcdep.cpp: Prevent
-> 	generation of dependency on _cxa_guard for static
-> 	initialization.
->=20
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-11.2.inc         |  1 +
->  .../gcc/0042-Fix-thread-stack-size-init.patch  | 18 ++++++++++++++++++
->  2 files changed, 19 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-s=
-ize-
-> init.patch
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-
-> 11.2.inc
-> index 40d2b59354..47575dba40 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> @@ -77,6 +77,7 @@ SRC_URI =3D "\
->             file://0003-CVE-2021-42574.patch \
->             file://0004-CVE-2021-42574.patch \
->             file://0001-CVE-2021-46195.patch \
-> +	   file://0042-Fix-thread-stack-size-init.patch \
->  "
->  SRC_URI[sha256sum] =3D
-> "d08edc536b54c372a1010ff6619dd274c0f1603aa49212ba20f7aa2cda36fa8b"
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-ini=
-t.patch
-> b/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patch
-> new file mode 100644
-> index 0000000000..02ba2401bb
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc/0042-Fix-thread-stack-size-init.patc
-> +++ h
-> @@ -0,0 +1,18 @@
-> +Upstream-Status: Backport
-> +[https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommit;h=3D90e46074e6b3561ae7d=
-8ebd2
-> +05127f286cc0c6b6]
-
-I think this link should be:
-
-https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommit;h=3D91f8a7a34cf29ae7c465603=
-a801326767f1cc7e9
-
-This patch itself is missing your Signed-off-by. Please send a v2.
-
-Thanks,
-
-Anuj
-
-> +---
-> +--- a/libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp	2022-03-=
-15
-> 07:59:54.515325204 -0700
-> ++++ b/libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp	2022-03-=
-15
-> 08:01:45.919405931 -0700
-> +@@ -166,9 +166,10 @@
-> + #if !SANITIZER_GO
-> + // TODO(glider): different tools may require different altstack size.
-> + static uptr GetAltStackSize() {
-> +-  // SIGSTKSZ is not enough.
-> +-  static const uptr kAltStackSize =3D SIGSTKSZ * 4;
-> +-  return kAltStackSize;
-> ++  // Note: since GLIBC_2.31, SIGSTKSZ may be a function call, so this
-> ++ may be  // more costly that you think. However GetAltStackSize is
-> ++ only call 2-3 times  // per thread so don't cache the evaluation.
-> ++  return SIGSTKSZ * 4;
-> + }
-> +
-> + void SetAlternateSignalStack() {
-> --
-> 2.25.1
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
+index 4d3f238012..dc0d9bfc2e 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
+@@ -1,4 +1,4 @@
+-From cb47e9cd6735fcafd231748dab8884ae991b669c Mon Sep 17 00:00:00 2001
++From 839f228556c00739f72534e8635195935eb3752f Mon Sep 17 00:00:00 2001
+ From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
+ Date: Tue, 16 Jun 2020 03:57:25 +0000
+ Subject: [PATCH] build.c: ignore return of 1 from tar -cf
+@@ -25,13 +25,13 @@ Original patch by RP 2015/3/27, rebased by Paul Eggleton
+ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+ 
+ ---
+- dpkg-deb/build.c | 5 ++++-
++ src/deb/build.c | 5 ++++-
+  1 file changed, 4 insertions(+), 1 deletion(-)
+ 
+-diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index 76613adec..7c216d1a9 100644
+---- a/dpkg-deb/build.c
+-+++ b/dpkg-deb/build.c
++diff --git a/src/deb/build.c b/src/deb/build.c
++index 76613ad..7c216d1 100644
++--- a/src/deb/build.c
+++++ b/src/deb/build.c
+ @@ -482,6 +482,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+  {
+    int pipe_filenames[2], pipe_tarball[2];
+@@ -51,3 +51,6 @@ index 76613adec..7c216d1a9 100644
+  }
+  
+  static intmax_t
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
+index 9ca7262eb9..75ae848264 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
+@@ -12,14 +12,14 @@ ALIMON 2016/05/26
+ ALIMON 2017/02/21
+ KKang 2019/02/20
+ ---
+- src/script.c | 53 +++-------------------------------------------------
+- 1 file changed, 3 insertions(+), 50 deletions(-)
++ src/main/script.c | 54 +++--------------------------------------------
++ 1 file changed, 3 insertions(+), 51 deletions(-)
+ 
+-diff --git a/src/script.c b/src/script.c
+-index abe65b6f7..621ff9b27 100644
+---- a/src/script.c
+-+++ b/src/script.c
+-@@ -96,58 +96,11 @@ setexecute(const char *path, struct stat *stab)
++diff --git a/src/main/script.c b/src/main/script.c
++index abe65b6..0edb8f1 100644
++--- a/src/main/script.c
+++++ b/src/main/script.c
++@@ -96,58 +96,10 @@ setexecute(const char *path, struct stat *stab)
+  static const char *
+  maintscript_pre_exec(struct command *cmd)
+  {
+@@ -49,9 +49,7 @@ index abe65b6f7..621ff9b27 100644
+ -			         "using --force-script-chrootless?"));
+ -		else if (rc)
+ -			ohshite(_("failed to chroot to '%.250s'"), instdir);
+-+	if (*instdir) {
+-+		setenv("D", instdir, 1);
+- 	}
++-	}
+ -	/* Switch to a known good directory to give the maintainer script
+ -	 * a saner environment, also needed after the chroot(). */
+ -	if (chdir(changedir))
+@@ -68,19 +66,21 @@ index abe65b6f7..621ff9b27 100644
+ -		debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename,
+ -		      args.buf);
+ -		varbuf_destroy(&args);
+--	}
+++        if (*instdir) {
+++                setenv("D", instdir, 1);
++ 	}
+ -	if (instdirlen == 0 || in_force(FORCE_SCRIPT_CHROOTLESS))
+ -		return cmd->filename;
+ -
+ -	if (strlen(cmd->filename) < instdirlen)
+ -		internerr("maintscript name '%s' length < instdir length %zd",
+ -		          cmd->filename, instdirlen);
+- 
++-
+ -	return cmd->filename + instdirlen;
+ +	return cmd->filename;
+  }
+  
+  /**
+ -- 
+-2.17.1
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
+index 56c85c7733..bbd5aba418 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch
+@@ -8,14 +8,14 @@ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+ 
+ Upstream-Status: Inappropriate [embedded specific]
+ ---
+- src/archives.c | 3 ++-
++ src/main/archives.c | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-diff --git a/src/archives.c b/src/archives.c
+-index bff5f14..b711013 100644
+---- a/src/archives.c
+-+++ b/src/archives.c
+-@@ -449,8 +449,9 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
++diff --git a/src/main/archives.c b/src/main/archives.c
++index 92340b9..7a55c27 100644
++--- a/src/main/archives.c
+++++ b/src/main/archives.c
++@@ -490,8 +490,9 @@ tarobject_set_mtime(struct tar_entry *te, const char *path)
+  
+    if (te->type == TAR_FILETYPE_SYMLINK) {
+  #ifdef HAVE_LUTIMES
+@@ -27,5 +27,5 @@ index bff5f14..b711013 100644
+    } else {
+      if (utimes(path, tv))
+ -- 
+-2.1.4
++2.25.1
+ 
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
+index 4f79a40d8b..117f9234ad 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
+@@ -2,9 +2,6 @@ From 8659eeeeda74d71e12080121f0b13a88cbdda433 Mon Sep 17 00:00:00 2001
+ From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+ Date: Tue, 21 Feb 2017 11:23:27 -0600
+ Subject: [PATCH] dpkg-deb/build.c: Remove usage of --clamp-mtime in tar
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+ 
+ Recently dpkg added --clamp-mtime to tar to create reproducible
+ build tarballs [1].
+@@ -23,14 +20,14 @@ Update patch context for dpkg 1.19.4.
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ ---
+- dpkg-deb/build.c | 2 +-
++ src/deb/build.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index 68d1875..053fcb7 100644
+---- a/dpkg-deb/build.c
+-+++ b/dpkg-deb/build.c
+-@@ -457,7 +457,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
++diff --git a/src/deb/build.c b/src/deb/build.c
++index 5c74ff3..76613ad 100644
++--- a/src/deb/build.c
+++++ b/src/deb/build.c
++@@ -505,7 +505,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+  
+      command_init(&cmd, TAR, "tar -cf");
+      command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
+@@ -40,4 +37,5 @@ index 68d1875..053fcb7 100644
+      if (options->mode)
+        command_add_args(&cmd, "--mode", options->mode, NULL);
+ -- 
+-2.11.0
++2.25.1
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg/noman.patch b/meta/recipes-devtools/dpkg/dpkg/noman.patch
+index a7f3cb8f45..6900716b11 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/noman.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/noman.patch
+@@ -1,22 +1,21 @@
+ Upstream-Status: Inappropriate [disable feature]
+ 
+ ---
+- Makefile.am | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
++ Makefile.am | 1 -
++ 1 file changed, 1 deletion(-)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index 0da52cb16..a1f79e0a2 100644
++index d963a10..7cef7f5 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -13,8 +13,7 @@ SUBDIRS = \
++@@ -11,7 +11,6 @@ SUBDIRS = \
+  	$(MAYBE_DSELECT) \
+  	scripts \
+- 	t-func \
+--	po \
+--	man
+-+	po
++ 	po \
++-	man \
++ 	# EOL
+  
+  ACLOCAL_AMFLAGS = -I m4
+- 
+ -- 
+-2.11.0
++2.25.1
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
+index 4f408ff777..ebf838ffe9 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/remove-tar-no-timestamp.patch
+@@ -3,11 +3,15 @@ busybox-1.19.4 tar utility doesn't support --warning=no-timestamp
+ Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+ 
+ Upstream-Status: Inappropriate [configuration]
+-Index: dpkg-1.17.1/dpkg-deb/extract.c
+-===================================================================
+---- dpkg-1.17.1.orig/dpkg-deb/extract.c
+-+++ dpkg-1.17.1/dpkg-deb/extract.c
+-@@ -318,7 +318,6 @@ extracthalf(const char *debar, const cha
++---
++ src/deb/extract.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/src/deb/extract.c b/src/deb/extract.c
++index a1b2dc0..95e2372 100644
++--- a/src/deb/extract.c
+++++ b/src/deb/extract.c
++@@ -333,7 +333,6 @@ extracthalf(const char *debar, const char *dir,
+  
+        command_add_arg(&cmd, "-f");
+        command_add_arg(&cmd, "-");
+@@ -15,3 +19,6 @@ Index: dpkg-1.17.1/dpkg-deb/extract.c
+  
+        m_dup2(p2[0],0);
+        close(p2[0]);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.1.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.2.bb
+similarity index 95%
+rename from meta/recipes-devtools/dpkg/dpkg_1.21.1.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.21.2.bb
+index ccb4f06d32..ef2e06ee4a 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.21.1.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.21.2.bb
+@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+ 
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ 
+-SRCREV = "9b52f8fa74571049d868cb2af0643ee7f89a6151"
++SRCREV = "a9580d3aec5f487a81664a462ec70ec1993f19f8"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.25.1
 
 
