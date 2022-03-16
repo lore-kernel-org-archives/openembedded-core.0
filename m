@@ -1,378 +1,509 @@
-Return-Path: <matthias.klein@optimeas.de>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 143E9C433EF
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 16:19:32 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.50])
- by mx.groups.io with SMTP id smtpd.web11.27480.1647447569298574544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD4AC433FE
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 16:29:57 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web12.27163.1647448196197994218
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 09:19:31 -0700
+ Wed, 16 Mar 2022 09:29:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@optimeasgmbh.onmicrosoft.com
- header.s=selector2-optimeasgmbh-onmicrosoft-com header.b=EoQ/QmnY;
- spf=pass (domain: optimeas.de, ip: 40.107.22.50,
- mailfrom: matthias.klein@optimeas.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gwBfW8IQDg0n64PuLtmgF/oKRPeZsyPdY0n3yb3A1rf5oecvjW4q+jm9V9QkCP/hJEoZtZwXweXxqTztD1X/ITAGd9xpIuS0gGKuci0/izFsafPRNZ25+66hCjsjCFTI9MfhC/fYcDs2ngS7RgVYbTLCTfNLZdSlTQIbOGtCKn548CZg9P9TqQIkCIR9LqKSeGEOPKrXN+/Y3m5wfKYbt7zi7/ZA4cAPQ7z+on/NBHCKaOphsthxevHfDfNiFLzfX1K1Gdko5BHE//o6k4VKuAME4mQGHeyTlhrlQV8MgIp2d6yZJt7ddVaYHoY02UTi+ULVk7vtPsF14l5aOf8SEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tv+oimfepZ+Wqv5oUem1w7i8uTph8ww0z2lHpc/uEq8=;
- b=WBu4iMYEMm5B+2mTLfJixH9SKDdBuLlBQYubfYwl35/xZaTiwpsCtGdlbtngUNtg6Ex74KUsvop55AlzDGGzBk4z2QCN6jEP8Rgmip/CgVJX/ks9q3BIWIJqTxLojbtg2dNbh3ario8+uc263hMqfQqe1fhJ9xi4Fzj6AGpMLfk+gYqxA13R3K8MvP8rFhvr7tPNtihuB0A2X5G4QnG5Zk4BGfzQMSzVK6yANKS30u2nhELmri2k0rDTVsCy7Dv+KsInKD2uGL4liBcEOyo/blmq/XWOIuvXiV2Iz7nlW+PLtfyvoNadWNEMPMazbKEv/MjRB/xh8Tfyov4RjhVSCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=optimeas.de; dmarc=pass action=none header.from=optimeas.de;
- dkim=pass header.d=optimeas.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=optimeasgmbh.onmicrosoft.com; s=selector2-optimeasgmbh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tv+oimfepZ+Wqv5oUem1w7i8uTph8ww0z2lHpc/uEq8=;
- b=EoQ/QmnYnVOoiPqdRgCiKI+opC/Kxj+Qi41JigLSiSKoP0iHWoO0EFMVhYJPuO2kFX7ejsra4wC0CA3rRwvZA5lX+pzfeAkBaWGPwIWDFRxXlnsPdT9VaZZtusfcw9BY+6DQjZi8+hJ0XTeWN9sY9TDUrqYFFQY1CN/LxVjPlRQ=
-Received: from AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:128::16)
- by AM0PR10MB1937.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:49::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
- 2022 16:19:25 +0000
-Received: from AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::79bd:e9ef:d96c:6731]) by AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::79bd:e9ef:d96c:6731%6]) with mapi id 15.20.5061.029; Wed, 16 Mar 2022
- 16:19:25 +0000
-From: Matthias Klein <matthias.klein@optimeas.de>
-To: "f_l_k@t-online.de" <f_l_k@t-online.de>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: AW: [OE-core] nativesdk-mesa fails to build since upgrade to version
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
+	by mailout03.t-online.de (Postfix) with SMTP id 501185241
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Mar 2022 17:29:54 +0100 (CET)
+Received: from [192.168.178.83] ([84.163.47.155]) by fwd84.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1nUWX4-0Ffmq10; Wed, 16 Mar 2022 17:29:54 +0100
+Content-Type: multipart/alternative;
+ boundary="------------1hLl9ligFioFmnHTBAMR0kdE"
+Message-ID: <c3bd7d1b-a4c0-bb6b-34c1-4d65b658f209@t-online.de>
+Date: Wed, 16 Mar 2022 17:29:53 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [OE-core] nativesdk-mesa fails to build since upgrade to version
  22.0.0
-Thread-Topic: [OE-core] nativesdk-mesa fails to build since upgrade to version
- 22.0.0
-Thread-Index: Adg5B3htIJKbaUXOQCC3FunZ4rfbiAACUZwqAACX13AADwGEYA==
-Date: Wed, 16 Mar 2022 16:19:25 +0000
-Message-ID: 
- <AM0PR10MB3107BD5AA37CDF8EBF972CA099119@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
 References: 
  <AM0PR10MB3107FFA113179C9A717C03A199119@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
  <16DCCE8EC93DCD97.17060@lists.openembedded.org>
  <33fa836d-4905-b46a-4a72-31ccef03693e@t-online.de>
  <16DCD0A1D561F84D.17060@lists.openembedded.org>
-In-Reply-To: <16DCD0A1D561F84D.17060@lists.openembedded.org>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=optimeas.de;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 20b2e505-0982-4f5e-60de-08da0768bcd7
-x-ms-traffictypediagnostic: AM0PR10MB1937:EE_
-x-microsoft-antispam-prvs: 
- <AM0PR10MB1937876B1247FCECCA16255B99119@AM0PR10MB1937.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- bIERzENh6jLbLDyJUIO3yjiVf4lYPnaChUgppGM8QA/ARd2MeUD0iOMVa1mfuPDii2HHH/UeoXocsAy5Y9+4G13U9KtuyjFnDITcfLObfFGnho9GnNUXEOYqShaRMnEgwWN4/WE4LyZfkgRb4acSdyZjjSd5e10GbPiJ3A+FLqac/KEEac0s4gRL56Q8nUt3Y8dTWhGy53ol6cxro6KzhWCfsFKLVgki81KyQOrETEt1muCoErCUjtjjohkdGX3QM9HFyO1EQNXLPa6Vps1a7k8Kdf1IgiOmkcRQlMwFfsf09rS6CFEbuMPmJ+IU6yWTFeehVbwtTZFUvkuJmowFUMK09N3ZsbaXADJDuU3B7BOSBuEK+pchxPjc6C/VSrmMThQ2K97SEApz8Gu2CkQqEQFnIiIyzOm9vRvk2MsZDnLPr9Cbtt7lzXCyKM6BOMDQL5uNaKjAuXxlY3wgSvAmdClQZsACb/sTsTqBY8luaZWyF99qyvQUqCMFPd9KSV1OR5yq/S75iiLiRp1sHUe2tObe76rmWPk5f5Jpgrbgj/PiomR0UPWyiDFZ1FU+Li4BY+NGwJxhgBVFaLTRDk2pljLoFFAgvEZxXEZXUQulI13cez9WAL5KkJDrO13aT4ft+Unlxb8v54WtfKLz7jZwrMB0FT0/XyPPQyGU/wTuQEPL0Fp79Sb3/kYRyGTH9VGoQuLOXpW7bhmuaB7oK6oogw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(376002)(396003)(39830400003)(136003)(346002)(366004)(6506007)(186003)(86362001)(9686003)(83380400001)(33656002)(71200400001)(52536014)(8936002)(7696005)(38070700005)(122000001)(2906002)(19627235002)(66556008)(110136005)(76116006)(66946007)(8676002)(316002)(5660300002)(66476007)(44832011)(66574015)(55016003)(508600001)(38100700002)(64756008)(66446008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?V0R1QXIvbkRyL0g0ODVhNTRRTUdiUTlPdXlTRE5SUkR0Y2h1QithVUdjam96?=
- =?utf-8?B?eUFHc2JnOVIxVnR3Qi95dHRHQm1CRTBEN3NxeGg0S2VUSFI2d3ArRmJTM1hP?=
- =?utf-8?B?QnJTUXN5U2NNK3lqQUlpc3B0ejhLTTNHV1ZMSVJyVFZ0WDBvNEVzb2wyQk1l?=
- =?utf-8?B?V0YzRDhxV0IxeTJtSmJPVS9jbCs1NHVZNFZxWGE5ZWJzanlrNlJsSy84MFc5?=
- =?utf-8?B?NzN1cFZPeHMyamw3UVptUFhoUGNlZ0tXZVVPOUpNT0l3ekkrZWVjQU10akYw?=
- =?utf-8?B?OWJPV1VWcFYzWnlKYVFqRVE0TVhSbWtWUXh5QVdSek84eFhjUmVjRjN0YjQw?=
- =?utf-8?B?N041U3hxdE11UlJsSzZJQTdsQytaZXgwQmUvUFhQRlpmZkJ5UUt0Nnhta0My?=
- =?utf-8?B?M2hOenNaTy9xSlp0bFUwKyt1T0hNR21UelpRVXE0OEhUTHhmL2VxRmtqTkJq?=
- =?utf-8?B?aXFudXJFaGlwT2xlc0htWEdGYUk1S3BiYUNLNC9nOHE3VktsSHQ2aTM0WlN4?=
- =?utf-8?B?THFMV0hKZEpHNG9aNTZ2WXJ6SWpNWlNWWGpac2xLTlo1TFkvOEdML3EwZTJP?=
- =?utf-8?B?NGluaCt5RlJDU09hZmVudFE2c1FMbFZ2a21XUUFVYytrc200V2x6TnBGbllX?=
- =?utf-8?B?SXpFS1FoTjhOWUIvTVE1UWZuZjFULzlZN0IvQ0Nlam1adXorbTkxNUc3cXlW?=
- =?utf-8?B?MnR1dWRycWM4bzdKTkVpcDlxUjA1dWRYUGZQaVZlRENhYXNadG5jeWFHL2sx?=
- =?utf-8?B?bVc4dW5MK0dzZDJFcnJuMENpR0UyQ2tTNjVuRkRYRFRQZXcwNkkrR0Z6OVNs?=
- =?utf-8?B?MWZpbGFWSHpiVjlwazdZdWJPSkFicm55S1VyS250d0xBQ0ZtNXJrTTU3dzRp?=
- =?utf-8?B?ZFkwVUhOUnM1OHlsamJhZVZkTzZtNm52cldjUzBNc2dLWlNXekpiWFhrSldy?=
- =?utf-8?B?UW90N3VWS3FuNHlkTjJDMjFvanhEdkJGZ3hqaDc4ZktxMmUxci9zRjdPS2tY?=
- =?utf-8?B?ZUlLOWREYmtuQlZBU2JNK3h0K1lQT09nM3NxNlc1LzdFVi9rNG41V2x6eG4z?=
- =?utf-8?B?b2ZXTEZqQk1iNTBDL0drT0J5SnU3S2gyclBSenhPOXlMUzFvaEd1MENDNGEx?=
- =?utf-8?B?eS9vdUVRUDcySkp3SnVjR0pqUWE4N3JPelF6K3IvZFhNMzFwdG9MdkRmK0Ey?=
- =?utf-8?B?RU1aVXcycjFaZFpxa0paalltbFF0Sm8xK01sNDJRaER4YUs5WGpEcVpTU3B5?=
- =?utf-8?B?THNWSXFiN2hwUmlLT3o5a0NqODhaQVpnZk0vclFqSk5jY0RrVHQ0VWw1VVVj?=
- =?utf-8?B?THg3Qm1hdkJ6SnhCVGlmeHRqajFEZUFIak8vM3ZUTndJdkZCMEU3elRneGVW?=
- =?utf-8?B?SmhVV1ZHdmUrcXRhSUttSmlGQWVPdVBidjJnZldSMTc5d04reTkvR0RsKzNv?=
- =?utf-8?B?QTVobXdvQnpoQ1NZVm84M1FsWDVrWXhFMERwVDdQL1QxVDRiYm1DZWNuMWZB?=
- =?utf-8?B?TzFjc1AwTENzemxreW85NmZtRnFROHhPNW1UVU1kaXQvR291a0pHRkFoQldE?=
- =?utf-8?B?WVgwQnJxZ0FUU25lYnFVVWRWSllFWUJiMWhoQ0RTZzI1Zm1TUDBMYWZCQmhn?=
- =?utf-8?B?TUJSeUpRMmlIZWJqeGdQZHJNNStlcnczR2hoTmFGM2ZkQzRHMWpaMWprRmR2?=
- =?utf-8?B?TDVxdE0vaEFmaXM1TlM1MXNqS0ZWUDd6Q21Rb1YyZnRYa1F4aFNOa1lNMENF?=
- =?utf-8?B?KzlFQkF2dkNmU0VvQ0RHTVdsNGVWZ1F5a2YwOTZwdWs3MnhJd216MW1BN1lz?=
- =?utf-8?B?OUdGekdIQ0J6Q3F4aVZENmFzTUFpeDI1TzRuWnc4SWhRMUk3M2RtT002UGFr?=
- =?utf-8?B?ZlMwRDZYQ1NTRmJlVWtOcmhIRGNGM0ZOc1BCaVgvd0tuN3ZsMGRLcGNtSTls?=
- =?utf-8?B?TFFsR3hxVld4eXlHalhxQUpreG5DUXBOV0R1MHA5eGFSaU93SDc2djljSG1O?=
- =?utf-8?B?OWZPeXh4M255SHp1Ly9hdnZCOEZBbkVnM3FHWXZlY1Z3K2VmcVM4dGplSUto?=
- =?utf-8?B?QjlkQUh0NDVrY2JURHAxTU5iRVB2aDY0UE9wUT09?=
-Content-Type: multipart/alternative;
-	boundary="_000_AM0PR10MB3107BD5AA37CDF8EBF972CA099119AM0PR10MB3107EURP_"
-MIME-Version: 1.0
-X-OriginatorOrg: optimeas.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 20b2e505-0982-4f5e-60de-08da0768bcd7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2022 16:19:25.1946
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 91b33c5b-e584-4ec0-893c-2a9180ad0602
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- SAd6+8hNLOLNf1hlVV7xgjZ1pTYYW35wQlWCpz1BHzVVob2s2qqTF0EYNNIa2F7kHq6KB7NiEk64OUQJfUMzNp4PPXsV4QCB8xCkXXpTrr4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB1937
+ <AM0PR10MB3107BD5AA37CDF8EBF972CA099119@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
+From: Markus Volk <f_l_k@t-online.de>
+In-Reply-To: 
+ <AM0PR10MB3107BD5AA37CDF8EBF972CA099119@AM0PR10MB3107.EURPRD10.PROD.OUTLOOK.COM>
+X-TOI-EXPURGATEID: 150726::1647448194-00009E39-534B8EBB/0/0 CLEAN NORMAL
+X-TOI-MSGID: a5b7b1c0-e903-4de0-bca8-0155336aed11
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 16:19:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 16:29:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163339
+ https://lists.openembedded.org/g/openembedded-core/message/163340
 
---_000_AM0PR10MB3107BD5AA37CDF8EBF972CA099119AM0PR10MB3107EURP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+This is a multi-part message in MIME format.
+--------------1hLl9ligFioFmnHTBAMR0kdE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-SGVsbG8gTWFya3VzLA0KDQpib3RoIHZhcmlhbnRzIHdvcmsuIEkgdGhlbiB1c2VkIHRoZSBsYXR0
-ZXIgb25lOg0KUEFDS0FHRUNPTkZJRzphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBkcmkzIg0KUEFD
-S0FHRUNPTkZJRzphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiBkcmkzIg0KDQpJIGhhdmUgc3Vj
-Y2Vzc2Z1bGx5IGJ1aWx0IHNtYWxsIFFNTCAoUXQgNi4yLjQpIHRlc3QgcHJvZ3JhbXMgd2l0aCB0
-aGUgU0RLLCB3aGljaCBhbHNvIHJ1biBuaWNlbHkgb24gdGhlIGhhcmR3YXJlIChpLk1YNiBEdWFs
-TGl0ZSB3aXRoIGtlcm5lbCA1LjEwIC8gZXRuYXZpdikuDQoNCk1hbnkgZ3JlZXRpbmdzLA0KTWF0
-dGhpYXMNCg0KVm9uOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBJbSBBdWZ0cmFnIHZvbiBN
-YXR0aGlhcyBLbGVpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KR2VzZW5kZXQ6IE1pdHR3
-b2NoLCAxNi4gTcOkcnogMjAyMiAwOTo1Ng0KQW46IGZfbF9rQHQtb25saW5lLmRlOyBvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpCZXRyZWZmOiBSZTogW09FLWNvcmVd
-IG5hdGl2ZXNkay1tZXNhIGZhaWxzIHRvIGJ1aWxkIHNpbmNlIHVwZ3JhZGUgdG8gdmVyc2lvbiAy
-Mi4wLjANCg0KSGVsbG8gTWFya3VzLA0KDQpUaGFua3MgZm9yIHRoZSBxdWljayBoZWxwIQ0KDQpU
-aGUgdmFyaWFudCAiIHRvIHJlbW92ZSB4MTEgIiBzZWVtcyB0byBidWlsZCAoaW5jcmVtZW50YWxs
-eSkuIEhvd2V2ZXIsIHRoZSBTREsgaXMgc3RpbGwgYnVpbGRpbmcuDQpBZnRlciB0aGF0IEkgd2ls
-bCB0ZXN0IHRoZSB2YXJpYW50IHJlZ2FyZGluZyBkcmkzLiBBZnRlciB0aGF0IEkgd2lsbCBhbHNv
-IGRvIGEgZnVsbC9jbGVhbiBidWlsZC4NCg0KQWZ0ZXJ3YXJkcyBJIHdpbGwgcmVwb3J0LiBCdXQg
-aXQgd2lsbCB0YWtlIGEgZmV3IGhvdXJzIC4uLg0KDQpNYW55IGdyZWV0aW5ncywNCk1hdHRoaWFz
-DQoNClZvbjogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gPG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+PiBJbSBBdWZ0cmFnIHZvbiBNYXJrdXMgVm9sayB2aWEgbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KR2VzZW5kZXQ6IE1pdHR3b2NoLCAxNi4gTcOkcnogMjAyMiAwOToz
-NQ0KQW46IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpCZXRyZWZmOiBSZTogW09F
-LWNvcmVdIG5hdGl2ZXNkay1tZXNhIGZhaWxzIHRvIGJ1aWxkIHNpbmNlIHVwZ3JhZGUgdG8gdmVy
-c2lvbiAyMi4wLjANCg0KDQpXaGF0IGRvZXMgaGFwcGVuLCBpZiBhZGRpbmcgZHJpMyBsaWtlIHRo
-aXM/DQoNClBBQ0tBR0VDT05GSUc6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZHJpMyINCg0KUEFD
-S0FHRUNPTkZJRzphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gImRyaTMiDQoNCg0KDQoNCkFtIDE2
-LjAzLjIyIHVtIDA5OjE3IHNjaHJpZWIgTWFya3VzIFZvbGs6DQpIaSBNYXR0aGlhcywNCg0Kc2lu
-Y2UgeW91IGhhdmUgZGlzYWJsZWQgeDExIGZvciB0YXJnZXQgLi4uIGRvZXMgaXQgaGVscCB0byBh
-bHNvIHJlbW92ZSBpdCBmcm9tIG5hdGl2ZSBhbmQgbmF0aXZlc2RrID8NCg0KUEFDS0FHRUNPTkZJ
-RzpyZW1vdmU6Y2xhc3MtbmF0aXZlID0gIiB4MTEiDQoNClBBQ0tBR0VDT05GSUc6cmVtb3ZlOmNs
-YXNzLW5hdGl2ZXNkayA9ICIgeDExIg0KDQpSZWdhcmRzLA0KDQpNYXJrdXMNCg0KQW0gMTYuMDMu
-MjIgdW0gMDg6NDAgc2NocmllYiBNYXR0aGlhcyBLbGVpbjoNCkhlbGxvLA0KDQpJIGFtIHVzaW5n
-IG1lc2EgaW4gY29uanVuY3Rpb24gd2l0aCBtZXRhLXF0NiB3aXRob3V0IFgxMS93YXlsYW5kIG9u
-IGFuIGlNWDYgd2l0aCBldG5hdml2Lg0KDQpTbyBpbiBhIGJiYXBwZW5kIEkgaGF2ZTogUEFDS0FH
-RUNPTkZJRzphcHBlbmQgPSAiIGV0bmF2aXYiLg0KDQpJIHVzZSBwb2t5IHdpdGggdGhlIGZvbGxv
-d2luZyBESVNUUk9fRkVBVFVSRVM6DQpESVNUUk9fRkVBVFVSRVM6cmVtb3ZlID0gIngxMSB3YXls
-YW5kIHZ1bGthbiAzZyBuZmMgbmZzIHplcm9jb25mIg0KRElTVFJPX0ZFQVRVUkVTOmFwcGVuZCA9
-ICIgZGlyZWN0ZmIgb3BlbmdsIg0KDQpVbmZvcnR1bmF0ZWx5LCBuYXRpdmVzZGstbWVzYSBub3cg
-bm8gbG9uZ2VyIGJ1aWxkcyBvbiBidWlsZCB2aWEgIi1jIHBvcHVsYXRlX3NkayIuIEhvd2V2ZXIs
-IHRoZSBwYWNrYWdlIGZvciB0aGUgdGFyZ2V0IHN0aWxsIGJ1aWxkcy4NCg0KfCAuLi9tZXNhLTIy
-LjAuMC9tZXNvbi5idWlsZDo1MjA6IFdBUk5JTkc6IGNhbm5vdCBhdXRvLWRldGVjdCAtbXRscy1k
-aWFsZWN0IHdoZW4gY3Jvc3MtY29tcGlsaW5nLCB1c2luZyBjb21waWxlciBkZWZhdWx0DQp8DQp8
-IC4uL21lc2EtMjIuMC4wL21lc29uLmJ1aWxkOjYxNDoyOiBFUlJPUjogUHJvYmxlbSBlbmNvdW50
-ZXJlZDoga21zcm8gcmVxdWlyZXMgZHJpMyBmb3IgWDExIHN1cHBvcnQNCg0KSSBjb21wYXJlZCB0
-aGUgbWVzb24gY2FsbHMgb24gdGhlIHRhcmdldCBhbmQgU0RLIGJ1aWxkczoNCk5PVEU6IEV4ZWN1
-dGluZyBtZXNvbiAtRHNoYXJlZC1nbGFwaT1lbmFibGVkIC1EZ2FsbGl1bS1vcGVuY2w9ZGlzYWJs
-ZWQgLURnbHgtcmVhZC1vbmx5LXRleHQ9dHJ1ZSAtRHBsYXRmb3Jtcz0gLURkcmkzPWRpc2FibGVk
-IC1EZWdsPWVuYWJsZWQgLURlbGYtdGxzPXRydWUgLURnYWxsaXVtLWRyaXZlcnM9c3dyYXN0LGV0
-bmF2aXYsIHZpcmdsIC1EbGx2bT1kaXNhYmxlZCAtRGdibT1lbmFibGVkIC1EZ2xlczE9ZW5hYmxl
-ZCAtRGdsZXMyPWVuYWJsZWQgLURsbXNlbnNvcnM9ZGlzYWJsZWQgLURvcGVuZ2w9dHJ1ZSAtDQpE
-b3NtZXNhPWZhbHNlIC1EbGlidW53aW5kPWRpc2FibGVkIC1EZ2FsbGl1bS12YT1kaXNhYmxlZCAt
-RGdhbGxpdW0tdmRwYXU9ZGlzYWJsZWQgLUR2dWxrYW4tZHJpdmVycz0gLURnbHg9ZGlzYWJsZWQg
-LURnYWxsaXVtLXhhPWRpc2FibGVkIC1EZ2FsbGl1bS14dm1jPWRpc2FibGVkLiAuLg0KDQpOT1RF
-OiBFeGVjdXRpbmcgbWVzb24gLURzaGFyZWQtZ2xhcGk9ZW5hYmxlZCAtRGdhbGxpdW0tb3BlbmNs
-PWRpc2FibGVkIC1EZ2x4LXJlYWQtb25seS10ZXh0PXRydWUgLURwbGF0Zm9ybXM9eDExIC1EZHJp
-Mz1kaXNhYmxlZCAtRGVnbD1lbmFibGVkIC1EZWxmLXRscz10cnVlIC1EZ2FsbGl1bS1kcml2ZXJz
-PXN3cmFzdCwgZXRuYXZpdiAtRGxsdm09ZGlzYWJsZWQgLURnYm09ZW5hYmxlZCAtRGdsZXMxPWRp
-c2FibGVkIC1EZ2xlczI9ZGlzYWJsZWQgLURsbXNlbnNvcnM9ZGlzYWJsZWQgLURvcGVuZ2w9dHJ1
-ZSAtRG9zbWVzYT1mYWxzZSAtRGxpYnVud2luZD1kaXNhYmxlZCAtRGdhbGxpdW0tdmE9ZGlzYWJs
-ZWQgLURnYWxsaXVtLXZkcGF1PWRpc2FibGVkIC1EdnVsa2FuLWRyaXZlcnM9IC1EZ2FsbGl1bS14
-YT1kaXNhYmxlZCAtRGdhbGxpdW0teHZtYz1kaXNhYmxlZC4gLi4NCg0KRG9lcyBhbnlvbmUgaGF2
-ZSBhbnkgaWRlYSB3aGF0IEkgY291bGQgZG8gdG8gZ2V0IHRoZSBTREsgYnVpbHQ/DQoNCk1hbnkg
-Z3JlZXRpbmdzLA0KTWF0dGhpYXMNCg0KDQoNCg0KDQoNCg0K
+Hi Matthias,
 
---_000_AM0PR10MB3107BD5AA37CDF8EBF972CA099119AM0PR10MB3107EURP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+I created a patchset to align mesa PACKAGECONFIG for native and target=20
+builds.
+I tried compiling my own images and core-image-sato with this patchset=20
+and had no problems.
+Hopefully this will fix your problem as well.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCWZvbnQtc2l6ZTox
-MS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KYTpsaW5rLCBzcGFu
-Lk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6IzA1NjNDMTsN
-Cgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnByZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6
-OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgVm9yZm9ybWF0aWVydCBaY2huIjsNCgltYXJnaW46
-MGNtOw0KCWZvbnQtc2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpz
-cGFuLkhUTUxWb3Jmb3JtYXRpZXJ0WmNobg0KCXttc28tc3R5bGUtbmFtZToiSFRNTCBWb3Jmb3Jt
-YXRpZXJ0IFpjaG4iOw0KCW1zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoi
-SFRNTCBWb3Jmb3JtYXRpZXJ0IjsNCglmb250LWZhbWlseTpDb25zb2xhczt9DQpzcGFuLm4NCgl7
-bXNvLXN0eWxlLW5hbWU6bjt9DQpzcGFuLmVycg0KCXttc28tc3R5bGUtbmFtZTplcnI7fQ0Kc3Bh
-bi5vDQoJe21zby1zdHlsZS1uYW1lOm87fQ0Kc3Bhbi5FLU1haWxGb3JtYXR2b3JsYWdlMjYNCgl7
-bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNh
-bnMtc2VyaWY7DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5
-bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0
-aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDIu
-MGNtIDcwLjg1cHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
-LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
-dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3Rl
-IG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpl
-eHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
-DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJERSIgbGluaz0iIzA1NjNDMSIgdmxpbms9IiM5NTRGNzIi
-IHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEi
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTIj5IZWxsbyBNYXJrdXMsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPmJvdGggdmFyaWFudHMgd29yay4gSSB0aGVuIHVz
-ZWQgdGhlIGxhdHRlciBvbmU6PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5QQUNLQUdFQ09O
-RklHOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAmcXVvdDsgZHJpMyZxdW90OzxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+UEFDS0FHRUNPTkZJRzphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gJnF1
-b3Q7IGRyaTMmcXVvdDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFy
-ZWFzdC1sYW5ndWFnZTpFTi1VUyI+SSBoYXZlIHN1Y2Nlc3NmdWxseSBidWlsdCBzbWFsbCBRTUwg
-KFF0IDYuMi40KSB0ZXN0IHByb2dyYW1zIHdpdGggdGhlIFNESywgd2hpY2ggYWxzbyBydW4gbmlj
-ZWx5IG9uIHRoZSBoYXJkd2FyZSAoaS5NWDYgRHVhbExpdGUgd2l0aCBrZXJuZWwgNS4xMCAvIGV0
-bmF2aXYpLg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3Qt
-bGFuZ3VhZ2U6RU4tVVMiPk1hbnkgZ3JlZXRpbmdzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1V
-UyI+TWF0dGhpYXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNv
-bGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48Yj5Wb246PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0K
-PGI+SW0gQXVmdHJhZyB2b24gPC9iPk1hdHRoaWFzIEtsZWluIHZpYSBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPGJyPg0KPGI+R2VzZW5kZXQ6PC9iPiBNaXR0d29jaCwgMTYuIE3DpHJ6IDIwMjIgMDk6
-NTY8YnI+DQo8Yj5Bbjo8L2I+IGZfbF9rQHQtb25saW5lLmRlOyBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+QmV0cmVmZjo8L2I+IFJlOiBbT0UtY29yZV0g
-bmF0aXZlc2RrLW1lc2EgZmFpbHMgdG8gYnVpbGQgc2luY2UgdXBncmFkZSB0byB2ZXJzaW9uIDIy
-LjAuMDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5IZWxsbyBNYXJrdXMsPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxh
-bmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPlRoYW5rcyBm
-b3IgdGhlIHF1aWNrIGhlbHAhPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNv
-LWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPlRoZSB2YXJpYW50ICZxdW90OyB0byByZW1vdmUgeDEx
-ICZxdW90OyBzZWVtcyB0byBidWlsZCAoaW5jcmVtZW50YWxseSkuIEhvd2V2ZXIsIHRoZSBTREsg
-aXMgc3RpbGwgYnVpbGRpbmcuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5BZnRlciB0aGF0
-IEkgd2lsbCB0ZXN0IHRoZSB2YXJpYW50IHJlZ2FyZGluZyBkcmkzLiBBZnRlciB0aGF0IEkgd2ls
-bCBhbHNvIGRvIGEgZnVsbC9jbGVhbiBidWlsZC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+QWZ0ZXJ3YXJkcyBJIHdpbGwgcmVw
-b3J0LiBCdXQgaXQgd2lsbCB0YWtlIGEgZmV3IGhvdXJzIC4uLjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFn
-ZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5NYW55IGdyZWV0aW5n
-cyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPk1hdHRoaWFzPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1
-YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdiBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4w
-cHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+Vm9uOjwvYj4gPGEgaHJl
-Zj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPg0Kb3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT4gJmx0OzxhIGhyZWY9Im1h
-aWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5vcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPiZndDsNCjxiPkltIEF1ZnRyYWcgdm9u
-IDwvYj5NYXJrdXMgVm9sayB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPkdlc2Vu
-ZGV0OjwvYj4gTWl0dHdvY2gsIDE2LiBNw6RyeiAyMDIyIDA5OjM1PGJyPg0KPGI+QW46PC9iPiA8
-YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQo8Yj5CZXRy
-ZWZmOjwvYj4gUmU6IFtPRS1jb3JlXSBuYXRpdmVzZGstbWVzYSBmYWlscyB0byBidWlsZCBzaW5j
-ZSB1cGdyYWRlIHRvIHZlcnNpb24gMjIuMC4wPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cD5XaGF0IGRv
-ZXMgaGFwcGVuLCBpZiBhZGRpbmcgZHJpMyBsaWtlIHRoaXM/PG86cD48L286cD48L3A+DQo8cHJl
-PjxzcGFuIGNsYXNzPSJuIj5QQUNLQUdFQ09ORklHPC9zcGFuPjxzcGFuIGNsYXNzPSJlcnIiPjo8
-L3NwYW4+PHNwYW4gY2xhc3M9Im4iPmFwcGVuZDpjbGFzczwvc3Bhbj48c3BhbiBjbGFzcz0ibyI+
-LTwvc3Bhbj48c3BhbiBjbGFzcz0ibiI+bmF0aXZlID0gJnF1b3Q7IGRyaTMmcXVvdDs8bzpwPjwv
-bzpwPjwvc3Bhbj48L3ByZT4NCjxwcmU+PHNwYW4gY2xhc3M9Im4iPlBBQ0tBR0VDT05GSUc8L3Nw
-YW4+PHNwYW4gY2xhc3M9ImVyciI+OmFwcGVuZDo8L3NwYW4+PHNwYW4gY2xhc3M9Im4iPmNsYXNz
-PC9zcGFuPjxzcGFuIGNsYXNzPSJvIj4tPC9zcGFuPjxzcGFuIGNsYXNzPSJuIj5uYXRpdmVzZGsg
-PSAmcXVvdDtkcmkzJnF1b3Q7PC9zcGFuPjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+QW0gMTYuMDMuMjIgdW0gMDk6MTcgc2NocmllYiBNYXJrdXMgVm9s
-azo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9Im1hcmdpbi10b3A6
-NS4wcHQ7bWFyZ2luLWJvdHRvbTo1LjBwdCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-bWFyZ2luLWJvdHRvbToxMi4wcHQiPkhpIE1hdHRoaWFzLCA8YnI+DQo8YnI+DQpzaW5jZSB5b3Ug
-aGF2ZSBkaXNhYmxlZCB4MTEgZm9yIHRhcmdldCAuLi4gZG9lcyBpdCBoZWxwIHRvIGFsc28gcmVt
-b3ZlIGl0IGZyb20gbmF0aXZlIGFuZCBuYXRpdmVzZGsgPw0KPGJyPg0KPGJyPg0KUEFDS0FHRUNP
-TkZJRzpyZW1vdmU6Y2xhc3MtbmF0aXZlID0gJnF1b3Q7IHgxMSZxdW90OyA8YnI+DQo8YnI+DQpQ
-QUNLQUdFQ09ORklHOnJlbW92ZTpjbGFzcy1uYXRpdmVzZGsgPSAmcXVvdDsgeDExJnF1b3Q7IDxi
-cj4NCjxicj4NClJlZ2FyZHMsIDxicj4NCjxicj4NCk1hcmt1cyA8YnI+DQo8YnI+DQpBbSAxNi4w
-My4yMiB1bSAwODo0MCBzY2hyaWViIE1hdHRoaWFzIEtsZWluOiA8bzpwPjwvbzpwPjwvcD4NCjxi
-bG9ja3F1b3RlIHN0eWxlPSJtYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1ib3R0b206NS4wcHQiPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5IZWxsbywg
-PGJyPg0KPGJyPg0KSSBhbSB1c2luZyBtZXNhIGluIGNvbmp1bmN0aW9uIHdpdGggbWV0YS1xdDYg
-d2l0aG91dCBYMTEvd2F5bGFuZCBvbiBhbiBpTVg2IHdpdGggZXRuYXZpdi4NCjxicj4NCjxicj4N
-ClNvIGluIGEgYmJhcHBlbmQgSSBoYXZlOiBQQUNLQUdFQ09ORklHOmFwcGVuZCA9ICZxdW90OyBl
-dG5hdml2JnF1b3Q7LiA8YnI+DQo8YnI+DQpJIHVzZSBwb2t5IHdpdGggdGhlIGZvbGxvd2luZyBE
-SVNUUk9fRkVBVFVSRVM6IDxicj4NCkRJU1RST19GRUFUVVJFUzpyZW1vdmUgPSAmcXVvdDt4MTEg
-d2F5bGFuZCB2dWxrYW4gM2cgbmZjIG5mcyB6ZXJvY29uZiZxdW90OyA8YnI+DQpESVNUUk9fRkVB
-VFVSRVM6YXBwZW5kID0gJnF1b3Q7IGRpcmVjdGZiIG9wZW5nbCZxdW90OyA8YnI+DQo8YnI+DQpV
-bmZvcnR1bmF0ZWx5LCBuYXRpdmVzZGstbWVzYSBub3cgbm8gbG9uZ2VyIGJ1aWxkcyBvbiBidWls
-ZCB2aWEgJnF1b3Q7LWMgcG9wdWxhdGVfc2RrJnF1b3Q7LiBIb3dldmVyLCB0aGUgcGFja2FnZSBm
-b3IgdGhlIHRhcmdldCBzdGlsbCBidWlsZHMuDQo8YnI+DQo8YnI+DQp8IC4uL21lc2EtMjIuMC4w
-L21lc29uLmJ1aWxkOjUyMDogV0FSTklORzogY2Fubm90IGF1dG8tZGV0ZWN0IC1tdGxzLWRpYWxl
-Y3Qgd2hlbiBjcm9zcy1jb21waWxpbmcsIHVzaW5nIGNvbXBpbGVyIGRlZmF1bHQNCjxicj4NCnwg
-PGJyPg0KfCAuLi9tZXNhLTIyLjAuMC9tZXNvbi5idWlsZDo2MTQ6MjogRVJST1I6IFByb2JsZW0g
-ZW5jb3VudGVyZWQ6IGttc3JvIHJlcXVpcmVzIGRyaTMgZm9yIFgxMSBzdXBwb3J0DQo8YnI+DQo8
-YnI+DQpJIGNvbXBhcmVkIHRoZSBtZXNvbiBjYWxscyBvbiB0aGUgdGFyZ2V0IGFuZCBTREsgYnVp
-bGRzOiA8YnI+DQpOT1RFOiBFeGVjdXRpbmcgbWVzb24gLURzaGFyZWQtZ2xhcGk9ZW5hYmxlZCAt
-RGdhbGxpdW0tb3BlbmNsPWRpc2FibGVkIC1EZ2x4LXJlYWQtb25seS10ZXh0PXRydWUgLURwbGF0
-Zm9ybXM9IC1EZHJpMz1kaXNhYmxlZCAtRGVnbD1lbmFibGVkIC1EZWxmLXRscz10cnVlIC1EZ2Fs
-bGl1bS1kcml2ZXJzPXN3cmFzdCxldG5hdml2LCB2aXJnbCAtRGxsdm09ZGlzYWJsZWQgLURnYm09
-ZW5hYmxlZCAtRGdsZXMxPWVuYWJsZWQgLURnbGVzMj1lbmFibGVkDQogLURsbXNlbnNvcnM9ZGlz
-YWJsZWQgLURvcGVuZ2w9dHJ1ZSAtIDxicj4NCkRvc21lc2E9ZmFsc2UgLURsaWJ1bndpbmQ9ZGlz
-YWJsZWQgLURnYWxsaXVtLXZhPWRpc2FibGVkIC1EZ2FsbGl1bS12ZHBhdT1kaXNhYmxlZCAtRHZ1
-bGthbi1kcml2ZXJzPSAtRGdseD1kaXNhYmxlZCAtRGdhbGxpdW0teGE9ZGlzYWJsZWQgLURnYWxs
-aXVtLXh2bWM9ZGlzYWJsZWQuIC4uDQo8YnI+DQo8YnI+DQpOT1RFOiBFeGVjdXRpbmcgbWVzb24g
-LURzaGFyZWQtZ2xhcGk9ZW5hYmxlZCAtRGdhbGxpdW0tb3BlbmNsPWRpc2FibGVkIC1EZ2x4LXJl
-YWQtb25seS10ZXh0PXRydWUgLURwbGF0Zm9ybXM9eDExIC1EZHJpMz1kaXNhYmxlZCAtRGVnbD1l
-bmFibGVkIC1EZWxmLXRscz10cnVlIC1EZ2FsbGl1bS1kcml2ZXJzPXN3cmFzdCwgZXRuYXZpdiAt
-RGxsdm09ZGlzYWJsZWQgLURnYm09ZW5hYmxlZCAtRGdsZXMxPWRpc2FibGVkIC1EZ2xlczI9ZGlz
-YWJsZWQgLURsbXNlbnNvcnM9ZGlzYWJsZWQNCiAtRG9wZW5nbD10cnVlIC1Eb3NtZXNhPWZhbHNl
-IC1EbGlidW53aW5kPWRpc2FibGVkIC1EZ2FsbGl1bS12YT1kaXNhYmxlZCAtRGdhbGxpdW0tdmRw
-YXU9ZGlzYWJsZWQgLUR2dWxrYW4tZHJpdmVycz0gLURnYWxsaXVtLXhhPWRpc2FibGVkIC1EZ2Fs
-bGl1bS14dm1jPWRpc2FibGVkLiAuLg0KPGJyPg0KPGJyPg0KRG9lcyBhbnlvbmUgaGF2ZSBhbnkg
-aWRlYSB3aGF0IEkgY291bGQgZG8gdG8gZ2V0IHRoZSBTREsgYnVpbHQ/IDxicj4NCjxicj4NCk1h
-bnkgZ3JlZXRpbmdzLCA8YnI+DQpNYXR0aGlhcyA8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90
-ZT4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PG86
-cD4mbmJzcDs8L286cD48L3A+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPjxv
-OnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8cHJlPjxvOnA+Jm5ic3A7PC9vOnA+PC9wcmU+DQo8L2Js
-b2NrcXVvdGU+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+This change seems much cleaner to me, but maybe I'm missing some=20
+context. I will send the patches to the mailing list and wait for comment=
+s.
 
---_000_AM0PR10MB3107BD5AA37CDF8EBF972CA099119AM0PR10MB3107EURP_--
+Markus
+
+Am 16.03.22 um 17:19 schrieb Matthias Klein:
+>
+> Hello Markus,
+>
+> both variants work. I then used the latter one:
+>
+> PACKAGECONFIG:append:class-native =3D " dri3"
+>
+> PACKAGECONFIG:append:class-nativesdk =3D " dri3"
+>
+> I have successfully built small QML (Qt 6.2.4) test programs with the=20
+> SDK, which also run nicely on the hardware (i.MX6 DualLite with kernel=20
+> 5.10 / etnaviv).
+>
+> Many greetings,
+>
+> Matthias
+>
+> *Von:* openembedded-core@lists.openembedded.org=20
+> <openembedded-core@lists.openembedded.org> *Im Auftrag von *Matthias=20
+> Klein via lists.openembedded.org
+> *Gesendet:* Mittwoch, 16. M=C3=A4rz 2022 09:56
+> *An:* f_l_k@t-online.de; openembedded-core@lists.openembedded.org
+> *Betreff:* Re: [OE-core] nativesdk-mesa fails to build since upgrade=20
+> to version 22.0.0
+>
+> Hello Markus,
+>
+> Thanks for the quick help!
+>
+> The variant " to remove x11 " seems to build (incrementally). However,=20
+> the SDK is still building.
+>
+> After that I will test the variant regarding dri3. After that I will=20
+> also do a full/clean build.
+>
+> Afterwards I will report. But it will take a few hours ...
+>
+> Many greetings,
+>
+> Matthias
+>
+> *Von:* openembedded-core@lists.openembedded.org=20
+> <openembedded-core@lists.openembedded.org> *Im Auftrag von *Markus=20
+> Volk via lists.openembedded.org
+> *Gesendet:* Mittwoch, 16. M=C3=A4rz 2022 09:35
+> *An:* openembedded-core@lists.openembedded.org
+> *Betreff:* Re: [OE-core] nativesdk-mesa fails to build since upgrade=20
+> to version 22.0.0
+>
+> What does happen, if adding dri3 like this?
+>
+> PACKAGECONFIG:append:class-native =3D " dri3"
+> PACKAGECONFIG:append:class-nativesdk =3D "dri3"
+>
+> Am 16.03.22 um 09:17 schrieb Markus Volk:
+>
+>     Hi Matthias,
+>
+>     since you have disabled x11 for target ... does it help to also
+>     remove it from native and nativesdk ?
+>
+>     PACKAGECONFIG:remove:class-native =3D " x11"
+>
+>     PACKAGECONFIG:remove:class-nativesdk =3D " x11"
+>
+>     Regards,
+>
+>     Markus
+>
+>     Am 16.03.22 um 08:40 schrieb Matthias Klein:
+>
+>         Hello,
+>
+>         I am using mesa in conjunction with meta-qt6 without
+>         X11/wayland on an iMX6 with etnaviv.
+>
+>         So in a bbappend I have: PACKAGECONFIG:append =3D " etnaviv".
+>
+>         I use poky with the following DISTRO_FEATURES:
+>         DISTRO_FEATURES:remove =3D "x11 wayland vulkan 3g nfc nfs zeroc=
+onf"
+>         DISTRO_FEATURES:append =3D " directfb opengl"
+>
+>         Unfortunately, nativesdk-mesa now no longer builds on build
+>         via "-c populate_sdk". However, the package for the target
+>         still builds.
+>
+>         | ../mesa-22.0.0/meson.build:520: WARNING: cannot auto-detect
+>         -mtls-dialect when cross-compiling, using compiler default
+>         |
+>         | ../mesa-22.0.0/meson.build:614:2: ERROR: Problem
+>         encountered: kmsro requires dri3 for X11 support
+>
+>         I compared the meson calls on the target and SDK builds:
+>         NOTE: Executing meson -Dshared-glapi=3Denabled
+>         -Dgallium-opencl=3Ddisabled -Dglx-read-only-text=3Dtrue
+>         -Dplatforms=3D -Ddri3=3Ddisabled -Degl=3Denabled -Delf-tls=3Dtr=
+ue
+>         -Dgallium-drivers=3Dswrast,etnaviv, virgl -Dllvm=3Ddisabled
+>         -Dgbm=3Denabled -Dgles1=3Denabled -Dgles2=3Denabled
+>         -Dlmsensors=3Ddisabled -Dopengl=3Dtrue -
+>         Dosmesa=3Dfalse -Dlibunwind=3Ddisabled -Dgallium-va=3Ddisabled
+>         -Dgallium-vdpau=3Ddisabled -Dvulkan-drivers=3D -Dglx=3Ddisabled
+>         -Dgallium-xa=3Ddisabled -Dgallium-xvmc=3Ddisabled. ..
+>
+>         NOTE: Executing meson -Dshared-glapi=3Denabled
+>         -Dgallium-opencl=3Ddisabled -Dglx-read-only-text=3Dtrue
+>         -Dplatforms=3Dx11 -Ddri3=3Ddisabled -Degl=3Denabled -Delf-tls=3D=
+true
+>         -Dgallium-drivers=3Dswrast, etnaviv -Dllvm=3Ddisabled
+>         -Dgbm=3Denabled -Dgles1=3Ddisabled -Dgles2=3Ddisabled
+>         -Dlmsensors=3Ddisabled -Dopengl=3Dtrue -Dosmesa=3Dfalse
+>         -Dlibunwind=3Ddisabled -Dgallium-va=3Ddisabled
+>         -Dgallium-vdpau=3Ddisabled -Dvulkan-drivers=3D
+>         -Dgallium-xa=3Ddisabled -Dgallium-xvmc=3Ddisabled. ..
+>
+>         Does anyone have any idea what I could do to get the SDK built?
+>
+>         Many greetings,
+>         Matthias
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163339):https://lists.openembedded.org/g/openembedd=
+ed-core/message/163339
+> Mute This Topic:https://lists.openembedded.org/mt/89817006/3618223
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [=
+f_l_k@t-online.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+--------------1hLl9ligFioFmnHTBAMR0kdE
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p>Hi Matthias,</p>
+    I created a patchset to align mesa PACKAGECONFIG for native and
+    target builds.<br>
+    I tried compiling my own images and core-image-sato with this
+    patchset and had no problems.<br>
+    Hopefully this will fix your problem as well.<br>
+    <p>This change seems much cleaner to me, but maybe I'm missing some
+      context. I will send the patches to the mailing list and wait for
+      comments.</p>
+    <p>Markus<br>
+    </p>
+    <div class=3D"moz-cite-prefix">Am 16.03.22 um 17:19 schrieb Matthias
+      Klein:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:AM0PR10MB3107BD5AA37CDF8EBF972CA099119@AM0PR10MB3107.EURPRD10=
+.PROD.OUTLOOK.COM">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DU=
+TF-8">
+      <meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered
+        medium)">
+      <style>@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Vorformatiert Zchn";
+	margin:0cm;
+	font-size:10.0pt;
+	font-family:"Courier New";}span.HTMLVorformatiertZchn
+	{mso-style-name:"HTML Vorformatiert Zchn";
+	mso-style-priority:99;
+	mso-style-link:"HTML Vorformatiert";
+	font-family:Consolas;}span.n
+	{mso-style-name:n;}span.err
+	{mso-style-name:err;}span.o
+	{mso-style-name:o;}span.E-MailFormatvorlage26
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}div.WordSection1
+	{page:WordSection1;}</style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+      <div class=3D"WordSection1">
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Hello
+            Markus,<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>both
+            variants work. I then used the latter one:<o:p></o:p></span><=
+/p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>PACKAGECONFIG:append:class-native
+            =3D " dri3"<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>PACKAGECONFIG:append:class-nativesdk
+            =3D " dri3"<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>I
+            have successfully built small QML (Qt 6.2.4) test programs
+            with the SDK, which also run nicely on the hardware (i.MX6
+            DualLite with kernel 5.10 / etnaviv).
+            <o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Many
+            greetings,<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Matthias<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <div>
+          <div style=3D"border:none;border-top:solid #E1E1E1
+            1.0pt;padding:3.0pt 0cm 0cm 0cm">
+            <p class=3D"MsoNormal"><b>Von:</b>
+              <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openem=
+bedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.=
+org</a>
+              <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:openembed=
+ded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded=
+.org&gt;</a>
+              <b>Im Auftrag von </b>Matthias Klein via
+              lists.openembedded.org<br>
+              <b>Gesendet:</b> Mittwoch, 16. M=C3=A4rz 2022 09:56<br>
+              <b>An:</b> <a class=3D"moz-txt-link-abbreviated" href=3D"ma=
+ilto:f_l_k@t-online.de">f_l_k@t-online.de</a>;
+              <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openem=
+bedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.=
+org</a><br>
+              <b>Betreff:</b> Re: [OE-core] nativesdk-mesa fails to
+              build since upgrade to version 22.0.0<o:p></o:p></p>
+          </div>
+        </div>
+        <p class=3D"MsoNormal"><o:p>=C2=A0</o:p></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Hello
+            Markus,<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Thanks
+            for the quick help!<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>The
+            variant " to remove x11 " seems to build (incrementally).
+            However, the SDK is still building.<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>After
+            that I will test the variant regarding dri3. After that I
+            will also do a full/clean build.<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Afterwards
+            I will report. But it will take a few hours ...<o:p></o:p></s=
+pan></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Many
+            greetings,<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+>Matthias<o:p></o:p></span></p>
+        <p class=3D"MsoNormal"><span style=3D"mso-fareast-language:EN-US"=
+><o:p>=C2=A0</o:p></span></p>
+        <div>
+          <div style=3D"border:none;border-top:solid #E1E1E1
+            1.0pt;padding:3.0pt 0cm 0cm 0cm">
+            <p class=3D"MsoNormal"><b>Von:</b> <a
+                href=3D"mailto:openembedded-core@lists.openembedded.org"
+                moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">
+                openembedded-core@lists.openembedded.org</a> &lt;<a
+                href=3D"mailto:openembedded-core@lists.openembedded.org"
+                moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">=
+openembedded-core@lists.openembedded.org</a>&gt;
+              <b>Im Auftrag von </b>Markus Volk via
+              lists.openembedded.org<br>
+              <b>Gesendet:</b> Mittwoch, 16. M=C3=A4rz 2022 09:35<br>
+              <b>An:</b> <a
+                href=3D"mailto:openembedded-core@lists.openembedded.org"
+                moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">=
+openembedded-core@lists.openembedded.org</a><br>
+              <b>Betreff:</b> Re: [OE-core] nativesdk-mesa fails to
+              build since upgrade to version 22.0.0<o:p></o:p></p>
+          </div>
+        </div>
+        <p class=3D"MsoNormal"><o:p>=C2=A0</o:p></p>
+        <p>What does happen, if adding dri3 like this?<o:p></o:p></p>
+        <pre><span class=3D"n">PACKAGECONFIG</span><span class=3D"err">:<=
+/span><span class=3D"n">append:class</span><span class=3D"o">-</span><spa=
+n class=3D"n">native =3D " dri3"<o:p></o:p></span></pre>
+        <pre><span class=3D"n">PACKAGECONFIG</span><span class=3D"err">:a=
+ppend:</span><span class=3D"n">class</span><span class=3D"o">-</span><spa=
+n class=3D"n">nativesdk =3D "dri3"</span><o:p></o:p></pre>
+        <pre><o:p>=C2=A0</o:p></pre>
+        <pre><o:p>=C2=A0</o:p></pre>
+        <div>
+          <p class=3D"MsoNormal">Am 16.03.22 um 09:17 schrieb Markus Volk=
+:<o:p></o:p></p>
+        </div>
+        <blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+          <p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">Hi Matthi=
+as,
+            <br>
+            <br>
+            since you have disabled x11 for target ... does it help to
+            also remove it from native and nativesdk ?
+            <br>
+            <br>
+            PACKAGECONFIG:remove:class-native =3D " x11" <br>
+            <br>
+            PACKAGECONFIG:remove:class-nativesdk =3D " x11" <br>
+            <br>
+            Regards, <br>
+            <br>
+            Markus <br>
+            <br>
+            Am 16.03.22 um 08:40 schrieb Matthias Klein: <o:p></o:p></p>
+          <blockquote style=3D"margin-top:5.0pt;margin-bottom:5.0pt">
+            <p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">Hello, =
+<br>
+              <br>
+              I am using mesa in conjunction with meta-qt6 without
+              X11/wayland on an iMX6 with etnaviv.
+              <br>
+              <br>
+              So in a bbappend I have: PACKAGECONFIG:append =3D "
+              etnaviv". <br>
+              <br>
+              I use poky with the following DISTRO_FEATURES: <br>
+              DISTRO_FEATURES:remove =3D "x11 wayland vulkan 3g nfc nfs
+              zeroconf" <br>
+              DISTRO_FEATURES:append =3D " directfb opengl" <br>
+              <br>
+              Unfortunately, nativesdk-mesa now no longer builds on
+              build via "-c populate_sdk". However, the package for the
+              target still builds.
+              <br>
+              <br>
+              | ../mesa-22.0.0/meson.build:520: WARNING: cannot
+              auto-detect -mtls-dialect when cross-compiling, using
+              compiler default
+              <br>
+              | <br>
+              | ../mesa-22.0.0/meson.build:614:2: ERROR: Problem
+              encountered: kmsro requires dri3 for X11 support
+              <br>
+              <br>
+              I compared the meson calls on the target and SDK builds: <b=
+r>
+              NOTE: Executing meson -Dshared-glapi=3Denabled
+              -Dgallium-opencl=3Ddisabled -Dglx-read-only-text=3Dtrue
+              -Dplatforms=3D -Ddri3=3Ddisabled -Degl=3Denabled -Delf-tls=3D=
+true
+              -Dgallium-drivers=3Dswrast,etnaviv, virgl -Dllvm=3Ddisabled
+              -Dgbm=3Denabled -Dgles1=3Denabled -Dgles2=3Denabled
+              -Dlmsensors=3Ddisabled -Dopengl=3Dtrue - <br>
+              Dosmesa=3Dfalse -Dlibunwind=3Ddisabled -Dgallium-va=3Ddisab=
+led
+              -Dgallium-vdpau=3Ddisabled -Dvulkan-drivers=3D -Dglx=3Ddisa=
+bled
+              -Dgallium-xa=3Ddisabled -Dgallium-xvmc=3Ddisabled. ..
+              <br>
+              <br>
+              NOTE: Executing meson -Dshared-glapi=3Denabled
+              -Dgallium-opencl=3Ddisabled -Dglx-read-only-text=3Dtrue
+              -Dplatforms=3Dx11 -Ddri3=3Ddisabled -Degl=3Denabled
+              -Delf-tls=3Dtrue -Dgallium-drivers=3Dswrast, etnaviv
+              -Dllvm=3Ddisabled -Dgbm=3Denabled -Dgles1=3Ddisabled
+              -Dgles2=3Ddisabled -Dlmsensors=3Ddisabled -Dopengl=3Dtrue
+              -Dosmesa=3Dfalse -Dlibunwind=3Ddisabled -Dgallium-va=3Ddisa=
+bled
+              -Dgallium-vdpau=3Ddisabled -Dvulkan-drivers=3D
+              -Dgallium-xa=3Ddisabled -Dgallium-xvmc=3Ddisabled. ..
+              <br>
+              <br>
+              Does anyone have any idea what I could do to get the SDK
+              built? <br>
+              <br>
+              Many greetings, <br>
+              Matthias <o:p></o:p></p>
+          </blockquote>
+          <p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><o:p>=C2=A0=
+</o:p></p>
+          <pre><o:p>=C2=A0</o:p></pre>
+          <pre><o:p>=C2=A0</o:p></pre>
+          <pre><o:p>=C2=A0</o:p></pre>
+        </blockquote>
+      </div>
+      <br>
+      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#163339): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/163339">https:/=
+/lists.openembedded.org/g/openembedded-core/message/163339</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/89817006/3618223">https://lists.openembedded.org/mt/=
+89817006/3618223</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------1hLl9ligFioFmnHTBAMR0kdE--
 
