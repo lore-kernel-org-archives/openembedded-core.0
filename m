@@ -1,328 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF9ECC433F5
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 22:20:18 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web08.3186.1647469217097258168
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CFBC433F5
+	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 22:25:31 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web12.3270.1647469530591497967
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 15:20:17 -0700
+ Wed, 16 Mar 2022 15:25:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=uM8CxIA5;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id a8so7066138ejc.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=H9MpkU9m;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id
+ l4-20020a17090a49c400b001c6840df4a3so17649pjm.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 15:20:16 -0700 (PDT)
+ Wed, 16 Mar 2022 15:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l63sm0AJk4+LTona3OtBiG6n+3Wr/BngX4QT4tEQw7A=;
-        b=uM8CxIA5Le3TRfUIfwFHrjV8J+uCd0s89LeH2TWCrT4Hez516cE6KGTgcR4kTQSHHr
-         OHBOLN+wvpgqd37+AoFPpJ8oK1G6BrslDec2xXNDHugi+87jSmermQBBYPxdfyRg8nOb
-         5G+Kc70lyyJuNfmZ/qA8H3Lwsn5XcJXyCGxgIOCd+Z33PqFJPri/7IYhLQNhmb29RKSS
-         VmyElUP8A2w6Z0dthxGMGIIvZJFefsGYIn0JNsL5RtoQMqmDymNoKM8RWKfr46ncLZut
-         NMvDTiWi322i6nX936PYvnuM7UqHTSoE6Q1jsGDJOW/poTxWqEUR6CffF+aZzTUoPo5g
-         QThg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pc5TOKYkRkemEE7WJyOwvPiSF4lLwQbvocy8BT/etZU=;
+        b=H9MpkU9mZ6axCNUoKvKCexKHr1+G3jHdygHHc3ZduY25iftAblAcQMVsuM24BoDCke
+         jhvSMb+yDVynAtTUZmGGpf/akobX+rpnsSZRmxt9Dka7GjzdMniaNpJjpnzVvjpOlA5Y
+         6V56Y725itKwMiiHg5xvRymwhvyBzfrsDuGblIZirhmj6seuqT7zv0B9JsBE87iYqlXQ
+         1btj0HfmqjqBYkX1Pagv72IarjQZmSOe2e/1b/ePVg6he1Iiy/txEZOkHKs2scqb4yZc
+         zSfEWHbgKbl9Cr42eZbaZu5/gQCQ8y0/RNShRyPh7eitN9LLgr/wH0tEo3s0wvqcc5jg
+         JrqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l63sm0AJk4+LTona3OtBiG6n+3Wr/BngX4QT4tEQw7A=;
-        b=4ZOM830vGpiUMrOOiTZ7pgfkexZbNxzRwVm+H9fiWeCkdAdNFuPJmWNaWlhTtRQp4O
-         KugImJ3WiBUPlojqymSfaA3NBKKnRR3C70H6LPGtHI52lyw8t9wSsi920gXmxS7ddUgp
-         YYMg9KVC6SxrW2ABEfFCFm2c6Oj+Yp+Wln1HqhvtKYb2YbF+mrA48nRZ2yskXWOkzwGg
-         F9BcoF/ORidQvBUROOZlgG7F67AC6dIVKs8hFonfP7sBDTM9T0EPbs06z+igYVE+Zg83
-         tWLyHvnbGPeV5hd0IBVZMO8yUAVT9GG0GlK34B+sn3LQ7YOzT6+EUXSUMfJUqUgn7k9m
-         cWPA==
-X-Gm-Message-State: AOAM530KEibsrbUtxC/Q1ztP03KEd5n0aVQ3wD0ZnN3E6RDt9GcT5DRn
-	gFLHpcn37+udAbNVeEulNHj7e9DhtVbRknIq1DqCNg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pc5TOKYkRkemEE7WJyOwvPiSF4lLwQbvocy8BT/etZU=;
+        b=5XhISJlql8y7AmkLP4YQJHBSwyI0Q1RwlavYlVSaLlq35IBB3/osHrJzSw1IBm9hxw
+         of9YZPfUXrMW6wrNE9JQmh/EP+OVQKejv1XRZxMq1+dQYTulJlm7nbDTmnGNBhzzeGgx
+         0Lk+B54xZtTCgGo96GHxrGO1W9i1NDqm1Srocv9UBU8lZ3lC1w2wF0jch5rJiXssNmpB
+         El+Iv2WDKJsXJX0Wp6VpwHX9TkDadhFOSAzZGvaMzVDg/SO9/rTz5r9Wx0wUsDmGhwPu
+         Nc3Hn04+xo0fozWguxAaj2mYK8pCXB+bbArd1mXDpx03HmKPH+f1wkLKk69l1/+qk58J
+         Ptng==
+X-Gm-Message-State: AOAM530XVrtNXYoXvyWl8rx6IGw3lDyPAs5855BMhp3NP0SjMmLRmpa2
+	w0qkF5lG1xmXQmke4scO0SnjW6s7WArwhA==
 X-Google-Smtp-Source: 
- ABdhPJz6P7WMhp6FipZV4Xc/cymwMv8yu3FmjN1+UjDuI+G/pPK7UqIf7o6Sk4J95tfMcWowIpzoN1zt288eMc+AqoU=
-X-Received: by 2002:a17:907:1c0a:b0:6da:7ac4:5349 with SMTP id
- nc10-20020a1709071c0a00b006da7ac45349mr1785344ejc.596.1647469215287; Wed, 16
- Mar 2022 15:20:15 -0700 (PDT)
+ ABdhPJwiwSkRDw3ikedlH/60qp0BjCenhbMXwVwKea0VspTBL7d/yKhPWS/trjAp6QjNwVgimtsY3A==
+X-Received: by 2002:a17:90b:1e4b:b0:1bf:8dbc:581b with SMTP id
+ pi11-20020a17090b1e4b00b001bf8dbc581bmr12375942pjb.41.1647469529756;
+        Wed, 16 Mar 2022 15:25:29 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
+        by smtp.gmail.com with ESMTPSA id
+ oc3-20020a17090b1c0300b001bf8c88a8c4sm7781150pjb.35.2022.03.16.15.25.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 15:25:29 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-cryptography: Upgrade to 36.0.2
+Date: Wed, 16 Mar 2022 15:25:26 -0700
+Message-Id: <20220316222526.264261-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220316161547.1527214-1-ralph.siemsen@linaro.org>
- <CAOSpxdY8p-C5gRFoELnkd4xWb0+XW+OeJ41_2+eT24GVBSxiUw@mail.gmail.com>
- <58facaa2-aeea-5e92-c669-4e6e3ee68e94@windriver.com>
-In-Reply-To: <58facaa2-aeea-5e92-c669-4e6e3ee68e94@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 16 Mar 2022 12:20:04 -1000
-Message-ID: 
- <CAOSpxdYWkTFoAzFciJ+2o8+L0FmuHOAUdSS2dbHb8waVH0RHkg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] openssl: update from 1.1.1l to 1.1.1n
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>, Zhao Yi <yi.zhao@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 22:20:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 22:25:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163361
+ https://lists.openembedded.org/g/openembedded-core/message/163362
 
-On Wed, Mar 16, 2022 at 12:10 PM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> On 2022-03-16 17:50, Steve Sakoman wrote:
-> > Sigh, now I remember why we did the CVE only patch - this version
-> > update introduces a ptest regression. It's sad I can't remember things
-> > from just a month ago!
-> >
-> > See discussion here:
-> >
-> > https://lists.openembedded.org/g/openembedded-core/topic/89179173#162027
-> >
-> > If you can find a way to deal with the regression I'd be happy to take
-> > the upgrade!
->
-> Steve mentioned this GH issue on IRC:
->    https://github.com/openssl/openssl/issues/17537
-> it's a long thread and I honestly haven't confirmed that it's the same
-> problem as our regression tests but it likely is.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-cryptography_36.0.1.bb => python3-cryptography_36.0.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-cryptography_36.0.1.bb => python3-cryptography_36.0.2.bb} (96%)
 
-This thread mentions versions prior to 3.0.1 aren't impacted, but
-perhaps the 1.1.1n update backported the issue.  Suspicious that the
-same test is failing in any event.
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-cryptography_36.0.1.bb
+rename to meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index e33eaa50834..940df60d441 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.1.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
+                    "
+ LDSHARED += "-pthread"
+ 
+-SRC_URI[sha256sum] = "53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"
++SRC_URI[sha256sum] = "70f8f4f7bb2ac9f340655cbac89d68c527af5bb4387522a8413e841e3e6628c9"
+ 
+ SRC_URI += " \
+     file://run-ptest \
+@@ -42,7 +42,7 @@ SRC_URI += " \
+     crate://crates.io/indoc/0.3.6 \
+     crate://crates.io/instant/0.1.12 \
+     crate://crates.io/lazy_static/1.4.0 \
+-    crate://crates.io/libc/0.2.112 \
++    crate://crates.io/libc/0.2.120 \
+     crate://crates.io/lock_api/0.4.5 \
+     crate://crates.io/num-integer/0.1.44 \
+     crate://crates.io/num-traits/0.2.14 \
+-- 
+2.35.1
 
-Steve
-
->
-> Yi Zhao was looking at this update for hardknott but it's likely
-> also relevant for dunfell so I'm CCing him here.
->
-> Yi,
->
-> Do you have more to add to the discussion?
-> Where are you with debugging the ptest regressions?
->
-> Ralph,
-> Yi is in Beijing so maybe the two of you can do an email/poky-contrib
-> ping pong
-> on the problem and get to a solution sooner.
->
-> ../Randy
->
-> >
-> > On Wed, Mar 16, 2022 at 6:15 AM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
-> >>
-> >> This includes a fix for CVE-2022-0778. There are quite a lot of changes
-> >> but they seem to mostly be fixes or cves, see the CHANGES file[1].
-> >>
-> >> Drop previous fix for CVE-2021-4160 since it is now upstream [2]
-> >> and include since release 1.1.1m.
-> >>
-> >> [1] https://git.openssl.org/gitweb/?p=openssl.git;a=blob;f=CHANGES;hb=refs/heads/OpenSSL_1_1_1-stable
-> >> [2] https://git.openssl.org/gitweb/?p=openssl.git;a=commit;h=e9e726506cd2a3fd9c0f12daf8cc1fe934c7dddb
-> >>
-> >> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-> >> ---
-> >>   .../openssl/openssl/CVE-2021-4160.patch       | 145 ------------------
-> >>   .../{openssl_1.1.1l.bb => openssl_1.1.1n.bb}  |   3 +-
-> >>   2 files changed, 1 insertion(+), 147 deletions(-)
-> >>   delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2021-4160.patch
-> >>   rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1n.bb} (98%)
-> >>
-> >> diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2021-4160.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2021-4160.patch
-> >> deleted file mode 100644
-> >> index ff1e807157..0000000000
-> >> --- a/meta/recipes-connectivity/openssl/openssl/CVE-2021-4160.patch
-> >> +++ /dev/null
-> >> @@ -1,145 +0,0 @@
-> >> -From e9e726506cd2a3fd9c0f12daf8cc1fe934c7dddb Mon Sep 17 00:00:00 2001
-> >> -From: Bernd Edlinger <bernd.edlinger@hotmail.de>
-> >> -Date: Sat, 11 Dec 2021 20:28:11 +0100
-> >> -Subject: [PATCH] Fix a carry overflow bug in bn_sqr_comba4/8 for mips 32-bit
-> >> - targets
-> >> -
-> >> -bn_sqr_comba8 does for instance compute a wrong result for the value:
-> >> -a=0x4aaac919 62056c84 fba7334e 1a6be678 022181ba fd3aa878 899b2346 ee210f45
-> >> -
-> >> -The correct result is:
-> >> -r=0x15c72e32 605a3061 d11b1012 3c187483 6df96999 bd0c22ba d3e7d437 4724a82f
-> >> -    912c5e61 6a187efe 8f7c47fc f6945fe5 75be8e3d 97ed17d4 7950b465 3cb32899
-> >> -
-> >> -but the actual result was:
-> >> -r=0x15c72e32 605a3061 d11b1012 3c187483 6df96999 bd0c22ba d3e7d437 4724a82f
-> >> -    912c5e61 6a187efe 8f7c47fc f6945fe5 75be8e3c 97ed17d4 7950b465 3cb32899
-> >> -
-> >> -so the forth word of the result was 0x75be8e3c but should have been
-> >> -0x75be8e3d instead.
-> >> -
-> >> -Likewise bn_sqr_comba4 has an identical bug for the same value as well:
-> >> -a=0x022181ba fd3aa878 899b2346 ee210f45
-> >> -
-> >> -correct result:
-> >> -r=0x00048a69 9fe82f8b 62bd2ed1 88781335 75be8e3d 97ed17d4 7950b465 3cb32899
-> >> -
-> >> -wrong result:
-> >> -r=0x00048a69 9fe82f8b 62bd2ed1 88781335 75be8e3c 97ed17d4 7950b465 3cb32899
-> >> -
-> >> -Fortunately the bn_mul_comba4/8 code paths are not affected.
-> >> -
-> >> -Also the mips64 target does in fact not handle the carry propagation
-> >> -correctly.
-> >> -
-> >> -Example:
-> >> -a=0x4aaac91900000000 62056c8400000000 fba7334e00000000 1a6be67800000000
-> >> -    022181ba00000000 fd3aa87800000000 899b234635dad283 ee210f4500000001
-> >> -
-> >> -correct result:
-> >> -r=0x15c72e32272c4471 392debf018c679c8 b85496496bf8254c d0204f36611e2be1
-> >> -    0cdb3db8f3c081d8 c94ba0e1bacc5061 191b83d47ff929f6 5be0aebfc13ae68d
-> >> -    3eea7a7fdf2f5758 42f7ec656cab3cb5 6a28095be34756f2 64f24687bf37de06
-> >> -    2822309cd1d292f9 6fa698c972372f09 771e97d3a868cda0 dc421e8a00000001
-> >> -
-> >> -wrong result:
-> >> -r=0x15c72e32272c4471 392debf018c679c8 b85496496bf8254c d0204f36611e2be1
-> >> -    0cdb3db8f3c081d8 c94ba0e1bacc5061 191b83d47ff929f6 5be0aebfc13ae68d
-> >> -    3eea7a7fdf2f5758 42f7ec656cab3cb5 6a28095be34756f2 64f24687bf37de06
-> >> -    2822309cd1d292f8 6fa698c972372f09 771e97d3a868cda0 dc421e8a00000001
-> >> -
-> >> -Reviewed-by: Paul Dale <pauli@openssl.org>
-> >> -(Merged from https://github.com/openssl/openssl/pull/17258)
-> >> -
-> >> -(cherry picked from commit 336923c0c8d705cb8af5216b29a205662db0d590)
-> >> -
-> >> -Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=patch;h=e9e726506cd2a3fd9c0f12daf8cc1fe934c7dddb]
-> >> -CVE: CVE-2021-4160
-> >> -Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> >> -
-> >> ----
-> >> - crypto/bn/asm/mips.pl |  4 ++++
-> >> - test/bntest.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
-> >> - 2 files changed, 49 insertions(+)
-> >> -
-> >> -diff --git a/crypto/bn/asm/mips.pl b/crypto/bn/asm/mips.pl
-> >> -index 8ad715bda4..74101030f2 100644
-> >> ---- a/crypto/bn/asm/mips.pl
-> >> -+++ b/crypto/bn/asm/mips.pl
-> >> -@@ -1984,6 +1984,8 @@ $code.=<<___;
-> >> -       sltu    $at,$c_2,$t_1
-> >> -       $ADDU   $c_3,$t_2,$at
-> >> -       $ST     $c_2,$BNSZ($a0)
-> >> -+      sltu    $at,$c_3,$t_2
-> >> -+      $ADDU   $c_1,$at
-> >> -       mflo    ($t_1,$a_2,$a_0)
-> >> -       mfhi    ($t_2,$a_2,$a_0)
-> >> - ___
-> >> -@@ -2194,6 +2196,8 @@ $code.=<<___;
-> >> -       sltu    $at,$c_2,$t_1
-> >> -       $ADDU   $c_3,$t_2,$at
-> >> -       $ST     $c_2,$BNSZ($a0)
-> >> -+      sltu    $at,$c_3,$t_2
-> >> -+      $ADDU   $c_1,$at
-> >> -       mflo    ($t_1,$a_2,$a_0)
-> >> -       mfhi    ($t_2,$a_2,$a_0)
-> >> - ___
-> >> -diff --git a/test/bntest.c b/test/bntest.c
-> >> -index b58028a301..bab34ba54b 100644
-> >> ---- a/test/bntest.c
-> >> -+++ b/test/bntest.c
-> >> -@@ -627,6 +627,51 @@ static int test_modexp_mont5(void)
-> >> -     if (!TEST_BN_eq(c, d))
-> >> -         goto err;
-> >> -
-> >> -+    /*
-> >> -+     * Regression test for overflow bug in bn_sqr_comba4/8 for
-> >> -+     * mips-linux-gnu and mipsel-linux-gnu 32bit targets.
-> >> -+     */
-> >> -+    {
-> >> -+        static const char *ehex[] = {
-> >> -+            "95564994a96c45954227b845a1e99cb939d5a1da99ee91acc962396ae999a9ee",
-> >> -+            "38603790448f2f7694c242a875f0cad0aae658eba085f312d2febbbd128dd2b5",
-> >> -+            "8f7d1149f03724215d704344d0d62c587ae3c5939cba4b9b5f3dc5e8e911ef9a",
-> >> -+            "5ce1a5a749a4989d0d8368f6e1f8cdf3a362a6c97fb02047ff152b480a4ad985",
-> >> -+            "2d45efdf0770542992afca6a0590d52930434bba96017afbc9f99e112950a8b1",
-> >> -+            "a359473ec376f329bdae6a19f503be6d4be7393c4e43468831234e27e3838680",
-> >> -+            "b949390d2e416a3f9759e5349ab4c253f6f29f819a6fe4cbfd27ada34903300e",
-> >> -+            "da021f62839f5878a36f1bc3085375b00fd5fa3e68d316c0fdace87a97558465",
-> >> -+            NULL};
-> >> -+        static const char *phex[] = {
-> >> -+            "f95dc0f980fbd22e90caa5a387cc4a369f3f830d50dd321c40db8c09a7e1a241",
-> >> -+            "a536e096622d3280c0c1ba849c1f4a79bf490f60006d081e8cf69960189f0d31",
-> >> -+            "2cd9e17073a3fba7881b21474a13b334116cb2f5dbf3189a6de3515d0840f053",
-> >> -+            "c776d3982d391b6d04d642dda5cc6d1640174c09875addb70595658f89efb439",
-> >> -+            "dc6fbd55f903aadd307982d3f659207f265e1ec6271b274521b7a5e28e8fd7a5",
-> >> -+            "5df089292820477802a43cf5b6b94e999e8c9944ddebb0d0e95a60f88cb7e813",
-> >> -+            "ba110d20e1024774107dd02949031864923b3cb8c3f7250d6d1287b0a40db6a4",
-> >> -+            "7bd5a469518eb65aa207ddc47d8c6e5fc8e0c105be8fc1d4b57b2e27540471d5",
-> >> -+            NULL};
-> >> -+        static const char *mhex[] = {
-> >> -+            "fef15d5ce4625f1bccfbba49fc8439c72bf8202af039a2259678941b60bb4a8f",
-> >> -+            "2987e965d58fd8cf86a856674d519763d0e1211cc9f8596971050d56d9b35db3",
-> >> -+            "785866cfbca17cfdbed6060be3629d894f924a89fdc1efc624f80d41a22f1900",
-> >> -+            "9503fcc3824ef62ccb9208430c26f2d8ceb2c63488ec4c07437aa4c96c43dd8b",
-> >> -+            "9289ed00a712ff66ee195dc71f5e4ead02172b63c543d69baf495f5fd63ba7bc",
-> >> -+            "c633bd309c016e37736da92129d0b053d4ab28d21ad7d8b6fab2a8bbdc8ee647",
-> >> -+            "d2fbcf2cf426cf892e6f5639e0252993965dfb73ccd277407014ea784aaa280c",
-> >> -+            "b7b03972bc8b0baa72360bdb44b82415b86b2f260f877791cd33ba8f2d65229b",
-> >> -+            NULL};
-> >> -+
-> >> -+        if (!TEST_true(parse_bigBN(&e, ehex))
-> >> -+                || !TEST_true(parse_bigBN(&p, phex))
-> >> -+                || !TEST_true(parse_bigBN(&m, mhex))
-> >> -+                || !TEST_true(BN_mod_exp_mont_consttime(d, e, p, m, ctx, NULL))
-> >> -+                || !TEST_true(BN_mod_exp_simple(a, e, p, m, ctx))
-> >> -+                || !TEST_BN_eq(a, d))
-> >> -+            goto err;
-> >> -+    }
-> >> -+
-> >> -     /* Zero input */
-> >> -     if (!TEST_true(BN_bntest_rand(p, 1024, 0, 0)))
-> >> -         goto err;
-> >> ---
-> >> -2.25.1
-> >> -
-> >> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1n.bb
-> >> similarity index 98%
-> >> rename from meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-> >> rename to meta/recipes-connectivity/openssl/openssl_1.1.1n.bb
-> >> index 24466e11b1..de6eafbcfe 100644
-> >> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1l.bb
-> >> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1n.bb
-> >> @@ -18,14 +18,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-> >>              file://afalg.patch \
-> >>              file://reproducible.patch \
-> >>              file://reproducibility.patch \
-> >> -           file://CVE-2021-4160.patch \
-> >>              "
-> >>
-> >>   SRC_URI_append_class-nativesdk = " \
-> >>              file://environment.d-openssl.sh \
-> >>              "
-> >>
-> >> -SRC_URI[sha256sum] = "0b7a3e5e59c34827fe0c3a74b7ec8baef302b98fa80088d7f9153aa16fa76bd1"
-> >> +SRC_URI[sha256sum] = "40dceb51a4f6a5275bde0e6bf20ef4b91bfc32ed57c0552e2e8e15463372b17a"
-> >>
-> >>   inherit lib_package multilib_header multilib_script ptest
-> >>   MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
-> >> --
-> >> 2.25.1
-> >>
-> >>
-> >>
-> >>
-> >>
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#163359): https://lists.openembedded.org/g/openembedded-core/message/163359
-> >> Mute This Topic: https://lists.openembedded.org/mt/89825642/3616765
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
 
