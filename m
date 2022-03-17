@@ -1,91 +1,95 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C9BC433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 17:02:12 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web11.195.1647536531182320553
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C749C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 17:15:41 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.386.1647537340890073161
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 10:02:11 -0700
+ Thu, 17 Mar 2022 10:15:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
-	by mailout03.t-online.de (Postfix) with SMTP id 946EF810
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 18:02:09 +0100 (CET)
-Received: from [192.168.178.83] ([84.163.47.192]) by fwd77.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nUtVn-1j9qeP0; Thu, 17 Mar 2022 18:02:07 +0100
-Message-ID: <9bc38283-5c2d-c72c-3b60-1cd23c7aed02@t-online.de>
-Date: Thu, 17 Mar 2022 18:02:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH 2/2] python3-cryptography: enforce identical
- version for -cryptography-vectors
-Content-Language: en-US
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E9lfjL1J;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id r10so8307987wrp.3
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Mar 2022 10:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xURAktvxNIuR6/cLulCZT5DZp09xDBY6QHyM9rxlqnw=;
+        b=E9lfjL1Js3YgBjfL6ASORWVC4p4uBHmQZlp3CuEDmvgXm/d9N/UPq/o7eIpLVfLWsw
+         BeQ3x9+SCRKu759b3ey4xB5XdpNvYw8MCKRneO2NM2Ze44RD5VqXtrkS/z+yIF3Udy3C
+         spnA4mcBEWHkEpj13KQ8nSz5lrIn9MNHjjCUY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xURAktvxNIuR6/cLulCZT5DZp09xDBY6QHyM9rxlqnw=;
+        b=zOTxaZ9Vb1FsjtHJPvcdJbvXv6VDwlCXAZtbxw3f2sDXyflss83D3+xVu7VvFQ/icg
+         LBu09BlvvOQtglvtWaHI4byyl7e0NFQ7oynjvEgT0OClzuQ/ZdE2I4zA21BRFU+JInDu
+         gqTlBH4rOnmL2l9zAn6Fc1Safv6/LJDeLUxgKc/yLVitCa68kVnbzD+y8Q29L8opL1cq
+         2pI0IEzoanDz7JM11fkxLpucl2xi6Cu62nqqvt0Egz60a+2XVGUSJO4VRVXAOP0JDLBQ
+         pW2T87uT6Mbtv5Kd0m/qHiLAEwEK9rrLoAae17nNpzJSEYkZO4YrF2OHh1InJ/noZlBD
+         wJKg==
+X-Gm-Message-State: AOAM530+jH4AYURA19Ax7w6OCJyWasftx9LwDxAKxxGeAX0M7fc1G5+R
+	uWjS4I+cGpTHMnsP1O1YmmVsbgLLFQ5V+pIr
+X-Google-Smtp-Source: 
+ ABdhPJzRbRlFblzLFkr9QV5tgiAgo/nSwH1vrP0UHiNYHk0yjs2kFNo9zL3bUZX7KWaDaBLBejVr8g==
+X-Received: by 2002:a05:6000:1868:b0:203:732e:6a96 with SMTP id
+ d8-20020a056000186800b00203732e6a96mr4965372wri.39.1647537338859;
+        Thu, 17 Mar 2022 10:15:38 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
+        by smtp.gmail.com with ESMTPSA id
+ i74-20020adf90d0000000b0020373ba7beesm6397093wri.0.2022.03.17.10.15.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Mar 2022 10:15:38 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-References: <20220317164434.387779-1-ross.burton@arm.com>
- <20220317164434.387779-2-ross.burton@arm.com>
-From: Markus Volk <f_l_k@t-online.de>
-In-Reply-To: <20220317164434.387779-2-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TOI-EXPURGATEID: 150726::1647536527-0001606D-99BBE0F3/0/0 CLEAN NORMAL
-X-TOI-MSGID: 60d39807-d0a4-4994-a823-88505f234fdd
+Subject: [PATCH] python3-sphinx: Work around reproducibility issue
+Date: Thu, 17 Mar 2022 17:15:37 +0000
+Message-Id: <20220317171537.1007187-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 17:02:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 17:15:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163427
+ https://lists.openembedded.org/g/openembedded-core/message/163428
 
-Google perfetto recipes. They are quite crappy, but in case somebody 
-wants to play around with it.
+The dict used in this recipe doesn't write into the cache consistently, work
+around it until this issue is resolved in python upstream (similar to frozenset
+issues).
 
-Am 17.03.22 um 17:44 schrieb Ross Burton:
-> python3-cryptography and python3-cryptography-vectors are actually the
-> same project but are on Pypi as two separate modules.
->
-> The test suite validates that they're the same version and fails if they
-> are not:
->
-> FAIL: tests/test_utils.py::test_vector_version
->      def test_vector_version():
->>        assert cryptography.__version__ == cryptography_vectors.__version__
-> E       AssertionError: assert '36.0.2' == '36.0.1'
->
-> Catch this slightly earlier by mandating that python3-cryptography-ptest
-> pulls in an identically versioned python3-cryptography-vectors.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   meta/recipes-devtools/python/python3-cryptography_36.0.2.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> index 940df60d44..cb3acdf7e2 100644
-> --- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> +++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> @@ -91,7 +91,7 @@ RDEPENDS:${PN}:append:class-target = " \
->   
->   RDEPENDS:${PN}-ptest += " \
->       ${PYTHON_PN}-bcrypt \
-> -    ${PYTHON_PN}-cryptography-vectors \
-> +    ${PYTHON_PN}-cryptography-vectors (= ${PV}) \
->       ${PYTHON_PN}-hypothesis \
->       ${PYTHON_PN}-iso8601 \
->       ${PYTHON_PN}-pretend \
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163426): https://lists.openembedded.org/g/openembedded-core/message/163426
-> Mute This Topic: https://lists.openembedded.org/mt/89849717/3618223
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [f_l_k@t-online.de]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python3-sphinx_4.4.0.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb b/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
+index 225e7737f60..97ec2619cb9 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
+@@ -10,6 +10,12 @@ SRC_URI[sha256sum] = "6caad9786055cb1fa22b4a365c1775816b876f91966481765d7d50e9f0
+ 
+ inherit setuptools3 pypi
+ 
++ 
++do_install:append () {
++	# The cache format of "{None, 'en', 'ja'}" doesn't seem to be consistent (dict ordering?)
++	rm ${D}${libdir}/${PYTHON_DIR}/site-packages/sphinx/writers/__pycache__/*latex*
++}
++
+ RDEPENDS:${PN} = "\
+     python3-packaging python3-docutils python3-requests \
+     python3-imagesize python3-alabaster python3-jinja2 \
+-- 
+2.32.0
+
 
