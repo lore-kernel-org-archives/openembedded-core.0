@@ -2,59 +2,59 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 620C2C433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 15:30:16 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web12.11756.1647531000321746043
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA2DC433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 15:32:02 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.11599.1647531121190523674
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 08:30:00 -0700
+ Thu, 17 Mar 2022 08:32:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gyQltfHl;
- spf=pass (domain: gmail.com, ip: 209.85.222.176,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WHHGlF+H;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id b67so4606931qkc.6
+Received: by mail-qk1-f179.google.com with SMTP id 1so4632368qke.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 08:30:00 -0700 (PDT)
+ Thu, 17 Mar 2022 08:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=0jwaVkS58VJLc7HrRjlNP9gw8DLWIGCtQpweJGAmur0=;
-        b=gyQltfHlCxPauEPapLa6WoAPdtmNoDZrDOI2pdZylreh0quCK06G4n06h5DljvODck
-         cz41ICVsAwiQb3zxYTtOKPes9mEStYv+GdBpIdGsAbCkTUeWgLWZ2xPCVKcrC/u6ITdT
-         ASO7FOsVm9ImTTvlHCsn4Z0h3qSC85bKkN5iAQgb+zHdf3ABYNrijzUmfJG5PYAjXhJv
-         sIvHUHJkbPjltaiToIVGQQ2oTbL0TL3P4feobcvZkIy7zzPasz7hvDLpAemhnx5oOjwT
-         gaq3dtYsZoFH8sTk7A+vFdahcKQLk99wgS0YOBD9KvoZ60lNJUktYehZ3Gn7N+kiBgm+
-         ObwA==
+        bh=wTnFAjH7eacEYaHS4f1plwQUfj4DOGfaacVltR+k5u0=;
+        b=WHHGlF+HuTq2YdGT2pvKDpRuVAdSPQEppAVq5jp8ogFMN4AFXroAPgkHSIAHALOgjD
+         mA6KlczkTZxLgozEVo1zGDrRMrnTzqE5yYS6Ji/rlPcFConpvFVWT6bRbBqMJXsVVKKz
+         NLEbrKi4Rj58hoNjNUxo2f58AUlot6WSc/pjetM16K9aI12U5xFZEi5YGgKpfBDTZ9gk
+         gEe7VXl9YV+WzaXhVKufn90rBAF7u7ynH6AVdTSs4F5lZY1io36eFYO7MJQYtohmXMA6
+         d1mMXXS3D1vDidltFWs7B32g7iUAQpeVPAdHhn+NBEkLzzo3boJZLwGcfX6lMJR9DKfm
+         g/Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0jwaVkS58VJLc7HrRjlNP9gw8DLWIGCtQpweJGAmur0=;
-        b=0MWOkVZgwJvh2ODuAHSrkX5YS0vn60aBMMuOm4Vnp5+zXroU28J2FSlmUuKRAdIxnY
-         IusszVy0UD9RyyvGK4cPr4XyXTSiVOaYcV/gK++5kAO6lOlbf/TJSzj5S1POR3yltpcb
-         uCWzynomo/v4SPtfUz5L/1tyFD32vDL+JgkUHX78EYptiiaDNEifutnfS0C0qgeEP94h
-         Zl5HbdVUS0kquXkJQG4wNwTmA0MJfmE41vZ8UrcxBgqUZjUfn9dvEtsuRylqA+GVTYt4
-         bD6BPDUUfyYNFg+xg6BPKzfOIW3VPLcmgB3J0O7ZbtPMfG+vkpNoj3Y/kK1LDGTL0D3P
-         86Vw==
-X-Gm-Message-State: AOAM530ZFeLvbrpfdEXbTQoMerNWyoJLV4BSwx7STIjDDSwufH4bmcsr
-	SZdJFYhIUBrwgeIjz8M/UWvnM4rX4R0N2VAefRs=
+        bh=wTnFAjH7eacEYaHS4f1plwQUfj4DOGfaacVltR+k5u0=;
+        b=rZnqpAwEx1o/5rhrcaW98HyF6+p+knWSh4D93nRpepw8LppkEuDEzKXRZepmIS2yN5
+         w/heW9tTl/T/gTdfEiHa8zM8kKDlRkbbUIGA9ZhIlC1m8nWI8fROIEZiSua99z42EKmv
+         R244XMErJX4Ax71OOzcyttNpsUAs7rofPiNblHyIqPPNSbBFd1jePNrqlvVWht+zLSav
+         89nAyOkjFRLWhZmIXiWJNtbblyfWVNHUzjV+LhrfQdKJw+UdHPtDuiiWdnYbjCP/c9pz
+         JvTv3MWj1Ahsw5UTrUY4lXAtgYQ3t3XsgskSv9ge2wgbbtVq+fH00QP4HP8SmCQleyJH
+         B5Pw==
+X-Gm-Message-State: AOAM532MWrONFq86eL1pykalk3T38SYIr8w3pkeKmkFV53UPKoyHJclZ
+	IgkWZv31Xesq6rZTcIqUZAKmSAMBmgjGCyjmdmcScSx8ScQ=
 X-Google-Smtp-Source: 
- ABdhPJwTPVghHdarz9C0tY9pFXjkOrVbSmk4Z4nlJYOsEt25wQWt2zWVXBWxN91gr47Wk610lqZVFB0YsAjVbRoalkA=
-X-Received: by 2002:a05:620a:4103:b0:67b:49f4:3ee4 with SMTP id
- j3-20020a05620a410300b0067b49f43ee4mr3308401qko.72.1647530999317; Thu, 17 Mar
- 2022 08:29:59 -0700 (PDT)
+ ABdhPJxT9+V7eCMieQeXe92ZeZxjtjLdTIfU7CwMNxxCNPCMpPnoNiun5crlxIIcnLKPs86ce0MpXKrDPlModPXqlbM=
+X-Received: by 2002:a05:620a:4626:b0:67d:1857:cdd2 with SMTP id
+ br38-20020a05620a462600b0067d1857cdd2mr3135550qkb.227.1647531120209; Thu, 17
+ Mar 2022 08:32:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220308155252.2454464-1-raj.khem@gmail.com>
- <CAAnfSTtiGgXAi675oJ1oxkX+r-f1bwT7+Utc-8ddvPwC_zaTSw@mail.gmail.com>
+References: <20220316222526.264261-1-raj.khem@gmail.com>
+ <CAAnfSTvpWwfUKUo7AHAuN_DdPZ2Qus88HG5rqvz6Et8_ZyabiQ@mail.gmail.com>
 In-Reply-To: 
- <CAAnfSTtiGgXAi675oJ1oxkX+r-f1bwT7+Utc-8ddvPwC_zaTSw@mail.gmail.com>
+ <CAAnfSTvpWwfUKUo7AHAuN_DdPZ2Qus88HG5rqvz6Et8_ZyabiQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Mar 2022 08:29:33 -0700
+Date: Thu, 17 Mar 2022 08:31:34 -0700
 Message-ID: 
- <CAMKF1so19J5LtAcO-kc14nBWUEjqOqTGZhk3A7vhTruMkgNugA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] qemu: Depend on virtual/egl
+ <CAMKF1spUtkgz9BqGx=mw64O4vu_B5pUAg_05gFM0cKX+CusNkg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: Upgrade to 36.0.2
 To: Ross Burton <ross@burtonini.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
@@ -62,26 +62,74 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 15:30:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 15:32:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163422
+ https://lists.openembedded.org/g/openembedded-core/message/163424
 
-On Wed, Mar 9, 2022 at 4:30 AM Ross Burton <ross@burtonini.com> wrote:
+On Thu, Mar 17, 2022 at 8:22 AM Ross Burton <ross@burtonini.com> wrote:
 >
-> On Tue, 8 Mar 2022 at 15:52, Khem Raj <raj.khem@gmail.com> wrote:
-> > -PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,virtual/libgl"
-> > +PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,virtual/egl"
+> Note that python3-cryptography and -cryptography-vectors *need* to be
+> updated in lockstep:
 >
-> Either the packageconfig name is wrong, or this patch is wrong: GLX is
-> explicitly big-GL not EGL.
-
-Neither seems to be wrong. see
-https://github.com/qemu/qemu/blob/master/configure#L2289-L2313
-
-It's expecting epoxy with egl. So virtual/egl is a better
-representation. Maybe we should
-add epoxy to depends section of packageconfig separately.
-
+> FAIL: tests/test_utils.py::test_vector_version
+>     def test_vector_version():
+> >       assert cryptography.__version__ == cryptography_vectors.__version__
+> E       AssertionError: assert '36.0.2' == '36.0.1'
 >
+
+hmm, thanks for noticing it
+
+> I'll send a corresponding upgrade shortly.
+>
+
+
+superb.
+
 > Ross
+>
+> On Wed, 16 Mar 2022 at 22:25, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  ...-cryptography_36.0.1.bb => python3-cryptography_36.0.2.bb} | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-devtools/python/{python3-cryptography_36.0.1.bb => python3-cryptography_36.0.2.bb} (96%)
+> >
+> > diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> > similarity index 96%
+> > rename from meta/recipes-devtools/python/python3-cryptography_36.0.1.bb
+> > rename to meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> > index e33eaa50834..940df60d441 100644
+> > --- a/meta/recipes-devtools/python/python3-cryptography_36.0.1.bb
+> > +++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> > @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
+> >                     "
+> >  LDSHARED += "-pthread"
+> >
+> > -SRC_URI[sha256sum] = "53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"
+> > +SRC_URI[sha256sum] = "70f8f4f7bb2ac9f340655cbac89d68c527af5bb4387522a8413e841e3e6628c9"
+> >
+> >  SRC_URI += " \
+> >      file://run-ptest \
+> > @@ -42,7 +42,7 @@ SRC_URI += " \
+> >      crate://crates.io/indoc/0.3.6 \
+> >      crate://crates.io/instant/0.1.12 \
+> >      crate://crates.io/lazy_static/1.4.0 \
+> > -    crate://crates.io/libc/0.2.112 \
+> > +    crate://crates.io/libc/0.2.120 \
+> >      crate://crates.io/lock_api/0.4.5 \
+> >      crate://crates.io/num-integer/0.1.44 \
+> >      crate://crates.io/num-traits/0.2.14 \
+> > --
+> > 2.35.1
+> >
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#163362): https://lists.openembedded.org/g/openembedded-core/message/163362
+> > Mute This Topic: https://lists.openembedded.org/mt/89833574/1676615
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross@burtonini.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 
