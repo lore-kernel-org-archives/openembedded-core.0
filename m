@@ -1,76 +1,35 @@
-Return-Path: <arnout.vandecappelle@essensium.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <8e007c61-84cf-4075-f248-2235bcbcf52a@essensium.com>
-Date: Thu, 17 Mar 2022 10:49:17 +0100
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Subject: [PATCH] mesa: Fix libopencl-mesa-dev packaging
+Date: Thu, 17 Mar 2022 11:29:15 +0100
+Message-Id: <20220317102915.2467957-1-zboszor@pr.hu>
 MIME-Version: 1.0
-Subject: Re: [OE-core] Patches sent to mailing lists: "From" attribute modified
-References: <16DCF6055FEB6DC7.29979@lists.openembedded.org>
- <d54721ab-03a8-9c80-0445-17c7d76d6570@bootlin.com>
-From: "Arnout Vandecappelle (Essensium/Mind)" <arnout.vandecappelle@essensium.com>
-In-Reply-To: <d54721ab-03a8-9c80-0445-17c7d76d6570@bootlin.com>
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: michael.opdenacker@bootlin.com, OE-core <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 
+From: Zoltán Böszörményi <zboszor@gmail.com>
 
-On 17/03/2022 10:35, Michael Opdenacker via lists.openembedded.org wrote:
-> On 3/16/22 21:21, Michael Opdenacker via lists.openembedded.org wrote:
->> Greetings,
->>
->> My patches sent to the mailing lists are causing trouble for Richard.
->>
->> The reason is the "From" field is modified by the mailing list server. It's
->> From: "Michael Opdenacker via lists.yoctoproject.org"
->> <michael.opdenacker=bootlin.com@lists.yoctoproject.org>
->> instead of
->>  From : Michael Opdenacker <michael.opdenacker@bootlin.com"
->> in my original patch.
->>
->> And then when you try to apply the patch with "git am", you get a
->> modified committer name. This makes it harder for Richard to apply
->> patches, otherwise you get commits such as:
->> https://git.yoctoproject.org/poky/log/?qt=author&q=via
->>
->> If I understood correctly, the problem happens because we had to enable
->> DMARC on our domain (bootlin.com), because of a storm of spam messages
->> claiming to come from our domain. Otherwise our legitimate e-mails were
->> getting blocked by Google Mail.
->>
->> Richard recalls that someone once found a workaround for this issue. Did
->> any of you ever face this?
->
-> The problem seems to originate from the behavior of "git am"... As its
-> manual says (https://git-scm.com/docs/git-am):
->
-> "The commit author name is taken from the "From: " line of the message"
->
-> ... and there seems to be no way to override this behavior.
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-  Patchwork solves this issue by re-rewriting the From header. Cfr. [1] - if you 
-look at the headers, it has
-
-  From: Christian Stewart via buildroot <buildroot@buildroot.org>
-
-but if you open the mbox version (which is what you get with pwclient git-am), 
-you get
-
-  X-Patchwork-Original-From: Christian Stewart via buildroot
-    <buildroot@buildroot.org>
-  From: Christian Stewart <christian@paral.in>
-
-If you want to reproduce that outside of patchwork, you can look at its sources.
-
-
-  Regards,
-  Arnout
-
-
-[1] 
-https://patchwork.ozlabs.org/project/buildroot/patch/20220311041821.3078930-1-christian@paral.in/
-
-(I would have taken a patch from someone at bootlin, but the accents are 
-annoying :-)
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c6e85520f8..e8c07a4563 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -307,6 +307,7 @@ FILES:libglapi-dev = "${libdir}/libglapi.*"
+ FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
+ FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
+ FILES:libgles3-mesa-dev = "${includedir}/GLES3"
++FILES:libopencl-mesa-dev = "${libdir}/libMesaOpenCL.so"
+ FILES:libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc"
+ FILES:libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
+                           ${includedir}/xa_tracker.h ${includedir}/xa_composite.h ${includedir}/xa_context.h \
+-- 
+2.35.1
 
