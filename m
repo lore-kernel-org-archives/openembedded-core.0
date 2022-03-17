@@ -1,161 +1,321 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3A7C433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 06:53:46 +0000 (UTC)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by mx.groups.io with SMTP id smtpd.web09.7414.1647500025166775753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19851C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 07:35:19 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by mx.groups.io with SMTP id smtpd.web12.7502.1647502517616720222
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 23:53:45 -0700
+ Thu, 17 Mar 2022 00:35:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AesMe9iq;
- spf=pass (domain: gmail.com, ip: 209.85.221.180,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f180.google.com with SMTP id h205so647123vke.4
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 23:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RtKWW3maI9YYapG1hk+1n3Hu9Mo1/fyXyl1uVGEiHQQ=;
-        b=AesMe9iqMhnsNeV3sZkVjEI6RoascxrBwunX1kJn7LhNt4EspNL+FYz/8HWKhdAb/y
-         v+U26qozxEaFjNvaJAkVMoRDHMVWB4Irj4IflE1HpiT9zn5kwCJq1+1JTxYIfkNnLi4D
-         zd2B+SoKeAfV6M+jZIpSdANUSYTaGKU3BoKkH8PEcHcOVOeEJgrvHe4Ynku9AGK0HhBU
-         eegTjmraye9dyhiuiwA5ueXbJp5DWi248RNPsOynnISHsaxzABxfeXT494MM09+F5nTB
-         kFUCnot1W6A3cImzf4NbS+9gQCC8iOUUFlq8xJAtKiVVf9qTCV0omjC622NRa/dcrAmo
-         giMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RtKWW3maI9YYapG1hk+1n3Hu9Mo1/fyXyl1uVGEiHQQ=;
-        b=JH0qnduZOr8pEjyDp9rKNNhO5YmMddRXRoh7qPD8FLdAaoQA0j2Y9HTutGVd6XIZvI
-         B1YZbmY3XT7Eqma0/sjS7sIHxM6Rk4S1XVOCCrY1DZ2ogTNEzkbXIMVYukmPYpYPl6hB
-         eW2dCt6EbKNuLbINkkG69cy4XavE/Zje8frLzg5/3J8oEnIXjNFqA2KPWy8ypq46JAGF
-         7YLkGzBpexDH90GfhqPrT/Aya5KdBhgFrXfPWLmvB3e2GwSvEuVY+LVAk4b+Ob/OVKUj
-         8fQLpARbKHISblLH8KCu/CZ7RQwlI+fjDbf1bx7oR3qp/YWn+fqAEoox8MdTS4csiMkX
-         YxUA==
-X-Gm-Message-State: AOAM532XpqMlXJcKwVMq138jhKuJM0AxjgOFNVsMlnRl3BUnr/bf6BrK
-	2+zJAzddukI3x7Jgo8uJIe5QHIwmDSmyrhzpqXA=
-X-Google-Smtp-Source: 
- ABdhPJxmlqDfIqP2Zwhyfe3JSKl1aQRCZXqgblsBxA72N7rQbhC3+/UCOpLdasoWQWM4OMqHqqG+846gmtCD5/5Zkek=
-X-Received: by 2002:a05:6122:208d:b0:337:7db2:8684 with SMTP id
- i13-20020a056122208d00b003377db28684mr1463887vkd.1.1647500024206; Wed, 16 Mar
- 2022 23:53:44 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=Xa0VnkXZ;
+ spf=pass (domain: intel.com, ip: 192.55.52.136,
+ mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647502517; x=1679038517;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wlKKevOQl9Mavu1fILDforIe0s/Dz6yLBOlvEft1Aqw=;
+  b=Xa0VnkXZBvj21JjD/E3LQq2o3M6kB6mQI0V5c+ZJpE2RmsGKYLW3xn8D
+   i0sJjufs4mm/Prip9epG3Rr/JXvUwo2UccqSW/GfLYmFsWTdBWPvSXwxm
+   RUbSLpysE24M9+uPXVOwmXPobHpZFhnoE3gK0jWtMTMfKW2VU7CvWGBcY
+   2ub5pZXlOYMam7lo+sPn96XIgbSOW+K8dOfhL/9TZCYGVgGgrhyTf5MrO
+   uuTAMIugCoP/rRFSJawMH86u2vuAxg+BvrwXyJykudd7CG2Qj/2fAE7+W
+   HmRZJsjizrREY00K8TOKLykbRwdLSxvqcvmDICpLzOi9Mtppisdj9nb4O
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236750492"
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400";
+   d="scan'208";a="236750492"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2022 00:35:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,188,1643702400";
+   d="scan'208";a="581208453"
+Received: from cheeyang-desk1.png.intel.com ([10.158.87.104])
+  by orsmga001.jf.intel.com with ESMTP; 17 Mar 2022 00:35:13 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 1/4] ghostscript: fix CVE-2021-3781
+Date: Thu, 17 Mar 2022 15:32:44 +0800
+Message-Id: <20220317073247.4117889-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220317030519.1423570-1-ricardo@foundries.io>
-In-Reply-To: <20220317030519.1423570-1-ricardo@foundries.io>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 17 Mar 2022 07:53:33 +0100
-Message-ID: 
- <CANNYZj87yUzr__GtYtsneOGdESX6EsfLCSbHnUdAkme4tAHCzw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libpam: use /run instead of /var/run in systemd
- tmpfiles
-To: Ricardo Salveti <ricardo@foundries.io>
-Cc: daiane.angolini@foundries.io, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000b5db4105da647d67"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 06:53:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 07:35:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163372
+ https://lists.openembedded.org/g/openembedded-core/message/163373
 
---000000000000b5db4105da647d67
-Content-Type: text/plain; charset="UTF-8"
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-A link to back up the claim would be helpful. Also, what makes this file
-and setting systemd specific?
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../ghostscript/CVE-2021-3781.patch           | 236 ++++++++++++++++++
+ .../ghostscript/ghostscript_9.54.0.bb         |   1 +
+ 2 files changed, 237 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-3781.patch
 
-Alex
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-3781.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-3781.patch
+new file mode 100644
+index 0000000000..27ef83bb85
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2021-3781.patch
+@@ -0,0 +1,236 @@
++From a9bd3dec9fde03327a4a2c69dad1036bf9632e20 Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Tue, 7 Sep 2021 20:36:12 +0100
++Subject: [PATCH] Bug 704342: Include device specifier strings in access
++ validation
++
++for the "%pipe%", %handle%" and %printer% io devices.
++
++We previously validated only the part after the "%pipe%" Postscript device
++specifier, but this proved insufficient.
++
++This rebuilds the original file name string, and validates it complete. The
++slight complication for "%pipe%" is it can be reached implicitly using
++"|" so we have to check both prefixes.
++
++Addresses CVE-2021-3781
++
++Upstream-Status: Backport[https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=a9bd3dec9fde03327a4a2c69dad1036bf9632e20]
++CVE: CVE-2021-3781
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ base/gdevpipe.c | 22 +++++++++++++++-
++ base/gp_mshdl.c | 11 +++++++-
++ base/gp_msprn.c | 10 ++++++-
++ base/gp_os2pr.c | 13 +++++++++-
++ base/gslibctx.c | 69 ++++++++++---------------------------------------
++ 5 files changed, 65 insertions(+), 60 deletions(-)
++
++diff --git a/base/gdevpipe.c b/base/gdevpipe.c
++index 96d71f5d8..5bdc485be 100644
++--- a/base/gdevpipe.c
+++++ b/base/gdevpipe.c
++@@ -72,8 +72,28 @@ pipe_fopen(gx_io_device * iodev, const char *fname, const char *access,
++ #else
++     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
++     gs_fs_list_t *fs = ctx->core->fs;
+++    /* The pipe device can be reached in two ways, explicltly with %pipe%
+++       or implicitly with "|", so we have to check for both
+++     */
+++    char f[gp_file_name_sizeof];
+++    const char *pipestr = "|";
+++    const size_t pipestrlen = strlen(pipestr);
+++    const size_t preflen = strlen(iodev->dname);
+++    const size_t nlen = strlen(fname);
+++    int code1;
+++
+++    if (preflen + nlen >= gp_file_name_sizeof)
+++        return_error(gs_error_invalidaccess);
+++
+++    memcpy(f, iodev->dname, preflen);
+++    memcpy(f + preflen, fname, nlen + 1);
+++
+++    code1 = gp_validate_path(mem, f, access);
+++
+++    memcpy(f, pipestr, pipestrlen);
+++    memcpy(f + pipestrlen, fname, nlen + 1);
++ 
++-    if (gp_validate_path(mem, fname, access) != 0)
+++    if (code1 != 0 && gp_validate_path(mem, f, access) != 0 )
++         return gs_error_invalidfileaccess;
++ 
++     /*
++diff --git a/base/gp_mshdl.c b/base/gp_mshdl.c
++index 2b964ed74..8d87ceadc 100644
++--- a/base/gp_mshdl.c
+++++ b/base/gp_mshdl.c
++@@ -95,8 +95,17 @@ mswin_handle_fopen(gx_io_device * iodev, const char *fname, const char *access,
++     long hfile;	/* Correct for Win32, may be wrong for Win64 */
++     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
++     gs_fs_list_t *fs = ctx->core->fs;
+++    char f[gp_file_name_sizeof];
+++    const size_t preflen = strlen(iodev->dname);
+++    const size_t nlen = strlen(fname);
++ 
++-    if (gp_validate_path(mem, fname, access) != 0)
+++    if (preflen + nlen >= gp_file_name_sizeof)
+++        return_error(gs_error_invalidaccess);
+++
+++    memcpy(f, iodev->dname, preflen);
+++    memcpy(f + preflen, fname, nlen + 1);
+++
+++    if (gp_validate_path(mem, f, access) != 0)
++         return gs_error_invalidfileaccess;
++ 
++     /* First we try the open_handle method. */
++diff --git a/base/gp_msprn.c b/base/gp_msprn.c
++index ed4827968..746a974f7 100644
++--- a/base/gp_msprn.c
+++++ b/base/gp_msprn.c
++@@ -168,8 +168,16 @@ mswin_printer_fopen(gx_io_device * iodev, const char *fname, const char *access,
++     uintptr_t *ptid = &((tid_t *)(iodev->state))->tid;
++     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
++     gs_fs_list_t *fs = ctx->core->fs;
+++    const size_t preflen = strlen(iodev->dname);
+++    const size_t nlen = strlen(fname);
++ 
++-    if (gp_validate_path(mem, fname, access) != 0)
+++    if (preflen + nlen >= gp_file_name_sizeof)
+++        return_error(gs_error_invalidaccess);
+++
+++    memcpy(pname, iodev->dname, preflen);
+++    memcpy(pname + preflen, fname, nlen + 1);
+++
+++    if (gp_validate_path(mem, pname, access) != 0)
++         return gs_error_invalidfileaccess;
++ 
++     /* First we try the open_printer method. */
++diff --git a/base/gp_os2pr.c b/base/gp_os2pr.c
++index f852c71fc..ba54cde66 100644
++--- a/base/gp_os2pr.c
+++++ b/base/gp_os2pr.c
++@@ -107,9 +107,20 @@ os2_printer_fopen(gx_io_device * iodev, const char *fname, const char *access,
++            FILE ** pfile, char *rfname, uint rnamelen)
++ {
++     os2_printer_t *pr = (os2_printer_t *)iodev->state;
++-    char driver_name[256];
+++    char driver_name[gp_file_name_sizeof];
++     gs_lib_ctx_t *ctx = mem->gs_lib_ctx;
++     gs_fs_list_t *fs = ctx->core->fs;
+++    const size_t preflen = strlen(iodev->dname);
+++    const int size_t = strlen(fname);
+++
+++    if (preflen + nlen >= gp_file_name_sizeof)
+++        return_error(gs_error_invalidaccess);
+++
+++    memcpy(driver_name, iodev->dname, preflen);
+++    memcpy(driver_name + preflen, fname, nlen + 1);
+++
+++    if (gp_validate_path(mem, driver_name, access) != 0)
+++        return gs_error_invalidfileaccess;
++ 
++     /* First we try the open_printer method. */
++     /* Note that the loop condition here ensures we don't
++diff --git a/base/gslibctx.c b/base/gslibctx.c
++index 6dfed6cd5..318039fad 100644
++--- a/base/gslibctx.c
+++++ b/base/gslibctx.c
++@@ -655,82 +655,39 @@ rewrite_percent_specifiers(char *s)
++ int
++ gs_add_outputfile_control_path(gs_memory_t *mem, const char *fname)
++ {
++-    char *fp, f[gp_file_name_sizeof];
++-    const int pipe = 124; /* ASCII code for '|' */
++-    const int len = strlen(fname);
++-    int i, code;
+++    char f[gp_file_name_sizeof];
+++    int code;
++ 
++     /* Be sure the string copy will fit */
++-    if (len >= gp_file_name_sizeof)
+++    if (strlen(fname) >= gp_file_name_sizeof)
++         return gs_error_rangecheck;
++     strcpy(f, fname);
++-    fp = f;
++     /* Try to rewrite any %d (or similar) in the string */
++     rewrite_percent_specifiers(f);
++-    for (i = 0; i < len; i++) {
++-        if (f[i] == pipe) {
++-           fp = &f[i + 1];
++-           /* Because we potentially have to check file permissions at two levels
++-              for the output file (gx_device_open_output_file and the low level
++-              fopen API, if we're using a pipe, we have to add both the full string,
++-              (including the '|', and just the command to which we pipe - since at
++-              the pipe_fopen(), the leading '|' has been stripped.
++-            */
++-           code = gs_add_control_path(mem, gs_permit_file_writing, f);
++-           if (code < 0)
++-               return code;
++-           code = gs_add_control_path(mem, gs_permit_file_control, f);
++-           if (code < 0)
++-               return code;
++-           break;
++-        }
++-        if (!IS_WHITESPACE(f[i]))
++-            break;
++-    }
++-    code = gs_add_control_path(mem, gs_permit_file_control, fp);
+++
+++    code = gs_add_control_path(mem, gs_permit_file_control, f);
++     if (code < 0)
++         return code;
++-    return gs_add_control_path(mem, gs_permit_file_writing, fp);
+++    return gs_add_control_path(mem, gs_permit_file_writing, f);
++ }
++ 
++ int
++ gs_remove_outputfile_control_path(gs_memory_t *mem, const char *fname)
++ {
++-    char *fp, f[gp_file_name_sizeof];
++-    const int pipe = 124; /* ASCII code for '|' */
++-    const int len = strlen(fname);
++-    int i, code;
+++    char f[gp_file_name_sizeof];
+++    int code;
++ 
++     /* Be sure the string copy will fit */
++-    if (len >= gp_file_name_sizeof)
+++    if (strlen(fname) >= gp_file_name_sizeof)
++         return gs_error_rangecheck;
++     strcpy(f, fname);
++-    fp = f;
++     /* Try to rewrite any %d (or similar) in the string */
++-    for (i = 0; i < len; i++) {
++-        if (f[i] == pipe) {
++-           fp = &f[i + 1];
++-           /* Because we potentially have to check file permissions at two levels
++-              for the output file (gx_device_open_output_file and the low level
++-              fopen API, if we're using a pipe, we have to add both the full string,
++-              (including the '|', and just the command to which we pipe - since at
++-              the pipe_fopen(), the leading '|' has been stripped.
++-            */
++-           code = gs_remove_control_path(mem, gs_permit_file_writing, f);
++-           if (code < 0)
++-               return code;
++-           code = gs_remove_control_path(mem, gs_permit_file_control, f);
++-           if (code < 0)
++-               return code;
++-           break;
++-        }
++-        if (!IS_WHITESPACE(f[i]))
++-            break;
++-    }
++-    code = gs_remove_control_path(mem, gs_permit_file_control, fp);
+++    rewrite_percent_specifiers(f);
+++
+++    code = gs_remove_control_path(mem, gs_permit_file_control, f);
++     if (code < 0)
++         return code;
++-    return gs_remove_control_path(mem, gs_permit_file_writing, fp);
+++    return gs_remove_control_path(mem, gs_permit_file_writing, f);
++ }
++ 
++ int
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
+index d4442a4908..28d064a1a8 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.54.0.bb
+@@ -34,6 +34,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
+                 file://CVE-2021-45949.patch \
++                file://CVE-2021-3781.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.25.1
 
-On Thu 17. Mar 2022 at 4.05, Ricardo Salveti <ricardo@foundries.io> wrote:
-
-> /var/run in deprecated by systemd, use /run instead, as suggested by
-> systemd.
->
-> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
-> ---
->  meta/recipes-extended/pam/libpam/pam-volatiles.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/pam/libpam/pam-volatiles.conf
-> b/meta/recipes-extended/pam/libpam/pam-volatiles.conf
-> index d8b8259a93..1263feb03d 100644
-> --- a/meta/recipes-extended/pam/libpam/pam-volatiles.conf
-> +++ b/meta/recipes-extended/pam/libpam/pam-volatiles.conf
-> @@ -1 +1 @@
-> -d /var/run/sepermit 0755 root root - -
-> +d /run/sepermit 0755 root root - -
-> --
-> 2.35.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163371):
-> https://lists.openembedded.org/g/openembedded-core/message/163371
-> Mute This Topic: https://lists.openembedded.org/mt/89838112/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000b5db4105da647d67
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">A link to back up the claim would be helpful. Also, what =
-makes this file and setting systemd specific?</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Thu 17. Mar 2022 at 4.05, Ricardo Salveti=
- &lt;<a href=3D"mailto:ricardo@foundries.io">ricardo@foundries.io</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bord=
-er-left-color:rgb(204,204,204)">/var/run in deprecated by systemd, use /run=
- instead, as suggested by systemd.<br>
-<br>
-Signed-off-by: Ricardo Salveti &lt;<a href=3D"mailto:ricardo@foundries.io" =
-target=3D"_blank">ricardo@foundries.io</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/pam/libpam/pam-volatiles.conf | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-extended/pam/libpam/pam-volatiles.conf b/meta/rec=
-ipes-extended/pam/libpam/pam-volatiles.conf<br>
-index d8b8259a93..1263feb03d 100644<br>
---- a/meta/recipes-extended/pam/libpam/pam-volatiles.conf<br>
-+++ b/meta/recipes-extended/pam/libpam/pam-volatiles.conf<br>
-@@ -1 +1 @@<br>
--d /var/run/sepermit 0755 root root - -<br>
-+d /run/sepermit 0755 root root - -<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#163371): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/163371" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/163371</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89838112/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/89838112/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000b5db4105da647d67--
 
