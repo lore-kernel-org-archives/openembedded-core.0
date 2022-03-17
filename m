@@ -1,73 +1,90 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <842c2a97-3e6f-c30e-a563-35d8747455a0@pr.hu>
-Date: Thu, 17 Mar 2022 13:16:02 +0100
-MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] mesa: Fix libopencl-mesa-dev packaging
-References: <20220317102915.2467957-1-zboszor@pr.hu>
- <CANPvuRmsP2CaLsQ+akPA+J9yLgzq_5GOnzgtcYaSX9gVVj0pKg@mail.gmail.com>
 From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-In-Reply-To: <CANPvuRmsP2CaLsQ+akPA+J9yLgzq_5GOnzgtcYaSX9gVVj0pKg@mail.gmail.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Subject: [PATCH v2] mesa: Allow building Mesa's OpenCL through PACKAGECONFIG
+Date: Thu, 17 Mar 2022 13:26:35 +0100
+Message-Id: <20220317122635.670385-1-zboszor@pr.hu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 
-2022. 03. 17. 11:35 keltezéssel, Jose Quaresma írta:
-> Hi Zoltán,
-> 
-> This patch seems to be a fixup for the previous
-> 
-> https://lists.openembedded.org/g/openembedded-core/message/163331 
-> <https://lists.openembedded.org/g/openembedded-core/message/163331>
-> 
-> I think a v2 is more appropriate
+From: Zoltán Böszörményi <zboszor@gmail.com>
 
-I will send a v2 then. Thanks.
+v2: Fix libopencl-mesa-dev packaging
 
-> 
-> Jose
-> 
-> Zoltan Boszormenyi via lists.openembedded.org <http://lists.openembedded.org> 
-> <zboszor=pr.hu@lists.openembedded.org <mailto:pr.hu@lists.openembedded.org>> escreveu no 
-> dia quinta, 17/03/2022 à(s) 10:29:
-> 
->     From: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
-> 
->     Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
->     ---
->       meta/recipes-graphics/mesa/mesa.inc | 1 +
->       1 file changed, 1 insertion(+)
-> 
->     diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
->     index c6e85520f8..e8c07a4563 100644
->     --- a/meta/recipes-graphics/mesa/mesa.inc
->     +++ b/meta/recipes-graphics/mesa/mesa.inc
->     @@ -307,6 +307,7 @@ FILES:libglapi-dev = "${libdir}/libglapi.*"
->       FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES
->     ${libdir}/pkgconfig/glesv1*.pc"
->       FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2
->     ${libdir}/pkgconfig/glesv2.pc"
->       FILES:libgles3-mesa-dev = "${includedir}/GLES3"
->     +FILES:libopencl-mesa-dev = "${libdir}/libMesaOpenCL.so"
->       FILES:libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h
->     ${libdir}/pkgconfig/osmesa.pc"
->       FILES:libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la
->     <http://libxatracker.la> \
->                                 ${includedir}/xa_tracker.h ${includedir}/xa_composite.h
->     ${includedir}/xa_context.h \
->     -- 
->     2.35.1
-> 
-> 
->     
-> 
-> 
-> 
-> -- 
-> Best regards,
-> 
-> José Quaresma
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 2a89b8e8f0..d1d4276aeb 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -74,7 +74,6 @@ MESON_BUILDTYPE = "${@check_buildtype(d)}"
+ 
+ EXTRA_OEMESON = " \
+     -Dshared-glapi=enabled \
+-    -Dgallium-opencl=disabled \
+     -Dglx-read-only-text=true \
+     -Dplatforms='${@",".join("${PLATFORMS}".split())}' \
+ "
+@@ -122,6 +121,9 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
+ # "egl" requires "opengl"
+ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+ 
++# "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
++PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true,-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
++
+ PACKAGECONFIG[broadcom] = ""
+ PACKAGECONFIG[etnaviv] = ""
+ PACKAGECONFIG[freedreno] = ""
+@@ -190,6 +192,8 @@ RDEPENDS:${PN}-dev = ""
+ # development package of libgles3.
+ RDEPENDS:libgles3-mesa-dev += "libgles2-mesa-dev"
+ 
++RDEPENDS:libopencl-mesa += "${@bb.utils.contains('PACKAGECONFIG', 'opencl', 'libclc spirv-tools', '', d)}"
++
+ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libosmesa libosmesa-dev \
+              libgl-mesa libgl-mesa-dev \
+@@ -198,6 +202,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libgles1-mesa libgles1-mesa-dev \
+              libgles2-mesa libgles2-mesa-dev \
+              libgles3-mesa libgles3-mesa-dev \
++             libopencl-mesa libopencl-mesa-dev \
+              libxatracker libxatracker-dev \
+              mesa-megadriver mesa-vulkan-drivers \
+              mesa-vdpau-drivers \
+@@ -230,7 +235,8 @@ python __anonymous() {
+               ("opengl", "libgl", "libgl1"),
+               ("gles", "libgles1", "libglesv1-cm1"),
+               ("gles", "libgles2", "libglesv2-2"),
+-              ("gles", "libgles3",)):
++              ("gles", "libgles3",),
++              ("opencl", "libopencl",)):
+         if not p[0] in pkgconfig:
+             continue
+         mlprefix = d.getVar("MLPREFIX")
+@@ -290,6 +296,7 @@ FILES:libgbm = "${libdir}/libgbm.so.*"
+ FILES:libgles1-mesa = "${libdir}/libGLESv1*.so.*"
+ FILES:libgles2-mesa = "${libdir}/libGLESv2.so.*"
+ FILES:libgl-mesa = "${libdir}/libGL.so.*"
++FILES:libopencl-mesa = "${libdir}/libMesaOpenCL.so.* ${sysconfdir}/OpenCL/vendors/mesa.icd"
+ FILES:libglapi = "${libdir}/libglapi.so.*"
+ FILES:libosmesa = "${libdir}/libOSMesa.so.*"
+ FILES:libxatracker = "${libdir}/libxatracker.so.*"
+@@ -302,6 +309,7 @@ FILES:libglapi-dev = "${libdir}/libglapi.*"
+ FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES ${libdir}/pkgconfig/glesv1*.pc"
+ FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc"
+ FILES:libgles3-mesa-dev = "${includedir}/GLES3"
++FILES:libopencl-mesa-dev = "${libdir}/libMesaOpenCL.so"
+ FILES:libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc"
+ FILES:libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
+                           ${includedir}/xa_tracker.h ${includedir}/xa_composite.h ${includedir}/xa_context.h \
+-- 
+2.35.1
 
