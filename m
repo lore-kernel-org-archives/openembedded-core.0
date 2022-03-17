@@ -1,45 +1,73 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 03/26] python3-imagesize: Add new recipe
-Date: Thu, 17 Mar 2022 11:56:37 +0000
-Message-Id: <20220317115700.993924-4-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
-References: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
+Message-ID: <842c2a97-3e6f-c30e-a563-35d8747455a0@pr.hu>
+Date: Thu, 17 Mar 2022 13:16:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [OE-core] [PATCH] mesa: Fix libopencl-mesa-dev packaging
+References: <20220317102915.2467957-1-zboszor@pr.hu>
+ <CANPvuRmsP2CaLsQ+akPA+J9yLgzq_5GOnzgtcYaSX9gVVj0pKg@mail.gmail.com>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+In-Reply-To: <CANPvuRmsP2CaLsQ+akPA+J9yLgzq_5GOnzgtcYaSX9gVVj0pKg@mail.gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
 
-Needed for sphinx support.
+2022. 03. 17. 11:35 keltezéssel, Jose Quaresma írta:
+> Hi Zoltán,
+> 
+> This patch seems to be a fixup for the previous
+> 
+> https://lists.openembedded.org/g/openembedded-core/message/163331 
+> <https://lists.openembedded.org/g/openembedded-core/message/163331>
+> 
+> I think a v2 is more appropriate
 
-Based on a patch from Armin Kuster <akuster808@gmail.com>
+I will send a v2 then. Thanks.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../python/python3-imagesize_1.2.0.bb                 | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
-
-diff --git a/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb b/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
-new file mode 100644
-index 00000000000..62dc226e9d3
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "Parses image files’ header and return image size."
-+HOMEPAGE = "https://github.com/shibukawa/imagesize_py"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=0c128f0f7e8a02e1b83884c0b5a41cda"
-+
-+SRC_URI[sha256sum] = "b1f6b5a4eab1f73479a50fb79fcf729514a900c341d8503d62a62dbc4127a2b1"
-+
-+inherit setuptools3 pypi
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.32.0
+> 
+> Jose
+> 
+> Zoltan Boszormenyi via lists.openembedded.org <http://lists.openembedded.org> 
+> <zboszor=pr.hu@lists.openembedded.org <mailto:pr.hu@lists.openembedded.org>> escreveu no 
+> dia quinta, 17/03/2022 à(s) 10:29:
+> 
+>     From: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
+> 
+>     Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com <mailto:zboszor@gmail.com>>
+>     ---
+>       meta/recipes-graphics/mesa/mesa.inc | 1 +
+>       1 file changed, 1 insertion(+)
+> 
+>     diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+>     index c6e85520f8..e8c07a4563 100644
+>     --- a/meta/recipes-graphics/mesa/mesa.inc
+>     +++ b/meta/recipes-graphics/mesa/mesa.inc
+>     @@ -307,6 +307,7 @@ FILES:libglapi-dev = "${libdir}/libglapi.*"
+>       FILES:libgles1-mesa-dev = "${libdir}/libGLESv1*.* ${includedir}/GLES
+>     ${libdir}/pkgconfig/glesv1*.pc"
+>       FILES:libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2
+>     ${libdir}/pkgconfig/glesv2.pc"
+>       FILES:libgles3-mesa-dev = "${includedir}/GLES3"
+>     +FILES:libopencl-mesa-dev = "${libdir}/libMesaOpenCL.so"
+>       FILES:libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h
+>     ${libdir}/pkgconfig/osmesa.pc"
+>       FILES:libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/libxatracker.la
+>     <http://libxatracker.la> \
+>                                 ${includedir}/xa_tracker.h ${includedir}/xa_composite.h
+>     ${includedir}/xa_context.h \
+>     -- 
+>     2.35.1
+> 
+> 
+>     
+> 
+> 
+> 
+> -- 
+> Best regards,
+> 
+> José Quaresma
 
