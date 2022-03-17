@@ -1,93 +1,89 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC025C433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 00:27:55 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web12.4586.1647476875251132914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 361F4C433EF
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 00:34:30 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web09.4784.1647477268488338263
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 17:27:55 -0700
+ Wed, 16 Mar 2022 17:34:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=L39h0oms;
- spf=pass (domain: gmail.com, ip: 209.85.215.171,
- mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id bc27so1401083pgb.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VJddaUWm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id p26so1114265wma.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 17:27:55 -0700 (PDT)
+ Wed, 16 Mar 2022 17:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iMPLLouy6WfHWbbQsAucPThxjBBJUzXHGg6cQAbanF8=;
-        b=L39h0oms5wdqQnLgv7mkVniBkWmCCuVyvPVlnqK7VbN07OpzPSW7zIL9+zXcKNxYvu
-         /FqxqqHPfqIsw0CxgaoKTyjaj2YeGygM9KnFbEfQuGWwXuRRvvQFMte+FlAuGs4/CZ1p
-         Qt4vd/t8FMwMFuRYpzhBjmuR9iIZFo2s0g1p5r7/vM2Gp4RC8A58lp6GHqsZ8RV9rgk+
-         NRhj7ZWau4bkDC1nNwBVbwAQ/Wf1ao6mOkYxIE7KdvqzGRwQeznic4NbQTtuBS0GO0pF
-         fmjluIQk5A1y11oXAqHbSYwi/H9a26AetzJsRNl9w1YcvJjaEczQr0sjY5P1En6ws/gg
-         q2jQ==
+        bh=s6mNJNWK37TvfUfOocgqu8b+UJ7uNMczcRD+Gvqe2AU=;
+        b=VJddaUWm942A7OlWyLGD0b4MJEyn+Xhdd1g+VoGHptZyaqRIcKS/tWsR+SwL6c5jqw
+         8AbU//+hXf25nyFVVmcGcxKfmTYm7TZEm947gJzBLEfpZMRLmZHWM57DKVuYrfquTMft
+         FI2vKrVXqhrLuunPopCyEtLrLt1DRQr9C2mwM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iMPLLouy6WfHWbbQsAucPThxjBBJUzXHGg6cQAbanF8=;
-        b=TdnG4e7n0pkkfvy7YwnoQFiP6rz8zCjBJX8JJ0QPOca8f3ktSpr2SZzyMaFy6kt28D
-         qJmLEEbdLrPI/F7xemhUM3pNUP+G/4Djrl/Fa1E0wvth3KCE6FWq0wkpFqerjIXqVqBi
-         MQQvfe7HY44wHYdj4J/h5I/gLPnMNsN7rA70dmkH//GFoqrNnCJfD8rUEWWE86E0WUBP
-         LNBfkCzUX6IpNr1hJ9CuxWZgAKfO6dHuFZqLkf5RhlfmyfYOxgE0orcSk8QCDC7aln+F
-         F91IGpaDfGSP735dhbwXFe0opr7UWDdeL63BhoXpbL5NCGDYieBafepSq2gxPSIOIBRZ
-         vKXA==
-X-Gm-Message-State: AOAM533v2/7dYugvQM8nOQXpn9IqZaUnzvTbar7gOxHdey4hSEFakd/x
-	S0kslPDkYw7JyJ9EaAZL/xehgxVHy4E=
+        bh=s6mNJNWK37TvfUfOocgqu8b+UJ7uNMczcRD+Gvqe2AU=;
+        b=3jKpNwmo88xU2iv8PQxeuGX2lZZ8q1ij0TzUmsHx8kE2PfFJLuUVBnhZk2WTFa6P0u
+         TT+13ZDp7/qlF0FKkC0H7RTHQ0ac2bHaoqxRgE2pm2/rY1RiT2gabRzsJmSp4qaI+udQ
+         vHHgboJa0DgcCLhaNToXZXqNQQIeH3U1VSNj4a9ksR0skiCuQds9BSUFg3z1+FwqsB/H
+         9cfCXyeDmQAmVEtE+TG+EO87FLs2tfTqPEH3/ewr+Qb8yHwr7SicNJZL0+WXNNLxfcT+
+         70u7aX07EskImhGMzM7goak5gIK8unoygtB2g2p3Qai5sdRbBHNHbs01DnldyCTkBx5+
+         AjOg==
+X-Gm-Message-State: AOAM532AhxByumeW7VvQUlPJXsfk/DTd2WHr7xNvN2ENBBIUa5oIwML2
+	AYItUKUay5T7y6EgDGQF3aWa1yjgcwr+ySVq
 X-Google-Smtp-Source: 
- ABdhPJzaYOrMK3BjWOt9fX52heZrAx/qZe3/tWNhWZUF1XLhLnoPo9wzSNG3bfVJdjlhQQLnm+Rkkg==
-X-Received: by 2002:a65:4b85:0:b0:380:db02:2fb5 with SMTP id
- t5-20020a654b85000000b00380db022fb5mr1538448pgq.377.1647476874261;
-        Wed, 16 Mar 2022 17:27:54 -0700 (PDT)
-Received: from nereus.local ([2601:1c0:6000:1b20:96ed:2179:adc5:9d0f])
+ ABdhPJwYiJ5tIVLpmSb4qazugUTcRK6nlBWop66ejHkO21wRBD/ketkUjMvZwabn/jSwh8vp1btiHw==
+X-Received: by 2002:a7b:c77a:0:b0:38c:2c33:d8f1 with SMTP id
+ x26-20020a7bc77a000000b0038c2c33d8f1mr7080034wmk.115.1647477266506;
+        Wed, 16 Mar 2022 17:34:26 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
         by smtp.gmail.com with ESMTPSA id
- e4-20020a17090ab38400b001bf9519fe8bsm7808542pjr.38.2022.03.16.17.27.53
+ t7-20020a05600c198700b00389fb24f397sm6213290wmq.21.2022.03.16.17.34.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 17:27:53 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        Wed, 16 Mar 2022 17:34:26 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-sphinxcontrib-applehelp: LIC_FILES_CHKSUM
-Date: Wed, 16 Mar 2022 17:27:46 -0700
-Message-Id: <20220317002746.669941-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH] python3-cryptography: Fix ptest result handling
+Date: Thu, 17 Mar 2022 00:34:25 +0000
+Message-Id: <20220317003425.971028-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 00:27:55 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 00:34:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163364
+ https://lists.openembedded.org/g/openembedded-core/message/163365
 
-Fix the LIC_FILES_CHKSUM
+We run the tests correctly, we just don't get individual test result
+reporting. Borrow the code from python3-bcrypt to handle this correctly
+and ensure the test pass/fail scores and individual test results are
+reported in a format we can read.
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/python3-sphinxcontrib-applehelp_1.0.2.bb             | 2 +-
+ meta/recipes-devtools/python/python3-cryptography/run-ptest | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
-index c63d093a9f5..04b2ca97e5c 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "sphinxcontrib-applehelp is a sphinx extension which outputs Apple help books"
- HOMEPAGE = "https://www.sphinx-doc.org"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=942469df9305abb1c59e95f778310384"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c7715857042d4c8c0105999ca0c072c5"
- 
- SRC_URI[sha256sum] = "a072735ec80e7675e3f432fcae8610ecf509c5f1869d17e2eecff44389cdbc58"
- 
+diff --git a/meta/recipes-devtools/python/python3-cryptography/run-ptest b/meta/recipes-devtools/python/python3-cryptography/run-ptest
+index 1e97dda63e7..3089df87819 100644
+--- a/meta/recipes-devtools/python/python3-cryptography/run-ptest
++++ b/meta/recipes-devtools/python/python3-cryptography/run-ptest
+@@ -1,4 +1,4 @@
+ #!/bin/sh
+ if ./check-memfree.py; then
+-    pytest -vvvv tests/
++    pytest -vvvv tests/ -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+ fi
 -- 
-2.30.2
+2.32.0
 
 
