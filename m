@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D0EC433FE
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 11:57:08 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web08.9209.1647518227616838529
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B04C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 11:57:09 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.9377.1647518228425926221
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 04:57:07 -0700
+ Thu, 17 Mar 2022 04:57:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xa+jP6hI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BvaaddNm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id h16so2408133wmd.0
+Received: by mail-wr1-f46.google.com with SMTP id t11so7035876wrm.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 04:57:07 -0700 (PDT)
+ Thu, 17 Mar 2022 04:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gXEHNViIF7zjCe400p/zPq1SpzGHq2zPOU16UwlwQ44=;
-        b=Xa+jP6hIpZy3TUodo0ZvYTM49mU6IHv+83PBFRyDduXbF70QtbP9tvr/WD9zB3vPwG
-         j9A5/tdffcr4Apwh9IjUPeQiFjgeshIcgPPXMFNaekWp/mIZIz/SrRyzytOhG5ufMUfy
-         JW4GND3aa2/fCqbzMqQ1GgAFkHCaM+vw60WiM=
+        bh=ljM4OsPYc0Qe5XePt3Stx62q8/omkOAj7KLzQ9vAHP0=;
+        b=BvaaddNmzyaRIAwrZNmlLd6g6+CvLqzW+Fr76kvilcP0MWWgOXTG47rrM/Kc30nS6P
+         zr37aMoPXYl2Dg9HS6vJ/e85j+G5ZhEZaKb7viCYHQdB2TAROWMDucF9EWD0oDBII8RM
+         03bH60cT3B1BP2H03d9FPHaUG1FWldwj79PsE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gXEHNViIF7zjCe400p/zPq1SpzGHq2zPOU16UwlwQ44=;
-        b=Ki/4rh6yTBdYz/PJpGkH8hSSH4TrVT4Zr683rJGXC/Hpcel3inmd5kCbvt6/91PQiq
-         SNJVxhQ5hyClhcVIhWmhENufyZ0RR7y4YVjXXghGIXYMVjMNq9Cpq9yer0pM6JdB3880
-         PyTvBeXalm1RzI69rVu8X0sI6sIggOAOvck58jqnE8XSJa66vQzEty/sH8iy7A53HhkM
-         EoCwVIOtvGRtW/PXWCEfKPSbeeKJrZzCbZok++Z08eGeZCNm9wYMg3RZSdH2ws5ZOb3h
-         xtWeH2H2tuPHypwDywkKQP6SbA+Iq32eXPY8rpfeq0B5Q9GuxSPQ3jR1MPQbsftWqsLm
-         o3CA==
-X-Gm-Message-State: AOAM5322BqsF+U9pzgsxKxdyZfzUY6o+67OzGQMfTGg0uWpaqWBXDCRj
-	LK6WXkQ9MyR+Bt2LE67jA2fRV1EsXmCsZRkx
+        bh=ljM4OsPYc0Qe5XePt3Stx62q8/omkOAj7KLzQ9vAHP0=;
+        b=WfDxIEfEZqFbySfCeTsqnf94gyxNTgpMYeL92xtj9AtwaRYHuRJIVhA+NtyaD+lvuA
+         9CDY5sJ6I2tn0pjPQci8hXzeHIZ8wQN376cDbLTyIC5t0SnV08HvOB+z921HTr8PGUEi
+         gzDR7p4qHgc/rPkVHaioF79u3NpRImOZ9R5qcYbdcXiNh+8DyRoPVXmmb4H67YMC0qKx
+         xZvS+QWFA89SRmOF6bcSrJxev5oP3lxIZQZdIJgVfLHyl8pq1p+i3l+NFID9Ubxnnpbj
+         JD4z8cAnupoebCAuP+8hgK3Lj8biOqfhzA6clJHnQUDbeO0ezSbZmS8aF0yfeFzK3SDW
+         L4kw==
+X-Gm-Message-State: AOAM532A8+Zv12Q3T7adZXO09YwpwwN1YhBC0Sgl5/iUak6G3A5kLYxU
+	PFo40xEWWerodvD7IQv0PCV9ig4iX45vyi9S
 X-Google-Smtp-Source: 
- ABdhPJyvzvz+NanKTwc7bG7PD2MCe5US4kPSQ2MDKc5Dtc4eLQ1DNYCQtM/x+lvHLtLj14RhEGmTYg==
-X-Received: by 2002:a1c:e916:0:b0:37c:f44f:573 with SMTP id
- q22-20020a1ce916000000b0037cf44f0573mr11247512wmc.179.1647518225838;
-        Thu, 17 Mar 2022 04:57:05 -0700 (PDT)
+ ABdhPJybEpjXDMUv8TgnWQQfMT8g/tT+O27HcvBJxlwigavwGZfv+n/RPnpPC9nzH6NmcIbOqfFhAQ==
+X-Received: by 2002:adf:fb4e:0:b0:1e3:3e66:d5f6 with SMTP id
+ c14-20020adffb4e000000b001e33e66d5f6mr3824784wrs.615.1647518226718;
+        Thu, 17 Mar 2022 04:57:06 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
         by smtp.gmail.com with ESMTPSA id
- f22-20020a1cc916000000b00380d3e49e89sm3892315wmb.22.2022.03.17.04.57.04
+ f22-20020a1cc916000000b00380d3e49e89sm3892315wmb.22.2022.03.17.04.57.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 04:57:05 -0700 (PDT)
+        Thu, 17 Mar 2022 04:57:06 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/26] python3-pyasn1: Add from meta-oe/meta-python
-Date: Thu, 17 Mar 2022 11:56:39 +0000
-Message-Id: <20220317115700.993924-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 06/26] python3-certifi: Add from meta-oe/meta-python
+Date: Thu, 17 Mar 2022 11:56:40 +0000
+Message-Id: <20220317115700.993924-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
 References: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
@@ -61,73 +61,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 11:57:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 11:57:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163391
+ https://lists.openembedded.org/g/openembedded-core/message/163392
 
 ---
- .../recipes-devtools/python/python-pyasn1.inc | 31 +++++++++++++++++++
- .../python/python3-pyasn1/run-ptest           |  3 ++
- .../python/python3-pyasn1_0.4.8.bb            |  2 ++
- 3 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-pyasn1.inc
- create mode 100644 meta/recipes-devtools/python/python3-pyasn1/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb
+ .../python/python3-certifi_2021.10.8.bb            | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
 
-diff --git a/meta/recipes-devtools/python/python-pyasn1.inc b/meta/recipes-devtools/python/python-pyasn1.inc
+diff --git a/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
 new file mode 100644
-index 00000000000..6cbed0fcd57
+index 00000000000..4c376da8972
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-pyasn1.inc
-@@ -0,0 +1,31 @@
-+SUMMARY = "Python library implementing ASN.1 types."
-+HOMEPAGE = "http://pyasn1.sourceforge.net/"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=a14482d15c2249de3b6f0e8a47e021fd"
++++ b/meta/recipes-devtools/python/python3-certifi_2021.10.8.bb
+@@ -0,0 +1,14 @@
++SUMMARY = "Python package for providing Mozilla's CA Bundle."
++DESCRIPTION = "This installable Python package contains a CA Bundle that you can reference in your \
++Python code. This is useful for verifying HTTP requests, for example.  This is the same CA Bundle \
++which ships with the Requests codebase, and is derived from Mozilla Firefox's canonical set."
++HOMEPAGE = " http://certifi.io/"
 +
-+SRC_URI[md5sum] = "dffae4ff9f997a83324b3f33fe62be54"
-+SRC_URI[sha256sum] = "aef77c9fb94a3ac588e87841208bdec464471d9871bd5050a287cc9a475cd0ba"
++LICENSE = "ISC"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=67da0714c3f9471067b729eca6c9fbe8"
 +
-+RDEPENDS:${PN}:class-target += " \
-+    ${PYTHON_PN}-codecs \
-+    ${PYTHON_PN}-logging \
-+    ${PYTHON_PN}-math \
-+    ${PYTHON_PN}-shell \
-+"
++SRC_URI[sha256sum] = "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
++
++inherit pypi setuptools3
 +
 +BBCLASSEXTEND = "native nativesdk"
-+
-+inherit ptest
-+
-+SRC_URI += " \
-+	file://run-ptest \
-+"
-+
-+RDEPENDS:${PN}-ptest += " \
-+	${PYTHON_PN}-pytest \
-+"
-+
-+do_install_ptest() {
-+	install -d ${D}${PTEST_PATH}/tests
-+	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-diff --git a/meta/recipes-devtools/python/python3-pyasn1/run-ptest b/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-new file mode 100644
-index 00000000000..b63c4de0d9a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyasn1/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb b/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb
-new file mode 100644
-index 00000000000..a5e2a713626
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyasn1_0.4.8.bb
-@@ -0,0 +1,2 @@
-+inherit pypi setuptools3
-+require python-pyasn1.inc
 -- 
 2.32.0
 
