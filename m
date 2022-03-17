@@ -2,185 +2,101 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FADC433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 01:59:44 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.5550.1647482382955172941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B62CC433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 02:10:33 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.5514.1647483032313285496
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 18:59:43 -0700
+ Wed, 16 Mar 2022 19:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CgqT0tOI;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: ticotimo@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id u10so5375904wra.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iRzLAlPX;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id bc27so1558727pgb.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 18:59:42 -0700 (PDT)
+ Wed, 16 Mar 2022 19:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OSKi36f+Z8GbdOZmpsAl3XBlTIlDpN+VJhsn0V0FjwE=;
-        b=CgqT0tOIYo631fbAJIr1tISriSe0uzj0rDQhsz64Omk9NDNOWRuDrFUPr8sNoSPiPc
-         r8yVffw0Zm1GvxCP2LF0dQlKyQMNRtsS9mJfrD9R1yR7ez7B0YIAQ33tIrO4oUHxZnj6
-         safY4AqWE4wYaN5r+jSPnP4P69mPtpJnIEuVB6LK2TutHz8LQIOf+xt4gFOeWJRukjOq
-         8My4oWL/dJC8tTbjHZceE9TWUfTAe4cW7jurtG48vGyWUkQi9H5Oobt6AYhhO/GuYbf/
-         TaqXTiYVJIUei5v4cEu8eP5lL98YUB+RMQcucm41WwnvrYCTjj4kuek7dJqgOSWbTdVR
-         E5XQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a7FpQ6hHm0VuxxZ8LQ322ttYDb/5YJqitxLIyPv2S48=;
+        b=iRzLAlPXusJq18IYfCEQhF1PgasFYgBZEvg9QRcyiQ4q52RKF2P4mApOSsXB1+AtbW
+         fLC8h2HRykhWbW+MatE8clXTu8esUWvvVVM1/h2mnyTRoZyi0j9e+3ByqAuVxNGeVAYy
+         guf9N1GMAED0LOJQqBjwx7N0lZjJ2WL8oGyzpPdGvWTtjwTxRA3fLBZ91GngFKnrmQSC
+         8cZ3r9qfKRDd6PWD/Pkp0sz/mGGxRGfrI5c3RtMXfoMXauoVvGVFZf5/J5ekvejBszA6
+         92CD4RfK9uWYecbAKx05jbtBnF/GKhV3hc6INO7yCR0Pge9b2UEi9Ej2IdsPri8cqV6L
+         C9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OSKi36f+Z8GbdOZmpsAl3XBlTIlDpN+VJhsn0V0FjwE=;
-        b=lZLvaWDtMN+aFLVQmOXjLFs93kOyprYg9hbVg69UwOcMmPsVpPUrx15EMFLN6PMSz7
-         wYIuUcLEcehwpUR+9E8/1s8gKPYhQV2m3lLSvHA23aXjRnNOVFxjVLbimpbsujJ73v2q
-         f+8u725fnjzQ/Yg2rI3X4p91Vd96agVRIToDw9lWqh8g6wf+NxxTT/tiMd/ZTspMjS9L
-         cbc0cJ0ZsnqSQ/sYGSyciuhNyss/BSPpZgP4lTb0qOLA5ZryOYYgawFznEUjbfJt43Ds
-         gGm75yiM/DSZ9ve2JOjv+yzQ4aaMrDKL9A7Kz7WcoVv5m9+Wspdnz0mWkS1cIGMlOqtX
-         xz8w==
-X-Gm-Message-State: AOAM530tDgVvUDIpFHXLvDwpVcc3HFjeimEbeaVYav3xhxIx4cuWrapK
-	ZaPRKnDSROHmt1n2huU7XzsQuvf+NKJmdmhryfI=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=a7FpQ6hHm0VuxxZ8LQ322ttYDb/5YJqitxLIyPv2S48=;
+        b=IwUK/K1rKfD9R1DaKWyUZuRmMgAbGQHVNwZGMpnSSJcvAOUAww2bgGNTa/Fzf5NCKp
+         cvMhV2EudFGJ1KaVDJItcR5rR7cntVHUwsa7zaaAQQjMP8X+wtqX4a3bv8YQ0N90j1ZD
+         OA/9m+STeXFYewgG53dMLaSeqoYl/pMFuvrv+kPTZgeg1LAS5eZtYdv93EzuHINxAD0b
+         fiEUg9YP9GbQMrSjTyTYrnocmsqggJ9Z2llRBSWWMCWWgk250VZhudfeJIIW19a6LAoc
+         iCOWhLGNBOv7YSXNJ3wzESHzgyaQ09ENiuiUDZPjHxp5lZBvELMoqJXGJfb2zbyMlkke
+         1/kw==
+X-Gm-Message-State: AOAM531rAD8yaFvPUc38NNodAVsicYU8mLsc4dPwdFWbJcX1eP96axoP
+	DR8qzQ5nZqLXhNCQcHaEpY2VKkau0Dc=
 X-Google-Smtp-Source: 
- ABdhPJwxOMA2jkxNxIL5paikAkoF+yL3NEvtG1Okhx+FTPiFKDeLdE1KZLc84j08YnmAxd+XCnM4VsK1uT3tqvHUzJo=
-X-Received: by 2002:a5d:6489:0:b0:203:d75b:5d05 with SMTP id
- o9-20020a5d6489000000b00203d75b5d05mr2096650wri.236.1647482381163; Wed, 16
- Mar 2022 18:59:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220317003425.971028-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220317003425.971028-1-richard.purdie@linuxfoundation.org>
+ ABdhPJxK5cdvH6A7uWzgCGzbgoZ4PaI6H9MzYgZ3RDEBnHCvzHx0gJ/mglA9d6q6oQ2bEpifCGUzSA==
+X-Received: by 2002:a63:c048:0:b0:381:7aad:57c5 with SMTP id
+ z8-20020a63c048000000b003817aad57c5mr1831592pgi.595.1647483031293;
+        Wed, 16 Mar 2022 19:10:31 -0700 (PDT)
+Received: from nereus.local ([2601:1c0:6000:1b20:96ed:2179:adc5:9d0f])
+        by smtp.gmail.com with ESMTPSA id
+ m17-20020a17090a7f9100b001b9e4d62ed0sm7622752pjl.13.2022.03.16.19.10.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 19:10:30 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 16 Mar 2022 18:59:30 -0700
-Message-ID: 
- <CANx9H-CNpnnGCi+26qgVtiGcaRTX3u2h_r8_UQHyoaZY-jreqA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-cryptography: Fix ptest result handling
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001a5fbc05da6062b5"
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-snowballstemmer: upgrade to 2.2.0
+Date: Wed, 16 Mar 2022 19:10:24 -0700
+Message-Id: <20220317021024.721357-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 01:59:43 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 02:10:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163369
+ https://lists.openembedded.org/g/openembedded-core/message/163370
 
---0000000000001a5fbc05da6062b5
-Content-Type: text/plain; charset="UTF-8"
+License is BSD-1-Clause, update LIC_FILES_CHKSUM
 
-On Wed, Mar 16, 2022 at 5:34 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...allstemmer_2.0.0.bb => python3-snowballstemmer_2.2.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-snowballstemmer_2.0.0.bb => python3-snowballstemmer_2.2.0.bb} (51%)
 
-> We run the tests correctly, we just don't get individual test result
-> reporting. Borrow the code from python3-bcrypt to handle this correctly
-> and ensure the test pass/fail scores and individual test results are
-> reported in a format we can read.
+diff --git a/meta/recipes-devtools/python/python3-snowballstemmer_2.0.0.bb b/meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb
+similarity index 51%
+rename from meta/recipes-devtools/python/python3-snowballstemmer_2.0.0.bb
+rename to meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb
+index 7db58928619..bbf844868fc 100644
+--- a/meta/recipes-devtools/python/python3-snowballstemmer_2.0.0.bb
++++ b/meta/recipes-devtools/python/python3-snowballstemmer_2.2.0.bb
+@@ -1,10 +1,10 @@
+ SUMMARY = "Snowball compiler and stemming algorithms"
+ HOMEPAGE = "https://github.com/snowballstem/snowball"
+ 
+-LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://../git/COPYING;md5=2750797da77c1d784e7626b3f7d7ff3e"
++LICENSE = "BSD-1-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=19139aaf3c8c8fa1ca6edd59c072fb9f"
+ 
+-SRC_URI[sha256sum] = "df3bac3df4c2c01363f3dd2cfa78cce2840a79b9f1c2d2de9ce8d31683992f52"
++SRC_URI[sha256sum] = "09b16deb8547d3412ad7b590689584cd0fe25ec8db3be37788be3810cbf19cb1"
+ 
+ PYPI_PACKAGE = "snowballstemmer"
+ 
+-- 
+2.30.2
 
-
-One day we will have a nice pytest bbclass that makes this easy.
-
->
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/python/python3-cryptography/run-ptest | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-cryptography/run-ptest
-> b/meta/recipes-devtools/python/python3-cryptography/run-ptest
-> index 1e97dda63e7..3089df87819 100644
-> --- a/meta/recipes-devtools/python/python3-cryptography/run-ptest
-> +++ b/meta/recipes-devtools/python/python3-cryptography/run-ptest
-> @@ -1,4 +1,4 @@
->  #!/bin/sh
->  if ./check-memfree.py; then
-> -    pytest -vvvv tests/
-> +    pytest -vvvv tests/ -o log_cli=true -o log_cli_level=INFO | sed -e
-> 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e
-> 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" ||
-> $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk
-> '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" ||
-> $NF=="XPASS") {$NF="";print $0}else{print}}'
->  fi
-> --
-> 2.32.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163365):
-> https://lists.openembedded.org/g/openembedded-core/message/163365
-> Mute This Topic: https://lists.openembedded.org/mt/89835935/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---0000000000001a5fbc05da6062b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Mar 16, 2022 at 5:34 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">We run the te=
-sts correctly, we just don&#39;t get individual test result<br>
-reporting. Borrow the code from python3-bcrypt to handle this correctly<br>
-and ensure the test pass/fail scores and individual test results are<br>
-reported in a format we can read.</blockquote><div dir=3D"auto"><br></div><=
-div dir=3D"auto">One day we will have a nice pytest bbclass that makes this=
- easy.</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
----<br>
-=C2=A0meta/recipes-devtools/python/python3-cryptography/run-ptest | 2 +-<br=
->
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/python3-cryptography/run-ptest b/=
-meta/recipes-devtools/python/python3-cryptography/run-ptest<br>
-index 1e97dda63e7..3089df87819 100644<br>
---- a/meta/recipes-devtools/python/python3-cryptography/run-ptest<br>
-+++ b/meta/recipes-devtools/python/python3-cryptography/run-ptest<br>
-@@ -1,4 +1,4 @@<br>
-=C2=A0#!/bin/sh<br>
-=C2=A0if ./check-memfree.py; then<br>
--=C2=A0 =C2=A0 pytest -vvvv tests/<br>
-+=C2=A0 =C2=A0 pytest -vvvv tests/ -o log_cli=3Dtrue -o log_cli_level=3DINF=
-O | sed -e &#39;s/\[...%\]//g&#39;| sed -e &#39;s/PASSED/PASS/g&#39;| sed -=
-e &#39;s/FAILED/FAIL/g&#39;|sed -e &#39;s/SKIPPED/SKIP/g&#39;| awk &#39;{if=
- ($NF=3D=3D&quot;PASS&quot; || $NF=3D=3D&quot;FAIL&quot; || $NF=3D=3D&quot;=
-SKIP&quot; || $NF=3D=3D&quot;XFAIL&quot; || $NF=3D=3D&quot;XPASS&quot;){pri=
-ntf &quot;%s: %s\n&quot;, $NF, $0}else{print}}&#39;| awk &#39;{if ($NF=3D=
-=3D&quot;PASS&quot; || $NF=3D=3D&quot;FAIL&quot; || $NF=3D=3D&quot;SKIP&quo=
-t; || $NF=3D=3D&quot;XFAIL&quot; || $NF=3D=3D&quot;XPASS&quot;) {$NF=3D&quo=
-t;&quot;;print $0}else{print}}&#39;<br>
-=C2=A0fi<br>
--- <br>
-2.32.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#163365): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/163365" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/163365</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89835935/9247=
-29" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
-89835935/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000001a5fbc05da6062b5--
 
