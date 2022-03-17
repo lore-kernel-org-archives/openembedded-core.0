@@ -2,89 +2,111 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A7CC433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 17:32:09 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web08.544.1647538328556652895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CD1C433EF
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 17:38:25 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web09.626.1647538704802772657
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 10:32:08 -0700
+ Thu, 17 Mar 2022 10:38:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hGvrsjHm;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id e3so5447412pjm.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hMYlDQ+z;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id b67so4925533qkc.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 10:32:08 -0700 (PDT)
+ Thu, 17 Mar 2022 10:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CcNAu7roNE8BnP7RKZ6l0cWpJKD9ZNYIhpL1aEMVots=;
-        b=hGvrsjHmG9fgju4UFqPPlMCUXH10lzYNTXVqLN9PLED8nFML8O/9M+xpgfenVDyLkx
-         volRqbdKaVIH7aeB2SqXacr6zxTDw2E7QZUExzq1PpYwQ3yu/qGkMW3efejoc9SZL2nH
-         bRt8dg+m4v46St72ZB7J2GEmgDexRmrYwgHti987kBlZymIodJ2jtOnGBcntyfNdsKj3
-         zR98uWXgvnKgvwPfeFk0iIceLirhT9zN6ii5qxzBRWjhQfd4yiadKuO0TtlKiulzrmOl
-         oTPT8N9htM2VTAdoEszkmVxaVTsrE5b+ZSjAGF1x9PhGVffqPP/FJJ/O0TFJVlIjee1G
-         KKpw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EGkn5ae6tG9M+QSrucuIU6UlXTVyQlVi9WmcYeMFAHs=;
+        b=hMYlDQ+zL90QGu453y+KQf4++e7yaN4YrV0kZ4Doxe/5u6ahg3yoZOZTN4o8SifWTg
+         dO8YFJsGjjODX0iAX5CLfVQ02kVj+8EJ87N3KU4l19Epw/+WicU/karHOIEu5mLTNYYx
+         WrH9jw1GwGa2Js1fQk3PaXKvlbsNH7Ny+uONzWUrQiXV6/G+xi2u1nQJThj7kBgdUVvx
+         uSUCbmCls1WNVSgXXWgpyUi2LItZNOgwAAiQxLLRDq4rOoDRhr8zJ4q9wkQunXOKC6gp
+         PbZUm8HpnZBUP0K3OZ1H3eFUcfZvBTtbLy4Yfx1Dv/yog/61G+NVO9xq0ICMCrkCDV/U
+         3fbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CcNAu7roNE8BnP7RKZ6l0cWpJKD9ZNYIhpL1aEMVots=;
-        b=GVlALj88m29aNBejTOHXAEDySFnNiA7Hy7qrQ1mKveK4sPkvMHh8IcOAJkgZdJdNA3
-         3/YUdd++suXRS1D/ZYT5SiB23I66VtCeNmxOmc3vEaDMvNgph/TcJ2jpvXpo5UmYdzwq
-         D3yK3iO/wNQFwMI2QqgcL5f2opk55XQ3DQgAa54z9xtQteuq7pGW5W8Px6sxJAiOj8Xc
-         qyA5KJOL+95/DkY2BhkfeyTHY2oznfsTdJmBmgt7xfSluKjbtOG9+XPYdO42sndzMsqY
-         GkzKmEDwgHExrNy4TFeKjdqABQZIdBng9eDznTTNGAZaoT4FYDJJB44mPhZkGSMakE6P
-         ZWdA==
-X-Gm-Message-State: AOAM533wfXwp+soMymAOXynXgx9MT9U8LmbENB1T9S6EUaspg5dywIiD
-	AKpRJbT1rBjNTtqmVTgwoqJUhg8L0GE2Ng==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EGkn5ae6tG9M+QSrucuIU6UlXTVyQlVi9WmcYeMFAHs=;
+        b=TwSVXstakIEmte1oxeCSR6LbZhSw0uI1g9Qm375a5ccvXfLOalwaOuyCyid69cpfsr
+         5y1BI9tRP3gDPLn+XK3S6o3hD7XeUCPuM4w2dyPOgRJw1D7z7uxYsDSIzuIf64811X2g
+         aWAHmLXHDILMq74NIwifrPJ/RHz5sbdzm/NfbdblVC6yMhDnPEOuC7wwHF24F9Tp2KaW
+         mPDioQwb9sYi3vh64YH+HYr2qqt4UIeBprn1VUKg4jIJfVaa/0QTXQKA5S8eCW0jS6V3
+         06+ld3OrV06xYACc8XKbEKGufZbJtrT7OMIeEr8TZAlLW5YuN3/Vwxmr0h/8kj4tX2ar
+         9LaA==
+X-Gm-Message-State: AOAM533iIMNgPoIEnFDjMi6geAn2avSDrhXCbZjffpjO0pkJGPpHACdx
+	8W+Ovq3AZKjzJjjBUcWSFJ8whkSArDZ2lWn1+yJ2angU7LrQig==
 X-Google-Smtp-Source: 
- ABdhPJwVTg/NrQQudMLgpQGX0cjCji3eU8U9S2xtmH5dxms70lisrE8MUwbGy8WPJq7pS/H1Rtcizg==
-X-Received: by 2002:a17:90b:3e8e:b0:1bf:489a:930d with SMTP id
- rj14-20020a17090b3e8e00b001bf489a930dmr6692129pjb.214.1647538327447;
-        Thu, 17 Mar 2022 10:32:07 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
-        by smtp.gmail.com with ESMTPSA id
- pj13-20020a17090b4f4d00b001bf2ff56430sm10759189pjb.30.2022.03.17.10.32.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 10:32:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] weston-init: Use pixman on riscv64 qemu
-Date: Thu, 17 Mar 2022 10:32:03 -0700
-Message-Id: <20220317173203.3443742-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJxQlaWV3HjbZn0Ifqq0B+k+CpWW5JUMr6k3+ZBdAunGiUlcbJfS2fBDJ0rAHNCe3ZhNiy2Xccbyz1gy225Njwo=
+X-Received: by 2002:a05:620a:2982:b0:67d:6c77:b427 with SMTP id
+ r2-20020a05620a298200b0067d6c77b427mr3637262qkp.149.1647538703791; Thu, 17
+ Mar 2022 10:38:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220317164434.387779-1-ross.burton@arm.com>
+In-Reply-To: <20220317164434.387779-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 17 Mar 2022 10:37:57 -0700
+Message-ID: 
+ <CAMKF1soeWs8=oU11T5-WPC=iQUj1jLEpnqr_D1UogM6KfAhTCQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] python3-cryptography-vectors: upgrade to
+ 36.0.2
+To: Ross Burton <ross@burtonini.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 17:32:09 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 17:38:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163429
+ https://lists.openembedded.org/g/openembedded-core/message/163430
 
-Helps boot weston/wayland images
+On Thu, Mar 17, 2022 at 9:44 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> This needs to be upgraded in lockstep with python3-cryptography.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  ...vectors_36.0.1.bb => python3-cryptography-vectors_36.0.2.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-cryptography-vectors_36.0.1.bb => python3-cryptography-vectors_36.0.2.bb} (90%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.1.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb
+> similarity index 90%
+> rename from meta/recipes-devtools/python/python3-cryptography-vectors_36.0.1.bb
+> rename to meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb
+> index da6718fb90..be0eda056e 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.1.bb
+> +++ b/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+>  # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
+>  #       Upgrade both recipes at the same time
+>
+> -SRC_URI[sha256sum] = "fc8490afd5424342b868215435bd174dcd76ab396b4ea9435498be5721dcd598"
+> +SRC_URI[sha256sum] = "2a7924449a03025faf7f8754a6f4200001cab210734a6ce6ac1f6bdacd3a68e4"
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/wayland/weston-init.bb | 1 +
- 1 file changed, 1 insertion(+)
+I think mine here [1] is better since it bumps up libc crate which
+enables riscv64 as well
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index c34582137db..20698b1020d 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -15,6 +15,7 @@ SRC_URI = "file://init \
- S = "${WORKDIR}"
- 
- PACKAGECONFIG ??= ""
-+PACKAGECONFIG:append:qemuriscv64 = " use-pixman"
- 
- PACKAGECONFIG[no-idle-timeout] = ",,"
- PACKAGECONFIG[use-pixman] = ",,"
--- 
-2.35.1
+[1] https://patchwork.yoctoproject.org/project/oe-core/patch/20220316222526.264261-1-raj.khem@gmail.com/
 
+>  PYPI_PACKAGE = "cryptography_vectors"
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163425): https://lists.openembedded.org/g/openembedded-core/message/163425
+> Mute This Topic: https://lists.openembedded.org/mt/89849716/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
