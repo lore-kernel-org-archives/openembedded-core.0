@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85673C433FE
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 11:57:31 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.9383.1647518250590026297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86230C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 11:57:32 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.9304.1647518251378269705
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 04:57:30 -0700
+ Thu, 17 Mar 2022 04:57:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QNFFXX8R;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Kbe03YUK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id a1so5640501wrh.10
+Received: by mail-wr1-f43.google.com with SMTP id b19so6985963wrh.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 04:57:30 -0700 (PDT)
+ Thu, 17 Mar 2022 04:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=7v6VhlligqdHDU6PMF/TDrwc8reLgHyzmQt4gBRKQo8=;
-        b=QNFFXX8RfLr/SZu8IBNbbiJ5qyj+VCh3PBeK64CYZLtBJ7T58irKw0JpMo2Mx98GQ2
-         yPhbHvVaLl9iFz95+EYlOBWK2zTvR8xnRyDQyGprjslvbqkcv7uo20YevVrvBjPpV1FL
-         2tfVLM7qsmDSPX8gl+ucyqEyLRg5sCHr0EKvU=
+        bh=MGwtZpfLJE0Q5DCW64z3ukK4Ww8RHAbhPjEqzdLep8k=;
+        b=Kbe03YUKaY20ELe0uaOJ7xmvwcxK6zWDSKG9v+ZCa8AgE2RR+evzHojC7fhIOO2w1I
+         t0FWodrJZcIXj8IgCLGx3aJimDfWLVUlYs78pzs+lDRTNft1AzHtE7iFhgQZ5Qt1UMbx
+         P2ii9MTAT/o77/ODACggVMzF8Xdr+61fc9tfg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7v6VhlligqdHDU6PMF/TDrwc8reLgHyzmQt4gBRKQo8=;
-        b=FtFgyXEs0BY+CPVka3NbjBAI/b2nQiw5KVyrdPN0OXm+SU8GPwC/HxCY7DKIDPdkjH
-         58G+Duk9QNWL2QOHhsIgPIWmkWghd7HHF/lGUjCVcnAaqHUVDuG89yGaeMkqRFyRM28j
-         KKiy0cQbK7G1lkRo/kJ+/o53cXSC/wnpKGaBbGAzTyV+ajKrca52CkIhMbD+JZQnjsJP
-         LpWufyIjQW+HZVvQ1ll1VD+yGPil6AjHcw21RGRj5qFstmExbBzdpnqGPe6Oui5GqXkr
-         uh0uOCfjKTPh71I2sDWQYCnl1kUknldsWDZI56juRPam8duNYXNHUM1VLdSfUZtwSmLq
-         OTBg==
-X-Gm-Message-State: AOAM531E+xNl21lXFiTjpO9IP860pML++EyRtZjEz3eJw1O08YzKjhcv
-	q5056BGGuf3byALxds0LWuAhwpttR6wWK7Es
+        bh=MGwtZpfLJE0Q5DCW64z3ukK4Ww8RHAbhPjEqzdLep8k=;
+        b=ZMNEEJ9azMX6Yeg/mdS2hJBnvlHxGFMno0ESL8ujD0yw2B6lIof0jKuNhYyIWptDdV
+         bkOeUW3dGOFX6anAJiyOW8rvUhQzvueEnSzlY9voJGBndvAhKXn6NF49cV5yT8xGJq1x
+         dTap591kv3EzG7ZvBDfX70V6RTIewqR4WqaeYKDvcSYDSI63ozNjSxzsLJWZMopNfbrS
+         7QjMuBtiCf7McvqaGEWd0aCGB4C21n6yCsqe2/AMu4M1bkeaiBZe6+2D8aNPR+6bO94K
+         oUFL3v7lK7fMU1/66IQumQWrwekirUwynV/zodbFtjqIU0UoThYP2qqFmuHAnXv0uSTH
+         twHg==
+X-Gm-Message-State: AOAM530y/YQca9opYvmJ+5KAE44Nk3T4LWpkJLcdRWqIyDAk6S6KrSZo
+	FiP52E89T7OwsMnhoBvrMMzK52c88HsFCsvQ
 X-Google-Smtp-Source: 
- ABdhPJzX86g/lMhsdGYbHFL1Rq+REACUQA4xAhjFrnXkBU6+600D7LGXh77QK9UGPf5XSRPZ8ojufw==
-X-Received: by 2002:a05:6000:1a88:b0:203:8de9:47cc with SMTP id
- f8-20020a0560001a8800b002038de947ccmr3657233wry.182.1647518248826;
-        Thu, 17 Mar 2022 04:57:28 -0700 (PDT)
+ ABdhPJxJ5h1YIGXGQcHZCxZTSN9FQUkLQcpph9Y65T+GWhLD7oVRmTB3TC7G3+ap1mqmRcfNXNcW/A==
+X-Received: by 2002:a05:6000:1ace:b0:203:d45b:fbce with SMTP id
+ i14-20020a0560001ace00b00203d45bfbcemr3648184wry.673.1647518249680;
+        Thu, 17 Mar 2022 04:57:29 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
         by smtp.gmail.com with ESMTPSA id
- f22-20020a1cc916000000b00380d3e49e89sm3892315wmb.22.2022.03.17.04.57.27
+ f22-20020a1cc916000000b00380d3e49e89sm3892315wmb.22.2022.03.17.04.57.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 04:57:28 -0700 (PDT)
+        Thu, 17 Mar 2022 04:57:29 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 22/26] python3-sphinx: Add a new recipe
-Date: Thu, 17 Mar 2022 11:56:56 +0000
-Message-Id: <20220317115700.993924-23-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 23/26] python3: Add missing HOMEPAGE entries
+Date: Thu, 17 Mar 2022 11:56:57 +0000
+Message-Id: <20220317115700.993924-24-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
 References: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
@@ -61,48 +61,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 11:57:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 11:57:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163408
-
-Needed to build the sphinx based yocto-docs
-
-Based on a recipe from Armin Kuster <akuster808@gmail.com>
+ https://lists.openembedded.org/g/openembedded-core/message/163409
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/python3-sphinx_4.4.0.bb            | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
+ meta/recipes-devtools/python/python3-chardet_4.0.0.bb       | 1 +
+ meta/recipes-devtools/python/python3-pytest-runner_5.3.1.bb | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb b/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
-new file mode 100644
-index 00000000000..225e7737f60
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-sphinx_4.4.0.bb
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "Python documentation generator"
-+HOMEPAGE = "http://sphinx-doc.org/"
-+SECTION = "devel/python"
-+LICENSE = "BSD-2-Clause & MIT & BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de4349dda741c550eb8b20f6b92f38d7"
-+
-+PYPI_PACKAGE = "Sphinx"
-+
-+SRC_URI[sha256sum] = "6caad9786055cb1fa22b4a365c1775816b876f91966481765d7d50e9f0dd35cc"
-+
-+inherit setuptools3 pypi
-+
-+RDEPENDS:${PN} = "\
-+    python3-packaging python3-docutils python3-requests \
-+    python3-imagesize python3-alabaster python3-jinja2 \
-+    python3-babel python3-pygments python3-snowballstemmer \
-+    python3-sphinxcontrib-applehelp python3-sphinxcontrib-devhelp \
-+    python3-sphinxcontrib-jsmath python3-sphinxcontrib-htmlhelp \
-+    python3-sphinxcontrib-serializinghtml python3-sphinxcontrib-qthelp \
-+    "
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-chardet_4.0.0.bb b/meta/recipes-devtools/python/python3-chardet_4.0.0.bb
+index 75fe4df8d77..f53bdc974ad 100644
+--- a/meta/recipes-devtools/python/python3-chardet_4.0.0.bb
++++ b/meta/recipes-devtools/python/python3-chardet_4.0.0.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Universal encoding detector for Python 2 and 3"
++HOMEPAGE = "https://pypi.org/project/chardet/"
+ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6f89e2100d9b6cdffcea4f398e37343"
+ 
+diff --git a/meta/recipes-devtools/python/python3-pytest-runner_5.3.1.bb b/meta/recipes-devtools/python/python3-pytest-runner_5.3.1.bb
+index fed2d91140f..0748886609d 100644
+--- a/meta/recipes-devtools/python/python3-pytest-runner_5.3.1.bb
++++ b/meta/recipes-devtools/python/python3-pytest-runner_5.3.1.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Invoke py.test as distutils command with dependency resolution"
++HOMEPAGE = "https://pypi.org/project/pytest-runner/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
+ 
 -- 
 2.32.0
 
