@@ -1,83 +1,86 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D74C5C433F5
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 10:51:03 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web09.8849.1647514262424224341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 826CFC433EF
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 11:57:05 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web08.9207.1647518224168359180
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 03:51:02 -0700
+ Thu, 17 Mar 2022 04:57:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PzDmYLdY;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9AAB3E000C;
-	Thu, 17 Mar 2022 10:50:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647514260;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sedskYjj3Q/Jh7xZkK2FBM8E4AOkq3/vecdW/MkjEyY=;
-	b=PzDmYLdY1oMtadZ8JpGNzBZmpVqfzBDbaJts+hu3W0AwKa5W5xhB0Hsje+r8p+QFS5LzZw
-	c8IhLs8LHFfBGA5mXn3+Z4fBaRPSqTr+4gUWnRVWIVJs0kvIBQO3iC2mrMA60OLSb0jMFg
-	PqFtClxY4bvNrZQCfU1OcgE2qzePLiNsNXilpW0aIbhIHbeNe4IQS3EdPbKiolDBeNUrYJ
-	bGcM58HKSwYik3+4Vv/iZ76nqK9TUKP+WzIffRxRNRCxdtw2lYJVCN4t3fT/6HP2ZQOiwG
-	L/9IHl/JXno6svcja9zzKwjGtIHBbto5myW5DTn4uyYh5BgNpp89It6c3kcNgg==
-Date: Thu, 17 Mar 2022 11:50:59 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: michael.opdenacker@bootlin.com
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Patches sent to mailing lists: "From" attribute
- modified
-Message-ID: <YjMSk+vkVU/mtE1k@piout.net>
-References: <16DCF6055FEB6DC7.29979@lists.openembedded.org>
- <d54721ab-03a8-9c80-0445-17c7d76d6570@bootlin.com>
- <047880ea-a2dc-7778-3101-a3c887715513@theobroma-systems.com>
- <eedc4f00-a940-1672-ac00-db2d09023a4c@bootlin.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ed+qWaiY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id h15so7022740wrc.6
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Mar 2022 04:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=HmQRrmK+pFIGDv4gr72rQWtpi3UnujIVRXItmZ/2IbE=;
+        b=ed+qWaiYpyewKGrkECuNV/L/C8jmE9mjPFYXfAPPF564g4yqz7unD5XCLPtcS+UemW
+         +2cDQ+FzALw3R+6khFsW6bnJINOF1x9o8oyBfVs9fctXN50gomi1t0UT5AZwoJXYW6qz
+         7HYPOrDEIhtqgT7gb8aDmFTC86hsRvJgCDLmo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=HmQRrmK+pFIGDv4gr72rQWtpi3UnujIVRXItmZ/2IbE=;
+        b=uUBd29H7HUR/xNR80OBcc68ok3Sd2YtzIIVQbYu79K1KeOPn08oCP/SxlQFCvFYflD
+         dwUemas05SfmS43EzoYidn1Ie0i8458+Grs1pCatkLfAqShxJZU4zmYqC+3SjY4VYE4d
+         Q/W+oECaoNtialhTXkycDKGHdu/26xHFrJvcUgW8WkQPhJ2bfTqhjBU/i5ygmWMpvC92
+         4Xyr8v4cQd5qbCCtfWHdPgAdIkel+IoLTgviqgcrPSsrYc/x2dVSmXXZCYGjewJshv13
+         3trq2aRh2GZoW/nuh0w5RA0iiZvtV42ArCLEiFC97lvDAzwRO+h6IBh2IPacoXBEnWJq
+         dpdQ==
+X-Gm-Message-State: AOAM530qnyhCqeCD5UN6NYdTcCd/ZOCw5UqCqXyjLy3qTT+ySW4tv5GK
+	nDoyPMATN+MGK7P8wSDkIMvf/MyxCZbRc3ge
+X-Google-Smtp-Source: 
+ ABdhPJw1SGHKGaBmjYD5vW9rPNFAtiB62vJYF6B50PYWYXbOia14oC4pcvs/Ve6ofh5+cyxteYT4Ow==
+X-Received: by 2002:a05:6000:188b:b0:1f1:ed77:2f29 with SMTP id
+ a11-20020a056000188b00b001f1ed772f29mr3665049wri.413.1647518222380;
+        Thu, 17 Mar 2022 04:57:02 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
+        by smtp.gmail.com with ESMTPSA id
+ f22-20020a1cc916000000b00380d3e49e89sm3892315wmb.22.2022.03.17.04.57.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Mar 2022 04:57:02 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/26] python3-docutil: Extend to nativesdk
+Date: Thu, 17 Mar 2022 11:56:35 +0000
+Message-Id: <20220317115700.993924-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
+References: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eedc4f00-a940-1672-ac00-db2d09023a4c@bootlin.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 10:51:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 11:57:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163384
+ https://lists.openembedded.org/g/openembedded-core/message/163387
 
-On 17/03/2022 11:01:12+0100, Michael Opdenacker via lists.openembedded.org wrote:
-> Hi Quentin,
-> 
-> On 3/17/22 10:43, Quentin Schulz wrote:
-> >
-> > Maybe there's something you can do to configure git send-email to add
-> > your
-> >
-> > From: Michael Opdenacker <michael.opdenacker@bootlin.com"
-> >
-> > at the top of the mail. See my patches on the ML to see what I mean
-> > exactly but that should make it nicer to maintainers because this From
-> > will be used and not the one from the mailbox's from field.
-> >
-> > FWIW, I did nothing in the configuration of git to have this, it's
-> > just that it probably detects that the sendemail.from config is
-> > different from the commit author mail address and adds it.
-> 
-> 
-> Thanks for the tip. It could work, as my early tests show a difference
-> in the received e-mails.
-> 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python3-docutils_0.18.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I couldn't convince git to do it since it thinks the sender matches the
-author.
-
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.18.1.bb b/meta/recipes-devtools/python/python3-docutils_0.18.1.bb
+index 4f60b050484..e4ddd019787 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.18.1.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.18.1.bb
+@@ -8,4 +8,4 @@ SRC_URI[sha256sum] = "679987caf361a7539d76e584cbeddc311e3aee937877c87346f31debc6
+ 
+ inherit pypi setuptools3
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.32.0
+
 
