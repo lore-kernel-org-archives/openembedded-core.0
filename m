@@ -1,76 +1,93 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9C0C433F5
-	for <webhook@archiver.kernel.org>; Wed, 16 Mar 2022 22:45:47 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
- [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web12.3499.1647470745698707184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC025C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 00:27:55 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web12.4586.1647476875251132914
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 15:45:46 -0700
+ Wed, 16 Mar 2022 17:27:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IZ86Fz5h;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 99BFF100004;
-	Wed, 16 Mar 2022 22:45:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647470743;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=q3kXhOFVRtb1VsB74HEbpILUq5XJsTP+Clp1PH4R/qI=;
-	b=IZ86Fz5hbh3XdS34KguOeRzTIolK/vZtufr2QLm9plW1fRbrVYR4ECrq9+GmGdTJC7NeYP
-	KsMZaCUW8wbS88NHfZ2jJn8/daMgOfy+FdzAHfnfgVSEtUHxSFbub0TKiYC1vPF1sClx3t
-	v0i62yDi/9+SupvLFIYKB58Ba3LBhPI/6aiHkqYAYIXG4GhOdLg/311cAur70AphR/z4LH
-	Qs0ZGlnQ8c/yR36uLpLysTQEwzSYNxE/KRrkqAaVPh4x+rxmCaAgd8StimX7AB3OIN52Fv
-	AM83HuA3PddtXUV3dj99FBavxdks1ITLLs1QY97341DC8Bt2bg4VVMD36PDB0g==
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=L39h0oms;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171,
+ mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id bc27so1401083pgb.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Mar 2022 17:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iMPLLouy6WfHWbbQsAucPThxjBBJUzXHGg6cQAbanF8=;
+        b=L39h0oms5wdqQnLgv7mkVniBkWmCCuVyvPVlnqK7VbN07OpzPSW7zIL9+zXcKNxYvu
+         /FqxqqHPfqIsw0CxgaoKTyjaj2YeGygM9KnFbEfQuGWwXuRRvvQFMte+FlAuGs4/CZ1p
+         Qt4vd/t8FMwMFuRYpzhBjmuR9iIZFo2s0g1p5r7/vM2Gp4RC8A58lp6GHqsZ8RV9rgk+
+         NRhj7ZWau4bkDC1nNwBVbwAQ/Wf1ao6mOkYxIE7KdvqzGRwQeznic4NbQTtuBS0GO0pF
+         fmjluIQk5A1y11oXAqHbSYwi/H9a26AetzJsRNl9w1YcvJjaEczQr0sjY5P1En6ws/gg
+         q2jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iMPLLouy6WfHWbbQsAucPThxjBBJUzXHGg6cQAbanF8=;
+        b=TdnG4e7n0pkkfvy7YwnoQFiP6rz8zCjBJX8JJ0QPOca8f3ktSpr2SZzyMaFy6kt28D
+         qJmLEEbdLrPI/F7xemhUM3pNUP+G/4Djrl/Fa1E0wvth3KCE6FWq0wkpFqerjIXqVqBi
+         MQQvfe7HY44wHYdj4J/h5I/gLPnMNsN7rA70dmkH//GFoqrNnCJfD8rUEWWE86E0WUBP
+         LNBfkCzUX6IpNr1hJ9CuxWZgAKfO6dHuFZqLkf5RhlfmyfYOxgE0orcSk8QCDC7aln+F
+         F91IGpaDfGSP735dhbwXFe0opr7UWDdeL63BhoXpbL5NCGDYieBafepSq2gxPSIOIBRZ
+         vKXA==
+X-Gm-Message-State: AOAM533v2/7dYugvQM8nOQXpn9IqZaUnzvTbar7gOxHdey4hSEFakd/x
+	S0kslPDkYw7JyJ9EaAZL/xehgxVHy4E=
+X-Google-Smtp-Source: 
+ ABdhPJzaYOrMK3BjWOt9fX52heZrAx/qZe3/tWNhWZUF1XLhLnoPo9wzSNG3bfVJdjlhQQLnm+Rkkg==
+X-Received: by 2002:a65:4b85:0:b0:380:db02:2fb5 with SMTP id
+ t5-20020a654b85000000b00380db022fb5mr1538448pgq.377.1647476874261;
+        Wed, 16 Mar 2022 17:27:54 -0700 (PDT)
+Received: from nereus.local ([2601:1c0:6000:1b20:96ed:2179:adc5:9d0f])
+        by smtp.gmail.com with ESMTPSA id
+ e4-20020a17090ab38400b001bf9519fe8bsm7808542pjr.38.2022.03.16.17.27.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 17:27:53 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH] scripts/patchreview: handle Inactive-Upstream status
-Date: Wed, 16 Mar 2022 23:45:37 +0100
-Message-Id: <20220316224537.37069-1-alexandre.belloni@bootlin.com>
-X-Mailer: git-send-email 2.35.1
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-sphinxcontrib-applehelp: LIC_FILES_CHKSUM
+Date: Wed, 16 Mar 2022 17:27:46 -0700
+Message-Id: <20220317002746.669941-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Mar 2022 22:45:47 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 00:27:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163363
+ https://lists.openembedded.org/g/openembedded-core/message/163364
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Fix the LIC_FILES_CHKSUM
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- scripts/contrib/patchreview.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../python/python3-sphinxcontrib-applehelp_1.0.2.bb             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
-index 62c509f51c89..dc417b4c55b4 100755
---- a/scripts/contrib/patchreview.py
-+++ b/scripts/contrib/patchreview.py
-@@ -8,7 +8,7 @@
- # - test suite
- # - validate signed-off-by
+diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
+index c63d093a9f5..04b2ca97e5c 100644
+--- a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
++++ b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_1.0.2.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "sphinxcontrib-applehelp is a sphinx extension which outputs Apple help books"
+ HOMEPAGE = "https://www.sphinx-doc.org"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=942469df9305abb1c59e95f778310384"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c7715857042d4c8c0105999ca0c072c5"
  
--status_values = ("accepted", "pending", "inappropriate", "backport", "submitted", "denied")
-+status_values = ("accepted", "pending", "inappropriate", "backport", "submitted", "denied", "inactive-upstream")
- 
- class Result:
-     # Whether the patch has an Upstream-Status or not
-@@ -46,7 +46,7 @@ def patchreview(path, patches):
-     # hyphen or spaces, maybe a colon, some whitespace, then the value, all case
-     # insensitive.
-     sob_re = re.compile(r"^[\t ]*(Signed[-_ ]off[-_ ]by:?)[\t ]*(.+)", re.IGNORECASE | re.MULTILINE)
--    status_re = re.compile(r"^[\t ]*(Upstream[-_ ]Status:?)[\t ]*(\w*)", re.IGNORECASE | re.MULTILINE)
-+    status_re = re.compile(r"^[\t ]*(Upstream[-_ ]Status:?)[\t ]*([\w-]*)", re.IGNORECASE | re.MULTILINE)
-     cve_tag_re = re.compile(r"^[\t ]*(CVE:)[\t ]*(.*)", re.IGNORECASE | re.MULTILINE)
-     cve_re = re.compile(r"cve-[0-9]{4}-[0-9]{4,6}", re.IGNORECASE)
+ SRC_URI[sha256sum] = "a072735ec80e7675e3f432fcae8610ecf509c5f1869d17e2eecff44389cdbc58"
  
 -- 
-2.35.1
+2.30.2
 
 
