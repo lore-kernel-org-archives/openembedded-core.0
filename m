@@ -1,151 +1,88 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00409C433FE
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 07:35:19 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web09.7632.1647502518263805547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17D49C433EF
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 09:19:18 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web09.8202.1647508756768891243
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Mar 2022 00:35:19 -0700
+ Thu, 17 Mar 2022 02:19:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=Pf8PJ8N+;
- spf=pass (domain: intel.com, ip: 192.55.52.136,
- mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647502519; x=1679038519;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=Ka03K+qBUFs+XvxTAykW7DE7yQssubNqX4S0+f/YAVA=;
-  b=Pf8PJ8N+xR7AcjqVTnHYtHSAVHD8tvou2fQK/KyTDPo909QOU0shrTnY
-   qCuDjt1a+sx10HOmdN//Kn5CKsthH7AtYB7EH9HSHiDyIdl2Nz20rL1kR
-   EfYBy20z+j3mMWpcdz/hbpU9qCVDOHqt3uzmV/tcCH2OCq47uvK/Qyicy
-   jE4vbcQZE9gxluZ7sAb/AE7QKLwz52ypAyy7Lr2QtgFrvd9FkLoEEsJ/9
-   bqUW7AL9daf7kgtY/5A4nBy1e4ogGrHWNAGwu0x5C6sbdyC9d9AiSDjC3
-   0DrSZBOiA973Tftiszb0aeyX3UhcPm9dpM6yxWwKjutttlGWE+Ct3yGpN
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="236750500"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400";
-   d="scan'208";a="236750500"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2022 00:35:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400";
-   d="scan'208";a="581208464"
-Received: from cheeyang-desk1.png.intel.com ([10.158.87.104])
-  by orsmga001.jf.intel.com with ESMTP; 17 Mar 2022 00:35:17 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 4/4] go: update to 1.16.15
-Date: Thu, 17 Mar 2022 15:32:47 +0800
-Message-Id: <20220317073247.4117889-4-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220317073247.4117889-1-chee.yang.lee@intel.com>
-References: <20220317073247.4117889-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ElbEFC40;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id h16so2173581wmd.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 17 Mar 2022 02:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=41IKoB+pa0Vvbhw3rU7nNbLcG0Ac6OtxieSphHktJ9s=;
+        b=ElbEFC40z+iaWFD9Fxz6GspunY9roS708ibuCwu1DTkVEfsrpkrvyWmbeWwbYtmgwK
+         COoLzIBVhKpOAIv4pB7Qkb0rHfJl99j/DzfWUj5Y1qcr6iosc02obMhCFRKE9gnbWysk
+         JnUKvZySiCUNs4U6rnl457GWEpO4Ap4OLDmaw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=41IKoB+pa0Vvbhw3rU7nNbLcG0Ac6OtxieSphHktJ9s=;
+        b=G7NZ791ekccqOI2XoV3Mja+2pEPVOyTnv1uNh31FVfpQ4baAEWfrkz3OGN5FvLGDWA
+         yGDffp2yIVtIdUS19Vbqee2Qu2SsYPlSzYaig+flHNOLuyrT8TmqIMqlkNiQIKV90G4R
+         bm82z3pnMc1gO/mOFqc57WTDk5PNkYXXNEZ4fRbIwBxe9um8w2nVpOFrSJIZp0VD2WTm
+         H7dFixUSU5WeZw3OineuqsKK0elUtwdS45z3Y598NJWjdRxh/ca1ykQK8XeQ3KxfE0/m
+         4hcJkcuP3SzerOb9bMsyUWoiOeD/xrLq6TxTHUsffZ3K+kzWcKH3oe9wTgNzVYCE7zNu
+         Cz5g==
+X-Gm-Message-State: AOAM531N8wD5sNwdbgeKET9iJfmy5v68W8LxUvSk02NDMvjzSPD8GInd
+	7aLPY/5eC2n0pbfl1izq+NaV0w==
+X-Google-Smtp-Source: 
+ ABdhPJy+l54ZIcBtaDsq6WyssT7+lZCfQM7atrPernxEtLHpD5+jZ4GD2e09fQ7q4EGYaJAiutRdCQ==
+X-Received: by 2002:a7b:c382:0:b0:388:2e76:49ed with SMTP id
+ s2-20020a7bc382000000b003882e7649edmr3037889wmj.195.1647508755023;
+        Thu, 17 Mar 2022 02:19:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:64d8:6f1c:d663:861?
+ ([2001:8b0:aba:5f3c:64d8:6f1c:d663:861])
+        by smtp.gmail.com with ESMTPSA id
+ ay9-20020a5d6f09000000b001f1f3330fc5sm3804997wrb.28.2022.03.17.02.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Mar 2022 02:19:14 -0700 (PDT)
+Message-ID: 
+ <0cd5a585b5b477559e8479d619a4ea185e64df3f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-snowballstemmer: upgrade to 2.2.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Date: Thu, 17 Mar 2022 09:19:11 +0000
+In-Reply-To: <20220317021024.721357-1-tim.orling@konsulko.com>
+References: <20220317021024.721357-1-tim.orling@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 07:35:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 09:19:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163376
+ https://lists.openembedded.org/g/openembedded-core/message/163377
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+On Wed, 2022-03-16 at 19:10 -0700, Tim Orling wrote:
+> License is BSD-1-Clause, update LIC_FILES_CHKSUM
+> 
+> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> ---
+>  ...allstemmer_2.0.0.bb => python3-snowballstemmer_2.2.0.bb} | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-snowballstemmer_2.0.0.bb => python3-snowballstemmer_2.2.0.bb} (51%)
 
-go1.16.15 (released 2022-03-03) includes a security fix to the regexp/syntax package, as well as bug fixes to the compiler, runtime, the go command, and to the net package.
+I think it is 3-Clause. I've gone and audited all the new recipes in master-next
+to try and sort this out as there were a few things wrong with the licenses.
+I've squashed in all the changes.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- meta/recipes-devtools/go/{go-1.16.14.inc => go-1.16.15.inc}   | 4 ++--
- ...o-binary-native_1.16.14.bb => go-binary-native_1.16.15.bb} | 4 ++--
- ...cross-canadian_1.16.14.bb => go-cross-canadian_1.16.15.bb} | 0
- .../go/{go-cross_1.16.14.bb => go-cross_1.16.15.bb}           | 0
- .../go/{go-crosssdk_1.16.14.bb => go-crosssdk_1.16.15.bb}     | 0
- .../go/{go-native_1.16.14.bb => go-native_1.16.15.bb}         | 0
- .../go/{go-runtime_1.16.14.bb => go-runtime_1.16.15.bb}       | 0
- meta/recipes-devtools/go/{go_1.16.14.bb => go_1.16.15.bb}     | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.14.inc => go-1.16.15.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.14.bb => go-binary-native_1.16.15.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.14.bb => go-cross-canadian_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.14.bb => go-cross_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.14.bb => go-crosssdk_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.14.bb => go-native_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.14.bb => go-runtime_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.14.bb => go_1.16.15.bb} (100%)
+Cheers,
 
-diff --git a/meta/recipes-devtools/go/go-1.16.14.inc b/meta/recipes-devtools/go/go-1.16.15.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.16.14.inc
-rename to meta/recipes-devtools/go/go-1.16.15.inc
-index c6445bccff..50772346df 100644
---- a/meta/recipes-devtools/go/go-1.16.14.inc
-+++ b/meta/recipes-devtools/go/go-1.16.15.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.16"
--PV = "1.16.14"
-+PV = "1.16.15"
- FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -17,7 +17,7 @@ SRC_URI += "\
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
- "
--SRC_URI[main.sha256sum] = "467898cd3a216de54dcb9014f541efe77e9b79a7154dbc1fd2dd778b0c63fb56"
-+SRC_URI[main.sha256sum] = "90a08c689279e35f3865ba510998c33a63255c36089b3ec206c912fc0568c3d3"
- 
- # Upstream don't believe it is a signifiant real world issue and will only
- # fix in 1.17 onwards where we can drop this.
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.16.14.bb b/meta/recipes-devtools/go/go-binary-native_1.16.15.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.16.14.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.16.15.bb
-index 419fc4ffcf..ba11ee5695 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.16.14.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.16.15.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
- 
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "f4f5f02eb6809ac5bf19b5ad517b23504fd5fc036f6487651968ad36aa7a20e0"
--SRC_URI[go_linux_arm64.sha256sum] = "5e59056e36704acb25809bcdb27191f27593cb7aba4d716b523008135a1e764a"
-+SRC_URI[go_linux_amd64.sha256sum] = "77c782a633186d78c384f972fb113a43c24be0234c42fef22c2d8c4c4c8e7475"
-+SRC_URI[go_linux_arm64.sha256sum] = "c2f27f0ce5620a9bc2ff3446165d1974ef94e9b885ec12dbfa3c07e0e198b7ce"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.16.14.bb b/meta/recipes-devtools/go/go-cross-canadian_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.16.14.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.16.15.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.16.14.bb b/meta/recipes-devtools/go/go-cross_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.16.14.bb
-rename to meta/recipes-devtools/go/go-cross_1.16.15.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.16.14.bb b/meta/recipes-devtools/go/go-crosssdk_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.16.14.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.16.15.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.16.14.bb b/meta/recipes-devtools/go/go-native_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.16.14.bb
-rename to meta/recipes-devtools/go/go-native_1.16.15.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.16.14.bb b/meta/recipes-devtools/go/go-runtime_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.16.14.bb
-rename to meta/recipes-devtools/go/go-runtime_1.16.15.bb
-diff --git a/meta/recipes-devtools/go/go_1.16.14.bb b/meta/recipes-devtools/go/go_1.16.15.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.16.14.bb
-rename to meta/recipes-devtools/go/go_1.16.15.bb
--- 
-2.25.1
+Richard
 
 
