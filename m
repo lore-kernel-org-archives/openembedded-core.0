@@ -1,69 +1,45 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <1344990a-48df-c96c-1901-9c3c7ef90632@bootlin.com>
-Date: Thu, 17 Mar 2022 12:41:47 +0100
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/26] python3-imagesize: Add new recipe
+Date: Thu, 17 Mar 2022 11:56:37 +0000
+Message-Id: <20220317115700.993924-4-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
+References: <20220317115700.993924-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Re: [OE-core] Patches sent to mailing lists: "From" attribute modified
-References: <16DCF6055FEB6DC7.29979@lists.openembedded.org>
- <d54721ab-03a8-9c80-0445-17c7d76d6570@bootlin.com>
- <047880ea-a2dc-7778-3101-a3c887715513@theobroma-systems.com>
- <eedc4f00-a940-1672-ac00-db2d09023a4c@bootlin.com>
- <YjMSk+vkVU/mtE1k@piout.net>
-From: "Michael Opdenacker" <michael.opdenacker@bootlin.com>
-In-Reply-To: <YjMSk+vkVU/mtE1k@piout.net>
-Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: alexandre.belloni@bootlin.com
-Cc: Quentin Schulz <quentin.schulz@theobroma-systems.com>, OE-core <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
 
+Needed for sphinx support.
 
-On 3/17/22 11:50, Alexandre Belloni via lists.openembedded.org wrote:
-> On 17/03/2022 11:01:12+0100, Michael Opdenacker via lists.openembedded.org wrote:
->> Hi Quentin,
->>
->> On 3/17/22 10:43, Quentin Schulz wrote:
->>> Maybe there's something you can do to configure git send-email to add
->>> your
->>>
->>> From: Michael Opdenacker <michael.opdenacker@bootlin.com"
->>>
->>> at the top of the mail. See my patches on the ML to see what I mean
->>> exactly but that should make it nicer to maintainers because this From
->>> will be used and not the one from the mailbox's from field.
->>>
->>> FWIW, I did nothing in the configuration of git to have this, it's
->>> just that it probably detects that the sendemail.from config is
->>> different from the commit author mail address and adds it.
->>
->> Thanks for the tip. It could work, as my early tests show a difference
->> in the received e-mails.
->>
-> I couldn't convince git to do it since it thinks the sender matches the
-> author.
+Based on a patch from Armin Kuster <akuster808@gmail.com>
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../python/python3-imagesize_1.2.0.bb                 | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
 
-Yoohoo, it worked in my case, through this message I've just sent:
-https://lore.kernel.org/yocto-docs/20220317113057.230854-1-michael.opdenacker@bootlin.com/T/#u
-
-All I had to do was add this line to my ~/.gitconfig file (in the
-[sendemail] section):
-        from = michael.opdenacker@bootlin.com
-
-Now, there is an explicity "From" field in the body of the e-mail
-received through the mailing list.
-
-Compare with
-https://lore.kernel.org/yocto-docs/20220317092007.223297-1-michael.opdenacker@bootlin.com/T/#u,
-in which there was just the "Signed-off-by" information.
-
-Many thanks, Quentin!
-Cheers
-Michael.
-
+diff --git a/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb b/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
+new file mode 100644
+index 00000000000..62dc226e9d3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-imagesize_1.2.0.bb
+@@ -0,0 +1,11 @@
++DESCRIPTION = "Parses image files’ header and return image size."
++HOMEPAGE = "https://github.com/shibukawa/imagesize_py"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=0c128f0f7e8a02e1b83884c0b5a41cda"
++
++SRC_URI[sha256sum] = "b1f6b5a4eab1f73479a50fb79fcf729514a900c341d8503d62a62dbc4127a2b1"
++
++inherit setuptools3 pypi
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.32.0
 
