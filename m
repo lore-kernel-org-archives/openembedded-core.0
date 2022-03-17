@@ -2,90 +2,90 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38576C433EF
-	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 00:59:36 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web12.4883.1647478775833751489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88794C433F5
+	for <webhook@archiver.kernel.org>; Thu, 17 Mar 2022 01:23:50 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.5109.1647480229618444230
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 17:59:35 -0700
+ Wed, 16 Mar 2022 18:23:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aTUjCe2l;
- spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cr3qfaIs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id 6so1447284pgg.0
+Received: by mail-pf1-f169.google.com with SMTP id p8so5551354pfh.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Mar 2022 17:59:35 -0700 (PDT)
+ Wed, 16 Mar 2022 18:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wAlDnx8pUC01Gbk+TM4yPa+ZGcm0WN/fwH9oA1St+kY=;
-        b=aTUjCe2lcE7KtK4bsWSZnoHH+rE96vHOyu8F4UouJgktRBnRrxjRhUl5/EHk6HY94g
-         dqShPVZr2SaF9hWGeUyX7LMwRMppVW6BcIbtbMuFE6If4fFOiDVU/VR7e747bJiYksni
-         mvkJoj+JmK3IWexS7E6yl+b8Zs74vszAsMaTBOT0goGv0ISU7gGgzeiSFqnXbKCdyHnA
-         37nSo9AUGoiXJokQkYUuqBBKNnL/FMbC4jNiIdgh2nZIxzSYUMEi5uyj9fyWGLEVXJ9+
-         LobT+C61UjqjCEOePBnRA1j8N98y09Cm2KdYF1AmzE2GKborExk43VR/v4ThdDriI3fj
-         lKZw==
+        bh=NrBnOBedsi/88gmG+vtAAGl6qXysPqNipMgCKXeZEGM=;
+        b=cr3qfaIsmcgQ07MYsvkripQyM+Gzox2rJd+RC7hu98KfYu/ye3AcfoQhqGLV3EMr0H
+         3Ik6hgo2tITlym5KqlItvghAUK+3OWBOzGB7IUGZeXi8DLGI7FQf8T2ZxTeep/yVGzdJ
+         gwIeFX2g6rGMmOgCV4J4lSbGOc5ReFaKXWk7PRflquQxdXgl1q3D/COJfrBCR/HSI70f
+         F6YdveTpTDFpgw9ymtGKc50M/vcyDRizSXMpIraiSHO/IHwZj9RawRdenwlMJwjjwfSI
+         ulwzy7rS9B/rP4JyLkF3/ubAaYnaB4b7sVa4igrzey93YO95E2fXGT5uIyJpoqwu3ZxN
+         w6Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=wAlDnx8pUC01Gbk+TM4yPa+ZGcm0WN/fwH9oA1St+kY=;
-        b=e2dPeQTAwJd7y7g82nQrihX6sQV/4CVaXd9vauC/iS2tUFM5924Wqo2CwLAKdpmmhv
-         bnI1EzxQTyfgOdN/HOQfvx50NxfJBorMvywQmE1u4QqEqZwrJ29GPkTBhdbx02NOYGtc
-         yfwmXsxzefk9Ub3Ft1IOUK3N6D5g3GuwwOzJtorU6rqg5/sOYo7OQTG0FvMR9TjCtcTm
-         N9gn52BUh17HZrXWWPPkD8mHGPA95pJIMvUi2nOfmEtWOgzeh9F8mGLJ1QkfYgbEwGQ+
-         uMv7PTiXgZ/MOXagpvjdEBvfQ5V4TboQ4irOC5NICppyvOhMhl2P9DERsiMCYNnByfUf
-         lgog==
-X-Gm-Message-State: AOAM531WSO1vxRPC5BlYFtNMFPqvQanzJDrtN4kyFg5trD9jIxYGJOky
-	G5BAzmKOKscBmb0BIzxjcZRL6IK/sOY=
+        bh=NrBnOBedsi/88gmG+vtAAGl6qXysPqNipMgCKXeZEGM=;
+        b=FJ0li+AV4oe4rTJ2zaC54o7JDPF8/Q5KQHB8gvp+iEZ1X4i1r5ZmVGTKr98C271Yva
+         bl2G947XZogqgCbeQ1gUu+VSVtRhhABh+2N9kUHXzkW41bMRTIRFAB8FqPOwdEI8LL8P
+         Jsp7jOFXFjJ4vR8ncZQ2iOvarcjGP2NNCqpiqT0SGQQEE2oDSfU7H8bICK2uPjeyFUsX
+         ltF561LHasLa44ZBMHlv/tJlxYAOopQgDyZVh4Ri+8UFOulZ0Fi8hPthrmRRBGsBauiG
+         B13YoJgGGs+saUSnAdpKlJiPYrNLyCOV5SnBCjpotv/jdLzFMnrsZw8qNHWFZ3bfLQo4
+         /h5g==
+X-Gm-Message-State: AOAM530z9LCvKJdMSUfVX6oOvLf6qB1d7QR4jMdwn1h89lXGRZeTsG1v
+	CpSv3nq+S2CQ5W+WPcFy1iIgO/p23h8=
 X-Google-Smtp-Source: 
- ABdhPJxE5V94vkwuznvLEQHDhjKhi0LrnisdSLvpXzQ/Z4HcoHU/4hf5llqNRN+Cy1lh+cjV/3oodw==
-X-Received: by 2002:a05:6a00:1a11:b0:4f7:bf07:c068 with SMTP id
- g17-20020a056a001a1100b004f7bf07c068mr2091849pfv.81.1647478774655;
-        Wed, 16 Mar 2022 17:59:34 -0700 (PDT)
+ ABdhPJzlr/SOvA8GD5ZJwhIDf7gMlo6gvPirzN6Do4bBNY5FXNDWoBAKo1dR9jFZvIfjCuzatx27Hg==
+X-Received: by 2002:a65:6d8b:0:b0:376:bfb9:1f3b with SMTP id
+ bc11-20020a656d8b000000b00376bfb91f3bmr1745643pgb.427.1647480228621;
+        Wed, 16 Mar 2022 18:23:48 -0700 (PDT)
 Received: from nereus.local ([2601:1c0:6000:1b20:96ed:2179:adc5:9d0f])
         by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm4677564pfh.174.2022.03.16.17.59.34
+ h16-20020a056a001a5000b004fa343c2d0csm1218580pfv.136.2022.03.16.18.23.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 17:59:34 -0700 (PDT)
+        Wed, 16 Mar 2022 18:23:48 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-sphinxcontrib-jsmath: LIC_FILES_CHKSUM
-Date: Wed, 16 Mar 2022 17:59:26 -0700
-Message-Id: <20220317005926.709185-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-sphinxcontrib-devhelp: LIC_FILES_CHKSUM
+Date: Wed, 16 Mar 2022 18:23:46 -0700
+Message-Id: <20220317012346.713546-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 00:59:36 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Mar 2022 01:23:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163367
+ https://lists.openembedded.org/g/openembedded-core/message/163368
 
-Fix the LIC_FILES_CHKSUM
+Fix LIC_FILES_CHKSUM
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../python/python3-sphinxcontrib-jsmath_1.0.1.bb                | 2 +-
+ .../python/python3-sphinxcontrib-devhelp_1.0.2.bb               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb
-index f1653399a4a..0dbe5a9db9d 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb
+diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_1.0.2.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_1.0.2.bb
+index 92ebdcacb73..0909566e9ae 100644
+--- a/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_1.0.2.bb
++++ b/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_1.0.2.bb
 @@ -1,7 +1,7 @@
- DESCRIPTION = "A sphinx extension which renders display math in HTML via JavaScript"
+ DESCRIPTION = "sphinxcontrib-devhelp is a sphinx extension which outputs Devhelp document."
  HOMEPAGE = "https://www.sphinx-doc.org"
  LICENSE = "BSD-3-Clause"
 -LIC_FILES_CHKSUM = "file://LICENSE;md5=942469df9305abb1c59e95f778310384"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f0064c10bd544bcffccbc67a41c108d3"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fd30d9972a142c857a80c9f312e92b93"
  
- SRC_URI[sha256sum] = "a9925e4a4587247ed2191a22df5f6970656cb8ca2bd6284309578f2153e0c4b8"
+ SRC_URI[sha256sum] = "ff7f1afa7b9642e7060379360a67e9c41e8f3121f2ce9164266f61b9f4b338e4"
  
 -- 
 2.30.2
