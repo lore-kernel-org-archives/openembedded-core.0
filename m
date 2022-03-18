@@ -2,9 +2,9 @@ Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Davide Gardenal" <davidegarde2000@gmail.com>
-Subject: [oe-core][dunfell][PATCH] qemu: backport fix for CVE-2020-13253
-Date: Thu, 17 Mar 2022 16:30:30 +0100
-Message-Id: <20220317153030.1190562-1-davide.gardenal@huawei.com>
+Subject: [oe-core][dunfell][PATCH v2] qemu: backport fix for CVE-2020-13253
+Date: Fri, 18 Mar 2022 09:47:57 +0100
+Message-Id: <20220318084757.51541-1-davide.gardenal@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -22,22 +22,24 @@ CVE: CVE-2020-13253
 
 Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   4 +
+ meta/recipes-devtools/qemu/qemu.inc           |   5 +
  .../qemu/qemu/CVE-2020-13253_1.patch          |  50 +++++++
  .../qemu/qemu/CVE-2020-13253_2.patch          | 112 ++++++++++++++
  .../qemu/qemu/CVE-2020-13253_3.patch          |  86 +++++++++++
  .../qemu/qemu/CVE-2020-13253_4.patch          | 139 ++++++++++++++++++
- 5 files changed, 391 insertions(+)
+ .../qemu/qemu/CVE-2020-13253_5.patch          |  54 +++++++
+ 6 files changed, 446 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_1.patch
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_2.patch
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_3.patch
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_4.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_5.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index ef9bc3f64a..96a981e1a9 100644
+index ef9bc3f64a..0bdc917783 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -92,6 +92,10 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+@@ -92,6 +92,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://CVE-2020-27617.patch \
             file://CVE-2020-28916.patch \
             file://CVE-2021-3682.patch \
@@ -45,6 +47,7 @@ index ef9bc3f64a..96a981e1a9 100644
 +           file://CVE-2020-13253_2.patch \
 +           file://CVE-2020-13253_3.patch \
 +           file://CVE-2020-13253_4.patch \
++           file://CVE-2020-13253_5.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
@@ -459,6 +462,66 @@ index 0000000000..6b4c1ec050
 +-- 
 +2.32.0
 +
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13253_5.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13253_5.patch
+new file mode 100644
+index 0000000000..ffce610f79
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13253_5.patch
+@@ -0,0 +1,54 @@
++From 9157dd597d293ab7f599f4d96c3fe8a6e07c633d Mon Sep 17 00:00:00 2001
++From: =?utf8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
++Date: Wed, 3 Jun 2020 19:59:16 +0200
++Subject: [PATCH] hw/sd/sdcard: Restrict Class 6 commands to SCSD cards
++MIME-Version: 1.0
++Content-Type: text/plain; charset=utf8
++Content-Transfer-Encoding: 8bit
++
++Only SCSD cards support Class 6 (Block Oriented Write Protection)
++commands.
++
++  "SD Specifications Part 1 Physical Layer Simplified Spec. v3.01"
++
++  4.3.14 Command Functional Difference in Card Capacity Types
++
++  * Write Protected Group
++
++  SDHC and SDXC do not support write-protected groups. Issuing
++  CMD28, CMD29 and CMD30 generates the ILLEGAL_COMMAND error.
++
++Cc: qemu-stable@nongnu.org
++Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
++Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
++Message-Id: <20200630133912.9428-7-f4bug@amsat.org>
++
++Upstram-Status: Backport:
++https://git.qemu.org/?p=qemu.git;a=commit;h=9157dd597d293ab7f599f4d96c3fe8a6e07c633d
++
++CVE: CVE-2020-13253
++
++Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
++---
++ hw/sd/sd.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/hw/sd/sd.c b/hw/sd/sd.c
++index 5137168..1cc16bf 100644
++--- a/hw/sd/sd.c
+++++ b/hw/sd/sd.c
++@@ -920,6 +920,11 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
++         sd->multi_blk_cnt = 0;
++     }
++ 
+++    if (sd_cmd_class[req.cmd] == 6 && FIELD_EX32(sd->ocr, OCR, CARD_CAPACITY)) {
+++        /* Only Standard Capacity cards support class 6 commands */
+++        return sd_illegal;
+++    }
+++
++     switch (req.cmd) {
++     /* Basic commands (Class 0 and Class 1) */
++     case 0:	/* CMD0:   GO_IDLE_STATE */
++-- 
++1.8.3.1 
 -- 
 2.32.0
 
