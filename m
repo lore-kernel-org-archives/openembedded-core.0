@@ -1,149 +1,197 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D293C433F5
-	for <webhook@archiver.kernel.org>; Sat, 19 Mar 2022 19:26:00 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.10803.1647717958796807115
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FF0C433F5
+	for <webhook@archiver.kernel.org>; Sat, 19 Mar 2022 22:41:07 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.12786.1647729666360603613
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Mar 2022 12:25:59 -0700
+ Sat, 19 Mar 2022 15:41:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bBMSVvWm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id r13so768716wrr.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Qvp1aZeC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id qx21so23238452ejb.13
         for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Mar 2022 12:25:58 -0700 (PDT)
+ Sat, 19 Mar 2022 15:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MknIQXYjS59Q3xib6N6E64nnRG55ImMIt4PWFVjJKnI=;
-        b=bBMSVvWmu/KIq1lMQZFpaFnfknrhWkBDfixXDcR9xKcf7YRd9Y3LVPcmMcVI10EvUT
-         m2qN4kVOyhpXHpm946r8todeVYpSLhIIq8Xv9Hlv67im0s+LvjHNjmVtZr8G1+Zz3MsD
-         BDaK3XQZoTFKTPRX2cZhNdlXsg8bOp5ta1MIw=
+        bh=F6hTYYFGYAOX4xgDjlfw2ZS2p9XhZU/mmKMlnXUkmlk=;
+        b=Qvp1aZeC3XTx0kWU9QLoFNBQGFjn+mSg0lm6hu0cvwjaK6ffVsGaFWJFVUUIfCZxlN
+         fEs76BYvTPVuCglg39vIBUDQsU3FWme5OlA7qDAKThQdAXTM9ziYoAEFxE5h8Fy2A5Rx
+         Uh81pO20CzbUs6+oL+6WQL5qsEQVQ2+nzghTyP4nNxb6aHfbhlhFI3uxwBogi5ezAzU2
+         rOqZRBbJbtb2mL/KHGWrf/CgE1K8M8Uw/SLEzz4iX+17tD6ToTPd84LdYasNC7mlhb5c
+         8Yt7PSYrVYb11BLd64ywVOKZePukXqGrBM2POHH+cbITC3We6TXqJX/JhMjyVI6+gNp3
+         E4hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MknIQXYjS59Q3xib6N6E64nnRG55ImMIt4PWFVjJKnI=;
-        b=zfNZEwJKkM16U8xo4gt44ZrTHAeILyOy4f/8dPaTurm+GFpNpkqIqeeE67yND70LdL
-         1EE/8DpyjyCfRbTVeuMVNZ0BjwhKuhFqBFjyE4X+iIHrbQLkKf8ZSeMakr1UL2hlKDWE
-         YneDhrZAJqrL+1QKYq6Z0NLGdXn4JMyM6QrgM1+t7ecliZtJP7gEe/S2BWRAkN0DaEZB
-         2DGEhOwaDunmffxEkKkETj7mAc6WeUjVV4+QnU06mKBWFVCeKivd+Q8knUNhbsMhIQwm
-         iw4mOOtbuZAqYkKFS89j2CEo26NL+soAT4fg/WUmnp2s/3zmqEyv5Fu+dkzgKHITjzg9
-         J5og==
-X-Gm-Message-State: AOAM532jw1DJs7jvVk/EPiuvFbIAWUSwoBh+vK+jth2i41qnlMzrvMOC
-	opjSeDz80bQJpHFYZptHsoxjCrHEcXQyAysv
+        bh=F6hTYYFGYAOX4xgDjlfw2ZS2p9XhZU/mmKMlnXUkmlk=;
+        b=BOXd3yGeUGDu12fAx0XlkNfMcqOQc+WJryb734Q/j3wnxWIiYnTaZoLKJy2/RpzOs1
+         AzXIECp6kpxRM0bseV0khRqbnvP4g8Quy6iu6gNSDKRNE4UQkOwdRKfV834MKCY4jBma
+         hZ/DIr0r0tKBa75duygBdG7MXCRi89otcxOInqBW22ept7/FrYixNJtRyg+9Iu1gDowH
+         GjTt5WpzXCVAdL6W/hX8HwyBUPSk6mJcO4eOwLWtw1u0amVbt5URFvPLSf7VFxYjH9aP
+         +Bqpw3FzuB1VIKDKqB7d1/9SuYh0Ugu4EBwIahlIPoQxuGBA+lDR/c1skE8J8IVO394S
+         biNA==
+X-Gm-Message-State: AOAM530JHpJy0HlVpwa55ztEyM+bwQER1MZM7blD8X4JMCarfgDW5Ffn
+	cH5I/s29CfgAQg8rf9vHqZuvtLAvZqrn0g==
 X-Google-Smtp-Source: 
- ABdhPJyyWh3tRyM7+yZrNxMBpNPfvFfcqLcAzHm9Ypre2rounD5jpTBO4Q5Q/Lx9s32aB3/IqlnI7g==
-X-Received: by 2002:adf:816b:0:b0:203:7fae:a245 with SMTP id
- 98-20020adf816b000000b002037faea245mr12718723wrm.619.1647717956752;
-        Sat, 19 Mar 2022 12:25:56 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:3ad7:b7e1:8044:d0f5])
+ ABdhPJzrG+tzf89t7SgoRFxvAyu7R+zCjsbIXV5tHbQK5kUv3QSTaUytDYp63+xaqcaGzemVJnLsIw==
+X-Received: by 2002:a17:907:7205:b0:6df:b8c9:e68e with SMTP id
+ dr5-20020a170907720500b006dfb8c9e68emr8017949ejc.507.1647729664557;
+        Sat, 19 Mar 2022 15:41:04 -0700 (PDT)
+Received: from localhost.localdomain (p54ae16f8.dip0.t-ipconnect.de.
+ [84.174.22.248])
         by smtp.gmail.com with ESMTPSA id
- y6-20020a05600015c600b00203fa70b4ebsm4491163wry.53.2022.03.19.12.25.55
+ i21-20020a1709061cd500b006da62ab503csm5169200ejh.157.2022.03.19.15.41.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Mar 2022 12:25:56 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Sat, 19 Mar 2022 15:41:04 -0700 (PDT)
+From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Paul Gortmaker <paul.gortmaker@windriver.com>
-Subject: [RFC PATCH] kernel: Add kernel-cve-tool support to help monitor
- kernel CVEs
-Date: Sat, 19 Mar 2022 19:25:55 +0000
-Message-Id: <20220319192555.1118739-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] bluez5: fix CVE-2021-3658
+Date: Sat, 19 Mar 2022 23:40:52 +0100
+Message-Id: <20220319224052.43178-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Mar 2022 19:26:00 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Mar 2022 22:41:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163476
+ https://lists.openembedded.org/g/openembedded-core/message/163477
 
-This adds support for a random kernel CVE monitoring tool which can be
-run as a specific task against a kernel:
+adapter incorrectly restores Discoverable state after powered down
 
-$ bitbake linux-yocto -c checkcves
-[...]
-Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 135 (100% match, 100% complete)
-NOTE: Executing Tasks
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for be80a1d3f9dbe5aee79a325964f7037fe2d92f30:CVE-2021-4204 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for 20b2aff4bc15bda809f994761d5719827d66c0b4:CVE-2022-0500 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for 55749769fe608fa3f4a075e42e89d237c8e37637:CVE-2021-4095 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for 4fbcc1a4cb20fe26ad0225679c536c80f1648221:CVE-2022-26490 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for dbbf2d1e4077bab0c65ece2765d3fc69cf7d610f:CVE-2019-15239 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for 89f3594d0de58e8a57d92d497dea9fee3d4b9cda:CVE-2022-24958 (NOT FOR THIS VERSION)
-WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_checkcves: Should consider cherry-pick for 1bfba2f4270c64c912756fc76621bbce959ddf2e:CVE-2020-25220 (NOT FOR THIS VERSION)
-NOTE: Tasks Summary: Attempted 627 tasks of which 626 didn't need to be rerun and all succeeded.
-
-Posted as an RFC to see what people think of this. I make no claims
-on how useful it is/isn't but wanted to show integration isn't difficult
-and provide some inspiration for ideas.
-
-Details on the tool in question: https://github.com/madisongh/kernel-cve-tool
-
-I've ignored the NO-FIXES-AVILABLE and PATCHED-CVES files.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b497b5942a8beb8f89ca1c359c54ad67ec843055]
+CVE: CVE-2021-3658
+Signed-off-by:Minjae Kim <flowergom@gmail.com>
 ---
- meta/classes/kernel.bbclass                   | 10 ++++++++++
- .../kernel-cve-tool/kernel-cve-tool_git.bb    | 20 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ .../bluez5/bluez5/CVE-2021-3658.patch         | 95 +++++++++++++++++++
+ 2 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2021-3658.patch
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 4f304eb9c7a..a842747b9d9 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -753,6 +753,16 @@ addtask sizecheck before do_install after do_strip
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 34796fdd20..7cf061dcf6 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -54,6 +54,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://CVE-2021-0129.patch \
+            file://CVE-2021-3588.patch \
++          file://CVE-2021-3658.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
- inherit kernel-artifact-names
- 
-+do_checkcves () {
-+	cd ${S}
-+	kernel-cve-tool -P ${STAGING_DATADIR_NATIVE}/kernel-cvedb
-+	while read -r line; do 
-+		bbwarn "Should consider cherry-pick for $line"; 
-+	done < ${S}/cherry-picks.list
-+}
-+do_checkcves[depends] = "kernel-cve-tool-native:do_populate_sysroot"
-+addtask checkcves after do_configure
-+
- kernel_do_deploy() {
- 	deployDir="${DEPLOYDIR}"
- 	if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
-diff --git a/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb b/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-3658.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-3658.patch
 new file mode 100644
-index 00000000000..d2402bae052
+index 0000000000..1738ca13da
 --- /dev/null
-+++ b/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb
-@@ -0,0 +1,20 @@
-+HOMEPAGE = "https://github.com/madisongh/kernel-cve-tool/"
-+SRC_URI = "git://github.com/madisongh/kernel-cve-tool;protocol=https;branch=master;name=tool \
-+           git://github.com/nluedtke/linux_kernel_cves.git;protocol=https;branch=master;destsuffix=cvedb;name=data"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=850b17d75c13807fada69140cf7cacc5"
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2021-3658.patch
+@@ -0,0 +1,95 @@
++From b497b5942a8beb8f89ca1c359c54ad67ec843055 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Thu, 24 Jun 2021 16:32:04 -0700
++Subject: [PATCH] adapter: Fix storing discoverable setting
 +
-+SRCREV_FORMAT ?= "tool_data"
-+SRCREV_tool = "eb177abea3745d8576a725646effcce25f34302e"
-+SRCREV_data = "b51a576dfbbd4d343b33bed0aa1fc4e095911938"
++discoverable setting shall only be store when changed via Discoverable
++property and not when discovery client set it as that be considered
++temporary just for the lifetime of the discovery.
 +
-+S = "${WORKDIR}/git"
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b497b5942a8beb8f89ca1c359c54ad67ec843055]
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ src/adapter.c | 35 ++++++++++++++++++++++-------------
++ 1 file changed, 22 insertions(+), 13 deletions(-)
 +
-+inherit setuptools_build_meta
++diff --git a/src/adapter.c b/src/adapter.c
++index 12e4ff5c0..663b778e4 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -560,7 +560,11 @@ static void settings_changed(struct btd_adapter *adapter, uint32_t settings)
++ 	if (changed_mask & MGMT_SETTING_DISCOVERABLE) {
++ 		g_dbus_emit_property_changed(dbus_conn, adapter->path,
++ 					ADAPTER_INTERFACE, "Discoverable");
++-		store_adapter_info(adapter);
+++		/* Only persist discoverable setting if it was not set
+++		 * temporarily by discovery.
+++		 */
+++		if (!adapter->discovery_discoverable)
+++			store_adapter_info(adapter);
++ 		btd_adv_manager_refresh(adapter->adv_manager);
++ 	}
++ 
++@@ -2162,8 +2166,6 @@ static bool filters_equal(struct mgmt_cp_start_service_discovery *a,
++ static int update_discovery_filter(struct btd_adapter *adapter)
++ {
++ 	struct mgmt_cp_start_service_discovery *sd_cp;
++-	GSList *l;
++-
++ 
++ 	DBG("");
++ 
++@@ -2173,17 +2175,24 @@ static int update_discovery_filter(struct btd_adapter *adapter)
++ 		return -ENOMEM;
++ 	}
++ 
++-	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
++-		struct discovery_client *client = l->data;
+++	/* Only attempt to overwrite current discoverable setting when not
+++	 * discoverable.
+++	 */
+++	if (!(adapter->current_settings & MGMT_OP_SET_DISCOVERABLE)) {
+++		GSList *l;
++ 
++-		if (!client->discovery_filter)
++-			continue;
+++		for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
+++			struct discovery_client *client = l->data;
++ 
++-		if (client->discovery_filter->discoverable)
++-			break;
++-	}
+++			if (!client->discovery_filter)
+++				continue;
++ 
++-	set_discovery_discoverable(adapter, l ? true : false);
+++			if (client->discovery_filter->discoverable) {
+++				set_discovery_discoverable(adapter, true);
+++				break;
+++			}
+++		}
+++	}
++ 
++ 	/*
++ 	 * If filters are equal, then don't update scan, except for when
++@@ -2216,8 +2225,7 @@ static int discovery_stop(struct discovery_client *client)
++ 		return 0;
++ 	}
++ 
++-	if (adapter->discovery_discoverable)
++-		set_discovery_discoverable(adapter, false);
+++	set_discovery_discoverable(adapter, false);
++ 
++ 	/*
++ 	 * In the idle phase of a discovery, there is no need to stop it
++@@ -6913,6 +6921,7 @@ static void adapter_stop(struct btd_adapter *adapter)
++ 	g_free(adapter->current_discovery_filter);
++ 	adapter->current_discovery_filter = NULL;
++ 
+++	set_discovery_discoverable(adapter, false);
++ 	adapter->discovering = false;
++ 
++ 	while (adapter->connections) {
++-- 
++2.25.1
 +
-+do_install:append () {
-+	install -d ${D}${datadir}/kernel-cvedb
-+	cp -r ${WORKDIR}/cvedb/* ${D}${datadir}/kernel-cvedb
-+}
-+
-+BBCLASSEXTEND = "native"
 -- 
-2.32.0
+2.25.1
 
 
