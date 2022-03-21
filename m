@@ -1,190 +1,230 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <mikko.rapeli@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE76C433F5
-	for <webhook@archiver.kernel.org>; Sun, 20 Mar 2022 20:36:45 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.22399.1647808604520786166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329CDC433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Mar 2022 07:48:38 +0000 (UTC)
+Received: from esa8.hc324-48.eu.iphmx.com (esa8.hc324-48.eu.iphmx.com
+ [207.54.65.242])
+ by mx.groups.io with SMTP id smtpd.web09.27997.1647848915530298082
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Mar 2022 13:36:44 -0700
+ Mon, 21 Mar 2022 00:48:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SfnQKUzT;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id
- o6-20020a17090a9f8600b001c6562049d9so12773699pjp.3
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Mar 2022 13:36:44 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1
+ header.b=HH8IzCT8;
+ spf=pass (domain: bmw.de, ip: 207.54.65.242,
+ mailfrom: prvs=0727fcc33=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RBogaUjlMCx0nz8YqduaalMpKcMTJr+4LvI3EzBlGwc=;
-        b=SfnQKUzTpiSeTIWSneBVoCxeujFutT+yo5Zqz5y/JZAwGPGHgQMG+6cal/z/X0foTv
-         Tzua9n1fsRimKtV2lz4UQPIzd2rflMrr7cuwHjNSp78OE6cT4ZcSpsBbHLW7D1Wm149H
-         fQ/tzLWHPQYUGQOdavsO2lcHKp5siR/s8tGyJfCxuV7SZOo2iLWYYdOvR2fOgstz/lkq
-         2g3CooUdMdGy4gYUtuArSaSnXM5RLvnY+gsFrDLiOKta6ahRJTYgCDffi1ZCLlX8HvcP
-         sJ9wrf8WPuwX0DLtSJZZ2z5KHjyd1j8ARDNKgPGtU9AwyY98SrFT9xO9XSwL4M8bLzJt
-         5a+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RBogaUjlMCx0nz8YqduaalMpKcMTJr+4LvI3EzBlGwc=;
-        b=G/hP/voO8GU3fYE9kJHJCRN4NgC5VnumI02mNFmBt8G4zo5KMlyGo+IxodajSZXxPM
-         ip9WoOX3uUKcDM46dqtBX6DB4ve0Y9jGcCHDaaCr6VpxBHgZq39ngbTz+3ccGScWhY99
-         alTpluz7O20umfTKVC8L4omzNX/fYVQp/zu8sii1EZUVkD2Ya7TtVhFpyZM1DkQE6gyi
-         FZUjrUIw85WbcSdgKwA85NHBdNuklghsnb1VrR9auLMpNKsTQ13y8lj7psnhWU6zvapT
-         7yvx6cngvO1ljq2a3Vq0JxuWGkkgvW8sf0gueLU8jdbxdXXcFHrNNKEfhFWLn1aO/VsL
-         wTZQ==
-X-Gm-Message-State: AOAM531PD0rbSQJOlB/6aPudu56Xshkbc/DTLerH3Gi00y0dX8YndW2Z
-	vXr8VLXQIgpaTaQS/BwdmJV//wkVk0k=
-X-Google-Smtp-Source: 
- ABdhPJyEJbQdPG+K3ymouD5CR99PzjWs0MJ7GuzLk7TcJGUd1xMdTGrmRixUIjuF+4FGjQozxat1+Q==
-X-Received: by 2002:a17:90a:3842:b0:1c6:d666:b01 with SMTP id
- l2-20020a17090a384200b001c6d6660b01mr9204661pjf.161.1647808603199;
-        Sun, 20 Mar 2022 13:36:43 -0700 (PDT)
-Received: from chiron.. ([2601:1c0:6000:1b20:d679:197e:d2fd:20c])
-        by smtp.gmail.com with ESMTPSA id
- f4-20020aa782c4000000b004f6f0334a51sm15538816pfn.126.2022.03.20.13.36.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Mar 2022 13:36:42 -0700 (PDT)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [dunfell][PATCH] python3: upgrade 3.8.12 -> 3.8.13
-Date: Sun, 20 Mar 2022 13:36:28 -0700
-Message-Id: <20220320203628.740939-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.32.0
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1647848915; x=1679384915;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=tpE+3ZtYHvgafiJSuZ3GpcJHpZGCMakjHKYB/x0lnCQ=;
+  b=HH8IzCT8rkh2VmMIIaD7IQVCZmI2vO2fkldwDaWzWdgjd7ONnq7YnIrc
+   l2kBtaBZzFM6SMIa2T66ihD1+tM7P9J+WM9bfmY0DGIxFl8AwdXV4NvVn
+   ghllr/RYAi9Avi4UWsVexJVMu5WWBHrC1ehMB3RdlxTlvgkdvy6P1uQB6
+   c=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa8.hc324-48.eu.iphmx.com with ESMTP/TLS; 21 Mar 2022 08:48:33 +0100
+Received: from esabb4.muc ([160.50.100.33])  by esagw5.muc with ESMTP/TLS;
+ 21 Mar 2022 08:48:32 +0100
+Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp)
+ ([160.46.167.67])
+ by esabb4.muc with ESMTP/TLS; 21 Mar 2022 08:48:33 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by
+ smucm33k.europe.bmw.corp
+ (160.46.167.67) with Microsoft SMTP Server (TLS;
+ Mon, 21 Mar 2022 08:48:32 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.028; Mon,
+ 21 Mar 2022 08:48:32 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@gmail.com>,
+	<paul.gortmaker@windriver.com>
+Subject: Re: [OE-core] [RFC PATCH] kernel: Add kernel-cve-tool support to help
+ monitor kernel CVEs
+Thread-Topic: [OE-core] [RFC PATCH] kernel: Add kernel-cve-tool support to
+ help monitor kernel CVEs
+Thread-Index: AQHYO8czXO//1u43XUy+sZAONA//lazJZ8yA
+Date: Mon, 21 Mar 2022 07:48:32 +0000
+Message-ID: <Yjgtzy+HeQfaEOqQ@korppu>
+References: <20220319192555.1118739-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220319192555.1118739-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <DD6C7D50BC8F2A4BAC69F7189CD32392@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Mar 2022 20:36:45 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Mar 2022 07:48:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163493
+ https://lists.openembedded.org/g/openembedded-core/message/163494
 
-Security and bug fixes (including upgrades for security and bug fixes to
-bundled components).
+Hi,
 
-For changes see:
-https://docs.python.org/release/3.8.13/whatsnew/changelog.html#python-3-8-13-final
+Thanks for the interesting patch!
 
-CVE: CVE-2022-26488
+On Sat, Mar 19, 2022 at 07:25:55PM +0000, Richard Purdie wrote:
+> This adds support for a random kernel CVE monitoring tool which can be
+> run as a specific task against a kernel:
+>=20
+> $ bitbake linux-yocto -c checkcves
+> [...]
+> Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 135 (100% mat=
+ch, 100% complete)
+> NOTE: Executing Tasks
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for be80a1d3f9dbe5aee79a325964f7037fe2d92=
+f30:CVE-2021-4204 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for 20b2aff4bc15bda809f994761d5719827d66c=
+0b4:CVE-2022-0500 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for 55749769fe608fa3f4a075e42e89d237c8e37=
+637:CVE-2021-4095 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for 4fbcc1a4cb20fe26ad0225679c536c80f1648=
+221:CVE-2022-26490 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for dbbf2d1e4077bab0c65ece2765d3fc69cf7d6=
+10f:CVE-2019-15239 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for 89f3594d0de58e8a57d92d497dea9fee3d4b9=
+cda:CVE-2022-24958 (NOT FOR THIS VERSION)
+> WARNING: linux-yocto-5.15.26+gitAUTOINC+ea948a0983_5bd4bda819-r0 do_check=
+cves: Should consider cherry-pick for 1bfba2f4270c64c912756fc76621bbce959dd=
+f2e:CVE-2020-25220 (NOT FOR THIS VERSION)
+> NOTE: Tasks Summary: Attempted 627 tasks of which 626 didn't need to be r=
+erun and all succeeded.
+>=20
+> Posted as an RFC to see what people think of this. I make no claims
+> on how useful it is/isn't but wanted to show integration isn't difficult
+> and provide some inspiration for ideas.
+>=20
+> Details on the tool in question: https://github.com/madisongh/kernel-cve-=
+tool
+>=20
+> I've ignored the NO-FIXES-AVILABLE and PATCHED-CVES files.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/kernel.bbclass                   | 10 ++++++++++
+>  .../kernel-cve-tool/kernel-cve-tool_git.bb    | 20 +++++++++++++++++++
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_g=
+it.bb
+>=20
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 4f304eb9c7a..a842747b9d9 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -753,6 +753,16 @@ addtask sizecheck before do_install after do_strip
+> =20
+>  inherit kernel-artifact-names
+> =20
+> +do_checkcves () {
+> +	cd ${S}
+> +	kernel-cve-tool -P ${STAGING_DATADIR_NATIVE}/kernel-cvedb
+> +	while read -r line; do=20
+> +		bbwarn "Should consider cherry-pick for $line";=20
 
-License-Update: Add 2022 to copyright years
+cherry-picking isn't recommended. Instead, stable releases should be merged
+fully into product trees to fix CVE and other critical bugs.
 
-* Update bpo-36852 patch to apply after change in 3.8.13
+cherry-picking will miss bugs which don't yet have CVEs or exploits.
+cherry-picking will also miss non-obvious patch dependencies.
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- ...-detection-of-mips-architecture-for-.patch | 42 ++++++++++---------
- .../{python3_3.8.12.bb => python3_3.8.13.bb}  |  6 +--
- 2 files changed, 26 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.8.12.bb => python3_3.8.13.bb} (98%)
+Kernel community including Android documentation strongly recommends
+stable tree merges.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-index c4fae09a5b..4ac0e140cc 100644
---- a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-+++ b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-@@ -14,17 +14,21 @@ Upstream-Status: Submitted [https://github.com/python/cpython/pull/13196]
- Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
- 
- %% original patch: 0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-+
-+Updated to apply after dea270a2a80214de22afadaaca2043d0d782eb7d
-+
-+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
- ---
-  configure.ac | 175 +++++++--------------------------------------------
-  1 file changed, 21 insertions(+), 154 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index ede710e..bc81b0b 100644
-+index de83332dd3..16b02d0798 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -710,160 +710,27 @@ fi
-- MULTIARCH=$($CC --print-multiarch 2>/dev/null)
-- AC_SUBST(MULTIARCH)
-+@@ -719,160 +719,27 @@ then
-+ fi
-+ 
-  
- -AC_MSG_CHECKING([for the platform triplet based on compiler characteristics])
- -cat >> conftest.c <<EOF
-@@ -185,25 +189,25 @@ index ede710e..bc81b0b 100644
- +## Need to handle macos, vxworks and hurd special (?) :-/
- +case ${target_os} in
- +     darwin*)
--+     	PLATFORM_TRIPLET=darwin
--+	;;
-++       PLATFORM_TRIPLET=darwin
-++       ;;
- +     hurd*)
--+     	PLATFORM_TRIPLET=i386-gnu
--+	;;
-++       PLATFORM_TRIPLET=i386-gnu
-++       ;;
- +     vxworks*)
--+     	PLATFORM_TRIPLET=vxworks
--+	;;
-++       PLATFORM_TRIPLET=vxworks
-++       ;;
- +     *)
- +        if test "${target_cpu}" != "i686"; then
--+		PLATFORM_TRIPLET=${target_cpu}-${target_os}
--+	else
--+		PLATFORM_TRIPLET=i386-${target_os}
--+	fi
--+	;;
--+esac	
-++               PLATFORM_TRIPLET=${target_cpu}-${target_os}
-++       else
-++               PLATFORM_TRIPLET=i386-${target_os}
-++       fi
-++       ;;
-++esac
-  
-- if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
--   if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
-+ if test x$PLATFORM_TRIPLET != xdarwin; then
-+   MULTIARCH=$($CC --print-multiarch 2>/dev/null)
- -- 
--2.24.1
-+2.32.0
- 
-diff --git a/meta/recipes-devtools/python/python3_3.8.12.bb b/meta/recipes-devtools/python/python3_3.8.13.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.8.12.bb
-rename to meta/recipes-devtools/python/python3_3.8.13.bb
-index cfcc91b396..112ebec4c1 100644
---- a/meta/recipes-devtools/python/python3_3.8.12.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.13.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "Python is a programming language that lets you work more quickly
- LICENSE = "PSF-2.0 & BSD-0-Clause"
- SECTION = "devel/python"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c22d2438294c784731bf9dd224a467b7"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c84eccf626bb6fde43e6ea5e28d8feb5"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -42,8 +42,8 @@ SRC_URI_append_class-native = " \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
- 
--SRC_URI[md5sum] = "9dd8f82e586b776383c82e27923f8795"
--SRC_URI[sha256sum] = "b1d3a76420375343b5e8a22fceb1ac65b77193e9ed27146524f0a9db058728ea"
-+SRC_URI[md5sum] = "c4b7100dcaace9d33ab1fda9a3a038d6"
-+SRC_URI[sha256sum] = "6f309077012040aa39fe8f0c61db8c0fa1c45136763299d375c9e5756f09cf57"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.32.0
+https://source.android.com/devices/architecture/kernel/releases#keeping-a-s=
+ecure-system
 
+"When deploying a device that uses Linux, it is strongly recommended that a=
+ll LTS kernel updates be taken by the manufacturer and pushed out to their =
+users after proper testing shows the update works well"
+
+http://kroah.com/log/blog/2018/02/05/linux-kernel-release-model/
+
+"When deploying a device that uses Linux, it is strongly recommended that a=
+ll LTS kernel updates be taken by the manufacturer and pushed out to their =
+users after proper testing shows the update works well. As was described ab=
+ove, it is not wise to try to pick and choose various patches from the LTS =
+releases..."
+
+I think the cherry-pick status is not useful, but the list of CVEs and patc=
+hes
+to various subsystems is useful to users. IMO the tool should ask for a poi=
+nt
+release merge from upstream instead.
+
+> +	done < ${S}/cherry-picks.list
+> +}
+> +do_checkcves[depends] =3D "kernel-cve-tool-native:do_populate_sysroot"
+> +addtask checkcves after do_configure
+> +
+>  kernel_do_deploy() {
+>  	deployDir=3D"${DEPLOYDIR}"
+>  	if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
+> diff --git a/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb b=
+/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb
+> new file mode 100644
+> index 00000000000..d2402bae052
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kernel-cve-tool/kernel-cve-tool_git.bb
+> @@ -0,0 +1,20 @@
+> +HOMEPAGE =3D "https://github.com/madisongh/kernel-cve-tool/"
+> +SRC_URI =3D "git://github.com/madisongh/kernel-cve-tool;protocol=3Dhttps=
+;branch=3Dmaster;name=3Dtool \
+> +           git://github.com/nluedtke/linux_kernel_cves.git;protocol=3Dht=
+tps;branch=3Dmaster;destsuffix=3Dcvedb;name=3Ddata"
+
+Could the 'data' be handled like the CVE database and updated regularly/aut=
+omatically?
+
+Cheers,
+
+-Mikko
+
+> +LICENSE =3D "MIT"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D850b17d75c13807fada69140cf7ca=
+cc5"
+> +
+> +SRCREV_FORMAT ?=3D "tool_data"
+> +SRCREV_tool =3D "eb177abea3745d8576a725646effcce25f34302e"
+> +SRCREV_data =3D "b51a576dfbbd4d343b33bed0aa1fc4e095911938"
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +inherit setuptools_build_meta
+> +
+> +do_install:append () {
+> +	install -d ${D}${datadir}/kernel-cvedb
+> +	cp -r ${WORKDIR}/cvedb/* ${D}${datadir}/kernel-cvedb
+> +}
+> +
+> +BBCLASSEXTEND =3D "native"
+> --=20
+> 2.32.0
+>=20
+
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163476): https://lists.openembedded.org/g/openembedde=
+d-core/message/163476
+> Mute This Topic: https://lists.openembedded.org/mt/89894789/3616751
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mi=
+kko.rapeli@bmw.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
