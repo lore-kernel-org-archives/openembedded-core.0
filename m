@@ -2,160 +2,313 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1A0C433F5
-	for <webhook@archiver.kernel.org>; Mon, 21 Mar 2022 22:29:27 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.2405.1647901765955800825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73ADCC433F5
+	for <webhook@archiver.kernel.org>; Mon, 21 Mar 2022 22:29:30 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web09.2511.1647901769189880507
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Mar 2022 15:29:26 -0700
+ Mon, 21 Mar 2022 15:29:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=nnaEsWML;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=Wkd+9u+Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id s42so16781332pfg.0
+Received: by mail-pj1-f50.google.com with SMTP id jx9so331870pjb.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Mar 2022 15:29:25 -0700 (PDT)
+ Mon, 21 Mar 2022 15:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/Qah3hQyFaKCWeGIcittuPXBT9xnV4mU/oPu6RFFMxs=;
-        b=nnaEsWMLG/rKpPCRdAF2kPBwkpFAJrcTFjln+GmusQjKc6nkTDl/X95BZQ344I0cRR
-         AL7CTaAQTqMYKG1gtSdL+FKJWRi8cG71jQ8aZ6vInoqgXosVuKbgCdmHofeCwJY9DUo2
-         qRJ5xw9LJWLhNOoCKNvXO63VT8rUojshDY6RWJm/z7l2+iPL+CmviXSgpP1LzZc4iID4
-         fKJc4+rxXg9JyT+bI8Jkvh6cvcoqkedmAXPuLpigstq46WjBGm1xlEi66eD5qoX4uByI
-         UisIkm6vysdSq8hk69TddGKy11cTQUk8gxFjraHN5KbauZXBixT1VkZQoaB0rr0XgKuE
-         nqaw==
+        bh=p39R6JQVX4yGuMjAaj1JB7UXczyOgH9ry4rOmc/Gip8=;
+        b=Wkd+9u+QmamT4DYpxExXgXc1WOVgeaSN6GtYLke48RZyiUyFXeKHkPwN3n43nzEV7R
+         aSio+hJNI6Sk1lW4tRmRuBAl/R5Su5UR5LtNt5gulu0XkjqGESBgasMFLsk3xzJMKNfd
+         h9BkvDWwlPzMBat99Eh155hcra6YhNvvLfFpBos6zZbtNgueXgzxxkrrnoSSUO6UxJ6E
+         HO427//Wg/9mBIJZA30PsMHLtoqV274RDHdtixrK0OaVydgRuyFBxE1KkCQMpC68B9RN
+         Eh2l6sroSHlAkt5hOJFbR7KozZRq2IaGjK83PGepK+Fe7Msqh0qgLD7LQdbuUqE6T6yJ
+         F4ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Qah3hQyFaKCWeGIcittuPXBT9xnV4mU/oPu6RFFMxs=;
-        b=Wb6ZpIw9FrwdwMmE6vv+vcxUnvmJhzOJT5kkxZZYxU0VgSqmCBNoYt21t8QztWtx/A
-         sCX2ynuSFbRKCEh3EaTqjuMo5BUpk5Am/8s3ha07/LmKsxmpM5Yh/pmsKOSRtGQu837Q
-         Nb4xI0wGp9M0LGlhxJb/iEESKG/LlkgPTCv3c2RnPIVWtQdjEj8NqPpwF+u+HZObtS1c
-         cFxTHyXLhPIIT5ge2e7nlf6M72XGL4esDmHKfocjL1oWrrjx9DqNjwnVkpiR2vdNfC1H
-         uDtC32SfFDHQKpPGPHCVUHYMO6LfNqF6R64VpQ5A5iE+r+iNdKXbnyr346kfgHHi7yWU
-         qmxA==
-X-Gm-Message-State: AOAM53394PpFMga/boF7JhrfohWGNug0L1IUes+6yqFMYN/KRVsfUd2K
-	BsPsEguywXK7aZ5r5c91OorbCY9W3kMcpNYir0Y=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=p39R6JQVX4yGuMjAaj1JB7UXczyOgH9ry4rOmc/Gip8=;
+        b=4mr6ic//uyuyEHRC7orPKaTUaSSzzZgidThzJGow3fvcfJ1HiVRrXoLejOU7u3pf5S
+         ITsa+1Uaha+gLGrxAm3i6sIMgP8e5mTtS/CshbKh9zRjJhvZ6famiBiHWpj6XKQXxp4Y
+         ITZMGbS/HHRRL81v05sNMcJm9qBPVBsTZUWUeXw0iCu378c6g99bhrKfE2VFKFrLfYJI
+         5I52ZdeOW/Vna7WMUh0B2t2iZZyo24yqMmHppmzq9I7K9dB8X28EJ+SCu0XQN71LUJZS
+         mpdAHJH93OzHoh/xUqmQOmkN5eCiVH3pKxgzSdo6BHbgyANPOypokanrcy4BxXr6TAPi
+         uAHQ==
+X-Gm-Message-State: AOAM532/WXyOAexOKXm+TB5c9R6e79JNYmflPFV5yCwDWWLBQWSYeodu
+	IU/SFGi1Z/H80E7Z14Ggsqhu4ZlEpKLnBeJS3vE=
 X-Google-Smtp-Source: 
- ABdhPJw6YEbvDgU5228SIkq707PUscOI8TZpiaiy+N9mQ8iaRwnuJ9iUPlPMCv3StU4gMuLNvmutgw==
-X-Received: by 2002:a05:6a00:338e:b0:4fa:9015:af50 with SMTP id
- cm14-20020a056a00338e00b004fa9015af50mr10681797pfb.57.1647901764710;
-        Mon, 21 Mar 2022 15:29:24 -0700 (PDT)
+ ABdhPJwQqSesKFFpfjs1UrqYB5x1/vO8mSCWHwn+lLgTKusO23rLFqPTqtl3GaLS36J8axVuYYnNtA==
+X-Received: by 2002:a17:90b:4b02:b0:1c7:1bc3:690b with SMTP id
+ lx2-20020a17090b4b0200b001c71bc3690bmr1428952pjb.174.1647901767897;
+        Mon, 21 Mar 2022 15:29:27 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- k13-20020aa7820d000000b004fa72a52040sm12352649pfi.172.2022.03.21.15.29.23
+ k13-20020aa7820d000000b004fa72a52040sm12352649pfi.172.2022.03.21.15.29.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Mar 2022 15:29:24 -0700 (PDT)
+        Mon, 21 Mar 2022 15:29:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/13] Patch review
-Date: Mon, 21 Mar 2022 12:29:00 -1000
-Message-Id: <cover.1647901591.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/13] libxml2: backport fix for CVE-2022-23308
+Date: Mon, 21 Mar 2022 12:29:01 -1000
+Message-Id: 
+ <6c2f91ce93921c9bfe52c62c0347b992df98d62d.1647901591.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1647901591.git.steve@sakoman.com>
+References: <cover.1647901591.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Mar 2022 22:29:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Mar 2022 22:29:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163513
+ https://lists.openembedded.org/g/openembedded-core/message/163514
 
-Please review this set of patches for dunfell and have comments back by end of
-day Wednesday.
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Passed a-full on autobuilder:
+Use-after-free of ID and IDREF attributes, which could result in denial
+of service.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3397
+https://nvd.nist.gov/vuln/detail/CVE-2022-23308
+CVE: CVE-2022-23308
 
-The following changes since commit ff90d0e91aec252d3f5986df9ce02293cddadbca:
-
-  build-appliance-image: Update to dunfell head revision (2022-03-14 14:45:29 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  mobile-broadband-provider-info: upgrade 20201225 -> 20210805
-
-Changhyeok Bae (1):
-  mobile-broadband-provider-info: upgrade 20210805 -> 20220315
-
-Davide Gardenal (2):
-  re2c: backport fix for CVE-2018-21232
-  qemu: backport fix for CVE-2020-13253
-
-Minjae Kim (1):
-  bluez5: fix CVE-2021-3658
-
-Ovidiu Panait (1):
-  openssl: upgrade 1.1.1l -> 1.1.1n
-
-Ralph Siemsen (2):
-  libxml2: backport fix for CVE-2022-23308
-  libxml2: move to gitlab.gnome.org
-
-Richard Purdie (3):
-  python3targetconfig: Use for nativesdk too
-  oeqa/runtime/ping: Improve failure message to include more detail
-  oeqa/selftest/tinfoil: Improve tinfoil event test debugging
-
-Tim Orling (1):
-  python3: upgrade 3.8.12 -> 3.8.13
-
-wangmy (1):
-  linux-firmware: upgrade 20220209 -> 20220310
-
- meta/classes/python3targetconfig.bbclass      |  12 +
- meta/lib/oeqa/runtime/cases/ping.py           |  20 +-
- meta/lib/oeqa/selftest/cases/tinfoil.py       |   4 +-
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- .../bluez5/bluez5/CVE-2021-3658.patch         |  95 +++++
- .../mobile-broadband-provider-info_git.bb     |   7 +-
- .../openssl/openssl/CVE-2021-4160.patch       | 145 --------
- .../{openssl_1.1.1l.bb => openssl_1.1.1n.bb}  |   4 +-
- .../libxml/libxml2/CVE-2022-23308.patch       | 204 ++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  11 +-
- ...-detection-of-mips-architecture-for-.patch |  42 ++-
- .../{python3_3.8.12.bb => python3_3.8.13.bb}  |   6 +-
- meta/recipes-devtools/qemu/qemu.inc           |   5 +
- .../qemu/qemu/CVE-2020-13253_1.patch          |  50 +++
- .../qemu/qemu/CVE-2020-13253_2.patch          | 112 ++++++
- .../qemu/qemu/CVE-2020-13253_3.patch          |  86 +++++
- .../qemu/qemu/CVE-2020-13253_4.patch          | 139 +++++++
- .../qemu/qemu/CVE-2020-13253_5.patch          |  54 +++
- ...20220209.bb => linux-firmware_20220310.bb} |   6 +-
- .../re2c/re2c/CVE-2018-21232-1.patch          | 347 ++++++++++++++++++
- .../re2c/re2c/CVE-2018-21232-2.patch          | 243 ++++++++++++
- .../re2c/re2c/CVE-2018-21232-3.patch          | 156 ++++++++
- .../re2c/re2c/CVE-2018-21232-4.patch          | 166 +++++++++
- meta/recipes-support/re2c/re2c_1.0.1.bb       |   6 +-
- 24 files changed, 1730 insertions(+), 191 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2021-3658.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2021-4160.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1n.bb} (97%)
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libxml/libxml2/CVE-2022-23308.patch       | 204 ++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |   1 +
+ 2 files changed, 205 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch
- rename meta/recipes-devtools/python/{python3_3.8.12.bb => python3_3.8.13.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_4.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13253_5.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220209.bb => linux-firmware_20220310.bb} (99%)
- create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-1.patch
- create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-2.patch
- create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-3.patch
- create mode 100644 meta/recipes-support/re2c/re2c/CVE-2018-21232-4.patch
 
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch b/meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch
+new file mode 100644
+index 0000000000..bf5604e81a
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch
+@@ -0,0 +1,204 @@
++From 8b66850de350f0fcd786ae776a65ba15a5999e50 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Tue, 8 Feb 2022 03:29:24 +0100
++Subject: [PATCH] Use-after-free of ID and IDREF attributes
++
++If a document is parsed with XML_PARSE_DTDVALID and without
++XML_PARSE_NOENT, the value of ID attributes has to be normalized after
++potentially expanding entities in xmlRemoveID. Otherwise, later calls
++to xmlGetID can return a pointer to previously freed memory.
++
++ID attributes which are empty or contain only whitespace after
++entity expansion are affected in a similar way. This is fixed by
++not storing such attributes in the ID table.
++
++The test to detect streaming mode when validating against a DTD was
++broken. In connection with the defects above, this could result in a
++use-after-free when using the xmlReader interface with validation.
++Fix detection of streaming mode to avoid similar issues. (This changes
++the expected result of a test case. But as far as I can tell, using the
++XML reader with XIncludes referencing the root document never worked
++properly, anyway.)
++
++All of these issues can result in denial of service. Using xmlReader
++with validation could result in disclosure of memory via the error
++channel, typically stderr. The security impact of xmlGetID returning
++a pointer to freed memory depends on the application. The typical use
++case of calling xmlGetID on an unmodified document is not affected.
++
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/libxml2/-/commit/652dd12a858989b14eed4e84e453059cd3ba340e]
++
++The upstream patch 652dd12a858989b14eed4e84e453059cd3ba340e has been modified
++to skip the patch to the testsuite result (result/XInclude/ns1.xml.rdr), as
++this particular test does not exist in v2.9.10 (it was added later).
++
++CVE: CVE-2022-23308
++Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
++
++---
++ valid.c | 88 +++++++++++++++++++++++++++++++++++----------------------
++ 1 file changed, 55 insertions(+), 33 deletions(-)
++
++diff --git a/valid.c b/valid.c
++index 07963e7..ee75311 100644
++--- a/valid.c
+++++ b/valid.c
++@@ -479,6 +479,35 @@ nodeVPop(xmlValidCtxtPtr ctxt)
++     return (ret);
++ }
++ 
+++/**
+++ * xmlValidNormalizeString:
+++ * @str: a string
+++ *
+++ * Normalize a string in-place.
+++ */
+++static void
+++xmlValidNormalizeString(xmlChar *str) {
+++    xmlChar *dst;
+++    const xmlChar *src;
+++
+++    if (str == NULL)
+++        return;
+++    src = str;
+++    dst = str;
+++
+++    while (*src == 0x20) src++;
+++    while (*src != 0) {
+++	if (*src == 0x20) {
+++	    while (*src == 0x20) src++;
+++	    if (*src != 0)
+++		*dst++ = 0x20;
+++	} else {
+++	    *dst++ = *src++;
+++	}
+++    }
+++    *dst = 0;
+++}
+++
++ #ifdef DEBUG_VALID_ALGO
++ static void
++ xmlValidPrintNode(xmlNodePtr cur) {
++@@ -2607,6 +2636,24 @@ xmlDumpNotationTable(xmlBufferPtr buf, xmlNotationTablePtr table) {
++ 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
++ 	    xmlFree((char *)(str));
++ 
+++static int
+++xmlIsStreaming(xmlValidCtxtPtr ctxt) {
+++    xmlParserCtxtPtr pctxt;
+++
+++    if (ctxt == NULL)
+++        return(0);
+++    /*
+++     * These magic values are also abused to detect whether we're validating
+++     * while parsing a document. In this case, userData points to the parser
+++     * context.
+++     */
+++    if ((ctxt->finishDtd != XML_CTXT_FINISH_DTD_0) &&
+++        (ctxt->finishDtd != XML_CTXT_FINISH_DTD_1))
+++        return(0);
+++    pctxt = ctxt->userData;
+++    return(pctxt->parseMode == XML_PARSE_READER);
+++}
+++
++ /**
++  * xmlFreeID:
++  * @not:  A id
++@@ -2650,7 +2697,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
++     if (doc == NULL) {
++ 	return(NULL);
++     }
++-    if (value == NULL) {
+++    if ((value == NULL) || (value[0] == 0)) {
++ 	return(NULL);
++     }
++     if (attr == NULL) {
++@@ -2681,7 +2728,7 @@ xmlAddID(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
++      */
++     ret->value = xmlStrdup(value);
++     ret->doc = doc;
++-    if ((ctxt != NULL) && (ctxt->vstateNr != 0)) {
+++    if (xmlIsStreaming(ctxt)) {
++ 	/*
++ 	 * Operating in streaming mode, attr is gonna disappear
++ 	 */
++@@ -2820,6 +2867,7 @@ xmlRemoveID(xmlDocPtr doc, xmlAttrPtr attr) {
++     ID = xmlNodeListGetString(doc, attr->children, 1);
++     if (ID == NULL)
++         return(-1);
+++    xmlValidNormalizeString(ID);
++ 
++     id = xmlHashLookup(table, ID);
++     if (id == NULL || id->attr != attr) {
++@@ -3009,7 +3057,7 @@ xmlAddRef(xmlValidCtxtPtr ctxt, xmlDocPtr doc, const xmlChar *value,
++      * fill the structure.
++      */
++     ret->value = xmlStrdup(value);
++-    if ((ctxt != NULL) && (ctxt->vstateNr != 0)) {
+++    if (xmlIsStreaming(ctxt)) {
++ 	/*
++ 	 * Operating in streaming mode, attr is gonna disappear
++ 	 */
++@@ -4028,8 +4076,7 @@ xmlValidateAttributeValue2(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ xmlChar *
++ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ 	     xmlNodePtr elem, const xmlChar *name, const xmlChar *value) {
++-    xmlChar *ret, *dst;
++-    const xmlChar *src;
+++    xmlChar *ret;
++     xmlAttributePtr attrDecl = NULL;
++     int extsubset = 0;
++ 
++@@ -4070,19 +4117,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++     ret = xmlStrdup(value);
++     if (ret == NULL)
++ 	return(NULL);
++-    src = value;
++-    dst = ret;
++-    while (*src == 0x20) src++;
++-    while (*src != 0) {
++-	if (*src == 0x20) {
++-	    while (*src == 0x20) src++;
++-	    if (*src != 0)
++-		*dst++ = 0x20;
++-	} else {
++-	    *dst++ = *src++;
++-	}
++-    }
++-    *dst = 0;
+++    xmlValidNormalizeString(ret);
++     if ((doc->standalone) && (extsubset == 1) && (!xmlStrEqual(value, ret))) {
++ 	xmlErrValidNode(ctxt, elem, XML_DTD_NOT_STANDALONE,
++ "standalone: %s on %s value had to be normalized based on external subset declaration\n",
++@@ -4114,8 +4149,7 @@ xmlValidCtxtNormalizeAttributeValue(xmlValidCtxtPtr ctxt, xmlDocPtr doc,
++ xmlChar *
++ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
++ 			        const xmlChar *name, const xmlChar *value) {
++-    xmlChar *ret, *dst;
++-    const xmlChar *src;
+++    xmlChar *ret;
++     xmlAttributePtr attrDecl = NULL;
++ 
++     if (doc == NULL) return(NULL);
++@@ -4145,19 +4179,7 @@ xmlValidNormalizeAttributeValue(xmlDocPtr doc, xmlNodePtr elem,
++     ret = xmlStrdup(value);
++     if (ret == NULL)
++ 	return(NULL);
++-    src = value;
++-    dst = ret;
++-    while (*src == 0x20) src++;
++-    while (*src != 0) {
++-	if (*src == 0x20) {
++-	    while (*src == 0x20) src++;
++-	    if (*src != 0)
++-		*dst++ = 0x20;
++-	} else {
++-	    *dst++ = *src++;
++-	}
++-    }
++-    *dst = 0;
+++    xmlValidNormalizeString(ret);
++     return(ret);
++ }
++ 
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index ebb996c8dd..1b22e5672c 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -27,6 +27,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://CVE-2021-3537.patch \
+            file://CVE-2021-3518.patch \
+            file://CVE-2021-3541.patch \
++           file://CVE-2022-23308.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
 -- 
 2.25.1
 
