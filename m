@@ -1,110 +1,228 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E72DAC4167B
-	for <webhook@archiver.kernel.org>; Mon, 21 Mar 2022 13:59:46 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.30957.1647871185909367341
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB50C433EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Mar 2022 15:09:13 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.31340.1647875351608305635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Mar 2022 06:59:46 -0700
+ Mon, 21 Mar 2022 08:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LBS2Zllg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id r10so20851896wrp.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Mar 2022 06:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2knfTwRwwJ+OQORm7DH+BDlXIYUYzqif3jGceAmy4gI=;
-        b=LBS2ZllgBh3TLwP3MzwQM8YHUta/aeGSRLJFzXltH+i3CU7BxNFz17H/uHV6QahGHx
-         tDghpHAiS7Ig87UVJGRK7U9FGLUQQHKa+6V6zgodxzq6Xl2Ct2eT+8idiYEx5rkp6mqx
-         8hC4YdyLo/Vf2zy5OOEVYjXksqy4qc5hm5HW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2knfTwRwwJ+OQORm7DH+BDlXIYUYzqif3jGceAmy4gI=;
-        b=j19d/Aw1WW4JFEYbnPZB4wfkUXxSUjvbk7CairPPbgi5izcE0nw6ZLTqYhSW4GX9gk
-         F7JApCLDIICSqTwTTFexwlZvH7qr/OrMxnxNGzXb86Le6U3nMbIp+oDakx7vIRBgAsAt
-         KnjScxQ5+GCNvkZXCh71o/0dwr7a3+85bGQp9oOHhnA+7Fr6DWrLNQnMivVSb7Jql1Oa
-         GGBm/zhI7G9XAmnpXe0j52U7Gl0lHynXxwC/WW2YNkrD11CFrT+aMXbvroAuk8WIc0iX
-         9VDKxvp3eBOF/R2eknltMMqDexIfgM5l1xwNAXGbcol3HZixyF1CDR/9U8DvaYKKNBsL
-         MDow==
-X-Gm-Message-State: AOAM532woZvH9Jh4FUTw9vBxyWIVzqdSGNHj7zbfDUsfUioltQ5B9B0F
-	JsaWlyIBXbCGhuDaWumVqh9qmvE4eC6gU4L+
-X-Google-Smtp-Source: 
- ABdhPJxQoR1N7yWpJH0D8nurb6OdqnN0cyC8oyRvWS58pTYwXKanTaplz/+y20qiksPBmlOBkBjKTw==
-X-Received: by 2002:a5d:5507:0:b0:203:e0a3:7016 with SMTP id
- b7-20020a5d5507000000b00203e0a37016mr17723419wrv.575.1647871183780;
-        Mon, 21 Mar 2022 06:59:43 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:7422:13d5:6a39:d39])
-        by smtp.gmail.com with ESMTPSA id
- c124-20020a1c3582000000b00384d42a9638sm14045094wma.2.2022.03.21.06.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Mar 2022 06:59:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3F501042
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 21 Mar 2022 08:09:10 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 845423F73D
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 21 Mar 2022 08:09:10 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: seebs@seebs.net
-Subject: [PATCH] pseudo_util: Improve handling of crazy length paths
-Date: Mon, 21 Mar 2022 13:59:42 +0000
-Message-Id: <20220321135942.1176431-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Subject: [PATCH v2] ref-manual: update Python class documentation
+Date: Mon, 21 Mar 2022 15:09:08 +0000
+Message-Id: <20220321150908.3355620-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Mar 2022 13:59:46 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Mar 2022 15:09:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163508
+ https://lists.openembedded.org/g/openembedded-core/message/163509
 
-Crazy shell code (e.g. libtool) can pass in a command pipeline as a
-path which exceeds the max path length the system can support (6000+
-chars). This will fail in libc or the syscall but if we don't do
-something here, we'd segfault before it can do that. Leave path
-unchanged and let libc deal with it.
+Add new PEP517_* variables, remove obsolete variables, and update for
+renamed classes.
 
-This was observed with segfaults in libfm:do_install after the libtool
-upgrade. It does depend on the length of the local build path too.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- pseudo_util.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ documentation/ref-manual/classes.rst   | 71 +++++++++++++++-----------
+ documentation/ref-manual/variables.rst | 11 ++--
+ 2 files changed, 46 insertions(+), 36 deletions(-)
 
-diff --git a/pseudo_util.c b/pseudo_util.c
-index b9de81e..0a89535 100644
---- a/pseudo_util.c
-+++ b/pseudo_util.c
-@@ -827,12 +827,21 @@ pseudo_fix_path(const char *base, const char *path, size_t rootlen, size_t basel
- 		return 0;
- 	}
- 	newpathlen = pseudo_path_max();
-+	pathlen = strlen(path);
-+	/* Crazy shell code (e.g. libtool) can pass in a command pipeline as a path which exceeds the max path
-+	 * length the system can support (6000+ chars). This will fail in libc or the syscall but if we don't
-+	 * do something here, we'd segfault before it can do that. Leave path unchanged and let libc deal 
-+	 * with it. 
-+	 */
-+	if ((pathlen + baselen) >= newpathlen) {
-+		return path;
-+	}
- 	if (!pathbufs[pathbuf]) {
- 		pathbufs[pathbuf] = malloc(newpathlen);
- 	}
- 	newpath = pathbufs[pathbuf];
- 	pathbuf = (pathbuf + 1) % PATHBUFS;
--	pathlen = strlen(path);
+diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-man=
+ual/classes.rst
+index 4dd09016233..6ba792d3f9a 100644
+--- a/documentation/ref-manual/classes.rst
++++ b/documentation/ref-manual/classes.rst
+@@ -602,22 +602,6 @@ variables are not met, the recipe will be skipped, a=
+nd if the
+ build system attempts to build the recipe then an error will be
+ triggered.
+=20
+-.. _ref-classes-flit_core:
+-
+-``flit_core.bbclass``
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-
+-The ``flit_core`` class enables building Python modules which declare
+-the  `PEP-517 <https://www.python.org/dev/peps/pep-0517/>`__ compliant
+-``flit_core.buildapi`` ``build-backend`` in the ``[build-system]``
+-section of ``pyproject.toml`` (See `PEP-518 <https://www.python.org/dev/=
+peps/pep-0518/>`__).
+-
+-Python modules built with ``flit_core.buildapi`` are pure Python (no
+-``C`` or ``Rust`` extensions).
+-
+-The resulting ``wheel`` (See `PEP-427 <https://www.python.org/dev/peps/p=
+ep-0427/>`__)
+-is installed with the :ref:`python_pep517 <ref-classes-python_pep517>` c=
+lass.
+-
+ .. _ref-classes-fontcache:
+=20
+ ``fontcache.bbclass``
+@@ -1978,20 +1962,48 @@ When inherited by a recipe, the ``perlnative`` cl=
+ass supports using the
+ native version of Perl built by the build system rather than using the
+ version provided by the build host.
+=20
++.. _ref-classes-python_flit_core:
 +
- 	/* a trailing slash has special meaning, but processing
- 	 * trailing slashes is expensive.
- 	 */
--- 
-2.32.0
++``python_flit_core.bbclass``
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
++
++The ``python_flit_core`` class enables building Python modules which dec=
+lare
++the  `PEP-517 <https://www.python.org/dev/peps/pep-0517/>`__ compliant
++``flit_core.buildapi`` ``build-backend`` in the ``[build-system]``
++section of ``pyproject.toml`` (See `PEP-518 <https://www.python.org/dev/=
+peps/pep-0518/>`__).
++
++Python modules built with ``flit_core.buildapi`` are pure Python (no
++``C`` or ``Rust`` extensions).
++
++Internally this uses the :ref:`python_pep517 <ref-classes-python_pep517>=
+` class.
++
+ .. _ref-classes-python_pep517:
+=20
+ ``python_pep517.bbclass``
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
++
++The ``python_pep517`` class builds and installs a Python ``wheel`` binar=
+y
++archive (see `PEP-517 <https://peps.python.org/pep-0517/>`__).
+=20
+-The ``python_pep517`` class installs a Python ``wheel`` binary archive (=
+see
+-`PEP-517 <https://peps.python.org/pep-0517/>`__).
++Recipes wouldn't inherit this directly, instead typically another class =
+will
++inherit this, add the relevant native dependencies, and set
++:term:`PEP517_BUILD_API` to the Python class which implements the PEP-51=
+7 build
++API.
+=20
+-The Python ``wheel`` can be built with several classes, including :ref:`=
+flit_core <ref-classes-flit_core>`,
+-:ref:`setuptools_build_meta <ref-classes-setuptools_build_meta>`, and :r=
+ef:`setuptools3 <ref-classes-setuptools3>`.
++Examples of classes which do this are :ref:`python_flit_core
++<ref-classes-python_flit_core>`, :ref:`python_setuptools_build_meta
++<ref-classes-python_setuptools_build_meta>`, and :ref:`python_poetry_cor=
+e
++<ref-classes-python_poetry_core>`.
+=20
+-The path to the wheel to be installed is defined by :term:`PEP517_WHEEL_=
+PATH`.
+-This defaults to ``${D}/dist`` and should be respected by the builder cl=
+ass
+-(such as :ref:`flit_core <ref-classes-flit_core>`).
++.. _ref-classes-python_poetry_core:
++
++``python_poetry_core.bbclass``
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
++
++The ``python_poetry_core`` class enables building Python modules which u=
+se the
++`Poetry Core <https://python-poetry.org>`__ build system.
++
++Internally this uses the :ref:`python_pep517 <ref-classes-python_pep517>=
+` class.
+=20
+ .. _ref-classes-pixbufcache:
+=20
+@@ -2348,12 +2360,12 @@ additional configuration options you want to pass=
+ SCons command line.
+ The ``sdl`` class supports recipes that need to build software that uses
+ the Simple DirectMedia Layer (SDL) library.
+=20
+-.. _ref-classes-setuptools_build_meta:
++.. _ref-classes-python_setuptools_build_meta:
+=20
+-``setuptools_build_meta.bbclass``
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
++``python_setuptools_build_meta.bbclass``
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-The ``setuptools_build_meta`` class enables building Python modules whic=
+h
++The ``python_setuptools_build_meta`` class enables building Python modul=
+es which
+ declare the
+ `PEP-517 <https://www.python.org/dev/peps/pep-0517/>`__ compliant
+ ``setuptools.build_meta`` ``build-backend`` in the ``[build-system]``
+@@ -2362,8 +2374,7 @@ section of ``pyproject.toml`` (See `PEP-518 <https:=
+//www.python.org/dev/peps/pep
+ Python modules built with ``setuptools.build_meta`` can be pure Python o=
+r
+ include ``C`` or ``Rust`` extensions).
+=20
+-The resulting ``wheel`` (See `PEP-427 <https://www.python.org/dev/peps/p=
+ep-0427/>`__)
+-is installed with the :ref:`python_pep517 <ref-classes-python_pep517>` c=
+lass.
++Internally this uses the :ref:`python_pep517 <ref-classes-python_pep517>=
+` class.
+=20
+ .. _ref-classes-setuptools3:
+=20
+diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-m=
+anual/variables.rst
+index 634f19a6733..781cd19765e 100644
+--- a/documentation/ref-manual/variables.rst
++++ b/documentation/ref-manual/variables.rst
+@@ -5632,6 +5632,11 @@ system and gives an overview of their function and=
+ contents.
+=20
+       :term:`PE` is the default value of the :term:`PKGE` variable.
+=20
++   :term:`PEP517_BUILD_API`
++      When used by recipes that inherit the :ref:`python_pep517
++      <ref-classes-python_pep517>` class, specifies the entry point to t=
+he
++      PEP-517 compliant build API (such as ``flit_core.buildapi``).
++
+    :term:`PEP517_WHEEL_PATH`
+       When used by recipes that inherit the
+       :ref:`python_pep517 <ref-classes-python_pep517>` class,
+@@ -5644,12 +5649,6 @@ system and gives an overview of their function and=
+ contents.
+       ``bash-4.2-r1/``). This variable is comprised of the following:
+       ${:term:`PN`}-${:term:`EXTENDPE`}${:term:`PV`}-${:term:`PR`}
+=20
+-   :term:`PIP_INSTALL_ARGS`
+-      When used by recipes that inherit the
+-      :ref:`python_pep517 <ref-classes-python_pep517>` class,
+-      denotes the arguments passed to ``pip install`` to adjust the
+-      behavior of how the ``wheel`` is installed.
+-
+    :term:`PIXBUF_PACKAGES`
+       When inheriting the :ref:`pixbufcache <ref-classes-pixbufcache>`
+       class, this variable identifies packages that contain the pixbuf
+--=20
+2.25.1
 
 
