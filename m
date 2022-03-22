@@ -2,74 +2,72 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D77C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 20:11:28 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.315.1647979886665419362
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE06C433EF
+	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 20:14:58 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web08.343.1647980097333153680
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 13:11:27 -0700
+ Tue, 22 Mar 2022 13:14:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DBswKYpd;
- spf=pass (domain: gmail.com, ip: 209.85.128.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=F3WZO+uV;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44,
  mailfrom: flowergom@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id q20so12016309wmq.1
+Received: by mail-ej1-f44.google.com with SMTP id bi12so38685431ejb.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 13:11:26 -0700 (PDT)
+ Tue, 22 Mar 2022 13:14:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4Tl6EWiiJYE2KastFSO8jkCxmTQ8OStn3Ty6rBioiUU=;
-        b=DBswKYpd4JEVcshcpkuEuPgSjjEiH3LMmwaQSayVc4N81t/BGixXKg6180sVbfvF3m
-         euqKAcblWoNdm1tWi6SYGkX9B+Fk7xztsoCo7xbgZBNwqH0bgvEMeWgtKbEWKQ12+CUO
-         QXUd3oWyzEebhXdJLAmvZx2uRdVJw2JcJ2E3XFAE5x7qMyYhLgv+FQWdz78ze5s2dCoO
-         crA9FHFKzXINOdYIN8sNAWqiKtHQ7tfFVHqpADBRbdhf3wsCwFrO4ckZV2CCwkYTYq44
-         /BLXFJn5FJIa1fP3W936WMqRmTcpiuNEY8E7nlNfY3qYWc9dyAv3y50atp9L+mIVkXWH
-         5c5w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LV4DKtxKzhUbApTJ7vnjKyZd3R9wWxqxkmafNJCye6Y=;
+        b=F3WZO+uVRp0FtJQe0+n51In2mW/O994g5TtsuEk6QNZj8bQiVkmyLRJ/c72i8kw1Fp
+         uaQQHTrIxfLA6y2fMPYrFyLfr5EPuANQ94EEMNasjmiL9GTb/N5PMudu3OnXHRTwbh9m
+         Iq/zIGM+bHsu4dTOiSMbK9VQsTXmHMjFuVwEfWgEbYiPHa/xuU5oS1xygrrUSUaeax5d
+         QXr1kidcd6yJwwClDIO1mlJvexkAb23CSCHtGfyXdlYZQpDPhguTkCG2+uDqc8765K7X
+         uwMgbSd6TBSqZZX+n65rQpeVrCBSgaraNO5gsDDIXUqJqQ3YHtht/0Luc8nHacn0zDMn
+         6SsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4Tl6EWiiJYE2KastFSO8jkCxmTQ8OStn3Ty6rBioiUU=;
-        b=jqXA4mlsxyDNhJaWho2ajBraWyznTn8eY/MtxpZt5/3yzofE8x+iWStDLheM7Ymnsw
-         3iJZNY7kYxMgTbdvsVIDT22WHwnHTAMzUstjUzG9hC+yNUOvQ1FVk6nPcmjvMxj6wXNR
-         3yDgCLCkx+HDhl7QrjEwOT5jPewvR3BGysFfF01sNyyrumlhkpk2OBHT/5lWcAucvyoY
-         ONZNc7Wi9SATHa7/wU5f2sw4CoJe92G5QVN8DCteagKKQuifmtvOpCJrLnfdkGlA4yNv
-         HvEeA9dF/U6tG6gXNrIIZq8Ic+yxTkfV+861oV09TBCt03fTW3I3Y9b9kNrFn7nidkLu
-         cquQ==
-X-Gm-Message-State: AOAM532iocgpbKGnGfOkgqg5k05aKjWDPeUEPNKMfnjY7KnsIquLzpWw
-	k33/gAqwrNi07aUEFMoiqIO1mh01c9uLg2M2
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LV4DKtxKzhUbApTJ7vnjKyZd3R9wWxqxkmafNJCye6Y=;
+        b=IS+UDK57D/Ku/nnNlvLD4k6X5F4/yPMQvPdoDXjuZpUCHft96CaReVIPibj0m7RpiW
+         p+ph6HFKYoeGCz4wUdAfW8a497/Sy1AQ8HKOGCDcvFRJ0xSyeAb4chV/tAQB21wdX/IW
+         ikUvu0W10vPjmyPDuFye9Ds+Up50FkQdL3Ty5p8jeZ6ri1ZUw4tThVp5GfaSWTen31G3
+         /Yf1E6UobOxBjqaI0IHLdgfNq2dQ8vtfPfiN0IdQ54t0jiVxJpDOVnVTyzGcu6PMfEu7
+         SgpnOYhHEJTkKDA1Pn3tzOHsX03MC4+vjK+k56Gk8pSWKHYSVKQfcVfbKg0wDUbT0x76
+         gUog==
+X-Gm-Message-State: AOAM533heyEbpM2tFRe0hkfcN46a058iq36EABIu24Wood/dSTYXZ4Qf
+	QQs4/HKejpxhFm7Mkk8mNSK5YPmPv/iHkzj7
 X-Google-Smtp-Source: 
- ABdhPJyr68yA2O25wESK81YBf9tD1XrlIAkuk9XtlI3+7peP3JwefteCca/F0K+4bQOVnwZZUVyWlQ==
-X-Received: by 2002:a7b:c14d:0:b0:38c:801a:a8b3 with SMTP id
- z13-20020a7bc14d000000b0038c801aa8b3mr5388641wmi.40.1647979884628;
-        Tue, 22 Mar 2022 13:11:24 -0700 (PDT)
+ ABdhPJw4olL/BkKDeVyPBm6U/JaYraGEC1bYija9YhVF1tBTduDbDUpfs8XlIm1kPCZb+XaYBt5z7A==
+X-Received: by 2002:a17:906:3ac7:b0:6ce:c3a1:3dcf with SMTP id
+ z7-20020a1709063ac700b006cec3a13dcfmr27139759ejd.182.1647980095477;
+        Tue, 22 Mar 2022 13:14:55 -0700 (PDT)
 Received: from localhost.localdomain (p54ae16f8.dip0.t-ipconnect.de.
  [84.174.22.248])
         by smtp.gmail.com with ESMTPSA id
- m2-20020a056000024200b00205718e3a3csm1942776wrz.2.2022.03.22.13.11.23
+ sb15-20020a1709076d8f00b006dfe4cda58fsm4650635ejc.95.2022.03.22.13.14.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 13:11:24 -0700 (PDT)
+        Tue, 22 Mar 2022 13:14:55 -0700 (PDT)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [hardknott][PATCH 2/2] virglrenderer: update SRC_URI
-Date: Tue, 22 Mar 2022 21:11:14 +0100
-Message-Id: <20220322201114.2595-2-flowergom@gmail.com>
+Subject: [hardknott][PATCHv2] virglrenderer: update SRC_URI
+Date: Tue, 22 Mar 2022 21:14:49 +0100
+Message-Id: <20220322201449.2703-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220322201114.2595-1-flowergom@gmail.com>
-References: <20220322201114.2595-1-flowergom@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 20:11:28 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 20:14:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163572
+ https://lists.openembedded.org/g/openembedded-core/message/163573
 
-The git repo for gnu-config was changed, so update the
+The git repo for virglrenderer was changed, so update the
 SRC_URI accordingly with the new link.
 
 Signed-off-by:Minjae Kim <flowergom@gmail.com>
