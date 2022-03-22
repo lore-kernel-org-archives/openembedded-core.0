@@ -1,135 +1,112 @@
-Return-Path: <vvavrychuk@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5C5C433EF
-	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 07:12:05 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web08.6919.1647933124466657543
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D9BC433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 10:30:15 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.1])
+ by mx.groups.io with SMTP id smtpd.web11.8225.1647945013717273246
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 00:12:04 -0700
+ Tue, 22 Mar 2022 03:30:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oAW1TMIM;
- spf=pass (domain: gmail.com, ip: 209.85.219.181,
- mailfrom: vvavrychuk@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id l2so32059089ybe.8
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 00:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=wB6PNDiYaY6khPtT0G/WSODoIynFZpfykdoFhy/Qynw=;
-        b=oAW1TMIMqyoYCzczFtch7I6zw5JsnggI2FCgftjAygcAs9M1sZOggNDkTgH9oZdkzt
-         v6FjVgT5GtOob4vrs7sZz7bC1ojEe+P4tqlMtmPJCjXFC2qNFrvbUZf1vSvsWDoyUoUJ
-         E/c0V53+ccQs5a7sUw+gInODQHAawPP3Wd9mM5NvnFnhrx/80ETxZd8UodlcXHSPT6ke
-         wLr0swYRfPC7zUET7enNbJRHKJD096LnUzr1u6ZkSdRvys/8X43ol+872vVeYT5cbwF5
-         qexGiEGhbQMyNDMlXjB7Ydm8cKp48s4N1988F/mzDz39Fp0kzMoKcwTT68Po+T/CL19H
-         EngQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=wB6PNDiYaY6khPtT0G/WSODoIynFZpfykdoFhy/Qynw=;
-        b=OCeWABKp4UNNUXNqCaspVokQ8J2ufY7b0n2qqimuwb5594kGpgm6Ycu6ewa5Io0JRN
-         iM6fQzn3xPomLXWVD+K6EYZWHd5NK9clFLkjitlZuAWTDkFgItBQFqNiKbJi4rPnvk/r
-         jWZjcpy8PrZEVx5ZMDw0ECmxqydsLc3UaOAF+bbdL6ZWWKH/3d5YODPQNBbvdILAS8YR
-         CHT7zOje3c3UOCcQiJxR66zLqQDOc8vrrCNkPAuL+iwh9Tq59sBBQGxF+rvHZC/pBYwc
-         FSph8la/bN+KtsAHrZ2/SZ4gvhaETar+JJia04hnBODbG1HHCPC2wwuVnPjEnxTaFfS2
-         q/IA==
-X-Gm-Message-State: AOAM531GEs/fVs87wRdIJz4b/i3U+M3wQrC7L0VQCOkL+MMdwQsqeBrR
-	BeuaXq8+rSx5H5BAcbO+bm/aF3SNsxV+4boIK/QCdOmrmZg=
-X-Google-Smtp-Source: 
- ABdhPJzdE3IENqg93+AHvgq66kQ7c2ILUL1/tfrXb6qnBZBOg9z539XPZIKjBydTWH0yUrG3KECCbHNohq29Vf6LzrE=
-X-Received: by 2002:a25:cf82:0:b0:62c:a9a:9654 with SMTP id
- f124-20020a25cf82000000b0062c0a9a9654mr26376219ybg.15.1647933123366; Tue, 22
- Mar 2022 00:12:03 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ENKNZePo;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1647945012; i=@fujitsu.com;
+	bh=u+j94W9RIxTkMZ16svi/XlKkBQV8XvQjte02V2GyGlU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=ENKNZePojpG0LRws11rwi1AWO6d4QE6mMxvaNZBSw4++YznSwHbIoYX1uGc+ZLhIJ
+	 JEbk5nH0sW/XQOJ7BqI8Z0jQLrpl5gSapTajnMYKWBfTlCjcCvS89CDdVMB/iCa2aN
+	 7vCgDKwbxifW26e5c4scQ9wj23Pxr6d9Ty3cT/NzoqI3GuZdAi+Ua1oQXNwqZ/zZDi
+	 A9gUjjUbzkiQzaWUxUYOdP3OogN9rszm5SBAi6HpAs7g6v/ueItuQS48frZQ5SYMGA
+	 S+5zzjd6PvFRsq40GLft19bM6ggYsupXGeGaUnVGjfaqTeygcuWn6nBx6ni87qQinm
+	 7YQJMfEU8cNPQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRWlGSWpSXmKPExsViZ8ORqGu81DL
+  J4OBXKYs7P9+xW9ybv4DNgcnj3MYVjB4dv68zBjBFsWbmJeVXJLBmnF28lr3gF3vFpY2/WRsY
+  J7B3MXJxCAlsYZR4fOoUK4SzgEli/tXjbBDOHkaJN5cuA2U4OdgE1CSm37oBZHNwiAjoSVz9J
+  woSZhaQl1i+6Q8biC0sYCnxZMIaJpASFgFVic7PriBhXgFHicYtNxlBbAkBBYkpD98zg9icAk
+  4SE/ZdZQKxhYBqvkxewQhRLyhxcuYTFojxEhIHX7xghuhVlJh9uZkFwq6QmDWrjQnCVpO4em4
+  T8wRGwVlI2mchaV/AyLSK0SqpKDM9oyQ3MTNH19DAQNfQ0FTX2FzX0FIvsUo3US+1VLc8tbhE
+  10gvsbxYL7W4WK+4Mjc5J0UvL7VkEyMwrFOKVYV3MHas/Kl3iFGSg0lJlPdNq2WSEF9SfkplR
+  mJxRnxRaU5q8SFGGQ4OJQneo4uBcoJFqempFWmZOcAYg0lLcPAoifBmdAOleYsLEnOLM9MhUq
+  cYFaXEeV+C9AmAJDJK8+DaYHF9iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iw7zaQKTyZeSV
+  w018BLWYCWqzPagayuCQRISXVwJQ1Z8mkJY6HtYTWLq5Se6FvUMe7+6Kp78Ln6/Z2fdD2Zp6+
+  dNaTLUZ5r9ODz/e/dlkrk+sb4rWwbFp7r6lTYuut0+ZWF/ykn27pUmarVNxmIeDimCCqG3Ho6
+  P9fwc+3nXuy+emXwBW7Yrx7r9sXRsTrZ9ybnr5J70RJVWm0xH5v+97GnIQ7S/c7TIwOOcex5e
+  9Xbxk+zhylDMYtNqlSN7dfUuLfN6HHvv5Iidw94em7N14peLr/FNO7KO7v8+WjAk8v+hN4m3t
+  tvsSZ36kM8yu69vGfasjx5P4X8j0h1fHrtinpE99IinxZIMM2ZdkRzsPxU5tuWJiK17xlEzZ9
+  euDwlBv36mv8paWPrNvXd1qJpTgj0VCLuag4EQDr5T56ZgMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-15.tower-548.messagelabs.com!1647945011!15212!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 9174 invoked from network); 22 Mar 2022 10:30:11 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-15.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 22 Mar 2022 10:30:11 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 96DD9100186;
+	Tue, 22 Mar 2022 10:30:10 +0000 (GMT)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 36F6D100190;
+	Tue, 22 Mar 2022 10:30:10 +0000 (GMT)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Tue, 22 Mar 2022 10:29:59 +0000
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Upgrade Helper <uh@not.set>
+Subject: [OE-core] [PATCH] gnutls: upgrade 3.7.3 -> 3.7.4
+Date: Tue, 22 Mar 2022 18:29:43 +0800
+Message-ID: <1647944984-5058-3-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1647944984-5058-1-git-send-email-wangmy@fujitsu.com>
+References: <1647944984-5058-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-From: Vasyl Vavrychuk <vvavrychuk@gmail.com>
-Date: Tue, 22 Mar 2022 09:11:52 +0200
-Message-ID: 
- <CAGj4m+4etSVywEpwnW++ehSJKTikBoNwvTDCu-s8jSQ5CCigpw@mail.gmail.com>
-Subject: abort()ing pseudo client by server request
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 07:12:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 10:30:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163531
+ https://lists.openembedded.org/g/openembedded-core/message/163534
 
-I run
+From: Upgrade Helper <uh@not.set>
 
-    bitbake hello -c clean && \
-        bitbake hello && \
-        echo >> meta/recipes-example/hello/files/main.c && \
-        bitbake hello
+---
+ .../recipes-support/gnutls/{gnutls_3.7.3.bb => gnutls_3.7.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.7.3.bb => gnutls_3.7.4.bb} (96%)
 
-but it fails with
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.3.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+similarity index 96%
+rename from meta/recipes-support/gnutls/gnutls_3.7.3.bb
+rename to meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index ebabac1bd0..b34eb7f5f0 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.3.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -23,7 +23,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://arm_eabi.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "fc59c43bc31ab20a6977ff083029277a31935b8355ce387b634fa433f8f6c49a"
++SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
+-- 
+2.25.1
 
-    abort()ing pseudo client by server request
-
-pseudo.log contains
-
-    path mismatch [3 links]: ino 764030498 db
-'.../hello/1.0-r0/package/usr/src/debug/hello/1.0-r0/hello.h' req
-'.../hello/1.0-r0/hello.h'.
-
-Tested on honister, recipe and sources are below, would be grateful for help.
-
-meta/recipes-example/hello/hello.bb:
-
-LICENSE = "CLOSED"
-
-SRC_URI = " \
-    file://hello.h \
-    file://main.c \
-    file://Makefile \
-"
-
-S = "${WORKDIR}"
-
-do_install() {
-    install -d ${D}${bindir}
-    install -m 0755 hello ${D}${bindir}
-
-    install -d ${D}${includedir}
-    install -m 0644 ${S}/hello.h ${D}${includedir}
-}
-
-SSTATE_SKIP_CREATION = "1"
-
---------------------------------------------------------------------------------
-meta/recipes-example/hello/files/Makefile:
-
-CFLAGS += -O0
-
-hello: main.o
-        $(CC) $(LDFLAGS) $^ -o $@ $(LOADLIBES) $(LDLIBS)
-
-clean:
-        rm -f hello *.o
-
---------------------------------------------------------------------------------
-meta/recipes-example/hello/files/hello.h:
-
-#ifndef _HELLO_H
-#define _HELLO_H
-
-struct hello {
-        int dummy;
-};
-
-#endif /* _HELLO_H */
-
---------------------------------------------------------------------------------
-meta/recipes-example/hello/files/main.c:
-
-#include "hello.h"
-
-int main(int argc, char *argv[])
-{
-        struct hello hello;
-        memset(&hello, 0, sizeof(hello));
-        return 0;
 
