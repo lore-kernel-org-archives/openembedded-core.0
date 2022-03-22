@@ -1,95 +1,106 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64964C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 01:00:58 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web08.4288.1647910857472207693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA33C4332F
+	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 07:07:06 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web12.6859.1647932819417119235
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Mar 2022 18:00:57 -0700
+ Tue, 22 Mar 2022 00:06:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=iLFhQUNN;
- spf=pass (domain: intel.com, ip: 192.55.52.93,
- mailfrom: anuj.mittal@intel.com)
+ header.b=Dldasn1i;
+ spf=pass (domain: intel.com, ip: 134.134.136.100,
+ mailfrom: chee.yang.lee@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647910857; x=1679446857;
+  t=1647932819; x=1679468819;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=U66200KqZ9ky2FG4zu/HOQrG6UPdsfLBttI1uqrwSLQ=;
-  b=iLFhQUNNLNpMxBDglOhjYXdVOEt6IyIaW+5j+1TmhXSsLEL/lQBZBsfd
-   Jvlty0FGUuGqR+42WcC+qTkiLoaob//y9tDOX1qVZTcvUGEeplP3DbX6X
-   qyalwpOEnEgGskKVZBx98JMqOsYgNObxepvoGvOI9mN3tuf+Qx8/N9n/z
-   /UZQbK+6B8hoXtGKrEfIlk31+u25WdS4gnHUuUB8wg4qjZlpKLDEcw7e0
-   mKfxXr/Ge9aoo1MMWPVqU+TyvHV9FwM1hUXccrit33ZuCByKLMUrVS4Ls
-   qF6sVtLyUS9LFucxYGtggiGrcIbHnlHc3tijwShHiU1a2HGow0+OREoRN
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="255250881"
-X-IronPort-AV: E=Sophos;i="5.90,200,1643702400";
-   d="scan'208";a="255250881"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 18:00:43 -0700
-X-IronPort-AV: E=Sophos;i="5.90,200,1643702400";
-   d="scan'208";a="648775600"
-Received: from mchong5-mobl1.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.213.138.6])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2022 18:00:41 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+  bh=n2+SRAz8cyRoS3aoWSM7bC11Ms8vIkwJQVHQaofZCSg=;
+  b=Dldasn1iOdGaO5kXmwrXDV/CVW0fsgds+ED+xpMysi80qPbjmtNYWUEW
+   NL5Eqzi+oq3eAszn9USOZLEpLheB5ZO81jhmWrlGXzpJWov6disJoRjq2
+   BotIYK38yfbMuXq8+O3sD7l5aauNbGtei5RqEIyCa9afUgvWyW6f2XuiR
+   5L6cg5o8jnkxbIwHKiFSynk10qXradCsCgYnjwGS3gBGcOGG9c6PxvHjO
+   9tU7/9/9ED+BiqE3Uwz8vfoQv8eLmGbAmC9XIOtUTktOZQmgKO8r8Q275
+   JCxQ17UxLS/kvVZvONBqb/mWQCTLJIXGUQ007XUyBrX6SuxaGMjYHu6hh
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10293"; a="320943904"
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400";
+   d="scan'208";a="320943904"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2022 00:06:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,201,1643702400";
+   d="scan'208";a="600767281"
+Received: from cheeyang-desk1.png.intel.com ([10.158.87.104])
+  by fmsmga008.fm.intel.com with ESMTP; 22 Mar 2022 00:06:56 -0700
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 0/3] Pull request
-Date: Tue, 22 Mar 2022 09:00:31 +0800
-Message-Id: <cover.1647910766.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
+Subject: [honister][PATCH v2] webkitgtk: update to 2.32.4
+Date: Tue, 22 Mar 2022 15:04:20 +0800
+Message-Id: <20220322070420.249914-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 01:00:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 07:07:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163529
+ https://lists.openembedded.org/g/openembedded-core/message/163530
 
-The following changes since commit 427f4ef11beb8ceee007b5c7e152f2383a114aca:
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-  patch.py: Prevent git repo reinitialization (2022-03-11 10:55:24 +0800)
+This is a bug fix release in the stable 2.32 series.
 
-are available in the Git repository at:
+new in the WebKitGTK 2.32.4 release:
+Do not append .asc extension to downloaded text/plain files.
+Fix several crashes and rendering issues.
 
-  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
+https://webkitgtk.org/2021/09/17/webkitgtk2.32.4-released.html
 
-Chee Yang Lee (2):
-  ghostscript: fix CVE-2021-3781
-  go: update to 1.16.15
+Also update patch file to fix fuzz.
 
-Sakib Sajal (1):
-  go: upgrade 1.16.13 -> 1.16.14
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ .../webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch     | 2 +-
+ .../webkit/{webkitgtk_2.32.3.bb => webkitgtk_2.32.4.bb}         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.32.3.bb => webkitgtk_2.32.4.bb} (98%)
 
- .../go/{go-1.16.13.inc => go-1.16.15.inc}     |   4 +-
- ...1.16.13.bb => go-binary-native_1.16.15.bb} |   4 +-
- ....16.13.bb => go-cross-canadian_1.16.15.bb} |   0
- ...o-cross_1.16.13.bb => go-cross_1.16.15.bb} |   0
- ...ssdk_1.16.13.bb => go-crosssdk_1.16.15.bb} |   0
- ...native_1.16.13.bb => go-native_1.16.15.bb} |   0
- ...ntime_1.16.13.bb => go-runtime_1.16.15.bb} |   0
- .../go/{go_1.16.13.bb => go_1.16.15.bb}       |   0
- .../ghostscript/CVE-2021-3781.patch           | 236 ++++++++++++++++++
- .../ghostscript/ghostscript_9.54.0.bb         |   1 +
- 10 files changed, 241 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.16.13.inc => go-1.16.15.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.13.bb => go-binary-native_1.16.15.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.13.bb => go-cross-canadian_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.13.bb => go-cross_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.13.bb => go-crosssdk_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.13.bb => go-native_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.13.bb => go-runtime_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.13.bb => go_1.16.15.bb} (100%)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2021-3781.patch
-
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
+index 6d7d7067e4..5fc7be8d61 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
+@@ -24,7 +24,7 @@ index f316f49..de81ce0 100644
+ --- a/Source/cmake/OptionsGTK.cmake
+ +++ b/Source/cmake/OptionsGTK.cmake
+ @@ -6,6 +6,7 @@ WEBKIT_OPTION_BEGIN()
+- SET_PROJECT_VERSION(2 32 3)
++ SET_PROJECT_VERSION(2 32 4)
+  
+  set(USER_AGENT_BRANDING "" CACHE STRING "Branding to add to user agent string")
+ +set(THREADS_PREFER_PTHREAD_FLAG ON)
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.32.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.32.4.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.32.3.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.32.4.bb
+index bab1c17902..3e0ecb4611 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.32.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.32.4.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://reproducibility.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "c1f496f5ac654efe4cef62fbd4f2fbeeef265a07c5e7419e5d2900bfeea52cbc"
++SRC_URI[sha256sum] = "00ce2d3f798d7bc5e9039d9059f0c3c974d51de38c8b716f00e94452a177d3fd"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
 -- 
-2.35.1
+2.25.1
 
 
