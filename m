@@ -1,96 +1,112 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <fntoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35822C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 20:33:11 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web12.528.1647981187967588877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1E4C433FE
+	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 21:20:07 +0000 (UTC)
+Received: from mailfilter03-out31.webhostingserver.nl
+ (mailfilter03-out31.webhostingserver.nl [141.138.168.202])
+ by mx.groups.io with SMTP id smtpd.web12.1099.1647984006641095058
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 13:33:08 -0700
+ Tue, 22 Mar 2022 14:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ax2MGbVi;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
- mailfrom: flowergom@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id r22so18647800ejs.11
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 13:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=C1Nl+WuHBPqLaWUKbaEVbmLpNOpfoSVv/1DyCzgAPRM=;
-        b=ax2MGbVib6YSqNzu+/+R8wVJvz/qDRemHZoGnkULX/1nvfsgZQFSVVoN4yUqoRt4lm
-         nWpJqiIoCvxxpujrONG4LWcJfF4mepgAH8P0j+QlIv7ELC/s4eH+XidFNACOcEjB1nJg
-         IHT/lLsLbT3mZwgOyFQRSl2+xtSvBDc+TMWq+OBSjBfPuq8y2jeK5nh/GAvGCFES3Odd
-         WZgVOdE1yMfJG7gw21XsT+uYEiM8kmw5dvvsdha1abI8uQ+nQr6MKU3FI2UKX4QmJe1p
-         7K2/XGsGXHgRB/95zUKh+wA2Nw4PqR82EDw0KFBqYnIRWHHuLzpNf0VrTRjPKMtvGpP7
-         cdaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=C1Nl+WuHBPqLaWUKbaEVbmLpNOpfoSVv/1DyCzgAPRM=;
-        b=NEK519bzakMdt1zTDLgKczqEqp8PYnSxJPQNr5cVms7vfv1ROWXg8uVpHvvky0ZiVY
-         H4mIImLmoqaAg19K3CxCdNfHGJLvkCEr+aSKY5PgielGmOmiAaxtHKcK6W1YpIuhLcLJ
-         s2PnKiPi1372d4XMWvoxckdo7QxhAYXZF0ZwP1NATwezZgW712K1pqWJntv0RJILSgNg
-         a1GIksh/4CPHP7Tul4cY1VAtISixIlgYBBCZkZlrizCqS1m6Yi/UBOop52Qt0XX5Ssix
-         AX2D7CAlJPebcZuUxk7C+kxzL5Fh4DDd5d9PMad/Op/3QVlClZ2VIprPZ93fe21CPHTi
-         8Iew==
-X-Gm-Message-State: AOAM530x5T9j7jA5UluaejyKHdDhHJiafizu32Uw16QLJ3ReU8Yeg/HU
-	hGkopZUjx2wEZHLOP/NGCkKp7ePO+HelevfN
-X-Google-Smtp-Source: 
- ABdhPJzoWglu7Gfh+aenGx3jNTt2jjpcp9Ma2JYT8ny7GRn7jWb9EinzLQ73JyyfZz98yCajFQuLWA==
-X-Received: by 2002:a17:907:7f8d:b0:6da:b3d6:a427 with SMTP id
- qk13-20020a1709077f8d00b006dab3d6a427mr26601219ejc.509.1647981186188;
-        Tue, 22 Mar 2022 13:33:06 -0700 (PDT)
-Received: from localhost.localdomain (p54ae16f8.dip0.t-ipconnect.de.
- [84.174.22.248])
-        by smtp.gmail.com with ESMTPSA id
- x12-20020a50d9cc000000b0040f70fe78f3sm10544998edj.36.2022.03.22.13.33.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 13:33:05 -0700 (PDT)
-From: Minjae Kim <flowergom@gmail.com>
+ dkim=missing;
+ spf=softfail (domain: gmail.com, ip: 141.138.168.202, mailfrom: fntoth@gmail.com)
+X-Halon-ID: d6a91383-aa25-11ec-80d2-001a4a4cb9a5
+Received: from s198.webhostingserver.nl (s198.webhostingserver.nl
+ [141.138.168.154])
+	by mailfilter03.webhostingserver.nl (Halon) with ESMTPSA
+	id d6a91383-aa25-11ec-80d2-001a4a4cb9a5;
+	Tue, 22 Mar 2022 22:20:03 +0100 (CET)
+Received: from [2a02:a466:68ed:1:8763:2e5f:5343:9ba]
+ (helo=localhost.localdomain)
+	by s198.webhostingserver.nl with esmtpa (Exim 4.94.2)
+	(envelope-from <fntoth@gmail.com>)
+	id 1nWlv9-00GRSO-00; Tue, 22 Mar 2022 22:20:03 +0100
+From: Ferry Toth <fntoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [PATCH 2/2] virglrenderer: update SRC_URI
-Date: Tue, 22 Mar 2022 21:32:52 +0100
-Message-Id: <20220322203252.66605-2-flowergom@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220322203252.66605-1-flowergom@gmail.com>
-References: <20220322203252.66605-1-flowergom@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ferry Toth <ftoth@exalondelft.nl>,
+	Xavier Berger <xavier.berger@bio-logic.net>
+Subject: [PATCH v1 2/2] package_manager: sign DEB package feeds
+Date: Tue, 22 Mar 2022 22:19:49 +0100
+Message-Id: <20220322211949.7423-2-fntoth@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220322211949.7423-1-fntoth@gmail.com>
+References: <20220322211949.7423-1-fntoth@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 20:33:11 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 21:20:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163575
+ https://lists.openembedded.org/g/openembedded-core/message/163576
 
-The git repo for virglrenderer was changed, so update the
-SRC_URI accordingly with the new link.
+From: Ferry Toth <ftoth@exalondelft.nl>
 
-Signed-off-by:Minjae Kim <flowergom@gmail.com>
+Implement debian package repository signature.
+For each Release file created in repository subdirectory, a signature
+Release.gpg is created.
+
+Signature is performed using gpg backend when the following variables
+are set in local.conf:
+PACKAGE_CLASSES += "sign_package_feed"
+PACKAGE_FEED_GPG_NAME = "<Id of GPG key>"
+PACKAGE_FEED_GPG_PASSPHRASE_FILE="<path to password file>"
+
+Signed-off-by: Xavier Berger <xavier.berger@bio-logic.net>
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
 ---
- meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/package_manager/deb/__init__.py | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-index 9ddf6cbe78..ad3688e300 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.9.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
+index 9f112ae25b..86ddb130ad 100644
+--- a/meta/lib/oe/package_manager/deb/__init__.py
++++ b/meta/lib/oe/package_manager/deb/__init__.py
+@@ -53,6 +53,7 @@ class DpkgIndexer(Indexer):
  
- DEPENDS = "libdrm virtual/egl virtual/libgbm libepoxy"
- SRCREV = "363915595e05fb252e70d6514be2f0c0b5ca312b"
--SRC_URI = "git://anongit.freedesktop.org/virglrenderer;branch=branch-0.9.1 \
-+SRC_URI = "git://anongit.freedesktop.org/git/virglrenderer;branch=branch-0.9.1 \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
-            file://cve-2022-0135.patch \
-            file://cve-2022-0175.patch \
+         index_cmds = []
+         deb_dirs_found = False
++        index_sign_files = set()
+         for arch in arch_list:
+             arch_dir = os.path.join(self.deploy_dir, arch)
+             if not os.path.isdir(arch_dir):
+@@ -62,7 +63,10 @@ class DpkgIndexer(Indexer):
+ 
+             cmd += "%s -fcn Packages > Packages.gz;" % gzip
+ 
+-            with open(os.path.join(arch_dir, "Release"), "w+") as release:
++            release_file = os.path.join(arch_dir, "Release")
++            index_sign_files.add(release_file)
++
++            with open(release_file, "w+") as release:
+                 release.write("Label: %s\n" % arch)
+ 
+             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
+@@ -76,8 +80,17 @@ class DpkgIndexer(Indexer):
+             return
+ 
+         oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
+-        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            raise NotImplementedError('Package feed signing not implementd for dpkg')
++        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
++        else:
++            signer = None
++        if signer:
++            for f in index_sign_files:
++                signer.detach_sign(f,
++                                   self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
++                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True),
++                                   output_suffix="gpg",
++                                   use_sha256=True)
+ 
+ class PMPkgsList(PkgsList):
+ 
 -- 
-2.25.1
+2.32.0
 
 
