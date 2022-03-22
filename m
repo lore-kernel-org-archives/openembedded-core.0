@@ -1,240 +1,90 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3641C433F5
-	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 12:00:07 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web08.8940.1647950405815688705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC5BC433F5
+	for <webhook@archiver.kernel.org>; Tue, 22 Mar 2022 12:02:40 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web12.8879.1647950559343530015
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 05:00:06 -0700
+ Tue, 22 Mar 2022 05:02:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=JcHnloUN;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1647950404; i=@fujitsu.com;
-	bh=mwMH38GuXwq8yted3Ns7eyzI2wiVxSxxyNvyuaskw38=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=JcHnloUNvRLO+5hJ47xhWPjkVxbIxLXItDyjMERWn4/byX0iitR2QpYXS9OIyd9m/
-	 EAdMEFHKVTMOED8p40sVSFOLG4orOJJK+HwBCUlYJ4WxoIgcvDlGXXBHpRcF522/Rv
-	 4ReYnuKmJ1zZOIe83BNvj1fT4TdAv9UI4ps4Sjkrr4nnEUAC64wyOIA8mZJS+lshs2
-	 76qT81VPislZr97jDBeGuCZ2kR7JbtqaGPRCC6mA+iZsidoAWtH6laskp89aV6kbkL
-	 IFNfzlI8HBS5vRiwQHQkLPF7TnJ75mqZxkPsvIcS3mUnpg0CE1TlrZDapAj9skbDcp
-	 RGFBJB7NCbJJA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDIsWRWlGSWpSXmKPExsViZ8ORqOu8yzL
-  J4ONqfYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPmqZtsBecsK05/0mlg3GjcxcjFISTwmFHi
-  aONvJgjnPJPE5x0zoJw9jBK3Gz4wdzFycrAJqElMv3WDtYuRg0NEQE/i6j9RkDCzgIrEi9897
-  CC2sICbxNerG9lASlgEVCU+/lcDCfMKOEqcuPgJrERCQEFiysP3zBBxQYmTM5+wQIyRkDj44g
-  UzRI2ixOzLzSwQdoXErFltTBC2msTVc5uYJzDyz0LSPgtJ+wJGplWMdklFmekZJbmJmTm6hgY
-  GuoaGprpm5rqGZmZ6iVW6iXqppbrJqXklRYlAab3E8mK91OJiveLK3OScFL281JJNjMDATCl2
-  XraD8V3fT71DjJIcTEqivOLLLZOE+JLyUyozEosz4otKc1KLDzHKcHAoSfCu3w6UEyxKTU+tS
-  MvMAUYJTFqCg0dJhPfvBqA0b3FBYm5xZjpE6hSjJcfOLZf3MnNcvXIFSN4AkUIsefl5qVLivC
-  93ADUIgDRklObBjYNF8iVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrwrQKbwZOaVwG19BXQ
-  QE9BB+qxmIAeVJCKkpBqYanJnc+ycLr3qvcjzFYruH+ZNvCsvZfj9vX7f6rezTmcdmeJt+nO9
-  2fufU1cKK4V4mW94mGPYtXDF2o4TIqxamr7nfOrScx3Ppols+KF5Wtm7LpwjLOGG/KkNZ58Ex
-  73T3B4xM+LelUMLf3vFtPqtPJqgfK9CO03i6erM9Xu6fu+z36SeuTyk9Yj6b5EzvkFnHywQ/j
-  THySHM1UReSGLShFnb+SONv76fKOKjF39Y51ypTYnQ5y7V+7aMVzlaTxf//yjsMr/uPlfTnN0
-  HSyd6zl1jHdmVouCdqjaFd+dFresn+eKvaP01kWkQdDG0lpVI2SJ0KyFDe7WviOXNSy9yps7a
-  KhBye1FDYMjW3wdMlFiKMxINtZiLihMBowZxc18DAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-545.messagelabs.com!1647950403!268472!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.10; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31118 invoked from network); 22 Mar 2022 12:00:03 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-5.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 22 Mar 2022 12:00:03 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 08B60100197
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 12:00:03 +0000 (GMT)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id CD100100186
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Mar 2022 12:00:02 +0000 (GMT)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 22 Mar 2022 11:59:43 +0000
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH v2] adwaita-icon-theme: upgrade 41.0 -> 42.0
-Date: Tue, 22 Mar 2022 19:59:31 +0800
-Message-ID: <1647950374-5921-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fYLFP8BW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id h7so11918689lfl.2
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 22 Mar 2022 05:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dZl1BlXSJfB+xhBIO7J5JDrkvb2nLTdObxB6ud8rkoc=;
+        b=fYLFP8BWAdnMIXr/acHDD4cWfsKs9DVBmUIY6p+/NMrTdLg9rNJvGQgEn36N/X6sHU
+         d0yBLFwMdeoP+p9CZRB5IJCCPMNW+Ef916czWuSiM8h9I0gSwrL+B9CR+LQA2RSr/wrt
+         4AS18o6CQPQkVQpIM2MAzl+vCsy6kgK7AUvdGc5F4tfOmvK2X9n91V4RzJpdvFLbOvJS
+         ECNebpKjUS5A1+4QwJZgqSFNvII3zzmGOrtRv3F0G6W1nc/bj4a+tL1Mqq/uvYrGVcdl
+         x5Wr8qmXBVa3OBiJiziujzp4HVoBKXppEcrpMQ/stbQjycnfRJbHzPyRw0AI81af1s4j
+         GL6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dZl1BlXSJfB+xhBIO7J5JDrkvb2nLTdObxB6ud8rkoc=;
+        b=KMXl9fBr8Lb4FUmnr4qaV+wVet6DeKVxVYOk3UbDmoUfFSYvguSY68Ugbr3LRD0uT/
+         dJUaWGDOjPTLCAowekYWKteLbtx28d8rM3VIJYl311Y8q7CfxxjqiKbs6XuVaReHq6Ab
+         30AaBMR2nHHxcUDEWuLpoSIl2GexinQTLSnp3fiaKeCDF6jUDbK/xLBUKyg0xqk8r1RE
+         ofIPiTkhOmDurHwuUNgHuVXY2Z0uUY+uuG7kf35YdNaZbXRDbUmGHMrRGjt4XpIEJiWo
+         l5U1aJqEKs8FkcWMTb079vDrAWql/Hv45kqLkNKDSrgHej3c4xy5gyVOlxHro8hRIvxm
+         ryCQ==
+X-Gm-Message-State: AOAM531qEw9MrVwdXRD3f6grlbIeQI09eypBx+ClwBg9ezw3CGuYSdl7
+	c11I0annTWhLhMx6pbd0kk8Xm/UNToKhxL1D6Ag=
+X-Google-Smtp-Source: 
+ ABdhPJxTyzKkU/WWMZOGwmXEv4ypc1yHDSJvq+qsK31Gdcv0vEu42opYVxhLbTy5Mda9NPGvSGRZ40QXMevmdvSqNKk=
+X-Received: by 2002:ac2:5d70:0:b0:448:5d7b:dcb1 with SMTP id
+ h16-20020ac25d70000000b004485d7bdcb1mr18139814lft.352.1647950557210; Tue, 22
+ Mar 2022 05:02:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+References: <bed867f3-8226-701c-0ee7-ac8f02723edc@bootlin.com>
+ <CAApg2=Q5PufyYtb5B6ZXevZwRBTEzAzJHeLJ5-5ej1_KJYT=qA@mail.gmail.com>
+ <28b80b8e-45df-bfc3-3455-e7d3e4bcaee2@bootlin.com>
+In-Reply-To: <28b80b8e-45df-bfc3-3455-e7d3e4bcaee2@bootlin.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 22 Mar 2022 13:02:26 +0100
+Message-ID: 
+ <CAApg2=QgX-Ps5CbGmY24ooGAL+NOXBQy6HxvmTu4Q4t41_zCNw@mail.gmail.com>
+Subject: Re: [OE-core] List of changes for Kirkstone migration notes
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	YP docs mailing list <docs@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 12:00:07 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Mar 2022 12:02:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163548
+ https://lists.openembedded.org/g/openembedded-core/message/163551
 
-0001-Don-t-use-AC_CANONICAL_HOST.patch
-refreshed for version 42.0
+On Tue, Mar 22, 2022 at 9:53 AM Michael Opdenacker
+<michael.opdenacker@bootlin.com> wrote:
+>
+> Hi Marta
+>
+> On 3/21/22 16:22, Marta Rybczynska wrote:
+>
+> > Heads up: I'm on the inclusive language migration + migration script docs.
+>
+>
+> Thanks for helping!
+> You probably have seen
+> https://git.yoctoproject.org/yocto-docs/commit/?h=master-next&id=a6650fd55259c5d7cf3cf9579e9ecd1184b1b155
+> which was merged yesterday, but you can probably expand or improve what
+> I wrote.
+>
 
-0001-Run-installation-commands-as-shell-jobs.patch
-removed since it's included in 42.o
+I will extend it, thanks for starting it!
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch    |  6 +-
- ...-installation-commands-as-shell-jobs.patch | 84 -------------------
- ...eme_41.0.bb => adwaita-icon-theme_42.0.bb} |  7 +-
- 3 files changed, 5 insertions(+), 92 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_41.0.bb => adwaita-icon-theme_42.0.bb} (87%)
-
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index 5afba3c644..32f98e049b 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -1,4 +1,4 @@
--From 63d97fefdbc90f5c68f67bdc30844776d9a1b720 Mon Sep 17 00:00:00 2001
-+From 15ffd817b3e334dc7c0508761c7ef417d76379c5 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 30 May 2017 14:55:49 +0300
- Subject: [PATCH] Don't use AC_CANONICAL_HOST
-@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index f2659a5..1e8b016 100644
-+index 040975e..5f7b53a 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
-  
-- AC_INIT([adwaita-icon-theme], [41.0],
-+ AC_INIT([adwaita-icon-theme], [42.0],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-deleted file mode 100644
-index a1d39cf558..0000000000
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From 79da031e9811f3eef34b14cce419be93fea34319 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 13 Jun 2017 18:10:06 +0300
--Subject: [PATCH] Run installation commands as shell jobs
--
--This greatly speeds up installation time on multi-core systems.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/merge_requests/39]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- src/fullcolor/Makefile.am |  5 +++--
-- src/spinner/Makefile.am   |  7 ++++---
-- src/symbolic/Makefile.am  | 11 ++++++-----
-- 3 files changed, 13 insertions(+), 10 deletions(-)
--
--diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
--index d73529b..b7d0808 100644
----- a/src/fullcolor/Makefile.am
--+++ b/src/fullcolor/Makefile.am
--@@ -9,9 +9,10 @@ install-data-local:
-- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
-- 			context="`dirname $$file`"; \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 		done; \
---	done;
--+	done; \
--+	wait
-- 
-- ## FIXME we should add a way to remove links generated by icon mapping
-- uninstall-local:
--diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
--index c14caf6..322dc0d 100644
----- a/src/spinner/Makefile.am
--+++ b/src/spinner/Makefile.am
--@@ -24,13 +24,14 @@ install-data-local:
-- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-- 		      context="`dirname $$file`"; \
-- 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 	      done; \
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
-- 		context="`dirname $$file`"; \
-- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
---		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
---	done
--+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
--+	done; \
--+	wait
-- 
-- uninstall-local:
-- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
--diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
--index 957c0ee..e1f8818 100644
----- a/src/symbolic/Makefile.am
--+++ b/src/symbolic/Makefile.am
--@@ -34,18 +34,19 @@ install-data-local:
-- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-- 			context="`dirname $$file`"; \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 		done; \
---	done
--+	done; \
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-- 		context="`dirname $$file`"; \
-- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
---		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
--+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
-- 		for size in $(symbolic_encode_sizes); do \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
--+			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
-- 		done \
---	done
--+	done; \
--+	wait
-- 
-- uninstall-local:
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-similarity index 87%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-index 46f9f4772c..c4f3b1c999 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-@@ -12,12 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
- 
- inherit allarch autotools pkgconfig gettext gtk-icon-cache gnomebase
- 
--SRC_URI += " \
--           file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
--           file://0001-Run-installation-commands-as-shell-jobs.patch \
--           "
-+SRC_URI += " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
- 
--SRC_URI[archive.sha256sum] = "ef5339d8c35fcad5d10481b70480803f0fa20b3d3cbc339238fcaceeaee01eba"
-+SRC_URI[archive.sha256sum] = "5e85b5adc8dee666900fcaf271ba717f7dcb9d0a03d96dae08f9cbd27e18b1e0"
- 
- DEPENDS += "librsvg-native"
- 
--- 
-2.25.1
-
+Kind regards,
+Marta
 
