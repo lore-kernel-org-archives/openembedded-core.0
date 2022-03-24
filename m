@@ -1,126 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2AAC433F5
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 12:15:48 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web08.9922.1648124146910338312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE332C433EF
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 13:26:12 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.10833.1648128371085868307
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 05:15:47 -0700
+ Thu, 24 Mar 2022 06:26:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O1pc/ejH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id d7so6355657wrb.7
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 05:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Ew3oyYhLg08r6DKVTtueD87M2eYs4kGasQoKsvFd5O8=;
-        b=O1pc/ejHkRMNNnrIIfVgjWMttw8urpiQ20KyE+k+hBosjzXl7TIPPi0nuc8hmtD4bM
-         tMkje+o9wvZoHYfzwayqBVDuZ+pS2JAOQ2rZ6reHOMWU646xTJHfNxMCx4aPLTQ58kkL
-         k2hIIg7aXraR8CH2Qdzv9AHflCOGYiUegxaKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Ew3oyYhLg08r6DKVTtueD87M2eYs4kGasQoKsvFd5O8=;
-        b=vnKnZIznTr4XMHZLHQIX0vgq1A+qCK/G5bN7Ps2HZ0/l5j1NEFsvxvWR9U3x2LcSjE
-         5d8Gvl+2A1BBgf7t7XW8ey6aCtew10TCfTPyBQgf0gnWWOaB9u54zQm+eL6RQTLaqedN
-         vtOkNJyIoZTJhBdxg9dr8Uj5BNXY4xPJiXl1k3lleyuPXH2zRls+O1d+kfapSm6k5pT9
-         I5otmfJEcHQctTVDhavQ7HFEbZSUmwu/3UfO4twWBvs1HNebW0+DoZAm3o/VYve5YDHq
-         ukBQUHLw1n7mTjnrGfbXK6U/AHiKOnZTS/3mzGlfeytNvRHmicG67owq23AKk7mOBp5+
-         cOWQ==
-X-Gm-Message-State: AOAM5334ZE9bdUFscW2l8FUdfMvMMXJ74Kx4WxCLQZJnYKKgo58BlJ0o
-	EdTx7XYA6yOON4Ch4g9uPxnsVw==
-X-Google-Smtp-Source: 
- ABdhPJxBfmOuTCVpd0VOXzZ2JqbZcd1BPD/w5vC4HPetL/2jYp1FvgSwhyiiuqRrhhjUDCv5hdkGvA==
-X-Received: by 2002:a05:6000:15ce:b0:204:1113:b053 with SMTP id
- y14-20020a05600015ce00b002041113b053mr4356007wry.701.1648124145193;
-        Thu, 24 Mar 2022 05:15:45 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:468a:3ed0:d59:9804?
- ([2001:8b0:aba:5f3c:468a:3ed0:d59:9804])
-        by smtp.gmail.com with ESMTPSA id
- c124-20020a1c3582000000b00384d42a9638sm2045200wma.2.2022.03.24.05.15.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 05:15:44 -0700 (PDT)
-Message-ID: 
- <b0b7f6149c9396e6d961735369ab18eab2cf1237.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] packagegroup: Properly track the enabling of
- complementary packages
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alban.bedel@aerq.com, OE-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Mar 2022 12:15:43 +0000
-In-Reply-To: <20220324114114.1665034-1-alban.bedel@aerq.com>
-References: <20220324114114.1665034-1-alban.bedel@aerq.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Y6eqELPz;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 11A72240014;
+	Thu, 24 Mar 2022 13:26:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1648128369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sy92Yu5/IWOQePuc//+MFmhe/pu5+P/4RfW/apZJMhg=;
+	b=Y6eqELPzYu7CeGxRevO/XBkLUL/9Gm4bXgFfsmzEcYpbyZ7daHRa7fJjRAjKFBaTBlIS10
+	wJN+KM5eS+EZYEHA5TtmAENv1JikI1kJMHP30sHVffEI7AzEQj/tUzo96jsOJRohRpGIJv
+	Us13usaLsOSwXC4qnaS/CvzITRskWoJ5LA3IbaMY0NEYY6/JdQubr1LG9iElf/qVvdcjKq
+	G8rtNcWukZRvx8I8aMuTjItKuKjNX+hF6atipeiuuEsBQ8do5wbQwVfSw90EZw7IWxWcH3
+	q/JUNhCS/7rItNmWHP33XkokrWakuIVOYT0lbHIWQe21mUJYDi0PcTeCZAqTJQ==
+Date: Thu, 24 Mar 2022 14:26:08 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v3] qemu: Depend on libepoxy instead of
+ virtual/libgl
+Message-ID: <YjxxcJddO/Sjvw/s@piout.net>
+References: <20220324021141.2159404-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220324021141.2159404-1-raj.khem@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 12:15:48 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 13:26:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163608
+ https://lists.openembedded.org/g/openembedded-core/message/163609
 
-On Thu, 2022-03-24 at 12:41 +0100, Alban Bedel via lists.openembedded.org wrote:
-> The set of packages included in a packagegroup depend on the
-> PACKAGEGROUP_DISABLE_COMPLEMENTARY variable and, if that variable is
-> not set to '1', on DISTRO_FEATURES. As this magic happen in a python
-> function it can't be detected by the dependency system. We have to add
-> these variables to the PACKAGEVARS list to have them added to the
-> do_package vardeps list.
+Hi Khem,
+
+On 23/03/2022 19:11:41-0700, Khem Raj wrote:
+> - This abstracts on GL/GLES implementations
+> - Rename packageconfig to epoxy to match what code it doing underneath
+
+This is not working either and I guess we will need to go and fix all
+the layers using the glx packageconfig:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3413
+
 > 
-> Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/classes/packagegroup.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
+> v2: Rename packageconfig to epoxy as it matches code
+> v3: Depend on libepoxy instead of virtual/egl
 > 
-> diff --git a/meta/classes/packagegroup.bbclass b/meta/classes/packagegroup.bbclass
-> index 557b1b6382ba..cffdaadbde0e 100644
-> --- a/meta/classes/packagegroup.bbclass
-> +++ b/meta/classes/packagegroup.bbclass
-> @@ -31,9 +31,11 @@ python () {
->          packages = [pkg + suffix for pkg in packages
->                      for suffix in types]
->          d.setVar('PACKAGES', ' '.join(packages))
-> +        d.appendVar('PACKAGEVARS', ' DISTRO_FEATURES')
->      for pkg in packages:
->          d.setVar('ALLOW_EMPTY:%s' % pkg, '1')
->  }
-> +PACKAGEVARS += 'PACKAGEGROUP_DISABLE_COMPLEMENTARY'
+>  meta/recipes-devtools/qemu/qemu.inc      | 6 +++---
+>  meta/recipes-devtools/qemu/qemu_6.2.0.bb | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index 78aea71cc05..e9d2dae0405 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -142,8 +142,8 @@ do_install:append() {
+>  # END of qemu-mips workaround
 >  
+>  # Disable kvm/virgl/mesa on targets that do not support it
+> -PACKAGECONFIG:remove:darwin = "kvm virglrenderer glx gtk+"
+> -PACKAGECONFIG:remove:mingw32 = "kvm virglrenderer glx gtk+"
+> +PACKAGECONFIG:remove:darwin = "kvm virglrenderer epoxy gtk+"
+> +PACKAGECONFIG:remove:mingw32 = "kvm virglrenderer epoxy gtk+"
+>  
+>  PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl2"
+>  PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr --enable-cap-ng,--disable-virtfs,libcap-ng attr,"
+> @@ -165,7 +165,7 @@ PACKAGECONFIG[nettle] = "--enable-nettle,--disable-nettle,nettle"
+>  PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
+>  PACKAGECONFIG[fdt] = "--enable-fdt,--disable-fdt,dtc"
+>  PACKAGECONFIG[alsa] = "--audio-drv-list=default,,alsa-lib"
+> -PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,virtual/libgl"
+> +PACKAGECONFIG[epoxy] = "--enable-opengl,--disable-opengl,libepoxy"
+>  PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
+>  PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
+>  PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
+> diff --git a/meta/recipes-devtools/qemu/qemu_6.2.0.bb b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
+> index c7eef0a9d5e..92857adf9c3 100644
+> --- a/meta/recipes-devtools/qemu/qemu_6.2.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_6.2.0.bb
+> @@ -17,9 +17,9 @@ EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)
+>  PACKAGECONFIG ??= " \
+>      fdt sdl kvm pie \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
+> -    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '', d)} \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
+>  "
+>  PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie \
+> -    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '', d)} \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+>  "
+> -- 
+> 2.35.1
+> 
 
-That is a hugely heavy hammer to apply to the problem. We go to quite some
-lengths to try and ensure changing DISTRO_FEATURES doesn't cause things to
-rebuild unless they need to (e.g. by using contains()).
-
-PACKAGEVARS is also the wrong thing for use here as it is for variables which
-have per package versions (like ALLOW_EMPTY). Put another way,
-PACKAGEGROUP_DISABLE_COMPLEMENTARY:${PN}-dbg makes no sense.
-
-PACKAGES[vardeps] += "PACKAGEGROUP_DISABLE_COMPLEMENTARY"
-
-would be the correct way to handle the first part of this. For the distro
-features piece, something like this:
-
-PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '', '', d)}"
-
-might cause the dependencies to work correctly.
-
-Cheers,
-
-Richard
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163600): https://lists.openembedded.org/g/openembedded-core/message/163600
+> Mute This Topic: https://lists.openembedded.org/mt/89991450/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
-
-
-
-
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
