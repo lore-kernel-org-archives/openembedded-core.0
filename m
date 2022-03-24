@@ -1,242 +1,152 @@
-Return-Path: <fntoth@gmail.com>
+Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F801C433EF
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 11:23:37 +0000 (UTC)
-Received: from radex-web.radex.nl (radex-web.radex.nl [178.250.146.7])
- by mx.groups.io with SMTP id smtpd.web08.9505.1648121015507979571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F74AC433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 11:32:11 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.9683.1648121529736425689
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 04:23:36 -0700
+ Thu, 24 Mar 2022 04:32:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=softfail (domain: gmail.com, ip: 178.250.146.7, mailfrom: fntoth@gmail.com)
-Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl
- [178.250.146.69])
-	by radex-web.radex.nl (Postfix) with ESMTPS id 53EC52406A;
-	Thu, 24 Mar 2022 12:23:34 +0100 (CET)
-Content-Type: multipart/alternative;
- boundary="------------YdDa4ci10k4RxpwDjCL6hb7l"
-Message-ID: <a338dc08-b564-4f83-9f88-1e7dd1823f6d@gmail.com>
-Date: Thu, 24 Mar 2022 12:23:34 +0100
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QQcvB4G5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ mailfrom: davidegarde2000@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id dr20so8531132ejc.6
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 24 Mar 2022 04:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YQA3aZFqdXNnXydQOF/IrLgkghJaJnYh4V44yym6IRg=;
+        b=QQcvB4G5TWaMwd0DZi2LuzxRAJbbRnt213nvtvQZSOz7OHm8hVZjJ25z+j6R82H2/4
+         5XZ+ZiyhQA0gfZ9l3IMfQYB78GlGg63zj+XS6xG2S+VqgBs84d+1VDx8iG32yyHWI2T8
+         qGaZRjDyXfELqsx/6vDDw+tE2mWSW8Lny3PD2pAWzfkfG3/QBm+ZkZiMn6EW7nkNJqgX
+         /NkL2oeSA8VK2N7sDKxmLmJL3YtyPLQFkTXIDe+lmPz63imPdOX0Czvm5SAfQuCOwryE
+         RN/MxMC6KdKxQ7X43REox5NisxzJ4mm0bcyBupdUKNRAWOCSJTyDTSNMhqWQ9i7rIT3L
+         sPMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YQA3aZFqdXNnXydQOF/IrLgkghJaJnYh4V44yym6IRg=;
+        b=e9meFF6W6gaj4jNougiYfruDXGydMUbhNctVw9qCi5kOWGR37JoI4TP1DuP8qTC7eJ
+         dyzDKiDxCzv2IRet3ynBOagwFMqTTXjhx62gEDJZtazPpuomYqoiqNMQElNaEZkNdGFm
+         pmGjD9yHBOSgwze3OpoOirZP3rK6+DOF+1O1vEhOMhZGedQqPyVI5kAk0QNkSGirHzKe
+         2UUEhSEBLdcYvXwRIlictb77GYuvtYz3/NbJzI1hk/lLth3dQcOneDrQ02P3ckLaA2ux
+         u27fIge01VBlwi1fH+3V0ABYun/BtAuv6UshqHTJcDMVTQhZzmbbxXYndlMoUbAzNm9J
+         vbYA==
+X-Gm-Message-State: AOAM5323pzdV+nUf79r7k/E3qLFmKRd6ciQEfhzf/cSNtsnAX5nswLOP
+	S6PZ9Ss8Fl/IQrxk2CgLul9rrveGI1upog==
+X-Google-Smtp-Source: 
+ ABdhPJyGGNdxTyFZ59U12Wt+YHldlgi18AScOiWGraP634UiqosJ5b5ZnZi8w+JvBoGsWiBifuD0/A==
+X-Received: by 2002:a17:907:3d91:b0:6df:a01c:f7cd with SMTP id
+ he17-20020a1709073d9100b006dfa01cf7cdmr5169460ejc.255.1648121527352;
+        Thu, 24 Mar 2022 04:32:07 -0700 (PDT)
+Received: from tony3oo3-XPS-13-9370.home
+ (host-87-5-19-30.retail.telecomitalia.it. [87.5.19.30])
+        by smtp.gmail.com with ESMTPSA id
+ nd31-20020a170907629f00b006dff863d41asm1030870ejc.156.2022.03.24.04.32.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 04:32:06 -0700 (PDT)
+From: Davide Gardenal <davidegarde2000@gmail.com>
+X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Davide Gardenal <davide.gardenal@huawei.com>
+Subject: [oe-core][dunfell][PATCH v2] qemu: backport patch fix for
+ CVE-2020-13791
+Date: Thu, 24 Mar 2022 12:31:25 +0100
+Message-Id: <20220324113125.52167-1-davide.gardenal@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 1/2] gpg-sign: Add parameters to gpg signature function
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Xavier Berger <xavier.berger@bio-logic.net>
-References: <20220322211949.7423-1-fntoth@gmail.com>
- <fe0f9ee8-e3d0-1681-af93-fa97019b8a0c@gmail.com>
- <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
-From: Ferry Toth <fntoth@gmail.com>
-In-Reply-To: 
- <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 11:23:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 11:32:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163604
+ https://lists.openembedded.org/g/openembedded-core/message/163605
 
-This is a multi-part message in MIME format.
---------------YdDa4ci10k4RxpwDjCL6hb7l
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Upstream patch:
+https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00979.html
 
-Hi,
+CVE: CVE-2020-13791
 
-Op 24-03-2022 om 09:12 schreef Richard Purdie:
-> On Wed, 2022-03-23 at 19:34 +0100, Ferry Toth wrote:
->> Hi Richard,
->>
->> I forgot to add a cover letter, sorry for that. The 2 patches=C2=A0 to=
-gether
->> implement DEB repository signing.
->>
->> This is necessary since Gatesgarth |apt| (1.8.2) has become more stric=
-t
->> and doesn=E2=80=99t allow unsigned repositories by default.
->>
->> It is possible to override this behavior |but||| is more work then to
->> enable signed DEB repositories. These patches makes DEB a first class
->> citizen as IPK and RPM.
->>
->> Patches have been in use in meta-intel-edison since Gatesgarth, see
->> https://edison-fw.github.io/meta-intel-edison/5.0-Creating-a-deb-repos=
-itory.html\
-> What puzzles me is that we can build root filesystems using apt, we tes=
-t this on
-> the autobuilder. Saying repositories are broken since gatesgarth theref=
-ore seems
-> confusing in the commit message.
+Update v2: rebase with patch for CVE-2020-13253 and
+add Upstream-Status in patch description
 
-Good question. When I (meta-intel-edison) build the rootfs using DEB's=20
-it just works.
+Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-13791.patch            | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
 
-Could it be that during rootfs build dpkg is used and not apt? I think I=20
-have seen that in the logs.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 0bdc917783..25c2cdef3a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -97,6 +97,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-13253_3.patch \
+            file://CVE-2020-13253_4.patch \
+            file://CVE-2020-13253_5.patch \
++           file://CVE-2020-13791.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
+new file mode 100644
+index 0000000000..1e8278f7b7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13791.patch
+@@ -0,0 +1,44 @@
++Date: 	Thu, 4 Jun 2020 16:25:24 +0530
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Subject: 	[PATCH v3] ati-vga: check address before reading configuration bytes (CVE-2020-13791)
++
++While reading PCI configuration bytes, a guest may send an
++address towards the end of the configuration space. It may lead
++to an OOB access issue. Add check to ensure 'address + size' is
++within PCI configuration space.
++
++CVE: CVE-2020-13791
++
++Upstream-Status: Submitted
++https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00979.html
++
++Reported-by: Ren Ding <rding@gatech.edu>
++Reported-by: Hanqing Zhao <hanqing@gatech.edu>
++Reported-by: Yi Ren <c4tren@gmail.com>
++Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
++---
++ hw/display/ati.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++Update v3: avoid modifying 'addr' variable
++  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00834.html
++
++diff --git a/hw/display/ati.c b/hw/display/ati.c
++index 67604e68de..b4d0fd88b7 100644
++--- a/hw/display/ati.c
+++++ b/hw/display/ati.c
++@@ -387,7 +387,9 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
++         val = s->regs.crtc_pitch;
++         break;
++     case 0xf00 ... 0xfff:
++-        val = pci_default_read_config(&s->dev, addr - 0xf00, size);
+++        if ((addr - 0xf00) + size <= pci_config_size(&s->dev)) {
+++            val = pci_default_read_config(&s->dev, addr - 0xf00, size);
+++        }
++         break;
++     case CUR_OFFSET:
++         val = s->regs.cur_offset;
++-- 
++2.26.2 
+-- 
+2.32.0
 
-Of course apt uses dpkg to install a package as well, but it refuses to=20
-download the package from a repo when it's not signed.
-
-> I guess we must configure apt to override that during the rootfs proces=
-s and
-> likely an end user with a remote feed could do the same, possibly with =
-a warning
-> from apt?
-I believe there is no issue during rootfs generation.
-> I'm also worried that there isn't any automated testing of this change.=
- The
-> reason I worry is that since we don't show any testing failures right n=
-ow, there
-> is clearly a hole in our automated testing coverage and there is no gua=
-rantee
-> that this feature will keep working. It is these smaller corner case is=
-sues
-> which tend to make or break the project's experience as if a feature is=
- present,
-> people expect it to work. Can we improve the testing situation?
-
-It doesn't seem to be a particularly volatile area in the code. I=20
-refreshed Xavier's patches for Gatesgarth, and am actively using=20
-unchanged patch on Honisiter.
-
-I don't know how the automated testing is working but I guess for RPM a=20
-repo is generated using a small layer? And then tested on a qemu running=20
-the rootfs?
-
-Should be almost same for deb/apt, maybe could be modified from rpm test?
-
-Point is: currently deb is documented as a feasible package format to=20
-generate a repo. But it really is not without these signing patches. So=20
-we could either deprecate deb's (no, no please don't) or fix it.
-
-These patches fix it. With or without automated testing, it is already=20
-better then the current situation.
-
-> Cheers,
->
-> Richard
->
->
->
---------------YdDa4ci10k4RxpwDjCL6hb7l
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p><font face=3D"Noto Sans">Hi,</font><br>
-    </p>
-    <div class=3D"moz-cite-prefix">Op 24-03-2022 om 09:12 schreef Richard
-      Purdie:<br>
-    </div>
-    <blockquote type=3D"cite"
-cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">On Wed, 2022-03-23 at 19:34 =
-+0100, Ferry Toth wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre" wrap=3D"">Hi Richard,
-
-I forgot to add a cover letter, sorry for that. The 2 patches=C2=A0 toget=
-her=20
-implement DEB repository signing.
-
-This is necessary since Gatesgarth |apt| (1.8.2) has become more strict=20
-and doesn=E2=80=99t allow unsigned repositories by default.
-
-It is possible to override this behavior |but||| is more work then to=20
-enable signed DEB repositories. These patches makes DEB a first class=20
-citizen as IPK and RPM.
-
-Patches have been in use in meta-intel-edison since Gatesgarth, see=20
-<a class=3D"moz-txt-link-freetext" href=3D"https://edison-fw.github.io/me=
-ta-intel-edison/5.0-Creating-a-deb-repository.html\">https://edison-fw.gi=
-thub.io/meta-intel-edison/5.0-Creating-a-deb-repository.html\</a>
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-What puzzles me is that we can build root filesystems using apt, we test =
-this on
-the autobuilder. Saying repositories are broken since gatesgarth therefor=
-e seems
-confusing in the commit message.
-</pre>
-    </blockquote>
-    <p>Good question. When I (meta-intel-edison) build the rootfs using
-      DEB's it just works.</p>
-    <p>Could it be that during rootfs build dpkg is used and not apt? I
-      think I have seen that in the logs.</p>
-    <p>Of course apt uses dpkg to install a package as well, but it
-      refuses to download the package from a repo when it's not signed.
-      <br>
-    </p>
-    <blockquote type=3D"cite"
-cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-I guess we must configure apt to override that during the rootfs process =
-and
-likely an end user with a remote feed could do the same, possibly with a =
-warning
-from apt?
-</pre>
-    </blockquote>
-    I believe there is no issue during rootfs generation.<br>
-    <blockquote type=3D"cite"
-cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-I'm also worried that there isn't any automated testing of this change. T=
-he
-reason I worry is that since we don't show any testing failures right now=
-, there
-is clearly a hole in our automated testing coverage and there is no guara=
-ntee
-that this feature will keep working. It is these smaller corner case issu=
-es
-which tend to make or break the project's experience as if a feature is p=
-resent,
-people expect it to work. Can we improve the testing situation?
-</pre>
-    </blockquote>
-    <p>It doesn't seem to be a particularly volatile area in the code. I
-      refreshed Xavier's patches for Gatesgarth, and am actively using
-      unchanged patch on Honisiter.</p>
-    <p>I don't know how the automated testing is working but I guess for
-      RPM a repo is generated using a small layer? And then tested on a
-      qemu running the rootfs?</p>
-    <p>Should be almost same for deb/apt, maybe could be modified from
-      rpm test?</p>
-    <p>Point is: currently deb is documented as a feasible package
-      format to generate a repo. But it really is not without these
-      signing patches. So we could either deprecate deb's (no, no please
-      don't) or fix it.</p>
-    <p>These patches fix it. With or without automated testing, it is
-      already better then the current situation.<br>
-    </p>
-    <blockquote type=3D"cite"
-cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-Cheers,
-
-Richard
-
-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------YdDa4ci10k4RxpwDjCL6hb7l--
 
