@@ -1,131 +1,109 @@
-Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B959FC433F5
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 09:45:01 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
- [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web11.8873.1648115100063136735
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A85C433EF
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 11:03:21 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web08.9341.1648119799758096130
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 02:45:00 -0700
+ Thu, 24 Mar 2022 04:03:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44,
- mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 720379C0244;
-	Thu, 24 Mar 2022 05:44:58 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
- port 10032)
-	with ESMTP id uZz9bgDgKmoP; Thu, 24 Mar 2022 05:44:57 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id C0A819C024D;
-	Thu, 24 Mar 2022 05:44:57 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
- port 10026)
-	with ESMTP id 7LF-dqMQRdTd; Thu, 24 Mar 2022 05:44:57 -0400 (EDT)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
- [192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 9B97C9C0244;
-	Thu, 24 Mar 2022 05:44:57 -0400 (EDT)
-Date: Thu, 24 Mar 2022 05:44:57 -0400 (EDT)
-From: Enguerrand de Ribaucourt
-  <enguerrand.de-ribaucourt@savoirfairelinux.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: 
- <784707888.393251.1648115097590.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <Yjs+RGCl6mjOAoSN@piout.net>
-References: 
- <20220323085009.11573-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
- <Yjs+RGCl6mjOAoSN@piout.net>
-Subject: Re: [OE-core][PATCH] mobile-broadband-provider-info: update branch
- name
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=avjb2aOV;
+ spf=pass (domain: intel.com, ip: 192.55.52.151,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648119799; x=1679655799;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HwPpd1pcVFywWXnc0swFbp85ibHWSsWxGEFF1UaTECc=;
+  b=avjb2aOVoHPt8ZKqXwPZLkOh97urL36SPM+S2e4u3jGqCvvvRqm+t3Vw
+   q6DyWl7w0k3xVKGBpvgcW3fCeTqSMMLIV5tMdPayUBoKKue4L8xTy1HAL
+   dggU5KQfHVV4tp/+XWyxEP32MKJPLIsW8C13OhBQ3IR/WgLZGq3Eahhus
+   avHskPXWBoG/38uPlvV3GmEIANSA5lY0tnJuYxTzzJ0UUBeffffQyZTur
+   m4hGQUiFWivjwRB8CmIskXM/XHIiq4pJz0or9zA+sFvyv5ddEtGUS4Y+W
+   6VaYYV52HDKDSoJDR/lp6UMV38+arnE0XS1HS3CyvmNgUjPC8FDK5WKqE
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="238950586"
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400";
+   d="scan'208";a="238950586"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 04:03:02 -0700
+X-IronPort-AV: E=Sophos;i="5.90,207,1643702400";
+   d="scan'208";a="601652501"
+Received: from yeeweita-mobl.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.213.139.46])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 04:03:01 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH] crate-fetch: fix setscene failures
+Date: Thu, 24 Mar 2022 19:02:56 +0800
+Message-Id: <20220324110256.6989-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF97
- (Linux)/8.8.15_GA_4232)
-Thread-Topic: mobile-broadband-provider-info: update branch name
-Thread-Index: aThRZjJ4yvaEMmK3HXY6yOpFKDNjjg==
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 09:45:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 11:03:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163602
+ https://lists.openembedded.org/g/openembedded-core/message/163603
 
------ Original Message -----
-> From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-> To: "Enguerrand de Ribaucourt" <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Sent: Wednesday, March 23, 2022 4:35:32 PM
-> Subject: Re: [OE-core][PATCH] mobile-broadband-provider-info: update branch name
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> Hello Enguerrand,
+In sstate.bbclass, when fetching an sstate object we have:
 
-> This was already fixed in master in:
-> https://git.openembedded.org/openembedded-core/commit/?id=ed02ee8f20094f598448d58875cb7be8a24a019f
+pstaging_fetch(sstatefetch, d):
+[...]
+    localdata.setVar('SRCPV', d.getVar('SRCPV'))
 
-> Is this for another branch?
+i.e. some code which expands SRCPV before it changes SRC_URI for the sstate
+tarball fetching. In crate-fetch.bbclass we have:
 
-Hello Alexandre,
+def import_crate(d):
+    import crate
+    if not getattr(crate, 'imported', False):
+        bb.fetch2.methods.append(crate.Crate())
+        crate.imported = True
 
-Yes, this patch is for honister. The issue is also yet unfixed in the dunfell branch.
+def crate_get_srcrev(d):
+    import_crate(d)
+    return bb.fetch2.get_srcrev(d)
 
-Thank you for your time.
+SRCPV = "${@crate_get_srcrev(d)}"
 
-> On 23/03/2022 09:50:10+0100, Enguerrand de Ribaucourt wrote:
-> > The master branch was renamed main, resulting in do_fetch failure.
-> > This patch updates SRC_URI with the new branch name.
+and so an "import crate" occurs when pstating_fetch() is called. That succeeds
+and all is well but the bb.fetch2.get_srcrev(d) call fails since there is no url
+in SRC_URI which supports srcrev() resulting in:
 
->> Signed-off-by: Enguerrand de Ribaucourt
-> > <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> > ---
-> > .../mobile-broadband-provider-info_git.bb | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
+| WARNING: rust-cross-core2-32-musl-1.54.0-r0 do_deploy_source_date_epoch_setscene: ExpansionError('SRCPV', '${@crate_get_srcrev(d)}', FetchError('SRCREV was used yet no valid SCM was found in SRC_URI', None))
+| WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/x86_64-linux/rust-cross-core2-32-musl/1.54.0-r0/temp/log.do_deploy_source_date_epoch_setscene.3133099
+| WARNING: Setscene task (/home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/rust/rust-cross_1.54.0.bb:do_deploy_source_date_epoch_setscene) failed with exit code '1' - real task will be run instead
 
->> diff --git
->> a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-> > b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-> > index 4246f4dcbd..3b170f4fdd 100644
->> ---
-> > a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
->> +++
-> > b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-> > @@ -8,7 +8,7 @@ SRCREV = "11f2247eccd3c161b8fd9b41143862e9fb81193c"
-> > PV = "20210805"
-> > PE = "1"
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/classes/crate-fetch.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
->> -SRC_URI =
-> > "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=master"
->> +SRC_URI =
-> > "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
-> > S = "${WORKDIR}/git"
+diff --git a/meta/classes/crate-fetch.bbclass b/meta/classes/crate-fetch.bbclass
+index a7fa22b2a0..04d76c0de8 100644
+--- a/meta/classes/crate-fetch.bbclass
++++ b/meta/classes/crate-fetch.bbclass
+@@ -22,6 +22,9 @@ crate_import_handler[eventmask] = "bb.event.RecipePreFinalise"
+ 
+ def crate_get_srcrev(d):
+     import_crate(d)
++    srcuri = d.getVar("SRC_URI")
++    if "crate://" not in srcuri and "git://" not in srcuri:
++        return "Invalid"
+     return bb.fetch2.get_srcrev(d)
+ 
+ # Override SRCPV to make sure it imports the fetcher first
+-- 
+2.35.1
 
-> > inherit autotools
-> > --
-> > 2.25.1
-
-
-
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
->> View/Reply Online (#163581):
-> > https://lists.openembedded.org/g/openembedded-core/message/163581
-> > Mute This Topic: https://lists.openembedded.org/mt/89971498/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> > [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-
-
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
 
