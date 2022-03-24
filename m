@@ -1,109 +1,242 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <fntoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A85C433EF
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 11:03:21 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web08.9341.1648119799758096130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F801C433EF
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 11:23:37 +0000 (UTC)
+Received: from radex-web.radex.nl (radex-web.radex.nl [178.250.146.7])
+ by mx.groups.io with SMTP id smtpd.web08.9505.1648121015507979571
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 04:03:20 -0700
+ Thu, 24 Mar 2022 04:23:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=avjb2aOV;
- spf=pass (domain: intel.com, ip: 192.55.52.151,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648119799; x=1679655799;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HwPpd1pcVFywWXnc0swFbp85ibHWSsWxGEFF1UaTECc=;
-  b=avjb2aOVoHPt8ZKqXwPZLkOh97urL36SPM+S2e4u3jGqCvvvRqm+t3Vw
-   q6DyWl7w0k3xVKGBpvgcW3fCeTqSMMLIV5tMdPayUBoKKue4L8xTy1HAL
-   dggU5KQfHVV4tp/+XWyxEP32MKJPLIsW8C13OhBQ3IR/WgLZGq3Eahhus
-   avHskPXWBoG/38uPlvV3GmEIANSA5lY0tnJuYxTzzJ0UUBeffffQyZTur
-   m4hGQUiFWivjwRB8CmIskXM/XHIiq4pJz0or9zA+sFvyv5ddEtGUS4Y+W
-   6VaYYV52HDKDSoJDR/lp6UMV38+arnE0XS1HS3CyvmNgUjPC8FDK5WKqE
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="238950586"
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400";
-   d="scan'208";a="238950586"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 04:03:02 -0700
-X-IronPort-AV: E=Sophos;i="5.90,207,1643702400";
-   d="scan'208";a="601652501"
-Received: from yeeweita-mobl.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.213.139.46])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 04:03:01 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH] crate-fetch: fix setscene failures
-Date: Thu, 24 Mar 2022 19:02:56 +0800
-Message-Id: <20220324110256.6989-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
+ dkim=missing;
+ spf=softfail (domain: gmail.com, ip: 178.250.146.7, mailfrom: fntoth@gmail.com)
+Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl
+ [178.250.146.69])
+	by radex-web.radex.nl (Postfix) with ESMTPS id 53EC52406A;
+	Thu, 24 Mar 2022 12:23:34 +0100 (CET)
+Content-Type: multipart/alternative;
+ boundary="------------YdDa4ci10k4RxpwDjCL6hb7l"
+Message-ID: <a338dc08-b564-4f83-9f88-1e7dd1823f6d@gmail.com>
+Date: Thu, 24 Mar 2022 12:23:34 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 1/2] gpg-sign: Add parameters to gpg signature function
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Xavier Berger <xavier.berger@bio-logic.net>
+References: <20220322211949.7423-1-fntoth@gmail.com>
+ <fe0f9ee8-e3d0-1681-af93-fa97019b8a0c@gmail.com>
+ <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
+From: Ferry Toth <fntoth@gmail.com>
+In-Reply-To: 
+ <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 11:03:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 11:23:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163603
+ https://lists.openembedded.org/g/openembedded-core/message/163604
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+This is a multi-part message in MIME format.
+--------------YdDa4ci10k4RxpwDjCL6hb7l
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-In sstate.bbclass, when fetching an sstate object we have:
+Hi,
 
-pstaging_fetch(sstatefetch, d):
-[...]
-    localdata.setVar('SRCPV', d.getVar('SRCPV'))
+Op 24-03-2022 om 09:12 schreef Richard Purdie:
+> On Wed, 2022-03-23 at 19:34 +0100, Ferry Toth wrote:
+>> Hi Richard,
+>>
+>> I forgot to add a cover letter, sorry for that. The 2 patches=C2=A0 to=
+gether
+>> implement DEB repository signing.
+>>
+>> This is necessary since Gatesgarth |apt| (1.8.2) has become more stric=
+t
+>> and doesn=E2=80=99t allow unsigned repositories by default.
+>>
+>> It is possible to override this behavior |but||| is more work then to
+>> enable signed DEB repositories. These patches makes DEB a first class
+>> citizen as IPK and RPM.
+>>
+>> Patches have been in use in meta-intel-edison since Gatesgarth, see
+>> https://edison-fw.github.io/meta-intel-edison/5.0-Creating-a-deb-repos=
+itory.html\
+> What puzzles me is that we can build root filesystems using apt, we tes=
+t this on
+> the autobuilder. Saying repositories are broken since gatesgarth theref=
+ore seems
+> confusing in the commit message.
 
-i.e. some code which expands SRCPV before it changes SRC_URI for the sstate
-tarball fetching. In crate-fetch.bbclass we have:
+Good question. When I (meta-intel-edison) build the rootfs using DEB's=20
+it just works.
 
-def import_crate(d):
-    import crate
-    if not getattr(crate, 'imported', False):
-        bb.fetch2.methods.append(crate.Crate())
-        crate.imported = True
+Could it be that during rootfs build dpkg is used and not apt? I think I=20
+have seen that in the logs.
 
-def crate_get_srcrev(d):
-    import_crate(d)
-    return bb.fetch2.get_srcrev(d)
+Of course apt uses dpkg to install a package as well, but it refuses to=20
+download the package from a repo when it's not signed.
 
-SRCPV = "${@crate_get_srcrev(d)}"
+> I guess we must configure apt to override that during the rootfs proces=
+s and
+> likely an end user with a remote feed could do the same, possibly with =
+a warning
+> from apt?
+I believe there is no issue during rootfs generation.
+> I'm also worried that there isn't any automated testing of this change.=
+ The
+> reason I worry is that since we don't show any testing failures right n=
+ow, there
+> is clearly a hole in our automated testing coverage and there is no gua=
+rantee
+> that this feature will keep working. It is these smaller corner case is=
+sues
+> which tend to make or break the project's experience as if a feature is=
+ present,
+> people expect it to work. Can we improve the testing situation?
 
-and so an "import crate" occurs when pstating_fetch() is called. That succeeds
-and all is well but the bb.fetch2.get_srcrev(d) call fails since there is no url
-in SRC_URI which supports srcrev() resulting in:
+It doesn't seem to be a particularly volatile area in the code. I=20
+refreshed Xavier's patches for Gatesgarth, and am actively using=20
+unchanged patch on Honisiter.
 
-| WARNING: rust-cross-core2-32-musl-1.54.0-r0 do_deploy_source_date_epoch_setscene: ExpansionError('SRCPV', '${@crate_get_srcrev(d)}', FetchError('SRCREV was used yet no valid SCM was found in SRC_URI', None))
-| WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/x86_64-linux/rust-cross-core2-32-musl/1.54.0-r0/temp/log.do_deploy_source_date_epoch_setscene.3133099
-| WARNING: Setscene task (/home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-devtools/rust/rust-cross_1.54.0.bb:do_deploy_source_date_epoch_setscene) failed with exit code '1' - real task will be run instead
+I don't know how the automated testing is working but I guess for RPM a=20
+repo is generated using a small layer? And then tested on a qemu running=20
+the rootfs?
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/classes/crate-fetch.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Should be almost same for deb/apt, maybe could be modified from rpm test?
 
-diff --git a/meta/classes/crate-fetch.bbclass b/meta/classes/crate-fetch.bbclass
-index a7fa22b2a0..04d76c0de8 100644
---- a/meta/classes/crate-fetch.bbclass
-+++ b/meta/classes/crate-fetch.bbclass
-@@ -22,6 +22,9 @@ crate_import_handler[eventmask] = "bb.event.RecipePreFinalise"
- 
- def crate_get_srcrev(d):
-     import_crate(d)
-+    srcuri = d.getVar("SRC_URI")
-+    if "crate://" not in srcuri and "git://" not in srcuri:
-+        return "Invalid"
-     return bb.fetch2.get_srcrev(d)
- 
- # Override SRCPV to make sure it imports the fetcher first
--- 
-2.35.1
+Point is: currently deb is documented as a feasible package format to=20
+generate a repo. But it really is not without these signing patches. So=20
+we could either deprecate deb's (no, no please don't) or fix it.
 
+These patches fix it. With or without automated testing, it is already=20
+better then the current situation.
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+--------------YdDa4ci10k4RxpwDjCL6hb7l
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><font face=3D"Noto Sans">Hi,</font><br>
+    </p>
+    <div class=3D"moz-cite-prefix">Op 24-03-2022 om 09:12 schreef Richard
+      Purdie:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
+n.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">On Wed, 2022-03-23 at 19:34 =
++0100, Ferry Toth wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">Hi Richard,
+
+I forgot to add a cover letter, sorry for that. The 2 patches=C2=A0 toget=
+her=20
+implement DEB repository signing.
+
+This is necessary since Gatesgarth |apt| (1.8.2) has become more strict=20
+and doesn=E2=80=99t allow unsigned repositories by default.
+
+It is possible to override this behavior |but||| is more work then to=20
+enable signed DEB repositories. These patches makes DEB a first class=20
+citizen as IPK and RPM.
+
+Patches have been in use in meta-intel-edison since Gatesgarth, see=20
+<a class=3D"moz-txt-link-freetext" href=3D"https://edison-fw.github.io/me=
+ta-intel-edison/5.0-Creating-a-deb-repository.html\">https://edison-fw.gi=
+thub.io/meta-intel-edison/5.0-Creating-a-deb-repository.html\</a>
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+What puzzles me is that we can build root filesystems using apt, we test =
+this on
+the autobuilder. Saying repositories are broken since gatesgarth therefor=
+e seems
+confusing in the commit message.
+</pre>
+    </blockquote>
+    <p>Good question. When I (meta-intel-edison) build the rootfs using
+      DEB's it just works.</p>
+    <p>Could it be that during rootfs build dpkg is used and not apt? I
+      think I have seen that in the logs.</p>
+    <p>Of course apt uses dpkg to install a package as well, but it
+      refuses to download the package from a repo when it's not signed.
+      <br>
+    </p>
+    <blockquote type=3D"cite"
+cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
+n.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+I guess we must configure apt to override that during the rootfs process =
+and
+likely an end user with a remote feed could do the same, possibly with a =
+warning
+from apt?
+</pre>
+    </blockquote>
+    I believe there is no issue during rootfs generation.<br>
+    <blockquote type=3D"cite"
+cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
+n.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+I'm also worried that there isn't any automated testing of this change. T=
+he
+reason I worry is that since we don't show any testing failures right now=
+, there
+is clearly a hole in our automated testing coverage and there is no guara=
+ntee
+that this feature will keep working. It is these smaller corner case issu=
+es
+which tend to make or break the project's experience as if a feature is p=
+resent,
+people expect it to work. Can we improve the testing situation?
+</pre>
+    </blockquote>
+    <p>It doesn't seem to be a particularly volatile area in the code. I
+      refreshed Xavier's patches for Gatesgarth, and am actively using
+      unchanged patch on Honisiter.</p>
+    <p>I don't know how the automated testing is working but I guess for
+      RPM a repo is generated using a small layer? And then tested on a
+      qemu running the rootfs?</p>
+    <p>Should be almost same for deb/apt, maybe could be modified from
+      rpm test?</p>
+    <p>Point is: currently deb is documented as a feasible package
+      format to generate a repo. But it really is not without these
+      signing patches. So we could either deprecate deb's (no, no please
+      don't) or fix it.</p>
+    <p>These patches fix it. With or without automated testing, it is
+      already better then the current situation.<br>
+    </p>
+    <blockquote type=3D"cite"
+cite=3D"mid:e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundatio=
+n.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+Cheers,
+
+Richard
+
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------YdDa4ci10k4RxpwDjCL6hb7l--
 
