@@ -1,90 +1,99 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4419AC433EF
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 16:24:01 +0000 (UTC)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [85.220.165.71])
- by mx.groups.io with SMTP id smtpd.web12.13149.1648139038952870683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB00C433F5
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 17:37:29 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.14307.1648143448239595189
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 09:24:00 -0700
+ Thu, 24 Mar 2022 10:37:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: afa@pengutronix.de)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-	by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <afa@pengutronix.de>)
-	id 1nXQFg-0001af-7u; Thu, 24 Mar 2022 17:23:56 +0100
-Received: from afa by dude.hi.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <afa@pengutronix.de>)
-	id 1nXQFf-00BZyt-7A; Thu, 24 Mar 2022 17:23:55 +0100
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ja1s6eeV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id u16so7668905wru.4
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 24 Mar 2022 10:37:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H92pQkF8/ELs5woHFxisLrs8nCRDLTgCZ5DnSNECEBQ=;
+        b=Ja1s6eeV7ZSUqZpMGCxJhx+0vWyUYQRrkCMl3yALeh11EX2V1sJzDTrfyHFfiHVH1x
+         ivI9Ez9E357mkR384gKqNCyqTQRmsFXHP6PprVi0rdfumya3O7Ltmx5yDAelf5MrGyTY
+         l/N23EsVtIsaWEfNij+mFvl33ENpeSsB/5U3w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H92pQkF8/ELs5woHFxisLrs8nCRDLTgCZ5DnSNECEBQ=;
+        b=ZuoaqaRp/fZ2EUPhJWm+aillcAu2Y5EKjkq0QYONp4R76v9BP/cfDJkQ3qr5QdtuF7
+         UipXLbcjdJgQUGLGNZSQNYd1lrJ/pj7/6XVZDfohoaxkYOaGOuHdjksSRXyfDEcEyYw9
+         DgJWuEtJRrBNsxitOoLwpaRhwZsfgf8K4zSOE6qoi75+GqnhudhVVgLLaBM4uZfvzHmx
+         P0Ms+WglRaxEs3LBBd+tv5Wg5lL/xRO8NWyWoJgiytHpKIxzwJ1Fhw/14Jf8QVSB+L1D
+         1Qqg/8Js7jaJauALz6xK3Tg14JsP1qMn0JJCVyXoaxQfr0rZPY6TXu0lrH7jRH5/aTrN
+         i7lw==
+X-Gm-Message-State: AOAM532th5B0c0/QmKjn5U/7BeXn0sbZUvcVVEpglYjOvjMzpPW8PQm6
+	KaCgRxTqOYzuNwTbCOWa94neTdcwnMHYQTyQ
+X-Google-Smtp-Source: 
+ ABdhPJzywLxk2R+kZyWyYfEQlKYaxEPL575y4V78cVAcw+kwByr7iJtNecwbN1kFOGVDQ2OthiLl+w==
+X-Received: by 2002:a5d:424d:0:b0:204:7fc:d6c6 with SMTP id
+ s13-20020a5d424d000000b0020407fcd6c6mr5372221wrr.291.1648143446349;
+        Thu, 24 Mar 2022 10:37:26 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:468a:3ed0:d59:9804])
+        by smtp.gmail.com with ESMTPSA id
+ bj26-20020a0560001e1a00b0020597757ebcsm2056790wrb.7.2022.03.24.10.37.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 10:37:25 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Olbrich <m.olbrich@pengutronix.de>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [OE-core][PATCH] kernel.bbclass: avoid config changes based on the
- availability of pahole
-Date: Thu, 24 Mar 2022 17:23:51 +0100
-Message-Id: <20220324162351.2759862-1-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH] oeqa/selftest/tinfoil: Fix intermittent event loss issue in
+ test
+Date: Thu, 24 Mar 2022 17:37:25 +0000
+Message-Id: <20220324173725.1325265-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 16:24:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 17:37:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163619
+ https://lists.openembedded.org/g/openembedded-core/message/163620
 
-From: Michael Olbrich <m.olbrich@pengutronix.de>
+We've been seeing occasional test failures on the autobuilder where
+we don't see the expected events. It turns out this is due to
+run_command being helpful and eating them if the server is fast and
+the client slow. Adding a sleep into the run_command code makes the
+failure consistent.
 
-CONFIG_PAHOLE_HAS_SPLIT_BTF shows up in the config only when pahole is
-installed on the host system. As a result, the config changes depending on
-whether pahole is installed or not.
+Use a new "handle_events" argument to allow us to handle all the
+events which is what this test requires.
 
-Set PAHOLE=false to ensure that it is never found.
+[YOCTO #14585]
 
-If this is actually needed in the future, then we can add an option for
-it and create a host package for pahole.
-
-Signed-off-by: Michael Olbrich <m.olbrich@pengutronix.de>
-[afa: ported from PTXdist 0c0cec2288 to OE-core]
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 4f304eb9c7ae..b3bbd3b27684 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -234,7 +234,7 @@ UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
- KERNEL_EXTRA_ARGS ?= ""
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index 63ceddf118a..6f26af23d54 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -94,7 +94,7 @@ class TinfoilTests(OESelftestTestCase):
+                 pass
  
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
--EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}""
-+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}" PAHOLE=false"
+             pattern = 'conf'
+-            res = tinfoil.run_command('testCookerCommandEvent', pattern)
++            res = tinfoil.run_command('testCookerCommandEvent', pattern, handle_events=False)
+             self.assertTrue(res)
  
- KERNEL_ALT_IMAGETYPE ??= ""
- 
-@@ -639,7 +639,7 @@ addtask savedefconfig after do_configure
- 
- inherit cml1
- 
--KCONFIG_CONFIG_COMMAND:append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-+KCONFIG_CONFIG_COMMAND:append = " PAHOLE=false LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
- 
- EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs do_install do_configure
- 
+             eventreceived = False
 -- 
-2.30.2
+2.32.0
 
 
