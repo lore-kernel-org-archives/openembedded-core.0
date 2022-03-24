@@ -1,110 +1,153 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C39C8C433F5
-	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 13:44:18 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.10911.1648129457438503028
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2977C433EF
+	for <webhook@archiver.kernel.org>; Thu, 24 Mar 2022 14:05:01 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.11289.1648130700083200948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 06:44:17 -0700
+ Thu, 24 Mar 2022 07:05:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=axE4R50+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id w4so6681569wrg.12
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=S7DJ786C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f50.google.com with SMTP id u26so5717169eda.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Mar 2022 06:44:17 -0700 (PDT)
+ Thu, 24 Mar 2022 07:04:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2zF6PvrBm/HkoaWdlyvYZ43ywFlKmW04TscrsDFXimc=;
-        b=axE4R50+eUt3sS7PPXjxDa5+Nx2m9g7kImnLbDtzOZ8KKkEi4XcvwCtYVGiL7o2ZT5
-         fkoWeDtkmS2pVFIcDQhVrSxSe0xHn+kGIZsryvq8hXCVZlYe4UYEpIwXy9Q+dsaCNbnE
-         UKLw7LhPjh6k5m00+gh/2kL+3AfFXPCDDOaw4=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rTlfwRIVLeI/dUyLJ2rbJ9PutEvYppMrhFxfa/6Xqfc=;
+        b=S7DJ786CbF4qw5ZzoLhoccauCL2sQsOuk4stYFCXWdVcfI8L4+PFZT/5KWgufUqF5F
+         odkmDVd7snedSaDqjl+cJRXHavD2SjoQ8TTJ5tvyRS0Cjb7nqRdgAzoM/Qa5GOwySfil
+         ej1WStd3DzT4QTOLOxEXWoBgwThjO4z2g2hIynQEUgCkMwbZu0mBuKJahdl5fXlGj70Q
+         Nug6dxRhYNr8NolsEEGPj5x22tCcCv+2MjbRM0WLn+BfGcnC3elnw6YykgHTyUgqeZk4
+         vFOY/EijQJm2jPndC71LAMk3J0nqGRDCiJ6D5au1oM9gzmtN/DSBpnIkETJFTGhY175B
+         EM/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2zF6PvrBm/HkoaWdlyvYZ43ywFlKmW04TscrsDFXimc=;
-        b=3rJdkGrh+G8VG6Ccah3+DDQ8LuEOVeQNhlv26n18YBzufBQqenQU+ZI+10mNHTe3p0
-         gOmV1tDkTvp0eMd8SQrP0UxDKgXVP0Ce2guCUPhjIPTMUQrpPqfzEj6s27Hs+opZ8EFs
-         DYOcsJTVU5zXtDK4LKyEfGDkyGSaWwKvm8SlcGJgKZ6zurKvzj8OOE9cDkuCCxurz0W9
-         EAzASs0+NVuFmmPgC9mUZ0It9DGQTkJhGoJq8pySoJz5ccvzMiBkqg+GpsYXj91H2BLs
-         Mj7aewJ7FZb7nL8wY2wNlTQFUCD6MAWqcG46S2N47d6mTyiAmzA9gX38plsRz6PqPvso
-         /Fkw==
-X-Gm-Message-State: AOAM530nvY8jIkW6+I0YxtLcapoTix5buoSoZrDn/EzMUtfN/MhnoIS8
-	h0jp+pW8qOXkFzXtKe28w1LU3baGyS25kLCE
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rTlfwRIVLeI/dUyLJ2rbJ9PutEvYppMrhFxfa/6Xqfc=;
+        b=BlMV5qDZEynZXgl4SYQz095jdgUsDm7Pe4yBZLzFurGmTSQHBtRIRN3gCeC26OsEan
+         EBpUtYnFr8Cgz1VJ4gzBFkKsU3uIECkQ9cef/69DmP5kFEfwBUXb65n/DDwIyJaU23eT
+         Xes4fiuhVH0OOB12zsdJrPvWPTg2B3KZS1BwD/QMHaHH0qFo5BuHKuLC/wAoBx48Fkj0
+         MrErwQ0qBE4hIULNFTdpekpz4JBbAbIDobQyHfhDBUgm9RJu5EmPxufP8yy/GUqCXlIX
+         OflkB2AwmmM4J7risxFMle5MC2N2D0It3E/3W8IRDrECYr2vJmKOg5f8CZl4QmnPqyg3
+         bhyA==
+X-Gm-Message-State: AOAM533kEKv/jgd3ZeBlpKptDr2PrOxVvS+R8OxzFNmRVqUyydNWa5Sd
+	DMdhKoVkXMraa2T4TN1XI+bIG4LYsJpUd553VWGZdw==
 X-Google-Smtp-Source: 
- ABdhPJxlWBZL5ibErCZRy1BmK3FH/kP8rwwi/nXd2SbrAlICSmuMIF2bjs4/KCsNrC/OBjJzPMjiIw==
-X-Received: by 2002:adf:ebc3:0:b0:203:da35:a9c1 with SMTP id
- v3-20020adfebc3000000b00203da35a9c1mr4933675wrn.610.1648129455459;
-        Thu, 24 Mar 2022 06:44:15 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:468a:3ed0:d59:9804])
-        by smtp.gmail.com with ESMTPSA id
- j5-20020a05600c1c0500b0038ca4fdf7a5sm9300639wms.9.2022.03.24.06.44.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 06:44:14 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perl: Add missing RDEPENDS
-Date: Thu, 24 Mar 2022 13:44:14 +0000
-Message-Id: <20220324134414.1319764-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ ABdhPJzZRTxlyby6aQKwhLQ7iUOLyOTLWUAqbXlvdpQ3JMoXAjDHbk8tTJRSx4+buEEYvH90YymOdNbHJydrnah1F3U=
+X-Received: by 2002:a05:6402:b15:b0:419:fb4:e2e4 with SMTP id
+ bm21-20020a0564020b1500b004190fb4e2e4mr6818314edb.147.1648130698416; Thu, 24
+ Mar 2022 07:04:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <20220323085009.11573-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+ <Yjs+RGCl6mjOAoSN@piout.net>
+ <784707888.393251.1648115097590.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: 
+ <784707888.393251.1648115097590.JavaMail.zimbra@savoirfairelinux.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 24 Mar 2022 04:04:47 -1000
+Message-ID: 
+ <CAOSpxdZsNW2ka9FUZbDqmroF4APmfaQUhqV7fTaEg_H85k9Z0g@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] mobile-broadband-provider-info: update branch
+ name
+To: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 13:44:18 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Mar 2022 14:05:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163611
+ https://lists.openembedded.org/g/openembedded-core/message/163612
 
-This allows quilt-ptest to work in an otherwise bare image. Without
-this there are broken modules.
+On Wed, Mar 23, 2022 at 11:45 PM Enguerrand de Ribaucourt
+<enguerrand.de-ribaucourt@savoirfairelinux.com> wrote:
+>
+> ----- Original Message -----
+> > From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+> > To: "Enguerrand de Ribaucourt" <enguerrand.de-ribaucourt@savoirfairelinux.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Sent: Wednesday, March 23, 2022 4:35:32 PM
+> > Subject: Re: [OE-core][PATCH] mobile-broadband-provider-info: update branch name
+>
+> > Hello Enguerrand,
+>
+> > This was already fixed in master in:
+> > https://git.openembedded.org/openembedded-core/commit/?id=ed02ee8f20094f598448d58875cb7be8a24a019f
+>
+> > Is this for another branch?
+>
+> Hello Alexandre,
+>
+> Yes, this patch is for honister. The issue is also yet unfixed in the dunfell branch.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/perl/files/perl-rdepends.txt | 4 ++++
- meta/recipes-devtools/perl/perl_5.34.1.bb          | 4 ++++
- 2 files changed, 8 insertions(+)
+Also fixed in dunfell:
 
-diff --git a/meta/recipes-devtools/perl/files/perl-rdepends.txt b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-index 3415f32ab1f..74c24c3bb50 100644
---- a/meta/recipes-devtools/perl/files/perl-rdepends.txt
-+++ b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-@@ -1,7 +1,11 @@
- 
- # Some additional dependencies that the above doesn't manage to figure out
- RDEPENDS:perl-module-file-spec += "perl-module-file-spec-unix"
-+RDEPENDS:perl-module-scalar-util += "perl-module-list-util"
-+RDEPENDS:perl-module-file-temp += "perl-module-scalar-util"
-+RDEPENDS:perl-module-file-temp += "perl-module-file-spec"
- RDEPENDS:perl-module-io-file += "perl-module-symbol"
-+RDEPENDS:perl-module-io-file += "perl-module-carp"
- RDEPENDS:perl-module-math-bigint += "perl-module-math-bigint-calc"
- RDEPENDS:perl-module-test-builder += "perl-module-list-util"
- RDEPENDS:perl-module-test-builder += "perl-module-scalar-util"
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.1.bb
-index 608a42189bc..0e9d0c032eb 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
-@@ -355,7 +355,11 @@ do_create_rdepends_inc() {
- 
- # Some additional dependencies that the above doesn't manage to figure out
- RDEPENDS:${PN}-module-file-spec += "${PN}-module-file-spec-unix"
-+RDEPENDS:${PN}-module-scalar-util += "${PN}-module-list-util"
-+RDEPENDS:${PN}-module-file-temp += "${PN}-module-scalar-util"
-+RDEPENDS:${PN}-module-file-temp += "${PN}-module-file-spec"
- RDEPENDS:${PN}-module-io-file += "${PN}-module-symbol"
-+RDEPENDS:${PN}-module-io-file += "${PN}-module-carp"
- RDEPENDS:${PN}-module-math-bigint += "${PN}-module-math-bigint-calc"
- RDEPENDS:${PN}-module-test-builder += "${PN}-module-list-util"
- RDEPENDS:${PN}-module-test-builder += "${PN}-module-scalar-util"
--- 
-2.32.0
+https://git.yoctoproject.org/poky/commit/?h=dunfell&id=08b8cd174d823eeccb1a505ac68e753f5eb4a43e
 
+Steve
+
+>
+> Thank you for your time.
+>
+> > On 23/03/2022 09:50:10+0100, Enguerrand de Ribaucourt wrote:
+> > > The master branch was renamed main, resulting in do_fetch failure.
+> > > This patch updates SRC_URI with the new branch name.
+>
+> >> Signed-off-by: Enguerrand de Ribaucourt
+> > > <enguerrand.de-ribaucourt@savoirfairelinux.com>
+> > > ---
+> > > .../mobile-broadband-provider-info_git.bb | 2 +-
+> > > 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> >> diff --git
+> >> a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> > > b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> > > index 4246f4dcbd..3b170f4fdd 100644
+> >> ---
+> > > a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> >> +++
+> > > b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+> > > @@ -8,7 +8,7 @@ SRCREV = "11f2247eccd3c161b8fd9b41143862e9fb81193c"
+> > > PV = "20210805"
+> > > PE = "1"
+>
+> >> -SRC_URI =
+> > > "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=master"
+> >> +SRC_URI =
+> > > "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
+> > > S = "${WORKDIR}/git"
+>
+> > > inherit autotools
+> > > --
+> > > 2.25.1
+>
+>
+>
+> > >
+>
+>
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163602): https://lists.openembedded.org/g/openembedded-core/message/163602
+> Mute This Topic: https://lists.openembedded.org/mt/89971498/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
