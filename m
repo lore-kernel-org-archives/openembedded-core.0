@@ -1,115 +1,107 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB622C433F5
-	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 18:40:47 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.526.1648233641892488686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C70A1C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 19:00:51 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.852.1648234850143781267
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:40:42 -0700
+ Fri, 25 Mar 2022 12:00:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SDvH+v37;
- spf=pass (domain: gmail.com, ip: 209.85.128.53,
- mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id
- p26-20020a05600c1d9a00b0038ccbff1951so3234738wms.1
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=OEFTYqAdLPPimwA2Dbt0aVHaUbNsIGNXBeyYMDlrnJc=;
-        b=SDvH+v37fTdt3v8w0uWc5L04ynEyWZx1Cnbn6ckMNHf9J/Ejw/qib3C4RCHGTMwlTN
-         j2hlQ6JT8WqoyE8at693/NYStXeOFC7gw7xxo8bZE4h+Ccrqs8XcYaNa+hV91zadqsik
-         CC++q1iFNiFST6gKnd+J9mLfNmuP5KcuG7wGM/W08XkW7uRBlebUfHaxqQFvABzl7vRu
-         ZoKQMik5aAt2SZRFQS1jR2JdihRfluKHN/xo7lCNF1pDjPrKnPUB4QpehFdVF+Xka3nz
-         T8li92ir6V7mJSfmDfQOJ4ubgclpYv3azZiXwhj+xUSpliPdLYwRr0Lt+3HYwEqg+him
-         n+6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OEFTYqAdLPPimwA2Dbt0aVHaUbNsIGNXBeyYMDlrnJc=;
-        b=xLBPtKzAIi6UphkVhCveqVkbZZ4QtIjHQxdTYO5D2ejTWSCIJSFC5cmdrj7qapp8P1
-         2txEB6EYew0KyrHtZ12o6lET0UhlJ1YcJAg/tgImTZ2iUJtWqtROnJN1TEFamGqZqFHJ
-         pSG8EWEK/5RfLUs8lnxHuM0qzqR7DTv47qMn3We4a/CYhODdX/XoCLZHU0QEJE0YmMDD
-         TatczftHN7p8bLOKaF3mCCCSg+mEOrwU2pLOp9MO6up1KPTRsF8faoN0tN/SI1rCWD9d
-         9btgd63pLJUFBLAWJf1kAxwIFkSqXrZiR4EB5kAdHJQqTfO/zE/6G6/Kmc0eD3+NIV2v
-         7UYg==
-X-Gm-Message-State: AOAM533L0phdEw2XRAL3Bho3i77cXJ/XxdawNA9HEJu7YLqOgeKb/EZ7
-	P8RW43EJz1Wh61Ijc6XLuxD/Gur+dK0=
-X-Google-Smtp-Source: 
- ABdhPJxuR/QkTWzAeEw4sNdp5kZQZNjYVNrcB+8lSeNUk0Ku2HiIfUQmKEHSKHD125ktC/cOe7OqKg==
-X-Received: by 2002:a05:600c:500e:b0:38c:6d79:d5ac with SMTP id
- n14-20020a05600c500e00b0038c6d79d5acmr21458575wmr.42.1648233639979;
-        Fri, 25 Mar 2022 11:40:39 -0700 (PDT)
-Received: from localhost ([2a01:4b00:f41a:3600:360b:9754:2e3a:c344])
-        by smtp.gmail.com with ESMTPSA id
- q8-20020a056000136800b00203e740c7desm5718101wrz.71.2022.03.25.11.40.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Mar 2022 11:40:39 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] mount-copybind: add MOUNT_COPYBIND_AVOID_OVERLAYFS env
- var to skip OverlayFS
-Date: Fri, 25 Mar 2022 18:40:32 +0000
-Message-Id: <20220325184032.1880706-2-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220325184032.1880706-1-luca.boccassi@gmail.com>
-References: <20220325184032.1880706-1-luca.boccassi@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=djbjgH42;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6E08940006;
+	Fri, 25 Mar 2022 19:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1648234846;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ns4JcpOcyTXe51rore87GOmGf3HGuXAPWW5oOYQ9IR0=;
+	b=djbjgH424d7wcY98UvboruV4ZEGiHeBTgM89M95PMkMo1FMsINrkGvLdvkq4GbfeHv0JEH
+	+lY4hhkeW/GTFopKlPOA1PyyVlCAbhoR2idg5uSzwuBOtIcQJBYyd9IFsD/aEPTiPtTJn6
+	AVm82/3KXyjPf1hWDoSGt/j/xETlt/ifLvlVEtFpq6Nw+iVy3hOhoThNYbsDqUomUj23Fh
+	7MWgCSw64xzZKNqzp/VnIUbSVUg6hoAGFoXKgrNXQXsStjdAGy3f17kbAFKNGsW6W/hUpD
+	f8Krg0WO4cF1G7+Kzx9TVjQ3ms0wKpzQ++isg4ZRJvXSNKW8aHtUmIzuP40BsQ==
+Date: Fri, 25 Mar 2022 20:00:45 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: Re: [OE-core] [PATCH v2] zstd: add zstd-bin package
+Message-ID: <Yj4RXR9b4ufCt+t4@piout.net>
+References: <20220325122950.1148-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: 
+ <20220325122950.1148-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 18:40:47 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 19:00:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163650
+ https://lists.openembedded.org/g/openembedded-core/message/163651
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+Hello,
 
-In some cases we don't want to even attempt to set up OverlayFS, for
-example because SELinux in enforcing mode would kill the process
-attempting to use the mount. See:
+On 25/03/2022 13:29:50+0100, Stefan Herbrechtsmeier wrote:
+> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> 
+> Add a zstd-bin package to remove libstdc++ runtime dependency from
+> library users and reduce the dependencies and size of the library
+> package.
+> 
+> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> 
 
-https://lore.kernel.org/all/CA+FmFJBDwt52Z-dVGfuUcnRMiMtGPhK4cCQJ=J_fg0r3x-b6ng@mail.gmail.com/T/#mef98aa406324096d1889d3d467251f30456f403c
+I believe this is the cause of:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/4954/steps/11/logs/stdio
 
-If MOUNT_COPYBIND_AVOID_OVERLAYFS=1 is set, skip directly to copy and
-bind mount.
+Can you check?
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-core/volatile-binds/files/mount-copybind | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> ---
+> 
+> Changes in v2:
+> - Add zstd-bin package instead of libzstd package
+> 
+>  meta/recipes-extended/zstd/zstd_1.5.2.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-extended/zstd/zstd_1.5.2.bb b/meta/recipes-extended/zstd/zstd_1.5.2.bb
+> index 0ddff469b8..2fdb9b6950 100644
+> --- a/meta/recipes-extended/zstd/zstd_1.5.2.bb
+> +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
+> @@ -18,6 +18,8 @@ CVE_PRODUCT = "zstandard"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> +inherit lib_package
+> +
+>  PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[lz4] = "HAVE_LZ4=1,HAVE_LZ4=0,lz4"
+>  PACKAGECONFIG[lzma] = "HAVE_LZMA=1,HAVE_LZMA=0,xz"
+> -- 
+> 2.30.2
+> 
 
-diff --git a/meta/recipes-core/volatile-binds/files/mount-copybind b/meta/recipes-core/volatile-binds/files/mount-copybind
-index 8bbb406b3a..ddc4357615 100755
---- a/meta/recipes-core/volatile-binds/files/mount-copybind
-+++ b/meta/recipes-core/volatile-binds/files/mount-copybind
-@@ -2,6 +2,9 @@
- #
- # Perform a bind mount, copying existing files as we do so to ensure the
- # overlaid path has the necessary content.
-+# If the target is a directory and overlayfs is available (and the environment
-+# variable MOUNT_COPYBIND_AVOID_OVERLAYFS=1 is not set), then an overlay mount
-+# will be attempted first.
- 
- if [ $# -lt 2 ]; then
-     echo >&2 "Usage: $0 spec mountpoint [OPTIONS]"
-@@ -51,7 +54,7 @@ if [ -d "$mountpoint" ]; then
-             mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
-         fi
-     fi
--    if ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
-+    if [ "$MOUNT_COPYBIND_AVOID_OVERLAYFS" = 1 ] || ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
- 
-         if [ "$specdir_existed" != "yes" ]; then
-             cp -aPR "$mountpoint"/. "$spec/"
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163639): https://lists.openembedded.org/g/openembedded-core/message/163639
+> Mute This Topic: https://lists.openembedded.org/mt/90021107/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
