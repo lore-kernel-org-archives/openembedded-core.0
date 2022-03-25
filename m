@@ -1,150 +1,104 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FAC9C433EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 18:08:37 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.107.1648231711156801454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C47FAC433EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 18:40:41 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.525.1648233640288767185
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:08:35 -0700
+ Fri, 25 Mar 2022 11:40:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=w9zPp3/0;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.49,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f49.google.com with SMTP id yy13so16937275ejb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AzPcC3FW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id j18so11998949wrd.6
         for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:08:30 -0700 (PDT)
+ Fri, 25 Mar 2022 11:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xefeH7PRy0EavhU7gX38vWRd5SrUtNIsflRmhuddcB0=;
-        b=w9zPp3/0T5ZWcpY405zrWuLBDQSaKlfY2s8F5pKBwy/okptGmBMZOAFLLonThPRZ3v
-         lkNlRJyUljIGKU21SDiQKsR00Ef9Ra/Of/I5L+Id0RQCIXhH5wg7guLq1ZqJ2ANbkPYR
-         DKRsw9gudIUHFawg3Dwb44li2prC0zMvjR7uVUdbW9qqKm/AQnSNX61F6T/ClZhvZJYn
-         dMn4WvYmu+cXGRq8eHke4q+cYcK581RB4J9uVS4kkruzfKoPzVTlzsJbXRZsqkpeOj/d
-         Dfxhd7WsaSmHfGiZjU0T2VMTtex8PUPTv85WtwlpSMexcvqNhS8g7PRs1fzYDMdEKAyu
-         YJUQ==
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BtpXE/UhnAudEJ4ftYPuBIB4TKxgGNJnhMyPIEJbM2M=;
+        b=AzPcC3FWv9yy6PyCuwlFl3iT8lNvXPLp3vZNGQoTIcJPwqEQlGsnbNLWagDsKkk8J6
+         7eCAXf0Etnr+PeURbX9aUewI3phVNFXqMGE8aqr8dsQP0J2R3i6MeTPKbVXAqlWhanK5
+         ThYzDw/ojT2B7cE6mRPusXSPxI49VD2NBVhXq6Mo4FDTZ03bws2Bmh1ocuN0QunR3btA
+         JFBu0gP8XqpjNERgPry/vb9gWOAUR3TLvP1RAOD3PdgEHjQnqFH6pX1CoMBoPd2q2A5o
+         J2AGjuJaiHFEm+VCfER1wTH1CA4bnQ752gza8hM8FJ+qGWIz8v6nrVp8jzlzsCUTwUq2
+         0YAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xefeH7PRy0EavhU7gX38vWRd5SrUtNIsflRmhuddcB0=;
-        b=d8DRJgOG4j7CUf9TIq9XI6BKiv/4rvVbO75yFaChG1Ok67wytfcVgqwaLOq54rRuR3
-         Mrk0J1HDpOjHlQZZKa+W7u4bt+USIHatOe12RjIotVF8Q4SA9NcNDJXmuLW5MJH4kIpW
-         IJfslGeGsK+MSs/MpL+qoTIb/F8nBu5+/vz+784cJLimz9b9NjhatYnHwn5JrkeDlTml
-         OAiAfvbGOM3SEkUOHbXp908f+4R+DRyoXp5bGL87vXtcKFlIvboMzOAFWrKFXL+a7d2V
-         XPP6HdcvyM0EXLsFbIV7NSQsUrpzVyCyLiY+3yuRKa1M+enJd/YJJs72m3vs+kgX1+g9
-         554g==
-X-Gm-Message-State: AOAM5318Li2jX0rkHD2sbHTivXmjYdqeGotQLCzcApkrsrKsyPt/a0DG
-	maeJYP/6JZta6mD3NvbmMv0ErUwTJqpFKylPAzsPMA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BtpXE/UhnAudEJ4ftYPuBIB4TKxgGNJnhMyPIEJbM2M=;
+        b=O3wacOC1HUgD+405oSU8PT/zZxH+A1zZRC37FZ0i/66sCDExts/+OuYzreRCXu27iq
+         oqjzbAW6idArQRaa4yyl/Qilvr0DpHi8+AYSE27e4ojF9tLzMZXD4g7XXtxc3pobL64g
+         Zfvb1eM5BgUfIVzMg8CAKPfUgsUASe8PjTQRmJVE6AUWc5FSfg4M4d5Hclgni246/j/j
+         btz0r/7aiEUEy5cZ2fsq0yNTTZFzpZBgqez0cDMAaWzD2/tFhHziFs+hkMLJjcN1wZGI
+         QOijzz33KeIWepekH4fC8oWL+URFwVfLYf6ayg16kcSueeN+1CO9JlWX6DhClbC+6ggS
+         gzfQ==
+X-Gm-Message-State: AOAM530ZsY4AelmxZpxowLGTBTzcpb6jCU6iFK+cAmudgpEwl+cs4Btp
+	CETN+hgB23sAqz13XVcVf1G448aXzeA=
 X-Google-Smtp-Source: 
- ABdhPJxP+Kw02HkSKdavOemEn3qrYwi7l6BimJVnw/QQFiaH3G+nLGOUBFi1Gbdav3hYmklbejsHj/166SJ82mf6U8o=
-X-Received: by 2002:a17:907:60d1:b0:6e0:22a8:e2e5 with SMTP id
- hv17-20020a17090760d100b006e022a8e2e5mr12720043ejc.612.1648231708497; Fri, 25
- Mar 2022 11:08:28 -0700 (PDT)
+ ABdhPJwjuE2lFsxGxnxUpDr1RWCf4Uk/FEF4SDJDlda4AnpY/UClXHIW+Z4Oxht6eWUM/YPhySz5GQ==
+X-Received: by 2002:a5d:5986:0:b0:205:87ae:9b08 with SMTP id
+ n6-20020a5d5986000000b0020587ae9b08mr10370910wri.652.1648233638315;
+        Fri, 25 Mar 2022 11:40:38 -0700 (PDT)
+Received: from localhost ([2a01:4b00:f41a:3600:360b:9754:2e3a:c344])
+        by smtp.gmail.com with ESMTPSA id
+ m18-20020a05600c4f5200b0038cf335720dsm450953wmq.43.2022.03.25.11.40.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Mar 2022 11:40:37 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] mount-copybind: fix shellcheck warning
+Date: Fri, 25 Mar 2022 18:40:31 +0000
+Message-Id: <20220325184032.1880706-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220323142411.1277228-1-richard.purdie@linuxfoundation.org>
- <CANPvuRmu=VTrkQmJvBU43jYJ-1N-XwP_sLTr-4UxL=q4W9YLQQ@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRmu=VTrkQmJvBU43jYJ-1N-XwP_sLTr-4UxL=q4W9YLQQ@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 25 Mar 2022 08:08:17 -1000
-Message-ID: 
- <CAOSpxdb+rZqeZF=cBCAK3ivvw34_EqJwRWMgnaZcpKA-w+-uPw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sanity: Add warning for local hasheqiv server
- with remote sstate mirrors
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 18:08:37 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 18:40:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163648
+ https://lists.openembedded.org/g/openembedded-core/message/163649
 
-On Fri, Mar 25, 2022 at 7:53 AM Jose Quaresma <quaresma.jose@gmail.com> wro=
-te:
->
-> Hi Steve,
->
-> I see this patch on dunfell-nut but afaik dunfell don't support upstream =
-hash equivalence server
-> https://git.yoctoproject.org/poky-contrib/commit/?h=3Dstable/dunfell-nut&=
-id=3D1d33ad9c8ea2388f51ff00ba3a3442f15f29e663
+From: Luca Boccassi <bluca@debian.org>
 
-Yes, a moment of temporary insanity :-)
+$ shellcheck meta/recipes-core/volatile-binds/files/mount-copybind
 
-If you look again you'll see it's gone.  The stable/dunfell-nut branch
-is not to be trusted, it gets changed and rebased multiple times per
-day.
+In meta/recipes-core/volatile-binds/files/mount-copybind line 54:
+            mountcontext=",rootcontext=$(matchpathcon -n $mountpoint)"
+                                                         ^---------^ SC2086: Double quote to prevent globbing and word splitting.
 
-Once I send patches to the list for review, stable/dunfell-next can be
-trusted a bit more, but even that occasionally gets rebased if there
-is some last minute feedback before I send the pull request.
+Did you mean:
+            mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
 
-Steve
+For more information:
+  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
 
-> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quart=
-a, 23/03/2022 =C3=A0(s) 14:24:
->>
->> We're seeing a lot of users configuring an sstate mirror but not realisi=
-ng that
->> the default hash equivalenve setting will make this ineffective. Add a w=
-arning
->> to highlight this to the user for the common case.
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>  meta/classes/sanity.bbclass | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index 92807dc88e9..be956fbcd6c 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -914,6 +914,11 @@ def check_sanity_everybuild(status, d):
->>                      mirror_base =3D urllib.parse.urlparse(mirror[:-1*le=
-n('/PATH')]).path
->>                      check_symlink(mirror_base, d)
->>
->> +    # Check sstate mirrors aren't being used with a local hash server a=
-nd no remote
->> +    hashserv =3D d.getVar("BB_HASHSERVE")
->> +    if d.getVar("SSTATE_MIRRORS") and hashserv and hashserv.startswith(=
-"unix://") and not d.getVar("BB_HASHSERVE_UPSTREAM"):
->> +        bb.warn("You are using a local hash equivalence server but have=
- configured an sstate mirror. This will likely mean no sstate will match fr=
-om the mirror. You may wish to disable the hash equivalence use (BB_HASHSER=
-VE), or use a hash equivalence server alongside the sstate mirror.")
->> +
->>      # Check that TMPDIR hasn't changed location since the last time we =
-were run
->>      tmpdir =3D d.getVar('TMPDIR')
->>      checkfile =3D os.path.join(tmpdir, "saved_tmpdir")
->> --
->> 2.32.0
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#163584): https://lists.openembedded.org/g/openembedd=
-ed-core/message/163584
->> Mute This Topic: https://lists.openembedded.org/mt/89976515/5052612
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [q=
-uaresma.jose@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/volatile-binds/files/mount-copybind | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/volatile-binds/files/mount-copybind b/meta/recipes-core/volatile-binds/files/mount-copybind
+index aad022c6e4..8bbb406b3a 100755
+--- a/meta/recipes-core/volatile-binds/files/mount-copybind
++++ b/meta/recipes-core/volatile-binds/files/mount-copybind
+@@ -48,7 +48,7 @@ if [ -d "$mountpoint" ]; then
+     # If that fails, fall back to slower copy.
+     if command -v selinuxenabled > /dev/null 2>&1; then
+         if selinuxenabled; then
+-            mountcontext=",rootcontext=$(matchpathcon -n $mountpoint)"
++            mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
+         fi
+     fi
+     if ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
+-- 
+2.34.1
+
 
