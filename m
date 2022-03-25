@@ -2,102 +2,113 @@ Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C47FAC433EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 18:40:41 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.525.1648233640288767185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB622C433F5
+	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 18:40:47 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.526.1648233641892488686
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:40:40 -0700
+ Fri, 25 Mar 2022 11:40:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AzPcC3FW;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SDvH+v37;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53,
  mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id j18so11998949wrd.6
+Received: by mail-wm1-f53.google.com with SMTP id
+ p26-20020a05600c1d9a00b0038ccbff1951so3234738wms.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 11:40:40 -0700 (PDT)
+ Fri, 25 Mar 2022 11:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=BtpXE/UhnAudEJ4ftYPuBIB4TKxgGNJnhMyPIEJbM2M=;
-        b=AzPcC3FWv9yy6PyCuwlFl3iT8lNvXPLp3vZNGQoTIcJPwqEQlGsnbNLWagDsKkk8J6
-         7eCAXf0Etnr+PeURbX9aUewI3phVNFXqMGE8aqr8dsQP0J2R3i6MeTPKbVXAqlWhanK5
-         ThYzDw/ojT2B7cE6mRPusXSPxI49VD2NBVhXq6Mo4FDTZ03bws2Bmh1ocuN0QunR3btA
-         JFBu0gP8XqpjNERgPry/vb9gWOAUR3TLvP1RAOD3PdgEHjQnqFH6pX1CoMBoPd2q2A5o
-         J2AGjuJaiHFEm+VCfER1wTH1CA4bnQ752gza8hM8FJ+qGWIz8v6nrVp8jzlzsCUTwUq2
-         0YAA==
+        bh=OEFTYqAdLPPimwA2Dbt0aVHaUbNsIGNXBeyYMDlrnJc=;
+        b=SDvH+v37fTdt3v8w0uWc5L04ynEyWZx1Cnbn6ckMNHf9J/Ejw/qib3C4RCHGTMwlTN
+         j2hlQ6JT8WqoyE8at693/NYStXeOFC7gw7xxo8bZE4h+Ccrqs8XcYaNa+hV91zadqsik
+         CC++q1iFNiFST6gKnd+J9mLfNmuP5KcuG7wGM/W08XkW7uRBlebUfHaxqQFvABzl7vRu
+         ZoKQMik5aAt2SZRFQS1jR2JdihRfluKHN/xo7lCNF1pDjPrKnPUB4QpehFdVF+Xka3nz
+         T8li92ir6V7mJSfmDfQOJ4ubgclpYv3azZiXwhj+xUSpliPdLYwRr0Lt+3HYwEqg+him
+         n+6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BtpXE/UhnAudEJ4ftYPuBIB4TKxgGNJnhMyPIEJbM2M=;
-        b=O3wacOC1HUgD+405oSU8PT/zZxH+A1zZRC37FZ0i/66sCDExts/+OuYzreRCXu27iq
-         oqjzbAW6idArQRaa4yyl/Qilvr0DpHi8+AYSE27e4ojF9tLzMZXD4g7XXtxc3pobL64g
-         Zfvb1eM5BgUfIVzMg8CAKPfUgsUASe8PjTQRmJVE6AUWc5FSfg4M4d5Hclgni246/j/j
-         btz0r/7aiEUEy5cZ2fsq0yNTTZFzpZBgqez0cDMAaWzD2/tFhHziFs+hkMLJjcN1wZGI
-         QOijzz33KeIWepekH4fC8oWL+URFwVfLYf6ayg16kcSueeN+1CO9JlWX6DhClbC+6ggS
-         gzfQ==
-X-Gm-Message-State: AOAM530ZsY4AelmxZpxowLGTBTzcpb6jCU6iFK+cAmudgpEwl+cs4Btp
-	CETN+hgB23sAqz13XVcVf1G448aXzeA=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OEFTYqAdLPPimwA2Dbt0aVHaUbNsIGNXBeyYMDlrnJc=;
+        b=xLBPtKzAIi6UphkVhCveqVkbZZ4QtIjHQxdTYO5D2ejTWSCIJSFC5cmdrj7qapp8P1
+         2txEB6EYew0KyrHtZ12o6lET0UhlJ1YcJAg/tgImTZ2iUJtWqtROnJN1TEFamGqZqFHJ
+         pSG8EWEK/5RfLUs8lnxHuM0qzqR7DTv47qMn3We4a/CYhODdX/XoCLZHU0QEJE0YmMDD
+         TatczftHN7p8bLOKaF3mCCCSg+mEOrwU2pLOp9MO6up1KPTRsF8faoN0tN/SI1rCWD9d
+         9btgd63pLJUFBLAWJf1kAxwIFkSqXrZiR4EB5kAdHJQqTfO/zE/6G6/Kmc0eD3+NIV2v
+         7UYg==
+X-Gm-Message-State: AOAM533L0phdEw2XRAL3Bho3i77cXJ/XxdawNA9HEJu7YLqOgeKb/EZ7
+	P8RW43EJz1Wh61Ijc6XLuxD/Gur+dK0=
 X-Google-Smtp-Source: 
- ABdhPJwjuE2lFsxGxnxUpDr1RWCf4Uk/FEF4SDJDlda4AnpY/UClXHIW+Z4Oxht6eWUM/YPhySz5GQ==
-X-Received: by 2002:a5d:5986:0:b0:205:87ae:9b08 with SMTP id
- n6-20020a5d5986000000b0020587ae9b08mr10370910wri.652.1648233638315;
-        Fri, 25 Mar 2022 11:40:38 -0700 (PDT)
+ ABdhPJxuR/QkTWzAeEw4sNdp5kZQZNjYVNrcB+8lSeNUk0Ku2HiIfUQmKEHSKHD125ktC/cOe7OqKg==
+X-Received: by 2002:a05:600c:500e:b0:38c:6d79:d5ac with SMTP id
+ n14-20020a05600c500e00b0038c6d79d5acmr21458575wmr.42.1648233639979;
+        Fri, 25 Mar 2022 11:40:39 -0700 (PDT)
 Received: from localhost ([2a01:4b00:f41a:3600:360b:9754:2e3a:c344])
         by smtp.gmail.com with ESMTPSA id
- m18-20020a05600c4f5200b0038cf335720dsm450953wmq.43.2022.03.25.11.40.37
+ q8-20020a056000136800b00203e740c7desm5718101wrz.71.2022.03.25.11.40.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Mar 2022 11:40:37 -0700 (PDT)
+        Fri, 25 Mar 2022 11:40:39 -0700 (PDT)
 From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] mount-copybind: fix shellcheck warning
-Date: Fri, 25 Mar 2022 18:40:31 +0000
-Message-Id: <20220325184032.1880706-1-luca.boccassi@gmail.com>
+Subject: [PATCH 2/2] mount-copybind: add MOUNT_COPYBIND_AVOID_OVERLAYFS env
+ var to skip OverlayFS
+Date: Fri, 25 Mar 2022 18:40:32 +0000
+Message-Id: <20220325184032.1880706-2-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220325184032.1880706-1-luca.boccassi@gmail.com>
+References: <20220325184032.1880706-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 18:40:41 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 18:40:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163649
+ https://lists.openembedded.org/g/openembedded-core/message/163650
 
-From: Luca Boccassi <bluca@debian.org>
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-$ shellcheck meta/recipes-core/volatile-binds/files/mount-copybind
+In some cases we don't want to even attempt to set up OverlayFS, for
+example because SELinux in enforcing mode would kill the process
+attempting to use the mount. See:
 
-In meta/recipes-core/volatile-binds/files/mount-copybind line 54:
-            mountcontext=",rootcontext=$(matchpathcon -n $mountpoint)"
-                                                         ^---------^ SC2086: Double quote to prevent globbing and word splitting.
+https://lore.kernel.org/all/CA+FmFJBDwt52Z-dVGfuUcnRMiMtGPhK4cCQJ=J_fg0r3x-b6ng@mail.gmail.com/T/#mef98aa406324096d1889d3d467251f30456f403c
 
-Did you mean:
-            mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
-
-For more information:
-  https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+If MOUNT_COPYBIND_AVOID_OVERLAYFS=1 is set, skip directly to copy and
+bind mount.
 
 Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- meta/recipes-core/volatile-binds/files/mount-copybind | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/volatile-binds/files/mount-copybind | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/volatile-binds/files/mount-copybind b/meta/recipes-core/volatile-binds/files/mount-copybind
-index aad022c6e4..8bbb406b3a 100755
+index 8bbb406b3a..ddc4357615 100755
 --- a/meta/recipes-core/volatile-binds/files/mount-copybind
 +++ b/meta/recipes-core/volatile-binds/files/mount-copybind
-@@ -48,7 +48,7 @@ if [ -d "$mountpoint" ]; then
-     # If that fails, fall back to slower copy.
-     if command -v selinuxenabled > /dev/null 2>&1; then
-         if selinuxenabled; then
--            mountcontext=",rootcontext=$(matchpathcon -n $mountpoint)"
-+            mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
+@@ -2,6 +2,9 @@
+ #
+ # Perform a bind mount, copying existing files as we do so to ensure the
+ # overlaid path has the necessary content.
++# If the target is a directory and overlayfs is available (and the environment
++# variable MOUNT_COPYBIND_AVOID_OVERLAYFS=1 is not set), then an overlay mount
++# will be attempted first.
+ 
+ if [ $# -lt 2 ]; then
+     echo >&2 "Usage: $0 spec mountpoint [OPTIONS]"
+@@ -51,7 +54,7 @@ if [ -d "$mountpoint" ]; then
+             mountcontext=",rootcontext=$(matchpathcon -n "$mountpoint")"
          fi
      fi
-     if ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
+-    if ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
++    if [ "$MOUNT_COPYBIND_AVOID_OVERLAYFS" = 1 ] || ! mount -t overlay overlay -olowerdir="$mountpoint",upperdir="$spec",workdir="$overlay_workdir""$mountcontext" "$mountpoint" > /dev/null 2>&1; then
+ 
+         if [ "$specdir_existed" != "yes" ]; then
+             cp -aPR "$mountpoint"/. "$spec/"
 -- 
 2.34.1
 
