@@ -1,127 +1,149 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <fntoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77ACAC433EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 11:06:25 +0000 (UTC)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
- [209.85.221.180])
- by mx.groups.io with SMTP id smtpd.web09.3841.1648206384902861154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0AEC433EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Mar 2022 11:28:31 +0000 (UTC)
+Received: from radex-web.radex.nl (radex-web.radex.nl [178.250.146.7])
+ by mx.groups.io with SMTP id smtpd.web12.3995.1648207710600536905
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 04:06:25 -0700
+ Fri, 25 Mar 2022 04:28:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XAIeEMUu;
- spf=pass (domain: gmail.com, ip: 209.85.221.180,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f180.google.com with SMTP id p143so4043841vkf.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Mar 2022 04:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zX0Pu7ZpS76DpzHvexVoPmfdPrDcTECv+ntERobDAr8=;
-        b=XAIeEMUuCWltyyozndI2OKpgCQRtgWhzIP/7lXU45BD7zK4LvZGGJZ0RieCvDLGxgz
-         HyrWN0r9NYtU5HlSirnYRCkYnqAV3TIZYpNiGLyE92R5ceYqUrCZjBilIyXc5ceAi8Ss
-         kHMpl/kFFPtMRMU7MrN36z15vwcp4FhchD0Lc6+/pQ2JnnjkT5Ko16jhHnLoLW6rK3qM
-         AYLkJLzQyH6DLZJb6XOLUqOhqYZ2hKihptDoeKw/UW0kmmepEEltuZbVMh/yom5RNUGw
-         DkmUQZWgcdpHoRnXOfhH8kzaIZI4fi6lfUx/Ns0JGN+cDGacZ/g7JS/rvoNMuqZwm0AP
-         R9PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zX0Pu7ZpS76DpzHvexVoPmfdPrDcTECv+ntERobDAr8=;
-        b=Y9YyuZQ/qNSLyQpfA5v1e8gOCtysw2kFCI61uhUWpqbmoW7vLiNgWJNAO2fQciCIDq
-         a1fSRXTySs3gflXGWBtwSPaP0yg1udZnx1ktOzOYfqzjR9Igr7pHpJ9t51bXeXziExqG
-         2aKxQOM6dfRxCBl5DCUgB5pTDEgk69gt0Sbiwqs3ts4S/cGtLc0PRkgUY8JRdibwhM4i
-         ouv7hqKlCScziqshPIGNF8HX4sOG4ToDXrHApquO2SawBBJ+SxXyOwRKdHceBo59Nq2G
-         OuiDmcInmiCWYebBxUijywVDfMRTvDlDY1HQObtPMa6zBxMUmGMpJDrfLH9hAX9QiJT+
-         Bxzw==
-X-Gm-Message-State: AOAM533ExFy2SuhI5AZRC/deQMW3M0UNqjn8BZOVgW/sdjRPfvXcwb7H
-	B9qS53gQ4D5p6V+UvGW4+fQmyQ3Ql3quX/pNmoM=
-X-Google-Smtp-Source: 
- ABdhPJzeiMfspSkiFzMeE9zGmCzwXAz/BF/6IOBv77jfvH18DIIpIdX96nYnfAY/TohOi8MoeRl2I1jj8XWFPVq2ojU=
-X-Received: by 2002:a05:6122:2091:b0:33f:c030:cc98 with SMTP id
- i17-20020a056122209100b0033fc030cc98mr3655365vkd.1.1648206384030; Fri, 25 Mar
- 2022 04:06:24 -0700 (PDT)
+ dkim=missing;
+ spf=softfail (domain: gmail.com, ip: 178.250.146.7, mailfrom: fntoth@gmail.com)
+Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl
+ [178.250.146.69])
+	by radex-web.radex.nl (Postfix) with ESMTPS id 50B6F24065;
+	Fri, 25 Mar 2022 12:28:29 +0100 (CET)
+Content-Type: multipart/alternative;
+ boundary="------------VfrzWUnXkHqQym4NKmWug9wm"
+Message-ID: <bf0ea984-2798-ab9b-6008-7d09bebd9664@gmail.com>
+Date: Fri, 25 Mar 2022 12:28:29 +0100
 MIME-Version: 1.0
-References: <20220325101831.1451-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <CANNYZj9htpDkynv-8hcJPA_MU18TtH83bbu_e15rG37z_+RfnQ@mail.gmail.com>
- <dc83c9e8-cac5-ac7c-089c-a8afa51cac17@weidmueller.com>
-In-Reply-To: <dc83c9e8-cac5-ac7c-089c-a8afa51cac17@weidmueller.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 25 Mar 2022 12:06:12 +0100
-Message-ID: 
- <CANNYZj9n-z18-PPwbiRvWmeNZtu4Fqh7v+35Ryn6vjwjKVrDHw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] zstd: add libzstd package to minimize runtime
- dependencies
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1 1/2] gpg-sign: Add parameters to gpg signature function
+Content-Language: en-US
+From: Ferry Toth <fntoth@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Xavier Berger <xavier.berger@bio-logic.net>
+References: <20220322211949.7423-1-fntoth@gmail.com>
+ <fe0f9ee8-e3d0-1681-af93-fa97019b8a0c@gmail.com>
+ <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
+ <a338dc08-b564-4f83-9f88-1e7dd1823f6d@gmail.com>
+ <6dad87edfe80040678963ca18842a3ddf337e35c.camel@linuxfoundation.org>
+ <9c616e34-d31b-dcab-657a-268698d34150@gmail.com>
+ <0791e55a-cba3-3d7f-8a17-96b1591454a1@gmail.com>
+In-Reply-To: <0791e55a-cba3-3d7f-8a17-96b1591454a1@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 11:06:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Mar 2022 11:28:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163635
+ https://lists.openembedded.org/g/openembedded-core/message/163636
 
-Yes.
+This is a multi-part message in MIME format.
+--------------VfrzWUnXkHqQym4NKmWug9wm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Alex
+Hi,
 
-On Fri, 25 Mar 2022 at 11:55, Stefan Herbrechtsmeier
-<stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
->
-> Am 25.03.2022 um 11:48 schrieb Alexander Kanavin:
-> > The standard way to do this is to inherit lib_package.
->
-> Do you propose to move the binaries to a new zstd-bin package and break
-> backward compatibility?
->
-> Regards
->    Stefan
->
-> > On Fri, 25 Mar 2022 at 11:19, Stefan Herbrechtsmeier
-> > <stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
-> >>
-> >> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> >>
-> >> Add a libzstd package to remove libstdc++ runtime dependency from
-> >> library users and reduce the size of the library package and its
-> >> dependencies.
-> >>
-> >> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> >>
-> >> ---
-> >>
-> >>   meta/recipes-extended/zstd/zstd_1.5.2.bb | 4 ++++
-> >>   1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-extended/zstd/zstd_1.5.2.bb b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> >> index 0ddff469b8..3887f31ecf 100644
-> >> --- a/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> >> +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> >> @@ -36,4 +36,8 @@ do_install () {
-> >>       oe_runmake install 'DESTDIR=${D}' PREFIX=${prefix} -C contrib/pzstd
-> >>   }
-> >>
-> >> +PACKAGE_BEFORE_PN = "libzstd"
-> >> +
-> >> +FILES:libzstd = "${libdir}/libzstd${SOLIBS}"
-> >> +
-> >>   BBCLASSEXTEND = "native nativesdk"
-> >> --
-> >> 2.30.2
-> >>
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#163632): https://lists.openembedded.org/g/openembedded-core/message/163632
-> >> Mute This Topic: https://lists.openembedded.org/mt/90019254/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
+Op 24-03-2022 om 23:11 schreef Ferry Toth:
+....
+
+> It doesn't seem to be a particularly volatile area in the code. I 
+> refreshed
+>>>> Xavier's patches for Gatesgarth, and am actively using unchanged 
+>>>> patch on
+>>>> Honisiter.
+>>>> I don't know how the automated testing is working but I guess for 
+>>>> RPM a repo
+>>>> is generated using a small layer? And then tested on a qemu running 
+>>>> the
+>>>> rootfs?
+>>>> Should be almost same for deb/apt, maybe could be modified from rpm 
+>>>> test?
+>>> I think the rpm test is test_testimage_dnf in
+>>> meta/lib/oeqa/selftest/cases/runtime_test.py. You'd run it with:
+>>>
+>>> oe-selftest -r runtime_test.TestImage.test_testimage_dnf
+>> I'll have a look.
+
+Grumble. I ran this test but it failed due to needing to run sudo to 
+setup a tap interface (I ran it under screen).
+
+Is there a way to continue this test without first clearing the build-st 
+directory? It take about 2 hours to get to this failure point.
+
+Thanks,
+
+Ferry
+
+--------------VfrzWUnXkHqQym4NKmWug9wm
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font face="Noto Sans">Hi,</font><br>
+    </p>
+    <div class="moz-cite-prefix">Op 24-03-2022 om 23:11 schreef Ferry
+      Toth:<br>
+    </div>
+    <div class="moz-cite-prefix">....</div>
+    <br>
+    <blockquote type="cite"
+      cite="mid:0791e55a-cba3-3d7f-8a17-96b1591454a1@gmail.com">It
+      doesn't seem to be a particularly volatile area in the code. I
+      refreshed
+      <br>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <blockquote type="cite">Xavier's patches for Gatesgarth, and
+            am actively using unchanged patch on
+            <br>
+            Honisiter.
+            <br>
+            I don't know how the automated testing is working but I
+            guess for RPM a repo
+            <br>
+            is generated using a small layer? And then tested on a qemu
+            running the
+            <br>
+            rootfs?
+            <br>
+            Should be almost same for deb/apt, maybe could be modified
+            from rpm test?
+            <br>
+          </blockquote>
+          I think the rpm test is test_testimage_dnf in
+          <br>
+          meta/lib/oeqa/selftest/cases/runtime_test.py. You'd run it
+          with:
+          <br>
+          <br>
+          oe-selftest -r runtime_test.TestImage.test_testimage_dnf
+          <br>
+        </blockquote>
+        I'll have a look.
+        <br>
+      </blockquote>
+    </blockquote>
+    <p>Grumble. I ran this test but it failed due to needing to run sudo
+      to setup a tap interface (I ran it under screen).</p>
+    <p>Is there a way to continue this test without first clearing the
+      build-st directory? It take about 2 hours to get to this failure
+      point.</p>
+    <p>Thanks,</p>
+    <p>Ferry<br>
+    </p>
+  </body>
+</html>
+
+--------------VfrzWUnXkHqQym4NKmWug9wm--
 
