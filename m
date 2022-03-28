@@ -1,90 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <fntoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B8FAC433F5
-	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 12:29:27 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.10183.1648470566033948621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6562CC433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 14:04:25 +0000 (UTC)
+Received: from radex-web.radex.nl (radex-web.radex.nl [178.250.146.7])
+ by mx.groups.io with SMTP id smtpd.web08.11330.1648476264613456688
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 05:29:26 -0700
+ Mon, 28 Mar 2022 07:04:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UvCwiozi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id u3so20188006wrg.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 05:29:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1CkKK9kfPhsAVcP+RPE9Yrp3s+Anpcba7Tz+p4ksd10=;
-        b=UvCwiozi/WwJaCHM+auYwWLKkEPoGsSemJVS6dujCy4TvAxtC9GiqV31tBx67IbXvR
-         0KPjFBSLRjWgnPRiEj3ArOMy6RwEDpMQ8sYWAn3ZmYulT2pjj2ycqe60nBb7SVJ+KwC7
-         wsMdsDW5bfV1pQSOppzI8Ktz3RhhJItuCUumo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1CkKK9kfPhsAVcP+RPE9Yrp3s+Anpcba7Tz+p4ksd10=;
-        b=a/dOOl2sMEKFkjq19xPhBlJAe3DGMjVV6TG8NCQngBavNcL81i2v4vZdsBCha2NXjA
-         qSH5y/DeaXc51NvCvYY+cBwFFVxNzMzW7M8z7y+B8FYmVxKbJuranoXOGBqZ7C4sap1a
-         v0cKQMr7kHXV1Lno9urOSqdzB+wHsKySTeoUldf/kPYf2Xn2TjKDirLo+GhhX5v6W5Dp
-         m3Z21WNArkYF+pMYWHbHts9skisWd0OStsktBXoARSXCYYvWxF0bjjlCYZeEPbYYx+Jn
-         Z1ZFXdTNYeW82GFryrQbPqZW17Zil9JBELSjcmi4HjzgPGvSI3N7ywB5bq9Su0hNCQGm
-         jRaQ==
-X-Gm-Message-State: AOAM533K+CfkKi+bYfH0GROWtEKdnG7Pc/200vJO9FMHgG5ycO6m1vvs
-	k7I3ycbwbl0IHC2VXUXoxOrzfSp4Z1UUqMsO
-X-Google-Smtp-Source: 
- ABdhPJzUnmMoahNAWEjiW+WuHLUTxb+lrBDQhgy3tErhk/ybZsYbd2NSNLrBgyYApR8JWPRhmz/ikw==
-X-Received: by 2002:a05:6000:1ace:b0:203:d45b:fbce with SMTP id
- i14-20020a0560001ace00b00203d45bfbcemr22975665wry.673.1648470564167;
-        Mon, 28 Mar 2022 05:29:24 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:69e0:aa6:3ee0:1c3c])
-        by smtp.gmail.com with ESMTPSA id
- o6-20020a05600002c600b002057f1738fcsm13117284wry.110.2022.03.28.05.29.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 05:29:23 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] create-spdx: Avoid regex warning by quoting correctly
-Date: Mon, 28 Mar 2022 13:29:22 +0100
-Message-Id: <20220328122922.1430750-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ dkim=missing;
+ spf=softfail (domain: gmail.com, ip: 178.250.146.7, mailfrom: fntoth@gmail.com)
+Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl
+ [178.250.146.69])
+	by radex-web.radex.nl (Postfix) with ESMTPS id 430AD2406A;
+	Mon, 28 Mar 2022 16:04:23 +0200 (CEST)
+Message-ID: <356a07e1-e004-c06f-3943-ba81391dce5f@gmail.com>
+Date: Mon, 28 Mar 2022 16:04:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1 1/2] gpg-sign: Add parameters to gpg signature function
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Xavier Berger <xavier.berger@bio-logic.net>,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20220322211949.7423-1-fntoth@gmail.com>
+ <fe0f9ee8-e3d0-1681-af93-fa97019b8a0c@gmail.com>
+ <e2b6066a69cf7933b0618a66b7e1b3589ff6da5c.camel@linuxfoundation.org>
+ <a338dc08-b564-4f83-9f88-1e7dd1823f6d@gmail.com>
+ <6dad87edfe80040678963ca18842a3ddf337e35c.camel@linuxfoundation.org>
+ <9c616e34-d31b-dcab-657a-268698d34150@gmail.com>
+ <0791e55a-cba3-3d7f-8a17-96b1591454a1@gmail.com>
+ <3be0df41af485685253bd0ed79396fd136c210e6.camel@linuxfoundation.org>
+From: Ferry Toth <fntoth@gmail.com>
+In-Reply-To: 
+ <3be0df41af485685253bd0ed79396fd136c210e6.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 12:29:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 14:04:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163705
+ https://lists.openembedded.org/g/openembedded-core/message/163706
 
-create-spdx.bbclass:43: DeprecationWarning: invalid escape sequence \W
-  lic_regex = re.compile(b'^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$', re.MULTILINE)
+Hi,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/create-spdx.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Op 24-03-2022 om 23:20 schreef Richard Purdie:
+> On Thu, 2022-03-24 at 23:11 +0100, Ferry Toth wrote:
+>> Op 24-03-2022 om 16:36 schreef Ferry Toth:
+>>> Op 24-03-2022 om 13:03 schreef Richard Purdie:
+>>>> On Thu, 2022-03-24 at 12:23 +0100, Ferry Toth wrote:
+>>>>>> On Wed, 2022-03-23 at 19:34 +0100, Ferry Toth wrote:
+>>>>>>> I forgot to add a cover letter, sorry for that. The 2 patches=C2=A0=
+ together
+>>>>>>> implement DEB repository signing.
+>>>>>>> This is necessary since Gatesgarth |apt| (1.8.2) has become more =
+strict
+>>>>>>> and doesn=E2=80=99t allow unsigned repositories by default.
+>>>>>>> It is possible to override this behavior |but||| is more work the=
+n to
+>>>>>>> enable signed DEB repositories. These patches makes DEB a first c=
+lass
+>>>>>>> citizen as IPK and RPM.
+>>>>>>> Patches have been in use in meta-intel-edison since Gatesgarth, s=
+ee
+>>>>>>> https://edison-fw.github.io/meta-intel-edison/5.0-Creating-a-deb-
+>>>>>>> repository.html\
+>>>>>>
+<snip>
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index cae8cccd8dc..137db81a5b4 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -40,7 +40,7 @@ do_image_complete[depends] = "virtual/kernel:do_create_spdx"
- def extract_licenses(filename):
-     import re
- 
--    lic_regex = re.compile(b'^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$', re.MULTILINE)
-+    lic_regex = re.compile(rb'^\W*SPDX-License-Identifier:\s*([ \w\d.()+-]+?)(?:\s+\W*)?$', re.MULTILINE)
- 
-     try:
-         with open(filename, 'rb') as f:
--- 
-2.32.0
 
+>>>>>> I think the rpm test is test_testimage_dnf in
+>>>>>> meta/lib/oeqa/selftest/cases/runtime_test.py. You'd run it with:
+>>>>>> oe-selftest -r runtime_test.TestImage.test_testimage_dnf
+>>> I'll have a look.
+>>
+I got the rpm test to run and with the help of Alexander I can restart=20
+that test to complete in about 6 minutes, which is good.
+
+Right now, I have the modified the recipe so the test image is built=20
+from deb packages and then runs on qemu.
+
+So next I need the workaround for apt disabled, auto install the gpg key=20
+on the testimage, run apt and parse the results.
+
+I'm not really fluent with python, but might be able to get this done.=20
+If Alexander would be willing to give me a few pointers if I get stuck?
+
+Let me play with this a few days (evenings) and then I'll post a WIP patc=
+h.
+
+
+>
+>
+> Cheers,
+>
+> Richard
 
