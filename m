@@ -2,73 +2,73 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1559C433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 09:55:55 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.1])
- by mx.groups.io with SMTP id smtpd.web08.9126.1648461355033701247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99E9C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 09:55:56 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web09.9134.1648461355817709252
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 02:55:55 -0700
+ Mon, 28 Mar 2022 02:55:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=pTpT4jaT;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.1,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=L7yMRHnN;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1648461353; i=@fujitsu.com;
-	bh=iKNPN/QycnwSXuL9sGjOt1ci0PqCscKqXhrtVQ8QMqc=;
+	bh=SYHIAOXQhlF7F2xdKk4LkYzAJQvQqhwBzQ6kM1e6t3s=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=pTpT4jaTv4CtoHO0mxiEI9OsCt/tTv4UXuamLlH3S0Wb0QfwWKCrGvPQAtGQjORPn
-	 wxCZvuMDwO7ZL/bHirwfYdU9IKPDOcAHD2T97O5w3DkuYWwpIH7A1rqtU2Dch8xRQM
-	 O0ptTS2t3x4wrVj9yWygALQBZu5BXeMBBCIkjZGVIcOpRNl0mFJu7jkCliItZeWTJZ
-	 rNvyljcpCrbZnagob6Rhi4kJZ8i2zEvxBFyLsXuzR7d4P8wYcSmQrlZSM5PJ6XguI/
-	 RBte4/tFYpcbqwWs6Z3bcKDhadP+NXOziDdZ+30idSXkGsnXLY4W7336/W/13fpfFT
-	 rfhdt49mEnmgg==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRWlGSWpSXmKPExsViZ8MxSVejzTH
-  JYN48G4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePczCtsBbs5Kr7smM3awPicvYuRi0NI4DGj
-  xKwvm5ghnPNMEm/OL2DpYuQEcvYwSlzY4ANiswmoSUy/dYO1i5GDQ0RAT+LqP1GQMLOAisSL3
-  z3sILawgJXEtKM/mEFsFgFVifs754LZvAJOEgd2fgQbKSGgIDHl4XtmkDGcAs4SC87ag5hCQC
-  VPFuhBVAtKnJz5hAViuoTEwRcvmCE6FSVmX26GmlIhMWtWGxOErSZx9dwm5gmMgrOQtM9C0r6
-  AkWkVo1VSUWZ6RkluYmaOrqGBga6hoamuoa6RgbFeYpVuol5qqW55anGJrqFeYnmxXmpxsV5x
-  ZW5yTopeXmrJJkZg+KYUM57ewbip76feIUZJDiYlUV6jTMckIb6k/JTKjMTijPii0pzU4kOMM
-  hwcShK8t5qBcoJFqempFWmZOcBYgklLcPAoifCaNgGleYsLEnOLM9MhUqcYFaXEeZlagRICII
-  mM0jy4Nlj8XmKUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzOvSAjSFJzOvBG76K6DFTECL176
-  zBVlckoiQkmpgEsrb/sHWd5nlYc9Gt+Y4v5WnWF7x7a+/+G6hKqPzP4l6vk1zWh/pJ20Rf2e0
-  /J3IpPczBeUlL3bXFO8vEtWfHsfR2b8jq+PFC4lJxx8ozhQoFPmy4fA567VxcZ9DRXo7tMzWZ
-  O/9veCm5Xzms5e/GFxZy8n4V//C/Hv/9hXukb99ysr50JZpHYYxTZt2XLoh9DY639Dmm73sxF
-  MRd0Iirqz35AzpZf226lH62RksfRnZ7zbG6bm3OnLdOTDV9t38K6vlS/kqdwRLeyUIm6Yk7xG
-  N27xox+u10yqWX3vglDbLyPZNWuLPGtubh5J/nvfSrZxT+sNwzr+qA7P2z2CeI/7gVWj2+Zcn
-  De4tjzjQK6jEUpyRaKjFXFScCACcqfevWgMAAA==
+	b=L7yMRHnNfoIlb2++6tq5cgWyo5Frf4CoxXsdGxu7ZCky0ccg0gDFzZIBMga+P/ZCj
+	 Nx+n9aL6pzF5lqHbFb9Rd1mbvl9q43jr+Lnc0dZXXBzvBEbYiCsGOw+gxsdcAtFk1Y
+	 S7Ed6sdtCBeln+oGjo5si6MBtCT/wQEWs+BDHGfZzNeWpFu2CbZTLXvr3X2UEkfC+m
+	 NRlQrmQV0NShutZJUsC49yy19QUzHDoKtHvL3QL5bDsFwryhAzhy9wySbFdlw2WGqe
+	 VOx/ZOS0YF8zYX2zR+NjzKKqRDiZnXmwBc3jOCxtXeCYlgi1CL5YHF323OcaIXty+0
+	 9oUoS2yUrAS/A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNIsWRWlGSWpSXmKPExsViZ8MxSVezzTH
+  JYPpKAYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePovevsBS85Kj7PPs7SwNjI0cXIySEk8JhR
+  4uyb9C5GLiD7PJPE0mNP2SGcPYwS7+evYAepYhNQk5h+6wZrFyMHh4iAnsTVf6IgYWYBFYkXv
+  3vASoQFbCSedf5nAbFZBFQl1m1YwApi8wo4SbRMWAkWlxBQkJjy8D0zyBhOAWeJBWftQUwhoJ
+  InC/QgqgUlTs58wgIxXULi4IsXzBCdihKzLzdDTamQmDWrjQnCVpO4em4T8wRGwVlI2mchaV/
+  AyLSK0S6pKDM9oyQ3MTNH19DAQNfQ0FTXzFTX0MJIL7FKN1EvtVQ3OTWvpCgRKK2XWF6sl1pc
+  rFdcmZuck6KXl1qyiREYxinFjtt2MJ7q+6l3iFGSg0lJlNco0zFJiC8pP6UyI7E4I76oNCe1+
+  BCjDAeHkgTvrWagnGBRanpqRVpmDjCmYNISHDxKIrymTUBp3uKCxNzizHSI1ClGRSlxXqZWoI
+  QASCKjNA+uDRbHlxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ87q0AE3hycwrgZv+CmgxE9D
+  ite9sQRaXJCKkpBqYBG5onlzcZqb9XKZEJyLueOhNlU06RU08Ilzn018YcckVpc0VqHx8+tYj
+  rR6NiU8PnWJbWaiRN+WUTLT+3x1OWv8Sjqjxs8q/v7stxmfLxgdPjijaSv+YtUFKuu/d8mn2d
+  Sy3o1ZvPJOZ//LiLrfGSr6OBy6bi6MizSKs8wvvuTW6K0X4ahVfDbfkc25+Hsk4V7TE/1Sy0u
+  ofV52t5v6cUKB+lyfo8xa+7qyjvHJCE2wvpT84+OvCarsbigu1dy58vl5qRs7B+afuzk0sM0u
+  +ttpvZ5Sxyj7Ln/0/7y1bLDzjxlOhXndptf2dM2T9E9Xae7zX7txqqRuWct1UQ+m5cV9Xyg2X
+  37e+elzetnunEktxRqKhFnNRcSIAZm/5cV4DAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-31.tower-587.messagelabs.com!1648461352!26846!1
+X-Msg-Ref: server-8.tower-528.messagelabs.com!1648461352!5534!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.85.5; banners=-,-,-
+X-StarScan-Version: 9.81.10; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 4740 invoked from network); 28 Mar 2022 09:55:52 -0000
+Received: (qmail 19304 invoked from network); 28 Mar 2022 09:55:53 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-31.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 28 Mar 2022 09:55:52 -0000
+  by server-8.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 28 Mar 2022 09:55:53 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 8B3541000FE
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 93AAA100331
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Mar 2022 10:55:52 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 6C38910044C
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 7043C100451
 	for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Mar 2022 10:55:52 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 28 Mar 2022 10:55:42 +0100
+ (TLS) id 15.0.1497.32; Mon, 28 Mar 2022 10:55:44 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] msmtp: upgrade 1.8.19 -> 1.8.20
-Date: Mon, 28 Mar 2022 17:55:27 +0800
-Message-ID: <1648461328-15808-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] sqlite3: upgrade 3.38.1 -> 3.38.2
+Date: Mon, 28 Mar 2022 17:55:28 +0800
+Message-ID: <1648461328-15808-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1648461328-15808-1-git-send-email-wangmy@fujitsu.com>
 References: <1648461328-15808-1-git-send-email-wangmy@fujitsu.com>
@@ -81,32 +81,32 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 09:55:55 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 09:55:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163700
+ https://lists.openembedded.org/g/openembedded-core/message/163702
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../recipes-extended/msmtp/{msmtp_1.8.19.bb => msmtp_1.8.20.bb} | 2 +-
+ .../sqlite/{sqlite3_3.38.1.bb => sqlite3_3.38.2.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.19.bb => msmtp_1.8.20.bb} (91%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.38.1.bb => sqlite3_3.38.2.bb} (86%)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.19.bb b/meta/recipes-extended/msmtp/msmtp_1.8.20.bb
-similarity index 91%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.19.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.20.bb
-index bdbb1daadd..da3f70a163 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.19.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.20.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.1.bb b/meta/recipes-support/sqlite/sqlite3_3.38.2.bb
+similarity index 86%
+rename from meta/recipes-support/sqlite/sqlite3_3.38.1.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.38.2.bb
+index 54b04d620e..a37aff6fe7 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.38.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.38.2.bb
+@@ -4,7 +4,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[sha256sum] = "34a1e1981176874dbe4ee66ee0d9103c90989aa4dcdc4861e4de05ce7e44526b"
-+SRC_URI[sha256sum] = "d93ae2aafc0f48af7dc9d0b394df1bb800588b8b4e8d096d8b3cf225344eb111"
+ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "8e3a8ceb9794d968399590d2ddf9d5c044a97dd83d38b9613364a245ec8a2fc4"
++SRC_URI[sha256sum] = "e7974aa1430bad690a5e9f79a6ee5c8492ada8269dc675875ad0fb747d7cada4"
  
- inherit gettext autotools update-alternatives pkgconfig
- 
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_IGNORE += "CVE-2019-19242"
 -- 
 2.25.1
 
