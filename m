@@ -1,128 +1,120 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9C5C433EF
-	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 14:16:02 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.11451.1648476961286971675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A992C433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 15:27:00 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web08.12441.1648481219423490450
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 07:16:01 -0700
+ Mon, 28 Mar 2022 08:26:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YzfIl0HU;
- spf=pass (domain: gmail.com, ip: 209.85.167.44,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id w7so25016701lfd.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=X8Y05Hsy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id j15so29405476eje.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 07:16:01 -0700 (PDT)
+ Mon, 28 Mar 2022 08:26:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4Goh0mQt1lMW8Tu0170K+CIcNMi7BQ3KjE730VtuwQg=;
-        b=YzfIl0HUiGjjr2vGEG5vmcUqzEevX4m4lGhBrPubd5ecIwP4yo7F5yxzasYej1JjRQ
-         gTc7+ClpB20sD5nJMscbwg79b+DO9RMbmJNYaC7cft6JEc96yEYSY0qNBJyiQ7fL7Wx3
-         slK0aLdKDRu1NxeHgir/FWkS6xIrPPRPrdzK0/0smblEiC3Zj83t/Vu1TJKo1Q3T/ggS
-         XlU4rTM+GKKpIRUSYuhCjDX9HpRBiYGhTu9Bxvjjhc1Wmeumj3aakhdzRt8V8PRCKopQ
-         uPE7pgmHaXUtkcPA2ehDo0SYPfZGG0ljujP3wudgYXmpPKJ4wVbr+MOqp/ZUjsgsw28J
-         df8w==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cdG48/Uo2bc6qIIoclXya/7+FMMZJoTonbweDCKONG0=;
+        b=X8Y05Hsy5VwCDoZRIKdqVYeLUQ83H+UvDbe75QOZHMKNDueiUtq3B2XnZ0HQFy/Jhk
+         EbAmio7bUbiD7BQIvPoZzra+sdtxpwXsFuOyzB7ncSbRoo8gIZ9IcteRHvB9xEZO2WgU
+         Tiy4nwE0Tcwx4FfsJrxugGrjI+3enb+mtsBKooZqbkHXJ06c/jewJBkF3zJs5zzQwZuB
+         QAMAXPULD2IBuGXqTsMbHY6vLRQJAsvjn3nEtSxeZNYf52iO1+9nYRfclHMuKUt25pKg
+         HT3c3bJgtEb5ichxn7fq6XW/EO3c8/VYK8gTsTeoSb5+CVi8mo6aD2rFQZpVnx1EHpSZ
+         U0XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4Goh0mQt1lMW8Tu0170K+CIcNMi7BQ3KjE730VtuwQg=;
-        b=x30cDO+VZPhhcjrVu6XJjLcsYKqIaL4GKQ0egdHge57E0iE5wcfabw/E5Ig2isG69A
-         QKm4PS6orTka6bkHKmguLN6zg8ceJ6e1BFkbFR+sw8sWGOBrP9NMA217STfy5uQ8KkYE
-         8Hf3d+z7xCxL45hNchTUkwp2rGx5INTr204UU++/J/c73lAW1S/ml+ABbvRpnM2+wRmZ
-         S5O2IP+bmGGjLRW7Ihd3sGo7ZGWNlbVKaUXl9HQXwTSQ+7llOCgz1waS6/O5b0LFoFUP
-         0dIZHAadwgpoe20d3/3DzqzH3WlnMa7+8htLFb9AdJgDUrhVjKioo6CLdMnGq0RlwaX0
-         UOsA==
-X-Gm-Message-State: AOAM531Aetwc6NQTn9j3/NFtvfpvffcv+9++6P7iqyJJqkdNDTmEYHzt
-	3I92uwb/atKfl/+Rfg57j8A7LT0XBSunDA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cdG48/Uo2bc6qIIoclXya/7+FMMZJoTonbweDCKONG0=;
+        b=WeEw0jSSteLl0aoaZF6jIJdtxoWXjvk8V+MUUqGU4oUOAXlc+KNqgUFtgLVNnjVxv6
+         rY3nfPktSp954khObK2JNvgcOSp5BaitGt63L/GoDufPhHtqMwHNn3xx5iyfFwTsbO8z
+         M3tidP705AknC37wgP4lBxN8woUJqMgAKvWkZcZYVKtOYDvkyZtkfEGKHQeYvxToNede
+         s4NJ6BZIStKrjjZ9vDRNFJXB8J+C2vZx+9gLnUCw/ZuhF0nPdfEV59f11UQWVbYqYa2L
+         L0YqBuanNrHYfc9uAG6ANdiqAzmamXjDlRgQc0CJEI0AuS0MgUrE0quE+0b39YvnXH3U
+         C7Pg==
+X-Gm-Message-State: AOAM531PDzOeJKsIVF0XdNT5kWPrsJoIYy/4/4rAcTBabJK0tuy40jFq
+	1ERP5ov/43u9fjXhlY1L/2DOh4gKvgP+UA==
 X-Google-Smtp-Source: 
- ABdhPJxvd0qTK3TJTW6xz1JwdrfgezRqCeareaWt2Fvn/GTwAp1dJou3OJW8RYzDLIhrSgxZ3m0unA==
-X-Received: by 2002:a05:6512:ad3:b0:44a:614e:9d4d with SMTP id
- n19-20020a0565120ad300b0044a614e9d4dmr18360965lfu.557.1648476959490;
-        Mon, 28 Mar 2022 07:15:59 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:801:73c:8290:4c78:ea54:965b:7b3c])
+ ABdhPJwjHIxZSkt2068p1eEOeJGIqWFS4NGoZuAHuMJpxFIO399VFBG3sMc2VeuS2ughwpPohbitfA==
+X-Received: by 2002:a17:907:94ca:b0:6da:b785:f067 with SMTP id
+ dn10-20020a17090794ca00b006dab785f067mr29031680ejc.654.1648481217402;
+        Mon, 28 Mar 2022 08:26:57 -0700 (PDT)
+Received: from localhost ([137.220.125.106])
         by smtp.gmail.com with ESMTPSA id
- r11-20020a2e8e2b000000b0024980665874sm1729301ljk.52.2022.03.28.07.15.58
+ f3-20020a056402004300b004162aa024c0sm7080002edu.76.2022.03.28.08.26.56
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 07:15:59 -0700 (PDT)
-From: liu.ming50@gmail.com
+        Mon, 28 Mar 2022 08:26:56 -0700 (PDT)
+From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH 2/2] kernel-fitimage.bbclass: introduce
- FIT_SUPPORTED_INITRAMFS_FSTYPES
-Date: Mon, 28 Mar 2022 16:15:51 +0200
-Message-Id: <20220328141551.571676-3-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220328141551.571676-1-liu.ming50@gmail.com>
-References: <20220328141551.571676-1-liu.ming50@gmail.com>
+Subject: [PATCH] volatile-binds: add recipe variable to allow disabling
+ OverlayFS
+Date: Mon, 28 Mar 2022 16:26:54 +0100
+Message-Id: <20220328152654.81608-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 14:16:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 15:27:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163709
+ https://lists.openembedded.org/g/openembedded-core/message/163710
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-It was found when a end user wants to build a squashfs type initramfs
-into fitimage, it just fails without printing out any error or warning
-messages, which is not right.
+Use the new MOUNT_COPYBIND_AVOID_OVERLAYFS flag provided by mount-copybind.
+When SELinux is enabled, processes accessing OverlayFS mounts will get a denial
+if the process setting up the mount doesn't have all the permissions that
+the accessor has.
 
-Introduce a FIT_SUPPORTED_INITRAMFS_FSTYPES variable to avoid
-hard-coding the supported initramfs types, and it could be overridden
-in config files. Also break the build when none of a supported
-initramfs type is found.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .../volatile-binds/files/volatile-binds.service.in            | 1 +
+ meta/recipes-core/volatile-binds/volatile-binds.bb            | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 13af4daafc..f28c943860 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -65,6 +65,8 @@ FIT_SIGN_INDIVIDUAL ?= "0"
- FIT_CONF_PREFIX ?= "conf-"
- FIT_CONF_PREFIX[doc] = "Prefix to use for FIT configuration node name"
+diff --git a/meta/recipes-core/volatile-binds/files/volatile-binds.service.in b/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
+index e2ad39f258..6612d2aae0 100644
+--- a/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
++++ b/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
+@@ -11,6 +11,7 @@ ConditionPathIsReadWrite=!@where@
+ Type=oneshot
+ RemainAfterExit=Yes
+ TimeoutSec=0
++Environment=MOUNT_COPYBIND_AVOID_OVERLAYFS=@avoid_overlayfs@
+ ExecStart=/sbin/mount-copybind @what@ @where@
+ ExecStop=/bin/umount @where@
  
-+FIT_SUPPORTED_INITRAMFS_FSTYPES ?= "cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio"
-+
- # Keys used to sign individually image nodes.
- # The keys to sign image nodes must be different from those used to sign
- # configuration nodes, otherwise the "required" property, from
-@@ -566,16 +568,22 @@ fitimage_assemble() {
- 	#
- 	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 		# Find and use the first initramfs image archive type we find
--		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio; do
-+		found=
-+		for img in ${FIT_SUPPORTED_INITRAMFS_FSTYPES}; do
- 			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.$img"
- 			if [ -e "$initramfs_path" ]; then
- 				bbnote "Found initramfs image: $initramfs_path"
-+				found=true
- 				fitimage_emit_section_ramdisk $1 "$ramdiskcount" "$initramfs_path"
- 				break
- 			else
- 				bbnote "Did not find initramfs image: $initramfs_path"
- 			fi
- 		done
-+
-+		if [ -z "$found" ]; then
-+			bbfatal "Could not find a valid initramfs type for ${INITRAMFS_IMAGE_NAME}, the supported types are: ${FIT_SUPPORTED_INITRAMFS_FSTYPES}"
-+		fi
- 	fi
+diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
+index d5c5538cd7..3fefa9abde 100644
+--- a/meta/recipes-core/volatile-binds/volatile-binds.bb
++++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
+@@ -37,6 +37,9 @@ SYSTEMD_SERVICE:${PN} = "${@volatile_systemd_services(d)}"
  
- 	fitimage_emit_section_maint $1 sectend
+ FILES:${PN} += "${systemd_system_unitdir}/*.service ${servicedir}"
+ 
++# Set to 1 to forcibly skip OverlayFS, and default to copy+bind
++AVOID_OVERLAYFS = "0"
++
+ do_compile () {
+     while read spec mountpoint; do
+         if [ -z "$spec" ]; then
+@@ -47,6 +50,7 @@ do_compile () {
+         servicefile="$(echo "$servicefile" | tr / -).service"
+         sed -e "s#@what@#$spec#g; s#@where@#$mountpoint#g" \
+             -e "s#@whatparent@#${spec%/*}#g; s#@whereparent@#${mountpoint%/*}#g" \
++            -e "s#@avoid_overlayfs@#${@d.getVar('AVOID_OVERLAYFS')}#g" \
+             volatile-binds.service.in >$servicefile
+     done <<END
+ ${@d.getVar('VOLATILE_BINDS').replace("\\n", "\n")}
 -- 
-2.25.1
+2.34.1
 
 
