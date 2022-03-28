@@ -1,174 +1,157 @@
-Return-Path: <chaitanya.vadrevu@ni.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E246C433FE
-	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 16:14:39 +0000 (UTC)
-Received: from mx0a-00010702.pphosted.com (mx0a-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web09.13206.1648484078297714761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF5FEC433F5
+	for <webhook@archiver.kernel.org>; Mon, 28 Mar 2022 18:07:12 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.3.1648490831813663948
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 09:14:38 -0700
+ Mon, 28 Mar 2022 11:07:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=Ors1O2cY;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
- mailfrom: prvs=1086da13eb=chaitanya.vadrevu@ni.com)
-Received: from pps.filterd (m0239462.ppops.net [127.0.0.1])
-	by mx0b-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 22S816b6019923
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 11:14:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=PPS11062020;
- bh=5+bjM0ApPKDaK6irqroO0OahmRNBuOdfjgDxDpC2yE8=;
- b=Ors1O2cYUzydzKJysrKjI1Q/QJp1/sZjCulGbFZoha1PuBrnVaazGA6SFUPZ4/nfrbXn
- rz81Cz+cPONPtcjtENNgTLaNOBzMCfShp5BiKq1IRrCsWU07WoOE8npUedjY+ftxyXde
- WEIChtnRa30ziL36h/XDm+gMN4jXRpNEZChDlORlbzsLavFCQvgrzFIytL+DcWZDH7Yj
- Ns+OLr5h4pgCGcG+0RPFNeQzEAMnjol1LawWzB//SjodCGbnCQfJogm/wH74rdXvNtKL
- 4dYUFljQb3VPbw6Lo0RI2naJEdhXtgux+HzSTmv+8l1A1peh6hE8TPUDc4D/nw+EvVaw zQ==
-Received: from ni.com ([130.164.80.24])
-	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3f1xwckv3j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 11:14:36 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
- (us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
- 22SGEZb3005576
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 11:14:35 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
- us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Mon, 28 Mar 2022 11:14:35 -0500
-Received: from cvadrevu-linux.amer.corp.natinst.com (172.18.68.32) by
- us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP Server
- id 15.0.1497.28 via Frontend Transport; Mon, 28 Mar 2022 11:14:35 -0500
-From: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
-Subject: [PATCH] pseudo_util: Fix handling of absolute links
-Date: Mon, 28 Mar 2022 11:13:48 -0500
-Message-ID: <20220328161348.32725-1-chaitanya.vadrevu@ni.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bddRPY2/;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id b130so11401534pga.13
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 28 Mar 2022 11:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=u90XsfL4tZFbYMtGbxUUnBat7UqlSoju4KM5Ff/DjAQ=;
+        b=bddRPY2/1okmksHUb7U25fwHPuDfR36QLIeUlkrdMFSQ8jGcRtPgIxKNMreYh7pILJ
+         LUI/N7fqqE3NLkJxaiPPC7ODVWfCI3JGmhoKcwxhTOAFewbsDDk9Yx+2i+86+HKizYwt
+         pEveEa7Rq/zBnXzESHQtvT3VYm0HghoAN2RWvYs8YPHc1oT7ln5T/NBGF+3g6RFA9eTC
+         gbpifSB4Zgk0jxvbFru4V+CnYIHPh73dTBtWLL+wkv+PQqJsFT16oqJw7YDR8xN8GDAp
+         K5P3cuYPCYKxDgapl2YjR5oMp/72n9t4h+WLiiYx3VpPx0Af8MpWpd2UOrNPah/onewM
+         82oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=u90XsfL4tZFbYMtGbxUUnBat7UqlSoju4KM5Ff/DjAQ=;
+        b=JzlG0MHKQaRyvr55qf7TIuvv0gxG0plsaPAN7O2XyeBBJBtInkyKRpep/S3GnF+xt6
+         acA1TPIYhIA0xWW7FoQj++8k878zM0s9zxwP+W4YJ4ZvQ3E93JP9YBv9ShrPTm6jgieo
+         Ww8CuIyN5HP3ndw1Ovt636MmyfHr5rHonmluP11L79LEoQNLS0JPCBn0Mq9Oz+G3vFpf
+         le6VsBuqyoqRF47REf/OrZ07BQpRFjgWqIMfwb6pQaznQ1vXLqmwuuu0rokNeJWE/JCR
+         S+552xAtu5uoFTuDeVSO8VWb4GOQpQlcdZq2oJbTicFn+IIVBlGodZ+MFpse1e/pPL/a
+         KkuQ==
+X-Gm-Message-State: AOAM531yHgOHRvIV9+ZNofy77oAFfUi6cMgI9cmF/s8j8eZn3N6MjzTK
+	iblO6s9MmfWh97BLz+H8pYr8COJpj5M=
+X-Google-Smtp-Source: 
+ ABdhPJy8C6NAklqTUk+37rjGGk7TcNoBSlnABp19+K3cUI33/ewN+dmcHQTvBMWtvCuY2X5afyM6tg==
+X-Received: by 2002:a63:b51:0:b0:381:6a51:9481 with SMTP id
+ a17-20020a630b51000000b003816a519481mr11070091pgl.582.1648490831113;
+        Mon, 28 Mar 2022 11:07:11 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
+        by smtp.gmail.com with ESMTPSA id
+ nu16-20020a17090b1b1000b001c77c6a391csm174982pjb.26.2022.03.28.11.07.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 11:07:10 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 2/4] go: Drop GOBUILDMODE
+Date: Mon, 28 Mar 2022 11:07:05 -0700
+Message-Id: <20220328180707.3565916-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220328180707.3565916-1-raj.khem@gmail.com>
+References: <20220328180707.3565916-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-GUID: QgeU0FsBg_rBJgL_34Szj6NKBMsJMThb
-X-Proofpoint-ORIG-GUID: QgeU0FsBg_rBJgL_34Szj6NKBMsJMThb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-28_07,2022-03-28_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: orgsafe
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 16:14:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Mar 2022 18:07:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163716
+ https://lists.openembedded.org/g/openembedded-core/message/163717
 
-Absolute links should be evaluated starting from the chroot path but the
-existing implementation drops the whole base path (which includes the
-chroot path) when it encounters an absolute link.
+This is local invention which is no longer needed, pie-mode works good
+now a days to build go for target
 
-Encountered the issue during root image creation process in an OE build
-where ldconfig was deleting some absolute links as stat64 calls failed
-and the symlinks were deemed dead.
-
-Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- pseudo_util.c               |  6 ++----
- test/test-chroot-symlink.c  | 28 ++++++++++++++++++++++++++++
- test/test-chroot-symlink.sh | 19 +++++++++++++++++++
- 3 files changed, 49 insertions(+), 4 deletions(-)
- create mode 100644 test/test-chroot-symlink.c
- create mode 100755 test/test-chroot-symlink.sh
+ meta/recipes-devtools/go/go-1.18.inc          |  1 -
+ ...008-use-GOBUILDMODE-to-set-buildmode.patch | 42 -------------------
+ meta/recipes-devtools/go/go_1.18.bb           |  1 -
+ 3 files changed, 44 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
 
-diff --git a/pseudo_util.c b/pseudo_util.c
-index 5f8ff19..f150a1b 100644
---- a/pseudo_util.c
-+++ b/pseudo_util.c
-@@ -694,9 +694,9 @@ pseudo_append_element(char *newpath, char *root, size_t allocated, char **pcurre
- 			}
- 			/* null-terminate buffer */
- 			linkbuf[linklen] = '\0';
--			/* absolute symlink means start over! */
-+			/* absolute symlink means go back to root */
- 			if (*linkbuf == '/') {
--				current = newpath;
-+				current = root;
- 			} else {
- 				/* point back at the end of the previous path... */
- 				current -= (elen + 1);
-@@ -794,8 +794,6 @@ static int pathbuf = 0;
-  * path of baselen characters, presumed not to end in a /.  path is
-  * the new path to be canonicalized.  The tricky part is that path may
-  * contain symlinks, which must be resolved.
-- * if "path" starts with a /, then it is an absolute path, and
-- * we ignore base.
-  */
- char *
- pseudo_fix_path(const char *base, const char *path, size_t rootlen, size_t baselen, size_t *lenp, int leave_last) {
-diff --git a/test/test-chroot-symlink.c b/test/test-chroot-symlink.c
-new file mode 100644
-index 0000000..469cb49
---- /dev/null
-+++ b/test/test-chroot-symlink.c
-@@ -0,0 +1,28 @@
-+/*
-+ * Test that stat'ing absolute/relative symlinks in a chroot environment works
-+ * SPDX-License-Identifier: LGPL-2.1-only
-+ *
-+ */
-+#define _GNU_SOURCE
-+
-+#include <unistd.h>
-+#include <sys/stat.h>
-+#include <stdio.h>
-+
-+int main(int argc, char *argv[]) {
-+    struct stat buf;
-+
-+    if (argc != 2) {
-+        perror("args");
-+	return 2;
-+    }
-+    if (chroot(argv[1]) == -1) {
-+        perror("chroot");
-+        return 1;
-+    }
-+    if (stat("symlink", &buf) == -1) {
-+        perror("stat symlink");
-+        return 1;
-+    }
-+    return 0;
-+}
-diff --git a/test/test-chroot-symlink.sh b/test/test-chroot-symlink.sh
-new file mode 100755
-index 0000000..91092c1
---- /dev/null
-+++ b/test/test-chroot-symlink.sh
-@@ -0,0 +1,19 @@
-+#!/bin/bash
-+#
-+# Test that stat'ing absolute/relative symlinks in a chroot environment works
-+# SPDX-License-Identifier: LGPL-2.1-only
-+#
-+
-+set -e
-+
-+touch symlink_target
-+trap "rm -f symlink_target symlink" 0
-+
-+# Absolute symlink
-+ln -s /symlink_target symlink
-+./test/test-chroot-symlink `pwd`
-+rm symlink
-+
-+# Relative symlink
-+ln -s symlink_target symlink
-+./test/test-chroot-symlink `pwd`
+diff --git a/meta/recipes-devtools/go/go-1.18.inc b/meta/recipes-devtools/go/go-1.18.inc
+index 99ce70b346a..54e241af10c 100644
+--- a/meta/recipes-devtools/go/go-1.18.inc
++++ b/meta/recipes-devtools/go/go-1.18.inc
+@@ -11,7 +11,6 @@ SRC_URI += "\
+     file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+-    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+ "
+diff --git a/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
+deleted file mode 100644
+index 0ede623af97..00000000000
+--- a/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 971b5626339ce0c4d57f9721c9a81af566c5a044 Mon Sep 17 00:00:00 2001
+-From: Alex Kube <alexander.j.kube@gmail.com>
+-Date: Wed, 23 Oct 2019 21:19:26 +0430
+-Subject: [PATCH 8/9] cmd/go: Use GOBUILDMODE to set buildmode
+-
+-Upstream-Status: Denied [upstream choose antoher solution: `17a256b
+-cmd/go: -buildmode=pie for android/arm']
+-
+-While building go itself, the go build system does not support
+-to set `-buildmode=pie' from environment.
+-
+-Add GOBUILDMODE to support it which make PIE executables the default
+-build mode, as PIE executables are required as of Yocto
+-
+-Refers: https://groups.google.com/forum/#!topic/golang-dev/gRCe5URKewI
+-
+-Adapted to Go 1.13 from patches originally submitted to
+-the meta/recipes-devtools/go tree by
+-Hongxu Jia <hongxu.jia@windriver.com>
+-
+-Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
+----
+- src/cmd/go/internal/work/build.go | 8 +++++++-
+- 1 file changed, 7 insertions(+), 1 deletion(-)
+-
+---- a/src/cmd/go/internal/work/build.go
+-+++ b/src/cmd/go/internal/work/build.go
+-@@ -283,7 +283,13 @@ func AddBuildFlags(cmd *base.Command, ma
+- 
+- 	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
+- 	cmd.Flag.Var(buildCompiler{}, "compiler", "")
+--	cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+-+
+-+	if bm := os.Getenv("GOBUILDMODE"); bm != "" {
+-+		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", bm, "")
+-+	} else {
+-+		cmd.Flag.StringVar(&cfg.BuildBuildmode, "buildmode", "default", "")
+-+	}
+-+
+- 	cmd.Flag.Var(&load.BuildGcflags, "gcflags", "")
+- 	cmd.Flag.Var(&load.BuildGccgoflags, "gccgoflags", "")
+- 	if mask&OmitModFlag == 0 {
+diff --git a/meta/recipes-devtools/go/go_1.18.bb b/meta/recipes-devtools/go/go_1.18.bb
+index 34dc89bb0cc..a492d7e64a1 100644
+--- a/meta/recipes-devtools/go/go_1.18.bb
++++ b/meta/recipes-devtools/go/go_1.18.bb
+@@ -3,7 +3,6 @@ require go-target.inc
+ 
+ inherit linuxloader
+ 
+-export GOBUILDMODE=""
+ export GO_LDSO = "${@get_linuxloader(d)}"
+ export CC_FOR_TARGET = "gcc"
+ export CXX_FOR_TARGET = "g++"
 -- 
-2.17.1
+2.35.1
 
 
