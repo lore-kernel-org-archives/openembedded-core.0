@@ -1,340 +1,909 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1B9C433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 06:11:01 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3409.1648534260239020958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32598C433F5
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 06:13:48 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web09.3493.1648534426927349538
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:11:00 -0700
+ Mon, 28 Mar 2022 23:13:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=pHFN2+qF;
+ dkim=missing;
  spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=108765020a=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 22T6Av6C029619
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 22T6DjlY018383
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:10:57 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=subject : from :
- to : cc : references : message-id : date : in-reply-to : content-type :
- mime-version; s=PPS06212021;
- bh=9NK5/dGGRVNdLBnpffPNMkTrIrAt+/Gs2DWG34a8Ph0=;
- b=pHFN2+qF9DbkPqEaTR16GYjG+7tHV5CpDCWL11cnmUkurYFV1oUnd7UsjyWfTvi8Xi0Z
- g8Vb2UFmE+kGtMsDfbIho/+nf30+a59euIsE10HzylVY+c7nPHWvhnBTneVBSHSc5h8e
- xmHmoFOOX/bKUA5yLJ6eFfq3tQ7O33a0GY86AE7c6jHuWZpQbTw+7zvTJCPbI5d8w2vA
- STTI+rJThlo/Mj04tx1KFOqaljKwn4Dj1/NAROEjB1i0fumFIBud80EnF26IsBoRfXWX
- Ep7/loMJL/GdvCRH09l88695qaBm6bid3ivOqy98McHQTDCXSqU9+/Sb7Q8KeHXW4mrw 6g==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3f22bj9yn9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:10:57 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 22T67R2Y022212
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:10:56 -0700
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3f22bj9yn7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Mar 2022 23:10:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OHLoJMmcXvQTtVUqVfgG6CkCwAcvrUarYAweNrXSfbTz2k4BOVDCGInQ7F2zUkn+BB9UimAtGFF03+sLiaEMtSIWRtrf8tm4vdusqIjBZdrlxe85fcMmbL7nj/jZRWb/MUqmvVcKv/FLYoxRe2iWv0uYcuYkyAWTKpSoOFtaqoZ3ixpHlWdJ+CsMUuuxP321z2w+8PwWJB1+Ddn3BrpJE12lYWIlbcesjckHlD5owmgV7CE1b3zlKp3zzVy8Wd2zDvthGmEhbj1Zkkj0SM1whX7IGAVQVZsa+q19V8aRd1c+r4l/lYOimd3XYtTSpwNH8yELXTKdtSBocXL9JEGNyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9NK5/dGGRVNdLBnpffPNMkTrIrAt+/Gs2DWG34a8Ph0=;
- b=Er3VweuhH55UTeK2jtKTqjGhHWYokX1I0R2qJ1neGOt3ffLOCVSb4oiOsYvIY3XUi7A6OnBs87fHWVxfGT4oVKV+uy73gllKiGJzYrVXae38pwde269OMIAeLBN9ccxdId4466dzjVAzfBM9rXOx6mA6jQZP8TEdbOkThcvZ5QkeMvawEPULpKmI8ym4XxKNQkTvmnSI117RAURK41xrhP+BSLGUzkSRDnz+9dtfoZ2o0TYTaPFgi90YDR4ST3d/VbKupFYLYtgbNCXaZXaGsqN79Hi7ix5bUUa7f/jilgSEuS/fYb03EjaApa8gkIbMUBr3lfwyxLiEnESDvy/pIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO1PR11MB4851.namprd11.prod.outlook.com (2603:10b6:303:9b::13)
- by CY4PR11MB1285.namprd11.prod.outlook.com (2603:10b6:903:25::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Tue, 29 Mar
- 2022 06:10:52 +0000
-Received: from CO1PR11MB4851.namprd11.prod.outlook.com
- ([fe80::5d2f:3638:aae8:1f80]) by CO1PR11MB4851.namprd11.prod.outlook.com
- ([fe80::5d2f:3638:aae8:1f80%7]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
- 06:10:51 +0000
-Subject: Re: [OE-core] [meta-oe][PATCH v2] graphviz: add pkg_postinst script
-From: Kai <kai.kang@windriver.com>
-To: raj.khem@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-References: <16E0C3F6BCA9DBAD.3733@lists.openembedded.org>
-Message-ID: <273c4ab0-e84e-7c6f-56f7-1b8726a7a2b5@windriver.com>
-Date: Tue, 29 Mar 2022 14:10:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <16E0C3F6BCA9DBAD.3733@lists.openembedded.org>
-Content-Type: multipart/alternative;
- boundary="------------47FE994A371E139F43F4600F"
-Content-Language: en-US
-X-ClientProxiedBy: TY2PR0101CA0008.apcprd01.prod.exchangelabs.com
- (2603:1096:404:92::20) To CO1PR11MB4851.namprd11.prod.outlook.com
- (2603:10b6:303:9b::13)
+ Mon, 28 Mar 2022 23:13:45 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 28 Mar 2022 23:13:45 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 28 Mar 2022 23:13:45 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] epiphany: fix CVEs
+Date: Tue, 29 Mar 2022 14:13:44 +0800
+Message-ID: <20220329061344.1643781-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a3e13681-dfc5-4347-a5d9-08da114ae071
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1285:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR11MB1285083644CBBA0E3ADAF596951E9@CY4PR11MB1285.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9oaJJEa0jwypsis+GhttzsMD9q3tnBLznJmxx1E94DBE8+oDJco1PgwchSc1u7koPrjGwjoKIfvZNfUpBBRswFxdYVxFnOUSVvM/LP7RHM56jkYXzDGVxjT15GT2z9IIHimAR06e0FPimWy14ctYXpHJtq0tKj56YgQtc5lHzsJSWMDpf7YnU1CgpE3ngPrLOJ/j7o9HsxhWd5KWYM3+3uMR4gG4YAkUXmYWC3F9fmIZUP8YMqSwnwoG18RvdRjj+DHYsv4ITjBw6lvkiITpBqanmjYf46vys/ihhWYxvJM/krIJO1mOR0mzYua/b6u54xaBxxgP8uQmqclLEQHKLgXJAmVYJtMmAH4LamPV9hDaN0zE/O5geuRQI0MP3OQb/lJSnc5WU/jIWgAHdV8DE5GeOWoUKdhpV088zkmkxO5cEpn0x4cuA2XVuKmm7NeBj+E0zRQ/kQVJTgY+aHl0+kqYG2jQ5cWAocJRy+sDFCPsVT1ZhgWTsI+ePlJ+OS7kJRUzDjLsotll5IJc3MckWwjEcPVtTX3YUct7FKj1v2tcc2pl7556NV058AIgrs00T9SCKLiDQNfp3bRi68zgTgG7lpmpTtUXcgKCGwkufvoq60egjSacqqGMlZyTSres+KLEMn2FscU/MvDY89dd4qk7msTdx2YQgftHpuDk33KedQytLPRzgR98k2NbTtVaLUg7+Wjfe6XwIdAyM6Trg5MN2MXnQ38tEio73ckPMkCyp+wcikRqbDsrpG2OR+mBY0LKWpfL/HORwQhB3ZV6NPKvHMOVXhczKxGqFnY9fULkkvVNk1eZsEiJaVZCZntCRO7woIZ9cFEMNuSMs/TrEeIC8vSS4NswUAH3+ulDCRcTHgsR8gw1Xjf4MppasinS
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4851.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(31686004)(36756003)(52116002)(26005)(33964004)(166002)(186003)(6666004)(2906002)(8936002)(5660300002)(6512007)(83380400001)(6506007)(31696002)(53546011)(6916009)(6486002)(508600001)(4326008)(316002)(2616005)(86362001)(66946007)(66556008)(66476007)(38100700002)(38350700002)(966005)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?RWRpekE0ZjZxTVlzU25XcktvM1V4L0pzRjY4ME5PRTh1L2Z2YWRSaU9ybmtv?=
- =?utf-8?B?cUtmb3pOVFM5Z1J1NmlVUEllczdSeVhJd1gxL0xNbDhXR1lqUjVmNmt1RVRM?=
- =?utf-8?B?Y0VncUswN0pDOFhKOWR2ZEVSMm4wL005ZVFndzN5MlRXTGpUSURyOG5UcG5p?=
- =?utf-8?B?c0p0Y1I3UEl1U0VQdG9Fcy9qZEdnWGoyRzVWSlUrQ3BzeHNrOHdtODJ5Zmh1?=
- =?utf-8?B?b3ZsY0UvLzhaRG4rYlhwbmNLQmNrbTVQeGNpaENxWVhrVmxaNjJpMTRUbHd6?=
- =?utf-8?B?RmtPQmpDRkE5NjRXRkxWZHB1T2ZjeG5NZHIrRTZ5TFE4SGtHcTVoQ2lwSjR2?=
- =?utf-8?B?SjUwV1FPT3ZXT0k4WUd3RjVBNnFvc2JaWm54WC9PUlRHSWhybWFHaHhmWTBO?=
- =?utf-8?B?czFKMnBRVmVUcWhLbkRmQm5WaDk5ZDdMWGR3OVYxVTBuaE5FMlB1VS8yNC9t?=
- =?utf-8?B?U1NuRkFLcDYxeURMUC9vdmpzcjh3RTVIbkw0a21GSGxPbWhEd3prV1Uva0Ux?=
- =?utf-8?B?R29veU9LeG5XRW5pY2JFZWhoekQ1OHpMc3lsMmNEdVg2NmNzbWc0bDlOZWo0?=
- =?utf-8?B?akE2UTNNeEowZ1BIdUtMNzNHeHF6YTdCV21HQWRCcjR4bGllR2hmSXhFMEtw?=
- =?utf-8?B?dmNaYUJ3UU9tYkNsbVFqK2VMQy9aY1c1WHRNbnBOZ004ZldMOHljTUh3bnE3?=
- =?utf-8?B?L1dNRVlBTkQ5M3lRT3Bac1BvWWJScTBRYVcyWjVaVE80NmtMbWxQMkN1MFpQ?=
- =?utf-8?B?empKSFpOQzFZL3lzQXRZREpzd2F3dVdMVW1ZODZiOHIyVStqZFhoLzYvbzhU?=
- =?utf-8?B?bU8yRk1OZEtiVkUvT1l2Z3lqN24zaFBwR3hmczczdHVZeEV5Q3QvRUVjUmVK?=
- =?utf-8?B?VWQ3UDI0YU5Gd1pUd2VCQnVaZENFUytCUGRYdG1EL2lGV3Jpd0RPdGpNbFFN?=
- =?utf-8?B?V3A2NkNMMjBER2oxdG5IQmtvUy83YlFZWVhxUkR1U21veWYwS3dRRk5yVENn?=
- =?utf-8?B?RS9MM1lSbU9lZzc4c3Nqd0xMREhWcC9QWFNaTllyMXQ0UHNlWTlLNWs5bTZl?=
- =?utf-8?B?ZjRYRERhZDFaTUV0djB6V0d1RktxMVZVWE1HOHY0NnQxQWk4SUxuMnlaSHdY?=
- =?utf-8?B?MmxKOFNFM0FuMnRHQWRMcitydXY0MFcyNmlRZmFad2tjU1l3c0FhK013VWpI?=
- =?utf-8?B?dFBKdmh0aThhc25vaGtHK1hoWUg3Nkp6UGpXRHAxamsybzlPS2Q4N25IUVE2?=
- =?utf-8?B?My9KcFJnaDFTS3ErZnlKTkE5VzZxQ0VSUHBVTlJZZFNYYUtFNXBVdmEvT1o4?=
- =?utf-8?B?eWwyRmg3Uyttd0xqV3dnL3FSUEl1YlgvK0Uzb29HVTFEeWtQTGpNQmFPZzhD?=
- =?utf-8?B?Wm45TkJHc3F6RS9NcmpjemhKdDZEVWtScTZ3LzA0YTAyaE8rdDVLQWNhS0Q0?=
- =?utf-8?B?VDdQWFpnUHcvbWVuWGNvQXU4aVV2K2NqdTNzNW1LUnUvRW9wbWNjRzkzTk9X?=
- =?utf-8?B?RlBHNlZ2SEV5dENWZFdCSHhGL1U0UWFjQ0tRQjROUXBxSmFFQ2h2M1FFRUZZ?=
- =?utf-8?B?cEEvNUh2dHNBTjFHM3J6K2FEZVBLUm44ZFZvT292VnljNzlSSlpBTVdGS2N0?=
- =?utf-8?B?VXJpdWhFZzQzL1ZhamFHbCtFV05yc0lOamJGT1hROEsvNmltNDAwRTZ0elVr?=
- =?utf-8?B?cjhyRTNZSFNNTloxdnFCTXZncVdYNUpET0d2SlVVMys0TVBGM2I0WVFCUERB?=
- =?utf-8?B?clhMcmNzeVZlZTV2Z1ZoY0l5a3FFeUFNQkpyRXNGQWpOOUhxR3NEU0haVEpl?=
- =?utf-8?B?TkY0YUdlL2J3K0hZTGpUWGoyYUMrUjhHK1NWNVdWNHV1ODE3dTlsRVlwVzVK?=
- =?utf-8?B?VFVVVFJGZ1g0TUhsckFzbFFOaWQ0dHJZY2xqZEFMOXhpODdrdWpuc0xzVFFF?=
- =?utf-8?B?Rno1OUFBR21MMjBucHNGR2VRVVc1TVdwTFFpSm9mcUJLRjBxbTBBN1VNS3M1?=
- =?utf-8?B?NTk4cDUxU3lQVGtjc0VyRE82NnZUZ29vSFBxKzBNeTYzU1I4SDFLR0xaVWht?=
- =?utf-8?B?b2UrZkxtQnZNekV4TnBwcFdVVGVCVzk0b1lPM2JjWm10bXpkS3lnYjliY0xS?=
- =?utf-8?B?Q3pNWU1zaU92MTZpdHd0V1UvbFdiMzVKREU2R05RUVBBdnRmVU1GZFNSL25F?=
- =?utf-8?B?Nnk5QkxGak11N3Y3ZEFYSEJSLy9OemE2MlJQNXdLRmIyU3dZUXo4eTUrOHZO?=
- =?utf-8?B?YzhmQzNSZkY3UXY2cWZDUWN1ZUlrTHVEb3BwZVp0ZHdkTnRpTFJSZWVUZkl5?=
- =?utf-8?B?U3RHa2Y1di9qODRpV1dLUDV3Z1R2MTdkR3ZsYUJmWlBIUklBckdyZz09?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- a3e13681-dfc5-4347-a5d9-08da114ae071
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4851.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 06:10:51.8080
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- 6JMsOwwLdn25FrnJyWVAe1fUNDyBRC5DR8pMBYLlymP9PrwW1RGzysyPL7fu2FqR6Frfhy7NAFCEnlcSMxOr+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1285
-X-Proofpoint-ORIG-GUID: XnzGAh9KJWoApmIZ8SL2pkn69dZVXOWr
-X-Proofpoint-GUID: kD2wgwO8pNUJAEa_bSPgFYSDrrn_Q6PP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-29_02,2022-03-28_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501 adultscore=0
- impostorscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 mlxscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203290038
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 22T6DjlY018383
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 06:11:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 06:13:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163733
+ https://lists.openembedded.org/g/openembedded-core/message/163734
 
---------------47FE994A371E139F43F4600F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On 3/29/22 1:48 PM, kai wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> It needs to run `dot -c` first before call 'dot' command, otherwise it
-> fails with:
->
-> | Format: "png" not recognized. No formats found.
-> | Perhaps "dot -c" needs to be run (with installer's privileges) to
->    register the plugins?
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Backport patch [1] to fix below CVEs:
+ - CVE-2021-45085
+ - CVE-2021-45086
+ - CVE-2021-45087
+ - CVE-2021-45088
 
-Wrong list. Sorry for the noise.
+[1] https://sources.debian.org/data/main/e/epiphany-browser/3.38.2-1+deb1=
+1u2/debian/patches/encode-untrusted-data.patch
 
-Kai
-
-> ---
-> v2:
-> * add guard to check qemu-usermode is supported
->
->   .../graphviz/graphviz_2.50.0.bb               | 19 ++++++++++++++++++-
->   1 file changed, 18 insertions(+), 1 deletion(-)
->
-> diff --git a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-> index 0eca7fdba..66353b837 100644
-> --- a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-> +++ b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-> @@ -17,7 +17,7 @@ DEPENDS = " \
->   DEPENDS:append:class-target = " ${BPN}-native"
->   DEPENDS:append:class-nativesdk = " ${BPN}-native"
->   
-> -inherit autotools-brokensep pkgconfig gettext
-> +inherit autotools-brokensep pkgconfig gettext qemu
->   
->   SRC_URI = "https://gitlab.com/api/v4/projects/4207231/packages/generic/${BPN}-releases/${PV}/${BP}.tar.xz \
->              "
-> @@ -81,6 +81,23 @@ graphviz_sstate_postinst() {
->   }
->   SYSROOT_PREPROCESS_FUNCS:append:class-native = " graphviz_sstate_postinst"
->   
-> +pkg_postinst:${PN} () {
-> +    if [ -n "$D" ]; then
-> +        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true', 'false', d)}; then
-> +            ${@qemu_run_binary(d, '$D', '${bindir}/dot')} -c
-> +        fi
-> +    else
-> +        dot -c
-> +    fi
-> +}
-> +
-> +pkg_postrm:${PN} () {
-> +    rm -f $D${libdir}/graphviz/config*
-> +    rmdir --ignore-fail-on-non-empty $D${libdir}/graphviz
-> +}
-> +
-> +PACKAGE_WRITE_DEPS += "qemu-native"
-> +
->   PACKAGES =+ "${PN}-python ${PN}-perl ${PN}-demo"
->   
->   FILES:${PN}-python += "${libdir}/python*/site-packages/ ${libdir}/graphviz/python/"
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163732): https://lists.openembedded.org/g/openembedded-core/message/163732
-> Mute This Topic: https://lists.openembedded.org/mt/90102726/3616933
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [kai.kang@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
--- 
-Kai Kang
-Wind River Linux
-
-
---------------47FE994A371E139F43F4600F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 3/29/22 1:48 PM, kai wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:16E0C3F6BCA9DBAD.3733@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
-
-It needs to run `dot -c` first before call 'dot' command, otherwise it
-fails with:
-
-| Format: &quot;png&quot; not recognized. No formats found.
-| Perhaps &quot;dot -c&quot; needs to be run (with installer's privileges) to
-  register the plugins?
-
-Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a></pre>
-    </blockquote>
-    <p>Wrong list. Sorry for the noise.</p>
-    <p>Kai<br>
-    </p>
-    <blockquote type="cite" cite="mid:16E0C3F6BCA9DBAD.3733@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
-v2:
-* add guard to check qemu-usermode is supported
+ .../recipes-gnome/epiphany/epiphany_3.38.2.bb |   1 +
+ .../files/encode-untrusted-data.patch         | 707 ++++++++++++++++++
+ 2 files changed, 708 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/encode-untrusted-da=
+ta.patch
 
- .../graphviz/graphviz_2.50.0.bb               | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-index 0eca7fdba..66353b837 100644
---- a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-+++ b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
-@@ -17,7 +17,7 @@ DEPENDS = &quot; \
- DEPENDS:append:class-target = &quot; ${BPN}-native&quot;
- DEPENDS:append:class-nativesdk = &quot; ${BPN}-native&quot;
- 
--inherit autotools-brokensep pkgconfig gettext
-+inherit autotools-brokensep pkgconfig gettext qemu
- 
- SRC_URI = <a class="moz-txt-link-rfc2396E" href="https://gitlab.com/api/v4/projects/4207231/packages/generic/${BPN}-releases/${PV}/${BP}.tar.xz\">&quot;https://gitlab.com/api/v4/projects/4207231/packages/generic/${BPN}-releases/${PV}/${BP}.tar.xz \
-            &quot;</a>
-@@ -81,6 +81,23 @@ graphviz_sstate_postinst() {
- }
- SYSROOT_PREPROCESS_FUNCS:append:class-native = &quot; graphviz_sstate_postinst&quot;
- 
-+pkg_postinst:${PN} () {
-+    if [ -n &quot;$D&quot; ]; then
-+        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true', 'false', d)}; then
-+            ${@qemu_run_binary(d, '$D', '${bindir}/dot')} -c
-+        fi
-+    else
-+        dot -c
-+    fi
-+}
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipe=
+s-gnome/epiphany/epiphany_3.38.2.bb
+index 04f340f133..72d116da69 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+@@ -18,6 +18,7 @@ SRC_URI =3D "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir=
+("${PV}")}/${GNOMEBN}-${PV}
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            file://migrator.patch \
+            file://distributor.patch \
++           file://encode-untrusted-data.patch \
+            "
+ SRC_URI[archive.sha256sum] =3D "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf=
+5741dffb8c0355715ef5116d"
+=20
+diff --git a/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patc=
+h b/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
+new file mode 100644
+index 0000000000..4805ee4e6b
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
+@@ -0,0 +1,707 @@
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Subject: Properly encode untrusted data when injecting into trusted page=
+s
 +
-+pkg_postrm:${PN} () {
-+    rm -f $D${libdir}/graphviz/config*
-+    rmdir --ignore-fail-on-non-empty $D${libdir}/graphviz
-+}
++CVE: CVE-2021-45085 CVE-2021-45086 CVE-2021-45087 CVE-2021-45088
 +
-+PACKAGE_WRITE_DEPS += &quot;qemu-native&quot;
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/com=
+pare/c27a8180e12e6ec92292dcf53b9243815ad9aa2e...abac58c5191b7d653fbefa8d4=
+4e5c2bd4d002825?from_project_id=3D1906]
 +
- PACKAGES =+ &quot;${PN}-python ${PN}-perl ${PN}-demo&quot;
- 
- FILES:${PN}-python += &quot;${libdir}/python*/site-packages/ ${libdir}/graphviz/python/&quot;
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#163732): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/163732">https://lists.openembedded.org/g/openembedded-core/message/163732</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/90102726/3616933">https://lists.openembedded.org/mt/90102726/3616933</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++Index: epiphany-browser/embed/ephy-about-handler.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/embed/ephy-about-handler.c
+++++ epiphany-browser/embed/ephy-about-handler.c
++@@ -27,6 +27,7 @@
++ #include "ephy-file-helpers.h"
++ #include "ephy-flatpak-utils.h"
++ #include "ephy-history-service.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-prefs.h"
++ #include "ephy-settings.h"
++ #include "ephy-smaps.h"
++@@ -263,16 +264,34 @@ handle_applications_finished_cb (EphyAbo
++=20
++     for (p =3D applications; p; p =3D p->next) {
++       EphyWebApplication *app =3D (EphyWebApplication *)p->data;
++-
+++      g_autofree char *html_encoded_id =3D NULL;
+++      g_autofree char *encoded_icon_url =3D NULL;
+++      g_autofree char *encoded_name =3D NULL;
+++      g_autofree char *encoded_url =3D NULL;
+++      g_autofree char *js_encoded_id =3D NULL;
+++      g_autofree char *encoded_install_date =3D NULL;
+++
+++      /* Most of these fields are untrusted. The web app suggests its o=
+wn title,
+++       * which gets used in the app ID and icon URL. The main URL could=
+ contain
+++       * anything. Install date is the only trusted field here in that =
+it's
+++       * constructed by Epiphany, but it's a freeform string and we're =
+encoding
+++       * everything else here anyway, so might as well encode this too.
+++       */
+++      html_encoded_id =3D ephy_encode_for_html_attribute (app->id);
+++      encoded_icon_url =3D ephy_encode_for_html_attribute (app->icon_ur=
+l);
+++      encoded_name =3D ephy_encode_for_html_entity (app->name);
+++      encoded_url =3D ephy_encode_for_html_entity (app->url);
+++      js_encoded_id =3D ephy_encode_for_javascript (app->id);
+++      encoded_install_date =3D ephy_encode_for_html_entity (app->instal=
+l_date);
++       g_string_append_printf (data_str,
++                               "<tbody><tr id =3D\"%s\">"
++                               "<td class=3D\"icon\"><img width=3D64 hei=
+ght=3D64 src=3D\"file://%s\"></img></td>"
++                               "<td class=3D\"data\"><div class=3D\"appn=
+ame\">%s</div><div class=3D\"appurl\">%s</div></td>"
++                               "<td class=3D\"input\"><input type=3D\"bu=
+tton\" value=3D\"%s\" onclick=3D\"deleteWebApp('%s');\"></td>"
++                               "<td class=3D\"date\">%s <br /> %s</td></=
+tr></tbody>",
++-                              app->id, app->icon_url, app->name, app->u=
+rl, _("Delete"), app->id,
+++                              html_encoded_id, encoded_icon_url, encode=
+d_name, encoded_url, _("Delete"), js_encoded_id,
++                               /* Note for translators: this refers to t=
+he installation date. */
++-                              _("Installed on:"), app->install_date);
+++                              _("Installed on:"), encoded_install_date)=
+;
++     }
++=20
++     g_string_append (data_str, "</table></div></body></html>");
++@@ -407,7 +426,9 @@ history_service_query_urls_cb (EphyHisto
++     EphyHistoryURL *url =3D (EphyHistoryURL *)l->data;
++     const char *snapshot;
++     g_autofree char *thumbnail_style =3D NULL;
++-    g_autofree char *markup =3D NULL;
+++    g_autofree char *entity_encoded_title =3D NULL;
+++    g_autofree char *attribute_encoded_title =3D NULL;
+++    g_autofree char *encoded_url =3D NULL;
++=20
++     snapshot =3D ephy_snapshot_service_lookup_cached_snapshot_path (sna=
+pshot_service, url->url);
++     if (snapshot)
++@@ -415,15 +436,19 @@ history_service_query_urls_cb (EphyHisto
++     else
++       ephy_embed_shell_schedule_thumbnail_update (shell, url);
++=20
++-    markup =3D g_markup_escape_text (url->title, -1);
+++    /* Title and URL are controlled by web content and could be malicio=
+us. */
+++    entity_encoded_title =3D ephy_encode_for_html_entity (url->title);
+++    attribute_encoded_title =3D ephy_encode_for_html_attribute (url->ti=
+tle);
+++    encoded_url =3D ephy_encode_for_html_attribute (url->url);
++     g_string_append_printf (data_str,
++                             "<a class=3D\"overview-item\" title=3D\"%s\=
+" href=3D\"%s\">"
++                             "  <div class=3D\"overview-close-button\" t=
+itle=3D\"%s\"></div>"
++                             "  <span class=3D\"overview-thumbnail\"%s><=
+/span>"
++                             "  <span class=3D\"overview-title\">%s</spa=
+n>"
++                             "</a>",
++-                            markup, url->url, _("Remove from overview")=
+,
++-                            thumbnail_style ? thumbnail_style : "", url=
+->title);
+++                            attribute_encoded_title, encoded_url, _("Re=
+move from overview"),
+++                            thumbnail_style ? thumbnail_style : "",
+++                            entity_encoded_title);
++   }
++=20
++   data_str =3D g_string_append (data_str,
++Index: epiphany-browser/embed/ephy-pdf-handler.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/embed/ephy-pdf-handler.c
+++++ epiphany-browser/embed/ephy-pdf-handler.c
++@@ -23,6 +23,7 @@
++=20
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-web-view.h"
++=20
++ #include <gio/gio.h>
++@@ -124,8 +125,9 @@ pdf_file_loaded (GObject      *source,
++   GBytes *html_file;
++   g_autoptr (GError) error =3D NULL;
++   g_autoptr (GString) html =3D NULL;
++-  g_autofree gchar *b64 =3D NULL;
++   g_autofree char *file_data =3D NULL;
+++  g_autofree char *encoded_file_data =3D NULL;
+++  g_autofree char *encoded_filename =3D NULL;
++   gsize len =3D 0;
++=20
++   if (!g_file_load_contents_finish (G_FILE (source), res, &file_data, &=
+len, NULL, &error)) {
++@@ -134,13 +136,13 @@ pdf_file_loaded (GObject      *source,
++     return;
++   }
++=20
++-  html_file =3D g_resources_lookup_data ("/org/gnome/epiphany/pdfjs/web=
+/viewer.html", 0, NULL);
++-
++-  b64 =3D g_base64_encode ((const guchar *)file_data, len);
++   g_file_delete_async (G_FILE (source), G_PRIORITY_DEFAULT, NULL, pdf_f=
+ile_deleted, NULL);
++=20
++-  html =3D g_string_new ("");
++-  g_string_printf (html, g_bytes_get_data (html_file, NULL), b64, self-=
+>file_name ? self->file_name : "");
+++  html =3D g_string_new (NULL);
+++  html_file =3D g_resources_lookup_data ("/org/gnome/epiphany/pdfjs/web=
+/viewer.html", 0, NULL);
+++  encoded_file_data =3D g_base64_encode ((const guchar *)file_data, len=
+);
+++  encoded_filename =3D self->file_name ? ephy_encode_for_html_attribute=
+ (self->file_name) : g_strdup ("");
+++  g_string_printf (html, g_bytes_get_data (html_file, NULL), encoded_fi=
+le_data, encoded_filename);
++=20
++   finish_uri_scheme_request (self, g_strdup (html->str), NULL);
++ }
++Index: epiphany-browser/embed/ephy-reader-handler.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/embed/ephy-reader-handler.c
+++++ epiphany-browser/embed/ephy-reader-handler.c
++@@ -24,6 +24,7 @@
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
++ #include "ephy-lib-type-builtins.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-settings.h"
++ #include "ephy-web-view.h"
++=20
++@@ -156,7 +157,9 @@ readability_js_finish_cb (GObject      *
++   g_autoptr (WebKitJavascriptResult) js_result =3D NULL;
++   g_autoptr (GError) error =3D NULL;
++   g_autofree gchar *byline =3D NULL;
+++  g_autofree gchar *encoded_byline =3D NULL;
++   g_autofree gchar *content =3D NULL;
+++  g_autofree gchar *encoded_title =3D NULL;
++   g_autoptr (GString) html =3D NULL;
++   g_autoptr (GBytes) style_css =3D NULL;
++   const gchar *title;
++@@ -173,10 +176,14 @@ readability_js_finish_cb (GObject      *
++=20
++   byline =3D readability_get_property_string (js_result, "byline");
++   content =3D readability_get_property_string (js_result, "content");
+++  title =3D webkit_web_view_get_title (web_view);
+++
+++  encoded_byline =3D byline ? ephy_encode_for_html_entity (byline) : g_=
+strdup ("");
+++  encoded_title =3D ephy_encode_for_html_entity (title);
++=20
++-  html =3D g_string_new ("");
+++  html =3D g_string_new (NULL);
++   style_css =3D g_resources_lookup_data ("/org/gnome/epiphany/readabili=
+ty/reader.css", G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
++-  title =3D webkit_web_view_get_title (web_view);
+++
++   font_style =3D enum_nick (EPHY_TYPE_PREFS_READER_FONT_STYLE,
++                           g_settings_get_enum (EPHY_SETTINGS_READER,
++                                                EPHY_PREFS_READER_FONT_S=
+TYLE));
++@@ -186,7 +193,8 @@ readability_js_finish_cb (GObject      *
++=20
++   g_string_append_printf (html, "<style>%s</style>"
++                           "<title>%s</title>"
++-                          "<meta http-equiv=3D\"Content-Type\" content=3D=
+\"text/html;\" charset=3D\"UTF-8\">" \
+++                          "<meta http-equiv=3D'Content-Type' content=3D=
+'text/html;' charset=3D'UTF-8'>" \
+++                          "<meta http-equiv=3D'Content-Security-Policy'=
+ content=3D\"script-src 'none'\">" \
++                           "<body class=3D'%s %s'>"
++                           "<article>"
++                           "<h2>"
++@@ -197,13 +205,27 @@ readability_js_finish_cb (GObject      *
++                           "</i>"
++                           "<hr>",
++                           (gchar *)g_bytes_get_data (style_css, NULL),
++-                          title,
+++                          encoded_title,
++                           font_style,
++                           color_scheme,
++-                          title,
++-                          byline !=3D NULL ? byline : "");
+++                          encoded_title,
+++                          encoded_byline);
+++
+++  /* We cannot encode the page content because it contains HTML tags in=
+serted by
+++   * Readability.js. Upstream recommends that we use an XSS sanitizer l=
+ike
+++   * DOMPurify plus Content-Security-Policy, but I'm not keen on adding=
+ more
+++   * bundled JS dependencies, and we have an advantage over Firefox in =
+that we
+++   * don't need scripts to work at this point. So instead the above CSP
+++   * completely blocks all scripts, which should hopefully obviate the =
+need for
+++   * a DOM purifier.
+++   *
+++   * Note the encoding for page title and byline is still required, as =
+they're
+++   * not supposed to contain markup, and Readability.js unescapes them =
+before
+++   * returning them to us.
+++   */
++   g_string_append (html, content);
++   g_string_append (html, "</article>");
+++  g_string_append (html, "</body>");
++=20
++   finish_uri_scheme_request (request, g_strdup (html->str), NULL);
++ }
++Index: epiphany-browser/embed/ephy-view-source-handler.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/embed/ephy-view-source-handler.c
+++++ epiphany-browser/embed/ephy-view-source-handler.c
++@@ -23,6 +23,7 @@
++=20
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-web-view.h"
++=20
++ #include <gio/gio.h>
++@@ -109,7 +110,9 @@ web_resource_data_cb (WebKitWebResource
++                       EphyViewSourceRequest *request)
++ {
++   g_autofree guchar *data =3D NULL;
++-  g_autofree char *escaped_str =3D NULL;
+++  g_autofree char *data_str =3D NULL;
+++  g_autofree char *encoded_str =3D NULL;
+++  g_autofree char *encoded_uri =3D NULL;
++   g_autoptr (GError) error =3D NULL;
++   g_autofree char *html =3D NULL;
++   gsize length;
++@@ -120,8 +123,13 @@ web_resource_data_cb (WebKitWebResource
++     return;
++   }
++=20
++-  /* Warning: data is not a string, so we pass length here because it's=
+ not NUL-terminated. */
++-  escaped_str =3D g_markup_escape_text ((const char *)data, length);
+++  /* Convert data to a string */
+++  data_str =3D g_malloc (length + 1);
+++  memcpy (data_str, data, length);
+++  data_str[length] =3D '\0';
+++
+++  encoded_str =3D ephy_encode_for_html_entity (data_str);
+++  encoded_uri =3D ephy_encode_for_html_entity (webkit_web_resource_get_=
+uri (resource));
++=20
++   html =3D g_strdup_printf ("<head>"
++                           "  <link rel=3D'stylesheet' href=3D'ephy-reso=
+urce:///org/gnome/epiphany/highlightjs/nnfx.css' media=3D'(prefers-color-=
+scheme: no-preference), (prefers-color-scheme: light)'>"
++@@ -136,8 +144,8 @@ web_resource_data_cb (WebKitWebResource
++                           "          hljs.initLineNumbersOnLoad();</scr=
+ipt>"
++                           "  <pre><code class=3D'html'>%s</code></pre>"
++                           "</body>",
++-                          webkit_web_resource_get_uri (resource),
++-                          escaped_str);
+++                          encoded_uri,
+++                          encoded_str);
++=20
++   finish_uri_scheme_request (request, g_steal_pointer (&html), NULL);
++ }
++Index: epiphany-browser/embed/ephy-web-view.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/embed/ephy-web-view.c
+++++ epiphany-browser/embed/ephy-web-view.c
++@@ -38,6 +38,7 @@
++ #include "ephy-gsb-utils.h"
++ #include "ephy-history-service.h"
++ #include "ephy-lib-type-builtins.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-permissions-manager.h"
++ #include "ephy-prefs.h"
++ #include "ephy-reader-handler.h"
++@@ -1772,9 +1773,11 @@ format_network_error_page (const char  *
++                            const char **icon_name,
++                            const char **style)
++ {
++-  char *formatted_origin;
++-  char *formatted_reason;
++-  char *first_paragraph;
+++  g_autofree char *encoded_uri =3D NULL;
+++  g_autofree char *encoded_origin =3D NULL;
+++  g_autofree char *formatted_origin =3D NULL;
+++  g_autofree char *formatted_reason =3D NULL;
+++  g_autofree char *first_paragraph =3D NULL;
++   const char *second_paragraph;
++=20
++   /* Page title when a site cannot be loaded due to a network error. */
++@@ -1783,7 +1786,8 @@ format_network_error_page (const char  *
++   /* Message title when a site cannot be loaded due to a network error.=
+ */
++   *message_title =3D g_strdup (_("Unable to display this website"));
++=20
++-  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin =3D ephy_encode_for_html_entity (origin);
+++  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", encoded_=
+origin);
++   /* Error details when a site cannot be loaded due to a network error.=
+ */
++   first_paragraph =3D g_strdup_printf (_("The site at %s seems to be "
++                                        "unavailable."),
++@@ -1805,16 +1809,13 @@ format_network_error_page (const char  *
++=20
++   /* The button on the network error page. DO NOT ADD MNEMONICS HERE. *=
+/
++   *button_label =3D g_strdup (_("Reload"));
++-  *button_action =3D g_strdup_printf ("window.location =3D '%s';", uri)=
+;
+++  encoded_uri =3D ephy_encode_for_javascript (uri);
+++  *button_action =3D g_strdup_printf ("window.location =3D '%s';", enco=
+ded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey =3D C_("reload-access-key", "R");
++=20
++   *icon_name =3D "network-error-symbolic.svg";
++   *style =3D "default";
++-
++-  g_free (formatted_origin);
++-  g_free (formatted_reason);
++-  g_free (first_paragraph);
++ }
++=20
++ static void
++@@ -1828,10 +1829,12 @@ format_crash_error_page (const char  *ur
++                          const char **icon_name,
++                          const char **style)
++ {
++-  char *formatted_uri;
++-  char *formatted_distributor;
++-  char *first_paragraph;
++-  char *second_paragraph;
+++  g_autofree char *html_encoded_uri =3D NULL;
+++  g_autofree char *js_encoded_uri =3D NULL;
+++  g_autofree char *formatted_uri =3D NULL;
+++  g_autofree char *formatted_distributor =3D NULL;
+++  g_autofree char *first_paragraph =3D NULL;
+++  g_autofree char *second_paragraph =3D NULL;
++=20
++   /* Page title when a site cannot be loaded due to a page crash error.=
+ */
++   *page_title =3D g_strdup_printf (_("Problem Loading Page"));
++@@ -1839,7 +1842,8 @@ format_crash_error_page (const char  *ur
++   /* Message title when a site cannot be loaded due to a page crash err=
+or. */
++   *message_title =3D g_strdup (_("Oops! There may be a problem"));
++=20
++-  formatted_uri =3D g_strdup_printf ("<strong>%s</strong>", uri);
+++  html_encoded_uri =3D ephy_encode_for_html_entity (uri);
+++  formatted_uri =3D g_strdup_printf ("<strong>%s</strong>", html_encode=
+d_uri);
++   /* Error details when a site cannot be loaded due to a page crash err=
+or. */
++   first_paragraph =3D g_strdup_printf (_("The page %s may have caused W=
+eb to "
++                                        "close unexpectedly."),
++@@ -1858,17 +1862,13 @@ format_crash_error_page (const char  *ur
++=20
++   /* The button on the page crash error page. DO NOT ADD MNEMONICS HERE=
+. */
++   *button_label =3D g_strdup (_("Reload"));
++-  *button_action =3D g_strdup_printf ("window.location =3D '%s';", uri)=
+;
+++  js_encoded_uri =3D ephy_encode_for_javascript (uri);
+++  *button_action =3D g_strdup_printf ("window.location =3D '%s';", js_e=
+ncoded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey =3D C_("reload-access-key", "R");
++=20
++   *icon_name =3D "computer-fail-symbolic.svg";
++   *style =3D "default";
++-
++-  g_free (formatted_uri);
++-  g_free (formatted_distributor);
++-  g_free (first_paragraph);
++-  g_free (second_paragraph);
++ }
++=20
++ static void
++@@ -1882,6 +1882,7 @@ format_process_crash_error_page (const c
++                                  const char **icon_name,
++                                  const char **style)
++ {
+++  g_autofree char *encoded_uri =3D NULL;
++   const char *first_paragraph;
++=20
++   /* Page title when a site cannot be loaded due to a process crash err=
+or. */
++@@ -1897,7 +1898,8 @@ format_process_crash_error_page (const c
++=20
++   /* The button on the process crash error page. DO NOT ADD MNEMONICS H=
+ERE. */
++   *button_label =3D g_strdup (_("Reload"));
++-  *button_action =3D g_strdup_printf ("window.location =3D '%s';", uri)=
+;
+++  encoded_uri =3D ephy_encode_for_javascript (uri);
+++  *button_action =3D g_strdup_printf ("window.location =3D '%s';", enco=
+ded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey =3D C_("reload-access-key", "R");
++=20
++@@ -1921,8 +1923,9 @@ format_tls_error_page (EphyWebView  *vie
++                        const char  **icon_name,
++                        const char  **style)
++ {
++-  char *formatted_origin;
++-  char *first_paragraph;
+++  g_autofree char *encoded_origin =3D NULL;
+++  g_autofree char *formatted_origin =3D NULL;
+++  g_autofree char *first_paragraph =3D NULL;
++=20
++   /* Page title when a site is not loaded due to an invalid TLS certifi=
+cate. */
++   *page_title =3D g_strdup_printf (_("Security Violation"));
++@@ -1930,7 +1933,8 @@ format_tls_error_page (EphyWebView  *vie
++   /* Message title when a site is not loaded due to an invalid TLS cert=
+ificate. */
++   *message_title =3D g_strdup (_("This Connection is Not Secure"));
++=20
++-  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin =3D ephy_encode_for_html_entity (origin);
+++  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", encoded_=
+origin);
++   /* Error details when a site is not loaded due to an invalid TLS cert=
+ificate. */
++   first_paragraph =3D g_strdup_printf (_("This does not look like the r=
+eal %s. "
++                                        "Attackers might be trying to st=
+eal or "
++@@ -1956,9 +1960,6 @@ format_tls_error_page (EphyWebView  *vie
++=20
++   *icon_name =3D "channel-insecure-symbolic.svg";
++   *style =3D "danger";
++-
++-  g_free (formatted_origin);
++-  g_free (first_paragraph);
++ }
++=20
++ static void
++@@ -1978,8 +1979,9 @@ format_unsafe_browsing_error_page (EphyW
++                                    const char  **icon_name,
++                                    const char  **style)
++ {
++-  char *formatted_origin;
++-  char *first_paragraph;
+++  g_autofree char *encoded_origin =3D NULL;
+++  g_autofree char *formatted_origin =3D NULL;
+++  g_autofree char *first_paragraph =3D NULL;
++=20
++   /* Page title when a site is flagged by Google Safe Browsing verifica=
+tion. */
++   *page_title =3D g_strdup_printf (_("Security Warning"));
++@@ -1987,7 +1989,8 @@ format_unsafe_browsing_error_page (EphyW
++   /* Message title on the unsafe browsing error page. */
++   *message_title =3D g_strdup (_("Unsafe website detected!"));
++=20
++-  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin =3D ephy_encode_for_html_entity (origin);
+++  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", encoded_=
+origin);
++   /* Error details on the unsafe browsing error page.
++    * https://developers.google.com/safe-browsing/v4/usage-limits#UserWa=
+rnings
++    */
++@@ -2045,9 +2048,6 @@ format_unsafe_browsing_error_page (EphyW
++=20
++   *icon_name =3D "security-high-symbolic.svg";
++   *style =3D "danger";
++-
++-  g_free (formatted_origin);
++-  g_free (first_paragraph);
++ }
++=20
++ static void
++@@ -2061,7 +2061,8 @@ format_no_such_file_error_page (EphyWebV
++                                 const char  **icon_name,
++                                 const char  **style)
++ {
++-  g_autofree gchar *formatted_origin =3D NULL;
+++  g_autofree gchar *encoded_address =3D NULL;
+++  g_autofree gchar *formatted_address =3D NULL;
++   g_autofree gchar *first_paragraph =3D NULL;
++   g_autofree gchar *second_paragraph =3D NULL;
++=20
++@@ -2071,10 +2072,11 @@ format_no_such_file_error_page (EphyWebV
++   /* Message title on the no such file error page. */
++   *message_title =3D g_strdup (_("File not found"));
++=20
++-  formatted_origin =3D g_strdup_printf ("<strong>%s</strong>", view->ad=
+dress);
+++  encoded_address =3D ephy_encode_for_html_entity (view->address);
+++  formatted_address =3D g_strdup_printf ("<strong>%s</strong>", encoded=
+_address);
++=20
++   first_paragraph =3D g_strdup_printf (_("%s could not be found."),
++-                                     formatted_origin);
+++                                     formatted_address);
++   second_paragraph =3D g_strdup_printf (_("Please check the file name f=
+or "
++                                         "capitalization or other typing=
+ errors. Also check if "
++                                         "it has been moved, renamed, or=
+ deleted."));
++@@ -2109,19 +2111,19 @@ ephy_web_view_load_error_page (EphyWebVi
++                                GError               *error,
++                                gpointer              user_data)
++ {
++-  GBytes *html_file;
++-  GString *html =3D g_string_new ("");
++-  char *origin =3D NULL;
++-  char *lang =3D NULL;
++-  char *page_title =3D NULL;
++-  char *msg_title =3D NULL;
++-  char *msg_body =3D NULL;
++-  char *msg_details =3D NULL;
++-  char *button_label =3D NULL;
++-  char *hidden_button_label =3D NULL;
++-  char *button_action =3D NULL;
++-  char *hidden_button_action =3D NULL;
++-  char *style_sheet =3D NULL;
+++  g_autoptr (GBytes) html_file =3D NULL;
+++  g_autoptr (GString) html =3D g_string_new (NULL);
+++  g_autofree char *origin =3D NULL;
+++  g_autofree char *lang =3D NULL;
+++  g_autofree char *page_title =3D NULL;
+++  g_autofree char *msg_title =3D NULL;
+++  g_autofree char *msg_body =3D NULL;
+++  g_autofree char *msg_details =3D NULL;
+++  g_autofree char *button_label =3D NULL;
+++  g_autofree char *hidden_button_label =3D NULL;
+++  g_autofree char *button_action =3D NULL;
+++  g_autofree char *hidden_button_action =3D NULL;
+++  g_autofree char *style_sheet =3D NULL;
++   const char *button_accesskey =3D NULL;
++   const char *hidden_button_accesskey =3D NULL;
++   const char *icon_name =3D NULL;
++@@ -2261,23 +2263,9 @@ ephy_web_view_load_error_page (EphyWebVi
++                    button_accesskey, button_label);
++ #pragma GCC diagnostic pop
++=20
++-  g_bytes_unref (html_file);
++-  g_free (origin);
++-  g_free (lang);
++-  g_free (page_title);
++-  g_free (msg_title);
++-  g_free (msg_body);
++-  g_free (msg_details);
++-  g_free (button_label);
++-  g_free (button_action);
++-  g_free (hidden_button_label);
++-  g_free (hidden_button_action);
++-  g_free (style_sheet);
++-
++   /* Make our history backend ignore the next page load, since it will =
+be an error page. */
++   ephy_web_view_freeze_history (view);
++   webkit_web_view_load_alternate_html (WEBKIT_WEB_VIEW (view), html->st=
+r, uri, 0);
++-  g_string_free (html, TRUE);
++ }
++=20
++ static gboolean
++Index: epiphany-browser/lib/ephy-output-encoding.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- /dev/null
+++++ epiphany-browser/lib/ephy-output-encoding.c
++@@ -0,0 +1,117 @@
+++/* -*- Mode: C; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 =
+-*- */
+++/*
+++ *  Copyright =C2=A9 Red Hat Inc.
+++ *
+++ *  This file is part of Epiphany.
+++ *
+++ *  Epiphany is free software: you can redistribute it and/or modify
+++ *  it under the terms of the GNU General Public License as published b=
+y
+++ *  the Free Software Foundation, either version 3 of the License, or
+++ *  (at your option) any later version.
+++ *
+++ *  Epiphany is distributed in the hope that it will be useful,
+++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ *  GNU General Public License for more details.
+++ *
+++ *  You should have received a copy of the GNU General Public License
+++ *  along with Epiphany.  If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++#include "config.h"
+++#include "ephy-output-encoding.h"
+++
+++#include <glib.h>
+++
+++#if !GLIB_CHECK_VERSION(2, 68, 0)
+++static guint
+++g_string_replace (GString     *string,
+++                  const gchar *find,
+++                  const gchar *replace,
+++                  guint        limit)
+++{
+++  gsize f_len, r_len, pos;
+++  gchar *cur, *next;
+++  guint n =3D 0;
+++
+++  g_return_val_if_fail (string !=3D NULL, 0);
+++  g_return_val_if_fail (find !=3D NULL, 0);
+++  g_return_val_if_fail (replace !=3D NULL, 0);
+++
+++  f_len =3D strlen (find);
+++  r_len =3D strlen (replace);
+++  cur =3D string->str;
+++
+++  while ((next =3D strstr (cur, find)) !=3D NULL)
+++    {
+++      pos =3D next - string->str;
+++      g_string_erase (string, pos, f_len);
+++      g_string_insert (string, pos, replace);
+++      cur =3D string->str + pos + r_len;
+++      n++;
+++      /* Only match the empty string once at any given position, to
+++       * avoid infinite loops */
+++      if (f_len =3D=3D 0)
+++        {
+++          if (cur[0] =3D=3D '\0')
+++            break;
+++          else
+++            cur++;
+++        }
+++      if (n =3D=3D limit)
+++        break;
+++    }
+++
+++  return n;
+++}
+++#endif
+++
+++char *
+++ephy_encode_for_html_entity (const char *input)
+++{
+++  GString *str =3D g_string_new (input);
+++
+++  g_string_replace (str, "&", "&amp;", 0);
+++  g_string_replace (str, "<", "&lt;", 0);
+++  g_string_replace (str, ">", "&gt;", 0);
+++  g_string_replace (str, "\"", "&quot;", 0);
+++  g_string_replace (str, "'", "&#x27;", 0);
+++  g_string_replace (str, "/", "&#x2F;", 0);
+++
+++  return g_string_free (str, FALSE);
+++}
+++
+++static char *
+++encode_all_except_alnum (const char *input,
+++                         const char *format)
+++{
+++  GString *str;
+++  const char *c =3D input;
+++
+++  if (!g_utf8_validate (input, -1, NULL))
+++    return g_strdup ("");
+++
+++  str =3D g_string_new (NULL);
+++  do {
+++    gunichar u =3D g_utf8_get_char (c);
+++    if (g_unichar_isalnum (u))
+++      g_string_append_unichar (str, u);
+++    else
+++      g_string_append_printf (str, format, u);
+++    c =3D g_utf8_next_char (c);
+++  } while (*c);
+++
+++  return g_string_free (str, FALSE);
+++}
+++
+++char *
+++ephy_encode_for_html_attribute (const char *input)
+++{
+++  return encode_all_except_alnum (input, "&#x%02x;");
+++}
+++
+++char *
+++ephy_encode_for_javascript (const char *input)
+++{
+++  return encode_all_except_alnum (input, "\\u%04u;");
+++}
++Index: epiphany-browser/lib/ephy-output-encoding.h
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- /dev/null
+++++ epiphany-browser/lib/ephy-output-encoding.h
++@@ -0,0 +1,38 @@
+++/* -*- Mode: C; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 =
+-*- */
+++/*
+++ *  Copyright =C2=A9 2021 Red Hat Inc.
+++ *
+++ *  This file is part of Epiphany.
+++ *
+++ *  Epiphany is free software: you can redistribute it and/or modify
+++ *  it under the terms of the GNU General Public License as published b=
+y
+++ *  the Free Software Foundation, either version 3 of the License, or
+++ *  (at your option) any later version.
+++ *
+++ *  Epiphany is distributed in the hope that it will be useful,
+++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ *  GNU General Public License for more details.
+++ *
+++ *  You should have received a copy of the GNU General Public License
+++ *  along with Epiphany.  If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++#pragma once
+++
+++#include <glib.h>
+++
+++G_BEGIN_DECLS
+++
+++/* These functions implement the OWASP XSS prevention output encoding r=
+ules:
+++ * https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_=
+Prevention_Cheat_Sheet.html#output-encoding-rules-summary
+++ *
+++ * You must *carefully* read that document to safely inject untrusted d=
+ata into
+++ * web content. Here be dragons.
+++ */
+++
+++char *ephy_encode_for_html_entity    (const char *input);
+++char *ephy_encode_for_html_attribute (const char *input);
+++char *ephy_encode_for_javascript     (const char *input);
+++
+++G_END_DECLS
++Index: epiphany-browser/lib/meson.build
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- epiphany-browser.orig/lib/meson.build
+++++ epiphany-browser/lib/meson.build
++@@ -21,6 +21,7 @@ libephymisc_sources =3D [
++   'ephy-langs.c',
++   'ephy-notification.c',
++   'ephy-notification-container.c',
+++  'ephy-output-encoding.c',
++   'ephy-permissions-manager.c',
++   'ephy-profile-utils.c',
++   'ephy-search-engine-manager.c',
+--=20
+2.25.1
 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Kai Kang
-Wind River Linux</pre>
-  </body>
-</html>
-
---------------47FE994A371E139F43F4600F--
 
