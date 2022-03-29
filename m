@@ -1,252 +1,477 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 102EAC433EF
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 12:55:00 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.6106.1648558498656778763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90023C433EF
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 13:06:20 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web08.6271.1648559178842227528
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 05:54:59 -0700
+ Tue, 29 Mar 2022 06:06:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jirC+IIG;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id b19so24641545wrh.11
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 05:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=79HTi2YaUoj4kcwLV0VMEh/hN95v82/Sds8CE9g3pTk=;
-        b=jirC+IIGYgKw152fyU4pubPkbg63Zj0zVwW9HoEAqpYPJIHVuv/NwqjL67Qs60kryf
-         /fM4dylZy31Fs9m4rzM1bEey923CkPiWNu9Z6fFwOaU580mJ9D1YVuY0RIk/1jiYI5y/
-         aY6INiypxi4s6R5KPe+nvzV6wJwx9PaM6FFvx5wtvD6SAeNIdfq/2qmYKTAd++mo66ac
-         cWBR8hTuJcepkTqXeshPMKaVOZQvbL7Q+IUW5LeGCd8b1EPGJQlfhe3apwkzwSDBbgtV
-         JGQGVHuoOP+LTvb6hQef/HOLu1Ipzz1l4bBYLZNV537YojgB1uacA+HjbuUIYhfJ4VRS
-         0cPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=79HTi2YaUoj4kcwLV0VMEh/hN95v82/Sds8CE9g3pTk=;
-        b=P++GIJ7XkvBls56GR7fJ4BJxzGuuOIC9BrzKcEGmbPxJWEcUwt3rIa7QdXhXva8LkU
-         DEzcl7XVdB/M/qrdS0XwnUXY1RrSTAZGd0Lw/Tr4ggHOuMgoYkJRPdmeKukSUtfNW/nG
-         poQw8Y6EbqRx39K9kVJMjelnyMezL/nDA2XmEUB85ttsn3yuLFuVLaxq9PRLwsnQDiz9
-         xHK2wMMw+mOos2BDtfLxuKJaiY8CWls1U4itW0kLXIwrlCHDGHyWX7slD/mwePwnRWre
-         JnOeX8pdOTxzpAOQOzKM/J2/z7q/1p7QEKav5yGeEhEZxC5w6avlS9PDUNccNtStyfEG
-         7t3A==
-X-Gm-Message-State: AOAM533bGuWwTLSxoXZ9pjSxSVyGhlExwo8Eqg+2l6lMP7zcw7B6nVrK
-	l1xRt5iA38pE8lgapZAK77LqP1NsSBE=
-X-Google-Smtp-Source: 
- ABdhPJzbokvQc5fTlDJ75OxMRBL9J2+pBGWBSagg5zKuJ9RfFb1Jdklu+fWaiDR8Du4RktkWiuOdXw==
-X-Received: by 2002:adf:eb48:0:b0:203:f854:86cc with SMTP id
- u8-20020adfeb48000000b00203f85486ccmr30374524wrn.102.1648558496743;
-        Tue, 29 Mar 2022 05:54:56 -0700 (PDT)
-Received: from localhost.localdomain ([80.215.138.119])
-        by smtp.gmail.com with ESMTPSA id
- bg42-20020a05600c3caa00b00380deeaae72sm2361165wmb.1.2022.03.29.05.54.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 05:54:56 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross@burtonini.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [OE-core][PATCH v3 2/2] cve-check: add coverage statistics on recipes
- with/without CVEs
-Date: Tue, 29 Mar 2022 14:54:32 +0200
-Message-Id: <20220329125432.78608-2-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220329125432.78608-1-rybczynska@gmail.com>
-References: <20220329125432.78608-1-rybczynska@gmail.com>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 99D8223A
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 29 Mar 2022 06:06:17 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 322BF3F73B
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 29 Mar 2022 06:06:17 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][hardknott] zlib: backport the fix for CVE-2018-25032
+Date: Tue, 29 Mar 2022 14:06:15 +0100
+Message-Id: <20220329130615.2430159-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 12:55:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 13:06:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163746
+ https://lists.openembedded.org/g/openembedded-core/message/163747
 
-Until now the CVE checker was giving information about CVEs found for
-a product (or more products) contained in a recipe. However, there was
-no easy way to find out which products or recipes have no CVEs. Having
-no reported CVEs might mean there are simply none, but can also mean
-a product name (CPE) mismatch.
-
-This patch adds CVE_CHECK_COVERAGE option enabling a new type of
-statistics. Then we use the new JSON format to report the information.
-The legacy text mode report does not contain it.
-
-This option is expected to help with an identification of recipes with
-mismatched CPEs, issues in the database and more.
-
-This work is based on [1], but adding the JSON format makes it easier
-to implement, without additional result files.
-
-[1] https://lists.openembedded.org/g/openembedded-core/message/159873
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/cve-check.bbclass | 51 ++++++++++++++++++++++++++--------
- 1 file changed, 40 insertions(+), 11 deletions(-)
+ .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+ 2 files changed, 348 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index f574f5daa4..78516d0bb6 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -55,6 +55,9 @@ CVE_CHECK_FORMAT_TEXT ??= "1"
- # Provide JSON output
- CVE_CHECK_FORMAT_JSON ??= "1"
- 
-+# Check for packages without CVEs (no issues or missing product name)
-+CVE_CHECK_COVERAGE ??= "1"
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/reci=
+pes-core/zlib/zlib/CVE-2018-25032.patch
+new file mode 100644
+index 00000000000..5cb61836419
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+@@ -0,0 +1,347 @@
++CVE: CVE-2018-25032
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
- # Skip CVE Check for packages (PN)
- CVE_CHECK_SKIP_RECIPE ?= ""
- 
-@@ -114,10 +117,10 @@ python do_cve_check () {
-             patched_cves = get_patched_cves(d)
-         except FileNotFoundError:
-             bb.fatal("Failure in searching patches")
--        ignored, patched, unpatched = check_cves(d, patched_cves)
--        if patched or unpatched:
-+        ignored, patched, unpatched, status = check_cves(d, patched_cves)
-+        if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
-             cve_data = get_cve_info(d, patched + unpatched)
--            cve_write_data(d, patched, unpatched, ignored, cve_data)
-+            cve_write_data(d, patched, unpatched, ignored, cve_data, status)
-     else:
-         bb.note("No CVE database found, skipping CVE check")
- 
-@@ -207,17 +210,19 @@ def check_cves(d, patched_cves):
-     suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-+    cves_status = []
-+    cves_in_recipe = False
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-     products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
-     if not products:
--        return ([], [], [])
-+        return ([], [], [], {})
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
- 
-     # If the recipe has been skipped/ignored we return empty lists
-     if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
-         bb.note("Recipe has been skipped by cve-check")
--        return ([], [], [])
-+        return ([], [], [], [])
- 
-     cve_ignore = d.getVar("CVE_CHECK_IGNORE").split()
- 
-@@ -227,6 +232,7 @@ def check_cves(d, patched_cves):
- 
-     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-     for product in products:
-+        cves_in_product = False
-         if ":" in product:
-             vendor, product = product.split(":", 1)
-         else:
-@@ -244,6 +250,11 @@ def check_cves(d, patched_cves):
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-                 continue
-+            # Write status once only for each product
-+            if not cves_in_product:
-+                cves_status.append([product, True])
-+                cves_in_product = True
-+                cves_in_recipe = True
- 
-             vulnerable = False
-             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-@@ -290,9 +301,16 @@ def check_cves(d, patched_cves):
-                 # TODO: not patched but not vulnerable
-                 patched_cves.add(cve)
- 
-+        if not cves_in_product:
-+            bb.note("No CVE records found for product %s, pn %s" % (product, pn))
-+            cves_status.append([product, False])
++From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 17 Apr 2018 22:09:22 -0700
++Subject: [PATCH] Fix a bug that can crash deflate on some input when usi=
+ng
++ Z_FIXED.
 +
-     conn.close()
- 
--    return (list(cve_ignore), list(patched_cves), cves_unpatched)
-+    if not cves_in_recipe:
-+        bb.note("No CVE records for products in recipe %s" % (pn))
++This bug was reported by Danilo Ramos of Eideticom, Inc. It has
++lain in wait 13 years before being found! The bug was introduced
++in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
++option forces the use of fixed Huffman codes. For rare inputs with
++a large number of distant matches, the pending buffer into which
++the compressed data is written can overwrite the distance symbol
++table which it overlays. That results in corrupted output due to
++invalid distances, and can result in out-of-bound accesses,
++crashing the application.
 +
-+    return (list(cve_ignore), list(patched_cves), cves_unpatched, cves_status)
- 
- def get_cve_info(d, cves):
-     """
-@@ -323,7 +341,6 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     CVE manifest if enabled.
-     """
- 
--
-     cve_file = d.getVar("CVE_CHECK_LOG")
-     fdir_name  = d.getVar("FILE_DIRNAME")
-     layer = fdir_name.split("/")[-3]
-@@ -337,6 +354,10 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     if include_layers and layer not in include_layers:
-         return
- 
-+    # Early exit, the text format does not report packages without CVEs
-+    if not patched+unpatched:
-+        return
++The fix here combines the distance buffer and literal/length
++buffers into a single symbol buffer. Now three bytes of pending
++buffer space are opened up for each literal or length/distance
++pair consumed, instead of the previous two bytes. This assures
++that the pending buffer cannot overwrite the symbol table, since
++the maximum fixed code compressed length/distance is 31 bits, and
++since there are four bytes of pending space for every three bytes
++of symbol space.
++---
++ deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
++ deflate.h | 25 +++++++++----------
++ trees.c   | 50 +++++++++++--------------------------
++ 3 files changed, 79 insertions(+), 70 deletions(-)
 +
-     nvd_link = "https://nvd.nist.gov/vuln/detail/"
-     write_string = ""
-     unpatched_cves = []
-@@ -414,7 +435,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
-         with open(index_path, "a+") as f:
-             f.write("%s\n" % fragment_path)
- 
--def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-     """
-     Prepare CVE data for the JSON format, then write it.
-     """
-@@ -436,11 +457,19 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
- 
-     unpatched_cves = []
- 
-+    product_data = []
-+    for s in cve_status:
-+        p = {"product": s[0], "cvesInRecord": "Yes"}
-+        if s[1] == False:
-+            p["cvesInRecord"] = "No"
-+        product_data.append(p)
-+
-     package_version = "%s%s" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-     package_data = {
-         "name" : d.getVar("PN"),
-         "layer" : layer,
--        "version" : package_version
-+        "version" : package_version,
-+        "products": product_data
-     }
-     cve_list = []
- 
-@@ -479,7 +508,7 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
- 
-     cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
- 
--def cve_write_data(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
-     """
-     Write CVE data in each enabled format.
-     """
-@@ -487,4 +516,4 @@ def cve_write_data(d, patched, unpatched, ignored, cve_data):
-     if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
-         cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
--        cve_write_data_json(d, patched, unpatched, ignored, cve_data)
-+        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
--- 
-2.33.0
++diff --git a/deflate.c b/deflate.c
++index 425babc00..19cba873a 100644
++--- a/deflate.c
+++++ b/deflate.c
++@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, wind=
+owBits, memLevel, strategy,
++     int wrap =3D 1;
++     static const char my_version[] =3D ZLIB_VERSION;
++=20
++-    ushf *overlay;
++-    /* We overlay pending_buf and d_buf+l_buf. This works since the ave=
+rage
++-     * output size for (length,distance) codes is <=3D 24 bits.
++-     */
++-
++     if (version =3D=3D Z_NULL || version[0] !=3D my_version[0] ||
++         stream_size !=3D sizeof(z_stream)) {
++         return Z_VERSION_ERROR;
++@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, wind=
+owBits, memLevel, strategy,
++=20
++     s->lit_bufsize =3D 1 << (memLevel + 6); /* 16K elements by default =
+*/
++=20
++-    overlay =3D (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
++-    s->pending_buf =3D (uchf *) overlay;
++-    s->pending_buf_size =3D (ulg)s->lit_bufsize * (sizeof(ush)+2L);
+++    /* We overlay pending_buf and sym_buf. This works since the average=
+ size
+++     * for length/distance pairs over any compressed block is assured t=
+o be 31
+++     * bits or less.
+++     *
+++     * Analysis: The longest fixed codes are a length code of 8 bits pl=
+us 5
+++     * extra bits, for lengths 131 to 257. The longest fixed distance c=
+odes are
+++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The lon=
+gest
+++     * possible fixed-codes length/distance pair is then 31 bits total.
+++     *
+++     * sym_buf starts one-fourth of the way into pending_buf. So there =
+are
+++     * three bytes in sym_buf for every four bytes in pending_buf. Each=
+ symbol
+++     * in sym_buf is three bytes -- two for the distance and one for th=
+e
+++     * literal/length. As each symbol is consumed, the pointer to the n=
+ext
+++     * sym_buf value to read moves forward three bytes. From that symbo=
+l, up to
+++     * 31 bits are written to pending_buf. The closest the written pend=
+ing_buf
+++     * bits gets to the next sym_buf symbol to read is just before the =
+last
+++     * code is written. At that time, 31*(n-2) bits have been written, =
+just
+++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf sta=
+rts at
+++     * 8*n bits into pending_buf. (Note that the symbol buffer fills wh=
+en n-1
+++     * symbols are written.) The closest the writing gets to what is un=
+read is
+++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default=
+, and
+++     * can range from 128 to 32768.
+++     *
+++     * Therefore, at a minimum, there are 142 bits of space between wha=
+t is
+++     * written and what is read in the overlain buffers, so the symbols=
+ cannot
+++     * be overwritten by the compressed data. That space is actually 13=
+9 bits,
+++     * due to the three-bit fixed-code block header.
+++     *
+++     * That covers the case where either Z_FIXED is specified, forcing =
+fixed
+++     * codes, or when the use of fixed codes is chosen, because that ch=
+oice
+++     * results in a smaller compressed block than dynamic codes. That l=
+atter
+++     * condition then assures that the above analysis also covers all d=
+ynamic
+++     * blocks. A dynamic-code block will only be chosen to be emitted i=
+f it has
+++     * fewer bits than a fixed-code block would for the same set of sym=
+bols.
+++     * Therefore its average symbol length is assured to be less than 3=
+1. So
+++     * the compressed data for a dynamic block also cannot overwrite th=
+e
+++     * symbols from which it is being constructed.
+++     */
+++
+++    s->pending_buf =3D (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
+++    s->pending_buf_size =3D (ulg)s->lit_bufsize * 4;
++=20
++     if (s->window =3D=3D Z_NULL || s->prev =3D=3D Z_NULL || s->head =3D=
+=3D Z_NULL ||
++         s->pending_buf =3D=3D Z_NULL) {
++@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, wind=
+owBits, memLevel, strategy,
++         deflateEnd (strm);
++         return Z_MEM_ERROR;
++     }
++-    s->d_buf =3D overlay + s->lit_bufsize/sizeof(ush);
++-    s->l_buf =3D s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+++    s->sym_buf =3D s->pending_buf + s->lit_bufsize;
+++    s->sym_end =3D (s->lit_bufsize - 1) * 3;
+++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64=
+K
+++     * on 16 bit machines and because stored blocks are restricted to
+++     * 64K-1 bytes.
+++     */
++=20
++     s->level =3D level;
++     s->strategy =3D strategy;
++@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
++=20
++     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
++     s =3D strm->state;
++-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
+++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
++         return Z_BUF_ERROR;
++     do {
++         put =3D Buf_size - s->bi_valid;
++@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
++ #else
++     deflate_state *ds;
++     deflate_state *ss;
++-    ushf *overlay;
++=20
++=20
++     if (deflateStateCheck(source) || dest =3D=3D Z_NULL) {
++@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
++     ds->window =3D (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
++     ds->prev   =3D (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
++     ds->head   =3D (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
++-    overlay =3D (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
++-    ds->pending_buf =3D (uchf *) overlay;
+++    ds->pending_buf =3D (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
++=20
++     if (ds->window =3D=3D Z_NULL || ds->prev =3D=3D Z_NULL || ds->head =
+=3D=3D Z_NULL ||
++         ds->pending_buf =3D=3D Z_NULL) {
++@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
++     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_siz=
+e);
++=20
++     ds->pending_out =3D ds->pending_buf + (ss->pending_out - ss->pendin=
+g_buf);
++-    ds->d_buf =3D overlay + ds->lit_bufsize/sizeof(ush);
++-    ds->l_buf =3D ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
+++    ds->sym_buf =3D ds->pending_buf + ds->lit_bufsize;
++=20
++     ds->l_desc.dyn_tree =3D ds->dyn_ltree;
++     ds->d_desc.dyn_tree =3D ds->dyn_dtree;
++@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++diff --git a/deflate.h b/deflate.h
++index 23ecdd312..d4cf1a98b 100644
++--- a/deflate.h
+++++ b/deflate.h
++@@ -217,7 +217,7 @@ typedef struct internal_state {
++     /* Depth of each subtree used as tie breaker for trees of equal fre=
+quency
++      */
++=20
++-    uchf *l_buf;          /* buffer for literals or lengths */
+++    uchf *sym_buf;        /* buffer for distances and literals/lengths =
+*/
++=20
++     uInt  lit_bufsize;
++     /* Size of match buffer for literals/lengths.  There are 4 reasons =
+for
++@@ -239,13 +239,8 @@ typedef struct internal_state {
++      *   - I can't count above 4
++      */
++=20
++-    uInt last_lit;      /* running index in l_buf */
++-
++-    ushf *d_buf;
++-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
++-     * the same number of elements. To use different lengths, an extra =
+flag
++-     * array would be necessary.
++-     */
+++    uInt sym_next;      /* running index in sym_buf */
+++    uInt sym_end;       /* symbol table full when sym_next reaches this=
+ */
++=20
++     ulg opt_len;        /* bit length of current block with optimal tre=
+es */
++     ulg static_len;     /* bit length of current block with static tree=
+s */
++@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_st=
+ate *s, charf *buf,
++=20
++ # define _tr_tally_lit(s, c, flush) \
++   { uch cc =3D (c); \
++-    s->d_buf[s->last_lit] =3D 0; \
++-    s->l_buf[s->last_lit++] =3D cc; \
+++    s->sym_buf[s->sym_next++] =3D 0; \
+++    s->sym_buf[s->sym_next++] =3D 0; \
+++    s->sym_buf[s->sym_next++] =3D cc; \
++     s->dyn_ltree[cc].Freq++; \
++-    flush =3D (s->last_lit =3D=3D s->lit_bufsize-1); \
+++    flush =3D (s->sym_next =3D=3D s->sym_end); \
++    }
++ # define _tr_tally_dist(s, distance, length, flush) \
++   { uch len =3D (uch)(length); \
++     ush dist =3D (ush)(distance); \
++-    s->d_buf[s->last_lit] =3D dist; \
++-    s->l_buf[s->last_lit++] =3D len; \
+++    s->sym_buf[s->sym_next++] =3D dist; \
+++    s->sym_buf[s->sym_next++] =3D dist >> 8; \
+++    s->sym_buf[s->sym_next++] =3D len; \
++     dist--; \
++     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
++     s->dyn_dtree[d_code(dist)].Freq++; \
++-    flush =3D (s->last_lit =3D=3D s->lit_bufsize-1); \
+++    flush =3D (s->sym_next =3D=3D s->sym_end); \
++   }
++ #else
++ # define _tr_tally_lit(s, c, flush) flush =3D _tr_tally(s, 0, c)
++diff --git a/trees.c b/trees.c
++index 4f4a65011..decaeb7c3 100644
++--- a/trees.c
+++++ b/trees.c
++@@ -416,7 +416,7 @@ local void init_block(s)
++=20
++     s->dyn_ltree[END_BLOCK].Freq =3D 1;
++     s->opt_len =3D s->static_len =3D 0L;
++-    s->last_lit =3D s->matches =3D 0;
+++    s->sym_next =3D s->matches =3D 0;
++ }
++=20
++ #define SMALLEST 1
++@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_le=
+n, last)
++=20
++         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u=
+ ",
++                 opt_lenb, s->opt_len, static_lenb, s->static_len, store=
+d_len,
++-                s->last_lit));
+++                s->sym_next / 3));
++=20
++         if (static_lenb <=3D opt_lenb) opt_lenb =3D static_lenb;
++=20
++@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++     unsigned dist;  /* distance of matched string */
++     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dis=
+t=3D=3D0) */
++ {
++-    s->d_buf[s->last_lit] =3D (ush)dist;
++-    s->l_buf[s->last_lit++] =3D (uch)lc;
+++    s->sym_buf[s->sym_next++] =3D dist;
+++    s->sym_buf[s->sym_next++] =3D dist >> 8;
+++    s->sym_buf[s->sym_next++] =3D lc;
++     if (dist =3D=3D 0) {
++         /* lc is the unmatched char */
++         s->dyn_ltree[lc].Freq++;
++@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
++         s->dyn_dtree[d_code(dist)].Freq++;
++     }
++-
++-#ifdef TRUNCATE_BLOCK
++-    /* Try to guess if it is profitable to stop the current block here =
+*/
++-    if ((s->last_lit & 0x1fff) =3D=3D 0 && s->level > 2) {
++-        /* Compute an upper bound for the compressed length */
++-        ulg out_length =3D (ulg)s->last_lit*8L;
++-        ulg in_length =3D (ulg)((long)s->strstart - s->block_start);
++-        int dcode;
++-        for (dcode =3D 0; dcode < D_CODES; dcode++) {
++-            out_length +=3D (ulg)s->dyn_dtree[dcode].Freq *
++-                (5L+extra_dbits[dcode]);
++-        }
++-        out_length >>=3D 3;
++-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
++-               s->last_lit, in_length, out_length,
++-               100L - out_length*100L/in_length));
++-        if (s->matches < s->last_lit/2 && out_length < in_length/2) ret=
+urn 1;
++-    }
++-#endif
++-    return (s->last_lit =3D=3D s->lit_bufsize-1);
++-    /* We avoid equality with lit_bufsize because of wraparound at 64K
++-     * on 16 bit machines and because stored blocks are restricted to
++-     * 64K-1 bytes.
++-     */
+++    return (s->sym_next =3D=3D s->sym_end);
++ }
++=20
++ /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
++@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
++ {
++     unsigned dist;      /* distance of matched string */
++     int lc;             /* match length or unmatched char (if dist =3D=3D=
+ 0) */
++-    unsigned lx =3D 0;    /* running index in l_buf */
+++    unsigned sx =3D 0;    /* running index in sym_buf */
++     unsigned code;      /* the code to send */
++     int extra;          /* number of extra bits to send */
++=20
++-    if (s->last_lit !=3D 0) do {
++-        dist =3D s->d_buf[lx];
++-        lc =3D s->l_buf[lx++];
+++    if (s->sym_next !=3D 0) do {
+++        dist =3D s->sym_buf[sx++] & 0xff;
+++        dist +=3D (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
+++        lc =3D s->sym_buf[sx++];
++         if (dist =3D=3D 0) {
++             send_code(s, lc, ltree); /* send a literal byte */
++             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
++@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
++             }
++         } /* literal or match pair ? */
++=20
++-        /* Check that the overlay between pending_buf and d_buf+l_buf i=
+s ok: */
++-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
++-               "pendingBuf overflow");
+++        /* Check that the overlay between pending_buf and sym_buf is ok=
+: */
+++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow")=
+;
++=20
++-    } while (lx < s->last_lit);
+++    } while (sx < s->sym_next);
++=20
++     send_code(s, END_BLOCK, ltree);
++ }
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zl=
+ib/zlib_1.2.11.bb
+index ef9431ae475..bc42cd64e9d 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D6;endline=
+=3D23;md5=3D5377232268e952e9ef6
+=20
+ SRC_URI =3D "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.=
+xz \
+            file://ldflags-tests.patch \
++           file://CVE-2018-25032.patch \
+            file://run-ptest \
+            "
+ UPSTREAM_CHECK_URI =3D "http://zlib.net/"
+--=20
+2.25.1
 
 
