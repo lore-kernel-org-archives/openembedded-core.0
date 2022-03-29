@@ -2,38 +2,38 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 774DFC433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 13:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C03C433F5
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 13:07:00 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.6327.1648559192432372542
+ by mx.groups.io with SMTP id smtpd.web12.6340.1648559216866538030
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 06:06:32 -0700
+ Tue, 29 Mar 2022 06:06:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0804123A
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2E75523A
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 06:06:32 -0700 (PDT)
+ Tue, 29 Mar 2022 06:06:56 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com
  (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 955483F73B
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC35B3F73B
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 06:06:31 -0700 (PDT)
+ Tue, 29 Mar 2022 06:06:55 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] zlib: backport the fix for CVE-2018-25032
-Date: Tue, 29 Mar 2022 14:06:29 +0100
-Message-Id: <20220329130629.2430234-1-ross.burton@arm.com>
+Subject: [PATCH][gatesgarth] zlib: backport the fix for CVE-2018-25032
+Date: Tue, 29 Mar 2022 14:06:53 +0100
+Message-Id: <20220329130653.2430416-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 13:06:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 13:07:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163748
+ https://lists.openembedded.org/g/openembedded-core/message/163749
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
@@ -458,15 +458,15 @@ s ok: */
 + }
 diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zl=
 ib/zlib_1.2.11.bb
-index d699719554e..f8bcc0abcf8 100644
+index ef9431ae475..bc42cd64e9d 100644
 --- a/meta/recipes-core/zlib/zlib_1.2.11.bb
 +++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D6;endline=
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D6;endline=
 =3D23;md5=3D5377232268e952e9ef6
+=20
  SRC_URI =3D "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.=
 xz \
             file://ldflags-tests.patch \
-            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
 +           file://CVE-2018-25032.patch \
             file://run-ptest \
             "
