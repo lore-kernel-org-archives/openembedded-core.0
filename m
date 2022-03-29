@@ -1,321 +1,206 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <fede@evolware.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DE2C433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 06:19:55 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.3540.1648534789331008601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D1AC433F5
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 06:28:19 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web09.3569.1648535298081994919
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:19:49 -0700
+ Mon, 28 Mar 2022 23:28:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gLY4ydV1;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id i4so4420227wrb.5
+ dkim=missing;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: fede.evol@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id e16so28469876lfc.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 23:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JqTnezcdtOduLZWAHTS+J5FKDF7z3QEnqDgL/X2EJ6Q=;
-        b=gLY4ydV1xXZ9psgGg7TARWn7CknILj7lJ5A3xeam2+x7pMPlr5+zjPtraUF+yQDq4y
-         Ms25MqU/ginGCqtO/bvm0V0ktEv/Ld9sOHDOi7fqm2EpJ2WCKwFtaT9B7vsAaZv2gTpS
-         LPzGq3R400oM5Ts/oVf6vLgRVc6zM91g9EqAEjDt7aLX1265Q6sXpopvvYuEOZ4p5Bu0
-         CUqQLH4GzxPbSGq/wL2qfdYyXHzInkMtmibX5XCfpt/FuXCIFjuyMtVo0Sn+ZYD7Y5yg
-         tNycAIx2UniD6eBuCY8Meahy5l2togTcPTJ8dIsK0uV5ROUQ1VYsKq8xCF9JCt9WORZn
-         A7RA==
+ Mon, 28 Mar 2022 23:28:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JqTnezcdtOduLZWAHTS+J5FKDF7z3QEnqDgL/X2EJ6Q=;
-        b=u8DfJ28MMkdaxlk/Jwnr09kILswnASmPBKNKgPTswgHKwNh1uY+lTbf/26MurkCE0N
-         TM6XYzKr5v764kC2WQwP+DoBekviD6F5I9KYdl0wMZuqzwfgCokRWLL6P5VH8hrLbER2
-         tv3VQ8TK+cxEFzy3cvsnZwYXpVueb54k8SHeALXBN+hjzD6pYh5vNHTtghbTNO/Cvt3c
-         yLO+3zTyJLTu4iURvt5ki6JCaWwQEYwglTdtAodI3WcOwsxPpjw+EnOCrfEAt9GDxMlT
-         2kfbxnZo+SYX1tm/ivpcurWe98WKnpFpOjvXty4Rwz+vHg0Vfgz7Mdz2z0cvmZJ/Za91
-         yUJw==
-X-Gm-Message-State: AOAM530oV/LrlcAAGYW2DBIFDCbVebqv3tKFXsPFBeg1EGNxPYrVTQk8
-	7GjPeIzWhZ4uKYYIv+TaAZAdfFEApZs=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=62echjXxpR5v1+2GLUhvoPIpZ4Tcp1xfUvpcii4rZjw=;
+        b=X7GCHYuI846t08qlMtX9yg318tA9b5MvlNuUuOGNHyoliXvo5C4OBELgprIzUE9AWJ
+         iW22uBC1wsnKFSH2rfyUo0cuIaReIgQZN4rx0Gk3qJDtte8wsubwiBkHAeVP6Ebmcuun
+         sqdTXGBO/CA6dh3+FFXZcZ0cnyH4GEqtvyHSP/SgI5i70qSaDj3MEC6LCYY5Jo/Hsog0
+         /k2hFRuMh4cMBcbygNasR5luJ8fFnQUiNtElPzjaSwsRn525XcGdb73MwlEDP2VlRhPb
+         z8ah9Uk2sGJ7PHZKSR/4AVwy23KOEcUNGl1SSV20x/2kFSXbWDDmglQ6VLuSlKySpBKo
+         x7Eg==
+X-Gm-Message-State: AOAM530zMlAd5yREEjdd+/RsNxOzKxkBE7cBDpKCSqkGobYY+paZHwdF
+	Qv1z49leNZpIYoIrekQ5QMA9jZ2r1UZzYuAA/fU=
 X-Google-Smtp-Source: 
- ABdhPJzjAqFP64Ew8zu8QIKbXhxb3iJYafkAUX9E7abpw0WLX9NtCvrzbVnEjn4T+7uSnfAPW2KV+g==
-X-Received: by 2002:a05:6000:10c5:b0:203:d8f1:c1ec with SMTP id
- b5-20020a05600010c500b00203d8f1c1ecmr28571244wrx.674.1648534787367;
-        Mon, 28 Mar 2022 23:19:47 -0700 (PDT)
-Received: from localhost.localdomain ([80.215.138.119])
-        by smtp.gmail.com with ESMTPSA id
- b15-20020a05600018af00b002057c72d45fsm17304715wri.77.2022.03.28.23.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 23:19:46 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross@burtonini.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [OE-core][PATCH v2] cve-check: add json format
-Date: Tue, 29 Mar 2022 08:19:39 +0200
-Message-Id: <20220329061939.20361-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ ABdhPJz0ca9TCGWM3JOKOM0G1G6lCjCH/xyT5/ydKCTN0uuDjwQqRe3sLP9Lqz9qzIE2GCu34bj+dBd0+COkNFH7taQ=
+X-Received: by 2002:ac2:43d5:0:b0:44a:4968:1f86 with SMTP id
+ u21-20020ac243d5000000b0044a49681f86mr1212368lfl.614.1648535296250; Mon, 28
+ Mar 2022 23:28:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CAA=hcWRay+5Xqz+RO_EX1-Yr2Ef_uXcLUL7dZE45d6wBga4mzA@mail.gmail.com>
+In-Reply-To: 
+ <CAA=hcWRay+5Xqz+RO_EX1-Yr2Ef_uXcLUL7dZE45d6wBga4mzA@mail.gmail.com>
+From: Federico Pellegrin <fede@evolware.org>
+Date: Tue, 29 Mar 2022 08:28:04 +0200
+Message-ID: 
+ <CAM6O0ZhZ6i6Qq5S-wWjk5Uwan0NRkfpY10MvEpeFnHuqrJHFfQ@mail.gmail.com>
+Subject: Re: [OE-core] Which vendors maintain SDIO WiFi in mainline stable
+ kernel
+To: JH <jupiter.hce@gmail.com>
+Cc: yocto <yocto@lists.yoctoproject.org>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000bb96b205db558851"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 06:19:55 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 06:28:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163736
+ https://lists.openembedded.org/g/openembedded-core/message/163737
 
-Add an option to output the CVE check in a JSON-based format.
-This format is easier to parse in software than the original
-text-based one and allows post-processing by other tools.
+--000000000000bb96b205db558851
+Content-Type: text/plain; charset="UTF-8"
 
-Output formats are now handed by CVE_CHECK_FORMAT_TEXT and
-CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.
+Hi Jupiter,
+I cannot help you on the specific chip you ask, but responding to the
+second part of your question I have quite good experience with Microchip
+WILC1000/3000 on SDIO which, after a part separate repo and then staging,
+is now in mailine from quite some time:
+https://github.com/torvalds/linux/tree/master/drivers/net/wireless/microchip/wilc1000
+I had also some mixed experience (seemed to be arch releated) otherwise
+also with SDIO/SPI of SiLabs which is currently in mainline staging:
+https://github.com/torvalds/linux/tree/master/drivers/staging/wfx
+These chips are at least currently still on the market (modulo shortage
+problems), not sure about their projected lifespan (I guess something hard
+to foresee).
 
-The JSON output format gets generated in a similar way to the
-text format with the exception of the manifest: appending to
-JSON arrays requires parsing the file. Because of that we
-first write JSON fragments and then assemble them in one pass
-at the end.
+Cheers,
+Federico
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 
----
-Changes in v2
-- hardcoded the dictionary merge (cve_check_merge_jsons)
----
- meta/classes/cve-check.bbclass | 143 ++++++++++++++++++++++++++++++++-
- meta/lib/oe/cve_check.py       |  16 ++++
- 2 files changed, 158 insertions(+), 1 deletion(-)
+Il giorno mar 29 mar 2022 alle ore 08:16 JH <jupiter.hce@gmail.com> ha
+scritto:
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index dfad10c22b..494b1dfa09 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -34,15 +34,27 @@ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
- CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
- CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
- CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
-+CVE_CHECK_SUMMARY_FILE_NAME_JSON = "cve-summary.json"
-+CVE_CHECK_SUMMARY_INDEX_PATH = "${CVE_CHECK_SUMMARY_DIR}/cve-summary-index.txt"
-+
-+CVE_CHECK_LOG_JSON ?= "${T}/cve.json"
- 
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
-+CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
- CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.json"
- CVE_CHECK_COPY_FILES ??= "1"
- CVE_CHECK_CREATE_MANIFEST ??= "1"
- 
- CVE_CHECK_REPORT_PATCHED ??= "1"
- 
-+# Provide text output
-+CVE_CHECK_FORMAT_TEXT ??= "1"
-+
-+# Provide JSON output
-+CVE_CHECK_FORMAT_JSON ??= "1"
-+
- # Skip CVE Check for packages (PN)
- CVE_CHECK_SKIP_RECIPE ?= ""
- 
-@@ -120,6 +132,7 @@ python cve_check_cleanup () {
-     Delete the file used to gather all the CVE information.
-     """
-     bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE"))
-+    bb.utils.remove(e.data.getVar("CVE_CHECK_SUMMARY_INDEX_PATH"))
- }
- 
- addhandler cve_check_cleanup
-@@ -131,11 +144,15 @@ python cve_check_write_rootfs_manifest () {
-     """
- 
-     import shutil
-+    from oe.cve_check import cve_check_merge_jsons
- 
-     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
-         deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
-         if os.path.exists(deploy_file):
-             bb.utils.remove(deploy_file)
-+        deploy_file_json = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-+        if os.path.exists(deploy_file_json):
-+            bb.utils.remove(deploy_file_json)
- 
-     if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE")):
-         bb.note("Writing rootfs CVE manifest")
-@@ -154,6 +171,26 @@ python cve_check_write_rootfs_manifest () {
-                 os.remove(manifest_link)
-             os.symlink(os.path.basename(manifest_name), manifest_link)
-             bb.plain("Image CVE report stored in: %s" % manifest_name)
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
-+        import json
-+        bb.note("Generating JSON CVE manifest")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+        link_name = d.getVar("IMAGE_LINK_NAME")
-+        manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
-+        index_file = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
-+        manifest = {"version":"1", "package": []}
-+        with open(index_file) as f:
-+            filename = f.readline()
-+            while filename:
-+                with open(filename.rstrip()) as j:
-+                    data = json.load(j)
-+                    cve_check_merge_jsons(manifest, data)
-+                filename = f.readline()
-+
-+        with open(manifest_name, "w") as f:
-+            json.dump(manifest, f, indent=2)
-+        bb.plain("Image CVE report stored in: %s" % manifest_name)
- }
- 
- ROOTFS_POSTPROCESS_COMMAND:prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
-@@ -280,7 +317,7 @@ def get_cve_info(d, cves):
-     conn.close()
-     return cve_data
- 
--def cve_write_data(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     """
-     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-     CVE manifest if enabled.
-@@ -346,3 +383,107 @@ def cve_write_data(d, patched, unpatched, ignored, cve_data):
- 
-             with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
-                 f.write("%s" % write_string)
-+
-+def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file):
-+    """
-+    Write CVE information in the JSON format: to WORKDIR; and to
-+    CVE_CHECK_DIR, if CVE manifest if enabled, write fragment
-+    files that will be assembled at the end in cve_check_write_rootfs_manifest.
-+    """
-+
-+    import json
-+
-+    write_string = json.dumps(output, indent=2)
-+    with open(direct_file, "w") as f:
-+        bb.note("Writing file %s with CVE information" % direct_file)
-+        f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_COPY_FILES") == "1":
-+        bb.utils.mkdirhier(os.path.dirname(deploy_file))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
-+        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+        index_path = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
-+        bb.utils.mkdirhier(cvelogpath)
-+        fragment_file = os.path.basename(deploy_file)
-+        fragment_path = os.path.join(cvelogpath, fragment_file)
-+        with open(fragment_path, "w") as f:
-+            f.write(write_string)
-+        with open(index_path, "a+") as f:
-+            f.write("%s\n" % fragment_path)
-+
-+def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
-+    """
-+    Prepare CVE data for the JSON format, then write it.
-+    """
-+
-+    output = {"version":"1", "package": []}
-+    nvd_link = "https://nvd.nist.gov/vuln/detail/"
-+
-+    fdir_name  = d.getVar("FILE_DIRNAME")
-+    layer = fdir_name.split("/")[-3]
-+
-+    include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
-+    exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
-+
-+    if exclude_layers and layer in exclude_layers:
-+        return
-+
-+    if include_layers and layer not in include_layers:
-+        return
-+
-+    unpatched_cves = []
-+
-+    package_version = "%s%s" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-+    package_data = {
-+        "name" : d.getVar("PN"),
-+        "layer" : layer,
-+        "version" : package_version
-+    }
-+    cve_list = []
-+
-+    for cve in sorted(cve_data):
-+        is_patched = cve in patched
-+        status = "Unpatched"
-+
-+        if cve in ignored:
-+            status = "Ignored"
-+        elif is_patched:
-+            status = "Patched"
-+        else:
-+            # default value of status is Unpatched
-+            unpatched_cves.append(cve)
-+
-+        issue_link = "%s%s" % (nvd_link, cve)
-+
-+        cve_item = {
-+            "id" : cve,
-+            "summary" : cve_data[cve]["summary"],
-+            "scorev2" : cve_data[cve]["scorev2"],
-+            "scorev3" : cve_data[cve]["scorev3"],
-+            "vector" : cve_data[cve]["vector"],
-+            "status" : status,
-+            "link": issue_link
-+        }
-+        cve_list.append(cve_item)
-+
-+    package_data["issue"] = cve_list
-+    output["package"].append(package_data)
-+
-+    direct_file = d.getVar("CVE_CHECK_LOG_JSON")
-+    deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-+    manifest_file = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON")
-+
-+    cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
-+
-+def cve_write_data(d, patched, unpatched, ignored, cve_data):
-+    """
-+    Write CVE data in each enabled format.
-+    """
-+
-+    if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
-+        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-+    if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
-+        cve_write_data_json(d, patched, unpatched, ignored, cve_data)
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index 0302beeb4a..e445b7a6ae 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -146,3 +146,19 @@ def get_cpe_ids(cve_product, version):
-         cpe_ids.append(cpe_id)
- 
-     return cpe_ids
-+
-+def cve_check_merge_jsons(output, data):
-+    """
-+    Merge the data in the "package" property to the main data file
-+    output
-+    """
-+    if output["version"] != data["version"]:
-+        bb.error("Version mismatch when merging JSON outputs")
-+        return
-+
-+    for product in output["package"]:
-+        if product["name"] == data["package"][0]["name"]:
-+            bb.error("Error adding the same package twice")
-+            return
-+
-+    output["package"].append(data["package"][0])
--- 
-2.33.0
+> Hi,
+>
+> I could not understand why so many large WiFi chip vendors retreat to
+> stop maintaining WiFi SDIO chips to mainline Linux kernel, and to
+> settle it's chip support to out of the tree, use its own SDK and
+> proprietary kernel tree to source.codeaurora.org or private repository
+> which are not compatible to mainline stable kernel, the kernel
+> configures are also different.
+>
+> I looked at the following link, the mwifiex and mwifiex_sdio support
+> the Marvell (NXP) 88W88 chipset, but only kernel 4.19 was able to
+> build and to run, kernel 5 cannot support 88W88 chipset, any more.
+> Same to Qualcomm, the old Atheros WiFi modules are supported, the
+> QCA-9377-3 chipset is in source.codeaurora.org only supported by old
+> kernel 4.9.
+>
+> Given the OE/Yocto poky kernel build is based on a mainline stable
+> kernel repository, how can I build kernel 5 for 88W88 chipset or
+> QCA-9377-3 from source.codeaurora.org or private repository? Or which
+> WiFi vendors are still well maintaining the WiFi chips for kernel 5,
+> the only sensible solution is to switch WiFi SDIO chips? Appreciate
+> your advice and comments.
+>
+> https://wireless.wiki.kernel.org/en/users/drivers
+>
+> Thank you very much.
+>
+> Kind regards,
+>
+> jupiter
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163735):
+> https://lists.openembedded.org/g/openembedded-core/message/163735
+> Mute This Topic: https://lists.openembedded.org/mt/90102949/5117409
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> fede@evolware.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--000000000000bb96b205db558851
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div><div>Hi Jupiter,</div><div>I cannot help yo=
+u on the specific chip you ask, but responding to the second part of your q=
+uestion I have quite good experience with Microchip WILC1000/3000 on SDIO w=
+hich, after a part separate repo and then staging, is now in mailine from q=
+uite some time: <a href=3D"https://github.com/torvalds/linux/tree/master/dr=
+ivers/net/wireless/microchip/wilc1000" target=3D"_blank">https://github.com=
+/torvalds/linux/tree/master/drivers/net/wireless/microchip/wilc1000</a></di=
+v><div>I had also some mixed experience (seemed to be arch releated) otherw=
+ise also with SDIO/SPI of SiLabs which is currently in mainline staging: <a=
+ href=3D"https://github.com/torvalds/linux/tree/master/drivers/staging/wfx"=
+ target=3D"_blank">https://github.com/torvalds/linux/tree/master/drivers/st=
+aging/wfx</a></div><div>These chips are at least currently still on the mar=
+ket (modulo shortage problems), not sure about their projected lifespan (I =
+guess something hard to foresee).<br></div><div><br></div><div>Cheers,</div=
+><div>Federico</div><div><br></div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">Il giorno mar 29 mar 2022 alle ore 08:16=
+ JH &lt;<a href=3D"mailto:jupiter.hce@gmail.com" target=3D"_blank">jupiter.=
+hce@gmail.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">Hi,<br>
+<br>
+I could not understand why so many large WiFi chip vendors retreat to<br>
+stop maintaining WiFi SDIO chips to mainline Linux kernel, and to<br>
+settle it&#39;s chip support to out of the tree, use its own SDK and<br>
+proprietary kernel tree to <a href=3D"http://source.codeaurora.org" rel=3D"=
+noreferrer" target=3D"_blank">source.codeaurora.org</a> or private reposito=
+ry<br>
+which are not compatible to mainline stable kernel, the kernel<br>
+configures are also different.<br>
+<br>
+I looked at the following link, the mwifiex and mwifiex_sdio support<br>
+the Marvell (NXP) 88W88 chipset, but only kernel 4.19 was able to<br>
+build and to run, kernel 5 cannot support 88W88 chipset, any more.<br>
+Same to Qualcomm, the old Atheros WiFi modules are supported, the<br>
+QCA-9377-3 chipset is in <a href=3D"http://source.codeaurora.org" rel=3D"no=
+referrer" target=3D"_blank">source.codeaurora.org</a> only supported by old=
+<br>
+kernel 4.9.<br>
+<br>
+Given the OE/Yocto poky kernel build is based on a mainline stable<br>
+kernel repository, how can I build kernel 5 for 88W88 chipset or<br>
+QCA-9377-3 from <a href=3D"http://source.codeaurora.org" rel=3D"noreferrer"=
+ target=3D"_blank">source.codeaurora.org</a> or private repository? Or whic=
+h<br>
+WiFi vendors are still well maintaining the WiFi chips for kernel 5,<br>
+the only sensible solution is to switch WiFi SDIO chips? Appreciate<br>
+your advice and comments.<br>
+<br>
+<a href=3D"https://wireless.wiki.kernel.org/en/users/drivers" rel=3D"norefe=
+rrer" target=3D"_blank">https://wireless.wiki.kernel.org/en/users/drivers</=
+a><br>
+<br>
+Thank you very much.<br>
+<br>
+Kind regards,<br>
+<br>
+jupiter<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#163735): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/163735" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/163735</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90102949/5117=
+409" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/90102949/5117409</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:fede@evolware.org" target=
+=3D"_blank">fede@evolware.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000bb96b205db558851--
 
