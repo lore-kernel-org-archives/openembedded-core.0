@@ -2,60 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3408C433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 23:39:59 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.1027.1648597198719933540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB807C433EF
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 23:40:00 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web08.1126.1648597199673601822
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 16:39:58 -0700
+ Tue, 29 Mar 2022 16:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=X2CBrdr1;
- spf=pass (domain: gmail.com, ip: 209.85.215.175,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=U3gOU1xz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id c2so16085851pga.10
+Received: by mail-pl1-f178.google.com with SMTP id j13so19005781plj.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 16:39:58 -0700 (PDT)
+ Tue, 29 Mar 2022 16:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TvwQqElRiM3abY1umKoCWnKC5J1cL0J2YX/zw5aeFiI=;
-        b=X2CBrdr1xvEsL5bwgdrc8lkhbaAgvPmTplOSMLEjvd9TfMiRWgrBnsq8g3B+9TTmLo
-         CWW6ptYFxATO31fbVTt80MDtanQGdKeFEZw1ZKvxS6fDGBap+Vt4rn5QQsJJpVr67tKg
-         YtWP525IQ03JNVA0v2lPubWuVcheHv5DoNVSXw44uSjC5hQst8UytTyGE3yfSnz83uK1
-         eEoxxhoBzQGtbXNgNEeeAnwfBAxEhBi17PfnIV3P5WSbFWwq56GQjVFSygPgj34AhdAk
-         /qBGRGQr7HJXcG6hrpukP37l+y92mg1FESYjs87RtaCG2wKGrRgVzaSMJWUYxeV10DSS
-         BbRA==
+        bh=GacjhN9r8laBy2CxZKEmSqLVyHWabB4WvMw2Kb6Pkpc=;
+        b=U3gOU1xzwlQXZH2DzbR93InCSXZkHiIh2aqafMZttxsq/TPemPKbYkWm/IGtwV6iOf
+         SQxrHh4LThUuLIWhwwDvA3wtMlRLxHOB+jiNYTM955oWrdlgBP70FTepXUhDdvARnFzX
+         JDnZ7ud0eoq205yXI5YsCK3PosBPSzKGgfiyVgh3CW3tHK2vXCicNqk94660XZtIgPjz
+         gTxu6wQJ1CWXnXX480LQRgu7dWDhqca32TbRZ5uQXyPMZSaEJV96I4c58nUWN1gz6R0f
+         65XSuPJ71uVJXZ2/xC02faXXygoMdTe1lHuGwVqqGueVfkIs4AsoGgh6TUxmw3MQO8iv
+         KEpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TvwQqElRiM3abY1umKoCWnKC5J1cL0J2YX/zw5aeFiI=;
-        b=RuqCVlcYfXAreF8KBWrpUJoLnQfaJ6ToNfzBXceH5hHj8xoBu751Lr1JbQeDB3A+n5
-         n/jdwWiR+Yy65jqS0eW6H2QXCxN2o2QzopWhBuQZa58Pfv+oSV6nvptC9HQ3g+Pcr0HW
-         u2B6Yes8BTzL0Fa5XDlcJLXITmDhdZS8mWlfROR9xTRftPcqmxTcjm4Xo3pcfrlDby0N
-         1Z8LZfe0OwILLQg5OwIehMxuiO/yrVyDGJAPqK3jupgkib40GZogVERhPyMQYKsDrYlU
-         5AeWqZ3aYWGQY+1Eko1V4ltX1cXjhJLU0JFRAdKRMsBVkXAceUFYKxabpo8OJDdCnf4A
-         L9vA==
-X-Gm-Message-State: AOAM5328euezzlK08iLje5O5XoOolATureDe7YdUuGDV6wceYwMXDky7
-	018swoe1ZmjSufFunopLfwiXukbKvR8=
+        bh=GacjhN9r8laBy2CxZKEmSqLVyHWabB4WvMw2Kb6Pkpc=;
+        b=dt/waR+GzH8bh/V9F4P4cMEjZxDMbUzyhN2usqI5c+zfDso++xZePUbiwt3VdrULXd
+         J5dVOBI7HkS1SHA4H59U9zQfkhfbwMw1cmH1HUujEbM+8Zxbe/6m6ycum3TejOuP5E0A
+         Wb69P8PDw1j8DeTXnZgY2iPe8hr4zFx4g7wn0e1TiLQW9luOnCZagtHOWSdgnhv4t51W
+         JqlKZKhvE84mTj0/nRprkn7x0KAC32ZO1rpfQpmtt5I67K0tjhIpgh7GSxgZjFIhjF9s
+         U0w7syECUn14zg1iKetRxuZ7s/VLceF2X0ecPayjmIcLctOtDshNSgptveDtGis54sYY
+         a8hg==
+X-Gm-Message-State: AOAM531evNplN/x7bWD2PdskW/100za9DFh2TdsBcHRvBMiSxmYk+LD3
+	05Us+BZumJ5wRHoG798VyN8IgqgxFnE=
 X-Google-Smtp-Source: 
- ABdhPJweZ2AkYIFieNRdGXHvgQXriMg3S7StFxEoOzqVcN0Jl1m+8+xtqSta2jEzhlLEB4VlyzVCwA==
-X-Received: by 2002:a05:6a00:1a91:b0:4fa:b21d:2ce with SMTP id
- e17-20020a056a001a9100b004fab21d02cemr30765136pfv.75.1648597197993;
-        Tue, 29 Mar 2022 16:39:57 -0700 (PDT)
+ ABdhPJyr4I93Dwz4QXb4WQDFht39FLxUaNH+BTfeZpnzt+Ap2l+rI257QQreRVUuii+KZ4oDUK9jyw==
+X-Received: by 2002:a17:90a:d302:b0:1c9:9204:136a with SMTP id
+ p2-20020a17090ad30200b001c99204136amr1668992pju.136.1648597198955;
+        Tue, 29 Mar 2022 16:39:58 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
         by smtp.gmail.com with ESMTPSA id
- x14-20020aa784ce000000b004fa79973c94sm20010387pfn.165.2022.03.29.16.39.57
+ x14-20020aa784ce000000b004fa79973c94sm20010387pfn.165.2022.03.29.16.39.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 16:39:57 -0700 (PDT)
+        Tue, 29 Mar 2022 16:39:58 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 3/4] go: Disable pie in cgo for mips
-Date: Tue, 29 Mar 2022 16:39:52 -0700
-Message-Id: <20220329233953.3039842-3-raj.khem@gmail.com>
+Subject: [PATCH v3 4/4] go-target: Pass -trimpath to go linker
+Date: Tue, 29 Mar 2022 16:39:53 -0700
+Message-Id: <20220329233953.3039842-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329233953.3039842-1-raj.khem@gmail.com>
 References: <20220329233953.3039842-1-raj.khem@gmail.com>
@@ -64,31 +64,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 23:39:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 23:40:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163761
+ https://lists.openembedded.org/g/openembedded-core/message/163762
 
-This overcomes the linking errors e.g.
-| /usr/lib/go/src/cmd/go/internal/base/base.go:110:(.text+0x60fef8): relocation R_MIPS_26 against `a local symbol' cannot be used when making a shared object; recompile with -fPIC         | /usr/lib/go/src/cmd/go/internal/base/base.go:110:(.text+0x60ff0c): relocation R_MIPS_HI16 against `a local symbol' cannot be used when making a shared object; recompile with -fPIC
+This is for improving reproducibility to trim absolute paths as these
+recipes do not inherit go bbclass where it would be set automatically
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/go/go_1.18.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/go/go-target.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go_1.18.bb b/meta/recipes-devtools/go/go_1.18.bb
-index a492d7e64a1..98977673ee4 100644
---- a/meta/recipes-devtools/go/go_1.18.bb
-+++ b/meta/recipes-devtools/go/go_1.18.bb
-@@ -3,6 +3,8 @@ require go-target.inc
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index d085643036a..ed09cfe8061 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -14,9 +14,9 @@ export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-pr
  
- inherit linuxloader
+ export GOCACHE = "${B}/.cache"
+ GO_LDFLAGS = ""
+-GO_LDFLAGS:class-nativesdk = "-linkmode external"
++GO_LDFLAGS:class-nativesdk = " -linkmode external"
+ export GO_LDFLAGS
+-
++export GOBUILDFLAGS = "-gcflags=-trimpath=$GOPATH -asmflags=-trimpath=$GOPATH -trimpath"
+ CC:append:class-nativesdk = " ${SECURITY_NOPIE_CFLAGS}"
  
-+CGO_LDFLAGS:append:mips = " -no-pie"
-+
- export GO_LDSO = "${@get_linuxloader(d)}"
- export CC_FOR_TARGET = "gcc"
- export CXX_FOR_TARGET = "g++"
+ do_configure[noexec] = "1"
 -- 
 2.35.1
 
