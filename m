@@ -1,120 +1,106 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07E01C433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 01:47:23 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.66])
- by mx.groups.io with SMTP id smtpd.web09.1754.1648518441747873216
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31AEAC433F5
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 05:48:49 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web11.3267.1648532925985865766
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Mar 2022 18:47:22 -0700
+ Mon, 28 Mar 2022 22:48:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=uvSnQWtb;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1648518439; i=@fujitsu.com;
-	bh=WVbI6ViJ51q+qqYzZh7B+/x0JD8xmZ4xSng4VSuyvwQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=uvSnQWtb/Qfonv6rFSAmjosG38E2gPE8fWZeXyE4QPnzkI4rM58gfKgyBkI+NRZuy
-	 7AsiWVbqk4p2V1ACKs5HJdN61/nPbAmsFN/3GakWW4dJtaI9oxwo1IAPd5Sad36pMh
-	 +IojzWEk+2JIxZwFylhSs4VX7RrGqr0Du1EaqEy58+a0f1N1gpZXjul4q4e6TciKnf
-	 6lncMWCsxMZCKjhaaVtf6fRqCFeT178GtA0Fhdw6J0xX1iFnZWSlmC3NlXiQWILM+8
-	 U3jQzoa7orIx4PL2hryYQVbmxFu1IiwstrDfh8Qy8Z7SSSCfnwu80doD4gmxdY0z4W
-	 sNNjwyI9I2zsA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRWlGSWpSXmKPExsViZ8ORqKuW6pR
-  k8PWOgcWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtF2diFrwV6eihMbN7I0MM7i7mLk4hASeMwo
-  0fJ9LhuEc55J4unLX1DOHkaJCxcmMHcxcnKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAi8Tv2dtYQGwWAVWJrRceMoLYvAJOEk0bXoLZEgIKElMevmeGiAtKnJz5hAVijoTEwR
-  cvmCFqFCVmX25mgbArJGbNamOCsNUkrp7bxDyBkX8WkvZZSNoXMDKtYrRMKspMzyjJTczM0TU
-  0MNA1NDTVNdQ1tdRLrNJN1Est1S1PLS7RNdRLLC/WSy0u1iuuzE3OSdHLSy3ZxAgMyZRiRusd
-  jB19P/UOMUpyMCmJ8l7QdEoS4kvKT6nMSCzOiC8qzUktPsQow8GhJME7PQkoJ1iUmp5akZaZA
-  4wPmLQEB4+SCK9WMlCat7ggMbc4Mx0idYpRUUqcVxskIQCSyCjNg2uDxeQlRlkpYV5GBgYGIZ
-  6C1KLczBJU+VeM4hyMSsK8LCBTeDLzSuCmvwJazAS0uO6xI8jikkSElFQDUwyzWONGhS9HPUv
-  8VDM6ticl3/52L+DojxwZnzPc0QtKav0NCte+W/RjgrBISaUOw1Lmrcs3XHqSvnZ9rqzALdUJ
-  vyu/zDscz5Va2Ntke6t8lpxN4BGRN6v5ZF7tjv500oxV1enFJ9OcS+89lGV5jrxb3OTPleGoE
-  WFQohp4KvWA12lWz8+Bj2pbp29i48+9ILvRXzKwsKJhDk+m2LLbnP//L9ZuWp27ufGzIuMywT
-  +bjmffMJnhmr+zg+XdXJnvcTpq8q80rvtG7PHUlfp8sT7bZ+8L0dNmPl+Ek54qPnIIyOMsYnv
-  3r/JJoFrxktjj21sCrwtPTf2yac6BDU53tsy5xlErVzj9SkfH8h+HlFiKMxINtZiLihMBj/K2
-  +kQDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-20.tower-587.messagelabs.com!1648518438!11687!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.85.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 15208 invoked from network); 29 Mar 2022 01:47:18 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-20.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 29 Mar 2022 01:47:18 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 597D810018E
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 02:47:18 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 4D83B10018B
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 02:47:18 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 29 Mar 2022 02:46:39 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-urllib3: upgrade 1.26.8 -> 1.26.9
-Date: Tue, 29 Mar 2022 09:46:27 +0800
-Message-ID: <1648518387-21489-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: kai.kang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 22T5mhuc016423
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Mon, 28 Mar 2022 22:48:43 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 22T5mgjC013431
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 28 Mar 2022 22:48:43 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 28 Mar 2022 22:48:42 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 28 Mar 2022 22:48:41 -0700
+From: <kai.kang@windriver.com>
+To: <raj.khem@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: [meta-oe][PATCH v2] graphviz: add pkg_postinst script
+Date: Tue, 29 Mar 2022 13:48:38 +0800
+Message-ID: <20220329054838.7210-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 01:47:23 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 05:48:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163731
+ https://lists.openembedded.org/g/openembedded-core/message/163732
 
-Changelog:
-==========
-- Changed urllib3[brotli] extra to favor installing Brotli libraries that are
-  still receiving updates like brotli and brotlicffi instead of brotlipy.
-  This change does not impact behavior of urllib3, only which dependencies are
-  installed.
-- Fixed a socket leaking when HTTPSConnection.connect() raises an exception.
-- Fixed server_hostname being forwarded from PoolManager to HTTPConnectionPool
-  when requesting an HTTP URL. Should only be forwarded when requesting an HTTPS URL.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+It needs to run `dot -c` first before call 'dot' command, otherwise it
+fails with:
+
+| Format: "png" not recognized. No formats found.
+| Perhaps "dot -c" needs to be run (with installer's privileges) to
+  register the plugins?
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../{python3-urllib3_1.26.8.bb => python3-urllib3_1.26.9.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-urllib3_1.26.8.bb => python3-urllib3_1.26.9.bb} (86%)
+v2:
+* add guard to check qemu-usermode is supported
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3_1.26.8.bb b/meta/recipes-devtools/python/python3-urllib3_1.26.9.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-urllib3_1.26.8.bb
-rename to meta/recipes-devtools/python/python3-urllib3_1.26.9.bb
-index c2a51b9148..95ae4a54a4 100644
---- a/meta/recipes-devtools/python/python3-urllib3_1.26.8.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_1.26.9.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2823cb995439c984fd62a973d79815c"
+ .../graphviz/graphviz_2.50.0.bb               | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
+index 0eca7fdba..66353b837 100644
+--- a/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
++++ b/meta-oe/recipes-graphics/graphviz/graphviz_2.50.0.bb
+@@ -17,7 +17,7 @@ DEPENDS = " \
+ DEPENDS:append:class-target = " ${BPN}-native"
+ DEPENDS:append:class-nativesdk = " ${BPN}-native"
  
--SRC_URI[sha256sum] = "0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"
-+SRC_URI[sha256sum] = "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
+-inherit autotools-brokensep pkgconfig gettext
++inherit autotools-brokensep pkgconfig gettext qemu
  
- inherit pypi setuptools3
+ SRC_URI = "https://gitlab.com/api/v4/projects/4207231/packages/generic/${BPN}-releases/${PV}/${BP}.tar.xz \
+            "
+@@ -81,6 +81,23 @@ graphviz_sstate_postinst() {
+ }
+ SYSROOT_PREPROCESS_FUNCS:append:class-native = " graphviz_sstate_postinst"
  
++pkg_postinst:${PN} () {
++    if [ -n "$D" ]; then
++        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true', 'false', d)}; then
++            ${@qemu_run_binary(d, '$D', '${bindir}/dot')} -c
++        fi
++    else
++        dot -c
++    fi
++}
++
++pkg_postrm:${PN} () {
++    rm -f $D${libdir}/graphviz/config*
++    rmdir --ignore-fail-on-non-empty $D${libdir}/graphviz
++}
++
++PACKAGE_WRITE_DEPS += "qemu-native"
++
+ PACKAGES =+ "${PN}-python ${PN}-perl ${PN}-demo"
+ 
+ FILES:${PN}-python += "${libdir}/python*/site-packages/ ${libdir}/graphviz/python/"
 -- 
-2.25.1
+2.17.1
 
 
