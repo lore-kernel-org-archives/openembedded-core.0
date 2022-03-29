@@ -1,991 +1,243 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E77C433F5
-	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 10:14:59 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.4989.1648548898209950243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58751C433F5
+	for <webhook@archiver.kernel.org>; Tue, 29 Mar 2022 11:08:45 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.83])
+ by mx.groups.io with SMTP id smtpd.web09.5287.1648552123377240600
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 03:14:59 -0700
+ Tue, 29 Mar 2022 04:08:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dBh442V7;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2A2BA40006;
-	Tue, 29 Mar 2022 10:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1648548896;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tSQIuUKWjpisyfC6MEe60PgQy3b+1MjpZmZ70KGfMq0=;
-	b=dBh442V7gKFCIVRFcx0e1Y9qNIPzIhp7sbDnRXkJ6HjbR4JQv0gxRlSrleO7y5xnQvoQ6D
-	kzO3+GP5o9bpx/miHukrI0QrntjemfMjLEkhlSdy3Wyfuf9CSv+dyPSoKrJ7/KdqqCNHJY
-	Tcy1K98O42toKFTZkAiWJ6v1MpWfcrgmwfjVd1GDqBULvOgygbsyoqnfZDqqW4GkM3BWFg
-	XXCN49N9YS8EBF/N5ecAKoiL8Dz40PFfbh78Z1vhc4+IInQyBrEdQaH0sDqwb8JbGjOCye
-	9Qn+kWZdbDdg2q2WKn7wNfNwgTxhlxZXdInQN/hM4pJQ86OwlqWUJDSC7GRQVg==
-Date: Tue, 29 Mar 2022 12:14:55 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 1/4] go: Upgrade to 1.18
-Message-ID: <YkLcH8Cicjvbz63d@piout.net>
-References: <20220328180707.3565916-1-raj.khem@gmail.com>
+ dkim=pass header.i=@cherrycloud.onmicrosoft.com
+ header.s=selector2-cherrycloud-onmicrosoft-com header.b=U95tlDrJ;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.22.83,
+ mailfrom: quentin.schulz@theobroma-systems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kbt8DAynJy/6TOPeOMHu/1EwV4oWiDC6k1UuWis0S3LmSNWup+4qSexhALYvdtWuJCpLE4l1CR0tDcA6jKhxl2TjjmXlzFmEp9PIgwoXHD1dOCg1cAH5McoOWY2fcmMAVBo/pMuWTwZokAhK7sYAoAGfGAdKEh252uBmDz+ZButDb/Lvb2itLkWGXbgtXUr79wtKjWA2b5atFfnHjS6KrSngITiEniBox/PRvcb6waGbJ/26bEg7pxTMOU681IgbjNmvsxsUqFC0f2iCGJm0gL8qb36a2UwlWlCG97ctPkgP3zE0J6yowiwuRR4U418Po11b91C6AUJtjKB48Dn4yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GYfmPWtyaC66PNuhXX44IhTjCZlGxj3FmFGo2cSyhzk=;
+ b=jURp1VBiC2oR66MzLybWEGH4omd/RhGDHbgMvWavBQzWsULkFJ143O4m5yysUYsY9Iv9tMlVOwh3Ntwl1xlvfF3r9SbgtB8YVjlsftKYVke1yiDKd4xxKvd6n3f05GzAxjLDOUhbidh84oQ6l2eRajv3hgLCQp7XxvaEK4IE1N+DaWRv2n31eAaGlUq8GIJlEUlgZIpxgpJJTDouewIdYNn2K2okZCs8SucV3GXftdhMO4meSvkT3qjz7MzzB8KAB4Udp3tEbik4UhayjYn7wlSfv2JE+/ym5gAN0fTSfWryZAGQWGBXm+l5/YFGwtMJbfkwy/BIZok8rmdYYimhAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GYfmPWtyaC66PNuhXX44IhTjCZlGxj3FmFGo2cSyhzk=;
+ b=U95tlDrJakmYSanshiAnc52IJlH9fIR0p+P/Y6zJa4oieT2XFP6VJPhoGzX3fgdgP8p/DrJ7fwIRZ3g0Y0PQ8Dld6F3ctuxW4Xt94CbTYwuYYhRxM6ABDVItlaxMm4o1687sgn2o9LiD6obU60Y/dAUUjTX+ezTXSwhSx6CByfM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
+ by PAXPR04MB8766.eurprd04.prod.outlook.com (2603:10a6:102:20d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.23; Tue, 29 Mar
+ 2022 11:08:39 +0000
+Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
+ ([fe80::8ca9:a2e2:60c8:95e]) by PA4PR04MB9367.eurprd04.prod.outlook.com
+ ([fe80::8ca9:a2e2:60c8:95e%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 11:08:39 +0000
+Message-ID: <324b056d-3952-5e46-7321-16bb0fa3b590@theobroma-systems.com>
+Date: Tue, 29 Mar 2022 12:08:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [OE-core] Which vendors maintain SDIO WiFi in mainline stable
+ kernel
+Content-Language: en-US
+To: JH <jupiter.hce@gmail.com>, yocto <yocto@lists.yoctoproject.org>
+Cc: linux-wireless <linux-wireless@kernel.org>,
+	oe-core <openembedded-core@lists.openembedded.org>
+References: 
+ <CAA=hcWRay+5Xqz+RO_EX1-Yr2Ef_uXcLUL7dZE45d6wBga4mzA@mail.gmail.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: 
+ <CAA=hcWRay+5Xqz+RO_EX1-Yr2Ef_uXcLUL7dZE45d6wBga4mzA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0394.eurprd06.prod.outlook.com
+ (2603:10a6:20b:461::27) To PA4PR04MB9367.eurprd04.prod.outlook.com
+ (2603:10a6:102:2aa::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220328180707.3565916-1-raj.khem@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3879218b-3f56-45e1-df95-08da11747a04
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8766:EE_
+X-Microsoft-Antispam-PRVS: 
+	<PAXPR04MB876652BE32BBE855BB75DF28C21E9@PAXPR04MB8766.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6RaY+v0NElodfb4/xiO3nEmfSMoaKDoKAREv8WoW+tTOjQb4isP09Y189dX23uXONLat8S5CaMllWT8b4V2LDsBzhC64bm+5JmVTlDyAKC3vmhNJrdo2D4A4DQ1o26iz2247RQsFC6JsHGggZQfu1rqueJ6+a+CKb4CrZxIS23pRbeGChhu+wThU3iCDvCkStiBlo0xPlKDu7bOGzueKE0dDhA9tad5bZrmP2B3i6xfjuziC50+EOTM4toOXGSii5ogRTWwtKM1cfXNQcL4Zm9UBa99ffzrhExdzCjZ87t0BSyyjds5WamXDOQyAml2Ev0Si4ihozAErsMBNiYXfRUjW2rE5UngqQ5Fe73jIT1Hwe/7GpGbr0MWFNS/calmkPTHozNqGKMNtmGw7XtF7i/4eqhWuohQY2Nx40umI1v2IfGF2t9xpFAzHLTVB5JngBLVlhBed0HWQhR41IolsJbrHCR7k2Cl9VCHYIq5OSLl9lwv+nQ9NNyX05slb+GTjF8WTqUzeJ8+hzGDhODi/Q9m1icXPvy2dKKe747zgAXogH6+wYzUOeqRz83v1tl4+Hd06NvodovmEB71svbOKa2UkKP5FkzKVT7Ym1r/wEoKr66NkMUkeNO5txGMpY+zUY9zWuB/VFXBjePAn0gMoFXvGyLCDWOSpiXe82/N5i9MUJ9nlbJy6oPO3nTXOkOflJtnmyF4a3GhHB5sTFLgnkrs0CEicPj9+69gvxW0SwD/fdoxVjlN7x2nmEg12uJvyPt2os/9WViyNKR7kH3v9h2LsJIZDaPj4aZFUmqSiAFx3GpFaFEQG+tnJoKJKl2Ep
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(6029001)(366004)(83380400001)(4326008)(66556008)(66476007)(110136005)(38100700002)(36756003)(66946007)(8676002)(508600001)(8936002)(53546011)(2906002)(6512007)(6506007)(31696002)(6486002)(31686004)(86362001)(5660300002)(54906003)(44832011)(316002)(966005)(26005)(2616005)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?dzZSQTBDV2xmL1FmckdxTjZnTHdCdmNSeDZQUGRpSDhaZG1DMnVqMWFDaXpw?=
+ =?utf-8?B?T0Nzc2YxL3d3RWxaeVY5ZGwwTmtJNlB4RDR1ZE5jL0VVWVJGZVYvL0JBaGFx?=
+ =?utf-8?B?VXFNZlhpd29za0hGOXdoWTNodGZJWXlFUjZTcFA4ZHVBMUY0WHhiY2liVUh6?=
+ =?utf-8?B?UFFZQVFyaFZ1Wk1QOEYwbnBFUklqdW44YzRDbHNSc1JEZnMwMGNBQ2lCSC9q?=
+ =?utf-8?B?WFVkSUpzVGx0ajBxdlJrSzhWQmI3T1p5REZ4VFBnM2FhdXRCakR5SkFqWEU0?=
+ =?utf-8?B?QU9NQjFJL0o2alV4dEZWMXMzOVkydXJIajlBdGV2V254amJ0SmpSVGw0TEJI?=
+ =?utf-8?B?d1Z1dmVralgyeFR3eDlDUElvWW9OQXBxK3JVRzF3djdpVE9tVGN6TTlEelZz?=
+ =?utf-8?B?eXIzMEpGbnBNTjFhVTliN1F1YXVpS2Y4b2xPRXp3Zmo1WFByNE9IQzcyZWZC?=
+ =?utf-8?B?Rnc3UUVMQ3N6MlR2ZjZ0SmlqSnFLazRiNytHWG4yL1YvTmxObjZhc0tYczNv?=
+ =?utf-8?B?WWlBN3BHVjFYZ2FlRTNZeDFlYk9ydERlRlZwK0ViTXZrdi9Rb3BkSFZkcjFF?=
+ =?utf-8?B?aHhzVnNUKzFZUUhTU0lNZ3VoZXg5M01JQkhTY2xQZ296YnlkcmR2SU04YkhY?=
+ =?utf-8?B?V1RlOCt5aTBRNHIvN2ZKUldYQVVCWUx1L2ZwczhvdkdBRDFMRTM5YW40RHJN?=
+ =?utf-8?B?MTdXNzB5NkNWamVKTHpnejlFZjFTL2V6N05RZCtXNUl1UWsvT1NPVWhQOWJj?=
+ =?utf-8?B?bXRKbXdLbDZOY1l5S2VDSk14aEdOUzlGR09ZdFA4QVBnSkdDNEtCZXZwTHo0?=
+ =?utf-8?B?T0RPZHljVzc4ZDNOVEpsNFAwZlpCUGF0ZWVxR3FSdzhWYUhmZUFuWlEwV3RB?=
+ =?utf-8?B?MDRQNDgrVkNCeHhqeHg3OU1qOHdGMG0veEJzQlZwa2syNjc1SmJUdFJvK3E1?=
+ =?utf-8?B?emltU0NRNWNMVlM4TkJ2QmpYYXJKOGhpdk1TMC9XZXcxd2hxNlBSVVpHOEtK?=
+ =?utf-8?B?ZHQwT0hBR1ErT1dMbVZ1eGdWOFVJc3I4Qko1QzRGNlFybzVoK2gwMmRJV0sv?=
+ =?utf-8?B?d0xSTEt3cExkL0xXS0dxYkFkeWhHdXhoUjNPT3hVdHNsY1Y1OUZ0UG5ISDhC?=
+ =?utf-8?B?Tms5R2dsZnpVc3d4R0FpaGpmWDJwWi9Zc2w1V2NBM2htWTV2cndwbXlLZWtB?=
+ =?utf-8?B?MzUzdEVJbVRyQS9iQ2cycjduWjVXM0tvbU4xcDgvdFFHN3VpQ0NINHFJK2p4?=
+ =?utf-8?B?QWxSN24yNXNkdHhxR3BFMk9XWkJJSEE1ekxKeENUK1Y5MDdnZEhLdHFZYkM5?=
+ =?utf-8?B?WVNPZDE0Q3J0d3dvMlBxS2FreTBYbFc5dnFiU290QjBRRmdTUjJadlJ1RS93?=
+ =?utf-8?B?TmdjN1Q0dEpCaFZBSHdEa2dQeVROcUw0Wms2Mnp4VGdYc3NyTGxVcldTbVc4?=
+ =?utf-8?B?Z0RuNkppSnJoZjR2b0FMdlkvRkswcVZDci91T0NleFVzMVgvTDNzSmlOeUov?=
+ =?utf-8?B?L09hVlovUUJSS0ZKQmRtbDVNRGxsdkFXOXd3TWxQY3N2SGs4NjN1djljOHBC?=
+ =?utf-8?B?MEFJeG4yUVdGeVIweUhKWVR5WllaOFJPcmZadVBVaEtGNXgvOUxHMTF1S3JM?=
+ =?utf-8?B?QUNxVkNMazF4ZThBNTJ1WjZ3VDdwMXg2cTNWdWlPeFhrVzVRdXpRQm5zNTNS?=
+ =?utf-8?B?R08yM2MzU3drVHlCK1lKVXVVV3k0aE1EajdGUFpVMnR5VVJzQm42c0l3WDVL?=
+ =?utf-8?B?OUdobDlweHF0RmZnb1dKNjNWSlYrU3RLbktVczNEcEx5ZXFnQW9nY2xoMjJt?=
+ =?utf-8?B?MmNTSThqbGlTeWN0WTYzd0RuRW85ZWlPcmRDVVkwTDU2SDl3SXk4SWsyNlUy?=
+ =?utf-8?B?RzVERVc3UWhKWmliNXI2SDVRUEtGVGdvWnhOTUlvWVF6aFBhTFMvM2M1YTlm?=
+ =?utf-8?B?NDdYbUtHQmR4OGd0VytGSkdGT2VabW55QWdJTFc3MHBqZkMzVTlYT0pPNjRi?=
+ =?utf-8?B?REF1cXdFbnlBU0Q2aTRKMUhPeXBhb0p3b1FjSCtMVTk0TFdqdDBSbFhKcnJF?=
+ =?utf-8?B?SjVSM1llT09IaVZkYUxGWkJNOTlLR1VkUHlGdmdaL1JuVmVUREFFY3lHUWR5?=
+ =?utf-8?B?YTVaQlF1amJTRGNzQnF2TEc1b0N1QkZjODBHcGx4Ym1ieTBySThFNGRiSUhX?=
+ =?utf-8?B?bktjeEUwYjVFL25zQXA2bW10NEJIY1FDb29aSW1ZMUU1RGpWUEFXa0lFeElR?=
+ =?utf-8?B?M2FDL2F4ZUVzb00wdG5SN09HRW9xYWJkK3dZVEhhRlVWNEtZUEdGUmszdlA5?=
+ =?utf-8?B?OXU4aEVFTlBMUTFGc0kySXR6NmJ6UGRTNk5QTlZPdG0wUXFWVXRwaStnSG5Y?=
+ =?utf-8?Q?tKSEHtKw9aFRqjV2kyFbb7sIgjQxpSIQ+6+HC?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 3879218b-3f56-45e1-df95-08da11747a04
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 11:08:38.8926
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ ZYmDfABcj3coY3+ihrzuABUiOBrpiEFkILO2LLTXh6kUOfZAH+zacM88WgysM29eja6+7WKaQUmdRipfn657Khkv1PrfYyHaBKILEeYQGILgIDxeRy77h/Wt+bM9rV7Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8766
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 10:14:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Mar 2022 11:08:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163742
+ https://lists.openembedded.org/g/openembedded-core/message/163743
 
-Hi Khem,
+Hi Jupiter,
 
-I think I applied that correctly but this failed to build:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/4965/steps/11/logs/stdio
-
-On 28/03/2022 11:07:04-0700, Khem Raj wrote:
-> 1.18 is a major release brings in long awaited new features e.g.
-> generics, fuzzing
+On 3/29/22 07:16, JH wrote:
+> Hi,
 > 
-> Detailed list is here [1]
-> 
-> Drop patches to manipulate multiword CC/CXX as go has fixed it
-> differently [2]
-> 
-> Drop cgo portion of patch to hack hash generation logic
-> either we should find a way to not use it or redo it,
-> in current form its not upstreamable and its
-> altering core features of go compiler, it can not be maintained as is
-> 
-> Drop ignoring CVE-2021-29923 its already addressed in go >= 1.17
-> 
-> [1] https://go.dev/doc/go1.18
-> [2] https://groups.google.com/g/golang-codereviews/c/fUhCbpYG7HE
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/distro/include/tcmode-default.inc   |   2 +-
->  .../go/{go-1.17.8.inc => go-1.18.inc}         |  11 +-
->  ...ow-CC-and-CXX-to-have-multiple-words.patch |  33 ---
->  ...ent-based-hash-generation-less-pedan.patch |  56 +++++
->  ...not-write-linker-flags-into-buildids.patch |   9 +-
->  ...ldgo.go-do-not-hardcode-host-compile.patch |   2 -
->  ...ent-based-hash-generation-less-pedan.patch | 237 ------------------
->  ...-to-be-overridden-in-the-environment.patch |  10 +-
->  ...4-ld-add-soname-to-shareable-objects.patch |   6 +-
->  ...de-CC-when-building-dist-and-go_boot.patch |   6 +-
->  ...dist-separate-host-and-target-builds.patch |  38 ++-
->  ...d-go-make-GOROOT-precious-by-default.patch |  10 +-
->  ...008-use-GOBUILDMODE-to-set-buildmode.patch |   2 +-
->  ...go-make-sure-CC-and-CXX-are-absolute.patch |  94 -------
->  ...ive_1.17.8.bb => go-binary-native_1.18.bb} |   4 +-
->  ...an_1.17.8.bb => go-cross-canadian_1.18.bb} |   0
->  .../{go-cross_1.17.8.bb => go-cross_1.18.bb}  |   0
->  ...crosssdk_1.17.8.bb => go-crosssdk_1.18.bb} |   0
->  ...{go-native_1.17.8.bb => go-native_1.18.bb} |   0
->  ...o-runtime_1.17.8.bb => go-runtime_1.18.bb} |   0
->  .../go/{go_1.17.8.bb => go_1.18.bb}           |   0
->  21 files changed, 95 insertions(+), 425 deletions(-)
->  rename meta/recipes-devtools/go/{go-1.17.8.inc => go-1.18.inc} (58%)
->  delete mode 100644 meta/recipes-devtools/go/go-1.18/0001-allow-CC-and-CXX-to-have-multiple-words.patch
->  create mode 100644 meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
->  delete mode 100644 meta/recipes-devtools/go/go-1.18/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
->  delete mode 100644 meta/recipes-devtools/go/go-1.18/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
->  rename meta/recipes-devtools/go/{go-binary-native_1.17.8.bb => go-binary-native_1.18.bb} (83%)
->  rename meta/recipes-devtools/go/{go-cross-canadian_1.17.8.bb => go-cross-canadian_1.18.bb} (100%)
->  rename meta/recipes-devtools/go/{go-cross_1.17.8.bb => go-cross_1.18.bb} (100%)
->  rename meta/recipes-devtools/go/{go-crosssdk_1.17.8.bb => go-crosssdk_1.18.bb} (100%)
->  rename meta/recipes-devtools/go/{go-native_1.17.8.bb => go-native_1.18.bb} (100%)
->  rename meta/recipes-devtools/go/{go-runtime_1.17.8.bb => go-runtime_1.18.bb} (100%)
->  rename meta/recipes-devtools/go/{go_1.17.8.bb => go_1.18.bb} (100%)
-> 
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index d362bd76c6f..cc542db7364 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -23,7 +23,7 @@ GDBVERSION ?= "11.%"
->  GLIBCVERSION ?= "2.35"
->  LINUXLIBCVERSION ?= "5.16%"
->  QEMUVERSION ?= "6.2%"
-> -GOVERSION ?= "1.17%"
-> +GOVERSION ?= "1.18%"
->  # This can not use wildcards like 8.0.% since it is also used in mesa to denote
->  # llvm version being used, so always bump it with llvm recipe version bump
->  LLVMVERSION ?= "13.0.1"
-> diff --git a/meta/recipes-devtools/go/go-1.17.8.inc b/meta/recipes-devtools/go/go-1.18.inc
-> similarity index 58%
-> rename from meta/recipes-devtools/go/go-1.17.8.inc
-> rename to meta/recipes-devtools/go/go-1.18.inc
-> index 649c09ec1d0..99ce70b346a 100644
-> --- a/meta/recipes-devtools/go/go-1.17.8.inc
-> +++ b/meta/recipes-devtools/go/go-1.18.inc
-> @@ -5,21 +5,14 @@ FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.18:"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
->  
->  SRC_URI += "\
-> -    file://0001-allow-CC-and-CXX-to-have-multiple-words.patch \
-> -    file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch \
-> +    file://0001-cmd-go-make-content-based-hash-generation-less-pedan.patch \
->      file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
->      file://0004-ld-add-soname-to-shareable-objects.patch \
->      file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
->      file://0006-cmd-dist-separate-host-and-target-builds.patch \
->      file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
->      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-> -    file://0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch \
->      file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
->      file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
->  "
-> -SRC_URI[main.sha256sum] = "2effcd898140da79a061f3784ca4f8d8b13d811fb2abe9dad2404442dabbdf7a"
-> -
-> -# Upstream don't believe it is a signifiant real world issue and will only
-> -# fix in 1.17 onwards where we can drop this.
-> -# https://github.com/golang/go/issues/30999#issuecomment-910470358
-> -CVE_CHECK_IGNORE += "CVE-2021-29923"
-> +SRC_URI[main.sha256sum] = "38f423db4cc834883f2b52344282fa7a39fbb93650dc62a11fdf0be6409bdad6"
-> diff --git a/meta/recipes-devtools/go/go-1.18/0001-allow-CC-and-CXX-to-have-multiple-words.patch b/meta/recipes-devtools/go/go-1.18/0001-allow-CC-and-CXX-to-have-multiple-words.patch
-> deleted file mode 100644
-> index 5f4823be22b..00000000000
-> --- a/meta/recipes-devtools/go/go-1.18/0001-allow-CC-and-CXX-to-have-multiple-words.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -From 9e3dc44cdfa58d96504d0a789dc82617dd5bef55 Mon Sep 17 00:00:00 2001
-> -From: Alex Kube <alexander.j.kube@gmail.com>
-> -Date: Wed, 23 Oct 2019 21:01:13 +0430
-> -Subject: [PATCH 1/9] cmd/go: Allow CC and CXX to have multiple words
-> -
-> -Upstream-Status: Inappropriate [OE specific]
-> -
-> -Adapted to Go 1.13 from patches originally submitted to
-> -the meta/recipes-devtools/go tree by
-> -Matt Madison <matt@madison.systems>.
-> -
-> -Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
-> -
-> ----
-> - src/cmd/go/internal/envcmd/env.go | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> ---- a/src/cmd/go/internal/envcmd/env.go
-> -+++ b/src/cmd/go/internal/envcmd/env.go
-> -@@ -103,11 +103,11 @@ func MkEnv() []cfg.EnvVar {
-> - 
-> - 	cc := cfg.DefaultCC(cfg.Goos, cfg.Goarch)
-> - 	if env := strings.Fields(cfg.Getenv("CC")); len(env) > 0 {
-> --		cc = env[0]
-> -+		cc = strings.Join(env, " ")
-> - 	}
-> - 	cxx := cfg.DefaultCXX(cfg.Goos, cfg.Goarch)
-> - 	if env := strings.Fields(cfg.Getenv("CXX")); len(env) > 0 {
-> --		cxx = env[0]
-> -+		cxx = strings.Join(env, " ")
-> - 	}
-> - 	env = append(env, cfg.EnvVar{Name: "AR", Value: envOr("AR", "ar")})
-> - 	env = append(env, cfg.EnvVar{Name: "CC", Value: cc})
-> diff --git a/meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-> new file mode 100644
-> index 00000000000..f718e4b0d8c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
-> @@ -0,0 +1,56 @@
-> +From c8ddf654497a063c8dfb6d47ad2051b1d9431786 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Mon, 28 Mar 2022 10:59:03 -0700
-> +Subject: [PATCH] cmd/go: make content-based hash generation less pedantic
-> +
-> +Go 1.10's build tool now uses content-based hashes to
-> +determine when something should be built or re-built.
-> +This same mechanism is used to maintain a built-artifact
-> +cache for speeding up builds.
-> +
-> +However, the hashes it generates include information that
-> +doesn't work well with OE, nor with using a shared runtime
-> +library.
-> +
-> +First, it embeds path names to source files, unless
-> +building within GOROOT.  This prevents the building
-> +of a package in GOPATH for later staging into GOROOT.
-> +
-> +This patch adds support for the environment variable
-> +GOPATH_OMIT_IN_ACTIONID.  If present, path name
-> +embedding is disabled.
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Alex Kube <alexander.j.kube@gmail.com>
-> +Signed-off-by: Matt Madison <matt@madison.systems>
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + src/cmd/go/internal/work/exec.go | 4 ++++
-> + 1 file changed, 4 insertions(+)
-> +
-> +diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
-> +index 6d6837aa8a..b38cc87c9a 100644
-> +--- a/src/cmd/go/internal/work/exec.go
-> ++++ b/src/cmd/go/internal/work/exec.go
-> +@@ -212,6 +212,8 @@ func (b *Builder) Do(ctx context.Context, root *Action) {
-> + 	writeActionGraph()
-> + }
-> + 
-> ++var omitGopath = os.Getenv("GOPATH_OMIT_IN_ACTIONID") != ""
-> ++
-> + // buildActionID computes the action ID for a build action.
-> + func (b *Builder) buildActionID(a *Action) cache.ActionID {
-> + 	p := a.Package
-> +@@ -233,6 +235,8 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
-> + 		if p.Module != nil {
-> + 			fmt.Fprintf(h, "module %s@%s\n", p.Module.Path, p.Module.Version)
-> + 		}
-> ++	} else if omitGopath {
-> ++		// Ignore when GOPATH_OMIT_IN_ACTIONID envvar is set
-> + 	} else if p.Goroot {
-> + 		// The Go compiler always hides the exact value of $GOROOT
-> + 		// when building things in GOROOT.
-> +-- 
-> +2.35.1
-> +
-> diff --git a/meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch b/meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
-> index 20b6636f659..f117152f2a3 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
-> @@ -14,11 +14,9 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   src/cmd/go/internal/work/exec.go | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->  
-> -diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
-> -index 696db23..727d40b 100644
->  --- a/src/cmd/go/internal/work/exec.go
->  +++ b/src/cmd/go/internal/work/exec.go
-> -@@ -1136,7 +1136,7 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
-> +@@ -1274,7 +1274,7 @@ func (b *Builder) linkActionID(a *Action
->   	}
->   
->   	// Toolchain-dependent configuration, shared with b.linkSharedActionID.
-> @@ -27,7 +25,7 @@ index 696db23..727d40b 100644
->   
->   	// Input files.
->   	for _, a1 := range a.Deps {
-> -@@ -1418,7 +1418,7 @@ func (b *Builder) linkSharedActionID(a *Action) cache.ActionID {
-> +@@ -1568,7 +1568,7 @@ func (b *Builder) linkSharedActionID(a *
->   	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
->   
->   	// Toolchain-dependent configuration, shared with b.linkActionID.
-> @@ -36,6 +34,3 @@ index 696db23..727d40b 100644
->   
->   	// Input files.
->   	for _, a1 := range a.Deps {
-> --- 
-> -2.17.1
-> -
-> diff --git a/meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch b/meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
-> index 257454a67d8..ef1cc6716a9 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
-> @@ -13,8 +13,6 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   src/cmd/dist/buildgo.go | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->  
-> -diff --git a/src/cmd/dist/buildgo.go b/src/cmd/dist/buildgo.go
-> -index caafc13..4eb1c96 100644
->  --- a/src/cmd/dist/buildgo.go
->  +++ b/src/cmd/dist/buildgo.go
->  @@ -34,8 +34,8 @@ func mkzdefaultcc(dir, file string) {
-> diff --git a/meta/recipes-devtools/go/go-1.18/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go-1.18/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
-> deleted file mode 100644
-> index 42cd568ef98..00000000000
-> --- a/meta/recipes-devtools/go/go-1.18/0002-cmd-go-make-content-based-hash-generation-less-pedan.patch
-> +++ /dev/null
-> @@ -1,237 +0,0 @@
-> -From c403b45995c5daa6747ac4d95b39bc9a6feb2cda Mon Sep 17 00:00:00 2001
-> -From: Alex Kube <alexander.j.kube@gmail.com>
-> -Date: Wed, 23 Oct 2019 21:14:22 +0430
-> -Subject: [PATCH] cmd/go: make content-based hash generation less pedantic
-> -
-> -Upstream-Status: Inappropriate [OE specific]
-> -
-> -Go 1.10's build tool now uses content-based hashes to
-> -determine when something should be built or re-built.
-> -This same mechanism is used to maintain a built-artifact
-> -cache for speeding up builds.
-> -
-> -However, the hashes it generates include information that
-> -doesn't work well with OE, nor with using a shared runtime
-> -library.
-> -
-> -First, it embeds path names to source files, unless
-> -building within GOROOT.  This prevents the building
-> -of a package in GOPATH for later staging into GOROOT.
-> -
-> -This patch adds support for the environment variable
-> -GOPATH_OMIT_IN_ACTIONID.  If present, path name
-> -embedding is disabled.
-> -
-> -Second, if cgo is enabled, the build ID for cgo-related
-> -packages will include the current value of the environment
-> -variables for invoking the compiler (CC, CXX, FC) and
-> -any CGO_xxFLAGS variables.  Only if the settings used
-> -during a compilation exactly match, character for character,
-> -the values used for compiling runtime/cgo or any other
-> -cgo-enabled package being imported, will the tool
-> -decide that the imported package is up-to-date.
-> -
-> -This is done to help ensure correctness, but is overly
-> -simplistic and effectively prevents the reuse of built
-> -artifacts that use cgo (or shared runtime, which includes
-> -runtime/cgo).
-> -
-> -This patch filters out all compiler flags except those
-> -beginning with '-m'.  The default behavior can be restored
-> -by setting the CGO_PEDANTIC environment variable.
-> -
-> -Adapted to Go 1.13 from patches originally submitted to
-> -the meta/recipes-devtools/go tree by
-> -Matt Madison <matt@madison.systems>.
-> -
-> -Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
-> ----
-> - src/cmd/go/internal/envcmd/env.go |  2 +-
-> - src/cmd/go/internal/work/exec.go  | 66 ++++++++++++++++++++++---------
-> - 2 files changed, 49 insertions(+), 19 deletions(-)
-> -
-> -diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
-> -index 20d0587..ff6f0d8 100644
-> ---- a/src/cmd/go/internal/envcmd/env.go
-> -+++ b/src/cmd/go/internal/envcmd/env.go
-> -@@ -160,7 +160,7 @@ func ExtraEnvVars() []cfg.EnvVar {
-> - func ExtraEnvVarsCostly() []cfg.EnvVar {
-> - 	var b work.Builder
-> - 	b.Init()
-> --	cppflags, cflags, cxxflags, fflags, ldflags, err := b.CFlags(&load.Package{})
-> -+	cppflags, cflags, cxxflags, fflags, ldflags, err := b.CFlags(&load.Package{}, false)
-> - 	if err != nil {
-> - 		// Should not happen - b.CFlags was given an empty package.
-> - 		fmt.Fprintf(os.Stderr, "go: invalid cflags: %v\n", err)
-> -diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
-> -index 5a225fb..a37872e 100644
-> ---- a/src/cmd/go/internal/work/exec.go
-> -+++ b/src/cmd/go/internal/work/exec.go
-> -@@ -38,6 +38,8 @@ import (
-> - 	"cmd/go/internal/trace"
-> - )
-> - 
-> -+var omitGopath = os.Getenv("GOPATH_OMIT_IN_ACTIONID") != ""
-> -+
-> - // actionList returns the list of actions in the dag rooted at root
-> - // as visited in a depth-first post-order traversal.
-> - func actionList(root *Action) []*Action {
-> -@@ -229,7 +231,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
-> - 	// Assume b.WorkDir is being trimmed properly.
-> - 	// When -trimpath is used with a package built from the module cache,
-> - 	// use the module path and version instead of the directory.
-> --	if !p.Goroot && !cfg.BuildTrimpath && !strings.HasPrefix(p.Dir, b.WorkDir) {
-> -+	if !p.Goroot && !omitGopath && !cfg.BuildTrimpath && !strings.HasPrefix(p.Dir, b.WorkDir) {
-> - 		fmt.Fprintf(h, "dir %s\n", p.Dir)
-> - 	} else if cfg.BuildTrimpath && p.Module != nil {
-> - 		fmt.Fprintf(h, "module %s@%s\n", p.Module.Path, p.Module.Version)
-> -@@ -248,9 +250,9 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
-> - 	}
-> - 	if len(p.CgoFiles)+len(p.SwigFiles)+len(p.SwigCXXFiles) > 0 {
-> - 		fmt.Fprintf(h, "cgo %q\n", b.toolID("cgo"))
-> --		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p)
-> -+		cppflags, cflags, cxxflags, fflags, ldflags, _ := b.CFlags(p, true)
-> - 
-> --		ccExe := b.ccExe()
-> -+		ccExe := b.ccExe(true)
-> - 		fmt.Fprintf(h, "CC=%q %q %q %q\n", ccExe, cppflags, cflags, ldflags)
-> - 		// Include the C compiler tool ID so that if the C
-> - 		// compiler changes we rebuild the package.
-> -@@ -263,14 +265,14 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
-> - 			}
-> - 		}
-> - 		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
-> --			cxxExe := b.cxxExe()
-> -+			cxxExe := b.cxxExe(true)
-> - 			fmt.Fprintf(h, "CXX=%q %q\n", cxxExe, cxxflags)
-> - 			if cxxID, err := b.gccToolID(cxxExe[0], "c++"); err == nil {
-> - 				fmt.Fprintf(h, "CXX ID=%q\n", cxxID)
-> - 			}
-> - 		}
-> - 		if len(p.FFiles) > 0 {
-> --			fcExe := b.fcExe()
-> -+			fcExe := b.fcExe(true)
-> - 			fmt.Fprintf(h, "FC=%q %q\n", fcExe, fflags)
-> - 			if fcID, err := b.gccToolID(fcExe[0], "f95"); err == nil {
-> - 				fmt.Fprintf(h, "FC ID=%q\n", fcID)
-> -@@ -2438,33 +2440,48 @@ var (
-> - // gccCmd returns a gcc command line prefix
-> - // defaultCC is defined in zdefaultcc.go, written by cmd/dist.
-> - func (b *Builder) GccCmd(incdir, workdir string) []string {
-> --	return b.compilerCmd(b.ccExe(), incdir, workdir)
-> -+	return b.compilerCmd(b.ccExe(false), incdir, workdir)
-> - }
-> - 
-> - // gxxCmd returns a g++ command line prefix
-> - // defaultCXX is defined in zdefaultcc.go, written by cmd/dist.
-> - func (b *Builder) GxxCmd(incdir, workdir string) []string {
-> --	return b.compilerCmd(b.cxxExe(), incdir, workdir)
-> -+	return b.compilerCmd(b.cxxExe(false), incdir, workdir)
-> - }
-> - 
-> - // gfortranCmd returns a gfortran command line prefix.
-> - func (b *Builder) gfortranCmd(incdir, workdir string) []string {
-> --	return b.compilerCmd(b.fcExe(), incdir, workdir)
-> -+	return b.compilerCmd(b.fcExe(false), incdir, workdir)
-> - }
-> - 
-> - // ccExe returns the CC compiler setting without all the extra flags we add implicitly.
-> --func (b *Builder) ccExe() []string {
-> --	return b.compilerExe(origCC, cfg.DefaultCC(cfg.Goos, cfg.Goarch))
-> -+func (b *Builder) ccExe(filtered bool) []string {
-> -+	return b.compilerExe(origCC, cfg.DefaultCC(cfg.Goos, cfg.Goarch), filtered)
-> - }
-> - 
-> - // cxxExe returns the CXX compiler setting without all the extra flags we add implicitly.
-> --func (b *Builder) cxxExe() []string {
-> --	return b.compilerExe(origCXX, cfg.DefaultCXX(cfg.Goos, cfg.Goarch))
-> -+func (b *Builder) cxxExe(filtered bool) []string {
-> -+	return b.compilerExe(origCXX, cfg.DefaultCXX(cfg.Goos, cfg.Goarch), filtered)
-> - }
-> - 
-> - // fcExe returns the FC compiler setting without all the extra flags we add implicitly.
-> --func (b *Builder) fcExe() []string {
-> --	return b.compilerExe(cfg.Getenv("FC"), "gfortran")
-> -+func (b *Builder) fcExe(filtered bool) []string {
-> -+	return b.compilerExe(os.Getenv("FC"), "gfortran", filtered)
-> -+}
-> -+
-> -+var filterFlags = os.Getenv("CGO_PEDANTIC") == ""
-> -+
-> -+func filterCompilerFlags(flags []string) []string {
-> -+	var newflags []string
-> -+	if !filterFlags {
-> -+		return flags
-> -+	}
-> -+	for _, flag := range flags {
-> -+		if strings.HasPrefix(flag, "-m") {
-> -+			newflags = append(newflags, flag)
-> -+		}
-> -+	}
-> -+	return newflags
-> - }
-> - 
-> - // compilerExe returns the compiler to use given an
-> -@@ -2473,11 +2490,16 @@ func (b *Builder) fcExe() []string {
-> - // of the compiler but can have additional arguments if they
-> - // were present in the environment value.
-> - // For example if CC="gcc -DGOPHER" then the result is ["gcc", "-DGOPHER"].
-> --func (b *Builder) compilerExe(envValue string, def string) []string {
-> -+func (b *Builder) compilerExe(envValue string, def string, filtered bool) []string {
-> - 	compiler := strings.Fields(envValue)
-> - 	if len(compiler) == 0 {
-> - 		compiler = strings.Fields(def)
-> - 	}
-> -+
-> -+	if filtered {
-> -+		return append(compiler[0:1], filterCompilerFlags(compiler[1:])...)
-> -+	}
-> -+
-> - 	return compiler
-> - }
-> - 
-> -@@ -2667,7 +2689,7 @@ func envList(key, def string) []string {
-> - }
-> - 
-> - // CFlags returns the flags to use when invoking the C, C++ or Fortran compilers, or cgo.
-> --func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, ldflags []string, err error) {
-> -+func (b *Builder) CFlags(p *load.Package, filtered bool) (cppflags, cflags, cxxflags, fflags, ldflags []string, err error) {
-> - 	defaults := "-g -O2"
-> - 
-> - 	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
-> -@@ -2686,6 +2708,14 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
-> - 		return
-> - 	}
-> - 
-> -+	if filtered {
-> -+		cppflags = filterCompilerFlags(cppflags)
-> -+		cflags = filterCompilerFlags(cflags)
-> -+		cxxflags = filterCompilerFlags(cxxflags)
-> -+		fflags = filterCompilerFlags(fflags)
-> -+		ldflags = filterCompilerFlags(ldflags)
-> -+	}
-> -+
-> - 	return
-> - }
-> - 
-> -@@ -2700,7 +2730,7 @@ var cgoRe = lazyregexp.New(`[/\\:]`)
-> - 
-> - func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
-> - 	p := a.Package
-> --	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS, err := b.CFlags(p)
-> -+	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS, err := b.CFlags(p, false)
-> - 	if err != nil {
-> - 		return nil, nil, err
-> - 	}
-> -@@ -3151,7 +3181,7 @@ func (b *Builder) swigIntSize(objdir string) (intsize string, err error) {
-> - 
-> - // Run SWIG on one SWIG input file.
-> - func (b *Builder) swigOne(a *Action, p *load.Package, file, objdir string, pcCFLAGS []string, cxx bool, intgosize string) (outGo, outC string, err error) {
-> --	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, _, _, err := b.CFlags(p)
-> -+	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, _, _, err := b.CFlags(p, false)
-> - 	if err != nil {
-> - 		return "", "", err
-> - 	}
-> --- 
-> -2.20.1
-> -
-> diff --git a/meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch b/meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
-> index 2a86bdccf30..c3ccffc3e95 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
-> @@ -18,11 +18,9 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   src/cmd/go/internal/cfg/cfg.go | 6 +++++-
->   2 files changed, 8 insertions(+), 2 deletions(-)
->  
-> -diff --git a/src/cmd/dist/build.go b/src/cmd/dist/build.go
-> -index bec1769..d82f612 100644
->  --- a/src/cmd/dist/build.go
->  +++ b/src/cmd/dist/build.go
-> -@@ -248,7 +248,9 @@ func xinit() {
-> +@@ -251,7 +251,9 @@ func xinit() {
->   	}
->   	xatexit(rmworkdir)
->   
-> @@ -33,11 +31,9 @@ index bec1769..d82f612 100644
->   }
->   
->   // compilerEnv returns a map from "goos/goarch" to the
-> -diff --git a/src/cmd/go/internal/cfg/cfg.go b/src/cmd/go/internal/cfg/cfg.go
-> -index 57a3c1f..825d8c7 100644
->  --- a/src/cmd/go/internal/cfg/cfg.go
->  +++ b/src/cmd/go/internal/cfg/cfg.go
-> -@@ -67,7 +67,11 @@ func defaultContext() build.Context {
-> +@@ -76,7 +76,11 @@ func defaultContext() build.Context {
->   		// variables. This matches the initialization of ToolDir in
->   		// go/build, except for using ctxt.GOROOT rather than
->   		// runtime.GOROOT.
-> @@ -49,4 +45,4 @@ index 57a3c1f..825d8c7 100644
->  +		}
->   	}
->   
-> - 	ctxt.GOPATH = envOr("GOPATH", ctxt.GOPATH)
-> + 	ctxt.GOPATH = envOr("GOPATH", gopath(ctxt))
-> diff --git a/meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch
-> index cd875f1164d..058fa64225a 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch
-> @@ -19,7 +19,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->  
->  --- a/src/cmd/link/internal/ld/lib.go
->  +++ b/src/cmd/link/internal/ld/lib.go
-> -@@ -1343,6 +1343,7 @@ func (ctxt *Link) hostlink() {
-> +@@ -1347,6 +1347,7 @@ func (ctxt *Link) hostlink() {
->   				argv = append(argv, "-Wl,-z,relro")
->   			}
->   			argv = append(argv, "-shared")
-> @@ -27,7 +27,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   			if ctxt.HeadType == objabi.Hwindows {
->   				if *flagAslr {
->   					argv = addASLRargs(argv)
-> -@@ -1358,6 +1359,7 @@ func (ctxt *Link) hostlink() {
-> +@@ -1364,6 +1365,7 @@ func (ctxt *Link) hostlink() {
->   			argv = append(argv, "-Wl,-z,relro")
->   		}
->   		argv = append(argv, "-shared")
-> @@ -35,7 +35,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   	case BuildModePlugin:
->   		if ctxt.HeadType == objabi.Hdarwin {
->   			argv = append(argv, "-dynamiclib")
-> -@@ -1366,6 +1368,7 @@ func (ctxt *Link) hostlink() {
-> +@@ -1372,6 +1374,7 @@ func (ctxt *Link) hostlink() {
->   				argv = append(argv, "-Wl,-z,relro")
->   			}
->   			argv = append(argv, "-shared")
-> diff --git a/meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch b/meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
-> index 2845d21382e..a6937672f58 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
-> @@ -17,11 +17,9 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   src/make.bash | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->  
-> -diff --git a/src/make.bash b/src/make.bash
-> -index 7986125..dd67029 100755
->  --- a/src/make.bash
->  +++ b/src/make.bash
-> -@@ -181,7 +181,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ]; then
-> +@@ -195,7 +195,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ];
->   	exit 1
->   fi
->   rm -f cmd/dist/dist
-> @@ -30,7 +28,7 @@ index 7986125..dd67029 100755
->   
->   # -e doesn't propagate out of eval, so check success by hand.
->   eval $(./cmd/dist/dist env -p || echo FAIL=true)
-> -@@ -206,7 +206,7 @@ fi
-> +@@ -220,7 +220,7 @@ fi
->   # Run dist bootstrap to complete make.bash.
->   # Bootstrap installs a proper cmd/dist, built with the new toolchain.
->   # Throw ours, built with Go 1.4, away after bootstrap.
-> diff --git a/meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch b/meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch
-> index 68e8efc1d2c..ee743ab9900 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch
-> @@ -39,11 +39,9 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   src/cmd/dist/build.go | 156 ++++++++++++++++++++++++++++++------------
->   1 file changed, 113 insertions(+), 43 deletions(-)
->  
-> -diff --git a/src/cmd/dist/build.go b/src/cmd/dist/build.go
-> -index d82f612..5c8459c 100644
->  --- a/src/cmd/dist/build.go
->  +++ b/src/cmd/dist/build.go
-> -@@ -43,6 +43,7 @@ var (
-> +@@ -44,6 +44,7 @@ var (
->   	goexperiment     string
->   	workdir          string
->   	tooldir          string
-> @@ -51,7 +49,7 @@ index d82f612..5c8459c 100644
->   	oldgoos          string
->   	oldgoarch        string
->   	exe              string
-> -@@ -55,6 +56,7 @@ var (
-> +@@ -54,6 +55,7 @@ var (
->   
->   	rebuildall   bool
->   	defaultclang bool
-> @@ -59,7 +57,7 @@ index d82f612..5c8459c 100644
->   
->   	vflag int // verbosity
->   )
-> -@@ -251,6 +253,8 @@ func xinit() {
-> +@@ -254,6 +256,8 @@ func xinit() {
->   	if tooldir = os.Getenv("GOTOOLDIR"); tooldir == "" {
->   		tooldir = pathf("%s/pkg/tool/%s_%s", goroot, gohostos, gohostarch)
->   	}
-> @@ -68,7 +66,7 @@ index d82f612..5c8459c 100644
->   }
->   
->   // compilerEnv returns a map from "goos/goarch" to the
-> -@@ -496,8 +500,10 @@ func setup() {
-> +@@ -499,8 +503,10 @@ func setup() {
->   	p := pathf("%s/pkg/%s_%s", goroot, gohostos, gohostarch)
->   	if rebuildall {
->   		xremoveall(p)
-> @@ -79,7 +77,7 @@ index d82f612..5c8459c 100644
->   
->   	if goos != gohostos || goarch != gohostarch {
->   		p := pathf("%s/pkg/%s_%s", goroot, goos, goarch)
-> -@@ -1267,17 +1273,35 @@ func cmdbootstrap() {
-> +@@ -1252,17 +1258,35 @@ func cmdbootstrap() {
->   
->   	var noBanner, noClean bool
->   	var debug bool
-> @@ -116,7 +114,7 @@ index d82f612..5c8459c 100644
->   	// Set GOPATH to an internal directory. We shouldn't actually
->   	// need to store files here, since the toolchain won't
->   	// depend on modules outside of vendor directories, but if
-> -@@ -1345,8 +1369,13 @@ func cmdbootstrap() {
-> +@@ -1330,8 +1354,13 @@ func cmdbootstrap() {
->   		xprintf("\n")
->   	}
->   
-> @@ -132,7 +130,7 @@ index d82f612..5c8459c 100644
->   	goBootstrap := pathf("%s/go_bootstrap", tooldir)
->   	cmdGo := pathf("%s/go", gobin)
->   	if debug {
-> -@@ -1375,7 +1404,11 @@ func cmdbootstrap() {
-> +@@ -1360,7 +1389,11 @@ func cmdbootstrap() {
->   		xprintf("\n")
->   	}
->   	xprintf("Building Go toolchain2 using go_bootstrap and Go toolchain1.\n")
-> @@ -145,7 +143,7 @@ index d82f612..5c8459c 100644
->   	// Now that cmd/go is in charge of the build process, enable GOEXPERIMENT.
->   	os.Setenv("GOEXPERIMENT", goexperiment)
->   	goInstall(goBootstrap, append([]string{"-i"}, toolchain...)...)
-> -@@ -1414,50 +1447,84 @@ func cmdbootstrap() {
-> +@@ -1399,50 +1432,84 @@ func cmdbootstrap() {
->   	}
->   	checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
->   
-> @@ -197,8 +195,6 @@ index d82f612..5c8459c 100644
->  -		timelog("build", "host toolchain")
->  -		if vflag > 0 {
->  -			xprintf("\n")
-> --		}
-> --		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
->  +
->  +		if goos == oldgoos && goarch == oldgoarch {
->  +			// Common case - not setting up for cross-compilation.
-> @@ -230,7 +226,8 @@ index d82f612..5c8459c 100644
->  +			os.Setenv("GOARCH", goarch)
->  +			os.Setenv("CC", compilerEnvLookup(defaultcc, goos, goarch))
->  +			xprintf("Building packages and commands for target, %s/%s.\n", goos, goarch)
-> -+		}
-> + 		}
-> +-		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
->   		goInstall(goBootstrap, "std", "cmd")
->   		checkNotStale(goBootstrap, "std", "cmd")
->   		checkNotStale(cmdGo, "std", "cmd")
-> @@ -238,12 +235,7 @@ index d82f612..5c8459c 100644
->  -		timelog("build", "target toolchain")
->  -		if vflag > 0 {
->  -			xprintf("\n")
-> -+		if debug {
-> -+			run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
-> -+			run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
-> -+			checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
-> -+			copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
-> - 		}
-> +-		}
->  -		goos = oldgoos
->  -		goarch = oldgoarch
->  -		os.Setenv("GOOS", goos)
-> @@ -264,10 +256,16 @@ index d82f612..5c8459c 100644
->  -		run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
->  -		checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
->  -		copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
-> ++		if debug {
-> ++			run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
-> ++			run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
-> ++			checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
-> ++			copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
-> ++		}
->   	}
->   
->   	// Check that there are no new files in $GOROOT/bin other than
-> -@@ -1474,8 +1541,11 @@ func cmdbootstrap() {
-> +@@ -1459,8 +1526,11 @@ func cmdbootstrap() {
->   		}
->   	}
->   
-> diff --git a/meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch
-> index 4b4d0d4f3da..534d4310456 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch
-> @@ -29,7 +29,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->  
->  --- a/src/cmd/go/internal/work/action.go
->  +++ b/src/cmd/go/internal/work/action.go
-> -@@ -670,6 +670,9 @@ func (b *Builder) addTransitiveLinkDeps(
-> +@@ -673,6 +673,9 @@ func (b *Builder) addTransitiveLinkDeps(
->   			if p1 == nil || p1.Shlib == "" || haveShlib[filepath.Base(p1.Shlib)] {
->   				continue
->   			}
-> @@ -41,7 +41,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   			// we'll end up building an overall library or executable that depends at runtime
->  --- a/src/cmd/go/internal/work/build.go
->  +++ b/src/cmd/go/internal/work/build.go
-> -@@ -167,6 +167,8 @@ See also: go install, go get, go clean.
-> +@@ -197,6 +197,8 @@ See also: go install, go get, go clean.
->   
->   const concurrentGCBackendCompilationEnabledByDefault = true
->   
-> @@ -50,7 +50,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   func init() {
->   	// break init cycle
->   	CmdBuild.Run = runBuild
-> -@@ -179,6 +181,10 @@ func init() {
-> +@@ -209,6 +211,10 @@ func init() {
->   
->   	AddBuildFlags(CmdBuild, DefaultBuildFlags)
->   	AddBuildFlags(CmdInstall, DefaultBuildFlags)
-> @@ -63,7 +63,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   // Note that flags consulted by other parts of the code
->  --- a/src/cmd/go/internal/work/exec.go
->  +++ b/src/cmd/go/internal/work/exec.go
-> -@@ -468,6 +468,23 @@ func (b *Builder) build(a *Action) (err
-> +@@ -535,6 +535,23 @@ func (b *Builder) build(ctx context.Cont
->   		return errors.New("binary-only packages are no longer supported")
->   	}
->   
-> @@ -87,7 +87,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->   	if err := b.Mkdir(a.Objdir); err != nil {
->   		return err
->   	}
-> -@@ -1520,6 +1537,14 @@ func BuildInstallFunc(b *Builder, a *Act
-> +@@ -1585,6 +1602,14 @@ func (b *Builder) linkShared(ctx context
->   		return err
->   	}
->   
-> diff --git a/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch b/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
-> index 4e5d5021d64..0ede623af97 100644
-> --- a/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
-> +++ b/meta/recipes-devtools/go/go-1.18/0008-use-GOBUILDMODE-to-set-buildmode.patch
-> @@ -25,7 +25,7 @@ Signed-off-by: Alexander J Kube <alexander.j.kube@gmail.com>
->  
->  --- a/src/cmd/go/internal/work/build.go
->  +++ b/src/cmd/go/internal/work/build.go
-> -@@ -254,7 +254,13 @@ func AddBuildFlags(cmd *base.Command, ma
-> +@@ -283,7 +283,13 @@ func AddBuildFlags(cmd *base.Command, ma
->   
->   	cmd.Flag.Var(&load.BuildAsmflags, "asmflags", "")
->   	cmd.Flag.Var(buildCompiler{}, "compiler", "")
-> diff --git a/meta/recipes-devtools/go/go-1.18/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch b/meta/recipes-devtools/go/go-1.18/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
-> deleted file mode 100644
-> index f857b722347..00000000000
-> --- a/meta/recipes-devtools/go/go-1.18/0009-Revert-cmd-go-make-sure-CC-and-CXX-are-absolute.patch
-> +++ /dev/null
-> @@ -1,94 +0,0 @@
-> -From 66a45dae3af140662e17ef85c2e6fe40270a2553 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 22 Feb 2021 17:54:01 -0800
-> -Subject: [PATCH] Revert "cmd/go: make sure CC and CXX are absolute"
-> -
-> -OE uses CC/CXX values which consists of cmpiler and options together,
-> -secondly, the environment is canned so this check add little value to OE
-> -based builds
-> -
-> -Fixes go-runtime build issues
-> -
-> -go install: CXX environment variable is relative; must be absolute path: powerpc64le-yoe-linux-musl-g++ -mlittle-endian -mhard-float -m64 -mabi=elfv2 -mcpu=power9 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/mnt/b/yoe/master/build/tmp/work/ppc64p9le-yoe-linux-musl/go/1.16-r0/recipe-sysroot
-> -
-> -This reverts commit aa161e799df7e1eba99d2be10271e76b6f758142.
-> -
-> -Upstream-Status: Inappropriate [OE-Specific]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - src/cmd/go/internal/envcmd/env.go        |  5 -----
-> - src/cmd/go/internal/work/init.go         |  6 ------
-> - src/cmd/go/testdata/script/env_write.txt | 24 ------------------------
-> - 3 files changed, 35 deletions(-)
-> -
-> -diff --git a/src/cmd/go/internal/envcmd/env.go b/src/cmd/go/internal/envcmd/env.go
-> -index ff6f0d8..43b94e7 100644
-> ---- a/src/cmd/go/internal/envcmd/env.go
-> -+++ b/src/cmd/go/internal/envcmd/env.go
-> -@@ -457,11 +457,6 @@ func checkEnvWrite(key, val string) error {
-> - 		if !filepath.IsAbs(val) && val != "" {
-> - 			return fmt.Errorf("GOPATH entry is relative; must be absolute path: %q", val)
-> - 		}
-> --	// Make sure CC and CXX are absolute paths
-> --	case "CC", "CXX", "GOMODCACHE":
-> --		if !filepath.IsAbs(val) && val != "" && val != filepath.Base(val) {
-> --			return fmt.Errorf("%s entry is relative; must be absolute path: %q", key, val)
-> --		}
-> - 	}
-> - 
-> - 	if !utf8.ValidString(val) {
-> -diff --git a/src/cmd/go/internal/work/init.go b/src/cmd/go/internal/work/init.go
-> -index 37a3e2d..316b0cf 100644
-> ---- a/src/cmd/go/internal/work/init.go
-> -+++ b/src/cmd/go/internal/work/init.go
-> -@@ -39,12 +39,6 @@ func BuildInit() {
-> - 		cfg.BuildPkgdir = p
-> - 	}
-> - 
-> --	// Make sure CC and CXX are absolute paths
-> --	for _, key := range []string{"CC", "CXX"} {
-> --		if path := cfg.Getenv(key); !filepath.IsAbs(path) && path != "" && path != filepath.Base(path) {
-> --			base.Fatalf("go %s: %s environment variable is relative; must be absolute path: %s\n", flag.Args()[0], key, path)
-> --		}
-> --	}
-> - }
-> - 
-> - func instrumentInit() {
-> -diff --git a/src/cmd/go/testdata/script/env_write.txt b/src/cmd/go/testdata/script/env_write.txt
-> -index b5e9739..566c876 100644
-> ---- a/src/cmd/go/testdata/script/env_write.txt
-> -+++ b/src/cmd/go/testdata/script/env_write.txt
-> -@@ -129,30 +129,6 @@ go env -w GOTMPDIR=
-> - go env GOTMPDIR
-> - stdout ^$
-> - 
-> --# go env -w rejects relative CC values
-> --[!windows] go env -w CC=/usr/bin/clang
-> --go env -w CC=clang
-> --[!windows] ! go env -w CC=./clang
-> --[!windows] ! go env -w CC=bin/clang
-> --[!windows] stderr 'go env -w: CC entry is relative; must be absolute path'
-> --
-> --[windows] go env -w CC=$WORK\bin\clang
-> --[windows] ! go env -w CC=.\clang
-> --[windows] ! go env -w CC=bin\clang
-> --[windows] stderr 'go env -w: CC entry is relative; must be absolute path'
-> --
-> --# go env -w rejects relative CXX values
-> --[!windows] go env -w CC=/usr/bin/cpp
-> --go env -w CXX=cpp
-> --[!windows] ! go env -w CXX=./cpp
-> --[!windows] ! go env -w CXX=bin/cpp
-> --[!windows] stderr 'go env -w: CXX entry is relative; must be absolute path'
-> --
-> --[windows] go env -w CXX=$WORK\bin\cpp
-> --[windows] ! go env -w CXX=.\cpp
-> --[windows] ! go env -w CXX=bin\cpp
-> --[windows] stderr 'go env -w: CXX entry is relative; must be absolute path'
-> --
-> - # go env -w/-u checks validity of GOOS/ARCH combinations
-> - env GOOS=
-> - env GOARCH=
-> --- 
-> -2.20.1
-> -
-> diff --git a/meta/recipes-devtools/go/go-binary-native_1.17.8.bb b/meta/recipes-devtools/go/go-binary-native_1.18.bb
-> similarity index 83%
-> rename from meta/recipes-devtools/go/go-binary-native_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-binary-native_1.18.bb
-> index 1b85cd50d61..500bb4ddcc0 100644
-> --- a/meta/recipes-devtools/go/go-binary-native_1.17.8.bb
-> +++ b/meta/recipes-devtools/go/go-binary-native_1.18.bb
-> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
->  PROVIDES = "go-native"
->  
->  SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
-> -SRC_URI[go_linux_amd64.sha256sum] = "980e65a863377e69fd9b67df9d8395fd8e93858e7a24c9f55803421e453f4f99"
-> -SRC_URI[go_linux_arm64.sha256sum] = "57a9171682e297df1a5bd287be056ed0280195ad079af90af16dcad4f64710cb"
-> +SRC_URI[go_linux_amd64.sha256sum] = "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f"
-> +SRC_URI[go_linux_arm64.sha256sum] = "7ac7b396a691e588c5fb57687759e6c4db84a2a3bbebb0765f4b38e5b1c5b00e"
->  
->  UPSTREAM_CHECK_URI = "https://golang.org/dl/"
->  UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-> diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.17.8.bb b/meta/recipes-devtools/go/go-cross-canadian_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross-canadian_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-cross-canadian_1.18.bb
-> diff --git a/meta/recipes-devtools/go/go-cross_1.17.8.bb b/meta/recipes-devtools/go/go-cross_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-cross_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-cross_1.18.bb
-> diff --git a/meta/recipes-devtools/go/go-crosssdk_1.17.8.bb b/meta/recipes-devtools/go/go-crosssdk_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-crosssdk_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-crosssdk_1.18.bb
-> diff --git a/meta/recipes-devtools/go/go-native_1.17.8.bb b/meta/recipes-devtools/go/go-native_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-native_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-native_1.18.bb
-> diff --git a/meta/recipes-devtools/go/go-runtime_1.17.8.bb b/meta/recipes-devtools/go/go-runtime_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go-runtime_1.17.8.bb
-> rename to meta/recipes-devtools/go/go-runtime_1.18.bb
-> diff --git a/meta/recipes-devtools/go/go_1.17.8.bb b/meta/recipes-devtools/go/go_1.18.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/go/go_1.17.8.bb
-> rename to meta/recipes-devtools/go/go_1.18.bb
-> -- 
-> 2.35.1
+> I could not understand why so many large WiFi chip vendors retreat to
+> stop maintaining WiFi SDIO chips to mainline Linux kernel, and to
+> settle it's chip support to out of the tree, use its own SDK and
+> proprietary kernel tree to source.codeaurora.org or private repository
+> which are not compatible to mainline stable kernel, the kernel
+> configures are also different.
 > 
 
+It is extremely rare to have vendors not have out-of-tree drivers or 
+forked branches (I don't know of any, personally). Some vendors do end 
+up upstreaming some of their patches in the end to reduce the amount of 
+maintenance they have to do on their downstream drivers/kernel tree.
+
+Upstreaming takes time, knowledge and soft (as in "communicating with 
+people") skills that some vendors aren't willing to invest in. It's also 
+usually not an urgent matter (as opposed to have *something* that works, 
+so they can sell the product ASAP).
+
+Also, quality of vendor (understand downstream) code is often subpar (to 
+be polite) and would not be accepted as-is in Linux kernel upstream git 
+repository.
+
+Finally, it is also a strategical choice for vendors to have an 
+out-of-tree driver so that people stuck with an older kernel can still 
+use this driver/product. One simple example: a bad vendor sells you an 
+SoC with BSP supporting kernel 4.4 (let's say). Now, you want to use a 
+specific WiFi module with this SoC. Fortunately, there's upstream 
+support for it, but only in 5.10 and later. Considering the number of 
+changes between 4.4 and 5.10, you won't be able to easily backport the 
+driver to work on 4.4. This means the WiFi module vendor loses you as a 
+customer because you wont be able to use their solution.
+
+Now, you could also have a nicer SoC vendor which provides you with a 
+5.10 kernel. However, there's an important fix available in 5.16 that 
+isn't in the WiFi driver you have on 5.10. You could try to backport 
+this yourself but not all customers of said WiFi vendor are skilled 
+enough to do this. The WiFi vendor needs to provide support for 
+backporting this for the customer and/or deal with unhappy customers.
+
+However, with an out-of-tree driver with appropriate ifdefs everywhere 
+to adapt for specific versions of the Linux kernel ABI, they have ONE 
+driver that is known to work on many different Linux kernel versions. It 
+also makes the maintenance of the driver much more simple for them. This 
+also allows them to do releases much more often than the Linux kernel 
+allows (one every 2-3 months). Considering the usually bad quality of 
+code and maybe lack of proper reviews, you might end up with regressions 
+and more importantly security issues that will never be discovered 
+because less eyes will be on the code.
+
+Out-of-tree drivers make sense in a self-feeding loop of vendors not 
+upstreaming stuff because they need to support other vendors not 
+upstreaming, even if they wanted to in the first place.
+
+Finally, I've had to patch locally about 3-4 WiFi drivers and the 
+changes weren't implemented by the vendor in the next releases. So you 
+might just have issues other companies have fixed but it was never 
+reported or fixed by the vendor. (Note that upstreaming does not 
+necessarily fix this issue, it just makes it in theory less likely to 
+happen since more people are supposed to use it than some vendor kernel).
+
+Also, some vendors are historically reluctant to contribute anything to 
+the upstream Linux kernel and the support of their hardware was added by 
+hobbyists or one of their clients, bearing the costs themselves.
+
+> I looked at the following link, the mwifiex and mwifiex_sdio support
+> the Marvell (NXP) 88W88 chipset, but only kernel 4.19 was able to
+> build and to run, kernel 5 cannot support 88W88 chipset, any more.
+
+You'd need to request the newer versions of mwifiex to NXP (which 
+acquired Marvell some years ago) or patch it yourself. Welcome to the 
+world of downstream support :)
+
+> Same to Qualcomm, the old Atheros WiFi modules are supported, the
+> QCA-9377-3 chipset is in source.codeaurora.org only supported by old
+> kernel 4.9.
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163718): https://lists.openembedded.org/g/openembedded-core/message/163718
-> Mute This Topic: https://lists.openembedded.org/mt/90091318/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Given the OE/Yocto poky kernel build is based on a mainline stable
+> kernel repository, how can I build kernel 5 for 88W88 chipset or
+> QCA-9377-3 from source.codeaurora.org or private repository? Or which
+> WiFi vendors are still well maintaining the WiFi chips for kernel 5,
+> the only sensible solution is to switch WiFi SDIO chips? Appreciate
+> your advice and comments.
 > 
 
+Yocto only builds what you tell it to build. The company I work for 
+provides[1] Yocto support for a vendor kernel based on Android-flavored 
+4.4 (note: though we do actually support and encourage using mainline, 
+GPU/VPU support was - years ago - just not comparable between vendor and 
+upstream kernels) for our System on Module, all of this on Honister 
+(latest release of Yocto to date). You just need to create your own 
+recipe (or adapt an existing one) to point to the BSP components your 
+vendor gave you (or whatever you want to use) and build it. Nothing 
+forces you to use linux-yocto 5.14 or whatever else.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+[1] 
+https://git.theobroma-systems.com/yocto-layers/meta-theobroma-systems-bsp.git/tree/recipes-kernel/linux/linux-tsd_4.4.bb
+
+Cheers,
+Quentin
 
