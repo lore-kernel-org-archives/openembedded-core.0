@@ -1,508 +1,365 @@
-Return-Path: <ross@burtonini.com>
+Return-Path: <Saul.Wold@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3310CC433F5
-	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 20:40:51 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.3489.1648672849352605612
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D07BC433EF
+	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 22:12:08 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
+ [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.48.1648678326074458077
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 13:40:50 -0700
+ Wed, 30 Mar 2022 15:12:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20210112.gappssmtp.com header.s=20210112
- header.b=3AZOD5cM;
- spf=pass (domain: burtonini.com, ip: 209.85.128.46,
- mailfrom: ross@burtonini.com)
-Received: by mail-wm1-f46.google.com with SMTP id p189so13034130wmp.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 13:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SA7U2BDbZU9rld0h1K/Hz9USHt9ShPBaXbX+tVapQ8w=;
-        b=3AZOD5cMDe9Nlr4gJbtfmXcssd2eMUIrHBOuL6uHINu7LYrPE1ZJ7cWHUSgwOiXACC
-         f2LH2GeYj/SU9bSn8d0HVickQeVBJavoT1yhaCSQdBsT9mkXEdC2mWhMQbvHWhUVWc3C
-         Gft51VXjwC/g8VZtvoDrDPThs5jEJj6p8OO9Of+jWigx09cbLXwxTQedLcav+jPinxx7
-         u0rXthBeXe4Q9IUJbBElxGXhXk9Asv7NE8qSul36FGOnA9YohLJd4IiFFMdwzQrtuDqV
-         UVkRk9l2onMpMghhyI6klSsuJSNyixWvByp+M4ADWwgGiQ7Sh43AzHzBRwFg4vjqUXUR
-         YuFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SA7U2BDbZU9rld0h1K/Hz9USHt9ShPBaXbX+tVapQ8w=;
-        b=AdGyPVkbqDGV2hQVLbvMzPtHYWMdiYiNG77EXGWc7oB6+e+JWZCckfJSIpte3uukPq
-         0sE0cG9Yd+OgHNbHk2fxEghNtLejzxcRMj/hlL47w3/MAk2oD1xVfnx3ScQe+Aob7LSx
-         Mm/+HZGiHjfPZ4pi4XaEn/8Qn3oeMe1/IqY6mRytV8VwhaF2u/tROq0Bb3MbYdfu/R2b
-         YPVe8VmxqB6O71ZCrwT9NLCxJmpraX6HhUGo+2ZyqSLeVQq5PnOFnX5ezcg8R56e7+GN
-         LuayaDtDgSCUF1x1PdewXcHutp/5jC4AQdXBEt6mzaYTkxfjCRlnu2X7S7vkch87y3fo
-         M9yw==
-X-Gm-Message-State: AOAM530Zl0uuZq8Zrcnc5mMdKmbLC/55fZ8lATNGOfNy1HXwiwhIXW5v
-	Ok4jFsI1XyskKqkCy+IjimM/u5TvCLpliKfccvVJrg==
-X-Google-Smtp-Source: 
- ABdhPJwEyl+btfifcob85i/q6Sso+fXvlw6AUgJjX9B/2RYDA98J9Ef8jm08Tdbvxj80rUBHsKUK3EbF8xARJZqIIVI=
-X-Received: by 2002:a7b:c08b:0:b0:38c:ea9e:51c0 with SMTP id
- r11-20020a7bc08b000000b0038cea9e51c0mr1309188wmh.87.1648672847395; Wed, 30
- Mar 2022 13:40:47 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=GRSAC+u3;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.178.238,
+ mailfrom: prvs=10884e0209=saul.wold@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 22ULnKXa019943
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 22:12:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=z/oZ9oFCWqjdyxE7l+sS5jegAfcIqKiFl793YiHwCyQ=;
+ b=GRSAC+u39xZOWLVkST18knQspD89QkXRQE+o7ZqAHWtxWl+0qREBjPcuUn3195mTmisX
+ X5N5WFAVse6L3iDrMD+ldi4Z4pqdcpURykjaX9elPIIwiAJ+UaeQkLbq+Y0wYhT0/0Et
+ vtwszR8GFpsYgFsRynjJGXkIdBSh21opvEQPRnvhGZYMaPL6fsRFYCcydECJlMEVmmXS
+ 65ahJRaVRFYtoZet9BHYYY55pVKIA7ewIeItfrpX7diNeCOkCwtVC/qiKq/FBzU+LtxS
+ R0N8DNXkWmXddjCn+cCfiKyV0wzzHx6JMqJJcvjjy7rPeSpNgbCGmy+kUDMuUbIL2m+f wA==
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07lp2044.outbound.protection.outlook.com [104.47.51.44])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3f1r213x43-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 30 Mar 2022 22:12:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H3QtmjFHHrpD3CFs0XlolAMeS7BIYJ4Es0CzkNZ0RqQ/9RmXV9v5cpoTZK8llVUDuMuvUwH7nIP6gv7GUibRbhmy766UxWiz099N5cEwZ73Oidkn4clg3FqJxxHrsY6vf4Ktvo5hKlTD4VW6Y+Yc3QPIJN5euEQ7mwH/7nfjZ8XwXopK+UVki0eRn1xZLBvGefNOigi4N8rteB5ZQ5WREQz1SHFTJkzjlAr9yN/8CawEgOIILOnNXx0N8fIVLn1gTPvWyNKOSGFs6yj19kBZYtqXffzUzMjP3/ab+HOJ2cRZplP3T42vo1xbvydedn2WWrfxzb84vQQVjkswBqocvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z/oZ9oFCWqjdyxE7l+sS5jegAfcIqKiFl793YiHwCyQ=;
+ b=KcqJwlZMrsOMmiX5/kwM1KrEG3ntZ9mhKhwEmEy+19btz0wCcNktc/s+PXVyt4KRYKYzGccUHT+DkM1cJs9g/wSZ28GqFP/qKaMxsb6j3RFTOURIl7MHy2x8G5AU661d07Qw+jhyUEZlJbyz8PnL7IcF2y5LkPwSUHCcpie4SY7HmthJ70P2Q1YNL76uu/Y03zxUT989f5GJkmCFxN2A6ru/m2ZAcr/J40PiACLvNE4bgHCAuHMFuDVvM102fMWCbM/gBQJmPzE74W8FdAf0HOZSMkuI0tfgjm5KRoFB5eM0BUbg4/JJ3qWaFgOqiw9KSUOnhDZk0P+tQeaoiMr8DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by SA0PR11MB4591.namprd11.prod.outlook.com (2603:10b6:806:9c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.20; Wed, 30 Mar
+ 2022 22:12:01 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::e581:b741:b80d:c8a2]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::e581:b741:b80d:c8a2%4]) with mapi id 15.20.5102.025; Wed, 30 Mar 2022
+ 22:12:01 +0000
+From: Saul Wold <saul.wold@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Saul Wold <saul.wold@windriver.com>
+Subject: [PATCH 1/2] kmod: Add an exclude directive to depmod
+Date: Wed, 30 Mar 2022 15:11:38 -0700
+Message-Id: <20220330221139.54366-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR20CA0024.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::37) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
 MIME-Version: 1.0
-References: <20220329130741.2430737-1-ross.burton@arm.com>
- <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Wed, 30 Mar 2022 21:40:36 +0100
-Message-ID: 
- <CAAnfSTuHjbiN2NKVwZOut+MjxLhuFMwn+xAWkFHaqAXmM_8Ypg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
-To: Steve Sakoman <steve@sakoman.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>,
- openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: de969988-c0fe-412c-c5c0-08da129a50b3
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4591:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SA0PR11MB4591E0BEE225D3CFAB334C88EE1F9@SA0PR11MB4591.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	YdGCGAfPcOdKWSNulp/HH4JDWxA9yOvQEKcHByT5Io9R0lD2wGqINmKM4C1WC5Zoh8Pu89SZP+TZQIZUwSg5zsWA7LJmRqogE8W7BHk0OG4B00VW5LELdPmrPcFdlMHoPqko/0RrzjUEX25n29aoF3t1/kEPQKRjiBEsrwuNLmPrIe18P0iW7pMX3i7Ka+n5wv7AV8u8UTnnzeL7QfGBinm15EsFl7e7gtO9ejd79B7/6cHMyF2yGqTSdCapOnm4bmr35AV212E3gK/vQtEZ5YHy0y0ky06q0nQ8RUPai99SYVqgSk4GUEdYubbA/HGqCE0WNvxTDmiJSw+gdPynTs1zvE1C9ec9mSFGfF8xw4ao8UcTBVFgOJKHeR66mlPkWZg2VEK7BBofUj0HSP87ss366swxfDVUOOtdIdrf3EWiURuHa3/osPFNPD7YYDl0JtshU4+fGm5U3JBxBMvy5j1M/6dS6le8v3hxQWbYQI7cIi0g40uZ5Sryii4FtoAyULIgPjJBFvx6Kasi163Gs5E1m/EhxBmFzNb+jz34wsW258R/eGhVvFAdrDT6BKB6KtvX5yH/EFyqr7G5QszxAmnoDgM8EZluuuMKb/wDBHI76vmk/TbjhMbnzkfE86SRSUJB0u330uy138nNq9IoYqXgA+03H3R3JqLyAPNtwr6q7c6hB88AmSHL1ckxW5XrvcN4NdJ2e9Bp16ADxR0lQg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(36756003)(2906002)(38100700002)(38350700002)(44832011)(8936002)(66556008)(6916009)(6506007)(1076003)(107886003)(8676002)(4326008)(86362001)(2616005)(26005)(66476007)(66946007)(186003)(52116002)(6666004)(508600001)(316002)(6512007)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?xdozYE38rMu5yYQGzKcHZvlmHkxAFFCedjzichvx8EziMt0NhbhjCsf76yGN?=
+ =?us-ascii?Q?ungXJdswZilVeIR+8MsvoPffxaacToo3O8gkz80emMYPqgr95tp6eSi7Yqvs?=
+ =?us-ascii?Q?Kp9U1cvX5lzI0WQ396ZpmbLHjdICHc7mdzNpfijfFOI5Tjf+WzwPB1UzdfI0?=
+ =?us-ascii?Q?0CsGlg44rBIdbw5yJQapEDbPgh8m4onk8pW3NsbFTWtvH20cXUj38lRgoB06?=
+ =?us-ascii?Q?n9JKFJHVYBlv5ZSq+iEFQkTRcJmYf1mJlMWnyluxbVTFam5OVN35KfRUERFE?=
+ =?us-ascii?Q?SX7XG6RwxnkagNEwkaN1dvnrvvUuaxArxlr65MoESKHAzISHe7r/vPTgI5wz?=
+ =?us-ascii?Q?rQMgojf9nfQTq+FH2LagioNJsH4RURvOD22lTwfzSbFGxCXI/0DySCTv+Dss?=
+ =?us-ascii?Q?B6dKZAJh4+1K1C7TetZcM2ekvfv5wre4V23kf1N9ZZiGvtwqDE+NMu8TAznz?=
+ =?us-ascii?Q?GcF3bGGKDd6uElrHINene8ikVgpwOe4PmKB7y8/eFhZ9HGDlmeQGP8f7we0u?=
+ =?us-ascii?Q?HbmWy0twLikkips6+sulcHpf4PSXLX3WowC0WtSUTDQKOG64TN/svTBu3eHk?=
+ =?us-ascii?Q?NGMYY4qnUg5yGHRhEVWhLYtlHsjwQAunMlUUB7EMs7QDuFX9TgVnq6porrq5?=
+ =?us-ascii?Q?AUIuRYSpnzyQX3FkXgLYXZkj1fgU1b3FrM9AncpBV1xqWJvGq1LA3V3gbJKH?=
+ =?us-ascii?Q?gRXdnRJYjpFCBbWPfWj218wO0yTmUxf+89njqClPuki4Q4AZGjCLCUhkXlsw?=
+ =?us-ascii?Q?SHC9tSaCb5HNDuLEIHtUCYtMIZlfOB9/M9tpvs4tW4O1xGqPs734Q1S5EmWV?=
+ =?us-ascii?Q?eU0IiPkc2+0mCnIZSkyaFq4shSsA8bgUCIxHsgj2hvWjjPrjb089TjDmaKw2?=
+ =?us-ascii?Q?vrfGeJqRuG2xb5kzXHxwyyNkR5WGrTFdZaCzExkzCix3brHywCYVZEHz+Q5z?=
+ =?us-ascii?Q?pXlxTZBdev0d69jmpSk8L3qSRBZfjli179Mp4LZ6rp5Ic0/jXo7WLLQQVPBk?=
+ =?us-ascii?Q?rDS+W/NhfLeooMWdmk5Zxi5M5U/rjNw0jmX5jNJpF8uePZvKWc/yfiQCVvbx?=
+ =?us-ascii?Q?S4X+rwxBkZ9T9PmghTD2q5o9UmWrFqMX8iRAVBC14Iy3EzcZf8+M0MFp7BE2?=
+ =?us-ascii?Q?pNjqYPhWBCy8S1u6nbMRJQAUnu2oI4aIlgIo/IxURPzorzkQNnkE0ggPej5B?=
+ =?us-ascii?Q?c2UhHbx43GvOVwh24FWKY6Ro6nwPtOrzbjkx2kvMnRmCYlq0JUfJxe5YMFr/?=
+ =?us-ascii?Q?Y/UzftJYoa7dCqQzK/q9m+pgNmusHv6KHZuX/Mr016V83WipR0IQkho3BpRN?=
+ =?us-ascii?Q?e761+Epa2dtVoYBTamJELRhHMCpN6vm4TMAt1Y9qCGFA82sn5YLnAu7Jzx/N?=
+ =?us-ascii?Q?sQgZdaaAMheR6IxKogaAj7opip3pQGl+6epehxsqD/Ujdpp5P36k5sODmyIi?=
+ =?us-ascii?Q?LcVuXkVaZWv3onbjcpaikiAd0hm5gcPKJjo8KVmqc7DSYrRPQGXa1IMW3027?=
+ =?us-ascii?Q?YXQO8kBTKd+h7V7fmKFU9rdBTHMG4bdNsCf4S1JOJDdO9wUbZCIeNrWT3zh/?=
+ =?us-ascii?Q?Ib9uHyxnseK6O6D+Xk+9OH1nLYtjg0tY6bR0XjMMZPDgdLdNn78DH2DEzuwU?=
+ =?us-ascii?Q?CuHPjPM4EY2DJMtPSIkJn7BuWmf4Qvn7PKM2v8wKvBkh+JMgoKyQvGdk0y2l?=
+ =?us-ascii?Q?NnwG49mq0RvWhvZqsPc9i6nPh5iPoF3UT6dpGY0AbDgRCVggVj4KJa5AXjTr?=
+ =?us-ascii?Q?0pg+8cqj3Px0VqnVKQJimS1EF81qqlY=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ de969988-c0fe-412c-c5c0-08da129a50b3
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 22:12:01.5974
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ 6gTibARfPUmiMYlB50Zbg6A3ZhuEl55YsZOiZp/eLphtZekAKUfxWRqs1LtMiS2j/43QcEDaXcIM9nmI7bgxjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4591
+X-Proofpoint-ORIG-GUID: cWr3STOXXeOjL5VEupcPVHHKd3h1ygB_
+X-Proofpoint-GUID: cWr3STOXXeOjL5VEupcPVHHKd3h1ygB_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-30_06,2022-03-30_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203300107
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 20:40:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 22:12:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163793
+ https://lists.openembedded.org/g/openembedded-core/message/163795
 
-Hm, turns out I was being too clever back in 2019.
+This adds a new configuration directive to depmod that causes
+depmod to exclude a give path entry like .debug.
 
-Anuj: the quick fix is to not use :prepend/:remove to manipulate
-SRC_URI, but just override it entirely.  You won't get the CVE but
-that will be flagged in scans and you (or even better,the fork
-maintainer) can rebase the CVE patch.
+kernel-dbg provides the modules .debug/<module>.ko files and
+when installed either directly or when dbg-pkgs are selected
+this can cause depmod to fail.
 
-As this is a fairly important CVE I'm tempted to say we merge to
-oe-core dunfell now and let meta-intel catch up...
+This patch will be submitted to upstream kmod.
 
-Ross
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ .../kmod/depmodwrapper-cross_1.0.bb           |   3 +
+ ...dd-support-for-excluding-a-directory.patch | 158 ++++++++++++++++++
+ meta/recipes-kernel/kmod/kmod_29.bb           |   4 +
+ 3 files changed, 165 insertions(+)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
 
-On Tue, 29 Mar 2022 at 20:49, Steve Sakoman <steve@sakoman.com> wrote:
->
-> On Tue, Mar 29, 2022 at 3:07 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
->
-> This breaks dunfell meta-intel:
->
-> ERROR: Applying patch 'CVE-2018-25032.patch' on target directory
-> 'TOPDIR/tmp/work/corei7-64-poky-linux/zlib-intel/1.2.11.1.jtkv6.3-r0/git'
-> Command Error: 'quilt --quiltrc
-> TOPDIR/tmp/work/corei7-64-poky-linux/zlib-intel/1.2.11.1.jtkv6.3-r0/recipe-sysroot-native/etc/quiltrc
-> push' exited with 0  Output:
-> Applying patch CVE-2018-25032.patch
-> patching file deflate.c
-> Hunk #1 succeeded at 237 (offset -18 lines).
-> Hunk #2 succeeded at 319 (offset -5 lines).
-> Hunk #3 succeeded at 368 (offset -5 lines).
-> Hunk #4 succeeded at 590 (offset 1 line).
-> Hunk #5 succeeded at 1162 (offset 12 lines).
-> Hunk #6 succeeded at 1181 (offset 12 lines).
-> Hunk #7 succeeded at 1195 (offset 12 lines).
-> Hunk #8 succeeded at 1957 (offset -2 lines).
-> Hunk #9 succeeded at 1996 (offset -94 lines).
-> Hunk #10 FAILED at 2165.
-> Hunk #11 FAILED at 2204.
-> 2 out of 11 hunks FAILED -- rejects in file deflate.c
-> patching file deflate.h
-> Hunk #1 succeeded at 230 (offset 13 lines).
-> Hunk #2 succeeded at 252 (offset 13 lines).
-> Hunk #3 succeeded at 339 (offset 19 lines).
-> patching file trees.c
-> Hunk #1 succeeded at 343 (offset -73 lines).
-> Hunk #2 succeeded at 875 (offset -73 lines).
-> Hunk #3 succeeded at 944 (offset -73 lines).
-> Hunk #4 succeeded at 961 (offset -73 lines).
-> Hunk #5 succeeded at 974 (offset -73 lines).
-> Hunk #6 succeeded at 1006 (offset -73 lines).
-> Patch CVE-2018-25032.patch does not apply (enforce with -f)
->
-> Steve
->
-> >  meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
-> >  2 files changed, 348 insertions(+)
-> >  create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> >
-> > diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> > new file mode 100644
-> > index 00000000000..5cb61836419
-> > --- /dev/null
-> > +++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> > @@ -0,0 +1,347 @@
-> > +CVE: CVE-2018-25032
-> > +Upstream-Status: Backport
-> > +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > +
-> > +From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
-> > +From: Mark Adler <madler@alumni.caltech.edu>
-> > +Date: Tue, 17 Apr 2018 22:09:22 -0700
-> > +Subject: [PATCH] Fix a bug that can crash deflate on some input when using
-> > + Z_FIXED.
-> > +
-> > +This bug was reported by Danilo Ramos of Eideticom, Inc. It has
-> > +lain in wait 13 years before being found! The bug was introduced
-> > +in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
-> > +option forces the use of fixed Huffman codes. For rare inputs with
-> > +a large number of distant matches, the pending buffer into which
-> > +the compressed data is written can overwrite the distance symbol
-> > +table which it overlays. That results in corrupted output due to
-> > +invalid distances, and can result in out-of-bound accesses,
-> > +crashing the application.
-> > +
-> > +The fix here combines the distance buffer and literal/length
-> > +buffers into a single symbol buffer. Now three bytes of pending
-> > +buffer space are opened up for each literal or length/distance
-> > +pair consumed, instead of the previous two bytes. This assures
-> > +that the pending buffer cannot overwrite the symbol table, since
-> > +the maximum fixed code compressed length/distance is 31 bits, and
-> > +since there are four bytes of pending space for every three bytes
-> > +of symbol space.
-> > +---
-> > + deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
-> > + deflate.h | 25 +++++++++----------
-> > + trees.c   | 50 +++++++++++--------------------------
-> > + 3 files changed, 79 insertions(+), 70 deletions(-)
-> > +
-> > +diff --git a/deflate.c b/deflate.c
-> > +index 425babc00..19cba873a 100644
-> > +--- a/deflate.c
-> > ++++ b/deflate.c
-> > +@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > +     int wrap = 1;
-> > +     static const char my_version[] = ZLIB_VERSION;
-> > +
-> > +-    ushf *overlay;
-> > +-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
-> > +-     * output size for (length,distance) codes is <= 24 bits.
-> > +-     */
-> > +-
-> > +     if (version == Z_NULL || version[0] != my_version[0] ||
-> > +         stream_size != sizeof(z_stream)) {
-> > +         return Z_VERSION_ERROR;
-> > +@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > +
-> > +     s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
-> > +
-> > +-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-> > +-    s->pending_buf = (uchf *) overlay;
-> > +-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
-> > ++    /* We overlay pending_buf and sym_buf. This works since the average size
-> > ++     * for length/distance pairs over any compressed block is assured to be 31
-> > ++     * bits or less.
-> > ++     *
-> > ++     * Analysis: The longest fixed codes are a length code of 8 bits plus 5
-> > ++     * extra bits, for lengths 131 to 257. The longest fixed distance codes are
-> > ++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The longest
-> > ++     * possible fixed-codes length/distance pair is then 31 bits total.
-> > ++     *
-> > ++     * sym_buf starts one-fourth of the way into pending_buf. So there are
-> > ++     * three bytes in sym_buf for every four bytes in pending_buf. Each symbol
-> > ++     * in sym_buf is three bytes -- two for the distance and one for the
-> > ++     * literal/length. As each symbol is consumed, the pointer to the next
-> > ++     * sym_buf value to read moves forward three bytes. From that symbol, up to
-> > ++     * 31 bits are written to pending_buf. The closest the written pending_buf
-> > ++     * bits gets to the next sym_buf symbol to read is just before the last
-> > ++     * code is written. At that time, 31*(n-2) bits have been written, just
-> > ++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf starts at
-> > ++     * 8*n bits into pending_buf. (Note that the symbol buffer fills when n-1
-> > ++     * symbols are written.) The closest the writing gets to what is unread is
-> > ++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default, and
-> > ++     * can range from 128 to 32768.
-> > ++     *
-> > ++     * Therefore, at a minimum, there are 142 bits of space between what is
-> > ++     * written and what is read in the overlain buffers, so the symbols cannot
-> > ++     * be overwritten by the compressed data. That space is actually 139 bits,
-> > ++     * due to the three-bit fixed-code block header.
-> > ++     *
-> > ++     * That covers the case where either Z_FIXED is specified, forcing fixed
-> > ++     * codes, or when the use of fixed codes is chosen, because that choice
-> > ++     * results in a smaller compressed block than dynamic codes. That latter
-> > ++     * condition then assures that the above analysis also covers all dynamic
-> > ++     * blocks. A dynamic-code block will only be chosen to be emitted if it has
-> > ++     * fewer bits than a fixed-code block would for the same set of symbols.
-> > ++     * Therefore its average symbol length is assured to be less than 31. So
-> > ++     * the compressed data for a dynamic block also cannot overwrite the
-> > ++     * symbols from which it is being constructed.
-> > ++     */
-> > ++
-> > ++    s->pending_buf = (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
-> > ++    s->pending_buf_size = (ulg)s->lit_bufsize * 4;
-> > +
-> > +     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
-> > +         s->pending_buf == Z_NULL) {
-> > +@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > +         deflateEnd (strm);
-> > +         return Z_MEM_ERROR;
-> > +     }
-> > +-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-> > +-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
-> > ++    s->sym_buf = s->pending_buf + s->lit_bufsize;
-> > ++    s->sym_end = (s->lit_bufsize - 1) * 3;
-> > ++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64K
-> > ++     * on 16 bit machines and because stored blocks are restricted to
-> > ++     * 64K-1 bytes.
-> > ++     */
-> > +
-> > +     s->level = level;
-> > +     s->strategy = strategy;
-> > +@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
-> > +
-> > +     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
-> > +     s = strm->state;
-> > +-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
-> > ++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
-> > +         return Z_BUF_ERROR;
-> > +     do {
-> > +         put = Buf_size - s->bi_valid;
-> > +@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
-> > + #else
-> > +     deflate_state *ds;
-> > +     deflate_state *ss;
-> > +-    ushf *overlay;
-> > +
-> > +
-> > +     if (deflateStateCheck(source) || dest == Z_NULL) {
-> > +@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
-> > +     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
-> > +     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-> > +     ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-> > +-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
-> > +-    ds->pending_buf = (uchf *) overlay;
-> > ++    ds->pending_buf = (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
-> > +
-> > +     if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
-> > +         ds->pending_buf == Z_NULL) {
-> > +@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
-> > +     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
-> > +
-> > +     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-> > +-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
-> > +-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
-> > ++    ds->sym_buf = ds->pending_buf + ds->lit_bufsize;
-> > +
-> > +     ds->l_desc.dyn_tree = ds->dyn_ltree;
-> > +     ds->d_desc.dyn_tree = ds->dyn_dtree;
-> > +@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
-> > +         FLUSH_BLOCK(s, 1);
-> > +         return finish_done;
-> > +     }
-> > +-    if (s->last_lit)
-> > ++    if (s->sym_next)
-> > +         FLUSH_BLOCK(s, 0);
-> > +     return block_done;
-> > + }
-> > +@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
-> > +         FLUSH_BLOCK(s, 1);
-> > +         return finish_done;
-> > +     }
-> > +-    if (s->last_lit)
-> > ++    if (s->sym_next)
-> > +         FLUSH_BLOCK(s, 0);
-> > +     return block_done;
-> > + }
-> > +@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
-> > +         FLUSH_BLOCK(s, 1);
-> > +         return finish_done;
-> > +     }
-> > +-    if (s->last_lit)
-> > ++    if (s->sym_next)
-> > +         FLUSH_BLOCK(s, 0);
-> > +     return block_done;
-> > + }
-> > +@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
-> > +         FLUSH_BLOCK(s, 1);
-> > +         return finish_done;
-> > +     }
-> > +-    if (s->last_lit)
-> > ++    if (s->sym_next)
-> > +         FLUSH_BLOCK(s, 0);
-> > +     return block_done;
-> > + }
-> > +diff --git a/deflate.h b/deflate.h
-> > +index 23ecdd312..d4cf1a98b 100644
-> > +--- a/deflate.h
-> > ++++ b/deflate.h
-> > +@@ -217,7 +217,7 @@ typedef struct internal_state {
-> > +     /* Depth of each subtree used as tie breaker for trees of equal frequency
-> > +      */
-> > +
-> > +-    uchf *l_buf;          /* buffer for literals or lengths */
-> > ++    uchf *sym_buf;        /* buffer for distances and literals/lengths */
-> > +
-> > +     uInt  lit_bufsize;
-> > +     /* Size of match buffer for literals/lengths.  There are 4 reasons for
-> > +@@ -239,13 +239,8 @@ typedef struct internal_state {
-> > +      *   - I can't count above 4
-> > +      */
-> > +
-> > +-    uInt last_lit;      /* running index in l_buf */
-> > +-
-> > +-    ushf *d_buf;
-> > +-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
-> > +-     * the same number of elements. To use different lengths, an extra flag
-> > +-     * array would be necessary.
-> > +-     */
-> > ++    uInt sym_next;      /* running index in sym_buf */
-> > ++    uInt sym_end;       /* symbol table full when sym_next reaches this */
-> > +
-> > +     ulg opt_len;        /* bit length of current block with optimal trees */
-> > +     ulg static_len;     /* bit length of current block with static trees */
-> > +@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
-> > +
-> > + # define _tr_tally_lit(s, c, flush) \
-> > +   { uch cc = (c); \
-> > +-    s->d_buf[s->last_lit] = 0; \
-> > +-    s->l_buf[s->last_lit++] = cc; \
-> > ++    s->sym_buf[s->sym_next++] = 0; \
-> > ++    s->sym_buf[s->sym_next++] = 0; \
-> > ++    s->sym_buf[s->sym_next++] = cc; \
-> > +     s->dyn_ltree[cc].Freq++; \
-> > +-    flush = (s->last_lit == s->lit_bufsize-1); \
-> > ++    flush = (s->sym_next == s->sym_end); \
-> > +    }
-> > + # define _tr_tally_dist(s, distance, length, flush) \
-> > +   { uch len = (uch)(length); \
-> > +     ush dist = (ush)(distance); \
-> > +-    s->d_buf[s->last_lit] = dist; \
-> > +-    s->l_buf[s->last_lit++] = len; \
-> > ++    s->sym_buf[s->sym_next++] = dist; \
-> > ++    s->sym_buf[s->sym_next++] = dist >> 8; \
-> > ++    s->sym_buf[s->sym_next++] = len; \
-> > +     dist--; \
-> > +     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
-> > +     s->dyn_dtree[d_code(dist)].Freq++; \
-> > +-    flush = (s->last_lit == s->lit_bufsize-1); \
-> > ++    flush = (s->sym_next == s->sym_end); \
-> > +   }
-> > + #else
-> > + # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
-> > +diff --git a/trees.c b/trees.c
-> > +index 4f4a65011..decaeb7c3 100644
-> > +--- a/trees.c
-> > ++++ b/trees.c
-> > +@@ -416,7 +416,7 @@ local void init_block(s)
-> > +
-> > +     s->dyn_ltree[END_BLOCK].Freq = 1;
-> > +     s->opt_len = s->static_len = 0L;
-> > +-    s->last_lit = s->matches = 0;
-> > ++    s->sym_next = s->matches = 0;
-> > + }
-> > +
-> > + #define SMALLEST 1
-> > +@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
-> > +
-> > +         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-> > +                 opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-> > +-                s->last_lit));
-> > ++                s->sym_next / 3));
-> > +
-> > +         if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
-> > +
-> > +@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-> > +     unsigned dist;  /* distance of matched string */
-> > +     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
-> > + {
-> > +-    s->d_buf[s->last_lit] = (ush)dist;
-> > +-    s->l_buf[s->last_lit++] = (uch)lc;
-> > ++    s->sym_buf[s->sym_next++] = dist;
-> > ++    s->sym_buf[s->sym_next++] = dist >> 8;
-> > ++    s->sym_buf[s->sym_next++] = lc;
-> > +     if (dist == 0) {
-> > +         /* lc is the unmatched char */
-> > +         s->dyn_ltree[lc].Freq++;
-> > +@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-> > +         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
-> > +         s->dyn_dtree[d_code(dist)].Freq++;
-> > +     }
-> > +-
-> > +-#ifdef TRUNCATE_BLOCK
-> > +-    /* Try to guess if it is profitable to stop the current block here */
-> > +-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
-> > +-        /* Compute an upper bound for the compressed length */
-> > +-        ulg out_length = (ulg)s->last_lit*8L;
-> > +-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
-> > +-        int dcode;
-> > +-        for (dcode = 0; dcode < D_CODES; dcode++) {
-> > +-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
-> > +-                (5L+extra_dbits[dcode]);
-> > +-        }
-> > +-        out_length >>= 3;
-> > +-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-> > +-               s->last_lit, in_length, out_length,
-> > +-               100L - out_length*100L/in_length));
-> > +-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
-> > +-    }
-> > +-#endif
-> > +-    return (s->last_lit == s->lit_bufsize-1);
-> > +-    /* We avoid equality with lit_bufsize because of wraparound at 64K
-> > +-     * on 16 bit machines and because stored blocks are restricted to
-> > +-     * 64K-1 bytes.
-> > +-     */
-> > ++    return (s->sym_next == s->sym_end);
-> > + }
-> > +
-> > + /* ===========================================================================
-> > +@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
-> > + {
-> > +     unsigned dist;      /* distance of matched string */
-> > +     int lc;             /* match length or unmatched char (if dist == 0) */
-> > +-    unsigned lx = 0;    /* running index in l_buf */
-> > ++    unsigned sx = 0;    /* running index in sym_buf */
-> > +     unsigned code;      /* the code to send */
-> > +     int extra;          /* number of extra bits to send */
-> > +
-> > +-    if (s->last_lit != 0) do {
-> > +-        dist = s->d_buf[lx];
-> > +-        lc = s->l_buf[lx++];
-> > ++    if (s->sym_next != 0) do {
-> > ++        dist = s->sym_buf[sx++] & 0xff;
-> > ++        dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
-> > ++        lc = s->sym_buf[sx++];
-> > +         if (dist == 0) {
-> > +             send_code(s, lc, ltree); /* send a literal byte */
-> > +             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-> > +@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
-> > +             }
-> > +         } /* literal or match pair ? */
-> > +
-> > +-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-> > +-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
-> > +-               "pendingBuf overflow");
-> > ++        /* Check that the overlay between pending_buf and sym_buf is ok: */
-> > ++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow");
-> > +
-> > +-    } while (lx < s->last_lit);
-> > ++    } while (sx < s->sym_next);
-> > +
-> > +     send_code(s, END_BLOCK, ltree);
-> > + }
-> > diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > index ef9431ae475..bc42cd64e9d 100644
-> > --- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > +++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > @@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
-> >
-> >  SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-> >             file://ldflags-tests.patch \
-> > +           file://CVE-2018-25032.patch \
-> >             file://run-ptest \
-> >             "
-> >  UPSTREAM_CHECK_URI = "http://zlib.net/"
-> > --
-> > 2.25.1
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#163750): https://lists.openembedded.org/g/openembedded-core/message/163750
-> > Mute This Topic: https://lists.openembedded.org/mt/90107518/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 04fc14a6d21..aa23ba41276 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -16,6 +16,9 @@ do_populate_sysroot[depends] = ""
+ 
+ do_install() {
+ 	install -d ${D}${bindir_crossscripts}/
++	install -d ${D}${sysconfdir}/depmod.d/
++
++	echo "exclude .debug" > ${D}${sysconfdir}/depmod.d/exclude.conf
+ 
+ 	cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
+ #!/bin/sh
+diff --git a/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
+new file mode 100644
+index 00000000000..3f16cdf0574
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
+@@ -0,0 +1,158 @@
++From 8bc07c3ba3a412bd6bb94ad8bad0d76801ec2c9f Mon Sep 17 00:00:00 2001
++From: Saul Wold <saul.wold@windriver.com>
++Date: Tue, 22 Mar 2022 12:11:45 -0700
++Subject: [PATCH] depmod: Add support for excluding a directory
++
++This adds support to depmod to enable a new exclude directive in
++the depmod.d/exclude.conf configuration file. Currently depmod
++already excludes directories named source or build. This change
++will allow additional directories like .debug to be excluded also
++via a new exclude directive.
++
++depmod.d/exclude.conf example:
++exclude	.debug
++
++Upstream-Status: Submitted
++
++Signed-off-by: Saul Wold <saul.wold@windriver.com>
++
++%% original patch: 0001-depmod-Add-support-for-excluding-a-directory.patch
++---
++ man/depmod.d.xml | 14 +++++++++++++
++ tools/depmod.c   | 54 ++++++++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 68 insertions(+)
++
++diff --git a/man/depmod.d.xml b/man/depmod.d.xml
++index b315e93..9ab790a 100644
++--- a/man/depmod.d.xml
+++++ b/man/depmod.d.xml
++@@ -131,6 +131,20 @@
++           </para>
++         </listitem>
++       </varlistentry>
+++      <varlistentry>
+++        <term>external <replaceable>excludedir</replaceable>
+++        </term>
+++        <listitem>
+++          <para>
+++            This specifies the trailing directories that will be excluded
+++            during the search for kernel modules.
+++          </para>
+++          <para>
+++	    The <replaceable>excludedir</replaceable> the trailing directory
+++	    to exclude
+++          </para>
+++        </listitem>
+++      </varlistentry>
++     </variablelist>
++   </refsect1>
++ 
++diff --git a/tools/depmod.c b/tools/depmod.c
++index eb810b8..8b19ab6 100644
++--- a/tools/depmod.c
+++++ b/tools/depmod.c
++@@ -458,6 +458,12 @@ struct cfg_external {
++ 	char path[];
++ };
++ 
+++struct cfg_exclude {
+++	struct cfg_exclude *next;
+++	size_t len;
+++	char exclude_dir[];
+++};
+++
++ struct cfg {
++ 	const char *kversion;
++ 	char dirname[PATH_MAX];
++@@ -469,6 +475,7 @@ struct cfg {
++ 	struct cfg_override *overrides;
++ 	struct cfg_search *searches;
++ 	struct cfg_external *externals;
+++	struct cfg_exclude *excludes;
++ };
++ 
++ static enum search_type cfg_define_search_type(const char *path)
++@@ -580,6 +587,31 @@ static void cfg_external_free(struct cfg_external *ext)
++ 	free(ext);
++ }
++ 
+++static int cfg_exclude_add(struct cfg *cfg, const char *path)
+++{
+++	struct cfg_exclude *exc;
+++	size_t len = strlen(path);
+++
+++	exc = malloc(sizeof(struct cfg_exclude) + len);
+++	if (exc == NULL) {
+++		ERR("exclude add: out of memory\n");
+++		return -ENOMEM;
+++	}
+++	exc->len = len;
+++	memcpy(exc->exclude_dir, path, len);
+++
+++	DBG("exclude add: %s\n", path);
+++
+++	exc->next = cfg->excludes;
+++	cfg->excludes = exc;
+++	return 0;
+++}
+++
+++static void cfg_exclude_free(struct cfg_exclude *exc)
+++{
+++	free(exc);
+++}
+++
++ static int cfg_kernel_matches(const struct cfg *cfg, const char *pattern)
++ {
++ 	regex_t re;
++@@ -657,6 +689,11 @@ static int cfg_file_parse(struct cfg *cfg, const char *filename)
++ 			}
++ 
++ 			cfg_external_add(cfg, dir);
+++		} else if (streq(cmd, "exclude")) {
+++			const char *sp;
+++			while ((sp = strtok_r(NULL, "\t ", &saveptr)) != NULL) {
+++				cfg_exclude_add(cfg, sp);
+++			}
++ 		} else if (streq(cmd, "include")
++ 				|| streq(cmd, "make_map_files")) {
++ 			INF("%s:%u: command %s not implemented yet\n",
++@@ -857,6 +894,12 @@ static void cfg_free(struct cfg *cfg)
++ 		cfg->externals = cfg->externals->next;
++ 		cfg_external_free(tmp);
++ 	}
+++
+++	while (cfg->excludes) {
+++		struct cfg_exclude *tmp = cfg->excludes;
+++		cfg->excludes = cfg->excludes->next;
+++		cfg_exclude_free(tmp);
+++	}
++ }
++ 
++ 
++@@ -1239,12 +1282,23 @@ static int depmod_modules_search_dir(struct depmod *depmod, DIR *d, size_t basel
++ 		const char *name = de->d_name;
++ 		size_t namelen;
++ 		uint8_t is_dir;
+++	        struct cfg_exclude *exc;
+++		int exclude = 0;
++ 
++ 		if (name[0] == '.' && (name[1] == '\0' ||
++ 				       (name[1] == '.' && name[2] == '\0')))
++ 			continue;
++ 		if (streq(name, "build") || streq(name, "source"))
++ 			continue;
+++
+++	        for (exc = depmod->cfg->excludes; exc != NULL; exc = exc->next) {
+++			if (streq(name, exc->exclude_dir)) {
+++				exclude = 1;
+++			}
+++		}
+++		if (exclude)
+++			continue;
+++
++ 		namelen = strlen(name);
++ 		if (scratchbuf_alloc(s_path, baselen + namelen + 2) < 0) {
++ 			err = -ENOMEM;
++-- 
++2.31.1
++
+diff --git a/meta/recipes-kernel/kmod/kmod_29.bb b/meta/recipes-kernel/kmod/kmod_29.bb
+index 91951edde16..9b663490666 100644
+--- a/meta/recipes-kernel/kmod/kmod_29.bb
++++ b/meta/recipes-kernel/kmod/kmod_29.bb
+@@ -20,6 +20,7 @@ SRCREV = "b6ecfc916a17eab8f93be5b09f4e4f845aabd3d1"
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master \
+            file://depmod-search.conf \
+            file://avoid_parallel_tests.patch \
++           file://0001-depmod-Add-support-for-excluding-a-directory.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+@@ -64,6 +65,9 @@ do_install:append () {
+ 
+         # install depmod.d file for search/ dir
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${nonarch_base_libdir}/depmod.d/search.conf"
++
++        # Add .debug to the exclude path for depmod
++        echo "exclude .debug" > ${D}${nonarch_base_libdir}/depmod.d/exclude.conf
+ }
+ 
+ ALTERNATIVE_PRIORITY = "70"
+-- 
+2.31.1
+
 
