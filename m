@@ -1,160 +1,129 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63512C433F5
-	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 11:46:51 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web09.6256.1648640810091052481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FFE6C433EF
+	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 11:51:30 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web09.6296.1648641089715582741
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 04:46:50 -0700
+ Wed, 30 Mar 2022 04:51:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OGyRgZDu;
- spf=pass (domain: gmail.com, ip: 209.85.208.175,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id a30so19834450ljq.13
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U9SmMSEr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id a1so28879236wrh.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 04:46:49 -0700 (PDT)
+ Wed, 30 Mar 2022 04:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mlQerqHsYTaHLl6kxuQ+GMz2hA3lTN/ex7mjXBC3fjA=;
-        b=OGyRgZDuvIgDk8+EJDYtzPuIjOgbyvtwsLUIQ2MCMf7h2e4YukRaaxms57msAy5OWl
-         0vxByP2WIHvVZ822pVohHFdiy4SyjnPlU0Ey1XTuBiiBvhdLd+cHygmkrIen+KFd+Tg6
-         QQ636dp9/h9CSFBLoDpsRvD3YW6ozDVzS+k3U3Wg19/UpA7AQaFV0Cu75LTe84tqDKqC
-         HoqZOnPGNfCD5HAXwlhgesK533g+Dx/WFM2U9r+EzRMU0ehNHxMdF2cRVdypETg0iR/H
-         kKM4QQEp2eSqhDtdY5kxOSpFyuAEY3vIazzlgGib/0YUdpY8WtNyFtdtuzGZ1Gwi16bK
-         zG2Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=/dhG4q/1VMotEMkfRJcoAy5MnXakN/NU/1aSsgtz1jE=;
+        b=U9SmMSErpEDYZCYq3d2RzQ/bZCrYk0IOltuXKVA80Pw5zJ+KTlC8/rvdpoKzWm2ek+
+         tVNVtiKsBLkKJoQ9myZpxa+oJlWbvXeGuGDX8wmlYVE2QZ94MrCJuejEs+NqPNi8jEVy
+         nyxLbK4NWVNRAc5mQxAGBz0v5Z7V2+U6Z82vs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mlQerqHsYTaHLl6kxuQ+GMz2hA3lTN/ex7mjXBC3fjA=;
-        b=7O5PZ34Ky8AEQg/Z6rgRQV960dzuga0v84DNSNc3xk27HI9KvL8eFxVJzjcqvfdYgG
-         7N4KqkmmmEI5+Su5cP5eKFp73TtM6obkxGsu9q1i848W2hb0U/lfNW3SxxXb0o8Xus9U
-         V++qUfb4b6jfxf7nA6DzTtqC6mM258jO7T6UmQGWqcFOUjuLIZdr0wWSe34vUqY0cspz
-         TClIGtA6BSn837waLOwqPt5ddMLPwUttLTSs8CK4IHamREv2BSe8kLoCtgaQZLSXXw0E
-         h/+XzNy3MMWQXsyNhxPpmFhyxYdbPYmxAJ2Qe3ubDGzxqyacDEn+I19J+QxamFlb8Bl5
-         SwPQ==
-X-Gm-Message-State: AOAM530UJuAa/unonDpN9HaJtSdXxS+GCrsI61YCJlLYBiTPveTxyy/G
-	ddH6/Ch6alO6IVCTZ1qewy0ubk4wEilw3hG0Cys=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/dhG4q/1VMotEMkfRJcoAy5MnXakN/NU/1aSsgtz1jE=;
+        b=MAVsueWWULIa5RHKCGAyHtUasSefZf4WZLYegLgPKaHThriIJw8IOobSYLyRO9QAUh
+         RyaR45Q4RlqwPGdzFesqDQq8UCVHw5aKGkEYiufWTBjWZ7D1/Zo4HLpQ1Q3LHP8zS1st
+         FpXr5Hg23d5XH/LieGrYQI1mZnca84PRj1hqacRbJgMNjqP8gKIluTyW65tgGNoYeCOp
+         z+CFP0p3tyfHbfk5bMYKzXHCq+FqZWfbJWQ4Qg5Jo5++Qr9epzGJKbEPQshzuCjasIWG
+         nVtDWJ3R2ImVuycXeTDAFmaJ5beYoa73UeZ9VNOueb8Jx62F74oEAX04vauf59GtLdth
+         KcUA==
+X-Gm-Message-State: AOAM5302veoQ3IHMiawY3SNBGmmJRnlXUgpsdfBeWmSgVDQAfATJSNlf
+	hqQ4i1xg2EemwsQJ63ij52q0jg==
 X-Google-Smtp-Source: 
- ABdhPJzYbQHqBx+VHlumTdhp2lFhqxtvinB7CZ7dWv3Gah0OZ9IJpwM6b/O74e6VeUIvrFDl0X5r9Q0bbsEgyiO7agU=
-X-Received: by 2002:a2e:888a:0:b0:249:8e84:65b8 with SMTP id
- k10-20020a2e888a000000b002498e8465b8mr6296953lji.56.1648640808216; Wed, 30
- Mar 2022 04:46:48 -0700 (PDT)
-MIME-Version: 1.0
-References: 
- <20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <CANNYZj_AH8pTcynXzUurmoY15y4yLo8o1V2GjAQEAHkwV-7L9w@mail.gmail.com>
- <192b477d-bac4-0c02-2345-74d2c3dbde28@weidmueller.com>
-In-Reply-To: <192b477d-bac4-0c02-2345-74d2c3dbde28@weidmueller.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 30 Mar 2022 13:46:36 +0200
+ ABdhPJzA96ZFFKTqjYOs3lixMCaaKAe6QAFHZajhUsNWS4v/fHJv0pvSl4feYwUACT97dlAyL+6ugQ==
+X-Received: by 2002:a05:6000:156e:b0:203:d6e6:c475 with SMTP id
+ 14-20020a056000156e00b00203d6e6c475mr36378459wrz.326.1648641088003;
+        Wed, 30 Mar 2022 04:51:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:367f:29cd:9517:5c4?
+ ([2001:8b0:aba:5f3c:367f:29cd:9517:5c4])
+        by smtp.gmail.com with ESMTPSA id
+ f13-20020a05600c4e8d00b0038c949ef0d5sm5073089wmq.8.2022.03.30.04.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Mar 2022 04:51:27 -0700 (PDT)
 Message-ID: 
- <CANNYZj_Gzfx5UOr0Z47JsKne9kRO_LpwXzn92WkLws=7HkAtAw@mail.gmail.com>
+ <d9889a46e5523848d3b770302623bc95e75c37d5.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [RFC PATCH] bitbake.conf: Add base package version
  (BPV) variable
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Date: Wed, 30 Mar 2022 12:51:26 +0100
+In-Reply-To: 
+ <20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+References: 
+	<20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 11:46:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 11:51:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163783
+ https://lists.openembedded.org/g/openembedded-core/message/163784
 
-The intention is that changing bitbake.conf is heavy handed, and the
-use case is not well presented. Why and where this is needed?
+On Wed, 2022-03-30 at 10:16 +0200, Stefan Herbrechtsmeier wrote:
+> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> 
+> Add a base package version (BPV) variable and use it as default for the
+> package version (PV) variable. The BPV variable contains the base
+> package version of the recipe read from the recipe filename.
+> 
+> The base package version variable supports an expansion of the version
+> from the recipe filename without the need of an immediate variable
+> expansion:
+>     PV = "${BPV}+git${SRCPV}"
+> 
+> It allows the inclusion of include files inside a recipe file with the
+> same version in the recipe and include filename even if the package
+> version is different to the base package version in the filename:
+>     require linux-yocto-${BPV}.inc
+> 
+> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> 
+> ---
+> 
+>  meta/conf/bitbake.conf | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 7705415a4f..d56cf811ba 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -232,7 +232,8 @@ ASSUME_PROVIDED = "\
+>  ##################################################################
+>  
+>  PN = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'}"
+> -PV = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}"
+> +BPV = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}"
+> +PV = "${BPV}"
+>  PR = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'}"
+>  PE = ""
+>  PF = "${PN}-${EXTENDPE}${PV}-${PR}"
 
-Alex
+I'm not really seeing a compelling use case for what is a fairly core change,
+you've not really said why we need changes and what the big win is for users.
 
-On Wed, 30 Mar 2022 at 13:42, Stefan Herbrechtsmeier
-<stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
->
-> Hi Alex,
->
-> Am 30.03.2022 um 10:41 schrieb Alexander Kanavin:
-> > Mangling PV is more flexibly done with a lambda function in the
-> > recipe, where you can trim and tweak PV to your heart's desire, e.g.
-> > gnomebase.bbclass:
-> >
-> > def gnome_verdir(v):
-> >      return ".".join(v.split(".")[:-1])
-> >
-> > SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive"
->
-> What is the intention of your comment? Do you recommend a function per
-> recipe and thereby code duplication?
->
-> Or is your objection that the base package version isn't always the file
-> name version and the variable name is wrong?
->
-> The advantage of the BPV is that you can change the PV outside of the
-> recipe file:
->
-> PV:pn-<package_name> = "${BPV}+git${SRCPV}"
->
-> The `PV .= "+git${SRCPV}"` assume that the PV is the base package
-> version but couldn't ensure it.
->
-> Regards
->    Stefan
->
-> > On Wed, 30 Mar 2022 at 10:16, Stefan Herbrechtsmeier
-> > <stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
-> >>
-> >> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> >>
-> >> Add a base package version (BPV) variable and use it as default for the
-> >> package version (PV) variable. The BPV variable contains the base
-> >> package version of the recipe read from the recipe filename.
-> >>
-> >> The base package version variable supports an expansion of the version
-> >> from the recipe filename without the need of an immediate variable
-> >> expansion:
-> >>      PV = "${BPV}+git${SRCPV}"
-> >>
-> >> It allows the inclusion of include files inside a recipe file with the
-> >> same version in the recipe and include filename even if the package
-> >> version is different to the base package version in the filename:
-> >>      require linux-yocto-${BPV}.inc
-> >>
-> >> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-> >>
-> >> ---
-> >>
-> >>   meta/conf/bitbake.conf | 3 ++-
-> >>   1 file changed, 2 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> >> index 7705415a4f..d56cf811ba 100644
-> >> --- a/meta/conf/bitbake.conf
-> >> +++ b/meta/conf/bitbake.conf
-> >> @@ -232,7 +232,8 @@ ASSUME_PROVIDED = "\
-> >>   ##################################################################
-> >>
-> >>   PN = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'}"
-> >> -PV = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}"
-> >> +BPV = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}"
-> >> +PV = "${BPV}"
-> >>   PR = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'}"
-> >>   PE = ""
-> >>   PF = "${PN}-${EXTENDPE}${PV}-${PR}"
-> >> --
-> >> 2.30.2
-> >>
-> >>
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#163774): https://lists.openembedded.org/g/openembedded-core/message/163774
-> >> Mute This Topic: https://lists.openembedded.org/mt/90127138/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> >> -=-=-=-=-=-=-=-=-=-=-=-
-> >>
+I'm also quite worried that this behaves quite differently to BPN. "base" in the
+case of PN means strip off prefixes and suffixes yet here, BPV doesn't actually
+strip anything off PV, you're just expected to set it differently yourself as
+the user. The different usage semantics will likely confuse people and that
+confusion isn't worth it IMO.
+
+Cheers,
+
+Richard
+
+
+
 
