@@ -1,222 +1,166 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D695C433EF
-	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 03:09:12 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com
- [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.3029.1648609751204600620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6887C433EF
+	for <webhook@archiver.kernel.org>; Wed, 30 Mar 2022 08:16:52 +0000 (UTC)
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (EUR02-HE1-obe.outbound.protection.outlook.com [40.107.1.79])
+ by mx.groups.io with SMTP id smtpd.web11.4798.1648628210045175896
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Mar 2022 20:09:11 -0700
+ Wed, 30 Mar 2022 01:16:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=ho87L1yk;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.178.238,
- mailfrom: prvs=1088c18fe3=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 22U38p74016585
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 03:09:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=v4EXZcvugoFFkL30bfAUJ76/9qUJdr9iSv/pEZH+MR0=;
- b=ho87L1ykxeKZK3xcf27M1mDXrF4aYWMkEs1mdtG04mN8u1R8uWEaEikL/YmPpjBynARN
- 0UP8MP5lsSj7Bzm8TeL+kf7yP+pV+viBuh2afdDArC8DcQHHZ8xyajTGHP6nnNEW+azx
- XJBrQsnzFrFPHuVb3KwCKxlXG1/zUqVNOaz1GdfbSEAcQMqFcKPmBMITnCnzaZ61mDWl
- XlrWAQof/xe014SKQAsWZbaEjrtb6V3vyJ6MB1hmqD6Nap0zLEFP1F2nHfx+9nDfn2sG
- 221TUCcZYtxtAE+ok+cmyDxdH3z9VAZmfF9xH2bOpVuXlc2M7MR5+GO+0VDWZgMU0LXX gQ==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2105.outbound.protection.outlook.com [104.47.55.105])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3f1r2135kr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 03:09:10 +0000
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=jwFcvijl;
+ spf=pass (domain: weidmueller.com, ip: 40.107.1.79,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kQ7+3K/nMj0tEa/wUB3AJpI6BoAp6Gvb+oT/ai6ee+kYscILMiHaR2XzQdTnmtQOVeZHf0IK7j33eeo/nNw1CX15KYh+ujykRjEgAYOp2zL89+44ITReMfbpTT87pxVHgS1kX5HvYx3vyWurJEbGWenP7i0BTn7JrI8mxpoobdKAXxVME4RLc//z1tWgBXBTCX3o3tviWjFbCYPUDpd320JiFhsk9BYQXk2IQ93f3oEg5QFBs5QYbPWFrNbSohpfJqFlrD8JkogK0fGOObpJfgd25VHgexwGRj/Qk8anYpy7Ixy7vmnelhhlK6s0Aybipebe5mGzCtPXN8rDgtXW9w==
+ b=n0PSh7wSppDVe9yhaD2RlLUVoQsb6fQFWzyC0THsk4ysfUqW6amG9J2+5IfXrAFhDU8DgCodW2Sz3UcFp7w3BOzEY3MTNbQrgBRqz4rn+5jKHDgFnpMS9yw73vVxWCLsoppdXO/pKH0HodtvJwVDLufyk+7KhtGEuHag/B/I1hNRFYcChawLMgUkUGgHqM/bKSC95qUynpuFeqzjUgt11cPTsBMsYYREwZrvHgw5XMrz2sl83khvfKHskbjdrhNpeTAqgZm0JMKdx8mjCsIk7+YkPKijHY9qqxOHSDeHlhLp6DVAapbcoeI3tC2uqbdfJDp2QwKEh9o+GlSkNWFgYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v4EXZcvugoFFkL30bfAUJ76/9qUJdr9iSv/pEZH+MR0=;
- b=mycU/wVLWQVa0HWI2a2CA8FPpcLAbIdpYuzSfp4YqxM9GfoGN7jLn9g+YoasU6LyL1odu6GX4pGEaZJ8ucAz6QqMEoRd2CyDFskDgltxdGDbTGhNKKQA9kjO+ZEJbfUWCaQFX4gc/DGilpc25i2WqsV74XlU476bCJfF7+8B3IAPrHd41+JiTEt0PHQkcbvF+Fra7cEikeChmB0ycgY4E1Z6rflIdX5YaRsGioPD7tFPMfvicwwuTboYqb/H2qaQ7276AUdQrJWSbQP4kqzjfZR9EY/1BH2q1N6ijh7Y/GL7oknUt75zJf5Saj5F9W7xnFmH2wIQWc2p73JaptuLAQ==
+ bh=XZ7ZiRmDlcGq8HLArneJb2tmO1KFwxHBCxhIpJA+0YQ=;
+ b=DzM8Kpx0lzrLOnxonuSxESErH/ZszLLtfEKpTogWnVknrgNAgpMt68fYuvfs8jg7tqCEFjvv7WyUVjMXawkfHhENYhY0ULCYt+5zHIq36IF4ZOoaZN7Uwe8LQ7I4JruYOhRNTjupc3EehtHsYNdU/3yw4sJnlXtphDxq0FzxoFSLXRYDhtPx7kVbMw5q6XwVuAbff7ClKzjMwTsEGZV/ijoF6ibad0/sX8NFZnARABDOKOm5aBxR44yqMNjzwcxKJ8+FACzEu2NQlfdXwIGMZA9Z9ln3cHHLgCqblsBaIS7mIgHzzEjZKdtDOXmg9Fs1CrdZQfDnnA5wcguYGQpUgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH0PR11MB5174.namprd11.prod.outlook.com (2603:10b6:510:3b::12) with
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XZ7ZiRmDlcGq8HLArneJb2tmO1KFwxHBCxhIpJA+0YQ=;
+ b=jwFcvijl26qsB//XG+BokNV+wtfDQ3pIEWDK6ekAKxIaMclIu6/xMp+xDhfaXTnATiPYrzsF+rJZJt3HiAybKuT/hX4T8vdFrcpGbbPWIu+DBuCFujT7UMTobMHHnuIysMJ7DEkZe9ZateFMA3EI61YNFUWygmk0ZH7y+xnkqsA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by VI1PR0801MB2096.eurprd08.prod.outlook.com (2603:10a6:800:8b::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.17; Wed, 30 Mar
- 2022 03:09:06 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::f0d0:2344:b876:db97]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::f0d0:2344:b876:db97%7]) with mapi id 15.20.5102.023; Wed, 30 Mar 2022
- 03:09:06 +0000
-From: Chen Qi <Qi.Chen@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.21; Wed, 30 Mar
+ 2022 08:16:45 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::21c3:3ec0:a144:68ba]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::21c3:3ec0:a144:68ba%9]) with mapi id 15.20.5123.019; Wed, 30 Mar 2022
+ 08:16:45 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] gobject-introspection: fix default search path for
- girdir
-Date: Tue, 29 Mar 2022 20:08:45 -0700
-Message-Id: <20220330030845.98674-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.33.0
-Content-Transfer-Encoding: 8bit
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [RFC PATCH] bitbake.conf: Add base package version (BPV) variable
+Date: Wed, 30 Mar 2022 10:16:13 +0200
+Message-ID: 
+ <20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: BY5PR16CA0019.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::32) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+X-ClientProxiedBy: AM6PR04CA0031.eurprd04.prod.outlook.com
+ (2603:10a6:20b:92::44) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 56d5412f-c830-4415-c738-08da11faa631
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5174:EE_
+X-MS-Office365-Filtering-Correlation-Id: bce050d0-3aa0-474b-274b-08da1225a101
+X-MS-TrafficTypeDiagnostic: VI1PR0801MB2096:EE_
 X-Microsoft-Antispam-PRVS: 
-	<PH0PR11MB5174826C09818FFE87A0FDA0ED1F9@PH0PR11MB5174.namprd11.prod.outlook.com>
+	<VI1PR0801MB2096D677B8AF7CA06DA018ECD71F9@VI1PR0801MB2096.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	maRyAU2p3G1VbqfVycPD45GZ7iboQp5vYczcIThADGh3UNZM85cGW+2NifVIGgTj2blLaEzgBR1qjn2oppgsKmxZNVKuUH70QvU4ClFzCx38n4vkRfOP1lalKLyF1LReTyHp1I2sFIKDFz1JhdZQmHrJjSg98pgpfeJ9myyNCCqx4jx4B0FPC5tj7rljxO4V6OAHxv+VOgS3ZrcylRlMkwG8u/9eqVwHAZ7xEWI8WQ+DtTjxDnObTxhGt9bXKB9LX4w7So6U+xZigvFad0H1sib8pFOme6fC0lhcWh7bCqTb7sb2h4fziJnGSBmHi4VbzDcfi11yQWE8KZZTh3Lq8TKmV5++CMHwlpBUKAcbGAG37AZA/a+i3heDrIXRlQ2AQ11FAbXLHX65vOY1eF6G2IrWnQbkccvo/7CUANfM7BgKTV2v85i57sHVJR3rVGcqbtgOACcE7sn7VMJd3YWuFHCJkVbfVJj8ehKVFN80CJAfWD/GsJNukgXZUckO4SZqEsJERp3lm516WD67ugsOQxe8w5EJMtsk0lelH2leLmtWJqECtCuuZgH2iWnt8irCOfr6wQgYm3Fa0V0DncNRtjRgpXUuJHsdKq7NdczrahqYWalYCAfWb4QbqrwnjvzA0zSAS5RIAjYNhG7kCQrqH961E5mm6myLAIhN24FVt1AKL9FUoV9Ow103Z0oxq/DlNnuwGZi3PrregYImb1hWyequzO1ls4+WTvn/TDA6IWHCk2py5s3rgRSJIHMcLTyGAOh6lSyaP3wfxjm1IAHeWTBAGZ/obx/okwT/mUK+U+U=
+	msYhSZTaAMhczFE8VN9QtEuFz0wLxu5yyoTBPRzZQWaj6jHJH2nPZbPkwGdkIfMk7sgQN4oKyzTBtlcPnG6CjPSZ01a1bxvbpXNTPZ9oHdR+QGzXrXXQeiw0p3tiJKN0nBNlvT8fs31l+xNDMis2/J2ti21Tm4+d589/LDAzk4Azr8YTiF7hXbXmU39uUqypEFgnbB/rbNX/NBhHifTdb0/Kj0bNuAkO95vi2ZRs+ItSZc3Sj0IKkW/TJUvW9CHytPzA+flbtusOc+Sg/pFJRQGKj9SakkiOxMIbiKJkj5D+yfnxKTzSFHnNIN+4s+NcL/gElbkVhqlHmkPoDjpUj8Jp6nfxvt51RoeJBUTLMXbhrH1INcDS64WMCtnVRFESqPWR9gD9SEzj4G93CiJTqSTpPgJ+mR7bLlJl5ej/8Ei0Bdg07M7pKEO7fWU/uHuKdTSns0Au/8ZztrljkW6LslergpolmvHfjAcN8iSV3KyLnGrJfjz2aa808rGQ9Nox9zi+GwoJFFrzm1fzk2ZJy3cLuzVnJYkoOTy/eFPH5hr+QQFPuXQW9gGJkzsucJ4X8TxceiGtV7DvJunUM0h2e+PpKoIaZG7AIAZooZp2Ya5/uosFf9Ql4+0tD948VlxxTo76m1Uivpx0mtaF87PiMV3AByZF84xGUUuzXjR8nmXVmf9pPst7oRhHpM+DvI12
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6486002)(66556008)(66476007)(2906002)(5660300002)(86362001)(66946007)(8936002)(8676002)(36756003)(6916009)(316002)(38350700002)(38100700002)(52116002)(6512007)(2616005)(6666004)(6506007)(186003)(1076003)(83380400001)(508600001)(26005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66946007)(66556008)(66476007)(508600001)(38350700002)(38100700002)(8676002)(5660300002)(8936002)(316002)(4326008)(6666004)(36756003)(26005)(52116002)(6486002)(2616005)(6916009)(6512007)(86362001)(6506007)(83380400001)(2906002)(1076003)(107886003)(186003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?TbZiqkL9rPfs+CFAS6WsYVWF1/PjO2cWgCRmNogcQUEXBXQ4CR0WWfZK78FG?=
- =?us-ascii?Q?vzF6W9ZcEx7IzXOBgpqmWJBGRAdV/ItF0H6VJcTtpl8JJlicUZjR5AyIbEj4?=
- =?us-ascii?Q?uVWjZISOgeTOE4OiX7XwOCUAt7wIGv8VpYzH7hmrCzLzoKq097Qa5luRxTVS?=
- =?us-ascii?Q?6Z85/8Qy2/9HjmHvEIUg8WPsm63WY199rT39fBv35fewR9DKdSDAkiRxGF3B?=
- =?us-ascii?Q?I3ASdsp8y+dCvmcxIBfYLrPnWyU/Rk68V4LB8gJtjt6yiihzDmaLViugg/5W?=
- =?us-ascii?Q?7V//sqetjt7F8S0sOGrmvspu62/pHT17kPc3M4sJf4uOps1yZd9ORlRiiIeo?=
- =?us-ascii?Q?GSpV6lK90OaGC0vNDmLhBDg5bQwfQ95jgDfOD0P9WsOPi4c+aogtgyDCrOwU?=
- =?us-ascii?Q?Mcw3GUSPu3xuOakSylJ4KXIBTDOKWfamOIhsf2Khiepj7OiKqxtCMnJvanqj?=
- =?us-ascii?Q?gcPszlqeRmz6Tuiq066OrYDoKTKTcOXuTAENB2go98o/wlinI4yu6WLMk88a?=
- =?us-ascii?Q?KH7oX3MpUrMwTnehPMEVBTUp8xfZE4dyfnkeeLVctTlnHLPJhk2Wbg9ixtga?=
- =?us-ascii?Q?b8v+ykZsZ6VqIFZ3G/rAyJDY1hfeKadcwRalZnoOLiM06qf15uDcfpsUKhTY?=
- =?us-ascii?Q?EcWTtr/AgkqVsq6I+w7nhKUrkuNHxZKMrj8IBwIEO+RaKGmocAsQ6Os1c4zm?=
- =?us-ascii?Q?e1/VjGRWwt0e1qdka+kjiIgjTzrjf0UtOqT+OF3f9l4dLSFzY6pRr/2nbNy8?=
- =?us-ascii?Q?VNWGZh03cRvPWECIaCu6eQ7ivgOhHAR9adW4R8INZGuRwuOO03DLWlFSZL+H?=
- =?us-ascii?Q?9dPI6QuLnjShLBes7r9zbR3SQ1vXhuP2DiDAkK6DE0gkfI9QrPU14rUMYj0U?=
- =?us-ascii?Q?b6abSTIj7cpukwaamXDEt9b0tFlSBYNutP7FP68VE8S8/dlhPCVC34PmNwuh?=
- =?us-ascii?Q?2/jJEvhnsQVZGQ/7EnWGpXC40enpnvVIIiipmIAHi+ZgS0X03gIGa+iTLScc?=
- =?us-ascii?Q?zsZasLSBhRh4oe67/qN3m3Qm5WfeBW5DeBkyDl+2rHVl70OWafdnzs9viXB1?=
- =?us-ascii?Q?nbom/IoajS3d28r3r+rIgeLlaZaUst89ED5dMwS9XTDa37ruaSmzQxg52t9w?=
- =?us-ascii?Q?5qqvpuUQtIMyRvpSvZFO9fEiM2Po6QvJkkkFF1BotD3CgjzLmIn1KEebgaR9?=
- =?us-ascii?Q?JvKYS73wmH76InY7eVBuOXnKMoT6FumGdRR0EwMLeZzAN7AFJxfDRbKJ1dmb?=
- =?us-ascii?Q?q4mRf3vUwAjkMhkulz87VGrnkwE/a9VE4fYNWZ9FWif48GQbk95/QX1+ggdP?=
- =?us-ascii?Q?pbX05fHV/FFnuwklnL4ACBxrbzt7HZXDb2qrGL1rOqUITrrgOvSo5U1NTIyV?=
- =?us-ascii?Q?YSabYWGcyFqPyLC7ya45Zg8RUm+8bfK9xXEIGCfzwpZbiaDZfZmp8GmlhuHn?=
- =?us-ascii?Q?0vsm+5P8b4mQU5TYvwd1BPU8ybrSFF0U77itlzrzTWUTKseLq9AHq2y3KpF5?=
- =?us-ascii?Q?NRKA+w931naGV+SmGsW3ymtloF/x0IJKJU+8LAYhS5MWZ0DT3mvJBSLXRh89?=
- =?us-ascii?Q?/uG9kQRl88aGq52ZxEefIfjQTz6gCkyc3icE5FYOHBqAaG17fs/O73Qy5YYQ?=
- =?us-ascii?Q?5CKb6d4RdMmplzjMDFJAkvacWdppAb6KAzRtL7744zkiKjFqzb0huf1ycFZw?=
- =?us-ascii?Q?H7/fAqjmma+VADK7QXtAL1Oz2I1uH4FUQbf5qO9+cUkN3zeIP1RTY1nT/WC9?=
- =?us-ascii?Q?2qe01aw+W8Pm1X4l7ogS08zHIcYZFdw=3D?=
-X-OriginatorOrg: windriver.com
+	=?us-ascii?Q?cx+5sRidxK23QapEDLU5y4On9ahA9etmAzqa1TOSrlhNT+RAkgy4baBPYesh?=
+ =?us-ascii?Q?CPkFu8TKfJReGUgzElcR714sr8rc2SsDYmA8oZ8/qZ4rjWVj5XtfBCGrRn7B?=
+ =?us-ascii?Q?z+jh/T+VhZwDLjrCvSO+GRNYqxHWasirK0IFdfe7kixtuRZ9ki2/TP/aRCCP?=
+ =?us-ascii?Q?/9R+D/UIKUoWb9mg6wx9L4E1gDPRgliBhRuM1JXgc9QUQV1/GpXZprde5yCb?=
+ =?us-ascii?Q?8G1Olczh0lpU0C+Fs4rhbtJ5wOfssTxuCgWw63oKSojdjMFi1lL3WrOWOMsw?=
+ =?us-ascii?Q?5Chqsw6V8A6JaRZU+Vp6AP5rQi7zya4yXlWuLUE8GCxyMq+wm/R4IT+Si5dV?=
+ =?us-ascii?Q?m1sFIpUu8Epd3wbayQGD27o748NjFST0NLEga7dhzJbjlPAmvZcQUpjnvNfX?=
+ =?us-ascii?Q?ITtDsofN6F+C/iTohAM+RJST8zlOEBUjVtngVltJANnXFnQA1iPejK/Y90i5?=
+ =?us-ascii?Q?s9mhd/rgl/nMpYpLnrAnSh9wUYs28SJrBJLuYNFD+i5mYn+2IcPHa+/L6f6r?=
+ =?us-ascii?Q?FYkXblXnYhRgeegEZI87MxD/Dz4jNa2fzcKbL2trHSfV/9l8HRka5Vd9vuZC?=
+ =?us-ascii?Q?R2lOu4ngX5jkTCSbcw3U5f4RaefYoWLaQcB/1VUzRCA9Dlrd6Ah7NhXCpSzu?=
+ =?us-ascii?Q?aDT1vpu7LKxgp5vgyJ7R3jRqgyJAUdt9DQdsmz/gfaHG3VHlEjXjzphJteLh?=
+ =?us-ascii?Q?uxPPNNEjXsY398cHdSFJkVJJpM10+hU0v6WvGHO03Meuap1GLNaPhvjykFY7?=
+ =?us-ascii?Q?uQXwN64anKX41bMmDOzZ+e8UGDP6PcEKt+ogdbr3d4pU/9qtNdTV1hmqV1iX?=
+ =?us-ascii?Q?tUo5Is8Ocu31p9ZS0T4pC6VTQw/HzmSvsIIsA+hLavyHlcjn27HfsWFH43pM?=
+ =?us-ascii?Q?cT+e9pCGDzsbC66EAAAop7d3sSJ0EgS2FBzAG4JkDnEiltv+OPZhl2j3WDRU?=
+ =?us-ascii?Q?foNAtO2mdvXCrNrbAM1lS3wF3EE4O8LIsCFHhlvkmL+CouBT48YsUSZhWL9l?=
+ =?us-ascii?Q?tC2tY6JwUoCLbbE6xAd5J40QHxOZCsZ4IdiyFt1H6CtFNEEHJienR8njSO3f?=
+ =?us-ascii?Q?2nHJm1o4ceRRELQB1MgpyRktfYKeyugVMgCNM1P6U3nb+AdziH/JHAhAeuuI?=
+ =?us-ascii?Q?WDt16q6l1F9hvDmj+0OkA4Hds19YVYtGq2qq/P4s63zuccJa3t2+lW++3/86?=
+ =?us-ascii?Q?Bsr6FkZ8u70gI2mCkpAWZiFFUOY57WusnuASxzuPe97U3dAwaj6Fw/K+o++I?=
+ =?us-ascii?Q?cBXRsh+ypydXah6glfrEWXa9Rzm6IzQqzgNugJfkTKs7VK4+VPWhBCxjTPo/?=
+ =?us-ascii?Q?MlVaIHvGUpIRTD5ZI4s/D93fn2sdyxcMlJTabl5j8R4jvktZ+jRMlSuLSlWu?=
+ =?us-ascii?Q?eKxtv5nPGzTlxnkeEikEhn9bUQJZYF4r+KIhFznWLdRO0v97bAlK4Dz5rfsR?=
+ =?us-ascii?Q?9AoKbQhIe6TbAiz5IpO2yyVuaVXJOcNODJEBA1yvNnLk40Gh8XrVBG+6dpa/?=
+ =?us-ascii?Q?TGAbwpinLARlAn7vsB46wtlTrL6q7szT9Zyh4T8AZF/1QlbhBNgUtSRfRA4R?=
+ =?us-ascii?Q?QIET8PdqILpvCWsJymXj76HztVVIALUys6Pe013zoYnWTIdI9DwPoB5DEKEA?=
+ =?us-ascii?Q?PCHB9mqFG1Iq+UGpo9NANim1WAXtXdxaO8zjeGS3yKxKI6KWA9MqLsYmsjFn?=
+ =?us-ascii?Q?XeSsFzxFhyYxsq4UF4GEw/UGL9tofyobiU8UmLZPUT6VpEE5B9RNxboef5Qt?=
+ =?us-ascii?Q?vDLaJ6C/9DkSFi6K2R5/RxEPtexFIPc=3D?=
+X-OriginatorOrg: weidmueller.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 56d5412f-c830-4415-c738-08da11faa631
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+ bce050d0-3aa0-474b-274b-08da1225a101
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 03:09:06.1009
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 08:16:45.2518
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- +KyeeRyVtR8/AQ79lipDAZU4/bAEh6C7YXhacbRpMvZkNpoqJQdZ9518+Voh77yXdNZM74PU+caJjLpW0xHRuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5174
-X-Proofpoint-ORIG-GUID: eu82F15n4zJoh8se7Oi0xkv6BhkYu_kD
-X-Proofpoint-GUID: eu82F15n4zJoh8se7Oi0xkv6BhkYu_kD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-29_10,2022-03-29_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=674 mlxscore=0
- suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1011
- impostorscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203300013
+ cv/MPTmG0pSh0xq/SuvyXq1ZdRyKWRPBY0sumOVviPqpVZ5cIsOFcY98TqbehV14K386HhIVZw/Wk57qku9nIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB2096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 03:09:12 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Mar 2022 08:16:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163773
+ https://lists.openembedded.org/g/openembedded-core/message/163774
 
-When running g-ir-scanner, we get the following error:
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-  Couldn't find include 'GObject-2.0.gir' (search path:
-  '['/usr/lib64', 'gir-1.0', '/usr/local/share/gir-1.0', '/usr/share/gir-1.0',
-  '/usr/share/gir-1.0', '/usr/share/gir-1.0']')
+Add a base package version (BPV) variable and use it as default for the
+package version (PV) variable. The BPV variable contains the base
+package version of the recipe read from the recipe filename.
 
-This is because g-ir-tool-template.in is not setting girdir correctly.
-It's using the prefix instead of the actual girdir.
+The base package version variable supports an expansion of the version
+from the recipe filename without the need of an immediate variable
+expansion:
+    PV =3D "${BPV}+git${SRCPV}"
 
-Note that we don't get such error at do_rootfs time because the extra
-directories are speicified. But we will get such error at runtime when
-multilib is enabled.
+It allows the inclusion of include files inside a recipe file with the
+same version in the recipe and include filename even if the package
+version is different to the base package version in the filename:
+    require linux-yocto-${BPV}.inc
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+
 ---
- ...-ir-tool-template.in-fix-girdir-path.patch | 33 +++++++++++++++++++
- .../gobject-introspection_1.72.0.bb           |  4 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
-new file mode 100644
-index 0000000000..5c78649de4
---- /dev/null
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
-@@ -0,0 +1,33 @@
-+From b01b448613b76f9acefdfd89ee01686dc7a67df4 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 13 Jul 2021 02:05:11 -0700
-+Subject: [PATCH] g-ir-tool-template.in: fix girdir path
-+
-+In case gir_dir_prefix is set, it's possible that g-ir-scanner
-+cannot find the .gir files. This is because that the girdir
-+is set to gir_dir_prefix, which is wrong. It's not a prefix,
-+it the actual gir dir.
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/329]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ tools/g-ir-tool-template.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/g-ir-tool-template.in b/tools/g-ir-tool-template.in
-+index 6e98f52e..62c07c31 100755
-+--- a/tools/g-ir-tool-template.in
-++++ b/tools/g-ir-tool-template.in
-+@@ -55,7 +55,7 @@ builtins.__dict__['DATADIR'] = datadir
-+ 
-+ # Respect gir_dir_prefix
-+ girdir = ''
-+-girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@'))
-++girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@', 'gir-1.0'))
-+ builtins.__dict__['GIRDIR'] = [girdir]
-+ 
-+ # Again, relative paths first so that the installation prefix is relocatable
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-index 39475daf2e..355e77d107 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
-                     file://girepository/giregisteredtypeinfo.c;endline=21;md5=661847611ae6979465415f31a759ba27 \
-                     "
- 
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
-+           file://0001-g-ir-tool-template.in-fix-girdir-path.patch \
-+           "
- 
- SRC_URI[sha256sum] = "02fe8e590861d88f83060dd39cda5ccaa60b2da1d21d0f95499301b186beaabc"
- 
--- 
-2.33.0
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7705415a4f..d56cf811ba 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -232,7 +232,8 @@ ASSUME_PROVIDED =3D "\
+ ##################################################################
+=20
+ PN =3D "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defau=
+ltpkgname'}"
+-PV =3D "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}=
+"
++BPV =3D "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'=
+}"
++PV =3D "${BPV}"
+ PR =3D "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'}"
+ PE =3D ""
+ PF =3D "${PN}-${EXTENDPE}${PV}-${PR}"
+--=20
+2.30.2
 
 
