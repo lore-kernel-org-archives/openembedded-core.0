@@ -1,312 +1,228 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CAEC433F5
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 05:52:00 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.3781.1648705909100893142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD223C433F5
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 07:16:05 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.77])
+ by mx.groups.io with SMTP id smtpd.web08.4298.1648710960739410118
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 22:51:49 -0700
+ Thu, 31 Mar 2022 00:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: kai.kang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 22V5pkNe018521
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 22:51:46 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 30 Mar 2022 22:51:46 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 30 Mar 2022 22:51:45 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 1/3] expat: fix CVE-2022-25313
-Date: Thu, 31 Mar 2022 13:51:37 +0800
-Message-ID: <20220331055139.1975-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=AxXQnGf/;
+ spf=pass (domain: weidmueller.com, ip: 40.107.21.77,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N933w4+7f28rycoOz247BlOoYZ6HusLcDUKIpQIEJ2qD0mcEpQ5OuMFCtKASGa3j4J4v6cHKPh6k35M1Xt7F4Vddf/x15+6sOSWwC5kEKg/ymBJpToXHslZ3DW91Uj1YMTLtuqyur76xOfDGuTHJh+j8MdbfzHcY0fU/7RmrvyahPcgMqltLGyKJJ8rr4bhoBpDSl34/6tnCb7OaGD2cWQevwPAhEo4vxd4LWmTDueQVSWOQwGzH8ExoOiTTU98oaOl6mjFjA7yvcJysfzapKrlBsgEzpoG/NEhEAeA4vIXZE/PTiY5L5QjPLnjrmmvmZXAbTFQM+VPe3cH9TW9GoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hjbaP1gKvRRddMCT+i37ROTG5LQjMj9KAUzlDkKddQA=;
+ b=jv+U2LxqS8QsHdD4RfhZGSFJe5PjPBP7rNr4b2Twi3eMlWf2ZHKlF384/d83HSUXTv7yTpWBzbCnSsegB3Ob3kA8TJivTHJ4UWJHDz/D/sKpSW94vPUXcrTydBNmzd273Q/+QyQCj2lPv9BBfavFFHVcuu9BkIpGcelirYtD73swj/jcpGNZFPka5Egj+gH06ENa9C9oyTJz1XxKQ8nrzSGF/NUhJn2iR2mVSUfyLM7On0sCV6cJ4s7OS/xT7dI7/zK5u2hYa493i9o9JFyb8kAjKwHqUJWDj57Tfwke+fZqpLQ8KXZGV8xDt6tDf9Ko4qriB7FC9XqULwt4l4/Dyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hjbaP1gKvRRddMCT+i37ROTG5LQjMj9KAUzlDkKddQA=;
+ b=AxXQnGf/a1nV4cruxI18DAwhxyTwuyzk4u4CuHDroZrF36omWOFnkvoIfSCKoqsNS2Rte9XSaZorHjCmNurt++183LZtX/b8fHhZdbHf0UQ6FsLp3oju6p+kHuOOBKm7dEVZY3c6AHsgk5n+nc5tKiPx+0/hJJcBNDrSSzQtiTA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by AM6PR08MB3077.eurprd08.prod.outlook.com (2603:10a6:209:48::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.19; Thu, 31 Mar
+ 2022 07:15:57 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::21c3:3ec0:a144:68ba]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::21c3:3ec0:a144:68ba%9]) with mapi id 15.20.5123.019; Thu, 31 Mar 2022
+ 07:15:57 +0000
+Message-ID: <ecb92f84-a4fa-31d6-de14-a48f5eff91dd@weidmueller.com>
+Date: Thu, 31 Mar 2022 09:15:55 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [OE-core] [RFC PATCH] bitbake.conf: Add base package version
+ (BPV) variable
+Content-Language: en-US
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+References: 
+ <20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
+ <CAMKF1soT09dWVxf0idTF5O-u5wWMuVGAxcrC+Z1wJYkoJ1NtDQ@mail.gmail.com>
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+In-Reply-To: 
+ <CAMKF1soT09dWVxf0idTF5O-u5wWMuVGAxcrC+Z1wJYkoJ1NtDQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM5PR1001CA0019.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:206:2::32) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 404566e4-f2d3-43ec-b335-08da12e64d07
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3077:EE_
+X-Microsoft-Antispam-PRVS: 
+	<AM6PR08MB3077F4587D4EA73A7923F7C5D7E19@AM6PR08MB3077.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	rjP+QRsLZbKwzlseBczR6DCMiBPlzkEchJjsqdPJMyIZAEu8ce4MZTcxqa6wqxUvYds0oUUzFVKxW/g9QzsvZ0yDvJjdA8vVHm18C49MygbWHfYFs/XPVSMapMZhHpk/r5bqJElGqDCG3MtHqt5xC1GK8RHWtLL/Yt9LXKOkVLkXocjLvrHbA93jtJwQbzBktisinLjjpCSrjQuxa983UtWrpHlqPRhRlnX12vxY4NvqnJVAFz0/xaxA4lnSZbrxTfmhBx0MlQk6Fw2ypC2r+g26TQj1LK5QMl1lcQDhuEu/IWk2vcgaCcm63vMCgu5UL9sY1xRFgPyYQL03p6GEVJlXtgr73/sIT/HtqDfJ5fScpyo6n2FdFFPkhYmfut0c/ggVl3e5+H8SdU335byiUhaaBu0INN31iWUvelbX7Xk9Nyr7CFj0xYdPzohOpjXugFdkfyiihpoZFQAXuGOWq82rgLJKqnHAdsjMN228TkPDZJqdxqFIIArPZ/c5sP9Agfx+DUjup+1/zqObKZMXkIp3BjeWrxHh0Y6mnhUvGrVV5EoNNY8wJqvp0CspPgopV33+DV+5axv/fjneh0ot7zMHVg1EWpeKqNiOYo1iFIKe0wuJDrSUJn073+lmYsXEx310BfTZmhSjTmVM4usX4L5MfXecXXTViSrPseHNT3nJlc01kCVXK7oL0JWPTtDTAZ2YI1UIQvbk6JzYUCEBey3/jEa/LhZXHVQIGp60PdoW2OIHJgnzMQv9T2tdhl9W
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(107886003)(186003)(6506007)(6512007)(2616005)(8676002)(66556008)(66476007)(4326008)(26005)(38100700002)(53546011)(52116002)(38350700002)(66946007)(316002)(5660300002)(6916009)(54906003)(31696002)(8936002)(31686004)(36756003)(6486002)(508600001)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?KzFSa3JvRmJqS25ybmV0dUV1LzVERENtVkdCU2VBalBuY3NPMW9zcElqRmMz?=
+ =?utf-8?B?elMyR2liWXpMV3EreWdDS2tGZ1JtWnh0NXA5bmFEbzBjcjl2VGlvcGVQWkN0?=
+ =?utf-8?B?U2Y2M3gxR3gvZnZ5L1RYcEhBdy94emlCMU5DYVRBc20yMERYRXlKbWpyLy90?=
+ =?utf-8?B?ZUkwTE03RWNCWDdycWtsb3IzcFRYaDR6S2J2TUUyYXRoWllsdUN3TExaQzFS?=
+ =?utf-8?B?VjY1UVNhcmNTYllYUGtiUjkwUWM2MVFJTE1wMi9ZL1dYQUN2Snlha01qMnpp?=
+ =?utf-8?B?YytSV01RMWVJZi8yY0xqZkZ4R2tMbTJiMUtORzczYVFScHd1c3d0OG1aYXdR?=
+ =?utf-8?B?cHA0ZXYvYThQUVF2M3YyZ3BVUzRnUFpvODFOaEVjRzRqbnZ0cnhGOEhCSEJT?=
+ =?utf-8?B?b3hzVkVTL1d0b2tXVzdPWGNyQ1oyVnVuRGRGMlh2anRVcXErQjFTVHVsUFA0?=
+ =?utf-8?B?UEJCT1lvVTZ3K1pSem5MNUc1YUxiVGRHWHhlZjlvaHJjTUlpNFBxOThUcDZ3?=
+ =?utf-8?B?QmVvR0swRjB4WEcwdXhCWC9ySERwaDM2bENtb3JMcjliOFpnNWxyeWFxYndD?=
+ =?utf-8?B?Zkh4YVJlMGRudXFSOUI1Z1QwM21rbFgvM1E4Uzc4MDkvNW9IWFNkT0t0M0c2?=
+ =?utf-8?B?eS9jb0hPeitXRjJTbGRIellVaE43UnVqTUxwUmdDZkwxL3l1em5TUS9iaE1p?=
+ =?utf-8?B?Wlh5VlJ2d2kwMnVlazZ2QjE1K3hxaUxpSGY5Vm5ncnE0Qk5BaDRETVdEWjdo?=
+ =?utf-8?B?bmYzYmowM2Z3OXVhWG9KSk02cVFVZTdYbTJpb292VmY2dWMwOWdQT2NDQncx?=
+ =?utf-8?B?TmNWZkNjMHJtWXVHS3pyK0hIRUtmblJnaGtZazY4WExITWRzTmt6Q1JzamFN?=
+ =?utf-8?B?R0NseGROd1RMTTloTktpeW4rY3NQRVRWeUZBYktUV21mN0RMbE5zbHB5MmVp?=
+ =?utf-8?B?dTdhZ0JFSUJEMktGdjFWVlZ5RXQwWlNjZ1JyTzlmUjd0TEE1UnlCNzFkaVJM?=
+ =?utf-8?B?OG5WOWxYVDJZS25RV3pEWExralV6R01RRlVDeklJVTc1VHNnTXFrdTRFTHJF?=
+ =?utf-8?B?cnZSOVcwK0dxOTNma09iVGxuSXlpdzZ0Rnc5R2doZVh3S2dtSk5adlFCSmxF?=
+ =?utf-8?B?RXdIMUdDWFB1eE5id1dZZ3A3K1plcm8vMExXMTFXN1lZd3NPS0F6a2xjNEFG?=
+ =?utf-8?B?M1IxRXdydDZLakVFNjVPNDZQT0p3NW5XYkcrWFRPdjlwN1VkUHFEaThlODBm?=
+ =?utf-8?B?MTYzZjRud1JDZHc2d0tWWWEyYXMxVWZVdEhmNWphenFDdTYrMHRLRWpKRlJB?=
+ =?utf-8?B?MGsrOHI3STk4c3BpZzBQWmd5MjV5WkRmaEhiNVhiZ1grZXc4ZytOa2F4cVJa?=
+ =?utf-8?B?MnlFanIzSDlSUGF3L1VrMHJYU0VzM1hOQkZNNFljK3FEZENYb055a0s5ZmZk?=
+ =?utf-8?B?QUN1ajU0MlduYmhZblpkYzllZWpreFZScWUrN3JzbGlZRy84dlVaVGF0UmZI?=
+ =?utf-8?B?a244Qi9vZ2x4eVNNTVNSdWMzQXlFdWhVYXRSNytKYXpzNUduMk1lYk5DdGNB?=
+ =?utf-8?B?VmN0MVAwSzRJZlpGMFFLQ2JyMkRwODFBYkFhbDYvOCtKWHU3aGx3ajJScm9m?=
+ =?utf-8?B?WWRlM05WUG04U3RlLzRvSDB3Z2VhalFzK3h1SkZLN3A5UHZ6VnRZMmZiOGVl?=
+ =?utf-8?B?RlM0NXJhUi9YTzFsN2NXQXczNXl0MmowTGdPd0lSSHJaWnBXT1dJYmI1L2RQ?=
+ =?utf-8?B?RCtSNGZ4dVMrcjJNdXE1c2xoK08yZGNBVDduN1I1am80V1g5OFd4Y1dlMXpR?=
+ =?utf-8?B?NUhnQ2pvS2UycDM4SzVvdVl2b3RlWGJGVG4vZ3N6Q2NaVXF1eWhIT1hMYUZU?=
+ =?utf-8?B?TnVCZmh0Z3F5elJBc012cGdUYnlPaG4rNk5UbVc0bjZQclRkMWdwQWcwRnBD?=
+ =?utf-8?B?WDl6YlFZeXJJRzVGRVAvQjNxaVNOWDIvTHV4UW9YdDYwU29GM0h3NUZ6d1I2?=
+ =?utf-8?B?akNJZ0RkSytHMGNnL0NpdzJrRGZSbXZMa0pYeUk0Vmx0eEdITkJja3RwRVJR?=
+ =?utf-8?B?a1VkWXJOSnQvakJPUWlteE9YcnVSOTZ4MzVWd21yOElZdTNUL0JXcjZsTjhw?=
+ =?utf-8?B?ckxOTmsraWdiWVJuQ2ZNTC9MZ1RzRjRVSlhqUmlYZTdiVUROZUlIU2lmc1NI?=
+ =?utf-8?B?cHZSTXVmT3VhdlZGOGg5S0NTYnp6c3pGVmE3bCtBRmNzUDJiKzVTMGVDL3JV?=
+ =?utf-8?B?NmlNV3BFcXpPdVZVRDRiV293OXNVRmszUlFRMmVlNUlqZUxNOGZYdUYyQXNv?=
+ =?utf-8?B?Y1NUM0owVy9FRGl5b2VuUXhtSTRrbkg1SGc3K0JSR2pWNmtCSTh1LzVsL1NQ?=
+ =?utf-8?Q?4Zg/ktEU4AjFflb8=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 404566e4-f2d3-43ec-b335-08da12e64d07
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 07:15:57.1724
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ /L7EMYYQwLPjqeWXlcfzzX3AwXHL73uBYIDzbsd/MCtepa3EQD1rowoLqlBL8CRLSctlStJ3Okaf4qq2/RP/vQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 05:52:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 07:16:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163801
+ https://lists.openembedded.org/g/openembedded-core/message/163804
 
-From: Kai Kang <kai.kang@windriver.com>
+Am 30.03.2022 um 19:32 schrieb Khem Raj:
+> On Wed, Mar 30, 2022 at 1:16 AM Stefan Herbrechtsmeier
+> <stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
+>>
+>> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+>>
+>> Add a base package version (BPV) variable and use it as default for the
+>> package version (PV) variable. The BPV variable contains the base
+>> package version of the recipe read from the recipe filename.
+>>
+>> The base package version variable supports an expansion of the version
+>> from the recipe filename without the need of an immediate variable
+>> expansion:
+>>      PV = "${BPV}+git${SRCPV}"
+>>
+>> It allows the inclusion of include files inside a recipe file with the
+>> same version in the recipe and include filename even if the package
+>> version is different to the base package version in the filename:
+>>      require linux-yocto-${BPV}.inc
+>>
+> 
+> how many such usecase do we have ?
 
-Backport patch to fix CVE-2022-25313.
+4x require binutils-${PV}.inc
+9x require recipes-devtools/gcc/gcc-${PV}.inc
+6x require go-${PV}.inc
+4x require libtool-${PV}.inc
+2x require m4-${PV}.inc
+1x require boost-${PV}.inc
 
-CVE: CVE-2022-25313
+Thereby binutils and gcc set the real PV inside the .inc file.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../expat/expat/CVE-2022-25313.patch          | 233 ++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.10.bb       |   1 +
- 2 files changed, 234 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25313.patch
+> seems to be quite errorprone too.
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2022-25313.patch b/meta/recipes-core/expat/expat/CVE-2022-25313.patch
-new file mode 100644
-index 0000000000..569324303e
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2022-25313.patch
-@@ -0,0 +1,233 @@
-+CVE: CVE-2022-25313
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/9b4ce651]
-+
-+Ref:
-+* https://github.com/libexpat/libexpat/pull/558
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 9b4ce651b26557f16103c3a366c91934ecd439ab Mon Sep 17 00:00:00 2001
-+From: Samanta Navarro <ferivoz@riseup.net>
-+Date: Tue, 15 Feb 2022 11:54:29 +0000
-+Subject: [PATCH] Prevent stack exhaustion in build_model
-+
-+It is possible to trigger stack exhaustion in build_model function if
-+depth of nested children in DTD element is large enough. This happens
-+because build_node is a recursively called function within build_model.
-+
-+The code has been adjusted to run iteratively. It uses the already
-+allocated heap space as temporary stack (growing from top to bottom).
-+
-+Output is identical to recursive version. No new fields in data
-+structures were added, i.e. it keeps full API and ABI compatibility.
-+Instead the numchildren variable is used to temporarily keep the
-+index of items (uint vs int).
-+
-+Documentation and readability improvements kindly added by Sebastian.
-+
-+Proof of Concept:
-+
-+1. Compile poc binary which parses XML file line by line
-+
-+```
-+cat > poc.c << EOF
-+ #include <err.h>
-+ #include <expat.h>
-+ #include <stdio.h>
-+
-+ XML_Parser parser;
-+
-+ static void XMLCALL
-+ dummy_element_decl_handler(void *userData, const XML_Char *name,
-+                            XML_Content *model) {
-+   XML_FreeContentModel(parser, model);
-+ }
-+
-+ int main(int argc, char *argv[]) {
-+   FILE *fp;
-+   char *p = NULL;
-+   size_t s = 0;
-+   ssize_t l;
-+   if (argc != 2)
-+     errx(1, "usage: poc poc.xml");
-+   if ((parser = XML_ParserCreate(NULL)) == NULL)
-+     errx(1, "XML_ParserCreate");
-+   XML_SetElementDeclHandler(parser, dummy_element_decl_handler);
-+   if ((fp = fopen(argv[1], "r")) == NULL)
-+     err(1, "fopen");
-+   while ((l = getline(&p, &s, fp)) > 0)
-+     if (XML_Parse(parser, p, (int)l, XML_FALSE) != XML_STATUS_OK)
-+       errx(1, "XML_Parse");
-+   XML_ParserFree(parser);
-+   free(p);
-+   fclose(fp);
-+   return 0;
-+ }
-+EOF
-+cc -std=c11 -D_POSIX_C_SOURCE=200809L -lexpat -o poc poc.c
-+```
-+
-+2. Create XML file with a lot of nested groups in DTD element
-+
-+```
-+cat > poc.xml.zst.b64 << EOF
-+KLUv/aQkACAAPAEA+DwhRE9DVFlQRSB1d3UgWwo8IUVMRU1FTlQgdXd1CigBAHv/58AJAgAQKAIA
-+ECgCABAoAgAQKAIAECgCABAoAgAQKHwAAChvd28KKQIA2/8gV24XBAIAECkCABApAgAQKQIAECkC
-+ABApAgAQKQIAEClVAAAgPl0+CgEA4A4I2VwwnQ==
-+EOF
-+base64 -d poc.xml.zst.b64 | zstd -d > poc.xml
-+```
-+
-+3. Run Proof of Concept
-+
-+```
-+./poc poc.xml
-+```
-+
-+Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-+---
-+ expat/lib/xmlparse.c | 116 +++++++++++++++++++++++++++++--------------
-+ 1 file changed, 79 insertions(+), 37 deletions(-)
-+
-+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-+index 4b43e613..594cf12c 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -7317,44 +7317,15 @@ nextScaffoldPart(XML_Parser parser) {
-+   return next;
-+ }
-+ 
-+-static void
-+-build_node(XML_Parser parser, int src_node, XML_Content *dest,
-+-           XML_Content **contpos, XML_Char **strpos) {
-+-  DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+-  dest->type = dtd->scaffold[src_node].type;
-+-  dest->quant = dtd->scaffold[src_node].quant;
-+-  if (dest->type == XML_CTYPE_NAME) {
-+-    const XML_Char *src;
-+-    dest->name = *strpos;
-+-    src = dtd->scaffold[src_node].name;
-+-    for (;;) {
-+-      *(*strpos)++ = *src;
-+-      if (! *src)
-+-        break;
-+-      src++;
-+-    }
-+-    dest->numchildren = 0;
-+-    dest->children = NULL;
-+-  } else {
-+-    unsigned int i;
-+-    int cn;
-+-    dest->numchildren = dtd->scaffold[src_node].childcnt;
-+-    dest->children = *contpos;
-+-    *contpos += dest->numchildren;
-+-    for (i = 0, cn = dtd->scaffold[src_node].firstchild; i < dest->numchildren;
-+-         i++, cn = dtd->scaffold[cn].nextsib) {
-+-      build_node(parser, cn, &(dest->children[i]), contpos, strpos);
-+-    }
-+-    dest->name = NULL;
-+-  }
-+-}
-+-
-+ static XML_Content *
-+ build_model(XML_Parser parser) {
-++  /* Function build_model transforms the existing parser->m_dtd->scaffold
-++   * array of CONTENT_SCAFFOLD tree nodes into a new array of
-++   * XML_Content tree nodes followed by a gapless list of zero-terminated
-++   * strings. */
-+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+   XML_Content *ret;
-+-  XML_Content *cpos;
-+-  XML_Char *str;
-++  XML_Char *str; /* the current string writing location */
-+ 
-+   /* Detect and prevent integer overflow.
-+    * The preprocessor guard addresses the "always false" warning
-+@@ -7380,10 +7351,81 @@ build_model(XML_Parser parser) {
-+   if (! ret)
-+     return NULL;
-+ 
-+-  str = (XML_Char *)(&ret[dtd->scaffCount]);
-+-  cpos = &ret[1];
-++  /* What follows is an iterative implementation (of what was previously done
-++   * recursively in a dedicated function called "build_node".  The old recursive
-++   * build_node could be forced into stack exhaustion from input as small as a
-++   * few megabyte, and so that was a security issue.  Hence, a function call
-++   * stack is avoided now by resolving recursion.)
-++   *
-++   * The iterative approach works as follows:
-++   *
-++   * - We use space in the target array for building a temporary stack structure
-++   *   while that space is still unused.
-++   *   The stack grows from the array's end downwards and the "actual data"
-++   *   grows from the start upwards, sequentially.
-++   *   (Because stack grows downwards, pushing onto the stack is a decrement
-++   *   while popping off the stack is an increment.)
-++   *
-++   * - A stack element appears as a regular XML_Content node on the outside,
-++   *   but only uses a single field -- numchildren -- to store the source
-++   *   tree node array index.  These are the breadcrumbs leading the way back
-++   *   during pre-order (node first) depth-first traversal.
-++   *
-++   * - The reason we know the stack will never grow into (or overlap with)
-++   *   the area with data of value at the start of the array is because
-++   *   the overall number of elements to process matches the size of the array,
-++   *   and the sum of fully processed nodes and yet-to-be processed nodes
-++   *   on the stack, cannot be more than the total number of nodes.
-++   *   It is possible for the top of the stack and the about-to-write node
-++   *   to meet, but that is safe because we get the source index out
-++   *   before doing any writes on that node.
-++   */
-++  XML_Content *dest = ret; /* tree node writing location, moves upwards */
-++  XML_Content *const destLimit = &ret[dtd->scaffCount];
-++  XML_Content *const stackBottom = &ret[dtd->scaffCount];
-++  XML_Content *stackTop = stackBottom; /* i.e. stack is initially empty */
-++  str = (XML_Char *)&ret[dtd->scaffCount];
-++
-++  /* Push source tree root node index onto the stack */
-++  (--stackTop)->numchildren = 0;
-++
-++  for (; dest < destLimit; dest++) {
-++    /* Pop source tree node index off the stack */
-++    const int src_node = (int)(stackTop++)->numchildren;
-++
-++    /* Convert item */
-++    dest->type = dtd->scaffold[src_node].type;
-++    dest->quant = dtd->scaffold[src_node].quant;
-++    if (dest->type == XML_CTYPE_NAME) {
-++      const XML_Char *src;
-++      dest->name = str;
-++      src = dtd->scaffold[src_node].name;
-++      for (;;) {
-++        *str++ = *src;
-++        if (! *src)
-++          break;
-++        src++;
-++      }
-++      dest->numchildren = 0;
-++      dest->children = NULL;
-++    } else {
-++      unsigned int i;
-++      int cn;
-++      dest->name = NULL;
-++      dest->numchildren = dtd->scaffold[src_node].childcnt;
-++      dest->children = &dest[1];
-++
-++      /* Push children to the stack
-++       * in a way where the first child ends up at the top of the
-++       * (downwards growing) stack, in order to be processed first. */
-++      stackTop -= dest->numchildren;
-++      for (i = 0, cn = dtd->scaffold[src_node].firstchild;
-++           i < dest->numchildren; i++, cn = dtd->scaffold[cn].nextsib) {
-++        (stackTop + i)->numchildren = (unsigned int)cn;
-++      }
-++    }
-++  }
-+ 
-+-  build_node(parser, 0, ret, &cpos, &str);
-+   return ret;
-+ }
-+ 
-+-- 
-+2.33.0
-+
-diff --git a/meta/recipes-core/expat/expat_2.2.10.bb b/meta/recipes-core/expat/expat_2.2.10.bb
-index f99fa7edb6..7454718dca 100644
---- a/meta/recipes-core/expat/expat_2.2.10.bb
-+++ b/meta/recipes-core/expat/expat_2.2.10.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
-            file://CVE-2022-25235.patch \
-            file://CVE-2022-25236-1.patch \
-            file://CVE-2022-25236-2.patch \
-+           file://CVE-2022-25313.patch \
-            "
- 
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.17.1
+The current use cases in oe core is much more error-prone because they 
+use ${PV} and set the PV inside the .inc file. This means a second .inc 
+file must use the new PV. Furthermore, if somebody in oe-core add a `PV 
+.= "+git${SRCPV}"` it breaks includes in other layers.
+
+A MAIN_VERSION (MAJOR.MINOR) and a BPV (MAJOR.MINOR.PATCH) would make 
+the use case explicit:
+
+require binutils-${MAIN_VERSION}.inc
+require recipes-devtools/gcc/gcc-${MAIN_VERSION}.inc
+require go-${BPV}.inc
+require libtool-${BPV}.inc
+require m4-${BPV}.inc
+require boost-${BPV}.inc
+
+
+At the moment oe-core have recipe specific names and code for the same 
+value:
+
+MAJOR.MINOR.PATCH:
+MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+
+MAJOR.MINOR:
+WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+SHRT_VER = 
+"${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+VIMDIR = 
+"vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
+SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+NAMEVER = "${@oe.utils.trim_version("${PV}", 2)}"
+SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+
+MAJOR:
+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2).split('.')[0]}"
+ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
+
+MINOR:
+MIN_VER = "${@oe.utils.trim_version("${PV}", 2).split('.')[1]}"
+
+
+Sometimes the same name is used for different values:
+
+MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
+WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+
+Maybe the bitbake.conf isn't the ride place but I think a common name 
+for the base / short version (MAJOR.MINOR), base package version 
+(MAJOR.MINOR.PATCH) and major, minor and patch would be helpful.
 
 
