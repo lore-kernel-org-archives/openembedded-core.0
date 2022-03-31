@@ -2,15 +2,15 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8A3C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 065F7C433EF
 	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 13:47:57 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web08.7386.1648734471130321746
+ by mx.groups.io with SMTP id smtpd.web11.7229.1648734469557928964
  for <openembedded-core@lists.openembedded.org>;
  Thu, 31 Mar 2022 06:47:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=SQtta5Nz;
+ header.b=D1IY8s5D;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -18,32 +18,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1648734476; x=1680270476;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=AiFoFfj76GsyifcYr6T0ySiq7ZVH512Aumy4RKEu9gg=;
-  b=SQtta5NzEjmVe2THKJjP5FGdgZw8lkOlmsiWSTxfzQnay5achak/ao//
-   lkw3pm14R9+OAh2fHh3tdha2tqgf0hH1ZCRxKg4zV2b/ZsvJU89JMMblx
-   ycfqGwtWLpUU+/WrlJJv0AE/cOQBNnSHtGfj/VVsPvFZCjzyyYDSep4X4
-   OmQQ1dPUMt+qR5P1ngMGlLtDSBwELVl6LGKJtsEZ1YlG+n60S7qwOa6d8
-   r7hqSwi5+cFtwwJPO1cyFa50DnWqevTS6Gj4yIi9L2TVLrLGEWeCU0Fhp
-   v9mMCblvyiC6avy/hBf0v6CQg9LXrIWWzASbbyNfLlZQgfDYw8/tRfw0h
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551823"
+  bh=AO2MD90OuZFJAF8Dz2W472DfmMuEIH4adcFQTPFPaaA=;
+  b=D1IY8s5DgKVkaitB80/68SkoKtE7c90KIoefBjWzWZS96cmrNHAuitdZ
+   ZCBftZhPZFmtGYo+1jeL8GPAnIv+kgOb45LZ/DkxqSDolLw/f9+RFHP+/
+   c/NgYHJ6v6ISADTvWjbg+gIKJB1q8xWlV20+qEfWBsMlHBdbO5Kkxe18e
+   R3A1s/JPpyB/OBQyQ25UHJH2Oe6O5cSUW7+mMwMpBpGRtRoIPXuuEyxLn
+   OCtWPbqGNeBFK2TmqywMoxytyuFcRZJU7nflbGctoK2bWI7whjJT9DZ+E
+   nYbvD/3Dcx0YYkh79PVbM1Ylp9cThTnsdeEte++itQhB7cvX1k6EFLcR1
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551827"
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="259551823"
+   d="scan'208";a="259551827"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:47 -0700
+ 31 Mar 2022 06:47:49 -0700
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="520542200"
+   d="scan'208";a="520542228"
 Received: from scho7-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.239.39])
   by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:46 -0700
+ 31 Mar 2022 06:47:47 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 11/20] linux-yocto: nohz_full boot arg fix
-Date: Thu, 31 Mar 2022 21:47:16 +0800
+Subject: [hardknott][PATCH 12/20] linux-yocto/5.10: split vtpm for more
+ granular inclusion
+Date: Thu, 31 Mar 2022 21:47:17 +0800
 Message-Id: 
- <f30d642b8e0ccf7ea005ec31818ff6fb98d9ab51.1648734169.git.anuj.mittal@intel.com>
+ <c8bfdc0ac6a5bb26adb59949be5cd0f00a67cb79.1648734169.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1648734169.git.anuj.mittal@intel.com>
 References: <cover.1648734169.git.anuj.mittal@intel.com>
@@ -54,84 +55,64 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 13:47:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163824
+ https://lists.openembedded.org/g/openembedded-core/message/163826
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto/5.15:
+Integrating the following commit(s) to linux-yocto/.:
 
-    81bdce5b5876 tick/nohz: WARN_ON --> WARN_ON_ONCE to prevent console saturation
-    97c963889222 sched/isolation: really align nohz_full with rcu_nocbs
+    6ca1d510a03 features/tpm: split into tpm-1.2, tpm-2.0, tpm-2.0-crb and vtpm feature
 
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 11de5ad0cfee5bf8bcdd28da6b27447280add2cf)
+(cherry picked from commit b61be908468b1057a9d2baf40c1ebfbbd74732b8)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  2 +-
- .../linux/linux-yocto-tiny_5.10.bb            |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 20 +++++++++----------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 8b10988438..4d75cf1b21 100644
+index 4d75cf1b21..a35e80940e 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+@@ -12,7 +12,7 @@ python () {
  }
  
--SRCREV_machine ?= "abd24ddc62072fcc5ecf12cf8feadd2e6fda59bd"
-+SRCREV_machine ?= "e0d87d9831a6e0df20a370adc9aba0d032d91661"
- SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
+ SRCREV_machine ?= "e0d87d9831a6e0df20a370adc9aba0d032d91661"
+-SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
++SRCREV_meta ?= "b814c7ebf2a92fc361bcbeaf6efdd40b8cd0816a"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 8564b5becf..8227d5d8cc 100644
+index 8227d5d8cc..45cfd90e0a 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "682b9a24accb1e3a305957dec28f7f565db95369"
--SRCREV_machine ?= "5e844e753c3e1f153af9dfee6b88e5dc1e57f30f"
-+SRCREV_machine_qemuarm ?= "38f8b1b5b87959e6cb9367151e233d27befe015d"
-+SRCREV_machine ?= "cc70f051e56005acda2e6ea994cadfb2538e66f6"
- SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
+ SRCREV_machine_qemuarm ?= "38f8b1b5b87959e6cb9367151e233d27befe015d"
+ SRCREV_machine ?= "cc70f051e56005acda2e6ea994cadfb2538e66f6"
+-SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
++SRCREV_meta ?= "b814c7ebf2a92fc361bcbeaf6efdd40b8cd0816a"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 2e12654fec..5a4939cf36 100644
+index 5a4939cf36..fdc985af13 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,16 +13,16 @@ KBRANCH_qemux86  ?= "v5.10/standard/base"
- KBRANCH_qemux86-64 ?= "v5.10/standard/base"
- KBRANCH_qemumips64 ?= "v5.10/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "56cfcfb12870782355bacaf8bcde9e268f422140"
--SRCREV_machine_qemuarm64 ?= "3aab5bb12bc180d582a6f82e4a085f45a7b0c283"
--SRCREV_machine_qemumips ?= "d76ec4c19a876a3235567ab2cee2e33f2875f79a"
--SRCREV_machine_qemuppc ?= "513a8885de593e8b1f3c24595c015bb9b1d55563"
--SRCREV_machine_qemuriscv64 ?= "de1b3b1aef1a5c3dec0676e152f6801e1cc309e5"
--SRCREV_machine_qemuriscv32 ?= "de1b3b1aef1a5c3dec0676e152f6801e1cc309e5"
--SRCREV_machine_qemux86 ?= "de1b3b1aef1a5c3dec0676e152f6801e1cc309e5"
--SRCREV_machine_qemux86-64 ?= "de1b3b1aef1a5c3dec0676e152f6801e1cc309e5"
--SRCREV_machine_qemumips64 ?= "b63b87635569c07343f25194abf008f1e27c0bca"
--SRCREV_machine ?= "de1b3b1aef1a5c3dec0676e152f6801e1cc309e5"
-+SRCREV_machine_qemuarm ?= "74469c4b03f62e4b4da066e52785ed74b1d121ae"
-+SRCREV_machine_qemuarm64 ?= "69f185342f516efa8a9233e31d2c3f8356b3a388"
-+SRCREV_machine_qemumips ?= "d97607700b2fba19af10b2110b99c448ed9a88e9"
-+SRCREV_machine_qemuppc ?= "090085d4bb6181c3b972d82c9f8f7ed88c90ad6b"
-+SRCREV_machine_qemuriscv64 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
-+SRCREV_machine_qemuriscv32 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
-+SRCREV_machine_qemux86 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
-+SRCREV_machine_qemux86-64 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
-+SRCREV_machine_qemumips64 ?= "a1b43f69bce61143dd4d6d637f619eadd3fabb6e"
-+SRCREV_machine ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
- SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
+@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
+ SRCREV_machine_qemux86-64 ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
+ SRCREV_machine_qemumips64 ?= "a1b43f69bce61143dd4d6d637f619eadd3fabb6e"
+ SRCREV_machine ?= "e6c8ebd210a2ab7817618bb4c518d69d35d16cf7"
+-SRCREV_meta ?= "792f1272dd0d68d5dba0ff35949b2094f818227e"
++SRCREV_meta ?= "b814c7ebf2a92fc361bcbeaf6efdd40b8cd0816a"
  
  # remap qemuarm to qemuarma15 for the 5.8 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
 2.35.1
 
