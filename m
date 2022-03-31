@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F09C4167B
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 13:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 248C4C4167D
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 13:48:01 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web12.7266.1648734472624914593
+ by mx.groups.io with SMTP id smtpd.web09.7233.1648734479272585759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 06:47:52 -0700
+ Thu, 31 Mar 2022 06:48:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=fouIwGlJ;
+ header.b=BC7zpTLz;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648734472; x=1680270472;
+  t=1648734480; x=1680270480;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=F7Y7HBPpy5a/+XafExrh2lWpUDVS5wFy7qElkvunQt0=;
-  b=fouIwGlJARHFj2YDJZsxisOnsOGZX+15+ISxNmgTuTpSSME3d7/qrXBu
-   eDM0K7QzkxFe1bqrv1QmMAZw3pz33sen0giopN/n0m9TlAazpnHhwm9vG
-   IUTrqxe0A2aGpmFFzB6bZxOfrrbjqXq9YWUZbDChAE0iQcW5qTXs4S8q9
-   srx7PXjtf9mVcs4FYrDL0Tl8Aic3gMb7sRc1+iX5phlNeBlqA0RiZ4iSS
-   a88FUNt1KeAFNgF0Er9PzURfCulfGFWYchYtXtpWJe4n++F1Eq+iOSByX
-   rL0gR6wS5ROtwKBzkLGUNMib+DHO66xdC8HbGxi+vsJgCeMkgAwtm6mCd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551789"
+  bh=b86zlULFDWpxfXj7kA28J7BKMY+sH3IRqpMGCQ+Hufw=;
+  b=BC7zpTLzPk9DFyAaCYhQXBlETkxW8lz35uruBbAUV3b6YdQm0rkgASUG
+   vZOAhn2zVP6r5+dgX6DEKNnjim4rK7clhT+JBE+RB97UO/Yf4Z37IhPzh
+   FAcMjH7a5FH25WnThYe+ipDBuUBUlvdjLvetQKA22iG2WuE6gcok7paCB
+   070K/w06EaR/gGxQJGlvEnXhyXE7iCJPuEDl40PIvi+F9wL92CpAv//sD
+   mkjbr9h5+F4RDfZu56Zf7RfPWdRNMGvsQdmuGFeVOCGi7+MKd30M7WETj
+   vZR1bhIh37p6Ov8xFiCm0QZRr7qwb/QAHUjV8REb72TB6VqVnh+2yzRrL
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551876"
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="259551789"
+   d="scan'208";a="259551876"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:38 -0700
+ 31 Mar 2022 06:48:00 -0700
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="520542110"
+   d="scan'208";a="520542338"
 Received: from scho7-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.239.39])
   by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:37 -0700
+ 31 Mar 2022 06:47:58 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 05/20] zip: modify when match.S is built
-Date: Thu, 31 Mar 2022 21:47:10 +0800
+Subject: [hardknott][PATCH 18/20] python3-numpy: fix CVE-2021-41496
+Date: Thu, 31 Mar 2022 21:47:23 +0800
 Message-Id: 
- <0a5d1b1c617a152559c18ada394827de0db6031a.1648734169.git.anuj.mittal@intel.com>
+ <9a69897f464432e0b6ef9b8ad5d8110d78a1162a.1648734169.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1648734169.git.anuj.mittal@intel.com>
 References: <cover.1648734169.git.anuj.mittal@intel.com>
@@ -52,133 +52,106 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 13:48:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 13:48:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163817
+ https://lists.openembedded.org/g/openembedded-core/message/163832
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Avoid generating non-PIC code.
+Backport patch [1] to fix CVE-2021-41496.
 
-The patches are taken from master 58b16da805... but we cannot
-cherry-pick because zip_3.0.bb context is different.
+[1] https://github.com/numpy/numpy/commit/271010f1037150e95017f803f4214b8861e528f2
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../0001-configure-use-correct-CPP.patch      | 47 +++++++++++++++++++
- ...002-configure-support-PIC-code-build.patch | 34 ++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  2 +
- 3 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
+ .../python-numpy/files/CVE-2021-41496.patch   | 64 +++++++++++++++++++
+ .../python-numpy/python3-numpy_1.20.1.bb      |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch b/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
+diff --git a/meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch b/meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch
 new file mode 100644
-index 0000000000..02253f968c
+index 0000000000..0afc79ae0d
 --- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
-@@ -0,0 +1,47 @@
-+From 7a2729ee7f5d9b9d4a0d9b83fe641a2ab03c4ee0 Mon Sep 17 00:00:00 2001
-+From: Joe Slater <joe.slater@windriver.com>
-+Date: Thu, 24 Feb 2022 17:36:59 -0800
-+Subject: [PATCH 1/2] configure: use correct CPP
++++ b/meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch
+@@ -0,0 +1,64 @@
++From 86d81322c5c0ab67f89d64f56f6e77d4fe185910 Mon Sep 17 00:00:00 2001
++From: Warren Weckesser <warren.weckesser@gmail.com>
++Date: Tue, 29 Mar 2022 15:58:00 +0800
++Subject: [PATCH] BUG: f2py: Simplify creation of an exception message. Closes
++ gh-19000.
 +
-+configure uses CPP to test that two assembler routines
-+can be built. Unfortunately, it will use /usr/bin/cpp
-+if it exists, invalidating the tests.  We use the $CC
-+passed to configure.
++CVE: CVE-2021-41496
 +
-+Upstream-Status: Inappropriate [openembedded specific]
++Upstream-Status: Backport [https://github.com/numpy/numpy/commit/271010f1037150e95017f803f4214b8861e528f2]
 +
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ unix/configure | 15 +++++++++------
-+ 1 file changed, 9 insertions(+), 6 deletions(-)
++ numpy/f2py/src/fortranobject.c | 26 ++++++++++++--------------
++ 1 file changed, 12 insertions(+), 14 deletions(-)
 +
-+diff --git a/unix/configure b/unix/configure
-+index 73ba803..7e21070 100644
-+--- a/unix/configure
-++++ b/unix/configure
-+@@ -220,13 +220,16 @@ fi
-+ echo Check for the C preprocessor
-+ # on SVR4, cc -E does not produce correct assembler files. Need /lib/cpp.
-+ CPP="${CC} -E"
-++
-++# We should not change CPP for yocto builds.
-++#
-+ # solaris as(1) needs -P, maybe others as well ?
-+-[ -f /usr/ccs/lib/cpp ] && CPP="/usr/ccs/lib/cpp -P"
-+-[ -f /usr/lib/cpp ] && CPP=/usr/lib/cpp
-+-[ -f /lib/cpp ] && CPP=/lib/cpp
-+-[ -f /usr/bin/cpp ] && CPP=/usr/bin/cpp
-+-[ -f /xenix ] && CPP="${CC} -E"
-+-[ -f /lynx.os ] && CPP="${CC} -E"
-++# [ -f /usr/ccs/lib/cpp ] && CPP="/usr/ccs/lib/cpp -P"
-++# [ -f /usr/lib/cpp ] && CPP=/usr/lib/cpp
-++# [ -f /lib/cpp ] && CPP=/lib/cpp
-++# [ -f /usr/bin/cpp ] && CPP=/usr/bin/cpp
-++# [ -f /xenix ] && CPP="${CC} -E"
-++# [ -f /lynx.os ] && CPP="${CC} -E"
++diff --git a/numpy/f2py/src/fortranobject.c b/numpy/f2py/src/fortranobject.c
++index 3275f90..85c9c7f 100644
++--- a/numpy/f2py/src/fortranobject.c
+++++ b/numpy/f2py/src/fortranobject.c
++@@ -637,14 +637,14 @@ static int check_and_fix_dimensions(const PyArrayObject* arr,
++                                     npy_intp *dims);
 + 
-+ echo "#include <stdio.h>" > conftest.c
-+ $CPP conftest.c >/dev/null 2>/dev/null || CPP="${CC} -E"
++ static int
++-count_negative_dimensions(const int rank,
+++find_first_negative_dimension(const int rank,
++                           const npy_intp *dims) {
++-    int i=0,r=0;
++-    while (i<rank) {
++-        if (dims[i] < 0) ++r;
++-        ++i;
+++    for (int i = 0; i < rank; ++i) {
+++        if (dims[i] < 0) {
+++            return i;
+++        }
++     }
++-    return r;
+++    return -1;
++ }
++ 
++ #ifdef DEBUG_COPY_ND_ARRAY
++@@ -721,14 +721,12 @@ PyArrayObject* array_from_pyobj(const int type_num,
++         || ((intent & F2PY_OPTIONAL) && (obj==Py_None))
++         ) {
++         /* intent(cache), optional, intent(hide) */
++-        if (count_negative_dimensions(rank,dims) > 0) {
++-            int i;
++-            strcpy(mess, "failed to create intent(cache|hide)|optional array"
++-                   "-- must have defined dimensions but got (");
++-            for(i=0;i<rank;++i)
++-                sprintf(mess+strlen(mess),"%" NPY_INTP_FMT ",",dims[i]);
++-            strcat(mess, ")");
++-            PyErr_SetString(PyExc_ValueError,mess);
+++        int i = find_first_negative_dimension(rank, dims);
+++        if (i >= 0) {
+++            PyErr_Format(PyExc_ValueError,
+++                         "failed to create intent(cache|hide)|optional array"
+++                         " -- must have defined dimensions, but dims[%d] = %"
+++                         NPY_INTP_FMT, i, dims[i]);
++             return NULL;
++         }
++         arr = (PyArrayObject *)
 +-- 
-+2.24.1
++2.25.1
 +
-diff --git a/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch b/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
-new file mode 100644
-index 0000000000..6e0879616a
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
-@@ -0,0 +1,34 @@
-+From b0492506d2c28581193906e9d260d4f0451e2c39 Mon Sep 17 00:00:00 2001
-+From: Joe Slater <joe.slater@windriver.com>
-+Date: Thu, 24 Feb 2022 17:46:03 -0800
-+Subject: [PATCH 2/2] configure: support PIC code build
-+
-+Disable building match.S. The code requires
-+relocation in .text.
-+
-+Upstream-Status: Inappropriate [openembedded specific]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ unix/configure | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/unix/configure b/unix/configure
-+index 7e21070..1bc698b 100644
-+--- a/unix/configure
-++++ b/unix/configure
-+@@ -242,8 +242,9 @@ if eval "$CPP match.S > _match.s 2>/dev/null"; then
-+   if test ! -s _match.s || grep error < _match.s > /dev/null; then
-+     :
-+   elif eval "$CC -c _match.s >/dev/null 2>/dev/null" && [ -f _match.o ]; then
-+-    CFLAGS="${CFLAGS} -DASMV"
-+-    OBJA="match.o"
-++    # disable match.S for PIC code
-++    # CFLAGS="${CFLAGS} -DASMV"
-++    # OBJA="match.o"
-+     echo "int foo() { return 0;}" > conftest.c
-+     $CC -c conftest.c >/dev/null 2>/dev/null
-+     echo Check if compiler generates underlines
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 18b5d8648e..f8e0b6e259 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -14,6 +14,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://fix-security-format.patch \
-            file://10-remove-build-date.patch \
-            file://zipnote-crashes-with-segfault.patch \
-+           file://0001-configure-use-correct-CPP.patch \
-+           file://0002-configure-support-PIC-code-build.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
+index 6c3b886782..9e55e74d2c 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.20.1.bb
+@@ -10,6 +10,7 @@ SRCNAME = "numpy"
+ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
++           file://CVE-2021-41496.patch \
+            file://run-ptest \
+ "
+ SRC_URI[sha256sum] = "9bf51d69ebb4ca9239e55bedc2185fe2c0ec222da0adee7ece4125414676846d"
 -- 
 2.35.1
 
