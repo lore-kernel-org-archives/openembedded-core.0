@@ -2,48 +2,51 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A2EC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A55EC43219
 	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 13:47:55 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web11.7229.1648734469557928964
+ by mx.groups.io with SMTP id smtpd.web12.7266.1648734472624914593
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 06:47:54 -0700
+ Thu, 31 Mar 2022 06:47:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=a99NkNkL;
+ header.b=k+TgZ6hP;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648734469; x=1680270469;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=D+HcUrHxAzA4kasZhgSz4mAMOEgCUDcifNa4apEfrTk=;
-  b=a99NkNkLUlKB7TDZWhzCkdkSrUiARcvqyBwGgRVHsUoKnF1T2eBksMnx
-   DGKph5+vbT4j1C5uXGD9DOlz5kc0pttJhrhqJEX4798roR9+S2yZcQ8dY
-   e+AHYu9vOmXprw+FqWfXwRF5txi/pib/orWqbmIzyGWAeVCasGG196RN8
-   PRGqg8JJWjLYnHSJFM/GTZiedPdMormQHVNvZoYW/wrKEGImbddURF1MT
-   Lj1qmendBH2sXp0jfapa93l7p5qjrYoGzjpTHhxrihWTkuFbWFayt55lg
-   Z70dQxKq3per3ZTThq3f3Y9GXM20nFWWr8oql3jd9sdH9rkUOmS9oJt8K
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551767"
+  t=1648734473; x=1680270473;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=LQOqclfPh8FGbX15fmB3CUL+CvOOWQ+1LOZPLzJPXLQ=;
+  b=k+TgZ6hP8B3ilQUEVnI/nfkQjg2KDww2d7Tw3vrb7zhMvCoq2bcY5iAL
+   veNKj4K8wCJ/tzjIxI+UW7og4myL0lq+aeOiU0nu5x782gyKZAQBoXgN1
+   VdjiIkwCrnQ94uf5ytoU8Xs05oYRSBQ80+IwBte4hjxat10LnvBPBHZlx
+   t1v5i0TexXub0qUOr5gRI3RRCNGhgNVmnFmcWUyW/8AkB4iq/jBHb74Lo
+   IK9RcaB7OO22PhVgzUxoRTICzB/tL7xMYew5XaDwxXwxPZcKFPxIMoEHH
+   sDGd+ckVg+oaHuKtDwij9ufGtoxiwpUOFV8RyTWnzV0TIQdKHsXx4v1UA
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551808"
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="259551767"
+   d="scan'208";a="259551808"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:30 -0700
+ 31 Mar 2022 06:47:42 -0700
 X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="520542046"
+   d="scan'208";a="520542162"
 Received: from scho7-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.215.239.39])
   by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:47:29 -0700
+ 31 Mar 2022 06:47:41 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/20] Patch review
-Date: Thu, 31 Mar 2022 21:47:05 +0800
-Message-Id: <cover.1648734169.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 08/20] linux-firmware: upgrade 20220209 -> 20220310
+Date: Thu, 31 Mar 2022 21:47:13 +0800
+Message-Id: 
+ <ecd1588acb1ef4eefdaecb6108f6b1b50a35682f.1648734169.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1648734169.git.anuj.mittal@intel.com>
+References: <cover.1648734169.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -51,123 +54,58 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 13:47:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163823
+ https://lists.openembedded.org/g/openembedded-core/message/163820
 
-Final set of changes before 3.3.6 is built. Please review.
+From: wangmy <wangmy@fujitsu.com>
 
-No issues seen while testing on autobuilder:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3452
+License-Update:
+ year updated to 2022
+ Version of some driver files updated
+ Added files for some drivers
 
-Thanks,
-
-Anuj
-
-The following changes since commit bcef80623f015c006778edee5cf40dad063e51db:
-
-  wic: Use custom kernel path if provided (2022-03-15 23:00:09 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/hardknott
-
-Alexander Kanavin (1):
-  mobile-broadband-provider-info: upgrade 20201225 -> 20210805
-
-Anuj Mittal (1):
-  lttng-modules: upgrade 2.12.7 -> 2.12.8
-
-Bruce Ashfield (5):
-  linux-yocto: nohz_full boot arg fix
-  linux-yocto/5.10: split vtpm for more granular inclusion
-  linux-yocto/5.10: cfg/debug: add configs for kcsan
-  linux-yocto-rt/5.10: update to -rt61
-  linux-yocto/5.10: update to v5.10.107
-
-Changhyeok Bae (1):
-  mobile-broadband-provider-info: upgrade 20210805 -> 20220315
-
-Chee Yang Lee (2):
-  webkitgtk : update to 2.30.6
-  go: update to 1.16.15
-
-Joe Slater (2):
-  libxml2: Fix CVE-2022-23308
-  zip: modify when match.S is built
-
-Li Wang (1):
-  flac: fix CVE-2021-0561
-
-Mingli Yu (2):
-  epiphany: fix CVEs
-  python3-numpy: fix CVE-2021-41496
-
-Minjae Kim (2):
-  gnu-config: update SRC_URI
-  virglrenderer: update SRC_URI
-
-Ovidiu Panait (1):
-  openssl: upgrade 1.1.1l -> 1.1.1n
-
-Ross Burton (1):
-  zlib: backport the fix for CVE-2018-25032
-
-wangmy (1):
-  linux-firmware: upgrade 20220209 -> 20220310
-
- .../mobile-broadband-provider-info_git.bb     |   7 +-
- .../{openssl_1.1.1l.bb => openssl_1.1.1n.bb}  |   3 +-
- .../CVE-2022-23308-fix-regression.patch       |  99 +++
- .../libxml/libxml2/CVE-2022-23308.patch       | 209 ++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |   2 +
- .../zlib/zlib/CVE-2018-25032.patch            | 347 +++++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- .../gnu-config/gnu-config_git.bb              |   2 +-
- .../go/{go-1.16.14.inc => go-1.16.15.inc}     |   4 +-
- ...1.16.14.bb => go-binary-native_1.16.15.bb} |   4 +-
- ....16.14.bb => go-cross-canadian_1.16.15.bb} |   0
- ...o-cross_1.16.14.bb => go-cross_1.16.15.bb} |   0
- ...ssdk_1.16.14.bb => go-crosssdk_1.16.15.bb} |   0
- ...native_1.16.14.bb => go-native_1.16.15.bb} |   0
- ...ntime_1.16.14.bb => go-runtime_1.16.15.bb} |   0
- .../go/{go_1.16.14.bb => go_1.16.15.bb}       |   0
- .../python-numpy/files/CVE-2021-41496.patch   |  64 ++
- .../python-numpy/python3-numpy_1.20.1.bb      |   1 +
- .../0001-configure-use-correct-CPP.patch      |  47 ++
- ...002-configure-support-PIC-code-build.patch |  34 +
- meta/recipes-extended/zip/zip_3.0.bb          |   2 +
- .../recipes-gnome/epiphany/epiphany_3.38.2.bb |   1 +
- .../files/encode-untrusted-data.patch         | 707 ++++++++++++++++++
- .../virglrenderer/virglrenderer_0.8.2.bb      |   2 +-
- ...20220209.bb => linux-firmware_20220310.bb} |   6 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- ...ules_2.12.7.bb => lttng-modules_2.12.8.bb} |   2 +-
- .../flac/flac/CVE-2021-0561.patch             |  41 +
- meta/recipes-multimedia/flac/flac_1.3.3.bb    |   1 +
- ...ebkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb} |   2 +-
- 32 files changed, 1592 insertions(+), 34 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1n.bb} (98%)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
- rename meta/recipes-devtools/go/{go-1.16.14.inc => go-1.16.15.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.14.bb => go-binary-native_1.16.15.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.14.bb => go-cross-canadian_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.14.bb => go-cross_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.14.bb => go-crosssdk_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.14.bb => go-native_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.14.bb => go-runtime_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.14.bb => go_1.16.15.bb} (100%)
- create mode 100644 meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit be1b1d204c89035c54a626db46c5054e553b82c2)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ ...inux-firmware_20220209.bb => linux-firmware_20220310.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220209.bb => linux-firmware_20220310.bb} (99%)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.12.7.bb => lttng-modules_2.12.8.bb} (94%)
- create mode 100644 meta/recipes-multimedia/flac/flac/CVE-2021-0561.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb} (98%)
 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220209.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220209.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
+index 9cb357fa90..7a6cb1903b 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220209.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
+@@ -72,7 +72,7 @@ LICENSE = "\
+ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+-                    file://LICENSE.amdgpu;md5=d357524f5099e2a3db3c1838921c593f \
++                    file://LICENSE.amdgpu;md5=44c1166d052226cb2d6c8d7400090203 \
+                     file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f \
+                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
+                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=ed3d7426e4df06fbadcca24ebf00cc5f \
++                    file://WHENCE;md5=45a9c4a92d152e9495db81e1192f2bdc \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -205,7 +205,7 @@ PE = "1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "e2e46fa618414952bbf2f6920cd3abcddbef45bfb7d1352994b4bfc35394d177"
++SRC_URI[sha256sum] = "5938ee717b2023b48f6bfcf344b40ddc947e3e22c0bc36d4c3418f90fea68182"
+ 
+ inherit allarch
+ 
 -- 
 2.35.1
 
