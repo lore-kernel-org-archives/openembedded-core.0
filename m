@@ -2,12 +2,12 @@ Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F260C433F5
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 05:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CAEC433F5
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 05:52:00 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web11.3759.1648705911761586087
+ by mx.groups.io with SMTP id smtpd.web10.3781.1648705909100893142
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 22:51:51 -0700
+ Wed, 30 Mar 2022 22:51:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
@@ -16,211 +16,293 @@ Authentication-Results: mx.groups.io;
  mailfrom: kai.kang@windriver.com)
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 22V5pnY7018527
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 22V5pkNe018521
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Mar 2022 22:51:49 -0700
+ Wed, 30 Mar 2022 22:51:46 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 30 Mar 2022 22:51:48 -0700
+ 15.1.2242.12; Wed, 30 Mar 2022 22:51:46 -0700
 Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 30 Mar 2022 22:51:47 -0700
+ 15.1.2242.12 via Frontend Transport; Wed, 30 Mar 2022 22:51:45 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH 3/3] expat: fix CVE-2022-25315
-Date: Thu, 31 Mar 2022 13:51:39 +0800
-Message-ID: <20220331055139.1975-3-kai.kang@windriver.com>
+Subject: [hardknott][PATCH 1/3] expat: fix CVE-2022-25313
+Date: Thu, 31 Mar 2022 13:51:37 +0800
+Message-ID: <20220331055139.1975-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220331055139.1975-1-kai.kang@windriver.com>
-References: <20220331055139.1975-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 05:51:55 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 05:52:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163803
+ https://lists.openembedded.org/g/openembedded-core/message/163801
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Backport patch to fix CVE-2022-25315.
+Backport patch to fix CVE-2022-25313.
 
-CVE: CVE-2022-25315
+CVE: CVE-2022-25313
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../expat/expat/CVE-2022-25315.patch          | 149 ++++++++++++++++++
+ .../expat/expat/CVE-2022-25313.patch          | 233 ++++++++++++++++++
  meta/recipes-core/expat/expat_2.2.10.bb       |   1 +
- 2 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25315.patch
+ 2 files changed, 234 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2022-25313.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2022-25315.patch b/meta/recipes-core/expat/expat/CVE-2022-25315.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2022-25313.patch b/meta/recipes-core/expat/expat/CVE-2022-25313.patch
 new file mode 100644
-index 0000000000..24e04dac71
+index 0000000000..569324303e
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2022-25315.patch
-@@ -0,0 +1,149 @@
-+CVE: CVE-2022-25315
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/eb036280]
++++ b/meta/recipes-core/expat/expat/CVE-2022-25313.patch
+@@ -0,0 +1,233 @@
++CVE: CVE-2022-25313
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/9b4ce651]
 +
 +Ref:
-+* https://github.com/libexpat/libexpat/pull/559
++* https://github.com/libexpat/libexpat/pull/558
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
-+From eb0362808b4f9f1e2345a0cf203b8cc196d776d9 Mon Sep 17 00:00:00 2001
++From 9b4ce651b26557f16103c3a366c91934ecd439ab Mon Sep 17 00:00:00 2001
 +From: Samanta Navarro <ferivoz@riseup.net>
-+Date: Tue, 15 Feb 2022 11:55:46 +0000
-+Subject: [PATCH] Prevent integer overflow in storeRawNames
++Date: Tue, 15 Feb 2022 11:54:29 +0000
++Subject: [PATCH] Prevent stack exhaustion in build_model
 +
-+It is possible to use an integer overflow in storeRawNames for out of
-+boundary heap writes. Default configuration is affected. If compiled
-+with XML_UNICODE then the attack does not work. Compiling with
-+-fsanitize=address confirms the following proof of concept.
++It is possible to trigger stack exhaustion in build_model function if
++depth of nested children in DTD element is large enough. This happens
++because build_node is a recursively called function within build_model.
 +
-+The problem can be exploited by abusing the m_buffer expansion logic.
-+Even though the initial size of m_buffer is a power of two, eventually
-+it can end up a little bit lower, thus allowing allocations very close
-+to INT_MAX (since INT_MAX/2 can be surpassed). This means that tag
-+names can be parsed which are almost INT_MAX in size.
++The code has been adjusted to run iteratively. It uses the already
++allocated heap space as temporary stack (growing from top to bottom).
 +
-+Unfortunately (from an attacker point of view) INT_MAX/2 is also a
-+limitation in string pools. Having a tag name of INT_MAX/2 characters
-+or more is not possible.
++Output is identical to recursive version. No new fields in data
++structures were added, i.e. it keeps full API and ABI compatibility.
++Instead the numchildren variable is used to temporarily keep the
++index of items (uint vs int).
 +
-+Expat can convert between different encodings. UTF-16 documents which
-+contain only ASCII representable characters are twice as large as their
-+ASCII encoded counter-parts.
-+
-+The proof of concept works by taking these three considerations into
-+account:
-+
-+1. Move the m_buffer size slightly below a power of two by having a
-+   short root node <a>. This allows the m_buffer to grow very close
-+   to INT_MAX.
-+2. The string pooling forbids tag names longer than or equal to
-+   INT_MAX/2, so keep the attack tag name smaller than that.
-+3. To be able to still overflow INT_MAX even though the name is
-+   limited at INT_MAX/2-1 (nul byte) we use UTF-16 encoding and a tag
-+   which only contains ASCII characters. UTF-16 always stores two
-+   bytes per character while the tag name is converted to using only
-+   one. Our attack node byte count must be a bit higher than
-+   2/3 INT_MAX so the converted tag name is around INT_MAX/3 which
-+   in sum can overflow INT_MAX.
-+
-+Thanks to our small root node, m_buffer can handle 2/3 INT_MAX bytes
-+without running into INT_MAX boundary check. The string pooling is
-+able to store INT_MAX/3 as tag name because the amount is below
-+INT_MAX/2 limitation. And creating the sum of both eventually overflows
-+in storeRawNames.
++Documentation and readability improvements kindly added by Sebastian.
 +
 +Proof of Concept:
 +
-+1. Compile expat with -fsanitize=address.
-+
-+2. Create Proof of Concept binary which iterates through input
-+   file 16 MB at once for better performance and easier integer
-+   calculations:
++1. Compile poc binary which parses XML file line by line
 +
 +```
 +cat > poc.c << EOF
 + #include <err.h>
 + #include <expat.h>
-+ #include <stdlib.h>
 + #include <stdio.h>
 +
-+ #define CHUNK (16 * 1024 * 1024)
-+ int main(int argc, char *argv[]) {
-+   XML_Parser parser;
-+   FILE *fp;
-+   char *buf;
-+   int i;
++ XML_Parser parser;
 +
++ static void XMLCALL
++ dummy_element_decl_handler(void *userData, const XML_Char *name,
++                            XML_Content *model) {
++   XML_FreeContentModel(parser, model);
++ }
++
++ int main(int argc, char *argv[]) {
++   FILE *fp;
++   char *p = NULL;
++   size_t s = 0;
++   ssize_t l;
 +   if (argc != 2)
-+     errx(1, "usage: poc file.xml");
++     errx(1, "usage: poc poc.xml");
 +   if ((parser = XML_ParserCreate(NULL)) == NULL)
-+     errx(1, "failed to create expat parser");
-+   if ((fp = fopen(argv[1], "r")) == NULL) {
-+     XML_ParserFree(parser);
-+     err(1, "failed to open file");
-+   }
-+   if ((buf = malloc(CHUNK)) == NULL) {
-+     fclose(fp);
-+     XML_ParserFree(parser);
-+     err(1, "failed to allocate buffer");
-+   }
-+   i = 0;
-+   while (fread(buf, CHUNK, 1, fp) == 1) {
-+     printf("iteration %d: XML_Parse returns %d\n", ++i,
-+       XML_Parse(parser, buf, CHUNK, XML_FALSE));
-+   }
-+   free(buf);
-+   fclose(fp);
++     errx(1, "XML_ParserCreate");
++   XML_SetElementDeclHandler(parser, dummy_element_decl_handler);
++   if ((fp = fopen(argv[1], "r")) == NULL)
++     err(1, "fopen");
++   while ((l = getline(&p, &s, fp)) > 0)
++     if (XML_Parse(parser, p, (int)l, XML_FALSE) != XML_STATUS_OK)
++       errx(1, "XML_Parse");
 +   XML_ParserFree(parser);
++   free(p);
++   fclose(fp);
 +   return 0;
 + }
 +EOF
-+gcc -fsanitize=address -lexpat -o poc poc.c
++cc -std=c11 -D_POSIX_C_SOURCE=200809L -lexpat -o poc poc.c
 +```
 +
-+3. Construct specially prepared UTF-16 XML file:
++2. Create XML file with a lot of nested groups in DTD element
 +
 +```
-+dd if=/dev/zero bs=1024 count=794624 | tr '\0' 'a' > poc-utf8.xml
-+echo -n '<a><' | dd conv=notrunc of=poc-utf8.xml
-+echo -n '><' | dd conv=notrunc of=poc-utf8.xml bs=1 seek=805306368
-+iconv -f UTF-8 -t UTF-16LE poc-utf8.xml > poc-utf16.xml
++cat > poc.xml.zst.b64 << EOF
++KLUv/aQkACAAPAEA+DwhRE9DVFlQRSB1d3UgWwo8IUVMRU1FTlQgdXd1CigBAHv/58AJAgAQKAIA
++ECgCABAoAgAQKAIAECgCABAoAgAQKHwAAChvd28KKQIA2/8gV24XBAIAECkCABApAgAQKQIAECkC
++ABApAgAQKQIAEClVAAAgPl0+CgEA4A4I2VwwnQ==
++EOF
++base64 -d poc.xml.zst.b64 | zstd -d > poc.xml
 +```
 +
-+4. Run proof of concept:
++3. Run Proof of Concept
 +
 +```
-+./poc poc-utf16.xml
++./poc poc.xml
 +```
++
++Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
 +---
-+ expat/lib/xmlparse.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ expat/lib/xmlparse.c | 116 +++++++++++++++++++++++++++++--------------
++ 1 file changed, 79 insertions(+), 37 deletions(-)
 +
 +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-+index 4b43e613..f34d6ab5 100644
++index 4b43e613..594cf12c 100644
 +--- a/lib/xmlparse.c
 ++++ b/lib/xmlparse.c
-+@@ -2563,6 +2563,7 @@ storeRawNames(XML_Parser parser) {
-+   while (tag) {
-+     int bufSize;
-+     int nameLen = sizeof(XML_Char) * (tag->name.strLen + 1);
-++    size_t rawNameLen;
-+     char *rawNameBuf = tag->buf + nameLen;
-+     /* Stop if already stored.  Since m_tagStack is a stack, we can stop
-+        at the first entry that has already been copied; everything
-+@@ -2574,7 +2575,11 @@ storeRawNames(XML_Parser parser) {
-+     /* For re-use purposes we need to ensure that the
-+        size of tag->buf is a multiple of sizeof(XML_Char).
-+     */
-+-    bufSize = nameLen + ROUND_UP(tag->rawNameLength, sizeof(XML_Char));
-++    rawNameLen = ROUND_UP(tag->rawNameLength, sizeof(XML_Char));
-++    /* Detect and prevent integer overflow. */
-++    if (rawNameLen > (size_t)INT_MAX - nameLen)
-++      return XML_FALSE;
-++    bufSize = nameLen + (int)rawNameLen;
-+     if (bufSize > tag->bufEnd - tag->buf) {
-+       char *temp = (char *)REALLOC(parser, tag->buf, bufSize);
-+       if (temp == NULL)
++@@ -7317,44 +7317,15 @@ nextScaffoldPart(XML_Parser parser) {
++   return next;
++ }
++ 
++-static void
++-build_node(XML_Parser parser, int src_node, XML_Content *dest,
++-           XML_Content **contpos, XML_Char **strpos) {
++-  DTD *const dtd = parser->m_dtd; /* save one level of indirection */
++-  dest->type = dtd->scaffold[src_node].type;
++-  dest->quant = dtd->scaffold[src_node].quant;
++-  if (dest->type == XML_CTYPE_NAME) {
++-    const XML_Char *src;
++-    dest->name = *strpos;
++-    src = dtd->scaffold[src_node].name;
++-    for (;;) {
++-      *(*strpos)++ = *src;
++-      if (! *src)
++-        break;
++-      src++;
++-    }
++-    dest->numchildren = 0;
++-    dest->children = NULL;
++-  } else {
++-    unsigned int i;
++-    int cn;
++-    dest->numchildren = dtd->scaffold[src_node].childcnt;
++-    dest->children = *contpos;
++-    *contpos += dest->numchildren;
++-    for (i = 0, cn = dtd->scaffold[src_node].firstchild; i < dest->numchildren;
++-         i++, cn = dtd->scaffold[cn].nextsib) {
++-      build_node(parser, cn, &(dest->children[i]), contpos, strpos);
++-    }
++-    dest->name = NULL;
++-  }
++-}
++-
++ static XML_Content *
++ build_model(XML_Parser parser) {
+++  /* Function build_model transforms the existing parser->m_dtd->scaffold
+++   * array of CONTENT_SCAFFOLD tree nodes into a new array of
+++   * XML_Content tree nodes followed by a gapless list of zero-terminated
+++   * strings. */
++   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
++   XML_Content *ret;
++-  XML_Content *cpos;
++-  XML_Char *str;
+++  XML_Char *str; /* the current string writing location */
++ 
++   /* Detect and prevent integer overflow.
++    * The preprocessor guard addresses the "always false" warning
++@@ -7380,10 +7351,81 @@ build_model(XML_Parser parser) {
++   if (! ret)
++     return NULL;
++ 
++-  str = (XML_Char *)(&ret[dtd->scaffCount]);
++-  cpos = &ret[1];
+++  /* What follows is an iterative implementation (of what was previously done
+++   * recursively in a dedicated function called "build_node".  The old recursive
+++   * build_node could be forced into stack exhaustion from input as small as a
+++   * few megabyte, and so that was a security issue.  Hence, a function call
+++   * stack is avoided now by resolving recursion.)
+++   *
+++   * The iterative approach works as follows:
+++   *
+++   * - We use space in the target array for building a temporary stack structure
+++   *   while that space is still unused.
+++   *   The stack grows from the array's end downwards and the "actual data"
+++   *   grows from the start upwards, sequentially.
+++   *   (Because stack grows downwards, pushing onto the stack is a decrement
+++   *   while popping off the stack is an increment.)
+++   *
+++   * - A stack element appears as a regular XML_Content node on the outside,
+++   *   but only uses a single field -- numchildren -- to store the source
+++   *   tree node array index.  These are the breadcrumbs leading the way back
+++   *   during pre-order (node first) depth-first traversal.
+++   *
+++   * - The reason we know the stack will never grow into (or overlap with)
+++   *   the area with data of value at the start of the array is because
+++   *   the overall number of elements to process matches the size of the array,
+++   *   and the sum of fully processed nodes and yet-to-be processed nodes
+++   *   on the stack, cannot be more than the total number of nodes.
+++   *   It is possible for the top of the stack and the about-to-write node
+++   *   to meet, but that is safe because we get the source index out
+++   *   before doing any writes on that node.
+++   */
+++  XML_Content *dest = ret; /* tree node writing location, moves upwards */
+++  XML_Content *const destLimit = &ret[dtd->scaffCount];
+++  XML_Content *const stackBottom = &ret[dtd->scaffCount];
+++  XML_Content *stackTop = stackBottom; /* i.e. stack is initially empty */
+++  str = (XML_Char *)&ret[dtd->scaffCount];
+++
+++  /* Push source tree root node index onto the stack */
+++  (--stackTop)->numchildren = 0;
+++
+++  for (; dest < destLimit; dest++) {
+++    /* Pop source tree node index off the stack */
+++    const int src_node = (int)(stackTop++)->numchildren;
+++
+++    /* Convert item */
+++    dest->type = dtd->scaffold[src_node].type;
+++    dest->quant = dtd->scaffold[src_node].quant;
+++    if (dest->type == XML_CTYPE_NAME) {
+++      const XML_Char *src;
+++      dest->name = str;
+++      src = dtd->scaffold[src_node].name;
+++      for (;;) {
+++        *str++ = *src;
+++        if (! *src)
+++          break;
+++        src++;
+++      }
+++      dest->numchildren = 0;
+++      dest->children = NULL;
+++    } else {
+++      unsigned int i;
+++      int cn;
+++      dest->name = NULL;
+++      dest->numchildren = dtd->scaffold[src_node].childcnt;
+++      dest->children = &dest[1];
+++
+++      /* Push children to the stack
+++       * in a way where the first child ends up at the top of the
+++       * (downwards growing) stack, in order to be processed first. */
+++      stackTop -= dest->numchildren;
+++      for (i = 0, cn = dtd->scaffold[src_node].firstchild;
+++           i < dest->numchildren; i++, cn = dtd->scaffold[cn].nextsib) {
+++        (stackTop + i)->numchildren = (unsigned int)cn;
+++      }
+++    }
+++  }
++ 
++-  build_node(parser, 0, ret, &cpos, &str);
++   return ret;
++ }
++ 
 +-- 
 +2.33.0
 +
 diff --git a/meta/recipes-core/expat/expat_2.2.10.bb b/meta/recipes-core/expat/expat_2.2.10.bb
-index 0ab93bd93d..c8919c7f2f 100644
+index f99fa7edb6..7454718dca 100644
 --- a/meta/recipes-core/expat/expat_2.2.10.bb
 +++ b/meta/recipes-core/expat/expat_2.2.10.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+@@ -20,6 +20,7 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
+            file://CVE-2022-25235.patch \
+            file://CVE-2022-25236-1.patch \
             file://CVE-2022-25236-2.patch \
-            file://CVE-2022-25313.patch \
-            file://CVE-2022-25314.patch \
-+           file://CVE-2022-25315.patch \
++           file://CVE-2022-25313.patch \
             "
  
  UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
