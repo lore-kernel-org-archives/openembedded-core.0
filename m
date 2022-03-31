@@ -2,57 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941B7C433F5
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 11:51:38 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.6030.1648727497368933831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90690C433EF
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 11:51:39 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.6019.1648727498325115896
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 04:51:37 -0700
+ Thu, 31 Mar 2022 04:51:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XqxCdKbK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=asFAiLQU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id h4so33408567wrc.13
+Received: by mail-wr1-f42.google.com with SMTP id b19so33400304wrh.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 04:51:37 -0700 (PDT)
+ Thu, 31 Mar 2022 04:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Wypu3edMpEIvivJ00CJAnuYjanteHTEQ1goK+pTsKdU=;
-        b=XqxCdKbKLFhHBOIkTK6fcFXbmGG73zn4DnrOGZIvOQPxnvvOmF6t4SzEF/iSBAB+QZ
-         CCsrS4kMogL5haeY49qMEpsXKtqmEXbKn9RU1C4/H2oRUzFlLA6BqxoLqYccrtgvSrK9
-         WX2M6Rpv/sy/j07fQvM/abHJLxzcW9We+GEWk=
+        bh=noYQ+sHnUL4rNUybrY0SNqVxDuLrfngHjeHQrIsA95w=;
+        b=asFAiLQUHhBM5khDyHltRiDxplgL5tewN4QyC/LNAra5ewlvvkxl2OKDDWXdo5citL
+         DOkf4Ir4RVlcpfIdOCDqjwhA8DewqiBD1I3UPWyeH2wpdx7lbm+emw/ZW8F8ugQztjL7
+         jqJWF8RLAKoSWQlt98BXSQwhAzzybw4VGW2QE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Wypu3edMpEIvivJ00CJAnuYjanteHTEQ1goK+pTsKdU=;
-        b=CPmPU9dUtNrGUDQdjalYvYovo/1XaZQw+1/tTuq8/f7r+la+ElMpsDPPSIwpyBnMzR
-         Vqkxo/lIy+JqFd1hB3uQDpD0ZpDS1yRL9ALD87tiIMfPWkD07wE3+YFgdHiL9r/bORUU
-         5+DxwC89YYBzHc6Jgw7Xs2Ql1I822WdxOEgn/OYPLZm4prG2qTyaU7Y8Ns8ro/I0aV0Z
-         Ju7Rslh9nSg/IoMdoXW8kX7neZ8jC9hbX+fCuo0x8RpxgR2aPKXE2vwgWUmIM9cHV0lr
-         2hvNdTwIm43RC254eE79Z0i/ksz7Nkf7BXovg1ZxGZTOmVyNkieUjV7JtKt8ZE9UGNqJ
-         wutA==
-X-Gm-Message-State: AOAM530JVBJRfbDLSMCJrgyZQ42ByU3YKPSYIpAygoGxy7E14r0CHyqU
-	58sLiZkFiZsr1IUNq3n8ybxrCuqEa1QkyREa
+        bh=noYQ+sHnUL4rNUybrY0SNqVxDuLrfngHjeHQrIsA95w=;
+        b=qM0hLwzUBvK7Rj8tQpaPeR/aQ5jPXn/6ZySHxT71NrfPRaxBVZXIBpIqaAx79yhpik
+         n2r8CFQUM6QGX7DkMBEWmO+XG5V1wzQiJZOYUylZ3Tn1pBuqSjpDNCEoY0f3HjGbVv8N
+         WMWIIXOjhltAlfPHhj/aVdlydhgTDhXnJYJM8Wyjzg4RtjEau+cnSl55Cdb4ep+fP7za
+         sEGRgfdwl9EcVwN+Anet+C80gYXQJDSfIMD5JhGoqcynhr09k7dK1D/Y7Ndj42bmLS0p
+         FQ6/5BGT5IQV8ZJ639KgtfktV9nnuLD/r3vzFR42ebkS6NPuU8jrKQEBw4punpO8b84W
+         ou6A==
+X-Gm-Message-State: AOAM531Qm2hK3xJwE4JknbWgwL5MPw6m9jlQuiY1DwpgIjRw8xOqWhrY
+	hnNuBSN6aLBsVaIkuSD2zVrUu/VwPIweY63l
 X-Google-Smtp-Source: 
- ABdhPJwDypXdki28cdyS4NJc1trmfIIozh+ukA/B3DYT8Q4ZD4w2Lzw3n25LOVFahhLID41UIibZ1Q==
-X-Received: by 2002:a5d:648f:0:b0:205:dc5e:1493 with SMTP id
- o15-20020a5d648f000000b00205dc5e1493mr3814452wri.373.1648727495035;
+ ABdhPJy6aGFdECEEhwf1bO0jsdYgqDqvarAdp5r1YIxajv4l3nkOLyyu1JceaXUCDNiE3dzQJfG3hw==
+X-Received: by 2002:a05:6000:1ace:b0:203:d465:1a83 with SMTP id
+ i14-20020a0560001ace00b00203d4651a83mr3919841wry.26.1648727495896;
         Thu, 31 Mar 2022 04:51:35 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:6605:7b3b:ef3e:a309])
         by smtp.gmail.com with ESMTPSA id
- i2-20020a05600c354200b0038cb422e3fesm7524023wmq.32.2022.03.31.04.51.33
+ i2-20020a05600c354200b0038cb422e3fesm7524023wmq.32.2022.03.31.04.51.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 04:51:34 -0700 (PDT)
+        Thu, 31 Mar 2022 04:51:35 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] keymaps: Clean up license handling
-Date: Thu, 31 Mar 2022 12:51:30 +0100
-Message-Id: <20220331115131.1565450-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/3] initscripts: Clean up license handling/identifiers
+Date: Thu, 31 Mar 2022 12:51:31 +0100
+Message-Id: <20220331115131.1565450-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220331115131.1565450-1-richard.purdie@linuxfoundation.org>
 References: <20220331115131.1565450-1-richard.purdie@linuxfoundation.org>
@@ -61,25 +61,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 11:51:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 11:51:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163811
+ https://lists.openembedded.org/g/openembedded-core/message/163812
 
-The license is clear, add an SPDX license identification header to the script
+The license is clear, add an SPDX license identification headers to the scripts
 and drop the weird patch, we don't need it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/keymaps/files/GPLv2.patch | 347 ---------------------
- meta/recipes-bsp/keymaps/files/keymap.sh   |   3 +
- meta/recipes-bsp/keymaps/keymaps_1.0.bb    |   5 +-
- 3 files changed, 5 insertions(+), 350 deletions(-)
- delete mode 100644 meta/recipes-bsp/keymaps/files/GPLv2.patch
+ .../initscripts/initscripts-1.0/GPLv2.patch   | 347 ------------------
+ .../initscripts/initscripts-1.0/alignment.sh  |   4 +
+ .../initscripts/initscripts-1.0/banner.sh     |   4 +
+ .../initscripts/initscripts-1.0/bootmisc.sh   |   4 +
+ .../initscripts/initscripts-1.0/checkfs.sh    |   4 +
+ .../initscripts/initscripts-1.0/checkroot.sh  |   4 +
+ .../initscripts/initscripts-1.0/devpts.sh     |   4 +
+ .../initscripts/initscripts-1.0/dmesg.sh      |   4 +
+ .../initscripts/initscripts-1.0/functions     |   3 +
+ .../initscripts/initscripts-1.0/halt          |   4 +
+ .../initscripts/initscripts-1.0/hostname.sh   |   4 +
+ .../initscripts/initscripts-1.0/mountall.sh   |   4 +
+ .../initscripts/initscripts-1.0/mountnfs.sh   |   4 +
+ .../initscripts-1.0/populate-volatile.sh      |   4 +
+ .../initscripts-1.0/read-only-rootfs-hook.sh  |   3 +
+ .../initscripts/initscripts-1.0/reboot        |   4 +
+ .../initscripts/initscripts-1.0/rmnologin.sh  |   4 +
+ .../initscripts/initscripts-1.0/save-rtc.sh   |   4 +
+ .../initscripts/initscripts-1.0/sendsigs      |   4 +
+ .../initscripts/initscripts-1.0/single        |   4 +
+ .../initscripts/initscripts-1.0/sushell       |   3 +
+ .../initscripts/initscripts-1.0/sysfs.sh      |   4 +
+ .../initscripts/initscripts-1.0/umountfs      |   4 +
+ .../initscripts/initscripts-1.0/umountnfs.sh  |   4 +
+ .../initscripts/initscripts-1.0/urandom       |   4 +
+ .../initscripts/initscripts_1.0.bb            |   3 +-
+ 26 files changed, 94 insertions(+), 349 deletions(-)
+ delete mode 100644 meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
 
-diff --git a/meta/recipes-bsp/keymaps/files/GPLv2.patch b/meta/recipes-bsp/keymaps/files/GPLv2.patch
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch b/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
 deleted file mode 100644
 index 1ee8181f128..00000000000
---- a/meta/recipes-bsp/keymaps/files/GPLv2.patch
+--- a/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
 +++ /dev/null
 @@ -1,347 +0,0 @@
 -Upstream-Status: Inappropriate [licensing]
@@ -429,43 +452,338 @@ index 1ee8181f128..00000000000
 -+consider it more useful to permit linking proprietary applications with the
 -+library.  If this is what you want to do, use the GNU Lesser General
 -+Public License instead of this License.
-diff --git a/meta/recipes-bsp/keymaps/files/keymap.sh b/meta/recipes-bsp/keymaps/files/keymap.sh
-index 6ebc634266f..26bda60408e 100755
---- a/meta/recipes-bsp/keymaps/files/keymap.sh
-+++ b/meta/recipes-bsp/keymaps/files/keymap.sh
-@@ -1,6 +1,9 @@
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/alignment.sh b/meta/recipes-core/initscripts/initscripts-1.0/alignment.sh
+index b577b9a03a2..f9eb9fc5ca6 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/alignment.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/alignment.sh
+@@ -1,4 +1,8 @@
  #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides: alignment
+ # Required-Start:    mountkernfs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/banner.sh b/meta/recipes-core/initscripts/initscripts-1.0/banner.sh
+index 9e2b0912528..dd3dd9d4fc2 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/banner.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/banner.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides: banner
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+index 591591f87fd..6068a8c07f6 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/bootmisc.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          bootmisc
+ # Required-Start:    $local_fs mountvirtfs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/checkfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/checkfs.sh
+index 62869451b76..f7a61d8b53e 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/checkfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/checkfs.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          checkfs
+ # Required-Start:    checkroot
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
+index a63e71b7806..1c7057b0f11 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          checkroot
+ # Required-Start:    udev
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/devpts.sh b/meta/recipes-core/initscripts/initscripts-1.0/devpts.sh
+index c6043fb1e62..ad5182d3e1e 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/devpts.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/devpts.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          devpts
+ # Required-Start: udev
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh b/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
+index 2b9eba64cf2..07ee533432c 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/dmesg.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:             dmesg
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
+index 01ad1edd3e0..35aebd4a554 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/functions
++++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+@@ -3,6 +3,9 @@
+ # functions     This file contains functions to be used by most or all
+ #               shell scripts in the /etc/init.d directory.
  #
- # load keymap, if existing
 +#
 +# SPDX-License-Identifier: GPL-2.0-only
 +#
  
- KERNEL_MAJMIN=`uname -r | cut -d '.' -f 1,2`
- if [ -e /etc/keymap-$KERNEL_MAJMIN.map ]; then
-diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-index 020328b3ca6..84d09cb965d 100644
---- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-+++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- RDEPENDS:${PN} = "kbd"
+ NORMAL="\\033[0;39m"         # Standard console grey
+ SUCCESS="\\033[1;32m"        # Success is green
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/halt b/meta/recipes-core/initscripts/initscripts-1.0/halt
+index a56f73421ba..ba967c7650f 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/halt
++++ b/meta/recipes-core/initscripts/initscripts-1.0/halt
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          halt
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
+index 95287cc1392..740f75cb418 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/hostname.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          hostname
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+index 2839d57cbec..e87b291d4e2 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          mountall
+ # Required-Start:    mountvirtfs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+index be9f5970fa7..c08597e725a 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          mountnfs
+ # Required-Start:    $local_fs $network $rpcbind
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index b56b72f8334..bc630e871c1 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:             volatile
+ # Required-Start:       $local_fs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index bd445ddb070..6706a117f75 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -1,4 +1,7 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
  
+ . /etc/default/rcS
+ 
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/reboot b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+index 087d8d5da46..91e3972ed9c 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/reboot
++++ b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          reboot
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
+index 76de3418acc..0bbaee7a9da 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/rmnologin.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          rmnologin
+ # Required-Start:    $remote_fs $all
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+index ffa1eee43df..e1e39345b7b 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          save-rtc
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
+index 34e1b7714bb..15dd4bb76f8 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sendsigs
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          sendsigs
+ # Required-Start:    
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/single b/meta/recipes-core/initscripts/initscripts-1.0/single
+index da82d178a17..1172584170f 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/single
++++ b/meta/recipes-core/initscripts/initscripts-1.0/single
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          single
+ # Required-Start:    $local_fs $all killprocs
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sushell b/meta/recipes-core/initscripts/initscripts-1.0/sushell
+index c319d95bf74..511291db852 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sushell
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sushell
+@@ -1,4 +1,7 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
+ 
+ [ -z "$SUSHELL" ] && SUSHELL=/bin/sh
+ 
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+index 4871ee94e56..da9ad485c10 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          mountvirtfs
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountfs b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+index 7fb5c58b3e9..a8691e570f7 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/umountfs
++++ b/meta/recipes-core/initscripts/initscripts-1.0/umountfs
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          umountfs
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
+index af075407fd4..b91fa05eede 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/umountnfs.sh
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          umountnfs
+ # Required-Start:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/urandom b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+index af1625b5fde..7be92d3b0a0 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/urandom
++++ b/meta/recipes-core/initscripts/initscripts-1.0/urandom
+@@ -1,4 +1,8 @@
+ #!/bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
+ ### BEGIN INIT INFO
+ # Provides:          urandom
+ # Required-Start:    $local_fs mountvirtfs
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 9429e5881df..2244d1b2923 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/fedora-sysv/initscripts"
+ DESCRIPTION = "Initscripts provide the basic system startup initialization scripts for the system.  These scripts include actions such as filesystem mounting, fsck, RTC manipulation and other actions routinely performed at system startup.  In addition, the scripts are also used during system shutdown to reverse the actions performed at startup."
+ SECTION = "base"
  LICENSE = "GPL-2.0-only"
 -LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+LIC_FILES_CHKSUM = "file://keymap.sh;beginline=5;endline=5;md5=829e563511c9a1d6d41f17a7a4989d6a"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- PR = "r31"
++LIC_FILES_CHKSUM = "file://functions;beginline=7;endline=7;md5=829e563511c9a1d6d41f17a7a4989d6a"
+ PR = "r155"
  
-@@ -20,8 +20,7 @@ python __anonymous() {
- 
- inherit update-rc.d
- 
--SRC_URI = "file://keymap.sh \
--	   file://GPLv2.patch"
-+SRC_URI = "file://keymap.sh"
- 
- INITSCRIPT_NAME = "keymap.sh"
- INITSCRIPT_PARAMS = "start 01 S ."
+ INHIBIT_DEFAULT_DEPS = "1"
+@@ -31,7 +31,6 @@ SRC_URI = "file://functions \
+            file://read-only-rootfs-hook.sh \
+            file://volatiles \
+            file://save-rtc.sh \
+-           file://GPLv2.patch \
+            file://dmesg.sh \
+            file://logrotate-dmesg.conf \
+            ${@bb.utils.contains('DISTRO_FEATURES','selinux','file://sushell','',d)} \
 -- 
 2.32.0
 
