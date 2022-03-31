@@ -1,179 +1,176 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D69FBC433EF
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 18:47:26 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.951.1648752445645169667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470DBC433EF
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 19:38:23 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web09.1534.1648755502703040714
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 11:47:26 -0700
+ Thu, 31 Mar 2022 12:38:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aNVUi1sU;
- spf=pass (domain: gmail.com, ip: 209.85.208.172,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id h11so1001703ljb.2
+ dkim=pass header.i=@linaro.org header.s=google header.b=rSLla7a7;
+ spf=pass (domain: linaro.org, ip: 209.85.160.178,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qt1-f178.google.com with SMTP id m21so399693qtw.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 11:47:25 -0700 (PDT)
+ Thu, 31 Mar 2022 12:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=347WbpP2n6L49jSNKz5uSXb++hUcI8HYSNEXj5Q0pJY=;
-        b=aNVUi1sUDeaHQMdTLXfKUOYGVzOZgr7bfi3HmYWs/G6bdv3My8jfulzgfXclhV+nTB
-         mpSYPYWPeK1WigTl1E3dibyA+fQA6Pz+N0SCyFN6oFIGhANXyemlf2yUfSorutKbbTsq
-         n+cW6ahZzq5IuKiYCsTMSjCHzt/cVVP9F0Qx7WhsI/qOeuYKa2ca6tcsecQi0WKVtxKS
-         q+urlZbw1f1rXMwEJDR9ZIK2V0z6C845EivyV4vdjWYTLZ37RIlgKxl6z7gJI3xEhEdu
-         oQ90I5p4T0FhkTuqne9bUcI18X5PbVpF+/KDZUgFY3SSk5exEEcsNgClU26txY71vy8X
-         kAzw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xEzVcJVBUdXuJGtOOj+7q6doX4z6BVx1Mc4f+D7oyXU=;
+        b=rSLla7a7L7WY2cypWgaMwodSjBkcvn6ffNbQd1kErVXVezW2rz6CR4Pj7OzusYtT/S
+         +yhYOjvkxoH6hiN/a5LvUZ6pFqmLwifC+RDFBzUH9Ki2dnM7aJY94LVcbLGvExe8RmxS
+         LsQVYSZVKNbmpG8nv/QnPOMUyMxiQHZT8pr4Nb3neON+FBNcHRiC482SnE6ntthFxdSn
+         NlWW1abCweedeQzAokNLWDyMeIq/jgMjvm7aLC3AZT3ovCgDa+vIbSTO8fGEDFahAOWP
+         T6dhvw5LrXCbzjRh5e1uCV+jxo3r/LIdatFBqWfTBHZsl2gj/ggnccPIPuA3jQUVpE33
+         /5ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=347WbpP2n6L49jSNKz5uSXb++hUcI8HYSNEXj5Q0pJY=;
-        b=F65RMJfczDKdHCFAusJh2aEVjyYULGaVvCMA56Nj5q9RYNhonTRKOdQioLtQyQDOLl
-         M14i0CUR9ufyCNqtmXgKAB9UipLzUttgZlqn0Mut5Ltg8Fcl8JFzJcMB/oMQ5UqEC5dn
-         eWdo3EXXU+hrg5G6DK4aEDqrjKLcLdii5ejUZ5zyzuEYUmVqrUAA58yFQanZbrCZwCow
-         A7NP8G/9ARSq7QJDb4TQIlseu+G0C7qpam17tH+S+Fk3pEromcyNCG9znHgiMfwq3LcT
-         ApFqLa5I2GijZCb3pERw+CIIZizQ8L3ySChYiKmXH8FfI7pIIhmYWBwXP5SuCRnJTXmz
-         PGfA==
-X-Gm-Message-State: AOAM530Pe5VKTbFG7DGIc/+U+uYnlgCULOmI/tDGscEeiVfKdeCg/bms
-	8VET8OTEqOFkGuRx0VJYS6qs/PyC+m9a3/VYOw0=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xEzVcJVBUdXuJGtOOj+7q6doX4z6BVx1Mc4f+D7oyXU=;
+        b=GpaN6l7qSVodEl3nI9Vn2qoDWkkPoVPga4xLinpRhVGzY/DV/RLSiTCbwEJ5qTp03I
+         CI1a4FATmvWorgpdnxZbz8jfsi7mv4ol2kEYpVeX6/OEG/W0CZqVauRQfXbowEZraXMH
+         2dS85ZVJWKOa/+2aAaEhbvy/9kxa0JWVtKzq68PA3Op5WkMxRjC+AkRTaeGJdJlmbEkD
+         gfHEiOhXoToP1Qa5cAvUOdOIeZLqz0XEfKi/G/VehiekbhPGb1tPaBpE5XrO0KATifIN
+         VlXMoT2V8VSfTp/XW9p2MK2nVB0Xnr6BbQ4Ro7dY8svr1cju1X/A9K07Ct+4CpC38GYC
+         odQg==
+X-Gm-Message-State: AOAM533tM6mYJX1IfLcsx4J6yU2sqIrtEQ+3LRLxde+sw6lhK0b1ttwc
+	q85dTpWPYvYadQ8a17P3vE6bh1bCRzt+KQ==
 X-Google-Smtp-Source: 
- ABdhPJzvmb6xaKbbfuekhdSMgGgur1JDEmuh9Bgtu2qOUmk7bv7zc210S8V2K6e2/bazQo4I8J5gBc0RuNEJlXGAK0M=
-X-Received: by 2002:a2e:894f:0:b0:24a:c034:8cd0 with SMTP id
- b15-20020a2e894f000000b0024ac0348cd0mr11064216ljk.191.1648752443028; Thu, 31
- Mar 2022 11:47:23 -0700 (PDT)
+ ABdhPJx9MePIEYjNZpD3GYe2iyX8ArSJh87tBn76Wn0BtWckfcoiaQH/VFAA5MFlv/8tRxCgycv7xw==
+X-Received: by 2002:a05:622a:13d0:b0:2e1:cb3e:bb8a with SMTP id
+ p16-20020a05622a13d000b002e1cb3ebb8amr5939635qtk.16.1648755501815;
+        Thu, 31 Mar 2022 12:38:21 -0700 (PDT)
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
+        by smtp.gmail.com with ESMTPSA id
+ i68-20020a375447000000b006809e0adfffsm152443qkb.25.2022.03.31.12.38.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 12:38:21 -0700 (PDT)
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [dunfell][PATCH] bluez5: fix CVE-2022-0204
+Date: Thu, 31 Mar 2022 15:38:19 -0400
+Message-Id: <20220331193819.1623580-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220331184230.27859-1-joe.slater@windriver.com>
-In-Reply-To: <20220331184230.27859-1-joe.slater@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 31 Mar 2022 20:47:11 +0200
-Message-ID: 
- <CANNYZj9pna_YZiKeJjTDEGCzNmwWm5puO8fECYBN+mbANMyrfA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 1/1] unzip: fix CVE-2021-4217
-To: Joe Slater <joe.slater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Randy MacLeod <randy.macleod@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 18:47:26 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 19:38:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163866
+ https://lists.openembedded.org/g/openembedded-core/message/163867
 
-The origin of the patch needs to be better explained, right now it
-seems like a random thing off the internet. Upstream-Status is
-certainly not inappropriate, as it is a security fix.
+Fix heap overflow when appending prepare writes
 
-Alex
+The code shall check if the prepare writes would append more the
+allowed maximum attribute length.
 
-On Thu, 31 Mar 2022 at 20:42, Joe Slater <joe.slater@windriver.com> wrote:
->
-> Avoid a null pointer dereference.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  .../unzip/unzip/CVE-2021-4217.patch           | 65 +++++++++++++++++++
->  meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
->
-> diff --git a/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch b/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
-> new file mode 100644
-> index 0000000000..7262d14df4
-> --- /dev/null
-> +++ b/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
-> @@ -0,0 +1,65 @@
-> +From 731d698377dbd1f5b1b90efeb8094602ed59fc40 Mon Sep 17 00:00:00 2001
-> +From: Nils Bars <nils.bars@t-online.de>
-> +Date: Mon, 17 Jan 2022 16:53:16 +0000
-> +Subject: [PATCH] Fix null pointer dereference and use of uninitialized data
-> +
-> +This fixes a bug that causes use of uninitialized heap data if `readbuf` fails
-> +to read as many bytes as indicated by the extra field length attribute.
-> +Furthermore, this fixes a null pointer dereference if an archive contains an
-> +`EF_UNIPATH` extra field but does not have a filename set.
-> +---
-> + fileio.c  | 5 ++++-
-> + process.c | 6 +++++-
-> + 2 files changed, 9 insertions(+), 2 deletions(-)
-> +---
-> +
-> +https://launchpadlibrarian.net/580782282/0001-Fix-null-pointer-dereference-and-use-of-uninitialized-data.patch
-> +Regenerated to apply without offsets.
-> +
-> +CVE: CVE-2021-4217
-> +
-> +Upstream-Status: Inappropriate [not author]
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +
-> +diff --git a/fileio.c b/fileio.c
-> +index 14460f3..1dc319e 100644
-> +--- a/fileio.c
-> ++++ b/fileio.c
-> +@@ -2301,8 +2301,11 @@ int do_string(__G__ length, option)   /* return PK-type error code */
-> +             seek_zipf(__G__ G.cur_zipfile_bufstart - G.extra_bytes +
-> +                       (G.inptr-G.inbuf) + length);
-> +         } else {
-> +-            if (readbuf(__G__ (char *)G.extra_field, length) == 0)
-> ++            unsigned bytes_read = readbuf(__G__ (char *)G.extra_field, length);
-> ++            if (bytes_read == 0)
-> +                 return PK_EOF;
-> ++            if (bytes_read != length)
-> ++                return PK_ERR;
-> +             /* Looks like here is where extra fields are read */
-> +             if (getZip64Data(__G__ G.extra_field, length) != PK_COOL)
-> +             {
-> +diff --git a/process.c b/process.c
-> +index 5f8f6c6..de843a5 100644
-> +--- a/process.c
-> ++++ b/process.c
-> +@@ -2058,10 +2058,14 @@ int getUnicodeData(__G__ ef_buf, ef_len)
-> +           G.unipath_checksum = makelong(offset + ef_buf);
-> +           offset += 4;
-> +
-> ++          if (!G.filename_full) {
-> ++            /* Check if we have a unicode extra section but no filename set */
-> ++            return PK_ERR;
-> ++          }
-> ++
-> +           /*
-> +            * Compute 32-bit crc
-> +            */
-> +-
-> +           chksum = crc32(chksum, (uch *)(G.filename_full),
-> +                          strlen(G.filename_full));
-> +
-> +--
-> +2.32.0
-> +
-> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-> index af94a39195..c222a684b4 100644
-> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
-> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-> @@ -28,6 +28,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
->         file://CVE-2019-13232_p3.patch \
->         file://unzip_optimization.patch \
->          file://0001-configure-Pass-LDFLAGS-to-tests-doing-link-step.patch \
-> +        file://CVE-2021-4217.patch \
->  "
->  UPSTREAM_VERSION_UNKNOWN = "1"
->
-> --
-> 2.35.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163865): https://lists.openembedded.org/g/openembedded-core/message/163865
-> Mute This Topic: https://lists.openembedded.org/mt/90161682/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/591c546c536b42bef696d027f64aa22434f8c3f0]
+CVE: CVE-2022-0204
+
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+---
+Status on other branches:
+- master/kirkstone 5.64 includes the fix
+- honister         5.61 needs patch
+- hardknott        5.56 needs patch
+
+meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+.../bluez5/bluez5/CVE-2022-0204.patch         | 66 +++++++++++++++++++
+2 files changed, 67 insertions(+)
+create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2022-0204.patch
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 7cf061dcf6..4d4348898a 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -55,6 +55,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+    file://CVE-2021-0129.patch \
+    file://CVE-2021-3588.patch \
+   file://CVE-2021-3658.patch \
++           file://CVE-2022-0204.patch \
+    "
+S = "${WORKDIR}/bluez-${PV}"
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-0204.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-0204.patch
+new file mode 100644
+index 0000000000..646b5ddfc8
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2022-0204.patch
+@@ -0,0 +1,66 @@
++From 0d328fdf6564b67fc2ec3533e3da201ebabcc9e3 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 8 Jun 2021 16:46:49 -0700
++Subject: [PATCH] shared/gatt-server: Fix heap overflow when appending prepare
++ writes
++
++The code shall check if the prepare writes would append more the
++allowed maximum attribute length.
++
++Fixes https://github.com/bluez/bluez/security/advisories/GHSA-479m-xcq5-9g2q
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/591c546c536b42bef696d027f64aa22434f8c3f0]
++Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
++CVE: CVE-2022-0204
++
++---
++ src/shared/gatt-server.c | 22 ++++++++++++++++++++++
++ 1 file changed, 22 insertions(+)
++
++diff --git a/src/shared/gatt-server.c b/src/shared/gatt-server.c
++index 0c25a97..20e14bc 100644
++--- a/src/shared/gatt-server.c
+++++ b/src/shared/gatt-server.c
++@@ -816,6 +816,20 @@ static uint8_t authorize_req(struct bt_gatt_server *server,
++ 						server->authorize_data);
++ }
++ 
+++static uint8_t check_length(uint16_t length, uint16_t offset)
+++{
+++	if (length > BT_ATT_MAX_VALUE_LEN)
+++		return BT_ATT_ERROR_INVALID_ATTRIBUTE_VALUE_LEN;
+++
+++	if (offset > BT_ATT_MAX_VALUE_LEN)
+++		return BT_ATT_ERROR_INVALID_OFFSET;
+++
+++	if (length + offset > BT_ATT_MAX_VALUE_LEN)
+++		return BT_ATT_ERROR_INVALID_ATTRIBUTE_VALUE_LEN;
+++
+++	return 0;
+++}
+++
++ static void write_cb(struct bt_att_chan *chan, uint8_t opcode, const void *pdu,
++ 					uint16_t length, void *user_data)
++ {
++@@ -846,6 +860,10 @@ static void write_cb(struct bt_att_chan *chan, uint8_t opcode, const void *pdu,
++ 				(opcode == BT_ATT_OP_WRITE_REQ) ? "Req" : "Cmd",
++ 				handle);
++ 
+++	ecode = check_length(length, 0);
+++	if (ecode)
+++		goto error;
+++
++ 	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
++@@ -1353,6 +1371,10 @@ static void prep_write_cb(struct bt_att_chan *chan, uint8_t opcode,
++ 	util_debug(server->debug_callback, server->debug_data,
++ 				"Prep Write Req - handle: 0x%04x", handle);
++ 
+++	ecode = check_length(length, offset);
+++	if (ecode)
+++		goto error;
+++
++ 	ecode = check_permissions(server, attr, BT_ATT_PERM_WRITE_MASK);
++ 	if (ecode)
++ 		goto error;
+-- 
+2.25.1
+
 
