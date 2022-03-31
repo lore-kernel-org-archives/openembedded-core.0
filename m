@@ -1,228 +1,685 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD223C433F5
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 07:16:05 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.77])
- by mx.groups.io with SMTP id smtpd.web08.4298.1648710960739410118
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F6DC433F5
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 08:21:30 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web12.4715.1648714889217913988
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 00:16:03 -0700
+ Thu, 31 Mar 2022 01:21:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=AxXQnGf/;
- spf=pass (domain: weidmueller.com, ip: 40.107.21.77,
- mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N933w4+7f28rycoOz247BlOoYZ6HusLcDUKIpQIEJ2qD0mcEpQ5OuMFCtKASGa3j4J4v6cHKPh6k35M1Xt7F4Vddf/x15+6sOSWwC5kEKg/ymBJpToXHslZ3DW91Uj1YMTLtuqyur76xOfDGuTHJh+j8MdbfzHcY0fU/7RmrvyahPcgMqltLGyKJJ8rr4bhoBpDSl34/6tnCb7OaGD2cWQevwPAhEo4vxd4LWmTDueQVSWOQwGzH8ExoOiTTU98oaOl6mjFjA7yvcJysfzapKrlBsgEzpoG/NEhEAeA4vIXZE/PTiY5L5QjPLnjrmmvmZXAbTFQM+VPe3cH9TW9GoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hjbaP1gKvRRddMCT+i37ROTG5LQjMj9KAUzlDkKddQA=;
- b=jv+U2LxqS8QsHdD4RfhZGSFJe5PjPBP7rNr4b2Twi3eMlWf2ZHKlF384/d83HSUXTv7yTpWBzbCnSsegB3Ob3kA8TJivTHJ4UWJHDz/D/sKpSW94vPUXcrTydBNmzd273Q/+QyQCj2lPv9BBfavFFHVcuu9BkIpGcelirYtD73swj/jcpGNZFPka5Egj+gH06ENa9C9oyTJz1XxKQ8nrzSGF/NUhJn2iR2mVSUfyLM7On0sCV6cJ4s7OS/xT7dI7/zK5u2hYa493i9o9JFyb8kAjKwHqUJWDj57Tfwke+fZqpLQ8KXZGV8xDt6tDf9Ko4qriB7FC9XqULwt4l4/Dyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=UOqmeLyC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id k21so40118706lfe.4
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 31 Mar 2022 01:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjbaP1gKvRRddMCT+i37ROTG5LQjMj9KAUzlDkKddQA=;
- b=AxXQnGf/a1nV4cruxI18DAwhxyTwuyzk4u4CuHDroZrF36omWOFnkvoIfSCKoqsNS2Rte9XSaZorHjCmNurt++183LZtX/b8fHhZdbHf0UQ6FsLp3oju6p+kHuOOBKm7dEVZY3c6AHsgk5n+nc5tKiPx+0/hJJcBNDrSSzQtiTA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
- by AM6PR08MB3077.eurprd08.prod.outlook.com (2603:10a6:209:48::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.19; Thu, 31 Mar
- 2022 07:15:57 +0000
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::21c3:3ec0:a144:68ba]) by PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::21c3:3ec0:a144:68ba%9]) with mapi id 15.20.5123.019; Thu, 31 Mar 2022
- 07:15:57 +0000
-Message-ID: <ecb92f84-a4fa-31d6-de14-a48f5eff91dd@weidmueller.com>
-Date: Thu, 31 Mar 2022 09:15:55 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [OE-core] [RFC PATCH] bitbake.conf: Add base package version
- (BPV) variable
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-References: 
- <20220330081614.12772-1-stefan.herbrechtsmeier-oss@weidmueller.com>
- <CAMKF1soT09dWVxf0idTF5O-u5wWMuVGAxcrC+Z1wJYkoJ1NtDQ@mail.gmail.com>
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: 
- <CAMKF1soT09dWVxf0idTF5O-u5wWMuVGAxcrC+Z1wJYkoJ1NtDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR1001CA0019.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::32) To PAXPR08MB6969.eurprd08.prod.outlook.com
- (2603:10a6:102:1d8::23)
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5sZ5Canz4hEQPHSms4N57EhBTGoyiAIEdF61FzWgHRI=;
+        b=UOqmeLyCulnv0ZQS8I6tapr/g9CY2u57t4dkBXyQ/y/esfXsbTYGX1ZUPiYz7yTY7C
+         MNQAJYgUBVBf3dzv3yZMu4JtVWO9ztXcHRi2RAUX8jkrtiCjcWrnFUrvnSMGj5ad4BNl
+         QHotk2tv+JZr1ELPHyzSJ4dEc69KqZGa5uOCF16ACCJZ9MCOkormqG/B4j1xBsRoN7jJ
+         U9sSH86Atn9OAwMrafycjpM4ULQhdm4lu+R8Ts5WvmrxrVQQ2wgHaRTAIuHceNdsmt9t
+         9px1lDOMouHEBDbxBG+2KtZnkU6hU4x4hwkaoverhMace9HGf3/gue1O696KdA1+0+SN
+         Q57A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5sZ5Canz4hEQPHSms4N57EhBTGoyiAIEdF61FzWgHRI=;
+        b=QxXIsFLOEhLgilrcBZDEmMqPem8OazGs+OvRVTNZs1Ret308q78TXCxY8zPqgSvyz7
+         amCeETU3UvtmCIwjnzWPq5FmoAQ9NicJHTZhpzH/ZESk37JQH0DQos8j9SFD9ZLrnMOk
+         rBEARuCbanBpkpILa/hY0YRKCILpr0HpKom2kHYSDqvj0oyII+O8chDYr8jXy919oMU+
+         aCqFhVb57A42GGU2YTbzX6tboy9ZvMtQ6kxNyAaFRIuWGhjqSUsxVzaQI6zu69R7WDCm
+         CzCLBpZYpUvYa6HkRe2GOYLkMx3wV8cttelROvGid/qHisq1jRnON+RI6/czTypMcUtm
+         ZGqg==
+X-Gm-Message-State: AOAM531p0MaWa1hi6XCAB/c0JCrzNyBFcn2+2rKUdT7H6C5jD2xS3ehB
+	6uwrvItxKsMe9fJZvd/RHm8zB8cCOzzYrtTGHi4=
+X-Google-Smtp-Source: 
+ ABdhPJx8n9KCujB3Yu40cwzrFFBOEBIrXj1C5H6SvKdVY1iX4hKXUGhTJZnmf+CdwOtwoItU480OOVmqDibX+1lpB9E=
+X-Received: by 2002:ac2:41d4:0:b0:44a:cc0b:3eb1 with SMTP id
+ d20-20020ac241d4000000b0044acc0b3eb1mr1778977lfi.95.1648714886909; Thu, 31
+ Mar 2022 01:21:26 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 404566e4-f2d3-43ec-b335-08da12e64d07
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3077:EE_
-X-Microsoft-Antispam-PRVS: 
-	<AM6PR08MB3077F4587D4EA73A7923F7C5D7E19@AM6PR08MB3077.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	rjP+QRsLZbKwzlseBczR6DCMiBPlzkEchJjsqdPJMyIZAEu8ce4MZTcxqa6wqxUvYds0oUUzFVKxW/g9QzsvZ0yDvJjdA8vVHm18C49MygbWHfYFs/XPVSMapMZhHpk/r5bqJElGqDCG3MtHqt5xC1GK8RHWtLL/Yt9LXKOkVLkXocjLvrHbA93jtJwQbzBktisinLjjpCSrjQuxa983UtWrpHlqPRhRlnX12vxY4NvqnJVAFz0/xaxA4lnSZbrxTfmhBx0MlQk6Fw2ypC2r+g26TQj1LK5QMl1lcQDhuEu/IWk2vcgaCcm63vMCgu5UL9sY1xRFgPyYQL03p6GEVJlXtgr73/sIT/HtqDfJ5fScpyo6n2FdFFPkhYmfut0c/ggVl3e5+H8SdU335byiUhaaBu0INN31iWUvelbX7Xk9Nyr7CFj0xYdPzohOpjXugFdkfyiihpoZFQAXuGOWq82rgLJKqnHAdsjMN228TkPDZJqdxqFIIArPZ/c5sP9Agfx+DUjup+1/zqObKZMXkIp3BjeWrxHh0Y6mnhUvGrVV5EoNNY8wJqvp0CspPgopV33+DV+5axv/fjneh0ot7zMHVg1EWpeKqNiOYo1iFIKe0wuJDrSUJn073+lmYsXEx310BfTZmhSjTmVM4usX4L5MfXecXXTViSrPseHNT3nJlc01kCVXK7oL0JWPTtDTAZ2YI1UIQvbk6JzYUCEBey3/jEa/LhZXHVQIGp60PdoW2OIHJgnzMQv9T2tdhl9W
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(107886003)(186003)(6506007)(6512007)(2616005)(8676002)(66556008)(66476007)(4326008)(26005)(38100700002)(53546011)(52116002)(38350700002)(66946007)(316002)(5660300002)(6916009)(54906003)(31696002)(8936002)(31686004)(36756003)(6486002)(508600001)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?KzFSa3JvRmJqS25ybmV0dUV1LzVERENtVkdCU2VBalBuY3NPMW9zcElqRmMz?=
- =?utf-8?B?elMyR2liWXpMV3EreWdDS2tGZ1JtWnh0NXA5bmFEbzBjcjl2VGlvcGVQWkN0?=
- =?utf-8?B?U2Y2M3gxR3gvZnZ5L1RYcEhBdy94emlCMU5DYVRBc20yMERYRXlKbWpyLy90?=
- =?utf-8?B?ZUkwTE03RWNCWDdycWtsb3IzcFRYaDR6S2J2TUUyYXRoWllsdUN3TExaQzFS?=
- =?utf-8?B?VjY1UVNhcmNTYllYUGtiUjkwUWM2MVFJTE1wMi9ZL1dYQUN2Snlha01qMnpp?=
- =?utf-8?B?YytSV01RMWVJZi8yY0xqZkZ4R2tMbTJiMUtORzczYVFScHd1c3d0OG1aYXdR?=
- =?utf-8?B?cHA0ZXYvYThQUVF2M3YyZ3BVUzRnUFpvODFOaEVjRzRqbnZ0cnhGOEhCSEJT?=
- =?utf-8?B?b3hzVkVTL1d0b2tXVzdPWGNyQ1oyVnVuRGRGMlh2anRVcXErQjFTVHVsUFA0?=
- =?utf-8?B?UEJCT1lvVTZ3K1pSem5MNUc1YUxiVGRHWHhlZjlvaHJjTUlpNFBxOThUcDZ3?=
- =?utf-8?B?QmVvR0swRjB4WEcwdXhCWC9ySERwaDM2bENtb3JMcjliOFpnNWxyeWFxYndD?=
- =?utf-8?B?Zkh4YVJlMGRudXFSOUI1Z1QwM21rbFgvM1E4Uzc4MDkvNW9IWFNkT0t0M0c2?=
- =?utf-8?B?eS9jb0hPeitXRjJTbGRIellVaE43UnVqTUxwUmdDZkwxL3l1em5TUS9iaE1p?=
- =?utf-8?B?Wlh5VlJ2d2kwMnVlazZ2QjE1K3hxaUxpSGY5Vm5ncnE0Qk5BaDRETVdEWjdo?=
- =?utf-8?B?bmYzYmowM2Z3OXVhWG9KSk02cVFVZTdYbTJpb292VmY2dWMwOWdQT2NDQncx?=
- =?utf-8?B?TmNWZkNjMHJtWXVHS3pyK0hIRUtmblJnaGtZazY4WExITWRzTmt6Q1JzamFN?=
- =?utf-8?B?R0NseGROd1RMTTloTktpeW4rY3NQRVRWeUZBYktUV21mN0RMbE5zbHB5MmVp?=
- =?utf-8?B?dTdhZ0JFSUJEMktGdjFWVlZ5RXQwWlNjZ1JyTzlmUjd0TEE1UnlCNzFkaVJM?=
- =?utf-8?B?OG5WOWxYVDJZS25RV3pEWExralV6R01RRlVDeklJVTc1VHNnTXFrdTRFTHJF?=
- =?utf-8?B?cnZSOVcwK0dxOTNma09iVGxuSXlpdzZ0Rnc5R2doZVh3S2dtSk5adlFCSmxF?=
- =?utf-8?B?RXdIMUdDWFB1eE5id1dZZ3A3K1plcm8vMExXMTFXN1lZd3NPS0F6a2xjNEFG?=
- =?utf-8?B?M1IxRXdydDZLakVFNjVPNDZQT0p3NW5XYkcrWFRPdjlwN1VkUHFEaThlODBm?=
- =?utf-8?B?MTYzZjRud1JDZHc2d0tWWWEyYXMxVWZVdEhmNWphenFDdTYrMHRLRWpKRlJB?=
- =?utf-8?B?MGsrOHI3STk4c3BpZzBQWmd5MjV5WkRmaEhiNVhiZ1grZXc4ZytOa2F4cVJa?=
- =?utf-8?B?MnlFanIzSDlSUGF3L1VrMHJYU0VzM1hOQkZNNFljK3FEZENYb055a0s5ZmZk?=
- =?utf-8?B?QUN1ajU0MlduYmhZblpkYzllZWpreFZScWUrN3JzbGlZRy84dlVaVGF0UmZI?=
- =?utf-8?B?a244Qi9vZ2x4eVNNTVNSdWMzQXlFdWhVYXRSNytKYXpzNUduMk1lYk5DdGNB?=
- =?utf-8?B?VmN0MVAwSzRJZlpGMFFLQ2JyMkRwODFBYkFhbDYvOCtKWHU3aGx3ajJScm9m?=
- =?utf-8?B?WWRlM05WUG04U3RlLzRvSDB3Z2VhalFzK3h1SkZLN3A5UHZ6VnRZMmZiOGVl?=
- =?utf-8?B?RlM0NXJhUi9YTzFsN2NXQXczNXl0MmowTGdPd0lSSHJaWnBXT1dJYmI1L2RQ?=
- =?utf-8?B?RCtSNGZ4dVMrcjJNdXE1c2xoK08yZGNBVDduN1I1am80V1g5OFd4Y1dlMXpR?=
- =?utf-8?B?NUhnQ2pvS2UycDM4SzVvdVl2b3RlWGJGVG4vZ3N6Q2NaVXF1eWhIT1hMYUZU?=
- =?utf-8?B?TnVCZmh0Z3F5elJBc012cGdUYnlPaG4rNk5UbVc0bjZQclRkMWdwQWcwRnBD?=
- =?utf-8?B?WDl6YlFZeXJJRzVGRVAvQjNxaVNOWDIvTHV4UW9YdDYwU29GM0h3NUZ6d1I2?=
- =?utf-8?B?akNJZ0RkSytHMGNnL0NpdzJrRGZSbXZMa0pYeUk0Vmx0eEdITkJja3RwRVJR?=
- =?utf-8?B?a1VkWXJOSnQvakJPUWlteE9YcnVSOTZ4MzVWd21yOElZdTNUL0JXcjZsTjhw?=
- =?utf-8?B?ckxOTmsraWdiWVJuQ2ZNTC9MZ1RzRjRVSlhqUmlYZTdiVUROZUlIU2lmc1NI?=
- =?utf-8?B?cHZSTXVmT3VhdlZGOGg5S0NTYnp6c3pGVmE3bCtBRmNzUDJiKzVTMGVDL3JV?=
- =?utf-8?B?NmlNV3BFcXpPdVZVRDRiV293OXNVRmszUlFRMmVlNUlqZUxNOGZYdUYyQXNv?=
- =?utf-8?B?Y1NUM0owVy9FRGl5b2VuUXhtSTRrbkg1SGc3K0JSR2pWNmtCSTh1LzVsL1NQ?=
- =?utf-8?Q?4Zg/ktEU4AjFflb8=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 404566e4-f2d3-43ec-b335-08da12e64d07
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 07:15:57.1724
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- /L7EMYYQwLPjqeWXlcfzzX3AwXHL73uBYIDzbsd/MCtepa3EQD1rowoLqlBL8CRLSctlStJ3Okaf4qq2/RP/vQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3077
+References: <20220330221139.54366-1-saul.wold@windriver.com>
+In-Reply-To: <20220330221139.54366-1-saul.wold@windriver.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 31 Mar 2022 09:21:15 +0100
+Message-ID: 
+ <CANPvuRm37cGXoS+-nMhmBe1CNUFWwU2e1FpTmw9zW52nqEAtWw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] kmod: Add an exclude directive to depmod
+To: Saul Wold <Saul.Wold@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002b93ef05db7f594e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 07:16:05 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 08:21:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163804
+ https://lists.openembedded.org/g/openembedded-core/message/163805
 
-Am 30.03.2022 um 19:32 schrieb Khem Raj:
-> On Wed, Mar 30, 2022 at 1:16 AM Stefan Herbrechtsmeier
-> <stefan.herbrechtsmeier-oss@weidmueller.com> wrote:
->>
->> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
->>
->> Add a base package version (BPV) variable and use it as default for the
->> package version (PV) variable. The BPV variable contains the base
->> package version of the recipe read from the recipe filename.
->>
->> The base package version variable supports an expansion of the version
->> from the recipe filename without the need of an immediate variable
->> expansion:
->>      PV = "${BPV}+git${SRCPV}"
->>
->> It allows the inclusion of include files inside a recipe file with the
->> same version in the recipe and include filename even if the package
->> version is different to the base package version in the filename:
->>      require linux-yocto-${BPV}.inc
->>
-> 
-> how many such usecase do we have ?
+--0000000000002b93ef05db7f594e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-4x require binutils-${PV}.inc
-9x require recipes-devtools/gcc/gcc-${PV}.inc
-6x require go-${PV}.inc
-4x require libtool-${PV}.inc
-2x require m4-${PV}.inc
-1x require boost-${PV}.inc
+Hi Saul,
 
-Thereby binutils and gcc set the real PV inside the .inc file.
+Saul Wold <Saul.Wold@windriver.com> escreveu no dia quarta, 30/03/2022 =C3=
+=A0(s)
+23:12:
 
-> seems to be quite errorprone too.
+> This adds a new configuration directive to depmod that causes
+> depmod to exclude a give path entry like .debug.
+>
+> kernel-dbg provides the modules .debug/<module>.ko files and
+> when installed either directly or when dbg-pkgs are selected
+> this can cause depmod to fail.
+>
+> This patch will be submitted to upstream kmod.
+>
+> Signed-off-by: Saul Wold <saul.wold@windriver.com>
+> ---
+>  .../kmod/depmodwrapper-cross_1.0.bb           |   3 +
+>  ...dd-support-for-excluding-a-directory.patch | 158 ++++++++++++++++++
+>  meta/recipes-kernel/kmod/kmod_29.bb           |   4 +
+>  3 files changed, 165 insertions(+)
+>  create mode 100644
+> meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-dir=
+ectory.patch
+>
+> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> index 04fc14a6d21..aa23ba41276 100644
+> --- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> @@ -16,6 +16,9 @@ do_populate_sysroot[depends] =3D ""
+>
+>  do_install() {
+>         install -d ${D}${bindir_crossscripts}/
+> +       install -d ${D}${sysconfdir}/depmod.d/
+> +
+> +       echo "exclude .debug" > ${D}${sysconfdir}/depmod.d/exclude.conf
+>
+>         cat > ${D}${bindir_crossscripts}/depmodwrapper << EOF
+>  #!/bin/sh
+> diff --git
+> a/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-d=
+irectory.patch
+> b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-d=
+irectory.patch
+> new file mode 100644
+> index 00000000000..3f16cdf0574
+> --- /dev/null
+> +++
+> b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-d=
+irectory.patch
+> @@ -0,0 +1,158 @@
+> +From 8bc07c3ba3a412bd6bb94ad8bad0d76801ec2c9f Mon Sep 17 00:00:00 2001
+> +From: Saul Wold <saul.wold@windriver.com>
+> +Date: Tue, 22 Mar 2022 12:11:45 -0700
+> +Subject: [PATCH] depmod: Add support for excluding a directory
+> +
+> +This adds support to depmod to enable a new exclude directive in
+> +the depmod.d/exclude.conf configuration file. Currently depmod
+> +already excludes directories named source or build. This change
+> +will allow additional directories like .debug to be excluded also
+> +via a new exclude directive.
+> +
+> +depmod.d/exclude.conf example:
+> +exclude        .debug
+> +
+> +Upstream-Status: Submitted
+> +
+> +Signed-off-by: Saul Wold <saul.wold@windriver.com>
+> +
+> +%% original patch: 0001-depmod-Add-support-for-excluding-a-directory.pat=
+ch
+>
 
-The current use cases in oe core is much more error-prone because they 
-use ${PV} and set the PV inside the .inc file. This means a second .inc 
-file must use the new PV. Furthermore, if somebody in oe-core add a `PV 
-.= "+git${SRCPV}"` it breaks includes in other layers.
+This line comes from devtool but is not needed.
 
-A MAIN_VERSION (MAJOR.MINOR) and a BPV (MAJOR.MINOR.PATCH) would make 
-the use case explicit:
-
-require binutils-${MAIN_VERSION}.inc
-require recipes-devtools/gcc/gcc-${MAIN_VERSION}.inc
-require go-${BPV}.inc
-require libtool-${BPV}.inc
-require m4-${BPV}.inc
-require boost-${BPV}.inc
+Jose
 
 
-At the moment oe-core have recipe specific names and code for the same 
-value:
+> +---
+> + man/depmod.d.xml | 14 +++++++++++++
+> + tools/depmod.c   | 54 ++++++++++++++++++++++++++++++++++++++++++++++++
+> + 2 files changed, 68 insertions(+)
+> +
+> +diff --git a/man/depmod.d.xml b/man/depmod.d.xml
+> +index b315e93..9ab790a 100644
+> +--- a/man/depmod.d.xml
+> ++++ b/man/depmod.d.xml
+> +@@ -131,6 +131,20 @@
+> +           </para>
+> +         </listitem>
+> +       </varlistentry>
+> ++      <varlistentry>
+> ++        <term>external <replaceable>excludedir</replaceable>
+> ++        </term>
+> ++        <listitem>
+> ++          <para>
+> ++            This specifies the trailing directories that will be exclud=
+ed
+> ++            during the search for kernel modules.
+> ++          </para>
+> ++          <para>
+> ++          The <replaceable>excludedir</replaceable> the trailing
+> directory
+> ++          to exclude
+> ++          </para>
+> ++        </listitem>
+> ++      </varlistentry>
+> +     </variablelist>
+> +   </refsect1>
+> +
+> +diff --git a/tools/depmod.c b/tools/depmod.c
+> +index eb810b8..8b19ab6 100644
+> +--- a/tools/depmod.c
+> ++++ b/tools/depmod.c
+> +@@ -458,6 +458,12 @@ struct cfg_external {
+> +       char path[];
+> + };
+> +
+> ++struct cfg_exclude {
+> ++      struct cfg_exclude *next;
+> ++      size_t len;
+> ++      char exclude_dir[];
+> ++};
+> ++
+> + struct cfg {
+> +       const char *kversion;
+> +       char dirname[PATH_MAX];
+> +@@ -469,6 +475,7 @@ struct cfg {
+> +       struct cfg_override *overrides;
+> +       struct cfg_search *searches;
+> +       struct cfg_external *externals;
+> ++      struct cfg_exclude *excludes;
+> + };
+> +
+> + static enum search_type cfg_define_search_type(const char *path)
+> +@@ -580,6 +587,31 @@ static void cfg_external_free(struct cfg_external
+> *ext)
+> +       free(ext);
+> + }
+> +
+> ++static int cfg_exclude_add(struct cfg *cfg, const char *path)
+> ++{
+> ++      struct cfg_exclude *exc;
+> ++      size_t len =3D strlen(path);
+> ++
+> ++      exc =3D malloc(sizeof(struct cfg_exclude) + len);
+> ++      if (exc =3D=3D NULL) {
+> ++              ERR("exclude add: out of memory\n");
+> ++              return -ENOMEM;
+> ++      }
+> ++      exc->len =3D len;
+> ++      memcpy(exc->exclude_dir, path, len);
+> ++
+> ++      DBG("exclude add: %s\n", path);
+> ++
+> ++      exc->next =3D cfg->excludes;
+> ++      cfg->excludes =3D exc;
+> ++      return 0;
+> ++}
+> ++
+> ++static void cfg_exclude_free(struct cfg_exclude *exc)
+> ++{
+> ++      free(exc);
+> ++}
+> ++
+> + static int cfg_kernel_matches(const struct cfg *cfg, const char *patter=
+n)
+> + {
+> +       regex_t re;
+> +@@ -657,6 +689,11 @@ static int cfg_file_parse(struct cfg *cfg, const
+> char *filename)
+> +                       }
+> +
+> +                       cfg_external_add(cfg, dir);
+> ++              } else if (streq(cmd, "exclude")) {
+> ++                      const char *sp;
+> ++                      while ((sp =3D strtok_r(NULL, "\t ", &saveptr)) !=
+=3D
+> NULL) {
+> ++                              cfg_exclude_add(cfg, sp);
+> ++                      }
+> +               } else if (streq(cmd, "include")
+> +                               || streq(cmd, "make_map_files")) {
+> +                       INF("%s:%u: command %s not implemented yet\n",
+> +@@ -857,6 +894,12 @@ static void cfg_free(struct cfg *cfg)
+> +               cfg->externals =3D cfg->externals->next;
+> +               cfg_external_free(tmp);
+> +       }
+> ++
+> ++      while (cfg->excludes) {
+> ++              struct cfg_exclude *tmp =3D cfg->excludes;
+> ++              cfg->excludes =3D cfg->excludes->next;
+> ++              cfg_exclude_free(tmp);
+> ++      }
+> + }
+> +
+> +
+> +@@ -1239,12 +1282,23 @@ static int depmod_modules_search_dir(struct
+> depmod *depmod, DIR *d, size_t basel
+> +               const char *name =3D de->d_name;
+> +               size_t namelen;
+> +               uint8_t is_dir;
+> ++              struct cfg_exclude *exc;
+> ++              int exclude =3D 0;
+> +
+> +               if (name[0] =3D=3D '.' && (name[1] =3D=3D '\0' ||
+> +                                      (name[1] =3D=3D '.' && name[2] =3D=
+=3D
+> '\0')))
+> +                       continue;
+> +               if (streq(name, "build") || streq(name, "source"))
+> +                       continue;
+> ++
+> ++              for (exc =3D depmod->cfg->excludes; exc !=3D NULL; exc =
+=3D
+> exc->next) {
+> ++                      if (streq(name, exc->exclude_dir)) {
+> ++                              exclude =3D 1;
+> ++                      }
+> ++              }
+> ++              if (exclude)
+> ++                      continue;
+> ++
+> +               namelen =3D strlen(name);
+> +               if (scratchbuf_alloc(s_path, baselen + namelen + 2) < 0) =
+{
+> +                       err =3D -ENOMEM;
+> +--
+> +2.31.1
+> +
+> diff --git a/meta/recipes-kernel/kmod/kmod_29.bb
+> b/meta/recipes-kernel/kmod/kmod_29.bb
+> index 91951edde16..9b663490666 100644
+> --- a/meta/recipes-kernel/kmod/kmod_29.bb
+> +++ b/meta/recipes-kernel/kmod/kmod_29.bb
+> @@ -20,6 +20,7 @@ SRCREV =3D "b6ecfc916a17eab8f93be5b09f4e4f845aabd3d1"
+>  SRC_URI =3D "git://
+> git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=3Dmaster \
+>             file://depmod-search.conf \
+>             file://avoid_parallel_tests.patch \
+> +           file://0001-depmod-Add-support-for-excluding-a-directory.patc=
+h
+> \
+>             "
+>
+>  S =3D "${WORKDIR}/git"
+> @@ -64,6 +65,9 @@ do_install:append () {
+>
+>          # install depmod.d file for search/ dir
+>          install -Dm644 "${WORKDIR}/depmod-search.conf"
+> "${D}${nonarch_base_libdir}/depmod.d/search.conf"
+> +
+> +        # Add .debug to the exclude path for depmod
+> +        echo "exclude .debug" >
+> ${D}${nonarch_base_libdir}/depmod.d/exclude.conf
+>  }
+>
+>  ALTERNATIVE_PRIORITY =3D "70"
+> --
+> 2.31.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163795):
+> https://lists.openembedded.org/g/openembedded-core/message/163795
+> Mute This Topic: https://lists.openembedded.org/mt/90143170/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-MAJOR.MINOR.PATCH:
-MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+--=20
+Best regards,
 
-MAJOR.MINOR:
-WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
-SHRT_VER = 
-"${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
-VIMDIR = 
-"vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
-SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-NAMEVER = "${@oe.utils.trim_version("${PV}", 2)}"
-SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+Jos=C3=A9 Quaresma
 
-MAJOR:
-MAJ_VER = "${@oe.utils.trim_version("${PV}", 2).split('.')[0]}"
-ICU_MAJOR_VER = "${@d.getVar('PV').split('.')[0]}"
+--0000000000002b93ef05db7f594e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-MINOR:
-MIN_VER = "${@oe.utils.trim_version("${PV}", 2).split('.')[1]}"
+<div dir=3D"ltr"><div>Hi Saul,</div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Saul Wold &lt;<a href=3D"mailto:Saul.Wold@win=
+driver.com">Saul.Wold@windriver.com</a>&gt; escreveu no dia quarta, 30/03/2=
+022 =C3=A0(s) 23:12:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">This adds a new configuration directive to depmod that causes<br>
+depmod to exclude a give path entry like .debug.<br>
+<br>
+kernel-dbg provides the modules .debug/&lt;module&gt;.ko files and<br>
+when installed either directly or when dbg-pkgs are selected<br>
+this can cause depmod to fail.<br>
+<br>
+This patch will be submitted to upstream kmod.<br>
+<br>
+Signed-off-by: Saul Wold &lt;<a href=3D"mailto:saul.wold@windriver.com" tar=
+get=3D"_blank">saul.wold@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../kmod/<a href=3D"http://depmodwrapper-cross_1.0.bb" rel=3D"norefer=
+rer" target=3D"_blank">depmodwrapper-cross_1.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0...dd-support-for-excluding-a-directory.patch | 158 +++++++++++++++++=
++<br>
+=C2=A0meta/recipes-kernel/kmod/<a href=3D"http://kmod_29.bb" rel=3D"norefer=
+rer" target=3D"_blank">kmod_29.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A04 +<br>
+=C2=A03 files changed, 165 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/kmod/kmod/0001-depmod-Add-supp=
+ort-for-excluding-a-directory.patch<br>
+<br>
+diff --git a/meta/recipes-kernel/kmod/<a href=3D"http://depmodwrapper-cross=
+_1.0.bb" rel=3D"noreferrer" target=3D"_blank">depmodwrapper-cross_1.0.bb</a=
+> b/meta/recipes-kernel/kmod/<a href=3D"http://depmodwrapper-cross_1.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">depmodwrapper-cross_1.0.bb</a><br>
+index 04fc14a6d21..aa23ba41276 100644<br>
+--- a/meta/recipes-kernel/kmod/<a href=3D"http://depmodwrapper-cross_1.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">depmodwrapper-cross_1.0.bb</a><br>
++++ b/meta/recipes-kernel/kmod/<a href=3D"http://depmodwrapper-cross_1.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">depmodwrapper-cross_1.0.bb</a><br>
+@@ -16,6 +16,9 @@ do_populate_sysroot[depends] =3D &quot;&quot;<br>
+<br>
+=C2=A0do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${bindir_crossscripts}/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/depmod.d/<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;exclude .debug&quot; &gt; ${D}${sysc=
+onfdir}/depmod.d/exclude.conf<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cat &gt; ${D}${bindir_crossscripts}/depmodwrapp=
+er &lt;&lt; EOF<br>
+=C2=A0#!/bin/sh<br>
+diff --git a/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excl=
+uding-a-directory.patch b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-sup=
+port-for-excluding-a-directory.patch<br>
+new file mode 100644<br>
+index 00000000000..3f16cdf0574<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a=
+-directory.patch<br>
+@@ -0,0 +1,158 @@<br>
++From 8bc07c3ba3a412bd6bb94ad8bad0d76801ec2c9f Mon Sep 17 00:00:00 2001<br>
++From: Saul Wold &lt;<a href=3D"mailto:saul.wold@windriver.com" target=3D"_=
+blank">saul.wold@windriver.com</a>&gt;<br>
++Date: Tue, 22 Mar 2022 12:11:45 -0700<br>
++Subject: [PATCH] depmod: Add support for excluding a directory<br>
++<br>
++This adds support to depmod to enable a new exclude directive in<br>
++the depmod.d/exclude.conf configuration file. Currently depmod<br>
++already excludes directories named source or build. This change<br>
++will allow additional directories like .debug to be excluded also<br>
++via a new exclude directive.<br>
++<br>
++depmod.d/exclude.conf example:<br>
++exclude=C2=A0 =C2=A0 =C2=A0 =C2=A0 .debug<br>
++<br>
++Upstream-Status: Submitted<br>
++<br>
++Signed-off-by: Saul Wold &lt;<a href=3D"mailto:saul.wold@windriver.com" ta=
+rget=3D"_blank">saul.wold@windriver.com</a>&gt;<br>
++<br>
++%% original patch: 0001-depmod-Add-support-for-excluding-a-directory.patch=
+<br></blockquote><div><br></div><div>This line comes from devtool but is no=
+t needed.</div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
++---<br>
++ man/depmod.d.xml | 14 +++++++++++++<br>
++ tools/depmod.c=C2=A0 =C2=A0| 54 +++++++++++++++++++++++++++++++++++++++++=
++++++++<br>
++ 2 files changed, 68 insertions(+)<br>
++<br>
++diff --git a/man/depmod.d.xml b/man/depmod.d.xml<br>
++index b315e93..9ab790a 100644<br>
++--- a/man/depmod.d.xml<br>
+++++ b/man/depmod.d.xml<br>
++@@ -131,6 +131,20 @@<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/para&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/listitem&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/varlistentry&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 &lt;varlistentry&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;term&gt;external &lt;replaceable&gt;exclu=
+dedir&lt;/replaceable&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/term&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;listitem&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;para&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 This specifies the trailing dir=
+ectories that will be excluded<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 during the search for kernel mo=
+dules.<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/para&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;para&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The &lt;replaceable&gt;excludedir&lt;/=
+replaceable&gt; the trailing directory<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to exclude<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/para&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/listitem&gt;<br>
+++=C2=A0 =C2=A0 =C2=A0 &lt;/varlistentry&gt;<br>
++=C2=A0 =C2=A0 =C2=A0&lt;/variablelist&gt;<br>
++=C2=A0 =C2=A0&lt;/refsect1&gt;<br>
++ <br>
++diff --git a/tools/depmod.c b/tools/depmod.c<br>
++index eb810b8..8b19ab6 100644<br>
++--- a/tools/depmod.c<br>
+++++ b/tools/depmod.c<br>
++@@ -458,6 +458,12 @@ struct cfg_external {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char path[];<br>
++ };<br>
++ <br>
+++struct cfg_exclude {<br>
+++=C2=A0 =C2=A0 =C2=A0 struct cfg_exclude *next;<br>
+++=C2=A0 =C2=A0 =C2=A0 size_t len;<br>
+++=C2=A0 =C2=A0 =C2=A0 char exclude_dir[];<br>
+++};<br>
+++<br>
++ struct cfg {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0const char *kversion;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char dirname[PATH_MAX];<br>
++@@ -469,6 +475,7 @@ struct cfg {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct cfg_override *overrides;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct cfg_search *searches;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct cfg_external *externals;<br>
+++=C2=A0 =C2=A0 =C2=A0 struct cfg_exclude *excludes;<br>
++ };<br>
++ <br>
++ static enum search_type cfg_define_search_type(const char *path)<br>
++@@ -580,6 +587,31 @@ static void cfg_external_free(struct cfg_external *ex=
+t)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0free(ext);<br>
++ }<br>
++ <br>
+++static int cfg_exclude_add(struct cfg *cfg, const char *path)<br>
+++{<br>
+++=C2=A0 =C2=A0 =C2=A0 struct cfg_exclude *exc;<br>
+++=C2=A0 =C2=A0 =C2=A0 size_t len =3D strlen(path);<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 exc =3D malloc(sizeof(struct cfg_exclude) + len);<br=
+>
+++=C2=A0 =C2=A0 =C2=A0 if (exc =3D=3D NULL) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ERR(&quot;exclude add: o=
+ut of memory\n&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOMEM;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 exc-&gt;len =3D len;<br>
+++=C2=A0 =C2=A0 =C2=A0 memcpy(exc-&gt;exclude_dir, path, len);<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 DBG(&quot;exclude add: %s\n&quot;, path);<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 exc-&gt;next =3D cfg-&gt;excludes;<br>
+++=C2=A0 =C2=A0 =C2=A0 cfg-&gt;excludes =3D exc;<br>
+++=C2=A0 =C2=A0 =C2=A0 return 0;<br>
+++}<br>
+++<br>
+++static void cfg_exclude_free(struct cfg_exclude *exc)<br>
+++{<br>
+++=C2=A0 =C2=A0 =C2=A0 free(exc);<br>
+++}<br>
+++<br>
++ static int cfg_kernel_matches(const struct cfg *cfg, const char *pattern)=
+<br>
++ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0regex_t re;<br>
++@@ -657,6 +689,11 @@ static int cfg_file_parse(struct cfg *cfg, const char=
+ *filename)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0}<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0cfg_external_add(cfg, dir);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (streq(cmd, &q=
+uot;exclude&quot;)) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 const char *sp;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 while ((sp =3D strtok_r(NULL, &quot;\t &quot;, &amp;saveptr)) !=3D NULL=
+) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cfg_exclude_add(cfg, sp);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (streq(cm=
+d, &quot;include&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| streq(cmd, &quot;make_map_files&qu=
+ot;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0INF(&quot;%s:%u: command %s not implemented yet\n&quot;,<br>
++@@ -857,6 +894,12 @@ static void cfg_free(struct cfg *cfg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cfg-&gt;externals =
+=3D cfg-&gt;externals-&gt;next;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cfg_external_free(t=
+mp);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 while (cfg-&gt;excludes) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct cfg_exclude *tmp =
+=3D cfg-&gt;excludes;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cfg-&gt;excludes =3D cfg=
+-&gt;excludes-&gt;next;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cfg_exclude_free(tmp);<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
++ }<br>
++ <br>
++ <br>
++@@ -1239,12 +1282,23 @@ static int depmod_modules_search_dir(struct depmod=
+ *depmod, DIR *d, size_t basel<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *name =
+=3D de-&gt;d_name;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t namelen;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t is_dir;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct cfg_exclude *exc;=
+<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int exclude =3D 0;<br>
++ <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (name[0] =3D=3D =
+&#39;.&#39; &amp;&amp; (name[1] =3D=3D &#39;\0&#39; ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (name[1] =3D=3D=
+ &#39;.&#39; &amp;&amp; name[2] =3D=3D &#39;\0&#39;)))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (streq(name, &qu=
+ot;build&quot;) || streq(name, &quot;source&quot;))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0continue;<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (exc =3D depmod-&gt;=
+cfg-&gt;excludes; exc !=3D NULL; exc =3D exc-&gt;next) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if (streq(name, exc-&gt;exclude_dir)) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exclude =3D 1;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (exclude)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue;<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0namelen =3D strlen(=
+name);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (scratchbuf_allo=
+c(s_path, baselen + namelen + 2) &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0err =3D -ENOMEM;<br>
++-- <br>
++2.31.1<br>
++<br>
+diff --git a/meta/recipes-kernel/kmod/<a href=3D"http://kmod_29.bb" rel=3D"=
+noreferrer" target=3D"_blank">kmod_29.bb</a> b/meta/recipes-kernel/kmod/<a =
+href=3D"http://kmod_29.bb" rel=3D"noreferrer" target=3D"_blank">kmod_29.bb<=
+/a><br>
+index 91951edde16..9b663490666 100644<br>
+--- a/meta/recipes-kernel/kmod/<a href=3D"http://kmod_29.bb" rel=3D"norefer=
+rer" target=3D"_blank">kmod_29.bb</a><br>
++++ b/meta/recipes-kernel/kmod/<a href=3D"http://kmod_29.bb" rel=3D"norefer=
+rer" target=3D"_blank">kmod_29.bb</a><br>
+@@ -20,6 +20,7 @@ SRCREV =3D &quot;b6ecfc916a17eab8f93be5b09f4e4f845aabd3d1=
+&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.kernel.org/pub/scm/util=
+s/kernel/kmod/kmod.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank=
+">git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=3Dmaster</a> \<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://depmod-search.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://avoid_parallel_tests.patch=
+ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-depmod-Add-support-fo=
+r-excluding-a-directory.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+@@ -64,6 +65,9 @@ do_install:append () {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# install depmod.d file for search/ dir<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm644 &quot;${WORKDIR}/depmod-se=
+arch.conf&quot; &quot;${D}${nonarch_base_libdir}/depmod.d/search.conf&quot;=
+<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Add .debug to the exclude path for depmod<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;exclude .debug&quot; &gt; ${D}${non=
+arch_base_libdir}/depmod.d/exclude.conf<br>
+=C2=A0}<br>
+<br>
+=C2=A0ALTERNATIVE_PRIORITY =3D &quot;70&quot;<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#163795): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/163795" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/163795</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90143170/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/90143170/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
 
-
-Sometimes the same name is used for different values:
-
-MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
-WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
-MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-
-Maybe the bitbake.conf isn't the ride place but I think a common name 
-for the base / short version (MAJOR.MINOR), base package version 
-(MAJOR.MINOR.PATCH) and major, minor and patch would be helpful.
-
+--0000000000002b93ef05db7f594e--
 
