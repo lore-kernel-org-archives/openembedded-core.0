@@ -1,111 +1,132 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1781C433F5
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 15:06:56 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.8263.1648739215947277130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4443C433EF
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 15:45:35 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.8637.1648741534176653194
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 08:06:56 -0700
+ Thu, 31 Mar 2022 08:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Qb/6nGvt;
- spf=pass (domain: linaro.org, ip: 209.85.219.46,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qv1-f46.google.com with SMTP id k7so19929781qvc.4
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 08:06:55 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=CVIPaNv4;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kQ5Y+djZoxXWRz/tw+ebnK9oMPizBr3tsV51mc9PQAU=;
-        b=Qb/6nGvtdGU07vcU3coZY5z+uXyqD296hPfgq5OtZFOtPCkCJJUsJt2985bpFfNzD7
-         dA08QFoTvsTmvVVVFOFQ/FpR4o9ec29DkOMae4GMv0KKWjTA/Qx3QJ0OLIxf8RsgsKr7
-         x1rWrZ1xvECIdlv7/CB1KDMAJBApErYttpZH9g4ejjVlYVE/d8n8XFUYOekHGW5rG0Cb
-         KbMmfpoU36d91EaOar1KP3xYGSHxBfsFxdwFCsTDlqzUME4V1TQsAwa0yrCia6g9hsNK
-         7eiKNdjYtaP6kSdR3XZc3NnDzfp4f7vnMnbUdTG1qBVIkY5j6Brlk0cFK7Pg52EhJA2X
-         BjSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kQ5Y+djZoxXWRz/tw+ebnK9oMPizBr3tsV51mc9PQAU=;
-        b=z4HkWTfJI14+WIhj9Hv4IbhT+tUycsjdKlxsgrEUYa0+p9g5lmDqUXVoRLN0Lp/h5X
-         T/pIMEtBjTbYvd/SG/dgboDck6/MaHMREMUMzf9IBsWmtatIT/8NT4MNw9qxqpfg/ODY
-         FnKadhHhG5dg5lvLdf+pslh4geTvtcG5JSJe/DFLohxcvBSXyn/kxiewEcCmPlRAO3oL
-         q6fkKkmVTvffyao1AIcxu6jFu60JwPxlkI90KRdaBy879eDXMm11ho12VuD05NcpBsdV
-         ZAbdfHZ7J4gGP4g+N+au4HLVDfhxhfxnoRhbmt4WmhNUFO8xuDAc8dirXwGuXmV5UnVu
-         Q//Q==
-X-Gm-Message-State: AOAM5320BknHR7KC0hX4PxXxak74Tzwi4NCbzekaIbp7PINDcI31Whqf
-	8C0vE+G/pzs6htGpXDHyeHFJ2BuGgoNe3w==
-X-Google-Smtp-Source: 
- ABdhPJxQXzYwpn18zZV5ceRc/lkYY/f185sIScJ1SeU4+NMgmNvHl82FfUlwveYmgP977J4ftx24jw==
-X-Received: by 2002:a05:6214:d8c:b0:441:6597:6da2 with SMTP id
- e12-20020a0562140d8c00b0044165976da2mr4422648qve.116.1648739214945;
-        Thu, 31 Mar 2022 08:06:54 -0700 (PDT)
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id
- n131-20020a372789000000b0067bce1ac001sm12455020qkn.71.2022.03.31.08.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 08:06:54 -0700 (PDT)
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [dunfell][PATCH] bind: update to 9.11.37
-Date: Thu, 31 Mar 2022 11:06:51 -0400
-Message-Id: <20220331150651.1526562-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1648741534;
+  x=1680277534;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=YfABc/3VvvFxCMCOTmRjBBue2QLP2JoYuj93BSWo844=;
+  b=CVIPaNv4GuZSPHdV8d570C/ree3Oe2pBqsj+CwlpDcqYuN7eqwN4Bct6
+   JUGUttSUxnvcbpEjqpmPhfRTj39Xp2cYZTtiAocyC9zN2oZWpZbqXMs2h
+   R+zz6Q5I/H/NT3QpLYJd4+/GstqpUi8Wc51vnMGEsUnVi5Yn7JYJv3RwQ
+   2kSigp8CFkb8TKfaQ35gz5Vt+CYLR7bMCvtjwwXdvvi08JAt1ONvRvJJn
+   6Q/y58KnSR1fLInPo19U6gE4sZPqK94SxNXRylWNpBtxk36/JEVctYuRe
+   UzbMU+mGeEytG2Y2QTsV7CFxsj89Y9dV28TKEmOkYs6ilWEGw2ogxmGUK
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
+ shallow mirror tarballs
+Thread-Topic: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
+ shallow mirror tarballs
+Thread-Index: AQHYRDEFA25bCmZHUEuJezq1iB6jfKzZhvtA///i5oCAACPZMA==
+Date: Thu, 31 Mar 2022 15:45:31 +0000
+Message-ID: <142dc7fe42ce4f9d8af2110a083b7e3f@axis.com>
+References: <20220330122344.1507091-1-richard.purdie@linuxfoundation.org>
+	 <5ad842968691474f8671615154122c87@axis.com>
+ <419808b5ff897fc36da87a91143370bda43e3cdf.camel@linuxfoundation.org>
+In-Reply-To: 
+ <419808b5ff897fc36da87a91143370bda43e3cdf.camel@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 15:06:56 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 15:45:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163839
+ https://lists.openembedded.org/g/openembedded-core/message/163840
 
-Security Fixes
-
-The rules for acceptance of records into the cache have been tightened
-to prevent the possibility of poisoning if forwarders send records
-outside the configured bailiwick. (CVE-2021-25220)
-
-License-Update: copyright years
-
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
----
- .../bind/{bind_9.11.36.bb => bind_9.11.37.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.36.bb => bind_9.11.37.bb} (97%)
-
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.36.bb b/meta/recipes-connectivity/bind/bind_9.11.37.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.11.36.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.37.bb
-index 872baf6d2f..afc8cf0b3b 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.36.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.37.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
- SECTION = "console/network"
- 
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=b88e7ca5f21908e1b2720169f6807cf6"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=89a97ebbf713f7125fe5c02223d3ae95"
- 
- DEPENDS = "openssl libcap zlib"
- 
-@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[sha256sum] = "c953fcb6703b395aaa53e65ff8b2869b69a5303dd60507cba2201305e1811681"
-+SRC_URI[sha256sum] = "0d8efbe7ec166ada90e46add4267b7e7c934790cba9bd5af6b8380a4fbfb5aff"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
--- 
-2.25.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDMxIG1hcnMgMjAy
+MiAxNjoxNg0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCBSRkNdIG1pcnJvcnM6IFN3aXRjaCBnbGliYyBh
+bmQgYmludXRpbHMgdG8NCj4gdXNlIHNoYWxsb3cgbWlycm9yIHRhcmJhbGxzDQo+IA0KPiBPbiBU
+aHUsIDIwMjItMDMtMzEgYXQgMTQ6MDkgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToN
+Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA8b3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+ID4g
+PiBTZW50OiBkZW4gMzAgbWFycyAyMDIyIDE0OjI0DQo+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRD
+SCBSRkNdIG1pcnJvcnM6IFN3aXRjaCBnbGliYyBhbmQgYmludXRpbHMgdG8gdXNlDQo+ID4gPiBz
+aGFsbG93IG1pcnJvciB0YXJiYWxscw0KPiA+ID4NCj4gPiA+IFRoZXNlIHR3byByZXBvc2l0b3Jp
+ZXMgYXJlIGxhcmdlIGFuZCBvdmVybG9hZCBvdXIgZG93bmxvYWRzIHNlcnZlciBhcyBhDQo+ID4g
+PiBwcmVtaXJyb3IgYnV0IHRoZSByZWNpcGVzIGFyZSBlYXNpZXIgdG8gbWFpbnRhaW4gYXMgZ2l0
+IHVybHMuIENvbXByb21pc2UNCj4gPiA+IGFuZCB1c2Ugc2hhbGxvdyBjbG9uZXMgZm9yIHRoZW0u
+DQo+ID4gPg0KPiA+ID4gSW4gb3JkZXIgdG8gYmUgZWZmZWN0aXZlLCB3ZSBuZWVkIHByZW1pcnJv
+ciBlbnRyaWVzIG9uIHdoZXJlIHRvIGZpbmQNCj4gPiA+IHRoZSBzaGFsbG93IG1pcnJvciB0YXJi
+YWxscy4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiA+IC0tLQ0KPiA+ID4gwqBtZXRhL2Ns
+YXNzZXMvbWlycm9ycy5iYmNsYXNzIHwgMTEgKysrKysrKysrKysNCj4gPiA+IMKgMSBmaWxlIGNo
+YW5nZWQsIDExIGluc2VydGlvbnMoKykNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9j
+bGFzc2VzL21pcnJvcnMuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9taXJyb3JzLmJiY2xhc3MNCj4g
+PiA+IGluZGV4IDM3ZGM0NDlhZGU3Li5mZmRjY2ZmNWZiNCAxMDA2NDQNCj4gPiA+IC0tLSBhL21l
+dGEvY2xhc3Nlcy9taXJyb3JzLmJiY2xhc3MNCj4gPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9taXJy
+b3JzLmJiY2xhc3MNCj4gPiA+IEBAIC03NiwzICs3NiwxNCBAQCBnaXQ6Ly9naXQuZ25vbWUub3Jn
+Ly4qIGdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvUEFUSDtwcm90b2NvbD1odHRwcyBcDQo+
+ID4gPiDCoGdpdDovLy4qLy4qICAgICAgICAgICAgICAgICAgIGdpdDovL0hPU1QvUEFUSDtwcm90
+b2NvbD1odHRwcyBcDQo+ID4gPiDCoGdpdDovLy4qLy4qICAgICAgICAgICAgICAgICAgIGdpdDov
+L0hPU1QvZ2l0L1BBVEg7cHJvdG9jb2w9aHR0cHMgXA0KPiA+ID4gwqAiDQo+ID4gPiArDQo+ID4g
+PiArIyBTd2l0Y2ggZ2xpYmMgYW5kIGJpbnV0aWxzIHJlY2lwZXMgdG8gdXNlIHNoYWxsb3cgY2xv
+bmVzIGFzIHRoZXkncmUgbGFyZ2UgYW5kIHRoaXMNCj4gPiA+ICsjIGltcHJvdmVzIHVzZXIgZXhw
+ZXJpZW5jZSB3aGlsc3QgYWxsb3dpbmcgdGhlIGZsZXhpYmlsaXR5IG9mIGdpdCB1cmxzIGluIHRo
+ZSByZWNpcGVzDQo+ID4gPiArQkJfR0lUX1NIQUxMT1c6cG4tYmludXRpbHMgPSAiMSINCj4gPiA+
+ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGlscy1jcm9zcy0ke1RBUkdFVF9BUkNIfSA9ICIxIg0K
+PiA+ID4gK0JCX0dJVF9TSEFMTE9XOnBuLWJpbnV0aWxzLWNyb3NzLWNhbmFkaWFuLSR7VFJBTlNM
+QVRFRF9UQVJHRVRfQVJDSH0gPSAiMSINCj4gPiA+ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGls
+cy1jcm9zcy10ZXN0c3VpdGUgPSAiMSINCj4gPiA+ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGls
+cy1jcm9zc3Nkay0ke1NES19TWVN9ID0gIjEiDQo+ID4gPiArQkJfR0lUX1NIQUxMT1c6cG4tZ2xp
+YmMgPSAiMSINCj4gPiA+ICtQUkVNSVJST1JTICs9ICJnaXQ6Ly9zb3VyY2V3YXJlLm9yZy9naXQv
+Z2xpYmMuZ2l0IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJj
+ZXMvIFwNCj4gPiA+ICsgICAgICAgICAgICAgIGdpdDovL3NvdXJjZXdhcmUub3JnL2dpdC9iaW51
+dGlscy1nZGIuZ2l0IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3Nv
+dXJjZXMvIg0KPiA+DQo+ID4gUGxlYXNlIHVzZSBQUkVNSVJST1JTOmFwcGVuZCBoZXJlLCBvciB5
+b3Ugd2lsbCB3aXBlIGF3YXkgYW55DQo+ID4gZGVmYXVsdCBjb25maWd1cmF0aW9uIG9mIFBSRU1J
+UlJPUlMgZGVmaW5lZCB1c2luZyAiPz0iLg0KPiANCj4gTm8sIEknbSBub3QgdXNpbmcgYXBwZW5k
+IGhlcmUgc2luY2UgSSBkbyB3YW50IHVzZXJzIHRvIGJlIGFibGUgdG8gcmVzZXQgdGhpcy4NCg0K
+VGhhdCBjYW4gZWFzaWx5IGJlIGFjaGlldmVkIGJ5IGluc3RlYWQgZG9pbmcgc29tZXRoaW5nIGxp
+a2U6DQoNClNIQUxMT1dfUFJFTUlSUk9SUyA9ICIgXA0KICAgIGdpdDovL3NvdXJjZXdhcmUub3Jn
+L2dpdC9nbGliYy5naXQgaHR0cHM6Ly9kb3dubG9hZHMueW9jdG9wcm9qZWN0Lm9yZy9taXJyb3Iv
+c291cmNlcy8gXA0KICAgIGdpdDovL3NvdXJjZXdhcmUub3JnL2dpdC9iaW51dGlscy1nZGIuZ2l0
+IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJjZXMvIFwNCiIN
+ClBSRU1JUlJPUlM6YXBwZW5kID0gIiAke1NIQUxMT1dfUFJFTUlSUk9SU30iDQoNCndoaWNoIEkg
+dGhpbmsgaXMgYSBmYXIgYmV0dGVyIHNvbHV0aW9uIGFueXdheSBzaW5jZSBpdCBpcyB2ZXJ5IA0K
+aGFyZCB0byByZXNldCBzb21ldGhpbmcgaW4gUFJFTUlSUk9SUyBhcyBvbmUgY2Fubm90IHVzZSA6
+cmVtb3ZlLg0KV2l0aCB0aGlzIHNvbHV0aW9uIGl0IGlzIHBvc3NpYmxlIHRvIHNldCBTSEFMTE9X
+X1BSRU1JUlJPUlMgPSAiIiANCmluIGNhc2Ugb25lIGRvIG5vdCB3YW50IHRoZSBtaXJyb3JzIE9F
+LUNvcmUgYWRkcyBieSBkZWZhdWx0Lg0KDQpPdGhlcndpc2UgeW91IGFyZSBlZmZlY3RpdmVseSBz
+YXlpbmcgdGhhdCBvbmUgY2FuIG5vIGxvbmdlciBkZWZpbmUgDQphIGRlZmF1bHQgZm9yIFBSRU1J
+UlJPUlMgdXNpbmcgPz0sIHdoaWNoIHdhcyBwb3NzaWJsZSB1cCB1bnRpbCB0aGUgDQphYm92ZSBj
+aGFuZ2UuIEFuZCB1bmxlc3MgSSBjYW4gcGVyc3VhZGUgeW91IHRvIHN3aXRjaCB0byA6YXBwZW5k
+LCANCnRoZW4gdGhpcyBuZWVkcyB0byBiZSBtZW50aW9uZWQgaW4gdGhlIG1pZ3JhdGlvbiBub3Rl
+cyBmb3IgNC4wLg0KDQo+IFdlIHNob3VsZCBjaGFuZ2UgdGhlIGRlZmF1bHQgdG8gIj0iIGlmIHRo
+YXQgaXMgY2F1c2luZyBhbiBpc3N1ZS4NCg0KVGhlcmUgaXMgbm8gbG9uZ2VyIGFueSBkZWZhdWx0
+IGluIE9FLUNvcmUgKHRoZXJlIHVzZWQgdG8gYmUgb25lIA0KaW4gcG9reS5jb25mIGRlZmluZWQg
+dXNpbmcgPz89LCBidXQgeW91IHJlbW92ZWQgaXQgdGhlIG90aGVyIGRheSkuIA0KSG93ZXZlciwg
+ZHVlIHRvIHRoYXQgcHJlZXhpc3RpbmcgZGVmaW5pdGlvbiwgd2UgdXNlIFBSRU1JUlJPUlMgPz0g
+DQppbiBvdXIgc2l0ZS5jb25mIHNvIHRoYXQgaXQgdGFrZXMgcHJlY2VkZW5jZSBvdmVyIHRoZSBk
+ZWZhdWx0IGZyb20gDQpPRS1Db3JlIChpZiBpdCBleGlzdHMpLCB3aGlsZSBpdCBzdGlsbCBkZWZp
+bmVzIGEgZGVmYXVsdCANCmNvbmZpZ3VyYXRpb24uDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFy
+ZA0KDQovL1BldGVyDQoNCg==
 
