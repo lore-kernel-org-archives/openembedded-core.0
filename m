@@ -1,132 +1,75 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4443C433EF
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 15:45:35 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.8637.1648741534176653194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA78FC433EF
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 18:29:19 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.653.1648751358746723060
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 08:45:35 -0700
+ Thu, 31 Mar 2022 11:29:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=CVIPaNv4;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1648741534;
-  x=1680277534;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=YfABc/3VvvFxCMCOTmRjBBue2QLP2JoYuj93BSWo844=;
-  b=CVIPaNv4GuZSPHdV8d570C/ree3Oe2pBqsj+CwlpDcqYuN7eqwN4Bct6
-   JUGUttSUxnvcbpEjqpmPhfRTj39Xp2cYZTtiAocyC9zN2oZWpZbqXMs2h
-   R+zz6Q5I/H/NT3QpLYJd4+/GstqpUi8Wc51vnMGEsUnVi5Yn7JYJv3RwQ
-   2kSigp8CFkb8TKfaQ35gz5Vt+CYLR7bMCvtjwwXdvvi08JAt1ONvRvJJn
-   6Q/y58KnSR1fLInPo19U6gE4sZPqK94SxNXRylWNpBtxk36/JEVctYuRe
-   UzbMU+mGeEytG2Y2QTsV7CFxsj89Y9dV28TKEmOkYs6ilWEGw2ogxmGUK
-   A==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
- shallow mirror tarballs
-Thread-Topic: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
- shallow mirror tarballs
-Thread-Index: AQHYRDEFA25bCmZHUEuJezq1iB6jfKzZhvtA///i5oCAACPZMA==
-Date: Thu, 31 Mar 2022 15:45:31 +0000
-Message-ID: <142dc7fe42ce4f9d8af2110a083b7e3f@axis.com>
-References: <20220330122344.1507091-1-richard.purdie@linuxfoundation.org>
-	 <5ad842968691474f8671615154122c87@axis.com>
- <419808b5ff897fc36da87a91143370bda43e3cdf.camel@linuxfoundation.org>
-In-Reply-To: 
- <419808b5ff897fc36da87a91143370bda43e3cdf.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4E7813D5
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 31 Mar 2022 11:29:17 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86D313F718
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 31 Mar 2022 11:29:17 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 02/23] image_types: hddimg and iso only work on x86
+Date: Thu, 31 Mar 2022 19:28:54 +0100
+Message-Id: <20220331182915.22128-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220331182915.22128-1-ross.burton@arm.com>
+References: <20220331182915.22128-1-ross.burton@arm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 15:45:35 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 18:29:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163840
+ https://lists.openembedded.org/g/openembedded-core/message/163844
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDMxIG1hcnMgMjAy
-MiAxNjoxNg0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
-cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCBSRkNdIG1pcnJvcnM6IFN3aXRjaCBnbGliYyBh
-bmQgYmludXRpbHMgdG8NCj4gdXNlIHNoYWxsb3cgbWlycm9yIHRhcmJhbGxzDQo+IA0KPiBPbiBU
-aHUsIDIwMjItMDMtMzEgYXQgMTQ6MDkgKzAwMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToN
-Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA8b3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+ID4g
-PiBTZW50OiBkZW4gMzAgbWFycyAyMDIyIDE0OjI0DQo+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRD
-SCBSRkNdIG1pcnJvcnM6IFN3aXRjaCBnbGliYyBhbmQgYmludXRpbHMgdG8gdXNlDQo+ID4gPiBz
-aGFsbG93IG1pcnJvciB0YXJiYWxscw0KPiA+ID4NCj4gPiA+IFRoZXNlIHR3byByZXBvc2l0b3Jp
-ZXMgYXJlIGxhcmdlIGFuZCBvdmVybG9hZCBvdXIgZG93bmxvYWRzIHNlcnZlciBhcyBhDQo+ID4g
-PiBwcmVtaXJyb3IgYnV0IHRoZSByZWNpcGVzIGFyZSBlYXNpZXIgdG8gbWFpbnRhaW4gYXMgZ2l0
-IHVybHMuIENvbXByb21pc2UNCj4gPiA+IGFuZCB1c2Ugc2hhbGxvdyBjbG9uZXMgZm9yIHRoZW0u
-DQo+ID4gPg0KPiA+ID4gSW4gb3JkZXIgdG8gYmUgZWZmZWN0aXZlLCB3ZSBuZWVkIHByZW1pcnJv
-ciBlbnRyaWVzIG9uIHdoZXJlIHRvIGZpbmQNCj4gPiA+IHRoZSBzaGFsbG93IG1pcnJvciB0YXJi
-YWxscy4NCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiA+IC0tLQ0KPiA+ID4gwqBtZXRhL2Ns
-YXNzZXMvbWlycm9ycy5iYmNsYXNzIHwgMTEgKysrKysrKysrKysNCj4gPiA+IMKgMSBmaWxlIGNo
-YW5nZWQsIDExIGluc2VydGlvbnMoKykNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9j
-bGFzc2VzL21pcnJvcnMuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9taXJyb3JzLmJiY2xhc3MNCj4g
-PiA+IGluZGV4IDM3ZGM0NDlhZGU3Li5mZmRjY2ZmNWZiNCAxMDA2NDQNCj4gPiA+IC0tLSBhL21l
-dGEvY2xhc3Nlcy9taXJyb3JzLmJiY2xhc3MNCj4gPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9taXJy
-b3JzLmJiY2xhc3MNCj4gPiA+IEBAIC03NiwzICs3NiwxNCBAQCBnaXQ6Ly9naXQuZ25vbWUub3Jn
-Ly4qIGdpdDovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvUEFUSDtwcm90b2NvbD1odHRwcyBcDQo+
-ID4gPiDCoGdpdDovLy4qLy4qICAgICAgICAgICAgICAgICAgIGdpdDovL0hPU1QvUEFUSDtwcm90
-b2NvbD1odHRwcyBcDQo+ID4gPiDCoGdpdDovLy4qLy4qICAgICAgICAgICAgICAgICAgIGdpdDov
-L0hPU1QvZ2l0L1BBVEg7cHJvdG9jb2w9aHR0cHMgXA0KPiA+ID4gwqAiDQo+ID4gPiArDQo+ID4g
-PiArIyBTd2l0Y2ggZ2xpYmMgYW5kIGJpbnV0aWxzIHJlY2lwZXMgdG8gdXNlIHNoYWxsb3cgY2xv
-bmVzIGFzIHRoZXkncmUgbGFyZ2UgYW5kIHRoaXMNCj4gPiA+ICsjIGltcHJvdmVzIHVzZXIgZXhw
-ZXJpZW5jZSB3aGlsc3QgYWxsb3dpbmcgdGhlIGZsZXhpYmlsaXR5IG9mIGdpdCB1cmxzIGluIHRo
-ZSByZWNpcGVzDQo+ID4gPiArQkJfR0lUX1NIQUxMT1c6cG4tYmludXRpbHMgPSAiMSINCj4gPiA+
-ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGlscy1jcm9zcy0ke1RBUkdFVF9BUkNIfSA9ICIxIg0K
-PiA+ID4gK0JCX0dJVF9TSEFMTE9XOnBuLWJpbnV0aWxzLWNyb3NzLWNhbmFkaWFuLSR7VFJBTlNM
-QVRFRF9UQVJHRVRfQVJDSH0gPSAiMSINCj4gPiA+ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGls
-cy1jcm9zcy10ZXN0c3VpdGUgPSAiMSINCj4gPiA+ICtCQl9HSVRfU0hBTExPVzpwbi1iaW51dGls
-cy1jcm9zc3Nkay0ke1NES19TWVN9ID0gIjEiDQo+ID4gPiArQkJfR0lUX1NIQUxMT1c6cG4tZ2xp
-YmMgPSAiMSINCj4gPiA+ICtQUkVNSVJST1JTICs9ICJnaXQ6Ly9zb3VyY2V3YXJlLm9yZy9naXQv
-Z2xpYmMuZ2l0IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJj
-ZXMvIFwNCj4gPiA+ICsgICAgICAgICAgICAgIGdpdDovL3NvdXJjZXdhcmUub3JnL2dpdC9iaW51
-dGlscy1nZGIuZ2l0IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3Nv
-dXJjZXMvIg0KPiA+DQo+ID4gUGxlYXNlIHVzZSBQUkVNSVJST1JTOmFwcGVuZCBoZXJlLCBvciB5
-b3Ugd2lsbCB3aXBlIGF3YXkgYW55DQo+ID4gZGVmYXVsdCBjb25maWd1cmF0aW9uIG9mIFBSRU1J
-UlJPUlMgZGVmaW5lZCB1c2luZyAiPz0iLg0KPiANCj4gTm8sIEknbSBub3QgdXNpbmcgYXBwZW5k
-IGhlcmUgc2luY2UgSSBkbyB3YW50IHVzZXJzIHRvIGJlIGFibGUgdG8gcmVzZXQgdGhpcy4NCg0K
-VGhhdCBjYW4gZWFzaWx5IGJlIGFjaGlldmVkIGJ5IGluc3RlYWQgZG9pbmcgc29tZXRoaW5nIGxp
-a2U6DQoNClNIQUxMT1dfUFJFTUlSUk9SUyA9ICIgXA0KICAgIGdpdDovL3NvdXJjZXdhcmUub3Jn
-L2dpdC9nbGliYy5naXQgaHR0cHM6Ly9kb3dubG9hZHMueW9jdG9wcm9qZWN0Lm9yZy9taXJyb3Iv
-c291cmNlcy8gXA0KICAgIGdpdDovL3NvdXJjZXdhcmUub3JnL2dpdC9iaW51dGlscy1nZGIuZ2l0
-IGh0dHBzOi8vZG93bmxvYWRzLnlvY3RvcHJvamVjdC5vcmcvbWlycm9yL3NvdXJjZXMvIFwNCiIN
-ClBSRU1JUlJPUlM6YXBwZW5kID0gIiAke1NIQUxMT1dfUFJFTUlSUk9SU30iDQoNCndoaWNoIEkg
-dGhpbmsgaXMgYSBmYXIgYmV0dGVyIHNvbHV0aW9uIGFueXdheSBzaW5jZSBpdCBpcyB2ZXJ5IA0K
-aGFyZCB0byByZXNldCBzb21ldGhpbmcgaW4gUFJFTUlSUk9SUyBhcyBvbmUgY2Fubm90IHVzZSA6
-cmVtb3ZlLg0KV2l0aCB0aGlzIHNvbHV0aW9uIGl0IGlzIHBvc3NpYmxlIHRvIHNldCBTSEFMTE9X
-X1BSRU1JUlJPUlMgPSAiIiANCmluIGNhc2Ugb25lIGRvIG5vdCB3YW50IHRoZSBtaXJyb3JzIE9F
-LUNvcmUgYWRkcyBieSBkZWZhdWx0Lg0KDQpPdGhlcndpc2UgeW91IGFyZSBlZmZlY3RpdmVseSBz
-YXlpbmcgdGhhdCBvbmUgY2FuIG5vIGxvbmdlciBkZWZpbmUgDQphIGRlZmF1bHQgZm9yIFBSRU1J
-UlJPUlMgdXNpbmcgPz0sIHdoaWNoIHdhcyBwb3NzaWJsZSB1cCB1bnRpbCB0aGUgDQphYm92ZSBj
-aGFuZ2UuIEFuZCB1bmxlc3MgSSBjYW4gcGVyc3VhZGUgeW91IHRvIHN3aXRjaCB0byA6YXBwZW5k
-LCANCnRoZW4gdGhpcyBuZWVkcyB0byBiZSBtZW50aW9uZWQgaW4gdGhlIG1pZ3JhdGlvbiBub3Rl
-cyBmb3IgNC4wLg0KDQo+IFdlIHNob3VsZCBjaGFuZ2UgdGhlIGRlZmF1bHQgdG8gIj0iIGlmIHRo
-YXQgaXMgY2F1c2luZyBhbiBpc3N1ZS4NCg0KVGhlcmUgaXMgbm8gbG9uZ2VyIGFueSBkZWZhdWx0
-IGluIE9FLUNvcmUgKHRoZXJlIHVzZWQgdG8gYmUgb25lIA0KaW4gcG9reS5jb25mIGRlZmluZWQg
-dXNpbmcgPz89LCBidXQgeW91IHJlbW92ZWQgaXQgdGhlIG90aGVyIGRheSkuIA0KSG93ZXZlciwg
-ZHVlIHRvIHRoYXQgcHJlZXhpc3RpbmcgZGVmaW5pdGlvbiwgd2UgdXNlIFBSRU1JUlJPUlMgPz0g
-DQppbiBvdXIgc2l0ZS5jb25mIHNvIHRoYXQgaXQgdGFrZXMgcHJlY2VkZW5jZSBvdmVyIHRoZSBk
-ZWZhdWx0IGZyb20gDQpPRS1Db3JlIChpZiBpdCBleGlzdHMpLCB3aGlsZSBpdCBzdGlsbCBkZWZp
-bmVzIGEgZGVmYXVsdCANCmNvbmZpZ3VyYXRpb24uDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFy
-ZA0KDQovL1BldGVyDQoNCg==
+These image types use syslinux which is only available on x86, so only
+add them to IMAGE_TYPES on x86.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes/image_types.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
+bbclass
+index f643ed3ce7f..960dab1a60e 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -264,8 +264,6 @@ IMAGE_TYPES =3D " \
+     ext3 ext3.gz \
+     ext4 ext4.gz \
+     btrfs \
+-    iso \
+-    hddimg \
+     squashfs squashfs-xz squashfs-lzo squashfs-lz4 squashfs-zst \
+     ubi ubifs multiubi \
+     tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
+@@ -275,6 +273,9 @@ IMAGE_TYPES =3D " \
+     f2fs \
+     erofs erofs-lz4 erofs-lz4hc \
+ "
++# These image types are x86 specific as they need syslinux
++IMAGE_TYPES:append:x86 =3D " hddimg iso"
++IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
+=20
+ # Compression is a special case of conversion. The old variable
+ # names are still supported for backward-compatibility. When defining
+--=20
+2.25.1
+
 
