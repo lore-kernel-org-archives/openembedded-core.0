@@ -2,29 +2,30 @@ Return-Path: <ross@burtonini.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F3EC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D048BC433EF
 	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 18:29:21 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.654.1648751360410980869
+ by mx.groups.io with SMTP id smtpd.web10.680.1648751360894993401
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 11:29:20 -0700
+ Thu, 31 Mar 2022 11:29:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12A2A13D5
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 98F461596
 	for <openembedded-core@lists.openembedded.org>;
  Thu, 31 Mar 2022 11:29:20 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com
  (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8B243F718
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4AEC73F718
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 11:29:19 -0700 (PDT)
+ Thu, 31 Mar 2022 11:29:20 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/23] oeqa/selftest/wic: clean up only_for_arch decorator
-Date: Thu, 31 Mar 2022 19:28:58 +0100
-Message-Id: <20220331182915.22128-6-ross.burton@arm.com>
+Subject: [PATCH 07/23] oeqa/selftest/wic: don't hardcode kernel image type in
+ test_wic_rm
+Date: Thu, 31 Mar 2022 19:28:59 +0100
+Message-Id: <20220331182915.22128-7-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220331182915.22128-1-ross.burton@arm.com>
 References: <20220331182915.22128-1-ross.burton@arm.com>
@@ -35,59 +36,52 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 18:29:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163847
+ https://lists.openembedded.org/g/openembedded-core/message/163848
 
-There's no need to pass a recipe name when determining the target
-architecture, there's no need to cap the size of the lru_cache as it
-will only have one entry, and __name__ is set by @wraps.
+Don't assume bzImage, resepct KERNEL_IMAGETYPE.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
 /cases/wic.py
-index 5d7f7bf6135..317b80ea27b 100644
+index 317b80ea27b..eb376e1e2c5 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -22,26 +22,22 @@ from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars=
-, runqemu
+@@ -1337,21 +1337,23 @@ class Wic2(WicTestCase):
+         self.assertEqual(1, len(images))
 =20
+         sysroot =3D get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
++        # Not bulletproof but hopefully sufficient
++        kerneltype =3D get_bb_var('KERNEL_IMAGETYPE', 'virtual/kernel')
 =20
--@lru_cache(maxsize=3D32)
--def get_host_arch(recipe):
--    """A cached call to get_bb_var('HOST_ARCH', <recipe>)"""
--    return get_bb_var('HOST_ARCH', recipe)
-+@lru_cache()
-+def get_host_arch():
-+    return get_bb_var('HOST_ARCH')
+         # list directory content of the first partition
+         result =3D runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
+-        self.assertIn('\nBZIMAGE        ', result.output)
++        self.assertIn('\n%s        ' % kerneltype.upper(), result.output=
+)
+         self.assertIn('\nEFI          <DIR>     ', result.output)
 =20
+-        # remove file
+-        runCmd("wic rm %s:1/bzimage -n %s" % (images[0], sysroot))
++        # remove file. EFI partitions are case-insensitive so exercise t=
+hat too
++        runCmd("wic rm %s:1/%s -n %s" % (images[0], kerneltype.lower(), =
+sysroot))
 =20
--def only_for_arch(archs, image=3D'core-image-minimal'):
-+def only_for_arch(archs):
-     """Decorator for wrapping test cases that can be run only for specif=
-ic target
-     architectures. A list of compatible architectures is passed in `arch=
-s`.
--    Current architecture will be determined by parsing bitbake output fo=
-r
--    `image` recipe.
-     """
-     def wrapper(func):
-         @wraps(func)
-         def wrapped_f(*args, **kwargs):
--            arch =3D get_host_arch(image)
-+            arch =3D get_host_arch()
-             if archs and arch not in archs:
-                 raise unittest.SkipTest("Testcase arch dependency not me=
-t: %s" % arch)
-             return func(*args, **kwargs)
--        wrapped_f.__name__ =3D func.__name__
-         return wrapped_f
-     return wrapper
+         # remove directory
+         runCmd("wic rm %s:1/efi -n %s" % (images[0], sysroot))
 =20
+         # check if they're removed
+         result =3D runCmd("wic ls %s:1 -n %s" % (images[0], sysroot))
+-        self.assertNotIn('\nBZIMAGE        ', result.output)
++        self.assertNotIn('\n%s        ' % kerneltype.upper(), result.out=
+put)
+         self.assertNotIn('\nEFI          <DIR>     ', result.output)
+=20
+     def test_mkfs_extraopts(self):
 --=20
 2.25.1
 
