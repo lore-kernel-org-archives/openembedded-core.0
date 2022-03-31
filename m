@@ -1,170 +1,760 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-Subject: [honister][PATCH 00/38] Patch review
-Date: Tue, 22 Feb 2022 23:07:01 +0800
-Message-Id: <cover.1645536711.git.anuj.mittal@intel.com>
+Subject: [hardknott][PATCH 17/20] epiphany: fix CVEs
+Date: Thu, 31 Mar 2022 21:47:22 +0800
+Message-Id: <125c6f5770542c3b509336b92d6c45c0c955027e.1648734169.git.anuj.mittal@intel.com>
+In-Reply-To: <cover.1648734169.git.anuj.mittal@intel.com>
+References: <cover.1648734169.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-Next set of changes for honister. Please review.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-No problems seen while testing:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3266
+Backport patch [1] to fix below CVEs:
+ - CVE-2021-45085
+ - CVE-2021-45086
+ - CVE-2021-45087
+ - CVE-2021-45088
 
-Thanks,
+[1] https://sources.debian.org/data/main/e/epiphany-browser/3.38.2-1+deb11u2/debian/patches/encode-untrusted-data.patch
 
-Anuj
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../recipes-gnome/epiphany/epiphany_3.38.2.bb |   1 +
+ .../files/encode-untrusted-data.patch         | 707 ++++++++++++++++++
+ 2 files changed, 708 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
 
-The following changes since commit 418a9c4c31615a9e3e011fc2b21fb7154bc6c93a:
-
-  build-appliance-image: Update to honister head revision (2022-02-09 23:15:24 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/honister
-
-Bruce Ashfield (4):
-  linux-yocto/5.10: update to v5.10.96
-  linux-yocto/5.10: update to v5.10.99
-  linux-yocto/5.10: ppc/riscv: fix build with binutils 2.3.8
-  linux-yocto/5.10: fix dssall build error with binutils 2.3.8
-
-Christian Eggers (2):
-  mc: fix build if ncurses have been configured without wide characters
-  sdk: fix search for dynamic loader
-
-Daniel Müller (1):
-  scripts/runqemu-ifdown: Don't treat the last iptables command as
-    special
-
-Florian Amstutz (1):
-  devtool: deploy-target: Remove stripped binaries in pseudo context
-
-Joe Slater (1):
-  virglrenderer: fix CVE-2022-0135 and -0175
-
-Jose Quaresma (12):
-  gstreamer1.0: 1.18.5 -> 1.18.6
-  gstreamer1.0-plugins-base: 1.18.5 -> 1.18.6
-  gstreamer1.0-plugins-good: 1.18.5 -> 1.18.6
-  gstreamer1.0-plugins-bad: 1.18.5 -> 1.18.6
-  gstreamer1.0-plugins-ugly: 1.18.5 -> 1.18.6
-  gstreamer1.0-vaapi: 1.18.5 -> 1.18.6
-  gstreamer1.0-libav: 1.18.5 -> 1.18.6
-  gstreamer1.0-omx: 1.18.5 -> 1.18.6
-  gstreamer1.0-rtsp-server: 1.18.5 -> 1.18.6
-  gstreamer1.0-python: 1.18.5 -> 1.18.6
-  gst-devtools: 1.18.5 -> 1.18.6
-  gst-examples: 1.18.5 -> 1.18.6
-
-Justin Bronder (1):
-  initramfs-framework: unmount automounts before switch_root
-
-Michael Halstead (1):
-  uninative: Upgrade to 3.5
-
-Richard Purdie (8):
-  vim: Upgrade 4269 -> 4134
-  binutils: Add fix for CVE-2021-45078
-  default-distrovars.inc: Switch connectivity check to a
-    yoctoproject.org page
-  oeqa/buildtools: Switch to our webserver instead of example.com
-  expat: Upgrade 2.4.4 -> 2.4.5
-  vim: Upgrade 8.2.4314 -> 8.2.4424
-  tiff: Add backports for two CVEs from upstream
-  expat: Upgrade 2.4.5 -> 2.4.6
-
-Saul Wold (1):
-  recipetool: Fix circular reference in SRC_URI
-
-Sean Anderson (1):
-  libpcap: Disable DPDK explicitly
-
-Stefan Herbrechtsmeier (2):
-  cve-check: create directory of CVE_CHECK_MANIFEST before copy
-  gcc-target: fix glob to remove gcc-<version> binary
-
-Zoltán Böszörményi (1):
-  qemuboot: Fix build error if UNINATIVE_LOADER is unset
-
-pgowda (1):
-  gcc : Fix CVE-2021-46195
-
-wangmy (1):
-  linux-firmware: upgrade 20211216 -> 20220209
-
- meta/classes/cve-check.bbclass                |   1 +
- meta/classes/qemuboot.bbclass                 |   2 +
- meta/classes/sanity.bbclass                   |   2 +-
- .../distro/include/default-distrovars.inc     |   2 +-
- meta/conf/distro/include/yocto-uninative.inc  |  10 +-
- meta/files/toolchain-shar-relocate.sh         |   2 +-
- meta/lib/oeqa/sdk/buildtools-cases/https.py   |   4 +-
- .../libpcap/libpcap_1.10.1.bb                 |   3 +-
- .../expat/{expat_2.4.4.bb => expat_2.4.6.bb}  |   2 +-
- .../initrdscripts/initramfs-framework/finish  |  12 +
- .../binutils/binutils-2.37.inc                |   1 +
- ...87d12167b1e36193385485c1f6ce92f74f02.patch | 247 ++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-11.2.inc        |   1 +
- meta/recipes-devtools/gcc/gcc-target.inc      |   2 +-
- .../gcc/gcc/0001-CVE-2021-46195.patch         | 128 +++++++++
- ...FTBFS-with-ncurses-build-with-disabl.patch |  87 ++++++
- meta/recipes-extended/mc/mc_4.8.27.bb         |   5 +-
- .../virglrenderer/cve-2022-0135.patch         | 117 +++++++++
- .../virglrenderer/cve-2022-0175.patch         | 107 ++++++++
- .../virglrenderer/virglrenderer_0.9.1.bb      |   2 +
- ...20211216.bb => linux-firmware_20220209.bb} |   4 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- ...tools_1.18.5.bb => gst-devtools_1.18.6.bb} |   2 +-
- ...mples_1.18.5.bb => gst-examples_1.18.6.bb} |   2 +-
- ...1.18.5.bb => gstreamer1.0-libav_1.18.6.bb} |   2 +-
- ...x_1.18.5.bb => gstreamer1.0-omx_1.18.6.bb} |   2 +-
- ....bb => gstreamer1.0-plugins-bad_1.18.6.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-base_1.18.6.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-good_1.18.6.bb} |   2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.18.6.bb} |   2 +-
- ....18.5.bb => gstreamer1.0-python_1.18.6.bb} |   2 +-
- ....bb => gstreamer1.0-rtsp-server_1.18.6.bb} |   2 +-
- ...1.18.5.bb => gstreamer1.0-vaapi_1.18.6.bb} |   2 +-
- ...er1.0_1.18.5.bb => gstreamer1.0_1.18.6.bb} |   2 +-
- ...al-buffer-overflow-for-ASCII-tags-wh.patch |   0
- ...99c99f987dc32ae110370cfdd7df7975586b.patch |  30 +++
- ...0712f4c3a5b449f70c57988260a667ddbdef.patch |  32 +++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   4 +-
- meta/recipes-support/vim/vim.inc              |   7 +-
- scripts/lib/devtool/deploy.py                 |   2 +-
- scripts/lib/recipetool/create.py              |   2 +-
- scripts/runqemu-ifdown                        |   1 +
- 44 files changed, 828 insertions(+), 53 deletions(-)
- rename meta/recipes-core/expat/{expat_2.4.4.bb => expat_2.4.6.bb} (91%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/161e87d12167b1e36193385485c1f6ce92f74f02.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-CVE-2021-46195.patch
- create mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4200-fix-FTBFS-with-ncurses-build-with-disabl.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0135.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/cve-2022-0175.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20211216.bb => linux-firmware_20220209.bb} (99%)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.18.5.bb => gst-devtools_1.18.6.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.5.bb => gst-examples_1.18.6.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.18.5.bb => gstreamer1.0-libav_1.18.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.18.5.bb => gstreamer1.0-omx_1.18.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.18.5.bb => gstreamer1.0-plugins-bad_1.18.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.18.5.bb => gstreamer1.0-plugins-base_1.18.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.18.5.bb => gstreamer1.0-plugins-good_1.18.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.18.5.bb => gstreamer1.0-plugins-ugly_1.18.6.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.18.5.bb => gstreamer1.0-python_1.18.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.18.5.bb => gstreamer1.0-rtsp-server_1.18.6.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.18.5.bb => gstreamer1.0-vaapi_1.18.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.18.5.bb => gstreamer1.0_1.18.6.bb} (97%)
- rename meta/recipes-multimedia/libtiff/{files => tiff}/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch (100%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+index 04f340f133..72d116da69 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            file://migrator.patch \
+            file://distributor.patch \
++           file://encode-untrusted-data.patch \
+            "
+ SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch b/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
+new file mode 100644
+index 0000000000..4805ee4e6b
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
+@@ -0,0 +1,707 @@
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Subject: Properly encode untrusted data when injecting into trusted pages
++
++CVE: CVE-2021-45085 CVE-2021-45086 CVE-2021-45087 CVE-2021-45088
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/compare/c27a8180e12e6ec92292dcf53b9243815ad9aa2e...abac58c5191b7d653fbefa8d44e5c2bd4d002825?from_project_id=1906]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++Index: epiphany-browser/embed/ephy-about-handler.c
++===================================================================
++--- epiphany-browser.orig/embed/ephy-about-handler.c
+++++ epiphany-browser/embed/ephy-about-handler.c
++@@ -27,6 +27,7 @@
++ #include "ephy-file-helpers.h"
++ #include "ephy-flatpak-utils.h"
++ #include "ephy-history-service.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-prefs.h"
++ #include "ephy-settings.h"
++ #include "ephy-smaps.h"
++@@ -263,16 +264,34 @@ handle_applications_finished_cb (EphyAbo
++ 
++     for (p = applications; p; p = p->next) {
++       EphyWebApplication *app = (EphyWebApplication *)p->data;
++-
+++      g_autofree char *html_encoded_id = NULL;
+++      g_autofree char *encoded_icon_url = NULL;
+++      g_autofree char *encoded_name = NULL;
+++      g_autofree char *encoded_url = NULL;
+++      g_autofree char *js_encoded_id = NULL;
+++      g_autofree char *encoded_install_date = NULL;
+++
+++      /* Most of these fields are untrusted. The web app suggests its own title,
+++       * which gets used in the app ID and icon URL. The main URL could contain
+++       * anything. Install date is the only trusted field here in that it's
+++       * constructed by Epiphany, but it's a freeform string and we're encoding
+++       * everything else here anyway, so might as well encode this too.
+++       */
+++      html_encoded_id = ephy_encode_for_html_attribute (app->id);
+++      encoded_icon_url = ephy_encode_for_html_attribute (app->icon_url);
+++      encoded_name = ephy_encode_for_html_entity (app->name);
+++      encoded_url = ephy_encode_for_html_entity (app->url);
+++      js_encoded_id = ephy_encode_for_javascript (app->id);
+++      encoded_install_date = ephy_encode_for_html_entity (app->install_date);
++       g_string_append_printf (data_str,
++                               "<tbody><tr id =\"%s\">"
++                               "<td class=\"icon\"><img width=64 height=64 src=\"file://%s\"></img></td>"
++                               "<td class=\"data\"><div class=\"appname\">%s</div><div class=\"appurl\">%s</div></td>"
++                               "<td class=\"input\"><input type=\"button\" value=\"%s\" onclick=\"deleteWebApp('%s');\"></td>"
++                               "<td class=\"date\">%s <br /> %s</td></tr></tbody>",
++-                              app->id, app->icon_url, app->name, app->url, _("Delete"), app->id,
+++                              html_encoded_id, encoded_icon_url, encoded_name, encoded_url, _("Delete"), js_encoded_id,
++                               /* Note for translators: this refers to the installation date. */
++-                              _("Installed on:"), app->install_date);
+++                              _("Installed on:"), encoded_install_date);
++     }
++ 
++     g_string_append (data_str, "</table></div></body></html>");
++@@ -407,7 +426,9 @@ history_service_query_urls_cb (EphyHisto
++     EphyHistoryURL *url = (EphyHistoryURL *)l->data;
++     const char *snapshot;
++     g_autofree char *thumbnail_style = NULL;
++-    g_autofree char *markup = NULL;
+++    g_autofree char *entity_encoded_title = NULL;
+++    g_autofree char *attribute_encoded_title = NULL;
+++    g_autofree char *encoded_url = NULL;
++ 
++     snapshot = ephy_snapshot_service_lookup_cached_snapshot_path (snapshot_service, url->url);
++     if (snapshot)
++@@ -415,15 +436,19 @@ history_service_query_urls_cb (EphyHisto
++     else
++       ephy_embed_shell_schedule_thumbnail_update (shell, url);
++ 
++-    markup = g_markup_escape_text (url->title, -1);
+++    /* Title and URL are controlled by web content and could be malicious. */
+++    entity_encoded_title = ephy_encode_for_html_entity (url->title);
+++    attribute_encoded_title = ephy_encode_for_html_attribute (url->title);
+++    encoded_url = ephy_encode_for_html_attribute (url->url);
++     g_string_append_printf (data_str,
++                             "<a class=\"overview-item\" title=\"%s\" href=\"%s\">"
++                             "  <div class=\"overview-close-button\" title=\"%s\"></div>"
++                             "  <span class=\"overview-thumbnail\"%s></span>"
++                             "  <span class=\"overview-title\">%s</span>"
++                             "</a>",
++-                            markup, url->url, _("Remove from overview"),
++-                            thumbnail_style ? thumbnail_style : "", url->title);
+++                            attribute_encoded_title, encoded_url, _("Remove from overview"),
+++                            thumbnail_style ? thumbnail_style : "",
+++                            entity_encoded_title);
++   }
++ 
++   data_str = g_string_append (data_str,
++Index: epiphany-browser/embed/ephy-pdf-handler.c
++===================================================================
++--- epiphany-browser.orig/embed/ephy-pdf-handler.c
+++++ epiphany-browser/embed/ephy-pdf-handler.c
++@@ -23,6 +23,7 @@
++ 
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-web-view.h"
++ 
++ #include <gio/gio.h>
++@@ -124,8 +125,9 @@ pdf_file_loaded (GObject      *source,
++   GBytes *html_file;
++   g_autoptr (GError) error = NULL;
++   g_autoptr (GString) html = NULL;
++-  g_autofree gchar *b64 = NULL;
++   g_autofree char *file_data = NULL;
+++  g_autofree char *encoded_file_data = NULL;
+++  g_autofree char *encoded_filename = NULL;
++   gsize len = 0;
++ 
++   if (!g_file_load_contents_finish (G_FILE (source), res, &file_data, &len, NULL, &error)) {
++@@ -134,13 +136,13 @@ pdf_file_loaded (GObject      *source,
++     return;
++   }
++ 
++-  html_file = g_resources_lookup_data ("/org/gnome/epiphany/pdfjs/web/viewer.html", 0, NULL);
++-
++-  b64 = g_base64_encode ((const guchar *)file_data, len);
++   g_file_delete_async (G_FILE (source), G_PRIORITY_DEFAULT, NULL, pdf_file_deleted, NULL);
++ 
++-  html = g_string_new ("");
++-  g_string_printf (html, g_bytes_get_data (html_file, NULL), b64, self->file_name ? self->file_name : "");
+++  html = g_string_new (NULL);
+++  html_file = g_resources_lookup_data ("/org/gnome/epiphany/pdfjs/web/viewer.html", 0, NULL);
+++  encoded_file_data = g_base64_encode ((const guchar *)file_data, len);
+++  encoded_filename = self->file_name ? ephy_encode_for_html_attribute (self->file_name) : g_strdup ("");
+++  g_string_printf (html, g_bytes_get_data (html_file, NULL), encoded_file_data, encoded_filename);
++ 
++   finish_uri_scheme_request (self, g_strdup (html->str), NULL);
++ }
++Index: epiphany-browser/embed/ephy-reader-handler.c
++===================================================================
++--- epiphany-browser.orig/embed/ephy-reader-handler.c
+++++ epiphany-browser/embed/ephy-reader-handler.c
++@@ -24,6 +24,7 @@
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
++ #include "ephy-lib-type-builtins.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-settings.h"
++ #include "ephy-web-view.h"
++ 
++@@ -156,7 +157,9 @@ readability_js_finish_cb (GObject      *
++   g_autoptr (WebKitJavascriptResult) js_result = NULL;
++   g_autoptr (GError) error = NULL;
++   g_autofree gchar *byline = NULL;
+++  g_autofree gchar *encoded_byline = NULL;
++   g_autofree gchar *content = NULL;
+++  g_autofree gchar *encoded_title = NULL;
++   g_autoptr (GString) html = NULL;
++   g_autoptr (GBytes) style_css = NULL;
++   const gchar *title;
++@@ -173,10 +176,14 @@ readability_js_finish_cb (GObject      *
++ 
++   byline = readability_get_property_string (js_result, "byline");
++   content = readability_get_property_string (js_result, "content");
+++  title = webkit_web_view_get_title (web_view);
+++
+++  encoded_byline = byline ? ephy_encode_for_html_entity (byline) : g_strdup ("");
+++  encoded_title = ephy_encode_for_html_entity (title);
++ 
++-  html = g_string_new ("");
+++  html = g_string_new (NULL);
++   style_css = g_resources_lookup_data ("/org/gnome/epiphany/readability/reader.css", G_RESOURCE_LOOKUP_FLAGS_NONE, NULL);
++-  title = webkit_web_view_get_title (web_view);
+++
++   font_style = enum_nick (EPHY_TYPE_PREFS_READER_FONT_STYLE,
++                           g_settings_get_enum (EPHY_SETTINGS_READER,
++                                                EPHY_PREFS_READER_FONT_STYLE));
++@@ -186,7 +193,8 @@ readability_js_finish_cb (GObject      *
++ 
++   g_string_append_printf (html, "<style>%s</style>"
++                           "<title>%s</title>"
++-                          "<meta http-equiv=\"Content-Type\" content=\"text/html;\" charset=\"UTF-8\">" \
+++                          "<meta http-equiv='Content-Type' content='text/html;' charset='UTF-8'>" \
+++                          "<meta http-equiv='Content-Security-Policy' content=\"script-src 'none'\">" \
++                           "<body class='%s %s'>"
++                           "<article>"
++                           "<h2>"
++@@ -197,13 +205,27 @@ readability_js_finish_cb (GObject      *
++                           "</i>"
++                           "<hr>",
++                           (gchar *)g_bytes_get_data (style_css, NULL),
++-                          title,
+++                          encoded_title,
++                           font_style,
++                           color_scheme,
++-                          title,
++-                          byline != NULL ? byline : "");
+++                          encoded_title,
+++                          encoded_byline);
+++
+++  /* We cannot encode the page content because it contains HTML tags inserted by
+++   * Readability.js. Upstream recommends that we use an XSS sanitizer like
+++   * DOMPurify plus Content-Security-Policy, but I'm not keen on adding more
+++   * bundled JS dependencies, and we have an advantage over Firefox in that we
+++   * don't need scripts to work at this point. So instead the above CSP
+++   * completely blocks all scripts, which should hopefully obviate the need for
+++   * a DOM purifier.
+++   *
+++   * Note the encoding for page title and byline is still required, as they're
+++   * not supposed to contain markup, and Readability.js unescapes them before
+++   * returning them to us.
+++   */
++   g_string_append (html, content);
++   g_string_append (html, "</article>");
+++  g_string_append (html, "</body>");
++ 
++   finish_uri_scheme_request (request, g_strdup (html->str), NULL);
++ }
++Index: epiphany-browser/embed/ephy-view-source-handler.c
++===================================================================
++--- epiphany-browser.orig/embed/ephy-view-source-handler.c
+++++ epiphany-browser/embed/ephy-view-source-handler.c
++@@ -23,6 +23,7 @@
++ 
++ #include "ephy-embed-container.h"
++ #include "ephy-embed-shell.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-web-view.h"
++ 
++ #include <gio/gio.h>
++@@ -109,7 +110,9 @@ web_resource_data_cb (WebKitWebResource
++                       EphyViewSourceRequest *request)
++ {
++   g_autofree guchar *data = NULL;
++-  g_autofree char *escaped_str = NULL;
+++  g_autofree char *data_str = NULL;
+++  g_autofree char *encoded_str = NULL;
+++  g_autofree char *encoded_uri = NULL;
++   g_autoptr (GError) error = NULL;
++   g_autofree char *html = NULL;
++   gsize length;
++@@ -120,8 +123,13 @@ web_resource_data_cb (WebKitWebResource
++     return;
++   }
++ 
++-  /* Warning: data is not a string, so we pass length here because it's not NUL-terminated. */
++-  escaped_str = g_markup_escape_text ((const char *)data, length);
+++  /* Convert data to a string */
+++  data_str = g_malloc (length + 1);
+++  memcpy (data_str, data, length);
+++  data_str[length] = '\0';
+++
+++  encoded_str = ephy_encode_for_html_entity (data_str);
+++  encoded_uri = ephy_encode_for_html_entity (webkit_web_resource_get_uri (resource));
++ 
++   html = g_strdup_printf ("<head>"
++                           "  <link rel='stylesheet' href='ephy-resource:///org/gnome/epiphany/highlightjs/nnfx.css' media='(prefers-color-scheme: no-preference), (prefers-color-scheme: light)'>"
++@@ -136,8 +144,8 @@ web_resource_data_cb (WebKitWebResource
++                           "          hljs.initLineNumbersOnLoad();</script>"
++                           "  <pre><code class='html'>%s</code></pre>"
++                           "</body>",
++-                          webkit_web_resource_get_uri (resource),
++-                          escaped_str);
+++                          encoded_uri,
+++                          encoded_str);
++ 
++   finish_uri_scheme_request (request, g_steal_pointer (&html), NULL);
++ }
++Index: epiphany-browser/embed/ephy-web-view.c
++===================================================================
++--- epiphany-browser.orig/embed/ephy-web-view.c
+++++ epiphany-browser/embed/ephy-web-view.c
++@@ -38,6 +38,7 @@
++ #include "ephy-gsb-utils.h"
++ #include "ephy-history-service.h"
++ #include "ephy-lib-type-builtins.h"
+++#include "ephy-output-encoding.h"
++ #include "ephy-permissions-manager.h"
++ #include "ephy-prefs.h"
++ #include "ephy-reader-handler.h"
++@@ -1772,9 +1773,11 @@ format_network_error_page (const char  *
++                            const char **icon_name,
++                            const char **style)
++ {
++-  char *formatted_origin;
++-  char *formatted_reason;
++-  char *first_paragraph;
+++  g_autofree char *encoded_uri = NULL;
+++  g_autofree char *encoded_origin = NULL;
+++  g_autofree char *formatted_origin = NULL;
+++  g_autofree char *formatted_reason = NULL;
+++  g_autofree char *first_paragraph = NULL;
++   const char *second_paragraph;
++ 
++   /* Page title when a site cannot be loaded due to a network error. */
++@@ -1783,7 +1786,8 @@ format_network_error_page (const char  *
++   /* Message title when a site cannot be loaded due to a network error. */
++   *message_title = g_strdup (_("Unable to display this website"));
++ 
++-  formatted_origin = g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin = ephy_encode_for_html_entity (origin);
+++  formatted_origin = g_strdup_printf ("<strong>%s</strong>", encoded_origin);
++   /* Error details when a site cannot be loaded due to a network error. */
++   first_paragraph = g_strdup_printf (_("The site at %s seems to be "
++                                        "unavailable."),
++@@ -1805,16 +1809,13 @@ format_network_error_page (const char  *
++ 
++   /* The button on the network error page. DO NOT ADD MNEMONICS HERE. */
++   *button_label = g_strdup (_("Reload"));
++-  *button_action = g_strdup_printf ("window.location = '%s';", uri);
+++  encoded_uri = ephy_encode_for_javascript (uri);
+++  *button_action = g_strdup_printf ("window.location = '%s';", encoded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey = C_("reload-access-key", "R");
++ 
++   *icon_name = "network-error-symbolic.svg";
++   *style = "default";
++-
++-  g_free (formatted_origin);
++-  g_free (formatted_reason);
++-  g_free (first_paragraph);
++ }
++ 
++ static void
++@@ -1828,10 +1829,12 @@ format_crash_error_page (const char  *ur
++                          const char **icon_name,
++                          const char **style)
++ {
++-  char *formatted_uri;
++-  char *formatted_distributor;
++-  char *first_paragraph;
++-  char *second_paragraph;
+++  g_autofree char *html_encoded_uri = NULL;
+++  g_autofree char *js_encoded_uri = NULL;
+++  g_autofree char *formatted_uri = NULL;
+++  g_autofree char *formatted_distributor = NULL;
+++  g_autofree char *first_paragraph = NULL;
+++  g_autofree char *second_paragraph = NULL;
++ 
++   /* Page title when a site cannot be loaded due to a page crash error. */
++   *page_title = g_strdup_printf (_("Problem Loading Page"));
++@@ -1839,7 +1842,8 @@ format_crash_error_page (const char  *ur
++   /* Message title when a site cannot be loaded due to a page crash error. */
++   *message_title = g_strdup (_("Oops! There may be a problem"));
++ 
++-  formatted_uri = g_strdup_printf ("<strong>%s</strong>", uri);
+++  html_encoded_uri = ephy_encode_for_html_entity (uri);
+++  formatted_uri = g_strdup_printf ("<strong>%s</strong>", html_encoded_uri);
++   /* Error details when a site cannot be loaded due to a page crash error. */
++   first_paragraph = g_strdup_printf (_("The page %s may have caused Web to "
++                                        "close unexpectedly."),
++@@ -1858,17 +1862,13 @@ format_crash_error_page (const char  *ur
++ 
++   /* The button on the page crash error page. DO NOT ADD MNEMONICS HERE. */
++   *button_label = g_strdup (_("Reload"));
++-  *button_action = g_strdup_printf ("window.location = '%s';", uri);
+++  js_encoded_uri = ephy_encode_for_javascript (uri);
+++  *button_action = g_strdup_printf ("window.location = '%s';", js_encoded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey = C_("reload-access-key", "R");
++ 
++   *icon_name = "computer-fail-symbolic.svg";
++   *style = "default";
++-
++-  g_free (formatted_uri);
++-  g_free (formatted_distributor);
++-  g_free (first_paragraph);
++-  g_free (second_paragraph);
++ }
++ 
++ static void
++@@ -1882,6 +1882,7 @@ format_process_crash_error_page (const c
++                                  const char **icon_name,
++                                  const char **style)
++ {
+++  g_autofree char *encoded_uri = NULL;
++   const char *first_paragraph;
++ 
++   /* Page title when a site cannot be loaded due to a process crash error. */
++@@ -1897,7 +1898,8 @@ format_process_crash_error_page (const c
++ 
++   /* The button on the process crash error page. DO NOT ADD MNEMONICS HERE. */
++   *button_label = g_strdup (_("Reload"));
++-  *button_action = g_strdup_printf ("window.location = '%s';", uri);
+++  encoded_uri = ephy_encode_for_javascript (uri);
+++  *button_action = g_strdup_printf ("window.location = '%s';", encoded_uri);
++   /* Mnemonic for the Reload button on browser error pages. */
++   *button_accesskey = C_("reload-access-key", "R");
++ 
++@@ -1921,8 +1923,9 @@ format_tls_error_page (EphyWebView  *vie
++                        const char  **icon_name,
++                        const char  **style)
++ {
++-  char *formatted_origin;
++-  char *first_paragraph;
+++  g_autofree char *encoded_origin = NULL;
+++  g_autofree char *formatted_origin = NULL;
+++  g_autofree char *first_paragraph = NULL;
++ 
++   /* Page title when a site is not loaded due to an invalid TLS certificate. */
++   *page_title = g_strdup_printf (_("Security Violation"));
++@@ -1930,7 +1933,8 @@ format_tls_error_page (EphyWebView  *vie
++   /* Message title when a site is not loaded due to an invalid TLS certificate. */
++   *message_title = g_strdup (_("This Connection is Not Secure"));
++ 
++-  formatted_origin = g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin = ephy_encode_for_html_entity (origin);
+++  formatted_origin = g_strdup_printf ("<strong>%s</strong>", encoded_origin);
++   /* Error details when a site is not loaded due to an invalid TLS certificate. */
++   first_paragraph = g_strdup_printf (_("This does not look like the real %s. "
++                                        "Attackers might be trying to steal or "
++@@ -1956,9 +1960,6 @@ format_tls_error_page (EphyWebView  *vie
++ 
++   *icon_name = "channel-insecure-symbolic.svg";
++   *style = "danger";
++-
++-  g_free (formatted_origin);
++-  g_free (first_paragraph);
++ }
++ 
++ static void
++@@ -1978,8 +1979,9 @@ format_unsafe_browsing_error_page (EphyW
++                                    const char  **icon_name,
++                                    const char  **style)
++ {
++-  char *formatted_origin;
++-  char *first_paragraph;
+++  g_autofree char *encoded_origin = NULL;
+++  g_autofree char *formatted_origin = NULL;
+++  g_autofree char *first_paragraph = NULL;
++ 
++   /* Page title when a site is flagged by Google Safe Browsing verification. */
++   *page_title = g_strdup_printf (_("Security Warning"));
++@@ -1987,7 +1989,8 @@ format_unsafe_browsing_error_page (EphyW
++   /* Message title on the unsafe browsing error page. */
++   *message_title = g_strdup (_("Unsafe website detected!"));
++ 
++-  formatted_origin = g_strdup_printf ("<strong>%s</strong>", origin);
+++  encoded_origin = ephy_encode_for_html_entity (origin);
+++  formatted_origin = g_strdup_printf ("<strong>%s</strong>", encoded_origin);
++   /* Error details on the unsafe browsing error page.
++    * https://developers.google.com/safe-browsing/v4/usage-limits#UserWarnings
++    */
++@@ -2045,9 +2048,6 @@ format_unsafe_browsing_error_page (EphyW
++ 
++   *icon_name = "security-high-symbolic.svg";
++   *style = "danger";
++-
++-  g_free (formatted_origin);
++-  g_free (first_paragraph);
++ }
++ 
++ static void
++@@ -2061,7 +2061,8 @@ format_no_such_file_error_page (EphyWebV
++                                 const char  **icon_name,
++                                 const char  **style)
++ {
++-  g_autofree gchar *formatted_origin = NULL;
+++  g_autofree gchar *encoded_address = NULL;
+++  g_autofree gchar *formatted_address = NULL;
++   g_autofree gchar *first_paragraph = NULL;
++   g_autofree gchar *second_paragraph = NULL;
++ 
++@@ -2071,10 +2072,11 @@ format_no_such_file_error_page (EphyWebV
++   /* Message title on the no such file error page. */
++   *message_title = g_strdup (_("File not found"));
++ 
++-  formatted_origin = g_strdup_printf ("<strong>%s</strong>", view->address);
+++  encoded_address = ephy_encode_for_html_entity (view->address);
+++  formatted_address = g_strdup_printf ("<strong>%s</strong>", encoded_address);
++ 
++   first_paragraph = g_strdup_printf (_("%s could not be found."),
++-                                     formatted_origin);
+++                                     formatted_address);
++   second_paragraph = g_strdup_printf (_("Please check the file name for "
++                                         "capitalization or other typing errors. Also check if "
++                                         "it has been moved, renamed, or deleted."));
++@@ -2109,19 +2111,19 @@ ephy_web_view_load_error_page (EphyWebVi
++                                GError               *error,
++                                gpointer              user_data)
++ {
++-  GBytes *html_file;
++-  GString *html = g_string_new ("");
++-  char *origin = NULL;
++-  char *lang = NULL;
++-  char *page_title = NULL;
++-  char *msg_title = NULL;
++-  char *msg_body = NULL;
++-  char *msg_details = NULL;
++-  char *button_label = NULL;
++-  char *hidden_button_label = NULL;
++-  char *button_action = NULL;
++-  char *hidden_button_action = NULL;
++-  char *style_sheet = NULL;
+++  g_autoptr (GBytes) html_file = NULL;
+++  g_autoptr (GString) html = g_string_new (NULL);
+++  g_autofree char *origin = NULL;
+++  g_autofree char *lang = NULL;
+++  g_autofree char *page_title = NULL;
+++  g_autofree char *msg_title = NULL;
+++  g_autofree char *msg_body = NULL;
+++  g_autofree char *msg_details = NULL;
+++  g_autofree char *button_label = NULL;
+++  g_autofree char *hidden_button_label = NULL;
+++  g_autofree char *button_action = NULL;
+++  g_autofree char *hidden_button_action = NULL;
+++  g_autofree char *style_sheet = NULL;
++   const char *button_accesskey = NULL;
++   const char *hidden_button_accesskey = NULL;
++   const char *icon_name = NULL;
++@@ -2261,23 +2263,9 @@ ephy_web_view_load_error_page (EphyWebVi
++                    button_accesskey, button_label);
++ #pragma GCC diagnostic pop
++ 
++-  g_bytes_unref (html_file);
++-  g_free (origin);
++-  g_free (lang);
++-  g_free (page_title);
++-  g_free (msg_title);
++-  g_free (msg_body);
++-  g_free (msg_details);
++-  g_free (button_label);
++-  g_free (button_action);
++-  g_free (hidden_button_label);
++-  g_free (hidden_button_action);
++-  g_free (style_sheet);
++-
++   /* Make our history backend ignore the next page load, since it will be an error page. */
++   ephy_web_view_freeze_history (view);
++   webkit_web_view_load_alternate_html (WEBKIT_WEB_VIEW (view), html->str, uri, 0);
++-  g_string_free (html, TRUE);
++ }
++ 
++ static gboolean
++Index: epiphany-browser/lib/ephy-output-encoding.c
++===================================================================
++--- /dev/null
+++++ epiphany-browser/lib/ephy-output-encoding.c
++@@ -0,0 +1,117 @@
+++/* -*- Mode: C; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+++/*
+++ *  Copyright © Red Hat Inc.
+++ *
+++ *  This file is part of Epiphany.
+++ *
+++ *  Epiphany is free software: you can redistribute it and/or modify
+++ *  it under the terms of the GNU General Public License as published by
+++ *  the Free Software Foundation, either version 3 of the License, or
+++ *  (at your option) any later version.
+++ *
+++ *  Epiphany is distributed in the hope that it will be useful,
+++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ *  GNU General Public License for more details.
+++ *
+++ *  You should have received a copy of the GNU General Public License
+++ *  along with Epiphany.  If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++#include "config.h"
+++#include "ephy-output-encoding.h"
+++
+++#include <glib.h>
+++
+++#if !GLIB_CHECK_VERSION(2, 68, 0)
+++static guint
+++g_string_replace (GString     *string,
+++                  const gchar *find,
+++                  const gchar *replace,
+++                  guint        limit)
+++{
+++  gsize f_len, r_len, pos;
+++  gchar *cur, *next;
+++  guint n = 0;
+++
+++  g_return_val_if_fail (string != NULL, 0);
+++  g_return_val_if_fail (find != NULL, 0);
+++  g_return_val_if_fail (replace != NULL, 0);
+++
+++  f_len = strlen (find);
+++  r_len = strlen (replace);
+++  cur = string->str;
+++
+++  while ((next = strstr (cur, find)) != NULL)
+++    {
+++      pos = next - string->str;
+++      g_string_erase (string, pos, f_len);
+++      g_string_insert (string, pos, replace);
+++      cur = string->str + pos + r_len;
+++      n++;
+++      /* Only match the empty string once at any given position, to
+++       * avoid infinite loops */
+++      if (f_len == 0)
+++        {
+++          if (cur[0] == '\0')
+++            break;
+++          else
+++            cur++;
+++        }
+++      if (n == limit)
+++        break;
+++    }
+++
+++  return n;
+++}
+++#endif
+++
+++char *
+++ephy_encode_for_html_entity (const char *input)
+++{
+++  GString *str = g_string_new (input);
+++
+++  g_string_replace (str, "&", "&amp;", 0);
+++  g_string_replace (str, "<", "&lt;", 0);
+++  g_string_replace (str, ">", "&gt;", 0);
+++  g_string_replace (str, "\"", "&quot;", 0);
+++  g_string_replace (str, "'", "&#x27;", 0);
+++  g_string_replace (str, "/", "&#x2F;", 0);
+++
+++  return g_string_free (str, FALSE);
+++}
+++
+++static char *
+++encode_all_except_alnum (const char *input,
+++                         const char *format)
+++{
+++  GString *str;
+++  const char *c = input;
+++
+++  if (!g_utf8_validate (input, -1, NULL))
+++    return g_strdup ("");
+++
+++  str = g_string_new (NULL);
+++  do {
+++    gunichar u = g_utf8_get_char (c);
+++    if (g_unichar_isalnum (u))
+++      g_string_append_unichar (str, u);
+++    else
+++      g_string_append_printf (str, format, u);
+++    c = g_utf8_next_char (c);
+++  } while (*c);
+++
+++  return g_string_free (str, FALSE);
+++}
+++
+++char *
+++ephy_encode_for_html_attribute (const char *input)
+++{
+++  return encode_all_except_alnum (input, "&#x%02x;");
+++}
+++
+++char *
+++ephy_encode_for_javascript (const char *input)
+++{
+++  return encode_all_except_alnum (input, "\\u%04u;");
+++}
++Index: epiphany-browser/lib/ephy-output-encoding.h
++===================================================================
++--- /dev/null
+++++ epiphany-browser/lib/ephy-output-encoding.h
++@@ -0,0 +1,38 @@
+++/* -*- Mode: C; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+++/*
+++ *  Copyright © 2021 Red Hat Inc.
+++ *
+++ *  This file is part of Epiphany.
+++ *
+++ *  Epiphany is free software: you can redistribute it and/or modify
+++ *  it under the terms of the GNU General Public License as published by
+++ *  the Free Software Foundation, either version 3 of the License, or
+++ *  (at your option) any later version.
+++ *
+++ *  Epiphany is distributed in the hope that it will be useful,
+++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ *  GNU General Public License for more details.
+++ *
+++ *  You should have received a copy of the GNU General Public License
+++ *  along with Epiphany.  If not, see <http://www.gnu.org/licenses/>.
+++ */
+++
+++#pragma once
+++
+++#include <glib.h>
+++
+++G_BEGIN_DECLS
+++
+++/* These functions implement the OWASP XSS prevention output encoding rules:
+++ * https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#output-encoding-rules-summary
+++ *
+++ * You must *carefully* read that document to safely inject untrusted data into
+++ * web content. Here be dragons.
+++ */
+++
+++char *ephy_encode_for_html_entity    (const char *input);
+++char *ephy_encode_for_html_attribute (const char *input);
+++char *ephy_encode_for_javascript     (const char *input);
+++
+++G_END_DECLS
++Index: epiphany-browser/lib/meson.build
++===================================================================
++--- epiphany-browser.orig/lib/meson.build
+++++ epiphany-browser/lib/meson.build
++@@ -21,6 +21,7 @@ libephymisc_sources = [
++   'ephy-langs.c',
++   'ephy-notification.c',
++   'ephy-notification-container.c',
+++  'ephy-output-encoding.c',
++   'ephy-permissions-manager.c',
++   'ephy-profile-utils.c',
++   'ephy-search-engine-manager.c',
 -- 
 2.35.1
 
