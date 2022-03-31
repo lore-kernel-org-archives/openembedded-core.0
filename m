@@ -1,84 +1,110 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFE3C4332F
-	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 13:48:04 +0000 (UTC)
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web09.7233.1648734479272585759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A249C433F5
+	for <webhook@archiver.kernel.org>; Thu, 31 Mar 2022 14:09:14 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.7509.1648735752206405967
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 06:48:03 -0700
+ Thu, 31 Mar 2022 07:09:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=RNDuzWqn;
- spf=pass (domain: intel.com, ip: 134.134.136.24,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648734483; x=1680270483;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=nTAqg5ChYQ/XBTu5Ck5wDfer/Ibk/Tko4MLbuj07rAY=;
-  b=RNDuzWqnvJ6q+FCfqxGxzd0pA+UTaKCjPok6ov23HeGjSNAcZ4KxlBQw
-   pY5GlZ5pH50nTkuMNDgx1Ce0Eo8Mjiv4/XnkbNIjcfOW3EFWIPPWK5Dlf
-   eAnIWFx+kptbw/nVU0Co87uZrdj1yufWz4hVB2dXe0VGgxwQ944PiX/AF
-   cXXcRaGEvVSSGQutuEu3ebfbrAR929JVZaCkT59bhIU11wQH5/JMdp11C
-   iDtUsMPEjaHzOmFUvLTvoI5wEZn/6x8VU1jIuMFqruf//vm4RJ/0l0W/q
-   Mbf71+6V2Xxu8U1FsKwuuYMT1WX+fI/sK/BB/eh5poFIw06bBY3ZRzt2V
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259551887"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="259551887"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:48:03 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="520542394"
-Received: from scho7-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.239.39])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:48:01 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 20/20] lttng-modules: upgrade 2.12.7 -> 2.12.8
-Date: Thu, 31 Mar 2022 21:47:25 +0800
-Message-Id: 
- <4011526ad7b2c8711038c1729c7fd046cf852ffb.1648734169.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1648734169.git.anuj.mittal@intel.com>
-References: <cover.1648734169.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=HlAAD1p4;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1648735752;
+  x=1680271752;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=6u1lNww7QKhRo74mfg3/ABk/xh78clZ0EdbUiMphqu0=;
+  b=HlAAD1p4VtiZOSnbgYcgLtzC/wyZ81TBgBi8orwx/LeYkkbfqCMz2NAw
+   t5XsqR/ceM2rwN0Pi2CHMyAz9D1owo4+Wt4LC9o08CKwBRfwCbHq8FVAa
+   7Az/be5PuKn8aiHsr5J9ODKKZ+G3djZqTIr6mjqafZoPiLgZ2NmJxm1sh
+   ADi6u4gSloYxxnLoM3mjsJg7H7aZ2JCR24iIavjvcftbYn+dJmXFyWVv4
+   /f0nItIPlP4ZCqRitauW1DBp/C26vA1aWPxiKxkpCoINlbPSZarM60ptb
+   PM2lEkJVVFh96UEG/LgX03NpBY2qhbU/9paCv3Ely7x/TTcjHaguip6dT
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
+ shallow mirror tarballs
+Thread-Topic: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use
+ shallow mirror tarballs
+Thread-Index: AQHYRDEFA25bCmZHUEuJezq1iB6jfKzZhvtA
+Date: Thu, 31 Mar 2022 14:09:10 +0000
+Message-ID: <5ad842968691474f8671615154122c87@axis.com>
+References: <20220330122344.1507091-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220330122344.1507091-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 13:48:04 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Mar 2022 14:09:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163834
+ https://lists.openembedded.org/g/openembedded-core/message/163835
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../lttng/{lttng-modules_2.12.7.bb => lttng-modules_2.12.8.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.12.7.bb => lttng-modules_2.12.8.bb} (94%)
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Richard Purdie
+> Sent: den 30 mars 2022 14:24
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH RFC] mirrors: Switch glibc and binutils to use =
+shallow mirror tarballs
+>=20
+> These two repositories are large and overload our downloads server as a
+> premirror but the recipes are easier to maintain as git urls. Compromise
+> and use shallow clones for them.
+>=20
+> In order to be effective, we need premirror entries on where to find
+> the shallow mirror tarballs.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/mirrors.bbclass | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>=20
+> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+> index 37dc449ade7..ffdccff5fb4 100644
+> --- a/meta/classes/mirrors.bbclass
+> +++ b/meta/classes/mirrors.bbclass
+> @@ -76,3 +76,14 @@ git://git.gnome.org/.* git://gitlab.gnome.org/GNOME/PA=
+TH;protocol=3Dhttps \
+>  git://.*/.*                   git://HOST/PATH;protocol=3Dhttps \
+>  git://.*/.*                   git://HOST/git/PATH;protocol=3Dhttps \
+>  "
+> +
+> +# Switch glibc and binutils recipes to use shallow clones as they're lar=
+ge and this
+> +# improves user experience whilst allowing the flexibility of git urls i=
+n the recipes
+> +BB_GIT_SHALLOW:pn-binutils =3D "1"
+> +BB_GIT_SHALLOW:pn-binutils-cross-${TARGET_ARCH} =3D "1"
+> +BB_GIT_SHALLOW:pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D =
+"1"
+> +BB_GIT_SHALLOW:pn-binutils-cross-testsuite =3D "1"
+> +BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} =3D "1"
+> +BB_GIT_SHALLOW:pn-glibc =3D "1"
+> +PREMIRRORS +=3D "git://sourceware.org/git/glibc.git https://downloads.yo=
+ctoproject.org/mirror/sources/ \
+> +              git://sourceware.org/git/binutils-gdb.git https://download=
+s.yoctoproject.org/mirror/sources/"
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.7.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.8.bb
-similarity index 94%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.12.7.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.12.8.bb
-index 5eb3902bb3..eff97f27af 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.12.7.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.8.bb
-@@ -13,7 +13,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            "
- 
--SRC_URI[sha256sum] = "32ab2d17d513cd2f458f8844c66a0d013283301fc7329b55d6503153cf8cb253"
-+SRC_URI[sha256sum] = "1302005a982fd4a15cc4843866971008546939f65660023d7762aa046d4b9213"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
--- 
-2.35.1
+Please use PREMIRRORS:append here, or you will wipe away any=20
+default configuration of PREMIRRORS defined using "?=3D".
+
+> --
+> 2.32.0
+
+//Peter
 
 
