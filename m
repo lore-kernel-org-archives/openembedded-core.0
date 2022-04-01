@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7F4C352B6
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web12.10474.1648819422099649882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E045FC4708C
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:44 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.10560.1648819422591217449
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=5tNxkDlJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 0101017fe54bc138-22011741-647a-46fb-b88b-5cbeac3861e9-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AqJBYDy8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 0101017fe54bc211-9b3215dc-2e6c-44dc-ba7c-c19cb870d1f1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PruAV41cdmBFsCMoxcqIBgZxfYMXblQLFlJc6CImbhc=;
-	b=5tNxkDlJlAMe62grIzTIQqcxV+PJMbVAypqPvnUdsoddawQZ/nhqTmlS1Sd31BX8
-	OU60MT106XANnSrZIZufwFA9NA/y20zXnR7L3QYTm1QNq5/Bayi6SPsHiYm6+vNozon
-	ilKkZ4Hdf4TWYsw5nZSWiqEdO+EAmzt0+3fD86/w=
+	bh=yb0AWBSL/pOyoyodcI8uVihK6/xEEp3+T1DlsqA3Cs8=;
+	b=AqJBYDy8FUok0lP6NnOHeh9gDXSapC33wtKD0Nr1y+ZksDnro4WYo6yUt9VvT8ex
+	bH8mm1cX8zbp9Y232tepL6DrVuPcobKEBDUSg67ru+PouA/be+HCS1UnE++NEXhcU3W
+	uD4wMnyNDAFIX9aDltVvIObmh5xUf/XmmEhuoeCs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PruAV41cdmBFsCMoxcqIBgZxfYMXblQLFlJc6CImbhc=;
-	b=c2Ke+oOzoC8XbBbKu29LDyztAhUxjHC0abMBR77AJTUIvpvf7/HaLl4Q5AIw+Lui
-	wPCryzEj/rwEse+ciqR0w/xKRTd+9aEw3STJ0VemharBlfg7ZYXAwsnloyX0x+QMGlo
-	xietqbnwYqoHcmWr7EDbUToW82q+JFtOj1xlgi2M=
-Content-Type: multipart/mixed; boundary="===============2006600158747903949=="
+	bh=yb0AWBSL/pOyoyodcI8uVihK6/xEEp3+T1DlsqA3Cs8=;
+	b=kpnWdNeDcp5Tqmw1YiBYx313LkxeUcRiFAENRrsNFuaspcmqsM5wi/O0JRcZwSrQ
+	5yA4Oh8m+1slY21EU6eM2S87x7X3dpUGYr9JEVnb7R4rOf21wzHJ47rBDRO2oWTuJ2D
+	GpgTAdquuaLWehHCFZMJDmBKkOgHhKeEUfgWjHZ4=
+Content-Type: multipart/mixed; boundary="===============5892154936124350327=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-tools: upgrading to 2.13.6 SUCCEEDED
+Subject: [AUH] libsoup: upgrading to 3.0.6 SUCCEEDED
 Message-ID: 
- <0101017fe54bc138-22011741-647a-46fb-b88b-5cbeac3861e9-000000@us-west-2.amazonses.com>
+ <0101017fe54bc211-9b3215dc-2e6c-44dc-ba7c-c19cb870d1f1-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Apr 2022 13:23:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.33
+X-SES-Outgoing: 2022.04.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163919
+ https://lists.openembedded.org/g/openembedded-core/message/163937
 
---===============2006600158747903949==
+--===============5892154936124350327==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-tools* to *2.13.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsoup* to *3.0.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lttng-tools-upgrade-2.13.4-2.13.6.patch
+    - apply the patch: git am 0001-libsoup-upgrade-3.0.5-3.0.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,110 +75,200 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2006600158747903949==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll"
-
---===============2006600158747903949==
+--===============5892154936124350327==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools: SRC_URI changed from "https://lttng.org/files/lttng-tools/lttng-tools-2.13.4.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch" to "https://lttng.org/files/lttng-tools/lttng-tools-2.13.6.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch"
-packages/core2-32-poky-linux/lttng-tools: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGSIZE changed from 46240960 to 46646712 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGSIZE changed from 240999 to 240994 (-0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGSIZE changed from 293053 to 296525 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGSIZE changed from 16038911 to 16311224 (+2%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGSIZE changed from 5848449 to 5915836 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: FILELIST: directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/sessiond-comm -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/sessiond-comm, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/config -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-sessiond -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-sessiond, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/relayd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/relayd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/actions -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/actions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0
- /lttng-tools-2.13.4/src/common/ust-consumer -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/ust-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/type-declarations -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/type-declarations, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/baddr-statedump -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/baddr-statedump, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-consumer -> /usr/src/debu
- g/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-consumerd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-consumerd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/fork -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/fork, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/consumer -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/libc-wrapper -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/libc-wrapper, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng, directory renamed /u
- sr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/overlap/demo -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/overlap/demo, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-events-callstack -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-syscall-events-callstack, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/argpar, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/health -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/health, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-expr -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-expr, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tool
- s-2.13.4/tests/regression/tools/live -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/live, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-ctl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/filtering -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/testpoint -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/testpoint, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/argpar-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-events -> /usr/src/debug/ltt
- ng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-syscall-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-session -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/multi-session, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ns-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ns-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-relayd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-relayd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/unit, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regress
- ion/tools/filtering, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/linking -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/linking, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/low-throughput -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/high-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/string-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/string-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/hidden -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/hidden, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/bytecode -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/bytecode, directory r
- enamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/name -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/name, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/hashtable -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/hashtable, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events-ns -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-events-ns, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-binary -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/userspace-probe-elf-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-cxx-binary -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/test
- s/utils/testapp/userspace-probe-elf-cxx-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/rotation -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/rotation, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/exit-fast -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/exit-fast, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/daemon -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/daemon, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/getcpu-override -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/getcpu-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/ust-dl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.1
- 3.6/tests/regression/ust/ust-dl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/compat -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/compat, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/notification -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/conditions -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/conditions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-nevents -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-nevents, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/health -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/health, directory 
- renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-rule -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/event-rule -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng/commands -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng/commands, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit/ini_config -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/unit/ini_config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-lib -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/multi-lib, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-cra
- sh -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-crash, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-nevents-str -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-nevents-str, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/xml-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/xml-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/lib/lttng-ctl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/lib/lttng-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/vendor/msgpack -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/vendor/msgpack, directory 
- renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/action -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/action, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/clock-override -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/clock-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/condition -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/condition, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-tracker -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-tracker, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/
- trigger/utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/tap -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/tap, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/notification -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/high-throughput -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/low-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-kernel-test-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-kernel-test-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng -> /usr/src/debug
- /lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/kernel -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/kernel, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/trigger -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/trigger, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-tracef -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-tracef, removed "/usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tool
- s-2.13.4/src/common/error.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/domain.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.h /usr/src/debug/lttng-tools
- /2.13.4-r0/lttng-tools-2.13.4/src/common/thread.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/snapshot.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/location.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index-allocator.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.h /usr/sr
- c/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/thread.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/userspace
- -probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/endpoint.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-too
- ls-2.13.4/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index-allocator.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.h /usr/src/de
- bug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/notification.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/macros.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/s
- rc/common/snapshot.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.c", added "/usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index-allocator.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/thread.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/macros.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/futex.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/path.c /usr/src/debug
- /lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/unix.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/waiter.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/context.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/path.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/time.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uri.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload-view.c /usr/s
- rc/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/futex.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uri.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/thread.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/unix.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/sr
- c/common/payload-view.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/shm.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/snapshot.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/time.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/shm.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.
- 13.6/src/common/userspace-probe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/endpoint.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/location.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/snapshot.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle.h /usr/src/de
- bug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/notification.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index-allocator.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/tracker.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/utils.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/utils.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/runas.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/runas.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common
- /credentials.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/domain.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/context.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/channel.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-array.h"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PV changed from "2.13.4" to "2.13.6"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGSIZE changed from 5582269 to 5619133 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/libsoup: SRC_URI changed from "https://download.gnome.org/sources//libsoup/3.0/libsoup-3.0.5.tar.xz" to "https://download.gnome.org/sources//libsoup/3.0/libsoup-3.0.6.tar.xz"
+packages/core2-32-poky-linux/libsoup: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PKGSIZE changed from 1535048 to 1536384 (+0%)
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-dev: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-dev: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-doc: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-doc: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ab: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ab: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-an: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-an: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-as: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-as: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-be: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-be: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bn-in: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bn-in: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bs: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bs: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca+valencia: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca+valencia: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-cs: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-cs: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-da: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-da: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-de: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-de: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-el: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-el: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-en-gb: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-en-gb: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eo: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eo: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-es: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-es: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-et: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-et: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fa: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fa: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fur: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fur: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gd: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gd: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-he: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-he: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-id: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-id: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-it: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-it: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ja: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ja: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-kn: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-kn: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ko: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ko: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lt: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lt: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lv: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lv: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ml: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ml: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-mr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-mr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ms: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ms: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nb: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nb: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ne: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ne: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-oc: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-oc: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-or: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-or: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pa: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pa: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt-br: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt-br: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ro: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ro: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ru: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ru: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr+latin: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr+latin: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sv: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sv: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ta: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ta: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-te: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-te: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-th: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-th: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ug: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ug: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-vi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-vi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-cn: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-cn: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-hk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-hk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-tw: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-tw: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-src: PKGSIZE changed from 1643073 to 1645532 (+0%)
+packages/core2-32-poky-linux/libsoup/libsoup-src: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-src: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-staticdev: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-staticdev: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup: PKGSIZE changed from 717728 to 721824 (+1%)
+packages/core2-32-poky-linux/libsoup/libsoup: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
 
---===============2006600158747903949==
+--===============5892154936124350327==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-lttng-tools-upgrade-2.13.4-2.13.6.patch"
+ filename="0001-libsoup-upgrade-3.0.5-3.0.6.patch"
 
-From 381f7ca101f4b8a8eb64a80f82df61d6f7f92bba Mon Sep 17 00:00:00 2001
+From 4cf41f44fe9634ced1ca4e1092a1d7d1ff25aedd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 12:43:12 +0000
-Subject: [PATCH] lttng-tools: upgrade 2.13.4 -> 2.13.6
+Date: Fri, 1 Apr 2022 13:11:51 +0000
+Subject: [PATCH] libsoup: upgrade 3.0.5 -> 3.0.6
 
 ---
- .../lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb}      | 2 +-
+ .../libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb}              | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb} (98%)
+ rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-index 0ea4da05ce..d40d0a2dd0 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://disable-tests.patch \
-            "
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.5.bb b/meta/recipes-support/libsoup/libsoup_3.0.6.bb
+similarity index 94%
+rename from meta/recipes-support/libsoup/libsoup_3.0.5.bb
+rename to meta/recipes-support/libsoup/libsoup_3.0.6.bb
+index d2535c91a2..17825ae6a4 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.5.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.6.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
--SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
-+SRC_URI[sha256sum] = "1d52d249437b3f7ba23a45a22c3e26dde006a5da10e96753952084a98e0523e3"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "f5d143db6830b3825edc2a1c4449d639273b0bfa017a4970871962d9bca22145"
++SRC_URI[sha256sum] = "b45d59f840b9acf9bb45fd45854e3ef672f57e3ab957401c3ad8d7502ac23da6"
  
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
+ PROVIDES = "libsoup-3.0"
+ CVE_PRODUCT = "libsoup"
 -- 
 2.27.0
 
 
---===============2006600158747903949==--
+--===============5892154936124350327==--
 
