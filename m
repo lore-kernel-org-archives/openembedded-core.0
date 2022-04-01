@@ -2,63 +2,64 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B9DC433F5
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 09:49:41 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.8592.1648806580296272588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DEB3C433F5
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 11:11:52 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.9174.1648811510794354257
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 02:49:40 -0700
+ Fri, 01 Apr 2022 04:11:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a3EJ2Cel;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DGX4ciqi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id q20so1343047wmq.1
+Received: by mail-wm1-f53.google.com with SMTP id
+ l62-20020a1c2541000000b0038e4570af2fso1258226wml.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 02:49:40 -0700 (PDT)
+ Fri, 01 Apr 2022 04:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=CNd2j9z6D/KFwIoY/xs3p5AFbVLej5wrKgEkqvWmiq4=;
-        b=a3EJ2Celkkbdw4RFcroaTu3uGuTNZ7+K1IfFJ0TXo9+PJIqD8d5XGbm2VVvOGFf2Pk
-         5RVEp4xOg5ZG3BPi4zIm185Bw6WQBuD5XKZFvGnQdbqF4cubNFIcvB32wU2z/PymkbeQ
-         FPyODSsV6XMX4ixfhph0Jzdsovf9kYVKjhRfY=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=D+v0mPLnq7XNpURg+6kf+1wZ+rC+jhsd3d7cAPUUr2Q=;
+        b=DGX4ciqiSPaypYFQYVTPWAr7Bn2Uqao7W5TLC4Q0S9KQmdQ9VKY7X+ECyXPxX/JjuU
+         s9aZNZ3WGx5f41jWq1d4LBT9921fS0KAC2Za12FKTHa4LnGQlOe5p5TtoqzJo/6UyGyZ
+         aLFkGP0vymfpCRCSx1wCn9wyMBl3LnMBalRj8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CNd2j9z6D/KFwIoY/xs3p5AFbVLej5wrKgEkqvWmiq4=;
-        b=GD6BBfM6xyE37fxDiliek6e3qbqZZqO3bai94Myc5mLvCn9uvowzob3o7HW4ptusWA
-         YwM5SMfib1ooV5QIOqhM1klM/HWoGW+8j1L7afynBCVeZl/FXDTyrUikCWzp+FH2K8Te
-         rmNf4EmPDnx7TGsEat7fQaU6sGAxYMLlLMDkz52fZ0eqULN9egcVEQx2CxAGBQ4SMep5
-         ZLH0QNz8tJmhm359WwGfBDcMh5GzQTWGROWDn+VaKmnoQzYW5ysQ8srhLznoCS0TzSxR
-         Faw/Bmf6BPH/CyAsXdl1AXa4dfz0g1rziM/mQrf2P87BfuKQciJVHhjHuVdKHWpzeAY8
-         Fyiw==
-X-Gm-Message-State: AOAM5309JseRa8NEap5DPaVJoFkRWO1WCQMMDNtoH4YZI6DUDLMtj0lY
-	HW49vVDAwcrQIBtvd7rxqe68wA==
+        bh=D+v0mPLnq7XNpURg+6kf+1wZ+rC+jhsd3d7cAPUUr2Q=;
+        b=2KXe0gePX9ptF3PW6rf3RDqneqKWa+S4mT1iKzLxpucx8/MoG0/PkzH5r8kXrvkJ+f
+         r+knyAFdQSZA1mremUYH4Bqs/QWioksyp9fdyZVjud1oWVAuIb4t382oue1iBNZj1lLd
+         Dz3xDe11xQKQhcmTs3fkfS2m4akSPpNnvoTdDPS2RKYtCi4Rbi7NGKSyNd7HqiBFcYT9
+         5SU8rpETiwQVT4PHKsTTJNtXKPZPggbdgJlRwTMmVQ9ps0jnBE9t9vx5jQsaVVQKhSU4
+         nbmLm/qTQ4EtUWxjUrvslyGJHxoSJgaf1ZSRZ9Df2oAu9Fz8h2uEdprQ9ygQzQ1Vel8h
+         eK5A==
+X-Gm-Message-State: AOAM533SOO7jrnW3hKwKUaO21hGKRigKY9d4buAvePu/twH+2NNSGurO
+	BeKRpYC2deljnUCXdg4MQZhtiQ==
 X-Google-Smtp-Source: 
- ABdhPJzPKX+1ST6eFza4hfe8z14AHHAO/Qh3ShRUepjeq6b4DZ3DMgB+RU0TYJe3gCGroqCdS79lag==
-X-Received: by 2002:a05:600c:3505:b0:38c:a3a8:8479 with SMTP id
- h5-20020a05600c350500b0038ca3a88479mr8289574wmq.4.1648806578800;
-        Fri, 01 Apr 2022 02:49:38 -0700 (PDT)
+ ABdhPJwMWlrRHro16gB1m1BwRwjzFjJmfZkQnycz1Maxxx0kIoQECrd3LNJoIpNWPCm38YJzAW7nVQ==
+X-Received: by 2002:a05:600c:3b98:b0:38c:b19d:59f2 with SMTP id
+ n24-20020a05600c3b9800b0038cb19d59f2mr8335880wms.205.1648811509208;
+        Fri, 01 Apr 2022 04:11:49 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:a160:31eb:e235:3dfd?
  ([2001:8b0:aba:5f3c:a160:31eb:e235:3dfd])
         by smtp.gmail.com with ESMTPSA id
- l10-20020a05600002aa00b0020414b4e75fsm1836094wry.85.2022.04.01.02.49.37
+ i9-20020a5d5849000000b002058631cfacsm1927196wrf.61.2022.04.01.04.11.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 02:49:38 -0700 (PDT)
+        Fri, 01 Apr 2022 04:11:48 -0700 (PDT)
 Message-ID: 
- <20442eb12ce2cf12e9fb83e3600a290a07bc0997.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master] meta: scripts - relocation script adapted to
- support big-endian machines
+ <26d7155b1477eebde96ac003a62adeca55900c7d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 3/3] depmodwrapper: Use nonarch_base_libdir
+ for depmod.d
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+To: Saul Wold <Saul.Wold@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com
-Date: Fri, 01 Apr 2022 10:49:33 +0100
-In-Reply-To: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
-References: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
+Date: Fri, 01 Apr 2022 12:11:45 +0100
+In-Reply-To: <20220331222153.76037-3-saul.wold@windriver.com>
+References: <20220331222153.76037-1-saul.wold@windriver.com>
+	 <20220331222153.76037-3-saul.wold@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
@@ -66,68 +67,59 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 09:49:41 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 11:11:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163883
+ https://lists.openembedded.org/g/openembedded-core/message/163884
 
-On Fri, 2022-04-01 at 09:50 +0530, Sundeep KOKKONDA wrote:
-> relocate_sdk.py was developed for little-endian architures and when tries
-> to install SDK for big-endian machines errors like below will be shown.
+On Thu, 2022-03-31 at 15:21 -0700, Saul Wold wrote:
+> This ensure that when depmod-native runs we can find the correct
+> exclude.conf information, in this case adding .debug to ignore
+> the .debug kernell modules. The kmod utilities like depmod can use
+> either /etc/depmod.d or /lib/depmod.d. The kmod recipe is installing
+> the existing search.conf to /lib/depmod.d (nonarch_base_lib)
 > 
-> The changes made in the script to support big-endian architecture.
+> When the busybox modutils are used, /lib/depmod.d is not used, so
+> it's safe add the exclude.conf file to /lib/depmod.d.
 > 
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> Signed-off-by: Saul Wold <saul.wold@windriver.com>
 > ---
->  scripts/relocate_sdk.py | 45 ++++++++++++++++++++++++++++++++---------
->  1 file changed, 35 insertions(+), 10 deletions(-)
->  mode change 100755 => 100644 scripts/relocate_sdk.py
+>  meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-> old mode 100755
-> new mode 100644
-> index 8c0fdb986a..513b9343d3
-> --- a/scripts/relocate_sdk.py
-> +++ b/scripts/relocate_sdk.py
-> @@ -30,9 +30,10 @@ else:
->  old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> index 04fc14a6d21..65068f02df8 100644
+> --- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+> @@ -30,11 +30,16 @@ if [ -r "${PKGDATA_DIR}/kernel-depmod/kernel-abiversion" ]; then
+>      kernelabi=\$(cat "${PKGDATA_DIR}/kernel-depmod/kernel-abiversion")
+>  fi
 >  
->  def get_arch():
-> +    global ei_data
->      f.seek(0)
->      e_ident =f.read(16)
-> -    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
-> +    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
->  
->      if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
->          return 0
-> @@ -51,11 +52,17 @@ def parse_elf_header():
->  
->      if arch == 32:
->          # 32bit
-> -        hdr_fmt = "<HHILLLIHHHHHH"
-> +        if ei_data == 1: # ei_data = 1, little endian
-> +            hdr_fmt = "<HHILLLIHHHHHH"
-> +        else:   # ei_data = 0, big endian
-> +            hdr_fmt = ">HHILLLIHHHHHH"
->          hdr_size = 52
->      else:
->          # 64bit
-> -        hdr_fmt = "<HHIQQQIHHHHHH"
-> +        if ei_data == 1:
-> +            hdr_fmt = "<HHIQQQIHHHHHH"
-> +        else:
-> +            hdr_fmt = ">HHIQQQIHHHHHH"
->          hdr_size = 64
+> +if [ ! -e "\3${nonarch_base_libdir}/depmod.d/exclude.conf" ]; then
+> +    mkdir -p "\$3${nonarch_base_libdir}/depmod.d"
+> +    echo "exclude .debug" > "\$3${nonarch_base_libdir}/depmod.d/exclude.conf"
+> +fi
 
-I think we can make the change a bit neater, maybe putting ">" or "<" into the
-global variable and then doing something like:
+Shouldn't the above go into the kmod recipe? We need this on target as well as
+in our rootfs build, right? I'm worried about the case where someone calls
+depmod on target.
 
-hdr_fmt = endian_prefix + "HHIQQQIHHHHHH"
+> +
+>  if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ] || [ "\$kernelabi" != "\$4" ]; then
+>      echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/System.map-\$4" >&2
+> -    exec env depmod -C "\$3${sysconfdir}/depmod.d" "\$1" "\$2" "\$3" "\$4"
+> +    exec env depmod -C "\$3${nonarch_base_libdir}/depmod.d" "\$1" "\$2" "\$3" "\$4"
+>  else
+> -    exec env depmod -C "\$3${sysconfdir}/depmod.d" "\$1" "\$2" "\$3" -F "${PKGDATA_DIR}/kernel-depmod/System.map-\$4" "\$4"
+> +    exec env depmod -C "\$3${nonarch_base_libdir}/depmod.d" "\$1" "\$2" "\$3" -F "${PKGDATA_DIR}/kernel-depmod/System.map-\$4" "\$4"
+>  fi
+>  EOF
+>  	chmod +x ${D}${bindir_crossscripts}/depmodwrapper
 
-?
+Does anything in the build install to $sysconfdir/depmod.d ?
 
 Cheers,
 
 Richard
+
 
 
