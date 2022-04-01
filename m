@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F6DC38A2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B49C4708B
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:44 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web12.10473.1648819421872760941
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web12.10477.1648819422716333768
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=QpMFaxC6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 0101017fe54bbfe4-4d251727-338c-4e6d-a26a-a8f8dfa72414-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=xWNAyrzh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 0101017fe54bc341-e2b7dd9d-93e1-4ace-9f73-6dbe2e67f20c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1648819421;
+	t=1648819422;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=yLv3GCzsyZknYQ23G35GaSoNcvktaVcFy/OGxDRr7Ao=;
-	b=QpMFaxC68JanAn+5zQRwD9jPFYBRgwnFQxalPRfR1LlVXDYBwjsY6uX01YaeEiP8
-	TUJIo1sHpSRQb3emnGrWO3BfLzfRcXvtlwtnUpn+XOQTpgXqnpYlXMAR4Wjikrh+CAy
-	5yTsEs9J5sQiUg7y+2T2VyGZhoJoli/quVtlFLNg=
+	bh=GgSQ0vHiOAQ3sfNr9COEieW0kTGsF8SEQup6ky0Ck5o=;
+	b=xWNAyrzhTUWcDmRvUzEmIIOdJyCxo/2O+aawiXo+2XNyppIuPFPfIpB5g6n2kVY5
+	PEQZii5QfjeMlE7uiYpgffUdhmtCgKRZ+9oduC2TP+dxoK+E9KhegAYS2vt8l753nCx
+	cFsWE605TU+IR7z2Qh0IHP10kL7vV2MWruNuTbP0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819422;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=yLv3GCzsyZknYQ23G35GaSoNcvktaVcFy/OGxDRr7Ao=;
-	b=gFpdY/ghR178S9Kq4tuZdjYUG2JBXb4PUzTCOq9WQaX5eLW6Jl/tc/iwawDcZj+H
-	uVcaZAkBgmKXDwReyjnJ+mO690qxdPPzgUpF+gH3++Mnor+J+8VJi7lBzMIdar9xzY/
-	73VRANEJ1EPDjuGl2M3ZT+7epQXXDXidK92y5fRg=
-Content-Type: multipart/mixed; boundary="===============8944853422754426334=="
+	bh=GgSQ0vHiOAQ3sfNr9COEieW0kTGsF8SEQup6ky0Ck5o=;
+	b=jNeMsfik2yNbX28xH0hCLxETGCV2oe32rZbEOcJHa8N3wI9IG+qbYnO9FEpKEX3L
+	J3p842RqEoV+cCINKZaCeDl7HywPRB3VF6LX/0xe9g/pdFySOEtgaVDwLfCEImPjNnp
+	YCOAsohsD5xVQOOyQiOEpnRz8tUD+9UJFqf3otAo=
+Content-Type: multipart/mixed; boundary="===============8775496322421222712=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] freetype: upgrading to 2.12.0 SUCCEEDED
+Subject: [AUH] shared-mime-info: upgrading to 2.2 SUCCEEDED
 Message-ID: 
- <0101017fe54bbfe4-4d251727-338c-4e6d-a26a-a8f8dfa72414-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:41 +0000
+ <0101017fe54bc341-e2b7dd9d-93e1-4ace-9f73-6dbe2e67f20c-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:42 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.191
+X-SES-Outgoing: 2022.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163933
+ https://lists.openembedded.org/g/openembedded-core/message/163938
 
---===============8944853422754426334==
+--===============8775496322421222712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *freetype* to *2.12.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *shared-mime-info* to *2.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-freetype-upgrade-2.11.1-2.12.0.patch
+    - apply the patch: git am 0001-shared-mime-info-upgrade-2.1-2.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,55 +75,60 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8944853422754426334==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-freetype-upgrade-2.11.1-2.12.0.patch"
-
-From b84d8c24d2e1219543b668d1a1df1208b4dc15e9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 11:19:49 +0000
-Subject: [PATCH] freetype: upgrade 2.11.1 -> 2.12.0
-
----
- .../freetype/{freetype_2.11.1.bb => freetype_2.12.0.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/freetype/{freetype_2.11.1.bb => freetype_2.12.0.bb} (95%)
-
-diff --git a/meta/recipes-graphics/freetype/freetype_2.11.1.bb b/meta/recipes-graphics/freetype/freetype_2.12.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/freetype/freetype_2.11.1.bb
-rename to meta/recipes-graphics/freetype/freetype_2.12.0.bb
-index 5055ff185c..3034977cd4 100644
---- a/meta/recipes-graphics/freetype/freetype_2.11.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.12.0.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=a5927784d823d443c6cae55701d01553 \
-                     file://docs/GPLv2.TXT;md5=8ef380476f642c20ebf40fecb0add2ec"
- 
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8"
-+SRC_URI[sha256sum] = "ef5c336aacc1a079ff9262d6308d6c2a066dd4d2a905301c4adda9b354399033"
- 
- UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.27.0
-
-
---===============8944853422754426334==
+--===============8775496322421222712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/freetype/freetype-dev: FILELIST: added "/usr/include/freetype2/freetype/otsvg.h"
-packages/core2-32-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.18.1", added "/usr/lib/libfreetype.so.6.18.2"
-Changes to packages/core2-32-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.18.1 to libfreetype.so.6.18.2
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.18.1 to libfreetype.so.6.18.2
-  /usr/lib/libfreetype.so.6.18.1 moved to /usr/lib/libfreetype.so.6.18.2
-  /usr/include/freetype2/freetype/otsvg.h was added
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGSIZE changed from 35968 to 50254 (+40%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGSIZE changed from 43634 to 52116 (+19%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGSIZE changed from 40337 to 52970 (+31%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: FILELIST: removed "/usr/share/mime/image/fits.xml", added "/usr/share/mime/model/gltf+json.xml /usr/share/mime/application/x-godot-project.xml /usr/share/mime/audio/x-dff.xml /usr/share/mime/image/x-canon-cr3.xml /usr/share/mime/application/x-qed-disk.xml /usr/share/mime/text/x-mpl2.xml /usr/share/mime/application/fits.xml /usr/share/mime/image/x-nikon-nrw.xml /usr/share/mime/application/sparql-query.xml /usr/share/mime/application/x-godot-shader.xml /usr/share/mime/application/x-godot-scene.xml /usr/share/mime/text/x-objc++src.xml /usr/share/mime/model/mtl.xml /usr/share/mime/application/x-vdi-disk.xml /usr/share/mime/image/jxl.xml /usr/share/mime/application/vnd.apple.pkpass.xml /usr/share/mime/application/ovf.xml /usr/share/mime/audio/x-dsf.xml /usr/share/mime/video/vnd.radgamettools.bink.xml /usr/share/mime/video/vnd.radgamettools.smacker.xml /usr/share/mime/application/x-vmdk-disk.xml /usr/share/mime/text/x-crystal.
+ xml /usr/share/mime/application/vnd.apple.pages.xml /usr/share/mime/application/vnd.apple.numbers.xml /usr/share/mime/text/x-dart.xml /usr/share/mime/model/3mf.xml /usr/share/mime/application/sparql-results+xml.xml /usr/share/mime/text/x-gcode-gx.xml /usr/share/mime/application/toml.xml /usr/share/mime/application/x-vhdx-disk.xml /usr/share/mime/application/x-godot-resource.xml /usr/share/mime/application/x-asar.xml /usr/share/mime/application/schema+json.xml /usr/share/mime/audio/mobile-xmf.xml /usr/share/mime/model/gltf-binary.xml /usr/share/mime/model/obj.xml /usr/share/mime/text/org.xml /usr/share/mime/text/x-elixir.xml /usr/share/mime/application/x-gdscript.xml /usr/share/mime/application/x-openzim.xml /usr/share/mime/application/x-vhd-disk.xml"
+Changes to packages/core2-32-poky-linux/shared-mime-info (sysroot):
+  /usr/share/mime/application/fits.xml was added
+  /usr/share/mime/application/ovf.xml was added
+  /usr/share/mime/application/schema+json.xml was added
+  /usr/share/mime/application/sparql-query.xml was added
+  /usr/share/mime/application/sparql-results+xml.xml was added
+  /usr/share/mime/application/toml.xml was added
+  /usr/share/mime/application/vnd.apple.numbers.xml was added
+  /usr/share/mime/application/vnd.apple.pages.xml was added
+  /usr/share/mime/application/vnd.apple.pkpass.xml was added
+  /usr/share/mime/application/x-asar.xml was added
+  /usr/share/mime/application/x-gdscript.xml was added
+  /usr/share/mime/application/x-godot-project.xml was added
+  /usr/share/mime/application/x-godot-resource.xml was added
+  /usr/share/mime/application/x-godot-scene.xml was added
+  /usr/share/mime/application/x-godot-shader.xml was added
+  /usr/share/mime/application/x-openzim.xml was added
+  /usr/share/mime/application/x-qed-disk.xml was added
+  /usr/share/mime/application/x-vdi-disk.xml was added
+  /usr/share/mime/application/x-vhd-disk.xml was added
+  /usr/share/mime/application/x-vhdx-disk.xml was added
+  /usr/share/mime/application/x-vmdk-disk.xml was added
+  /usr/share/mime/audio/mobile-xmf.xml was added
+  /usr/share/mime/audio/x-dff.xml was added
+  /usr/share/mime/audio/x-dsf.xml was added
+  /usr/share/mime/image/jxl.xml was added
+  /usr/share/mime/image/x-canon-cr3.xml was added
+  /usr/share/mime/image/x-nikon-nrw.xml was added
+  /usr/share/mime/model/3mf.xml was added
+  /usr/share/mime/model/gltf-binary.xml was added
+  /usr/share/mime/model/gltf+json.xml was added
+  /usr/share/mime/model/mtl.xml was added
+  /usr/share/mime/model/obj.xml was added
+  /usr/share/mime/text/org.xml was added
+  /usr/share/mime/text/x-crystal.xml was added
+  /usr/share/mime/text/x-dart.xml was added
+  /usr/share/mime/text/x-elixir.xml was added
+  /usr/share/mime/text/x-gcode-gx.xml was added
+  /usr/share/mime/text/x-mpl2.xml was added
+  /usr/share/mime/text/x-objc++src.xml was added
+  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
+  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
+  /usr/share/mime/image/fits.xml was removed
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1449,57 +1454,345 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/shared-mime-info-native (sysroot):
+  /usr/share/mime/application/fits.xml was added
+  /usr/share/mime/application/ovf.xml was added
+  /usr/share/mime/application/schema+json.xml was added
+  /usr/share/mime/application/sparql-query.xml was added
+  /usr/share/mime/application/sparql-results+xml.xml was added
+  /usr/share/mime/application/toml.xml was added
+  /usr/share/mime/application/vnd.apple.numbers.xml was added
+  /usr/share/mime/application/vnd.apple.pages.xml was added
+  /usr/share/mime/application/vnd.apple.pkpass.xml was added
+  /usr/share/mime/application/x-asar.xml was added
+  /usr/share/mime/application/x-gdscript.xml was added
+  /usr/share/mime/application/x-godot-project.xml was added
+  /usr/share/mime/application/x-godot-resource.xml was added
+  /usr/share/mime/application/x-godot-scene.xml was added
+  /usr/share/mime/application/x-godot-shader.xml was added
+  /usr/share/mime/application/x-openzim.xml was added
+  /usr/share/mime/application/x-qed-disk.xml was added
+  /usr/share/mime/application/x-vdi-disk.xml was added
+  /usr/share/mime/application/x-vhd-disk.xml was added
+  /usr/share/mime/application/x-vhdx-disk.xml was added
+  /usr/share/mime/application/x-vmdk-disk.xml was added
+  /usr/share/mime/audio/mobile-xmf.xml was added
+  /usr/share/mime/audio/x-dff.xml was added
+  /usr/share/mime/audio/x-dsf.xml was added
+  /usr/share/mime/image/jxl.xml was added
+  /usr/share/mime/image/x-canon-cr3.xml was added
+  /usr/share/mime/image/x-nikon-nrw.xml was added
+  /usr/share/mime/model/3mf.xml was added
+  /usr/share/mime/model/gltf-binary.xml was added
+  /usr/share/mime/model/gltf+json.xml was added
+  /usr/share/mime/model/mtl.xml was added
+  /usr/share/mime/model/obj.xml was added
+  /usr/share/mime/text/org.xml was added
+  /usr/share/mime/text/x-crystal.xml was added
+  /usr/share/mime/text/x-dart.xml was added
+  /usr/share/mime/text/x-elixir.xml was added
+  /usr/share/mime/text/x-gcode-gx.xml was added
+  /usr/share/mime/text/x-mpl2.xml was added
+  /usr/share/mime/text/x-objc++src.xml was added
+  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
+  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
+  /usr/share/mime/image/fits.xml was removed
 
---===============8944853422754426334==
+--===============8775496322421222712==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/freetype/freetype-dbg: FILELIST: removed "/usr/lib/.debug/libfreetype.so.6.18.1", added "/usr/lib/.debug/libfreetype.so.6.18.2"
-packages/core2-32-poky-linux/freetype/freetype-dbg: PKGSIZE changed from 2337864 to 2370124 (+1%)
-packages/core2-32-poky-linux/freetype/freetype-dbg: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-dbg: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype-dev: FILELIST: added "/usr/include/freetype2/freetype/otsvg.h"
-packages/core2-32-poky-linux/freetype/freetype-dev: PKGSIZE changed from 846763 to 872253 (+3%)
-packages/core2-32-poky-linux/freetype/freetype-dev: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-dev: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype-doc: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-doc: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype-locale: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-locale: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype-src: FILELIST: directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/type1 -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/type1, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/config -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/config, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/truetype -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/truetype, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/type42 -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/type42, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/builds/unix -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/builds/unix, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/base -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/base, directory renamed /usr/src/debug/freetype/2.11
- .1-r0/freetype-2.11.1/src/psnames -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/psnames, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sdf -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sdf, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/psaux -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/psaux, directory renamed /usr/src/debug/freetype/2.11.1-r0/build -> /usr/src/debug/freetype/2.12.0-r0/build, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/pshinter -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/pshinter, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/cff -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/cff, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/gzip -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/gzip, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/autofit -> /usr/s
- rc/debug/freetype/2.12.0-r0/freetype-2.12.0/src/autofit, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/smooth -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/smooth, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/services -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/services, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/bzip2 -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/bzip2, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/lzw -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/lzw, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/pfr -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/pfr, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/winfonts -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/winfonts, directory renamed /usr/src/debug/freet
- ype/2.11.1-r0/freetype-2.11.1/src/pcf -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/pcf, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/cid -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/cid, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/cache -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/cache, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/bdf -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/bdf, directory renamed /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/raster -> /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/raster, removed "/usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/psaux.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/pshints.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/freetype.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ft
- gloadr.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftbdf.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftdriver.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftsystem.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttbdf.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftincrem.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttpost.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftmemory.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftsnames.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftrfork.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/fterrors.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttload.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftlist.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftim
- age.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttcolr.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/sfwoff.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftlogging.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftlzw.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftbitmap.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftglyph.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/t1tables.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttcmap.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftcache.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftpsprop.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftadvanc.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/tttypes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftout
- ln.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/sfnt.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/tttables.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/fthash.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/cffotypes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/pngshim.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttkern.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftsizes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttsbit.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/sfobjs.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/cfftypes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftrender.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftcalc.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/
- freetype/ftmodapi.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftwinfnt.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttcmap.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttcpal.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftlcdfil.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftgzip.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftcolor.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/fttypes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/autohint.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftvalid.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftstream.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/fttrigon.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftdrv.h /usr/src/debug/freetype/2.11.1-r0
- /freetype-2.11.1/src/sfnt/ttmtx.c /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftmm.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/ftstroke.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftobjs.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/sfdriver.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftdebug.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/ftserv.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/ttcmapc.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/wofftypes.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/include/freetype/internal/t1types.h /usr/src/debug/freetype/2.11.1-r0/freetype-2.11.1/src/sfnt/sfdriver.c", added "/usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftimage.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/autohint.h
-  /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftobjs.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftincrem.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftbitmap.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftcolor.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttkern.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/cffotypes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/pngshim.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/freetype.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftsystem.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttcmap.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttcmap.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftmemory.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftwinfn
- t.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/tttables.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/svg/ftsvg.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/svginterface.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftsnames.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttcmapc.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttmtx.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftrender.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftstroke.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftoutln.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/fthash.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/sfobjs.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttcolr.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/svg/ftsvg.h /usr/src/debug/freetype/
- 2.12.0-r0/freetype-2.12.0/include/freetype/ftlist.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttbdf.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/psaux.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftmodapi.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftcache.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/fttrigon.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftgloadr.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftstream.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftdriver.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttcpal.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttpost.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/sfwoff.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/t1types.h /usr/src/debug/free
- type/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftpsprop.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/svg/svgtypes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftsizes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/cfftypes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftadvanc.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftlzw.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftserv.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftgzip.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftdrv.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttsbit.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftmm.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/fterrors.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/sfdriver.c /usr/src
- /debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/tttypes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/t1tables.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftrfork.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/sfdriver.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftvalid.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftbdf.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftcalc.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/ftdebug.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftlcdfil.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttload.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftglyph.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/pshints.h /usr/src/debug/freetype/2.12.0-r0/freetype-2
- .12.0/include/freetype/internal/sfnt.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/ftlogging.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/internal/wofftypes.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/otsvg.h /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/src/sfnt/ttsvg.c /usr/src/debug/freetype/2.12.0-r0/freetype-2.12.0/include/freetype/fttypes.h"
-packages/core2-32-poky-linux/freetype/freetype-src: PKGSIZE changed from 5467505 to 5535852 (+1%)
-packages/core2-32-poky-linux/freetype/freetype-src: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-src: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype-staticdev: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype-staticdev: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype/freetype: FILELIST: removed "/usr/lib/libfreetype.so.6.18.1", added "/usr/lib/libfreetype.so.6.18.2"
-packages/core2-32-poky-linux/freetype/freetype: PKGSIZE changed from 742761 to 750953 (+1%)
-packages/core2-32-poky-linux/freetype/freetype: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype/freetype: PV changed from "2.11.1" to "2.12.0"
-packages/core2-32-poky-linux/freetype: PKGV changed from 2.11.1 [default] to 2.12.0 [default]
-packages/core2-32-poky-linux/freetype: SRC_URI changed from "https://download.savannah.nongnu.org/releases/freetype/freetype-2.11.1.tar.xz" to "https://download.savannah.nongnu.org/releases/freetype/freetype-2.12.0.tar.xz"
-packages/core2-32-poky-linux/freetype: PV changed from "2.11.1" to "2.12.0"
-Changes to packages/core2-32-poky-linux/freetype (sysroot):
-  /usr/lib/libfreetype.so.6 changed symlink target from libfreetype.so.6.18.1 to libfreetype.so.6.18.2
-  /usr/lib/libfreetype.so changed symlink target from libfreetype.so.6.18.1 to libfreetype.so.6.18.2
-  /usr/lib/libfreetype.so.6.18.1 moved to /usr/lib/libfreetype.so.6.18.2
-  /usr/include/freetype2/freetype/otsvg.h was added
+packages/core2-32-poky-linux/shared-mime-info: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info: SRC_URI changed from "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master file://0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch" to "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
+packages/core2-32-poky-linux/shared-mime-info: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PKGSIZE changed from 2376295 to 2408297 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PKGSIZE changed from 117468 to 117384 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dev: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dev: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PKGSIZE changed from 1491 to 1490 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PKGSIZE changed from 36657 to 36662 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGSIZE changed from 35968 to 50254 (+40%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PKGSIZE changed from 450 to 440 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PKGSIZE changed from 12698 to 12701 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PKGSIZE changed from 8030 to 8020 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be+latin: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be+latin: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PKGSIZE changed from 590 to 580 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PKGSIZE changed from 56209 to 56217 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PKGSIZE changed from 463 to 453 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PKGSIZE changed from 479 to 469 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PKGSIZE changed from 48680 to 48749 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PKGSIZE changed from 43348 to 43357 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PKGSIZE changed from 8339 to 8329 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PKGSIZE changed from 45604 to 46247 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PKGSIZE changed from 46001 to 46685 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PKGSIZE changed from 47400 to 47402 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PKGSIZE changed from 45577 to 46233 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PKGSIZE changed from 23116 to 23129 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PKGSIZE changed from 49533 to 50269 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PKGSIZE changed from 450 to 440 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PKGSIZE changed from 47173 to 47201 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PKGSIZE changed from 448 to 438 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PKGSIZE changed from 46714 to 46812 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PKGSIZE changed from 32335 to 32345 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PKGSIZE changed from 46738 to 47622 (+2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PKGSIZE changed from 42975 to 42985 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PKGSIZE changed from 43253 to 43263 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PKGSIZE changed from 38991 to 39005 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PKGSIZE changed from 450 to 440 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGSIZE changed from 43634 to 52116 (+19%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PKGSIZE changed from 447 to 437 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PKGSIZE changed from 47273 to 47941 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PKGSIZE changed from 46192 to 47474 (+3%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PKGSIZE changed from 39524 to 39538 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PKGSIZE changed from 45189 to 46428 (+3%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PKGSIZE changed from 47549 to 47619 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGSIZE changed from 40337 to 52970 (+31%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PKGSIZE changed from 16387 to 16394 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PKGSIZE changed from 54080 to 54103 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PKGSIZE changed from 448 to 438 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PKGSIZE changed from 47226 to 48511 (+3%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PKGSIZE changed from 441 to 431 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PKGSIZE changed from 36131 to 36554 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PKGSIZE changed from 36299 to 36317 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PKGSIZE changed from 451 to 441 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PKGSIZE changed from 449 to 439 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PKGSIZE changed from 14569 to 14559 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PKGSIZE changed from 28467 to 28457 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PKGSIZE changed from 35377 to 35398 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PKGSIZE changed from 29749 to 29739 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PKGSIZE changed from 39069 to 40903 (+5%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PKGSIZE changed from 447 to 436 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PKGSIZE changed from 459 to 449 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PKGSIZE changed from 48600 to 48669 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PKGSIZE changed from 48343 to 48854 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PKGSIZE changed from 41748 to 42116 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PKGSIZE changed from 33674 to 33687 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ru: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ru: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-rw: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-rw: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PKGSIZE changed from 44958 to 44974 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PKGSIZE changed from 44119 to 44201 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PKGSIZE changed from 30633 to 30623 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PKGSIZE changed from 543 to 533 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PKGSIZE changed from 51691 to 52314 (+1%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PKGSIZE changed from 45225 to 45913 (+2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PKGSIZE changed from 447 to 437 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PKGSIZE changed from 448 to 438 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PKGSIZE changed from 439 to 429 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PKGSIZE changed from 46949 to 48253 (+3%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PKGSIZE changed from 56630 to 56707 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PKGSIZE changed from 33607 to 33597 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PKGSIZE changed from 448 to 438 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PKGSIZE changed from 45479 to 45635 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PKGSIZE changed from 460 to 450 (-2%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PKGSIZE changed from 44592 to 44601 (+0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PKGSIZE changed from 86563 to 86555 (-0%)
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-staticdev: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-staticdev: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PKGV changed from 2.1 [default] to 2.2 [default]
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: FILELIST: removed "/usr/share/mime/image/fits.xml", added "/usr/share/mime/application/fits.xml /usr/share/mime/text/x-elixir.xml /usr/share/mime/audio/x-dsf.xml /usr/share/mime/application/x-qed-disk.xml /usr/share/mime/text/x-dart.xml /usr/share/mime/text/x-gcode-gx.xml /usr/share/mime/video/vnd.radgamettools.smacker.xml /usr/share/mime/application/sparql-results+xml.xml /usr/share/mime/application/x-vhd-disk.xml /usr/share/mime/application/x-godot-project.xml /usr/share/mime/model/3mf.xml /usr/share/mime/application/x-godot-shader.xml /usr/share/mime/application/x-asar.xml /usr/share/mime/application/x-vhdx-disk.xml /usr/share/mime/image/x-nikon-nrw.xml /usr/share/mime/audio/mobile-xmf.xml /usr/share/mime/model/gltf+json.xml /usr/share/mime/image/jxl.xml /usr/share/mime/application/vnd.apple.numbers.xml /usr/share/mime/application/vnd.apple.pkpass.xml /usr/share/mime/video/vnd.radgamettools.bink.xml /usr/share/mime/te
+ xt/org.xml /usr/share/mime/image/x-canon-cr3.xml /usr/share/mime/application/x-godot-resource.xml /usr/share/mime/application/schema+json.xml /usr/share/mime/application/ovf.xml /usr/share/mime/application/x-vdi-disk.xml /usr/share/mime/application/toml.xml /usr/share/mime/text/x-mpl2.xml /usr/share/mime/text/x-objc++src.xml /usr/share/mime/application/vnd.apple.pages.xml /usr/share/mime/model/obj.xml /usr/share/mime/application/x-openzim.xml /usr/share/mime/audio/x-dff.xml /usr/share/mime/model/gltf-binary.xml /usr/share/mime/application/x-vmdk-disk.xml /usr/share/mime/model/mtl.xml /usr/share/mime/application/x-gdscript.xml /usr/share/mime/application/x-godot-scene.xml /usr/share/mime/text/x-crystal.xml /usr/share/mime/application/sparql-query.xml"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PV changed from "2.1" to "2.2"
+packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PKGSIZE changed from 2691878 to 2743455 (+2%)
+Changes to packages/core2-32-poky-linux/shared-mime-info (sysroot):
+  /usr/share/mime/application/fits.xml was added
+  /usr/share/mime/application/ovf.xml was added
+  /usr/share/mime/application/schema+json.xml was added
+  /usr/share/mime/application/sparql-query.xml was added
+  /usr/share/mime/application/sparql-results+xml.xml was added
+  /usr/share/mime/application/toml.xml was added
+  /usr/share/mime/application/vnd.apple.numbers.xml was added
+  /usr/share/mime/application/vnd.apple.pages.xml was added
+  /usr/share/mime/application/vnd.apple.pkpass.xml was added
+  /usr/share/mime/application/x-asar.xml was added
+  /usr/share/mime/application/x-gdscript.xml was added
+  /usr/share/mime/application/x-godot-project.xml was added
+  /usr/share/mime/application/x-godot-resource.xml was added
+  /usr/share/mime/application/x-godot-scene.xml was added
+  /usr/share/mime/application/x-godot-shader.xml was added
+  /usr/share/mime/application/x-openzim.xml was added
+  /usr/share/mime/application/x-qed-disk.xml was added
+  /usr/share/mime/application/x-vdi-disk.xml was added
+  /usr/share/mime/application/x-vhd-disk.xml was added
+  /usr/share/mime/application/x-vhdx-disk.xml was added
+  /usr/share/mime/application/x-vmdk-disk.xml was added
+  /usr/share/mime/audio/mobile-xmf.xml was added
+  /usr/share/mime/audio/x-dff.xml was added
+  /usr/share/mime/audio/x-dsf.xml was added
+  /usr/share/mime/image/jxl.xml was added
+  /usr/share/mime/image/x-canon-cr3.xml was added
+  /usr/share/mime/image/x-nikon-nrw.xml was added
+  /usr/share/mime/model/3mf.xml was added
+  /usr/share/mime/model/gltf-binary.xml was added
+  /usr/share/mime/model/gltf+json.xml was added
+  /usr/share/mime/model/mtl.xml was added
+  /usr/share/mime/model/obj.xml was added
+  /usr/share/mime/text/org.xml was added
+  /usr/share/mime/text/x-crystal.xml was added
+  /usr/share/mime/text/x-dart.xml was added
+  /usr/share/mime/text/x-elixir.xml was added
+  /usr/share/mime/text/x-gcode-gx.xml was added
+  /usr/share/mime/text/x-mpl2.xml was added
+  /usr/share/mime/text/x-objc++src.xml was added
+  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
+  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
+  /usr/share/mime/image/fits.xml was removed
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2825,6 +3118,165 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/shared-mime-info-native (sysroot):
+  /usr/share/mime/application/fits.xml was added
+  /usr/share/mime/application/ovf.xml was added
+  /usr/share/mime/application/schema+json.xml was added
+  /usr/share/mime/application/sparql-query.xml was added
+  /usr/share/mime/application/sparql-results+xml.xml was added
+  /usr/share/mime/application/toml.xml was added
+  /usr/share/mime/application/vnd.apple.numbers.xml was added
+  /usr/share/mime/application/vnd.apple.pages.xml was added
+  /usr/share/mime/application/vnd.apple.pkpass.xml was added
+  /usr/share/mime/application/x-asar.xml was added
+  /usr/share/mime/application/x-gdscript.xml was added
+  /usr/share/mime/application/x-godot-project.xml was added
+  /usr/share/mime/application/x-godot-resource.xml was added
+  /usr/share/mime/application/x-godot-scene.xml was added
+  /usr/share/mime/application/x-godot-shader.xml was added
+  /usr/share/mime/application/x-openzim.xml was added
+  /usr/share/mime/application/x-qed-disk.xml was added
+  /usr/share/mime/application/x-vdi-disk.xml was added
+  /usr/share/mime/application/x-vhd-disk.xml was added
+  /usr/share/mime/application/x-vhdx-disk.xml was added
+  /usr/share/mime/application/x-vmdk-disk.xml was added
+  /usr/share/mime/audio/mobile-xmf.xml was added
+  /usr/share/mime/audio/x-dff.xml was added
+  /usr/share/mime/audio/x-dsf.xml was added
+  /usr/share/mime/image/jxl.xml was added
+  /usr/share/mime/image/x-canon-cr3.xml was added
+  /usr/share/mime/image/x-nikon-nrw.xml was added
+  /usr/share/mime/model/3mf.xml was added
+  /usr/share/mime/model/gltf-binary.xml was added
+  /usr/share/mime/model/gltf+json.xml was added
+  /usr/share/mime/model/mtl.xml was added
+  /usr/share/mime/model/obj.xml was added
+  /usr/share/mime/text/org.xml was added
+  /usr/share/mime/text/x-crystal.xml was added
+  /usr/share/mime/text/x-dart.xml was added
+  /usr/share/mime/text/x-elixir.xml was added
+  /usr/share/mime/text/x-gcode-gx.xml was added
+  /usr/share/mime/text/x-mpl2.xml was added
+  /usr/share/mime/text/x-objc++src.xml was added
+  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
+  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
+  /usr/share/mime/image/fits.xml was removed
 
---===============8944853422754426334==--
+--===============8775496322421222712==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-shared-mime-info-upgrade-2.1-2.2.patch"
+
+From 38c48c77881341e1c95eecacee64a1b7058e9271 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Apr 2022 13:15:22 +0000
+Subject: [PATCH] shared-mime-info: upgrade 2.1 -> 2.2
+
+---
+ ...tom-itstool-to-builtin-msgfmt-for-cr.patch | 70 -------------------
+ .../shared-mime-info/shared-mime-info_git.bb  |  8 +--
+ 2 files changed, 3 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+
+diff --git a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch b/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+deleted file mode 100644
+index d09013bb3c..0000000000
+--- a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 5ca815cb79f64fab9cbb428b95a861fc0c30c116 Mon Sep 17 00:00:00 2001
+-From: Eli Schwartz <eschwartz@archlinux.org>
+-Date: Mon, 8 Nov 2021 18:22:47 -0500
+-Subject: [PATCH] migrate from custom itstool to builtin msgfmt for creating
+- translated XML
+-
+-gettext upstream has supported this for a very long time, and using it
+-means we don't need to jump through hoops to run ninja inside ninja in
+-order to generate the .mo files for itstool.
+-
+-Although meson 0.60.0 added support for real targets for the built .mo
+-files, this changed the rules for output filenames, breaking the script.
+-But msgfmt does not care, and anyways comes with builtin meson functions
+-for convenient use.
+-
+-Fixes #170
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- data/freedesktop_generate.sh | 12 ------------
+- data/meson.build             | 16 +++++-----------
+- 2 files changed, 5 insertions(+), 23 deletions(-)
+- delete mode 100755 data/freedesktop_generate.sh
+-
+-diff --git a/data/freedesktop_generate.sh b/data/freedesktop_generate.sh
+-deleted file mode 100755
+-index ff13e75..0000000
+---- a/data/freedesktop_generate.sh
+-+++ /dev/null
+-@@ -1,12 +0,0 @@
+--#!/bin/sh -e
+--
+--src_root="$1"
+--build_root="$2"
+--
+--ninja -C "${build_root}" shared-mime-info-gmo
+--
+--itstool \
+--    --its "${src_root}/data/its/shared-mime-info.its" \
+--    --join "${src_root}/data/freedesktop.org.xml.in" \
+--    -o "${build_root}/data/freedesktop.org.xml" \
+--    "${build_root}/po/"*".gmo"
+-diff --git a/data/meson.build b/data/meson.build
+-index 263567d..c5696f2 100644
+---- a/data/meson.build
+-+++ b/data/meson.build
+-@@ -1,18 +1,12 @@
+- 
+- install_man('update-mime-database.1')
+- 
+--freedesktop_org_xml = custom_target('freedesktop.org.xml',
+--    input : files(
+--        'freedesktop.org.xml.in',
+--        'its/shared-mime-info.its',
+--        'its/shared-mime-info.loc',
+--    ),
+-+freedesktop_org_xml = i18n.merge_file(
+-+    input: 'freedesktop.org.xml.in',
+-     output: 'freedesktop.org.xml',
+--    command: [
+--        find_program('freedesktop_generate.sh'),
+--        meson.source_root(),
+--        meson.build_root()
+--    ],
+-+    data_dirs: '.',
+-+    po_dir: '../po',
+-+    type: 'xml',
+-     install: true,
+-     install_dir: get_option('datadir') / 'mime' / 'packages',
+- )
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+index 6179abfef7..387dd7bbad 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+@@ -8,11 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
+ 
+-SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master \
+-           file://0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch \
+-           "
+-SRCREV = "18e558fa1c8b90b86757ade09a4ba4d6a6cf8f70"
+-PV = "2.1"
++SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
++SRCREV = "13695c7225c2f525a435e72739c33ac32bbfbbb9"
++PV = "2.2"
+ S = "${WORKDIR}/git"
+ 
+ inherit meson pkgconfig gettext python3native mime
+-- 
+2.27.0
+
+
+--===============8775496322421222712==--
 
