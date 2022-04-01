@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F68CC3527E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F64BC433EF
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web09.10396.1648819420454281433
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.10523.1648819420822820118
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XWSwsLQF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 0101017fe54bbe07-ea63efe8-8361-442f-a17c-4211ad822333-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=tg3IXEeb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 0101017fe54bbe60-c1dc6625-cd2f-4cd3-a3c0-1103c7eab66f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1648819420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3IjmT9AKrDeaNREKM9gEbtYN4bZHIMkbpgiPnYvPdtw=;
-	b=XWSwsLQFoyJi0hteGwo1GWwXkQ4+E5Z/052cr03CarmVOS4cMZNiKbX62xvqw1BV
-	NxSiFSIlT2JQVFITskoZjzAoUjjJBht/m8lh6oRH8xk0bm7mvxzys0EHLF/o/Y9OFiD
-	1MRYiH/4t4WSVF5TNLpoBxvZqH78n/hTp4GP83So=
+	t=1648819421;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=sKKhqQsr76ne1VzCipUtmoNxF2T9vdajG/61flnTVbI=;
+	b=tg3IXEebLFq07sKG1xKqZ8rKMytufBDEfGDLmObA1GX0MNtPc80Mu034koXxkJM5
+	z7g7VBoOUFGgkJo7SQ+8bqpNLi5+6T1YX5arwR3dvK+lomDRs6EsJDLRvgJf/SeJ10r
+	2Mu3qwPc31LL3NDdj8KY4K5wr/0yUKh5LPUlNqng=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3IjmT9AKrDeaNREKM9gEbtYN4bZHIMkbpgiPnYvPdtw=;
-	b=OihXkMaiPGvs090Lqgi8/rTOA92xVOtK3jQF/nFZR/g77J166430ZguV+CF2zPx1
-	a8xHT7wUNf1LZGdna1uBBlxgk2DC1XmCHuLjaXFgWXc9udXycqKuyoQk9oM1IVTS7bb
-	g0jIJZq5HDPhO10ac47HAmsuR8xazN/RrCdRR9Dw=
-Content-Type: multipart/mixed; boundary="===============3407839335271338175=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=sKKhqQsr76ne1VzCipUtmoNxF2T9vdajG/61flnTVbI=;
+	b=CBJbczFg4dkvo82ENE1/rJHlx1FR1QNr2rf6jkmVDozFWzB8s/snsMbBALLtRxMv
+	VAFdlMukTLIzQ6ALsf6Z7iag5iZ2qbfboE2axjzkAj/0p864gtj1jFHKAU1SHTEGb3r
+	uhrkLUtCZVg2O01frzapIutkyzf2rXGmkh0li5wQ=
+Content-Type: multipart/mixed; boundary="===============1809783407934175892=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] acpica: upgrading to 20220331 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] tzdata: upgrading to 2022a FAILED
 Message-ID: 
- <0101017fe54bbe07-ea63efe8-8361-442f-a17c-4211ad822333-000000@us-west-2.amazonses.com>
+ <0101017fe54bbe60-c1dc6625-cd2f-4cd3-a3c0-1103c7eab66f-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Apr 2022 13:23:40 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.192
+X-SES-Outgoing: 2022.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163909
+ https://lists.openembedded.org/g/openembedded-core/message/163911
 
---===============3407839335271338175==
+--===============1809783407934175892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +55,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *acpica* to *20220331* has Succeeded.
+that the automatic attempt to upgrade the recipe *tzdata* to *2022a* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-acpica-upgrade-20211217-20220331.patch
+    - apply the patch: git am 0001-tzdata-upgrade-2021e-2022a.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,140 +80,120 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3407839335271338175==
+--===============1809783407934175892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 8806652 to 8814404 (+0%)
-packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10496339 to 10522606 (+0%)
-packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica/acpica: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica/acpica: PKGSIZE changed from 2662992 to 2667612 (+0%)
-packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica: PV changed from "20211217" to "20220331"
-packages/core2-32-poky-linux/acpica: PKGV changed from 20211217 [default] to 20220331 [default]
-packages/core2-32-poky-linux/acpica: SRC_URI changed from "https://acpica.org/sites/acpica/files/acpica-unix-20211217.tar.gz" to "https://acpica.org/sites/acpica/files/acpica-unix-20220331.tar.gz"
-
---===============3407839335271338175==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1640 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 69 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
+Parsing of 882 .bb files complete (880 cached, 2 parsed). 1640 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86 sysroot...done.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: There was 1 ERROR message, returning a non-zero exit code.
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:3374279bb012fd9f3c89cf050ccd30c3491699e6"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 14 Local 5 Mirrors 0 Missed 9 Current 101 (35% match, 92% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 331 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch)
+NOTE: Running task 335 of 501 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch)
+NOTE: recipe tzcode-native-2022a-r0: task do_fetch: Started
+NOTE: recipe tzdata-2022a-r0: task do_fetch: Started
+WARNING: tzcode-native-2022a-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz
+Cleaning and trying again.
+WARNING: tzcode-native-2022a-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz_bad-checksum_ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664
+WARNING: tzcode-native-2022a-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata - will attempt other sources if available
+NOTE: recipe tzcode-native-2022a-r0: task do_fetch: Failed
+WARNING: tzdata-2022a-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz
+Cleaning and trying again.
+WARNING: tzdata-2022a-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz_bad-checksum_ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664
+WARNING: tzdata-2022a-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata - will attempt other sources if available
+NOTE: recipe tzdata-2022a-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 479 tasks of which 477 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 2 tasks failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch
+Summary: There were 6 WARNING messages.
+Summary: There were 4 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+ERROR: tzcode-native-2022a-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata'. Checksum mismatch!
+File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz' has sha256 checksum 'ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664' when '07ec42b737d0d3c6be9c337f8abb5f00554a0f9cc4fcf01a703d69403b6bb2b1' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[tzdata.sha256sum] = "ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: tzcode-native-2022a-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/tzcode-native/2022a-r0/temp/log.do_fetch.2473923
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch) failed with exit code '1'
+ERROR: tzdata-2022a-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata'. Checksum mismatch!
+File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/tzdata2022a.tar.gz' has sha256 checksum 'ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664' when '07ec42b737d0d3c6be9c337f8abb5f00554a0f9cc4fcf01a703d69403b6bb2b1' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[tzdata.sha256sum] = "ef7fffd9f4f50f4f58328b35022a32a5a056b245c5cb3d6791dddb342f871664"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: tzdata-2022a-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz;name=tzdata')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/tzdata/2022a-r0/temp/log.do_fetch.2473922
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_fetch) failed with exit code '1'
 
---===============3407839335271338175==
+--===============1809783407934175892==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-acpica-upgrade-20211217-20220331.patch"
+ filename="0001-tzdata-upgrade-2021e-2022a.patch"
 
-From a540da8132a22e44cd31a31668c2ccb933da301a Mon Sep 17 00:00:00 2001
+From b9a6c63e16686936968618487e31b66b75279106 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 09:35:26 +0000
-Subject: [PATCH] acpica: upgrade 20211217 -> 20220331
+Date: Fri, 1 Apr 2022 10:10:53 +0000
+Subject: [PATCH] tzdata: upgrade 2021e -> 2022a
 
 ---
- ...{acpica_20211217.bb => acpica_20220331.bb} | 26 +++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/acpica/{acpica_20211217.bb => acpica_20220331.bb} (65%)
+ meta/recipes-extended/timezone/timezone.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20211217.bb b/meta/recipes-extended/acpica/acpica_20220331.bb
-similarity index 65%
-rename from meta/recipes-extended/acpica/acpica_20211217.bb
-rename to meta/recipes-extended/acpica/acpica_20220331.bb
-index d1727c1dab..6957aa64ea 100644
---- a/meta/recipes-extended/acpica/acpica_20211217.bb
-+++ b/meta/recipes-extended/acpica/acpica_20220331.bb
-@@ -1,3 +1,25 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- source/compiler/aslcompile.c
-+# +++ source/compiler/aslcompile.c
-+# @@ -2,7 +2,7 @@
-+#   *
-+#   * 1. Copyright Notice
-+#   *
-+# - * Some or all of this work - Copyright (c) 1999 - 2021, Intel Corp.
-+# + * Some or all of this work - Copyright (c) 1999 - 2022, Intel Corp.
-+#   * All rights reserved.
-+#   *
-+#   * 2. License
-+# 
-+#
-+
- SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
- DESCRIPTION = "The ACPI Component Architecture (ACPICA) project provides an \
- OS-independent reference implementation of the Advanced Configuration and \
-@@ -10,14 +32,14 @@ HOMEPAGE = "http://www.acpica.org/"
- SECTION = "console/tools"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 43d14d7f12..7048c4c3a1 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- LICENSE = "Intel | BSD-3-Clause | GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=c33ce358fdcd142684e41e336b7992e8"
-+LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=41a76b4b1f816240f090cf010fefebf0"
+-PV = "2021e"
++PV = "2022a"
  
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,6 +14,6 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
  
- DEPENDS = "m4-native flex-native bison-native"
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "2511f85828820d747fa3e2c3433d3a38c22db3d9c2fd900e1a84eb4173cb5992"
-+SRC_URI[sha256sum] = "acaff68b14f1e0804ebbfc4b97268a4ccbefcfa053b02ed9924f2b14d8a98e21"
- 
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+-SRC_URI[tzcode.sha256sum] = "584666393a5424d13d27ec01183da17703273664742e049d4f62f62dab631775"
++SRC_URI[tzcode.sha256sum] = "f8575e7e33be9ee265df2081092526b81c80abac3f4a04399ae9d4d91cdadac7"
+ SRC_URI[tzdata.sha256sum] = "07ec42b737d0d3c6be9c337f8abb5f00554a0f9cc4fcf01a703d69403b6bb2b1"
  
 -- 
 2.27.0
 
 
---===============3407839335271338175==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 62 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: Nothing PROVIDES 'acpica'
-acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
-
---===============3407839335271338175==--
+--===============1809783407934175892==--
 
