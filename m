@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B49C4708B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA662C38A2C
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:44 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web12.10477.1648819422716333768
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web08.10612.1648819419933974180
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=xWNAyrzh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 0101017fe54bc341-e2b7dd9d-93e1-4ace-9f73-6dbe2e67f20c-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=kWzDWlZ5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 0101017fe54bc1fb-33291b25-f3ec-4f12-96af-9c71e05957f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1648819422;
+	t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GgSQ0vHiOAQ3sfNr9COEieW0kTGsF8SEQup6ky0Ck5o=;
-	b=xWNAyrzhTUWcDmRvUzEmIIOdJyCxo/2O+aawiXo+2XNyppIuPFPfIpB5g6n2kVY5
-	PEQZii5QfjeMlE7uiYpgffUdhmtCgKRZ+9oduC2TP+dxoK+E9KhegAYS2vt8l753nCx
-	cFsWE605TU+IR7z2Qh0IHP10kL7vV2MWruNuTbP0=
+	bh=0qYHJXYYDZs1mHU3Rl4G3r4BqAMC0PkKhtA4Va4Jvdg=;
+	b=kWzDWlZ59jjZ6SJ4WY+pZYMopaUF7fQ620019OpreCquJJkLduI0DaONB16T01lT
+	qjqaa1cu8uYK65eRTb9UYJYyx7XCj6vHaa6rbAEISZekZFTS6VhLZ3KjUmWMVI9QnQm
+	UoMdaIcjF8IP0gfTjUEeObIbh7gotnKvrHINFI64=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819422;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GgSQ0vHiOAQ3sfNr9COEieW0kTGsF8SEQup6ky0Ck5o=;
-	b=jNeMsfik2yNbX28xH0hCLxETGCV2oe32rZbEOcJHa8N3wI9IG+qbYnO9FEpKEX3L
-	J3p842RqEoV+cCINKZaCeDl7HywPRB3VF6LX/0xe9g/pdFySOEtgaVDwLfCEImPjNnp
-	YCOAsohsD5xVQOOyQiOEpnRz8tUD+9UJFqf3otAo=
-Content-Type: multipart/mixed; boundary="===============8775496322421222712=="
+	bh=0qYHJXYYDZs1mHU3Rl4G3r4BqAMC0PkKhtA4Va4Jvdg=;
+	b=RHMJkW6TvgGr0wAT3qGcnaFiZEVYd0D7AylAjo0wvyy8XSu8ZJZtRGd6+tfq+zit
+	qx7x9i8YbjBwYeClbPuZ7yzW6tH1rcBGpbbAA/Z8MyJ/PVYBKPNhkCXfqytHWVU07MV
+	Zx6F8vqWgtCK8CgWWsXSE4Zkg2bjyqAO4yTPAXt8=
+Content-Type: multipart/mixed; boundary="===============7886040817445139173=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shared-mime-info: upgrading to 2.2 SUCCEEDED
+Subject: [AUH] libgcrypt: upgrading to 1.10.1 FAILED
 Message-ID: 
- <0101017fe54bc341-e2b7dd9d-93e1-4ace-9f73-6dbe2e67f20c-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:42 +0000
+ <0101017fe54bc1fb-33291b25-f3ec-4f12-96af-9c71e05957f0-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.45
+X-SES-Outgoing: 2022.04.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163938
+ https://lists.openembedded.org/g/openembedded-core/message/163932
 
---===============8775496322421222712==
+--===============7886040817445139173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shared-mime-info* to *2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libgcrypt* to *1.10.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-shared-mime-info-upgrade-2.1-2.2.patch
+    - apply the patch: git am 0001-libgcrypt-upgrade-1.9.4-1.10.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,3208 +81,966 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8775496322421222712==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGSIZE changed from 35968 to 50254 (+40%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGSIZE changed from 43634 to 52116 (+19%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGSIZE changed from 40337 to 52970 (+31%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: FILELIST: removed "/usr/share/mime/image/fits.xml", added "/usr/share/mime/model/gltf+json.xml /usr/share/mime/application/x-godot-project.xml /usr/share/mime/audio/x-dff.xml /usr/share/mime/image/x-canon-cr3.xml /usr/share/mime/application/x-qed-disk.xml /usr/share/mime/text/x-mpl2.xml /usr/share/mime/application/fits.xml /usr/share/mime/image/x-nikon-nrw.xml /usr/share/mime/application/sparql-query.xml /usr/share/mime/application/x-godot-shader.xml /usr/share/mime/application/x-godot-scene.xml /usr/share/mime/text/x-objc++src.xml /usr/share/mime/model/mtl.xml /usr/share/mime/application/x-vdi-disk.xml /usr/share/mime/image/jxl.xml /usr/share/mime/application/vnd.apple.pkpass.xml /usr/share/mime/application/ovf.xml /usr/share/mime/audio/x-dsf.xml /usr/share/mime/video/vnd.radgamettools.bink.xml /usr/share/mime/video/vnd.radgamettools.smacker.xml /usr/share/mime/application/x-vmdk-disk.xml /usr/share/mime/text/x-crystal.
- xml /usr/share/mime/application/vnd.apple.pages.xml /usr/share/mime/application/vnd.apple.numbers.xml /usr/share/mime/text/x-dart.xml /usr/share/mime/model/3mf.xml /usr/share/mime/application/sparql-results+xml.xml /usr/share/mime/text/x-gcode-gx.xml /usr/share/mime/application/toml.xml /usr/share/mime/application/x-vhdx-disk.xml /usr/share/mime/application/x-godot-resource.xml /usr/share/mime/application/x-asar.xml /usr/share/mime/application/schema+json.xml /usr/share/mime/audio/mobile-xmf.xml /usr/share/mime/model/gltf-binary.xml /usr/share/mime/model/obj.xml /usr/share/mime/text/org.xml /usr/share/mime/text/x-elixir.xml /usr/share/mime/application/x-gdscript.xml /usr/share/mime/application/x-openzim.xml /usr/share/mime/application/x-vhd-disk.xml"
-Changes to packages/core2-32-poky-linux/shared-mime-info (sysroot):
-  /usr/share/mime/application/fits.xml was added
-  /usr/share/mime/application/ovf.xml was added
-  /usr/share/mime/application/schema+json.xml was added
-  /usr/share/mime/application/sparql-query.xml was added
-  /usr/share/mime/application/sparql-results+xml.xml was added
-  /usr/share/mime/application/toml.xml was added
-  /usr/share/mime/application/vnd.apple.numbers.xml was added
-  /usr/share/mime/application/vnd.apple.pages.xml was added
-  /usr/share/mime/application/vnd.apple.pkpass.xml was added
-  /usr/share/mime/application/x-asar.xml was added
-  /usr/share/mime/application/x-gdscript.xml was added
-  /usr/share/mime/application/x-godot-project.xml was added
-  /usr/share/mime/application/x-godot-resource.xml was added
-  /usr/share/mime/application/x-godot-scene.xml was added
-  /usr/share/mime/application/x-godot-shader.xml was added
-  /usr/share/mime/application/x-openzim.xml was added
-  /usr/share/mime/application/x-qed-disk.xml was added
-  /usr/share/mime/application/x-vdi-disk.xml was added
-  /usr/share/mime/application/x-vhd-disk.xml was added
-  /usr/share/mime/application/x-vhdx-disk.xml was added
-  /usr/share/mime/application/x-vmdk-disk.xml was added
-  /usr/share/mime/audio/mobile-xmf.xml was added
-  /usr/share/mime/audio/x-dff.xml was added
-  /usr/share/mime/audio/x-dsf.xml was added
-  /usr/share/mime/image/jxl.xml was added
-  /usr/share/mime/image/x-canon-cr3.xml was added
-  /usr/share/mime/image/x-nikon-nrw.xml was added
-  /usr/share/mime/model/3mf.xml was added
-  /usr/share/mime/model/gltf-binary.xml was added
-  /usr/share/mime/model/gltf+json.xml was added
-  /usr/share/mime/model/mtl.xml was added
-  /usr/share/mime/model/obj.xml was added
-  /usr/share/mime/text/org.xml was added
-  /usr/share/mime/text/x-crystal.xml was added
-  /usr/share/mime/text/x-dart.xml was added
-  /usr/share/mime/text/x-elixir.xml was added
-  /usr/share/mime/text/x-gcode-gx.xml was added
-  /usr/share/mime/text/x-mpl2.xml was added
-  /usr/share/mime/text/x-objc++src.xml was added
-  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
-  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
-  /usr/share/mime/image/fits.xml was removed
-Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-g++ was added
-  /sysroot-providers/virtual_i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-11.2.0 was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
-  /usr/libexec/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cc1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cc1plus was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/collect2 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/g++-mapper-server was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-strip was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixincl was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkheaders was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/liblto_plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/lto1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/lto-wrapper was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/gengtype was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/strip was added
-  /usr/lib/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/bfd-plugins was added
-  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/i686-poky-linux/gcc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/adxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/ammintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxbf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxtileintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512cdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512dqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512erintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512fintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512pfintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avxvnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cet.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cldemoteintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clflushoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clwbintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clzerointrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cpuid.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cross-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/emmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/enqcmdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/f16cintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/syslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/float.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fma4intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fxsrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/gfniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/hresetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/ia32intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/immintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/iso646.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/keylockerintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/lwpintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/lzcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mm3dnow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mm_malloc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/movdirintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mwaitxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/nmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pconfigintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pkuintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/popcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/prfchwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/quadmath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/quadmath_weak.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/rdseedintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/rtmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/serializeintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/sgxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/shaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/smmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdalign.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdatomic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdbool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stddef.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdfix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdint-gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdnoreturn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tbmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/uintrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/unwind.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/vaesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/varargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/waitpkgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/wmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/x86gprintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/x86intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xopintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsavecintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsaveintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsavesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xtestintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixinc_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/macro_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/gtype.state was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/addresses.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/align.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/all-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/array-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/asan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/attribs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/auto-host.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/backend.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/basic-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/b-header-vars was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/brig-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtins.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/calls.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ccmp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfganal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cgraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cif-code.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect2.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/color-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/conditions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/configargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/dbxelf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/convert.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coretypes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coverage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cpplib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cselib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/d was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbxout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ddg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/debug.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/defaults.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/df.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dfp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/digraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dojump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dominance.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/domwalk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/double-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dump-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/edit-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/errors.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/et-forest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/except.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/explow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/expmed.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/file-find.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/filenames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/flag-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fold-const.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/function-abi.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/generic-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gengtype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/genrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gensupport.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ggc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimplify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/glimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphite.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphviz.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gstab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsyms.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hashtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-table.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hwint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/inchash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/incpath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/input.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/intl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ira.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ira-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/is-a.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/langhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lcm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/libiberty.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/limitx.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/limity.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/line-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lra-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/machmode.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/machmode.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/md5.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/memmodel.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/memory-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/objc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/obstack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-general.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/options.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/output.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/passes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/poly-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/predict.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/prefix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/print-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/profile-count.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/read-md.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/real.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/recog.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regcprop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regrename.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/reload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/resource.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sched-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sese.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/signop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sparseset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sreal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stab.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/statistics.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stmt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stringpool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/system.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-globals.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-insns.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/targhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/timevar.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/timevar.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm_p.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/toplev.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tracer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-check.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/treestruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tristate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tsystem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/typeclass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ubsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/valtrack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-prof.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-range-equiv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/varasm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vr-values.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/xcoff.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/xcoffout.h was added
-  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-11.2.0 was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
-  /usr/libexec/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cc1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cc1plus was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/collect2 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/g++-mapper-server was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-strip was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixincl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkheaders was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/liblto_plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/lto1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/lto-wrapper was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/gengtype was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/strip was removed
-  /usr/lib/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/i686-poky-linux-musl/gcc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/adxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/ammintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxtileintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512erintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512fintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cet.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clwbintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clzerointrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cpuid.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cross-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/emmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/f16cintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/syslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/float.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fma4intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fxsrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/gfniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/hresetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/ia32intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/immintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/iso646.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/keylockerintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/lwpintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/lzcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mm3dnow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mm_malloc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/movdirintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/nmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pconfigintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pkuintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/popcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/prfchwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/quadmath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/quadmath_weak.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/rdseedintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/rtmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/serializeintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/sgxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/shaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/smmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdalign.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdatomic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdbool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stddef.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdfix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdint-gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdnoreturn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tbmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/uintrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/unwind.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/vaesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/varargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/wmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/x86gprintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/x86intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xopintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsavecintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsaveintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsavesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xtestintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixinc_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/macro_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/gtype.state was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/addresses.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/align.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/asan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/attribs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/backend.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/brig-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtins.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/calls.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect2.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/conditions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/configargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/dbxelf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/convert.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coverage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cselib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/d was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbxout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ddg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/debug.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/defaults.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/df.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dfp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/digraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dojump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dominance.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/double-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/errors.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/except.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/explow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/expmed.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/file-find.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/filenames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ggc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/glimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphite.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gstab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hwint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/inchash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/incpath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/input.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/intl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ira.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/is-a.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lcm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/limitx.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/limity.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/line-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/machmode.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/machmode.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/md5.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/objc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/obstack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/options.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/output.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/passes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/predict.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/prefix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/read-md.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/real.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/recog.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regrename.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/reload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/resource.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sese.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/signop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sreal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stab.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/statistics.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stmt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/system.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/timevar.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/timevar.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/toplev.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tracer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tristate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-range-equiv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/varasm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoff.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/shared-mime-info-native (sysroot):
-  /usr/share/mime/application/fits.xml was added
-  /usr/share/mime/application/ovf.xml was added
-  /usr/share/mime/application/schema+json.xml was added
-  /usr/share/mime/application/sparql-query.xml was added
-  /usr/share/mime/application/sparql-results+xml.xml was added
-  /usr/share/mime/application/toml.xml was added
-  /usr/share/mime/application/vnd.apple.numbers.xml was added
-  /usr/share/mime/application/vnd.apple.pages.xml was added
-  /usr/share/mime/application/vnd.apple.pkpass.xml was added
-  /usr/share/mime/application/x-asar.xml was added
-  /usr/share/mime/application/x-gdscript.xml was added
-  /usr/share/mime/application/x-godot-project.xml was added
-  /usr/share/mime/application/x-godot-resource.xml was added
-  /usr/share/mime/application/x-godot-scene.xml was added
-  /usr/share/mime/application/x-godot-shader.xml was added
-  /usr/share/mime/application/x-openzim.xml was added
-  /usr/share/mime/application/x-qed-disk.xml was added
-  /usr/share/mime/application/x-vdi-disk.xml was added
-  /usr/share/mime/application/x-vhd-disk.xml was added
-  /usr/share/mime/application/x-vhdx-disk.xml was added
-  /usr/share/mime/application/x-vmdk-disk.xml was added
-  /usr/share/mime/audio/mobile-xmf.xml was added
-  /usr/share/mime/audio/x-dff.xml was added
-  /usr/share/mime/audio/x-dsf.xml was added
-  /usr/share/mime/image/jxl.xml was added
-  /usr/share/mime/image/x-canon-cr3.xml was added
-  /usr/share/mime/image/x-nikon-nrw.xml was added
-  /usr/share/mime/model/3mf.xml was added
-  /usr/share/mime/model/gltf-binary.xml was added
-  /usr/share/mime/model/gltf+json.xml was added
-  /usr/share/mime/model/mtl.xml was added
-  /usr/share/mime/model/obj.xml was added
-  /usr/share/mime/text/org.xml was added
-  /usr/share/mime/text/x-crystal.xml was added
-  /usr/share/mime/text/x-dart.xml was added
-  /usr/share/mime/text/x-elixir.xml was added
-  /usr/share/mime/text/x-gcode-gx.xml was added
-  /usr/share/mime/text/x-mpl2.xml was added
-  /usr/share/mime/text/x-objc++src.xml was added
-  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
-  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
-  /usr/share/mime/image/fits.xml was removed
-
---===============8775496322421222712==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/shared-mime-info: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info: SRC_URI changed from "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master file://0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch" to "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
-packages/core2-32-poky-linux/shared-mime-info: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-data: PKGSIZE changed from 2376295 to 2408297 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dbg: PKGSIZE changed from 117468 to 117384 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dev: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-dev: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-doc: PKGSIZE changed from 1491 to 1490 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-af: PKGSIZE changed from 36657 to 36662 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ar: PKGSIZE changed from 35968 to 50254 (+40%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-as: PKGSIZE changed from 450 to 440 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ast: PKGSIZE changed from 12698 to 12701 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-az: PKGSIZE changed from 8030 to 8020 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be+latin: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be+latin: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-be: PKGSIZE changed from 590 to 580 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bg: PKGSIZE changed from 56209 to 56217 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-bn-in: PKGSIZE changed from 463 to 453 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca+valencia: PKGSIZE changed from 479 to 469 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ca: PKGSIZE changed from 48680 to 48749 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cs: PKGSIZE changed from 43348 to 43357 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-cy: PKGSIZE changed from 8339 to 8329 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-da: PKGSIZE changed from 45604 to 46247 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-de: PKGSIZE changed from 46001 to 46685 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-el: PKGSIZE changed from 47400 to 47402 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-en-gb: PKGSIZE changed from 45577 to 46233 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eo: PKGSIZE changed from 23116 to 23129 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-es: PKGSIZE changed from 49533 to 50269 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-et: PKGSIZE changed from 450 to 440 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-eu: PKGSIZE changed from 47173 to 47201 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fa: PKGSIZE changed from 448 to 438 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fi: PKGSIZE changed from 46714 to 46812 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fo: PKGSIZE changed from 32335 to 32345 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fr: PKGSIZE changed from 46738 to 47622 (+2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-fur: PKGSIZE changed from 42975 to 42985 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ga: PKGSIZE changed from 43253 to 43263 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gl: PKGSIZE changed from 38991 to 39005 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-gu: PKGSIZE changed from 450 to 440 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-he: PKGSIZE changed from 43634 to 52116 (+19%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hi: PKGSIZE changed from 447 to 437 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hr: PKGSIZE changed from 47273 to 47941 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-hu: PKGSIZE changed from 46192 to 47474 (+3%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ia: PKGSIZE changed from 39524 to 39538 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-id: PKGSIZE changed from 45189 to 46428 (+3%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-it: PKGSIZE changed from 47549 to 47619 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ja: PKGSIZE changed from 40337 to 52970 (+31%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ka: PKGSIZE changed from 16387 to 16394 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kk: PKGSIZE changed from 54080 to 54103 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-kn: PKGSIZE changed from 448 to 438 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ko: PKGSIZE changed from 47226 to 48511 (+3%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ky: PKGSIZE changed from 441 to 431 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lt: PKGSIZE changed from 36131 to 36554 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-lv: PKGSIZE changed from 36299 to 36317 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ml: PKGSIZE changed from 451 to 441 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-mr: PKGSIZE changed from 449 to 439 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ms: PKGSIZE changed from 14569 to 14559 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nb: PKGSIZE changed from 28467 to 28457 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nl: PKGSIZE changed from 35377 to 35398 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-nn: PKGSIZE changed from 29749 to 29739 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-oc: PKGSIZE changed from 39069 to 40903 (+5%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-or: PKGSIZE changed from 447 to 436 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pa: PKGSIZE changed from 459 to 449 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pl: PKGSIZE changed from 48600 to 48669 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt-br: PKGSIZE changed from 48343 to 48854 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-pt: PKGSIZE changed from 41748 to 42116 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ro: PKGSIZE changed from 33674 to 33687 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ru: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ru: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-rw: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-rw: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sk: PKGSIZE changed from 44958 to 44974 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sl: PKGSIZE changed from 44119 to 44201 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sq: PKGSIZE changed from 30633 to 30623 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr+latin: PKGSIZE changed from 543 to 533 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sr: PKGSIZE changed from 51691 to 52314 (+1%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-sv: PKGSIZE changed from 45225 to 45913 (+2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-ta: PKGSIZE changed from 447 to 437 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-te: PKGSIZE changed from 448 to 438 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-th: PKGSIZE changed from 439 to 429 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-tr: PKGSIZE changed from 46949 to 48253 (+3%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-uk: PKGSIZE changed from 56630 to 56707 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-vi: PKGSIZE changed from 33607 to 33597 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-wa: PKGSIZE changed from 448 to 438 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-cn: PKGSIZE changed from 45479 to 45635 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-hk: PKGSIZE changed from 460 to 450 (-2%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-locale-zh-tw: PKGSIZE changed from 44592 to 44601 (+0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-src: PKGSIZE changed from 86563 to 86555 (-0%)
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-staticdev: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info-staticdev: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PKGV changed from 2.1 [default] to 2.2 [default]
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: FILELIST: removed "/usr/share/mime/image/fits.xml", added "/usr/share/mime/application/fits.xml /usr/share/mime/text/x-elixir.xml /usr/share/mime/audio/x-dsf.xml /usr/share/mime/application/x-qed-disk.xml /usr/share/mime/text/x-dart.xml /usr/share/mime/text/x-gcode-gx.xml /usr/share/mime/video/vnd.radgamettools.smacker.xml /usr/share/mime/application/sparql-results+xml.xml /usr/share/mime/application/x-vhd-disk.xml /usr/share/mime/application/x-godot-project.xml /usr/share/mime/model/3mf.xml /usr/share/mime/application/x-godot-shader.xml /usr/share/mime/application/x-asar.xml /usr/share/mime/application/x-vhdx-disk.xml /usr/share/mime/image/x-nikon-nrw.xml /usr/share/mime/audio/mobile-xmf.xml /usr/share/mime/model/gltf+json.xml /usr/share/mime/image/jxl.xml /usr/share/mime/application/vnd.apple.numbers.xml /usr/share/mime/application/vnd.apple.pkpass.xml /usr/share/mime/video/vnd.radgamettools.bink.xml /usr/share/mime/te
- xt/org.xml /usr/share/mime/image/x-canon-cr3.xml /usr/share/mime/application/x-godot-resource.xml /usr/share/mime/application/schema+json.xml /usr/share/mime/application/ovf.xml /usr/share/mime/application/x-vdi-disk.xml /usr/share/mime/application/toml.xml /usr/share/mime/text/x-mpl2.xml /usr/share/mime/text/x-objc++src.xml /usr/share/mime/application/vnd.apple.pages.xml /usr/share/mime/model/obj.xml /usr/share/mime/application/x-openzim.xml /usr/share/mime/audio/x-dff.xml /usr/share/mime/model/gltf-binary.xml /usr/share/mime/application/x-vmdk-disk.xml /usr/share/mime/model/mtl.xml /usr/share/mime/application/x-gdscript.xml /usr/share/mime/application/x-godot-scene.xml /usr/share/mime/text/x-crystal.xml /usr/share/mime/application/sparql-query.xml"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PV changed from "2.1" to "2.2"
-packages/core2-32-poky-linux/shared-mime-info/shared-mime-info: PKGSIZE changed from 2691878 to 2743455 (+2%)
-Changes to packages/core2-32-poky-linux/shared-mime-info (sysroot):
-  /usr/share/mime/application/fits.xml was added
-  /usr/share/mime/application/ovf.xml was added
-  /usr/share/mime/application/schema+json.xml was added
-  /usr/share/mime/application/sparql-query.xml was added
-  /usr/share/mime/application/sparql-results+xml.xml was added
-  /usr/share/mime/application/toml.xml was added
-  /usr/share/mime/application/vnd.apple.numbers.xml was added
-  /usr/share/mime/application/vnd.apple.pages.xml was added
-  /usr/share/mime/application/vnd.apple.pkpass.xml was added
-  /usr/share/mime/application/x-asar.xml was added
-  /usr/share/mime/application/x-gdscript.xml was added
-  /usr/share/mime/application/x-godot-project.xml was added
-  /usr/share/mime/application/x-godot-resource.xml was added
-  /usr/share/mime/application/x-godot-scene.xml was added
-  /usr/share/mime/application/x-godot-shader.xml was added
-  /usr/share/mime/application/x-openzim.xml was added
-  /usr/share/mime/application/x-qed-disk.xml was added
-  /usr/share/mime/application/x-vdi-disk.xml was added
-  /usr/share/mime/application/x-vhd-disk.xml was added
-  /usr/share/mime/application/x-vhdx-disk.xml was added
-  /usr/share/mime/application/x-vmdk-disk.xml was added
-  /usr/share/mime/audio/mobile-xmf.xml was added
-  /usr/share/mime/audio/x-dff.xml was added
-  /usr/share/mime/audio/x-dsf.xml was added
-  /usr/share/mime/image/jxl.xml was added
-  /usr/share/mime/image/x-canon-cr3.xml was added
-  /usr/share/mime/image/x-nikon-nrw.xml was added
-  /usr/share/mime/model/3mf.xml was added
-  /usr/share/mime/model/gltf-binary.xml was added
-  /usr/share/mime/model/gltf+json.xml was added
-  /usr/share/mime/model/mtl.xml was added
-  /usr/share/mime/model/obj.xml was added
-  /usr/share/mime/text/org.xml was added
-  /usr/share/mime/text/x-crystal.xml was added
-  /usr/share/mime/text/x-dart.xml was added
-  /usr/share/mime/text/x-elixir.xml was added
-  /usr/share/mime/text/x-gcode-gx.xml was added
-  /usr/share/mime/text/x-mpl2.xml was added
-  /usr/share/mime/text/x-objc++src.xml was added
-  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
-  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
-  /usr/share/mime/image/fits.xml was removed
-Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-g++ was added
-  /sysroot-providers/virtual_i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-11.2.0 was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
-  /usr/libexec/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cc1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cc1plus was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/collect2 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/g++-mapper-server was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/i686-poky-linux-strip was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixincl was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkheaders was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcc1.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/libcp1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/liblto_plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/lto1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/lto-wrapper was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/gengtype was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/11.2.0/strip was added
-  /usr/lib/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/bfd-plugins was added
-  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/i686-poky-linux/gcc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/adxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/ammintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxbf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/amxtileintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512bwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512cdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512dqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512erintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512fintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512pfintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/avxvnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/bmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cet.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cldemoteintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clflushoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clwbintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/clzerointrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cpuid.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/cross-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/emmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/enqcmdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/f16cintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include-fixed/syslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/float.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fma4intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/fxsrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/gfniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/hresetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/ia32intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/immintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/iso646.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/keylockerintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/lwpintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/lzcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mm3dnow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mm_malloc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/movdirintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/mwaitxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/nmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pconfigintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pkuintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/pmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/popcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/prfchwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/quadmath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/quadmath_weak.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/rdseedintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/rtmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/serializeintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/sgxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/shaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/smmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdalign.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdatomic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdbool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stddef.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdfix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdint-gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/stdnoreturn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tbmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/uintrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/unwind.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/vaesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/varargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/waitpkgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/wmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/x86gprintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/x86intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xopintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsavecintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsaveintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xsavesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/include/xtestintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/fixinc_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/include/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/macro_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/gtype.state was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/addresses.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/align.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/all-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/array-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/asan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/attribs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/auto-host.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/backend.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/basic-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/b-header-vars was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/brig-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtins.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/bversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/calls.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ccmp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfganal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cgraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cif-code.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect2.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/color-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/conditions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/configargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/dbxelf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/convert.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coretypes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/coverage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cpplib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/cselib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/c-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/d was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dbxout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ddg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/debug.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/defaults.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/df.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dfp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/digraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dojump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dominance.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/domwalk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/double-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dump-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/edit-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/errors.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/et-forest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/except.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/explow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/expmed.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/file-find.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/filenames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/flag-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/fold-const.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/function-abi.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gcse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/generic-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gengtype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/genrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gensupport.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ggc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimplify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/glimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphite.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/graphviz.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gstab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsyms.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hashtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-table.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/hwint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/inchash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/incpath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/input.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/intl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ira.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ira-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/is-a.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/langhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lcm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/libiberty.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/limitx.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/limity.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/line-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lra-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/machmode.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/machmode.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/md5.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/memmodel.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/memory-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/objc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/obstack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-general.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/optinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/options.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/output.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/passes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/poly-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/predict.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/prefix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/print-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/profile-count.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/read-md.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/real.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/recog.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regcprop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regrename.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/regs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/reload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/resource.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sched-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sese.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/signop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sparseset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sreal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stab.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/statistics.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stmt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/stringpool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/system.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-globals.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/target-insns.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/targhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/timevar.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/timevar.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm_p.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/toplev.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tracer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-check.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/treestruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tristate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/tsystem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/typeclass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/ubsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/valtrack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-prof.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-range-equiv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/value-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/varasm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vr-values.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/xcoff.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/11.2.0/plugin/include/xcoffout.h was added
-  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-11.2.0 was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
-  /usr/libexec/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cc1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cc1plus was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/collect2 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/g++-mapper-server was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/i686-poky-linux-musl-strip was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixincl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkheaders was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcc1.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/libcp1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/liblto_plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/lto1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/lto-wrapper was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/gengtype was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/strip was removed
-  /usr/lib/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/i686-poky-linux-musl/gcc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/adxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/ammintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/amxtileintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512erintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512fintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/bmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cet.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clwbintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/clzerointrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cpuid.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/cross-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/emmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/f16cintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include-fixed/syslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/float.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fma4intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/fxsrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/gfniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/hresetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/ia32intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/immintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/iso646.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/keylockerintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/lwpintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/lzcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mm3dnow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mm_malloc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/movdirintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/nmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pconfigintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pkuintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/pmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/popcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/prfchwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/quadmath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/quadmath_weak.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/rdseedintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/rtmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/serializeintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/sgxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/shaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/smmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdalign.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdatomic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdbool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stddef.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdfix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdint-gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/stdnoreturn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tbmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/uintrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/unwind.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/vaesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/varargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/wmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/x86gprintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/x86intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xopintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsavecintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsaveintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xsavesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/include/xtestintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/fixinc_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/include/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/macro_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/gtype.state was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/addresses.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/align.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/asan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/attribs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/backend.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/brig-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtins.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/bversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/calls.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect2.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/conditions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/configargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/dbxelf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/convert.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/coverage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/cselib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/d was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dbxout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ddg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/debug.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/defaults.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/df.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dfp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/digraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dojump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dominance.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/double-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/errors.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/except.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/explow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/expmed.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/file-find.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/filenames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gcse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ggc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/glimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphite.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gstab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/hwint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/inchash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/incpath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/input.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/intl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ira.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/is-a.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lcm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/limitx.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/limity.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/line-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/machmode.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/machmode.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/md5.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/objc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/obstack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/options.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/output.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/passes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/predict.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/prefix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/read-md.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/real.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/recog.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regrename.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/regs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/reload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/resource.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sese.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/signop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sreal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stab.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/statistics.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stmt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/system.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/timevar.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/timevar.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/toplev.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tracer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tristate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-range-equiv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/value-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/varasm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoff.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.2.0/plugin/include/xcoffout.h was removed
-Changes to packages/x86_64-linux/shared-mime-info-native (sysroot):
-  /usr/share/mime/application/fits.xml was added
-  /usr/share/mime/application/ovf.xml was added
-  /usr/share/mime/application/schema+json.xml was added
-  /usr/share/mime/application/sparql-query.xml was added
-  /usr/share/mime/application/sparql-results+xml.xml was added
-  /usr/share/mime/application/toml.xml was added
-  /usr/share/mime/application/vnd.apple.numbers.xml was added
-  /usr/share/mime/application/vnd.apple.pages.xml was added
-  /usr/share/mime/application/vnd.apple.pkpass.xml was added
-  /usr/share/mime/application/x-asar.xml was added
-  /usr/share/mime/application/x-gdscript.xml was added
-  /usr/share/mime/application/x-godot-project.xml was added
-  /usr/share/mime/application/x-godot-resource.xml was added
-  /usr/share/mime/application/x-godot-scene.xml was added
-  /usr/share/mime/application/x-godot-shader.xml was added
-  /usr/share/mime/application/x-openzim.xml was added
-  /usr/share/mime/application/x-qed-disk.xml was added
-  /usr/share/mime/application/x-vdi-disk.xml was added
-  /usr/share/mime/application/x-vhd-disk.xml was added
-  /usr/share/mime/application/x-vhdx-disk.xml was added
-  /usr/share/mime/application/x-vmdk-disk.xml was added
-  /usr/share/mime/audio/mobile-xmf.xml was added
-  /usr/share/mime/audio/x-dff.xml was added
-  /usr/share/mime/audio/x-dsf.xml was added
-  /usr/share/mime/image/jxl.xml was added
-  /usr/share/mime/image/x-canon-cr3.xml was added
-  /usr/share/mime/image/x-nikon-nrw.xml was added
-  /usr/share/mime/model/3mf.xml was added
-  /usr/share/mime/model/gltf-binary.xml was added
-  /usr/share/mime/model/gltf+json.xml was added
-  /usr/share/mime/model/mtl.xml was added
-  /usr/share/mime/model/obj.xml was added
-  /usr/share/mime/text/org.xml was added
-  /usr/share/mime/text/x-crystal.xml was added
-  /usr/share/mime/text/x-dart.xml was added
-  /usr/share/mime/text/x-elixir.xml was added
-  /usr/share/mime/text/x-gcode-gx.xml was added
-  /usr/share/mime/text/x-mpl2.xml was added
-  /usr/share/mime/text/x-objc++src.xml was added
-  /usr/share/mime/video/vnd.radgamettools.bink.xml was added
-  /usr/share/mime/video/vnd.radgamettools.smacker.xml was added
-  /usr/share/mime/image/fits.xml was removed
-
---===============8775496322421222712==
+--===============7886040817445139173==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-shared-mime-info-upgrade-2.1-2.2.patch"
+ filename="0001-libgcrypt-upgrade-1.9.4-1.10.1.patch"
 
-From 38c48c77881341e1c95eecacee64a1b7058e9271 Mon Sep 17 00:00:00 2001
+From de48692eb7329d6e45718ef6151137ded06ecf90 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 13:15:22 +0000
-Subject: [PATCH] shared-mime-info: upgrade 2.1 -> 2.2
+Date: Fri, 1 Apr 2022 13:05:43 +0000
+Subject: [PATCH] libgcrypt: upgrade 1.9.4 -> 1.10.1
 
 ---
- ...tom-itstool-to-builtin-msgfmt-for-cr.patch | 70 -------------------
- .../shared-mime-info/shared-mime-info_git.bb  |  8 +--
- 2 files changed, 3 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+ ...0001-Makefile.am-add-a-missing-space.patch |  41 -------
+ ...libgcrypt_1.9.4.bb => libgcrypt_1.10.1.bb} | 108 +++++++++++++++++-
+ 2 files changed, 105 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.4.bb => libgcrypt_1.10.1.bb} (30%)
 
-diff --git a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch b/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+diff --git a/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch b/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
 deleted file mode 100644
-index d09013bb3c..0000000000
---- a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+index 62b7484e45..0000000000
+--- a/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
 +++ /dev/null
-@@ -1,70 +0,0 @@
--From 5ca815cb79f64fab9cbb428b95a861fc0c30c116 Mon Sep 17 00:00:00 2001
--From: Eli Schwartz <eschwartz@archlinux.org>
--Date: Mon, 8 Nov 2021 18:22:47 -0500
--Subject: [PATCH] migrate from custom itstool to builtin msgfmt for creating
-- translated XML
+@@ -1,41 +0,0 @@
+-From b8192ff67ed46ea2cc4282fa1856ce2868223737 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 24 Feb 2021 19:43:07 +0000
+-Subject: [PATCH] Makefile.am: add a missing space
 -
--gettext upstream has supported this for a very long time, and using it
--means we don't need to jump through hoops to run ninja inside ninja in
--order to generate the .mo files for itstool.
--
--Although meson 0.60.0 added support for real targets for the built .mo
--files, this changed the rules for output filenames, breaking the script.
--But msgfmt does not care, and anyways comes with builtin meson functions
--for convenient use.
--
--Fixes #170
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-Upstream-Status: Submitted [by email to gniibe@fsij.org,gcrypt-devel@gnupg.org]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ----
-- data/freedesktop_generate.sh | 12 ------------
-- data/meson.build             | 16 +++++-----------
-- 2 files changed, 5 insertions(+), 23 deletions(-)
-- delete mode 100755 data/freedesktop_generate.sh
+- cipher/Makefile.am | 2 +-
+- doc/Makefile.am    | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
 -
--diff --git a/data/freedesktop_generate.sh b/data/freedesktop_generate.sh
--deleted file mode 100755
--index ff13e75..0000000
----- a/data/freedesktop_generate.sh
--+++ /dev/null
--@@ -1,12 +0,0 @@
---#!/bin/sh -e
---
---src_root="$1"
---build_root="$2"
---
---ninja -C "${build_root}" shared-mime-info-gmo
---
---itstool \
---    --its "${src_root}/data/its/shared-mime-info.its" \
---    --join "${src_root}/data/freedesktop.org.xml.in" \
---    -o "${build_root}/data/freedesktop.org.xml" \
---    "${build_root}/po/"*".gmo"
--diff --git a/data/meson.build b/data/meson.build
--index 263567d..c5696f2 100644
----- a/data/meson.build
--+++ b/data/meson.build
--@@ -1,18 +1,12 @@
+-diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+-index 1cf5072..b3ca225 100644
+---- a/cipher/Makefile.am
+-+++ b/cipher/Makefile.am
+-@@ -143,7 +143,7 @@ gost-sb.h: gost-s-box
 - 
-- install_man('update-mime-database.1')
+- gost-s-box: gost-s-box.c
+- 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
+--	    $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/gost-s-box.c
+-+	    $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/gost-s-box.c
 - 
---freedesktop_org_xml = custom_target('freedesktop.org.xml',
---    input : files(
---        'freedesktop.org.xml.in',
---        'its/shared-mime-info.its',
---        'its/shared-mime-info.loc',
---    ),
--+freedesktop_org_xml = i18n.merge_file(
--+    input: 'freedesktop.org.xml.in',
--     output: 'freedesktop.org.xml',
---    command: [
---        find_program('freedesktop_generate.sh'),
---        meson.source_root(),
---        meson.build_root()
---    ],
--+    data_dirs: '.',
--+    po_dir: '../po',
--+    type: 'xml',
--     install: true,
--     install_dir: get_option('datadir') / 'mime' / 'packages',
-- )
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-index 6179abfef7..387dd7bbad 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-@@ -8,11 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+- 
+- if ENABLE_O_FLAG_MUNGING
+-diff --git a/doc/Makefile.am b/doc/Makefile.am
+-index fd7aac2..1703bd9 100644
+---- a/doc/Makefile.am
+-+++ b/doc/Makefile.am
+-@@ -43,7 +43,7 @@ man_MANS = $(myman_pages)
+- 
+- yat2m: yat2m.c
+- 	$(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
+--	    $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/yat2m.c
+-+	    $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/yat2m.c
+- 
+- .fig.png:
+- 	fig2dev -L png `test -f '$<' || echo '$(srcdir)/'`$< $@
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+similarity index 30%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+index 866f3932f6..f00d6b5a41 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+@@ -1,3 +1,106 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSES
++# +++ LICENSES
++# @@ -57,46 +57,53 @@
++#  
++#    For files:
++#    - random/jitterentropy-base.c
++# +  - random/jitterentropy-gcd.c
++# +  - random/jitterentropy-gcd.h
++# +  - random/jitterentropy-health.c
++# +  - random/jitterentropy-health.h
++# +  - random/jitterentropy-noise.c
++# +  - random/jitterentropy-noise.h
++# +  - random/jitterentropy-sha3.c
++# +  - random/jitterentropy-sha3.h
++# +  - random/jitterentropy-timer.c
++# +  - random/jitterentropy-timer.h
++#    - random/jitterentropy.h
++#    - random/rndjent.c (plus common Libgcrypt copyright holders)
++#  
++#  #+begin_quote
++# - * Copyright Stephan Mueller <smueller@chronox.de>, 2013
++# - *
++# - * License
++# - * =======
++# - *
++# - * Redistribution and use in source and binary forms, with or without
++# - * modification, are permitted provided that the following conditions
++# - * are met:
++# - * 1. Redistributions of source code must retain the above copyright
++# - *    notice, and the entire permission notice in its entirety,
++# - *    including the disclaimer of warranties.
++# - * 2. Redistributions in binary form must reproduce the above copyright
++# - *    notice, this list of conditions and the following disclaimer in the
++# - *    documentation and/or other materials provided with the distribution.
++# - * 3. The name of the author may not be used to endorse or promote
++# - *    products derived from this software without specific prior
++# - *    written permission.
++# - *
++# - * ALTERNATIVELY, this product may be distributed under the terms of
++# - * the GNU General Public License, in which case the provisions of the GPL are
++# - * required INSTEAD OF the above restrictions.  (This clause is
++# - * necessary due to a potential bad interaction between the GPL and
++# - * the restrictions contained in a BSD-style copyright.)
++# - *
++# - * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED
++# - * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# - * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ALL OF
++# - * WHICH ARE HEREBY DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE
++# - * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++# - * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
++# - * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++# - * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++# - * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# - * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++# - * USE OF THIS SOFTWARE, EVEN IF NOT ADVISED OF THE POSSIBILITY OF SUCH
++# - * DAMAGE.
++# + Copyright (C) 2017 - 2021, Stephan Mueller <smueller@chronox.de>
++# +
++# + Redistribution and use in source and binary forms, with or without
++# + modification, are permitted provided that the following conditions
++# + are met:
++# + 1. Redistributions of source code must retain the above copyright
++# +    notice, and the entire permission notice in its entirety,
++# +    including the disclaimer of warranties.
++# + 2. Redistributions in binary form must reproduce the above copyright
++# +    notice, this list of conditions and the following disclaimer in the
++# +    documentation and/or other materials provided with the distribution.
++# + 3. The name of the author may not be used to endorse or promote
++# +    products derived from this software without specific prior
++# +    written permission.
++# +
++# + ALTERNATIVELY, this product may be distributed under the terms of
++# + the GNU General Public License, in which case the provisions of the GPL2
++# + are required INSTEAD OF the above restrictions.  (This clause is
++# + necessary due to a potential bad interaction between the GPL and
++# + the restrictions contained in a BSD-style copyright.)
++# +
++# + THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED
++# + WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# + OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ALL OF
++# + WHICH ARE HEREBY DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE
++# + LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++# + CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
++# + OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++# + BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
++# + LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# + (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
++# + USE OF THIS SOFTWARE, EVEN IF NOT ADVISED OF THE POSSIBILITY OF SUCH
++# + DAMAGE.
++#  #+end_quote
++#  
++#    For files:
++# 
++#
++
+ SUMMARY = "General purpose cryptographic library based on the code from GnuPG"
+ DESCRIPTION = "A cryptography library developed as a separated module of GnuPG. \
+ It can also be used independently of GnuPG, but depends on its error-reporting \
+@@ -14,7 +117,7 @@ LICENSE:dumpsexp-dev = "GPL-3.0-or-later"
  
- DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
+-                    file://LICENSES;md5=42fa35a25e138166cc40588387f9159d \
++                    file://LICENSES;md5=ef545b6cc717747072616519a1256d69 \
+                     "
  
--SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master \
--           file://0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch \
--           "
--SRCREV = "18e558fa1c8b90b86757ade09a4ba4d6a6cf8f70"
--PV = "2.1"
-+SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
-+SRCREV = "13695c7225c2f525a435e72739c33ac32bbfbbb9"
-+PV = "2.2"
- S = "${WORKDIR}/git"
+ DEPENDS = "libgpg-error"
+@@ -25,9 +128,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
+-           file://0001-Makefile.am-add-a-missing-space.patch \
+            "
+-SRC_URI[sha256sum] = "ea849c83a72454e3ed4267697e8ca03390aee972ab421e7df69dfe42b65caaf7"
++SRC_URI[sha256sum] = "ef14ae546b0084cd84259f61a55e07a38c3b53afc0f546bffcef2f01baffe9de"
  
- inherit meson pkgconfig gettext python3native mime
+ # Below whitelisted CVEs are disputed and not affecting crypto libraries for any distro.
+ CVE_CHECK_IGNORE += "CVE-2018-12433 CVE-2018-12438"
 -- 
 2.27.0
 
 
---===============8775496322421222712==--
+--===============7886040817445139173==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (881 cached, 1 parsed). 1640 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:16823398850547077b6360f6375e5d9517882ddd"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 63 Local 26 Mirrors 0 Missed 37 Current 132 (41% match, 81% complete)
+Removing 4 stale sstate objects for arch x86_64...done.
+Removing 12 stale sstate objects for arch qemux86...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 144 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 147 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 152 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 153 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 154 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 155 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.63.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 161 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 166 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 171 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_stash_locale_setscene)
+NOTE: Running setscene task 172 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 173 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 176 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 177 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running noexec task 265 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.2.bb:do_fetch)
+NOTE: Running noexec task 320 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.2.bb:do_fetch)
+NOTE: Running task 349 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: Running task 569 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_fetch)
+NOTE: recipe zlib-1.2.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcrypt-4.4.28-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.63-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcc-11.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Started
+NOTE: recipe libgpg-error-1.44-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe gcc-runtime-11.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glibc-2.35-r0: task do_stash_locale_setscene: Started
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running task 570 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: recipe zlib-1.2.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 571 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_fetch)
+NOTE: recipe libxcrypt-4.4.28-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libcap-2.63-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_fetch: Succeeded
+NOTE: Running task 572 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_fetch)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 573 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_fetch)
+NOTE: Running task 574 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_fetch)
+NOTE: Running task 575 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.63.bb:do_fetch)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgcc-11.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libgpg-error-1.44-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 576 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_fetch)
+NOTE: Running task 578 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_unpack)
+NOTE: Running task 579 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 580 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_fetch)
+NOTE: Running task 581 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_fetch)
+NOTE: Running task 582 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb:do_fetch)
+NOTE: recipe gcc-runtime-11.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.11-r0: task do_fetch: Started
+NOTE: recipe libxcrypt-4.4.28-r0: task do_fetch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_fetch: Started
+NOTE: recipe libcap-2.63-r0: task do_fetch: Started
+NOTE: recipe zlib-1.2.11-r0: task do_fetch: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_fetch: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_fetch: Started
+NOTE: Running task 588 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_unpack)
+NOTE: recipe libcap-2.63-r0: task do_fetch: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_fetch: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_fetch: Succeeded
+NOTE: Running task 589 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.63.bb:do_unpack)
+NOTE: recipe libpam-1.5.2-r0: task do_fetch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxcrypt-4.4.28-r0: task do_fetch: Succeeded
+NOTE: Running task 590 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_unpack)
+NOTE: recipe libgpg-error-1.44-r0: task do_fetch: Started
+NOTE: Running task 591 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 592 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_unpack)
+NOTE: recipe cracklib-2.9.7-r0: task do_fetch: Succeeded
+NOTE: recipe glibc-2.35-r0: task do_stash_locale_setscene: Succeeded
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_unpack: Started
+NOTE: Running task 593 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_unpack)
+NOTE: Running task 594 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_unpack)
+NOTE: Running setscene task 190 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 191 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc-initial_11.2.bb:do_populate_sysroot_setscene)
+NOTE: Running task 595 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_unpack)
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libpam-1.5.2-r0: task do_fetch: Succeeded
+NOTE: recipe libgpg-error-1.44-r0: task do_fetch: Succeeded
+NOTE: Running task 596 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb:do_unpack)
+NOTE: Running task 597 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_unpack)
+NOTE: recipe zlib-1.2.11-r0: task do_unpack: Started
+NOTE: recipe libcap-2.63-r0: task do_unpack: Started
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libcap-2.63-r0: task do_unpack: Succeeded
+NOTE: recipe zlib-1.2.11-r0: task do_unpack: Succeeded
+NOTE: recipe libgcc-initial-11.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 598 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_patch)
+NOTE: Running task 599 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.63.bb:do_patch)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_unpack: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_unpack: Started
+NOTE: recipe libxcrypt-4.4.28-r0: task do_unpack: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_unpack: Started
+NOTE: recipe libgpg-error-1.44-r0: task do_unpack: Started
+NOTE: recipe flex-2.6.4-r0: task do_unpack: Started
+NOTE: recipe libpam-1.5.2-r0: task do_unpack: Started
+NOTE: recipe glibc-2.35-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_unpack: Succeeded
+NOTE: Running task 600 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_patch)
+NOTE: recipe glibc-2.35-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 601 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_fetch)
+NOTE: recipe flex-2.6.4-r0: task do_unpack: Succeeded
+NOTE: recipe libcap-2.63-r0: task do_patch: Started
+NOTE: recipe zlib-1.2.11-r0: task do_patch: Started
+NOTE: recipe libgcc-initial-11.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 602 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_patch)
+NOTE: Running setscene task 192 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcrypt-4.4.28-r0: task do_unpack: Succeeded
+NOTE: Running task 605 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.28.bb:do_patch)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_patch: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_unpack: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 606 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_patch)
+NOTE: Running task 607 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe libgpg-error-1.44-r0: task do_unpack: Succeeded
+NOTE: Running task 608 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb:do_patch)
+NOTE: recipe glibc-2.35-r0: task do_fetch: Started
+NOTE: recipe gcc-cross-i686-11.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_patch: Started
+NOTE: recipe libxcrypt-4.4.28-r0: task do_patch: Started
+NOTE: recipe libcap-2.63-r0: task do_patch: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_unpack: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_patch: Started
+NOTE: Running task 610 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_patch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_patch: Succeeded
+NOTE: recipe zlib-1.2.11-r0: task do_patch: Succeeded
+NOTE: recipe libgpg-error-1.44-r0: task do_patch: Started
+NOTE: recipe glibc-2.35-r0: task do_fetch: Succeeded
+NOTE: Running task 613 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_unpack)
+NOTE: recipe libxcrypt-4.4.28-r0: task do_patch: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_patch: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_patch: Succeeded
+NOTE: recipe libgpg-error-1.44-r0: task do_patch: Succeeded
+NOTE: recipe glibc-2.35-r0: task do_unpack: Started
+NOTE: recipe flex-2.6.4-r0: task do_patch: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_patch: Succeeded
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_unpack: Succeeded
+NOTE: Running task 619 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_patch)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_patch: Succeeded
+NOTE: Running task 620 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 621 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_lic)
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_lic: Started
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_patch: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_patch: Succeeded
+NOTE: Running task 622 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gcc-cross-i686-11.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 194 of 195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.2.bb:do_gcc_stash_builddir_setscene)
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 623 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_configure)
+NOTE: recipe gcc-cross-i686-11.2.0-r0: task do_gcc_stash_builddir_setscene: Started
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_configure: Started
+NOTE: recipe glibc-2.35-r0: task do_unpack: Succeeded
+NOTE: Running task 624 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_patch)
+NOTE: recipe glibc-2.35-r0: task do_patch: Started
+NOTE: recipe gcc-cross-i686-11.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glibc-2.35-r0: task do_patch: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_unpack: Succeeded
+NOTE: Running task 632 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_patch)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_patch: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_patch: Succeeded
+NOTE: Running noexec task 634 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_configure)
+NOTE: Running noexec task 635 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_compile)
+NOTE: Running task 636 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_install)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_install: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_install: Succeeded
+NOTE: Running task 651 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glibc-2.35-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glibc-2.35-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 652 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_configure)
+NOTE: recipe glibc-2.35-r0: task do_configure: Started
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_configure: Succeeded
+NOTE: Running task 653 of 779 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile)
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_compile: Started
+NOTE: recipe glibc-2.35-r0: task do_configure: Succeeded
+NOTE: Running task 654 of 779 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_compile)
+NOTE: recipe glibc-2.35-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56
+| make  all-recursive
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build'
+| Making all in compat
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/compat'
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/compat -I..  -I../src -I../../libgcrypt-1.10.1/src -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o compat.lo ../../libgcrypt-1.10.1/compat/compat.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/compat -I.. -I../src -I../../libgcrypt-1.10.1/src -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/compat/compat.c  -fPIC -DPIC -o .libs/compat.o
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o libcompat.la  compat.lo  -lcap
+| libtool: link: ar cr .libs/libcompat.a .libs/compat.o
+| libtool: link: ranlib -D .libs/libcompat.a
+| libtool: link: ( cd ".libs" && rm -f "libcompat.la" && ln -s "../libcompat.la" "libcompat.la" )
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/compat'
+| Making all in mpi
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/mpi'
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-add.lo ../../libgcrypt-1.10.1/mpi/mpi-add.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-bit.lo ../../libgcrypt-1.10.1/mpi/mpi-bit.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-cmp.lo ../../libgcrypt-1.10.1/mpi/mpi-cmp.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-div.lo ../../libgcrypt-1.10.1/mpi/mpi-div.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-gcd.lo ../../libgcrypt-1.10.1/mpi/mpi-gcd.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-inline.lo ../../libgcrypt-1.10.1/mpi/mpi-inline.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-inv.lo ../../libgcrypt-1.10.1/mpi/mpi-inv.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-mul.lo ../../libgcrypt-1.10.1/mpi/mpi-mul.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-mod.lo ../../libgcrypt-1.10.1/mpi/mpi-mod.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-pow.lo ../../libgcrypt-1.10.1/mpi/mpi-pow.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-mpow.lo ../../libgcrypt-1.10.1/mpi/mpi-mpow.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpi-scan.lo ../../libgcrypt-1.10.1/mpi/mpi-scan.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpicoder.lo ../../libgcrypt-1.10.1/mpi/mpicoder.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-div.lo ../../libgcrypt-1.10.1/mpi/mpih-div.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-mul.lo ../../libgcrypt-1.10.1/mpi/mpih-mul.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-const-time.lo ../../libgcrypt-1.10.1/mpi/mpih-const-time.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpiutil.lo ../../libgcrypt-1.10.1/mpi/mpiutil.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ec.lo ../../libgcrypt-1.10.1/mpi/ec.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ec-ed25519.lo ../../libgcrypt-1.10.1/mpi/ec-ed25519.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ec-nist.lo ../../libgcrypt-1.10.1/mpi/ec-nist.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ec-hw-s390x.lo ../../libgcrypt-1.10.1/mpi/ec-hw-s390x.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-add1.lo mpih-add1.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-sub1.lo mpih-sub1.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-mul1.lo mpih-mul1.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-mul2.lo mpih-mul2.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-mul3.lo mpih-mul3.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-lshift.lo mpih-lshift.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpih-rshift.lo mpih-rshift.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-inv.c  -fPIC -DPIC -o .libs/mpi-inv.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-mpow.c  -fPIC -DPIC -o .libs/mpi-mpow.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-div.c  -fPIC -DPIC -o .libs/mpi-div.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-mul2.c  -fPIC -DPIC -o .libs/mpih-mul2.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-inline.c  -fPIC -DPIC -o .libs/mpi-inline.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-cmp.c  -fPIC -DPIC -o .libs/mpi-cmp.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-gcd.c  -fPIC -DPIC -o .libs/mpi-gcd.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/ec-hw-s390x.c  -fPIC -DPIC -o .libs/ec-hw-s390x.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-mul.c  -fPIC -DPIC -o .libs/mpi-mul.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpih-div.c  -fPIC -DPIC -o .libs/mpih-div.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-bit.c  -fPIC -DPIC -o .libs/mpi-bit.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/ec-ed25519.c  -fPIC -DPIC -o .libs/ec-ed25519.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/ec-nist.c  -fPIC -DPIC -o .libs/ec-nist.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpih-mul.c  -fPIC -DPIC -o .libs/mpih-mul.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpih-const-time.c  -fPIC -DPIC -o .libs/mpih-const-time.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-add.c  -fPIC -DPIC -o .libs/mpi-add.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpicoder.c  -fPIC -DPIC -o .libs/mpicoder.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-add1.c  -fPIC -DPIC -o .libs/mpih-add1.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-scan.c  -fPIC -DPIC -o .libs/mpi-scan.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-mul3.c  -fPIC -DPIC -o .libs/mpih-mul3.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-lshift.c  -fPIC -DPIC -o .libs/mpih-lshift.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/ec.c  -fPIC -DPIC -o .libs/ec.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-pow.c  -fPIC -DPIC -o .libs/mpi-pow.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpiutil.c  -fPIC -DPIC -o .libs/mpiutil.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-mul1.c  -fPIC -DPIC -o .libs/mpih-mul1.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-sub1.c  -fPIC -DPIC -o .libs/mpih-sub1.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c mpih-rshift.c  -fPIC -DPIC -o .libs/mpih-rshift.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/mpi -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/mpi/mpi-mod.c  -fPIC -DPIC -o .libs/mpi-mod.o
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o libmpi.la  mpi-add.lo mpi-bit.lo mpi-cmp.lo mpi-div.lo mpi-gcd.lo mpi-inline.lo mpi-inv.lo mpi-mul.lo mpi-mod.lo mpi-pow.lo mpi-mpow.lo mpi-scan.lo mpicoder.lo mpih-div.lo mpih-mul.lo mpih-const-time.lo mpiutil.lo ec.lo ec-ed25519.lo ec-nist.lo ec-hw-s390x.lo mpih-add1.lo mpih-sub1.lo mpih-mul1.lo mpih-mul2.lo mpih-mul3.lo mpih-lshift.lo mpih-rshift.lo    -lcap
+| libtool: link: ar cr .libs/libmpi.a .libs/mpi-add.o .libs/mpi-bit.o .libs/mpi-cmp.o .libs/mpi-div.o .libs/mpi-gcd.o .libs/mpi-inline.o .libs/mpi-inv.o .libs/mpi-mul.o .libs/mpi-mod.o .libs/mpi-pow.o .libs/mpi-mpow.o .libs/mpi-scan.o .libs/mpicoder.o .libs/mpih-div.o .libs/mpih-mul.o .libs/mpih-const-time.o .libs/mpiutil.o .libs/ec.o .libs/ec-ed25519.o .libs/ec-nist.o .libs/ec-hw-s390x.o .libs/mpih-add1.o .libs/mpih-sub1.o .libs/mpih-mul1.o .libs/mpih-mul2.o .libs/mpih-mul3.o .libs/mpih-lshift.o .libs/mpih-rshift.o
+| libtool: link: ranlib -D .libs/libmpi.a
+| libtool: link: ( cd ".libs" && rm -f "libmpi.la" && ln -s "../libmpi.la" "libmpi.la" )
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/mpi'
+| Making all in cipher
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/cipher'
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher.lo ../../libgcrypt-1.10.1/cipher/cipher.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-cbc.lo ../../libgcrypt-1.10.1/cipher/cipher-cbc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-cfb.lo ../../libgcrypt-1.10.1/cipher/cipher-cfb.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-ofb.lo ../../libgcrypt-1.10.1/cipher/cipher-ofb.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-ctr.lo ../../libgcrypt-1.10.1/cipher/cipher-ctr.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-aeswrap.lo ../../libgcrypt-1.10.1/cipher/cipher-aeswrap.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-ccm.lo ../../libgcrypt-1.10.1/cipher/cipher-ccm.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-cmac.lo ../../libgcrypt-1.10.1/cipher/cipher-cmac.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-gcm.lo ../../libgcrypt-1.10.1/cipher/cipher-gcm.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-poly1305.lo ../../libgcrypt-1.10.1/cipher/cipher-poly1305.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-ocb.lo ../../libgcrypt-1.10.1/cipher/cipher-ocb.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-xts.lo ../../libgcrypt-1.10.1/cipher/cipher-xts.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-eax.lo ../../libgcrypt-1.10.1/cipher/cipher-eax.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-siv.lo ../../libgcrypt-1.10.1/cipher/cipher-siv.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-gcm-siv.lo ../../libgcrypt-1.10.1/cipher/cipher-gcm-siv.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cipher-selftest.lo ../../libgcrypt-1.10.1/cipher/cipher-selftest.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o pubkey.lo ../../libgcrypt-1.10.1/cipher/pubkey.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o pubkey-util.lo ../../libgcrypt-1.10.1/cipher/pubkey-util.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o md.lo ../../libgcrypt-1.10.1/cipher/md.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mac.lo ../../libgcrypt-1.10.1/cipher/mac.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mac-hmac.lo ../../libgcrypt-1.10.1/cipher/mac-hmac.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mac-cmac.lo ../../libgcrypt-1.10.1/cipher/mac-cmac.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mac-gmac.lo ../../libgcrypt-1.10.1/cipher/mac-gmac.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mac-poly1305.lo ../../libgcrypt-1.10.1/cipher/mac-poly1305.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o poly1305.lo ../../libgcrypt-1.10.1/cipher/poly1305.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o kdf.lo ../../libgcrypt-1.10.1/cipher/kdf.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o primegen.lo ../../libgcrypt-1.10.1/cipher/primegen.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o hash-common.lo ../../libgcrypt-1.10.1/cipher/hash-common.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o dsa-common.lo ../../libgcrypt-1.10.1/cipher/dsa-common.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rsa-common.lo ../../libgcrypt-1.10.1/cipher/rsa-common.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o arcfour.lo ../../libgcrypt-1.10.1/cipher/arcfour.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o blowfish.lo ../../libgcrypt-1.10.1/cipher/blowfish.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o cast5.lo ../../libgcrypt-1.10.1/cipher/cast5.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o des.lo ../../libgcrypt-1.10.1/cipher/des.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rijndael.lo ../../libgcrypt-1.10.1/cipher/rijndael.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o twofish.lo ../../libgcrypt-1.10.1/cipher/twofish.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o serpent.lo ../../libgcrypt-1.10.1/cipher/serpent.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rfc2268.lo ../../libgcrypt-1.10.1/cipher/rfc2268.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o seed.lo ../../libgcrypt-1.10.1/cipher/seed.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o camellia.lo ../../libgcrypt-1.10.1/cipher/camellia.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o camellia-glue.lo ../../libgcrypt-1.10.1/cipher/camellia-glue.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o idea.lo ../../libgcrypt-1.10.1/cipher/idea.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o salsa20.lo ../../libgcrypt-1.10.1/cipher/salsa20.c
+| gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib        
+                  -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 \
+|     -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -o gost-s-box ../../libgcrypt-1.10.1/cipher/gost-s-box.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o chacha20.lo ../../libgcrypt-1.10.1/cipher/chacha20.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o sm4.lo ../../libgcrypt-1.10.1/cipher/sm4.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o dsa.lo ../../libgcrypt-1.10.1/cipher/dsa.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rsa.lo ../../libgcrypt-1.10.1/cipher/rsa.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o elgamal.lo ../../libgcrypt-1.10.1/cipher/elgamal.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc.lo ../../libgcrypt-1.10.1/cipher/ecc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-curves.lo ../../libgcrypt-1.10.1/cipher/ecc-curves.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-misc.lo ../../libgcrypt-1.10.1/cipher/ecc-misc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-ecdh.lo ../../libgcrypt-1.10.1/cipher/ecc-ecdh.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-ecdsa.lo ../../libgcrypt-1.10.1/cipher/ecc-ecdsa.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-eddsa.lo ../../libgcrypt-1.10.1/cipher/ecc-eddsa.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-gost.lo ../../libgcrypt-1.10.1/cipher/ecc-gost.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-ctr.c  -fPIC -DPIC -o .libs/cipher-ctr.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-ccm.c  -fPIC -DPIC -o .libs/cipher-ccm.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-eax.c  -fPIC -DPIC -o .libs/cipher-eax.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-cbc.c  -fPIC -DPIC -o .libs/cipher-cbc.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/pubkey.c  -fPIC -DPIC -o .libs/pubkey.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-cfb.c  -fPIC -DPIC -o .libs/cipher-cfb.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher.c  -fPIC -DPIC -o .libs/cipher.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/mac.c  -fPIC -DPIC -o .libs/mac.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-selftest.c  -fPIC -DPIC -o .libs/cipher-selftest.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/mac-hmac.c  -fPIC -DPIC -o .libs/mac-hmac.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-poly1305.c  -fPIC -DPIC -o .libs/cipher-poly1305.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/pubkey-util.c  -fPIC -DPIC -o .libs/pubkey-util.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-gcm.c  -fPIC -DPIC -o .libs/cipher-gcm.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-cmac.c  -fPIC -DPIC -o .libs/cipher-cmac.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/mac-poly1305.c  -fPIC -DPIC -o .libs/mac-poly1305.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-ofb.c  -fPIC -DPIC -o .libs/cipher-ofb.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/hash-common.c  -fPIC -DPIC -o .libs/hash-common.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/md.c  -fPIC -DPIC -o .libs/md.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/poly1305.c  -fPIC -DPIC -o .libs/poly1305.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-xts.c  -fPIC -DPIC -o .libs/cipher-xts.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-siv.c  -fPIC -DPIC -o .libs/cipher-siv.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-aeswrap.c  -fPIC -DPIC -o .libs/cipher-aeswrap.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/kdf.c  -fPIC -DPIC -o .libs/kdf.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/arcfour.c  -fPIC -DPIC -o .libs/arcfour.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/dsa-common.c  -fPIC -DPIC -o .libs/dsa-common.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-ocb.c  -fPIC -DPIC -o .libs/cipher-ocb.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/mac-gmac.c  -fPIC -DPIC -o .libs/mac-gmac.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/idea.c  -fPIC -DPIC -o .libs/idea.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cipher-gcm-siv.c  -fPIC -DPIC -o .libs/cipher-gcm-siv.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/serpent.c  -fPIC -DPIC -o .libs/serpent.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/salsa20.c  -fPIC -DPIC -o .libs/salsa20.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/camellia-glue.c  -fPIC -DPIC -o .libs/camellia-glue.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/rfc2268.c  -fPIC -DPIC -o .libs/rfc2268.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/blowfish.c  -fPIC -DPIC -o .libs/blowfish.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/cast5.c  -fPIC -DPIC -o .libs/cast5.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/sm4.c  -fPIC -DPIC -o .libs/sm4.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/primegen.c  -fPIC -DPIC -o .libs/primegen.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/rsa.c  -fPIC -DPIC -o .libs/rsa.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/mac-cmac.c  -fPIC -DPIC -o .libs/mac-cmac.o
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o ecc-sm2.lo ../../libgcrypt-1.10.1/cipher/ecc-sm2.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc.c  -fPIC -DPIC -o .libs/ecc.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/seed.c  -fPIC -DPIC -o .libs/seed.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/chacha20.c  -fPIC -DPIC -o .libs/chacha20.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-eddsa.c  -fPIC -DPIC -o .libs/ecc-eddsa.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/camellia.c  -fPIC -DPIC -o .libs/camellia.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/rsa-common.c  -fPIC -DPIC -o .libs/rsa-common.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-ecdh.c  -fPIC -DPIC -o .libs/ecc-ecdh.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-gost.c  -fPIC -DPIC -o .libs/ecc-gost.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-ecdsa.c  -fPIC -DPIC -o .libs/ecc-ecdsa.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/dsa.c  -fPIC -DPIC -o .libs/dsa.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/des.c  -fPIC -DPIC -o .libs/des.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/twofish.c  -fPIC -DPIC -o .libs/twofish.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-misc.c  -fPIC -DPIC -o .libs/ecc-misc.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-curves.c  -fPIC -DPIC -o .libs/ecc-curves.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/rijndael.c  -fPIC -DPIC -o .libs/rijndael.o
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o crc.lo ../../libgcrypt-1.10.1/cipher/crc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o gostr3411-94.lo ../../libgcrypt-1.10.1/cipher/gostr3411-94.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o stribog.lo ../../libgcrypt-1.10.1/cipher/stribog.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o md4.lo ../../libgcrypt-1.10.1/cipher/md4.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o md5.lo ../../libgcrypt-1.10.1/cipher/md5.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rmd160.lo ../../libgcrypt-1.10.1/cipher/rmd160.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/elgamal.c  -fPIC -DPIC -o .libs/elgamal.o
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o sha256.lo ../../libgcrypt-1.10.1/cipher/sha256.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o sha512.lo ../../libgcrypt-1.10.1/cipher/sha512.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o keccak.lo ../../libgcrypt-1.10.1/cipher/keccak.c
+| `echo /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/tiger.c | sed -e 's/ -O\([2-9sg][2-9sg]*\) / -O1 /' -e 's/ -Ofast / -O1 /g' `
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o whirlpool.lo ../../libgcrypt-1.10.1/cipher/whirlpool.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/ecc-sm2.c  -fPIC -DPIC -o .libs/ecc-sm2.o
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o blake2.lo ../../libgcrypt-1.10.1/cipher/blake2.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o sm3.lo ../../libgcrypt-1.10.1/cipher/sm3.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o sha1.lo ../../libgcrypt-1.10.1/cipher/sha1.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o scrypt.lo ../../libgcrypt-1.10.1/cipher/scrypt.c
+| ./gost-s-box gost-sb.h
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I..  -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o gost28147.lo ../../libgcrypt-1.10.1/cipher/gost28147.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/stribog.c  -fPIC -DPIC -o .libs/stribog.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/gostr3411-94.c  -fPIC -DPIC -o .libs/gostr3411-94.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/md5.c  -fPIC -DPIC -o .libs/md5.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/md4.c  -fPIC -DPIC -o .libs/md4.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/rmd160.c  -fPIC -DPIC -o .libs/rmd160.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/crc.c  -fPIC -DPIC -o .libs/crc.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/sha256.c  -fPIC -DPIC -o .libs/sha256.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/whirlpool.c  -fPIC -DPIC -o .libs/whirlpool.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/sha512.c  -fPIC -DPIC -o .libs/sha512.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/keccak.c  -fPIC -DPIC -o .libs/keccak.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/blake2.c  -fPIC -DPIC -o .libs/blake2.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O1 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/tiger.c  -fPIC -DPIC -o .libs/tiger.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/sm3.c  -fPIC -DPIC -o .libs/sm3.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/sha1.c  -fPIC -DPIC -o .libs/sha1.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/scrypt.c  -fPIC -DPIC -o .libs/scrypt.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/cipher -I.. -I../src -I../../libgcrypt-1.10.1/src -I../mpi -I../../libgcrypt-1.10.1/mpi -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/cipher/gost28147.c  -fPIC -DPIC -o .libs/gost28147.o
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o libcipher.la  cipher.lo cipher-cbc.lo cipher-cfb.lo cipher-ofb.lo cipher-ctr.lo cipher-aeswrap.lo cipher-ccm.lo cipher-cmac.lo cipher-gcm.lo cipher-poly1305.lo cipher-ocb.lo cipher-xts.lo cipher-eax.lo cipher-siv.lo cipher-gcm-siv.lo cipher-selftest.lo pubkey.lo pubkey-util.lo md.lo mac.lo mac-hmac.lo mac-cmac.lo mac-gmac.lo mac-poly1305.lo poly1305.lo kdf.lo primegen.lo hash-c
+ ommon.lo dsa-common.lo rsa-common.lo arcfour.lo blowfish.lo cast5.lo des.lo rijndael.lo twofish.lo serpent.lo rfc2268.lo seed.lo camellia.lo camellia-glue.lo idea.lo salsa20.lo gost28147.lo chacha20.lo sm4.lo  dsa.lo rsa.lo elgamal.lo                           ecc.lo ecc-curves.lo ecc-misc.lo                           ecc-ecdh.lo ecc-ecdsa.lo ecc-eddsa.lo ecc-gost.lo                           ecc-sm2.lo crc.lo gostr3411-94.lo stribog.lo md4.lo md5.lo rmd160.lo sha256.lo sha512.lo keccak.lo tiger.lo whirlpool.lo blake2.lo sm3.lo sha1.lo  scrypt.lo -lcap
+| libtool: link: ar cr .libs/libcipher.a .libs/cipher.o .libs/cipher-cbc.o .libs/cipher-cfb.o .libs/cipher-ofb.o .libs/cipher-ctr.o .libs/cipher-aeswrap.o .libs/cipher-ccm.o .libs/cipher-cmac.o .libs/cipher-gcm.o .libs/cipher-poly1305.o .libs/cipher-ocb.o .libs/cipher-xts.o .libs/cipher-eax.o .libs/cipher-siv.o .libs/cipher-gcm-siv.o .libs/cipher-selftest.o .libs/pubkey.o .libs/pubkey-util.o .libs/md.o .libs/mac.o .libs/mac-hmac.o .libs/mac-cmac.o .libs/mac-gmac.o .libs/mac-poly1305.o .libs/poly1305.o .libs/kdf.o .libs/primegen.o .libs/hash-common.o .libs/dsa-common.o .libs/rsa-common.o .libs/arcfour.o .libs/blowfish.o .libs/cast5.o .libs/des.o .libs/rijndael.o .libs/twofish.o .libs/serpent.o .libs/rfc2268.o .libs/seed.o .libs/camellia.o .libs/camellia-glue.o .libs/idea.o .libs/salsa20.o .libs/gost28147.o .libs/chacha20.o .libs/sm4.o .libs/dsa.o .libs/rsa.o .libs/elgamal.o .libs/ecc.o .libs/ecc-curves.o .libs/ecc-misc.o .libs/ecc-ecdh.o .libs/ecc-ecdsa.o .libs/ecc-eddsa.o .libs/ecc-g
+ ost.o .libs/ecc-sm2.o .libs/crc.o .libs/gostr3411-94.o .libs/stribog.o .libs/md4.o .libs/md5.o .libs/rmd160.o .libs/sha256.o .libs/sha512.o .libs/keccak.o .libs/tiger.o .libs/whirlpool.o .libs/blake2.o .libs/sm3.o .libs/sha1.o .libs/scrypt.o
+| libtool: link: ranlib -D .libs/libcipher.a
+| libtool: link: ( cd ".libs" && rm -f "libcipher.la" && ln -s "../libcipher.la" "libcipher.la" )
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/cipher'
+| Making all in random
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/random'
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o random.lo ../../libgcrypt-1.10.1/random/random.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o random-csprng.lo ../../libgcrypt-1.10.1/random/random-csprng.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o random-drbg.lo ../../libgcrypt-1.10.1/random/random-drbg.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o random-system.lo ../../libgcrypt-1.10.1/random/random-system.c
+| `echo /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/rndjent.c | sed -e 's/-O\([1-9sg][1-9sg]*\)/-O0/g' -e 's/-Ofast/-O0/g' `
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rndhw.lo ../../libgcrypt-1.10.1/random/rndhw.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rndgetentropy.lo ../../libgcrypt-1.10.1/random/rndgetentropy.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/random-drbg.c  -fPIC -DPIC -o .libs/random-drbg.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/random.c  -fPIC -DPIC -o .libs/random.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/random-system.c  -fPIC -DPIC -o .libs/random-system.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/random-csprng.c  -fPIC -DPIC -o .libs/random-csprng.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/rndgetentropy.c  -fPIC -DPIC -o .libs/rndgetentropy.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/rndhw.c  -fPIC -DPIC -o .libs/rndhw.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/random -I.. -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O0 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/random/rndjent.c  -fPIC -DPIC -o .libs/rndjent.o
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o librandom.la  random.lo random-csprng.lo random-drbg.lo random-system.lo rndjent.lo rndhw.lo rndgetentropy.lo -lcap
+| libtool: link: ar cr .libs/librandom.a .libs/random.o .libs/random-csprng.o .libs/random-drbg.o .libs/random-system.o .libs/rndjent.o .libs/rndhw.o .libs/rndgetentropy.o
+| libtool: link: ranlib -D .libs/librandom.a
+| libtool: link: ( cd ".libs" && rm -f "librandom.la" && ln -s "../librandom.la" "librandom.la" )
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/random'
+| Making all in src
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src'
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o dumpsexp-dumpsexp.o `test -f 'dumpsexp.c' || echo '../../libgcrypt-1.10.1/src/'`dumpsexp.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -DSTANDALONE  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o hmac256-hmac256.o `test -f 'hmac256.c' || echo '../../libgcrypt-1.10.1/src/'`hmac256.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpicalc-mpicalc.o `test -f 'mpicalc.c' || echo '../../libgcrypt-1.10.1/src/'`mpicalc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-visibility.lo `test -f 'visibility.c' || echo '../../libgcrypt-1.10.1/src/'`visibility.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-misc.lo `test -f 'misc.c' || echo '../../libgcrypt-1.10.1/src/'`misc.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-global.lo `test -f 'global.c' || echo '../../libgcrypt-1.10.1/src/'`global.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-sexp.lo `test -f 'sexp.c' || echo '../../libgcrypt-1.10.1/src/'`sexp.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-hwfeatures.lo `test -f 'hwfeatures.c' || echo '../../libgcrypt-1.10.1/src/'`hwfeatures.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-stdmem.lo `test -f 'stdmem.c' || echo '../../libgcrypt-1.10.1/src/'`stdmem.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-secmem.lo `test -f 'secmem.c' || echo '../../libgcrypt-1.10.1/src/'`secmem.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-missing-string.lo `test -f 'missing-string.c' || echo '../../libgcrypt-1.10.1/src/'`missing-string.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-fips.lo `test -f 'fips.c' || echo '../../libgcrypt-1.10.1/src/'`fips.c
+| /bin/bash ../libtool  --tag=CC   --mode=compile gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I..   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o libgcrypt_la-context.lo `test -f 'context.c' || echo '../../libgcrypt-1.10.1/src/'`context.c
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/visibility.c  -fPIC -DPIC -o .libs/libgcrypt_la-visibility.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/hwfeatures.c  -fPIC -DPIC -o .libs/libgcrypt_la-hwfeatures.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/global.c  -fPIC -DPIC -o .libs/libgcrypt_la-global.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/misc.c  -fPIC -DPIC -o .libs/libgcrypt_la-misc.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/secmem.c  -fPIC -DPIC -o .libs/libgcrypt_la-secmem.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/sexp.c  -fPIC -DPIC -o .libs/libgcrypt_la-sexp.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/stdmem.c  -fPIC -DPIC -o .libs/libgcrypt_la-stdmem.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/fips.c  -fPIC -DPIC -o .libs/libgcrypt_la-fips.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/missing-string.c  -fPIC -DPIC -o .libs/libgcrypt_la-missing-string.o
+| libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/src -I.. -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c ../../libgcrypt-1.10.1/src/context.c  -fPIC -DPIC -o .libs/libgcrypt_la-context.o
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh
+ /build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o dumpsexp dumpsexp-dumpsexp.o  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -DSTANDALONE  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yoc
+ to-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o hmac256 hmac256-hmac256.o  -lcap
+| libtool: link: gcc -DSTANDALONE -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/l
+ d-linux-x86-64.so.2 -o hmac256 hmac256-hmac256.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -lcap
+| libtool: link: gcc -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-6
+ 4.so.2 -o dumpsexp dumpsexp-dumpsexp.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall    -Wl,--version-script=../../libgcrypt-1.10.1/src/libgcrypt.vers -version-info 24:1:4 -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot
+ -native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o libgcrypt.la -rpath /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib libgcrypt_la-visibility.lo libgcrypt_la-misc.lo libgcrypt_la-global.lo libgcrypt_la-sexp.lo libgcrypt_la-hwfeatures.lo libgcrypt_la-stdmem.lo l
+ ibgcrypt_la-secmem.lo libgcrypt_la-missing-string.lo libgcrypt_la-fips.lo libgcrypt_la-context.lo   ../cipher/libcipher.la ../random/librandom.la ../mpi/libmpi.la ../compat/libcompat.la  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error -lcap
+| libtool: link: gcc  -shared  -fPIC -DPIC  .libs/libgcrypt_la-visibility.o .libs/libgcrypt_la-misc.o .libs/libgcrypt_la-global.o .libs/libgcrypt_la-sexp.o .libs/libgcrypt_la-hwfeatures.o .libs/libgcrypt_la-stdmem.o .libs/libgcrypt_la-secmem.o .libs/libgcrypt_la-missing-string.o .libs/libgcrypt_la-fips.o .libs/libgcrypt_la-context.o  -Wl,--whole-archive ../cipher/.libs/libcipher.a ../random/.libs/librandom.a ../mpi/.libs/libmpi.a ../compat/.libs/libcompat.a -Wl,--no-whole-archive  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error -lcap  -O2 -Wl,--version-script=../../libgcrypt-1.10.1/src/libgcrypt.vers -Wl,--e
+ nable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   -Wl,-soname -Wl,libgcrypt.so.20 -o .libs/libgcrypt.so.20.4.1
+| libtool: link: (cd ".libs" && rm -f "libgcrypt.so.20" && ln -s "libgcrypt.so.20.4.1" "libgcrypt.so.20")
+| libtool: link: (cd ".libs" && rm -f "libgcrypt.so" && ln -s "libgcrypt.so.20.4.1" "libgcrypt.so")
+| libtool: link: ( cd ".libs" && rm -f "libgcrypt.la" && ln -s "../libgcrypt.la" "libgcrypt.la" )
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/au
+ h/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o mpicalc mpicalc-mpicalc.o libgcrypt.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o .libs/mpicalc mpicalc-mpicalc.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ./.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error -lcap
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src'
+| Making all in doc
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/doc'
+| make  all-am
+| make[3]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/doc'
+| gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib        
+                  -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 \
+|     -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -o yat2m ../../libgcrypt-1.10.1/doc/yat2m.c
+| for file in gcrypt.texi ; do \
+|               ./yat2m -I ../../libgcrypt-1.10.1/doc --release "Libgcrypt 1.10.1-unknown" --source "Libgcrypt" --store \
+|           `test -f '$file' || echo '../../libgcrypt-1.10.1/doc/'`$file ; done
+| yat2m: writing 'hmac256.1'
+| make[3]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/doc'
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/doc'
+| Making all in tests
+| make[2]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/tests'
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o testdrv.o ../../libgcrypt-1.10.1/tests/testdrv.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o version.o ../../libgcrypt-1.10.1/tests/version.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-secmem.o ../../libgcrypt-1.10.1/tests/t-secmem.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o mpitests.o ../../libgcrypt-1.10.1/tests/mpitests.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-sexp.o ../../libgcrypt-1.10.1/tests/t-sexp.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-convert.o ../../libgcrypt-1.10.1/tests/t-convert.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-mpi-bit.o ../../libgcrypt-1.10.1/tests/t-mpi-bit.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-mpi-point.o ../../libgcrypt-1.10.1/tests/t-mpi-point.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o curves.o ../../libgcrypt-1.10.1/tests/curves.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include  -lpthread -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t_lock-t-lock.o `test -f 't-lock.c' || echo '../../libgcrypt-1.10.1/tests/'`t-lock.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o prime.o ../../libgcrypt-1.10.1/tests/prime.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o basic.o ../../libgcrypt-1.10.1/tests/basic.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o keygen.o ../../libgcrypt-1.10.1/tests/keygen.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o pubkey.o ../../libgcrypt-1.10.1/tests/pubkey.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o hmac.o ../../libgcrypt-1.10.1/tests/hmac.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o hashtest.o ../../libgcrypt-1.10.1/tests/hashtest.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t_kdf-t-kdf.o `test -f 't-kdf.c' || echo '../../libgcrypt-1.10.1/tests/'`t-kdf.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o keygrip.o ../../libgcrypt-1.10.1/tests/keygrip.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o fips186-dsa.o ../../libgcrypt-1.10.1/tests/fips186-dsa.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o aeswrap.o ../../libgcrypt-1.10.1/tests/aeswrap.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o pkcs1v2.o ../../libgcrypt-1.10.1/tests/pkcs1v2.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o random.o ../../libgcrypt-1.10.1/tests/random.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o dsa-rfc6979.o ../../libgcrypt-1.10.1/tests/dsa-rfc6979.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-dsa.o ../../libgcrypt-1.10.1/tests/t-dsa.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-ecdsa.o ../../libgcrypt-1.10.1/tests/t-ecdsa.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-rsa-pss.o ../../libgcrypt-1.10.1/tests/t-rsa-pss.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-rsa-15.o ../../libgcrypt-1.10.1/tests/t-rsa-15.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-ed25519.o ../../libgcrypt-1.10.1/tests/t-ed25519.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-cv25519.o ../../libgcrypt-1.10.1/tests/t-cv25519.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-x448.o ../../libgcrypt-1.10.1/tests/t-x448.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o t-ed448.o ../../libgcrypt-1.10.1/tests/t-ed448.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o benchmark.o ../../libgcrypt-1.10.1/tests/benchmark.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o bench-slope.o ../../libgcrypt-1.10.1/tests/bench-slope.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o fipsdrv.o ../../libgcrypt-1.10.1/tests/fipsdrv.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o rsacvt.o ../../libgcrypt-1.10.1/tests/rsacvt.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o genhashdata.o ../../libgcrypt-1.10.1/tests/genhashdata.c
+| gcc  -DHAVE_CONFIG_H -I. -I../../libgcrypt-1.10.1/tests -I..  -I../src -I../../libgcrypt-1.10.1/src -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -c -o gchash.o ../../libgcrypt-1.10.1/tests/gchash.c
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o keygrip keygrip.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o version version.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o gchash gchash.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o genhashdata genhashdata.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc   -lpthread -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokyb
+ uild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-lock t_lock-t-lock.o ../src/libgcrypt.la ../compat/libcompat.la   -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o hmac hmac.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o curves curves.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o prime prime.o ../src/libgcrypt.la ../compat/libcompat.la  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o aeswrap aeswrap.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-secmem t-secmem.o ../src/libgcrypt.la ../compat/libcompat.la  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o dsa-rfc6979 dsa-rfc6979.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o hashtest hashtest.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-mpi-bit t-mpi-bit.o ../src/libgcrypt.la ../compat/libcompat.la  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o rsacvt rsacvt.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o fips186-dsa fips186-dsa.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-convert t-convert.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o testdrv testdrv.o  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o keygen keygen.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ed25519 t-ed25519.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ed448 t-ed448.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-x448 t-x448.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o mpitests mpitests.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-rsa-pss t-rsa-pss.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-cv25519 t-cv25519.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ecdsa t-ecdsa.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-rsa-15 t-rsa-15.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o pubkey pubkey.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc   -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto
+ -worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-kdf t_kdf-t-kdf.o ../src/libgcrypt.la ../compat/libcompat.la   -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-dsa t-dsa.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o random random.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o testdrv testdrv.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o keygrip keygrip.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o pkcs1v2 pkcs1v2.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o version version.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o gchash gchash.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-sexp t-sexp.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o genhashdata genhashdata.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-6
+ 4.so.2 -o t-lock t_lock-t-lock.o  -lpthread -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error ../compat/.libs/libcompat.a -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-secmem t-secmem.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error ../compat/.libs/libcompat.a -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o aeswrap aeswrap.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o prime prime.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error ../compat/.libs/libcompat.a -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o hmac hmac.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o curves curves.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o dsa-rfc6979 dsa-rfc6979.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| /bin/bash ../libtool  --tag=CC   --mode=link gcc  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -no-install -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yoct
+ o-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-mpi-point t-mpi-point.o ../src/libgcrypt.la ../compat/libcompat.la -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error  -lcap
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-mpi-bit t-mpi-bit.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error ../compat/.libs/libcompat.a -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-convert t-convert.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o fips186-dsa fips186-dsa.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o rsacvt rsacvt.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o hashtest hashtest.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o keygen keygen.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ed448 t-ed448.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-x448 t-x448.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o mpitests mpitests.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ed25519 t-ed25519.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-cv25519 t-cv25519.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-rsa-pss t-rsa-pss.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-ecdsa t-ecdsa.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-rsa-15 t-rsa-15.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o pubkey pubkey.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-dsa t-dsa.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o random random.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-6
+ 4.so.2 -o t-kdf t_kdf-t-kdf.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib -lgpg-error ../compat/.libs/libcompat.a -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| t_kdf-t-kdf.o: In function `wait_all_jobs_completion':
+| t-kdf.c:(.text+0x28a): undefined reference to `pthread_join'
+| t_kdf-t-kdf.o: In function `pthread_jobs_launch_job':
+| t-kdf.c:(.text+0x2e7): undefined reference to `pthread_join'
+| t-kdf.c:(.text+0x343): undefined reference to `pthread_create'
+| collect2: error: ld returned 1 exit status
+| make[2]: *** [Makefile:799: t-kdf] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o pkcs1v2 pkcs1v2.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-sexp t-sexp.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| libtool: link: gcc -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/include -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility=hidden -fno-delete-null-pointer-checks -Wall -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib
+  -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -o t-mpi-point t-mpi-point.o  -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/lib ../src/.libs/libgcrypt.so -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib ../compat/.libs/libcompat.a -lgpg-error -lcap -Wl,-rpath -Wl,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/src/.libs
+| make[2]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build/tests'
+| make[1]: *** [Makefile:499: all-recursive] Error 1
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/build'
+| make: *** [Makefile:431: all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079:186 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 186
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 170
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 165
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 160
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 155
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079, line 199
+NOTE: recipe libgcrypt-native-1.10.1-r0: task do_compile: Failed
+NOTE: recipe glibc-2.35-r0: task do_compile: Succeeded
+NOTE: Tasks Summary: Attempted 654 tasks of which 603 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libgcrypt-native-1.10.1-r0 do_compile: oe_runmake failed
+ERROR: libgcrypt-native-1.10.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/run.do_compile.4184079', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/libgcrypt-native/1.10.1-r0/temp/log.do_compile.4184079
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_compile) failed with exit code '1'
+
+--===============7886040817445139173==--
 
