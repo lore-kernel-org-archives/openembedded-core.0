@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A739C47084
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:42 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web12.10469.1648819421005068435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F68CC3527E
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web09.10396.1648819420454281433
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZdOOtoGK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 0101017fe54bbc9f-27358e62-2906-4e72-b519-9dfffa448140-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XWSwsLQF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 0101017fe54bbe07-ea63efe8-8361-442f-a17c-4211ad822333-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=C+Rh6xICyMNTLz3REtQx0EpJUfy1S4BzPDRoedf9TzQ=;
-	b=ZdOOtoGK0+Woq2BVY3vYoefOCr+2R7PzZeCkOWkdVFMbw7eea6+CP94k3lw2rkM8
-	v8tJqVm3bjv7pEPd/zJtJlaI5Tb1FgUBNo3OoOLFlLpX//UfWRbBtV2TkfX8naLoi/t
-	Ybhl1MghAO3e8QOhComqQWtfZsm3lezpiL+e0P5Q=
+	bh=3IjmT9AKrDeaNREKM9gEbtYN4bZHIMkbpgiPnYvPdtw=;
+	b=XWSwsLQFoyJi0hteGwo1GWwXkQ4+E5Z/052cr03CarmVOS4cMZNiKbX62xvqw1BV
+	NxSiFSIlT2JQVFITskoZjzAoUjjJBht/m8lh6oRH8xk0bm7mvxzys0EHLF/o/Y9OFiD
+	1MRYiH/4t4WSVF5TNLpoBxvZqH78n/hTp4GP83So=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=C+Rh6xICyMNTLz3REtQx0EpJUfy1S4BzPDRoedf9TzQ=;
-	b=gSMgZEkMEeEJG/hVp+R0IvfkWs5AfGdAPputCoxt4WBvCHc6IjSVOAn7BWO+W7V8
-	M7ULK6L0sjlMFYdT+VZzLEe0Ec5xNnO7vkcgBqQkOEGinXs9AybXRjWcmquM0sJGeYN
-	iXJLfJk6PU6LUMZcYNSXm1uwW8g1vFZuuZY5vSok=
-Content-Type: multipart/mixed; boundary="===============5303922779814166579=="
+	bh=3IjmT9AKrDeaNREKM9gEbtYN4bZHIMkbpgiPnYvPdtw=;
+	b=OihXkMaiPGvs090Lqgi8/rTOA92xVOtK3jQF/nFZR/g77J166430ZguV+CF2zPx1
+	a8xHT7wUNf1LZGdna1uBBlxgk2DC1XmCHuLjaXFgWXc9udXycqKuyoQk9oM1IVTS7bb
+	g0jIJZq5HDPhO10ac47HAmsuR8xazN/RrCdRR9Dw=
+Content-Type: multipart/mixed; boundary="===============3407839335271338175=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools: upgrading to 61.3.0 FAILED
+Subject: [AUH] acpica: upgrading to 20220331 SUCCEEDED
 Message-ID: 
- <0101017fe54bbc9f-27358e62-2906-4e72-b519-9dfffa448140-000000@us-west-2.amazonses.com>
+ <0101017fe54bbe07-ea63efe8-8361-442f-a17c-4211ad822333-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Apr 2022 13:23:40 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.193
+X-SES-Outgoing: 2022.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:42 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163904
+ https://lists.openembedded.org/g/openembedded-core/message/163909
 
---===============5303922779814166579==
+--===============3407839335271338175==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,101 +56,159 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-setuptools* to *61.3.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *acpica* to *20220331* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-acpica-upgrade-20211217-20220331.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-setuptools failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:db877dca92178120e577983477a65d74c621057b"
-workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:db877dca92178120e577983477a65d74c621057b"
-workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  32% |###########                         | ETA:  0:00:00
-Adding changed files:  64% |#######################             | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-61.3.0.tar.gz...
-INFO: Rebasing devtool onto c5b7788bfaebb6e42d5b4d5726aa07a7b94923bb
-WARNING: Command 'git rebase c5b7788bfaebb6e42d5b4d5726aa07a7b94923bb' failed:
-Auto-merging setuptools/_distutils/sysconfig.py
-CONFLICT (content): Merge conflict in setuptools/_distutils/sysconfig.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto c5b7788bfaebb6e42d5b4d5726aa07a7b94923bb
-WARNING: Command 'git rebase c5b7788bfaebb6e42d5b4d5726aa07a7b94923bb' failed:
-Auto-merging setuptools/_distutils/sysconfig.py
-CONFLICT (content): Merge conflict in setuptools/_distutils/sysconfig.py
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-setuptools
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-setuptools/python3-setuptools_61.3.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5303922779814166579==--
+--===============3407839335271338175==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/acpica/acpica-dbg: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGSIZE changed from 8806652 to 8814404 (+0%)
+packages/core2-32-poky-linux/acpica/acpica-dbg: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica-dev: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-dev: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica-doc: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-doc: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica-locale: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-locale: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica-src: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-src: PKGSIZE changed from 10496339 to 10522606 (+0%)
+packages/core2-32-poky-linux/acpica/acpica-src: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica-staticdev: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica/acpica: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica/acpica: PKGSIZE changed from 2662992 to 2667612 (+0%)
+packages/core2-32-poky-linux/acpica/acpica: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica: PV changed from "20211217" to "20220331"
+packages/core2-32-poky-linux/acpica: PKGV changed from 20211217 [default] to 20220331 [default]
+packages/core2-32-poky-linux/acpica: SRC_URI changed from "https://acpica.org/sites/acpica/files/acpica-unix-20211217.tar.gz" to "https://acpica.org/sites/acpica/files/acpica-unix-20220331.tar.gz"
+
+--===============3407839335271338175==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 69 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+--===============3407839335271338175==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-acpica-upgrade-20211217-20220331.patch"
+
+From a540da8132a22e44cd31a31668c2ccb933da301a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Apr 2022 09:35:26 +0000
+Subject: [PATCH] acpica: upgrade 20211217 -> 20220331
+
+---
+ ...{acpica_20211217.bb => acpica_20220331.bb} | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20211217.bb => acpica_20220331.bb} (65%)
+
+diff --git a/meta/recipes-extended/acpica/acpica_20211217.bb b/meta/recipes-extended/acpica/acpica_20220331.bb
+similarity index 65%
+rename from meta/recipes-extended/acpica/acpica_20211217.bb
+rename to meta/recipes-extended/acpica/acpica_20220331.bb
+index d1727c1dab..6957aa64ea 100644
+--- a/meta/recipes-extended/acpica/acpica_20211217.bb
++++ b/meta/recipes-extended/acpica/acpica_20220331.bb
+@@ -1,3 +1,25 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- source/compiler/aslcompile.c
++# +++ source/compiler/aslcompile.c
++# @@ -2,7 +2,7 @@
++#   *
++#   * 1. Copyright Notice
++#   *
++# - * Some or all of this work - Copyright (c) 1999 - 2021, Intel Corp.
++# + * Some or all of this work - Copyright (c) 1999 - 2022, Intel Corp.
++#   * All rights reserved.
++#   *
++#   * 2. License
++# 
++#
++
+ SUMMARY = "ACPICA tools for the development and debug of ACPI tables"
+ DESCRIPTION = "The ACPI Component Architecture (ACPICA) project provides an \
+ OS-independent reference implementation of the Advanced Configuration and \
+@@ -10,14 +32,14 @@ HOMEPAGE = "http://www.acpica.org/"
+ SECTION = "console/tools"
+ 
+ LICENSE = "Intel | BSD-3-Clause | GPL-2.0-only"
+-LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=c33ce358fdcd142684e41e336b7992e8"
++LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=41a76b4b1f816240f090cf010fefebf0"
+ 
+ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ 
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "2511f85828820d747fa3e2c3433d3a38c22db3d9c2fd900e1a84eb4173cb5992"
++SRC_URI[sha256sum] = "acaff68b14f1e0804ebbfc4b97268a4ccbefcfa053b02ed9924f2b14d8a98e21"
+ 
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ 
+-- 
+2.27.0
+
+
+--===============3407839335271338175==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 62 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: Nothing PROVIDES 'acpica'
+acpica was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+--===============3407839335271338175==--
 
