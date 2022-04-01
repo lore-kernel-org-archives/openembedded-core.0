@@ -2,151 +2,231 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90710C38162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C549C47088
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web09.10397.1648819420958445734
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web12.10472.1648819421789797412
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 06:23:42 -0700
+ Fri, 01 Apr 2022 06:23:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=5cvA2vfl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 0101017fe54bc304-518202c0-0e58-4ba7-8a93-66006476beb2-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Sai2Xe2S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 0101017fe54bbf78-e42bb99c-123a-4abd-957f-36e159312a32-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1648819422;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=k8NpX6gLLYAQmq18S75Sd4Vl6pgD8ZergnfcsNOUVpY=;
-	b=5cvA2vflmJuEifHLFvKJB+eL85y15yOa10/Z4sB5l+C+Ee9RuyiubETuJ7Yu4Djo
-	qnvAAKa8etSa3cfOCG2kr7HPLFsbyUfOBrplusHyXT8KLKgKNzzzrOf4wyLYllzrW2L
-	e8rbXT+O2BjY5uxRvRemIh7F4mfCjNIStsruPsC8=
+	t=1648819421;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Wfm2Ee68L4eJtmH6R4XR4RSPCf3WxKu891eMzX4NaZM=;
+	b=Sai2Xe2SWiAA9cI3yCl5bFVYC7/fCW28gQ2nJEtzQAWj2y+tsQ+ha7LqiuqX/Q4A
+	vKBqJZi4M7wmM/jzLwo22N3OGsOCaLA84w3HiBLoPtpcs5/K4LJZpykVUdGdHOpwVcb
+	JjWfBjwiMX00MDvazF1INB4ocSRezRNl7Zx4uya8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819422;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=k8NpX6gLLYAQmq18S75Sd4Vl6pgD8ZergnfcsNOUVpY=;
-	b=cdieKlU9WXxlJZhn9FtyfYBjgtzeU9IR/ibPCTNHEsfOQre9HGkW8xDM1xMqhpMU
-	3quS/zgjMLC95zCqrCZZFwyEuLVWcVm17xiQJwqC9jFOgsaixhu1eb+R6FhNa3Xi0A7
-	OILwNea+3+xlvpqM6mifCLF1KV/Cai2eEdmyU1ME=
-Content-Type: multipart/mixed; boundary="===============3216301610626336289=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Wfm2Ee68L4eJtmH6R4XR4RSPCf3WxKu891eMzX4NaZM=;
+	b=T6wtULnlS3XYYGBHgIiqRF888YMJZ1eecoXGwKVoUrzw6lCgRQmDbLcac8BneFeW
+	oE3+hiDDSdd48S7tmH4FDLEoNYzpeLpr0A+UQCpo7w6w3CmNfzLqeD2xLeGalUtAy1E
+	XFly9vyZzyfruKIGMjZOToRRBPXaG29lPukJ1uzI=
+Content-Type: multipart/mixed; boundary="===============2528680984067974173=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2022-04-01
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gdk-pixbuf: upgrading to 2.42.8 FAILED
 Message-ID: 
- <0101017fe54bc304-518202c0-0e58-4ba7-8a93-66006476beb2-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:42 +0000
+ <0101017fe54bbf78-e42bb99c-123a-4abd-957f-36e159312a32-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.23
+X-SES-Outgoing: 2022.04.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163924
+ https://lists.openembedded.org/g/openembedded-core/message/163922
 
---===============3216301610626336289==
-Content-Type: text/plain; charset="utf-8"
+--===============2528680984067974173==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogMjcKICAgICAgICBl
-eHBhdCwgMi40LjgsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBjcmVh
-dGVyZXBvLWMsIDAuMjAuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
-b20+CiAgICAgICAgZHBrZywgMS4yMS43LCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdt
-YWlsLmNvbT4KICAgICAgICBweXRob24zLWR0c2NoZW1hLCAyMDIyLjMuMiwgQnJ1Y2UgQXNoZmll
-bGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLWh5cG90aGVzaXMs
-IDYuNDAuMSwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgcHl0
-aG9uMy1tYWtvLCAxLjIuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2Fu
-ZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMtcGlwLCAyMi4wLjQsIFphbmcgUnVvY2hl
-biA8emFuZ3JjLmZuc3RAZnVqaXRzdS5jb20+CiAgICAgICAgcHl0aG9uMy1zcGhpbngtcnRkLXRo
-ZW1lLCAxLjAuMCwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAg
-cHl0aG9uMy1zcGhpbngsIDQuNS4wLCBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNv
-bT4KICAgICAgICBweXRob24zLCAzLjEwLjQsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBzdHJhY2UsIDUuMTcsIFJvYmVydCBZ
-YW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGFjcGljYSwgMjAyMjAzMzEs
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGdob3N0c2NyaXB0LCA5
-LjU2LjAsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJo
-YW5keSwgMS42LjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-ICAgICAgIGZvbnRjb25maWcsIDIuMTQuMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5j
-b20+CiAgICAgICAgZnJlZXR5cGUsIDIuMTIuMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFy
-bS5jb20+CiAgICAgICAgaGFyZmJ1enosIDQuMi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIG1lc2EsIDIyLjAuMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8u
-c2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBwYW5nbywgMS41MC42LCBSb3NzIEJ1
-cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBsaWJ4MTEsIDEuNy40LCBVbmFzc2ln
-bmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgeHdheWxhbmQsIDIyLjEu
-MSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGx0dG5n
-LXRvb2xzLCAyLjEzLjYsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
-YXRpb24ub3JnPgogICAgICAgIGRpZmZvc2NvcGUsIDIwOSwgSm9zaHVhIFdhdHQgPEpQRVdoYWNr
-ZXJAZ21haWwuY29tPgogICAgICAgIGxpYmJzZCwgMC4xMS42LCBZaSBaaGFvIDx5aS56aGFvQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgbGlic291cCwgMy4wLjYsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgc2hhcmVkLW1pbWUtaW5mbywgMi4yLCBBbnVqIE1pdHRh
-bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHZ0ZSwgMC42OC4wLCBBbnVqIE1pdHRh
-bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDExCiAg
-ICAgICAgc3lzdmluaXQsIDMuMDIsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgog
-ICAgICAgIHV0aWwtbGludXgtbGlidXVpZCwgMi4zOCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
-ZXIuY29tPgogICAgICAgIHV0aWwtbGludXgsIDIuMzgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICBjbWFrZSwgMy4yMy4wLCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hA
-c2llbWVucy5jb20+CiAgICAgICAgcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9ucywgNC4xLjEsIFRp
-bSBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIG1jLCA0LjguMjgsIFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIHR6ZGF0YSwgMjAyMmEsIFVu
-YXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBlcGlwaGFueSwg
-NDIuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
-Z2RrLXBpeGJ1ZiwgMi40Mi44LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAg
-ICAgICBsaWJyc3ZnLCAyLjU0LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
-CiAgICAgICAgbGliZ2NyeXB0LCAxLjEwLjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
-dmVyLmNvbT4KICAgICogRmFpbGVkIChkZXZ0b29sIGVycm9yKTogMTUKICAgICAgICB6bGliLCAx
-LjIuMTIsIERlbnlzIERteXRyaXllbmtvIDxkZW5pc0BkZW5peC5vcmc+CiAgICAgICAgZ251LWNv
-bmZpZywgMjAyMTExMDgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhp
-LnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBnby1ydW50aW1lLCAxLjE4LCBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGdvLCAxLjE4LCBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgogICAgICAgIGxsdm0sIDE0LjAuMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4KICAgICAgICBtZXNvbiwgMC42Mi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLXNldHVwdG9vbHMsIDYxLjMuMCwgT2xla3Nh
-bmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAg
-IHNxdWFzaGZzLXRvb2xzLCA0LjUuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZl
-ci5jb20+CiAgICAgICAgZ28taGVsbG93b3JsZCwgMC4xLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
-S2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBwcm9jcHMsIDQuMC4wLCBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwaWdsaXQsIDEu
-MC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29t
-PgogICAgICAgIGxpYnh2bWMsIDEuMC4xMywgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3By
-b2plY3Qub3JnPgogICAgICAgIGxpYnNuZGZpbGUxLCAxLjEuMCwgVW5hc3NpZ25lZCA8dW5hc3Np
-Z25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIHdlYmtpdGd0aywgMi4zNi4wLCBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBhdC1zcGkyLWNvcmUs
-IDIuNDQuMCwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAqIEZhaWxl
-ZChvdGhlciBlcnJvcnMpOiAxCiAgICAgICAgdnVsa2FuLXNhbXBsZXMsIGdpdC1uZXctY29tbWl0
-cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgoKICAgIFRPVEFM
-OiBhdHRlbXB0ZWQ9NTQgc3VjY2VlZGVkPTI3KDUwLjAwJSkgZmFpbGVkPTI3KDUwLjAwJSkKClJl
-Y2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgUGFzY2FsIEJhY2gg
-PHBhc2NhbC5iYWNoOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAw
-LjAwJSkKICAgIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW46IGF0dGVtcHRlZD02IHN1
-Y2NlZWRlZD0yKDMzLjMzJSkgZmFpbGVkPTQoNjYuNjclKQogICAgVGltIE9ybGluZyA8dGltLm9y
-bGluZzogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTMoNjAuMDAlKSBmYWlsZWQ9Mig0MC4wMCUpCiAg
-ICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD00KDQ0LjQ0
-JSkgZmFpbGVkPTUoNTUuNTYlKQogICAgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZDogYXR0ZW1wdGVk
-PTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBmYWlsZWQ9Myg2MC4wMCUpCiAgICBLaGVtIFJhaiA8cmFq
-LmtoZW06IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9NCgxMDAuMDAlKQog
-ICAgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0xIHN1Y2NlZWRl
-ZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYTog
-YXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBmYWlsZWQ9MSg1MC4wMCUpCiAgICBSaWNo
-YXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0
-ZWQ9MyBzdWNjZWVkZWQ9MSgzMy4zMyUpIGZhaWxlZD0yKDY2LjY3JSkKICAgIEpvc2h1YSBXYXR0
-IDxKUEVXaGFja2VyOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgw
-LjAwJSkKICAgIFphbmcgUnVvY2hlbiA8emFuZ3JjLmZuc3Q6IGF0dGVtcHRlZD0xIHN1Y2NlZWRl
-ZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFu
-aWJhbDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAg
-ICBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGQ6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0x
-KDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBh
-dHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9NCg4MC4wMCUpIGZhaWxlZD0xKDIwLjAwJSkKICAgIENoZW4g
-UWkgPFFpLkNoZW46IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAu
-MDAlKQogICAgRGVueXMgRG15dHJpeWVua28gPGRlbmlzOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9
-MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRl
-ZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgT2xla3NhbmRyIEty
-YXZjaHVrIDxvcGVuLnNvdXJjZTogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTIoNjYuNjclKSBmYWls
-ZWQ9MSgzMy4zMyUpCg==
+Hello,
 
---===============3216301610626336289==--
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *gdk-pixbuf* to *2.42.8* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-gdk-pixbuf-upgrade-2.42.6-2.42.8.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2528680984067974173==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-gdk-pixbuf-upgrade-2.42.6-2.42.8.patch"
+
+From 630c7850d64a38246e5c70051894aa45fd48c2a4 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Apr 2022 10:38:05 +0000
+Subject: [PATCH] gdk-pixbuf: upgrade 2.42.6 -> 2.42.8
+
+---
+ .../gdk-pixbuf/{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.8.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.8.bb} (98%)
+
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
+similarity index 98%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
+index 55c16e4d66..5ffd2cd3a9 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Add-use_prebuilt_tools-option.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "c4a6b75b7ed8f58ca48da830b9fa00ed96d668d3ab4b1f723dcf902f78bde77f"
++SRC_URI[sha256sum] = "84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6"
+ 
+ inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
+ 
+-- 
+2.27.0
+
+
+--===============2528680984067974173==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (881 cached, 1 parsed). 1640 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:3377f6d19aa122af4424188a3a87bbc914819dd8"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 136 Local 127 Mirrors 0 Missed 9 Current 317 (93% match, 98% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1172 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_fetch)
+NOTE: Running task 1173 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_fetch)
+NOTE: Running task 1301 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_write_config)
+NOTE: Running task 1313 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_write_config)
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_fetch: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_fetch: Succeeded
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_write_config: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_fetch: Started
+NOTE: Running task 1642 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_unpack)
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_fetch: Succeeded
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_write_config: Started
+NOTE: Running task 1643 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_unpack)
+NOTE: Running task 1644 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_write_config: Succeeded
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_write_config: Succeeded
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_unpack: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_unpack: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1645 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_patch)
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_patch: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_patch: Succeeded
+NOTE: Running task 1646 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1647 of 1666 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_populate_lic)
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_lic: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_unpack: Succeeded
+NOTE: Running task 1648 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_patch)
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_lic: Succeeded
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_patch: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_patch: Succeeded
+NOTE: Running task 1649 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1650 of 1666 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_configure)
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.61.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtu
+ al:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.10.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext-minimal-native_0.21.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['glib-2.0-native', 'xz-native', 'gobject-introspection-native', 'meson-native', 'shared-mime-info-native', 'python3-native', 'quilt-native', 'libjpeg-turbo-native', 'ninja-native', 'gettext-minimal-native', 'libpng-native', 'pkgconfig-native', 'util-linux-native', 'gettext-native', 'libffi-native', 'libpcre-native', 'zlib-native', 'libtool-native', 'flex-native', 'libxml2-native', 'itstool-native', 'sqlite3-native', 'libnsl2-native', 'gdbm-native', 'openssl-native', 'bzip2-native', 'libtirpc-native', 'readline-native', 'util-linux-libuuid-native', 'ncurses-native', 're2c-native', 'cmake-native', 'python3-installer-native', 'python3-wheel-native', 'python3-setuptools-native', 'libcap-ng-native', 'libpcre2-native', 'texinfo-dummy-native', 'm4-native', 'perl-native', 'curl-native', 'zstd-native', 'unzip-native', 'python3-flit-core-native', 'gnu-config-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dgtk_doc=false -Dintrospection=disabled -Djpeg=true -Dpng=true -Dinstalled_tests=false -Dtiff=false...
+| The Meson build system
+| Version: 0.61.3
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/gdk-pixbuf-2.42.8
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/build
+| Build type: native build
+| 
+| ../gdk-pixbuf-2.42.8/meson.build:1:0: ERROR: Value "true" (of type "string") for combo option "Enable JPEG loader (requires libjpeg), disabled on Windows if "native_windows_loaders" is used" is not one of the choices. Possible choices are (as string): "enabled", "disabled", "auto".
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541:190 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541, line 190
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541, line 179
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541, line 155
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541, line 203
+NOTE: recipe gdk-pixbuf-native-2.42.8-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1650 tasks of which 1637 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: gdk-pixbuf-native-2.42.8-r0 do_configure: meson failed
+ERROR: gdk-pixbuf-native-2.42.8-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/run.do_configure.3324541', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.42.8-r0/temp/log.do_configure.3324541
+ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_configure) failed with exit code '1'
+
+--===============2528680984067974173==--
 
