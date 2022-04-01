@@ -1,522 +1,240 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AC3EC64E70
-	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:47 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web09.36638.1649085749946893743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF4DC64ED6
+	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:49 +0000 (UTC)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
+ [209.85.221.175])
+ by mx.groups.io with SMTP id smtpd.web10.4482.1648845562901163018
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:22:30 -0700
+ Fri, 01 Apr 2022 13:39:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=jqbiu3Z4;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.43,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f43.google.com with SMTP id u9so6411006edd.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=op3AuSAN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.175,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-vk1-f175.google.com with SMTP id w123so2037797vkg.7
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:22:29 -0700 (PDT)
+ Fri, 01 Apr 2022 13:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6eH0jjkAWvbQdbyscV8zOwlt92Xs8ROcHB12StcLSVM=;
-        b=jqbiu3Z4D5WmNPgQUeeO01auMYPNo3gi8CIF8P/WZZ5uEMfn+D1h6QLTX2O2T+QWct
-         eA/5JwOg+DDT7uiPp7FN5Zr3thr4+fcI+QosEXKlt+WXgaty4nFS61a4GBW7JphEhnfC
-         JP+9EX2QFFvq2ztcOUPcRn1CUf36VZpriF+8MSDaFC7sknerXpd4D3zkpVqCxFI8feZp
-         MdXf19sglrhfy2AomuJb9Rnls7hSCa062vmyIX07cs7+3AOh+vVQ35XUd1QG5J2N5/1R
-         YAVWxxPWYPejEl4LYqDGTBsnXTaLy+HASMsP9Ya9gLJnlaHDwBIeo91uRlrjQQDZKQc1
-         C/KQ==
+        bh=CHWuQwWt7T+E+w2MUlDfeFs3ZzPfhSQIogz8r9AWTPE=;
+        b=op3AuSANkCHvwB3MYoJkYppTFHkY0RIgQ00ZosdDwJdFbJZrWob1Jt77ObJMO0SZm6
+         +4rJ58/v2kEXVtwL2Zz9kPyCUjK5VqIebxj5zf/QozXBqES8ADw0Tb8Ldpz6F24CrR+M
+         ROvqfCpTP+fC4ClYmDDIhXXDXmpiePHZwR10nTX7SggOfsCBlsL+AIvdKGY8ekxIS3yM
+         3l+2/aG3zeAl3k2o81CYd+SjCCLn+lHHKu+PnkWWN1L75pJBKuzGOl4xbjNlbc412fSp
+         ldIyjR2unlaE5aFJhUt4uz84aM4g8BAZhQYNsLFYNafn48jXRJUR2q6lxrSCAbGv/TxP
+         TLkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6eH0jjkAWvbQdbyscV8zOwlt92Xs8ROcHB12StcLSVM=;
-        b=2aJaRGAzmPcmb6dvGoe2qEJ1FGMHU9kCacNvUEflRk3Q6eTsGoLxME0lwrbM9LzWbn
-         eAM05XnuGGFSMp/OwXXro8QU1Q8pvlFqM5RpbMb/AGHoz9U2K92dINc6DsK6TTPyUgzB
-         wdlTsMjxyNaioKbG5ZCUKXa3ixx7oXoDMZ6DwUuHBQjOSP+LlEiGbMQKHoweOhyZ2Ww3
-         gywXHa9aj+Ln6/reyVe4hZQuSQBogkuFIq75dszq5OTs+Hbrd9YEDKvfNU3LOU/jiHiH
-         l8mvcKYuwQW5xASWv3EYY3xE5H47L3YvOom2saRV/peNYGHhp/iGtxl9AQVN9Li4C/D4
-         r+Iw==
-X-Gm-Message-State: AOAM532zQ8b4uvsLKdKf1pYaAanNh9nIUawNSpVaEwUjriklJDg4L7LO
-	9q6BFHXz++6QgCX5SK7xTQrMIBuJFQN7C8nATQ10uA==
+        bh=CHWuQwWt7T+E+w2MUlDfeFs3ZzPfhSQIogz8r9AWTPE=;
+        b=YbfgrBrjwM6akPVxoUnmdC9SlOgYEWl6n9xAJiDK+iMazUJQ//S+6D90vnHR6tpipN
+         VPhKj0l787kd9YDkH03sr1LuKRfHNHnqVIQaKrCMewZGgFfue18PgF0V5AzM5RioY9rg
+         WHa7HnRYkao1NW+4ybvuTk3jt6Hh66W2pw192QNp0SDdvacIEIl3RkNwX7aEOvV9+J3d
+         UmPY9rH//IGReJj+SAxZGEgSBk0FeRXyU54ChPGXzfKI09gZgiiyaOTr9uXCYI6NQLcx
+         /jkW+FA4QAZe94SvRE7qVrd2Q3W6aoE4pC2N17bl4+Y69+6bTWxHfBp2UQprGWsepPcf
+         FsZw==
+X-Gm-Message-State: AOAM531jNmylRTTtpYtP4PRyuAL6QCXh9J0k+3PC0SGX920tjTmv0fc0
+	pOnTrHVznkE4IS4tJzOOFaY9T1c9KGzYADgawho=
 X-Google-Smtp-Source: 
- ABdhPJyZqTU/7KJNzEG2UJLYsp7lxT5Y/QrMPkpUkWoQ0dQPHN2dS0X3z1BYSFfEBM+2TUihyXJLSQX8RRgIeV2B0Vk=
-X-Received: by 2002:a05:6402:1a54:b0:41c:cddb:3142 with SMTP id
- bf20-20020a0564021a5400b0041ccddb3142mr688712edb.106.1649085747861; Mon, 04
- Apr 2022 08:22:27 -0700 (PDT)
+ ABdhPJw7DIgQcBR9GHPsvpcjgr6BvmRvYoMQ1bj8dHT6hgVatOGu1nt/tvt6v/JPQG540bR1Yg6nUGCnpO/PksmJshc=
+X-Received: by 2002:a05:6122:88a:b0:332:6a9c:902b with SMTP id
+ 10-20020a056122088a00b003326a9c902bmr21664737vkf.40.1648845561898; Fri, 01
+ Apr 2022 13:39:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220329130741.2430737-1-ross.burton@arm.com>
- <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
- <CAAnfSTuHjbiN2NKVwZOut+MjxLhuFMwn+xAWkFHaqAXmM_8Ypg@mail.gmail.com>
- <CAOSpxdZGOwUs86K6bEX3WTgVu-+fFjonKxiGEe+u1OL=ivqx+w@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdZGOwUs86K6bEX3WTgVu-+fFjonKxiGEe+u1OL=ivqx+w@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 4 Apr 2022 05:22:16 -1000
+References: <20220317164434.387779-1-ross.burton@arm.com>
+ <20220317164434.387779-2-ross.burton@arm.com>
+In-Reply-To: <20220317164434.387779-2-ross.burton@arm.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 1 Apr 2022 22:38:35 +0200
 Message-ID: 
- <CAOSpxdb+O=iDpDNr7S62wut=GErTXg8cvpYsj0nn6DM9G1CL-A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
+ <CA+chaQcSsAXe3o4TCdnUninmB8RPEMOzNe1EvsZ50JCRhT0qjw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3-cryptography: enforce identical
+ version for -cryptography-vectors
 To: Ross Burton <ross@burtonini.com>
-Cc: "Mittal, Anuj" <anuj.mittal@intel.com>,
- openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000001a97605db9dc63c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:47 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164002
+ https://lists.openembedded.org/g/openembedded-core/message/163945
 
-On Wed, Mar 30, 2022 at 12:57 PM Steve Sakoman <steve@sakoman.com> wrote:
+--00000000000001a97605db9dc63c
+Content-Type: text/plain; charset="UTF-8"
+
+Not sure if this is working correctly, with opkg
+and python3-cryptography-ptest included in the image I get:
+
+ * Solver encountered 1 problem(s):
+ * Problem 1/1:
+ *   - conflicting requests
+ *   - nothing provides python3-cryptography-vectors = 36.0.2 needed by
+python3-cryptography-ptest-36.0.2-r0.0.qemux86_64
+ *
+ * Solution 1:
+ *   - do not ask to install a package providing python3-cryptography-ptest
+
+even when I do have
+python3-cryptography-vectors_36.0.2-r0.0_qemux86_64.ipk and
+python3-cryptography-ptest_36.0.2-r0.0_qemux86_64.ipk
+
+is rpm parsing the version differently or is the issue somewhere else?
+
+I guess forcing identical EXTENDPKGV (instead of PV) between
+python3-cryptography and python3-cryptography-vectors would be too much
+(especially for people with PRserv enabled).
+
+Cheers,
+
+On Thu, Mar 17, 2022 at 5:44 PM Ross Burton <ross@burtonini.com> wrote:
+
+> python3-cryptography and python3-cryptography-vectors are actually the
+> same project but are on Pypi as two separate modules.
 >
-> On Wed, Mar 30, 2022 at 10:40 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > Hm, turns out I was being too clever back in 2019.
-> >
-> > Anuj: the quick fix is to not use :prepend/:remove to manipulate
-> > SRC_URI, but just override it entirely.  You won't get the CVE but
-> > that will be flagged in scans and you (or even better,the fork
-> > maintainer) can rebase the CVE patch.
-> >
-> > As this is a fairly important CVE I'm tempted to say we merge to
-> > oe-core dunfell now and let meta-intel catch up...
+> The test suite validates that they're the same version and fails if they
+> are not:
 >
-> Unfortunately this triggers other errors too :-(
+> FAIL: tests/test_utils.py::test_vector_version
+>     def test_vector_version():
+> >       assert cryptography.__version__ == cryptography_vectors.__version__
+> E       AssertionError: assert '36.0.2' == '36.0.1'
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/4987
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/4949
+> Catch this slightly earlier by mandating that python3-cryptography-ptest
+> pulls in an identically versioned python3-cryptography-vectors.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/python/python3-cryptography_36.0.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> index 940df60d44..cb3acdf7e2 100644
+> --- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> +++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+> @@ -91,7 +91,7 @@ RDEPENDS:${PN}:append:class-target = " \
+>
+>  RDEPENDS:${PN}-ptest += " \
+>      ${PYTHON_PN}-bcrypt \
+> -    ${PYTHON_PN}-cryptography-vectors \
+> +    ${PYTHON_PN}-cryptography-vectors (= ${PV}) \
+>      ${PYTHON_PN}-hypothesis \
+>      ${PYTHON_PN}-iso8601 \
+>      ${PYTHON_PN}-pretend \
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163426):
+> https://lists.openembedded.org/g/openembedded-core/message/163426
+> Mute This Topic: https://lists.openembedded.org/mt/89849717/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-Any thoughts on the above errors, Ross?
+--00000000000001a97605db9dc63c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Steve
+<div dir=3D"ltr">Not sure if this is working correctly, with opkg and=C2=A0=
+python3-cryptography-ptest included in the image I get:<div><br></div><div>=
+=C2=A0* Solver encountered 1 problem(s):<br>=C2=A0* Problem 1/1:<br>=C2=A0*=
+ =C2=A0 - conflicting requests<br>=C2=A0* =C2=A0 - nothing provides python3=
+-cryptography-vectors =3D 36.0.2 needed by python3-cryptography-ptest-36.0.=
+2-r0.0.qemux86_64<br>=C2=A0*<br>=C2=A0* Solution 1:<br>=C2=A0* =C2=A0 - do =
+not ask to install a package providing python3-cryptography-ptest<br></div>=
+<div><br></div><div>even when I do have python3-cryptography-vectors_36.0.2=
+-r0.0_qemux86_64.ipk=C2=A0and python3-cryptography-ptest_36.0.2-r0.0_qemux8=
+6_64.ipk<br></div><div><br></div><div>is rpm parsing the version differentl=
+y or is the issue somewhere else?<br></div><div><br></div><div>I guess forc=
+ing identical EXTENDPKGV (instead of PV) between python3-cryptography and p=
+ython3-cryptography-vectors would be too much (especially for people with P=
+Rserv enabled).<br></div><div><br></div><div>Cheers,</div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 17, 2=
+022 at 5:44 PM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com">ross@b=
+urtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">python3-cryptography and python3-cryptography-vectors are actua=
+lly the<br>
+same project but are on Pypi as two separate modules.<br>
+<br>
+The test suite validates that they&#39;re the same version and fails if the=
+y<br>
+are not:<br>
+<br>
+FAIL: tests/test_utils.py::test_vector_version<br>
+=C2=A0 =C2=A0 def test_vector_version():<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0assert cryptography.__version__ =3D=3D crypt=
+ography_vectors.__version__<br>
+E=C2=A0 =C2=A0 =C2=A0 =C2=A0AssertionError: assert &#39;36.0.2&#39; =3D=3D =
+&#39;36.0.1&#39;<br>
+<br>
+Catch this slightly earlier by mandating that python3-cryptography-ptest<br=
+>
+pulls in an identically versioned python3-cryptography-vectors.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
+6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
+bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptog=
+raphy_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_=
+36.0.2.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-cryp=
+tography_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptograp=
+hy_36.0.2.bb</a><br>
+index 940df60d44..cb3acdf7e2 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
+6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
+bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
+6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
+bb</a><br>
+@@ -91,7 +91,7 @@ RDEPENDS:${PN}:append:class-target =3D &quot; \<br>
+<br>
+=C2=A0RDEPENDS:${PN}-ptest +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-bcrypt \<br>
+-=C2=A0 =C2=A0 ${PYTHON_PN}-cryptography-vectors \<br>
++=C2=A0 =C2=A0 ${PYTHON_PN}-cryptography-vectors (=3D ${PV}) \<br>
+=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-hypothesis \<br>
+=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-iso8601 \<br>
+=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-pretend \<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#163426): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/163426" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/163426</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89849717/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/89849717/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
-
-> > On Tue, 29 Mar 2022 at 20:49, Steve Sakoman <steve@sakoman.com> wrote:
-> > >
-> > > On Tue, Mar 29, 2022 at 3:07 AM Ross Burton <ross@burtonini.com> wrote:
-> > > >
-> > > > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > > > ---
-> > > >  .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
-> > >
-> > > This breaks dunfell meta-intel:
-> > >
-> > > ERROR: Applying patch 'CVE-2018-25032.patch' on target directory
-> > > 'TOPDIR/tmp/work/corei7-64-poky-linux/zlib-intel/1.2.11.1.jtkv6.3-r0/git'
-> > > Command Error: 'quilt --quiltrc
-> > > TOPDIR/tmp/work/corei7-64-poky-linux/zlib-intel/1.2.11.1.jtkv6.3-r0/recipe-sysroot-native/etc/quiltrc
-> > > push' exited with 0  Output:
-> > > Applying patch CVE-2018-25032.patch
-> > > patching file deflate.c
-> > > Hunk #1 succeeded at 237 (offset -18 lines).
-> > > Hunk #2 succeeded at 319 (offset -5 lines).
-> > > Hunk #3 succeeded at 368 (offset -5 lines).
-> > > Hunk #4 succeeded at 590 (offset 1 line).
-> > > Hunk #5 succeeded at 1162 (offset 12 lines).
-> > > Hunk #6 succeeded at 1181 (offset 12 lines).
-> > > Hunk #7 succeeded at 1195 (offset 12 lines).
-> > > Hunk #8 succeeded at 1957 (offset -2 lines).
-> > > Hunk #9 succeeded at 1996 (offset -94 lines).
-> > > Hunk #10 FAILED at 2165.
-> > > Hunk #11 FAILED at 2204.
-> > > 2 out of 11 hunks FAILED -- rejects in file deflate.c
-> > > patching file deflate.h
-> > > Hunk #1 succeeded at 230 (offset 13 lines).
-> > > Hunk #2 succeeded at 252 (offset 13 lines).
-> > > Hunk #3 succeeded at 339 (offset 19 lines).
-> > > patching file trees.c
-> > > Hunk #1 succeeded at 343 (offset -73 lines).
-> > > Hunk #2 succeeded at 875 (offset -73 lines).
-> > > Hunk #3 succeeded at 944 (offset -73 lines).
-> > > Hunk #4 succeeded at 961 (offset -73 lines).
-> > > Hunk #5 succeeded at 974 (offset -73 lines).
-> > > Hunk #6 succeeded at 1006 (offset -73 lines).
-> > > Patch CVE-2018-25032.patch does not apply (enforce with -f)
-> > >
-> > > Steve
-> > >
-> > > >  meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
-> > > >  2 files changed, 348 insertions(+)
-> > > >  create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> > > >
-> > > > diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> > > > new file mode 100644
-> > > > index 00000000000..5cb61836419
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> > > > @@ -0,0 +1,347 @@
-> > > > +CVE: CVE-2018-25032
-> > > > +Upstream-Status: Backport
-> > > > +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > > > +
-> > > > +From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
-> > > > +From: Mark Adler <madler@alumni.caltech.edu>
-> > > > +Date: Tue, 17 Apr 2018 22:09:22 -0700
-> > > > +Subject: [PATCH] Fix a bug that can crash deflate on some input when using
-> > > > + Z_FIXED.
-> > > > +
-> > > > +This bug was reported by Danilo Ramos of Eideticom, Inc. It has
-> > > > +lain in wait 13 years before being found! The bug was introduced
-> > > > +in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
-> > > > +option forces the use of fixed Huffman codes. For rare inputs with
-> > > > +a large number of distant matches, the pending buffer into which
-> > > > +the compressed data is written can overwrite the distance symbol
-> > > > +table which it overlays. That results in corrupted output due to
-> > > > +invalid distances, and can result in out-of-bound accesses,
-> > > > +crashing the application.
-> > > > +
-> > > > +The fix here combines the distance buffer and literal/length
-> > > > +buffers into a single symbol buffer. Now three bytes of pending
-> > > > +buffer space are opened up for each literal or length/distance
-> > > > +pair consumed, instead of the previous two bytes. This assures
-> > > > +that the pending buffer cannot overwrite the symbol table, since
-> > > > +the maximum fixed code compressed length/distance is 31 bits, and
-> > > > +since there are four bytes of pending space for every three bytes
-> > > > +of symbol space.
-> > > > +---
-> > > > + deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
-> > > > + deflate.h | 25 +++++++++----------
-> > > > + trees.c   | 50 +++++++++++--------------------------
-> > > > + 3 files changed, 79 insertions(+), 70 deletions(-)
-> > > > +
-> > > > +diff --git a/deflate.c b/deflate.c
-> > > > +index 425babc00..19cba873a 100644
-> > > > +--- a/deflate.c
-> > > > ++++ b/deflate.c
-> > > > +@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > > > +     int wrap = 1;
-> > > > +     static const char my_version[] = ZLIB_VERSION;
-> > > > +
-> > > > +-    ushf *overlay;
-> > > > +-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
-> > > > +-     * output size for (length,distance) codes is <= 24 bits.
-> > > > +-     */
-> > > > +-
-> > > > +     if (version == Z_NULL || version[0] != my_version[0] ||
-> > > > +         stream_size != sizeof(z_stream)) {
-> > > > +         return Z_VERSION_ERROR;
-> > > > +@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > > > +
-> > > > +     s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
-> > > > +
-> > > > +-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-> > > > +-    s->pending_buf = (uchf *) overlay;
-> > > > +-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
-> > > > ++    /* We overlay pending_buf and sym_buf. This works since the average size
-> > > > ++     * for length/distance pairs over any compressed block is assured to be 31
-> > > > ++     * bits or less.
-> > > > ++     *
-> > > > ++     * Analysis: The longest fixed codes are a length code of 8 bits plus 5
-> > > > ++     * extra bits, for lengths 131 to 257. The longest fixed distance codes are
-> > > > ++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The longest
-> > > > ++     * possible fixed-codes length/distance pair is then 31 bits total.
-> > > > ++     *
-> > > > ++     * sym_buf starts one-fourth of the way into pending_buf. So there are
-> > > > ++     * three bytes in sym_buf for every four bytes in pending_buf. Each symbol
-> > > > ++     * in sym_buf is three bytes -- two for the distance and one for the
-> > > > ++     * literal/length. As each symbol is consumed, the pointer to the next
-> > > > ++     * sym_buf value to read moves forward three bytes. From that symbol, up to
-> > > > ++     * 31 bits are written to pending_buf. The closest the written pending_buf
-> > > > ++     * bits gets to the next sym_buf symbol to read is just before the last
-> > > > ++     * code is written. At that time, 31*(n-2) bits have been written, just
-> > > > ++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf starts at
-> > > > ++     * 8*n bits into pending_buf. (Note that the symbol buffer fills when n-1
-> > > > ++     * symbols are written.) The closest the writing gets to what is unread is
-> > > > ++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default, and
-> > > > ++     * can range from 128 to 32768.
-> > > > ++     *
-> > > > ++     * Therefore, at a minimum, there are 142 bits of space between what is
-> > > > ++     * written and what is read in the overlain buffers, so the symbols cannot
-> > > > ++     * be overwritten by the compressed data. That space is actually 139 bits,
-> > > > ++     * due to the three-bit fixed-code block header.
-> > > > ++     *
-> > > > ++     * That covers the case where either Z_FIXED is specified, forcing fixed
-> > > > ++     * codes, or when the use of fixed codes is chosen, because that choice
-> > > > ++     * results in a smaller compressed block than dynamic codes. That latter
-> > > > ++     * condition then assures that the above analysis also covers all dynamic
-> > > > ++     * blocks. A dynamic-code block will only be chosen to be emitted if it has
-> > > > ++     * fewer bits than a fixed-code block would for the same set of symbols.
-> > > > ++     * Therefore its average symbol length is assured to be less than 31. So
-> > > > ++     * the compressed data for a dynamic block also cannot overwrite the
-> > > > ++     * symbols from which it is being constructed.
-> > > > ++     */
-> > > > ++
-> > > > ++    s->pending_buf = (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
-> > > > ++    s->pending_buf_size = (ulg)s->lit_bufsize * 4;
-> > > > +
-> > > > +     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
-> > > > +         s->pending_buf == Z_NULL) {
-> > > > +@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-> > > > +         deflateEnd (strm);
-> > > > +         return Z_MEM_ERROR;
-> > > > +     }
-> > > > +-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-> > > > +-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
-> > > > ++    s->sym_buf = s->pending_buf + s->lit_bufsize;
-> > > > ++    s->sym_end = (s->lit_bufsize - 1) * 3;
-> > > > ++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64K
-> > > > ++     * on 16 bit machines and because stored blocks are restricted to
-> > > > ++     * 64K-1 bytes.
-> > > > ++     */
-> > > > +
-> > > > +     s->level = level;
-> > > > +     s->strategy = strategy;
-> > > > +@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
-> > > > +
-> > > > +     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
-> > > > +     s = strm->state;
-> > > > +-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
-> > > > ++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
-> > > > +         return Z_BUF_ERROR;
-> > > > +     do {
-> > > > +         put = Buf_size - s->bi_valid;
-> > > > +@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
-> > > > + #else
-> > > > +     deflate_state *ds;
-> > > > +     deflate_state *ss;
-> > > > +-    ushf *overlay;
-> > > > +
-> > > > +
-> > > > +     if (deflateStateCheck(source) || dest == Z_NULL) {
-> > > > +@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
-> > > > +     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
-> > > > +     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-> > > > +     ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-> > > > +-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
-> > > > +-    ds->pending_buf = (uchf *) overlay;
-> > > > ++    ds->pending_buf = (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
-> > > > +
-> > > > +     if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
-> > > > +         ds->pending_buf == Z_NULL) {
-> > > > +@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
-> > > > +     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
-> > > > +
-> > > > +     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-> > > > +-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
-> > > > +-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
-> > > > ++    ds->sym_buf = ds->pending_buf + ds->lit_bufsize;
-> > > > +
-> > > > +     ds->l_desc.dyn_tree = ds->dyn_ltree;
-> > > > +     ds->d_desc.dyn_tree = ds->dyn_dtree;
-> > > > +@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
-> > > > +         FLUSH_BLOCK(s, 1);
-> > > > +         return finish_done;
-> > > > +     }
-> > > > +-    if (s->last_lit)
-> > > > ++    if (s->sym_next)
-> > > > +         FLUSH_BLOCK(s, 0);
-> > > > +     return block_done;
-> > > > + }
-> > > > +@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
-> > > > +         FLUSH_BLOCK(s, 1);
-> > > > +         return finish_done;
-> > > > +     }
-> > > > +-    if (s->last_lit)
-> > > > ++    if (s->sym_next)
-> > > > +         FLUSH_BLOCK(s, 0);
-> > > > +     return block_done;
-> > > > + }
-> > > > +@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
-> > > > +         FLUSH_BLOCK(s, 1);
-> > > > +         return finish_done;
-> > > > +     }
-> > > > +-    if (s->last_lit)
-> > > > ++    if (s->sym_next)
-> > > > +         FLUSH_BLOCK(s, 0);
-> > > > +     return block_done;
-> > > > + }
-> > > > +@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
-> > > > +         FLUSH_BLOCK(s, 1);
-> > > > +         return finish_done;
-> > > > +     }
-> > > > +-    if (s->last_lit)
-> > > > ++    if (s->sym_next)
-> > > > +         FLUSH_BLOCK(s, 0);
-> > > > +     return block_done;
-> > > > + }
-> > > > +diff --git a/deflate.h b/deflate.h
-> > > > +index 23ecdd312..d4cf1a98b 100644
-> > > > +--- a/deflate.h
-> > > > ++++ b/deflate.h
-> > > > +@@ -217,7 +217,7 @@ typedef struct internal_state {
-> > > > +     /* Depth of each subtree used as tie breaker for trees of equal frequency
-> > > > +      */
-> > > > +
-> > > > +-    uchf *l_buf;          /* buffer for literals or lengths */
-> > > > ++    uchf *sym_buf;        /* buffer for distances and literals/lengths */
-> > > > +
-> > > > +     uInt  lit_bufsize;
-> > > > +     /* Size of match buffer for literals/lengths.  There are 4 reasons for
-> > > > +@@ -239,13 +239,8 @@ typedef struct internal_state {
-> > > > +      *   - I can't count above 4
-> > > > +      */
-> > > > +
-> > > > +-    uInt last_lit;      /* running index in l_buf */
-> > > > +-
-> > > > +-    ushf *d_buf;
-> > > > +-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
-> > > > +-     * the same number of elements. To use different lengths, an extra flag
-> > > > +-     * array would be necessary.
-> > > > +-     */
-> > > > ++    uInt sym_next;      /* running index in sym_buf */
-> > > > ++    uInt sym_end;       /* symbol table full when sym_next reaches this */
-> > > > +
-> > > > +     ulg opt_len;        /* bit length of current block with optimal trees */
-> > > > +     ulg static_len;     /* bit length of current block with static trees */
-> > > > +@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
-> > > > +
-> > > > + # define _tr_tally_lit(s, c, flush) \
-> > > > +   { uch cc = (c); \
-> > > > +-    s->d_buf[s->last_lit] = 0; \
-> > > > +-    s->l_buf[s->last_lit++] = cc; \
-> > > > ++    s->sym_buf[s->sym_next++] = 0; \
-> > > > ++    s->sym_buf[s->sym_next++] = 0; \
-> > > > ++    s->sym_buf[s->sym_next++] = cc; \
-> > > > +     s->dyn_ltree[cc].Freq++; \
-> > > > +-    flush = (s->last_lit == s->lit_bufsize-1); \
-> > > > ++    flush = (s->sym_next == s->sym_end); \
-> > > > +    }
-> > > > + # define _tr_tally_dist(s, distance, length, flush) \
-> > > > +   { uch len = (uch)(length); \
-> > > > +     ush dist = (ush)(distance); \
-> > > > +-    s->d_buf[s->last_lit] = dist; \
-> > > > +-    s->l_buf[s->last_lit++] = len; \
-> > > > ++    s->sym_buf[s->sym_next++] = dist; \
-> > > > ++    s->sym_buf[s->sym_next++] = dist >> 8; \
-> > > > ++    s->sym_buf[s->sym_next++] = len; \
-> > > > +     dist--; \
-> > > > +     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
-> > > > +     s->dyn_dtree[d_code(dist)].Freq++; \
-> > > > +-    flush = (s->last_lit == s->lit_bufsize-1); \
-> > > > ++    flush = (s->sym_next == s->sym_end); \
-> > > > +   }
-> > > > + #else
-> > > > + # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
-> > > > +diff --git a/trees.c b/trees.c
-> > > > +index 4f4a65011..decaeb7c3 100644
-> > > > +--- a/trees.c
-> > > > ++++ b/trees.c
-> > > > +@@ -416,7 +416,7 @@ local void init_block(s)
-> > > > +
-> > > > +     s->dyn_ltree[END_BLOCK].Freq = 1;
-> > > > +     s->opt_len = s->static_len = 0L;
-> > > > +-    s->last_lit = s->matches = 0;
-> > > > ++    s->sym_next = s->matches = 0;
-> > > > + }
-> > > > +
-> > > > + #define SMALLEST 1
-> > > > +@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
-> > > > +
-> > > > +         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-> > > > +                 opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-> > > > +-                s->last_lit));
-> > > > ++                s->sym_next / 3));
-> > > > +
-> > > > +         if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
-> > > > +
-> > > > +@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-> > > > +     unsigned dist;  /* distance of matched string */
-> > > > +     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
-> > > > + {
-> > > > +-    s->d_buf[s->last_lit] = (ush)dist;
-> > > > +-    s->l_buf[s->last_lit++] = (uch)lc;
-> > > > ++    s->sym_buf[s->sym_next++] = dist;
-> > > > ++    s->sym_buf[s->sym_next++] = dist >> 8;
-> > > > ++    s->sym_buf[s->sym_next++] = lc;
-> > > > +     if (dist == 0) {
-> > > > +         /* lc is the unmatched char */
-> > > > +         s->dyn_ltree[lc].Freq++;
-> > > > +@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-> > > > +         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
-> > > > +         s->dyn_dtree[d_code(dist)].Freq++;
-> > > > +     }
-> > > > +-
-> > > > +-#ifdef TRUNCATE_BLOCK
-> > > > +-    /* Try to guess if it is profitable to stop the current block here */
-> > > > +-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
-> > > > +-        /* Compute an upper bound for the compressed length */
-> > > > +-        ulg out_length = (ulg)s->last_lit*8L;
-> > > > +-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
-> > > > +-        int dcode;
-> > > > +-        for (dcode = 0; dcode < D_CODES; dcode++) {
-> > > > +-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
-> > > > +-                (5L+extra_dbits[dcode]);
-> > > > +-        }
-> > > > +-        out_length >>= 3;
-> > > > +-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-> > > > +-               s->last_lit, in_length, out_length,
-> > > > +-               100L - out_length*100L/in_length));
-> > > > +-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
-> > > > +-    }
-> > > > +-#endif
-> > > > +-    return (s->last_lit == s->lit_bufsize-1);
-> > > > +-    /* We avoid equality with lit_bufsize because of wraparound at 64K
-> > > > +-     * on 16 bit machines and because stored blocks are restricted to
-> > > > +-     * 64K-1 bytes.
-> > > > +-     */
-> > > > ++    return (s->sym_next == s->sym_end);
-> > > > + }
-> > > > +
-> > > > + /* ===========================================================================
-> > > > +@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
-> > > > + {
-> > > > +     unsigned dist;      /* distance of matched string */
-> > > > +     int lc;             /* match length or unmatched char (if dist == 0) */
-> > > > +-    unsigned lx = 0;    /* running index in l_buf */
-> > > > ++    unsigned sx = 0;    /* running index in sym_buf */
-> > > > +     unsigned code;      /* the code to send */
-> > > > +     int extra;          /* number of extra bits to send */
-> > > > +
-> > > > +-    if (s->last_lit != 0) do {
-> > > > +-        dist = s->d_buf[lx];
-> > > > +-        lc = s->l_buf[lx++];
-> > > > ++    if (s->sym_next != 0) do {
-> > > > ++        dist = s->sym_buf[sx++] & 0xff;
-> > > > ++        dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
-> > > > ++        lc = s->sym_buf[sx++];
-> > > > +         if (dist == 0) {
-> > > > +             send_code(s, lc, ltree); /* send a literal byte */
-> > > > +             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-> > > > +@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
-> > > > +             }
-> > > > +         } /* literal or match pair ? */
-> > > > +
-> > > > +-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-> > > > +-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
-> > > > +-               "pendingBuf overflow");
-> > > > ++        /* Check that the overlay between pending_buf and sym_buf is ok: */
-> > > > ++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow");
-> > > > +
-> > > > +-    } while (lx < s->last_lit);
-> > > > ++    } while (sx < s->sym_next);
-> > > > +
-> > > > +     send_code(s, END_BLOCK, ltree);
-> > > > + }
-> > > > diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > > > index ef9431ae475..bc42cd64e9d 100644
-> > > > --- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > > > +++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-> > > > @@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
-> > > >
-> > > >  SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-> > > >             file://ldflags-tests.patch \
-> > > > +           file://CVE-2018-25032.patch \
-> > > >             file://run-ptest \
-> > > >             "
-> > > >  UPSTREAM_CHECK_URI = "http://zlib.net/"
-> > > > --
-> > > > 2.25.1
-> > > >
-> > > >
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > > Links: You receive all messages sent to this group.
-> > > > View/Reply Online (#163750): https://lists.openembedded.org/g/openembedded-core/message/163750
-> > > > Mute This Topic: https://lists.openembedded.org/mt/90107518/3620601
-> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> > > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > >
+--00000000000001a97605db9dc63c--
 
