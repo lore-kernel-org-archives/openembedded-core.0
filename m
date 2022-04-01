@@ -1,165 +1,185 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78BABC433F5
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 02:20:15 +0000 (UTC)
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web09.5705.1648779614361446245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1EAC433F5
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 04:20:25 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web09.6595.1648786824951162010
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 19:20:14 -0700
+ Thu, 31 Mar 2022 21:20:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=AtnAyEvj;
- spf=pass (domain: intel.com, ip: 134.134.136.100,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648779614; x=1680315614;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cHgn3HktByKN8tROYoQAOKZTlSE/HLZhuyDxy6rA8kA=;
-  b=AtnAyEvjE5AcRATHHSe40t6jWHQwC55CNii0hYNn0GrnDOTvA8fhTUNP
-   O7fa7Fej35whFHfc8eS3NJt7QUtrnItMPEb9j33h1wajWvz2fq6eG9mqY
-   40sh0fMM+KO2Q4LiDNKvrKYEkc6ZyDJczlLcIA3PsHyYADDA9Muw0xel7
-   8MkT0YTTOUru9ril5nMBGVQgdxK8QR/hpUJ2YSWQ1ZT5QzD1wZ2qQmKLb
-   WUW9gAJUwlJlmdfKIONCVf2XFyqK7aupFRplqFpSV+ccq/TeGeaDl+UWu
-   ydui1kLPZ26qSeSQgFzm/nFxNzSOPNgZjSroWMLLg433/oHe62+RFfJIz
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="323196931"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="323196931"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 19:20:13 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400";
-   d="scan'208";a="606458475"
-Received: from ktee1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.235.187])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 19:20:12 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WYwTTAOJ;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id p17so1428374plo.9
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 31 Mar 2022 21:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=paOgGExpD92w/PiR/P0S47PZ2HsPrYVISWco35G6MMg=;
+        b=WYwTTAOJjfHYgWXFEV1RJ9LIU/kR7QCrHs9ADzk0yXg1HSpP8QXhr8gUefDaTeu4DZ
+         aMfOfYp8BpnUVQZCNBJ9L4A/vNSGjfcqYNSaUnZdYPwHT7PRF8A0jEVFJg5BiBuvJdHc
+         I76GBhU1kPXXHUE9AmhkdeBKd3gzIlpGEQ+ZiSG6AnpG99AUiGeJfgw1vQQeAibpR+AA
+         Y7Xah7aNrRv3tlAzNBsP4Kvl5PxV+8LucbugfJhMH09T7Lgcp9zaK80YX8EePOVxAlJy
+         2OeUbR4QZTZBBPW+z21z+gBmyWDfTRoCCv1DnsdW+Tol7YFo+eD0Rrni/TKK9Cyz7Xul
+         m13Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=paOgGExpD92w/PiR/P0S47PZ2HsPrYVISWco35G6MMg=;
+        b=p+FoPhnxXVMx2eXRd3eNKqHWOQLO9T+f/KszJnt4LDFqd4n9GM5mU3pzoZzr/csPlA
+         JbhxFAHPUfMCAw4udKwUlpIFR5HB4gJLBreMiXUCOUOF5pClzQNDQQLxtbP0B/4JcXa7
+         ztGR+no8vrZInNpb95R5/qaFvsR9pbH++FkyjT2AzIR2iFVOyefvUjlrU/OgsUFRrODm
+         VF9MRHvZREf9HLWIFin6yQmiA8MPEQK1mkQh6zzolCeo+avI3sbZA8dh4g+L8q96/e7U
+         1WdgxaTJ+tJrVei+higzuoaRJew97t+4qfA+nj5Ns9kr/PE5iUbi+30kEAPt2lz52sxR
+         +hqQ==
+X-Gm-Message-State: AOAM533KC+sBNsxJPqVxe88gl5fYdnkzb99N3I8qtlXstp0SM1/m8m+L
+	PTqT8gi8vSWkuyGFn0xRFsoum12xNLCSixct
+X-Google-Smtp-Source: 
+ ABdhPJzsfwxANs3fKIwNiXJBeaOkqvOeSg+5wIe+cBvBXE75Lp79hIj9MwPqyo/+cE3g7SXWd1uBZw==
+X-Received: by 2002:a17:902:a585:b0:14d:58ef:65 with SMTP id
+ az5-20020a170902a58500b0014d58ef0065mr8294834plb.139.1648786824048;
+        Thu, 31 Mar 2022 21:20:24 -0700 (PDT)
+Received: from localhost.localdomain ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id
+ y63-20020a638a42000000b0039870096849sm852011pgd.63.2022.03.31.21.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 21:20:23 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [hardknott][PATCH 00/20] Pull request
-Date: Fri,  1 Apr 2022 10:20:07 +0800
-Message-Id: <cover.1648779491.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Subject: [master] meta: scripts - relocation script adapted to support
+ big-endian machines
+Date: Fri,  1 Apr 2022 09:50:07 +0530
+Message-Id: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 02:20:15 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 04:20:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163878
+ https://lists.openembedded.org/g/openembedded-core/message/163879
 
-The following changes since commit bcef80623f015c006778edee5cf40dad063e51db:
+relocate_sdk.py was developed for little-endian architures and when tries
+to install SDK for big-endian machines errors like below will be shown.
 
-  wic: Use custom kernel path if provided (2022-03-15 23:00:09 +0800)
+The changes made in the script to support big-endian architecture.
 
-are available in the Git repository at:
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+---
+ scripts/relocate_sdk.py | 45 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 35 insertions(+), 10 deletions(-)
+ mode change 100755 => 100644 scripts/relocate_sdk.py
 
-  git://push.openembedded.org/openembedded-core-contrib stable/hardknott-next
-
-Alexander Kanavin (1):
-  mobile-broadband-provider-info: upgrade 20201225 -> 20210805
-
-Anuj Mittal (1):
-  lttng-modules: upgrade 2.12.7 -> 2.12.8
-
-Bruce Ashfield (5):
-  linux-yocto: nohz_full boot arg fix
-  linux-yocto/5.10: split vtpm for more granular inclusion
-  linux-yocto/5.10: cfg/debug: add configs for kcsan
-  linux-yocto-rt/5.10: update to -rt61
-  linux-yocto/5.10: update to v5.10.107
-
-Changhyeok Bae (1):
-  mobile-broadband-provider-info: upgrade 20210805 -> 20220315
-
-Chee Yang Lee (2):
-  webkitgtk : update to 2.30.6
-  go: update to 1.16.15
-
-Joe Slater (2):
-  libxml2: Fix CVE-2022-23308
-  zip: modify when match.S is built
-
-Li Wang (1):
-  flac: fix CVE-2021-0561
-
-Mingli Yu (2):
-  epiphany: fix CVEs
-  python3-numpy: fix CVE-2021-41496
-
-Minjae Kim (2):
-  gnu-config: update SRC_URI
-  virglrenderer: update SRC_URI
-
-Ovidiu Panait (1):
-  openssl: upgrade 1.1.1l -> 1.1.1n
-
-Ross Burton (1):
-  zlib: backport the fix for CVE-2018-25032
-
-wangmy (1):
-  linux-firmware: upgrade 20220209 -> 20220310
-
- .../mobile-broadband-provider-info_git.bb     |   7 +-
- .../{openssl_1.1.1l.bb => openssl_1.1.1n.bb}  |   3 +-
- .../CVE-2022-23308-fix-regression.patch       |  99 +++
- .../libxml/libxml2/CVE-2022-23308.patch       | 209 ++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |   2 +
- .../zlib/zlib/CVE-2018-25032.patch            | 347 +++++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- .../gnu-config/gnu-config_git.bb              |   2 +-
- .../go/{go-1.16.14.inc => go-1.16.15.inc}     |   4 +-
- ...1.16.14.bb => go-binary-native_1.16.15.bb} |   4 +-
- ....16.14.bb => go-cross-canadian_1.16.15.bb} |   0
- ...o-cross_1.16.14.bb => go-cross_1.16.15.bb} |   0
- ...ssdk_1.16.14.bb => go-crosssdk_1.16.15.bb} |   0
- ...native_1.16.14.bb => go-native_1.16.15.bb} |   0
- ...ntime_1.16.14.bb => go-runtime_1.16.15.bb} |   0
- .../go/{go_1.16.14.bb => go_1.16.15.bb}       |   0
- .../python-numpy/files/CVE-2021-41496.patch   |  64 ++
- .../python-numpy/python3-numpy_1.20.1.bb      |   1 +
- .../0001-configure-use-correct-CPP.patch      |  47 ++
- ...002-configure-support-PIC-code-build.patch |  34 +
- meta/recipes-extended/zip/zip_3.0.bb          |   2 +
- .../recipes-gnome/epiphany/epiphany_3.38.2.bb |   1 +
- .../files/encode-untrusted-data.patch         | 707 ++++++++++++++++++
- .../virglrenderer/virglrenderer_0.8.2.bb      |   2 +-
- ...20220209.bb => linux-firmware_20220310.bb} |   6 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- ...ules_2.12.7.bb => lttng-modules_2.12.8.bb} |   2 +-
- .../flac/flac/CVE-2021-0561.patch             |  41 +
- meta/recipes-multimedia/flac/flac_1.3.3.bb    |   1 +
- ...ebkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb} |   2 +-
- 32 files changed, 1592 insertions(+), 34 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1n.bb} (98%)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308.patch
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
- rename meta/recipes-devtools/go/{go-1.16.14.inc => go-1.16.15.inc} (91%)
- rename meta/recipes-devtools/go/{go-binary-native_1.16.14.bb => go-binary-native_1.16.15.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.16.14.bb => go-cross-canadian_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.16.14.bb => go-cross_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.16.14.bb => go-crosssdk_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.16.14.bb => go-native_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.16.14.bb => go-runtime_1.16.15.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.16.14.bb => go_1.16.15.bb} (100%)
- create mode 100644 meta/recipes-devtools/python-numpy/files/CVE-2021-41496.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-use-correct-CPP.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-configure-support-PIC-code-build.patch
- create mode 100644 meta/recipes-gnome/epiphany/files/encode-untrusted-data.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220209.bb => linux-firmware_20220310.bb} (99%)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.12.7.bb => lttng-modules_2.12.8.bb} (94%)
- create mode 100644 meta/recipes-multimedia/flac/flac/CVE-2021-0561.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.30.5.bb => webkitgtk_2.30.6.bb} (98%)
-
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+old mode 100755
+new mode 100644
+index 8c0fdb986a..513b9343d3
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -30,9 +30,10 @@ else:
+ old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+ 
+ def get_arch():
++    global ei_data
+     f.seek(0)
+     e_ident =f.read(16)
+-    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
++    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
+ 
+     if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
+         return 0
+@@ -51,11 +52,17 @@ def parse_elf_header():
+ 
+     if arch == 32:
+         # 32bit
+-        hdr_fmt = "<HHILLLIHHHHHH"
++        if ei_data == 1: # ei_data = 1, little endian
++            hdr_fmt = "<HHILLLIHHHHHH"
++        else:   # ei_data = 0, big endian
++            hdr_fmt = ">HHILLLIHHHHHH"
+         hdr_size = 52
+     else:
+         # 64bit
+-        hdr_fmt = "<HHIQQQIHHHHHH"
++        if ei_data == 1:
++            hdr_fmt = "<HHIQQQIHHHHHH"
++        else:
++            hdr_fmt = ">HHIQQQIHHHHHH"
+         hdr_size = 64
+ 
+     e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
+@@ -64,9 +71,15 @@ def parse_elf_header():
+ 
+ def change_interpreter(elf_file_name):
+     if arch == 32:
+-        ph_fmt = "<IIIIIIII"
++        if ei_data == 1: # ei_data = 1, little endian
++            ph_fmt = "<IIIIIIII"
++        else:   # ei_data = 0, big endian
++            ph_fmt = ">IIIIIIII"
+     else:
+-        ph_fmt = "<IIQQQQQQ"
++        if ei_data == 1:
++            ph_fmt = "<IIQQQQQQ"
++        else:
++            ph_fmt = ">IIQQQQQQ"
+ 
+     """ look for PT_INTERP section """
+     for i in range(0,e_phnum):
+@@ -75,7 +88,7 @@ def change_interpreter(elf_file_name):
+         if arch == 32:
+             # 32bit
+             p_type, p_offset, p_vaddr, p_paddr, p_filesz,\
+-                p_memsz, p_flags, p_align = struct.unpack(ph_fmt, ph_hdr)
++            p_memsz, p_flags, p_align = struct.unpack(ph_fmt, ph_hdr)
+         else:
+             # 64bit
+             p_type, p_flags, p_offset, p_vaddr, p_paddr, \
+@@ -105,17 +118,29 @@ def change_interpreter(elf_file_name):
+ 
+ def change_dl_sysdirs(elf_file_name):
+     if arch == 32:
+-        sh_fmt = "<IIIIIIIIII"
++        if ei_data == 1: # ei_data = 1, little endian
++            sh_fmt = "<IIIIIIIIII"
++        else:   # ei_data = 0, big endian
++            sh_fmt = ">IIIIIIIIII"
+     else:
+-        sh_fmt = "<IIQQQQIIQQ"
++        if ei_data == 1:
++            sh_fmt = "<IIQQQQIIQQ"
++        else:
++            sh_fmt = ">IIQQQQIIQQ"
+ 
+     """ read section string table """
+     f.seek(e_shoff + e_shstrndx * e_shentsize)
+     sh_hdr = f.read(e_shentsize)
+     if arch == 32:
+-        sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
++        if ei_data == 1:
++            sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
++        else:
++            sh_offset, sh_size = struct.unpack(">16xII16x", sh_hdr)
+     else:
+-        sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
++        if ei_data == 1:
++            sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
++        else:
++            sh_offset, sh_size = struct.unpack(">24xQQ24x", sh_hdr)
+ 
+     f.seek(sh_offset)
+     sh_strtab = f.read(sh_size)
 -- 
-2.35.1
+2.25.1
 
 
