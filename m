@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24BACC35294
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web12.10468.1648819420674411189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A896CC38A05
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:44 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web09.10395.1648819420026726458
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 06:23:41 -0700
+ Fri, 01 Apr 2022 06:23:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=lV3jcr4d;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 0101017fe54bbdd5-92f9e68d-409e-487f-84bb-cf914f5f4de1-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=zODWfbUM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 0101017fe54bc1c8-3b7fd0e0-93d4-43a1-aa0c-899b09ec76e0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1648819420;
+	t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VJiZL2Th4tgUyJo4ijI1y3RGyEvjwT+WpQoOVs+/B3o=;
-	b=lV3jcr4dwUkdfoo8zBSfX7jTEisvV6fOUICPAE55Cps/fPxJIAsKomD04yBooM63
-	lm671DLynIQeDhsw2rd44bZ3eGx3fEYUUUyh1m9cnQMP54v3IlF3TR3S+GZ4NvUZa2T
-	lLtUIyOv8vDzEnjkDPI7wXQ9nSVN+ufwLhSfM43E=
+	bh=ODQHYt7TwbiLiKaqVa0xxdgX1sLep5SUWdLnx1AeTlA=;
+	b=zODWfbUM79GZ505qqnnD+icRWD/Zp43KOVXwmLOQqvX5MRpXiwXEUfdGPbr2tguk
+	qdjJ6AWkL1zCJ/f/Bttiv7WXPLrd8DVWfmT2n0GzY6zNXCLni4mnu65EJbmABnJIFqz
+	krpQTqN/KtldNEHbBTwrsV8bOlyUKyf1p2zVesJc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VJiZL2Th4tgUyJo4ijI1y3RGyEvjwT+WpQoOVs+/B3o=;
-	b=OXjufHbAkGoQ+P++/bT0n5n55/qikwYwppovqncqdk7qnwTiBq4hyexO+IbTJv7i
-	/RLAfrKIenzld8uKXKoKpfxZYjjSKJHPRevROst22SeVuFK6XMNkfLBjVI9eaVlZ5kB
-	56SYQR+KCNJUbkmkpc0yNELg0bhPvbIa0mSXGOmM=
-Content-Type: multipart/mixed; boundary="===============7844254285822232177=="
+	bh=ODQHYt7TwbiLiKaqVa0xxdgX1sLep5SUWdLnx1AeTlA=;
+	b=ghi54CtARHyokG89k0QLT0lpFWT+xX4EGjW8v7ppLJnGEic1D6b1J5YbcasPiBIY
+	o9UW59DS1BedxHiGb4WTbbadA3+rQTUk4FAkXoMFwkP9Za/eRIkW5sBhJ0kJP9Q067I
+	0/ERYjhrdukf63Gqi3bahjVmnao/CgX7Z2MVTRyg=
+Content-Type: multipart/mixed; boundary="===============5027476280028004666=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ghostscript: upgrading to 9.56.0 SUCCEEDED
+Subject: [AUH] diffoscope: upgrading to 209 SUCCEEDED
 Message-ID: 
- <0101017fe54bbdd5-92f9e68d-409e-487f-84bb-cf914f5f4de1-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:40 +0000
+ <0101017fe54bc1c8-3b7fd0e0-93d4-43a1-aa0c-899b09ec76e0-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.192
+X-SES-Outgoing: 2022.04.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163910
+ https://lists.openembedded.org/g/openembedded-core/message/163935
 
---===============7844254285822232177==
+--===============5027476280028004666==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ghostscript* to *9.56.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *diffoscope* to *209* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ghostscript-upgrade-9.55.0-9.56.0.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-208-209.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,213 +75,1772 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7844254285822232177==
+--===============5027476280028004666==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/ghostscript/ghostscript-doc: FILELIST: directory renamed /usr/share/doc/ghostscript/9.55.0/images -> /usr/share/doc/ghostscript/9.56.0/images, removed "/usr/share/doc/ghostscript/9.55.0/Fonts.htm /usr/share/doc/ghostscript/9.55.0/gs-style.css /usr/share/doc/ghostscript/9.55.0/GS9_Color_Management.pdf /usr/share/doc/ghostscript/9.55.0/Drivers.htm /usr/share/doc/ghostscript/9.55.0/index.js /usr/share/doc/ghostscript/9.55.0/VectorDevices.htm /usr/share/doc/ghostscript/9.55.0/Install.htm /usr/share/doc/ghostscript/9.55.0/Ps-style.htm /usr/share/doc/ghostscript/9.55.0/Psfiles.htm /usr/share/doc/ghostscript/9.55.0/sample_downscale_device.htm /usr/share/doc/ghostscript/9.55.0/API.htm /usr/share/doc/ghostscript/9.55.0/Ps2epsi.htm /usr/share/doc/ghostscript/9.55.0/Unix-lpr.htm /usr/share/doc/ghostscript/9.55.0/Readme.htm /usr/share/doc/ghostscript/9.55.0/WhatIsGS.htm /usr/share/doc/ghostscript/9.55.0/Release.htm /usr/share/doc/ghostscript/9.55.0/gdevds32.c /usr/sh
- are/doc/ghostscript/9.55.0/Devices.htm /usr/share/doc/ghostscript/9.55.0/SavedPages.htm /usr/share/doc/ghostscript/9.55.0/style.css /usr/share/doc/ghostscript/9.55.0/pscet_status.txt /usr/share/doc/ghostscript/9.55.0/subclass.htm /usr/share/doc/ghostscript/9.55.0/Deprecated.htm /usr/share/doc/ghostscript/9.55.0/COPYING /usr/share/doc/ghostscript/9.55.0/C-style.htm /usr/share/doc/ghostscript/9.55.0/Make.htm /usr/share/doc/ghostscript/9.55.0/Lib.htm /usr/share/doc/ghostscript/9.55.0/thirdparty.htm /usr/share/doc/ghostscript/9.55.0/Commprod.htm /usr/share/doc/ghostscript/9.55.0/Develop.htm /usr/share/doc/ghostscript/9.55.0/index.html /usr/share/doc/ghostscript/9.55.0/News.htm /usr/share/doc/ghostscript/9.55.0/Use.htm /usr/share/doc/ghostscript/9.55.0/DLL.htm /usr/share/doc/ghostscript/9.55.0/Language.htm /usr/share/doc/ghostscript/9.55.0/History9.htm /usr/share/doc/ghostscript/9.55.0/Source.htm", added "/usr/share/doc/ghostscript/9.56.0/thirdparty.htm /usr/share/doc/ghostscript/9.56.0/
- Readme.htm /usr/share/doc/ghostscript/9.56.0/COPYING /usr/share/doc/ghostscript/9.56.0/Source.htm /usr/share/doc/ghostscript/9.56.0/Ps2epsi.htm /usr/share/doc/ghostscript/9.56.0/sample_downscale_device.htm /usr/share/doc/ghostscript/9.56.0/Make.htm /usr/share/doc/ghostscript/9.56.0/pscet_status.txt /usr/share/doc/ghostscript/9.56.0/VectorDevices.htm /usr/share/doc/ghostscript/9.56.0/Lib.htm /usr/share/doc/ghostscript/9.56.0/API.htm /usr/share/doc/ghostscript/9.56.0/C-style.htm /usr/share/doc/ghostscript/9.56.0/Ps-style.htm /usr/share/doc/ghostscript/9.56.0/Psfiles.htm /usr/share/doc/ghostscript/9.56.0/News.htm /usr/share/doc/ghostscript/9.56.0/WhatIsGS.htm /usr/share/doc/ghostscript/9.56.0/Fonts.htm /usr/share/doc/ghostscript/9.56.0/Install.htm /usr/share/doc/ghostscript/9.56.0/Drivers.htm /usr/share/doc/ghostscript/9.56.0/subclass.htm /usr/share/doc/ghostscript/9.56.0/gdevds32.c /usr/share/doc/ghostscript/9.56.0/SavedPages.htm /usr/share/doc/ghostscript/9.56.0/Release.htm /usr/shar
- e/doc/ghostscript/9.56.0/index.html /usr/share/doc/ghostscript/9.56.0/Devices.htm /usr/share/doc/ghostscript/9.56.0/DLL.htm /usr/share/doc/ghostscript/9.56.0/Deprecated.htm /usr/share/doc/ghostscript/9.56.0/Language.htm /usr/share/doc/ghostscript/9.56.0/GS9_Color_Management.pdf /usr/share/doc/ghostscript/9.56.0/History9.htm /usr/share/doc/ghostscript/9.56.0/Unix-lpr.htm /usr/share/doc/ghostscript/9.56.0/Develop.htm /usr/share/doc/ghostscript/9.56.0/Use.htm"
-Changes to packages/core2-32-poky-linux/ghostscript (sysroot):
-  /usr/share/ghostscript/9.55.0 moved to /usr/share/ghostscript/9.56.0
-Changes to packages/x86_64-linux/ghostscript-native (sysroot):
-  /usr/bin/ghostscript-9.55.0 moved to /usr/bin/ghostscript-9.56.0
-  /usr/share/ghostscript/9.55.0 moved to /usr/share/ghostscript/9.56.0
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.10/site-packages/diffoscope-208.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-209.dist-info
 
---===============7844254285822232177==
+--===============5027476280028004666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Loading cache...done.
+Loaded 1641 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (881 cached, 1 parsed). 1640 targets, 34 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:06dfbaf526f3b398dcfcf603d99eb721fd211a1d"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 73 Local 28 Mirrors 0 Missed 45 Current 652 (38% match, 93% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 671 of 725 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 672 of 725 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.4-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/pango/1.50.4-r0/temp/log.do_packagedata_setscene.3698174
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 724 of 725 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_package_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 2002 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2091 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 2093 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
+NOTE: Running task 2094 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
+NOTE: Running task 2134 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_fetch)
+NOTE: Running task 2190 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
+NOTE: Running task 2191 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_fetch)
+NOTE: Running task 2192 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
+NOTE: Running task 2193 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_fetch)
+NOTE: Running task 2194 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_fetch: Started
+NOTE: Running task 2372 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 2373 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
+NOTE: Running task 2374 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_fetch: Succeeded
+NOTE: Running task 2375 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
+NOTE: Running task 2376 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
+NOTE: Running task 2377 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_unpack)
+NOTE: Running task 2378 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Started
+NOTE: Running task 2379 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_fetch: Started
+NOTE: Running task 2380 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
+NOTE: Running task 2381 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_unpack)
+NOTE: Running task 2382 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
+NOTE: Running task 2383 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
+NOTE: Running task 2384 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_fetch: Succeeded
+NOTE: Running task 2385 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_unpack)
+NOTE: Running task 2386 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2387 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
+NOTE: Running task 2388 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Started
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Started
+NOTE: Running task 2389 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_patch)
+NOTE: Running task 2390 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
+NOTE: Running task 2391 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_unpack: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2392 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 2393 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2394 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2395 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_patch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2396 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
+NOTE: Running task 2397 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2398 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Started
+NOTE: Setscene tasks completed
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2417 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
+NOTE: Running task 2419 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2420 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Started
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe diffoscope-209-r0: task do_patch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
+NOTE: Running task 2421 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2422 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic)
+NOTE: Running task 2423 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2424 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2425 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Started
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
+NOTE: Running task 2426 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2427 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
+NOTE: Running task 2428 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic unihash changed to bb17d6d5008b46cd665bd5b708ed12861af17fc1f3dc0edaa1afafaba90b9cfc
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2429 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_configure)
+NOTE: Running task 2430 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
+NOTE: Running task 2433 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Started
+NOTE: Running task 2434 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
+NOTE: Running task 2435 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
+NOTE: recipe diffoscope-209-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2436 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Started
+NOTE: Running task 2437 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
+NOTE: recipe diffoscope-209-r0: task do_configure: Succeeded
+NOTE: Running task 2438 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Succeeded
+NOTE: Running task 2439 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 2440 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2441 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: Running task 2442 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2443 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Succeeded
+NOTE: Running task 2444 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_install: Started
+NOTE: Running task 2445 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
+NOTE: Running task 2446 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Succeeded
+NOTE: Running task 2447 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Succeeded
+NOTE: Running task 2448 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_patch)
+NOTE: Running task 2449 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: Running task 2450 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe diffoscope-209-r0: task do_install: Succeeded
+NOTE: Running task 2451 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package)
+NOTE: Running task 2452 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2453 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe binutils-2.38-r0: task do_patch: Succeeded
+NOTE: Running task 2454 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_deploy_source_date_epoch)
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
+NOTE: Running task 2455 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_packagedata)
+NOTE: Running task 2456 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2457 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Succeeded
+NOTE: Running task 2458 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package_write_rpm)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2459 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
+NOTE: Running task 2460 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2461 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Succeeded
+NOTE: Running task 2462 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_packagedata)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 2463 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
+NOTE: Running task 2464 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
+NOTE: Running task 2465 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
+NOTE: Running task 2466 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_configure: Succeeded
+NOTE: Running task 2467 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_compile)
+NOTE: recipe binutils-2.38-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 2469 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
+NOTE: Running task 2470 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
+NOTE: Running task 2471 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2472 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2473 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Succeeded
+NOTE: Running task 2474 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
+NOTE: Running task 2475 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Succeeded
+NOTE: Running task 2476 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Succeeded
+NOTE: Running task 2477 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2478 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Succeeded
+NOTE: Running task 2479 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2480 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2481 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2482 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: Running task 2483 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2484 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2485 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2486 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2487 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Succeeded
+NOTE: Running task 2488 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2489 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2490 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Succeeded
+NOTE: Running task 2491 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
+NOTE: recipe vim-8.2.4524-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2492 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2493 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_install: Succeeded
+NOTE: Running task 2494 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
+NOTE: recipe vim-8.2.4524-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_compile: Succeeded
+NOTE: Running task 2495 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_install)
+NOTE: recipe binutils-2.38-r0: task do_install: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package: Succeeded
+NOTE: Running task 2496 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Started
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Succeeded
+NOTE: Running task 2497 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Started
+NOTE: recipe binutils-2.38-r0: task do_install: Succeeded
+NOTE: Running task 2498 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package)
+NOTE: recipe binutils-2.38-r0: task do_package: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package: Succeeded
+NOTE: Running task 2499 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2500 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package_write_rpm)
+NOTE: Running task 2501 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_write_rpm)
+NOTE: Running task 2502 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_qa)
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2503 of 2503 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_build)
+NOTE: Tasks Summary: Attempted 2503 tasks of which 2382 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5027476280028004666==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ghostscript/ghostscript-dbg: PKGSIZE changed from 83373280 to 83863600 (+1%)
-packages/core2-32-poky-linux/ghostscript/ghostscript-dbg: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-dbg: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript-dev: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-dev: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript-doc: FILELIST: directory renamed /usr/share/doc/ghostscript/9.55.0/images -> /usr/share/doc/ghostscript/9.56.0/images, removed "/usr/share/doc/ghostscript/9.55.0/News.htm /usr/share/doc/ghostscript/9.55.0/Use.htm /usr/share/doc/ghostscript/9.55.0/Release.htm /usr/share/doc/ghostscript/9.55.0/Lib.htm /usr/share/doc/ghostscript/9.55.0/GS9_Color_Management.pdf /usr/share/doc/ghostscript/9.55.0/gs-style.css /usr/share/doc/ghostscript/9.55.0/sample_downscale_device.htm /usr/share/doc/ghostscript/9.55.0/History9.htm /usr/share/doc/ghostscript/9.55.0/API.htm /usr/share/doc/ghostscript/9.55.0/C-style.htm /usr/share/doc/ghostscript/9.55.0/Ps-style.htm /usr/share/doc/ghostscript/9.55.0/Install.htm /usr/share/doc/ghostscript/9.55.0/Develop.htm /usr/share/doc/ghostscript/9.55.0/pscet_status.txt /usr/share/doc/ghostscript/9.55.0/SavedPages.htm /usr/share/doc/ghostscript/9.55.0/Drivers.htm /usr/share/doc/ghostscript/9.55.0/style.css /usr/share/d
- oc/ghostscript/9.55.0/Readme.htm /usr/share/doc/ghostscript/9.55.0/Commprod.htm /usr/share/doc/ghostscript/9.55.0/DLL.htm /usr/share/doc/ghostscript/9.55.0/Psfiles.htm /usr/share/doc/ghostscript/9.55.0/Unix-lpr.htm /usr/share/doc/ghostscript/9.55.0/gdevds32.c /usr/share/doc/ghostscript/9.55.0/Devices.htm /usr/share/doc/ghostscript/9.55.0/VectorDevices.htm /usr/share/doc/ghostscript/9.55.0/Deprecated.htm /usr/share/doc/ghostscript/9.55.0/Make.htm /usr/share/doc/ghostscript/9.55.0/subclass.htm /usr/share/doc/ghostscript/9.55.0/thirdparty.htm /usr/share/doc/ghostscript/9.55.0/index.js /usr/share/doc/ghostscript/9.55.0/index.html /usr/share/doc/ghostscript/9.55.0/Fonts.htm /usr/share/doc/ghostscript/9.55.0/WhatIsGS.htm /usr/share/doc/ghostscript/9.55.0/COPYING /usr/share/doc/ghostscript/9.55.0/Language.htm /usr/share/doc/ghostscript/9.55.0/Source.htm /usr/share/doc/ghostscript/9.55.0/Ps2epsi.htm", added "/usr/share/doc/ghostscript/9.56.0/Install.htm /usr/share/doc/ghostscript/9.56.0/Wha
- tIsGS.htm /usr/share/doc/ghostscript/9.56.0/VectorDevices.htm /usr/share/doc/ghostscript/9.56.0/Unix-lpr.htm /usr/share/doc/ghostscript/9.56.0/Psfiles.htm /usr/share/doc/ghostscript/9.56.0/index.html /usr/share/doc/ghostscript/9.56.0/Ps2epsi.htm /usr/share/doc/ghostscript/9.56.0/thirdparty.htm /usr/share/doc/ghostscript/9.56.0/Source.htm /usr/share/doc/ghostscript/9.56.0/C-style.htm /usr/share/doc/ghostscript/9.56.0/News.htm /usr/share/doc/ghostscript/9.56.0/Language.htm /usr/share/doc/ghostscript/9.56.0/Lib.htm /usr/share/doc/ghostscript/9.56.0/Release.htm /usr/share/doc/ghostscript/9.56.0/Ps-style.htm /usr/share/doc/ghostscript/9.56.0/Fonts.htm /usr/share/doc/ghostscript/9.56.0/Drivers.htm /usr/share/doc/ghostscript/9.56.0/pscet_status.txt /usr/share/doc/ghostscript/9.56.0/SavedPages.htm /usr/share/doc/ghostscript/9.56.0/GS9_Color_Management.pdf /usr/share/doc/ghostscript/9.56.0/Develop.htm /usr/share/doc/ghostscript/9.56.0/sample_downscale_device.htm /usr/share/doc/ghostscript/9.
- 56.0/Use.htm /usr/share/doc/ghostscript/9.56.0/History9.htm /usr/share/doc/ghostscript/9.56.0/API.htm /usr/share/doc/ghostscript/9.56.0/Readme.htm /usr/share/doc/ghostscript/9.56.0/subclass.htm /usr/share/doc/ghostscript/9.56.0/COPYING /usr/share/doc/ghostscript/9.56.0/Devices.htm /usr/share/doc/ghostscript/9.56.0/Make.htm /usr/share/doc/ghostscript/9.56.0/gdevds32.c /usr/share/doc/ghostscript/9.56.0/Deprecated.htm /usr/share/doc/ghostscript/9.56.0/DLL.htm"
-packages/core2-32-poky-linux/ghostscript/ghostscript-doc: PKGSIZE changed from 8472059 to 8370958 (-1%)
-packages/core2-32-poky-linux/ghostscript/ghostscript-doc: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-doc: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript-locale: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-locale: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript-src: FILELIST: directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib/opvp -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/opvp, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/wordrec -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/wordrec, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/devices/vector -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/devices/vector, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/include -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/include, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib/eplaser -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/eplaser, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/devices/rinkj -> /usr/
- src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/devices/rinkj, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/classify -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/classify, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/lzw -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/lzw, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/ccstruct -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/ccstruct, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/viewer -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/viewer, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/internal -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/internal, directory renamed /usr/
- src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib/pcl3/eprn -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/pcl3/eprn, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/psaux -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/psaux, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/lcms2mt/include -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/lcms2mt/include, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib/japanese -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/japanese, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/cid -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/cid, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/lstm -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/lstm, dire
- ctory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/obj -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/obj, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/cups -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/cups, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/type42 -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/type42, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/raster -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/raster, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/cache -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/cache, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/type1 -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/type1, directory renamed /usr/
- src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/devices -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/devices, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/jbig2dec -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/jbig2dec, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/pdf -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/pdf, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/dict -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/dict, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/psnames -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/psnames, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tess
- eract/src/textord -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/textord, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/bdf -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/bdf, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/ccmain -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/ccmain, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/internal/services -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/internal/services, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/pfr -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/pfr, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/pcf -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/
- pcf, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/cff -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/cff, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/ijs -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/ijs, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/psi -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/psi, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/base -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/base, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/pshinter -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/pshinter, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/lcms2mt/src -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/lcms2mt/src, directory renamed /usr/src/debug/g
- hostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/include/tesseract -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/include/tesseract, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/api -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/api, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/cutil -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/cutil, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/arch -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/tesseract/src/arch, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/smooth -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/smooth, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/tesseract/src/ccutil -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56
- .0/tesseract/src/ccutil, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/contrib/lips4 -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/lips4, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/openjpeg/src/lib/openjp2 -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/openjpeg/src/lib/openjp2, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/gzip -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/gzip, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/config -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/config, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/winfonts -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/winfonts, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/cont
- rib/pcl3/src -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/contrib/pcl3/src, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/zlib -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/zlib, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/leptonica/src -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/leptonica/src, directory renamed /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/truetype -> /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/truetype, removed "/usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdctc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfont0.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsargs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmatrix.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftadvanc.h /usr/src/debug/ghostscript/9.55.0-r0/gh
- ostscript-9.55.0/freetype/src/sfnt/ttcpal.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxxfont.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcpath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/sys.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpcmap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfmemd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/buffer.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdeparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclist.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/extract.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstypes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/srld.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximono.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstype1.h /usr/src/debug/g
- hostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevepo.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevabuf.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsync.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscicach.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spwgx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsutil.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmemret.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfillts.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gschar.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_unifn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfdtab.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/szlibxx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftsnames.
- h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsipar3x.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftbitmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxp1fill.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsample.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcpath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_lcms2mt.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_stdia.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/slzwd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsptype1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_nxpsprn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/stdio_.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sa85x.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afglobal.h /usr/src/debug/ghostscri
- pt/9.55.0-r0/ghostscript-9.55.0/base/sjpegc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxblend.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfcache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevnup.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximask.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsample.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/tttype.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsline.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfont.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevbbox.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdcte.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/claptrap-planar.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdflt.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxgetbit.h /usr/src/debug/ghost
- script/9.55.0-r0/ghostscript-9.55.0/base/claptrap-init.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sha2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxttfb.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparaml.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxoprect.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfmemd.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscompt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsiparm4.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjpx_openjpeg.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/claptrap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmalloc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afmodule.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftoutln.h /usr/src/debug/ghostscript/9.55.0-r0/ghosts
- cript-9.55.0/base/gxpaint.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrdp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsimage.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscedata.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/wrfont.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gshtx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm16.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftmm.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gs_mro_e.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/slzwx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzspotan.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxht.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/claptrap-impl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmd5.c /usr/src/debug/ghostscript/9.5
- 5.0-r0/ghostscript-9.55.0/base/gdevpxop.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfcmap1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsht1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpdash.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevddrw.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxmclip.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfmain.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc4.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmatrix.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevnup.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevvec.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximask.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsequivc.c /usr/src/debug/ghostscript/9.55.
- 0-r0/ghostscript-9.55.0/base/gscolor2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsline.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gssprintf.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevflp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfont.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgcache.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdcparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfname.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmplt.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdcrd.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/tttables.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afdummy.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sarc4.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsc
- anc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/strimpl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmplt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsroprun24.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscdevn.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxbitfmt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxchar.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/srlx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sidscale.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/stream.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/alloc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/freetype.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxiparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdevn.h /usr/src/debug/ghostscript/9.55.0-r0/g
- hostscript-9.55.0/base/gsicc_cms.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/siinterp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/woff2tags.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmpla.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfarith.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdhtres.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdevnprn.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxtext.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sidscale.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmchunk.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/outf.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/write_t2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spsdf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afcjk.
- h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gen_ordered.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscoord.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsflip.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_getnv.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhldevc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/strmio.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdhtserial.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevrops.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsutil.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftimage.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxscanc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/aftypes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/write_t1.c /usr/src/debug/ghostscript
- /9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/sfdriver.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclipm.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gen_ordered.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsagl.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxtype1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/sfwoff2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsovrc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_blacktext.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevpxen.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclpage.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttmtx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/slzwe.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55
- .0/base/gdevnfwd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjbig2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxi16bit.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpflat.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdctd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/astring.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsnotify.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfcmap1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftcolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/sfwoff.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstrtok.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcldev.h /usr/src/debug/
- ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbitops.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsclipsr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstype1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfname.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftincrem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ssha2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjpx_openjpeg.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gpgetenv.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclmem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/astring.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttload.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/
- freetype/src/autofit/afblue.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcomp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstext.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/stdpre.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdhtserial.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxht_thresh.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/odt.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/sys.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsalloc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbitmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftbdf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgstate.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_create.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freet
- ype/t1tables.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade6.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmr1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmisc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsciemap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxoprect.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxccache.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sfilter1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsioram.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmr2n.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspaint.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttinterp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55
- .0/freetype/src/sfnt/sfdriver.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afangles.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxiscale.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhldevc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsexit.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspath1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdownscale.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxobj.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/odt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfoutl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/smd5.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttcalc.h /usr/src/debug/ghostscrip
- t/9.55.0-r0/ghostscript-9.55.0/base/srdline.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxbcache.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsnamecl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/simscale.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxchrout.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbittab.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxidata.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclmem.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftlzw.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevoflt.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxbcache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxtmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxchar.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdevice.h /us
- r/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/text.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbittab.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhttype.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsptype1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfinp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsroprun1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/mem.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrd.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afloader.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdcolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjpegd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttload.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.5
- 5.0/freetype/src/autofit/afblue.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclfile.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/shc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfont0.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttcolr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzline.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftcache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/aflatin.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzht.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gslibctx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclip.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstiffio.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclrast.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscolo
- r1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcie.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxccman.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc0.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsserial.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclrect.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmemory.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ets_tm.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximag3x.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sfxstdio.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftfntfmt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscri
- pt-9.55.0/base/gxdevice.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevplnx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcht.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsrop.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfcid2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstruct.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/memento.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdda.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstate.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxifast.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsimage.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm40.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsync.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55
- .0/extract/src/xml.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscms.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdbit.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevkrnlsclass.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfapi.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/malloc_.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spprint.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfixed.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_unix.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhintn.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxtype1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/write_t2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/cups/libs/cups/ppd.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftstroke.h /usr/src/debug/ghos
- tscript/9.55.0-r0/ghostscript-9.55.0/base/gscolor2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxmclip.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/smd5.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfilltr.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscspace.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclip.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/write_t1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftdriver.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdcconv.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgstate.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sbtx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgdata.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ramfs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/setjmp_.h /us
- r/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclpath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfrac.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm48.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevhit.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/szlibx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfill.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgcache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/strmio.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/siscale.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsht.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstype.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmrop.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximag3x.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdcrd.c /usr/src
- /debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_manage.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjbig2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcdevn.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspaint.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/join.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_upapr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sbcp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscpm.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sha2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfinp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsht1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevsclass.c /usr/src/debug/
- ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfunc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxrplane.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/fapi_ft.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsflip.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gpmisc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscindex.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsuid.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxht_thresh.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/seexec.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/tttypes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparams.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmem.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxp1impl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxipixel.c /usr/src/debug/
- ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparams.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afhints.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/docx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/icc34.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfcmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/saes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sarc4.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/aes.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ets.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/mem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/odt_template.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/outf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsargs.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsov
- rc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstiffio.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_strdl.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmemory.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/aes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcoord.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scanchar.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gpsync.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsimpath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftgzip.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdps1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm4.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsform1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.
- 0/base/gscolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttcmap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm64.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxgstate.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstext.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spwgd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/szlibd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afcjk.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstrtok.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gschar.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscdevn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_blacktext.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclread.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxctable.h /usr/src/debug/ghostscri
- pt/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/sfobjs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspenum.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjpeg.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sfxcommon.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/stat_.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/zip.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscspace.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevkrnlsclass.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevpccm.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfillsl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevprn.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttcmapc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhtbi
- t.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfcmap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsrop.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpath2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/stream.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxiclass.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcmap.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/claptrap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sa85d.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfetab.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spngpx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sfilter2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsiodev.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsccode.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmr8n.c /u
- sr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/tessocr.cpp /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsrefct.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsroprun.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsiparm3.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_cache.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbitcom.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevpccm.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzcpath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmdebug.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/shc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclist.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclzlib.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afstyles.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.
- 55.0/base/gsparamx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxchrout.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gschar0.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxttfb.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsequivc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsiparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfapi.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sbcp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfont42.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsht.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsptype2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspcolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sa85d.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_create.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.5
- 5.0/base/gsfunc4.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscie.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcvalue.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsagl.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmpla.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevflp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdevmem.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhttile.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclipsr.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/szlibe.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afloader.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxstroke.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttkern.c /usr/src/debug/ghostscript
- /9.55.0-r0/ghostscript-9.55.0/base/gxcolor2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade4.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsnogc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scantab.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxftype.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_monitorcm.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/aflatin.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdither.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcspace.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmd5.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxacpath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevprn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsptype2.h /
- usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm24.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpcache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gshtscr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_replacecm.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscscie.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/cups/libs/cups/array.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhintn1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sstring.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/slzwc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfont0c.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/srle.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_psync.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpcolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/ext
- ract/src/docx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscolor1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftlcdfil.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrypt1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm56.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevppla.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/simscale_foo.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ramfs.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspcolor.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afwarp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gs_mgl_e.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsshade.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxalloc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscdefs.h /usr/src/debu
- g/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstrans.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftsystem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afdummy.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevbbox.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftmodapi.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade4.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxi12bit.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscie.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclipm.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spdiff.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/siinterp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcindex.h /usr/src/debug/ghostscript/9
- .55.0-r0/ghostscript-9.55.0/base/gdevm32.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxarith.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afhints.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sjpege.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsalloc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxhintn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftglyph.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfcid.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afshaper.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sisparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmemret.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/saes.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmchunk.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9
- .55.0/base/gdevppla.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ssha2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftwinfnt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsmalloc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdsrc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/dirent_.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttcmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gserrors.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxctable.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdtfill.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftlist.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximdecode.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzp
- ath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gslib.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afscript.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrypt1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscedata.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsclipsr.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/simscale_foo.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/text.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdcolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gslibctx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/fterrors.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/siscale.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxicolor.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxsamplp.h /usr/src/debug/
- ghostscript/9.55.0-r0/ghostscript-9.55.0/base/simscale.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstate.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsnotify.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdownscale.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttinterp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afranges.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsbitops.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsparamx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sddparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpcopy.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm8.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdevsop.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxline.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gx
- clpath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdct.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttobjs.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdgbr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxmatrix.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_profilecache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spdiffx.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclbits.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttfsfnt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevsclass.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfcmap.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spprint.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsxfont.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/tessocr.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.5
- 5.0/base/gdevp14.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsserial.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclpage.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevpxat.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage3.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxttf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsroprun8.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spsdf.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_nocm.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclimag.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsropt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gssprintf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclthrd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afmodule.h /usr/src/debug/ghostscript/9.5
- 5.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttbdf.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afglobal.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/docx_template.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage3.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevmem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxshade1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxblend1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxband.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevm1.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscpixel.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_cache.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxht.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/cup
- s/libs/cups/raster.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afshaper.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdcolor.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximdecode.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzacpath.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstrans.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgdata.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/docx_template.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscolor3.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscolor3.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afindic.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscoord.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsshade.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/includ
- e/freetype/ftsizes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstype42.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsstrl.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxblend.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_manage.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/odt_template.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/zip.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclio.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclthrd.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttload.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevepo.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttobjs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscolor.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scfe.c /usr/src/debug/ghostscrip
- t/9.55.0-r0/ghostscript-9.55.0/base/gsiorom.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscencs.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscpixel.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdevcli.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afwarp.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrdp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdebug.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclutil.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage4.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxcid.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdevndi.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfont.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/ftrender.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freety
- pe/include/freetype/fttypes.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxpaint.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdevbuf.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gp_unifs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscencs.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevoflt.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gstype2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc3.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/tttables.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/szlibc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevplnx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscrd.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdht.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsicc_profilecache.c /usr/src/debug/ghostscript/9.55.0
- -r0/ghostscript-9.55.0/base/gspath2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsroptab.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclip2.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sdcparam.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/include/freetype/fttrigon.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfont1.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/sfnt/ttpost.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ets.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdevice.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gshtx.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdsha.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxbitops.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxstate.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxbitmap.h /u
- sr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gspath.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/freetype/src/autofit/afindic.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdevn.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevvec.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfont0c.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gslparam.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sfilter.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevp14.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsccolor.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gzspotan.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/extract/src/xml.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/ttcalc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxiodev.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.
- 0/freetype/src/sfnt/ttload.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/sstring.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxclip2.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsdsrc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscsepr.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdcconv.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevpipe.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsinit.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfcid.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxfill.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/spngp.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscicach.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gpmisc.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gximage.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-
- 9.55.0/extract/src/document.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gdevdrop.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/std.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/wrfont.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc0.c /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsfunc3.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gsgc.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscsepr.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gxdevmem.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/gscsel.h /usr/src/debug/ghostscript/9.55.0-r0/ghostscript-9.55.0/base/scommon.h", added "/usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfcmap1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsflip.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/globals.h /usr/src/debug/ghostscript/9.56.0-r0/ghost
- script-9.56.0/base/gdevoflt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclimag.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gslparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scommon.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/stream.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spsdf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscscie.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstrans.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc4.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclpage.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxoprect.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevplnx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/malloc_.h /usr/src/debug/ghostscript/9.56.0-r0/ghost
- script-9.56.0/extract/src/sys.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsroprun1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttload.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstate.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afmodule.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxftype.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsht.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsroprun24.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfont1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ets_tm.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxi16bit.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdsrc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgstate.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxbcache.c /usr/src/debug/ghostscr
- ipt/9.56.0-r0/ghostscript-9.56.0/base/gxalloc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/szlibe.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttinterp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximask.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevsclass.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscicach.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfont.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevp14.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstext.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevprn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevice.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfixed.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxtext.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage.c /usr/src/debug/ghostscri
- pt/9.56.0-r0/ghostscript-9.56.0/base/ttfmemd.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmatrix.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmchunk.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/fttrigon.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdfrend.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxsamplp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_blacktext.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_cms.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevp14.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstrtok.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxband.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevrops.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsipar3x.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscrip
- t-9.56.0/freetype/src/sfnt/sfdriver.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsnotify.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdtfill.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximdecode.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxchrout.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdct.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmdebug.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gslib.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmemory.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/srdline.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclipm.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc0.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevhit.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxchar.c /usr/src/debug/ghostscript/9.56.0-
- r0/ghostscript-9.56.0/base/gsicc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpeg.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpegc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/freetype.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gslibctx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstext.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gschar.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgstate.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfcmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftfntfmt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscindex.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsequivc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxbitmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpat
- h.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdda.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclbits.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxbitfmt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/mem.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevepo.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdrop.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sfxstdio.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsline.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclipsr.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sidscale.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sbcp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhintn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevoflt.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcld
- ev.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdhtserial.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstype2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcvalue.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_manage.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclip2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcspace.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade4.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gssprintf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstrans.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfont0c.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spdiffx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdcconv.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevprn.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56
- .0/base/gxtype1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttcpal.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsht1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpcolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/setjmp_.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttload.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclip.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/srlx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevppla.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpegd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sha2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscicach.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfx.h /usr/src/debug/ghostscript/9.56.0-r0/ghos
- tscript-9.56.0/base/slzwe.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/tttypes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscsel.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gen_ordered.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/write_t1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/docx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/extract.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/zip.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdf.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsht1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevbuf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/aftypes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrypt1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsinit.c /us
- r/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttkern.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttcalc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftrender.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevddrw.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscdevn.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfont0c.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevbbox.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftdriver.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage3.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxarith.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade4.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpcopy.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdctd.c /usr/src/debug/ghos
- tscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afdummy.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsht.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm40.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxscanc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sstring.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/join.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxccman.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpccm.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclmem.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsnogc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpxen.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxline.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpxat.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcmap.h /usr/
- src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_unifn.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrdp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/odt_template.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsiparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscspace.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsbitmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfill.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxiparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpdash.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdebug.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdhtserial.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdevnprn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/ba
- se/gsropt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsline.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsserial.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor3.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfname.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/claptrap-init.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxttfb.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsimpath.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfont.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afblue.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspaint.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzacpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevndi.c /usr/src/debug/ghostscript/9.56.0-r0/gh
- ostscript-9.56.0/base/seexec.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/xml.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sha2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor3.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftcolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsargs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spsdf.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhldevc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclthrd.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/claptrap-planar.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm56.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scanchar.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzspotan.h /usr/src/deb
- ug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfinp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmpla.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/mem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_create.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxoprect.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfcache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfunc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfrac.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/std.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmx.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/text.h /usr/src/d
- ebug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gs_mro_e.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsptype2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftwinfnt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevnup.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmd5.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcmap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsovrc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclzlib.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/write_t2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/simscale_foo.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevnfwd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttcmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade.c /usr/src/debug/ghostscript/9.56.0-r0/ghostsc
- ript-9.56.0/base/claptrap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/sfobjs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftcache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_psync.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/write_t1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsexit.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmatrix.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstrl.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdcolor.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afindic.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparamx.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstrtok.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.
- 0/base/sisparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afglobal.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjbig2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/stdpre.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxidata.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmisc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftlogging.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/shc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscdevn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/szlibd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgdata.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevppla.h /usr/src/debug/ghostscri
- pt/9.56.0-r0/ghostscript-9.56.0/base/gp_unix.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclist.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/xml.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/srle.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhttype.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximag3x.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpflat.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxsync.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcomp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/stdint_.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdht.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/slzwx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/outf.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdevn.c /usr/src/debug/ghostscript
- /9.56.0-r0/ghostscript-9.56.0/base/siscale.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdevice.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfcid.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afloader.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdfcommon.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfont.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_strdl.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/icc34.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/odt.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftimage.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/fapi_ft.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdownscale.c /usr/src/debug/ghostscript/9.56.0-r0/gho
- stscript-9.56.0/base/gdevvec.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstruct.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximag3x.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/document.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/simscale_foo.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ramfs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/strmio.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdhtres.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxipixel.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsioram.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttobjs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstate.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gssprintf.c /usr/src/debug/ghostscript/
- 9.56.0-r0/ghostscript-9.56.0/base/gxclutil.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/tessocr.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/slzwc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmalloc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscpixel.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc4.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdevice.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxtype1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttbdf.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsutil.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclpath.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscpixel.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspenum.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsroprun.c /usr/src/debug/
- ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsshade.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevepo.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmplt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_nocm.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfont0.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdcconv.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afstyles.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gs_mgl_e.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/sfwoff.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdcparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ssha2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstype1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/tttables.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.
- 0/base/gxscanc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxbcache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfinp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sa85x.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevflp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsequivc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdeparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm8.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsstype.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/tttype.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxccache.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spdiff.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxp
- aint.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscdefs.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximono.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsbitcom.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxstroke.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfapi.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjbig2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsccolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxblend1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsshade.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/odt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstype1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrypt1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gshtscr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/
- gdevmpla.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfcmap1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ets.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxgstate.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfe.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/stdio_.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/write_t2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpipe.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsccode.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscoord.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpaint.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sddparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm4.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscpar
- am.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsimage.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmplt.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcpath.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdcparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/smd5.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdgbr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximdecode.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/html.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sarc4.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscspace.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevnup.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/fttypes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevsop.h /usr/src/debug/ghostscript/9.56.0-r0/ghos
- tscript-9.56.0/base/gscencs.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscsepr.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxobj.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxsample.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdflt.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscsepr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/sys.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxxfont.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrd.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfillsl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/smd5.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spngpx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/szlibxx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gpgetenv.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscr
- ipt-9.56.0/base/gsbitops.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxht.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgcache.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ets.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsalloc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/siinterp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttinterp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc3.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparamx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparams.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfont0.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparaml.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsptype1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9
- .56.0/base/sfilter1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclmem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevcli.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxht_thresh.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftlist.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscedata.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxp1impl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspath1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmalloc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxchrout.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfsfnt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfcid2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/alloc.c /usr/src/debug/ghos
- tscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdsha.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsrefct.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclfile.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcht.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclpage.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsclipsr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_stdia.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfparam.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevabuf.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afglobal.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscedata.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sfxcommon.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_profilecache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/b
- ase/gsmemory.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_monitorcm.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxblend.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage4.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpx_openjpeg.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftgzip.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxttfb.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclthrd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc0.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdctc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxmatrix.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspcolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttload.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttmtx.c /usr/src/debug
- /ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_lcms2mt.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstiffio.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttload.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfdtab.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_getnv.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxht.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsagl.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftlzw.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gserrors.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spwgd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfmain.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsiparm4.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56
- .0/base/gsbitops.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdcolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/siscale.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgdata.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdither.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsroptab.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcoord.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxrplane.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxmclip.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclip2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/claptrap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfilltr.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxi12bit.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/siinterp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscrip
- t-9.56.0/extract/src/astring.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/dirent_.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sbtx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/shc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spngp.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxiclass.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/stream.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzht.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspath2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcolor2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxiodev.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhtbit.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spprint.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpcmap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.
- 0/base/gen_ordered.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_cache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscpm.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/sfdriver.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/strmio.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afshaper.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftsystem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/szlibx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxp1fill.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftincrem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcie.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afloader.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsserial.c /usr/src/debug/ghostscript/9.56.
- 0-r0/ghostscript-9.56.0/base/gsargs.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gschar.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmemret.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspath.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsciemap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscencs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsnamecl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevflp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gpmisc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevkrnlsclass.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparams.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmr1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxmclip.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpccm.c /usr/src/debug/ghostscript/
- 9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/fterrors.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/memento.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/html.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftlcdfil.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_profilecache.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sbcp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftsizes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmd5.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscms.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsxfont.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxblend.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spprint.h /usr/src/debug/ghostscript/9.5
- 6.0-r0/ghostscript-9.56.0/freetype/src/autofit/afshaper.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxht_thresh.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmem.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sfilter2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afhints.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsiparm3.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdevmem.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhintn1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/outf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftbitmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftadvanc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximask.c /usr/src/debug/g
- hostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpege.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm48.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscoord.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfillts.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttobjs.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afdummy.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxctable.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhldevc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftstroke.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ramfs.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afindic.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor1.h /usr/src/debug/ghostscript/9.56.0-r
- 0/ghostscript-9.56.0/base/gxacpath.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsrop.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsptype2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/text.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/odt_template.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmr8n.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclipm.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxdownscale.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm16.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclread.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfont42.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_cache.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxtmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftbsdf.c /
- usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsflip.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdcrd.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxsync.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afranges.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfunc3.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_manage.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzcpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm24.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_create.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcindex.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhintn.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzspotan.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclrect.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscri
- pt-9.56.0/base/gsovrc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspcolor.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsrop.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxshade6.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/strimpl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sarc4.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevplnx.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/zip.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsptype1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sa85d.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/wrfont.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/saes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxchar.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftglyph.h /usr/src/debug/ghostscript/9.56.0
- -r0/ghostscript-9.56.0/base/gpmisc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpcache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/wrfont.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzline.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/document.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afmodule.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfarith.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_blacktext.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_nxpsprn.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdcrd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevpxop.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfname.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfmemd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gpsync.h 
- /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttcmapc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstiffio.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmchunk.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxiscale.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/docx.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/tessocr.cpp /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcdevn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxcid.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm64.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sa85d.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfcid.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscompt.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxicolor.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/
- base/gshtx.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/docx_template.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/claptrap-impl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsalloc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdsrc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscie.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdps1.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/simscale.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/buffer.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gzpath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevbbox.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfill.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scfetab.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scantab.c /usr/src/debug/ghostscript/9.56.0-r0/gho
- stscript-9.56.0/base/gxclist.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsnotify.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftmodapi.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gspath.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/saes.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/aflatin.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afscript.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxfapi.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm32.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsbittab.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/aes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/t1tables.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/srld.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscrip
- t-9.56.0/base/stat_.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxctable.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscrdp.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevm2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdfrend.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsagl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsiorom.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gp_unifs.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdevn.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsicc_replacecm.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttcolr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftsnames.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftmm.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9
- .56.0/freetype/src/autofit/afcjk.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gschar0.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsuid.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfcmap.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevvec.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsbittab.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsclipsr.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscie.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttpost.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsroprun8.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttcalc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxbitops.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/scf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevsclass.c /usr/src/debug/ghostscript/9
- .56.0-r0/ghostscript-9.56.0/base/gspaint.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ssha2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclio.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/szlibc.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sfilter.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afblue.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdcolor.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgcache.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclrast.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsimage.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sidscale.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsform1.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage3.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxifast.c /usr/src/debug/
- ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gximage.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/ttfoutl.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsmemret.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftbdf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sjpx_openjpeg.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsiodev.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/simscale.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sdcte.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/slzwd.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevkrnlsclass.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/aes.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/ftoutln.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmrop.h /usr/src/debug/ghostscript/9.56.0-r0/ghos
- tscript-9.56.0/base/gp_upapr.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsfcmap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxclip.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevdbit.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sfnt/ttcmap.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/docx_template.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxstate.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsutil.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gscolor2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsparam.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/aflatin.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxsample.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afhints.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/
- base/gscolor2.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxttf.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gdevmr2n.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxpath2.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/extract/src/astring.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/include/freetype/tttables.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/sdf/ftsdfcommon.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/freetype/src/autofit/afcjk.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsgc.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstype42.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/sstring.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxgetbit.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gsdevmem.c /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gslibctx.c
-  /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gstypes.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/spwgx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gshtx.h /usr/src/debug/ghostscript/9.56.0-r0/ghostscript-9.56.0/base/gxhttile.h"
-packages/core2-32-poky-linux/ghostscript/ghostscript-src: PKGSIZE changed from 73593701 to 74115297 (+1%)
-packages/core2-32-poky-linux/ghostscript/ghostscript-src: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-src: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript-staticdev: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript-staticdev: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript/ghostscript: PKGSIZE changed from 53300157 to 56751330 (+6%)
-packages/core2-32-poky-linux/ghostscript/ghostscript: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript/ghostscript: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-packages/core2-32-poky-linux/ghostscript: PV changed from "9.55.0" to "9.56.0"
-packages/core2-32-poky-linux/ghostscript: SRC_URI changed from "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.gz file://ghostscript-9.15-parallel-make.patch file://ghostscript-9.16-Werror-return-type.patch file://do-not-check-local-libpng-source.patch file://avoid-host-contamination.patch file://mkdir-p.patch file://ghostscript-9.21-prevent_recompiling.patch file://cups-no-gcrypt.patch" to "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9560/ghostscript-9.56.0.tar.gz file://ghostscript-9.15-parallel-make.patch file://ghostscript-9.16-Werror-return-type.patch file://do-not-check-local-libpng-source.patch file://avoid-host-contamination.patch file://mkdir-p.patch file://ghostscript-9.21-prevent_recompiling.patch file://cups-no-gcrypt.patch"
-packages/core2-32-poky-linux/ghostscript: PKGV changed from 9.55.0 [default] to 9.56.0 [default]
-Changes to packages/core2-32-poky-linux/ghostscript (sysroot):
-  /usr/share/ghostscript/9.55.0 moved to /usr/share/ghostscript/9.56.0
-Changes to packages/x86_64-linux/ghostscript-native (sysroot):
-  /usr/bin/ghostscript-9.55.0 moved to /usr/bin/ghostscript-9.56.0
-  /usr/share/ghostscript/9.55.0 moved to /usr/share/ghostscript/9.56.0
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 208 [default] to 209 [default]
+packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-208.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-209.tar.gz"
+packages/core2-32-poky-linux/diffoscope: PV changed from "208" to "209"
+packages/core2-32-poky-linux/diffoscope: PKGV changed from 208 [default] to 209 [default]
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.10/site-packages/diffoscope-208.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-209.dist-info
 
---===============7844254285822232177==
+--===============5027476280028004666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 69 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:06dfbaf526f3b398dcfcf603d99eb721fd211a1d"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 73 Local 28 Mirrors 0 Missed 45 Current 648 (38% match, 93% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 667 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 668 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/pango/1.50.4-r0/temp/log.do_packagedata_setscene.3986974
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 720 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_package_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1984 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2072 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 2073 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
+NOTE: Running task 2076 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
+NOTE: Running task 2116 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_fetch)
+NOTE: Running task 2171 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
+NOTE: Running task 2172 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
+NOTE: Running task 2174 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_fetch)
+NOTE: Running task 2175 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_fetch)
+NOTE: Running task 2176 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2354 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2355 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 2356 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_fetch: Succeeded
+NOTE: Running task 2357 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
+NOTE: Running task 2358 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Started
+NOTE: Running task 2359 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_unpack)
+NOTE: Running task 2360 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Succeeded
+NOTE: Running task 2361 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2362 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
+NOTE: Running task 2363 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_unpack)
+NOTE: Running task 2364 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
+NOTE: Running task 2365 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_fetch: Started
+NOTE: Running task 2366 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_fetch: Succeeded
+NOTE: Running task 2367 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: Running task 2368 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_unpack)
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Started
+NOTE: Running task 2369 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_prepare_recipe_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: Running task 2370 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_unpack: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Started
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_unpack: Started
+NOTE: Running task 2371 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
+NOTE: Running task 2372 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_unpack: Succeeded
+NOTE: Running task 2373 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2374 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_patch)
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 2375 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Started
+NOTE: Running task 2376 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: Running task 2377 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
+NOTE: recipe diffoscope-209-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2378 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2379 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2390 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: Running task 2399 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata)
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2400 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2402 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_patch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Succeeded
+NOTE: Running task 2403 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2404 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2405 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic)
+NOTE: Running task 2406 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2407 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2408 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2409 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2410 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic unihash changed to bb17d6d5008b46cd665bd5b708ed12861af17fc1f3dc0edaa1afafaba90b9cfc
+NOTE: Running task 2413 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2414 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: Running task 2415 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_configure)
+NOTE: Running task 2416 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Succeeded
+NOTE: Running task 2417 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Started
+NOTE: Running task 2418 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
+NOTE: recipe diffoscope-209-r0: task do_configure: Succeeded
+NOTE: Running task 2419 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Succeeded
+NOTE: Running task 2420 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_compile)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Succeeded
+NOTE: Running task 2421 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2422 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Succeeded
+NOTE: Running task 2423 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_install)
+NOTE: recipe diffoscope-209-r0: task do_compile: Succeeded
+NOTE: Running task 2424 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_install)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 2425 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe diffoscope-209-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2426 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
+NOTE: Running task 2427 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: Running task 2428 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Succeeded
+NOTE: Running task 2429 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 2430 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe binutils-2.38-r0: task do_patch: Started
+NOTE: recipe diffoscope-209-r0: task do_install: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: Running task 2431 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package)
+NOTE: Running task 2432 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Started
+NOTE: Running task 2433 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: Running task 2434 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_patch: Succeeded
+NOTE: Running task 2435 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2436 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Succeeded
+NOTE: Running task 2437 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2438 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2439 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_configure)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_configure: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2440 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Succeeded
+NOTE: Running task 2441 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package_write_rpm)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
+NOTE: Running task 2442 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Succeeded
+NOTE: Running task 2443 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_packagedata)
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2444 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 2445 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
+NOTE: Running task 2446 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
+NOTE: Running task 2447 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
+NOTE: Running task 2448 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_configure: Succeeded
+NOTE: Running task 2449 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_compile)
+NOTE: recipe binutils-2.38-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
+NOTE: Running task 2450 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 2451 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
+NOTE: Running task 2452 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
+NOTE: Running task 2453 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2454 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2455 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Succeeded
+NOTE: Running task 2456 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2457 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
+NOTE: Running task 2458 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2459 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Succeeded
+NOTE: Running task 2460 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Succeeded
+NOTE: Running task 2461 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Started
+NOTE: Running task 2462 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: Running task 2463 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2464 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Succeeded
+NOTE: Running task 2465 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2466 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Started
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2467 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2469 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Succeeded
+NOTE: Running task 2470 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2471 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2472 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Succeeded
+NOTE: Running task 2473 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
+NOTE: recipe vim-8.2.4524-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2474 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2475 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_install: Succeeded
+NOTE: Running task 2476 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
+NOTE: recipe vim-8.2.4524-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_package: Succeeded
+NOTE: Running task 2477 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Started
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Succeeded
+NOTE: Running task 2478 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_compile: Succeeded
+NOTE: Running task 2479 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_install)
+NOTE: recipe binutils-2.38-r0: task do_install: Started
+NOTE: recipe binutils-2.38-r0: task do_install: Succeeded
+NOTE: Running task 2480 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package)
+NOTE: recipe binutils-2.38-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_package: Succeeded
+NOTE: Running task 2481 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2482 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package_write_rpm)
+NOTE: Running task 2483 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_write_rpm)
+NOTE: Running task 2484 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_qa)
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2485 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_build)
+NOTE: Tasks Summary: Attempted 2485 tasks of which 2364 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5027476280028004666==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-ghostscript-upgrade-9.55.0-9.56.0.patch"
+ filename="0001-diffoscope-upgrade-208-209.patch"
 
-From 1a30e49874ad4b6f6a5a6963e4e8ef2698322bd5 Mon Sep 17 00:00:00 2001
+From 82206274b2604732a11816b36f0f9cef67502f78 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 10:06:51 +0000
-Subject: [PATCH] ghostscript: upgrade 9.55.0 -> 9.56.0
+Date: Fri, 1 Apr 2022 12:58:51 +0000
+Subject: [PATCH] diffoscope: upgrade 208 -> 209
 
 ---
- .../{ghostscript_9.55.0.bb => ghostscript_9.56.0.bb}            | 2 +-
+ .../diffoscope/{diffoscope_208.bb => diffoscope_209.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_9.55.0.bb => ghostscript_9.56.0.bb} (98%)
+ rename meta/recipes-support/diffoscope/{diffoscope_208.bb => diffoscope_209.bb} (92%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.56.0.bb
-similarity index 98%
-rename from meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_9.56.0.bb
-index c28e62f089..3734dc9163 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.56.0.bb
-@@ -45,7 +45,7 @@ SRC_URI:class-native = "${SRC_URI_BASE} \
-                         file://base-genht.c-add-a-preprocessor-define-to-allow-fope.patch \
-                         "
+diff --git a/meta/recipes-support/diffoscope/diffoscope_208.bb b/meta/recipes-support/diffoscope/diffoscope_209.bb
+similarity index 92%
+rename from meta/recipes-support/diffoscope/diffoscope_208.bb
+rename to meta/recipes-support/diffoscope/diffoscope_209.bb
+index 3c3b007d60..614218bee4 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_208.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_209.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRC_URI[sha256sum] = "31e2064be67e15b478a8da007d96d6cd4d2bee253e5be220703a225f7f79a70b"
-+SRC_URI[sha256sum] = "274171855c9bf079efd8308488da7c285ea9031474b6eb1fb80e028ac03d2e26"
+ inherit pypi setuptools3
  
- # Put something like
- #
+-SRC_URI[sha256sum] = "2c5c0ac1159eefce158154849fe67f0f527dffc5295bfd3ca1aef14962ffcbcb"
++SRC_URI[sha256sum] = "e845a0b6cd56c116fee670ae8497512489504dc911201bd77b7d65b8550618f6"
+ 
+ RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ 
 -- 
 2.27.0
 
 
---===============7844254285822232177==--
+--===============5027476280028004666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 52 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:06dfbaf526f3b398dcfcf603d99eb721fd211a1d"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 73 Local 28 Mirrors 0 Missed 45 Current 648 (38% match, 93% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 667 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 668 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/pango/1.50.4-r0/temp/log.do_packagedata_setscene.3796167
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 720 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_package_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1984 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2073 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
+NOTE: Running task 2075 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
+NOTE: Running task 2076 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 2116 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_fetch)
+NOTE: Running task 2172 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_fetch)
+NOTE: Running task 2173 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
+NOTE: Running task 2174 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
+NOTE: Running task 2175 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
+NOTE: Running task 2176 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe diffoscope-209-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Started
+NOTE: recipe diffoscope-209-r0: task do_fetch: Succeeded
+NOTE: Running task 2354 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
+NOTE: Running task 2355 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 2356 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Started
+NOTE: recipe binutils-2.38-r0: task do_fetch: Started
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Started
+NOTE: Running task 2357 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
+NOTE: Running task 2358 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_unpack)
+NOTE: Running task 2359 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2360 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe binutils-2.38-r0: task do_fetch: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2361 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Succeeded
+NOTE: Running task 2362 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_unpack)
+NOTE: Running task 2363 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
+NOTE: Running task 2364 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
+NOTE: Running task 2365 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
+NOTE: Running task 2366 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_unpack)
+NOTE: Running task 2367 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2368 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
+NOTE: Running task 2369 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2370 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_prepare_recipe_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Started
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
+NOTE: Running task 2371 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_unpack: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Succeeded
+NOTE: Running task 2372 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2373 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_patch)
+NOTE: Running task 2374 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_patch)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2375 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2376 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: Running task 2377 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
+NOTE: recipe diffoscope-209-r0: task do_patch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Succeeded
+NOTE: Running task 2378 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
+NOTE: Running task 2379 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2380 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
+NOTE: Running task 2381 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2382 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_patch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2400 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2402 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2403 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2404 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2406 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2407 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Started
+NOTE: Running task 2408 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Started
+NOTE: Running task 2409 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2410 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2411 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_configure)
+NOTE: Running task 2412 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic unihash changed to bb17d6d5008b46cd665bd5b708ed12861af17fc1f3dc0edaa1afafaba90b9cfc
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2413 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
+NOTE: Running task 2414 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
+NOTE: Running task 2415 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_configure: Succeeded
+NOTE: Running task 2418 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_compile)
+NOTE: Running task 2419 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2420 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Succeeded
+NOTE: Running task 2421 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 2422 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Succeeded
+NOTE: Running task 2423 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2424 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2425 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
+NOTE: recipe diffoscope-209-r0: task do_compile: Succeeded
+NOTE: Running task 2426 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_install)
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
+NOTE: recipe diffoscope-209-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 2427 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Succeeded
+NOTE: Running task 2428 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Succeeded
+NOTE: Running task 2429 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_patch)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
+NOTE: Running task 2430 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_patch: Started
+NOTE: Running task 2431 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: Running task 2432 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe diffoscope-209-r0: task do_install: Succeeded
+NOTE: Running task 2433 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package)
+NOTE: Running task 2434 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2435 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_patch: Succeeded
+NOTE: Running task 2436 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Succeeded
+NOTE: Running task 2437 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_configure)
+NOTE: Running task 2438 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_packagedata)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
+NOTE: Running task 2439 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Succeeded
+NOTE: Running task 2440 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package_write_rpm)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
+NOTE: Running task 2441 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2442 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2443 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Succeeded
+NOTE: Running task 2444 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_packagedata)
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 2445 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
+NOTE: Running task 2446 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
+NOTE: Running task 2447 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
+NOTE: Running task 2448 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_configure: Succeeded
+NOTE: Running task 2449 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_compile)
+NOTE: recipe binutils-2.38-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
+NOTE: Running task 2450 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 2451 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
+NOTE: Running task 2452 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
+NOTE: Running task 2453 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2454 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2455 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Succeeded
+NOTE: Running task 2456 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
+NOTE: Running task 2457 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Succeeded
+NOTE: Running task 2458 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Succeeded
+NOTE: Running task 2459 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2460 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Succeeded
+NOTE: Running task 2461 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2462 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2463 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2464 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: Running task 2465 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2466 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2467 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2469 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Succeeded
+NOTE: Running task 2470 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2471 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2472 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2473 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2474 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Succeeded
+NOTE: Running task 2475 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
+NOTE: recipe vim-8.2.4524-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_install: Succeeded
+NOTE: Running task 2476 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
+NOTE: recipe vim-8.2.4524-r0: task do_package: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package: Succeeded
+NOTE: Running task 2477 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Started
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Succeeded
+NOTE: Running task 2478 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_compile: Succeeded
+NOTE: Running task 2479 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_install)
+NOTE: recipe binutils-2.38-r0: task do_install: Started
+NOTE: recipe binutils-2.38-r0: task do_install: Succeeded
+NOTE: Running task 2480 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package)
+NOTE: recipe binutils-2.38-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_package: Succeeded
+NOTE: Running task 2481 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2482 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package_write_rpm)
+NOTE: Running task 2483 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_write_rpm)
+NOTE: Running task 2484 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_qa)
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2485 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_build)
+NOTE: Tasks Summary: Attempted 2485 tasks of which 2364 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5027476280028004666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1641 targets, 50 skipped, 0 masked, 0 errors.
+Removing 135 recipes from the core2-32 sysroot...done.
+Removing 144 recipes from the qemux86 sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============5027476280028004666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 882 .bb files complete (0 cached, 882 parsed). 1640 targets, 62 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:06dfbaf526f3b398dcfcf603d99eb721fd211a1d"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 73 Local 28 Mirrors 0 Missed 45 Current 648 (38% match, 93% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 667 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 668 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe pango-1.50.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/pango/1.50.4-r0/temp/log.do_packagedata_setscene.3891346
+NOTE: recipe pango-1.50.4-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 720 of 721 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_package_setscene)
+NOTE: Running task 2021 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: Running task 2075 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_fetch)
+NOTE: Running task 2076 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_fetch)
+NOTE: Running task 2077 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 2117 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_fetch)
+NOTE: Running task 2172 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_fetch)
+NOTE: Running task 2173 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_fetch)
+NOTE: Running task 2174 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_fetch)
+NOTE: Running task 2175 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_fetch)
+NOTE: Running task 2176 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_fetch)
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_fetch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2357 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_unpack)
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Started
+NOTE: Running task 2358 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 2359 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_prepare_recipe_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_fetch: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Started
+NOTE: Running task 2360 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_unpack)
+NOTE: Running task 2361 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-magic-0.4.25-r0: task do_fetch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Started
+NOTE: Running task 2362 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_unpack)
+NOTE: Running task 2363 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_fetch: Started
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_fetch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_fetch: Succeeded
+NOTE: Running task 2364 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_unpack)
+NOTE: Running task 2365 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_fetch: Succeeded
+NOTE: Running task 2366 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_unpack)
+NOTE: Running task 2367 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_unpack)
+NOTE: Running task 2368 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_fetch: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Started
+NOTE: Running task 2369 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_unpack)
+NOTE: Running task 2370 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_unpack)
+NOTE: Running task 2371 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_prepare_recipe_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2372 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe diffoscope-209-r0: task do_unpack: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_unpack: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Started
+NOTE: Running task 2373 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_unpack: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Started
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_unpack: Succeeded
+NOTE: Running task 2374 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_patch)
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2375 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_patch)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_unpack: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_unpack: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2376 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_patch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2377 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_patch)
+NOTE: Running task 2378 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: recipe diffoscope-209-r0: task do_patch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_unpack: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Started
+NOTE: Running task 2379 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_patch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_patch: Succeeded
+NOTE: Running task 2380 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_patch: Succeeded
+NOTE: Running task 2381 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2382 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe pango-1.50.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Setscene tasks completed
+NOTE: recipe diffoscope-209-r0: task do_patch: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2401 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.4.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_patch: Succeeded
+NOTE: Running task 2402 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2404 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic)
+NOTE: recipe python3-magic-0.4.25-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2405 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_patch: Succeeded
+NOTE: Running task 2406 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2407 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_configure)
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2408 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Started
+NOTE: Running task 2409 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_patch: Succeeded
+NOTE: Running task 2410 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_lic unihash changed to bb17d6d5008b46cd665bd5b708ed12861af17fc1f3dc0edaa1afafaba90b9cfc
+NOTE: recipe diffoscope-209-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2411 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2412 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_configure)
+NOTE: recipe lz4-1_1.9.3-r0: task do_configure: Succeeded
+NOTE: Running task 2413 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_configure)
+NOTE: Running task 2414 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_compile)
+NOTE: recipe diffoscope-209-r0: task do_configure: Started
+NOTE: recipe pango-1.50.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Started
+NOTE: recipe vim-8.2.4524-r0: task do_unpack: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_configure: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2417 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_patch)
+NOTE: Running task 2418 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_configure: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_configure: Succeeded
+NOTE: Running task 2419 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_compile)
+NOTE: Running task 2420 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_patch: Succeeded
+NOTE: Running task 2421 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 2422 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2423 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe vim-8.2.4524-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 2424 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_compile: Succeeded
+NOTE: Running task 2425 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_install)
+NOTE: recipe python3-magic-0.4.25-r0: task do_compile: Succeeded
+NOTE: Running task 2426 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_install)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe diffoscope-209-r0: task do_compile: Succeeded
+NOTE: Running task 2427 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_install)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2428 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: Running task 2429 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_install: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_install: Succeeded
+NOTE: Running task 2430 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package)
+NOTE: Running task 2431 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_unpack: Succeeded
+NOTE: Running task 2432 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2433 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe binutils-2.38-r0: task do_patch: Started
+NOTE: recipe diffoscope-209-r0: task do_install: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2434 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package)
+NOTE: Running task 2435 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_populate_sysroot)
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Started
+NOTE: recipe diffoscope-209-r0: task do_package: Started
+NOTE: recipe diffoscope-209-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_patch: Succeeded
+NOTE: Running task 2436 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_deploy_source_date_epoch)
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package: Succeeded
+NOTE: Running task 2437 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_packagedata)
+NOTE: Running task 2438 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2439 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_configure)
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2440 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe binutils-2.38-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_packagedata: Succeeded
+NOTE: Running task 2441 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-magic_0.4.25.bb:do_package_write_rpm)
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_configure: Succeeded
+NOTE: Running task 2442 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb:do_package_write_rpm)
+NOTE: Running task 2443 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_compile)
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 2444 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe diffoscope-209-r0: task do_package: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: Running task 2445 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_packagedata)
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Started
+NOTE: recipe python3-magic-0.4.25-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-libarchive-c-4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_packagedata: Succeeded
+NOTE: recipe desktop-file-utils-0.26-r0: task do_compile: Succeeded
+NOTE: Running task 2446 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_install)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_install: Succeeded
+NOTE: Running task 2447 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_package)
+NOTE: Running task 2448 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_configure: Succeeded
+NOTE: Running task 2449 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_compile)
+NOTE: recipe binutils-2.38-r0: task do_compile: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_package: Succeeded
+NOTE: Running task 2450 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_packagedata)
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Started
+NOTE: recipe desktop-file-utils-0.26-r0: task do_packagedata: Succeeded
+NOTE: recipe lz4-1_1.9.3-r0: task do_compile: Succeeded
+NOTE: Running task 2451 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_install)
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_install: Succeeded
+NOTE: Running task 2452 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_package)
+NOTE: Running task 2453 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_populate_sysroot)
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2454 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2455 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_configure)
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_configure: Succeeded
+NOTE: Running task 2456 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile)
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_package: Succeeded
+NOTE: Running task 2457 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lz4/lz4_1.9.3.bb:do_packagedata)
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Started
+NOTE: recipe lz4-1_1.9.3-r0: task do_packagedata: Succeeded
+NOTE: recipe squashfs-tools-4.5-r0: task do_compile: Succeeded
+NOTE: Running task 2458 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_install)
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2459 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_install: Succeeded
+NOTE: Running task 2460 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2461 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package: Succeeded
+NOTE: Running task 2462 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_packagedata)
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2463 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_package_write_rpm)
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2464 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: Running task 2465 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2466 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe squashfs-tools-4.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2467 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_configure)
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2468 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2469 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe vim-8.2.4524-r0: task do_configure: Succeeded
+NOTE: Running task 2470 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_compile)
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2471 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2472 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2473 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2474 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe vim-8.2.4524-r0: task do_compile: Succeeded
+NOTE: Running task 2475 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_install)
+NOTE: recipe vim-8.2.4524-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe vim-8.2.4524-r0: task do_install: Succeeded
+NOTE: Running task 2476 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package)
+NOTE: recipe vim-8.2.4524-r0: task do_package: Started
+NOTE: recipe binutils-2.38-r0: task do_compile: Succeeded
+NOTE: Running task 2477 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_install)
+NOTE: recipe binutils-2.38-r0: task do_install: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package: Succeeded
+NOTE: Running task 2478 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_packagedata)
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Started
+NOTE: recipe vim-8.2.4524-r0: task do_packagedata: Succeeded
+NOTE: Running task 2479 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vim/vim_8.2.bb:do_package_write_rpm)
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Started
+NOTE: recipe binutils-2.38-r0: task do_install: Succeeded
+NOTE: Running task 2480 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package)
+NOTE: recipe binutils-2.38-r0: task do_package: Started
+NOTE: recipe vim-8.2.4524-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package: Succeeded
+NOTE: Running task 2481 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_packagedata)
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Started
+NOTE: recipe binutils-2.38-r0: task do_packagedata: Succeeded
+NOTE: Running task 2482 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.38.bb:do_package_write_rpm)
+NOTE: Running task 2483 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_write_rpm)
+NOTE: Running task 2484 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_package_qa)
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Started
+NOTE: recipe diffoscope-209-r0: task do_package_qa: Succeeded
+NOTE: recipe diffoscope-209-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe binutils-2.38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2485 of 2485 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/diffoscope/diffoscope_209.bb:do_build)
+NOTE: Tasks Summary: Attempted 2485 tasks of which 2367 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.6-r0 to 0:1.50.4-r0) [version-going-backwards]
+ERROR: pango-1.50.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============5027476280028004666==--
 
