@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC87AC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9158C4167D
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:41 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com
- (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web12.10467.1648819420653214980
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.10553.1648819420744897959
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=uv7hurVX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 0101017fe54bbae2-e8ea09f2-5e75-4c5f-bc90-f817dad057ed-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jK0HnY+c;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 0101017fe54bba5a-2492130a-c237-44d0-b38d-e412cafdc538-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ViFW5SNpCJV8v5S3KnIFCz3GXDHjd2Yk7oQcHVrj1EY=;
-	b=uv7hurVX9Z8yD3PBoeVJjicXVnligSdfWkcJKWu0UYaT4nR9VBJKvvS8nQkzaAX1
-	PJ6lOPMChkTKcqM1lMMXOOTmYZsz2U7+bsx6Elq0Uxdb3Tsm97lyPlcE/Y/x4In6pxR
-	rb3mGiZIDnBbpKDrN5BBBvZ9ohkgXq83/YlzDn+0=
+	bh=EU44vVMafgqXG5z5V7Wgqj7ZEb614Kut/UQOx1rd2Tc=;
+	b=jK0HnY+cDPzo+oeZNxkznmpw0esELZzLdrha48ND93qmfnelMT+PiwjFlksrUhzI
+	4ThxPZB/xc0JtrYgLbVk+b8GO374e/TRnGDWst5TY47RkeGBfbrlEjfguewsp82cuuI
+	XbZblUonSYtMUfAwbcDYSWYjVEvHDuuFtt1b7whI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ViFW5SNpCJV8v5S3KnIFCz3GXDHjd2Yk7oQcHVrj1EY=;
-	b=ArO9sshwAf0XLBhR4S7GT/r/xlp8JoGmm1yrJkNK4Dyfkihh5JkWni8u4f/BUw46
-	RU4jNDH0xLephgzHZHVA/25N38Kdu9aT2cizX8OAwSupdsKQkkGcUvS8hFIixBUxQIn
-	2w8adJpii9obCZz5Cg5/FsJEwdlXEhwtXEvPPoBg=
-Content-Type: multipart/mixed; boundary="===============2880711950649432311=="
+	bh=EU44vVMafgqXG5z5V7Wgqj7ZEb614Kut/UQOx1rd2Tc=;
+	b=OCtY3lMUTc1mJ301upLTWBHh4YWklQcmjmTib1nxnJmOUi603HWQY3NB5lJvBBMB
+	plOo/4XFuHgvf0BrMs0acwVfyM0J3+sxkoSwTPSqGuLsW7G8nZLX0bQ6gUutgNGLOsG
+	zHoFnCh5UNWhclPIMzsQE211Q+1kGiG1/w8BVku4=
+Content-Type: multipart/mixed; boundary="===============8875166262185408439=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm: upgrading to 14.0.0 FAILED
+Subject: [AUH] gnu-config: upgrading to
+ c179db1b6f2ae484bfca1e9f8bae273e3319fa7d FAILED
 Message-ID: 
- <0101017fe54bbae2-e8ea09f2-5e75-4c5f-bc90-f817dad057ed-000000@us-west-2.amazonses.com>
+ <0101017fe54bba5a-2492130a-c237-44d0-b38d-e412cafdc538-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Apr 2022 13:23:39 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.29
+X-SES-Outgoing: 2022.04.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163894
+ https://lists.openembedded.org/g/openembedded-core/message/163895
 
---===============2880711950649432311==
+--===============8875166262185408439==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,11 +57,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *llvm* to *14.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gnu-config* to *c179db1b6f2ae484bfca1e9f8bae273e3319fa7d* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade llvm -V 14.0.0 -S 329fda39c507e8740978d10458451dcdb21563be
+The following devtool command failed:  upgrade gnu-config -S c179db1b6f2ae484bfca1e9f8bae273e3319fa7d
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -85,22 +86,45 @@ meta-yocto-bsp       = "tmp-auh-upgrades:7401936a0c52318f8451b82eb27025111b5d4e1
 workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 12 (0% match, 60% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
 INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 329fda39c507e8740978d10458451dcdb21563be' failed with exit code 1:
-error: Your local changes to the following files would be overwritten by checkout:
-	llvm/include/llvm/Analysis/TargetLibraryInfo.def
-	llvm/tools/llvm-config/llvm-config.cpp
-	llvm/utils/TableGen/AsmMatcherEmitter.cpp
-Please commit your changes or stash them before you switch branches.
-Aborting
+ERROR: Error executing a python function in exec_func_python() autogenerated:
 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:devtool_post_unpack(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/devtool-source.bbclass', lineno: 140, function: devtool_post_unpack
+     0136:    elif os.path.dirname(srcsubdir) != workdir:
+     0137:        # Handle if S is set to a subdirectory of the source
+     0138:        srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
+     0139:
+ *** 0140:    scriptutils.git_convert_standalone_clone(srcsubdir)
+     0141:
+     0142:    # Make sure that srcsubdir exists
+     0143:    bb.utils.mkdirhier(srcsubdir)
+     0144:    if not os.listdir(srcsubdir):
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/scriptutils.py', lineno: 113, function: git_convert_standalone_clone
+     0109:        if os.path.exists(alternatesfile):
+     0110:            # This will have been cloned with -s, so we need to convert it so none
+     0111:            # of the contents is shared
+     0112:            bb.process.run('git repack -a', cwd=repodir)
+ *** 0113:            os.remove(alternatesfile)
+     0114:
+     0115:def _get_temp_recipe_dir(d):
+     0116:    # This is a little bit hacky but we need to find a place where we can put
+     0117:    # the recipe so that bitbake can find it. We're going to delete it at the
+Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20211108+gitAUTOINC+191bcb948f-r0/devtooltmp-b27k_lnf/workdir/git/.git/objects/info/alternates'
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20211108+gitAUTOINC+191bcb948f-r0/devtooltmp-b27k_lnf/temp/log.do_unpack.3314715
+ERROR: Extracting source for gnu-config failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -108,5 +132,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2880711950649432311==--
+--===============8875166262185408439==--
 
