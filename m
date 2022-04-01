@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D80C35276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25125C47085
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:42 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.10524.1648819420933909631
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web08.10616.1648819420977316279
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Apr 2022 06:23:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=8pKUrmOv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 0101017fe54bbadc-50d11c66-77fa-49c6-bbc6-4bd347cd46c5-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=1dJRNs1A;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 0101017fe54bbce8-bd61b4b8-0068-4943-91d6-a61f5ce83353-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ji4/fTplrRc9Sb2FDKRLU6Kf4GhV9q5jQ8swMcUYWxg=;
-	b=8pKUrmOvQkjZkyrmiZU5WRb6ksxXJIBwFMlDjotNyoZ6t8Skx8Y/BxVWuRQ/ThfU
-	I4s9n1qbtOo2w7pHY3tVpjYWhMmI58gHm17nFgij8pjzZxwp5fAkqcu/3wl2zlTerM4
-	olADYvJ2Potx7fiVJLMlD3F/StajKrrvr9PQlNho=
+	bh=lD6A9t1NwQbE4xJemmQv0/CHSoFK7aVU1mtIFn1NRz8=;
+	b=1dJRNs1Ag5LxM8C4NnMdQqUXBXiigIEFgJd9091LqEa3Yv+z3JT+aLDLPSGStaCK
+	t9KpbahSRTj4/zJiBkx9H/rkAdCv8abdNQmKcfFmpI7ZnnQVBmxQxjlnmu7jsqkMzKE
+	j+mXG6ajupMNSE9eDp5BKjh1ZW6DldkVAqw7OunE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ji4/fTplrRc9Sb2FDKRLU6Kf4GhV9q5jQ8swMcUYWxg=;
-	b=fkpRA3wkWfedU2ji/qiSfAaErbehGWxMCToleh7tlSAxXh4xU4Omr14RpE2B7kmV
-	b9F7iPWnFzqvvlNfMbDHiwktscUusDCq1TtsOZQZd5vg3iRvXxdUQyVTVrEFP0CCh+a
-	G0k7LKbGiXH35WrO5dcaL2WeR7axy1iEDcRfsixw=
-Content-Type: multipart/mixed; boundary="===============1377765669488046512=="
+	bh=lD6A9t1NwQbE4xJemmQv0/CHSoFK7aVU1mtIFn1NRz8=;
+	b=boqXi/qJ4BCew/b54WwVzcHFSXDequAxR8a3I0vPNOMydt/tlqld8S2N0hO1ePfI
+	kGB9RW7l56WTzsf901ySDyse98uR3Eiw9cO6qo7vPEtlIJT/i434y60Pada302nxvKR
+	eZkYTg3F7K51WH7xBm5C0LLmNWDfUQHSBNpzGBxU=
+Content-Type: multipart/mixed; boundary="===============5444329566257807183=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtschema: upgrading to 2022.3.2 SUCCEEDED
+Subject: [AUH] squashfs-tools: upgrading to 4.5.1 FAILED
 Message-ID: 
- <0101017fe54bbadc-50d11c66-77fa-49c6-bbc6-4bd347cd46c5-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:39 +0000
+ <0101017fe54bbce8-bd61b4b8-0068-4943-91d6-a61f5ce83353-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:40 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.31
+X-SES-Outgoing: 2022.04.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163903
+ https://lists.openembedded.org/g/openembedded-core/message/163905
 
---===============1377765669488046512==
+--===============5444329566257807183==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,125 +56,64 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dtschema* to *2022.3.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *squashfs-tools* to *4.5.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-dtschema-upgrade-2022.1-2022.3.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade squashfs-tools -V 4.5.1 -S afdd63fc386919b4aa40d573b0a6069414d14317
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d31b9d9377484317439d8e4f3d5d49e2fed9f0f1"
+workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+ERROR: Execution of 'git checkout afdd63fc386919b4aa40d573b0a6069414d14317' failed with exit code 1:
+error: Your local changes to the following files would be overwritten by checkout:
+	squashfs-tools/Makefile
+	squashfs-tools/unsquash-1.c
+	squashfs-tools/unsquash-1234.c
+	squashfs-tools/unsquash-2.c
+	squashfs-tools/unsquash-3.c
+	squashfs-tools/unsquash-4.c
+	squashfs-tools/unsquashfs.c
+	squashfs-tools/unsquashfs.h
+Please commit your changes or stash them before you switch branches.
+error: The following untracked working tree files would be overwritten by checkout:
+	squashfs-tools/unsquash-12.c
+Please move or remove them before you switch branches.
+Aborting
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1377765669488046512==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 173534 to 213457 (+23%)
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info -> /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info, added "/usr/bin/dtb2py /usr/bin/dt-extract-props /usr/lib/python3.10/site-packages/dtschema/__pycache__/dtb.cpython-310.pyc /usr/lib/python3.10/site-packages/dtschema/dtb.py"
-Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/dtschema/dtb.py was added
-  /usr/lib/python3.10/site-packages/dtschema/__pycache__/dtb.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/WHEEL was removed
-
---===============1377765669488046512==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-dtschema-upgrade-2022.1-2022.3.2.patch"
-
-From 0dbd9246644b3466d2d1cb919099b136081dbd42 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 07:32:26 +0000
-Subject: [PATCH] python3-dtschema: upgrade 2022.1 -> 2022.3.2
-
----
- ...{python3-dtschema_2022.1.bb => python3-dtschema_2022.3.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dtschema_2022.1.bb => python3-dtschema_2022.3.2.bb} (83%)
-
-diff --git a/meta/recipes-devtools/python/python3-dtschema_2022.1.bb b/meta/recipes-devtools/python/python3-dtschema_2022.3.2.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-dtschema_2022.1.bb
-rename to meta/recipes-devtools/python/python3-dtschema_2022.3.2.bb
-index d73e5810b8..beaa72c45d 100644
---- a/meta/recipes-devtools/python/python3-dtschema_2022.1.bb
-+++ b/meta/recipes-devtools/python/python3-dtschema_2022.3.2.bb
-@@ -7,7 +7,7 @@ inherit pypi setuptools3
- 
- PYPI_PACKAGE = "dtschema"
- 
--SRC_URI[sha256sum] = "1b92b3b9a31b6e4b8b2be70dbf3065775530bc4c52e991955b67be19741114c5"
-+SRC_URI[sha256sum] = "5ab039e632b430df490c2649fe318d694c116c5ec3725c6f88fa43832aac2320"
- 
- DEPENDS += "python3-setuptools-scm-native"
- RDEPENDS:${PN} += "python3-ruamel-yaml python3-jsonschema python3-rfc3987"
--- 
-2.27.0
-
-
---===============1377765669488046512==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.1.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2022.3.2.tar.gz"
-packages/core2-32-poky-linux/python3-dtschema: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2022.1" to "2022.3.2"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: FILELIST: directory renamed /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info -> /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info, added "/usr/lib/python3.10/site-packages/dtschema/dtb.py /usr/bin/dt-extract-props /usr/bin/dtb2py /usr/lib/python3.10/site-packages/dtschema/__pycache__/dtb.cpython-310.pyc"
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 173534 to 213457 (+23%)
-packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2022.1 [default] to 2022.3.2 [default]
-Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/LICENSE.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/METADATA was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/RECORD was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/top_level.txt was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.3.2.dist-info/WHEEL was added
-  /usr/lib/python3.10/site-packages/dtschema/dtb.py was added
-  /usr/lib/python3.10/site-packages/dtschema/__pycache__/dtb.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/METADATA was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/RECORD was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.10/site-packages/dtschema-2022.1.dist-info/WHEEL was removed
-
---===============1377765669488046512==--
+--===============5444329566257807183==--
 
