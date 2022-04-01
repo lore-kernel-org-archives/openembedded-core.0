@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8383BC38161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7F4C352B6
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:43 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web09.10398.1648819421688145430
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web12.10474.1648819422099649882
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 06:23:41 -0700
+ Fri, 01 Apr 2022 06:23:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=anQodCNC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 0101017fe54bbe64-fbd79e7e-8852-483c-b280-01063f6899b3-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=5tNxkDlJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 0101017fe54bc138-22011741-647a-46fb-b88b-5cbeac3861e9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=j+LR/wQGIvH6JEgqdZVzN64F0yTkOjuBz/gRQwCaLCM=;
-	b=anQodCNCvYRwBLRzXRK0O5DpLHESXOzBbGHVwpV0DzKZM4VkvsGOVML8N1ZU6yVi
-	QKOtCBfh5lNHSPVpkF0mRdxgL8rWRhotWW+9T9dVP8p+bN7FIniqz4YZJN7bXwUikAp
-	wZkzkn5Jew+5NkauvAvTzoXSL0hQecfaWT0Qvibc=
+	bh=PruAV41cdmBFsCMoxcqIBgZxfYMXblQLFlJc6CImbhc=;
+	b=5tNxkDlJlAMe62grIzTIQqcxV+PJMbVAypqPvnUdsoddawQZ/nhqTmlS1Sd31BX8
+	OU60MT106XANnSrZIZufwFA9NA/y20zXnR7L3QYTm1QNq5/Bayi6SPsHiYm6+vNozon
+	ilKkZ4Hdf4TWYsw5nZSWiqEdO+EAmzt0+3fD86/w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819421;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=j+LR/wQGIvH6JEgqdZVzN64F0yTkOjuBz/gRQwCaLCM=;
-	b=E1c4UWO0ZSAjS2rIpp33/Z8dGRIU0Tsvvu61zPCer/5vJNShUQwS3TEa08ua1jVh
-	GgrqrcgS00pg2irY2Q93/39bJydVdBW4PHB2kqhjl1eJRo7BD9e+YiTb3OWfnyLCn/4
-	lRKkSBTEYixcjB4njGjeFQJ+rFqPud6ZGBCIB/1M=
-Content-Type: multipart/mixed; boundary="===============1848298876352489401=="
+	bh=PruAV41cdmBFsCMoxcqIBgZxfYMXblQLFlJc6CImbhc=;
+	b=c2Ke+oOzoC8XbBbKu29LDyztAhUxjHC0abMBR77AJTUIvpvf7/HaLl4Q5AIw+Lui
+	wPCryzEj/rwEse+ciqR0w/xKRTd+9aEw3STJ0VemharBlfg7ZYXAwsnloyX0x+QMGlo
+	xietqbnwYqoHcmWr7EDbUToW82q+JFtOj1xlgi2M=
+Content-Type: multipart/mixed; boundary="===============2006600158747903949=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 42.0 FAILED
+Subject: [AUH] lttng-tools: upgrading to 2.13.6 SUCCEEDED
 Message-ID: 
- <0101017fe54bbe64-fbd79e7e-8852-483c-b280-01063f6899b3-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:40 +0000
+ <0101017fe54bc138-22011741-647a-46fb-b88b-5cbeac3861e9-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.30
+X-SES-Outgoing: 2022.04.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163920
+ https://lists.openembedded.org/g/openembedded-core/message/163919
 
---===============1848298876352489401==
+--===============2006600158747903949==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *42.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *lttng-tools* to *2.13.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-41.3-42.0.patch
+    - apply the patch: git am 0001-lttng-tools-upgrade-2.13.4-2.13.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,264 +75,110 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1848298876352489401==
+--===============2006600158747903949==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 882 .bb files complete (881 cached, 1 parsed). 1640 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll"
 
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:48ef9130802a82c3d641dce50142d7f8e04924f3"
-workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
+--===============2006600158747903949==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 170 Local 163 Mirrors 0 Missed 7 Current 695 (95% match, 99% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2637 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_fetch)
-NOTE: Running task 2938 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_write_config)
-NOTE: recipe epiphany-42.0-r0: task do_fetch: Started
-NOTE: recipe epiphany-42.0-r0: task do_fetch: Succeeded
-NOTE: Running task 3051 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_unpack)
-NOTE: Running task 3052 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe epiphany-42.0-r0: task do_write_config: Started
-NOTE: recipe epiphany-42.0-r0: task do_unpack: Started
-NOTE: recipe epiphany-42.0-r0: task do_write_config: Succeeded
-NOTE: recipe epiphany-42.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe epiphany-42.0-r0: task do_unpack: Succeeded
-NOTE: Running task 3053 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_patch)
-NOTE: recipe epiphany-42.0-r0: task do_patch: Started
-NOTE: recipe epiphany-42.0-r0: task do_patch: Succeeded
-NOTE: Running task 3054 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 3055 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_populate_lic)
-NOTE: recipe epiphany-42.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe epiphany-42.0-r0: task do_populate_lic: Started
-NOTE: recipe epiphany-42.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe epiphany-42.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe epiphany-42.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 3056 of 3064 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_configure)
-NOTE: recipe epiphany-42.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_42.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/
- recipes-core/glib-2.0/glib-2.0_2.72.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_6.2.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.61.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nett
- le_3.7.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.10.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/gettext/gettext_0.21.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/bu
- ild/poky/meta/recipes-gnome/gcr/gcr_3.40.0.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['libarchive', 'gcc-runtime', 'gcc-cross-i686', 'gsettings-desktop-schemas', 'python3-native', 'libsoup-2.4', 'json-glib', 'glib-2.0-native', 'webkitgtk', 'xz-native', 'glibc', 'quilt-native', 'qemu-native', 'libdazzle', 'meson-native', 'nettle', 'ninja-native', 'pseudo-native', 'gettext-native', 'pkgconfig-native', 'desktop-file-utils', 'libhandy', 'patch-native', 'gcr', 'zlib', 'opkg-utils', 'lzo', 'attr', 'acl', 'xz', 'bzip2', 'zstd', 'libgcc', 'linux-libc-headers', 'flex-native', 'mpfr-native', 'binutils-cross-i686', 'gmp-native', 'libtool-native', 'texinfo-dummy-native', 'gnu-config-native', 'libmpc-native', 'zlib-native', 'glib-2.0', 'gobject-introspection', 'libffi-native', 'bzip2-native', 'readline-native', 'sqlite3-native', 'util-linux-libuuid-native', 'libtirpc-native', 'libnsl2-native', 'gdbm-native', 'ncurses-native', 'openssl-native', 'libxml2', 'sqlite3', 'libpsl', 'gettext-minimal-native', 'util-linux-native', 'libpcre-nat
- ive', 'libxt', 'harfbuzz', 'libtasn1', 'libxdamage', 'gstreamer1.0', 'libxrender', 'wayland', 'libwebp', 'gtk+3', 'systemd', 'enchant2', 'gstreamer1.0-plugins-base', 'cairo', 'libxslt', 'libx11', 'libnotify', 'libjpeg-turbo', 'libsecret', 'libxcomposite', 'mesa', 'libwpe', 'wpebackend-fdo', 'atk', 'vala', 'python3-installer-native', 'python3-setuptools-native', 'python3-wheel-native', 'gmp', 're2c-native', 'attr-native', 'p11-kit', 'gdk-pixbuf', 'hicolor-icon-theme', 'shared-mime-info', 'libgcrypt', 'm4-native', 'bash-completion', 'util-linux', 'libpcre', 'libffi', 'autoconf-archive', 'python3', 'perl-native', 'icu', 'libpcre2-native', 'libcap-ng-native', 'libsm', 'xorgproto', 'libxcb', 'util-macros', 'libxdmcp', 'freetype', 'libxfixes', 'expat', 'fontconfig', 'libxi', 'at-spi2-atk', 'libxext', 'libpng', 'libepoxy', 'wayland-protocols', 'libxrandr', 'pango', 'libxkbcommon', 'libxcursor', 'base-passwd', 'update-rc.d', 'libpam', 'shadow-native', 'shadow', 'initscripts', 'base-files', 
- 'libseccomp', 'libcap', 'kmod', 'shadow-sysroot', 'aspell', 'libxv', 'libdrm', 'libtheora', 'libvorbis', 'orc', 'alsa-lib', 'libogg', 'iso-codes', 'pixman', 'xtrans', 'dbus', 'xrandr', 'libxxf86vm', 'libxshmfence', 'python3-flit-core-native', 'unzip-native', 'libgpg-error', 'ncurses', 'libcap-ng', 'util-linux-libuuid', 'libxcrypt', 'openssl', 'readline', 'libnsl2', 'libtirpc', 'gdbm', 'libice', 'xcb-proto', 'libxau', 'libpthread-stubs', 'at-spi2-core', 'libxft', 'fribidi', 'xkeyboard-config', 'flex', 'cracklib', 'libpciaccess', 'libxtst']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddeveloper_mode=false -Dlibportal=disabled -Dsoup2=enabled...
-| The Meson build system
-| Version: 0.61.3
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/epiphany-42.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/build
-| Build type: cross build
-| Project name: epiphany
-| Project version: 42.0
-| C compiler for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot (gcc 11.2.0 "i686-poky-linux-gcc (GCC) 11.2.0")
-| C linker for the host machine: i686-poky-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot ld.bfd 2.38.20220313
-| C compiler for the build machine: gcc (gcc 8.5.0 "gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)")
-| C linker for the build machine: gcc ld.bfd 2.30-108
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86
-| Host machine cpu: i686
-| Target machine cpu family: x86
-| Target machine cpu: i686
-| WARNING: You should add the boolean check kwarg to the run_command call.
-|          It currently defaults to false,
-|          but it will default to true in future releases of meson.
-|          See also: https://github.com/mesonbuild/meson/issues/9300
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
-| Run-time dependency iso-codes found: YES 4.9.0
-| Run-time dependency cairo found: YES 1.16.0
-| Run-time dependency gcr-3 found: YES 3.40.0
-| Run-time dependency gdk-pixbuf-2.0 found: YES 2.42.6
-| Run-time dependency gio-2.0 found: YES 2.72.0
-| Run-time dependency gio-unix-2.0 found: YES 2.72.0
-| Run-time dependency glib-2.0 found: YES 2.72.0
-| Run-time dependency gsettings-desktop-schemas found: YES 42.0
-| Run-time dependency gtk+-3.0 found: YES 3.24.33
-| Run-time dependency gtk+-unix-print-3.0 found: YES 3.24.33
-| Run-time dependency hogweed found: YES 3.7.3
-| Dependency iso-codes found: YES 4.9.0 (cached)
-| Run-time dependency json-glib-1.0 found: YES 1.6.6
-| Run-time dependency libarchive found: YES 3.6.0
-| Run-time dependency libdazzle-1.0 found: YES 3.44.0
-| Run-time dependency libhandy-1 found: YES 1.5.0
-| Run-time dependency libsecret-1 found: YES 0.20.5
-| Run-time dependency libxml-2.0 found: YES 2.9.13
-| Run-time dependency nettle found: YES 3.7.3
-| Dependency libportal-gtk3 skipped: feature libportal disabled
-| Run-time dependency sqlite3 found: YES 3.38.2
-| Run-time dependency libsoup-2.4 found: YES 2.74.2
-| Run-time dependency webkit2gtk-4.0 found: YES 2.34.6
-| Run-time dependency webkit2gtk-web-extension-4.0 found: YES 2.34.6
-| Configuring config.h.in using configuration
-| Found git repository at /home/pokybuild/yocto-worker/auh/build
-| Library gmp found: YES
-| Library m found: YES
-| Compiler for C supports arguments -Werror=declaration-after-statement: YES
-| Compiler for C supports arguments -Werror=implicit-function-declaration: YES
-| Compiler for C supports arguments -Wno-cast-function-type: YES
-| Compiler for C supports arguments -Wno-missing-field-initializers: YES
-| Compiler for C supports arguments -Wno-unused-parameter: YES
-| Configuring org.gnome.Epiphany.desktop.in using configuration
-| Configuring org.gnome.Epiphany.appdata.xml.in using configuration
-| Program appstream-util found: NO
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-compile-schemas found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-schemas)
-| Configuring org.gnome.Epiphany.SearchProvider.service using configuration
-| Configuring org.gnome.Epiphany.SearchProvider.ini using configuration
-| Configuring default-bookmarks.rdf using configuration
-| Program desktop-file-validate found: NO
-| Program appstream-util found: NO
-| Found pkg-config: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/pkg-config-native (0.29.2)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program glib-mkenums found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-mkenums)
-| Program gdbus-codegen found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/gdbus-codegen)
-| Program glib-compile-resources found: YES (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/recipe-sysroot-native/usr/bin/glib-compile-resources)
-| 
-| ../epiphany-42.0/tests/meson.build:1:0: ERROR: Program or command 'printenv' not found or not executable
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806:188 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806, line 188
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806, line 177
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806, line 153
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806, line 201
-NOTE: recipe epiphany-42.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 3056 tasks of which 3048 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+packages/core2-32-poky-linux/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools: SRC_URI changed from "https://lttng.org/files/lttng-tools/lttng-tools-2.13.4.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch" to "https://lttng.org/files/lttng-tools/lttng-tools-2.13.6.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch"
+packages/core2-32-poky-linux/lttng-tools: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGSIZE changed from 46240960 to 46646712 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGSIZE changed from 240999 to 240994 (-0%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGSIZE changed from 293053 to 296525 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGSIZE changed from 16038911 to 16311224 (+2%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGSIZE changed from 5848449 to 5915836 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: FILELIST: directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/sessiond-comm -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/sessiond-comm, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/config -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-sessiond -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-sessiond, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/relayd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/relayd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/actions -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/actions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0
+ /lttng-tools-2.13.4/src/common/ust-consumer -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/ust-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/type-declarations -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/type-declarations, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/baddr-statedump -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/baddr-statedump, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-consumer -> /usr/src/debu
+ g/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-consumerd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-consumerd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/fork -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/fork, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/consumer -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/libc-wrapper -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/libc-wrapper, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng, directory renamed /u
+ sr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/overlap/demo -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/overlap/demo, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-events-callstack -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-syscall-events-callstack, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/argpar, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/health -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/health, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-expr -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-expr, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tool
+ s-2.13.4/tests/regression/tools/live -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/live, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-ctl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/filtering -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/testpoint -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/testpoint, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/argpar-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-events -> /usr/src/debug/ltt
+ ng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-syscall-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-session -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/multi-session, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ns-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ns-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-relayd -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-relayd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/unit, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regress
+ ion/tools/filtering, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/linking -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/linking, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/low-throughput -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/high-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/string-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/string-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/hidden -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/hidden, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/bytecode -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/bytecode, directory r
+ enamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/name -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/name, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/hashtable -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/hashtable, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events-ns -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-events-ns, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-binary -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/userspace-probe-elf-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-cxx-binary -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/test
+ s/utils/testapp/userspace-probe-elf-cxx-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/rotation -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/rotation, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/exit-fast -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/exit-fast, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/daemon -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/daemon, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/getcpu-override -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/getcpu-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/ust-dl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.1
+ 3.6/tests/regression/ust/ust-dl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/compat -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/compat, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/notification -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/conditions -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/conditions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-nevents -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-nevents, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/health -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/health, directory 
+ renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-rule -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/event-rule -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng/commands -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng/commands, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit/ini_config -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/unit/ini_config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-lib -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/multi-lib, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-cra
+ sh -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/bin/lttng-crash, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-nevents-str -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-nevents-str, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/xml-utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/xml-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/lib/lttng-ctl -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/lib/lttng-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/vendor/msgpack -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/vendor/msgpack, directory 
+ renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/action -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/action, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/clock-override -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/clock-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/condition -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/condition, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-tracker -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-tracker, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/
+ trigger/utils -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/tools/trigger/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/tap -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/tap, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/notification -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/high-throughput -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/ust/low-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-kernel-test-events -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-kernel-test-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng -> /usr/src/debug
+ /lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/kernel -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/regression/kernel, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/trigger -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/include/lttng/trigger, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-tracef -> /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/tests/utils/testapp/gen-ust-tracef, removed "/usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tool
+ s-2.13.4/src/common/error.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/domain.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.h /usr/src/debug/lttng-tools
+ /2.13.4-r0/lttng-tools-2.13.4/src/common/thread.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/snapshot.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/location.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index-allocator.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.h /usr/sr
+ c/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/thread.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/userspace
+ -probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/endpoint.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-too
+ ls-2.13.4/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index-allocator.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.h /usr/src/de
+ bug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/notification.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/macros.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/s
+ rc/common/snapshot.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.c", added "/usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index-allocator.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/thread.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/macros.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/futex.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/path.c /usr/src/debug
+ /lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/unix.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/waiter.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/context.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/path.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/time.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uri.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload-view.c /usr/s
+ rc/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/futex.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uri.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/thread.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/unix.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/sr
+ c/common/payload-view.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/shm.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/snapshot.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/time.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/shm.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.
+ 13.6/src/common/userspace-probe.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/endpoint.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/location.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/snapshot.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/error.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fs-handle.h /usr/src/de
+ bug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/notification.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/index-allocator.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/tracker.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/utils.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/utils.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/filter.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/runas.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/runas.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common
+ /credentials.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/domain.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/payload.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/context.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/channel.c /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.6-r0/lttng-tools-2.13.6/src/common/dynamic-array.h"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PV changed from "2.13.4" to "2.13.6"
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGSIZE changed from 5582269 to 5619133 (+1%)
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.6 [default]
+packages/core2-32-poky-linux/lttng-tools/lttng-tools: PV changed from "2.13.4" to "2.13.6"
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: epiphany-42.0-r0 do_configure: meson failed
-ERROR: epiphany-42.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/run.do_configure.3309806', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/epiphany/42.0-r0/temp/log.do_configure.3309806
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/epiphany/epiphany_42.0.bb:do_configure) failed with exit code '1'
-
---===============1848298876352489401==
+--===============2006600158747903949==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-41.3-42.0.patch"
+ filename="0001-lttng-tools-upgrade-2.13.4-2.13.6.patch"
 
-From 0ccb4cde1cfe59b7f7de5d90e1e34543a90ab568 Mon Sep 17 00:00:00 2001
+From 381f7ca101f4b8a8eb64a80f82df61d6f7f92bba Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Apr 2022 10:37:09 +0000
-Subject: [PATCH] epiphany: upgrade 41.3 -> 42.0
+Date: Fri, 1 Apr 2022 12:43:12 +0000
+Subject: [PATCH] lttng-tools: upgrade 2.13.4 -> 2.13.6
 
 ---
- .../{epiphany_41.3.bb => epiphany_42.0.bb}    |  3 +-
- ...5f7bab38301d8a4a444173acdae8d9692146.patch | 35 -------------------
- 2 files changed, 1 insertion(+), 37 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_41.3.bb => epiphany_42.0.bb} (90%)
- delete mode 100644 meta/recipes-gnome/epiphany/files/bfbb5f7bab38301d8a4a444173acdae8d9692146.patch
+ .../lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb} (98%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_41.3.bb b/meta/recipes-gnome/epiphany/epiphany_42.0.bb
-similarity index 90%
-rename from meta/recipes-gnome/epiphany/epiphany_41.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_42.0.bb
-index 6dca6a7305..6cb486c47e 100644
---- a/meta/recipes-gnome/epiphany/epiphany_41.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_42.0.bb
-@@ -24,11 +24,10 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
--           file://bfbb5f7bab38301d8a4a444173acdae8d9692146.patch \
-            file://migrator.patch \
-            file://distributor.patch \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
+similarity index 98%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
+index 0ea4da05ce..d40d0a2dd0 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
+@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://disable-tests.patch \
             "
--SRC_URI[archive.sha256sum] = "ba01268ee54f318dfdac2e01eba38a3fc96940c1cbf640ed2613ae29f8bcb9ad"
-+SRC_URI[archive.sha256sum] = "3dbfa8c00e45b7f44e1824d01f0febe83707b5fb9330c261173f68b7f03cd5e3"
  
- PACKAGECONFIG_SOUP ?= "soup2"
- PACKAGECONFIG ??= "${PACKAGECONFIG_SOUP}"
-diff --git a/meta/recipes-gnome/epiphany/files/bfbb5f7bab38301d8a4a444173acdae8d9692146.patch b/meta/recipes-gnome/epiphany/files/bfbb5f7bab38301d8a4a444173acdae8d9692146.patch
-deleted file mode 100644
-index f20975c3bd..0000000000
---- a/meta/recipes-gnome/epiphany/files/bfbb5f7bab38301d8a4a444173acdae8d9692146.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From bfbb5f7bab38301d8a4a444173acdae8d9692146 Mon Sep 17 00:00:00 2001
--From: rvalue <i@rvalue.moe>
--Date: Wed, 24 Nov 2021 04:52:42 +0000
--Subject: [PATCH] Remove incorrect args for i18n.merge_file
--
--Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1031>
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- data/meson.build | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/data/meson.build b/data/meson.build
--index 46df3fd80..eac6b8224 100644
----- a/data/meson.build
--+++ b/data/meson.build
--@@ -16,7 +16,6 @@ install_data(
-- desktop_conf = configuration_data()
-- desktop_conf.set('icon', application_id)
-- desktop = i18n.merge_file(
---  'desktop',
--   input: configure_file(
--     input: files('org.gnome.Epiphany.desktop.in.in'),
--     output: 'org.gnome.Epiphany.desktop.in',
--@@ -32,7 +31,6 @@ desktop = i18n.merge_file(
-- appdata_conf = configuration_data()
-- appdata_conf.set('appid', application_id)
-- appdata = i18n.merge_file(
---  'appdata',
--   input: configure_file(
--     input: files('org.gnome.Epiphany.appdata.xml.in.in'),
--     output: 'org.gnome.Epiphany.appdata.xml.in',
---- 
--GitLab
--
+-SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
++SRC_URI[sha256sum] = "1d52d249437b3f7ba23a45a22c3e26dde006a5da10e96753952084a98e0523e3"
+ 
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
+ 
 -- 
 2.27.0
 
 
---===============1848298876352489401==--
+--===============2006600158747903949==--
 
