@@ -1,145 +1,133 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C111C433FE
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 07:58:01 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.7959.1648799879982444151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B9DC433F5
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 09:49:41 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.8592.1648806580296272588
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 00:58:00 -0700
+ Fri, 01 Apr 2022 02:49:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ezJX05qb;
- spf=pass (domain: gmail.com, ip: 209.85.167.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id y36so522192lfa.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a3EJ2Cel;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id q20so1343047wmq.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 00:57:59 -0700 (PDT)
+ Fri, 01 Apr 2022 02:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cLRK48m1qVZXwT8uOwARaaKa/Yw0iL2YzUJDm+ki1qI=;
-        b=ezJX05qbnTfdgmroikrjtGIp0e4nchRLhYD5KmQUdqZAR+HELoExJi8LPRqkzhbJp9
-         WzbvCgVZHK7FZAuah5UIzIPLcpLCCyN4gMoE4jENW8U0Ln/kabt/HDliTd5eDsMbaKqu
-         OdiVA1LQNUmVMZwaXHXkTuUESN4iviSMleltGxXt52kd/PG+cp1tqm1PMzGKLumVt4Id
-         F0w7lZCNEO4gcCe7J7rfyFDTAA/A6IPUTUQkUUKz3ifi6c9NPumyYeRoGYyEebl3KGET
-         EdEwG39oIPWRkFuV8ZZUlWZRSjz9EMrEiVwnZB+hGwjp/OcSVaCj7LEGDP2PVXPMDI5u
-         0FTw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=CNd2j9z6D/KFwIoY/xs3p5AFbVLej5wrKgEkqvWmiq4=;
+        b=a3EJ2Celkkbdw4RFcroaTu3uGuTNZ7+K1IfFJ0TXo9+PJIqD8d5XGbm2VVvOGFf2Pk
+         5RVEp4xOg5ZG3BPi4zIm185Bw6WQBuD5XKZFvGnQdbqF4cubNFIcvB32wU2z/PymkbeQ
+         FPyODSsV6XMX4ixfhph0Jzdsovf9kYVKjhRfY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cLRK48m1qVZXwT8uOwARaaKa/Yw0iL2YzUJDm+ki1qI=;
-        b=JkREdyEJdyDEs8mhdIzWNPCzib/HIR1bSc1uofLVNpaGgTpTZEYM3nNP1dR+pFbtbN
-         5Lw8BnvMz5RbDKYTUmHza1dtyR7DIW+4Pw2ZL7DFH4dF1U3suey058IzGLd+5fijP0Kr
-         P2HdTmXsxt5oZC6gxepGdBcJnZtu29vaJKsyD4aIzok3J4sZvh4jI13erRsP6pv2FOyw
-         3On4kDSBhyS2fxfV07YS1v5qOHf78b6XEJaQfXJsH0px9z822svOgrYcssEFAz7cxEvL
-         G8QrV1Gp3fb7zCSw7Ig/7sv3j9ueHmztiV9ZVmCOH3jdrIkunCiA0iaU7WqQKaEY2r0e
-         sIwg==
-X-Gm-Message-State: AOAM531xiheB6S9PJhVMcP2m3DH269i5V0yXCvUAGMPoNPXPG020QRc4
-	NqkJ0TyA7daqo+CRbHb68fh6hZhPzXY7+hD9eD4=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CNd2j9z6D/KFwIoY/xs3p5AFbVLej5wrKgEkqvWmiq4=;
+        b=GD6BBfM6xyE37fxDiliek6e3qbqZZqO3bai94Myc5mLvCn9uvowzob3o7HW4ptusWA
+         YwM5SMfib1ooV5QIOqhM1klM/HWoGW+8j1L7afynBCVeZl/FXDTyrUikCWzp+FH2K8Te
+         rmNf4EmPDnx7TGsEat7fQaU6sGAxYMLlLMDkz52fZ0eqULN9egcVEQx2CxAGBQ4SMep5
+         ZLH0QNz8tJmhm359WwGfBDcMh5GzQTWGROWDn+VaKmnoQzYW5ysQ8srhLznoCS0TzSxR
+         Faw/Bmf6BPH/CyAsXdl1AXa4dfz0g1rziM/mQrf2P87BfuKQciJVHhjHuVdKHWpzeAY8
+         Fyiw==
+X-Gm-Message-State: AOAM5309JseRa8NEap5DPaVJoFkRWO1WCQMMDNtoH4YZI6DUDLMtj0lY
+	HW49vVDAwcrQIBtvd7rxqe68wA==
 X-Google-Smtp-Source: 
- ABdhPJxp4kWpx3aC1V3v1FVaq8H8XkrITG++O8XS++NsObR/NDxG8Svc7DD+rj2KS3ufCdSTWNM56L2sJixgfkQxKpg=
-X-Received: by 2002:a05:6512:321c:b0:44a:2109:201f with SMTP id
- d28-20020a056512321c00b0044a2109201fmr12867718lfe.26.1648799878028; Fri, 01
- Apr 2022 00:57:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220401060152.8255-1-sundeep.kokkonda@gmail.com>
-In-Reply-To: <20220401060152.8255-1-sundeep.kokkonda@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 Apr 2022 09:57:46 +0200
+ ABdhPJzPKX+1ST6eFza4hfe8z14AHHAO/Qh3ShRUepjeq6b4DZ3DMgB+RU0TYJe3gCGroqCdS79lag==
+X-Received: by 2002:a05:600c:3505:b0:38c:a3a8:8479 with SMTP id
+ h5-20020a05600c350500b0038ca3a88479mr8289574wmq.4.1648806578800;
+        Fri, 01 Apr 2022 02:49:38 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a160:31eb:e235:3dfd?
+ ([2001:8b0:aba:5f3c:a160:31eb:e235:3dfd])
+        by smtp.gmail.com with ESMTPSA id
+ l10-20020a05600002aa00b0020414b4e75fsm1836094wry.85.2022.04.01.02.49.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Apr 2022 02:49:38 -0700 (PDT)
 Message-ID: 
- <CANNYZj_ed8mxVVmvyqVYAvGq4+Ghh+_5=jUX8czUX0VuhsLORA@mail.gmail.com>
-Subject: Re: [OE-core] meta: rust: Bug fix for target definitions returning
- 'NoneType'
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Randy MacLeod <rwmacleod@gmail.com>,
- umesh kalappa0 <umesh.kalappa0@gmail.com>,
-	pgowda <pgowda.cve@gmail.com>
+ <20442eb12ce2cf12e9fb83e3600a290a07bc0997.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [master] meta: scripts - relocation script adapted to
+ support big-endian machines
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com
+Date: Fri, 01 Apr 2022 10:49:33 +0100
+In-Reply-To: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
+References: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 07:58:01 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 09:49:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163882
+ https://lists.openembedded.org/g/openembedded-core/message/163883
 
-Can you please explain why changing arm-eabi to arm fixes the issue
-and provide the complete error?
-
-We do build rust for arm machines on the autobuilder, and there is no
-error like that occurring.
-
-Alex
-
-On Fri, 1 Apr 2022 at 08:02, Sundeep KOKKONDA
-<sundeep.kokkonda@gmail.com> wrote:
->
-> The build shows below error while building for arm machines.
-> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
->
-> All the target definitions within tspec dictionary are generted as
-> NoneType. The changes will fix this issue.
->
+On Fri, 2022-04-01 at 09:50 +0530, Sundeep KOKKONDA wrote:
+> relocate_sdk.py was developed for little-endian architures and when tries
+> to install SDK for big-endian machines errors like below will be shown.
+> 
+> The changes made in the script to support big-endian architecture.
+> 
 > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 > ---
->  meta/recipes-devtools/rust/rust-common.inc | 28 +++++++++++-----------
->  1 file changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-> index ceeee97863..6236c43d5c 100644
-> --- a/meta/recipes-devtools/rust/rust-common.inc
-> +++ b/meta/recipes-devtools/rust/rust-common.inc
-> @@ -119,22 +119,22 @@ def llvm_features(d):
->
->
->  ## arm-unknown-linux-gnueabihf
-> -DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-> -LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
-> -TARGET_ENDIAN[arm-eabi] = "little"
-> -TARGET_POINTER_WIDTH[arm-eabi] = "32"
-> -TARGET_C_INT_WIDTH[arm-eabi] = "32"
-> -MAX_ATOMIC_WIDTH[arm-eabi] = "64"
-> -FEATURES[arm-eabi] = "+v6,+vfp2"
-> +DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-> +LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
-> +TARGET_ENDIAN[arm] = "little"
-> +TARGET_POINTER_WIDTH[arm] = "32"
-> +TARGET_C_INT_WIDTH[arm] = "32"
-> +MAX_ATOMIC_WIDTH[arm] = "64"
-> +FEATURES[arm] = "+v6,+vfp2"
->
->  ## armv7-unknown-linux-gnueabihf
-> -DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-> -LLVM_TARGET[armv7-eabi] = "${RUST_TARGET_SYS}"
-> -TARGET_ENDIAN[armv7-eabi] = "little"
-> -TARGET_POINTER_WIDTH[armv7-eabi] = "32"
-> -TARGET_C_INT_WIDTH[armv7-eabi] = "32"
-> -MAX_ATOMIC_WIDTH[armv7-eabi] = "64"
-> -FEATURES[armv7-eabi] = "+v7,+vfp2,+thumb2"
-> +DATA_LAYOUT[armv7] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-> +LLVM_TARGET[armv7] = "${RUST_TARGET_SYS}"
-> +TARGET_ENDIAN[armv7] = "little"
-> +TARGET_POINTER_WIDTH[armv7] = "32"
-> +TARGET_C_INT_WIDTH[armv7] = "32"
-> +MAX_ATOMIC_WIDTH[armv7] = "64"
-> +FEATURES[armv7] = "+v7,+vfp2,+thumb2"
->
->  ## aarch64-unknown-linux-{gnu, musl}
->  DATA_LAYOUT[aarch64] = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163881): https://lists.openembedded.org/g/openembedded-core/message/163881
-> Mute This Topic: https://lists.openembedded.org/mt/90172076/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+>  scripts/relocate_sdk.py | 45 ++++++++++++++++++++++++++++++++---------
+>  1 file changed, 35 insertions(+), 10 deletions(-)
+>  mode change 100755 => 100644 scripts/relocate_sdk.py
+> 
+> diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+> old mode 100755
+> new mode 100644
+> index 8c0fdb986a..513b9343d3
+> --- a/scripts/relocate_sdk.py
+> +++ b/scripts/relocate_sdk.py
+> @@ -30,9 +30,10 @@ else:
+>  old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+>  
+>  def get_arch():
+> +    global ei_data
+>      f.seek(0)
+>      e_ident =f.read(16)
+> -    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
+> +    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
+>  
+>      if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
+>          return 0
+> @@ -51,11 +52,17 @@ def parse_elf_header():
+>  
+>      if arch == 32:
+>          # 32bit
+> -        hdr_fmt = "<HHILLLIHHHHHH"
+> +        if ei_data == 1: # ei_data = 1, little endian
+> +            hdr_fmt = "<HHILLLIHHHHHH"
+> +        else:   # ei_data = 0, big endian
+> +            hdr_fmt = ">HHILLLIHHHHHH"
+>          hdr_size = 52
+>      else:
+>          # 64bit
+> -        hdr_fmt = "<HHIQQQIHHHHHH"
+> +        if ei_data == 1:
+> +            hdr_fmt = "<HHIQQQIHHHHHH"
+> +        else:
+> +            hdr_fmt = ">HHIQQQIHHHHHH"
+>          hdr_size = 64
+
+I think we can make the change a bit neater, maybe putting ">" or "<" into the
+global variable and then doing something like:
+
+hdr_fmt = endian_prefix + "HHIQQQIHHHHHH"
+
+?
+
+Cheers,
+
+Richard
+
 
