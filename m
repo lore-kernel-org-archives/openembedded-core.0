@@ -2,77 +2,81 @@ Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1EAC433F5
-	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 04:20:25 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web09.6595.1648786824951162010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C266AC433F5
+	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 06:00:58 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web09.7154.1648792856262946861
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 21:20:25 -0700
+ Thu, 31 Mar 2022 23:00:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WYwTTAOJ;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YCDgtJWj;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42,
  mailfrom: sundeep.kokkonda@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id p17so1428374plo.9
+Received: by mail-pj1-f42.google.com with SMTP id
+ o68-20020a17090a0a4a00b001c686a48263so4364384pjo.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Mar 2022 21:20:24 -0700 (PDT)
+ Thu, 31 Mar 2022 23:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=paOgGExpD92w/PiR/P0S47PZ2HsPrYVISWco35G6MMg=;
-        b=WYwTTAOJjfHYgWXFEV1RJ9LIU/kR7QCrHs9ADzk0yXg1HSpP8QXhr8gUefDaTeu4DZ
-         aMfOfYp8BpnUVQZCNBJ9L4A/vNSGjfcqYNSaUnZdYPwHT7PRF8A0jEVFJg5BiBuvJdHc
-         I76GBhU1kPXXHUE9AmhkdeBKd3gzIlpGEQ+ZiSG6AnpG99AUiGeJfgw1vQQeAibpR+AA
-         Y7Xah7aNrRv3tlAzNBsP4Kvl5PxV+8LucbugfJhMH09T7Lgcp9zaK80YX8EePOVxAlJy
-         2OeUbR4QZTZBBPW+z21z+gBmyWDfTRoCCv1DnsdW+Tol7YFo+eD0Rrni/TKK9Cyz7Xul
-         m13Q==
+        bh=EmPyOzv8yssVSLbiH3RVcFbrxN5nE5LEKSpxjeburvk=;
+        b=YCDgtJWjhFg2QDt8uHu8HOaFp69VHudPplPgZ/recYnXF5xl1qJ7pLW1n2zju6jMnm
+         1Ns1n08A+YxB7oeSvhdNrBfzrss8uyUM1P5CbTRyNuULiOYRpRqHIMn8YtgcrTo1VL9S
+         mG+9JP55qNFVG6A06KNc4C9OfSgzVisKtH3L67t+zF/3wbNSKfuxkjAoQFl9rdBZNaiQ
+         REWZqviuuzr8g7HHEd9trUbIYATCk2Os84S5od8Z3wBUlJEdaacefgdte10vqGskPxHr
+         hf0T1s+RHfaNnBeMVZOGx4QxUq9yK56ZG8v0j4lz7SsFA6heYU5IoQLpYrQdCHEcg06o
+         BjIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=paOgGExpD92w/PiR/P0S47PZ2HsPrYVISWco35G6MMg=;
-        b=p+FoPhnxXVMx2eXRd3eNKqHWOQLO9T+f/KszJnt4LDFqd4n9GM5mU3pzoZzr/csPlA
-         JbhxFAHPUfMCAw4udKwUlpIFR5HB4gJLBreMiXUCOUOF5pClzQNDQQLxtbP0B/4JcXa7
-         ztGR+no8vrZInNpb95R5/qaFvsR9pbH++FkyjT2AzIR2iFVOyefvUjlrU/OgsUFRrODm
-         VF9MRHvZREf9HLWIFin6yQmiA8MPEQK1mkQh6zzolCeo+avI3sbZA8dh4g+L8q96/e7U
-         1WdgxaTJ+tJrVei+higzuoaRJew97t+4qfA+nj5Ns9kr/PE5iUbi+30kEAPt2lz52sxR
-         +hqQ==
-X-Gm-Message-State: AOAM533KC+sBNsxJPqVxe88gl5fYdnkzb99N3I8qtlXstp0SM1/m8m+L
-	PTqT8gi8vSWkuyGFn0xRFsoum12xNLCSixct
+        bh=EmPyOzv8yssVSLbiH3RVcFbrxN5nE5LEKSpxjeburvk=;
+        b=h+5bAj1eOZuV2vh/LIDEMeK/rljar9oMuoUukHfrtCaFjsK6RVLnV41CqjvZi6BGR6
+         uCZ+TA39zArt5Yx5eZYn79osFJJsqOkuHO1hlo+lLXbLPUrIjkK2kdU56wgRM65M1fL4
+         VObUT7kRuujzIcZ5BZRGqfRsoOS/QJEpydIS2zg6YRpBS2TIFIc1IFrGiHY6nHnc+aWs
+         mPWBdkw+icZwfe08fKOcjENohEA0JzjrV5DB1QkrMzNcqaYbaQ0UV/2XxxZg0y8pM2fY
+         zYJmw/ZxU7wUzDIBVtUYVWERcf7TZdJ07Z52I8lKcoSXQQMmPFIcnPqgyDO1/zsVWd1N
+         sotw==
+X-Gm-Message-State: AOAM531OLecaGdS1dIzY5+l79dQ/x8MwX5EiojJaogUANpqLWMxbR3PX
+	JDX3VOAVf+xk0dqKwVtVltlfdM/QvPBA3kZj
 X-Google-Smtp-Source: 
- ABdhPJzsfwxANs3fKIwNiXJBeaOkqvOeSg+5wIe+cBvBXE75Lp79hIj9MwPqyo/+cE3g7SXWd1uBZw==
-X-Received: by 2002:a17:902:a585:b0:14d:58ef:65 with SMTP id
- az5-20020a170902a58500b0014d58ef0065mr8294834plb.139.1648786824048;
-        Thu, 31 Mar 2022 21:20:24 -0700 (PDT)
+ ABdhPJxfMNK/1Pwvk7OGozf91/QYfiCsltNKRCva1jnVCm8c5CzO1LhHLfIHoqgnEwyvU/AISaymLg==
+X-Received: by 2002:a17:903:248:b0:155:e8c6:8770 with SMTP id
+ j8-20020a170903024800b00155e8c68770mr31782781plh.129.1648792855365;
+        Thu, 31 Mar 2022 23:00:55 -0700 (PDT)
 Received: from localhost.localdomain ([49.204.85.206])
         by smtp.gmail.com with ESMTPSA id
- y63-20020a638a42000000b0039870096849sm852011pgd.63.2022.03.31.21.20.21
+ s3-20020a056a00194300b004f6da3a1a3bsm1509354pfk.8.2022.03.31.23.00.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 21:20:23 -0700 (PDT)
+        Thu, 31 Mar 2022 23:00:54 -0700 (PDT)
 From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: rwmacleod@gmail.com,
 	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
 	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Subject: [master] meta: scripts - relocation script adapted to support
+Subject: [meta] meta: scripts - relocation script adapted to support
  big-endian machines
-Date: Fri,  1 Apr 2022 09:50:07 +0530
-Message-Id: <20220401042007.2949717-1-sundeep.kokkonda@gmail.com>
+Date: Fri,  1 Apr 2022 11:30:34 +0530
+Message-Id: <20220401060034.7633-1-sundeep.kokkonda@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 04:20:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 06:00:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163879
+ https://lists.openembedded.org/g/openembedded-core/message/163880
 
 relocate_sdk.py was developed for little-endian architures and when tries
 to install SDK for big-endian machines errors like below will be shown.
+Error: struct.error: unpack requires a string argument of length 32. SDK could not be set up. Relocate script failed. Abort!
+Error: IOError: [Errno 22] Invalid argument. SDK could not be set up. Relocate script failed. Abort!
 
-The changes made in the script to support big-endian architecture.
+To fix this, the changes made in the script to support big-endian architecture.
 
 Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 ---
