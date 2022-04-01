@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0CAC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8B4C46467
 	for <webhook@archiver.kernel.org>; Fri,  1 Apr 2022 13:23:41 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web12.10468.1648819420674411189
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web08.10617.1648819421017693461
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 06:23:40 -0700
+ Fri, 01 Apr 2022 06:23:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=2V5UFM8/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 0101017fe54bbafd-2e4cb16e-0d4e-4d11-9e6f-b4d486ac9b1a-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=7MRO9Sz6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 0101017fe54bbba2-6269d2fe-aea7-4b1f-a6d9-96cd9f01d702-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/97KePI4yAftSgJT3ZAXEPVfj69TZRl3EsR7C+oBloU=;
-	b=2V5UFM8/eohLozJMFWGbK0jYaA1HssL1RrL1OwtXV6cryMr0zyYwL87GBX5QDigs
-	wy51L95c0jyRADAGtAQoPM6YKsmmdEIKg8GYWrOqVqi6EobBczvPa5PIR0kISQHuNxM
-	xGasLEm/F+GocWMURjDIJUcBttDffNOxgXyOhIPw=
+	bh=N2gsJ8lcz9Vr5aa6rguq5jXXVkBvjd1YO06pF7BHJPY=;
+	b=7MRO9Sz6JgXvYvs1uUhmWSDCQFKNEZ0fh/LNCL78Lt8Pgn2WKgrhn1k1d5UTw4QL
+	LvIIzC7Ymw5ml5AYlbqVwCb2Tv08G3DsjZgSZPKHfvifj2PXJ3jbJNbXAHVEQD5xQO/
+	x/HjZMPdr6n1U14mfpXeetDBkt1I326WGcnaSxt4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1648819420;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/97KePI4yAftSgJT3ZAXEPVfj69TZRl3EsR7C+oBloU=;
-	b=AYRDr/ApGhKoiWyZsR6Qr5a9VrEz1WrGmTv2UW7OkSxLhFnuCcihVjRsr1VVOirK
-	Vst+WICCxjCjzDYqP+VQdH1UWUdxsu6/9tQJgVOglRFKmEIkSokm1w7J79pYkhE+jid
-	azoFQ3UZl9sg7N2FjFgzAY4Q/bpGZGGB06rfd32o=
-Content-Type: multipart/mixed; boundary="===============0572502911189711533=="
+	bh=N2gsJ8lcz9Vr5aa6rguq5jXXVkBvjd1YO06pF7BHJPY=;
+	b=e6Yy36W4vGD8IFFoyeV9olVU6gysasK0UD58mzRmgeBbgYJw/fiB+2GMdx9fUjC2
+	hGW82/SeUzDiwri7LYzMP+/mMEySQO0X0Fpr105PcN3v9tkoRutqgTaXVR0Ixx3Bx0s
+	PRt5ZEhBEdBm8gdmLbM92CQ6/BZaRe1zxK30/484=
+Content-Type: multipart/mixed; boundary="===============0755477546040965854=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Zang Ruochen <zangrc.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-runtime: upgrading to 1.18 FAILED
+Subject: [AUH] python3-pip: upgrading to 22.0.4 SUCCEEDED
 Message-ID: 
- <0101017fe54bbafd-2e4cb16e-0d4e-4d11-9e6f-b4d486ac9b1a-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Apr 2022 13:23:39 +0000
+ <0101017fe54bbba2-6269d2fe-aea7-4b1f-a6d9-96cd9f01d702-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Apr 2022 13:23:40 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.01-54.240.27.192
+X-SES-Outgoing: 2022.04.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Apr 2022 13:23:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163893
+ https://lists.openembedded.org/g/openembedded-core/message/163906
 
---===============0572502911189711533==
+--===============0755477546040965854==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,133 +56,126 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-runtime* to *1.18* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-pip* to *22.0.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-pip-upgrade-22.0.3-22.0.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe go-runtime failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7401936a0c52318f8451b82eb27025111b5d4e15"
-workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
-
-Initialising tasks...done.
-Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:7401936a0c52318f8451b82eb27025111b5d4e15"
-workspace            = "master:ee5f9d9fdd7d09aa3a86a19d07e3e64851ddc686"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   2% |                                    | ETA:  0:00:03
-Adding changed files:   4% |#                                   | ETA:  0:00:02
-Adding changed files:   6% |##                                  | ETA:  0:00:02
-Adding changed files:   9% |###                                 | ETA:  0:00:01
-Adding changed files:  11% |####                                | ETA:  0:00:01
-Adding changed files:  13% |#####                               | ETA:  0:00:01
-Adding changed files:  16% |#####                               | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:01
-Adding changed files:  20% |#######                             | ETA:  0:00:01
-Adding changed files:  23% |########                            | ETA:  0:00:01
-Adding changed files:  25% |#########                           | ETA:  0:00:01
-Adding changed files:  27% |##########                          | ETA:  0:00:01
-Adding changed files:  30% |##########                          | ETA:  0:00:01
-Adding changed files:  32% |###########                         | ETA:  0:00:01
-Adding changed files:  34% |############                        | ETA:  0:00:01
-Adding changed files:  37% |#############                       | ETA:  0:00:01
-Adding changed files:  39% |##############                      | ETA:  0:00:01
-Adding changed files:  41% |###############                     | ETA:  0:00:01
-Adding changed files:  44% |###############                     | ETA:  0:00:01
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:01
-Adding changed files:  51% |##################                  | ETA:  0:00:01
-Adding changed files:  53% |###################                 | ETA:  0:00:01
-Adding changed files:  55% |####################                | ETA:  0:00:00
-Adding changed files:  58% |####################                | ETA:  0:00:00
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files:  62% |######################              | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  67% |########################            | ETA:  0:00:00
-Adding changed files:  69% |#########################           | ETA:  0:00:00
-Adding changed files:  72% |#########################           | ETA:  0:00:00
-Adding changed files:  74% |##########################          | ETA:  0:00:00
-Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:02
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://golang.org/dl/go1.18.src.tar.gz;name=main...
-INFO: Rebasing devtool onto bb0e05d46b714bb892efe72af09528af817bbe51
-WARNING: Command 'git rebase bb0e05d46b714bb892efe72af09528af817bbe51' failed:
-Auto-merging src/cmd/go/internal/envcmd/env.go
-CONFLICT (content): Merge conflict in src/cmd/go/internal/envcmd/env.go
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go-runtime
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go-runtime/go-runtime_1.18.bb
-WARNING: Version is pinned to 1.17% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0572502911189711533==--
+--===============0755477546040965854==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/
+ site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py"
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+
+--===============0755477546040965854==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.3.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-22.0.4.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch"
+packages/core2-32-poky-linux/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGV changed from 22.0.3 [default] to 22.0.4 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info -> /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info, added "/usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-3
+ 10.pyc /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PV changed from "22.0.3" to "22.0.4"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 12161193 to 12409598 (+2%)
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.0.3.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.0.4.dist-info
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__init__.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/misc.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__ was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/misc.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/shutil.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/sysconfig.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/__pycache__/tarfile.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/shutil.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.cfg was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/sysconfig.py was added
+  /usr/lib/python3.10/site-packages/pip/_vendor/distlib/_backport/tarfile.py was added
+
+--===============0755477546040965854==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-pip-upgrade-22.0.3-22.0.4.patch"
+
+From 63a81f51be06457059d9adbd10ba907cd88909b1 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Apr 2022 07:40:34 +0000
+Subject: [PATCH] python3-pip: upgrade 22.0.3 -> 22.0.4
+
+---
+ .../python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pip_22.0.3.bb => python3-pip_22.0.4.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-pip_22.0.3.bb
+rename to meta/recipes-devtools/python/python3-pip_22.0.4.bb
+index ee3e578b2c..462d2ce71f 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.4.bb
+@@ -10,7 +10,7 @@ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ SRC_URI += "file://no_shebang_mangling.patch"
+ SRC_URI += "file://reproducible.patch"
+ 
+-SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
++SRC_URI[sha256sum] = "b3a9de2c6ef801e9247d1527a4b16f92f2cc141cd1489f3fffaf6a9e96729764"
+ 
+ do_install:append() {
+     rm -f ${D}/${bindir}/pip
+-- 
+2.27.0
+
+
+--===============0755477546040965854==--
 
