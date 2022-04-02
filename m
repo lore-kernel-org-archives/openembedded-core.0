@@ -1,103 +1,155 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6542EC5DF62
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D674CC636F4
 	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:45 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.34889.1649075586689878645
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web12.10590.1648897299836018219
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 05:33:07 -0700
+ Sat, 02 Apr 2022 04:01:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GHbYOcxB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id
- n63-20020a1c2742000000b0038d0c31db6eso5509382wmn.1
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 05:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qS3Bw96Oj7PElmW5lxICz8goT39j6Ey8E1Uh5TnQlMY=;
-        b=GHbYOcxBiww6zMHRSwDdVlpEBgsPkaq8HCsHtUd7cgrxf5fxv5cHmgliDfGlvoWHEH
-         3mt1GeNlk8CUtf4ecwtY4uipdwuDwCoNF7Q4numP41Q/sMomNIcDpbpBslM7AyvHxfiL
-         v+/B/fZXuIi4E5s4HiR2BSbS4b3Ym+mtuZDRM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qS3Bw96Oj7PElmW5lxICz8goT39j6Ey8E1Uh5TnQlMY=;
-        b=jGVrgC7gB23YFa1mfaOVMSD0YwTxtLXnTC+PfJZtI6lR9/riFy+Tdirtv3sLQ/LCNb
-         BxziHDrEnbyEXorDJXotr2bDcYXlfmH+3vywHP20qXuNdozj8xME81YRoAFMtuqzLHWn
-         a3KQH9dy/DEd5TLvPj2MeVXOi8FA7wjAfOfSnv9zZX1exV/hDyMegZbYEtysp2eQ7AWX
-         2kBszQ3dyfpekAqjpbP2YkMBfWhsPzFcjNPKbcTgqYB8oeU8vP3pmgplaD0hjxCFqQQX
-         wtE8WiDkm+kpPY1dpApQJiXnUMeny9wiIThntzWTNyjuPPpwxn0orqdj+fIR0g4DkvMu
-         IFqQ==
-X-Gm-Message-State: AOAM530IyqtVfVT8uBoAOcaDkZCmB67A3kThyW2sKLXQ3eg8HNd4pGxg
-	7rQkW3ebfTojS7uGd07Ag0/myszZR0bnoiHX
-X-Google-Smtp-Source: 
- ABdhPJyoh/KrPiUgymMf3jHHj1JD2R9X6T0RQSlWjXI45xV4FvKAqZMF4ack22ndcNGpPdwNbUDeUw==
-X-Received: by 2002:a1c:f30b:0:b0:380:e444:86b9 with SMTP id
- q11-20020a1cf30b000000b00380e44486b9mr19172059wmq.81.1649075584655;
-        Mon, 04 Apr 2022 05:33:04 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:4552:8cb0:e722:b501])
-        by smtp.gmail.com with ESMTPSA id
- l11-20020a5d410b000000b002060e6a02cesm3825585wrp.13.2022.04.04.05.33.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 05:33:04 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: Upgrade 8.2.4524 -> 8.2.4681
-Date: Mon,  4 Apr 2022 13:33:03 +0100
-Message-Id: <20220404123303.1731638-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eBYN8w/l;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 29415200002;
+	Sat,  2 Apr 2022 11:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1648897297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUpN0occOJoWl1oliTy4EYeVk3iy37a5VvzzdqkLoWs=;
+	b=eBYN8w/lFN84oKksoxjGGPfihl67Xbcib7Bsk+3Qs7DHehNSX1W5dWCupsrqdl059X9ksJ
+	1av8tmXLhLh5TqpHMgb2JeJniBv55VIJ0nw1hI3UXromAZh9DPXyOqpdKmsaXwl8ppJM0Q
+	ddcJZNEmOLJzz5t7txWP49aiiaQFEF8IOVJR548d+PpAhhNzXhDoNHaOBXOX4blEwrjoSa
+	3WaBHYGrVeOwSlW93czMNHn095sY7rHDSTK2vx6LSVP79KtxsGGCtZ25En+S8b3C2FoszO
+	1YJ6aWX4QiYt07GZC1d18pwIyYB9z/cWL0QSDZ0v8C6BTNn+SKHWNfkil+S7Og==
+Date: Sat, 2 Apr 2022 13:01:35 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com, pgowda.cve@gmail.com
+Subject: Re: [OE-core] meta: rust: Bug fix for target definitions returning
+ 'NoneType'
+Message-ID: <YkgtD8yqyiMd7F6w@mail.local>
+References: <20220401060152.8255-1-sundeep.kokkonda@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220401060152.8255-1-sundeep.kokkonda@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163992
+ https://lists.openembedded.org/g/openembedded-core/message/163954
 
-License change is a date in the license file only.
+On 01/04/2022 11:31:52+0530, Sundeep KOKKONDA wrote:
+> The build shows below error while building for arm machines.
+> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+> 
+> All the target definitions within tspec dictionary are generted as
+> NoneType. The changes will fix this issue.
+> 
 
-This includes a fix for CVE-2022-0943.
+This actually caused the issue on the autobuidlers:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/vim/vim.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ERROR: rust-cross-cortexa8hf-neon-glibc-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_rust_gen_targets(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/beaglebone/build/meta/recipes-devtools/rust/rust-cross.inc', lineno: 19, function: do_rust_gen_targets
+     0015:            if arch == "arm" and target_is_armv7(d):
+     0016:                arch = 'armv7'
+     0017:            features = d.getVar('TARGET_LLVM_FEATURES') or ""
+     0018:            cpu = d.getVar('TARGET_LLVM_CPU')
+ *** 0019:        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
+     0020:}
+     0021:
+     0022:# Otherwise we'll depend on what we provide
+     0023:INHIBIT_DEFAULT_RUST_DEPS = "1"
+File: '/home/pokybuild/yocto-worker/beaglebone/build/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
+     0326:    # build tspec
+     0327:    tspec = {}
+     0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
+     0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+ *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+     0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+     0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+     0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 905ba3f9c61..21ff036cf4c 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,7 +11,7 @@ RSUGGESTS:${PN} = "diffutils"
- 
- LICENSE = "Vim"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
--                    file://runtime/doc/uganda.txt;md5=a3f193c20c6faff93c69185d5d070535"
-+                    file://runtime/doc/uganda.txt;md5=daf48235bb824c77fe8ae88d5f575f74"
- 
- SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://disable_acl_header_check.patch \
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
- 
--PV .= ".4524"
--SRCREV = "d8f8629b1bf566e1dada7515e9b146c69e5d9757"
-+PV .= ".4681"
-+SRCREV = "15f74fab653a784548d5d966644926b47ba2cfa7"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5029/steps/11/logs/stdio
+
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> ---
+>  meta/recipes-devtools/rust/rust-common.inc | 28 +++++++++++-----------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+> index ceeee97863..6236c43d5c 100644
+> --- a/meta/recipes-devtools/rust/rust-common.inc
+> +++ b/meta/recipes-devtools/rust/rust-common.inc
+> @@ -119,22 +119,22 @@ def llvm_features(d):
+>  
+>  
+>  ## arm-unknown-linux-gnueabihf
+> -DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> -LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
+> -TARGET_ENDIAN[arm-eabi] = "little"
+> -TARGET_POINTER_WIDTH[arm-eabi] = "32"
+> -TARGET_C_INT_WIDTH[arm-eabi] = "32"
+> -MAX_ATOMIC_WIDTH[arm-eabi] = "64"
+> -FEATURES[arm-eabi] = "+v6,+vfp2"
+> +DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> +LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
+> +TARGET_ENDIAN[arm] = "little"
+> +TARGET_POINTER_WIDTH[arm] = "32"
+> +TARGET_C_INT_WIDTH[arm] = "32"
+> +MAX_ATOMIC_WIDTH[arm] = "64"
+> +FEATURES[arm] = "+v6,+vfp2"
+>  
+>  ## armv7-unknown-linux-gnueabihf
+> -DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> -LLVM_TARGET[armv7-eabi] = "${RUST_TARGET_SYS}"
+> -TARGET_ENDIAN[armv7-eabi] = "little"
+> -TARGET_POINTER_WIDTH[armv7-eabi] = "32"
+> -TARGET_C_INT_WIDTH[armv7-eabi] = "32"
+> -MAX_ATOMIC_WIDTH[armv7-eabi] = "64"
+> -FEATURES[armv7-eabi] = "+v7,+vfp2,+thumb2"
+> +DATA_LAYOUT[armv7] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> +LLVM_TARGET[armv7] = "${RUST_TARGET_SYS}"
+> +TARGET_ENDIAN[armv7] = "little"
+> +TARGET_POINTER_WIDTH[armv7] = "32"
+> +TARGET_C_INT_WIDTH[armv7] = "32"
+> +MAX_ATOMIC_WIDTH[armv7] = "64"
+> +FEATURES[armv7] = "+v7,+vfp2,+thumb2"
+>  
+>  ## aarch64-unknown-linux-{gnu, musl}
+>  DATA_LAYOUT[aarch64] = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#163881): https://lists.openembedded.org/g/openembedded-core/message/163881
+> Mute This Topic: https://lists.openembedded.org/mt/90172076/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.32.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
