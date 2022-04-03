@@ -2,76 +2,76 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A4FC38A05
-	for <webhook@archiver.kernel.org>; Wed,  6 Apr 2022 16:33:19 +0000 (UTC)
-Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web12.7532.1649245786679798382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0682CC47089
+	for <webhook@archiver.kernel.org>; Wed,  6 Apr 2022 16:33:20 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web10.7579.1649245872548068287
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Apr 2022 04:49:47 -0700
+ Wed, 06 Apr 2022 04:51:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=wASeBpsW;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=XJeIyneu;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1649245785; i=@fujitsu.com;
-	bh=4+nhgyC9OlEPDJ8w+O9eM1wb0qm4X0zp/lMkEZncSbU=;
+	s=170520fj; t=1649245870; i=@fujitsu.com;
+	bh=K+rQOAYFiCFMQ4FDJwUltItj8W/EPuLAAG4iQQX+b/w=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=wASeBpsWePebuRqtjQkasjZJrrajHP4M2hG1pRImQGL/OY0Vxm9kKxZ2AGJ+QanN7
-	 RkqUYMpmzKzMJtf5W4BsPZBUboSy2BpHmrkMRTlRdc4d7VjqnmTNyUXYBgs4VTGQuP
-	 PojkiE4RKjgT+7268CAkuXBftJysn7vmsyqpPaWvaCGMcV0w7k6ZtXi0STr4nAwQaS
-	 P/6PDXCjDe6xCBfPmWSAqH518hcX4b9PWWqj0LbZa4gNH/mmjraOHQB9MnhNZKvZ95
-	 rWupT0p1UU6/bIOUYLOGiMTbCwk41i7JCWVjOXGM0SrkHLjwOfwO0c2jdsdNUyto94
-	 yLWFLWny9a3qA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRWlGSWpSXmKPExsViZ8MxSTeizjf
-  J4N9nXYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPttensBde5Kt7c/M/cwHiKs4uRi0NI4DGj
-  xILDz1ggnPNMEmsv7WSGcHYzSjzqX8/excjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvf
-  veAlQgLWEs8+3uLBcRmAYr/ePafEcTmFXCS2HDgC5gtIaAgMeXhe2YQm1PAWeLohBNMILYQUE
-  3jhOlMEPWCEidnPmGBmC8hcfDFC2aIXkWJ2ZebWSDsColZs9qYIGw1iavnNjFPYBSchaR9FpL
-  2BYxMqxjtkooy0zNKchMzc3QNDQx0DQ1Ndc1MdQ0tjPQSq3QT9VJLdZNT80qKEoHSeonlxXqp
-  xcV6xZW5yTkpenmpJZsYgcGcUuy4bQfjqb6feocYJTmYlER595f7JgnxJeWnVGYkFmfEF5Xmp
-  BYfYpTh4FCS4N1SBZQTLEpNT61Iy8wBRhZMWoKDR0mEV6sGKM1bXJCYW5yZDpE6xagoJc77Ei
-  QhAJLIKM2Da4NF8yVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrxeIFN4MvNK4Ka/AlrMBLT
-  43RlPkMUliQgpqQYmj1XvHyZ+9muqfLXrbnLamZlT/rXeDz7hMOe5X8VVy8f127YYViUvPCX3
-  deWPMn89Z6MHIn4++guNN2jIJmQo3dS4eNMtSzvVZ8ejw2XlR1c8uCM9X3ib3rHSH1ckZ0wu6
-  g2dIfmKZ/ft0o2R9h9vGjX0ys2eVr38zJzvdkXm10MvnDNheMwaq8muypnYKjF3zZ/WznKxzy
-  cMemM1a8VVth50t//ae+BHpc2q40lz2/wtrD8s8dLSem1xz+nx1aQXmw4t93t1K9pVM8r8ZEG
-  ONN/C3KDw8vayv+v1OaY1H13eOsn9wQGGH7NbzX6z2276aSn//dL9uO0J+ocvK7/4+Vfz8dTS
-  iV+ORG5ty+fTV2Ipzkg01GIuKk4EALWvnT9hAwAA
+	b=XJeIyneu+ib5whRcrwHJRDZ0n3XP6qP4umsjxGq6T033876GdtmFxQMy4N3FWtmQH
+	 cWD5UI/NWVoW/oqK4RQNxaNUYVljSoa4J1wYwEZE9pN1xnG5ndsJ39sU1RZE4m+ww8
+	 vlIa6i3DERvXbIjV6P7ZbvdTqhraWutKzANDL3kSOhu5lAAwWE8vn8uS6ZF5zRgA+H
+	 eA2qmtL3cHD75TJ22vowOD6ZHza8n6xHsrynoTocUx5FWI1LfbGkxDKltS/nrH1VrB
+	 HQv1gi5Arvxw9jIzREszylYDFw+EpjZHYir8kyJwZbQvVmr1gFnVlKrvkxlY1PGz9w
+	 beE7owuRvWq8Q==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRWlGSWpSXmKPExsViZ8MxSXddnW+
+  SwfEeRYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNaPr9F72gvM2FZ+u3GFuYLxu0sXIxSEk8JhR
+  4sjKe+wQznkmiSeTZ7JCOLsZJZ62/mDsYuTkYBNQk5h+6wZQgoNDREBP4uo/UZAws4CKxIvfP
+  ewgtrCAvcT3b2fAbBag+MNlj1hAbF4BJ4mJ+7aAxSUEFCSmPHzPDGJzCjhLzFh+C2y8EFDNun
+  ePGSHqBSVOznzCAjFfQuLgixfMEL2KErMvN7NA2BUSs2a1MUHYahJXz21insAoOAtJ+ywk7Qs
+  YmVYxWicVZaZnlOQmZuboGhoY6Boamuoam+gaGVroJVbpJuqlluqWpxaX6BrpJZYX66UWF+sV
+  V+Ym56To5aWWbGIEhnFKsdKtHYwbVv3UO8QoycGkJMq7v9w3SYgvKT+lMiOxOCO+qDQntfgQo
+  wwHh5IE75YqoJxgUWp6akVaZg4wpmDSEhw8SiK8WjVAad7igsTc4sx0iNQpRnuOnVsu72XmuH
+  ToCpC8egVE3gCRQix5+XmpUuK8L0HaBEDaMkrz4IbCUsAlRlkpYV5GBgYGIZ6C1KLczBJU+Ve
+  M4hyMSsK8XiBTeDLzSuB2vwI6iwnorHdnPEHOKklESEk1MCWE39skw7ToBMeNW7I/HidpxM26
+  F2gduLpm83Ht19+4q5mmffg4V8+3J9j3cr/NpLe8rO/+f6/acG2e5KP43QUOt2f23P8xofmv4
+  a0re99sX375ooe3nOOm9dcP8md1vLNUTp0ZvuSSsJL0CUPeCoc9/XyT7awXaAgbu57wb7au8H
+  115+b3XdzpvwKyJdiql5v+KDkw59Zkj2qd+o75SxsP2LzjPZy8tsY1bLF39JFPF15GSe5qSQm
+  ZxyVzpLLhX92uk80Fe2tZpu6MykzxCrgQWMwxPzxZ4HRX2Xx3Ab6SlIc76yZfnLcw6m72uZIP
+  0Vv+XXjye5WFpuJ7Xr5P+2Oeux++987qy61Hdsphhz4qsRRnJBpqMRcVJwIAInKCCXwDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-2.tower-528.messagelabs.com!1649245784!30044!1
+X-Msg-Ref: server-19.tower-565.messagelabs.com!1649245870!8835!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.85.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22227 invoked from network); 6 Apr 2022 11:49:44 -0000
+Received: (qmail 3748 invoked from network); 6 Apr 2022 11:51:10 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-2.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 6 Apr 2022 11:49:44 -0000
+  by server-19.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 6 Apr 2022 11:51:10 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 4D568100463
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 207C6100467
 	for <openembedded-core@lists.openembedded.org>;
- Wed,  6 Apr 2022 12:49:44 +0100 (BST)
+ Wed,  6 Apr 2022 12:51:10 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 406E1100460
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 13DCD100460
 	for <openembedded-core@lists.openembedded.org>;
- Wed,  6 Apr 2022 12:49:44 +0100 (BST)
+ Wed,  6 Apr 2022 12:51:10 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 6 Apr 2022 12:49:26 +0100
+ (TLS) id 15.0.1497.32; Wed, 6 Apr 2022 12:50:53 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libbsd: upgrade 0.11.5 -> 0.11.6
-Date: Mon, 4 Apr 2022 02:45:40 +0800
-Message-ID: <1649011540-28857-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] shared-mime-info: upgrade 2.1 -> 2.2
+Date: Mon, 4 Apr 2022 02:47:28 +0800
+Message-ID: <1649011649-28952-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1649011540-28857-1-git-send-email-wangmy@fujitsu.com>
-References: <1649011540-28857-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1649011649-28952-1-git-send-email-wangmy@fujitsu.com>
+References: <1649011649-28952-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -81,42 +81,196 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Apr 2022 16:33:19 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Apr 2022 16:33:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164072
+ https://lists.openembedded.org/g/openembedded-core/message/164074
 
-License-Update:
-    year updated to 2022
-    license file changed
+0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+removed since it's included in 2.2
+
+Changelog:
+=========
+* model/3mf: new
+* Match shared libraries with version suffix
+* model/obj: add mtllib and Blender comment based magic
+* model/mtl: add Blender comment magic, increase newmtl range
+* model/obj, model/mtl: new types
+* Add Electron Archive Format type application/x-asar
+* text/x-qml: Lower match priority to avoid conflicts with Python
+* Move '*.blend' to top of Blender glob list
+* Adding SPARQL media types
+* application/zip: Add '*.zipx' glob and test fixture
+* Added DSD mime type
+* Differentiate comic book archives
+* FITS: Add missing 'application/fits' and legacy globs
+* Add Godot engine files
+* Add FlashForge "xgcode" mime-type
+* text/x-objc++src: new type
+* image/heif: test .hif extension too
+* image/hif: add *.hif glob
+* image/heif: add another test case
+* image/heif: add magics
+* Add a build-tools option to allow installing only the mime data
+* Add compressed SVG glob pattern '*.svg.gz'
+* Add Apple Wallet pass type application/vnd.apple.pkpass
+* migrate from custom itstool to builtin msgfmt for creating translated XML
+* Make the remaining plain text types subclasses of text/plain
+* audio/mobile-xmf: separate from audio/x-xmf
+* Adding ZIM file
+* Make text/x-mrml a subclass of application/xml
+* image/avif: move acronym and expansion to separate fields from comment
+* freedesktop_generate.sh: Don't hardcode ninja
+* Add text/x-mpl2
+* application/x-apple-systemprofiler+xml: require _SPCommandLineArguments in plist
+* image/jpeg: add test case with embedded property list XML
+* audio/vnd.dts.hd: include parent type magic in magic match
+* model/gltf+json: new type
+* model/gltf-binary: new type
+* application/x-object: add *.mod and a test case
+* application/x-mod: add some ProTracker magics and a test case
+* image/jxl: include test files in test list
+* tests: add trailing linefeed to mime-detection list
+* Make application/x-mswinurl a subclass of text/plain
+* Change description for *.desktop files to "desktop entry"
+* application/x-x509-ca-cert: add magics and test cases
+* application/pkix-cert: add BEGIN/END X509 CERTIFICATE magic
+* application/pkix-crl: add magic and test case
+* application/pkix-cert: add magic and test case
+* image/jxl: new type
+* Added .sc filename extension for Scala source code, as it is occasionally used
+* application/schema+json: new type
+* Add text/x-crystal
+* application/x-krita: remove stray period from comment
+* adding org-mode
+* Add Elixir source code mime type
+* Add two new offsets for .kra and .krz
+* text/x-python3: add *.pyi glob (Python stub files)
+* image/x-canon-cr3: new
+* image/x-xpixmap: make XPM3 magic more specific
+* image/x-xpixmap: add XPM2 magic
+* application/x-troff-man: add *.[1-9] glob
+* application/toml: new type
+* Lower priority of "BEGIN {" for perl, awk uses that too
+* Add Smacker video type video/vnd.radgamettools.smacker
+* Clarify database license
+* meson: make xmlto optional, build spec only if found
+* application/x-7z-compressed: add *.7z.001 glob
+* Add Bink video type video/vnd.radgamettools.bink
+* image/x-nikon-nrw: add test case
+* image/x-nikon-nrw: new type
+* application/x-vhdx-disk: improve acronym and its expansion
+* application/ovf: new
+* application/x-qed-disk: new
+* application/x-vdi-disk: new
+* application/x-vmdk-disk: new
+* application/x-vhd-disk, /x-vhdx-disk: new
+* application/vnd.apple.numbers, .pages: add older magics and test cases
+* Add text/x-dart
+* application/vnd.apple.numbers, /vnd.apple.pages: new types
+* xdgmime: configure as submodule
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libbsd/{libbsd_0.11.5.bb => libbsd_0.11.6.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libbsd/{libbsd_0.11.5.bb => libbsd_0.11.6.bb} (90%)
+ ...tom-itstool-to-builtin-msgfmt-for-cr.patch | 70 -------------------
+ .../shared-mime-info/shared-mime-info_git.bb  |  8 +--
+ 2 files changed, 3 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.11.5.bb b/meta/recipes-support/libbsd/libbsd_0.11.6.bb
-similarity index 90%
-rename from meta/recipes-support/libbsd/libbsd_0.11.5.bb
-rename to meta/recipes-support/libbsd/libbsd_0.11.6.bb
-index bb8766a070..74fc8ef4e5 100644
---- a/meta/recipes-support/libbsd/libbsd_0.11.5.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.11.6.bb
-@@ -29,12 +29,12 @@ HOMEPAGE = "https://libbsd.freedesktop.org/wiki/"
- # License: public-domain-Colin-Plumb
- LICENSE = "BSD-3-Clause & BSD-4-Clause & ISC & PD"
- LICENSE:${PN} = "BSD-3-Clause & ISC & PD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0b31944ca2c1075410a30f0c17379d3b"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c2c635b94c8dcd3593f53e10fa8a499e"
- SECTION = "libs"
+diff --git a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch b/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
+deleted file mode 100644
+index d09013bb3c..0000000000
+--- a/meta/recipes-support/shared-mime-info/files/0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 5ca815cb79f64fab9cbb428b95a861fc0c30c116 Mon Sep 17 00:00:00 2001
+-From: Eli Schwartz <eschwartz@archlinux.org>
+-Date: Mon, 8 Nov 2021 18:22:47 -0500
+-Subject: [PATCH] migrate from custom itstool to builtin msgfmt for creating
+- translated XML
+-
+-gettext upstream has supported this for a very long time, and using it
+-means we don't need to jump through hoops to run ninja inside ninja in
+-order to generate the .mo files for itstool.
+-
+-Although meson 0.60.0 added support for real targets for the built .mo
+-files, this changed the rules for output filenames, breaking the script.
+-But msgfmt does not care, and anyways comes with builtin meson functions
+-for convenient use.
+-
+-Fixes #170
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- data/freedesktop_generate.sh | 12 ------------
+- data/meson.build             | 16 +++++-----------
+- 2 files changed, 5 insertions(+), 23 deletions(-)
+- delete mode 100755 data/freedesktop_generate.sh
+-
+-diff --git a/data/freedesktop_generate.sh b/data/freedesktop_generate.sh
+-deleted file mode 100755
+-index ff13e75..0000000
+---- a/data/freedesktop_generate.sh
+-+++ /dev/null
+-@@ -1,12 +0,0 @@
+--#!/bin/sh -e
+--
+--src_root="$1"
+--build_root="$2"
+--
+--ninja -C "${build_root}" shared-mime-info-gmo
+--
+--itstool \
+--    --its "${src_root}/data/its/shared-mime-info.its" \
+--    --join "${src_root}/data/freedesktop.org.xml.in" \
+--    -o "${build_root}/data/freedesktop.org.xml" \
+--    "${build_root}/po/"*".gmo"
+-diff --git a/data/meson.build b/data/meson.build
+-index 263567d..c5696f2 100644
+---- a/data/meson.build
+-+++ b/data/meson.build
+-@@ -1,18 +1,12 @@
+- 
+- install_man('update-mime-database.1')
+- 
+--freedesktop_org_xml = custom_target('freedesktop.org.xml',
+--    input : files(
+--        'freedesktop.org.xml.in',
+--        'its/shared-mime-info.its',
+--        'its/shared-mime-info.loc',
+--    ),
+-+freedesktop_org_xml = i18n.merge_file(
+-+    input: 'freedesktop.org.xml.in',
+-     output: 'freedesktop.org.xml',
+--    command: [
+--        find_program('freedesktop_generate.sh'),
+--        meson.source_root(),
+--        meson.build_root()
+--    ],
+-+    data_dirs: '.',
+-+    po_dir: '../po',
+-+    type: 'xml',
+-     install: true,
+-     install_dir: get_option('datadir') / 'mime' / 'packages',
+- )
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+index 6179abfef7..387dd7bbad 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+@@ -8,11 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
  
--SRC_URI[sha256sum] = "1a9c952525635c1bb6770cb22e969b938d8e6a9d7912362b98ee8370599b0efd"
-+SRC_URI[sha256sum] = "19b38f3172eaf693e6e1c68714636190c7e48851e45224d720b3b5bc0499b5df"
+-SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master \
+-           file://0001-migrate-from-custom-itstool-to-builtin-msgfmt-for-cr.patch \
+-           "
+-SRCREV = "18e558fa1c8b90b86757ade09a4ba4d6a6cf8f70"
+-PV = "2.1"
++SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
++SRCREV = "13695c7225c2f525a435e72739c33ac32bbfbbb9"
++PV = "2.2"
+ S = "${WORKDIR}/git"
  
- inherit autotools pkgconfig
- 
+ inherit meson pkgconfig gettext python3native mime
 -- 
 2.25.1
 
