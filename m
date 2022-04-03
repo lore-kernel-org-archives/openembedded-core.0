@@ -1,147 +1,132 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CC2C3E8A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BC8C47092
 	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:42 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.23804.1648999063704109111
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.23798.1648998856641585349
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Apr 2022 08:17:44 -0700
+ Sun, 03 Apr 2022 08:14:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=uZnjeXBi;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- h23-20020a17090a051700b001c9c1dd3acbso6779540pjh.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iP4XvYtA;
+ spf=temperror, err=temporary DNS error (domain: gmail.com, ip: 209.85.218.52,
+ mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id k23so11702055ejd.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Apr 2022 08:17:43 -0700 (PDT)
+ Sun, 03 Apr 2022 08:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=gQ6N1jmhR1IP4XAYbgpRnpj594Szo5Cy7+/WKtEE01s=;
-        b=uZnjeXBiwvNcyTn8r8xuIhn3OgaYNkugL1R/2D0+ptxRbjaLXdq68BFFNdJ/ah0UBL
-         N//0777Q2AdPZ1N4QZgDu4RJr7O8eFaYahHj5+l6Jw9V3cBlFGXzWbLsr1LIqnsUlPhs
-         6y2MpvbocTZBcTJ6hvh8HExxWkJdpASY8qx0rAtN5m+TFjIh8pF0yykOV2MzTwB7DLUC
-         EKp/3mQJeEiIY8qTYIxz+cw8ewQw+jodntmIKOduiWJP5A5vHvUWAdqMYwbTp1XI+Q3Y
-         U3c7y7f3UDaU1ZSPNWxOdup6ka4luZ7WDky99JgA001OEW21RXTAVpQVQYRVFT0eh5jj
-         uDiw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nnTMaj8JzDn1Ip5YsVRn27yLUL/YlNdpb4DKJihIOc=;
+        b=iP4XvYtAVibFu1Ny7RgT2w4eY5COpsxixVLJrwt3ANmKAmEMybYmGBHfgnRrWMeybE
+         DlM3ps1Ui1nkpIQ1iT8KYFL4M9trnJFbCrkPwGXtrdhGiCL+MLgT/ADqvTK9gutssTCv
+         8Adoj6hMu0U4uF3lQ22vQJ2eEcMDyc24TumzpcWfPtBKypm73Qm48t22/nXfxAqi7CK2
+         kn/gEjMr1MC2TuxiLcy290fa+AUzEYvkWW2OiGeWODS2fdSU+7j9atMbdYXyHzdCveoo
+         QPBqFNWYR/nxA6Vn0sycJpyEfrCNsLUwf3WQmO1TMpC1EpUpGxvvrDYrA0CHWDGPaWfE
+         6njA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=gQ6N1jmhR1IP4XAYbgpRnpj594Szo5Cy7+/WKtEE01s=;
-        b=t/xERCaqQAAABbVY3bmTdzH/E0j/z7SOqsm0pb27Gog8YlAAzcYgKXfOaTDrogoOyF
-         GTHjPH6yf1OV8t6zivUXMfPFCfM7yGmhppAUhROGmGNgXNMkFrOVQtWd024aFWvhSqbd
-         JULK6vriTWioFgxxBAlo8iScv/Fy38WxF92F4lqs7pUQ7mQs/J15gpJsKIDl+NdabWxQ
-         pf+BSR1a99uqYmLvprARPbrT0G1lFzn7DsHigLCnHc7jzXrRJ3ZTvoxx0a7G8RvkOo+b
-         EcbPUyp1y6kZzPypz6qwQI/uSSzdhN86ykdaMmgbBy6n31klGIv4EGAtL9aa36RPrHgy
-         EmcA==
-X-Gm-Message-State: AOAM533y5Gi7gEK/weYcRrQaccD7nNLb2zT3p7ADknHBAnhxVc2UnOA4
-	Elwuo+Bur2Y+6J+gqHEOLQtmosZf0ZieKTJJedQ=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nnTMaj8JzDn1Ip5YsVRn27yLUL/YlNdpb4DKJihIOc=;
+        b=Sz00RunXc5vn6JV6qP9KZ2JLuAXGhuW7XovJeIKq3bIOG6YnazkAsarsTr2pO0LzRZ
+         n4u7RvNB9yMLwIiyHCQTDiZJ7wFLIlFcDIHABfgKhh7/RcNXHy7g39obJLZc+BbTE/HA
+         1a93ejFFhcqr2SCGrMk5nUuPQ5QYg2asbfMGJxv9Y7UxOxAl+Z75LztRQr0oBQA6bwK1
+         ffN8ea61UhfB7B8VJM5FctkPs3/0veWxmTmeUuji0YE+MspKgt77NlbtpSbVLzUpN35H
+         TqLuf/mwPNyCd0ckZ+CYFGAdcnAlBffFONxGyKB9N1bYskQ69r8dZG3pLm1X0i9E6aeB
+         73Dg==
+X-Gm-Message-State: AOAM533y0h/2dlA5O0J+6QYokWW5ADw943etqGCeEdvUXRyOiyBA3ddx
+	hPZ1Vg0c2KJmhrGr+1WyqIsxWmvmcTQ=
 X-Google-Smtp-Source: 
- ABdhPJx610Xj7eSJ4rwebV0fW7Mvw88zCMcJKI+Ka7uGjGqdEgkaCU6/QzTtnul+BaFY7F/+ShpKvw==
-X-Received: by 2002:a17:902:9345:b0:153:4d7a:53d9 with SMTP id
- g5-20020a170902934500b001534d7a53d9mr56530427plp.116.1648999062804;
-        Sun, 03 Apr 2022 08:17:42 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJwJkHMTTDAbpDiRK8kEsdRV6AvHUgdoeB7gS+nGUYBa6jIDNtvo9aQhrrsCDQtn/+6F0VTTVg==
+X-Received: by 2002:a17:907:3e1c:b0:6e4:e1b3:5384 with SMTP id
+ hp28-20020a1709073e1c00b006e4e1b35384mr7351280ejc.700.1648998854817;
+        Sun, 03 Apr 2022 08:14:14 -0700 (PDT)
+Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
         by smtp.gmail.com with ESMTPSA id
- g17-20020a056a0023d100b004faeed2dfaesm8821912pfc.180.2022.04.03.08.17.41
+ rh26-20020a17090720fa00b006e0da7ef847sm3334708ejb.13.2022.04.03.08.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 08:17:42 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 3718796277B; Sun,  3 Apr 2022 05:17:40 -1000 (HST)
-Subject: OE-core CVE metrics for hardknott on Sun 03 Apr 2022 05:14:07 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220403151740.3718796277B@nuc.router0800d9.com>
-Date: Sun,  3 Apr 2022 05:17:40 -1000 (HST)
+        Sun, 03 Apr 2022 08:14:14 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [dunfell][PATCH] boost-native: fix build on recent host distros
+Date: Sun,  3 Apr 2022 17:14:09 +0200
+Message-Id: <20220403151409.2664838-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163961
+ https://lists.openembedded.org/g/openembedded-core/message/163960
 
-Branch: hardknott
+The same build error as reported with Solaris occurred on a Fedora 35
+machine. The problem is already fixed upstream.
+Related PR:
+ https://github.com/boostorg/thread/pull/297
+Related commit:
+ https://github.com/boostorg/thread/commit/e54f7e39606b807b8f9fc84fbd58cafeabea6562
 
-New this week: 4 CVEs
-CVE-2018-25032: zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25032 *
-CVE-2021-25220: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25220 *
-CVE-2022-0396: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0396 *
-CVE-2022-22623: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-22623 *
+Since the patch only deals with a build warning, it seems safe to apply
+it always not just for native builds.
 
-Removed this week: 0 CVEs
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
+ ...-elide-a-warning-that-caused-Solaris.patch | 26 +++++++++++++++++++
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-support/boost/files/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
 
-Full list:  Found 66 unpatched CVEs
-CVE-2013-0340: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0340 *
-CVE-2016-20012: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
-CVE-2018-25032: zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25032 *
-CVE-2019-12067: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974: nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-29623: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29623 *
-CVE-2020-35503: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-1765: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1765 *
-CVE-2021-1789: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1789 *
-CVE-2021-1799: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1799 *
-CVE-2021-1801: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1801 *
-CVE-2021-1870: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-1870 *
-CVE-2021-20255: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-25220: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25220 *
-CVE-2021-27645: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-27645 *
-CVE-2021-31879: wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-33574: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33574 *
-CVE-2021-33833: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33833 *
-CVE-2021-33928: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33928 *
-CVE-2021-33929: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33929 *
-CVE-2021-33930: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33930 *
-CVE-2021-33938: libsolv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-33938 *
-CVE-2021-3445: libdnf https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3445 *
-CVE-2021-3507: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-36368: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36368 *
-CVE-2021-3638: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3638 *
-CVE-2021-38604: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-38604 *
-CVE-2021-3947: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3947 *
-CVE-2021-4160: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4160 *
-CVE-2021-42376: busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42376 *
-CVE-2021-45085: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45085 *
-CVE-2021-45086: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45086 *
-CVE-2021-45087: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45087 *
-CVE-2021-45088: epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45088 *
-CVE-2021-45481: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
-CVE-2021-45482: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
-CVE-2021-45483: webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
-CVE-2021-45944: ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45944 *
-CVE-2021-46705: grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-46705 *
-CVE-2022-0204: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0204 *
-CVE-2022-0396: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0396 *
-CVE-2022-0529: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-CVE-2022-0530: unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-CVE-2022-0561: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0561 *
-CVE-2022-0562: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0562 *
-CVE-2022-0563: util-linux:util-linux-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0563 *
-CVE-2022-0778: openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0778 *
-CVE-2022-0891: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0891 *
-CVE-2022-0943: vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0943 *
-CVE-2022-22623: curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-22623 *
-CVE-2022-23096: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23096 *
-CVE-2022-23097: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23097 *
-CVE-2022-23098: connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23098 *
-CVE-2022-23218: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23218 *
-CVE-2022-23219: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23219 *
-CVE-2022-23303: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23303 *
-CVE-2022-23304: wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23304 *
-CVE-2022-23308: libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23308 *
-CVE-2022-24921: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24921 *
-CVE-2022-24975: git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24975 *
-CVE-2022-25313: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-25313 *
-CVE-2022-25314: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-25314 *
-CVE-2022-25315: expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-25315 *
-CVE-2022-26354: qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26354 *
-CVE-2022-26488: python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26488 *
-CVE-2022-27191: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27191 *
+diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
+index df1cc16937..23595da930 100644
+--- a/meta/recipes-support/boost/boost_1.72.0.bb
++++ b/meta/recipes-support/boost/boost_1.72.0.bb
+@@ -9,4 +9,5 @@ SRC_URI += " \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
+            file://0001-revert-cease-dependence-on-range.patch \
+            file://0001-added-typedef-executor_type.patch \
++           file://0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch \
+            "
+diff --git a/meta/recipes-support/boost/files/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch b/meta/recipes-support/boost/files/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
+new file mode 100644
+index 0000000000..97111ce2f8
+--- /dev/null
++++ b/meta/recipes-support/boost/files/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
+@@ -0,0 +1,26 @@
++From 019dd7cea49659e45e12d2b44480c133372ab401 Mon Sep 17 00:00:00 2001
++From: Rob Boehne <robb@datalogics.com>
++Date: Wed, 20 Nov 2019 11:25:20 -0600
++Subject: [PATCH] Revert change to elide a warning that caused Solaris builds
++ to fail.
++
++---
++ boost/thread/pthread/thread_data.hpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/boost/thread/pthread/thread_data.hpp b/boost/thread/pthread/thread_data.hpp
++index aefbeb43c..bc9b1367a 100644
++--- a/boost/thread/pthread/thread_data.hpp
+++++ b/boost/thread/pthread/thread_data.hpp
++@@ -57,7 +57,7 @@ namespace boost
++ #else
++           std::size_t page_size = ::sysconf( _SC_PAGESIZE);
++ #endif
++-#if PTHREAD_STACK_MIN > 0
+++#ifdef PTHREAD_STACK_MIN
++           if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
++ #endif
++           size = ((size+page_size-1)/page_size)*page_size;
++-- 
++2.35.1
++
+-- 
+2.35.1
+
 
