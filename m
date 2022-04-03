@@ -2,104 +2,112 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1FAC38162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EFFC38A04
 	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:41 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.34447.1649073187477347494
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web09.22234.1648989321604153884
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 04:53:07 -0700
+ Sun, 03 Apr 2022 05:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZjYMq1ye;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MtNuHBEQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id r64so5728806wmr.4
+Received: by mail-wm1-f42.google.com with SMTP id
+ m67-20020a1ca346000000b0038e6a1b218aso1576037wme.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 04:53:07 -0700 (PDT)
+ Sun, 03 Apr 2022 05:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dlsyzpF1DPI0Z1medV7iJJEEtXovCIkDrZusL9LVnq0=;
-        b=ZjYMq1ye4SZUrnrvenVKVwiLLc277H5KJO5zMFa9IoI4SgfSE9thjnlg74ZnLxmETw
-         dE4BlEoWlODBszwhTjT7xDyNhptxTpa373ABLpWVk9ituSQDw651HjzdiTQHHxnGzO2T
-         mliuv3080+YrTiggbDFuctqi0ATu0fRaMXPz8=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ZqmY2ycV+/BCC7pHHWzdKodTaHetxBM0J6UFJnMLDHc=;
+        b=MtNuHBEQSkrB/tvlLZWsqHeps9Ii3IQaoDnaUWB2fZta5W6j63X99MGvLmmLg1AuKO
+         V7tER692PavbLIlHqA5jlAj5psKqRUmTheVG5jDrI2LogH3y6QHCrx+E7NTqavz3ovvk
+         pfYHpE5UlxZoZFLL1Fy4b04/lgp6Hik5eNs6w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dlsyzpF1DPI0Z1medV7iJJEEtXovCIkDrZusL9LVnq0=;
-        b=2qbHQHmEKucl4AwXkiIveXhYYCjAxZWGZoGqOsbe2NT/IpECA3Zti4ceY6hHtjIUPu
-         WrvsT0zRFSp94/LfxPyC1GO+uk797p6cljw5hM0TaODEtjvtMc8tFbs3H87bNY2CQcwZ
-         RuytEt9C55C12I9yNs1lPU+V3WPa/0+joDoRYDxSt1PE71tV+xDjd2o4sEeuXICl3Jlu
-         AVi5uUq3J7R5Blzxvu6G2//mFZLLy3yCB9s2Tl8mKst6YkmZ8sXFdrS7bxRl5gxR7Qhg
-         UcLb2weNudqhlSP+5beURu9JCNLhzR9Xz3IxypTErPN9DKAmdSHqfq3RcTaxiFGix+4o
-         vU/A==
-X-Gm-Message-State: AOAM531Zarh/qo0uKiPFcHy5IWWxVJmDuCi/SUvSxMipWJSTiyNS0snJ
-	6JzF4rhxNDQI/rLja2ZCnfEb5GdjyuMogvBp
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ZqmY2ycV+/BCC7pHHWzdKodTaHetxBM0J6UFJnMLDHc=;
+        b=I9aD9r/zIKRgHAX06OwTgELzVDV0E9LbtTh0f7LXpAgYQmc9YFPQiatpvE08RZnx0D
+         axogD2kck4PAu9tOsnXPU9MqG6bknfFaQTtXfDtBzA+5t5fJ+YAPVRwxKBaWjXJmhjF9
+         6DODn03u5Oq80LJoBeVZfqahAbDkMpBcf68KoZ8u1hN3qBYilqDgJNqaC74Rnsfc1lgN
+         2GLzuqQIAHv4iqNp0ryvyPnFwIx2EGXyEDiLW0DvC6nfg17wEGvyFzuztVLh6kxPJCBt
+         QfDoEQzLHF10YqEVArjLeXAFklinYvrC+rrNbHsFlDPF6DAf3XaxojZU6vkrIEfaOn7o
+         oZ+w==
+X-Gm-Message-State: AOAM533pUeu/Qfy/y9eg04W7u8ZwloL87NJlZZ7+ZdXZUrPwi8CFQ7Ti
+	CL73vR15pZgMMRIuH3N0/ETJfA==
 X-Google-Smtp-Source: 
- ABdhPJzgZXqoGV+cJfYOrmxjl5pHTgG8R33Pp0jzP2YbE7w9EaDEFIm2dWj19exBS+wLu00MGqwonQ==
-X-Received: by 2002:a05:600c:4611:b0:350:564b:d55e with SMTP id
- m17-20020a05600c461100b00350564bd55emr18813245wmo.124.1649073185536;
-        Mon, 04 Apr 2022 04:53:05 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:4552:8cb0:e722:b501])
+ ABdhPJwo7txvisQt5ulB8sF16X65RtAzm5U/ujrnyPpNeTtaeEUW+tDkczhVBTNHVPEfbEtipqaSUw==
+X-Received: by 2002:a05:600c:4f86:b0:38c:bd13:e074 with SMTP id
+ n6-20020a05600c4f8600b0038cbd13e074mr15765212wmq.97.1648989320112;
+        Sun, 03 Apr 2022 05:35:20 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:819:f853:3436:28c4?
+ ([2001:8b0:aba:5f3c:819:f853:3436:28c4])
         by smtp.gmail.com with ESMTPSA id
- p2-20020a5d4582000000b00203f51aa12asm9105899wrq.55.2022.04.04.04.53.04
-        for <openembedded-core@lists.openembedded.org>
+ k129-20020a1ca187000000b0038e6e789f08sm2038879wme.39.2022.04.03.05.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 04:53:05 -0700 (PDT)
+        Sun, 03 Apr 2022 05:35:19 -0700 (PDT)
+Message-ID: 
+ <e6666c965f187b3575c7ba861d0989be0d11ea60.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] python3-mako: update to 1.2.0
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Drop unexports from a different era
-Date: Mon,  4 Apr 2022 12:53:04 +0100
-Message-Id: <20220404115304.1727375-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 03 Apr 2022 13:35:14 +0100
+In-Reply-To: <20220402114035.2395065-1-open.source@oleksandr-kravchuk.com>
+References: <20220402114035.2395065-1-open.source@oleksandr-kravchuk.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163988
+ https://lists.openembedded.org/g/openembedded-core/message/163958
 
-A long time ago, we used to pass our parent execution environment into our task
-environments during build. We stopped doing that for reproducibility and consistency
-of builds. The variables TARGET_ARCH, DISTRO and MACHINE are not exported into
-tasks and hence we don't need to unexport them. The resasons these exist is
-therefore no longer relavent and they can be removed. This happens to improve
-bitbake -e output from a user commandline perspective.
+On Sat, 2022-04-02 at 13:40 +0200, Oleksandr Kravchuk wrote:
+> License-Update: copyright years changed.
+> 
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  .../python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb}   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} (68%)
+> 
+> diff --git a/meta/recipes-devtools/python/python3-mako_1.1.6.bb b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> similarity index 68%
+> rename from meta/recipes-devtools/python/python3-mako_1.1.6.bb
+> rename to meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> index 71e5d96ba1..8abdddf362 100644
+> --- a/meta/recipes-devtools/python/python3-mako_1.1.6.bb
+> +++ b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> @@ -2,13 +2,13 @@ SUMMARY = "Templating library for Python"
+>  HOMEPAGE = "http://www.makotemplates.org/"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
+>  
+>  PYPI_PACKAGE = "Mako"
+>  
+>  inherit pypi python_setuptools_build_meta
+>  
+> -SRC_URI[sha256sum] = "4e9e345a41924a954251b95b4b28e14a301145b544901332e658907a7464b6b2"
+> +SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+>  
+>  RDEPENDS:${PN} = "${PYTHON_PN}-html \
+>                    ${PYTHON_PN}-netclient \
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/bitbake.conf | 13 -------------
- 1 file changed, 13 deletions(-)
+This change seems to break mesa builds:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3b8760a3f8a..3fa2bee053c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -915,19 +915,6 @@ SERIAL_CONSOLES ??= "${@d.getVar('SERIAL_CONSOLE').replace(' ', ';')}"
- NO_RECOMMENDATIONS ??= ""
- BAD_RECOMMENDATIONS ?= ""
- 
--# Make sure MACHINE isn't exported
--# (breaks binutils at least)
--MACHINE[unexport] = "1"
--
--# Make sure TARGET_ARCH isn't exported
--# (breaks Makefiles using implicit rules, e.g. quilt, as GNU make has this
--# in them, undocumented)
--TARGET_ARCH[unexport] = "1"
--
--# Make sure DISTRO isn't exported
--# (breaks sysvinit at least)
--DISTRO[unexport] = "1"
--
- # Make sure SHELL isn't exported
- # (can break any number of things if the user's shell isn't POSIX-compliant,
- # including the flock command). The user's shell shouldn't affect our builds.
--- 
-2.32.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/5287
+
+Cheers,
+
+Richard
 
 
