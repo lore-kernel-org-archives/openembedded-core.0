@@ -1,77 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <schnitzeltony@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <6aa10133af2f9c6a198deed7a99aab6824a68ffe.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFT][PATCH v3] gcc: upgrade 11.2 -> current gcc-12 snapshot
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Sat, 16 Apr 2022 09:07:49 +0100
-In-Reply-To: <20220415173821.3079322-1-raj.khem@gmail.com>
-References: <20220415173821.3079322-1-raj.khem@gmail.com>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Subject: [PATCH] vte: upgrade 0.66.2 -> 0.68.0
+Date: Sun,  3 Apr 2022 19:47:36 +0200
+Message-Id: <20220403174736.3463609-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Bernhard =?ISO-8859-1?Q?Rosenkr=E4nzer?= <bernhard.rosenkraenzer.ext@huawei.com>, Jon Mason <Jon.Mason@arm.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+To: openembedded-core@lists.openembedded.org
 
-On Fri, 2022-04-15 at 10:38 -0700, Khem Raj wrote:
-> From: Bernhard Rosenkränzer <bernhard.rosenkraenzer.ext@huawei.com>
-> 
-> - gcc 12 is in RC stages.
-> - Add patch to re-shuffle include of sched.h to fix build on musl
-> 
-> Signed-off-by: Bernhard Rosenkränzer <bernhard.rosenkraenzer.ext@huawei.com>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v3
-> - Switch to own snapshot for quick turnarounds than waiting for a
->   weekly snapshot
-> - Add a fix for gcc target build on musl
-> - Fixed gcc for kernel build failures on arm/x86_64
-> - Fixed gcc for ccache build failure
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ meta/recipes-support/vte/{vte_0.66.2.bb => vte_0.68.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/vte/{vte_0.66.2.bb => vte_0.68.0.bb} (95%)
 
-I ran this through the autobuilder as requested as it means we have a chance to
-get things fixed upstream before gcc 12 is released:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3535
-
-We see failures in:
-
-edgerouter/edgerouter-alt in linux-yocto 5.15/5.10:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5078
-https://autobuilder.yoctoproject.org/typhoon/#/builders/111/builds/2965
-
-meta-arm in linux-yocto 5.15:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/2307
-
-meta-intel in intel-media-driver:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/2770
-
-qemuppc/qemuppc-alt in linux-yocto 5.15/5.10:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5033
-https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/2916
-
-Four oe-selftest failures due to missing maintainer entries (easy fix)
-
-A weird oe-selftest prservice.BitbakePrTests.test_import_export_override_db:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3409/steps/14/logs/stdio
-
-The latter is one of our infamous intermittent issues and likely not gcc 12
-"""
-Parsing recipes...ERROR: ParseError in None: Not all recipes parsed, parser
-thread killed/died? Exiting.
-ERROR: Parsing halted due to errors, see error messages above
-"""
-
-So basically you have the intel-media-driver failure in meta-intel and a number
-of kernel issues. I've cc'd a few of the maintainers just so they're aware of
-the status, I appreciate we'd wait for the mainline kernel to resolve things.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-support/vte/vte_0.66.2.bb b/meta/recipes-support/vte/vte_0.68.0.bb
+similarity index 95%
+rename from meta/recipes-support/vte/vte_0.66.2.bb
+rename to meta/recipes-support/vte/vte_0.68.0.bb
+index af1c47cf80..fc4324872d 100644
+--- a/meta/recipes-support/vte/vte_0.66.2.bb
++++ b/meta/recipes-support/vte/vte_0.68.0.bb
+@@ -21,7 +21,7 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+             file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch"
+-SRC_URI[archive.sha256sum] = "e89974673a72a0a06edac6d17830b82bb124decf0cb3b52cebc92ec3ff04d976"
++SRC_URI[archive.sha256sum] = "13e7d4789ca216a33780030d246c9b13ddbfd04094c6316eea7ff92284dd1749"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+-- 
+2.34.1
 
