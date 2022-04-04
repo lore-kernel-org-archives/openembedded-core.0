@@ -1,240 +1,276 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BF4DC64ED6
-	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:49 +0000 (UTC)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
- [209.85.221.175])
- by mx.groups.io with SMTP id smtpd.web10.4482.1648845562901163018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB6EC433FE
+	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 23:51:29 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web08.94.1649100052920643879
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 13:39:23 -0700
+ Mon, 04 Apr 2022 12:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=op3AuSAN;
- spf=pass (domain: gmail.com, ip: 209.85.221.175,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-vk1-f175.google.com with SMTP id w123so2037797vkg.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=M3nhGxXO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id d7so417038edn.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 13:39:22 -0700 (PDT)
+ Mon, 04 Apr 2022 12:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=CHWuQwWt7T+E+w2MUlDfeFs3ZzPfhSQIogz8r9AWTPE=;
-        b=op3AuSANkCHvwB3MYoJkYppTFHkY0RIgQ00ZosdDwJdFbJZrWob1Jt77ObJMO0SZm6
-         +4rJ58/v2kEXVtwL2Zz9kPyCUjK5VqIebxj5zf/QozXBqES8ADw0Tb8Ldpz6F24CrR+M
-         ROvqfCpTP+fC4ClYmDDIhXXDXmpiePHZwR10nTX7SggOfsCBlsL+AIvdKGY8ekxIS3yM
-         3l+2/aG3zeAl3k2o81CYd+SjCCLn+lHHKu+PnkWWN1L75pJBKuzGOl4xbjNlbc412fSp
-         ldIyjR2unlaE5aFJhUt4uz84aM4g8BAZhQYNsLFYNafn48jXRJUR2q6lxrSCAbGv/TxP
-         TLkw==
+        bh=ANA+tkO1UcjQUae+HHnMlBw8U7qHOJlIRkxRhzuuyIc=;
+        b=M3nhGxXORNRQ9Bb88SfNLOjLjJdrHPZGMr5kFnlQBgPTKMPIwpXi421chY/bA4Xo6y
+         xlztHS3QitZV+c/zERMQ+ovuqkLlqgBzU3OzOTqnhWsBS+7T7RmeSHvuNE/0VzmX+MD1
+         DNDFQNGMoO/9tWaQ96HUAgh9a9mVoy78SqlVisw99AJv69LlTuvt9Dse/+TjxTVJN3tV
+         S0ASshr8NssAOkf4KwWH8lYoyz4WcwyCWw1aKlpbzUaRzeyWslQsOPSAU13XnHWmOmIT
+         9Olo05GQTMypRsDU+TNELZwCbG6oxc3pUt7dt7p+SmmJtqlBsoDKXw0NQJV5IefxNy0h
+         /KaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CHWuQwWt7T+E+w2MUlDfeFs3ZzPfhSQIogz8r9AWTPE=;
-        b=YbfgrBrjwM6akPVxoUnmdC9SlOgYEWl6n9xAJiDK+iMazUJQ//S+6D90vnHR6tpipN
-         VPhKj0l787kd9YDkH03sr1LuKRfHNHnqVIQaKrCMewZGgFfue18PgF0V5AzM5RioY9rg
-         WHa7HnRYkao1NW+4ybvuTk3jt6Hh66W2pw192QNp0SDdvacIEIl3RkNwX7aEOvV9+J3d
-         UmPY9rH//IGReJj+SAxZGEgSBk0FeRXyU54ChPGXzfKI09gZgiiyaOTr9uXCYI6NQLcx
-         /jkW+FA4QAZe94SvRE7qVrd2Q3W6aoE4pC2N17bl4+Y69+6bTWxHfBp2UQprGWsepPcf
-         FsZw==
-X-Gm-Message-State: AOAM531jNmylRTTtpYtP4PRyuAL6QCXh9J0k+3PC0SGX920tjTmv0fc0
-	pOnTrHVznkE4IS4tJzOOFaY9T1c9KGzYADgawho=
+        bh=ANA+tkO1UcjQUae+HHnMlBw8U7qHOJlIRkxRhzuuyIc=;
+        b=qAyVbKVPmEjlSHA1M03EVtHecwiKzn+qVoW+vckx9Z9HNauqlgMGcLRJ/itBgtoZJB
+         gX/HK85T91M2O3xdEye6Pt73+cJTeaPAR/IkGTCEXai4kpQ7kNGJlK5m+Y589LmPRA/9
+         VJSpCXGnIqHcQZvzjgRLnZl7Tn0dW070JPYZMEK4MtnhwbDcJzf86dLoHUswwYBEo8ca
+         4hP7Yp98C+f21XiNpTfVeITVn00nMBS0cO9EuKkzmYpKi9J5uaIUnHomHntED2vItGhG
+         IQKuz80Ndwt/iH34GE54eWJBFfILHQmtn+5zwNcqnxVMkgHWAgRZmL0umOU+iZkWwKFc
+         1hLA==
+X-Gm-Message-State: AOAM533XN6E6HQQgiRmHW23prqA41YgTBocmtPPG2lWzSxHW5p9x7J58
+	H3u7JZdLMOQ3afKwmsxwmENcyoAS6Xf9AIaZxrM=
 X-Google-Smtp-Source: 
- ABdhPJw7DIgQcBR9GHPsvpcjgr6BvmRvYoMQ1bj8dHT6hgVatOGu1nt/tvt6v/JPQG540bR1Yg6nUGCnpO/PksmJshc=
-X-Received: by 2002:a05:6122:88a:b0:332:6a9c:902b with SMTP id
- 10-20020a056122088a00b003326a9c902bmr21664737vkf.40.1648845561898; Fri, 01
- Apr 2022 13:39:21 -0700 (PDT)
+ ABdhPJyU4lk+X3pMBBpUdCTDDCGDXaYJcasItV9+PT02gjvRQawMsahuqLYo5c0PFgHWnLQu1g6ucoyWAOHuwY2tdtk=
+X-Received: by 2002:aa7:c88b:0:b0:41c:c3d6:ab95 with SMTP id
+ p11-20020aa7c88b000000b0041cc3d6ab95mr1782723eds.141.1649100051187; Mon, 04
+ Apr 2022 12:20:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220317164434.387779-1-ross.burton@arm.com>
- <20220317164434.387779-2-ross.burton@arm.com>
-In-Reply-To: <20220317164434.387779-2-ross.burton@arm.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 1 Apr 2022 22:38:35 +0200
+References: <cover.1649085436.git.bruce.ashfield@gmail.com>
+ <d33fc5157b584b60177b4928d4883d9e86377d7c.1649085436.git.bruce.ashfield@gmail.com>
+In-Reply-To: 
+ <d33fc5157b584b60177b4928d4883d9e86377d7c.1649085436.git.bruce.ashfield@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 4 Apr 2022 15:20:40 -0400
 Message-ID: 
- <CA+chaQcSsAXe3o4TCdnUninmB8RPEMOzNe1EvsZ50JCRhT0qjw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3-cryptography: enforce identical
- version for -cryptography-vectors
-To: Ross Burton <ross@burtonini.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000001a97605db9dc63c"
+ <CADkTA4PKpe6Y7WS64mYqZOfqQKAVOBgFwGhD9-QGaSec23Kj_w@mail.gmail.com>
+Subject: Re: [PATCH 5/6] linux-yocto/5.15: features/security: Move x86_64
+ configs to separate file
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c00b0b05dbd9066b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 23:51:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163945
+ https://lists.openembedded.org/g/openembedded-core/message/164008
 
---00000000000001a97605db9dc63c
+--000000000000c00b0b05dbd9066b
 Content-Type: text/plain; charset="UTF-8"
 
-Not sure if this is working correctly, with opkg
-and python3-cryptography-ptest included in the image I get:
+I've heard this may be causing warnings on some configurations.
 
- * Solver encountered 1 problem(s):
- * Problem 1/1:
- *   - conflicting requests
- *   - nothing provides python3-cryptography-vectors = 36.0.2 needed by
-python3-cryptography-ptest-36.0.2-r0.0.qemux86_64
- *
- * Solution 1:
- *   - do not ask to install a package providing python3-cryptography-ptest
+I'm re-testing this now, and will follow up one way or the other. But until
+then, there's no sense queuing them.
 
-even when I do have
-python3-cryptography-vectors_36.0.2-r0.0_qemux86_64.ipk and
-python3-cryptography-ptest_36.0.2-r0.0_qemux86_64.ipk
+Bruce
 
-is rpm parsing the version differently or is the issue somewhere else?
+On Mon, Apr 4, 2022 at 11:19 AM <bruce.ashfield@gmail.com> wrote:
 
-I guess forcing identical EXTENDPKGV (instead of PV) between
-python3-cryptography and python3-cryptography-vectors would be too much
-(especially for people with PRserv enabled).
-
-Cheers,
-
-On Thu, Mar 17, 2022 at 5:44 PM Ross Burton <ross@burtonini.com> wrote:
-
-> python3-cryptography and python3-cryptography-vectors are actually the
-> same project but are on Pypi as two separate modules.
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 >
-> The test suite validates that they're the same version and fails if they
-> are not:
+> Integrating the following commit(s) to linux-yocto/.:
 >
-> FAIL: tests/test_utils.py::test_vector_version
->     def test_vector_version():
-> >       assert cryptography.__version__ == cryptography_vectors.__version__
-> E       AssertionError: assert '36.0.2' == '36.0.1'
+>     63e25b57177 features/security: Move x86_64 configs to separate file
 >
-> Catch this slightly earlier by mandating that python3-cryptography-ptest
-> pulls in an identically versioned python3-cryptography-vectors.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  meta/recipes-devtools/python/python3-cryptography_36.0.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb   | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.15.bb      | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> index 940df60d44..cb3acdf7e2 100644
-> --- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> +++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
-> @@ -91,7 +91,7 @@ RDEPENDS:${PN}:append:class-target = " \
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+> b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+> index 73a720d348..87ccfc1f45 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+> @@ -12,7 +12,7 @@ python () {
+>  }
 >
->  RDEPENDS:${PN}-ptest += " \
->      ${PYTHON_PN}-bcrypt \
-> -    ${PYTHON_PN}-cryptography-vectors \
-> +    ${PYTHON_PN}-cryptography-vectors (= ${PV}) \
->      ${PYTHON_PN}-hypothesis \
->      ${PYTHON_PN}-iso8601 \
->      ${PYTHON_PN}-pretend \
+>  SRCREV_machine ?= "29d051cc421a76432897019edc33edae35b16e39"
+> -SRCREV_meta ?= "7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5"
+> +SRCREV_meta ?= "63e25b5717751b4b33685bd5991d10c52934a4c6"
+>
+>  SRC_URI = "git://
+> git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine
+> <http://git.yoctoproject.org/linux-yocto.git;branch=$%7BKBRANCH%7D;name=machine>
+> \
+>             git://
+> git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}
+> <http://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=$%7BKMETA%7D>
+> "
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+> b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+> index d5b301b4d5..d8ce5dc518 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+> @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>
+>  SRCREV_machine:qemuarm ?= "cc9e92e826af229b841fcaf8c645e638a86eba43"
+>  SRCREV_machine ?= "c3d54a67cbf3fb8e6df2d88c80e9d2c74f69aba4"
+> -SRCREV_meta ?= "7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5"
+> +SRCREV_meta ?= "63e25b5717751b4b33685bd5991d10c52934a4c6"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> index b936257aa7..54157fd245 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> @@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?=
+> "c9f3902d8069e32a8928153a38d8f6115194d128"
+>  SRCREV_machine:qemux86-64 ?= "c9f3902d8069e32a8928153a38d8f6115194d128"
+>  SRCREV_machine:qemumips64 ?= "a4805fe749c9c56d18a60b5378674760ef0e85ed"
+>  SRCREV_machine ?= "c9f3902d8069e32a8928153a38d8f6115194d128"
+> -SRCREV_meta ?= "7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5"
+> +SRCREV_meta ?= "63e25b5717751b4b33685bd5991d10c52934a4c6"
+>
+>  # set your preferred provider of linux-yocto to 'linux-yocto-upstream',
+> and you'll
+>  # get the <version>/base branch, which is pure upstream -stable, and the
+> same
 > --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#163426):
-> https://lists.openembedded.org/g/openembedded-core/message/163426
-> Mute This Topic: https://lists.openembedded.org/mt/89849717/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> 2.19.1
 >
 >
 
---00000000000001a97605db9dc63c
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000c00b0b05dbd9066b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Not sure if this is working correctly, with opkg and=C2=A0=
-python3-cryptography-ptest included in the image I get:<div><br></div><div>=
-=C2=A0* Solver encountered 1 problem(s):<br>=C2=A0* Problem 1/1:<br>=C2=A0*=
- =C2=A0 - conflicting requests<br>=C2=A0* =C2=A0 - nothing provides python3=
--cryptography-vectors =3D 36.0.2 needed by python3-cryptography-ptest-36.0.=
-2-r0.0.qemux86_64<br>=C2=A0*<br>=C2=A0* Solution 1:<br>=C2=A0* =C2=A0 - do =
-not ask to install a package providing python3-cryptography-ptest<br></div>=
-<div><br></div><div>even when I do have python3-cryptography-vectors_36.0.2=
--r0.0_qemux86_64.ipk=C2=A0and python3-cryptography-ptest_36.0.2-r0.0_qemux8=
-6_64.ipk<br></div><div><br></div><div>is rpm parsing the version differentl=
-y or is the issue somewhere else?<br></div><div><br></div><div>I guess forc=
-ing identical EXTENDPKGV (instead of PV) between python3-cryptography and p=
-ython3-cryptography-vectors would be too much (especially for people with P=
-Rserv enabled).<br></div><div><br></div><div>Cheers,</div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 17, 2=
-022 at 5:44 PM Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com">ross@b=
-urtonini.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">python3-cryptography and python3-cryptography-vectors are actua=
-lly the<br>
-same project but are on Pypi as two separate modules.<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">I&#=
+39;ve heard this may be causing warnings on some configurations.</div><div =
+class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"g=
+mail_default" style=3D"font-size:small">I&#39;m re-testing this now, and wi=
+ll follow up one way or the other. But until then, there&#39;s no sense que=
+uing=C2=A0them.</div><div class=3D"gmail_default" style=3D"font-size:small"=
+><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Mon, Apr 4, 2022 at 11:19 AM &lt;<a href=3D"mailto:bruce.ashfield@gmai=
+l.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mailto=
+:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&g=
+t;<br>
 <br>
-The test suite validates that they&#39;re the same version and fails if the=
-y<br>
-are not:<br>
+Integrating the following commit(s) to linux-yocto/.:<br>
 <br>
-FAIL: tests/test_utils.py::test_vector_version<br>
-=C2=A0 =C2=A0 def test_vector_version():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0assert cryptography.__version__ =3D=3D crypt=
-ography_vectors.__version__<br>
-E=C2=A0 =C2=A0 =C2=A0 =C2=A0AssertionError: assert &#39;36.0.2&#39; =3D=3D =
-&#39;36.0.1&#39;<br>
+=C2=A0 =C2=A0 63e25b57177 features/security: Move x86_64 configs to separat=
+e file<br>
 <br>
-Catch this slightly earlier by mandating that python3-cryptography-ptest<br=
->
-pulls in an identically versioned python3-cryptography-vectors.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+Signed-off-by: Kamil Dziezyk &lt;<a href=3D"mailto:kamil.dziezyk@arm.com" t=
+arget=3D"_blank">kamil.dziezyk@arm.com</a>&gt;<br>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
+m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
-6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
-bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.15.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a>=C2=A0 =C2=A0=
+| 2 +-<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_5.15.bb"=
+ rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a> | 2 +-<b=
+r>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 | 2 +-<br>
+=C2=A03 files changed, 3 insertions(+), 3 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptog=
-raphy_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_=
-36.0.2.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-cryp=
-tography_36.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptograp=
-hy_36.0.2.bb</a><br>
-index 940df60d44..cb3acdf7e2 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
-6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
-bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-cryptography_3=
-6.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-cryptography_36.0.2.=
-bb</a><br>
-@@ -91,7 +91,7 @@ RDEPENDS:${PN}:append:class-target =3D &quot; \<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.1=
+5.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a> b/met=
+a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.15.bb" rel=3D"nor=
+eferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a><br>
+index 73a720d348..87ccfc1f45 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.15.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.15.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.15.bb</a><br>
+@@ -12,7 +12,7 @@ python () {<br>
+=C2=A0}<br>
 <br>
-=C2=A0RDEPENDS:${PN}-ptest +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-bcrypt \<br>
--=C2=A0 =C2=A0 ${PYTHON_PN}-cryptography-vectors \<br>
-+=C2=A0 =C2=A0 ${PYTHON_PN}-cryptography-vectors (=3D ${PV}) \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-hypothesis \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-iso8601 \<br>
-=C2=A0 =C2=A0 =C2=A0${PYTHON_PN}-pretend \<br>
+=C2=A0SRCREV_machine ?=3D &quot;29d051cc421a76432897019edc33edae35b16e39&qu=
+ot;<br>
+-SRCREV_meta ?=3D &quot;7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5&quot;<br>
++SRCREV_meta ?=3D &quot;63e25b5717751b4b33685bd5991d10c52934a4c6&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-=
+yocto.git;branch=3D$%7BKBRANCH%7D;name=3Dmachine" rel=3D"noreferrer" target=
+=3D"_blank">git.yoctoproject.org/linux-yocto.git;branch=3D${KBRANCH};name=
+=3Dmachine</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://git.yocto=
+project.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-5.15=
+;destsuffix=3D$%7BKMETA%7D" rel=3D"noreferrer" target=3D"_blank">git.yoctop=
+roject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;branch=3Dyocto-5.15;=
+destsuffix=3D${KMETA}</a>&quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_5=
+.15.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a> b=
+/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a><br>
+index d5b301b4d5..d8ce5dc518 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_5.15.bb"=
+ rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-tiny_5.15.bb"=
+ rel=3D"noreferrer" target=3D"_blank">linux-yocto-tiny_5.15.bb</a><br>
+@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0SRCREV_machine:qemuarm ?=3D &quot;cc9e92e826af229b841fcaf8c645e638a86=
+eba43&quot;<br>
+=C2=A0SRCREV_machine ?=3D &quot;c3d54a67cbf3fb8e6df2d88c80e9d2c74f69aba4&qu=
+ot;<br>
+-SRCREV_meta ?=3D &quot;7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5&quot;<br>
++SRCREV_meta ?=3D &quot;63e25b5717751b4b33685bd5991d10c52934a4c6&quot;<br>
+<br>
+=C2=A0PV =3D &quot;${LINUX_VERSION}+git${SRCPV}&quot;<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.b=
+b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a> b/meta/reci=
+pes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=3D"noreferrer" =
+target=3D"_blank">linux-yocto_5.15.bb</a><br>
+index b936257aa7..54157fd245 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.15.bb</a><br>
+@@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?=3D &quot;c9f3902d8069e32a8928153=
+a38d8f6115194d128&quot;<br>
+=C2=A0SRCREV_machine:qemux86-64 ?=3D &quot;c9f3902d8069e32a8928153a38d8f611=
+5194d128&quot;<br>
+=C2=A0SRCREV_machine:qemumips64 ?=3D &quot;a4805fe749c9c56d18a60b5378674760=
+ef0e85ed&quot;<br>
+=C2=A0SRCREV_machine ?=3D &quot;c9f3902d8069e32a8928153a38d8f6115194d128&qu=
+ot;<br>
+-SRCREV_meta ?=3D &quot;7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5&quot;<br>
++SRCREV_meta ?=3D &quot;63e25b5717751b4b33685bd5991d10c52934a4c6&quot;<br>
+<br>
+=C2=A0# set your preferred provider of linux-yocto to &#39;linux-yocto-upst=
+ream&#39;, and you&#39;ll<br>
+=C2=A0# get the &lt;version&gt;/base branch, which is pure upstream -stable=
+, and the same<br>
 -- <br>
-2.25.1<br>
+2.19.1<br>
 <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#163426): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/163426" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/163426</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/89849717/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/89849717/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div>
 
---00000000000001a97605db9dc63c--
+--000000000000c00b0b05dbd9066b--
 
