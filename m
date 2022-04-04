@@ -1,161 +1,168 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431A7C4167B
-	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 14:43:48 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.3182.1648840142265698336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C8CEC4167D
+	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:41 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web10.37884.1649088507355975369
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 12:09:02 -0700
+ Mon, 04 Apr 2022 09:08:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hx3E0pkb;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id z92so3990078ede.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y6AsXkh6;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id h11so13568408ljb.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Apr 2022 12:09:02 -0700 (PDT)
+ Mon, 04 Apr 2022 09:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CyYzt5CYOaubqMZNVfvUijrz2nJAt9fOMbA33EVsb74=;
-        b=hx3E0pkbWg2MIQdKjOXG9MJsAIDA7vbIKYmHvp3/ZG/2T5zki2206K9/qDVXbkmPgm
-         z0z5OHmBoptlLOMkBkkuwkDMzusImiEvSrvM4lAXcAHW8jGVOTkYz2V/OZkfKPTYCGhQ
-         gGf9ym16xX1VIQKaA0rADiFu7RhYvx7ccrep4sG3yquasTUN2ZnFY3L5cqc6dgk+ONVa
-         OXjiMwz/8etuf/y9l6v4gKRLfyzMCxTGomi2ZeZMGENbaFBr07zl5pmKOYkttpXld7GE
-         jPd3LknIsljHY+jadYo9XXwYtWJd/sbiiohSz4wVGNXw4GtmeodUaQlT5VJzDfJAF4Fr
-         i9GQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lQ7/Dv6SlbPiy6WN3SO55Vue9CoNyF2ICBcCEAtJlZM=;
+        b=Y6AsXkh6bpcknm5IkyG6nmDgep+f7KkUR3e/FWNq6G6XzBY52ArGIa+GptFTzMTDpM
+         fGIwmwhyaE893M7+ZeiU9rtZNWIXvUu4Ct8LPH7ifLY3NV0p/ZYK3AmOCGXVTQp1+HQZ
+         1GNV/sRY1pzKf9bRPD6PFIfeVy0JB+ULe/HD/llMIs7lqyspD5+Wli9idZx6oFBKTXxg
+         mILw6HaWsASuxrCkRjAwwwar5wZ2vFLXXcrQhlEgOVuHst9Qsk5uiY+QykzhbYFXt9yR
+         9s8AnmgzkuaYHvzHlKbDLciaMHefzO22QprSmzly6ykMv+LWlkmtNtVF71hV5kcncPSe
+         J7GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CyYzt5CYOaubqMZNVfvUijrz2nJAt9fOMbA33EVsb74=;
-        b=etb6X3lJCM9nHi8UpabO1mYs6Sw9cNAM0jDzebFkeQ2iKXws5GMhhvyT2H9cqgQFcL
-         sfokytmOInbvJBTcn6QVBTla7WKhiEyflrDYv58PiuBiY9rzXXLZ7WEYzZG/w4e2vQb8
-         +CHPcStNufLmDyKSU6OVEg2Gmc3CyDQLsH10lR1KZEVnC0FEAjWNbXqXB+VuzIXnz8yz
-         lsfGHE/lztXGOmltHZl5GUuXb4ol5rPPW4/X5eCVJlfJ/LfMYT/PlO49dVTVdU5wefNk
-         nNYx1UogSy6Du9EMryDwP4WIdi9MIY0CzYLJtiWTOzfm+cPhAz8RV1blhaD7aSGMFPJI
-         DAzg==
-X-Gm-Message-State: AOAM530mQOsYHI7I+CIDOZ4OV5zSwWr290slHFkQGl3wXqK/z1Jh1JCt
-	C6IKL9iQkGgeZzSjGX+uwpQhQ+xbHSOQIA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lQ7/Dv6SlbPiy6WN3SO55Vue9CoNyF2ICBcCEAtJlZM=;
+        b=i0tGDqWOnazsjxz+Drv460D0upQAlH1K6zEwu8U3Yr1h7NzdF4cP+qa1xsYpNJemmk
+         661qAjenlU0L/Yef2+hi8YCFsWQwlz5ZtBvQrZ+7RQKK8DL6B+ewA6ERCOYmXtUjhymg
+         iYerxbVCRMoJFzUpgEWsSx/xYsPa8qs0QVtY7gEW+2GAjoWNB9W+xWDulvMUbMw6i2Mw
+         otQYvx8L8MMPCcIIbgRgDgU50aZgidpdRjyQKGFnZOZdKUXnudkwGt5MWo0ypLFzCxiK
+         hvcMtq1h1Nkp//vrvOVeece3GIRkAZKrKy338Wbxk1bdNzI2pMbf3aVvi43sfY4B18Zl
+         f1RQ==
+X-Gm-Message-State: AOAM5306x/UpDKx6iU8zzNyl5cKIbKzCIJdPn+OEQ3NaPneoJuIqcQ9r
+	q3XKC4fEUy8C7puQEniO+g4EkTm0R3SLDIUzIx0=
 X-Google-Smtp-Source: 
- ABdhPJzGtMnZlfuHD1Lbl3OWMdF+djvhYwMDLasNO+ltKlKerqbhkpYASHRUknS+h5L1kKhRM4/MFg==
-X-Received: by 2002:a05:6402:3591:b0:419:26ea:1e22 with SMTP id
- y17-20020a056402359100b0041926ea1e22mr22545795edc.27.1648840140136;
-        Fri, 01 Apr 2022 12:09:00 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- b7-20020a170906708700b006da8440d642sm1324778ejk.113.2022.04.01.12.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 12:08:59 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [dunfell][PATCH] boost: fix native build with glibc-2.34
-Date: Fri,  1 Apr 2022 21:08:21 +0200
-Message-Id: <20220401190821.2179786-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJyMpYclIIWhCkTyBeIpVjWljrq6n8tbK3WgB1P5/MW0WwqBf2WzaWIUmsx6MRYrrKfmdqA9hv714nJjjj1HMWA=
+X-Received: by 2002:a05:651c:3cc:b0:249:800d:58ea with SMTP id
+ f12-20020a05651c03cc00b00249800d58eamr187828ljp.41.1649088505499; Mon, 04 Apr
+ 2022 09:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CANNYZj_ed8mxVVmvyqVYAvGq4+Ghh+_5=jUX8czUX0VuhsLORA@mail.gmail.com>
+ <12323.1649088402646367791@lists.openembedded.org>
+In-Reply-To: <12323.1649088402646367791@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 4 Apr 2022 18:08:13 +0200
+Message-ID: 
+ <CANNYZj8448no5kcOvpkQPiAqDoLoKufQhxBmAxctFLiB_e26gg@mail.gmail.com>
+Subject: Re: [OE-core] meta: rust: Bug fix for target definitions returning
+ 'NoneType'
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 14:43:48 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163944
+ https://lists.openembedded.org/g/openembedded-core/message/164004
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...e-warning-with-glibc-2.34-on-Linux-p.patch | 32 +++++++++++++++++++
- ...-elide-a-warning-that-caused-Solaris.patch | 24 ++++++++++++++
- meta/recipes-support/boost/boost_1.72.0.bb    |  2 ++
- 3 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/0001-Fix-Wsign-compare-warning-with-glibc-2.34-on-Linux-p.patch
- create mode 100644 meta/recipes-support/boost/boost/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
+Thanks for the explanations! Can you place this information into the
+commit message?
 
-diff --git a/meta/recipes-support/boost/boost/0001-Fix-Wsign-compare-warning-with-glibc-2.34-on-Linux-p.patch b/meta/recipes-support/boost/boost/0001-Fix-Wsign-compare-warning-with-glibc-2.34-on-Linux-p.patch
-new file mode 100644
-index 0000000000..46c706931b
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-Fix-Wsign-compare-warning-with-glibc-2.34-on-Linux-p.patch
-@@ -0,0 +1,32 @@
-+From f9d0e594d43afcb4ab0043117249feb266ba4515 Mon Sep 17 00:00:00 2001
-+From: Romain Geissler <romain.geissler@amadeus.com>
-+Date: Tue, 10 Aug 2021 14:22:28 +0000
-+Subject: [PATCH] Fix -Wsign-compare warning with glibc 2.34 on Linux
-+ platforms.
-+
-+In file included from /data/mwrep/res/osp/Boost/21-0-0-0/include/boost/thread/thread_only.hpp:17,
-+                 from /data/mwrep/res/osp/Boost/21-0-0-0/include/boost/thread/thread.hpp:12,
-+                 from src/GetTest.cpp:12:
-+/data/mwrep/res/osp/Boost/21-0-0-0/include/boost/thread/pthread/thread_data.hpp: In member function 'void boost::thread_attributes::set_stack_size(std::size_t)':
-+/data/mwrep/res/osp/Boost/21-0-0-0/include/boost/thread/pthread/thread_data.hpp:61:19: error: comparison of integer expressions of different signedness: 'std::size_t' {aka 'long unsigned int'} and 'long int' [-Werror=sign-compare]
-+   61 |           if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
-+      |                   ^
-+
-+Upstream-Status: Backport [1.78.0 https://github.com/boostorg/thread/commit/f9d0e594d43afcb4ab0043117249feb266ba4515]
-+---
-+ boost/thread/pthread/thread_data.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/boost/thread/pthread/thread_data.hpp b/boost/thread/pthread/thread_data.hpp
-+index bc9b1367..c43b276d 100644
-+--- a/boost/thread/pthread/thread_data.hpp
-++++ b/boost/thread/pthread/thread_data.hpp
-+@@ -58,7 +58,7 @@ namespace boost
-+           std::size_t page_size = ::sysconf( _SC_PAGESIZE);
-+ #endif
-+ #ifdef PTHREAD_STACK_MIN
-+-          if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
-++          if (size<static_cast<std::size_t>(PTHREAD_STACK_MIN)) size=PTHREAD_STACK_MIN;
-+ #endif
-+           size = ((size+page_size-1)/page_size)*page_size;
-+           int res = pthread_attr_setstacksize(&val_, size);
-diff --git a/meta/recipes-support/boost/boost/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch b/meta/recipes-support/boost/boost/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
-new file mode 100644
-index 0000000000..3784cf9165
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch
-@@ -0,0 +1,24 @@
-+From 74fb0a26099bc51d717f5f154b37231ce7df3e98 Mon Sep 17 00:00:00 2001
-+From: Rob Boehne <robb@datalogics.com>
-+Date: Wed, 20 Nov 2019 11:25:20 -0600
-+Subject: [PATCH] Revert change to elide a warning that caused Solaris builds
-+ to fail.
-+
-+Upstream-Status: Backport [1.73.0 https://github.com/boostorg/thread/commit/74fb0a26099bc51d717f5f154b37231ce7df3e98]
-+---
-+ boost/thread/pthread/thread_data.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/boost/thread/pthread/thread_data.hpp b/boost/thread/pthread/thread_data.hpp
-+index aefbeb43..bc9b1367 100644
-+--- a/boost/thread/pthread/thread_data.hpp
-++++ b/boost/thread/pthread/thread_data.hpp
-+@@ -57,7 +57,7 @@ namespace boost
-+ #else
-+           std::size_t page_size = ::sysconf( _SC_PAGESIZE);
-+ #endif
-+-#if PTHREAD_STACK_MIN > 0
-++#ifdef PTHREAD_STACK_MIN
-+           if (size<PTHREAD_STACK_MIN) size=PTHREAD_STACK_MIN;
-+ #endif
-+           size = ((size+page_size-1)/page_size)*page_size;
-diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
-index df1cc16937..b3ec11933c 100644
---- a/meta/recipes-support/boost/boost_1.72.0.bb
-+++ b/meta/recipes-support/boost/boost_1.72.0.bb
-@@ -9,4 +9,6 @@ SRC_URI += " \
-            file://0001-dont-setup-compiler-flags-m32-m64.patch \
-            file://0001-revert-cease-dependence-on-range.patch \
-            file://0001-added-typedef-executor_type.patch \
-+           file://0001-Revert-change-to-elide-a-warning-that-caused-Solaris.patch \
-+           file://0001-Fix-Wsign-compare-warning-with-glibc-2.34-on-Linux-p.patch \
-            "
--- 
-2.35.1
+Alex
 
+On Mon, 4 Apr 2022 at 18:06, Sundeep KOKKONDA
+<sundeep.kokkonda@gmail.com> wrote:
+>
+> Hello Alex,
+>
+> Steps to reproduce:
+>
+> Set MACHINE ?= "qemuarm" in local.conf
+> bitbake core-image-minimal -cpopulate_sdk
+>
+>
+> Complete Error:
+>
+> ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_rust_gen_targets(d)
+>      0003:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
+>      0027:
+>      0028:LLVM_TARGET[x86_64] = "${RUST_HOST_SYS}"
+>      0029:python do_rust_gen_targets () {
+>      0030:    wd = d.getVar('WORKDIR') + '/targets/'
+>  *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+>      0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+>      0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
+>      0034:}
+>      0035:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
+>      0326:    # build tspec
+>      0327:    tspec = {}
+>      0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
+>      0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+>  *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+>      0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+>      0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+>      0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+>      0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+>
+> ERROR: Logfile of failure stored in: /ala-lpggp31/skokkonda/yocto/poky/build_arm/tmp/work/x86_64-nativesdk-pokysdk-linux/rust-cross-canadian-arm/1.59.0-r0/temp/log.do_rust_gen_targets.168831
+> ERROR: Task (/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian_1.59.0.bb:do_rust_gen_targets) failed with exit code '1'
+> .
+>
+> I took local variables from rust_gen_target function for arm and aarch64 targets. Refer below, the tspec varibles for 'arm' generated with NoneType.
+>
+> Locals at rust_gen_target for arm::
+> arch =  arm
+> rust_arch =  arm
+> arch_abi =  arm
+> tspec['data-layout'] =  None
+> Type of tspec['data-layout'] =  <class 'NoneType'>
+> tspec['data-layout'] =  None
+> Type of tspec['data-layout'] =  <class 'NoneType'>
+> DEBUG: Python function do_rust_gen_targets finished
+>
+> Locals at rust_gen_target  for aarch64::
+> arch =  aarch64
+> rust_arch =  aarch64
+> arch_abi =  aarch64
+> tspec['data-layout'] =  aarch64-unknown-linux-gnu
+> Type of tspec['data-layout'] =  <class 'str'>
+> tspec['data-layout'] =  e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128
+> Type of tspec['data-layout'] =  <class 'str'>
+> tspec['max-atomic-width'] =  128
+> Type of tspec['max-atomic-width'] =  <class 'int'>
+> tspec['target-pointer-width'] =  64
+> Type of tspec['target-pointer-width'] =  <class 'str'>
+> tspec['target-c-int-width'] =  32
+> Type of tspec['target-c-int-width'] =  <class 'str'>
+> tspec['target-endian'] =  little
+> Type of tspec['target-endian'] =  <class 'str'>
+> tspec['arch'] =  aarch64
+> Type of tspec['arch'] =  <class 'str'>
+>
+> Reason for changing arm-eabi to arm:
+> I noticed that the previous change introduced this bug, so I reverted the arm-eabi to arm and the issue is fixed.
+>
+>
+> --
+> Thanks,
+> Sundeep K.
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164003): https://lists.openembedded.org/g/openembedded-core/message/164003
+> Mute This Topic: https://lists.openembedded.org/mt/90172076/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
