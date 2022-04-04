@@ -2,64 +2,61 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C875C636FC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32531C636FE
 	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:46 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web08.36819.1649085565119475963
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web09.36598.1649085560115559653
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:19:25 -0700
+ Mon, 04 Apr 2022 08:19:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OhgRdmeB;
- spf=pass (domain: gmail.com, ip: 209.85.160.172,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dVnALOuN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.52,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id bp39so7952816qtb.6
+Received: by mail-qv1-f52.google.com with SMTP id kc20so7699287qvb.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:19:25 -0700 (PDT)
+ Mon, 04 Apr 2022 08:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PEop/xfldWD6sQjjx/V7vPpqzRssg6SZQ6oPvKCTX8M=;
-        b=OhgRdmeBbmMnc1yLaMLyCh1eUouEZoeip0lDMxGJVgW0OSk8cSQE8lghnRW9vq0Xtb
-         9iqDJpR7QXaO3zbIccedhlw68wshZIHrk4YfWucGZFQZlcNMMLQQNNZOVdYV4SAgtMnu
-         uYws4HVipuMtrPhcgqq++MNqL4Xpcjv63IUvNS8Nkp5m6hBbIrACXmxi6NstTplR4njM
-         OQC92+iqqOZbwO+U7fM4n2Aa9XNrquNPJ/YMnod6SLlORcAJZCgd5Net60JBrFNsjT7K
-         dkz6dNb/kR+M9zwr9q2Rjrri+h3WbYbTPl0I7P184VOc/J4AtInCFtwoMSnx/hrdhOrx
-         if/w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VlXaVjZsy1I0qUVgaE6Kn50mEaB5YYvpqIklU9ordKM=;
+        b=dVnALOuNbAqtkJkF1z8K6ghdszTvPtQQ5NfrFTWiqaqv3HoRUNl5UiPLLE+lLcKbWE
+         1htM/q0hh8t6w9DXorwiJDcEpoy6IKSsHCVth28e+bJzlIbeRD2WQIjkv1NtXBp77Amx
+         viuAzGLoW0X1cMVcPu88RNOSthAUPLlN8uzWFhDwXK6lKFZk4FEl2cQlrcZHCLgqmCdJ
+         hWN1fL77D47CvkW+ZMfwgmyOOBMND/WSMQ3v2yJtlRCuZVSxwkxpAvVEB6UvCJaQi6d0
+         6aP74gfZTwV29YBmnS4iB4jNo2cfjkt075Y+bbtIryxSXrU6Si42Mo6tJ+20ZvpbZjDO
+         7LMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PEop/xfldWD6sQjjx/V7vPpqzRssg6SZQ6oPvKCTX8M=;
-        b=5PCoj/288/J9zAvKhyIqcddE7S5MBz27ZMvS90P6sckbQx8d/Zwfmkjf01fPr8A42J
-         LcE/D7rx2o+zfVeh9umzejLjt809670wF1/5daRlg3zkTGUwOFAwi1SgLk+Wo52dUaTV
-         sez9LmFc6Trs6xQu2xQ/i0FzqX00a7L8s6fXlYgbnePK7lCL0KHVZz1GwXTqb/qip8ON
-         Vs/ET7J9cZnyakOrX79lkMsK9fIHQcoHKO8Qq275aeK+EBJHPUHewxdfZzxOkxtN2l9X
-         bZt6AUl4rNKPy48Rh5Pw0YN3VB6qJfFB64xX0qVcF7FFGkJAhJtkQpKWLLyNbKeLs/AT
-         zl1Q==
-X-Gm-Message-State: AOAM532r7FpJT3GQh8iTuarvldHjsnDGvgjCraKcjgcBZJbdjqkee1FF
-	ZhOU2LknNY0Iz5fXs7yfDvU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VlXaVjZsy1I0qUVgaE6Kn50mEaB5YYvpqIklU9ordKM=;
+        b=l5TTb6lSTngeauTfoXXrNSDGUU/Gs5huTblrQlq0rYpDl32nEgggvO/L5J+EZ4pv/e
+         3hOiqPzcUSyglHvH509Guyo3nHKoe6i1lyCP1KBsfUAlb0K9zvPJRy6vy6UK4JUoP0TP
+         +6Ch2wUSFlXzmoXnEBX0HRXWfbScmovhv8TUciHi9UL7i7MbBWfMq4KKr5Pf6FSoCnqH
+         xOOTNNTA7/zosnrJDKRnaZBky8ztCSjSObsfwIvwAO2W9JXOdh5Fj7bO95S5pRuAtGUU
+         GtFrc1aWhqn9gEgHrnVLzTBrCMUX4RpX2z5q2WWQz8Xkj8QFyTC25saDGDzyvEkS0Y52
+         2ECg==
+X-Gm-Message-State: AOAM533RIku24DX1nAUFYmbJp8TrQeb/EA00F90Caufmc+8qw82DLClg
+	3MJx3o+C4eae8XL0LASPJwhtYR7k1xqEUg==
 X-Google-Smtp-Source: 
- ABdhPJwdcWtpmh2J79eZmgsT0rfCtyNMIblEEQQsv4kBvPV30xPLtoYP3E6jpDxcrtHD8i4J+8WKgg==
-X-Received: by 2002:ac8:5890:0:b0:2e2:fdb9:da5 with SMTP id
- t16-20020ac85890000000b002e2fdb90da5mr511773qta.288.1649085564088;
-        Mon, 04 Apr 2022 08:19:24 -0700 (PDT)
+ ABdhPJx9fgNgL+xx4CQcWMLsDoCctMA4/5FjLf2Kxtvxk9DlXuJYIKFLp1HyPhD1KT6q3a0Gy8jBig==
+X-Received: by 2002:a05:6214:2308:b0:435:3440:7d3c with SMTP id
+ gc8-20020a056214230800b0043534407d3cmr45544qvb.65.1649085558901;
+        Mon, 04 Apr 2022 08:19:18 -0700 (PDT)
 Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- c3-20020ac87d83000000b002e1d1b3df15sm8969772qtd.44.2022.04.04.08.19.22
+ c3-20020ac87d83000000b002e1d1b3df15sm8969772qtd.44.2022.04.04.08.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 08:19:23 -0700 (PDT)
+        Mon, 04 Apr 2022 08:19:18 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/6] linux-yocto-rt/5.15: aufs: compile fix
-Date: Mon,  4 Apr 2022 11:19:14 -0400
-Message-Id: 
- <19240d225188fe04c9d6ace170f066ca64ab94e9.1649085436.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 0/6] kernel-yocto: consolidated pull request
+Date: Mon,  4 Apr 2022 11:19:10 -0400
+Message-Id: <cover.1649085436.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1649085436.git.bruce.ashfield@gmail.com>
-References: <cover.1649085436.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -67,32 +64,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163999
+ https://lists.openembedded.org/g/openembedded-core/message/163995
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto-rt/5.15:
+Richard,
 
-    29d051cc421a aufs: update compile fix for v5.15+ preempt-rt kernels
+A few aufs fixes, -stable and a configuration fixup for ARM/x86 split,
+but otherwise, not a lot here.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I know the release is going to be cut shortly, so these can either be
+post or in the release, obviously up to you. I'm sitting on other
+changes that might cause issues, and will send them after the release.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index 4efe51ec6b..73a720d348 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "2982a893fea6919a3ffd1fb6d600fb8cfe8c58b4"
-+SRCREV_machine ?= "29d051cc421a76432897019edc33edae35b16e39"
- SRCREV_meta ?= "7dd85143b4ed77bdcb6628ac8ea69917e1cd29e5"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+Bruce
+
+
+The following changes since commit 6459a06f2ed7d47f5df0c50d95e182e432311d53:
+
+  unzip: fix CVE-2021-4217 (2022-04-04 13:00:16 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  linux-yocto/5.15: update to v5.15.32
+  linux-yocto/5.10: update to v5.10.109
+  linux-yocto/5.15: aufs: fixes and optimization
+  linux-yocto-rt/5.15: aufs: compile fix
+  linux-yocto/5.15: features/security: Move x86_64 configs to separate
+    file
+  linux-yocto/5.10: features/security: Move x86_64 configs to separate
+    file
+
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+ 6 files changed, 39 insertions(+), 39 deletions(-)
+
 -- 
 2.19.1
 
