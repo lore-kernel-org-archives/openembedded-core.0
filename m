@@ -1,85 +1,99 @@
-Return-Path: <fntoth@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C52F7C43219
-	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:43 +0000 (UTC)
-Received: from mailfilter05-out31.webhostingserver.nl
- (mailfilter05-out31.webhostingserver.nl [141.138.168.205])
- by mx.groups.io with SMTP id smtpd.web08.26720.1649015468667037948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 000DFC4743F
+	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:42 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web08.30491.1649039474529559565
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Apr 2022 12:51:09 -0700
+ Sun, 03 Apr 2022 19:31:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=softfail (domain: gmail.com, ip: 141.138.168.205, mailfrom: fntoth@gmail.com)
-X-Halon-ID: 663bdfbb-b387-11ec-a6ae-001a4a4cb933
-Received: from s198.webhostingserver.nl (s198.webhostingserver.nl
- [141.138.168.154])
-	by mailfilter05.webhostingserver.nl (Halon) with ESMTPSA
-	id 663bdfbb-b387-11ec-a6ae-001a4a4cb933;
-	Sun, 03 Apr 2022 21:51:05 +0200 (CEST)
-Received: from [2a02:a466:68ed:1:a97:eb0e:d916:69ac] (helo=delfion.fritz.box)
-	by s198.webhostingserver.nl with esmtpa (Exim 4.94.2)
-	(envelope-from <fntoth@gmail.com>)
-	id 1nb6Fd-009Srb-Ia; Sun, 03 Apr 2022 21:51:05 +0200
-From: Ferry Toth <fntoth@gmail.com>
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=JdD6KeAe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id t13so7147526pgn.8
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 03 Apr 2022 19:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=LQtXBVvl3NPmX2JKzQL0Q9OXlMCnmzs3Z/8+8EHUdCw=;
+        b=JdD6KeAeVtdg3blantKrUaqSU7JeYWRcrM1fB8TM00TMvo49PCHcs7z0NVgelaYdzo
+         keDYIuBf8UFVHkBCS+PI8DOedYkF7Ue4d5aTIlJa4/4Kra+pI0EcXYcfHKSTUKa7yEN9
+         5UeoJcYpomH61Ofzw6+ReiG6v+n8XPQ6ZY2Zpb/U/7oBKJ8pSosURzXHV6Ls4p2Mc1dY
+         rpAy6Gcqc4suLSOr2H6Fly0b63VFALJDhvDo5gK8LXiiBKGUYbFwYYbCwiffJWXD6NMQ
+         646CJpNgsylITT12078q556z/qptW2ZYTtnB/bGn14UTTMVtnapedKVTOoBudiFwkO2D
+         9b1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LQtXBVvl3NPmX2JKzQL0Q9OXlMCnmzs3Z/8+8EHUdCw=;
+        b=g9BfEBd4eCXKRyelyCObZHLULmBcjVCb1uBvqkLgYtiS/Yq7AvQAjU4ESKwT49ExAn
+         Aqu7bNe/MfpLuuSBNmXqWBtYeBi+rELjIED2hQc/bpIhg4Zr5E+gH4Aax7JH9hiQooX7
+         xQYwRZYBRZSt0FJVyneRAhCBX5lJc5vuURJA0m9y5EdL9sm5ubFfPUglahPz7sWI6sM8
+         dPPpNQYjwFFk96azzwxOafJHvLLobOKMujx/VnTR0fvtJXNtOtcF1kCP5iN4iUL7LNdh
+         25aKAbGpeRX+Fde/FHRtKMxio/DD/2eQTeGCTkw9fSxr19VyZ6uS6OnNjQShFw0G6cmb
+         H+PA==
+X-Gm-Message-State: AOAM531u76su0UrYJjHDw9KXP2tKETxmrrQ8A9fU2KsaGJDzV0/dl0AC
+	+SLELS+I6q1D/Qk4Z7WxD33Vnu3bDFgZjaGMmjA=
+X-Google-Smtp-Source: 
+ ABdhPJywS6klqQyS9SunQogrCVwJk/6QgAGovMhOarXQ24qpUsm+GEJenQ5dh7l5CQ7ssvmDTSWSxQ==
+X-Received: by 2002:a63:2b0d:0:b0:386:322:f05c with SMTP id
+ r13-20020a632b0d000000b003860322f05cmr24482730pgr.11.1649039473606;
+        Sun, 03 Apr 2022 19:31:13 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ p26-20020a63951a000000b003826aff3e41sm8471117pgd.33.2022.04.03.19.31.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Apr 2022 19:31:12 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Xavier Berger <xavier.berger@bio-logic.net>,
-	Alexander Kanavin <alex@linutronix.de>,
-	Ferry Toth <ftoth@exalondelft.nl>
-Subject: [PATCH v2 1/3] gpg-sign: Add parameters to gpg signature function
-Date: Sun,  3 Apr 2022 21:50:44 +0200
-Message-Id: <20220403195046.7060-3-fntoth@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220403195046.7060-1-fntoth@gmail.com>
-References: <20220403195046.7060-1-fntoth@gmail.com>
+Subject: [OE-core][dunfell 7/8] python3-jinja2: Correct HOMEPAGE
+Date: Sun,  3 Apr 2022 16:30:28 -1000
+Message-Id: 
+ <b9f897609db29279a70238620e3d2ff57317d952.1649026624.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1649026624.git.steve@sakoman.com>
+References: <cover.1649026624.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:43 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/163969
+ https://lists.openembedded.org/g/openembedded-core/message/163979
 
-From: Xavier Berger <xavier.berger@bio-logic.net>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-output_suffix: If defined, add output_suffix as file name extension.
-use_sha256: If True, use sha256 for gpg as digest algorithm
-
-Signed-off-by: Xavier Berger <xavier.berger@bio-logic.net>
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 261778c1e3665b34c0d4e49bda63b520d5335587)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/gpg_sign.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-jinja2_2.11.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 1bce6cb792..aa9bb49f2c 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -58,7 +58,7 @@ class LocalSigner(object):
-         for i in range(0, len(files), sign_chunk):
-             subprocess.check_output(shlex.split(cmd + ' '.join(files[i:i+sign_chunk])), stderr=subprocess.STDOUT)
+diff --git a/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb b/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
+index dbdf563f87..9f054c6024 100644
+--- a/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
++++ b/meta/recipes-devtools/python/python3-jinja2_2.11.3.bb
+@@ -1,5 +1,5 @@
+ DESCRIPTION = "Python Jinja2: A small but fast and easy to use stand-alone template engine written in pure python."
+-HOMEPAGE = "https://pypi.org/project/Jinja/"
++HOMEPAGE = "https://pypi.org/project/Jinja2/"
  
--    def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
-+    def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True, output_suffix=None, use_sha256=False):
-         """Create a detached signature of a file"""
- 
-         if passphrase_file and passphrase:
-@@ -71,6 +71,10 @@ class LocalSigner(object):
-             cmd += ['--homedir', self.gpg_path]
-         if armor:
-             cmd += ['--armor']
-+        if output_suffix:
-+            cmd += ['-o', input_file + "." + output_suffix]
-+        if use_sha256:
-+            cmd += ['--digest-algo', "SHA256"]
- 
-         #gpg > 2.1 supports password pipes only through the loopback interface
-         #gpg < 2.1 errors out if given unknown parameters
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
 -- 
-2.32.0
+2.25.1
 
 
