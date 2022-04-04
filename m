@@ -1,129 +1,265 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 532B5C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A47C4167E
 	for <webhook@archiver.kernel.org>; Mon,  4 Apr 2022 18:46:41 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web12.36628.1649085567427315150
- for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:19:27 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mh82YIEV;
- spf=pass (domain: gmail.com, ip: 209.85.219.44,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id i15so1762770qvh.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Apr 2022 08:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sND6mzqZd31cuncIfzHhkrh9Ruhc+O7rVpK0xgDMBdw=;
-        b=Mh82YIEV/FL3vjjtBB/eWKpALgyNnlyKaNV9hIdEwx0VnzlRqMpTwW6GklyD8pR/Sz
-         Fhsw6f3h8G8bPmzv/IE6bxyti/m5qMA4Ev7ht540QiOyZRcEn/J/UhXFarWsA20M85bI
-         c3ioJ0sWOtWkpM27nK3XiagCxEDmIJaiPviqFuEXHFh+CgS+xa4ewIJ77/qJ8Oh0pkjO
-         Ogqrk8VaLHDuuPeuz57DLmPtGMKOtDeLt2Ww/d78VU3Mi72Ofm210eJy/BnQJC2LrXL9
-         N3/o+oIzPAr7NyjNF6TUrLEus7QhoO4A661lbCexBatRiLnbq4MXPmtaDPnb5YuN/SWo
-         zNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sND6mzqZd31cuncIfzHhkrh9Ruhc+O7rVpK0xgDMBdw=;
-        b=vJ8PSfVpqGVDTMvjuxtD5ZXIb6rHgatnqsMvQaOodI39n4DCzTOmE6AeyVc3HY/JsW
-         XTwjiNiHzImcBnTSYPBusUnUjeKwhyxvribqae0PJDAbxxF5looNZuS2eayRg+ku75TU
-         j0548DcAlhPKuXOYiB11WO/J/EMyF0PFPoPPEe4/lFYd0dfYxMTCRRalN+xFi8W+rz7O
-         Mtp9psYg7AwiqobcsYXOudSAF9i1d3NxQaJwz8TeaoUL5cIhEVq8yNcrL1EnC0Yk5YpD
-         YremqnaZjH3R6cOmPVoCjyoJFFK+hST/RBPmL5dyuXYr7HSF0G7lazlOeMp7SGCAhXHx
-         oy5A==
-X-Gm-Message-State: AOAM531nITiveds9QQkgMaBsxTjIBel5ZxP57GLGCHgQf2hmi6l8Gbi6
-	+BOChlqwEP4hGuJLheZwL5c=
-X-Google-Smtp-Source: 
- ABdhPJzsYhvafVfXBaAKKu4AKrSi3QZt0cLrgAI6d4KuEaSHrIZpWyXTZ6GXUTCwdrsH2c8bGlAyHA==
-X-Received: by 2002:a05:6214:21e2:b0:441:a5d:59fa with SMTP id
- p2-20020a05621421e200b004410a5d59famr69562qvj.5.1649085566385;
-        Mon, 04 Apr 2022 08:19:26 -0700 (PDT)
-Received: from build.lan ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- c3-20020ac87d83000000b002e1d1b3df15sm8969772qtd.44.2022.04.04.08.19.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 08:19:25 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-yocto/5.10: features/security: Move x86_64 configs
- to separate file
-Date: Mon,  4 Apr 2022 11:19:16 -0400
-Message-Id: 
- <74fa76a12afe0d530d662708f73bf1d606c5d4dc.1649085436.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1649085436.git.bruce.ashfield@gmail.com>
-References: <cover.1649085436.git.bruce.ashfield@gmail.com>
+Subject: Re: meta: rust: Bug fix for target definitions returning 'NoneType'
+To: openembedded-core@lists.openembedded.org
+From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
+X-Originating-Location: Belgaum, Karnataka, IN (103.197.112.115)
+X-Originating-Platform: Windows Chrome 100
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 04 Apr 2022 09:06:42 -0700
+References: 
+ <CANNYZj_ed8mxVVmvyqVYAvGq4+Ghh+_5=jUX8czUX0VuhsLORA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_ed8mxVVmvyqVYAvGq4+Ghh+_5=jUX8czUX0VuhsLORA@mail.gmail.com>
+Message-ID: <12323.1649088402646367791@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="iLd0xZahVBmGaFvC4nAs"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Apr 2022 18:46:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164001
+ https://lists.openembedded.org/g/openembedded-core/message/164003
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--iLd0xZahVBmGaFvC4nAs
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Integrating the following commit(s) to linux-yocto/.:
+Hello Alex,
 
-    2278ed571c1 features/security: Move x86_64 configs to separate file
+Steps to reproduce:
 
-Signed-off-by: Kamil Dziezyk <kamil.dziezyk@arm.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+* Set MACHINE ?=3D "qemuarm" in local.conf
+* bitbake core-image-minimal -cpopulate_sdk
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 9b125a92ef..3ff54b9ebb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "40a6731993d406d6c9fed43cb20c6a4f178ff2cc"
--SRCREV_meta ?= "1ae63728667964edf845b4f85bb6c06a55b81793"
-+SRCREV_meta ?= "2278ed571c14df6e87d8e01ac26f649d98020623"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 98ac869e79..bbaa0ebc00 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine:qemuarm ?= "9524d0ca0feeeb4cb698e3c984f4391ccb4b8e19"
- SRCREV_machine ?= "bccf3a5f14511fb8ce6a9dd990216508d2c2ec6e"
--SRCREV_meta ?= "1ae63728667964edf845b4f85bb6c06a55b81793"
-+SRCREV_meta ?= "2278ed571c14df6e87d8e01ac26f649d98020623"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 74fd0ad21c..0cf14b748f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?= "d2f7a595bf0b752275d503046494b668549cb151"
- SRCREV_machine:qemux86-64 ?= "d2f7a595bf0b752275d503046494b668549cb151"
- SRCREV_machine:qemumips64 ?= "279f142932679a8ba212ebae4b9db851636a1fab"
- SRCREV_machine ?= "d2f7a595bf0b752275d503046494b668549cb151"
--SRCREV_meta ?= "1ae63728667964edf845b4f85bb6c06a55b81793"
-+SRCREV_meta ?= "2278ed571c14df6e87d8e01ac26f649d98020623"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE:qemuarm ?= "qemuarma15"
--- 
-2.19.1
+*
+Complete Error:*
 
+>=20
+> ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error
+> executing a python function in exec_func_python() autogenerated:
+>=20
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> 0001:
+> *** 0002:do_rust_gen_targets(d)
+> 0003:
+> File:
+> '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-=
+canadian-common.inc',
+> lineno: 31, function: do_rust_gen_targets
+> 0027:
+> 0028:LLVM_TARGET[x86_64] =3D "${RUST_HOST_SYS}"
+> 0029:python do_rust_gen_targets () {
+> 0030:=C2=A0 =C2=A0 wd =3D d.getVar('WORKDIR') + '/targets/'
+> *** 0031:=C2=A0 =C2=A0 rust_gen_target(d, 'TARGET', wd,
+> d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'),
+> d.getVar('TARGET_ARCH'))
+> 0032:=C2=A0 =C2=A0 rust_gen_target(d, 'HOST', wd, "", "generic",
+> d.getVar('HOST_ARCH'))
+> 0033:=C2=A0 =C2=A0 rust_gen_target(d, 'BUILD', wd, "", "generic",
+> d.getVar('BUILD_ARCH'))
+> 0034:}
+> 0035:
+> File:
+> '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common=
+.inc',
+> lineno: 330, function: rust_gen_target
+> 0326:=C2=A0 =C2=A0 # build tspec
+> 0327:=C2=A0 =C2=A0 tspec =3D {}
+> 0328:=C2=A0 =C2=A0 tspec['llvm-target'] =3D d.getVarFlag('LLVM_TARGET', a=
+rch_abi)
+> 0329:=C2=A0 =C2=A0 tspec['data-layout'] =3D d.getVarFlag('DATA_LAYOUT', a=
+rch_abi)
+> *** 0330:=C2=A0 =C2=A0 tspec['max-atomic-width'] =3D
+> int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+> 0331:=C2=A0 =C2=A0 tspec['target-pointer-width'] =3D
+> d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+> 0332:=C2=A0 =C2=A0 tspec['target-c-int-width'] =3D d.getVarFlag('TARGET_C=
+_INT_WIDTH',
+> arch_abi)
+> 0333:=C2=A0 =C2=A0 tspec['target-endian'] =3D d.getVarFlag('TARGET_ENDIAN=
+', arch_abi)
+> 0334:=C2=A0 =C2=A0 tspec['arch'] =3D arch_to_rust_target_arch(rust_arch)
+> Exception: TypeError: int() argument must be a string, a bytes-like objec=
+t
+> or a number, not 'NoneType'
+>=20
+> ERROR: Logfile of failure stored in:
+> /ala-lpggp31/skokkonda/yocto/poky/build_arm/tmp/work/x86_64-nativesdk-pok=
+ysdk-linux/rust-cross-canadian-arm/1.59.0-r0/temp/log.do_rust_gen_targets.1=
+68831
+>=20
+> ERROR: Task
+> (/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-=
+canadian_1.59.0.bb:do_rust_gen_targets)
+> failed with exit code '1'
+> .
+>=20
+
+I took local variables from=C2=A0rust_gen_target function for arm and aarch=
+64 targets. Refer below, the tspec varibles for 'arm' generated with NoneTy=
+pe.
+
+Locals at rust_gen_target for arm::
+arch =3D=C2=A0 arm
+rust_arch =3D=C2=A0 arm
+arch_abi =3D=C2=A0 arm
+*tspec['data-layout'] =3D=C2=A0 None*
+*Type of tspec['data-layout'] =3D=C2=A0 <class 'NoneType'>*
+tspec['data-layout'] =3D=C2=A0 None
+Type of tspec['data-layout'] =3D=C2=A0 <class 'NoneType'>
+DEBUG: Python function do_rust_gen_targets finished
+
+Locals at rust_gen_target=C2=A0 for aarch64::
+arch =3D=C2=A0 aarch64
+rust_arch =3D=C2=A0 aarch64
+arch_abi =3D=C2=A0 aarch64
+*tspec['data-layout'] =3D=C2=A0 aarch64-unknown-linux-gnu*
+*Type of tspec['data-layout'] =3D=C2=A0 <class 'str'>*
+tspec['data-layout'] =3D=C2=A0 e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:=
+64-S128
+Type of tspec['data-layout'] =3D=C2=A0 <class 'str'>
+tspec['max-atomic-width'] =3D=C2=A0 128
+Type of tspec['max-atomic-width'] =3D=C2=A0 <class 'int'>
+tspec['target-pointer-width'] =3D=C2=A0 64
+Type of tspec['target-pointer-width'] =3D=C2=A0 <class 'str'>
+tspec['target-c-int-width'] =3D=C2=A0 32
+Type of tspec['target-c-int-width'] =3D=C2=A0 <class 'str'>
+tspec['target-endian'] =3D=C2=A0 little
+Type of tspec['target-endian'] =3D=C2=A0 <class 'str'>
+tspec['arch'] =3D=C2=A0 aarch64
+Type of tspec['arch'] =3D=C2=A0 <class 'str'>
+
+Reason for changing arm-eabi to arm:
+I noticed that the previous change introduced this bug, so I reverted the a=
+rm-eabi to arm and the issue is fixed.
+
+--
+Thanks,
+Sundeep K.
+
+--iLd0xZahVBmGaFvC4nAs
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Alex,<br /><br /><span style=3D"text-decoration: underline;">Steps to=
+ reproduce:</span><br />
+<ul>
+<li>Set&nbsp;<em>MACHINE ?=3D "qemuarm"</em> in <em>local.conf</em></li>
+<li>bitbake core-image-minimal -cpopulate_sdk</li>
+</ul>
+<div><strong><br />Complete Error:</strong><br />
+<blockquote>
+<div>ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error ex=
+ecuting a python function in exec_func_python() autogenerated:</div>
+<div>&nbsp;</div>
+<div>The stack trace of python calls that resulted in this exception/failur=
+e was:</div>
+<div>File: 'exec_func_python() autogenerated', lineno: 2, function: &lt;mod=
+ule&gt;</div>
+<div>&nbsp; &nbsp; &nbsp;0001:</div>
+<div>&nbsp;*** 0002:do_rust_gen_targets(d)</div>
+<div>&nbsp; &nbsp; &nbsp;0003:</div>
+<div>File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/ru=
+st-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets</d=
+iv>
+<div>&nbsp; &nbsp; &nbsp;0027:</div>
+<div>&nbsp; &nbsp; &nbsp;0028:LLVM_TARGET[x86_64] =3D "${RUST_HOST_SYS}"</d=
+iv>
+<div>&nbsp; &nbsp; &nbsp;0029:python do_rust_gen_targets () {</div>
+<div>&nbsp; &nbsp; &nbsp;0030:&nbsp; &nbsp; wd =3D d.getVar('WORKDIR') + '/=
+targets/'</div>
+<div>&nbsp;*** 0031:&nbsp; &nbsp; rust_gen_target(d, 'TARGET', wd, d.getVar=
+('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARG=
+ET_ARCH'))</div>
+<div>&nbsp; &nbsp; &nbsp;0032:&nbsp; &nbsp; rust_gen_target(d, 'HOST', wd, =
+"", "generic", d.getVar('HOST_ARCH'))</div>
+<div>&nbsp; &nbsp; &nbsp;0033:&nbsp; &nbsp; rust_gen_target(d, 'BUILD', wd,=
+ "", "generic", d.getVar('BUILD_ARCH'))</div>
+<div>&nbsp; &nbsp; &nbsp;0034:}</div>
+<div>&nbsp; &nbsp; &nbsp;0035:</div>
+<div>File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/ru=
+st-common.inc', lineno: 330, function: rust_gen_target</div>
+<div>&nbsp; &nbsp; &nbsp;0326:&nbsp; &nbsp; # build tspec</div>
+<div>&nbsp; &nbsp; &nbsp;0327:&nbsp; &nbsp; tspec =3D {}</div>
+<div>&nbsp; &nbsp; &nbsp;0328:&nbsp; &nbsp; tspec['llvm-target'] =3D d.getV=
+arFlag('LLVM_TARGET', arch_abi)</div>
+<div>&nbsp; &nbsp; &nbsp;0329:&nbsp; &nbsp; tspec['data-layout'] =3D d.getV=
+arFlag('DATA_LAYOUT', arch_abi)</div>
+<div>&nbsp;*** 0330:&nbsp; &nbsp; tspec['max-atomic-width'] =3D int(d.getVa=
+rFlag('MAX_ATOMIC_WIDTH', arch_abi))</div>
+<div>&nbsp; &nbsp; &nbsp;0331:&nbsp; &nbsp; tspec['target-pointer-width'] =
+=3D d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)</div>
+<div>&nbsp; &nbsp; &nbsp;0332:&nbsp; &nbsp; tspec['target-c-int-width'] =3D=
+ d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)</div>
+<div>&nbsp; &nbsp; &nbsp;0333:&nbsp; &nbsp; tspec['target-endian'] =3D d.ge=
+tVarFlag('TARGET_ENDIAN', arch_abi)</div>
+<div>&nbsp; &nbsp; &nbsp;0334:&nbsp; &nbsp; tspec['arch'] =3D arch_to_rust_=
+target_arch(rust_arch)</div>
+<div>Exception: TypeError: int() argument must be a string, a bytes-like ob=
+ject or a number, not 'NoneType'</div>
+<div>&nbsp;</div>
+<div>ERROR: Logfile of failure stored in: /ala-lpggp31/skokkonda/yocto/poky=
+/build_arm/tmp/work/x86_64-nativesdk-pokysdk-linux/rust-cross-canadian-arm/=
+1.59.0-r0/temp/log.do_rust_gen_targets.168831</div>
+<div>ERROR: Task (/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/r=
+ust/rust-cross-canadian_1.59.0.bb:do_rust_gen_targets) failed with exit cod=
+e '1'<br />.</div>
+</blockquote>
+<div><em>I took local variables from&nbsp;rust_gen_target function for arm =
+and aarch64 targets. Refer below, the tspec varibles for 'arm' generated wi=
+th NoneType.</em><br />
+<div><br /><span style=3D"text-decoration: underline;">Locals at rust_gen_t=
+arget for arm::</span></div>
+<div>arch =3D&nbsp; arm</div>
+<div>rust_arch =3D&nbsp; arm</div>
+<div>arch_abi =3D&nbsp; arm</div>
+<div><strong>tspec['data-layout'] =3D&nbsp; None</strong></div>
+<div><strong>Type of tspec['data-layout'] =3D&nbsp; &lt;class 'NoneType'&gt=
+;</strong></div>
+<div>tspec['data-layout'] =3D&nbsp; None</div>
+<div>Type of tspec['data-layout'] =3D&nbsp; &lt;class 'NoneType'&gt;</div>
+<div>DEBUG: Python function do_rust_gen_targets finished<br /><br />
+<div><span style=3D"text-decoration: underline;">Locals at rust_gen_target&=
+nbsp; for aarch64::</span></div>
+<div>arch =3D&nbsp; aarch64</div>
+<div>rust_arch =3D&nbsp; aarch64</div>
+<div>arch_abi =3D&nbsp; aarch64</div>
+<div><strong>tspec['data-layout'] =3D&nbsp; aarch64-unknown-linux-gnu</stro=
+ng></div>
+<div><strong>Type of tspec['data-layout'] =3D&nbsp; &lt;class 'str'&gt;</st=
+rong></div>
+<div>tspec['data-layout'] =3D&nbsp; e-m:e-i8:8:32-i16:16:32-i64:64-i128:128=
+-n32:64-S128</div>
+<div>Type of tspec['data-layout'] =3D&nbsp; &lt;class 'str'&gt;</div>
+<div>tspec['max-atomic-width'] =3D&nbsp; 128</div>
+<div>Type of tspec['max-atomic-width'] =3D&nbsp; &lt;class 'int'&gt;</div>
+<div>tspec['target-pointer-width'] =3D&nbsp; 64</div>
+<div>Type of tspec['target-pointer-width'] =3D&nbsp; &lt;class 'str'&gt;</d=
+iv>
+<div>tspec['target-c-int-width'] =3D&nbsp; 32</div>
+<div>Type of tspec['target-c-int-width'] =3D&nbsp; &lt;class 'str'&gt;</div=
+>
+<div>tspec['target-endian'] =3D&nbsp; little</div>
+<div>Type of tspec['target-endian'] =3D&nbsp; &lt;class 'str'&gt;</div>
+<div>tspec['arch'] =3D&nbsp; aarch64</div>
+<div>Type of tspec['arch'] =3D&nbsp; &lt;class 'str'&gt;</div>
+</div>
+<br /><span style=3D"text-decoration: underline;">Reason for changing&nbsp;=
+</span><span style=3D"white-space: pre-wrap;"><span style=3D"text-decoratio=
+n: underline;"><em>arm-eabi</em> to </span><em><span style=3D"text-decorati=
+on: underline;">arm:</span><br /></em></span>I noticed that the previous ch=
+ange introduced this bug, so I reverted the&nbsp;<span style=3D"white-space=
+: pre-wrap;"><em>arm-eabi</em> to </span><em style=3D"white-space: pre-wrap=
+;"><span>arm </span></em><span>and the issue is fixed.<br /><br /><br /></s=
+pan>--<br />Thanks,<br />Sundeep K.<br /><br /></div>
+</div>
+
+--iLd0xZahVBmGaFvC4nAs--
 
