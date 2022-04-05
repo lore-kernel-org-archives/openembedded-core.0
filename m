@@ -1,65 +1,61 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <abongwabonalais@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C240FC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C395EC433FE
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:46 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web08.4123.1649152715587266278
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web12.4347.1649153291405122056
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 02:58:35 -0700
+ Tue, 05 Apr 2022 03:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Jqhp5r/9;
- spf=pass (domain: gmail.com, ip: 209.85.215.181,
- mailfrom: sundeep.kokkonda@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id q19so10617614pgm.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=c8HwTbVY;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ mailfrom: abongwabonalais@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id j21so10244488qta.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 02:58:35 -0700 (PDT)
+ Tue, 05 Apr 2022 03:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CigoK4gT+y6Yw7gi9EqbIdA0Nhn47HraU+Aa/3q4Gnk=;
-        b=Jqhp5r/9505ismGkQRAE+/aKp6OEMhgtjIT4emZnSxi8smDJFdHH4X4iC1xH593lUv
-         Z5HlIlxNliDutWbo6Hw8icAHnluhgwwgBzBgCkKnDuTla2kuAeFgmLVhzY+YiuKxtcXU
-         9S1d6vfC+8nyAOrfmCqwM6c3ZjMWpeO1vJsw5nrF8HmmOt4t0JXXh/CTfBRq147DgoI+
-         IwRsyJ52A2DimWcRua9Y+uftD3H2R0N4Y9bWCAm95BLUbphyEoghLWKeavdJdtIwmxcd
-         Y7T26rXQSRpqbqkoHDZFqWJel3kddMAqrbPjb8h7k8AYdMeG+7U2adxsok+WbYGtv2eA
-         bShQ==
+        bh=JF/+3L86whCSnc+Vi2Vm/ZUxKog6ghTzz3EkahWNX+g=;
+        b=c8HwTbVYOsmXngcaxpz9eZFO/GifLSb2sRHd1ATdnjf1gEIkQSIlRSUccUhVNAs8Vb
+         m8ALh/bNUd+s7+AY8YKTGUKxbyjSJ1Umu0Fad47DuY8l9P8NfjwOXo7Mxw0m3rvCGXQ/
+         TAa7ndCEvd5jEMb3BLLKLoJHCZktVZ1/lDuD07YmFAkpXVRoM8m4qEVHTF5ZCyGK9IbT
+         tBwwQRv1TS84oju/HQNyPBwNRonNlh5/bh3louj+HI3yYjnqTBtaClt1pATurnn9qfnf
+         N8xX9smQoYgVUHsxXpqcu9WtC29Zwbxz0GNxsjkZT6diYL5DymTt5bbHcfWSqZI3QXAu
+         THyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CigoK4gT+y6Yw7gi9EqbIdA0Nhn47HraU+Aa/3q4Gnk=;
-        b=47zrXjHT27g0rg2b3l90JJkzKsdgarAY0s6BzZwf4EoqR+R9fTTFIa8MsNkMEBeRAJ
-         z6MREfHmqyZNERfQED5WCDK6LA8Nk2MADXMJPW6/wM9sfEZhG/Y4zHYzXremEs+eTHfS
-         momMIF/Rfjg3l4dvSG8cG2aqX05cNVeEsugpe2vg0z1hdispD2vwfTVT1bj2xySmejYW
-         4YSu5TX60ogGjKITD2qN+nzqk9v1BJRraEIWdnaCytcuD2eBj/UGWOU/HZbx0G8itLdX
-         Owf9zTulFXFPrxHciRNXbOR/1xWb3NMRrUf9AOf5m4Xf92AXFYplVKy6dbjomDMmakBv
-         N2Fw==
-X-Gm-Message-State: AOAM5323pWcAE5XjcILQvW4+FV9N7wezCIn8uKfqyzk0vET5wflpsSxy
-	/d0Bbw6akQM/HcoUVo+VOvdrGDgUHsxHRO+l
+        bh=JF/+3L86whCSnc+Vi2Vm/ZUxKog6ghTzz3EkahWNX+g=;
+        b=UQ7rzMp64wVpWgvy/cyntQGHa57nXvBiFz6JeDZYXEypUSwXEuY7kGgH9WVsBHRU0R
+         av1GJAfzZDkDhuwJ0jByIgjTAj9/JvqMyy+Ewp8xCsHDUBcNc+eAJjaodO1QXPwtpOgQ
+         MjtEHLQmZL7EYK8k+z5KgmoKkGMR+eJKLY91xlGYbNFHYu81hWAxrocKk3D7idX2AxrY
+         zVDmwEylZergEEXSku2qbhkJ6yrHDPZvVKqsPi0qfHjMjUL9FJiIcHFJzp9b616c5YdK
+         rH+noxqFlObsRXzhoV52KtqJOyurEq/G5fQN5Y0OSBgt+Hp5F/YzWZDQq62MVuid+ySn
+         Hw8w==
+X-Gm-Message-State: AOAM532nk9Woki8CoHP3UncmOJUhV2PC2oATtA79JBjp2WvNSqTQOWpQ
+	1wOx2tlZSTlLz0DBNs0/dXE+mptGo4g=
 X-Google-Smtp-Source: 
- ABdhPJzEwLv0h+MyV8ZAsc2P3MCVc7a6IhMPGyJD0tEzVvVtglBHFe+jC3/LrmgBFScS1vAGvkkBCA==
-X-Received: by 2002:a62:cd83:0:b0:4fa:7410:6d86 with SMTP id
- o125-20020a62cd83000000b004fa74106d86mr2820766pfg.52.1649152714599;
-        Tue, 05 Apr 2022 02:58:34 -0700 (PDT)
-Received: from localhost.localdomain ([49.204.85.206])
+ ABdhPJwfctIDAXJN7EQDc6hj9vFGS3FcDZAxTtTeMPIsBw0SiaPtD7IW+VmtNhXFv5IIiORK31ry0g==
+X-Received: by 2002:a05:622a:4c:b0:2eb:8c6d:59dc with SMTP id
+ y12-20020a05622a004c00b002eb8c6d59dcmr2110335qtw.210.1649153290409;
+        Tue, 05 Apr 2022 03:08:10 -0700 (PDT)
+Received: from localhost.localdomain ([41.202.219.243])
         by smtp.gmail.com with ESMTPSA id
- 207-20020a6217d8000000b004fdd5af8885sm14510813pfx.22.2022.04.05.02.58.32
+ t7-20020a05622a01c700b002e1b3555c2fsm10242777qtw.26.2022.04.05.03.08.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 02:58:33 -0700 (PDT)
-From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+        Tue, 05 Apr 2022 03:08:10 -0700 (PDT)
+From: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: pgowda.cve@gmail.com,
-	rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Subject: meta: scripts - relocation script adapted to support big-endian
- machines
-Date: Tue,  5 Apr 2022 15:28:19 +0530
-Message-Id: <20220405095819.533001-1-sundeep.kokkonda@gmail.com>
+Cc: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
+Subject: [PATCH] Added quotes around variables to prevent word splitting.
+Date: Tue,  5 Apr 2022 10:58:35 +0100
+Message-Id: <20220405095834.43554-1-abongwabonalais@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,92 +64,71 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164012
+ https://lists.openembedded.org/g/openembedded-core/message/164014
 
-relocate_sdk.py was developed for little-endian architures and when tries
-to install SDK for big-endian machines errors like below will be shown.
-Error: struct.error: unpack requires a string argument of length 32. SDK could
-not be set up. Relocate script failed. Abort!
-Error: IOError: [Errno 22] Invalid argument. SDK could not be set up. Relocate
-script failed. Abort!
+Used shellcheck to add quotes to the variables that did not have so that 
+directories with names that have space between, such as "Desktop/projects/test repo/poky" 
+will not be considered as 2 separate words.
 
-To fix this, script is modified to support big-endian architecture.
-
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Signed-off-by: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
 ---
- scripts/relocate_sdk.py | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ oe-init-build-env         | 4 ++--
+ scripts/oe-setup-builddir | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 8c0fdb986a..4ed8bfc0d1 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -30,9 +30,16 @@ else:
- old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 8c1bd54e57..38333ab858 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -42,8 +42,8 @@ fi
+ unset THIS_SCRIPT
  
- def get_arch():
-+    global endian_prefix
-     f.seek(0)
-     e_ident =f.read(16)
--    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
-+    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
-+
-+    # ei_data = 1 for little-endian & 0 for big-endian
-+    if ei_data == 1:
-+        endian_prefix = '<'
-+    else:
-+        endian_prefix = '>'
+ export OEROOT
+-. $OEROOT/scripts/oe-buildenv-internal &&
+-    TEMPLATECONF="$TEMPLATECONF" $OEROOT/scripts/oe-setup-builddir || {
++. "$OEROOT"/scripts/oe-buildenv-internal &&
++    TEMPLATECONF="$TEMPLATECONF" "$OEROOT"/scripts/oe-setup-builddir || {
+     unset OEROOT
+     return 1
+ }
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index d4ac074ad9..54048e62ec 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -42,7 +42,7 @@ if [ -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+     TEMPLATECONF=$(cat "$BUILDDIR/conf/templateconf.cfg")
+ fi
  
-     if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
-         return 0
-@@ -51,11 +58,11 @@ def parse_elf_header():
+-. $OEROOT/.templateconf
++. "$OEROOT"/.templateconf
  
-     if arch == 32:
-         # 32bit
--        hdr_fmt = "<HHILLLIHHHHHH"
-+        hdr_fmt = endian_prefix + "HHILLLIHHHHHH"
-         hdr_size = 52
-     else:
-         # 64bit
--        hdr_fmt = "<HHIQQQIHHHHHH"
-+        hdr_fmt = endian_prefix + "HHIQQQIHHHHHH"
-         hdr_size = 64
+ if [ ! -f "$BUILDDIR/conf/templateconf.cfg" ]; then
+     echo "$TEMPLATECONF" >"$BUILDDIR/conf/templateconf.cfg"
+@@ -79,7 +79,7 @@ example, select a different MACHINE (target hardware). See conf/local.conf
+ for more information as common configuration options are commented.
  
-     e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
-@@ -64,9 +71,9 @@ def parse_elf_header():
+ EOM
+-    cp -f $OECORELOCALCONF "$BUILDDIR/conf/local.conf"
++    cp -f "$OECORELOCALCONF" "$BUILDDIR/conf/local.conf"
+     SHOWYPDOC=yes
+ fi
  
- def change_interpreter(elf_file_name):
-     if arch == 32:
--        ph_fmt = "<IIIIIIII"
-+        ph_fmt = endian_prefix + "IIIIIIII"
-     else:
--        ph_fmt = "<IIQQQQQQ"
-+        ph_fmt = endian_prefix + "IIQQQQQQ"
+@@ -100,7 +100,7 @@ EOM
+     # to replace it for compatibility.
+     sed -e "s|##OEROOT##|$OEROOT|g" \
+         -e "s|##COREBASE##|$OEROOT|g" \
+-        $OECORELAYERCONF > "$BUILDDIR/conf/bblayers.conf"
++        "$OECORELAYERCONF" > "$BUILDDIR/conf/bblayers.conf"
+     SHOWYPDOC=yes
+ fi
  
-     """ look for PT_INTERP section """
-     for i in range(0,e_phnum):
-@@ -105,17 +112,17 @@ def change_interpreter(elf_file_name):
- 
- def change_dl_sysdirs(elf_file_name):
-     if arch == 32:
--        sh_fmt = "<IIIIIIIIII"
-+        sh_fmt = endian_prefix + "IIIIIIIIII"
-     else:
--        sh_fmt = "<IIQQQQIIQQ"
-+        sh_fmt = endian_prefix + "IIQQQQIIQQ"
- 
-     """ read section string table """
-     f.seek(e_shoff + e_shstrndx * e_shentsize)
-     sh_hdr = f.read(e_shentsize)
-     if arch == 32:
--        sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
-+        sh_offset, sh_size = struct.unpack(endian_prefix + "16xII16x", sh_hdr)
-     else:
--        sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
-+        sh_offset, sh_size = struct.unpack(endian_prefix + "24xQQ24x", sh_hdr)
- 
-     f.seek(sh_offset)
-     sh_strtab = f.read(sh_size)
+@@ -125,5 +125,5 @@ fi
+ if [ -z "$OECORENOTESCONF" ]; then
+     OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
+ fi
+-[ ! -r "$OECORENOTESCONF" ] || cat $OECORENOTESCONF
++[ ! -r "$OECORENOTESCONF" ] || cat "$OECORENOTESCONF"
+ unset OECORENOTESCONF
 -- 
 2.25.1
 
