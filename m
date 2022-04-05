@@ -1,129 +1,164 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C96EC35280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A595C35295
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.8782.1649176816914653047
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.7190.1649169707422558639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 09:40:17 -0700
+ Tue, 05 Apr 2022 07:41:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EQnQQhZQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id r7so8362851wmq.2
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 09:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=CZoNBmr+67ZTKh+Bul8AeO5E/R76eC5DyuejH+6wTIY=;
-        b=EQnQQhZQdE4haEOuNT5Rqtyt1LKZ7W5XOvGzIU8gWOpYUURhZ+lv01Ie/CNkrjGcxg
-         m3CKJrdRbPLebb3Aip81uSyIx0OU/ZD10ottOP9P5SU1GoBL8F5TmYbbs0zR17+un2Cp
-         cVLCaqmuIMi9EM2EvczZ6uOxPlb3O0Lml3SkY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CZoNBmr+67ZTKh+Bul8AeO5E/R76eC5DyuejH+6wTIY=;
-        b=0p1YJ/DLh/n1uhC9ZJoFDakZAqv3Jptv+ed8Dn4sMRq7vhy9htcRU+YRdefrTXvubW
-         nRw4AvSxGSmbijbHDfrggD/xaGPRds/r9j3sUit2vorJGaXWRI/MjfZDo8sb39/1uB+5
-         yEdi8qtUF02x7S7Y/7QY9T/wK63uHGyDoAKkJjsqpAOuo+iiyPOasIULGGYHTMoenOqm
-         8/iFJAgpyXT/Z46yV0nUigCWi9oHGBZ4ihvUcpMiKPK39qD6uON/WhkAoL+wHV+grbVO
-         p32ozI1RlGqPuc60YaEFSZPUq8aNWeUvAIqP8tP+f/pyu/aW5iV1AO5XCO0FRmzPovYV
-         wwcg==
-X-Gm-Message-State: AOAM533igUaW78rj2ZPHhQFxgMe3zbjFLR7M/hptzpPC6SROpnMiJxE6
-	8G2wMRAwkSzl31A+RYNfcQA29Q==
-X-Google-Smtp-Source: 
- ABdhPJzR4b0qiwuOfGJW0nW7HcbhLQB7BNCx7wVuytauavg3DB8eXo1VODHZUWq8KCrAvGlZrR0iBQ==
-X-Received: by 2002:a1c:4e01:0:b0:38c:b316:e6f5 with SMTP id
- g1-20020a1c4e01000000b0038cb316e6f5mr3866139wmh.93.1649176815266;
-        Tue, 05 Apr 2022 09:40:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:87d4:527c:2858:e93c?
- ([2001:8b0:aba:5f3c:87d4:527c:2858:e93c])
-        by smtp.gmail.com with ESMTPSA id
- u23-20020a7bcb17000000b0037bdfa1665asm3568872wmj.18.2022.04.05.09.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 09:40:14 -0700 (PDT)
-Message-ID: 
- <67773b10133d941032fbdce3b39efd76ca3aac0a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] libpcap: Disable DPDK explicitly
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: sean.anderson@seco.com, "Mittal, Anuj" <anuj.mittal@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Apr 2022 17:40:13 +0100
-In-Reply-To: <34d0965e-b533-1ba8-72a1-d76122ebc2d2@seco.com>
-References: <20220210204919.3029824-1-sean.anderson@seco.com>
-	 <6d9e43d436cf62b31cc0848b1d325fdecef6bb9d.camel@intel.com>
-	 <34d0965e-b533-1ba8-72a1-d76122ebc2d2@seco.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=ab8EJkLp;
+ spf=pass (domain: intel.com, ip: 192.55.52.93,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649169707; x=1680705707;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9Yw5rO+qbn1dAnDCR/eUSCERLZmmcT/8OgKTeO+2rqs=;
+  b=ab8EJkLpou53juqx1k+Rt7QzL+N0PDVQIAxMKmlY9FBwlQQaNWj2NCmJ
+   2Yt9okqFcocWW8/ynGBrVB3S5Bod+d7pwthblyaKF7cqlnsBd8uKuASjt
+   /xUlpLK3EdcuEq3uxIIFNNE+38jqAn30GFXd/sbiuPCzPGyXr55eaf7Q3
+   oFMUbc10PvU4du1HUGgw3SStVSbBH+19hvS7ghEJCDM+DC4k8o0lyrWB9
+   wf6FKnGmxH4o0RJbpGTNakj1Ff55C1d9XFNNJzRUSpHlY8PGNtfjvOamv
+   SAJP5NjVfmxRjt3W1DN7RgiZbuKgsEyL+MHHC7OPUJnlhaZsAA76My1dR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348645"
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="258348645"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:41:46 -0700
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="696953504"
+Received: from ntabdull-mobl.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.215.226.238])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:41:45 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 00/22] Patch review
+Date: Tue,  5 Apr 2022 22:41:19 +0800
+Message-Id: <cover.1649169646.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164048
+ https://lists.openembedded.org/g/openembedded-core/message/164018
 
-On Tue, 2022-04-05 at 11:18 -0400, Sean Anderson via lists.openembedded.org
-wrote:
-> 
-> On 4/5/22 11:02 AM, Mittal, Anuj wrote:
-> > [You don't often get email from anuj.mittal@intel.com. Learn why this is important at http://aka.ms/LearnAboutSenderIdentification.]
-> > 
-> > On Thu, 2022-02-10 at 15:49 -0500, Sean Anderson via
-> > lists.openembedded.org wrote:
-> > > libpcap looks for DPDK in the same way it looks for DAG. This can
-> > > poison
-> > > the build even if it doesn't find anything. Explicitly disable dpdk.
-> > > 
-> > > Signed-off-by: Sean Anderson <sean.anderson@seco.com>
-> > > ---
-> > > 
-> > >  meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-> > > b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-> > > index 9a8c46e0ef..dbe2fd8157 100644
-> > > --- a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-> > > +++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
-> > > @@ -19,10 +19,11 @@ BINCONFIG = "${bindir}/pcap-config"
-> > > 
-> > >  # Explicitly disable dag support. We don't have recipe for it and if
-> > > enabled here,
-> > >  # configure script poisons the include dirs with /usr/local/include
-> > > even when the
-> > > -# support hasn't been detected.
-> > > +# support hasn't been detected. Do the same thing for DPDK.
-> > >  EXTRA_OECONF = " \
-> > >                   --with-pcap=linux \
-> > >                   --without-dag \
-> > > +                 --without-dpdk \
-> > >                   "
-> > 
-> > Can this be converted to a PACKAGECONFIG instead? There is a DPDK
-> > recipe in a separate layer so it might be useful for someone including
-> > that layer.
-> 
-> There's no distro feature for dpdk. How would we detect if it is enabled?
-> Additionally, the configure script has hard-coded paths to
-> /usr/local/include. I think this really needs to be addressed upstream
-> before we could actually support dpdk.
+Next set of changes to be merged in honister. Please review.
 
-As you mention, the change merged. We don't need it to be a DISTRO_FEATURE in
-order for it to be a PACKAGECONFIG so that is a patch we could consider. It
-would need to be as a follow up patch as the original has merged now (it was a
-valid/correct change in it's own right).
+No issues seen while testing:
 
-Cheers,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3476
 
-Richard
+Thanks,
+
+Anuj
+
+The following changes since commit ebca8f3ac9372b7ebb3d39e8f7f930b63b481448:
+
+  build-appliance-image: Update to honister head revision (2022-03-24 11:05:30 +0000)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/honister
+
+Bruce Ashfield (5):
+  linux-yocto: nohz_full boot arg fix
+  linux-yocto/5.10: split vtpm for more granular inclusion
+  linux-yocto/5.10: cfg/debug: add configs for kcsan
+  linux-yocto-rt/5.10: update to -rt61
+  linux-yocto/5.10: update to v5.10.107
+
+Chee Yang Lee (1):
+  webkitgtk: update to 2.32.4
+
+Joe Slater (1):
+  libxml2: fix CVE-2022-23308 regression
+
+Michael Opdenacker (1):
+  conf/machine: fix QEMU x86 sound options
+
+Minjae Kim (2):
+  gnu-config: update SRC_URI
+  virglrenderer: update SRC_URI
+
+Peter Kjellerstedt (1):
+  oe-pkgdata-util: Adapt to the new variable override syntax
+
+Ralph Siemsen (2):
+  libxml2: move to gitlab.gnome.org
+  libxml2: update to 2.9.13
+
+Richard Purdie (3):
+  toaster: Fix broken overrides usage
+  pseudo: Add patch to workaround paths with crazy lengths
+  sanity: Add warning for local hasheqiv server with remote sstate
+    mirrors
+
+Ross Burton (5):
+  devupstream: fix handling of SRC_URI
+  tiff: backport CVE fixes:
+  grub: ignore CVE-2021-46705
+  oeqa/selftest/devtool: ensure Git username is set before upgrade tests
+  zlib: backport the fix for CVE-2018-25032
+
+wangmy (1):
+  linux-firmware: upgrade 20220209 -> 20220310
+
+ meta/classes/devupstream.bbclass              |   5 +-
+ meta/classes/qemuboot.bbclass                 |   2 +-
+ meta/classes/sanity.bbclass                   |   5 +
+ meta/classes/toaster.bbclass                  |   6 +-
+ .../conf/machine/include/x86/qemuboot-x86.inc |   2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |   8 +
+ meta/recipes-bsp/grub/grub2.inc               |   2 +
+ .../0002-Work-around-lxml-API-abuse.patch     | 213 -----------
+ .../CVE-2022-23308-fix-regression.patch       |  99 +++++
+ .../libxml2/libxml-m4-use-pkgconfig.patch     |  16 +-
+ .../{libxml2_2.9.12.bb => libxml2_2.9.13.bb}  |  15 +-
+ .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+ .../gnu-config/gnu-config_git.bb              |   2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   2 +-
+ .../virglrenderer/virglrenderer_0.9.1.bb      |   2 +-
+ ...20220209.bb => linux-firmware_20220310.bb} |   6 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ ...rash-when-reading-a-file-with-multip.patch |  38 ++
+ ...ue-380-and-382-heap-buffer-overflow-.patch | 218 +++++++++++
+ ...-for-return-value-of-limitMalloc-392.patch |  93 +++++
+ ...ag-avoid-calling-memcpy-with-a-null-.patch |  33 ++
+ .../0005-fix-the-FPE-in-tiffcrop-393.patch    |  36 ++
+ ...x-heap-buffer-overflow-in-tiffcp-278.patch |  57 +++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   9 +-
+ ...1-Enable-THREADS_PREFER_PTHREAD_FLAG.patch |   2 +-
+ ...ebkitgtk_2.32.3.bb => webkitgtk_2.32.4.bb} |   2 +-
+ scripts/oe-pkgdata-util                       |   2 +-
+ 30 files changed, 996 insertions(+), 265 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
+ rename meta/recipes-core/libxml/{libxml2_2.9.12.bb => libxml2_2.9.13.bb} (92%)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220209.bb => linux-firmware_20220310.bb} (99%)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.32.3.bb => webkitgtk_2.32.4.bb} (98%)
+
+-- 
+2.35.1
 
 
