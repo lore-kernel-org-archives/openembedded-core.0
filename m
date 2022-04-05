@@ -2,48 +2,49 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFECBC38A04
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B79F9C38162
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web10.7190.1649169707422558639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 07:42:18 -0700
+ Tue, 05 Apr 2022 07:42:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=QOk9F8Ln;
+ header.b=GlOMa2WQ;
  spf=pass (domain: intel.com, ip: 192.55.52.93,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649169738; x=1680705738;
+  t=1649169729; x=1680705729;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=MdHVwE3d7QTLvoje3oexG1ymi+8QR2o1wB1tz4Y7M6M=;
-  b=QOk9F8LnJSUKeeSKe4Mm9PBDnqMK1JrQpUKsfCQ1ZhoLEo00wHkQ2PQE
-   JVxNcN+8qLyl+jE+Z9TndW9GKhvpTum3d+FALaH5z0ZchmOFT+YBTL0yG
-   h5R3jrkLmdTwad2cSPlUVsYpfGS6lkaMgXksYkRw49tm7/VIa8VtnPed1
-   I53v0+X/1G5EAyZHLeFdM+Lv05zLwOtTEc7Bw8v8rmYby0A9LzGzUfW3K
-   7atsVoktTKD9L+11CLp8cHl4QTFJ+oGvycMGRyok79EdvMsc/2PuE9xBR
-   i3vKxGpd+BRi+gWBAzyNZRC35npVrRadQyK+i5wyvDtG+ASemz1NEqxUW
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348986"
+  bh=/DjH0IlfMnbwSv2u+XBWAEvDFRwkYYjF1LL2MiJEIFQ=;
+  b=GlOMa2WQ2doprXKiRgdbBRqTKS/QzX2MkujaYaaq2RnFcj8K8+ijT/Nn
+   iV7LGKm9sZz8b21/O9gVQITD09iuXzI3MEczpCxT01Zk+o0/fniIXuGAQ
+   JKaWM/hdlRqCoe2v/WGQ0AAiASWhSaHfyko9JPxwnvckJk35KzgyCYP5z
+   O7WbjafBmSOKi8JP/Wqo4yEMoKSIlxNXN/DW9+Oeq/J83bJG1yECI7Q+z
+   yy2WNBH6ftEhE3+yyhk1WcSziPvuTut5g2Hr2AmUCLpFSAEgPLuQsjLx2
+   +6o6n5GNcCPchuri8K3dRwD8I6SDk+SiPVFUzOERTHKYwx3ch029saovZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348861"
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
-   d="scan'208";a="258348986"
+   d="scan'208";a="258348861"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:42:18 -0700
+ 05 Apr 2022 07:42:09 -0700
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
-   d="scan'208";a="696953674"
+   d="scan'208";a="696953628"
 Received: from ntabdull-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.226.238])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:42:17 -0700
+ 05 Apr 2022 07:42:08 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 21/22] zlib: backport the fix for CVE-2018-25032
-Date: Tue,  5 Apr 2022 22:41:40 +0800
+Subject: [honister][PATCH 15/22] sanity: Add warning for local hasheqiv server
+ with remote sstate mirrors
+Date: Tue,  5 Apr 2022 22:41:34 +0800
 Message-Id: 
- <94b2391b7998fe1d67f13ec79194f0e72a8f729c.1649169646.git.anuj.mittal@intel.com>
+ <bee06e146a9af09d2cb1dcb8f83b85112b8e0d9e.1649169646.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1649169646.git.anuj.mittal@intel.com>
 References: <cover.1649169646.git.anuj.mittal@intel.com>
@@ -54,383 +55,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164039
+ https://lists.openembedded.org/g/openembedded-core/message/164033
 
-From: Ross Burton <ross@burtonini.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+We're seeing a lot of users configuring an sstate mirror but not realising that
+the default hash equivalenve setting will make this ineffective. Add a warning
+to highlight this to the user for the common case.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit ae4eb33b5a6a037348e8f66e3d4f19b58dba8fa2)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- 2 files changed, 348 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+ meta/classes/sanity.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-new file mode 100644
-index 0000000000..5cb6183641
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-@@ -0,0 +1,347 @@
-+CVE: CVE-2018-25032
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Tue, 17 Apr 2018 22:09:22 -0700
-+Subject: [PATCH] Fix a bug that can crash deflate on some input when using
-+ Z_FIXED.
-+
-+This bug was reported by Danilo Ramos of Eideticom, Inc. It has
-+lain in wait 13 years before being found! The bug was introduced
-+in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
-+option forces the use of fixed Huffman codes. For rare inputs with
-+a large number of distant matches, the pending buffer into which
-+the compressed data is written can overwrite the distance symbol
-+table which it overlays. That results in corrupted output due to
-+invalid distances, and can result in out-of-bound accesses,
-+crashing the application.
-+
-+The fix here combines the distance buffer and literal/length
-+buffers into a single symbol buffer. Now three bytes of pending
-+buffer space are opened up for each literal or length/distance
-+pair consumed, instead of the previous two bytes. This assures
-+that the pending buffer cannot overwrite the symbol table, since
-+the maximum fixed code compressed length/distance is 31 bits, and
-+since there are four bytes of pending space for every three bytes
-+of symbol space.
-+---
-+ deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
-+ deflate.h | 25 +++++++++----------
-+ trees.c   | 50 +++++++++++--------------------------
-+ 3 files changed, 79 insertions(+), 70 deletions(-)
-+
-+diff --git a/deflate.c b/deflate.c
-+index 425babc00..19cba873a 100644
-+--- a/deflate.c
-++++ b/deflate.c
-+@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-+     int wrap = 1;
-+     static const char my_version[] = ZLIB_VERSION;
-+ 
-+-    ushf *overlay;
-+-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
-+-     * output size for (length,distance) codes is <= 24 bits.
-+-     */
-+-
-+     if (version == Z_NULL || version[0] != my_version[0] ||
-+         stream_size != sizeof(z_stream)) {
-+         return Z_VERSION_ERROR;
-+@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-+ 
-+     s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
-+ 
-+-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
-+-    s->pending_buf = (uchf *) overlay;
-+-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
-++    /* We overlay pending_buf and sym_buf. This works since the average size
-++     * for length/distance pairs over any compressed block is assured to be 31
-++     * bits or less.
-++     *
-++     * Analysis: The longest fixed codes are a length code of 8 bits plus 5
-++     * extra bits, for lengths 131 to 257. The longest fixed distance codes are
-++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The longest
-++     * possible fixed-codes length/distance pair is then 31 bits total.
-++     *
-++     * sym_buf starts one-fourth of the way into pending_buf. So there are
-++     * three bytes in sym_buf for every four bytes in pending_buf. Each symbol
-++     * in sym_buf is three bytes -- two for the distance and one for the
-++     * literal/length. As each symbol is consumed, the pointer to the next
-++     * sym_buf value to read moves forward three bytes. From that symbol, up to
-++     * 31 bits are written to pending_buf. The closest the written pending_buf
-++     * bits gets to the next sym_buf symbol to read is just before the last
-++     * code is written. At that time, 31*(n-2) bits have been written, just
-++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf starts at
-++     * 8*n bits into pending_buf. (Note that the symbol buffer fills when n-1
-++     * symbols are written.) The closest the writing gets to what is unread is
-++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default, and
-++     * can range from 128 to 32768.
-++     *
-++     * Therefore, at a minimum, there are 142 bits of space between what is
-++     * written and what is read in the overlain buffers, so the symbols cannot
-++     * be overwritten by the compressed data. That space is actually 139 bits,
-++     * due to the three-bit fixed-code block header.
-++     *
-++     * That covers the case where either Z_FIXED is specified, forcing fixed
-++     * codes, or when the use of fixed codes is chosen, because that choice
-++     * results in a smaller compressed block than dynamic codes. That latter
-++     * condition then assures that the above analysis also covers all dynamic
-++     * blocks. A dynamic-code block will only be chosen to be emitted if it has
-++     * fewer bits than a fixed-code block would for the same set of symbols.
-++     * Therefore its average symbol length is assured to be less than 31. So
-++     * the compressed data for a dynamic block also cannot overwrite the
-++     * symbols from which it is being constructed.
-++     */
-++
-++    s->pending_buf = (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
-++    s->pending_buf_size = (ulg)s->lit_bufsize * 4;
-+ 
-+     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
-+         s->pending_buf == Z_NULL) {
-+@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
-+         deflateEnd (strm);
-+         return Z_MEM_ERROR;
-+     }
-+-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
-+-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
-++    s->sym_buf = s->pending_buf + s->lit_bufsize;
-++    s->sym_end = (s->lit_bufsize - 1) * 3;
-++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64K
-++     * on 16 bit machines and because stored blocks are restricted to
-++     * 64K-1 bytes.
-++     */
-+ 
-+     s->level = level;
-+     s->strategy = strategy;
-+@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
-+ 
-+     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
-+     s = strm->state;
-+-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
-++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
-+         return Z_BUF_ERROR;
-+     do {
-+         put = Buf_size - s->bi_valid;
-+@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
-+ #else
-+     deflate_state *ds;
-+     deflate_state *ss;
-+-    ushf *overlay;
-+ 
-+ 
-+     if (deflateStateCheck(source) || dest == Z_NULL) {
-+@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
-+     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
-+     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
-+     ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
-+-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
-+-    ds->pending_buf = (uchf *) overlay;
-++    ds->pending_buf = (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
-+ 
-+     if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
-+         ds->pending_buf == Z_NULL) {
-+@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
-+     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
-+ 
-+     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
-+-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
-+-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
-++    ds->sym_buf = ds->pending_buf + ds->lit_bufsize;
-+ 
-+     ds->l_desc.dyn_tree = ds->dyn_ltree;
-+     ds->d_desc.dyn_tree = ds->dyn_dtree;
-+@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
-+         FLUSH_BLOCK(s, 1);
-+         return finish_done;
-+     }
-+-    if (s->last_lit)
-++    if (s->sym_next)
-+         FLUSH_BLOCK(s, 0);
-+     return block_done;
-+ }
-+@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
-+         FLUSH_BLOCK(s, 1);
-+         return finish_done;
-+     }
-+-    if (s->last_lit)
-++    if (s->sym_next)
-+         FLUSH_BLOCK(s, 0);
-+     return block_done;
-+ }
-+@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
-+         FLUSH_BLOCK(s, 1);
-+         return finish_done;
-+     }
-+-    if (s->last_lit)
-++    if (s->sym_next)
-+         FLUSH_BLOCK(s, 0);
-+     return block_done;
-+ }
-+@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
-+         FLUSH_BLOCK(s, 1);
-+         return finish_done;
-+     }
-+-    if (s->last_lit)
-++    if (s->sym_next)
-+         FLUSH_BLOCK(s, 0);
-+     return block_done;
-+ }
-+diff --git a/deflate.h b/deflate.h
-+index 23ecdd312..d4cf1a98b 100644
-+--- a/deflate.h
-++++ b/deflate.h
-+@@ -217,7 +217,7 @@ typedef struct internal_state {
-+     /* Depth of each subtree used as tie breaker for trees of equal frequency
-+      */
-+ 
-+-    uchf *l_buf;          /* buffer for literals or lengths */
-++    uchf *sym_buf;        /* buffer for distances and literals/lengths */
-+ 
-+     uInt  lit_bufsize;
-+     /* Size of match buffer for literals/lengths.  There are 4 reasons for
-+@@ -239,13 +239,8 @@ typedef struct internal_state {
-+      *   - I can't count above 4
-+      */
-+ 
-+-    uInt last_lit;      /* running index in l_buf */
-+-
-+-    ushf *d_buf;
-+-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
-+-     * the same number of elements. To use different lengths, an extra flag
-+-     * array would be necessary.
-+-     */
-++    uInt sym_next;      /* running index in sym_buf */
-++    uInt sym_end;       /* symbol table full when sym_next reaches this */
-+ 
-+     ulg opt_len;        /* bit length of current block with optimal trees */
-+     ulg static_len;     /* bit length of current block with static trees */
-+@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
-+ 
-+ # define _tr_tally_lit(s, c, flush) \
-+   { uch cc = (c); \
-+-    s->d_buf[s->last_lit] = 0; \
-+-    s->l_buf[s->last_lit++] = cc; \
-++    s->sym_buf[s->sym_next++] = 0; \
-++    s->sym_buf[s->sym_next++] = 0; \
-++    s->sym_buf[s->sym_next++] = cc; \
-+     s->dyn_ltree[cc].Freq++; \
-+-    flush = (s->last_lit == s->lit_bufsize-1); \
-++    flush = (s->sym_next == s->sym_end); \
-+    }
-+ # define _tr_tally_dist(s, distance, length, flush) \
-+   { uch len = (uch)(length); \
-+     ush dist = (ush)(distance); \
-+-    s->d_buf[s->last_lit] = dist; \
-+-    s->l_buf[s->last_lit++] = len; \
-++    s->sym_buf[s->sym_next++] = dist; \
-++    s->sym_buf[s->sym_next++] = dist >> 8; \
-++    s->sym_buf[s->sym_next++] = len; \
-+     dist--; \
-+     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
-+     s->dyn_dtree[d_code(dist)].Freq++; \
-+-    flush = (s->last_lit == s->lit_bufsize-1); \
-++    flush = (s->sym_next == s->sym_end); \
-+   }
-+ #else
-+ # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
-+diff --git a/trees.c b/trees.c
-+index 4f4a65011..decaeb7c3 100644
-+--- a/trees.c
-++++ b/trees.c
-+@@ -416,7 +416,7 @@ local void init_block(s)
-+ 
-+     s->dyn_ltree[END_BLOCK].Freq = 1;
-+     s->opt_len = s->static_len = 0L;
-+-    s->last_lit = s->matches = 0;
-++    s->sym_next = s->matches = 0;
-+ }
-+ 
-+ #define SMALLEST 1
-+@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
-+ 
-+         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-+                 opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-+-                s->last_lit));
-++                s->sym_next / 3));
-+ 
-+         if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
-+ 
-+@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-+     unsigned dist;  /* distance of matched string */
-+     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
-+ {
-+-    s->d_buf[s->last_lit] = (ush)dist;
-+-    s->l_buf[s->last_lit++] = (uch)lc;
-++    s->sym_buf[s->sym_next++] = dist;
-++    s->sym_buf[s->sym_next++] = dist >> 8;
-++    s->sym_buf[s->sym_next++] = lc;
-+     if (dist == 0) {
-+         /* lc is the unmatched char */
-+         s->dyn_ltree[lc].Freq++;
-+@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-+         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
-+         s->dyn_dtree[d_code(dist)].Freq++;
-+     }
-+-
-+-#ifdef TRUNCATE_BLOCK
-+-    /* Try to guess if it is profitable to stop the current block here */
-+-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
-+-        /* Compute an upper bound for the compressed length */
-+-        ulg out_length = (ulg)s->last_lit*8L;
-+-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
-+-        int dcode;
-+-        for (dcode = 0; dcode < D_CODES; dcode++) {
-+-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
-+-                (5L+extra_dbits[dcode]);
-+-        }
-+-        out_length >>= 3;
-+-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-+-               s->last_lit, in_length, out_length,
-+-               100L - out_length*100L/in_length));
-+-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
-+-    }
-+-#endif
-+-    return (s->last_lit == s->lit_bufsize-1);
-+-    /* We avoid equality with lit_bufsize because of wraparound at 64K
-+-     * on 16 bit machines and because stored blocks are restricted to
-+-     * 64K-1 bytes.
-+-     */
-++    return (s->sym_next == s->sym_end);
-+ }
-+ 
-+ /* ===========================================================================
-+@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
-+ {
-+     unsigned dist;      /* distance of matched string */
-+     int lc;             /* match length or unmatched char (if dist == 0) */
-+-    unsigned lx = 0;    /* running index in l_buf */
-++    unsigned sx = 0;    /* running index in sym_buf */
-+     unsigned code;      /* the code to send */
-+     int extra;          /* number of extra bits to send */
-+ 
-+-    if (s->last_lit != 0) do {
-+-        dist = s->d_buf[lx];
-+-        lc = s->l_buf[lx++];
-++    if (s->sym_next != 0) do {
-++        dist = s->sym_buf[sx++] & 0xff;
-++        dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
-++        lc = s->sym_buf[sx++];
-+         if (dist == 0) {
-+             send_code(s, lc, ltree); /* send a literal byte */
-+             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-+@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
-+             }
-+         } /* literal or match pair ? */
-+ 
-+-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-+-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
-+-               "pendingBuf overflow");
-++        /* Check that the overlay between pending_buf and sym_buf is ok: */
-++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow");
-+ 
-+-    } while (lx < s->last_lit);
-++    } while (sx < s->sym_next);
-+ 
-+     send_code(s, END_BLOCK, ltree);
-+ }
-diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-index 1c06aa0ab5..11a076e496 100644
---- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 49eef2f418..a175a1104f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -941,6 +941,11 @@ def check_sanity_everybuild(status, d):
+                     mirror_base = urllib.parse.urlparse(mirror[:-1*len('/PATH')]).path
+                     check_symlink(mirror_base, d)
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://ldflags-tests.patch \
-+           file://CVE-2018-25032.patch \
-            file://run-ptest \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
++    # Check sstate mirrors aren't being used with a local hash server and no remote
++    hashserv = d.getVar("BB_HASHSERVE")
++    if d.getVar("SSTATE_MIRRORS") and hashserv and hashserv.startswith("unix://") and not d.getVar("BB_HASHSERVE_UPSTREAM"):
++        bb.warn("You are using a local hash equivalence server but have configured an sstate mirror. This will likely mean no sstate will match from the mirror. You may wish to disable the hash equivalence use (BB_HASHSERVE), or use a hash equivalence server alongside the sstate mirror.")
++
+     # Check that TMPDIR hasn't changed location since the last time we were run
+     tmpdir = d.getVar('TMPDIR')
+     checkfile = os.path.join(tmpdir, "saved_tmpdir")
 -- 
 2.35.1
 
