@@ -1,197 +1,105 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49338C3527B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F47BC35296
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.6089.1649165415069172784
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.7190.1649169707422558639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 06:30:15 -0700
+ Tue, 05 Apr 2022 07:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Niv+IxJo;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 05C9F20007;
-	Tue,  5 Apr 2022 13:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1649165412;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r02eyPWFgWN7FTUbS50J+8ELxc68C84TZqmNHRPkM4o=;
-	b=Niv+IxJow8SUaXilKVjVuiP9BEcWH3j7JmszCY1hnrXiGK3BFH1DfE5SPb4/4jY20w+1w8
-	74ugH5vRG8B0vgnI5QCQsQIS4MEcrne4MhCKGV9a37Vt/pf6KbZgagyuOSnqk6KWe89RBf
-	tDsWFcwqVPUaanhnLtmqpwSwmCTFIMvDkGLiNl54NKM63bjYvRc6WjgYgrb+ybhUV3lo2p
-	NUqfI4xiGZyEVjKR3d4Ps0ssksSqEnc3WKeGd+EYbvSSgKk65F3DXS4JDuC1YjLQ5tVGwI
-	TJYHiVEDnhmX9CVo8giGWJxvmHmmfe+WAlTQyXy3sTDYoVNHl+K2XqO5UKj9NA==
-Date: Tue, 5 Apr 2022 15:30:11 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, pgowda.cve@gmail.com,
-	rwmacleod@gmail.com, umesh.kalappa0@gmail.com
-Subject: Re: [OE-core] meta: scripts - relocation script adapted to support
- big-endian machines
-Message-ID: <YkxEY+XJumRZHUki@mail.local>
-References: <20220405095819.533001-1-sundeep.kokkonda@gmail.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=QCIstaPV;
+ spf=pass (domain: intel.com, ip: 192.55.52.93,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649169708; x=1680705708;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=A6MoBxmenDmEM2cmVvfCiuW/giXDaNa/+kPFvRW4LKc=;
+  b=QCIstaPVRLJcLponMJqP9/oLnPcEkVfJmL+JCengi859IxaPQ7SLWms0
+   35LDgqW3YGgCOZxnX0rWlj9TBBnS1OXJJwSiIHnh7juh6NiFCsRBbF3Ch
+   dyIFRBbbMEIrZSTHh4fwe+1icytR43fe9SxDc1BW938qY1m2LVndn8adf
+   DaY5zY9IZ6TjXnxZPhDJ/HhuPbKWKrWNA1f3qxO24slqtza/eLJlCE4Nu
+   TPQOptqgHYYjOUEWMi5h1u9kGp6N599u8O0pPYMH7zGqlSjNa4q/Bnaeb
+   ktKV2h30Aq2aiWGvRSMvq20sfB8SqwuysDbSS1K9Sd8Yjelolf2C9dCFt
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348657"
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="258348657"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:41:48 -0700
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="696953506"
+Received: from ntabdull-mobl.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.215.226.238])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:41:46 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 01/22] conf/machine: fix QEMU x86 sound options
+Date: Tue,  5 Apr 2022 22:41:20 +0800
+Message-Id: 
+ <28db8a73fc08e53206f442b3f6fbea9a8c33e46e.1649169646.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1649169646.git.anuj.mittal@intel.com>
+References: <cover.1649169646.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220405095819.533001-1-sundeep.kokkonda@gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164017
+ https://lists.openembedded.org/g/openembedded-core/message/164019
 
-Hello,
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-This build is carrying both this patch and
+This updates the QEMU sounds options for x86 emulation,
+when "runqemu" is called with the "audio" argument,
+to fix the below error:
 
-meta: rust: Bug fix for target definitions returning 'NoneType'
+runqemu - ERROR - Failed to run qemu: qemu-system-x86_64: warning: '-soundhw ac97' is deprecated, please use '-device AC97' instead
 
-which is now present in master.
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b802a5dd1a79c7be3bc790223a733ebc9be4f117)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/classes/qemuboot.bbclass                  | 2 +-
+ meta/conf/machine/include/x86/qemuboot-x86.inc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Could you check:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/3963/steps/11/logs/stdio
-
-ERROR: rust-cross-cortexa8hf-neon-glibc-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_rust_gen_targets(d)
-     0003:
-File: '/home/pokybuild/yocto-worker/beaglebone-alt/build/meta/recipes-devtools/rust/rust-cross.inc', lineno: 19, function: do_rust_gen_targets
-     0015:            if arch == "arm" and target_is_armv7(d):
-     0016:                arch = 'armv7'
-     0017:            features = d.getVar('TARGET_LLVM_FEATURES') or ""
-     0018:            cpu = d.getVar('TARGET_LLVM_CPU')
- *** 0019:        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
-     0020:}
-     0021:
-     0022:# Otherwise we'll depend on what we provide
-     0023:INHIBIT_DEFAULT_RUST_DEPS = "1"
-File: '/home/pokybuild/yocto-worker/beaglebone-alt/build/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
-     0326:    # build tspec
-     0327:    tspec = {}
-     0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
-     0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
- *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
-     0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
-     0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
-     0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
-     0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
-Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
-
-
-I expect other similar failures in https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3478
-
-On 05/04/2022 15:28:19+0530, Sundeep KOKKONDA wrote:
-> relocate_sdk.py was developed for little-endian architures and when tries
-> to install SDK for big-endian machines errors like below will be shown.
-> Error: struct.error: unpack requires a string argument of length 32. SDK could
-> not be set up. Relocate script failed. Abort!
-> Error: IOError: [Errno 22] Invalid argument. SDK could not be set up. Relocate
-> script failed. Abort!
-> 
-> To fix this, script is modified to support big-endian architecture.
-> 
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-> ---
->  scripts/relocate_sdk.py | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
-> 
-> diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-> index 8c0fdb986a..4ed8bfc0d1 100755
-> --- a/scripts/relocate_sdk.py
-> +++ b/scripts/relocate_sdk.py
-> @@ -30,9 +30,16 @@ else:
->  old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
->  
->  def get_arch():
-> +    global endian_prefix
->      f.seek(0)
->      e_ident =f.read(16)
-> -    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
-> +    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
-> +
-> +    # ei_data = 1 for little-endian & 0 for big-endian
-> +    if ei_data == 1:
-> +        endian_prefix = '<'
-> +    else:
-> +        endian_prefix = '>'
->  
->      if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
->          return 0
-> @@ -51,11 +58,11 @@ def parse_elf_header():
->  
->      if arch == 32:
->          # 32bit
-> -        hdr_fmt = "<HHILLLIHHHHHH"
-> +        hdr_fmt = endian_prefix + "HHILLLIHHHHHH"
->          hdr_size = 52
->      else:
->          # 64bit
-> -        hdr_fmt = "<HHIQQQIHHHHHH"
-> +        hdr_fmt = endian_prefix + "HHIQQQIHHHHHH"
->          hdr_size = 64
->  
->      e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
-> @@ -64,9 +71,9 @@ def parse_elf_header():
->  
->  def change_interpreter(elf_file_name):
->      if arch == 32:
-> -        ph_fmt = "<IIIIIIII"
-> +        ph_fmt = endian_prefix + "IIIIIIII"
->      else:
-> -        ph_fmt = "<IIQQQQQQ"
-> +        ph_fmt = endian_prefix + "IIQQQQQQ"
->  
->      """ look for PT_INTERP section """
->      for i in range(0,e_phnum):
-> @@ -105,17 +112,17 @@ def change_interpreter(elf_file_name):
->  
->  def change_dl_sysdirs(elf_file_name):
->      if arch == 32:
-> -        sh_fmt = "<IIIIIIIIII"
-> +        sh_fmt = endian_prefix + "IIIIIIIIII"
->      else:
-> -        sh_fmt = "<IIQQQQIIQQ"
-> +        sh_fmt = endian_prefix + "IIQQQQIIQQ"
->  
->      """ read section string table """
->      f.seek(e_shoff + e_shstrndx * e_shentsize)
->      sh_hdr = f.read(e_shentsize)
->      if arch == 32:
-> -        sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
-> +        sh_offset, sh_size = struct.unpack(endian_prefix + "16xII16x", sh_hdr)
->      else:
-> -        sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
-> +        sh_offset, sh_size = struct.unpack(endian_prefix + "24xQQ24x", sh_hdr)
->  
->      f.seek(sh_offset)
->      sh_strtab = f.read(sh_size)
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164012): https://lists.openembedded.org/g/openembedded-core/message/164012
-> Mute This Topic: https://lists.openembedded.org/mt/90261992/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 5e7e7c0659..2bde12748d 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -29,7 +29,7 @@
+ #
+ # QB_AUDIO_DRV: qemu audio driver, e.g., "alsa", set it when support audio
+ #
+-# QB_AUDIO_OPT: qemu audio option, e.g., "-soundhw ac97,es1370", used
++# QB_AUDIO_OPT: qemu audio option, e.g., "-device AC97", used
+ #               when QB_AUDIO_DRV is set.
+ #
+ # QB_RNG: Pass-through for host random number generator, it can speedup boot
+diff --git a/meta/conf/machine/include/x86/qemuboot-x86.inc b/meta/conf/machine/include/x86/qemuboot-x86.inc
+index d3b91070a8..b7b6428e44 100644
+--- a/meta/conf/machine/include/x86/qemuboot-x86.inc
++++ b/meta/conf/machine/include/x86/qemuboot-x86.inc
+@@ -8,7 +8,7 @@ QB_CPU:x86-64 = "-cpu IvyBridge -machine q35"
+ QB_CPU_KVM:x86-64 = "-cpu IvyBridge -machine q35"
+ 
+ QB_AUDIO_DRV = "alsa"
+-QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_AUDIO_OPT = "-device AC97"
+ QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1 tsc=reliable no_timer_check rcupdate.rcu_expedited=1"
+ QB_OPT_APPEND = "-usb -device usb-tablet"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.35.1
+
 
