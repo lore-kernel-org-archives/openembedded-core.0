@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF22AC47082
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFECBC38A04
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
  by mx.groups.io with SMTP id smtpd.web10.7190.1649169707422558639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 07:42:12 -0700
+ Tue, 05 Apr 2022 07:42:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=FXUe1Z2Z;
+ header.b=QOk9F8Ln;
  spf=pass (domain: intel.com, ip: 192.55.52.93,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649169732; x=1680705732;
+  t=1649169738; x=1680705738;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=6k9sP7G4CbhQLxpeCbtd2WHqVQtRhmBmCiCM22k4Zbg=;
-  b=FXUe1Z2ZgnYbHgBPnTRZgQMZQd4Wm7hkLNakkvPyBJM7C9VotGpqJ1Kc
-   58xT0c9WNh+HIxqeqaQVDy6blPa+Ls+1e9Fhsw3AzjxTuJEEvesm4YDA9
-   FNMCHKsZd+eqsiwH3mYl/aFD2Ge1w+FBtx+m747iOvA9WT3Zqcj4F13SS
-   gRGOEi4p4d3kb4wmxdfGGQUyrzoH4j4Z/kvrJwJT7elU5PCEIBG+Cb5H1
-   BuBAKQlkmNYrETkJpzEOqPZ6jgKdefz/XtR9O2ty9Pvqvne4+mKUk8yAL
-   LYG0kDpzfbOJPDOR5csdJvWduzjfgdEwYOj4tq7+w7YNfhdbt+YiKPwJq
+  bh=MdHVwE3d7QTLvoje3oexG1ymi+8QR2o1wB1tz4Y7M6M=;
+  b=QOk9F8LnJSUKeeSKe4Mm9PBDnqMK1JrQpUKsfCQ1ZhoLEo00wHkQ2PQE
+   JVxNcN+8qLyl+jE+Z9TndW9GKhvpTum3d+FALaH5z0ZchmOFT+YBTL0yG
+   h5R3jrkLmdTwad2cSPlUVsYpfGS6lkaMgXksYkRw49tm7/VIa8VtnPed1
+   I53v0+X/1G5EAyZHLeFdM+Lv05zLwOtTEc7Bw8v8rmYby0A9LzGzUfW3K
+   7atsVoktTKD9L+11CLp8cHl4QTFJ+oGvycMGRyok79EdvMsc/2PuE9xBR
+   i3vKxGpd+BRi+gWBAzyNZRC35npVrRadQyK+i5wyvDtG+ASemz1NEqxUW
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348944"
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348986"
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
-   d="scan'208";a="258348944"
+   d="scan'208";a="258348986"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:42:12 -0700
+ 05 Apr 2022 07:42:18 -0700
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
-   d="scan'208";a="696953657"
+   d="scan'208";a="696953674"
 Received: from ntabdull-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.226.238])
   by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:42:11 -0700
+ 05 Apr 2022 07:42:17 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 17/22] libxml2: update to 2.9.13
-Date: Tue,  5 Apr 2022 22:41:36 +0800
+Subject: [honister][PATCH 21/22] zlib: backport the fix for CVE-2018-25032
+Date: Tue,  5 Apr 2022 22:41:40 +0800
 Message-Id: 
- <cf098eeb8267119eb1036cf743c83d1e775e7bcf.1649169646.git.anuj.mittal@intel.com>
+ <94b2391b7998fe1d67f13ec79194f0e72a8f729c.1649169646.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1649169646.git.anuj.mittal@intel.com>
 References: <cover.1649169646.git.anuj.mittal@intel.com>
@@ -54,308 +54,383 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164035
+ https://lists.openembedded.org/g/openembedded-core/message/164039
 
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
+From: Ross Burton <ross@burtonini.com>
 
-- new version includes fix for CVE-2022-23308
-- drop patche which was upstream
-- refresh patch
-
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d687f1ac2017a1cc94ac4733cd46755d5aabd120)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../0002-Work-around-lxml-API-abuse.patch     | 213 ------------------
- .../libxml2/libxml-m4-use-pkgconfig.patch     |  16 +-
- .../{libxml2_2.9.12.bb => libxml2_2.9.13.bb}  |   5 +-
- 3 files changed, 8 insertions(+), 226 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
- rename meta/recipes-core/libxml/{libxml2_2.9.12.bb => libxml2_2.9.13.bb} (96%)
+ .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+ 2 files changed, 348 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch b/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
-deleted file mode 100644
-index f09ce9707a..0000000000
---- a/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
-+++ /dev/null
-@@ -1,213 +0,0 @@
--From 85b1792e37b131e7a51af98a37f92472e8de5f3f Mon Sep 17 00:00:00 2001
--From: Nick Wellnhofer <wellnhofer@aevum.de>
--Date: Tue, 18 May 2021 20:08:28 +0200
--Subject: [PATCH] Work around lxml API abuse
--
--Make xmlNodeDumpOutput and htmlNodeDumpFormatOutput work with corrupted
--parent pointers. This used to work with the old recursive code but the
--non-recursive rewrite required parent pointers to be set correctly.
--
--Unfortunately, lxml relies on the old behavior and passes subtrees with
--a corrupted structure. Fall back to a recursive function call if an
--invalid parent pointer is detected.
--
--Fixes #255.
--
--Upstream-Status: Backport [85b1792e37b131e7a51af98a37f92472e8de5f3f]
-----
-- HTMLtree.c | 46 ++++++++++++++++++++++++++++------------------
-- xmlsave.c  | 31 +++++++++++++++++++++----------
-- 2 files changed, 49 insertions(+), 28 deletions(-)
--
--diff --git a/HTMLtree.c b/HTMLtree.c
--index 24434d45..bdd639c7 100644
----- a/HTMLtree.c
--+++ b/HTMLtree.c
--@@ -744,7 +744,7 @@ void
-- htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
-- 	                 xmlNodePtr cur, const char *encoding ATTRIBUTE_UNUSED,
--                          int format) {
---    xmlNodePtr root;
--+    xmlNodePtr root, parent;
--     xmlAttrPtr attr;
--     const htmlElemDesc * info;
-- 
--@@ -755,6 +755,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--     }
-- 
--     root = cur;
--+    parent = cur->parent;
--     while (1) {
--         switch (cur->type) {
--         case XML_HTML_DOCUMENT_NODE:
--@@ -762,13 +763,25 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--             if (((xmlDocPtr) cur)->intSubset != NULL) {
--                 htmlDtdDumpOutput(buf, (xmlDocPtr) cur, NULL);
--             }
---            if (cur->children != NULL) {
--+            /* Always validate cur->parent when descending. */
--+            if ((cur->parent == parent) && (cur->children != NULL)) {
--+                parent = cur;
--                 cur = cur->children;
--                 continue;
--             }
--             break;
-- 
--         case XML_ELEMENT_NODE:
--+            /*
--+             * Some users like lxml are known to pass nodes with a corrupted
--+             * tree structure. Fall back to a recursive call to handle this
--+             * case.
--+             */
--+            if ((cur->parent != parent) && (cur->children != NULL)) {
--+                htmlNodeDumpFormatOutput(buf, doc, cur, encoding, format);
--+                break;
--+            }
--+
--             /*
--              * Get specific HTML info for that node.
--              */
--@@ -817,6 +830,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--                     (cur->name != NULL) &&
--                     (cur->name[0] != 'p')) /* p, pre, param */
--                     xmlOutputBufferWriteString(buf, "\n");
--+                parent = cur;
--                 cur = cur->children;
--                 continue;
--             }
--@@ -825,9 +839,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--                 (info != NULL) && (!info->isinline)) {
--                 if ((cur->next->type != HTML_TEXT_NODE) &&
--                     (cur->next->type != HTML_ENTITY_REF_NODE) &&
---                    (cur->parent != NULL) &&
---                    (cur->parent->name != NULL) &&
---                    (cur->parent->name[0] != 'p')) /* p, pre, param */
--+                    (parent != NULL) &&
--+                    (parent->name != NULL) &&
--+                    (parent->name[0] != 'p')) /* p, pre, param */
--                     xmlOutputBufferWriteString(buf, "\n");
--             }
-- 
--@@ -842,9 +856,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--                 break;
--             if (((cur->name == (const xmlChar *)xmlStringText) ||
--                  (cur->name != (const xmlChar *)xmlStringTextNoenc)) &&
---                ((cur->parent == NULL) ||
---                 ((xmlStrcasecmp(cur->parent->name, BAD_CAST "script")) &&
---                  (xmlStrcasecmp(cur->parent->name, BAD_CAST "style"))))) {
--+                ((parent == NULL) ||
--+                 ((xmlStrcasecmp(parent->name, BAD_CAST "script")) &&
--+                  (xmlStrcasecmp(parent->name, BAD_CAST "style"))))) {
--                 xmlChar *buffer;
-- 
--                 buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
--@@ -902,13 +916,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--                 break;
--             }
-- 
---            /*
---             * The parent should never be NULL here but we want to handle
---             * corrupted documents gracefully.
---             */
---            if (cur->parent == NULL)
---                return;
---            cur = cur->parent;
--+            cur = parent;
--+            /* cur->parent was validated when descending. */
--+            parent = cur->parent;
-- 
--             if ((cur->type == XML_HTML_DOCUMENT_NODE) ||
--                 (cur->type == XML_DOCUMENT_NODE)) {
--@@ -939,9 +949,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
--                     (cur->next != NULL)) {
--                     if ((cur->next->type != HTML_TEXT_NODE) &&
--                         (cur->next->type != HTML_ENTITY_REF_NODE) &&
---                        (cur->parent != NULL) &&
---                        (cur->parent->name != NULL) &&
---                        (cur->parent->name[0] != 'p')) /* p, pre, param */
--+                        (parent != NULL) &&
--+                        (parent->name != NULL) &&
--+                        (parent->name[0] != 'p')) /* p, pre, param */
--                         xmlOutputBufferWriteString(buf, "\n");
--                 }
--             }
--diff --git a/xmlsave.c b/xmlsave.c
--index 61a40459..aedbd5e7 100644
----- a/xmlsave.c
--+++ b/xmlsave.c
--@@ -847,7 +847,7 @@ htmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
-- static void
-- xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--     int format = ctxt->format;
---    xmlNodePtr tmp, root, unformattedNode = NULL;
--+    xmlNodePtr tmp, root, unformattedNode = NULL, parent;
--     xmlAttrPtr attr;
--     xmlChar *start, *end;
--     xmlOutputBufferPtr buf;
--@@ -856,6 +856,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--     buf = ctxt->buf;
-- 
--     root = cur;
--+    parent = cur->parent;
--     while (1) {
--         switch (cur->type) {
--         case XML_DOCUMENT_NODE:
--@@ -868,7 +869,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--             break;
-- 
--         case XML_DOCUMENT_FRAG_NODE:
---            if (cur->children != NULL) {
--+            /* Always validate cur->parent when descending. */
--+            if ((cur->parent == parent) && (cur->children != NULL)) {
--+                parent = cur;
--                 cur = cur->children;
--                 continue;
--             }
--@@ -887,7 +890,18 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--             break;
-- 
--         case XML_ELEMENT_NODE:
---	    if ((cur != root) && (ctxt->format == 1) && (xmlIndentTreeOutput))
--+            /*
--+             * Some users like lxml are known to pass nodes with a corrupted
--+             * tree structure. Fall back to a recursive call to handle this
--+             * case.
--+             */
--+            if ((cur->parent != parent) && (cur->children != NULL)) {
--+                xmlNodeDumpOutputInternal(ctxt, cur);
--+                break;
--+            }
--+
--+	    if ((ctxt->level > 0) && (ctxt->format == 1) &&
--+                (xmlIndentTreeOutput))
-- 		xmlOutputBufferWrite(buf, ctxt->indent_size *
-- 				     (ctxt->level > ctxt->indent_nr ?
-- 				      ctxt->indent_nr : ctxt->level),
--@@ -942,6 +956,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--                 xmlOutputBufferWrite(buf, 1, ">");
--                 if (ctxt->format == 1) xmlOutputBufferWrite(buf, 1, "\n");
--                 if (ctxt->level >= 0) ctxt->level++;
--+                parent = cur;
--                 cur = cur->children;
--                 continue;
--             }
--@@ -1058,13 +1073,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
--                 break;
--             }
-- 
---            /*
---             * The parent should never be NULL here but we want to handle
---             * corrupted documents gracefully.
---             */
---            if (cur->parent == NULL)
---                return;
---            cur = cur->parent;
--+            cur = parent;
--+            /* cur->parent was validated when descending. */
--+            parent = cur->parent;
-- 
--             if (cur->type == XML_ELEMENT_NODE) {
--                 if (ctxt->level > 0) ctxt->level--;
---- 
--2.32.0
--
-diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-index 90fa193775..6f44275299 100644
---- a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-+++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-@@ -18,11 +18,11 @@ Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
-  libxml.m4 | 190 ++----------------------------------------------------
-  1 file changed, 5 insertions(+), 185 deletions(-)
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+new file mode 100644
+index 0000000000..5cb6183641
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+@@ -0,0 +1,347 @@
++CVE: CVE-2018-25032
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 17 Apr 2018 22:09:22 -0700
++Subject: [PATCH] Fix a bug that can crash deflate on some input when using
++ Z_FIXED.
++
++This bug was reported by Danilo Ramos of Eideticom, Inc. It has
++lain in wait 13 years before being found! The bug was introduced
++in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
++option forces the use of fixed Huffman codes. For rare inputs with
++a large number of distant matches, the pending buffer into which
++the compressed data is written can overwrite the distance symbol
++table which it overlays. That results in corrupted output due to
++invalid distances, and can result in out-of-bound accesses,
++crashing the application.
++
++The fix here combines the distance buffer and literal/length
++buffers into a single symbol buffer. Now three bytes of pending
++buffer space are opened up for each literal or length/distance
++pair consumed, instead of the previous two bytes. This assures
++that the pending buffer cannot overwrite the symbol table, since
++the maximum fixed code compressed length/distance is 31 bits, and
++since there are four bytes of pending space for every three bytes
++of symbol space.
++---
++ deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
++ deflate.h | 25 +++++++++----------
++ trees.c   | 50 +++++++++++--------------------------
++ 3 files changed, 79 insertions(+), 70 deletions(-)
++
++diff --git a/deflate.c b/deflate.c
++index 425babc00..19cba873a 100644
++--- a/deflate.c
+++++ b/deflate.c
++@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++     int wrap = 1;
++     static const char my_version[] = ZLIB_VERSION;
++ 
++-    ushf *overlay;
++-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
++-     * output size for (length,distance) codes is <= 24 bits.
++-     */
++-
++     if (version == Z_NULL || version[0] != my_version[0] ||
++         stream_size != sizeof(z_stream)) {
++         return Z_VERSION_ERROR;
++@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++ 
++     s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
++ 
++-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
++-    s->pending_buf = (uchf *) overlay;
++-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
+++    /* We overlay pending_buf and sym_buf. This works since the average size
+++     * for length/distance pairs over any compressed block is assured to be 31
+++     * bits or less.
+++     *
+++     * Analysis: The longest fixed codes are a length code of 8 bits plus 5
+++     * extra bits, for lengths 131 to 257. The longest fixed distance codes are
+++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The longest
+++     * possible fixed-codes length/distance pair is then 31 bits total.
+++     *
+++     * sym_buf starts one-fourth of the way into pending_buf. So there are
+++     * three bytes in sym_buf for every four bytes in pending_buf. Each symbol
+++     * in sym_buf is three bytes -- two for the distance and one for the
+++     * literal/length. As each symbol is consumed, the pointer to the next
+++     * sym_buf value to read moves forward three bytes. From that symbol, up to
+++     * 31 bits are written to pending_buf. The closest the written pending_buf
+++     * bits gets to the next sym_buf symbol to read is just before the last
+++     * code is written. At that time, 31*(n-2) bits have been written, just
+++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf starts at
+++     * 8*n bits into pending_buf. (Note that the symbol buffer fills when n-1
+++     * symbols are written.) The closest the writing gets to what is unread is
+++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default, and
+++     * can range from 128 to 32768.
+++     *
+++     * Therefore, at a minimum, there are 142 bits of space between what is
+++     * written and what is read in the overlain buffers, so the symbols cannot
+++     * be overwritten by the compressed data. That space is actually 139 bits,
+++     * due to the three-bit fixed-code block header.
+++     *
+++     * That covers the case where either Z_FIXED is specified, forcing fixed
+++     * codes, or when the use of fixed codes is chosen, because that choice
+++     * results in a smaller compressed block than dynamic codes. That latter
+++     * condition then assures that the above analysis also covers all dynamic
+++     * blocks. A dynamic-code block will only be chosen to be emitted if it has
+++     * fewer bits than a fixed-code block would for the same set of symbols.
+++     * Therefore its average symbol length is assured to be less than 31. So
+++     * the compressed data for a dynamic block also cannot overwrite the
+++     * symbols from which it is being constructed.
+++     */
+++
+++    s->pending_buf = (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
+++    s->pending_buf_size = (ulg)s->lit_bufsize * 4;
++ 
++     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
++         s->pending_buf == Z_NULL) {
++@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++         deflateEnd (strm);
++         return Z_MEM_ERROR;
++     }
++-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
++-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+++    s->sym_buf = s->pending_buf + s->lit_bufsize;
+++    s->sym_end = (s->lit_bufsize - 1) * 3;
+++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64K
+++     * on 16 bit machines and because stored blocks are restricted to
+++     * 64K-1 bytes.
+++     */
++ 
++     s->level = level;
++     s->strategy = strategy;
++@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
++ 
++     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
++     s = strm->state;
++-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
+++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
++         return Z_BUF_ERROR;
++     do {
++         put = Buf_size - s->bi_valid;
++@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
++ #else
++     deflate_state *ds;
++     deflate_state *ss;
++-    ushf *overlay;
++ 
++ 
++     if (deflateStateCheck(source) || dest == Z_NULL) {
++@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
++     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
++     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
++     ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
++-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
++-    ds->pending_buf = (uchf *) overlay;
+++    ds->pending_buf = (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
++ 
++     if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
++         ds->pending_buf == Z_NULL) {
++@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
++     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
++ 
++     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
++-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
++-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
+++    ds->sym_buf = ds->pending_buf + ds->lit_bufsize;
++ 
++     ds->l_desc.dyn_tree = ds->dyn_ltree;
++     ds->d_desc.dyn_tree = ds->dyn_dtree;
++@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++diff --git a/deflate.h b/deflate.h
++index 23ecdd312..d4cf1a98b 100644
++--- a/deflate.h
+++++ b/deflate.h
++@@ -217,7 +217,7 @@ typedef struct internal_state {
++     /* Depth of each subtree used as tie breaker for trees of equal frequency
++      */
++ 
++-    uchf *l_buf;          /* buffer for literals or lengths */
+++    uchf *sym_buf;        /* buffer for distances and literals/lengths */
++ 
++     uInt  lit_bufsize;
++     /* Size of match buffer for literals/lengths.  There are 4 reasons for
++@@ -239,13 +239,8 @@ typedef struct internal_state {
++      *   - I can't count above 4
++      */
++ 
++-    uInt last_lit;      /* running index in l_buf */
++-
++-    ushf *d_buf;
++-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
++-     * the same number of elements. To use different lengths, an extra flag
++-     * array would be necessary.
++-     */
+++    uInt sym_next;      /* running index in sym_buf */
+++    uInt sym_end;       /* symbol table full when sym_next reaches this */
++ 
++     ulg opt_len;        /* bit length of current block with optimal trees */
++     ulg static_len;     /* bit length of current block with static trees */
++@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
++ 
++ # define _tr_tally_lit(s, c, flush) \
++   { uch cc = (c); \
++-    s->d_buf[s->last_lit] = 0; \
++-    s->l_buf[s->last_lit++] = cc; \
+++    s->sym_buf[s->sym_next++] = 0; \
+++    s->sym_buf[s->sym_next++] = 0; \
+++    s->sym_buf[s->sym_next++] = cc; \
++     s->dyn_ltree[cc].Freq++; \
++-    flush = (s->last_lit == s->lit_bufsize-1); \
+++    flush = (s->sym_next == s->sym_end); \
++    }
++ # define _tr_tally_dist(s, distance, length, flush) \
++   { uch len = (uch)(length); \
++     ush dist = (ush)(distance); \
++-    s->d_buf[s->last_lit] = dist; \
++-    s->l_buf[s->last_lit++] = len; \
+++    s->sym_buf[s->sym_next++] = dist; \
+++    s->sym_buf[s->sym_next++] = dist >> 8; \
+++    s->sym_buf[s->sym_next++] = len; \
++     dist--; \
++     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
++     s->dyn_dtree[d_code(dist)].Freq++; \
++-    flush = (s->last_lit == s->lit_bufsize-1); \
+++    flush = (s->sym_next == s->sym_end); \
++   }
++ #else
++ # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
++diff --git a/trees.c b/trees.c
++index 4f4a65011..decaeb7c3 100644
++--- a/trees.c
+++++ b/trees.c
++@@ -416,7 +416,7 @@ local void init_block(s)
++ 
++     s->dyn_ltree[END_BLOCK].Freq = 1;
++     s->opt_len = s->static_len = 0L;
++-    s->last_lit = s->matches = 0;
+++    s->sym_next = s->matches = 0;
++ }
++ 
++ #define SMALLEST 1
++@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
++ 
++         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
++                 opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
++-                s->last_lit));
+++                s->sym_next / 3));
++ 
++         if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
++ 
++@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++     unsigned dist;  /* distance of matched string */
++     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
++ {
++-    s->d_buf[s->last_lit] = (ush)dist;
++-    s->l_buf[s->last_lit++] = (uch)lc;
+++    s->sym_buf[s->sym_next++] = dist;
+++    s->sym_buf[s->sym_next++] = dist >> 8;
+++    s->sym_buf[s->sym_next++] = lc;
++     if (dist == 0) {
++         /* lc is the unmatched char */
++         s->dyn_ltree[lc].Freq++;
++@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
++         s->dyn_dtree[d_code(dist)].Freq++;
++     }
++-
++-#ifdef TRUNCATE_BLOCK
++-    /* Try to guess if it is profitable to stop the current block here */
++-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
++-        /* Compute an upper bound for the compressed length */
++-        ulg out_length = (ulg)s->last_lit*8L;
++-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
++-        int dcode;
++-        for (dcode = 0; dcode < D_CODES; dcode++) {
++-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
++-                (5L+extra_dbits[dcode]);
++-        }
++-        out_length >>= 3;
++-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
++-               s->last_lit, in_length, out_length,
++-               100L - out_length*100L/in_length));
++-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
++-    }
++-#endif
++-    return (s->last_lit == s->lit_bufsize-1);
++-    /* We avoid equality with lit_bufsize because of wraparound at 64K
++-     * on 16 bit machines and because stored blocks are restricted to
++-     * 64K-1 bytes.
++-     */
+++    return (s->sym_next == s->sym_end);
++ }
++ 
++ /* ===========================================================================
++@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
++ {
++     unsigned dist;      /* distance of matched string */
++     int lc;             /* match length or unmatched char (if dist == 0) */
++-    unsigned lx = 0;    /* running index in l_buf */
+++    unsigned sx = 0;    /* running index in sym_buf */
++     unsigned code;      /* the code to send */
++     int extra;          /* number of extra bits to send */
++ 
++-    if (s->last_lit != 0) do {
++-        dist = s->d_buf[lx];
++-        lc = s->l_buf[lx++];
+++    if (s->sym_next != 0) do {
+++        dist = s->sym_buf[sx++] & 0xff;
+++        dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
+++        lc = s->sym_buf[sx++];
++         if (dist == 0) {
++             send_code(s, lc, ltree); /* send a literal byte */
++             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
++@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
++             }
++         } /* literal or match pair ? */
++ 
++-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
++-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
++-               "pendingBuf overflow");
+++        /* Check that the overlay between pending_buf and sym_buf is ok: */
+++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow");
++ 
++-    } while (lx < s->last_lit);
+++    } while (sx < s->sym_next);
++ 
++     send_code(s, END_BLOCK, ltree);
++ }
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+index 1c06aa0ab5..11a076e496 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
  
--diff --git a/libxml.m4 b/libxml.m4
--index 09de9fe2..1c535853 100644
----- a/libxml.m4
--+++ b/libxml.m4
--@@ -1,192 +1,12 @@
-+Index: libxml2-2.9.13/libxml.m4
-+===================================================================
-+--- libxml2-2.9.13.orig/libxml.m4
-++++ libxml2-2.9.13/libxml.m4
-+@@ -1,191 +1,12 @@
- -# Configure paths for LIBXML2
- -# Simon Josefsson 2020-02-12
- -# Fix autoconf 2.70+ warnings
-@@ -147,9 +147,8 @@ index 09de9fe2..1c535853 100644
- -      {
- -        printf("\n*** An old version of libxml (%d.%d.%d) was found.\n",
- -               xml_major_version, xml_minor_version, xml_micro_version);
---        printf("*** You need a version of libxml newer than %d.%d.%d. The latest version of\n",
-+-        printf("*** You need a version of libxml newer than %d.%d.%d.\n",
- -           major, minor, micro);
---        printf("*** libxml is always available from ftp://ftp.xmlsoft.org.\n");
- -        printf("***\n");
- -        printf("*** If you have already installed a sufficiently new version, this error\n");
- -        printf("*** probably means that the wrong copy of the xml2-config shell script is\n");
-@@ -220,6 +219,3 @@ index 09de9fe2..1c535853 100644
- -  AC_SUBST(XML_LIBS)
- -  rm -f conf.xmltest
-  ])
---- 
--2.7.4
--
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.12.bb b/meta/recipes-core/libxml/libxml2_2.9.13.bb
-similarity index 96%
-rename from meta/recipes-core/libxml/libxml2_2.9.12.bb
-rename to meta/recipes-core/libxml/libxml2_2.9.13.bb
-index 3508733cc0..be59aba84b 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.12.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.13.bb
-@@ -18,14 +18,13 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://runtest.patch \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://ldflags-tests.patch \
++           file://CVE-2018-25032.patch \
             file://run-ptest \
-            file://python-sitepackages-dir.patch \
--           file://libxml-m4-use-pkgconfig.patch \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-            file://fix-execution-of-ptests.patch \
-            file://remove-fuzz-from-ptests.patch \
--           file://0002-Work-around-lxml-API-abuse.patch \
-+           file://libxml-m4-use-pkgconfig.patch \
             "
- 
--SRC_URI[archive.sha256sum] = "28a92f6ab1f311acf5e478564c49088ef0ac77090d9c719bbc5d518f1fe62eb9"
-+SRC_URI[archive.sha256sum] = "276130602d12fe484ecc03447ee5e759d0465558fbc9d6bd144e3745306ebf0e"
- SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
- 
- BINCONFIG = "${bindir}/xml2-config"
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
 -- 
 2.35.1
 
