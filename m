@@ -1,151 +1,362 @@
-Return-Path: <sean.anderson@seco.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E135BC4708A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF22AC47082
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.78])
- by mx.groups.io with SMTP id smtpd.web09.7364.1649170843512648390
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.7190.1649169707422558639
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 08:00:45 -0700
+ Tue, 05 Apr 2022 07:42:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@seco.com
- header.s=selector1 header.b=Jbeq0JYQ;
- spf=pass (domain: seco.com, ip: 40.107.15.78,
- mailfrom: sean.anderson@seco.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PeI4mvUR+XglojqT9YjVmFqHibCcQXFhpH5irDYBBiwIdphrq0/tKFnLcPKmwAVDDzpuXIUI2/MTCB/ke6183j/wcJNvomAAqpe0MM67W0zFhKN5gZ0y0EW4bW66Cxlfg+hqnih7YP/NAbFnc2pS8D878uN3NToF8OFYbntpCu2DhVczJIAkWiftZ+7PgkGB0VP5MhjEu+x/9wXUAGrS6netS5hQTkghzwBKhvSqeiPfpO0iXiEJzTFalG52qd3vZ1YLq4qVvR2Hfs/ljQsEmir/LYq75749yldbdO2R9KWB4XyanwnjbYX0WlK435HJ1l3MTqr8xnyL0q+qyb5k1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZQ0MM/OJfYfUCykVrVaiKGq4Cc5BFVCiQWZj4G6hCsQ=;
- b=c1SRqpf24uCq0y0RGOTrycexX0TNk3QSZUHo56Y39ZeTkLU4+KPmeSxDHAdtVEMElng35YmkzCvNcxrxKJtTPLbwxkHTpQetOQj6oz+vflp/G7iSRd6AHBv3tTWglWtUztGKaaii9vw/0tJKewYDuKNxQedeLH5f7ptbXOXR4fJ0oiXjpCXOySOoKbASmM4qWs6f1anYH1XnCCACMBc52KW45jKMhvwlgTYlgwvWSpg2Br05wfie5Zb8EVxyhYw+wKhq5C0HpYqjAOumq2P2/76I44C1gbDs4OEMwqkhCYLQmo7hykFbwCq4XdgPujyre9oOR7m1MvYiTKeZIM2jag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZQ0MM/OJfYfUCykVrVaiKGq4Cc5BFVCiQWZj4G6hCsQ=;
- b=Jbeq0JYQe6xrn4AOTN4jkiRBLLXKqqDwP2Vp+X9a5Vh17V0Fgpa6rpLSoBV3QmlfQRHfvaYYbTDZWCKdMqhI/fQvvqYU4/cbbTU4n/tGAEP6B12nNyx5W/46CLY8UFTteXrjoqtPpAgHnQMsAJv4ON7NI7kTa2J3197cs6D4y11lTkGZaDGS/DFF0LvCGnyyxmcQsTTwCf3AstjieSfewr+cCBEjzRWo89UwF2UI86zskNQAm7+yppEbmucCFk83871zv5UoF3aoWd86PGcIsxkaFoyjuJoHpKZZeCxauuTXE5urW1l6inRsl0rAQVOPh4fJg+k4YbpbTcWD2sHdwg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from VI1PR03MB4973.eurprd03.prod.outlook.com (2603:10a6:803:c5::12)
- by PAXPR03MB8225.eurprd03.prod.outlook.com (2603:10a6:102:24c::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Tue, 5 Apr
- 2022 15:00:39 +0000
-Received: from VI1PR03MB4973.eurprd03.prod.outlook.com
- ([fe80::2ca2:213d:e44b:cf71]) by VI1PR03MB4973.eurprd03.prod.outlook.com
- ([fe80::2ca2:213d:e44b:cf71%7]) with mapi id 15.20.5123.030; Tue, 5 Apr 2022
- 15:00:39 +0000
-From: Sean Anderson <sean.anderson@seco.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=FXUe1Z2Z;
+ spf=pass (domain: intel.com, ip: 192.55.52.93,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649169732; x=1680705732;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=6k9sP7G4CbhQLxpeCbtd2WHqVQtRhmBmCiCM22k4Zbg=;
+  b=FXUe1Z2ZgnYbHgBPnTRZgQMZQd4Wm7hkLNakkvPyBJM7C9VotGpqJ1Kc
+   58xT0c9WNh+HIxqeqaQVDy6blPa+Ls+1e9Fhsw3AzjxTuJEEvesm4YDA9
+   FNMCHKsZd+eqsiwH3mYl/aFD2Ge1w+FBtx+m747iOvA9WT3Zqcj4F13SS
+   gRGOEi4p4d3kb4wmxdfGGQUyrzoH4j4Z/kvrJwJT7elU5PCEIBG+Cb5H1
+   BuBAKQlkmNYrETkJpzEOqPZ6jgKdefz/XtR9O2ty9Pvqvne4+mKUk8yAL
+   LYG0kDpzfbOJPDOR5csdJvWduzjfgdEwYOj4tq7+w7YNfhdbt+YiKPwJq
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="258348944"
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="258348944"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:42:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400";
+   d="scan'208";a="696953657"
+Received: from ntabdull-mobl.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.215.226.238])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Apr 2022 07:42:11 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-CC: Klaus Heinrich Kiwi <klaus@linux.vnet.ibm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH] u-boot: Fix condition for install_spl_helper
-Date: Tue,  5 Apr 2022 11:00:13 -0400
-Message-ID: <20220405150013.2640178-1-sean.anderson@seco.com>
-X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR08CA0003.namprd08.prod.outlook.com
- (2603:10b6:208:239::8) To VI1PR03MB4973.eurprd03.prod.outlook.com
- (2603:10a6:803:c5::12)
+Subject: [honister][PATCH 17/22] libxml2: update to 2.9.13
+Date: Tue,  5 Apr 2022 22:41:36 +0800
+Message-Id: 
+ <cf098eeb8267119eb1036cf743c83d1e775e7bcf.1649169646.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1649169646.git.anuj.mittal@intel.com>
+References: <cover.1649169646.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 505e3100-295e-4641-af81-08da17150bdc
-X-MS-TrafficTypeDiagnostic: PAXPR03MB8225:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PAXPR03MB8225212159F35AA75E30509F96E49@PAXPR03MB8225.eurprd03.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	RxPxyACCrgvl5P9tTFO63xog8hhYb5+H+kN5JbjLql+ljlMviw1Yiv7ysYe48+zrbAhRBKthVXe5LQYHdYSbEDnOIk0Rw8OwUYPSoU7mdlBO81TZKiw3pma4nfTICjNeZcuWi3Ru87WB29mEAvHzet8kD61U3MOISOcIqe1tvWYuVyG3XRxhUKzivX1St+ALRJ5jtvWLFviujCnDTBKF0pHK4loOoFCxwOWU85Zc7t7fOX+ZKRwkNadoflZo1cLtFDqTubsQBsy7mgGZJimkgXnWfirJnCOFYhPVMhXuZI4SXZtO0nNEr5m7dnZhbTf5ICUUzHWYjoKq1PEexIhy7IWj4ApI4m2cyUfgWfsGQoSVrrL7HuX7ZCD0CndPULvrj9u4OJTej3HY4o3M67GTMT2gYFg64w+wAGBTbOkV5g6JWfTvvbWksKDCoyX3f2N/3iJ5WavKwxAVG4MFsYkGfcqHxGnE3sR8RA6f81BSBjY1StJmbCAmDGFuGXdlZ/ZJxu3EQWq4xRKUZhUT6c4k74MwxzsPSwdAn1FVmiHH3EsowrOL/Y3s+cB7fF69ojM8990kpAPNrty2MOjXxMGkR9kY1g94LDh2+umiRSg3cmh0f88UEAFZpnSzxNnbCq2tUxRC33H9rBbr6sYCuCl1+qgCzW6Lx7ENmUvElRvJ6ltxxUlbvzBC8ZQkKyPbN4vzZmlfOHKuRMSued+ZvLdEXg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB4973.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(38100700002)(52116002)(66476007)(508600001)(186003)(66946007)(44832011)(66556008)(6916009)(8936002)(2906002)(6486002)(83380400001)(86362001)(4744005)(4326008)(6666004)(6506007)(26005)(316002)(107886003)(38350700002)(5660300002)(6512007)(36756003)(2616005)(54906003)(8676002)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?a3DXGbI4ml4aWvtdmelTp07hxgt5amwXxDCJ8+L5AFAnkOt6YkjyeUqmewYK?=
- =?us-ascii?Q?qznXbvuo5twdeGCdpJ6A2tWBb1xJMQUxMNHsb2kMTFJ4BHzyX13x2niH4xL1?=
- =?us-ascii?Q?Tb5PgZJMDrdwZg9LzYfa8sNemfRbumiuifhk7K+busSyaHsmqSnFwBu/EBLE?=
- =?us-ascii?Q?2ZMRns0T8tCNnq1NR1CHMPotnvC/NW7G78F8BKxB5pW25lHnJgbqFEqrt3tK?=
- =?us-ascii?Q?dN0Qi7vXjtnWurNBcRcFCZoP+OUfUMtU58EHwkN/D4C81KFFLhlWr3CylkaH?=
- =?us-ascii?Q?FNIhTdu2iL3ukJKpf2cnTQ1N9ohaZE5J8iVvOLGmmKJDRrI7nqm+TRY5URn6?=
- =?us-ascii?Q?+C0AIhGrs8Wh4rj8nihrL8hA29FO5/0LorhAXKZzHLkNRNtyw1rHKvQi2sDq?=
- =?us-ascii?Q?LTsVLIMA+aY6q5AK47dehJxUUt4RaPv2TMaBc7NPI+LNsEeDU+1RKWRC/eei?=
- =?us-ascii?Q?Yr8vwOMxZHkcT+hIOl4nIOoMA2tqWIt2upAB1eCuQo8wl9HkPypirTSqFPkq?=
- =?us-ascii?Q?A7qo4REOgQOlV39D8dNQ8kOyD4wiYqYK4fIBb5dw9DssQKJavu6pGX8hyTDR?=
- =?us-ascii?Q?SicPPoXamk9bxa9978aLCj0g46fimiGq0yovrTPwXGGfG8JZE9g5B4Jk0CQd?=
- =?us-ascii?Q?DrdciW5THmsAK9WoG6CqxsJWEakhbu0KkPZGxujXatxa9q9DUnaIqZRygIg4?=
- =?us-ascii?Q?joirAZMj45mRJlNFPp+HkFvwnshrS41xgFGuSREQTN+QYH0riepnzFssmr9g?=
- =?us-ascii?Q?QeN4Uh7q87QT0XGlKV1VZLq2TN+9cS02vBc0+7mIGA+LGgaRp74v3XMAc76a?=
- =?us-ascii?Q?mXO2hVZOOUi9etovp8IJ5/kCOynmthP91/YEBW8MGH7VhSxqvE17bE531E52?=
- =?us-ascii?Q?/CE+l8OrUs35myzmt4HUkxUbdn2DZvuG98+hdz1XeNaI4IsNhC+6D6FD8Es5?=
- =?us-ascii?Q?QpRfSrig9pSGh7VFCZFv/pre0GiWeLpoUCMv6bl60XTNIJG5ZntgT88F9dYu?=
- =?us-ascii?Q?FaGo2pBWo34/ernpPS8uEryPjse9sMTdURvtkI0vAwPsDYTdgv/HH2Av/bfv?=
- =?us-ascii?Q?Uay1Bw4DvbLHgeYCs8hxYRf4G5slL4oM79REMLIF8Dgc04pTrtWPNseXFuik?=
- =?us-ascii?Q?NKEgjQkj0B8I+5vPqhGgofHYXz34ne/yX5sO+nvPUjmY9//5RKM8/74YX6dc?=
- =?us-ascii?Q?PdtKgzpSDI0ZT+xRstyYFefLuX7F1EhwPkE1OcNImjTGOQaxCZfKcg11dRIi?=
- =?us-ascii?Q?8EzqhFSDS2Mgrqd1W/xSQnkJGbrP891eD0LNwYSNKxTR1SeC7aKgYxGHRRBv?=
- =?us-ascii?Q?V+J0fzUJRx+fwjbRS4K9Mby1q55xzrgJoCuqncX42Y2qH1a1OPwr6Ao9oj/J?=
- =?us-ascii?Q?+oHhxtmO7PBdFBSY0UpW5WSwahuz6ltYmB+Jlt3n2BNWa34WcCafN+veBKfA?=
- =?us-ascii?Q?Go9SfJkV/s0eKD2m5hjLQlrLswEu0/LncWFGArfFW8ILfMNLc780Rb30ELZX?=
- =?us-ascii?Q?sS4t0yJZgDr/VQun1nfhypQQizUGCKRhdhD1N2W+Gat51yRIeOeKJcn2KXvf?=
- =?us-ascii?Q?kWcNNSL4iJC5T3Op8Sb2acF15B03sTl0UXuRiDoIZLB92xD7ximVYT5xJNJb?=
- =?us-ascii?Q?O3RFCuR49u/DrP86fb7KV8dW8kz1oOIJOZjFdIWjhNqYhYiZ09HkjkQRftrV?=
- =?us-ascii?Q?osBEkhuNgjwb8TefO6ZAQwmLFyJ5lFbh6EDhbY3Hkj5LHx1V9PgrKiI8DpMj?=
- =?us-ascii?Q?rmC2x9nPi89hcjtQcKn1a3+OAM0SynI=3D?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 505e3100-295e-4641-af81-08da17150bdc
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB4973.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 15:00:38.9923
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- kmaUqy9kJ0Of6we27fUYeNe/dguA9hjP2gIqyVPzEJ5psw1Jkkvw83i2dqWEZ06IvfTTXNZj36/zPeu7VzI/OQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR03MB8225
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164042
+ https://lists.openembedded.org/g/openembedded-core/message/164035
 
-The condition for calling install_spl_helper when compiling multiple
-configs does not match the condition for a single config. This causes
-compilation failures when ${UBOOT_FITIMAGE_ENABLE} is 1 but
-${SPL_SIGN_ENABLE} is not.
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Fixes: 5af4dfe83c2 ("u-boot: Add infrastructure to SPL verified boot")
-Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+- new version includes fix for CVE-2022-23308
+- drop patche which was upstream
+- refresh patch
+
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d687f1ac2017a1cc94ac4733cd46755d5aabd120)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
+ .../0002-Work-around-lxml-API-abuse.patch     | 213 ------------------
+ .../libxml2/libxml-m4-use-pkgconfig.patch     |  16 +-
+ .../{libxml2_2.9.12.bb => libxml2_2.9.13.bb}  |   5 +-
+ 3 files changed, 8 insertions(+), 226 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
+ rename meta/recipes-core/libxml/{libxml2_2.9.12.bb => libxml2_2.9.13.bb} (96%)
 
- meta/classes/uboot-sign.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbcl=
-ass
-index 8d136e9405..4ca8118eb2 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -250,7 +250,7 @@ do_install:append() {
- 					[ -n "${UBOOT_DTB_BINARY}" ]; then
- 					install_helper
- 				fi
--				if [ "${SPL_SIGN_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ]; then
-+				if [ "${UBOOT_FITIMAGE_ENABLE}" =3D "1" -a -n "${SPL_DTB_BINARY}" ]; t=
-hen
- 					install_spl_helper
- 				fi
- 			done
---=20
-2.35.1.1320.gc452695387.dirty
+diff --git a/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch b/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
+deleted file mode 100644
+index f09ce9707a..0000000000
+--- a/meta/recipes-core/libxml/libxml2/0002-Work-around-lxml-API-abuse.patch
++++ /dev/null
+@@ -1,213 +0,0 @@
+-From 85b1792e37b131e7a51af98a37f92472e8de5f3f Mon Sep 17 00:00:00 2001
+-From: Nick Wellnhofer <wellnhofer@aevum.de>
+-Date: Tue, 18 May 2021 20:08:28 +0200
+-Subject: [PATCH] Work around lxml API abuse
+-
+-Make xmlNodeDumpOutput and htmlNodeDumpFormatOutput work with corrupted
+-parent pointers. This used to work with the old recursive code but the
+-non-recursive rewrite required parent pointers to be set correctly.
+-
+-Unfortunately, lxml relies on the old behavior and passes subtrees with
+-a corrupted structure. Fall back to a recursive function call if an
+-invalid parent pointer is detected.
+-
+-Fixes #255.
+-
+-Upstream-Status: Backport [85b1792e37b131e7a51af98a37f92472e8de5f3f]
+----
+- HTMLtree.c | 46 ++++++++++++++++++++++++++++------------------
+- xmlsave.c  | 31 +++++++++++++++++++++----------
+- 2 files changed, 49 insertions(+), 28 deletions(-)
+-
+-diff --git a/HTMLtree.c b/HTMLtree.c
+-index 24434d45..bdd639c7 100644
+---- a/HTMLtree.c
+-+++ b/HTMLtree.c
+-@@ -744,7 +744,7 @@ void
+- htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+- 	                 xmlNodePtr cur, const char *encoding ATTRIBUTE_UNUSED,
+-                          int format) {
+--    xmlNodePtr root;
+-+    xmlNodePtr root, parent;
+-     xmlAttrPtr attr;
+-     const htmlElemDesc * info;
+- 
+-@@ -755,6 +755,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-     }
+- 
+-     root = cur;
+-+    parent = cur->parent;
+-     while (1) {
+-         switch (cur->type) {
+-         case XML_HTML_DOCUMENT_NODE:
+-@@ -762,13 +763,25 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-             if (((xmlDocPtr) cur)->intSubset != NULL) {
+-                 htmlDtdDumpOutput(buf, (xmlDocPtr) cur, NULL);
+-             }
+--            if (cur->children != NULL) {
+-+            /* Always validate cur->parent when descending. */
+-+            if ((cur->parent == parent) && (cur->children != NULL)) {
+-+                parent = cur;
+-                 cur = cur->children;
+-                 continue;
+-             }
+-             break;
+- 
+-         case XML_ELEMENT_NODE:
+-+            /*
+-+             * Some users like lxml are known to pass nodes with a corrupted
+-+             * tree structure. Fall back to a recursive call to handle this
+-+             * case.
+-+             */
+-+            if ((cur->parent != parent) && (cur->children != NULL)) {
+-+                htmlNodeDumpFormatOutput(buf, doc, cur, encoding, format);
+-+                break;
+-+            }
+-+
+-             /*
+-              * Get specific HTML info for that node.
+-              */
+-@@ -817,6 +830,7 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-                     (cur->name != NULL) &&
+-                     (cur->name[0] != 'p')) /* p, pre, param */
+-                     xmlOutputBufferWriteString(buf, "\n");
+-+                parent = cur;
+-                 cur = cur->children;
+-                 continue;
+-             }
+-@@ -825,9 +839,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-                 (info != NULL) && (!info->isinline)) {
+-                 if ((cur->next->type != HTML_TEXT_NODE) &&
+-                     (cur->next->type != HTML_ENTITY_REF_NODE) &&
+--                    (cur->parent != NULL) &&
+--                    (cur->parent->name != NULL) &&
+--                    (cur->parent->name[0] != 'p')) /* p, pre, param */
+-+                    (parent != NULL) &&
+-+                    (parent->name != NULL) &&
+-+                    (parent->name[0] != 'p')) /* p, pre, param */
+-                     xmlOutputBufferWriteString(buf, "\n");
+-             }
+- 
+-@@ -842,9 +856,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-                 break;
+-             if (((cur->name == (const xmlChar *)xmlStringText) ||
+-                  (cur->name != (const xmlChar *)xmlStringTextNoenc)) &&
+--                ((cur->parent == NULL) ||
+--                 ((xmlStrcasecmp(cur->parent->name, BAD_CAST "script")) &&
+--                  (xmlStrcasecmp(cur->parent->name, BAD_CAST "style"))))) {
+-+                ((parent == NULL) ||
+-+                 ((xmlStrcasecmp(parent->name, BAD_CAST "script")) &&
+-+                  (xmlStrcasecmp(parent->name, BAD_CAST "style"))))) {
+-                 xmlChar *buffer;
+- 
+-                 buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
+-@@ -902,13 +916,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-                 break;
+-             }
+- 
+--            /*
+--             * The parent should never be NULL here but we want to handle
+--             * corrupted documents gracefully.
+--             */
+--            if (cur->parent == NULL)
+--                return;
+--            cur = cur->parent;
+-+            cur = parent;
+-+            /* cur->parent was validated when descending. */
+-+            parent = cur->parent;
+- 
+-             if ((cur->type == XML_HTML_DOCUMENT_NODE) ||
+-                 (cur->type == XML_DOCUMENT_NODE)) {
+-@@ -939,9 +949,9 @@ htmlNodeDumpFormatOutput(xmlOutputBufferPtr buf, xmlDocPtr doc,
+-                     (cur->next != NULL)) {
+-                     if ((cur->next->type != HTML_TEXT_NODE) &&
+-                         (cur->next->type != HTML_ENTITY_REF_NODE) &&
+--                        (cur->parent != NULL) &&
+--                        (cur->parent->name != NULL) &&
+--                        (cur->parent->name[0] != 'p')) /* p, pre, param */
+-+                        (parent != NULL) &&
+-+                        (parent->name != NULL) &&
+-+                        (parent->name[0] != 'p')) /* p, pre, param */
+-                         xmlOutputBufferWriteString(buf, "\n");
+-                 }
+-             }
+-diff --git a/xmlsave.c b/xmlsave.c
+-index 61a40459..aedbd5e7 100644
+---- a/xmlsave.c
+-+++ b/xmlsave.c
+-@@ -847,7 +847,7 @@ htmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+- static void
+- xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-     int format = ctxt->format;
+--    xmlNodePtr tmp, root, unformattedNode = NULL;
+-+    xmlNodePtr tmp, root, unformattedNode = NULL, parent;
+-     xmlAttrPtr attr;
+-     xmlChar *start, *end;
+-     xmlOutputBufferPtr buf;
+-@@ -856,6 +856,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-     buf = ctxt->buf;
+- 
+-     root = cur;
+-+    parent = cur->parent;
+-     while (1) {
+-         switch (cur->type) {
+-         case XML_DOCUMENT_NODE:
+-@@ -868,7 +869,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-             break;
+- 
+-         case XML_DOCUMENT_FRAG_NODE:
+--            if (cur->children != NULL) {
+-+            /* Always validate cur->parent when descending. */
+-+            if ((cur->parent == parent) && (cur->children != NULL)) {
+-+                parent = cur;
+-                 cur = cur->children;
+-                 continue;
+-             }
+-@@ -887,7 +890,18 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-             break;
+- 
+-         case XML_ELEMENT_NODE:
+--	    if ((cur != root) && (ctxt->format == 1) && (xmlIndentTreeOutput))
+-+            /*
+-+             * Some users like lxml are known to pass nodes with a corrupted
+-+             * tree structure. Fall back to a recursive call to handle this
+-+             * case.
+-+             */
+-+            if ((cur->parent != parent) && (cur->children != NULL)) {
+-+                xmlNodeDumpOutputInternal(ctxt, cur);
+-+                break;
+-+            }
+-+
+-+	    if ((ctxt->level > 0) && (ctxt->format == 1) &&
+-+                (xmlIndentTreeOutput))
+- 		xmlOutputBufferWrite(buf, ctxt->indent_size *
+- 				     (ctxt->level > ctxt->indent_nr ?
+- 				      ctxt->indent_nr : ctxt->level),
+-@@ -942,6 +956,7 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-                 xmlOutputBufferWrite(buf, 1, ">");
+-                 if (ctxt->format == 1) xmlOutputBufferWrite(buf, 1, "\n");
+-                 if (ctxt->level >= 0) ctxt->level++;
+-+                parent = cur;
+-                 cur = cur->children;
+-                 continue;
+-             }
+-@@ -1058,13 +1073,9 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
+-                 break;
+-             }
+- 
+--            /*
+--             * The parent should never be NULL here but we want to handle
+--             * corrupted documents gracefully.
+--             */
+--            if (cur->parent == NULL)
+--                return;
+--            cur = cur->parent;
+-+            cur = parent;
+-+            /* cur->parent was validated when descending. */
+-+            parent = cur->parent;
+- 
+-             if (cur->type == XML_ELEMENT_NODE) {
+-                 if (ctxt->level > 0) ctxt->level--;
+--- 
+-2.32.0
+-
+diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+index 90fa193775..6f44275299 100644
+--- a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
++++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
+@@ -18,11 +18,11 @@ Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
+  libxml.m4 | 190 ++----------------------------------------------------
+  1 file changed, 5 insertions(+), 185 deletions(-)
+ 
+-diff --git a/libxml.m4 b/libxml.m4
+-index 09de9fe2..1c535853 100644
+---- a/libxml.m4
+-+++ b/libxml.m4
+-@@ -1,192 +1,12 @@
++Index: libxml2-2.9.13/libxml.m4
++===================================================================
++--- libxml2-2.9.13.orig/libxml.m4
+++++ libxml2-2.9.13/libxml.m4
++@@ -1,191 +1,12 @@
+ -# Configure paths for LIBXML2
+ -# Simon Josefsson 2020-02-12
+ -# Fix autoconf 2.70+ warnings
+@@ -147,9 +147,8 @@ index 09de9fe2..1c535853 100644
+ -      {
+ -        printf("\n*** An old version of libxml (%d.%d.%d) was found.\n",
+ -               xml_major_version, xml_minor_version, xml_micro_version);
+--        printf("*** You need a version of libxml newer than %d.%d.%d. The latest version of\n",
++-        printf("*** You need a version of libxml newer than %d.%d.%d.\n",
+ -           major, minor, micro);
+--        printf("*** libxml is always available from ftp://ftp.xmlsoft.org.\n");
+ -        printf("***\n");
+ -        printf("*** If you have already installed a sufficiently new version, this error\n");
+ -        printf("*** probably means that the wrong copy of the xml2-config shell script is\n");
+@@ -220,6 +219,3 @@ index 09de9fe2..1c535853 100644
+ -  AC_SUBST(XML_LIBS)
+ -  rm -f conf.xmltest
+  ])
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.12.bb b/meta/recipes-core/libxml/libxml2_2.9.13.bb
+similarity index 96%
+rename from meta/recipes-core/libxml/libxml2_2.9.12.bb
+rename to meta/recipes-core/libxml/libxml2_2.9.13.bb
+index 3508733cc0..be59aba84b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.12.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.13.bb
+@@ -18,14 +18,13 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
+            file://runtest.patch \
+            file://run-ptest \
+            file://python-sitepackages-dir.patch \
+-           file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
+            file://remove-fuzz-from-ptests.patch \
+-           file://0002-Work-around-lxml-API-abuse.patch \
++           file://libxml-m4-use-pkgconfig.patch \
+            "
+ 
+-SRC_URI[archive.sha256sum] = "28a92f6ab1f311acf5e478564c49088ef0ac77090d9c719bbc5d518f1fe62eb9"
++SRC_URI[archive.sha256sum] = "276130602d12fe484ecc03447ee5e759d0465558fbc9d6bd144e3745306ebf0e"
+ SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+-- 
+2.35.1
 
 
