@@ -2,60 +2,60 @@ Return-Path: <abongwabonalais@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C395EC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC0C8C4321E
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:46 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web12.4347.1649153291405122056
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web10.4550.1649155735651667756
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 03:08:11 -0700
+ Tue, 05 Apr 2022 03:48:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=c8HwTbVY;
- spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IK3e+08N;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170,
  mailfrom: abongwabonalais@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id j21so10244488qta.0
+Received: by mail-qt1-f170.google.com with SMTP id t19so10318334qtc.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 03:08:11 -0700 (PDT)
+ Tue, 05 Apr 2022 03:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JF/+3L86whCSnc+Vi2Vm/ZUxKog6ghTzz3EkahWNX+g=;
-        b=c8HwTbVYOsmXngcaxpz9eZFO/GifLSb2sRHd1ATdnjf1gEIkQSIlRSUccUhVNAs8Vb
-         m8ALh/bNUd+s7+AY8YKTGUKxbyjSJ1Umu0Fad47DuY8l9P8NfjwOXo7Mxw0m3rvCGXQ/
-         TAa7ndCEvd5jEMb3BLLKLoJHCZktVZ1/lDuD07YmFAkpXVRoM8m4qEVHTF5ZCyGK9IbT
-         tBwwQRv1TS84oju/HQNyPBwNRonNlh5/bh3louj+HI3yYjnqTBtaClt1pATurnn9qfnf
-         N8xX9smQoYgVUHsxXpqcu9WtC29Zwbxz0GNxsjkZT6diYL5DymTt5bbHcfWSqZI3QXAu
-         THyw==
+        bh=2TmZvL+X5RBNv8SDppLQlWCdQRInsOt5HDoN10cwCRQ=;
+        b=IK3e+08N7pEVGCK2JLYBUMVcE3w78zvQfhp77d6suoKLcMHWmZCzz9peVDF2N1trHX
+         Y3e3793+3ygjjsRoXpMwnuNDaBWdiskl9/DbSLVgX2MZfk4bLnTydRFqC4ghmg4uY7/u
+         FZoF2Cqqgtc8dvCdMj/riqBjqKHC9A8NG+lGQmdPZWqFg6sPjdl9UHKHwzr18piAzFkf
+         BiIKhouFMtCuoZE32CjvTi0tTk/7qRC4iFfksilLOxDN+oImvBLKAy/+F9qu4v1xocRH
+         AUGUh3aPY93ys1qMGENmMd25r+GfgAJouXhQCjNJEGbQYWU4cXE7aoh9qfvwVic6LSBR
+         3NJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JF/+3L86whCSnc+Vi2Vm/ZUxKog6ghTzz3EkahWNX+g=;
-        b=UQ7rzMp64wVpWgvy/cyntQGHa57nXvBiFz6JeDZYXEypUSwXEuY7kGgH9WVsBHRU0R
-         av1GJAfzZDkDhuwJ0jByIgjTAj9/JvqMyy+Ewp8xCsHDUBcNc+eAJjaodO1QXPwtpOgQ
-         MjtEHLQmZL7EYK8k+z5KgmoKkGMR+eJKLY91xlGYbNFHYu81hWAxrocKk3D7idX2AxrY
-         zVDmwEylZergEEXSku2qbhkJ6yrHDPZvVKqsPi0qfHjMjUL9FJiIcHFJzp9b616c5YdK
-         rH+noxqFlObsRXzhoV52KtqJOyurEq/G5fQN5Y0OSBgt+Hp5F/YzWZDQq62MVuid+ySn
-         Hw8w==
-X-Gm-Message-State: AOAM532nk9Woki8CoHP3UncmOJUhV2PC2oATtA79JBjp2WvNSqTQOWpQ
-	1wOx2tlZSTlLz0DBNs0/dXE+mptGo4g=
+        bh=2TmZvL+X5RBNv8SDppLQlWCdQRInsOt5HDoN10cwCRQ=;
+        b=NZWd/xnhs8beBrnXS8KSn+RSjAGPwYz8egEBVqnSSAvXaWbYyx3xB5V/9F6v22YOKm
+         YMefAE7jLH+kuKcVz7UXs5wnvu7Rplc0p/B2puZzTeEo3PTetlEgo6QoQfqXGeLRM1bV
+         C1wDMHno4XX++RF76hUlOnCQ3EIZRsaIdwFEZmKFFBvy64BSElUaEirCiNFoKdOfDq8n
+         iJsVhTqAbfwfckshXjAVg9K4BibPRjfXtpP4TgOT7j8kZv1dZeTO0PhW4u7pPiY57WTs
+         2LxJUWk2WRQ7dles1q65x1Tj9SytVPmQnNTd6ywONOcScEAhs/jVQvIBO6Y0Js/EJGpY
+         pt/Q==
+X-Gm-Message-State: AOAM530/IObEQ+vgWjQIyHmchI6Idu+YKbAuKXmp/AuvvOuaWn7IRR2a
+	yXTKhunL2CIS3sBfS0GuynMTTuzP52Y=
 X-Google-Smtp-Source: 
- ABdhPJwfctIDAXJN7EQDc6hj9vFGS3FcDZAxTtTeMPIsBw0SiaPtD7IW+VmtNhXFv5IIiORK31ry0g==
-X-Received: by 2002:a05:622a:4c:b0:2eb:8c6d:59dc with SMTP id
- y12-20020a05622a004c00b002eb8c6d59dcmr2110335qtw.210.1649153290409;
-        Tue, 05 Apr 2022 03:08:10 -0700 (PDT)
+ ABdhPJwZfoSOoMPFrG1o6qc08flTHhtyk2c/efRz1BLxrnAam1BU1W0frhs3hv3LZ/R8aOD210kJ3g==
+X-Received: by 2002:a37:b03:0:b0:67b:2b47:d09f with SMTP id
+ 3-20020a370b03000000b0067b2b47d09fmr1670374qkl.621.1649155734603;
+        Tue, 05 Apr 2022 03:48:54 -0700 (PDT)
 Received: from localhost.localdomain ([41.202.219.243])
         by smtp.gmail.com with ESMTPSA id
- t7-20020a05622a01c700b002e1b3555c2fsm10242777qtw.26.2022.04.05.03.08.07
+ bl3-20020a05620a1a8300b0067d4cd00231sm7743293qkb.135.2022.04.05.03.48.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 03:08:10 -0700 (PDT)
+        Tue, 05 Apr 2022 03:48:54 -0700 (PDT)
 From: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
 Subject: [PATCH] Added quotes around variables to prevent word splitting.
-Date: Tue,  5 Apr 2022 10:58:35 +0100
-Message-Id: <20220405095834.43554-1-abongwabonalais@gmail.com>
+Date: Tue,  5 Apr 2022 11:47:05 +0100
+Message-Id: <20220405104704.45538-1-abongwabonalais@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,11 +64,12 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164014
+ https://lists.openembedded.org/g/openembedded-core/message/164016
 
-Used shellcheck to add quotes to the variables that did not have so that 
+Used shellcheck to add quotes to the variables. This is to make sure that 
 directories with names that have space between, such as "Desktop/projects/test repo/poky" 
-will not be considered as 2 separate words.
+will not be considered as 2 separate words. With this modification, running the command "source oe-init-build-env" will not give the error "bash: oe-init-build-env: No such file or directory"
+
 
 Signed-off-by: Abongwa Bonalais Amahnui <abongwabonalais@gmail.com>
 ---
