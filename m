@@ -1,209 +1,167 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jhofstee@victronenergy.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F18C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E782FC4167E
 	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 19:49:23 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web09.815.1649183066170714737
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.120])
+ by mx.groups.io with SMTP id smtpd.web12.1302.1649185501958885853
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 11:24:27 -0700
+ Tue, 05 Apr 2022 12:05:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Qdff5vj3;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8D58C20008;
-	Tue,  5 Apr 2022 18:24:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1649183064;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XWybVrZk1IXj/xfSJW5RWI07hEeQ4U298UZEFPJchEI=;
-	b=Qdff5vj3GiTWX8JcTYazH7omwjU2nb2BnIfqv7+OYgw7n5cE47Hsmb693bch1CjerXn66B
-	1RSYgJr0uqZusnG0fxKg1iKIc205XzKfIVOEHZX4Zw0Sr0GS4/37HFcGaRy3aXk07eu9aJ
-	GYxujHZ/QuOI8Ja32fg2OFIdLOtSIIww6TdF2IG5vSgwvWbhkqX1wc1aWtQOHR9mLL2Jud
-	7t3QT5GSzhknaanvib/FFZ8V07uQGEul2He88WGOcU38elto66MjeCnOCVZblWgsFYamy7
-	4DCy35rnZqIJh5AUfnaFNQOZhPj0YVIPPHJ66K7BkRg6jBQ1VF7197A7OIypdg==
-Date: Tue, 5 Apr 2022 20:24:23 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, pgowda.cve@gmail.com,
-	rwmacleod@gmail.com, umesh.kalappa0@gmail.com
-Subject: Re: [OE-core] meta: scripts - relocation script adapted to support
- big-endian machines
-Message-ID: <YkyJV7wug3/BLatc@mail.local>
-References: <20220405095819.533001-1-sundeep.kokkonda@gmail.com>
- <YkxEY+XJumRZHUki@mail.local>
+ dkim=pass header.i=@victronenergy.com header.s=selector2 header.b=IphO2WNR;
+ spf=pass (domain: victronenergy.com, ip: 40.107.13.120,
+ mailfrom: jhofstee@victronenergy.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y1dkDBwsB05+4BRHGBmKHKFkrhGCUDDuV1+yhP5NyCHndH/iMKGyqdbhlAI8SCiRlDHSKRfB7uTOwX4S6G1907Qd526/WC40r6dcRCyF1dFEthfPpm2VkWhXxlS74P3qNcHXqRivEmS3J38ok/cyfB0+JE8Um2G4CWrZe0SBZlt9PrIwUaHJq7agfcwH3dTQGydLr5m3rg2CaS10YW6yuDUZUbS0eT8wh9kGKOWnUV3k2LUVFFOMx0zb+8DTzpk2P6qKi8h8DbNTFsn3PdZxm+XgB8HSls/2At4YBDtiYT90uZtxyFlrssIkXifYH5pjfRA/Yoq6tlQA+DDWj9tSzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wjUFNQaNAc5Tec/buasm0hxhkbDi0zgR14q0/S8LoB4=;
+ b=SyoO2At1rYewkWuE57K9JJ/Ym0elT+BR8EmEk34GspsngU95KZ6xadov4dqipQuC7kibM9JLWSiJwzqs1U+5cE1KPkdbAauoMmX9MPL/5d90Ua39z0kSx1NbAkkolXfcw6UAdJM7joL5aMsy9L4/v2EKUZvAFFSHgyvD86Y7MvO7cEPcSEaX+Hdifp/B4pkSHLXwxkPhkSIegNWfyru1BOec4kmKjqtkF3MZZdH03LKcz81u+ppm48ToVKG1U0i29aM73sb5CpxGKP1PFJxV343/AHd9j/oUJmMPX8FpvX7MAuoZgxbYLnedy+MJRN3JIQX75AIiwpMfJwn1sbfU7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=victronenergy.com; dmarc=pass action=none
+ header.from=victronenergy.com; dkim=pass header.d=victronenergy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=victronenergy.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wjUFNQaNAc5Tec/buasm0hxhkbDi0zgR14q0/S8LoB4=;
+ b=IphO2WNRCOqXNIJOCdAvcW8qOkykR9VGIIclrxlxjX9I0MorE6WUYR54ZdznYBYw4k4FTIuIclopBLSY3vdVXahr3ztbEKJvQKUQ4PsIT/MrmdOh6nzElzPBK/kr2SgwUtHB4b1aKjaBvvHJvxOvhbt/j5l1ucDOZGcw3loXAiE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=victronenergy.com;
+Received: from AM5PR0701MB2979.eurprd07.prod.outlook.com
+ (2603:10a6:203:48::13) by VI1PR07MB4062.eurprd07.prod.outlook.com
+ (2603:10a6:803:2c::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.16; Tue, 5 Apr
+ 2022 19:04:57 +0000
+Received: from AM5PR0701MB2979.eurprd07.prod.outlook.com
+ ([fe80::3da3:88:4224:24af]) by AM5PR0701MB2979.eurprd07.prod.outlook.com
+ ([fe80::3da3:88:4224:24af%3]) with mapi id 15.20.5123.031; Tue, 5 Apr 2022
+ 19:04:57 +0000
+Message-ID: <f4e17d13-71cc-b25b-9a56-207ca89c76cd@victronenergy.com>
+Date: Tue, 5 Apr 2022 21:04:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
+ CVE-2018-25032
+Content-Language: en-US
+To: ross@burtonini.com, openembedded-core@lists.openembedded.org
+References: <20220329130741.2430737-1-ross.burton@arm.com>
+From: Jeroen Hofstee <jhofstee@victronenergy.com>
+In-Reply-To: <20220329130741.2430737-1-ross.burton@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR07CA0057.eurprd07.prod.outlook.com
+ (2603:10a6:207:4::15) To AM5PR0701MB2979.eurprd07.prod.outlook.com
+ (2603:10a6:203:48::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkxEY+XJumRZHUki@mail.local>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14d9a72d-3930-4d1a-0b49-08da17372cb9
+X-MS-TrafficTypeDiagnostic: VI1PR07MB4062:EE_
+X-Microsoft-Antispam-PRVS: 
+	<VI1PR07MB40623BA19918469E16EFF80AC0E49@VI1PR07MB4062.eurprd07.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Uya4koGfEP9GXxqjOoHmpljtJl9cOpYNni5CE2M8U43l5j2qSLsYFXLruBl8b5XCr2Ro5VtUUU6nc9vQt69wEEQQCBuHkKcQXhzeL5ouQfV9OLYsQ7WML3mfXtSYHO+CuwQkrdkYZMDdtHZWzcGGkeO2+8WRGFs6QFJUydJny8WylcXWqBhqm4EgkhArDoHNuC4GMrpqlYHCyrN5B5LkHE7eb3u29I+mMSsKXwlSAk7j01NUe1Z04ZI0C+EYbB2L6SJK0tyI7EhJfNAMHltCohZThjLg0zSIFLRrZixuYkK1kDst/JWkk/ywi3Kmp7O/RPMJHb60smbVh+iUNY3p2c7D5vjv4h1vlzMckgg+X8Aors6jhSUTQ/kK9nIrXoht/ClCQMAOg7pP4C5Rn/q68ziTmaZ5WE3TW8GQUfy7SJzH9XDRwPYOq6VMeEEocxux9eMt3vYIXcgT88ig/yktKlB8OtM8UQMSf0xhu3StJJCjzDKed6JUffDVZMv9CuJeMEkmD5ZlpTNsln/JdcRwI/0bqynYpDItLaejadd+miz5CgjqUetUzokNiqPgDpT9Tt72w1I/+V20RJTCFkXwe35QeR9B3tpWGdIH4IM4/bxyPuS4FK6tlI/pmS5DYRxhliXB0s+QRWXCLVLMr1/jPNtMWz406m/S2RPX6NPRPlpIVigBs3F65mb/5xWFAzPK7oRom5lHAZopwpM/szoN/M1ewtFTJy7oz9uiGFEqhqSrJl21+YVXlxphopG35FcaDLpXHuczQqV7/T4zYJ6GDlWOsxzDsDm/xIrgBbu9ofToOUELRe0JnvvCK/tRYfZZFODDZXuDTE4kgzBWcE5j+qcsT4cqQTWgO1JTfA14HMA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR0701MB2979.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(66946007)(966005)(31686004)(8936002)(508600001)(31696002)(6486002)(4744005)(36756003)(5660300002)(86362001)(53546011)(6512007)(2906002)(6506007)(38100700002)(66476007)(66556008)(186003)(2616005)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?T3F3NkhhK3h6cHkvSnJiL0ltRVN6MFVtdStPQmpqSG5oL1gwdXdvTmk1SlI4?=
+ =?utf-8?B?dUpCb0dub04wUzZvVElkUXlnU1RkU21ZNWdDdm9Rcjljb0xWbC9WSU9zSGpG?=
+ =?utf-8?B?RXVLTzd1NndMOERBRGpkQzA5MFptcEQreE1FRFRXdjhEQkdwQk0rRS9hREgw?=
+ =?utf-8?B?bzBzRFpreDJLZ3QwcDdmeUNpSWFUYTNnZkdpNUhyNGg4WC9lT2dQcE10SzJr?=
+ =?utf-8?B?Z0NXWjJZMzNJcWhqa3ljbjJhcVM2SVg3d1NmSjREbDlFZk1TK1dLMVRsdjdz?=
+ =?utf-8?B?a0dYbkJPYjNhaTc0MEwxWXNVclp0UnlKWllOckdkZ2FBVi9kbVhOLytOSFNl?=
+ =?utf-8?B?VTM1RHo4eERBVTZKcG5teW9GTzNGWjh5M1BIdjM1VENVYnlOYzlmOGZGcTlG?=
+ =?utf-8?B?ODFiQzNjZUlxVjQ0NFZBd1IwNlRZTHdiOUdnaVVzeE9GNU1jc0RiY0orNGJZ?=
+ =?utf-8?B?bUxJYnF0SFRiN3JwZzhReE15elFpNlRmbW1xVklPNThiZEdnZURtYWNDZVR2?=
+ =?utf-8?B?bEF4aENhYUZ4cWVMWlBpalhZK2JKVDlvQXJ5TU5sZStUakF3NFhBcTcvZ0RI?=
+ =?utf-8?B?blhyUGRyeGg1Mm1nTjNsTkloTHdyTFRGaDFkOFk3MUxacHJoeTU5T0JWSGxF?=
+ =?utf-8?B?RjJsaG8vY2NDaXJnRjVWL0Zta3BwazZwdWlyU2ZpbHhPaXZhOGV4UkEzUEF6?=
+ =?utf-8?B?Z05uczgxL1N2citnT1ZOOVNHeEVPN3FjVEJuSjFwQmFLbzhucE1WQWJKUXN0?=
+ =?utf-8?B?ODE3dnd2RmY3dXJvdWlEekVOWm92R2I0WGx6enN2V3ZOVHppZDgwZVhwU1R6?=
+ =?utf-8?B?RmZLR01qK3JjTU41Q2VwcmtYbmx1c1Yyc1prRUY4QVE1MC9RY2VQSWMxNU10?=
+ =?utf-8?B?Mmw3Z3o1bWpiU0xHdDV1bjhuWmN3WlJhTG9ZTllpVzNPUWVZb05qQjB4OGVC?=
+ =?utf-8?B?NUlCL0x0UE9Lc21CZHdHZnpiN3Ywby82MEoxY3QrVGF5QXFReFRhR090QXho?=
+ =?utf-8?B?ZkxoajFORzVPMllzeTg1cHpieThCY2JCUDlxc2kyeE0rSjA0WW1HbC9VYXFn?=
+ =?utf-8?B?OVMrRkFiNG9NWWFoOWl5ZFh4UmVLTXN4Z3l3SzhuQXc3NkpsWVdLTm9GaytZ?=
+ =?utf-8?B?djBDUndJTlZvcTNkcytlZ2JVUmV2NXhoYi91K055Rk41RXM2T3ZXYlh6Mi9L?=
+ =?utf-8?B?Q09yeHliVnpKNlc0ZkpKc04yYURxZXk5QzBTR1VQTURYcE44djU2MGVHWWIz?=
+ =?utf-8?B?elhXKzYzTEJQTlJQWnI5ZXFkUVRmeWVMbFNxaGwvcXJnamw2dVNTcy8xcFU5?=
+ =?utf-8?B?S1N1Yzd0VVhHZ1Ruc0RPWk1RZVloWHdQOVh5Q3NiN2lHaGM3Z2J4ek9iVzZH?=
+ =?utf-8?B?K0JiVkRRcE82bythVUt3WDFSRS9qUGIvSkRFb0tHSzNRTHB6ZnFsRDdMWXVF?=
+ =?utf-8?B?QVJTdlcrcllzSWdQdUZlRE1zTzlCNzRZbDlZYU9wUjlEeGRwVURuQ1BWdWd5?=
+ =?utf-8?B?Q3MxU0xhcTgzRDBURDdCaWFwZnNveTlyc2xLS0ZRSUZhVFRMclpYOHlEcUdl?=
+ =?utf-8?B?aDdybHhlT3Q4dDhWWVlTdmxDVVkrZFA5ZXI5WVR6SWFSYnJHWDBSUUxITm1s?=
+ =?utf-8?B?TkQrNVhORXBQWXVmZ0xjdUxKVVZYK3R6bm8xMDkvbkU2dkR2cHRnNmh0NHJn?=
+ =?utf-8?B?WkQydVpmNDdBb1FDK3RnMXFVcHRRUWh3Ymx1L0RpR20rbUtuUCtYZ1pHZ2hM?=
+ =?utf-8?B?L0o3aFdna0Q1QjNyMmdCd3NlUGxqVVdsSWpyblc4b1FBdjY4a0RwTWpGUHMx?=
+ =?utf-8?B?NUd2WDYzaGlJaUptVnJsN0VNMHBiQ2VvU3VyR05SVDZZMWhSeXhwQWVsZWZx?=
+ =?utf-8?B?N2FsNm8wZDJwRFVQczE1T1JEazBRd2M0TjBBemtTOVZWSVJKR0syWm9UYk8y?=
+ =?utf-8?B?TStpQ0JDY0VIbEg1TlRBck9jcFFNcm1ySTVIWHZVNW00SUJkRS9aQUlaZGZj?=
+ =?utf-8?B?ODd1MlRvOTlOeTBJNjdhbEpkU05HS0RlWkcwc1hvdmFrc2NtTWxlR0xKTit3?=
+ =?utf-8?B?dVFwU1NQV2JLNXl1RlJ4anNIb1pLQ2VhZjFsekNJMCtmckdLU25rd2NDTlpC?=
+ =?utf-8?B?eGM3UlpESzR3YmNQWW1vVjkvZWJleWVLb0NZY1RMeWkxOEdrUnBTZGkzQng0?=
+ =?utf-8?B?bTNMMC95RUt4TUFFSDhRTG44bkROelhCNDl3aXhzaWsxbDA2OENoV1NycWZo?=
+ =?utf-8?B?aXhLR2FEZFllZVRGb0RSM3ZnemtvVGJiaVVqRGE0K2VybDEwbzM1MTBKSWNw?=
+ =?utf-8?B?cFJ2TXBZcTFZMnovYVcrS1FLWXF4OWpxM2dCSEF5aWkvc0dpdEdSV0VPY3Ex?=
+ =?utf-8?Q?sQ2Ecr/cqvfrmc1RSkKAw+tKSYc15aaoswBjzmUeg8zai?=
+X-MS-Exchange-AntiSpam-MessageData-1: Nm9HxJSftA13uUJgcUcoo3zetwako5ydJx4=
+X-OriginatorOrg: victronenergy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 14d9a72d-3930-4d1a-0b49-08da17372cb9
+X-MS-Exchange-CrossTenant-AuthSource: 
+ AM5PR0701MB2979.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 19:04:57.0436
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 60b95f08-3558-4e94-b0f8-d690c498e225
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ U6LZM8TNfYg0vMAYpBK3TyIbFP+Vq6cMS3WYdlIUYUIPwMsn3AffaYftj/xaaC/u6VIIxRQRnRsTZdBfcRf5ZkZpsFkudYN4OZUBIwxre8I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB4062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 19:49:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164051
+ https://lists.openembedded.org/g/openembedded-core/message/164052
 
-On 05/04/2022 15:30:12+0200, Alexandre Belloni wrote:
-> Hello,
-> 
-> This build is carrying both this patch and
-> 
-> meta: rust: Bug fix for target definitions returning 'NoneType'
-> 
-> which is now present in master.
+Hello Ross,
 
-We came to the conclusion that this patch was the culprit and has been
-reverted for now. The issue seems to be that this change doesn't change
-the taskhash and something else is causing a rebuild.
+On 3/29/22 15:07, Ross Burton via lists.openembedded.org wrote:
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>   .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
+>   meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+>   2 files changed, 348 insertions(+)
+>   create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+>
+> diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+> new file mode 100644
+> index 00000000000..5cb61836419
+> --- /dev/null
+> +++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+> @@ -0,0 +1,347 @@
+> +CVE: CVE-2018-25032
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@arm.com>
+> +
+>
+It seems there _might_ be another patch needed.
 
-> 
-> Could you check:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/3963/steps/11/logs/stdio
-> 
-> ERROR: rust-cross-cortexa8hf-neon-glibc-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:do_rust_gen_targets(d)
->      0003:
-> File: '/home/pokybuild/yocto-worker/beaglebone-alt/build/meta/recipes-devtools/rust/rust-cross.inc', lineno: 19, function: do_rust_gen_targets
->      0015:            if arch == "arm" and target_is_armv7(d):
->      0016:                arch = 'armv7'
->      0017:            features = d.getVar('TARGET_LLVM_FEATURES') or ""
->      0018:            cpu = d.getVar('TARGET_LLVM_CPU')
->  *** 0019:        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
->      0020:}
->      0021:
->      0022:# Otherwise we'll depend on what we provide
->      0023:INHIBIT_DEFAULT_RUST_DEPS = "1"
-> File: '/home/pokybuild/yocto-worker/beaglebone-alt/build/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
->      0326:    # build tspec
->      0327:    tspec = {}
->      0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
->      0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
->  *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
->      0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
->      0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
->      0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
->      0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
-> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
-> 
-> 
-> I expect other similar failures in https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3478
-> 
-> On 05/04/2022 15:28:19+0530, Sundeep KOKKONDA wrote:
-> > relocate_sdk.py was developed for little-endian architures and when tries
-> > to install SDK for big-endian machines errors like below will be shown.
-> > Error: struct.error: unpack requires a string argument of length 32. SDK could
-> > not be set up. Relocate script failed. Abort!
-> > Error: IOError: [Errno 22] Invalid argument. SDK could not be set up. Relocate
-> > script failed. Abort!
-> > 
-> > To fix this, script is modified to support big-endian architecture.
-> > 
-> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-> > ---
-> >  scripts/relocate_sdk.py | 25 ++++++++++++++++---------
-> >  1 file changed, 16 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-> > index 8c0fdb986a..4ed8bfc0d1 100755
-> > --- a/scripts/relocate_sdk.py
-> > +++ b/scripts/relocate_sdk.py
-> > @@ -30,9 +30,16 @@ else:
-> >  old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
-> >  
-> >  def get_arch():
-> > +    global endian_prefix
-> >      f.seek(0)
-> >      e_ident =f.read(16)
-> > -    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
-> > +    ei_mag0,ei_mag1_3,ei_class,ei_data,ei_version = struct.unpack("<B3sBBB9x", e_ident)
-> > +
-> > +    # ei_data = 1 for little-endian & 0 for big-endian
-> > +    if ei_data == 1:
-> > +        endian_prefix = '<'
-> > +    else:
-> > +        endian_prefix = '>'
-> >  
-> >      if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
-> >          return 0
-> > @@ -51,11 +58,11 @@ def parse_elf_header():
-> >  
-> >      if arch == 32:
-> >          # 32bit
-> > -        hdr_fmt = "<HHILLLIHHHHHH"
-> > +        hdr_fmt = endian_prefix + "HHILLLIHHHHHH"
-> >          hdr_size = 52
-> >      else:
-> >          # 64bit
-> > -        hdr_fmt = "<HHIQQQIHHHHHH"
-> > +        hdr_fmt = endian_prefix + "HHIQQQIHHHHHH"
-> >          hdr_size = 64
-> >  
-> >      e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
-> > @@ -64,9 +71,9 @@ def parse_elf_header():
-> >  
-> >  def change_interpreter(elf_file_name):
-> >      if arch == 32:
-> > -        ph_fmt = "<IIIIIIII"
-> > +        ph_fmt = endian_prefix + "IIIIIIII"
-> >      else:
-> > -        ph_fmt = "<IIQQQQQQ"
-> > +        ph_fmt = endian_prefix + "IIQQQQQQ"
-> >  
-> >      """ look for PT_INTERP section """
-> >      for i in range(0,e_phnum):
-> > @@ -105,17 +112,17 @@ def change_interpreter(elf_file_name):
-> >  
-> >  def change_dl_sysdirs(elf_file_name):
-> >      if arch == 32:
-> > -        sh_fmt = "<IIIIIIIIII"
-> > +        sh_fmt = endian_prefix + "IIIIIIIIII"
-> >      else:
-> > -        sh_fmt = "<IIQQQQIIQQ"
-> > +        sh_fmt = endian_prefix + "IIQQQQIIQQ"
-> >  
-> >      """ read section string table """
-> >      f.seek(e_shoff + e_shstrndx * e_shentsize)
-> >      sh_hdr = f.read(e_shentsize)
-> >      if arch == 32:
-> > -        sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
-> > +        sh_offset, sh_size = struct.unpack(endian_prefix + "16xII16x", sh_hdr)
-> >      else:
-> > -        sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
-> > +        sh_offset, sh_size = struct.unpack(endian_prefix + "24xQQ24x", sh_hdr)
-> >  
-> >      f.seek(sh_offset)
-> >      sh_strtab = f.read(sh_size)
-> > -- 
-> > 2.25.1
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#164012): https://lists.openembedded.org/g/openembedded-core/message/164012
-> > Mute This Topic: https://lists.openembedded.org/mt/90261992/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+https://github.com/madler/zlib/issues/605
+https://github.com/madler/zlib/commit/4346a16853e19b45787ce933666026903fb8f3f8.patch
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I can't judge that though :(
+
+Regards,
+
+Jereon
+
 
