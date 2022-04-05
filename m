@@ -1,569 +1,166 @@
-Return-Path: <fntoth@gmail.com>
+Return-Path: <sean.anderson@seco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03420C4708B
-	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:48 +0000 (UTC)
-Received: from radex-web.radex.nl (radex-web.radex.nl [178.250.146.7])
- by mx.groups.io with SMTP id smtpd.web12.7878.1649172233912303124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6CDC38A06
+	for <webhook@archiver.kernel.org>; Tue,  5 Apr 2022 17:24:47 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.78])
+ by mx.groups.io with SMTP id smtpd.web10.7358.1649170394660608755
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Apr 2022 08:23:54 -0700
+ Tue, 05 Apr 2022 07:53:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=softfail (domain: gmail.com, ip: 178.250.146.7, mailfrom: fntoth@gmail.com)
-Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl
- [178.250.146.69])
-	by radex-web.radex.nl (Postfix) with ESMTPS id 16F1C24096;
-	Tue,  5 Apr 2022 17:23:52 +0200 (CEST)
-Content-Type: multipart/alternative;
- boundary="------------RIwhK037tqn5zL7NryrGKrMH"
-Message-ID: <9c8771c5-1b2a-0d6f-0658-ba08dd9ad5fa@gmail.com>
-Date: Tue, 5 Apr 2022 17:23:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/3] apt: add apt selftest to test signed package feeds
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ dkim=pass header.i=@seco.com header.s=selector1 header.b=Afgt9v2w;
+ spf=pass (domain: seco.com, ip: 40.107.15.78,
+ mailfrom: sean.anderson@seco.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NH2sDIskNctCSmLRShOGxvSr2MbwQGmLZW9X+CMWdMNKnZGc4ZsqnlVOS3a7eIJA9PgAMrHJar26SB9bAo2aO1u1I9rjHiNewgKfNeJXGY8agNjz/zR/1bo8YxARw3OkBhfR8nBvHSXSzsJm/Cgu9cIImFVms3isLryb/NN64iY5j3/069BrqijBmXrBg79Yl/A4KgpoOR1GIsxjEHdNcAPalNuM/8kzZnKIsHlNrFxm9yZKLZhEeFYUmHfDo4ACoFOHv8/4HG5jxY0ajQFsPNoTEN8SONWaGjWiegAzWYWAQij+mt4e4dZ/lkWwSGLslqUNyGupN7uvnQl4bDu43A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7Pgh6p4SctQjOzHZwjwXJJtINJjpVd86z0bTucu3Ko4=;
+ b=JfB0mRafbd85dgBNM7GcMWMpHLO6cm5TWWCH+vAR6atMogxS+Pgdz+77yZnAaXu2psHlrjin4zxtDq7wU6mYBn1OrjM840WZCIwsujM41sMsXlxBmCSXG3c610RRdo8zat4Df5hbBH7p4ogr3wgXPfnVrTppSQffsLNdPDymRRAOFA9UR4PaYmgLQ3q3QbqQAhJ+9FnR5O7YsaiYIysvlhDsOlrnRDoOWYNmErZlrdxW4TiyoSInHYy+qCa3ipq9ss4S+rN6oxJLHR2v3DJZoONRxpKIFU6ADxa7X0DbOISWYDs26Wh9SjivKTcD+xll02FO94cgV+1fxSjNluSxxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7Pgh6p4SctQjOzHZwjwXJJtINJjpVd86z0bTucu3Ko4=;
+ b=Afgt9v2wp6KXZeh+vOwsMbFPmhEbAVMp49PUrNZC7a/QX/T2mjQXuYAgZqihRt1K20U60mAJSw6BImmJg9/Or0eaeFKJFkL6zx8SzvQEuwhicASr3IxuoCW9LhqKTpGusmEbn+2eGdHeEbQkZfmvjks2lwtD0t4VYfAqaHBWH+Gh9GrvpycipxAKmX9VKp7hHZfvOoL4E3v3OgqduJFMAWZgaynJEVIUOMpnjFgKclL6nn1h4LWyxjHFj0ARAcvcHVxmwfXzINqSrbad7bFf3ckWyC822JLwEcOnWmJSkqj3XWeEPklRtAB3qrZGKBWRHHjiYC3qxq6LGC42Rzu5Fw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from VI1PR03MB4973.eurprd03.prod.outlook.com (2603:10a6:803:c5::12)
+ by DU2PR03MB8121.eurprd03.prod.outlook.com (2603:10a6:10:2f0::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
+ 2022 14:53:11 +0000
+Received: from VI1PR03MB4973.eurprd03.prod.outlook.com
+ ([fe80::2ca2:213d:e44b:cf71]) by VI1PR03MB4973.eurprd03.prod.outlook.com
+ ([fe80::2ca2:213d:e44b:cf71%7]) with mapi id 15.20.5123.030; Tue, 5 Apr 2022
+ 14:53:11 +0000
+Subject: Re: [PATCH] libpcap: Disable DPDK explicitly
+References: <20220210204919.3029824-1-sean.anderson@seco.com>
+Cc: Sean Anderson <sean.anderson@seco.com>,
  openembedded-core@lists.openembedded.org
-Cc: Xavier Berger <xavier.berger@bio-logic.net>,
- Alexander Kanavin <alex@linutronix.de>, Ferry Toth <ftoth@exalondelft.nl>
-References: <20220403195046.7060-1-fntoth@gmail.com>
- <20220403195046.7060-5-fntoth@gmail.com>
- <694f4b0519a5365015c7eb561767b27f3a07e975.camel@linuxfoundation.org>
- <369e2108-34a9-dbfc-eb09-817a1eee4604@gmail.com>
- <add235b4921d1a7e7e87ea718624904c1f7b6af2.camel@linuxfoundation.org>
-From: Ferry Toth <fntoth@gmail.com>
-In-Reply-To: 
- <add235b4921d1a7e7e87ea718624904c1f7b6af2.camel@linuxfoundation.org>
+From: Sean Anderson <sean.anderson@seco.com>
+Message-ID: <389232e6-e489-283c-1132-b9b284b171c2@seco.com>
+Date: Tue, 5 Apr 2022 10:53:08 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20220210204919.3029824-1-sean.anderson@seco.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR19CA0070.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::47) To VI1PR03MB4973.eurprd03.prod.outlook.com
+ (2603:10a6:803:c5::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9463b516-8936-4b0a-3d50-08da1714013a
+X-MS-TrafficTypeDiagnostic: DU2PR03MB8121:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DU2PR03MB81214E1E3724581D3878C23E96E49@DU2PR03MB8121.eurprd03.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tThvTHL71Qx8MMp8oNK6H6qzsEZqn0tzai53v55RBaYqdkXmlfI4Vd0VBHiuymyq5UZIaL7gttaQy2NMFEzgR/BQcP0u4kGeyvVbuxJi4/kvEIAAsU39EvtloPuUxOme6U+Widgp8hpchUR61owTz1yoPHJcHWBMo/OK3AJeFTccaq8TaMxcxQaR1JDPtI1ODNfCF4MCrkNdwfbCYaytX4IzZIEUgTY0rEMfVIIP96g5PLbbC5ynydd8ZkZKNCeFxrpgy5f89+3Tx8Xgma56IT1kl10IaBxu1qKg9yye5LJ/TAtk2YraydfYlnsCax6NrUh4LRO1TmpiJAVlCxZvO6odJZs6E9Bj9YSHHEQR7K0KB+RxPvbt8LUiUA2L/SbwKgwDCyLxFie5qZLO69+GKspD18z+Ldle90/p194YKG/FRHg2qR7LvoCiQH/DngdVo7rnLMI2GyHI/heQ3JBsf1ffhIJMaU6y7VYPjgfm39LyCYd9nSWYYssGcrJDI9q3uoWa0RS1YZmmjyN+ZiKaUkZArJ4PchZawu++WRbfEyQVs9DOGkK0nSTdGTyNOnxmnnDxiy1M34mgPPV4cVXXmM8Fz+07THuzJcIoMZk2ano67GnjoTOwbk7ZzrGWx5gtMJsFnTfF2wrfm1ONGHG1L8qSi3tf1egweVqq/J6OcOol0um9DfT99zstlkXul6k0kfr2ORYdyfX68uhGIYFuZjFXEelPOUjHePgqABc8eMUTxF8qJxaCY8iOW6HcqOq6ow+PTS8fb8jRsl+x6DgDYg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR03MB4973.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(5660300002)(316002)(31696002)(86362001)(44832011)(38100700002)(38350700002)(8936002)(4326008)(26005)(2616005)(186003)(8676002)(6486002)(109986005)(508600001)(66946007)(53546011)(52116002)(31686004)(6512007)(6506007)(66476007)(66556008)(36756003)(2906002)(83380400001)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UmdoUm9Tbzd5RWtzWjFKdmxlaUU2YlhMRy9DZTAvQTA4aWNmVnZsSWVoWVFY?=
+ =?utf-8?B?SnJBeG9aSHMybExwVFFZRUZRTVY3VkpKNUFBRS9VdkZrbmI0WHQ3WEE1eVlo?=
+ =?utf-8?B?ODQ5SzVXdXljM0UzWmYvTVMxVVNKRzZyTGd2NGEwQlVWU08xTUtMR3FZOUdz?=
+ =?utf-8?B?YzJxUzhhZldrQjVKUjY3aDR5VExLQjA1ZzM2L3ZxeEdFWFNFY0lpWmdOSU1T?=
+ =?utf-8?B?WVhraDBOaTk3eC9idW9EZDM3WXFwUmRWNWViQUU2TndQejFnNXk4ZDBESm1G?=
+ =?utf-8?B?OXg2TXV1bzVYRkVMRVFqNHAwUkZDR1N6VmVkbnJWZHRMWklPeDRaWEhWSUNs?=
+ =?utf-8?B?WHhHQUcrZFlEMGJxbGdYaWZSOWpHOG5yNjVNcHN6U1VpcE5ad0RHWW5Fa0Ev?=
+ =?utf-8?B?NE5aa3dWdTdvVzNHcFNHdU52WkRZclRNRHV3VVdXelQwU05vYUp5SHJWcE9i?=
+ =?utf-8?B?TVhjL3IwdWRMR1JaRTVPU2wzQVlpMHgrRGZHMVF2ZTUzSlAxUnZlOXphVTJ5?=
+ =?utf-8?B?aDVDQ0hCTTVKSUFVNEVrVHQwYlptMFE3VEVJVlBIeU9xekRiY2llNmNlN0Q1?=
+ =?utf-8?B?V2Z5OEk5dTJ4am44bjR6czJ4Q0RxTDhWWXRpVURkZXBVOEliN0NaMUpTU3k3?=
+ =?utf-8?B?MGZ3QlZLQm5sRUVFdzkvNzBNNG8rUWJiZXlCUmYvQlNqUDhhb2lTTWRPaGpz?=
+ =?utf-8?B?WEhidTcyOE9WeHZDeVlzeEtrb2ZSYUZMWDE5K1JSS21SdmUvajlRbnJFRGQ1?=
+ =?utf-8?B?S0RzRXpRckd4UE9yYWFWZjVrWEFTUDJzSmpPSS9pRGJzc2lnM2hyL2ZtZ3Fo?=
+ =?utf-8?B?L3ZPSUlySzMvanVXT0FKM0VYeTdYTXhWUFd6cU9OT2R5VkhjRk1rVmxvcWJl?=
+ =?utf-8?B?aVpjK3IxVGdYOWp0SUorNkgzZGFkYzhWSmR0Z3ZBS0V4RUlMRTRQMG13RUxN?=
+ =?utf-8?B?REV6dVRqWkpHNjBrZWpTOUVGQjVVdnZ4a1RxM2lHV1ptVi9sZEJRTkg4T052?=
+ =?utf-8?B?VUlXMkEvSi94ekFEVWtFK0RPR0kzTlJxKzBBSkxMU3U4bWZjRXFEU3M1VHRn?=
+ =?utf-8?B?dDdFYWRMTGlCVjdxRytiSnZtcDRpa1lHd0NTNXdkSjA3OGt2QVhhcnpqcDhv?=
+ =?utf-8?B?cENQUzVxQkVaUUxyUVE5OU5qUkNHVHo0dEc5Y1lxdWc0NHdpTmlkNFVxajlw?=
+ =?utf-8?B?aGZHVEltZXAyUkdZeDNIdGtNb0ZVOTBlYmRlSkpZNVZiRXdQd2FPd0VZZ0Fv?=
+ =?utf-8?B?QURGRk5lbGRuU3gxaG1iNGpkWmhmL01kcVR0cGZ5a2c3Mm1BNzZjY3AzUTFR?=
+ =?utf-8?B?L3ZrM044WEJVdVdpOTZCREZsWE5leHU5WVBUaHZ6WVZWQUZiamtsQktEZDBE?=
+ =?utf-8?B?VEJrNzRROUtlc2ZOK2M3MHdYV0RJOXpXZDJYbjhqU3habDBpRmpXQmYvWGtH?=
+ =?utf-8?B?eEs5Y3pUWi9RaG92MkN0c2c5akREUzIyb2NqREhHVU8yVHRhaFF2aVk5Y3da?=
+ =?utf-8?B?SHhFeGF4czgxMitoaGdvUitXamhVOGJ4Z0RrOEJ0alZmMXVXcmdJUm5uMTV3?=
+ =?utf-8?B?djdLbnNBazVhTlAwZlQ5YzhWcDhGMlQ5OE5lbmd4c2IxMlZnaHdra2VPYWNl?=
+ =?utf-8?B?Z2NMdkFGbEQ4WXI1SThFblNTZVdSZTdGZXpwbFhwa1B5YmsvZzJNL05RRHpJ?=
+ =?utf-8?B?dmMwNzcwa1Z6eFFyQVRQZG9MMmY5QTJ6WmdjOFU5MmFFMDRaY1o3dUFQcGxi?=
+ =?utf-8?B?TkU5UzBtRmtZUm5tNFQzT0YzbUpJcmRYYkExLzhjZzh2RVZlWDliQmk5VDdx?=
+ =?utf-8?B?YW4rTytNTmtHL3Y5TGtHNTRUdG1obDdieUlDcVVMUG55MHVTSEhNR0lnNHdw?=
+ =?utf-8?B?d3R5eXJJWUMyMlVZRmd6MFF0SjBvSHJRdzNiT3B3aHBzajBOL0tGa2w1WS9x?=
+ =?utf-8?B?Y25SdmpId243LzJLbW05dktNWlo3TmkwZlVkSTY0SE9DdGhEaWFJeURHdENS?=
+ =?utf-8?B?dnhvTkdDYzM4RzJmRU5tTHZNQml5M2MrZ3pDd0dvTXZwZlJ5a21nQ09yUnA5?=
+ =?utf-8?B?STRhcDJDdXMzeEdwbmFrakFVcndFSzM2WndKQm80emY0dDkxc2N5allkZUt5?=
+ =?utf-8?B?T2QxRS9YREpROGFDNUNoalpMRzBLTC92MFA5dktvZkhsVkwwNWFhNXhLOTdI?=
+ =?utf-8?B?OGpCSm5VYWRvSWcwZ0NqNDZVQXRISW9Zc2VaQXVsbGhiZDVCNnZCOWFrY3Ay?=
+ =?utf-8?B?cGN1UWFoSmNYdXNpRnV0NVBiOUxNMEt6S3lkK3A0SmQzWkFJd1NEbXc5dERY?=
+ =?utf-8?B?SmxBS0RVclpWTU50MzRHdSswNTJMOVVCckRoYTBhblY4VlRsaWp4dGp1V2Js?=
+ =?utf-8?Q?0nTxx0S4vGDmyRXU=3D?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 9463b516-8936-4b0a-3d50-08da1714013a
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR03MB4973.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 14:53:11.4975
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ d1mnVf1FJDdIGzD9y2rD2XAgwUnFJ8StPN4ufxmhYJi1+EIaA4tEYqB+wzzA/UucvLalBfYEq0RqgJ3UZs8V8w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR03MB8121
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Apr 2022 17:24:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164046
-
-This is a multi-part message in MIME format.
---------------RIwhK037tqn5zL7NryrGKrMH
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Op 04-04-2022 om 22:39 schreef Richard Purdie:
-> On Mon, 2022-04-04 at 19:35 +0200, Ferry Toth wrote:
->> Hi,
->>
->> Op 04-04-2022 om 15:58 schreef Richard Purdie:
->>> On Sun, 2022-04-03 at 21:50 +0200, Ferry Toth wrote:
->>>> From: Ferry Toth<ftoth@exalondelft.nl>
->>>>
->>>> Since Gatesgarth apt (1.8.2) has become more strict and doesn=E2=80=99=
-t allow unsigned repositories by default.
->>>> Currently when building images this requirement is worked around by =
-using [allow-insecure=3Dyes] and
->>>> equivalently when performing selftest.
->>>>
->>>> Patches "gpg-sign: Add parameters to gpg signature function" and "pa=
-ckage_manager: sign DEB package feeds"
->>>> enable signed DEB package feeds. This patch adds a runtime test for =
-apt derived from the test_testimage_dnf
->>>> test. It creates a signed deb package feed, runs a qemu image to ins=
-tall the key and performs some package
->>>> management. To be able to install the key the gnupg package is added=
- to the testimage.
->>>>
->>>> Signed-off-by: Ferry Toth<ftoth@exalondelft.nl>
->>>> ---
->>>>    meta/lib/oeqa/runtime/cases/apt.py           | 16 ++++++---
->>>>    meta/lib/oeqa/selftest/cases/runtime_test.py | 38 +++++++++++++++=
-+++++
->>>>    2 files changed, 49 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runt=
-ime/cases/apt.py
->>>> index 53745df93f..49f8714730 100644
->>>> --- a/meta/lib/oeqa/runtime/cases/apt.py
->>>> +++ b/meta/lib/oeqa/runtime/cases/apt.py
->>>> @@ -21,7 +21,7 @@ class AptRepoTest(AptTest):
->>>>   =20
->>>>        @classmethod
->>>>        def setUpClass(cls):
->>>> -        service_repo =3D os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], =
-'all')
->>>> +        service_repo =3D os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], =
-'')
->>>>            cls.repo_server =3D HTTPService(service_repo,
->>>>                                          '0.0.0.0', port=3Dcls.tc.ta=
-rget.server_port,
->>>>                                          logger=3Dcls.tc.logger)
->>>> @@ -32,13 +32,18 @@ class AptRepoTest(AptTest):
->>>>            cls.repo_server.stop()
->>>>   =20
->>>>        def setup_source_config_for_package_install(self):
->>>> -        apt_get_source_server =3D 'http://%s:%s/' % (self.tc.target=
-.server_ip, self.repo_server.port)
->>>> +        apt_get_source_server =3D 'http:\/\/%s:%s' % (self.tc.targe=
-t.server_ip, self.repo_server.port)
->>>>            apt_get_sourceslist_dir =3D '/etc/apt/'
->>>> -        self.target.run('cd %s; echo deb [ allow-insecure=3Dyes ] %=
-s ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
->>>> +        self.target.run("cd %s; cp sources.list sources.list.bak; s=
-ed -i 's/\[trusted=3Dyes\] http:\/\/bogus_ip:bogus_port/%s/g' sources.lis=
-t" % (apt_get_sourceslist_dir, apt_get_source_server))
->>>>   =20
->>>>        def cleanup_source_config_for_package_install(self):
->>>>            apt_get_sourceslist_dir =3D '/etc/apt/'
->>>> -        self.target.run('cd %s; rm sources.list' % (apt_get_sources=
-list_dir))
->>>> +        self.target.run('cd %s; mv sources.list.bak sources.list' %=
- (apt_get_sourceslist_dir))
->>>> +
->>>> +    def setup_key(self):
->>>> +        # the key is found on the target /etc/pki/packagefeed-gpg/
->>>> +        # named PACKAGEFEED-GPG-KEY-poky-branch
->>>> +        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packag=
-efeed-gpg'))
->>>>   =20
->>>>        @skipIfNotFeature('package-management',
->>>>                          'Test requires package-management to be in =
-IMAGE_FEATURES')
->>>> @@ -47,7 +52,8 @@ class AptRepoTest(AptTest):
->>>>        @OEHasPackage(['apt'])
->>>>        def test_apt_install_from_repo(self):
->>>>            self.setup_source_config_for_package_install()
->>>> +        self.setup_key()
->>>>            self.pkg('update')
->>>>            self.pkg('remove --yes run-postinsts-dev')
->>>> -        self.pkg('install --yes --allow-unauthenticated run-postins=
-ts-dev')
->>>> +        self.pkg('install --yes run-postinsts-dev')
->>>>            self.cleanup_source_config_for_package_install()
->>>> diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib=
-/oeqa/selftest/cases/runtime_test.py
->>>> index 642f0eb637..7a75b95a99 100644
->>>> --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
->>>> +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
->>>> @@ -162,6 +162,44 @@ class TestImage(OESelftestTestCase):
->>>>            bitbake('core-image-full-cmdline socat')
->>>>            bitbake('-c testimage core-image-full-cmdline')
->>>>   =20
->>>> +    def test_testimage_apt(self):
->>>> +        """
->>>> +        Summary: Check package feeds functionality for apt
->>>> +        Expected: 1. Check that remote package feeds can be accesse=
-d
->>>> +        Product: oe-core
->>>> +        Author: Ferry Toth<fntoth@gmail.com>
->>>> +        """
->>>> +        if get_bb_var('DISTRO') =3D=3D 'poky-tiny':
->>>> +            self.skipTest('core-image-full-cmdline not buildable fo=
-r poky-tiny')
->>>> +
->>>> +        features =3D 'INHERIT +=3D "testimage"\n'
->>>> +        features +=3D 'TEST_SUITES =3D "ping ssh apt.AptRepoTest.te=
-st_apt_install_from_repo"\n'
->>>> +        # We don't yet know what the server ip and port will be - t=
-hey will be patched
->>>> +        # in at the start of the on-image test
->>>> +        features +=3D 'PACKAGE_FEED_URIS =3D "http://bogus_ip:bogus=
-_port"\n'
->>>> +        features +=3D 'EXTRA_IMAGE_FEATURES +=3D "package-managemen=
-t"\n'
->>>> +        features +=3D 'PACKAGE_CLASSES =3D "package_deb"\n'
->>>> +        # We need  gnupg on the target to install keys
->>>> +        features +=3D 'IMAGE_INSTALL:append:pn-core-image-full-cmdl=
-ine =3D " gnupg"\n'
->>>> +
->>>> +        bitbake('gnupg-native -c addto_recipe_sysroot')
->>>> +
->>>> +        # Enable package feed signing
->>>> +        self.gpg_home =3D tempfile.mkdtemp(prefix=3D"oeqa-feed-sign=
--")
->>>> +        self.track_for_cleanup(self.gpg_home)
->>>> +        signing_key_dir =3D os.path.join(self.testlayer_path, 'file=
-s', 'signing')
->>>> +        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --=
-homedir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(sig=
-ning_key_dir, 'key.secret')), native_sysroot=3Dget_bb_var("RECIPE_SYSROOT=
-_NATIVE", "gnupg-native"), shell=3DTrue)
->>>> +        features +=3D 'INHERIT +=3D "sign_package_feed"\n'
->>>> +        features +=3D 'PACKAGE_FEED_GPG_NAME =3D "testuser"\n'
->>>> +        features +=3D 'PACKAGE_FEED_GPG_PASSPHRASE_FILE =3D "%s"\n'=
- % os.path.join(signing_key_dir, 'key.passphrase')
->>>> +        features +=3D 'GPG_PATH =3D "%s"\n' % self.gpg_home
->>>> +        features +=3D 'PSEUDO_IGNORE_PATHS .=3D ",%s"\n' % self.gpg=
-_home
->>>> +        self.write_config(features)
->>>> +
->>>> +        # Build core-image-sato and testimage
->>>> +        bitbake('core-image-full-cmdline socat')
->>>> +        bitbake('-c testimage core-image-full-cmdline')
->>>> +
->>>>        def test_testimage_virgl_gtk_sdl(self):
->>>>            """
->>>>            Summary: Check host-assisted accelerate OpenGL functional=
-ity in qemu with gtk and SDL frontends
->>> Thanks for working on this!
->>>
->>> Looking at the patches I wondered if this would break testimage and
->>> unfortunately it does:
->>>
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/501=
-3/steps/12/logs/stdio
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/497=
-5
->> That is weird, do I understand correctly that it fails on:
->>    apt-get remove --yes run-postinsts-dev
->> Reading package lists...
->> Building dependency tree...
->> E: Unable to locate package run-postinsts-dev
->>
->> That is actually *) one line I didn't touch. I did note while testing
->> that I saw this exact message, however that was not counted as a fail.
->>
->> What could cause this? Because the complaint is it can't remove the
->> package because it was not installed.
->>
->> It would be trivial to remove the line
->>
->> *) self.pkg('remove --yes run-postinsts-dev')
->>
->> but how could it have passed the test before?
->
-> I think the issue is you edited testimage which is a different set of t=
-ests
-> which aren't just called by oe-selftest but by things like
-
-That would be my first thought too, but...
-
-because the failure seems to be on the line self.pkg('remove --yes=20
-run-postinsts-dev'),=C2=A0 that would mean the line self.pkg('update') pa=
-ssed.
-
-And that should only pass if it finds a signed repository and has the=20
-key installed (and believe me, I saw a log of that in the last week).
-
-So, there may be a second thing wrong?
-
-Do you know where I can find the log files referred to:
-
-<..>tmp/work/qemux86-poky-linux/core-image-sato/1.0-r0/temp/log.do_testim=
-age.35553
-
-<..>tmp/work/qemux86-poky-linux/core-image-sato-sdk/1.0-r0/temp/log.do_te=
-stimage.35362
-
-or could we do a 'quick' check by changing
-
-         self.pkg('update')
-         self.pkg('remove --yes run-postinsts-dev')
-         self.pkg('install --yes run-postinsts-dev')
-to
-         self.pkg('update')
-         self.pkg('install --yes run-postinsts-dev')
-         self.pkg('remove --yes run-postinsts-dev')
-?
-
->
-> "bitbake core-image-sato -c testimage"
->
-> as well. I'd suggest making the changes in testimage conditional on sig=
-ning
-> being configured.
-
-Yes, regardless the above, we need to either make signing always enabled=20
-in all test cases or detect whether signing is used.
-
-Do you have a hint if there is a variable to test in class AptRepoTest=20
-if PACKAGE_FEED_GPG_NAME has been set?
-
-Otherwise I could just duplicate code and create=20
-apt.AptRepoTest.test_apt_install_from_repo_signed.
-
-What would you prefer?
-
-> Cheers,
->
-> Richard
->
->
---------------RIwhK037tqn5zL7NryrGKrMH
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p><font face=3D"Noto Sans">Hi,</font><br>
-    </p>
-    <div class=3D"moz-cite-prefix">Op 04-04-2022 om 22:39 schreef Richard
-      Purdie:<br>
-    </div>
-    <blockquote type=3D"cite"
-cite=3D"mid:add235b4921d1a7e7e87ea718624904c1f7b6af2.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">On Mon, 2022-04-04 at 19:35 =
-+0200, Ferry Toth wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre class=3D"moz-quote-pre" wrap=3D"">Hi,
-
-Op 04-04-2022 om 15:58 schreef Richard Purdie:
-</pre>
-        <blockquote type=3D"cite">
-          <pre class=3D"moz-quote-pre" wrap=3D"">On Sun, 2022-04-03 at 21=
-:50 +0200, Ferry Toth wrote:
-</pre>
-          <blockquote type=3D"cite">
-            <pre class=3D"moz-quote-pre" wrap=3D"">From: Ferry Toth <a cl=
-ass=3D"moz-txt-link-rfc2396E" href=3D"mailto:ftoth@exalondelft.nl">&lt;ft=
-oth@exalondelft.nl&gt;</a>
-
-Since Gatesgarth apt (1.8.2) has become more strict and doesn=E2=80=99t a=
-llow unsigned repositories by default.
-Currently when building images this requirement is worked around by using=
- [allow-insecure=3Dyes] and
-equivalently when performing selftest.
-
-Patches "gpg-sign: Add parameters to gpg signature function" and "package=
-_manager: sign DEB package feeds"
-enable signed DEB package feeds. This patch adds a runtime test for apt d=
-erived from the test_testimage_dnf
-test. It creates a signed deb package feed, runs a qemu image to install =
-the key and performs some package
-management. To be able to install the key the gnupg package is added to t=
-he testimage.
-
-Signed-off-by: Ferry Toth <a class=3D"moz-txt-link-rfc2396E" href=3D"mail=
-to:ftoth@exalondelft.nl">&lt;ftoth@exalondelft.nl&gt;</a>
----
-  meta/lib/oeqa/runtime/cases/apt.py           | 16 ++++++---
-  meta/lib/oeqa/selftest/cases/runtime_test.py | 38 ++++++++++++++++++++
-  2 files changed, 49 insertions(+), 5 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/c=
-ases/apt.py
-index 53745df93f..49f8714730 100644
---- a/meta/lib/oeqa/runtime/cases/apt.py
-+++ b/meta/lib/oeqa/runtime/cases/apt.py
-@@ -21,7 +21,7 @@ class AptRepoTest(AptTest):
- =20
-      @classmethod
-      def setUpClass(cls):
--        service_repo =3D os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all'=
-)
-+        service_repo =3D os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], '')
-          cls.repo_server =3D HTTPService(service_repo,
-                                        '0.0.0.0', port=3Dcls.tc.target.s=
-erver_port,
-                                        logger=3Dcls.tc.logger)
-@@ -32,13 +32,18 @@ class AptRepoTest(AptTest):
-          cls.repo_server.stop()
- =20
-      def setup_source_config_for_package_install(self):
--        apt_get_source_server =3D 'http://%s:%s/' % (self.tc.target.serv=
-er_ip, self.repo_server.port)
-+        apt_get_source_server =3D 'http:\/\/%s:%s' % (self.tc.target.ser=
-ver_ip, self.repo_server.port)
-          apt_get_sourceslist_dir =3D '/etc/apt/'
--        self.target.run('cd %s; echo deb [ allow-insecure=3Dyes ] %s ./ =
-&gt; sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
-+        self.target.run("cd %s; cp sources.list sources.list.bak; sed -i=
- 's/\[trusted=3Dyes\] http:\/\/bogus_ip:bogus_port/%s/g' sources.list" % =
-(apt_get_sourceslist_dir, apt_get_source_server))
- =20
-      def cleanup_source_config_for_package_install(self):
-          apt_get_sourceslist_dir =3D '/etc/apt/'
--        self.target.run('cd %s; rm sources.list' % (apt_get_sourceslist_=
-dir))
-+        self.target.run('cd %s; mv sources.list.bak sources.list' % (apt=
-_get_sourceslist_dir))
-+
-+    def setup_key(self):
-+        # the key is found on the target /etc/pki/packagefeed-gpg/
-+        # named PACKAGEFEED-GPG-KEY-poky-branch
-+        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed=
--gpg'))
- =20
-      @skipIfNotFeature('package-management',
-                        'Test requires package-management to be in IMAGE_=
-FEATURES')
-@@ -47,7 +52,8 @@ class AptRepoTest(AptTest):
-      @OEHasPackage(['apt'])
-      def test_apt_install_from_repo(self):
-          self.setup_source_config_for_package_install()
-+        self.setup_key()
-          self.pkg('update')
-          self.pkg('remove --yes run-postinsts-dev')
--        self.pkg('install --yes --allow-unauthenticated run-postinsts-de=
-v')
-+        self.pkg('install --yes run-postinsts-dev')
-          self.cleanup_source_config_for_package_install()
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa=
-/selftest/cases/runtime_test.py
-index 642f0eb637..7a75b95a99 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -162,6 +162,44 @@ class TestImage(OESelftestTestCase):
-          bitbake('core-image-full-cmdline socat')
-          bitbake('-c testimage core-image-full-cmdline')
- =20
-+    def test_testimage_apt(self):
-+        """
-+        Summary: Check package feeds functionality for apt
-+        Expected: 1. Check that remote package feeds can be accessed
-+        Product: oe-core
-+        Author: Ferry Toth <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:fntoth@gmail.com">&lt;fntoth@gmail.com&gt;</a>
-+        """
-+        if get_bb_var('DISTRO') =3D=3D 'poky-tiny':
-+            self.skipTest('core-image-full-cmdline not buildable for pok=
-y-tiny')
-+
-+        features =3D 'INHERIT +=3D "testimage"\n'
-+        features +=3D 'TEST_SUITES =3D "ping ssh apt.AptRepoTest.test_ap=
-t_install_from_repo"\n'
-+        # We don't yet know what the server ip and port will be - they w=
-ill be patched
-+        # in at the start of the on-image test
-+        features +=3D 'PACKAGE_FEED_URIS =3D "http://bogus_ip:bogus_port=
-"\n'
-+        features +=3D 'EXTRA_IMAGE_FEATURES +=3D "package-management"\n'
-+        features +=3D 'PACKAGE_CLASSES =3D "package_deb"\n'
-+        # We need  gnupg on the target to install keys
-+        features +=3D 'IMAGE_INSTALL:append:pn-core-image-full-cmdline =3D=
- " gnupg"\n'
-+
-+        bitbake('gnupg-native -c addto_recipe_sysroot')
-+
-+        # Enable package feed signing
-+        self.gpg_home =3D tempfile.mkdtemp(prefix=3D"oeqa-feed-sign-")
-+        self.track_for_cleanup(self.gpg_home)
-+        signing_key_dir =3D os.path.join(self.testlayer_path, 'files', '=
-signing')
-+        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --homed=
-ir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(signing_=
-key_dir, 'key.secret')), native_sysroot=3Dget_bb_var("RECIPE_SYSROOT_NATI=
-VE", "gnupg-native"), shell=3DTrue)
-+        features +=3D 'INHERIT +=3D "sign_package_feed"\n'
-+        features +=3D 'PACKAGE_FEED_GPG_NAME =3D "testuser"\n'
-+        features +=3D 'PACKAGE_FEED_GPG_PASSPHRASE_FILE =3D "%s"\n' % os=
-.path.join(signing_key_dir, 'key.passphrase')
-+        features +=3D 'GPG_PATH =3D "%s"\n' % self.gpg_home
-+        features +=3D 'PSEUDO_IGNORE_PATHS .=3D ",%s"\n' % self.gpg_home
-+        self.write_config(features)
-+
-+        # Build core-image-sato and testimage
-+        bitbake('core-image-full-cmdline socat')
-+        bitbake('-c testimage core-image-full-cmdline')
-+
-      def test_testimage_virgl_gtk_sdl(self):
-          """
-          Summary: Check host-assisted accelerate OpenGL functionality in=
- qemu with gtk and SDL frontends
-</pre>
-          </blockquote>
-          <pre class=3D"moz-quote-pre" wrap=3D"">
-Thanks for working on this!
-
-Looking at the patches I wondered if this would break testimage and
-unfortunately it does:
-
-<a class=3D"moz-txt-link-freetext" href=3D"https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/50/builds/5013/steps/12/logs/stdio">https://aut=
-obuilder.yoctoproject.org/typhoon/#/builders/50/builds/5013/steps/12/logs=
-/stdio</a>
-<a class=3D"moz-txt-link-freetext" href=3D"https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/76/builds/4975">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/76/builds/4975</a>
-</pre>
-        </blockquote>
-        <pre class=3D"moz-quote-pre" wrap=3D"">
-That is weird, do I understand correctly that it fails on:
-  apt-get remove --yes run-postinsts-dev
-Reading package lists...
-Building dependency tree...
-E: Unable to locate package run-postinsts-dev
-
-That is actually *) one line I didn't touch. I did note while testing=20
-that I saw this exact message, however that was not counted as a fail.
-
-What could cause this? Because the complaint is it can't remove the=20
-package because it was not installed.
-
-It would be trivial to remove the line
-
-*) self.pkg('remove --yes run-postinsts-dev')
-
-but how could it have passed the test before?
-</pre>
-      </blockquote>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-
-I think the issue is you edited testimage which is a different set of tes=
-ts
-which aren't just called by oe-selftest but by things like=C2=A0</pre>
-    </blockquote>
-    <p>That would be my first thought too, but...</p>
-    <p>because the failure seems to be on the line self.pkg('remove
-      --yes run-postinsts-dev'),=C2=A0 that would mean the line
-      self.pkg('update') passed.</p>
-    <p>And that should only pass if it finds a signed repository and has
-      the key installed (and believe me, I saw a log of that in the last
-      week).</p>
-    <p>So, there may be a second thing wrong?</p>
-    <p>Do you know where I can find the log files referred to:</p>
-    <p>&lt;..&gt;tmp/work/qemux86-poky-linux/core-image-sato/1.0-r0/temp/=
-log.do_testimage.35553</p>
-    <p>&lt;..&gt;tmp/work/qemux86-poky-linux/core-image-sato-sdk/1.0-r0/t=
-emp/log.do_testimage.35362</p>
-    <p>or could we do a 'quick' check by changing</p>
-    <pre class=3D"moz-quote-pre" wrap=3D"">        self.pkg('update')
-        self.pkg('remove --yes run-postinsts-dev')
-        self.pkg('install --yes run-postinsts-dev')
-to=20
-        self.pkg('update')
-        self.pkg('install --yes run-postinsts-dev')
-        self.pkg('remove --yes run-postinsts-dev')
-?
-</pre>
-    <blockquote type=3D"cite"
-cite=3D"mid:add235b4921d1a7e7e87ea718624904c1f7b6af2.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-
-"bitbake core-image-sato -c testimage"
-
-as well. I'd suggest making the changes in testimage conditional on signi=
-ng
-being configured.
-</pre>
-    </blockquote>
-    <p>Yes, regardless the above, we need to either make signing always
-      enabled in all test cases or detect whether signing is used.</p>
-    <p>Do you have a hint if there is a variable to test in class
-      AptRepoTest if PACKAGE_FEED_GPG_NAME has been set?</p>
-    <p>Otherwise I could just duplicate code and create
-      apt.AptRepoTest.test_apt_install_from_repo_signed.</p>
-    <p>What would you prefer?<br>
-    </p>
-    <blockquote type=3D"cite"
-cite=3D"mid:add235b4921d1a7e7e87ea718624904c1f7b6af2.camel@linuxfoundatio=
-n.org">
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-Cheers,
-
-Richard
+ https://lists.openembedded.org/g/openembedded-core/message/164041
 
 
-</pre>
-    </blockquote>
-  </body>
-</html>
 
---------------RIwhK037tqn5zL7NryrGKrMH--
+On 2/10/22 3:49 PM, Sean Anderson wrote:
+> libpcap looks for DPDK in the same way it looks for DAG. This can poison
+> the build even if it doesn't find anything. Explicitly disable dpdk.
+> 
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+> ---
+> 
+>  meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
+> index 9a8c46e0ef..dbe2fd8157 100644
+> --- a/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
+> +++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.1.bb
+> @@ -19,10 +19,11 @@ BINCONFIG = "${bindir}/pcap-config"
+>  
+>  # Explicitly disable dag support. We don't have recipe for it and if enabled here,
+>  # configure script poisons the include dirs with /usr/local/include even when the
+> -# support hasn't been detected.
+> +# support hasn't been detected. Do the same thing for DPDK.
+>  EXTRA_OECONF = " \
+>                   --with-pcap=linux \
+>                   --without-dag \
+> +                 --without-dpdk \
+>                   "
+>  EXTRA_AUTORECONF += "--exclude=aclocal"
+>  
+> 
+
+ping?
+
+--Sean
 
