@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9A67C47088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE098C35295
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.1089.1649350856901430669
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web12.1087.1649350854481196849
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:57 -0700
+ Thu, 07 Apr 2022 10:00:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q/548NK1;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KfFed/Qt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id dr20so12091519ejc.6
+Received: by mail-ej1-f54.google.com with SMTP id k23so12178980ejd.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:56 -0700 (PDT)
+ Thu, 07 Apr 2022 10:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SWnGLYiWzH37ZgPafXZ9IrvWkJIaZbo09q7UQV3sBP4=;
-        b=Q/548NK1fg/c1YUgqLQxSyM6+VnMu3XHeF+I3qFO6jQOgSGR4pTOFfZlfEFR104JHM
-         l9OcU3kKXAml1oTD7ByYnFuqGvoURh8dY4cRN0MtgdD52mHOfiM0tNFFiQNxGxtE09l6
-         j6jNxM0ykuFRKv37FcxqHcYbofplOw7cBjs+fAa1KWQ6oDqZeuwgKOo8TsoxsqKmSXRe
-         oijf/To+xskAJXUsR1KdTEhUTsYLfOLRW3+KaEK3Pc7RP/+nzfDPF01k7iWIap1Chu+k
-         GbzphWbu60IwChBP7Sj+ysrxz7BjvlUE5hn/gz3iLoUSG0ZVZ76BvTEYlffnsMBf2RB4
-         LvQA==
+        bh=gTREi6SOnTOc6twV9Km6pA3kKA/9Ro4+OggKj1XGPC0=;
+        b=KfFed/Qtx5oLJID96mMDq79ga1Rp3xAik/mg9m9OnzJaKNWwHrGaLKnSVQiiDfcVbL
+         soYrJqc/5qkTIhVoYHZt6Z1DTpDFAqeNxsar7bTjEVA2H3u4xfOEaMOxjeyImGzT5pgq
+         zOeGo95txpNMtBiwe6yJ6rlfHmUOLMYEqcMDACUT4ge7OGtxglANKtFGO1aP5Wp0EjMH
+         6JoOSEydkTE88pdjHioiJutdaTOKe1g1N+K6B8JarMjNgR520VXOtAbQ5EslbRUMIYsw
+         9oEHbF/RVf7PPGZWQ2UbPkDyiN4oGYPNrNWkiT/Zo/eSdx0BDWkWkYRkOaEkd6inj2Yu
+         /Cew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SWnGLYiWzH37ZgPafXZ9IrvWkJIaZbo09q7UQV3sBP4=;
-        b=yFTujq6pPxKbCiOJJXv7Aru4PeAUPlwcJch0GbGyN39b+A4L5x+bR2+7Ke8lVtlts3
-         zzxlGcy554uhJK7bipnBOo4JZvFfAgG1V5TQ2m/nK6qnlXuOaPVsCLSOh+/68ozWXHN8
-         bEw81+N49k/uuvvTGWP55+0yniaP2OyEjLACO6UllISRomtCi7dakZy7x6EzjMuyG46n
-         o3HcSaC210d4T1HVrKqCBE1bjGn92CdwPDfRRoIEsShmdHyNvBhmOrT9zwz8G0ynQ+Rz
-         leCZgVhvJTHtPL9ka30AN42ZkxxBBu8E2szVeW/BqI8c+E6WGiWULhOk+UPyVgIN3Ueg
-         c/rg==
-X-Gm-Message-State: AOAM532afBP32F33+dIU/w9ZI81LecvWoSzjuwULxmeMVht0dsn83fRl
-	q2m6ajqdIyAquTqN4uaBGtmOy7toaoQ=
+        bh=gTREi6SOnTOc6twV9Km6pA3kKA/9Ro4+OggKj1XGPC0=;
+        b=11oPRmAgM5BPjMMGIigstVsYmkfD42KpjvWP4hTcevGi2peAbNTuAVjnCR9SG8utTC
+         Td3oL7hB6yKwlbxS1NrihA+PRfsRlOeVRL2Hvu1Ee7rVWvE7BjoVVLVOMN3NYTZdlFeJ
+         kV1Jn76y0AHf0u7iSMs4Z9P0/1VKgZ/EcDitUmXrz19hynZ8DuXMdNNhBD2/vVsymjG5
+         biwjOV9lLfqjvKz4e2bnABOHrQ/EGLQJ/n0qBF8eCgOXlHckknMPCD8KtTvkL2UG7grB
+         m0iISjLLy4s0DnB4m0OpERkE1LvOXpFgdQ0opABihlGZzkyjuSQ88SsZlWGAIq3PUseE
+         eOQw==
+X-Gm-Message-State: AOAM530KgzbQ8qMKQiJuU/n2frQWcOCHbDr3CMnILe+Xt6yloc5WnZxU
+	x1SHUDQOQdJYMxVUX3hi/YlhZG7R2EM=
 X-Google-Smtp-Source: 
- ABdhPJzbyfeyiDFan31cfvTclCWjTvM1vSrFnTpsEl8XyQ5fs755d4rAdHXyI1c+rgu1rhnhy/cFlg==
-X-Received: by 2002:a17:907:72cc:b0:6e0:2d3:bcba with SMTP id
- du12-20020a17090772cc00b006e002d3bcbamr14317570ejc.642.1649350855410;
-        Thu, 07 Apr 2022 10:00:55 -0700 (PDT)
+ ABdhPJwFrM8gYV1nqCuXMbLsA43j3M+0kx9sBUwQLiX7r9GyhOgFh/krVY0wapObkbTBsvsA/m6kZQ==
+X-Received: by 2002:a17:907:7da7:b0:6e8:3d87:7f1f with SMTP id
+ oz39-20020a1709077da700b006e83d877f1fmr3069197ejc.410.1649350853060;
+        Thu, 07 Apr 2022 10:00:53 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.54
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 10:00:54 -0700 (PDT)
+        Thu, 07 Apr 2022 10:00:51 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 14/17] gdk-pixbuf: upgrade 2.42.6 -> 2.42.8
-Date: Thu,  7 Apr 2022 19:00:26 +0200
-Message-Id: <20220407170029.3500874-14-alex@linutronix.de>
+Subject: [PATCH 12/17] cmake: update 3.22.3 -> 3.23.0
+Date: Thu,  7 Apr 2022 19:00:24 +0200
+Message-Id: <20220407170029.3500874-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407170029.3500874-1-alex@linutronix.de>
 References: <20220407170029.3500874-1-alex@linutronix.de>
@@ -68,43 +68,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164130
+ https://lists.openembedded.org/g/openembedded-core/message/164128
+
+License-Update: copyright years, contributors.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.8.bb}        | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.42.6.bb => gdk-pixbuf_2.42.8.bb} (94%)
+ .../cmake/{cmake-native_3.22.3.bb => cmake-native_3.23.0.bb}  | 0
+ meta/recipes-devtools/cmake/cmake.inc                         | 4 ++--
+ .../cmake/{cmake_3.22.3.bb => cmake_3.23.0.bb}                | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.22.3.bb => cmake-native_3.23.0.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.22.3.bb => cmake_3.23.0.bb} (100%)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
-similarity index 94%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
-index 55c16e4d66..fb6829a7d1 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.6.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb
-@@ -23,7 +23,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Add-use_prebuilt_tools-option.patch \
-            "
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.22.3.bb b/meta/recipes-devtools/cmake/cmake-native_3.23.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.22.3.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.23.0.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index d500321138..6f6fa61cdb 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=31023e1d3f51ca90a58f55bcee8e2339 \
++LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f2102a52df7aa592cf072180e7ebc8c7 \
+                     file://Source/cmake.h;beginline=1;endline=2;md5=a5f70e1fef8614734eae0d62b4f5891b \
+                     "
  
--SRC_URI[sha256sum] = "c4a6b75b7ed8f58ca48da830b9fa00ed96d668d3ab4b1f723dcf902f78bde77f"
-+SRC_URI[sha256sum] = "84acea3acb2411b29134b32015a5b1aaa62844b19c4b1ef8b8971c6b0759f4c6"
+@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
  
- inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gi-docgen lib_package
+-SRC_URI[sha256sum] = "9f8469166f94553b6978a16ee29227ec49a2eb5ceb608275dec40d8ae0d1b5a0"
++SRC_URI[sha256sum] = "5ab0a12f702f44013be7e19534cd9094d65cc9fe7b2cd0f8c9e5318e0fe4ac82"
  
-@@ -39,9 +39,9 @@ PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
-                  ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
- PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
--PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
--PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
--PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
-+PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
-+PACKAGECONFIG[jpeg] = "-Djpeg=enabled,-Djpeg=disabled,jpeg"
-+PACKAGECONFIG[tiff] = "-Dtiff=enabled,-Dtiff=disabled,tiff"
- PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
- 
- EXTRA_OEMESON:class-target = " \
+diff --git a/meta/recipes-devtools/cmake/cmake_3.22.3.bb b/meta/recipes-devtools/cmake/cmake_3.23.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.22.3.bb
+rename to meta/recipes-devtools/cmake/cmake_3.23.0.bb
 -- 
 2.30.2
 
