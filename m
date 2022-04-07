@@ -2,61 +2,61 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E1EC38A05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81AEC38A06
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 15:41:15 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web09.7279.1649341468146101542
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.7279.1649341919989851272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 07:24:28 -0700
+ Thu, 07 Apr 2022 07:32:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BPct/qXE;
- spf=pass (domain: gmail.com, ip: 209.85.208.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PxuQqBvw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id c42so6610406edf.3
+Received: by mail-ej1-f41.google.com with SMTP id n6so11176080ejc.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 07:24:27 -0700 (PDT)
+ Thu, 07 Apr 2022 07:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7uhC7x0eyLsmpBGJajwjXHiDUQyGT4pzaEjj76Yl7YM=;
-        b=BPct/qXE1clSmaG56CnjDzRHMeSyzuFS+cbcWah81C5Vb6NttRPkNXjQPKLw45D77p
-         pxOV/L3xA2MSIAlyVwPXUHQli3sqPCyBxaSPSSbn46kWdNab6QkUQN42Vf0Wrk5yJrsW
-         iClJboy6F8vVbFZ3/EM01bcPn/5A+T9BYtEFAEpibNYoo5EU7JgpBF71UZdeBHtuwzfe
-         CAPDQ4IWvleNg9LEwjuHv4nRWzmcKNFZZsKV3uGO2t8WCk5+evRfCh+3YDU1rT4F1cCX
-         AMyTsuUltoA8aNJ1ZQx0hdeOUudUfoge6ezlLM1uFgxBq0J1GbAtn4NzRrrGJCeMlwF4
-         FZmg==
+        bh=i4pbzDou9TUfrZVwrfyGy2fH7Lhv0uHXesZngN17k7w=;
+        b=PxuQqBvwJZDGYhibF7mpRQRm5ikZc43Ul2/myaYqnvDsCoIjgvpNfeb568869B35/p
+         dw87oClPftANRb0Uqovj33VTS4wm/XAC0T8Aj1Kmj609HrVitq5NCbdKFBRNaAUj1SJR
+         vghBt3hsiFHLv8W8t+tMaL4PIhvZSA5hEUiULRa1KsAXsfq/f88retVZFnrmIEcnvqez
+         MgEcsBRYzIdmWqcZR1us0FcFc11NRnab7BBRXBkcw4+fd2OwjW2N90aEHMRn0G+b2zCW
+         wDoKSMKcOznOM4oJ+5HopO5hSAmlUT2NmNs/tRTSbLI5MYXBB1zKw6Q2x7A1CmtprPdB
+         AcBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7uhC7x0eyLsmpBGJajwjXHiDUQyGT4pzaEjj76Yl7YM=;
-        b=2r1kaOGKuW76fl6M0zkqKU566keLE8aH7D19Vkz73CjS/aKu9n2YyQzJDbVB4pFCk1
-         2vBwhcpIUdEqfV4eQzAzDgBj5M/FsGH3jp6xzbYA+coX+Smc/pqX4Y3YFni8GjHftpYe
-         fjf0QsSHA36WShmB0sr3Avr/SDQF/LkAjIUQrMapVcsQGMY8KT4vluMMR4D6v7KU48ZX
-         AKSrnvtPVGDAmZ+nIPpgk8dvNSJU4KZ+FP1B0rTVyDSUYzg/msupx/5lQdSSbIVWhRbA
-         Nf5MaTCw1vt5JjnSk5iIAtOwFCB8fxCcP7vWQ4cPXjWP3OMWtHjXh1J5Q4Rn9uOGUls8
-         +Qbg==
-X-Gm-Message-State: AOAM533F1TqjiU2H0VhCpTo5hLdnenHTp9voQj2vYCwKYYsYKkG8ERDM
-	FMtDgnfeYM9KpYJgb4L9morirwdLmoiMCg==
+        bh=i4pbzDou9TUfrZVwrfyGy2fH7Lhv0uHXesZngN17k7w=;
+        b=bn5FdELg5OBB52UIV+9ZwD14UoVwvkczzufLtfLsKnRCgNzGxEsf8ZmRPJl2NXXQtd
+         FiU7W00YVimzIpRLv4Lh1PHRXmfBA0noJkkJeYdZao5orvI7+xrOzF/eeQUwD0nN58/s
+         t+DIW49o5ga11aKd07ELMcw9CXrgOj6sa42zuBFBFOn92YH9qhn0QXDpJUBeVnxMcqhK
+         GRkxvkN/O/KxISqYETIDDjFWPJxQ1Va99p74PrZVv8eULI1lKPlbmYYduSx641PC32Ft
+         s5KtoS9S4gepjfMNjA9cnUPTJXtUJpLgIjktZK6C0bX2pYro+wHRyuEV2F2McjUsdnGB
+         ce5Q==
+X-Gm-Message-State: AOAM530EIxJffLnohfaZrF8zXRbNlEQU82LxzaX8BQeQSmPlyAcSFtZ7
+	CRbASUYh3zUGym98pv+2jnCRHZ5DKrWU6A==
 X-Google-Smtp-Source: 
- ABdhPJzWuxlKMztmktZk2jten4B+peYxN9JHbfKV1AC9QZo5CnoWksBsjSsC9kOWPk379eFrR+tdJw==
-X-Received: by 2002:a05:6402:289f:b0:41c:d9af:ce39 with SMTP id
- eg31-20020a056402289f00b0041cd9afce39mr14858196edb.415.1649341466311;
-        Thu, 07 Apr 2022 07:24:26 -0700 (PDT)
+ ABdhPJw556mzbJoTWpvflnDya1qTEncHvOQYMjpiFGBvoVvgQf5nOmIATJy/rf/RmLjPilxCcwPemw==
+X-Received: by 2002:a17:907:968f:b0:6db:a3c5:ae3e with SMTP id
+ hd15-20020a170907968f00b006dba3c5ae3emr14011480ejc.770.1649341917994;
+        Thu, 07 Apr 2022 07:31:57 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
         by smtp.gmail.com with ESMTPSA id
- hr38-20020a1709073fa600b006e0280f3bbdsm7755395ejc.110.2022.04.07.07.24.25
+ s4-20020a170906a18400b006db0a78bde8sm7751322ejy.87.2022.04.07.07.31.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 07:24:25 -0700 (PDT)
+        Thu, 07 Apr 2022 07:31:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] systemd-boot: remove outdated EFI_LD comment
-Date: Thu,  7 Apr 2022 16:24:19 +0200
-Message-Id: <20220407142419.2396854-1-Martin.Jansa@gmail.com>
+Subject: [PATCHv2] license_image.bbclass: close package.manifest file
+Date: Thu,  7 Apr 2022 16:31:50 +0200
+Message-Id: <20220407143150.2397737-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,34 +65,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 15:41:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164110
+ https://lists.openembedded.org/g/openembedded-core/message/164111
 
-* efi-ld meson option was changed in systemd 250:
-  https://github.com/systemd/systemd/commit/fe330f02dfebbaa462e0f4590de1049e47da54b9
+* fixes:
+  NOTE: Executing write_package_manifest ...
+  DEBUG: Executing python function write_package_manifest
+  /OE/build/oe-core/openembedded-core/meta/classes/license_image.bbclass:23: ResourceWarning: unclosed file <_io.TextIOWrapper name='/OE/build/oe-core/tmp-glibc/deploy/licenses/core-image-minimal-qemux86-64/package.manifest' mode='w+' encoding='UTF-8'>
+    'w+').write(output)
+  ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  DEBUG: Python function write_package_manifest finished
 
-  the value was changed with the systemd upgrade in:
-  https://git.openembedded.org/openembedded-core/commit/?id=e22188e47d2fce2406d9db9c95289b3878eda69f
-  but the comment originally from:
-  https://git.openembedded.org/openembedded-core/commit/?id=603e50f3db224a0e36a65decb9a98df41b9e22b3
-  no longer makes any sense, remove it
+[YOCTO #14772]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/systemd/systemd-boot_250.4.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/license_image.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_250.4.bb b/meta/recipes-core/systemd/systemd-boot_250.4.bb
-index 23a64bf30d..b67706b731 100644
---- a/meta/recipes-core/systemd/systemd-boot_250.4.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_250.4.bb
-@@ -19,7 +19,6 @@ objcopy = ${@meson_array('OBJCOPY', d)}
- EOF
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 0a5ea0a2fb..7e1d0e08a9 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -19,8 +19,8 @@ python write_package_manifest() {
+ 
+     pkgs = image_list_installed_packages(d)
+     output = format_pkg_list(pkgs)
+-    open(os.path.join(license_image_dir, 'package.manifest'),
+-        'w+').write(output)
++    with open(os.path.join(license_image_dir, 'package.manifest'), "w+") as package_manifest:
++        package_manifest.write(output)
  }
  
--# need to use ${HOST_PREFIX} here, otherwise ld.bfd could be used from HOSTTOOLS_NONFATAL
- EFI_LD = "bfd"
- 
- EXTRA_OEMESON += "-Defi=true \
+ python license_create_manifest() {
 -- 
 2.35.1
 
