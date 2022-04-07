@@ -1,138 +1,121 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB285C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE76DC4167B
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:17:57 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.17394.1649597633744277481
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web08.17358.1649598816833312126
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 06:33:53 -0700
+ Sun, 10 Apr 2022 06:53:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=uIT3u9Vk;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id s8so12334685pfk.12
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 06:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=9j4tiOXslkV8xwkDIlMQ1+vBV6C+qUlIqsdLUBNSESg=;
-        b=uIT3u9VkEcQMHGf0tD6WdJ8GyMwCvwHcJVa+UTS+dtWaPT+nqZJh3egniYLM6ZKL8J
-         qHczL7IxoY/5QucffeOuQfchZJqeZeY5X088jTF1pOU+qihGIUyDxaLYN8t1b41W6MYI
-         X3Ug84IPAnIdsUI9hfzdeR1YyQX1G+paEjEAFNc9/9T2am9bQ1TchofJKoVB6MoANhzo
-         Ox/iG2Sy6pBUc9ETSHp+DpFkddviP4TVhLzqwKkkidygp/v0aXLuxibQzoe1LDhW/gpa
-         kNkkx7vFUW2taQN1Ov2d6kFZUmTtMPjyIh8Q5zwQO35fyCxseNttv8XYtPtwPoubLYof
-         Nc+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=9j4tiOXslkV8xwkDIlMQ1+vBV6C+qUlIqsdLUBNSESg=;
-        b=T/eY2/KBXOpBhq/3pog1TeJz+IrbwaIbYxHchDOq2nEYjfgtkt4IleoqTIAmTWfbxq
-         CpHOStX54w4nSHtY+ZJpjqseDaC8pfPw67HtsD7b7fLoPrxVk3ThfWGa7okrubrCHgOc
-         UXeeaDune11bFD8JZ/ZelkB3TEBIyaJuUzAyIfRZ5zlwL1nLDT2aTnrWCJaEQsa96WA+
-         KM+ZtUPm7Dfu77JxUOvRccEbHexljbQ77xDEexHp0HdJgPq0zAb6LQPO2PlhOquCYNGf
-         p1/Z9WNTFdHv6EZe5GQZSt/RexYFWZXlxXZynp1a+hF49R0smrM66nLnKUDs5psUWRbc
-         zCBQ==
-X-Gm-Message-State: AOAM530hWeEMfkK3RfjqtzLaQFUV2WAj9e7KZ+7o6CR/eBD65FhVDxlF
-	hmwBD8xHsSLZjoJkVJezKhvj4NA9hfQVi+Z0L6c=
-X-Google-Smtp-Source: 
- ABdhPJy8xR8KjrN4zpPHj11ERZv3LzWgV0ZbWwQVlxWhrYXRqPzQPjJBJ1/w2DPH9nyjWmw+lmpq7g==
-X-Received: by 2002:a63:6c0a:0:b0:398:6bd2:a16a with SMTP id
- h10-20020a636c0a000000b003986bd2a16amr23234506pgc.191.1649597632586;
-        Sun, 10 Apr 2022 06:33:52 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- m2-20020a056a00164200b00505a31a064esm4410410pfc.103.2022.04.10.06.33.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 06:33:51 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id F310C9627FC; Sun, 10 Apr 2022 03:33:48 -1000 (HST)
-Subject: OE-core CVE metrics for honister on Sun 10 Apr 2022 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220410133348.F310C9627FC@nuc.router0800d9.com>
-Date: Sun, 10 Apr 2022 03:33:48 -1000 (HST)
+ dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
+ header.s=170520fj header.b=y1751a6A;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1649598814; i=@fujitsu.com;
+	bh=pCkSmpa9ekc1CBPH8J0BFpt+0uUulf/9cZi7vc7jW1E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=y1751a6Aq5nzvl08wGdJ2ChUDhLt1Uzg16O3J0CGRjnJjpFG7dL9D2X+8+fUhiiL1
+	 N2Q0wMESynYeDN9DjVuW+z1V9IiQH/OJd+p9Ediff3lVu7ClVsJRYJeLS01eMKe1oB
+	 +56XIT2nk4oLfPLC9LUPjpPuCxbq2tdfWSLhWEdCXtxfzghTPm8IYU3XJp/ubC2xSM
+	 E927d1dYJloYoYF5TEUqxtOetDBvoUOloimIe98CZBxnzcLDVxu7oqSPte9/uO8VEw
+	 IKPJIpI83PH6ygnKRbznIQhh/+fH0zwDa9IOTVns4t4k5pCGWa7zqe13TLqQ+KsFDG
+	 ESTq7V37z5/Nw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRWlGSWpSXmKPExsViZ8MRohv7MCj
+  J4H23hMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvF9Yh9bwW6eikl7D7I1MPZwdzFycQgJzGKS
+  uP34BTuEs4dRYs7D70xdjJwcbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHidw87iC0sYCcx8
+  +NHZpASFqD4t2MaIGFeASeJBxOfsoHYEgIKElMevmeGiAtKnJz5hAVijKpE95GnTBC2vETz1t
+  nMEPWKErMvN7NA2BUSs2a1MU1g5JuFpH0WkvZZSNoXMDKvYrRLKspMzyjJTczM0TU0MNA1NDT
+  VNbPUNbQ01Uus0k3USy3VTU7NKylKBErrJZYX66UWF+sVV+Ym56To5aWWbGIEBmZKsevhHYy7
+  +37qHWKU5GBSEuX9Hh6QJMSXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCt/B+UJKQYFFqempFWmYOM
+  Epg0hIcPEoivNxrgNK8xQWJucWZ6RCpU4yKUuK8f0H6BEASGaV5cG2wyLzEKCslzMvIwMAgxF
+  OQWpSbWYIq/4pRnINRSZi3/wHQFJ7MvBK46a+AFjMBLQ7dFgiyuCQRISXVwNS06emByj/l3s+
+  f7Xu6wzX/26N58srCpbIBzdEO1itELBbpOWp1J4vN/X7Gv2tz4ZlvD2oMefgNDGWeJ7Fe/Hgi
+  rujH8ZJr+yZ4h+xceF/Q4PGL2Ztrr64KKMm62Xvz0IO7vzYaMh9X43NexBvwzu0I1wbHeR2Lm
+  T0Wz47s/FPAdihTkdX8sEeTnIF38U+vvkDJXa+seTPOPvB4a8Strljn3y18ZbnW5k67uHWLuJ
+  TLl/PuWPtK22uv6JVLN+qlvj8JqbzzRnphXcBO0z8H7i/eoLnYONfv4sTv03d6RXO/2Jt6juP
+  rlZcRh66Hrd2XKO6dlBhfVWLBlX/w8MEoDf5b0T+TX0hUzYnnsP6w5rQSS3FGoqEWc1FxIgDi
+  zn7WRwMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-19.tower-532.messagelabs.com!1649598813!202665!1
+X-Originating-IP: [62.60.8.84]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 5195 invoked from network); 10 Apr 2022 13:53:33 -0000
+Received: from unknown (HELO mailhost3.uk.fujitsu.com) (62.60.8.84)
+  by server-19.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 10 Apr 2022 13:53:33 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost3.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23ADrPOX011052
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Sun, 10 Apr 2022 14:53:32 +0100
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Sun, 10 Apr 2022 14:53:23 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH v2] libbsd: upgrade 0.11.5 -> 0.11.6
+Date: Fri, 8 Apr 2022 04:49:59 +0800
+Message-ID: <1649364599-24962-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:17:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164202
+ https://lists.openembedded.org/g/openembedded-core/message/164203
 
-Branch: honister
+License-Update:
+-  Copyright year updated to 2022
+-  License ISC changed as following:
+   remove "src/arc4random_openbsd.h" from Files
+   add "test/explicit_bzero.c" and "test/strtonum.c" to Files
+   add "Copyright =C2=A9 2004 Otto Moerbeek <otto@drijf.net>"
+   add "Copyright =C2=A9 2014 Google Inc."
 
-New this week: 6 CVEs
-CVE-2019-1010238 (CVSS3: 9.8 CRITICAL): pango:pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010238 *
-CVE-2022-1050 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1050 *
-CVE-2022-1056 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1056 *
-CVE-2022-1154 (CVSS3: 9.8 CRITICAL): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1154 *
-CVE-2022-1160 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1160 *
-CVE-2022-23901 (CVSS3: 9.8 CRITICAL): re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23901 *
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../libbsd/{libbsd_0.11.5.bb =3D> libbsd_0.11.6.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libbsd/{libbsd_0.11.5.bb =3D> libbsd_0.11.6.bb} (90%)
 
-Removed this week: 13 CVEs
-CVE-2018-25032 (CVSS3: 7.5 HIGH): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-25032 *
-CVE-2021-45481 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45481 *
-CVE-2021-45482 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45482 *
-CVE-2021-45483 (CVSS3: 6.5 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-45483 *
-CVE-2021-46705 (CVSS3: 5.5 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-46705 *
-CVE-2022-0865 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0865 *
-CVE-2022-0891 (CVSS3: 7.1 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0891 *
-CVE-2022-0907 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0907 *
-CVE-2022-0908 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0908 *
-CVE-2022-0909 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0909 *
-CVE-2022-0924 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0924 *
-CVE-2022-22623 (CVSS3: N/A): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-22623 *
-CVE-2022-23308 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23308 *
-
-Full list:  Found 42 unpatched CVEs
-CVE-2016-20012 (CVSS3: 5.3 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-20012 *
-CVE-2019-1010238 (CVSS3: 9.8 CRITICAL): pango:pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010238 *
-CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2020-35503 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35503 *
-CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-20257 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20257 *
-CVE-2021-25220 (CVSS3: 8.6 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-25220 *
-CVE-2021-31879 (CVSS3: 6.1 MEDIUM): wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879 *
-CVE-2021-3507 (CVSS3: 6.1 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3507 *
-CVE-2021-3607 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3607 *
-CVE-2021-3608 (CVSS3: 6.0 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3608 *
-CVE-2021-36368 (CVSS3: 3.7 LOW): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-36368 *
-CVE-2021-3638 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3638 *
-CVE-2021-3713 (CVSS3: 7.4 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3713 *
-CVE-2021-3748 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3748 *
-CVE-2021-3930 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3930 *
-CVE-2021-3947 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3947 *
-CVE-2021-4160 (CVSS3: 5.9 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-4160 *
-CVE-2021-42762 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-42762 *
-CVE-2021-43400 (CVSS3: 9.1 CRITICAL): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-43400 *
-CVE-2022-0204 (CVSS3: 8.8 HIGH): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0204 *
-CVE-2022-0396 (CVSS3: 5.3 MEDIUM): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0396 *
-CVE-2022-0529 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-CVE-2022-0530 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-CVE-2022-0778 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0778 *
-CVE-2022-0943 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0943 *
-CVE-2022-1050 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1050 *
-CVE-2022-1056 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1056 *
-CVE-2022-1154 (CVSS3: 9.8 CRITICAL): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1154 *
-CVE-2022-1160 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1160 *
-CVE-2022-21658 (CVSS3: 6.3 MEDIUM): rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-21658 *
-CVE-2022-23096 (CVSS3: 9.1 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23096 *
-CVE-2022-23097 (CVSS3: 9.1 CRITICAL): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23097 *
-CVE-2022-23098 (CVSS3: 7.5 HIGH): connman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23098 *
-CVE-2022-23303 (CVSS3: 9.8 CRITICAL): wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23303 *
-CVE-2022-23304 (CVSS3: 9.8 CRITICAL): wpa-supplicant https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23304 *
-CVE-2022-23901 (CVSS3: 9.8 CRITICAL): re2c:re2c-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-23901 *
-CVE-2022-24975 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24975 *
-CVE-2022-26354 (CVSS3: 3.2 LOW): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26354 *
-CVE-2022-26488 (CVSS3: 7.0 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26488 *
-CVE-2022-27191 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27191 *
+diff --git a/meta/recipes-support/libbsd/libbsd_0.11.5.bb b/meta/recipes-support/libbsd/libbsd_0.11.6.bb
+similarity index 90%
+rename from meta/recipes-support/libbsd/libbsd_0.11.5.bb
+rename to meta/recipes-support/libbsd/libbsd_0.11.6.bb
+index bb8766a070..74fc8ef4e5 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.11.5.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.11.6.bb
+@@ -29,12 +29,12 @@ HOMEPAGE =3D "https://libbsd.freedesktop.org/wiki/"
+ # License: public-domain-Colin-Plumb
+ LICENSE =3D "BSD-3-Clause & BSD-4-Clause & ISC & PD"
+ LICENSE:${PN} =3D "BSD-3-Clause & ISC & PD"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0b31944ca2c1075410a30f0c17379d3b"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc2c635b94c8dcd3593f53e10fa8a499e"
+ SECTION =3D "libs"
+ 
+ SRC_URI =3D "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] =3D "1a9c952525635c1bb6770cb22e969b938d8e6a9d7912362b98ee8370599b0efd"
++SRC_URI[sha256sum] =3D "19b38f3172eaf693e6e1c68714636190c7e48851e45224d720b3b5bc0499b5df"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.25.1
 
 
