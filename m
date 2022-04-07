@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B78C8C47084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5D1C4707F
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web08.1030.1649350847505913802
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web09.1090.1649350853194343853
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:48 -0700
+ Thu, 07 Apr 2022 10:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cj00U9Lp;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Orjw6Y56;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id ot30so12071483ejb.12
+Received: by mail-ej1-f49.google.com with SMTP id l26so12210055ejx.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:47 -0700 (PDT)
+ Thu, 07 Apr 2022 10:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OzuHa0iT8aORhxKIlQp+vI4H/a8qu2DBsFFblVe2p8c=;
-        b=cj00U9LpqSzMZYN8FjgR0LADIVCL6KNqzdE4Lu4MyFvNJ8XWx96pZ5P/8uaRzaQngW
-         LYHGt3JkWu6Kx8S4hQTDllt4ucj/eb9dgK+x1prKEtb5CLHc1T/CionRagyaejWbSmLm
-         F++fPMj1XMCayQ+EiuzdxNNNOffD2D00yK+P806t3qVyteLNDckmzBaFSV0RHaDMFIFE
-         nAXcPKCTZMXjtiNExoJM7Xq8+mYY4cgPMA9vHk5WwQGQJX6qBkv66BqtdY10/ntfiEJz
-         F7YtvHAPBxfFLCncgIvWZnujVri1jmCJH4bFh3NfyYhkNtblUG3us1uyFmpLnL871Yij
-         Mz/A==
+        bh=QktOnDF3bFysADAMDcYrs/SxchSQ7Kda4yAb5tc6q8w=;
+        b=Orjw6Y56HKwfOuQGXRIJVS0IVkyBAsh5jxirT+zfQcI7RqbbI24K8XtwA2Fncx0xMv
+         h+WJwCmEPhBPXs/2Ml3cnNAHR7Q3DV1qVCkHjDoD7L9/28DsUcGdzkh81HD06n3s5TBS
+         7LaRMLeT06ep/vbJ5dPKQqaBGuRqSfhKNdRBZMOKCa8cqWHsLx/OEhQg53DHroI33aKH
+         UaU8P7sz9zL1FF18+JkT4H9dj7K2L4DFbasPZcuUhRAkhWWiiHFAMpPYVpcecz9rxLrU
+         hGOsqhtHBnUjy2CtBvxSHOI5mOX0iCDGDQVYgGmK0koLzdxCoEp/VfVIkc0av2CafQ2/
+         XR2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OzuHa0iT8aORhxKIlQp+vI4H/a8qu2DBsFFblVe2p8c=;
-        b=gdzQY72ETBfCApB104wYrFoVD+CEjiysGF4qLiHRlZI7uqaIlnA9ZNIULlD8+Do0fy
-         K+0IcX4qvl19vGqXfcwRTHYththAQJOQJXfFr95m1wG2whdKfSTcw9l4HyBgBvZq3ZBZ
-         pW5HFlHNLJDRjzTwdc9K17O6PZwQG4cpdLBRqh5N2kcYMxJwZR/HG3JAwkKsTPaP8zo3
-         XdRWqrsV1tplejZwqT7FaLWs1zcxp/sPdgWm47kAXa+DyEmWsPrO7zCjCX1DcQWBZaVQ
-         EWX+LWvYGLykAybtOTpJaPz1eDEVf0WDh0n5R1CcwWjoIr9VeDeJEKGOstgSsj+/u0FJ
-         iiFQ==
-X-Gm-Message-State: AOAM5301JyEDrBRjlZn3pzuGgmVC0/g4Nzs/pOOs6PC5vNhzIzJ25lVo
-	EY02mhQQeUuN4C7dMG6rs15iAj8oCkQ=
+        bh=QktOnDF3bFysADAMDcYrs/SxchSQ7Kda4yAb5tc6q8w=;
+        b=38YpWW0im1G/fxq90iOVQBoTVQAM/uphrNsIRGZEYmSfyFh7UtaZoKLX7S+L6fsKNv
+         SN5HEa6v2i3+vl01CxjfAsZeTKTZVMRbbD1L8hDGHLHZg1EkAfhBdEshsSZAlsVeKUtR
+         RxLKEUlPjXFsvxLbCsuLNggboVMhS2Ft4ez2st23z1MsQ+1zFvs/ML6BCPG0+1NgGmUN
+         JBghjH3zNHOXan0V7+uCGoNkk9JIrP+pw41ANHAyPiQuHs5b/aiMCie5c+f0gQSYO+Sq
+         hvQ/O2bfCCOhC6PhhrHw+r4O7P8wJvc29zEPOJIMBxA7KYVO5sOSFyAPo7S15oS3dwZQ
+         VOlA==
+X-Gm-Message-State: AOAM531nKs+mAo5EOHgS6DyopP9Go7xHz1PFRgSVEnzqxy/h5gX9Gpv0
+	dOXW6WY3jFF3ySE93GWaNNN4yCOuyrU=
 X-Google-Smtp-Source: 
- ABdhPJwWpCu/9cHJ3Cu0wWQtuAFFTFDYc19xVmWlWJ1qQGygT/fxVmdzLpB2wTyuV0DM8SWpDCgNJA==
-X-Received: by 2002:a17:906:9746:b0:6e0:5c9a:1a20 with SMTP id
- o6-20020a170906974600b006e05c9a1a20mr14807465ejy.714.1649350843786;
-        Thu, 07 Apr 2022 10:00:43 -0700 (PDT)
+ ABdhPJxDF8W2s5JqJXibilGU3bxfhW1Gh/Wplx0hzD00fbNseoPcD51GV59KnGv0Ui8eFC9ba5p7dA==
+X-Received: by 2002:a17:907:eaa:b0:6e8:2f3:45f9 with SMTP id
+ ho42-20020a1709070eaa00b006e802f345f9mr14807711ejc.323.1649350851555;
+        Thu, 07 Apr 2022 10:00:51 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.42
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 10:00:43 -0700 (PDT)
+        Thu, 07 Apr 2022 10:00:51 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/17] squashfs-tools: update 4.5 -> 4.5.1
-Date: Thu,  7 Apr 2022 19:00:16 +0200
-Message-Id: <20220407170029.3500874-4-alex@linutronix.de>
+Subject: [PATCH 11/17] webkitgtk: update 2.34.6 -> 2.36.0
+Date: Thu,  7 Apr 2022 19:00:23 +0200
+Message-Id: <20220407170029.3500874-11-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407170029.3500874-1-alex@linutronix.de>
 References: <20220407170029.3500874-1-alex@linutronix.de>
@@ -68,1075 +68,364 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164122
+ https://lists.openembedded.org/g/openembedded-core/message/164127
 
-Drop backports.
+Drop patches:
+0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
+0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+(both merged upstream)
 
-Correctly set source and installation directories.
+reduce-memory-overheads.patch
+(rejected by upstream, there's no use case - see the discussion)
+
+Rebase to version submitted upstream:
+0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+
+Add:
+0001-When-building-introspection-files-do-not-quote-CFLAG.patch
+
+angle is no longer needed for x11-less setups.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ....sh-do-not-write-original-timestamps.patch |  30 ++
- ...e-of-INSTALL_DIR-for-symlink-targets.patch |  34 --
- .../CVE-2021-41072-requisite-1.patch          | 135 -------
- .../CVE-2021-41072-requisite-2.patch          | 108 ------
- .../CVE-2021-41072-requisite-3.patch          | 326 -----------------
- .../squashfs-tools/CVE-2021-41072.patch       | 329 ------------------
- .../squashfs-tools/squashfs-tools_git.bb      |  20 +-
- 7 files changed, 39 insertions(+), 943 deletions(-)
- create mode 100644 meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
+ ...spection.cmake-prefix-variables-obta.patch | 38 +++++----
+ ...cy-parallel-build-of-WebKit2-4.0.gir.patch | 46 -----------
+ ...trospection-files-add-CMAKE_C_FLAGS-.patch | 52 -------------
+ ...trospection-files-do-not-quote-CFLAG.patch | 78 +++++++++++++++++++
+ .../webkitgtk/reduce-memory-overheads.patch   | 28 -------
+ ...ebkitgtk_2.34.6.bb => webkitgtk_2.36.0.bb} |  9 +--
+ 6 files changed, 105 insertions(+), 146 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-do-not-quote-CFLAG.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.34.6.bb => webkitgtk_2.36.0.bb} (95%)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch b/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+index 54d34b1c69..bccf74d9c9 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+@@ -1,4 +1,4 @@
+-From 317a5ac120c44987219bc03486cd2f2d1842c9b9 Mon Sep 17 00:00:00 2001
++From e0bf97eecfa601e08b9578f00b1000890284241a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 27 Oct 2015 16:02:19 +0200
+ Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+@@ -6,22 +6,30 @@ Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+ 
+ Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=232933]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+- Source/cmake/FindGObjectIntrospection.cmake | 1 +
+- 1 file changed, 1 insertion(+)
++ Source/cmake/FindGObjectIntrospection.cmake | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+ diff --git a/Source/cmake/FindGObjectIntrospection.cmake b/Source/cmake/FindGObjectIntrospection.cmake
+-index e1f49b4..03a4446 100644
++index be96814a..ae67b593 100644
+ --- a/Source/cmake/FindGObjectIntrospection.cmake
+ +++ b/Source/cmake/FindGObjectIntrospection.cmake
+-@@ -26,6 +26,7 @@ macro(_GIR_GET_PKGCONFIG_VAR _outvar _varname _extra_args)
+-     else ()
+-         string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
+-         string(REGEX REPLACE " +$" ""  _result "${_result}")
+-+        string(CONCAT _result $ENV{PKG_CONFIG_SYSROOT_DIR} "${_result}")
+-         separate_arguments(_result)
+-         set(${_outvar} ${_result} CACHE INTERNAL "")
+-     endif ()
+--- 
+-2.1.4
+-
++@@ -16,7 +16,6 @@
++ # Redistribution and use is allowed according to the terms of the BSD license.
++ 
++ 
++-
++ find_package(PkgConfig QUIET)
++ if (PKG_CONFIG_FOUND)
++     if (PACKAGE_FIND_VERSION_COUNT GREATER 0)
++@@ -30,6 +29,9 @@ if (PKG_CONFIG_FOUND)
++         pkg_get_variable(INTROSPECTION_GENERATE gobject-introspection-1.0 g_ir_generate)
++         pkg_get_variable(INTROSPECTION_GIRDIR gobject-introspection-1.0 girdir)
++         pkg_get_variable(INTROSPECTION_TYPELIBDIR gobject-introspection-1.0 typelibdir)
+++        set(INTROSPECTION_SCANNER "$ENV{PKG_CONFIG_SYSROOT_DIR}${INTROSPECTION_SCANNER}")
+++        set(INTROSPECTION_COMPILER "$ENV{PKG_CONFIG_SYSROOT_DIR}${INTROSPECTION_COMPILER}")
+++        set(INTROSPECTION_GENERATE "$ENV{PKG_CONFIG_SYSROOT_DIR}${INTROSPECTION_GENERATE}")
++         set(INTROSPECTION_VERSION "${_pc_gir_VERSION}")
++         if (${INTROSPECTION_VERSION} VERSION_GREATER_EQUAL "1.59.1")
++             set(INTROSPECTION_HAVE_SOURCES_TOP_DIRS YES)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
+deleted file mode 100644
+index e06607ba2b..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 4718888071e29deb8b245b88c81577fd5bac4e5e Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Mon, 29 Aug 2016 16:38:11 +0300
+-Subject: [PATCH] Fix racy parallel build of WebKit2-4.0.gir
+-
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=232935]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- Source/WebKit/PlatformGTK.cmake | 9 +++++----
+- 1 file changed, 5 insertions(+), 4 deletions(-)
+-
+-diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
+-index a069c5f6..ea2f542b 100644
+---- a/Source/WebKit/PlatformGTK.cmake
+-+++ b/Source/WebKit/PlatformGTK.cmake
+-@@ -650,8 +650,9 @@ if (ENABLE_INTROSPECTION)
+-         set(GIR_SOURCES_TOP_DIRS "--sources-top-dirs=${CMAKE_BINARY_DIR}")
+-     endif ()
+- 
+--    add_custom_command(
+--        OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
+-+    # This is a target and not a command because it's used to build another .gir
+-+    # and a .typelib, which would trigger two racy parallel builds when using command
+-+    add_custom_target(WebKit2-${WEBKITGTK_API_VERSION}-gir
+-         DEPENDS WebKit
+-         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
+-         COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
+-@@ -699,7 +700,7 @@ if (ENABLE_INTROSPECTION)
+-     add_custom_command(
+-         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
+-         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
+--        DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
+-+        DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
+-         COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
+-             LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
+-             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
+-@@ -761,7 +762,7 @@ if (ENABLE_INTROSPECTION)
+- 
+-     add_custom_command(
+-         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
+--        DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
+-+        DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
+-         COMMAND ${INTROSPECTION_COMPILER} --includedir=${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir -o ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
+-     )
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+deleted file mode 100644
+index 9e2bf09dd7..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 8f1e170a6de8036ab50eb35834a77f2c79412ee3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 28 Oct 2015 14:18:57 +0200
+-Subject: [PATCH] When building introspection files, add CMAKE_C_FLAGS to the
+- compiler flags.
+-
+-g-ir-compiler is using a C compiler internally, so it needs to set
+-the proper flags for it.
+-
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=232936]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- Source/JavaScriptCore/PlatformGTK.cmake | 2 +-
+- Source/WebKit/PlatformGTK.cmake         | 4 ++--
+- 2 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/Source/JavaScriptCore/PlatformGTK.cmake b/Source/JavaScriptCore/PlatformGTK.cmake
+-index 0b2968d2..2742ad80 100644
+---- a/Source/JavaScriptCore/PlatformGTK.cmake
+-+++ b/Source/JavaScriptCore/PlatformGTK.cmake
+-@@ -71,7 +71,7 @@ if (ENABLE_INTROSPECTION)
+-     add_custom_command(
+-         OUTPUT ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
+-         DEPENDS JavaScriptCore
+--        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
+-+        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
+-             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
+-             ${INTROSPECTION_SCANNER}
+-             --quiet
+-diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
+-index e36e4c35..943f9794 100644
+---- a/Source/WebKit/PlatformGTK.cmake
+-+++ b/Source/WebKit/PlatformGTK.cmake
+-@@ -742,7 +742,7 @@ if (ENABLE_INTROSPECTION)
+-         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
+-         DEPENDS WebKit
+-         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
+--        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
+-+        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
+-             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
+-             ${INTROSPECTION_SCANNER}
+-             --quiet
+-@@ -786,7 +786,7 @@ if (ENABLE_INTROSPECTION)
+-         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
+-         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
+-         DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
+--        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations
+-+        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
+-             LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
+-             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
+-             ${INTROSPECTION_SCANNER}
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-do-not-quote-CFLAG.patch b/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-do-not-quote-CFLAG.patch
 new file mode 100644
-index 0000000000..ed1d2f5b3b
+index 0000000000..3d02be9894
 --- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
-@@ -0,0 +1,30 @@
-+From b44b00dae195d8587857c7e8054e9be4eaa1f8b3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-do-not-quote-CFLAG.patch
+@@ -0,0 +1,78 @@
++From 01f5ab0edf3dd8f76d37fd36c2dcd3108be33a7b Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex@linutronix.de>
-+Date: Thu, 7 Apr 2022 09:26:09 +0200
-+Subject: [PATCH] install-manpages.sh: do not write original timestamps into
-+ .gz metadata
++Date: Mon, 4 Apr 2022 21:20:05 +0200
++Subject: [PATCH] When building introspection files, do not quote CFLAGS.
 +
-+This helps binary reproducibility.
++This does not seem to be propagated to the compiler correctly:
 +
-+Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/pull/177]
++In file included from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.2.0/include-fixed/syslimits.h:7,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.2.0/include-fixed/limits.h:34,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/lib/glib-2.0/include/glibconfig.h:11,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/gtypes.h:32,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/galloca.h:32,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib.h:30,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/build/Source/JavaScriptCore/tmp-introspectb51ks33n/JavaScriptCore-4.0.c:2:
++/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.2.0/include-fixed/limits.h:203:75: error: no include path in which to search for limits.h
++  203 | #include_next <limits.h>                /* recurse down to the real one */
++      |                                                                           ^
++In file included from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/galloca.h:32,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib.h:30,
++                 from /srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/build/Source/JavaScriptCore/tmp-introspectb51ks33n/JavaScriptCore-4.0.c:2:
++/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot/usr/include/glib-2.0/glib/gtypes.h:35:10: fatal error: time.h: No such file or directory
++   35 | #include <time.h>
++      |          ^~~~~~~~
++compilation terminated.
++Traceback (most recent call last):
++  File "/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/python3.10/distutils/unixccompiler.py", line 117, in _compile
++    self.spawn(compiler_so + cc_args + [src, '-o', obj] +
++  File "/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/python3.10/distutils/ccompiler.py", line 910, in spawn
++    spawn(cmd, dry_run=self.dry_run)
++  File "/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/lib/python3.10/distutils/spawn.py", line 91, in spawn
++    raise DistutilsExecError(
++distutils.errors.DistutilsExecError: command '/srv/work/alex/poky/build-64-alt/tmp/work/core2-64-poky-linux/webkitgtk/2.36.0-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc' failed with exit code 1
++
++Upstream-Status: Inappropriate [upstream has rewritten the whole thing as of https://github.com/WebKit/WebKit/commit/b0ae032850bb6b2672051bab8032fc9f9ef5eb97]
 +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ generate-manpages/install-manpages.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Source/JavaScriptCore/PlatformGTK.cmake | 2 +-
++ Source/WebKit/PlatformGTK.cmake         | 4 ++--
++ 2 files changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/generate-manpages/install-manpages.sh b/generate-manpages/install-manpages.sh
-+index d4c9e91..6a43b89 100755
-+--- a/generate-manpages/install-manpages.sh
-++++ b/generate-manpages/install-manpages.sh
-+@@ -56,7 +56,7 @@ for i in mksquashfs unsquashfs sqfstar sqfscat; do
-+ 		exit 1
-+ 	fi
-+ 
-+-	if ! gzip -f9 $2/$i.1; then
-++	if ! gzip -n -f9 $2/$i.1; then
-+ 		echo "$0: Compressing installed manpage failed.  Aborting" >&2
-+ 		exit 1
-+ 	fi
++diff --git a/Source/JavaScriptCore/PlatformGTK.cmake b/Source/JavaScriptCore/PlatformGTK.cmake
++index 1c3c8fb7..efd18807 100644
++--- a/Source/JavaScriptCore/PlatformGTK.cmake
+++++ b/Source/JavaScriptCore/PlatformGTK.cmake
++@@ -71,7 +71,7 @@ if (ENABLE_INTROSPECTION)
++     add_custom_command(
++         OUTPUT ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++         DEPENDS JavaScriptCore
++-        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS="-Wno-deprecated-declarations ${CMAKE_C_FLAGS}" LDFLAGS=
+++        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
++             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++             ${INTROSPECTION_SCANNER}
++             --quiet
++diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
++index 48d1820d..ded05035 100644
++--- a/Source/WebKit/PlatformGTK.cmake
+++++ b/Source/WebKit/PlatformGTK.cmake
++@@ -675,7 +675,7 @@ if (ENABLE_INTROSPECTION)
++     add_custom_target(WebKit2-${WEBKITGTK_API_VERSION}-gir
++         DEPENDS WebKit
++         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++-        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS="-Wno-deprecated-declarations ${CMAKE_C_FLAGS}" LDFLAGS=
+++        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
++             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++             ${INTROSPECTION_SCANNER}
++             --quiet
++@@ -721,7 +721,7 @@ if (ENABLE_INTROSPECTION)
++         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
++         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++         DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
++-        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS="-Wno-deprecated-declarations ${CMAKE_C_FLAGS}"
+++        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
++             LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
++             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++             ${INTROSPECTION_SCANNER}
 +-- 
 +2.30.2
 +
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch b/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
 deleted file mode 100644
-index b505f05735..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
+index 907d36c4cd..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/reduce-memory-overheads.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From c9e263a7add76df1ed92e879d964264067c0f6e8 Mon Sep 17 00:00:00 2001
--From: Patrick McCarty <patrick.mccarty@intel.com>
--Date: Mon, 26 Jul 2021 11:38:43 -0700
--Subject: [PATCH] Avoid use of INSTALL_DIR for symlink targets
+@@ -1,28 +0,0 @@
+-From ec6045fcf5a46123b54029a675d08d89a5e30f21 Mon Sep 17 00:00:00 2001
+-From: Alberto Garcia <berto@igalia.com>
+-Date: Sun, 25 Apr 2021 18:45:13 +0000
+-Subject: [PATCH] Reduce memory usage when not using the Gold linker
 -
--In case INSTALL_DIR is overridden with a staged install location, using
--INSTALL_DIR for the symlink target path prefix will yield an incorrect location
--for the final installation.
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=232938]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--Because the symlink itself is already installed to INSTALL_DIR, simply removing
--the INSTALL_DIR prefix suffices as a fix.
--
--Note that using $DESTDIR/$INSTALL_DIR where appropriate can avoid this type of
--issue, but that can be considered a future enhancement.
--
--Upstream-Status: Backport
--Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ----
-- squashfs-tools/Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- Source/cmake/OptionsCommon.cmake | 5 +++++
+- 1 file changed, 5 insertions(+)
 -
--diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
--index 5795d0d..998c5fd 100755
----- a/Makefile
--+++ b/Makefile
--@@ -406,5 +406,5 @@ install: mksquashfs unsquashfs
-- 	mkdir -p $(INSTALL_DIR)
-- 	cp mksquashfs $(INSTALL_DIR)
-- 	cp unsquashfs $(INSTALL_DIR)
---	ln -fs $(INSTALL_DIR)/unsquashfs $(INSTALL_DIR)/sqfscat
---	ln -fs $(INSTALL_DIR)/mksquashfs $(INSTALL_DIR)/sqfstar
--+	ln -fs unsquashfs $(INSTALL_DIR)/sqfscat
--+	ln -fs mksquashfs $(INSTALL_DIR)/sqfstar
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
-deleted file mode 100644
-index d01b5c6871..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
-+++ /dev/null
-@@ -1,135 +0,0 @@
--The commit is required by the fix for CVE-2021-41072.
--
--Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/80b8441]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From 80b8441a37fcf8bf07dacf24d9d6c6459a0f6e36 Mon Sep 17 00:00:00 2001
--From: Phillip Lougher <phillip@squashfs.org.uk>
--Date: Sun, 12 Sep 2021 19:58:19 +0100
--Subject: [PATCH] unsquashfs: use squashfs_closedir() to delete directory
--
--Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-----
-- squashfs-tools/unsquash-1.c    |  3 +--
-- squashfs-tools/unsquash-1234.c | 11 +++++++++--
-- squashfs-tools/unsquash-2.c    |  3 +--
-- squashfs-tools/unsquash-3.c    |  3 +--
-- squashfs-tools/unsquash-4.c    |  3 +--
-- squashfs-tools/unsquashfs.c    |  7 -------
-- squashfs-tools/unsquashfs.h    |  1 +
-- 7 files changed, 14 insertions(+), 17 deletions(-)
--
--diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
--index acba821..7598499 100644
----- a/squashfs-tools/unsquash-1.c
--+++ b/squashfs-tools/unsquash-1.c
--@@ -373,8 +373,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	return dir;
+-diff --git a/Source/cmake/OptionsCommon.cmake b/Source/cmake/OptionsCommon.cmake
+-index dd4da682..71ad6106 100644
+---- a/Source/cmake/OptionsCommon.cmake
+-+++ b/Source/cmake/OptionsCommon.cmake
+-@@ -101,6 +101,11 @@ option(GCC_OFFLINEASM_SOURCE_MAP
+-   ${GCC_OFFLINEASM_SOURCE_MAP_DEFAULT})
 - 
-- corrupted:
---	free(dir->dirs);
---	free(dir);
--+	squashfs_closedir(dir);
-- 	return NULL;
-- }
+- option(USE_APPLE_ICU "Use Apple's internal ICU" ${APPLE})
+-+# Pass --reduce-memory-overheads to the bfd linker in order to save memory
+-+if (NOT USE_LD_GOLD)
+-+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--reduce-memory-overheads")
+-+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--reduce-memory-overheads")
+-+endif ()
 - 
--diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
--index c2d4f42..0c8dfbb 100644
----- a/squashfs-tools/unsquash-1234.c
--+++ b/squashfs-tools/unsquash-1234.c
--@@ -25,8 +25,8 @@
--  * unsquash-4.
--  */
-- 
---#define TRUE 1
---#define FALSE 0
--+#include "unsquashfs.h"
--+
-- /*
--  * Check name for validity, name should not
--  *  - be ".", "./", or
--@@ -56,3 +56,10 @@ int check_name(char *name, int size)
-- 
-- 	return TRUE;
-- }
--+
--+
--+void squashfs_closedir(struct dir *dir)
--+{
--+	free(dir->dirs);
--+	free(dir);
--+}
--diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
--index 0746b3d..86f62ba 100644
----- a/squashfs-tools/unsquash-2.c
--+++ b/squashfs-tools/unsquash-2.c
--@@ -465,8 +465,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	return dir;
-- 
-- corrupted:
---	free(dir->dirs);
---	free(dir);
--+	squashfs_closedir(dir);
-- 	return NULL;
-- }
-- 
--diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
--index 094caaa..c04aa9e 100644
----- a/squashfs-tools/unsquash-3.c
--+++ b/squashfs-tools/unsquash-3.c
--@@ -499,8 +499,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	return dir;
-- 
-- corrupted:
---	free(dir->dirs);
---	free(dir);
--+	squashfs_closedir(dir);
-- 	return NULL;
-- }
-- 
--diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
--index 3a1b9e1..ff62dcc 100644
----- a/squashfs-tools/unsquash-4.c
--+++ b/squashfs-tools/unsquash-4.c
--@@ -436,8 +436,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	return dir;
-- 
-- corrupted:
---	free(dir->dirs);
---	free(dir);
--+	squashfs_closedir(dir);
-- 	return NULL;
-- }
-- 
--diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
--index 7b590bd..04be53c 100644
----- a/squashfs-tools/unsquashfs.c
--+++ b/squashfs-tools/unsquashfs.c
--@@ -1350,13 +1350,6 @@ unsigned int *offset, unsigned int *type)
-- }
-- 
-- 
---void squashfs_closedir(struct dir *dir)
---{
---	free(dir->dirs);
---	free(dir);
---}
---
---
-- char *get_component(char *target, char **targname)
-- {
-- 	char *start;
--diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
--index 2e9201c..5ecb2ab 100644
----- a/squashfs-tools/unsquashfs.h
--+++ b/squashfs-tools/unsquashfs.h
--@@ -291,4 +291,5 @@ extern long long *alloc_index_table(int);
-- 
-- /* unsquash-1234.c */
-- extern int check_name(char *, int);
--+extern void squashfs_closedir(struct dir *);
-- #endif
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
-deleted file mode 100644
-index 6b230b35c6..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--The commit is required by the fix for CVE-2021-41072.
--
--Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/1993a4e]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From 1993a4e7aeda04962bf26e84c15fba8b58837e10 Mon Sep 17 00:00:00 2001
--From: Phillip Lougher <phillip@squashfs.org.uk>
--Date: Sun, 12 Sep 2021 20:09:13 +0100
--Subject: [PATCH] unsquashfs: dynamically allocate name
--
--Dynamically allocate name rather than store it
--directly in structure.
--
--Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-----
-- squashfs-tools/unsquash-1.c    | 2 +-
-- squashfs-tools/unsquash-1234.c | 5 +++++
-- squashfs-tools/unsquash-2.c    | 2 +-
-- squashfs-tools/unsquash-3.c    | 2 +-
-- squashfs-tools/unsquash-4.c    | 2 +-
-- squashfs-tools/unsquashfs.h    | 2 +-
-- 6 files changed, 10 insertions(+), 5 deletions(-)
--
--diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
--index 7598499..d0121c6 100644
----- a/squashfs-tools/unsquash-1.c
--+++ b/squashfs-tools/unsquash-1.c
--@@ -360,7 +360,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				dir->dirs = new_dir;
-- 			}
-- 
---			strcpy(dir->dirs[dir->dir_count].name, dire->name);
--+			dir->dirs[dir->dir_count].name = strdup(dire->name);
-- 			dir->dirs[dir->dir_count].start_block =
-- 				dirh.start_block;
-- 			dir->dirs[dir->dir_count].offset = dire->offset;
--diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
--index 0c8dfbb..ac46d9d 100644
----- a/squashfs-tools/unsquash-1234.c
--+++ b/squashfs-tools/unsquash-1234.c
--@@ -60,6 +60,11 @@ int check_name(char *name, int size)
-- 
-- void squashfs_closedir(struct dir *dir)
-- {
--+	int i;
--+
--+	for(i = 0; i < dir->dir_count; i++)
--+		free(dir->dirs[i].name);
--+
-- 	free(dir->dirs);
-- 	free(dir);
-- }
--diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
--index 86f62ba..e847980 100644
----- a/squashfs-tools/unsquash-2.c
--+++ b/squashfs-tools/unsquash-2.c
--@@ -452,7 +452,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				dir->dirs = new_dir;
-- 			}
-- 
---			strcpy(dir->dirs[dir->dir_count].name, dire->name);
--+			dir->dirs[dir->dir_count].name = strdup(dire->name);
-- 			dir->dirs[dir->dir_count].start_block =
-- 				dirh.start_block;
-- 			dir->dirs[dir->dir_count].offset = dire->offset;
--diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
--index c04aa9e..8223f27 100644
----- a/squashfs-tools/unsquash-3.c
--+++ b/squashfs-tools/unsquash-3.c
--@@ -486,7 +486,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				dir->dirs = new_dir;
-- 			}
-- 
---			strcpy(dir->dirs[dir->dir_count].name, dire->name);
--+			dir->dirs[dir->dir_count].name = strdup(dire->name);
-- 			dir->dirs[dir->dir_count].start_block =
-- 				dirh.start_block;
-- 			dir->dirs[dir->dir_count].offset = dire->offset;
--diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
--index ff62dcc..1e199a7 100644
----- a/squashfs-tools/unsquash-4.c
--+++ b/squashfs-tools/unsquash-4.c
--@@ -423,7 +423,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				dir->dirs = new_dir;
-- 			}
-- 
---			strcpy(dir->dirs[dir->dir_count].name, dire->name);
--+			dir->dirs[dir->dir_count].name = strdup(dire->name);
-- 			dir->dirs[dir->dir_count].start_block =
-- 				dirh.start_block;
-- 			dir->dirs[dir->dir_count].offset = dire->offset;
--diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
--index 5ecb2ab..583fbe4 100644
----- a/squashfs-tools/unsquashfs.h
--+++ b/squashfs-tools/unsquashfs.h
--@@ -164,7 +164,7 @@ struct queue {
-- #define DIR_ENT_SIZE	16
-- 
-- struct dir_ent	{
---	char		name[SQUASHFS_NAME_LEN + 1];
--+	char		*name;
-- 	unsigned int	start_block;
-- 	unsigned int	offset;
-- 	unsigned int	type;
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
-deleted file mode 100644
-index 5d5df6f15b..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
-+++ /dev/null
-@@ -1,326 +0,0 @@
--The commit is required by the fix for CVE-2021-41072.
--
--Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/9938154]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From 9938154174756ee48a94ea0b076397a2944b028d Mon Sep 17 00:00:00 2001
--From: Phillip Lougher <phillip@squashfs.org.uk>
--Date: Sun, 12 Sep 2021 22:58:11 +0100
--Subject: [PATCH] unsquashfs: use linked list to store directory names
--
--This should bring higher performance, and it allows sorting
--if necessary (1.x and 2.0 filesystems).
--
--Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-----
-- squashfs-tools/unsquash-1.c    | 30 +++++++++++++++---------------
-- squashfs-tools/unsquash-1234.c | 12 ++++++++----
-- squashfs-tools/unsquash-2.c    | 29 +++++++++++++++--------------
-- squashfs-tools/unsquash-3.c    | 29 +++++++++++++++--------------
-- squashfs-tools/unsquash-4.c    | 29 +++++++++++++++--------------
-- squashfs-tools/unsquashfs.c    | 16 ++++++++++------
-- squashfs-tools/unsquashfs.h    |  3 ++-
-- 7 files changed, 80 insertions(+), 68 deletions(-)
--
--diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
--index d0121c6..b604434 100644
----- a/squashfs-tools/unsquash-1.c
--+++ b/squashfs-tools/unsquash-1.c
--@@ -254,7 +254,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	long long start;
-- 	int bytes = 0;
-- 	int dir_count, size, res;
---	struct dir_ent *new_dir;
--+	struct dir_ent *ent, *cur_ent = NULL;
-- 	struct dir *dir;
-- 
-- 	TRACE("squashfs_opendir: inode start block %d, offset %d\n",
--@@ -267,7 +267,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		MEM_ERROR();
-- 
-- 	dir->dir_count = 0;
---	dir->cur_entry = 0;
--+	dir->cur_entry = NULL;
-- 	dir->mode = (*i)->mode;
-- 	dir->uid = (*i)->uid;
-- 	dir->guid = (*i)->gid;
--@@ -351,20 +351,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				"%d:%d, type %d\n", dire->name,
-- 				dirh.start_block, dire->offset, dire->type);
-- 
---			if((dir->dir_count % DIR_ENT_SIZE) == 0) {
---				new_dir = realloc(dir->dirs, (dir->dir_count +
---					DIR_ENT_SIZE) * sizeof(struct dir_ent));
---				if(new_dir == NULL)
---					MEM_ERROR();
---
---				dir->dirs = new_dir;
---			}
--+			ent = malloc(sizeof(struct dir_ent));
--+			if(ent == NULL)
--+				MEM_ERROR();
-- 
---			dir->dirs[dir->dir_count].name = strdup(dire->name);
---			dir->dirs[dir->dir_count].start_block =
---				dirh.start_block;
---			dir->dirs[dir->dir_count].offset = dire->offset;
---			dir->dirs[dir->dir_count].type = dire->type;
--+			ent->name = strdup(dire->name);
--+			ent->start_block = dirh.start_block;
--+			ent->offset = dire->offset;
--+			ent->type = dire->type;
--+			ent->next = NULL;
--+			if(cur_ent == NULL)
--+				dir->dirs = ent;
--+			else
--+				cur_ent->next = ent;
--+			cur_ent = ent;
-- 			dir->dir_count ++;
-- 			bytes += dire->size + 1;
-- 		}
--diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
--index ac46d9d..e389f8d 100644
----- a/squashfs-tools/unsquash-1234.c
--+++ b/squashfs-tools/unsquash-1234.c
--@@ -60,11 +60,15 @@ int check_name(char *name, int size)
-- 
-- void squashfs_closedir(struct dir *dir)
-- {
---	int i;
--+	struct dir_ent *ent = dir->dirs;
-- 
---	for(i = 0; i < dir->dir_count; i++)
---		free(dir->dirs[i].name);
--+	while(ent) {
--+		struct dir_ent *tmp = ent;
--+
--+		ent = ent->next;
--+		free(tmp->name);
--+		free(tmp);
--+	}
-- 
---	free(dir->dirs);
-- 	free(dir);
-- }
--diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
--index e847980..956f96f 100644
----- a/squashfs-tools/unsquash-2.c
--+++ b/squashfs-tools/unsquash-2.c
--@@ -347,7 +347,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	long long start;
-- 	int bytes = 0;
-- 	int dir_count, size, res;
---	struct dir_ent *new_dir;
--+	struct dir_ent *ent, *cur_ent = NULL;
-- 	struct dir *dir;
-- 
-- 	TRACE("squashfs_opendir: inode start block %d, offset %d\n",
--@@ -360,7 +360,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		MEM_ERROR();
-- 
-- 	dir->dir_count = 0;
---	dir->cur_entry = 0;
--+	dir->cur_entry = NULL;
-- 	dir->mode = (*i)->mode;
-- 	dir->uid = (*i)->uid;
-- 	dir->guid = (*i)->gid;
--@@ -444,19 +444,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				"%d:%d, type %d\n", dire->name,
-- 				dirh.start_block, dire->offset, dire->type);
-- 
---			if((dir->dir_count % DIR_ENT_SIZE) == 0) {
---				new_dir = realloc(dir->dirs, (dir->dir_count +
---					DIR_ENT_SIZE) * sizeof(struct dir_ent));
---				if(new_dir == NULL)
---					MEM_ERROR();
---				dir->dirs = new_dir;
---			}
--+			ent = malloc(sizeof(struct dir_ent));
--+			if(ent == NULL)
--+				MEM_ERROR();
-- 
---			dir->dirs[dir->dir_count].name = strdup(dire->name);
---			dir->dirs[dir->dir_count].start_block =
---				dirh.start_block;
---			dir->dirs[dir->dir_count].offset = dire->offset;
---			dir->dirs[dir->dir_count].type = dire->type;
--+			ent->name = strdup(dire->name);
--+			ent->start_block = dirh.start_block;
--+			ent->offset = dire->offset;
--+			ent->type = dire->type;
--+			ent->next = NULL;
--+			if(cur_ent == NULL)
--+				dir->dirs = ent;
--+			else
--+				cur_ent->next = ent;
--+			cur_ent = ent;
-- 			dir->dir_count ++;
-- 			bytes += dire->size + 1;
-- 		}
--diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
--index 8223f27..835a574 100644
----- a/squashfs-tools/unsquash-3.c
--+++ b/squashfs-tools/unsquash-3.c
--@@ -381,7 +381,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	long long start;
-- 	int bytes = 0;
-- 	int dir_count, size, res;
---	struct dir_ent *new_dir;
--+	struct dir_ent *ent, *cur_ent = NULL;
-- 	struct dir *dir;
-- 
-- 	TRACE("squashfs_opendir: inode start block %d, offset %d\n",
--@@ -394,7 +394,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		MEM_ERROR();
-- 
-- 	dir->dir_count = 0;
---	dir->cur_entry = 0;
--+	dir->cur_entry = NULL;
-- 	dir->mode = (*i)->mode;
-- 	dir->uid = (*i)->uid;
-- 	dir->guid = (*i)->gid;
--@@ -478,19 +478,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				"%d:%d, type %d\n", dire->name,
-- 				dirh.start_block, dire->offset, dire->type);
-- 
---			if((dir->dir_count % DIR_ENT_SIZE) == 0) {
---				new_dir = realloc(dir->dirs, (dir->dir_count +
---					DIR_ENT_SIZE) * sizeof(struct dir_ent));
---				if(new_dir == NULL)
---					MEM_ERROR();
---				dir->dirs = new_dir;
---			}
--+			ent = malloc(sizeof(struct dir_ent));
--+			if(ent == NULL)
--+				MEM_ERROR();
-- 
---			dir->dirs[dir->dir_count].name = strdup(dire->name);
---			dir->dirs[dir->dir_count].start_block =
---				dirh.start_block;
---			dir->dirs[dir->dir_count].offset = dire->offset;
---			dir->dirs[dir->dir_count].type = dire->type;
--+			ent->name = strdup(dire->name);
--+			ent->start_block = dirh.start_block;
--+			ent->offset = dire->offset;
--+			ent->type = dire->type;
--+			ent->next = NULL;
--+			if(cur_ent == NULL)
--+				dir->dirs = ent;
--+			else
--+				cur_ent->next = ent;
--+			cur_ent = ent;
-- 			dir->dir_count ++;
-- 			bytes += dire->size + 1;
-- 		}
--diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
--index 1e199a7..694783d 100644
----- a/squashfs-tools/unsquash-4.c
--+++ b/squashfs-tools/unsquash-4.c
--@@ -331,7 +331,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 	struct squashfs_dir_entry *dire = (struct squashfs_dir_entry *) buffer;
-- 	long long start;
-- 	int bytes = 0, dir_count, size, res;
---	struct dir_ent *new_dir;
--+	struct dir_ent *ent, *cur_ent = NULL;
-- 	struct dir *dir;
-- 
-- 	TRACE("squashfs_opendir: inode start block %d, offset %d\n",
--@@ -344,7 +344,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		MEM_ERROR();
-- 
-- 	dir->dir_count = 0;
---	dir->cur_entry = 0;
--+	dir->cur_entry = NULL;
-- 	dir->mode = (*i)->mode;
-- 	dir->uid = (*i)->uid;
-- 	dir->guid = (*i)->gid;
--@@ -415,19 +415,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 				"%d:%d, type %d\n", dire->name,
-- 				dirh.start_block, dire->offset, dire->type);
-- 
---			if((dir->dir_count % DIR_ENT_SIZE) == 0) {
---				new_dir = realloc(dir->dirs, (dir->dir_count +
---					DIR_ENT_SIZE) * sizeof(struct dir_ent));
---				if(new_dir == NULL)
---					MEM_ERROR();
---				dir->dirs = new_dir;
---			}
--+			ent = malloc(sizeof(struct dir_ent));
--+			if(ent == NULL)
--+				MEM_ERROR();
-- 
---			dir->dirs[dir->dir_count].name = strdup(dire->name);
---			dir->dirs[dir->dir_count].start_block =
---				dirh.start_block;
---			dir->dirs[dir->dir_count].offset = dire->offset;
---			dir->dirs[dir->dir_count].type = dire->type;
--+			ent->name = strdup(dire->name);
--+			ent->start_block = dirh.start_block;
--+			ent->offset = dire->offset;
--+			ent->type = dire->type;
--+			ent->next = NULL;
--+			if(cur_ent == NULL)
--+				dir->dirs = ent;
--+			else
--+				cur_ent->next = ent;
--+			cur_ent = ent;
-- 			dir->dir_count ++;
-- 			bytes += dire->size + 1;
-- 		}
--diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
--index 04be53c..fee28ec 100644
----- a/squashfs-tools/unsquashfs.c
--+++ b/squashfs-tools/unsquashfs.c
--@@ -1337,14 +1337,18 @@ failed:
-- int squashfs_readdir(struct dir *dir, char **name, unsigned int *start_block,
-- unsigned int *offset, unsigned int *type)
-- {
---	if(dir->cur_entry == dir->dir_count)
--+	if(dir->cur_entry == NULL)
--+		dir->cur_entry = dir->dirs;
--+	else
--+		dir->cur_entry = dir->cur_entry->next;
--+
--+	if(dir->cur_entry == NULL)
-- 		return FALSE;
-- 
---	*name = dir->dirs[dir->cur_entry].name;
---	*start_block = dir->dirs[dir->cur_entry].start_block;
---	*offset = dir->dirs[dir->cur_entry].offset;
---	*type = dir->dirs[dir->cur_entry].type;
---	dir->cur_entry ++;
--+	*name = dir->cur_entry->name;
--+	*start_block = dir->cur_entry->start_block;
--+	*offset = dir->cur_entry->offset;
--+	*type = dir->cur_entry->type;
-- 
-- 	return TRUE;
-- }
--diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
--index 583fbe4..f8cf78c 100644
----- a/squashfs-tools/unsquashfs.h
--+++ b/squashfs-tools/unsquashfs.h
--@@ -168,17 +168,18 @@ struct dir_ent	{
-- 	unsigned int	start_block;
-- 	unsigned int	offset;
-- 	unsigned int	type;
--+	struct dir_ent	*next;
-- };
-- 
-- struct dir {
-- 	int		dir_count;
---	int 		cur_entry;
-- 	unsigned int	mode;
-- 	uid_t		uid;
-- 	gid_t		guid;
-- 	unsigned int	mtime;
-- 	unsigned int	xattr;
-- 	struct dir_ent	*dirs;
--+	struct dir_ent	*cur_entry;
-- };
-- 
-- struct file_entry {
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
-deleted file mode 100644
-index f807af60bc..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
-+++ /dev/null
-@@ -1,329 +0,0 @@
--CVE: CVE-2021-41072
--Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/e048580]
--
--Update on 20211109:
--Squash a follow-up fix for CVE-2021-41072 from upstream:
--https://github.com/plougher/squashfs-tools/commit/19fcc93
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From e0485802ec72996c20026da320650d8362f555bd Mon Sep 17 00:00:00 2001
--From: Phillip Lougher <phillip@squashfs.org.uk>
--Date: Sun, 12 Sep 2021 23:50:06 +0100
--Subject: [PATCH] Unsquashfs: additional write outside destination directory
-- exploit fix
--
--An issue on github (https://github.com/plougher/squashfs-tools/issues/72)
--showed how some specially crafted Squashfs filesystems containing
--invalid file names (with '/' and '..') can cause Unsquashfs to write
--files outside of the destination directory.
--
--Since then it has been shown that specially crafted Squashfs filesystems
--that contain a symbolic link pointing outside of the destination directory,
--coupled with an identically named file within the same directory, can
--cause Unsquashfs to write files outside of the destination directory.
--
--Specifically the symbolic link produces a pathname pointing outside
--of the destination directory, which is then followed when writing the
--duplicate identically named file within the directory.
--
--This commit fixes this exploit by explictly checking for duplicate
--filenames within a directory.  As directories in v2.1, v3.x, and v4.0
--filesystems are sorted, this is achieved by checking for consecutively
--identical filenames.  Additionally directories are checked to
--ensure they are sorted, to avoid attempts to evade the duplicate
--check.
--
--Version 1.x and 2.0 filesystems (where the directories were unsorted)
--are sorted and then the above duplicate filename check is applied.
--
--Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
-----
-- squashfs-tools/Makefile        |   6 +-
-- squashfs-tools/unsquash-1.c    |   6 ++
-- squashfs-tools/unsquash-12.c   | 110 +++++++++++++++++++++++++++++++++
-- squashfs-tools/unsquash-1234.c |  21 +++++++
-- squashfs-tools/unsquash-2.c    |  16 +++++
-- squashfs-tools/unsquash-3.c    |   6 ++
-- squashfs-tools/unsquash-4.c    |   6 ++
-- squashfs-tools/unsquashfs.h    |   4 ++
-- 8 files changed, 173 insertions(+), 2 deletions(-)
-- create mode 100644 squashfs-tools/unsquash-12.c
--
--diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
--index 7262a2e..1b544ed 100755
----- a/squashfs-tools/Makefile
--+++ b/squashfs-tools/Makefile
--@@ -160,8 +160,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
-- 	caches-queues-lists.o reader.o tar.o
-- 
-- UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
---	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
---	compressor.o unsquashfs_info.o
--+	unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o unsquash-12.o \
--+	swap.o compressor.o unsquashfs_info.o
-- 
-- CFLAGS ?= -O2
-- CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
--@@ -393,6 +393,8 @@ unsquash-34.o: unsquashfs.h unsquash-34.c unsquashfs_error.h
-- 
-- unsquash-1234.o: unsquash-1234.c unsquashfs_error.h
-- 
--+unsquash-12.o: unsquash-12.c unsquashfs.h
--+
-- unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h unsquashfs_error.h
-- 
-- unsquashfs_info.o: unsquashfs.h squashfs_fs.h unsquashfs_error.h
--diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
--index b604434..88866fc 100644
----- a/squashfs-tools/unsquash-1.c
--+++ b/squashfs-tools/unsquash-1.c
--@@ -370,6 +370,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		}
-- 	}
-- 
--+	/* check directory for duplicate names.  Need to sort directory first */
--+	sort_directory(dir);
--+	if(check_directory(dir) == FALSE) {
--+		ERROR("File system corrupted: directory has duplicate names\n");
--+		goto corrupted;
--+	}
-- 	return dir;
-- 
-- corrupted:
--diff --git a/squashfs-tools/unsquash-12.c b/squashfs-tools/unsquash-12.c
--new file mode 100644
--index 0000000..61bf128
----- /dev/null
--+++ b/squashfs-tools/unsquash-12.c
--@@ -0,0 +1,110 @@
--+/*
--+ * Unsquash a squashfs filesystem.  This is a highly compressed read only
--+ * filesystem.
--+ *
--+ * Copyright (c) 2021
--+ * Phillip Lougher <phillip@squashfs.org.uk>
--+ *
--+ * This program is free software; you can redistribute it and/or
--+ * modify it under the terms of the GNU General Public License
--+ * as published by the Free Software Foundation; either version 2,
--+ * or (at your option) any later version.
--+ *
--+ * This program is distributed in the hope that it will be useful,
--+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
--+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--+ * GNU General Public License for more details.
--+ *
--+ * You should have received a copy of the GNU General Public License
--+ * along with this program; if not, write to the Free Software
--+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
--+ *
--+ * unsquash-12.c
--+ *
--+ * Helper functions used by unsquash-1 and unsquash-2.
--+ */
--+
--+#include "unsquashfs.h"
--+
--+/*
--+ * Bottom up linked list merge sort.
--+ *
--+ */
--+void sort_directory(struct dir *dir)
--+{
--+	struct dir_ent *cur, *l1, *l2, *next;
--+	int len1, len2, stride = 1;
--+
--+	if(dir->dir_count < 2)
--+		return;
--+
--+	/*
--+	 * We can consider our linked-list to be made up of stride length
--+	 * sublists.  Eacn iteration around this loop merges adjacent
--+	 * stride length sublists into larger 2*stride sublists.  We stop
--+	 * when stride becomes equal to the entire list.
--+	 *
--+	 * Initially stride = 1 (by definition a sublist of 1 is sorted), and
--+	 * these 1 element sublists are merged into 2 element sublists,  which
--+	 * are then merged into 4 element sublists and so on.
--+	 */
--+	do {
--+		l2 = dir->dirs; /* head of current linked list */
--+		cur = NULL; /* empty output list */
--+
--+		/*
--+		 * Iterate through the linked list, merging adjacent sublists.
--+		 * On each interation l2 points to the next sublist pair to be
--+		 * merged (if there's only one sublist left this is simply added
--+		 * to the output list)
--+		 */
--+		while(l2) {
--+			l1 = l2;
--+			for(len1 = 0; l2 && len1 < stride; len1 ++, l2 = l2->next);
--+			len2 = stride;
--+
--+			/*
--+			 * l1 points to first sublist.
--+			 * l2 points to second sublist.
--+			 * Merge them onto the output list
--+			 */
--+			while(len1 && l2 && len2) {
--+				if(strcmp(l1->name, l2->name) <= 0) {
--+					next = l1;
--+					l1 = l1->next;
--+					len1 --;
--+				} else {
--+					next = l2;
--+					l2 = l2->next;
--+					len2 --;
--+				}
--+
--+				if(cur) {
--+					cur->next = next;
--+					cur = next;
--+				} else
--+					dir->dirs = cur = next;
--+			}
--+			/*
--+			 * One sublist is now empty, copy the other one onto the
--+			 * output list
--+			 */
--+			for(; len1; len1 --, l1 = l1->next) {
--+				if(cur) {
--+					cur->next = l1;
--+					cur = l1;
--+				} else
--+					dir->dirs = cur = l1;
--+			}
--+			for(; l2 && len2; len2 --, l2 = l2->next) {
--+				if(cur) {
--+					cur->next = l2;
--+					cur = l2;
--+				} else
--+					dir->dirs = cur = l2;
--+			}
--+		}
--+		cur->next = NULL;
--+		stride = stride << 1;
--+	} while(stride < dir->dir_count);
--+}
--diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
--index e389f8d..98a81ed 100644
----- a/squashfs-tools/unsquash-1234.c
--+++ b/squashfs-tools/unsquash-1234.c
--@@ -72,3 +72,24 @@ void squashfs_closedir(struct dir *dir)
-- 
-- 	free(dir);
-- }
--+
--+
--+/*
--+ * Check directory for duplicate names.  As the directory should be sorted,
--+ * duplicates will be consecutive.  Obviously we also need to check if the
--+ * directory has been deliberately unsorted, to evade this check.
--+ */
--+int check_directory(struct dir *dir)
--+{
--+	int i;
--+	struct dir_ent *ent;
--+
--+	if(dir->dir_count < 2)
--+		return TRUE;
--+
--+	for(ent = dir->dirs, i = 0; i < dir->dir_count - 1; ent = ent->next, i++)
--+		if(strcmp(ent->name, ent->next->name) >= 0)
--+			return FALSE;
--+
--+	return TRUE;
--+}
--diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
--index 956f96f..0e36f7d 100644
----- a/squashfs-tools/unsquash-2.c
--+++ b/squashfs-tools/unsquash-2.c
--@@ -29,6 +29,7 @@
-- static squashfs_fragment_entry_2 *fragment_table;
-- static unsigned int *uid_table, *guid_table;
-- static squashfs_operations ops;
--+static int needs_sorting = FALSE;
-- 
-- 
-- static void read_block_list(unsigned int *block_list, long long start,
--@@ -463,6 +464,17 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		}
-- 	}
-- 
--+	if(needs_sorting)
--+		sort_directory(dir);
--+
--+	/* check directory for duplicate names and sorting */
--+	if(check_directory(dir) == FALSE) {
--+		if(needs_sorting)
--+			ERROR("File system corrupted: directory has duplicate names\n");
--+		else
--+			ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
--+		goto corrupted;
--+	}
-- 	return dir;
-- 
-- corrupted:
--@@ -596,6 +608,10 @@ int read_super_2(squashfs_operations **s_ops, void *s)
-- 	 * 2.x filesystems use gzip compression.
-- 	 */
-- 	comp = lookup_compressor("gzip");
--+
--+	if(sBlk_3->s_minor == 0)
--+		needs_sorting = TRUE;
--+
-- 	return TRUE;
-- }
-- 
--diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
--index 835a574..0123562 100644
----- a/squashfs-tools/unsquash-3.c
--+++ b/squashfs-tools/unsquash-3.c
--@@ -497,6 +497,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		}
-- 	}
-- 
--+	/* check directory for duplicate names and sorting */
--+	if(check_directory(dir) == FALSE) {
--+		ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
--+		goto corrupted;
--+	}
--+
-- 	return dir;
-- 
-- corrupted:
--diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
--index 694783d..c615bb8 100644
----- a/squashfs-tools/unsquash-4.c
--+++ b/squashfs-tools/unsquash-4.c
--@@ -434,6 +434,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
-- 		}
-- 	}
-- 
--+	/* check directory for duplicate names and sorting */
--+	if(check_directory(dir) == FALSE) {
--+		ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
--+		goto corrupted;
--+	}
--+
-- 	return dir;
-- 
-- corrupted:
--diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
--index f8cf78c..bf2a80d 100644
----- a/squashfs-tools/unsquashfs.h
--+++ b/squashfs-tools/unsquashfs.h
--@@ -293,4 +293,8 @@ extern long long *alloc_index_table(int);
-- /* unsquash-1234.c */
-- extern int check_name(char *, int);
-- extern void squashfs_closedir(struct dir *);
--+extern int check_directory(struct dir *);
--+
--+/* unsquash-12.c */
--+extern void sort_directory(struct dir *);
-- #endif
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index c92a5f80a8..4e009d2625 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -5,20 +5,16 @@ HOMEPAGE = "https://github.com/plougher/squashfs-tools"
- DESCRIPTION = "Tools to create and extract Squashfs filesystems."
- SECTION = "base"
- LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+- # Enable the usage of OpenMP.
+- #  - At this moment, OpenMP is only used as an alternative implementation
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
+similarity index 95%
+rename from meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
+index 6870eed525..09d4493370 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.34.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
+@@ -11,15 +11,13 @@ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d842
  
--PV = "4.5"
--SRCREV = "0496d7c3de3e09da37ba492081c86159806ebb07"
-+PV = "4.5.1"
-+SRCREV = "afdd63fc386919b4aa40d573b0a6069414d14317"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master \
--           file://0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch \
--           file://CVE-2021-41072-requisite-1.patch;striplevel=2 \
--           file://CVE-2021-41072-requisite-2.patch;striplevel=2 \
--           file://CVE-2021-41072-requisite-3.patch;striplevel=2 \
--           file://CVE-2021-41072.patch;striplevel=2 \
-+           file://0001-install-manpages.sh-do-not-write-original-timestamps.patch \
+ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
+-           file://0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch \
+-           file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
+            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
+-           file://reduce-memory-overheads.patch \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            file://reproducibility.patch \
++           file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
             "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
  
--S = "${WORKDIR}/git/squashfs-tools"
-+S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "6bc8fd034aad0432a2459ce4fc7ee25ad65a4924c618bf8d93b52b0c1a84c1f6"
++SRC_URI[sha256sum] = "b877cca1f105235f5dd57c7ac2b2c2be3c6b691ff444f93925c7254cf156c64d"
  
- EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
  
-@@ -33,13 +29,15 @@ PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
- PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+@@ -47,7 +45,7 @@ DEPENDS = " \
+ PACKAGECONFIG_SOUP ?= "soup2"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2 angle', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
+                    enchant \
+                    libsecret \
+@@ -72,6 +70,7 @@ PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=R
+ PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
+ PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
+ PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
++PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
  
- do_compile() {
-+        cd ${S}/squashfs-tools
- 	oe_runmake all
- }
- 
- do_install() {
-+        cd ${S}/squashfs-tools
- 	install -d "${D}${includedir}"
--	oe_runmake install INSTALL_DIR=${D}${sbindir}
--	install -m 0644 "${S}"/squashfs_fs.h "${D}${includedir}"
-+	oe_runmake install INSTALL_PREFIX=${D}${prefix} INSTALL_MANPAGES_DIR=${D}${datadir}/man/man1
-+	install -m 0644 "${S}"/squashfs-tools/squashfs_fs.h "${D}${includedir}"
- }
- 
- ARM_INSTRUCTION_SET:armv4 = "arm"
+ # webkitgtk is full of /usr/bin/env python, particular for generating docs
+ do_configure[postfuncs] += "setup_python_link"
 -- 
 2.30.2
 
