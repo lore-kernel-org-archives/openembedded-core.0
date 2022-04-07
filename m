@@ -1,63 +1,64 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A81AEC38A06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A81D8C4708D
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 15:41:15 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.7279.1649341919989851272
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web10.7365.1649342273803037785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 07:32:00 -0700
+ Thu, 07 Apr 2022 07:37:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PxuQqBvw;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id n6so11176080ejc.13
+ dkim=pass header.i=@linaro.org header.s=google header.b=SfU5c8XT;
+ spf=pass (domain: linaro.org, ip: 209.85.160.171,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-qt1-f171.google.com with SMTP id j21so8333838qta.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 07:31:59 -0700 (PDT)
+ Thu, 07 Apr 2022 07:37:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=i4pbzDou9TUfrZVwrfyGy2fH7Lhv0uHXesZngN17k7w=;
-        b=PxuQqBvwJZDGYhibF7mpRQRm5ikZc43Ul2/myaYqnvDsCoIjgvpNfeb568869B35/p
-         dw87oClPftANRb0Uqovj33VTS4wm/XAC0T8Aj1Kmj609HrVitq5NCbdKFBRNaAUj1SJR
-         vghBt3hsiFHLv8W8t+tMaL4PIhvZSA5hEUiULRa1KsAXsfq/f88retVZFnrmIEcnvqez
-         MgEcsBRYzIdmWqcZR1us0FcFc11NRnab7BBRXBkcw4+fd2OwjW2N90aEHMRn0G+b2zCW
-         wDoKSMKcOznOM4oJ+5HopO5hSAmlUT2NmNs/tRTSbLI5MYXBB1zKw6Q2x7A1CmtprPdB
-         AcBw==
+        bh=aWkOBAFw355XKziA3ir3OKEXjBBWaHy59MVo3zoJRBg=;
+        b=SfU5c8XTSmxEtwIdKbRmSjIloyK5rn2dYlKKZeurdCrLPmWEOiktWOByr9Oi7XEmoo
+         EzsSN+AasWwMW8NseAKCBB567tIo2fF5uzr/5Ew7aVchnTwzEoWaQMCQMlZG8FpvJSIb
+         spsGLaNYhzL0Dz20COrorpmg32VBJgzcUMKNcSQsv1q9m25EKOUStLmI5cPAlez18Cxq
+         7V29im+5FjebaWqrCOpHbS2a6YlROzqpQ9Kvx0yjbb6avfKRrsS3/AnIXXKXg9XnC4DJ
+         mGmMM0kSYeuJT1jL1pD+vO45DBbBhj2nQSES7HYq48fGrRSBMc3u2NNcMCjlDWU0kgPO
+         ysbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=i4pbzDou9TUfrZVwrfyGy2fH7Lhv0uHXesZngN17k7w=;
-        b=bn5FdELg5OBB52UIV+9ZwD14UoVwvkczzufLtfLsKnRCgNzGxEsf8ZmRPJl2NXXQtd
-         FiU7W00YVimzIpRLv4Lh1PHRXmfBA0noJkkJeYdZao5orvI7+xrOzF/eeQUwD0nN58/s
-         t+DIW49o5ga11aKd07ELMcw9CXrgOj6sa42zuBFBFOn92YH9qhn0QXDpJUBeVnxMcqhK
-         GRkxvkN/O/KxISqYETIDDjFWPJxQ1Va99p74PrZVv8eULI1lKPlbmYYduSx641PC32Ft
-         s5KtoS9S4gepjfMNjA9cnUPTJXtUJpLgIjktZK6C0bX2pYro+wHRyuEV2F2McjUsdnGB
-         ce5Q==
-X-Gm-Message-State: AOAM530EIxJffLnohfaZrF8zXRbNlEQU82LxzaX8BQeQSmPlyAcSFtZ7
-	CRbASUYh3zUGym98pv+2jnCRHZ5DKrWU6A==
+        bh=aWkOBAFw355XKziA3ir3OKEXjBBWaHy59MVo3zoJRBg=;
+        b=3RzD55gqjoE5Ma9b1VDkOUAOajswm373xFAo5SGGzrhrqJnI/LHHHB5c2IFQiOGNBZ
+         KVe8/Ji5brXQ3mME32d++LC2oZMFaNIlL4AZd2oTVxj+GwYDd0jSMjS6sABLVXeAwPTd
+         QLaVHTL1SZ8JXDUT+ckKuqUw3+FFG42m8DKf7aD25CLfxr4+ri+2YSWYKaZJz0kGNmrQ
+         T+5ZYDcbutmHh/OVoA7MkjwpTT+iibY4BIzz/MRi3T5eHDQ9NsPuUFa022T/21Alt1fn
+         XKjKsaKccDdUyflhlIeRtN6JOQ2xLuapI4PMwmu6Fhq/MxgpVE/J1WgPRwPP+5fSc47R
+         D/0g==
+X-Gm-Message-State: AOAM531DJpsMYC43qWzAQF+/Dd2jY3yOb6MKDUA/FiqY4aLUAMLI9InN
+	NpQ0+DhsTAmwOiKxbppxfxRy/Oh7QlrDpA==
 X-Google-Smtp-Source: 
- ABdhPJw556mzbJoTWpvflnDya1qTEncHvOQYMjpiFGBvoVvgQf5nOmIATJy/rf/RmLjPilxCcwPemw==
-X-Received: by 2002:a17:907:968f:b0:6db:a3c5:ae3e with SMTP id
- hd15-20020a170907968f00b006dba3c5ae3emr14011480ejc.770.1649341917994;
-        Thu, 07 Apr 2022 07:31:57 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+ ABdhPJw/DYmLvq0qVDoFkJNXsgHP+Oij759KDWL8VLAX85pHfR1y+4GsTfTXQkMrxCiJBjEjRSDclw==
+X-Received: by 2002:ac8:7d86:0:b0:2e1:fe79:d602 with SMTP id
+ c6-20020ac87d86000000b002e1fe79d602mr11812881qtd.502.1649342272790;
+        Thu, 07 Apr 2022 07:37:52 -0700 (PDT)
+Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
         by smtp.gmail.com with ESMTPSA id
- s4-20020a170906a18400b006db0a78bde8sm7751322ejy.87.2022.04.07.07.31.57
+ j11-20020a37a00b000000b0067b436faccesm11396801qke.122.2022.04.07.07.37.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 07:31:57 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Thu, 07 Apr 2022 07:37:52 -0700 (PDT)
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCHv2] license_image.bbclass: close package.manifest file
-Date: Thu,  7 Apr 2022 16:31:50 +0200
-Message-Id: <20220407143150.2397737-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ralph Siemsen <ralph.siemsen@linaro.org>
+Subject: [dunfell][PATCH] vim: Upgrade 8.2.4524 -> 8.2.4681
+Date: Thu,  7 Apr 2022 10:37:42 -0400
+Message-Id: <20220407143742.1801695-1-ralph.siemsen@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -65,39 +66,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 15:41:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164111
+ https://lists.openembedded.org/g/openembedded-core/message/164112
 
-* fixes:
-  NOTE: Executing write_package_manifest ...
-  DEBUG: Executing python function write_package_manifest
-  /OE/build/oe-core/openembedded-core/meta/classes/license_image.bbclass:23: ResourceWarning: unclosed file <_io.TextIOWrapper name='/OE/build/oe-core/tmp-glibc/deploy/licenses/core-image-minimal-qemux86-64/package.manifest' mode='w+' encoding='UTF-8'>
-    'w+').write(output)
-  ResourceWarning: Enable tracemalloc to get the object allocation traceback
-  DEBUG: Python function write_package_manifest finished
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[YOCTO #14772]
+License change is a date in the license file only.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This includes fixes for CVE-2022-0943, CVE-2022-1154, CVE-2022-1160.
+
+(cherry picked from commit ca405e4529db47f471d8e49fd015c5d532e7c9ba)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 ---
- meta/classes/license_image.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/vim/vim.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 0a5ea0a2fb..7e1d0e08a9 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -19,8 +19,8 @@ python write_package_manifest() {
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index b3c471225e..5f01fc3bca 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -11,7 +11,7 @@ RSUGGESTS_${PN} = "diffutils"
  
-     pkgs = image_list_installed_packages(d)
-     output = format_pkg_list(pkgs)
--    open(os.path.join(license_image_dir, 'package.manifest'),
--        'w+').write(output)
-+    with open(os.path.join(license_image_dir, 'package.manifest'), "w+") as package_manifest:
-+        package_manifest.write(output)
- }
+ LICENSE = "vim"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
+-                    file://runtime/doc/uganda.txt;md5=a3f193c20c6faff93c69185d5d070535"
++                    file://runtime/doc/uganda.txt;md5=daf48235bb824c77fe8ae88d5f575f74"
  
- python license_create_manifest() {
+ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://disable_acl_header_check.patch \
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
+ 
+-PV .= ".4524"
+-SRCREV = "d8f8629b1bf566e1dada7515e9b146c69e5d9757"
++PV .= ".4681"
++SRCREV = "15f74fab653a784548d5d966644926b47ba2cfa7"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
-2.35.1
+2.25.1
 
 
