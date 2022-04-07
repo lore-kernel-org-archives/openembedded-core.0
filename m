@@ -1,217 +1,257 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <brenda.streiff@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 602DEC47090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB19C38A2D
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:09 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.3082.1649360807431412570
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
+ [148.163.156.75])
+ by mx.groups.io with SMTP id smtpd.web11.3422.1649361681784407750
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:46:47 -0700
+ Thu, 07 Apr 2022 13:01:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K3SUMjuK;
- spf=pass (domain: gmail.com, ip: 209.85.160.179,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id j21so9109486qta.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:46:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=skGCzzVcG+s5lpVOPTwUR3S77ssxUKoX6ZghXMJ57P4=;
-        b=K3SUMjuKTKWYnEel36U3MiT1T25b2zNCR03FAsRQ1rqFlxt//WZh0aTMeaHOiJQFDE
-         z7bCi8H1tDzGkQrflifSNLM9MXxNBcGVXKTC3XMhhgEmncceQFFuhYuzKgQoD8IFQdVd
-         /zwirQkQHkOuV4tabrozpQnhVVjoBL9cK0IRylYlGwkRFro/5UGr0FU5YpjIx2Vxg+Ne
-         n+wwozZU9iOXnA+N5PrCcgwUbG8GfsYBuHYK4Wr6OHQbRh1kbMyUk27i5caR9nMl2aaq
-         ft3jbfPOSTyfphX9yMW+vSCS+8gsVlJgSM4+wFN66AHCj+OwFZNVkATGcnlWQ3OsNwxp
-         Q4eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=skGCzzVcG+s5lpVOPTwUR3S77ssxUKoX6ZghXMJ57P4=;
-        b=8SMYh5oJShiX1SQDYx1hQAmiPa5HYFkVUm6DVc1aiEi4S0ZdXMP3GtRkI7wiCZne6B
-         bF8MCVL/IuJcvxAsoppUQFqiBVdwntiZ3M9Kb+r8St82CrDEZHxUlcwQeA8KXNxjWHwP
-         3eUx1pHi3NRO9n7q5KpQ8PjeqV2YJRdDFjRseZRPmuqxEcJ3B8aoRRoTLO9zf26wtPi7
-         bvBMBOxlLhvkcjldwTZ56FqvDTKJ2e8cdNaOpWRAxW9wme254JfZWgfsPwAnBJrrol4o
-         Anf5NVTH/Mz6tF5SFw2yZsd4eYsHyeQfhhxG5mgZHZx/Gyjmn3epYJFdTYsefOD6xqi4
-         H/cA==
-X-Gm-Message-State: AOAM533tx2mpEIxD4sPEcvkyrfF0XSnwN7avhjn047ji9qcd+0HIetCF
-	qXr3Q8gUllRN8TsCTMQArbZW2aFbFsNkQyI3uto=
-X-Google-Smtp-Source: 
- ABdhPJxdKubVq3pVvqi61q++3KGr/slxltvZlR1xxQSHTgNXU+I72lL4sFjDrDn/Iwzuoz0ILvLmC0zpMx8PpuWJXs4=
-X-Received: by 2002:ac8:7dd1:0:b0:2e1:c708:12fa with SMTP id
- c17-20020ac87dd1000000b002e1c70812famr12906978qte.532.1649360806465; Thu, 07
- Apr 2022 12:46:46 -0700 (PDT)
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=i7qxyqvp;
+ spf=pass (domain: ni.com, ip: 148.163.156.75,
+ mailfrom: prvs=1096971498=brenda.streiff@ni.com)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
+ 237Dn0jo003964
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 7 Apr 2022 15:01:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS11062020;
+ bh=xK67MqCVZNtP7txicgLc6/Iv7Lrs7X61SNB7PkX1GVo=;
+ b=i7qxyqvpLxBpO2rGvWbQx05vZp1lBvsjO4R2enUhK0ZncQtNahHYb2spb1tDLZi/Y5J/
+ 45P5w63TCDOtWzr0iuXBhE9y5x99DnMGnQmx4CddQQLG6L34xiwFew9bnc0iQ7Oiio1r
+ 0LkTtWseZPdpLZPjCKzgbWhGCQ6TqMKQy3/DkKI0Xh1cLLg0VxjitB89Dj9vaIdyHQMj
+ 5q7J87EO6cfIfCbBcyyUVhaDzMmtlz4+0MpAu9aqf5L7ITJlwmIv/nRfy/skg7cENhTR
+ te6cZZEfKGodHgXtGkDR5fQ0gOfozfaQoeps1QxrfrsGtbizrbOl6sbj9niI/7AVqCOe yw==
+Received: from ni.com ([130.164.80.24])
+	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3f6m0t4ndv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 07 Apr 2022 15:01:20 -0500
+Received: from us-aus-exch2.ni.corp.natinst.com
+ (us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
+ 237K1KLK018154
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 7 Apr 2022 15:01:20 -0500
+Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
+ us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.28; Thu, 7 Apr 2022 15:01:19 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+ us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.28; Thu, 7 Apr 2022 15:01:19 -0500
+Received: from starthinker.amer.corp.natinst.com (172.18.68.32) by
+ us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP Server
+ id 15.0.1497.28 via Frontend Transport; Thu, 7 Apr 2022 15:01:19 -0500
+From: Brenda Streiff <brenda.streiff@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Brenda Streiff <brenda.streiff@ni.com>
+Subject: [PATCH 1/2] qemu: split out qemu-guest-agent, add startup scripts
+Date: Thu, 7 Apr 2022 15:01:16 -0500
+Message-ID: <20220407200117.7576-1-brenda.streiff@ni.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20220407170029.3500874-1-alex@linutronix.de>
- <20220407170029.3500874-15-alex@linutronix.de>
-In-Reply-To: <20220407170029.3500874-15-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Apr 2022 15:46:20 -0400
-Message-ID: 
- <CAMKF1sokAXdALgcSES3XFPcMchgOPVD75ZgFY-fXd3zmVFXoWg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/17] libgcrypt: upgrade 1.9.4 -> 1.10.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: jn68RYB2T-kukvd9SbqMOui4koa8pQf3
+X-Proofpoint-ORIG-GUID: jn68RYB2T-kukvd9SbqMOui4koa8pQf3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-07_04,2022-04-07_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: orgsafe
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164137
+ https://lists.openembedded.org/g/openembedded-core/message/164142
 
-On Thu, Apr 7, 2022 at 1:01 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> License-Update: formatting
->
-> Add another chunk to pthread fixing patch.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...0001-Makefile.am-add-a-missing-space.patch | 41 -------------------
->  ...m-fix-undefined-reference-to-pthread.patch | 19 ++++++---
->  ...libgcrypt_1.9.4.bb => libgcrypt_1.10.1.bb} |  5 +--
->  3 files changed, 16 insertions(+), 49 deletions(-)
->  delete mode 100644 meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
->  rename meta/recipes-support/libgcrypt/{libgcrypt_1.9.4.bb => libgcrypt_1.10.1.bb} (90%)
->
-> diff --git a/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch b/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
-> deleted file mode 100644
-> index 62b7484e45..0000000000
-> --- a/meta/recipes-support/libgcrypt/files/0001-Makefile.am-add-a-missing-space.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -From b8192ff67ed46ea2cc4282fa1856ce2868223737 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 24 Feb 2021 19:43:07 +0000
-> -Subject: [PATCH] Makefile.am: add a missing space
-> -
-> -Upstream-Status: Submitted [by email to gniibe@fsij.org,gcrypt-devel@gnupg.org]
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - cipher/Makefile.am | 2 +-
-> - doc/Makefile.am    | 2 +-
-> - 2 files changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/cipher/Makefile.am b/cipher/Makefile.am
-> -index 1cf5072..b3ca225 100644
-> ---- a/cipher/Makefile.am
-> -+++ b/cipher/Makefile.am
-> -@@ -143,7 +143,7 @@ gost-sb.h: gost-s-box
-> -
-> - gost-s-box: gost-s-box.c
-> -       $(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
-> --          $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/gost-s-box.c
-> -+          $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/gost-s-box.c
-> -
-> -
-> - if ENABLE_O_FLAG_MUNGING
-> -diff --git a/doc/Makefile.am b/doc/Makefile.am
-> -index fd7aac2..1703bd9 100644
-> ---- a/doc/Makefile.am
-> -+++ b/doc/Makefile.am
-> -@@ -43,7 +43,7 @@ man_MANS = $(myman_pages)
-> -
-> - yat2m: yat2m.c
-> -       $(CC_FOR_BUILD) $(CFLAGS_FOR_BUILD) $(LDFLAGS_FOR_BUILD) \
-> --          $(CPPFLAGS_FOR_BUILD)-o $@ $(srcdir)/yat2m.c
-> -+          $(CPPFLAGS_FOR_BUILD) -o $@ $(srcdir)/yat2m.c
-> -
-> - .fig.png:
-> -       fig2dev -L png `test -f '$<' || echo '$(srcdir)/'`$< $@
-> ---
-> -2.17.1
-> -
-> diff --git a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-> index 5bf0c7f8a3..4233fa7877 100644
-> --- a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-> +++ b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-> @@ -1,4 +1,4 @@
-> -From cb06d218ee36e303a64f27c690f30040d5d87960 Mon Sep 17 00:00:00 2001
-> +From 9182bc2dc676858a823c477d8f45a578b8c4f69f Mon Sep 17 00:00:00 2001
->  From: Hongxu Jia <hongxu.jia@windriver.com>
->  Date: Sun, 12 Jun 2016 04:44:29 -0400
->  Subject: [PATCH] tests/Makefile.am: fix undefined reference to
-> @@ -11,14 +11,14 @@ Upstream-Status: Pending
->  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->
->  ---
-> - tests/Makefile.am | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> + tests/Makefile.am | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
->
->  diff --git a/tests/Makefile.am b/tests/Makefile.am
-> -index ab201f0..1cf82d0 100644
-> +index e6953fd..f47e1d3 100644
->  --- a/tests/Makefile.am
->  +++ b/tests/Makefile.am
-> -@@ -75,7 +75,7 @@ t_mpi_bit_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
-> +@@ -76,7 +76,7 @@ t_mpi_bit_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
->   t_secmem_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
->   testapi_LDADD = $(standard_ldadd) @LDADD_FOR_TESTS_KLUDGE@
->   t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-> @@ -27,3 +27,12 @@ index ab201f0..1cf82d0 100644
->   testdrv_LDADD = $(LDADD_FOR_TESTS_KLUDGE)
->
->   # Build a version of the test driver for the build platform.
-> +@@ -95,7 +95,7 @@ else
-> + xtestsuite_libs = ../src/.libs/libgcrypt.so*
-> + xtestsuite_driver = testdrv
-> + t_kdf_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS) @LDADD_FOR_TESTS_KLUDGE@
-> +-t_kdf_CFLAGS = $(GPG_ERROR_MT_CFLAGS)
-> ++t_kdf_CFLAGS = $(GPG_ERROR_MT_CFLAGS) -lpthread
+Split out the QEMU guest agent into a separate package. The agent is
+intended to be installed within a QEMU VM guest where a user is likely
+to not want to have the rest of the QEMU installation within it.
 
-Using -pthread is preferred,to let compiler driver decide the order
-and other dependencies( if any) to be added
-dependending upon platform etc.
+Additionally, an initscript, udev rules file, and systemd unit file are
+added to the package so that the guest agent can start automatically;
+the former two come from Debian's packaging for qemu-guest-agent.
 
-> + endif
-> +
-> + # xcheck uses our new testdrv instead of the automake test runner.
-> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-> similarity index 90%
-> rename from meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-> rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-> index 866f3932f6..251e0d0348 100644
-> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.9.4.bb
-> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-> @@ -14,7 +14,7 @@ LICENSE:dumpsexp-dev = "GPL-3.0-or-later"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->                      file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
-> -                    file://LICENSES;md5=42fa35a25e138166cc40588387f9159d \
-> +                    file://LICENSES;md5=ef545b6cc717747072616519a1256d69 \
->                      "
->
->  DEPENDS = "libgpg-error"
-> @@ -25,9 +25,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
->             file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
->             file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
->             file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-> -           file://0001-Makefile.am-add-a-missing-space.patch \
->             "
-> -SRC_URI[sha256sum] = "ea849c83a72454e3ed4267697e8ca03390aee972ab421e7df69dfe42b65caaf7"
-> +SRC_URI[sha256sum] = "ef14ae546b0084cd84259f61a55e07a38c3b53afc0f546bffcef2f01baffe9de"
->
->  # Below whitelisted CVEs are disputed and not affecting crypto libraries for any distro.
->  CVE_CHECK_IGNORE += "CVE-2018-12433 CVE-2018-12438"
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164131): https://lists.openembedded.org/g/openembedded-core/message/164131
-> Mute This Topic: https://lists.openembedded.org/mt/90317736/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           | 35 +++++++-
+ .../qemu/qemu/qemu-guest-agent.init           | 84 +++++++++++++++++++
+ .../qemu/qemu/qemu-guest-agent.udev           |  2 +
+ 3 files changed, 120 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
+ create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 9f2fa4322e..bd1d1ea010 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -9,7 +9,7 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ RDEPENDS:${PN}-ptest = "bash"
+ 
+ require qemu-targets.inc
+-inherit pkgconfig ptest python3-dir
++inherit pkgconfig ptest python3-dir update-rc.d systemd
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
+@@ -32,6 +32,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0001-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
+            file://0001-vhost-vsock-detach-the-virqueue-element-in-case-of-e.patch \
+            file://0002-virtio-net-fix-map-leaking-on-error-during-receive.patch \
++           file://qemu-guest-agent.init \
++           file://qemu-guest-agent.udev \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+@@ -127,6 +129,20 @@ do_configure[cleandirs] += "${B}"
+ do_install () {
+ 	export STRIP=""
+ 	oe_runmake 'DESTDIR=${D}' install
++
++	# If we built the guest agent, also install startup/udev rules
++	if [ -e "${D}${bindir}/qemu-ga" ]; then
++		install -d ${D}${sysconfdir}/init.d/
++		install -m 0755 ${WORKDIR}/qemu-guest-agent.init ${D}${sysconfdir}/init.d/qemu-guest-agent
++		sed -i 's:@bindir@:${bindir}:' ${D}${sysconfdir}/init.d/qemu-guest-agent
++
++		install -d ${D}${sysconfdir}/udev/rules.d/
++		install -m 0644 ${WORKDIR}/qemu-guest-agent.udev ${D}${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules
++
++		install -d ${D}${systemd_unitdir}/system/
++		install -m 0644 ${S}/contrib/systemd/qemu-guest-agent.service ${D}${systemd_unitdir}/system
++		sed -i -e 's,-/usr/bin/,-${bindir}/,g' ${D}${systemd_unitdir}/system/qemu-guest-agent.service
++	fi
+ }
+ 
+ # The following fragment will create a wrapper for qemu-mips user emulation
+@@ -199,3 +215,20 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+ INSANE_SKIP:${PN} = "arch"
+ 
+ FILES:${PN} += "${datadir}/icons"
++
++# Put the guest agent in a separate package
++PACKAGES =+ "${PN}-guest-agent"
++SUMMARY:${PN}-guest-agent = "QEMU guest agent"
++FILES:${PN}-guest-agent += " \
++    ${bindir}/qemu-ga \
++    ${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules \
++    ${sysconfdir}/init.d/qemu-guest-agent \
++    ${systemd_unitdir}/system/qemu-guest-agent.service \
++"
++
++INITSCRIPT_PACKAGES = "${PN}-guest-agent"
++INITSCRIPT_NAME:${PN}-guest-agent = "qemu-guest-agent"
++INITSCRIPT_PARAMS:${PN}-guest-agent = "defaults"
++
++SYSTEMD_PACKAGES = "${PN}-guest-agent"
++SYSTEMD_SERVICE:${PN}-guest-agent = "${PN}-guest-agent.service"
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
+new file mode 100644
+index 0000000000..493da0ef1a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
+@@ -0,0 +1,84 @@
++#!/bin/sh
++### BEGIN INIT INFO
++# Provides:		qemu-guest-agent
++# Required-Start:	$remote_fs $syslog
++# Required-Stop:	$remote_fs $syslog
++# Default-Start:	2 3 4 5
++# Default-Stop:		0 1 6
++# Short-Description:	QEMU Guest Agent
++### END INIT INFO
++#
++# Do not configure this file. Edit /etc/default/qemu-guest-agent
++#
++
++set -e
++
++. /etc/init.d/functions
++
++PATH=/sbin:/usr/sbin:/bin:/usr/bin
++DESC="QEMU Guest Agent"
++NAME=qemu-ga
++DAEMON=@bindir@/$NAME
++PIDFILE=/var/run/$NAME.pid
++
++# config
++DAEMON_ARGS=""
++# default transport
++TRANSPORT=virtio-serial:/dev/virtio-ports/org.qemu.guest_agent.0
++NO_START=0
++
++test ! -r /etc/default/qemu-guest-agent || . /etc/default/qemu-guest-agent
++test "$NO_START" = "0" || exit 0
++test -x "$DAEMON" || exit 0
++
++#
++# Function that checks whenever system has necessary environment
++# It also splits $TRANSPORT into $method and $path
++#
++do_check_transport() {
++	method=${TRANSPORT%%:*};
++	path=${TRANSPORT#*:}
++	case "$method" in
++	    virtio-serial | isa-serial)
++		if [ ! -e "$path" ]; then
++		    echo "$NAME: transport endpoint not found, not starting"
++		    return 1
++		fi
++		;;
++	esac
++}
++
++case "$1" in
++  start)
++	do_check_transport || exit 0
++	echo -n "Starting $DESC: "
++	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
++		$DAEMON_ARGS -d -m "$method" -p "$path"
++	echo "$NAME."
++	;;
++  stop)
++	echo -n "Stopping $DESC: "
++	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
++	echo "$NAME."
++	;;
++  status)
++	status "$DAEMON"
++	exit $?
++	;;
++  restart|force-reload)
++	do_check_transport || exit 0
++	echo -n "Restarting $DESC: "
++	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
++	sleep 1
++	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
++		$DAEMON_ARGS -d -m "$method" -p "$path"
++	echo "$NAME."
++	;;
++  *)
++	N=/etc/init.d/$NAME
++	echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
++	exit 1
++	;;
++esac
++
++exit 0
+diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
+new file mode 100644
+index 0000000000..8a290abbd3
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
+@@ -0,0 +1,2 @@
++SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", \
++  TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
+-- 
+2.20.1
+
 
