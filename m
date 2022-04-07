@@ -1,62 +1,61 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 688CCC38A2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2C1C38A05
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:09 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.3219.1649361386031770739
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.3049.1649360638788073192
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:56:26 -0700
+ Thu, 07 Apr 2022 12:43:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UtKzeZgn;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id q14so8800335ljc.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0mpdn53;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id t19so8997621qtc.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:56:25 -0700 (PDT)
+ Thu, 07 Apr 2022 12:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Awuo+m758yikU8GaiDDoOK7gLFHe0PX1t1gaV0QX6rI=;
-        b=UtKzeZgnjphMmbjON3ocgUtEji9Uf1cKbtJksUXnZmpqRCxUd/MGEt9Dy3HGYDz8g9
-         WZkUtozF1EklR8piBsCUKsODLspDwZqzdH+QbdvI/wxXu3k2XvJX6atj5M2GQIAxZkK7
-         v0t0S3ifofIvYOjCQO8e2zJpr4R+c5yc2Tsji2j0/lKvGtu6aCcfod+A3PC39dXu3Ip6
-         xPb8+r2Bnau7/KHI1p26kNh5yif+5EadVIifNoPVtCbCSOnTMjeRcRnSPV5eIuruDVeF
-         njvBP/2wX5VmX+gbmBQkwzrO+as4EfEzT4k2wZ1C18O99DCz0h6U1EQjZPQ6k9H6rqhR
-         BQXw==
+        bh=kGyJu8pawoj5am9qkfL5EJYqxx5VsI4i5uei3v2aZ/Q=;
+        b=b0mpdn53LJm6TFYA6by4WTK7SE7kNARl2M0J7+J70Y+FewpsLTOc7abf06+LvTz1uz
+         Y5FsUua7vLydpnjmf2f3BspCv6rr84iiK3QoqL7XdFkj6DG7/Yo9ZHowFfSZ1KRqemt6
+         fnpqGGIN2y+0VvsQG34XAKlRGMYi5Daf7aTxpyFeA4J5nxodpK6gWT8mZDFg9p+ZHv/j
+         MMqt49KpU1VaabFnJWrsim1K2qhB+jzsmuFSt7JgsEdGOjXArBRFDWGbUNjUF4PRhTRn
+         3E1UYU7mns3ay0FJqV4ST1MfLXQuNsFrpukFI6iHuB082cp8QBq/atDFObtJJF2I/BCP
+         tFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Awuo+m758yikU8GaiDDoOK7gLFHe0PX1t1gaV0QX6rI=;
-        b=798nPRS+g3atTBXS9BgOi3CjwD+AKUHDX0OQbHTrsMT7IXHL4lncAOW4UlfwmFCnOr
-         RvPk3GL9ChiAJ6VPu3Z9w7Hn8zMkcMapFyp5rMI8y92HUO7gfVrdcowNKaYLyPAE4WNc
-         bAMSJEPmwQsRqCdN12lK4qtArGekM+iNur6/P7nM4wmvtTzOdHe/zLMU1OaRipDKNNec
-         +YJoh2u/z2LQb07Z8urZsPjT95vHsbgh9ZkNwLASjMNYQEBrAhld9lyVU/MQPOv69WN2
-         KlrFo3LUOSgPU36amWlVXsq7pJ6RNXXJD9phNM9snh9DBnDYnRzQcHo+Dk8JKpNdtPuT
-         cuaQ==
-X-Gm-Message-State: AOAM531GRLICZONBp7PSyKICnVXIBM4VtrbbFjr1/Z9M1XTD538q0aPy
-	C/+uMuc8gcASYgWQBkp2cjcQw9lN0myh1KOzCG8=
+        bh=kGyJu8pawoj5am9qkfL5EJYqxx5VsI4i5uei3v2aZ/Q=;
+        b=e10ge/YkhvUn+01y2m8LvAZti313dYaCA81uh0JUnUEF44ayT7ZfIFgsDUL/KXeS0j
+         nJlMalx4tnhKsBucIAVJhQvjbw4LWeTajKuZ3+SlXi8obpXw5zcQuO3PRVOrRX0kyjf4
+         8aKOLBDs7p7Ys3waS1LbxIxHKRMqtoaU7P3V8TIUhJJuF2fLUoD6U1i0Iyl9/BAc47bi
+         NVKOVqw+sF7V4gAAuxc9P78aIipY0yKNu30ETXOq9uRtPRWKSGLDdG+pc9BqR9g6ZjLg
+         RoFhB/xMzbtgIaTHJAkGkU0JMcZc6ypxUoKw9DMBrAess7u7c2WgUAcjB/AhhmifxqQE
+         JM4w==
+X-Gm-Message-State: AOAM532Q2JYQRvTHAtETyOcmfQed0rtycFC7tnq7f4hPFWpjXj/5h5yE
+	+EpAfL7QwA4WCwHtDguD7PzvkYRWQAWZV99pkNQ=
 X-Google-Smtp-Source: 
- ABdhPJwOVZdRsFdST1C1WmcgH/YLmn6PDm8YOkyp+v41/6fJMmBwVC5B8S4J0w2bVuBMe74lOdsV2KyIPoEExH3QUeQ=
-X-Received: by 2002:a2e:888a:0:b0:249:8e84:65b8 with SMTP id
- k10-20020a2e888a000000b002498e8465b8mr9718275lji.56.1649361383912; Thu, 07
- Apr 2022 12:56:23 -0700 (PDT)
+ ABdhPJz6ag5EcTaQGZK38c6Frlo3/ZLSrlxPPIluDM+Ym5x7TtTWbhPxANlEYFNhPhcNKGF6Q24K9j0O055ZS0a0xvc=
+X-Received: by 2002:ac8:5842:0:b0:2e1:aa10:e7cd with SMTP id
+ h2-20020ac85842000000b002e1aa10e7cdmr13444782qth.330.1649360637885; Thu, 07
+ Apr 2022 12:43:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407170029.3500874-1-alex@linutronix.de>
- <20220407170029.3500874-15-alex@linutronix.de>
- <CAMKF1sokAXdALgcSES3XFPcMchgOPVD75ZgFY-fXd3zmVFXoWg@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sokAXdALgcSES3XFPcMchgOPVD75ZgFY-fXd3zmVFXoWg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 7 Apr 2022 21:56:12 +0200
+ <20220407170029.3500874-17-alex@linutronix.de>
+In-Reply-To: <20220407170029.3500874-17-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Apr 2022 15:43:32 -0400
 Message-ID: 
- <CANNYZj8zVRRUjTXqCnxOfsqZr0VOE1YSWMEhUaGRoAsCYtf81Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/17] libgcrypt: upgrade 1.9.4 -> 1.10.1
-To: Khem Raj <raj.khem@gmail.com>
+ <CAMKF1sqJLvgJh__jq2biOrkm_M6zw4ibkxP7u1s1rZPEbyLa3Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 17/17] python3-typing-extensions: upgrade
+ 3.10.0.0 -> 4.1.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
 	Alexander Kanavin <alex@linutronix.de>
@@ -66,14 +65,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164139
+ https://lists.openembedded.org/g/openembedded-core/message/164135
 
-On Thu, 7 Apr 2022 at 21:46, Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Apr 7, 2022 at 1:01 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> Using -pthread is preferred,to let compiler driver decide the order
-> and other dependencies( if any) to be added
-> dependending upon platform etc.
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...ensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-typing-extensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} (73%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+> similarity index 73%
+> rename from meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
+> rename to meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+> index a8e83fc824..6c80a8b237 100644
+> --- a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
+> +++ b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+> @@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=64fc2b30b67d0a8423c250e0386ed72f"
+>  # The name on PyPi is slightly different.
+>  PYPI_PACKAGE = "typing_extensions"
+>
+> -SRC_URI[sha256sum] = "50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"
+> +SRC_URI[sha256sum] = "1a9462dcc3347a79b1f1c0271fbe79e844580bb598bafa1ed208b94da3cdcd42"
+>
+> -inherit pypi setuptools3
+> +inherit pypi python_flit_core
 
-I added a chunk to the patch which was already using -lpthread - this
-needs to be fixed separately.
+has this module made a move to use flit instead of setuptools ? if so,
+perhaps adding that info in commit might be good.
+
+>
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164133): https://lists.openembedded.org/g/openembedded-core/message/164133
+> Mute This Topic: https://lists.openembedded.org/mt/90317738/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
