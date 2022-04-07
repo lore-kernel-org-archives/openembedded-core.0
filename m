@@ -1,59 +1,66 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 989A3C3527C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B788EC47082
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.981.1649350425452113185
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.1065.1649350846290534056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 09:53:45 -0700
+ Thu, 07 Apr 2022 10:00:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OmMWhe+W;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id z1so8763891wrg.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LONbQUkv;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id n6so12087255ejc.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 09:53:45 -0700 (PDT)
+ Thu, 07 Apr 2022 10:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QmmcrWlLOc+sVk7qtDkNaLMFHOg6bkoxmeIwz8b1M2w=;
-        b=OmMWhe+Wx1Zk6EDzDXMXgOKfy/iApWkpwbRj53fn4KbOQ1W1oLXc61KBoySZJr1Fl9
-         I8Xrl2af/Saeo2J/wKuvqohzAIAQAntspUiQkSZzFvfqb3F+snNEDj5Qclu62QAgjsuy
-         UwV4AzzbK9QHJCJshVExvoWvoX3kEPCqL6sdQ=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=v8ew83uoAYXjioUgQ+wJplIIoQACDsUMh4b3DJn1ey4=;
+        b=LONbQUkvNVhtytyR4XN1lvaKer2TDy0r3pEwPlLzxpbdAaGbb6/WpwJCBUnIGdHNGK
+         MTmSj45CMDIIOf8BjuOs1JXaVZ1lRlR1nreFLYQi/d3wYYbjwqyg/azgdmML0aCvfSdV
+         FcFn3CWRO7sp4OIRsoqt/c6OLM/MCl0R/6WkhQupd3kWx9gm4N1KvwBkhrmVtLljnh6f
+         Q4YLr87HNN5b3DjKH3TA/jA9EmYaVcL/F70sBF+G3Sj35M9JZczCz7Hv8SnQsLFG9C8K
+         tUFW1K/VB+Cco7RCgSIKk8v0QoqcHVzsCpC0NyO/FWsI4jZLI5Yj/Qx7pqncbTqcpYFm
+         TYqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QmmcrWlLOc+sVk7qtDkNaLMFHOg6bkoxmeIwz8b1M2w=;
-        b=s32Nc+Vw2y/ohu895zPEQ+5A7zbt82Y6ZqRp+Zj/tVu1Pw8cg0pxjJ7iSVjNOyBkPs
-         u+2RU1DcfRxsLzZmgcjAWgoOYo0n6MgrAcwc4q0TXC4gboE/p0dHuorMkfFSyYG1RAxL
-         siab1kJnFccic5o41cauU0C2FM04+O8g66Sv9mev8lBiF5cTRS3kkY6fstX5LDbvumRv
-         vAX/GTOJLBIrM2RLv6EvtNhJdrtFvIToyLT23rUche4X485riPkVKrWUtvWjKPGTOUJr
-         CmIT1ixVVoKU1yWv/VWYygZWzKkMf+Z+whUFfPlxVbDitWZm7NCiYzT+irxf/HFCDGBF
-         1duQ==
-X-Gm-Message-State: AOAM532ID6G80y/qB3Ob+4nPimc8eCFBkvreVqNf075roTZibjqgOy2j
-	U5kswodG42V+2CveFMEjQXGRBeP3znt1C3K/
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=v8ew83uoAYXjioUgQ+wJplIIoQACDsUMh4b3DJn1ey4=;
+        b=uWkHJt2ml9YMKqhkjm0n6nIX7BHBjVGrwHkv3JQN5cTLD9S1L+e5Pv1XGFM6I/iA2Z
+         0RrMLtMxuPshSCMWlZXXcnsuk6zYEVsDbmVZZJ4g81AbhvTPbNgig4JCRtV4uGAJCzz5
+         1FMMdMn7m1IiIsN/JYJeXnikG6CQPqTAO11wiIJNLHUdRZYj9qKTlJQ58aofOoRK623L
+         0mt1NUJw2U9EMHtT4j4flrqv8Cfn5PkJXbmTphfLcIGGJXYoO+7I8O7jagX6QMooo0hl
+         9lJlRp+s8a3Cu8J227ZMRFxX8KAmsze8Pi3igK5Rt7TNmVgnFuXTCmAcmeHSTTBPJAKM
+         cnBQ==
+X-Gm-Message-State: AOAM531Xnn7EBvc+LuGoJRLKxeGXARkPmCH7NngBOClGTkwuJtChiM7I
+	qChPi7tX+VUoDYZUT19l2U1LdEd8yIY=
 X-Google-Smtp-Source: 
- ABdhPJyrSq2I61dMSynMHDe2mrmf5h8jj+YqbBCbs2PMsrr3u139j5WvXreajoJwD87bKYfEH9EYYA==
-X-Received: by 2002:a5d:522e:0:b0:206:8fa:7bb with SMTP id
- i14-20020a5d522e000000b0020608fa07bbmr11718284wra.120.1649350423563;
-        Thu, 07 Apr 2022 09:53:43 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:38fd:6061:5cb9:156e])
+ ABdhPJyEAa7cFmEVmzBpVTY7DQD5bdEE648H0v+7wTSnjnf9j73bAz4+Sju4jBANRUUydBevOuK9ww==
+X-Received: by 2002:a17:907:c02:b0:6df:fb64:2770 with SMTP id
+ ga2-20020a1709070c0200b006dffb642770mr14782767ejc.221.1649350844853;
+        Thu, 07 Apr 2022 10:00:44 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- 61-20020adf8043000000b00205e1d92a41sm18133307wrk.74.2022.04.07.09.53.42
-        for <openembedded-core@lists.openembedded.org>
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 09:53:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 07 Apr 2022 10:00:44 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] package_ipk/deb: Fix specific version handling
-Date: Thu,  7 Apr 2022 17:53:41 +0100
-Message-Id: <20220407165341.1860456-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 05/17] go-helloworld: update to latest revision
+Date: Thu,  7 Apr 2022 19:00:17 +0200
+Message-Id: <20220407170029.3500874-5-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220407170029.3500874-1-alex@linutronix.de>
+References: <20220407170029.3500874-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -61,77 +68,27 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164116
+ https://lists.openembedded.org/g/openembedded-core/message/164120
 
-We recently added a "xxx (= 1.2.3)" style dependency to a recipe and have
-been having trouble with the opkg and debian backends with it.
-
-The issues is that for debian, "=" really does mean equals and includes the
-PR field. One bitbake recipe does not know the PR of another, nor shoud it.
-In other words 1.2.3 != 1.2.3-r0. Debian defaults to a PR of "0", not our
-"r0".
-
-The only way I can think of to make this work is to change "=" dependencies
-without revision information (no "-r" in the version) into things like:
-"xxx (>= 1.2.3), xxx (<< 1.2.3.0)". This appears to work even if it is a
-pretty horrible workaround.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/package_deb.bbclass | 7 ++++++-
- meta/classes/package_ipk.bbclass | 7 ++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 2e75e222bcb..a9b8ba01184 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -182,7 +182,8 @@ def deb_write_pkg(pkg, d):
-             #   '<' = less or equal
-             #   '>' = greater or equal
-             # adjust these to the '<<' and '>>' equivalents
--            #
-+            # Also, "=" specifiers only work if they have the PR in, so 1.2.3 != 1.2.3-r0
-+            # so to avoid issues, map this to ">= 1.2.3 << 1.2.3.0"
-             for dep in list(var.keys()):
-                 if '(' in dep or '/' in dep:
-                     newdep = re.sub(r'[(:)/]', '__', dep)
-@@ -197,6 +198,10 @@ def deb_write_pkg(pkg, d):
-                         var[dep][i] = var[dep][i].replace("< ", "<< ")
-                     elif (v or "").startswith("> "):
-                         var[dep][i] = var[dep][i].replace("> ", ">> ")
-+                    elif (v or "").startswith("= ") and "-r" not in v:
-+                        ver = var[dep][i].replace("= ", "")
-+                        var[dep][i] = var[dep][i].replace("= ", ">= ")
-+                        var[dep].append("<< " + ver + ".0")
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index b3a8631794..1e2434fb17 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
  
-         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
-         debian_cmp_remap(rdepends)
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index f67cb0e5c90..9fe3c52fae3 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -168,13 +168,18 @@ def ipk_write_pkg(pkg, d):
-             #   '<' = less or equal
-             #   '>' = greater or equal
-             # adjust these to the '<<' and '>>' equivalents
--            #
-+            # Also, "=" specifiers only work if they have the PR in, so 1.2.3 != 1.2.3-r0
-+            # so to avoid issues, map this to ">= 1.2.3 << 1.2.3.0"
-             for dep in var:
-                 for i, v in enumerate(var[dep]):
-                     if (v or "").startswith("< "):
-                         var[dep][i] = var[dep][i].replace("< ", "<< ")
-                     elif (v or "").startswith("> "):
-                         var[dep][i] = var[dep][i].replace("> ", ">> ")
-+                    elif (v or "").startswith("= ") and "-r" not in v:
-+                        ver = var[dep][i].replace("= ", "")
-+                        var[dep][i] = var[dep][i].replace("= ", ">= ")
-+                        var[dep].append("<< " + ver + ".0")
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
+-SRCREV = "787a929d5a0dfb8bbfcdd2c4a62e0fd89466113f"
++SRCREV = "ad95e7f791d8e1e7e7ec7f7cedfc2f6b29f6c9e2"
+ UPSTREAM_CHECK_COMMITS = "1"
  
-         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
-         debian_cmp_remap(rdepends)
+ GO_IMPORT = "golang.org/x/example"
 -- 
-2.32.0
+2.30.2
 
 
