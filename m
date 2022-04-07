@@ -2,57 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2C1C38A05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C1AC4708E
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:09 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web10.3049.1649360638788073192
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.3404.1649361571270991413
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:43:59 -0700
+ Thu, 07 Apr 2022 12:59:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0mpdn53;
- spf=pass (domain: gmail.com, ip: 209.85.160.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=myA/TlPv;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id t19so8997621qtc.4
+Received: by mail-qk1-f178.google.com with SMTP id s4so3123136qkh.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 12:43:58 -0700 (PDT)
+ Thu, 07 Apr 2022 12:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kGyJu8pawoj5am9qkfL5EJYqxx5VsI4i5uei3v2aZ/Q=;
-        b=b0mpdn53LJm6TFYA6by4WTK7SE7kNARl2M0J7+J70Y+FewpsLTOc7abf06+LvTz1uz
-         Y5FsUua7vLydpnjmf2f3BspCv6rr84iiK3QoqL7XdFkj6DG7/Yo9ZHowFfSZ1KRqemt6
-         fnpqGGIN2y+0VvsQG34XAKlRGMYi5Daf7aTxpyFeA4J5nxodpK6gWT8mZDFg9p+ZHv/j
-         MMqt49KpU1VaabFnJWrsim1K2qhB+jzsmuFSt7JgsEdGOjXArBRFDWGbUNjUF4PRhTRn
-         3E1UYU7mns3ay0FJqV4ST1MfLXQuNsFrpukFI6iHuB082cp8QBq/atDFObtJJF2I/BCP
-         tFdQ==
+        bh=HvzcbHZmAR8RPpi0/QdYA7PDGX/f1aLmE1N15G5PvHY=;
+        b=myA/TlPv/ok+xPEXU4hMmTmkHO1Peq8AnBrc8856iNfyDrm37a2n6KQjacrpj8JMuc
+         GWuloC2vFgbQFLKd0Y0IJi0M5ggPYxYfEJl85gl22EdB00pvitsqBBX22pAjWciO5lJy
+         erYOCga8wED7WXtVNxcb3YsWkgbzsJRqBB9jhNmEZgmH9GPYQIOouuqGZWCTL0+DiBG7
+         zaiWgkSt1x7hD8FHKs+B9S28pGfobqirwcUKdshLZV/6oWJ7AYNgpsPQCy4sKs5A/dBf
+         5GRHUZox9nWkqtDS9auL/LVmVnJUIUTax+1Ear6H/oXLwQRZs0IX9O/T4/AvrnEfum6F
+         VN8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kGyJu8pawoj5am9qkfL5EJYqxx5VsI4i5uei3v2aZ/Q=;
-        b=e10ge/YkhvUn+01y2m8LvAZti313dYaCA81uh0JUnUEF44ayT7ZfIFgsDUL/KXeS0j
-         nJlMalx4tnhKsBucIAVJhQvjbw4LWeTajKuZ3+SlXi8obpXw5zcQuO3PRVOrRX0kyjf4
-         8aKOLBDs7p7Ys3waS1LbxIxHKRMqtoaU7P3V8TIUhJJuF2fLUoD6U1i0Iyl9/BAc47bi
-         NVKOVqw+sF7V4gAAuxc9P78aIipY0yKNu30ETXOq9uRtPRWKSGLDdG+pc9BqR9g6ZjLg
-         RoFhB/xMzbtgIaTHJAkGkU0JMcZc6ypxUoKw9DMBrAess7u7c2WgUAcjB/AhhmifxqQE
-         JM4w==
-X-Gm-Message-State: AOAM532Q2JYQRvTHAtETyOcmfQed0rtycFC7tnq7f4hPFWpjXj/5h5yE
-	+EpAfL7QwA4WCwHtDguD7PzvkYRWQAWZV99pkNQ=
+        bh=HvzcbHZmAR8RPpi0/QdYA7PDGX/f1aLmE1N15G5PvHY=;
+        b=s7RndI8/GDOzjLDLLwQVsnc4HGqpFR5qf26h3hZAN6tS3TxG7E9aBxIcm3bX1KotPU
+         lpSwzg8A0FaWlIDLGU0kvdy3G3+2RP2SoQKTG3mfXFQGRezVA6jo3Ql+EvYzUJlaY4uh
+         a2naN+hGX7J1dcCt3+buprIVnicbgOzBMriVTEXEm+/x/NwtXd7c6LaT8QfnNf4TKhWm
+         pqpWy9F1rMv/XCQ3pYdfSKt07ttcWEbf2ouBGEnXuqBbihG/lEh+CIIBLQD8dcoQ3EDO
+         6wupLy2hQUzEGchoa9WfaDKC7Faj9M444/VlhO1f7QaURQtmDSlqjW9aLVM4YVEmBVnF
+         y0yA==
+X-Gm-Message-State: AOAM532tovKQVCE+ES1Bp+C4fQF9p5QmwR/F8LToVxL21e2Z9GfYuSo/
+	l53RBUy2nYzEpMyIZXhsPr3vAH4jf+x3irvX/AI=
 X-Google-Smtp-Source: 
- ABdhPJz6ag5EcTaQGZK38c6Frlo3/ZLSrlxPPIluDM+Ym5x7TtTWbhPxANlEYFNhPhcNKGF6Q24K9j0O055ZS0a0xvc=
-X-Received: by 2002:ac8:5842:0:b0:2e1:aa10:e7cd with SMTP id
- h2-20020ac85842000000b002e1aa10e7cdmr13444782qth.330.1649360637885; Thu, 07
- Apr 2022 12:43:57 -0700 (PDT)
+ ABdhPJwwiQ35N8g8uNxjAsSmCmT5Cm1YtOacIcUWXyBzoBiR9qSVhkULqWKdGyNPMMZ9vZP1SWeh/FczGuJBPsP9xgQ=
+X-Received: by 2002:a05:620a:2993:b0:67d:7116:a642 with SMTP id
+ r19-20020a05620a299300b0067d7116a642mr10626233qkp.180.1649361570384; Thu, 07
+ Apr 2022 12:59:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220407170029.3500874-1-alex@linutronix.de>
  <20220407170029.3500874-17-alex@linutronix.de>
-In-Reply-To: <20220407170029.3500874-17-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Apr 2022 15:43:32 -0400
-Message-ID: 
  <CAMKF1sqJLvgJh__jq2biOrkm_M6zw4ibkxP7u1s1rZPEbyLa3Q@mail.gmail.com>
+ <CANNYZj_eX18s-D9=_ZhOtdhOJg4PhJHgzd9Pa6Y9MscHEn5X5g@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_eX18s-D9=_ZhOtdhOJg4PhJHgzd9Pa6Y9MscHEn5X5g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Apr 2022 15:59:04 -0400
+Message-ID: 
+ <CAMKF1soHtQniQ5NwX=K4zbA1xnD5u0yR7QTa01=g5625cx+8JA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 17/17] python3-typing-extensions: upgrade
  3.10.0.0 -> 4.1.1
 To: Alexander Kanavin <alex.kanavin@gmail.com>
@@ -65,49 +68,22 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164135
+ https://lists.openembedded.org/g/openembedded-core/message/164140
 
-On Thu, Apr 7, 2022 at 1:01 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+On Thu, Apr 7, 2022 at 3:45 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...ensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3-typing-extensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} (73%)
+> On Thu, 7 Apr 2022 at 21:43, Khem Raj <raj.khem@gmail.com> wrote:
+> > > -inherit pypi setuptools3
+> > > +inherit pypi python_flit_core
+> >
+> > has this module made a move to use flit instead of setuptools ? if so,
+> > perhaps adding that info in commit might be good.
 >
-> diff --git a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
-> similarity index 73%
-> rename from meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
-> rename to meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
-> index a8e83fc824..6c80a8b237 100644
-> --- a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
-> +++ b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
-> @@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=64fc2b30b67d0a8423c250e0386ed72f"
->  # The name on PyPi is slightly different.
->  PYPI_PACKAGE = "typing_extensions"
+> It has, yes. I thought such a change is self-documenting.
 >
-> -SRC_URI[sha256sum] = "50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"
-> +SRC_URI[sha256sum] = "1a9462dcc3347a79b1f1c0271fbe79e844580bb598bafa1ed208b94da3cdcd42"
->
-> -inherit pypi setuptools3
-> +inherit pypi python_flit_core
 
-has this module made a move to use flit instead of setuptools ? if so,
-perhaps adding that info in commit might be good.
+OK. sometimes there are two build systems in place for some transition time etc.
+its good to mention these details for context.
 
->
->  BBCLASSEXTEND = "native nativesdk"
->
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164133): https://lists.openembedded.org/g/openembedded-core/message/164133
-> Mute This Topic: https://lists.openembedded.org/mt/90317738/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Alex
 
