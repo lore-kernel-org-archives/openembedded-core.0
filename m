@@ -1,257 +1,1154 @@
-Return-Path: <brenda.streiff@ni.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB19C38A2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D85BC38A2B
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:09 +0000 (UTC)
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web11.3422.1649361681784407750
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web08.3295.1649361383713990161
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 13:01:21 -0700
+ Thu, 07 Apr 2022 12:56:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=i7qxyqvp;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
- mailfrom: prvs=1096971498=brenda.streiff@ni.com)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 237Dn0jo003964
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 7 Apr 2022 15:01:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS11062020;
- bh=xK67MqCVZNtP7txicgLc6/Iv7Lrs7X61SNB7PkX1GVo=;
- b=i7qxyqvpLxBpO2rGvWbQx05vZp1lBvsjO4R2enUhK0ZncQtNahHYb2spb1tDLZi/Y5J/
- 45P5w63TCDOtWzr0iuXBhE9y5x99DnMGnQmx4CddQQLG6L34xiwFew9bnc0iQ7Oiio1r
- 0LkTtWseZPdpLZPjCKzgbWhGCQ6TqMKQy3/DkKI0Xh1cLLg0VxjitB89Dj9vaIdyHQMj
- 5q7J87EO6cfIfCbBcyyUVhaDzMmtlz4+0MpAu9aqf5L7ITJlwmIv/nRfy/skg7cENhTR
- te6cZZEfKGodHgXtGkDR5fQ0gOfozfaQoeps1QxrfrsGtbizrbOl6sbj9niI/7AVqCOe yw==
-Received: from ni.com ([130.164.80.24])
-	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3f6m0t4ndv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 15:01:20 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
- (us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
- 237K1KLK018154
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 7 Apr 2022 15:01:20 -0500
-Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
- us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Thu, 7 Apr 2022 15:01:19 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
- us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Thu, 7 Apr 2022 15:01:19 -0500
-Received: from starthinker.amer.corp.natinst.com (172.18.68.32) by
- us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP Server
- id 15.0.1497.28 via Frontend Transport; Thu, 7 Apr 2022 15:01:19 -0500
-From: Brenda Streiff <brenda.streiff@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Brenda Streiff <brenda.streiff@ni.com>
-Subject: [PATCH 1/2] qemu: split out qemu-guest-agent, add startup scripts
-Date: Thu, 7 Apr 2022 15:01:16 -0500
-Message-ID: <20220407200117.7576-1-brenda.streiff@ni.com>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I8O/6ktY;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id z19so9046420qtw.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 07 Apr 2022 12:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zR3MiN7uSdUX3XdDaXAS8CUldCcqQHHdhmPEgMZ8otQ=;
+        b=I8O/6ktYZa61BU1U6PLLpfFCq/nGSMwvPIDoC/PtWJ4kyB5fDNEpHaFRsdoslMdgCe
+         eE1EdO2UiRq7gDXXrnTqzQu60yearTpaSoS7t3iR1wXwJN1VJwQeiC4vSRhKIbcjNeop
+         j/TvIa5dP4v0gtwlFY/DiJ1Cl5aOM2bGinxWobMnGQU1cRny1Ed/EN7i36iB4oyakRtC
+         FGSXtWaI9iyTDPAkTBDqGkiqJRii4Iuuh2FFgd0cHEZIoIfmvxhHgpymAuTMvvY5kWRB
+         Oc25vDLTmwZQXZopRVrXDrYBKGfpdeG92NtuY3Ve1h85N5glOXrlCvIGu0V2dIjxXF4E
+         BePA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zR3MiN7uSdUX3XdDaXAS8CUldCcqQHHdhmPEgMZ8otQ=;
+        b=oLwNAiGZC8r6STDA5eGxhVMP3LVbhpXtl/vLDyMJsMI+ioo87EZ/OGdP/MATSsNkQH
+         +j6dSqBIVIlKCrydgWO+nF4H4w7abZ/0s/syJY+RGoTIJcJhtBmpKiGD2llXIp6tz1XX
+         /M3et7b0s26voVENiaSnQ7MiiPHlhVokciwqWbdAnmVuflBpu1bW+ZOAglYPN44bGMVs
+         cY9RdNnbdN/iKSXizXX1bdudAWNXcIes5Zq5IPo53DBmDWxv0JmTvHtuxVOnmStSKPbO
+         AouJ2GPewuloX1DYRl2jBVuWs7+16ajHRzIymqkthE5InL8hYMmMkTHtRe7T+YPDpdIw
+         zxdg==
+X-Gm-Message-State: AOAM5323gmeYfdZsG9qKQowMgrHrstRnVKRWDt+JsJt8x5QB6nN8zT2U
+	5Vx1wHrqm8KVspuerLNZJdAEWTdAuufcfwcWmhw=
+X-Google-Smtp-Source: 
+ ABdhPJyplWxmp8YP6akWfEe5CG15hDLOoA+U6m2sNd9u7gclS66TYaiqpT4y+yz8ISh7oBDUMkFKTBBLrfEoMUVuAEY=
+X-Received: by 2002:ac8:5743:0:b0:2e1:cee6:f15 with SMTP id
+ 3-20020ac85743000000b002e1cee60f15mr13210023qtx.634.1649361381462; Thu, 07
+ Apr 2022 12:56:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: jn68RYB2T-kukvd9SbqMOui4koa8pQf3
-X-Proofpoint-ORIG-GUID: jn68RYB2T-kukvd9SbqMOui4koa8pQf3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-07_04,2022-04-07_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: orgsafe
+References: <20220407170029.3500874-1-alex@linutronix.de>
+ <20220407170029.3500874-4-alex@linutronix.de>
+In-Reply-To: <20220407170029.3500874-4-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Apr 2022 15:55:55 -0400
+Message-ID: 
+ <CAMKF1sp60kntgAoUWexe_3Lz23tY4vaepw+mijNP0vzF6xMJ6g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/17] squashfs-tools: update 4.5 -> 4.5.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164142
+ https://lists.openembedded.org/g/openembedded-core/message/164138
 
-Split out the QEMU guest agent into a separate package. The agent is
-intended to be installed within a QEMU VM guest where a user is likely
-to not want to have the rest of the QEMU installation within it.
+On Thu, Apr 7, 2022 at 1:00 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> Drop backports.
+>
+> Correctly set source and installation directories.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ....sh-do-not-write-original-timestamps.patch |  30 ++
+>  ...e-of-INSTALL_DIR-for-symlink-targets.patch |  34 --
+>  .../CVE-2021-41072-requisite-1.patch          | 135 -------
+>  .../CVE-2021-41072-requisite-2.patch          | 108 ------
+>  .../CVE-2021-41072-requisite-3.patch          | 326 -----------------
+>  .../squashfs-tools/CVE-2021-41072.patch       | 329 ------------------
+>  .../squashfs-tools/squashfs-tools_git.bb      |  20 +-
+>  7 files changed, 39 insertions(+), 943 deletions(-)
+>  create mode 100644 meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+>  delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
+>  delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
+>  delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
+>  delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
+>  delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
+>
+> diff --git a/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch b/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+> new file mode 100644
+> index 0000000000..ed1d2f5b3b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/squashfs-tools/files/0001-install-manpages.sh-do-not-write-original-timestamps.patch
+> @@ -0,0 +1,30 @@
+> +From b44b00dae195d8587857c7e8054e9be4eaa1f8b3 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Thu, 7 Apr 2022 09:26:09 +0200
+> +Subject: [PATCH] install-manpages.sh: do not write original timestamps into
+> + .gz metadata
+> +
+> +This helps binary reproducibility.
+> +
+> +Upstream-Status: Submitted [https://github.com/plougher/squashfs-tools/pull/177]
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +---
+> + generate-manpages/install-manpages.sh | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/generate-manpages/install-manpages.sh b/generate-manpages/install-manpages.sh
+> +index d4c9e91..6a43b89 100755
+> +--- a/generate-manpages/install-manpages.sh
+> ++++ b/generate-manpages/install-manpages.sh
+> +@@ -56,7 +56,7 @@ for i in mksquashfs unsquashfs sqfstar sqfscat; do
+> +               exit 1
+> +       fi
+> +
+> +-      if ! gzip -f9 $2/$i.1; then
+> ++      if ! gzip -n -f9 $2/$i.1; then
+> +               echo "$0: Compressing installed manpage failed.  Aborting" >&2
+> +               exit 1
+> +       fi
+> +--
+> +2.30.2
+> +
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
+> deleted file mode 100644
+> index b505f05735..0000000000
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -From c9e263a7add76df1ed92e879d964264067c0f6e8 Mon Sep 17 00:00:00 2001
+> -From: Patrick McCarty <patrick.mccarty@intel.com>
+> -Date: Mon, 26 Jul 2021 11:38:43 -0700
+> -Subject: [PATCH] Avoid use of INSTALL_DIR for symlink targets
+> -
+> -In case INSTALL_DIR is overridden with a staged install location, using
+> -INSTALL_DIR for the symlink target path prefix will yield an incorrect location
+> -for the final installation.
+> -
+> -Because the symlink itself is already installed to INSTALL_DIR, simply removing
+> -the INSTALL_DIR prefix suffices as a fix.
+> -
+> -Note that using $DESTDIR/$INSTALL_DIR where appropriate can avoid this type of
+> -issue, but that can be considered a future enhancement.
+> -
+> -Upstream-Status: Backport
+> -Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - squashfs-tools/Makefile | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
+> -index 5795d0d..998c5fd 100755
+> ---- a/Makefile
+> -+++ b/Makefile
+> -@@ -406,5 +406,5 @@ install: mksquashfs unsquashfs
+> -       mkdir -p $(INSTALL_DIR)
+> -       cp mksquashfs $(INSTALL_DIR)
+> -       cp unsquashfs $(INSTALL_DIR)
+> --      ln -fs $(INSTALL_DIR)/unsquashfs $(INSTALL_DIR)/sqfscat
+> --      ln -fs $(INSTALL_DIR)/mksquashfs $(INSTALL_DIR)/sqfstar
+> -+      ln -fs unsquashfs $(INSTALL_DIR)/sqfscat
+> -+      ln -fs mksquashfs $(INSTALL_DIR)/sqfstar
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
+> deleted file mode 100644
+> index d01b5c6871..0000000000
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-1.patch
+> +++ /dev/null
+> @@ -1,135 +0,0 @@
+> -The commit is required by the fix for CVE-2021-41072.
+> -
+> -Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/80b8441]
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> -
+> -From 80b8441a37fcf8bf07dacf24d9d6c6459a0f6e36 Mon Sep 17 00:00:00 2001
+> -From: Phillip Lougher <phillip@squashfs.org.uk>
+> -Date: Sun, 12 Sep 2021 19:58:19 +0100
+> -Subject: [PATCH] unsquashfs: use squashfs_closedir() to delete directory
+> -
+> -Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+> ----
+> - squashfs-tools/unsquash-1.c    |  3 +--
+> - squashfs-tools/unsquash-1234.c | 11 +++++++++--
+> - squashfs-tools/unsquash-2.c    |  3 +--
+> - squashfs-tools/unsquash-3.c    |  3 +--
+> - squashfs-tools/unsquash-4.c    |  3 +--
+> - squashfs-tools/unsquashfs.c    |  7 -------
+> - squashfs-tools/unsquashfs.h    |  1 +
+> - 7 files changed, 14 insertions(+), 17 deletions(-)
+> -
+> -diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
+> -index acba821..7598499 100644
+> ---- a/squashfs-tools/unsquash-1.c
+> -+++ b/squashfs-tools/unsquash-1.c
+> -@@ -373,8 +373,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       return dir;
+> -
+> - corrupted:
+> --      free(dir->dirs);
+> --      free(dir);
+> -+      squashfs_closedir(dir);
+> -       return NULL;
+> - }
+> -
+> -diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
+> -index c2d4f42..0c8dfbb 100644
+> ---- a/squashfs-tools/unsquash-1234.c
+> -+++ b/squashfs-tools/unsquash-1234.c
+> -@@ -25,8 +25,8 @@
+> -  * unsquash-4.
+> -  */
+> -
+> --#define TRUE 1
+> --#define FALSE 0
+> -+#include "unsquashfs.h"
+> -+
+> - /*
+> -  * Check name for validity, name should not
+> -  *  - be ".", "./", or
+> -@@ -56,3 +56,10 @@ int check_name(char *name, int size)
+> -
+> -       return TRUE;
+> - }
+> -+
+> -+
+> -+void squashfs_closedir(struct dir *dir)
+> -+{
+> -+      free(dir->dirs);
+> -+      free(dir);
+> -+}
+> -diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
+> -index 0746b3d..86f62ba 100644
+> ---- a/squashfs-tools/unsquash-2.c
+> -+++ b/squashfs-tools/unsquash-2.c
+> -@@ -465,8 +465,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       return dir;
+> -
+> - corrupted:
+> --      free(dir->dirs);
+> --      free(dir);
+> -+      squashfs_closedir(dir);
+> -       return NULL;
+> - }
+> -
+> -diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
+> -index 094caaa..c04aa9e 100644
+> ---- a/squashfs-tools/unsquash-3.c
+> -+++ b/squashfs-tools/unsquash-3.c
+> -@@ -499,8 +499,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       return dir;
+> -
+> - corrupted:
+> --      free(dir->dirs);
+> --      free(dir);
+> -+      squashfs_closedir(dir);
+> -       return NULL;
+> - }
+> -
+> -diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
+> -index 3a1b9e1..ff62dcc 100644
+> ---- a/squashfs-tools/unsquash-4.c
+> -+++ b/squashfs-tools/unsquash-4.c
+> -@@ -436,8 +436,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       return dir;
+> -
+> - corrupted:
+> --      free(dir->dirs);
+> --      free(dir);
+> -+      squashfs_closedir(dir);
+> -       return NULL;
+> - }
+> -
+> -diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
+> -index 7b590bd..04be53c 100644
+> ---- a/squashfs-tools/unsquashfs.c
+> -+++ b/squashfs-tools/unsquashfs.c
+> -@@ -1350,13 +1350,6 @@ unsigned int *offset, unsigned int *type)
+> - }
+> -
+> -
+> --void squashfs_closedir(struct dir *dir)
+> --{
+> --      free(dir->dirs);
+> --      free(dir);
+> --}
+> --
+> --
+> - char *get_component(char *target, char **targname)
+> - {
+> -       char *start;
+> -diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
+> -index 2e9201c..5ecb2ab 100644
+> ---- a/squashfs-tools/unsquashfs.h
+> -+++ b/squashfs-tools/unsquashfs.h
+> -@@ -291,4 +291,5 @@ extern long long *alloc_index_table(int);
+> -
+> - /* unsquash-1234.c */
+> - extern int check_name(char *, int);
+> -+extern void squashfs_closedir(struct dir *);
+> - #endif
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
+> deleted file mode 100644
+> index 6b230b35c6..0000000000
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-2.patch
+> +++ /dev/null
+> @@ -1,108 +0,0 @@
+> -The commit is required by the fix for CVE-2021-41072.
+> -
+> -Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/1993a4e]
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> -
+> -From 1993a4e7aeda04962bf26e84c15fba8b58837e10 Mon Sep 17 00:00:00 2001
+> -From: Phillip Lougher <phillip@squashfs.org.uk>
+> -Date: Sun, 12 Sep 2021 20:09:13 +0100
+> -Subject: [PATCH] unsquashfs: dynamically allocate name
+> -
+> -Dynamically allocate name rather than store it
+> -directly in structure.
+> -
+> -Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+> ----
+> - squashfs-tools/unsquash-1.c    | 2 +-
+> - squashfs-tools/unsquash-1234.c | 5 +++++
+> - squashfs-tools/unsquash-2.c    | 2 +-
+> - squashfs-tools/unsquash-3.c    | 2 +-
+> - squashfs-tools/unsquash-4.c    | 2 +-
+> - squashfs-tools/unsquashfs.h    | 2 +-
+> - 6 files changed, 10 insertions(+), 5 deletions(-)
+> -
+> -diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
+> -index 7598499..d0121c6 100644
+> ---- a/squashfs-tools/unsquash-1.c
+> -+++ b/squashfs-tools/unsquash-1.c
+> -@@ -360,7 +360,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               dir->dirs = new_dir;
+> -                       }
+> -
+> --                      strcpy(dir->dirs[dir->dir_count].name, dire->name);
+> -+                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> -                       dir->dirs[dir->dir_count].start_block =
+> -                               dirh.start_block;
+> -                       dir->dirs[dir->dir_count].offset = dire->offset;
+> -diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
+> -index 0c8dfbb..ac46d9d 100644
+> ---- a/squashfs-tools/unsquash-1234.c
+> -+++ b/squashfs-tools/unsquash-1234.c
+> -@@ -60,6 +60,11 @@ int check_name(char *name, int size)
+> -
+> - void squashfs_closedir(struct dir *dir)
+> - {
+> -+      int i;
+> -+
+> -+      for(i = 0; i < dir->dir_count; i++)
+> -+              free(dir->dirs[i].name);
+> -+
+> -       free(dir->dirs);
+> -       free(dir);
+> - }
+> -diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
+> -index 86f62ba..e847980 100644
+> ---- a/squashfs-tools/unsquash-2.c
+> -+++ b/squashfs-tools/unsquash-2.c
+> -@@ -452,7 +452,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               dir->dirs = new_dir;
+> -                       }
+> -
+> --                      strcpy(dir->dirs[dir->dir_count].name, dire->name);
+> -+                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> -                       dir->dirs[dir->dir_count].start_block =
+> -                               dirh.start_block;
+> -                       dir->dirs[dir->dir_count].offset = dire->offset;
+> -diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
+> -index c04aa9e..8223f27 100644
+> ---- a/squashfs-tools/unsquash-3.c
+> -+++ b/squashfs-tools/unsquash-3.c
+> -@@ -486,7 +486,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               dir->dirs = new_dir;
+> -                       }
+> -
+> --                      strcpy(dir->dirs[dir->dir_count].name, dire->name);
+> -+                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> -                       dir->dirs[dir->dir_count].start_block =
+> -                               dirh.start_block;
+> -                       dir->dirs[dir->dir_count].offset = dire->offset;
+> -diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
+> -index ff62dcc..1e199a7 100644
+> ---- a/squashfs-tools/unsquash-4.c
+> -+++ b/squashfs-tools/unsquash-4.c
+> -@@ -423,7 +423,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               dir->dirs = new_dir;
+> -                       }
+> -
+> --                      strcpy(dir->dirs[dir->dir_count].name, dire->name);
+> -+                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> -                       dir->dirs[dir->dir_count].start_block =
+> -                               dirh.start_block;
+> -                       dir->dirs[dir->dir_count].offset = dire->offset;
+> -diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
+> -index 5ecb2ab..583fbe4 100644
+> ---- a/squashfs-tools/unsquashfs.h
+> -+++ b/squashfs-tools/unsquashfs.h
+> -@@ -164,7 +164,7 @@ struct queue {
+> - #define DIR_ENT_SIZE  16
+> -
+> - struct dir_ent        {
+> --      char            name[SQUASHFS_NAME_LEN + 1];
+> -+      char            *name;
+> -       unsigned int    start_block;
+> -       unsigned int    offset;
+> -       unsigned int    type;
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
+> deleted file mode 100644
+> index 5d5df6f15b..0000000000
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072-requisite-3.patch
+> +++ /dev/null
+> @@ -1,326 +0,0 @@
+> -The commit is required by the fix for CVE-2021-41072.
+> -
+> -Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/9938154]
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> -
+> -From 9938154174756ee48a94ea0b076397a2944b028d Mon Sep 17 00:00:00 2001
+> -From: Phillip Lougher <phillip@squashfs.org.uk>
+> -Date: Sun, 12 Sep 2021 22:58:11 +0100
+> -Subject: [PATCH] unsquashfs: use linked list to store directory names
+> -
+> -This should bring higher performance, and it allows sorting
+> -if necessary (1.x and 2.0 filesystems).
+> -
+> -Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+> ----
+> - squashfs-tools/unsquash-1.c    | 30 +++++++++++++++---------------
+> - squashfs-tools/unsquash-1234.c | 12 ++++++++----
+> - squashfs-tools/unsquash-2.c    | 29 +++++++++++++++--------------
+> - squashfs-tools/unsquash-3.c    | 29 +++++++++++++++--------------
+> - squashfs-tools/unsquash-4.c    | 29 +++++++++++++++--------------
+> - squashfs-tools/unsquashfs.c    | 16 ++++++++++------
+> - squashfs-tools/unsquashfs.h    |  3 ++-
+> - 7 files changed, 80 insertions(+), 68 deletions(-)
+> -
+> -diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
+> -index d0121c6..b604434 100644
+> ---- a/squashfs-tools/unsquash-1.c
+> -+++ b/squashfs-tools/unsquash-1.c
+> -@@ -254,7 +254,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       long long start;
+> -       int bytes = 0;
+> -       int dir_count, size, res;
+> --      struct dir_ent *new_dir;
+> -+      struct dir_ent *ent, *cur_ent = NULL;
+> -       struct dir *dir;
+> -
+> -       TRACE("squashfs_opendir: inode start block %d, offset %d\n",
+> -@@ -267,7 +267,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               MEM_ERROR();
+> -
+> -       dir->dir_count = 0;
+> --      dir->cur_entry = 0;
+> -+      dir->cur_entry = NULL;
+> -       dir->mode = (*i)->mode;
+> -       dir->uid = (*i)->uid;
+> -       dir->guid = (*i)->gid;
+> -@@ -351,20 +351,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               "%d:%d, type %d\n", dire->name,
+> -                               dirh.start_block, dire->offset, dire->type);
+> -
+> --                      if((dir->dir_count % DIR_ENT_SIZE) == 0) {
+> --                              new_dir = realloc(dir->dirs, (dir->dir_count +
+> --                                      DIR_ENT_SIZE) * sizeof(struct dir_ent));
+> --                              if(new_dir == NULL)
+> --                                      MEM_ERROR();
+> --
+> --                              dir->dirs = new_dir;
+> --                      }
+> -+                      ent = malloc(sizeof(struct dir_ent));
+> -+                      if(ent == NULL)
+> -+                              MEM_ERROR();
+> -
+> --                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> --                      dir->dirs[dir->dir_count].start_block =
+> --                              dirh.start_block;
+> --                      dir->dirs[dir->dir_count].offset = dire->offset;
+> --                      dir->dirs[dir->dir_count].type = dire->type;
+> -+                      ent->name = strdup(dire->name);
+> -+                      ent->start_block = dirh.start_block;
+> -+                      ent->offset = dire->offset;
+> -+                      ent->type = dire->type;
+> -+                      ent->next = NULL;
+> -+                      if(cur_ent == NULL)
+> -+                              dir->dirs = ent;
+> -+                      else
+> -+                              cur_ent->next = ent;
+> -+                      cur_ent = ent;
+> -                       dir->dir_count ++;
+> -                       bytes += dire->size + 1;
+> -               }
+> -diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
+> -index ac46d9d..e389f8d 100644
+> ---- a/squashfs-tools/unsquash-1234.c
+> -+++ b/squashfs-tools/unsquash-1234.c
+> -@@ -60,11 +60,15 @@ int check_name(char *name, int size)
+> -
+> - void squashfs_closedir(struct dir *dir)
+> - {
+> --      int i;
+> -+      struct dir_ent *ent = dir->dirs;
+> -
+> --      for(i = 0; i < dir->dir_count; i++)
+> --              free(dir->dirs[i].name);
+> -+      while(ent) {
+> -+              struct dir_ent *tmp = ent;
+> -+
+> -+              ent = ent->next;
+> -+              free(tmp->name);
+> -+              free(tmp);
+> -+      }
+> -
+> --      free(dir->dirs);
+> -       free(dir);
+> - }
+> -diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
+> -index e847980..956f96f 100644
+> ---- a/squashfs-tools/unsquash-2.c
+> -+++ b/squashfs-tools/unsquash-2.c
+> -@@ -347,7 +347,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       long long start;
+> -       int bytes = 0;
+> -       int dir_count, size, res;
+> --      struct dir_ent *new_dir;
+> -+      struct dir_ent *ent, *cur_ent = NULL;
+> -       struct dir *dir;
+> -
+> -       TRACE("squashfs_opendir: inode start block %d, offset %d\n",
+> -@@ -360,7 +360,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               MEM_ERROR();
+> -
+> -       dir->dir_count = 0;
+> --      dir->cur_entry = 0;
+> -+      dir->cur_entry = NULL;
+> -       dir->mode = (*i)->mode;
+> -       dir->uid = (*i)->uid;
+> -       dir->guid = (*i)->gid;
+> -@@ -444,19 +444,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               "%d:%d, type %d\n", dire->name,
+> -                               dirh.start_block, dire->offset, dire->type);
+> -
+> --                      if((dir->dir_count % DIR_ENT_SIZE) == 0) {
+> --                              new_dir = realloc(dir->dirs, (dir->dir_count +
+> --                                      DIR_ENT_SIZE) * sizeof(struct dir_ent));
+> --                              if(new_dir == NULL)
+> --                                      MEM_ERROR();
+> --                              dir->dirs = new_dir;
+> --                      }
+> -+                      ent = malloc(sizeof(struct dir_ent));
+> -+                      if(ent == NULL)
+> -+                              MEM_ERROR();
+> -
+> --                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> --                      dir->dirs[dir->dir_count].start_block =
+> --                              dirh.start_block;
+> --                      dir->dirs[dir->dir_count].offset = dire->offset;
+> --                      dir->dirs[dir->dir_count].type = dire->type;
+> -+                      ent->name = strdup(dire->name);
+> -+                      ent->start_block = dirh.start_block;
+> -+                      ent->offset = dire->offset;
+> -+                      ent->type = dire->type;
+> -+                      ent->next = NULL;
+> -+                      if(cur_ent == NULL)
+> -+                              dir->dirs = ent;
+> -+                      else
+> -+                              cur_ent->next = ent;
+> -+                      cur_ent = ent;
+> -                       dir->dir_count ++;
+> -                       bytes += dire->size + 1;
+> -               }
+> -diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
+> -index 8223f27..835a574 100644
+> ---- a/squashfs-tools/unsquash-3.c
+> -+++ b/squashfs-tools/unsquash-3.c
+> -@@ -381,7 +381,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       long long start;
+> -       int bytes = 0;
+> -       int dir_count, size, res;
+> --      struct dir_ent *new_dir;
+> -+      struct dir_ent *ent, *cur_ent = NULL;
+> -       struct dir *dir;
+> -
+> -       TRACE("squashfs_opendir: inode start block %d, offset %d\n",
+> -@@ -394,7 +394,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               MEM_ERROR();
+> -
+> -       dir->dir_count = 0;
+> --      dir->cur_entry = 0;
+> -+      dir->cur_entry = NULL;
+> -       dir->mode = (*i)->mode;
+> -       dir->uid = (*i)->uid;
+> -       dir->guid = (*i)->gid;
+> -@@ -478,19 +478,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               "%d:%d, type %d\n", dire->name,
+> -                               dirh.start_block, dire->offset, dire->type);
+> -
+> --                      if((dir->dir_count % DIR_ENT_SIZE) == 0) {
+> --                              new_dir = realloc(dir->dirs, (dir->dir_count +
+> --                                      DIR_ENT_SIZE) * sizeof(struct dir_ent));
+> --                              if(new_dir == NULL)
+> --                                      MEM_ERROR();
+> --                              dir->dirs = new_dir;
+> --                      }
+> -+                      ent = malloc(sizeof(struct dir_ent));
+> -+                      if(ent == NULL)
+> -+                              MEM_ERROR();
+> -
+> --                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> --                      dir->dirs[dir->dir_count].start_block =
+> --                              dirh.start_block;
+> --                      dir->dirs[dir->dir_count].offset = dire->offset;
+> --                      dir->dirs[dir->dir_count].type = dire->type;
+> -+                      ent->name = strdup(dire->name);
+> -+                      ent->start_block = dirh.start_block;
+> -+                      ent->offset = dire->offset;
+> -+                      ent->type = dire->type;
+> -+                      ent->next = NULL;
+> -+                      if(cur_ent == NULL)
+> -+                              dir->dirs = ent;
+> -+                      else
+> -+                              cur_ent->next = ent;
+> -+                      cur_ent = ent;
+> -                       dir->dir_count ++;
+> -                       bytes += dire->size + 1;
+> -               }
+> -diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
+> -index 1e199a7..694783d 100644
+> ---- a/squashfs-tools/unsquash-4.c
+> -+++ b/squashfs-tools/unsquash-4.c
+> -@@ -331,7 +331,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -       struct squashfs_dir_entry *dire = (struct squashfs_dir_entry *) buffer;
+> -       long long start;
+> -       int bytes = 0, dir_count, size, res;
+> --      struct dir_ent *new_dir;
+> -+      struct dir_ent *ent, *cur_ent = NULL;
+> -       struct dir *dir;
+> -
+> -       TRACE("squashfs_opendir: inode start block %d, offset %d\n",
+> -@@ -344,7 +344,7 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               MEM_ERROR();
+> -
+> -       dir->dir_count = 0;
+> --      dir->cur_entry = 0;
+> -+      dir->cur_entry = NULL;
+> -       dir->mode = (*i)->mode;
+> -       dir->uid = (*i)->uid;
+> -       dir->guid = (*i)->gid;
+> -@@ -415,19 +415,20 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -                               "%d:%d, type %d\n", dire->name,
+> -                               dirh.start_block, dire->offset, dire->type);
+> -
+> --                      if((dir->dir_count % DIR_ENT_SIZE) == 0) {
+> --                              new_dir = realloc(dir->dirs, (dir->dir_count +
+> --                                      DIR_ENT_SIZE) * sizeof(struct dir_ent));
+> --                              if(new_dir == NULL)
+> --                                      MEM_ERROR();
+> --                              dir->dirs = new_dir;
+> --                      }
+> -+                      ent = malloc(sizeof(struct dir_ent));
+> -+                      if(ent == NULL)
+> -+                              MEM_ERROR();
+> -
+> --                      dir->dirs[dir->dir_count].name = strdup(dire->name);
+> --                      dir->dirs[dir->dir_count].start_block =
+> --                              dirh.start_block;
+> --                      dir->dirs[dir->dir_count].offset = dire->offset;
+> --                      dir->dirs[dir->dir_count].type = dire->type;
+> -+                      ent->name = strdup(dire->name);
+> -+                      ent->start_block = dirh.start_block;
+> -+                      ent->offset = dire->offset;
+> -+                      ent->type = dire->type;
+> -+                      ent->next = NULL;
+> -+                      if(cur_ent == NULL)
+> -+                              dir->dirs = ent;
+> -+                      else
+> -+                              cur_ent->next = ent;
+> -+                      cur_ent = ent;
+> -                       dir->dir_count ++;
+> -                       bytes += dire->size + 1;
+> -               }
+> -diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
+> -index 04be53c..fee28ec 100644
+> ---- a/squashfs-tools/unsquashfs.c
+> -+++ b/squashfs-tools/unsquashfs.c
+> -@@ -1337,14 +1337,18 @@ failed:
+> - int squashfs_readdir(struct dir *dir, char **name, unsigned int *start_block,
+> - unsigned int *offset, unsigned int *type)
+> - {
+> --      if(dir->cur_entry == dir->dir_count)
+> -+      if(dir->cur_entry == NULL)
+> -+              dir->cur_entry = dir->dirs;
+> -+      else
+> -+              dir->cur_entry = dir->cur_entry->next;
+> -+
+> -+      if(dir->cur_entry == NULL)
+> -               return FALSE;
+> -
+> --      *name = dir->dirs[dir->cur_entry].name;
+> --      *start_block = dir->dirs[dir->cur_entry].start_block;
+> --      *offset = dir->dirs[dir->cur_entry].offset;
+> --      *type = dir->dirs[dir->cur_entry].type;
+> --      dir->cur_entry ++;
+> -+      *name = dir->cur_entry->name;
+> -+      *start_block = dir->cur_entry->start_block;
+> -+      *offset = dir->cur_entry->offset;
+> -+      *type = dir->cur_entry->type;
+> -
+> -       return TRUE;
+> - }
+> -diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
+> -index 583fbe4..f8cf78c 100644
+> ---- a/squashfs-tools/unsquashfs.h
+> -+++ b/squashfs-tools/unsquashfs.h
+> -@@ -168,17 +168,18 @@ struct dir_ent   {
+> -       unsigned int    start_block;
+> -       unsigned int    offset;
+> -       unsigned int    type;
+> -+      struct dir_ent  *next;
+> - };
+> -
+> - struct dir {
+> -       int             dir_count;
+> --      int             cur_entry;
+> -       unsigned int    mode;
+> -       uid_t           uid;
+> -       gid_t           guid;
+> -       unsigned int    mtime;
+> -       unsigned int    xattr;
+> -       struct dir_ent  *dirs;
+> -+      struct dir_ent  *cur_entry;
+> - };
+> -
+> - struct file_entry {
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
+> deleted file mode 100644
+> index f807af60bc..0000000000
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/CVE-2021-41072.patch
+> +++ /dev/null
+> @@ -1,329 +0,0 @@
+> -CVE: CVE-2021-41072
+> -Upstream-Status: Backport [https://github.com/plougher/squashfs-tools/commit/e048580]
+> -
+> -Update on 20211109:
+> -Squash a follow-up fix for CVE-2021-41072 from upstream:
+> -https://github.com/plougher/squashfs-tools/commit/19fcc93
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> -
+> -From e0485802ec72996c20026da320650d8362f555bd Mon Sep 17 00:00:00 2001
+> -From: Phillip Lougher <phillip@squashfs.org.uk>
+> -Date: Sun, 12 Sep 2021 23:50:06 +0100
+> -Subject: [PATCH] Unsquashfs: additional write outside destination directory
+> - exploit fix
+> -
+> -An issue on github (https://github.com/plougher/squashfs-tools/issues/72)
+> -showed how some specially crafted Squashfs filesystems containing
+> -invalid file names (with '/' and '..') can cause Unsquashfs to write
+> -files outside of the destination directory.
+> -
+> -Since then it has been shown that specially crafted Squashfs filesystems
+> -that contain a symbolic link pointing outside of the destination directory,
+> -coupled with an identically named file within the same directory, can
+> -cause Unsquashfs to write files outside of the destination directory.
+> -
+> -Specifically the symbolic link produces a pathname pointing outside
+> -of the destination directory, which is then followed when writing the
+> -duplicate identically named file within the directory.
+> -
+> -This commit fixes this exploit by explictly checking for duplicate
+> -filenames within a directory.  As directories in v2.1, v3.x, and v4.0
+> -filesystems are sorted, this is achieved by checking for consecutively
+> -identical filenames.  Additionally directories are checked to
+> -ensure they are sorted, to avoid attempts to evade the duplicate
+> -check.
+> -
+> -Version 1.x and 2.0 filesystems (where the directories were unsorted)
+> -are sorted and then the above duplicate filename check is applied.
+> -
+> -Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
+> ----
+> - squashfs-tools/Makefile        |   6 +-
+> - squashfs-tools/unsquash-1.c    |   6 ++
+> - squashfs-tools/unsquash-12.c   | 110 +++++++++++++++++++++++++++++++++
+> - squashfs-tools/unsquash-1234.c |  21 +++++++
+> - squashfs-tools/unsquash-2.c    |  16 +++++
+> - squashfs-tools/unsquash-3.c    |   6 ++
+> - squashfs-tools/unsquash-4.c    |   6 ++
+> - squashfs-tools/unsquashfs.h    |   4 ++
+> - 8 files changed, 173 insertions(+), 2 deletions(-)
+> - create mode 100644 squashfs-tools/unsquash-12.c
+> -
+> -diff --git a/squashfs-tools/Makefile b/squashfs-tools/Makefile
+> -index 7262a2e..1b544ed 100755
+> ---- a/squashfs-tools/Makefile
+> -+++ b/squashfs-tools/Makefile
+> -@@ -160,8 +160,8 @@ MKSQUASHFS_OBJS = mksquashfs.o read_fs.o action.o swap.o pseudo.o compressor.o \
+> -       caches-queues-lists.o reader.o tar.o
+> -
+> - UNSQUASHFS_OBJS = unsquashfs.o unsquash-1.o unsquash-2.o unsquash-3.o \
+> --      unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o swap.o \
+> --      compressor.o unsquashfs_info.o
+> -+      unsquash-4.o unsquash-123.o unsquash-34.o unsquash-1234.o unsquash-12.o \
+> -+      swap.o compressor.o unsquashfs_info.o
+> -
+> - CFLAGS ?= -O2
+> - CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
+> -@@ -393,6 +393,8 @@ unsquash-34.o: unsquashfs.h unsquash-34.c unsquashfs_error.h
+> -
+> - unsquash-1234.o: unsquash-1234.c unsquashfs_error.h
+> -
+> -+unsquash-12.o: unsquash-12.c unsquashfs.h
+> -+
+> - unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h unsquashfs_error.h
+> -
+> - unsquashfs_info.o: unsquashfs.h squashfs_fs.h unsquashfs_error.h
+> -diff --git a/squashfs-tools/unsquash-1.c b/squashfs-tools/unsquash-1.c
+> -index b604434..88866fc 100644
+> ---- a/squashfs-tools/unsquash-1.c
+> -+++ b/squashfs-tools/unsquash-1.c
+> -@@ -370,6 +370,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               }
+> -       }
+> -
+> -+      /* check directory for duplicate names.  Need to sort directory first */
+> -+      sort_directory(dir);
+> -+      if(check_directory(dir) == FALSE) {
+> -+              ERROR("File system corrupted: directory has duplicate names\n");
+> -+              goto corrupted;
+> -+      }
+> -       return dir;
+> -
+> - corrupted:
+> -diff --git a/squashfs-tools/unsquash-12.c b/squashfs-tools/unsquash-12.c
+> -new file mode 100644
+> -index 0000000..61bf128
+> ---- /dev/null
+> -+++ b/squashfs-tools/unsquash-12.c
+> -@@ -0,0 +1,110 @@
+> -+/*
+> -+ * Unsquash a squashfs filesystem.  This is a highly compressed read only
+> -+ * filesystem.
+> -+ *
+> -+ * Copyright (c) 2021
+> -+ * Phillip Lougher <phillip@squashfs.org.uk>
+> -+ *
+> -+ * This program is free software; you can redistribute it and/or
+> -+ * modify it under the terms of the GNU General Public License
+> -+ * as published by the Free Software Foundation; either version 2,
+> -+ * or (at your option) any later version.
+> -+ *
+> -+ * This program is distributed in the hope that it will be useful,
+> -+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> -+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> -+ * GNU General Public License for more details.
+> -+ *
+> -+ * You should have received a copy of the GNU General Public License
+> -+ * along with this program; if not, write to the Free Software
+> -+ * Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+> -+ *
+> -+ * unsquash-12.c
+> -+ *
+> -+ * Helper functions used by unsquash-1 and unsquash-2.
+> -+ */
+> -+
+> -+#include "unsquashfs.h"
+> -+
+> -+/*
+> -+ * Bottom up linked list merge sort.
+> -+ *
+> -+ */
+> -+void sort_directory(struct dir *dir)
+> -+{
+> -+      struct dir_ent *cur, *l1, *l2, *next;
+> -+      int len1, len2, stride = 1;
+> -+
+> -+      if(dir->dir_count < 2)
+> -+              return;
+> -+
+> -+      /*
+> -+       * We can consider our linked-list to be made up of stride length
+> -+       * sublists.  Eacn iteration around this loop merges adjacent
+> -+       * stride length sublists into larger 2*stride sublists.  We stop
+> -+       * when stride becomes equal to the entire list.
+> -+       *
+> -+       * Initially stride = 1 (by definition a sublist of 1 is sorted), and
+> -+       * these 1 element sublists are merged into 2 element sublists,  which
+> -+       * are then merged into 4 element sublists and so on.
+> -+       */
+> -+      do {
+> -+              l2 = dir->dirs; /* head of current linked list */
+> -+              cur = NULL; /* empty output list */
+> -+
+> -+              /*
+> -+               * Iterate through the linked list, merging adjacent sublists.
+> -+               * On each interation l2 points to the next sublist pair to be
+> -+               * merged (if there's only one sublist left this is simply added
+> -+               * to the output list)
+> -+               */
+> -+              while(l2) {
+> -+                      l1 = l2;
+> -+                      for(len1 = 0; l2 && len1 < stride; len1 ++, l2 = l2->next);
+> -+                      len2 = stride;
+> -+
+> -+                      /*
+> -+                       * l1 points to first sublist.
+> -+                       * l2 points to second sublist.
+> -+                       * Merge them onto the output list
+> -+                       */
+> -+                      while(len1 && l2 && len2) {
+> -+                              if(strcmp(l1->name, l2->name) <= 0) {
+> -+                                      next = l1;
+> -+                                      l1 = l1->next;
+> -+                                      len1 --;
+> -+                              } else {
+> -+                                      next = l2;
+> -+                                      l2 = l2->next;
+> -+                                      len2 --;
+> -+                              }
+> -+
+> -+                              if(cur) {
+> -+                                      cur->next = next;
+> -+                                      cur = next;
+> -+                              } else
+> -+                                      dir->dirs = cur = next;
+> -+                      }
+> -+                      /*
+> -+                       * One sublist is now empty, copy the other one onto the
+> -+                       * output list
+> -+                       */
+> -+                      for(; len1; len1 --, l1 = l1->next) {
+> -+                              if(cur) {
+> -+                                      cur->next = l1;
+> -+                                      cur = l1;
+> -+                              } else
+> -+                                      dir->dirs = cur = l1;
+> -+                      }
+> -+                      for(; l2 && len2; len2 --, l2 = l2->next) {
+> -+                              if(cur) {
+> -+                                      cur->next = l2;
+> -+                                      cur = l2;
+> -+                              } else
+> -+                                      dir->dirs = cur = l2;
+> -+                      }
+> -+              }
+> -+              cur->next = NULL;
+> -+              stride = stride << 1;
+> -+      } while(stride < dir->dir_count);
+> -+}
+> -diff --git a/squashfs-tools/unsquash-1234.c b/squashfs-tools/unsquash-1234.c
+> -index e389f8d..98a81ed 100644
+> ---- a/squashfs-tools/unsquash-1234.c
+> -+++ b/squashfs-tools/unsquash-1234.c
+> -@@ -72,3 +72,24 @@ void squashfs_closedir(struct dir *dir)
+> -
+> -       free(dir);
+> - }
+> -+
+> -+
+> -+/*
+> -+ * Check directory for duplicate names.  As the directory should be sorted,
+> -+ * duplicates will be consecutive.  Obviously we also need to check if the
+> -+ * directory has been deliberately unsorted, to evade this check.
+> -+ */
+> -+int check_directory(struct dir *dir)
+> -+{
+> -+      int i;
+> -+      struct dir_ent *ent;
+> -+
+> -+      if(dir->dir_count < 2)
+> -+              return TRUE;
+> -+
+> -+      for(ent = dir->dirs, i = 0; i < dir->dir_count - 1; ent = ent->next, i++)
+> -+              if(strcmp(ent->name, ent->next->name) >= 0)
+> -+                      return FALSE;
+> -+
+> -+      return TRUE;
+> -+}
+> -diff --git a/squashfs-tools/unsquash-2.c b/squashfs-tools/unsquash-2.c
+> -index 956f96f..0e36f7d 100644
+> ---- a/squashfs-tools/unsquash-2.c
+> -+++ b/squashfs-tools/unsquash-2.c
+> -@@ -29,6 +29,7 @@
+> - static squashfs_fragment_entry_2 *fragment_table;
+> - static unsigned int *uid_table, *guid_table;
+> - static squashfs_operations ops;
+> -+static int needs_sorting = FALSE;
+> -
+> -
+> - static void read_block_list(unsigned int *block_list, long long start,
+> -@@ -463,6 +464,17 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               }
+> -       }
+> -
+> -+      if(needs_sorting)
+> -+              sort_directory(dir);
+> -+
+> -+      /* check directory for duplicate names and sorting */
+> -+      if(check_directory(dir) == FALSE) {
+> -+              if(needs_sorting)
+> -+                      ERROR("File system corrupted: directory has duplicate names\n");
+> -+              else
+> -+                      ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
+> -+              goto corrupted;
+> -+      }
+> -       return dir;
+> -
+> - corrupted:
+> -@@ -596,6 +608,10 @@ int read_super_2(squashfs_operations **s_ops, void *s)
+> -        * 2.x filesystems use gzip compression.
+> -        */
+> -       comp = lookup_compressor("gzip");
+> -+
+> -+      if(sBlk_3->s_minor == 0)
+> -+              needs_sorting = TRUE;
+> -+
+> -       return TRUE;
+> - }
+> -
+> -diff --git a/squashfs-tools/unsquash-3.c b/squashfs-tools/unsquash-3.c
+> -index 835a574..0123562 100644
+> ---- a/squashfs-tools/unsquash-3.c
+> -+++ b/squashfs-tools/unsquash-3.c
+> -@@ -497,6 +497,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               }
+> -       }
+> -
+> -+      /* check directory for duplicate names and sorting */
+> -+      if(check_directory(dir) == FALSE) {
+> -+              ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
+> -+              goto corrupted;
+> -+      }
+> -+
+> -       return dir;
+> -
+> - corrupted:
+> -diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
+> -index 694783d..c615bb8 100644
+> ---- a/squashfs-tools/unsquash-4.c
+> -+++ b/squashfs-tools/unsquash-4.c
+> -@@ -434,6 +434,12 @@ static struct dir *squashfs_opendir(unsigned int block_start, unsigned int offse
+> -               }
+> -       }
+> -
+> -+      /* check directory for duplicate names and sorting */
+> -+      if(check_directory(dir) == FALSE) {
+> -+              ERROR("File system corrupted: directory has duplicate names or is unsorted\n");
+> -+              goto corrupted;
+> -+      }
+> -+
+> -       return dir;
+> -
+> - corrupted:
+> -diff --git a/squashfs-tools/unsquashfs.h b/squashfs-tools/unsquashfs.h
+> -index f8cf78c..bf2a80d 100644
+> ---- a/squashfs-tools/unsquashfs.h
+> -+++ b/squashfs-tools/unsquashfs.h
+> -@@ -293,4 +293,8 @@ extern long long *alloc_index_table(int);
+> - /* unsquash-1234.c */
+> - extern int check_name(char *, int);
+> - extern void squashfs_closedir(struct dir *);
+> -+extern int check_directory(struct dir *);
+> -+
+> -+/* unsquash-12.c */
+> -+extern void sort_directory(struct dir *);
+> - #endif
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+> index c92a5f80a8..4e009d2625 100644
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+> @@ -5,20 +5,16 @@ HOMEPAGE = "https://github.com/plougher/squashfs-tools"
+>  DESCRIPTION = "Tools to create and extract Squashfs filesystems."
+>  SECTION = "base"
+>  LICENSE = "GPL-2.0-only"
+> -LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>
+> -PV = "4.5"
+> -SRCREV = "0496d7c3de3e09da37ba492081c86159806ebb07"
+> +PV = "4.5.1"
+> +SRCREV = "afdd63fc386919b4aa40d573b0a6069414d14317"
+>  SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https;branch=master \
+> -           file://0001-Avoid-use-of-INSTALL_DIR-for-symlink-targets.patch \
+> -           file://CVE-2021-41072-requisite-1.patch;striplevel=2 \
+> -           file://CVE-2021-41072-requisite-2.patch;striplevel=2 \
+> -           file://CVE-2021-41072-requisite-3.patch;striplevel=2 \
+> -           file://CVE-2021-41072.patch;striplevel=2 \
+> +           file://0001-install-manpages.sh-do-not-write-original-timestamps.patch \
+>             "
+>  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+>
+> -S = "${WORKDIR}/git/squashfs-tools"
+> +S = "${WORKDIR}/git"
+>
 
-Additionally, an initscript, udev rules file, and systemd unit file are
-added to the package so that the guest agent can start automatically;
-the former two come from Debian's packaging for qemu-guest-agent.
+changing S above is resulting in 2 `cd` operations in do_compile and do_install
+if its not solving anything else, I would suggest to keep original S
 
-Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
----
- meta/recipes-devtools/qemu/qemu.inc           | 35 +++++++-
- .../qemu/qemu/qemu-guest-agent.init           | 84 +++++++++++++++++++
- .../qemu/qemu/qemu-guest-agent.udev           |  2 +
- 3 files changed, 120 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 9f2fa4322e..bd1d1ea010 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -9,7 +9,7 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
- RDEPENDS:${PN}-ptest = "bash"
- 
- require qemu-targets.inc
--inherit pkgconfig ptest python3-dir
-+inherit pkgconfig ptest python3-dir update-rc.d systemd
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
-@@ -32,6 +32,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0001-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
-            file://0001-vhost-vsock-detach-the-virqueue-element-in-case-of-e.patch \
-            file://0002-virtio-net-fix-map-leaking-on-error-during-receive.patch \
-+           file://qemu-guest-agent.init \
-+           file://qemu-guest-agent.udev \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-@@ -127,6 +129,20 @@ do_configure[cleandirs] += "${B}"
- do_install () {
- 	export STRIP=""
- 	oe_runmake 'DESTDIR=${D}' install
-+
-+	# If we built the guest agent, also install startup/udev rules
-+	if [ -e "${D}${bindir}/qemu-ga" ]; then
-+		install -d ${D}${sysconfdir}/init.d/
-+		install -m 0755 ${WORKDIR}/qemu-guest-agent.init ${D}${sysconfdir}/init.d/qemu-guest-agent
-+		sed -i 's:@bindir@:${bindir}:' ${D}${sysconfdir}/init.d/qemu-guest-agent
-+
-+		install -d ${D}${sysconfdir}/udev/rules.d/
-+		install -m 0644 ${WORKDIR}/qemu-guest-agent.udev ${D}${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules
-+
-+		install -d ${D}${systemd_unitdir}/system/
-+		install -m 0644 ${S}/contrib/systemd/qemu-guest-agent.service ${D}${systemd_unitdir}/system
-+		sed -i -e 's,-/usr/bin/,-${bindir}/,g' ${D}${systemd_unitdir}/system/qemu-guest-agent.service
-+	fi
- }
- 
- # The following fragment will create a wrapper for qemu-mips user emulation
-@@ -199,3 +215,20 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
- INSANE_SKIP:${PN} = "arch"
- 
- FILES:${PN} += "${datadir}/icons"
-+
-+# Put the guest agent in a separate package
-+PACKAGES =+ "${PN}-guest-agent"
-+SUMMARY:${PN}-guest-agent = "QEMU guest agent"
-+FILES:${PN}-guest-agent += " \
-+    ${bindir}/qemu-ga \
-+    ${sysconfdir}/udev/rules.d/60-qemu-guest-agent.rules \
-+    ${sysconfdir}/init.d/qemu-guest-agent \
-+    ${systemd_unitdir}/system/qemu-guest-agent.service \
-+"
-+
-+INITSCRIPT_PACKAGES = "${PN}-guest-agent"
-+INITSCRIPT_NAME:${PN}-guest-agent = "qemu-guest-agent"
-+INITSCRIPT_PARAMS:${PN}-guest-agent = "defaults"
-+
-+SYSTEMD_PACKAGES = "${PN}-guest-agent"
-+SYSTEMD_SERVICE:${PN}-guest-agent = "${PN}-guest-agent.service"
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
-new file mode 100644
-index 0000000000..493da0ef1a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.init
-@@ -0,0 +1,84 @@
-+#!/bin/sh
-+### BEGIN INIT INFO
-+# Provides:		qemu-guest-agent
-+# Required-Start:	$remote_fs $syslog
-+# Required-Stop:	$remote_fs $syslog
-+# Default-Start:	2 3 4 5
-+# Default-Stop:		0 1 6
-+# Short-Description:	QEMU Guest Agent
-+### END INIT INFO
-+#
-+# Do not configure this file. Edit /etc/default/qemu-guest-agent
-+#
-+
-+set -e
-+
-+. /etc/init.d/functions
-+
-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
-+DESC="QEMU Guest Agent"
-+NAME=qemu-ga
-+DAEMON=@bindir@/$NAME
-+PIDFILE=/var/run/$NAME.pid
-+
-+# config
-+DAEMON_ARGS=""
-+# default transport
-+TRANSPORT=virtio-serial:/dev/virtio-ports/org.qemu.guest_agent.0
-+NO_START=0
-+
-+test ! -r /etc/default/qemu-guest-agent || . /etc/default/qemu-guest-agent
-+test "$NO_START" = "0" || exit 0
-+test -x "$DAEMON" || exit 0
-+
-+#
-+# Function that checks whenever system has necessary environment
-+# It also splits $TRANSPORT into $method and $path
-+#
-+do_check_transport() {
-+	method=${TRANSPORT%%:*};
-+	path=${TRANSPORT#*:}
-+	case "$method" in
-+	    virtio-serial | isa-serial)
-+		if [ ! -e "$path" ]; then
-+		    echo "$NAME: transport endpoint not found, not starting"
-+		    return 1
-+		fi
-+		;;
-+	esac
-+}
-+
-+case "$1" in
-+  start)
-+	do_check_transport || exit 0
-+	echo -n "Starting $DESC: "
-+	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
-+		$DAEMON_ARGS -d -m "$method" -p "$path"
-+	echo "$NAME."
-+	;;
-+  stop)
-+	echo -n "Stopping $DESC: "
-+	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
-+	echo "$NAME."
-+	;;
-+  status)
-+	status "$DAEMON"
-+	exit $?
-+	;;
-+  restart|force-reload)
-+	do_check_transport || exit 0
-+	echo -n "Restarting $DESC: "
-+	start-stop-daemon -K -x "$DAEMON" -p $PIDFILE
-+	sleep 1
-+	start-stop-daemon -S -p $PIDFILE -x "$DAEMON" -- \
-+		$DAEMON_ARGS -d -m "$method" -p "$path"
-+	echo "$NAME."
-+	;;
-+  *)
-+	N=/etc/init.d/$NAME
-+	echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
-+	exit 1
-+	;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-new file mode 100644
-index 0000000000..8a290abbd3
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-guest-agent.udev
-@@ -0,0 +1,2 @@
-+SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", \
-+  TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"
--- 
-2.20.1
-
+>  EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
+>
+> @@ -33,13 +29,15 @@ PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
+>  PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+>
+>  do_compile() {
+> +        cd ${S}/squashfs-tools
+>         oe_runmake all
+>  }
+>
+>  do_install() {
+> +        cd ${S}/squashfs-tools
+>         install -d "${D}${includedir}"
+> -       oe_runmake install INSTALL_DIR=${D}${sbindir}
+> -       install -m 0644 "${S}"/squashfs_fs.h "${D}${includedir}"
+> +       oe_runmake install INSTALL_PREFIX=${D}${prefix} INSTALL_MANPAGES_DIR=${D}${datadir}/man/man1
+> +       install -m 0644 "${S}"/squashfs-tools/squashfs_fs.h "${D}${includedir}"
+>  }
+>
+>  ARM_INSTRUCTION_SET:armv4 = "arm"
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164122): https://lists.openembedded.org/g/openembedded-core/message/164122
+> Mute This Topic: https://lists.openembedded.org/mt/90317725/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
