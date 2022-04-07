@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB37C47081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA2CC47080
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.1063.1649350842585460808
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web09.1082.1649350845525147162
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:42 -0700
+ Thu, 07 Apr 2022 10:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eM0e+l97;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XLUlRgjO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id k23so12177650ejd.3
+Received: by mail-ej1-f45.google.com with SMTP id l7so6757712ejn.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:00:42 -0700 (PDT)
+ Thu, 07 Apr 2022 10:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BpSoYWR8xeXEGpPBu3v2J3WNbzSZnl675AtC5pViQqE=;
-        b=eM0e+l97f9AnEw925Sug/VY50Mwc/2q9tw8lM/dtmcvH3gHXIJKyC6SpGmBHh8qGtE
-         0YdCRJ2MlNUc4NM9OrNeDtuBrG4ZGl0WeL53U4H0QvNC5vWpOPBGL8OYPSpvKsNg7+AV
-         e3cbFl/ocILiMhMGUNsfl73iT06Gxai5rri+hJjIdbSzlTa78Ik1VS/i7wN5UfPGdNyu
-         RHw5Bufp/wZdbtWrrMpZPIZeuPuJxaM8YCeND/rh2RbH9B2I5n4HsSIesp3/S/dRkCEK
-         GRvc1gIaiKW6faBGMgvjcNu3dPlXxBUPOaJJyYHeMTM0tUP0uN7GbO7tkr8gTIiHK01A
-         djFw==
+        bh=Gclb2izCt+wLb4mTlBJfgu8GkO92hWfHBfbgXQ20lUE=;
+        b=XLUlRgjOlOsVHsRaD3UFHqxRO647OkD4DQ/yhzAQ9z3u2U1BIABQ6oEMz0Og/f82+X
+         2YpqMr6yVhPk1dLBXTSH/Aciex+8lc2/olnT4lL4LX89PGdhu0y6QULmOjzRjxBeWlTm
+         iOLcPjQdmWXE4M3RzgIFFSoh5Byi3aZudidmHDMQ0yAkHIAifZXRx4d2VhcGB+UH8ftx
+         7Bw2/NVCZIgdEfSiBQqQhQhPJSeGpG/3q/ubY9TqfprqfrTAAiPs3aQnPnib9l0W+ibs
+         qCmTVqKtj48IzRsW4Au21JkKoVAOEMGXG2BEbbACSXT77ePAMYL88tWPZHrZhWNhi2R3
+         0GhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BpSoYWR8xeXEGpPBu3v2J3WNbzSZnl675AtC5pViQqE=;
-        b=UhhV3Uv35ylyUtZrgmbXoNq8ZLTKfhvzLyj8+R20lKzLoi+x31VcPV9b/p8+9fyhdW
-         YpEKkivTtdH8OhEQSs8xABuvFXRtSh/pFtuXySqexhHc42ZY8qsRFTpdn8SZIBssMs55
-         WhcZrPNlCkCr7FqGbjL9ReVa9fL6x6ir2F9/jPab2ra4l7j8Ov5vQ6CFLHPRnKDm+00A
-         8Z6FpQeLgR1v7j2lS+JMct1bIxTZJHQ2wvcTpBpWE69yFE5TgHvFi51ZYJQm/ySnO6ll
-         X0OCtx4VrcaL5v8ccYClhuNh2+cUORDXwMUPsf99+BvYosRohCfd8JoTv55+d93OH6nj
-         tj2Q==
-X-Gm-Message-State: AOAM531eEYyO+UERz9LA/C0U4gUT91njXY+zZWPFWM+F0iXeAaZnzyd9
-	l04t9OQPRINj/D7R1knWCM/5ZbX22aU=
+        bh=Gclb2izCt+wLb4mTlBJfgu8GkO92hWfHBfbgXQ20lUE=;
+        b=aAdHmsGu2qc64HUZpvF3PJ1hhTsG1YGX+GTxqW0stgAxhEFVySPfzpy9b5jYtv2E94
+         Kf4rCQPExTkAgfUkenNZbQYUuZgDZCEd8a46/vT2s4XkW9ACZQIY9vxGnXpldq+W22lW
+         c9WgiG4Nx8AWQVRKa45QPgw1pODal2FFbZD9jRXA5NDm4YBd09bC/wed2502sazsYXhq
+         QDknpNfcuN/dLIDUdfjqagDOlmQpnH+oPzX9jFVN+aPFs+/jzlMNUGhjJl8Bu+CKHLGu
+         cbEU0OIzNGw43L67FHtrOyONyWzH0AaqJbMJyyY4H4bh5rx5wAEMEKOUhBY0H0lOnTMs
+         4PVg==
+X-Gm-Message-State: AOAM532aKWwXxASVE7F9f2JB8bskT+LkiR/il+kD7KHUylFhuFWGdr7+
+	myipWQzMkMvu5AjHt06W/93nWKPp3ac=
 X-Google-Smtp-Source: 
- ABdhPJx7pGrUjQCDHuEAOnQ6hJ2rJ7+++DFrbC/Q5n05c6VjdaYptv00mB0bht6Jm1SRxjglAzanzQ==
-X-Received: by 2002:a17:907:d06:b0:6e0:e2f5:4f55 with SMTP id
- gn6-20020a1709070d0600b006e0e2f54f55mr14954163ejc.618.1649350841099;
-        Thu, 07 Apr 2022 10:00:41 -0700 (PDT)
+ ABdhPJw5+hn6ExUBSKoEssnVaZFSU1YUjILtpXfGhikMKqX2ibG0XFVBeXY+kBThNJZXxwwRNoRg6g==
+X-Received: by 2002:a17:907:60cc:b0:6da:9616:ecec with SMTP id
+ hv12-20020a17090760cc00b006da9616ececmr15047648ejc.298.1649350842355;
+        Thu, 07 Apr 2022 10:00:42 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.40
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 10:00:40 -0700 (PDT)
+        Thu, 07 Apr 2022 10:00:41 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/17] llvm: update 13.0.1 -> 14.0.0
-Date: Thu,  7 Apr 2022 19:00:14 +0200
-Message-Id: <20220407170029.3500874-2-alex@linutronix.de>
+Subject: [PATCH 03/17] llvm: use default install paths
+Date: Thu,  7 Apr 2022 19:00:15 +0200
+Message-Id: <20220407170029.3500874-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407170029.3500874-1-alex@linutronix.de>
 References: <20220407170029.3500874-1-alex@linutronix.de>
@@ -68,61 +68,149 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164118
+ https://lists.openembedded.org/g/openembedded-core/message/164119
 
-llvm-config no longer links with libLLVM, so there is no need
-to install it in -native (and it isn't built in the first place).
-This also significantly speeds up llvm-native build.
+There was a very brittle sed hack against cpp source code
+that allowed installing multiple llvm versions into the same
+target/sysroot. Patching with sed is prone to silent
+regressions as it can change both too little and too much,
+and it indeed it broke with llvm 14. It's also difficult to tell
+what the 'right' change should look like.
+
+If this feature is actually needed somewhere, please do it properly:
+proper patch and upstream first.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- meta/recipes-devtools/llvm/llvm_git.bb      | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/llvm/llvm_git.bb | 58 +++++++-------------------
+ meta/recipes-graphics/mesa/mesa.inc    |  2 +-
+ 2 files changed, 17 insertions(+), 43 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index d362bd76c6..4a6d4da5d5 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -26,7 +26,7 @@ QEMUVERSION ?= "6.2%"
- GOVERSION ?= "1.17%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
- # llvm version being used, so always bump it with llvm recipe version bump
--LLVMVERSION ?= "13.0.1"
-+LLVMVERSION ?= "14.0.0"
- RUSTVERSION ?= "1.59%"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
 diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 9400bf0821..13f7fb763e 100644
+index 13f7fb763e..8f7540fd70 100644
 --- a/meta/recipes-devtools/llvm/llvm_git.bb
 +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -19,7 +19,7 @@ inherit cmake pkgconfig
- 
- PROVIDES += "llvm${PV}"
- 
--PV = "13.0.1"
-+PV = "14.0.0"
- 
+@@ -24,7 +24,6 @@ PV = "14.0.0"
  MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
  
-@@ -27,7 +27,7 @@ LLVM_RELEASE = "${PV}"
- LLVM_DIR = "llvm${LLVM_RELEASE}"
+ LLVM_RELEASE = "${PV}"
+-LLVM_DIR = "llvm${LLVM_RELEASE}"
  
  BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "75e33f71c2dae584b13a7d1186ae0a038ba98838"
-+SRCREV = "329fda39c507e8740978d10458451dcdb21563be"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-@@ -145,7 +145,6 @@ do_install() {
- do_install:class-native() {
- 	install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen${PV}
- 	install -D -m 0755 ${B}/bin/llvm-config ${D}${bindir}/llvm-config${PV}
--	install -D -m 0755 ${B}/lib/libLLVM-${MAJOR_VERSION}.so ${D}${libdir}/libLLVM-${MAJOR_VERSION}.so
+ SRCREV = "329fda39c507e8740978d10458451dcdb21563be"
+@@ -91,13 +90,6 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+                   -DLLVM_CONFIG_PATH=${STAGING_BINDIR_NATIVE}/llvm-config${PV} \
+                  "
+ 
+-do_configure:prepend() {
+-# Fix paths in llvm-config
+-	sed -i "s|sys::path::parent_path(CurrentPath))\.str()|sys::path::parent_path(sys::path::parent_path(CurrentPath))).str()|g" ${S}/tools/llvm-config/llvm-config.cpp
+-	sed -ri "s#/(bin|include|lib)(/?\")#/\1/${LLVM_DIR}\2#g" ${S}/tools/llvm-config/llvm-config.cpp
+-	sed -ri "s#lib/${LLVM_DIR}#${baselib}/${LLVM_DIR}#g" ${S}/tools/llvm-config/llvm-config.cpp
+-}
+-
+ # patch out build host paths for reproducibility
+ do_compile:prepend:class-target() {
+         sed -i -e "s,${WORKDIR},,g" ${B}/tools/llvm-config/BuildVariables.inc
+@@ -112,34 +104,17 @@ do_compile:class-native() {
  }
  
- PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto"
+ do_install() {
+-	DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
+-	install -D -m 0755 ${B}/bin/llvm-config ${D}${libdir}/${LLVM_DIR}/llvm-config
+-
+-	install -d ${D}${bindir}/${LLVM_DIR}
+-	cp -r ${LLVM_INSTALL_DIR}${bindir}/* ${D}${bindir}/${LLVM_DIR}/
+-
+-	install -d ${D}${includedir}/${LLVM_DIR}
+-	cp -r ${LLVM_INSTALL_DIR}${includedir}/* ${D}${includedir}/${LLVM_DIR}/
+-
+-	install -d ${D}${libdir}/${LLVM_DIR}
+-
+-	# The LLVM sources have "/lib" embedded and so we cannot completely rely on the ${libdir} variable
+-	if [ -d ${LLVM_INSTALL_DIR}${libdir}/ ]; then
+-		cp -r ${LLVM_INSTALL_DIR}${libdir}/* ${D}${libdir}/${LLVM_DIR}/
+-	elif [ -d ${LLVM_INSTALL_DIR}${prefix}/lib ]; then
+-		cp -r ${LLVM_INSTALL_DIR}${prefix}/lib/* ${D}${libdir}/${LLVM_DIR}/
+-	elif [ -d ${LLVM_INSTALL_DIR}${prefix}/lib64 ]; then
+-		cp -r ${LLVM_INSTALL_DIR}${prefix}/lib64/* ${D}${libdir}/${LLVM_DIR}/
+-	fi
++	DESTDIR=${D} ninja -v install
+ 
+-	# Remove unnecessary cmake files
+-	rm -rf ${D}${libdir}/${LLVM_DIR}/cmake
++        # llvm harcodes usr/lib as install path, so this corrects it to actual libdir
++        mv -T -n ${D}/${prefix}/lib ${D}/${libdir}
+ 
+-	ln -s ${LLVM_DIR}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV} ${D}${libdir}/libLLVM-${MAJOR_VERSION}${SOLIBSDEV}
++        # Remove opt-viewer: https://llvm.org/docs/Remarks.html
++        rm -rf ${D}${datadir}/opt-viewer
++        rmdir ${D}${datadir}
+ 
+-	# We'll have to delete the libLLVM.so due to multiple reasons...
+-	rm -rf ${D}${libdir}/${LLVM_DIR}/libLLVM.so
+-	rm -rf ${D}${libdir}/${LLVM_DIR}/libLTO.so
++        # reproducibility
++        sed -i -e 's,${WORKDIR},,g' ${D}/${libdir}/cmake/llvm/LLVMConfig.cmake
+ }
+ 
+ do_install:class-native() {
+@@ -152,34 +127,33 @@ PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptrema
+ RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
+ 
+ FILES:${PN}-bugpointpasses = "\
+-    ${libdir}/${LLVM_DIR}/BugpointPasses.so \
++    ${libdir}/BugpointPasses.so \
+ "
+ 
+ FILES:${PN}-libllvm = "\
+-    ${libdir}/${LLVM_DIR}/libLLVM-${MAJOR_VERSION}.so \
+     ${libdir}/libLLVM-${MAJOR_VERSION}.so \
+ "
+ 
+ FILES:${PN}-liblto += "\
+-    ${libdir}/${LLVM_DIR}/libLTO.so.* \
++    ${libdir}/libLTO.so.* \
+ "
+ 
+ FILES:${PN}-liboptremarks += "\
+-    ${libdir}/${LLVM_DIR}/libRemarks.so.* \
++    ${libdir}/libRemarks.so.* \
+ "
+ 
+ FILES:${PN}-llvmhello = "\
+-    ${libdir}/${LLVM_DIR}/LLVMHello.so \
++    ${libdir}/LLVMHello.so \
+ "
+ 
+ FILES:${PN}-dev += " \
+-    ${libdir}/${LLVM_DIR}/llvm-config \
+-    ${libdir}/${LLVM_DIR}/libRemarks.so \
+-    ${libdir}/${LLVM_DIR}/libLLVM-${PV}.so \
++    ${libdir}/llvm-config \
++    ${libdir}/libRemarks.so \
++    ${libdir}/libLLVM-${PV}.so \
+ "
+ 
+ FILES:${PN}-staticdev += "\
+-    ${libdir}/${LLVM_DIR}/*.a \
++    ${libdir}/*.a \
+ "
+ 
+ INSANE_SKIP:${PN}-libllvm += "dev-so"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e8c07a4563..21fa1a6a9e 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -52,7 +52,7 @@ ANY_OF_DISTRO_FEATURES:class-target = "opengl vulkan"
+ 
+ PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
+ 
+-export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
++export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm-config"
+ export YOCTO_ALTERNATE_MULTILIB_NAME = "${base_libdir}"
+ export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
 -- 
 2.30.2
 
