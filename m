@@ -2,12 +2,12 @@ Return-Path: <bernhard.rosenkraenzer.ext@huawei.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A4F5C352A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56404C4708A
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 15:41:15 +0000 (UTC)
 Received: from mail.lindev.ch (mail.lindev.ch [5.39.83.55])
- by mx.groups.io with SMTP id smtpd.web09.5905.1649334409123704389
+ by mx.groups.io with SMTP id smtpd.web12.6493.1649338002940744551
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 05:26:50 -0700
+ Thu, 07 Apr 2022 06:26:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=fail (domain: huawei.com, ip: 5.39.83.55, mailfrom: bernhard.rosenkraenzer.ext@huawei.com)
@@ -17,17 +17,17 @@ Received: from lindev.ch (197-91-142-46.pool.kielnet.net [46.142.91.197])
  SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bero@lindev.ch)
-	by mail.lindev.ch (Postfix) with ESMTPSA id 684D341002FE;
-	Thu,  7 Apr 2022 14:26:44 +0200 (CEST)
+	by mail.lindev.ch (Postfix) with ESMTPSA id 059AA41002FE;
+	Thu,  7 Apr 2022 15:26:37 +0200 (CEST)
 From: =?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?=
  <bernhard.rosenkraenzer.ext@huawei.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	=?UTF-8?q?Bernhard=20Rosenkr=C3=A4nzer?=
  <bernhard.rosenkraenzer.ext@huawei.com>
-Subject: [PATCH] gcc: upgrade 11.2 -> current 12 snapshot
-Date: Thu,  7 Apr 2022 14:26:38 +0200
-Message-Id: <20220407122638.2091583-1-bernhard.rosenkraenzer.ext@huawei.com>
+Subject: [PATCH v2] gcc: upgrade 11.2 -> current 12 snapshot
+Date: Thu,  7 Apr 2022 15:26:34 +0200
+Message-Id: <20220407132634.2115343-1-bernhard.rosenkraenzer.ext@huawei.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -37,19 +37,20 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 15:41:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164105
+ https://lists.openembedded.org/g/openembedded-core/message/164107
 
 gcc 12 is expected to be released this month or early next month.
 Update so we're prepared.
 This keeps/ports all patches currently applied to 11.2 that haven't
 landed upstream yet.
 
+[v2: Back out the zephyr DWARF-4 workaround]
+
 Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bernhard.rosenkraenzer.ext@hua=
 wei.com>
 ---
  .../gcc/{gcc-11.2.inc =3D> gcc-12.0.inc}        |   29 +-
  ...ian_11.2.bb =3D> gcc-cross-canadian_12.0.bb} |    0
- meta/recipes-devtools/gcc/gcc-cross.inc       |    9 +
  .../{gcc-cross_11.2.bb =3D> gcc-cross_12.0.bb}  |    0
  ...-crosssdk_11.2.bb =3D> gcc-crosssdk_12.0.bb} |    0
  meta/recipes-devtools/gcc/gcc-runtime.inc     |    2 +-
@@ -84,7 +85,7 @@ wei.com>
  ...initial_11.2.bb =3D> libgcc-initial_12.0.bb} |    0
  .../gcc/{libgcc_11.2.bb =3D> libgcc_12.0.bb}    |    0
  ...ibgfortran_11.2.bb =3D> libgfortran_12.0.bb} |    0
- 37 files changed, 110 insertions(+), 6081 deletions(-)
+ 36 files changed, 101 insertions(+), 6081 deletions(-)
  rename meta/recipes-devtools/gcc/{gcc-11.2.inc =3D> gcc-12.0.inc} (77%)
  rename meta/recipes-devtools/gcc/{gcc-cross-canadian_11.2.bb =3D> gcc-cr=
 oss-canadian_12.0.bb} (100%)
@@ -240,29 +241,6 @@ recipes-devtools/gcc/gcc-cross-canadian_12.0.bb
 similarity index 100%
 rename from meta/recipes-devtools/gcc/gcc-cross-canadian_11.2.bb
 rename to meta/recipes-devtools/gcc/gcc-cross-canadian_12.0.bb
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devto=
-ols/gcc/gcc-cross.inc
-index 3ffa1f0c46..0e8119384b 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -47,6 +47,15 @@ ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_DIR_TARG=
-ET}${target_includedir}"
- do_configure:prepend () {
- 	install -d ${RECIPE_SYSROOT}${target_includedir}
- 	touch ${RECIPE_SYSROOT}${target_includedir}/limits.h
-+
-+	if ! echo ${@d.getVar("TARGET_OS")} | grep -qi linux; then
-+		# Building Zephyr with DWARF-5 is problematic because
-+		# its kernel tests use pyelftools, which has incomplete
-+		# DWARF-5 support (even after applying preliminary
-+		# support patches). Use DWARF-4 on Zephyr and FreeRTOS
-+		# for the time being.
-+		sed -i -e 's,Var(dwarf_version) Init(5),Var(dwarf_version) Init(4),' $=
-{S}/gcc/common.opt
-+	fi
- }
-=20
- do_compile () {
 diff --git a/meta/recipes-devtools/gcc/gcc-cross_11.2.bb b/meta/recipes-d=
 evtools/gcc/gcc-cross_12.0.bb
 similarity index 100%
