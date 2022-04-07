@@ -1,73 +1,113 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FE2C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB477C3527E
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
- [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.web08.926.1649350374762580209
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web09.1081.1649350841593522687
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 09:52:55 -0700
+ Thu, 07 Apr 2022 10:00:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=IgiYzyLU;
- spf=pass (domain: linaro.org, ip: 209.85.217.44,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-vs1-f44.google.com with SMTP id z134so4221610vsz.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=kSsTPPTN;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id bg10so12196492ejb.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 09:52:54 -0700 (PDT)
+ Thu, 07 Apr 2022 10:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Sich+Q1bv2S6NTCMNFsEWZ0W/f3raNFUCdN7aSmky38=;
-        b=IgiYzyLUNT7r0axw8yjC8ilMmdP/2PSpK8W46d9uhGSjGPYFS2j94nlnoZHby4O+iX
-         U5j/hxL4Z4uXUqklvSLuW8G9mzbDSEZrxnDHuIEhk8kV0wru6fFDj5NL11b5Z3/to7aT
-         CooihzrS8FER0cOsjcsKIY081L9PoFUL32uAhqTC0gujCOzfl9zITLTdvD9ZRIrNUBj2
-         ra3+tLpppY/qroYRFXSMmqzEZ09sLUy1xrb/SNrdmfpVZx19WiVXwd0bv2x7Q1wEfRmE
-         mhV019uZ4JV6Y0HogdUbxHYg8S3MtVeakzI/edf1LkHh6cYdR5lOvP/XV+9kFbkr2k2m
-         sx4Q==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qtAb7ISg2kHM2AmqexV86rx0mgbG8gKIgPSeJjju3hU=;
+        b=kSsTPPTNmEg9Pf7s/Kpj+ozsic4wNAEkktrnVyCxsH6Rc3xi9IT7+sa5sBW7ihBBak
+         iY92KQDffcOyBX8GjUEBR/qgdEjmeoxR5tUqu73oC7DOHWmTx8ctuGksTZVVun6uxW5m
+         Zlj/srj+HsTj6qJX3b/WiFWPbq5wHMm7mi8Oj5dTx1ekYoPu4DkOgyRh81rd+Y0jCYCP
+         ajjURIFf7y/e82eRrpudNculEHW2OO2SsLw6nTpO56a+WAaBNHszKotVogjOMPR/9b0c
+         PVT9TcS2NCuFkLDYLPc27+ZzZkHlYY2iG4Vw43Bq8DYsmZjHhXezF9sazgmch20flgys
+         TsuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Sich+Q1bv2S6NTCMNFsEWZ0W/f3raNFUCdN7aSmky38=;
-        b=N5SMHexaXMoGpXabtscqfV0POWN9/mLFXHDkeO9U3cBB+YhZ+oW/OrKbY5FyWKanxX
-         2HBfTzqFFGAU7GJ1VPrSs+NYuq/qrv69tnW1FgTBQVrNgge2OW4VssuybU7Jn6scbZl6
-         fMoVpCxetSdZhhtz0QMzGDYoRUKuXqoFpMBAQBrkRnbTQYQEoikR5E1Y5A+/Y/U9a6sv
-         3LkUozMqZPVSqzv0KYsMIM8U3MwC4CGye9OSAJ/HHP1iKW+ORoPXQ4WZcNyfj2VuhU1A
-         3KJ0hrghLnzh0RV241HUGEclvO0+NY+FABfHGWtMv5t4ni1m8X5MCycNhaUI97YVELIH
-         DBxg==
-X-Gm-Message-State: AOAM532Y6YvKFdhPEnUGlzjKqY10fkSr7laVm9wxqRr2leSObss1Vu1o
-	TYRc4SthT6sDOvUUkcxUyTc4bC0svdmnL6CBkU5eFQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qtAb7ISg2kHM2AmqexV86rx0mgbG8gKIgPSeJjju3hU=;
+        b=nhZBH578A/SVB0VusScccnk8dR+SLjjSFurfqdmQO1Gi+ZTFffxamifPq1awOQwjPs
+         HgH22+FvGoHOMzpFItQwtYhIAoHK8nTS/69nfwOdSaviOJu//R2grZbQyeOh1xZkZ0oJ
+         4S989Yl/o8JnTdBEmFsdVSOJQK0dZe9HICI3z5BGaJag4Z5ZGOgzSJD//Ci5FdrjzuLZ
+         fmRWqaWIoyOssC2tQ6jhtH2I+Y9DOZJvPTj45pK2UhHBuu1Kln6+VYboitiBxWtOaFhN
+         cfYW92aorthaLaRwwD0epr/WK/xf3fqluCJzkh1amyv3KLWcVdec8YQKji1/J01wYa0k
+         IXDA==
+X-Gm-Message-State: AOAM5314kFFW1oqzNbXbiM8deP8d6GJsgWoQgZB/wGNwKLT2UNl/VX5N
+	+lFN9U0NIu3tuhrfIsZEWyiaDu1N9lA=
 X-Google-Smtp-Source: 
- ABdhPJwayGpez6PUZjARYNsvq1feNJgCfUAsyNvIhWE3IsqDpfsjJqqh63MjwYe7PVpa2zWdeya+5LQQM6dhQGgGW94=
-X-Received: by 2002:a05:6102:6d3:b0:325:cfa3:44b with SMTP id
- m19-20020a05610206d300b00325cfa3044bmr4939537vsg.23.1649350373900; Thu, 07
- Apr 2022 09:52:53 -0700 (PDT)
+ ABdhPJzK5lyDdcPY53ifOjpN/X5rT0Dx2Brri+9wW11zHcRbp5Le3GkVt0dIUd0p1uWrow2gS8QtOw==
+X-Received: by 2002:a17:907:6d9e:b0:6df:bb09:10eb with SMTP id
+ sb30-20020a1709076d9e00b006dfbb0910ebmr14048969ejc.409.1649350839942;
+        Thu, 07 Apr 2022 10:00:39 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 10:00:38 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 01/17] connman-conf: ignore eth0 in qemu in a way that is not
+ sysvinit-specific
+Date: Thu,  7 Apr 2022 19:00:13 +0200
+Message-Id: <20220407170029.3500874-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <16E3A40F5847C949.23740@lists.openembedded.org>
-In-Reply-To: <16E3A40F5847C949.23740@lists.openembedded.org>
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Thu, 7 Apr 2022 12:52:43 -0400
-Message-ID: 
- <CANp-EDaZHkXKg8WiOT+Jq+tR4WzQ0DDyeDPHrG2xRnUMy85r_g@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] vim: Upgrade 8.2.4524 -> 8.2.4681
-To: ralph.siemsen@linaro.org
-Cc: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164115
+ https://lists.openembedded.org/g/openembedded-core/message/164117
 
-Sorry, please ignore this patch... it is already queued in
-stable/dunfell-nut branch.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-connectivity/connman/connman-conf.bb        | 7 +++++--
+ meta/recipes-connectivity/connman/connman-conf/main.conf | 2 ++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/main.conf
 
-Regards,
-Ralph
+diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+index 6b9207c4cb..7959ed8e50 100644
+--- a/meta/recipes-connectivity/connman/connman-conf.bb
++++ b/meta/recipes-connectivity/connman/connman-conf.bb
+@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;m
+ 
+ PR = "r2"
+ 
++SRC_URI = "file://main.conf \
++          "
++
+ S = "${WORKDIR}"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+@@ -14,6 +17,6 @@ FILES:${PN} = "${sysconfdir}/*"
+ 
+ # Kernel IP-Config is perfectly capable of setting up networking passed in via ip=
+ do_install:append:qemuall() {
+-    mkdir -p ${D}${sysconfdir}/default
+-    echo "export EXTRA_PARAM=\"-I eth0\"" > ${D}${sysconfdir}/default/connman
++    mkdir -p ${D}${sysconfdir}/connman
++    cp ${S}/main.conf ${D}${sysconfdir}/connman/main.conf
+ }
+diff --git a/meta/recipes-connectivity/connman/connman-conf/main.conf b/meta/recipes-connectivity/connman/connman-conf/main.conf
+new file mode 100644
+index 0000000000..a394e8f25b
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman-conf/main.conf
+@@ -0,0 +1,2 @@
++[General]
++NetworkInterfaceBlacklist = eth0
+-- 
+2.30.2
+
 
