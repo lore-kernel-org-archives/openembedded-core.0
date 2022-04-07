@@ -1,139 +1,82 @@
-Return-Path: <brenda.streiff@ni.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63DE4C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8124AC35274
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
- [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web08.3355.1649361681885507534
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web09.3205.1649360724774574161
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 13:01:21 -0700
+ Thu, 07 Apr 2022 12:45:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=pps11062020 header.b=2tyLYOlE;
- spf=pass (domain: ni.com, ip: 148.163.156.75,
- mailfrom: prvs=1096971498=brenda.streiff@ni.com)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id
- 237Dv76T003962
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 7 Apr 2022 15:01:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PPS11062020;
- bh=x0JNybQrW4Y00gsqeJLwg0ANmPUWB0iuDqGhJ/cAv2g=;
- b=2tyLYOlE5brxDwGz/NyWUib1I7gyFUEsS9XtDniTK6Octijj1/FN5bKRSmXCdh02WUeV
- G/x4eEASyK9eKHs0OMe0mVKy8gkB30DxHCpQMcQ6I5UsG0OrmgSWU8P3dsJs4BcAAo3h
- 98DQtUy1kbvyYnO289FwFV1Bx2C89F2vxPgGnLkZ1m0G+lDBjADQlSokw9AgnUndFLRh
- t/QsUOCvgES7fZO6UGBQXo8RvI0p9zAFOnZIMU6Or+kiI1jyWYbtYSgmkYqHS/WQQ0iz
- w5MhUTDV4MPXGoz9M0WUWCKiF8Hy4U/jFkTDa8iyNSNUWBDfe7wj05L6hsqrx7T36rfT DA==
-Received: from ni.com ([130.164.80.24])
-	by mx0a-00010702.pphosted.com (PPS) with ESMTPS id 3f6m0t4ndw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 15:01:21 -0500
-Received: from us-aus-exch1.ni.corp.natinst.com
- (us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
- 237K1KTG018157
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 7 Apr 2022 15:01:20 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
- us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP Server
- (TLS) id 15.0.1497.28; Thu, 7 Apr 2022 15:01:20 -0500
-Received: from starthinker.amer.corp.natinst.com (172.18.68.32) by
- us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP Server
- id 15.0.1497.28 via Frontend Transport; Thu, 7 Apr 2022 15:01:20 -0500
-From: Brenda Streiff <brenda.streiff@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Brenda Streiff <brenda.streiff@ni.com>
-Subject: [PATCH 2/2] runqemu: add an option to enable guest-agent virtio
- device
-Date: Thu, 7 Apr 2022 15:01:17 -0500
-Message-ID: <20220407200117.7576-2-brenda.streiff@ni.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220407200117.7576-1-brenda.streiff@ni.com>
-References: <20220407200117.7576-1-brenda.streiff@ni.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gRJXXoEs;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id h14so6311536lfl.2
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 07 Apr 2022 12:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JA23ZF8msBtoPxO+O4g7CKF/W8XWrjVwqe+Fz3bm7bM=;
+        b=gRJXXoEsYSAm/3GZDVx96++7GsL75gWrG9h42jqoEvWQdbzRDA8LQUdGu04CfloXbK
+         AURKXP4gNPU9V3qUvhUU/g+cv+mzkvt4fUcctvrirvlqGjEuGcrOe/1a8alCgRJKgn2i
+         UlHE2E741855Q2PnnHoOEG5Wd8k0YWbG2A94+Uxj6pr/OhK7kMgMqUt01v6vI1/QC+gv
+         G4zDtGjO9rJQHoDWpwekyi/7O8lejDRw0Hci5qN0qomldnXU+8r8LTgL/UkCcqjfIw3U
+         x28pGLU/N9Xu7qMsbVC3/ZFwcfTWjFQ1tyXLoxZjgvIe1mJ+Iw8b0X5zqxNeVc3RaiVM
+         qcRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JA23ZF8msBtoPxO+O4g7CKF/W8XWrjVwqe+Fz3bm7bM=;
+        b=KocotxPT1WqXCdvRwprkfBV/RY6RAvUpk+klZ2n3qBp65LfYed0Ahqy7o0KtyutJop
+         jCNTvvcQJNqL7Lu73E0SyBQjZAqBkRqqi3QUwJJawL38sAjft/P2I5b6lGoXUeNPNxLu
+         tJPR905XMyZVCCs4YTHhOCs3pnwh3vCao51i4oCKKmfn9hDiBMoq3/PuZekUFhKIF/6w
+         1LwgKnf5ptmithgFZUw5WppObZtMnQAO9rqysH9/x2kgNai6i4BeLJ5VQKFpEwEmixcT
+         q9RX96LMq3++61CJwx2KW2SmJzXRa8+Nt9bVrw1uSOe8n8VIgPRVtTnYLNoAjU/VmWef
+         E26w==
+X-Gm-Message-State: AOAM5328/StAaVK4AwkxnNdmdK5OlH0VpKFj4crb25RijD9tA8k/U6w9
+	S3/58NvvmV0cdW+r3o7mLo85ovhWJhpfO+1rWLM=
+X-Google-Smtp-Source: 
+ ABdhPJwp5gDAU1gE+VzcFZ3JJ5cU7UTmf8WZOToKM5sfWogDbZyy8gKOz+6qaS9zAUdgcigTspexm9jxllwSudb7hU4=
+X-Received: by 2002:a19:ca14:0:b0:44a:23ab:90a5 with SMTP id
+ a20-20020a19ca14000000b0044a23ab90a5mr10335211lfg.673.1649360722735; Thu, 07
+ Apr 2022 12:45:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 55UC7aJMUzE8UH4uBbOiXwi1Mm9svhhT
-X-Proofpoint-ORIG-GUID: 55UC7aJMUzE8UH4uBbOiXwi1Mm9svhhT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-07_04,2022-04-07_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: orgsafe
+References: <20220407170029.3500874-1-alex@linutronix.de>
+ <20220407170029.3500874-17-alex@linutronix.de>
+ <CAMKF1sqJLvgJh__jq2biOrkm_M6zw4ibkxP7u1s1rZPEbyLa3Q@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sqJLvgJh__jq2biOrkm_M6zw4ibkxP7u1s1rZPEbyLa3Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 7 Apr 2022 21:45:11 +0200
+Message-ID: 
+ <CANNYZj_eX18s-D9=_ZhOtdhOJg4PhJHgzd9Pa6Y9MscHEn5X5g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 17/17] python3-typing-extensions: upgrade
+ 3.10.0.0 -> 4.1.1
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164143
+ https://lists.openembedded.org/g/openembedded-core/message/164136
 
-Add support to the runqemu script for a new option, 'guestagent', that
-enables the virtio serial port for host-to-guest communication.
+On Thu, 7 Apr 2022 at 21:43, Khem Raj <raj.khem@gmail.com> wrote:
+> > -inherit pypi setuptools3
+> > +inherit pypi python_flit_core
+>
+> has this module made a move to use flit instead of setuptools ? if so,
+> perhaps adding that info in commit might be good.
 
-Signed-off-by: Brenda Streiff <brenda.streiff@ni.com>
----
- scripts/runqemu | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+It has, yes. I thought such a change is self-documenting.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 2f77a7bd0f..c25764b28e 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -82,6 +82,7 @@ of the following environment variables (in any order):
-     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
-     publicvnc - enable a VNC server open to all hosts
-     audio - enable audio
-+    guestagent - enable guest agent communication
-     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
-   tcpserial=<port> - specify tcp serial port number
-   qemuparams=<xyz> - specify custom parameters to QEMU
-@@ -214,6 +215,8 @@ class BaseConfig(object):
-         self.cleaned = False
-         # Files to cleanup after run
-         self.cleanup_files = []
-+        self.guest_agent = False
-+        self.guest_agent_sockpath = '/tmp/qga.sock'
- 
-     def acquire_taplock(self, error=True):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-@@ -522,6 +525,10 @@ class BaseConfig(object):
-                 self.snapshot = True
-             elif arg == 'publicvnc':
-                 self.qemu_opt_script += ' -vnc :0'
-+            elif arg == 'guestagent':
-+                self.guest_agent = True
-+            elif arg.startswith('guestagent-sockpath='):
-+                self.guest_agent_sockpath = '%s' % arg[len('guestagent-sockpath='):]
-             elif arg.startswith('tcpserial='):
-                 self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
-             elif arg.startswith('qemuparams='):
-@@ -1348,6 +1355,12 @@ class BaseConfig(object):
-             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
-         self.qemu_system = qemu_system
- 
-+    def setup_guest_agent(self):
-+        if self.guest_agent == True:
-+            self.qemu_opt += ' -chardev socket,path=' + self.guest_agent_sockpath + ',server,nowait,id=qga0 '
-+            self.qemu_opt += ' -device virtio-serial '
-+            self.qemu_opt += ' -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 '
-+
-     def setup_vga(self):
-         if self.nographic == True:
-             if self.sdl == True:
-@@ -1459,6 +1472,7 @@ class BaseConfig(object):
-         if self.snapshot:
-             self.qemu_opt += " -snapshot"
- 
-+        self.setup_guest_agent()
-         self.setup_serial()
-         self.setup_vga()
- 
--- 
-2.20.1
-
+Alex
 
