@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E37B2C47087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2C1EC352A7
 	for <webhook@archiver.kernel.org>; Thu,  7 Apr 2022 20:36:08 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web09.1093.1649350860788846505
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.1092.1649350862288336802
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:01:01 -0700
+ Thu, 07 Apr 2022 10:01:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JG+St2ty;
- spf=pass (domain: gmail.com, ip: 209.85.218.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MSKezsDF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id bq8so12142991ejb.10
+Received: by mail-ej1-f46.google.com with SMTP id l26so12211085ejx.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Apr 2022 10:01:00 -0700 (PDT)
+ Thu, 07 Apr 2022 10:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GPzAfzb+3IeI0PV8tguxkGBbHLbRwcZ9lFaOGxiGtY8=;
-        b=JG+St2ty/NeOeWq9IJ7HWPS7fJL5E0a96OjmmkKOK4/vq7l1L57kSmz9tjmrMMRqBs
-         N/gJ4I4neWcqoF40wDccGzsgVvuf62tPZzGOOsMERWJI1WeJpmHb0Gp0s9hFiV4B5MWm
-         Fgies7lVs5FWxhw2g3hOfbooywHuX/uF0qwrtpaOzSKeRqfQ2a3hkEcJjL+3BoaAcREv
-         IfGVdcaoTIHoeR+1bTy8DtQeBhJ0H7/M0Yq8zG0iD+/lGFUOlOtB0ANoYRbxXWyE3Kdx
-         Z/ZxwhzCSLAMDm9UdFRwRqj+4SsYzcTBqZHi7Nd+i0ZFLb3Jb1+rE0tM3Y9QGi8SWIq8
-         6Q3w==
+        bh=I86Y8zrbV70fpaci/V9dYzHfinRg2u2yKOISCbz7O7E=;
+        b=MSKezsDFsSCGy+KaSZV4vNpKQ8/mtrRHhjNUd7v8DfzfpbMw1+rv1YzRh+5HrFTdDw
+         HzcqrgMa4UbZQML1936YkF2IxXDjr4ZJMIzY9d+9kicVNra9T+hR3wiFSVEVx0v5UQED
+         u8YYlk0JX6047HC9IQUDtU1KjEkrImJARhGzcDC6ONwh7BD0HvHUGPUV5k3nw7RlGAml
+         yughpoqdkn93RQZGHKKCvPaEMhfVQF3XbwB2O5z+1FqQHw0gnmt8Jx4uAxg4c5u1T2SD
+         Ve0W1K5AFNnjwJ+FvqCrSt2QqwjmAA+u0uhzpah0CRHmFrZDlO1mB/W23Ql25vdDZrH9
+         Nt6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GPzAfzb+3IeI0PV8tguxkGBbHLbRwcZ9lFaOGxiGtY8=;
-        b=0HnZOhBP3wqon2e6Jd1fLKgQkzhJRmoZVTGvtGYnMDaHYkgsUgnrghZx/9fBpEV7o3
-         aPqb5YrVETCfYeaWGSzBQI+XPwm30DhtOs2Fc0Fugz4WuxGf7xMN+P2PD0JHlOcVulbJ
-         XCPDwz/SthcIFSFxR4snsuHDMxOL2gej0g63GQd9ucGbT5wURey0UYObn8mukaZIJ61O
-         MXydWboGoY94Be49UgCHsPfiON+Hi7OShBFRcDwqkMdZrCknFalfl4Wzehms3wMpOaX3
-         PxlU99jaZ1T/sjgVH4SNpcJVQzwfRbY2GzYdKPhc6EkO7j3akr0a4qkVNFqAFYWZ6YyM
-         zmjw==
-X-Gm-Message-State: AOAM5338qRkkh73bO1Iot/rFk3bS3LjJbXZyrTNm72VGGg8heGEbFSDU
-	rZQEkl0N2vVqnc8rCr7StMJbhSi/u7I=
+        bh=I86Y8zrbV70fpaci/V9dYzHfinRg2u2yKOISCbz7O7E=;
+        b=374C4eCLTRhbwei2kdZoER66LyrgBmCtk31V1+Jp1JfD8qrjkBSMhsG9XlrmJg7/Ts
+         4dfrEtxRZjZJaPfsluPk3KJRspVem/9iswa3hqIQaII7ejGuD4UMVBd2+ljv47RpcsF3
+         W+mnYCwJ1WE5Lo0VbPjsTGeiN1hIEF2ODUUG0tE3ygQbwLqyXiK0jcB1tNqZFqjPlvPd
+         FozacbsSBgs/BXGTY6cAJPTxaql43uEGE+HjYGQP41U1BsCKIEuo5h0qqE+Zai4lIL06
+         orV3BXeS9lYd1J/7UIya4cfgjOJQuCS+Ntdicf3eIxAhiWjYT9id+ZN51KcC4nVbZWny
+         7u6w==
+X-Gm-Message-State: AOAM533M9a88p9kNB/TDHoDSWUNW/vUZPnss/Eo7wRYkJNuGivCiS8G9
+	JqwUwmaZ9fzh/xszgjLZE/YqEpNAyug=
 X-Google-Smtp-Source: 
- ABdhPJxT9+y3EzGIQWek8tW3Xzuv2Acq2RmWFdN+e62hEfsJ6FkeqdO+1TnmnvqJIg2dtSCt4dGrpQ==
-X-Received: by 2002:a17:907:7e94:b0:6e4:9d72:a784 with SMTP id
- qb20-20020a1709077e9400b006e49d72a784mr14056658ejc.346.1649350859306;
-        Thu, 07 Apr 2022 10:00:59 -0700 (PDT)
+ ABdhPJwdoTp64pVm++MIegpQm3dZxW7H+n4H8riq4KY40BD3G1FbI9KnnFdb2ZnCzYm9qBNn0d5k/A==
+X-Received: by 2002:a17:906:7307:b0:6da:92e1:9c83 with SMTP id
+ di7-20020a170906730700b006da92e19c83mr14362095ejc.459.1649350860689;
+        Thu, 07 Apr 2022 10:01:00 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.56
+ gt34-20020a1709072da200b006df6bb3db69sm7796879ejc.158.2022.04.07.10.00.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 10:00:57 -0700 (PDT)
+        Thu, 07 Apr 2022 10:00:59 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/17] librsvg: upgrade 2.52.7 -> 2.54.0
-Date: Thu,  7 Apr 2022 19:00:28 +0200
-Message-Id: <20220407170029.3500874-16-alex@linutronix.de>
+Subject: [PATCH 17/17] python3-typing-extensions: upgrade 3.10.0.0 -> 4.1.1
+Date: Thu,  7 Apr 2022 19:00:29 +0200
+Message-Id: <20220407170029.3500874-17-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220407170029.3500874-1-alex@linutronix.de>
 References: <20220407170029.3500874-1-alex@linutronix.de>
@@ -68,80 +68,33 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Apr 2022 20:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164132
-
-Upstream has replaced gtk-doc with gi-docgen however it is not possible to
-configure. So it's disabled until the merge request to do so lands:
-https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/687
+ https://lists.openembedded.org/g/openembedded-core/message/164133
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../librsvg/librsvg/0001-Disable-docs.patch   | 24 +++++++++++++++++++
- .../{librsvg_2.52.7.bb => librsvg_2.54.0.bb}  |  9 ++++---
- 2 files changed, 30 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
- rename meta/recipes-gnome/librsvg/{librsvg_2.52.7.bb => librsvg_2.54.0.bb} (85%)
+ ...ensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-typing-extensions_3.10.0.0.bb => python3-typing-extensions_4.1.1.bb} (73%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
-new file mode 100644
-index 0000000000..13d25d4f08
---- /dev/null
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
-@@ -0,0 +1,24 @@
-+From e62887dfa36812d5b8bc1c2c2fec69ba985309d8 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 5 Apr 2022 09:21:14 +0200
-+Subject: [PATCH] Disable docs
-+
-+Upstream has replaced gtk-doc with rst2man and gi-docgen in a way
-+that is not possible to disable and requires g-i. There's a
-+pull request to address this, until then let's patch it out:
-+https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/687
-+
-+Upstream-Status: Inappropriate [see above]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index e380bc9..5b3fbb5 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -1,4 +1,4 @@
-+-SUBDIRS = . gdk-pixbuf-loader tests doc win32
-++SUBDIRS = . gdk-pixbuf-loader tests win32
-+ 
-+ NULL =
-+ 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.52.7.bb b/meta/recipes-gnome/librsvg/librsvg_2.54.0.bb
-similarity index 85%
-rename from meta/recipes-gnome/librsvg/librsvg_2.52.7.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.54.0.bb
-index 78eb93c635..96c54f16d6 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.52.7.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.54.0.bb
-@@ -11,16 +11,19 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                    "
+diff --git a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+similarity index 73%
+rename from meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
+rename to meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+index a8e83fc824..6c80a8b237 100644
+--- a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
++++ b/meta/recipes-devtools/python/python3-typing-extensions_4.1.1.bb
+@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=64fc2b30b67d0a8423c250e0386ed72f"
+ # The name on PyPi is slightly different.
+ PYPI_PACKAGE = "typing_extensions"
  
- SECTION = "x11/utils"
--DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
-+# Note: docutils/gi-docgen should be made optional when upstream enables that
-+# https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/687
-+DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango python3-docutils-native gi-docgen-native"
+-SRC_URI[sha256sum] = "50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"
++SRC_URI[sha256sum] = "1a9462dcc3347a79b1f1c0271fbe79e844580bb598bafa1ed208b94da3cdcd42"
+ 
+-inherit pypi setuptools3
++inherit pypi python_flit_core
+ 
  BBCLASSEXTEND = "native nativesdk"
  
--inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-introspection rust vala
-+inherit gnomebase pixbufcache upstream-version-is-even gobject-introspection rust vala
- 
- SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch \
-            file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch \
-+           file://0001-Disable-docs.patch \
-            "
- 
--SRC_URI[archive.sha256sum] = "057c1eeeaf85c84e254bdb707459207f5840da5b4d52b4711c03140ed09e6887"
-+SRC_URI[archive.sha256sum] = "baf8ebc147f146b4261bb3d0cd0fac944bf8dbb4b1f2347d23341f974dcc3085"
- 
- # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
- # so we cannot use cargo class directly, but still need bits and pieces from it 
 -- 
 2.30.2
 
