@@ -2,62 +2,64 @@ Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D1A0C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA9CC43219
 	for <webhook@archiver.kernel.org>; Fri,  8 Apr 2022 20:12:14 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.1119.1649445923182318366
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.web08.1058.1649445924585079914
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Apr 2022 12:25:23 -0700
+ Fri, 08 Apr 2022 12:25:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=if8wVGIM;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.219.53,
+ header.b=7m7zbC9a;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.160.182,
  mailfrom: jdmason@kudzu.us)
-Received: by mail-qv1-f53.google.com with SMTP id p8so8261799qvv.5
+Received: by mail-qt1-f182.google.com with SMTP id a11so11385320qtb.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Apr 2022 12:25:23 -0700 (PDT)
+ Fri, 08 Apr 2022 12:25:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=0DpEw6TNGFAES+CxgvQk7GqvACZpnbIwCGCGDMWQ814=;
-        b=if8wVGIMQ6G3deQoJRMgj+xOzGjAEuHRCmchHk39Wz1fdAbrowOZffm/N3uQVQqCSU
-         96DwPUD84WE2IguVHvKd5KedoZolPx2Xw8krNMODJpSJVSUKmxUI6jh9PVW28aAK+Bib
-         KveEbGdTuY5xR0B/Fp4F24MtPsVKqHYpS4sd0ul/4u3qS9t/YvMbRPTDvkulj/e/K8Ho
-         H9AkUGgAJo37azaK3JAYeb8iEcb/QOdRFFcMSkR5eRhYAEGJdi4Rihh5DEcFpGsgYc/u
-         1gyDxMUlX7lSLeBIYPDSzc3pLqsRkiNn2+T+avWnfT/nNeCRCyGrsSkJiLWOYSlSfohA
-         DSIg==
+        bh=na3r5BS4NIs/tBgM+2QiHIE/Qnx8Kg/cKTgIRujNAj0=;
+        b=7m7zbC9aUkR3ovjMX2AL+tup+rvgnUUuRFHge+xPxwdQw6qGZZ+P+oYVHsN9npr5Md
+         SxPNCLvvx+vvYsRVChaozpJf0OMCWVzwXPyy62+53nvbieaO5OEywk8LxD4ycA9Ie2Rw
+         kxi71IosjlcTL7bl9DFKQn0Lik85bfWoGs11w3FWbh4XxZL6CPCxaSQ7KTAg5wn8aogH
+         gzP+iCXK7+jQO8VMA5OlFG5+ui4Ye9A+L4Xpz74ebtiuFogphZzm/bfP6A5YxBxEj7wq
+         ZgS4y8dzet9GK/45iKEXtwr4FL2rr0TLli+1yEEwkO/9i5VPWX947RpTaCspAEJcQR7/
+         rBtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0DpEw6TNGFAES+CxgvQk7GqvACZpnbIwCGCGDMWQ814=;
-        b=LacOGRJdJg4LpwLry8wSVYPMYQjyJ0I4iACnVaiQC32aJxQQjInHA7EruOu0vloGbA
-         T8ghtvZ7NyDM4EOJvK/Rx6YZs3A9kJS5nZvtWLL4M5uWohWKCoMdyQ39OwQc5FY1pJ4l
-         1h98e2MUdiI/1PtmOF3smaUUabIdScopxGfneMtArpXY+a8v5ekRPcabA9CF83rEF6r6
-         ezYfF4n0mQl3HE9sDhovhsNqyNf1xqUqZCr1xGzlKYPvtZSG/3zrbXDoCfW99Kj6WmkR
-         DDNxKNAkLNs3bHg0ha1sxf4ywK8pNU4Ix52DTo2do4Qm/fvyCXrQjE1hUAXo2bOlFRQO
-         y7dA==
-X-Gm-Message-State: AOAM5325pMUddRO5euTmhK5jR0OzcMZG4uBGpxZmdxoYTjAdVmEzrPcB
-	lk9Fa6tGliXzbKKcimZajs6Z4vSztsCRDw==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=na3r5BS4NIs/tBgM+2QiHIE/Qnx8Kg/cKTgIRujNAj0=;
+        b=Cjj0XP0URP9wDQjyDsN23f/+HQrc61ZEw7PeXpwsjYwYX46TR0gaNKG5V0S1xNZZzu
+         GJdCpwMXtSpcyLuuVmC2S5tnvR+dGAmz+GFxc0ZYolc68RR13HHPtLZ6jmJM9aJUm/4v
+         3NMutiIm+vGULtVZauI1SfazulJcW3rAqrkdqa2MetLhXvdNhdRZuKPZOqxVMzOC7PWa
+         YERSDIfB/xaMraZYNicOhbZSM5p9QsXg4zej7IolF5fY9G6iArrisiKnFEJkg9IuJ3EH
+         PZvvcSjknetlj8CI5qY4dU00KH3DZP0nPVAyoPcfca7C6gI+JIQbLCunx3CwuAjLOfEl
+         ZjSw==
+X-Gm-Message-State: AOAM530Pr9tqb/1Ah45S940DhimC90Ka9jsiLBpds/iqPVX66bCFg265
+	ez3mMryCCxk2xpNSrfGrNhOKurVd69Xcag==
 X-Google-Smtp-Source: 
- ABdhPJw4gfal+3RlhBikLiPDB8CNt25DJuKWCqJvT1zTGi7tBXe0EE2nhwxoaXA6bP/lhfMYVtHu1g==
-X-Received: by 2002:a05:6214:c62:b0:441:3ec2:c99f with SMTP id
- t2-20020a0562140c6200b004413ec2c99fmr17815618qvj.121.1649445922032;
-        Fri, 08 Apr 2022 12:25:22 -0700 (PDT)
+ ABdhPJya4sjt4ftpE4ehAKKR31lBdjM2xzkxF8r1hkymY+xJCy3/OygIMpiWbv8eHuEZ2pJXavWi+w==
+X-Received: by 2002:a05:622a:2cd:b0:2e1:db0c:88db with SMTP id
+ a13-20020a05622a02cd00b002e1db0c88dbmr17087734qtx.649.1649445923629;
+        Fri, 08 Apr 2022 12:25:23 -0700 (PDT)
 Received: from localhost ([2605:a601:a66c:b900:3b2f:a3a7:b707:646])
         by smtp.gmail.com with ESMTPSA id
- t19-20020ac85893000000b002e1afa26591sm20886799qta.52.2022.04.08.12.25.21
+ f8-20020ac859c8000000b002e232e04cafsm19351678qtf.88.2022.04.08.12.25.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 12:25:21 -0700 (PDT)
+        Fri, 08 Apr 2022 12:25:23 -0700 (PDT)
 From: Jon Mason <jdmason@kudzu.us>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 0/6] poky-tiny clean-ups and qemuarm fixes
-Date: Fri,  8 Apr 2022 15:25:15 -0400
-Message-Id: <20220408192521.1608764-1-jdmason@kudzu.us>
+Subject: [PATCH v2 2/6] qemuarm: use virtio device interface for graphics
+Date: Fri,  8 Apr 2022 15:25:17 -0400
+Message-Id: <20220408192521.1608764-3-jdmason@kudzu.us>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220408192521.1608764-1-jdmason@kudzu.us>
+References: <20220408192521.1608764-1-jdmason@kudzu.us>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -65,38 +67,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Apr 2022 20:12:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164162
+ https://lists.openembedded.org/g/openembedded-core/message/164164
 
-Changes in v2:
-* Addressed Khem's comments
-* Rebased to the latest version
-* Added distro description for poky-tiny, as this makes it more obvious
-  which distro is being booted when there are multiple
+For uniformity, use the virtio device interface, as all the other virtio
+devices for this machine are the non-PCI ones.
 
-The yocto-kernel-cache changes were sent, accepted, and should be
-uploaded shortly.
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/conf/machine/qemuarm.conf | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
-Jon
-
-Jon Mason (6):
-  linux-yocto: Remove unnecessary, commented out qemuarm entry
-  qemuarm: use virtio device interface for graphics
-  qemuarm64: use virtio pci interfaces
-  qemuarmv5: use arm-versatile-926ejs KMACHINE and add more virtio
-    devices
-  poky-tiny: add a distro description
-  poky-tiny: enable qemuarmv5/qemuarm64 and cleanups
-
- meta-poky/conf/distro/poky-tiny.conf               |  1 +
- meta/conf/machine/qemuarm.conf                     |  3 +--
- meta/conf/machine/qemuarm64.conf                   |  8 ++++----
- meta/conf/machine/qemuarmv5.conf                   | 12 ++++++++++--
- meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb |  4 +---
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      |  3 ---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb      |  3 ---
- 7 files changed, 17 insertions(+), 17 deletions(-)
-
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 1bd4e3e154fc..12da1557efff 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -17,10 +17,9 @@ QB_SYSTEM_NAME = "qemu-system-arm"
+ QB_MACHINE = "-machine virt,highmem=off"
+ QB_CPU = "-cpu cortex-a15"
+ QB_SMP = "-smp 4"
+-# Standard Serial console
+ QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
+ # For graphics to work we need to define the VGA device as well as the necessary USB devices
+-QB_GRAPHICS = "-device virtio-gpu-pci"
++QB_GRAPHICS = "-device virtio-gpu-device"
+ QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+ # Virtio Networking support
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
 -- 
 2.30.2
 
