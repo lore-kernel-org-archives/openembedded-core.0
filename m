@@ -1,148 +1,86 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A3FC6371B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9859C6377C
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:18:02 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web09.9846.1649532441010993115
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.15202.1649576116370072091
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Apr 2022 12:27:21 -0700
+ Sun, 10 Apr 2022 00:35:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Dk3Rxvf6;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so14758286pjn.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BvpQ6KoB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id r13so18627185wrr.9
         for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Apr 2022 12:27:20 -0700 (PDT)
+ Sun, 10 Apr 2022 00:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aR2ycWGWF5RqtYhLgrQW5V9bCp1iI7NEzCFt55ol7ww=;
-        b=Dk3Rxvf6HJjR+5i/Y/V6iP7kcUT2YqIg5eDuFs5W8Le0pjfK9W20EPtHSuaJxVxUir
-         iw3BtClt2LTr2KFhwJoUHyvK1/tPb3qgeyjxrH2vabLrdXQ0W7q8bpQIa0oaoJEwzB9y
-         qfxnYqTOJwc3L4u0aik0FWpmdEzTqre4u96s66aBB3eXb7lRrq78z/wEmwdDmTH8wXog
-         veXcy7M90M4TLuCOxaVMW4GT+m1iZbGKm8RJIb+cMSaT3GcO2N/vod4YdXnr6vEKcOT3
-         G+vX4ZB3NF6HIm95VetfgClzAPucW4+TcvUP7MYrumOH+pZd3brW3Sx4YWbNPoKCvoeI
-         Jmeg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=UCFrJpLKaSXcPyOV/FJ7Of++BEKSF6PVcvpNoPcAfpQ=;
+        b=BvpQ6KoBflCXPiTN7FDh7FZljc8oF2Gzyk1xf/fd8Dm8JnlYOhDWdqeiFYNmi/IEWO
+         7N6W01JeM6m/2cqEoTd8GTacwR83qn346WGkL2vsvuiMAZpzB2561locNcAgW9pahQj9
+         gsQq38Dx++ZyXJVmQzrTUOtm4nAptSD0pIoV0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aR2ycWGWF5RqtYhLgrQW5V9bCp1iI7NEzCFt55ol7ww=;
-        b=AtdfcDC349j1Rp3X/2Z2ykPjES/lQiTD4G2MbqMCvyf7o+5d2r/GQ4dj7nmi73SzWa
-         FG0YFwcBXj4u+GilB4cHE7M62sSrEnes/DCqssEKtnth3AWyEFBUWtyak5CK5NQKSxBp
-         /+gm3vntRuk2axgkOrSd3QuS6K1MMVsh/9dSK6xE9F5X4D/iy9Z4WWsLkSZcZt9s8hvp
-         ORnWymRcEu3unolLYi8xNoa4h0tRFVYPH9b7V6ORzQKqOinFq2YCYf5Vp7XEgwq/Ksq+
-         O2a9e4EyzCwxtCjas1WfZK2wvFHoQ0osLQfqeZ7c9gtFIF0sFSbRrUyhUP25qiTk8Cke
-         3CcQ==
-X-Gm-Message-State: AOAM532hbjijBKcFXkDkM6GeU3sfDY2EzzsdKQZIxfmwiBWXMhCKenAb
-	TiyQ3VEe57SZbQ/2BXtTC5x+ao1fwX1kPA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=UCFrJpLKaSXcPyOV/FJ7Of++BEKSF6PVcvpNoPcAfpQ=;
+        b=MJLkQSLi3mnpVF7a3RZbxY/oj3VH1nhApN2MyzFhU2/tyhuQ5+5lQ8E0aJPq9BKAL8
+         beZcInSWEbAnXS5lFZU1TINln7ynGDj1F1+mSm4bLb6HxBN9xaX1genQ9Burr4k0fWqJ
+         Clfb7BMmNgMuXPGoNZzdRw3DYeVzekzLTBfFODrl+pbQ5mEJPS/WvH5p1QZ3IgwZz5Sg
+         4l7dt1wRsRdYLqoJePyB+VQevSgWMwAsD1IDlyLL5d6bDQmNlljFgxKssigNoxdE9DfR
+         tTAFPwjhhA/EH835EPfC9YmsBw/miHqvH0UDBKe1vQU7fDwa2W4sBmXnNjAhF0wKSNe8
+         1BYQ==
+X-Gm-Message-State: AOAM533TYRbB828zS8a6ImEsZDzkvQuuDwhaNMWtlzfIbh6/Y5i3Dvbj
+	AZs1xtkz1y8lTUdrR8a4EbIQhg==
 X-Google-Smtp-Source: 
- ABdhPJwV8hjmE1ct4GRkfM0gnPqGAQKDBINMzHiCWspvOlceswtuO84LVR/ceJYECjkOIQZrrqFzpw==
-X-Received: by 2002:a17:903:2345:b0:157:53f:76fb with SMTP id
- c5-20020a170903234500b00157053f76fbmr14951635plh.161.1649532440217;
-        Sat, 09 Apr 2022 12:27:20 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::94ca])
+ ABdhPJwB0kavxbK7lbMN65SkS0dCRpzaDKbmYfIFdw1GJpIBx4nSdYFUvSNDB7Xg1emlXvhITurKsA==
+X-Received: by 2002:adf:8063:0:b0:205:e19e:2bc1 with SMTP id
+ 90-20020adf8063000000b00205e19e2bc1mr20596404wrk.177.1649576114581;
+        Sun, 10 Apr 2022 00:35:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1d9b:707d:8b0b:b1df?
+ ([2001:8b0:aba:5f3c:1d9b:707d:8b0b:b1df])
         by smtp.gmail.com with ESMTPSA id
- y13-20020a17090a390d00b001c995e0a481sm15861982pjb.30.2022.04.09.12.27.19
+ f18-20020a05600c155200b0038e992eaa64sm9090112wmg.33.2022.04.10.00.35.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Apr 2022 12:27:19 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Ross Burton <ross.burton@arm.com>,
-	Jon Mason <jdmason@kudzu.us>
-Subject: [master][kirkstone][PATCH] python3: Do not detect multiarch when
- cross compiling
-Date: Sat,  9 Apr 2022 12:27:17 -0700
-Message-Id: <20220409192717.1620524-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Sun, 10 Apr 2022 00:35:13 -0700 (PDT)
+Message-ID: 
+ <043546157ea8f6945e878decd7c28e2ae6a2c984.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libbsd: upgrade 0.11.5 -> 0.11.6
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 10 Apr 2022 08:35:01 +0100
+In-Reply-To: <1649011540-28857-5-git-send-email-wangmy@fujitsu.com>
+References: <1649011540-28857-1-git-send-email-wangmy@fujitsu.com>
+	 <1649011540-28857-5-git-send-email-wangmy@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:18:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164192
+ https://lists.openembedded.org/g/openembedded-core/message/164195
 
-This was a long standing problem seen on aarch64 build hosts when
-compiling python3 with clang cross compiler. The issue is not seen with
-gcc because native glibc headers are still compatible with gcc cross compiler
+On Mon, 2022-04-04 at 02:45 +0800, wangmy wrote:
+> License-Update:
+>     year updated to 2022
+>     license file changed
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>
-Cc: Jon Mason <jdmason@kudzu.us>
----
- ...detect-multiarch-paths-when-cross-co.patch | 42 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.10.4.bb |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch
+Changed how?
 
-diff --git a/meta/recipes-devtools/python/python3/0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch b/meta/recipes-devtools/python/python3/0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch
-new file mode 100644
-index 00000000000..1844e0efa30
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch
-@@ -0,0 +1,42 @@
-+From dc966f1278c1077938626d682666767d2c8d0c72 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 9 Apr 2022 18:29:47 +0000
-+Subject: [PATCH] setup.py: Do not detect multiarch paths when cross-compiling
-+
-+add_multiarch_paths() function relies on host tools like dpkg-configure
-+to operate, which is not good when cross compiling, since it ends up
-+adding native paths in includes in certain cases, e.g. when building
-+for aarch64 targets using aarch64 build hosts running debian-like
-+distributions e.g. ubuntu, it ends up adding native multiarch paths
-+-I/usr/include/aarch64-linux-gnu during cross compile and since arches
-+are so similar, cross compiler (epecially clang) is inhererently configured
-+with multiarch ends up adding these paths to compiler cmdline which
-+works ok with gcc since headers are similar but clang barfs on some gcc
-+extentions and build fails due to missing gnu extentions but it silently
-+compiles when using cross gcc.
-+
-+Fixes python3 cross build by not running this funciton when cross compiling
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ setup.py | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/setup.py b/setup.py
-+index 2e7f263..f7a3d39 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -840,7 +840,8 @@ class PyBuildExt(build_ext):
-+         # only change this for cross builds for 3.3, issues on Mageia
-+         if CROSS_COMPILING:
-+             self.add_cross_compiling_paths()
-+-        self.add_multiarch_paths()
-++        if not CROSS_COMPILING:
-++            self.add_multiarch_paths()
-+         self.add_ldflags_cppflags()
-+ 
-+     def init_inc_lib_dirs(self):
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
-index 522f0d71ee5..7eaafe34ad5 100644
---- a/meta/recipes-devtools/python/python3_3.10.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.4.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
-+           file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
-            "
- 
- SRC_URI:append:class-native = " \
--- 
-2.35.1
+Do we need to update LICENSE?
+
+We need to be more specific than just "license file changed".
+
+Cheers,
+
+Richard
 
 
