@@ -1,148 +1,192 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC428C4743F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC643C48BCB
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:17:59 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web08.2408.1649470646364783706
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.25640.1649655996470458354
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Apr 2022 19:17:26 -0700
+ Sun, 10 Apr 2022 22:46:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Qkji2UAp;
- spf=pass (domain: linaro.org, ip: 209.85.222.172,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-qk1-f172.google.com with SMTP id b189so6249515qkf.11
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Apr 2022 19:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+HoICKmlyxLlGHgRSyGRAN49Ptyzp7+v6gLwr6fYy2E=;
-        b=Qkji2UApvBFsbsHdAgG6BzTEjQasjk/BzSIB6ypAyYs3XXZd/99DTCj75jKXjqLtZ4
-         JbD8niGEMYC/WGdnVSPKN3ruF48fudYibbDlguQeCczNZlSIoRW04morCMk9QBwaox0y
-         7jgxCdYKwosTU+RIUQA9rugyvqJluu2Mxs7daWowt0nLoK0U++r6kW9kRHz3woYUMsHh
-         ptpBUg4gpKEMKXC1C1q96sZ35s4/KXLO4q6BWvSsC3Ww945H9Q0qAEFZkt+yeV6OqhTi
-         3sbUD8de98Wa+Xt5Dp9J4AchBaY7TebvQPPEQgwf8gY7o9t5vBuQ8fOgm9sDPMUx84c2
-         PfKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+HoICKmlyxLlGHgRSyGRAN49Ptyzp7+v6gLwr6fYy2E=;
-        b=V5mPVx/ug/yl/IMcortVdgla7HNJsrDvZGG1b+mEoR+KimnsdM/TW5SvjGjntPk7kk
-         EhCz6qGzA0biZe8VoiaKGvI9+ail9hL7IDrj42QOEeDCL9UqomKevwyrJRBsFhmKmbrV
-         qoxM43Vqy+L+AgMdz0pwHlARuX6dyimGPm5BzGq9AWTTLnWsVYtKOm727tmFFJWqXugW
-         n0z6osxalBtcnHfdheD1rtVNI3n4nELEIcmjtR8dMr1I3RMfeVuoljf+YiJwvu49coaz
-         fiJVxvhTQ9RuTR9h35KCAYYMpqbPNJ9ARw7o0GjBI/CZQRRsAi44blvW1GGA069zJ0Me
-         L1tQ==
-X-Gm-Message-State: AOAM5303WoOUfjPwmSNscNzaBjp1ivEtLN4fTU6VPmpnWCF5g5P3LEyK
-	B9pPNmX/+M03fAlxDMiaMqYDBt9Ntp6abQ==
-X-Google-Smtp-Source: 
- ABdhPJwObafVUugBiURs6TC6csebwUmXT5lhztXOKlkx6uVay7KLrywTdkSiBbqUfT2imt3aKZ4gvA==
-X-Received: by 2002:a05:620a:28ce:b0:69b:e718:7172 with SMTP id
- l14-20020a05620a28ce00b0069be7187172mr3071785qkp.497.1649470645526;
-        Fri, 08 Apr 2022 19:17:25 -0700 (PDT)
-Received: from maple.netwinder.org (rfs.netwinder.org. [206.248.184.2])
-        by smtp.gmail.com with ESMTPSA id
- br35-20020a05620a462300b0067e890073cbsm16825080qkb.6.2022.04.08.19.17.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 19:17:25 -0700 (PDT)
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>
-Subject: [dunfell][PATCH] gzip: fix CVE-2022-1271
-Date: Fri,  8 Apr 2022 22:17:23 -0400
-Message-Id: <20220409021723.201373-1-ralph.siemsen@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd86.dcpf.telekom.de (fwd86.aul.t-online.de [10.223.144.112])
+	by mailout06.t-online.de (Postfix) with SMTP id D2FD8D7B2;
+	Mon, 11 Apr 2022 07:46:34 +0200 (CEST)
+Received: from [192.168.178.83] ([84.163.47.225]) by fwd86.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1ndmsk-2DbsRt0; Mon, 11 Apr 2022 07:46:34 +0200
+Content-Type: multipart/alternative;
+ boundary="------------Miin3DGSHElObNtRs2sJT383"
+Message-ID: <b06ab65f-b328-6b96-fe0d-cd124641f0ca@t-online.de>
+Date: Mon, 11 Apr 2022 07:46:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [oe-core][PATCH] glib-networking: build with gnutls support
+Content-Language: en-US
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20220410172852.4136-1-f_l_k@t-online.de>
+ <CAJ86T=Vojo4Y1sTzHtDca79WQXuWdE6VS0r=P7wpvHHE3nBrQQ@mail.gmail.com>
+From: Markus Volk <f_l_k@t-online.de>
+In-Reply-To: 
+ <CAJ86T=Vojo4Y1sTzHtDca79WQXuWdE6VS0r=P7wpvHHE3nBrQQ@mail.gmail.com>
+X-TOI-EXPURGATEID: 150726::1649655994-000116DC-77F717A5/0/0 CLEAN NORMAL
+X-TOI-MSGID: e36d12e9-ed44-4e3c-9569-6a77adfa3d1b
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:17:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164182
+ https://lists.openembedded.org/g/openembedded-core/message/164214
 
-zgrep applied to a crafted file name with two or more newlines
-can no longer overwrite an arbitrary, attacker-selected file.
+This is a multi-part message in MIME format.
+--------------Miin3DGSHElObNtRs2sJT383
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gzip.git/commit/?id=dc9740df61e575e8c3148b7bd3c147a81ea00c7c]
-CVE: CVE-2022-1271
 
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Am 11.04.22 um 06:25 schrieb Andre McCurdy:
+> On Sun, Apr 10, 2022 at 10:29 AM Markus Volk<f_l_k@t-online.de>  wrote:
+>> this fixes authentication issues with geary and tls connection
+>>
+>> Signed-off-by: Markus Volk<f_l_k@t-online.de>
+>> ---
+>>   meta/recipes-core/glib-networking/glib-networking_2.72.0.bb | 2 +-
+>>   meta/recipes-support/gnutls/gnutls_3.7.4.bb                 | 2 +-
+>>   meta/recipes-support/p11-kit/p11-kit_0.24.1.bb              | 4 ++--
+>>   3 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.72.0.=
+bb b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+>> index d578f17aa5..73827b0a85 100644
+>> --- a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+>> +++ b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+>> @@ -11,7 +11,7 @@ DEPENDS =3D "glib-2.0"
+>>
+>>   SRC_URI[archive.sha256sum] =3D "100aaebb369285041de52da422b6b716789d=
+5e4d7549a3a71ba587b932e0823b"
+>>
+>> -PACKAGECONFIG ??=3D "openssl ${@bb.utils.contains('PTEST_ENABLED', '1=
+', 'tests', '', d)}"
+>> +PACKAGECONFIG ??=3D "openssl gnutls ${@bb.utils.contains('PTEST_ENABL=
+ED', '1', 'tests', '', d)}"
+> This should either be gnutls or openssl, not both. But aside from
+> that, gnutls brings (L)GPLv3 issues and therefore should not be
+> enabled by default.
+
+In a perfect world, I would say you are right. There should not even=20
+exist more than one implementation.
+
+In reality, at least for now, geary is broken with openssl.
+
+As for your concern about gplv3 issues. As far as I know, the core of=20
+gnutls is under LGPL-2.1. Only installation of gnutls-bin or=20
+gnutls-openssl ||should introduce GPL-3.0.
+
+I'm more like thinking "better to have more mainstays, so you dont fall=20
+if you loose one". But=C2=A0 i'm not strict with my opinion. This change =
+can=20
+also be done with bbappends.
+
+> Are you saying that some glib-networking functionality works when
+> using gnutls but does not work when using openssl? If so, is it a
+> known limitation? Or a bug? If a bug, has it been reported upstream?
+> The commit message should explain those kinds of details.
+
+It completely stopped working with openssl. This happened about two=20
+weeks ago, possibly because of the latest openssl update.
+
+
+
+--------------Miin3DGSHElObNtRs2sJT383
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">Am 11.04.22 um 06:25 schrieb Andre
+      McCurdy:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CAJ86T=3DVojo4Y1sTzHtDca79WQXuWdE6VS0r=3DP7wpvHHE3nBrQQ@mail.=
+gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">On Sun, Apr 10, 2022 at 10:2=
+9 AM Markus Volk <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:f_l_k@=
+t-online.de">&lt;f_l_k@t-online.de&gt;</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+this fixes authentication issues with geary and tls connection
+
+Signed-off-by: Markus Volk <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
+lto:f_l_k@t-online.de">&lt;f_l_k@t-online.de&gt;</a>
 ---
- .../gzip/gzip-1.10/CVE-2022-1271.patch        | 45 +++++++++++++++++++
- meta/recipes-extended/gzip/gzip_1.10.bb       |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-extended/gzip/gzip-1.10/CVE-2022-1271.patch
+ meta/recipes-core/glib-networking/glib-networking_2.72.0.bb | 2 +-
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb                 | 2 +-
+ meta/recipes-support/p11-kit/p11-kit_0.24.1.bb              | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/gzip/gzip-1.10/CVE-2022-1271.patch b/meta/recipes-extended/gzip/gzip-1.10/CVE-2022-1271.patch
-new file mode 100644
-index 0000000000..046c95df47
---- /dev/null
-+++ b/meta/recipes-extended/gzip/gzip-1.10/CVE-2022-1271.patch
-@@ -0,0 +1,45 @@
-+From 7073a366ee71639a1902eefb7500e14acb920f64 Mon Sep 17 00:00:00 2001
-+From: Lasse Collin <lasse.collin@tukaani.org>
-+Date: Mon, 4 Apr 2022 23:52:49 -0700
-+Subject: [PATCH] zgrep: avoid exploit via multi-newline file names
-+
-+* zgrep.in: The issue with the old code is that with multiple
-+newlines, the N-command will read the second line of input,
-+then the s-commands will be skipped because it's not the end
-+of the file yet, then a new sed cycle starts and the pattern
-+space is printed and emptied. So only the last line or two get
-+escaped. This patch makes sed read all lines into the pattern
-+space and then do the escaping.
-+
-+This vulnerability was discovered by:
-+cleemy desu wayo working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gzip.git/commit/?id=dc9740df61e575e8c3148b7bd3c147a81ea00c7c]
-+CVE: CVE-2022-1271
-+
-+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-+---
-+ zgrep.in | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/zgrep.in b/zgrep.in
-+index 3efdb52..d391291 100644
-+--- a/zgrep.in
-++++ b/zgrep.in
-+@@ -222,9 +222,13 @@ do
-+ '* | *'&'* | *'\'* | *'|'*)
-+         i=$(printf '%s\n' "$i" |
-+             sed '
-+-              $!N
-+-              $s/[&\|]/\\&/g
-+-              $s/\n/\\n/g
-++              :start
-++              $!{
-++                N
-++                b start
-++              }
-++              s/[&\|]/\\&/g
-++              s/\n/\\n/g
-+             ');;
-+       esac
-+       sed_script="s|^|$i:|"
-diff --git a/meta/recipes-extended/gzip/gzip_1.10.bb b/meta/recipes-extended/gzip/gzip_1.10.bb
-index 9778e687e1..c558c21f10 100644
---- a/meta/recipes-extended/gzip/gzip_1.10.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.10.bb
-@@ -4,6 +4,7 @@ LICENSE = "GPLv3+"
- 
- SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-            file://run-ptest \
-+           file://CVE-2022-1271.patch \
-           "
- SRC_URI_append_class-target = " file://wrong-path-fix.patch"
- 
--- 
-2.25.1
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb =
+b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+index d578f17aa5..73827b0a85 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+@@ -11,7 +11,7 @@ DEPENDS =3D "glib-2.0"
 
+ SRC_URI[archive.sha256sum] =3D "100aaebb369285041de52da422b6b716789d5e4d=
+7549a3a71ba587b932e0823b"
+
+-PACKAGECONFIG ??=3D "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', =
+'tests', '', d)}"
++PACKAGECONFIG ??=3D "openssl gnutls ${@bb.utils.contains('PTEST_ENABLED'=
+, '1', 'tests', '', d)}"
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+This should either be gnutls or openssl, not both. But aside from
+that, gnutls brings (L)GPLv3 issues and therefore should not be
+enabled by default.
+</pre>
+    </blockquote>
+    <p>In a perfect world, I would say you are right. There should not
+      even exist more than one implementation.</p>
+    <p>In reality, at least for now, geary is broken with openssl.<br>
+    </p>
+    <p>As for your concern about gplv3 issues. As far as I know, the
+      core of gnutls is under LGPL-2.1. Only installation of gnutls-bin
+      or gnutls-openssl <code></code>should introduce GPL-3.0.</p>
+    <p>I'm more like thinking "better to have more mainstays, so you
+      dont fall if you loose one". But=C2=A0 i'm not strict with my opini=
+on.
+      This change can also be done with bbappends.<br>
+    </p>
+    <blockquote type=3D"cite"
+cite=3D"mid:CAJ86T=3DVojo4Y1sTzHtDca79WQXuWdE6VS0r=3DP7wpvHHE3nBrQQ@mail.=
+gmail.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+Are you saying that some glib-networking functionality works when
+using gnutls but does not work when using openssl? If so, is it a
+known limitation? Or a bug? If a bug, has it been reported upstream?
+The commit message should explain those kinds of details.
+</pre>
+    </blockquote>
+    <p>It completely stopped working with openssl. This happened about
+      two weeks ago, possibly because of the latest openssl update.</p>
+    <p><br>
+    </p>
+    <br>
+  </body>
+</html>
+
+--------------Miin3DGSHElObNtRs2sJT383--
 
