@@ -1,101 +1,143 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D309C3A5A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F289C4727C
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:17:59 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web08.22997.1649632623981230372
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web12.25762.1649651121939852083
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 16:17:04 -0700
+ Sun, 10 Apr 2022 21:25:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=prm1uV8n;
- spf=pass (domain: gmail.com, ip: 209.85.215.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 66so12631972pga.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=k8BFYCSN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id s13so18585774ljd.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 16:17:03 -0700 (PDT)
+ Sun, 10 Apr 2022 21:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zvL1Q0Te1cbWjt73K5wwgqyFj3HumyYXhx8t7BD4PbE=;
-        b=prm1uV8nr68yBPAiYchFszHjbppyl1kBOR3bo7voBYpzUUPR2RJkRZoMcTj9iYln/4
-         MLpAqsogkrqOwgJnx69Vh+jnFfA8EdDgPp0l1ZUzGWEVnu19SLHRhNMwduzSq3XvRhVd
-         ZIK2sKcC12/e18dRLmJLHqlfQYp6v+6OGkvfGd5mo/n0sts+Wbw3RIUndH2WIVWY+5eg
-         QF0znPiSKqLFCF9elgFQtbm1rrVw9J5QDMH2eCgFPvTZANmSCdkop8ussrEmG8w6sYOL
-         WA8Ut2r8v5h4xyKVIRTMnnGF3Xnwfg0h+wiYWmszWOmc678xHg8edszmfw8UZSKiJEyw
-         QcdA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V2dUTCEyKIkN8PiTeAWmdrn9TlT0fYc5G12zNpue4OY=;
+        b=k8BFYCSN2+JHxJ2d+NPDObNi8UtK1e1fxWXc4DvDvxOOzv82B82ocbIjkY5MjAuYWX
+         vLG/Inse9EbpxEX3J2rVbaBV1TjpW9oTJ9ZYgAsgdLCbQec5irI1pVSoH2VG04vLk7K0
+         F/mB9Sc5VI4JDAI1Oq9UmwfCV+Cl8mhkF+EEtx5QQLwEi7QCqIJbqHW8nulL4cH7SmdN
+         IPbKEdhJnbCn8JcyB3MtRtBD5RJGNRUuSp6TRHKeyI4pe8/8aM4T2xjz5XiN3ecs1amE
+         YfZPCdYQFK0m8S0gow3Xqq5Z00ZTIGHTp0ACoVUoL5UkFKZv+OmEzTMrMPJC0r1dBjsi
+         sSZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zvL1Q0Te1cbWjt73K5wwgqyFj3HumyYXhx8t7BD4PbE=;
-        b=0KKy36blr8zZxZzPI2kP5ohqlvLVxiIQjVWf2yRx4QyUCyNORLAwRk4Dj9tReWc1im
-         J9GhF9epObkQpTdCypVqO6p+MTOieF7yHectQONYlNgpuuTMo7OEElY4hsMZS6Qavd+Z
-         mlWGWnUSNNiYUmelkmbrvREP2E0KijiSbfyLtJ0XwUUQmOGWI33x8mgreRMIyI9lzB9m
-         nKGR/jbyHs+1cRH1FuVHmJ+pS66R/utKwSYZ2nh/4wWNXyDZBN3FiliBPxxH81nd0YP1
-         YtQ8lZUq6txzNB6+hgnfeO4hNoUvX+G3XwarpFTsbI93HngdjBVACXSLLQ1zg3a+BzkS
-         S4cQ==
-X-Gm-Message-State: AOAM531JnksU3RwYBdbA1DV3hOYRbdY2mMW+7sp98zOwarIrZ4xhGlct
-	OW2YUDkgtPAcKK4NBCdU5v91Etc2lb4jTQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V2dUTCEyKIkN8PiTeAWmdrn9TlT0fYc5G12zNpue4OY=;
+        b=V/bbz4kfpBVs66w07qXc341HA7aEcDAUJE/SGKFHv9Ic8/2eTjV4XgmsX18DsqZuPT
+         e2QgpdTZ7yjFTzWZNJ3IywvDPpY2Gd57yLtSW5Y441DOfea8QeXZfw4Xz3EeU8NG5coq
+         bf2huYqOEMt808EyUaJVvugvjLNIUXsVsaVsOybaJOYTiCQDrO2fhHboQuSVScaEl2Cn
+         3lhm/6haDOLdkrWH1B+SoStQM/NPH+mwvg4SassfCbFkJcSELHJN+MAxmkybhHgqPyrt
+         9o2vZf+ZH7cQVHLdUInowC85/1aowuNOXUpTemIVzJyIUrgZiaP7/qL532zYiD5z800u
+         W5VA==
+X-Gm-Message-State: AOAM531C/UcmPHzBLpT9kg1Wr9iSH2q/b87wXh22SKyuyis2MGH+FVqO
+	zgDsvShQELIoJ850S+AG1tkziyqf85rutKI3f4g=
 X-Google-Smtp-Source: 
- ABdhPJx0oF77+fO076q33q0KP6yeDiVWb3HxsAcEqryZ2/Btz44gY84vhPE0rztlSy9PWWmjpF8cQw==
-X-Received: by 2002:a65:47c4:0:b0:39d:4f85:40e0 with SMTP id
- f4-20020a6547c4000000b0039d4f8540e0mr2517665pgs.309.1649632623132;
-        Sun, 10 Apr 2022 16:17:03 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::94ca])
-        by smtp.gmail.com with ESMTPSA id
- y63-20020a623242000000b00505c49bd2e9sm1008208pfy.219.2022.04.10.16.17.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 16:17:02 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/2] pango: Upgrade to 1.50.6
-Date: Sun, 10 Apr 2022 16:16:59 -0700
-Message-Id: <20220410231659.717650-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220410231659.717650-1-raj.khem@gmail.com>
-References: <20220410231659.717650-1-raj.khem@gmail.com>
+ ABdhPJx/3C0Jbq9ePGs5kqgubfq1j0e0RQdrx7pu1rwwznik/ajdTQHs4Q9PLkPeCZX3qRf5yeqr63APFD1w7FjOdW0=
+X-Received: by 2002:a2e:3a02:0:b0:24b:6120:1be4 with SMTP id
+ h2-20020a2e3a02000000b0024b61201be4mr3053481lja.451.1649651119764; Sun, 10
+ Apr 2022 21:25:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220410172852.4136-1-f_l_k@t-online.de>
+In-Reply-To: <20220410172852.4136-1-f_l_k@t-online.de>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Sun, 10 Apr 2022 21:25:03 -0700
+Message-ID: 
+ <CAJ86T=Vojo4Y1sTzHtDca79WQXuWdE6VS0r=P7wpvHHE3nBrQQ@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] glib-networking: build with gnutls support
+To: Markus Volk <f_l_k@t-online.de>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:17:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164211
+ https://lists.openembedded.org/g/openembedded-core/message/164212
 
-Changes in this release [1]
+On Sun, Apr 10, 2022 at 10:29 AM Markus Volk <f_l_k@t-online.de> wrote:
+>
+> this fixes authentication issues with geary and tls connection
+>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-core/glib-networking/glib-networking_2.72.0.bb | 2 +-
+>  meta/recipes-support/gnutls/gnutls_3.7.4.bb                 | 2 +-
+>  meta/recipes-support/p11-kit/p11-kit_0.24.1.bb              | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> index d578f17aa5..73827b0a85 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> @@ -11,7 +11,7 @@ DEPENDS = "glib-2.0"
+>
+>  SRC_URI[archive.sha256sum] = "100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b"
+>
+> -PACKAGECONFIG ??= "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+> +PACKAGECONFIG ??= "openssl gnutls ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
 
-[1] https://github.com/GNOME/pango/commit/37a427018c92a2bc679ef104097e07a619609c9c
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Rebased
+This should either be gnutls or openssl, not both. But aside from
+that, gnutls brings (L)GPLv3 issues and therefore should not be
+enabled by default.
 
- .../recipes-graphics/pango/{pango_1.50.4.bb => pango_1.50.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.50.4.bb => pango_1.50.6.bb} (94%)
+Are you saying that some glib-networking functionality works when
+using gnutls but does not work when using openssl? If so, is it a
+known limitation? Or a bug? If a bug, has it been reported upstream?
+The commit message should explain those kinds of details.
 
-diff --git a/meta/recipes-graphics/pango/pango_1.50.4.bb b/meta/recipes-graphics/pango/pango_1.50.6.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.50.4.bb
-rename to meta/recipes-graphics/pango/pango_1.50.6.bb
-index 0ea621bf670..b1b9054234d 100644
---- a/meta/recipes-graphics/pango/pango_1.50.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.6.bb
-@@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
- 
- SRC_URI += "file://run-ptest"
- 
--SRC_URI[archive.sha256sum] = "f4ad63e87dc2b145300542a4fb004d07a9f91b34152fae0ddbe50ecdd851c162"
-+SRC_URI[archive.sha256sum] = "a998bcf36881c3ac20495d40bceb304f4eaa9175bd2967c85656434cbdafe86a"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
--- 
-2.35.1
-
+>  PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
+>  PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+> index b34eb7f5f0..c2bb1da8be 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+> @@ -27,7 +27,7 @@ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f62
+>
+>  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+>
+> -PACKAGECONFIG ??= "libidn  ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)}"
+> +PACKAGECONFIG ??= "libidn p11-kit ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)}"
+>
+>  # You must also have CONFIG_SECCOMP enabled in the kernel for
+>  # seccomp to work.
+> diff --git a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+> index 59cbb67961..32c382489e 100644
+> --- a/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+> +++ b/meta/recipes-support/p11-kit/p11-kit_0.24.1.bb
+> @@ -14,7 +14,7 @@ SRC_URI = "git://github.com/p11-glue/p11-kit;branch=master;protocol=https"
+>  SRCREV = "dd0590d4e583f107e3e9fafe9ed754149da335d0"
+>  S = "${WORKDIR}/git"
+>
+> -PACKAGECONFIG ??= ""
+> +PACKAGECONFIG ??= "trust-paths"
+>  PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
+>  PACKAGECONFIG[trust-paths] = "-Dtrust_paths=/etc/ssl/certs/ca-certificates.crt,,,ca-certificates"
+>
+> @@ -29,4 +29,4 @@ FILES:${PN} += " \
+>  # PN contains p11-kit-proxy.so, a symlink to a loadable module
+>  INSANE_SKIP:${PN} = "dev-so"
+>
+> -BBCLASSEXTEND = "nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164204): https://lists.openembedded.org/g/openembedded-core/message/164204
+> Mute This Topic: https://lists.openembedded.org/mt/90378285/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
