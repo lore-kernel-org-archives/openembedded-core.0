@@ -1,139 +1,137 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A0FC48BCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCACFC48BCF
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:17:59 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web12.26240.1649656876575396032
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.25807.1649657776483365084
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 23:01:16 -0700
+ Sun, 10 Apr 2022 23:16:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: skokkond@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23B61Eta028911
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Sun, 10 Apr 2022 23:01:14 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 23B617aW010576
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 10 Apr 2022 23:01:13 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 10 Apr 2022 23:01:08 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sun, 10 Apr 2022 23:01:08 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 10 Apr 2022 23:01:08 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 22326)
-	id 80EAC901765; Sun, 10 Apr 2022 23:01:08 -0700 (PDT)
-From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <rwmacleod@gmail.com>, <umesh.kalappa0@gmail.com>, <pgowda.cve@gmail.com>,
-        <shivams@gmail.com>, Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
-Subject: [PATCH V3] meta: rust - Bug fix for target definitions returning
- 'NoneType' for arm
-Date: Sun, 10 Apr 2022 23:00:43 -0700
-Message-ID: <20220411060043.87079-1-sundeep.kokkonda@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oHHc69Rd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id t2so15463863qtw.9
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 10 Apr 2022 23:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=30FyZZR93/ON6ctGVD5DYiGxXHThYRoqAm3ldk5Nd68=;
+        b=oHHc69Rd5SZc3OJ3iquI3wCb3YjzW9GHDu1fsUI/01ti6pSV9e09en/I8UFb6dsfPK
+         RVvADwgD1WjQ+SerG/YsRITxi/3b1sx9SP2KZZnWM33c0YUIim1n+PD4Pp4Phi42ibNb
+         WWba8U9BzEakqY28mrPoIOxR/2eJ9Y90w5CzXchDvaISXFn5+2/tVXeSjUo/ZKzBD7Yh
+         221NNjRogozWmi/SCiHc/LdHPR9muXG5BPsk8avs+x1fd22Mkks06DwI5exrYOwqi30R
+         cMXm5wZVB9GK24RqYwK7TYpujS1db45v4uWB7XaeXyn/vC4G4rcEgu3rvng93c1IQExu
+         9aiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=30FyZZR93/ON6ctGVD5DYiGxXHThYRoqAm3ldk5Nd68=;
+        b=xvOePNjGemL4TL1m7MvDLNviWoaM3kBTRb+atXJ+CQ60kW7c5m5U8W7uyFwMe26cUO
+         bb9tf2d8kByGoFiGWnnoQWPhqI33cGNenGVc+KxQslDYKWz/ksnpBZLcYCySlON4zFs7
+         gemtq3b5uW5eGz/ylIgvuFGCR+ww+Esd3RAcdn2eB/onRHuEKvTXYkdZfF7icdC8GqOs
+         DZDurJUZN66Gx8AUCAQRjQkOS6TA/DiB7S5jCjULKQb56PaR4M0ZtYgTBdQTYAVKDXKT
+         rCjHJ4lJzHWW8sC/sVjcb9+/MNjBLPq/Avk3lwZIyjmH0eSymw48Ir0MbjvOuaXanQyF
+         M2yw==
+X-Gm-Message-State: AOAM531OykGQ5F98qTw711UNr2n1fNwnfBvOdRQ7P+Z+NHk6WpaQNIE/
+	4EoQzdIKBKNs2oLU8FZzBVoabWgHbEfA6BTU+rc=
+X-Google-Smtp-Source: 
+ ABdhPJzZDpKUuwu9+2UqGmb4Zkff+/NOi9Ax2KGk3NqGR54kPQ510+iLr4W4hGKoUqtP423UKxfFjmGbgoFjD2AEVv0=
+X-Received: by 2002:ac8:5743:0:b0:2e1:cee6:f15 with SMTP id
+ 3-20020ac85743000000b002e1cee60f15mr24487369qtx.634.1649657775508; Sun, 10
+ Apr 2022 23:16:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20220410172852.4136-1-f_l_k@t-online.de>
+ <CAJ86T=Vojo4Y1sTzHtDca79WQXuWdE6VS0r=P7wpvHHE3nBrQQ@mail.gmail.com>
+ <b06ab65f-b328-6b96-fe0d-cd124641f0ca@t-online.de>
+In-Reply-To: <b06ab65f-b328-6b96-fe0d-cd124641f0ca@t-online.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 10 Apr 2022 23:15:49 -0700
+Message-ID: 
+ <CAMKF1srnQ8JTjnAN9dy9QwqdqgFxbawiTqQUcZnpwbu_0acgwA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH] glib-networking: build with gnutls support
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Andre McCurdy <armccurdy@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:17:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164215
+ https://lists.openembedded.org/g/openembedded-core/message/164216
 
-The build shows below error while building for arm machines.
-Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
-Detailed error info :
+On Sun, Apr 10, 2022 at 10:46 PM Markus Volk <f_l_k@t-online.de> wrote:
+>
+>
+> Am 11.04.22 um 06:25 schrieb Andre McCurdy:
+>
+> On Sun, Apr 10, 2022 at 10:29 AM Markus Volk <f_l_k@t-online.de> wrote:
+>
+> this fixes authentication issues with geary and tls connection
+>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-core/glib-networking/glib-networking_2.72.0.bb | 2 +-
+>  meta/recipes-support/gnutls/gnutls_3.7.4.bb                 | 2 +-
+>  meta/recipes-support/p11-kit/p11-kit_0.24.1.bb              | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> index d578f17aa5..73827b0a85 100644
+> --- a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> +++ b/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+> @@ -11,7 +11,7 @@ DEPENDS = "glib-2.0"
+>
+>  SRC_URI[archive.sha256sum] = "100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b"
+>
+> -PACKAGECONFIG ??= "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+> +PACKAGECONFIG ??= "openssl gnutls ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+>
+> This should either be gnutls or openssl, not both. But aside from
+> that, gnutls brings (L)GPLv3 issues and therefore should not be
+> enabled by default.
+>
+> In a perfect world, I would say you are right. There should not even exist more than one implementation.
+>
+> In reality, at least for now, geary is broken with openssl.
+>
+> As for your concern about gplv3 issues. As far as I know, the core of gnutls is under LGPL-2.1. Only installation of gnutls-bin or gnutls-openssl should introduce GPL-3.0.
+>
 
-Steps to reproduce:
-1. Set MACHINE ?= "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"'
-2. bitbake core-image-minimal -cpopulate_sdk
+It's the dependencies that you have to count as well in order to link
+with libgnutls in a program.
+libgnutls requires nettle which requires GMP. GMP (>= 6.0.0) is dual licensed
+LGPLv3+ or GPLv2+. Starting with 3.5.7 libunistring is required too. It also
+is dual licensed LGPLv3+ or GPLv2+
 
-Complete Error:
-ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_rust_gen_targets(d)
-     0003:
-File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
-     0027:
-     0028:LLVM_TARGET[x86_64] = "${RUST_HOST_SYS}"
-     0029:python do_rust_gen_targets () {
-     0030:    wd = d.getVar('WORKDIR') + '/targets/'
- *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
-     0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
-     0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
-     0034:}
-     0035:
-File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
-     0326:    # build tspec
-     0327:    tspec = {}
-     0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
-     0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
- *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
-     0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
-     0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
-     0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
-     0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
-Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+> I'm more like thinking "better to have more mainstays, so you dont fall if you loose one". But  i'm not strict with my opinion. This change can also be done with bbappends.
+>
+> Are you saying that some glib-networking functionality works when
+> using gnutls but does not work when using openssl? If so, is it a
+> known limitation? Or a bug? If a bug, has it been reported upstream?
+> The commit message should explain those kinds of details.
+>
+> It completely stopped working with openssl. This happened about two weeks ago, possibly because of the latest openssl update.
 
-Below are the local variables from rust_gen_target function for arm and aarch64 targets. Refer below, the tspec varibles for 'arm' generated with NoneType.
-(a) Locals at rust_gen_target for arm::
-tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
-tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
-DEBUG: Python function do_rust_gen_targets finished
-(b) Locals at rust_gen_target  for aarch64::
-tspec['data-layout'] =  aarch64-unknown-linux-gnu, Type of tspec['data-layout'] =  <class 'str'>
-tspec['max-atomic-width'] =  128, Type of tspec['max-atomic-width'] =  <class 'int'>
+I think it would be nice to check with upstream if that's intentional
+or perhaps open a bug with upstream to report the problem.
 
-Reason for changing arm-eabi to arm: The previous change introduced this bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
-
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
----
- meta/recipes-devtools/rust/rust-common.inc | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-index 310aecef22..230d78237f 100644
---- a/meta/recipes-devtools/rust/rust-common.inc
-+++ b/meta/recipes-devtools/rust/rust-common.inc
-@@ -119,13 +119,13 @@ def llvm_features(d):
- 
- 
- ## arm-unknown-linux-gnueabihf
--DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
--TARGET_ENDIAN[arm-eabi] = "little"
--TARGET_POINTER_WIDTH[arm-eabi] = "32"
--TARGET_C_INT_WIDTH[arm-eabi] = "32"
--MAX_ATOMIC_WIDTH[arm-eabi] = "64"
--FEATURES[arm-eabi] = "+v6,+vfp2"
-+DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-+LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
-+TARGET_ENDIAN[arm] = "little"
-+TARGET_POINTER_WIDTH[arm] = "32"
-+TARGET_C_INT_WIDTH[arm] = "32"
-+MAX_ATOMIC_WIDTH[arm] = "64"
-+FEATURES[arm] = "+v6,+vfp2"
- 
- ## armv7-unknown-linux-gnueabihf
- DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--- 
-2.35.1
-
+>
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164214): https://lists.openembedded.org/g/openembedded-core/message/164214
+> Mute This Topic: https://lists.openembedded.org/mt/90378285/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
