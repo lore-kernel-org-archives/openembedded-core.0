@@ -1,97 +1,138 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE70AC47096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1A0FC48BCD
 	for <webhook@archiver.kernel.org>; Mon, 11 Apr 2022 17:17:59 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.26173.1649654119092621888
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web12.26240.1649656876575396032
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 22:15:19 -0700
+ Sun, 10 Apr 2022 23:01:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Q9wnrEfV;
- spf=pass (domain: gmail.com, ip: 209.85.215.173,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id h5so12253825pgc.7
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Apr 2022 22:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=158HYKTwMocKS6FB2IhulelNuf924AxNUoeqxmzMALU=;
-        b=Q9wnrEfVvrsBm/Zltw0mFxGhqYiyovvMlNqdbXDZ52aBG6HawJIFC0Gf1mmU4MHK0h
-         owaKalHsAxXDtZ7C3TJkySd/8rgYK0U3feyQja1z9RNMtdUfpYcFZzSTUpyRntYb5rNj
-         d/Eu7B1JIJZbHAyCJzuQcZbWQyMoqhORxvg/mqdUmU24u/mhqBmv++5UCHxaobC+Kdr9
-         lTfc5WdlXW0GYngpRoSyH8Ns9awI1GxYlvSad8IYHSeZ+fXmS7nuonlPqdnSyMLmU5Bd
-         7HlTWzzE51Y2+Of6f/jPvc2qMlLaewNjxNIeVRx1QL9vr3RyxUA/Cd/RvHA1vMV2M9xS
-         bsSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=158HYKTwMocKS6FB2IhulelNuf924AxNUoeqxmzMALU=;
-        b=FraMH7ShDv1oyAXX6qn5jIG6J2rHakwn6cSiwJnHSPJUH5HCL7eryqyHn8EnnbEeK0
-         wKFXaimebAUqoLu4HkTWsc8EQ2IDPcyM34kv9WIB/pQ9L1yfp9UUySUHqq39BkUnpW90
-         B4cAdzDRANKHlsSA7I/mXBj5H5gis/OPJ1SVZYpIKiYIYg+rQoBO2waMXgJrHtEJyxXq
-         4YIs//3VVS9SA3ilPmgZle6KYY859JYhxdo3P/XRpkpkksOw1peKCSRLu+yJOTo0QUj0
-         nNm6Rhreo6RjLLpPkiQQg9K0RdGsozKpzpJipvqsWUtfnLLEC641VJV1tyVQWfa9vYMK
-         ErVw==
-X-Gm-Message-State: AOAM5339L3d4D7NcuOKhv2RUVxxaihNXK9cj+VjrtkYmnUxhNaiLuwwh
-	4PUk/SLfMrkIah/IUfQcUgPjDbm7NdWqUw==
-X-Google-Smtp-Source: 
- ABdhPJx9mA2lOcatDBJRj2Z7W3z3+on6mFT/aS+ehgR7LYWhijE46VQirc0HFiqWvocU0h8EZeELkg==
-X-Received: by 2002:a63:2cd5:0:b0:398:997f:a440 with SMTP id
- s204-20020a632cd5000000b00398997fa440mr25771773pgs.344.1649654118304;
-        Sun, 10 Apr 2022 22:15:18 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::94ca])
-        by smtp.gmail.com with ESMTPSA id
- j13-20020a056a00130d00b004f1025a4361sm35044314pfu.202.2022.04.10.22.15.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 22:15:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [master][kirkstone][PATCH] musl: Move to 1.2.3 release tag
-Date: Sun, 10 Apr 2022 22:15:15 -0700
-Message-Id: <20220411051515.4061855-1-raj.khem@gmail.com>
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: skokkond@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23B61Eta028911
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Sun, 10 Apr 2022 23:01:14 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 23B617aW010576
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sun, 10 Apr 2022 23:01:13 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Sun, 10 Apr 2022 23:01:08 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Sun, 10 Apr 2022 23:01:08 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Sun, 10 Apr 2022 23:01:08 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 22326)
+	id 80EAC901765; Sun, 10 Apr 2022 23:01:08 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <rwmacleod@gmail.com>, <umesh.kalappa0@gmail.com>, <pgowda.cve@gmail.com>,
+        <shivams@gmail.com>, Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Subject: [PATCH V3] meta: rust - Bug fix for target definitions returning
+ 'NoneType' for arm
+Date: Sun, 10 Apr 2022 23:00:43 -0700
+Message-ID: <20220411060043.87079-1-sundeep.kokkonda@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Apr 2022 17:17:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164213
+ https://lists.openembedded.org/g/openembedded-core/message/164215
 
-This actually are just 2 patches on top of what we have thus far
+The build shows below error while building for arm machines.
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+Detailed error info :
 
-* 7a43f6fe release 1.2.3
-* 01b14242 accept null pointer as message argument to gettext functions
+Steps to reproduce:
+1. Set MACHINE ?= "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"'
+2. bitbake core-image-minimal -cpopulate_sdk
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Complete Error:
+ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_rust_gen_targets(d)
+     0003:
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
+     0027:
+     0028:LLVM_TARGET[x86_64] = "${RUST_HOST_SYS}"
+     0029:python do_rust_gen_targets () {
+     0030:    wd = d.getVar('WORKDIR') + '/targets/'
+ *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+     0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+     0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
+     0034:}
+     0035:
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
+     0326:    # build tspec
+     0327:    tspec = {}
+     0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
+     0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+ *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+     0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+     0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+     0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+Below are the local variables from rust_gen_target function for arm and aarch64 targets. Refer below, the tspec varibles for 'arm' generated with NoneType.
+(a) Locals at rust_gen_target for arm::
+tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+DEBUG: Python function do_rust_gen_targets finished
+(b) Locals at rust_gen_target  for aarch64::
+tspec['data-layout'] =  aarch64-unknown-linux-gnu, Type of tspec['data-layout'] =  <class 'str'>
+tspec['max-atomic-width'] =  128, Type of tspec['max-atomic-width'] =  <class 'int'>
+
+Reason for changing arm-eabi to arm: The previous change introduced this bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
+
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/rust/rust-common.inc | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index d29097106fa..044ed9c064b 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,9 +4,9 @@
- require musl.inc
- inherit linuxloader
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 310aecef22..230d78237f 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -119,13 +119,13 @@ def llvm_features(d):
  
--SRCREV = "6d8a515796270eb6cec8a278cb353a078a10f09a"
-+SRCREV = "7a43f6fea9081bdd53d8a11cef9e9fab0348c53d"
  
--BASEVER = "1.2.2"
-+BASEVER = "1.2.3"
+ ## arm-unknown-linux-gnueabihf
+-DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+-LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
+-TARGET_ENDIAN[arm-eabi] = "little"
+-TARGET_POINTER_WIDTH[arm-eabi] = "32"
+-TARGET_C_INT_WIDTH[arm-eabi] = "32"
+-MAX_ATOMIC_WIDTH[arm-eabi] = "64"
+-FEATURES[arm-eabi] = "+v6,+vfp2"
++DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
++LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
++TARGET_ENDIAN[arm] = "little"
++TARGET_POINTER_WIDTH[arm] = "32"
++TARGET_C_INT_WIDTH[arm] = "32"
++MAX_ATOMIC_WIDTH[arm] = "64"
++FEATURES[arm] = "+v6,+vfp2"
  
- PV = "${BASEVER}+git${SRCPV}"
- 
+ ## armv7-unknown-linux-gnueabihf
+ DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
 -- 
 2.35.1
 
