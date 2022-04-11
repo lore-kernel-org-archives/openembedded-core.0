@@ -2,49 +2,49 @@ Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2BD5C47080
-	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:38 +0000 (UTC)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
- [209.85.217.47])
- by mx.groups.io with SMTP id smtpd.web10.807.1649701038583833751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA4DC38161
+	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:39 +0000 (UTC)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+ [209.85.217.46])
+ by mx.groups.io with SMTP id smtpd.web10.3866.1649716248540463002
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Apr 2022 11:17:18 -0700
+ Mon, 11 Apr 2022 15:30:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=D4aRu874;
- spf=pass (domain: linaro.org, ip: 209.85.217.47,
+ dkim=pass header.i=@linaro.org header.s=google header.b=LLFxueHD;
+ spf=pass (domain: linaro.org, ip: 209.85.217.46,
  mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-vs1-f47.google.com with SMTP id k17so13877599vsq.0
+Received: by mail-vs1-f46.google.com with SMTP id m14so4660677vsp.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Apr 2022 11:17:18 -0700 (PDT)
+ Mon, 11 Apr 2022 15:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ZiaYRv5/YQkibIlCEXT+4naQpImlJ2Lr6DMqEtJvbOU=;
-        b=D4aRu874RQ6wgpY66oLzYzV9RCOeHNBmawOWgwJTWTCTLZ0ibTEz4oGpvJ/fMGqlQA
-         Ec7xh4h3wFGfBhAb1D9iM3Sw8I1tSO3s+a0MYUKqxSSH58rsYNtkENWr+IUZvoKOJ/KZ
-         bZ43eo1X9rWGJ9m9oTE4OXH2arptWhOhMr3fo8unJkBAzNeqHRU6vfDqgphY6zGbH3o0
-         iO7LZb1FZlSSPUQ/zYBjP+y+6dqbZdTvJg70j8aRKlQztjoyXlunK1g2SfNanhBfOabo
-         UOmWvuyQM0p/JhJQ9zAbfnXaKWbNLTaMYkHV1n5qrFb41OrbTst7cM4GEDfbccffgj8r
-         nIyg==
+        bh=zvFLeRkOiVKoraZniGu2qnIjy/LWjw+AkboNaGqJ/ik=;
+        b=LLFxueHDezG7vWZouPb5EXBK2c4wq7VZIoHxAS14pZaReezjz9GxfIeYlARdyzDu8q
+         nbG8Rygf0z8c1baUFjUkOC98uY8mV6Feu6xNB80cXK11p25I7RiN0zIO2n4sJ1ZVXfar
+         RWyQewlHqzKKLWPUEcyDbV4HP4G1fuRPyuKgRloZc/UaFEIP/yRqm5vpp6eHWuW1d1Vx
+         TAMIhJu0ubdsTEngGDmGipfFcbbMJ8FwPQW6Ziw20s6MFUy8upt5MEJxUCx8+reIcTz3
+         2RK7/Sog+6rMZZMK/eQoy3BRuE6QlHTpeGMtyp5Q2pWH/BhJ+emxW3F8wK8n4G38/Yeg
+         GkEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ZiaYRv5/YQkibIlCEXT+4naQpImlJ2Lr6DMqEtJvbOU=;
-        b=sXqIVBDNnWqPdV9RCIZutSCbCsSgPOPJClzviXyZg8an9/Ms4Th18PdeKPuvluIyUz
-         6BWz2P3ncVr5UN16QVtJynVUqFEsAALHqEKFRvPgxMXRe/yBXWZchS6h8dojZwmqGerQ
-         Tr4JF9wHYbkJqXoN326XYU7RXFBLFkx4Alcyx+6d5vDvQ7TVhH/odS3m/zomKrTToLv4
-         QkVIt+0chV1YnSZo0EXgyNk2EbBvGrPhjh3+4aLUO5MSByOxfIoSiocnZfjQ+tRrh0mL
-         /DoFgHS68xoS3ZVN5KCaBQEWy8MgAx39bkO5kMQAfsaCo4S04Wt5YkDtSC1pBTUu9BU8
-         Tk7w==
-X-Gm-Message-State: AOAM531Q3TGbCzzzjm63z4JURoy2YdMYyBKKtIEzB4gfXoEUPw4Eivdr
-	Bt7wjfZCbMomrlCQxIv0v6NVDXuYuzZXJvPePt2h3A==
+        bh=zvFLeRkOiVKoraZniGu2qnIjy/LWjw+AkboNaGqJ/ik=;
+        b=0sfEEKu0orPE8Wdm+tbuOz1iSGED+HzWLBbsuPNOptRqvHaayokhbbxtjsvaVtzaRK
+         rlXK0zkl7HzCBEcGyNeZ0+e13S8pV0S6kCuCIY8Y6HHxKy79QnClErkqzC6PnMLqMskf
+         syWhR3zECf2avprO0jGNmcq432UkvfIbLqDbNwXORrl+h4X1MlNlzCj5Xwaw8oh1lMFA
+         30/HAqemsmZGWJ6TmOo57ZlF5OwmxYnj3H9E5WipNtv9uDoP8Cf1YaqDMHCGgbggqVs4
+         mwFqE2BNs2xPx0iO6cKgGUJDgfX52Pm1P/UwLWdVF/QxephbcLmvC5SlSf3NOk2JmEEq
+         DIPg==
+X-Gm-Message-State: AOAM532lJQaHVj/RCxa5pPmr1Y717QW4PziAyaE6v9g+U51Mpl7vtZkt
+	HvhXB9lLOfMt5IiFn12O3TCvFXt1O6f6G9/ujyQnjg==
 X-Google-Smtp-Source: 
- ABdhPJwnnTy9n/hF/iCudaSwgH8hqW6H6/72u3E96CNmbxBobT/9bH1DzceQAzPBgJL/UDERZgXbHhRy4k3Uzd+Ro4U=
-X-Received: by 2002:a05:6102:105e:b0:328:28d4:a7ba with SMTP id
- h30-20020a056102105e00b0032828d4a7bamr4608053vsq.70.1649701037620; Mon, 11
- Apr 2022 11:17:17 -0700 (PDT)
+ ABdhPJwFNJ/+bBHGFZHFWWRI5iRPqOT4/7goXCUKIf1o0ojdmuNzWlPcm4NhhBeGgCWXOqWox8DnyVbWKysI/mXN5Fs=
+X-Received: by 2002:a05:6102:6d3:b0:325:cfa3:44b with SMTP id
+ m19-20020a05610206d300b00325cfa3044bmr10684709vsg.23.1649716247657; Mon, 11
+ Apr 2022 15:30:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220329130741.2430737-1-ross.burton@arm.com>
  <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
@@ -53,12 +53,14 @@ References: <20220329130741.2430737-1-ross.burton@arm.com>
  <CAOSpxdb+O=iDpDNr7S62wut=GErTXg8cvpYsj0nn6DM9G1CL-A@mail.gmail.com>
  <CANp-EDaVN-4Z_iYXJq7OcJ1QEtpAsHTGOQkCHeW+gJ6u2b=0xQ@mail.gmail.com>
  <CAOSpxdZdi+xiJcFeyOgrLTATOaaD0hf9k-+yQmsH2+GJm8xcQw@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdZdi+xiJcFeyOgrLTATOaaD0hf9k-+yQmsH2+GJm8xcQw@mail.gmail.com>
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Mon, 11 Apr 2022 14:17:06 -0400
-Message-ID: 
  <CANp-EDaN76FxTBEjWFe5WD3W+tHbqbfJuA=kcuW8eeyF_O8vHQ@mail.gmail.com>
+ <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Mon, 11 Apr 2022 18:30:36 -0400
+Message-ID: 
+ <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
  CVE-2018-25032
 To: Steve Sakoman <steve@sakoman.com>
@@ -68,38 +70,48 @@ Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164237
+ https://lists.openembedded.org/g/openembedded-core/message/164242
 
-On Mon, Apr 11, 2022 at 1:52 PM Steve Sakoman <steve@sakoman.com> wrote:
+On Mon, Apr 11, 2022 at 2:58 PM Steve Sakoman <steve@sakoman.com> wrote:
 
-> I see from irc that you've discovered INHERIT += "testimage".  I think
-> that might help with the above issue.
+> Let me know if you make any progress!
 
-Indeed, I added that, which solved the missing do_testimage problem.
-However even after rebuilding core-image sato, I do not have /etc/apt
-nor apt in the image.
+After a clean build, and messing about with VNC, I am now able to
+'bitbake core-image-sato:do_testimage'.
 
-Looking at https://git.yoctoproject.org/poky/tree/meta/lib/oeqa/runtime/cases/apt.py?h=dunfell#n43
-the apt test should be skipped. Seemingly relevant bits of "bitbake -e":
+> Yes, either change will trigger the error.  Without the zlib or xz
+> patches all is fine.  Adding just one or the other will fail the
+> pkgman-deb-non-deb builds (and probably the pkgman-rpm-non-rpm builds
+> too, though I've been concentrating on the deb version to try to
+> isolate the offending patches)
 
-IMAGE_FEATURES=" debug-tweaks"
-IMAGE_PKGTYPE="rpm"
-INHERIT=" cve-check testimage poky-sanity uninative reproducible_build
-package_rpm buildstats image-mklibs image-prelink debian devshell
-sstate license remove-l
-ibtool blacklist sanity"
-TESTIMAGEDEPENDS=" cpio-native:do_populate_sysroot
-dnf-native:do_populate_sysroot createrepo-c-native:do_populate_sysroot
-  qemu-native:do_populate_sysroot
-qemu-helper-native:do_populate_sysroot
-qemu-helper-native:do_addto_recipe_sysroot"
+I have both gzip and xz patches applied:
+    $ git log --oneline
+    52269ab7e7 (HEAD -> dunfell) gzip: fix CVE-2022-1271
+    e7fa7a2a2c xz: fix CVE-2022-1271
+    38c55bd388 (origin/dunfell) tzdata: update to 2022a
+    86285152bd python3-jinja2: Correct HOMEPAGE
 
-> FWIW, I'm seeing the same error with the xz CVE fix patch too.
+With default PACKAGE_CLASSES = package_rpm
+    RESULTS - dnf.DnfBasicTest.test_dnf_help: PASSED (8.77s)
+    ...
+    SUMMARY:
+    core-image-sato () - Ran 64 tests in 242.039s
+    core-image-sato - OK - All required tests passed (successes=35,
+skipped=29, failures=0, errors=0)
 
-Interesting... and without those the tests are successful (with all
-other current changes)?
+With PACKAGE_CLASSES = package_deb
+    RESULTS - apt.AptRepoTest.test_apt_install_from_repo: PASSED (43.98s)
+    ...
+    SUMMARY:
+    core-image-sato () - Ran 64 tests in 57.334s
+    core-image-sato - OK - All required tests passed (successes=15,
+skipped=49, failures=0, errors=0)
+
+So I do not seem to reproduce the error. Any ideas what else might
+differ in the autobuilder versus my local?
 
 Ralph
 
