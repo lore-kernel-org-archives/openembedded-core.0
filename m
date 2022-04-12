@@ -1,689 +1,141 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9169EC43217
-	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:43 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.10332.1649768612903112827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC99C433F5
+	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 19:40:49 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.38.1649783014350004909
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 06:03:33 -0700
+ Tue, 12 Apr 2022 10:03:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j09AIQPr;
- spf=pass (domain: gmail.com, ip: 209.85.221.43,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id w4so27567990wrg.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=G6IgGQzq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id v12so4368454plv.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 06:03:32 -0700 (PDT)
+ Tue, 12 Apr 2022 10:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T1/PQsu30hab0de/N79H2fq3qtkvLg6cr40bqF0PHGQ=;
-        b=j09AIQPrQNNVC8w8Iq+AmIGlY7PPbN6olfAKJpSQgTu1wy7vGdCpax9xao2P7ZXgdD
-         o2f7UIs0zeEr1n2FJVfFULkt+77a9WDX/WytT1FhC6nYvSFdWlJdGBe5rUCJQrKNeF8+
-         FEkEYfWw5DTeUQroDspb2EAcoUEaGLuFg7Sj7ON3G12oomBsMW9zL7PlRHyo4b4jA6jt
-         eCfNc+Vsli73H3ZGmIo+oZEIBIdAiUccpKpf+gTxWMEVdZM+FfUVoga5+6HJf2QsM8Dq
-         JySgSfFu8qoE0gyJWnCD1p5Lsb73IUiQNhl5w79NlFmTBOXVAzs4MIDzdhYL6zTZ+cu1
-         vtsQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0t6kPBJ1p6FnE4XLZvNBn8mQZ1iJfPWnPhb2xa1njjI=;
+        b=G6IgGQzqGtAKqU1EkVH5c/isO6dXrLdzXisuvma/gz/vDf92E9fi9/q51htAxzHScw
+         bLOyq0LnuoiYr8dmSoXDn5mvK0ZhWEn+2Ox4FT6H3cXcfymOXHtG/9TO8mzYJbf698k2
+         5mUgnGKh9KJ4wvRQnO+OLWYvxuRKxXihtGN64Z4poWutSoNLqd0wblTcBotChb5ajaux
+         tB2cnPndtv58BqGesIGEng/B1PLbkzN83Z1P79cB1hiL1NdcosN4IlCVQMPJ8dmCfRgr
+         JTe+lwahT0kvQqgoanM7vckqAv9N95J5ehgjILemmZxKE0K51q+xsWT19+qViiHHwUyx
+         EVug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T1/PQsu30hab0de/N79H2fq3qtkvLg6cr40bqF0PHGQ=;
-        b=yqdxHFJNB5LpYY032jGev7QVfhEXAkc8zjhkYIx3MK3T8FNxR9L9adGOhfnp9SVFXt
-         YQcRGUJpyqJYbgp+r3UdLLt1gM8op+1aCAbwi/7cw+wuXsCOhTiIHQXkMjUIUAaQ3sit
-         TdE0gV1ITZ4zClPx4EFAvKlhRlF6q/O3dvsHDKdSOPvY+v5ZtjzkBhkIsx5qQCpaalIn
-         /xur9jXXR4d6xe4inaKsSkfLuacnQpM12C8wpsk7uYMeWsgmPDNz1MhayL8ixHKMzWJQ
-         whg6mNqqdd2sux20e8Zwb/3TOhLfUOb/vxFYMCukt4MVnx9ExevXQR7kX7trtzOz+crn
-         MK2Q==
-X-Gm-Message-State: AOAM532iUWxqN9IACYiXnJoIDh701rkwDEEAzNAaSMXfnN2jP6FQUxIr
-	1HmG0GYRG7oJnxGdaUTcCKUefIPtcHw=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0t6kPBJ1p6FnE4XLZvNBn8mQZ1iJfPWnPhb2xa1njjI=;
+        b=Qb6Gt7EgyKDEZYZS+jLmQOuYmpni7XnN4ZV80BRQC3lXiitH7j47d4mtmhArVGU96K
+         F6LmNqQxHylwtTiUHuQz0JS+Ws1JF0tf0pLeLpE0cAlumZLaEHZyqRfUU74JSXrhZmz3
+         DkxAZKJg+Zgi/5EfczIlxD5vu6ryy5lgjQnN0K3wd6HoRiKed1TAf8pJ3gjTMPmVZoGN
+         CSpDWg5p30p//GQTxs6cOkZ6AmrYsJa4j6drycASPT9a3jDjL75U8owtu2GXSLJKwtk5
+         Mm9rm2ea0y+DohvoGlgAS37TLihvxtXbp8/Ino9yF99xJSHT6vDLw6ZGQHYP8PKSWh9A
+         BjKQ==
+X-Gm-Message-State: AOAM533RQfPuD9nhFPfZ4D2iAnprC2lPkdw6DGn5BgTD+QBMbldtb4wv
+	WeQdeF7PkGheqAuvOLbT6AxVkrbocTgIjg==
 X-Google-Smtp-Source: 
- ABdhPJx1JZ7enUVMX+HlT6UgBrJfydaBJB9USc0kmBuawXOT+2Fmsg5Cg0eGFDTihq6ct6gCD4t3fA==
-X-Received: by 2002:a5d:48d0:0:b0:207:a861:dcc9 with SMTP id
- p16-20020a5d48d0000000b00207a861dcc9mr7066572wrs.490.1649768610618;
-        Tue, 12 Apr 2022 06:03:30 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
- [91.135.6.246])
+ ABdhPJxZEWr6MeY15c1/RsEOY3oSiAL8aDRhyRKgUPjRamSS2tk/x7h4f6NIv4iACI7rxW/ZMmPAQw==
+X-Received: by 2002:a17:902:768c:b0:155:e4a2:1f09 with SMTP id
+ m12-20020a170902768c00b00155e4a21f09mr37544732pll.43.1649783013643;
+        Tue, 12 Apr 2022 10:03:33 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::94ca])
         by smtp.gmail.com with ESMTPSA id
- r4-20020a05600c35c400b0038cbd8c41e9sm2372953wmq.12.2022.04.12.06.03.29
+ s3-20020a056a00194300b004f6da3a1a3bsm44338142pfk.8.2022.04.12.10.03.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 06:03:29 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-X-Google-Original-From: Alex Kiernan <alexk@zuma.ai>
+        Tue, 12 Apr 2022 10:03:33 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alexk@zuma.ai>
-Subject: [meta-oe][PATCH 6/8] wpa-supplicant: Use upstream defconfig
-Date: Tue, 12 Apr 2022 14:03:13 +0100
-Message-Id: <20220412130315.25917-6-alexk@zuma.ai>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] ccache: Fix build with gcc12/mips
+Date: Tue, 12 Apr 2022 10:03:31 -0700
+Message-Id: <20220412170331.3234683-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412130315.25917-1-alexk@zuma.ai>
-References: <20220412130315.25917-1-alexk@zuma.ai>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:43 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 19:40:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164270
+ https://lists.openembedded.org/g/openembedded-core/message/164281
 
-The copy of defconfig we were carrying was from 2014 and very out of
-date; drop it and use the upstream version with appropriate edits for
-our PACKAGECONFIG.
+Avoid gcc12 failure to inline function on mips
 
-Switch PACKAGECONFIG to using a default (?=) rather than weak default
-(??=) as per current recommendation.
-
-Signed-off-by: Alex Kiernan <alexk@zuma.ai>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../wpa-supplicant/wpa-supplicant/defconfig   | 552 ------------------
- .../wpa-supplicant/wpa-supplicant_2.10.bb     |  16 +-
- 2 files changed, 6 insertions(+), 562 deletions(-)
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
+ ...t-Do-not-use-always_inline-with-mips.patch | 33 +++++++++++++++++++
+ meta/recipes-devtools/ccache/ccache_4.6.bb    |  7 +++-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/ccache/ccache/0001-fmt-Do-not-use-always_inline-with-mips.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-deleted file mode 100644
-index f04e398fdb5b..000000000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig
-+++ /dev/null
-@@ -1,552 +0,0 @@
--# Example wpa_supplicant build time configuration
--#
--# This file lists the configuration options that are used when building the
--# hostapd binary. All lines starting with # are ignored. Configuration option
--# lines must be commented out complete, if they are not to be included, i.e.,
--# just setting VARIABLE=n is not disabling that variable.
--#
--# This file is included in Makefile, so variables like CFLAGS and LIBS can also
--# be modified from here. In most cases, these lines should use += in order not
--# to override previous values of the variables.
--
--
--# Uncomment following two lines and fix the paths if you have installed OpenSSL
--# or GnuTLS in non-default location
--#CFLAGS += -I/usr/local/openssl/include
--#LIBS += -L/usr/local/openssl/lib
--
--# Some Red Hat versions seem to include kerberos header files from OpenSSL, but
--# the kerberos files are not in the default include path. Following line can be
--# used to fix build issues on such systems (krb5.h not found).
--#CFLAGS += -I/usr/include/kerberos
--
--# Example configuration for various cross-compilation platforms
--
--#### sveasoft (e.g., for Linksys WRT54G) ######################################
--#CC=mipsel-uclibc-gcc
--#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
--#CFLAGS += -Os
--#CPPFLAGS += -I../src/include -I../../src/router/openssl/include
--#LIBS += -L/opt/brcm/hndtools-mipsel-uclibc-0.9.19/lib -lssl
--###############################################################################
--
--#### openwrt (e.g., for Linksys WRT54G) #######################################
--#CC=mipsel-uclibc-gcc
--#CC=/opt/brcm/hndtools-mipsel-uclibc/bin/mipsel-uclibc-gcc
--#CFLAGS += -Os
--#CPPFLAGS=-I../src/include -I../openssl-0.9.7d/include \
--#	-I../WRT54GS/release/src/include
--#LIBS = -lssl
--###############################################################################
--
--
--# Driver interface for Host AP driver
--CONFIG_DRIVER_HOSTAP=y
--
--# Driver interface for Agere driver
--#CONFIG_DRIVER_HERMES=y
--# Change include directories to match with the local setup
--#CFLAGS += -I../../hcf -I../../include -I../../include/hcf
--#CFLAGS += -I../../include/wireless
--
--# Driver interface for madwifi driver
--# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
--#CONFIG_DRIVER_MADWIFI=y
--# Set include directory to the madwifi source tree
--#CFLAGS += -I../../madwifi
--
--# Driver interface for ndiswrapper
--# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
--#CONFIG_DRIVER_NDISWRAPPER=y
--
--# Driver interface for Atmel driver
--# CONFIG_DRIVER_ATMEL=y
--
--# Driver interface for old Broadcom driver
--# Please note that the newer Broadcom driver ("hybrid Linux driver") supports
--# Linux wireless extensions and does not need (or even work) with the old
--# driver wrapper. Use CONFIG_DRIVER_WEXT=y with that driver.
--#CONFIG_DRIVER_BROADCOM=y
--# Example path for wlioctl.h; change to match your configuration
--#CFLAGS += -I/opt/WRT54GS/release/src/include
--
--# Driver interface for Intel ipw2100/2200 driver
--# Deprecated; use CONFIG_DRIVER_WEXT=y instead.
--#CONFIG_DRIVER_IPW=y
--
--# Driver interface for Ralink driver
--#CONFIG_DRIVER_RALINK=y
--
--# Driver interface for generic Linux wireless extensions
--# Note: WEXT is deprecated in the current Linux kernel version and no new
--# functionality is added to it. nl80211-based interface is the new
--# replacement for WEXT and its use allows wpa_supplicant to properly control
--# the driver to improve existing functionality like roaming and to support new
--# functionality.
--CONFIG_DRIVER_WEXT=y
--
--# Driver interface for Linux drivers using the nl80211 kernel interface
--CONFIG_DRIVER_NL80211=y
--
--# driver_nl80211.c requires libnl. If you are compiling it yourself
--# you may need to point hostapd to your version of libnl.
--#
--#CFLAGS += -I$<path to libnl include files>
--#LIBS += -L$<path to libnl library files>
--
--# Use libnl v2.0 (or 3.0) libraries.
--#CONFIG_LIBNL20=y
--
--# Use libnl 3.2 libraries (if this is selected, CONFIG_LIBNL20 is ignored)
--CONFIG_LIBNL32=y
--
--
--# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
--#CONFIG_DRIVER_BSD=y
--#CFLAGS += -I/usr/local/include
--#LIBS += -L/usr/local/lib
--#LIBS_p += -L/usr/local/lib
--#LIBS_c += -L/usr/local/lib
--
--# Driver interface for Windows NDIS
--#CONFIG_DRIVER_NDIS=y
--#CFLAGS += -I/usr/include/w32api/ddk
--#LIBS += -L/usr/local/lib
--# For native build using mingw
--#CONFIG_NATIVE_WINDOWS=y
--# Additional directories for cross-compilation on Linux host for mingw target
--#CFLAGS += -I/opt/mingw/mingw32/include/ddk
--#LIBS += -L/opt/mingw/mingw32/lib
--#CC=mingw32-gcc
--# By default, driver_ndis uses WinPcap for low-level operations. This can be
--# replaced with the following option which replaces WinPcap calls with NDISUIO.
--# However, this requires that WZC is disabled (net stop wzcsvc) before starting
--# wpa_supplicant.
--# CONFIG_USE_NDISUIO=y
--
--# Driver interface for development testing
--#CONFIG_DRIVER_TEST=y
--
--# Driver interface for wired Ethernet drivers
--CONFIG_DRIVER_WIRED=y
--
--# Driver interface for the Broadcom RoboSwitch family
--#CONFIG_DRIVER_ROBOSWITCH=y
--
--# Driver interface for no driver (e.g., WPS ER only)
--#CONFIG_DRIVER_NONE=y
--
--# Enable IEEE 802.1X Supplicant (automatically included if any EAP method is
--# included)
--CONFIG_IEEE8021X_EAPOL=y
--
--# EAP-MD5
--CONFIG_EAP_MD5=y
--
--# EAP-MSCHAPv2
--CONFIG_EAP_MSCHAPV2=y
--
--# EAP-TLS
--CONFIG_EAP_TLS=y
--
--# EAL-PEAP
--CONFIG_EAP_PEAP=y
--
--# EAP-TTLS
--CONFIG_EAP_TTLS=y
--
--# EAP-FAST
--# Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is needed
--# for EAP-FAST support. Older OpenSSL releases would need to be patched, e.g.,
--# with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
--#CONFIG_EAP_FAST=y
--
--# EAP-GTC
--CONFIG_EAP_GTC=y
--
--# EAP-OTP
--CONFIG_EAP_OTP=y
--
--# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
--#CONFIG_EAP_SIM=y
--
--# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
--#CONFIG_EAP_PSK=y
--
--# EAP-pwd (secure authentication using only a password)
--#CONFIG_EAP_PWD=y
--
--# EAP-PAX
--#CONFIG_EAP_PAX=y
--
--# LEAP
--CONFIG_EAP_LEAP=y
--
--# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
--#CONFIG_EAP_AKA=y
--
--# EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
--# This requires CONFIG_EAP_AKA to be enabled, too.
--#CONFIG_EAP_AKA_PRIME=y
--
--# Enable USIM simulator (Milenage) for EAP-AKA
--#CONFIG_USIM_SIMULATOR=y
--
--# EAP-SAKE
--#CONFIG_EAP_SAKE=y
--
--# EAP-GPSK
--#CONFIG_EAP_GPSK=y
--# Include support for optional SHA256 cipher suite in EAP-GPSK
--#CONFIG_EAP_GPSK_SHA256=y
--
--# EAP-TNC and related Trusted Network Connect support (experimental)
--#CONFIG_EAP_TNC=y
--
--# Wi-Fi Protected Setup (WPS)
--CONFIG_WPS=y
--# Enable WSC 2.0 support
--#CONFIG_WPS2=y
--# Enable WPS external registrar functionality
--#CONFIG_WPS_ER=y
--# Disable credentials for an open network by default when acting as a WPS
--# registrar.
--#CONFIG_WPS_REG_DISABLE_OPEN=y
--# Enable WPS support with NFC config method
--#CONFIG_WPS_NFC=y
--
--# EAP-IKEv2
--#CONFIG_EAP_IKEV2=y
--
--# EAP-EKE
--#CONFIG_EAP_EKE=y
--
--# PKCS#12 (PFX) support (used to read private key and certificate file from
--# a file that usually has extension .p12 or .pfx)
--CONFIG_PKCS12=y
--
--# Smartcard support (i.e., private key on a smartcard), e.g., with openssl
--# engine.
--CONFIG_SMARTCARD=y
--
--# PC/SC interface for smartcards (USIM, GSM SIM)
--# Enable this if EAP-SIM or EAP-AKA is included
--#CONFIG_PCSC=y
--
--# Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
--#CONFIG_HT_OVERRIDES=y
--
--# Support VHT overrides (disable VHT, mask MCS rates, etc.)
--#CONFIG_VHT_OVERRIDES=y
--
--# Development testing
--#CONFIG_EAPOL_TEST=y
--
--# Select control interface backend for external programs, e.g, wpa_cli:
--# unix = UNIX domain sockets (default for Linux/*BSD)
--# udp = UDP sockets using localhost (127.0.0.1)
--# named_pipe = Windows Named Pipe (default for Windows)
--# udp-remote = UDP sockets with remote access (only for tests systems/purpose)
--# y = use default (backwards compatibility)
--# If this option is commented out, control interface is not included in the
--# build.
--CONFIG_CTRL_IFACE=y
--
--# Include support for GNU Readline and History Libraries in wpa_cli.
--# When building a wpa_cli binary for distribution, please note that these
--# libraries are licensed under GPL and as such, BSD license may not apply for
--# the resulting binary.
--#CONFIG_READLINE=y
--
--# Include internal line edit mode in wpa_cli. This can be used as a replacement
--# for GNU Readline to provide limited command line editing and history support.
--#CONFIG_WPA_CLI_EDIT=y
--
--# Remove debugging code that is printing out debug message to stdout.
--# This can be used to reduce the size of the wpa_supplicant considerably
--# if debugging code is not needed. The size reduction can be around 35%
--# (e.g., 90 kB).
--#CONFIG_NO_STDOUT_DEBUG=y
--
--# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
--# 35-50 kB in code size.
--#CONFIG_NO_WPA=y
--
--# Remove IEEE 802.11i/WPA-Personal ASCII passphrase support
--# This option can be used to reduce code size by removing support for
--# converting ASCII passphrases into PSK. If this functionality is removed, the
--# PSK can only be configured as the 64-octet hexstring (e.g., from
--# wpa_passphrase). This saves about 0.5 kB in code size.
--#CONFIG_NO_WPA_PASSPHRASE=y
--
--# Disable scan result processing (ap_mode=1) to save code size by about 1 kB.
--# This can be used if ap_scan=1 mode is never enabled.
--#CONFIG_NO_SCAN_PROCESSING=y
--
--# Select configuration backend:
--# file = text file (e.g., wpa_supplicant.conf; note: the configuration file
--#	path is given on command line, not here; this option is just used to
--#	select the backend that allows configuration files to be used)
--# winreg = Windows registry (see win_example.reg for an example)
--CONFIG_BACKEND=file
--
--# Remove configuration write functionality (i.e., to allow the configuration
--# file to be updated based on runtime configuration changes). The runtime
--# configuration can still be changed, the changes are just not going to be
--# persistent over restarts. This option can be used to reduce code size by
--# about 3.5 kB.
--#CONFIG_NO_CONFIG_WRITE=y
--
--# Remove support for configuration blobs to reduce code size by about 1.5 kB.
--#CONFIG_NO_CONFIG_BLOBS=y
--
--# Select program entry point implementation:
--# main = UNIX/POSIX like main() function (default)
--# main_winsvc = Windows service (read parameters from registry)
--# main_none = Very basic example (development use only)
--#CONFIG_MAIN=main
--
--# Select wrapper for operatins system and C library specific functions
--# unix = UNIX/POSIX like systems (default)
--# win32 = Windows systems
--# none = Empty template
--#CONFIG_OS=unix
--
--# Select event loop implementation
--# eloop = select() loop (default)
--# eloop_win = Windows events and WaitForMultipleObject() loop
--#CONFIG_ELOOP=eloop
--
--# Should we use poll instead of select? Select is used by default.
--#CONFIG_ELOOP_POLL=y
--
--# Select layer 2 packet implementation
--# linux = Linux packet socket (default)
--# pcap = libpcap/libdnet/WinPcap
--# freebsd = FreeBSD libpcap
--# winpcap = WinPcap with receive thread
--# ndis = Windows NDISUIO (note: requires CONFIG_USE_NDISUIO=y)
--# none = Empty template
--#CONFIG_L2_PACKET=linux
--
--# PeerKey handshake for Station to Station Link (IEEE 802.11e DLS)
--CONFIG_PEERKEY=y
--
--# IEEE 802.11w (management frame protection), also known as PMF
--# Driver support is also needed for IEEE 802.11w.
--#CONFIG_IEEE80211W=y
--
--# Select TLS implementation
--# openssl = OpenSSL (default)
--# gnutls = GnuTLS
--# internal = Internal TLSv1 implementation (experimental)
--# none = Empty template
--#CONFIG_TLS=openssl
--
--# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS (v1.1)
--# can be enabled to get a stronger construction of messages when block ciphers
--# are used. It should be noted that some existing TLS v1.0 -based
--# implementation may not be compatible with TLS v1.1 message (ClientHello is
--# sent prior to negotiating which version will be used)
--#CONFIG_TLSV11=y
--
--# TLS-based EAP methods require at least TLS v1.0. Newer version of TLS (v1.2)
--# can be enabled to enable use of stronger crypto algorithms. It should be
--# noted that some existing TLS v1.0 -based implementation may not be compatible
--# with TLS v1.2 message (ClientHello is sent prior to negotiating which version
--# will be used)
--#CONFIG_TLSV12=y
--
--# If CONFIG_TLS=internal is used, additional library and include paths are
--# needed for LibTomMath. Alternatively, an integrated, minimal version of
--# LibTomMath can be used. See beginning of libtommath.c for details on benefits
--# and drawbacks of this option.
--#CONFIG_INTERNAL_LIBTOMMATH=y
--#ifndef CONFIG_INTERNAL_LIBTOMMATH
--#LTM_PATH=/usr/src/libtommath-0.39
--#CFLAGS += -I$(LTM_PATH)
--#LIBS += -L$(LTM_PATH)
--#LIBS_p += -L$(LTM_PATH)
--#endif
--# At the cost of about 4 kB of additional binary size, the internal LibTomMath
--# can be configured to include faster routines for exptmod, sqr, and div to
--# speed up DH and RSA calculation considerably
--#CONFIG_INTERNAL_LIBTOMMATH_FAST=y
--
--# Include NDIS event processing through WMI into wpa_supplicant/wpasvc.
--# This is only for Windows builds and requires WMI-related header files and
--# WbemUuid.Lib from Platform SDK even when building with MinGW.
--#CONFIG_NDIS_EVENTS_INTEGRATED=y
--#PLATFORMSDKLIB="/opt/Program Files/Microsoft Platform SDK/Lib"
--
--# Add support for old DBus control interface
--# (fi.epitest.hostap.WPASupplicant)
--#CONFIG_CTRL_IFACE_DBUS=y
--
--# Add support for new DBus control interface
--# (fi.w1.hostap.wpa_supplicant1)
--CONFIG_CTRL_IFACE_DBUS_NEW=y
--
--# Add introspection support for new DBus control interface
--#CONFIG_CTRL_IFACE_DBUS_INTRO=y
--
--# Add support for loading EAP methods dynamically as shared libraries.
--# When this option is enabled, each EAP method can be either included
--# statically (CONFIG_EAP_<method>=y) or dynamically (CONFIG_EAP_<method>=dyn).
--# Dynamic EAP methods are build as shared objects (eap_*.so) and they need to
--# be loaded in the beginning of the wpa_supplicant configuration file
--# (see load_dynamic_eap parameter in the example file) before being used in
--# the network blocks.
--#
--# Note that some shared parts of EAP methods are included in the main program
--# and in order to be able to use dynamic EAP methods using these parts, the
--# main program must have been build with the EAP method enabled (=y or =dyn).
--# This means that EAP-TLS/PEAP/TTLS/FAST cannot be added as dynamic libraries
--# unless at least one of them was included in the main build to force inclusion
--# of the shared code. Similarly, at least one of EAP-SIM/AKA must be included
--# in the main build to be able to load these methods dynamically.
--#
--# Please also note that using dynamic libraries will increase the total binary
--# size. Thus, it may not be the best option for targets that have limited
--# amount of memory/flash.
--#CONFIG_DYNAMIC_EAP_METHODS=y
--
--# IEEE Std 802.11r-2008 (Fast BSS Transition)
--#CONFIG_IEEE80211R=y
--
--# Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
--#CONFIG_DEBUG_FILE=y
--
--# Send debug messages to syslog instead of stdout
--#CONFIG_DEBUG_SYSLOG=y
--# Set syslog facility for debug messages
--#CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
--
--# Add support for sending all debug messages (regardless of debug verbosity)
--# to the Linux kernel tracing facility. This helps debug the entire stack by
--# making it easy to record everything happening from the driver up into the
--# same file, e.g., using trace-cmd.
--#CONFIG_DEBUG_LINUX_TRACING=y
--
--# Enable privilege separation (see README 'Privilege separation' for details)
--#CONFIG_PRIVSEP=y
--
--# Enable mitigation against certain attacks against TKIP by delaying Michael
--# MIC error reports by a random amount of time between 0 and 60 seconds
--#CONFIG_DELAYED_MIC_ERROR_REPORT=y
--
--# Enable tracing code for developer debugging
--# This tracks use of memory allocations and other registrations and reports
--# incorrect use with a backtrace of call (or allocation) location.
--#CONFIG_WPA_TRACE=y
--# For BSD, uncomment these.
--#LIBS += -lexecinfo
--#LIBS_p += -lexecinfo
--#LIBS_c += -lexecinfo
--
--# Use libbfd to get more details for developer debugging
--# This enables use of libbfd to get more detailed symbols for the backtraces
--# generated by CONFIG_WPA_TRACE=y.
--#CONFIG_WPA_TRACE_BFD=y
--# For BSD, uncomment these.
--#LIBS += -lbfd -liberty -lz
--#LIBS_p += -lbfd -liberty -lz
--#LIBS_c += -lbfd -liberty -lz
--
--CONFIG_TLS = %ssl%
--CONFIG_CTRL_IFACE_DBUS=y
--CONFIG_CTRL_IFACE_DBUS_NEW=y
--
--# wpa_supplicant depends on strong random number generation being available
--# from the operating system. os_get_random() function is used to fetch random
--# data when needed, e.g., for key generation. On Linux and BSD systems, this
--# works by reading /dev/urandom. It should be noted that the OS entropy pool
--# needs to be properly initialized before wpa_supplicant is started. This is
--# important especially on embedded devices that do not have a hardware random
--# number generator and may by default start up with minimal entropy available
--# for random number generation.
--#
--# As a safety net, wpa_supplicant is by default trying to internally collect
--# additional entropy for generating random data to mix in with the data fetched
--# from the OS. This by itself is not considered to be very strong, but it may
--# help in cases where the system pool is not initialized properly. However, it
--# is very strongly recommended that the system pool is initialized with enough
--# entropy either by using hardware assisted random number generator or by
--# storing state over device reboots.
--#
--# wpa_supplicant can be configured to maintain its own entropy store over
--# restarts to enhance random number generation. This is not perfect, but it is
--# much more secure than using the same sequence of random numbers after every
--# reboot. This can be enabled with -e<entropy file> command line option. The
--# specified file needs to be readable and writable by wpa_supplicant.
--#
--# If the os_get_random() is known to provide strong random data (e.g., on
--# Linux/BSD, the board in question is known to have reliable source of random
--# data from /dev/urandom), the internal wpa_supplicant random pool can be
--# disabled. This will save some in binary size and CPU use. However, this
--# should only be considered for builds that are known to be used on devices
--# that meet the requirements described above.
--#CONFIG_NO_RANDOM_POOL=y
--
--# IEEE 802.11n (High Throughput) support (mainly for AP mode)
--#CONFIG_IEEE80211N=y
--
--# IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
--# (depends on CONFIG_IEEE80211N)
--#CONFIG_IEEE80211AC=y
--
--# Wireless Network Management (IEEE Std 802.11v-2011)
--# Note: This is experimental and not complete implementation.
--#CONFIG_WNM=y
--
--# Interworking (IEEE 802.11u)
--# This can be used to enable functionality to improve interworking with
--# external networks (GAS/ANQP to learn more about the networks and network
--# selection based on available credentials).
--#CONFIG_INTERWORKING=y
--
--# Hotspot 2.0
--#CONFIG_HS20=y
--
--# Disable roaming in wpa_supplicant
--#CONFIG_NO_ROAMING=y
--
--# AP mode operations with wpa_supplicant
--# This can be used for controlling AP mode operations with wpa_supplicant. It
--# should be noted that this is mainly aimed at simple cases like
--# WPA2-Personal while more complex configurations like WPA2-Enterprise with an
--# external RADIUS server can be supported with hostapd.
--CONFIG_AP=y
--
--CONFIG_BGSCAN_SIMPLE=y
--
--# P2P (Wi-Fi Direct)
--# This can be used to enable P2P support in wpa_supplicant. See README-P2P for
--# more information on P2P operations.
--#CONFIG_P2P=y
--
--# Enable TDLS support
--#CONFIG_TDLS=y
--
--# Wi-Fi Direct
--# This can be used to enable Wi-Fi Direct extensions for P2P using an external
--# program to control the additional information exchanges in the messages.
--#CONFIG_WIFI_DISPLAY=y
--
--# Autoscan
--# This can be used to enable automatic scan support in wpa_supplicant.
--# See wpa_supplicant.conf for more information on autoscan usage.
--#
--# Enabling directly a module will enable autoscan support.
--# For exponential module:
--CONFIG_AUTOSCAN_EXPONENTIAL=y
--# For periodic module:
--#CONFIG_AUTOSCAN_PERIODIC=y
--
--# Password (and passphrase, etc.) backend for external storage
--# These optional mechanisms can be used to add support for storing passwords
--# and other secrets in external (to wpa_supplicant) location. This allows, for
--# example, operating system specific key storage to be used
--#
--# External password backend for testing purposes (developer use)
--#CONFIG_EXT_PASSWORD_TEST=y
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 43865ed96045..51ec5004852b 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5ebcb90236d1ad640558c3d3cd3035df \
- DEPENDS = "dbus libnl"
+diff --git a/meta/recipes-devtools/ccache/ccache/0001-fmt-Do-not-use-always_inline-with-mips.patch b/meta/recipes-devtools/ccache/ccache/0001-fmt-Do-not-use-always_inline-with-mips.patch
+new file mode 100644
+index 00000000000..90cf27b4187
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache/0001-fmt-Do-not-use-always_inline-with-mips.patch
+@@ -0,0 +1,33 @@
++From e57ce7af6f1ef0400aa847d79a7d3bc8803838bd Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 11 Apr 2022 20:09:18 -0700
++Subject: [PATCH] fmt: Do not use always_inline with mips
++
++mips/gcc-12 is not able to inline this function as reported here [1]
++For now workaround this for mips by not forcing always_inline attribute
++on functions
++
++[1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=105234
++
++Upstream-Status: Inappropriate [GCC MIPS Workaround]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/third_party/fmt/core.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/third_party/fmt/core.h b/src/third_party/fmt/core.h
++index 92a7aa1..e343ae0 100644
++--- a/src/third_party/fmt/core.h
+++++ b/src/third_party/fmt/core.h
++@@ -212,7 +212,7 @@
++ #endif
++ 
++ #ifndef FMT_INLINE
++-#  if FMT_GCC_VERSION || FMT_CLANG_VERSION
+++#  if (FMT_GCC_VERSION || FMT_CLANG_VERSION) && !defined (__mips__)
++ #    define FMT_INLINE inline __attribute__((always_inline))
++ #  else
++ #    define FMT_INLINE inline
++-- 
++2.35.1
++
+diff --git a/meta/recipes-devtools/ccache/ccache_4.6.bb b/meta/recipes-devtools/ccache/ccache_4.6.bb
+index f019679cf18..740f92fb45e 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.6.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.6.bb
+@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=ff5327dc93e2b286c931dda3d6079da9"
  
- SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
--           file://defconfig \
-            file://wpa-supplicant.sh \
-            file://wpa_supplicant.conf \
-            file://wpa_supplicant.conf-sane \
-@@ -25,7 +24,7 @@ S = "${WORKDIR}/wpa_supplicant-${PV}"
+ DEPENDS = "zstd"
  
- inherit pkgconfig systemd
+-SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
++SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz \
++           file://0001-fmt-Do-not-use-always_inline-with-mips.patch \
++          "
+ SRC_URI[sha256sum] = "73a1767ac6b7c0404a1a55f761a746d338e702883c7137fbf587023062258625"
  
--PACKAGECONFIG ??= "openssl"
-+PACKAGECONFIG ?= "openssl"
- PACKAGECONFIG[gnutls] = ",,gnutls libgcrypt"
- PACKAGECONFIG[openssl] = ",,openssl"
+ UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
+@@ -24,3 +26,6 @@ BBCLASSEXTEND = "native nativesdk"
  
-@@ -33,15 +32,12 @@ CVE_PRODUCT = "wpa_supplicant"
- 
- do_configure () {
- 	${MAKE} -C wpa_supplicant clean
--	install -m 0755 ${WORKDIR}/defconfig wpa_supplicant/.config
-+	sed -e '/CONFIG_TLS=/d' <wpa_supplicant/defconfig >wpa_supplicant/.config
- 
--	if echo "${PACKAGECONFIG}" | grep -qw "openssl"; then
--        	ssl=openssl
--	elif echo "${PACKAGECONFIG}" | grep -qw "gnutls"; then
--        	ssl=gnutls
--	fi
--	if [ -n "$ssl" ]; then
--        	sed -i "s/%ssl%/$ssl/" wpa_supplicant/.config
-+	if ${@ bb.utils.contains('PACKAGECONFIG', 'openssl', 'true', 'false', d) }; then
-+		echo 'CONFIG_TLS=openssl' >>wpa_supplicant/.config
-+	elif ${@ bb.utils.contains('PACKAGECONFIG', 'gnutls', 'true', 'false', d) }; then
-+		echo 'CONFIG_TLS=gnutls' >>wpa_supplicant/.config
- 	fi
- 
- 	# For rebuild
+ PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
+ PACKAGECONFIG[redis] = "-DREDIS_STORAGE_BACKEND=ON,-DREDIS_STORAGE_BACKEND=OFF,hiredis"
++PACKAGECONFIG[tests] = "-DENABLE_TESTING=ON,-DENABLE_TESTING=OFF,,"
++
++lcl_maybe_fortify:mipsarch = ""
 -- 
 2.35.1
 
