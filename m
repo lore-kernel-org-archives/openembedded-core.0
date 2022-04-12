@@ -1,137 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50727C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D856C41535
 	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:38 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web12.11313.1649773408958986898
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web10.12638.1649779658296931166
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 07:23:29 -0700
+ Tue, 12 Apr 2022 09:07:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cbmHqKaB;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.53,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f53.google.com with SMTP id bg10so37703283ejb.4
+ dkim=pass header.i=@linaro.org header.s=google header.b=eAfLSFux;
+ spf=pass (domain: linaro.org, ip: 209.85.217.44,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-vs1-f44.google.com with SMTP id i186so16656749vsc.9
         for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 07:23:28 -0700 (PDT)
+ Tue, 12 Apr 2022 09:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BLRiD9uUVa8E4NXJgGYUJ41BADxMz79H9Qqq5l6xi0M=;
-        b=cbmHqKaBBzbN0kIGeAvfrlm+OoirHaytZpotrN6mSqkSszO0GFKxFfDwjcT5IsoJtv
-         tmXo2+8AfhvDrnqKumOiCsGGm6CRaQ+CegSlNGbTTzCv1bP8n3kALXP1sXO9BbvtPNd/
-         BVq7pWr1iYQq4gUsg5jhCZrka0Ire4V/Xp5IAVr5UdPZ6v9NNS1spnd79NFAnapMbboJ
-         8qZuJhvs5mKt2+SW6udcl8bEMYbPHRfBYK+82kCwR6mnjXETbSIHAkxx57tgQs1GJLhw
-         DbasL3nsKt0qNVAsPMcYSTUkps5MeefHirVZNgHrBdB4JJjHK6UVYDVxHDdL6ej/03mM
-         kgRg==
+        bh=tFjvdMvrCOSLdzBIvedBlgGsFr4oYr8YrYiTH1wWSzY=;
+        b=eAfLSFuxMNZASRkMsOGwEN9CoZyY+Y5LVCM6Jp6EjQ16+zux/SRGbh7jqP527cbVeE
+         JWSiPyyHhESWtTGIC+Z5Mpm6rmL5Ktw0yQkXExsRHKtAilm0oShs6bShM6RCvtzEo6NP
+         Uk6v1Sne1sAp1aJp7/a6qaJmA98HbXi5T44oRyyr2cF06AvYGhb4X37AGtK3IFoqe0Ix
+         AdBp+ADuCSMM6m+rd5fnST999vGu3T1LgIaqRhOcHkmUfBuNH5sNJc6WE28Tr7f8ncvo
+         ZZuQar3YjLoB2lwfav9mT/qLHW6w5+9YWGsJAhEdqs3vh0VLLH6Enw+X82h1uLbVcwP7
+         LdDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BLRiD9uUVa8E4NXJgGYUJ41BADxMz79H9Qqq5l6xi0M=;
-        b=mXw/KNDPZ21UAv2U7mIsDzEGPX+ejE+Xg56xfaZKVDClYiDKc7tQPz9K7pzTL2E3mB
-         GkliHuVvg05Nj79f+iGBVUcE149BbF+qpB/b0gp219EP9Lkb7PLOnsxYSCeipyvscTb4
-         MkAbIFZmnb2F8BpxfPuJMe3YgPB2+JDPSDnQtZhnV76ykdjqryJnyqvdla4+Ecj34S5L
-         BMhL9ZBrkNty3dMQ0O2vmofjtmxr/lHi2rg47HYedyHSnc3/R7AJvM8QzeabF9beHryX
-         ngK4+6mLRLz/EiZ1FFSGJusdwI04huuyTdiB/azo2VjOCpNKHgMwM4HBHQN5jQrkojfr
-         Ve2Q==
-X-Gm-Message-State: AOAM533QJj/tMU2DW8//FrSYLH2nKH8JhBRLX5AuDKojqD47lhuD+HNH
-	HUIX0fsM3/GEJOGdmbTla5Y+QMsPE73GT2bL5nAnGw==
+        bh=tFjvdMvrCOSLdzBIvedBlgGsFr4oYr8YrYiTH1wWSzY=;
+        b=46DE10IVWXt3cFSvazMU6yO+wifOm46HWg382NcAEmjEgzVr8MtyeZ1qQL+eImFe+H
+         yrK+YZURSf/o8cVXINS2N86GdwW+5VfJ7z4JOsgjgvFT6+6OIDPXiWRzyJHA2RWYG6Qa
+         Zqvglskw3NpyU2vkpz3kzsKnhA618kt3146ehG71RUMD7N9mmnQulNi8+Jffxbshj22q
+         Ba2HOjwGeSfbGBI4bcKKq4Gwci/n8shxL5WbpuOin0eOm1VvEgVky+ovvCTlhuNcqTdj
+         PaxiJCurvYITK0BLq59cg41vGLmZBk+cuzLyUYHq6Xlpu49AiqNVnHYGKsUE48mLXYSi
+         82NA==
+X-Gm-Message-State: AOAM532ZQ3UgI4jKJ12/QjXZu6wmJq1nLvdlb8f8/u+d8ziM2hINjK6F
+	ZK9XC3Xlzr07zss4ev4uTqWUMs71suIn5GXCbzBM4w==
 X-Google-Smtp-Source: 
- ABdhPJzyUNadYqENNwgk5gBInU9VKky3S1176yjddEa/shUTLtXhlOcDtYNH89dbZqW5/yAIo3ELr4Hwpp/cv1eTUWw=
-X-Received: by 2002:a17:906:7304:b0:6da:9243:865 with SMTP id
- di4-20020a170906730400b006da92430865mr34883995ejc.665.1649773407226; Tue, 12
- Apr 2022 07:23:27 -0700 (PDT)
+ ABdhPJz54VHDBdxci/7PXYTg8rgzPW+ciArF/41vAJLc35zdNE3zZdnx4pN8BsYxGJ3ptM05f4d8VkXTDClHKk8tY8Y=
+X-Received: by 2002:a05:6102:6d3:b0:325:cfa3:44b with SMTP id
+ m19-20020a05610206d300b00325cfa3044bmr11980762vsg.23.1649779657332; Tue, 12
+ Apr 2022 09:07:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220410120234.AE7F69627FC@nuc.router0800d9.com>
- <e6b5684ec20a4c5c0cca18a5c443c28dfe15c69d.camel@linuxfoundation.org>
+References: <20220329130741.2430737-1-ross.burton@arm.com>
+ <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
+ <CAAnfSTuHjbiN2NKVwZOut+MjxLhuFMwn+xAWkFHaqAXmM_8Ypg@mail.gmail.com>
+ <CAOSpxdZGOwUs86K6bEX3WTgVu-+fFjonKxiGEe+u1OL=ivqx+w@mail.gmail.com>
+ <CAOSpxdb+O=iDpDNr7S62wut=GErTXg8cvpYsj0nn6DM9G1CL-A@mail.gmail.com>
+ <CANp-EDaVN-4Z_iYXJq7OcJ1QEtpAsHTGOQkCHeW+gJ6u2b=0xQ@mail.gmail.com>
+ <CAOSpxdZdi+xiJcFeyOgrLTATOaaD0hf9k-+yQmsH2+GJm8xcQw@mail.gmail.com>
+ <CANp-EDaN76FxTBEjWFe5WD3W+tHbqbfJuA=kcuW8eeyF_O8vHQ@mail.gmail.com>
+ <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
+ <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
+ <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
+ <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
+ <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
 In-Reply-To: 
- <e6b5684ec20a4c5c0cca18a5c443c28dfe15c69d.camel@linuxfoundation.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 12 Apr 2022 04:23:15 -1000
+ <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Tue, 12 Apr 2022 12:07:25 -0400
 Message-ID: 
- <CAOSpxdaP=67srs9_a2C_6o2ySZ8W9w4f8FXR1qdMkm3_0Z2oaQ@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 10 Apr
- 2022 02:00:01 AM HST
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org,
-	yocto-security@lists.yoctoproject.org
+ <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
+ CVE-2018-25032
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Ross Burton <ross@burtonini.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164275
+ https://lists.openembedded.org/g/openembedded-core/message/164278
 
-On Tue, Apr 12, 2022 at 12:52 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> I thought I'd update on a quick check through the status of the CVEs this is
-> reporting for master/kirkstone.
->
-> On Sun, 2022-04-10 at 02:02 -1000, Steve Sakoman wrote:
-> > Branch: master
-> >
-> > Full list:  Found 12 unpatched CVEs
-> > CVE-2019-1010238 (CVSS3: 9.8 CRITICAL): pango:pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010238 *
->
-> Steve is questioning the version restrictions on this, we don't think it applies
-> to us.
+On Mon, Apr 11, 2022 at 10:12 PM Steve Sakoman <steve@sakoman.com> wrote:
 
-After a little back and forth it appears that they will be updating
-the CVE affected versions this week.  So this CVE should no longer be
-an issue for master and dunfell.
+> What distro is your build machine? On the autobuilder it is using a non debian distro for the debian build.
+>
+> My build machine is Ubuntu, so that is a major difference!
 
-Steve
+My build was also done on Ubuntu.
 
-> > CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
->
-> No movement upstream, not a priority for qemu maintainers.
->
-> > CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-> > CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
->
-> No movement upstream, not a priority for qemu maintainers.
->
-> > CVE-2021-44647 (CVSS3: 5.5 MEDIUM): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-44647 *
->
-> I believe this is fixed in lua 5.4.4, have requested a version restriction on
-> the CVE.
->
-> > CVE-2022-0529 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-> > CVE-2022-0530 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
->
-> RH bugs are restricted, no public patches to fix, not much we can do.
->
-> > CVE-2022-1050 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1050 *
->
-> Have sent a patch for this.
->
-> > CVE-2022-1056 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1056 *
->
-> Already fixed by patches we apply, have sent an update for our metadata.
->
-> > CVE-2022-24975 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24975 *
->
-> This issue isn't particularly relevant to us, sent an ignore for it.
->
-> > CVE-2022-26280 (CVSS3: 9.1 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26280 *
->
-> Have merged an upgrade for this containing the fix.
->
-> > CVE-2022-27191 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27191 *
->
-> No patches for 1.17.X and upgrading to 1.18 not an option for kirkstone.
->
-> Cheers,
->
-> Richard
->
->
->
+I have just completed a build on Fedora 35, and this time, I am seeing
+the same failure as the autobuilder. I'll try debugging the problem
+this afternoon.
+
+Ralph
 
