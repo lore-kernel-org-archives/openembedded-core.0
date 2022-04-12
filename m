@@ -2,129 +2,95 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0360CC48BE8
-	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:43 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.9260.1649760777670632092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB827C48BE6
+	for <webhook@archiver.kernel.org>; Tue, 12 Apr 2022 16:46:42 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.8960.1649758964632793839
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 03:52:58 -0700
+ Tue, 12 Apr 2022 03:22:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SyHySPtO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V9eTp0Fu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id i20so14010985wrb.13
+Received: by mail-wr1-f50.google.com with SMTP id b19so26967046wrh.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 03:52:57 -0700 (PDT)
+ Tue, 12 Apr 2022 03:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=BUDmz8O3lSkCvx12OhIT0IRsgPu3Auy1t2jZ80Gn17g=;
-        b=SyHySPtOE3u0zKahmEZrzDkSoDT0SqvjBjJI9RQtJY2PB6BhOUPhegkTJBBNnWM6BH
-         oYdm4r8po7mJaigZJk0wz9kzMku5K12oVN7dWWJyLzRrRrj7Yes5nLJoB7neFBoEKL0d
-         pz5Qy3MkX+3wfAOWoqW/nZwVPtC18eLTcXCjs=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WoZvrAj4/zR8iFYMXHyuQlmwpEjrJkILGwX3yTj3mOs=;
+        b=V9eTp0FupsDXp9v6qbDEve53O7N4m1CywmwFxM1/h3COuk+uANY5mMImUFi/csyGJK
+         qXd9A4Z8/5WBA09oibYV//xEWJ0ZhtqK0SmwIq6wYUCS4Yqh3bzJv44v4ynin7Srk5qt
+         ajMTrda9URgxc0l9KjMnxLX200ATXppwHNuR8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BUDmz8O3lSkCvx12OhIT0IRsgPu3Auy1t2jZ80Gn17g=;
-        b=ptUFTH5+k/cWJjyOueva9+uvkK/q7YzwENkMP4v9MITCjoOFuwM06IxGes8tJruww6
-         5+tDmK0IznLQgpFzN2BZNY0deX2/fHA/dHdtG3LP5xOC39Lyt6bKrwNIZdcHcsizLxDe
-         Rs+baDZOM7+3UAq2IsshIwnn2FuHpTtDQ9GnYgcCBB8vC4WNfaWgowTpxyGnvgJBtEGb
-         ITXuBSL2sUIq2Cir61frXySI0cPapOeCxk0TuhcDPcT9dWYtT1leA6+5LxcqNjxCJF44
-         ak09fUjJyqze08Wm+YIryGXeSEQenjve9q3iri77jD4FFI+zvSrDpWJXF+i2VigM2MRM
-         Sjhw==
-X-Gm-Message-State: AOAM533V+Of9GlvBeAGexhDRk85BGNt7GeW1wQxQSaFyxPNEoXMeXys3
-	IncMQceEtfnSNVx0lwK8CtdA1Q==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WoZvrAj4/zR8iFYMXHyuQlmwpEjrJkILGwX3yTj3mOs=;
+        b=jO36HKIBnW22KpGnDb9RYIboyM2Rz0z2MiS9sOozAVvDFS1j/9ptiwnju8r2zY0GJ0
+         L6qcyGNJSZO+27X8wfCuEGq+rNjRENkT74scRmQCFMm/FjJWbK7OZb89alztRmMKXtDZ
+         tHMSo1SGMMXNeq9uklBnz3nQ1IuCNUoeQHyhDZ4ZRCKQ3MLhND7d2ezoo6RS7sMgkxPB
+         bJ9XDCmew6u0o7ryLCcTxT2JcDAS2L9oLBzTpvOOSY3Dtw4uJ2NZiQWhoYMK+9j1RfD9
+         d+WH3o+DRZBZbaHiNnWpN8XQnNgbDE8OPj+XmATzHMxDasrV/Jt8fgliDp9Ap1tETdP2
+         RB+A==
+X-Gm-Message-State: AOAM532K987zE/ghWQZxCBMrkuuqGvW1FAkR9e7wO6rsc1/NhrATAYM2
+	KYYK+//Ue2MGBoHGKKgTSd3006JHgn37uw==
 X-Google-Smtp-Source: 
- ABdhPJznicrz3ynMORrMxni3EZEtfqUdJ2XTo8DjdPKK06WKWR/Rlq8hP0jaAtxRBoCCugRr8FcQVw==
-X-Received: by 2002:adf:d1e3:0:b0:204:7e76:8a70 with SMTP id
- g3-20020adfd1e3000000b002047e768a70mr29511494wrd.580.1649760776007;
-        Tue, 12 Apr 2022 03:52:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b168:4a11:27d6:cd01?
- ([2001:8b0:aba:5f3c:b168:4a11:27d6:cd01])
+ ABdhPJz3DAb2rE/oMOjmlSsRux7b30J+nu+wLGFZtcBjiBl+31jrvFjw2oFrFQrce4a6Z6hvzYN63Q==
+X-Received: by 2002:a5d:458c:0:b0:207:a24a:cdaa with SMTP id
+ p12-20020a5d458c000000b00207a24acdaamr10549986wrq.112.1649758962402;
+        Tue, 12 Apr 2022 03:22:42 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:b168:4a11:27d6:cd01])
         by smtp.gmail.com with ESMTPSA id
- 2-20020a1c1902000000b00380d3873d6asm2096323wmz.43.2022.04.12.03.52.55
+ j16-20020a05600c191000b0038c9249ffdesm2274917wmq.9.2022.04.12.03.22.41
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 03:52:55 -0700 (PDT)
-Message-ID: 
- <e6b5684ec20a4c5c0cca18a5c443c28dfe15c69d.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 10 Apr
- 2022 02:00:01 AM HST
+        Tue, 12 Apr 2022 03:22:41 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org,
-	yocto-security@lists.yoctoproject.org
-Date: Tue, 12 Apr 2022 11:52:54 +0100
-In-Reply-To: <20220410120234.AE7F69627FC@nuc.router0800d9.com>
-References: <20220410120234.AE7F69627FC@nuc.router0800d9.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] git: Ignore CVE-2022-24975
+Date: Tue, 12 Apr 2022 11:22:41 +0100
+Message-Id: <20220412102241.2122484-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:43 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Apr 2022 16:46:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164263
+ https://lists.openembedded.org/g/openembedded-core/message/164262
 
-I thought I'd update on a quick check through the status of the CVEs this is
-reporting for master/kirkstone.
+Everyone I've talked to doesn't see this as a major issue. The CVE
+asks for a documentation improvement on the --mirror option to
+git clone as deleted content could be leaked into a mirror. For OE's
+general users/use cases, we wouldn't build or ship docs so this wouldn't
+affect us.
 
-On Sun, 2022-04-10 at 02:02 -1000, Steve Sakoman wrote:
-> Branch: master
-> 
-> Full list:  Found 12 unpatched CVEs
-> CVE-2019-1010238 (CVSS3: 9.8 CRITICAL): pango:pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010238 *
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/git/git_2.35.1.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Steve is questioning the version restrictions on this, we don't think it applies
-to us.
-
-> CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-
-No movement upstream, not a priority for qemu maintainers.
-
-> CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-> CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-
-No movement upstream, not a priority for qemu maintainers.
-
-> CVE-2021-44647 (CVSS3: 5.5 MEDIUM): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-44647 *
-
-I believe this is fixed in lua 5.4.4, have requested a version restriction on
-the CVE.
-
-> CVE-2022-0529 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-> CVE-2022-0530 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-
-RH bugs are restricted, no public patches to fix, not much we can do.
-
-> CVE-2022-1050 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1050 *
-
-Have sent a patch for this.
-
-> CVE-2022-1056 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1056 *
-
-Already fixed by patches we apply, have sent an update for our metadata.
-
-> CVE-2022-24975 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24975 *
-
-This issue isn't particularly relevant to us, sent an ignore for it.
-
-> CVE-2022-26280 (CVSS3: 9.1 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26280 *
-
-Have merged an upgrade for this containing the fix.
-
-> CVE-2022-27191 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27191 *
-
-No patches for 1.17.X and upgrading to 1.18 not an option for kirkstone.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/git/git_2.35.1.bb b/meta/recipes-devtools/git/git_2.35.1.bb
+index 47c22118640..e39142128b3 100644
+--- a/meta/recipes-devtools/git/git_2.35.1.bb
++++ b/meta/recipes-devtools/git/git_2.35.1.bb
+@@ -18,6 +18,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
+ 
+ CVE_PRODUCT = "git-scm:git"
+ 
++# This is about a manpage not mentioning --mirror may "leak" information
++# in mirrored git repos. Most OE users wouldn't build the docs and
++# we don't see this as a major issue for our general users/usecases.
++CVE_CHECK_IGNORE += "CVE-2022-24975"
++
+ PACKAGECONFIG ??= "expat curl"
+ PACKAGECONFIG[cvsserver] = ""
+ PACKAGECONFIG[svn] = ""
+-- 
+2.32.0
 
 
