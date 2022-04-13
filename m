@@ -2,51 +2,58 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DBEC47081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B552C3527D
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web09.1652.1649872234321228883
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web09.1547.1649871708645490313
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:50:34 -0700
+ Wed, 13 Apr 2022 10:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oXzltct+;
- spf=pass (domain: gmail.com, ip: 209.85.208.173,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DAxBSRrO;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id c15so3125135ljr.9
+Received: by mail-lf1-f45.google.com with SMTP id u7so4835639lfs.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:50:34 -0700 (PDT)
+ Wed, 13 Apr 2022 10:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nxyCUlYPMBWK+QihBq+vIlIIW2uBFEos7vL0CBuPFQI=;
-        b=oXzltct+uehd4OxuEMG4qTsiJspvX9JnxNfbEV16O+ZV0Ay6wH+fo1kS5PmQvTA4Hl
-         uKzb5rEnK1fWEzuctXTWsXhe0XP/2dy0IEi8azZVkieQJ9srNZ2vGl0ZyCxPSCgWdeDv
-         2Mz3VofXT2sHyCydDgZBCWD3R8YvVjn2jzjXj9uf8bYwVewa779h4cQeynIJEFsRDdX4
-         B0vvcNPxh076htN9Ao+mLoOyFf+Xh7BrPmzj0ytF67JzPC1wC5m+/nTVoEbTY+WUOgtn
-         CMGLjvX3/zYYuYI3hVaUIOZOdZNrqPeSzzRkO/AeK2us6Q3HpdXI0pxbAc/DO/jxU/aX
-         UlTQ==
+        bh=wdci/4NElYzwAdzZmDrZqkBCJNp/3d3nan+a3Mlq0O4=;
+        b=DAxBSRrOJHgLqu/FtCxSBYD/+WkoSR/84fbVIHkuNxiIdNP267pUTo+SPjnjgwzYdq
+         RGS3OYGOIdIxBZ0XMiR/ll9UbawpB6OE0G8j2eTCnRofNWa5zRWLGHlDRKg0uF6PLdgm
+         6KMdrzUMPgWSS+F9DMkJriwjjwAYnIOS9tsBBx2tqpmEd2hMXJzqsOs7II0ZAys0lLPo
+         nC4/5VE38OEKCdzyUNwANGlhGHWIJuX84Vkngc/IbgoD6rSimEI0akfSCuO2hGgsSpKR
+         y4TKeAMvfpEqy+LzFgk2FhA2Ctx7k5nc6FwQR/n7NfHyvgPi1rSGm2qqVJvH9adsK7gz
+         cuhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nxyCUlYPMBWK+QihBq+vIlIIW2uBFEos7vL0CBuPFQI=;
-        b=Wye72Jd1fQPogKusS4VCVYGlU+8AOMr370N2gnh3h00vtIr61lzR96NNYaAPaN+HTD
-         0R9Cawf0OhiB95GuNY/uC/0cUNQCpLYK2JOq0QYYpkxGOGyJssEXousV6x2MkrBAdei5
-         8UAuRQC7U8ILFu44hkks50fLCOLDG3B001/5fieOK59OHcXAcx/mVf5YTQMNRFvRlaKA
-         +Mj7yT8wb2i2XrjQxoW/p2B0jaGIbSv+UHQr+NWjDB/TLShmFMYizfivW3xvMuXjvN6c
-         zZ7cLzhOdq134Qs3icuI2+73Np8nSrwDEUWNhmx7tSJ0M4m5I8bADH8DsRFQIlXinX+7
-         MAdA==
-X-Gm-Message-State: AOAM531V66r45aNgjdMXdoEGo1r1KIlrrLKM93T60COSqhaX5SBLyH2i
-	idhPjzIhRZTXzNx0g46Icw++IOykMgLP+gPOtgQ=
+        bh=wdci/4NElYzwAdzZmDrZqkBCJNp/3d3nan+a3Mlq0O4=;
+        b=FndlzZ4dDXFLtnLYjXG48+1Tj5EXHgrQiBOwRqQsnr1+ZB8Wr14bAzwobp5I66XSRw
+         UcI+vG5b1HGYmtL7JRS+lvZ8I7y63jJ50kgyi2PS4qJ4IhfSNl4h6UqomBykD03cl+Z1
+         wIo/n/HImCAukrKU5IqnCiyYkr1+7mv7eQObNMnAtuHhZtJlwHyPsE5TnXFdNNyFRD+I
+         dMW60CSIidPAdWYpTjc2klOcJ12bmvQM5u9NJJgsalveS2xjnILtRhcNNUIn1R4+xKrf
+         B/+Rgpu29arkpf456CjzHJpObjtWNTaVKE41mrswEAtpVNkvUU7xym3gSgVVhd40O1bI
+         495g==
+X-Gm-Message-State: AOAM533IT+z/WiIH8y12VSjesIfVBuCjetOj2aEgC997oDnX3EtepR4p
+	n+8mIaJNAwOtQXUnfEqylJObdis/I2es6xsmGew=
 X-Google-Smtp-Source: 
- ABdhPJzgOuBTh0K4d6X5JtDGtLU5BkQVLe2nkgWY/5e76i5I62nMC0hsAIBqQTQaPCCAhZtdwtzOxGuHFbq+8xVmr+0=
-X-Received: by 2002:a2e:a905:0:b0:24a:fed2:d12e with SMTP id
- j5-20020a2ea905000000b0024afed2d12emr28563896ljq.255.1649872232511; Wed, 13
- Apr 2022 10:50:32 -0700 (PDT)
+ ABdhPJxK3TO30FfcoZnqKTAZHYYKmWSPGaoIteffT/6RTV5z+HxJYG4Fsl5TJTIYD290ruvVDbK05MuE+bC6544/zAs=
+X-Received: by 2002:a05:6512:753:b0:46b:b5e6:1621 with SMTP id
+ c19-20020a056512075300b0046bb5e61621mr7449565lfs.94.1649871706546; Wed, 13
+ Apr 2022 10:41:46 -0700 (PDT)
 MIME-Version: 1.0
-References: 
+References: <20220329130741.2430737-1-ross.burton@arm.com>
+ <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
+ <CAAnfSTuHjbiN2NKVwZOut+MjxLhuFMwn+xAWkFHaqAXmM_8Ypg@mail.gmail.com>
+ <CAOSpxdZGOwUs86K6bEX3WTgVu-+fFjonKxiGEe+u1OL=ivqx+w@mail.gmail.com>
+ <CAOSpxdb+O=iDpDNr7S62wut=GErTXg8cvpYsj0nn6DM9G1CL-A@mail.gmail.com>
+ <CANp-EDaVN-4Z_iYXJq7OcJ1QEtpAsHTGOQkCHeW+gJ6u2b=0xQ@mail.gmail.com>
+ <CAOSpxdZdi+xiJcFeyOgrLTATOaaD0hf9k-+yQmsH2+GJm8xcQw@mail.gmail.com>
+ <CANp-EDaN76FxTBEjWFe5WD3W+tHbqbfJuA=kcuW8eeyF_O8vHQ@mail.gmail.com>
  <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
  <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
  <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
@@ -57,95 +64,201 @@ References:
  <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
  <16E57E79FD292EFA.13992@lists.openembedded.org>
  <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
- <Ylb9RoAyRpDHTaqe@mcrowe.com>
- <CAOSpxdbaE-=NOsQVG_+tK1J9oojA9qT8sMoR3c06uEssXJ0mFQ@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbaE-=NOsQVG_+tK1J9oojA9qT8sMoR3c06uEssXJ0mFQ@mail.gmail.com>
+ <16E583EB139C493B.16998@lists.openembedded.org>
+In-Reply-To: <16E583EB139C493B.16998@lists.openembedded.org>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 13 Apr 2022 18:50:21 +0100
+Date: Wed, 13 Apr 2022 18:41:34 +0100
 Message-ID: 
- <CANPvuRnK32V61n7TKf6aBd8xoRi3drO4o0B0BBm_Y=431B89Hw@mail.gmail.com>
+ <CANPvuRmsp+GwzQPsy9Sc9LYJ+F9bx3Xxh0sVDXV6ENacVGPUjw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
  CVE-2018-25032
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Mike Crowe <mac@mcrowe.com>, Ralph Siemsen <ralph.siemsen@linaro.org>,
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Steve Sakoman <steve@sakoman.com>,
+ Ralph Siemsen <ralph.siemsen@linaro.org>,
 	Ross Burton <ross@burtonini.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
 	Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000057fbff05dc8cd074"
+Content-Type: multipart/alternative; boundary="000000000000fe670d05dc8cb046"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164352
+ https://lists.openembedded.org/g/openembedded-core/message/164350
 
---00000000000057fbff05dc8cd074
+--000000000000fe670d05dc8cb046
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Steve,
-
-Steve Sakoman <steve@sakoman.com> escreveu no dia quarta, 13/04/2022 =C3=A0=
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu no dia quarta, 13/04/2022 =C3=A0=
 (s)
-18:37:
+18:11:
 
-> On Wed, Apr 13, 2022 at 6:41 AM Mike Crowe <mac@mcrowe.com> wrote:
-> >
-> > On Wednesday 13 April 2022 at 06:02:22 -1000, Steve Sakoman wrote:
-> > > Both runs completed and I'm still seeing success without the zlib
-> patch:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/506=
-9
-> > >
-> > > and failure with the patch:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/507=
-0
-> >
-> > I'm certainly no expert with the autobuilder, but it looks like nothing
-> was
-> > actually compiled for both of those builds - everything came from the
-> > sstate cache.
-> >
-> > I believe that Ralph's reproduction of the test failure without the zli=
-b
-> > patch was from a complete rebuild without anything coming from the ssta=
-te
-> > cache.
-> >
-> > I suspect that if a PR bump or something similar that causes zlib and a=
-ll
-> > its reverse dependencies to be built were tested on top of the commit
-> used
-> > for build 5069 then the test failure would occur then as well and
-> > exonerate the zlib patch.
+> Hi,
 >
-> A valid point, let's see what happens with a PR bump:
+> Steve Sakoman <steve@sakoman.com> escreveu no dia quarta, 13/04/2022 =C3=
+=A0(s)
+> 17:02:
+>
+>> On Wed, Apr 13, 2022 at 5:31 AM Steve Sakoman via
+>> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+>> wrote:
+>> >
+>> > On Tue, Apr 12, 2022 at 3:21 PM Ralph Siemsen <ralph.siemsen@linaro.or=
+g>
+>> wrote:
+>> > >
+>> > > On Tue, Apr 12, 2022 at 5:49 PM Steve Sakoman <steve@sakoman.com>
+>> wrote:
+>> > >
+>> > > > I added a debug option to the failing command and did another
+>> autobuilder run.
+>> > > >
+>> > > > You can see the output here:
+>> > > >
+>> > > > https://errors.yoctoproject.org/Errors/Details/654608/
+>> > >
+>> > > Okay, same error, "Hash Sum mismatch". And if I squint between all t=
+he
+>> > > URL-encoding, I can see the md5/sha1/sha256/sha512sum values.
+>> > >
+>> > > The "apt update" command is doing the following:
+>> > > - fetch the file called "Release"
+>> > > - fetch the file called "Packages.gz" --> error occurs here
+>> > >
+>> > > Looking inside the Release file, it is plain text, and contains the
+>> > > md5/sha1/sha256/sha512 sums of both Packages and Packages.gz (and al=
+so
+>> > > the first two lines of Release).
+>> > >
+>> > > Manually checking each of those sums reveals an inconsistency: all t=
+he
+>> > > sha256 values inside Release are incorrect, while all the other
+>> > > md1/sha1/sha512 values are correct.
+>> > >
+>> > > And when we look at the URL-encoded debug info... the sha256 value i=
+s
+>> > > the correct one for Packages.gz (as computed manually). However it
+>> > > does not match the (incorrect) value within the Release file. Thus i=
+t
+>> > > seems apt-get is justified when it complains about "Hash Sum
+>> > > mismatch".
+>> > >
+>> > > Going back to my Ubuntu system, and looking at the generated Release
+>> > > file... all the checksums are correct, including the sha256sum.
+>> > >
+>> > > So I am now looking into how Release file gets generated... as the
+>> > > problem appears to be there... and it happens on Fedora but not
+>> > > Ubuntu.
+>> >
+>> > As far as I can tell it is done here:
+>> >
+>> >
+>> https://git.yoctoproject.org/poky/tree/meta/lib/oe/package_manager.py?h=
+=3Ddunfell#n301
+>> >
+>> > > One additional point to add: on the same Fedora 35 system, I did a
+>> > > full rebuild *without* with xz/gzip CVE fixes, and the apt failure
+>> > > still occurs. To be certain, I nuked cache, sstate-cache and tmp (so
+>> > > basically the entire build directory) and the rebuild took several
+>> > > hours.
+>> >
+>> > Now that is really strange!  In my experience it has only appeared
+>> > after adding the zlib or xz CVE fix patches.
+>> >
+>> > I just started two runs on the autobuilder, with the zlib patch as the
+>> > only difference.  Both on Fedora 35.
+>>
+>> Both runs completed and I'm still seeing success without the zlib patch:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5069
+>>
+>> and failure with the patch:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5070
+>
+>
+> It seems the test that failed is something related with the apt.
+> Is this repo hosted on 192.168.7.5 shared between master and dunfell
+> branches?
+> I ask this because there are some issues with apt [1] on master and it ca=
+n
+> be related to this.
 >
 
-I think that bumping the PR is not enough to rebuild a package.
-The sstate cache needs to be invalidated and bumped as well
-with HASHEQUIV_HASH_VERSION.
+The server is started in the test.
+Sorry for the noise and please discard my comment.
 
-PR =3D "r1"
-HASHEQUIV_HASH_VERSION .=3D ".1"
+Started HTTPService on 0.0.0.0:42261
 
 Jose
 
 
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5072
+> [1] apt: add apt selftest to test signed package feeds)
 >
-> I see plenty of rebuilds in process . . .
+> Started HTTPService on 0.0.0.0:35637
+> Traceback (most recent call last):
+> File
+> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
+/decorator/__init__.py",
+> line 36, in wrapped_f
+> return func(*args, **kwargs)
+> File
+> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
+/decorator/__init__.py",
+> line 36, in wrapped_f
+> return func(*args, **kwargs)
+> File
+> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
+/decorator/__init__.py",
+> line 36, in wrapped_f
+> return func(*args, **kwargs)
+> File
+> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
+ime/cases/apt.py",
+> line 50, in test_apt_install_from_repo
+> self.pkg('update')
+> File
+> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
+ime/cases/apt.py",
+> line 17, in pkg
+> self.assertEqual(status, expected, message)
+> AssertionError: 100 !=3D 0 : apt-get update
+> Ign:1 http://192.168.7.5:42261 ./ InRelease
+> Get:2 http://192.168.7.5:42261 ./ Release [1213 B]
+> Ign:3 http://192.168.7.5:42261 ./ Release.gpg
+> Get:4 http://192.168.7.5:42261 ./ Packages [59.3 kB]
+> Err:4 http://192.168.7.5:42261 ./ Packages
+> Hash Sum mismatch
+> Fetched 60.5 kB in 20s (3020 B/s)
+> Reading package lists...
+> W: The repository 'http://192.168.7.5:42261 ./ Release' is not signed.
+> E: Failed to fetch http://192.168.7.5:42261/./Packages.gz Hash Sum
+> mismatch
+> E: Some index files failed to download. They have been ignored, or old
+> ones used instead.
 >
-> Steve
+> Jose
+>
+>
+>>
+>> Steve
+>>
+>>
+>>
+>>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#164349):
-> https://lists.openembedded.org/g/openembedded-core/message/164349
+> View/Reply Online (#164347):
+> https://lists.openembedded.org/g/openembedded-core/message/164347
 > Mute This Topic: https://lists.openembedded.org/mt/90107518/5052612
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
@@ -159,73 +272,275 @@ Best regards,
 
 Jos=C3=A9 Quaresma
 
---00000000000057fbff05dc8cd074
+--000000000000fe670d05dc8cb046
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Steve,</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">Steve Sakoman &lt;<a href=3D"mailto:steve@sa=
-koman.com">steve@sakoman.com</a>&gt; escreveu no dia quarta, 13/04/2022 =C3=
-=A0(s) 18:37:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Wed, Apr 13, 2022 at 6:41 AM Mike Crowe &lt;<a href=3D"mailto:mac@mcrowe.c=
-om" target=3D"_blank">mac@mcrowe.com</a>&gt; wrote:<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;quaresma.jose=3D<a hr=
+ef=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded=
+.org</a>&gt; escreveu no dia quarta, 13/04/2022 =C3=A0(s) 18:11:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
+=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" target=
+=3D"_blank">steve@sakoman.com</a>&gt; escreveu no dia quarta, 13/04/2022 =
+=C3=A0(s) 17:02:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>On Wed, Apr 13, 2022 at 5:31 AM Steve Sakoman via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;steve=3D<a href=3D"mailto:sakoman.com@li=
+sts.openembedded.org" target=3D"_blank">sakoman.com@lists.openembedded.org<=
+/a>&gt;<br>
+wrote:<br>
 &gt;<br>
-&gt; On Wednesday 13 April 2022 at 06:02:22 -1000, Steve Sakoman wrote:<br>
-&gt; &gt; Both runs completed and I&#39;m still seeing success without the =
-zlib patch:<br>
+&gt; On Tue, Apr 12, 2022 at 3:21 PM Ralph Siemsen &lt;<a href=3D"mailto:ra=
+lph.siemsen@linaro.org" target=3D"_blank">ralph.siemsen@linaro.org</a>&gt; =
+wrote:<br>
 &gt; &gt;<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/50/builds/5069" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yoctoproject.org/typhoon/#/builders/50/builds/5069</a><br>
+&gt; &gt; On Tue, Apr 12, 2022 at 5:49 PM Steve Sakoman &lt;<a href=3D"mail=
+to:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br=
+>
 &gt; &gt;<br>
-&gt; &gt; and failure with the patch:<br>
+&gt; &gt; &gt; I added a debug option to the failing command and did anothe=
+r autobuilder run.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; You can see the output here:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; <a href=3D"https://errors.yoctoproject.org/Errors/Details/65=
+4608/" rel=3D"noreferrer" target=3D"_blank">https://errors.yoctoproject.org=
+/Errors/Details/654608/</a><br>
 &gt; &gt;<br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/50/builds/5070" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yoctoproject.org/typhoon/#/builders/50/builds/5070</a><br>
-&gt;<br>
-&gt; I&#39;m certainly no expert with the autobuilder, but it looks like no=
-thing was<br>
-&gt; actually compiled for both of those builds - everything came from the<=
-br>
-&gt; sstate cache.<br>
-&gt;<br>
-&gt; I believe that Ralph&#39;s reproduction of the test failure without th=
-e zlib<br>
-&gt; patch was from a complete rebuild without anything coming from the sst=
-ate<br>
-&gt; cache.<br>
-&gt;<br>
-&gt; I suspect that if a PR bump or something similar that causes zlib and =
-all<br>
-&gt; its reverse dependencies to be built were tested on top of the commit =
-used<br>
-&gt; for build 5069 then the test failure would occur then as well and<br>
-&gt; exonerate the zlib patch.<br>
+&gt; &gt; Okay, same error, &quot;Hash Sum mismatch&quot;. And if I squint =
+between all the<br>
+&gt; &gt; URL-encoding, I can see the md5/sha1/sha256/sha512sum values.<br>
+&gt; &gt;<br>
+&gt; &gt; The &quot;apt update&quot; command is doing the following:<br>
+&gt; &gt; - fetch the file called &quot;Release&quot;<br>
+&gt; &gt; - fetch the file called &quot;Packages.gz&quot; --&gt; error occu=
+rs here<br>
+&gt; &gt;<br>
+&gt; &gt; Looking inside the Release file, it is plain text, and contains t=
+he<br>
+&gt; &gt; md5/sha1/sha256/sha512 sums of both Packages and Packages.gz (and=
+ also<br>
+&gt; &gt; the first two lines of Release).<br>
+&gt; &gt;<br>
+&gt; &gt; Manually checking each of those sums reveals an inconsistency: al=
+l the<br>
+&gt; &gt; sha256 values inside Release are incorrect, while all the other<b=
+r>
+&gt; &gt; md1/sha1/sha512 values are correct.<br>
+&gt; &gt;<br>
+&gt; &gt; And when we look at the URL-encoded debug info... the sha256 valu=
+e is<br>
+&gt; &gt; the correct one for Packages.gz (as computed manually). However i=
+t<br>
+&gt; &gt; does not match the (incorrect) value within the Release file. Thu=
+s it<br>
+&gt; &gt; seems apt-get is justified when it complains about &quot;Hash Sum=
 <br>
-A valid point, let&#39;s see what happens with a PR bump:<br></blockquote><=
-div><br></div><div>I think that bumping the PR is not enough=C2=A0to rebuil=
-d a package.</div><div>The sstate=C2=A0cache needs to be invalidated and bu=
-mped as well</div><div>with HASHEQUIV_HASH_VERSION.</div><div><br></div>PR =
-=3D &quot;r1&quot;<br><div>HASHEQUIV_HASH_VERSION .=3D &quot;.1&quot;</div>=
-<div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
+&gt; &gt; mismatch&quot;.<br>
+&gt; &gt;<br>
+&gt; &gt; Going back to my Ubuntu system, and looking at the generated Rele=
+ase<br>
+&gt; &gt; file... all the checksums are correct, including the sha256sum.<b=
+r>
+&gt; &gt;<br>
+&gt; &gt; So I am now looking into how Release file gets generated... as th=
+e<br>
+&gt; &gt; problem appears to be there... and it happens on Fedora but not<b=
+r>
+&gt; &gt; Ubuntu.<br>
+&gt;<br>
+&gt; As far as I can tell it is done here:<br>
+&gt;<br>
+&gt; <a href=3D"https://git.yoctoproject.org/poky/tree/meta/lib/oe/package_=
+manager.py?h=3Ddunfell#n301" rel=3D"noreferrer" target=3D"_blank">https://g=
+it.yoctoproject.org/poky/tree/meta/lib/oe/package_manager.py?h=3Ddunfell#n3=
+01</a><br>
+&gt;<br>
+&gt; &gt; One additional point to add: on the same Fedora 35 system, I did =
+a<br>
+&gt; &gt; full rebuild *without* with xz/gzip CVE fixes, and the apt failur=
+e<br>
+&gt; &gt; still occurs. To be certain, I nuked cache, sstate-cache and tmp =
+(so<br>
+&gt; &gt; basically the entire build directory) and the rebuild took severa=
+l<br>
+&gt; &gt; hours.<br>
+&gt;<br>
+&gt; Now that is really strange!=C2=A0 In my experience it has only appeare=
+d<br>
+&gt; after adding the zlib or xz CVE fix patches.<br>
+&gt;<br>
+&gt; I just started two runs on the autobuilder, with the zlib patch as the=
+<br>
+&gt; only difference.=C2=A0 Both on Fedora 35.<br>
+<br>
+Both runs completed and I&#39;m still seeing success without the zlib patch=
+:<br>
 <br>
 <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
-s/5072" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/50/builds/5072</a><br>
+s/5069" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/50/builds/5069</a><br>
 <br>
-I see plenty of rebuilds in process . . .<br>
+and failure with the patch:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
+s/5070" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/50/builds/5070</a></blockquote><div><br></div><di=
+v>It seems the test that failed is something related with the apt.=C2=A0</d=
+iv><div>Is this repo hosted on 192.168.7.5 shared between=C2=A0master and d=
+unfell branches?</div><div>I ask this because there are some issues with ap=
+t [1] on master and it can be related to this.</div></div></div></blockquot=
+e><div><br></div><div>The server is started in the test.</div><div>Sorry fo=
+r the noise and please discard my comment.</div><div><br></div>Started HTTP=
+Service on <a href=3D"http://0.0.0.0:42261">0.0.0.0:42261</a></div><div cla=
+ss=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Jose<br><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
+iv class=3D"gmail_quote"><div><br></div><div>[1] apt: add=C2=A0apt=C2=A0sel=
+ftest to test signed package feeds)</div><div><br></div><div style=3D"box-s=
+izing:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monac=
+o,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre=
+-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><s=
+pan style=3D"box-sizing:border-box">Started HTTPService on <a href=3D"http:=
+//0.0.0.0:35637" target=3D"_blank">0.0.0.0:35637</a></span></span></div><di=
+v style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);font-fa=
+mily:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px=
+;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizin=
+g:border-box"><span style=3D"box-sizing:border-box">Traceback (most recent =
+call last):</span></span></div><div style=3D"box-sizing:border-box;height:1=
+8px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier =
+New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rg=
+b(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:b=
+order-box">  File &quot;/home/pokybuild/yocto-worker/pkgman-deb-non-deb/bui=
+ld/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 36, in wrapped_f</s=
+pan></span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(=
+199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,mono=
+space;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><spa=
+n style=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">   =
+ return func(*args, **kwargs)</span></span></div><div style=3D"box-sizing:b=
+order-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Conso=
+las,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;b=
+ackground-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span sty=
+le=3D"box-sizing:border-box">  File &quot;/home/pokybuild/yocto-worker/pkgm=
+an-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 3=
+6, in wrapped_f</span></span></div><div style=3D"box-sizing:border-box;heig=
+ht:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Cour=
+ier New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-colo=
+r:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizi=
+ng:border-box">    return func(*args, **kwargs)</span></span></div><div sty=
+le=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);font-family:=
+Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;whit=
+e-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:bor=
+der-box"><span style=3D"box-sizing:border-box">  File &quot;/home/pokybuild=
+/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init_=
+_.py&quot;, line 36, in wrapped_f</span></span></div><div style=3D"box-sizi=
+ng:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,C=
+onsolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wr=
+ap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span=
+ style=3D"box-sizing:border-box">    return func(*args, **kwargs)</span></s=
+pan></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199=
+,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;f=
+ont-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=
+=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">  File &qu=
+ot;/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
+ime/cases/apt.py&quot;, line 50, in test_apt_install_from_repo</span></span=
+></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,19=
+9);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font=
+-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D=
+"box-sizing:border-box"><span style=3D"box-sizing:border-box">    self.pkg(=
+&#39;update&#39;)</span></span></div><div style=3D"box-sizing:border-box;he=
+ight:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Co=
+urier New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-co=
+lor:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-si=
+zing:border-box">  File &quot;/home/pokybuild/yocto-worker/pkgman-deb-non-d=
+eb/build/meta/lib/oeqa/runtime/cases/apt.py&quot;, line 17, in pkg</span></=
+span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,19=
+9,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;=
+font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span styl=
+e=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">    self.=
+assertEqual(status, expected, message)</span></span></div><div style=3D"box=
+-sizing:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Mon=
+aco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:p=
+re-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box">=
+<span style=3D"box-sizing:border-box">AssertionError: 100 !=3D 0 : apt-get =
+update</span></span></div><div style=3D"box-sizing:border-box;height:18px;c=
+olor:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&q=
+uot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0=
+,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:border=
+-box">Ign:1 <a href=3D"http://192.168.7.5:42261" target=3D"_blank">http://1=
+92.168.7.5:42261</a> ./ InRelease</span></span></div><div style=3D"box-sizi=
+ng:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,C=
+onsolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wr=
+ap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span=
+ style=3D"box-sizing:border-box">Get:2 <a href=3D"http://192.168.7.5:42261"=
+ target=3D"_blank">http://192.168.7.5:42261</a> ./ Release [1213 B]</span><=
+/span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,1=
+99,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace=
+;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span sty=
+le=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">Ign:3 <a=
+ href=3D"http://192.168.7.5:42261" target=3D"_blank">http://192.168.7.5:422=
+61</a> ./ Release.gpg</span></span></div><div style=3D"box-sizing:border-bo=
+x;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quo=
+t;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;backgroun=
+d-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"bo=
+x-sizing:border-box">Get:4 <a href=3D"http://192.168.7.5:42261" target=3D"_=
+blank">http://192.168.7.5:42261</a> ./ Packages [59.3 kB]</span></span></di=
+v><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);fo=
+nt-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size=
+:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-=
+sizing:border-box"><span style=3D"box-sizing:border-box">Err:4 <a href=3D"h=
+ttp://192.168.7.5:42261" target=3D"_blank">http://192.168.7.5:42261</a> ./ =
+Packages</span></span></div><div style=3D"box-sizing:border-box;height:18px=
+;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New=
+&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(0=
+,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:bord=
+er-box">  Hash Sum mismatch</span></span></div><div style=3D"box-sizing:bor=
+der-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consola=
+s,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;bac=
+kground-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=
+=3D"box-sizing:border-box">Fetched 60.5 kB in 20s (3020 B/s)</span></span><=
+/div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199)=
+;font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-s=
+ize:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"b=
+ox-sizing:border-box"><span style=3D"box-sizing:border-box">Reading package=
+ lists...</span></span></div><div style=3D"box-sizing:border-box;height:18p=
+x;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier Ne=
+w&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(=
+0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:bor=
+der-box">W: The repository &#39;<a href=3D"http://192.168.7.5:42261" target=
+=3D"_blank">http://192.168.7.5:42261</a> ./ Release&#39; is not signed.</sp=
+an></span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(1=
+99,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monos=
+pace;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span=
+ style=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">E: F=
+ailed to fetch <a href=3D"http://192.168.7.5:42261/./Packages.gz" target=3D=
+"_blank">http://192.168.7.5:42261/./Packages.gz</a>  Hash Sum mismatch</spa=
+n></span></div><div><span style=3D"background-color:rgb(0,0,0);color:rgb(19=
+9,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monosp=
+ace;font-size:13px;white-space:pre-wrap">E: Some index files failed to down=
+load. They have been ignored, or old ones used instead.</span></div><div>=
+=C2=A0</div><div>Jose</div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><br>
 <br>
 Steve<br>
 <br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
+></div>
+<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#164349): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/164349" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/164349</a><br>
+View/Reply Online (#164347): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/164347" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/164347</a><br>
 Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90107518/5052=
 612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
 /90107518/5052612</a><br>
@@ -242,5 +557,5 @@ arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
  class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
  Quaresma</div></div></div></div>
 
---00000000000057fbff05dc8cd074--
+--000000000000fe670d05dc8cb046--
 
