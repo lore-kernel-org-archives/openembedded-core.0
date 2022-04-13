@@ -1,141 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <abongwabonalais@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E99C3A5A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B51DAC47095
 	for <webhook@archiver.kernel.org>; Wed, 13 Apr 2022 15:48:07 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web08.4549.1649845264966916444
- for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 03:21:05 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=AzU4pFP5;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1649845265;
-  x=1681381265;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=RFd3G/VtIq57Wr6rK8YVw95G4FZG6rqGXwPGrRcw+mU=;
-  b=AzU4pFP5xfPVKubuLguUcG6mN192QB44IcCbuciu69LxfAAUeQJiZnZb
-   1TJgg6THuutKEUlBo3VTngM+TET3rdk/+TSGM226tTHE8734khQmvkiyn
-   UkdzJ6iW2P9ScnEnb2LQmo+lZ+jqP/KmfhYhT+/enxt+oLttiByd5gbOI
-   x9jZMPsWuEVVZo1X0R0328h/i/0+9vTWhOllXSWoK0+mEIT6wt3A0OkQx
-   nrCdYspLTxrZ7f0X1wrB8Ai2fpfwseh51I7089JTfBhNLjWNXNL7tBPbf
-   9wxwX5abWyzsnrL3eWMqoFc6gfDD5M020BPikzrK2kitKZ6ptrcPmEWZk
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Abongwa Amahnui Bonalais <abongwabonalais@gmail.com>
-CC: Mike Looijmans <mike.looijmans@topic.nl>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] "bitbake-prserv-tool: Added quotes to variables
- to prevent splitting and gobbling"
-Thread-Topic: [OE-core] [PATCH] "bitbake-prserv-tool: Added quotes to
- variables to prevent splitting and gobbling"
-Thread-Index: AQHYTxnlGyTqY5YbV0GzO197hE8lD6zteHqAgAAmoLA=
-Date: Wed, 13 Apr 2022 10:21:02 +0000
-Message-ID: <2e190a133b2a4139a0909a4bba5acd58@axis.com>
-References: <20220413093544.5587-1-abongwabonalais@gmail.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.4b547764-f1ab-4220-9cb3-e9c4ae848711@emailsignatures365.codetwo.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.e4d1c566-c78b-4344-9ede-7a749348d920@emailsignatures365.codetwo.com>
- <887a4cc8-7d2c-e39f-b6c1-ae45d9a18583@topic.nl>
-In-Reply-To: <887a4cc8-7d2c-e39f-b6c1-ae45d9a18583@topic.nl>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Subject: Re: [PATCH] "bitbake-prserv-tool: Added quotes to variables to
+ prevent splitting and gobbling"
+To: openembedded-core@lists.openembedded.org
+From: "Abongwa Amahnui Bonalais" <abongwabonalais@gmail.com>
+X-Originating-Location: CM (154.72.153.130)
+X-Originating-Platform: Linux Chrome 100
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
+Date: Wed, 13 Apr 2022 03:50:00 -0700
+References: 
+ <8d17cc7d9f13ca534b3f56cb299a1e26da042e18.camel@linuxfoundation.org>
+In-Reply-To: 
+ <8d17cc7d9f13ca534b3f56cb299a1e26da042e18.camel@linuxfoundation.org>
+Message-ID: <5735.1649847000305548289@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="OxWltJ7h5qlmaqPV2JRc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Apr 2022 15:48:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164315
+ https://lists.openembedded.org/g/openembedded-core/message/164318
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgTWlrZSBMb29pam1hbnMNCj4gU2VudDogZGVuIDEzIGFwcmls
-IDIwMjIgMTE6NTINCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdICJiaXRiYWtlLXByc2Vydi10b29s
-OiBBZGRlZCBxdW90ZXMgdG8gdmFyaWFibGVzIHRvIHByZXZlbnQgc3BsaXR0aW5nIGFuZCBnb2Ji
-bGluZyINCg0KVGhlcmUgc2hvdWxkbid0IGJlIHF1b3RlcyBpbiB0aGUgc3ViamVjdCBhYm92ZS4g
-Tm8gaWRlYSBob3cgeW91IA0KbWFuYWdlZCB0byBnZXQgdGhlbSB0aGVyZS4uLg0KDQpBbHNvLCAi
-Z29iYmxpbmciIGlzIG5vdCBhIHdvcmQsIEFGQUlLLiBEaWQgeW91IG1lYW4gImdsb2JiaW5nIj8N
-Cg0KPiANCj4gU2VlIGNvbW1lbnQgYmVsb3cgKG91ciBtYWlsIHNlcnZlciBpbmplY3RzIHNpZ25h
-dHVyZXMsIHNvcnJ5IGZvciB0aGF0KQ0KPiANCj4gDQo+IE1ldCB2cmllbmRlbGlqa2UgZ3JvZXQg
-LyBraW5kIHJlZ2FyZHMsDQo+IA0KPiBNaWtlIExvb2lqbWFucw0KPiBTeXN0ZW0gRXhwZXJ0DQo+
-IA0KPiANCj4gVE9QSUMgRW1iZWRkZWQgUHJvZHVjdHMgQi5WLg0KPiBNYXRlcmlhYWx3ZWcgNCwg
-NTY4MSBSSiBCZXN0DQo+IFRoZSBOZXRoZXJsYW5kcw0KPiANCj4gVDogKzMxICgwKSA0OTkgMzMg
-NjkgNjkNCj4gRTogbWlrZS5sb29pam1hbnNAdG9waWNwcm9kdWN0cy5jb20NCj4gVzogd3d3LnRv
-cGljLm5sDQo+IA0KPiBQbGVhc2UgY29uc2lkZXIgdGhlIGVudmlyb25tZW50IGJlZm9yZSBwcmlu
-dGluZyB0aGlzIGUtbWFpbA0KPiBPbiAxMy0wNC0yMDIyIDExOjM1LCBBYm9uZ3dhIEFtYWhudWkg
-Qm9uYWxhaXMgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogQWJvbmd3YSBCb25hbGFpcyBBbWFobnVpIDxhYm9uZ3dhYm9uYWxhaXNAZ21haWwuY29t
-Pg0KPiA+IC0tLQ0KPiA+ICAgc2NyaXB0cy9iaXRiYWtlLXByc2Vydi10b29sIHwgMjIgKysrKysr
-KysrKystLS0tLS0tLS0tLQ0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyks
-IDExIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvYml0YmFrZS1w
-cnNlcnYtdG9vbCBiL3NjcmlwdHMvYml0YmFrZS1wcnNlcnYtdG9vbA0KPiA+IGluZGV4IGU1NWQ5
-OGM3MmUuLjY4Y2FhOWZiNjYgMTAwNzU1DQo+ID4gLS0tIGEvc2NyaXB0cy9iaXRiYWtlLXByc2Vy
-di10b29sDQo+ID4gKysrIGIvc2NyaXB0cy9iaXRiYWtlLXByc2Vydi10b29sDQo+ID4gQEAgLTUs
-NyArNSw3IEBADQo+ID4NCj4gPiAgIGhlbHAgKCkNCj4gPiAgIHsNCj4gPiAtICAgIGJhc2U9YGJh
-c2VuYW1lICQwYA0KPiA+ICsgICAgYmFzZT1gYmFzZW5hbWUgIiQwImANCj4gPiAgICAgICBlY2hv
-IC1lICJVc2FnZTogJGJhc2UgY29tbWFuZCINCj4gPiAgICAgICBlY2hvICJBdmFsaWFibGUgY29t
-bWFuZHM6Ig0KPiA+ICAgICAgIGVjaG8gLWUgIlx0ZXhwb3J0IDxmaWxlLmNvbmY+OiBleHBvcnQg
-YW5kIGxvY2sgZG93biB0aGUgQVVUT1BSIHZhbHVlcyBmcm9tIHRoZSBQUiBzZXJ2aWNlIGludG8g
-YSBmaWxlIGZvciByZWxlYXNlLiINCj4gPiBAQCAtMTYsNyArMTYsNyBAQCBjbGVhbl9jYWNoZSgp
-DQo+ID4gICB7DQo+ID4gICAgICAgcz1gYml0YmFrZSAtZSB8IGdyZXAgXkNBQ0hFPSB8IGN1dCAt
-ZjIgLWRcImANCj4gPiAgICAgICBpZiBbICJ4JHtzfSIgIT0gIngiIF07IHRoZW4NCj4gPiAtICAg
-ICAgICBybSAtcmYgJHtzfQ0KPiA+ICsgICAgICAgIHJtIC1yZiAiJHtzfSINCj4gPiAgICAgICBm
-aQ0KPiA+ICAgfQ0KPiA+DQo+ID4gQEAgLTI0LDE0ICsyNCwxNCBAQCBkb19leHBvcnQgKCkNCj4g
-PiAgIHsNCj4gPiAgICAgICBmaWxlPSQxDQo+IA0KPiBZb3UnZCB3YW50IHRvIHF1b3RlIHRoaXMg
-b25lIHRvbyBJIHRoaW5rLg0KDQpBY3R1YWxseSwgYXMgaW5jb25zaXN0ZW50IGFzIGl0IG1heSBz
-ZWVtLCBxdW90ZXMgYXJlIF9ub3RfIG5lZWRlZCBhYm92ZS4NCg0KPiANCj4gPiAgICAgICBbICJ4
-JHtmaWxlfSIgPT0gIngiIF0gJiYgaGVscCAmJiBleGl0IDENCj4gPiAtICAgIHJtIC1mICR7Zmls
-ZX0NCj4gPiArICAgIHJtIC1mICIke2ZpbGV9Ig0KPiA+DQo+ID4gICAgICAgY2xlYW5fY2FjaGUN
-Cj4gPiAgICAgICBiaXRiYWtlIC1SIGNvbmYvcHJleHBvcnQuY29uZiAtcA0KPiA+ICAgICAgIHM9
-YGJpdGJha2UgLVIgY29uZi9wcmV4cG9ydC5jb25mIC1lIHwgZ3JlcCBeUFJTRVJWX0RVTVBGSUxF
-PSB8IGN1dCAtZjIgLWRcImANCj4gPiAgICAgICBpZiBbICJ4JHtzfSIgIT0gIngiIF07DQo+ID4g
-ICAgICAgdGhlbg0KPiA+IC0gICAgICAgWyAtZSAkcyBdICYmIG12IC1mICRzICRmaWxlICYmIGVj
-aG8gIkV4cG9ydGluZyB0byBmaWxlICRmaWxlIHN1Y2NlZWRlZCEiDQo+ID4gKyAgICAgICBbIC1l
-ICIkcyIgXSAmJiBtdiAtZiAiJHMiICIkZmlsZSIgJiYgZWNobyAiRXhwb3J0aW5nIHRvIGZpbGUg
-JGZpbGUgc3VjY2VlZGVkISINCj4gPiAgICAgICAgICByZXR1cm4gMA0KPiA+ICAgICAgIGZpDQo+
-ID4gICAgICAgZWNobyAiRXhwb3J0aW5nIHRvIGZpbGUgJGZpbGUgZmFpbGVkISINCj4gPiBAQCAt
-NDQsNyArNDQsNyBAQCBkb19pbXBvcnQgKCkNCj4gPiAgICAgICBbICJ4JHtmaWxlfSIgPT0gIngi
-IF0gJiYgaGVscCAmJiBleGl0IDENCj4gPg0KPiA+ICAgICAgIGNsZWFuX2NhY2hlDQo+ID4gLSAg
-ICBiaXRiYWtlIC1SIGNvbmYvcHJpbXBvcnQuY29uZiAtUiAkZmlsZSAtcA0KPiA+ICsgICAgYml0
-YmFrZSAtUiBjb25mL3ByaW1wb3J0LmNvbmYgLVIgIiRmaWxlIiAtcA0KPiA+ICAgICAgIHJldD0k
-Pw0KPiA+ICAgICAgIFsgJHJldCAtZXEgMCBdICYmIGVjaG8gIkltcG9ydGluZyBmcm9tIGZpbGUg
-JGZpbGUgc3VjY2VlZGVkISIgfHwgZWNobyAiSW1wb3J0aW5nIGZyb20gZmlsZSAkZmlsZSBmYWls
-ZWQhIg0KPiA+ICAgICAgIHJldHVybiAkcmV0DQo+ID4gQEAgLTYwLDEzICs2MCwxMyBAQCBkb19t
-aWdyYXRlX2xvY2FsY291bnQgKCkNCj4gPiAgICAgICAgICAgcmV0dXJuIDENCj4gPiAgICAgICBm
-aQ0KPiA+DQo+ID4gLSAgICBybSAtcmYgJGRmDQo+ID4gKyAgICBybSAtcmYgIiRkZiINCj4gPiAg
-ICAgICBjbGVhbl9jYWNoZQ0KPiA+ICAgICAgIGVjaG8gIkV4cG9ydGluZyBMT0NBTENPVU5UIHRv
-IEFVVE9JTkNzLi4uIg0KPiA+ICAgICAgIGJpdGJha2UgLVIgY29uZi9taWdyYXRlX2xvY2FsY291
-bnQuY29uZiAtcA0KPiA+ICAgICAgIFsgISAkPyAtZXEgMCBdICYmIGVjaG8gIkV4cG9ydGluZyB0
-byBmaWxlICRkZiBmYWlsZWQhIiAmJiBleGl0IDENCj4gPg0KPiA+IC0gICAgaWYgWyAtZSAkZGYg
-XTsNCj4gPiArICAgIGlmIFsgLWUgIiRkZiIgXTsNCj4gPiAgICAgICB0aGVuDQo+ID4gICAgICAg
-ICAgIGVjaG8gIkV4cG9ydGluZyB0byBmaWxlICRkZiBzdWNjZWVkZWQhIg0KPiA+ICAgICAgIGVs
-c2UNCj4gPiBAQCAtNzUsNyArNzUsNyBAQCBkb19taWdyYXRlX2xvY2FsY291bnQgKCkNCj4gPiAg
-ICAgICBmaQ0KPiA+DQo+ID4gICAgICAgZWNobyAiSW1wb3J0aW5nIGdlbmVyYXRlZCBBVVRPSU5D
-IGVudHJpZXMuLi4iDQo+ID4gLSAgICBbIC1lICRkZiBdICYmIGRvX2ltcG9ydCAkZGYNCj4gPiAr
-ICAgIFsgLWUgIiRkZiIgXSAmJiBkb19pbXBvcnQgIiRkZiINCj4gPg0KPiA+ICAgICAgIGlmIFsg
-ISAkPyAtZXEgMCBdDQo+ID4gICAgICAgdGhlbg0KPiA+IEBAIC05MywxNyArOTMsMTcgQEAgY2Fz
-ZSAkMiBpbg0KPiA+ICAgKi5jb25mfCouaW5jKQ0KPiA+ICAgICAgIDs7DQo+ID4gICAqKQ0KPiA+
-IC0gICAgZWNobyBFUlJPUjogJDIgbXVzdCBlbmQgd2l0aCAuY29uZiBvciAuaW5jIQ0KPiA+ICsg
-ICAgZWNobyBFUlJPUjogIiQyIiBtdXN0IGVuZCB3aXRoIC5jb25mIG9yIC5pbmMhDQoNClRoZSBx
-dW90ZSBhYm92ZSBpcyBzdHJpY3RseSBub3QgbmVlZGVkIGFzIHRoZSBvdXRwdXQgZnJvbSBlY2hv
-IA0Kd2lsbCBiZSB0aGUgc2FtZSByZWdhcmRsZXNzIGlmIHRoZXJlIGFyZSBzcGFjZXMgaW4gJDIg
-b3Igbm90LiANCkhvd2V2ZXIsIGlmIHlvdSByZWFsbHkgd2FudCB0byBxdW90ZSB0aGF0IGxpbmUs
-IGEgbW9yZSBuYXR1cmFsIA0Kd2F5IHdvdWxkIGJlOg0KDQogICAgZWNobyAiRVJST1I6ICQyIG11
-c3QgZW5kIHdpdGggLmNvbmYgb3IgLmluYyEiDQoNCj4gPiAgICAgICBleGl0IDENCj4gPiAgICAg
-ICA7Ow0KPiA+ICAgZXNhYw0KPiA+DQo+ID4gICBjYXNlICQxIGluDQo+ID4gICBleHBvcnQpDQo+
-ID4gLSAgICBkb19leHBvcnQgJDINCj4gPiArICAgIGRvX2V4cG9ydCAiJDIiDQo+ID4gICAgICAg
-OzsNCj4gPiAgIGltcG9ydCkNCj4gPiAtICAgIGRvX2ltcG9ydCAkMg0KPiA+ICsgICAgZG9faW1w
-b3J0ICIkMiINCj4gPiAgICAgICA7Ow0KPiA+ICAgbWlncmF0ZV9sb2NhbGNvdW50KQ0KPiA+ICAg
-ICAgIGRvX21pZ3JhdGVfbG9jYWxjb3VudA0KDQovL1BldGVyDQoNCg==
+--OxWltJ7h5qlmaqPV2JRc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Okay thank you what about=C2=A0Using $(...) notation instead of legacy back=
+ticked `...`.
+base=3D`basename $0`, changing it to=C2=A0base=3D$(basename $0)
+
+Should I commence those changes?
+I'm seeing that based om recommendations when I run shellcheck <name of fil=
+e>
+
+--OxWltJ7h5qlmaqPV2JRc
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Okay thank you what about&nbsp;Using $(...) notation instead of legacy back=
+ticked `...`.<br />base=3D`basename $0`, changing it to&nbsp;base=3D$(basen=
+ame $0)<br /><br />Should I commence those changes?<br />I'm seeing that ba=
+sed om recommendations when I run shellcheck &lt;name of file&gt;
+
+--OxWltJ7h5qlmaqPV2JRc--
 
