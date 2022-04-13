@@ -2,7 +2,7 @@ Return-Path: <abongwabonalais@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B51DAC47095
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8CCBC4727C
 	for <webhook@archiver.kernel.org>; Wed, 13 Apr 2022 15:48:07 +0000 (UTC)
 Subject: Re: [PATCH] "bitbake-prserv-tool: Added quotes to variables to
  prevent splitting and gobbling"
@@ -12,40 +12,35 @@ X-Originating-Location: CM (154.72.153.130)
 X-Originating-Platform: Linux Chrome 100
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Wed, 13 Apr 2022 03:50:00 -0700
+Date: Wed, 13 Apr 2022 05:52:20 -0700
 References: 
- <8d17cc7d9f13ca534b3f56cb299a1e26da042e18.camel@linuxfoundation.org>
+ <a5c8cf17bbdefa8eaf56c015fd548e6bf6f69499.camel@linuxfoundation.org>
 In-Reply-To: 
- <8d17cc7d9f13ca534b3f56cb299a1e26da042e18.camel@linuxfoundation.org>
-Message-ID: <5735.1649847000305548289@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="OxWltJ7h5qlmaqPV2JRc"
+ <a5c8cf17bbdefa8eaf56c015fd548e6bf6f69499.camel@linuxfoundation.org>
+Message-ID: <14039.1649854340073445800@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="lDzROE120KpfEEHLhqa3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Apr 2022 15:48:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164318
+ https://lists.openembedded.org/g/openembedded-core/message/164320
 
---OxWltJ7h5qlmaqPV2JRc
+--lDzROE120KpfEEHLhqa3
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Okay thank you what about=C2=A0Using $(...) notation instead of legacy back=
-ticked `...`.
-base=3D`basename $0`, changing it to=C2=A0base=3D$(basename $0)
+I test the results by running bitbake core-image-sato.
+If it builds successsfully, then I assume that it is fine,
+Please what method do you recommend I use to test the results.
 
-Should I commence those changes?
-I'm seeing that based om recommendations when I run shellcheck <name of fil=
-e>
-
---OxWltJ7h5qlmaqPV2JRc
+--lDzROE120KpfEEHLhqa3
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Okay thank you what about&nbsp;Using $(...) notation instead of legacy back=
-ticked `...`.<br />base=3D`basename $0`, changing it to&nbsp;base=3D$(basen=
-ame $0)<br /><br />Should I commence those changes?<br />I'm seeing that ba=
-sed om recommendations when I run shellcheck &lt;name of file&gt;
+I test the results by running bitbake core-image-sato.<br />If it builds su=
+ccesssfully, then I assume that it is fine,&nbsp;<br />Please what method d=
+o you recommend I use to test the results.
 
---OxWltJ7h5qlmaqPV2JRc--
+--lDzROE120KpfEEHLhqa3--
 
