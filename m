@@ -1,121 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD8AC47088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621C3C352A8
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web12.3464.1649881293644146670
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.2743.1649877612157300701
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 13:21:34 -0700
+ Wed, 13 Apr 2022 12:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b9BLxJu0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id e21so4213954wrc.8
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 13:21:33 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=mBhBFePx;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=xWh6yVteVe0qvGkHxe2TPt/OX5GQxTp1rv1aYhAzD+k=;
-        b=b9BLxJu0589yB+F7U9qoPddNlsiMNb8qyY9iD0CJw60Gcg9zEwLJl57KmrUQHgN3gy
-         wE7X2P1Kc1kRnTvGIAI0t5oQtXmTe4Lm/NngiWiuYacH75QLj8H0Ys5o+N2fuPG5KJll
-         ercg/yy8hEuHo7X2SxG+jG4LdhQFJ9JRhSrow=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xWh6yVteVe0qvGkHxe2TPt/OX5GQxTp1rv1aYhAzD+k=;
-        b=VdAHG/fzBcLtPK20KKolDz/lbncyvYoHJOJ43ua3NqzfxLIe/VAt/PbrQCd7TgXozY
-         pfcf2wFuVBbq/QN21Lw5hcT1OKb03US5Dv7y8B+uHHTSgPJAAuZ6vp/avvWZ2q/ZUCE3
-         06vOEq8ytwClZTq9lXrAdB4faxwJnhvO6A6UDY14UqkySCgxGhoSe/EGvPu2PCyQv61e
-         dLzPS2futT+pqs8xzL5EH4iqTzHrkESQTJeUW89RkqChYUn3DQu35p5Mpc/sMdifpq7p
-         9ish8nPqQANN4+XybFqvyM4a6vs+f5IX9bAaHOBe3Tkactw4VJQGhETm7JXQF1tgr6iE
-         mFMQ==
-X-Gm-Message-State: AOAM533jMMPdEjm4o112imK0Ntx2UU0F/otFYzbh+7qzj9ZCUqGT8r38
-	rdC2Qjkhs8LCEma4FR65sLUiGA==
-X-Google-Smtp-Source: 
- ABdhPJxbMngleRWAzKS2yjgTxIcKQGRvvElymD8+hVgGmJZv3vFOPFLqB5jkXn8a/fcTuclEHo+LbQ==
-X-Received: by 2002:adf:fa09:0:b0:207:9af2:d7b4 with SMTP id
- m9-20020adffa09000000b002079af2d7b4mr402136wrr.544.1649881291932;
-        Wed, 13 Apr 2022 13:21:31 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:353f:5203:2a56:f190?
- ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
-        by smtp.gmail.com with ESMTPSA id
- i14-20020a0560001ace00b00203da1fa749sm34108wry.72.2022.04.13.13.21.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 13:21:31 -0700 (PDT)
-Message-ID: 
- <9999ca2b0e2bbe59097db2c7064d4c92f8866ba5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] buildtools: Add standalone make tarball
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Apr 2022 21:21:29 +0100
+  d=axis.com; q=dns/txt; s=axis-central1; t=1649877612;
+  x=1681413612;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/qWfTjchvpod8sOMwsLT21Hho5mLrK+AhVCQzPWadnU=;
+  b=mBhBFePxtJf2xXSxxxqoHilhTNmler3B/0sP1yH4dnWOKNyr0VmqepSl
+   xWkbE+jbWOMJf8qeaDBrABi5jLPBjHGqsFcFGU7VAF5UIKP9kyskxPZcS
+   DbTZSCrsKl+RHoANcucsbmWPZL9bFbuBz7Z3GD2o8QVddfxdN2Oo+L9V0
+   UTn4lmAj1JxIyIy49oz4NtX3HvM5TgNfGiI/57XJvQdNjDTBQjJsETtyF
+   kiP8r3arxWabqxtexIwAZJvEZfP3FcjO6ZspP19EKwivZpuReWpZSO6q6
+   PViBrsZPf+YOsFrusbkpVb9gL6fFctDRZzACFci3bhg+Bdzx/ev2Mjiv4
+   A==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Konrad Weihmann <kweihmann@outlook.com>, Jose Quaresma
+	<quaresma.jose@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] git: correct license
+Thread-Topic: [OE-core] [PATCH] git: correct license
+Thread-Index: AQHYT1Rbrsns8FbkCkqyPnyYKnxYC6zt7rEAgAAAlgCAAETKwA==
+Date: Wed, 13 Apr 2022 19:20:09 +0000
+Message-ID: <382a37226f6444dba4b01b5b43efda8d@axis.com>
+References: 
+ <HE1PR0902MB1801D263944083BC60D94282A8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
+ <CANPvuRkSufucyWjP7a4dmUmxaFMuq2KNoX3uFnzjxeax3Pm5ww@mail.gmail.com>
+ <HE1PR0902MB18014C89FEB8DA61741A1CC8A8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
 In-Reply-To: 
- <CAJ86T=Up-de2X5=mjvpVqkwfXrQWHXDV5bd6G6+G9oEA4PUvnw@mail.gmail.com>
-References: <20220413175817.2187595-1-richard.purdie@linuxfoundation.org>
-	 <20220413175817.2187595-2-richard.purdie@linuxfoundation.org>
-	 <CAJ86T=Up-de2X5=mjvpVqkwfXrQWHXDV5bd6G6+G9oEA4PUvnw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ <HE1PR0902MB18014C89FEB8DA61741A1CC8A8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164364
+ https://lists.openembedded.org/g/openembedded-core/message/164361
 
-On Wed, 2022-04-13 at 12:21 -0700, Andre McCurdy wrote:
-> On Wed, Apr 13, 2022 at 10:58 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > Some versions of make have bugs. Add a way to provide a make tarball
-> > that can be used on it's own in these cases.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/conf/distro/include/maintainers.inc         |  1 +
-> >  .../recipes-core/meta/buildtools-make-tarball.bb | 16 ++++++++++++++++
-> >  2 files changed, 17 insertions(+)
-> >  create mode 100644 meta/recipes-core/meta/buildtools-make-tarball.bb
-> > 
-> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> > index 2c5e7308275..09a75933e26 100644
-> > --- a/meta/conf/distro/include/maintainers.inc
-> > +++ b/meta/conf/distro/include/maintainers.inc
-> > @@ -84,6 +84,7 @@ RECIPE_MAINTAINER:pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.o
-> >  RECIPE_MAINTAINER:pn-buildtools-extended-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-> >  RECIPE_MAINTAINER:pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-> >  RECIPE_MAINTAINER:pn-buildtools-docs-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-> > +RECIPE_MAINTAINER:pn-buildtools-make-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-> >  RECIPE_MAINTAINER:pn-busybox = "Andrej Valek <andrej.valek@siemens.com>"
-> >  RECIPE_MAINTAINER:pn-busybox-inittab = "Denys Dmytriyenko <denis@denix.org>"
-> >  RECIPE_MAINTAINER:pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
-> > diff --git a/meta/recipes-core/meta/buildtools-make-tarball.bb b/meta/recipes-core/meta/buildtools-make-tarball.bb
-> > new file mode 100644
-> > index 00000000000..e278f682719
-> > --- /dev/null
-> > +++ b/meta/recipes-core/meta/buildtools-make-tarball.bb
-> > @@ -0,0 +1,16 @@
-> > +require recipes-core/meta/buildtools-tarball.bb
-> > +
-> > +DESCRIPTION = "SDK type target for building a standalone tarball containing build-essentials, python3, chrpath, \
-> > +               make, git and tar. The tarball can be used to run bitbake builds on systems which don't meet the \
-> > +               usual version requirements and have ancient compilers."
-> 
-> Over enthusiastic copy and paste?
-
-Yes, well spotted. I'll fix that on the branch, thanks.
-
-Cheers,
-
-Richard
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtvbnJhZCBXZWlobWFubg0KPiBTZW50OiBkZW4gMTMg
+YXByaWwgMjAyMiAxODo1OQ0KPiBUbzogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFp
+bC5jb20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZ2l0OiBjb3JyZWN0IGxp
+Y2Vuc2UNCj4gDQo+IE9uIDEzLjA0LjIyIDE4OjU2LCBKb3NlIFF1YXJlc21hIHdyb3RlOg0KPiA+
+IEhpDQo+ID4NCj4gPiBLb25yYWQgV2VpaG1hbm4gPGt3ZWlobWFubkBvdXRsb29rLmNvbSA8bWFp
+bHRvOmt3ZWlobWFubkBvdXRsb29rLmNvbT4+DQo+ID4gZXNjcmV2ZXUgbm8gZGlhIHF1YXJ0YSwg
+MTMvMDQvMjAyMiDDoChzKSAxNzozNDoNCj4gPg0KPiA+ICAgICBieSBkZWZhdWx0IGdpdCBwdWxs
+cyBpbiBzZXZlcmFsIGNvZGUgZnJhZ21lbnRzIG5vdCBiZWluZyBsaWNlbnNlZA0KPiA+ICAgICB1
+bmRlciBqdXN0IEdQTC0yLjAtb25seS4NCj4gPiAgICAgSW4gZmFjdCBvYnN0YWNrIGFuZCBwb2xs
+IGFyZSB0YWtlbiBmcm9tIGdsaWIsIGJlaW5nIGxpY2Vuc2VkDQo+ID4gICAgIHVuZGVyIEdQTC0y
+LjAtb3ItbGF0ZXIgLSBhcyB0aGlzIGluY2x1ZGVzIEdQTC0yLjAtb25seSwgdXNlIHRoaXMgaW5z
+dGVhZA0KDQpObywgaXQncyB0aGUgb3RoZXIgd2F5IGFyb3VuZC4gWW91IGNhbiB1c2UgR1BMLTIu
+MC1vci1sYXRlciBhcyANCkdQTC0yLjAtb25seSwgYnV0IHlvdSAqY2Fubm90KiB1c2UgR1BMLTIu
+MC1vbmx5IGFzIEdQTC0yLjAtb3ItbGF0ZXIgDQp3aXRob3V0IHJlbGljZW5zaW5nIHRoZSBjb2Rl
+LCBhbmQsIHVubGVzcyB5b3UgYXJlIHRoZSBvd25lciBvZiB0aGUgDQpjb2RlLCB5b3UgY2Fubm90
+IGRvIHRoYXQuIA0KDQpIb3dldmVyLCBpdCBpcyBwcm9iYWJseSBiZXR0ZXIgdG8gYmUgZXhwbGlj
+aXQgYW5kIGFjdHVhbGx5IHN0YXRlIHRoZSANCkxJQ0VOU0UgYXMgIkdQTC0yLjAtb25seSAmIEdQ
+TC0yLjAtb3ItbGF0ZXIgJiAuLi4iIHNpbmNlIHRob3NlIGFyZSANCnRoZSBsaWNlbnNlcyB0aGF0
+IGFyZSBhY3R1YWxseSBiZWluZyB1c2VkLg0KDQo+ID4NCj4gPiAgICAgRnVydGhlcm1vcmUNCj4g
+PiAgICAgcmVmdGFibGUgYmVpbmcgQlNELTMtQ2xhdXNlDQo+ID4gICAgIHNoYTFkYyBhbmQgaW5l
+dF9udG9wIGJlaW5nIE1JVA0KPiA+ICAgICBuZXRtYWxsb2MgYmVpbmcgQm9zc3QtMS4wIGFrYSBC
+U0wtMS4wDQo+ID4gICAgIHJlZ2V4IGJlaW5nIExHUEwtMi4xLW9yLWxhdGVyDQo+ID4NCj4gPiAg
+ICAgU2lnbmVkLW9mZi1ieTogS29ucmFkIFdlaWhtYW5uIDxrd2VpaG1hbm5Ab3V0bG9vay5jb20N
+Cj4gPiAgICAgPG1haWx0bzprd2VpaG1hbm5Ab3V0bG9vay5jb20+Pg0KPiA+ICAgICAtLS0NCj4g
+PiAgICAgIMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi4zNS4xLmJiIDxodHRwOi8v
+Z2l0XzIuMzUuMS5iYj4gfA0KPiA+ICAgICAxMyArKysrKysrKysrKy0tDQo+ID4gICAgICDCoDEg
+ZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4g
+ICAgIGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdF8yLjM1LjEuYmIN
+Cj4gPiAgICAgPGh0dHA6Ly9naXRfMi4zNS4xLmJiPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9n
+aXQvZ2l0XzIuMzUuMS5iYg0KPiA+ICAgICA8aHR0cDovL2dpdF8yLjM1LjEuYmI+DQo+ID4gICAg
+IGluZGV4IDQ3YzIyMTE4NjQuLmY4NzU2YjZkZWMgMTAwNjQ0DQo+ID4gICAgIC0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuMzUuMS5iYiA8aHR0cDovL2dpdF8yLjM1LjEuYmI+
+DQo+ID4gICAgICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuMzUuMS5iYiA8
+aHR0cDovL2dpdF8yLjM1LjEuYmI+DQo+ID4gICAgIEBAIC0yLDcgKzIsNyBAQCBTVU1NQVJZID0g
+IkRpc3RyaWJ1dGVkIHZlcnNpb24gY29udHJvbCBzeXN0ZW0iDQo+ID4gICAgICDCoEhPTUVQQUdF
+ID0gImh0dHA6Ly9naXQtc2NtLmNvbSA8aHR0cDovL2dpdC1zY20uY29tPiINCj4gPiAgICAgIMKg
+REVTQ1JJUFRJT04gPSAiR2l0IGlzIGEgZnJlZSBhbmQgb3BlbiBzb3VyY2UgZGlzdHJpYnV0ZWQg
+dmVyc2lvbiBjb250cm9sIHN5c3RlbSBkZXNpZ25lZCB0byBoYW5kbGUgZXZlcnl0aGluZyBmcm9t
+IHNtYWxsIHRvIHZlcnkgbGFyZ2UgcHJvamVjdHMgd2l0aCBzcGVlZCBhbmQgZWZmaWNpZW5jeS4i
+DQo+ID4gICAgICDCoFNFQ1RJT04gPSAiY29uc29sZS91dGlscyINCj4gPiAgICAgLUxJQ0VOU0Ug
+PSAiR1BMLTIuMC1vbmx5Ig0KPiA+ICAgICArTElDRU5TRSA9ICJHUEwtMi4wLW9yLWxhdGVyICYg
+QlNELTMtQ2xhdXNlICYgTUlUICYgQlNMLTEuMCAmIExHUEwtMi4xLW9yLWxhdGVyIg0KPiA+ICAg
+ICAgwqBERVBFTkRTID0gIm9wZW5zc2wgemxpYiINCj4gPg0KPiA+ICAgICAgwqBQUk9WSURFUzph
+cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBnaXQtcmVwbGFjZW1lbnQtbmF0aXZlIg0KPiA+ICAgICBA
+QCAtMTQsNyArMTQsMTYgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L3NvZnR3YXJl
+L3NjbS9naXQvZ2l0LSR7UFZ9LnRhci5nejtuYW1lPXRhcmJhbGwgXA0KPiA+DQo+ID4gICAgICDC
+oFMgPSAiJHtXT1JLRElSfS9naXQtJHtQVn0iDQo+ID4NCj4gPiAgICAgLUxJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTdjMGQ3ZWYwM2E3ZWIwNGNlNzk1YjBmNjBlNjhlN2Ux
+Ig0KPiA+ICAgICArTElDX0ZJTEVTX0NIS1NVTSA9ICJcDQo+ID4gICAgICvCoCDCoCDCoCDCoGZp
+bGU6Ly9DT1BZSU5HO21kNT03YzBkN2VmMDNhN2ViMDRjZTc5NWIwZjYwZTY4ZTdlMSBcDQo+ID4g
+ICAgICvCoCDCoCDCoCDCoGZpbGU6Ly9yZWZ0YWJsZS9MSUNFTlNFO21kNT0xYTY0MjRjYWZjNGM5
+Yzg4YzY4OTg0OGUxNjVhZjMzYiBcDQo+ID4gICAgICvCoCDCoCDCoCDCoGZpbGU6Ly9zaGExZGMv
+TElDRU5TRS50eHQ7bWQ1PTliYmU0Yzk5MGE5ZTk4ZWE0Yjk4ZWY1ZDNiY2I4YTdhIFwNCj4gPiAg
+ICAgKyAgICAgIMKgZmlsZTovL2NvbXBhdC9uZWRtYWxsb2MvTGljZW5zZS50eHQ7bWQ1PWU0MjI0
+Y2NhZWNiMTRkOTQyYzcxZDMxYmVmMjBkNzhjIFwNCj4gPiAgICAgKyAgICAgIMKgZmlsZTovL2Nv
+bXBhdC9pbmV0X250b3AuYzttZDU9NzY1OTNjNmY3NGU4Y2VkNWIyNDUyMDE3NTY4OGQ1OWI7ZW5k
+bGluZT0xNiBcDQo+ID4gICAgICsgICAgICDCoGZpbGU6Ly9jb21wYXQvb2JzdGFjay5oO21kNT0w
+OGFkMjVmZWU1NDI4Y2Q4NzljZWVmNDUxY2UzYTIyZTtlbmRsaW5lPTE4IFwNCj4gPiAgICAgKyAg
+ICAgIMKgZmlsZTovL2NvbXBhdC9wb2xsL3BvbGwuaDttZDU9OWZjMDAxNzBhNTNiOGUzZTUyMTU3
+YzkxYWM2ODhkZDE7ZW5kbGluZT0xOSBcDQo+ID4gICAgICsgICAgICDCoGZpbGU6Ly9jb21wYXQv
+cmVnZXgvcmVnZXguaDttZDU9MzBjYzhhZjBlNmYwZjhhMjVhY2VjNmQ4NzgzYmI3NjM7YmVnaW5s
+aW5lPTQ7ZW5kbGluZT0yMiBcDQo+ID4gICAgICsiDQo+ID4NCj4gPg0KPiA+IEkgZG9uJ3Qga25v
+dyBpZiBpdCBpcyBwb3NzaWJsZSBidXQgaWYgd2UgY2FuIGFkZCBhIGNvbXBhdCBQQUNLQUdFQ09O
+RklHDQo+ID4gd2lsbCBiZSBncmVhdA0KPiA+IHNvIHdlIGNhbiBkaXNhYmxlIHRoaXMgcGFydCB3
+aGljaCBzaW1wbGlmaWVzIGEgbGl0dGxlIHRoZSBsaWNlbnNlLg0KPiANCj4gVGhhdCB3b3VsZCBi
+ZSBpbmRlZWQgbmljZSB0byBoYXZlIC0gZnJvbSBteSB1bmRlcnN0YW5kaW5nIG9mIHRoZQ0KPiBt
+YWtlZmlsZSB0aG9zZSBhcmUgYnVpbGQgdW5jb25kaXRpb25hbGx5LCBzbyBpdCB3b3VsZCByZXF1
+aXJlIGEgdXBzdHJlYW0NCj4gd29yayBmaXJzdCBJIGd1ZXNzLg0KPiANCj4gRm9yIG5vdyBteSBw
+YXRjaCBpcyBqdXN0IHJlZmxlY3Rpbmcgd2hhdCBpcyBhY3R1YWxseSB1c2VkDQo+IA0KPiA+IEpv
+c2UNCj4gPg0KPiA+ICAgICAgwqBDVkVfUFJPRFVDVCA9ICJnaXQtc2NtOmdpdCINCj4gPg0KPiA+
+ICAgICAtLQ0KPiA+ICAgICAyLjI1LjENCj4gPiAtLQ0KPiA+IEJlc3QgcmVnYXJkcywNCj4gPg0K
+PiA+IEpvc8OpIFF1YXJlc21hDQoNCi8vUGV0ZXINCg0K
 
