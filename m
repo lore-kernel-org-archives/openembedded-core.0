@@ -1,99 +1,95 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0E0C352A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A34BC47084
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
- [209.85.221.170])
- by mx.groups.io with SMTP id smtpd.web09.2622.1649876712859682389
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.1709.1649872701211509383
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 12:05:13 -0700
+ Wed, 13 Apr 2022 10:58:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=y6mOVCC9;
- spf=pass (domain: linaro.org, ip: 209.85.221.170,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-vk1-f170.google.com with SMTP id o132so1284101vko.11
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AKtb4Uk0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id w4so3710805wrg.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 12:05:12 -0700 (PDT)
+ Wed, 13 Apr 2022 10:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RRPwG86oluDiPgotfMzBHwoxzdYUKbplKU45uM1I/uY=;
-        b=y6mOVCC9aQ2zeyh2mbvecoPVmlV2zxT8tQWywK8EVRerPDQ7t8+sAvAHYM/5t5IUBx
-         AthcTRkXYTfBdB3L4JoxYzb5Mw3iNw/f76vAH9P8l9l1cngTV/Mrd2frWjTXmUtEBE16
-         /J9oQwRqAOV3qti24BiIEL0DfKkVeNiNfq3GXxg8EgQwxJFD0ziES6BM5yKw84kuf7jE
-         FAFnsA4pinWfD178kKt0yzyT762VOCu654nDxs3KB8p7sFhiHKACQ6Rfpis/zPHnUYLf
-         Lf7q5/13h2IgVMDQl2VoEGw8B8QejmeU3x6xpt3WB23HAdy5qheECvgN1ea+x18P1qCQ
-         JthQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vmN6DsnlaN3Rcl09r0wcpuwtFKrBdqi/XnIB71UOXRA=;
+        b=AKtb4Uk0p+vcJznXbKpv/u5AVKuHkSiarJtbd8r7WvUs2EdUwW2CCexfjAny/SI6GZ
+         vOWvcLvQlzMNmqOBkGI/Ghvq6aijsaA6EvLU/jbj9Sua8CURkIMRs6fki2OqI7K8puSs
+         A+Yp/z7hcW/tL7dR2KAMw9xee7G+pHBX8Km4w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RRPwG86oluDiPgotfMzBHwoxzdYUKbplKU45uM1I/uY=;
-        b=OZZRdHXw+SD/itZun0ItvIrBOQdezpuoXlRbpW/zD1F1lTeRcznic9rACISNb/jfEV
-         DfTNbw0wUrqX7s1UFZIPrAE43KeCVMYWfRGnBv2g62XaN4Eh8yzS7eEcMgMPT9KtvXAH
-         fK6c82sUuGYeZJ8ViMlODx3akXSh5YpHSe0/fvm8yKoN7VuazgCMtjjeXyeqKlNrzQF1
-         NmPoU4suvVV6F7x4WFN67dNHQ5B90/BU4jQ+Omw0Fc5gtKHzMBhilMGSxngqY8vVtXC/
-         hH5H5sMGdHi1aiXLypDj51kgdvzlK+ZyZyPU4pQFSjjgxHmlGKwOYoe3+IuyouCiDnqE
-         NhbA==
-X-Gm-Message-State: AOAM533vZHWqc5RdN/syfoFuX3/+2vzbd+xXQP0S59H7L/UNxs1ao8rY
-	8UFy7WrVJYyQtGakJpWEmd71O3vWTkcw9Hgr83Ed7Q==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vmN6DsnlaN3Rcl09r0wcpuwtFKrBdqi/XnIB71UOXRA=;
+        b=hPzbUBkNRJg1KitbmXaBaTcn4p48PfxxPLTOcH6AjND6t3QfKH9eFlFWi7iL4dmG2i
+         A6ViyaQMsU7gQjcR9Xag1gTGXK3cKdTLX9eW7oayvtCxQCdT7ZueqkIpp24sA0A5JdJp
+         9376OoTbtWk05YpN+/kEQwPtLMGmne/4DtHwE3ndf8NjOCqTKYLngQQf3daSUeIeA5Om
+         grB+HTCWGK0YkzEJTA+ZIFU5spgA2eGEfifzviJQ3AYEyiUUgkvTeZ+V4WLTMFf+8/ot
+         y/CvfgoelNc4aKHKA2tltPiJpW3gQwMUBr3AIoB2Rhsapp4VF9mjmnR6VpnjkRh2zh3G
+         ToNQ==
+X-Gm-Message-State: AOAM530QzqSRRROAjEhTF6/mG9NPM0vsIgwXmmVMAAsbKAW40BDhPOTl
+	D2Fzuz9s3Cl+V3MpjE0g62o+BF9HuNx2pA==
 X-Google-Smtp-Source: 
- ABdhPJxoxulmxJo8ewipvSGcIwvWVStSJ2H5M2DXe3TKzpLOcT02qke2ofJn6cis5V7y1S01begQ8jyJmJwsZo4eWVU=
-X-Received: by 2002:a1f:50c4:0:b0:336:e84d:2873 with SMTP id
- e187-20020a1f50c4000000b00336e84d2873mr158883vkb.30.1649876711927; Wed, 13
- Apr 2022 12:05:11 -0700 (PDT)
+ ABdhPJxNPnf92NDB7o7PHh4BQixJ8TbtqvEgKnZCi2IFrQv2I9K4UJ4UyLaO1w0lHDLGRcd0HBbepg==
+X-Received: by 2002:a5d:5705:0:b0:207:a299:27e2 with SMTP id
+ a5-20020a5d5705000000b00207a29927e2mr58059wrv.59.1649872699077;
+        Wed, 13 Apr 2022 10:58:19 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:5cc2:b4ab:4d4b:907d])
+        by smtp.gmail.com with ESMTPSA id
+ a7-20020adffb87000000b00207982c7f4dsm14770056wrr.67.2022.04.13.10.58.18
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 10:58:18 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] buildtools-tarball: Only add cert envvars if certs are
+ included
+Date: Wed, 13 Apr 2022 18:58:16 +0100
+Message-Id: <20220413175817.2187595-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: 
- <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
- <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
- <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
- <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
- <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
- <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
- <CAOSpxdZ17NvKfsWxJkn0qwgNPCSz_WtRT9Ff=C6iiTxc1-bQRg@mail.gmail.com>
- <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
- <16E57E79FD292EFA.13992@lists.openembedded.org>
- <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
- <Ylb9RoAyRpDHTaqe@mcrowe.com>
- <CANp-EDZbeheyJWo_xwqPa4A24PJJghfZOuqG7sJX2DC1UfAPEA@mail.gmail.com>
- <CAOSpxdYeNPZRo2LLZQ0-EZHoXmaSeXFHsONCTF+2MLwfZ_RO+g@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdYeNPZRo2LLZQ0-EZHoXmaSeXFHsONCTF+2MLwfZ_RO+g@mail.gmail.com>
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Wed, 13 Apr 2022 15:05:00 -0400
-Message-ID: 
- <CANp-EDbCsrFazNTjpYbvZx-eRKhQ8GJeZH0VkL8Hco8p2w9oug@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Mike Crowe <mac@mcrowe.com>, Ross Burton <ross@burtonini.com>,
-	"Mittal, Anuj" <anuj.mittal@intel.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164359
+ https://lists.openembedded.org/g/openembedded-core/message/164353
 
-On Wed, Apr 13, 2022 at 2:19 PM Steve Sakoman <steve@sakoman.com> wrote:
+Users may or may not include the certificates in buildtools. Only set the
+appropriate variables if they're present.
 
-> Yes, and it appears they had a quite similar bug in the past!
->
-> https://lists.debian.org/deity/2006/07/msg00074.html
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/meta/buildtools-tarball.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Interesting find... though it seems that is in a different sha256
-implementation than the one being used here ("Gifford").
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index f9f36e68c4b..6b59e4934d5 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -69,8 +69,10 @@ create_sdk_files:append () {
+ 	touch $script
+ 	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATHNATIVE}${base_sbindir_nativesdk}:$PATH' >> $script
+ 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+-	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+-	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++	if [ -e "${SDK_OUTPUT}${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt" ]; then
++		echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++		echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
++	fi
+ 
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ 
+-- 
+2.32.0
 
-The other factor is that it behaves on ubuntu, but not fedora. Do the
-native packages get built with the host gcc (11.2 on fedora 35,
-whereas 9.3 on ubuntu 20.x)? Or does yocto also build a native
-toolchain to build host packages with?
-
-Ralph
 
