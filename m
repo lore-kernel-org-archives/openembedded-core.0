@@ -1,125 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <3a58186b1bb0c105c8cd7a601ab164a0727184f7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/1] apt: add apt selftest to test signed package feeds
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 13 Apr 2022 15:04:05 +0100
-In-Reply-To: <1f5614ca-6021-62e7-209a-31c3519108ec@gmail.com>
-References: <20220411205036.8298-1-fntoth@gmail.com>
-	 <20220411205036.8298-2-fntoth@gmail.com> <YlWJ1p+E/bTygFNo@mail.local>
-	 <6cb8d5aa-dd1f-40ab-8f10-50449f1e8438@gmail.com>
-	 <YlXzyOPuwW+vOQ63@mail.local>
-	 <2521f751cc6ff0682c41df568d5ac497a41dc60f.camel@linuxfoundation.org>
-	 <3993add1-31c5-0c2d-88ae-e4f11dfb3859@gmail.com>
-	 <YlX+kXROqKZgyaUI@mail.local>
-	 <4733d374d296d604526c7f01909d80431d173f05.camel@linuxfoundation.org>
-	 <1f5614ca-6021-62e7-209a-31c3519108ec@gmail.com>
+Date: Wed, 13 Apr 2022 22:46:02 +0200
+From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] libbsd: upgrade 0.11.5 -> 0.11.6
+Message-ID: <Ylc2ih7dovPZ2wFh@mail.local>
+References: <1649364599-24962-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1649364599-24962-1-git-send-email-wangmy@fujitsu.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 List-id: <openembedded-core.lists.openembedded.org>
-To: Ferry Toth <fntoth@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, Xavier Berger <xavier.berger@biologic.net>, Alexander Kanavin <alex@linutronix.de>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
 
-On Wed, 2022-04-13 at 15:43 +0200, Ferry Toth wrote:
-> Hi,
-> 
-> Op 13-04-2022 om 09:00 schreef Richard Purdie:
-> > On Wed, 2022-04-13 at 00:34 +0200, Alexandre Belloni wrote:
-> > > On 13/04/2022 00:20:40+0200, Ferry Toth wrote:
-> > > > Hi,
-> > > > 
-> > > > Op 12-04-2022 om 23:51 schreef Richard Purdie:
-> > > > > On Tue, 2022-04-12 at 23:48 +0200, Alexandre Belloni wrote:
-> > > > > > On 12/04/2022 23:32:49+0200, Ferry Toth wrote:
-> > > > > > > Hi
-> > > > > > > 
-> > > > > > > Op 12-04-2022 om 16:16 schreef Alexandre Belloni:
-> > > > > > > > Hello,
-> > > > > > > > 
-> > > > > > > > On 11/04/2022 22:50:36+0200, Ferry Toth wrote:
-> > > > > > > > > From: Ferry Toth <ftoth@exalondelft.nl>
-> > > > > > > > > 
-> > > > > > > > > Since Gatesgarth apt (1.8.2) has become more strict and doesn’t allow unsigned repositories by default.
-> > > > > > > > > Currently when building images this requirement is worked around by using [allow-insecure=yes] and
-> > > > > > > > > equivalently when performing selftest.
-> > > > > > > > > 
-> > > > > > > > > Patches "gpg-sign: Add parameters to gpg signature function" and "package_manager: sign DEB package feeds"
-> > > > > > > > > enable signed DEB package feeds. This patch adds a runtime test for apt derived from the test_testimage_dnf
-> > > > > > > > > test. It creates a signed deb package feed, runs a qemu image to install the key and performs some package
-> > > > > > > > > management. To be able to install the key the gnupg package is added to the testimage.
-> > > > > > > > > 
-> > > > > > > > This went through the autobuilders and it seems this still fails:
-> > > > > > > That is disappointing.
-> > > > > > > 
-> > > > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3437/steps/15/logs/stdio
-> > > > > > > > 
-> > > > > > > > ERROR: package-index-1.0-r0 do_package_index: Could not get gpg version: Command '['/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-34525/tmp/hosttools/gpg', '--agent-program=/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-34525/tmp/hosttools/gpg-agent|--auto-expand-secmem', '--version', '--no-permission-warning']' returned non-zero exit status 2.
-> > > > > > > > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-34525/tmp/work/core2-64-poky-linux/package-index/1.0-r0/temp/log.do_package_index.53841
-> > > > > > > > NOTE: recipe package-index-1.0-r0: task do_package_index: Failed
-> > > > > > > In fact package_index is failing, which is outside this patch code.
-> > > > > > > 
-> > > > > > > > ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-core/meta/package-index.bb:do_package_index) failed with exit code '1'
-> > > > > > > > 
-> > > > > > > > This was ubuntu 16.04 so maybe gpg on the distro is too old (1.4.20) but
-> > > > > > > > I'm not sure as I think you are using gnupg-native.
-> > > > > > > I would have expected gnupg-native, but the log line above shows hosttools
-> > > > > > > is being used. But the same would happen for signed rpm and ipk feeds right?
-> > > > > > > 
-> > > > > > > Did we get the correct one tested? I see 55173d in next and then reverted by
-> > > > > > > Richard. But that was v2.
-> > > > > > > 
-> > > > > > This was https://git.yoctoproject.org/poky-contrib/commit/?id=5abda438ce762fc7b8e065e3e9063820c758918e
-> > > > This is the correct one.
-> > > > 
-> > > > > > Just to be sure, I've started on ubuntu1604 both master and this branch,
-> > > > > > we'll see if this reproduces.
-> > > > > Firstly, this is occurring in the newly added test so this is being triggered by
-> > > > > the new code. I suspect what is happening is that gnupg-native isn't being built
-> > > > > before the test and this means that it is falling back to the system gpg. The
-> > > > > system gpg is too old on that worker so it fails.
-> > > > Certainly
-> > > > 
-> > > > > You can probably reproduce locally by not having a gpg on your build system
-> > > > > (move it out the way temporarily?).
-> > > > Thanks for the tip. Not sure if I can remove the package, but IIUC it's the
-> > > > executable that needs to be present so I can just move it out of the way.
-> > > > 
-> > > > > If I'm right (and I'm just guessing), the fix is to add the missing dependency
-> > > > > to ensure gpg is one we've built.
-> You are right
-> > > > I know how to add dependency in a recipe, but where to add here?
-> > > > 
-> > > > I already have 'bitbake('gnupg-native -c addto_recipe_sysroot')'
-> > > > Should I run 'bitbake('gnupg-native')' before that?
-> > > > 
-> > > > I copied these lines from test_testimage_dnf, shouldn't that have similar
-> > > > problems?
-> > > > 
-> > > sign_rpm.bbclass has PACKAGE_WRITE_DEPS += "gnupg-native", doesn't that
-> > > solve this issue?
-> > Perhaps sign_package_feed.bbclass needs something like:
-> > 
-> > PACKAGEINDEXDEPS += "gnupg-native:do_populate_sysroot"
-> 
-> I added this to the end of 'meta/classes/package_deb.bbclass' and that 
-> works.
-> 
-> Do you agree this is the right place?
+Hello,
 
-No. That builds gpg pieces even when signing isn't enabled so I don't think that
-is right.
+I fixed it up but this is now the third time this happens. Your patch
+has a declared charset of 'y' which is not a thing and git am fails
+with:
 
-> Should I squash with this patch or send in as a separate patch (fixes 
-> 0b4231b5 
-> <https://git.yoctoproject.org/poky/commit/?id=0b4231b597618e18668b8340f4209cd364b2b2d0> 
-> "package_manager: sign DEB package feeds")?
+error: cannot convert from y to UTF-8
+fatal: could not parse patch
 
-I think we can likely make this change a separate commit since it will have it's
-own explanation with it.
+You once again got the following prompt:
 
-Cheers,
+The following files are 8bit, but do not declare a Content-Transfer-Encodin=
+g.
+something.patch
+Which 8bit encoding should I declare [UTF-8]?
 
-Richard
+At that point, you pressed y but you should simply press enter. Please
+remember to do so next time.
 
+On 08/04/2022 04:49:59+0800, wangmy wrote:
+> License-Update:
+> -  Copyright year updated to 2022
+> -  License ISC changed as following:
+>    remove "src/arc4random_openbsd.h" from Files
+>    add "test/explicit_bzero.c" and "test/strtonum.c" to Files
+>    add "Copyright =A9 2004 Otto Moerbeek <otto@drijf.net>"
+>    add "Copyright =A9 2014 Google Inc."
+>=20
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../libbsd/{libbsd_0.11.5.bb =3D> libbsd_0.11.6.bb}             | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/libbsd/{libbsd_0.11.5.bb =3D> libbsd_0.11.6.=
+bb} (90%)
+>=20
+> diff --git a/meta/recipes-support/libbsd/libbsd_0.11.5.bb b/meta/recipes-=
+support/libbsd/libbsd_0.11.6.bb
+> similarity index 90%
+> rename from meta/recipes-support/libbsd/libbsd_0.11.5.bb
+> rename to meta/recipes-support/libbsd/libbsd_0.11.6.bb
+> index bb8766a070..74fc8ef4e5 100644
+> --- a/meta/recipes-support/libbsd/libbsd_0.11.5.bb
+> +++ b/meta/recipes-support/libbsd/libbsd_0.11.6.bb
+> @@ -29,12 +29,12 @@ HOMEPAGE =3D "https://libbsd.freedesktop.org/wiki/"
+>  # License: public-domain-Colin-Plumb
+>  LICENSE =3D "BSD-3-Clause & BSD-4-Clause & ISC & PD"
+>  LICENSE:${PN} =3D "BSD-3-Clause & ISC & PD"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0b31944ca2c1075410a30f0c17379=
+d3b"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc2c635b94c8dcd3593f53e10fa8a4=
+99e"
+>  SECTION =3D "libs"
+>=20
+>  SRC_URI =3D "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+>=20
+> -SRC_URI[sha256sum] =3D "1a9c952525635c1bb6770cb22e969b938d8e6a9d7912362b=
+98ee8370599b0efd"
+> +SRC_URI[sha256sum] =3D "19b38f3172eaf693e6e1c68714636190c7e48851e45224d7=
+20b3b5bc0499b5df"
+>=20
+>  inherit autotools pkgconfig
+>=20
+> --
+> 2.25.1
+>=20
+
+>=20
+>=20
+>=20
+
+
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
