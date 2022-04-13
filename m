@@ -1,285 +1,201 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <kweihmann@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF87C3527A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9B6DC35273
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:52 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.928.1649869011451835856
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (EUR04-HE1-obe.outbound.protection.outlook.com [40.92.73.23])
+ by mx.groups.io with SMTP id smtpd.web11.1120.1649869750700382414
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 09:56:51 -0700
+ Wed, 13 Apr 2022 10:09:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=YM3hDt1S;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id x33so4690085lfu.1
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 09:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JC52X3mLYt7MrvkLZ3DCN5p74Z7UCKoSluKZeGE193g=;
-        b=YM3hDt1Slycw78FvZvcisjP1XoLyXoEHo1xz97nsqHXDf+sElbmdALBOGeKglsVkxN
-         pvLmmbKWEQuLEJWplS08QektIY0lw9wYKvVDN6XMc7EDA4K1U4j4G8SIXPkHKC144kxj
-         oVC6vaXZZtIJ6TCJDQhr3fI5zG/3LL/8V/KlJt08BSChwk3l0sIUraRPFaJmX0QojOcC
-         MYQytKgTo0uLK692BZDyR353QhCotSjMDTf5SDs0hXomy7AugGIm5Q0ob9eXAVRB+yNA
-         dxaWLfRCyMj4lGqLemAR5e5Mn1rHQ8QZ1Ik25b9/M7iNPjBg6/Ad6KqGTogzOLUnKx5w
-         jTkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JC52X3mLYt7MrvkLZ3DCN5p74Z7UCKoSluKZeGE193g=;
-        b=hpabKFYng1WoB0tmjs+FVbdIk23Zr5b7kgYotdo+SIqYFCt6V2MISEO3SjjqKsSTWE
-         BgOTAozWT4JaJwOqt0cNsyXtgYvAJ2+8B735jLw2J6DBiQxMwlWcLZOxYKjyu+ahvRdj
-         67HFuVwx0+6SBmdGaaD2NSyzVMNoV9uJCPfnOkFpkrfaBDmoSZYZBTJ/fAL9BYPApjOI
-         A25oAsVVYh///+kFVlHZJb0ngcI+NBFPI5cZIt1INM8fft1FBBAyXcDdTBXFITPQqC5J
-         NBGL561NJ2PqPbuJ1A4e7Jn/+feomfa5MdvSE6DlGQuKaL9EQWJIarHH4bOjWP19wU9y
-         0/ZA==
-X-Gm-Message-State: AOAM532cjgxF1ZBw+uEZKg+uA/YjTaZOyXdBMX5D+o//toIIxO2DN4Kv
-	ZsynJ+pmel47bETOVHuIgMBPBUlT8G9csWJXusw=
-X-Google-Smtp-Source: 
- ABdhPJzQn9xci7E/A6Rl6LYjv1YmEY8BwIWKE4oX4GpUdtilPxX8csZNsjWHqUaWZP/AQbVCmpFSO0Lhc+lUNhgT6D4=
-X-Received: by 2002:a05:6512:1153:b0:44a:3b47:4f88 with SMTP id
- m19-20020a056512115300b0044a3b474f88mr28552783lfg.447.1649869009459; Wed, 13
- Apr 2022 09:56:49 -0700 (PDT)
-MIME-Version: 1.0
-References: 
- <HE1PR0902MB1801D263944083BC60D94282A8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
-In-Reply-To: 
- <HE1PR0902MB1801D263944083BC60D94282A8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 13 Apr 2022 17:56:38 +0100
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com
+ header.s=selector1 header.b=m3LFuPbY;
+ spf=pass (domain: outlook.com, ip: 40.92.73.23,
+ mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ehlcyLWolFoB+zQItPfBARbtPfZuEUSaKJj6igRYDK17EUXsHv0BH6pAj0gfZXSMFnyPpV54cRZBigzbitC5+gQ/h/RbGQTo1y7aBr3Xs8o1uetOtQR/jg1rx6Q757des8Wx8NigKa3P96urH+C6yvr5mZ1zmIF9G95nCtwdD8+sUV+ccbWMg0dFSpQT64eyJQSk5lzGUxKAHLD9dL06bFZAsjRXZEKcu7sWLaTkDwK595ZBnspIwnvVvZIS6BY+k8Z4zNPFWJ0jokhyJuvGhwcy29n65Ib1IQ4N80U+MDXXI+ck9uKOq1FAyyp6UCEIOqwMwsjpb1z2toALPCLe4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ul+0+nGa0/06avL4yFM3ic/LMFuMR4y+BOFAFaxsZPk=;
+ b=mzrIZcM3oFNP8Jz46rbEC47Zr4QHFp+UAhgdH8boORwui4jRD8YzkyQuzmkunzcKzG/fk2YGgHnYh9uBDiysVWqw8DnbC672/VaxldrUEnPxRh/VucZ7rZ10D0uVL5HyeSIqaEgRsi2tS0c9fXlNulpkX/jQFicgHFFGa36SrVPE1bQXilTAI89FxaZhCo0EdzSm4xnIZsdz54hbhcX78k8v0sC6l1+V8ZMCM5X6EJ+1Aysm1pOhRBG+C+Iy4VtYG0bvfY1LsnYEM6pluWF41mJ4pGTFJYoB9j29cBp+jXthYL1iusxjo5I5dODHb53Zp2QUIRPBnOZmr1BfRPTFtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ul+0+nGa0/06avL4yFM3ic/LMFuMR4y+BOFAFaxsZPk=;
+ b=m3LFuPbY/toFUwK6VtB2/+lsMGlQFQZ3y81gHP+vhZPyapeEPHUvZgjerYo/1JJ2F0rLxtvEOGBGmuLyfHZWBr/OdC7/sIJiN21MpUvyuiCHwNDsrnmFplRAxlni9UMP9+1rKGK2eS4DoK6OZu24XZX6JTEHz/PBIGH5ZMis6Ny5F/YGTLV1Vte6n/4ScOWgmrrBGES6+PjNyz4dapzPk7sdCsG5KUY66flFFph78YDotHph2+Uq7epMPweCiSt5N9L5RCHmNyIfBqLp5AX14lL0gmZFJKPR4tOPRoRbHcoTG0ekZvb8nHBkIRZ4dud15onCJ9Oy8y0Z1lAK/GeblA==
+Received: from HE1PR0902MB1801.eurprd09.prod.outlook.com (2603:10a6:3:f4::15)
+ by DU2PR09MB5264.eurprd09.prod.outlook.com (2603:10a6:10:239::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Wed, 13 Apr
+ 2022 17:09:07 +0000
+Received: from HE1PR0902MB1801.eurprd09.prod.outlook.com
+ ([fe80::6417:4cf6:d61e:ac37]) by HE1PR0902MB1801.eurprd09.prod.outlook.com
+ ([fe80::6417:4cf6:d61e:ac37%10]) with mapi id 15.20.5144.030; Wed, 13 Apr
+ 2022 17:09:07 +0000
+From: Konrad Weihmann <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH 2/2] python3-pip: correct license
+Date: Wed, 13 Apr 2022 19:08:49 +0200
 Message-ID: 
- <CANPvuRkSufucyWjP7a4dmUmxaFMuq2KNoX3uFnzjxeax3Pm5ww@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] git: correct license
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003c217705dc8c10ec"
+ <HE1PR0902MB180172875D28475BCD03DE9EA8EC9@HE1PR0902MB1801.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220413170849.1969030-1-kweihmann@outlook.com>
+References: <20220413170849.1969030-1-kweihmann@outlook.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TMN: [SMjZEXmQeLdJaG1XrJa6j4/tLG+qcJz1sz2rTZduqwSasKWbggRyd/zQ0v2dmMW8]
+X-ClientProxiedBy: AS8PR07CA0037.eurprd07.prod.outlook.com
+ (2603:10a6:20b:459::9) To HE1PR0902MB1801.eurprd09.prod.outlook.com
+ (2603:10a6:3:f4::15)
+X-Microsoft-Original-Message-ID: 
+ <20220413170849.1969030-2-kweihmann@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4ff55e83-2b38-46a8-3612-08da1d7051f8
+X-MS-Exchange-SLBlob-MailProps: 
+	citmFLqyTFR8bB3whAFXzAq+AsrPRwaYRRPo+GR7+MvHFZe1EbueqpwT1htSIPSIFMLSSzb8/JByte07m5VpWKCKbAmRBLjNm4+kKyWRyWYpqvKXhGHHxohLCh62T3x1HyMWLmrXzA4WmP0Ca7/UhXo4KV1NSim4yOaUq0Ymr6xrF90tpKr920dItEnaC50ZXm9YQnHGgZTUKuS1WT4U4wsrmyNmpPyq/J/InEWbs4+/TBjeY+sYIzLZarNfPbRjJO1EkoEqDSzMmAEiq0teGTot4e6Ezb0cDJ3Wzm+eDcapkrAw7j03mtNBXPxGaoR8jEwURdhulZ44toxmE4cCBIVJ88KAHbkvvAy30KeMmb6zGJJjffTw6pfjvazPbrBJWuIjPL97xsYGgQ4pn5wftAq6/RnC/SsO6O780ZdkEJhwLI2GnjCwC4GUZdSuf5rqns3dU2Tn891qTnKoWBTcEGWWY9UHW37BJZmAYnd/okHO08OAd4CDX/FRwfaNApueI+t7PZuudLksN/gHHCPyw7UpnmhRbrznQdC42t+7Ws7WSQUWRn1R321Gn993BaG3ZN98NgeNE4K8xykI+ilqQQNT9GkmZX6R7kWaV9+pyFdVU7ODkLo6xX3hRF6EV48uvS8k09J8mELHuvC8NM/1XMtPGLMf5SzTWuhsToiD2DLVnLhfkhzB99SNilACRWdSHy0K+l+MhSyjxAVpVs1rSE1LxZ58Vwki9ZTWYX8ecUVsdraJCVWsciD9MqLyM6zfhU4uoSOnCcEHsijgaLWdfLpO/oqETun6E2Z/RXYx0H8=
+X-MS-TrafficTypeDiagnostic: DU2PR09MB5264:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	q5AkcyunabHaNe8Q4vVF4dssQbjy2QHv8ifIUHDX8RXJXxgB0nUUj4rsBHkvC6m9NSuqA8qOyN3JSzFeurUsNTSkJo2f9kyfgzaFxTznsLnxY1O/FJP+KG1MuOASSNPxEUFES4a5G9mtc/8SYSigNCXl1xv28kDw8djHryf6CmxU0BYaWsnCGKo1El8OpThEn/FEuCAZoZAew+12uEdYsZIuA5TqCcW1J1XJ8dSGSpnL++K/ozKdqcDzX4jHQrrWSID1nr1fnuCpyeYw4hO5KYE3kUCgaJzxTXSpHza4wZA1mfMvBvx0N7LIyVvb8anhcZ3jKkOrt25GRV6zLMb0jrEMYM507042qQK5ui6Q2rfDRpWFHbUrCWwHR4W7+I7yRBk+7PmSsX66krP/j/Gcqon1P17UliWZTsdjfaaxeERqpTTR9+g/YVKpzz+bQzZgAwPzsJuxthfxl42pRqLhjF6Coag/iTiltACjfk3/kWzCmOAg6soire5SYccgf8eas4MS0rIY05+ONQmkPUKDatRaP2G8/xH9+g4dBRJwYmDlxR5n5h1DYBtb/486TfZ6h4gvAIAc6f5QFyukF1KXVjDE6phsZFR0H7Ey6gsDtMy863jXnQDR3YHsnZHOZQSA
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?9gbdTOlcBEPVDEJXOES+JTX8kYiqG4uVdpugCfobIVWbCSJqxg4wjJaCcRex?=
+ =?us-ascii?Q?g1AnnJqZWajvZWJE7uihGTN7EhbJAaJZOE7ytVsvylPgaumu1O2+QmHxSMCU?=
+ =?us-ascii?Q?ibPsYMB1K09/1Hwz9Kr5rgBGxPxKscMwdbNxIlipEDkUifJ3xGgHCr4b9VMa?=
+ =?us-ascii?Q?S5JE9nWayOZjEF7F49Fi48HVuIKlTu8lz5gHBCCRsypXcxpwyiPeEhcbHGhL?=
+ =?us-ascii?Q?6xHVXWSpa6RDirUDg3Bv2SXxV8ldQ4u/veYMMxhZeLu2uiAEUPzRunOnuNnv?=
+ =?us-ascii?Q?zQaspC7YyziWBVO6Tl6G2Z/H34sioyXB3fXRajfDhdtH5nBa5viVT0ABADON?=
+ =?us-ascii?Q?uaYEMw2gXX8KhnfWj8Pu7TROeMom185BtA8O1z088FB52UG1jOVy5j9cg15W?=
+ =?us-ascii?Q?dRkSv5USQVpMP9VMH+a+p2Bj6UR9AoOQfxBDlT8Gz0FbXUFrqyLnS8W492gO?=
+ =?us-ascii?Q?kapF/10K7cqHZ+Zeyor9gwJmZQXsEXYcq62lXYvOslg1jbPqyzraZ8cdWcwJ?=
+ =?us-ascii?Q?UQ6SB3vC6Y+tlUxCHfeCm9HUEqWxbyP3lCbaqqyHU7wrZ5ATd9g5UgytwVAl?=
+ =?us-ascii?Q?zIQA54jRgf4QagEBcjMV7mJcuTwTTyq9rQDBNa6SYvSYnrXOksrrUeJ8Qp9d?=
+ =?us-ascii?Q?mZtBf/RYnKAQxRM0HiVcZn9KA/vmyvL278FsBSXUgky8utVEP3YHDcZfVW3u?=
+ =?us-ascii?Q?VY6O+CcUoEfT12DDEA8WKVylO6Y3bv+0yy2bqEYNldbcvThqrsmlAb/WnJXo?=
+ =?us-ascii?Q?Q+xIHE064SRKW10TfYcWGfu1R17frXP5zSDzJa5v3/j7mjxxg5xTbbxl/ImX?=
+ =?us-ascii?Q?rI8+N+j3t4wggTlLXfoWMysBQRcbeyUBjKvqvXjOtebmf3Z+AM756msmpZU+?=
+ =?us-ascii?Q?bSZusoU0IhCvAdqWNe0RvBIyg4qWA5NkfB9l0V8FQzXpi8ljBw4dFUUcsXgb?=
+ =?us-ascii?Q?MbiiTuy8/8s/FKUtVdLyBr0oKKYUOUR20jr8/gIbaFcriLRnJ9ILNSrBGvf6?=
+ =?us-ascii?Q?PfJsaYRmtQl26mhBkBP9lccKs8n3zvwx1/hcDhgFO1bKPE9niHzRcPROX0vX?=
+ =?us-ascii?Q?GcXsBPDuXkfm9FfqS0fFForcE0IRr3QagXk91yIj90uZYszhYXd/tCQ/FXTa?=
+ =?us-ascii?Q?T6Dbfz5wTQzGm5MFO4HPg0wk0SlIwCSduIcWRvTp/1OLIfU3BZHAwDd627DV?=
+ =?us-ascii?Q?E3mIeu5zkVZs2IDTG0WIKGRF9COqFPHzjwJA881STXCM2xgyW+Dn691Zc4fx?=
+ =?us-ascii?Q?tsiqSn4yq4IwJpjx5l9hzvLH5r84enUmDGPGMeKZGPH5qwBSvs0x3dhP2Iyh?=
+ =?us-ascii?Q?Fk8apNayjCtcr1aRVe23tRRGUqYVQ9w09zd5Ejwt1uKT/TGeAaYHwrAMPxrR?=
+ =?us-ascii?Q?0YeSclOrPTXgq5ijIIH0lLg/skm19VKX35+COI1YZdDyGq/onh6QGojj7wKq?=
+ =?us-ascii?Q?6i661Quge/dtJPwYAkhdvjWG8aFSe7GJ3piUYh8VTzBJ8GfTsUHt5EqFgyNX?=
+ =?us-ascii?Q?F83wJy93LqAM44k=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 4ff55e83-2b38-46a8-3612-08da1d7051f8
+X-MS-Exchange-CrossTenant-AuthSource: 
+ HE1PR0902MB1801.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2022 17:09:07.7766
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR09MB5264
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164343
+ https://lists.openembedded.org/g/openembedded-core/message/164346
 
---0000000000003c217705dc8c10ec
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+as described in src/pip/_vendor/README.rst pip ships plenty
+of vendored copies of other python modules.
+Correct the license of the resulting package and
+reference all the vendor copy license files correctly
 
-Hi
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ .../python/python3-pip_22.0.3.bb              | 32 +++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-Konrad Weihmann <kweihmann@outlook.com> escreveu no dia quarta, 13/04/2022
-=C3=A0(s) 17:34:
-
-> by default git pulls in several code fragments not being licensed
-> under just GPL-2.0-only.
-> In fact obstack and poll are taken from glib, being licensed
-> under GPL-2.0-or-later - as this includes GPL-2.0-only, use this instead
->
-> Furthermore
-> reftable being BSD-3-Clause
-> sha1dc and inet_ntop being MIT
-> netmalloc being Bosst-1.0 aka BSL-1.0
-> regex being LGPL-2.1-or-later
->
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
->  meta/recipes-devtools/git/git_2.35.1.bb | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/git/git_2.35.1.bb
-> b/meta/recipes-devtools/git/git_2.35.1.bb
-> index 47c2211864..f8756b6dec 100644
-> --- a/meta/recipes-devtools/git/git_2.35.1.bb
-> +++ b/meta/recipes-devtools/git/git_2.35.1.bb
-> @@ -2,7 +2,7 @@ SUMMARY =3D "Distributed version control system"
->  HOMEPAGE =3D "http://git-scm.com"
->  DESCRIPTION =3D "Git is a free and open source distributed version contr=
-ol
-> system designed to handle everything from small to very large projects wi=
-th
-> speed and efficiency."
->  SECTION =3D "console/utils"
-> -LICENSE =3D "GPL-2.0-only"
-> +LICENSE =3D "GPL-2.0-or-later & BSD-3-Clause & MIT & BSL-1.0 &
-> LGPL-2.1-or-later"
->  DEPENDS =3D "openssl zlib"
->
->  PROVIDES:append:class-native =3D " git-replacement-native"
-> @@ -14,7 +14,16 @@ SRC_URI =3D
-> "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=3Dtarball \
->
->  S =3D "${WORKDIR}/git-${PV}"
->
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D7c0d7ef03a7eb04ce795b0f60e68e=
-7e1"
-> +LIC_FILES_CHKSUM =3D "\
-> +       file://COPYING;md5=3D7c0d7ef03a7eb04ce795b0f60e68e7e1 \
-> +       file://reftable/LICENSE;md5=3D1a6424cafc4c9c88c689848e165af33b \
-> +       file://sha1dc/LICENSE.txt;md5=3D9bbe4c990a9e98ea4b98ef5d3bcb8a7a =
-\
-> +
->  file://compat/nedmalloc/License.txt;md5=3De4224ccaecb14d942c71d31bef20d7=
-8c \
-> +
->  file://compat/inet_ntop.c;md5=3D76593c6f74e8ced5b24520175688d59b;endline=
-=3D16 \
-> +
->  file://compat/obstack.h;md5=3D08ad25fee5428cd879ceef451ce3a22e;endline=
-=3D18 \
-> +
->  file://compat/poll/poll.h;md5=3D9fc00170a53b8e3e52157c91ac688dd1;endline=
-=3D19 \
-> +
->  file://compat/regex/regex.h;md5=3D30cc8af0e6f0f8a25acec6d8783bb763;begin=
-line=3D4;endline=3D22
-> \
-> +"
->
-
-I don't know if it is possible but if we can add a compat PACKAGECONFIG
-will be great
-so we can disable this part which simplifies a little the license.
-
-Jose
-
-
->
->  CVE_PRODUCT =3D "git-scm:git"
->
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164341):
-> https://lists.openembedded.org/g/openembedded-core/message/164341
-> Mute This Topic: https://lists.openembedded.org/mt/90444706/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/reci=
+pes-devtools/python/python3-pip_22.0.3.bb
+index ee3e578b2c..09a305edf8 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+@@ -1,8 +1,36 @@
+ SUMMARY =3D "The PyPA recommended tool for installing Python packages"
+ HOMEPAGE =3D "https://pypi.org/project/pip"
+ SECTION =3D "devel/python"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D63ec52baf95163b597008bb46db=
+68030"
++LICENSE =3D "MIT & Apache-2.0 & MPL-2.0 & LGPL-2.1-only & BSD-3-Clause & P=
+SF-2.0 & BSD-2-Clause"
++LIC_FILES_CHKSUM =3D "\
++  file://LICENSE.txt;md5=3D63ec52baf95163b597008bb46db68030 \
++  file://src/pip/_vendor/cachecontrol/LICENSE.txt;md5=3D6572692148079ebbbd=
+800be4b9f36c6d \
++  file://src/pip/_vendor/certifi/LICENSE;md5=3D67da0714c3f9471067b729eca6c=
+9fbe8 \
++  file://src/pip/_vendor/chardet/LICENSE;md5=3Da6f89e2100d9b6cdffcea4f398e=
+37343 \
++  file://src/pip/_vendor/colorama/LICENSE.txt;md5=3Db4936429a56a652b84c5c0=
+1280dcaa26 \
++  file://src/pip/_vendor/distlib/LICENSE.txt;md5=3Df6a11430d5cd6e2cd3832ee=
+94f22ddfc \
++  file://src/pip/_vendor/distro.LICENSE;md5=3Dd2794c0df5b907fdace235a619d8=
+0314 \
++  file://src/pip/_vendor/html5lib/LICENSE;md5=3D1ba5ada9e6fead1fdc32f43c9f=
+10ba7c \
++  file://src/pip/_vendor/idna/LICENSE.md;md5=3D239668a7c6066d9e0c5382e9c8c=
+6c0e1 \
++  file://src/pip/_vendor/msgpack/COPYING;md5=3Dcd9523181d9d4fbf7ffca52eaa2=
+a5751 \
++  file://src/pip/_vendor/packaging/LICENSE;md5=3Dfaadaedca9251a90b205c9167=
+578ce91 \
++  file://src/pip/_vendor/packaging/LICENSE.APACHE;md5=3D2ee41112a44fe7014d=
+ce33e26468ba93 \
++  file://src/pip/_vendor/pep517/LICENSE;md5=3Daad69c93f605003e3342b174d9b0=
+708c \
++  file://src/pip/_vendor/pkg_resources/LICENSE;md5=3D9a33897f1bca1160d7aad=
+3835152e158 \
++  file://src/pip/_vendor/platformdirs/LICENSE.txt;md5=3D282c970bb844954c85=
+35dd6e9733db7f \
++  file://src/pip/_vendor/progress/LICENSE;md5=3D00ab78a4113b09aacf63d762a7=
+bb9644 \
++  file://src/pip/_vendor/pygments/LICENSE;md5=3D98419e351433ac106a24e3ad43=
+5930bc \
++  file://src/pip/_vendor/pyparsing/LICENSE;md5=3D657a566233888513e1f07ba13=
+e2f47f1 \
++  file://src/pip/_vendor/requests/LICENSE;md5=3D34400b68072d710fecd0a2940a=
+0d1658 \
++  file://src/pip/_vendor/resolvelib/LICENSE;md5=3D78e1c0248051c32a38a7f820=
+c30bd7a5 \
++  file://src/pip/_vendor/rich/LICENSE;md5=3Db5f0b94fbc94f5ad9ae4efcf8a7783=
+03 \
++  file://src/pip/_vendor/six.LICENSE;md5=3D43cfc9e4ac0e377acfb9b76f56b8415=
+d \
++  file://src/pip/_vendor/tenacity/LICENSE;md5=3D175792518e4ac015ab6696d16c=
+4f607e \
++  file://src/pip/_vendor/tomli/LICENSE;md5=3Daaaaf0879d17df0110d1aa8c8c9f4=
+6f5 \
++  file://src/pip/_vendor/typing_extensions.LICENSE;md5=3D64fc2b30b67d0a842=
+3c250e0386ed72f \
++  file://src/pip/_vendor/urllib3/LICENSE.txt;md5=3Dc2823cb995439c984fd62a9=
+73d79815c \
++  file://src/pip/_vendor/webencodings/LICENSE;md5=3D81fb24cd7823cce23b69f7=
+21993dce4d \
++"
+=20
+ inherit pypi python_setuptools_build_meta
+=20
 --=20
-Best regards,
+2.25.1
 
-Jos=C3=A9 Quaresma
-
---0000000000003c217705dc8c10ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi</div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@out=
-look.com">kweihmann@outlook.com</a>&gt; escreveu no dia quarta, 13/04/2022 =
-=C3=A0(s) 17:34:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->by default git pulls in several code fragments not being licensed<br>
-under just GPL-2.0-only.<br>
-In fact obstack and poll are taken from glib, being licensed<br>
-under GPL-2.0-or-later - as this includes GPL-2.0-only, use this instead<br=
->
-<br>
-Furthermore<br>
-reftable being BSD-3-Clause<br>
-sha1dc and inet_ntop being MIT<br>
-netmalloc being Bosst-1.0 aka BSL-1.0<br>
-regex being LGPL-2.1-or-later<br>
-<br>
-Signed-off-by: Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com"=
- target=3D"_blank">kweihmann@outlook.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/git/<a href=3D"http://git_2.35.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">git_2.35.1.bb</a> | 13 +++++++++++--<br>
-=C2=A01 file changed, 11 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/git/<a href=3D"http://git_2.35.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">git_2.35.1.bb</a> b/meta/recipes-devtools=
-/git/<a href=3D"http://git_2.35.1.bb" rel=3D"noreferrer" target=3D"_blank">=
-git_2.35.1.bb</a><br>
-index 47c2211864..f8756b6dec 100644<br>
---- a/meta/recipes-devtools/git/<a href=3D"http://git_2.35.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">git_2.35.1.bb</a><br>
-+++ b/meta/recipes-devtools/git/<a href=3D"http://git_2.35.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">git_2.35.1.bb</a><br>
-@@ -2,7 +2,7 @@ SUMMARY =3D &quot;Distributed version control system&quot;<=
-br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://git-scm.com" rel=3D"noreferrer" =
-target=3D"_blank">http://git-scm.com</a>&quot;<br>
-=C2=A0DESCRIPTION =3D &quot;Git is a free and open source distributed versi=
-on control system designed to handle everything from small to very large pr=
-ojects with speed and efficiency.&quot;<br>
-=C2=A0SECTION =3D &quot;console/utils&quot;<br>
--LICENSE =3D &quot;GPL-2.0-only&quot;<br>
-+LICENSE =3D &quot;GPL-2.0-or-later &amp; BSD-3-Clause &amp; MIT &amp; BSL-=
-1.0 &amp; LGPL-2.1-or-later&quot;<br>
-=C2=A0DEPENDS =3D &quot;openssl zlib&quot;<br>
-<br>
-=C2=A0PROVIDES:append:class-native =3D &quot; git-replacement-native&quot;<=
-br>
-@@ -14,7 +14,16 @@ SRC_URI =3D &quot;${KERNELORG_MIRROR}/software/scm/git/g=
-it-${PV}.tar.gz;name=3Dtarball \<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git-${PV}&quot;<br>
-<br>
--LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D7c0d7ef03a7eb04ce795b0f60e=
-68e7e1&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING;md5=3D7c0d7ef03a7eb04ce795b0f60e=
-68e7e1 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://reftable/LICENSE;md5=3D1a6424cafc4c9c88c=
-689848e165af33b \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://sha1dc/LICENSE.txt;md5=3D9bbe4c990a9e98e=
-a4b98ef5d3bcb8a7a \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://compat/nedmalloc/License.txt;md5=3De4224=
-ccaecb14d942c71d31bef20d78c \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://compat/inet_ntop.c;md5=3D76593c6f74e8ced=
-5b24520175688d59b;endline=3D16 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://compat/obstack.h;md5=3D08ad25fee5428cd87=
-9ceef451ce3a22e;endline=3D18 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://compat/poll/poll.h;md5=3D9fc00170a53b8e3=
-e52157c91ac688dd1;endline=3D19 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://compat/regex/regex.h;md5=3D30cc8af0e6f0f=
-8a25acec6d8783bb763;beginline=3D4;endline=3D22 \<br>
-+&quot;<br></blockquote><div><br></div><div>I don&#39;t know if it is possi=
-ble but if we can add a compat PACKAGECONFIG will be great<br>so we can dis=
-able this part which simplifies a little the license.<br></div><div><br></d=
-iv><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-<br>
-=C2=A0CVE_PRODUCT =3D &quot;git-scm:git&quot;<br>
-<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#164341): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/164341" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/164341</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90444706/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/90444706/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000003c217705dc8c10ec--
 
