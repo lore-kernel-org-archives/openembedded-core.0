@@ -2,61 +2,63 @@ Return-Path: <kergoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CCBC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F461C4332F
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:52 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web09.198.1649865684106959256
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.184.1649865685403701710
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 09:01:24 -0700
+ Wed, 13 Apr 2022 09:01:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NPAYVlnO;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: kergoth@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id i20so3261679wrb.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FoPGXUIk;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: kergoth@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id i20so3261791wrb.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 09:01:23 -0700 (PDT)
+ Wed, 13 Apr 2022 09:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UyZ9QRU4lylzlfGMp9hQzvSHx5yNYzuWhnqN533hBNc=;
-        b=NPAYVlnO4kNJN/LBzRTVOQRsE0ytKmRsyHsE+yUhIqSLmT+lqERT7/1/SuUggNySHY
-         se5LJDgzdCJwVV8F5eRxldCRSg0jHtG5nNAmrQSLENA+Fkw2vCzeLKgNWQix8KEEoCMY
-         LjJJiIPQBT/+BnJyqxv/VIP6Xn69iS2QDiAnw9znt4CYBVgbBoAdEOgypfhXwzFDjsgy
-         01uuA5vGBWD7YkMlTqaGrjaf/VlANYXZCvEWcO7fs7nkVISSlkNfQtKO99u+ey11oS74
-         JAdfkvesI7d69wMSKPOEWc1Xa5B8ESzQurOidx5H9kJ38ZBxghU3PEheiaC6/hZC3f/n
-         31jg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=F6R7MatEuW3bqBpssNlVhVLODrfwCPcUjF4aNLKaLx4=;
+        b=FoPGXUIkgnJvkMkPPtP9Nj4nY0k4UMC69GJ0X+Mxq8B8mqbXpKJxA+1l79pnsVOtCb
+         BhHKyAQ2wz9UJ6TrRIkyMdxIlMVb1aZvCnFBY2PoU9wIgvOd+qFIlU+4GXnt9yra/80Y
+         WJEqzd7oE9Dm1j83B7K+okRkJXx+Vs/dW3jz0SZtqpNnBjKtLLUUs2Fq2ELWrSK4VgYB
+         y97WwbL81vpGZaxf9cIvdbj4j16BVJIecy634vADHRIZ8JX0z1f4Q3RrERCoOpgijV8q
+         SAlZmyUfqe2beJuKYv6m+j2HD8lFJ0ZXB5hbF2JPEFYBneRt+FvpoADXaK71Zt5N52H6
+         4f7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UyZ9QRU4lylzlfGMp9hQzvSHx5yNYzuWhnqN533hBNc=;
-        b=2onakj03f4BX3ZYJa4WhlrJPdg3egijG5UGu3/llQjAqzyA2ZiJFENqqW7cW9m87mw
-         5RxYoBjG1r0g8a0i7NzMbFCoRw4l4gsOJqgHmT0DRkKUdVI2N0TdJYdoDuMDhB6qzqvm
-         qMEs9BlM4g+hW03AxX24Jf4m8qH8N1FRCOfyRqQJ3Qo1Afe9pOiHF8GoVSAVOUgK+SnJ
-         CgzYwSxVNP3DASwT9t3kJSUk/IzOsETpg2yzFSrda/o1XUxSYGA5Tu3Eic9HANneGhyQ
-         CypOTWMu4qMXXvgYynJr926IcelPPHXxaCtTS6pHEDyozpx1QscRGecnJi4eMQQM2V2q
-         MsOA==
-X-Gm-Message-State: AOAM533RF97ygFGAonfkmVui4kiT0P1prvlWUDfLG9K0NvRY7o4ZcWMt
-	zn6HKl7UgI/LlnSMZhTMSMGcgf6p9lNMTg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=F6R7MatEuW3bqBpssNlVhVLODrfwCPcUjF4aNLKaLx4=;
+        b=tFFzAz/l7NJLBMWfZKeVzggcAH7VYoa/VtqCTTgPuQzQ8d51v9rqjBJTLoe/i7BEIt
+         n1f6BWPDgWT16odWF0R4B4qs5s5hR0/DYENfnq+TKm7oaW261qbblZwN0kYbkYy+1xoD
+         Oe6QWtiQp/IhqSK2vpFOgi4Xbi+9RSkFOYOKU3Z2x0rH76BFaShs3BWOWCpJz+WR55TF
+         oH+P29T6IUO9oHaJFb4Hn1ueOSi8Yp3TAvW87ABgh0HUCvlJSEyYRWcXPqw/HUVZ0kmP
+         nbNKZN0WlCUCksQwxyNEaVykNsEHw/EnCorZRe/OKFPCV5I4XcCfd0iSn3R5GNgnJsWT
+         9D8A==
+X-Gm-Message-State: AOAM532GeZTOON6iJVZIOV9pcAADn85Cunl8kZ4EvHZoMayc8Kgephj6
+	B1OlzByW3nxjwRXkQnUWAfTQzAbygPPDHw==
 X-Google-Smtp-Source: 
- ABdhPJyo68b4E6U6Ob4l/AcUps0/BAbOfQvC7pS9nJAUYqv+taO6Y9y3fzQFDgp/Mh36z+pBWj3+zg==
-X-Received: by 2002:a05:6000:508:b0:1e4:a027:d147 with SMTP id
- a8-20020a056000050800b001e4a027d147mr33345704wrf.315.1649865682189;
-        Wed, 13 Apr 2022 09:01:22 -0700 (PDT)
+ ABdhPJwA5AYSIlg6GjXZaS9Go8mFiEKVrlF6JNWtkbKG7Q+idW8I4IeMfAOq/wFqM4OJ8wAzMJDy/g==
+X-Received: by 2002:adf:82c1:0:b0:207:9d8b:dd6c with SMTP id
+ 59-20020adf82c1000000b002079d8bdd6cmr17210051wrc.4.1649865683596;
+        Wed, 13 Apr 2022 09:01:23 -0700 (PDT)
 Received: from ubu18-mel-builder.alm.mentorg.com (nat-lmt.mentorg.com.
  [139.181.28.34])
         by smtp.gmail.com with ESMTPSA id
- a18-20020a05600c349200b0038ca453a887sm2905618wmq.19.2022.04.13.09.01.20
+ a18-20020a05600c349200b0038ca453a887sm2905618wmq.19.2022.04.13.09.01.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 09:01:21 -0700 (PDT)
+        Wed, 13 Apr 2022 09:01:23 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH v2] license: add 'any_incompatible' function
-Date: Wed, 13 Apr 2022 16:00:32 +0000
-Message-Id: <20220413160033.8456-1-kergoth@gmail.com>
+Subject: [PATCH] license: add 'any_incompatible' function
+Date: Wed, 13 Apr 2022 16:00:33 +0000
+Message-Id: <20220413160033.8456-2-kergoth@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220413160033.8456-1-kergoth@gmail.com>
+References: <20220413160033.8456-1-kergoth@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -64,7 +66,7 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164337
+ https://lists.openembedded.org/g/openembedded-core/message/164338
 
 This function returns True if any of the specified packages are skipped due to
 incompatible license.
@@ -82,10 +84,6 @@ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
  meta/classes/license.bbclass                  | 38 +++++++++++++++++++
  .../packagegroups/packagegroup-base.bb        |  2 +
  2 files changed, 40 insertions(+)
-
-v2 changes: fixed string packages logic, corrected reference to
-apply_pkg_license_exception, and avoided use of ${@} in the function docstring
-to avoid bitbake expanding it and recursing.
 
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
 index 0c637e966e..41993b7227 100644
