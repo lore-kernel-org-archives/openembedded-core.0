@@ -1,43 +1,43 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB71C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E51C4167B
 	for <webhook@archiver.kernel.org>; Wed, 13 Apr 2022 15:48:06 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.1768.1649817255569646264
+ by mx.groups.io with SMTP id smtpd.web09.2543.1649824712637313477
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 19:34:15 -0700
+ Tue, 12 Apr 2022 21:38:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
  domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: changqing.li@windriver.com)
+ mailfrom: sakib.sajal@windriver.com)
 Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23D2YEFC001419
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23D4cTHs012048
 	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 19:34:14 -0700
+ Tue, 12 Apr 2022 21:38:30 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 23D2YD2B015712
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 23D4cNtH028541
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Apr 2022 19:34:13 -0700 (PDT)
+ Tue, 12 Apr 2022 21:38:29 -0700 (PDT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Apr 2022 19:34:13 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ 15.1.2242.12; Tue, 12 Apr 2022 21:38:23 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 12 Apr 2022 19:34:12 -0700
-From: <changqing.li@windriver.com>
+ 15.1.2242.12 via Frontend Transport; Tue, 12 Apr 2022 21:38:23 -0700
+From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH] libsdl2: fix CVE-2021-33657
-Date: Wed, 13 Apr 2022 10:34:11 +0800
-Message-ID: <20220413023411.913426-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [hardknott][PATCH 1/2] qemu: fix CVE-2021-4145
+Date: Wed, 13 Apr 2022 00:38:14 -0400
+Message-ID: <20220413043815.17771-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -46,28 +46,188 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Apr 2022 15:48:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164298
+ https://lists.openembedded.org/g/openembedded-core/message/164300
 
-From: Changqing Li <changqing.li@windriver.com>
+Fix CVE by backporting relevant patches.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2021-4145_1.patch           | 60 ++++++++++++++
+ .../qemu/qemu/CVE-2021-4145_2.patch           | 83 +++++++++++++++++++
+ 3 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-index 54556abb27..28b3b20beb 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-@@ -18,6 +18,7 @@ PROVIDES = "virtual/libsdl2"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 568ef1be94..aa372810ce 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -75,6 +75,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3930.patch \
+            file://CVE-2021-20196_1.patch \
+            file://CVE-2021-20196_2.patch \
++           file://CVE-2021-4145_1.patch \
++           file://CVE-2021-4145_2.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-+           file://CVE-2021-33657.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
+new file mode 100644
+index 0000000000..9ea6c7e47c
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
+@@ -0,0 +1,60 @@
++From 748bf90148bbbaedd75fe1b2c47b3617710523bd Mon Sep 17 00:00:00 2001
++From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++Date: Sat, 3 Jul 2021 00:16:36 +0300
++Subject: [PATCH 1/3] block/mirror: fix active mirror dead-lock in
++ mirror_wait_on_conflicts
++
++It's possible that requests start to wait each other in
++mirror_wait_on_conflicts(). To avoid it let's use same technique as in
++block/io.c in bdrv_wait_serialising_requests_locked() /
++bdrv_find_conflicting_request(): don't wait on intersecting request if
++it is already waiting for some other request.
++
++For details of the dead-lock look at testIntersectingActiveIO()
++test-case which we actually fixing now.
++
++Fixes: d06107ade0ce74dc39739bac80de84b51ec18546
++Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++Message-Id: <20210702211636.228981-4-vsementsov@virtuozzo.com>
++Signed-off-by: Kevin Wolf <kwolf@redhat.com>
++
++Upstream-Status: Backport [d44dae1a7cf782ec9235746ebb0e6c1a20dd7288]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ block/mirror.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
++
++diff --git a/block/mirror.c b/block/mirror.c
++index 8e1ad6ece..fab008568 100644
++--- a/block/mirror.c
+++++ b/block/mirror.c
++@@ -106,6 +106,7 @@ struct MirrorOp {
++     bool is_in_flight;
++     CoQueue waiting_requests;
++     Coroutine *co;
+++    MirrorOp *waiting_for_op;
++ 
++     QTAILQ_ENTRY(MirrorOp) next;
++ };
++@@ -158,7 +159,18 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
++             if (ranges_overlap(self_start_chunk, self_nb_chunks,
++                                op_start_chunk, op_nb_chunks))
++             {
+++                /*
+++                 * If the operation is already (indirectly) waiting for us, or
+++                 * will wait for us as soon as it wakes up, then just go on
+++                 * (instead of producing a deadlock in the former case).
+++                 */
+++                if (op->waiting_for_op) {
+++                    continue;
+++                }
+++
+++                self->waiting_for_op = op;
++                 qemu_co_queue_wait(&op->waiting_requests, NULL);
+++                self->waiting_for_op = NULL;
++                 break;
++             }
++         }
++-- 
++2.33.0
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
+new file mode 100644
+index 0000000000..57f1dca5f0
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
+@@ -0,0 +1,83 @@
++From ba51b041eea7da8faf955770092d6f6ba7f21037 Mon Sep 17 00:00:00 2001
++From: Stefano Garzarella <sgarzare@redhat.com>
++Date: Fri, 10 Sep 2021 14:45:33 +0200
++Subject: [PATCH 2/3] block/mirror: fix NULL pointer dereference in
++ mirror_wait_on_conflicts()
++
++In mirror_iteration() we call mirror_wait_on_conflicts() with
++`self` parameter set to NULL.
++
++Starting from commit d44dae1a7c we dereference `self` pointer in
++mirror_wait_on_conflicts() without checks if it is not NULL.
++
++Backtrace:
++  Program terminated with signal SIGSEGV, Segmentation fault.
++  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
++      at ../block/mirror.c:172
++  172	                self->waiting_for_op = op;
++  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
++  (gdb) bt
++  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
++      at ../block/mirror.c:172
++  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
++  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
++  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
++      at ../util/coroutine-ucontext.c:173
++  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
++      from /usr/lib64/libc.so.6
++
++Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
++Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
++Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
++Message-Id: <20210910124533.288318-1-sgarzare@redhat.com>
++Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++Signed-off-by: Hanna Reitz <hreitz@redhat.com>
++
++Upstream-Status: Backport [66fed30c9cd11854fc878a4eceb507e915d7c9cd]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ block/mirror.c | 25 ++++++++++++++++---------
++ 1 file changed, 16 insertions(+), 9 deletions(-)
++
++diff --git a/block/mirror.c b/block/mirror.c
++index fab008568..ca0be146f 100644
++--- a/block/mirror.c
+++++ b/block/mirror.c
++@@ -159,18 +159,25 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
++             if (ranges_overlap(self_start_chunk, self_nb_chunks,
++                                op_start_chunk, op_nb_chunks))
++             {
++-                /*
++-                 * If the operation is already (indirectly) waiting for us, or
++-                 * will wait for us as soon as it wakes up, then just go on
++-                 * (instead of producing a deadlock in the former case).
++-                 */
++-                if (op->waiting_for_op) {
++-                    continue;
+++                if (self) {
+++                    /*
+++                     * If the operation is already (indirectly) waiting for us,
+++                     * or will wait for us as soon as it wakes up, then just go
+++                     * on (instead of producing a deadlock in the former case).
+++                     */
+++                    if (op->waiting_for_op) {
+++                        continue;
+++                    }
+++
+++                    self->waiting_for_op = op;
++                 }
++ 
++-                self->waiting_for_op = op;
++                 qemu_co_queue_wait(&op->waiting_requests, NULL);
++-                self->waiting_for_op = NULL;
+++
+++                if (self) {
+++                    self->waiting_for_op = NULL;
+++                }
+++
++                 break;
++             }
++         }
++-- 
++2.33.0
++
 -- 
-2.25.1
+2.33.0
 
 
