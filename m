@@ -1,155 +1,80 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <fntoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9379DC38A02
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D746C38A04
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.3772.1649882160767028967
+Received: from mailfilter06-out30.webhostingserver.nl
+ (mailfilter06-out30.webhostingserver.nl [195.211.73.76])
+ by mx.groups.io with SMTP id smtpd.web08.3809.1649882306913727951
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 13:36:01 -0700
+ Wed, 13 Apr 2022 13:38:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Ti8CADQo;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1649882161;
-  x=1681418161;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ITUBaZbcFwNhzn4SSiqc5mXAiSFTF2/vkXjGHEKrd64=;
-  b=Ti8CADQojtVatUDhcHB84jz92aSi15NjWVPRekooY9XlH7iNJY3C2e0k
-   zfqyQFKw6y7OwjW0uCOwyZ0QT5vT0a4b3YDSuYOoYUhbQAUqgdZKICNO7
-   Ge5Z17XGucSRRmc0U2BVUU4aLIlvfn7QB0Pf+w4JTvKmHB5UlHlG3RWCx
-   WyQdPQ8djui2nTI8IpZMWUiq4yNS7gu96WQIdHYNBlQDVSunw5oV126mf
-   9OmxxA4Zxn1T4XcXD3AvSV7YvWMw3L01Tv2/wvWDB1BrxHhYUEDHJ7mKn
-   EKDrWakJF4ZsribyBgShvYqVhDQX4iAHMSii9S77xpPiVnuX/0gDw1Qi6
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Christopher Larson
-	<kergoth@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Christopher Larson <chris_larson@mentor.com>
-Subject: RE: [OE-core] [PATCH v2] license: add 'any_incompatible' function
-Thread-Topic: [OE-core] [PATCH v2] license: add 'any_incompatible' function
-Thread-Index: AQHYT0+8lkzRDTMfMUe053ieWu/sLqzt/DaAgABApjA=
-Date: Wed, 13 Apr 2022 20:35:57 +0000
-Message-ID: <68938ba5b4034939b472e0c9977bf507@axis.com>
-References: <20220413160033.8456-1-kergoth@gmail.com>
- <8c3060148a98b280c93b7eb5da65699f1c6745aa.camel@linuxfoundation.org>
-In-Reply-To: 
- <8c3060148a98b280c93b7eb5da65699f1c6745aa.camel@linuxfoundation.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=missing;
+ spf=softfail (domain: gmail.com, ip: 195.211.73.76, mailfrom: fntoth@gmail.com)
+X-Halon-ID: aa3c9efd-bb69-11ec-8ed7-001a4a4cb958
+Received: from s198.webhostingserver.nl (s198.webhostingserver.nl
+ [141.138.168.154])
+	by mailfilter06.webhostingserver.nl (Halon) with ESMTPSA
+	id aa3c9efd-bb69-11ec-8ed7-001a4a4cb958;
+	Wed, 13 Apr 2022 22:38:24 +0200 (CEST)
+Received: from 2a02-a466-68ed-1-e8ab-1d70-a6ce-c420.fixed6.kpn.net
+ ([2a02:a466:68ed:1:e8ab:1d70:a6ce:c420] helo=localhost.localdomain)
+	by s198.webhostingserver.nl with esmtpa (Exim 4.94.2)
+	(envelope-from <fntoth@gmail.com>)
+	id 1nejku-002NdV-1F; Wed, 13 Apr 2022 22:38:24 +0200
+From: Ferry Toth <fntoth@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Xavier Berger <xavier.berger@biologic.net>,
+	Alexander Kanavin <alex@linutronix.de>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ferry Toth <ftoth@exalondelft.nl>
+Subject: [PATCH v4 2/2] package_manager: fix missing dependency on gnupg when
+ signing deb package feeds
+Date: Wed, 13 Apr 2022 22:37:42 +0200
+Message-Id: <20220413203742.6142-3-fntoth@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220413203742.6142-1-fntoth@gmail.com>
+References: <20220413203742.6142-1-fntoth@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Antivirus-Scanner: Clean mail though you should still use an Antivirus
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164365
+ https://lists.openembedded.org/g/openembedded-core/message/164368
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgUmljaGFyZCBQdXJkaWUNCj4gU2VudDogZGVuIDEzIGFwcmls
-IDIwMjIgMTk6NDUNCj4gVG86IENocmlzdG9waGVyIExhcnNvbiA8a2VyZ290aEBnbWFpbC5jb20+
-OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBDaHJpc3Rv
-cGhlciBMYXJzb24gPGNocmlzX2xhcnNvbkBtZW50b3IuY29tPg0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFtQQVRDSCB2Ml0gbGljZW5zZTogYWRkICdhbnlfaW5jb21wYXRpYmxlJyBmdW5jdGlv
-bg0KPiANCj4gT24gV2VkLCAyMDIyLTA0LTEzIGF0IDE2OjAwICswMDAwLCBDaHJpc3RvcGhlciBM
-YXJzb24gd3JvdGU6DQo+ID4gVGhpcyBmdW5jdGlvbiByZXR1cm5zIFRydWUgaWYgYW55IG9mIHRo
-ZSBzcGVjaWZpZWQgcGFja2FnZXMgYXJlIHNraXBwZWQgZHVlIHRvDQo+ID4gaW5jb21wYXRpYmxl
-IGxpY2Vuc2UuDQo+ID4NCj4gPiBMaWNlbnNlIGV4Y2VwdGlvbnMgYXJlIG9iZXllZC4gVGhlIHVz
-ZXIgbWF5IHNwZWNpZnkgdGhlIHBhY2thZ2UncyBsaWNlbnNlIGZvcg0KPiA+IGNyb3NzLXJlY2lw
-ZSBjaGVja3MuDQo+ID4NCj4gPiBUaGlzIGFsbG93cyBmb3IgYWRkaXRpb25zIHRvIHBhY2thZ2Vn
-cm91cHMgb25seSBmb3Igbm9uLWluY29tcGF0aWJsZSBidWlsZHMuIEZvcg0KPiA+IGV4YW1wbGU6
-DQo+ID4NCj4gPiAgICAgUkRFUEVORFNfJHtQTn0gKz0gIiR7QCdkYmVuY2gnIGlmIG5vdCBhbnlf
-aW5jb21wYXRpYmxlKGQsICdkYmVuY2gnLCAnR1BMLTMuMC1vbmx5JykgZWxzZSAnJ30iDQo+ID4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlciBMYXJzb24gPGNocmlzX2xhcnNvbkBtZW50
-b3IuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL2NsYXNzZXMvbGljZW5zZS5iYmNsYXNzICAgICAg
-ICAgICAgICAgICAgfCAzOCArKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi9wYWNrYWdlZ3Jv
-dXBzL3BhY2thZ2Vncm91cC1iYXNlLmJiICAgICAgICB8ICAyICsNCj4gPiAgMiBmaWxlcyBjaGFu
-Z2VkLCA0MCBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiB2MiBjaGFuZ2VzOiBmaXhlZCBzdHJpbmcg
-cGFja2FnZXMgbG9naWMsIGNvcnJlY3RlZCByZWZlcmVuY2UgdG8NCj4gPiBhcHBseV9wa2dfbGlj
-ZW5zZV9leGNlcHRpb24sIGFuZCBhdm9pZGVkIHVzZSBvZiAke0B9IGluIHRoZSBmdW5jdGlvbiBk
-b2NzdHJpbmcNCj4gPiB0byBhdm9pZCBiaXRiYWtlIGV4cGFuZGluZyBpdCBhbmQgcmVjdXJzaW5n
-Lg0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9saWNlbnNlLmJiY2xhc3MgYi9t
-ZXRhL2NsYXNzZXMvbGljZW5zZS5iYmNsYXNzDQo+ID4gaW5kZXggMGM2MzdlOTY2ZS4uNDE5OTNi
-NzIyNyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvbGljZW5zZS5iYmNsYXNzDQo+ID4g
-KysrIGIvbWV0YS9jbGFzc2VzL2xpY2Vuc2UuYmJjbGFzcw0KPiA+IEBAIC0zMjAsNiArMzIwLDQ0
-IEBAIGRlZiBpbmNvbXBhdGlibGVfbGljZW5zZShkLCBkb250X3dhbnRfbGljZW5zZXMsIHBhY2th
-Z2U9Tm9uZSk6DQo+ID4NCj4gPiAgICAgIHJldHVybiBpbmNvbXBhdGlibGVfcGtnX2xpY2Vuc2Uo
-ZCwgZG9udF93YW50X2xpY2Vuc2VzLCBsaWNlbnNlKQ0KPiA+DQo+ID4gK2RlZiBhbnlfaW5jb21w
-YXRpYmxlKGQsIHBhY2thZ2VzLCBsaWNlbnNlc3RyaW5nPU5vbmUpOg0KPiA+ICsgICAgIiIiUmV0
-dXJuIFRydWUgaWYgYW55IG9mIHRoZSBwYWNrYWdlcyBhcmUgc2tpcHBlZCBkdWUgdG8gaW5jb21w
-YXRpYmxlIGxpY2Vuc2UuDQo+ID4gKw0KPiA+ICsgICAgTGljZW5zZSBleGNlcHRpb25zIGFyZSBv
-YmV5ZWQuIFRoZSB1c2VyIG1heSBzcGVjaWZ5IHRoZSBwYWNrYWdlJ3MgbGljZW5zZQ0KPiA+ICsg
-ICAgZm9yIGNyb3NzLXJlY2lwZSBjaGVja3MuDQo+ID4gKw0KPiA+ICsgICAgVGhpcyBhbGxvd3Mg
-Zm9yIGFkZGl0aW9ucyB0byBwYWNrYWdlZ3JvdXBzIG9ubHkgZm9yIG5vbi1pbmNvbXBhdGlibGUg
-YnVpbGRzLg0KPiA+ICsNCj4gPiArICAgIEZvciBleGFtcGxlOiAnZGJlbmNoJyBpZiBub3QgYW55
-X2luY29tcGF0aWJsZShkLCAnZGJlbmNoJywgJ0dQTC0zLjAtb25seScpIGVsc2UgJycNCj4gPiAr
-ICAgICIiIg0KPiA+ICsgICAgaW1wb3J0IG9lLmxpY2Vuc2UNCj4gPiArDQo+ID4gKyAgICBpZiBp
-c2luc3RhbmNlKHBhY2thZ2VzLCBzdHIpOg0KPiA+ICsgICAgICAgIHBhY2thZ2VzID0gcGFja2Fn
-ZXMuc3BsaXQoKQ0KPiA+ICsNCj4gPiArICAgIGJhZF9saWNlbnNlcyA9IChkLmdldFZhcigiSU5D
-T01QQVRJQkxFX0xJQ0VOU0UiKSBvciAiIikuc3BsaXQoKQ0KPiA+ICsgICAgaWYgbm90IGJhZF9s
-aWNlbnNlczoNCj4gPiArICAgICAgICByZXR1cm4gRmFsc2UNCj4gPiArICAgIGJhZF9saWNlbnNl
-cyA9IGV4cGFuZF93aWxkY2FyZF9saWNlbnNlcyhkLCBiYWRfbGljZW5zZXMpDQo+ID4gKw0KPiA+
-ICsgICAgaWYgbGljZW5zZXN0cmluZyBpcyBOb25lOg0KPiA+ICsgICAgICAgIGxpY2Vuc2VzdHJp
-bmcgPSBkLmdldFZhcigiTElDRU5TRTolcyIgJSBwYWNrYWdlKSBpZiBwYWNrYWdlIGVsc2UgTm9u
-ZQ0KPiA+ICsgICAgICAgIGlmIG5vdCBsaWNlbnNlc3RyaW5nOg0KPiA+ICsgICAgICAgICAgICBs
-aWNlbnNlc3RyaW5nID0gZC5nZXRWYXIoIkxJQ0VOU0UiKQ0KPiA+ICsNCj4gPiArICAgIGV4Y2Vw
-dGlvbnMgPSAoZC5nZXRWYXIoIklOQ09NUEFUSUJMRV9MSUNFTlNFX0VYQ0VQVElPTlMiKSBvciAi
-Iikuc3BsaXQoKQ0KPiA+ICsgICAgZm9yIHBrZyBpbiBwYWNrYWdlczoNCj4gPiArICAgICAgICBy
-ZW1haW5pbmdfYmFkX2xpY2Vuc2VzID0gb2UubGljZW5zZS5hcHBseV9wa2dfbGljZW5zZV9leGNl
-cHRpb24oDQo+ID4gKyAgICAgICAgICAgIHBrZywgYmFkX2xpY2Vuc2VzLCBleGNlcHRpb25zDQo+
-ID4gKyAgICAgICAgKQ0KPiA+ICsNCj4gPiArICAgICAgICBpbmNvbXBhdGlibGVfbGljID0gaW5j
-b21wYXRpYmxlX3BrZ19saWNlbnNlKA0KPiA+ICsgICAgICAgICAgICBkLCByZW1haW5pbmdfYmFk
-X2xpY2Vuc2VzLCBsaWNlbnNlc3RyaW5nDQo+ID4gKyAgICAgICAgKQ0KPiA+ICsgICAgICAgIGlm
-IGluY29tcGF0aWJsZV9saWM6DQo+ID4gKyAgICAgICAgICAgIHJldHVybiBUcnVlDQo+ID4gKyAg
-ICByZXR1cm4gRmFsc2UNCj4gPiArDQo+ID4gIGRlZiBjaGVja19saWNlbnNlX2ZsYWdzKGQpOg0K
-PiA+ICAgICAgIiIiDQo+ID4gICAgICBUaGlzIGZ1bmN0aW9uIGNoZWNrcyBpZiBhIHJlY2lwZSBo
-YXMgYW55IExJQ0VOU0VfRkxBR1MgdGhhdA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Y29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1iYXNlLmJiIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvcGFja2FnZWdyb3Vwcy9wYWNrYWdlZ3JvdXAtYmFzZS5iYg0KPiA+IGluZGV4IDc0ODllZjYx
-YjAuLjFjOTdkMDNjMjEgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2Fn
-ZWdyb3Vwcy9wYWNrYWdlZ3JvdXAtYmFzZS5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3Jl
-L3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWJhc2UuYmINCj4gPiBAQCAtMTQsNiArMTQsOCBA
-QCBQQUNLQUdFUyA9ICcgXA0KPiA+ICAgICAgICAgICAgICBwYWNrYWdlZ3JvdXAtZGlzdHJvLWJh
-c2UgXA0KPiA+ICAgICAgICAgICAgICBwYWNrYWdlZ3JvdXAtbWFjaGluZS1iYXNlIFwNCj4gPiAg
-ICAgICAgICAgICAgXA0KPiA+ICsgICAgICAgICAgICAke0AiZGJlbmNoIiBpZiBub3QgYW55X2lu
-Y29tcGF0aWJsZShkLCAiZGJlbmNoIiwgIkdQTC0zLjAtb25seSIpIGVsc2UgIiJ9IFwNCg0KVGhp
-cyB1c2FnZSBzZWVtcyBlcnJvciBwcm9uZSBhdCBiZXN0LiBXaGF0IGlmIHRoZSBsaWNlbnNlIGZv
-ciBkYmVuY2ggDQppcyBjaGFuZ2VkPw0KDQpBbHNvLCB0aGUgd2F5IEkgd291bGQgcHJlZmVyIHRv
-IGRvIHNvbWV0aGluZyBsaWtlIHRoZSBhYm92ZSAoYXNzdW1pbmcgeW91IA0KbWVhbnQgdG8gaW5j
-bHVkZSBpdCBhcyBhIGRlcGVuZGVuY3kgaW4gUkRFUEVORFM6JHtQTn0gcmF0aGVyIHRoYW4gUEFD
-S0FHRVMpIA0Kd291bGQgYmUgdG8gaW5zdGVhZCB1bmNvbmRpdGlvbmFsbHkgYWRkIGl0IHRvIFJS
-RUNPTU1FTkRTOiR7UE59LiBUaGVuIA0KdGhlIG5vcm1hbCBsaWNlbnNpbmcgc3VwcG9ydCBzaG91
-bGQgc2tpcCB0aGUgcGFja2FnZSBpZiB5b3UgaGF2ZSB0aGUgDQppbmNvbXBhdGlibGUgbGljZW5z
-ZSBnbG9iYWxseSBjb25maWd1cmVkLCBidXQgc2luY2UgaXQgaXMgb25seSBhIA0KcmVjb21tZW5k
-YXRpb24sIHRoYXQgc2hvdWxkIG5vdCBiZSBhIHByb2JsZW0uIA0KDQpIb3dldmVyLCBvbmUgdGhp
-bmcgSSBqdXN0IHJlYWxpemVkIHRoYXQgaXNuJ3Qgd29ya2luZyBpcyBpZiB5b3UgaGF2ZSBhIA0K
-cmVjb21tZW5kYXRpb24gb24gYSBwYWNrYWdlIGFuZCB0aGVuIG9ubHkgY29uZmlndXJlIGluY29t
-cGF0aWJsZSBsaWNlbnNlcyANCnBlciBpbWFnZS4gVGhpcyBpcyBub3JtYWxseSB0aGUgcHJlZmVy
-cmVkIHdheSB0byBoYW5kbGUgaW5jb21wYXRpYmxlIA0KbGljZW5zZXMgYXMgeW91IGNhbiBkZXRl
-cm1pbmUgcGVyIGltYWdlIGlmIGEgcGFja2FnZSBzaG91bGQgYmUgYWxsb3dlZCB0byANCmJlIGlu
-c3RhbGxlZCBvciBub3QuIEJ1dCBiZWNhdXNlIHRoZSBpbnN0YWxsYXRpb24gb2YgdGhlIHBhY2th
-Z2VzIGlzIA0KaGFuZGxlZCBieSB0aGUgcGFja2FnZSBtYW5hZ2VyLCBhbmQgdGhlIGxpY2Vuc2Ug
-Y29tcGxpYW5jZSBpcyBoYW5kbGVkIA0KbGF0ZXIgYnkgYml0YmFrZSwgdGhlcmUgaXMgY3VycmVu
-dGx5IG5vdGhpbmcgdGVsbGluZyB0aGUgcGFja2FnZSBtYW5hZ2VyIA0KdG8gc2tpcCB0aGUgaW5z
-dGFsbGF0aW9uIG9mIHRoZSB1bndhbnRlZCBwYWNrYWdlIGR1ZSB0byBpdHMgbGljZW5zZSwgYW5k
-IA0KaW5zdGVhZCB0aGVyZSBpcyBhbiBlcnJvciBiZWNhdXNlIGJpdGJha2Ugc2VlcyB0aGF0IGl0
-IHdhcyBpbnN0YWxsZWQuIDooDQoNCj4gPiArICAgICAgICAgICAgXA0KPiA+ICAgICAgICAgICAg
-ICAke0BiYi51dGlscy5jb250YWlucygiTUFDSElORV9GRUFUVVJFUyIsICJhY3BpIiwgInBhY2th
-Z2Vncm91cC1iYXNlLWFjcGkiLCAiIixkKX0gXA0KPiA+ICAgICAgICAgICAgICAke0BiYi51dGls
-cy5jb250YWlucygiTUFDSElORV9GRUFUVVJFUyIsICJhbHNhIiwgInBhY2thZ2Vncm91cC1iYXNl
-LWFsc2EiLCAiIiwgZCl9IFwNCj4gPiAgICAgICAgICAgICAgJHtAYmIudXRpbHMuY29udGFpbnMo
-Ik1BQ0hJTkVfRkVBVFVSRVMiLCAiYXBtIiwgInBhY2thZ2Vncm91cC1iYXNlLWFwbSIsICIiLCBk
-KX0gXA0KPiANCj4gSSBzdXNwZWN0IHlvdSBkaWRuJ3QgbWVhbiB0byBpbmNsdWRlIHRoaXMgcGll
-Y2Ugc2luY2UgZGJlbmNoIGlzbid0IGluDQo+IGNvcmU/DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBS
-aWNoYXJkDQoNCi8vUGV0ZXINCg==
+From: Ferry Toth <ftoth@exalondelft.nl>
+
+When signing the deb package feed gpg tools are a soft requirement. If gnupg-native
+is not declared a dependancy the version from hosttools is used. Unfortunately the
+gpg-agent version from Ubuntu 16.04 on the autobuilders is incompatible with the package_index task
+and fails during oe-selftest. Fix by making gnupg-native a dependency.
+
+Fixes: 0b4231b5 "package_manager: sign DEB package feeds"
+Reported-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+---
+ meta/classes/sign_package_feed.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+index 16bcd147aa..f1504c2225 100644
+--- a/meta/classes/sign_package_feed.bbclass
++++ b/meta/classes/sign_package_feed.bbclass
+@@ -27,6 +27,7 @@ inherit sanity
+ PACKAGE_FEED_SIGN = '1'
+ PACKAGE_FEED_GPG_BACKEND ?= 'local'
+ PACKAGE_FEED_GPG_SIGNATURE_TYPE ?= 'ASC'
++PACKAGEINDEXDEPS += "gnupg-native:do_populate_sysroot"
+ 
+ # Make feed signing key to be present in rootfs
+ FEATURE_PACKAGES_package-management:append = " signing-keys-packagefeed"
+-- 
+2.32.0
+
 
