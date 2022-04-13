@@ -1,114 +1,163 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1578C4707E
-	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:52 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web12.1441.1649871436688914348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B576C47080
+	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web12.1548.1649871899675776489
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:37:17 -0700
+ Wed, 13 Apr 2022 10:45:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=xb7Imse1;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.47,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f47.google.com with SMTP id b15so3296897edn.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZriIJ0HF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id r64so1555530wmr.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:37:16 -0700 (PDT)
+ Wed, 13 Apr 2022 10:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VXdnyliq98o1MK/kbfIXT4YbR8vK27fOePGeXM/hWzM=;
-        b=xb7Imse1rkWRPaMNnUjh6lSoYGhcBaK9fydeujA8wbUkscNULJAw2SxOznnET4QhX6
-         ojZwBaRu10brI5b7Ehms6WDTxYeZpluQ3v+70yW6WBs203sfsOk3t+rWnQz4dJrYZoBQ
-         g2NjpJBBa5LtBJSMcjaRMpxCEl9S6PSrwTfa4IN+/uUJwbdnkWdWr6mBMTwlcDdu1++n
-         5Wk3Igro/8K8UCucoPktYtnIq8IcKNwsKi4rSSEQPcd/GmIRD+5A3VTFlUSnGE2/rj7V
-         v0Pb2MPXJUs91BtDpKXTiM2Y6v1uIg4jMAW1tiEMNgDEo1fUEGMhX6b5H2JuAFvwOvaT
-         S03A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=decOzDH4zYsrj7ZgZYLWCS8lhbZml7xUN2vEyBCt0I0=;
+        b=ZriIJ0HFwSfA3C/xCOeQEGFoLgTb87bL3idTGquAZC8E2PTOmeTt92cMOqPLbzswqx
+         RvOCJpQEl09jpmk0b+EQVKj1aQHjnoaYkHcmpm20HwZ7/kNtpAPlIdPZ6Ad/ZlVe406Y
+         HT10yvHU1UTThCggQnNPQe0KPI2kGzrcnhlWA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VXdnyliq98o1MK/kbfIXT4YbR8vK27fOePGeXM/hWzM=;
-        b=phiJ4dY1iqDeNNFZnfa4SDBUWvSQfIxJPdsmmIA19mbd6KRRJCRfTBA7GX1336R3Wn
-         PVfChzqSWfwvmbZYjQL1qpu+BV8UQwYlQXtlLQEjfZnjh6R+dHCy50z7uinWtQYDhLZK
-         f4T2VESXf9io3y2jHb7HGCWNmbpKmqdBE5v+2BGqd/sjtPrn/ZbSNuLuZ2w0UYleoxnn
-         ag+ecf5UEXEQDlrosATyxNthgox/tmckUM14i5hCtHgTb6OiLh9Ci1x32cV0jIdHu+mu
-         auw7UGVLUgLjxpYRqQ4wkd/Dldt5QvCwMcHTBR3993pJ1XINvPKGt8l6xB+/MHgC0bEJ
-         9hHA==
-X-Gm-Message-State: AOAM531J9XkAqg69PfS36pt6QvuGw+ruEQRywBVPJ4tUukIz5zOp+uuW
-	jwTEpKy4NilX8R9E1fV7AXKJpov7dofvbGmPoEHGbw==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=decOzDH4zYsrj7ZgZYLWCS8lhbZml7xUN2vEyBCt0I0=;
+        b=SjdobkpdPx/Fadh3DXofzdgEI1eY6yXUP3btLGVqOl9bHJf+qYuYGCbQilVf3LrPL2
+         yFyqCcvxtB5RA+vY9KoIeQTovbK5jFgQyMqZFI19RU90t02QtzXD+BY2GBVcAbcggKOF
+         +vnNsCe09XyTISX0cCo+UM2/SiefIvYrvbqdYt69vSAZ0utQpsrWsyi+Yvm2SF26WBoS
+         hAHq29YG0BQM5A9fZ5igoBYbhVqM17ZU6MruXDfOaGdwUzMKKw5IIPXk2q8IeVP4ktH1
+         7ZW5EJbzyW1nyROAL/DDEDMFwoZoQ/e47d20TeAzS87fpLnWDQec/tNS3jY8sGqhtFwy
+         HJhA==
+X-Gm-Message-State: AOAM531Mo2LQDPBVvoQCj4GKb5V2ZA03RKJlCNIlac+Lwuk4GiuLViHC
+	+X55qNC07N/vzD9cN+VzLPpLnA==
 X-Google-Smtp-Source: 
- ABdhPJxAv9JXcw6qI19RfHQfRGB3rmhWPbdRp/oRrUvtQQgw2lbqx1r1Ye11xlPT5oplyu8dDpKiprsJ1B+v8wj5W8Y=
-X-Received: by 2002:a05:6402:438f:b0:41b:51ca:f541 with SMTP id
- o15-20020a056402438f00b0041b51caf541mr44680605edc.80.1649871435068; Wed, 13
- Apr 2022 10:37:15 -0700 (PDT)
-MIME-Version: 1.0
-References: 
- <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
- <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
- <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
- <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
- <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
- <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
- <CAOSpxdZ17NvKfsWxJkn0qwgNPCSz_WtRT9Ff=C6iiTxc1-bQRg@mail.gmail.com>
- <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
- <16E57E79FD292EFA.13992@lists.openembedded.org>
- <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
- <Ylb9RoAyRpDHTaqe@mcrowe.com>
-In-Reply-To: <Ylb9RoAyRpDHTaqe@mcrowe.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 13 Apr 2022 07:37:03 -1000
+ ABdhPJwdjO+Xk7dPEdQyDEMyiWAxtK9MQVpSAh87XhGyzOwCe4CJ7W6SeH6ocKKDL2U+yTAjnifDvw==
+X-Received: by 2002:a05:600c:3511:b0:38c:d035:cddb with SMTP id
+ h17-20020a05600c351100b0038cd035cddbmr51443wmq.74.1649871898067;
+        Wed, 13 Apr 2022 10:44:58 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5cc2:b4ab:4d4b:907d?
+ ([2001:8b0:aba:5f3c:5cc2:b4ab:4d4b:907d])
+        by smtp.gmail.com with ESMTPSA id
+ s7-20020a5d6a87000000b00207aad420c4sm6769586wru.101.2022.04.13.10.44.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 10:44:57 -0700 (PDT)
 Message-ID: 
- <CAOSpxdbaE-=NOsQVG_+tK1J9oojA9qT8sMoR3c06uEssXJ0mFQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
-To: Mike Crowe <mac@mcrowe.com>
-Cc: Ralph Siemsen <ralph.siemsen@linaro.org>,
- Ross Burton <ross@burtonini.com>,
-	"Mittal, Anuj" <anuj.mittal@intel.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
+ <8c3060148a98b280c93b7eb5da65699f1c6745aa.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] license: add 'any_incompatible' function
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Christopher Larson <chris_larson@mentor.com>
+Date: Wed, 13 Apr 2022 18:44:53 +0100
+In-Reply-To: <20220413160033.8456-1-kergoth@gmail.com>
+References: <20220413160033.8456-1-kergoth@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164349
+ https://lists.openembedded.org/g/openembedded-core/message/164351
 
-On Wed, Apr 13, 2022 at 6:41 AM Mike Crowe <mac@mcrowe.com> wrote:
->
-> On Wednesday 13 April 2022 at 06:02:22 -1000, Steve Sakoman wrote:
-> > Both runs completed and I'm still seeing success without the zlib patch:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5069
-> >
-> > and failure with the patch:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5070
->
-> I'm certainly no expert with the autobuilder, but it looks like nothing was
-> actually compiled for both of those builds - everything came from the
-> sstate cache.
->
-> I believe that Ralph's reproduction of the test failure without the zlib
-> patch was from a complete rebuild without anything coming from the sstate
-> cache.
->
-> I suspect that if a PR bump or something similar that causes zlib and all
-> its reverse dependencies to be built were tested on top of the commit used
-> for build 5069 then the test failure would occur then as well and
-> exonerate the zlib patch.
+On Wed, 2022-04-13 at 16:00 +0000, Christopher Larson wrote:
+> This function returns True if any of the specified packages are skipped due to
+> incompatible license.
+> 
+> License exceptions are obeyed. The user may specify the package's license for
+> cross-recipe checks.
+> 
+> This allows for additions to packagegroups only for non-incompatible builds. For
+> example:
+> 
+>     RDEPENDS_${PN} += "${@'dbench' if not any_incompatible(d, 'dbench', 'GPL-3.0-only') else ''}"
+> 
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/license.bbclass                  | 38 +++++++++++++++++++
+>  .../packagegroups/packagegroup-base.bb        |  2 +
+>  2 files changed, 40 insertions(+)
+> 
+> v2 changes: fixed string packages logic, corrected reference to
+> apply_pkg_license_exception, and avoided use of ${@} in the function docstring
+> to avoid bitbake expanding it and recursing.
+> 
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index 0c637e966e..41993b7227 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -320,6 +320,44 @@ def incompatible_license(d, dont_want_licenses, package=None):
+>  
+>      return incompatible_pkg_license(d, dont_want_licenses, license)
+>  
+> +def any_incompatible(d, packages, licensestring=None):
+> +    """Return True if any of the packages are skipped due to incompatible license.
+> +
+> +    License exceptions are obeyed. The user may specify the package's license
+> +    for cross-recipe checks.
+> +
+> +    This allows for additions to packagegroups only for non-incompatible builds.
+> +
+> +    For example: 'dbench' if not any_incompatible(d, 'dbench', 'GPL-3.0-only') else ''
+> +    """
+> +    import oe.license
+> +
+> +    if isinstance(packages, str):
+> +        packages = packages.split()
+> +
+> +    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+> +    if not bad_licenses:
+> +        return False
+> +    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+> +
+> +    if licensestring is None:
+> +        licensestring = d.getVar("LICENSE:%s" % package) if package else None
+> +        if not licensestring:
+> +            licensestring = d.getVar("LICENSE")
+> +
+> +    exceptions = (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") or "").split()
+> +    for pkg in packages:
+> +        remaining_bad_licenses = oe.license.apply_pkg_license_exception(
+> +            pkg, bad_licenses, exceptions
+> +        )
+> +
+> +        incompatible_lic = incompatible_pkg_license(
+> +            d, remaining_bad_licenses, licensestring
+> +        )
+> +        if incompatible_lic:
+> +            return True
+> +    return False
+> +
+>  def check_license_flags(d):
+>      """
+>      This function checks if a recipe has any LICENSE_FLAGS that
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> index 7489ef61b0..1c97d03c21 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -14,6 +14,8 @@ PACKAGES = ' \
+>              packagegroup-distro-base \
+>              packagegroup-machine-base \
+>              \
+> +            ${@"dbench" if not any_incompatible(d, "dbench", "GPL-3.0-only") else ""} \
+> +            \
+>              ${@bb.utils.contains("MACHINE_FEATURES", "acpi", "packagegroup-base-acpi", "",d)} \
+>              ${@bb.utils.contains("MACHINE_FEATURES", "alsa", "packagegroup-base-alsa", "", d)} \
+>              ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
 
-A valid point, let's see what happens with a PR bump:
+I suspect you didn't mean to include this piece since dbench isn't in core?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5072
+Cheers,
 
-I see plenty of rebuilds in process . . .
+Richard
 
-Steve
 
