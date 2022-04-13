@@ -1,561 +1,357 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <kergoth@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B552C3527D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26945C35280
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:53 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web09.1547.1649871708645490313
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.1851.1649873299219866762
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:41:49 -0700
+ Wed, 13 Apr 2022 11:08:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DAxBSRrO;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id u7so4835639lfs.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LrCME6dw;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: kergoth@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id s14so2607656plk.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 10:41:48 -0700 (PDT)
+ Wed, 13 Apr 2022 11:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wdci/4NElYzwAdzZmDrZqkBCJNp/3d3nan+a3Mlq0O4=;
-        b=DAxBSRrOJHgLqu/FtCxSBYD/+WkoSR/84fbVIHkuNxiIdNP267pUTo+SPjnjgwzYdq
-         RGS3OYGOIdIxBZ0XMiR/ll9UbawpB6OE0G8j2eTCnRofNWa5zRWLGHlDRKg0uF6PLdgm
-         6KMdrzUMPgWSS+F9DMkJriwjjwAYnIOS9tsBBx2tqpmEd2hMXJzqsOs7II0ZAys0lLPo
-         nC4/5VE38OEKCdzyUNwANGlhGHWIJuX84Vkngc/IbgoD6rSimEI0akfSCuO2hGgsSpKR
-         y4TKeAMvfpEqy+LzFgk2FhA2Ctx7k5nc6FwQR/n7NfHyvgPi1rSGm2qqVJvH9adsK7gz
-         cuhQ==
+        h=date:from:to:cc:message-id:in-reply-to:references:subject
+         :mime-version;
+        bh=waLf9K+0MpMACjxapPlsdd3/yYYrZbK8S5QLA7LQyJE=;
+        b=LrCME6dwr0RxI7G0gSH0vWJkKFEe6AotQPrtyjj6ktfZ44hZPg4xnunMytGaZRrmhQ
+         iV/FmA+K48eBnMglmr5aKEP2MwZ11hBdG+CrT4++2KWMab5+T+c0NV13D4nb6GwvmO4g
+         WCxRD4YBVjELnFw7ABpgAqrD9BkYDhQbVe2xYpnLl7mHyTPL1CvBlwpoSlwkIKb+kEXw
+         mfoC5E4U6FVP1L5xHB4AJ96cqaW8HESPxsWNHRdz9Q05uFdUB+Gqo+Btpbk5MKWl2WID
+         mSF28xwKae/7vrCyb479PGaiwtdNj0vxdxUJ44igWQzdQqsI+lZR84xBH9yDycwpUUwR
+         h66w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wdci/4NElYzwAdzZmDrZqkBCJNp/3d3nan+a3Mlq0O4=;
-        b=FndlzZ4dDXFLtnLYjXG48+1Tj5EXHgrQiBOwRqQsnr1+ZB8Wr14bAzwobp5I66XSRw
-         UcI+vG5b1HGYmtL7JRS+lvZ8I7y63jJ50kgyi2PS4qJ4IhfSNl4h6UqomBykD03cl+Z1
-         wIo/n/HImCAukrKU5IqnCiyYkr1+7mv7eQObNMnAtuHhZtJlwHyPsE5TnXFdNNyFRD+I
-         dMW60CSIidPAdWYpTjc2klOcJ12bmvQM5u9NJJgsalveS2xjnILtRhcNNUIn1R4+xKrf
-         B/+Rgpu29arkpf456CjzHJpObjtWNTaVKE41mrswEAtpVNkvUU7xym3gSgVVhd40O1bI
-         495g==
-X-Gm-Message-State: AOAM533IT+z/WiIH8y12VSjesIfVBuCjetOj2aEgC997oDnX3EtepR4p
-	n+8mIaJNAwOtQXUnfEqylJObdis/I2es6xsmGew=
+        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+         :references:subject:mime-version;
+        bh=waLf9K+0MpMACjxapPlsdd3/yYYrZbK8S5QLA7LQyJE=;
+        b=zVsQQHwJxyDdlFLunWTxma5gK3ZpbAO9biLmgSrZ3abw16hchI0hOG9c7qTsdJ/PUJ
+         2yhPy9ylrPyyvOgXFvPiIxDv1bpf+rH39NvpEuct6wBx3dmfJjNqevN4Qu9uklCKP/Vf
+         XuVLiUlHe6JcNOdiTYc6eb8K87/oSrOgqU+FIrNh19FqQFuBf7lPofEjhlPeSub85d16
+         MCjysaZI8EKxR9nwdtUM9tbJpSdYuh0MYM+DFLxDXFdlNPUSPPN529vvBNDqIycMgWkP
+         YYf1YqYk6JkE8gDM9HqQCTlkvwx0E0kTSoyGdQdAjnag3RV+ZW2wxSr8gwhh9zPr3Zoe
+         KkHA==
+X-Gm-Message-State: AOAM531hrBvCY6KQJl9skJwl5v41JQz2CDZ7zzi8d2CTpB8gdHOIutqC
+	5Sd08UOQ0PGyMjBcPhwwVkNGrbX/4mpCaA==
 X-Google-Smtp-Source: 
- ABdhPJxK3TO30FfcoZnqKTAZHYYKmWSPGaoIteffT/6RTV5z+HxJYG4Fsl5TJTIYD290ruvVDbK05MuE+bC6544/zAs=
-X-Received: by 2002:a05:6512:753:b0:46b:b5e6:1621 with SMTP id
- c19-20020a056512075300b0046bb5e61621mr7449565lfs.94.1649871706546; Wed, 13
- Apr 2022 10:41:46 -0700 (PDT)
+ ABdhPJyojCznJelEt7hP/SxHLAdqo9ugBxE4szlD4YcL+6/JoslLd0lr5r7bBc+A2/46aDG3HIPdzA==
+X-Received: by 2002:a17:903:41c2:b0:158:83f7:f8a9 with SMTP id
+ u2-20020a17090341c200b0015883f7f8a9mr10697823ple.146.1649873298301;
+        Wed, 13 Apr 2022 11:08:18 -0700 (PDT)
+Received: from [192.168.1.50] (ip70-188-217-212.ph.ph.cox.net.
+ [70.188.217.212])
+        by smtp.gmail.com with ESMTPSA id
+ oa16-20020a17090b1bd000b001c72b632222sm3937872pjb.32.2022.04.13.11.08.16
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 13 Apr 2022 11:08:17 -0700 (PDT)
+Date: Wed, 13 Apr 2022 11:07:57 -0700
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org, Richard Purdie
+ <richard.purdie@linuxfoundation.org>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Message-ID: <4845061c-b8d2-43e7-b426-71bb4d803776@Spark>
+In-Reply-To: 
+ <8c3060148a98b280c93b7eb5da65699f1c6745aa.camel@linuxfoundation.org>
+References: <20220413160033.8456-1-kergoth@gmail.com>
+ <8c3060148a98b280c93b7eb5da65699f1c6745aa.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] license: add 'any_incompatible'
+ function
+X-Readdle-Message-ID: 4845061c-b8d2-43e7-b426-71bb4d803776@Spark
 MIME-Version: 1.0
-References: <20220329130741.2430737-1-ross.burton@arm.com>
- <CAOSpxdap6UjLpy9M--b_EMYV+m3oYOQJT002Hqw5qcpCwgTVyw@mail.gmail.com>
- <CAAnfSTuHjbiN2NKVwZOut+MjxLhuFMwn+xAWkFHaqAXmM_8Ypg@mail.gmail.com>
- <CAOSpxdZGOwUs86K6bEX3WTgVu-+fFjonKxiGEe+u1OL=ivqx+w@mail.gmail.com>
- <CAOSpxdb+O=iDpDNr7S62wut=GErTXg8cvpYsj0nn6DM9G1CL-A@mail.gmail.com>
- <CANp-EDaVN-4Z_iYXJq7OcJ1QEtpAsHTGOQkCHeW+gJ6u2b=0xQ@mail.gmail.com>
- <CAOSpxdZdi+xiJcFeyOgrLTATOaaD0hf9k-+yQmsH2+GJm8xcQw@mail.gmail.com>
- <CANp-EDaN76FxTBEjWFe5WD3W+tHbqbfJuA=kcuW8eeyF_O8vHQ@mail.gmail.com>
- <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
- <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
- <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
- <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
- <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
- <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
- <CAOSpxdZ17NvKfsWxJkn0qwgNPCSz_WtRT9Ff=C6iiTxc1-bQRg@mail.gmail.com>
- <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
- <16E57E79FD292EFA.13992@lists.openembedded.org>
- <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
- <16E583EB139C493B.16998@lists.openembedded.org>
-In-Reply-To: <16E583EB139C493B.16998@lists.openembedded.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 13 Apr 2022 18:41:34 +0100
-Message-ID: 
- <CANPvuRmsp+GwzQPsy9Sc9LYJ+F9bx3Xxh0sVDXV6ENacVGPUjw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Steve Sakoman <steve@sakoman.com>,
- Ralph Siemsen <ralph.siemsen@linaro.org>,
-	Ross Burton <ross@burtonini.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fe670d05dc8cb046"
+Content-Type: multipart/alternative; boundary="6257118a_6b8b4567_3ae9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164350
+ https://lists.openembedded.org/g/openembedded-core/message/164356
 
---000000000000fe670d05dc8cb046
-Content-Type: text/plain; charset="UTF-8"
+--6257118a_6b8b4567_3ae9
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
-gmail.com@lists.openembedded.org> escreveu no dia quarta, 13/04/2022 =C3=A0=
-(s)
-18:11:
+It=E2=80=99s just an example, but you=E2=80=99re right, I=E2=80=99ll chan=
+ge to a better one. Thanks=21
 
-> Hi,
+--
+Christopher Larson
+chris=5Flarson=40mentor.com, chris.larson=40siemens.com, kergoth=40gmail.=
+com
+Principal Software Engineer,=C2=A0Embedded Linux Solutions,=C2=A0Siemens =
+Digital Industries Software
+On Apr 13, 2022, 10:44 AM -0700, Richard Purdie <richard.purdie=40linuxfo=
+undation.org>, wrote:
+> On Wed, 2022-04-13 at 16:00 +0000, Christopher Larson wrote:
+> > This function returns True if any of the specified packages are skipp=
+ed due to
+> > incompatible license.
+> >
+> > License exceptions are obeyed. The user may specify the package's lic=
+ense for
+> > cross-recipe checks.
+> >
+> > This allows for additions to packagegroups only for non-incompatible =
+builds. =46or
+> > example:
+> >
+> > RDEPENDS=5F=24=7BPN=7D +=3D =22=24=7B=40'dbench' if not any=5Fincompa=
+tible(d, 'dbench', 'GPL-3.0-only') else ''=7D=22
+> >
+> > Signed-off-by: Christopher Larson <chris=5Flarson=40mentor.com>
+> > ---
+> > meta/classes/license.bbclass =7C 38 +++++++++++++++++++
+> > .../packagegroups/packagegroup-base.bb =7C 2 +
+> > 2 files changed, 40 insertions(+)
+> >
+> > v2 changes: fixed string packages logic, corrected reference to
+> > apply=5Fpkg=5Flicense=5Fexception, and avoided use of =24=7B=40=7D in=
+ the function docstring
+> > to avoid bitbake expanding it and recursing.
+> >
+> > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbcl=
+ass
+> > index 0c637e966e..41993b7227 100644
+> > --- a/meta/classes/license.bbclass
+> > +++ b/meta/classes/license.bbclass
+> > =40=40 -320,6 +320,44 =40=40 def incompatible=5Flicense(d, dont=5Fwan=
+t=5Flicenses, package=3DNone):
+> >
+> > return incompatible=5Fpkg=5Flicense(d, dont=5Fwant=5Flicenses, licens=
+e)
+> >
+> > +def any=5Fincompatible(d, packages, licensestring=3DNone):
+> > + =22=22=22Return True if any of the packages are skipped due to inco=
+mpatible license.
+> > +
+> > + License exceptions are obeyed. The user may specify the package's l=
+icense
+> > + for cross-recipe checks.
+> > +
+> > + This allows for additions to packagegroups only for non-incompatibl=
+e builds.
+> > +
+> > + =46or example: 'dbench' if not any=5Fincompatible(d, 'dbench', 'GPL=
+-3.0-only') else ''
+> > + =22=22=22
+> > + import oe.license
+> > +
+> > + if isinstance(packages, str):
+> > + packages =3D packages.split()
+> > +
+> > + bad=5Flicenses =3D (d.getVar(=22INCOMPATIBLE=5FLICENSE=22) or =22=22=
+).split()
+> > + if not bad=5Flicenses:
+> > + return =46alse
+> > + bad=5Flicenses =3D expand=5Fwildcard=5Flicenses(d, bad=5Flicenses)
+> > +
+> > + if licensestring is None:
+> > + licensestring =3D d.getVar(=22LICENSE:%s=22 % package) if package e=
+lse None
+> > + if not licensestring:
+> > + licensestring =3D d.getVar(=22LICENSE=22)
+> > +
+> > + exceptions =3D (d.getVar(=22INCOMPATIBLE=5FLICENSE=5FEXCEPTIONS=22)=
+ or =22=22).split()
+> > + for pkg in packages:
+> > + remaining=5Fbad=5Flicenses =3D oe.license.apply=5Fpkg=5Flicense=5Fe=
+xception(
+> > + pkg, bad=5Flicenses, exceptions
+> > + )
+> > +
+> > + incompatible=5Flic =3D incompatible=5Fpkg=5Flicense(
+> > + d, remaining=5Fbad=5Flicenses, licensestring
+> > + )
+> > + if incompatible=5Flic:
+> > + return True
+> > + return =46alse
+> > +
+> > def check=5Flicense=5Fflags(d):
+> > =22=22=22
+> > This function checks if a recipe has any LICENSE=5F=46LAGS that
+> > diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/m=
+eta/recipes-core/packagegroups/packagegroup-base.bb
+> > index 7489ef61b0..1c97d03c21 100644
+> > --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> > +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> > =40=40 -14,6 +14,8 =40=40 PACKAGES =3D ' =5C
+> > packagegroup-distro-base =5C
+> > packagegroup-machine-base =5C
+> > =5C
+> > + =24=7B=40=22dbench=22 if not any=5Fincompatible(d, =22dbench=22, =22=
+GPL-3.0-only=22) else =22=22=7D =5C
+> > + =5C
+> > =24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22acpi=22, =22=
+packagegroup-base-acpi=22, =22=22,d)=7D =5C
+> > =24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22alsa=22, =22=
+packagegroup-base-alsa=22, =22=22, d)=7D =5C
+> > =24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22apm=22, =22=
+packagegroup-base-apm=22, =22=22, d)=7D =5C
 >
-> Steve Sakoman <steve@sakoman.com> escreveu no dia quarta, 13/04/2022 =C3=
-=A0(s)
-> 17:02:
+> I suspect you didn't mean to include this piece since dbench isn't in c=
+ore=3F
 >
->> On Wed, Apr 13, 2022 at 5:31 AM Steve Sakoman via
->> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
->> wrote:
->> >
->> > On Tue, Apr 12, 2022 at 3:21 PM Ralph Siemsen <ralph.siemsen@linaro.or=
-g>
->> wrote:
->> > >
->> > > On Tue, Apr 12, 2022 at 5:49 PM Steve Sakoman <steve@sakoman.com>
->> wrote:
->> > >
->> > > > I added a debug option to the failing command and did another
->> autobuilder run.
->> > > >
->> > > > You can see the output here:
->> > > >
->> > > > https://errors.yoctoproject.org/Errors/Details/654608/
->> > >
->> > > Okay, same error, "Hash Sum mismatch". And if I squint between all t=
-he
->> > > URL-encoding, I can see the md5/sha1/sha256/sha512sum values.
->> > >
->> > > The "apt update" command is doing the following:
->> > > - fetch the file called "Release"
->> > > - fetch the file called "Packages.gz" --> error occurs here
->> > >
->> > > Looking inside the Release file, it is plain text, and contains the
->> > > md5/sha1/sha256/sha512 sums of both Packages and Packages.gz (and al=
-so
->> > > the first two lines of Release).
->> > >
->> > > Manually checking each of those sums reveals an inconsistency: all t=
-he
->> > > sha256 values inside Release are incorrect, while all the other
->> > > md1/sha1/sha512 values are correct.
->> > >
->> > > And when we look at the URL-encoded debug info... the sha256 value i=
-s
->> > > the correct one for Packages.gz (as computed manually). However it
->> > > does not match the (incorrect) value within the Release file. Thus i=
-t
->> > > seems apt-get is justified when it complains about "Hash Sum
->> > > mismatch".
->> > >
->> > > Going back to my Ubuntu system, and looking at the generated Release
->> > > file... all the checksums are correct, including the sha256sum.
->> > >
->> > > So I am now looking into how Release file gets generated... as the
->> > > problem appears to be there... and it happens on Fedora but not
->> > > Ubuntu.
->> >
->> > As far as I can tell it is done here:
->> >
->> >
->> https://git.yoctoproject.org/poky/tree/meta/lib/oe/package_manager.py?h=
-=3Ddunfell#n301
->> >
->> > > One additional point to add: on the same Fedora 35 system, I did a
->> > > full rebuild *without* with xz/gzip CVE fixes, and the apt failure
->> > > still occurs. To be certain, I nuked cache, sstate-cache and tmp (so
->> > > basically the entire build directory) and the rebuild took several
->> > > hours.
->> >
->> > Now that is really strange!  In my experience it has only appeared
->> > after adding the zlib or xz CVE fix patches.
->> >
->> > I just started two runs on the autobuilder, with the zlib patch as the
->> > only difference.  Both on Fedora 35.
->>
->> Both runs completed and I'm still seeing success without the zlib patch:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5069
->>
->> and failure with the patch:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5070
+> Cheers,
 >
->
-> It seems the test that failed is something related with the apt.
-> Is this repo hosted on 192.168.7.5 shared between master and dunfell
-> branches?
-> I ask this because there are some issues with apt [1] on master and it ca=
-n
-> be related to this.
->
-
-The server is started in the test.
-Sorry for the noise and please discard my comment.
-
-Started HTTPService on 0.0.0.0:42261
-
-Jose
-
-
->
-> [1] apt: add apt selftest to test signed package feeds)
->
-> Started HTTPService on 0.0.0.0:35637
-> Traceback (most recent call last):
-> File
-> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
-/decorator/__init__.py",
-> line 36, in wrapped_f
-> return func(*args, **kwargs)
-> File
-> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
-/decorator/__init__.py",
-> line 36, in wrapped_f
-> return func(*args, **kwargs)
-> File
-> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core=
-/decorator/__init__.py",
-> line 36, in wrapped_f
-> return func(*args, **kwargs)
-> File
-> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
-ime/cases/apt.py",
-> line 50, in test_apt_install_from_repo
-> self.pkg('update')
-> File
-> "/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
-ime/cases/apt.py",
-> line 17, in pkg
-> self.assertEqual(status, expected, message)
-> AssertionError: 100 !=3D 0 : apt-get update
-> Ign:1 http://192.168.7.5:42261 ./ InRelease
-> Get:2 http://192.168.7.5:42261 ./ Release [1213 B]
-> Ign:3 http://192.168.7.5:42261 ./ Release.gpg
-> Get:4 http://192.168.7.5:42261 ./ Packages [59.3 kB]
-> Err:4 http://192.168.7.5:42261 ./ Packages
-> Hash Sum mismatch
-> Fetched 60.5 kB in 20s (3020 B/s)
-> Reading package lists...
-> W: The repository 'http://192.168.7.5:42261 ./ Release' is not signed.
-> E: Failed to fetch http://192.168.7.5:42261/./Packages.gz Hash Sum
-> mismatch
-> E: Some index files failed to download. They have been ignored, or old
-> ones used instead.
->
-> Jose
->
->
->>
->> Steve
->>
->>
->>
->>
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164347):
-> https://lists.openembedded.org/g/openembedded-core/message/164347
-> Mute This Topic: https://lists.openembedded.org/mt/90107518/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Richard
 >
 
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000fe670d05dc8cb046
-Content-Type: text/html; charset="UTF-8"
+--6257118a_6b8b4567_3ae9
+Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=3D"http://l=
-ists.openembedded.org">lists.openembedded.org</a> &lt;quaresma.jose=3D<a hr=
-ef=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded=
-.org</a>&gt; escreveu no dia quarta, 13/04/2022 =C3=A0(s) 18:11:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
-=3D"ltr">Hi,</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" target=
-=3D"_blank">steve@sakoman.com</a>&gt; escreveu no dia quarta, 13/04/2022 =
-=C3=A0(s) 17:02:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Wed, Apr 13, 2022 at 5:31 AM Steve Sakoman via<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;steve=3D<a href=3D"mailto:sakoman.com@li=
-sts.openembedded.org" target=3D"_blank">sakoman.com@lists.openembedded.org<=
-/a>&gt;<br>
-wrote:<br>
-&gt;<br>
-&gt; On Tue, Apr 12, 2022 at 3:21 PM Ralph Siemsen &lt;<a href=3D"mailto:ra=
-lph.siemsen@linaro.org" target=3D"_blank">ralph.siemsen@linaro.org</a>&gt; =
-wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Tue, Apr 12, 2022 at 5:49 PM Steve Sakoman &lt;<a href=3D"mail=
-to:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br=
+<html xmlns=3D=22http://www.w3.org/1999/xhtml=22>
+<head>
+<title></title>
+</head>
+<body>
+<div name=3D=22messageBodySection=22>
+<div dir=3D=22auto=22>It=E2=80=99s just an example, but you=E2=80=99re ri=
+ght, I=E2=80=99ll change to a better one. Thanks=21</div>
+</div>
+<div name=3D=22messageSignatureSection=22><br />
+<div dir=3D=22auto=22>--</div>
+<div dir=3D=22auto=22>Christopher Larson</div>
+<div dir=3D=22auto=22>chris=5Flarson=40mentor.com, chris.larson=40siemens=
+.com, kergoth=40gmail.com</div>
+<div dir=3D=22auto=22><span style=3D=22color: var(--textColor); backgroun=
+d-color: var(--backgroundColor);=22>Principal Software Engineer,&=23160;<=
+/span><span style=3D=22color: var(--textColor); background-color: var(--b=
+ackgroundColor);=22>Embedded Linux Solutions,&=23160;</span><span style=3D=
+=22color: var(--textColor); background-color: var(--backgroundColor);=22>=
+Siemens Digital Industries Software</span><br /></div>
+</div>
+<div name=3D=22messageReplySection=22>On Apr 13, 2022, 10:44 AM -0700, Ri=
+chard Purdie &lt;richard.purdie=40linuxfoundation.org&gt;, wrote:<br />
+<blockquote type=3D=22cite=22 style=3D=22border-left-color: grey; border-=
+left-width: thin; border-left-style: solid; margin: 5px 5px;padding-left:=
+ 10px;=22>On Wed, 2022-04-13 at 16:00 +0000, Christopher Larson wrote:<br=
+ />
+<blockquote type=3D=22cite=22>This function returns True if any of the sp=
+ecified packages are skipped due to<br />
+incompatible license.<br />
+<br />
+License exceptions are obeyed. The user may specify the package's license=
+ for<br />
+cross-recipe checks.<br />
+<br />
+This allows for additions to packagegroups only for non-incompatible buil=
+ds. =46or<br />
+example:<br />
+<br />
+RDEPENDS=5F=24=7BPN=7D +=3D =22=24=7B=40'dbench' if not any=5Fincompatibl=
+e(d, 'dbench', 'GPL-3.0-only') else ''=7D=22<br />
+<br />
+Signed-off-by: Christopher Larson &lt;chris=5Flarson=40mentor.com&gt;<br =
+/>
+---<br />
+meta/classes/license.bbclass =7C 38 +++++++++++++++++++<br />
+.../packagegroups/packagegroup-base.bb =7C 2 +<br />
+2 files changed, 40 insertions(+)<br />
+<br />
+v2 changes: fixed string packages logic, corrected reference to<br />
+apply=5Fpkg=5Flicense=5Fexception, and avoided use of =24=7B=40=7D in the=
+ function docstring<br />
+to avoid bitbake expanding it and recursing.<br />
+<br />
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass<=
+br />
+index 0c637e966e..41993b7227 100644<br />
+--- a/meta/classes/license.bbclass<br />
++++ b/meta/classes/license.bbclass<br />
+=40=40 -320,6 +320,44 =40=40 def incompatible=5Flicense(d, dont=5Fwant=5F=
+licenses, package=3DNone):<br />
+<br />
+return incompatible=5Fpkg=5Flicense(d, dont=5Fwant=5Flicenses, license)<b=
+r />
+<br />
++def any=5Fincompatible(d, packages, licensestring=3DNone):<br />
++ =22=22=22Return True if any of the packages are skipped due to incompat=
+ible license.<br />
++<br />
++ License exceptions are obeyed. The user may specify the package's licen=
+se<br />
++ for cross-recipe checks.<br />
++<br />
++ This allows for additions to packagegroups only for non-incompatible bu=
+ilds.<br />
++<br />
++ =46or example: 'dbench' if not any=5Fincompatible(d, 'dbench', 'GPL-3.0=
+-only') else ''<br />
++ =22=22=22<br />
++ import oe.license<br />
++<br />
++ if isinstance(packages, str):<br />
++ packages =3D packages.split()<br />
++<br />
++ bad=5Flicenses =3D (d.getVar(=22INCOMPATIBLE=5FLICENSE=22) or =22=22).s=
+plit()<br />
++ if not bad=5Flicenses:<br />
++ return =46alse<br />
++ bad=5Flicenses =3D expand=5Fwildcard=5Flicenses(d, bad=5Flicenses)<br /=
 >
-&gt; &gt;<br>
-&gt; &gt; &gt; I added a debug option to the failing command and did anothe=
-r autobuilder run.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; You can see the output here:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <a href=3D"https://errors.yoctoproject.org/Errors/Details/65=
-4608/" rel=3D"noreferrer" target=3D"_blank">https://errors.yoctoproject.org=
-/Errors/Details/654608/</a><br>
-&gt; &gt;<br>
-&gt; &gt; Okay, same error, &quot;Hash Sum mismatch&quot;. And if I squint =
-between all the<br>
-&gt; &gt; URL-encoding, I can see the md5/sha1/sha256/sha512sum values.<br>
-&gt; &gt;<br>
-&gt; &gt; The &quot;apt update&quot; command is doing the following:<br>
-&gt; &gt; - fetch the file called &quot;Release&quot;<br>
-&gt; &gt; - fetch the file called &quot;Packages.gz&quot; --&gt; error occu=
-rs here<br>
-&gt; &gt;<br>
-&gt; &gt; Looking inside the Release file, it is plain text, and contains t=
-he<br>
-&gt; &gt; md5/sha1/sha256/sha512 sums of both Packages and Packages.gz (and=
- also<br>
-&gt; &gt; the first two lines of Release).<br>
-&gt; &gt;<br>
-&gt; &gt; Manually checking each of those sums reveals an inconsistency: al=
-l the<br>
-&gt; &gt; sha256 values inside Release are incorrect, while all the other<b=
-r>
-&gt; &gt; md1/sha1/sha512 values are correct.<br>
-&gt; &gt;<br>
-&gt; &gt; And when we look at the URL-encoded debug info... the sha256 valu=
-e is<br>
-&gt; &gt; the correct one for Packages.gz (as computed manually). However i=
-t<br>
-&gt; &gt; does not match the (incorrect) value within the Release file. Thu=
-s it<br>
-&gt; &gt; seems apt-get is justified when it complains about &quot;Hash Sum=
-<br>
-&gt; &gt; mismatch&quot;.<br>
-&gt; &gt;<br>
-&gt; &gt; Going back to my Ubuntu system, and looking at the generated Rele=
-ase<br>
-&gt; &gt; file... all the checksums are correct, including the sha256sum.<b=
-r>
-&gt; &gt;<br>
-&gt; &gt; So I am now looking into how Release file gets generated... as th=
-e<br>
-&gt; &gt; problem appears to be there... and it happens on Fedora but not<b=
-r>
-&gt; &gt; Ubuntu.<br>
-&gt;<br>
-&gt; As far as I can tell it is done here:<br>
-&gt;<br>
-&gt; <a href=3D"https://git.yoctoproject.org/poky/tree/meta/lib/oe/package_=
-manager.py?h=3Ddunfell#n301" rel=3D"noreferrer" target=3D"_blank">https://g=
-it.yoctoproject.org/poky/tree/meta/lib/oe/package_manager.py?h=3Ddunfell#n3=
-01</a><br>
-&gt;<br>
-&gt; &gt; One additional point to add: on the same Fedora 35 system, I did =
-a<br>
-&gt; &gt; full rebuild *without* with xz/gzip CVE fixes, and the apt failur=
-e<br>
-&gt; &gt; still occurs. To be certain, I nuked cache, sstate-cache and tmp =
-(so<br>
-&gt; &gt; basically the entire build directory) and the rebuild took severa=
-l<br>
-&gt; &gt; hours.<br>
-&gt;<br>
-&gt; Now that is really strange!=C2=A0 In my experience it has only appeare=
-d<br>
-&gt; after adding the zlib or xz CVE fix patches.<br>
-&gt;<br>
-&gt; I just started two runs on the autobuilder, with the zlib patch as the=
-<br>
-&gt; only difference.=C2=A0 Both on Fedora 35.<br>
-<br>
-Both runs completed and I&#39;m still seeing success without the zlib patch=
-:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
-s/5069" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/50/builds/5069</a><br>
-<br>
-and failure with the patch:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
-s/5070" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/50/builds/5070</a></blockquote><div><br></div><di=
-v>It seems the test that failed is something related with the apt.=C2=A0</d=
-iv><div>Is this repo hosted on 192.168.7.5 shared between=C2=A0master and d=
-unfell branches?</div><div>I ask this because there are some issues with ap=
-t [1] on master and it can be related to this.</div></div></div></blockquot=
-e><div><br></div><div>The server is started in the test.</div><div>Sorry fo=
-r the noise and please discard my comment.</div><div><br></div>Started HTTP=
-Service on <a href=3D"http://0.0.0.0:42261">0.0.0.0:42261</a></div><div cla=
-ss=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Jose<br><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv class=3D"gmail_quote"><div><br></div><div>[1] apt: add=C2=A0apt=C2=A0sel=
-ftest to test signed package feeds)</div><div><br></div><div style=3D"box-s=
-izing:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monac=
-o,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre=
--wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><s=
-pan style=3D"box-sizing:border-box">Started HTTPService on <a href=3D"http:=
-//0.0.0.0:35637" target=3D"_blank">0.0.0.0:35637</a></span></span></div><di=
-v style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);font-fa=
-mily:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px=
-;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizin=
-g:border-box"><span style=3D"box-sizing:border-box">Traceback (most recent =
-call last):</span></span></div><div style=3D"box-sizing:border-box;height:1=
-8px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier =
-New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rg=
-b(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:b=
-order-box">  File &quot;/home/pokybuild/yocto-worker/pkgman-deb-non-deb/bui=
-ld/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 36, in wrapped_f</s=
-pan></span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(=
-199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,mono=
-space;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><spa=
-n style=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">   =
- return func(*args, **kwargs)</span></span></div><div style=3D"box-sizing:b=
-order-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Conso=
-las,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;b=
-ackground-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span sty=
-le=3D"box-sizing:border-box">  File &quot;/home/pokybuild/yocto-worker/pkgm=
-an-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init__.py&quot;, line 3=
-6, in wrapped_f</span></span></div><div style=3D"box-sizing:border-box;heig=
-ht:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Cour=
-ier New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-colo=
-r:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizi=
-ng:border-box">    return func(*args, **kwargs)</span></span></div><div sty=
-le=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);font-family:=
-Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;whit=
-e-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:bor=
-der-box"><span style=3D"box-sizing:border-box">  File &quot;/home/pokybuild=
-/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/core/decorator/__init_=
-_.py&quot;, line 36, in wrapped_f</span></span></div><div style=3D"box-sizi=
-ng:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,C=
-onsolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wr=
-ap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span=
- style=3D"box-sizing:border-box">    return func(*args, **kwargs)</span></s=
-pan></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199=
-,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;f=
-ont-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=
-=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">  File &qu=
-ot;/home/pokybuild/yocto-worker/pkgman-deb-non-deb/build/meta/lib/oeqa/runt=
-ime/cases/apt.py&quot;, line 50, in test_apt_install_from_repo</span></span=
-></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,19=
-9);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font=
--size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D=
-"box-sizing:border-box"><span style=3D"box-sizing:border-box">    self.pkg(=
-&#39;update&#39;)</span></span></div><div style=3D"box-sizing:border-box;he=
-ight:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Co=
-urier New&quot;,monospace;font-size:13px;white-space:pre-wrap;background-co=
-lor:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-si=
-zing:border-box">  File &quot;/home/pokybuild/yocto-worker/pkgman-deb-non-d=
-eb/build/meta/lib/oeqa/runtime/cases/apt.py&quot;, line 17, in pkg</span></=
-span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,19=
-9,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;=
-font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span styl=
-e=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">    self.=
-assertEqual(status, expected, message)</span></span></div><div style=3D"box=
--sizing:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Mon=
-aco,Consolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:p=
-re-wrap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box">=
-<span style=3D"box-sizing:border-box">AssertionError: 100 !=3D 0 : apt-get =
-update</span></span></div><div style=3D"box-sizing:border-box;height:18px;c=
-olor:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&q=
-uot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0=
-,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:border=
--box">Ign:1 <a href=3D"http://192.168.7.5:42261" target=3D"_blank">http://1=
-92.168.7.5:42261</a> ./ InRelease</span></span></div><div style=3D"box-sizi=
-ng:border-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,C=
-onsolas,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wr=
-ap;background-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span=
- style=3D"box-sizing:border-box">Get:2 <a href=3D"http://192.168.7.5:42261"=
- target=3D"_blank">http://192.168.7.5:42261</a> ./ Release [1213 B]</span><=
-/span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,1=
-99,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace=
-;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span sty=
-le=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">Ign:3 <a=
- href=3D"http://192.168.7.5:42261" target=3D"_blank">http://192.168.7.5:422=
-61</a> ./ Release.gpg</span></span></div><div style=3D"box-sizing:border-bo=
-x;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quo=
-t;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;backgroun=
-d-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"bo=
-x-sizing:border-box">Get:4 <a href=3D"http://192.168.7.5:42261" target=3D"_=
-blank">http://192.168.7.5:42261</a> ./ Packages [59.3 kB]</span></span></di=
-v><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199);fo=
-nt-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-size=
-:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"box-=
-sizing:border-box"><span style=3D"box-sizing:border-box">Err:4 <a href=3D"h=
-ttp://192.168.7.5:42261" target=3D"_blank">http://192.168.7.5:42261</a> ./ =
-Packages</span></span></div><div style=3D"box-sizing:border-box;height:18px=
-;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New=
-&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(0=
-,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:bord=
-er-box">  Hash Sum mismatch</span></span></div><div style=3D"box-sizing:bor=
-der-box;height:18px;color:rgb(199,199,199);font-family:Menlo,Monaco,Consola=
-s,&quot;Courier New&quot;,monospace;font-size:13px;white-space:pre-wrap;bac=
-kground-color:rgb(0,0,0)"><span style=3D"box-sizing:border-box"><span style=
-=3D"box-sizing:border-box">Fetched 60.5 kB in 20s (3020 B/s)</span></span><=
-/div><div style=3D"box-sizing:border-box;height:18px;color:rgb(199,199,199)=
-;font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;font-s=
-ize:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span style=3D"b=
-ox-sizing:border-box"><span style=3D"box-sizing:border-box">Reading package=
- lists...</span></span></div><div style=3D"box-sizing:border-box;height:18p=
-x;color:rgb(199,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier Ne=
-w&quot;,monospace;font-size:13px;white-space:pre-wrap;background-color:rgb(=
-0,0,0)"><span style=3D"box-sizing:border-box"><span style=3D"box-sizing:bor=
-der-box">W: The repository &#39;<a href=3D"http://192.168.7.5:42261" target=
-=3D"_blank">http://192.168.7.5:42261</a> ./ Release&#39; is not signed.</sp=
-an></span></div><div style=3D"box-sizing:border-box;height:18px;color:rgb(1=
-99,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monos=
-pace;font-size:13px;white-space:pre-wrap;background-color:rgb(0,0,0)"><span=
- style=3D"box-sizing:border-box"><span style=3D"box-sizing:border-box">E: F=
-ailed to fetch <a href=3D"http://192.168.7.5:42261/./Packages.gz" target=3D=
-"_blank">http://192.168.7.5:42261/./Packages.gz</a>  Hash Sum mismatch</spa=
-n></span></div><div><span style=3D"background-color:rgb(0,0,0);color:rgb(19=
-9,199,199);font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monosp=
-ace;font-size:13px;white-space:pre-wrap">E: Some index files failed to down=
-load. They have been ignored, or old ones used instead.</span></div><div>=
-=C2=A0</div><div>Jose</div><div><br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex"><br>
-<br>
-Steve<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
-></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#164347): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/164347" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/164347</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90107518/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/90107518/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
++<br />
++ if licensestring is None:<br />
++ licensestring =3D d.getVar(=22LICENSE:%s=22 % package) if package else =
+None<br />
++ if not licensestring:<br />
++ licensestring =3D d.getVar(=22LICENSE=22)<br />
++<br />
++ exceptions =3D (d.getVar(=22INCOMPATIBLE=5FLICENSE=5FEXCEPTIONS=22) or =
+=22=22).split()<br />
++ for pkg in packages:<br />
++ remaining=5Fbad=5Flicenses =3D oe.license.apply=5Fpkg=5Flicense=5Fexcep=
+tion(<br />
++ pkg, bad=5Flicenses, exceptions<br />
++ )<br />
++<br />
++ incompatible=5Flic =3D incompatible=5Fpkg=5Flicense(<br />
++ d, remaining=5Fbad=5Flicenses, licensestring<br />
++ )<br />
++ if incompatible=5Flic:<br />
++ return True<br />
++ return =46alse<br />
++<br />
+def check=5Flicense=5Fflags(d):<br />
+=22=22=22<br />
+This function checks if a recipe has any LICENSE=5F=46LAGS that<br />
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
+recipes-core/packagegroups/packagegroup-base.bb<br />
+index 7489ef61b0..1c97d03c21 100644<br />
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb<br />
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb<br />
+=40=40 -14,6 +14,8 =40=40 PACKAGES =3D ' =5C<br />
+packagegroup-distro-base =5C<br />
+packagegroup-machine-base =5C<br />
+=5C<br />
++ =24=7B=40=22dbench=22 if not any=5Fincompatible(d, =22dbench=22, =22GPL=
+-3.0-only=22) else =22=22=7D =5C<br />
++ =5C<br />
+=24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22acpi=22, =22pac=
+kagegroup-base-acpi=22, =22=22,d)=7D =5C<br />
+=24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22alsa=22, =22pac=
+kagegroup-base-alsa=22, =22=22, d)=7D =5C<br />
+=24=7B=40bb.utils.contains(=22MACHINE=5F=46EATURES=22, =22apm=22, =22pack=
+agegroup-base-apm=22, =22=22, d)=7D =5C<br /></blockquote>
+<br />
+I suspect you didn't mean to include this piece since dbench isn't in cor=
+e=3F<br />
+<br />
+Cheers,<br />
+<br />
+Richard<br />
+<br /></blockquote>
+</div>
+</body>
+</html>
 
---000000000000fe670d05dc8cb046--
+--6257118a_6b8b4567_3ae9--
+
 
