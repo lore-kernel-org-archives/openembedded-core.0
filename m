@@ -1,297 +1,232 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D6CC636CF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6303AC636F4
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:56 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.9390.1649926646898641272
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web08.9618.1649927229057094061
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:57:27 -0700
+ Thu, 14 Apr 2022 02:07:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gc9A1yFH;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id c64so5456812edf.11
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BJ47UE+SoSzSq0/ksMuJy3WqxX0T0wLXjfpMccm4vwY=;
-        b=gc9A1yFHNZO/6WNSmxkC9qc2ydzJRFIUHXtOV9Er38odwqRJ/XQ3rpbIE6ZXpqIwa4
-         4JQbyS6GaFwucaPIc782ey0Yp/aP1T2XNLyuQLAAOJw+iHCOK/bomwnTxMPlFldc5f7X
-         I+I7xlhajuXbV/LvglTemQyE7Rjkd8FQAm4R5E66oxD9K/LxoOY9p3AsXKfA2+nazIK7
-         SkHldjpBkVtSlU/7HHf8T4IxHTHpv7cMK0vQOAgAMThvJverEWRMan/Gd2cxJecGV7ck
-         mYaYafzUj4BjjcKms2L+iRC875f+G6Lg1dj/gAui/gK4KAiCg7+f9T7+Qhw2JLoX1gE2
-         4UYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BJ47UE+SoSzSq0/ksMuJy3WqxX0T0wLXjfpMccm4vwY=;
-        b=Gxg9O2a28BQLfNDC6w+rR57r2aEmMrwBruQrQcEib+GaCrYBw/fdrjeS+W5iTicFns
-         haPRuCcg0qRhhySFw6pmV+QeZr5GElyCuWtg0M+MClYpG+41udTxTgQXeb+srYSlf4dQ
-         EoqyquHvkwXihUmYis0qg3sw4qhmaOYsyPcfcI5d9v7uH8RG5X5tvNgBoj+115PZjMNF
-         CneUe83rQTOUyK06bve3DDYqmNstpXUeexWAM/QprYHoJjvptaJnd2gmoK0vpNL626gd
-         6WqehEEh3gY7pqQ9S86Cu0a45QBanyUelrfsMZUC+/kOWHFI1Ipe0vkDbS2oRzzebtgF
-         mz3A==
-X-Gm-Message-State: AOAM533JmssSU4rSil1l0I8n3pw51wCCuiCfV+URl8eZ3UBxrU9ld9jb
-	JEMrnBhSz25c61nW+GAl0l9LeR2gt1U=
-X-Google-Smtp-Source: 
- ABdhPJwp2VB87MfEOkvAyIdMxs7IDlwKGNiyBpf+vbYV4EALulvkoug8OXO90/h1jd9ABpo6SahE8w==
-X-Received: by 2002:a05:6402:909:b0:416:6f3c:5c1d with SMTP id
- g9-20020a056402090900b004166f3c5c1dmr1854873edz.108.1649926645425;
-        Thu, 14 Apr 2022 01:57:25 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- jr16-20020a170906a99000b006e4c05e8919sm429542ejb.35.2022.04.14.01.57.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:57:24 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/4] sato: work around missing icons
-Date: Thu, 14 Apr 2022 10:57:09 +0200
-Message-Id: <20220414085710.2010223-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220414085710.2010223-1-alex@linutronix.de>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cGwf0L8P;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D0A84C0006;
+	Thu, 14 Apr 2022 09:07:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1649927227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4YfXkLi6P2OtcIXQy+4OzanfuiIMGuxPrVFyzhnJmcM=;
+	b=cGwf0L8PTJJcm7zjaDt93r5Qsmgb1ZifRasKkvEo1ThGdXNzRTa5Fwx3T/j0HsfLecIBz1
+	X5XjEHnm2RNiCw0R+34/ZxsXtseQ3JQQ0MuMTJ7qMXYZYvOEEgmoWdLds+vIBj4S7TStYE
+	YY6baj8cKgvr7NMPv64A8b0lERw3Kll8/Cldzbl4wGogqmsBcKDoEMymiKhyxAEUAwSFac
+	84MxmJXWVIJ68A/K+IJ2njkFg7Y69LlGSGovaw3j0cZDurn5QyOEwI79d8mfLMZjuRA+q5
+	A2+c5CzhqFtmAwbodjG+7Etia3OqiAEYGMujrKFBPnQvLDPksKvHIPswfDjKwQ==
+Date: Thu, 14 Apr 2022 11:07:06 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, wangmy <wangmy@fujitsu.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] adwaita-icon-theme: upgrade 41.0 -> 42.0
+Message-ID: <YlfkOjbX7AMSXm1B@mail.local>
 References: <20220414085710.2010223-1-alex@linutronix.de>
+ <20220414085710.2010223-4-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220414085710.2010223-4-alex@linutronix.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164398
+ https://lists.openembedded.org/g/openembedded-core/message/164401
 
-adwaita icon theme upstream has done significant trimming around app category icons
-(fullcolour versions gone completely, 'symbolic' b&w versions still around but marked
-as legacy). We can use the symbolic icons for now, but going forwards, apps would
-need to provide their own icons. Given that sato is likely to be deprecated in favour
-of wayland/weston rather soon, let's use the symbolic icons for now.
+Hello Alex,
 
-[YOCTO #14782]
+This has been reverted in master and requires fixing
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../gstreamer/gst-examples/gst-player.desktop |  2 +-
- ...sktop-update-icon-to-one-available-i.patch | 25 ++++++++++++++++++
- .../matchbox-config-gtk_0.2.bb                |  4 ++-
- ...ile.c-use-view-refresh-symbolic-icon.patch | 26 +++++++++++++++++++
- .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
- ...l.desktop-use-an-icon-available-in-a.patch | 25 ++++++++++++++++++
- .../matchbox-terminal_0.2.bb                  |  4 ++-
- meta/recipes-sato/puzzles/puzzles_git.bb      |  3 ++-
- .../rxvt-unicode/rxvt-unicode/rxvt.desktop    |  2 +-
- .../shutdown-desktop/shutdown.desktop         |  2 +-
- 10 files changed, 88 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
- create mode 100644 meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+On 14/04/2022 10:57:10+0200, Alexander Kanavin wrote:
+> From: wangmy <wangmy@fujitsu.com>
+> 
+> 0001-Don-t-use-AC_CANONICAL_HOST.patch
+> refreshed for version 42.0
+> 
+> 0001-Run-installation-commands-as-shell-jobs.patch
+> removed since it's included in 42.o
+> 
+> (From OE-Core rev: 17a08277854eb1e8776cf7790f6255ea68bf0568)
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../0001-Don-t-use-AC_CANONICAL_HOST.patch    |  6 +-
+>  ...-installation-commands-as-shell-jobs.patch | 84 -------------------
+>  ...eme_41.0.bb => adwaita-icon-theme_42.0.bb} |  7 +-
+>  3 files changed, 5 insertions(+), 92 deletions(-)
+>  delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+>  rename meta/recipes-gnome/gnome/{adwaita-icon-theme_41.0.bb => adwaita-icon-theme_42.0.bb} (87%)
+> 
+> diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+> index 5afba3c644..32f98e049b 100644
+> --- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+> +++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+> @@ -1,4 +1,4 @@
+> -From 63d97fefdbc90f5c68f67bdc30844776d9a1b720 Mon Sep 17 00:00:00 2001
+> +From 15ffd817b3e334dc7c0508761c7ef417d76379c5 Mon Sep 17 00:00:00 2001
+>  From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>  Date: Tue, 30 May 2017 14:55:49 +0300
+>  Subject: [PATCH] Don't use AC_CANONICAL_HOST
+> @@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>   1 file changed, 1 deletion(-)
+>  
+>  diff --git a/configure.ac b/configure.ac
+> -index f2659a5..1e8b016 100644
+> +index 040975e..5f7b53a 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+>  @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+>   
+> - AC_INIT([adwaita-icon-theme], [41.0],
+> + AC_INIT([adwaita-icon-theme], [42.0],
+>           [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+>  -AC_CANONICAL_HOST
+>   AC_CONFIG_MACRO_DIR([m4])
+> diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+> deleted file mode 100644
+> index a1d39cf558..0000000000
+> --- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+> +++ /dev/null
+> @@ -1,84 +0,0 @@
+> -From 79da031e9811f3eef34b14cce419be93fea34319 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Tue, 13 Jun 2017 18:10:06 +0300
+> -Subject: [PATCH] Run installation commands as shell jobs
+> -
+> -This greatly speeds up installation time on multi-core systems.
+> -
+> -Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/merge_requests/39]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -
+> ----
+> - src/fullcolor/Makefile.am |  5 +++--
+> - src/spinner/Makefile.am   |  7 ++++---
+> - src/symbolic/Makefile.am  | 11 ++++++-----
+> - 3 files changed, 13 insertions(+), 10 deletions(-)
+> -
+> -diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
+> -index d73529b..b7d0808 100644
+> ---- a/src/fullcolor/Makefile.am
+> -+++ b/src/fullcolor/Makefile.am
+> -@@ -9,9 +9,10 @@ install-data-local:
+> - 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
+> - 			context="`dirname $$file`"; \
+> - 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+> --			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+> -+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+> - 		done; \
+> --	done;
+> -+	done; \
+> -+	wait
+> - 
+> - ## FIXME we should add a way to remove links generated by icon mapping
+> - uninstall-local:
+> -diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
+> -index c14caf6..322dc0d 100644
+> ---- a/src/spinner/Makefile.am
+> -+++ b/src/spinner/Makefile.am
+> -@@ -24,13 +24,14 @@ install-data-local:
+> - 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
+> - 		      context="`dirname $$file`"; \
+> - 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+> --		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+> -+		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+> - 	      done; \
+> - 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
+> - 		context="`dirname $$file`"; \
+> - 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
+> --		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
+> --	done
+> -+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
+> -+	done; \
+> -+	wait
+> - 
+> - uninstall-local:
+> - 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
+> -diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
+> -index 957c0ee..e1f8818 100644
+> ---- a/src/symbolic/Makefile.am
+> -+++ b/src/symbolic/Makefile.am
+> -@@ -34,18 +34,19 @@ install-data-local:
+> - 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
+> - 			context="`dirname $$file`"; \
+> - 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+> --			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+> -+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+> - 		done; \
+> --	done
+> -+	done; \
+> - 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
+> - 		context="`dirname $$file`"; \
+> - 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
+> --		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
+> -+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
+> - 		for size in $(symbolic_encode_sizes); do \
+> - 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+> --			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
+> -+			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
+> - 		done \
+> --	done
+> -+	done; \
+> -+	wait
+> - 
+> - uninstall-local:
+> - 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
+> diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+> similarity index 87%
+> rename from meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
+> rename to meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+> index 46f9f4772c..c4f3b1c999 100644
+> --- a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
+> +++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+> @@ -12,12 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+>  
+>  inherit allarch autotools pkgconfig gettext gtk-icon-cache gnomebase
+>  
+> -SRC_URI += " \
+> -           file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
+> -           file://0001-Run-installation-commands-as-shell-jobs.patch \
+> -           "
+> +SRC_URI += " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
+>  
+> -SRC_URI[archive.sha256sum] = "ef5339d8c35fcad5d10481b70480803f0fa20b3d3cbc339238fcaceeaee01eba"
+> +SRC_URI[archive.sha256sum] = "5e85b5adc8dee666900fcaf271ba717f7dcb9d0a03d96dae08f9cbd27e18b1e0"
+>  
+>  DEPENDS += "librsvg-native"
+>  
+> -- 
+> 2.30.2
+> 
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-index 7ddd456a1e..a5df5c9c84 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-@@ -1,7 +1,7 @@
- [Desktop Entry]
- Name=Media Player
- Comment=Basic media player
--Icon=multimedia-player
-+Icon=multimedia-player-symbolic
- TryExec=gtk-play
- Exec=gtk-play
- StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
-new file mode 100644
-index 0000000000..7e75fdab9a
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
-@@ -0,0 +1,25 @@
-+From ab2c716bb0679a67dc6b0878ef750d3fdd29edb7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:19:11 +0200
-+Subject: [PATCH] mb-appearance.desktop: update icon to one available in
-+ adwaita 42.0
-+
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ appearance/mb-appearance.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/appearance/mb-appearance.desktop b/appearance/mb-appearance.desktop
-+index 4db2bbc..cfa5142 100644
-+--- a/appearance/mb-appearance.desktop
-++++ b/appearance/mb-appearance.desktop
-+@@ -2,7 +2,7 @@
-+ Name=Appearance
-+ Comment=Change the appearance
-+ Exec=matchbox-appearance
-+-Icon=preferences-desktop-theme
-++Icon=preferences-desktop-appearance-symbolic
-+ Terminal=false
-+ Type=Application
-+ Categories=GTK;Settings;DesktopSettings;
-diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-index d951baf361..c91f9a7cc2 100644
---- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-+++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-@@ -12,7 +12,9 @@ RDEPENDS:${PN} = "settings-daemon"
- # SRCREV tagged 0.2
- SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
--           file://no-handed.patch"
-+           file://no-handed.patch \
-+           file://0001-mb-appearance.desktop-update-icon-to-one-available-i.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
-new file mode 100644
-index 0000000000..7a4db83da2
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
-@@ -0,0 +1,26 @@
-+From 764201dff04a7ca1c3862357ea485a6fc624dd00 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:01:30 +0200
-+Subject: [PATCH] taku-launcher-tile.c: use view-refresh-symbolic icon
-+
-+Plain view-refresh is no longer provided in latest adwaita icon theme.
-+
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ libtaku/taku-launcher-tile.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libtaku/taku-launcher-tile.c b/libtaku/taku-launcher-tile.c
-+index e7f58f3..8bbf2f7 100644
-+--- a/libtaku/taku-launcher-tile.c
-++++ b/libtaku/taku-launcher-tile.c
-+@@ -185,7 +185,7 @@ taku_launcher_tile_new_from_item (TakuMenuItem *item)
-+   taku_icon_tile_set_secondary (TAKU_ICON_TILE (tile),
-+                                 taku_menu_item_get_description (item));
-+   taku_icon_tile_set_pixbuf (TAKU_ICON_TILE (tile),
-+-                             get_icon ("view-refresh", size));
-++                             get_icon ("view-refresh-symbolic", size));
-+ 
-+   /* Don't need to update the icon here, because we'll get a style-set signal
-+      when the widget is realised which will update the icon. */
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-index b05a9c48ad..c306aba6ec 100644
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-+++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-@@ -15,6 +15,7 @@ SECTION = "x11/wm"
- SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
- SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
-            file://vfolders/ \
-+           file://0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch \
-            "
- 
- EXTRA_OECONF = "--enable-startup-notification --with-dbus"
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-new file mode 100644
-index 0000000000..48987f9d31
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-@@ -0,0 +1,25 @@
-+From ec16ba4a1cb0e4217910a1b36783f00828bb5dfc Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:24:50 +0200
-+Subject: [PATCH] matchbox-terminal.desktop: use an icon available in adwaita
-+ 42.0
-+
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ matchbox-terminal.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/matchbox-terminal.desktop b/matchbox-terminal.desktop
-+index c84a24c..fedaf10 100644
-+--- a/matchbox-terminal.desktop
-++++ b/matchbox-terminal.desktop
-+@@ -3,7 +3,7 @@ Type=Application
-+ Name=Terminal
-+ Comment=When all else fails.
-+ Exec=matchbox-terminal
-+-Icon=utilities-terminal
-++Icon=utilities-terminal-symbolic
-+ Terminal=false
-+ Categories=GTK;Utility;
-+ StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-index 802ffa971b..048e247b89 100644
---- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-@@ -11,7 +11,9 @@ SECTION = "x11/utils"
- 
- #SRCREV tagged 0.2
- SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
--SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
-+           file://0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 381d3cc456..6f038cc475 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -23,6 +23,7 @@ DEPENDS += "gtk+3"
- do_install:append () {
-     # net conflicts with Samba, so rename it
-     mv ${D}${bindir}/net ${D}${bindir}/puzzles-net
-+    rm ${D}/${datadir}/applications/net.desktop
- 
-     # Create desktop shortcuts
-     install -d ${D}/${datadir}/applications/
-@@ -36,7 +37,7 @@ do_install:append () {
- [Desktop Entry]
- Name=$title
- Exec=${bindir}/$prog
--Icon=applications-games
-+Icon=applications-games-symbolic
- Terminal=false
- Type=Application
- Categories=Game;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-index 882ea41136..84a8ba7dc5 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-@@ -3,7 +3,7 @@ Version=1.0
- Name=Terminal
- Comment=A unicode capable rxvt clone
- Exec=rxvt
--Icon=terminal
-+Icon=utilities-terminal-symbolic
- Terminal=false
- Type=Application
- Categories=Utility;TerminalEmulator;
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-index 662659afc2..bc437ca2de 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-@@ -4,7 +4,7 @@ Type=Application
- Name=Shutdown
- Comment=Close down the machine safely
- Exec=poweroff
--Icon=system-shutdown
-+Icon=system-shutdown-symbolic
- Terminal=false
- Categories=Utility;
- StartupNotify=true
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164400): https://lists.openembedded.org/g/openembedded-core/message/164400
+> Mute This Topic: https://lists.openembedded.org/mt/90460267/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.30.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
