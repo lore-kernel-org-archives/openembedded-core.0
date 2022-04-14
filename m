@@ -2,63 +2,61 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8469C48BCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEABBC48BD1
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:54 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.7204.1649904756214306742
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web09.7214.1649904755288423401
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:36 -0700
+ Wed, 13 Apr 2022 19:52:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FGyrKFth;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- o5-20020a17090ad20500b001ca8a1dc47aso8054906pju.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=de2tpdqs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id f3so3649091pfe.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:36 -0700 (PDT)
+ Wed, 13 Apr 2022 19:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pf/XVbG9wgH2loJVg+ptvjBAimwuLno5Jz5a7KTCw2A=;
-        b=FGyrKFth/s6McJR8bltbT8tWhiR3Ert5qVzLR8N080Y0rX4lCo8VVEv8ROxBpDuJ8i
-         9QnVaF+laNRFPvC2m98J4Io1Ect4SanBMbAcUye++dKX6QX1qyX94Op/6xQ3ZYqDIiHK
-         NRLIM/r99e7735ffKGHGwqxceMJo6ekvODuYggLZrLx0a8Ptdjr6Tc1+3VF1IoSSO2h5
-         E9fmjxy/Gs2DYJDqEIqXZejOitG1VPccLo11dwxKnVjfL1AcyKMyLjnrINTVv9qpThVg
-         aDwsIi9d7ZvKpnSUbDnDS/qX9TwwoTpXaHUYHNj52N9JPlYda+ktCUpda6zAoHglr0ZF
-         ijKA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rl/hYsLITPT3qM5NT017wBMPNpQV31FZ5mq746YMfnQ=;
+        b=de2tpdqsNDKj20LJA6FtY0YTincxXeh6CwMFzpSvsKLu1Fw4y6upuPLGzfvLsbEOlg
+         keoh3Aoqg928698FxvriCyDFuL7wnwoP1V2Qqtw1lF0uJSq70MKYgWvUOwLIEbezgGEw
+         wgRfh4oIfml1NMTkTzHCHWTdabVmxZGhXlUjsD6tq2PISu2beFnA5AGSmRiAgvgyW8cL
+         u0VgwcaQs7gkZODG3RsWh2uoV4xC4YMLk04T/qlIPTi0y37xOoEV8arTf9iRk3n8itLF
+         50EbJjlqtXL6ON4sj05A+R4EM4+kjO4lrGJuPx3CUFxsqu3UjA+qI0gPJ0ZOLYnwS046
+         nNqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pf/XVbG9wgH2loJVg+ptvjBAimwuLno5Jz5a7KTCw2A=;
-        b=QWvbodiYBWwLSI7oWG3EfFJ9QBvhGLfZmW4sQDOZSpja4xxuG9UGVBv1LJj/jrpc5j
-         7YzzFZa8nsNmRmMcMZuwQJEAosPm3cilhlRlGAu2EHm3Ve4UQ1vCmZdPkvRvl95zdVbJ
-         1PAoTOQ4YIZkXoYg5G9UWxceQcwgcEAp4/ytpNSnUGPUs1+ZCXxi2+CzUj4LVSsXDTcB
-         U1y3zkVuhEp9hfg2tsBIDyOoz3krIE+pmKhcJk8jqW1kgw7dJ3ynUwYNsNDe1ZDQAme5
-         QYU6rQIN+7Eyl15rTepLyomk/DI2HHmc7lRuyqkt8A2+7NcDK/qv2CX5bORkrVJgBFJv
-         dL2g==
-X-Gm-Message-State: AOAM533jTTbakXqOxzMqjjfZz9Ezr0ocsZnzEv1n8LXCiKIaGHLFATbw
-	MlMeD4k+TtOTwfdvCJHvkNK0E06rkV4nwg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rl/hYsLITPT3qM5NT017wBMPNpQV31FZ5mq746YMfnQ=;
+        b=1YV7IQCyr4gF0Zw+8u0cRT/88N/pFG4qwZEGfZ6xea+P3zhWhMwKwv7M4ukkR08xLr
+         MqmaA2ppG6A+XmH1niFUOsw/69WdsBh5RLTAjXM+44QzElU/yjsXbJ0TSxi7XpCGbsFq
+         57gDOvFZmstChjZJIvp/E63vvJwadvYjIVbfCkDjRO5u0/vLEo2UOt1RVSWVNDvvqrFZ
+         fM7oT3lNmBk4e75+Z9+A+Ps+sL/NNrOV3TmkctAQcjNjKX/pCy1gpSWSnt1tO2pG6Szy
+         UwtP8oBqB8PSiMM2+6EJH91YEMfBpZJXDtkxZC2alL57QIcI3xzTLAySsXLzrA22KuZF
+         5XUw==
+X-Gm-Message-State: AOAM532QGnt3kPan/YgSxhEgiJRhYZWS/lvJ0HP5zD+LpZm5PiQAs+mV
+	27WMNmvQlE8ITk0B531pGQeHd6o5mmBclQ==
 X-Google-Smtp-Source: 
- ABdhPJylrMR3pY5ESH/WmzxHG2jiNXyZhLAri47Dc0zHLw4k5+U7XVqAQP/D+D3BmkByTE8XkdNYhQ==
-X-Received: by 2002:a17:90a:ba13:b0:1cb:6296:ce41 with SMTP id
- s19-20020a17090aba1300b001cb6296ce41mr1353005pjr.104.1649904755594;
-        Wed, 13 Apr 2022 19:52:35 -0700 (PDT)
+ ABdhPJyHRHTVPzbRQJvyULyuhuZXk7oj+GCncRx+14Tytvqy4WuInJx7pZ1z0Ic+Ze9gUKRCjnMWeA==
+X-Received: by 2002:a63:3841:0:b0:399:26da:29af with SMTP id
+ h1-20020a633841000000b0039926da29afmr526450pgn.489.1649904754655;
+        Wed, 13 Apr 2022 19:52:34 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4307])
         by smtp.gmail.com with ESMTPSA id
- 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.34
+ 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 19:52:35 -0700 (PDT)
+        Wed, 13 Apr 2022 19:52:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/6] mdadm: Drop clang specific cflags
-Date: Wed, 13 Apr 2022 19:52:26 -0700
-Message-Id: <20220414025230.1166825-2-raj.khem@gmail.com>
+Subject: [PATCH 1/6] riscv: Add tunes for rv64 without compressed instructions
+Date: Wed, 13 Apr 2022 19:52:25 -0700
+Message-Id: <20220414025230.1166825-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220414025230.1166825-1-raj.khem@gmail.com>
-References: <20220414025230.1166825-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,28 +64,50 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164379
-
-This option is no longer needed
+ https://lists.openembedded.org/g/openembedded-core/message/164378
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/mdadm/mdadm_4.2.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/conf/machine/include/riscv/arch-riscv.inc | 2 ++
+ meta/conf/machine/include/riscv/tune-riscv.inc | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.2.bb b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-index 1c2fc8c37a7..19035caaec9 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.2.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.2.bb
-@@ -35,8 +35,6 @@ DEPENDS = "udev"
- SYSTEMD_SERVICE:${PN} = "mdmonitor.service"
- SYSTEMD_AUTO_ENABLE = "disable"
+diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
+index e5611a12a66..230a266563a 100644
+--- a/meta/conf/machine/include/riscv/arch-riscv.inc
++++ b/meta/conf/machine/include/riscv/arch-riscv.inc
+@@ -7,6 +7,8 @@ TUNE_PKGARCH = "${TUNE_PKGARCH:tune-${DEFAULTTUNE}}"
+ TUNE_CCARGS:append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv64nf', ' -mabi=lp64', ' ', d)}"
+ TUNE_CCARGS:append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32nf', ' -mabi=ilp32', ' ', d)}"
  
--CFLAGS:append:toolchain-clang = " -Wno-error=address-of-packed-member"
--
- # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm/types.h
- # prevents 64-bit userland from seeing this definition, instead defaulting
- # to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
++TUNE_CCARGS:append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv64nc', ' -march=rv64imafd', ' ', d)}"
++
+ # Fix: ld: unrecognized option '--hash-style=sysv'
+ LINKER_HASH_STYLE:libc-newlib = ""
+ # Fix: ld: unrecognized option '--hash-style=gnu'
+diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
+index cc2896f277b..659801496c9 100644
+--- a/meta/conf/machine/include/riscv/tune-riscv.inc
++++ b/meta/conf/machine/include/riscv/tune-riscv.inc
+@@ -6,6 +6,8 @@ TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
+ TUNEVALID[riscv64nf] = "Enable 64-bit RISC-V optimizations no floating point"
+ TUNEVALID[riscv32nf] = "Enable 32-bit RISC-V optimizations no floating point"
+ 
++TUNEVALID[riscv64nc] = "Enable 64-bit RISC-V optimizations without compressed instructions"
++
+ TUNEVALID[bigendian] = "Big endian mode"
+ 
+ AVAILTUNES += "riscv64 riscv32 riscv64nf riscv32nf"
+@@ -31,3 +33,9 @@ TUNE_FEATURES:tune-riscv32nf = "${TUNE_FEATURES:tune-riscv32} riscv32nf"
+ TUNE_ARCH:tune-riscv32nf = "riscv32"
+ TUNE_PKGARCH:tune-riscv32nf = "riscv32nf"
+ PACKAGE_EXTRA_ARCHS:tune-riscv32nf = "riscv32nf"
++
++# no compressed
++TUNE_FEATURES:tune-riscv64nc = "${TUNE_FEATURES:tune-riscv64} riscv64nc"
++TUNE_ARCH:tune-riscv64nc = "riscv64"
++TUNE_PKGARCH:tune-riscv64nc = "riscv64nc"
++PACKAGE_EXTRA_ARCHS:tune-riscv64nc = "riscv64nc"
 -- 
 2.35.2
 
