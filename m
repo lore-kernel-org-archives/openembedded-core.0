@@ -2,60 +2,60 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F03C48BD2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F17C48BDF
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:54 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.7188.1649904758046603757
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.7187.1649904757199658047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:38 -0700
+ Wed, 13 Apr 2022 19:52:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=O4817FLR;
- spf=pass (domain: gmail.com, ip: 209.85.215.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id q19so3568748pgm.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DMgQbGhJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id
+ e8-20020a17090a118800b001cb13402ea2so4412989pja.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:38 -0700 (PDT)
+ Wed, 13 Apr 2022 19:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lZIhWWGwqkmxdebA1hh23//gl/mr060b21s3Jvn+Tzo=;
-        b=O4817FLRKt7Ea2I2fMqflP7YrM2NQadXf5sB9B6mn9dyhkXDtmfezZu7nrn2EVTMmD
-         4t/XWyyromXalCiAlFKdai87qJu/lOZPv5HxAewo6FrR1sBNk4vnuk9XPv5pBsPqw1bp
-         LAoGgl4qYnXAzep7R9gi1mb2lKxFIC0zo6qgE9ysH5jQIhC0Ir3asr/xsUXlFI0VdqIN
-         Fkna/ycDcn3Db+iASZe1Z25zcZfo6wZ/c+yOGI0rin4V1+FrDQtcCqz3ppl0jwi4uBdz
-         gcWfzaydTrOZdPtu+xhPbqwAG5F2gVXd2yV3Nk+wYqXY/ngSnFrWQDM8DB+5DgvAeUxf
-         8pJg==
+        bh=sXH/Rh4+GVlnziYvxFzW09pK07OrTgmi4lDx71PIJ28=;
+        b=DMgQbGhJzaW4URnu+XcPWVe3eqB7PYGqRqqv5JiMm6rUPT6djZt6k/xnTbWL+FNjPZ
+         l++st0b+TauHpChHDb8GZ4JJ0tPeHFysaM6iSK1MbSW6xoUPkBs02lV1iQbcmKtYF6tK
+         cnCNxnLCN0KHUSIw9qM/MCBedvU5Rj+XXGnEP75+wuHvgrozs/GiqyzWj2xktE8JGpFE
+         JRdLYqj0EitEhotW6SJY6hzVcUBTKi0AU2KKEzYx879cOF7lwxFNbX3yyvGuic7aovOb
+         Bkt4BmDymHESQT6HUr1O5ayT75Kr37R7vtak1W5f3p+E6xTUQmSfB/mgATDuOjxDH1CT
+         s3gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lZIhWWGwqkmxdebA1hh23//gl/mr060b21s3Jvn+Tzo=;
-        b=wTaSfnmINxvfeNtoPZOh+ZxiY3UPw+D9NQzGX6yoKvmM+NXZwnGTIT9pjamJNAWgII
-         yGmJN3BuisWFa89IbDObDi+ViVxXr2qjkwv6AQp9/TNOAVWoQTF+acYMkaRIC25s7O8u
-         jKMqioMU2+21M9IFVs4AvyHuYyZzm2k5VWwN0QFtsD3QeKW+p+d1wYDB6fOMOC/9PHgB
-         lXcHwcdgxMGR3paUnued+bG7WrW88lUqzTjRZ3T3TkQjqkkRUFFpZV867rbgNgXytaTD
-         gm1oUAH2Ng33ZMxrtX7I9EFOQ+LMM+Agz+h0VuSd5p0nTV53dt/JM1j3ieWuJU08/8J9
-         Oc2w==
-X-Gm-Message-State: AOAM530wu3rZhyCfdvzST+L4q/WAQVIeNPZwMaqPANwcSta1OivR2isZ
-	9wkbkp68TpxVM+0DGSYWmqb72TyTthQuUw==
+        bh=sXH/Rh4+GVlnziYvxFzW09pK07OrTgmi4lDx71PIJ28=;
+        b=z3wCACvAEV5l9v2HNKvxYlX7luddP61wXGJtiBBddZfjfESDPqHL6EE/QXjDKrEBWb
+         AqMfmKUmgmRF3GbacK67qQoA4VjHIXsJIY8CpRblcX5bt/dzBTaLvZlIKmE1Rlmzcb+3
+         enkFz6I7TZ1OdoHa67eBDWnBW0lW8qbtZhyQ/bhj0PQJ65qSVYBrtpnhhHZc7BHmk3xA
+         VhxAE5K66yn8vitfio0q1Cv3yFOherIYY3DdNX9ju8GGY6BuyzaWfKZPtTK2eU1G7naz
+         //MPFauVMpxVRSI2dS42yqVVjh4nRAepWTnhU0NlJ/ebFzYAK9wfh/P7I733CjdizNjR
+         HD4g==
+X-Gm-Message-State: AOAM533KvUcQin+PAe4kC8UkQmnitkH20/nWnexLdsUVaRWyGM8vDFTM
+	0bhgm4JRk0ajvtBSZzjg58L/7AH5JaE1lA==
 X-Google-Smtp-Source: 
- ABdhPJy6KOdyJjXo3Wujd78MTXgLv7p27/tXMlFo0nnYr3VsyaJDyXqfgoloaRUSJhqNoCZnCeuZzQ==
-X-Received: by 2002:a05:6a00:198a:b0:505:91ad:782f with SMTP id
- d10-20020a056a00198a00b0050591ad782fmr1805071pfl.20.1649904757345;
-        Wed, 13 Apr 2022 19:52:37 -0700 (PDT)
+ ABdhPJyNu5HYj4d4f/gUsRd993VerSOnklgxZklpw6dJgSg6GaOZ9PSTB/F/qd5nXVX9j0BOlG3/6g==
+X-Received: by 2002:a17:90b:4a46:b0:1c7:3b81:fc6 with SMTP id
+ lb6-20020a17090b4a4600b001c73b810fc6mr1282261pjb.243.1649904756533;
+        Wed, 13 Apr 2022 19:52:36 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4307])
         by smtp.gmail.com with ESMTPSA id
- 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.36
+ 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 19:52:37 -0700 (PDT)
+        Wed, 13 Apr 2022 19:52:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 4/6] pango: Upgrade to 1.50.6
-Date: Wed, 13 Apr 2022 19:52:28 -0700
-Message-Id: <20220414025230.1166825-4-raj.khem@gmail.com>
+Subject: [PATCH 3/6] harfbuzz: Upgrade to 4.2.0
+Date: Wed, 13 Apr 2022 19:52:27 -0700
+Message-Id: <20220414025230.1166825-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.35.2
 In-Reply-To: <20220414025230.1166825-1-raj.khem@gmail.com>
 References: <20220414025230.1166825-1-raj.khem@gmail.com>
@@ -66,32 +66,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164381
+ https://lists.openembedded.org/g/openembedded-core/message/164380
 
-Changes in this release [1]
+Changes in this release [1] [2]
 
-[1] https://github.com/GNOME/pango/commit/37a427018c92a2bc679ef104097e07a619609c9c
+[1] https://github.com/harfbuzz/harfbuzz/releases/tag/4.1.0
+[2] https://github.com/harfbuzz/harfbuzz/releases/tag/4.2.0
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../recipes-graphics/pango/{pango_1.50.4.bb => pango_1.50.6.bb} | 2 +-
+ .../harfbuzz/{harfbuzz_4.0.1.bb => harfbuzz_4.2.0.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.50.4.bb => pango_1.50.6.bb} (94%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_4.0.1.bb => harfbuzz_4.2.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.50.4.bb b/meta/recipes-graphics/pango/pango_1.50.6.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.50.4.bb
-rename to meta/recipes-graphics/pango/pango_1.50.6.bb
-index 0ea621bf670..b1b9054234d 100644
---- a/meta/recipes-graphics/pango/pango_1.50.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.6.bb
-@@ -20,7 +20,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb
+index bf77a5e56c5..44d42e6904b 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb
+@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
  
- SRC_URI += "file://run-ptest"
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
++SRC_URI[sha256sum] = "f2200f177768bdc21445aa09703326f3bbe8114ac083d081fe1a79d305c7ae73"
  
--SRC_URI[archive.sha256sum] = "f4ad63e87dc2b145300542a4fb004d07a9f91b34152fae0ddbe50ecdd851c162"
-+SRC_URI[archive.sha256sum] = "a998bcf36881c3ac20495d40bceb304f4eaa9175bd2967c85656434cbdafe86a"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
  
 -- 
 2.35.2
