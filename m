@@ -1,519 +1,174 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF1DC636D5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7782C636FB
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:56 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web12.9413.1649926646876986621
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.53])
+ by mx.groups.io with SMTP id smtpd.web09.10273.1649934427667953625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:57:27 -0700
+ Thu, 14 Apr 2022 04:07:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SFNKRYyr;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id c6so5465799edn.8
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:57:26 -0700 (PDT)
+ dkim=fail reason="body hash did not verify"
+ header.i=@weidmueller.onmicrosoft.com
+ header.s=selector1-weidmueller-onmicrosoft-com header.b=BQqZLnK0;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.53,
+ mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mhf/JoFi/eqJqK1P0SKFEmqTRzrYiIOHQ9fLpaCYElpSdL4NMfsQ3CO+Dvd0PadrOrekxlLq1Jlj1BNDUdqm5M5QR2I8bl+ZLsZzkds9AXxw1mb3IJFKEf8qBnwUckv9dTML8n9j399SXaVnTOrjVylNhACszjmaooHwcPuIUJ/1Z+VzMnVKhxMICdnfaACZPUNAP5b2fFtgqZxfsNda3NNorYap83oCSbL6mNaS+hcCgFt9oNTFTUV7356laS5ECS8XuPA+PQc4gr5kgCCWKn7GIbaR05R21UzpqTbqKmnGyTgYmjm3MXuCcbg4SHyJBWbD3JIVBg4IooHpwPYj6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B8RX0Nkkv5IAR6mgRqC2ZQmIEPIiGpb+vPvTcSCqyt4=;
+ b=KFR1XQoqjYXdRVUoWTO7QLDyGCIS5AtihA/nvKiSWhdVgVQavG8E4sB6OzwVICV6arRmPOws8toSJrkTmCUlFd0D7cipULCtV/8UTSjIWtPqGLckYuKHZyzW+iUQ8H69CoSkCFyL53TrOcgY4sZOsW/XL9C/z+kAYCaQEXZmNLUITKMihU/PP0hlG3YFUKWk4CkpcmpHvFIsXqFTAQOxou3nfgU63hEoQAwIp2vvS3yUAGgtip76OJxJ9LYLvhQyqrtI61zrGbNtOZDEkhGmDNSDfD8MtyVugvXc+ilOfVnEApvhJjMG8MTubCfZ0MW3FLOREHQRaE53+oxpZe1kPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4xJP211fWBCica7ikbsS2SZu2f9GcTahvVR5Zy/F0Ng=;
-        b=SFNKRYyrsNL2STy9APH283rDOjHQPmgOpkFC0hLo+aEiVm/EVgeHiV/WJAcNriIZ1e
-         V7oDPGeyWeFk+ISuLBeVrAj3QbdRuUzfnP8ORhTfAArzDlRAZohG5jRpcNlj/Mn5vQMp
-         gkyxUQEvmm6N26ZZmnpM5mY0NeLhFWlpUn8o6malC/k6hFEZ3p8ASRfpAB2fcScLmYMG
-         ZF5mNpjM5mB9zSXoIla8430EU30yGqdl1AVcAEXyOIUCaxJKaKjEv/58JWVIrj4KxX9A
-         q8lMGzrgs99HDDcWXlHekqPl+1VS++RQErOI596BXGM2PExfttGO2mJoX4uq0VZY/Xz0
-         ezow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4xJP211fWBCica7ikbsS2SZu2f9GcTahvVR5Zy/F0Ng=;
-        b=GnO7pjb1gcyyN7qLDtBvrBKAXPylbhTbjXCOjCE82OkWwDUlWtKQkNFgntDTMtzMtQ
-         rFGIq1R1VJPpai/a6TRPc6MreNnEsbJBTmg4UEpSbvb6Ks/yZiVAsJ1+lQbPc1V527T2
-         ZA9D5NZx91brvekISuQ5G6oG/U7wK8dzeXREV+rK2NXoNlBll2mGi58zoYGxMiIIUqFu
-         bAZTBeyUBxs5SQnNihHD+dFLq/X9suJYVAt7YKL3wE2cOnpPwog8uJqAJ7EXO6xxgvL0
-         lb7IZUlFkZak8Yt8Lej/XYnHMDvlrgjFxVaprIGwSyzIhJoiB5DttxBRQxe/i5UwR5eF
-         4tcw==
-X-Gm-Message-State: AOAM5320lw9KNa1AfYg2hpq4ufyl5x38ZOhzw+Gt+TkLQ6JTDMIdaWIO
-	Efpkpi2mN2xm4YYQzlWvQNVIrNHNJpM=
-X-Google-Smtp-Source: 
- ABdhPJwV1t7FrwVFMf4o0S1D3yjVdCVkKjqak/0lbUf54QDKQXUvsKFqEUwJOE1pQdNe/8MVQQA5Sg==
-X-Received: by 2002:a05:6402:274e:b0:419:81a1:ed9b with SMTP id
- z14-20020a056402274e00b0041981a1ed9bmr1894491edd.9.1649926644488;
-        Thu, 14 Apr 2022 01:57:24 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- jr16-20020a170906a99000b006e4c05e8919sm429542ejb.35.2022.04.14.01.57.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:57:23 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/4] python3-psutil: enable ptest
-Date: Thu, 14 Apr 2022 10:57:08 +0200
-Message-Id: <20220414085710.2010223-2-alex@linutronix.de>
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B8RX0Nkkv5IAR6mgRqC2ZQmIEPIiGpb+vPvTcSCqyt4=;
+ b=BQqZLnK0G7Mn/UFTimhUDwXNO7EHWTzR89o7LS9osiFIgOdy1Gl5z8xs2q317oBXScVXIEsUQz+nFgc3+dQrI4eklPkXnTcU4xaL4pD/XSF1BvrGc8UG/9t/WdZLpPaJFFdRtNG1r/QJNmdxw3crngyQst5KwP/Aj8zgv73Jyyk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
+ by DBBPR08MB6169.eurprd08.prod.outlook.com (2603:10a6:10:205::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.28; Thu, 14 Apr
+ 2022 11:07:03 +0000
+Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::454:7133:dd03:d8e]) by PAXPR08MB6969.eurprd08.prod.outlook.com
+ ([fe80::454:7133:dd03:d8e%4]) with mapi id 15.20.5144.030; Thu, 14 Apr 2022
+ 11:07:03 +0000
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org,
+	Paul Eggleton <bluelightning@bluelightning.org>
+CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+Subject: [PATCH] recipetool: Do not use mutable default arguments in Python
+Date: Thu, 14 Apr 2022 13:06:35 +0200
+Message-ID: <20220414110635.8495-1-stefan.herbrechtsmeier-oss@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220414085710.2010223-1-alex@linutronix.de>
-References: <20220414085710.2010223-1-alex@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: AS9P194CA0022.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:20b:46d::28) To PAXPR08MB6969.eurprd08.prod.outlook.com
+ (2603:10a6:102:1d8::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83ffb3b9-933c-49d7-5456-08da1e06e752
+X-MS-TrafficTypeDiagnostic: DBBPR08MB6169:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DBBPR08MB6169ECD63989D8267F403EEBD7EF9@DBBPR08MB6169.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	F3f7Bo4stBDfivyKQrHOtPNigfXuumYZyeFYx1zRNuFVQZM7aNLLgCPFi2UASLRcPvD6Ge4sUWtuVbuJ0H+iimwnA9SGtC70mcjA16FMlBYLSrUJVjQz/LfZ8nXvr9xEKkaaj12Zo4M9Ya4zf7OScCKIn/fOpMr+N3imvPH4RoOgs7sDp5BV2KqDi68qmhD1gcd9SI9VArnG3NF81LHn1klPdzPzzM23MFa2XQaj334rO0VSTfVf8Jdggw2KLtb6WCtoC17DaNNONYfzUO6gF+8mOzGberlil2X+grQZHTkblKLan+w5dZfi/s5vlOLdRUJTBL8bhykeKoCL8LrCfB32Xfpq3+vZYuKwrz30ueJyyqJx+svrh6QG0FKW6BoHwwu5Y3Alf7xLg4Vs3lzMLW0o0KTAbqsJRdgIB/XbkBSIQMTZxJiM7e47ajDwVg7kBjWBf4CbJZol9CqFZGLOvABipcVgFNwq8F0fT11bFWMrAMEnlTm5cb0IqdXziGAFzs0150HC/Mcv7ORUzEuVe74oIrjDHmGvluO8LHI6A16kh+X90BcM4DPschUJ1z3rENmrr+K8SBXQJQ2xUgQpmHt+OOqJozpl0u+ffSPwM55xq9+p/MEv+aRh6iCA/NPA4ls91m7maX3H00q6ebgbDeIRz1lQPP2dzQEDh0N2x1vfL21Wc6j4HJVqFU3XzH5JqhdTwm/BIl7szirscc69rYlgRMgcM1PbKFNN2MdTD81LcEqFxO+fm4Ux+gUOWH09seHYa/Dw8D9bJjWFwbUShvu66RXZ3BNZjamp9GPruzM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(316002)(83380400001)(38350700002)(6666004)(5660300002)(38100700002)(6916009)(6512007)(966005)(2616005)(52116002)(8936002)(2906002)(107886003)(6506007)(4326008)(8676002)(66476007)(66946007)(66556008)(186003)(36756003)(86362001)(6486002)(26005)(508600001)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?D1/g36ZUqMhzIP4MQ27mVLLr83N3RaSvndX4nZxeqDkMCfnkKtqjpaimJhad?=
+ =?us-ascii?Q?sBGH3NZoG3eBJRkDXkQctc6HgBxxd02UtwSGMOgwP3UtPHyP0HME5EUV3BGQ?=
+ =?us-ascii?Q?DiKStWCQPQXBNv5XImxJM7Qc2oyWv1oWntcUxw4Fe6jntHshs9ztgMGx9oFO?=
+ =?us-ascii?Q?X95M/iWgpMD4Q1JZ5Nw6SsJtexQgrYUrtaEmJVdch505+pc3dACZcPJbrQqn?=
+ =?us-ascii?Q?nm44PjjPnD5Fe7HbMJ9HcHpVhEsuRpTAONX328mGdEr9dFpybqYX/x3Jq9El?=
+ =?us-ascii?Q?TP7/8jeOvhcTuugmwGb7/fb5eCTQ9gtPyeChC3lN0gaYXInbg0xs1HvrJuNe?=
+ =?us-ascii?Q?LUge2h1ZtXf48EbYJDoU/eXi3hnxY/7lEvXGo9SfUwDPr+ZmXpjpTht9I+6J?=
+ =?us-ascii?Q?/MyDhsQEhbpvHkW+KWNqcfPmjnNDEzswcUfzFoMTh9+IbaAfE75XOjA5NuPw?=
+ =?us-ascii?Q?XVm5CQe+tNFOz205DE6Z4N/z49Iyf8iTH8bCdp9S/S06PaHA8GKrDYt1iy2i?=
+ =?us-ascii?Q?1/6nXgC0sJ3tHoNHZYmzgateJ8O51AexxnZRZalNUfhXDCoG+IayAGMhEAKz?=
+ =?us-ascii?Q?L8dNBgsxyYD7IAgJl4nry+e18h8zC/UwANXrvzpCMdt3mWsKFhDh5SO+d0t0?=
+ =?us-ascii?Q?L/7iC5qGaFnZ6uZVtvH1bHmcM7hVAnT4/wexf+lO09i1B+gHD5/STKfWESVX?=
+ =?us-ascii?Q?0FxO8cB4olQBBEwD7vlK5foF0QM0h5K4oGuNnPAovloNR2LkYGbj4bSFT0cW?=
+ =?us-ascii?Q?lS3vA+iTeHuFp5PZf8AMetktwtcgwsVSyR2uo+HA0FdHEnkDYJ+wh4Z/yULR?=
+ =?us-ascii?Q?NKO0uQHW4oAlan9rXzIXkyWWCOTNQlcPwbAqmmuz7Sth5rUyh4ld6NCrq5bP?=
+ =?us-ascii?Q?8nPCg1+FLmhAMTOIZuErIVa3ZmHbe0BLRHn9czAUZeHE61XG7ziPyn63K+Ql?=
+ =?us-ascii?Q?wHWtMNAYaynStamRCD2NYMRkzUyffnSslXu9p0u8kcZT1qoM++VBwGqgjAIr?=
+ =?us-ascii?Q?ACAEXv94AfYMpen5owjntSAIZPoss9eBEjM4ZFvJVPsrRJcXzvj6rMIJ72J4?=
+ =?us-ascii?Q?hgTUubdtHvahnvLzb8DAvIJMSfK4C0EEw2t8OmWI2iy/XpVFxchLLKVtb5uo?=
+ =?us-ascii?Q?bdzWUckSWugYoYa+VYhz5LerQ2Zb26kl32/ObA3aeU4ssRZREbmYgN0ushv9?=
+ =?us-ascii?Q?rZ9LqqNJrH9rW+1NOgctoV62ILGXl/cs/Rll4mP3PTTkAaofXasy92UH45Oo?=
+ =?us-ascii?Q?uFYTQlADTsZTCd9TyrNOMNxFhI+mns4CoogsW29yDhqYpUu14ops16Ahw7Ch?=
+ =?us-ascii?Q?G8Jxjj2tvCYp7bnqAY+ZvMYZeeSu++HF40bcr+Uoc1fIt6GyvZaeHdrGJ4QN?=
+ =?us-ascii?Q?Nccv9pTHIrBMXdLVna7bXEqIIEsJgPou6Ma23RRgPZNGzj9BuH5p49F4novq?=
+ =?us-ascii?Q?XeAXstF1qL9ZNF6v5f9sw9zLa/a8b3RyEN5cPcAj+EOlzd047K/JF8pdKteZ?=
+ =?us-ascii?Q?fb1quUrgZtLAOxyZqsl575XSpn7Kp9cXvMrjmmZnqBKctfLI2X44nrh075cd?=
+ =?us-ascii?Q?B0bk3VrmZ9oa79mm7wp6ryelkElix+iaKvn0RHQHv66iWQhOQCrGMStJ6FVO?=
+ =?us-ascii?Q?bIztU9qNSH8mzVYNFAIUe3DiOH4NusNpL4pNRhPZkKalN9fw4Ij7dvcPJnf4?=
+ =?us-ascii?Q?83r/6acVTZsB7kVbGgi7g4EPPS64jB06RvERC5IHdg7J9qLqxFZxNeDS2q7R?=
+ =?us-ascii?Q?XzSFpvlEY1XM8rpRE66pOnmnnhBjv/8=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 83ffb3b9-933c-49d7-5456-08da1e06e752
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 11:07:03.1539
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ nzo2sRH3LR53PoEgZlvWnX3k5QQZ9XJ3+XRDt8uRSwu1JXyodRZ1AwMS/8I3FQzckPAdtFcQhSYTxpWff7ABaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6169
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164399
+ https://lists.openembedded.org/g/openembedded-core/message/164407
 
-Also, replace a mass-test-disabling patch with more targeted fixes and
-submit them upstream.
+From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Remove mutable default arguments in Python because they can lead to all
+sorts of nasty and horrible bugs.
+
+https://florimond.dev/en/posts/2018/08/python-mutable-defaults-are-the-sour=
+ce-of-all-evil/
+
+Revert `recipetool: Change default paramter fallback_licenses of
+function split_pkg_licenses from None to []` and instead check
+fallback_licenses before use.
+
+Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
+om>
+
 ---
- .../distro/include/ptest-packagelists.inc     |   1 +
- .../0001-fix-failure-test-cases.patch         | 197 ------------------
- ...im-possible-dirty-suffix-from-free-V.patch |  27 +++
- ...rectly-skip-test-if-setup.py-does-no.patch |  27 +++
- ...e-mountpoint-as-df-argument-and-not-.patch |  27 +++
- ...y-drop-test-for-presence-of-io_count.patch |  29 +++
- ...drop-initial-check-for-ionice-class-.patch |  27 +++
- .../python/python3-psutil/run-ptest           |   3 +
- .../python/python3-psutil_5.9.0.bb            |  15 +-
- 9 files changed, 150 insertions(+), 203 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/0001-test_linux.py-trim-possible-dirty-suffix-from-free-V.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/0002-test_misc.py-correctly-skip-test-if-setup.py-does-no.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/0003-test_posix.py-use-mountpoint-as-df-argument-and-not-.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/0004-test_contracts.py-drop-test-for-presence-of-io_count.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/0005-test_process.py-drop-initial-check-for-ionice-class-.patch
- create mode 100644 meta/recipes-devtools/python/python3-psutil/run-ptest
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index b51cce4d9e..0e1083646e 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
-     python3-markupsafe-ptest \
-     python3-more-itertools-ptest \
-     python3-pluggy-ptest \
-+    python3-psutil-ptest \
-     python3-pyasn1-ptest \
-     python3-pytz-ptest \
-     python3-wcwidth-ptest \
-diff --git a/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch b/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
-deleted file mode 100644
-index 34ea03b27f..0000000000
---- a/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
-+++ /dev/null
-@@ -1,197 +0,0 @@
--From 8b4e38958ff8bdbb3ece4796bfa2d3b6f7536f71 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Wed, 23 Feb 2022 11:54:40 +0800
--Subject: [PATCH] fix failure test cases
--
--The test cases is not robust enough. skip some cases that is
--not suitable for all conditions.
--
--* test_io_counters failed when kernel config CONFIG_TASKSTATS
--  and CONFIG_TASK_IO_ACCOUNTING are not enable in OE 
--* test_setup_script failed since oe don't install setup.py
--* test_used failed since oe use git source for free, so the version
--  is 3.3.17-dirty
--* test_weird_environ failed since gcc not installed
--* test_debug failed since it is designed to run when PSUTIL_DEBUG is set
--* test_against_findmnt/test_comparisons/test_disk_partitions_mocked/
--  test_disk_partitions is not suitable for Linux nfs boot
--
--Upstream-Status: Pending
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- psutil/tests/test_contracts.py | 1 +
-- psutil/tests/test_linux.py     | 8 ++++++--
-- psutil/tests/test_misc.py      | 4 ++++
-- psutil/tests/test_process.py   | 5 +++++
-- psutil/tests/test_system.py    | 1 +
-- psutil/tests/test_unicode.py   | 4 +++-
-- 6 files changed, 20 insertions(+), 3 deletions(-)
--
--diff --git a/psutil/tests/test_contracts.py b/psutil/tests/test_contracts.py
--index 7401cc1..bf0fca0 100755
----- a/psutil/tests/test_contracts.py
--+++ b/psutil/tests/test_contracts.py
--@@ -172,6 +172,7 @@ class TestAvailProcessAPIs(PsutilTestCase):
--     def test_rlimit(self):
--         self.assertEqual(hasattr(psutil.Process, "rlimit"), LINUX or FREEBSD)
-- 
--+    @unittest.skip("broken on OE since kernel config maye not be enabled")
--     def test_io_counters(self):
--         hasit = hasattr(psutil.Process, "io_counters")
--         self.assertEqual(hasit, False if MACOS or SUNOS else True)
--diff --git a/psutil/tests/test_linux.py b/psutil/tests/test_linux.py
--index 20e28d2..66b6dda 100755
----- a/psutil/tests/test_linux.py
--+++ b/psutil/tests/test_linux.py
--@@ -196,8 +196,9 @@ def get_free_version_info():
--     out = sh(["free", "-V"]).strip()
--     if 'UNKNOWN' in out:
--         raise unittest.SkipTest("can't determine free version")
---    return tuple(map(int, out.split()[-1].split('.')))
---
--+    vlist = out.split()[-1].split('.')
--+    vlist[:] = [n.split('-')[0] for n in vlist]
--+    return tuple(map(int, vlist))
-- 
-- @contextlib.contextmanager
-- def mock_open_content(for_path, content):
--@@ -1289,6 +1290,7 @@ class TestRootFsDeviceFinder(PsutilTestCase):
--         finder.ask_sys_class_block()
-- 
--     @unittest.skipIf(GITHUB_ACTIONS, "unsupported on GITHUB_ACTIONS")
--+    @unittest.skip("Broken for oe")
--     def test_comparisons(self):
--         finder = RootFsDeviceFinder()
--         self.assertIsNotNone(finder.find())
--@@ -1311,11 +1313,13 @@ class TestRootFsDeviceFinder(PsutilTestCase):
-- 
--     @unittest.skipIf(not which("findmnt"), "findmnt utility not available")
--     @unittest.skipIf(GITHUB_ACTIONS, "unsupported on GITHUB_ACTIONS")
--+    @unittest.skip("Broken for oe")
--     def test_against_findmnt(self):
--         psutil_value = RootFsDeviceFinder().find()
--         findmnt_value = sh("findmnt -o SOURCE -rn /")
--         self.assertEqual(psutil_value, findmnt_value)
-- 
--+    @unittest.skip("Broken for oe")
--     def test_disk_partitions_mocked(self):
--         with mock.patch(
--                 'psutil._pslinux.cext.disk_partitions',
--diff --git a/psutil/tests/test_misc.py b/psutil/tests/test_misc.py
--index d946eb6..121004a 100755
----- a/psutil/tests/test_misc.py
--+++ b/psutil/tests/test_misc.py
--@@ -54,6 +54,8 @@ from psutil.tests import unittest
-- # ===================================================================
-- 
-- 
--+PSUTIL_DEBUG = bool(os.getenv('PSUTIL_DEBUG', 0))
--+
-- class TestMisc(PsutilTestCase):
-- 
--     def test_process__repr__(self, func=repr):
--@@ -368,6 +370,7 @@ class TestMisc(PsutilTestCase):
-- 
--     # XXX: https://github.com/pypa/setuptools/pull/2896
--     @unittest.skipIf(APPVEYOR, "temporarily disabled due to setuptools bug")
--+    @unittest.skip("OE run this test outof source tree")
--     def test_setup_script(self):
--         setup_py = os.path.join(ROOT_DIR, 'setup.py')
--         if CI_TESTING and not os.path.exists(setup_py):
--@@ -401,6 +404,7 @@ class TestMisc(PsutilTestCase):
--                 reload_module(psutil)
--             self.assertIn("version conflict", str(cm.exception).lower())
-- 
--+    @unittest.skipIf(not PSUTIL_DEBUG, "env PSUTIL_DEBUG not set")
--     def test_debug(self):
--         if PY3:
--             from io import StringIO
--diff --git a/psutil/tests/test_process.py b/psutil/tests/test_process.py
--index c9059e3..a34ba3d 100755
----- a/psutil/tests/test_process.py
--+++ b/psutil/tests/test_process.py
--@@ -36,6 +36,7 @@ from psutil._compat import PY3
-- from psutil._compat import FileNotFoundError
-- from psutil._compat import long
-- from psutil._compat import super
--+from psutil._compat import which
-- from psutil.tests import APPVEYOR
-- from psutil.tests import CI_TESTING
-- from psutil.tests import GITHUB_ACTIONS
--@@ -726,6 +727,7 @@ class TestProcess(PsutilTestCase):
--             self.assertEqual(' '.join(p.cmdline()), ' '.join(cmdline))
-- 
--     @unittest.skipIf(PYPY, "broken on PYPY")
--+    @unittest.skipIf(not which("gcc"), "gcc not installed")
--     def test_long_cmdline(self):
--         testfn = self.get_testfn()
--         create_exe(testfn)
--@@ -740,6 +742,7 @@ class TestProcess(PsutilTestCase):
--         assert pyexe.startswith(name), (pyexe, name)
-- 
--     @unittest.skipIf(PYPY, "unreliable on PYPY")
--+    @unittest.skipIf(not which("gcc"), "gcc not installed")
--     def test_long_name(self):
--         testfn = self.get_testfn(suffix="0123456789" * 2)
--         create_exe(testfn)
--@@ -750,6 +753,7 @@ class TestProcess(PsutilTestCase):
--     @unittest.skipIf(SUNOS, "broken on SUNOS")
--     @unittest.skipIf(AIX, "broken on AIX")
--     @unittest.skipIf(PYPY, "broken on PYPY")
--+    @unittest.skipIf(not which("gcc"), "gcc not installed")
--     def test_prog_w_funky_name(self):
--         # Test that name(), exe() and cmdline() correctly handle programs
--         # with funky chars such as spaces and ")", see:
--@@ -1408,6 +1412,7 @@ class TestProcess(PsutilTestCase):
-- 
--     @unittest.skipIf(not HAS_ENVIRON, "not supported")
--     @unittest.skipIf(not POSIX, "POSIX only")
--+    @unittest.skipIf(not which("gcc"), "gcc not installed")
--     def test_weird_environ(self):
--         # environment variables can contain values without an equals sign
--         code = textwrap.dedent("""
--diff --git a/psutil/tests/test_system.py b/psutil/tests/test_system.py
--index db2cb34..5ee519f 100755
----- a/psutil/tests/test_system.py
--+++ b/psutil/tests/test_system.py
--@@ -580,6 +580,7 @@ class TestDiskAPIs(PsutilTestCase):
--     def test_disk_usage_bytes(self):
--         psutil.disk_usage(b'.')
-- 
--+    @unittest.skip("Broken for oe")
--     def test_disk_partitions(self):
--         def check_ntuple(nt):
--             self.assertIsInstance(nt.device, str)
--diff --git a/psutil/tests/test_unicode.py b/psutil/tests/test_unicode.py
--index e635726..7ba5b0f 100755
----- a/psutil/tests/test_unicode.py
--+++ b/psutil/tests/test_unicode.py
--@@ -86,6 +86,7 @@ from psutil import POSIX
-- from psutil import WINDOWS
-- from psutil._compat import PY3
-- from psutil._compat import u
--+from psutil._compat import which
-- from psutil.tests import APPVEYOR
-- from psutil.tests import ASCII_FS
-- from psutil.tests import CI_TESTING
--@@ -156,7 +157,7 @@ def try_unicode(suffix):
-- # FS APIs
-- # ===================================================================
-- 
---
--+@unittest.skipIf(not which("gcc"), "gcc not installed")
-- class BaseUnicodeTest(PsutilTestCase):
--     funky_suffix = None
-- 
--@@ -169,6 +170,7 @@ class BaseUnicodeTest(PsutilTestCase):
-- @serialrun
-- @unittest.skipIf(ASCII_FS, "ASCII fs")
-- @unittest.skipIf(PYPY and not PY3, "too much trouble on PYPY2")
--+@unittest.skipIf(not which("gcc"), "gcc not installed")
-- class TestFSAPIs(BaseUnicodeTest):
--     """Test FS APIs with a funky, valid, UTF8 path name."""
-- 
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/python/python3-psutil/0001-test_linux.py-trim-possible-dirty-suffix-from-free-V.patch b/meta/recipes-devtools/python/python3-psutil/0001-test_linux.py-trim-possible-dirty-suffix-from-free-V.patch
-new file mode 100644
-index 0000000000..f43bcd3604
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/0001-test_linux.py-trim-possible-dirty-suffix-from-free-V.patch
-@@ -0,0 +1,27 @@
-+From a5341e9ab25da217de49f80b2dd42dd40124d863 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 11:30:37 +0200
-+Subject: [PATCH] test_linux.py: trim possible -dirty suffix from 'free -V'
-+ output
-+
-+This can happen if free was built from git.
-+
-+Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ psutil/tests/test_linux.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/psutil/tests/test_linux.py b/psutil/tests/test_linux.py
-+index 20e28d2..7eb1c0b 100755
-+--- a/psutil/tests/test_linux.py
-++++ b/psutil/tests/test_linux.py
-+@@ -196,7 +196,7 @@ def get_free_version_info():
-+     out = sh(["free", "-V"]).strip()
-+     if 'UNKNOWN' in out:
-+         raise unittest.SkipTest("can't determine free version")
-+-    return tuple(map(int, out.split()[-1].split('.')))
-++    return tuple(map(int, out.split()[-1].split('-')[0].split('.')))
-+ 
-+ 
-+ @contextlib.contextmanager
-diff --git a/meta/recipes-devtools/python/python3-psutil/0002-test_misc.py-correctly-skip-test-if-setup.py-does-no.patch b/meta/recipes-devtools/python/python3-psutil/0002-test_misc.py-correctly-skip-test-if-setup.py-does-no.patch
-new file mode 100644
-index 0000000000..ba2ef91f03
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/0002-test_misc.py-correctly-skip-test-if-setup.py-does-no.patch
-@@ -0,0 +1,27 @@
-+From f51162f9625e9ea95c0972b5363d38526de74b4c Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 11:32:39 +0200
-+Subject: [PATCH] test_misc.py: correctly skip test if setup.py does not exist
-+
-+This can happen if installed tests are run in a non-CI environment:
-+$ python3 -m psutil.tests
-+
-+Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ psutil/tests/test_misc.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/psutil/tests/test_misc.py b/psutil/tests/test_misc.py
-+index d946eb6..72b23ef 100755
-+--- a/psutil/tests/test_misc.py
-++++ b/psutil/tests/test_misc.py
-+@@ -370,7 +370,7 @@ class TestMisc(PsutilTestCase):
-+     @unittest.skipIf(APPVEYOR, "temporarily disabled due to setuptools bug")
-+     def test_setup_script(self):
-+         setup_py = os.path.join(ROOT_DIR, 'setup.py')
-+-        if CI_TESTING and not os.path.exists(setup_py):
-++        if CI_TESTING or not os.path.exists(setup_py):
-+             return self.skipTest("can't find setup.py")
-+         module = import_module_by_path(setup_py)
-+         self.assertRaises(SystemExit, module.setup)
-diff --git a/meta/recipes-devtools/python/python3-psutil/0003-test_posix.py-use-mountpoint-as-df-argument-and-not-.patch b/meta/recipes-devtools/python/python3-psutil/0003-test_posix.py-use-mountpoint-as-df-argument-and-not-.patch
-new file mode 100644
-index 0000000000..59b0862b70
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/0003-test_posix.py-use-mountpoint-as-df-argument-and-not-.patch
-@@ -0,0 +1,27 @@
-+From 6bef0cf58f4c734bdbcb8b272ee621d532ed6b98 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 11:43:34 +0200
-+Subject: [PATCH] test_posix.py: use mountpoint as df argument, and not device
-+
-+This is more reliable as in virtual machines such as qemu there may
-+not be an accurate mapping to devices.
-+
-+Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ psutil/tests/test_posix.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/psutil/tests/test_posix.py b/psutil/tests/test_posix.py
-+index 31b8192..22fb518 100755
-+--- a/psutil/tests/test_posix.py
-++++ b/psutil/tests/test_posix.py
-+@@ -392,7 +392,7 @@ class TestSystemAPIs(PsutilTestCase):
-+         for part in psutil.disk_partitions(all=False):
-+             usage = psutil.disk_usage(part.mountpoint)
-+             try:
-+-                total, used, free, percent = df(part.device)
-++                total, used, free, percent = df(part.mountpoint)
-+             except RuntimeError as err:
-+                 # see:
-+                 # https://travis-ci.org/giampaolo/psutil/jobs/138338464
-diff --git a/meta/recipes-devtools/python/python3-psutil/0004-test_contracts.py-drop-test-for-presence-of-io_count.patch b/meta/recipes-devtools/python/python3-psutil/0004-test_contracts.py-drop-test-for-presence-of-io_count.patch
-new file mode 100644
-index 0000000000..0320076d66
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/0004-test_contracts.py-drop-test-for-presence-of-io_count.patch
-@@ -0,0 +1,29 @@
-+From e79bd02a30d8bfeee53568bc9d51258f2022298e Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 12:03:36 +0200
-+Subject: [PATCH] test_contracts.py: drop test for presence of io_counters
-+
-+This may be absent on Linux as well (if the kernel is configured that way),
-+so the test becomes meaningless.
-+
-+Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ psutil/tests/test_contracts.py | 4 ----
-+ 1 file changed, 4 deletions(-)
-+
-+diff --git a/psutil/tests/test_contracts.py b/psutil/tests/test_contracts.py
-+index 7401cc1..5697028 100755
-+--- a/psutil/tests/test_contracts.py
-++++ b/psutil/tests/test_contracts.py
-+@@ -172,10 +172,6 @@ class TestAvailProcessAPIs(PsutilTestCase):
-+     def test_rlimit(self):
-+         self.assertEqual(hasattr(psutil.Process, "rlimit"), LINUX or FREEBSD)
-+ 
-+-    def test_io_counters(self):
-+-        hasit = hasattr(psutil.Process, "io_counters")
-+-        self.assertEqual(hasit, False if MACOS or SUNOS else True)
-+-
-+     def test_num_fds(self):
-+         self.assertEqual(hasattr(psutil.Process, "num_fds"), POSIX)
-+ 
-diff --git a/meta/recipes-devtools/python/python3-psutil/0005-test_process.py-drop-initial-check-for-ionice-class-.patch b/meta/recipes-devtools/python/python3-psutil/0005-test_process.py-drop-initial-check-for-ionice-class-.patch
-new file mode 100644
-index 0000000000..09b429311a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/0005-test_process.py-drop-initial-check-for-ionice-class-.patch
-@@ -0,0 +1,27 @@
-+From 33f1b29a8909dfb4df651003e236049302f16b9d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 12:13:22 +0200
-+Subject: [PATCH] test_process.py: drop initial check for ionice class being
-+ IOPriority.IOPRIO_CLASS_NONE
-+
-+On two of my machines running different distros it's IOPriority.IOPRIO_CLASS_BE.
-+
-+Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ psutil/tests/test_process.py | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/psutil/tests/test_process.py b/psutil/tests/test_process.py
-+index c9059e3..af3d924 100755
-+--- a/psutil/tests/test_process.py
-++++ b/psutil/tests/test_process.py
-+@@ -345,8 +345,6 @@ class TestProcess(PsutilTestCase):
-+     @unittest.skipIf(not LINUX, "linux only")
-+     def test_ionice_linux(self):
-+         p = psutil.Process()
-+-        if not CI_TESTING:
-+-            self.assertEqual(p.ionice()[0], psutil.IOPRIO_CLASS_NONE)
-+         self.assertEqual(psutil.IOPRIO_CLASS_NONE, 0)
-+         self.assertEqual(psutil.IOPRIO_CLASS_RT, 1)  # high
-+         self.assertEqual(psutil.IOPRIO_CLASS_BE, 2)  # normal
-diff --git a/meta/recipes-devtools/python/python3-psutil/run-ptest b/meta/recipes-devtools/python/python3-psutil/run-ptest
-new file mode 100644
-index 0000000000..90900e967b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-psutil/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+PSUTIL_DEBUG=1 python3 -m psutil.tests 2>&1 | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -r -e '/\.\.\. (ERROR|FAIL)/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-diff --git a/meta/recipes-devtools/python/python3-psutil_5.9.0.bb b/meta/recipes-devtools/python/python3-psutil_5.9.0.bb
-index df304f01e6..4ea3fcfbbf 100644
---- a/meta/recipes-devtools/python/python3-psutil_5.9.0.bb
-+++ b/meta/recipes-devtools/python/python3-psutil_5.9.0.bb
-@@ -3,15 +3,18 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e35fd9f271d19d5f742f20a9d1f8bb8b"
- HOMEPAGE = "https://pypi.org/project/psutil/"
- 
-+SRC_URI += "file://run-ptest \
-+           file://0001-test_linux.py-trim-possible-dirty-suffix-from-free-V.patch \
-+           file://0002-test_misc.py-correctly-skip-test-if-setup.py-does-no.patch \
-+           file://0003-test_posix.py-use-mountpoint-as-df-argument-and-not-.patch \
-+           file://0004-test_contracts.py-drop-test-for-presence-of-io_count.patch \
-+           file://0005-test_process.py-drop-initial-check-for-ionice-class-.patch \
-+           "
- SRC_URI[sha256sum] = "869842dbd66bb80c3217158e629d6fceaecc3a3166d3d1faee515b05dd26ca25"
- 
--inherit pypi setuptools3
-+inherit pypi setuptools3 ptest
- 
--SRC_URI += "file://0001-fix-failure-test-cases.patch"
--
--PACKAGES =+ "${PN}-tests"
--
--FILES:${PN}-tests += " \
-+FILES:${PN}-ptest += " \
-     ${PYTHON_SITEPACKAGES_DIR}/psutil/test* \
-     ${PYTHON_SITEPACKAGES_DIR}/psutil/__pycache__/test* \
- "
--- 
+ scripts/lib/recipetool/create.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py
+index 220465ed2f..824ac6350d 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -1235,7 +1235,7 @@ def guess_license(srctree, d):
+=20
+     return licenses
+=20
+-def split_pkg_licenses(licvalues, packages, outlines, fallback_licenses=3D=
+[], pn=3D'${PN}'):
++def split_pkg_licenses(licvalues, packages, outlines, fallback_licenses=3D=
+None, pn=3D'${PN}'):
+     """
+     Given a list of (license, path, md5sum) as returned by guess_license()=
+,
+     a dict of package name to path mappings, write out a set of
+@@ -1258,7 +1258,7 @@ def split_pkg_licenses(licvalues, packages, outlines,=
+ fallback_licenses=3D[], pn=3D'
+     for pkgname in packages:
+         # Assume AND operator between license files
+         license =3D ' & '.join(list(set(pkglicenses.get(pkgname, ['Unknown=
+'])))) or 'Unknown'
+-        if license =3D=3D 'Unknown' and pkgname in fallback_licenses:
++        if license =3D=3D 'Unknown' and fallback_licenses and pkgname in f=
+allback_licenses:
+             license =3D fallback_licenses[pkgname]
+         licenses =3D tidy_licenses(license)
+         license =3D ' & '.join(licenses)
+--=20
 2.30.2
 
 
