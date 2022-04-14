@@ -2,150 +2,86 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B291C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BBC5C63686
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:56 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web09.9153.1649924435379672201
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.9192.1649924686492842499
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:20:35 -0700
+ Thu, 14 Apr 2022 01:24:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R79SfH5r;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IdOHNtkm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id
- ay36-20020a05600c1e2400b0038ebc885115so3719368wmb.1
+Received: by mail-wr1-f46.google.com with SMTP id r13so5841361wrr.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 01:20:35 -0700 (PDT)
+ Thu, 14 Apr 2022 01:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZyOpF3X6jc2KtnaQ4JDzMxZLrJJG+bv9zktREnQZVH4=;
-        b=R79SfH5r9onohkgmpMDt8buZia49o2sCDVKz21EHoiq//2nGfAfgG/QYKZ0fsG5zPk
-         PFyOrPaHhwRsOKcrri69uiZox0UJrHEBcqGOh8qC5bb9TQDgKE0o8VZGD746SKRIGXAm
-         VGRqbWEs5Z8ee8hSqfzhDIhqGKqEft2/gjPaM=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=xOSZ8NwcxwJ7YB5nJ60x3gFuR4NB5nQ5MTa00habGOw=;
+        b=IdOHNtkmqY8+7FLl+TkVG2mmDPsbF9k09Uy3i2hyPoGuhsPrUX9Gj/YUGbjxR5k4E5
+         A1IiFaJEg0BsZhCDnNvZUdnxZqVUDtACjbibbsjaj+69QtGksSVP/v94lZwXQDG7ue1B
+         3LDZ0E1qY7/3x9zIjee7MK1+li7WTOidKOWH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZyOpF3X6jc2KtnaQ4JDzMxZLrJJG+bv9zktREnQZVH4=;
-        b=EbjzUOLk65yN1yokJIFeT1fUUI8NJ/GOzwmRuwB2VulUJK5ALPKh05Dv4r33ozjKry
-         Ozn0pBZRhqfWRBNv09+MpyvuxlVd9PKRHmcOzMqNlSo8DPHX/YJJ+rxOTl42deAXGT19
-         8yIUI89BhRhJstst6dw61xozYhrFdWfG7krUYcHrPfFo5SRDsyZRFa4t+xrnMg91qj57
-         EyTf8FNwWDjKz9nNTuF486Jr86G6uR77ZTuXbA/L5n8D+1vb6W0b9Z84mUbQ4Hy92A7e
-         PxAT3bD5+/WAwS8alGzMkLyeaaepXm9/kHRAxOLXXdqXRWvhV/Iq2NtMXAY/EcNBbwnF
-         igVg==
-X-Gm-Message-State: AOAM533GV6Vj45RSO1ewNGH+GKlkwB2IewXkwN9QQKquoz588I3HSMtY
-	DnDA4g2JyyLb6r+nyVa5ePg4F8JzoaVY9A==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=xOSZ8NwcxwJ7YB5nJ60x3gFuR4NB5nQ5MTa00habGOw=;
+        b=1nBZ6xoVaPdyI/SOtFaewyJ0N1mtORlWTwwa16LyQqDeZwKOzau+2WPt0mCERBxbnr
+         GjV+TyjltJm0MdMDwuTBbmtCztDMkMymg+Tv9vI0jCerQTZ4bv318U1lT7PKoggv0O7b
+         irI7qnlbSqyGfgwuSH879IuPPmrcKfo2TMPlb4mou/5MmvXcXehax0GWGiErms+8EEQv
+         wMLb6K3ox3fXBA93qnTq0t4vmPdZ2UKFq66KgBzq1SZvMmXN4BJvQZBg0b2bGocfW2GR
+         qtR76wj55nBcFX+06nupsdLcZ1GknBVaFiKwqlKAir5iFltrEj4whFauaVl4f+qvtkd3
+         77vA==
+X-Gm-Message-State: AOAM532CYJE1m5MSeZ3w1LvzWEoFOqAtvtUj0OxLL/bHiypqPtM03FOd
+	S7D3+IPbB5fcO41M5u1YgWk/7njSlOQ26A==
 X-Google-Smtp-Source: 
- ABdhPJxKJr+AeikQSdrV6ubiRy/psOnz3sYy/EKmoXCK95knLVGcomj5uJt6Yrza8JoELT9WPQFe5A==
-X-Received: by 2002:a7b:cd82:0:b0:389:77ef:66d7 with SMTP id
- y2-20020a7bcd82000000b0038977ef66d7mr1972473wmj.171.1649924433220;
-        Thu, 14 Apr 2022 01:20:33 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
+ ABdhPJx6ZgQ9erpRN13CIM6fp74mdJeHoqfro1ellK3NU3gLnRFcCdVPbqbQQ1lzq2ACg6oaFWFmlQ==
+X-Received: by 2002:adf:d1ea:0:b0:20a:2823:9e22 with SMTP id
+ g10-20020adfd1ea000000b0020a28239e22mr770906wrd.332.1649924684461;
+        Thu, 14 Apr 2022 01:24:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:353f:5203:2a56:f190?
+ ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
         by smtp.gmail.com with ESMTPSA id
- l2-20020a05600c4f0200b0038e8fb63293sm1356511wmq.22.2022.04.14.01.20.31
-        for <openembedded-core@lists.openembedded.org>
+ z5-20020a05600c0a0500b0037fa93193a8sm1457175wmp.44.2022.04.14.01.24.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:20:32 -0700 (PDT)
+        Thu, 14 Apr 2022 01:24:43 -0700 (PDT)
+Message-ID: 
+ <3aecd18edbf93fdc9b1ef46d510d02f57660ffc9.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2] ccache: Fix build with gcc12/mips
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] runqemu: Allow auto detection of the correct graphics
- options
-Date: Thu, 14 Apr 2022 09:20:31 +0100
-Message-Id: <20220414082031.2227955-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Khem Raj <raj.khem@gmail.com>, Patches and discussions about the oe-core
+ layer <openembedded-core@lists.openembedded.org>, Alexandre BELLONI
+ <alexandre.belloni@bootlin.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Date: Thu, 14 Apr 2022 09:24:40 +0100
+In-Reply-To: 
+ <CAMKF1sp=C6PieVv=cMZYppQgpwcq7A15AjXAZvHEvtGMpD1geQ@mail.gmail.com>
+References: <20220412170331.3234683-1-raj.khem@gmail.com>
+	 <CAMKF1sp=C6PieVv=cMZYppQgpwcq7A15AjXAZvHEvtGMpD1geQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164395
+ https://lists.openembedded.org/g/openembedded-core/message/164396
 
-Running "runqemu qemux86 kvm" when qemu is configured for sdl and/or gtk
-display output currently leads to a poor user experience with no cursor
-and corrupted fonts in the gtk case. This is due to no options being
-passed to qemu which leads to the loss of the font envirornment variable
-and the show-cursor option.
+On Wed, 2022-04-13 at 22:48 -0700, Khem Raj wrote:
+> Please drop this patch, since it was a gcc bug which has been now
+> fixed in gcc trunk [1] and we will have this fix in gcc 12
+> 
+> [1] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=105234
 
-If the user hasn't specified a display type, grep the output of
-"qemu-system-xxx --help" for the display types and pick the "best"
-which ensures our config is passed in. That resolves the gtk font issue
-and the cursor issue with both sdl and gtk.
+Gone from master-next.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-v2: Fix for non x86 which don't have the vga option, skip that there
-    and avoid string whitespace concat issues
+Cheers,
 
- scripts/runqemu | 33 ++++++++++++++++++++++++++-------
- 1 file changed, 26 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 2f77a7bd0f2..36af764b1b5 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1363,13 +1363,27 @@ class BaseConfig(object):
-         if (self.gl_es == True or self.gl == True) and (self.sdl == False and self.gtk == False):
-             raise RunQemuError('Option gl/gl-es needs gtk or sdl option.')
- 
--        if self.sdl == True or self.gtk == True or self.egl_headless == True:
--            if self.gl or self.gl_es or self.egl_headless:
--                self.qemu_opt += ' -device virtio-vga-gl '
-+        # If we have no display option, we autodetect based upon what qemu supports. We
-+        # need our font setup and show-cusor below so we need to see what qemu --help says
-+        # is supported so we can pass our correct config in.
-+        if not self.nographic and not self.sdl and not self.gtk and not self.egl_headless == True:
-+            output = subprocess.check_output([self.qemu_bin, "--help"], universal_newlines=True)
-+            if "-display gtk" in output:
-+                self.gtk = True
-+            elif "-display sdl" in output:
-+                self.sdl = True
-             else:
--                self.qemu_opt += ' -device virtio-vga '
-+                self.qemu_opt += '-display none'
- 
--            self.qemu_opt += '-display '
-+        if self.sdl == True or self.gtk == True or self.egl_headless == True:
-+
-+            if self.qemu_system.endswith(('i386', 'x86_64')):
-+                if self.gl or self.gl_es or self.egl_headless:
-+                    self.qemu_opt += ' -device virtio-vga-gl '
-+                else:
-+                    self.qemu_opt += ' -device virtio-vga '
-+
-+            self.qemu_opt += ' -display '
-             if self.egl_headless == True:
-                 self.set_dri_path()
-                 self.qemu_opt += 'egl-headless,'
-@@ -1415,7 +1429,7 @@ class BaseConfig(object):
-         if serial_num < 2:
-             self.qemu_opt += " -serial null"
- 
--    def setup_final(self):
-+    def find_qemu(self):
-         qemu_bin = os.path.join(self.bindir_native, self.qemu_system)
- 
-         # It is possible to have qemu-native in ASSUME_PROVIDED, and it won't
-@@ -1434,8 +1448,13 @@ class BaseConfig(object):
- 
-         if not os.access(qemu_bin, os.X_OK):
-             raise OEPathError("No QEMU binary '%s' could be found" % qemu_bin)
-+        self.qemu_bin = qemu_bin
-+
-+    def setup_final(self):
-+
-+        self.find_qemu()
- 
--        self.qemu_opt = "%s %s %s %s %s" % (qemu_bin, self.get('NETWORK_CMD'), self.get('QB_RNG'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND').replace('@DEPLOY_DIR_IMAGE@', self.get('DEPLOY_DIR_IMAGE')))
-+        self.qemu_opt = "%s %s %s %s %s" % (self.qemu_bin, self.get('NETWORK_CMD'), self.get('QB_RNG'), self.get('ROOTFS_OPTIONS'), self.get('QB_OPT_APPEND').replace('@DEPLOY_DIR_IMAGE@', self.get('DEPLOY_DIR_IMAGE')))
- 
-         for ovmf in self.ovmf_bios:
-             format = ovmf.rsplit('.', 1)[-1]
--- 
-2.32.0
+Richard
 
 
