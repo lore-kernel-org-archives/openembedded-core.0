@@ -2,116 +2,121 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2878C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EBCC433FE
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 17:17:28 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web09.267.1649953345677171021
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.270.1649953361825450951
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 09:22:26 -0700
+ Thu, 14 Apr 2022 09:22:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iGhQJJFq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F7ZjnRWi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id q8so3228744wmc.0
+Received: by mail-wr1-f52.google.com with SMTP id i20so7605044wrb.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 09:22:25 -0700 (PDT)
+ Thu, 14 Apr 2022 09:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=pFJ6HB8G+z4en4BV7QSrvfpHB8RENT0/qSrir7iYkkk=;
-        b=iGhQJJFqq0NoB71ke44PRgiFDI7KJl19sjDfDH/nHsmhcxBIu6+WTRyBHRtQL/y+LE
-         spFbN7qhZcLOOrtDMndPBK1jVTf3sYrf7laCuTU1djLB/N2kII2DU156fwrBrrjSwsZT
-         eDE4Z6ZDgyLOjTDsB3QGRpwwvv+8qL+w4v0vE=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dJTTeyrU87KrJ4tnTK2pxFHSvt1nWtoHXGB1x72zeqs=;
+        b=F7ZjnRWi8WE+p6WPH0KmNgKzEqpUwjnACRDxAlF3/TP4XADkN41qacWW2q9yFs6EvR
+         a3ARorerfnfJCWuWFtY3Ejy84tRNO/KFWDnU1rr0So3fUPCXiFkrwrklHLMyWUYOZ9ai
+         m0jd09jb/tkuc/hcsk2P4ObRghn6glA2J2I/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=pFJ6HB8G+z4en4BV7QSrvfpHB8RENT0/qSrir7iYkkk=;
-        b=lWBKdT5WV9lXXKCiwgQ4vYORJ0Vw7bLMsEuVUX+aX0SzVJ3i0+x4mRI55bz/FCcMok
-         PbIZeox+xBfAr10F8Lr6lMGXHqSwClvTVRfoUMvTJIqAA9wLkFkWs5w8avczZJdYTnFB
-         WA7gHdVxSoFvoE3GdvDVk24P+4jkbn6YDlVxGFgRJFL7FIGfJ0ZxtReqNd8/XIXiZ4Sb
-         bA4r/ONtHEjlFA20ybjXdB5Oo01Wz+5u2v+MwPsdsY7sqb5mY9edWy9135dSGLDqa566
-         NK1338Q9J+WXt5NhMOtUYNLLAfTTbkADDIh93KIICG82MdzQgbKrQGBIh3//dFPl8LGb
-         7R1A==
-X-Gm-Message-State: AOAM532TWK4811rF+h8jHteeFVQE+6HwXyHEhU5f2zRnOoh8PUphDyI4
-	3mCc/mbZe5ZImisMOcrGIV2bqg==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dJTTeyrU87KrJ4tnTK2pxFHSvt1nWtoHXGB1x72zeqs=;
+        b=fiPvqg3d+h2gQ7rIEGM8GCSoQn5YakS5tcQrpYvZwXutJ6dYa3m4/gZZUUhHlXdtAX
+         6uOf1IYkGoo4X08a+zXUP4gtaMSz8/bCGmiDC6hNH6pPB5O4YEsfNkXLD522FdnED8E2
+         d5mE5F2g2tgNXFr0AtH+Q/jVRJiFEYjNogovsThWnwAFBKWwmRh1b7v8HciX0li2J9kx
+         xAvL0gwTMQtVU394dDwTfJWdNOXZae9EIuR5+dpasJZpuo+s0VbCANddbbLKvEPmRzK1
+         kKOT2Y9yD+gYvryioMJKfVWwKKVwQMvbMOtDMjqPqIrraU7KATJPNPETj+M8Mfx2aM8+
+         sV4Q==
+X-Gm-Message-State: AOAM530V5eyBaHag5miry53B5tlJks2a3MydiDUKygXvpXvxqrvxsEeE
+	Fq4Kt/s5De3gi7sQDiX51/7P+8AIu7Qb7g==
 X-Google-Smtp-Source: 
- ABdhPJxZWNqjyVrKNd9cxMsJ3rSTJpVbmadnyE/b+BDJpKC7vwQmD9Nt8MEky29Ylju1rDvU/GJX0A==
-X-Received: by 2002:a05:600c:5114:b0:38e:bd9c:9cb0 with SMTP id
- o20-20020a05600c511400b0038ebd9c9cb0mr4217982wms.153.1649953344073;
-        Thu, 14 Apr 2022 09:22:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:353f:5203:2a56:f190?
- ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
+ ABdhPJyqejQiYPRl3Wx/DKFedPxUp1Nip2Y/2Svq6ETCSgb9HjCJ285Ja2wsEMEMROYPRrNYizGApQ==
+X-Received: by 2002:a5d:5848:0:b0:203:fef3:888b with SMTP id
+ i8-20020a5d5848000000b00203fef3888bmr2626658wrf.611.1649953359890;
+        Thu, 14 Apr 2022 09:22:39 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
         by smtp.gmail.com with ESMTPSA id
- p3-20020adfaa03000000b00207a1db96cfsm2198765wrd.71.2022.04.14.09.22.23
+ u12-20020a5d6dac000000b00204119d37d0sm2085914wrs.26.2022.04.14.09.22.39
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 09:22:23 -0700 (PDT)
-Message-ID: 
- <1e34b7db2161ffbfeb4c4091c81759923a8e45db.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bluez5: install /var/lib/bluetooth directory
+        Thu, 14 Apr 2022 09:22:39 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	f_l_k@t-online.de, Yi Zhao <yi.zhao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, Scott Murray
-	 <scott.murray@konsulko.com>
-Date: Thu, 14 Apr 2022 17:22:19 +0100
-In-Reply-To: <7a6794ed-2ddf-b64d-ea33-cb11eb3759d2@weidmueller.com>
-References: <20220408081533.1705128-1-yi.zhao@windriver.com>
-	 <348e8577-31f3-3ed6-393a-ebe511cb2186@weidmueller.com>
-	 <111d0c91-aaff-966f-6425-f4da193c29e2@windriver.com>
-	 <8c740cc8-8c84-9e34-ff12-8c1d5721d302@weidmueller.com>
-	 <bf017503-5365-98c2-3546-96b4cc4313c4@windriver.com>
-	 <0e14a9c4-2692-4f2e-b707-b9532706bab1@t-online.de>
-	 <16E4C65A42F3BFA4.4406@lists.openembedded.org>
-	 <7a6794ed-2ddf-b64d-ea33-cb11eb3759d2@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bluez5: Add fix for startup issues under systemd
+Date: Thu, 14 Apr 2022 17:22:38 +0100
+Message-Id: <20220414162238.2260000-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 17:17:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164409
+ https://lists.openembedded.org/g/openembedded-core/message/164410
 
-On Wed, 2022-04-13 at 10:21 +0200, Stefan Herbrechtsmeier wrote:
-> Hi,
-> 
-> Am 11.04.2022 um 09:17 schrieb Stefan Herbrechtsmeier via 
-> lists.openembedded.org:
-> > Am 08.04.2022 um 22:03 schrieb Markus Volk via lists.openembedded.org:
-> > > also had this issue and found out, that the bluetooth service did come 
-> > > up, once bluetooth was enabled
-> > > 
-> > > My fix was to edit like this
-> > > 
-> > > ReadWritePaths=:/var/lib/bluetooth
-> > > 
-> > > The colon ensures that the service won't fail if the directory doesn't 
-> > > exist
-> > 
-> > Regarding the documentation the ReadOnlyPaths and ReadWritePaths makes 
-> > not sense because ProtectSystem=full mounts /usr, boot loader and /etc 
-> > directories read-only.
-> > 
-> > Have somebody report the problem to the bluez project?
-> 
-> I have open an issue:
-> https://github.com/bluez/bluez/issues/329
-> 
-> I will post a patch when we come to a solution.
+The systemd bluetooth service failed to start. Add a workaround for this whilst the
+final fix is discussed upstream, https://github.com/bluez/bluez/issues/329.
 
-We have a slight challenge in that I'd like to build 4.0 rc2 but I think there
-will be complaints if this is left broken.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ .../bluez5/bluez5/fix_service.patch           | 25 +++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
 
-I'm going to post a version of your patch and hope that improves things. If
-anyone knows of issues with that patch please let me know ASAP.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 79d4645ca89..22dd07b3480 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
++           file://fix_service.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
+new file mode 100644
+index 00000000000..f4e44ef6281
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
+@@ -0,0 +1,25 @@
++The systemd bluetooth service failed to start because the /var/lib/bluetooth
++path of ReadWritePaths= is created by the bluetooth daemon itself.
++
++The commit systemd: Add more filesystem lockdown (442d211) add ReadWritePaths=/etc/bluetooth
++and ReadOnlyPaths=/var/lib/bluetooth options to the bluetooth systemd service.
++The existing ProtectSystem=full option mounts the /usr, the boot loader
++directories and /etc read-only. This means the two option are useless and could be removed.
++
++Upstream-Status: Submitted [https://github.com/bluez/bluez/issues/329]
++
++Index: bluez-5.64/src/bluetooth.service.in
++===================================================================
++--- bluez-5.64.orig/src/bluetooth.service.in
+++++ bluez-5.64/src/bluetooth.service.in
++@@ -19,8 +19,8 @@ ProtectSystem=full
++ PrivateTmp=true
++ ProtectKernelTunables=true
++ ProtectControlGroups=true
++-ReadWritePaths=@statedir@
++-ReadOnlyPaths=@confdir@
+++ConfigurationDirectory=bluetooth
+++StateDirectory=bluetooth
++ 
++ # Execute Mappings
++ MemoryDenyWriteExecute=true
+-- 
+2.32.0
 
 
