@@ -1,149 +1,171 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C49D7C48BE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A45C49EA4
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:54 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web08.7397.1649904759755057413
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web09.7281.1649905367525394579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:39 -0700
+ Wed, 13 Apr 2022 20:02:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=miQAsLUB;
- spf=pass (domain: gmail.com, ip: 209.85.210.174,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id p8so3625250pfh.8
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=pBJrC18R;
+ spf=temperror, err=temporary DNS error (domain: sakoman.com,
+ ip: 209.85.208.54, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id d10so4761469edj.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:52:39 -0700 (PDT)
+ Wed, 13 Apr 2022 20:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ee7cn4pZORMa9Ntb8zHk2fsZSvoCILD8YOuPvijRFPg=;
-        b=miQAsLUBWG8+WDBMvJNPRb0yjCX4+NHveHSpJ8BEs/nnnJjze/eQCxYp/XjeVBxYD+
-         YZHvSPgVQX+NxLYW11n7hvRY2pIzUIA7WrT3HWGLKVKdbxQmaN0EX1lLoJs0G6H6XW+d
-         Rg1d55mSYRJlfVerjDMEvf5dEh0ay5mtECWc7btBE1LPcu9Q8I14O5a3apewUhtzHCXz
-         +aSh1+YuTu+w5iCKXe9cdnOh0diS7Kf+r45G0NGBbxVkkwojRzOT23P7B5p/oKbDlsRp
-         8UFfPooR7W4OgyvgDJoigIC99XcjFFMvjLYKvdjmcTNXiOA/oQnGnuihgHxGloVVei4b
-         rWAA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9ZeNaJHDnPBQRmjSJCUlzClMEpK+akFpql+t1hL2Qek=;
+        b=pBJrC18R70GaqDdcheBvbG5nEqmyEnBsYLF1P2wWtucILgK/i07PimFY6krA1A9fKf
+         wHmOyyQIDRPZFvsOHIJ27KO6EFTh0sgETAPghgMF2lUMyjxLD8uFL9xBh2TrOs24bjHb
+         dfxiWfmhXQ0/zMavs/7GOXxmkwDSk4fIW3nzmmbcdxtb0ORUn5RbkXKUHFGNOQJvPn05
+         O2fHoGK8WH5W93bXl0IQ+qEXgoNWT3cNkJVGKCNvXrjvhHSe8ZCJoBYqW89a3V+y9XgF
+         6E970GLci5YYKTctoeXxrCrQHzwd8Sl1kC2aDrQejkllOMdg5u6P0zF979Sc9RV7UwC5
+         iS4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ee7cn4pZORMa9Ntb8zHk2fsZSvoCILD8YOuPvijRFPg=;
-        b=OE6H/UUzLK51REbZ3+4q73hzC0NgRU8d9ip43ya6lvUQyDleVwD+pfQRQZSVfR2QA5
-         aVvdbkocDTttnGIrvCCA+s6C7kFPLOuOmVbgtgkbDNnR/6iCX03Lx5hSkBH+J54rEgnK
-         lvd83dc5PIzOFsMz4XqFAFy9FYY9OqGTvINeVN0HWUofN9t4fm73zTSez4kKn0RaQNO+
-         MNJklRINKT0Y5hNfSRwpCAYcgWNdP9ubNqRUC6h3svPXJcjRFUrbLtPVv66eudQqfTIy
-         NIe4Ja0ABlYoUuNLS9BrN55pW8ZJnYdYreibuokZweBejJVzgxkLt8BKNgiDQN0iaySC
-         4ANQ==
-X-Gm-Message-State: AOAM533wHxObCcuVBskZkFMXP1h5qP905A50khbiKM3PxTmjwQ4ds4IF
-	jmoyOSsIqCWvjEwMYMIFuOgFTS+/l/Z37Q==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9ZeNaJHDnPBQRmjSJCUlzClMEpK+akFpql+t1hL2Qek=;
+        b=2bSG+oElaZ91cWKW7I50UXgEvZktG+4KmoJ8pK9nSr22Lj8FjM6L/47+eR/TPFx3AB
+         em6NCDM+bd8W0s3lpCPZ6/rCEcTtrQTcQPO/6nhVrPVU59eEPXYe/NWtcRD/6U2ULs79
+         FgZOhJ1Ebe2sfKp/OrytW0XzPkPDJuDQWpkeEK77jA8YS2ip5f7WHV1ENoLUTMYIbCNY
+         gDrEvoQlI13NQwAxqQ9vppgWUR0VZK2zUzMI7HXWfCMoJgE0QNEUVovygPG/6i+6hUvf
+         NaU77YZcZ2YCvb2rwt5eUA4oCgqBD7u1u+oIeORy4QW88nL6M6+8c/v6Dh9cyxc35gON
+         SA/A==
+X-Gm-Message-State: AOAM531fEqdgG/vFcHSnr/uCjj8Am4y73vc5OM8/CnH+g6CCVGxSGOxo
+	NRRhbpgU1RG5gLAI7xKCwFpqfeD95k/k5apSNtQbdQ==
 X-Google-Smtp-Source: 
- ABdhPJxjvJT0e/Mo9qG0civE9L0sa0sdXnS+bbjBsNtkVzEbznTnnHBrjIjcJWfSpViKiKVCx9B3vg==
-X-Received: by 2002:a63:7c42:0:b0:39c:c333:b3d4 with SMTP id
- l2-20020a637c42000000b0039cc333b3d4mr562107pgn.456.1649904758966;
-        Wed, 13 Apr 2022 19:52:38 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4307])
-        by smtp.gmail.com with ESMTPSA id
- 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 19:52:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/6] pango: Skip test-layout ptest
-Date: Wed, 13 Apr 2022 19:52:30 -0700
-Message-Id: <20220414025230.1166825-6-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220414025230.1166825-1-raj.khem@gmail.com>
-References: <20220414025230.1166825-1-raj.khem@gmail.com>
+ ABdhPJz5/hDrBkpoOIbsOC38CI2wdRjctSRp9ukBqNuxVjR8B969jKIeX5b5/ikg+ORaHXo/2DIkt38Rc+c0SaGv4SY=
+X-Received: by 2002:a05:6402:5193:b0:419:3d19:ce9e with SMTP id
+ q19-20020a056402519300b004193d19ce9emr671910edd.199.1649905364960; Wed, 13
+ Apr 2022 20:02:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
+ <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
+ <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
+ <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
+ <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
+ <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
+ <CAOSpxdZ17NvKfsWxJkn0qwgNPCSz_WtRT9Ff=C6iiTxc1-bQRg@mail.gmail.com>
+ <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
+ <16E57E79FD292EFA.13992@lists.openembedded.org>
+ <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
+ <Ylb9RoAyRpDHTaqe@mcrowe.com>
+ <CANp-EDZbeheyJWo_xwqPa4A24PJJghfZOuqG7sJX2DC1UfAPEA@mail.gmail.com>
+ <CAOSpxdYeNPZRo2LLZQ0-EZHoXmaSeXFHsONCTF+2MLwfZ_RO+g@mail.gmail.com>
+ <CANp-EDbCsrFazNTjpYbvZx-eRKhQ8GJeZH0VkL8Hco8p2w9oug@mail.gmail.com>
+ <CAOSpxdZXfKhnmJm3TsZkbNb=Mqkj2=W4F4SSAoq8ne=RyJRr2Q@mail.gmail.com>
+ <a1cdc686221db8350663e75acd3ac1fb147d4599.camel@linuxfoundation.org>
+ <CAOSpxdaQK3MxH_FHKVFC4ZtT-4yhgybKDqg+shmViABZh13E_Q@mail.gmail.com>
+ <CANp-EDZ1CmQLZWRHq8=s25YYuZ8au=G-JoC1MwEVygsrQzUoYQ@mail.gmail.com>
+ <16E5A41A6E4FF34A.8845@lists.openembedded.org>
+In-Reply-To: <16E5A41A6E4FF34A.8845@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 13 Apr 2022 17:02:33 -1000
+Message-ID: 
+ <CAOSpxdZGm9Fjh=8fvS7GtG51ThmToA=8HiY3K1bFN=7FiY=DGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
+ CVE-2018-25032
+To: Ralph Siemsen <ralph.siemsen@linaro.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Mike Crowe <mac@mcrowe.com>,
+	Ross Burton <ross@burtonini.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164383
+ https://lists.openembedded.org/g/openembedded-core/message/164385
 
-This has intermittent behavior, is sensitive to harfbuzz version
+On Wed, Apr 13, 2022 at 5:01 PM Steve Sakoman via
+lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+wrote:
+>
+> On Wed, Apr 13, 2022 at 4:47 PM Ralph Siemsen <ralph.siemsen@linaro.org> wrote:
+> >
+> > On Wed, 2022-04-13 at 11:39 -1000, Steve Sakoman wrote:
+> > > I did another experiment, where I disabled generation of the sha256
+> > > entries in Release (by adding --no-sha256 to the apt-ftparchive
+> > > command)
+> > >
+> > > As a result we get past this first hash mismatch in Release, but then
+> > > get later hash mismatches when it tries to download .debs.
+> >
+> > I am able to get past this, albeit with a hack. This fixes the sha256
+> > sum in the Release file, as well as verification of the .deb files.
+> > The original test then passes:
+> >
+> > RESULTS - apt.AptRepoTest.test_apt_install_from_repo: PASSED (46.75s)
+> >
+> > The hack to reduce the optimisation level for apt-native and apt. By
+> > default it uses CXXFLAGS="-g -O2". Reducing this to -O1 fixes the
+> > checksums.
+>
+> Nice work!
+>
+> > > The issue is happening on Fedora 35 and Alma 8, so no
+> > > buildtools-tarball in this case!
+>
+> I've started a build that uses buildtools just to verify that fixes it
+> and there aren't any other issues.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Skip-running-test-layout-test.patch  | 45 +++++++++++++++++++
- meta/recipes-graphics/pango/pango_1.50.6.bb   |  4 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
+FWIW, here is the link to that build - still underway.
 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch b/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
-new file mode 100644
-index 00000000000..c391e158d28
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
-@@ -0,0 +1,45 @@
-+From b9bfe3a79f165682a6db3d7ee1928365e93b1ccf Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 13 Apr 2022 19:39:29 -0700
-+Subject: [PATCH] Skip running test-layout test
-+
-+This fails intermittently, it varies based on what version of harfbuzz
-+is installed and if it does not match with what pango CI tests then we
-+get random failures in this test. This has been disabled in other
-+distros [1] too
-+
-+We want to drop this on next upgrade and see if this test passes if not
-+then keep it disabled
-+
-+Fixes
-+
-+Running test: pango/test-layout.test
-+1..36
-+ok 1 /layout/letterspacing.layout
-+ok 2 /layout/valid-7.layout
-+not ok 3 /layout/valid-14.layout
-+Bail out!
-+FAIL: pango/test-layout.test (Child process killed by signal 6)
-+
-+[1] https://github.com/archlinux/svntogit-packages/commit/3f883e7ff8071adad23b6bcc0ba4b995aff10d52
-+
-+Upstream-Status: Inappropriate [Distro specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tests/test-layout.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/test-layout.c b/tests/test-layout.c
-+index 1139e4f..b47a066 100644
-+--- a/tests/test-layout.c
-++++ b/tests/test-layout.c
-+@@ -222,5 +222,5 @@ main (int argc, char *argv[])
-+     }
-+   g_dir_close (dir);
-+ 
-+-  return g_test_run ();
-++  return 77;
-+ }
-+-- 
-+2.35.2
-+
-diff --git a/meta/recipes-graphics/pango/pango_1.50.6.bb b/meta/recipes-graphics/pango/pango_1.50.6.bb
-index cd04801db10..93e16534641 100644
---- a/meta/recipes-graphics/pango/pango_1.50.6.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.6.bb
-@@ -18,7 +18,9 @@ inherit gnomebase gi-docgen ptest-gnome upstream-version-is-even gobject-introsp
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- 
--SRC_URI += "file://run-ptest"
-+SRC_URI += "file://run-ptest \
-+            file://0001-Skip-running-test-layout-test.patch \
-+"
- 
- SRC_URI[archive.sha256sum] = "a998bcf36881c3ac20495d40bceb304f4eaa9175bd2967c85656434cbdafe86a"
- 
--- 
-2.35.2
+Steve
 
+>
+> > Fedora 35 is using gcc-11.2.1, could you check what Alma 8 uses?
+>
+> [sakoman@alma8-ty-1 ~]$ gcc --version
+> gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-4)
+>
+> >
+> > Here are a few other things I checked, prior to noticing the
+> > optimisation level issue:
+> >
+> > 1) we are using apt 1.2.31; the latest 1.2.y version is 1.2.35
+> > - this still has the problem with bad sha256sums
+> > - it does include several CVE fixes which we might want
+> > - it added a new dependency on systemd
+>
+> Urgh . . . this last part isn't good since it would be a behavior
+> change which isn't OK for LTS
+>
+> It may be that the best solution is to change to -O1 :-(
+>
+> Steve
+>
+> >
+> > 2) main branch version is 2.3.5
+> > - it switched to CMAKE
+> > - many new dependencies
+> > - I got it to configure, but not compile
+> > - custom crypto code seems to be dropped, in favour of gcrypt
+> > - presumably this would fix the sha256 however I cannot confirm
+> >
+> > Regards,
+> > Ralph
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164384): https://lists.openembedded.org/g/openembedded-core/message/164384
+> Mute This Topic: https://lists.openembedded.org/mt/90107518/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
