@@ -1,129 +1,96 @@
-Return-Path: <ralph.siemsen@linaro.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2432C48BCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF05AC48BE5
 	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:54 +0000 (UTC)
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
- [209.85.217.42])
- by mx.groups.io with SMTP id smtpd.web12.7143.1649904454220658213
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web08.7396.1649904758885170952
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:47:34 -0700
+ Wed, 13 Apr 2022 19:52:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=EFAbbjW/;
- spf=pass (domain: linaro.org, ip: 209.85.217.42,
- mailfrom: ralph.siemsen@linaro.org)
-Received: by mail-vs1-f42.google.com with SMTP id e11so3299226vso.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=B+0vG8fy;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id y6so3587739plg.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Apr 2022 19:47:34 -0700 (PDT)
+ Wed, 13 Apr 2022 19:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=reiiEV0OmYj6W/QnZMRfrqJeDkMb6gaVIDSnpZsN7g4=;
-        b=EFAbbjW/mFHTNkJwPKKhE96NCALEpDAe8rIq5xud1hl/jhF7lH39YDAv/UMu88A0Df
-         GPuh/TDIqqGKDOmRuWR/NwUZ3HD7IzFL0GKkdPR/4BgUKQTQ9psqF4tH754QNSk9/mlt
-         YYqCd3KW2o2kIyr7mrcRrrL64mXEqvKQSXEhg/Qa6Lk0mqW4iWQ6hhKMAcVMBdJf4L5J
-         XrS4Iu918k5CY8+l+F6avRXS1scD5cEXcK+duQyrJFyLz3x6NS1MJX1g1MZK26w0kYc5
-         AzgmA7IDq6iIDZBtatyKnpyMxBAW62yi62v+GCuT3ftPa47Gdp8Jt4BlFfIkVWOhcvVW
-         MnIg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rYQ1Fx1UOzKi3vHLxEM/FYjP5Ixw5g5XZbkgZUpkJ38=;
+        b=B+0vG8fyTlCOKRs4ZaMxmbUhlWWTupZebpPIew4Dycd7ijr2dTcs5fYynL4N86CBgq
+         BEs707ve63yc4jzdv+f83FEzTImv2lyS/Ynj18kmWRvNdKSCQSBz0DyBArfUPoscFgrg
+         fMth6j5ijMq/2Y6JZCFzm7QY6n0Oan+RcijHsRlmDqXK0qKvqC87jYEyveNU51LaYQ0x
+         JOv7fyGCuylP4zgKh8KQTiqduKYWY0R7NjGkeOK9MLi9sVfs2gjpjIQEcIfNWGUw1i1j
+         GUdWTsiXHQgFXRgzCaYBvvkg4Q4lKFi4ZKyAUGXhXZhkkptRZ6mvI4dPppJ44UUrFdHC
+         9X/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=reiiEV0OmYj6W/QnZMRfrqJeDkMb6gaVIDSnpZsN7g4=;
-        b=XSPhUNxXBXWfqjvUrzmGpAdu4iXNQYvLeJjNBU4E7PPRyA2oTwjh+b0nz0TRXxvJ1k
-         gKGs4MyDGh2EUMDsU14lnniEw11s/8essCFztJVaGx/c1OhNdKsO5g5DRMnaBobzua14
-         Nrt+7veWfzdmlH34uYDYNd4pubB/XdxD+iyp9NMOqEBCzXH1vlRJDmYVTkgWlgsmSIHn
-         K8iiNIwbYitmTDiQ6qcoZGUB7UqkUhRYAax+dF22ZpPSxbBlHP5XuNv9d0t8BfeN/X7C
-         ILzD3F6QogPgYNV8LP6LfbUk4y/rl+5VehPO0TzWmsO+mD/66K0qW7CXarlVrq22S3c0
-         Zwyg==
-X-Gm-Message-State: AOAM530y7sbVOq3g4AE9ZRvhAkb7eurmvJ4JVGMsHOVtueM13xVUs9WF
-	sN8SSvV3bDKgyGVYCJzKww5LgXw8gKnQ/vHTVdVPSw==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rYQ1Fx1UOzKi3vHLxEM/FYjP5Ixw5g5XZbkgZUpkJ38=;
+        b=IC18g/v+OyLJizgJGEzskTMxFWwfc2w7smlf6XgSOoL6XJFWarmzREXO0IK1YYkR49
+         UQuh5kZ4gxXcpMa2fe33hmWeA0g9urAgJz6toRuuiaU0tSeQjikaFCq99Zv4OE1uy2Y3
+         6XVOgi6yL2ZEjKAJXBYr7LrxAu6qvgWLFn25HqCnD0y2HTYjlBAW/r5R4cusPuMse3ra
+         f2SZDRDOWXVDOlneLbyYBIuIdlxmWNuD0X5r92TBpNq/OBiduev7o6iRX5UnJgB41QIw
+         bS8/y5e10OhGGfCQWcUz4jVYI0/OsL1FVm+KBWGsHXTqrIEbQDpoTJtp8noMQuSHJvzG
+         JyFg==
+X-Gm-Message-State: AOAM532ssjLdMLOtKeEfK6DwS8wVnmNy+3mHE8bHsEgCtX1N50pb0ovc
+	0uksPFkWzAN5TnHGqPrHkop5HoLNlqrmwg==
 X-Google-Smtp-Source: 
- ABdhPJyaeY4jxV8u1AeS7q5QnBKf0L8M4gutYRUbmr0x7ppy1Y6TLleAj4qHt2Lw77cakh0ns3cJvgGfYoynxEdYPy4=
-X-Received: by 2002:a05:6102:3206:b0:32a:1382:39ee with SMTP id
- r6-20020a056102320600b0032a138239eemr554131vsf.77.1649904453209; Wed, 13 Apr
- 2022 19:47:33 -0700 (PDT)
+ ABdhPJzovcyA1gjhqeyXhLx4/24VWjCy+0fuwGXQiPebRc3KRfkLdBwxzhBhWloa3+BlsAMxFcj95A==
+X-Received: by 2002:a17:90a:930b:b0:1bf:ac1f:6585 with SMTP id
+ p11-20020a17090a930b00b001bfac1f6585mr1339632pjo.88.1649904758104;
+        Wed, 13 Apr 2022 19:52:38 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::4307])
+        by smtp.gmail.com with ESMTPSA id
+ 81-20020a621754000000b005082073f62dsm453735pfx.12.2022.04.13.19.52.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 19:52:37 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 5/6] pango: Drop using additional cflags with clang
+Date: Wed, 13 Apr 2022 19:52:29 -0700
+Message-Id: <20220414025230.1166825-5-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220414025230.1166825-1-raj.khem@gmail.com>
+References: <20220414025230.1166825-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: 
- <CAOSpxdamJ5KMKxKMQqa1C-qAf4M_0-vq6hSifch0efzEScft8Q@mail.gmail.com>
- <CANp-EDa5OUxL_d301sXr5oV+q_UcmpU=bjd95v7ddyeCVS8w2g@mail.gmail.com>
- <CAOSpxdbuJOH8R9a9XWGcFNL6nvSaMB=au1sQ4AgiYr+b00Op6Q@mail.gmail.com>
- <CANp-EDZ-b6JYx8h1LRkg7YwCX9frZw=s_XiJ1_Ys-nBuyvhvxA@mail.gmail.com>
- <CAOSpxdZb2q7iZF+KCT2H3ajisK2pgQo_8cxbvxYQRgpnQqEKAg@mail.gmail.com>
- <CANp-EDZAM+4gQQ+2LJMRj00qwNGpMaPihtVOjZSk8HbbGzLUUA@mail.gmail.com>
- <CAOSpxdZ17NvKfsWxJkn0qwgNPCSz_WtRT9Ff=C6iiTxc1-bQRg@mail.gmail.com>
- <CANp-EDYtqNSKNMCmZ9tMvQDqv6r-29zSiz99sievky6GEm6q8Q@mail.gmail.com>
- <16E57E79FD292EFA.13992@lists.openembedded.org>
- <CAOSpxdYONLK8BhmNjx9uj9BDb0P=bAiJ-uAKG1edHjBnzvHc9g@mail.gmail.com>
- <Ylb9RoAyRpDHTaqe@mcrowe.com>
- <CANp-EDZbeheyJWo_xwqPa4A24PJJghfZOuqG7sJX2DC1UfAPEA@mail.gmail.com>
- <CAOSpxdYeNPZRo2LLZQ0-EZHoXmaSeXFHsONCTF+2MLwfZ_RO+g@mail.gmail.com>
- <CANp-EDbCsrFazNTjpYbvZx-eRKhQ8GJeZH0VkL8Hco8p2w9oug@mail.gmail.com>
- <CAOSpxdZXfKhnmJm3TsZkbNb=Mqkj2=W4F4SSAoq8ne=RyJRr2Q@mail.gmail.com>
- <a1cdc686221db8350663e75acd3ac1fb147d4599.camel@linuxfoundation.org>
- <CAOSpxdaQK3MxH_FHKVFC4ZtT-4yhgybKDqg+shmViABZh13E_Q@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdaQK3MxH_FHKVFC4ZtT-4yhgybKDqg+shmViABZh13E_Q@mail.gmail.com>
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
-Date: Wed, 13 Apr 2022 22:47:22 -0400
-Message-ID: 
- <CANp-EDZ1CmQLZWRHq8=s25YYuZ8au=G-JoC1MwEVygsrQzUoYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][dunfell] zlib: backport the fix for
- CVE-2018-25032
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Mike Crowe <mac@mcrowe.com>,
-	Ross Burton <ross@burtonini.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164377
+ https://lists.openembedded.org/g/openembedded-core/message/164382
 
-On Wed, 2022-04-13 at 11:39 -1000, Steve Sakoman wrote:
-> I did another experiment, where I disabled generation of the sha256
-> entries in Release (by adding --no-sha256 to the apt-ftparchive
-> command)
->
-> As a result we get past this first hash mismatch in Release, but then
-> get later hash mismatches when it tries to download .debs.
+This is no longer needed
 
-I am able to get past this, albeit with a hack. This fixes the sha256
-sum in the Release file, as well as verification of the .deb files.
-The original test then passes:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-graphics/pango/pango_1.50.6.bb | 4 ----
+ 1 file changed, 4 deletions(-)
 
-RESULTS - apt.AptRepoTest.test_apt_install_from_repo: PASSED (46.75s)
+diff --git a/meta/recipes-graphics/pango/pango_1.50.6.bb b/meta/recipes-graphics/pango/pango_1.50.6.bb
+index b1b9054234d..cd04801db10 100644
+--- a/meta/recipes-graphics/pango/pango_1.50.6.bb
++++ b/meta/recipes-graphics/pango/pango_1.50.6.bb
+@@ -37,10 +37,6 @@ do_configure:prepend() {
+     chmod +x ${S}/tests/*.py
+ }
+ 
+-do_configure:prepend:toolchain-clang() {
+-    sed -i -e "/Werror=implicit-fallthrough/d" ${S}/meson.build
+-}
+-
+ LEAD_SONAME = "libpango-1.0*"
+ 
+ FILES:${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
+-- 
+2.35.2
 
-The hack to reduce the optimisation level for apt-native and apt. By
-default it uses CXXFLAGS="-g -O2". Reducing this to -O1 fixes the
-checksums.
-
-> The issue is happening on Fedora 35 and Alma 8, so no
-> buildtools-tarball in this case!
-
-Fedora 35 is using gcc-11.2.1, could you check what Alma 8 uses?
-
-Here are a few other things I checked, prior to noticing the
-optimisation level issue:
-
-1) we are using apt 1.2.31; the latest 1.2.y version is 1.2.35
-- this still has the problem with bad sha256sums
-- it does include several CVE fixes which we might want
-- it added a new dependency on systemd
-
-2) main branch version is 2.3.5
-- it switched to CMAKE
-- many new dependencies
-- I got it to configure, but not compile
-- custom crypto code seems to be dropped, in favour of gcrypt
-- presumably this would fix the sha256 however I cannot confirm
-
-Regards,
-Ralph
 
