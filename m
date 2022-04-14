@@ -1,152 +1,139 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <marius.kriegerowski@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 10/27] apt: add apt selftest to test signed package feeds
-Date: Wed, 20 Apr 2022 04:07:58 -1000
-Message-Id: <4cc47a6937b6824fb059a179319d6d0f657b753e.1650463004.git.steve@sakoman.com>
-In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
-References: <cover.1650463004.git.steve@sakoman.com>
+From: "Marius Kriegerowski" <marius.kriegerowski@gmail.com>
+Subject: [PATCH] scriptutils: fix style to be more PEP8 compliant
+Date: Thu, 14 Apr 2022 20:22:59 +0200
+Message-Id: <20220414182259.69733-1-marius.kriegerowski@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
+Cc: Marius Kriegerowski <marius.kriegerowski@gmail.com>
 
-From: Ferry Toth <ftoth@exalondelft.nl>
-
-Since Gatesgarth apt (1.8.2) has become more strict and doesn’t allow unsigned repositories by default.
-Currently when building images this requirement is worked around by using [allow-insecure=yes] and
-equivalently when performing selftest.
-
-Patches "gpg-sign: Add parameters to gpg signature function" and "package_manager: sign DEB package feeds"
-enable signed DEB package feeds. This patch adds a runtime test for apt derived from the test_testimage_dnf
-test. It creates a signed deb package feed, runs a qemu image to install the key and performs some package
-management. To be able to install the key the gnupg package is added to the testimage.
-
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3ec30490d09d6639eea2638cf12a323948f221cc)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Marius Kriegerowski <marius.kriegerowski@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/apt.py           | 38 ++++++++++++++++----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 38 ++++++++++++++++++++
- 2 files changed, 69 insertions(+), 7 deletions(-)
+ scripts/lib/scriptutils.py | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
-index 53745df93f..574a34f148 100644
---- a/meta/lib/oeqa/runtime/cases/apt.py
-+++ b/meta/lib/oeqa/runtime/cases/apt.py
-@@ -21,7 +21,7 @@ class AptRepoTest(AptTest):
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index adf81476f0..b265b5c838 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -5,7 +5,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
  
-     @classmethod
-     def setUpClass(cls):
--        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all')
-+        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], '')
-         cls.repo_server = HTTPService(service_repo,
-                                       '0.0.0.0', port=cls.tc.target.server_port,
-                                       logger=cls.tc.logger)
-@@ -34,20 +34,44 @@ class AptRepoTest(AptTest):
-     def setup_source_config_for_package_install(self):
-         apt_get_source_server = 'http://%s:%s/' % (self.tc.target.server_ip, self.repo_server.port)
-         apt_get_sourceslist_dir = '/etc/apt/'
--        self.target.run('cd %s; echo deb [ allow-insecure=yes ] %s ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
-+        self.target.run('cd %s; echo deb [ allow-insecure=yes ] %s/all ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
-+
-+    def setup_source_config_for_package_install_signed(self):
-+        apt_get_source_server = 'http:\/\/%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
-+        apt_get_sourceslist_dir = '/etc/apt/'
-+        self.target.run("cd %s; cp sources.list sources.list.bak; sed -i 's/\[trusted=yes\] http:\/\/bogus_ip:bogus_port/%s/g' sources.list" % (apt_get_sourceslist_dir, apt_get_source_server))
+-import argparse
+ import glob
+ import logging
+ import os
+@@ -21,11 +20,12 @@ import importlib
+ import importlib.machinery
+ import importlib.util
  
-     def cleanup_source_config_for_package_install(self):
-         apt_get_sourceslist_dir = '/etc/apt/'
-         self.target.run('cd %s; rm sources.list' % (apt_get_sourceslist_dir))
++
+ class KeepAliveStreamHandler(logging.StreamHandler):
+     def __init__(self, keepalive=True, **kwargs):
+         super().__init__(**kwargs)
+         if keepalive is True:
+-            keepalive = 5000 # default timeout
++            keepalive = 5000  # default timeout
+         self._timeout = threading.Condition()
+         self._stop = False
  
-+    def cleanup_source_config_for_package_install_signed(self):
-+        apt_get_sourceslist_dir = '/etc/apt/'
-+        self.target.run('cd %s; mv sources.list.bak sources.list' % (apt_get_sourceslist_dir))
-+
-+    def setup_key(self):
-+        # the key is found on the target /etc/pki/packagefeed-gpg/
-+        # named PACKAGEFEED-GPG-KEY-poky-branch
-+        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed-gpg'))
-+
-     @skipIfNotFeature('package-management',
-                       'Test requires package-management to be in IMAGE_FEATURES')
-     @skipIfNotDataVar('IMAGE_PKGTYPE', 'deb',
-                       'DEB is not the primary package manager')
-     @OEHasPackage(['apt'])
-     def test_apt_install_from_repo(self):
--        self.setup_source_config_for_package_install()
--        self.pkg('update')
--        self.pkg('remove --yes run-postinsts-dev')
--        self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
--        self.cleanup_source_config_for_package_install()
-+        if not self.tc.td.get('PACKAGE_FEED_GPG_NAME'):
-+            self.setup_source_config_for_package_install()
-+            self.pkg('update')
-+            self.pkg('remove --yes run-postinsts-dev')
-+            self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
-+            self.cleanup_source_config_for_package_install()
-+        else:
-+            # when we are here a key has been set to sign the package feed and
-+            # public key and gnupg installed on the image by test_testimage_apt
-+            self.setup_source_config_for_package_install_signed()
-+            self.setup_key()
-+            self.pkg('update')
-+            self.pkg('install --yes run-postinsts-dev')
-+            self.pkg('remove --yes run-postinsts-dev')
-+            self.cleanup_source_config_for_package_install_signed()
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 2ad89490fc..3ece617cb0 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -162,6 +162,44 @@ class TestImage(OESelftestTestCase):
-         bitbake('core-image-full-cmdline socat')
-         bitbake('-c testimage core-image-full-cmdline')
+@@ -36,9 +36,9 @@ class KeepAliveStreamHandler(logging.StreamHandler):
+                 with self._timeout:
+                     if not self._timeout.wait(keepalive):
+                         self.emit(logging.LogRecord("keepalive", logging.INFO,
+-                            None, None, "Keepalive message", None, None))
++                                                    None, None, "Keepalive message", None, None))
  
-+    def test_testimage_apt(self):
-+        """
-+        Summary: Check package feeds functionality for apt
-+        Expected: 1. Check that remote package feeds can be accessed
-+        Product: oe-core
-+        Author: Ferry Toth <fntoth@gmail.com>
-+        """
-+        if get_bb_var('DISTRO') == 'poky-tiny':
-+            self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+-        self._thread = threading.Thread(target = thread, daemon = True)
++        self._thread = threading.Thread(target=thread, daemon=True)
+         self._thread.start()
+ 
+     def close(self):
+@@ -56,6 +56,7 @@ class KeepAliveStreamHandler(logging.StreamHandler):
+         with self._timeout:
+             self._timeout.notify()
+ 
 +
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh apt.AptRepoTest.test_apt_install_from_repo"\n'
-+        # We don't yet know what the server ip and port will be - they will be patched
-+        # in at the start of the on-image test
-+        features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
-+        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
-+        features += 'PACKAGE_CLASSES = "package_deb"\n'
-+        # We need  gnupg on the target to install keys
-+        features += 'IMAGE_INSTALL:append:pn-core-image-full-cmdline = " gnupg"\n'
+ def logger_create(name, stream=None, keepalive=None):
+     logger = logging.getLogger(name)
+     if keepalive is not None:
+@@ -67,21 +68,21 @@ def logger_create(name, stream=None, keepalive=None):
+     logger.setLevel(logging.INFO)
+     return logger
+ 
 +
-+        bitbake('gnupg-native -c addto_recipe_sysroot')
+ def logger_setup_color(logger, color='auto'):
+     from bb.msg import BBLogFormatter
+ 
+     for handler in logger.handlers:
+         if (isinstance(handler, logging.StreamHandler) and
+-            isinstance(handler.formatter, BBLogFormatter)):
++                isinstance(handler.formatter, BBLogFormatter)):
+             if color == 'always' or (color == 'auto' and handler.stream.isatty()):
+                 handler.formatter.enable_color()
+ 
+ 
+ def load_plugins(logger, plugins, pluginpath):
+-
+     def load_plugin(name):
+         logger.debug('Loading plugin %s' % name)
+-        spec = importlib.machinery.PathFinder.find_spec(name, path=[pluginpath] )
++        spec = importlib.machinery.PathFinder.find_spec(name, path=[pluginpath])
+         if spec:
+             mod = importlib.util.module_from_spec(spec)
+             spec.loader.exec_module(mod)
+@@ -112,6 +113,7 @@ def git_convert_standalone_clone(repodir):
+             bb.process.run('git repack -a', cwd=repodir)
+             os.remove(alternatesfile)
+ 
 +
-+        # Enable package feed signing
-+        self.gpg_home = tempfile.mkdtemp(prefix="oeqa-feed-sign-")
-+        self.track_for_cleanup(self.gpg_home)
-+        signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
-+        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --homedir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"), shell=True)
-+        features += 'INHERIT += "sign_package_feed"\n'
-+        features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-+        features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-+        features += 'GPG_PATH = "%s"\n' % self.gpg_home
-+        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-+        self.write_config(features)
+ def _get_temp_recipe_dir(d):
+     # This is a little bit hacky but we need to find a place where we can put
+     # the recipe so that bitbake can find it. We're going to delete it at the
+@@ -128,12 +130,15 @@ def _get_temp_recipe_dir(d):
+                     break
+     return fetchrecipedir
+ 
 +
-+        # Build core-image-sato and testimage
-+        bitbake('core-image-full-cmdline socat')
-+        bitbake('-c testimage core-image-full-cmdline')
+ class FetchUrlFailure(Exception):
+     def __init__(self, url):
+         self.url = url
 +
-     def test_testimage_virgl_gtk_sdl(self):
-         """
-         Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
+     def __str__(self):
+         return "Failed to fetch URL %s" % self.url
+ 
++
+ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirrors=False):
+     """
+     Fetch the specified URL using normal do_fetch and do_unpack tasks, i.e.
+@@ -254,12 +259,13 @@ def run_editor(fn, logger=None):
+ 
+     editor = os.getenv('VISUAL', os.getenv('EDITOR', 'vi'))
+     try:
+-        #print(shlex.split(editor) + files)
++        # print(shlex.split(editor) + files)
+         return subprocess.check_call(shlex.split(editor) + files)
+     except subprocess.CalledProcessError as exc:
+         logger.error("Execution of '%s' failed: %s" % (editor, exc))
+         return 1
+ 
++
+ def is_src_url(param):
+     """
+     Check if a parameter is a URL and return True if so
+@@ -273,6 +279,7 @@ def is_src_url(param):
+         return True
+     return False
+ 
++
+ def filter_src_subdirs(pth):
+     """
+     Filter out subdirectories of initial unpacked source trees that we do not care about.
 -- 
-2.25.1
+2.32.0 (Apple Git-132)
 
