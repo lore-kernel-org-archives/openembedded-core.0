@@ -1,112 +1,117 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBE5C63707
-	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 16:03:57 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.11725.1649942996967945218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2878C433F5
+	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 17:17:28 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web09.267.1649953345677171021
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 06:29:57 -0700
+ Thu, 14 Apr 2022 09:22:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oT87cWp8;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id t25so6348517edt.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iGhQJJFq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id q8so3228744wmc.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 06:29:56 -0700 (PDT)
+ Thu, 14 Apr 2022 09:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N995feYPLyJMAafeRoF4UW6YYM4FW/vMplTk3wJMd3Y=;
-        b=oT87cWp8ehoZZh52IFjfI+1AwJ7W7l3VY62mzR1rkHBVvmzWEOVpWfCW1WMXgqQMj0
-         CBmo2DxraqEPbC130PE+Bz5UKvcV914XeBi0grVT7+zo2pNSg22cmghLcizbubfTUXMH
-         cZsFHBLOnEqfS+xx/Bis6FHQuwzNRxp4UsVAkcZv7FqcCjki1kETN9wsRMFfUENmlMHe
-         pcilNpiGKNLNQVFdlFOw1HmwYb/vq/nYRB1hE7VuZ4vFVZJHhqQR19NoeRxYL4J5h/Dw
-         Z3ZrkKV4XgWt6bZkKitHDzax6EnnMLTuyZNEJn1R0MH4BK6gjPob/BW66LXWHyBi+3pn
-         T4Yg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=pFJ6HB8G+z4en4BV7QSrvfpHB8RENT0/qSrir7iYkkk=;
+        b=iGhQJJFqq0NoB71ke44PRgiFDI7KJl19sjDfDH/nHsmhcxBIu6+WTRyBHRtQL/y+LE
+         spFbN7qhZcLOOrtDMndPBK1jVTf3sYrf7laCuTU1djLB/N2kII2DU156fwrBrrjSwsZT
+         eDE4Z6ZDgyLOjTDsB3QGRpwwvv+8qL+w4v0vE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=N995feYPLyJMAafeRoF4UW6YYM4FW/vMplTk3wJMd3Y=;
-        b=vOC4ahJEL+BbE4y/6nwaOOh4h/AlYIU+QqfHrGMXlAmApABIz5IJEBEewYuhQWrWLu
-         r7oy5y4H+sK6ZziY0suZxjQEWC5CEzgMYN3SFamdrLlDCdcgYkk2wFdALSxpqwYfWMp/
-         SVhXyy7Skm06D1szfWxE4spbkXV5aztFhx9W08KwN9YqkLE/ZBUfSDKGJerB3XAqJwG7
-         GNx0bp+CtpXl0P9y1HB+d3lVzyT1Lfy2aONzj0N+SX8D+NSehbvfAnuLoQFCv7GIfuw7
-         rqXxUWYUbRwEdarQYoCPw9mgy1Z6GtQ9mjzaiRP4cj2p+v7jLj5qXC37i9YcaFKjbBsb
-         IV4g==
-X-Gm-Message-State: AOAM533hC4/uM/Znl1ivRmWdHZRmUsxv6RMZ8OkJONBBBHuRGq3cu2gs
-	7KJkB6KPXittWLOdl8DqhdesiQ/+g/M=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=pFJ6HB8G+z4en4BV7QSrvfpHB8RENT0/qSrir7iYkkk=;
+        b=lWBKdT5WV9lXXKCiwgQ4vYORJ0Vw7bLMsEuVUX+aX0SzVJ3i0+x4mRI55bz/FCcMok
+         PbIZeox+xBfAr10F8Lr6lMGXHqSwClvTVRfoUMvTJIqAA9wLkFkWs5w8avczZJdYTnFB
+         WA7gHdVxSoFvoE3GdvDVk24P+4jkbn6YDlVxGFgRJFL7FIGfJ0ZxtReqNd8/XIXiZ4Sb
+         bA4r/ONtHEjlFA20ybjXdB5Oo01Wz+5u2v+MwPsdsY7sqb5mY9edWy9135dSGLDqa566
+         NK1338Q9J+WXt5NhMOtUYNLLAfTTbkADDIh93KIICG82MdzQgbKrQGBIh3//dFPl8LGb
+         7R1A==
+X-Gm-Message-State: AOAM532TWK4811rF+h8jHteeFVQE+6HwXyHEhU5f2zRnOoh8PUphDyI4
+	3mCc/mbZe5ZImisMOcrGIV2bqg==
 X-Google-Smtp-Source: 
- ABdhPJz1W5IL3Vn7iRwiBRRGmSf53HRNIUcDM7QZNBsrL4KXk7Vx5dPiz8ZtX3+o+jMxqfy7zN7GfA==
-X-Received: by 2002:aa7:d8d5:0:b0:41d:836d:858 with SMTP id
- k21-20020aa7d8d5000000b0041d836d0858mr3021883eds.214.1649942995112;
-        Thu, 14 Apr 2022 06:29:55 -0700 (PDT)
-Received: from tony3oo3-XPS-13-9370.home
- (host-87-5-19-5.retail.telecomitalia.it. [87.5.19.5])
+ ABdhPJxZWNqjyVrKNd9cxMsJ3rSTJpVbmadnyE/b+BDJpKC7vwQmD9Nt8MEky29Ylju1rDvU/GJX0A==
+X-Received: by 2002:a05:600c:5114:b0:38e:bd9c:9cb0 with SMTP id
+ o20-20020a05600c511400b0038ebd9c9cb0mr4217982wms.153.1649953344073;
+        Thu, 14 Apr 2022 09:22:24 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:353f:5203:2a56:f190?
+ ([2001:8b0:aba:5f3c:353f:5203:2a56:f190])
         by smtp.gmail.com with ESMTPSA id
- qb21-20020a1709077e9500b006e892b4062dsm612963ejc.215.2022.04.14.06.29.54
+ p3-20020adfaa03000000b00207a1db96cfsm2198765wrd.71.2022.04.14.09.22.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 06:29:54 -0700 (PDT)
-From: Davide Gardenal <davidegarde2000@gmail.com>
-X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [PATCH] create-spdx: fix error when symlink cannot be created
-Date: Thu, 14 Apr 2022 15:27:47 +0200
-Message-Id: <20220414132746.478098-1-davide.gardenal@huawei.com>
-X-Mailer: git-send-email 2.32.0
+        Thu, 14 Apr 2022 09:22:23 -0700 (PDT)
+Message-ID: 
+ <1e34b7db2161ffbfeb4c4091c81759923a8e45db.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] bluez5: install /var/lib/bluetooth directory
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
+	f_l_k@t-online.de, Yi Zhao <yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, Scott Murray
+	 <scott.murray@konsulko.com>
+Date: Thu, 14 Apr 2022 17:22:19 +0100
+In-Reply-To: <7a6794ed-2ddf-b64d-ea33-cb11eb3759d2@weidmueller.com>
+References: <20220408081533.1705128-1-yi.zhao@windriver.com>
+	 <348e8577-31f3-3ed6-393a-ebe511cb2186@weidmueller.com>
+	 <111d0c91-aaff-966f-6425-f4da193c29e2@windriver.com>
+	 <8c740cc8-8c84-9e34-ff12-8c1d5721d302@weidmueller.com>
+	 <bf017503-5365-98c2-3546-96b4cc4313c4@windriver.com>
+	 <0e14a9c4-2692-4f2e-b707-b9532706bab1@t-online.de>
+	 <16E4C65A42F3BFA4.4406@lists.openembedded.org>
+	 <7a6794ed-2ddf-b64d-ea33-cb11eb3759d2@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 16:03:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 17:17:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164408
+ https://lists.openembedded.org/g/openembedded-core/message/164409
 
-If IMAGE_NAME and IMAGE_LINK_NAME are the same an
-exception is raised in image_combine_spdx because
-it cannot create a symlink with the same exact
-path of the original file. In that case there is
-no point in creating a link in the first place.
+On Wed, 2022-04-13 at 10:21 +0200, Stefan Herbrechtsmeier wrote:
+> Hi,
+> 
+> Am 11.04.2022 um 09:17 schrieb Stefan Herbrechtsmeier via 
+> lists.openembedded.org:
+> > Am 08.04.2022 um 22:03 schrieb Markus Volk via lists.openembedded.org:
+> > > also had this issue and found out, that the bluetooth service did come 
+> > > up, once bluetooth was enabled
+> > > 
+> > > My fix was to edit like this
+> > > 
+> > > ReadWritePaths=:/var/lib/bluetooth
+> > > 
+> > > The colon ensures that the service won't fail if the directory doesn't 
+> > > exist
+> > 
+> > Regarding the documentation the ReadOnlyPaths and ReadWritePaths makes 
+> > not sense because ProtectSystem=full mounts /usr, boot loader and /etc 
+> > directories read-only.
+> > 
+> > Have somebody report the problem to the bluez project?
+> 
+> I have open an issue:
+> https://github.com/bluez/bluez/issues/329
+> 
+> I will post a patch when we come to a solution.
 
-Refactor image_combine_spdx to avoid code duplication
+We have a slight challenge in that I'd like to build 4.0 rc2 but I think there
+will be complaints if this is left broken.
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
----
- meta/classes/create-spdx.bbclass | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+I'm going to post a version of your patch and hope that improves things. If
+anyone knows of issues with that patch please let me know ASAP.
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index 137db81a5b..47a8764bf0 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -835,16 +835,14 @@ python image_combine_spdx() {
- 
-     combine_spdx(d, image_name, imgdeploydir, img_spdxid, packages)
- 
--    if image_link_name:
--        image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
--        image_spdx_link = imgdeploydir / (image_link_name + ".spdx.json")
--        image_spdx_link.symlink_to(os.path.relpath(image_spdx_path, image_spdx_link.parent))
--
-     def make_image_link(target_path, suffix):
-         if image_link_name:
-             link = imgdeploydir / (image_link_name + suffix)
--            link.symlink_to(os.path.relpath(target_path, link.parent))
-+            if link != target_path:
-+                link.symlink_to(os.path.relpath(target_path, link.parent))
- 
-+    image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
-+    make_image_link(image_spdx_path, ".spdx.json")
-     spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
-     make_image_link(spdx_tar_path, ".spdx.tar.zst")
-     spdx_index_path = imgdeploydir / (image_name + ".spdx.index.json")
--- 
-2.32.0
+Cheers,
+
+Richard
 
 
