@@ -2,54 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8794C35294
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A952CC47082
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web09.11565.1650052687174681099
+Received: from a27-31.smtp-out.us-west-2.amazonses.com
+ (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web09.11563.1650052687169836472
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:07 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AFcAVUSs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 010101802ecde200-8ceb5a2d-f2e4-4862-8f3f-45f2cdfd7eed-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NQXfZzpk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
+ mailfrom: 010101802ecde193-4db3a1db-de69-4dc6-9f7d-b9cf956885b9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=h98v3m/mrT6MXi4HixTfBfSMv9UoANcz6HYU/RVeVhc=;
-	b=AFcAVUSsmv6BR+d5y4NxWOKeNfJp7MO5zOLh1zMmzWOQ1iUKqMYhZE9bzsTCbLv2
-	6Pc7eioBFFupD0EbQ5YM57Ld49+los9l22S0mRF0yIAKWjQyHbw3iB36DCB9Jn9eB5u
-	BIhViXKJqC7iaY2FqqjI2U+eyM0Xa8gHU0BXbTcA=
+	bh=pYzbpfdfrxPP1AlCS/CSysb0j33bce7ZeK2f5Ue3VRg=;
+	b=NQXfZzpk/yE27m+AuYExvGvJDfqeeB6IEsscxVcwN8LO/bi8hcHoupEM9IEgmUe9
+	tZsocGgINzdwh+S2NUAtHqzBV12Flp4z/Yp0zDGfD9gf4o7o/qRmUSFcl5WpY9w3C5M
+	ByM5C2fLL4De9xe+E0k2LsWOH5KeP7pn7cTfmjyA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=h98v3m/mrT6MXi4HixTfBfSMv9UoANcz6HYU/RVeVhc=;
-	b=LO84dws/0Ur1sBjomSOe/p350Fn7re2Ao/N5V86hsxdktO78PNfoCDjZtLJypxmy
-	9Tq5wlE8onxGVkWkBXjIrxp1ZX0jF749tGHVDMeVJl2pSyyBPzYad5m3/eCgUHDSx5O
-	i1CJd4GCb3HVygxJHz44kAN16/G22D9fYTYSEpX4=
-Content-Type: multipart/mixed; boundary="===============7628982012200517242=="
+	bh=pYzbpfdfrxPP1AlCS/CSysb0j33bce7ZeK2f5Ue3VRg=;
+	b=CpICT/p9riAUHlWEa2Fqo37rfYhZe2IuL8Cha6JkYD+QoPdS59/NOwhU/SIm9wgk
+	OzWdN4bqlBXKJPs+FfSUESOI+uLrsOxBhyZyEKAQLetkBkZ4GhyL9AYzhHh2LHAW6Ld
+	CqYqKmkgFY6ZP+tOr9CoPWD5+ySZ0+ZkF3XmPb2U=
+Content-Type: multipart/mixed; boundary="===============8323252441649860326=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: 
- =?utf-8?b?QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+?=@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dpkg: upgrading to 1.21.7 SUCCEEDED
+Subject: [AUH] go-runtime: upgrading to 1.18.1 FAILED
 Message-ID: 
- <010101802ecde200-8ceb5a2d-f2e4-4862-8f3f-45f2cdfd7eed-000000@us-west-2.amazonses.com>
+ <010101802ecde193-4db3a1db-de69-4dc6-9f7d-b9cf956885b9-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:06 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.23
+X-SES-Outgoing: 2022.04.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164446
+ https://lists.openembedded.org/g/openembedded-core/message/164445
 
---===============7628982012200517242==
+--===============8323252441649860326==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -57,206 +56,134 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dpkg* to *1.21.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *go-runtime* to *1.18.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-dpkg-upgrade-1.21.4-1.21.7.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe go-runtime failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:193cc5cdc964b6567e25c34ae3e233506be48575"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:193cc5cdc964b6567e25c34ae3e233506be48575"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:03
+Adding changed files:   4% |#                                   | ETA:  0:00:02
+Adding changed files:   6% |##                                  | ETA:  0:00:01
+Adding changed files:   9% |###                                 | ETA:  0:00:01
+Adding changed files:  11% |####                                | ETA:  0:00:01
+Adding changed files:  13% |#####                               | ETA:  0:00:01
+Adding changed files:  16% |#####                               | ETA:  0:00:01
+Adding changed files:  18% |######                              | ETA:  0:00:01
+Adding changed files:  20% |#######                             | ETA:  0:00:01
+Adding changed files:  23% |########                            | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  27% |##########                          | ETA:  0:00:01
+Adding changed files:  30% |##########                          | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:01
+Adding changed files:  37% |#############                       | ETA:  0:00:01
+Adding changed files:  39% |##############                      | ETA:  0:00:01
+Adding changed files:  41% |###############                     | ETA:  0:00:01
+Adding changed files:  44% |###############                     | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:01
+Adding changed files:  50% |##################                  | ETA:  0:00:01
+Adding changed files:  53% |###################                 | ETA:  0:00:01
+Adding changed files:  55% |####################                | ETA:  0:00:00
+Adding changed files:  57% |####################                | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  62% |######################              | ETA:  0:00:00
+Adding changed files:  64% |#######################             | ETA:  0:00:00
+Adding changed files:  67% |########################            | ETA:  0:00:00
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files:  71% |#########################           | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  78% |############################        | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  83% |##############################      | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://golang.org/dl/go1.18.1.src.tar.gz;name=main...
+INFO: Rebasing devtool onto 0903cc8d9a954bec7bd8c174dd6c6f89fa30e848
+WARNING: Command 'git rebase 0903cc8d9a954bec7bd8c174dd6c6f89fa30e848' failed:
+Auto-merging src/cmd/go/internal/envcmd/env.go
+CONFLICT (content): Merge conflict in src/cmd/go/internal/envcmd/env.go
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go-runtime
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go-runtime/go-runtime_1.18.1.bb
+WARNING: Version is pinned to 1.17% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7628982012200517242==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-dpkg-upgrade-1.21.4-1.21.7.patch"
-
-From 2ee1b99bbbfb8aab2bdd432a3d536b0499728cdf Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 07:48:37 +0000
-Subject: [PATCH] dpkg: upgrade 1.21.4 -> 1.21.7
-
----
- .../dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch | 7 ++-----
- .../dpkg/{dpkg_1.21.4.bb => dpkg_1.21.7.bb}                | 2 +-
- 2 files changed, 3 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.21.4.bb => dpkg_1.21.7.bb} (95%)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-index dc0d9bfc2e..b954c7e839 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-@@ -1,4 +1,4 @@
--From 839f228556c00739f72534e8635195935eb3752f Mon Sep 17 00:00:00 2001
-+From 0e5f9ad18235f8a95f40973b7b8f93baa3872ec2 Mon Sep 17 00:00:00 2001
- From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
- Date: Tue, 16 Jun 2020 03:57:25 +0000
- Subject: [PATCH] build.c: ignore return of 1 from tar -cf
-@@ -29,7 +29,7 @@ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
-  1 file changed, 4 insertions(+), 1 deletion(-)
- 
- diff --git a/src/deb/build.c b/src/deb/build.c
--index 76613ad..7c216d1 100644
-+index 76613adec..7c216d1a9 100644
- --- a/src/deb/build.c
- +++ b/src/deb/build.c
- @@ -482,6 +482,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-@@ -51,6 +51,3 @@ index 76613ad..7c216d1 100644
-  }
-  
-  static intmax_t
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.7.bb
-similarity index 95%
-rename from meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.21.7.bb
-index 681909f0bf..902cc03bcd 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.7.bb
-@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
- 
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
- 
--SRCREV = "5563bdb608b3413639b69f1c76567cb66ff1a961"
-+SRCREV = "e61f582015a9c67bbb3791cb93a864cfeb9c7151"
- 
- S = "${WORKDIR}/git"
--- 
-2.27.0
-
-
---===============7628982012200517242==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/dpkg/dpkg-dbg: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-dbg: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-dbg: PKGSIZE changed from 2761580 to 2769604 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-dev: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-dev: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-dev: PKGSIZE changed from 156413 to 156532 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-doc: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-doc: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-doc: PKGSIZE changed from 352886 to 353738 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ast: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ast: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-bs: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-bs: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ca: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ca: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-cs: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-cs: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-da: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-da: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-de: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-de: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-de: PKGSIZE changed from 289896 to 289902 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-locale-dz: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-dz: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-el: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-el: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-eo: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-eo: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-es: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-es: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-et: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-et: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-eu: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-eu: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-fr: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-fr: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-gl: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-gl: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-hu: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-hu: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-id: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-id: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-it: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-it: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ja: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ja: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-km: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-km: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ko: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ko: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ku: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ku: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-lt: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-lt: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-mr: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-mr: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nb: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nb: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ne: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ne: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nl: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nl: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nn: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-nn: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-oc: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-oc: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pa: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pa: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pl: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pl: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pt-br: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pt-br: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pt: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-pt: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ro: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ro: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ru: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-ru: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-sk: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-sk: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-sv: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-sv: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-sv: PKGSIZE changed from 250274 to 274613 (+10%)
-packages/core2-32-poky-linux/dpkg/dpkg-locale-th: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-th: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-tl: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-tl: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-tr: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-tr: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-vi: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-vi: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-zh-cn: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-zh-cn: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-locale-zh-tw: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-locale-zh-tw: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-perl: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-perl: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-perl: PKGSIZE changed from 614010 to 614267 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-src: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-src: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-src: PKGSIZE changed from 1157871 to 1158618 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg-start-stop: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-start-stop: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-staticdev: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg-staticdev: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg-staticdev: PKGSIZE changed from 980762 to 982870 (+0%)
-packages/core2-32-poky-linux/dpkg/dpkg: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/dpkg: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/dpkg: PKGSIZE changed from 1476592 to 1478058 (+0%)
-packages/core2-32-poky-linux/dpkg: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-packages/core2-32-poky-linux/dpkg/update-alternatives-dpkg: PV changed from "1.21.4" to "1.21.7"
-packages/core2-32-poky-linux/dpkg/update-alternatives-dpkg: PKGV changed from 1.21.4 [default] to 1.21.7 [default]
-
---===============7628982012200517242==--
+--===============8323252441649860326==--
 
