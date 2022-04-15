@@ -1,122 +1,135 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE54C71135
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:03 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web08.6440.1650023699570657032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 456D0C71151
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:04 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web10.8138.1650033488360646772
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 04:54:59 -0700
+ Fri, 15 Apr 2022 07:38:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dz5IJAqx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id g18so10392180wrb.10
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 04:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=/uOR7i28kPu8Pi2dz3o8+ivaEKSwWOJ4EyQUhfp64po=;
-        b=Dz5IJAqxd4cOw3btuou9kFYt84ScF4c6/MPo75azQZHZ+LG9/yuG/HKjHv+pLnfJH0
-         05WWXeS+yBqQYAC+Nfi8YRx8k9ccPTtrJsydyfT0Nf50NQRe+XSQgpvNXF2amgZLu9Nv
-         ByIMNryHOPULAkL43uWT11XgQtiN9nfJKa0mg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/uOR7i28kPu8Pi2dz3o8+ivaEKSwWOJ4EyQUhfp64po=;
-        b=KSQaAdZv7TR3sbMnaNiuxsscyT7LSkveQLmrm3jJenkdQTJwSsZ0+J9M2LpUGfc9kT
-         IKuFDfXURlV3kBJqYSlWjqlOUQtrXdeot8wGyB6i3j/S/805rFq15tsDqCOh8W0C/eTj
-         7RBAW9TkL3QWapdFDDzqJbwBlDG5KypUHmf1eBH2tAHS6+bD3zAMozVeFf8XIL3yoq98
-         ZE1uJnBU9MX6uM7cer0uX7/nmmE6GFt9g0OjBUrX06GmopbKY6JvdEHvXaUy6Drcaqiq
-         3p6Qf0SpI/r84hjpEBiEXU2BmwjKaodabsEFd91TOrRbmAmO++IfSNBYfFhctWKvTfC0
-         d0bQ==
-X-Gm-Message-State: AOAM531MCgwX3dTNTxPaisI3alr5m6VwrzqCuafd6dMazT2pOvHd8AiN
-	bYErVKvh6PrkJys3mnKI18gFIA==
-X-Google-Smtp-Source: 
- ABdhPJxzDxAlA2fQTjFb745psiNQPuF8bxge+aQleLef62CoviBv+tI0bdKTg87Umfvy8zoPKguajg==
-X-Received: by 2002:a5d:5601:0:b0:207:a6a6:468c with SMTP id
- l1-20020a5d5601000000b00207a6a6468cmr5286372wrv.127.1650023697864;
-        Fri, 15 Apr 2022 04:54:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:11b3:ac79:b941:ad48?
- ([2001:8b0:aba:5f3c:11b3:ac79:b941:ad48])
-        by smtp.gmail.com with ESMTPSA id
- f15-20020a0560001a8f00b002079912f4d8sm3923658wry.49.2022.04.15.04.54.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 04:54:57 -0700 (PDT)
-Message-ID: 
- <4398092db8e21fdf2db1d3346ee16ccdf03804be.camel@linuxfoundation.org>
-Subject: Re: [OE-core] bitbake.conf: reason for assignment of deprecated
- variable
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: michael.opdenacker@bootlin.com, Peter Kjellerstedt
- <peter.kjellerstedt@axis.com>, Markus Niebel
- <Markus.Niebel@ew.tq-group.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Apr 2022 12:54:50 +0100
-In-Reply-To: <dbec5575-3687-3d8a-ef9e-03a46bc72933@bootlin.com>
-References: <2d083c9ebada9a9ee8eaf9c97f3ef3171bdb2356.camel@ew.tq-group.com>
-	 <5b5b2b45fe494472abcfc8e06c6480c2@axis.com>
-	 <dbec5575-3687-3d8a-ef9e-03a46bc72933@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: kai.kang@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23FEc6oS005918
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 15 Apr 2022 07:38:06 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 15 Apr 2022 07:38:06 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Fri, 15 Apr 2022 07:38:05 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] update_udev_hwdb: fix multilib issue with systemd
+Date: Fri, 15 Apr 2022 22:38:03 +0800
+Message-ID: <20220415143803.13980-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164427
+ https://lists.openembedded.org/g/openembedded-core/message/164429
 
-On Fri, 2022-04-15 at 12:02 +0200, Michael Opdenacker via lists.openembedded.org
-wrote:
-> On 4/15/22 02:08, Peter Kjellerstedt wrote:
-> > > -----Original Message-----
-> > > From: openembedded-core@lists.openembedded.org <openembedded-
-> > > core@lists.openembedded.org> On Behalf Of Markus Niebel
-> > > Sent: den 11 april 2022 17:07
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: [OE-core] bitbake.conf: reason for assignment of deprecated
-> > > variable
-> > > 
-> > > Hello,
-> > > 
-> > > with the deprecation of SERIAL_CONSOLE the following was introduced in
-> > > bitbake.conf:
-> > > 
-> > > 3f0d665384e6d1b7aa2854a9cc4f13e0961bacb7 (bitbake.conf: set
-> > > SERIAL_CONSOLES from SERIAL_CONSOLE by default)
-> > > 
-> > > Since this is done after inclusion of local.conf and <machine>.conf any
-> > > weak default done for a System-on-Module / CPU will be overwritten. Is 
-> > > this just by forgetting to remove these lines after the deprecation or 
-> > > is there still a reason to keep this as is?
-> > > 
-> > > Thank you
-> > > 
-> > > Markus Niebel
-> > Given that it is almost ten years since SERIAL_CONSOLE was deprecated, 
-> > it might be time to actually remove it soon...
-> 
-> 
-> I agree, and this would allow to simplify documentation too.
-> Markus, would you like to submit a patch to openembedded-core?
-> Good catch by the way!
+From: Kai Kang <kai.kang@windriver.com>
 
-This hasn't happened in the past as we've had no good way to notify users of the
-change and it would likely break existing BSPs. We do at least have some
-mechanism for deprecating and warning about removed variables now which should
-help.
+It duplicates udevadm in systemd recipe to make it could run
+update_udev_hwdb with multilib enabled. Since systemd last update,
+it deploys a shared library libsystemd-shared-250.so in /lib/systemd/.
+The library will be overwritten when multilib enabled. Then if both
+udev-hwdb and lib32-udev-hwdb are installed, it fails to run the
+multilib version postinstall intercept update_udev_hwdb:
 
-Cheers,
+| /path/to/build/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-small/1.0-r1/rootfs/usr/libexec/lib32-udevadm:
+    error while loading shared libraries: libsystemd-shared-250.so: wrong ELF class: ELFCLASS64
 
-Richard
+`udevadm hwdb --update` just concatenates .hwdb files in dirs
+/etc/udev/hwdb.d and /lib/udev/hwdb.d. The output file hwdb.bin is
+identical with the one created by lib32-udevadm. So do NOT duplicate
+lib32-udevadm in systemd and eudev. And update intercept script
+update_udev_hwdb that re-run udevadm with same arch qemuwrapper if run
+${binprefix}qemuwrapper failed.
 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_250.4.bb   | 5 -----
+ meta/recipes-core/udev/eudev_3.2.10.bb       | 4 ----
+ scripts/postinst-intercepts/update_udev_hwdb | 5 ++++-
+ 3 files changed, 4 insertions(+), 10 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_250.4.bb b/meta/recipes-core/systemd/systemd_250.4.bb
+index 2b346113b59..15e2185dff2 100644
+--- a/meta/recipes-core/systemd/systemd_250.4.bb
++++ b/meta/recipes-core/systemd/systemd_250.4.bb
+@@ -337,10 +337,6 @@ do_install() {
+ 	# create link for existing udev rules
+ 	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
+ 
+-	# duplicate udevadm for postinst script
+-	install -d ${D}${libexecdir}
+-	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+-
+ 	# install default policy for presets
+ 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
+ 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
+@@ -718,7 +714,6 @@ FILES:udev += "${base_sbindir}/udevd \
+                ${base_bindir}/systemd-hwdb \
+                ${base_bindir}/udevadm \
+                ${base_sbindir}/udevadm \
+-               ${libexecdir}/${MLPREFIX}udevadm \
+                ${datadir}/bash-completion/completions/udevadm \
+                ${systemd_system_unitdir}/systemd-hwdb-update.service \
+               "
+diff --git a/meta/recipes-core/udev/eudev_3.2.10.bb b/meta/recipes-core/udev/eudev_3.2.10.bb
+index dec16be046c..ccc66ae1313 100644
+--- a/meta/recipes-core/udev/eudev_3.2.10.bb
++++ b/meta/recipes-core/udev/eudev_3.2.10.bb
+@@ -51,10 +51,6 @@ do_install:append() {
+ 
+ 	# hid2hci has moved to bluez4. removed in udev as of version 169
+ 	rm -f ${D}${base_libdir}/udev/hid2hci
+-
+-	# duplicate udevadm for postinst script
+-	install -d ${D}${libexecdir}
+-	ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+ }
+ 
+ do_install:prepend:class-target () {
+diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
+index 8076b8ae6f1..8b3f5de791f 100644
+--- a/scripts/postinst-intercepts/update_udev_hwdb
++++ b/scripts/postinst-intercepts/update_udev_hwdb
+@@ -9,14 +9,17 @@ case "${PREFERRED_PROVIDER_udev}" in
+ 	systemd)
+ 		UDEV_EXTRA_ARGS="--usr"
+ 		UDEVLIBDIR="${rootlibexecdir}"
++		UDEVADM="${base_bindir}/udevadm"
+ 		;;
+ 
+ 	*)
+ 		UDEV_EXTRA_ARGS=""
+ 		UDEVLIBDIR="${sysconfdir}"
++		UDEVADM="${bindir}/udevadm"
+ 		;;
+ esac
+ 
+ rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
+-PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D ${UDEV_EXTRA_ARGS}
++PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS} ||
++	PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS}
+ chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
+-- 
+2.17.1
 
 
