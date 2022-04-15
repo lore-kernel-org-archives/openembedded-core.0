@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A26BC47096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A5EC4332F
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:54 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web08.11724.1650052687027043254
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web08.11732.1650052689003539971
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 12:58:08 -0700
+ Fri, 15 Apr 2022 12:58:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JcRz/WH+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 010101802ecdea43-5b2ceffe-522a-428c-8603-0d861ef1d075-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=4k4w/j1m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 010101802ecde9cf-a0ccd9f3-e82c-4e7b-b882-84bf6fd7eb8c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052688;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=igVkQTaNhY52JlqbyayZ/dfOwLM+rP9Uu5uoiY/q4dI=;
-	b=JcRz/WH+DkXl3RCgSdt5mPc7/tQE1GhHKwaW73r9/p6Q9l7w3bJInHwyM07jqcOq
-	O0/FKvLXyVf1sFi7j7DfF+aYpToJE+XK/fY6a83Q69+vTKx26QiCBgCEdfof9AND6ES
-	+3g/VjrSAKm6xHOAZblCrnjzFa1dQhsrVlq39K5c=
+	bh=/K6jHWSG0D0x1XjWPdYH2ni8B0cJbb2h0DwlHHN9zKc=;
+	b=4k4w/j1mxQzqrHFPaT2nf3cZr+2K7R5SQAW++6NV/DjEJ/cp5QWswJZeFWyMLzmh
+	p75F9FpzeQBRBiEToKEAurKJBJ56nv/Av8Q4zx2+h4WK/VhiRjRTiCLAMa0KOnSnXq9
+	ZlwgnQHvnLFHw+lrsfSu3Iq+k7pB+z9W2BYvRhGM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052688;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=igVkQTaNhY52JlqbyayZ/dfOwLM+rP9Uu5uoiY/q4dI=;
-	b=Xrf4hZrNZW2Ny3PQ4uhL9IYgizWpj8WJLEGK9GFkkqGP4afdodhFHEDZ6xIyoQiO
-	Y9l0SGTbEYgIlu5SYNHzS0/y5rikERIMT9HHEK+IYBaaPvgCQAQoRArXwB9Kpms+p9h
-	R9pldE06gFG/vJljHY0xuTMiia+1fS3zFzGCdR88=
-Content-Type: multipart/mixed; boundary="===============5854261932584874516=="
+	bh=/K6jHWSG0D0x1XjWPdYH2ni8B0cJbb2h0DwlHHN9zKc=;
+	b=Qu7daFDpYUyNYWTAVMnJKRn7obrEzvueKhpFuY6nurNwkX2HQgvLI4xaCx10JvWh
+	ssqvk6Zuf1KL/ALUZT629wczRrXsrys3fClfzGhodSmTgeV4HgkgJrgWVO1o7WIL603
+	GR5ndYuMqbdPbylmH82FBH6T+N6A5ye+luBUmCVA=
+Content-Type: multipart/mixed; boundary="===============1397218772493658640=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] epiphany: upgrading to 42.1 SUCCEEDED
+Subject: [AUH] libhandy: upgrading to 1.6.1 SUCCEEDED
 Message-ID: 
- <010101802ecdea43-5b2ceffe-522a-428c-8603-0d861ef1d075-000000@us-west-2.amazonses.com>
+ <010101802ecde9cf-a0ccd9f3-e82c-4e7b-b882-84bf6fd7eb8c-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:08 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.30
+X-SES-Outgoing: 2022.04.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164487
+ https://lists.openembedded.org/g/openembedded-core/message/164492
 
---===============5854261932584874516==
+--===============1397218772493658640==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *epiphany* to *42.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *libhandy* to *1.6.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-epiphany-upgrade-42.0-42.1.patch
+    - apply the patch: git am 0001-libhandy-upgrade-1.5.0-1.6.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,280 +75,179 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5854261932584874516==
+--===============1397218772493658640==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libhandy: PACKAGES: added "libhandy-locale-cs"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGSIZE changed from 7563 to 11786 (+56%)
+
+--===============1397218772493658640==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-epiphany-upgrade-42.0-42.1.patch"
+ filename="0001-libhandy-upgrade-1.5.0-1.6.1.patch"
 
-From 3b54c4b3a623dd688c087fa0cfefcecfbbd41777 Mon Sep 17 00:00:00 2001
+From 964bdfcab367504a01cf367eebe37866dcaea733 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 15:58:24 +0000
-Subject: [PATCH] epiphany: upgrade 42.0 -> 42.1
+Date: Fri, 15 Apr 2022 16:17:11 +0000
+Subject: [PATCH] libhandy: upgrade 1.5.0 -> 1.6.1
 
 ---
- .../epiphany/{epiphany_42.0.bb => epiphany_42.1.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_42.0.bb => epiphany_42.1.bb} (94%)
+ .../libhandy/0001-Add-private-headers.patch   | 37 -------------------
+ .../{libhandy_1.5.0.bb => libhandy_1.6.1.bb}  |  6 +--
+ 2 files changed, 2 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libhandy/libhandy/0001-Add-private-headers.patch
+ rename meta/recipes-gnome/libhandy/{libhandy_1.5.0.bb => libhandy_1.6.1.bb} (89%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_42.0.bb b/meta/recipes-gnome/epiphany/epiphany_42.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_42.0.bb
-rename to meta/recipes-gnome/epiphany/epiphany_42.1.bb
-index 1cf731c7d6..1aef6846f9 100644
---- a/meta/recipes-gnome/epiphany/epiphany_42.0.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_42.1.bb
-@@ -28,7 +28,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "3dbfa8c00e45b7f44e1824d01f0febe83707b5fb9330c261173f68b7f03cd5e3"
-+SRC_URI[archive.sha256sum] = "68acc3c5c62917f1b43916a5b46bec136f5b307f03aada58db740c78b103f038"
+diff --git a/meta/recipes-gnome/libhandy/libhandy/0001-Add-private-headers.patch b/meta/recipes-gnome/libhandy/libhandy/0001-Add-private-headers.patch
+deleted file mode 100644
+index 7b2a512738..0000000000
+--- a/meta/recipes-gnome/libhandy/libhandy/0001-Add-private-headers.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From e7c3e8fa00f6a68b2e0629db5ee115e641ea710e Mon Sep 17 00:00:00 2001
+-From: Mingli Yu <mingli.yu@windriver.com>
+-Date: Wed, 8 Dec 2021 07:35:52 +0000
+-Subject: [PATCH] Add private headers
+-
+-After the commit(8157ecc Separate public and private enums) introduced,
+-there comes a race as below:
+- | In file included from ../git/src/hdy-settings.c:11:
+- | ../git/src/hdy-settings-private.h:16:10: fatal error: hdy-enums-private.h: No such file or directory
+- |    16 | #include "hdy-enums-private.h"
+-
+-So also add private headers like private sources to libhandy_sources to
+-fix the issue.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/796]
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+----
+- src/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/meson.build b/src/meson.build
+-index d087323..6f11f27 100644
+---- a/src/meson.build
+-+++ b/src/meson.build
+-@@ -64,7 +64,7 @@ hdy_private_enums = gnome.mkenums('hdy-enums-private',
+- )
+- 
+- libhandy_public_sources += [hdy_public_enums[0]]
+--libhandy_private_sources += [hdy_private_enums[0]]
+-+libhandy_private_sources += hdy_private_enums
+- libhandy_generated_headers += [hdy_public_enums[1]]
+- 
+- src_headers = [
+--- 
+-2.32.0
+-
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb b/meta/recipes-gnome/libhandy/libhandy_1.6.1.bb
+similarity index 89%
+rename from meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.6.1.bb
+index 722593dfb1..06b2b467fe 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.5.0.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.6.1.bb
+@@ -9,10 +9,8 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libhandy/-/issues"
+ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- PACKAGECONFIG_SOUP ?= "soup2"
- PACKAGECONFIG ??= "${PACKAGECONFIG_SOUP}"
+-SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=master \
+-           file://0001-Add-private-headers.patch \
+-"
+-SRCREV = "8fa8306a79215fc6ebf2483145da98bf9b2495ab"
++SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-6"
++SRCREV = "4186dae5570cf8e73cf8a145236240eec3a237b5"
+ S = "${WORKDIR}/git"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
 -- 
 2.27.0
 
 
---===============5854261932584874516==
+--===============1397218772493658640==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 4269604 to 4269280 (-0%)
-packages/core2-32-poky-linux/epiphany/epiphany-dbg: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-dev: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-doc: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-af: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-am: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-an: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ar: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-as: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ast: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-az: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-be: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bg: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bn: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-br: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-bs: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ca: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ckb: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ckb: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cs: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-cy: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-da: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-de: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-dz: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PKGSIZE changed from 117336 to 117611 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-el: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PKGSIZE changed from 78764 to 79896 (+1%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eo: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-es: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-et: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-eu: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fa: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fi: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fr: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fur: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fy: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-fy: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ga: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gl: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gu: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-gv: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-he: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hi: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PKGSIZE changed from 83586 to 83406 (-0%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hr: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hu: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-hy: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-id: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ig: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-is: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-it: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ja: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ka: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-km: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-kn: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ko: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ku: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-li: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lt: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-lv: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mai: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mg: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mi: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ml: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mn: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-mr: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ms: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nb: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nds: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ne: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PKGSIZE changed from 84402 to 85531 (+1%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nl: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-nn: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-oc: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-or: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pa: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pl: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ps: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PKGSIZE changed from 85276 to 85466 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-pt: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ro: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ru: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-rw: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-si: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sl: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sq: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sr: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-sv: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ta: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-te: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tg: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-th: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PKGSIZE changed from 85091 to 84886 (-0%)
-packages/core2-32-poky-linux/epiphany/epiphany-locale-tr: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-ug: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-uz: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-vi: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-wa: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-yo: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 26613661 to 26613082 (-0%)
-packages/core2-32-poky-linux/epiphany/epiphany-src: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany-staticdev: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany/epiphany: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany/epiphany: PKGSIZE changed from 5665609 to 5665954 (+0%)
-packages/core2-32-poky-linux/epiphany/epiphany: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany: PKGV changed from 42.0 [default] to 42.1 [default]
-packages/core2-32-poky-linux/epiphany: PV changed from "42.0" to "42.1"
-packages/core2-32-poky-linux/epiphany: SRC_URI changed from "https://download.gnome.org/sources//epiphany/42/epiphany-42.0.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch" to "https://download.gnome.org/sources//epiphany/42/epiphany-42.1.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch"
+packages/core2-32-poky-linux/libhandy: SRC_URI changed from "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=master file://0001-Add-private-headers.patch" to "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-6"
+packages/core2-32-poky-linux/libhandy: PACKAGES: added "libhandy-locale-cs"
+packages/core2-32-poky-linux/libhandy: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 2258612 to 2263356 (+0%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 847705 to 893298 (+5%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ca: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ca: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-de: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-de: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PKGSIZE changed from 25814 to 26521 (+3%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PKGSIZE changed from 23711 to 24821 (+5%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fa: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fa: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fi: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fi: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-gl: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-gl: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-hu: PKGSIZE changed from 25449 to 26125 (+3%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale-hu: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-hu: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-nl: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-nl: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-oc: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-oc: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PKGSIZE changed from 25011 to 25184 (+1%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGSIZE changed from 7563 to 11786 (+56%)
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sr: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sr: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sv: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sv: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-zh-cn: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-zh-cn: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 3566152 to 3571435 (+0%)
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "1.5.0" to "1.6.1"
+packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 888912 to 897240 (+1%)
+packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 1.5.0 [default] to 1.6.1 [default]
+packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "1.5.0" to "1.6.1"
 
---===============5854261932584874516==--
+--===============1397218772493658640==--
 
