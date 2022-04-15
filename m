@@ -1,129 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <suhridsubramaniam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B2B0C43217
-	for <webhook@archiver.kernel.org>; Thu, 14 Apr 2022 20:57:04 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.159.1649969529830712402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C6DC433FE
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web12.10572.1650047128860739768
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 13:52:10 -0700
+ Fri, 15 Apr 2022 11:25:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LrM1EPVO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id g18so8458897wrb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Niw51y3u;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178,
+ mailfrom: suhridsubramaniam@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id k14so8089481pga.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Apr 2022 13:52:09 -0700 (PDT)
+ Fri, 15 Apr 2022 11:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5V2caaxEFqVw8WzVreOvGSr6u1Jg11U5vGb1s12o/Gg=;
-        b=LrM1EPVOiJ7JJG4AqVB0D91MX4Z2ItF0Uqn1E3HzGrli/7WwGc8RenkgPF+6mjLGTZ
-         ubY3tJFeJw7V6yHBZabxBkwuF8zaky7ETqhjM1Xz2uajhAZ+wJZ4Ahdf6m4Ma8caRL/d
-         scPP+sNxkmrOJ3jllehDuzWwPhqTGx/+IlxXA=
+        bh=N2dJ+QA3FdYskBVet9oH+ut/Uj+akVowpyZO32SqYek=;
+        b=Niw51y3uVwHjtZtdFHUaMoYBk18GyHcm4zQ6DNKAQIZiLlJz1lccgX4XLw4T1WrvYs
+         W8PpT27R7P3cq7K+Sd0iZFQNJULXCJircqG+080kA1fqFBvnHrdQz1hwJG7GeMu5jQ6o
+         oQHYzQkBc6jc6iYQDE1jCeBobww8hTM9zF5h8Ihw5iggiXRCnjYlxZiD6FbjIGottKZ5
+         TyJSGQW6q132vA4D00h8ETQHolPmsIRwn/p6kxfMnJQC1qF4p8pkJg/AgqtsNtGCZBcL
+         pACvdYK3/QPmHRNNPKx7QpUTytwCmDrCxrSx3i4ouH1BXB/h60Dsk3r1K/f+O6fnX88s
+         vNJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=5V2caaxEFqVw8WzVreOvGSr6u1Jg11U5vGb1s12o/Gg=;
-        b=2XQJYYK8iemXK3iONMy6Ur0QKHlGMgYWs3riv3uC60+e6/FLE4CuezqXOeQ4GTbNBD
-         WqPQc/bL70zaEXMSFN1SRiekYIAUsiuHoSGqbPGprYFfPnwcfNZwlnNwcKX7BVR5kiT+
-         iD5SyRxIWvVq8FrR9CAqHMLvv0rvCuFkWgTF67LKNCVAHKmFh4cWD6YZYKgB+zAcxXhJ
-         nq6THuHrfL2p84GLms06rzedIisncbox405E4n6fZlVXKRGJeheBzpmVcs3aYDwduZdM
-         Q0boULuAHZOpNI4DGoBsfBtofHHwtNVuB8kmKsnWhFbS2NUIWBiYQZ8tYDsPDWoZCd0k
-         6eHw==
-X-Gm-Message-State: AOAM530NL62IesvKANzEKGQ18Bx9VqmHtCV4TCBqeDnD7mP8aClYw9FH
-	XC1r3VrpOY6HsbahPS9RSYc3ymBPU5aLUQ==
+        bh=N2dJ+QA3FdYskBVet9oH+ut/Uj+akVowpyZO32SqYek=;
+        b=fPhe3onzj1gZMWkbvF0wBKYgubUeqaPrpdbmGjYCHCWrM4w5mWuV+x59DO2SkUq0KF
+         jAAsZW3F7eom5sQ10J0RCv7RQt5VglxAp6AL34+uAGfxyfuRhlANlqm355QnjFnuSTQx
+         Y7ZBEvzPAhfEj/FiZFYIrib4UHetkK7k65CuBh2WxP1kU6Qgw2Y5n2oxZb4stpbivcBz
+         bNS1yiKk68t7i3gce6W9vy6ps2oq6YqqzsJjzgkE8N8xQKtIoPou3YHKcemv5TOfle9D
+         WOktqSBTCm+PRAkV9vFmNokCXb8kEcVE6aDzZign+jKe0PQJslzXKJiXQcZ/1e8IB6EX
+         /qTw==
+X-Gm-Message-State: AOAM532lU/3tuYXQqP7cxgdiULU2v8ZwavGIUEMleu+x76w+4PyICr4/
+	aXOruvMFxSuwh7k3PeuQtdX7/Sso251OyA==
 X-Google-Smtp-Source: 
- ABdhPJwabaoITpoyvGZ5yPZmiGs57i3q8UYS63AT+/yogBwVSIATtw1D7NcOiIF0/GJeaU45xpoxBA==
-X-Received: by 2002:adf:f943:0:b0:203:e832:129 with SMTP id
- q3-20020adff943000000b00203e8320129mr3304338wrr.626.1649969527334;
-        Thu, 14 Apr 2022 13:52:07 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:11b3:ac79:b941:ad48])
+ ABdhPJyrMXpQbyp6925/ygUjgnmblxzP3zEfVcJx27ygMsCNfuwx2/vPJjU/h4k178kFLQ29agNNrQ==
+X-Received: by 2002:a63:aa07:0:b0:386:3116:d222 with SMTP id
+ e7-20020a63aa07000000b003863116d222mr230537pgf.313.1650047128044;
+        Fri, 15 Apr 2022 11:25:28 -0700 (PDT)
+Received: from mediatek-ThinkPad-X240.hsd1.ca.comcast.net
+ ([2601:646:8200:7890:bc59:b9cd:b61b:ce00])
         by smtp.gmail.com with ESMTPSA id
- k11-20020a5d6d4b000000b0020599079f68sm2549322wri.106.2022.04.14.13.52.06
-        for <openembedded-core@lists.openembedded.org>
+ v10-20020a63ac0a000000b0039901c45810sm5317661pge.47.2022.04.15.11.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 13:52:06 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 15 Apr 2022 11:25:27 -0700 (PDT)
+From: Suhrid_S <suhridsubramaniam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] bluez5: Add fix for startup issues under systemd
-Date: Thu, 14 Apr 2022 21:52:05 +0100
-Message-Id: <20220414205205.2264840-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Cc: Suhrid_S <suhrid.subramaniam@mediatek.com>
+Subject: [PATCH] clinfo: Upgrade 2.2.18.04.06 -> 3.0.21.02.21
+Date: Fri, 15 Apr 2022 11:25:19 -0700
+Message-Id: <20220415182519.47954-1-suhridsubramaniam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Apr 2022 20:57:04 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164413
+ https://lists.openembedded.org/g/openembedded-core/message/164431
 
-The systemd bluetooth service failed to start. Add a workaround for this whilst the
-final fix is discussed upstream, https://github.com/bluez/bluez/issues/329.
+From: Suhrid_S <suhrid.subramaniam@mediatek.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+clinfo 2.2.18.04.06 released April 2018 does not show correct information pertaining to OpenCL 3.0 released Sept 2020.
+It shows version as `2.0` or `2.2` in systems with OpenCL 3.0.
+This upgrade fixes it.
+
+Signed-off-by: Suhrid_S <suhrid.subramaniam@mediatek.com>
 ---
+ .../opencl/{clinfo_2.2.18.04.06.bb => clinfo_3.0.21.02.21.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta-oe/recipes-support/opencl/{clinfo_2.2.18.04.06.bb => clinfo_3.0.21.02.21.bb} (92%)
 
-v2: Add ProtectSystem=strict
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- .../bluez5/bluez5/fix_service.patch           | 30 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 79d4645ca89..22dd07b3480 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-+           file://fix_service.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta-oe/recipes-support/opencl/clinfo_2.2.18.04.06.bb b/meta-oe/recipes-support/opencl/clinfo_3.0.21.02.21.bb
+similarity index 92%
+rename from meta-oe/recipes-support/opencl/clinfo_2.2.18.04.06.bb
+rename to meta-oe/recipes-support/opencl/clinfo_3.0.21.02.21.bb
+index 831b15a45..35b5a000e 100644
+--- a/meta-oe/recipes-support/opencl/clinfo_2.2.18.04.06.bb
++++ b/meta-oe/recipes-support/opencl/clinfo_3.0.21.02.21.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=fd8857f774dfb0eefe1e80c8f9240a7e"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-new file mode 100644
-index 00000000000..96fdf6b299c
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-@@ -0,0 +1,30 @@
-+The systemd bluetooth service failed to start because the /var/lib/bluetooth
-+path of ReadWritePaths= is created by the bluetooth daemon itself.
-+
-+The commit systemd: Add more filesystem lockdown (442d211) add ReadWritePaths=/etc/bluetooth
-+and ReadOnlyPaths=/var/lib/bluetooth options to the bluetooth systemd service.
-+The existing ProtectSystem=full option mounts the /usr, the boot loader
-+directories and /etc read-only. This means the two option are useless and could be removed.
-+
-+Upstream-Status: Submitted [https://github.com/bluez/bluez/issues/329]
-+
-+Index: bluez-5.64/src/bluetooth.service.in
-+===================================================================
-+--- bluez-5.64.orig/src/bluetooth.service.in
-++++ bluez-5.64/src/bluetooth.service.in
-+@@ -15,12 +15,12 @@ LimitNPROC=1
-+ 
-+ # Filesystem lockdown
-+ ProtectHome=true
-+-ProtectSystem=full
-++ProtectSystem=strict
-+ PrivateTmp=true
-+ ProtectKernelTunables=true
-+ ProtectControlGroups=true
-+-ReadWritePaths=@statedir@
-+-ReadOnlyPaths=@confdir@
-++ConfigurationDirectory=bluetooth
-++StateDirectory=bluetooth
-+ 
-+ # Execute Mappings
-+ MemoryDenyWriteExecute=true
+ SRC_URI = "git://github.com/Oblomov/clinfo.git;protocol=https;branch=master"
+ 
+-SRCREV = "59d0daf898e48d76ccbb788acbba258fa0a8ba7c"
++SRCREV = "d34bc1a3bdc148e2e1fe64998398e1a0552ab04c"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.32.0
+2.25.1
 
 
