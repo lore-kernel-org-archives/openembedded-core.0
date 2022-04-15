@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21342C54F3B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2629AC54F3D
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:55 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.11657.1650052690056987502
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web09.11559.1650052686015644738
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hqvK7VqK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 010101802ecdeecb-d80ca120-2ff9-417a-ac44-34373522e9be-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZX1yoSI4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 010101802ecdee61-ea9de6f8-53ae-491d-8ae0-bb24a9b5f8aa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052689;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Z2PfcfeWQ37uCXQ4Ur+X1IsGrtJgx2sT8OPwOEJndF4=;
-	b=hqvK7VqKGaQ9+hE7D/S46cFVD/qZyS941cm7tlLCBNrM77ON6acS0pA7eOQALkPr
-	sTMrROz58gJ2UZg18jMhzNQrcuLcN7FV0j1l43DlmgIE80z1EPArnGWD6QK6u20q8kC
-	DElXz3AF2xa7BAH77Mx0txEas8HdWFmOVItJHYvk=
+	bh=7mSuGA3SF72mmqJnlo32V9dg+4RePF5hdztzDHJfWQw=;
+	b=ZX1yoSI4Wr6qWVCbHpa3t534RfrJYY+4/ffCGmy097vxS2MLQsNqfSKjJsVqd+wO
+	6NvIJCEJEBOtUeooTSwr6JZIBXibg1Al1eSTdLdx+OHUDbSgy2Fij+BuRQ47YQ7Wf/G
+	a7ZGnPV0W06FtkaoKHcZB5ifFERQM9AIdb8ByGXw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052689;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Z2PfcfeWQ37uCXQ4Ur+X1IsGrtJgx2sT8OPwOEJndF4=;
-	b=cRfYCX60mPCoUHMLjRhLwARIWOcgPNToD+D2Kw0/WQtaUMhb3uZ4QyDXnu9TXmrH
-	otK6xx6SQcS9gnY58dwxiTRys5yWjxoVUxGOSq9CuIhUYkQsdRagxjI3JxbSzcckoa6
-	w1kmbkcUOkQ6T2NJO44qRMl1O7W4bf7pPjzG3fzA=
-Content-Type: multipart/mixed; boundary="===============2750560099004583204=="
+	bh=7mSuGA3SF72mmqJnlo32V9dg+4RePF5hdztzDHJfWQw=;
+	b=XZG4T7dLiWBMg3ACCGDSC09Vm06s9hsSFd9lc9+hXyrxzfeUIsQxm5JtU4XaZNdG
+	wWdbnQGr0bnJisRwlLwOxNhpdB8ihaczClbVSxgQgPBEndraW2g/FH5k2y+kVtLWzQy
+	nrkfJjpYxd5bfauTMDa1fL8B/dcrLwbUu/0i7x6w=
+Content-Type: multipart/mixed; boundary="===============8443682376794588368=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libgpg-error: upgrading to 1.45 FAILED
+Subject: [AUH] libsoup: upgrading to 3.0.6 SUCCEEDED
 Message-ID: 
- <010101802ecdeecb-d80ca120-2ff9-417a-ac44-34373522e9be-000000@us-west-2.amazonses.com>
+ <010101802ecdee61-ea9de6f8-53ae-491d-8ae0-bb24a9b5f8aa-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:09 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.30
+X-SES-Outgoing: 2022.04.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164515
+ https://lists.openembedded.org/g/openembedded-core/message/164516
 
---===============2750560099004583204==
+--===============8443682376794588368==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,90 +56,219 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libgpg-error* to *1.45* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libsoup* to *3.0.6* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libsoup-upgrade-3.0.5-3.0.6.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe libgpg-error failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945d3905ead0bce43330f7adbbc2a01ddf1bff58"
-workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945d3905ead0bce43330f7adbbc2a01ddf1bff58"
-workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.45.tar.bz2...
-INFO: Rebasing devtool onto 124be0f88822cbb87d086de5ba8c562a3faaefbc
-WARNING: Command 'git rebase 124be0f88822cbb87d086de5ba8c562a3faaefbc' failed:
-Auto-merging src/gpg-error.m4
-CONFLICT (content): Merge conflict in src/gpg-error.m4
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libgpg-error
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libgpg-error/libgpg-error_1.45.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2750560099004583204==--
+--===============8443682376794588368==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libsoup-upgrade-3.0.5-3.0.6.patch"
+
+From e7fce58bcff78040912b9b8c238b18c8bfbfc3e2 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Apr 2022 19:42:44 +0000
+Subject: [PATCH] libsoup: upgrade 3.0.5 -> 3.0.6
+
+---
+ .../libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
+
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.5.bb b/meta/recipes-support/libsoup/libsoup_3.0.6.bb
+similarity index 94%
+rename from meta/recipes-support/libsoup/libsoup_3.0.5.bb
+rename to meta/recipes-support/libsoup/libsoup_3.0.6.bb
+index d2535c91a2..17825ae6a4 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.5.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.6.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "f5d143db6830b3825edc2a1c4449d639273b0bfa017a4970871962d9bca22145"
++SRC_URI[sha256sum] = "b45d59f840b9acf9bb45fd45854e3ef672f57e3ab957401c3ad8d7502ac23da6"
+ 
+ PROVIDES = "libsoup-3.0"
+ CVE_PRODUCT = "libsoup"
+-- 
+2.27.0
+
+
+--===============8443682376794588368==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libsoup: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup: SRC_URI changed from "https://download.gnome.org/sources//libsoup/3.0/libsoup-3.0.5.tar.xz" to "https://download.gnome.org/sources//libsoup/3.0/libsoup-3.0.6.tar.xz"
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PKGSIZE changed from 1535048 to 1536384 (+0%)
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-dbg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-dev: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-dev: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-doc: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-doc: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ab: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ab: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-an: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-an: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-as: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-as: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-be: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-be: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bn-in: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bn-in: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bs: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-bs: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca+valencia: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca+valencia: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ca: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-cs: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-cs: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-da: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-da: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-de: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-de: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-el: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-el: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-en-gb: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-en-gb: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eo: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eo: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-es: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-es: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-et: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-et: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-eu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fa: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fa: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fur: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-fur: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gd: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gd: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-gu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-he: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-he: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hu: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-hu: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-id: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-id: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-it: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-it: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ja: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ja: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-kn: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-kn: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ko: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ko: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lt: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lt: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lv: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-lv: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ml: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ml: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-mr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-mr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ms: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ms: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nb: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nb: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ne: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ne: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-nl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-oc: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-oc: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-or: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-or: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pa: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pa: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt-br: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt-br: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-pt: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ro: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ro: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ru: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ru: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sl: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sl: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr+latin: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr+latin: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sv: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-sv: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ta: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ta: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-te: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-te: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tg: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tg: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-th: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-th: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tr: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-tr: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ug: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-ug: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-vi: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-vi: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-cn: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-cn: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-hk: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-hk: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-tw: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-locale-zh-tw: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-src: PKGSIZE changed from 1643073 to 1645532 (+0%)
+packages/core2-32-poky-linux/libsoup/libsoup-src: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-src: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup-staticdev: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup-staticdev: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+packages/core2-32-poky-linux/libsoup/libsoup: PKGSIZE changed from 717728 to 721824 (+1%)
+packages/core2-32-poky-linux/libsoup/libsoup: PV changed from "3.0.5" to "3.0.6"
+packages/core2-32-poky-linux/libsoup/libsoup: PKGV changed from 3.0.5 [default] to 3.0.6 [default]
+
+--===============8443682376794588368==--
 
