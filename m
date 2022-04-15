@@ -1,65 +1,62 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 963C0C67871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B179EC71129
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:03 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web09.6074.1650021125505579484
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.6304.1650022684649106255
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 04:12:05 -0700
+ Fri, 15 Apr 2022 04:38:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hlA5DqH4;
- spf=pass (domain: gmail.com, ip: 209.85.216.41,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id bg24so7408275pjb.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RrUW3oz8;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 123-20020a1c1981000000b0038b3616a71aso4883947wmz.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 04:12:05 -0700 (PDT)
+ Fri, 15 Apr 2022 04:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=i3XpBhgpVQTweSqqr/pBi89OpRxoP9mwnmi36gySQIY=;
-        b=hlA5DqH4SpBkRxXGE3/sIGUaojp9Usdb2TVHO7sr8LWXS8OwsGM+vu2ZP3QEvkSbtd
-         pGGtSMiqTy8d9EwwrqseQOl7HwyZ1Ko3Hr4wfTtTmqKXn1yHflt66VpWHFQu5ZY6aeJP
-         3iW0eJDeqdFAdW1x4jxG3kjuugl9pE8RLzqPukD6bp5CBSuu0yF83Pyo4FEU7WBbNzJ2
-         LeU+Sad66NeMnXZchENgUu8G+k0SYNP27MYNqvH92hNqE/UvU+SREn0e3IgOsfb8kbDV
-         x3ceF8Fn6qLEvh7pl9DGzVWc1BhclNHcwXO+fsDqiOuMQVEmU80S/6VkWebFo3VLXf46
-         rjrQ==
+        bh=EP3o6AW4OFbw3BfqiUvkLUiA/7qg5Pz7vOvXgfdMRUc=;
+        b=RrUW3oz8I2MMcGDuD/97Ot51OlsNdX9+eCIscdIjJbMVd4Oyb32kBa2vwvBlgtH6Fs
+         fzTE/JljyHT015x16p3AWCdgD1zd9gsvUhCyGsK5JrYRaaawyI2GesLmq1W+typJOqdD
+         uw/+oHkCdyPpyfv82APHCMsEdmAXPgS1DBqsg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i3XpBhgpVQTweSqqr/pBi89OpRxoP9mwnmi36gySQIY=;
-        b=Mn1S/+qbwP18ukkE4qeTpWIFcz5sYt67423OzDs1S77rtin5A6id7CVWLWwNK2S7Fk
-         t6bnb/DREmGJkGALaru3sYUnjP6NRpIlVlBVgWEKwAd4ufUZ4eWLCEu81i65n03IxA24
-         cWoq3DpqeZm+qwRHk9iL21SwrYUWROtswYQ2t0HEpgGUHy9GSdnWftZRf07CHqSvjNtR
-         7VtoMCUs92SFMxm5M6Q5MOX87rDIYHrYB/9dzQuHdCEQW2FE4p7NWN4prrwv1HC17lxV
-         HC5unJfG0OdPBrgLpfDn1LlMpRNI7ZRXNHHb3bChfZjD/sc78huVKNobiK/WYos+jY62
-         TvqA==
-X-Gm-Message-State: AOAM531F17buRzvDMrDcN4J3Z0RzTTMNCu1R3lNBf4m5IpdhKZQl/D/l
-	2QEw6XKIz3IjcjCF06/AJY3oozQsYh4=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EP3o6AW4OFbw3BfqiUvkLUiA/7qg5Pz7vOvXgfdMRUc=;
+        b=WAUDY3IHV2R84cbf5a7fvGbFZTvd4edCQ/Ld50521vHWmvRxZp3xGIE3+TbKmWOPXi
+         aiCtVvKK3GAmIDSJkGbX+viwMTReXf4Ee07HgQ9sRa+1X+nogYPfA4nNv5Tgy2ah2k/p
+         STOelo0zt9iCh70d/vX05Xob3TZjVJh2CFeN6c4UrtPGbFpOTZCdSb5zRbQtx3ylnjWN
+         Q3slikq2akqGK09jsy37j/S98QLqpi9jjyPNyD3j1e+vYcOhHap84ZA38cciZnSZZBX/
+         9XIPwiG/MCxKe/PI3RhrYUYeFhAA1NHQjfJy9DSFVW3RQbCwXazJVbUHA+MiQCYI6iyE
+         ED7g==
+X-Gm-Message-State: AOAM531c3P9OcrN80QKsdrjlkhcT5T9MJlbzbER4HRGnohb0xLpHKr8W
+	7sPCH+yDePKc+06H/OufZIlrmvNfKXK8AA==
 X-Google-Smtp-Source: 
- ABdhPJxS7QqDGR1qA/bW0o3/FbGdcjgYBtwWG5vP6Ipg4fP4ZjRQ5kd01oQKUx5nvxgmbGgnm4hy0A==
-X-Received: by 2002:a17:90b:789:b0:1bc:293c:1445 with SMTP id
- l9-20020a17090b078900b001bc293c1445mr3591200pjz.111.1650021124250;
-        Fri, 15 Apr 2022 04:12:04 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
+ ABdhPJxN9aDsA6+ztqA6GuDWOZVzOiNlBhCtZkLDv3HS6DiktxPmHbHlhQaEW62a9lN07NKzLpyKjg==
+X-Received: by 2002:a05:600c:1e8b:b0:38e:f8d9:f697 with SMTP id
+ be11-20020a05600c1e8b00b0038ef8d9f697mr3020129wmb.180.1650022682690;
+        Fri, 15 Apr 2022 04:38:02 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:11b3:ac79:b941:ad48])
         by smtp.gmail.com with ESMTPSA id
- s19-20020aa78d53000000b004fdaae08497sm2492962pfe.28.2022.04.15.04.12.02
+ i13-20020a0560001acd00b002078e242847sm3776574wry.97.2022.04.15.04.38.01
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 04:12:02 -0700 (PDT)
-From: pgowda <pgowda.cve@gmail.com>
+        Fri, 15 Apr 2022 04:38:01 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH] [PATCH] glibc: ptest: Fix glibc-tests package issue
-Date: Fri, 15 Apr 2022 04:11:59 -0700
-Message-Id: <20220415111159.120195-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Subject: [PATCH 3/4] bitbake.conf: Correct BB_SIGNATURE_EXCLUDE_FLAGS
+Date: Fri, 15 Apr 2022 12:37:57 +0100
+Message-Id: <20220415113758.2290861-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220415113758.2290861-1-richard.purdie@linuxfoundation.org>
+References: <20220415113758.2290861-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -67,36 +64,37 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164422
+ https://lists.openembedded.org/g/openembedded-core/message/164425
 
-The current default DISTRO_FEATURES does not support ptest.
-Hence, the following error is generated during "bitbake glibc-tests".
-ERROR: glibc-tests-2.35-r0 do_package: QA Issue: glibc-tests:
-Files/directories were installed but not shipped in any package
-The issue is not reproduced with "DISTRO = Yocto" as DISTRO_FEATURES
-in Yocto supports ptest. However, when we run "glibc-tests" using
-Open-embedded master sources; it generates the error as default
-DISTRO is used.
+Some of the flags listed here do change the output and hence do need to
+be included in task checksums.
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
+This means we start including the following flags in function/task/variable
+checksums:
+
+type, func, export, unexport, noexec, dirs, cleandirs
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/default-distrovars.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 3edba1b6d0..d6060ad3ba 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -16,7 +16,7 @@ DISTRO_FEATURES_DEFAULT:remove:riscv32 = "seccomp"
- # seccomp is not yet ported to ARC
- DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
- 
--DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
-+DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp ptest"
- DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
- IMAGE_FEATURES ?= ""
- 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3fa2bee053c..0e939aca4f9 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -950,8 +950,8 @@ BB_HASHCONFIG_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
+     HTTP_PROXY http_proxy HTTPS_PROXY https_proxy SOCKS5_USER SOCKS5_PASSWD \
+     BB_SETSCENE_ENFORCE BB_CMDLINE BB_SERVER_TIMEOUT"
+ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+-    lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
+-    file-checksums python func task export unexport noexec nostamp dirs cleandirs \
++    lockfiles vardepsexclude vardeps vardepvalue vardepvalueexclude \
++    file-checksums python task nostamp \
+     sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
+     recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno \
+     progress mcdepends number_threads"
 -- 
-2.35.1
+2.32.0
 
 
