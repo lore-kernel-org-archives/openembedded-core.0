@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E63C54EC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21342C54F3B
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:55 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.11826.1650052687461315447
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.11657.1650052690056987502
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 12:58:09 -0700
+ Fri, 15 Apr 2022 12:58:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EfZMhSfN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101802ecded99-af049c84-9307-48df-aaaf-4ab61dffa287-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hqvK7VqK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 010101802ecdeecb-d80ca120-2ff9-417a-ac44-34373522e9be-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052689;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uBMoc7uMp6LpJHrlZzx4D2u2l3hOZ7frRrwnJ9px+f0=;
-	b=EfZMhSfNRO1nCTtps/Dj7Dpmf9i+pS07mC0P6Gcdf7/tVNesi+8N9wBfG/zJqGcM
-	ut0WXTDpw405ASRSLPmAA28T8nPrj57sPOgIg49+KOxf3hewAxIskjrp49HB2JxsOMR
-	M7aijS3KQGUiHNTEg0NDo0O4LztjNOIsYlmsAqyk=
+	bh=Z2PfcfeWQ37uCXQ4Ur+X1IsGrtJgx2sT8OPwOEJndF4=;
+	b=hqvK7VqKGaQ9+hE7D/S46cFVD/qZyS941cm7tlLCBNrM77ON6acS0pA7eOQALkPr
+	sTMrROz58gJ2UZg18jMhzNQrcuLcN7FV0j1l43DlmgIE80z1EPArnGWD6QK6u20q8kC
+	DElXz3AF2xa7BAH77Mx0txEas8HdWFmOVItJHYvk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052689;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uBMoc7uMp6LpJHrlZzx4D2u2l3hOZ7frRrwnJ9px+f0=;
-	b=C1dqZzBsZx2FHdfKagHrw9rZsV+hccySGMLD0/WAJjQPFh8h3gRd+iM3H1BEZIWO
-	A2FG4tcwYKBOnV7/sVyhUOND2q1MX5nf+CEzuTkvongH9FBaeDEiNdk4xJP5lVu4yyz
-	+lHM3WuIbw6TDwp7D9rDT+VcuNtkdd0AItXIiHzU=
-Content-Type: multipart/mixed; boundary="===============7775606891588778484=="
+	bh=Z2PfcfeWQ37uCXQ4Ur+X1IsGrtJgx2sT8OPwOEJndF4=;
+	b=cRfYCX60mPCoUHMLjRhLwARIWOcgPNToD+D2Kw0/WQtaUMhb3uZ4QyDXnu9TXmrH
+	otK6xx6SQcS9gnY58dwxiTRys5yWjxoVUxGOSq9CuIhUYkQsdRagxjI3JxbSzcckoa6
+	w1kmbkcUOkQ6T2NJO44qRMl1O7W4bf7pPjzG3fzA=
+Content-Type: multipart/mixed; boundary="===============2750560099004583204=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap-ng-python: upgrading to 0.8.3 FAILED
+Subject: [AUH] libgpg-error: upgrading to 1.45 FAILED
 Message-ID: 
- <010101802ecded99-af049c84-9307-48df-aaaf-4ab61dffa287-000000@us-west-2.amazonses.com>
+ <010101802ecdeecb-d80ca120-2ff9-417a-ac44-34373522e9be-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:09 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.192
+X-SES-Outgoing: 2022.04.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164511
+ https://lists.openembedded.org/g/openembedded-core/message/164515
 
---===============7775606891588778484==
+--===============2750560099004583204==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcap-ng-python* to *0.8.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libgpg-error* to *1.45* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libcap-ng-python failed.
+Running 'devtool upgrade' for recipe libgpg-error failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1640 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -80,7 +81,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ef5b10a6ccf2abbdc56902cce442d8c4eacabf37"
+meta-yocto-bsp       = "tmp-auh-upgrades:945d3905ead0bce43330f7adbbc2a01ddf1bff58"
 workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
 
 Initialising tasks...done.
@@ -107,7 +108,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ef5b10a6ccf2abbdc56902cce442d8c4eacabf37"
+meta-yocto-bsp       = "tmp-auh-upgrades:945d3905ead0bce43330f7adbbc2a01ddf1bff58"
 workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
 
 Initialising tasks...done.
@@ -123,15 +124,15 @@ Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.3.tar.gz...
-INFO: Rebasing devtool onto 8be2c7f3d0a67465388304e5f57972ccc1f533e1
-WARNING: Command 'git rebase 8be2c7f3d0a67465388304e5f57972ccc1f533e1' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.45.tar.bz2...
+INFO: Rebasing devtool onto 124be0f88822cbb87d086de5ba8c562a3faaefbc
+WARNING: Command 'git rebase 124be0f88822cbb87d086de5ba8c562a3faaefbc' failed:
+Auto-merging src/gpg-error.m4
+CONFLICT (content): Merge conflict in src/gpg-error.m4
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libcap-ng-python
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libcap-ng-python/libcap-ng-python_0.8.3.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libgpg-error
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libgpg-error/libgpg-error_1.45.bb
 
 
 
@@ -140,5 +141,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7775606891588778484==--
+--===============2750560099004583204==--
 
