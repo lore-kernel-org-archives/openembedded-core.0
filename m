@@ -2,1019 +2,203 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E84FAC49EA5
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:54 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web12.11583.1650052687477836339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D61C55187
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:55 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web12.11584.1650052687563374263
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 12:58:09 -0700
+ Fri, 15 Apr 2022 12:58:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=k5E1f7gq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101802ecdec1c-e89e75c2-8fb5-4442-b13d-6a264c2773f5-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=9wWjVwTR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 010101802ecdef25-59bb1c33-d98b-466b-9b81-36c97dc14612-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1650052689;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iWlMrZPcjPZMn5lrEWylu0B+T+rRczopi8H7oZ/YPqk=;
-	b=k5E1f7gqdZK2FUGwvUdSFPvdEVVcrTb8Kig/bO36LTNXusDJB7nPfY4Kw5emmowC
-	pAbMZNaAf7K9x+zCNII8fsR0dqw5UcmBWb+p7mC4XO9gRWYciybwNcwXCLDXCqazZPf
-	jrtGOPy75FjCJnbnvXoBuztZraqbvQsyFDkobg34=
+	t=1650052690;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=bxQHjtg2OjCMOseA+dX09uSj0fYRR3UnW0n6HMravt8=;
+	b=9wWjVwTR2bDsUmzX1oiUwgaAsFShcGil0HOqmOxXG7I03EVTQGwAz5i+YVaing/q
+	1CUaz2ZYeq/jee6xgGLLAnOyDIIlAteBbe4ptkVBvTJLApGTTP25hMZmvpWMe9bVdcq
+	6sw5/jqEH4Yd6fHoA/YLeuvVvrGHhakaHEtLHMqI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052689;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iWlMrZPcjPZMn5lrEWylu0B+T+rRczopi8H7oZ/YPqk=;
-	b=kzNuioWsX/aRWc4ZsHulisqL2G1C06ezIY3T0Y6DcxfbpcYehAUh7mpE4mfD62Cw
-	b+EtV99gLvw3senTO8dzfr4ve4XccPLejKas+0qfMMgQAvBR3qO05yiFmYRgFqzKpyi
-	C37GBTFAHHmUGd6y3QABNamQ7shzCoeNtktaoLqQ=
-Content-Type: multipart/mixed; boundary="===============1237857480147002932=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052690;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=bxQHjtg2OjCMOseA+dX09uSj0fYRR3UnW0n6HMravt8=;
+	b=IX4GKiUVwWl8PwrSQORzjbAJYZ3rpqwQub2KtZJou27JuRzHm7lhlA0L053Uj0ny
+	McjkT0Zui4k0h63Fxj2OM1aVF60VC05tMF91cdtaDVkQYsr4dsCiX5/CxJkA1E9wNyN
+	mWVKhOkV242kzYuSgh62591vpw7QKaqWxkGsboNU=
+Content-Type: multipart/mixed; boundary="===============5358078539401962871=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] linux-firmware: upgrading to 20220411 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2022-04-15
 Message-ID: 
- <010101802ecdec1c-e89e75c2-8fb5-4442-b13d-6a264c2773f5-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Apr 2022 19:58:08 +0000
+ <010101802ecdef25-59bb1c33-d98b-466b-9b81-36c97dc14612-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Apr 2022 19:58:09 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.192
+X-SES-Outgoing: 2022.04.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164507
+ https://lists.openembedded.org/g/openembedded-core/message/164521
 
---===============1237857480147002932==
-Content-Type: text/plain; charset="us-ascii"
+--===============5358078539401962871==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMTIK
+ICAgICAgICB1LWJvb3QtdG9vbHMsIDIwMjIuMDQsIE1hcmVrIFZhc3V0IDxtYXJlay52YXN1dEBn
+bWFpbC5jb20+CiAgICAgICAgdS1ib290LCAyMDIyLjA0LCBNYXJlayBWYXN1dCA8bWFyZWsudmFz
+dXRAZ21haWwuY29tPgogICAgICAgIHV0aWwtbGludXgtbGlidXVpZCwgMi4zOCwgQ2hlbiBRaSA8
+UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHV0aWwtbGludXgsIDIuMzgsIENoZW4gUWkg
+PFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBjbWFrZSwgMy4yMy4xLCBQYXNjYWwgQmFj
+aCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiAgICAgICAgcHl0aG9uMy1weXBhcnNpbmcsIDMu
+MC44LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5j
+b20+CiAgICAgICAgcHl0aG9uMy10eXBpbmctZXh0ZW5zaW9ucywgNC4xLjEsIFRpbSBPcmxpbmcg
+PHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIG1jLCA0LjguMjgsIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIHN0cmVzcy1uZywgMC4xNC4wMCwgQW51aiBN
+aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnZGstcGl4YnVmLCAyLjQyLjgs
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGxpYnJzdmcsIDIuNTQu
+MCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJnY3J5cHQs
+IDEuMTAuMSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgKiBTdWNj
+ZWVkZWQ6IDUwCiAgICAgICAgb3BlbnNzaCwgOS4wcDEsIFVuYXNzaWduZWQgPHVuYXNzaWduZWRA
+eW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBleHBhdCwgMi40LjgsIFlpIFpoYW8gPHlpLnpoYW9A
+d2luZHJpdmVyLmNvbT4KICAgICAgICBzeXN2aW5pdCwgMy4wMywgUm9zcyBCdXJ0b24gPHJvc3Mu
+YnVydG9uQGFybS5jb20+CiAgICAgICAgYXB0LCAyLjQuNSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9u
+LmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgY3JlYXRlcmVwby1jLCAwLjIwLjAsIEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGRwa2csIDEuMjEuNywg
+QW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgZ2l0LCAyLjM1
+LjMsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGhlbHAy
+bWFuLCAxLjQ5LjIsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAg
+ICBqc29uLWMsIDAuMTYsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBt
+dG9vbHMsIDQuMC4zOSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAg
+ICBweXRob24zLWRidXNtb2NrLCAwLjI3LjUsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
+Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBweXRob24zLWR0c2NoZW1hLCAyMDIy
+LjMuMiwgQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KICAgICAgICBw
+eXRob24zLWh5cG90aGVzaXMsIDYuNDMuMSwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxr
+by5jb20+CiAgICAgICAgcHl0aG9uMy1qc29ucG9pbnRlciwgMi4zLCBCcnVjZSBBc2hmaWVsZCA8
+YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtbWFrbywgMS4yLjAsIE9s
+ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAg
+ICAgICBweXRob24zLXBpcCwgMjIuMC40LCBaYW5nIFJ1b2NoZW4gPHphbmdyYy5mbnN0QGZ1aml0
+c3UuY29tPgogICAgICAgIHB5dGhvbjMtc3BoaW54LXJ0ZC10aGVtZSwgMS4wLjAsIFRpbSBPcmxp
+bmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIHB5dGhvbjMtc3BoaW54LCA0LjUu
+MCwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgcHl0aG9uMy16
+aXBwLCAzLjguMCwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAg
+cmVwbywgMi4yMywgSmFzcGVyIE9yc2NodWxrbyA8SmFzcGVyLk9yc2NodWxrb0BpcmlzLXNlbnNp
+bmcuY29tPgogICAgICAgIHJ1YnksIDMuMS4yLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJt
+LmNvbT4KICAgICAgICBzdHJhY2UsIDUuMTcsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5k
+cml2ZXIuY29tPgogICAgICAgIGFjcGljYSwgMjAyMjAzMzEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1
+cnRvbkBhcm0uY29tPgogICAgICAgIGV0aHRvb2wsIDUuMTcsIENoYW5naHllb2sgQmFlIDxjaGFu
+Z2h5ZW9rLmJhZUBnbWFpbC5jb20+CiAgICAgICAgZ2hvc3RzY3JpcHQsIDkuNTYuMSwgSG9uZ3h1
+IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmFpbywgMC4zLjExMywg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlibW5s
+LCAxLjAuNSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBlcGlwaGFueSwg
+NDIuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
+YWR3YWl0YS1pY29uLXRoZW1lLCA0Mi4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNv
+bT4KICAgICAgICBsaWJoYW5keSwgMS42LjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPgogICAgICAgIGZvbnRjb25maWcsIDIuMTQuMCwgUm9zcyBCdXJ0b24gPHJv
+c3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgZnJlZXR5cGUsIDIuMTIuMCwgUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgaGFyZmJ1enosIDQuMi4wLCBBbnVqIE1pdHRh
+bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG1lc2EsIDIyLjAuMSwgT3RhdmlvIFNh
+bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBwYW5nbywg
+MS41MC43LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBsaWJ4MTEs
+IDEuNy41LCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAg
+eHdheWxhbmQsIDIyLjEuMSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3Jn
+PgogICAgICAgIGxpbnV4LWZpcm13YXJlLCAyMDIyMDQxMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2
+aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBsdHRuZy10b29scywgMi4xMy43
+LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAg
+ICAgICB3aXJlbGVzcy1yZWdkYiwgMjAyMi4wNC4wOCwgQWRyaWFuIEJ1bmsgPGJ1bmtAa2VybmVs
+Lm9yZz4KICAgICAgICBmZm1wZWcsIDUuMC4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
+dmluQGdtYWlsLmNvbT4KICAgICAgICBib29zdCwgMS43OS4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBkaWZmb3Njb3BlLCAyMDksIEpvc2h1YSBX
+YXR0IDxKUEVXaGFja2VyQGdtYWlsLmNvbT4KICAgICAgICBsaWJic2QsIDAuMTEuNiwgWWkgWmhh
+byA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmNhcCwgMi42NCwgWWkgWmhhbyA8
+eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmdpdDIsIDEuNC4zLCBVbmFzc2lnbmVk
+IDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgbGlic291cCwgMy4wLjYsIEFu
+dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgbGlidXNiMSwgMS4wLjI2
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHNoYXJlZC1taW1l
+LWluZm8sIDIuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB2
+dGUsIDAuNjguMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICogRmFp
+bGVkIChkZXZ0b29sIGVycm9yKTogMjkKICAgICAgICBkcm9wYmVhciwgMjAyMi44MiwgWWkgWmhh
+byA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdsaWItMi4wLCAyLjcyLjEsIEFudWog
+TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgemxpYiwgMS4yLjEyLCBEZW55
+cyBEbXl0cml5ZW5rbyA8ZGVuaXNAZGVuaXgub3JnPgogICAgICAgIGdwdGZkaXNrLCAxLjAuOSwg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZ251LWNv
+bmZpZywgMjAyMTExMDgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhp
+LnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBnby1ydW50aW1lLCAxLjE4LjEsIEtoZW0gUmFq
+IDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ28sIDEuMTguMSwgS2hlbSBSYWogPHJhai5r
+aGVtQGdtYWlsLmNvbT4KICAgICAgICBsbHZtLCAxNC4wLjEsIEtoZW0gUmFqIDxyYWoua2hlbUBn
+bWFpbC5jb20+CiAgICAgICAgbWVzb24sIDAuNjIuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
+a2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1zZXR1cHRvb2xzLCA2Mi4xLjAsIE9s
+ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAg
+ICAgICBsaWJzdGQtcnMsIDEuNjAuMCwgUmFuZHkgTWFjTGVvZCA8UmFuZHkuTWFjTGVvZEB3aW5k
+cml2ZXIuY29tPgogICAgICAgIHJ1c3QtbGx2bSwgMS42MC4wLCBSYW5keSBNYWNMZW9kIDxSYW5k
+eS5NYWNMZW9kQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3F1YXNoZnMtdG9vbHMsIDQuNS4xLCBS
+b2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBzdWJ2ZXJzaW9u
+LCAxLjE0LjIsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPgogICAgICAgIHZhbGdyaW5kLCAzLjE5LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPgogICAgICAgIGdvLWhlbGxvd29ybGQsIDAuMS1uZXctY29tbWl0cy1h
+dmFpbGFibGUsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgcHJvY3BzLCA0
+LjAuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
+cGlnbGl0LCAxLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
+b25AYXJtLmNvbT4KICAgICAgICBta2ZvbnRzY2FsZSwgMS4yLjIsIFVuYXNzaWduZWQgPHVuYXNz
+aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB4ZHB5aW5mbywgMS4zLjMsIFVuYXNzaWdu
+ZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBsaWJ4Y3Vyc29yLCAxLjIu
+MSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGxpYnh2
+bWMsIDEuMC4xMywgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAg
+ICAgIGtleGVjLXRvb2xzLCAyLjAuMjQsIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9q
+ZWN0Lm9yZz4KICAgICAgICBsaWJzbmRmaWxlMSwgMS4xLjAsIFVuYXNzaWduZWQgPHVuYXNzaWdu
+ZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBhdC1zcGkyLWNvcmUsIDIuNDQuMCwgVGltIE9y
+bGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgaWN1LCA3MS4xLCBBbGV4YW5k
+ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJjYXAtbmctcHl0
+aG9uLCAwLjguMywgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmNh
+cC1uZywgMC44LjMsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJn
+cGctZXJyb3IsIDEuNDUsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAg
+ICogRmFpbGVkKG90aGVyIGVycm9ycyk6IDIKICAgICAgICBjYXJnbywgMS42MC4wLCBSYW5keSBN
+YWNMZW9kIDxSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20+CiAgICAgICAgdnVsa2FuLXNhbXBs
+ZXMsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBh
+cm0uY29tPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9OTMgc3VjY2VlZGVkPTUwKDUzLjc2JSkgZmFp
+bGVkPTQzKDQ2LjI0JSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6
+CgogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
+ZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIFphbmcgUnVvY2hlbiA8emFuZ3JjLmZu
+c3Q6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAg
+Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9MTEgc3VjY2VlZGVkPTcoNjMuNjQl
+KSBmYWlsZWQ9NCgzNi4zNiUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRl
+bXB0ZWQ9MiBzdWNjZWVkZWQ9MigxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIFJpY2hhcmQg
+UHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBm
+YWlsZWQ9MSg1MC4wMCUpCiAgICBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2g6IGF0dGVtcHRlZD0x
+IHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTExIHN1Y2NlZWRlZD02KDU0LjU1JSkgZmFpbGVk
+PTUoNDUuNDUlKQogICAgSmFzcGVyIE9yc2NodWxrbyA8SmFzcGVyLk9yc2NodWxrbzogYXR0ZW1w
+dGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBBZHJpYW4gQnVu
+ayA8YnVuazogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUp
+CiAgICBIb25neHUgSmlhIDxob25neHUuamlhOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9Mig1MC4w
+MCUpIGZhaWxlZD0yKDUwLjAwJSkKICAgIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2U6
+IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0yKDUwLjAwJSkgZmFpbGVkPTIoNTAuMDAlKQogICAgTWFy
+ZWsgVmFzdXQgPG1hcmVrLnZhc3V0OiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFp
+bGVkPTIoMTAwLjAwJSkKICAgIEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyOiBhdHRlbXB0ZWQ9MSBz
+dWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVq
+Lm1pdHRhbDogYXR0ZW1wdGVkPTkgc3VjY2VlZGVkPTYoNjYuNjclKSBmYWlsZWQ9MygzMy4zMyUp
+CiAgICBZaSBaaGFvIDx5aS56aGFvOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9NCg1Ny4xNCUpIGZh
+aWxlZD0zKDQyLjg2JSkKICAgIEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZDogYXR0ZW1w
+dGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBSb2JlcnQgWWFu
+ZyA8bGllemhpLnlhbmc6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0yKDUwLjAwJSkgZmFpbGVkPTIo
+NTAuMDAlKQogICAgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0y
+IHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgVW5hc3NpZ25lZCA8dW5h
+c3NpZ25lZDogYXR0ZW1wdGVkPTEwIHN1Y2NlZWRlZD00KDQwLjAwJSkgZmFpbGVkPTYoNjAuMDAl
+KQogICAgRGVueXMgRG15dHJpeWVua28gPGRlbmlzOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgw
+LjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJhbmR5IE1hY0xlb2QgPFJhbmR5Lk1hY0xlb2Q6
+IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MygxMDAuMDAlKQogICAgQ2hl
+biBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEw
+MC4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nOiBhdHRlbXB0ZWQ9NiBzdWNjZWVkZWQ9
+NCg2Ni42NyUpIGZhaWxlZD0yKDMzLjMzJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1w
+dGVkPTUgc3VjY2VlZGVkPTEoMjAuMDAlKSBmYWlsZWQ9NCg4MC4wMCUpCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *linux-firmware* to *20220411* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-linux-firmware-upgrade-20220310-20220411.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============1237857480147002932==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: FILELIST: added "/lib/firmware/brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt /lib/firmware/brcm/brcmfmac4356-sdio.AP6356S.txt"
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: FILELIST: removed "/lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg", added "/lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.31.0.pkg /lib/firmware/intel/ice/ddp-wireless_edge/ice_wireless_edge-1.3.7.0.pkg"
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGSIZE changed from 1323660 to 2069624 (+56%)
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: FILELIST: added "/lib/firmware/nvidia/ga102/sec2/sig.bin /lib/firmware/nvidia/ga106/sec2/sig.bin /lib/firmware/nvidia/ga106/acr/ucode_asb.bin /lib/firmware/nvidia/ga104/sec2/desc.bin /lib/firmware/nvidia/ga102/gr/NET_img.bin /lib/firmware/nvidia/ga106/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga103/sec2/desc.bin /lib/firmware/nvidia/ga106/gr/fecs_sig.bin /lib/firmware/nvidia/ga103/sec2/image.bin /lib/firmware/nvidia/ga103/gr/fecs_bl.bin /lib/firmware/nvidia/ga102/gr/gpccs_sig.bin /lib/firmware/nvidia/ga102/gr/fecs_sig.bin /lib/firmware/nvidia/ga104/gr/gpccs_sig.bin /lib/firmware/nvidia/ga107/acr/ucode_asb.bin /lib/firmware/nvidia/ga106/gr/NET_img.bin /lib/firmware/nvidia/ga103/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga103/gr/gpccs_bl.bin /lib/firmware/nvidia/ga107/gr/gpccs_bl.bin /lib/firmware/nvidia/ga107/gr/fecs_sig.bin /lib/firmware/nvidia/ga103/acr/ucode_asb.bin /lib/firmware/nvidia/ga107/sec2/desc.bin /lib/firmwa
- re/nvidia/ga106/nvdec/scrubber.bin /lib/firmware/nvidia/ga103/sec2/sig.bin /lib/firmware/nvidia/ga106/sec2/desc.bin /lib/firmware/nvidia/ga104/gr/fecs_bl.bin /lib/firmware/nvidia/ga107/sec2/sig.bin /lib/firmware/nvidia/ga106/acr/ucode_unload.bin /lib/firmware/nvidia/ga107/nvdec/scrubber.bin /lib/firmware/nvidia/ga107/gr/NET_img.bin /lib/firmware/nvidia/ga103/gr/NET_img.bin /lib/firmware/nvidia/ga103/nvdec/scrubber.bin /lib/firmware/nvidia/ga104/sec2/image.bin /lib/firmware/nvidia/ga107/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga103/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga102/sec2/image.bin /lib/firmware/nvidia/ga102/gr/fecs_bl.bin /lib/firmware/nvidia/ga107/gr/gpccs_sig.bin /lib/firmware/nvidia/ga104/gr/fecs_sig.bin /lib/firmware/nvidia/ga106/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga102/acr/ucode_unload.bin /lib/firmware/nvidia/ga104/acr/ucode_asb.bin /lib/firmware/nvidia/ga104/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga103/acr/ucode_unload.bin /lib/firmware/nvidia/ga106/sec2/im
- age.bin /lib/firmware/nvidia/ga104/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga104/gr/NET_img.bin /lib/firmware/nvidia/ga107/sec2/image.bin /lib/firmware/nvidia/ga106/gr/fecs_bl.bin /lib/firmware/nvidia/ga102/nvdec/scrubber.bin /lib/firmware/nvidia/ga107/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga103/gr/gpccs_sig.bin /lib/firmware/nvidia/ga104/sec2/sig.bin /lib/firmware/nvidia/ga104/nvdec/scrubber.bin /lib/firmware/nvidia/ga103/gr/fecs_sig.bin /lib/firmware/nvidia/ga107/acr/ucode_unload.bin /lib/firmware/nvidia/ga102/gr/gpccs_bl.bin /lib/firmware/nvidia/ga102/sec2/desc.bin /lib/firmware/nvidia/ga107/gr/fecs_bl.bin /lib/firmware/nvidia/ga102/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga104/gr/gpccs_bl.bin /lib/firmware/nvidia/ga102/acr/ucode_asb.bin /lib/firmware/nvidia/ga104/acr/ucode_unload.bin /lib/firmware/nvidia/ga106/gr/gpccs_bl.bin /lib/firmware/nvidia/ga106/gr/gpccs_sig.bin /lib/firmware/nvidia/ga102/sec2/hs_bl_sig.bin"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGSIZE changed from 1820713 to 2758353 (+51%)
-packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/lib/firmware/rtl_bt/rtl8852bu_config.bin /lib/firmware/rtl_bt/rtl8852bu_fw.bin"
-Changes to packages/all-poky-linux/linux-firmware (sysroot):
-  /lib/firmware/brcm/brcmfmac4356-sdio.khadas,vim2.txt changed symlink target from brcmfmac4356-sdio.vamrs,rock960.txt to brcmfmac4356-sdio.AP6356S.txt
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed type from file to symlink
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed permissions from rw-r--r-- to rwxrwxrwx
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed symlink target from None to brcmfmac4356-sdio.AP6356S.txt
-  /lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg moved to /lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.31.0.pkg
-  /lib/firmware/brcm/brcmfmac4356-sdio.AP6356S.txt was added
-  /lib/firmware/brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt was added
-  /lib/firmware/intel/ice/ddp-wireless_edge was added
-  /lib/firmware/intel/ice/ddp-wireless_edge/ice_wireless_edge-1.3.7.0.pkg was added
-  /lib/firmware/nvidia/ga102 was added
-  /lib/firmware/nvidia/ga102/acr was added
-  /lib/firmware/nvidia/ga102/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga102/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga102/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga102/gr was added
-  /lib/firmware/nvidia/ga102/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga102/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga102/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga102/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga102/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga102/nvdec was added
-  /lib/firmware/nvidia/ga102/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga102/sec2 was added
-  /lib/firmware/nvidia/ga102/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga102/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga102/sec2/image.bin was added
-  /lib/firmware/nvidia/ga102/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga103 was added
-  /lib/firmware/nvidia/ga103/acr was added
-  /lib/firmware/nvidia/ga103/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga103/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga103/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga103/gr was added
-  /lib/firmware/nvidia/ga103/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga103/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga103/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga103/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga103/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga103/nvdec was added
-  /lib/firmware/nvidia/ga103/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga103/sec2 was added
-  /lib/firmware/nvidia/ga103/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga103/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga103/sec2/image.bin was added
-  /lib/firmware/nvidia/ga103/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga104 was added
-  /lib/firmware/nvidia/ga104/acr was added
-  /lib/firmware/nvidia/ga104/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga104/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga104/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga104/gr was added
-  /lib/firmware/nvidia/ga104/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga104/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga104/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga104/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga104/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga104/nvdec was added
-  /lib/firmware/nvidia/ga104/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga104/sec2 was added
-  /lib/firmware/nvidia/ga104/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga104/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga104/sec2/image.bin was added
-  /lib/firmware/nvidia/ga104/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga106 was added
-  /lib/firmware/nvidia/ga106/acr was added
-  /lib/firmware/nvidia/ga106/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga106/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga106/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga106/gr was added
-  /lib/firmware/nvidia/ga106/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga106/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga106/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga106/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga106/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga106/nvdec was added
-  /lib/firmware/nvidia/ga106/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga106/sec2 was added
-  /lib/firmware/nvidia/ga106/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga106/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga106/sec2/image.bin was added
-  /lib/firmware/nvidia/ga106/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga107 was added
-  /lib/firmware/nvidia/ga107/acr was added
-  /lib/firmware/nvidia/ga107/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga107/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga107/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga107/gr was added
-  /lib/firmware/nvidia/ga107/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga107/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga107/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga107/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga107/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga107/nvdec was added
-  /lib/firmware/nvidia/ga107/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga107/sec2 was added
-  /lib/firmware/nvidia/ga107/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga107/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga107/sec2/image.bin was added
-  /lib/firmware/nvidia/ga107/sec2/sig.bin was added
-  /lib/firmware/rtl_bt/rtl8852bu_config.bin was added
-  /lib/firmware/rtl_bt/rtl8852bu_fw.bin was added
-
---===============1237857480147002932==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-linux-firmware-upgrade-20220310-20220411.patch"
-
-From 9d7ef8dd2563a2edb2d7aa79c2ea5b47c6968074 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 17:45:13 +0000
-Subject: [PATCH] linux-firmware: upgrade 20220310 -> 20220411
-
----
- ...20220310.bb => linux-firmware_20220411.bb} | 325 +++++++++++++++++-
- 1 file changed, 323 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (80%)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-similarity index 80%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-index fa0f906db0..f06ed6e262 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-@@ -1,3 +1,324 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- WHENCE
-+# +++ WHENCE
-+# @@ -3012,8 +3012,10 @@
-+#  Link: brcm/brcmfmac43455-sdio.Raspberry\ Pi\ Foundation-Raspberry\ Pi\ Compute\ Module\ 4.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
-+#  File: "brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt"
-+#  File: "brcm/brcmfmac4356-pcie.gpd-win-pocket.txt"
-+# -File: brcm/brcmfmac4356-sdio.vamrs,rock960.txt
-+# -Link: brcm/brcmfmac4356-sdio.khadas,vim2.txt -> brcmfmac4356-sdio.vamrs,rock960.txt
-+# +File: brcm/brcmfmac4356-sdio.AP6356S.txt
-+# +Link: brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt -> brcmfmac4356-sdio.AP6356S.txt
-+# +Link: brcm/brcmfmac4356-sdio.khadas,vim2.txt -> brcmfmac4356-sdio.AP6356S.txt
-+# +Link: brcm/brcmfmac4356-sdio.vamrs,rock960.txt -> brcmfmac4356-sdio.AP6356S.txt
-+#  
-+#  Licence: GPLv2. See GPL-2 for details.
-+#  
-+# @@ -3885,13 +3887,13 @@
-+#  File: intel/ibt-12-16.sfi
-+#  Version: BT_WindStormPeak_REL1299
-+#  File: intel/ibt-17-16-1.sfi
-+# -Version: BT_JeffersonPeak_B0_B0_REL20142
-+# +Version: BT_JeffersonPeak_B0_B0_REL20182
-+#  File: intel/ibt-17-16-1.ddc
-+# -Version: BT_JeffersonPeak_B0_B0_REL20142
-+# +Version: BT_JeffersonPeak_B0_B0_REL20182
-+#  File: intel/ibt-17-2.sfi
-+# -Version: BT_JeffersonPeak_B0_B0_REL20142
-+# +Version: BT_JeffersonPeak_B0_B0_REL20182
-+#  File: intel/ibt-17-2.ddc
-+# -Version: BT_JeffersonPeak_B0_B0_REL20142
-+# +Version: BT_JeffersonPeak_B0_B0_REL20182
-+#  File: intel/ibt-17-0-1.sfi
-+#  Version: BT_JeffersonPeak_A0_B0_REL0201
-+#  File: intel/ibt-17-0-1.ddc
-+# @@ -3901,13 +3903,13 @@
-+#  File: intel/ibt-17-1.ddc
-+#  Version: BT_JeffersonPeak_A0_B0_REL0201
-+#  File: intel/ibt-18-16-1.sfi
-+# -Version: BT_ThunderPeak_B0_B0_REL20142
-+# +Version: BT_ThunderPeak_B0_B0_REL20182
-+#  File: intel/ibt-18-16-1.ddc
-+# -Version: BT_ThunderPeak_B0_B0_REL20142
-+# +Version: BT_ThunderPeak_B0_B0_REL20182
-+#  File: intel/ibt-18-2.sfi
-+# -Version: BT_ThunderPeak_B0_B0_REL20142
-+# +Version: BT_ThunderPeak_B0_B0_REL20182
-+#  File: intel/ibt-18-2.ddc
-+# -Version: BT_ThunderPeak_B0_B0_REL20142
-+# +Version: BT_ThunderPeak_B0_B0_REL20182
-+#  File: intel/ibt-18-0-1.sfi
-+#  Version: BT_ThunderPeak_A0_B0_REL0201
-+#  File: intel/ibt-18-0-1.ddc
-+# @@ -3917,92 +3919,92 @@
-+#  File: intel/ibt-18-1.ddc
-+#  Version: BT_ThunderPeak_A0_B0_REL0201
-+#  File:intel/ibt-20-0-3.sfi
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-20-0-3.ddc
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-20-1-3.sfi
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-20-1-3.ddc
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-20-1-4.sfi
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-20-1-4.ddc
-+# -Version: BT_CyclonePeak_A0_REL37758
-+# +Version: BT_CyclonePeak_A0_REL41522
-+#  File:intel/ibt-19-0-0.sfi
-+# -Version: BT_Quasar_REL37758
-+# +Version: BT_Quasar_REL41522
-+#  File:intel/ibt-19-0-0.ddc
-+# -Version: BT_Quasar_REL37758
-+# +Version: BT_Quasar_REL41522
-+#  File:intel/ibt-19-0-1.sfi
-+# -Version: BT_Quasar_REL37758
-+# +Version: BT_Quasar_REL41522
-+#  File:intel/ibt-19-0-1.ddc
-+# -Version: BT_Quasar_REL37758
-+# +Version: BT_Quasar_REL41522
-+#  File:intel/ibt-19-0-4.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-0-4.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-16-4.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-16-4.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-1.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-1.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-0.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-0.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-4.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-32-4.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-240-1.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-240-1.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-240-4.sfi
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-19-240-4.ddc
-+# -Version: BT_HarrisonPeak_REL37758
-+# +Version: BT_HarrisonPeak_REL41522
-+#  File:intel/ibt-0041-0041.sfi
-+# -Version: BT_TyphoonPeak_REL38020
-+# +Version: BT_TyphoonPeak_REL41819
-+#  File:intel/ibt-0041-0041.ddc
-+# -Version: BT_TyphoonPeak_REL38020
-+# +Version: BT_TyphoonPeak_REL41819
-+#  File:intel/ibt-0040-0041.sfi
-+# -Version: BT_Solar_GfP2_REL38020
-+# +Version: BT_Solar_GfP2_REL41819
-+#  File:intel/ibt-0040-0041.ddc
-+# -Version: BT_Solar_GfP2_REL38020
-+# +Version: BT_Solar_GfP2_REL41819
-+#  File:intel/ibt-1040-0041.sfi
-+# -Version: BT_SolarF_GfP2_REL38020
-+# +Version: BT_SolarF_GfP2_REL41819
-+#  File:intel/ibt-1040-0041.ddc
-+# -Version: BT_SolarF_GfP2_REL38020
-+# +Version: BT_SolarF_GfP2_REL41819
-+#  
-+#  File:intel/ibt-0040-1020.sfi
-+# -Version: BT_Solar_JfP1_REL38020
-+# +Version: BT_Solar_JfP1_REL41819
-+#  File:intel/ibt-0040-1020.ddc
-+# -Version: BT_Solar_JfP1_REL38020
-+# +Version: BT_Solar_JfP1_REL41819
-+#  File:intel/ibt-1040-1020.sfi
-+# -Version: BT_SolarF_JfP1_REL38020
-+# +Version: BT_SolarF_JfP1_REL41819
-+#  File:intel/ibt-1040-1020.ddc
-+# -Version: BT_SolarF_JfP1_REL38020
-+# +Version: BT_SolarF_JfP1_REL41819
-+#  
-+#  File:intel/ibt-0040-2120.sfi
-+# -Version: BT_Solar_JfP2_REL38020
-+# +Version: BT_Solar_JfP2_REL41819
-+#  File:intel/ibt-0040-2120.ddc
-+# -Version: BT_Solar_JfP2_REL38020
-+# +Version: BT_Solar_JfP2_REL41819
-+#  File:intel/ibt-1040-2120.sfi
-+# -Version: BT_SolarF_JfP2_REL38020
-+# +Version: BT_SolarF_JfP2_REL41819
-+#  File:intel/ibt-1040-2120.ddc
-+# -Version: BT_SolarF_JfP2_REL38020
-+# +Version: BT_SolarF_JfP2_REL41819
-+#  
-+#  File:intel/ibt-0040-4150.sfi
-+# -Version: BT_Solar_HrP2_REL38020
-+# +Version: BT_Solar_HrP2_REL41819
-+#  File:intel/ibt-0040-4150.ddc
-+# -Version: BT_Solar_HrP2_REL38020
-+# +Version: BT_Solar_HrP2_REL41819
-+#  File:intel/ibt-1040-4150.sfi
-+# -Version: BT_SolarF_HrP2_REL38020
-+# +Version: BT_SolarF_HrP2_REL41819
-+#  File:intel/ibt-1040-4150.ddc
-+# -Version: BT_SolarF_HrP2_REL38020
-+# +Version: BT_SolarF_HrP2_REL41819
-+#  
-+#  Licence: Redistributable. See LICENCE.ibt_firmware for details
-+#  
-+# @@ -4033,6 +4035,8 @@
-+#  File: rtl_bt/rtl8822cs_config.bin
-+#  File: rtl_bt/rtl8852au_fw.bin
-+#  File: rtl_bt/rtl8852au_config.bin
-+# +File: rtl_bt/rtl8852bu_fw.bin
-+# +File: rtl_bt/rtl8852bu_config.bin
-+#  
-+#  Licence: Redistributable. See LICENCE.rtlwifi_firmware.txt for details.
-+#  
-+# @@ -4130,9 +4134,9 @@
-+#  File: amd-ucode/microcode_amd_fam16h.bin
-+#  Version: 2014-10-28
-+#  File: amd-ucode/microcode_amd_fam17h.bin
-+# -Version: 2019-12-18
-+# +Version: 2022-04-08
-+#  File: amd-ucode/microcode_amd_fam19h.bin
-+# -Version: 2022-02-14
-+# +Version: 2022-04-08
-+#  
-+#  License: Redistributable. See LICENSE.amd-ucode for details
-+#  
-+# @@ -5178,6 +5182,71 @@
-+#  Link: nvidia/tu117/sec2/desc.bin -> ../../tu116/sec2/desc.bin
-+#  Link: nvidia/tu117/sec2/image.bin -> ../../tu116/sec2/image.bin
-+#  Link: nvidia/tu117/sec2/sig.bin -> ../../tu116/sec2/sig.bin
-+# +File: nvidia/ga102/acr/ucode_ahesasc.bin
-+# +File: nvidia/ga102/acr/ucode_asb.bin
-+# +File: nvidia/ga102/acr/ucode_unload.bin
-+# +File: nvidia/ga102/gr/fecs_bl.bin
-+# +File: nvidia/ga102/gr/fecs_sig.bin
-+# +File: nvidia/ga102/gr/gpccs_bl.bin
-+# +File: nvidia/ga102/gr/gpccs_sig.bin
-+# +File: nvidia/ga102/gr/NET_img.bin
-+# +File: nvidia/ga102/nvdec/scrubber.bin
-+# +File: nvidia/ga102/sec2/desc.bin
-+# +File: nvidia/ga102/sec2/hs_bl_sig.bin
-+# +File: nvidia/ga102/sec2/image.bin
-+# +File: nvidia/ga102/sec2/sig.bin
-+# +Link: nvidia/ga103/acr/ucode_ahesasc.bin -> ../../ga102/acr/ucode_ahesasc.bin
-+# +Link: nvidia/ga103/acr/ucode_asb.bin -> ../../ga102/acr/ucode_asb.bin
-+# +Link: nvidia/ga103/acr/ucode_unload.bin -> ../../ga102/acr/ucode_unload.bin
-+# +File: nvidia/ga103/gr/fecs_bl.bin
-+# +File: nvidia/ga103/gr/fecs_sig.bin
-+# +File: nvidia/ga103/gr/gpccs_bl.bin
-+# +File: nvidia/ga103/gr/gpccs_sig.bin
-+# +File: nvidia/ga103/gr/NET_img.bin
-+# +Link: nvidia/ga103/nvdec/scrubber.bin -> ../../ga102/nvdec/scrubber.bin
-+# +Link: nvidia/ga103/sec2/desc.bin -> ../../ga102/sec2/desc.bin
-+# +Link: nvidia/ga103/sec2/hs_bl_sig.bin -> ../../ga102/sec2/hs_bl_sig.bin
-+# +Link: nvidia/ga103/sec2/image.bin -> ../../ga102/sec2/image.bin
-+# +Link: nvidia/ga103/sec2/sig.bin -> ../../ga102/sec2/sig.bin
-+# +Link: nvidia/ga104/acr/ucode_ahesasc.bin -> ../../ga102/acr/ucode_ahesasc.bin
-+# +Link: nvidia/ga104/acr/ucode_asb.bin -> ../../ga102/acr/ucode_asb.bin
-+# +Link: nvidia/ga104/acr/ucode_unload.bin -> ../../ga102/acr/ucode_unload.bin
-+# +File: nvidia/ga104/gr/fecs_bl.bin
-+# +File: nvidia/ga104/gr/fecs_sig.bin
-+# +File: nvidia/ga104/gr/gpccs_bl.bin
-+# +File: nvidia/ga104/gr/gpccs_sig.bin
-+# +File: nvidia/ga104/gr/NET_img.bin
-+# +Link: nvidia/ga104/nvdec/scrubber.bin -> ../../ga102/nvdec/scrubber.bin
-+# +Link: nvidia/ga104/sec2/desc.bin -> ../../ga102/sec2/desc.bin
-+# +Link: nvidia/ga104/sec2/hs_bl_sig.bin -> ../../ga102/sec2/hs_bl_sig.bin
-+# +Link: nvidia/ga104/sec2/image.bin -> ../../ga102/sec2/image.bin
-+# +Link: nvidia/ga104/sec2/sig.bin -> ../../ga102/sec2/sig.bin
-+# +Link: nvidia/ga106/acr/ucode_ahesasc.bin -> ../../ga102/acr/ucode_ahesasc.bin
-+# +Link: nvidia/ga106/acr/ucode_asb.bin -> ../../ga102/acr/ucode_asb.bin
-+# +Link: nvidia/ga106/acr/ucode_unload.bin -> ../../ga102/acr/ucode_unload.bin
-+# +File: nvidia/ga106/gr/fecs_bl.bin
-+# +File: nvidia/ga106/gr/fecs_sig.bin
-+# +File: nvidia/ga106/gr/gpccs_bl.bin
-+# +File: nvidia/ga106/gr/gpccs_sig.bin
-+# +File: nvidia/ga106/gr/NET_img.bin
-+# +Link: nvidia/ga106/nvdec/scrubber.bin -> ../../ga102/nvdec/scrubber.bin
-+# +Link: nvidia/ga106/sec2/desc.bin -> ../../ga102/sec2/desc.bin
-+# +Link: nvidia/ga106/sec2/hs_bl_sig.bin -> ../../ga102/sec2/hs_bl_sig.bin
-+# +Link: nvidia/ga106/sec2/image.bin -> ../../ga102/sec2/image.bin
-+# +Link: nvidia/ga106/sec2/sig.bin -> ../../ga102/sec2/sig.bin
-+# +Link: nvidia/ga107/acr/ucode_ahesasc.bin -> ../../ga102/acr/ucode_ahesasc.bin
-+# +Link: nvidia/ga107/acr/ucode_asb.bin -> ../../ga102/acr/ucode_asb.bin
-+# +Link: nvidia/ga107/acr/ucode_unload.bin -> ../../ga102/acr/ucode_unload.bin
-+# +File: nvidia/ga107/gr/fecs_bl.bin
-+# +File: nvidia/ga107/gr/fecs_sig.bin
-+# +File: nvidia/ga107/gr/gpccs_bl.bin
-+# +File: nvidia/ga107/gr/gpccs_sig.bin
-+# +File: nvidia/ga107/gr/NET_img.bin
-+# +Link: nvidia/ga107/nvdec/scrubber.bin -> ../../ga102/nvdec/scrubber.bin
-+# +Link: nvidia/ga107/sec2/desc.bin -> ../../ga102/sec2/desc.bin
-+# +Link: nvidia/ga107/sec2/hs_bl_sig.bin -> ../../ga102/sec2/hs_bl_sig.bin
-+# +Link: nvidia/ga107/sec2/image.bin -> ../../ga102/sec2/image.bin
-+# +Link: nvidia/ga107/sec2/sig.bin -> ../../ga102/sec2/sig.bin
-+#  
-+#  File: nvidia/tu10x/typec/ccg_primary.cyacd
-+#  File: nvidia/tu10x/typec/ccg_secondary.cyacd
-+# @@ -5420,9 +5489,9 @@
-+#  Driver: mt7921 - MediaTek MT7921 Wireless MACs
-+#  
-+#  File: mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin
-+# -Version: 20220209150832a
-+# +Version: 20220311230842a
-+#  File: mediatek/WIFI_RAM_CODE_MT7961_1.bin
-+# -Version: 20220209150915
-+# +Version: 20220311230931
-+#  
-+#  Licence: Redistributable. See LICENCE.mediatek for details.
-+#  
-+# @@ -5431,7 +5500,7 @@
-+#  Driver: mt7921 - MediaTek MT7921 bluetooth chipset
-+#  
-+#  File: mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
-+# -Version: 20220209151054
-+# +Version: 20220311231139
-+#  
-+#  Licence: Redistributable. See LICENCE.mediatek for details.
-+#  
-+# @@ -5880,7 +5949,8 @@
-+#  
-+#  License: Redistributable. See LICENSE.ice for details
-+#  
-+# -File: intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg
-+# +File: intel/ice/ddp-comms/ice_comms-1.3.31.0.pkg
-+# +File: intel/ice/ddp-wireless_edge/ice_wireless_edge-1.3.7.0.pkg
-+#  
-+#  License: Redistributable. See LICENSE.ice_enhanced for details
-+#  
-+# 
-+#
-+
- SUMMARY = "Firmware files for use with Linux kernel"
- HOMEPAGE = "https://www.kernel.org/"
- DESCRIPTION = "Linux firmware is a package distributed alongside the Linux kernel \
-@@ -132,7 +453,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=45a9c4a92d152e9495db81e1192f2bdc \
-+                    file://WHENCE;md5=4cf67d71a21887c682c3989a4318745e \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -205,7 +526,7 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "5938ee717b2023b48f6bfcf344b40ddc947e3e22c0bc36d4c3418f90fea68182"
-+SRC_URI[sha256sum] = "020b11f6412f4956f5a6f98de7d41867d2b30ea0ce81b1e2d206ec9840363849"
- 
- inherit allarch
- 
--- 
-2.27.0
-
-
---===============1237857480147002932==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/all-poky-linux/linux-firmware: SRC_URI changed from "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20220310.tar.xz" to "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20220411.tar.xz"
-packages/all-poky-linux/linux-firmware: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: FILELIST: added "/lib/firmware/brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt /lib/firmware/brcm/brcmfmac4356-sdio.AP6356S.txt"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PKGSIZE changed from 588718 to 588770 (+0%)
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-dev: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-dev: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-doc: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-doc: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-i915: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PKGSIZE changed from 2600222 to 2600382 (+0%)
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGSIZE changed from 2396855 to 2412595 (+1%)
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGSIZE changed from 16417104 to 16480004 (+0%)
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: FILELIST: removed "/lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg", added "/lib/firmware/intel/ice/ddp-wireless_edge/ice_wireless_edge-1.3.7.0.pkg /lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.31.0.pkg"
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGSIZE changed from 1323660 to 2069624 (+56%)
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-locale: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-locale: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: FILELIST: added "/lib/firmware/nvidia/ga106/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga104/sec2/desc.bin /lib/firmware/nvidia/ga107/sec2/sig.bin /lib/firmware/nvidia/ga103/gr/gpccs_bl.bin /lib/firmware/nvidia/ga103/acr/ucode_unload.bin /lib/firmware/nvidia/ga104/sec2/sig.bin /lib/firmware/nvidia/ga104/gr/gpccs_bl.bin /lib/firmware/nvidia/ga104/sec2/image.bin /lib/firmware/nvidia/ga102/sec2/desc.bin /lib/firmware/nvidia/ga103/nvdec/scrubber.bin /lib/firmware/nvidia/ga106/gr/NET_img.bin /lib/firmware/nvidia/ga103/gr/fecs_sig.bin /lib/firmware/nvidia/ga107/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga106/acr/ucode_unload.bin /lib/firmware/nvidia/ga107/sec2/desc.bin /lib/firmware/nvidia/ga104/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga103/gr/gpccs_sig.bin /lib/firmware/nvidia/ga106/gr/fecs_sig.bin /lib/firmware/nvidia/ga104/gr/NET_img.bin /lib/firmware/nvidia/ga102/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga102/nvdec/scrub
- ber.bin /lib/firmware/nvidia/ga102/acr/ucode_unload.bin /lib/firmware/nvidia/ga103/gr/fecs_bl.bin /lib/firmware/nvidia/ga107/gr/NET_img.bin /lib/firmware/nvidia/ga103/acr/ucode_asb.bin /lib/firmware/nvidia/ga104/gr/gpccs_sig.bin /lib/firmware/nvidia/ga104/gr/fecs_bl.bin /lib/firmware/nvidia/ga104/acr/ucode_unload.bin /lib/firmware/nvidia/ga106/sec2/image.bin /lib/firmware/nvidia/ga104/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga103/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga103/sec2/sig.bin /lib/firmware/nvidia/ga103/sec2/desc.bin /lib/firmware/nvidia/ga107/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga106/acr/ucode_ahesasc.bin /lib/firmware/nvidia/ga102/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga102/sec2/image.bin /lib/firmware/nvidia/ga102/acr/ucode_asb.bin /lib/firmware/nvidia/ga104/gr/fecs_sig.bin /lib/firmware/nvidia/ga102/gr/gpccs_sig.bin /lib/firmware/nvidia/ga106/sec2/sig.bin /lib/firmware/nvidia/ga102/gr/fecs_sig.bin /lib/firmware/nvidia/ga107/gr/gpccs_sig.bin /lib/firmware/n
- vidia/ga107/gr/fecs_sig.bin /lib/firmware/nvidia/ga106/nvdec/scrubber.bin /lib/firmware/nvidia/ga107/gr/fecs_bl.bin /lib/firmware/nvidia/ga102/gr/fecs_bl.bin /lib/firmware/nvidia/ga107/gr/gpccs_bl.bin /lib/firmware/nvidia/ga104/acr/ucode_asb.bin /lib/firmware/nvidia/ga102/gr/gpccs_bl.bin /lib/firmware/nvidia/ga104/nvdec/scrubber.bin /lib/firmware/nvidia/ga107/sec2/image.bin /lib/firmware/nvidia/ga106/gr/gpccs_sig.bin /lib/firmware/nvidia/ga107/nvdec/scrubber.bin /lib/firmware/nvidia/ga107/acr/ucode_asb.bin /lib/firmware/nvidia/ga103/sec2/hs_bl_sig.bin /lib/firmware/nvidia/ga106/gr/fecs_bl.bin /lib/firmware/nvidia/ga106/gr/gpccs_bl.bin /lib/firmware/nvidia/ga103/gr/NET_img.bin /lib/firmware/nvidia/ga106/sec2/desc.bin /lib/firmware/nvidia/ga107/acr/ucode_unload.bin /lib/firmware/nvidia/ga102/gr/NET_img.bin /lib/firmware/nvidia/ga106/acr/ucode_asb.bin /lib/firmware/nvidia/ga103/sec2/image.bin /lib/firmware/nvidia/ga102/sec2/sig.bin"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGSIZE changed from 1820713 to 2758353 (+51%)
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qat: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qat: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qca: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-src: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-src: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGSIZE changed from 188043 to 191707 (+2%)
-packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware: PV changed from "20220310" to "20220411"
-packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: added "/lib/firmware/rtl_bt/rtl8852bu_config.bin /lib/firmware/rtl_bt/rtl8852bu_fw.bin"
-packages/all-poky-linux/linux-firmware/linux-firmware: PKGV changed from 20220310 [default] to 20220411 [default]
-packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 282387182 to 282449696 (+0%)
-Changes to packages/all-poky-linux/linux-firmware (sysroot):
-  /lib/firmware/brcm/brcmfmac4356-sdio.khadas,vim2.txt changed symlink target from brcmfmac4356-sdio.vamrs,rock960.txt to brcmfmac4356-sdio.AP6356S.txt
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed type from file to symlink
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed permissions from rw-r--r-- to rwxrwxrwx
-  /lib/firmware/brcm/brcmfmac4356-sdio.vamrs,rock960.txt changed symlink target from None to brcmfmac4356-sdio.AP6356S.txt
-  /lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg moved to /lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.31.0.pkg
-  /lib/firmware/brcm/brcmfmac4356-sdio.AP6356S.txt was added
-  /lib/firmware/brcm/brcmfmac4356-sdio.firefly,firefly-rk3399.txt was added
-  /lib/firmware/intel/ice/ddp-wireless_edge was added
-  /lib/firmware/intel/ice/ddp-wireless_edge/ice_wireless_edge-1.3.7.0.pkg was added
-  /lib/firmware/nvidia/ga102 was added
-  /lib/firmware/nvidia/ga102/acr was added
-  /lib/firmware/nvidia/ga102/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga102/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga102/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga102/gr was added
-  /lib/firmware/nvidia/ga102/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga102/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga102/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga102/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga102/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga102/nvdec was added
-  /lib/firmware/nvidia/ga102/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga102/sec2 was added
-  /lib/firmware/nvidia/ga102/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga102/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga102/sec2/image.bin was added
-  /lib/firmware/nvidia/ga102/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga103 was added
-  /lib/firmware/nvidia/ga103/acr was added
-  /lib/firmware/nvidia/ga103/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga103/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga103/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga103/gr was added
-  /lib/firmware/nvidia/ga103/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga103/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga103/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga103/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga103/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga103/nvdec was added
-  /lib/firmware/nvidia/ga103/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga103/sec2 was added
-  /lib/firmware/nvidia/ga103/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga103/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga103/sec2/image.bin was added
-  /lib/firmware/nvidia/ga103/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga104 was added
-  /lib/firmware/nvidia/ga104/acr was added
-  /lib/firmware/nvidia/ga104/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga104/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga104/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga104/gr was added
-  /lib/firmware/nvidia/ga104/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga104/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga104/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga104/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga104/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga104/nvdec was added
-  /lib/firmware/nvidia/ga104/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga104/sec2 was added
-  /lib/firmware/nvidia/ga104/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga104/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga104/sec2/image.bin was added
-  /lib/firmware/nvidia/ga104/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga106 was added
-  /lib/firmware/nvidia/ga106/acr was added
-  /lib/firmware/nvidia/ga106/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga106/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga106/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga106/gr was added
-  /lib/firmware/nvidia/ga106/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga106/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga106/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga106/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga106/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga106/nvdec was added
-  /lib/firmware/nvidia/ga106/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga106/sec2 was added
-  /lib/firmware/nvidia/ga106/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga106/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga106/sec2/image.bin was added
-  /lib/firmware/nvidia/ga106/sec2/sig.bin was added
-  /lib/firmware/nvidia/ga107 was added
-  /lib/firmware/nvidia/ga107/acr was added
-  /lib/firmware/nvidia/ga107/acr/ucode_ahesasc.bin was added
-  /lib/firmware/nvidia/ga107/acr/ucode_asb.bin was added
-  /lib/firmware/nvidia/ga107/acr/ucode_unload.bin was added
-  /lib/firmware/nvidia/ga107/gr was added
-  /lib/firmware/nvidia/ga107/gr/fecs_bl.bin was added
-  /lib/firmware/nvidia/ga107/gr/fecs_sig.bin was added
-  /lib/firmware/nvidia/ga107/gr/gpccs_bl.bin was added
-  /lib/firmware/nvidia/ga107/gr/gpccs_sig.bin was added
-  /lib/firmware/nvidia/ga107/gr/NET_img.bin was added
-  /lib/firmware/nvidia/ga107/nvdec was added
-  /lib/firmware/nvidia/ga107/nvdec/scrubber.bin was added
-  /lib/firmware/nvidia/ga107/sec2 was added
-  /lib/firmware/nvidia/ga107/sec2/desc.bin was added
-  /lib/firmware/nvidia/ga107/sec2/hs_bl_sig.bin was added
-  /lib/firmware/nvidia/ga107/sec2/image.bin was added
-  /lib/firmware/nvidia/ga107/sec2/sig.bin was added
-  /lib/firmware/rtl_bt/rtl8852bu_config.bin was added
-  /lib/firmware/rtl_bt/rtl8852bu_fw.bin was added
-
---===============1237857480147002932==--
+--===============5358078539401962871==--
 
