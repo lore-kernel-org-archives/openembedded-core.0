@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD300C352A8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93ECC38161
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com
  (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.11654.1650052687524038794
+ by mx.groups.io with SMTP id smtpd.web08.11727.1650052688045507464
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 12:58:07 -0700
+ Fri, 15 Apr 2022 12:58:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=vk2j8rOM;
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jYYmbxJ1;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101802ecde49a-ff52621c-e491-44f1-a36e-a665196f2ea7-000000@us-west-2.amazonses.com)
+ mailfrom: 010101802ecde58f-bb3c003d-502e-49f2-a3d4-0299fa63d2ac-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LtycrL+KOXzFpz1FY8q35eZKYs8GwwlR9SZeeCkwWqo=;
-	b=vk2j8rOMkXlSSDWfAzurVRsRPdsmTie0Qc7nv/HYRYq4lmmLldeVWpaLP0Q+uJdS
-	fHV/E4iGJvW487P2GMikXcWh93Fb4XCadDzBtbYqxGLsGs+Xr3p+Q9csVzhxYW+XE1k
-	BFPWGcQkZTGWtyoWaf7OzDglJz0TxCOeG09IN+m0=
+	bh=+Xh6EtN+nqf+LqRFbCd1Qv4LHeDncvwFISuJe709VDM=;
+	b=jYYmbxJ19BDzgxi3dKWgu0o9+qJXbD8qBDp+Zg9tsdr/oVuFiAu+xWXD5SUPY2RF
+	XNqGvJNLIzwkhU8foDXkr+75OzCbUEwJJu8Yi3EdN+obKptvghl+iJdc3Ff+sV7b0o5
+	wZX1Tu9PzfF4k17xZHnGnlXKjLOCkMVBYAbVrMjE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LtycrL+KOXzFpz1FY8q35eZKYs8GwwlR9SZeeCkwWqo=;
-	b=OJZtUoU6DyO6v0n5e0zM2MbCbaW7ScUc0SS9O83acKJtdrDnbep6MbbeNN5vEbN3
-	+b7RkXj4sLb/s4eZ9wR0G/pe7LNZxY6gad93rs8knwvdP4p1jSoAac5PQI39LK1hD22
-	TQZ1HAE8EZAYVhXS6Mc92PYzg3aNdLOe/O5untKM=
-Content-Type: multipart/mixed; boundary="===============3006004355570057943=="
+	bh=+Xh6EtN+nqf+LqRFbCd1Qv4LHeDncvwFISuJe709VDM=;
+	b=SuoTJHLMHHX2plTTtk34zeV3PQ6mBw4PSCWz/pmN2drZhwuuXXLi/UdzV0hiGMsr
+	WKrtSTxpXiKjhD1qvolGVpftfNgonidtKJB0qSLvV3YrG+kJc+hxYUSvKSMz6mJwTyj
+	KQRQpzX3UVO7mZRr63wyYhAEshTJTm1TlhPi0z7E=
+Content-Type: multipart/mixed; boundary="===============8738104720016532623=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jsonpointer: upgrading to 2.3 SUCCEEDED
+Subject: [AUH] python3-setuptools: upgrading to 62.1.0 FAILED
 Message-ID: 
- <010101802ecde49a-ff52621c-e491-44f1-a36e-a665196f2ea7-000000@us-west-2.amazonses.com>
+ <010101802ecde58f-bb3c003d-502e-49f2-a3d4-0299fa63d2ac-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:07 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164453
+ https://lists.openembedded.org/g/openembedded-core/message/164460
 
---===============3006004355570057943==
+--===============8738104720016532623==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,100 +56,101 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jsonpointer* to *2.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *62.1.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-jsonpointer-upgrade-2.2-2.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe python3-setuptools failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:fe408ce9bea4c50b7f5eba417940843697236123"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:fe408ce9bea4c50b7f5eba417940843697236123"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  31% |###########                         | ETA:  0:00:00
+Adding changed files:  62% |######################              | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-62.1.0.tar.gz...
+INFO: Rebasing devtool onto 94df9e62f5ad0f3d828dc299908cbc7d1b2356e2
+WARNING: Command 'git rebase 94df9e62f5ad0f3d828dc299908cbc7d1b2356e2' failed:
+Auto-merging setuptools/_distutils/sysconfig.py
+CONFLICT (content): Merge conflict in setuptools/_distutils/sysconfig.py
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto 94df9e62f5ad0f3d828dc299908cbc7d1b2356e2
+WARNING: Command 'git rebase 94df9e62f5ad0f3d828dc299908cbc7d1b2356e2' failed:
+Auto-merging setuptools/_distutils/sysconfig.py
+CONFLICT (content): Merge conflict in setuptools/_distutils/sysconfig.py
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-setuptools
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/python3-setuptools/python3-setuptools_62.1.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3006004355570057943==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-jsonpointer-upgrade-2.2-2.3.patch"
-
-From d16b1417d2138f9edb27164f3fe069559f517fa1 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 09:15:41 +0000
-Subject: [PATCH] python3-jsonpointer: upgrade 2.2 -> 2.3
-
----
- .../{python3-jsonpointer_2.2.bb => python3-jsonpointer_2.3.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonpointer_2.2.bb => python3-jsonpointer_2.3.bb} (84%)
-
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_2.2.bb b/meta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-jsonpointer_2.2.bb
-rename to meta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-index 225fde7556..16d5cab4cf 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_2.2.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_2.3.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
- 
- inherit pypi ptest setuptools3
- 
--SRC_URI[sha256sum] = "f09f8deecaaa5aea65b5eb4f67ca4e54e1a61f7a11c75085e360fe6feb6a48bf"
-+SRC_URI[sha256sum] = "97cba51526c829282218feb99dab1b1e6bdf8efd1c43dc9d57be093c0d69c99a"
- 
- RDEPENDS:${PN} += " \
-     ${PYTHON_PN}-json \
--- 
-2.27.0
-
-
---===============3006004355570057943==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 10424 to 13630 (+31%)
-Changes to packages/core2-32-poky-linux/python3-jsonpointer (sysroot):
-  /usr/lib/python3.10/site-packages/jsonpointer-2.2.dist-info moved to /usr/lib/python3.10/site-packages/jsonpointer-2.3.dist-info
-
---===============3006004355570057943==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-jsonpointer: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-2.2.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-2.3.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/python3-jsonpointer: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 10424 to 13630 (+31%)
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PV changed from "2.2" to "2.3"
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGV changed from 2.2 [default] to 2.3 [default]
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 25959 to 27995 (+8%)
-packages/core2-32-poky-linux/python3-jsonpointer/python3-jsonpointer: PV changed from "2.2" to "2.3"
-Changes to packages/core2-32-poky-linux/python3-jsonpointer (sysroot):
-  /usr/lib/python3.10/site-packages/jsonpointer-2.2.dist-info moved to /usr/lib/python3.10/site-packages/jsonpointer-2.3.dist-info
-
---===============3006004355570057943==--
+--===============8738104720016532623==--
 
