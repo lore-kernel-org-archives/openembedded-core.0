@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1646C35296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA15FC352A7
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web09.11566.1650052687270675643
+Received: from a27-31.smtp-out.us-west-2.amazonses.com
+ (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.11653.1650052687366677810
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:07 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=rCTY8LXU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 010101802ecde3c1-82b5af3c-b86a-4bc1-91dd-8b4777bbe496-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=7RoSHQJk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
+ mailfrom: 010101802ecde1b1-b38bbe74-2837-43e7-b955-03e3ae23acf4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dhs2v96JXr6U5SCQmcThbZTBYx4bz9JiGAITLb8EuqI=;
-	b=rCTY8LXUjlRgigBOG0o1R20gIKlBWz2nTIvXx1pwf4rxEyXkGKx7iJQA4toGRkh6
-	nokGNQoSkUrwmeQu0nQSW8cXel/twjFMN8toBeXoYcLj4HcmpvUfIBtW3CfSwDvPKx+
-	vIYGNtDMlQX2kkzxyCDEcd98e3JbULjiZkr9k1Kc=
+	bh=OX+eyq3VzbG+emrZr5sJjxi2sCndBWtNrQYbqKEWrfw=;
+	b=7RoSHQJkWe6vifknLFo6vodZOIzvj+kUnlDQye50ocRO4F+OhZKX0PaE6ioqEDO9
+	R6A1Tk+sQx4sftR7C9uW3dehB3/fEsNuZyacFa04LIu0h9qpNKAynxoEiUkdldYj/QW
+	r0DMtpxUQAZ2M0Pc20Upi7f21SzL36Jrz/erYqag=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052686;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dhs2v96JXr6U5SCQmcThbZTBYx4bz9JiGAITLb8EuqI=;
-	b=IOpvPJ4IyI4R888Fz2vWRbCkiDuzL24r9jaO5Yond5FQp151P9LbNBYzc/qFc3Wn
-	Gj7THstvg51977Ofg3+4ribh2Iw6co+zq5IcmJsPDzpiEBjTJm2nsuA3b9adWwXlLb8
-	lCHxhJDw6WNCaMXesAHyJW9FzvQMM5GMLq+lpudk=
-Content-Type: multipart/mixed; boundary="===============6525972909450342991=="
+	bh=OX+eyq3VzbG+emrZr5sJjxi2sCndBWtNrQYbqKEWrfw=;
+	b=QR5bqc7BWoSUFdk9lsCklZUMFSZ6L7PsnKoHdzSlweuyDLa8nDYCDmlCfr5JsJQ8
+	rtcrfDa7O8rqLEPyXs7gxL0zPDxuVJ43Wui111eznoKQwnd7mgoxea+mP8Oj18GcxGG
+	O+TSgxQRPIHPElkhEpdkk7gH2ehFl8bD+cBqws0s=
+Content-Type: multipart/mixed; boundary="===============7654560360174926481=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] meson: upgrading to 0.62.0 FAILED
+Subject: [AUH] gnu-config: upgrading to
+ c179db1b6f2ae484bfca1e9f8bae273e3319fa7d FAILED
 Message-ID: 
- <010101802ecde3c1-82b5af3c-b86a-4bc1-91dd-8b4777bbe496-000000@us-west-2.amazonses.com>
+ <010101802ecde1b1-b38bbe74-2837-43e7-b955-03e3ae23acf4-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:06 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.192
+X-SES-Outgoing: 2022.04.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164450
+ https://lists.openembedded.org/g/openembedded-core/message/164452
 
---===============6525972909450342991==
+--===============7654560360174926481==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,11 +57,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *meson* to *0.62.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gnu-config* to *c179db1b6f2ae484bfca1e9f8bae273e3319fa7d* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe meson failed.
+The following devtool command failed:  upgrade gnu-config -S c179db1b6f2ae484bfca1e9f8bae273e3319fa7d
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -81,63 +82,50 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:028c4d6086e4390b2d3513abe4bfc8cf5577eeed"
+meta-yocto-bsp       = "tmp-auh-upgrades:193cc5cdc964b6567e25c34ae3e233506be48575"
 workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 12 (0% match, 60% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20211108+gitAUTOINC+191bcb948f-r0/devtooltmp-kek8kr_i/workdir
+NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
 
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:028c4d6086e4390b2d3513abe4bfc8cf5577eeed"
-workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  41% |##############                      | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/mesonbuild/meson/releases/download/0.62.0/meson-0.62.0.tar.gz...
-INFO: Rebasing devtool onto f7bbffd7fc4c2f7bac3e15a50e2a020dffa1bea3
-WARNING: Command 'git rebase f7bbffd7fc4c2f7bac3e15a50e2a020dffa1bea3' failed:
-Auto-merging mesonbuild/modules/python.py
-CONFLICT (content): Merge conflict in mesonbuild/modules/python.py
+ERROR: Error executing a python function in exec_func_python() autogenerated:
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/meson
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/meson/meson_0.62.0.bb
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:devtool_post_unpack(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/devtool-source.bbclass', lineno: 140, function: devtool_post_unpack
+     0136:    elif os.path.dirname(srcsubdir) != workdir:
+     0137:        # Handle if S is set to a subdirectory of the source
+     0138:        srcsubdir = os.path.join(workdir, os.path.relpath(srcsubdir, workdir).split(os.sep)[0])
+     0139:
+ *** 0140:    scriptutils.git_convert_standalone_clone(srcsubdir)
+     0141:
+     0142:    # Make sure that srcsubdir exists
+     0143:    bb.utils.mkdirhier(srcsubdir)
+     0144:    if not os.listdir(srcsubdir):
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/scriptutils.py', lineno: 113, function: git_convert_standalone_clone
+     0109:        if os.path.exists(alternatesfile):
+     0110:            # This will have been cloned with -s, so we need to convert it so none
+     0111:            # of the contents is shared
+     0112:            bb.process.run('git repack -a', cwd=repodir)
+ *** 0113:            os.remove(alternatesfile)
+     0114:
+     0115:def _get_temp_recipe_dir(d):
+     0116:    # This is a little bit hacky but we need to find a place where we can put
+     0117:    # the recipe so that bitbake can find it. We're going to delete it at the
+Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20211108+gitAUTOINC+191bcb948f-r0/devtooltmp-kek8kr_i/workdir/git/.git/objects/info/alternates'
 
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20211108+gitAUTOINC+191bcb948f-r0/devtooltmp-kek8kr_i/temp/log.do_unpack.3805864
+ERROR: Extracting source for gnu-config failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -145,5 +133,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6525972909450342991==--
+--===============7654560360174926481==--
 
