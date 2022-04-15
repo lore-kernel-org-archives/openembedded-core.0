@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29A0C38162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D6FC4708A
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web08.11726.1650052687764287279
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web09.11558.1650052685921310331
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:07 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=V+Gt8XDr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 010101802ecde52e-62d807ce-dcff-4479-afe4-f325ca77e5b8-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=yGuisPZg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 010101802ecde5b7-c5a7c7df-3e14-44a1-b4d0-f2e8fef88ed6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GluZ884cDcRAJ1VtApSDZGZ1NovydCLEglC5VJ25QqA=;
-	b=V+Gt8XDro8T/Nfod89yrf8DyWRsTRts06Vm6xsS17kM96B9OeBvM8hQ6y2Y683ZJ
-	ZumsTqneWifbSfIxiaikrWHHksm+ftEW+hh/ijBx5/ZEW3wSJzT/XBQYLtB9s7rSvQz
-	3V4TS0xYlBPOJ/FWfW4eKIZuIy3V2gFtB5xmHO9g=
+	bh=pFmuY3IRESZAuCqiFmZpQAkoOQdiZYMA+gLETeiD254=;
+	b=yGuisPZg1qPGsxAHAaJiK9ZcCKPTovlbtxwEVbKtNlIhVfsECikeDiuHKWpuBitu
+	DV7L+KuYh4OlG4kk+oAuQz5oSsTT/EO2burZ+yrjWCVxZTPuOJc+SWOAbbirVRWINiR
+	5fS46Ewue5obmC1KzEpAovoSsvKSMiT2hdHmRn7s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GluZ884cDcRAJ1VtApSDZGZ1NovydCLEglC5VJ25QqA=;
-	b=DqLrbexW5CLnA1iM7cUWX2R4F8m6ebiBaOAi45S2/EeXt+Sxa39ZBxki4ucQE+LW
-	QY+e/Ss/6FAsR39rI9vOl4W+UOFSIR2tdkXE1RlaCLDA+LPacY0ImclONgT/axuY3xY
-	fMdX8IB3c5CujY25JgNTNmJhl9eZ8TxQ1OYxrXXg=
-Content-Type: multipart/mixed; boundary="===============6465664438599727354=="
+	bh=pFmuY3IRESZAuCqiFmZpQAkoOQdiZYMA+gLETeiD254=;
+	b=MassLv0CAY8EgDP5HVul4wl/6ukegq9FoYFDimPuk8AK1Ms5+beAvPVN/jZtwm+s
+	HdY2IGUy40B800YbcOn7Y1M/W8B+B0abTGgd9dNtmClagQZbUkBf/zm65dXIwWQDH5h
+	8Ic7nVNntJPtIUqek7dJQziMjqmKvQ4kK9RGbH10=
+Content-Type: multipart/mixed; boundary="===============5368660135239416126=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-mako: upgrading to 1.2.0 SUCCEEDED
+Subject: [AUH] python3-sphinx-rtd-theme: upgrading to 1.0.0 SUCCEEDED
 Message-ID: 
- <010101802ecde52e-62d807ce-dcff-4479-afe4-f325ca77e5b8-000000@us-west-2.amazonses.com>
+ <010101802ecde5b7-c5a7c7df-3e14-44a1-b4d0-f2e8fef88ed6-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:07 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.31
+X-SES-Outgoing: 2022.04.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164465
+ https://lists.openembedded.org/g/openembedded-core/message/164462
 
---===============6465664438599727354==
+--===============5368660135239416126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-sphinx-rtd-theme* to *1.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-mako-upgrade-1.1.6-1.2.0.patch
+    - apply the patch: git am 0001-python3-sphinx-rtd-theme-upgrade-0.5.0-1.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,142 +75,121 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6465664438599727354==
+--===============5368660135239416126==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-mako-upgrade-1.1.6-1.2.0.patch"
+ filename="0001-python3-sphinx-rtd-theme-upgrade-0.5.0-1.0.0.patch"
 
-From dd9207ccf6334e07f88be19643e302348359ca8e Mon Sep 17 00:00:00 2001
+From 3fffb9d02729e72581ed8fea221a6c7f103323e7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 09:18:39 +0000
-Subject: [PATCH] python3-mako: upgrade 1.1.6 -> 1.2.0
+Date: Fri, 15 Apr 2022 09:27:01 +0000
+Subject: [PATCH] python3-sphinx-rtd-theme: upgrade 0.5.0 -> 1.0.0
 
 ---
- ...n3-mako_1.1.6.bb => python3-mako_1.2.0.bb} | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} (28%)
+ ...inx-rtd-theme_0.5.0.bb => python3-sphinx-rtd-theme_1.0.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-sphinx-rtd-theme_0.5.0.bb => python3-sphinx-rtd-theme_1.0.0.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-mako_1.1.6.bb b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
-similarity index 28%
-rename from meta/recipes-devtools/python/python3-mako_1.1.6.bb
-rename to meta/recipes-devtools/python/python3-mako_1.2.0.bb
-index 71e5d96ba1..c7d9ffadda 100644
---- a/meta/recipes-devtools/python/python3-mako_1.1.6.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
-@@ -1,14 +1,33 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,4 +1,4 @@
-+# -Copyright 2006-2020 the Mako authors and contributors <see AUTHORS file>.
-+# +Copyright 2006-2021 the Mako authors and contributors <see AUTHORS file>.
-+#  
-+#  Permission is hereby granted, free of charge, to any person obtaining a copy of
-+#  this software and associated documentation files (the "Software"), to deal in
-+# 
-+#
-+
- SUMMARY = "Templating library for Python"
- HOMEPAGE = "http://www.makotemplates.org/"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
+diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_0.5.0.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.0.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-sphinx-rtd-theme_0.5.0.bb
+rename to meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.0.0.bb
+index fa375055a1..df34e11bb7 100644
+--- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_0.5.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.0.0.bb
+@@ -10,7 +10,7 @@ DEPENDS = "python3-sphinx"
  
- PYPI_PACKAGE = "Mako"
+ PYPI_PACKAGE = "sphinx_rtd_theme"
  
- inherit pypi python_setuptools_build_meta
+-SRC_URI[sha256sum] = "22c795ba2832a169ca301cd0a083f7a434e09c538c70beb42782c073651b707d"
++SRC_URI[sha256sum] = "eec6d497e4c2195fa0e8b2016b337532b8a699a68bcb22a512870e16925c6a5c"
+ UPSTREAM_CHECK_REGEX ?= "/sphinx-rtd-theme/(?P<pver>(\d+[\.\-_]*)+)/"
  
--SRC_URI[sha256sum] = "4e9e345a41924a954251b95b4b28e14a301145b544901332e658907a7464b6b2"
-+SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
- 
- RDEPENDS:${PN} = "${PYTHON_PN}-html \
-                   ${PYTHON_PN}-netclient \
+ inherit setuptools3 pypi
 -- 
 2.27.0
 
 
---===============6465664438599727354==
+--===============5368660135239416126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt", added "/usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/mako/testing/helpers.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc /usr/lib/pytho
- n3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/mako/testing/exclusions.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA"
-Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
-  /usr/lib/python3.10/site-packages/mako/testing was added
-  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: FILELIST: directory renamed /usr/lib/python3.10/site-packages/sphinx_rtd_theme-0.5.0.dist-info -> /usr/lib/python3.10/site-packages/sphinx_rtd_theme-1.0.0.dist-info, added "/usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sp
+ hinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.mo"
+Changes to packages/core2-32-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme-0.5.0.dist-info moved to /usr/lib/python3.10/site-packages/sphinx_rtd_theme-1.0.0.dist-info
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.po was added
 
---===============6465664438599727354==
+--===============5368660135239416126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.6.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.0.tar.gz"
-packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD", added "/usr/lib/python3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/exclusions.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/li
- b/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/mako/testing/helpers.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc"
-packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.1.6" to "1.2.0"
-packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 493107 to 506001 (+3%)
-Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
-  /usr/lib/python3.10/site-packages/mako/testing was added
-  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
-  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-0.5.0.tar.gz" to "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-1.0.0.tar.gz"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGSIZE changed from 3534569 to 3593805 (+2%)
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PV changed from "0.5.0" to "1.0.0"
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGV changed from 0.5.0 [default] to 1.0.0 [default]
+packages/core2-32-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: FILELIST: directory renamed /usr/lib/python3.10/site-packages/sphinx_rtd_theme-0.5.0.dist-info -> /usr/lib/python3.10/site-packages/sphinx_rtd_theme-1.0.0.dist-info, added "/usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.mo /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphin
+ x.po /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.po"
+Changes to packages/core2-32-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme-0.5.0.dist-info moved to /usr/lib/python3.10/site-packages/sphinx_rtd_theme-1.0.0.dist-info
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/fa_IR/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/it/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/lt/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pl/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.10/site-packages/sphinx_rtd_theme/locale/pt/LC_MESSAGES/sphinx.po was added
 
---===============6465664438599727354==--
+--===============5368660135239416126==--
 
