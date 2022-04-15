@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67447C3A5A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 852ADC3E8A8
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:54 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web08.11734.1650052689633539595
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11655.1650052687585773264
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=eOdihugk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 010101802ecdec7f-f5db4d77-297f-43f5-b039-9d90809d7bb9-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=mQxC3JlL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 010101802ecdebdc-e602e626-7e14-4bc4-954f-1b01fffcb7e7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1650052689;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gJT8i3hehbrhWYR9zXzJoe1kOeRy5Aqe+tHLrpsyh28=;
-	b=eOdihugkQI15oNOIBdfjuI8dxgovPXt8ZqsFlo123FLySwcnJaKTGP6kVThIlStz
-	1spcVXdP7V9iS7bGoTWZMCP4ssLl07AmXQVA3pIuSTbDB1PRWv53DOc1c9FgDCc0qaX
-	dY98ZpnmQKVRW3eUqB9ZkGkzED58qCnpEGgIQ3PI=
+	t=1650052688;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=5NFKg3Ijf/e/FV0lC7qrj8F9T0+bsHtwJh/LWdf+pJA=;
+	b=mQxC3JlLUjeBUvAx+DBiJrxI3zoeR7Tj1lgCrj7CR8p1hd/bCZvXZ35/jvxLoZhG
+	STfu0sBkZCZWl8I505s6Gb5dlpNGVRBG5PwODOAVxvm8Tp2SMBtQUIxM/cx7rZBxaoC
+	VudDZww1O/btIxQunMnJmctuYJ8IU/tbbF/m0XD8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052689;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gJT8i3hehbrhWYR9zXzJoe1kOeRy5Aqe+tHLrpsyh28=;
-	b=hq23tyav19Kb1Hl6pyA66QghCjh2vExG1nQ/8axGccmA89Fcbx5sbXMdCxRCGBld
-	FtbTo5zd1s/eHC3+qa3OXCeY+ohTy8I8jEitjQjWaRPswOnTw6mZg16Le1kyafhgnuh
-	Buc+mYf6xVB0dLMIsowZY1VLho6I3+2xk8o15bME=
-Content-Type: multipart/mixed; boundary="===============1808124023482591092=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052688;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=5NFKg3Ijf/e/FV0lC7qrj8F9T0+bsHtwJh/LWdf+pJA=;
+	b=DzxDfKwWlXU+AWkM+zAXFjzHYL81GeC6EFw/fh0NfNtEeW1Bc93dmIt8VR4I3YOc
+	Piv2/oKZZuoejrC7NxF8g8cFoslWNL5wQ5jUXCR4nly6EcD/kXNVKEvZ21dNwoVv6Kt
+	Zz149JXpc9tX2c9HthvJa12sRueC7WjYJlC6J4Bw=
+Content-Type: multipart/mixed; boundary="===============2425575579751909860=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ffmpeg: upgrading to 5.0.1 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libxvmc: upgrading to 1.0.13 FAILED
 Message-ID: 
- <010101802ecdec7f-f5db4d77-297f-43f5-b039-9d90809d7bb9-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Apr 2022 19:58:09 +0000
+ <010101802ecdebdc-e602e626-7e14-4bc4-954f-1b01fffcb7e7-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Apr 2022 19:58:08 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.30
+X-SES-Outgoing: 2022.04.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164490
+ https://lists.openembedded.org/g/openembedded-core/message/164493
 
---===============1808124023482591092==
+--===============2425575579751909860==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,104 +55,83 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ffmpeg* to *5.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxvmc* to *1.0.13* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-ffmpeg-upgrade-5.0-5.0.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade libxvmc -V 1.0.13
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d222e547ed8a43ab68f7cbeb14d595155bde7591"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 1640 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (881 cached, 2 parsed). 1641 targets, 34 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.0"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d222e547ed8a43ab68f7cbeb14d595155bde7591"
+workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://www.x.org/releases//individual/lib/libXvMC-1.0.13.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.x.org/releases//individual/lib/libXvMC-1.0.13.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtx
+ im1c/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://www.x.org/releases//individual/lib/libXvMC-1.0.13.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/lib/libXvMC-1.0.13.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kvtxim1c/work/temp/log.do_fetch.1002527
+ERROR: Failed to fetch URL https://www.x.org/releases//individual/lib/libXvMC-1.0.13.tar.bz2
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1808124023482591092==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-ffmpeg-upgrade-5.0-5.0.1.patch"
-
-From 01c7df1d1785c00fc7a36f24b24e8cc9557ee1fb Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 18:21:16 +0000
-Subject: [PATCH] ffmpeg: upgrade 5.0 -> 5.0.1
-
----
- .../ffmpeg/{ffmpeg_5.0.bb => ffmpeg_5.0.1.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.0.bb => ffmpeg_5.0.1.bb} (98%)
-
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 96eef5e0fe..dd14f8df6f 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
-            "
--SRC_URI[sha256sum] = "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298"
-+SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
- 
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
--- 
-2.27.0
-
-
---===============1808124023482591092==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dbg: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dbg: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dbg: PKGSIZE changed from 74862772 to 74852216 (-0%)
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dev: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dev: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-dev: PKGSIZE changed from 1095026 to 1095091 (+0%)
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-doc: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-doc: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-doc: PKGSIZE changed from 4938822 to 4939218 (+0%)
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-locale: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-locale: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-src: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-src: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-src: PKGSIZE changed from 42992546 to 42994725 (+0%)
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-staticdev: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg-staticdev: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/ffmpeg: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/ffmpeg: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg: SRC_URI changed from "https://www.ffmpeg.org/releases/ffmpeg-5.0.tar.xz file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch" to "https://www.ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch"
-packages/core2-32-poky-linux/ffmpeg/libavcodec: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libavcodec: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libavdevice: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libavdevice: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libavfilter: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libavfilter: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libavformat: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libavformat: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libavutil: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libavutil: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libpostproc: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libpostproc: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libswresample: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libswresample: PKGV changed from 5.0 [default] to 5.0.1 [default]
-packages/core2-32-poky-linux/ffmpeg/libswscale: PV changed from "5.0" to "5.0.1"
-packages/core2-32-poky-linux/ffmpeg/libswscale: PKGV changed from 5.0 [default] to 5.0.1 [default]
-
---===============1808124023482591092==--
+--===============2425575579751909860==--
 
