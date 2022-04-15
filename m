@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DA0C4708B
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:53 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web08.11728.1650052688123550762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E6BC38A04
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:54 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web09.11561.1650052686789761630
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Apr 2022 12:58:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=nfDQi94D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 010101802ecde557-89d8dfa4-072a-430a-a286-25e28c6e7543-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=vF5gBDQv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 010101802ecde7d9-d09b997a-d90d-4289-a2cf-47d6e7a16768-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VJbt1MXxgyb62sdjcjvycfUSWeTx8EEdiqTKt7qNwno=;
-	b=nfDQi94DTSB22i9hEDdNGwOTmo434CXOj7Wy2JtxPYw62+DIkCkTLfWiVatTFOuO
-	lauxue9dwAsinLZGRWz/PHsSQPKGGqoSYfYuppo/oACY0uP7cQ28BvjaindMMRLYpWJ
-	0trSnaI3Zwub9QeYkfAb768zH7xLlI/333+nhq8c=
+	bh=THZj4ohfZdrgVsN2YccJP8Ftmojsnqp73kxm229K9f0=;
+	b=vF5gBDQv7RQhqlTUe1uttHrbRcmymsrtFHwkQ5FGuaOvyyo+aVwa38WpXc6Up0ii
+	kwYxsYiq+fP7oHqN1o4g4ybFDDlPP0b/uMy/ywKajjkXy1li758JhePbUDi8WdX8XSt
+	x1tQJExs8hT8Q8sII9hqaMEjuRh1+SMuGCMuaUx0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1650052687;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VJbt1MXxgyb62sdjcjvycfUSWeTx8EEdiqTKt7qNwno=;
-	b=kTNP8fiz9Jr0RQeyksnl3uBFyqUSqRX6STf7dSyVq/gpcIe/X14zZaSj7b19xUUS
-	JVgCUQx2xIEHEjGD0sfAm+wz7fa8TJnD0bxq8YdSuOZBy/i+AugOHXtZLW8kurY66uc
-	hinpZwgH0PU73lQyD96xdZzh1i1NxEHcajoyCmno=
-Content-Type: multipart/mixed; boundary="===============7437022969587135576=="
+	bh=THZj4ohfZdrgVsN2YccJP8Ftmojsnqp73kxm229K9f0=;
+	b=cu6MRL6DDFMzDFrbgvb9sESJR2xP18y0+duH3f8Pjk6Ia1oF+VZGPqmCdhPrlfS8
+	zzZQSfsqsDGqk83qdvXq4TUn/5bKHlFzbtyw1z7hOl5mQGZplt9g1vmE1GNcPWM/wX7
+	AAd5seKB3kokQBilL2FsYWGc5Lac7PYCJM+VUI+E=
+Content-Type: multipart/mixed; boundary="===============9201065994937650538=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyparsing: upgrading to 3.0.8 FAILED
+Subject: [AUH] ethtool: upgrading to 5.17 SUCCEEDED
 Message-ID: 
- <010101802ecde557-89d8dfa4-072a-430a-a286-25e28c6e7543-000000@us-west-2.amazonses.com>
+ <010101802ecde7d9-d09b997a-d90d-4289-a2cf-47d6e7a16768-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Apr 2022 19:58:07 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.04.15-54.240.27.191
+X-SES-Outgoing: 2022.04.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164461
+ https://lists.openembedded.org/g/openembedded-core/message/164467
 
---===============7437022969587135576==
+--===============9201065994937650538==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyparsing* to *3.0.8* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *ethtool* to *5.17* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.0.7-3.0.8.patch
+    - apply the patch: git am 0001-ethtool-upgrade-5.16-5.17.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,122 +75,105 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7437022969587135576==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1640 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 882 .bb files complete (881 cached, 1 parsed). 1640 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.0"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:1bff280a9af90d55dfbd217ae282efab74483849"
-workspace            = "master:81b4d8bc6bdc47a731a1f7ed741d7336559a1348"
-
-Initialising tasks...done.
-Sstate summary: Wanted 90 Local 83 Mirrors 0 Missed 7 Current 202 (92% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 918 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_fetch)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_fetch: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_fetch: Succeeded
-NOTE: Running task 1097 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_unpack)
-NOTE: Running task 1098 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_unpack: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_unpack: Succeeded
-NOTE: Running task 1099 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_patch)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_patch: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_patch: Succeeded
-NOTE: Running task 1100 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1101 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_populate_lic)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_populate_lic: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1102 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_configure)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_configure: Started
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_configure: Succeeded
-NOTE: Running task 1103 of 1110 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_compile)
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/pyparsing-3.0.8/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639:174 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639, line 174
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639, line 164
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639, line 153
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639, line 178
-NOTE: recipe python3-pyparsing-3.0.8-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1103 tasks of which 1095 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: python3-pyparsing-3.0.8-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-pyparsing-3.0.8-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/run.do_compile.2864639', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-pyparsing/3.0.8-r0/temp/log.do_compile.2864639
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb:do_compile) failed with exit code '1'
-
---===============7437022969587135576==
+--===============9201065994937650538==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-pyparsing-upgrade-3.0.7-3.0.8.patch"
+ filename="0001-ethtool-upgrade-5.16-5.17.patch"
 
-From b9bc071bc745d6f05d34b54a4998eaadb0b2e517 Mon Sep 17 00:00:00 2001
+From d78474f4d4290fb4b48a5e4ec50bc435a97769ae Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Apr 2022 09:23:27 +0000
-Subject: [PATCH] python3-pyparsing: upgrade 3.0.7 -> 3.0.8
+Date: Fri, 15 Apr 2022 11:22:42 +0000
+Subject: [PATCH] ethtool: upgrade 5.16 -> 5.17
 
 ---
- .../{python3-pyparsing_3.0.7.bb => python3-pyparsing_3.0.8.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.0.7.bb => python3-pyparsing_3.0.8.bb} (91%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
+ .../ethtool/{ethtool_5.16.bb => ethtool_5.17.bb}            | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.16.bb => ethtool_5.17.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.0.7.bb b/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.0.7.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb
-index 9c3896918f..90f24c6cd5 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.0.7.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 034dc92444..6c3d1a1b39 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From d98b1e29b89962954690e6a8ddfdd80276407ce7 Mon Sep 17 00:00:00 2001
++From 6aa9f924c870faff0a881b4da73a0ceb52dc2ed6 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea"
-+SRC_URI[sha256sum] = "7bf433498c016c4314268d95df76c81b842a4cb2b276fa3312cfb1e1d85f6954"
+ diff --git a/configure.ac b/configure.ac
+-index 8fc93c8..94ee28d 100644
++index 7a9b5b9..dc8ae35 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.16, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.17, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.16.bb b/meta/recipes-extended/ethtool/ethtool_5.17.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_5.16.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.17.bb
+index 5dca03d082..61032d4836 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.16.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.17.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
  
- UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
+-SRC_URI[sha256sum] = "4160fa127d75d5a6ebd5e871118486ac730dea2f28b2f1ad40fd1ed3d0d369e0"
++SRC_URI[sha256sum] = "3e32735d13aa19e2be32d3528ef8a135fc99782950ab3fa602198e72992e9450"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
  
 -- 
 2.27.0
 
 
---===============7437022969587135576==--
+--===============9201065994937650538==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 24075 to 24547 (+2%)
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3351744 to 3383768 (+1%)
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 38516 to 39484 (+3%)
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1450043 to 1454746 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1271055 to 1279795 (+1%)
+packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-src: FILELIST: directory renamed /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/uapi/linux -> /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/uapi/linux, directory renamed /usr/src/debug/ethtool/5.16-r0/ethtool-5.16 -> /usr/src/debug/ethtool/5.17-r0/ethtool-5.17, removed "/usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/coalesce.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/netlink.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/settings.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/permaddr.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/eee.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/monitor.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/desc-ethtool.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/module-eeprom.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/prettymsg.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/nlsock.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/paus
+ e.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/parser.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/features.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/desc-genlctrl.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/msgbuff.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/tsinfo.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/bitset.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/channels.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/bitset.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/rings.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/stats.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/fec.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/nlsock.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/tunnels.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/privflags.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/cable_test.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/msgbuff.h /
+ usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/parser.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/desc-rtnl.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/strset.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/strset.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/prettymsg.c /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/netlink.h /usr/src/debug/ethtool/5.16-r0/ethtool-5.16/netlink/extapi.h", added "/usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/parser.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/permaddr.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/tunnels.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/prettymsg.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/tsinfo.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/settings.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/prettymsg.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/privflags.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/d
+ esc-ethtool.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/fec.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/rings.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/desc-genlctrl.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/pause.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/nlsock.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/module-eeprom.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/msgbuff.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/monitor.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/parser.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/msgbuff.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/bitset.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/desc-rtnl.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/features.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/netlink.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/strset.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlin
+ k/stats.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/strset.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/channels.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/eee.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/bitset.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/coalesce.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/module.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/cable_test.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/extapi.h /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/netlink.c /usr/src/debug/ethtool/5.17-r0/ethtool-5.17/netlink/nlsock.c"
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 563792 to 563856 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 5.16 [default] to 5.17 [default]
+packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.16.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.17.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/ethtool: PV changed from "5.16" to "5.17"
+packages/core2-32-poky-linux/ethtool: PKGV changed from 5.16 [default] to 5.17 [default]
+
+--===============9201065994937650538==--
 
