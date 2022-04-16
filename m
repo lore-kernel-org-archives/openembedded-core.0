@@ -1,67 +1,64 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6C0C63706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59311C41535
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:59 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web12.21694.1650136514243805715
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.22485.1650140651537834998
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:14 -0700
+ Sat, 16 Apr 2022 13:24:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=PCgOS53z;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id y13so59127plg.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T1YCyRlX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id
+ m33-20020a05600c3b2100b0038ec0218103so6759631wms.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:14 -0700 (PDT)
+ Sat, 16 Apr 2022 13:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2BOIuEjbvcjy8I90jMraZMPy/7K9YY/mP2p85t77rOg=;
-        b=PCgOS53zlmNwlEnhfAMhKkxo/1daMXqovnKQvlKeIIRUWsKJxoVvMil1fW5UODRYlp
-         U8oG9YxkUtGDyVOm+k/6MXPL2JoixLLuM9o7Lqo7NgmKOZcPkifdI/6z1i8qHeX6ie67
-         eh299kl2SvUCqBCFK6XpUhoUyXjMHVSzSg+rhRAmtJvSCu3AfSBckfr172PgLGHVxfTA
-         gQ4v/fzRPoRRRbM2hja1vRQ/r69fD3zwf5VccvstZfMJdQndVJj828HLq+6C1Ud1iTkq
-         F2m20uYzwZP9t9tGqEasgFQAN/nvT2o0DE7J2cE49FqHaaGMsAR4LaETu3SPFxzmLY3u
-         irVA==
+        bh=d1UcHnDp86dr/QsjLwHXjvgo4ZTFeA2E9pF3AhQhf+o=;
+        b=T1YCyRlXJR0w/6MrCyAA9JWRdZOo4p4QCdFUBYc3g0WvBLlTtBXQApzhcaVJYg3fre
+         FM8M8qLQelUZ7/9KPrt9PD1ukY7XsG/yprqu1BKljy9WFA/BqfbJtDMgqIUFd+DFLHXX
+         R5xVI36STjBD+mwmVOSrqr4Tb+IR4Wx9Hhw1q6h0MiyjC/hYjp/Oz3NUS8wfZ6hUKc9J
+         M765fXicvJLJFaGILPHV7Pq41xR5BHZZ2frtvHfrnjMntzzwlBAoSICbx4+EVgflvukf
+         cq8Mn3vAbXM/duSF7rgY1hlOn1eBpgdTlytdKyOrgFdlNZ752eaWPM35cFCwc+kmhobI
+         T3eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2BOIuEjbvcjy8I90jMraZMPy/7K9YY/mP2p85t77rOg=;
-        b=tXU8t45+QisO5rgTcJoYmU8GF26no4qO/Eh5fQsoWNrhoC6qHY6MXu9mUvm+0Ebs/9
-         QvwONui0WB7HCQeokJkaqT6i/y5SFZku2XgSz0uXPXNCaUQC1N8jxWWOB2uQW/G2iiDE
-         OAqknVueH+WYL8D+833NuCHrgiUAR/SR/q+rOGF7Nclfrtv5xtuM9t7dcHusI3up4jFk
-         sMZ5+f9llEv6STZGq4D+W1PcS7s0rk6YPTEvDC8GHQCqRZHv3Cux5aVSHN0+cKSFMl1o
-         Vji218B7ia0TtGjK4jiN1C3TVbDj4j18Csq/+EUfEYLgDJmpJos6ieggFTlD8M5eWfI6
-         5lww==
-X-Gm-Message-State: AOAM532E2NpV90LkLIv7oU6wo6i5q2+6wLkKFQLiEuualSqPSI9Iy+me
-	Efujh1aKR1djkwWZ0HxVvo40Ca5bIPNB9FOPrJA=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d1UcHnDp86dr/QsjLwHXjvgo4ZTFeA2E9pF3AhQhf+o=;
+        b=bnzlG5A7ABFy2QjTHSG8Y0NDPwzuwJEPDLX306VNxa49/u2NlfaIzfz9nvlR1TWT/p
+         l16s1gXmFWyyiQ7oNxogkwwexkN/dYtgDcS5Sr19BnHJ4iK5ifLfxbQuCOg1kvbRGa43
+         /0ujGp4SA0ZUBsnzGziWRqfLwYoLhg2UAKspTdbG9h+NWAiUbP3LKae2FanzsHK9rkAa
+         6zPYISe63ZzACVD+hdMn4jhLzFGEYLnJvNGBOolXE9cjJ1DFgbmnLCfvWi1e44fR4VJW
+         bUjp8+C6pPL3TV1rlbQJ0rnP8w2eKe71ubloeeKtNevwc0+h9LY0ALD5/j4AZEMPclgI
+         5uYA==
+X-Gm-Message-State: AOAM531vdByh3eZLmPBjhyA0XG+4ThqrBtE86zIDt1UuaZguVEwyHIE1
+	dHJId38nE5q0+eh2T5sKwcapKhT1N7ogkw==
 X-Google-Smtp-Source: 
- ABdhPJx1ppKouXz7Nf9gGbI5E7JIIPbXiI0QZnywub+qyfmzFeqgWiThUh9EvZ6q8syFpgboPrrjwg==
-X-Received: by 2002:a17:902:a714:b0:154:6dfe:bba9 with SMTP id
- w20-20020a170902a71400b001546dfebba9mr4536451plq.124.1650136513270;
-        Sat, 16 Apr 2022 12:15:13 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ ABdhPJx2++ulCFCz+cp9aMrdXZpdpa3wCuQ0pGtfGW43OymIL0KEQbPOT7xCyAbRqitaxQSIq25Hfw==
+X-Received: by 2002:a05:600c:3493:b0:38e:bbbb:26f7 with SMTP id
+ a19-20020a05600c349300b0038ebbbb26f7mr4485465wmq.114.1650140649476;
+        Sat, 16 Apr 2022 13:24:09 -0700 (PDT)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.15.12
-        for <openembedded-core@lists.openembedded.org>
+ j14-20020a05600c190e00b00392910b276csm801925wmq.27.2022.04.16.13.24.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:15:12 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Sat, 16 Apr 2022 13:24:08 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/11] libxshmfence: Correct LICENSE to HPND
-Date: Sat, 16 Apr 2022 09:14:29 -1000
-Message-Id: 
- <2919306cee24c79b8523a2108326db970c37f83a.1650131192.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1650131192.git.steve@sakoman.com>
-References: <cover.1650131192.git.steve@sakoman.com>
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [RFC][PATCH 1/2] sstate: use the python3 ThreadPoolExecutor instead
+ of the OE ThreadedPool
+Date: Sat, 16 Apr 2022 21:24:00 +0100
+Message-Id: <20220416202401.179351-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,50 +66,110 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164557
+ https://lists.openembedded.org/g/openembedded-core/message/164558
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+for the FetchConnectionCache use a queue where each thread can
+get an unsed connection_cache that is properly initialized before
+we fireup the ThreadPoolExecutor.
 
-The license in this code is listed as MIT and whilst it is compatible with and
-usable as MIT, it actually looks like HPND. Clarify the license field accordingly.
+for the progress bar we need an adictional task counter
+that is protected with thread lock as it runs inside the
+ThreadPoolExecutor.
 
-(From OE-Core master rev: 922b645f443c33060a8990d32e6b7b62ea5497c3)
+Fixes [YOCTO #14775] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14775
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
- meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb             | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 44 +++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-index 0cd0494da8..fd113b5ec5 100644
---- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-+++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Test recipe for recipeutils.patch_recipe()"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1c0cae4893..0ede078770 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -977,15 +977,22 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             localdata.delVar('BB_NO_NETWORK')
  
- require recipeutils-test.inc
+         from bb.fetch2 import FetchConnectionCache
+-        def checkstatus_init(thread_worker):
+-            thread_worker.connection_cache = FetchConnectionCache()
+-
+-        def checkstatus_end(thread_worker):
+-            thread_worker.connection_cache.close_connections()
+-
+-        def checkstatus(thread_worker, arg):
++        def checkstatus_init():
++            while not connection_cache_pool.full():
++                connection_cache_pool.put(FetchConnectionCache())
++
++        def checkstatus_end():
++            while not connection_cache_pool.empty():
++                connection_cache = connection_cache_pool.get()
++                connection_cache.close_connections()
++
++        import threading
++        _lock = threading.Lock()
++        def checkstatus(arg):
+             (tid, sstatefile) = arg
  
--LICENSE = "Proprietary"
-+LICENSE = "HPND"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
- DEPENDS += "zlib"
++            connection_cache = connection_cache_pool.get()
++
+             localdata2 = bb.data.createCopy(localdata)
+             srcuri = "file://" + sstatefile
+             localdata2.setVar('SRC_URI', srcuri)
+@@ -995,7 +1002,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
  
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-index cc45696530..38cab99bbe 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-@@ -6,7 +6,7 @@ using file descriptor passing."
+             try:
+                 fetcher = bb.fetch2.Fetch(srcuri.split(), localdata2,
+-                            connection_cache=thread_worker.connection_cache)
++                            connection_cache=connection_cache)
+                 fetcher.checkstatus()
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
+                 found.add(tid)
+@@ -1005,8 +1012,12 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             except Exception as e:
+                 bb.error("SState: cannot test %s: %s\n%s" % (srcuri, repr(e), traceback.format_exc()))
  
- require xorg-lib-common.inc
++            connection_cache_pool.put(connection_cache)
++
+             if progress:
+-                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
++                with _lock:
++                    tasks -= 1
++                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - tasks), d)
  
--LICENSE = "MIT-style"
-+LICENSE = "HPND"
- LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
+         tasklist = []
+         for tid in missed:
+@@ -1016,6 +1027,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         if tasklist:
+             nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
  
- DEPENDS += "virtual/libx11"
++            tasks = len(tasklist)
+             progress = len(tasklist) >= 100
+             if progress:
+                 msg = "Checking sstate mirror object availability"
+@@ -1025,13 +1037,13 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             fetcherenv = bb.fetch2.get_fetcher_environment(d)
+             with bb.utils.environment(**fetcherenv):
+                 bb.event.enable_threadlock()
+-                pool = oe.utils.ThreadedPool(nproc, len(tasklist),
+-                        worker_init=checkstatus_init, worker_end=checkstatus_end,
+-                        name="sstate_checkhashes-")
+-                for t in tasklist:
+-                    pool.add_task(checkstatus, t)
+-                pool.start()
+-                pool.wait_completion()
++                import concurrent.futures
++                from queue import Queue
++                connection_cache_pool = Queue(nproc)
++                checkstatus_init()
++                with concurrent.futures.ThreadPoolExecutor(max_workers=nproc) as executor:
++                    executor.map(checkstatus, tasklist)
++                checkstatus_end()
+                 bb.event.disable_threadlock()
+ 
+             if progress:
 -- 
-2.25.1
+2.35.3
 
 
