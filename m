@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D561C63703
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:59 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.21691.1650136510149266632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCE9EC636FB
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:58 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web12.21684.1650136497324589629
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:10 -0700
+ Sat, 16 Apr 2022 12:14:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=lEEkEO0q;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174,
+ header.b=HW2wYNZJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 125so11929999pgc.11
+Received: by mail-pj1-f50.google.com with SMTP id md4so10031240pjb.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:10 -0700 (PDT)
+ Sat, 16 Apr 2022 12:14:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ljdgFxOtRM5rrvMBrVS3wfqb0jc0dz3EZJNETiSBQmY=;
-        b=lEEkEO0qunJdqY565nlsYe/lnMovOAoQxoqoJPyL7qG86UeZXjIQ6m3ICwHPtFl+sc
-         RVsy12d2CC9Ppb4pMrNdyPR7waoCDIDUXLaCqEFen7YI2rKljTKkLD61Z9pbSkepnVVX
-         RDz3liVMBHjSzHXxfBO6VbLldjQTFG0WxhyONJkSXC9vtX5BbGZSaTmtq/ERmISa0nOe
-         JaUti4cHTwPp2udUYBHKVHMLkdUlAdRkZhtPghw6NWNa0Ot0f7r9oTpOJxMPN/35L/A+
-         nwCaGcXy5S4825PqsYbUT+XVw/xcBm3mq1T12zHuulwPrsdHPPeqf+E+szBWQsylysJT
-         fzog==
+        bh=Wlw27wM5LS2mbjnkmwB2MfCKi2xNQNiJ8DRzIEdfMe0=;
+        b=HW2wYNZJtN6tSEmix7rxEI0qvl2EXzb3ojZVDJS6qyO7yIvskmv+uXFfGPtOYc9UZM
+         yC0juW5EikIpK6tVpoz/t85x9KLUOO/L4Nc7RGuX5WzaBmJIUFargPsqfP3Y7i4esU9s
+         gUeSXRvBClb1/o7JVzBDwP7fdfnCUbGswlkkmHbWGL2STUmcpcP5sk0YBxy82iiqp2K0
+         naIk2zG+21CY4XVqBg7PKyNv5Gj2LfnVQU9SgwPdfZO/xCynpOYvl6ZWravh/vxpHm2f
+         t/FyqMON1s/nkY+W4PvISvaxzVOLGmcl3nwDi83TuoW5X/+yLdxzdz7eXvkmx5zP67Vp
+         5+rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ljdgFxOtRM5rrvMBrVS3wfqb0jc0dz3EZJNETiSBQmY=;
-        b=na1fm9R4l/Uo0Rdg5bu2Jhub1M0RmCTD5y8lL+kNCdzm4ubEk9eJvRNK7L2duOFv9l
-         GUZbqGd909R2M5ZEiYr7kw2hUEv886nzsyU2rSkPTZH59KXTF8y7x5toqfIWfSLwfxPW
-         GThsk0XTKnO6GXSZ9bjj2wVk3FhB+Y6BYIKnkaV8eTGdnPWHiRde6EVLs15BDAIdhfmC
-         GRffwazuZJj7HFWNoJ+6XeR/pMG+7Oyab9UYGhdH1IjPadHQ3gHNh7i65IfyUVPWMVzg
-         +M1oVEUF1EY71oUzwcYhKGWAow2ED38BqjuQctpuH/I0SNbOOpGf6vEjK5jS+nUQp9MF
-         Pauw==
-X-Gm-Message-State: AOAM53385DODwg+q6pbtkZ8OFTb/8Iy5didYietUpnHPJO8ZZXhnvP1g
-	rwRFX9zkG7hDl9HM6lHSZczezfx5hzySq6DdCu4=
+        bh=Wlw27wM5LS2mbjnkmwB2MfCKi2xNQNiJ8DRzIEdfMe0=;
+        b=fBHdqHN6Ca4INtIbshGLVR4GQwzWclX2l7xVeFgUK3bv8ETNfWl9QuSEjZ7Dcl2J9x
+         OWzk3ej2JdL1ohB+4eqAKIekalztc87r9BAWGyzxD3IcHJh6oU8s2Halnm7uZctymuJo
+         sCq4L2/hcpRHy9nGVptcnb/n0V31nW47V3gLgntPeu4//rten7AJIM/2WA60dSLTVnbu
+         vhKELRmR2TSnCVpKrOTJl5OusObZcxuif07svj2xAvLhWVHKCVaQzdAK1HGeAoQT+XXK
+         7x2rZ0lLAF9Il6dhA7cQ/VYhIQLZR65XZGm4zBq65mCA/eCZYzTGTPZqYlQEdWaXVA6D
+         gEnA==
+X-Gm-Message-State: AOAM532btcdIgIpciEiWXymqUyvrjco5yJyMAOUPA1vA7NaXplAOKYEt
+	h0EhlqBaeNwbN9ZDA9BCwAckyHlS6pPVw5mtjx0=
 X-Google-Smtp-Source: 
- ABdhPJwZJ4K90N7IID7WE+4ubww0DmidxQE6x9FbiYJQSpGnbopSYxbPRAYrnVOc0ahIKIJkyGPxJw==
-X-Received: by 2002:a05:6a00:2403:b0:4fd:e84a:4563 with SMTP id
- z3-20020a056a00240300b004fde84a4563mr4701932pfh.60.1650136508945;
-        Sat, 16 Apr 2022 12:15:08 -0700 (PDT)
+ ABdhPJwKgnOsTHWD7RQtCma8aPKuot+pJARJzN+DCCjo450Wh1gj7YukySgoGxf+3NXZjZ2Lb4EWWA==
+X-Received: by 2002:a17:90b:4b45:b0:1d2:713b:637e with SMTP id
+ mi5-20020a17090b4b4500b001d2713b637emr2342224pjb.38.1650136496103;
+        Sat, 16 Apr 2022 12:14:56 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.15.07
+ h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.14.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:15:08 -0700 (PDT)
+        Sat, 16 Apr 2022 12:14:55 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/11] apt: add -fno-strict-aliasing to CXXFLAGS to
- fix SHA256 bug
-Date: Sat, 16 Apr 2022 09:14:27 -1000
+Subject: [OE-core][dunfell 03/11] zlib: backport the fix for CVE-2018-25032
+Date: Sat, 16 Apr 2022 09:14:21 -1000
 Message-Id: 
- <b08ec0a0e0f160f9b67e2fabed03fb8fd174e0b5.1650131192.git.steve@sakoman.com>
+ <27385658aa552b287c4f8f4585f9c783db834123.1650131192.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650131192.git.steve@sakoman.com>
 References: <cover.1650131192.git.steve@sakoman.com>
@@ -68,39 +67,385 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164555
+ https://lists.openembedded.org/g/openembedded-core/message/164549
 
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
+From: Ross Burton <ross@burtonini.com>
 
-Recently we've begun seeing issues with apt SHA256 generation/checking on some
-distros (fedora 35, alma 8). The version of apt in dunfell uses its own
-SHA256 code, not a standard library.
-
-Investigation reveals that the issue is related to -fstrict-aliasing enabled by
--O2 optimization, so turn it off with -fno-strict-aliasing
-
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/apt/apt.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../zlib/zlib/CVE-2018-25032.patch            | 347 ++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
+ 2 files changed, 348 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
 
-diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-index ba827848a7..251795eeca 100644
---- a/meta/recipes-devtools/apt/apt.inc
-+++ b/meta/recipes-devtools/apt/apt.inc
-@@ -37,5 +37,9 @@ do_configure_prepend() {
-     rm -rf ${S}/buildlib/config.guess
- }
- 
-+# there are code generation issues with some compilers in the SHA256 implementation
-+# turn off strict-aliasing to avoid these issues
-+CXXFLAGS:append = " -fno-strict-aliasing"
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+new file mode 100644
+index 0000000000..5cb6183641
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+@@ -0,0 +1,347 @@
++CVE: CVE-2018-25032
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system --no-create-home --home-dir /nonexistent --shell /bin/false --user-group _apt"
++From 5c44459c3b28a9bd3283aaceab7c615f8020c531 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 17 Apr 2018 22:09:22 -0700
++Subject: [PATCH] Fix a bug that can crash deflate on some input when using
++ Z_FIXED.
++
++This bug was reported by Danilo Ramos of Eideticom, Inc. It has
++lain in wait 13 years before being found! The bug was introduced
++in zlib 1.2.2.2, with the addition of the Z_FIXED option. That
++option forces the use of fixed Huffman codes. For rare inputs with
++a large number of distant matches, the pending buffer into which
++the compressed data is written can overwrite the distance symbol
++table which it overlays. That results in corrupted output due to
++invalid distances, and can result in out-of-bound accesses,
++crashing the application.
++
++The fix here combines the distance buffer and literal/length
++buffers into a single symbol buffer. Now three bytes of pending
++buffer space are opened up for each literal or length/distance
++pair consumed, instead of the previous two bytes. This assures
++that the pending buffer cannot overwrite the symbol table, since
++the maximum fixed code compressed length/distance is 31 bits, and
++since there are four bytes of pending space for every three bytes
++of symbol space.
++---
++ deflate.c | 74 ++++++++++++++++++++++++++++++++++++++++---------------
++ deflate.h | 25 +++++++++----------
++ trees.c   | 50 +++++++++++--------------------------
++ 3 files changed, 79 insertions(+), 70 deletions(-)
++
++diff --git a/deflate.c b/deflate.c
++index 425babc00..19cba873a 100644
++--- a/deflate.c
+++++ b/deflate.c
++@@ -255,11 +255,6 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++     int wrap = 1;
++     static const char my_version[] = ZLIB_VERSION;
++ 
++-    ushf *overlay;
++-    /* We overlay pending_buf and d_buf+l_buf. This works since the average
++-     * output size for (length,distance) codes is <= 24 bits.
++-     */
++-
++     if (version == Z_NULL || version[0] != my_version[0] ||
++         stream_size != sizeof(z_stream)) {
++         return Z_VERSION_ERROR;
++@@ -329,9 +324,47 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++ 
++     s->lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
++ 
++-    overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
++-    s->pending_buf = (uchf *) overlay;
++-    s->pending_buf_size = (ulg)s->lit_bufsize * (sizeof(ush)+2L);
+++    /* We overlay pending_buf and sym_buf. This works since the average size
+++     * for length/distance pairs over any compressed block is assured to be 31
+++     * bits or less.
+++     *
+++     * Analysis: The longest fixed codes are a length code of 8 bits plus 5
+++     * extra bits, for lengths 131 to 257. The longest fixed distance codes are
+++     * 5 bits plus 13 extra bits, for distances 16385 to 32768. The longest
+++     * possible fixed-codes length/distance pair is then 31 bits total.
+++     *
+++     * sym_buf starts one-fourth of the way into pending_buf. So there are
+++     * three bytes in sym_buf for every four bytes in pending_buf. Each symbol
+++     * in sym_buf is three bytes -- two for the distance and one for the
+++     * literal/length. As each symbol is consumed, the pointer to the next
+++     * sym_buf value to read moves forward three bytes. From that symbol, up to
+++     * 31 bits are written to pending_buf. The closest the written pending_buf
+++     * bits gets to the next sym_buf symbol to read is just before the last
+++     * code is written. At that time, 31*(n-2) bits have been written, just
+++     * after 24*(n-2) bits have been consumed from sym_buf. sym_buf starts at
+++     * 8*n bits into pending_buf. (Note that the symbol buffer fills when n-1
+++     * symbols are written.) The closest the writing gets to what is unread is
+++     * then n+14 bits. Here n is lit_bufsize, which is 16384 by default, and
+++     * can range from 128 to 32768.
+++     *
+++     * Therefore, at a minimum, there are 142 bits of space between what is
+++     * written and what is read in the overlain buffers, so the symbols cannot
+++     * be overwritten by the compressed data. That space is actually 139 bits,
+++     * due to the three-bit fixed-code block header.
+++     *
+++     * That covers the case where either Z_FIXED is specified, forcing fixed
+++     * codes, or when the use of fixed codes is chosen, because that choice
+++     * results in a smaller compressed block than dynamic codes. That latter
+++     * condition then assures that the above analysis also covers all dynamic
+++     * blocks. A dynamic-code block will only be chosen to be emitted if it has
+++     * fewer bits than a fixed-code block would for the same set of symbols.
+++     * Therefore its average symbol length is assured to be less than 31. So
+++     * the compressed data for a dynamic block also cannot overwrite the
+++     * symbols from which it is being constructed.
+++     */
+++
+++    s->pending_buf = (uchf *) ZALLOC(strm, s->lit_bufsize, 4);
+++    s->pending_buf_size = (ulg)s->lit_bufsize * 4;
++ 
++     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
++         s->pending_buf == Z_NULL) {
++@@ -340,8 +373,12 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
++         deflateEnd (strm);
++         return Z_MEM_ERROR;
++     }
++-    s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
++-    s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+++    s->sym_buf = s->pending_buf + s->lit_bufsize;
+++    s->sym_end = (s->lit_bufsize - 1) * 3;
+++    /* We avoid equality with lit_bufsize*3 because of wraparound at 64K
+++     * on 16 bit machines and because stored blocks are restricted to
+++     * 64K-1 bytes.
+++     */
++ 
++     s->level = level;
++     s->strategy = strategy;
++@@ -552,7 +589,7 @@ int ZEXPORT deflatePrime (strm, bits, value)
++ 
++     if (deflateStateCheck(strm)) return Z_STREAM_ERROR;
++     s = strm->state;
++-    if ((Bytef *)(s->d_buf) < s->pending_out + ((Buf_size + 7) >> 3))
+++    if (s->sym_buf < s->pending_out + ((Buf_size + 7) >> 3))
++         return Z_BUF_ERROR;
++     do {
++         put = Buf_size - s->bi_valid;
++@@ -1113,7 +1150,6 @@ int ZEXPORT deflateCopy (dest, source)
++ #else
++     deflate_state *ds;
++     deflate_state *ss;
++-    ushf *overlay;
++ 
++ 
++     if (deflateStateCheck(source) || dest == Z_NULL) {
++@@ -1133,8 +1169,7 @@ int ZEXPORT deflateCopy (dest, source)
++     ds->window = (Bytef *) ZALLOC(dest, ds->w_size, 2*sizeof(Byte));
++     ds->prev   = (Posf *)  ZALLOC(dest, ds->w_size, sizeof(Pos));
++     ds->head   = (Posf *)  ZALLOC(dest, ds->hash_size, sizeof(Pos));
++-    overlay = (ushf *) ZALLOC(dest, ds->lit_bufsize, sizeof(ush)+2);
++-    ds->pending_buf = (uchf *) overlay;
+++    ds->pending_buf = (uchf *) ZALLOC(dest, ds->lit_bufsize, 4);
++ 
++     if (ds->window == Z_NULL || ds->prev == Z_NULL || ds->head == Z_NULL ||
++         ds->pending_buf == Z_NULL) {
++@@ -1148,8 +1183,7 @@ int ZEXPORT deflateCopy (dest, source)
++     zmemcpy(ds->pending_buf, ss->pending_buf, (uInt)ds->pending_buf_size);
++ 
++     ds->pending_out = ds->pending_buf + (ss->pending_out - ss->pending_buf);
++-    ds->d_buf = overlay + ds->lit_bufsize/sizeof(ush);
++-    ds->l_buf = ds->pending_buf + (1+sizeof(ush))*ds->lit_bufsize;
+++    ds->sym_buf = ds->pending_buf + ds->lit_bufsize;
++ 
++     ds->l_desc.dyn_tree = ds->dyn_ltree;
++     ds->d_desc.dyn_tree = ds->dyn_dtree;
++@@ -1925,7 +1959,7 @@ local block_state deflate_fast(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2056,7 +2090,7 @@ local block_state deflate_slow(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2131,7 +2165,7 @@ local block_state deflate_rle(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++@@ -2170,7 +2204,7 @@ local block_state deflate_huff(s, flush)
++         FLUSH_BLOCK(s, 1);
++         return finish_done;
++     }
++-    if (s->last_lit)
+++    if (s->sym_next)
++         FLUSH_BLOCK(s, 0);
++     return block_done;
++ }
++diff --git a/deflate.h b/deflate.h
++index 23ecdd312..d4cf1a98b 100644
++--- a/deflate.h
+++++ b/deflate.h
++@@ -217,7 +217,7 @@ typedef struct internal_state {
++     /* Depth of each subtree used as tie breaker for trees of equal frequency
++      */
++ 
++-    uchf *l_buf;          /* buffer for literals or lengths */
+++    uchf *sym_buf;        /* buffer for distances and literals/lengths */
++ 
++     uInt  lit_bufsize;
++     /* Size of match buffer for literals/lengths.  There are 4 reasons for
++@@ -239,13 +239,8 @@ typedef struct internal_state {
++      *   - I can't count above 4
++      */
++ 
++-    uInt last_lit;      /* running index in l_buf */
++-
++-    ushf *d_buf;
++-    /* Buffer for distances. To simplify the code, d_buf and l_buf have
++-     * the same number of elements. To use different lengths, an extra flag
++-     * array would be necessary.
++-     */
+++    uInt sym_next;      /* running index in sym_buf */
+++    uInt sym_end;       /* symbol table full when sym_next reaches this */
++ 
++     ulg opt_len;        /* bit length of current block with optimal trees */
++     ulg static_len;     /* bit length of current block with static trees */
++@@ -325,20 +320,22 @@ void ZLIB_INTERNAL _tr_stored_block OF((deflate_state *s, charf *buf,
++ 
++ # define _tr_tally_lit(s, c, flush) \
++   { uch cc = (c); \
++-    s->d_buf[s->last_lit] = 0; \
++-    s->l_buf[s->last_lit++] = cc; \
+++    s->sym_buf[s->sym_next++] = 0; \
+++    s->sym_buf[s->sym_next++] = 0; \
+++    s->sym_buf[s->sym_next++] = cc; \
++     s->dyn_ltree[cc].Freq++; \
++-    flush = (s->last_lit == s->lit_bufsize-1); \
+++    flush = (s->sym_next == s->sym_end); \
++    }
++ # define _tr_tally_dist(s, distance, length, flush) \
++   { uch len = (uch)(length); \
++     ush dist = (ush)(distance); \
++-    s->d_buf[s->last_lit] = dist; \
++-    s->l_buf[s->last_lit++] = len; \
+++    s->sym_buf[s->sym_next++] = dist; \
+++    s->sym_buf[s->sym_next++] = dist >> 8; \
+++    s->sym_buf[s->sym_next++] = len; \
++     dist--; \
++     s->dyn_ltree[_length_code[len]+LITERALS+1].Freq++; \
++     s->dyn_dtree[d_code(dist)].Freq++; \
++-    flush = (s->last_lit == s->lit_bufsize-1); \
+++    flush = (s->sym_next == s->sym_end); \
++   }
++ #else
++ # define _tr_tally_lit(s, c, flush) flush = _tr_tally(s, 0, c)
++diff --git a/trees.c b/trees.c
++index 4f4a65011..decaeb7c3 100644
++--- a/trees.c
+++++ b/trees.c
++@@ -416,7 +416,7 @@ local void init_block(s)
++ 
++     s->dyn_ltree[END_BLOCK].Freq = 1;
++     s->opt_len = s->static_len = 0L;
++-    s->last_lit = s->matches = 0;
+++    s->sym_next = s->matches = 0;
++ }
++ 
++ #define SMALLEST 1
++@@ -948,7 +948,7 @@ void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
++ 
++         Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
++                 opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
++-                s->last_lit));
+++                s->sym_next / 3));
++ 
++         if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
++ 
++@@ -1017,8 +1017,9 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++     unsigned dist;  /* distance of matched string */
++     unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
++ {
++-    s->d_buf[s->last_lit] = (ush)dist;
++-    s->l_buf[s->last_lit++] = (uch)lc;
+++    s->sym_buf[s->sym_next++] = dist;
+++    s->sym_buf[s->sym_next++] = dist >> 8;
+++    s->sym_buf[s->sym_next++] = lc;
++     if (dist == 0) {
++         /* lc is the unmatched char */
++         s->dyn_ltree[lc].Freq++;
++@@ -1033,30 +1034,7 @@ int ZLIB_INTERNAL _tr_tally (s, dist, lc)
++         s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
++         s->dyn_dtree[d_code(dist)].Freq++;
++     }
++-
++-#ifdef TRUNCATE_BLOCK
++-    /* Try to guess if it is profitable to stop the current block here */
++-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
++-        /* Compute an upper bound for the compressed length */
++-        ulg out_length = (ulg)s->last_lit*8L;
++-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
++-        int dcode;
++-        for (dcode = 0; dcode < D_CODES; dcode++) {
++-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
++-                (5L+extra_dbits[dcode]);
++-        }
++-        out_length >>= 3;
++-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
++-               s->last_lit, in_length, out_length,
++-               100L - out_length*100L/in_length));
++-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
++-    }
++-#endif
++-    return (s->last_lit == s->lit_bufsize-1);
++-    /* We avoid equality with lit_bufsize because of wraparound at 64K
++-     * on 16 bit machines and because stored blocks are restricted to
++-     * 64K-1 bytes.
++-     */
+++    return (s->sym_next == s->sym_end);
++ }
++ 
++ /* ===========================================================================
++@@ -1069,13 +1047,14 @@ local void compress_block(s, ltree, dtree)
++ {
++     unsigned dist;      /* distance of matched string */
++     int lc;             /* match length or unmatched char (if dist == 0) */
++-    unsigned lx = 0;    /* running index in l_buf */
+++    unsigned sx = 0;    /* running index in sym_buf */
++     unsigned code;      /* the code to send */
++     int extra;          /* number of extra bits to send */
++ 
++-    if (s->last_lit != 0) do {
++-        dist = s->d_buf[lx];
++-        lc = s->l_buf[lx++];
+++    if (s->sym_next != 0) do {
+++        dist = s->sym_buf[sx++] & 0xff;
+++        dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
+++        lc = s->sym_buf[sx++];
++         if (dist == 0) {
++             send_code(s, lc, ltree); /* send a literal byte */
++             Tracecv(isgraph(lc), (stderr," '%c' ", lc));
++@@ -1100,11 +1079,10 @@ local void compress_block(s, ltree, dtree)
++             }
++         } /* literal or match pair ? */
++ 
++-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
++-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
++-               "pendingBuf overflow");
+++        /* Check that the overlay between pending_buf and sym_buf is ok: */
+++        Assert(s->pending < s->lit_bufsize + sx, "pendingBuf overflow");
++ 
++-    } while (lx < s->last_lit);
+++    } while (sx < s->sym_next);
++ 
++     send_code(s, END_BLOCK, ltree);
++ }
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+index ef9431ae47..bc42cd64e9 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://ldflags-tests.patch \
++           file://CVE-2018-25032.patch \
+            file://run-ptest \
+            "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
 -- 
 2.25.1
 
