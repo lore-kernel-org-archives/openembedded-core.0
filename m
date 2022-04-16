@@ -2,62 +2,61 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59311C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88701C6370A
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:59 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.22485.1650140651537834998
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.23816.1650148135658857277
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 13:24:11 -0700
+ Sat, 16 Apr 2022 15:28:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=T1YCyRlX;
- spf=pass (domain: gmail.com, ip: 209.85.128.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JnBZMv4X;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id
- m33-20020a05600c3b2100b0038ec0218103so6759631wms.3
+Received: by mail-wr1-f47.google.com with SMTP id u3so14545412wrg.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 13:24:11 -0700 (PDT)
+ Sat, 16 Apr 2022 15:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=d1UcHnDp86dr/QsjLwHXjvgo4ZTFeA2E9pF3AhQhf+o=;
-        b=T1YCyRlXJR0w/6MrCyAA9JWRdZOo4p4QCdFUBYc3g0WvBLlTtBXQApzhcaVJYg3fre
-         FM8M8qLQelUZ7/9KPrt9PD1ukY7XsG/yprqu1BKljy9WFA/BqfbJtDMgqIUFd+DFLHXX
-         R5xVI36STjBD+mwmVOSrqr4Tb+IR4Wx9Hhw1q6h0MiyjC/hYjp/Oz3NUS8wfZ6hUKc9J
-         M765fXicvJLJFaGILPHV7Pq41xR5BHZZ2frtvHfrnjMntzzwlBAoSICbx4+EVgflvukf
-         cq8Mn3vAbXM/duSF7rgY1hlOn1eBpgdTlytdKyOrgFdlNZ752eaWPM35cFCwc+kmhobI
-         T3eg==
+        bh=biHgQI1cqvV99gVVyj6UQ5Fo82KTb/qOM2TMPveBy6k=;
+        b=JnBZMv4XnhIg3UZLY5VpVj3wiibH6j/KpSFw/XdIA+vlT7b7NIT0anVB9gKFNHdyh6
+         TVT+d6cGWwcJhJbTxnfU2eZEkaYIeSdz/YlymXoO9qhZ2hMzIpxNFVleeJJhM3KSSLP4
+         LK5DV89GXNIlSScFHgf8eAKTCtc37IgbWRWzcBqapzNsjYFlrTWnR/fBhyKD6oD8S4Oi
+         g/PsyTRJSPH2PekYvnaebXuohRvc0Chbh5POl1vGWYnZM+SycqgL452mvPMG27p4ZuUl
+         GTWstN6cMI8uJ0xIUAO3rPY5++tGUZtFS7/1FnXfPzcdJhrKgfImmRl5WLVCk7HLi50C
+         DRQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=d1UcHnDp86dr/QsjLwHXjvgo4ZTFeA2E9pF3AhQhf+o=;
-        b=bnzlG5A7ABFy2QjTHSG8Y0NDPwzuwJEPDLX306VNxa49/u2NlfaIzfz9nvlR1TWT/p
-         l16s1gXmFWyyiQ7oNxogkwwexkN/dYtgDcS5Sr19BnHJ4iK5ifLfxbQuCOg1kvbRGa43
-         /0ujGp4SA0ZUBsnzGziWRqfLwYoLhg2UAKspTdbG9h+NWAiUbP3LKae2FanzsHK9rkAa
-         6zPYISe63ZzACVD+hdMn4jhLzFGEYLnJvNGBOolXE9cjJ1DFgbmnLCfvWi1e44fR4VJW
-         bUjp8+C6pPL3TV1rlbQJ0rnP8w2eKe71ubloeeKtNevwc0+h9LY0ALD5/j4AZEMPclgI
-         5uYA==
-X-Gm-Message-State: AOAM531vdByh3eZLmPBjhyA0XG+4ThqrBtE86zIDt1UuaZguVEwyHIE1
-	dHJId38nE5q0+eh2T5sKwcapKhT1N7ogkw==
+        bh=biHgQI1cqvV99gVVyj6UQ5Fo82KTb/qOM2TMPveBy6k=;
+        b=qSCGmrUIN2sjZrNulOrR7HCVW2nioCMj1zQt+6XXo6SLWTpogzaXWYo9klz/cMNibO
+         Y6Bznpw+449kk5IppSLnwdGyA2PW+hcLHmchMborhGXT7zAX4qXsx+A821T7WEfdCYkY
+         kzrg4aPJxzmmjVliljoYOFxd6cESW3XLv8a9BIk6wvqamjjiRb9zH+2eATavU+A7qo09
+         fJI7P/sN2DIhHAfO26zkU7b7RLsgIHV0e0anXoC6kgknHukE0vzxZsFGB1+SVLEE20Gj
+         Xr8zFbh/AE074e7SKEZO5GKkZHdqpNcCH5xplk6M6jigMiUrJF1Ke0k5EXH62+bc+PQO
+         8SeA==
+X-Gm-Message-State: AOAM531tRFeWe8GwI3W7OAIGP7+ipcJ4PQ3mUwCcSnJGBMpvA/8DA3l/
+	6AYMm0ZVz3IX+Hjg+aSBjs0mYLbUMu/Vsw==
 X-Google-Smtp-Source: 
- ABdhPJx2++ulCFCz+cp9aMrdXZpdpa3wCuQ0pGtfGW43OymIL0KEQbPOT7xCyAbRqitaxQSIq25Hfw==
-X-Received: by 2002:a05:600c:3493:b0:38e:bbbb:26f7 with SMTP id
- a19-20020a05600c349300b0038ebbbb26f7mr4485465wmq.114.1650140649476;
-        Sat, 16 Apr 2022 13:24:09 -0700 (PDT)
+ ABdhPJzuZqdEqwKOVF/kCAQDMjjBmdKaF4nwHTT2XDWYC8Wj8qBlvzwzrjHcjd1drZ4AidqaNiey4A==
+X-Received: by 2002:a5d:44d0:0:b0:207:9ac8:2c3b with SMTP id
+ z16-20020a5d44d0000000b002079ac82c3bmr3525460wrr.688.1650148133707;
+        Sat, 16 Apr 2022 15:28:53 -0700 (PDT)
 Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c190e00b00392910b276csm801925wmq.27.2022.04.16.13.24.07
+ b1-20020a5d40c1000000b00207b49d3023sm6838104wrq.44.2022.04.16.15.28.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 13:24:08 -0700 (PDT)
+        Sat, 16 Apr 2022 15:28:53 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [RFC][PATCH 1/2] sstate: use the python3 ThreadPoolExecutor instead
- of the OE ThreadedPool
-Date: Sat, 16 Apr 2022 21:24:00 +0100
-Message-Id: <20220416202401.179351-1-quaresma.jose@gmail.com>
+Subject: [RFC][PATCH v2 1/4] sstate: add a LockedSet class as python set() is
+ not thread safe
+Date: Sat, 16 Apr 2022 23:28:43 +0100
+Message-Id: <20220416222846.219151-1-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -66,109 +65,56 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164558
+ https://lists.openembedded.org/g/openembedded-core/message/164563
 
-for the FetchConnectionCache use a queue where each thread can
-get an unsed connection_cache that is properly initialized before
-we fireup the ThreadPoolExecutor.
+With this LockedSet python class we can call the 'add' and 'remove'
+safely inside the ThreadedPool.
 
-for the progress bar we need an adictional task counter
-that is protected with thread lock as it runs inside the
-ThreadPoolExecutor.
+This piece of code is taen from the stackoverflow
+https://stackoverflow.com/questions/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe
 
 Fixes [YOCTO #14775] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14775
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/classes/sstate.bbclass | 44 +++++++++++++++++++++++--------------
- 1 file changed, 28 insertions(+), 16 deletions(-)
+ meta/classes/sstate.bbclass | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 1c0cae4893..0ede078770 100644
+index 1c0cae4893..a3ba748a1e 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -977,15 +977,22 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             localdata.delVar('BB_NO_NETWORK')
+@@ -918,8 +918,28 @@ sstate_unpack_package () {
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
  
-         from bb.fetch2 import FetchConnectionCache
--        def checkstatus_init(thread_worker):
--            thread_worker.connection_cache = FetchConnectionCache()
--
--        def checkstatus_end(thread_worker):
--            thread_worker.connection_cache.close_connections()
--
--        def checkstatus(thread_worker, arg):
-+        def checkstatus_init():
-+            while not connection_cache_pool.full():
-+                connection_cache_pool.put(FetchConnectionCache())
+ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
+-    found = set()
+-    missed = set()
++    # https://stackoverflow.com/questions/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe
++    import threading
++    class LockedSet(set):
++        """A set where add(), remove(), and 'in' operator are thread-safe"""
++        def __init__(self, *args, **kwargs):
++            self._lock = threading.Lock()
++            super(LockedSet, self).__init__(*args, **kwargs)
 +
-+        def checkstatus_end():
-+            while not connection_cache_pool.empty():
-+                connection_cache = connection_cache_pool.get()
-+                connection_cache.close_connections()
++        def add(self, elem):
++            with self._lock:
++                super(LockedSet, self).add(elem)
 +
-+        import threading
-+        _lock = threading.Lock()
-+        def checkstatus(arg):
-             (tid, sstatefile) = arg
- 
-+            connection_cache = connection_cache_pool.get()
++        def remove(self, elem):
++            with self._lock:
++                super(LockedSet, self).remove(elem)
 +
-             localdata2 = bb.data.createCopy(localdata)
-             srcuri = "file://" + sstatefile
-             localdata2.setVar('SRC_URI', srcuri)
-@@ -995,7 +1002,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
- 
-             try:
-                 fetcher = bb.fetch2.Fetch(srcuri.split(), localdata2,
--                            connection_cache=thread_worker.connection_cache)
-+                            connection_cache=connection_cache)
-                 fetcher.checkstatus()
-                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 found.add(tid)
-@@ -1005,8 +1012,12 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             except Exception as e:
-                 bb.error("SState: cannot test %s: %s\n%s" % (srcuri, repr(e), traceback.format_exc()))
- 
-+            connection_cache_pool.put(connection_cache)
++        def __contains__(self, elem):
++            with self._lock:
++                super(LockedSet, self).__contains__(elem)
 +
-             if progress:
--                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
-+                with _lock:
-+                    tasks -= 1
-+                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - tasks), d)
++    found = LockedSet()
++    missed = LockedSet()
  
-         tasklist = []
-         for tid in missed:
-@@ -1016,6 +1027,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         if tasklist:
-             nproc = min(int(d.getVar("BB_NUMBER_THREADS")), len(tasklist))
- 
-+            tasks = len(tasklist)
-             progress = len(tasklist) >= 100
-             if progress:
-                 msg = "Checking sstate mirror object availability"
-@@ -1025,13 +1037,13 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             fetcherenv = bb.fetch2.get_fetcher_environment(d)
-             with bb.utils.environment(**fetcherenv):
-                 bb.event.enable_threadlock()
--                pool = oe.utils.ThreadedPool(nproc, len(tasklist),
--                        worker_init=checkstatus_init, worker_end=checkstatus_end,
--                        name="sstate_checkhashes-")
--                for t in tasklist:
--                    pool.add_task(checkstatus, t)
--                pool.start()
--                pool.wait_completion()
-+                import concurrent.futures
-+                from queue import Queue
-+                connection_cache_pool = Queue(nproc)
-+                checkstatus_init()
-+                with concurrent.futures.ThreadPoolExecutor(max_workers=nproc) as executor:
-+                    executor.map(checkstatus, tasklist)
-+                checkstatus_end()
-                 bb.event.disable_threadlock()
- 
-             if progress:
+     def gethash(task):
+         return sq_data['unihash'][task]
 -- 
 2.35.3
 
