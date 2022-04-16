@@ -1,95 +1,98 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E8E6C636D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F39C636F6
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:58 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.17635.1650106414567857841
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.18596.1650116454335247584
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 03:53:34 -0700
+ Sat, 16 Apr 2022 06:40:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: liezhi.yang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23GArQeu023504
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 16 Apr 2022 03:53:27 -0700
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sat, 16 Apr 2022 03:53:26 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sat, 16 Apr 2022 03:53:26 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sat, 16 Apr 2022 03:53:26 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>
-Subject: [honister][PATCH 1/1] libxshmfence: Correct LICENSE to HPND
-Date: Sat, 16 Apr 2022 03:53:26 -0700
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CBVBP9J7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id
+ u17-20020a05600c211100b0038eaf4cdaaeso9210165wml.1
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 16 Apr 2022 06:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=3y6Tyfqc8ljzmrT3gepCZOql0hcsPMim8GxI4WkkLh0=;
+        b=CBVBP9J7oECXtNqOwZ/3cW2gOEqi5puo3PUef9x3hwtt1XwDX8kbbx+9sxSP0mexff
+         eBKJHX0BpHHEd/xCALbH4Iabi47MCFxJui51kOIO5vREAQCWRNrNUGZkHIYo2BAF82hl
+         4XnC15tXDrjkb1IQXE5SCH+ywH9ilGI6IlfcA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=3y6Tyfqc8ljzmrT3gepCZOql0hcsPMim8GxI4WkkLh0=;
+        b=cQBSbceSe/51Q7O3uIv0jhsNRcts3dyxMVTW26oZGczZO3IHmfJYNZwTFh75DJ/Y81
+         GNZzoJwK9FbgXKQLg/6J9t8HQ6b21b9VlRGLXdDwUD4fCsTNfoE2kixYfwy6GvGb9MhV
+         IV1PvC0uKMvzELtmCtTp6YFaIxkedBjhCdg6vTKdWvjYDg6jfXXm7aSeG17wkWux2uvm
+         ArFvuc3egqxBiOjrGWYcyIzCo25pdq7giAieALBEumKbdPIYsWoplVseqUyhsbOg2Rmm
+         o/+JnPDxrxAFhYNAJNQ0ZPrcDyC5HTbvIKT8ONqE98PMBsmeBfi4wbTx95q8V8vBiLpO
+         CS+w==
+X-Gm-Message-State: AOAM532yFLcDOBDamDqtkynmKj3wwFr20L4dRMQx3X+z2UlAHCppFM0T
+	Yay1xS14wLInfqqazmuplnHOHg==
+X-Google-Smtp-Source: 
+ ABdhPJzZ8cNQJRUL0/yBOY3xlFmF3lzJHurFFCYGqumh3cqa8O/t/BAvUMPPQU4D4HWvLfN6aec7qQ==
+X-Received: by 2002:a7b:c844:0:b0:38e:7c92:a9e3 with SMTP id
+ c4-20020a7bc844000000b0038e7c92a9e3mr3164672wml.140.1650116452865;
+        Sat, 16 Apr 2022 06:40:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8fbd:73bd:4d53:ad68?
+ ([2001:8b0:aba:5f3c:8fbd:73bd:4d53:ad68])
+        by smtp.gmail.com with ESMTPSA id
+ r4-20020a1c2b04000000b0038a0e15ee13sm11421747wmr.8.2022.04.16.06.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Apr 2022 06:40:52 -0700 (PDT)
 Message-ID: 
- <6bbf029d95f08c3f0c7008062a01821ba58022d9.1650106315.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1650106315.git.liezhi.yang@windriver.com>
-References: <cover.1650106315.git.liezhi.yang@windriver.com>
+ <867078ea62a17f5d45c231887bbca7d758d154d6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Intermittent failure issue summary
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 16 Apr 2022 14:40:51 +0100
+In-Reply-To: <df0adffa-18c4-fdf1-008b-6fd1a8d1265a@t-online.de>
+References: 
+	<d9926e6bc63272234f1e435d97af40888123e7d7.camel@linuxfoundation.org>
+	 <df0adffa-18c4-fdf1-008b-6fd1a8d1265a@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164541
+ https://lists.openembedded.org/g/openembedded-core/message/164543
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Sat, 2022-04-16 at 15:31 +0200, Markus Volk wrote:
+> the systemd issue could be this ?
+> 
+> https://github.com/systemd/systemd/pull/22552/commits/de90700f36f2126528f7ce92df0b5b5d5e277558
+> 
+> Am 16.04.22 um 12:26 schrieb Richard Purdie:
+> > Systemd daemon-reload unit restart failures:
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14787
+> > AlexK has got part way in figuring out the circumstances of this, any systemd
+> > experts able to spot what I think is a service file dependency issue?
+> > 
 
-The license in this code is listed as MIT and whilst it is compatible with and
-usable as MIT, it actually looks like HPND. Clarify the license field accordingly.
+Yes, that could well be it :)
 
-(From OE-Core master rev: 922b645f443c33060a8990d32e6b7b62ea5497c3)
+Particularly when you read:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
- meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb             | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+https://github.com/systemd/systemd/issues/15316
 
-diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-index 062d6a7a058..ad9f475d151 100644
---- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-+++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Test recipe for recipeutils.patch_recipe()"
- 
- require recipeutils-test.inc
- 
--LICENSE = "Proprietary"
-+LICENSE = "HPND"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
- DEPENDS += "zlib"
- 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-index d153c7a603e..b0b6cb6b567 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-@@ -6,7 +6,7 @@ using file descriptor passing."
- 
- require xorg-lib-common.inc
- 
--LICENSE = "MIT-style"
-+LICENSE = "HPND"
- LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
- 
- DEPENDS += "virtual/libx11"
--- 
-2.35.1
+Alex: Any thoughts?
+
+Cheers,
+
+Richard
 
 
