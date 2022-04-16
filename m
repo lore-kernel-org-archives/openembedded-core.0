@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D0DC63700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E6E5C636FA
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:59 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web09.21639.1650136499672871247
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.21687.1650136504260653609
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:14:59 -0700
+ Sat, 16 Apr 2022 12:15:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=DPIxiesY;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
+ header.b=d/KfVvay;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id k62so5862612pgd.2
+Received: by mail-pj1-f48.google.com with SMTP id
+ i24-20020a17090adc1800b001cd5529465aso9526935pjv.0
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:14:59 -0700 (PDT)
+ Sat, 16 Apr 2022 12:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ica1BFGeeMFK5BB1HNkuxuk7JLlB9xAcJvw1JA5XqSg=;
-        b=DPIxiesYf0PdoDxfRl+VcpbAiYCJW6TThWoh3ftK5Oi472/yq/Gt1zhfQlhGGt5o0x
-         fEEB0INdhgWQc5CZ35ZlnLK9IkrA/lfN9MBqXEhToZPpH4mIHQVVk3gM02LFISjT5weJ
-         BOVn0TwKaOv8v/tHuTFZFe8Eqkt3Sgm70t1y9NUpqEukfcLxxfS4tdg2MgpzYzE6lYg0
-         qrRMHVRPuUsikhod6wReLYlt/Byi80iD2QjHNpewxRJFoJ+5zOLhbXfbm9420IajjCzH
-         qml1a6qjPnkFZA0yaFJLGyCynIYjy7A1WfQmNnp8X4xQEwFALAydm3TQyFj0B/66U3Hd
-         nJMg==
+        bh=UIOiC6kQAWSJoTB0wZ07OolBqYr5Xj0UlUlE1+ECyWw=;
+        b=d/KfVvayiSvWW+/kJdR3ic4CzZBmsOajXtn4xcCQHnAhQOjY6QTfqWyjO6K24FEKCI
+         ZWHMyWGC+vPsFC0mxXfzlxsUhn9juvtauQpFhxcv5q0q2R7JKKn0ixwYd+xuni6B2Dme
+         8G13WQt5XD/lxFfBfhgmQyi3HrnvA4KIQ+FypDMtcwf/5dWurIkWvPfGbiO+byU5gPsv
+         43K3uM/qq05oDlEiZ+LvLOaAOsizt2Y3ojckO94i1kasUKtpXYnjXOJDUM40J3Z3ixc3
+         JIJwc7ArQGsyqu9FtjUnBwfc1s5s0zXixfZzEn7y1Jxot7RzjfLDPND4rrY5US3uPfsY
+         sbUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ica1BFGeeMFK5BB1HNkuxuk7JLlB9xAcJvw1JA5XqSg=;
-        b=sSj5KEOsl6/qJ6KL/5lfGGDIhiQl9y7pytfSpMpiYKLAw+5ahY50YWCs01jIR3Oiqi
-         FAjtjAo+D4m7pmALAqrfTUyBcolkGNr+xP4lh0MaQAgq96UbOMCKyHWSFNkbc7J/SC8C
-         GActqTJxFXw0iqJqrWZ8z0HY/0WyZeeVWAovCse3VenWtZBwmhgvV5mqbyEVhcRkOW9g
-         7wnef/hPpOLHrG8RvW0Je8xZrmt7cNQ7l1iJXMtQztmRLFU/6CT22vTgbS6P7QzSepHO
-         Ix7sMhPR6Dx460bKDmH3emjUNY6QVa3sj9eH6JuQea3O9+pLAO8rCLoXa11TZCJUJEVi
-         vMMA==
-X-Gm-Message-State: AOAM53143VDdf5u49lyeZHHpQz7EAVUo88mGOeHl4nmQoIy/7g7PJplb
-	ZAabWZLxKZOSvvfTog7McSuS8o2GwGxkKnTY19k=
+        bh=UIOiC6kQAWSJoTB0wZ07OolBqYr5Xj0UlUlE1+ECyWw=;
+        b=aMrtimusbBr9zo/pMAEmbwERFU8OsU1pfrSCnm08EgiXgc03iXgfylBuxfOkdw81Xq
+         fpLoP67xt4IB96ohT2Yy2C+Jq3puuLbWkcdEKGgR0uatr3IEu74XmeF3cSus3zlU32OX
+         Gz6IGTu5KxqTyg5qzmKwESAorGKmsKUTpnw1WzTm9rJl+ELMQgUqH8A8AQsj+oGB/LGV
+         I9mFtem6FS0KTWH4Nu+v3YRYy6k+h+TuTdvjVZigaFaTvOQzV8dqZHlXVNJObIqurPbu
+         bQnASiddT/60mWSdsxO9vY0lD455nhgFxQOMh18qPJ7SmmuMdWWV7qx88ML7sjs/TzF6
+         8pag==
+X-Gm-Message-State: AOAM5310LdlocG2/P31ABxvi6njbaKVMpp1edYIGyM6jtmG9/wOoF6Io
+	86E/41zQhTAZofW7lE471SD4E54a/mkBraqPKsU=
 X-Google-Smtp-Source: 
- ABdhPJzMIv6QVdNFFfXkTvrKm+rhd4vJE2rLbxM8SZae91ThDWIurIZR5wCvL2BiNGFWrI6jlltUvQ==
-X-Received: by 2002:aa7:96db:0:b0:506:1fcc:75a8 with SMTP id
- h27-20020aa796db000000b005061fcc75a8mr4624476pfq.12.1650136498321;
-        Sat, 16 Apr 2022 12:14:58 -0700 (PDT)
+ ABdhPJzEAZz0jngH/9T0/uxS+ezUFov7Qt3NKI5NzB0EY2uMfCU9Dz3V1XcJLHvAuhcki5NwRYfsYQ==
+X-Received: by 2002:a17:902:ec8c:b0:154:2e86:dd51 with SMTP id
+ x12-20020a170902ec8c00b001542e86dd51mr4478759plg.99.1650136502332;
+        Sat, 16 Apr 2022 12:15:02 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.14.57
+ h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.15.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:14:57 -0700 (PDT)
+        Sat, 16 Apr 2022 12:15:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/11] xz: fix CVE-2022-1271
-Date: Sat, 16 Apr 2022 09:14:22 -1000
+Subject: [OE-core][dunfell 06/11] pseudo: Add patch to workaround paths with
+ crazy lengths
+Date: Sat, 16 Apr 2022 09:14:24 -1000
 Message-Id: 
- <da4180062f12aa855a0dd2c0dbe4f0721df67055.1650131192.git.steve@sakoman.com>
+ <5cac1e855e397b58c3c2b251a9794f3d480c8ad6.1650131192.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650131192.git.steve@sakoman.com>
 References: <cover.1650131192.git.steve@sakoman.com>
@@ -67,143 +69,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:58 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164550
+ https://lists.openembedded.org/g/openembedded-core/message/164552
 
-From: Ralph Siemsen <ralph.siemsen@linaro.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Malicious filenames can make xzgrep to write to arbitrary files
-or (with a GNU sed extension) lead to arbitrary code execution.
+Update to a version of pseudo which includes a workaround for crazy
+long paths, as shown by the libfm failures from the libtool upgrade.
 
-Upstream-Status: Backport [https://tukaani.org/xz/xzgrep-ZDI-CAN-16587.patch]
-CVE: CVE-2022-1271
-
-Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 67dfa32d82b8862e6e543c37315f211aba3ec28b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xz/xz/CVE-2022-1271.patch                 | 96 +++++++++++++++++++
- meta/recipes-extended/xz/xz_5.2.4.bb          |  4 +-
- 2 files changed, 99 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/xz/xz/CVE-2022-1271.patch
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/xz/xz/CVE-2022-1271.patch b/meta/recipes-extended/xz/xz/CVE-2022-1271.patch
-new file mode 100644
-index 0000000000..7841a534d3
---- /dev/null
-+++ b/meta/recipes-extended/xz/xz/CVE-2022-1271.patch
-@@ -0,0 +1,96 @@
-+From 6bb2369742f9ff0451c245e8ca9b9dfac0cc88ba Mon Sep 17 00:00:00 2001
-+From: Lasse Collin <lasse.collin@tukaani.org>
-+Date: Tue, 29 Mar 2022 19:19:12 +0300
-+Subject: [PATCH] xzgrep: Fix escaping of malicious filenames (ZDI-CAN-16587).
-+
-+Malicious filenames can make xzgrep to write to arbitrary files
-+or (with a GNU sed extension) lead to arbitrary code execution.
-+
-+xzgrep from XZ Utils versions up to and including 5.2.5 are
-+affected. 5.3.1alpha and 5.3.2alpha are affected as well.
-+This patch works for all of them.
-+
-+This bug was inherited from gzip's zgrep. gzip 1.12 includes
-+a fix for zgrep.
-+
-+The issue with the old sed script is that with multiple newlines,
-+the N-command will read the second line of input, then the
-+s-commands will be skipped because it's not the end of the
-+file yet, then a new sed cycle starts and the pattern space
-+is printed and emptied. So only the last line or two get escaped.
-+
-+One way to fix this would be to read all lines into the pattern
-+space first. However, the included fix is even simpler: All lines
-+except the last line get a backslash appended at the end. To ensure
-+that shell command substitution doesn't eat a possible trailing
-+newline, a colon is appended to the filename before escaping.
-+The colon is later used to separate the filename from the grep
-+output so it is fine to add it here instead of a few lines later.
-+
-+The old code also wasn't POSIX compliant as it used \n in the
-+replacement section of the s-command. Using \<newline> is the
-+POSIX compatible method.
-+
-+LC_ALL=C was added to the two critical sed commands. POSIX sed
-+manual recommends it when using sed to manipulate pathnames
-+because in other locales invalid multibyte sequences might
-+cause issues with some sed implementations. In case of GNU sed,
-+these particular sed scripts wouldn't have such problems but some
-+other scripts could have, see:
-+
-+    info '(sed)Locale Considerations'
-+
-+This vulnerability was discovered by:
-+cleemy desu wayo working with Trend Micro Zero Day Initiative
-+
-+Thanks to Jim Meyering and Paul Eggert discussing the different
-+ways to fix this and for coordinating the patch release schedule
-+with gzip.
-+
-+Upstream-Status: Backport [https://tukaani.org/xz/xzgrep-ZDI-CAN-16587.patch]
-+CVE: CVE-2022-1271
-+
-+Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
-+---
-+ src/scripts/xzgrep.in | 20 ++++++++++++--------
-+ 1 file changed, 12 insertions(+), 8 deletions(-)
-+
-+diff --git a/src/scripts/xzgrep.in b/src/scripts/xzgrep.in
-+index a1fd19c..da1e65b 100644
-+--- a/src/scripts/xzgrep.in
-++++ b/src/scripts/xzgrep.in
-+@@ -178,22 +178,26 @@ for i; do
-+          { test $# -eq 1 || test $no_filename -eq 1; }; then
-+       eval "$grep"
-+     else
-++      # Append a colon so that the last character will never be a newline
-++      # which would otherwise get lost in shell command substitution.
-++      i="$i:"
-++
-++      # Escape & \ | and newlines only if such characters are present
-++      # (speed optimization).
-+       case $i in
-+       (*'
-+ '* | *'&'* | *'\'* | *'|'*)
-+-        i=$(printf '%s\n' "$i" |
-+-            sed '
-+-              $!N
-+-              $s/[&\|]/\\&/g
-+-              $s/\n/\\n/g
-+-            ');;
-++        i=$(printf '%s\n' "$i" | LC_ALL=C sed 's/[&\|]/\\&/g; $!s/$/\\/');;
-+       esac
-+-      sed_script="s|^|$i:|"
-++
-++      # $i already ends with a colon so don't add it here.
-++      sed_script="s|^|$i|"
-+ 
-+       # Fail if grep or sed fails.
-+       r=$(
-+         exec 4>&1
-+-        (eval "$grep" 4>&-; echo $? >&4) 3>&- | sed "$sed_script" >&3 4>&-
-++        (eval "$grep" 4>&-; echo $? >&4) 3>&- |
-++            LC_ALL=C sed "$sed_script" >&3 4>&-
-+       ) || r=2
-+       exit $r
-+     fi >&3 5>&-
-diff --git a/meta/recipes-extended/xz/xz_5.2.4.bb b/meta/recipes-extended/xz/xz_5.2.4.bb
-index 67a6cbd569..6d80a4f2e9 100644
---- a/meta/recipes-extended/xz/xz_5.2.4.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.4.bb
-@@ -23,7 +23,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
-                     "
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 1a5d230c69..35240f1616 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -13,7 +13,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
-+SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz \
-+           file://CVE-2022-1271.patch \
-+           "
- SRC_URI[md5sum] = "5ace3264bdd00c65eeec2891346f65e6"
- SRC_URI[sha256sum] = "b512f3b726d3b37b6dc4c8570e137b9311e7552e8ccbab4d39d47ce5f4177145"
- UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
+-SRCREV = "d34f2f6cedccf8488730001bcbde6bb7499f8814"
++SRCREV = "df1d1321fb093283485c387e3c933d2d264e509c"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
 -- 
 2.25.1
 
