@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1ECC63702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6C0C63706
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:25:59 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web12.21689.1650136507823067322
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web12.21694.1650136514243805715
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:07 -0700
+ Sat, 16 Apr 2022 12:15:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=RlyVhbrT;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
+ header.b=PCgOS53z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id t4so11951824pgc.1
+Received: by mail-pl1-f177.google.com with SMTP id y13so59127plg.2
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Apr 2022 12:15:07 -0700 (PDT)
+ Sat, 16 Apr 2022 12:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=KKPILMfSaettxrcdvjHl4HxdaSiZuHM42d21K3gOFp0=;
-        b=RlyVhbrT3ohkIpwjpUUS8RNTIqc8MbtmTdmg1LdUdJsoaxHuQ6cRgcKDwSfQbCBQBg
-         NW34ddqI31x4a/zg39oXpRVlm/mFRonxUU4Wg8cpvkYVVehFL9VZ44utbfVZlsEVjANy
-         6FQpXy6kTfdNb6cj68AHuGItT6pR7kgSoOUcrvs+bP5a0VlWLdvWIbbmNZFkyhE3uDv/
-         E0b9MJiMztlpEdIA8mra+tkGV5VyKmySlvu52KzyH0hsTa0qFOnMdY8tbE/TMGix4rF/
-         69sO479pVZPA5gbSUrsk5qZgr4XCRsSp6DqvvYyukIGPNFdRkRLZ0+QcmuGwaCEhY1vw
-         wuzQ==
+        bh=2BOIuEjbvcjy8I90jMraZMPy/7K9YY/mP2p85t77rOg=;
+        b=PCgOS53zlmNwlEnhfAMhKkxo/1daMXqovnKQvlKeIIRUWsKJxoVvMil1fW5UODRYlp
+         U8oG9YxkUtGDyVOm+k/6MXPL2JoixLLuM9o7Lqo7NgmKOZcPkifdI/6z1i8qHeX6ie67
+         eh299kl2SvUCqBCFK6XpUhoUyXjMHVSzSg+rhRAmtJvSCu3AfSBckfr172PgLGHVxfTA
+         gQ4v/fzRPoRRRbM2hja1vRQ/r69fD3zwf5VccvstZfMJdQndVJj828HLq+6C1Ud1iTkq
+         F2m20uYzwZP9t9tGqEasgFQAN/nvT2o0DE7J2cE49FqHaaGMsAR4LaETu3SPFxzmLY3u
+         irVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KKPILMfSaettxrcdvjHl4HxdaSiZuHM42d21K3gOFp0=;
-        b=lxreFRIu8WMTCR9bgE6iU7T2dBUheUKip4lx9TLAHKCAhC4QSr3FUvzLoQE8LkZjXq
-         nHuLc+6N6hLdslT2Tv2Eu5yspvSEwg4vtpEZdTFbZ13DMDe77hGI3HOtBNJ/HH5AJ+np
-         GUZqMXK46UzD9BUah3bzjlIHPtb47mP6sYhMu5fxxipWNnvGh16VBlf/LKuh/F+YTcRq
-         5vbvB+oJAGdiAfpw5v3vBLrpMGDMZSED7bhB1NdpH5Xh5FI1Q+B1DWcToWOgTpEEQ+qa
-         BmHCU8wk2aKsCYZPcIGktCazY9z6C+EPl7+SrMyQoLl6+IgKRrLpslCak+VpO7J3PfzP
-         N0LQ==
-X-Gm-Message-State: AOAM532Cx5XijfvDh9m3jz0NzObyG0TdolwIMLGLQWPBDSHgvIr3zf5M
-	DKtMXREnt938Hx7vLIaojYavx4QaNTYotEoFjtk=
+        bh=2BOIuEjbvcjy8I90jMraZMPy/7K9YY/mP2p85t77rOg=;
+        b=tXU8t45+QisO5rgTcJoYmU8GF26no4qO/Eh5fQsoWNrhoC6qHY6MXu9mUvm+0Ebs/9
+         QvwONui0WB7HCQeokJkaqT6i/y5SFZku2XgSz0uXPXNCaUQC1N8jxWWOB2uQW/G2iiDE
+         OAqknVueH+WYL8D+833NuCHrgiUAR/SR/q+rOGF7Nclfrtv5xtuM9t7dcHusI3up4jFk
+         sMZ5+f9llEv6STZGq4D+W1PcS7s0rk6YPTEvDC8GHQCqRZHv3Cux5aVSHN0+cKSFMl1o
+         Vji218B7ia0TtGjK4jiN1C3TVbDj4j18Csq/+EUfEYLgDJmpJos6ieggFTlD8M5eWfI6
+         5lww==
+X-Gm-Message-State: AOAM532E2NpV90LkLIv7oU6wo6i5q2+6wLkKFQLiEuualSqPSI9Iy+me
+	Efujh1aKR1djkwWZ0HxVvo40Ca5bIPNB9FOPrJA=
 X-Google-Smtp-Source: 
- ABdhPJyLgkjxxgDl5TidfsGfJRuAUZoIWlXv5PF8gbQ9sTJ76fiI9t13uK2RAIRB2RPLF/EpCixGJA==
-X-Received: by 2002:a63:5b0d:0:b0:39c:c393:7e7f with SMTP id
- p13-20020a635b0d000000b0039cc3937e7fmr4015080pgb.16.1650136506970;
-        Sat, 16 Apr 2022 12:15:06 -0700 (PDT)
+ ABdhPJx1ppKouXz7Nf9gGbI5E7JIIPbXiI0QZnywub+qyfmzFeqgWiThUh9EvZ6q8syFpgboPrrjwg==
+X-Received: by 2002:a17:902:a714:b0:154:6dfe:bba9 with SMTP id
+ w20-20020a170902a71400b001546dfebba9mr4536451plq.124.1650136513270;
+        Sat, 16 Apr 2022 12:15:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.15.05
+ h2-20020a62b402000000b0050a62e582e5sm430004pfn.37.2022.04.16.12.15.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:15:06 -0700 (PDT)
+        Sat, 16 Apr 2022 12:15:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/11] license_image.bbclass: close
- package.manifest file
-Date: Sat, 16 Apr 2022 09:14:26 -1000
+Subject: [OE-core][dunfell 11/11] libxshmfence: Correct LICENSE to HPND
+Date: Sat, 16 Apr 2022 09:14:29 -1000
 Message-Id: 
- <3e88c663e65fbc1b2e77a8616af4371224ed0ca5.1650131192.git.steve@sakoman.com>
+ <2919306cee24c79b8523a2108326db970c37f83a.1650131192.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650131192.git.steve@sakoman.com>
 References: <cover.1650131192.git.steve@sakoman.com>
@@ -70,43 +69,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:25:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164554
+ https://lists.openembedded.org/g/openembedded-core/message/164557
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* fixes:
-  NOTE: Executing write_package_manifest ...
-  DEBUG: Executing python function write_package_manifest
-  /OE/build/oe-core/openembedded-core/meta/classes/license_image.bbclass:23: ResourceWarning: unclosed file <_io.TextIOWrapper name='/OE/build/oe-core/tmp-glibc/deploy/licenses/core-image-minimal-qemux86-64/package.manifest' mode='w+' encoding='UTF-8'>
-    'w+').write(output)
-  ResourceWarning: Enable tracemalloc to get the object allocation traceback
-  DEBUG: Python function write_package_manifest finished
+The license in this code is listed as MIT and whilst it is compatible with and
+usable as MIT, it actually looks like HPND. Clarify the license field accordingly.
 
-[YOCTO #14772]
+(From OE-Core master rev: 922b645f443c33060a8990d32e6b7b62ea5497c3)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b3114d5d438b7a63a276b4e825b62f3b1ebceed6)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/license_image.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
+ meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb             | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 1396a95f47..9f3a0c3727 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -9,8 +9,8 @@ python write_package_manifest() {
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+index 0cd0494da8..fd113b5ec5 100644
+--- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Test recipe for recipeutils.patch_recipe()"
  
-     pkgs = image_list_installed_packages(d)
-     output = format_pkg_list(pkgs)
--    open(os.path.join(license_image_dir, 'package.manifest'),
--        'w+').write(output)
-+    with open(os.path.join(license_image_dir, 'package.manifest'), "w+") as package_manifest:
-+        package_manifest.write(output)
- }
+ require recipeutils-test.inc
  
- python license_create_manifest() {
+-LICENSE = "Proprietary"
++LICENSE = "HPND"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
+ DEPENDS += "zlib"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+index cc45696530..38cab99bbe 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+@@ -6,7 +6,7 @@ using file descriptor passing."
+ 
+ require xorg-lib-common.inc
+ 
+-LICENSE = "MIT-style"
++LICENSE = "HPND"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
+ 
+ DEPENDS += "virtual/libx11"
 -- 
 2.25.1
 
