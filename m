@@ -1,135 +1,113 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 456D0C71151
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:04 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.8138.1650033488360646772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F42C433F5
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 16:56:42 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.1119.1650297415682834210
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 07:38:08 -0700
+ Mon, 18 Apr 2022 08:56:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: kai.kang@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23FEc6oS005918
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Apr 2022 07:38:06 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 15 Apr 2022 07:38:06 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 15 Apr 2022 07:38:05 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] update_udev_hwdb: fix multilib issue with systemd
-Date: Fri, 15 Apr 2022 22:38:03 +0800
-Message-ID: <20220415143803.13980-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=4r9YpvdC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.42,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f42.google.com with SMTP id 11so12901498edw.0
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 18 Apr 2022 08:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zJvTHeFnjSKv18JygQKLL2RA0n2Tu1Zqqv3qHBQbkz4=;
+        b=4r9YpvdCGM7Nmmz3ZZqpLlK7ZwxYYzrKc4AIofsrPDfzeNVbjuSfU1jut0t9imyJ0B
+         ivTZrV5yk+AIc7K7nJLquLOC+h+vh4z6t+uf+htB+ecLLs3lXRG8QFlY2E1KU2rUpUAl
+         D+LdpxC9Hr+wKVtQJNhhpl57ZgpW6UYJVUBxcl9NLGMONi1dX2zRSlHNv5YMrbYW3dHI
+         fdhDx1Rv3QBXSP9lpr7CrPi6As1z7kVLi/ppxFJ1T+nKxZBJdKyqV73eWw5/DPVfXoTo
+         IHkb1UzU2ArFyXd1x3QMUMG1Vk3reIxemvSXiTikspiYCbPLNsZ7pdP10pdG4GqBr0jV
+         ZrpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zJvTHeFnjSKv18JygQKLL2RA0n2Tu1Zqqv3qHBQbkz4=;
+        b=Ctv6oCSW00260BPaP7azxGY4RpOVEEwy+LrTsAJF9zA/UrwSc3sPfJ8WMIAfx/i9LP
+         x1/91nTaOy0BdQHkNhwGZLNop44uOjrz3Jj4dgsnjuvXGlDqGS4B9VMM/ZtBMcQw6mQm
+         8tLVggZu5cxW3ABPDS+Qb3nz2gMBZupglMDlIkiqQSBt5cYng/JirNOLWbzAHEWhoaFp
+         mY4+8hsb/M98JZdbfyQU6lC2REL4Fsu3M5GUjY0XkcD2qFGkXhfSqWY/O6DgxGT5pddk
+         syw8rmgp/Bdzd1Ka3F/qOm/uwP2qcm4xk2LGHRYjkC96wNyZZxug3EPJjPORLFEtMc6i
+         lqGw==
+X-Gm-Message-State: AOAM530JduSycMsD36zoiWKFNbfjzy8hFbn9i34oszoFq0uE7J7Xpm2/
+	l3FrWxX5iIvtiUbcNB5ecHy2V0bquiXnBfEMFm8psA==
+X-Google-Smtp-Source: 
+ ABdhPJyuIl3H2HZ+DUIP51A638febTy5MJ7Q8IqSlgqtuhv2Rwa3E39ZcVZIv9ZMB+1iKsWUTt8adFAozb9jVlV/LoU=
+X-Received: by 2002:a05:6402:1a44:b0:41d:8969:e4c9 with SMTP id
+ bf4-20020a0564021a4400b0041d8969e4c9mr12999161edb.299.1650297413627; Mon, 18
+ Apr 2022 08:56:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <16E6AD619D49A549.19917@lists.yoctoproject.org>
+In-Reply-To: <16E6AD619D49A549.19917@lists.yoctoproject.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 18 Apr 2022 05:56:42 -1000
+Message-ID: 
+ <CAOSpxdbnAsjRaO_stDL-iTrpc0xhcR7-V9iRDpqFs8WKt9fcqw@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 17 Apr
+ 2022 02:00:01 AM HST
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org,
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:04 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 16:56:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164429
+ https://lists.openembedded.org/g/openembedded-core/message/164603
 
-From: Kai Kang <kai.kang@windriver.com>
+On Sun, Apr 17, 2022 at 2:02 AM Steve Sakoman via
+lists.yoctoproject.org <steve=sakoman.com@lists.yoctoproject.org>
+wrote:
+>
+> Branch: master
+>
+> New this week: 3 CVEs
+> CVE-2022-1210 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1210 *
+> CVE-2022-28391 (CVSS3: 9.8 CRITICAL): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-28391 *
 
-It duplicates udevadm in systemd recipe to make it could run
-update_udev_hwdb with multilib enabled. Since systemd last update,
-it deploys a shared library libsystemd-shared-250.so in /lib/systemd/.
-The library will be overwritten when multilib enabled. Then if both
-udev-hwdb and lib32-udev-hwdb are installed, it fails to run the
-multilib version postinstall intercept update_udev_hwdb:
+I'm working on this one.
 
-| /path/to/build/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-small/1.0-r1/rootfs/usr/libexec/lib32-udevadm:
-    error while loading shared libraries: libsystemd-shared-250.so: wrong ELF class: ELFCLASS64
+Steve
 
-`udevadm hwdb --update` just concatenates .hwdb files in dirs
-/etc/udev/hwdb.d and /lib/udev/hwdb.d. The output file hwdb.bin is
-identical with the one created by lib32-udevadm. So do NOT duplicate
-lib32-udevadm in systemd and eudev. And update intercept script
-update_udev_hwdb that re-run udevadm with same arch qemuwrapper if run
-${binprefix}qemuwrapper failed.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/systemd/systemd_250.4.bb   | 5 -----
- meta/recipes-core/udev/eudev_3.2.10.bb       | 4 ----
- scripts/postinst-intercepts/update_udev_hwdb | 5 ++++-
- 3 files changed, 4 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_250.4.bb b/meta/recipes-core/systemd/systemd_250.4.bb
-index 2b346113b59..15e2185dff2 100644
---- a/meta/recipes-core/systemd/systemd_250.4.bb
-+++ b/meta/recipes-core/systemd/systemd_250.4.bb
-@@ -337,10 +337,6 @@ do_install() {
- 	# create link for existing udev rules
- 	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
- 
--	# duplicate udevadm for postinst script
--	install -d ${D}${libexecdir}
--	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
--
- 	# install default policy for presets
- 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
- 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
-@@ -718,7 +714,6 @@ FILES:udev += "${base_sbindir}/udevd \
-                ${base_bindir}/systemd-hwdb \
-                ${base_bindir}/udevadm \
-                ${base_sbindir}/udevadm \
--               ${libexecdir}/${MLPREFIX}udevadm \
-                ${datadir}/bash-completion/completions/udevadm \
-                ${systemd_system_unitdir}/systemd-hwdb-update.service \
-               "
-diff --git a/meta/recipes-core/udev/eudev_3.2.10.bb b/meta/recipes-core/udev/eudev_3.2.10.bb
-index dec16be046c..ccc66ae1313 100644
---- a/meta/recipes-core/udev/eudev_3.2.10.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.10.bb
-@@ -51,10 +51,6 @@ do_install:append() {
- 
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
--
--	# duplicate udevadm for postinst script
--	install -d ${D}${libexecdir}
--	ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
- }
- 
- do_install:prepend:class-target () {
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
-index 8076b8ae6f1..8b3f5de791f 100644
---- a/scripts/postinst-intercepts/update_udev_hwdb
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -9,14 +9,17 @@ case "${PREFERRED_PROVIDER_udev}" in
- 	systemd)
- 		UDEV_EXTRA_ARGS="--usr"
- 		UDEVLIBDIR="${rootlibexecdir}"
-+		UDEVADM="${base_bindir}/udevadm"
- 		;;
- 
- 	*)
- 		UDEV_EXTRA_ARGS=""
- 		UDEVLIBDIR="${sysconfdir}"
-+		UDEVADM="${bindir}/udevadm"
- 		;;
- esac
- 
- rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
--PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D ${UDEV_EXTRA_ARGS}
-+PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS} ||
-+	PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS}
- chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
--- 
-2.17.1
-
+> CVE-2022-28805 (CVSS3: 9.1 CRITICAL): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-28805 *
+>
+> Removed this week: 6 CVEs
+> CVE-2019-1010238 (CVSS3: 9.8 CRITICAL): pango:pango-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010238 *
+> CVE-2021-44647 (CVSS3: 5.5 MEDIUM): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-44647 *
+> CVE-2022-1050 (CVSS3: 8.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1050 *
+> CVE-2022-1056 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1056 *
+> CVE-2022-24975 (CVSS3: 7.5 HIGH): git https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24975 *
+> CVE-2022-26280 (CVSS3: 9.1 CRITICAL): libarchive:libarchive-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26280 *
+>
+> Full list:  Found 9 unpatched CVEs
+> CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+> CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+> CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+> CVE-2022-0529 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+> CVE-2022-0530 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+> CVE-2022-1210 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1210 *
+> CVE-2022-27191 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-27191 *
+> CVE-2022-28391 (CVSS3: 9.8 CRITICAL): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-28391 *
+> CVE-2022-28805 (CVSS3: 9.1 CRITICAL): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-28805 *
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#567): https://lists.yoctoproject.org/g/yocto-security/message/567
+> Mute This Topic: https://lists.yoctoproject.org/mt/90521085/3620601
+> Group Owner: yocto-security+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/yocto-security/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
