@@ -2,67 +2,67 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75627C64EB4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B06F2C64EBE
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:01 +0000 (UTC)
 Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web08.38706.1650283953716589409
+ [85.158.142.113])
+ by mx.groups.io with SMTP id smtpd.web08.38689.1650283869312374866
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 05:12:34 -0700
+ Mon, 18 Apr 2022 05:11:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=DF6od/oX;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=K9udJznW;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1650283952; i=@fujitsu.com;
-	bh=Kly6Snl7wwZaK6VaHF4Wol4xVcTqMQ6CqudI4PvQtjs=;
+	s=170520fj; t=1650283867; i=@fujitsu.com;
+	bh=wKun6XqX3JjJzhB1boz02U4phvD19J5r0mnhvQ2Xeng=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=DF6od/oXGraW/z7W3Fr4mglG3wKp3Jj8sSSOLOVHrOWzvsDum7H//UZNH45Cyeju5
-	 hBmKDSGSVVdtbKITEJrXaudJA2Ji/WIR0GuRDsunFIYEuati+cirFNtVLCqbm3bNOg
-	 l8NYPBihPLH8jluejYQcR6DqMxNIMaKh8LWQkjneFSYlO/p0O2Al901pNjaMiYHhev
-	 ZJv2re4Mdr6LNnqe26FNH75y2cdWvJoSOwDCgZy+gfFHA0IYY+mvV7EZTret0jlTu8
-	 EBzmqCu+yMgcM6VXUbADPWharrde6o+t/1A0BIE4jzSQySE9XsU6Aw+WX9Q88aXpw0
-	 DYy/sTZ/Im99g==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRWlGSWpSXmKPExsViZ8MxRXd9aGy
-  SwdmlShZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8amtavZC+6JVkz7foS5gXG6cBcjJ4eQwCwm
-  idnNVhD2HkaJ52sDQWw2ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7hx3EFhawlXj18wgbi
-  M0ioCrxp+8+K4jNK+Ak8e//XjBbQkBBYsrD98wQcUGJkzOfsEDMkZA4+OIFM0SNosTsy80sEH
-  aFxKxZbUwTGHlnIWmZhaRlASPTKkbbpKLM9IyS3MTMHF1DAwNdQ0NTXTNLXXMTvcQq3US91FL
-  d5NS8kqJEoKxeYnmxXmpxsV5xZW5yTopeXmrJJkZgkKUUu3rtYDzS91PvEKMkB5OSKO9/39gk
-  Ib6k/JTKjMTijPii0pzU4kOMMhwcShK8LQFAOcGi1PTUirTMHGDAw6QlOHiURHg5AoHSvMUFi
-  bnFmekQqVOMxhxXr1zZy8xxA0QKseTl56VKifM+CQYqFQApzSjNgxsEi8RLjLJSwryMDAwMQj
-  wFqUW5mSWo8q8YxTkYlYR5RUOApvBk5pXA7XsFdAoT0Cnb50eCnFKSiJCSamDqvpBRyfTBrvN
-  zuJNHx8lQg2McOyIUyn4s/Jfl/0S0LKZz37V5O2zCbnkYttWl1YR2elhxtnFwvt2e2P1gY8iZ
-  6atdntcKXaipPbHwLMdMmfIrd550Xn8i0qF98GCb437+zTw3JK+8M2ww0ttn9O4eW8lp3zs3Z
-  iuafzmbd9vtdLv9mi2z709h1HvDllZ+hnuDTVPY9nlr2OsmxT17/WJT661D96f6lYkJ6RndUj
-  LbOb/fU++VRgbn7G9P9rOc+f34VHmJSmR96vtk/lzWc15xnN01XA0H7/0NTPtmwrm7UGT+OeM
-  Vv/j3BhvwhgrKWN09xN42OS5Tfwtv591b/tsEpRPC9wiZmXVOtix5bKzEUpyRaKjFXFScCADg
-  Ynf2PwMAAA==
+	b=K9udJznWAd6lc8SlmJa8yiJnI5f2MnOAa4jeRbyAVocwsdXq19HdvApb0Iqyr8Gnv
+	 ToFCQQgHexJYb6xG1OAyANmLWpu/NW5VLAterba3aa5qnSfZCEVTDSwZGZdJq6AyLw
+	 VYls26X7/HclD36DIyik1aYj1yjyV167CHTMJvnofCwXNlmz7/DdTxEAIcIaafpr+q
+	 VDk3CuP1etsRO+ExvnMQ+bzt+tS9hhh9DWNsXkWJu3qTrV0KCW3zXozystmNys9cRc
+	 fzeOm407Wwbpc52QLsn9IfxoAUtGdu72MSKq5wG9g2o2OUxOqmpob280zqq6V2zxku
+	 OoULiRv8tl2GQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MxRTcqNDb
+  JYE2rvsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmjG1aTJjQYd2RcfzM4wNjE/Uuhi5OIQEZjFJ
+  LHjwnRXC2cMocWHBSeYuRk4ONgE1iem3bgAlODhEBPQkrv4TBQkzC6hIvPjdww5iCwtYSXx4s
+  pYNxGYRUJW4+/E2WJxXwEni55QOFhBbQkBBYsrD98wQcUGJkzOfsEDMkZA4+OIFM0SNosTsy8
+  1Q9RUSs2a1MU1g5J2FpGUWkpYFjEyrGO2SijLTM0pyEzNzdA0NDHQNDU11zcx0DS0N9RKrdBP
+  1Ukt1k1PzSooSgdJ6ieXFeqnFxXrFlbnJOSl6eaklmxiBoZZS7LR/B+PTvp96hxglOZiURHn/
+  +8YmCfEl5adUZiQWZ8QXleakFh9ilOHgUJLgbQkAygkWpaanVqRl5gDDHiYtwcGjJMLLEQiU5
+  i0uSMwtzkyHSJ1iNObYueXyXmaOq1eu7GUWYsnLz0uVEud9EgxUKgBSmlGaBzcIFo+XGGWlhH
+  kZGRgYhHgKUotyM0tQ5V8xinMwKgnzioYATeHJzCuB2/cK6BQmoFO2z48EOaUkESEl1cC0QfQ
+  V377bZmcEytpfnGy9PH91U2vysp7TT0u9o/bsWLPXXXtRpcI5lvmuMy+45f1zsr104UMac96l
+  v4sO71nBvPuAycV7pw9Ges09y/smgfns7p6XSzzP+/+6zfJeiDPS4Xro3cJHnTcfPbidxrn8I
+  VdanOWXuJmCRyxkSyPT/K/MsBfpEcl1W7pOeFvRecuE2MM7Ci0v7ahoKVG/wZvtufiQfvolXz
+  1bM53AcD+9zq+cmo3ieqv2upQmvzy2i4fNU6ximuFmEYm194wfp88/UWFsv+XZuQ0VuhXXXS6
+  +KLvSLeLgGudw+3a79oWou3KBugKNQpk/7C6c2uPnmyeuPHnyqe6qd7MnTq/fudZciaU4I9FQ
+  i7moOBEAQD8t0UIDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-23.tower-532.messagelabs.com!1650283951!200728!1
+X-Msg-Ref: server-21.tower-528.messagelabs.com!1650283866!236400!1
 X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.85.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 24367 invoked from network); 18 Apr 2022 12:12:31 -0000
+Received: (qmail 21536 invoked from network); 18 Apr 2022 12:11:06 -0000
 Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-23.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 18 Apr 2022 12:12:31 -0000
+  by server-21.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 18 Apr 2022 12:11:06 -0000
 Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23ICCVgn031116
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23ICB3Sd030835
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 13:12:31 +0100
+ Mon, 18 Apr 2022 13:11:06 +0100
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:12:29 +0100
+ (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:11:02 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libaio: upgrade 0.3.112 -> 0.3.113
-Date: Mon, 18 Apr 2022 20:12:21 +0800
-Message-ID: <1650283944-16485-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] boost: upgrade 1.78.0 -> 1.79.0
+Date: Mon, 18 Apr 2022 20:10:52 +0800
+Message-ID: <1650283855-16427-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -74,71 +74,135 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164590
+ https://lists.openembedded.org/g/openembedded-core/message/164586
 
-refresh 00_arches.patch for new version.
+0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
+de657e01635306085488290ea83de541ec393f8b.patch
+removed since they're included in 1.79.0
+
+Changelog:
+https://www.boost.org/users/history/version_1_79_0.html
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-extended/libaio/libaio/00_arches.patch  | 12 ++++++------
- .../libaio/{libaio_0.3.112.bb => libaio_0.3.113.bb}  |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/libaio/{libaio_0.3.112.bb => libaio_0.3.113.bb} (92%)
+ .../{boost-1.78.0.inc => boost-1.79.0.inc}    |  2 +-
+ ...on-32-bit-architectures-using-64-bit.patch | 36 -------------------
+ ...7e01635306085488290ea83de541ec393f8b.patch | 30 ----------------
+ .../{boost_1.78.0.bb => boost_1.79.0.bb}      |  2 --
+ 4 files changed, 1 insertion(+), 69 deletions(-)
+ rename meta/recipes-support/boost/{boost-1.78.0.inc => boost-1.79.0.inc} (90%)
+ delete mode 100644 meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
+ delete mode 100644 meta/recipes-support/boost/boost/de657e01635306085488290ea83de541ec393f8b.patch
+ rename meta/recipes-support/boost/{boost_1.78.0.bb => boost_1.79.0.bb} (67%)
 
-diff --git a/meta/recipes-extended/libaio/libaio/00_arches.patch b/meta/recipes-extended/libaio/libaio/00_arches.patch
-index bec189f87c..18c8c546c1 100644
---- a/meta/recipes-extended/libaio/libaio/00_arches.patch
-+++ b/meta/recipes-extended/libaio/libaio/00_arches.patch
-@@ -1,4 +1,4 @@
--From ceba1e03e5b57cdae0b3b2d2c9afebc085c986d8 Mon Sep 17 00:00:00 2001
-+From 546f2708ffa1aa44018be65172013289cf896710 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Fri, 27 Aug 2010 10:15:31 +0800
- Subject: [PATCH] libaio: add new recipe
-@@ -8,9 +8,9 @@ Upstream-Status: Inappropriate [embedded specific]
- from openembedded, added by Qing He <qing.he@intel.com>
+diff --git a/meta/recipes-support/boost/boost-1.78.0.inc b/meta/recipes-support/boost/boost-1.79.0.inc
+similarity index 90%
+rename from meta/recipes-support/boost/boost-1.78.0.inc
+rename to meta/recipes-support/boost/boost-1.79.0.inc
+index 729a47b54f..f90c463931 100644
+--- a/meta/recipes-support/boost/boost-1.78.0.inc
++++ b/meta/recipes-support/boost/boost-1.79.0.inc
+@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
- ---
-- src/syscall-m68k.h   |  78 ++++++++++++++++++
-- src/syscall-mips.h   | 223 +++++++++++++++++++++++++++++++++++++++++++++++++++
-- src/syscall-parisc.h | 146 +++++++++++++++++++++++++++++++++
-+ src/syscall-m68k.h   |  78 +++++++++++++++
-+ src/syscall-mips.h   | 223 +++++++++++++++++++++++++++++++++++++++++++
-+ src/syscall-parisc.h | 146 ++++++++++++++++++++++++++++
-  src/syscall.h        |   6 ++
-  4 files changed, 453 insertions(+)
-  create mode 100644 src/syscall-m68k.h
-@@ -483,12 +483,12 @@ index 0000000..ff61746
- +}
- +
- diff --git a/src/syscall.h b/src/syscall.h
--index 9b9e9c1..9ecd3b4 100644
-+index d2a117b..8cf8470 100644
- --- a/src/syscall.h
- +++ b/src/syscall.h
- @@ -29,6 +29,12 @@
-  #include "syscall-sparc.h"
-- #elif defined(__aarch64__) || defined(__riscv)
-+ #elif defined(__aarch64__) || defined(__loongarch__) || defined(__riscv)
-  #include "syscall-generic.h"
- +#elif defined(__m68k__)
- +#include "syscall-m68k.h"
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.112.bb b/meta/recipes-extended/libaio/libaio_0.3.113.bb
-similarity index 92%
-rename from meta/recipes-extended/libaio/libaio_0.3.112.bb
-rename to meta/recipes-extended/libaio/libaio_0.3.113.bb
-index 859ba65c9f..87ab22ed17 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.112.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.113.bb
-@@ -10,7 +10,7 @@ SRC_URI = "git://pagure.io/libaio.git;protocol=https;branch=master \
-            file://libaio_fix_for_mips_syscalls.patch \
-            file://system-linkage.patch \
+ SRC_URI = "https://boostorg.jfrog.io/artifactory/main/release/${PV}/source/${BOOST_P}.tar.bz2"
+-SRC_URI[sha256sum] = "8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc"
++SRC_URI[sha256sum] = "475d589d51a7f8b3ba2ba4eda022b170e562ca3b760ee922c146b6c65856ef39"
+ 
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch b/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
+deleted file mode 100644
+index 20dc3ca54e..0000000000
+--- a/meta/recipes-support/boost/boost/0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From b15d8d0754bb545ba10d0cfba8bbfdfb22a62c38 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 20 Feb 2022 22:03:14 -0800
+-Subject: [PATCH] futex: fix build on 32-bit architectures using 64-bit time_t
+-
+-Fix the following build failure on 32-bit architectures using 64-bit
+-time_t (e.g. riscv32):
+-| ./boost/fiber/detail/futex.hpp:31:23: error: use of undeclared identifier 'SYS_futex'
+-|     return ::syscall( SYS_futex, addr, op, x, nullptr, nullptr, 0);
+-|                       ^
+-| 1 error generated.
+-
+-Upstream-Status: Submitted [https://github.com/boostorg/fiber/pull/292]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- boost/fiber/detail/futex.hpp | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/boost/fiber/detail/futex.hpp b/boost/fiber/detail/futex.hpp
+-index e64bd5990..d0353e9e5 100644
+---- a/boost/fiber/detail/futex.hpp
+-+++ b/boost/fiber/detail/futex.hpp
+-@@ -12,6 +12,10 @@
+- 
+- #include <boost/fiber/detail/config.hpp>
+- 
+-+#ifndef SYS_futex
+-+#define SYS_futex SYS_futex_time64
+-+#endif
+-+
+- #if BOOST_OS_LINUX
+- extern "C" {
+- #include <linux/futex.h>
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-support/boost/boost/de657e01635306085488290ea83de541ec393f8b.patch b/meta/recipes-support/boost/boost/de657e01635306085488290ea83de541ec393f8b.patch
+deleted file mode 100644
+index 867ec03ba6..0000000000
+--- a/meta/recipes-support/boost/boost/de657e01635306085488290ea83de541ec393f8b.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From de657e01635306085488290ea83de541ec393f8b Mon Sep 17 00:00:00 2001
+-From: Leonardo Neumann <leonardo@neumann.dev.br>
+-Date: Mon, 13 Dec 2021 01:07:20 -0300
+-Subject: [PATCH] Fix missing sys/stat.h include on musl-based systems
+-
+-Boost 1.78.0 fails to build on musl-based systems because musl does
+-not include sys/stat.h by default.
+-
+-Fixes #161 ("Boost compiler error")
+-Upstream-Status: Submitted [https://github.com/boostorg/interprocess/pull/162]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- include/boost/interprocess/permissions.hpp | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/boost/interprocess/permissions.hpp b/boost/interprocess/permissions.hpp
+-index ab55411e..0b21a685 100644
+---- a/boost/interprocess/permissions.hpp
+-+++ b/boost/interprocess/permissions.hpp
+-@@ -29,6 +29,10 @@
+- 
+- #include <boost/interprocess/detail/win32_api.hpp>
+- 
+-+#else
+-+
+-+#include <sys/stat.h>
+-+
+- #endif
+- 
+- #endif   //#ifndef BOOST_INTERPROCESS_DOXYGEN_INVOKED
+diff --git a/meta/recipes-support/boost/boost_1.78.0.bb b/meta/recipes-support/boost/boost_1.79.0.bb
+similarity index 67%
+rename from meta/recipes-support/boost/boost_1.78.0.bb
+rename to meta/recipes-support/boost/boost_1.79.0.bb
+index 58be9dcf12..dd5d6eadd6 100644
+--- a/meta/recipes-support/boost/boost_1.78.0.bb
++++ b/meta/recipes-support/boost/boost_1.79.0.bb
+@@ -5,6 +5,4 @@ SRC_URI += "file://boost-CVE-2012-2677.patch \
+            file://boost-math-disable-pch-for-gcc.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
+-           file://de657e01635306085488290ea83de541ec393f8b.patch \
+-           file://0001-futex-fix-build-on-32-bit-architectures-using-64-bit.patch \
             "
--SRCREV = "d025927efa75a0d1b46ca3a5ef331caa2f46ee0e"
-+SRCREV = "1b18bfafc6a2f7b9fa2c6be77a95afed8b7be448"
- S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
 -- 
 2.25.1
 
