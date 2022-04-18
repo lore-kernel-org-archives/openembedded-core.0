@@ -1,241 +1,345 @@
-Return-Path: <jay.shen.teoh@intel.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E33B1C64E7B
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:00 +0000 (UTC)
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web10.35374.1650247768860295417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD83C64E77
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:01 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web09.36082.1650259884744758068
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Apr 2022 19:09:29 -0700
+ Sun, 17 Apr 2022 22:31:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=KyeVblCk;
- spf=pass (domain: intel.com, ip: 192.55.52.136,
- mailfrom: jay.shen.teoh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650247768; x=1681783768;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=q7REGWb+XKDRZvfSd8Q+ljvXOHfSCbKSWpxibbnBGUY=;
-  b=KyeVblCk+qe1sNPZAEQ8NaTps/QFgWtu0xbzsR08X1gio9JLWmKlUqvc
-   Ci4h/kJSWna26uhazTr0Hlu0fN+DOjooGPbzIDBvhjYdVrY+AEBEZJjvz
-   d59MVp5Bj4KEGFldIZOWH7NgyY36xYlCVHVPNmkiDEypLU9WySrrU9HtC
-   F7/OFeGHl9PiPFR/mkIJ9alID6rBhKK4VXBSUmWH+Lt9aVjmz1S0srRBH
-   sp4PRkqZnIPAY50MTzFgD3FXwykQx1UxoZKmL8gI6uYENih8XlHvD6Jw9
-   6+7QFbt9he+GhcmXmaRSZw3lF9YvspWaUj1tknqrGlJysf85Tqm0/81xg
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10320"; a="243366698"
-X-IronPort-AV: E=Sophos;i="5.90,267,1643702400";
-   d="scan'208";a="243366698"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Apr 2022 19:09:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,267,1643702400";
-   d="scan'208";a="575371065"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga008.jf.intel.com with ESMTP; 17 Apr 2022 19:09:27 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sun, 17 Apr 2022 19:09:27 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Sun, 17 Apr 2022 19:09:26 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Sun, 17 Apr 2022 19:09:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fyh3PRyY+Egm5TG+Anjpcq6RjeKaLlmW882acxv1YeBN/ci53H6CWeAmGq59SZCn679pK7ILsDY6TrpIQ86XfR6P1IThfrsyC1Ttf4wJHXIKEc6H+dmrfCo8GxrkXU/zzUZ405cCcyRJyJHDFJq+Hz4PYQ9fBRDXYXTg5lRgTo1l4eIe/uG13f2VHRKoJ982Om39mgTwl7lj1Bcr5D5uaZt8FDu4g9/026R697FLmagj7EAQQJxpc+5pHO5VCoj7bUQbZupG1efWWIrqS2YQNBHTU1t3HOgFAlo2s+WUL6cUjvUxxS1bQzWHEmhg9wu88XiYftzsaXOHp7IyGyW5vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2SBQubj/v2s8E5vxNkUdI7sN4KojbitsaE7Mkn36nXo=;
- b=e9gA56V5cSSC6ipPKbkMNQ/pydkOiHS8TX6BmHtQYFG3gQ2XRphxI1JA+uu8ndH9jereU596grtMbuG5ebihanRAXNTtn2NMrKaznQmVNyjYcBjpbcHvFN7buCmGD+DqC/f3NZgvjeh4lK0FtF3PkEVkH19d2avfAMOiq8uqOBh+mZa0CrSYQ1HHpyzto6QAtAWvMOIobAaRk13Modi0zemBpc8n3ey7cjBVVAIniLx7aF3bTjNoFUBeglnweKLHYH0KM00hiekkduuVY1ZejvwA6rErT0/r0/C3h7kXPegquG1Pi61OxNhjTMXmaZAADFXBw2n4hkHQMqrE0VzfHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM5PR1101MB2348.namprd11.prod.outlook.com (2603:10b6:3:a8::16)
- by SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18; Mon, 18 Apr
- 2022 02:09:20 +0000
-Received: from DM5PR1101MB2348.namprd11.prod.outlook.com
- ([fe80::657c:6a6e:4f6e:8efc]) by DM5PR1101MB2348.namprd11.prod.outlook.com
- ([fe80::657c:6a6e:4f6e:8efc%5]) with mapi id 15.20.5164.025; Mon, 18 Apr 2022
- 02:09:20 +0000
-From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.rc3)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.rc3)
-Thread-Index: AQHYUclFgW6X5ySo/EioJIz5O95076z07sNQ
-Date: Mon, 18 Apr 2022 02:09:20 +0000
-Message-ID: 
- <DM5PR1101MB2348C93062E268F76A0359DEBBF39@DM5PR1101MB2348.namprd11.prod.outlook.com>
-References: 
- <0101018033e03d81-4a7aff5a-1959-46d0-ae3a-e832d5bcf151-000000@us-west-2.amazonses.com>
-In-Reply-To: 
- <0101018033e03d81-4a7aff5a-1959-46d0-ae3a-e832d5bcf151-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.401.20
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 023492f3-d383-4681-eac8-08da20e0732b
-x-ms-traffictypediagnostic: SJ0PR11MB4894:EE_
-x-microsoft-antispam-prvs: 
- <SJ0PR11MB4894A6C8BF98E19E70E303CCBBF39@SJ0PR11MB4894.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 1He84B5CndlLcIU8Kk4+HG+XcEvSDgScCnoDDufSfneDBtHHv/C597CrXqofTfpCka2at0Z1+UUXpFgTr/dIfw3SAfDCVAN+u/A7PQzXiez/Q8oCM4TOagWf2pRo9FU6IGhkAcO19mH5BDvJKVOeRzgsouXWUd3EVPV42RKlvOpjDqzEd0jA6KACVfPazjGnpjXGKY2cM6mZWlzhNkB2FEtTOtQ0AR2ZuXebYGFXy2bOSK454/7ISVhpO3o/DSQ3dFkp9vMr1mG1hhxZ3PmtON+4Q5hRk9DM9JxZyHHRbbE0c8sZI7rPZXp5RQeMCcbme/QE0PBhtsP8TGnpDepRLyFxARVRENY/qtk48GtcIz1CWDljvJ1HBZYEp5cVt0PSwQG6aqxdqkNSV2eLr8UO53amDMoWzOqP7THQ8vatvYlGARhpetMcJcex5R9ZCXAtxl4Hy8YAWwXHC+FoAdP3tCQA7T05CdXb7zczh2AekAdbgG9VSWB6TsLEtEKwh++A6a+eI9k+C8OHZ0ZvRPDOOA88NLpxU/hARj08/FtiKK7OTrDjZjwXlWITJ5BQr6EUGR7dSo1cpgwb//UlSarLFO1jkoFv8DsbNeVO0K3AoBgdzD2jvclwgHLinKpzh5+DDRf00anyUFO8CqZL28EiL16wvwvzZ46r6ZJkCqATPv5HwgL3kHDX/E1pznf9J3F7gfyE2Ygu8AHEAFWus1RpMOoRM3unWXtKcerTatbjyDKjuLsLVJFMhxfEkIEQbvtqdfJbwLsU4ZFX9aWluMSq5uUzDOnAjt5rZoPUYDb84A8WvLgEn0aTjdwO4Il+/Reooun2piNfGp7Jb89l2hXVdw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1101MB2348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(186003)(7696005)(15650500001)(33656002)(2906002)(71200400001)(9686003)(6506007)(55016003)(76116006)(53546011)(83380400001)(8676002)(66476007)(966005)(508600001)(66446008)(66556008)(66946007)(64756008)(316002)(110136005)(86362001)(38070700005)(5660300002)(82960400001)(122000001)(8936002)(52536014)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?afw+4ExN7NL5QgkAVxfgrRWx3IQgNIxUdliTrsCtsrAIM/UQ0FeYg8mty1iR?=
- =?us-ascii?Q?Nyne9XzzFlNBGptR72jOJdoTFehs8CFmPYk6qobayqjzyMHYjXCo8LPY+63t?=
- =?us-ascii?Q?5LIZQgSqooHN8dsIWhF28HAn2oKV15wldMiL5cptpGokZH8rGvarPNM2BQX3?=
- =?us-ascii?Q?BReXQhUFETCjVA+J5Gm4tzw++HNjDd5R+jQoFapVzxPLBDJzL99lj+CiWygq?=
- =?us-ascii?Q?JzSb0M/gX1LxPJRQ8J6YOen3GAsrAOaknh/IkVRkbFLz5u8PIft+Shf3JgYf?=
- =?us-ascii?Q?1aqXdo5PtlSpV2dfID7wDtZxJAn95XwqZRrDJ+3vYEf2r0FeRcUw86RMex76?=
- =?us-ascii?Q?OubVNZY4p1/PuifTCz3xLJXFb+5C/Lv9DL1n8vdD0hCSrX8jLLs8sHb7eO7V?=
- =?us-ascii?Q?Ubp1CTKfqq/FQo5dDULIBA2HUZlGsjhgraB2bkvgxsj/xgqKeQgt5UEIZQJP?=
- =?us-ascii?Q?q/hRTOpp5TdGngeBdTunVw8E+pkvv0I4xH/EuEZOEjDSRpdRP0zF8wXYeDMi?=
- =?us-ascii?Q?3Ek28G3D0k14JY+gw3NuAKKKUsRtq2OrKFbaCyVGEmhQjrU/0yoQsI8+1+iS?=
- =?us-ascii?Q?Zn0jVQBX/8tfqKgdU5iBZODWmt5GGkDSuQDPYNHElmqAy8WnOhUsR2tjex57?=
- =?us-ascii?Q?CV2/s6sRAwWCg++VCf4qiH+duOUF04ET1kaS4YsbezzpVyGT0oCoZOpuVnVh?=
- =?us-ascii?Q?v604xhLTha14046HFt8YD3+6pXd863GbJUJUX2j589xse3X8IRH1SlDYFAha?=
- =?us-ascii?Q?MIHkWl2lyAnUysAvMmzEMXDpTPrtP7KZW7pucsC2gPgpuDRL6Cdzyd/aRIbU?=
- =?us-ascii?Q?WbpkhDyFJt3pd2VmIq4pDTpdhnUt3jG6qvqu+tOWrWFr5AoKkx0cLA7nx++B?=
- =?us-ascii?Q?UU8vYiJ+ivdCjWq2ug3upD0OcF7FGPlZxmpCG7HNt7cyohU0LvC3y+fc3lIZ?=
- =?us-ascii?Q?H6kiEn2RL7HU2BScYD0gzEiPWAmZ0erxhM1SA+qya55IACopWTaCOkERTk4e?=
- =?us-ascii?Q?uKu5c/EJ9ebmK5SbKVWuziAcjIMuVGWQCqK4K/VNJCXEpPhlE+He3QVnPtiF?=
- =?us-ascii?Q?0XzARPgp7FT7ZRAPDEoGCE+5RNPYkeenvV+CctmiCShwvthLlq+YTyZdYWrK?=
- =?us-ascii?Q?YjA7pRDAZDKGfQrtR5ajK83UKbxr9b+3RTez7QLeukWxgqZOBR0dCpmVLFwX?=
- =?us-ascii?Q?RA0ZbR9tKqbVHR5Nj5mkKQAcq4ew6ydDoR9EB6DSbBkddgxy+XPFyBcpwDQh?=
- =?us-ascii?Q?xFaewgBbkV6eUmh1WQHcHCgN2+FY2KDs0+Nwc05FgOr6CQHIBjP6RaSRaao7?=
- =?us-ascii?Q?j4+KxWgEpdAMbOUFBE9/PQt7UCce8oFkPMUleYL7/0eoyYsEUtHtOC5YWu37?=
- =?us-ascii?Q?9XU2cHr5XCjPcmMUIucBM9lKh5eZ0dHcfpl3w8SbXX7RqE7EWTeaYjcdWemY?=
- =?us-ascii?Q?kYrzzWtazLjOLrXyfDeE+G+VCagBR/4HXgUwon/SOMAJqFXWNRTp/VzmtbIg?=
- =?us-ascii?Q?jwwA5iN/gLYCYh80NriIU9hiZDGUJyhbfGC/5hrxGcd2/U+gkX9Pt2g04jmY?=
- =?us-ascii?Q?4yDNr6UFZHIL1IIRr87wtPn8dH2Jzpzy5NWEK3OJHgZ18+B988V/Ym5mMLJ8?=
- =?us-ascii?Q?qhylA7H1VtVP4ZTmyTJvlNqElE50j8ibBRoZ/cBBpO9/B7wDDE0y5tUK0NTA?=
- =?us-ascii?Q?ctxy31nOkuIJKFL5Fej0UpXnKNAsmIJ1ID9t6D2i/XVvHf52avBoeWQpGIKB?=
- =?us-ascii?Q?73k3wiNc7fg3j4U9C/6YpkmWKa3U2uD2hCydfd2SCBMAwTwBzBgFazdbOeXN?=
-x-ms-exchange-antispam-messagedata-1: BAtgpPFGdPwhxQ==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=asD0GDDw;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id r18so15769892ljp.0
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 17 Apr 2022 22:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Pvv0cqzzGAAOp+wG7a890nrYkYJe+UAkLzc/YvqIKM=;
+        b=asD0GDDwZnj0/CLBHjuHvXHZ91w9Uw3ohM1f9IueyUvKgPGCqS7BQxBBm+CNA2+oo9
+         hPnzBeTaftpepnnsJnvzfk4vUoqS/EIEl7JEJcTV7o4SuxtT29meCVjDqj4WmCizeEeW
+         G3CrjGMfapiCrm/4Ebn+T+hM7gvj9B6p0GjMYtvBmG1y+lYZ07w/iuMof78Thco+Cj0R
+         4DkMVkzbvDPfTqfEo4CEMHAHV73OZd6z1/CNnPg0PbrlhxI10B2Ffp2zHtjHRYPqpGe4
+         rHWdaH9yk0b7sWuVhgfe0K5XyNOuX5yyPcNQI2njBtTSMpwrgymWb6GElGgfig8A/rYF
+         5zAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Pvv0cqzzGAAOp+wG7a890nrYkYJe+UAkLzc/YvqIKM=;
+        b=ADjmiZOgiiG+IWauShgkKBDfjb/CVxQHBvm6KmttlEj46EGMULarS7Dn1zw0HccMUJ
+         u1rxQ450XoXW7N/fOBODCtZCsWRZvlRsdESx5HMbzZtWNh76WL2S8qThmhXzAJ48ilww
+         3ZUItU9dLPjlMEG8/DlVfFVn0517fIJgoYh/wV/sMm8IMMs+bipL6DfZsVFcirgIP0s8
+         tv/ftudkhH0TvQuryyolvlHWSmUugZ8InE94KxtXqDxN1h8pYILCNQJQcxhZEmJAmRCz
+         twknKaxuOpD0R+//OG4ITQT7UBwT2FgVKGhcd75e110mJrFUAJ0XhNYjo6Mffu+XpzeR
+         NI4A==
+X-Gm-Message-State: AOAM531KOe//G/uqx8tIfoKY147cW2zS05cJ5JZ2P0I8CcXXTTEoXWPD
+	FA5yCQ4bshy1Mbl5VWPPffqgNxZRHMOCuFfbpRk=
+X-Google-Smtp-Source: 
+ ABdhPJy0DnPHK7NnqoenCe5m0v7largJZn9Ugn0GUXQRAyefy3otjUI/x1l8/Eqv0rbr2cGkFpkoA/XGYwOsJIKOHrM=
+X-Received: by 2002:a05:651c:1195:b0:24d:9b82:acfa with SMTP id
+ w21-20020a05651c119500b0024d9b82acfamr6399837ljo.409.1650259882793; Sun, 17
+ Apr 2022 22:31:22 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: 
- DM5PR1101MB2348.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 023492f3-d383-4681-eac8-08da20e0732b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2022 02:09:20.0711
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- R8RKO91B7K5Tv1ardSJM2+p1T8IuTJupsHF4LrMBZeHgDlEXxW0tnAjKQkBzefaQs6fL5tnsXCN3HsF7ppr3rQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4894
-X-OriginatorOrg: intel.com
+References: <20220416222846.219151-1-quaresma.jose@gmail.com>
+ <16E6B2AF3CEA40C4.19917@lists.openembedded.org>
+ <16E6B2C69CA37E19.11564@lists.openembedded.org>
+ <16a5b5cab9bba7226528febe5489d60ff5b90214.camel@linuxfoundation.org>
+In-Reply-To: 
+ <16a5b5cab9bba7226528febe5489d60ff5b90214.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 18 Apr 2022 06:31:11 +0100
+Message-ID: 
+ <CANPvuRmg-+GsBi_LCCkF9pQXw-+cHzow9Lj0NDW4_2NOn=VrNA@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCH v2 1/4] sstate: add a LockedSet class as
+ python set() is not thread safe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000019e0c105dce71286"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:00 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164580
+ https://lists.openembedded.org/g/openembedded-core/message/164582
 
-Hi all,
+--00000000000019e0c105dce71286
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.0.rc3.=
- We are planning to execute following tests for this cycle:
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+domingo, 17/04/2022 =C3=A0(s) 21:09:
 
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
+> On Sun, 2022-04-17 at 14:41 +0100, Richard Purdie via
+> lists.openembedded.org
+> wrote:
+> > On Sun, 2022-04-17 at 14:39 +0100, Richard Purdie via
+> lists.openembedded.org
+> > wrote:
+> > > On Sat, 2022-04-16 at 23:28 +0100, Jose Quaresma wrote:
+> > > > With this LockedSet python class we can call the 'add' and 'remove'
+> > > > safely inside the ThreadedPool.
+> > > >
+> > > > This piece of code is taen from the stackoverflow
+> > > >
+> https://stackoverflow.com/questions/13610654/how-to-make-built-in-contain=
+ers-sets-dicts-lists-thread-safe
+> > > >
+> > > > Fixes [YOCTO #14775] --
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775
+> > > >
+> > > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > > > ---
+> > > >  meta/classes/sstate.bbclass | 24 ++++++++++++++++++++++--
+> > > >  1 file changed, 22 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/meta/classes/sstate.bbclass
+> b/meta/classes/sstate.bbclass
+> > > > index 1c0cae4893..a3ba748a1e 100644
+> > > > --- a/meta/classes/sstate.bbclass
+> > > > +++ b/meta/classes/sstate.bbclass
+> > > > @@ -918,8 +918,28 @@ sstate_unpack_package () {
+> > > >  BB_HASHCHECK_FUNCTION =3D "sstate_checkhashes"
+> > > >
+> > > >  def sstate_checkhashes(sq_data, d, siginfo=3DFalse, currentcount=
+=3D0,
+> summary=3DTrue, **kwargs):
+> > > > -    found =3D set()
+> > > > -    missed =3D set()
+> > > > +    #
+> https://stackoverflow.com/questions/13610654/how-to-make-built-in-contain=
+ers-sets-dicts-lists-thread-safe
+> > > > +    import threading
+> > > > +    class LockedSet(set):
+> > > > +        """A set where add(), remove(), and 'in' operator are
+> thread-safe"""
+> > > > +        def __init__(self, *args, **kwargs):
+> > > > +            self._lock =3D threading.Lock()
+> > > > +            super(LockedSet, self).__init__(*args, **kwargs)
+> > > > +
+> > > > +        def add(self, elem):
+> > > > +            with self._lock:
+> > > > +                super(LockedSet, self).add(elem)
+> > > > +
+> > > > +        def remove(self, elem):
+> > > > +            with self._lock:
+> > > > +                super(LockedSet, self).remove(elem)
+> > > > +
+> > > > +        def __contains__(self, elem):
+> > > > +            with self._lock:
+> > > > +                super(LockedSet, self).__contains__(elem)
+> > > > +
+> > > > +    found =3D LockedSet()
+> > > > +    missed =3D LockedSet()
+> > > >
+> > > >      def gethash(task):
+> > > >          return sq_data['unihash'][task]
+> > >
+> > >
+> > > The series blew up on the autobuilder:
+> > >
+> > > testsdkest:
+> > >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5079/st=
+eps/17/logs/stdio
+> > > oe-selftest:
+> > >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3461/st=
+eps/15/logs/stdio
+> > > and many more, see:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/353=
+5
+> >
+> > That last one should be:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3539
+>
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 7a18d9d554..99d125b8c5 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -1058,7 +1058,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse,
+> currentcount=3D0, summary=3DTrue,
+>                  connection_cache_pool =3D Queue(nproc)
+>                  checkstatus_init()
+>                  with
+> concurrent.futures.ThreadPoolExecutor(max_workers=3Dnproc) as executor:
+> -                    executor.map(checkstatus, tasks)
+> +                    executor.map(checkstatus, tasks.copy())
+>                  checkstatus_end()
+>                  bb.event.disable_threadlock()
+>
+> fixes things.
+>
+> Cheers,
+>
+> Richard
+>
+>
+Thanks for testing and fixing, this can be because the tasks collection has
+been changed inside the thread pool.
+I'll wait a few more days to see if there are any more comments and I hope
+to be able to finish during this week.
 
-Runtime auto test for following platforms:
-1. MinnowTurbot 32-bit
-2. NUC 7
-3. NUC 6
-4. Edgerouter
-5. Beaglebone
+--=20
+Best regards,
 
-ETA for completion this Thursday, April 21.
+Jos=C3=A9 Quaresma
 
-Thanks,
-Jay
+--00000000000019e0c105dce71286
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Sunday, 17 April, 2022 3:36 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.0.rc3)
->=20
->=20
-> A build flagged for QA (yocto-4.0.rc3) was completed on the autobuilder a=
-nd
-> is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.rc3
->=20
->=20
-> Build hash information:
->=20
-> bitbake: c212b0f3b542efa19f15782421196b7f4b64b0b9
-> meta-agl: ca53308f8803fb50709b3f17bb1f9e476366bb62
-> meta-arm: 3ee7d019898854f776f95ed31f4b7ea8c8a73dfe
-> meta-aws: da48f9e0fb5444ee8d3112ee00f5937a3fd9f96a
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: 5e2b4c4ad933556c96722ab0c5f2f3f5eb93b692
-> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
-> meta-openembedded: 8e1986e95ad30a31c8eaa3cfe2e045b335ef7555
-> oecore: 92fcb6570bddd0c5717d8cfdf38ecf3e44942b0f
-> poky: 00cfdde791a0176c134f31e5a09eff725e75b905
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#126): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/126
-> Mute This Topic: https://lists.yoctoproject.org/mt/90511584/4899463
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10406805/4899463/715389995/xyzzy
-> [jay.shen.teoh@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia domingo, 17/04/2022 =C3=A0(s) 21:09:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On Sun, 2022-04-17 at 14:41 +0100,=
+ Richard Purdie via <a href=3D"http://lists.openembedded.org" rel=3D"norefe=
+rrer" target=3D"_blank">lists.openembedded.org</a><br>
+wrote:<br>
+&gt; On Sun, 2022-04-17 at 14:39 +0100, Richard Purdie via <a href=3D"http:=
+//lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openem=
+bedded.org</a><br>
+&gt; wrote:<br>
+&gt; &gt; On Sat, 2022-04-16 at 23:28 +0100, Jose Quaresma wrote:<br>
+&gt; &gt; &gt; With this LockedSet python class we can call the &#39;add&#3=
+9; and &#39;remove&#39;<br>
+&gt; &gt; &gt; safely inside the ThreadedPool.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; This piece of code is taen from the stackoverflow<br>
+&gt; &gt; &gt; <a href=3D"https://stackoverflow.com/questions/13610654/how-=
+to-make-built-in-containers-sets-dicts-lists-thread-safe" rel=3D"noreferrer=
+" target=3D"_blank">https://stackoverflow.com/questions/13610654/how-to-mak=
+e-built-in-containers-sets-dicts-lists-thread-safe</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Fixes [YOCTO #14775] -- <a href=3D"https://bugzilla.yoctopro=
+ject.org/show_bug.cgi?id=3D14775" rel=3D"noreferrer" target=3D"_blank">http=
+s://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.=
+jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 meta/classes/sstate.bbclass | 24 +++++++++++++++++++++=
++--<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 22 insertions(+), 2 deletions(-)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; diff --git a/meta/classes/sstate.bbclass b/meta/classes/ssta=
+te.bbclass<br>
+&gt; &gt; &gt; index 1c0cae4893..a3ba748a1e 100644<br>
+&gt; &gt; &gt; --- a/meta/classes/sstate.bbclass<br>
+&gt; &gt; &gt; +++ b/meta/classes/sstate.bbclass<br>
+&gt; &gt; &gt; @@ -918,8 +918,28 @@ sstate_unpack_package () {<br>
+&gt; &gt; &gt;=C2=A0 BB_HASHCHECK_FUNCTION =3D &quot;sstate_checkhashes&quo=
+t;<br>
+&gt; &gt; &gt;=C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 def sstate_checkhashes(sq_data, d, siginfo=3DFalse, cu=
+rrentcount=3D0, summary=3DTrue, **kwargs):<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 found =3D set()<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 missed =3D set()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # <a href=3D"https://stackoverflow.com/questi=
+ons/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe" =
+rel=3D"noreferrer" target=3D"_blank">https://stackoverflow.com/questions/13=
+610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe</a><br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 import threading<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 class LockedSet(set):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;A set where a=
+dd(), remove(), and &#39;in&#39; operator are thread-safe&quot;&quot;&quot;=
+<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def __init__(self, *args, **kwa=
+rgs):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._lock =3D th=
+reading.Lock()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super(LockedSet, =
+self).__init__(*args, **kwargs)<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def add(self, elem):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with self._lock:<=
+br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sup=
+er(LockedSet, self).add(elem)<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def remove(self, elem):<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with self._lock:<=
+br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sup=
+er(LockedSet, self).remove(elem)<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def __contains__(self, elem):<b=
+r>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with self._lock:<=
+br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sup=
+er(LockedSet, self).__contains__(elem)<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 found =3D LockedSet()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 missed =3D LockedSet()<br>
+&gt; &gt; &gt;=C2=A0 <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def gethash(task):<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return sq_data[&#39;unihas=
+h&#39;][task]<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; The series blew up on the autobuilder:<br>
+&gt; &gt; <br>
+&gt; &gt; testsdkest:<br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
+s/53/builds/5079/steps/17/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5079/step=
+s/17/logs/stdio</a><br>
+&gt; &gt; oe-selftest:<br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
+s/79/builds/3461/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3461/step=
+s/15/logs/stdio</a><br>
+&gt; &gt; and many more, see:<br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
+s/83/builds/3535" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
+yoctoproject.org/typhoon/#/builders/83/builds/3535</a><br>
+&gt; <br>
+&gt; That last one should be:<br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/=
+builds/3539" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yocto=
+project.org/typhoon/#/builders/83/builds/3539</a><br>
+<br>
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass<br>
+index 7a18d9d554..99d125b8c5 100644<br>
+--- a/meta/classes/sstate.bbclass<br>
++++ b/meta/classes/sstate.bbclass<br>
+@@ -1058,7 +1058,7 @@ def sstate_checkhashes(sq_data, d, siginfo=3DFalse, c=
+urrentcount=3D0, summary=3DTrue,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0connection_ca=
+che_pool =3D Queue(nproc)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0checkstatus_i=
+nit()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with concurre=
+nt.futures.ThreadPoolExecutor(max_workers=3Dnproc) as executor:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec=
+utor.map(checkstatus, tasks)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec=
+utor.map(checkstatus, tasks.copy())<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0checkstatus_e=
+nd()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.event.disa=
+ble_threadlock()<br>
+<br>
+fixes things.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><div><br></div>Thanks for testing and fixing, this can b=
+e because the tasks collection has been changed inside the thread pool.<div=
+><div>I&#39;ll wait a few more days to see if there are any more comments a=
+nd I hope to be able to finish during this week.</div><div><br></div>-- <br=
+><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<=
+div><br>Jos=C3=A9 Quaresma</div></div></div></div></div>
 
+--00000000000019e0c105dce71286--
 
