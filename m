@@ -1,125 +1,189 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E33AFC64EC4
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:01 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web12.38233.1650284414515073461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C96C64EC8
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:02 +0000 (UTC)
+Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
+ [85.158.142.112])
+ by mx.groups.io with SMTP id smtpd.web10.38813.1650284854117652229
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 05:20:14 -0700
+ Mon, 18 Apr 2022 05:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=x4CG4naP;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
- mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=dB0Fo69s;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ mailfrom: zhengrq.fnst@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1650284412; i=@fujitsu.com;
-	bh=TuoOCKnep61orK0da4iVK1ft9LN1/cIfSuY29tvNY0A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=x4CG4naPNbK7clnOziE+wd/7V/Vg3/+ydHQBptRe/PV/hL7X/7Fgyt3gzV1HRGoN5
-	 1neFPRfpuINXaz8itsfspIwHlSkE6Nj+pYGmh4MvZG+/jz9zOFWRV6msToryRCnyU3
-	 qUPzoz5XR1FYVWvWoiv0kKBppIEXAXquuPYIsOMqYe/wDVHeRIsXJHGraxXZl/qzxK
-	 tXQjQSTyMgUhfcqv95RrYHOMf/DWhHtJl28r/BLFm2LpeXqGfKqmj2nbi/9WaFot7E
-	 1rI6nUwf5No36RyFOoRN5uNwhMkALTARzpJBzbjnWVUdAJV6VrQFV6iIrNxoh3cmz+
-	 2q2OFgFXwEtkg==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRWlGSWpSXmKPExsViZ8ORqFsTHpt
-  k8G2ypMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnH2+HrGghu8Fc+7LrA3MN7k7mLk4hASeMwo
-  MX3lF3YI5zyTxJvGOUwQzh5GidZX05i7GDk52ATUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7
-  x52EFtYwF3i1rlGsHIWAVWJJevWs4DYvAJOEtub7oHZEgIKElMevger4RRwlpjY08kIMlIIqK
-  a73QeiXFDi5MwnLBDjJSQOvnjBDNGqKDH7cjPUmAqJWbPamCBsNYmr5zYxT2AUnIWkfRaS9gW
-  MTKsYrZOKMtMzSnITM3N0DQ0MdA0NTXWNzXUNzYz0Eqt0E/VSS3XLU4tLdIHc8mK91OJiveLK
-  3OScFL281JJNjMAgTilWXbSDcf+qn3qHGCU5mJREef/7xiYJ8SXlp1RmJBZnxBeV5qQWH2KU4
-  eBQkuCdFQKUEyxKTU+tSMvMAUYUTFqCg0dJhLcfJM1bXJCYW5yZDpE6xWjMsenwlb3MHH8//d
-  3LLMSSl5+XKiXOWx0GVCoAUppRmgc3CBbplxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ8/4
-  MBZrCk5lXArfvFdApTECnbJ8fCXJKSSJCSqqBSapWyXSz4JoNZdf3i70xaFr6njn07ZzbF2Vn
-  FspG8GqEhftfme5dP+fqndyJ1w5wMJ4sPVD3jevZBeYDXUJ9AhuOH6vQ7q/3f7VWJCbSp8Xxn
-  MMUHftjGsp32K5uTzGeIsamzy1RcEVf7HdWm07pRY5tYkwTIqysuzP6c6c5aPz88+vH2Scr2V
-  vP336Wcrz/B/fnvSfdHV6XLZ43a9rVxqUfVm05/bu4ddX62dYf5MxaUzcn7GgTzl8jYrWs8Wn
-  cdN68b4cPHlUWj01t5cpn1+UoCnL/kTvdOvl1t4vmuRBdhaBrU4T0fwRZVnXK6k3ulS2a3cPX
-  O4ftwQd+38O+FQ61X7sUXKLS1P40ztqlxFKckWioxVxUnAgAxR7+BG8DAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-21.tower-548.messagelabs.com!1650284412!202527!1
-X-Originating-IP: [62.60.8.97]
+	s=170520fj; t=1650284852; i=@fujitsu.com;
+	bh=lAdth65fonD1TWhAdMNXfDe0hvMsbRifH2P3HVUcBRE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=dB0Fo69se50zTP4qwuIMhOUPbC0eBLNdJbHafUwHdfPUrWvJuNwYpvdztBdL26/jL
+	 Ay1cm1lLQpSWwbrXYFnZgERAk9gY7Z8kGhBUqC0oZGakk74xRPiTiMtz2WIUs3+aZX
+	 DftEOW125znDcnph8/RkTpSuxTDMo4zzd2X6VBvOsmV9Pz/Xu0qdwA2UO698Z/7nFk
+	 8LzTRG9WCJlKjX4ATEDJtXKVc1tMkTNDnrub2njMH+Nt+vYeX/NLcdbg85zKJCu7JP
+	 wObYKhDDKu1TOQgtODX7jL7T25CJprT6q9nocXHVBm0vh96erJ2XgfA4Pw+fxw4t2J
+	 TEOp6tdaRteLQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRWlGSWpSXmKPExsViZ8MxRdc4Mjb
+  J4P4EM4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePTxvPsBS3qFV9aP7M3MB5V6mLk4hASmMUk
+  0famnR3COcAoMbXhNlsXIycHm4C+xMZ1n5i6GDk4RAT0JK7+EwUJCwtYSXz5cZoRxGYRUJU4t
+  mMaM4jNK+Auseh7E1hcQkBBYsrD91BxQYmTM5+wgNjMAhISB1+8YAYZKSGgKDF7ujxEeYXE68
+  OXmCcw8sxC0jELSccCRqZVjLZJRZnpGSW5iZk5uoYGBrqGhqa6Zpa6xsZ6iVW6iXqppbrJqXk
+  lRYlAWb3E8mK91OJiveLK3OScFL281JJNjMBwSil2VdzBeK3vp94hRkkOJiVR3v++sUlCfEn5
+  KZUZicUZ8UWlOanFhxhlODiUJHjzI4BygkWp6akVaZk5wNCGSUtw8CiJ8PaHAKV5iwsSc4sz0
+  yFSpxiNOQ5PuLSXmWPnlst7mYVY8vLzUqXEed+HA5UKgJRmlObBDYLF3CVGWSlhXkYGBgYhno
+  LUotzMElT5V4ziHIxKwrw3QabwZOaVwO17BXQKE9Ap2+dHgpxSkoiQkmpgmnPnAscHBnO5SSL
+  CJ94vl/voda8resnMkCNsdg7b99n6qWhMzbFexJ9yf17Yl/NeWexsahF81zVX/QzYUJjW9uL8
+  tHknLF4rbTu9zuT9giu3hCLS/uX6BX38d2Zri2Y2Y8cRs1Mex6x/HZNjzyidau7LItH9QnqXr
+  zrDjPgDL+9sWNF2IP/KQ69rfyLXPt7rnrVWhal6j1ZknZXTi/J5Lq6id42cOPMlFno/+Cw31S
+  n+p59F2Yda/qlftvOJF1c1bVkb2KrE4SuVuLAzm9/qlUe4Se5+G6PvadkWCWesjS8GyJlMuRD
+  wbwa/7nGVYK6HLLVLlbfbN1d/iz6x8vJ91eXvWDq/iTHFfnTe+ey2EktxRqKhFnNRcSIAEIw5
+  YzQDAAA=
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-7.tower-528.messagelabs.com!1650284851!237278!1
+X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.85.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 24860 invoked from network); 18 Apr 2022 12:20:12 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-21.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 18 Apr 2022 12:20:12 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 02493100196
+Received: (qmail 8014 invoked from network); 18 Apr 2022 12:27:31 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-7.tower-528.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 18 Apr 2022 12:27:31 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23ICRVbe002726
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 13:20:12 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id D906B100182
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 13:20:11 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
+ Mon, 18 Apr 2022 13:27:31 +0100
+Received: from CentOS7.g08.fujitsu.local (10.167.225.35) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:19:54 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
+ (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:27:30 +0100
+From: "zhengrq.fnst" <zhengrq.fnst@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] linux-firmware: upgrade 20220310 -> 20220411
-Date: Mon, 18 Apr 2022 20:19:23 +0800
-Message-ID: <1650284363-16570-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] openssh: upgrade 8.9p1 -> 9.0p1
+Date: Mon, 18 Apr 2022 20:27:14 +0800
+Message-ID: <1650284834-2479-1-git-send-email-zhengrq.fnst@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1650284363-16570-1-git-send-email-wangmy@fujitsu.com>
-References: <1650284363-16570-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164596
+ https://lists.openembedded.org/g/openembedded-core/message/164600
 
-License-Update:
-    Version of driver files updated
-    Added files for some drivers
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- ...{linux-firmware_20220310.bb => linux-firmware_20220411.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
+ ...t-using-sandbox-when-cross-compiling.patch | 33 -----------------
+ ...467179428a0e3ea9e4aa9738ac12ff02822d.patch | 35 -------------------
+ .../{openssh_8.9p1.bb => openssh_9.0p1.bb}    |  4 +--
+ 3 files changed, 1 insertion(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-Default-to-not-using-sandbox-when-cross-compiling.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/f107467179428a0e3ea9e4aa9738ac12ff02822d.patch
+ rename meta/recipes-connectivity/openssh/{openssh_8.9p1.bb => openssh_9.0p1.bb} (96%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-index fa0f906db0..c7d9e1126e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=45a9c4a92d152e9495db81e1192f2bdc \
-+                    file://WHENCE;md5=4cf67d71a21887c682c3989a4318745e \
-                     "
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-Default-to-not-using-sandbox-when-cross-compiling.patch b/meta/recipes-connectivity/openssh/openssh/0001-Default-to-not-using-sandbox-when-cross-compiling.patch
+deleted file mode 100644
+index 0241c290ac..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0001-Default-to-not-using-sandbox-when-cross-compiling.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 56194e9a6043873b0ec84f9d15c6e4caca2580c8 Mon Sep 17 00:00:00 2001
+-From: Darren Tucker <dtucker@dtucker.net>
+-Date: Tue, 8 Mar 2022 20:04:06 +1100
+-Subject: [PATCH] Default to not using sandbox when cross compiling.
+-
+-On most systems poll(2) does not work when the number of FDs is reduced
+-with setrlimit, so assume it doesn't when cross compiling and we can't
+-run the test.  bz#3398.
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Backport [https://anongit.mindrot.org/openssh.git/patch/?id=8cf5275452a950869cb90eeac7d220b01f77b12e]
+----
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 17fb1e6..a165d08 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -3574,8 +3574,8 @@ AC_RUN_IFELSE(
+- 	 select_works_with_rlimit=yes],
+- 	[AC_MSG_RESULT([no])
+- 	 select_works_with_rlimit=no],
+--	[AC_MSG_WARN([cross compiling: assuming yes])
+--	 select_works_with_rlimit=yes]
+-+	[AC_MSG_WARN([cross compiling: assuming no])
+-+	 select_works_with_rlimit=no]
+- )
+- 
+- AC_CHECK_MEMBERS([struct pollfd.fd], [], [], [[
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/f107467179428a0e3ea9e4aa9738ac12ff02822d.patch b/meta/recipes-connectivity/openssh/openssh/f107467179428a0e3ea9e4aa9738ac12ff02822d.patch
+deleted file mode 100644
+index 847c0a143c..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/f107467179428a0e3ea9e4aa9738ac12ff02822d.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From f107467179428a0e3ea9e4aa9738ac12ff02822d Mon Sep 17 00:00:00 2001
+-From: Colin Watson <cjwatson@debian.org>
+-Date: Thu, 24 Feb 2022 16:04:18 +0000
+-Subject: [PATCH] Improve detection of -fzero-call-used-regs=all support
+-
+-GCC doesn't tell us whether this option is supported unless it runs into
+-the situation where it would need to emit corresponding code.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- m4/openssh.m4 | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/m4/openssh.m4 b/m4/openssh.m4
+-index 4f9c3792dc1..8c33c701b8b 100644
+---- a/m4/openssh.m4
+-+++ b/m4/openssh.m4
+-@@ -14,6 +14,8 @@ AC_DEFUN([OSSH_CHECK_CFLAG_COMPILE], [{
+- 	AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+- #include <stdlib.h>
+- #include <stdio.h>
+-+/* Trivial function to help test for -fzero-call-used-regs */
+-+void f(int n) {}
+- int main(int argc, char **argv) {
+- 	(void)argv;
+- 	/* Some math to catch -ftrapv problems in the toolchain */
+-@@ -21,6 +23,7 @@ int main(int argc, char **argv) {
+- 	float l = i * 2.1;
+- 	double m = l / 0.5;
+- 	long long int n = argc * 12345LL, o = 12345LL * (long long int)argc;
+-+	f(0);
+- 	printf("%d %d %d %f %f %lld %lld\n", i, j, k, l, m, n, o);
+- 	/*
+- 	 * Test fallthrough behaviour.  clang 10's -Wimplicit-fallthrough does
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
+similarity index 96%
+rename from meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_9.0p1.bb
+index f306b1245a..975faed547 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
+@@ -24,10 +24,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+-           file://f107467179428a0e3ea9e4aa9738ac12ff02822d.patch \
+-           file://0001-Default-to-not-using-sandbox-when-cross-compiling.patch \
+            "
+-SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
++SRC_URI[sha256sum] = "03974302161e9ecce32153cfa10012f1e65c8f3750f573a73ab1befd5972a28a"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -205,7 +205,7 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "5938ee717b2023b48f6bfcf344b40ddc947e3e22c0bc36d4c3418f90fea68182"
-+SRC_URI[sha256sum] = "020b11f6412f4956f5a6f98de7d41867d2b30ea0ce81b1e2d206ec9840363849"
- 
- inherit allarch
- 
+ # This CVE is specific to OpenSSH with the pam opie which we don't build/use here
+ CVE_CHECK_IGNORE += "CVE-2007-2768"
 -- 
 2.25.1
 
