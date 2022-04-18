@@ -2,121 +2,143 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7121C64EBC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75627C64EB4
 	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:01 +0000 (UTC)
 Received: from mail1.bemta36.messagelabs.com (mail1.bemta36.messagelabs.com
- [85.158.142.112])
- by mx.groups.io with SMTP id smtpd.web08.38694.1650283889140701492
+ [85.158.142.2])
+ by mx.groups.io with SMTP id smtpd.web08.38706.1650283953716589409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 05:11:29 -0700
+ Mon, 18 Apr 2022 05:12:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=jBKo7+B+;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.112,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=DF6od/oX;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1650283887; i=@fujitsu.com;
-	bh=jr23cxMTGr0GUM5AYcIZTXiajWEdTDJa3LEV4wkUtcw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=jBKo7+B+za6+bIZNNNQkI22a0accr4iszjIuX9YXKtVKey0HlPBouEXAq3Tm5jTYr
-	 YMZJ8GrGNmBYSHmVoT+tINbL1B7fCUhoRr7EzTRO3OjCnR0ZKDa9xeS03I43CdaYWd
-	 wrg/k9Cv7cUrozatQVK3d300YZGSwasgZak/VV62eP5p3F7h8+3RcKSH4gnli4w2Iz
-	 NHQ1deLY91T2ZJFNB8qj1y/NYHnGye8OO2YQCykVuap4/ZOYho3PPnq1QwEbWeAH8W
-	 MPdHBOJrv/8e+YkGn9nuxafTTII9/q06YUdRe/A2LSkaxiDkE0dG/s2pXfRgktPRAq
-	 rzTLg8AuN1Ltw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRWlGSWpSXmKPExsViZ8MxSTcvNDb
-  JYMsVC4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWNZ61PWgl7uioU7L7A2MH7j7GLk4hASeMwo
-  8X59NxOEc55J4lLzWUYIZw+jRPfKvSxdjJwcbAJqEtNv3WDtYuTgEBHQk7j6TxQkzCygIvHid
-  w87iC0sYC1x8P89MJtFQFWi/d4usFZeASeJH5ses4LYEgIKElMevmcGsTkFnCUO75sDViMEVL
-  Po1CI2iHpBiZMzn7BAzJeQOPjiBTNEr6LE7MvNLBB2hcSsWW1MELaaxNVzm5gnMArOQtI+C0n
-  7AkamVYx2SUWZ6RkluYmZObqGBga6hoamumZmuoYWZnqJVbqJeqmlusmpeSVFiUBpvcTyYr3U
-  4mK94src5JwUvbzUkk2MwGBOKXbatYPxYN9PvUOMkhxMSqK8/31jk4T4kvJTKjMSizPii0pzU
-  osPMcpwcChJ8LYEAOUEi1LTUyvSMnOAkQWTluDgURLh5QgESvMWFyTmFmemQ6ROMSpKifM+CQ
-  ZKCIAkMkrz4Npg0XyJUVZKmJeRgYFBiKcgtSg3swRV/hWjOAejkjCvaAjQFJ7MvBK46a+AFjM
-  BLd4+PxJkcUkiQkqqgemEQPZar+s7W3aWmMUbPH/BF3ObY91UmzCLE2am/M+CP7tcyan09Eiq
-  qS/Ys6PUak6/yf6jMlF/Hk0/uf9/4ZmsH2GLHZNUhScf/TfbvMT10s41Ilu0et5yTThmu0ckW
-  UbzvGWkk8V7gwkSBxoM7Lc2xUilB/odqlw9je3EjbPdYXyPHnB7eVg+eJcabtez5mbWoT8+F+
-  7JmbO4RIsvl5k6q+qZx8tL6pNuJ/y3DYrbZqGU0+03pbRN4Hzx+mf22++ESqkVms8I/7GwLnx
-  +RKPExav5zCuVZnz6FyTilnqs1Ka999zl9gePbi2Ji/r0SW1eypqzh6q2n/1qnJ10za+x1/zC
-  2oUpj7bfEdtvcVqJpTgj0VCLuag4EQB1Bk7IYQMAAA==
+	s=170520fj; t=1650283952; i=@fujitsu.com;
+	bh=Kly6Snl7wwZaK6VaHF4Wol4xVcTqMQ6CqudI4PvQtjs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=DF6od/oXGraW/z7W3Fr4mglG3wKp3Jj8sSSOLOVHrOWzvsDum7H//UZNH45Cyeju5
+	 hBmKDSGSVVdtbKITEJrXaudJA2Ji/WIR0GuRDsunFIYEuati+cirFNtVLCqbm3bNOg
+	 l8NYPBihPLH8jluejYQcR6DqMxNIMaKh8LWQkjneFSYlO/p0O2Al901pNjaMiYHhev
+	 ZJv2re4Mdr6LNnqe26FNH75y2cdWvJoSOwDCgZy+gfFHA0IYY+mvV7EZTret0jlTu8
+	 EBzmqCu+yMgcM6VXUbADPWharrde6o+t/1A0BIE4jzSQySE9XsU6Aw+WX9Q88aXpw0
+	 DYy/sTZ/Im99g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRWlGSWpSXmKPExsViZ8MxRXd9aGy
+  SwdmlShZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8amtavZC+6JVkz7foS5gXG6cBcjJ4eQwCwm
+  idnNVhD2HkaJ52sDQWw2ATWJ6bdusHYxcnCICOhJXP0nChJmFlCRePG7hx3EFhawlXj18wgbi
+  M0ioCrxp+8+K4jNK+Ak8e//XjBbQkBBYsrD98wQcUGJkzOfsEDMkZA4+OIFM0SNosTsy80sEH
+  aFxKxZbUwTGHlnIWmZhaRlASPTKkbbpKLM9IyS3MTMHF1DAwNdQ0NTXTNLXXMTvcQq3US91FL
+  d5NS8kqJEoKxeYnmxXmpxsV5xZW5yTopeXmrJJkZgkKUUu3rtYDzS91PvEKMkB5OSKO9/39gk
+  Ib6k/JTKjMTijPii0pzU4kOMMhwcShK8LQFAOcGi1PTUirTMHGDAw6QlOHiURHg5AoHSvMUFi
+  bnFmekQqVOMxhxXr1zZy8xxA0QKseTl56VKifM+CQYqFQApzSjNgxsEi8RLjLJSwryMDAwMQj
+  wFqUW5mSWo8q8YxTkYlYR5RUOApvBk5pXA7XsFdAoT0Cnb50eCnFKSiJCSamDqvpBRyfTBrvN
+  zuJNHx8lQg2McOyIUyn4s/Jfl/0S0LKZz37V5O2zCbnkYttWl1YR2elhxtnFwvt2e2P1gY8iZ
+  6atdntcKXaipPbHwLMdMmfIrd550Xn8i0qF98GCb437+zTw3JK+8M2ww0ttn9O4eW8lp3zs3Z
+  iuafzmbd9vtdLv9mi2z709h1HvDllZ+hnuDTVPY9nlr2OsmxT17/WJT661D96f6lYkJ6RndUj
+  LbOb/fU++VRgbn7G9P9rOc+f34VHmJSmR96vtk/lzWc15xnN01XA0H7/0NTPtmwrm7UGT+OeM
+  Vv/j3BhvwhgrKWN09xN42OS5Tfwtv591b/tsEpRPC9wiZmXVOtix5bKzEUpyRaKjFXFScCADg
+  Ynf2PwMAAA==
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-14.tower-545.messagelabs.com!1650283886!198387!1
-X-Originating-IP: [62.60.8.146]
+X-Msg-Ref: server-23.tower-532.messagelabs.com!1650283951!200728!1
+X-Originating-IP: [62.60.8.148]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.85.8; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 9027 invoked from network); 18 Apr 2022 12:11:26 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-14.tower-545.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 18 Apr 2022 12:11:26 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 74ABE10046C
+Received: (qmail 24367 invoked from network); 18 Apr 2022 12:12:31 -0000
+Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
+  by server-23.tower-532.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 18 Apr 2022 12:12:31 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23ICCVgn031116
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 13:11:26 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 682C3100359
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 13:11:26 +0100 (BST)
+ Mon, 18 Apr 2022 13:12:31 +0100
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:11:04 +0100
+ (TLS) id 15.0.1497.32; Mon, 18 Apr 2022 13:12:29 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] enchant2: upgrade 2.3.2 -> 2.3.3
-Date: Mon, 18 Apr 2022 20:10:53 +0800
-Message-ID: <1650283855-16427-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libaio: upgrade 0.3.112 -> 0.3.113
+Date: Mon, 18 Apr 2022 20:12:21 +0800
+Message-ID: <1650283944-16485-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1650283855-16427-1-git-send-email-wangmy@fujitsu.com>
-References: <1650283855-16427-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164587
+ https://lists.openembedded.org/g/openembedded-core/message/164590
 
-Changelog:
-==========
-Update Nuspell provider, requiring Nuspell 5.1.0. The new provider takes
-advantage of recently-added Nuspell APIs to be smaller and simpler.
-
-Fix the C++ API is_added() method to return a boolean rather than void.
-
-Require C99 and POSIX 2008, and as a result use fewer gnulib modules,
-which gives a modest build time reduction.
+refresh 00_arches.patch for new version.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../enchant/{enchant2_2.3.2.bb => enchant2_2.3.3.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/enchant/{enchant2_2.3.2.bb => enchant2_2.3.3.bb} (92%)
+ meta/recipes-extended/libaio/libaio/00_arches.patch  | 12 ++++++------
+ .../libaio/{libaio_0.3.112.bb => libaio_0.3.113.bb}  |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/libaio/{libaio_0.3.112.bb => libaio_0.3.113.bb} (92%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.3.2.bb b/meta/recipes-support/enchant/enchant2_2.3.3.bb
+diff --git a/meta/recipes-extended/libaio/libaio/00_arches.patch b/meta/recipes-extended/libaio/libaio/00_arches.patch
+index bec189f87c..18c8c546c1 100644
+--- a/meta/recipes-extended/libaio/libaio/00_arches.patch
++++ b/meta/recipes-extended/libaio/libaio/00_arches.patch
+@@ -1,4 +1,4 @@
+-From ceba1e03e5b57cdae0b3b2d2c9afebc085c986d8 Mon Sep 17 00:00:00 2001
++From 546f2708ffa1aa44018be65172013289cf896710 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Fri, 27 Aug 2010 10:15:31 +0800
+ Subject: [PATCH] libaio: add new recipe
+@@ -8,9 +8,9 @@ Upstream-Status: Inappropriate [embedded specific]
+ from openembedded, added by Qing He <qing.he@intel.com>
+ 
+ ---
+- src/syscall-m68k.h   |  78 ++++++++++++++++++
+- src/syscall-mips.h   | 223 +++++++++++++++++++++++++++++++++++++++++++++++++++
+- src/syscall-parisc.h | 146 +++++++++++++++++++++++++++++++++
++ src/syscall-m68k.h   |  78 +++++++++++++++
++ src/syscall-mips.h   | 223 +++++++++++++++++++++++++++++++++++++++++++
++ src/syscall-parisc.h | 146 ++++++++++++++++++++++++++++
+  src/syscall.h        |   6 ++
+  4 files changed, 453 insertions(+)
+  create mode 100644 src/syscall-m68k.h
+@@ -483,12 +483,12 @@ index 0000000..ff61746
+ +}
+ +
+ diff --git a/src/syscall.h b/src/syscall.h
+-index 9b9e9c1..9ecd3b4 100644
++index d2a117b..8cf8470 100644
+ --- a/src/syscall.h
+ +++ b/src/syscall.h
+ @@ -29,6 +29,12 @@
+  #include "syscall-sparc.h"
+- #elif defined(__aarch64__) || defined(__riscv)
++ #elif defined(__aarch64__) || defined(__loongarch__) || defined(__riscv)
+  #include "syscall-generic.h"
+ +#elif defined(__m68k__)
+ +#include "syscall-m68k.h"
+diff --git a/meta/recipes-extended/libaio/libaio_0.3.112.bb b/meta/recipes-extended/libaio/libaio_0.3.113.bb
 similarity index 92%
-rename from meta/recipes-support/enchant/enchant2_2.3.2.bb
-rename to meta/recipes-support/enchant/enchant2_2.3.3.bb
-index 101a42b59d..96d56c2ea4 100644
---- a/meta/recipes-support/enchant/enchant2_2.3.2.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.3.3.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0"
- inherit autotools pkgconfig
+rename from meta/recipes-extended/libaio/libaio_0.3.112.bb
+rename to meta/recipes-extended/libaio/libaio_0.3.113.bb
+index 859ba65c9f..87ab22ed17 100644
+--- a/meta/recipes-extended/libaio/libaio_0.3.112.bb
++++ b/meta/recipes-extended/libaio/libaio_0.3.113.bb
+@@ -10,7 +10,7 @@ SRC_URI = "git://pagure.io/libaio.git;protocol=https;branch=master \
+            file://libaio_fix_for_mips_syscalls.patch \
+            file://system-linkage.patch \
+            "
+-SRCREV = "d025927efa75a0d1b46ca3a5ef331caa2f46ee0e"
++SRCREV = "1b18bfafc6a2f7b9fa2c6be77a95afed8b7be448"
+ S = "${WORKDIR}/git"
  
- SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "ce9ba47fd4d34031bd69445598a698a6611602b2b0e91d705e91a6f5099ead6e"
-+SRC_URI[sha256sum] = "3da12103f11cf49c3cf2fd2ce3017575c5321a489e5b9bfa81dd91ec413f3891"
- 
- UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
- 
+ EXTRA_OEMAKE =+ "prefix=${prefix} includedir=${includedir} libdir=${libdir}"
 -- 
 2.25.1
 
