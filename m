@@ -1,160 +1,437 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE153C64E76
-	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:00 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web08.32468.1650226152610386694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F625C64E7C
+	for <webhook@archiver.kernel.org>; Mon, 18 Apr 2022 14:26:01 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web12.36039.1650261137497736135
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Apr 2022 13:09:13 -0700
+ Sun, 17 Apr 2022 22:52:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M2XfFgmo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id m14so16524231wrb.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=j6NSMUwT;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id g19so8856340lfv.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Apr 2022 13:09:12 -0700 (PDT)
+ Sun, 17 Apr 2022 22:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=RUuA4s7Wcc4zzAOR4vftDjp+y8z7nuT1Cjb5gGfl7UI=;
-        b=M2XfFgmo9bjArLCMNb8mw3PgQt4NeZY/brADgpHgHc2/5ytycBF7fYS2nTZ3wV1TX/
-         gc5KXVm7XyGTww8vKqXou/2WwMwsp64UUhdLrtQJc8hXGuKC8DMvv45PCdXt9VhGkBvY
-         xmrJE/SDx4Tt+HyIP7k1qjEOdRt0SaC2aPl3g=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AhEy6siF9QCAn0krYO78UrV33FgwxwVZ5hfsHVPmu8A=;
+        b=j6NSMUwT1xk0pMyewyTHDRdnuysmXYjN4gScbFAqz1pQGgO3a8OHN5F7iLnvUJBJPJ
+         xcOTWNLltey4BuExR0z9gKu6ud6FWSy3NJA0rfMpHLZ8ZwJaCVjxniqGk9s4505ezwFX
+         Sz1dJ0v+aXp5GYWsRkj1XIm1EL/YQ+v7V6ETm2wv17Sr79g76HrBQR87B3qjnM3fCgfs
+         38kSKoUNlSWKiDq0AWLlZ9fqKvAwZlVErQyKXO6XcGw9YaWAqGONPSdOGzl+YiAy2HCu
+         vNQuzBp+0Yh/bBy2uvLUNE7sFvemzSugeaXqxogNggwm5F4up8UAG+udsFN6in5rSr2A
+         dnrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RUuA4s7Wcc4zzAOR4vftDjp+y8z7nuT1Cjb5gGfl7UI=;
-        b=wA04shS7M9ubzkr94BZ9xsQ344srxP49Ls7auZ6n2y2brcV4hNda9/ATkeWZ9j9pjM
-         /HLSx++LLZOct4iF0hxsL1aoOR524mUVMHUXnhZdr1Z2GTDflTL4ug+CK2M0J8zHFRaR
-         7HUH2r1WhXAQ7clHiZMnzB6fDeK87rgVyUqGRTijq5mNTCTLUkK/TkljoWY3AjzY2E9V
-         wjmtGZQ9+RyL9c/IksE9l121girhr8YudZuQE8fDwFD+wosK3/stTQ280yEHwSFpj9q1
-         1++QvyPEOJMkJs1y9NuRrBx8U/FMTqKW3aB8d9FMfGaykvynVkt/0XBA6cpbUTj362Xh
-         0e6Q==
-X-Gm-Message-State: AOAM5323dwMyLkEASatOgo69tpTDLcxrWul0NqGME9OdGsr27qt+1mZD
-	VHROJGWVFelpDWZvVyGYJk6RIg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AhEy6siF9QCAn0krYO78UrV33FgwxwVZ5hfsHVPmu8A=;
+        b=kskwPblTt2nSw0Qq8g2SdVcHSLT9kZ4pzUSUeBjt711Ni8FbAzgjByZ4EIOy0uU/AP
+         dYrGU9v1Mm77q5ZSimHa9lyvUyRi5khiEeyd7oQcSlvHLHAxLoxUHgfUw17QcuugSi0m
+         AHz1AzjLfJgRpwiify8VWeH5N2CE5DKY05y5rXv3EiG8Y7Bz0vD5AjwVN8GClcSfbfgE
+         JfVmyJhCMfEdUgH6TpEH6SwGdgDknBHbFfZvTjdJWnvyjnjgiJgjVv4cfQbzzg4Ok/LQ
+         s7K0mPPVyDduXYusxmV2xE/2lwNAtAfBODt2iAuOUsmtRraTmOMsJSqJl5SkELx19e/D
+         QzLg==
+X-Gm-Message-State: AOAM5330mKbIU45h4QLXnKx5XdcEtuZM3YZRzTKysRh0QZvjVd8EAecs
+	ligSfZfJwiFcVMJP4QsDK6LDJACTJQXCX0+ZrOw=
 X-Google-Smtp-Source: 
- ABdhPJy0jJ5s8Jp7ovDTt5mAWdtrzvvMoaEnu7bBHrRYdjc/Xjn5eaAwTL8Qwi+ujHR1IarzYR0gjw==
-X-Received: by 2002:a5d:510d:0:b0:207:a47d:64ae with SMTP id
- s13-20020a5d510d000000b00207a47d64aemr5898940wrt.107.1650226150818;
-        Sun, 17 Apr 2022 13:09:10 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1b70:1911:ed27:ee6a?
- ([2001:8b0:aba:5f3c:1b70:1911:ed27:ee6a])
-        by smtp.gmail.com with ESMTPSA id
- f189-20020a1c38c6000000b0038ff83b9792sm10311975wma.43.2022.04.17.13.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 13:09:09 -0700 (PDT)
-Message-ID: 
- <16a5b5cab9bba7226528febe5489d60ff5b90214.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCH v2 1/4] sstate: add a LockedSet class as
- python set() is not thread safe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 17 Apr 2022 21:09:06 +0100
-In-Reply-To: <16E6B2C69CA37E19.11564@lists.openembedded.org>
-References: <20220416222846.219151-1-quaresma.jose@gmail.com>
-	 <16E6B2AF3CEA40C4.19917@lists.openembedded.org>
-	 <16E6B2C69CA37E19.11564@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ ABdhPJzuhBqe6OxAcV/KgqCiWKU5teAcTjhGFxGAHFlaovs3980JvTXkL6m9eqzjRqJbBzT7LDKKMSJQXILicW+S4QQ=
+X-Received: by 2002:ac2:4292:0:b0:46b:c417:38c2 with SMTP id
+ m18-20020ac24292000000b0046bc41738c2mr7085579lfh.106.1650261135475; Sun, 17
+ Apr 2022 22:52:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20220416202401.179351-1-quaresma.jose@gmail.com>
+ <3040f0d6eaabad9a0ec2632e49336af0ff189533.camel@linuxfoundation.org>
+ <CANPvuR=mh73YEdu2=OZMu8Z-cPO+qa1E-VVywezi4wwZJZh7HA@mail.gmail.com>
+ <b12f88e43a70b06208b3f0424a098b7ce39fca49.camel@linuxfoundation.org>
+In-Reply-To: 
+ <b12f88e43a70b06208b3f0424a098b7ce39fca49.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 18 Apr 2022 06:52:04 +0100
+Message-ID: 
+ <CANPvuRn=4n=0+H3t6MBeTZSiAko34+KCjPgifKpNfpbd72YQmg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCH 1/2] sstate: use the python3
+ ThreadPoolExecutor instead of the OE ThreadedPool
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c4464005dce75c27"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:00 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Apr 2022 14:26:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164579
+ https://lists.openembedded.org/g/openembedded-core/message/164583
 
-On Sun, 2022-04-17 at 14:41 +0100, Richard Purdie via lists.openembedded.org
-wrote:
-> On Sun, 2022-04-17 at 14:39 +0100, Richard Purdie via lists.openembedded.org
-> wrote:
-> > On Sat, 2022-04-16 at 23:28 +0100, Jose Quaresma wrote:
-> > > With this LockedSet python class we can call the 'add' and 'remove'
-> > > safely inside the ThreadedPool.
-> > > 
-> > > This piece of code is taen from the stackoverflow
-> > > https://stackoverflow.com/questions/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe
-> > > 
-> > > Fixes [YOCTO #14775] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14775
-> > > 
-> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > > ---
-> > >  meta/classes/sstate.bbclass | 24 ++++++++++++++++++++++--
-> > >  1 file changed, 22 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> > > index 1c0cae4893..a3ba748a1e 100644
-> > > --- a/meta/classes/sstate.bbclass
-> > > +++ b/meta/classes/sstate.bbclass
-> > > @@ -918,8 +918,28 @@ sstate_unpack_package () {
-> > >  BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
-> > >  
-> > >  def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-> > > -    found = set()
-> > > -    missed = set()
-> > > +    # https://stackoverflow.com/questions/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe
-> > > +    import threading
-> > > +    class LockedSet(set):
-> > > +        """A set where add(), remove(), and 'in' operator are thread-safe"""
-> > > +        def __init__(self, *args, **kwargs):
-> > > +            self._lock = threading.Lock()
-> > > +            super(LockedSet, self).__init__(*args, **kwargs)
-> > > +
-> > > +        def add(self, elem):
-> > > +            with self._lock:
-> > > +                super(LockedSet, self).add(elem)
-> > > +
-> > > +        def remove(self, elem):
-> > > +            with self._lock:
-> > > +                super(LockedSet, self).remove(elem)
-> > > +
-> > > +        def __contains__(self, elem):
-> > > +            with self._lock:
-> > > +                super(LockedSet, self).__contains__(elem)
-> > > +
-> > > +    found = LockedSet()
-> > > +    missed = LockedSet()
-> > >  
-> > >      def gethash(task):
-> > >          return sq_data['unihash'][task]
-> > 
-> > 
-> > The series blew up on the autobuilder:
-> > 
-> > testsdkest:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5079/steps/17/logs/stdio
-> > oe-selftest:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3461/steps/15/logs/stdio
-> > and many more, see:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3535
-> 
-> That last one should be:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3539
+--000000000000c4464005dce75c27
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 7a18d9d554..99d125b8c5 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1058,7 +1058,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 connection_cache_pool = Queue(nproc)
-                 checkstatus_init()
-                 with concurrent.futures.ThreadPoolExecutor(max_workers=nproc) as executor:
--                    executor.map(checkstatus, tasks)
-+                    executor.map(checkstatus, tasks.copy())
-                 checkstatus_end()
-                 bb.event.disable_threadlock()
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+domingo, 17/04/2022 =C3=A0(s) 08:57:
 
-fixes things.
+> On Sat, 2022-04-16 at 23:27 +0100, Jose Quaresma wrote:
+> >
+> >
+> > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+> s=C3=A1bado,
+> > 16/04/2022 =C3=A0(s) 22:57:
+> > > On Sat, 2022-04-16 at 21:24 +0100, Jose Quaresma wrote:
+> > > > for the FetchConnectionCache use a queue where each thread can
+> > > > get an unsed connection_cache that is properly initialized before
+> > > > we fireup the ThreadPoolExecutor.
+> > > >
+> > > > for the progress bar we need an adictional task counter
+> > > > that is protected with thread lock as it runs inside the
+> > > > ThreadPoolExecutor.
+> > > >
+> > > > Fixes [YOCTO #14775] --
+> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775
+> > > >
+> > > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > > > ---
+> > > >   meta/classes/sstate.bbclass | 44
+> +++++++++++++++++++++++--------------
+> > > >   1 file changed, 28 insertions(+), 16 deletions(-)
+> > >
+> > > Are there specific issues you see with oe.utils.ThreadedPool that thi=
+s
+> > > change
+> > > addresses? Were you able to reproduce the issue in 14775?
+> > >
+> >
+> >
+> > Looking deeper while testing the patch I think I found another bug in t=
+he
+> > sstate mirror handling.
+> > The python set() is not thread safe and we use it inside the thread
+> pool, I
+> > added a new python set class for that in my V2
+>
+> That might explain things.
+>
+> > I don't know if it is related to 14775 but it can be, I can't reproduce
+> the
+> > 14775 on my side, maybe it's better to remove the 14775 mention from my
+> > commits, what do you think?
+>
+> I think you shouldn't say it fixes it as we simply don't know that. It ma=
+y
+> be
+> related to so perhaps say that instead.
+>
 
-Cheers,
+I will do that.
 
-Richard
 
+>
+> > > I'm a little concerned we swap one implementation where we know
+> roughly what
+> > > the issues are for another where we dont :/.
+> > >
+> >
+> > I think there some issues on ThreadedPool in the worker_init and
+> worker_end,
+> > this functions is called in all workers and it seems to me that the
+> > right thing to do is calling and reuse the previous ones connection_cac=
+he
+> > otherwise the connection_cache does nothing.
+>
+> It creates a connection_cache in each thread that is created. Once create=
+d
+> in a
+> given thread, that connection cache is reused there? I'm not sure you can
+> say it
+> does nothing?
+>
+
+I may have misunderstood this part and you may be right. I have to
+re-analyze more carefully.
+
+
+>
+> >
+> > >
+> > > I notice that ThreadPoolExecutor can take an initializer but you're
+> doing
+> > > this
+> > > using the queue instead. Is that because you suspect some issue with
+> those
+> > > being
+> > > setup in the separate threads?
+> > >
+> >
+> >
+> > I am using a queue as it is the easy way I find for reusing the
+> > FetchConnectionCache.
+>
+> I think that piece of code was working already?
+>
+
+it may be working fine on OE ThreadPool and I misunderstood that
+
+
+>
+> >
+> > >
+> > > You also mentioned the debug messages not showing. That suggests
+> something
+> > > is
+> > > wrong with the event handlers in the new threading model and that
+> errors
+> > > wouldn't propagate either so we need to check into that.
+> > >
+> >
+> >
+> > This is fixed in V2
+>
+>
+> What was the issue out of interest?
+>
+
+I don't know but it starts working when I add the thread safe collections.
+
+
+>
+> >
+> > >
+> > > This is definitely an interesting idea but I'm nervous about it :/.
+> > >
+> >
+> >
+> > It would be interesting if you could test it in the autobuilder.
+> > On my side it is working well now, I will send a V2
+>
+> The challenge with autobuilder testing of this is that there is only a
+> small
+> portion of the autobuilder tests which exercise this code (testsdkext for
+> images). The current issues only occur intermittently so it is hard to
+> know if
+> any given change fixes anything (or introduces a new race).
+>
+> One more interesting test which may more quickly find issues would be to
+> make
+> everything use the http mirror on the autobuilder I guess. We'd need to
+> figure
+> out the configuration for that though.
+>
+
+What you mean by this is that there are builds on the autobuilder that uses
+the sstate mirror
+and others that use some shared sstate cache filesystem?
+
+As you previously said and as the sstate mirror is available for the
+community,
+I think and I will try to add some tests for that.
+I still don't know how to do it but I'll think about it.
+
+Another thing about this RFC series is that I think I need to do it in a wa=
+y
+that it can be backported for dunfell if we need to do that.
+
+I will spend more time on this during this week.
+Thanks for your always valuable comments.
+
+Jose
+
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000c4464005dce75c27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia domingo, 17/04/2022 =C3=A0(s) 08:57:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On Sat, 2022-04-16 at 23:27 +0100,=
+ Jose Quaresma wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
+g" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu no=
+ dia s=C3=A1bado,<br>
+&gt; 16/04/2022 =C3=A0(s) 22:57:<br>
+&gt; &gt; On Sat, 2022-04-16 at 21:24 +0100, Jose Quaresma wrote:<br>
+&gt; &gt; &gt; for the FetchConnectionCache use a queue where each thread c=
+an<br>
+&gt; &gt; &gt; get an unsed connection_cache that is properly initialized b=
+efore<br>
+&gt; &gt; &gt; we fireup the ThreadPoolExecutor.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; for the progress bar we need an adictional task counter<br>
+&gt; &gt; &gt; that is protected with thread lock as it runs inside the<br>
+&gt; &gt; &gt; ThreadPoolExecutor.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Fixes [YOCTO #14775] --<br>
+&gt; &gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14=
+775" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org=
+/show_bug.cgi?id=3D14775</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.=
+jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; =C2=A0 meta/classes/sstate.bbclass | 44 ++++++++++++++++++++=
++++--------------<br>
+&gt; &gt; &gt; =C2=A0 1 file changed, 28 insertions(+), 16 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; Are there specific issues you see with oe.utils.ThreadedPool that=
+ this<br>
+&gt; &gt; change<br>
+&gt; &gt; addresses? Were you able to reproduce the issue in 14775?<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; Looking deeper while testing the patch I think I found another bug in =
+the<br>
+&gt; sstate=C2=A0mirror handling.<br>
+&gt; The=C2=A0python set() is not thread safe and we use it inside the thre=
+ad pool, I<br>
+&gt; added a=C2=A0new python set class for=C2=A0that in=C2=A0my V2=C2=A0<br=
+>
+<br>
+That might explain things.<br>
+<br>
+&gt; I don&#39;t=C2=A0know if it is related to 14775 but it can=C2=A0be,=C2=
+=A0I can&#39;t=C2=A0reproduce the<br>
+&gt; 14775 on my side, maybe it&#39;s better to remove the=C2=A014775 menti=
+on from my<br>
+&gt; commits, what do you think?<br>
+<br>
+I think you shouldn&#39;t say it fixes it as we simply don&#39;t know that.=
+ It may be<br>
+related to so perhaps say that instead.<br></blockquote><div><br></div><div=
+>I will do that.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">
+<br>
+&gt; &gt; I&#39;m a little concerned we swap one implementation where we kn=
+ow roughly what<br>
+&gt; &gt; the issues are for another where we dont :/.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; I think there some issues on ThreadedPool in the worker_init and worke=
+r_end,<br>
+&gt; this functions is called in all workers and it seems to me that the<br=
+>
+&gt; right=C2=A0thing to do is calling and reuse the previous ones=C2=A0con=
+nection_cache<br>
+&gt; otherwise the connection_cache does nothing.<br>
+<br>
+It creates a connection_cache in each thread that is created. Once created =
+in a<br>
+given thread, that connection cache is reused there? I&#39;m not sure you c=
+an say it<br>
+does nothing?<br></blockquote><div><br></div><div>I may have misunderstood =
+this part and you may be right. I have to re-analyze more carefully.<br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; =C2=A0<br>
+&gt; &gt; <br>
+&gt; &gt; I notice that ThreadPoolExecutor can take an initializer but you&=
+#39;re doing<br>
+&gt; &gt; this<br>
+&gt; &gt; using the queue instead. Is that because you suspect some issue w=
+ith those<br>
+&gt; &gt; being<br>
+&gt; &gt; setup in the separate threads?<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; I am using a queue as it is the easy way=C2=A0I find for reusing the<b=
+r>
+&gt; FetchConnectionCache.<br>
+<br>
+I think that piece of code was working already?<br></blockquote><div><br></=
+div><div>it may be working fine on OE ThreadPool and I misunderstood that<b=
+r></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">
+<br>
+&gt; =C2=A0<br>
+&gt; &gt; <br>
+&gt; &gt; You also mentioned the debug messages not showing. That suggests =
+something<br>
+&gt; &gt; is<br>
+&gt; &gt; wrong with the event handlers in the new threading model and that=
+ errors<br>
+&gt; &gt; wouldn&#39;t propagate either so we need to check into that.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; This is fixed in V2<br>
+<br>
+<br>
+What was the issue out of interest?<br></blockquote><div><br></div><div>I d=
+on&#39;t=C2=A0know but it starts working when I add the thread safe collect=
+ions.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+<br>
+&gt; =C2=A0<br>
+&gt; &gt; <br>
+&gt; &gt; This is definitely an interesting idea but I&#39;m nervous about =
+it :/.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; It would be interesting if you could test it in the autobuilder.<br>
+&gt; On my side it is working well now, I will send a V2<br>
+<br>
+The challenge with autobuilder testing of this is that there is only a smal=
+l<br>
+portion of the autobuilder tests which exercise this code (testsdkext for<b=
+r>
+images). The current issues only occur intermittently so it is hard to know=
+ if<br>
+any given change fixes anything (or introduces a new race).<br>
+<br>
+One more interesting test which may more quickly find issues would be to ma=
+ke<br>
+everything use the http mirror on the autobuilder I guess. We&#39;d need to=
+ figure<br>
+out the configuration for that though.<br></blockquote><div><br></div><div>=
+What you mean by this is that there are builds on the autobuilder that uses=
+ the sstate mirror<br></div><div>and others that use some shared sstate cac=
+he filesystem?</div><div><br></div><div>As you previously=C2=A0said and as =
+the sstate mirror is available for the community,</div><div>I think and I w=
+ill try to add some tests for that.</div><div>I still don&#39;t know how to=
+ do it but I&#39;ll think about it.<br></div><div><br></div><div>Another th=
+ing about this RFC series is that I think I need to do it=C2=A0in a way</di=
+v><div>that it can be backported for dunfell if we need to do that.</div><d=
+iv><br></div><div>I will spend more time on this during this week.</div><di=
+v>Thanks for your always valuable comments.</div><div><br></div><div>Jose</=
+div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000c4464005dce75c27--
 
