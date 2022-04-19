@@ -1,96 +1,178 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E68DC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA46C4167E
 	for <webhook@archiver.kernel.org>; Tue, 19 Apr 2022 14:22:18 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.1198.1650348964070674359
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.1649.1650354022878992084
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 23:16:04 -0700
+ Tue, 19 Apr 2022 00:40:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gYTbgcEh;
- spf=pass (domain: gmail.com, ip: 209.85.215.169,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id k29so23038674pgm.12
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yawt5rWk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 123-20020a1c1981000000b0038b3616a71aso890891wmz.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Apr 2022 23:16:04 -0700 (PDT)
+ Tue, 19 Apr 2022 00:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y46y9nnM1+5Gc3RT7erUGCwzfjdKd7HLlGBGL9P0ufA=;
-        b=gYTbgcEhmCM+dGtTm+KgOoHXbnjgSyqR7lIBAhSmhOLDW5IIQlRPfUwRyL+jfflu4C
-         lKYtqqumVlbB06TRhAclAQlfMQFSA+aLEJEPZ8Y4/0yEJ5Do0XjkaSDCqHWizI3iuAry
-         KgblklwVGx2FJ5VAmAMfgw9gZBNtOsKCNYjJ2UZEwkLwBSznO+YY3zkpUGgyQWYBlwDB
-         FW7bDM1dUMT7wziYic+ZR6ftztMcPYdNXq+MB0ZD8/OCUr054qacluaiwnesIaxJM4Uf
-         14HaO1oTJ/gf53NJVThJRCd/+jF7C4RGiq+2UHNau/yIq8hqPHUmHS+4CqRsZNej4h1d
-         GAlw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=euo0wxcz+5Sc0SnzpOBypYF3PjT1/MwBoiGAFqy3Zv8=;
+        b=Yawt5rWkS6eEs2useUzmzCHDgGCBi37mBRhOAHCqzcp6HtLux+SW+++LyEKAMfIl8B
+         12kifN8SuH2F8oiLyjewFf1Ooontl+UhLgHFwbZMoWRUnzMYSBALGZSJaKFfQ9thSIwn
+         /CH9qqZGgYUQWDjTLNaD7T6Yv9ZMl/aZXJTK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y46y9nnM1+5Gc3RT7erUGCwzfjdKd7HLlGBGL9P0ufA=;
-        b=PhVbYm2wPnI7RnKuYDvUMWf29FYeNbVt0a+nOtf+KcNdWsqWXlmVt2Pxe2afWjho0/
-         BG3Dzj1oD8diJdFeZNUWnUjEF7TIP/PGNZp/8Q+sr/q9l8SSu6s+z3gbGzQS1LdFZpY0
-         SQNL4P9KL6+el4reYryW4wmBW3DKCk3A2m733uXsPhdOp4b+Bpb/ZJi8JVoz1TV7dqbZ
-         8Sw2exFQ7aY6znKF54q7WoaXFYIkD+w+kI8t8RgiQ3N8ugUHfpT79i+nqXsdEXubsHZQ
-         6b2jd0QNpbobpdbOD0+QAopjL39STI3QTGEr4rQ4PRGAmse2QI90d5Tjt8ySFjCQ8B4f
-         ME4A==
-X-Gm-Message-State: AOAM530Ac9egJN2/qMp9X2/Rg85yvX0jhzuNO4oLE84xukikFCVXASFk
-	zfakBapDk/CgaoFatZeTr5qHITQUqJM=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=euo0wxcz+5Sc0SnzpOBypYF3PjT1/MwBoiGAFqy3Zv8=;
+        b=NsptCWayTFcMPH469N3YhgkamRk/rq9pXpFEuF1ewPvAGsYwF8wuPbhPyNzA3qrHbB
+         a7LJAb08uk6taptQkjfeozFUHPthmVdFo5cJHfDgXPiImuRi80QIurEHo2yAZ+83r7lP
+         0Oy8x93Itu998wQhlAx6Qu8uYOwT6f3ZvvKyXVpUkBGaFDELI/z3PxPg04umllCPscYe
+         0BKFkbdzN2zK0vX5ob+rAWBwCCCV9iQzRtaU9grTEYozAhqs8Z9BQdbJjCnLpKbXPpTP
+         WuLbZjGlilxM1/9pb2ljYKW90JaFzWnhRfb11sSPJxh6asHvOrS51XmwCo6FAbatN36Y
+         KaYg==
+X-Gm-Message-State: AOAM5304Dhqwy9rGczS8r+ZL8abULFD/MIauVimicd8bFZX0MOOXx/uO
+	MxZrrhVd9Z6HDIfawRh7vgvOKg==
 X-Google-Smtp-Source: 
- ABdhPJzmVU7eeLmGoebXjDj6u1DzhdiwusC25VgpbP366yCFXwpdjfOlD/Ee/Ju2+3d+hE7CFbwjVQ==
-X-Received: by 2002:a62:6d47:0:b0:4fe:15fa:301d with SMTP id
- i68-20020a626d47000000b004fe15fa301dmr16073234pfc.29.1650348962970;
-        Mon, 18 Apr 2022 23:16:02 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (unknown-105-124.windriver.com.
- [147.11.105.124])
+ ABdhPJwouyd8MKLV22hLGxJNQ3sXsz4dcu3EC/9M/X8xIiDYNopS7EXVApU3Q9g56Ngd/gf/8ZRryQ==
+X-Received: by 2002:a7b:c1cc:0:b0:38e:b876:95d8 with SMTP id
+ a12-20020a7bc1cc000000b0038eb87695d8mr18749987wmj.57.1650354021303;
+        Tue, 19 Apr 2022 00:40:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:224f:e0f5:68e1:5371?
+ ([2001:8b0:aba:5f3c:224f:e0f5:68e1:5371])
         by smtp.gmail.com with ESMTPSA id
- a15-20020a62e20f000000b00508363eee44sm14508689pfi.219.2022.04.18.23.16.01
+ b14-20020a7bc24e000000b003899c8053e1sm16993069wmj.41.2022.04.19.00.40.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 23:16:01 -0700 (PDT)
-From: pgowda <pgowda.cve@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	rwmacleod@gmail.com,
-	pgowda <pgowda.cve@gmail.com>
-Subject: [PATCH v3] glibc: ptest: Fix glibc-tests package issue
-Date: Mon, 18 Apr 2022 23:15:56 -0700
-Message-Id: <20220419061556.115181-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 19 Apr 2022 00:40:20 -0700 (PDT)
+Message-ID: 
+ <6403dbd3fb1f633c4392a4587a09eaa58edc9022.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V3] meta: rust - Bug fix for target
+ definitions returning 'NoneType' for arm
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com,
+	shivams@gmail.com
+Date: Tue, 19 Apr 2022 08:40:16 +0100
+In-Reply-To: <20220411060043.87079-1-sundeep.kokkonda@gmail.com>
+References: <20220411060043.87079-1-sundeep.kokkonda@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Apr 2022 14:22:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164615
+ https://lists.openembedded.org/g/openembedded-core/message/164616
 
-Run glibc-tests only when its enabled in the DISTRO_FEATURES.
+On Sun, 2022-04-10 at 23:00 -0700, Sundeep KOKKONDA wrote:
+> The build shows below error while building for arm machines.
+> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+> Detailed error info :
+> 
+> Steps to reproduce:
+> 1. Set MACHINE ?= "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"'
+> 2. bitbake core-image-minimal -cpopulate_sdk
+> 
+> Complete Error:
+> ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_rust_gen_targets(d)
+>      0003:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
+>      0027:
+>      0028:LLVM_TARGET[x86_64] = "${RUST_HOST_SYS}"
+>      0029:python do_rust_gen_targets () {
+>      0030:    wd = d.getVar('WORKDIR') + '/targets/'
+>  *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+>      0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+>      0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
+>      0034:}
+>      0035:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
+>      0326:    # build tspec
+>      0327:    tspec = {}
+>      0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
+>      0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+>  *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+>      0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+>      0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+>      0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+>      0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+> 
+> Below are the local variables from rust_gen_target function for arm and aarch64 targets. Refer below, the tspec varibles for 'arm' generated with NoneType.
+> (a) Locals at rust_gen_target for arm::
+> tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+> tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+> DEBUG: Python function do_rust_gen_targets finished
+> (b) Locals at rust_gen_target  for aarch64::
+> tspec['data-layout'] =  aarch64-unknown-linux-gnu, Type of tspec['data-layout'] =  <class 'str'>
+> tspec['max-atomic-width'] =  128, Type of tspec['max-atomic-width'] =  <class 'int'>
+> 
+> Reason for changing arm-eabi to arm: The previous change introduced this bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
+> 
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> ---
+>  meta/recipes-devtools/rust/rust-common.inc | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+> index 310aecef22..230d78237f 100644
+> --- a/meta/recipes-devtools/rust/rust-common.inc
+> +++ b/meta/recipes-devtools/rust/rust-common.inc
+> @@ -119,13 +119,13 @@ def llvm_features(d):
+>  
+>  
+>  ## arm-unknown-linux-gnueabihf
+> -DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> -LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
+> -TARGET_ENDIAN[arm-eabi] = "little"
+> -TARGET_POINTER_WIDTH[arm-eabi] = "32"
+> -TARGET_C_INT_WIDTH[arm-eabi] = "32"
+> -MAX_ATOMIC_WIDTH[arm-eabi] = "64"
+> -FEATURES[arm-eabi] = "+v6,+vfp2"
+> +DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> +LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
+> +TARGET_ENDIAN[arm] = "little"
+> +TARGET_POINTER_WIDTH[arm] = "32"
+> +TARGET_C_INT_WIDTH[arm] = "32"
+> +MAX_ATOMIC_WIDTH[arm] = "64"
+> +FEATURES[arm] = "+v6,+vfp2"
+>  
+>  ## armv7-unknown-linux-gnueabihf
+>  DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
 
-Signed-off-by: pgowda <pgowda.cve@gmail.com>
----
- meta/recipes-core/glibc/glibc-tests_2.35.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-index 8c7ecf89ba..414f8660de 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-@@ -1,7 +1,8 @@
- require glibc_${PV}.bb
- require glibc-tests.inc
- 
--inherit ptest
-+inherit ptest features_check
-+REQUIRED_DISTRO_FEATURES = "ptest"
- 
- SRC_URI:append = " \
- 	file://run-ptest \
--- 
-2.35.1
+We've dropped this patch from testing. Why? It has been sent in a few different
+forms and testing shows there are deeper problems which need to be solved
+including that the automated testing results are erratic.
+
+The big issue is that changes here don't seem to invalidate the sstate cache.
+This means that tests "pass" on the autobuilder initially but then when some
+later change does cause a rebuild of this code, it then fails.
+
+As such I have no confidence this change is correct, tested or won't cause
+future failures.
+
+The issue is that changes to the data above are not being reflected in task
+sstate signatures. We need to debug and fix the sstate problem first, then we
+can come back to this patch.
+
+Cheers,
+
+Richard
+
+
+
 
 
