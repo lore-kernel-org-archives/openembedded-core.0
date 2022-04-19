@@ -1,202 +1,250 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FCEC352A1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4F9AC47082
 	for <webhook@archiver.kernel.org>; Tue, 19 Apr 2022 14:22:18 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web12.3265.1650369352106442444
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.2])
+ by mx.groups.io with SMTP id smtpd.web10.2584.1650364301798637913
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 04:55:52 -0700
+ Tue, 19 Apr 2022 03:31:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9IsLpaE;
- spf=pass (domain: gmail.com, ip: 209.85.208.180,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 17so20226577lji.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 04:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=24QpAqDJxaAgZ5n0x7XQIA8YP2vmb3id66upLFwuXdw=;
-        b=N9IsLpaEhJrIcmot9VXP6UII29KXHeynKOH7Aw4veAxDR6aFrW9ymFvjvutB4tJFRb
-         +RMrH6ZIyOLiaL6Q34G2BMSZZhU7esgK6hklYCpJJXmK09Kc+/Rn8aTbbhGsBhdU7NJ+
-         7NMDs9i5yF+acfTHbXvoTwprClK9XeyFq4XB9AOiSZwHgyPDbGKmabZgsKb5+cBO0gsE
-         dv0A5wuaMHM+L2tER56VNdUe8ODsj1hjXGP7srYdqVombyIt0w+cE0/tSPtthknPyx3b
-         LZjTHDojKFrZ5kF5BshfCsUp/sOEzX8vmYhYTB0QmaooA4HEa0qokkkMCw5aFOSAvNak
-         /rFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=24QpAqDJxaAgZ5n0x7XQIA8YP2vmb3id66upLFwuXdw=;
-        b=nakiDQIqPG03pUVrHvG05ABUBBSRNe1Oom9+3lJecnDVb2B5JkEMG+p4YNVtqsoZkH
-         ZsBLSST04tb5AW8UQNlQJ6SJp+rPe5q/KxnMZwI0+XaqbrYPI99tRSV0PczoO4bovrqI
-         5XMqNSsTdQG+oK2ZtAIva7Y4kEurKeDETmn69sCPP7guqpoKGrmg3HodESfvv30W3q5/
-         cZOS77NV+1qq98MAWaeHmObviJ3WZM+733/8/D62qFOkDMkqehJR0ujK2u1H5nC6A9Zu
-         u1MGbzMiSuIF7s8OauMSBpJ3fUakMaAN2dCMCgEdcnABz+aObygNfY7FFguv6xyWsnJY
-         FfYQ==
-X-Gm-Message-State: AOAM530OYMXLvSg86bFx4ZuHI+pzmJzud/Cme3bAm/ZBeUNSXCjA9zV3
-	fmNt5yAui/AoBNnbdu/Rx6m8/b/lQG4JV1+/EpM=
-X-Google-Smtp-Source: 
- ABdhPJyB/5VmY/QQs/BLkI95jYSubohJ1D3UlXsIdD/i6mz5JyEz79fOEnhJc3SyJ2cv/EkbeHNHACzOHIgPf1vTf9c=
-X-Received: by 2002:a2e:3c19:0:b0:24d:a5ad:e7d3 with SMTP id
- j25-20020a2e3c19000000b0024da5ade7d3mr10129164lja.426.1650369350035; Tue, 19
- Apr 2022 04:55:50 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=KSmLFsB2;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1650364300; i=@fujitsu.com;
+	bh=xSZHgiRtDtPVmWg2wzQgVkW7pV3mPTD9nSXnJHNMNtk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=KSmLFsB294jFtBVFX70d/gklOL6T/2F0Tc00CYJoTSTML9BVvMj1MxqeYMv6ZRiNK
+	 +77nsQ2gGz6KY4KhMmMY75gLOdVV+91lhBt4ejRiLIC4o3cvCVkc/LKMRibtrE51ue
+	 S8uyRqqDd9xnghaEP4xcPk1olyQo8oia5izfN4Ym2mcE46q3rlRmfNPrEvB0NOVHx3
+	 hgYIhuaQ090K8JgwWRXTqt5R0iAp6zP9NJ4lMf92N27G0QrVKqIn/w5zfjkZrCufo8
+	 CnH0cnZ/tK7jtBvWwJZ77rer8WXYVLhQXyE9kVNNQqZqOku0GgFc2/LSWkVBeJvKWK
+	 Xmvw0rohvW7Eg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMIsWRWlGSWpSXmKPExsViZ8ORqNvWH5d
+  k8HSzucWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvFmnlDBZbOKS6u3szQwHtXpYuTiEBJ4zCix
+  eNZSVgjnPJPEhRtLgBxOIGcPo8SNPfIgNpuAmsT0WzeA4hwcIgJ6Elf/iYKEmQVUJF787mEHC
+  QsLWEv0HI0GCbMIqErM6djLAmLzCjhJ/D7SyQZiSwgoSEx5+J4ZxOYUcJY43NPEDrHJSWLz91
+  5WiHpBiZMzn7BAjJeQOPjiBTNEr6LE7MvNLBB2hcSsWW1MELaaxNVzm5gnMArOQtI+C0n7Aka
+  mVYxWSUWZ6RkluYmZObqGBga6hoamusaWuqZGeolVuol6qaW65anFJbpAbnmxXmpxsV5xZW5y
+  TopeXmrJJkZg+KYUq5vsYOxe+VPvEKMkB5OSKG99VFySEF9SfkplRmJxRnxRaU5q8SFGGQ4OJ
+  Qne0E6gnGBRanpqRVpmDjCWYNISHDxKIryPuoDSvMUFibnFmekQqVOMuhxrGw7sZRZiycvPS5
+  US5xVrASoSACnKKM2DGwGL60uMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHkP9gJN4cnMK4H
+  b9AroCCagI6qnxIIcUZKIkJJqYFKvepIW8OXmxN32b9h+Jq5IZt/tv0az/Zzw/dSk79tsGrXL
+  Zh9f3Hr/0xmxox/Sfq20udr59NriYzHzVrxkdqj3D9qc91M74r5D/A3Fea+8+nvXHz/ZyM3nz
+  aDEfPHKyUgewzOMduFyHlVRvstCJtel/bsRzugfrNW+VWr1sXVmP2xsenrr5E+f3RYx893+NL
+  +Ld66LbI/wEA+fGnh6kuVBs+j963LWpR5PPs7eqim0uXzG867UUjb3aqEQM4/NWhciWPKS42v
+  43dc+2Njpl7e6eP6iy7x8d6WqXPasSdya+yWhx77t7LqKjdYOWYUiTPEOhxqXd7zKnLuM+c3U
+  CaHRE7eKvGq4rezTdS9koRJLcUaioRZzUXEiAPuKKZJmAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-20.tower-571.messagelabs.com!1650364294!271155!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.8; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21875 invoked from network); 19 Apr 2022 10:31:34 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-20.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 19 Apr 2022 10:31:34 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 5D1C1100196
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 19 Apr 2022 11:31:34 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 36300100192
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 19 Apr 2022 11:31:34 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Tue, 19 Apr 2022 11:31:29 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] gptfdisk: upgrade 1.0.8 -> 1.0.9
+Date: Tue, 19 Apr 2022 18:31:19 +0800
+Message-ID: <1650364280-23104-2-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1650364280-23104-1-git-send-email-wangmy@fujitsu.com>
+References: <1650364280-23104-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-References: <20220419094616.433632-1-quaresma.jose@gmail.com>
- <20220419094616.433632-2-quaresma.jose@gmail.com>
- <6f880050d15a2b07d1d9a6d766c5f74bd6f07772.camel@linuxfoundation.org>
-In-Reply-To: 
- <6f880050d15a2b07d1d9a6d766c5f74bd6f07772.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 19 Apr 2022 12:55:39 +0100
-Message-ID: 
- <CANPvuRnMTdvOc_uso-zOJ-z7_xV2eqSoTBaDgEy-StHQ9qka+g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] sstate: reuse the localdata copy on the
- mirror thread pool
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000db6cdf05dd008ed9"
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Apr 2022 14:22:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164626
+ https://lists.openembedded.org/g/openembedded-core/message/164621
 
---000000000000db6cdf05dd008ed9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+0001-gptcurses-correct-ncurses-6.3-errors.patch
+removed since it's included in 1.0.9.
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia ter=C3=
-=A7a,
-19/04/2022 =C3=A0(s) 11:57:
+Changelog:
+===========
+- Added support for aligning partitions' end points. This feature affects the
+  default partition size when using n in gdisk; it affects the default
+  partition size in cgdisk; and it's activated by the new -I option in sgdisk.
+  See the programs' respective man pages for details. This feature is intended
+  to help with LUKS2 encryption, which reacts badly to partitions that are not
+  sized as exact multiples of the encryption block size.
+- Added several new partition type codes:
+      FreeBSD nandfs (0xa506)
+      Apple APFS Pre-Boot (0xaf0b)
+      Apple APFS Recovery (0xaf0c)
+      ChromeOS firmware (0x7f03)
+      ChromeOS mini-OS (0x7f04)
+      ChromeOS hibernate (0x7f05)
+      U-Boot boot loader (0xb000)
+      27 (!) codes for Fuchsia (0xf100 to 0xf11a)
+- Added the ability to build sgdisk and cgdisk for Windows.
+- Added a check for too-small disks (most likely to be an issue when trying to
+  use a too-small disk image); program now aborts if this happens.
+- Removed stray debugging code that caused partNum is x to be printed when
+  changing a partition's name with sgdisk.
+- Fixed build problems with recent versions of ncurses.
+- Fixed bug that caused cgdisk to report incorrect partition attributes.
 
-> On Tue, 2022-04-19 at 10:46 +0100, Jose Quaresma wrote:
-> > We don't need a new copy of the bitbake data [localdata2] in each runni=
-ng
-> > thread of the pool.
-> >
-> > We can do the copy on the startup of the thread pool in each thread
-> worker
-> > and reuse it in each running thread, this is the same we did for the
-> > connection_cache which is reused by fetcher.
-> >
-> > May be related with [YOCTO #14775] --
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  meta/classes/sstate.bbclass | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> It is a standard coding practise where you're changing the data store and
-> don't
-> want changes to persist, to use createCopy() on the datastore. It is fast
-> and
-> cheap and I'm not sure we need to make this thread specific?
->
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...gptcurses-correct-ncurses-6.3-errors.patch | 99 -------------------
+ .../{gptfdisk_1.0.8.bb => gptfdisk_1.0.9.bb}  |  3 +-
+ 2 files changed, 1 insertion(+), 101 deletions(-)
+ delete mode 100644 meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
+ rename meta/recipes-devtools/fdisk/{gptfdisk_1.0.8.bb => gptfdisk_1.0.9.bb} (88%)
 
-My interpretation of the use of the createCopy was so that the existing
-one localdata, would not be used at the same time in the thread pool.
-i.e: each thread has its own localdata2 copied from localdata.
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch b/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
+deleted file mode 100644
+index cbd1365080..0000000000
+--- a/meta/recipes-devtools/fdisk/gptfdisk/0001-gptcurses-correct-ncurses-6.3-errors.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-From e301f7dd650c9e56f954a7c49661d938079e1a9b Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 25 Oct 2021 17:27:51 +0200
+-Subject: [PATCH] gptcurses: correct ncurses 6.3 errors
+-
+-Upstream-Status: Submitted [by email to rodsmith@rodsbooks.com]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- gptcurses.cc | 28 ++++++++++++++--------------
+- 1 file changed, 14 insertions(+), 14 deletions(-)
+-
+-diff --git a/gptcurses.cc b/gptcurses.cc
+-index d0de024..70be999 100644
+---- a/gptcurses.cc
+-+++ b/gptcurses.cc
+-@@ -235,22 +235,22 @@ Space* GPTDataCurses::ShowSpace(int spaceNum, int lineNum) {
+-       ClearLine(lineNum);
+-       if (space->partNum == -1) { // space is empty
+-          move(lineNum, 12);
+--         printw(BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
+-+         printw("%s",BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
+-          move(lineNum, 24);
+--         printw("free space");
+-+         printw("%s","free space");
+-       } else { // space holds a partition
+-          move(lineNum, 3);
+-          printw("%d", space->partNum + 1);
+-          move(lineNum, 12);
+--         printw(BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
+-+         printw("%s",BytesToIeee((space->lastLBA - space->firstLBA + 1), blockSize).c_str());
+-          move(lineNum, 24);
+--         printw(space->origPart->GetTypeName().c_str());
+-+         printw("%s",space->origPart->GetTypeName().c_str());
+-          move(lineNum, 50);
+-          #ifdef USE_UTF16
+-          space->origPart->GetDescription().extract(0, 39, temp, 39);
+--         printw(temp);
+-+         printw("%s",temp);
+-          #else
+--         printw(space->origPart->GetDescription().c_str());
+-+         printw("%s",space->origPart->GetDescription().c_str());
+-          #endif
+-       } // if/else
+-    } // if
+-@@ -267,10 +267,10 @@ int GPTDataCurses::DisplayParts(int selected) {
+- 
+-    move(lineNum++, 0);
+-    theLine = "Part. #     Size        Partition Type            Partition Name";
+--   printw(theLine.c_str());
+-+   printw("%s",theLine.c_str());
+-    move(lineNum++, 0);
+-    theLine = "----------------------------------------------------------------";
+--   printw(theLine.c_str());
+-+   printw("%s",theLine.c_str());
+-    numToShow = LINES - RESERVED_TOP - RESERVED_BOTTOM;
+-    pageNum = selected / numToShow;
+-    for (i = pageNum * numToShow; i <= (pageNum + 1) * numToShow - 1; i++) {
+-@@ -284,7 +284,7 @@ int GPTDataCurses::DisplayParts(int selected) {
+-             } else {
+-                currentSpace = ShowSpace(i, lineNum);
+-                move(lineNum++, 0);
+--               printw(">");
+-+               printw("%s",">");
+-             }
+-             DisplayOptions(i);
+-             retval = selected;
+-@@ -632,7 +632,7 @@ void GPTDataCurses::DisplayOptions(char selectedKey) {
+-          } // if/else
+-       } // for
+-       move(LINES - 1, (COLS - optionDesc.length()) / 2);
+--      printw(optionDesc.c_str());
+-+      printw("%s",optionDesc.c_str());
+-       currentKey = selectedKey;
+-    } // if
+- } // GPTDataCurses::DisplayOptions()
+-@@ -744,11 +744,11 @@ void GPTDataCurses::DrawMenu(void) {
+- 
+-    clear();
+-    move(0, (COLS - title.length()) / 2);
+--   printw(title.c_str());
+-+   printw("%s",title.c_str());
+-    move(2, (COLS - drive.length()) / 2);
+--   printw(drive.c_str());
+-+   printw("%s",drive.c_str());
+-    move(3, (COLS - size.str().length()) / 2);
+--   printw(size.str().c_str());
+-+   printw("%s",size.str().c_str());
+-    DisplayParts(currentSpaceNum);
+- } // DrawMenu
+- 
+-@@ -798,7 +798,7 @@ void PromptToContinue(void) {
+- void Report(string theText) {
+-    clear();
+-    move(0, 0);
+--   printw(theText.c_str());
+-+   printw("%s", theText.c_str());
+-    move(LINES - 2, (COLS - 29) / 2);
+-    printw("Press any key to continue....");
+-    cbreak();
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+similarity index 88%
+rename from meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
+rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+index 67b83b6ead..e473b9cd55 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.8.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.9.bb
+@@ -9,9 +9,8 @@ DEPENDS = "util-linux"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
+            file://0001-gptcurses-correctly-include-curses.h.patch \
+-           file://0001-gptcurses-correct-ncurses-6.3-errors.patch \
+            "
+-SRC_URI[sha256sum] = "95d19856f004dabc4b8c342b2612e8d0a9eebdd52004297188369f152e9dc6df"
++SRC_URI[sha256sum] = "dafead2693faeb8e8b97832b23407f6ed5b3219bc1784f482dd855774e2d50c2"
+ 
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/gptfdisk/files/gptfdisk/"
+ UPSTREAM_CHECK_REGEX = "/gptfdisk/(?P<pver>(\d+[\.\-_]*)+)/"
+-- 
+2.25.1
 
-In my patch the behavior is the same, each thread has its own localdata2
-but the call of createCopy is done in a safe place.
-
-
->
-> Was there a reason you thought we should change that to fix some specific
-> issue?
->
-
-I suspect that there may be some race condition when calling the createCopy
-on the thread pool. If I understand well, the createCopy on the
-bitbake/lib/bb/data_smart.py copies a couple of structures.
-
-So I don't know if the call createCopy is safe to do inside the tread pool,
-if you think so please drop this patch.
-
-Jose
-
-
-> Cheers,
->
-> Richard
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000db6cdf05dd008ed9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia ter=C3=A7a, 19/04/2022 =C3=A0(s) 11:57:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On Tue, 2022-04-19 at 10:46 +01=
-00, Jose Quaresma wrote:<br>
-&gt; We don&#39;t need a new copy of the bitbake data [localdata2] in each =
-running<br>
-&gt; thread of the pool.<br>
-&gt; <br>
-&gt; We can do the copy on the startup of the thread pool in each thread wo=
-rker<br>
-&gt; and reuse it in each running thread, this is the same we did for the<b=
-r>
-&gt; connection_cache which is reused by fetcher.<br>
-&gt; <br>
-&gt; May be related with [YOCTO #14775] -- <a href=3D"https://bugzilla.yoct=
-oproject.org/show_bug.cgi?id=3D14775" rel=3D"noreferrer" target=3D"_blank">=
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775</a><br>
-&gt; <br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
-.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/sstate.bbclass | 6 +++---<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-It is a standard coding practise where you&#39;re changing the data store a=
-nd don&#39;t<br>
-want changes to persist, to use createCopy() on the datastore. It is fast a=
-nd<br>
-cheap and I&#39;m not sure we need to make this thread specific?<br></block=
-quote><div><br></div><div>My interpretation of the use of the createCopy wa=
-s so that the existing<br>one localdata, would not be used at the same time=
- in the thread pool.</div><div>i.e: each thread has its own localdata2 copi=
-ed from localdata.</div><div><br></div><div>In my patch the behavior is the=
- same, each thread has its own localdata2</div><div>but the call of createC=
-opy is done in a safe place.</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-<br>
-Was there a reason you thought we should change that to fix some specific i=
-ssue?<br></blockquote><div><br></div><div>I suspect that there may be some =
-race condition when calling the createCopy<br></div><div>on the thread pool=
-. If I understand well, the=C2=A0createCopy on the</div><div>bitbake/lib/bb=
-/data_smart.py copies a couple of structures.</div><div><br></div><div>So I=
- don&#39;t know if the call createCopy is safe to do inside the tread pool,=
-</div><div>if you think so please drop this patch.</div><div><br></div><div=
->Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000db6cdf05dd008ed9--
 
