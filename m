@@ -1,150 +1,119 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2F8C35294
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C335C4707E
 	for <webhook@archiver.kernel.org>; Tue, 19 Apr 2022 14:22:18 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.2])
- by mx.groups.io with SMTP id smtpd.web08.2628.1650364304763358063
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.2375.1650361592569201820
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 03:31:45 -0700
+ Tue, 19 Apr 2022 02:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=uJwfCskg;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.2,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1650364303; i=@fujitsu.com;
-	bh=7hA0T55k8kat3JfcCLjRK1wBRnv4L6L0oy6oTmy74iY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=uJwfCskgFPUJdwCdfui5JRU61+5PPDMVYCKeym+ajrs/1L+9gWOiPAKTSakExpiA4
-	 jLUBvOb/Pi/wjocfFkw6G70NKfkV9jTKtUBJHFwdhTNTSNtrPCTfOhbBcgDyEKBwDF
-	 icgx9AZrbCvMsu/rhCaSqSmI/Ib3lbDJiim2HCc/Lat2NQXjUZMUD7+MznV5DU7A9Z
-	 qdDUrqfBrEAOUkQacCfz7FxSOcovZ8Mzmrx0vgSSBo7eCId7M3Y36bv8FjoR/vqFeo
-	 HDfTfXg6KMitIxsMs+RCNEklS8Ue1LwzjZz/hEjwlKYzKdHf4T5VvRzjop1BoAX+CV
-	 54zX4D3R6obeQ==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8MxRbevPy7
-  JYFaLpsWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmtG75D9jwUfxit2btzI2MO4V7WLk4hASmMUk
-  8eH3PxYIZw+jxNsf91m7GDk52ATUJKbfugFkc3CICOhJXP0nChJmFlCRePG7hx3EFhZwkJh+/
-  BALiM0ioCrx4M9UMJtXwEni0pMVbCC2hICCxJSH75lBbE4BZ4nDPU1gvUJANZu/97JC1AtKnJ
-  z5hAVivoTEwRcvmCF6FSVmX25mgbArJGbNamOawMg/C0nLLCQtCxiZVjFaJRVlpmeU5CZm5ug
-  aGhjoGhqa6hrrGlpa6iVW6SbqpZbqlqcWl+ga6iWWF+ulFhfrFVfmJuek6OWllmxiBIZkSjHz
-  8R2MU/p+6h1ilORgUhLlrY+KSxLiS8pPqcxILM6ILyrNSS0+xCjDwaEkwRvaCZQTLEpNT61Iy
-  8wBxgdMWoKDR0mE91EXUJq3uCAxtzgzHSJ1ilGXY+eWy3uZhVjy8vNSpcR5xVqAigRAijJK8+
-  BGwGL1EqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3oO9QFN4MvNK4Da9AjqCCeiI6imxIEe
-  UJCKkpBqYdJ59XBhb/qbSIvp9ZTQnzxfblnaZ+c7fG+bOMWpYXJypq/ykJ0TC/kzV5S08H57d
-  8OP8LDLl4sNE9z3+FTIFlnv42fmy9tX5b5oV1lL3c/3TNV6Kx65e28Yh/UXj0+S0uSZSWy4qB
-  /xW+Tvh8OuX2noVCzjY/p7ifGM6L3ZftaHPLoGnNZ85JvBleuzIN7jyf53z9Hrfqs2bH65W4l
-  wi3fVmdfSabwmBS069zs8S2qF36fw3k6Oth8XmhuhoPdv3LNkyTOn7pHWLjn5IWPvETSvcU8j
-  9We/jBRuuVLBdUjlzSlSPkWnBnRjznQfNe8x2yDhJzf7xbJbAZdG21Wy/vgUUHP3t26Vr9/Ki
-  Jo/8EyWW4oxEQy3mouJEAHfK8/JQAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-16.tower-587.messagelabs.com!1650364302!407497!1
-X-Originating-IP: [62.60.8.148]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.85.8; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 17390 invoked from network); 19 Apr 2022 10:31:42 -0000
-Received: from unknown (HELO mailhost1.uk.fujitsu.com) (62.60.8.148)
-  by server-16.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 19 Apr 2022 10:31:42 -0000
-Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
-	by mailhost1.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 23JAVYC8029655
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 11:31:42 +0100
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Tue, 19 Apr 2022 11:31:33 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] kexec-tools: upgrade 2.0.23 -> 2.0.24
-Date: Tue, 19 Apr 2022 18:31:20 +0800
-Message-ID: <1650364280-23104-3-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1650364280-23104-1-git-send-email-wangmy@fujitsu.com>
-References: <1650364280-23104-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fLDODGb8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id x18so13798754wrc.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 19 Apr 2022 02:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=096s4LiB+N5ZVwWcMBoks+xobXWsSxcRgQWMj8i3Czw=;
+        b=fLDODGb8teT8wW5a3/WvMTD+CQmkQcaJr762rbDunaXIvrbWu9mWgQrqwepY8giPLV
+         cUFv8PM4MgjigCIe8oX8X41iVIlt0ak4RT4AXBbFq9J+BZaylfsynS2YhjaxMcsAGhCf
+         S7mYBMl1p5ISqEE1hmkPaRf26YaLNtDscj4d6QKdddZdBxXkAUY1p8zaYMbcNtU+PohX
+         APQUiTY57qJUvW8bdJfHo9K5PshHWTf2W1dgn18V/VwZmI/uHlCwET4txD/7PL2Qjtl8
+         GaZt0yJRt9EOCUFTVpeug8e76gsZLmAzeVFsVnZbvS2cr7dH5S6hSthZBiprTR7pdp+f
+         cgug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=096s4LiB+N5ZVwWcMBoks+xobXWsSxcRgQWMj8i3Czw=;
+        b=vDdxgu/z5PYRtHcSuYsxWPYxXAkEdkfqOgFCIETkjTH370xrgLlHM1Cjaecv+UTvTu
+         CrgdpyeNWYb6Qbz3vjZDzZYvpv45WX4uzKO4Bk2XGiOWKMXI+gSdAPPbWw4OmNlOMC7k
+         a/vcelhA0+1hjfF6ZfO8bB3d7ihQ6wzqWhb6zuMMnhppW/Eu6TZzTJGe4Iekoh3XKMml
+         tAzaOd7HDWsYZXOb2dkE6vHarqoA3IM0MXCBMAbUjK5GjYw18IacweW85URyBZnm+gT4
+         HWSdmMm3rmWWaocZBnu0KVMjb5d5Iuh6Tiys4vxRTf8dYF7pDfdmrzGZE/xMoZmTdVCq
+         iVww==
+X-Gm-Message-State: AOAM5306xbX2oL+wOgTIxIpl2Ir2lZGb4TiGEWRarEH1yS5YBGX5jQsD
+	VWHGoqET/DZd80EO3vi0U7vA1jDDzidPuA==
+X-Google-Smtp-Source: 
+ ABdhPJxYBDtZRKMxR6edTwz0s088VjLcUlFQfCMXiHdfkJN4BG4AHo3VPPJQLhaB9BT/cjqvRdrxPg==
+X-Received: by 2002:a5d:64cb:0:b0:20a:9050:f7e9 with SMTP id
+ f11-20020a5d64cb000000b0020a9050f7e9mr8404157wri.51.1650361590920;
+        Tue, 19 Apr 2022 02:46:30 -0700 (PDT)
+Received: from CTW-01195.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ p4-20020a1c5444000000b00391ca5976c8sm13556435wmi.0.2022.04.19.02.46.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Apr 2022 02:46:30 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 2/2] sstate: reuse the localdata copy on the mirror thread
+ pool
+Date: Tue, 19 Apr 2022 10:46:16 +0100
+Message-Id: <20220419094616.433632-2-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220419094616.433632-1-quaresma.jose@gmail.com>
+References: <20220419094616.433632-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Apr 2022 14:22:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164622
+ https://lists.openembedded.org/g/openembedded-core/message/164619
 
-refresh 0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
+We don't need a new copy of the bitbake data [localdata2] in each running
+thread of the pool.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+We can do the copy on the startup of the thread pool in each thread worker
+and reuse it in each running thread, this is the same we did for the
+connection_cache which is reused by fetcher.
+
+May be related with [YOCTO #14775] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14775
+
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...bled-check-if-kaslr-seed-dtb-propert.patch | 19 +++++++++++--------
- ...-tools_2.0.23.bb => kexec-tools_2.0.24.bb} |  2 +-
- 2 files changed, 12 insertions(+), 9 deletions(-)
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.23.bb => kexec-tools_2.0.24.bb} (97%)
+ meta/classes/sstate.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-index c2301e711d..ddc1519126 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-@@ -33,20 +33,20 @@ Upstream-Status: Submitted [http://lists.infradead.org/pipermail/kexec/2020-Nove
-  kexec/arch/arm64/kexec-arm64.c | 14 +-------------
-  1 file changed, 1 insertion(+), 13 deletions(-)
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index ebc336b497..7526ec7562 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -979,6 +979,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         from bb.fetch2 import FetchConnectionCache
+         def checkstatus_init(thread_worker):
+             thread_worker.connection_cache = FetchConnectionCache()
++            thread_worker.localdata2 = bb.data.createCopy(localdata)
  
--Index: kexec-tools-2.0.20/kexec/arch/arm64/kexec-arm64.c
--===================================================================
----- kexec-tools-2.0.20.orig/kexec/arch/arm64/kexec-arm64.c
--+++ kexec-tools-2.0.20/kexec/arch/arm64/kexec-arm64.c
--@@ -428,7 +428,7 @@ static int setup_2nd_dtb(struct dtb *dtb
-+diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
-+index ec6df4b..10238d9 100644
-+--- a/kexec/arch/arm64/kexec-arm64.c
-++++ b/kexec/arch/arm64/kexec-arm64.c
-+@@ -503,7 +503,7 @@ static int setup_2nd_dtb(struct dtb *dtb, char *command_line, int on_crash)
-  	int len, range_len;
-  	int nodeoffset;
-  	int new_size;
---	int result, kaslr_seed;
--+	int result;
-+-	int i, result, kaslr_seed;
-++	int i, result;
-  
-  	result = fdt_check_header(dtb->buf);
-  
--@@ -499,18 +499,6 @@ static int setup_2nd_dtb(struct dtb *dtb
-+@@ -576,18 +576,6 @@ static int setup_2nd_dtb(struct dtb *dtb, char *command_line, int on_crash)
-  			return result;
-  		}
-  	} else {
-@@ -65,3 +65,6 @@ Index: kexec-tools-2.0.20/kexec/arch/arm64/kexec-arm64.c
-  		/*
-  		 * Invoke the getrandom system call with
-  		 * GRND_NONBLOCK, to make sure we
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.23.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.24.bb
-similarity index 97%
-rename from meta/recipes-kernel/kexec/kexec-tools_2.0.23.bb
-rename to meta/recipes-kernel/kexec/kexec-tools_2.0.24.bb
-index 4e58a5acbd..fdad40ed6a 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.23.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.24.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch \
-            "
+         def checkstatus_end(thread_worker):
+             thread_worker.connection_cache.close_connections()
+@@ -986,15 +987,14 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+         def checkstatus(thread_worker, arg):
+             (tid, sstatefile) = arg
  
--SRC_URI[sha256sum] = "c7dcc59f5b66004d9d91264324e20e0387ea263dbb449708fbf84a4e5ff7decc"
-+SRC_URI[sha256sum] = "1ff9137327aeac3b2ab922a71bc6eb4655571a0ff77c071cb92783a9a59d4d26"
+-            localdata2 = bb.data.createCopy(localdata)
+             srcuri = "file://" + sstatefile
+-            localdata2.setVar('SRC_URI', srcuri)
++            thread_worker.localdata2.setVar('SRC_URI', srcuri)
+             bb.debug(2, "SState: Attempting to fetch %s" % srcuri)
  
- inherit autotools update-rc.d systemd
+             import traceback
  
+             try:
+-                fetcher = bb.fetch2.Fetch(srcuri.split(), localdata2,
++                fetcher = bb.fetch2.Fetch(srcuri.split(), thread_worker.localdata2,
+                             connection_cache=thread_worker.connection_cache)
+                 fetcher.checkstatus()
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
 -- 
-2.25.1
+2.35.3
 
 
