@@ -1,221 +1,202 @@
-Return-Path: <simone.weiss@elektrobit.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9B2EC47080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FCEC352A1
 	for <webhook@archiver.kernel.org>; Tue, 19 Apr 2022 14:22:18 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.61])
- by mx.groups.io with SMTP id smtpd.web09.3197.1650369030782165389
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web12.3265.1650369352106442444
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 04:50:31 -0700
+ Tue, 19 Apr 2022 04:55:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@elektrobit.onmicrosoft.com
- header.s=selector2-elektrobit-onmicrosoft-com header.b=tYxA6u+9;
- spf=pass (domain: elektrobit.com, ip: 40.107.244.61,
- mailfrom: simone.weiss@elektrobit.com)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=N9IsLpaE;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 17so20226577lji.1
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 19 Apr 2022 04:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PxDSO0SsdaL5hBpnsy1Nsq5ivpeca3gg7Ogdyp/x9s8=;
- b=tYxA6u+9/PJG+YBv9dV+5ofTF5Tpiv/nyGQu2cEx9onHTOL9ubhwzlJM3qsZaqq+h/sD7recIWZoHTQ2ZMb+dCDlGE/deMHqwJLP8fZgGMXn1PCppmdQJRYq3wLxUK/P363JgLWvK545/SPdkTOc+7xeq0bn3jDNFr60hK/bgpw=
-Received: from DS7PR03CA0235.namprd03.prod.outlook.com (2603:10b6:5:3ba::30)
- by DM5PR08MB3609.namprd08.prod.outlook.com (2603:10b6:4:6c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 11:50:27 +0000
-Received: from DM6NAM12FT046.eop-nam12.prod.protection.outlook.com
- (2603:10b6:5:3ba:cafe::b9) by DS7PR03CA0235.outlook.office365.com
- (2603:10b6:5:3ba::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20 via Frontend
- Transport; Tue, 19 Apr 2022 11:50:27 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 4.79.107.243)
- smtp.mailfrom=elektrobit.com; dkim=pass (signature was verified)
- header.d=elektrobit.onmicrosoft.com;dmarc=none action=none
- header.from=elektrobit.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- elektrobit.com discourages use of 4.79.107.243 as permitted sender)
-Received: from usbth1es003.ebgroup.elektrobit.com (4.79.107.243) by
- DM6NAM12FT046.mail.protection.outlook.com (10.13.178.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5186.7 via Frontend Transport; Tue, 19 Apr 2022 11:50:27 +0000
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by usbth1es003.ebgroup.elektrobit.com (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 04:50:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UMeerqW92ktn4ULYwxHRV6sIgF7c+iLwEa03zCZfxZmYps+vF+GQUr/j0Y9gE7QRcXHzk/rolo7UvfBwDk0w35+g9kl+FVoPTYDDM+0PCObBt7+TVFG1417nBbxOwJ/TaeJ/SEQmiKp3jmeZO1DSF4FsCD9eqIsRhwosgqp5ajuGa7x9U0Hp1rDlEWqAaWi/qdP/Xk93k9dZM22r0WvdcE88vzmcRfoV05IRpFofZrjJVbQw4gqz6QGWkCJrY5kJYLwnuItHyJUNYB5vIor6lIFsTS7iGZD1ETNwHEaog7PxgnqBw8mVPbDasU4Jgrdsxz3wqCjhHcEJHOZWVEGDNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PxDSO0SsdaL5hBpnsy1Nsq5ivpeca3gg7Ogdyp/x9s8=;
- b=UT2hRYrkV7Faktd/4gfcV2kwy+A5R3wnwwOdqLMJ75Y8Muahfc4wLSwuAfkEgIYxNiVWgETC1TP7B7Xur4NKfG6MsQLGgU/NLTW+etdUNB3632zCimHJIoCjXA9kqL9Ag6Y47U+tq9H2ek7+8cnm+fhPwuHvsQ8giANZOc21Cyev4X8N20V+KOiQ5LGCyO524JXWXSOOsujFXbzCjNs4gkbMEiYEAXdrISTBQMEV8oNF5bljzk7dn8akWLR/4C0VQy3azfWPsfKckigQyO4DHCWfiGr/KndyxNJjugcynUmJnC+vbh6MrC5tWU8QLbpQ9Otck7wg5EZZ8bgSrhFuAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 213.95.148.172) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=elektrobit.com; dmarc=none action=none
- header.from=elektrobit.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PxDSO0SsdaL5hBpnsy1Nsq5ivpeca3gg7Ogdyp/x9s8=;
- b=tYxA6u+9/PJG+YBv9dV+5ofTF5Tpiv/nyGQu2cEx9onHTOL9ubhwzlJM3qsZaqq+h/sD7recIWZoHTQ2ZMb+dCDlGE/deMHqwJLP8fZgGMXn1PCppmdQJRYq3wLxUK/P363JgLWvK545/SPdkTOc+7xeq0bn3jDNFr60hK/bgpw=
-Received: from DM5PR07CA0090.namprd07.prod.outlook.com (2603:10b6:4:ae::19) by
- BL0PR08MB4627.namprd08.prod.outlook.com (2603:10b6:208:5c::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5164.25; Tue, 19 Apr 2022 11:50:24 +0000
-Received: from DM6NAM12FT068.eop-nam12.prod.protection.outlook.com
- (2603:10b6:4:ae:cafe::34) by DM5PR07CA0090.outlook.office365.com
- (2603:10b6:4:ae::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20 via Frontend
- Transport; Tue, 19 Apr 2022 11:50:24 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 213.95.148.172) smtp.mailfrom=elektrobit.com; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=elektrobit.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- elektrobit.com discourages use of 213.95.148.172 as permitted sender)
-Received: from denue6es010.ebgroup.elektrobit.com (213.95.148.172) by
- DM6NAM12FT068.mail.protection.outlook.com (10.13.179.117) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5186.7 via Frontend Transport; Tue, 19 Apr 2022 11:50:23 +0000
-Received: from denue6es011.ebgroup.elektrobit.com (10.243.160.101) by
- denue6es010.ebgroup.elektrobit.com (10.243.160.100) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 19 Apr 2022 13:50:21 +0200
-Received: from del01461.ebgroup.elektrobit.com (10.243.54.72) by
- denue6es011.ebgroup.elektrobit.com (10.243.160.101) with Microsoft SMTP
- Server id 15.1.2308.20 via Frontend Transport; Tue, 19 Apr 2022 13:50:21
- +0200
-From: Simone Weiss <simone.weiss@elektrobit.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Simone Weiss <simone.weiss@elektrobit.com>
-Subject: [PATCH v2] libgpg-error: Add ptest
-Date: Tue, 19 Apr 2022 13:50:15 +0200
-X-Mailer: git-send-email 2.17.1
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=24QpAqDJxaAgZ5n0x7XQIA8YP2vmb3id66upLFwuXdw=;
+        b=N9IsLpaEhJrIcmot9VXP6UII29KXHeynKOH7Aw4veAxDR6aFrW9ymFvjvutB4tJFRb
+         +RMrH6ZIyOLiaL6Q34G2BMSZZhU7esgK6hklYCpJJXmK09Kc+/Rn8aTbbhGsBhdU7NJ+
+         7NMDs9i5yF+acfTHbXvoTwprClK9XeyFq4XB9AOiSZwHgyPDbGKmabZgsKb5+cBO0gsE
+         dv0A5wuaMHM+L2tER56VNdUe8ODsj1hjXGP7srYdqVombyIt0w+cE0/tSPtthknPyx3b
+         LZjTHDojKFrZ5kF5BshfCsUp/sOEzX8vmYhYTB0QmaooA4HEa0qokkkMCw5aFOSAvNak
+         /rFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=24QpAqDJxaAgZ5n0x7XQIA8YP2vmb3id66upLFwuXdw=;
+        b=nakiDQIqPG03pUVrHvG05ABUBBSRNe1Oom9+3lJecnDVb2B5JkEMG+p4YNVtqsoZkH
+         ZsBLSST04tb5AW8UQNlQJ6SJp+rPe5q/KxnMZwI0+XaqbrYPI99tRSV0PczoO4bovrqI
+         5XMqNSsTdQG+oK2ZtAIva7Y4kEurKeDETmn69sCPP7guqpoKGrmg3HodESfvv30W3q5/
+         cZOS77NV+1qq98MAWaeHmObviJ3WZM+733/8/D62qFOkDMkqehJR0ujK2u1H5nC6A9Zu
+         u1MGbzMiSuIF7s8OauMSBpJ3fUakMaAN2dCMCgEdcnABz+aObygNfY7FFguv6xyWsnJY
+         FfYQ==
+X-Gm-Message-State: AOAM530OYMXLvSg86bFx4ZuHI+pzmJzud/Cme3bAm/ZBeUNSXCjA9zV3
+	fmNt5yAui/AoBNnbdu/Rx6m8/b/lQG4JV1+/EpM=
+X-Google-Smtp-Source: 
+ ABdhPJyB/5VmY/QQs/BLkI95jYSubohJ1D3UlXsIdD/i6mz5JyEz79fOEnhJc3SyJ2cv/EkbeHNHACzOHIgPf1vTf9c=
+X-Received: by 2002:a2e:3c19:0:b0:24d:a5ad:e7d3 with SMTP id
+ j25-20020a2e3c19000000b0024da5ade7d3mr10129164lja.426.1650369350035; Tue, 19
+ Apr 2022 04:55:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220419094616.433632-1-quaresma.jose@gmail.com>
+ <20220419094616.433632-2-quaresma.jose@gmail.com>
+ <6f880050d15a2b07d1d9a6d766c5f74bd6f07772.camel@linuxfoundation.org>
+In-Reply-To: 
+ <6f880050d15a2b07d1d9a6d766c5f74bd6f07772.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 19 Apr 2022 12:55:39 +0100
 Message-ID: 
- <e56e9b09-e7c4-4654-8f85-f8f27e78ee5d@denue6es010.ebgroup.elektrobit.com>
-X-EOPAttributedMessage: 1
-X-MS-Office365-Filtering-Correlation-Id: e98d5d76-3835-4164-3672-08da21facc1b
-X-MS-TrafficTypeDiagnostic: 
-	BL0PR08MB4627:EE_|DM6NAM12FT046:EE_|DM5PR08MB3609:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DM5PR08MB3609A5138B327B238AEAEB40E2F29@DM5PR08MB3609.namprd08.prod.outlook.com>
-X-SM-outgoing: yes
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 1tbVZBzVGs16sbVYS5MiHfRpZimhEi9mPrcM6AEfu3hDgvibE6hkUxSg9QhlrOfYExn5Z73aYieYP4IHPPGF5sX7ecNrmKxdPoWuIe3tXehJW4OzUpkXOuN2Q4TY5FRGw5W3pIQLa7QD+dIVdyAG3S7z5XPx+nSn2qXghKYguPkMH4oABQV2FwACBYzPvoIUEMfNEElCIlu4irQfNS/SflxWJRSJT8o2q0D0DAdr9UXzGxlBOYyhc+HfitoM4SzOIs14dt+FAVaEw8iYKd6c0jjtmJ0wYQvRKmkiey8go9PpqrNSJ/YgbF/KCLhFEOLJBVZhsr/u2miZbHIXOx0ks0E9EqFegPdlh0g4nNRSyWHtVk1kFwBzEVcX6HboCOb8y1c3qZ7G6uF5ARoBGsOmiIDaH69TUWcuXzzuK2I4OjdW0CRjvhMOTfVl5hGWEUJ67UqffYCqSQ1H0PMrwOnbDmW1h7AuAMPGqH4VgMeK0NftmbXqrLJ7jhh6MpWIzK8VB+voQBzDdvhOUjMiYJkenfxR3eb+AQGIadmSSESU7qaBhciId81rYDDQNbI7LeP7DuJaXVgsCVCrL3yoRjockQvP+GwYFK8d7G3rvZT/ffehEjuwtMrnXSFKvLIYN02h7FiUxzVKvOYzwXQtykzbYopv0TLPLmkchwZ3HP6WMNo8IbbWZmW/FvVFBnD4QxcukKBkNqw8PvbIGO+zTvFPDLO+DBbO5veV+ordLPPJx++1vo+4rJvvilGQMlc+/pI8D6hTy7+9yK/NFZnF/mC9kw==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:213.95.148.172;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:denue6es010.ebgroup.elektrobit.com;PTR:eth1-fw1-nbg6.eb.noris.de;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(86362001)(508600001)(6666004)(83380400001)(31686004)(5660300002)(2906002)(26005)(4326008)(6916009)(107886003)(81166007)(47076005)(44832011)(426003)(336012)(8936002)(356005)(316002)(40460700003)(186003)(36860700001)(70586007)(8676002)(70206006)(31696002)(82310400005);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR08MB4627
-X-SM-smarthost: [elektrobit-com.mail.protection.outlook.com]
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DM6NAM12FT046.eop-nam12.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	0873a261-1a1f-4398-5b2e-08da21fac9fe
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	99d79Aq/Bv9uglzCHWRVUS8dmM+q9t1ItJGcy19uv2eE9HYVnwqWuU/nLdONrVTeOesshr704BppnUIc4bjnwLj/xM3XC+TbNmRhzWe4YGnbi4kVVGbqMg2iTLRrAriNIC8ypQfbxPvt+azKsH+nf9WJGpYLT9TXOqhMPFeWaU7o7J6E4w16V19j1NhZ+Md9lfWduXjWuorr0MYIyZ6XEVBCpSk7Ukb4C0GvaWqekrY/ghnGfmHXwXZw1GLnN0MJziqMUHm3OcGytR/aEFZUtzxOTzOWyr9zjJCi0nN9ogUknBzswJs/+6ymMC68kDoRQTRJ1ZUOwYmoJlEKi/74ozZUI9eZg5DogJP5/rHQeKSINKcRVF+D1strAYRpN7LRUvEGpkumsEfvfAKMLRz3LL9FqMmi6HIIHsLEbb1RIJky2ddfT85IjmvtqIpF8oFaXj/uNNw7bm4zIXRGxe7dC+5K1zX+yvUhN8gwDn71+dpxFZV8Cdm1gVCXJsez4ao/PzH1LML/Frd771ys+R0Mn83QU+gktpwlQH1ad9WcC/pqvLswdkqd7h5V7920EwvQtRLlWteLkmz84b+8hT/YaDXTl9Sxco2/BRkyjhwMBSEB2nCvUTci2+sP47eKUngft4FFagM/aCDiPlfqAwv1qWO6bf1LYBF6c/3FFmiEdvif+wyOwliU5ahZ+GBI5pmIZTKIopbsBbnTjXALnkM0i73Qh6rXoJ6U74wlOMghrLeilKdR8uVcyClmqzEq4aK/ei9UB2EcExyXdH+drn9DQKxlquSN00TvGVABNt+9Fho=
-X-Forefront-Antispam-Report: 
-	CIP:4.79.107.243;CTRY:CA;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:usbth1es003.ebgroup.elektrobit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(186003)(6666004)(508600001)(6916009)(83380400001)(8676002)(44832011)(47076005)(31686004)(426003)(70586007)(70206006)(336012)(4326008)(36860700001)(82310400005)(40460700003)(316002)(86362001)(31696002)(8936002)(26005)(107886003)(2906002)(5660300002)(81166007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: elektrobit.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 11:50:27.2785
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- e98d5d76-3835-4164-3672-08da21facc1b
-X-MS-Exchange-CrossTenant-Id: e764c36b-012e-4216-910d-8fd16283182d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=e764c36b-012e-4216-910d-8fd16283182d;Ip=[4.79.107.243];Helo=[usbth1es003.ebgroup.elektrobit.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DM6NAM12FT046.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR08MB3609
+ <CANPvuRnMTdvOc_uso-zOJ-z7_xV2eqSoTBaDgEy-StHQ9qka+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] sstate: reuse the localdata copy on the
+ mirror thread pool
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000db6cdf05dd008ed9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Apr 2022 14:22:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164625
+ https://lists.openembedded.org/g/openembedded-core/message/164626
 
-Add a ptest for libgpg-error to core-image-ptest-all. Avoid refreshing the
-Makefile in qemu as this would fail and is not needed. All tests passed on
-a trial run.
+--000000000000db6cdf05dd008ed9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Simone Weiss <simone.weiss@elektrobit.com>
----
- meta/conf/distro/include/ptest-packagelists.inc    |  1 +
- .../libgpg-error/libgpg-error/run-ptest            |  3 +++
- .../libgpg-error/libgpg-error_1.44.bb              | 14 +++++++++++++-
- 3 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/run-ptest
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia ter=C3=
+=A7a,
+19/04/2022 =C3=A0(s) 11:57:
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index b51cce4d9e..54a290871e 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -25,6 +25,7 @@ PTESTS_FAST = "\
-     json-glib-ptest \
-     libconvert-asn1-perl-ptest \
-     liberror-perl-ptest \
-+    libgpg-error-ptest\
-     libnl-ptest \
-     libmodule-build-perl-ptest \
-     libpcre-ptest \
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/run-ptest b/meta/recipes-support/libgpg-error/libgpg-error/run-ptest
-new file mode 100644
-index 0000000000..2d23159eb0
---- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -o Makefile runtest-TESTS
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb
-index 41adad0ede..174350f6f5 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.44.bb
-@@ -17,13 +17,16 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-            file://0001-Do-not-fail-when-testing-config-scripts.patch \
-+           file://run-ptest \
-            "
- 
- SRC_URI[sha256sum] = "8e3d2da7a8b9a104dd8e9212ebe8e0daf86aa838cc1314ba6bc4de8f2d8a1ff9"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
--inherit autotools binconfig-disabled pkgconfig gettext multilib_header multilib_script
-+inherit autotools binconfig-disabled pkgconfig gettext multilib_header multilib_script ptest
-+
-+RDEPENDS_${PN}-ptest:append = " make"
- 
- MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/gpgrt-config"
- 
-@@ -35,6 +38,15 @@ do_install:append() {
- 	oe_multilib_header gpg-error.h gpgrt.h
- }
- 
-+do_compile_ptest() {
-+    oe_runmake -C tests buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+    install ${B}/tests/t-*[!\.o] ${D}${PTEST_PATH}
-+    install ${B}/tests/Makefile ${D}${PTEST_PATH}
-+}
-+
- FILES:${PN}-dev += "${bindir}/gpg-error"
- FILES:${PN}-doc += "${datadir}/libgpg-error/errorref.txt"
- 
--- 
-2.17.1
+> On Tue, 2022-04-19 at 10:46 +0100, Jose Quaresma wrote:
+> > We don't need a new copy of the bitbake data [localdata2] in each runni=
+ng
+> > thread of the pool.
+> >
+> > We can do the copy on the startup of the thread pool in each thread
+> worker
+> > and reuse it in each running thread, this is the same we did for the
+> > connection_cache which is reused by fetcher.
+> >
+> > May be related with [YOCTO #14775] --
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/classes/sstate.bbclass | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> It is a standard coding practise where you're changing the data store and
+> don't
+> want changes to persist, to use createCopy() on the datastore. It is fast
+> and
+> cheap and I'm not sure we need to make this thread specific?
+>
 
+My interpretation of the use of the createCopy was so that the existing
+one localdata, would not be used at the same time in the thread pool.
+i.e: each thread has its own localdata2 copied from localdata.
+
+In my patch the behavior is the same, each thread has its own localdata2
+but the call of createCopy is done in a safe place.
+
+
+>
+> Was there a reason you thought we should change that to fix some specific
+> issue?
+>
+
+I suspect that there may be some race condition when calling the createCopy
+on the thread pool. If I understand well, the createCopy on the
+bitbake/lib/bb/data_smart.py copies a couple of structures.
+
+So I don't know if the call createCopy is safe to do inside the tread pool,
+if you think so please drop this patch.
+
+Jose
+
+
+> Cheers,
+>
+> Richard
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000db6cdf05dd008ed9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia ter=C3=A7a, 19/04/2022 =C3=A0(s) 11:57:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">On Tue, 2022-04-19 at 10:46 +01=
+00, Jose Quaresma wrote:<br>
+&gt; We don&#39;t need a new copy of the bitbake data [localdata2] in each =
+running<br>
+&gt; thread of the pool.<br>
+&gt; <br>
+&gt; We can do the copy on the startup of the thread pool in each thread wo=
+rker<br>
+&gt; and reuse it in each running thread, this is the same we did for the<b=
+r>
+&gt; connection_cache which is reused by fetcher.<br>
+&gt; <br>
+&gt; May be related with [YOCTO #14775] -- <a href=3D"https://bugzilla.yoct=
+oproject.org/show_bug.cgi?id=3D14775" rel=3D"noreferrer" target=3D"_blank">=
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14775</a><br>
+&gt; <br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
+.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/sstate.bbclass | 6 +++---<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+It is a standard coding practise where you&#39;re changing the data store a=
+nd don&#39;t<br>
+want changes to persist, to use createCopy() on the datastore. It is fast a=
+nd<br>
+cheap and I&#39;m not sure we need to make this thread specific?<br></block=
+quote><div><br></div><div>My interpretation of the use of the createCopy wa=
+s so that the existing<br>one localdata, would not be used at the same time=
+ in the thread pool.</div><div>i.e: each thread has its own localdata2 copi=
+ed from localdata.</div><div><br></div><div>In my patch the behavior is the=
+ same, each thread has its own localdata2</div><div>but the call of createC=
+opy is done in a safe place.</div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+<br>
+Was there a reason you thought we should change that to fix some specific i=
+ssue?<br></blockquote><div><br></div><div>I suspect that there may be some =
+race condition when calling the createCopy<br></div><div>on the thread pool=
+. If I understand well, the=C2=A0createCopy on the</div><div>bitbake/lib/bb=
+/data_smart.py copies a couple of structures.</div><div><br></div><div>So I=
+ don&#39;t know if the call createCopy is safe to do inside the tread pool,=
+</div><div>if you think so please drop this patch.</div><div><br></div><div=
+>Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000db6cdf05dd008ed9--
 
