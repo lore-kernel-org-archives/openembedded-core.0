@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B4DEC65BA0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 127C3C65BA4
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:11 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.13946.1650491493419136647
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web08.13949.1650491495639403753
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:33 -0700
+ Wed, 20 Apr 2022 14:51:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=sJOti9iV;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
+ header.b=rQepeSU3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 2so3185043pjw.2
+Received: by mail-pj1-f42.google.com with SMTP id u5so72366pjr.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:33 -0700 (PDT)
+ Wed, 20 Apr 2022 14:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=sT+PaJ4pLrwvVg0LAbYaPHi+531R3JuxznTdP94NB6s=;
-        b=sJOti9iVf+SAZbLfN3Ek9fv4fmBfE9aII9xIKC4M4CPDMokFhVMcMDySF4WFe21FDe
-         58xCuwg0KpjvyDKqfYGl5YfMQ/48Xf7jrzZ4zVpF5XAJ6jIkWKvAEtnO7nMZNylCdzzF
-         TPIUcAsnAaJsKaPdNMHp7a5b3GQwz0sUsgXuz22EY1g3W9RrzC9frkJboy7rl1ViKMoW
-         Q6ZFR4qBORA9ci6bJJpHcVPRBJaEK+WZbmQIUrXiSmpExeDEjZ5f9nOjXKrPF1/ZZ0hN
-         /NqnuhuYzHqkCd1ulwQTwwWZ70gAQqYHbhq2Q8LK/SUwcANmyZlcenxft/ymLRVY+k8f
-         0SiA==
+        bh=uRFoy7KTIMB4WOGezHzBc4i9lUUeIf8jxi+qdwBSJOw=;
+        b=rQepeSU3t4BJerbowQXByBCqVM3b3i5aGaPbuUIYR3O0x7/btlvg+fnrEl4NT7ibOs
+         LQxtGdoqOICFRV21CN1ghhsSV5hRZ8S/lPunj8Bgbuoh8zYkfP7qJbexqEYmDYj/pQZR
+         cC0FNDBN60L1/Wlf4eHzkRTzn2bk/uaRuXc6KvvzwGvta3a3IY/b4EuGPEF9BdHOfVvP
+         Sw+fFk66NPhibJQGYhxDi9lxI+4ArEMS7Swwqvml311SieNE5sftRlvpv3EmjLT0q5tS
+         Ki87P4Hid7nEOEE6cu+Mk7W1wPRJvLxLfiQ6+S7ysTT/O8X4EE3tUCbzRVQLCdKplVNB
+         u78g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sT+PaJ4pLrwvVg0LAbYaPHi+531R3JuxznTdP94NB6s=;
-        b=c9spTjZu7br5aPLFiMYMMiRwUR9Ov8U9dJEUi4qZsTuYKb3qk/Y6pX/zMuolhVZN4H
-         xLJ5BLSs3+riOk8xz6Bh3RtQGojnQJMHCt1xKwZQ/fbOYofu1JJV3glvw/njlzbLnDhK
-         UIMA7NgydIB7fibOBF6yLPfeErVL7UtUvxYV6z98/XJkK83+1wm3KlmqmsCNCZ6MBfql
-         feINYUM4SD+WkIms5ob0VjcBgH3ZIG/0uV9/SIYBnoaOvj0Ox6scijMa3S5dor8mNjM5
-         OJR0y5UHox8o2OOlwQfYI/sLN4X0/oSj+VoFzB5fVtoj8Bi7N4KFvqMJyjGF/9r6lN6n
-         ry+Q==
-X-Gm-Message-State: AOAM533d24kE4qEYnMCbzx+TyREf0A86VLKXDRZT2DesU3MekDF4eTk/
-	NUqRXoAUQ3Hx39HibLxShwBXjTEqBeSHhQeL1lo=
+        bh=uRFoy7KTIMB4WOGezHzBc4i9lUUeIf8jxi+qdwBSJOw=;
+        b=RNX+k3sSi1tIQ3STsQ+Gl1fNEufbs9kvf7FS4+0hYDoSL06C3Kb4zXxBYFM6Q9i2Q5
+         nbujKD48z/Ac+U0Yd6N1HF00hFj5sfEb4XU4k9JN4zIyhvJncbNfwBm/TosjceJ8h8RN
+         WbdlJ58kmfLK3D62qKj8L9TpYKZWu5v+wuB1VJcZ1csKcUYgwDjW+JcpEIJQaNwkJYe2
+         ZQ/pM3KQsgf0G/MebU8CkyK1fmO+rYtWGplsLDfKiV7rn+y2AJykteRotBUlsFz5VNpf
+         ZO4jmceCquwJNVYqHeOKbaGWHLBqynlQG83gLiDrgeAAtC9OjDujYrX7hSmEHitE6ZRV
+         ecqg==
+X-Gm-Message-State: AOAM532VUn8uR5TMa52C0G5TF237FR0XeD1K4kk4wdjYgKy8yiKkobqg
+	pvNqKpt8MKAadoeM9LdaFK7iBUsDKI72abKKAlw=
 X-Google-Smtp-Source: 
- ABdhPJyiyCEBWB5oz1medsbcLOOdSeKxX7R2wnH8Ab9puEmiI4Y5ZSSRbl/7wylgEQjgYW9c+8aYeg==
-X-Received: by 2002:a17:902:d506:b0:158:d83f:c42b with SMTP id
- b6-20020a170902d50600b00158d83fc42bmr22413290plg.122.1650491492341;
-        Wed, 20 Apr 2022 14:51:32 -0700 (PDT)
+ ABdhPJzemTWV91FmftOxyzj6Ut1A//dhH7YhduZX7H9Fvk7MjLF6XLPsDdA1mLk65gLP1hIbiIRB3Q==
+X-Received: by 2002:a17:90b:3908:b0:1d2:8794:5a48 with SMTP id
+ ob8-20020a17090b390800b001d287945a48mr6682790pjb.61.1650491494790;
+        Wed, 20 Apr 2022 14:51:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e126-20020a621e84000000b0050567191161sm21102153pfe.210.2022.04.20.14.51.31
+ e126-20020a621e84000000b0050567191161sm21102153pfe.210.2022.04.20.14.51.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 14:51:31 -0700 (PDT)
+        Wed, 20 Apr 2022 14:51:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/9] linux-firmware: upgrade 20220310 -> 20220411
-Date: Wed, 20 Apr 2022 11:51:08 -1000
+Subject: [OE-core][dunfell 2/9] wireless-regdb: upgrade 2022.02.18 ->
+ 2022.04.08
+Date: Wed, 20 Apr 2022 11:51:09 -1000
 Message-Id: 
- <de880e23bff4e0da0306ec61396044e1f3b48aa1.1650491190.git.steve@sakoman.com>
+ <635d1ab7ed8e813e01f49b47894d978c8497df34.1650491190.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650491190.git.steve@sakoman.com>
 References: <cover.1650491190.git.steve@sakoman.com>
@@ -69,47 +70,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164728
+ https://lists.openembedded.org/g/openembedded-core/message/164729
 
-From: wangmy <wangmy@fujitsu.com>
+From: zhengruoqin <zhengrq.fnst@fujitsu.com>
 
-License-Update:
-    Version of driver files updated
-    Added files for some drivers
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 01684df3a51be476081ee21eb54c24fef00acb3f)
+(cherry picked from commit c6ea7450a919f2b571746e7af350c1362e41f8e1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...{linux-firmware_20220310.bb => linux-firmware_20220411.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
+ ...ireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-index 7a6cb1903b..04a6cefaa1 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220310.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=45a9c4a92d152e9495db81e1192f2bdc \
-+                    file://WHENCE;md5=4cf67d71a21887c682c3989a4318745e \
-                     "
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
+index 4e6da4cbe1..ad6ba8dc8b 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.02.18.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -205,7 +205,7 @@ PE = "1"
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "8828c25a4ee25020044004f57374bb9deac852809fad70f8d3d01770bf9ac97f"
++SRC_URI[sha256sum] = "884ba2e3c1e8b98762b6dc25ff60b5ec75c8d33a39e019b3ed4aa615491460d3"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "5938ee717b2023b48f6bfcf344b40ddc947e3e22c0bc36d4c3418f90fea68182"
-+SRC_URI[sha256sum] = "020b11f6412f4956f5a6f98de7d41867d2b30ea0ce81b1e2d206ec9840363849"
- 
- inherit allarch
+ inherit bin_package allarch
  
 -- 
 2.25.1
