@@ -1,62 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF81C35274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 473AAC4707E
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:06 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.2931.1650418612119931780
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web12.3151.1650419968347044990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 18:36:52 -0700
+ Tue, 19 Apr 2022 18:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mx/sp1wz;
- spf=pass (domain: gmail.com, ip: 209.85.214.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id 12so373405pll.12
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 18:36:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nhN5OVl3wxTN40qpl+puaBNnhmF13N6Wito6Jz2wiY=;
-        b=Mx/sp1wzI7jPFvahMN7SWnOO3Hg07dDTWNZtBF48kdFdj+vRKqATNJ5CjhZsL6psfb
-         H2Uw2pI47ojbCirLnOqys08Va+JB1SsUOAaL+rPu0R1mW+1+FkYeNCHsD71nkXgCi7wg
-         UisGeYkEt2O8OnY5nMmDSIihuqp3H500pAxnyes/5r/DAoOU+lv5CvesgVFg7fwfTYY1
-         08IQuDbhFBcDLlcEmPPQG5czMN1ZwKWtsk02E9K6BSkPcBVseIsnEoXhC5NLDIDG+Dsm
-         HqnUjADdMqa54Qxh5OScUAgYoq7MfpTcheVF/7+rfMGKkZMXX5zXtE2f7id0GrhyQIgJ
-         zf6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nhN5OVl3wxTN40qpl+puaBNnhmF13N6Wito6Jz2wiY=;
-        b=Ytl4QWrp6Qp9s898QBgdI7IVpOj08SSQyXKi2uvSv/WyBsWiKI+HHQBel1BwftzwQM
-         ongv6zs3E4gHh2pdDZyFVwAXaRWLrstOaHWaU1mjkxCrfeL0aSi4vGQWm7JrhhRdTMyB
-         Epn/kV2EFjDzBujSBQId93dWFfvBABBI/snoX7dljGsDxgfbjRFfzHM5OGXWHAjNOev6
-         wMTiebA3Y1eyzEsLTbtgEpmhKZKy14mMohlVvIq38e3/dWoAKkWydVF09eqootsQ5hfG
-         Rwf6OGxYe3mm4+XG0AAILlLaM9QKRXvg/WPfSTYNnPBK+RGMBvB9DYJbJynOVyAzXtPn
-         WbRA==
-X-Gm-Message-State: AOAM533rSQbqUdMrWwDX/ux5zesDxK6nquLdCKVxbqPqHCZEYuFXLcpx
-	Xon7hxL+U098iz6NhW8OcBevkswqqCsgcA==
-X-Google-Smtp-Source: 
- ABdhPJyRWcUIvd5SaA0HpWIZcC3J10qHXi7SVEN9m37o61uHrK1sOLS0gKJBKXztTTpJwCWQTtNvCg==
-X-Received: by 2002:a17:902:ccc1:b0:15a:24df:a7cc with SMTP id
- z1-20020a170902ccc100b0015a24dfa7ccmr2268039ple.42.1650418611379;
-        Tue, 19 Apr 2022 18:36:51 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3ee6])
-        by smtp.gmail.com with ESMTPSA id
- g12-20020a056a001a0c00b004e1307b249csm18643669pfv.69.2022.04.19.18.36.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 18:36:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=cpDqTjbN;
+ spf=pass (domain: intel.com, ip: 192.55.52.43,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650419968; x=1681955968;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5KwWlASRNx33aWpbB7wz8bWjm1GF60/SPtkrHgtiPO8=;
+  b=cpDqTjbNbJxh+12CWrWbsEXo8DlV9j0JeUWotYXURDQbJ3Ot9uKRZ+Ku
+   Z8QFWiQFaan3Ytr1zZ8onV/F4SVtzHViTCgFF7wqhj+KJwGPfGLv1Y5lO
+   90ErRkLrP7UoJ6nYvdTnjEdMoLwTAvCxQy5qyreXoe4FV+b8CpZyKZVIo
+   WuIn5QA0BoJ0iqY1sC89ROdfXPukuvS1LoSuWiWST481ha2d5gNHHNCa8
+   WlnFU6L8aPK12SXhHmcNaW5ca8AdEDI9d8MOSzJnAbWoO3UHitAYf9pu7
+   3gXKl/Wud0GWLqIu8FA3hrF0ZNh1qXtYNiFoYsRe7AYlhbBKCDSxZD91g
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="350364616"
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400";
+   d="scan'208";a="350364616"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2022 18:59:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400";
+   d="scan'208";a="531071366"
+Received: from kchew4-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
+ ([10.213.150.151])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2022 18:59:26 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] seatd: Disable overflow warning as error on ppc64/musl
-Date: Tue, 19 Apr 2022 18:36:48 -0700
-Message-Id: <20220420013648.3101309-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.0
+Subject: [honister][PATCH 00/11] Patch review
+Date: Wed, 20 Apr 2022 09:59:05 +0800
+Message-Id: <cover.1650378286.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -64,34 +51,71 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164638
+ https://lists.openembedded.org/g/openembedded-core/message/164639
 
-Disabling the warning is easier fix then trying to fix it
-in musl which results in ABI breakage and disabling the Werror
-gets us along by doing minimal change, also see [1]
+Next changes for honister. Please review.
 
-[1] https://todo.sr.ht/~kennylevinsen/seatd/10
+No problems seen while testing on autobuilder.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/seatd/seatd_0.6.4.bb | 3 +++
- 1 file changed, 3 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3544
 
-diff --git a/meta/recipes-core/seatd/seatd_0.6.4.bb b/meta/recipes-core/seatd/seatd_0.6.4.bb
-index a38f8c21524..601736adef1 100644
---- a/meta/recipes-core/seatd/seatd_0.6.4.bb
-+++ b/meta/recipes-core/seatd/seatd_0.6.4.bb
-@@ -13,6 +13,9 @@ S = "${WORKDIR}/git"
- 
- inherit meson pkgconfig update-rc.d
- 
-+# https://www.openwall.com/lists/musl/2020/01/20/3
-+CFLAGS:append:libc-musl:powerpc64le = " -Wno-error=overflow"
-+
- PACKAGECONFIG ?= " \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
- 	libseat-builtin \
+Thanks,
+
+Anuj
+
+The following changes since commit 75e47b96d8cf82ec4a7fa3225c7fbb5b6ab62b02:
+
+  webkitgtk: update to 2.32.4 (2022-04-07 14:40:14 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/honister
+
+Alexandre Belloni (1):
+  pseudo: Fix handling of absolute links
+
+Bruce Ashfield (1):
+  linux-yocto/5.10: update to v5.10.109
+
+Joe Slater (1):
+  unzip: fix CVE-2021-4217
+
+Martin Jansa (1):
+  license_image.bbclass: close package.manifest file
+
+Ralph Siemsen (1):
+  xz: fix CVE-2022-1271
+
+Richard Purdie (6):
+  scripts/runqemu: Fix memory limits for qemux86-64
+  vim: Upgrade 8.2.4524 -> 8.2.4681
+  uninative: Upgrade to 3.6 with gcc 12 support
+  tiff: Add marker for CVE-2022-1056 being fixed
+  externalsrc/devtool: Fix to work with fixed export funcition flags
+    handling
+  libxshmfence: Correct LICENSE to HPND
+
+ .../recipeutils/recipeutils-test_1.2.bb       |  2 +-
+ meta/classes/externalsrc.bbclass              | 19 ++--
+ meta/classes/license_image.bbclass            |  4 +-
+ meta/conf/distro/include/yocto-uninative.inc  |  8 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
+ .../unzip/unzip/CVE-2021-4217.patch           | 67 +++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
+ .../xz/xz/CVE-2022-1271.patch                 | 96 +++++++++++++++++++
+ meta/recipes-extended/xz/xz_5.2.5.bb          |  4 +-
+ .../xorg-lib/libxshmfence_1.3.bb              |  2 +-
+ .../linux/linux-yocto-rt_5.10.bb              |  6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++---
+ ...ue-380-and-382-heap-buffer-overflow-.patch |  1 +
+ meta/recipes-support/vim/vim.inc              |  6 +-
+ scripts/runqemu                               |  2 +-
+ 16 files changed, 210 insertions(+), 42 deletions(-)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
+ create mode 100644 meta/recipes-extended/xz/xz/CVE-2022-1271.patch
+
 -- 
-2.36.0
+2.35.1
 
 
