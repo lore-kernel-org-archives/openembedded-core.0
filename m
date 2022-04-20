@@ -1,141 +1,166 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD6DEC48BCB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC01C48BE5
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:07 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.6722.1650455713538744604
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web12.15033.1650497093319780286
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 04:55:13 -0700
+ Wed, 20 Apr 2022 16:24:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KIwP2Mg/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id bv16so1903453wrb.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mIh0YYQG;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id p10so5641459lfa.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 04:55:13 -0700 (PDT)
+ Wed, 20 Apr 2022 16:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44Bk1vUQ5BNO47dmuskCUojqV8BCvoV9Wrtc5lAJ1o8=;
-        b=KIwP2Mg/L1QuCdiXrLMuJAZufJf9GRc8jwbQFZOO8uFPluV9Hdq1N8nRYCGiAyVkQJ
-         JAJVLOTgGXf3HjrJ1yFEyNQei/xJ4VRrxe0g+gAr5uMmB3fWP5i4T6sQCdoJUF0n+lIo
-         DgKbLdEKZ/FmEXhSscjjnmDssFDMZd1Ycz9EM=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iJp4gMsK8pykkiu0mOe+mdG3jXysL6UX5yUK9cROnFM=;
+        b=mIh0YYQGOcVuw1Ho1JmM0yjKZNSR0HlceM6Es8b2qrOCg+DKRGCx4CobWueVzw8bwc
+         pjcJoFbVztQZagYyiio1VGvlBPhItqKJzT9WxkRdD+TMEEGHqb5ivnPztyo2x+rQtrd7
+         vxFBnvx+ca/VhZ4XXCwBl7uIbuFysPauorlfmD9m0+fKtI3MoDKxE8iZnqfCbL8RCw5g
+         L4/VG3o9U010D2ymTN4tF98/0NI4T072hGR11FD03wuP/3XlExd8w00sslmL/X6GqC7w
+         kEf7H87AZvlVxtQDRbYVCQAqlQ/o/tgzH7IRf84k+clVFOPvePHDmFnOhcYqcm3orr/p
+         9uRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=44Bk1vUQ5BNO47dmuskCUojqV8BCvoV9Wrtc5lAJ1o8=;
-        b=vleoTvN8aBLNllqG7ytbdu0eg4ks0UKmWYDkorJ/xXU614Ly5T45bcjqQ/XMyYDDD6
-         D+3w1cq0FARozqBFAr2QvRhHuR9aIRSnPZTkynIKdARVacyaa8meBbSwpME5gusv17qr
-         T9r/fJmWjR+uF9IZ1/EHFCRMPsldr/69eWQIckhrSr/Qlf/9NMR5NfBqbBnVT0ASRyMI
-         i6JojtigXUVv6Gpy2TTtLLLKgCsqHvP5Rpw2UbQ46OFCdjUXWnZRLjITZydH6x2zKwV9
-         GDP+Ksl7vFuAx2GbGRiP0xYbEZM/kp6tpDY76DptjFi/UjNHMKI202uXMBOTq580RLDW
-         fxTg==
-X-Gm-Message-State: AOAM5337uc/6IQmLl3h97OFNWy5kTkkzijU7Ny+TAjLkuF/9Lmna90lK
-	gjb5z64gFUR2mZfHMu/ioyChVX/PoFHiaQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iJp4gMsK8pykkiu0mOe+mdG3jXysL6UX5yUK9cROnFM=;
+        b=MQlmBYhqatLM5RrsEEYN+K4rCVVVkMIOqlpIo0jO+/v8uZgi8kd85C5YijYVNJ12f0
+         oqBcZoNuY/WN8teQj2reu3VVY6eePypUSY1iRyabga5Zg2/Q9ekExwyHayvxQdtocVwE
+         mywce+1P6fvw8NPD1RsqIM6ByuzYNgDMAxE80lcWPdJI/kEI/Cfu9FumQMcq1bdbW9xw
+         6LI3y+OV3dGJOE4GL68tW4f79D89vwXGcmX1SjxA84fiDsSS/TN6L6Ucd7auQa5J2VnR
+         M0E3tlu3c/tySwD/ta4xnEhQn6XxRHzK6JqPHffoYf4B45NkK7AIsN0GFPIs/ct95rGg
+         kryw==
+X-Gm-Message-State: AOAM530bTrR1b6B2+MPAbZx9tLy/WwZYVxeTEieHXx2a3mWp8/j+M4KQ
+	qmFV34PnmCmkMxwqkGHYKzx810klzcbFqhw2VR8=
 X-Google-Smtp-Source: 
- ABdhPJyAGvZN1Jzm3rIcoy+VZOEzSqL9w9rsnjlHk3wU1s7OIzGL9jhsYbhSshzfZ7SF+hGScZvPDg==
-X-Received: by 2002:a5d:584f:0:b0:20a:83aa:ad2a with SMTP id
- i15-20020a5d584f000000b0020a83aaad2amr15997512wrf.610.1650455711553;
-        Wed, 20 Apr 2022 04:55:11 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:9745:8b8f:81da:af07])
-        by smtp.gmail.com with ESMTPSA id
- x4-20020adfdd84000000b00207b60ed68esm14455362wrl.100.2022.04.20.04.55.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 04:55:10 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] xorg-app: Tweak handling of compression changes in SRC_URI
-Date: Wed, 20 Apr 2022 12:55:09 +0100
-Message-Id: <20220420115509.2525431-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ ABdhPJy0nC8kEDaHwCW3ojp6jY6KtT6E8PGcuo5EFrc0+658GMX5olTrOs9rkMGoq4o0Mu2HmxrK0c5PIHJyRAtA6bs=
+X-Received: by 2002:a05:6512:3d88:b0:471:b3e2:5b7b with SMTP id
+ k8-20020a0565123d8800b00471b3e25b7bmr5534997lfv.160.1650497091278; Wed, 20
+ Apr 2022 16:24:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220420151141.25027-1-paul.gortmaker@windriver.com>
+In-Reply-To: <20220420151141.25027-1-paul.gortmaker@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 20 Apr 2022 16:24:34 -0700
+Message-ID: 
+ <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devshell: introduce intercepts as per native /
+ nativesdk
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164666
+ https://lists.openembedded.org/g/openembedded-core/message/164739
 
-Rather than duplicating SRC_URI, change the compression to a variable.
+On Wed, Apr 20, 2022 at 8:12 AM Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+>
+> In a devshell, recent versions of git will complain if the repo is owned
+> by someone other than the current UID - consider this example:
+>
+>  ------
+>   bitbake -c devshell linux-yocto
+>
+>   [...]
+>
+>   kernel-source#git branch
+>   fatal: unsafe repository ('/home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source' is owned by someone else)
+>   To add an exception for this directory, call:
+>
+>         git config --global --add safe.directory /home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source
+>   kernel-source#
+>  ------
+>
+> Of course the devshell has UID zero and the "real" UID is for "paul" in
+> this case.  And so recent git versions complain.
+>
+> As the whole purpose of the devshell is to invoke a shell where development
+> can take place, having a non-functional git is clearly unacceptable.
+>
+> Richard suggested we could use PSEUDO_UNLOAD=1 to evade this issue, and I
+> suggested we probably will see other similar instances like this and should
+> make use of PATH to intercept via devshell wrappers - conveniently we already
+> have examples of this.
+>
+> Here, we copy the existing "ar" example and tune it to the needs of git to
+> combine Richard's suggestion and mine.
+>
+> As such we now also can store commit logs and use send-email with our user
+> specific settings, instead of "root", so in additon to fixing basic
+> commands like "git branch" it should also increase general usefulness.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb | 3 +--
- meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb    | 3 +--
- meta/recipes-graphics/xorg-app/xorg-app-common.inc  | 3 ++-
- meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb      | 3 +--
- 4 files changed, 5 insertions(+), 7 deletions(-)
+It looks like this will address the performance issues of using git
+from a devshell too. Trying to run git log, git blame, etc for
+largeish repos in a devshell is annoyingly slow due to the overhead of
+pseudo.
 
-diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
-index 573b05128e4..cd658ab219c 100644
---- a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
-+++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
-@@ -15,8 +15,7 @@ RPROVIDES:${PN} += "mkfontdir"
- 
- BBCLASSEXTEND = "native"
- 
--SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
--
- LIC_FILES_CHKSUM = "file://COPYING;md5=99b1e1269aba5179139b9e4380fc0934"
- 
-+SRC_URI_EXT = "xz"
- SRC_URI[sha256sum] = "8ae3fb5b1fe7436e1f565060acaa3e2918fe745b0e4979b5593968914fe2d5c4"
-diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-index fa0fe36451a..e75a840b7de 100644
---- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-+++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-@@ -8,14 +8,13 @@ predefined values for various parameters used in communicating between \
- clients and the server, and the different types of screens and visuals \
- that are available."
- 
--SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
--
- LIC_FILES_CHKSUM = "file://COPYING;md5=f3d09e6b9e203a1af489e16c708f4fb3"
- DEPENDS += "libxtst libxext libxxf86vm libxi libxrender libxinerama libdmx libxau libxcomposite"
- PE = "1"
- 
- SRC_URI += "file://disable-xkb.patch"
- 
-+SRC_URI_EXT = "xz"
- SRC_URI[sha256sum] = "356d5fd62f3e98ee36d6becf1b32d4ab6112d618339fb4b592ccffbd9e0fc206"
- 
- EXTRA_OECONF = "--disable-xkb"
-diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-index 1c64e20aac7..6a9ebe842de 100644
---- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-+++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-@@ -8,7 +8,8 @@ DEPENDS = "util-macros-native virtual/libx11"
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
-+SRC_URI_EXT = ".bz2"
-+SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.${SRC_URI_EXT}"
- 
- inherit autotools pkgconfig features_check
- 
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-index 57b43ff28c4..0e0347f768b 100644
---- a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-+++ b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-@@ -11,8 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
- DEPENDS += "libxrandr libxrender"
- PE = "1"
- 
--SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
--
-+SRC_URI_EXT = "xz"
- SRC_URI[md5sum] = "fe40f7a4fd39dd3a02248d3e0b1972e4"
- SRC_URI[sha256sum] = "7bc76daf9d72f8aff885efad04ce06b90488a1a169d118dea8a2b661832e8762"
- 
--- 
-2.32.0
+I always wondered what people do in a devshell which actually _does_
+need to run under pseudo...
 
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>
+> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+> index 62dc958d9a4a..7ac134e0950f 100644
+> --- a/meta/classes/devshell.bbclass
+> +++ b/meta/classes/devshell.bbclass
+> @@ -2,6 +2,8 @@ inherit terminal
+>
+>  DEVSHELL = "${SHELL}"
+>
+> +PATH:prepend = "${COREBASE}/scripts/devshell-intercept:"
+> +
+>  python do_devshell () {
+>      if d.getVarFlag("do_devshell", "manualfakeroot"):
+>         d.prependVar("DEVSHELL", "pseudo ")
+> diff --git a/scripts/devshell-intercept/git b/scripts/devshell-intercept/git
+> new file mode 100755
+> index 000000000000..8adf5c9ecb71
+> --- /dev/null
+> +++ b/scripts/devshell-intercept/git
+> @@ -0,0 +1,19 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Wrapper around 'git' that doesn't think we are root
+> +
+> +import os
+> +import shutil
+> +import sys
+> +
+> +os.environ['PSEUDO_UNLOAD'] = '1'
+> +
+> +# calculate path to the real 'git'
+> +path = os.environ['PATH']
+> +path = path.replace(os.path.dirname(sys.argv[0]), '')
+> +real_git = shutil.which('git', path=path)
+> +
+> +if len(sys.argv) == 1:
+> +    os.execl(real_git, 'git')
+> +
+> +os.execv(real_git, sys.argv)
+> --
+> 2.17.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164701): https://lists.openembedded.org/g/openembedded-core/message/164701
+> Mute This Topic: https://lists.openembedded.org/mt/90585970/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
