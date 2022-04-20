@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA82C55188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED39C5518D
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:08 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web12.8110.1650463714260748139
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.8141.1650463718107042233
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:08:34 -0700
+ Wed, 20 Apr 2022 07:08:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=HJwYFpG0;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
+ header.b=u56xE47+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- e62-20020a17090a6fc400b001d2cd8e9b0aso2118867pjk.5
+Received: by mail-pj1-f53.google.com with SMTP id
+ mm4-20020a17090b358400b001cb93d8b137so5067497pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:08:34 -0700 (PDT)
+ Wed, 20 Apr 2022 07:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=S+Dm4bga7uJQ2VW6HIzaUbXpWqlc9D2lodXWz1s8WTA=;
-        b=HJwYFpG0ZLnRNADteiIavdafz8SA29ejYcEjaCdTOHScHHroqPlNdzxWaWhyNTTLBT
-         92Ld82K1/wS+we/Jph5Xx3IX25YEX4RfmFOHBinV6iC+hXulexCdbAzWfyKcoYaAnI+x
-         IHUaspGI9NPB5ANs4QQAyiVSnZ7Mk1IqBfUf8KFBtK4sYRBEZiK/zw77BT6XKN6dCxTy
-         C6ABQSKMfFmc5/hMZJum/he/1/kGJQCC+vxg2CYQNscXGM6nBFQH8hyjHTGdY9Ov49zl
-         lPSfbsnMTO2goBO2ZLkbMW6YcQKWDtLzEbR1/9zmZWAipa8CYzLYua8PD4UMkKDHIUio
-         O52g==
+        bh=WJDeZuhNg9o6CqmzNkbeh8aC8cV3lgV4SRwFyfmRc/U=;
+        b=u56xE47+8uK3pm/W+ZxrjfrVm8jBBZ3CSipzrpPf2cqt+ht1ClenihdfhjOo2ySOvm
+         1rqWKwKZ565JRDBlZ5VHIB9olHYQbv6mgZ66BDckgOPRd5DQNH5W0gVTGKQ6h2VMShiQ
+         vnTfx6ETGMuUyPo2emgwDIFUfP/8NkaFbvHSjOZlFEcbiTfJ/4D2Hcbkwu6djJ01rqoZ
+         3FtIU1dCVpaVfQQxHEaw5BsOXL4G13y9CBFzS+R4p1fSx80KyWQgpQuGnQUQld56/G6R
+         aVX8yztCuuo1StLuULL/YFMA2tNUuWWhmsNkvAjl7ecsM+yZC1KJ/zcfStuM92TABpMw
+         4DtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S+Dm4bga7uJQ2VW6HIzaUbXpWqlc9D2lodXWz1s8WTA=;
-        b=2/qWwSaXQQ+6mBbIMWXvI1NQaXJgUIJOj/rPQxv0MiMcXa1B5gYDbqqCxHjeNO29jM
-         4EnjCc4bb1rSCGSEx9/A2e6YkK6gnyzJK0Wa+47QoKUfqhZBXa4UE4F+tLpZJwR67DxB
-         p3VKVj0u2FZipqj1iPrPw6FQPlLQD4HQjGu9zEv15DMVpxID3X7FXx+IJ9yrvltYpvpw
-         prpHWsClSd3fXtffMWXaOSMXKun1cC/QTkq5Q65hsoOLuz36Rpul+2xiFgdXED9aL+T7
-         +3VSvvlLKnkibJhq+Yf0OD5mK3H+OUzvhkEAMjBsM9idrca320qIc3T/rj8aNMD+QWCE
-         Rjfg==
-X-Gm-Message-State: AOAM532i7pY9In7NGzAnLliiIv82TJWS++d7mgGQt0+B39wfc6O/cL4s
-	wTIOmGK8HnJ7WMcEkr5Ak1cP6kYBEI0qYKJ6tpo=
+        bh=WJDeZuhNg9o6CqmzNkbeh8aC8cV3lgV4SRwFyfmRc/U=;
+        b=Psvp/2+ySbvw7HWZxFG5GL440HaOt4lerWvPiiKF/AU2gAm7HFOqZACnVaLYeQ/EjS
+         +L/mcSOvcx749f5mWALi5q0XAfFJ4ZQdNYDpNmhs/FUhTi2IqWNt+6AA4hq+uJKxi7en
+         yKjTDzARz4jDWBnOeA6H4xOwLZrfY/vNEpZFIivP1u9TIyk6lXZTNqkTQlFq2v2tqWm8
+         dCw+3X7rI+xi8h+bRPmmRIELz5pNMWuWUoOLhVRog1Lp+/Jf8BvZThRriQLN8wXBJjQh
+         oHZczOmFwH8w049+/5MDDSidWwj3LC1mtVgUj5nJGzDsk0ZWCrSwBS1aG0Qq1dRZZ4wW
+         lGqA==
+X-Gm-Message-State: AOAM531ZxvNnzKkcFhZcB4Y6Ryj9uroAotP+PA3JZqqdt+9CBdWR/05p
+	Z2sYJ7W6MIFMErDgeP7eWB6oTW2GzdHZ7zzU7RQ=
 X-Google-Smtp-Source: 
- ABdhPJzIri50kRsMwQeMsHLySol9kFjokcDLoIsvrnSk9Kzwo13yNqgWIshoiGx3PWcgXqkQB0Uw+w==
-X-Received: by 2002:a17:90b:4a09:b0:1d2:de49:9be8 with SMTP id
- kk9-20020a17090b4a0900b001d2de499be8mr4791710pjb.68.1650463713168;
-        Wed, 20 Apr 2022 07:08:33 -0700 (PDT)
+ ABdhPJwbW7aW69dsmuBRneiP+7zYa+QwE3tFcHXKVfsEP6ELL7akyxsqfQZs7U0k59CrlbKEm8VdBQ==
+X-Received: by 2002:a17:903:32d0:b0:158:fe2e:d2a7 with SMTP id
+ i16-20020a17090332d000b00158fe2ed2a7mr14221024plr.93.1650463716952;
+        Wed, 20 Apr 2022 07:08:36 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.08.32
+ 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.08.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 07:08:32 -0700 (PDT)
+        Wed, 20 Apr 2022 07:08:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/27] systemd-boot: remove outdated EFI_LD
- comment
-Date: Wed, 20 Apr 2022 04:07:49 -1000
+Subject: [OE-core][kirkstone 02/27] qemuarm64: use virtio pci interfaces
+Date: Wed, 20 Apr 2022 04:07:50 -1000
 Message-Id: 
- <fdb5a0520fc3c041789c94a94cd1f6428a4f71c7.1650463004.git.steve@sakoman.com>
+ <7426b5349e5a2872ce8f963be35ad11dcdc4891e.1650463004.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
 References: <cover.1650463004.git.steve@sakoman.com>
@@ -71,39 +70,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164669
+ https://lists.openembedded.org/g/openembedded-core/message/164670
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Jon Mason <jdmason@kudzu.us>
 
-* efi-ld meson option was changed in systemd 250:
-  https://github.com/systemd/systemd/commit/fe330f02dfebbaa462e0f4590de1049e47da54b9
+The virtio PCI devices seemed to be required for this machine for some
+versions of qemu (based on errors from running qemu saying that the
+devices don't exist).  Changes to the entries here is all that is needed
+to get it working.
 
-  the value was changed with the systemd upgrade in:
-  https://git.openembedded.org/openembedded-core/commit/?id=e22188e47d2fce2406d9db9c95289b3878eda69f
-  but the comment originally from:
-  https://git.openembedded.org/openembedded-core/commit/?id=603e50f3db224a0e36a65decb9a98df41b9e22b3
-  no longer makes any sense, remove it
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c14dbe3d3c1abf5f95310162288f861bfd312900)
+(cherry picked from commit 217deeb43036d1a046d6c5ea2c1ccdb94d3d605a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/systemd/systemd-boot_250.4.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/conf/machine/qemuarm64.conf | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_250.4.bb b/meta/recipes-core/systemd/systemd-boot_250.4.bb
-index 23a64bf30d..b67706b731 100644
---- a/meta/recipes-core/systemd/systemd-boot_250.4.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_250.4.bb
-@@ -19,7 +19,6 @@ objcopy = ${@meson_array('OBJCOPY', d)}
- EOF
- }
- 
--# need to use ${HOST_PREFIX} here, otherwise ld.bfd could be used from HOSTTOOLS_NONFATAL
- EFI_LD = "bfd"
- 
- EXTRA_OEMESON += "-Defi=true \
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index f245152168..ffc51c803f 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -23,9 +23,9 @@ QB_GRAPHICS = "-device virtio-gpu-pci"
+ QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+ # Virtio Networking support
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+-QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
++QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+ # Virtio block device
+-QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
++QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-pci,drive=disk0"
+ # Virtio serial console
+-QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+-QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
++QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
++QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
 -- 
 2.25.1
 
