@@ -2,66 +2,67 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B25C54F3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA41C55187
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:08 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web09.13891.1650491497874995913
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.8029.1650463721103708197
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:38 -0700
+ Wed, 20 Apr 2022 07:08:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1ANK7lH0;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
+ header.b=F/x0guge;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id i63so2903945pge.11
+Received: by mail-pf1-f173.google.com with SMTP id p8so2020052pfh.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:37 -0700 (PDT)
+ Wed, 20 Apr 2022 07:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=n5bmbV+TjCoqLC2r3BQtlmo2xtq2jjrWusxccTyDyMA=;
-        b=1ANK7lH06iRaUQ6LTKyn0+Q01Un5N3wfW1IJL+U0AZj9+qA6IQ3ZlQ4TkbFXJrB2Mn
-         GSJC3ae791DpbWZcEKRYQ+xolbjI2YHkzAmmw/CN5R9wq/qnEa/3GHc1caGOyD0PKrEQ
-         GoOlQ7qCvHfmWLt7Eh2T2Sq4wvhM2vo49SnGTak+x111YxdhOHQ9ffv1Kqf9lM4nTXUV
-         X4+iCgIovAryY5ZCsDlyyE9Jrn4aPfqL0/OOyivG9FMjxPBUdHT4XwfGKNODNwIkvSA6
-         V/xBHEoobk+H140hIwIgIQPDI1I7W5H7g7Umb+I/+uhSb9u4qf1E4qebCb1ONda9blkR
-         hJFw==
+        bh=om6JYXtNYlHEGyop9cdUUarI52pL8APQ9WC4zbTWGN0=;
+        b=F/x0gugeMkLhMYUerN2RI5h1C3xLKJzARR0bcu7cmh43QI8GDtvmiVYAaIzPLvUwnr
+         fzIHzLTmlp7joBizC0Ex5rd+f6o3AlYvLpEAE1EpumUP9YE0HnDrFdc4dupo59bGY8m7
+         ZOeaoEOQxUIMhBG2HOP78FxEFx8+t+NxXfHqsP6fxW6ihTQE6rBxt4EhQC4hjFLq58+e
+         nR+WJ8muO63JKzkBvRMSzt27jZc9kN7gCRW0Kg7FwFETQn43FeP6uluerwGNq3UxdGS/
+         KVW+sihiQoVPYtW/A10UYmhoZkbR2F+0Nq36/BGXAMJilDhiwutjoNTuNhACt08BXvKL
+         tmhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n5bmbV+TjCoqLC2r3BQtlmo2xtq2jjrWusxccTyDyMA=;
-        b=1WNiskM7VDdPStZkJisdHzcxpgSg+CS54oj+QiltNGTZxPot9hpb4s7Bj81ZDDd6+G
-         yL3cbdLingGy6kTxlhfJXJLcTBaiGJ1d/buUY/5iCoRTQYbnTaSWau0jXNGIimFFnlYu
-         +FJ7VxtqibPisILZho/dnleXPCdx+sKpVjUJCwXUQXrmJ/vAPVoA7sbHCRjPa64yo+M9
-         3DhUWunuTPfqAsgTKhxjk8GdEvTSa7xTAKEiaCoRZUPuX2AEFCf8z4jYIcOweihYym4K
-         +Se8EFbjbEYxoGeEsV3lBdZHALaEsPJwCvYq4tYxl/YAHlsLIWmMvQwwvVsYoAO44poG
-         NTCQ==
-X-Gm-Message-State: AOAM530BZmQa5KonRH2VtXbwIQfI7XgCoiA+Ahb4dKs7AP55UfST6vki
-	yFDRaH83diTh1xVmFqXuVpc9IY+pLuOPbo8FE5Y=
+        bh=om6JYXtNYlHEGyop9cdUUarI52pL8APQ9WC4zbTWGN0=;
+        b=GXqugKL3OUb1YOxhQ5xZaCFUWwAYhMeg5ZaLa4ihrInqVtBHgr2t+jwb0yYcoWHzAJ
+         Rx4kRamCW2hTDysga+F0QpI0SX2DB0+fU3BtvbUTHgkiX/8BwMPUdRYCpIEuO9ce0t+0
+         x7XIE56QJnPwfA2aAt+5qL+bQatnD2J4Pt5Km37uCuckSP6sii0E96irYbvcpa4MQEvj
+         GtpUfu4+38Wij5kUgPxxFB+hrAGSi4aTO00Xh4N1iYbMvSmmGlJxL94l7AbMYef0NCUG
+         HJfA9J5/HJY5UIamcWFTuMBkoi2aVvwYChPd4/960uSX1tE7EtWBYgtr33nqkIOsGjFp
+         o4Ow==
+X-Gm-Message-State: AOAM530y7h2fO3W6rUFv1m3x9EQwF0HJVn1RW+guMmnywD70q2ZlRPvi
+	j4ipYIkNOnuUTytu4OWa9WuzTmG/tqIxKERHf4U=
 X-Google-Smtp-Source: 
- ABdhPJxsOBQyv8FBpSkiGURNpetPC95FJIQ1HXPEmoCkzgi/neWS0FZvg6941xetDMZvWhnZPgTgDA==
-X-Received: by 2002:a65:6cc8:0:b0:382:1b18:56a9 with SMTP id
- g8-20020a656cc8000000b003821b1856a9mr21205581pgw.347.1650491496927;
-        Wed, 20 Apr 2022 14:51:36 -0700 (PDT)
+ ABdhPJxGUj9dwrhMwy7/op1/j8bd8R5MhYZSmAVF57j62CL1N+npxUSI3lO1pGBqrO9ZNFIr4qvSYg==
+X-Received: by 2002:a65:5286:0:b0:398:dad:c3d8 with SMTP id
+ y6-20020a655286000000b003980dadc3d8mr19646113pgp.228.1650463720145;
+        Wed, 20 Apr 2022 07:08:40 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e126-20020a621e84000000b0050567191161sm21102153pfe.210.2022.04.20.14.51.35
+ 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.08.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 14:51:36 -0700 (PDT)
+        Wed, 20 Apr 2022 07:08:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 3/9] u-boot: Correct the SRC_URI
-Date: Wed, 20 Apr 2022 11:51:10 -1000
+Subject: [OE-core][kirkstone 03/27] selftest/lic_checksum: Add test for
+ filename containing space
+Date: Wed, 20 Apr 2022 04:07:51 -1000
 Message-Id: 
- <4da46e0423a7003fb689a8b6a03f5924b8f22cb9.1650491190.git.steve@sakoman.com>
+ <46349013561e0e4b376a845c1cce029a74e613d9.1650463004.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1650491190.git.steve@sakoman.com>
-References: <cover.1650491190.git.steve@sakoman.com>
+In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
+References: <cover.1650463004.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,42 +70,57 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164730
+ https://lists.openembedded.org/g/openembedded-core/message/164671
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Paulo Neves <ptsneves@gmail.com>
 
-This avoids a redirect.
+A fix is being added to bitbake to correctly handle spaces inside
+checksum filenames. Add a test to oe-selftest to ensure this is
+tested and doesn't regress in future.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 879bc5098943cf6977c32555ac31cb21be7b46ae)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 2233e83da4fab1d6d34517f6ebf5860f4fd5b2a1)
+(cherry picked from commit 324109f034f069ee3e91a1a705b3449911a448de)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/lic_checksum.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index a001190292..91fe08966b 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -14,13 +14,13 @@ PE = "1"
- # repo during parse
- SRCREV = "303f8fed261020c1cb7da32dad63b610bf6873dd"
+diff --git a/meta/lib/oeqa/selftest/cases/lic_checksum.py b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+index f8681ed755..8f1226e6a5 100644
+--- a/meta/lib/oeqa/selftest/cases/lic_checksum.py
++++ b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+@@ -4,12 +4,30 @@
  
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
-+SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master \
-            file://remove-redundant-yyloc-global.patch \
-            file://CVE-2020-8432.patch \
-            file://CVE-2020-10648-1.patch \
-            file://CVE-2020-10648-2.patch \
-           "
--
-+          
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build"
- do_configure[cleandirs] = "${B}"
+ import os
+ import tempfile
++import urllib
+ 
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake
+ 
+ class LicenseTests(OESelftestTestCase):
+ 
++    def test_checksum_with_space(self):
++        bitbake_cmd = '-c populate_lic emptytest'
++
++        lic_file, lic_path = tempfile.mkstemp(" -afterspace")
++        os.close(lic_file)
++        #self.track_for_cleanup(lic_path)
++
++        self.write_config("INHERIT:remove = \"report-error\"")
++
++        self.write_recipeinc('emptytest', """
++INHIBIT_DEFAULT_DEPS = "1"
++LIC_FILES_CHKSUM = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
++SRC_URI = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
++""" % (urllib.parse.quote(lic_path), urllib.parse.quote(lic_path)))
++        result = bitbake(bitbake_cmd)
++
++
+     # Verify that changing a license file that has an absolute path causes
+     # the license qa to fail due to a mismatched md5sum.
+     def test_nonmatching_checksum(self):
 -- 
 2.25.1
 
