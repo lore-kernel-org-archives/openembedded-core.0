@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E00AC3527A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C924C35294
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:06 +0000 (UTC)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web09.3165.1650419971168400442
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web08.3158.1650419978333112004
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 18:59:31 -0700
+ Tue, 19 Apr 2022 18:59:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=N0qQoSVZ;
- spf=pass (domain: intel.com, ip: 192.55.52.43,
+ header.b=BxPMtP05;
+ spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650419971; x=1681955971;
+  t=1650419978; x=1681955978;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=j/xX7DFjFnHgSSt0x2egjZ0QsWhqFc6RiRrOenAeLmY=;
-  b=N0qQoSVZqELw0jFiYr4Lq2A5/AS07USJ2XG/EtwyT5KDOmmTz415uGcp
-   RlV998VK/PQ2j18betb32vRuQTY6bbr8VyJ52bThomh5lMrkt00M+yJuc
-   XRuKmYFm7+ZsbWS2/J9yyqVgJtas/XmU0TQ3w4HF3l1HD67uhHYLWFH7q
-   2MlSDoGyMPvK2ltuNXBJq6ZXW1p3saK6m37s/J72SvLuNkTD+eqh60b4m
-   PhsRzkdLRcXnRez7KwdZDfWqP8vH88nWnr5bbzQiNcefgSvSHdCpSchjb
-   FOrGIXKyMsOG2MgF8zfx8W11YHbzfjh5Gzt9sJcJFVNz4l2puV94Gj2Sc
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="350364623"
+  bh=s6X1onMP1r92K/eqqluv5EOj48oT+bwPv+Fqa7Egb8E=;
+  b=BxPMtP052KTUdMkX07MQ90aUDZzZ2iD8w/4/yjhE66HFMJAiaZrMp52T
+   pPjdm7J4e7v/Gd7WR1KEt+JJT3q79hO780ft7+/aJCshM/JVSQiEAc33C
+   qqma76h+qZMP44GdEcSxwz2l0EK/TFhOOME3u0fei7vR31GKuLW7H+a1B
+   +9r7bNmsQECwF4zesSIhB3uIgHRWM+7np7XoVp9l5Glgd+qzxJsaL7uXy
+   EO6uCDW8xmgTjlPo00AWMjk0jKWVR4FJR7VGM9j6c6e5BQ+AoHF5XjUll
+   CGnbaaY3RdudI4TPlhRSNXXfw7+6WKIcbH66vdhssPWSi5USfTcjZTtX8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="263379401"
 X-IronPort-AV: E=Sophos;i="5.90,274,1643702400";
-   d="scan'208";a="350364623"
+   d="scan'208";a="263379401"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 18:59:30 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2022 18:59:37 -0700
 X-IronPort-AV: E=Sophos;i="5.90,274,1643702400";
-   d="scan'208";a="531071412"
+   d="scan'208";a="531071556"
 Received: from kchew4-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
  ([10.213.150.151])
   by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 18:59:29 -0700
+ 19 Apr 2022 18:59:36 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 02/11] unzip: fix CVE-2021-4217
-Date: Wed, 20 Apr 2022 09:59:07 +0800
+Subject: [honister][PATCH 07/11] uninative: Upgrade to 3.6 with gcc 12 support
+Date: Wed, 20 Apr 2022 09:59:12 +0800
 Message-Id: 
- <57b608a3c37d24b2d407b178b16136c1ff65b2c4.1650378286.git.anuj.mittal@intel.com>
+ <5f23b1fde0a87896f2097749435abdc7963e24da.1650378286.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650378286.git.anuj.mittal@intel.com>
 References: <cover.1650378286.git.anuj.mittal@intel.com>
@@ -54,107 +54,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164641
+ https://lists.openembedded.org/g/openembedded-core/message/164645
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Avoid a null pointer dereference.
+There are reports of issues with the new libstdc++ from gcc 12. This upgrades
+to a gcc 12 version of uninative to allow builds on those systems. Gcc 12 isn't
+finalised so we may need to add a new version of this if/as appropriate when it
+is.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 36db85b9b127e5a9f5d3d6e428168cf597ab95f3)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e3da4da7e5da5bb9e1d360e2be2fdd5132e69320)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../unzip/unzip/CVE-2021-4217.patch           | 67 +++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch b/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
-new file mode 100644
-index 0000000000..6ba2b879a3
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
-@@ -0,0 +1,67 @@
-+From 731d698377dbd1f5b1b90efeb8094602ed59fc40 Mon Sep 17 00:00:00 2001
-+From: Nils Bars <nils.bars@t-online.de>
-+Date: Mon, 17 Jan 2022 16:53:16 +0000
-+Subject: [PATCH] Fix null pointer dereference and use of uninitialized data
-+
-+This fixes a bug that causes use of uninitialized heap data if `readbuf` fails
-+to read as many bytes as indicated by the extra field length attribute.
-+Furthermore, this fixes a null pointer dereference if an archive contains an
-+`EF_UNIPATH` extra field but does not have a filename set.
-+---
-+ fileio.c  | 5 ++++-
-+ process.c | 6 +++++-
-+ 2 files changed, 9 insertions(+), 2 deletions(-) 
-+---
-+
-+Patch from:
-+https://bugs.launchpad.net/ubuntu/+source/unzip/+bug/1957077
-+https://launchpadlibrarian.net/580782282/0001-Fix-null-pointer-dereference-and-use-of-uninitialized-data.patch
-+Regenerated to apply without offsets.
-+
-+CVE: CVE-2021-4217
-+
-+Upstream-Status: Pending [infozip upstream inactive]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+diff --git a/fileio.c b/fileio.c
-+index 14460f3..1dc319e 100644
-+--- a/fileio.c
-++++ b/fileio.c
-+@@ -2301,8 +2301,11 @@ int do_string(__G__ length, option)   /* return PK-type error code */
-+             seek_zipf(__G__ G.cur_zipfile_bufstart - G.extra_bytes +
-+                       (G.inptr-G.inbuf) + length);
-+         } else {
-+-            if (readbuf(__G__ (char *)G.extra_field, length) == 0)
-++            unsigned bytes_read = readbuf(__G__ (char *)G.extra_field, length);
-++            if (bytes_read == 0)
-+                 return PK_EOF;
-++            if (bytes_read != length)
-++                return PK_ERR;
-+             /* Looks like here is where extra fields are read */
-+             if (getZip64Data(__G__ G.extra_field, length) != PK_COOL)
-+             {
-+diff --git a/process.c b/process.c
-+index 5f8f6c6..de843a5 100644
-+--- a/process.c
-++++ b/process.c
-+@@ -2058,10 +2058,14 @@ int getUnicodeData(__G__ ef_buf, ef_len)
-+           G.unipath_checksum = makelong(offset + ef_buf);
-+           offset += 4;
-+ 
-++          if (!G.filename_full) {
-++            /* Check if we have a unicode extra section but no filename set */
-++            return PK_ERR;
-++          }
-++
-+           /*
-+            * Compute 32-bit crc
-+            */
-+-
-+           chksum = crc32(chksum, (uch *)(G.filename_full),
-+                          strlen(G.filename_full));
-+ 
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 0bc6abcd4b..d074db37b4 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://CVE-2019-13232_p2.patch \
- 	file://CVE-2019-13232_p3.patch \
- 	file://unzip_optimization.patch \
-+        file://CVE-2021-4217.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index bfe05ce1eb..411fe45a24 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -7,9 +7,9 @@
+ #
  
+ UNINATIVE_MAXGLIBCVERSION = "2.35"
+-UNINATIVE_VERSION = "3.5"
++UNINATIVE_VERSION = "3.6"
+ 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "6de0771bd21e0fcb5e80388e5b561a8023b24083bcbf46e056a089982aff75d7"
+-UNINATIVE_CHECKSUM[i686] ?= "8c8745becbfa1c341bae839c7eab56ddf17ce36c303bcd73d3b2f2f788b631c2"
+-UNINATIVE_CHECKSUM[x86_64] ?= "e8047a5748e6f266165da141eb6d08b23674f30e477b0e5505b6403d50fbc4b2"
++UNINATIVE_CHECKSUM[aarch64] ?= "d64831cf2792c8e470c2e42230660e1a8e5de56a579cdd59978791f663c2f3ed"
++UNINATIVE_CHECKSUM[i686] ?= "2f0ee9b66b1bb2c85e2b592fb3c9c7f5d77399fa638d74961330cdb8de34ca3b"
++UNINATIVE_CHECKSUM[x86_64] ?= "9bfc4c970495b3716b2f9e52c4df9f968c02463a9a95000f6657fbc3fde1f098"
 -- 
 2.35.1
 
