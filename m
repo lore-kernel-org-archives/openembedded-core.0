@@ -1,57 +1,141 @@
-Return-Path: <fntoth@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <0339c78a-ff95-8f08-63f7-495ac2f080af@gmail.com>
-Date: Tue, 19 Apr 2022 21:39:10 +0200
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/27] xserver-xorg: Fix build with gcc12
+Date: Wed, 20 Apr 2022 04:07:54 -1000
+Message-Id: <ae646f44edf10565081616eee4a11325a2ef9df9.1650463004.git.steve@sakoman.com>
+In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
+References: <cover.1650463004.git.steve@sakoman.com>
 MIME-Version: 1.0
-Subject: Re: package_manager: support for signed DEB package feeds
-References: <20220413203742.6142-1-fntoth@gmail.com>
- <8050dab48b75f758d72ab78250e4f68f432b8d6f.camel@linuxfoundation.org>
-From: "Ferry Toth" <fntoth@gmail.com>
-In-Reply-To: <8050dab48b75f758d72ab78250e4f68f432b8d6f.camel@linuxfoundation.org>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
-Cc: Xavier Berger <xavier.berger@biologic.net>, Alexander Kanavin <alex@linutronix.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: openembedded-core@lists.openembedded.org
 
-Hi,
+From: Khem Raj <raj.khem@gmail.com>
 
-Op 19-04-2022 om 15:21 schreef Richard Purdie:
-> On Wed, 2022-04-13 at 22:37 +0200, Ferry Toth wrote:
->> [PATCH v4 1/2] apt: add apt selftest to test signed package feeds
->> [PATCH v4 2/2] package_manager: fix missing dependency on gnupg when
->>
->> Since Gatesgarth apt (1.8.2) has become more strict and doesn’t allow unsigned repositories by default.
->> Currently when building images this requirement is worked around by using [allow-insecure=yes] and
->> equivalently when performing selftest.
->>      
->> Patches "gpg-sign: Add parameters to gpg signature function" and "package_manager: sign deb package feeds"
->> (already in master) enable signed deb package feeds. When called from
->> `oe-selftest -r runtime_test.TestImage.test_testimage_apt` this patch adds a runtime test for apt
->> derived from the test_testimage_dnf test. It creates a signed deb package feed, runs a qemu
->> image to install the key and performs some package management. To be able to install the key
->> the gnupg package is added to the testimage.
->>
->> Changes in V4:
->>   - Add fix to make gnupg-native a dependency else hosttools is used and
->>     `oe-selftest -r runtime_test.TestImage.test_testimage_apt` fails on Ubuntu 16.04 used
->>     on the autobuilder (Alexandre Belloni)
->>
->> Changes in V3:
->>   - When called from `bitbake core-image-sato -c testimage` package feed is unsigned. Auto-detect
->>     this case and behave as before (Richard Purdie)
->>
->> Changes in V2:
->>   - Added runtime test for signed deb package feeds (Richard Purdie)
-> 
-> This has now merged, thanks for working through the details with this! The test
-> should allow the functionality to stay working and is extremely useful/helpful.
-I watched it go through the CI bots and I must say I'm impressed with 
-the process. Thanks for guiding me through this and merging.
+backport patch to silence new array-bounds warnings
 
-> Cheers,
-> 
-> Richard
-> 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 54fa74e6e60472e10f1a11b3daa8ee9f00f0c9d5)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../0001-render-Fix-build-with-gcc-12.patch   | 90 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.3.bb       |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+new file mode 100644
+index 0000000000..df9332fae7
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+@@ -0,0 +1,90 @@
++From 12041ad0610f1345d6b9994c32943fd4dd01f65d Mon Sep 17 00:00:00 2001
++From: Olivier Fourdan <ofourdan@redhat.com>
++Date: Thu, 20 Jan 2022 10:20:38 +0100
++Subject: [PATCH] render: Fix build with gcc 12
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The xserver fails to compile with the latest gcc 12:
++
++ render/picture.c: In function ‘CreateSolidPicture’:
++ render/picture.c:874:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[16]’ [-Werror=array-bounds]
++  874 |     pPicture->pSourcePict->type = SourcePictTypeSolidFill;
++      |                          ^~
++ render/picture.c:868:45: note: object of size 16 allocated by ‘malloc’
++  868 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
++      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ render/picture.c: In function ‘CreateLinearGradientPicture’:
++ render/picture.c:906:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
++  906 |     pPicture->pSourcePict->linear.type = SourcePictTypeLinear;
++      |                          ^~
++ render/picture.c:899:45: note: object of size 32 allocated by ‘malloc’
++  899 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
++      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ render/picture.c: In function ‘CreateConicalGradientPicture’:
++ render/picture.c:989:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
++  989 |     pPicture->pSourcePict->conical.type = SourcePictTypeConical;
++      |                          ^~
++ render/picture.c:982:45: note: object of size 32 allocated by ‘malloc’
++  982 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
++      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ cc1: some warnings being treated as errors
++ ninja: build stopped: subcommand failed.
++
++This is because gcc 12 has become stricter and raises a warning now.
++
++Fix the warning/error by allocating enough memory to store the union
++struct.
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c6b0dcb82d4db07a2f32c09a8c09c85a5f57248e]
++Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
++Acked-by: Michel Dänzer <mdaenzer@redhat.com>
++Closes: https://gitlab.freedesktop.org/xorg/xserver/-/issues/1256
++---
++ render/picture.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/render/picture.c b/render/picture.c
++index afa0d25..2be4b19 100644
++--- a/render/picture.c
+++++ b/render/picture.c
++@@ -865,7 +865,7 @@ CreateSolidPicture(Picture pid, xRenderColor * color, int *error)
++     }
++ 
++     pPicture->id = pid;
++-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
+++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
++     if (!pPicture->pSourcePict) {
++         *error = BadAlloc;
++         free(pPicture);
++@@ -896,7 +896,7 @@ CreateLinearGradientPicture(Picture pid, xPointFixed * p1, xPointFixed * p2,
++     }
++ 
++     pPicture->id = pid;
++-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
+++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
++     if (!pPicture->pSourcePict) {
++         *error = BadAlloc;
++         free(pPicture);
++@@ -936,7 +936,7 @@ CreateRadialGradientPicture(Picture pid, xPointFixed * inner,
++     }
++ 
++     pPicture->id = pid;
++-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictRadialGradient));
+++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
++     if (!pPicture->pSourcePict) {
++         *error = BadAlloc;
++         free(pPicture);
++@@ -979,7 +979,7 @@ CreateConicalGradientPicture(Picture pid, xPointFixed * center, xFixed angle,
++     }
++ 
++     pPicture->id = pid;
++-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
+++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
++     if (!pPicture->pSourcePict) {
++         *error = BadAlloc;
++         free(pPicture);
++-- 
++2.35.1
++
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
+index 3e076ecca7..1f53ab5177 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
+@@ -2,6 +2,7 @@ require xserver-xorg.inc
+ 
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
++            file://0001-render-Fix-build-with-gcc-12.patch \
+             "
+ SRC_URI[sha256sum] = "61d6aad5b6b47a116b960bd7f0cba4ee7e6da95d6bb0b127bde75d7d1acdebe5"
+ 
+-- 
+2.25.1
+
