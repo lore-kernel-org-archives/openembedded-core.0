@@ -2,60 +2,60 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 576A2C47095
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57593C47094
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:07 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web09.6053.1650450222873130380
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web09.6059.1650450294370196807
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 03:23:43 -0700
+ Wed, 20 Apr 2022 03:24:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=dXIuyanK;
- spf=pass (domain: linaro.org, ip: 209.85.167.46,
+ dkim=pass header.i=@linaro.org header.s=google header.b=y0qxAGx5;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50,
  mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id bu29so2173010lfb.0
+Received: by mail-lf1-f50.google.com with SMTP id t25so2129647lfg.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 03:23:42 -0700 (PDT)
+ Wed, 20 Apr 2022 03:24:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zDFn1n7zGLFVmSLRm9cQKF+gshI4bxEuTYQU+Az9adw=;
-        b=dXIuyanK2GObQnT9RdO3EpO8zL/+aTFEI7jNNxVIufekDvDglSOWbgTT4YkpYbjZOY
-         FH0fOZwJO4aWL2u/uRy+48FDnM6uvFJT3HtMxOC07FxXYH/PArkhtZcjLpPKywnsJTfR
-         JQJuCrIOTWsTZK1u5QwuliH48J9Yw8K9/f0zol8a7uCi+1BDlMsm8ZL/RjfjJb7QuyOe
-         WRoASXrpCyoXoO9O36wfdvH03aMaqssCRCzoMIP4zQVwUg9/Ptyqvl/6XFVvE4ODKeP7
-         PKCa4xTbzZ85ydLTXKKcAxAzvMfre3FUk6wovrgNTmgO5zNRGxXjKMxY5ppxsbsMrNat
-         O/DA==
+        bh=Xf5Da8GZip4F76g8wr6ZBgdcN/pzzRsqDHFv90Iyoto=;
+        b=y0qxAGx5uNoGUpucoM81etX4IR2ucw2y8egAOICO3GwRf8RsR50s7XgeyzoWyeQEqL
+         W0hkJmwFmOQ24A/zA7ZwzguTyQ+AIflR1lGorWx9JsuwE61gog+/VUr26jW3ml5n5wFx
+         cw/dKcHlEbwktkMjrrQNzEIJvAkjPATr7wsv8dCqxQhKm9l2imQzuhfnUT72i89ByJru
+         tJO3NiNC6sv9DR7fm0sSvzZCIyN3C/x9fLvnh+agGUWFpZ/G1F4oGVXIpUnLsxDOGpLW
+         lNFJZ+Vo2lNiIsmEFc9jJhAf6WzlP5x0cnH1mCOUX3iF1F8ffHBkLxSfAsp3IlvFTfb6
+         FhQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zDFn1n7zGLFVmSLRm9cQKF+gshI4bxEuTYQU+Az9adw=;
-        b=yTpGFcxa37OskuU+nFdC70Y4r85P8jGsPAgJhTJxMaDgknL53HWzZN/Jj6LnQv4p8V
-         YaSOvMn7YvMQty+1i+KDKDrUff+cjf30bOp/W4VVQVeTwzntuileliQ7rz0/VSBo6T9N
-         +KnAG77FXGCaDKiXtTfLeafvW3V+3g+64wXAazW6v00mFXPFDFjs1JfiWcETdOhDKY0W
-         3nM6nBlwEZEyWIA4L6O3TzI6VJpLln9/qLCrqKgXfjdOgrJG3xR47mgQtLUlVKH7EQwl
-         xLdzW9IWmlUQpt8MGLi6ESJqrnUGVmT/KJwod/Yk1FjXFtwFSzpLGssDE0CUzeHcmfLC
-         gQ8A==
-X-Gm-Message-State: AOAM532GJXKklb5Oq/M7fvI8bzp55cEb4LygEQmk2/9mq37cSaHpwtU+
-	s9O+zK0LQLGtPuy2Yx1Y9ovTbkFsEHbqtw==
+        bh=Xf5Da8GZip4F76g8wr6ZBgdcN/pzzRsqDHFv90Iyoto=;
+        b=ovziaQIrpCxF7fr3bvAPA8tvh16ZbtLWfTx3cHgmLcF9SjtwG/crIKbvMXVC1OeCfo
+         l1dUjuy68sFcTdjptyVubCs4VcUaEP2C4uyBAjqoQ9JODekKM0KasCmRKX7JKZlJrHw/
+         YLtOYO9LHkcrE2w9WeEOLYs4ibbgepzYW0IbuZTyi2DFk8x5yVQIqBw1eb4jra2AhTC2
+         fQB8flILOIEMWO+prVAMe3Ziup3EXKCueDvKz92P2GK9sRYw/COTCh8RbwTAaGV+ORYW
+         CQfHhhSgxHTrzvKS2LaMqijnbrS32w+tILQr//CeRwJ48ZwQakPwJQYT/3nQ+/B29jK2
+         H8Ow==
+X-Gm-Message-State: AOAM531xjHw4/kiscjAlPoy9FagshSJ4gp+pqk91SiuRnU6GmAejHS+K
+	QIqY2VWuloZNyfbKQRsPmgF6JH32DdFxlA==
 X-Google-Smtp-Source: 
- ABdhPJxOUkQ5vbnICVgox6PPVHkL7QIN6dESn/73/3XBEh1vvvyg5QrPA2axf/OHPnb15MO16miu6w==
-X-Received: by 2002:a05:6512:3a88:b0:471:9d5d:685f with SMTP id
- q8-20020a0565123a8800b004719d5d685fmr8227126lfu.450.1650450220644;
-        Wed, 20 Apr 2022 03:23:40 -0700 (PDT)
+ ABdhPJwXKjd1Sac8KWqqTHD+Z5fYcnVFrRusbw3VwEWf0UwMnek05fDWoytsd4viss2C2yWdPD/VGw==
+X-Received: by 2002:a05:6512:3f92:b0:447:769c:1b2c with SMTP id
+ x18-20020a0565123f9200b00447769c1b2cmr14527771lfa.387.1650450292221;
+        Wed, 20 Apr 2022 03:24:52 -0700 (PDT)
 Received: from umbar.lan ([37.153.55.125])
         by smtp.gmail.com with ESMTPSA id
- h13-20020ac24dad000000b0046d13289d3csm1776679lfe.249.2022.04.20.03.23.39
+ w8-20020a05651c118800b0024cfc30001dsm1720537ljo.49.2022.04.20.03.24.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 03:23:40 -0700 (PDT)
+        Wed, 20 Apr 2022 03:24:51 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] arch-armv8-2a.inc: fix a typo in TUNEVALID variable
-Date: Wed, 20 Apr 2022 13:23:39 +0300
-Message-Id: <20220420102339.2962323-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH] arch-armv8-4a.inc: add tune include for armv8.4a
+Date: Wed, 20 Apr 2022 13:24:51 +0300
+Message-Id: <20220420102451.2962474-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,28 +64,44 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164663
+ https://lists.openembedded.org/g/openembedded-core/message/164664
 
-Fix a typo in the TUNEVALID[armv8-2a]: It enables instructions for
-ARMv8.2-a, not just ARMv8-a.
+Add tune include for armv8.4a. This adds support only for bare armv8.4a
+(and for crypto extension). There is no support for additional
+instructions added by architecture extensions (except the main crypto
+extension support).
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/conf/machine/include/arm/arch-armv8-2a.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../machine/include/arm/arch-armv8-4a.inc     | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8-4a.inc
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
-index 30f2870811ed..95368b0af79e 100644
---- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
-@@ -1,6 +1,6 @@
- DEFAULTTUNE ?= "armv8-2a"
- 
--TUNEVALID[armv8-2a] = "Enable instructions for ARMv8-a"
-+TUNEVALID[armv8-2a] = "Enable instructions for ARMv8.2-a"
- TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', ' -march=armv8.2-a', '', d)}"
- # TUNE crypto will be handled by arch-armv8a.inc below
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', 'armv8-2a:', '', d)}"
+diff --git a/meta/conf/machine/include/arm/arch-armv8-4a.inc b/meta/conf/machine/include/arm/arch-armv8-4a.inc
+new file mode 100644
+index 000000000000..29feddb64c54
+--- /dev/null
++++ b/meta/conf/machine/include/arm/arch-armv8-4a.inc
+@@ -0,0 +1,19 @@
++DEFAULTTUNE ?= "armv8-4a"
++
++TUNEVALID[armv8-4a] = "Enable instructions for ARMv8.4-a"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-4a', ' -march=armv8.4-a', '', d)}"
++# TUNE crypto will be handled by arch-armv8a.inc below
++MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-4a', 'armv8-4a:', '', d)}"
++
++require conf/machine/include/arm/arch-armv8a.inc
++
++# Little Endian base configs
++AVAILTUNES += "armv8-4a armv8-4a-crypto"
++ARMPKGARCH:tune-armv8-4a                    ?= "armv8-4a"
++ARMPKGARCH:tune-armv8-4a-crypto             ?= "armv8-4a"
++TUNE_FEATURES:tune-armv8-4a                  = "aarch64 armv8-4a"
++TUNE_FEATURES:tune-armv8-4a-crypto           = "${TUNE_FEATURES:tune-armv8-4a} crypto"
++PACKAGE_EXTRA_ARCHS:tune-armv8-4a            = "${PACKAGE_EXTRA_ARCHS:tune-armv8a} armv8-4a"
++PACKAGE_EXTRA_ARCHS:tune-armv8-4a-crypto     = "${PACKAGE_EXTRA_ARCHS:tune-armv8-4a} armv8-4a-crypto"
++BASE_LIB:tune-armv8-4a                       = "lib64"
++BASE_LIB:tune-armv8-4a-crypto                = "lib64"
 -- 
 2.30.2
 
