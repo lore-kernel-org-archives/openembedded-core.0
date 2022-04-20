@@ -1,67 +1,64 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B983CC4708A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2FBAC38A2B
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:06 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web10.4272.1650431607153649489
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web08.4780.1650436623218431381
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 22:13:27 -0700
+ Tue, 19 Apr 2022 23:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RdZo7oYE;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id n11so639240qvl.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RW8kcIuy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id x17so1052487lfa.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Apr 2022 22:13:27 -0700 (PDT)
+ Tue, 19 Apr 2022 23:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=fVXirNBFMkpioOIlGwFa/qkd+jGeMCD22uqgJBwzlUc=;
-        b=RdZo7oYEEgGapz8uTsVfQGSPMwkxQHYw+nIqdyBHLr6Qt5OfLMGzXdYh+dIhDyFzZR
-         n78p3pADonOr8jd2FUarjkTVlFD9kMDyVpVJu8e4V+qr+AdKHSJ6R10iuGqsFSUdRH+t
-         vphhe02GfnFeUnycsqrtn9HVIkxFSNWAeBJPfyEr6YeZyOaTY+BPgvsTEKcnE7XB8brI
-         zqydLGfTYfqbnZvEopa7ZPsQA+dxIpHDn4SVxSXMkMJWYhn88Aho6HRrFICtF4ggpSEI
-         dDpYNcpqvraqS7kUBMwkV6feXUFKDEUug38M04KpomJunjVVWCR06RGgno+26s3/PNtr
-         0HbA==
+        bh=LkVOVBYFJiDo+6VReoRHEaTNk12fSq6lMHbCjTievh0=;
+        b=RW8kcIuyYOz67ZEU5O7YdGzFwxXJ2jZlUEQPAuxBiZ6PvSN4EnJd6PQKYhr9XyviYK
+         20l9+ePxJkMMx3g4nC6JNiUsdCZ/qEoa/qVB6svXbyjAQEzm3q38Ibmd++3ZLkRH7ymO
+         3NS9QaYY7iZy0Jv0T8svq22UauEw7fFkFnIhH/mlC4l5z0cSiReZcqavYYZWdFIJufjC
+         R4Ayjan80BBxpMm1vLMTu85Vqz5LwzbzHmI3DBoJONL4FwdPPGaKXpAOXCLyOLVHMhx/
+         udaE+wh1/DtWSmSfaVfhXlQJXzaKuvoww6kZYFOcGs0eTQIwCK/B4R5jqM7D0OarTPCF
+         P3og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fVXirNBFMkpioOIlGwFa/qkd+jGeMCD22uqgJBwzlUc=;
-        b=NcsUSHWzcvi93oJG4HfYPoASTkOL9p7ypkLOBhmXj4Xi8i3DIVea5R7enjcxjpo/t7
-         N+NIGoSp5Nkh0lgwsm8t8RsfaGwJyLf2iq0USPUoRGtkXUOjRWsCendc8BBpFhB+hcT7
-         dcvHMPt+lJONLqen2OA/o0PVmWrEEb7cS5SdQY9fZitd3XW9Kpz9nwEQnN9WM5tzinJR
-         uF5MIqXi0VvUQQyJ1evnVKB6wWagaSZDX7HZs4wt32KPNjR8ftMauKrvdSdhLXkugr34
-         p9YbO+4QuGiQ/Vf+jJ/RS520aZRATJfNZnPgzTQyx8quTco9FsZjhR+GY4CqI2dK8c6V
-         eNuQ==
-X-Gm-Message-State: AOAM533qIoetgrLgq1f+MAwu/XdH8n6ZX3SGWGEMEbBOQU84/PFsGkfJ
-	Gh8zj1Yaj1k0WmnCSEsY56ew5dtIdEL+QSgPFME=
+        bh=LkVOVBYFJiDo+6VReoRHEaTNk12fSq6lMHbCjTievh0=;
+        b=mi2+wPx11oy5gmvfjocIM4c2wsY07NAvBQJD74FkhkIhdcT7ofRzFpfoQ2XLK7qQYT
+         H444QJkohyeb4o9ZTWhufeKluDMZUeYNPR6kyZyAqgNdfnGhdky2uHCp0pznY4ZFn4uv
+         uuPpBMYPcYxBHXdAZ6BlQaUnnCVPXtIDIeN6mEf1d5hupeDEx2DOJhO9gvzpHIUwworL
+         s1W4cKDLQoqSWNqD62YbktGojrLaa/9P+cytJ/dXsclnIRwNrgSXRaBAJJqBayRvHicJ
+         nuBK4cLv/nYHNKw/30p57sDiTpZnvXSuk9P6Pmk52D8RXY6IDCZKOk8YJa/EadXhKsEQ
+         yFgw==
+X-Gm-Message-State: AOAM532MRRFgB3yk+jfuvr+ThO9KkigEeasADyFAEz5BZS5vLVl83pLS
+	PBIxaY/0irBbaUDHboLSHxTBLTg+kSmO4Dlwr10=
 X-Google-Smtp-Source: 
- ABdhPJz7DIqe1n5HQU/D6cZuKOzP0Z7prF4mVcMxbs+m8RSuM9v1D4NbvCrrOsiY+YmahKxaaH3ubxnQauaLsJCOF/4=
-X-Received: by 2002:ad4:44b4:0:b0:444:45d6:ec25 with SMTP id
- n20-20020ad444b4000000b0044445d6ec25mr14410632qvt.24.1650431606146; Tue, 19
- Apr 2022 22:13:26 -0700 (PDT)
+ ABdhPJxpcKVDKqx/vNa9Ydq2Sbgb2fqo4ar2AL33fDTshnGq/sk0dN3BZUE1XFOce73M5cQ5OpS3PCzbtk/s85YgvAs=
+X-Received: by 2002:a05:6512:b8d:b0:471:8afd:f8e1 with SMTP id
+ b13-20020a0565120b8d00b004718afdf8e1mr10028003lfv.534.1650436621297; Tue, 19
+ Apr 2022 23:37:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220415173821.3079322-1-raj.khem@gmail.com>
- <6aa10133af2f9c6a198deed7a99aab6824a68ffe.camel@linuxfoundation.org>
-In-Reply-To: 
- <6aa10133af2f9c6a198deed7a99aab6824a68ffe.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Apr 2022 22:13:00 -0700
+References: 
+ <010101802ecde680-777fdb10-0998-402c-a718-2e3ebe7e6cc8-000000@us-west-2.amazonses.com>
+ <74f47f87-14ca-6313-131d-7bc71daebd7b@windriver.com>
+In-Reply-To: <74f47f87-14ca-6313-131d-7bc71daebd7b@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 20 Apr 2022 08:36:49 +0200
 Message-ID: 
- <CAMKF1so3nrt_fY1=y278OpjxovEQAgfA-xwy+Leaqdm6xBjUWg@mail.gmail.com>
-Subject: Re: [OE-core] [RFT][PATCH v3] gcc: upgrade 11.2 -> current gcc-12
- snapshot
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+ <CANNYZj82yeWndpG=6gFVVLZce3cv_gxjYVst=jzxQvFnDhcHrw@mail.gmail.com>
+Subject: Re: [AUH] rust-llvm: upgrading to 1.60.0 FAILED
+To: Randy MacLeod <randy.macleod@windriver.com>
 Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
-	=?UTF-8?Q?Bernhard_Rosenkr=C3=A4nzer?=
- <bernhard.rosenkraenzer.ext@huawei.com>,
-	Jon Mason <Jon.Mason@arm.com>, "Mittal, Anuj" <anuj.mittal@intel.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
+	"Gowda, Naveen" <naveen.gowda@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,86 +66,140 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164658
+ https://lists.openembedded.org/g/openembedded-core/message/164659
 
-On Sat, Apr 16, 2022 at 1:07 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Please start the work, I do not have anything queued. Generally, it's
+better to just notify and get on with it: I don't mind if someone else
+starts doing the same update, and actually prefer it, as the more we
+distribute the upgrade work, the better.
+
+Alex
+
+On Mon, 18 Apr 2022 at 22:23, Randy MacLeod <randy.macleod@windriver.com> w=
+rote:
 >
-> On Fri, 2022-04-15 at 10:38 -0700, Khem Raj wrote:
-> > From: Bernhard Rosenkr=C3=A4nzer <bernhard.rosenkraenzer.ext@huawei.com=
+> On 2022-04-15 15:58, auh@yoctoproject.org wrote:
+> > Hello,
+> >
+> > this email is a notification from the Auto Upgrade Helper
+> > that the automatic attempt to upgrade the recipe *rust-llvm* to *1.60.0=
+* has Failed (devtool error).
+>
+>
+> Alex,
+>
+> Do you have this Rust/Cargo/... update in a branch somewhere or
+> should Naveen work on the 1.60 update?
+>
+> Naveen will also update the rust test patches that we've been hoping
+> to get merged for some time.
+>
+> ../Randy
+>
 >
 > >
-> > - gcc 12 is in RC stages.
-> > - Add patch to re-shuffle include of sched.h to fix build on musl
+> > Detailed error information:
 > >
-> > Signed-off-by: Bernhard Rosenkr=C3=A4nzer <bernhard.rosenkraenzer.ext@h=
-uawei.com>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v3
-> > - Switch to own snapshot for quick turnarounds than waiting for a
-> >   weekly snapshot
-> > - Add a fix for gcc target build on musl
-> > - Fixed gcc for kernel build failures on arm/x86_64
-> > - Fixed gcc for ccache build failure
+> > The following devtool command failed:  finish -f rust-llvm /home/pokybu=
+ild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
+> > NOTE: Starting bitbake server...
+> > Loading cache...done.
+> > Loaded 1640 entries from dependency cache.
+> > Parsing recipes...done.
+> > Parsing of 883 .bb files complete (882 cached, 1 parsed). 1642 targets,=
+ 34 skipped, 0 masked, 0 errors.
+> >
+> > ERROR: Traceback (most recent call last):
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/cookerdata.py", line 162, in wrapped
+> >      return func(fn, *args)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/cookerdata.py", line 187, in parse_config_file
+> >      return bb.parse.handle(fn, data, include)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/__init__.py", line 107, in handle
+> >      return h['handle'](fn, data, include)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/parse_py/ConfHandler.py", line 118, in handle
+> >      abs_fn =3D resolve_file(fn, data)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/__init__.py", line 133, in resolve_file
+> >      raise IOError(errno.ENOENT, "file %s not found" % fn)
+> > FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/buil=
+d/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+> >
+> > ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/pok=
+y/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuil=
+d/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.c=
+onf not found
+> > Traceback (most recent call last):
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/cookerdata.py", line 162, in wrapped
+> >      return func(fn, *args)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/cookerdata.py", line 187, in parse_config_file
+> >      return bb.parse.handle(fn, data, include)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/__init__.py", line 107, in handle
+> >      return h['handle'](fn, data, include)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/parse_py/ConfHandler.py", line 118, in handle
+> >      abs_fn =3D resolve_file(fn, data)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/parse/__init__.py", line 133, in resolve_file
+> >      raise IOError(errno.ENOENT, "file %s not found" % fn)
+> > FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/buil=
+d/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+> >
+> > During handling of the above exception, another exception occurred:
+> >
+> > Traceback (most recent call last):
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devt=
+ool", line 334, in <module>
+> >      ret =3D main()
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devt=
+ool", line 321, in main
+> >      ret =3D args.func(args, config, basepath, workspace)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/=
+devtool/standard.py", line 2108, in finish
+> >      updated, appendfile, removed =3D _update_recipe(args.recipename, w=
+orkspace, rd, args.mode, appendlayerdir, wildcard_version=3DTrue, no_remove=
+=3DFalse, no_report_remove=3Dremoving_original, initial_rev=3Dargs.initial_=
+rev, dry_run_outdir=3Ddry_run_outdir, no_overrides=3Dargs.no_overrides, for=
+ce_patch_refresh=3Dargs.force_patch_refresh)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/=
+devtool/standard.py", line 1814, in _update_recipe
+> >      updated, appendf, removed =3D _update_recipe_patch(recipename, wor=
+kspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_repor=
+t_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/=
+devtool/standard.py", line 1671, in _update_recipe_patch
+> >      redirect_output=3Ddry_run_outdir)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/=
+recipeutils.py", line 705, in bbappend_recipe
+> >      appendpath, pathok =3D get_bbappend_path(rd, destlayerdir, wildcar=
+dver)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/=
+recipeutils.py", line 632, in get_bbappend_path
+> >      confdata =3D bb.cookerdata.parse_config_file(destlayerconf, confda=
+ta)
+> >    File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/=
+bb/cookerdata.py", line 167, in wrapped
+> >      raise bb.BBHandledException()
+> > bb.BBHandledException
+> >
+> >
+> > Please review the attached files for further information and build/upda=
+te failures.
+> > Any problem please file a bug at https://bugzilla.yoctoproject.org/ente=
+r_bug.cgi?product=3DAutomated%20Update%20Handler
+> >
+> > Regards,
+> > The Upgrade Helper
 >
-> I ran this through the autobuilder as requested as it means we have a cha=
-nce to
-> get things fixed upstream before gcc 12 is released:
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3535
->
-> We see failures in:
->
-> edgerouter/edgerouter-alt in linux-yocto 5.15/5.10:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5078
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/111/builds/2965
->
-> meta-arm in linux-yocto 5.15:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/2307
->
-
-this is fixable with couple of backports which I have sent a request
-for 5.15 upstream
-https://lore.kernel.org/stable/afb441a5-97ca-1488-e1ab-c399fd4e254d@gmail.c=
-om/T/#u
-
-> meta-intel in intel-media-driver:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/2770
->
-> qemuppc/qemuppc-alt in linux-yocto 5.15/5.10:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5033
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/2916
->
-> Four oe-selftest failures due to missing maintainer entries (easy fix)
->
-> A weird oe-selftest prservice.BitbakePrTests.test_import_export_override_=
-db:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3409/st=
-eps/14/logs/stdio
->
-> The latter is one of our infamous intermittent issues and likely not gcc =
-12
-> """
-> Parsing recipes...ERROR: ParseError in None: Not all recipes parsed, pars=
-er
-> thread killed/died? Exiting.
-> ERROR: Parsing halted due to errors, see error messages above
-> """
->
-> So basically you have the intel-media-driver failure in meta-intel and a =
-number
-> of kernel issues. I've cc'd a few of the maintainers just so they're awar=
-e of
-> the status, I appreciate we'd wait for the mainline kernel to resolve thi=
-ngs.
->
-> Cheers,
->
-> Richard
->
->
->
->
+> --
+> # Randy MacLeod
+> # Wind River Linux
 >
 
