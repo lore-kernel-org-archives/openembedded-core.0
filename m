@@ -1,225 +1,141 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <andrei@gherzan.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8C1C63708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E38C6370B
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:09 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web12.8865.1650467153908498186
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web12.9057.1650467868063803499
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 08:05:54 -0700
+ Wed, 20 Apr 2022 08:17:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=G9Nj5QuG;
- spf=pass (domain: gmail.com, ip: 209.85.222.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id e128so1396731qkd.7
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 08:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mGBuLPy2Isv/icZNgalNFP7HzWxzKFjmVqEUWqD5ezI=;
-        b=G9Nj5QuGg/KhdXlS2xeleTNgvvES1A8p0qtsu+7LE2MJdjfurYNsk15p4W0JkEmpeI
-         xBm/t4u9eMQpBWtNhPlbS1848mn+W4iq4yuJ3T5sFF6Hs5Sb6KGInboVBNofa7czlmwW
-         Fs7QZqe0tisqptbPgQtaj3JDKYgKoJFUWHCsPNq3G2ltBJiHjp324bMCYEMOuKWnkfKM
-         3zOYAHOCy4VaEEoFKjMsDY72k7Bx42Z7iglS9fnVGbDdADKUfmYBsq6RrpymyXWQG4HI
-         YO6/E7pCL+B3u+5tlyFW7reDjxdoMmcwU1lLFHQyWgTPlfJuPrzmmZwlqffv4KXfvNIz
-         3EaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mGBuLPy2Isv/icZNgalNFP7HzWxzKFjmVqEUWqD5ezI=;
-        b=H+StwAyfhldOcp3Hp7lhCkJEYnH0uT2aeXNY84ITEf08XgMSXGhJIfcN+Ndg68t375
-         3seK6+hTvHVKv3pU0p7tUnzu7O4/Gto3TSgab1vl0NvavfoEexvJihnfjMxJDM4GkUJ1
-         0UurKigkHkC5PGAYysOzn9cB3rwbF1hfPYkxovmJ6ONE8GVI2C1P8hGOOaR9UHKI6nBI
-         YwyuwWUC+7J2bsuRg89bMsmfjdnICxzFGx+0e6mH4ipIzHiAVSmu/6Ikl/V4sYYuwFNB
-         T3HWPXG8PYnTrUsAo7UVhfLKtO78bCgoXXhdOQdhKWk7VuhNJ9pCThJ2Q41Kod/Bvo9A
-         JA5w==
-X-Gm-Message-State: AOAM5325MEI1VS1a1TcapwhNfsNyJyLfLmVfOAHyoyrJqTKTce2pW8B5
-	SAR/a7YsgaaG+44RqGq6sIpMCKWX6j56TIE7yR7mIQ634aE=
-X-Google-Smtp-Source: 
- ABdhPJw+OyfYiGFaSOOuWX5vWAOJD218qsuWOakjv4uVO3u1kKFxAcm4/+K8Lv4K3XY8ZpM/iet0UYjp0ekz+cUozB8=
-X-Received: by 2002:a05:620a:444e:b0:69e:d240:9cd2 with SMTP id
- w14-20020a05620a444e00b0069ed2409cd2mr3128584qkp.72.1650467152708; Wed, 20
- Apr 2022 08:05:52 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
+ header.b=r2AchBG9;
+ spf=pass (domain: gherzan.com, ip: 66.111.4.28, mailfrom: andrei@gherzan.com)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6B3EB5C0180;
+	Wed, 20 Apr 2022 11:17:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 20 Apr 2022 11:17:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1650467867; x=1650554267; bh=g3A+eezUZj6+sMqF+R4MftMRX
+	ZTjhKWMEcjUyrvEHSE=; b=r2AchBG9Q5ngb5tZ5g/PxqVcjo3zLJyN9H01Rqil1
+	KmmyJHYxgMGELpThaqfD/wItvpc0LTca5OXgDfBUDeGW5cgbb1K4OtCpBcc2V1kf
+	Rpv6/DfT8Cyg3aadyyYUIBQBJx4DrFURipPjivFql4AmHhzf6o/zYB0M7y+koTVQ
+	E9a0HU1C+HAocHIWj/yzXIg44LBVsfjoYo3+gLQrOuapl1DA2qIxyaqq26qp4LFf
+	Y+1te/eGQplRHIQva0jmQtnG48lPrsTQFnns6CVOclJlLLpy74XPPej0KD5XNCjQ
+	r3Ro3KP9homqh243rE3Q1F/6SZeuMx2nZVz18UTXXSqzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1650467867; x=1650554267; bh=g
+	3A+eezUZj6+sMqF+R4MftMRXZTjhKWMEcjUyrvEHSE=; b=e2LkbxIIRs1+tYcsL
+	vmUd7sYkv549cWyINrlN/fLO2h1IofBXChgNG7DQ/GJ4cwhTJDz7j9racPXqkiIs
+	skzShVqPsSM4mL809M1slHvRNv1pXhc7plQEnNy14BH3om56aXY9+hvuraRBJhtz
+	XuQCEdduA/kSJ6fiGIo7dPfnTvIJ1Y1srGOrprC/ME8c8/ioBGxtFU/jj/3pw6Lt
+	DEf3WsdUHalA1LF6/8jAljwPYR8v0w0fg4VkfsAyPsW0T1IhjQBIxcb+56it0dQw
+	3aYKYptzmVL6r2woJGwboURKhot4nBu+73I3iry2youX3BjHIu3n4bBMFLtx2Zw6
+	Nq/Sw==
+X-ME-Sender: <xms:GyRgYnbcBI_ZcpEdZy0IrYjLaBcw3AP3M7ErHAhzE2w8Pc04bQdbNg>
+    <xme:GyRgYmb-4RsM12fOwNifl8vf2DJQJs0HKGsi86ls9PKpnynUPVvCePDAVqtf4Kt52
+    9hhLvXClFy6M371nGo>
+X-ME-Received: 
+ <xmr:GyRgYp9NMduO2_B3b6t1bdOv8_p5c8EpRYkE2BMpV5BSAP2PBSJAsixt361aSCIFVhmedw6kVxHNP1o7PFWWQ1hZGR6WG8D8BAjeJL6QQebzFlLtMBKzUr3p>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgdeivdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
+    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeelhfevveelffevgeefteelje
+    etvdegjedttdehhffhtdeihfevgeffgeegkeenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
+X-ME-Proxy: <xmx:GyRgYtpSMlVLZvpNb4O2JCtnCAu2wMnWyaCXty0IcDQ2X0KIgzpGXQ>
+    <xmx:GyRgYirnGCZK0VWXadAvpfkz9qFFb3UiqbZvQvL_8UztobK5fV9rUw>
+    <xmx:GyRgYjTF6J_fAfXoTXFf3mAnBjmjp6pxPdEaHOa73YbD7mu0vrwgHQ>
+    <xmx:GyRgYnAfy7dwPnUsIs5Co5ZwDugu_AMUMZ33qJIQqyu1FmxT278YbQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Apr 2022 11:17:46 -0400 (EDT)
+From: Andrei Gherzan <andrei@gherzan.com>
+To: openembedded-core@lists.openembedded.org
+Cc: andrei@gherzan.com,
+	Andrei Gherzan <andrei.gherzan@huawei.com>
+Subject: [PATCH 1/1] automake: Drop redundant 'u' flag in ARFLAGS
+Date: Wed, 20 Apr 2022 17:17:25 +0200
+Message-Id: <20220420151725.468761-1-andrei@gherzan.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <16E7A00050A35F84.23874@lists.openembedded.org>
- <CAOSpxdbjagCMneqiUTotst++FJspGQXsd577H9TOfnVTm+xMpQ@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbjagCMneqiUTotst++FJspGQXsd577H9TOfnVTm+xMpQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Apr 2022 08:05:26 -0700
-Message-ID: 
- <CAMKF1srWFLHrd=THR=8AgiJY3rnYp0TZ2EJYxAdpmGHj_H6e2A@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 00/27] Patch review
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164700
+ https://lists.openembedded.org/g/openembedded-core/message/164702
 
-On Wed, Apr 20, 2022 at 7:54 AM Steve Sakoman <steve@sakoman.com> wrote:
->
-> On Wed, Apr 20, 2022 at 4:08 AM Steve Sakoman via
-> lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-> wrote:
-> >
-> > Please review this set of patches for kirkstone and have comments back by
-> > end of day Friday.
->
-> I'd particularly like feedback on the security/bug fix version updates
-> at the end of this series.
->
-> In the past I took these only on request.
->
-> Would people like me to be more proactive on this type of upgrade
-> (such as this series), or should I continue to take them only on
-> request?
+From: Andrei Gherzan <andrei.gherzan@huawei.com>
 
-I think being proactive would be fine
+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+---
+ .../automake/0001-Drop-ar-u-argument.patch    | 32 +++++++++++++++++++
+ .../automake/automake_1.16.5.bb               |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
 
->
-> Steve
->
-> >
-> > Passed a-full on autobuilder:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3547
-> >
-> > The following changes since commit d2ba3b8850d461bc7b773240cdf15b22b31a3f9e:
-> >
-> >   lua: fix CVE-2022-28805 (2022-04-19 14:02:08 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-> >
-> > Alexander Kanavin (1):
-> >   webkitgtk: adjust patch status
-> >
-> > Davide Gardenal (1):
-> >   create-spdx: fix error when symlink cannot be created
-> >
-> > Ferry Toth (2):
-> >   apt: add apt selftest to test signed package feeds
-> >   package_manager: fix missing dependency on gnupg when signing deb
-> >     package feeds
-> >
-> > Jon Mason (1):
-> >   qemuarm64: use virtio pci interfaces
-> >
-> > Kai Kang (1):
-> >   update_udev_hwdb: fix multilib issue with systemd
-> >
-> > Khem Raj (5):
-> >   babeltrace: Disable warnings as errors
-> >   xserver-xorg: Fix build with gcc12
-> >   systemtap: Fix build with gcc-12
-> >   gnupg: Disable FORTIFY_SOURCES on mips
-> >   mdadm: Drop clang specific cflags
-> >
-> > Konrad Weihmann (2):
-> >   git: correct license
-> >   ncurses: use COPYING file
-> >
-> > Martin Jansa (1):
-> >   systemd-boot: remove outdated EFI_LD comment
-> >
-> > Paulo Neves (1):
-> >   selftest/lic_checksum: Add test for filename containing space
-> >
-> > Peter Kjellerstedt (2):
-> >   u-boot: Correct the SRC_URI
-> >   u-boot: Inherit pkgconfig
-> >
-> > Richard Purdie (1):
-> >   buildtools-tarball: Only add cert envvars if certs are included
-> >
-> > Ross Burton (1):
-> >   zlib: upgrade to 1.2.12
-> >
-> > wangmy (5):
-> >   linux-firmware: upgrade 20220310 -> 20220411
-> >   libsoup: upgrade 3.0.5 -> 3.0.6
-> >   apt: upgrade 2.4.3 -> 2.4.4
-> >   libusb1: upgrade 1.0.25 -> 1.0.26
-> >   libgit2: upgrade 1.4.2 -> 1.4.3
-> >
-> > zhengruoqin (3):
-> >   wireless-regdb: upgrade 2022.02.18 -> 2022.04.08
-> >   git: upgrade 2.35.2 -> 2.35.3
-> >   ruby: upgrade 3.1.1 -> 3.1.2
-> >
-> >  meta/classes/create-spdx.bbclass              |  10 +-
-> >  meta/classes/sign_package_feed.bbclass        |   1 +
-> >  meta/conf/machine/qemuarm64.conf              |   8 +-
-> >  meta/lib/oeqa/runtime/cases/apt.py            |  38 +-
-> >  meta/lib/oeqa/selftest/cases/lic_checksum.py  |  18 +
-> >  meta/lib/oeqa/selftest/cases/runtime_test.py  |  38 ++
-> >  meta/recipes-bsp/u-boot/u-boot-common.inc     |   6 +-
-> >  meta/recipes-core/meta/buildtools-tarball.bb  |   6 +-
-> >  meta/recipes-core/ncurses/ncurses.inc         |   2 +-
-> >  .../systemd/systemd-boot_250.4.bb             |   1 -
-> >  meta/recipes-core/systemd/systemd_250.4.bb    |   5 -
-> >  meta/recipes-core/udev/eudev_3.2.10.bb        |   4 -
-> >  ...configure-Pass-LDFLAGS-to-link-tests.patch |  25 +-
-> >  .../zlib/zlib/CVE-2018-25032.patch            | 347 ------------------
-> >  meta/recipes-core/zlib/zlib/cc.patch          |  27 ++
-> >  .../zlib/{zlib_1.2.11.bb => zlib_1.2.12.bb}   |   7 +-
-> >  .../apt/{apt_2.4.3.bb => apt_2.4.4.bb}        |   2 +-
-> >  .../git/{git_2.35.2.bb => git_2.35.3.bb}      |  15 +-
-> >  .../ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb}     |   2 +-
-> >  meta/recipes-extended/mdadm/mdadm_4.2.bb      |   2 -
-> >  .../0001-render-Fix-build-with-gcc-12.patch   |  90 +++++
-> >  .../xorg-xserver/xserver-xorg_21.1.3.bb       |   1 +
-> >  ...20220310.bb => linux-firmware_20220411.bb} |   4 +-
-> >  .../recipes-kernel/lttng/babeltrace2_2.0.4.bb |   2 +-
-> >  ...ility-re-tweak-for-rhel6-use-functio.patch |  49 +++
-> >  .../recipes-kernel/systemtap/systemtap_git.bb |   3 +-
-> >  ....02.18.bb => wireless-regdb_2022.04.08.bb} |   2 +-
-> >  ...spection.cmake-prefix-variables-obta.patch |   5 +-
-> >  meta/recipes-support/gnupg/gnupg_2.3.4.bb     |   3 +
-> >  .../{libgit2_1.4.2.bb => libgit2_1.4.3.bb}    |   2 +-
-> >  .../{libsoup_3.0.5.bb => libsoup_3.0.6.bb}    |   2 +-
-> >  .../{libusb1_1.0.25.bb => libusb1_1.0.26.bb}  |   2 +-
-> >  scripts/postinst-intercepts/update_udev_hwdb  |   5 +-
-> >  33 files changed, 322 insertions(+), 412 deletions(-)
-> >  delete mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
-> >  create mode 100644 meta/recipes-core/zlib/zlib/cc.patch
-> >  rename meta/recipes-core/zlib/{zlib_1.2.11.bb => zlib_1.2.12.bb} (83%)
-> >  rename meta/recipes-devtools/apt/{apt_2.4.3.bb => apt_2.4.4.bb} (97%)
-> >  rename meta/recipes-devtools/git/{git_2.35.2.bb => git_2.35.3.bb} (86%)
-> >  rename meta/recipes-devtools/ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb} (97%)
-> >  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
-> >  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
-> >  create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
-> >  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
-> >  rename meta/recipes-support/libgit2/{libgit2_1.4.2.bb => libgit2_1.4.3.bb} (91%)
-> >  rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
-> >  rename meta/recipes-support/libusb/{libusb1_1.0.25.bb => libusb1_1.0.26.bb} (94%)
-> >
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164699): https://lists.openembedded.org/g/openembedded-core/message/164699
-> Mute This Topic: https://lists.openembedded.org/mt/90584508/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch b/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
+new file mode 100644
+index 0000000000..260c51f517
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
+@@ -0,0 +1,32 @@
++From bed646918bc67e9e2151ccbda03aae34717821fe Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei.gherzan@huawei.com>
++Date: Wed, 20 Apr 2022 14:57:14 +0200
++Subject: [PATCH] Drop ar 'u' argument
++
++binutils/ar is configured in deterministic mode by default making the
++'u' argument irrelevant while leading to warning massages similar to:
++
++| ar: `u' modifier ignored since `D' is the default (see `U')
++
++Upstream-Status: Pending
++Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
++---
++ bin/automake.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bin/automake.in b/bin/automake.in
++index 92bcebe..0f2b84b 100644
++--- a/bin/automake.in
+++++ b/bin/automake.in
++@@ -2678,7 +2678,7 @@ sub handle_libraries ()
++     }
++ 
++   define_variable ('AR', 'ar', INTERNAL);
++-  define_variable ('ARFLAGS', 'cru', INTERNAL);
+++  define_variable ('ARFLAGS', 'cr', INTERNAL);
++   define_verbose_tagvar ('AR');
++ 
++   foreach my $pair (@liblist)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/automake/automake_1.16.5.bb b/meta/recipes-devtools/automake/automake_1.16.5.bb
+index ba5ce7b9bb..469fcd69f7 100644
+--- a/meta/recipes-devtools/automake/automake_1.16.5.bb
++++ b/meta/recipes-devtools/automake/automake_1.16.5.bb
+@@ -25,6 +25,7 @@ SRC_URI += "\
+            file://new_rt_path_for_test-driver.patch \
+            file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
+            file://0001-build-fix-race-in-parallel-builds.patch \
++           file://0001-Drop-ar-u-argument.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "07bd24ad08a64bc17250ce09ec56e921d6343903943e99ccf63bbf0705e34605"
+-- 
+2.25.1
+
 
