@@ -1,166 +1,230 @@
-Return-Path: <armccurdy@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC01C48BE5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD53C48BD2
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:07 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web12.15033.1650497093319780286
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.6676.1650455671295916355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 16:24:53 -0700
+ Wed, 20 Apr 2022 04:54:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mIh0YYQG;
- spf=pass (domain: gmail.com, ip: 209.85.167.47,
- mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id p10so5641459lfa.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 16:24:53 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=f+Zvryis;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iJp4gMsK8pykkiu0mOe+mdG3jXysL6UX5yUK9cROnFM=;
-        b=mIh0YYQGOcVuw1Ho1JmM0yjKZNSR0HlceM6Es8b2qrOCg+DKRGCx4CobWueVzw8bwc
-         pjcJoFbVztQZagYyiio1VGvlBPhItqKJzT9WxkRdD+TMEEGHqb5ivnPztyo2x+rQtrd7
-         vxFBnvx+ca/VhZ4XXCwBl7uIbuFysPauorlfmD9m0+fKtI3MoDKxE8iZnqfCbL8RCw5g
-         L4/VG3o9U010D2ymTN4tF98/0NI4T072hGR11FD03wuP/3XlExd8w00sslmL/X6GqC7w
-         kEf7H87AZvlVxtQDRbYVCQAqlQ/o/tgzH7IRf84k+clVFOPvePHDmFnOhcYqcm3orr/p
-         9uRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iJp4gMsK8pykkiu0mOe+mdG3jXysL6UX5yUK9cROnFM=;
-        b=MQlmBYhqatLM5RrsEEYN+K4rCVVVkMIOqlpIo0jO+/v8uZgi8kd85C5YijYVNJ12f0
-         oqBcZoNuY/WN8teQj2reu3VVY6eePypUSY1iRyabga5Zg2/Q9ekExwyHayvxQdtocVwE
-         mywce+1P6fvw8NPD1RsqIM6ByuzYNgDMAxE80lcWPdJI/kEI/Cfu9FumQMcq1bdbW9xw
-         6LI3y+OV3dGJOE4GL68tW4f79D89vwXGcmX1SjxA84fiDsSS/TN6L6Ucd7auQa5J2VnR
-         M0E3tlu3c/tySwD/ta4xnEhQn6XxRHzK6JqPHffoYf4B45NkK7AIsN0GFPIs/ct95rGg
-         kryw==
-X-Gm-Message-State: AOAM530bTrR1b6B2+MPAbZx9tLy/WwZYVxeTEieHXx2a3mWp8/j+M4KQ
-	qmFV34PnmCmkMxwqkGHYKzx810klzcbFqhw2VR8=
-X-Google-Smtp-Source: 
- ABdhPJy0nC8kEDaHwCW3ojp6jY6KtT6E8PGcuo5EFrc0+658GMX5olTrOs9rkMGoq4o0Mu2HmxrK0c5PIHJyRAtA6bs=
-X-Received: by 2002:a05:6512:3d88:b0:471:b3e2:5b7b with SMTP id
- k8-20020a0565123d8800b00471b3e25b7bmr5534997lfv.160.1650497091278; Wed, 20
- Apr 2022 16:24:51 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1650455671;
+  x=1681991671;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rzTcBlpuE/znAvjq0s6kFnTu++iCBej8VAyA7Fv0Ct0=;
+  b=f+Zvryis0e4Fzv7BC3nUOJWtZdGHk8sLvSjmWe7X4KjQKH+QrDc9Vgp7
+   Og/5Meo8z8PoR7kRjYO7sXMtrmmTzzSC39zf/ktPfJDhx2Z/K5k2gQ0Qk
+   TPwU+vN48ffHffDVgcCWAaa0n6axX2+dfBuYU9N4ENtUBwWs3RXwbLLZf
+   6rjOb6KlrfmffwoRo4vfsOlmDuqe+4cRG8VQKWDFBwLUZX1nRN6CT+fUp
+   6ye83tkRKKWc+BgcygQGk/+xESz0Q/z8/QbR/m5YFEdIF7zRigTT8xIwu
+   X0Irahqs+bGdpTtlbtG5J3Kr5jcfk9i5cvrx71kSr9um+Nb9qmI+YE4ML
+   A==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [honister][PATCH] shadow-native: Simplify and fix syslog disable
+ patch
+Date: Wed, 20 Apr 2022 13:54:23 +0200
+Message-ID: <20220420115423.27955-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20220420151141.25027-1-paul.gortmaker@windriver.com>
-In-Reply-To: <20220420151141.25027-1-paul.gortmaker@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 20 Apr 2022 16:24:34 -0700
-Message-ID: 
- <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] devshell: introduce intercepts as per native /
- nativesdk
-To: Paul Gortmaker <paul.gortmaker@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164739
+ https://lists.openembedded.org/g/openembedded-core/message/164665
 
-On Wed, Apr 20, 2022 at 8:12 AM Paul Gortmaker
-<paul.gortmaker@windriver.com> wrote:
->
-> In a devshell, recent versions of git will complain if the repo is owned
-> by someone other than the current UID - consider this example:
->
->  ------
->   bitbake -c devshell linux-yocto
->
->   [...]
->
->   kernel-source#git branch
->   fatal: unsafe repository ('/home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source' is owned by someone else)
->   To add an exception for this directory, call:
->
->         git config --global --add safe.directory /home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source
->   kernel-source#
->  ------
->
-> Of course the devshell has UID zero and the "real" UID is for "paul" in
-> this case.  And so recent git versions complain.
->
-> As the whole purpose of the devshell is to invoke a shell where development
-> can take place, having a non-functional git is clearly unacceptable.
->
-> Richard suggested we could use PSEUDO_UNLOAD=1 to evade this issue, and I
-> suggested we probably will see other similar instances like this and should
-> make use of PATH to intercept via devshell wrappers - conveniently we already
-> have examples of this.
->
-> Here, we copy the existing "ar" example and tune it to the needs of git to
-> combine Richard's suggestion and mine.
->
-> As such we now also can store commit logs and use send-email with our user
-> specific settings, instead of "root", so in additon to fixing basic
-> commands like "git branch" it should also increase general usefulness.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-It looks like this will address the performance issues of using git
-from a devshell too. Trying to run git log, git blame, etc for
-largeish repos in a devshell is annoyingly slow due to the overhead of
-pseudo.
+Shadow is happily spamming the host syslog with messages and shouldn't be
+which suggests the patch isn't working. Redo it to work at the configure
+level which is simpler and hopefully more effective.
 
-I always wondered what people do in a devshell which actually _does_
-need to run under pseudo...
+This is a squashed cherry-pick of commit 8f181686 (shadow-native:
+Simplify and fix syslog disable patch) and commit e1f21d0d (shadow:
+Disable the use of syslog() for the native tools).
 
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
->
-> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> index 62dc958d9a4a..7ac134e0950f 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -2,6 +2,8 @@ inherit terminal
->
->  DEVSHELL = "${SHELL}"
->
-> +PATH:prepend = "${COREBASE}/scripts/devshell-intercept:"
-> +
->  python do_devshell () {
->      if d.getVarFlag("do_devshell", "manualfakeroot"):
->         d.prependVar("DEVSHELL", "pseudo ")
-> diff --git a/scripts/devshell-intercept/git b/scripts/devshell-intercept/git
-> new file mode 100755
-> index 000000000000..8adf5c9ecb71
-> --- /dev/null
-> +++ b/scripts/devshell-intercept/git
-> @@ -0,0 +1,19 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Wrapper around 'git' that doesn't think we are root
-> +
-> +import os
-> +import shutil
-> +import sys
-> +
-> +os.environ['PSEUDO_UNLOAD'] = '1'
-> +
-> +# calculate path to the real 'git'
-> +path = os.environ['PATH']
-> +path = path.replace(os.path.dirname(sys.argv[0]), '')
-> +real_git = shutil.which('git', path=path)
-> +
-> +if len(sys.argv) == 1:
-> +    os.execl(real_git, 'git')
-> +
-> +os.execv(real_git, sys.argv)
-> --
-> 2.17.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164701): https://lists.openembedded.org/g/openembedded-core/message/164701
-> Mute This Topic: https://lists.openembedded.org/mt/90585970/3619030
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...01-Disable-use-of-syslog-for-sysroot.patch | 150 +++++-------------
+ 1 file changed, 39 insertions(+), 111 deletions(-)
+
+diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+index 95728bcd3f..628db42136 100644
+--- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
++++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+@@ -1,124 +1,52 @@
+-From 30a3906a0a21120fa6bbc918b6258ab9303fbeaa Mon Sep 17 00:00:00 2001
+-From: Scott Garman <scott.a.garman@intel.com>
+-Date: Thu, 14 Apr 2016 12:28:57 +0200
+-Subject: [PATCH] Disable use of syslog for sysroot
++From 8b845fff891798a03bdf21354b52e4487c2c0200 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 14 Apr 2022 23:11:53 +0000
++Subject: [PATCH] Disable use of syslog for shadow-native tools
+ 
+ Disable use of syslog to prevent sysroot user and group additions from
+ writing entries to the host's syslog. This patch should only be used
+ with the shadow-native recipe.
+ 
+-Upstream-Status: Inappropriate [disable feature]
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++Upstream-Status: Inappropriate [OE specific configuration]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ 
+ ---
+- src/groupadd.c  | 3 +++
+- src/groupdel.c  | 3 +++
+- src/groupmems.c | 3 +++
+- src/groupmod.c  | 3 +++
+- src/useradd.c   | 3 +++
+- src/userdel.c   | 4 ++++
+- src/usermod.c   | 3 +++
+- 7 files changed, 22 insertions(+)
++ configure.ac      | 2 +-
++ src/login_nopam.c | 3 ++-
++ 2 files changed, 3 insertions(+), 2 deletions(-)
+ 
+-diff --git a/src/groupadd.c b/src/groupadd.c
+-index d7f68b1..5fe5f43 100644
+---- a/src/groupadd.c
+-+++ b/src/groupadd.c
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id$"
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <ctype.h>
+- #include <fcntl.h>
+- #include <getopt.h>
+-diff --git a/src/groupdel.c b/src/groupdel.c
+-index 5c89312..2aefc5a 100644
+---- a/src/groupdel.c
+-+++ b/src/groupdel.c
+-@@ -34,6 +34,9 @@
+- 
++diff --git a/configure.ac b/configure.ac
++index 5dcae19..b2c58f5 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -204,7 +204,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, "$shadow_cv_passwd_dir/passwd",
++ 	[Path to passwd program.])
++ 
++ dnl XXX - quick hack, should disappear before anyone notices :).
++-AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
+++#AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
++ if test "$ac_cv_func_ruserok" = "yes"; then
++ 	AC_DEFINE(RLOGIN, 1, [Define if login should support the -r flag for rlogind.])
++ 	AC_DEFINE(RUSEROK, 0, [Define to the ruserok() "success" return value (0 or 1).])
++diff --git a/src/login_nopam.c b/src/login_nopam.c
++index df6ba88..fc24e13 100644
++--- a/src/login_nopam.c
+++++ b/src/login_nopam.c
++@@ -29,7 +29,6 @@
++ #ifndef USE_PAM
+  #ident "$Id$"
+  
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <ctype.h>
+- #include <fcntl.h>
+- #include <grp.h>
+-diff --git a/src/groupmems.c b/src/groupmems.c
+-index 654a8f3..6b2026b 100644
+---- a/src/groupmems.c
+-+++ b/src/groupmems.c
+-@@ -32,6 +32,9 @@
+- 
+- #include <config.h>
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <fcntl.h>
+- #include <getopt.h>
+- #include <grp.h>
+-diff --git a/src/groupmod.c b/src/groupmod.c
+-index acd6f35..a2c5247 100644
+---- a/src/groupmod.c
+-+++ b/src/groupmod.c
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id$"
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <ctype.h>
+- #include <fcntl.h>
+- #include <getopt.h>
+-diff --git a/src/useradd.c b/src/useradd.c
+-index 127177e..b80e505 100644
+---- a/src/useradd.c
+-+++ b/src/useradd.c
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id$"
+- 
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <assert.h>
+- #include <ctype.h>
+- #include <errno.h>
+-diff --git a/src/userdel.c b/src/userdel.c
+-index 79a7c89..c1e010a 100644
+---- a/src/userdel.c
+-+++ b/src/userdel.c
+-@@ -31,6 +31,10 @@
+-  */
+- 
+- #include <config.h>
+-+
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+-+
+- #include <assert.h>
+- #include <dirent.h>
+- #include <errno.h>
+-diff --git a/src/usermod.c b/src/usermod.c
+-index 03bb9b9..e15fdd4 100644
+---- a/src/usermod.c
+-+++ b/src/usermod.c
+-@@ -34,6 +34,9 @@
+- 
+- #ident "$Id$"
++-#include "prototypes.h"
++     /*
++      * This module implements a simple but effective form of login access
++      * control based on login names and on host (or domain) names, internet
++@@ -57,6 +56,8 @@
++ #include <netinet/in.h>
++ #include <arpa/inet.h>		/* for inet_ntoa() */
+  
+-+/* Disable use of syslog since we're running this command against a sysroot */
+-+#undef USE_SYSLOG
+++#include "prototypes.h"
+ +
+- #include <assert.h>
+- #include <ctype.h>
+- #include <errno.h>
++ #if !defined(MAXHOSTNAMELEN) || (MAXHOSTNAMELEN < 64)
++ #undef MAXHOSTNAMELEN
++ #define MAXHOSTNAMELEN 256
 
