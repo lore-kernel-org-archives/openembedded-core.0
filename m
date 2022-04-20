@@ -2,60 +2,60 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E302C47092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 576A2C47095
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:07 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.5940.1650449492169761465
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web09.6053.1650450222873130380
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 03:11:32 -0700
+ Wed, 20 Apr 2022 03:23:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=P1raGVqO;
- spf=pass (domain: linaro.org, ip: 209.85.167.44,
+ dkim=pass header.i=@linaro.org header.s=google header.b=dXIuyanK;
+ spf=pass (domain: linaro.org, ip: 209.85.167.46,
  mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f44.google.com with SMTP id y32so2035114lfa.6
+Received: by mail-lf1-f46.google.com with SMTP id bu29so2173010lfb.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 03:11:31 -0700 (PDT)
+ Wed, 20 Apr 2022 03:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MGYsNHK+f8G2Qin+qoEC+5aKiSa1aUf47PwWNSTysQY=;
-        b=P1raGVqOoje6V74zGRxORiw/lbSS0RmWxwcXVHy6LBUZNhSH0f5WNZRdn5t6ytJVdL
-         5Qbb+i+Q68ocoETQgp00+roJD1SFTszxs9F3cUwlG75uty77kIlzJaVuk8lPam/6Mw0r
-         HpKVSdjoxZ7JCiStPI/ys9Q3PuCXsK0u1G1COkLG+I+AssnBpiYIGqbs7OAL7M3jydcI
-         iife1B5+vEo0aLkIUPutnXziMbVVZE8x+ti2rtdp483oySM8NetsKnS1UTu571iylXWV
-         EpQLB/lkc5kPS1i2i5xjb1Jc4KV0z6FE24jmXsJV//wA3Fww9YAtbtCIFkEuPd09algY
-         gjGA==
+        bh=zDFn1n7zGLFVmSLRm9cQKF+gshI4bxEuTYQU+Az9adw=;
+        b=dXIuyanK2GObQnT9RdO3EpO8zL/+aTFEI7jNNxVIufekDvDglSOWbgTT4YkpYbjZOY
+         FH0fOZwJO4aWL2u/uRy+48FDnM6uvFJT3HtMxOC07FxXYH/PArkhtZcjLpPKywnsJTfR
+         JQJuCrIOTWsTZK1u5QwuliH48J9Yw8K9/f0zol8a7uCi+1BDlMsm8ZL/RjfjJb7QuyOe
+         WRoASXrpCyoXoO9O36wfdvH03aMaqssCRCzoMIP4zQVwUg9/Ptyqvl/6XFVvE4ODKeP7
+         PKCa4xTbzZ85ydLTXKKcAxAzvMfre3FUk6wovrgNTmgO5zNRGxXjKMxY5ppxsbsMrNat
+         O/DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MGYsNHK+f8G2Qin+qoEC+5aKiSa1aUf47PwWNSTysQY=;
-        b=u1I/Dz7T3yp7f8D0ImF6qqs8x9g2kzp54/kAFYkTMhCaoFJlqhKUX4km8nxT9+Obqh
-         3i07w1KbVGRMBpw6f9SpTzCdksiMXWzT9p1rax9NJf2Pju+VX2Uiy5/Dx98GDo+1+uG1
-         SJas9eZWf3IY6JonMRmUiLg8UVPhmzJ2D6+H4Ovgj7MK3io3Zmqn77tY8z4JJfKNpIiJ
-         9r79S+hjKrFSH19aVMB+KQiaOAKgjN4uM3rly3epZCo0aLvhmbCsCZIMxYdSN5dZ7cqu
-         fup2eLccO1d/hLojdgk/Z96ciyO5BWPgpPa6IJRV5ZB6CRwJLGZZjyIBe8wtVVlI/mN1
-         GS8w==
-X-Gm-Message-State: AOAM531GY/J5NDRLQYS55OjtxfXtKONqRj4s+8/rTgwrX4SBoIqyBlZA
-	8L/Oux0ZcCprUfFQrs6GC07HKzM8G6z3zw==
+        bh=zDFn1n7zGLFVmSLRm9cQKF+gshI4bxEuTYQU+Az9adw=;
+        b=yTpGFcxa37OskuU+nFdC70Y4r85P8jGsPAgJhTJxMaDgknL53HWzZN/Jj6LnQv4p8V
+         YaSOvMn7YvMQty+1i+KDKDrUff+cjf30bOp/W4VVQVeTwzntuileliQ7rz0/VSBo6T9N
+         +KnAG77FXGCaDKiXtTfLeafvW3V+3g+64wXAazW6v00mFXPFDFjs1JfiWcETdOhDKY0W
+         3nM6nBlwEZEyWIA4L6O3TzI6VJpLln9/qLCrqKgXfjdOgrJG3xR47mgQtLUlVKH7EQwl
+         xLdzW9IWmlUQpt8MGLi6ESJqrnUGVmT/KJwod/Yk1FjXFtwFSzpLGssDE0CUzeHcmfLC
+         gQ8A==
+X-Gm-Message-State: AOAM532GJXKklb5Oq/M7fvI8bzp55cEb4LygEQmk2/9mq37cSaHpwtU+
+	s9O+zK0LQLGtPuy2Yx1Y9ovTbkFsEHbqtw==
 X-Google-Smtp-Source: 
- ABdhPJxFc+WhKXbQYaA3udGo4PKkZWRlCwQh4yLDd2IP2Lj/PLthKY/kUvAVx5VYLG35W2aR8Ayo7g==
-X-Received: by 2002:a19:7401:0:b0:46e:bf86:3a26 with SMTP id
- v1-20020a197401000000b0046ebf863a26mr14447927lfe.271.1650449489881;
-        Wed, 20 Apr 2022 03:11:29 -0700 (PDT)
+ ABdhPJxOUkQ5vbnICVgox6PPVHkL7QIN6dESn/73/3XBEh1vvvyg5QrPA2axf/OHPnb15MO16miu6w==
+X-Received: by 2002:a05:6512:3a88:b0:471:9d5d:685f with SMTP id
+ q8-20020a0565123a8800b004719d5d685fmr8227126lfu.450.1650450220644;
+        Wed, 20 Apr 2022 03:23:40 -0700 (PDT)
 Received: from umbar.lan ([37.153.55.125])
         by smtp.gmail.com with ESMTPSA id
- j10-20020a2ea90a000000b0024d9ee09661sm1660499ljq.27.2022.04.20.03.11.29
+ h13-20020ac24dad000000b0046d13289d3csm1776679lfe.249.2022.04.20.03.23.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 03:11:29 -0700 (PDT)
+        Wed, 20 Apr 2022 03:23:40 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-firmware: correct license for ar3k firmware
-Date: Wed, 20 Apr 2022 13:11:28 +0300
-Message-Id: <20220420101129.2960823-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH] arch-armv8-2a.inc: fix a typo in TUNEVALID variable
+Date: Wed, 20 Apr 2022 13:23:39 +0300
+Message-Id: <20220420102339.2962323-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,40 +64,28 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164660
+ https://lists.openembedded.org/g/openembedded-core/message/164663
 
-According to the WHENCE file, some a3k firmware files are licensed
-under the special ar3k license, while others are licensed under the more
-generic Atheros license. Document this by adding extending the
-LICENSE:${PN}-ar3k and depending on both of them.
+Fix a typo in the TUNEVALID[armv8-2a]: It enables instructions for
+ARMv8.2-a, not just ARMv8-a.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/arm/arch-armv8-2a.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-index c7d9e1126e7f..4a443d14d177 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-@@ -352,7 +352,7 @@ FILES:${PN}-carl9170 = " \
- RDEPENDS:${PN}-carl9170 += "${PN}-gplv2-license"
+diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+index 30f2870811ed..95368b0af79e 100644
+--- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
++++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
+@@ -1,6 +1,6 @@
+ DEFAULTTUNE ?= "armv8-2a"
  
- # For QualCommAthos
--LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
-+LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k & Firmware-atheros_firmware"
- LICENSE:${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
- LICENSE:${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
- LICENSE:${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
-@@ -376,7 +376,7 @@ FILES:${PN}-qca = " \
-   ${nonarch_base_libdir}/firmware/qca \
- "
- 
--RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license"
-+RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
- RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
+-TUNEVALID[armv8-2a] = "Enable instructions for ARMv8-a"
++TUNEVALID[armv8-2a] = "Enable instructions for ARMv8.2-a"
+ TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', ' -march=armv8.2-a', '', d)}"
+ # TUNE crypto will be handled by arch-armv8a.inc below
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', 'armv8-2a:', '', d)}"
 -- 
 2.30.2
 
