@@ -2,9 +2,9 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 06/27] xserver-xorg: Fix build with gcc12
-Date: Wed, 20 Apr 2022 04:07:54 -1000
-Message-Id: <ae646f44edf10565081616eee4a11325a2ef9df9.1650463004.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/27] apt: add apt selftest to test signed package feeds
+Date: Wed, 20 Apr 2022 04:07:58 -1000
+Message-Id: <4cc47a6937b6824fb059a179319d6d0f657b753e.1650463004.git.steve@sakoman.com>
 In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
 References: <cover.1650463004.git.steve@sakoman.com>
 MIME-Version: 1.0
@@ -13,129 +13,140 @@ Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Ferry Toth <ftoth@exalondelft.nl>
 
-backport patch to silence new array-bounds warnings
+Since Gatesgarth apt (1.8.2) has become more strict and doesn’t allow unsigned repositories by default.
+Currently when building images this requirement is worked around by using [allow-insecure=yes] and
+equivalently when performing selftest.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Patches "gpg-sign: Add parameters to gpg signature function" and "package_manager: sign DEB package feeds"
+enable signed DEB package feeds. This patch adds a runtime test for apt derived from the test_testimage_dnf
+test. It creates a signed deb package feed, runs a qemu image to install the key and performs some package
+management. To be able to install the key the gnupg package is added to the testimage.
+
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54fa74e6e60472e10f1a11b3daa8ee9f00f0c9d5)
+(cherry picked from commit 3ec30490d09d6639eea2638cf12a323948f221cc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-render-Fix-build-with-gcc-12.patch   | 90 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.3.bb       |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+ meta/lib/oeqa/runtime/cases/apt.py           | 38 ++++++++++++++++----
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 38 ++++++++++++++++++++
+ 2 files changed, 69 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
-new file mode 100644
-index 0000000000..df9332fae7
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
-@@ -0,0 +1,90 @@
-+From 12041ad0610f1345d6b9994c32943fd4dd01f65d Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Thu, 20 Jan 2022 10:20:38 +0100
-+Subject: [PATCH] render: Fix build with gcc 12
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The xserver fails to compile with the latest gcc 12:
-+
-+ render/picture.c: In function ‘CreateSolidPicture’:
-+ render/picture.c:874:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[16]’ [-Werror=array-bounds]
-+  874 |     pPicture->pSourcePict->type = SourcePictTypeSolidFill;
-+      |                          ^~
-+ render/picture.c:868:45: note: object of size 16 allocated by ‘malloc’
-+  868 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
-+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ render/picture.c: In function ‘CreateLinearGradientPicture’:
-+ render/picture.c:906:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
-+  906 |     pPicture->pSourcePict->linear.type = SourcePictTypeLinear;
-+      |                          ^~
-+ render/picture.c:899:45: note: object of size 32 allocated by ‘malloc’
-+  899 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
-+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ render/picture.c: In function ‘CreateConicalGradientPicture’:
-+ render/picture.c:989:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
-+  989 |     pPicture->pSourcePict->conical.type = SourcePictTypeConical;
-+      |                          ^~
-+ render/picture.c:982:45: note: object of size 32 allocated by ‘malloc’
-+  982 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
-+      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ cc1: some warnings being treated as errors
-+ ninja: build stopped: subcommand failed.
-+
-+This is because gcc 12 has become stricter and raises a warning now.
-+
-+Fix the warning/error by allocating enough memory to store the union
-+struct.
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c6b0dcb82d4db07a2f32c09a8c09c85a5f57248e]
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Michel Dänzer <mdaenzer@redhat.com>
-+Closes: https://gitlab.freedesktop.org/xorg/xserver/-/issues/1256
-+---
-+ render/picture.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/render/picture.c b/render/picture.c
-+index afa0d25..2be4b19 100644
-+--- a/render/picture.c
-++++ b/render/picture.c
-+@@ -865,7 +865,7 @@ CreateSolidPicture(Picture pid, xRenderColor * color, int *error)
-+     }
-+ 
-+     pPicture->id = pid;
-+-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
-++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
-+     if (!pPicture->pSourcePict) {
-+         *error = BadAlloc;
-+         free(pPicture);
-+@@ -896,7 +896,7 @@ CreateLinearGradientPicture(Picture pid, xPointFixed * p1, xPointFixed * p2,
-+     }
-+ 
-+     pPicture->id = pid;
-+-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
-++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
-+     if (!pPicture->pSourcePict) {
-+         *error = BadAlloc;
-+         free(pPicture);
-+@@ -936,7 +936,7 @@ CreateRadialGradientPicture(Picture pid, xPointFixed * inner,
-+     }
-+ 
-+     pPicture->id = pid;
-+-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictRadialGradient));
-++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
-+     if (!pPicture->pSourcePict) {
-+         *error = BadAlloc;
-+         free(pPicture);
-+@@ -979,7 +979,7 @@ CreateConicalGradientPicture(Picture pid, xPointFixed * center, xFixed angle,
-+     }
-+ 
-+     pPicture->id = pid;
-+-    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
-++    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
-+     if (!pPicture->pSourcePict) {
-+         *error = BadAlloc;
-+         free(pPicture);
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-index 3e076ecca7..1f53ab5177 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
-@@ -2,6 +2,7 @@ require xserver-xorg.inc
+diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
+index 53745df93f..574a34f148 100644
+--- a/meta/lib/oeqa/runtime/cases/apt.py
++++ b/meta/lib/oeqa/runtime/cases/apt.py
+@@ -21,7 +21,7 @@ class AptRepoTest(AptTest):
  
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-+            file://0001-render-Fix-build-with-gcc-12.patch \
-             "
- SRC_URI[sha256sum] = "61d6aad5b6b47a116b960bd7f0cba4ee7e6da95d6bb0b127bde75d7d1acdebe5"
+     @classmethod
+     def setUpClass(cls):
+-        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all')
++        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], '')
+         cls.repo_server = HTTPService(service_repo,
+                                       '0.0.0.0', port=cls.tc.target.server_port,
+                                       logger=cls.tc.logger)
+@@ -34,20 +34,44 @@ class AptRepoTest(AptTest):
+     def setup_source_config_for_package_install(self):
+         apt_get_source_server = 'http://%s:%s/' % (self.tc.target.server_ip, self.repo_server.port)
+         apt_get_sourceslist_dir = '/etc/apt/'
+-        self.target.run('cd %s; echo deb [ allow-insecure=yes ] %s ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
++        self.target.run('cd %s; echo deb [ allow-insecure=yes ] %s/all ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
++
++    def setup_source_config_for_package_install_signed(self):
++        apt_get_source_server = 'http:\/\/%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
++        apt_get_sourceslist_dir = '/etc/apt/'
++        self.target.run("cd %s; cp sources.list sources.list.bak; sed -i 's/\[trusted=yes\] http:\/\/bogus_ip:bogus_port/%s/g' sources.list" % (apt_get_sourceslist_dir, apt_get_source_server))
  
+     def cleanup_source_config_for_package_install(self):
+         apt_get_sourceslist_dir = '/etc/apt/'
+         self.target.run('cd %s; rm sources.list' % (apt_get_sourceslist_dir))
+ 
++    def cleanup_source_config_for_package_install_signed(self):
++        apt_get_sourceslist_dir = '/etc/apt/'
++        self.target.run('cd %s; mv sources.list.bak sources.list' % (apt_get_sourceslist_dir))
++
++    def setup_key(self):
++        # the key is found on the target /etc/pki/packagefeed-gpg/
++        # named PACKAGEFEED-GPG-KEY-poky-branch
++        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed-gpg'))
++
+     @skipIfNotFeature('package-management',
+                       'Test requires package-management to be in IMAGE_FEATURES')
+     @skipIfNotDataVar('IMAGE_PKGTYPE', 'deb',
+                       'DEB is not the primary package manager')
+     @OEHasPackage(['apt'])
+     def test_apt_install_from_repo(self):
+-        self.setup_source_config_for_package_install()
+-        self.pkg('update')
+-        self.pkg('remove --yes run-postinsts-dev')
+-        self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
+-        self.cleanup_source_config_for_package_install()
++        if not self.tc.td.get('PACKAGE_FEED_GPG_NAME'):
++            self.setup_source_config_for_package_install()
++            self.pkg('update')
++            self.pkg('remove --yes run-postinsts-dev')
++            self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
++            self.cleanup_source_config_for_package_install()
++        else:
++            # when we are here a key has been set to sign the package feed and
++            # public key and gnupg installed on the image by test_testimage_apt
++            self.setup_source_config_for_package_install_signed()
++            self.setup_key()
++            self.pkg('update')
++            self.pkg('install --yes run-postinsts-dev')
++            self.pkg('remove --yes run-postinsts-dev')
++            self.cleanup_source_config_for_package_install_signed()
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 2ad89490fc..3ece617cb0 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -162,6 +162,44 @@ class TestImage(OESelftestTestCase):
+         bitbake('core-image-full-cmdline socat')
+         bitbake('-c testimage core-image-full-cmdline')
+ 
++    def test_testimage_apt(self):
++        """
++        Summary: Check package feeds functionality for apt
++        Expected: 1. Check that remote package feeds can be accessed
++        Product: oe-core
++        Author: Ferry Toth <fntoth@gmail.com>
++        """
++        if get_bb_var('DISTRO') == 'poky-tiny':
++            self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
++
++        features = 'INHERIT += "testimage"\n'
++        features += 'TEST_SUITES = "ping ssh apt.AptRepoTest.test_apt_install_from_repo"\n'
++        # We don't yet know what the server ip and port will be - they will be patched
++        # in at the start of the on-image test
++        features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
++        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
++        features += 'PACKAGE_CLASSES = "package_deb"\n'
++        # We need  gnupg on the target to install keys
++        features += 'IMAGE_INSTALL:append:pn-core-image-full-cmdline = " gnupg"\n'
++
++        bitbake('gnupg-native -c addto_recipe_sysroot')
++
++        # Enable package feed signing
++        self.gpg_home = tempfile.mkdtemp(prefix="oeqa-feed-sign-")
++        self.track_for_cleanup(self.gpg_home)
++        signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
++        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --homedir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"), shell=True)
++        features += 'INHERIT += "sign_package_feed"\n'
++        features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
++        features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
++        features += 'GPG_PATH = "%s"\n' % self.gpg_home
++        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
++        self.write_config(features)
++
++        # Build core-image-sato and testimage
++        bitbake('core-image-full-cmdline socat')
++        bitbake('-c testimage core-image-full-cmdline')
++
+     def test_testimage_virgl_gtk_sdl(self):
+         """
+         Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
 -- 
 2.25.1
 
