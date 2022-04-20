@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA77C65BA5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 286C1C65BB2
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:11 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web12.13946.1650491500252573831
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web12.13951.1650491504729456483
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:40 -0700
+ Wed, 20 Apr 2022 14:51:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7Nby0mPr;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=HS1bg1M0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id c23so3064878plo.0
+Received: by mail-pj1-f48.google.com with SMTP id
+ mm4-20020a17090b358400b001cb93d8b137so6064093pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 14:51:40 -0700 (PDT)
+ Wed, 20 Apr 2022 14:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=FKK10WxnV4zGcfplVOlJSBv3hNACWYeFNoJ4b4rpY98=;
-        b=7Nby0mPrphrwfnuRSgDkargSQFgMobFknLnZYne0z9Gc1kudH0sVpfTSF7mC9Lh16h
-         sbU8yZOOMNrnruMEh1rOLiEAOwDj2EjKUaZXuhYquVehvTs92PYTeSSO8YKv5bJ2cYjb
-         tZfmxJuStbt0b5W/sCh0mG+aJv9plgmLCB3xzU7VDuoii6LtG5eTy0e4nXsDPD4xfnrP
-         /K/xcXyfGlU0beW3YhAIudgjqgphH9ZfWNlB/n3UO7tKNcCwszow19ZCx2wK7xSwJNot
-         QC5b9HWag1R5rg61tMoY6YO81U/suCVyIDZuyx5N2QI7e5QpXTu45i+TEYYONv3UcOy9
-         0nmA==
+        bh=QRwzuCbjGNtSsByHFJN+C8Va1U7jqDrasv0m7b9SLcQ=;
+        b=HS1bg1M0JJR6VLp6Y0ZYZ5UeLS17w8QylU3eo2Oir+s+OZqpdD0A73rpia9VJcYRPL
+         S7xV/mFaJYcrTwGoBMYxsgTnPd8DauACrubSeSEP3W/B6lrdRzAVJxa4UDt+9FsRhqqQ
+         BN5Y+ujMnZXMJHIMfsF6jeHbyykru3XoHQidQZAym4MBqxWOcXWhHPENZZRckk4PsYhl
+         NjrTDhlHrLwr4F/PLX2zoItkGHFvRJCnrtu1dmCXgWRFbG+uwqKw5A2CsKpH07bM1Hi8
+         adk5zSlS24huLoiCBeS+B4/bx5rMVHATqUMon7gI7Udsp8JP00zMt+Z6tvnfoLcsjjuv
+         5rAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FKK10WxnV4zGcfplVOlJSBv3hNACWYeFNoJ4b4rpY98=;
-        b=rm4boqhNZvMAN8RYAhLEX8w+/jG+n/bn2eTxzK2oWYF9Jy7WFhZHCEDSY2vzVt8hUv
-         CfPqZXsI7xqx3OnlAxPUMSU3+rRmFVed+heX750fJUe6JviGhH10ptI9xEeqmA/iqWBZ
-         OiscYEWpJ6scEgafwG6HLRmBT6jray5kntw0gcydXDgoIOTHqBb2JbpAoAtjnFdi1sk8
-         hP4PcP/25WggabAXpvAZKPgRXambJL1My4e/A+5O8zSRZx03sgoaQpRumIbI7CWZOccM
-         N4pwn66JpJJ3dMqOq65/SKjTaoB/3fUGEn6ePXpxgG68O9II+yr1PphXWMMDzL+tI37+
-         zWvg==
-X-Gm-Message-State: AOAM5335NyJic+MuapRDFIXQZhO+NhKKN85TlA1+zY0ePd7DLguKvFf6
-	Pj6FNUn4vGu+8DAKB7UuUsgSm8Ox1iMmdsr1Z3E=
+        bh=QRwzuCbjGNtSsByHFJN+C8Va1U7jqDrasv0m7b9SLcQ=;
+        b=eFguPAmf+pq3O2aPvvKx2C4dSA/+s4hfWTgt7vUqSzRzlGRr9qmSeyC2WbvgabtvR7
+         WvSnlhCo09aHsaTaIlXdeqMMBvzcVSmXx00SToTe70G5riUXN1pVp81j1hqoOwHyZP4U
+         Tb4qDctLAAVzZCoLLX9N71VSUZOXmYD7MGRfwzNCV6JF2Kd54j9wZ8B2hPyQwCrN8q4H
+         inzs5GQTuxrjnR6Z24aGpZjhPhv4/8kIKY0Y/IhbVOWfKyqUw+E3MGYcnWFr13+c4KVP
+         kFFgJniXWnBdaiDRqPzfdHA6lsSiUqB+7v5czollH2IPhOxHqt32cbsnIK2H8eQesL/x
+         ysoA==
+X-Gm-Message-State: AOAM530E5VOPN79SUT2BmVasqk0Tl0dw41yuMS0Mk498du85IgDfmPmn
+	x6MBwES3Q3c12GC2eCjO3FVlmRLtNTyErDMh7u4=
 X-Google-Smtp-Source: 
- ABdhPJxvlOVEcAbDKukL6xo2Q8zeCkamx96p53uiORKpMFYqB73Dx76wgOy/zd0Rn6ITxVI0L3sIlA==
-X-Received: by 2002:a17:90b:1a8f:b0:1d2:acdc:71d2 with SMTP id
- ng15-20020a17090b1a8f00b001d2acdc71d2mr6728290pjb.41.1650491499187;
-        Wed, 20 Apr 2022 14:51:39 -0700 (PDT)
+ ABdhPJwZcG5ouUpWhwEzqWAQtgO5eHJVqI4069Qn0ZBlhbBYp19WUCd79W9w7oDX9LnlS2hNZhE3OA==
+X-Received: by 2002:a17:902:70c8:b0:156:509b:68e3 with SMTP id
+ l8-20020a17090270c800b00156509b68e3mr22401335plt.113.1650491503718;
+        Wed, 20 Apr 2022 14:51:43 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e126-20020a621e84000000b0050567191161sm21102153pfe.210.2022.04.20.14.51.37
+ e126-20020a621e84000000b0050567191161sm21102153pfe.210.2022.04.20.14.51.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 14:51:38 -0700 (PDT)
+        Wed, 20 Apr 2022 14:51:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/9] git update from 2.24.3 to 2.24.4
-Date: Wed, 20 Apr 2022 11:51:11 -1000
+Subject: [OE-core][dunfell 6/9] linux-yocto/5.4: update to v5.4.183
+Date: Wed, 20 Apr 2022 11:51:13 -1000
 Message-Id: 
- <8606d99041c3c1a002b2300c59afc116050c73cc.1650491190.git.steve@sakoman.com>
+ <d0399ed433e3a77cb66d30bd027f52bd356d7acf.1650491190.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650491190.git.steve@sakoman.com>
 References: <cover.1650491190.git.steve@sakoman.com>
@@ -69,361 +70,175 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164731
+ https://lists.openembedded.org/g/openembedded-core/message/164733
 
-Security release, fixes CVE-2021-21300, so remove that patch.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-22539ec3b5 unpack_trees(): start with a fresh lstat cache
-0d58fef58a run-command: invalidate lstat cache after a command finished
-684dd4c2b4 checkout: fix bug that makes checkout follow symlinks in leading path
+Updating linux-yocto/5.4 to the latest korg -stable release that comprises
+the following commits:
 
+    e7d1268f5671 Linux 5.4.183
+    5817c13cd6dc hamradio: fix macro redefine warning
+    3c7d63cfa150 net: dcb: disable softirqs in dcbnl_flush_dev()
+    5f53a6a8ae0f Revert "xfrm: xfrm_state_mtu should return at least 1280 for ipv6"
+    f73eb7342bb0 btrfs: add missing run of delayed items after unlink during log replay
+    f8d4a8eebb22 btrfs: qgroup: fix deadlock between rescan worker and remove qgroup
+    39403d72b4c1 btrfs: fix lost prealloc extents beyond eof after full fsync
+    4dd5d3310c75 tracing: Fix return value of __setup handlers
+    c0f7253376c8 tracing/histogram: Fix sorting on old "cpu" value
+    35fa6f2a31d3 HID: add mapping for KEY_ALL_APPLICATIONS
+    ecefb8cc0f8b HID: add mapping for KEY_DICTATE
+    52b984b17df9 Input: elan_i2c - fix regulator enable count imbalance after suspend/resume
+    16eb602eaddf Input: elan_i2c - move regulator_[en|dis]able() out of elan_[en|dis]able_power()
+    3f123c305e4a nl80211: Handle nla_memdup failures in handle_nan_filter
+    ec89b276464c net: chelsio: cxgb3: check the return value of pci_find_capability()
+    6650fa5f3bcf soc: fsl: qe: Check of ioremap return value
+    e89c53fcd28c memfd: fix F_SEAL_WRITE after shmem huge page allocated
+    58b07100c20e ibmvnic: free reset-work-item when flushing
+    2e7abe2efc31 igc: igc_write_phy_reg_gpy: drop premature return
+    5c215ea574a0 ARM: 9182/1: mmu: fix returns from early_param() and __setup() functions
+    89b881f339ce ARM: Fix kgdb breakpoint for Thumb2
+    87765309bf59 igc: igc_read_phy_reg_gpy: drop premature return
+    44ff6c29b2ea arm64: dts: rockchip: Switch RK3399-Gru DP to SPDIF output
+    d59120a48997 can: gs_usb: change active_channels's type from atomic_t to u8
+    bc653724929c ASoC: cs4265: Fix the duplicated control name
+    cff3987e097d firmware: arm_scmi: Remove space in MODULE_ALIAS name
+    461a26ebf0dd efivars: Respect "block" flag in efivar_entry_set_safe()
+    b4f46598431f ixgbe: xsk: change !netif_carrier_ok() handling in ixgbe_xmit_zc()
+    e50c589678e5 net: arcnet: com20020: Fix null-ptr-deref in com20020pci_probe()
+    044e209c72cc net: sxgbe: fix return value of __setup handler
+    a54dedf620d2 iavf: Fix missing check for running netdev
+    150b8a05d005 net: stmmac: fix return value of __setup handler
+    e9fa4009032d mac80211: fix forwarded mesh frames AC & queue selection
+    f17b27f3d4bc ia64: ensure proper NUMA distance and possible map initialization
+    80998dbde14d sched/topology: Fix sched_domain_topology_level alloc in sched_init_numa()
+    407ec382ba67 sched/topology: Make sched_init_numa() use a set for the deduplicating sort
+    b40c91262477 xen/netfront: destroy queues before real_num_tx_queues is zeroed
+    fa84d44df437 block: Fix fsync always failed if once failed
+    849339fd72ff net/smc: fix unexpected SMC_CLC_DECL_ERR_REGRMB error cause by server
+    8e306a76b9b0 net/smc: fix unexpected SMC_CLC_DECL_ERR_REGRMB error generated by client
+    1f5abd671dbd net: dcb: flush lingering app table entries for unregistered devices
+    ed05368024a9 batman-adv: Don't expect inter-netns unique iflink indices
+    863953227106 batman-adv: Request iflink once in batadv_get_real_netdevice
+    a1ccea6183eb batman-adv: Request iflink once in batadv-on-batadv check
+    43c25da41e30 netfilter: nf_queue: fix possible use-after-free
+    3c934f1087ff netfilter: nf_queue: don't assume sk is full socket
+    d2c96b19305f xfrm: enforce validity of offload input flags
+    019b4b9d5977 xfrm: fix the if_id check in changelink
+    49c24579cec4 netfilter: fix use-after-free in __nf_register_net_hook()
+    ac858e4462bd xfrm: fix MTU regression
+    f3537f1b2bfd ASoC: ops: Shift tested values in snd_soc_put_volsw() by +min
+    75a471401b10 ALSA: intel_hdmi: Fix reference to PCM buffer address
+    e28372b295d8 ata: pata_hpt37x: fix PCI clock detection
+    58b419d16e87 usb: gadget: clear related members when goto fail
+    ba6fdd55b166 usb: gadget: don't release an existing dev->buf
+    0babb778ff75 net: usb: cdc_mbim: avoid altsetting toggling for Telit FN990
+    a7ef01d25a31 i2c: qup: allow COMPILE_TEST
+    da9bf89344a6 i2c: cadence: allow COMPILE_TEST
+    bb07c8bb77d0 dmaengine: shdma: Fix runtime PM imbalance on error
+    e208668ef7ba cifs: fix double free race when mount fails in cifs_get_root()
+    2ed93e3e3f82 Input: clear BTN_RIGHT/MIDDLE on buttonpads
+    7b6d98f86905 ASoC: rt5682: do not block workqueue if card is unbound
+    e2106e429f05 ASoC: rt5668: do not block workqueue if card is unbound
+    7b7c65abeb10 i2c: bcm2835: Avoid clock stretching timeouts
+    964f155c382f mac80211_hwsim: initialize ieee80211_tx_info at hw_scan_work
+    1a7d2fccd8f6 mac80211_hwsim: report NOACK frames in tx_status
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../git/files/CVE-2021-21300.patch            | 305 ------------------
- meta/recipes-devtools/git/git.inc             |   1 -
- .../git/{git_2.24.3.bb => git_2.24.4.bb}      |   4 +-
- 3 files changed, 2 insertions(+), 308 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/files/CVE-2021-21300.patch
- rename meta/recipes-devtools/git/{git_2.24.3.bb => git_2.24.4.bb} (51%)
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2021-21300.patch b/meta/recipes-devtools/git/files/CVE-2021-21300.patch
-deleted file mode 100644
-index 9206f711cf..0000000000
---- a/meta/recipes-devtools/git/files/CVE-2021-21300.patch
-+++ /dev/null
-@@ -1,305 +0,0 @@
--From 0e9cef2414f0df3fa5b9b56ff9072aa122bef29c Mon Sep 17 00:00:00 2001
--From: Minjae Kim <flowrgom@gmail.com>
--Date: Sat, 27 Mar 2021 15:18:46 +0900
--Subject: [PATCH] checkout: fix bug that makes checkout follow symlinks in
-- leading path
--
--Before checking out a file, we have to confirm that all of its leading
--components are real existing directories. And to reduce the number of
--lstat() calls in this process, we cache the last leading path known to
--contain only directories. However, when a path collision occurs (e.g.
--when checking out case-sensitive files in case-insensitive file
--systems), a cached path might have its file type changed on disk,
--leaving the cache on an invalid state. Normally, this doesn't bring
--any bad consequences as we usually check out files in index order, and
--therefore, by the time the cached path becomes outdated, we no longer
--need it anyway (because all files in that directory would have already
--been written).
--
--But, there are some users of the checkout machinery that do not always
--follow the index order. In particular: checkout-index writes the paths
--in the same order that they appear on the CLI (or stdin); and the
--delayed checkout feature -- used when a long-running filter process
--replies with "status=delayed" -- postpones the checkout of some entries,
--thus modifying the checkout order.
--
--When we have to check out an out-of-order entry and the lstat() cache is
--invalid (due to a previous path collision), checkout_entry() may end up
--using the invalid data and thrusting that the leading components are
--real directories when, in reality, they are not. In the best case
--scenario, where the directory was replaced by a regular file, the user
--will get an error: "fatal: unable to create file 'foo/bar': Not a
--directory". But if the directory was replaced by a symlink, checkout
--could actually end up following the symlink and writing the file at a
--wrong place, even outside the repository. Since delayed checkout is
--affected by this bug, it could be used by an attacker to write
--arbitrary files during the clone of a maliciously crafted repository.
--
--Some candidate solutions considered were to disable the lstat() cache
--during unordered checkouts or sort the entries before passing them to
--the checkout machinery. But both ideas include some performance penalty
--and they don't future-proof the code against new unordered use cases.
--
--Instead, we now manually reset the lstat cache whenever we successfully
--remove a directory. Note: We are not even checking whether the directory
--was the same as the lstat cache points to because we might face a
--scenario where the paths refer to the same location but differ due to
--case folding, precomposed UTF-8 issues, or the presence of `..`
--components in the path. Two regression tests, with case-collisions and
--utf8-collisions, are also added for both checkout-index and delayed
--checkout.
--
--Note: to make the previously mentioned clone attack unfeasible, it would
--be sufficient to reset the lstat cache only after the remove_subtree()
--call inside checkout_entry(). This is the place where we would remove a
--directory whose path collides with the path of another entry that we are
--currently trying to check out (possibly a symlink). However, in the
--interest of a thorough fix that does not leave Git open to
--similar-but-not-identical attack vectors, we decided to intercept
--all `rmdir()` calls in one fell swoop.
--
--This addresses CVE-2021-21300.
--
--Co-authored-by: Johannes Schindelin <johannes.schindelin@gmx.de>
--Signed-off-by: Matheus Tavares <matheus.bernardino@usp.br>
--
--Upstream-Status: Acepted [https://github.com/git/git/commit/684dd4c2b414bcf648505e74498a608f28de4592]
--CVE: CVE-2021-21300
--Signed-off-by: Minjae Kim <flowergom@gmail.com>
-----
-- cache.h                         |  1 +
-- compat/mingw.c                  |  2 ++
-- git-compat-util.h               |  5 +++++
-- symlinks.c                      | 25 +++++++++++++++++++++
-- t/t0021-conversion.sh           | 39 ++++++++++++++++++++++++++++++++
-- t/t0021/rot13-filter.pl         | 21 ++++++++++++++---
-- t/t2006-checkout-index-basic.sh | 40 +++++++++++++++++++++++++++++++++
-- 7 files changed, 130 insertions(+), 3 deletions(-)
--
--diff --git a/cache.h b/cache.h
--index 04cabaa..dda373f 100644
----- a/cache.h
--+++ b/cache.h
--@@ -1675,6 +1675,7 @@ int has_symlink_leading_path(const char *name, int len);
-- int threaded_has_symlink_leading_path(struct cache_def *, const char *, int);
-- int check_leading_path(const char *name, int len);
-- int has_dirs_only_path(const char *name, int len, int prefix_len);
--+extern void invalidate_lstat_cache(void);
-- void schedule_dir_for_removal(const char *name, int len);
-- void remove_scheduled_dirs(void);
-- 
--diff --git a/compat/mingw.c b/compat/mingw.c
--index bd24d91..cea9c72 100644
----- a/compat/mingw.c
--+++ b/compat/mingw.c
--@@ -340,6 +340,8 @@ int mingw_rmdir(const char *pathname)
-- 	       ask_yes_no_if_possible("Deletion of directory '%s' failed. "
-- 			"Should I try again?", pathname))
-- 	       ret = _wrmdir(wpathname);
--+	if (!ret)
--+		invalidate_lstat_cache();
-- 	return ret;
-- }
-- 
--diff --git a/git-compat-util.h b/git-compat-util.h
--index d0dd9c0..a1ecfd3 100644
----- a/git-compat-util.h
--+++ b/git-compat-util.h
--@@ -365,6 +365,11 @@ static inline int noop_core_config(const char *var, const char *value, void *cb)
-- #define platform_core_config noop_core_config
-- #endif
-- 
--+int lstat_cache_aware_rmdir(const char *path);
--+#if !defined(__MINGW32__) && !defined(_MSC_VER)
--+#define rmdir lstat_cache_aware_rmdir
--+#endif
--+
-- #ifndef has_dos_drive_prefix
-- static inline int git_has_dos_drive_prefix(const char *path)
-- {
--diff --git a/symlinks.c b/symlinks.c
--index 69d458a..ae3c665 100644
----- a/symlinks.c
--+++ b/symlinks.c
--@@ -267,6 +267,13 @@ int has_dirs_only_path(const char *name, int len, int prefix_len)
--  */
-- static int threaded_has_dirs_only_path(struct cache_def *cache, const char *name, int len, int prefix_len)
-- {
--+	/*
--+	 * Note: this function is used by the checkout machinery, which also
--+	 * takes care to properly reset the cache when it performs an operation
--+	 * that would leave the cache outdated. If this function starts caching
--+	 * anything else besides FL_DIR, remember to also invalidate the cache
--+	 * when creating or deleting paths that might be in the cache.
--+	 */
-- 	return lstat_cache(cache, name, len,
-- 			   FL_DIR|FL_FULLPATH, prefix_len) &
-- 		FL_DIR;
--@@ -321,3 +328,21 @@ void remove_scheduled_dirs(void)
-- {
-- 	do_remove_scheduled_dirs(0);
-- }
--+
--+
--+void invalidate_lstat_cache(void)
--+{
--+	reset_lstat_cache(&default_cache);
--+}
--+
--+#undef rmdir
--+int lstat_cache_aware_rmdir(const char *path)
--+{
--+	/* Any change in this function must be made also in `mingw_rmdir()` */
--+	int ret = rmdir(path);
--+
--+	if (!ret)
--+		invalidate_lstat_cache();
--+
--+	return ret;
--+}
--diff --git a/t/t0021-conversion.sh b/t/t0021-conversion.sh
--index c954c70..6a1d5f6 100755
----- a/t/t0021-conversion.sh
--+++ b/t/t0021-conversion.sh
--@@ -820,4 +820,43 @@ test_expect_success PERL 'invalid file in delayed checkout' '
-- 	grep "error: external filter .* signaled that .unfiltered. is now available although it has not been delayed earlier" git-stderr.log
-- '
-- 
--+for mode in 'case' 'utf-8'
--+do
--+	case "$mode" in
--+	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
--+	utf-8)
--+		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
--+		mode_prereq='UTF8_NFD_TO_NFC' ;;
--+	esac
--+
--+	test_expect_success PERL,SYMLINKS,$mode_prereq \
--+	"delayed checkout with $mode-collision don't write to the wrong place" '
--+		test_config_global filter.delay.process \
--+			"\"$TEST_ROOT/rot13-filter.pl\" --always-delay delayed.log clean smudge delay" &&
--+		test_config_global filter.delay.required true &&
--+		git init $mode-collision &&
--+		(
--+			cd $mode-collision &&
--+			mkdir target-dir &&
--+			empty_oid=$(printf "" | git hash-object -w --stdin) &&
--+			symlink_oid=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
--+			attr_oid=$(echo "$dir/z filter=delay" | git hash-object -w --stdin) &&
--+			cat >objs <<-EOF &&
--+			100644 blob $empty_oid	$dir/x
--+			100644 blob $empty_oid	$dir/y
--+			100644 blob $empty_oid	$dir/z
--+			120000 blob $symlink_oid	$symlink
--+			100644 blob $attr_oid	.gitattributes
--+			EOF
--+			git update-index --index-info <objs &&
--+			git commit -m "test commit"
--+		) &&
--+		git clone $mode-collision $mode-collision-cloned &&
--+		# Make sure z was really delayed
--+		grep "IN: smudge $dir/z .* \\[DELAYED\\]" $mode-collision-cloned/delayed.log &&
--+		# Should not create $dir/z at $symlink/z
--+		test_path_is_missing $mode-collision/target-dir/z
--+	'
--+done
--+
-- test_done
--diff --git a/t/t0021/rot13-filter.pl b/t/t0021/rot13-filter.pl
--index 4701072..007f2d7 100644
----- a/t/t0021/rot13-filter.pl
--+++ b/t/t0021/rot13-filter.pl
--@@ -2,9 +2,15 @@
-- # Example implementation for the Git filter protocol version 2
-- # See Documentation/gitattributes.txt, section "Filter Protocol"
-- #
---# The first argument defines a debug log file that the script write to.
---# All remaining arguments define a list of supported protocol
---# capabilities ("clean", "smudge", etc).
--+# Usage: rot13-filter.pl [--always-delay] <log path> <capabilities>
--+#
--+# Log path defines a debug log file that the script writes to. The
--+# subsequent arguments define a list of supported protocol capabilities
--+# ("clean", "smudge", etc).
--+#
--+# When --always-delay is given all pathnames with the "can-delay" flag
--+# that don't appear on the list bellow are delayed with a count of 1
--+# (see more below).
-- #
-- # This implementation supports special test cases:
-- # (1) If data with the pathname "clean-write-fail.r" is processed with
--@@ -53,6 +59,13 @@ sub gitperllib {
-- use Git::Packet;
-- 
-- my $MAX_PACKET_CONTENT_SIZE = 65516;
--+
--+my $always_delay = 0;
--+if ( $ARGV[0] eq '--always-delay' ) {
--+	$always_delay = 1;
--+	shift @ARGV;
--+}
--+
-- my $log_file                = shift @ARGV;
-- my @capabilities            = @ARGV;
-- 
--@@ -134,6 +147,8 @@ sub rot13 {
-- 			if ( $buffer eq "can-delay=1" ) {
-- 				if ( exists $DELAY{$pathname} and $DELAY{$pathname}{"requested"} == 0 ) {
-- 					$DELAY{$pathname}{"requested"} = 1;
--+				} elsif ( !exists $DELAY{$pathname} and $always_delay ) {
--+					$DELAY{$pathname} = { "requested" => 1, "count" => 1 };
-- 				}
-- 			} else {
-- 				die "Unknown message '$buffer'";
--diff --git a/t/t2006-checkout-index-basic.sh b/t/t2006-checkout-index-basic.sh
--index 57cbdfe..f223a02 100755
----- a/t/t2006-checkout-index-basic.sh
--+++ b/t/t2006-checkout-index-basic.sh
--@@ -21,4 +21,44 @@ test_expect_success 'checkout-index -h in broken repository' '
-- 	test_i18ngrep "[Uu]sage" broken/usage
-- '
-- 
--+for mode in 'case' 'utf-8'
--+do
--+	case "$mode" in
--+	case)	dir='A' symlink='a' mode_prereq='CASE_INSENSITIVE_FS' ;;
--+	utf-8)
--+		dir=$(printf "\141\314\210") symlink=$(printf "\303\244")
--+		mode_prereq='UTF8_NFD_TO_NFC' ;;
--+	esac
--+
--+	test_expect_success SYMLINKS,$mode_prereq \
--+	"checkout-index with $mode-collision don't write to the wrong place" '
--+		git init $mode-collision &&
--+		(
--+			cd $mode-collision &&
--+			mkdir target-dir &&
--+			empty_obj_hex=$(git hash-object -w --stdin </dev/null) &&
--+			symlink_hex=$(printf "%s" "$PWD/target-dir" | git hash-object -w --stdin) &&
--+			cat >objs <<-EOF &&
--+			100644 blob ${empty_obj_hex}	${dir}/x
--+			100644 blob ${empty_obj_hex}	${dir}/y
--+			100644 blob ${empty_obj_hex}	${dir}/z
--+			120000 blob ${symlink_hex}	${symlink}
--+			EOF
--+			git update-index --index-info <objs &&
--+			# Note: the order is important here to exercise the
--+			# case where the file at ${dir} has its type changed by
--+			# the time Git tries to check out ${dir}/z.
--+			#
--+			# Also, we use core.precomposeUnicode=false because we
--+			# want Git to treat the UTF-8 paths transparently on
--+			# Mac OS, matching what is in the index.
--+			#
--+			git -c core.precomposeUnicode=false checkout-index -f \
--+				${dir}/x ${dir}/y ${symlink} ${dir}/z &&
--+			# Should not create ${dir}/z at ${symlink}/z
--+			test_path_is_missing target-dir/z
--+		)
--+	'
--+done
--+
-- test_done
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index ffbae145cf..879920d97e 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -9,7 +9,6 @@ PROVIDES_append_class-native = " git-replacement-native"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index b8bd5cbd59..3c2290dbd3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
--	   file://CVE-2021-21300.patch \
-            file://fixsort.patch \
-            file://CVE-2021-40330.patch \
-            "
-diff --git a/meta/recipes-devtools/git/git_2.24.3.bb b/meta/recipes-devtools/git/git_2.24.4.bb
-similarity index 51%
-rename from meta/recipes-devtools/git/git_2.24.3.bb
-rename to meta/recipes-devtools/git/git_2.24.4.bb
-index ddd875f07b..f38c25f0ef 100644
---- a/meta/recipes-devtools/git/git_2.24.3.bb
-+++ b/meta/recipes-devtools/git/git_2.24.4.bb
-@@ -5,5 +5,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
+-SRCREV_machine ?= "ca1275f9e3d6f98df59045cdbbbcea68a4919009"
+-SRCREV_meta ?= "337c38059f2fd562199b0e5133b71410240004e9"
++SRCREV_machine ?= "5e561c53ce51b502405e93b3f35aa7764da89036"
++SRCREV_meta ?= "63746f1a36196425c38a1bc45dfddbcd6f979850"
  
--SRC_URI[tarball.sha256sum] = "ef6d1d1de1d7921a54d23d07479bd2766f050d6435cea5d3b5322aa4897cb3d7"
--SRC_URI[manpages.sha256sum] = "325795ba33c0be02370de79636f32ad3b447665c1f2b5b4de65181fa804bed31"
-+SRC_URI[tarball.sha256sum] = "6e119e70d3762f28e1dc9928c526eb4d7519fd3870f862775cd10186653eb85a"
-+SRC_URI[manpages.sha256sum] = "e687bcc91a6fd9cb74243f91a9c2d77c50ce202a09b35931021ecc521a373ed5"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.182"
++LINUX_VERSION ?= "5.4.183"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 9f57b8a52a..7c2c474f0a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.182"
++LINUX_VERSION ?= "5.4.183"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "bf64274799c0c40e46d9b838d4811556e4dd4c99"
+-SRCREV_machine ?= "1018938d65e434be727182856c4a18bfa7013906"
+-SRCREV_meta ?= "337c38059f2fd562199b0e5133b71410240004e9"
++SRCREV_machine_qemuarm ?= "a14450f445a2c1804cfdea5a34767e0eabb20ee5"
++SRCREV_machine ?= "d8b3767fa12775de390f40170b53c2facfdc33b9"
++SRCREV_meta ?= "63746f1a36196425c38a1bc45dfddbcd6f979850"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 5a6949ee1d..6c82d83c1c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "c9a67a307feed6f22008fbd5e661d73542b93672"
+-SRCREV_machine_qemuarm64 ?= "beb8ea86967232e0594184153d2d6bfaf208ae4d"
+-SRCREV_machine_qemumips ?= "30f488f7e446f074aa7925584e3a4653d062e5b6"
+-SRCREV_machine_qemuppc ?= "73d9421c2d9075b03fe02d5777f1ef15845a6f60"
+-SRCREV_machine_qemuriscv64 ?= "48697d18f5be53257744a371d24e7c0a7bdf3760"
+-SRCREV_machine_qemux86 ?= "48697d18f5be53257744a371d24e7c0a7bdf3760"
+-SRCREV_machine_qemux86-64 ?= "48697d18f5be53257744a371d24e7c0a7bdf3760"
+-SRCREV_machine_qemumips64 ?= "b47369b2a3dda9358cfc06ce7fe3bc9647b67872"
+-SRCREV_machine ?= "48697d18f5be53257744a371d24e7c0a7bdf3760"
+-SRCREV_meta ?= "337c38059f2fd562199b0e5133b71410240004e9"
++SRCREV_machine_qemuarm ?= "17abcde23788c1b8b529119e9bb97a274018ab40"
++SRCREV_machine_qemuarm64 ?= "2ac838b819ef56b9682e64b260abaf4756264f61"
++SRCREV_machine_qemumips ?= "f96b51a2ce7a199824da6dffb56648ff06b7d755"
++SRCREV_machine_qemuppc ?= "7c4de9e3b87a0f846afe297a1b70125f9f6bc084"
++SRCREV_machine_qemuriscv64 ?= "f840db108606f987e174f1658dc120795798e808"
++SRCREV_machine_qemux86 ?= "f840db108606f987e174f1658dc120795798e808"
++SRCREV_machine_qemux86-64 ?= "f840db108606f987e174f1658dc120795798e808"
++SRCREV_machine_qemumips64 ?= "b03b2ba13d3ee9c5d2a401a8702d428f9580f158"
++SRCREV_machine ?= "f840db108606f987e174f1658dc120795798e808"
++SRCREV_meta ?= "63746f1a36196425c38a1bc45dfddbcd6f979850"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.182"
++LINUX_VERSION ?= "5.4.183"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.25.1
 
