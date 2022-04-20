@@ -2,121 +2,214 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A95C63682
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2FAC63701
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:08 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web08.8223.1650463755412893270
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web08.8795.1650466445930559416
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:09:15 -0700
+ Wed, 20 Apr 2022 07:54:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=sRCaldGv;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177,
+ header.b=VbyQxYOD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id bg9so1710724pgb.9
+Received: by mail-ed1-f45.google.com with SMTP id s25so2596196edi.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:09:15 -0700 (PDT)
+ Wed, 20 Apr 2022 07:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=SsX4v0aYyOhJ3TrPP5/tUWFpDmwkq7CfsHJ8kH///B8=;
-        b=sRCaldGvYlfbiusgL/0WmNl+uHaA+OQbcZ3CurqhRGhsVBSyUJRsDiZIBXt1P2RFEf
-         oR8oIipo7yVINYvQI2wu97YbfpWs2zFc7LXwo5LZ/FpSg/1KUxsTg7i4wRSjGZPiv/Ki
-         XrftpbiMcri7ghZfx67sTq93DBEnqmyLNmS77UQkAoaUJjdtFps8grEbcrlEe8zZHaDo
-         8352mhJJlO28YnZkhewfPc120ppwI+emw4QakgDcW4msE/9L5QSNpDSeEF8b5+jDSedY
-         cIel0TO8qr5pSR8n9CcZJIbPDQ16WE/v0MLfw7hgHdxZQDieYZc2N5eLzNy1lK8ElpaQ
-         pRHA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VN3jD5SSPmUCo9jRPmhNWrjkMzp/itOYfGznnOX6DLo=;
+        b=VbyQxYOD2Vd+mIWjRNEmHYZf/DWM860zhKOlh4YbB/cUH1Hx5VCELpoUIUXCnGYFqD
+         eP3/oF9qDUcxOSgIChDiIPHcpAjme2C1Mm4qOSeQCZZfQODBUtvACqJPkZ/L6ME714iE
+         QNLfQ4oRyTCGO/+v4PvWfB/9+FojGhmqXF7Qqj5VRSKzuhANxiOL5Z6TSpi0Ztt8HJ2f
+         PUaEAm4kC1Sc2AU6W/Ely9sYr2YiUkkb5lAvo2Gs9F7IiEGvgYM90wSiB55Hdr8iBcdS
+         pN32bauZQd0QDDgflecvMV9iNnZMHivLYDjbka1BUxWdRFGIoI8MgRSeQA1ZPOcdp36w
+         6EjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SsX4v0aYyOhJ3TrPP5/tUWFpDmwkq7CfsHJ8kH///B8=;
-        b=cwxMV6vU57csviFLBNK7WNk6oLwudYqfZoh2VBKkuxH+9v6V5p6MHKxwBQbcGvo4zD
-         724JLmZ9hHHwPMLPUWA11MAovnCxBov/tgJeK1g5fri8TxH8CjopHJFYYlOZ3IzEvsfs
-         PzAA6z7NaOeulYX3/YmH5GQLpNUQvETrpjlGlhntjZJVQ4w/QS0bKB/DTiIonXR+Bs5r
-         UnZxZdE1LvqysWaaVlV/udrfmp8hS0wFBgn+CtJ8zNPaNs23zudMTqsRGEuv4btCNe6U
-         NgCk9XFSUQZffyF0qPDxJtH8ExnPN2nKRU9bZXVHPjhP46eelbc4vxkhw9IP/sI25xsb
-         2uyg==
-X-Gm-Message-State: AOAM532FeYto+3FQ+7W9RIX5EXNRwDpTb4UPK80WS/JpqXR+kp4eJ0Sl
-	m8B5gQNxXVEXFGklv5z/JSLi8KDBc+kXbWYzuyE=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VN3jD5SSPmUCo9jRPmhNWrjkMzp/itOYfGznnOX6DLo=;
+        b=A/qVJQ6ywJRWnfRILFvLDFeCfCMs+eTrFRpMXckmMudIqNSEiUy4bGLmUEHCV6OXEV
+         OokuBLsc24Sb/ST2IkE1koBbDj5C/4LZwjFu6rNsyvmPQV+1q+CokDNsxfKJNvRN9yr7
+         X5HRojJMN3KPHpwSNht/UaVtqzfEU9+0U0TyKGyV4800xsEne4NWPg47pwgvFUPqXiGJ
+         TNOdVaYQSRMI0vLGShc3skq4X0+/5F57UG6k+L8HOqEAcpEVNe6UVjJq6iKlzf/glIdA
+         9bRPsWR/ywpbtQzDN1teMtTjMkqU8fLx4E3imeDy9GaxNINtC3flSEkydSRRMcQXECLh
+         4JKg==
+X-Gm-Message-State: AOAM530AvY5hTbAy8slMpIiDxV/ShAYuMQOaZoYiw/qxksOp15OffpW4
+	6GG296Khke2T6uYmzkXQsouPU2rutbh3DcqaJKh5GA==
 X-Google-Smtp-Source: 
- ABdhPJwZgOdecW4rXq1HEyNpClm8SxTLZb066XBuNeuWnmMZECEkKr++eMV58LZaYwHep9hBDst/yw==
-X-Received: by 2002:a65:4c4e:0:b0:39d:21c4:2381 with SMTP id
- l14-20020a654c4e000000b0039d21c42381mr19585641pgr.566.1650463754270;
-        Wed, 20 Apr 2022 07:09:14 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.09.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 07:09:13 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/27] create-spdx: fix error when symlink cannot
- be created
-Date: Wed, 20 Apr 2022 04:08:03 -1000
-Message-Id: 
- <c924065ecaff718ebf0f6e6ac182488b2798b02f.1650463004.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
-References: <cover.1650463004.git.steve@sakoman.com>
+ ABdhPJzWGztnHZfMrCI9BEMfCjYaW6dCRVMiOcvyYo/5cHc+6HcYf5GuHg1bUreD++M2EDLd85HKN/e2mHBxqyoglYg=
+X-Received: by 2002:a05:6402:438d:b0:424:775:27e8 with SMTP id
+ o13-20020a056402438d00b00424077527e8mr793796edc.80.1650466444252; Wed, 20 Apr
+ 2022 07:54:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <16E7A00050A35F84.23874@lists.openembedded.org>
+In-Reply-To: <16E7A00050A35F84.23874@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 20 Apr 2022 04:53:53 -1000
+Message-ID: 
+ <CAOSpxdbjagCMneqiUTotst++FJspGQXsd577H9TOfnVTm+xMpQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 00/27] Patch review
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164683
+ https://lists.openembedded.org/g/openembedded-core/message/164699
 
-From: Davide Gardenal <davidegarde2000@gmail.com>
+On Wed, Apr 20, 2022 at 4:08 AM Steve Sakoman via
+lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
+wrote:
+>
+> Please review this set of patches for kirkstone and have comments back by
+> end of day Friday.
 
-If IMAGE_NAME and IMAGE_LINK_NAME are the same an
-exception is raised in image_combine_spdx because
-it cannot create a symlink with the same exact
-path of the original file. In that case there is
-no point in creating a link in the first place.
+I'd particularly like feedback on the security/bug fix version updates
+at the end of this series.
 
-Refactor image_combine_spdx to avoid code duplication
+In the past I took these only on request.
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 88f76bba705007a7fcda506c79f743060d8f2e52)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/classes/create-spdx.bbclass | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Would people like me to be more proactive on this type of upgrade
+(such as this series), or should I continue to take them only on
+request?
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index 137db81a5b..47a8764bf0 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -835,16 +835,14 @@ python image_combine_spdx() {
- 
-     combine_spdx(d, image_name, imgdeploydir, img_spdxid, packages)
- 
--    if image_link_name:
--        image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
--        image_spdx_link = imgdeploydir / (image_link_name + ".spdx.json")
--        image_spdx_link.symlink_to(os.path.relpath(image_spdx_path, image_spdx_link.parent))
--
-     def make_image_link(target_path, suffix):
-         if image_link_name:
-             link = imgdeploydir / (image_link_name + suffix)
--            link.symlink_to(os.path.relpath(target_path, link.parent))
-+            if link != target_path:
-+                link.symlink_to(os.path.relpath(target_path, link.parent))
- 
-+    image_spdx_path = imgdeploydir / (image_name + ".spdx.json")
-+    make_image_link(image_spdx_path, ".spdx.json")
-     spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
-     make_image_link(spdx_tar_path, ".spdx.tar.zst")
-     spdx_index_path = imgdeploydir / (image_name + ".spdx.index.json")
--- 
-2.25.1
+Steve
 
+>
+> Passed a-full on autobuilder:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3547
+>
+> The following changes since commit d2ba3b8850d461bc7b773240cdf15b22b31a3f9e:
+>
+>   lua: fix CVE-2022-28805 (2022-04-19 14:02:08 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+>
+> Alexander Kanavin (1):
+>   webkitgtk: adjust patch status
+>
+> Davide Gardenal (1):
+>   create-spdx: fix error when symlink cannot be created
+>
+> Ferry Toth (2):
+>   apt: add apt selftest to test signed package feeds
+>   package_manager: fix missing dependency on gnupg when signing deb
+>     package feeds
+>
+> Jon Mason (1):
+>   qemuarm64: use virtio pci interfaces
+>
+> Kai Kang (1):
+>   update_udev_hwdb: fix multilib issue with systemd
+>
+> Khem Raj (5):
+>   babeltrace: Disable warnings as errors
+>   xserver-xorg: Fix build with gcc12
+>   systemtap: Fix build with gcc-12
+>   gnupg: Disable FORTIFY_SOURCES on mips
+>   mdadm: Drop clang specific cflags
+>
+> Konrad Weihmann (2):
+>   git: correct license
+>   ncurses: use COPYING file
+>
+> Martin Jansa (1):
+>   systemd-boot: remove outdated EFI_LD comment
+>
+> Paulo Neves (1):
+>   selftest/lic_checksum: Add test for filename containing space
+>
+> Peter Kjellerstedt (2):
+>   u-boot: Correct the SRC_URI
+>   u-boot: Inherit pkgconfig
+>
+> Richard Purdie (1):
+>   buildtools-tarball: Only add cert envvars if certs are included
+>
+> Ross Burton (1):
+>   zlib: upgrade to 1.2.12
+>
+> wangmy (5):
+>   linux-firmware: upgrade 20220310 -> 20220411
+>   libsoup: upgrade 3.0.5 -> 3.0.6
+>   apt: upgrade 2.4.3 -> 2.4.4
+>   libusb1: upgrade 1.0.25 -> 1.0.26
+>   libgit2: upgrade 1.4.2 -> 1.4.3
+>
+> zhengruoqin (3):
+>   wireless-regdb: upgrade 2022.02.18 -> 2022.04.08
+>   git: upgrade 2.35.2 -> 2.35.3
+>   ruby: upgrade 3.1.1 -> 3.1.2
+>
+>  meta/classes/create-spdx.bbclass              |  10 +-
+>  meta/classes/sign_package_feed.bbclass        |   1 +
+>  meta/conf/machine/qemuarm64.conf              |   8 +-
+>  meta/lib/oeqa/runtime/cases/apt.py            |  38 +-
+>  meta/lib/oeqa/selftest/cases/lic_checksum.py  |  18 +
+>  meta/lib/oeqa/selftest/cases/runtime_test.py  |  38 ++
+>  meta/recipes-bsp/u-boot/u-boot-common.inc     |   6 +-
+>  meta/recipes-core/meta/buildtools-tarball.bb  |   6 +-
+>  meta/recipes-core/ncurses/ncurses.inc         |   2 +-
+>  .../systemd/systemd-boot_250.4.bb             |   1 -
+>  meta/recipes-core/systemd/systemd_250.4.bb    |   5 -
+>  meta/recipes-core/udev/eudev_3.2.10.bb        |   4 -
+>  ...configure-Pass-LDFLAGS-to-link-tests.patch |  25 +-
+>  .../zlib/zlib/CVE-2018-25032.patch            | 347 ------------------
+>  meta/recipes-core/zlib/zlib/cc.patch          |  27 ++
+>  .../zlib/{zlib_1.2.11.bb => zlib_1.2.12.bb}   |   7 +-
+>  .../apt/{apt_2.4.3.bb => apt_2.4.4.bb}        |   2 +-
+>  .../git/{git_2.35.2.bb => git_2.35.3.bb}      |  15 +-
+>  .../ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb}     |   2 +-
+>  meta/recipes-extended/mdadm/mdadm_4.2.bb      |   2 -
+>  .../0001-render-Fix-build-with-gcc-12.patch   |  90 +++++
+>  .../xorg-xserver/xserver-xorg_21.1.3.bb       |   1 +
+>  ...20220310.bb => linux-firmware_20220411.bb} |   4 +-
+>  .../recipes-kernel/lttng/babeltrace2_2.0.4.bb |   2 +-
+>  ...ility-re-tweak-for-rhel6-use-functio.patch |  49 +++
+>  .../recipes-kernel/systemtap/systemtap_git.bb |   3 +-
+>  ....02.18.bb => wireless-regdb_2022.04.08.bb} |   2 +-
+>  ...spection.cmake-prefix-variables-obta.patch |   5 +-
+>  meta/recipes-support/gnupg/gnupg_2.3.4.bb     |   3 +
+>  .../{libgit2_1.4.2.bb => libgit2_1.4.3.bb}    |   2 +-
+>  .../{libsoup_3.0.5.bb => libsoup_3.0.6.bb}    |   2 +-
+>  .../{libusb1_1.0.25.bb => libusb1_1.0.26.bb}  |   2 +-
+>  scripts/postinst-intercepts/update_udev_hwdb  |   5 +-
+>  33 files changed, 322 insertions(+), 412 deletions(-)
+>  delete mode 100644 meta/recipes-core/zlib/zlib/CVE-2018-25032.patch
+>  create mode 100644 meta/recipes-core/zlib/zlib/cc.patch
+>  rename meta/recipes-core/zlib/{zlib_1.2.11.bb => zlib_1.2.12.bb} (83%)
+>  rename meta/recipes-devtools/apt/{apt_2.4.3.bb => apt_2.4.4.bb} (97%)
+>  rename meta/recipes-devtools/git/{git_2.35.2.bb => git_2.35.3.bb} (86%)
+>  rename meta/recipes-devtools/ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb} (97%)
+>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
+>  create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
+>  rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
+>  rename meta/recipes-support/libgit2/{libgit2_1.4.2.bb => libgit2_1.4.3.bb} (91%)
+>  rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
+>  rename meta/recipes-support/libusb/{libusb1_1.0.25.bb => libusb1_1.0.26.bb} (94%)
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164668): https://lists.openembedded.org/g/openembedded-core/message/164668
+> Mute This Topic: https://lists.openembedded.org/mt/90584508/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
