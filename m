@@ -1,143 +1,123 @@
-Return-Path: <andrei@gherzan.com>
+Return-Path: <russ.dill@nikolamotor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 443B7C63716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646EBC6371B
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:09 +0000 (UTC)
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by mx.groups.io with SMTP id smtpd.web10.9263.1650469515132596606
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web08.9681.1650470619629100737
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 08:45:15 -0700
+ Wed, 20 Apr 2022 09:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@gherzan.com header.s=fm2
- header.b=O4lVgKeX;
- spf=pass (domain: gherzan.com, ip: 66.111.4.25, mailfrom: andrei@gherzan.com)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 407675C01D7;
-	Wed, 20 Apr 2022 11:45:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 20 Apr 2022 11:45:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.com; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1650469514; x=1650555914; bh=RwRRmnKBopQ1bEAsEUO12qu5u
-	XjLXDHwAe0AStFFd4k=; b=O4lVgKeXJsElR77JfIcPzezkjMX6GoHjTG9XqlXx0
-	wQXg4115tUaLB7h/SVo7gQK1U/vgJ5C25NXpN5hVsIOpsQSM1R8Qx8E8PEeqzwGV
-	YdwalZAsOGmLfKI9bWBmesRhgukqA+blp3tQpTxnmoPI8voMaBRmfCkwIF08wph6
-	+oInB8mavOpuCeFywsfWihc4yecPxyb/NU2Y+vq3m2XVsMiiUrHxhBLmtVKy6InV
-	73sAcgqWxuCCOvREWdPF1ESzsqXO4Z4Lmb0LknR2hP7hq3T1gpG6JgunxgxvWfuI
-	uNnYgR8lRLh7rI9wutPeUp4TYXhFabHQIqU86Ud6PFKbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
-	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1650469514; x=1650555914; bh=R
-	wRRmnKBopQ1bEAsEUO12qu5uXjLXDHwAe0AStFFd4k=; b=DjeDYcBOEVOa70jn1
-	FS8yx/d5fReeJDDBPt+UcoEYEW0ze7q0y0LY7CoRlGz5EO9iBLdQFDaEhSdkVUPw
-	goDURgtbuW184bTaxaVgGOmKEWclzKGqhVRODRhZcDs4qPzMmorbCCtdOxWAyEcX
-	ibzeYCDMEqTXnmHR7RkRYTegQYPJVzRX3iNSwUo/rfqIcSx7u5GlDZV6cqlCySmC
-	96dgHKbuJM6KTF9USmT00LRjOW3/Y3kyyAMG9QNv4zqUnXCDTkBwOL8tTrDO1Gvx
-	mzrMQJXyKjAGpuBm3TJHDXdr8kHfgcGPbL0vMSI60zppwAbg4Azt7B1WCn7Nh05N
-	llTNA==
-X-ME-Sender: <xms:iSpgYrWPxUWDk4xOKwAbhAuVdE91Zl5By2t28ATe3qX1dRnIRrj5Sg>
-    <xme:iSpgYjnqDO2uybk5psHuSJ5ObP0wFcyiMknUwGue8XNEl6_ue1ePbZIcJ1muaOYNU
-    K6f1iiBndGBR7pW3MU>
-X-ME-Received: 
- <xmr:iSpgYnZI29rHxV-0gDvsYV9I3Q6TCwEI2mYEpT684l1lwJM1d-CCWdGyv1gklabULbG2EFAx0SzT1BkAufDapKQ-j_7DDIQ0ZOekDiHjRSi_GX4AsBvf1OMu>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgdeikecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomheptehnughrvghiucfihhgvrhiirghnuceorghnughrvghisehghhgv
-    rhiirghnrdgtohhmqeenucggtffrrghtthgvrhhnpeeijeelhfevveelffevgeefteelje
-    etvdegjedttdehhffhtdeihfevgeffgeegkeenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvihesghhhvghriigrnhdrtghomh
-X-ME-Proxy: <xmx:iSpgYmVKI5j-744ifHN4g9nsqxoHHuw0U33u67XHbFjKpAqY1iDw3w>
-    <xmx:iSpgYlkvPeNLeJNQ5l69PXwj7Ao0JaAS1yhri9wmdfF8ZX5tbnWH3w>
-    <xmx:iSpgYje7iQ5RJ800Ru_2A-1WFif8fR6IoozwrOwwe7462bqplMgChQ>
-    <xmx:iipgYltdsR5IFlE_2BKXxGUrpP01VkgGhHcHYCfeJ073z7mx7LAAUA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Apr 2022 11:45:12 -0400 (EDT)
-From: Andrei Gherzan <andrei@gherzan.com>
+ dkim=pass header.i=@nikolamotor-com.20210112.gappssmtp.com header.s=20210112
+ header.b=D5t5EnTV;
+ spf=pass (domain: nikolamotor.com, ip: 209.85.216.52,
+ mailfrom: russ.dill@nikolamotor.com)
+Received: by mail-pj1-f52.google.com with SMTP id o5so2373007pjr.0
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 20 Apr 2022 09:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nikolamotor-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YYUIwgyksd0CKnFHdkWyrsnA3Uk8JSmtq+mbTU20lVw=;
+        b=D5t5EnTV6Xo7Z9UBB4ctipq3aSiLny6Ol6/UVAE6UOu3Bcshd2ORDOmklkYu5eMQ3B
+         aQqRWJhatSUDZg8ko4q3pGMv2wCPkxFsmeSkHryHl5Ts1Lk2W9gs2//TgUnL8+OAiA5I
+         5M5YZpC35/0t3sVHmeLq6FKf68gfyrWTIW7bmN1vLyKO8kJk9gaVwNYPsVdZ9fBSSX7L
+         0pl04hNhUkrshGd2DQAzKlDfIjJxU+/I+46ogQH6wii3Qk7rkQXgIF+YZWLDAqp8GyX/
+         cdPr7aDdTbGtaNt729UanWCPQRpIe0kc7jotMvaldDQ0/4qjz0vsi+MWu2VV2/qzO9PT
+         FaJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YYUIwgyksd0CKnFHdkWyrsnA3Uk8JSmtq+mbTU20lVw=;
+        b=KB2OcUw8ZPN+FT2XsIO9/FITfVHT2nOziSezpj0rerNUCWWVr+cWpEQxCpMiknCcnq
+         U3wqGk2Uf5tSnBCcSi1DQHJQ4gRvlPlBBdT1Y++Pf9lwoXIqbM81tKc9KDCpJdIMNsNu
+         kONQ6HIyBHDGvHBvNPruCdkGlX/O4dJtxG+JyilVevt5+PAuHMEBDALAHIo9rm+0JKGW
+         RFdRZwp1Oy6SMuw1g70yTgaQu44K+bgYPaMkwtWZdJsemPGxCRQGwK5b70tcnVgFpvgr
+         ubQpUPCKvWNZWsBN4Ymhw7BKtXC+0nwP36StUsfCas6Sq40gkJZVbmzFNtFnF2+nHLKi
+         71Xw==
+X-Gm-Message-State: AOAM530mXzLjugMQyISehB2roaMGK+Ohb2sC+Qm2wZSpVOJ3AsTidJGG
+	PRAcvw2ay5T5JPqbMqaLsO/jyytA32xsx0WDSKCFWWlYjZ+gmZavyBcBKsjwZjBVCLKP5XoK7hB
+	T6VIqpHRpNZrwDXcEqM7lMY7NNfUXXkrO1MrztFef6ETjhylM3EhTQQ6Dfze5gyE4U7jccHsumU
+	bP9vSNzV1OBp1XBQFolIyHXFJnaIPQmMtJgjwJBpF6CkyHK4y+adI3LMOHrRaodJt0k9flFWaHF
+	VdCcoY=
+X-Google-Smtp-Source: 
+ ABdhPJwwerlJnwB2lbDIlaWph/9CMPa6EyEth6wzdtYYzUWd+KZToy/RBnwS6W7OpSFDqzCqr7z3qQ==
+X-Received: by 2002:a17:903:2312:b0:159:3df:5651 with SMTP id
+ d18-20020a170903231200b0015903df5651mr13963887plh.44.1650470617435;
+        Wed, 20 Apr 2022 09:03:37 -0700 (PDT)
+Received: from localadmin.local ([47.145.220.128])
+        by smtp.gmail.com with ESMTPSA id
+ y30-20020a056a001c9e00b004fa9246adcbsm20037966pfw.144.2022.04.20.09.03.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 09:03:37 -0700 (PDT)
+From: Russ Dill <russ.dill@nikolamotor.com>
 To: openembedded-core@lists.openembedded.org
-Cc: andrei@gherzan.com,
-	Andrei Gherzan <andrei.gherzan@huawei.com>
-Subject: [PATCH v2 1/1] automake: Drop redundant 'u' flag in ARFLAGS
-Date: Wed, 20 Apr 2022 17:44:52 +0200
-Message-Id: <20220420154452.1074695-1-andrei@gherzan.com>
+Cc: Diego Sueiro <diego.sueiro@arm.com>,
+	Russ Dill <russ.dill@nikolamotor.com>
+Subject: [PATCH] package.bbclass: Prevent perform_packagecopy from removing
+ /sysroot-only
+Date: Wed, 20 Apr 2022 09:03:29 -0700
+Message-Id: <20220420160329.3355315-1-russ.dill@nikolamotor.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CLOUD-SEC-AV-Info: nikolamotor2,google_mail,monitor
+X-CLOUD-SEC-AV-Sent: true
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164708
+ https://lists.openembedded.org/g/openembedded-core/message/164709
 
-From: Andrei Gherzan <andrei.gherzan@huawei.com>
+The files in /sysroot-only are intended to make it into the
+recipes sysroot output, but not into the package. However, if
+do_package is run before do_populate_sysroot, the files are
+removed.
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
+Use a smaller hammer to avoid copying the files into the package so
+they are still around when do_populate_sysroot runs.
+
+Signed-off-by: Russ Dill <russ.dill@nikolamotor.com>
 ---
- .../automake/0001-Drop-ar-u-argument.patch    | 35 +++++++++++++++++++
- .../automake/automake_1.16.5.bb               |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
+ meta/classes/package.bbclass | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch b/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
-new file mode 100644
-index 0000000000..f72788c3a6
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/0001-Drop-ar-u-argument.patch
-@@ -0,0 +1,35 @@
-+From bed646918bc67e9e2151ccbda03aae34717821fe Mon Sep 17 00:00:00 2001
-+From: Andrei Gherzan <andrei.gherzan@huawei.com>
-+Date: Wed, 20 Apr 2022 14:57:14 +0200
-+Subject: [PATCH] Drop ar 'u' argument
-+
-+binutils/ar is configured in deterministic mode by default making the
-+'u' argument irrelevant while leading to warning massages similar to:
-+
-+| ar: `u' modifier ignored since `D' is the default (see `U')
-+
-+We also add 'D' flag explicitely to not rely in the default configuration
-+for reproducible archives.
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Andrei Gherzan <andrei.gherzan@huawei.com>
-+---
-+ bin/automake.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bin/automake.in b/bin/automake.in
-+index 92bcebe..0f2b84b 100644
-+--- a/bin/automake.in
-++++ b/bin/automake.in
-+@@ -2678,7 +2678,7 @@ sub handle_libraries ()
-+     }
-+ 
-+   define_variable ('AR', 'ar', INTERNAL);
-+-  define_variable ('ARFLAGS', 'cru', INTERNAL);
-++  define_variable ('ARFLAGS', 'crD', INTERNAL);
-+   define_verbose_tagvar ('AR');
-+ 
-+   foreach my $pair (@liblist)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/automake/automake_1.16.5.bb b/meta/recipes-devtools/automake/automake_1.16.5.bb
-index ba5ce7b9bb..469fcd69f7 100644
---- a/meta/recipes-devtools/automake/automake_1.16.5.bb
-+++ b/meta/recipes-devtools/automake/automake_1.16.5.bb
-@@ -25,6 +25,7 @@ SRC_URI += "\
-            file://new_rt_path_for_test-driver.patch \
-            file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
-            file://0001-build-fix-race-in-parallel-builds.patch \
-+           file://0001-Drop-ar-u-argument.patch \
-            "
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 985dfacd09..c0e9b4dbca 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -428,7 +428,6 @@ def splitstaticdebuginfo(file, dvar, debugstaticdir, debugstaticlibdir, debugsta
+     # return a mapping of files:debugsources
  
- SRC_URI[sha256sum] = "07bd24ad08a64bc17250ce09ec56e921d6343903943e99ccf63bbf0705e34605"
+     import stat
+-    import shutil
+ 
+     src = file[len(dvar):]
+     dest = debugstaticlibdir + os.path.dirname(src) + debugstaticdir + "/" + os.path.basename(src) + debugstaticappend
+@@ -811,15 +810,10 @@ python perform_packagecopy () {
+     dest = d.getVar('D')
+     dvar = d.getVar('PKGD')
+ 
+-    # Remove ${D}/sysroot-only if present
+-    sysroot_only = os.path.join(dest, 'sysroot-only')
+-    if cpath.exists(sysroot_only) and cpath.isdir(sysroot_only):
+-        shutil.rmtree(sysroot_only)
+-
+     # Start by package population by taking a copy of the installed
+     # files to operate on
+     # Preserve sparse files and hard links
+-    cmd = 'tar -cf - -C %s -p -S . | tar -xf - -C %s' % (dest, dvar)
++    cmd = 'tar --exclude=./sysroot-only -cf - -C %s -p -S . | tar -xf - -C %s' % (dest, dvar)
+     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+ 
+     # replace RPATHs for the nativesdk binaries, to make them relocatable
 -- 
 2.25.1
 
