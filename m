@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C96C636D5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62229C5DF62
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:08 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web09.8112.1650463764042431048
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web09.8105.1650463744069468413
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:09:24 -0700
+ Wed, 20 Apr 2022 07:09:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=dntRUd7u;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177,
+ header.b=4uOXpsC3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id p8so2021936pfh.8
+Received: by mail-pg1-f175.google.com with SMTP id r83so1736807pgr.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 07:09:24 -0700 (PDT)
+ Wed, 20 Apr 2022 07:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vaZ0n1XyuoblimYdE2YOVBPX73nzPQP3pTU/zuxZDAk=;
-        b=dntRUd7udAqiDEJyUWlyzLbgZyS0KD2hSwA+dkO5NPXgHAMTZi7ruqwD9SnjSO24Bl
-         QI/2UEVarYXUH/FCLGmQAvqsEOaSllIRrrzRHQzXRgQz+mLhNfy8UhZ24m1CtzLk8fcT
-         Gt3EZsqpCZNauBt7n7qu2rNb+h3s9fH4G+noJSBh8zafRb70IAuAg8Zkxc1ep4mngc6P
-         SYZ03PU/5dfX8R0FhVJ7qx3PZ2VcN53AcwQj5hIrrwhPXbN+i63C9bmAwU76b16TbE8H
-         jIKlUlAAiRe7l0PW6tJhKi3Eo/ifZXirLcfFGXVdAnJ7WhZmTNX0GYhm4r8UrFo+Cc/e
-         UW5A==
+        bh=tNhZuHULG7JNdHeZE43oB8sIeglsu41fD/fQAZX+qsg=;
+        b=4uOXpsC3OoMC214BdGFDnVuJuEYYu37ug8+Z0Yr/KGl+AJhc2Ezd5RRqAByFzshW0k
+         iDY8gO3nL48nBiaHjuCcV21u8ph782/nmd5WWJ8jhjAx+6loZ1nwQSt4y8ogBj3kJAv+
+         TBu5ZtfP94P1qjKYr/W5a933ui2o3yu22WpfsdJc8z06V2kAAGQXaRKM4Y2fJlGt1GFj
+         NMc/U/p4YSmO1tgZwHB/cMUYWBEtkh+D3TxIuvUeGh6KYqhPIQj9WDruwqMU0qh+TB2U
+         Cd1KBIzG61M8fstGM0WGPZYzzIa4JDwnGEJFe9FxvRAnEEZPWub5WhgA9YEvmnjJrQqQ
+         DztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vaZ0n1XyuoblimYdE2YOVBPX73nzPQP3pTU/zuxZDAk=;
-        b=NV98R3Wpv74lpyGqsVO2GEFC3C80MbuIRMokTZAXwuv2T/xMg1WOscyQWUHXHRIfr6
-         TYMg9nf++Nh8yLWHoEvaXA8clc1G00wC4PvIQE3JlKoUSW1ugtqjfOC42RerKCDQ9Bx8
-         /KI3Gzd91iNQUXDg0wzbiiaCNRUU7/+ZVPpVskeKKShOZKpNkW9tGK7QYS5TLi/lmdZo
-         dJ3egOv2DrvBjIaJVxr7BRnH6SO7NPDnwyj0D3tKXHh2tXXp6ll8puaAONC0ZIpKwI9a
-         J1CrFS9bhoxNKY4PEthsHdrnVT853olabPdPuzo8MnzkiOJ++ff4KQTQadFdefzrq5+J
-         UAkw==
-X-Gm-Message-State: AOAM531UgR0S+OM+58dsbtTh3WbdJ7/cNe+frisbta4QqOj2KwtHUn3S
-	N1N36Z0SyZ8/JtpqJFAjMDRFEACKcJxASyeUbtY=
+        bh=tNhZuHULG7JNdHeZE43oB8sIeglsu41fD/fQAZX+qsg=;
+        b=EzvUNWXz/CfxLrk0L5Xy/okdvOyZSpUW2EAV0gowG4ZEsYwlZgioTPwa4gURHFi3Ee
+         nzOL02ayHWmWrw64cZ66we2qvf6kyTasXt/DtsKlTtfMM1muYn9py6l2iz37nPTpGYly
+         bP4IsXEcJZFoqbRPPmaBr4w3u5oI0WBv5B8fb+KfVKlfIhMkcC01C1D2CVuxPkeCczT7
+         r/4hsljaEeEU/KPRfkcOt2B41iqzchJhORg4Z6NcmhACvClHul/RMSi0PpaXWoh3cok7
+         EXCMvGBel+I6MiHjBk/uFNwBoi7JwZI32ADuErM9wUuXWtB/cACiPsvcsoDYoSh33yVl
+         TXdw==
+X-Gm-Message-State: AOAM531ljngH/awxsVVvkIh3f+4aOlYKQuQU/NN+4NQgFuodpVEZ84PC
+	le8CxNo4IYnxTWZgkLgogV93Z9C37Q31lQVbQXA=
 X-Google-Smtp-Source: 
- ABdhPJxCT5hYArdX3SQQXBIpq/HsRgzS0Vf2FVCJ3etYAr26ihAm2KpT3s5YEKb0nD2deRVHAj7+Rg==
-X-Received: by 2002:a05:6a00:c8d:b0:50a:62e5:6d30 with SMTP id
- a13-20020a056a000c8d00b0050a62e56d30mr19704031pfv.47.1650463763059;
-        Wed, 20 Apr 2022 07:09:23 -0700 (PDT)
+ ABdhPJyGMdV5arDGBClalALftQMCjqdWReLevP/SFXPIHqBAsxPtwEZPsuJOJUVVMEW/kCtWeuOkVA==
+X-Received: by 2002:a65:5acd:0:b0:399:24bc:bbfd with SMTP id
+ d13-20020a655acd000000b0039924bcbbfdmr19510139pgt.323.1650463743185;
+        Wed, 20 Apr 2022 07:09:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.09.21
+ 96-20020a17090a09e900b001cb62ee05besm22941091pjo.55.2022.04.20.07.09.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 07:09:22 -0700 (PDT)
+        Wed, 20 Apr 2022 07:09:02 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/27] update_udev_hwdb: fix multilib issue with
- systemd
-Date: Wed, 20 Apr 2022 04:08:06 -1000
+Subject: [OE-core][kirkstone 11/27] package_manager: fix missing dependency on
+ gnupg when signing deb package feeds
+Date: Wed, 20 Apr 2022 04:07:59 -1000
 Message-Id: 
- <c30029df34094887d4982a2113c019a2351c053c.1650463004.git.steve@sakoman.com>
+ <4163dd61e36d7f9a7c582f912be3a46e2eea64a4.1650463004.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650463004.git.steve@sakoman.com>
 References: <cover.1650463004.git.steve@sakoman.com>
@@ -70,98 +70,39 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164686
+ https://lists.openembedded.org/g/openembedded-core/message/164679
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Ferry Toth <ftoth@exalondelft.nl>
 
-It duplicates udevadm in systemd recipe to make it could run
-update_udev_hwdb with multilib enabled. Since systemd last update,
-it deploys a shared library libsystemd-shared-250.so in /lib/systemd/.
-The library will be overwritten when multilib enabled. Then if both
-udev-hwdb and lib32-udev-hwdb are installed, it fails to run the
-multilib version postinstall intercept update_udev_hwdb:
+When signing the deb package feed gpg tools are a soft requirement. If gnupg-native
+is not declared a dependancy the version from hosttools is used. Unfortunately the
+gpg-agent version from Ubuntu 16.04 on the autobuilders is incompatible with the package_index task
+and fails during oe-selftest. Fix by making gnupg-native a dependency.
 
-| /path/to/build/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-small/1.0-r1/rootfs/usr/libexec/lib32-udevadm:
-    error while loading shared libraries: libsystemd-shared-250.so: wrong ELF class: ELFCLASS64
-
-`udevadm hwdb --update` just concatenates .hwdb files in dirs
-/etc/udev/hwdb.d and /lib/udev/hwdb.d. The output file hwdb.bin is
-identical with the one created by lib32-udevadm. So do NOT duplicate
-lib32-udevadm in systemd and eudev. And update intercept script
-update_udev_hwdb that re-run udevadm with same arch qemuwrapper if run
-${binprefix}qemuwrapper failed.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Fixes: 0b4231b5 "package_manager: sign DEB package feeds"
+Reported-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3dba872a42c2be7d0865a30118984ab013850292)
+(cherry picked from commit c063b658e30a24be9214abc23cd2a16c0260e93e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/systemd/systemd_250.4.bb   | 5 -----
- meta/recipes-core/udev/eudev_3.2.10.bb       | 4 ----
- scripts/postinst-intercepts/update_udev_hwdb | 5 ++++-
- 3 files changed, 4 insertions(+), 10 deletions(-)
+ meta/classes/sign_package_feed.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_250.4.bb b/meta/recipes-core/systemd/systemd_250.4.bb
-index 2b346113b5..15e2185dff 100644
---- a/meta/recipes-core/systemd/systemd_250.4.bb
-+++ b/meta/recipes-core/systemd/systemd_250.4.bb
-@@ -337,10 +337,6 @@ do_install() {
- 	# create link for existing udev rules
- 	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
+diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+index 16bcd147aa..f1504c2225 100644
+--- a/meta/classes/sign_package_feed.bbclass
++++ b/meta/classes/sign_package_feed.bbclass
+@@ -27,6 +27,7 @@ inherit sanity
+ PACKAGE_FEED_SIGN = '1'
+ PACKAGE_FEED_GPG_BACKEND ?= 'local'
+ PACKAGE_FEED_GPG_SIGNATURE_TYPE ?= 'ASC'
++PACKAGEINDEXDEPS += "gnupg-native:do_populate_sysroot"
  
--	# duplicate udevadm for postinst script
--	install -d ${D}${libexecdir}
--	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
--
- 	# install default policy for presets
- 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
- 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
-@@ -718,7 +714,6 @@ FILES:udev += "${base_sbindir}/udevd \
-                ${base_bindir}/systemd-hwdb \
-                ${base_bindir}/udevadm \
-                ${base_sbindir}/udevadm \
--               ${libexecdir}/${MLPREFIX}udevadm \
-                ${datadir}/bash-completion/completions/udevadm \
-                ${systemd_system_unitdir}/systemd-hwdb-update.service \
-               "
-diff --git a/meta/recipes-core/udev/eudev_3.2.10.bb b/meta/recipes-core/udev/eudev_3.2.10.bb
-index dec16be046..ccc66ae131 100644
---- a/meta/recipes-core/udev/eudev_3.2.10.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.10.bb
-@@ -51,10 +51,6 @@ do_install:append() {
- 
- 	# hid2hci has moved to bluez4. removed in udev as of version 169
- 	rm -f ${D}${base_libdir}/udev/hid2hci
--
--	# duplicate udevadm for postinst script
--	install -d ${D}${libexecdir}
--	ln ${D}${bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
- }
- 
- do_install:prepend:class-target () {
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
-index 8076b8ae6f..8b3f5de791 100644
---- a/scripts/postinst-intercepts/update_udev_hwdb
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -9,14 +9,17 @@ case "${PREFERRED_PROVIDER_udev}" in
- 	systemd)
- 		UDEV_EXTRA_ARGS="--usr"
- 		UDEVLIBDIR="${rootlibexecdir}"
-+		UDEVADM="${base_bindir}/udevadm"
- 		;;
- 
- 	*)
- 		UDEV_EXTRA_ARGS=""
- 		UDEVLIBDIR="${sysconfdir}"
-+		UDEVADM="${bindir}/udevadm"
- 		;;
- esac
- 
- rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
--PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D ${UDEV_EXTRA_ARGS}
-+PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS} ||
-+	PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${UDEVADM} hwdb --update --root $D ${UDEV_EXTRA_ARGS}
- chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
+ # Make feed signing key to be present in rootfs
+ FEATURE_PACKAGES_package-management:append = " signing-keys-packagefeed"
 -- 
 2.25.1
 
