@@ -1,143 +1,130 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D04DC8302D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 768E3C8302F
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:12 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.19367.1650534801124840216
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.19595.1650535857160457485
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 02:53:21 -0700
+ Thu, 21 Apr 2022 03:10:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EjcEX6NB;
- spf=temperror, err=temporary DNS error (domain: linuxfoundation.org,
- ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id
- n40-20020a05600c3ba800b0038ff1939b16so3037422wms.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 02:53:20 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=d4NFqppL;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=pSU9IqW7mWltax/9Do+VUHxlrRyjHOYg55dS4xvxfy4=;
-        b=EjcEX6NBTDe2HQp/GGObStPWnZGio4KsLdOZP6KVeZnik/2L26FZGxUDzyAx8PzLzX
-         xRVrpcaQ7rqtIrf7B1QdxyJYHRpWbJsKa+ydRY4wP4ZVPomG/jmWRrKCAhMs8R5KDtG2
-         LAilsZ4bJoeFZ7VVt8gVD2QEiMtbZK58ol5uc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=pSU9IqW7mWltax/9Do+VUHxlrRyjHOYg55dS4xvxfy4=;
-        b=goOqJ3vUF21hxo4AIQmIBbxSFbSdSnyvY6NfEeuDhdgIigodk9SncAEEsT+VtESF6Y
-         hug/5jZu/mQ9t7Ixb442HCrCUOsBXWIAmy1tKHzdjmKZ9cgfIIrZxxj6zYAlfr0BM88v
-         vTQKqnTYBgPvJ7Nrpjn10k/nt7z4dlWDv98vzbGtT7l3lDUqdNr0aiXNpokk96ZWsoRA
-         SgyPiqC1LExmS8R5RxhJP2rGNJ09MBdroRwNDXxm8ZLbsDUx1jWTV7hfgFMmWaHNO82D
-         2mBWZ/4TTJTG4qmIP7g2A5NM+/yY/LKrSkKHjeS6Pp1YqKL9lKgqae1ff0+9aCpT4V1o
-         Cz5Q==
-X-Gm-Message-State: AOAM533crWlkNUkIkNauPTG2AdAUBT8Ll/Xk8ge02lQVXIGeHHM/hiRd
-	Z0C7AG7OEUwgKJPDbMAQWCdPFA==
-X-Google-Smtp-Source: 
- ABdhPJzeSV7HhrYFX3AWhLvf42ODU7Qzsk17VzErO9VjZKWlZDS/Et7/Ie4vTAWrix2O467X47xqjQ==
-X-Received: by 2002:a05:600c:19c6:b0:392:88e2:7426 with SMTP id
- u6-20020a05600c19c600b0039288e27426mr7778763wmq.132.1650534799467;
-        Thu, 21 Apr 2022 02:53:19 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:be2e:566:8fa4:996b?
- ([2001:8b0:aba:5f3c:be2e:566:8fa4:996b])
-        by smtp.gmail.com with ESMTPSA id
- g8-20020a5d4888000000b00207a49fa6a1sm2188430wrq.81.2022.04.21.02.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 02:53:18 -0700 (PDT)
-Message-ID: 
- <5089dcb4899e2b3bbd1ee12f742eaf87c0021f97.camel@linuxfoundation.org>
-Subject: Re: [PATCH] devshell: introduce intercepts as per native / nativesdk
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2022 10:53:17 +0100
-In-Reply-To: <20220420151141.25027-1-paul.gortmaker@windriver.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1650535857;
+  x=1682071857;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=s3ia3PNI6QbMbbEFKvZWMR0lVk4w/MJdAzHV5x2MO+k=;
+  b=d4NFqppLCWEvfA5ea8E5q0p/82Isgp8zjNMU2um2tlvvf9FUmNGrKClN
+   MfZ3VbLnM8hq0pVWoIAmbfUXX2dgWPbE9znxJYakmCEkKcIz7Gc9j1FjM
+   4Qmz3iiTn8038RNIm4rPPex56/bSDZbCBXN/MbE0HxjYHTsWHYlvQVJBI
+   S+lGdKqOgXx4sEibsAubQW08dF0WCuI4vdnXO+hAs0ERHNWClw64vJU6p
+   khCgCNinZhMLAVz/ICbNdwVm/lwQqx6r2toYgb81bQ1vyP0Fu1CGhaS3Y
+   8QgI10RrjlBFmU9BPNc3iQEuhWbYPSYDbtCl6RtFiJjiloRxG9Dqj0ugc
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Andre McCurdy <armccurdy@gmail.com>, Paul Gortmaker
+	<paul.gortmaker@windriver.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>, "Richard
+ Purdie" <richard.purdie@linuxfoundation.org>
+Subject: RE: [OE-core] [PATCH] devshell: introduce intercepts as per native /
+ nativesdk
+Thread-Topic: [OE-core] [PATCH] devshell: introduce intercepts as per native /
+ nativesdk
+Thread-Index: AQHYVMkC7BdAQzhQmUeftbDRGZoxC6z5UH0AgADVUjA=
+Date: Thu, 21 Apr 2022 10:10:54 +0000
+Message-ID: <5646a875c3e54ad7a4b0c92f64ec45f9@axis.com>
 References: <20220420151141.25027-1-paul.gortmaker@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
+In-Reply-To: 
+ <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164751
+ https://lists.openembedded.org/g/openembedded-core/message/164756
 
-On Wed, 2022-04-20 at 11:11 -0400, Paul Gortmaker wrote:
-> In a devshell, recent versions of git will complain if the repo is owned
-> by someone other than the current UID - consider this example:
-> 
->  ------
->   bitbake -c devshell linux-yocto
-> 
->   [...]
-> 
->   kernel-source#git branch
->   fatal: unsafe repository ('/home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source' is owned by someone else)
->   To add an exception for this directory, call:
-> 
->         git config --global --add safe.directory /home/paul/poky/build-qemuarm64/tmp/work-shared/qemuarm64/kernel-source
->   kernel-source#
->  ------
-> 
-> Of course the devshell has UID zero and the "real" UID is for "paul" in
-> this case.  And so recent git versions complain.
-> 
-> As the whole purpose of the devshell is to invoke a shell where development
-> can take place, having a non-functional git is clearly unacceptable.
-> 
-> Richard suggested we could use PSEUDO_UNLOAD=1 to evade this issue, and I
-> suggested we probably will see other similar instances like this and should
-> make use of PATH to intercept via devshell wrappers - conveniently we already
-> have examples of this.
-> 
-> Here, we copy the existing "ar" example and tune it to the needs of git to
-> combine Richard's suggestion and mine.
-> 
-> As such we now also can store commit logs and use send-email with our user
-> specific settings, instead of "root", so in additon to fixing basic
-> commands like "git branch" it should also increase general usefulness.
-> 
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> 
-> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> index 62dc958d9a4a..7ac134e0950f 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -2,6 +2,8 @@ inherit terminal
->  
->  DEVSHELL = "${SHELL}"
->  
-> +PATH:prepend = "${COREBASE}/scripts/devshell-intercept:"
-> +
-
-I just realised, we can't do that! It would apply globally and mean builds
-change behaviour depending on whether devshell is inherited or not. It also
-means all git calls run through the wrapper, not just devshell ones.
-
-I've also realised we have a bigger problem since some software is running git
-to get the version during do_install.
-
-My proposal is to change scripts/devshell-intercept to scripts/git-intercept,
-make the PATH change in the do_devshell function below but also add something
-like:
-
-PATH:prepend:task-do_install = "${COREBASE}/scripts/git-intercept:"
-
-in common code.
-
-Since this hasn't merged yet, I can tweak the patch if that works for you (or
-you can)?
-
-Cheers,
-
-Richard
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEFuZHJlIE1jQ3VyZHkNCj4gU2VudDogZGVuIDIxIGFw
+cmlsIDIwMjIgMDE6MjUNCj4gVG86IFBhdWwgR29ydG1ha2VyIDxwYXVsLmdvcnRtYWtlckB3aW5k
+cml2ZXIuY29tPg0KPiBDYzogT0UgQ29yZSBtYWlsaW5nIGxpc3QgPG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+Ow0KPiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
+aWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hd
+IGRldnNoZWxsOiBpbnRyb2R1Y2UgaW50ZXJjZXB0cyBhcyBwZXINCj4gbmF0aXZlIC8gbmF0aXZl
+c2RrDQo+IA0KPiBPbiBXZWQsIEFwciAyMCwgMjAyMiBhdCA4OjEyIEFNIFBhdWwgR29ydG1ha2Vy
+DQo+IDxwYXVsLmdvcnRtYWtlckB3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPg0KPiA+IEluIGEg
+ZGV2c2hlbGwsIHJlY2VudCB2ZXJzaW9ucyBvZiBnaXQgd2lsbCBjb21wbGFpbiBpZiB0aGUgcmVw
+byBpcyBvd25lZA0KPiA+IGJ5IHNvbWVvbmUgb3RoZXIgdGhhbiB0aGUgY3VycmVudCBVSUQgLSBj
+b25zaWRlciB0aGlzIGV4YW1wbGU6DQo+ID4NCj4gPiAgLS0tLS0tDQo+ID4gICBiaXRiYWtlIC1j
+IGRldnNoZWxsIGxpbnV4LXlvY3RvDQo+ID4NCj4gPiAgIFsuLi5dDQo+ID4NCj4gPiAgIGtlcm5l
+bC1zb3VyY2UjZ2l0IGJyYW5jaA0KPiA+ICAgZmF0YWw6IHVuc2FmZSByZXBvc2l0b3J5ICgnL2hv
+bWUvcGF1bC9wb2t5L2J1aWxkLXFlbXVhcm02NC90bXAvd29yay0NCj4gc2hhcmVkL3FlbXVhcm02
+NC9rZXJuZWwtc291cmNlJyBpcyBvd25lZCBieSBzb21lb25lIGVsc2UpDQo+ID4gICBUbyBhZGQg
+YW4gZXhjZXB0aW9uIGZvciB0aGlzIGRpcmVjdG9yeSwgY2FsbDoNCj4gPg0KPiA+ICAgICAgICAg
+Z2l0IGNvbmZpZyAtLWdsb2JhbCAtLWFkZCBzYWZlLmRpcmVjdG9yeSAvaG9tZS9wYXVsL3Bva3kv
+YnVpbGQtDQo+IHFlbXVhcm02NC90bXAvd29yay1zaGFyZWQvcWVtdWFybTY0L2tlcm5lbC1zb3Vy
+Y2UNCj4gPiAgIGtlcm5lbC1zb3VyY2UjDQo+ID4gIC0tLS0tLQ0KPiA+DQo+ID4gT2YgY291cnNl
+IHRoZSBkZXZzaGVsbCBoYXMgVUlEIHplcm8gYW5kIHRoZSAicmVhbCIgVUlEIGlzIGZvciAicGF1
+bCIgaW4NCj4gPiB0aGlzIGNhc2UuICBBbmQgc28gcmVjZW50IGdpdCB2ZXJzaW9ucyBjb21wbGFp
+bi4NCj4gPg0KPiA+IEFzIHRoZSB3aG9sZSBwdXJwb3NlIG9mIHRoZSBkZXZzaGVsbCBpcyB0byBp
+bnZva2UgYSBzaGVsbCB3aGVyZQ0KPiBkZXZlbG9wbWVudA0KPiA+IGNhbiB0YWtlIHBsYWNlLCBo
+YXZpbmcgYSBub24tZnVuY3Rpb25hbCBnaXQgaXMgY2xlYXJseSB1bmFjY2VwdGFibGUuDQo+ID4N
+Cj4gPiBSaWNoYXJkIHN1Z2dlc3RlZCB3ZSBjb3VsZCB1c2UgUFNFVURPX1VOTE9BRD0xIHRvIGV2
+YWRlIHRoaXMgaXNzdWUsIGFuZA0KPiBJDQo+ID4gc3VnZ2VzdGVkIHdlIHByb2JhYmx5IHdpbGwg
+c2VlIG90aGVyIHNpbWlsYXIgaW5zdGFuY2VzIGxpa2UgdGhpcyBhbmQNCj4gc2hvdWxkDQo+ID4g
+bWFrZSB1c2Ugb2YgUEFUSCB0byBpbnRlcmNlcHQgdmlhIGRldnNoZWxsIHdyYXBwZXJzIC0gY29u
+dmVuaWVudGx5IHdlDQo+IGFscmVhZHkNCj4gPiBoYXZlIGV4YW1wbGVzIG9mIHRoaXMuDQo+ID4N
+Cj4gPiBIZXJlLCB3ZSBjb3B5IHRoZSBleGlzdGluZyAiYXIiIGV4YW1wbGUgYW5kIHR1bmUgaXQg
+dG8gdGhlIG5lZWRzIG9mIGdpdA0KPiB0bw0KPiA+IGNvbWJpbmUgUmljaGFyZCdzIHN1Z2dlc3Rp
+b24gYW5kIG1pbmUuDQo+ID4NCj4gPiBBcyBzdWNoIHdlIG5vdyBhbHNvIGNhbiBzdG9yZSBjb21t
+aXQgbG9ncyBhbmQgdXNlIHNlbmQtZW1haWwgd2l0aCBvdXINCj4gdXNlcg0KPiA+IHNwZWNpZmlj
+IHNldHRpbmdzLCBpbnN0ZWFkIG9mICJyb290Iiwgc28gaW4gYWRkaXRvbiB0byBmaXhpbmcgYmFz
+aWMNCj4gPiBjb21tYW5kcyBsaWtlICJnaXQgYnJhbmNoIiBpdCBzaG91bGQgYWxzbyBpbmNyZWFz
+ZSBnZW5lcmFsIHVzZWZ1bG5lc3MuDQo+IA0KPiBJdCBsb29rcyBsaWtlIHRoaXMgd2lsbCBhZGRy
+ZXNzIHRoZSBwZXJmb3JtYW5jZSBpc3N1ZXMgb2YgdXNpbmcgZ2l0DQo+IGZyb20gYSBkZXZzaGVs
+bCB0b28uIFRyeWluZyB0byBydW4gZ2l0IGxvZywgZ2l0IGJsYW1lLCBldGMgZm9yDQo+IGxhcmdl
+aXNoIHJlcG9zIGluIGEgZGV2c2hlbGwgaXMgYW5ub3lpbmdseSBzbG93IGR1ZSB0byB0aGUgb3Zl
+cmhlYWQgb2YNCj4gcHNldWRvLg0KPiANCj4gSSBhbHdheXMgd29uZGVyZWQgd2hhdCBwZW9wbGUg
+ZG8gaW4gYSBkZXZzaGVsbCB3aGljaCBhY3R1YWxseSBfZG9lc18NCj4gbmVlZCB0byBydW4gdW5k
+ZXIgcHNldWRvLi4uDQoNClRvIGxvb2sgYXQgdGhlIG91dHB1dCBmcm9tLCBlLmcuLCBkb19pbnN0
+YWxsIHRvIHNlZSBpdCB0aGUgd2F5IGJpdGJha2VzIA0Kc2VlcyBpdCB3aGVuIGl0IGNvbWVzIHRv
+IHVzZXJzL2dyb3VwcyBvZiB0aGUgZmlsZXMuDQoNCi8vUGV0ZXINCg0KPiANCj4gPiBDYzogUmlj
+aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+ID4gU2ln
+bmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+
+DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2RldnNoZWxsLmJiY2xhc3MNCj4g
+Yi9tZXRhL2NsYXNzZXMvZGV2c2hlbGwuYmJjbGFzcw0KPiA+IGluZGV4IDYyZGM5NThkOWE0YS4u
+N2FjMTM0ZTA5NTBmIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9kZXZzaGVsbC5iYmNs
+YXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2RldnNoZWxsLmJiY2xhc3MNCj4gPiBAQCAtMiw2
+ICsyLDggQEAgaW5oZXJpdCB0ZXJtaW5hbA0KPiA+DQo+ID4gIERFVlNIRUxMID0gIiR7U0hFTEx9
+Ig0KPiA+DQo+ID4gK1BBVEg6cHJlcGVuZCA9ICIke0NPUkVCQVNFfS9zY3JpcHRzL2RldnNoZWxs
+LWludGVyY2VwdDoiDQo+ID4gKw0KPiA+ICBweXRob24gZG9fZGV2c2hlbGwgKCkgew0KPiA+ICAg
+ICAgaWYgZC5nZXRWYXJGbGFnKCJkb19kZXZzaGVsbCIsICJtYW51YWxmYWtlcm9vdCIpOg0KPiA+
+ICAgICAgICAgZC5wcmVwZW5kVmFyKCJERVZTSEVMTCIsICJwc2V1ZG8gIikNCj4gPiBkaWZmIC0t
+Z2l0IGEvc2NyaXB0cy9kZXZzaGVsbC1pbnRlcmNlcHQvZ2l0IGIvc2NyaXB0cy9kZXZzaGVsbC0N
+Cj4gaW50ZXJjZXB0L2dpdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNzU1DQo+ID4gaW5kZXggMDAw
+MDAwMDAwMDAwLi44YWRmNWM5ZWNiNzENCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvc2Ny
+aXB0cy9kZXZzaGVsbC1pbnRlcmNlcHQvZ2l0DQo+ID4gQEAgLTAsMCArMSwxOSBAQA0KPiA+ICsj
+IS91c3IvYmluL2VudiBweXRob24zDQo+ID4gKyMNCj4gPiArIyBXcmFwcGVyIGFyb3VuZCAnZ2l0
+JyB0aGF0IGRvZXNuJ3QgdGhpbmsgd2UgYXJlIHJvb3QNCj4gPiArDQo+ID4gK2ltcG9ydCBvcw0K
+PiA+ICtpbXBvcnQgc2h1dGlsDQo+ID4gK2ltcG9ydCBzeXMNCj4gPiArDQo+ID4gK29zLmVudmly
+b25bJ1BTRVVET19VTkxPQUQnXSA9ICcxJw0KPiA+ICsNCj4gPiArIyBjYWxjdWxhdGUgcGF0aCB0
+byB0aGUgcmVhbCAnZ2l0Jw0KPiA+ICtwYXRoID0gb3MuZW52aXJvblsnUEFUSCddDQo+ID4gK3Bh
+dGggPSBwYXRoLnJlcGxhY2Uob3MucGF0aC5kaXJuYW1lKHN5cy5hcmd2WzBdKSwgJycpDQo+ID4g
+K3JlYWxfZ2l0ID0gc2h1dGlsLndoaWNoKCdnaXQnLCBwYXRoPXBhdGgpDQo+ID4gKw0KPiA+ICtp
+ZiBsZW4oc3lzLmFyZ3YpID09IDE6DQo+ID4gKyAgICBvcy5leGVjbChyZWFsX2dpdCwgJ2dpdCcp
+DQo+ID4gKw0KPiA+ICtvcy5leGVjdihyZWFsX2dpdCwgc3lzLmFyZ3YpDQo+ID4gLS0NCj4gPiAy
+LjE3LjENCj4gPg0KPiA+DQo+ID4NCj4gPg0K
 
