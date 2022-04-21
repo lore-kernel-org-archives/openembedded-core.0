@@ -1,104 +1,99 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <a.fatoum@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CDFC83032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD10FC8303B
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:12 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.20965.1650546100597619819
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web08.21179.1650546438732572588
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 06:01:40 -0700
+ Thu, 21 Apr 2022 06:07:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=go7kbVSW;
- spf=pass (domain: gmail.com, ip: 209.85.128.42,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id
- c190-20020a1c35c7000000b0038e37907b5bso5865182wma.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 06:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dKaAZFS7r/QjJrXkxpw2fTit1rprYK2BKnhpmkwVF3k=;
-        b=go7kbVSWaX7GLiQps6hG4V5yq+EqF1QJrrWenE7FeFbXa0RI5309pBrhJO4DcPFRxE
-         ddCsgQySPiBZw9ldXXxDj1FndyD2dAMTXOkEGk5fUKojWkOQa8iLM4oEdNpyPWNRSwUr
-         huNRBPCFaGaWWvUfkXwgAuzA1n+lOBivi20hOMyCngs/MGtApIbf7Cr2v2NA/wWGGXaz
-         sg+7dQA++VlOemXfoDTThVNkPxtyA32MEYLPkaAm9rvUR8iEKR7M6LHi7HOmJfmQ70Jp
-         qU6PLtIZo65Aa7ixzUyMFDvcdXNz+3zyvas27rKmiLS/9kVS8JbfPUk1szKTENAqX5/e
-         U+PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dKaAZFS7r/QjJrXkxpw2fTit1rprYK2BKnhpmkwVF3k=;
-        b=Qw/BlSgywo2WylcOiRBmFDzyD4IjPRFcjW+EP5GynssZ5M071HELqlEhTjGdYmm+TZ
-         7IDI0cmyVCaPbz/xkpC7pgPmc4nnndRON+EozPptnWzRqEPORC3SgqD1G8ZW5F5vn7VL
-         P88hRnI9/GYbMA0JhWw3BsrGfUaSmqjuxapFs1lg+UwslT4X93lMYAJ8MYaLgBxXXN3F
-         53rQQUOx/2Z10/WRYQcY+ctkKYTavrpUDKqqecW/QNb4qIS+UIma7wY9J8Df+weWnFDQ
-         RpwaU3BEjSuJtEuZSq+waf1yhPJTO1OoeW9fpxWX9I76+z0pvMa+tH4yqH8Oc8mvOp1f
-         R+Zg==
-X-Gm-Message-State: AOAM531whZkwHVTFjmzA3bzhWHswTgdYXrktv0tWnL0ZDJJnyocPULkS
-	GAjX2553hIfu+5hqFjNCrn5Nb41hCs2oa3hWH68=
-X-Google-Smtp-Source: 
- ABdhPJz1uN68xojQrMIclsGNjPGdiEJ2q0HQ6gbHaneM35hDgzBBQZJbNRhpQ0tp4/o6iMEQo7EyDdEA/yazV0bf7y0=
-X-Received: by 2002:a7b:c30e:0:b0:37f:a63d:3d1f with SMTP id
- k14-20020a7bc30e000000b0037fa63d3d1fmr8351473wmj.178.1650546098918; Thu, 21
- Apr 2022 06:01:38 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: a.fatoum@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[127.0.0.1])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1nhWWi-0000v5-Cp; Thu, 21 Apr 2022 15:07:16 +0200
+Message-ID: <261b85dd-08d4-00cb-b682-990d9fc27805@pengutronix.de>
+Date: Thu, 21 Apr 2022 15:07:15 +0200
 MIME-Version: 1.0
-References: 
- <a202e0b962ce90da8c68599db32bc1d218be6530.camel@linuxfoundation.org>
- <2605.1650536093249509630@lists.openembedded.org>
-In-Reply-To: <2605.1650536093249509630@lists.openembedded.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 21 Apr 2022 08:01:27 -0500
-Message-ID: 
- <CAJdd5GZPZFjzg-a4WW4wX15UC20_CxaU=-PpAXXLTXATYSmjEw@mail.gmail.com>
-Subject: Re: [OE-core] create-spdx: question about virtual/kernel dependency
-To: Davide Gardenal <davidegarde2000@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Saul Wold <Saul.Wold@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: wic --offset: how to create GPT images with out-of-order
+ partitions?
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ Enrico Joerns <ejo@pengutronix.de>
+References: <29ddcf5f-5b9f-490b-2ed2-faac7f6985bd@pengutronix.de>
+ <CAJdd5Gavt_eJQ3J2pz-5grj_T+UWK3=SNG6JRxRQ2w2fx=0fWg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: 
+ <CAJdd5Gavt_eJQ3J2pz-5grj_T+UWK3=SNG6JRxRQ2w2fx=0fWg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164760
+ https://lists.openembedded.org/g/openembedded-core/message/164761
 
-David,
+Hello Joshua,
 
-It does seem like the line `do_image_complete[depends] =
-"virtual/kernel:do_create_spdx"` doesn't need to be hardcoded; I
-unfortunately don't remember why I added that. As a guess I would
-imagine it was so that you can add items that aren't normally part of
-an "image" (u-boot, kernel, etc.) to SPDX generation, in which case it
-should probably at least be a variable that can be overridden. It's
-also possible that line simply isn't useful at all since just creating
-the SPDX for those recipes doesn't mean they will be in the final SPDX
-generated tarball, and if they do we need some mechanism to
-specifically add them which would cover adding the dependencies also.
+On 20.04.22 17:33, Joshua Watt wrote:
+> On Wed, Apr 20, 2022 at 9:43 AM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>>   part rootfs-a --offset=64M --fixed-size=64M --fstype=ext4
+>>   part env-a    --offset=4M  --fixed-size=8K  --source rawcopy --sourceparams="file=uboot-env.bin"
+>>   bootloader --ptable gpt
+>>
+>> If I swap the partitions around, image creation succeeds, but I need
+>> them ordered the other way round.
+> 
+> RIght, the code creates image partitions linearly from top to bottom,
+> so a partition lower in the list can't be inserted before an earlier
+> one; I believe this is mostly to simplify the logic for ensuring that
+> partitions don't overlap.
 
-TL; DR It seems likely it can be removed.
+Thanks for the quick answer! I feared as much.
 
-CC'd Saul Wold (who did most of the kernel SPDX generation) in case he
-knows something I don't
+> If you are using GPT, I'd recommend mounting the disk by label or UUID
+> instead of position, so the ordering isn't important
+
+Ye, that is one possibility. Unfortunately, I need to support existing
+systems that don't have distinct PARTUUIDs or labels, so it's easier
+to recreate the existing partitioning offline. I will stick to genimage then.
+
+Thanks again.
+
+Cheers,
+Ahmad
+
+> 
+>>
+>> Cheers,
+>> Ahmad
+>>
+>> --
+>> Pengutronix e.K.                           |                             |
+>> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+>> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+>> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
 
 
-On Thu, Apr 21, 2022 at 5:14 AM Davide Gardenal
-<davidegarde2000@gmail.com> wrote:
->
-> Yes we could but I'm not sure if that dependency is needed in the first place.
-> Looking at the dependency graph I can see that other tasks depend upon it so could it be redundant to have it?
->
-> Davide
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164757): https://lists.openembedded.org/g/openembedded-core/message/164757
-> Mute This Topic: https://lists.openembedded.org/mt/90602531/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
