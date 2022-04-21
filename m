@@ -1,130 +1,127 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768E3C8302F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E21C8302B
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:12 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.19595.1650535857160457485
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.19235.1650533497635855523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 03:10:57 -0700
+ Thu, 21 Apr 2022 02:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=d4NFqppL;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1650535857;
-  x=1682071857;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=s3ia3PNI6QbMbbEFKvZWMR0lVk4w/MJdAzHV5x2MO+k=;
-  b=d4NFqppLCWEvfA5ea8E5q0p/82Isgp8zjNMU2um2tlvvf9FUmNGrKClN
-   MfZ3VbLnM8hq0pVWoIAmbfUXX2dgWPbE9znxJYakmCEkKcIz7Gc9j1FjM
-   4Qmz3iiTn8038RNIm4rPPex56/bSDZbCBXN/MbE0HxjYHTsWHYlvQVJBI
-   S+lGdKqOgXx4sEibsAubQW08dF0WCuI4vdnXO+hAs0ERHNWClw64vJU6p
-   khCgCNinZhMLAVz/ICbNdwVm/lwQqx6r2toYgb81bQ1vyP0Fu1CGhaS3Y
-   8QgI10RrjlBFmU9BPNc3iQEuhWbYPSYDbtCl6RtFiJjiloRxG9Dqj0ugc
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Andre McCurdy <armccurdy@gmail.com>, Paul Gortmaker
-	<paul.gortmaker@windriver.com>
-CC: OE Core mailing list <openembedded-core@lists.openembedded.org>, "Richard
- Purdie" <richard.purdie@linuxfoundation.org>
-Subject: RE: [OE-core] [PATCH] devshell: introduce intercepts as per native /
- nativesdk
-Thread-Topic: [OE-core] [PATCH] devshell: introduce intercepts as per native /
- nativesdk
-Thread-Index: AQHYVMkC7BdAQzhQmUeftbDRGZoxC6z5UH0AgADVUjA=
-Date: Thu, 21 Apr 2022 10:10:54 +0000
-Message-ID: <5646a875c3e54ad7a4b0c92f64ec45f9@axis.com>
-References: <20220420151141.25027-1-paul.gortmaker@windriver.com>
- <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
-In-Reply-To: 
- <CAJ86T=VPsbzm3uUDupi9EchuVJPfywLONj+AvWk+eK-tB2Xaaw@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DZP8vry3;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 77884C0010;
+	Thu, 21 Apr 2022 09:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1650533496;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X0ay6/Ss5vALw2MPw8PmPuHJGz9fE3DLTpveW2sT7Qk=;
+	b=DZP8vry31QwYii3+GjU4IMl6wF11rlWuSUw1FCu3HmVx39HL1K23gXkNUptT4JA0+Pgmoc
+	y9ssJY7DSRxJdVcb3eL79lFNBLDilm4BL63ui7sYn1Jr7XcBXDz3XAecxc5lAZ50o+jW2m
+	xngukX77gEx1uP0x/QTmJ16I4RdJeoevLur1Mab+0TRORN3O89KUZFCbb6/xrO7bP3YYCx
+	D8xwQQ2j0S8ji68ZyCE9l6DctkDJOdohKwoet5yk7gfvI0xx2ahNdfdwlAsB6GBEdH/gfe
+	IGUpLI+HJm3lTJHA3RjiJwZWjZRv/kGlMLIJiTEZODXSswqgKzYJuKAiHTP7ug==
+Date: Thu, 21 Apr 2022 11:31:33 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] xorg-app: Tweak handling of compression
+ changes in SRC_URI
+Message-ID: <20220421113133.783bd083@melee>
+In-Reply-To: <20220420115509.2525431-1-richard.purdie@linuxfoundation.org>
+References: <20220420115509.2525431-1-richard.purdie@linuxfoundation.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164756
+ https://lists.openembedded.org/g/openembedded-core/message/164750
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEFuZHJlIE1jQ3VyZHkNCj4gU2VudDogZGVuIDIxIGFw
-cmlsIDIwMjIgMDE6MjUNCj4gVG86IFBhdWwgR29ydG1ha2VyIDxwYXVsLmdvcnRtYWtlckB3aW5k
-cml2ZXIuY29tPg0KPiBDYzogT0UgQ29yZSBtYWlsaW5nIGxpc3QgPG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+Ow0KPiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
-aWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hd
-IGRldnNoZWxsOiBpbnRyb2R1Y2UgaW50ZXJjZXB0cyBhcyBwZXINCj4gbmF0aXZlIC8gbmF0aXZl
-c2RrDQo+IA0KPiBPbiBXZWQsIEFwciAyMCwgMjAyMiBhdCA4OjEyIEFNIFBhdWwgR29ydG1ha2Vy
-DQo+IDxwYXVsLmdvcnRtYWtlckB3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPg0KPiA+IEluIGEg
-ZGV2c2hlbGwsIHJlY2VudCB2ZXJzaW9ucyBvZiBnaXQgd2lsbCBjb21wbGFpbiBpZiB0aGUgcmVw
-byBpcyBvd25lZA0KPiA+IGJ5IHNvbWVvbmUgb3RoZXIgdGhhbiB0aGUgY3VycmVudCBVSUQgLSBj
-b25zaWRlciB0aGlzIGV4YW1wbGU6DQo+ID4NCj4gPiAgLS0tLS0tDQo+ID4gICBiaXRiYWtlIC1j
-IGRldnNoZWxsIGxpbnV4LXlvY3RvDQo+ID4NCj4gPiAgIFsuLi5dDQo+ID4NCj4gPiAgIGtlcm5l
-bC1zb3VyY2UjZ2l0IGJyYW5jaA0KPiA+ICAgZmF0YWw6IHVuc2FmZSByZXBvc2l0b3J5ICgnL2hv
-bWUvcGF1bC9wb2t5L2J1aWxkLXFlbXVhcm02NC90bXAvd29yay0NCj4gc2hhcmVkL3FlbXVhcm02
-NC9rZXJuZWwtc291cmNlJyBpcyBvd25lZCBieSBzb21lb25lIGVsc2UpDQo+ID4gICBUbyBhZGQg
-YW4gZXhjZXB0aW9uIGZvciB0aGlzIGRpcmVjdG9yeSwgY2FsbDoNCj4gPg0KPiA+ICAgICAgICAg
-Z2l0IGNvbmZpZyAtLWdsb2JhbCAtLWFkZCBzYWZlLmRpcmVjdG9yeSAvaG9tZS9wYXVsL3Bva3kv
-YnVpbGQtDQo+IHFlbXVhcm02NC90bXAvd29yay1zaGFyZWQvcWVtdWFybTY0L2tlcm5lbC1zb3Vy
-Y2UNCj4gPiAgIGtlcm5lbC1zb3VyY2UjDQo+ID4gIC0tLS0tLQ0KPiA+DQo+ID4gT2YgY291cnNl
-IHRoZSBkZXZzaGVsbCBoYXMgVUlEIHplcm8gYW5kIHRoZSAicmVhbCIgVUlEIGlzIGZvciAicGF1
-bCIgaW4NCj4gPiB0aGlzIGNhc2UuICBBbmQgc28gcmVjZW50IGdpdCB2ZXJzaW9ucyBjb21wbGFp
-bi4NCj4gPg0KPiA+IEFzIHRoZSB3aG9sZSBwdXJwb3NlIG9mIHRoZSBkZXZzaGVsbCBpcyB0byBp
-bnZva2UgYSBzaGVsbCB3aGVyZQ0KPiBkZXZlbG9wbWVudA0KPiA+IGNhbiB0YWtlIHBsYWNlLCBo
-YXZpbmcgYSBub24tZnVuY3Rpb25hbCBnaXQgaXMgY2xlYXJseSB1bmFjY2VwdGFibGUuDQo+ID4N
-Cj4gPiBSaWNoYXJkIHN1Z2dlc3RlZCB3ZSBjb3VsZCB1c2UgUFNFVURPX1VOTE9BRD0xIHRvIGV2
-YWRlIHRoaXMgaXNzdWUsIGFuZA0KPiBJDQo+ID4gc3VnZ2VzdGVkIHdlIHByb2JhYmx5IHdpbGwg
-c2VlIG90aGVyIHNpbWlsYXIgaW5zdGFuY2VzIGxpa2UgdGhpcyBhbmQNCj4gc2hvdWxkDQo+ID4g
-bWFrZSB1c2Ugb2YgUEFUSCB0byBpbnRlcmNlcHQgdmlhIGRldnNoZWxsIHdyYXBwZXJzIC0gY29u
-dmVuaWVudGx5IHdlDQo+IGFscmVhZHkNCj4gPiBoYXZlIGV4YW1wbGVzIG9mIHRoaXMuDQo+ID4N
-Cj4gPiBIZXJlLCB3ZSBjb3B5IHRoZSBleGlzdGluZyAiYXIiIGV4YW1wbGUgYW5kIHR1bmUgaXQg
-dG8gdGhlIG5lZWRzIG9mIGdpdA0KPiB0bw0KPiA+IGNvbWJpbmUgUmljaGFyZCdzIHN1Z2dlc3Rp
-b24gYW5kIG1pbmUuDQo+ID4NCj4gPiBBcyBzdWNoIHdlIG5vdyBhbHNvIGNhbiBzdG9yZSBjb21t
-aXQgbG9ncyBhbmQgdXNlIHNlbmQtZW1haWwgd2l0aCBvdXINCj4gdXNlcg0KPiA+IHNwZWNpZmlj
-IHNldHRpbmdzLCBpbnN0ZWFkIG9mICJyb290Iiwgc28gaW4gYWRkaXRvbiB0byBmaXhpbmcgYmFz
-aWMNCj4gPiBjb21tYW5kcyBsaWtlICJnaXQgYnJhbmNoIiBpdCBzaG91bGQgYWxzbyBpbmNyZWFz
-ZSBnZW5lcmFsIHVzZWZ1bG5lc3MuDQo+IA0KPiBJdCBsb29rcyBsaWtlIHRoaXMgd2lsbCBhZGRy
-ZXNzIHRoZSBwZXJmb3JtYW5jZSBpc3N1ZXMgb2YgdXNpbmcgZ2l0DQo+IGZyb20gYSBkZXZzaGVs
-bCB0b28uIFRyeWluZyB0byBydW4gZ2l0IGxvZywgZ2l0IGJsYW1lLCBldGMgZm9yDQo+IGxhcmdl
-aXNoIHJlcG9zIGluIGEgZGV2c2hlbGwgaXMgYW5ub3lpbmdseSBzbG93IGR1ZSB0byB0aGUgb3Zl
-cmhlYWQgb2YNCj4gcHNldWRvLg0KPiANCj4gSSBhbHdheXMgd29uZGVyZWQgd2hhdCBwZW9wbGUg
-ZG8gaW4gYSBkZXZzaGVsbCB3aGljaCBhY3R1YWxseSBfZG9lc18NCj4gbmVlZCB0byBydW4gdW5k
-ZXIgcHNldWRvLi4uDQoNClRvIGxvb2sgYXQgdGhlIG91dHB1dCBmcm9tLCBlLmcuLCBkb19pbnN0
-YWxsIHRvIHNlZSBpdCB0aGUgd2F5IGJpdGJha2VzIA0Kc2VlcyBpdCB3aGVuIGl0IGNvbWVzIHRv
-IHVzZXJzL2dyb3VwcyBvZiB0aGUgZmlsZXMuDQoNCi8vUGV0ZXINCg0KPiANCj4gPiBDYzogUmlj
-aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+ID4gU2ln
-bmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+
-DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2RldnNoZWxsLmJiY2xhc3MNCj4g
-Yi9tZXRhL2NsYXNzZXMvZGV2c2hlbGwuYmJjbGFzcw0KPiA+IGluZGV4IDYyZGM5NThkOWE0YS4u
-N2FjMTM0ZTA5NTBmIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9kZXZzaGVsbC5iYmNs
-YXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2RldnNoZWxsLmJiY2xhc3MNCj4gPiBAQCAtMiw2
-ICsyLDggQEAgaW5oZXJpdCB0ZXJtaW5hbA0KPiA+DQo+ID4gIERFVlNIRUxMID0gIiR7U0hFTEx9
-Ig0KPiA+DQo+ID4gK1BBVEg6cHJlcGVuZCA9ICIke0NPUkVCQVNFfS9zY3JpcHRzL2RldnNoZWxs
-LWludGVyY2VwdDoiDQo+ID4gKw0KPiA+ICBweXRob24gZG9fZGV2c2hlbGwgKCkgew0KPiA+ICAg
-ICAgaWYgZC5nZXRWYXJGbGFnKCJkb19kZXZzaGVsbCIsICJtYW51YWxmYWtlcm9vdCIpOg0KPiA+
-ICAgICAgICAgZC5wcmVwZW5kVmFyKCJERVZTSEVMTCIsICJwc2V1ZG8gIikNCj4gPiBkaWZmIC0t
-Z2l0IGEvc2NyaXB0cy9kZXZzaGVsbC1pbnRlcmNlcHQvZ2l0IGIvc2NyaXB0cy9kZXZzaGVsbC0N
-Cj4gaW50ZXJjZXB0L2dpdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNzU1DQo+ID4gaW5kZXggMDAw
-MDAwMDAwMDAwLi44YWRmNWM5ZWNiNzENCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvc2Ny
-aXB0cy9kZXZzaGVsbC1pbnRlcmNlcHQvZ2l0DQo+ID4gQEAgLTAsMCArMSwxOSBAQA0KPiA+ICsj
-IS91c3IvYmluL2VudiBweXRob24zDQo+ID4gKyMNCj4gPiArIyBXcmFwcGVyIGFyb3VuZCAnZ2l0
-JyB0aGF0IGRvZXNuJ3QgdGhpbmsgd2UgYXJlIHJvb3QNCj4gPiArDQo+ID4gK2ltcG9ydCBvcw0K
-PiA+ICtpbXBvcnQgc2h1dGlsDQo+ID4gK2ltcG9ydCBzeXMNCj4gPiArDQo+ID4gK29zLmVudmly
-b25bJ1BTRVVET19VTkxPQUQnXSA9ICcxJw0KPiA+ICsNCj4gPiArIyBjYWxjdWxhdGUgcGF0aCB0
-byB0aGUgcmVhbCAnZ2l0Jw0KPiA+ICtwYXRoID0gb3MuZW52aXJvblsnUEFUSCddDQo+ID4gK3Bh
-dGggPSBwYXRoLnJlcGxhY2Uob3MucGF0aC5kaXJuYW1lKHN5cy5hcmd2WzBdKSwgJycpDQo+ID4g
-K3JlYWxfZ2l0ID0gc2h1dGlsLndoaWNoKCdnaXQnLCBwYXRoPXBhdGgpDQo+ID4gKw0KPiA+ICtp
-ZiBsZW4oc3lzLmFyZ3YpID09IDE6DQo+ID4gKyAgICBvcy5leGVjbChyZWFsX2dpdCwgJ2dpdCcp
-DQo+ID4gKw0KPiA+ICtvcy5leGVjdihyZWFsX2dpdCwgc3lzLmFyZ3YpDQo+ID4gLS0NCj4gPiAy
-LjE3LjENCj4gPg0KPiA+DQo+ID4NCj4gPg0K
+Hi Richard,
+
+Il giorno Wed, 20 Apr 2022 12:55:09 +0100
+"Richard Purdie" <richard.purdie@linuxfoundation.org> ha scritto:
+
+> Rather than duplicating SRC_URI, change the compression to a variable.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb | 3 +--
+>  meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb    | 3 +--
+>  meta/recipes-graphics/xorg-app/xorg-app-common.inc  | 3 ++-
+>  meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb      | 3 +--
+>  4 files changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
+> b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb index
+> 573b05128e4..cd658ab219c 100644 ---
+> a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb +++
+> b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb @@ -15,8 +15,7
+> @@ RPROVIDES:${PN} += "mkfontdir" 
+>  BBCLASSEXTEND = "native"
+>  
+> -SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+> -
+>  LIC_FILES_CHKSUM =
+> "file://COPYING;md5=99b1e1269aba5179139b9e4380fc0934" 
+> +SRC_URI_EXT = "xz"
+>  SRC_URI[sha256sum] =
+> "8ae3fb5b1fe7436e1f565060acaa3e2918fe745b0e4979b5593968914fe2d5c4"
+> diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
+> b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb index
+> fa0fe36451a..e75a840b7de 100644 ---
+> a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb +++
+> b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb @@ -8,14 +8,13 @@
+> predefined values for various parameters used in communicating
+> between \ clients and the server, and the different types of screens
+> and visuals \ that are available." -SRC_URI =
+> "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz" -
+>  LIC_FILES_CHKSUM =
+> "file://COPYING;md5=f3d09e6b9e203a1af489e16c708f4fb3" DEPENDS +=
+> "libxtst libxext libxxf86vm libxi libxrender libxinerama libdmx
+> libxau libxcomposite" PE = "1" 
+>  SRC_URI += "file://disable-xkb.patch"
+>  
+> +SRC_URI_EXT = "xz"
+>  SRC_URI[sha256sum] =
+> "356d5fd62f3e98ee36d6becf1b32d4ab6112d618339fb4b592ccffbd9e0fc206" 
+>  EXTRA_OECONF = "--disable-xkb"
+> diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+> b/meta/recipes-graphics/xorg-app/xorg-app-common.inc index
+> 1c64e20aac7..6a9ebe842de 100644 ---
+> a/meta/recipes-graphics/xorg-app/xorg-app-common.inc +++
+> b/meta/recipes-graphics/xorg-app/xorg-app-common.inc @@ -8,7 +8,8 @@
+> DEPENDS = "util-macros-native virtual/libx11" # depends on
+> virtual/libx11 REQUIRED_DISTRO_FEATURES = "x11"
+>  
+> -SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
+> +SRC_URI_EXT = ".bz2"
+> +SRC_URI =
+> "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.${SRC_URI_EXT}" 
+
+There's an extra '.' in ".bz2" that causes fetch failures.
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/725/steps/12/logs/errors
+
+stdio: WARNING: xkbcomp-1.4.5-r0 do_fetch: Failed to fetch URL
+https://www.x.org/releases//individual/app/xkbcomp-1.4.5.tar..bz2,
+attempting MIRRORS if available
+
+I'm dropping this patch from my master-next branch for now.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
