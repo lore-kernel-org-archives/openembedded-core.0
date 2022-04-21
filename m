@@ -2,66 +2,66 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897FCC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 957C0C4167D
 	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:51:59 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.2051.1650582400613076660
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web12.2070.1650582524246596574
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 16:06:40 -0700
+ Thu, 21 Apr 2022 16:08:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=efPBw1pE;
- spf=pass (domain: gmail.com, ip: 209.85.215.170,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D/GT4J31;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169,
  mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id s137so5886141pgs.5
+Received: by mail-pl1-f169.google.com with SMTP id t12so6972282pll.7
         for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 16:06:40 -0700 (PDT)
+ Thu, 21 Apr 2022 16:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jwKaavghmGJj+QMJV57FSyWk+vwefZq2vry5k3cmLGI=;
-        b=efPBw1pE2s/Ep9SInNi6ITqwTqKAwiOeL1wIRDpIeCvB+/+idcBBsE5B9IAxolZU0/
-         SiypaUvjWnFz7V89s9xlfTxUOsRwxzXLaWw/de7nGy0davILhtenbKy9dry8jMrWmR8Y
-         bFLrUK2XA1rHWdwInPPV93oQbmEhMuoFGt7okmpLiYIqc9LRlq0Qypfc60ohnw2b+3zQ
-         gJNwWTSRTmN/dopSngqanHNitYvezz1sX0xEoGN/HfF/H9dP/H4PMgbgBIW3IxtbIIsu
-         I9IvJScAAgQd2dLDslwpiQwkV+lKESFtKoFTe5lalgEhK05rNKU+YAuqETuJVtD5u8kc
-         C9Zg==
+        bh=rXc8dIGjOPS+blXr9UD0cV5lKzjlNdrJ3PmUYfZhlWA=;
+        b=D/GT4J31A6R4Id+GScD5lGt9YKeK5eFeIX6+JVXH+rjCMcaRCEBdfq3Z0t93JZDHJU
+         Y+0Bt5iNPg12XLBkATKS/KzLt9P7BG72CvpBs6MlAL3PgjpbfyJyN2jwdqfAfzomrx6W
+         bAQJuUc3fWbuCmedO/Gid/jq7cozNkffq2/R0ehYLAvcT4TXnuNOLPXy44fN7eJcC/ku
+         DZW3t12+YNojnhYCLzOF2b/JjrM+fyUP9w7UgaupfjXogi1/xrOyprv3hwCJcKH4j5wj
+         2vmnMlGkiN4PQCZjLoCQSEUMYCcoyU+0o+R+1Plv4U1QmgwUlLZsTd7RUAqT6ECASn3v
+         3ueQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jwKaavghmGJj+QMJV57FSyWk+vwefZq2vry5k3cmLGI=;
-        b=td3AeCh0Qlj8PtEpgd+DcVxGCzMG6gcqO1J2nQImp+NhQlCheZg/+wGZGfMoI0ZuXw
-         uoS58G0TciIfxLFgtydGKwvvMtavFizAN81mVN8lP8+qEGKvM0XpJrq/EbaP4eyyQb9M
-         sXtTmLxoLYKLCE0Xgs8TKxnJg+lfSVIECzM5v/g5jM//5S99J3Ovu6rQHXhTJaZUuFIe
-         Imbzl86o/6zJ3LFkEVXE0zRviTJwhzQf5tXg2rVtdQbMLMEIJJh8zeUzaORO2WttuJvp
-         godPt9vKDj7XIOgqDAPH/tNMsnkkrNT86EH9eZq7t8BuDxl5rBa6QzfCC2f2djlD781u
-         YiTA==
-X-Gm-Message-State: AOAM533qJh92KGu3p0HY9Q448jEzhQq+DW76L/Mw71fEPBSpLTp8Qsa+
-	3/7FFV3R262eYQxo5Nm4MiLu8fqZ4bM=
+        bh=rXc8dIGjOPS+blXr9UD0cV5lKzjlNdrJ3PmUYfZhlWA=;
+        b=0gPibw/2XRFuXVMNfFwkAVyVCtgsEigc0vhOo/pr7M3AbPlQuFLYX3IcBpb5+2VBhU
+         IQXJFtQPpQ0k3VciVT/687+Xabq8TdfoZOVon9leG6+KxvBgSAV9rp3Rfya3fGJxS8fu
+         Q7+HhTXsXT2k7zhmv4Ce5HFQsynkI9shjJesLxIOyA/VrvgfKcQs0R1Zs9gRk2Z9QcvX
+         YcLgyIClMTAxkMWiBgc/c6i5e3NMKtsWI2GhYBk6D/H34Ejhn7YDlG4EBfO7Pprt6acL
+         oIdj+8vPevGgZLSbghnmbXzC47HrVFhz3PVeUvv/ms0PeLNmkcTWAMylbQBMUZWYCX90
+         7N5w==
+X-Gm-Message-State: AOAM532Kbhdb/5LNPCtpnzOyHv5sHoWvDAxynjTvZyQ6lCpaJEc1blND
+	HXqZfpb/nmYf2D+gVdP5d2hgY2c+lag=
 X-Google-Smtp-Source: 
- ABdhPJyVt16mh8QzKX3caL9RRSSJAfKOMprdo++fdJxY4hsuOVYgP67ATXZSvdkRZX8FIAAir8D7zA==
-X-Received: by 2002:a62:2504:0:b0:505:7693:b48e with SMTP id
- l4-20020a622504000000b005057693b48emr2018668pfl.4.1650582399531;
-        Thu, 21 Apr 2022 16:06:39 -0700 (PDT)
+ ABdhPJwLiWYYnXIuj8rxCrNTNGRFemWK3kw6sb+0fEpINvaSFtMBUX8I6xg2sLUdg5XKSCIYeLCgxQ==
+X-Received: by 2002:a17:90a:ce0b:b0:1cd:6fff:8dbc with SMTP id
+ f11-20020a17090ace0b00b001cd6fff8dbcmr2082384pju.212.1650582523390;
+        Thu, 21 Apr 2022 16:08:43 -0700 (PDT)
 Received: from nereus.hsd1.or.comcast.net
  ([2601:1c0:6000:1b20:7a6b:1408:49b0:c75c])
         by smtp.gmail.com with ESMTPSA id
- y16-20020a637d10000000b00381268f2c6fsm210791pgc.4.2022.04.21.16.06.38
+ p13-20020a056a000b4d00b004faecee6e89sm169880pfo.208.2022.04.21.16.08.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 16:06:39 -0700 (PDT)
+        Thu, 21 Apr 2022 16:08:42 -0700 (PDT)
 From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <timothy.t.orling@intel.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Ross Burton <ross.burton@intel.com>,
 	Ross Burton <ross.burton@arm.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Tim Orling <timothy.t.orling@intel.com>
-Subject: [dunfell][PATCH] boost: don't specify gcc version
-Date: Thu, 21 Apr 2022 16:06:15 -0700
-Message-Id: <20220421230615.91674-1-timothy.t.orling@intel.com>
+	Tim Orling <tim.orling@konsulko.com>
+Subject: [dunfell][PATCH v2] boost: don't specify gcc version
+Date: Thu, 21 Apr 2022 16:08:38 -0700
+Message-Id: <20220421230838.92357-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,7 +70,7 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:51:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164768
+ https://lists.openembedded.org/g/openembedded-core/message/164769
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -79,8 +79,10 @@ probe it.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
+Change in v2: fix my email address
+
  meta/recipes-support/boost/boost.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
