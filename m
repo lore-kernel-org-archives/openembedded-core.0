@@ -1,135 +1,149 @@
-Return-Path: <russ.dill@nikolamotor.com>
+Return-Path: <zhengrq.fnst@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 996FCC6787C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C740AC71127
 	for <webhook@archiver.kernel.org>; Thu, 21 Apr 2022 16:46:11 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.17301.1650513510576399322
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
+ [195.245.230.81])
+ by mx.groups.io with SMTP id smtpd.web12.18343.1650524460207543769
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 20:58:30 -0700
+ Thu, 21 Apr 2022 00:01:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nikolamotor-com.20210112.gappssmtp.com header.s=20210112
- header.b=AC6rc7JB;
- spf=pass (domain: nikolamotor.com, ip: 209.85.210.175,
- mailfrom: russ.dill@nikolamotor.com)
-Received: by mail-pf1-f175.google.com with SMTP id j6so1497394pfe.13
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Apr 2022 20:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nikolamotor-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mA4YZJOr/u/cpTxQIPoQYdA9OOkf9KzWm3cWgjOCxo0=;
-        b=AC6rc7JB/eWnG0O+64iWRaQ2SmkfrzpHEBpbob/LXF/7I7e/r62L5NRqU9G80W6/2B
-         YQY0KjUTbHvlll0QtKH0Qcdp2ocIecZe3tpXr8iHVxjdwLEuuq3PE6OnJ6wjMi65T6/e
-         46zCVBiCIXsIhPLzOiKgb6AbVKjrhM8ztICF7cCRmzoABatOHsOJwEZXIzUkBC/GH+AQ
-         EMYBwiZFknOIypFAS7VZBxF4Vn/uj/pDwa/w2S0XHkn7JcUPE0LFN3GyBmLkckCyaR6q
-         48qf4lYJRjHhSDxhKkdIgl3um+qFNvheRjeyszKWrndBFFfqDwq8Bt6j5O1t/7MC1Kax
-         GunQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mA4YZJOr/u/cpTxQIPoQYdA9OOkf9KzWm3cWgjOCxo0=;
-        b=dirRmAeyqiZjPX1KcDKLQS53AXA0Tu4LSUYXNb51h46jxSB4oJtm9zNXUP+JuscDJ3
-         rsxTUB7u2SQfb/ltoGqmElua/N8nj8W3tV1ky4EH5JFKW8ZixicXrFOmIs9AQrivhfN1
-         88n2mCJ3gJs1smTlzWmQOJNzMB2nyBb292J4WlS5buROiC5EfBJbYZ7Jxq7rbwW5OfJZ
-         TmvCuCOb+CXRZ4byOFCssNeEVHcwN+D7VxsS3Ps7f9VasuZQr+WdqoszmxvF4fA2YR/6
-         SxP7+N50ZnsCThsVjwj0tbBHnzxUK0hiRKh9gSRjBmvs/qQDVDZLZRu6MsbstJ69XzK0
-         eIvw==
-X-Gm-Message-State: AOAM531j8kleI0sCu4LAzUT6CCdx4fKJmB9lZeJt50Vl/fVUGsh4yX+6
-	kGCNkS8KeslBmp/E7JSy3xOP9HVNiL2Z0nzgL/yZPA0M9h8n5tcrr/RkaGsB70kdGhwb5v4hYlg
-	Kr+lnXy3moqabeBrVmCHJteXPdclLV36MKg2aFwxysROYTKIbi5qAPNBF6DnC/C3lA4tLvIiK0E
-	c0RhiwMwqg9EhDlCJeHaN9EOxW+aNQLXYLIk3BY+Vs+8cZYK8b/LiRglX/evRDfIA7qdDjAgJXm
-	AmXbPE=
-X-Google-Smtp-Source: 
- ABdhPJyceCQp3lSAd2igBg0oe4ljapOZ/PymPBKbvm+yNkN62YA/IQSCfIpfPCkfc2aRjLWgpYBTIA==
-X-Received: by 2002:a63:4a23:0:b0:39c:c255:11ef with SMTP id
- x35-20020a634a23000000b0039cc25511efmr21733949pga.569.1650513508685;
-        Wed, 20 Apr 2022 20:58:28 -0700 (PDT)
-Received: from localadmin.local ([47.145.220.128])
-        by smtp.gmail.com with ESMTPSA id
- e10-20020a17090a280a00b001d29a04d665sm734304pjd.11.2022.04.20.20.58.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 20:58:28 -0700 (PDT)
-From: Russ Dill <russ.dill@nikolamotor.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Russ Dill <russ.dill@nikolamotor.com>
-Subject: [PATCH] kernel-yocto.bbclass: Fixup do_kernel_configcheck usage of
- KMETA
-Date: Wed, 20 Apr 2022 20:58:19 -0700
-Message-Id: <20220421035819.3741349-1-russ.dill@nikolamotor.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=cHuXZLfo;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.81,
+ mailfrom: zhengrq.fnst@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1650524458; i=@fujitsu.com;
+	bh=A1l8JOJHIcBN+WC2+BXudFl/O4ZntFGrJ7ujy6G8Z0I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=cHuXZLfolw0xm6l5wLMeUIcPqVxgUm2agF0ciistm82kWzqTKGO9/gptXC6ZcsoLe
+	 DETGnp2htIZL9JiPN38lLHZvNBbriHpQOzsMuIxCyPVcC2oGtjbc8J1pEa1ZHQ6BzQ
+	 qJYwfE3rZam0O4We1vAuFqwq/dXChGXH63E0Tat2azsO7Vj/c5qu3CAOlZTOpzoNy4
+	 IMjPyGrvWhzntEnsQS3md52ubRfk/B5B5akBhFhI10qcKmodo4wGTtvGnWxHqBInAO
+	 wzQtBUKjfJpGiggA3KTrg8w1jwj/qWlJgTeBB8Lqa/DNt6wBg98lQAVu9qpNRIVkBD
+	 NoiwYl9CqOMrw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrAIsWRWlGSWpSXmKPExsViZ8MxSVeTMTH
+  JYMosHYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPph3/sBROEK47cT25g/CfQxcjFISTwmFHi
+  bf8/NgjnPJPEox2PWSGcA4wSHSuuMXUxcnKwCehKvPixmKWLkYNDREBP4uo/UZCwsIClxMOzx
+  5lBbBYBVYkf2x6C2bwCHhJb9rxgBbElBBQkpjx8DxUXlDg58wkLiM0sICFx8MULZpCREgKKEr
+  Ony0OUV0i8PnyJGcJWk7h6bhPzBEa+WUi6ZyHpXsDItIrRKqkoMz2jJDcxM0fX0MBA19DQVNd
+  A18jQVC+xSjdRL7VUtzy1uETXUC+xvFgvtbhYr7gyNzknRS8vtWQTIzDwUooZru9gnNj3U+8Q
+  oyQHk5Io78VfCUlCfEn5KZUZicUZ8UWlOanFhxhlODiUJHh7PwPlBItS01Mr0jJzgFEAk5bg4
+  FES4VX+B5TmLS5IzC3OTIdInWLU5di55fJeZiGWvPy8VClxXjGGxCQhAZCijNI8uBGwiLzEKC
+  slzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh3z3+gVTyZeSVwm14BHcEEdET1lFiQI0oSEVJSDUw
+  FCceWH1k/UyA62unwkesNbCJ3bl71O/fm2b9PwQ4SyS8OpdYp/rB8y2F0sZ6nIOL5fqPLYUHz
+  6srL4w3MIx6/mXNK3yhvG+/CDvN/74rUji2aVSW8fXVzwono3BoGj8kCd/bN2S52XvLieoMd7
+  J8sjloKTF5x4deabc4OrVHFDrOVuC+VsTTelFn/Uo5Fd8+vXwtN13Dfsk894qHGLLtLwzvcdJ
+  10fdTqazt7Mu+3SFzqvlY1mWNt/tGlW0snaUXnsQaapH0+Kn6Id6ae/dPZTa9L15pNnH9K8Fd
+  38lzhUmeRegXR/D1HvFvFT9sXzyr9IGnaN3Xloea32/dnJkkcVv4Ra1xRs0rAYe716ENKLMUZ
+  iYZazEXFiQBN8oGgQwMAAA==
+X-Env-Sender: zhengrq.fnst@fujitsu.com
+X-Msg-Ref: server-8.tower-585.messagelabs.com!1650524457!39172!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.8; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 683 invoked from network); 21 Apr 2022 07:00:57 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-8.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 21 Apr 2022 07:00:57 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 391D5100478
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Apr 2022 08:00:57 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 27E11100471
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Apr 2022 08:00:57 +0100 (BST)
+Received: from CentOS7.g08.fujitsu.local (10.167.225.35) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Thu, 21 Apr 2022 08:00:46 +0100
+From: zhengrq.fnst <zhengrq.fnst@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] sysvinit: upgrade 3.02 -> 3.03
+Date: Thu, 21 Apr 2022 15:00:35 +0800
+Message-ID: <1650524435-13155-1-git-send-email-zhengrq.fnst@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CLOUD-SEC-AV-Info: nikolamotor2,google_mail,monitor
-X-CLOUD-SEC-AV-Sent: true
-X-Gm-Spam: 0
-X-Gm-Phishy: 0
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Apr 2022 16:46:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164741
+ https://lists.openembedded.org/g/openembedded-core/message/164743
 
-The do_kernel_configcheck task requires a meta directory, normally
-set by ${KMETA}. The meta directory is taken as a relative path
-from ${S}:
+0001-Fixed-compile-error-on-GNU-Hurd.patch
+removed since it's included in 3.03.
 
-        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
-
-However, when checking for the presence of ${KMETA} the current
-working directory is searched. This will almost always fail and
-"kgit --meta" is used instead. If the user does have a path in
-their current working directory that matches the ${KMETA}
-variable but the path is not present within the kernel source
-directory, the build will fail if it tries to write config errors/
-warnings to that path.
-
-If ${KMETA} is not set, the same problem exists with the hard-coded
-"meta" directory.
-
-Fix these issues by checking for ${KMETA} within ${S} rather than
-the current working directory. Additionally, drop the hardcoded
-backup directory "meta" as it hasn't been functioning and
-probably has no users
-
-Signed-off-by: Russ Dill <russ.dill@nikolamotor.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
 ---
- meta/classes/kernel-yocto.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ ...0001-Fixed-compile-error-on-GNU-Hurd.patch | 28 -------------------
+ .../{sysvinit_3.02.bb => sysvinit_3.03.bb}    |  3 +-
+ 2 files changed, 1 insertion(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-Fixed-compile-error-on-GNU-Hurd.patch
+ rename meta/recipes-core/sysvinit/{sysvinit_3.02.bb => sysvinit_3.03.bb} (96%)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 1d5a8cdf29..4cb638864c 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -521,15 +521,15 @@ python do_config_analysis() {
- python do_kernel_configcheck() {
-     import re, string, sys, subprocess
- 
--    # if KMETA isn't set globally by a recipe using this routine, we need to
--    # set the default to 'meta'. Otherwise, kconf_check is not passed a valid
--    # meta-series for processing
--    kmeta = d.getVar("KMETA") or "meta"
--    if not os.path.exists(kmeta):
--        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-Fixed-compile-error-on-GNU-Hurd.patch b/meta/recipes-core/sysvinit/sysvinit/0001-Fixed-compile-error-on-GNU-Hurd.patch
+deleted file mode 100644
+index d278a32ec7..0000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/0001-Fixed-compile-error-on-GNU-Hurd.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From d595594506e6fd2247f7984c276f822ea626434c Mon Sep 17 00:00:00 2001
+-From: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+-Date: Thu, 7 Apr 2022 11:57:19 +0900
+-Subject: [PATCH] Fixed compile error on GNU Hurd
 -
-     s = d.getVar('S')
+-Fixed compile error on GNU Hurd due to missing MAX_PATH definition.
+-
+-Upstream-Status: Backport [https://github.com/slicer69/sysvinit/commit/14d8d25269016b26965b428a855dd084cc88994d]
+-
+-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@fujitsu.com>
+----
+- src/bootlogd.h | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/src/bootlogd.h b/src/bootlogd.h
+-index b47bc9d..ba17f0c 100644
+---- a/src/bootlogd.h
+-+++ b/src/bootlogd.h
+-@@ -10,3 +10,6 @@
+- #define FALSE 0
+- #endif
+- 
+-+#ifndef PATH_MAX
+-+#define PATH_MAX 2048
+-+#endif
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.02.bb b/meta/recipes-core/sysvinit/sysvinit_3.03.bb
+similarity index 96%
+rename from meta/recipes-core/sysvinit/sysvinit_3.02.bb
+rename to meta/recipes-core/sysvinit/sysvinit_3.03.bb
+index cfe9d0b597..f6547f237a 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.02.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.03.bb
+@@ -20,9 +20,8 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+            file://rcS \
+            file://bootlogd.init \
+            file://01_bootlogd \
+-           file://0001-Fixed-compile-error-on-GNU-Hurd.patch \
+            "
+-SRC_URI[sha256sum] = "4ca03ffdbefb5a99a60b94a021693686c2b498a08ff8aa4e859821fa7c39a792"
++SRC_URI[sha256sum] = "a80418c80828558da9e29208ebbe22d91903d047fd5babdd3cd0eb1fea32d6f0"
  
-+    # if KMETA isn't set globally by a recipe using this routine, use kgit to
-+    # locate or create the meta directory. Otherwise, kconf_check is not
-+    # passed a valid meta-series for processing
-+    kmeta = d.getVar("KMETA")
-+    if not kmeta or not os.path.exists('{}/{}'.format(s,kmeta)):
-+        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
-+
-     env = os.environ.copy()
-     env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
-     env['LD'] = d.getVar('KERNEL_LD')
+ S = "${WORKDIR}/sysvinit-${PV}"
+ 
 -- 
 2.25.1
 
