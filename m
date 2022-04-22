@@ -1,107 +1,110 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0450EC35296
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 339A6C352A8
 	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:52:00 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web08.4433.1650600356497613817
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.2])
+ by mx.groups.io with SMTP id smtpd.web08.5010.1650605985676527066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 21:05:56 -0700
+ Thu, 21 Apr 2022 22:39:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iDjzDkqY;
- spf=pass (domain: gmail.com, ip: 209.85.215.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id t4so6384703pgc.1
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 21:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vKY+WRChDTSzpkel2xp0aKDzfy0cfxpWuFUSLkUrMZI=;
-        b=iDjzDkqYFC2O5fPH2SDD6hNw/idU9BaSg8mKxkVQObf6x8D9VRuQHaNxhTjqIDufxw
-         a1ka87YzPHrG2oNRXyXXcW2EMa4YVnrD4thYNlRMez0lpxhJj1+pRwYvtheP88f7LIT8
-         eHfL8XUtMGNzajGxfvykqPgLWKoHjmS4MhKR7mGlEx7gf1LEnHnF8A9vaSwhi0qMR+Kj
-         wigTManwgrT5EkDGEPuykdiK2Q1AEfH4jtNAPiCA2yoHxDx6fDkjV/MZ299AY9/FKBcd
-         JlQSCHXvbNn8pBKcAI2/ioyiL8qidDcsSPLyNRYOjbZbLaDx94rxuCrhVENl3QFVJf1C
-         qAMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vKY+WRChDTSzpkel2xp0aKDzfy0cfxpWuFUSLkUrMZI=;
-        b=HKUz3SbUky+4OkoruPE5RqeIQdlRjjAqXTLXkIwbuO53D27KnVmUEhbYa51Oh0iUOv
-         p7xLM7ihKY0scvjgg/Ra4WV9lGwNib78GN3q6UtM8FMqwRf75cjVUZ4kNj9RcnCMWKE2
-         YjHwl6XLLvo+8W1aBknf6mWlP85dGF8aHVkI9GEHlbjacacn4pEhuhlmCaPEiveEuWCd
-         J8AL9bFvR+iSht8nDiQciMgaQ7Q486l5tq2KKClxtx4MP5CaeHMxK1UIgKHpPCrIUYrp
-         MUsXkzqDsLDSm6Xy/9X3/a3niayX/sMKX/GaA6IbP6vZFN3RNvQOG6CHaoyjougGUshh
-         k37A==
-X-Gm-Message-State: AOAM532PvATeP2y9oHtPnRFaLTkm16mxAQtieIrTMG2C/AMGETQaMghz
-	zX4Fn+TaERFFw+4VW822lmqjgT190Krw1w==
-X-Google-Smtp-Source: 
- ABdhPJxIZsHupT5ShCLfUWSov1oY635szOuwhID10Ulc9S49Oy4HefSfBrNlLhwbF+ey303EL2ZvrA==
-X-Received: by 2002:a63:de41:0:b0:398:db26:bb6 with SMTP id
- y1-20020a63de41000000b00398db260bb6mr2337158pgi.516.1650600355732;
-        Thu, 21 Apr 2022 21:05:55 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
-        by smtp.gmail.com with ESMTPSA id
- fv9-20020a17090b0e8900b001cd4989febcsm4399089pjb.8.2022.04.21.21.05.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 21:05:55 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] musl: Fix build when usrmerge distro feature is enabled
-Date: Thu, 21 Apr 2022 21:05:51 -0700
-Message-Id: <20220422040552.2528282-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.0
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=cBNdZyWU;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.2,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1650605984; i=@fujitsu.com;
+	bh=BbbeYhXASyvWWxDByhJ4MAFXsxGY7nJesrwpTstJ6rA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=cBNdZyWU5FCiKCmqczayHCnCcfmTDkG0ml/nvV7TRXMQK1acEwWiXJWah6Vnu9+Ry
+	 hdjfvzj5LpmjydCCH957yNboDDj77NTnG0DaDBswkjdUTo80TjyelREnqMMI7o6EC0
+	 pnGwL4JIjSP7ZfvqN+rNGZN60I4qpu2/Rq27G6vmK1mrh5Wt9cHPkpGdKLTLkLYCr0
+	 WXTZWTIv8BKSmJG3ID7/xdRw4/P1tTdTUW1ZrMn/1UvCTYwMRNQ5pKJPCike2pq7lR
+	 xC/qk6WxV/NqOsK+4LAgDBBashSu5cmFQN+NQzvzacjhb7f61hHdVMxx6Q5l5CujTk
+	 g1usv5TGROdjQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRWlGSWpSXmKPExsViZ8MxSXe+fVK
+  SwZ+bkhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8amY03sBYc4KuZc2c3SwHievYuRi0NI4DGj
+  xJsrb5khnPNMEn1rVkJl9jBKrLjwGyjDycEmoCYx/dYN1i5GDg4RAT2Jq/9EQcLMAioSL373s
+  IPYwgJmEms7JoPZLAKqEvd+zAUr5xVwkujaWwcSlhBQkJjy8D3YRF4BQYmTM5+wQIyRkDj44g
+  UzRI2ixOzLzSwQdoXErFltTBC2msTVc5uYJzDyz0LSPgtJ+wJGplWM1klFmekZJbmJmTm6hgY
+  GuoaGprrGFkCmpV5ilW6iXmqpbnlqcYmukV5iebFeanGxXnFlbnJOil5easkmRmBQphSr5e5g
+  nLLyp94hRkkOJiVRXtNziUlCfEn5KZUZicUZ8UWlOanFhxhlODiUJHhtbZOShASLUtNTK9Iyc
+  4ARApOW4OBREuFtNwNK8xYXJOYWZ6ZDpE4xKkqJ81baASUEQBIZpXlwbbCovMQoKyXMy8jAwC
+  DEU5BalJtZgir/ilGcg1FJmPcNyHaezLwSuOmvgBYzAS126UwEWVySiJCSamDKPxnk21zDMFd
+  4++HEMKZdNz6sOe1/7cTaH9vZu3757BB5XnDZ3Cho+gbDvdM+5AnLf2C9LaYpKhmR4bU3svH5
+  uWe1e6bHNKfblB1Tdk7+mSh3duWhPVMkjmrFb7rqFnmR4d9Mw/T1F/6/WVan1T9HmcN2f+XiA
+  h/JQpH1kfliV2Ya3G5gn1Los/mnTPZ+39kf5rm/aTlQe1q1LvTL4+sTC000b0k8/c7C+in+tl
+  RN+P9sVrvIr09WPVmxTnTCzOiKOX9Td8+stNx9bs/byHS+p0rLY5dv/frvWJVA3qt1rJUb9hw
+  21Z5ZqmT3W3PBl32fpnZECUiJe69/NPPBP+5jZZe4LyVw/mrk5hMLmMGYqMRSnJFoqMVcVJwI
+  AMKmXhpFAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-2.tower-548.messagelabs.com!1650605983!179656!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.8; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31020 invoked from network); 22 Apr 2022 05:39:43 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-2.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 22 Apr 2022 05:39:43 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 03A4C10046E
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Apr 2022 06:39:43 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id EB4B0100467
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Apr 2022 06:39:42 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Fri, 22 Apr 2022 06:39:21 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] apt: upgrade 2.4.4 -> 2.4.5
+Date: Fri, 22 Apr 2022 13:39:12 +0800
+Message-ID: <1650605953-10177-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:52:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164771
+ https://lists.openembedded.org/g/openembedded-core/message/164775
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/apt/{apt_2.4.4.bb => apt_2.4.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/apt/{apt_2.4.4.bb => apt_2.4.5.bb} (97%)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 044ed9c064b..4b854013608 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -49,7 +49,7 @@ CONFIGUREOPTS = " \
-     --bindir=${bindir} \
-     --libdir=${libdir} \
-     --includedir=${includedir} \
--    --syslibdir=/lib \
-+    --syslibdir=${nonarch_base_libdir} \
- "
+diff --git a/meta/recipes-devtools/apt/apt_2.4.4.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
+similarity index 97%
+rename from meta/recipes-devtools/apt/apt_2.4.4.bb
+rename to meta/recipes-devtools/apt/apt_2.4.5.bb
+index 9faf1e7ea9..95c25e3036 100644
+--- a/meta/recipes-devtools/apt/apt_2.4.4.bb
++++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
+@@ -25,7 +25,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
+            "
  
- do_configure() {
-@@ -62,14 +62,14 @@ do_compile() {
+-SRC_URI[sha256sum] = "d6d83d122ddd7cc83b2c2f839a55940c13ab93e5cf6024a010d6a6b4110dcf0e"
++SRC_URI[sha256sum] = "5552f175c3a3924f5cda0c079b821b30f68a2521959f2c30ab164d2ec7993ecf"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- do_install() {
- 	oe_runmake install DESTDIR='${D}'
--	install -d ${D}${bindir} ${D}/lib ${D}${sysconfdir}
-+	install -d ${D}${bindir} ${D}${sysconfdir}
-         echo "${base_libdir}" > ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
-         echo "${libdir}" >> ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
- 	rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
- 	ln -rs ${D}${libdir}/libc.so ${D}${bindir}/ldd
- }
- 
--FILES:${PN} += "/lib/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
-+FILES:${PN} += "${nonarch_base_libdir}/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
- FILES:${PN}-staticdev = "${libdir}/libc.a"
- FILES:${PN}-dev =+ "${libdir}/libcrypt.a ${libdir}/libdl.a ${libdir}/libm.a \
-                     ${libdir}/libpthread.a ${libdir}/libresolv.a \
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
 -- 
-2.36.0
+2.25.1
 
 
