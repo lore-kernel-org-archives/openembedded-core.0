@@ -1,86 +1,98 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE1EC54EFE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE625C54F3B
 	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:52:01 +0000 (UTC)
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
- [217.70.178.230])
- by mx.groups.io with SMTP id smtpd.web08.7675.1650629996722767311
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.8008.1650630936527716190
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Apr 2022 05:19:57 -0700
+ Fri, 22 Apr 2022 05:35:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=O/a9+OX8;
- spf=pass (domain: bootlin.com, ip: 217.70.178.230,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: (Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 49E1E240002;
-	Fri, 22 Apr 2022 12:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650629994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TJ65fzY+e7y6VX5qBIDeEDGdIvhBaJkp9pyVj1bLhDY=;
-	b=O/a9+OX83AHE0/6SUC7eCnu32YJVVWbbiP3ZrO8eDYRMbvTSA8ilmN1u33+HvezXzZNafV
-	nPx+xgI6o3dfG7LpAboaKm5+tFEB9MBYTeMrnjKDG29OuiDokUEOuFgf+DzglFGsLKdolY
-	8IBV/o1rDkj+QnCeUDQzIJlJqaEQhAE9deaHWs8Mu9o4+Gs/vTldIOmCqGKNDmsFTF6tWa
-	TUfiKAJ8UPqLorZsl3sfGEewId5ymAExGBOb2x2OcFLoGbhwEIJw5pLfxDLJbUfHszjZ8I
-	yp9RW8yLg8w/FBlgiKub8otjOBML4UaA/geUgAqf5toVBhGw9p59BfKs+sV7jg==
-Date: Fri, 22 Apr 2022 14:19:52 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Khem Raj" <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] musl-locales: Add package
-Message-ID: <20220422141952.7ea98580@melee>
-In-Reply-To: <20220422061052.2577710-1-raj.khem@gmail.com>
-References: <20220422061052.2577710-1-raj.khem@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ct1SdL/z;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id h25so4833977wrc.13
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Apr 2022 05:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Q1G6fUJmEhrsi58YeF+Xt+nE66cCgoeamx1oqtHa9xg=;
+        b=ct1SdL/zjgUBF4WqTlPLi5ATIOG9GYF6jsFZ0+n+qMMYWEeOmIor72Qpixife/nc6N
+         ScSxyjAFu9C/UeAL0hXbfSJLx3mZg5ZJDX4kNRwH85qxQAGR5+LCv6lRlRY2/Kj8E+4E
+         lSFmhe/VU7e1+5ZYBZLgWOxF4TpOgxuUeewOE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Q1G6fUJmEhrsi58YeF+Xt+nE66cCgoeamx1oqtHa9xg=;
+        b=AJCjnC/YxCAvrtG1eFfK6aMs96DXN6CTsHGu+vuLmv9EqyefaOuQU/7AGLBUvrpVdK
+         RM5311ftwzQi55tDukGCfbAb/+FzHd5LFiOswTHZGi+8CYPn6hR87L83+AUd2YubJ1he
+         6b4wHxDwOlR5kES7ueLZpBQ/09WJEcRucNphhjNp/68zG0LXnkWBny5pMBOaYI3AauQa
+         17UA1L6SFAsNj6CWi/GYSgjr1qwB+JMiBc0/iyGIIFJJM/pc7CeNpe1rJsmFtLwYsA7U
+         xIgiSnSVh29oXT3lRkaedrA3Fdk4SlM1fd9b2eWfZgrdeiPQCP8Dyyc/QKUcQEHmLMGO
+         A9zg==
+X-Gm-Message-State: AOAM532pWFO6FAOXUw/CLu96uq+NpmoJGArXR1vohpTytmjlBDkXjHoQ
+	RzXYMbjUcrlRJeaYPOVkFgKSng==
+X-Google-Smtp-Source: 
+ ABdhPJxV+LibGLJeVSKGJPHFSR95uKwteQYs20BthPdMjFoPxN/LIE/+9kacxqfXY46gG98AaG7TlA==
+X-Received: by 2002:a5d:4e07:0:b0:207:9a41:842f with SMTP id
+ p7-20020a5d4e07000000b002079a41842fmr3579456wrt.232.1650630935097;
+        Fri, 22 Apr 2022 05:35:35 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9788:6d00:bfe8:c84e?
+ ([2001:8b0:aba:5f3c:9788:6d00:bfe8:c84e])
+        by smtp.gmail.com with ESMTPSA id
+ r14-20020a5d6c6e000000b0020a9f757708sm2001775wrz.33.2022.04.22.05.35.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Apr 2022 05:35:33 -0700 (PDT)
+Message-ID: 
+ <29824cc1ce9b51dfada9fe8aeae12dca8124b6dd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] Fix permissions when splitting rootfs
+ folders across partitions.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Felix Moessbauer <felix.moessbauer@siemens.com>,
+	openembedded-core@lists.openembedded.org
+Cc: jan.kiszka@siemens.com, henning.schild@siemens.com,
+	adriaan.schmidt@siemens.com
+Date: Fri, 22 Apr 2022 13:35:32 +0100
+In-Reply-To: <20220421160543.2718864-1-felix.moessbauer@siemens.com>
+References: <20220421160543.2718864-1-felix.moessbauer@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:52:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164789
+ https://lists.openembedded.org/g/openembedded-core/message/164790
 
-Hi Khem,
+On Thu, 2022-04-21 at 18:05 +0200, Felix Moessbauer wrote:
+> This patches ensures that the file database containing the file and
+> folder usernames and permissions is always located relative to the
+> source and not to the appended rootfs-dir.
+> 
+> Prior to this patch, the database was not found when using -rootfs-dir
+> in the WIC script, leading to erronous file permissions and ownership.
+> 
+> Signed-off-by: Felix Moessbauer <felix.moessbauer@siemens.com>
+> ---
+>  scripts/lib/wic/plugins/source/rootfs.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Il giorno Thu, 21 Apr 2022 23:10:52 -0700
-"Khem Raj" <raj.khem@gmail.com> ha scritto:
+As well as fixing the test failure, for future reference the shortlog for this
+also needs to read something like:
 
-> This package will provide a limited set of localedata for musl based
-> systems. It will fill in into images when IMAGE_LINGUAS variable is
-> set however the choice is limited to the given 13 locales as of now.
-> 
-> e.g.
-> IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-> 
-> would work fine
-> 
-> Default locale can be set by exporting LANG=<locale> in /etc/profile
-> or some such file e.g.
-> 
-> export LANG=de_DE.UTF-8
-> 
-> This will also help in ptest coverage with musl where some test
-> packages expect locales e.g. pango to name one.
-> 
-> Do not empty out IMAGE_LINGUAS forcibly for musl anymore
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+wic/plugins/rootfs: Fix permissions when splitting rootfs folders across partitions
 
-This patch is triggering build failures:
+just so we can easily see which area of the code a change is related to.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/5401/steps/13/logs/stdio
+Cheers,
 
-Best regards.
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Richard
+
 
