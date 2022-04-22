@@ -1,181 +1,79 @@
-Return-Path: <komal.pal2904@gmail.com>
+Return-Path: <matthias@extraklein.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435D4C48BD1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5881BC48BE5
 	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:52:01 +0000 (UTC)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by mx.groups.io with SMTP id smtpd.web10.6885.1650624851909932012
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de
+ [188.68.61.102])
+ by mx.groups.io with SMTP id smtpd.web10.7003.1650625774343554415
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Apr 2022 03:54:12 -0700
+ Fri, 22 Apr 2022 04:09:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SGxapiTB;
- spf=pass (domain: gmail.com, ip: 209.85.219.177,
- mailfrom: komal.pal2904@gmail.com)
-Received: by mail-yb1-f177.google.com with SMTP id j2so13839084ybu.0
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Apr 2022 03:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=640aAJz2BOSPMbU0g1yozQNMbO0ZeETc/dP9rRtYDFs=;
-        b=SGxapiTBjtnpJaZzw4DVcJBV+xd3kt7oWh04TzZetAL7uItdQoTuSFn6ySdQ48Tc2J
-         bWYYxXxUCXc1Ua0Q1sKv5lx8jIhk7wr+9Zzg7a9DKfBpmNuK31FobWyQtE0sgoGERYdS
-         RXeod0uukJ8eq5ojuLMfBCCLEPy+46NpzGD6tX1O2ku01KeSseR1lKt2Qfri1QSM2C14
-         f1XOJqPqL98QCap3IxLxpicjw7zTUIcL5zL3J7uY36IqLzkYlN/lgNYroGpCF4ZC4j0+
-         rVSi7EqFRmEWnZtbjDNtBA03b9JFDGzidd6QBlyEhUgm4FTfsSfMOwgnS+UCsiPLmn86
-         3a4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=640aAJz2BOSPMbU0g1yozQNMbO0ZeETc/dP9rRtYDFs=;
-        b=RTS/LyNgMHVgkqmrIY6nXp6z5i2OVzpab8wIegkFoEUhuqvlvUQqLEc70niURcXIoc
-         aoZKiyCuZJiAWOh9/omsFcVbzmFPMpqwqA6Em023JIO2tmXEk1NEtegPRe5WaYaGGi5h
-         Ui1goo4nyNy1ZsLgVhcMbWiYvMrKGpjdqA70qZV1wE8g1J7LBmJ+SpIIwcihWJ2CCNcP
-         ik2Ei8nLnkxtAYTM8sWdmCFqieUJZbRMLaeRfRCi1kZvZqzohHHLQ/wWHo3xEMGwQD3O
-         uRdyuV2ub/nQv+G+990axiLLfEEL/yv4+UBTHeZLMDcKo5htewx8my2Z0dlcMWmVO8QI
-         42PA==
-X-Gm-Message-State: AOAM531DJO2qQ2bJ0fpkIMCL5W8B9V2XZSYAQigbV5G3t6jUzopCW6+O
-	DO0AGL9AU7shJtQSk0gItwhxTxbLxso7hiKHeM4=
-X-Google-Smtp-Source: 
- ABdhPJxjIDfhIMWN9MNlwczKhlCZQ/lKe0HTo4Ws6OSWleg0Mj9MWY4yDfWDbcXSKxxurdqGUJLmSHFArr0zlqMPgII=
-X-Received: by 2002:a25:e0d3:0:b0:645:77c9:4e31 with SMTP id
- x202-20020a25e0d3000000b0064577c94e31mr3723312ybg.97.1650624851087; Fri, 22
- Apr 2022 03:54:11 -0700 (PDT)
+ dkim=pass header.i=@extraklein.de header.s=key2 header.b=NLljtOyK;
+ spf=pass (domain: extraklein.de, ip: 188.68.61.102,
+ mailfrom: matthias@extraklein.de)
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4KlBWH6cdWz7w9J;
+	Fri, 22 Apr 2022 13:09:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=extraklein.de;
+	s=key2; t=1650625771;
+	bh=KuOytOZP8K8CO6JDevrCoMosFGcxqQiVcMy0tn59Ys0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NLljtOyK44EWAMEmqtqh6ViHLUYP+5yRETnc00mT3iwWQ4qWSAH9CjxOp5nyDqqgP
+	 S8BtT5utnUYQMI/pmg0tPjRaL/W7WULiQ+XpWQLh6iyWK6WdDBKUTnZnnDjvx9ZjpT
+	 ibj636QZx9sZVpc1EriVSenTESF44zex2KOBmPUpMwi+6l2DCpbleJaA2Bt+hNlM5I
+	 cd4YmlLcgzC3j9WWnRPek5vrFrUou6IGVjWEpYjodbP694L4zylJVB21AEeovJ9k/U
+	 1WTlb7wRsGnnDUwH7vtz+BgyfvOlAXvGYDPvFIoVdNLJFL35wrRt+SlTQARxj3cRe7
+	 qkW4990w8UH/A==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.53])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4KlBWH6DrHz7w7k;
+	Fri, 22 Apr 2022 13:09:31 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
+Received: from mx2fa3.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4KlBWH0zyhz8shG;
+	Fri, 22 Apr 2022 13:09:31 +0200 (CEST)
+Received: from webmail01.netcup.net (unknown [46.38.249.153])
+	by mx2fa3.netcup.net (Postfix) with ESMTPA id 9709E14004A;
+	Fri, 22 Apr 2022 13:09:30 +0200 (CEST)
+Authentication-Results: mx2fa3;
+        spf=pass (sender IP is 46.38.249.153)
+ smtp.mailfrom=matthias@extraklein.de smtp.helo=webmail01.netcup.net
+Received-SPF: pass (mx2fa3: connection is authenticated)
 MIME-Version: 1.0
-References: <16E83228D5A37919.30512@lists.openembedded.org>
-In-Reply-To: <16E83228D5A37919.30512@lists.openembedded.org>
-From: Komal Pal <komal.pal2904@gmail.com>
-Date: Fri, 22 Apr 2022 16:23:59 +0530
-Message-ID: 
- <CAO6y4bEyO20Ykq5_jSUONRsKkGA=bbNSv5EwTcmK9Fd9jrgRUQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ptest-runner-curl
-To: Komal Pal <komal.pal2904@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, ross@burtonini.com,
-	komal7209 <komal.pal_7@yahoo.com>
-Content-Type: multipart/alternative; boundary="000000000000e8155e05dd3c0ba8"
+Date: Fri, 22 Apr 2022 13:09:30 +0200
+From: Matthias Klein <matthias@extraklein.de>
+To: luca.ceresoli@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] gpsd: bugfix: add gps-utils-python to PACKAGES
+In-Reply-To: <20220422115938.776ffbd6@melee>
+References: <20220422083247.1322-1-matthias@extraklein.de>
+ <20220422115938.776ffbd6@melee>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <25c9ad816e7fbda2286eb0c8d5bed4cd@extraklein.de>
+X-Sender: matthias@extraklein.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <165062577081.26776.2994029528237755291@mx2fa3.netcup.net>
+X-PPP-Vhost: extraklein.de
+X-NC-CID: b6ZSyyZIsiSoEpi67nCsYj2WDQ3p6VIHSGtijRqt0KbEP6vE4NY=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:52:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164786
+ https://lists.openembedded.org/g/openembedded-core/message/164787
 
---000000000000e8155e05dd3c0ba8
-Content-Type: text/plain; charset="UTF-8"
+Hello Luca,
 
-Presently, I'm working on    .bb file for same,
-So have just sent the previous file the way it was to continue in this
-particular for further changes.
-As in  .bb file there I was facing some missing patch which need to be
-included,
-And issue because of openssl and some python packages which it was unable
-get through RPROVIDES
+> This file is not in oe-core. This patch should be sent to the meta-oe
+> mailing list.
 
-On Fri, 22 Apr, 2022, 4:16 pm komal7209 via lists.openembedded.org,
-<komal.pal2904=gmail.com@lists.openembedded.org> wrote:
+Done: https://lists.openembedded.org/g/openembedded-devel/message/96734
 
-> ---
->  meta/recipes-support/curl/curl/run-ptest | 6 ++++++
->  1 file changed, 6 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/run-ptest
->
-> diff --git a/meta/recipes-support/curl/curl/run-ptest
-> b/meta/recipes-support/curl/curl/run-ptest
-> new file mode 100644
-> index 0000000000..4435f7dee4
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/run-ptest
-> @@ -0,0 +1,6 @@
-> +#!/bin/sh
-> +cd tests
-> +./runtests.pl -a -n -s | sed \
-> +     -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
-> +     -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|' \
-> +     -e 's/Warning: test[0-9]\+ not present in
-> tests\/data\/Makefile.inc//'
-> \ No newline at end of file
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164785):
-> https://lists.openembedded.org/g/openembedded-core/message/164785
-> Mute This Topic: https://lists.openembedded.org/mt/90625146/6879064
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> komal.pal2904@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000e8155e05dd3c0ba8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Presently, I&#39;m working on=C2=A0 =C2=A0 .bb file for s=
-ame,=C2=A0<div dir=3D"auto">So have just sent the previous file the way it =
-was to continue in this particular for further changes.=C2=A0</div><div dir=
-=3D"auto">As in=C2=A0 .bb file there I was facing some missing patch which =
-need to be included,=C2=A0</div><div dir=3D"auto">And issue because of open=
-ssl and some python packages which it was unable get through RPROVIDES</div=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Fri, 22 Apr, 2022, 4:16 pm komal7209 via <a href=3D"http://lists.openem=
-bedded.org">lists.openembedded.org</a>, &lt;komal.pal2904=3D<a href=3D"mail=
-to:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">---<br>
-=C2=A0meta/recipes-support/curl/curl/run-ptest | 6 ++++++<br>
-=C2=A01 file changed, 6 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-support/curl/curl/run-ptest<br>
-<br>
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-suppor=
-t/curl/curl/run-ptest<br>
-new file mode 100644<br>
-index 0000000000..4435f7dee4<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/curl/curl/run-ptest<br>
-@@ -0,0 +1,6 @@<br>
-+#!/bin/sh<br>
-+cd tests<br>
-+./<a href=3D"http://runtests.pl" rel=3D"noreferrer noreferrer" target=3D"_=
-blank">runtests.pl</a> -a -n -s | sed \<br>
-+=C2=A0 =C2=A0 =C2=A0-e &#39;s|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|&#3=
-9; \<br>
-+=C2=A0 =C2=A0 =C2=A0-e &#39;s|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2=
-|&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0-e &#39;s/Warning: test[0-9]\+ not present in tests\/d=
-ata\/Makefile.inc//&#39;<br>
-\ No newline at end of file<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#164785): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/164785" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/164785</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90625146/6879=
-064" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/mt/90625146/6879064</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:komal.pal2904@g=
-mail.com" target=3D"_blank" rel=3D"noreferrer">komal.pal2904@gmail.com</a>]=
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000e8155e05dd3c0ba8--
+Best regards,
+Matthias
 
