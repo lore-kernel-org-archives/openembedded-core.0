@@ -1,110 +1,138 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA37C4708B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C10AEC3A5A3
 	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:52:00 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.6250.1650618431439791237
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web12.6428.1650618441626057522
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Apr 2022 02:07:11 -0700
+ Fri, 22 Apr 2022 02:07:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=npE1uFdX;
- spf=pass (domain: gmail.com, ip: 209.85.221.54,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id e2so3825979wrh.7
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Apr 2022 02:07:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CYOra791;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id h83so7952131iof.8;
+        Fri, 22 Apr 2022 02:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/6Q/Tk0ZYE/f2y7RB34egc5123AjVDPoOOSKo2huYgc=;
-        b=npE1uFdXqZoRKqyfX6nE2QWvnajyijTi/bQgV/ltW9AZ7ATDOCysWLGYnoPTBwmIkD
-         wmDQO9kzF+kusCkCya2IVoe4V7VRRVrtHKsqB1F2CcRusSI2I+zBemlenK8+53b+0bHC
-         EemB16g5Hm/GlI2jyfUw9Q/32T+OtZ38YMHBhw202syt/zX2qggNYqv6/rgELlLlX585
-         fg09dF2LKb/77FeSyvzyXwgAhtvy0SBv5OkiNsSL7tBvoxhuv57k7ZHT65EEpti2Y1wA
-         MnbNNwikvEQGYHf07gLu+SZX1972DF02/RsRFeZ+XsYkM40ESd43uWMQGq19n/TZ1Ra4
-         4Xkw==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=MH94ousu1M8QjpxS3JaF8Qnk+PEGqZFxN/qt2Phy72w=;
+        b=CYOra791mqZIBHCsSEfbR0aAGaHIchorDeTrxGfh0gqyE4M7n+PfRLzeCBgfJaGFUo
+         ehEIodTcJCCdJ69j/JyYdg2agpYJ80j7zGH+Y4NKeIpxvRCoSM5CNwUc3Hq7bVzgHcT0
+         dPZXPbftEstlI1W2d7Kr5veQGX70Zl3Qv6e5RrixggFjNW2HYhkZngjRaXSlRYO2vYnl
+         gAzn7I6yq5H3gBqmCP+Q+jTTHLnNJMkcfn3bUpihLuH2JMZZKvfOr5/YcVaw/3Q1C2nH
+         E4RU4kZ7+lnxc3IRZwmYZHYtB6UVKW9E4Z/p9KRDmz7lEnSQ0tAX5IFDc/mDg0/bbNar
+         UHGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/6Q/Tk0ZYE/f2y7RB34egc5123AjVDPoOOSKo2huYgc=;
-        b=aRRF7xGD6zfwMhYLW2aonqBwYFxoSx2NrK4E963INv66H8KN7BM7VNtufntpsjeG/I
-         VprOx2TMP//el1iwXq8a//yTihaq9S2ssFU104zF6TaG+SepESYav7kgI4QoJj7eG2/G
-         K40o7OF6TJgknjvAS+k8ekF55s4VRX/92uzFwrDDCPu6+dJEF+CWPTjavKdCaj+4H/uE
-         koQwwyUgEv75/N0gSUPy1SF69I5m26PvHhsS0APSZbDNDvASB8AQBdM6D1TauyYfiwLn
-         +wA3bb1pt2AqdzExP+BE8LGvQ5uzWzbXNMziCLG7jWHt7g/Hod4Zrjlri9DXqaiV9TRS
-         dZKg==
-X-Gm-Message-State: AOAM530jlBbAGIQNfysz3GZoMibCq+RmRBZFXEEURqKpkkmGfg7Sy7ke
-	b4MUz5fKp7q8o7WLU9Eg03uGpWQJ/A8=
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=MH94ousu1M8QjpxS3JaF8Qnk+PEGqZFxN/qt2Phy72w=;
+        b=mHgsAJnWox5dCvbgwXZMrhYJb9YnQRG2lupvAzNE8NvV/zWERirJf7nEpwUcSmYm2H
+         eEjERjUx2k10wdB6EHwAlrx15/iGIYznlDern2i9Umu+xldRRuAaGUUeuqLSIWupcZ71
+         yM3rBmLDKRL9AMC1IUI44uvewmbq0Axw6cC64kCWalNiInqx6LycjLKMHyaFx89Dzsa8
+         pQWGnn3QiFJPLHD+lJAQfmrg0pfBQQfKqrvl5/2UGbZu3ECz5iH9HYwrcdpy9LIWVHgN
+         9YIhgjHbz2jpuLCAb0bnbltpIwDgxRrS4BgPkFpG05YCV6xwVuLsjjur5NIEUIzpur91
+         //zA==
+X-Gm-Message-State: AOAM532l7Teq61O/zBkhbLIBFXu6P9Jf2bX3aP/h0DJhTtZF8dLg4r6o
+	jErAgibtUQ6z7Z3SXg7xUiG5yIpCV0lh/RY20IaPgr+wvvc=
 X-Google-Smtp-Source: 
- ABdhPJxqnHQGJ6ubzcAkSyYPcl4aQYLsV9njAOy6pvmggUHTNkGkJPYnKVvXLgY7Tl81c30RxQcDuQ==
-X-Received: by 2002:a05:6000:156a:b0:20a:9c1b:6b1b with SMTP id
- 10-20020a056000156a00b0020a9c1b6b1bmr2845898wrz.683.1650618429851;
-        Fri, 22 Apr 2022 02:07:09 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
- [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id
- f4-20020a7bc8c4000000b0038ebbe10c5esm4006484wml.25.2022.04.22.02.07.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 02:07:09 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-X-Google-Original-From: Alex Kiernan <alexk@zuma.ai>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alexk@zuma.ai>,
-	Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-core][PATCH 2/2] wpa-supplicant: Package shared library into
- wpa-supplicant-lib
-Date: Fri, 22 Apr 2022 10:07:01 +0100
-Message-Id: <20220422090701.25095-2-alexk@zuma.ai>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422090701.25095-1-alexk@zuma.ai>
-References: <20220422090701.25095-1-alexk@zuma.ai>
+ ABdhPJzt/Eldr3KK70EakY6nivgtIC71NZQDfBbciXiEbjS8L3ftGA+5uZ8zql4ElWMYuyZ7hHcOFvZ14kWlLzvPGJU=
+X-Received: by 2002:a05:6638:218e:b0:32a:b468:5f36 with SMTP id
+ s14-20020a056638218e00b0032ab4685f36mr756922jaj.169.1650618440305; Fri, 22
+ Apr 2022 02:07:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 22 Apr 2022 11:07:09 +0200
+Message-ID: 
+ <CAApg2=Q9DOoYVHNSCR_=pEN-x7EQuRw2yhwqWhEG2zaMTONt8w@mail.gmail.com>
+Subject: CVE-check failing on world with meta-openembedded: diff.gz file
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000cb4d5605dd3a8df2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:52:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164779
+ https://lists.openembedded.org/g/openembedded-core/message/164780
 
-When CONFIG_BUILD_WPA_CLIENT_SO is enabled, package the library into
-wpa-supplicant-lib.
+--000000000000cb4d5605dd3a8df2
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
- .../wpa-supplicant/wpa-supplicant_2.10.bb                     | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Dear all,
+We're running cve-check on a world build containing oe-core, meta-oe and
+more. We have an issue with the lockdev recipe
+(meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb), which
+causes a fail like below:
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 97cd68d86338..aee56578d2e2 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -99,6 +99,7 @@ pkg_postinst:${PN} () {
- }
- 
- PACKAGE_BEFORE_PN += "${PN}-passphrase ${PN}-cli"
-+PACKAGES =+ "${PN}-lib"
- PACKAGES += "${PN}-plugins"
- ALLOW_EMPTY:${PN}-plugins = "1"
- 
-@@ -107,8 +108,9 @@ NOAUTOPACKAGEDEBUG = "1"
- 
- FILES:${PN}-passphrase = "${sbindir}/wpa_passphrase"
- FILES:${PN}-cli = "${sbindir}/wpa_cli"
-+FILES:${PN}-lib = "${libdir}/libwpa_client*${SOLIBSDEV}"
- FILES:${PN} += "${datadir}/dbus-1/system-services/* ${systemd_system_unitdir}/*"
--FILES:${PN}-dbg += "${sbindir}/.debug"
-+FILES:${PN}-dbg += "${sbindir}/.debug ${libdir}/.debug"
- 
- CONFFILES:${PN} += "${sysconfdir}/wpa_supplicant.conf"
- 
--- 
-2.35.1
+$ bitbake world --runonly=do_cve_check
+ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found:
+<path>lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff
+ERROR: lockdev-1_1.0.3-r0 do_cve_check: Failure in searching patches
+ERROR: Logfile of failure stored in:
+<path>/lockdev/1_1.0.3-r0/temp/log.do_cve_check.8709
+ERROR: Task
+(<path>/meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb:do_cve_check)
+failed with exit code '1'
 
+The issue is caused by the fact that lockdev_1.0.3-1.6.diff is missing.
+When we look into the recipe, it is downloading lockdev_1.0.3-1.6.diff.gz
+file Please note the additional extension.
+
+Stripping the extension comes from oe-core/meta/oe/patch.py, from the
+patch_path function, which is figuring out if a file is a patch, and
+returning the local path if it is so. However, at the moment when we
+do_cve_check, the .gz file is not uncompressed.
+
+I'm wondering how to solve it.
+1. Add a dependency to make sure eventual patch files are decompressed
+first?
+2. Do not consider this as a patch file in the scope of cve-check ? (this
+is more a part of the source then an actual patch that might be fixing a
+CVE)
+
+This is the only case like that we have in the build. Please note that
+removing ".diff" from the extension list in patch_path() is solving the
+issue.
+
+Any comments or suggestions?
+
+Kind regards,
+Marta
+
+--000000000000cb4d5605dd3a8df2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Dear all,</div><div>We&#39;re running cve-check on a =
+world build containing oe-core, meta-oe and more. We have an issue with the=
+ lockdev recipe (meta-openembedded/meta-oe/recipes-support/lockdev/<a href=
+=3D"http://lockdev_1.0.3.bb">lockdev_1.0.3.bb</a>), which causes a fail lik=
+e below:</div><div><br></div><div>$ bitbake world --runonly=3Ddo_cve_check<=
+/div><div>ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found: &lt;path&=
+gt;lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff<br>ERROR: lockdev-1_1.0.3-r0 d=
+o_cve_check: Failure in searching patches<br>ERROR: Logfile of failure stor=
+ed in: &lt;path&gt;/lockdev/1_1.0.3-r0/temp/log.do_cve_check.8709<br>ERROR:=
+ Task (&lt;path&gt;/meta-openembedded/meta-oe/recipes-support/lockdev/lockd=
+ev_1.0.3.bb:do_cve_check) failed with exit code &#39;1&#39;</div><div><br><=
+/div><div>The issue is caused by the fact that lockdev_1.0.3-1.6.diff is mi=
+ssing. When we look into the recipe, it is downloading lockdev_1.0.3-1.6.di=
+ff.gz file Please note the additional extension.<br></div><div><br></div><d=
+iv>Stripping the extension comes from oe-core/meta/oe/patch.py, from the pa=
+tch_path function, which is figuring out if a file is a patch, and returnin=
+g the local path if it is so. However, at the moment when we do_cve_check, =
+the .gz file is not uncompressed.</div><div><br></div><div></div><div>I&#39=
+;m wondering how to solve it.<br></div><div>1. Add a dependency to make sur=
+e eventual patch files are decompressed first?</div><div>2. Do not consider=
+ this as a patch file in the scope of cve-check ? (this is more a part of t=
+he source then an actual patch that might be fixing a CVE)<br></div><div><b=
+r></div><div>This is the only case like that we have in the build. Please n=
+ote that removing &quot;.diff&quot; from the extension list in patch_path()=
+ is solving the issue.</div><div><br></div><div>Any comments or suggestions=
+?</div><div><br></div><div>Kind regards,</div><div>Marta<br></div><div><br>=
+</div></div>
+
+--000000000000cb4d5605dd3a8df2--
 
